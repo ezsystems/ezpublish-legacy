@@ -35,15 +35,6 @@ change your settings at:</source>
     </message>
 </context>
 <context>
-    <name>&apos;design/standard/notification&apos;,,
-</name>
-    <message>
-        <source>system&quot;
-</source>
-        <translation type="obsolete"></translation>
-    </message>
-</context>
-<context>
     <name>design/admin/layout</name>
     <message>
         <source>Content</source>
@@ -659,23 +650,23 @@ change your settings at:</source>
     </message>
     <message>
         <source>Approval</source>
-        <translation>Bestätigung</translation>
+        <translation>Freigabe</translation>
     </message>
     <message>
         <source>%1 awaits approval by editor</source>
-        <translation>%1 wartet auf Bestätigung vom Bearbeiter</translation>
+        <translation>%1 wartet auf Freigabe vom Bearbeiter</translation>
     </message>
     <message>
         <source>%1 was approved for publishing</source>
-        <translation>%1 wurde bestätigt zum Veröffentlichen</translation>
+        <translation>%1 wurde zur Veröffentlichung freigegeben</translation>
     </message>
     <message>
         <source>%1 was not approved for publishing</source>
-        <translation>%1 wurde nicht bestätigt zum Veröffentlichen</translation>
+        <translation>%1 wurde nicht zur Veröffentlichung freigegeben</translation>
     </message>
     <message>
         <source>%1 awaits your approval</source>
-        <translation>%1 wartet auf Ihre Bestätigung</translation>
+        <translation>%1 wartet auf Ihre Freigabe</translation>
     </message>
     <message>
         <source>Subject</source>
@@ -714,27 +705,27 @@ change your settings at:</source>
     <name>design/standard/collaboration/approval</name>
     <message>
         <source>Approval</source>
-        <translation>Bestätigung</translation>
+        <translation>Freigabe</translation>
     </message>
     <message>
         <source>The content object %1 awaits approval before it can be published.</source>
-        <translation>Das Content-Objekt  %1 wartet auf Bestätigung bevor es veröffentlicht werden kann.</translation>
+        <translation>Das Inhalts-Objekt  %1 wartet auf Freigabe, bevor es veröffentlicht werden kann.</translation>
     </message>
     <message>
         <source>If you wish you may send a message to the person approving it?</source>
-        <translation>Möchten Sie eine Nachricht an die bearbeitende Person schicken?</translation>
+        <translation>Möchten Sie eine Nachricht an die freigebende Person schicken?</translation>
     </message>
     <message>
         <source>The content object %1 needs your approval before it can be published.</source>
-        <translation>Das Content-Objekt  %1 braucht Ihre Bestätigung, bevor es veröffentlicht werden kann.</translation>
+        <translation>Das Inhalts-Objekt %1 benötigt Ihre Freigabe, bevor es veröffentlicht werden kann.</translation>
     </message>
     <message>
         <source>Do you approve of the content object being published?</source>
-        <translation>Bestätigen Sie die Veröffentlichung des Content-Objekts?</translation>
+        <translation>Geben Sie die Veröffentlichung des Inhalts-Objekts frei?</translation>
     </message>
     <message>
         <source>The content object %1 was approved and will be published once the publishing workflow continues.</source>
-        <translation>Das Content Objekt %1 wurde bestätigt und wird veröffentlicht, sobald der Veröffentlichungs-Workflow fortgesetz wird.</translation>
+        <translation>Das Inhalts-Objekt %1 wurde freigegeben und wird veröffentlicht, sobald der Veröffentlichungs-Workflow weiterläuft.</translation>
     </message>
     <message>
         <source>Comment</source>
@@ -746,7 +737,7 @@ change your settings at:</source>
     </message>
     <message>
         <source>Approve</source>
-        <translation>Bestätigen</translation>
+        <translation>Freigeben</translation>
     </message>
     <message>
         <source>Deny</source>
@@ -754,7 +745,7 @@ change your settings at:</source>
     </message>
     <message>
         <source>Participants</source>
-        <translation>Teilhaber</translation>
+        <translation>Teilnehmer</translation>
     </message>
     <message>
         <source>Messages</source>
@@ -766,11 +757,11 @@ change your settings at:</source>
     </message>
     <message>
         <source>The content object %1 was not accepted but is available as a draft again.</source>
-        <translation>Das Content Objekt %1 wurde nicht akzeptiert und ist nun steht wieder als Entwurf zur Verfügung.</translation>
+        <translation>Das Inhalts-Objekt %1 wurde nicht akzeptiert und steht nun wieder als Entwurf zur Verfügung.</translation>
     </message>
     <message>
         <source>The content object %1 was not accepted but will be available as a draft for the author.</source>
-        <translation>Das Content Objekt %1 wurde nicht akzeptiert und ist nun steht wieder als Entwurf für den Author zur Verfügung.</translation>
+        <translation>Das Inhalts-Objekt %1 wurde nicht akzeptiert und steht den Autor nun wieder als Entwurf zur Verfügung.</translation>
     </message>
     <message>
         <source>You may reedit the draft and publish it, in which case an approval is required again.</source>
@@ -778,7 +769,7 @@ change your settings at:</source>
     </message>
     <message>
         <source>The author can reedit the draft and publish it again, in which a new approval item is made.</source>
-        <translation>Der Autor kann den Entwurf nochmals ändern und veröffentlichen, dann ist eine erneute Bestätigung erforderlich.</translation>
+        <translation>Der Autor kann den Entwurf nochmals ändern und veröffentlichen, dann ist eine erneute Freigabe erforderlich.</translation>
     </message>
     <message>
         <source>[%sitename] Approval of &quot;%objectname&quot; awaits your attention</source>
@@ -788,7 +779,7 @@ change your settings at:</source>
         <source>This email is to inform you that &quot;%objectname&quot; awaits your attention at %sitename.
 The publishing process has been halted and it is up to you to decide if it should continue or stop.
 The approval can viewed by using the URL below.</source>
-        <translation>Diese E-Mail informiert Sie, dass &quot;%objectname&quot; wartet auf ihre Bestätigung. Der Veröffentlichungsprozess wurde angehalten und es liegt an Ihnen deisen zu stoppen oder Ihn anzuhalten. Die Bestätigung können Sie durch aufrufen der unten aufgeführten URL erreichen.</translation>
+        <translation>Diese E-Mail informiert Sie, dass &quot;%objectname&quot; auf ihre Freigabe wartet. Der Veröffentlichungsprozess wurde angehalten und es liegt an Ihnen, diesen zu weiterlaufen zu lassen, oder ihn zu stoppen. Das Objekt kann über unten aufgeführten URL eingesehen und freigegeben oder abgelehnt werden.</translation>
     </message>
     <message>
         <source>[%sitename] &quot;%objectname&quot; awaits approval</source>
@@ -797,7 +788,7 @@ The approval can viewed by using the URL below.</source>
     <message>
         <source>This email is to inform you that &quot;%objectname&quot; awaits approval at %sitename before it is published.
 If you wish to send comments to the approver or view the status use the URL below.</source>
-        <translation>Diese E-Mail informiert Sie, dass &quot;%objectname&quot; von %sitename wartet auf Bestätigung bevor es veröffentlicht werden kann. Wenn Sie wünschen einen Kommentar zum Bearbeiter zu senden oder den Status einzusenden, können Sie die unten aufgeführte URL benutzen. </translation>
+        <translation>Diese E-Mail informiert Sie, dass &quot;%objectname&quot; von %sitename auf Freigabe wartet, bevor es veröffentlicht werden kann. Wenn Sie einen Kommentar zum Freigebenden schicken oder den Status sehen wollen, können Sie die unten aufgeführte URL benutzen. </translation>
     </message>
 </context>
 <context>
@@ -1847,7 +1838,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Placement</source>
-        <translation>Anordnung</translation>
+        <translation>Platzierung</translation>
     </message>
     <message>
         <source>Site Design</source>
@@ -1871,7 +1862,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Top levels</source>
-        <translation>Höhere Ebenen</translation>
+        <translation>Oberste Ebenen</translation>
     </message>
     <message>
         <source>Switch top levels by clicking one of these items.</source>
@@ -1892,7 +1883,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     <message>
         <source>These are the current objects you are working on. The drafts are owned by you and can only be seen by you.
       You can either edit the drafts or remove them if you don&apos;t need them anymore.</source>
-        <translation>Dieses sind die aktuellen Objekte an denen Sie arbeiten. Die Entwürfe gehören Ihnen und können auch nur von Ihnen gesehen werden. Sie können entweder diese Entwürfe ändern oder sie entfernen, wenn diese nicht mehr benötigt werden.    </translation>
+        <translation>Dieses sind die aktuellen Objekte, an denen Sie arbeiten. Die Entwürfe gehören Ihnen und können auch nur von Ihnen gesehen werden. Sie können entweder diese Entwürfe ändern oder sie entfernen, wenn diese nicht mehr benötigt werden.    </translation>
     </message>
     <message>
         <source>Last modified</source>
@@ -1928,7 +1919,8 @@ If you wish to send comments to the approver or view the status use the URL belo
     Select the placement and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Bitte wählen Sie, wo Sie die neue %classname platzieren wollen. Wählen Sie die Platzierung und klicken Sie den Button %buttonname. Das benutzen aktuellen Lesezeichen als schnelle Platzierung ist auch möglich. Klicken Sie auf die Namen der Patzierung, um die Listen zu durchsuchen. </translation>
+        <translation>Wo soll der/die/das neue %classname gespeichert werden? 
+Wählen Sie den Ort und klicken Sie dann auf &quot;%buttonname&quot;. Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl oder zur Navigation auch Ihre Lesezeichen oder Aktuelle Elemente verwenden.</translation>
     </message>
     <message>
         <source>These are the objects you have bookmarked. Click on an object to view it or if you have sufficient permission you can to edit the object by clicking the edit button.
@@ -1951,11 +1943,8 @@ If you wish to send comments to the approver or view the status use the URL belo
     Select your items and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on item names to change the browse listing.</source>
-        <translation>Please choose the items you want to add to your bookmark list.(new line)
-(new line)
-   Select your items and click the %buttonname button.(new line)
-   Using the recent and bookmark items for quick selection is also possible.(new line)
-   Click on item names to change the browse listing.</translation>
+        <translation>Wählen Sie die Objekte aus, die Sie Ihrer Lesezeichen-Liste hinzufügen wollen und klicken Sie dann auf &quot;%buttonname&quot;. 
+Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl oder zur Navigation auch Ihre Lesezeichen oder Aktuelle Elemente verwenden.</translation>
     </message>
     <message>
         <source>Choose new placement</source>
@@ -1968,12 +1957,11 @@ If you wish to send comments to the approver or view the status use the URL belo
       Select the placement and click the %buttonname button.
       Using the recent and bookmark items for quick placement is also possible.
       Click on placement names to change the browse listing.</source>
-        <translation>Please choose the new placement for %name.(new line)
-     The previous placement was in %placementname.(new line)
-(new line)
-     Select the placement and click the %buttonname button.(new line)
-     Using the recent and bookmark items for quick placement is also possible.(new line)
-     Click on placement names to change the browse listing.</translation>
+        <translation>Wählen Sie bitte die neue Platzierung für %name und klicken Sie dann auf &quot;%buttonname&quot;. 
+Die bisherige Platzierung war in %placementname.
+
+Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl oder zur Navigation auch Ihre Lesezeichen oder Aktuelle Elemente verwenden.
+</translation>
     </message>
     <message>
         <source>Choose placements</source>
@@ -1985,11 +1973,8 @@ If you wish to send comments to the approver or view the status use the URL belo
     Select your placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Please choose where you want to place %name.(new line)
-(new line)
-   Select your placements and click the %buttonname button.(new line)
-   Using the recent and bookmark items for quick placement is also possible.(new line)
-   Click on placement names to change the browse listing.</translation>
+        <translation>Wählen Sie bitte die Platzierung für %name und klicken Sie dann auf &quot;%buttonname&quot;. 
+Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl oder zur Navigation auch Ihre Lesezeichen oder Aktuelle Elemente verwenden.</translation>
     </message>
     <message>
         <source>Choose related objects</source>
@@ -2001,11 +1986,8 @@ If you wish to send comments to the approver or view the status use the URL belo
     Select your objects and click the %buttonname button.
     Using the recent and bookmark items for quick selection is also possible.
     Click on object names to change the browse listing.</source>
-        <translation>Please choose objects which you want to relate to %name.(new line)
-(new line)
-   Select your objects and click the %buttonname button.(new line)
-   Using the recent and bookmark items for quick selection is also possible.(new line)
-   Click on object names to change the browse listing.</translation>
+        <translation>Welche Objekte sollen mit %name verwandt sein?
+Wählen Sie diese aus und klicken Sie dann auf &quot;%buttonname&quot;. Wenn Sie auf den Namen klicken, können Sie navigieren. Sie können zur Auswahl oder zur Navigation auch Ihre Lesezeichen oder Aktuelle Elemente verwenden.</translation>
     </message>
 </context>
 <context>
@@ -2189,7 +2171,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Redirect</source>
-        <translation>Redirect</translation>
+        <translation>Umleitung</translation>
     </message>
     <message>
         <source>Module load failed</source>
@@ -2283,7 +2265,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Removing this assignment will also remove it&apos;s %1 children.</source>
-        <translation>Das löschen dieser Zuweisung wird auch die %1 Kinder löschen.</translation>
+        <translation>Das Löschen dieser Zuweisung wird auch die %1 Kinder löschen.</translation>
     </message>
     <message>
         <source>Removing node assignment of %1</source>
@@ -2291,7 +2273,7 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Removing %1 will remove the node itself and it&apos;s %2 children. %3</source>
-        <translation>Das Löschen %1 wird den Knoten löschen und seine %2 Kinder. %3</translation>
+        <translation>Das Löschen von %1 wird den Knoten löschen und seine %2 Kinder. %3</translation>
     </message>
 </context>
 <context>
@@ -2374,11 +2356,11 @@ If you wish to send comments to the approver or view the status use the URL belo
     </message>
     <message>
         <source>Select all</source>
-        <translation></translation>
+        <translation>Alle auswählen</translation>
     </message>
     <message>
         <source>Deselect all</source>
-        <translation></translation>
+        <translation>Alle abwählen</translation>
     </message>
     <message>
         <source>Click to create a custom template</source>
@@ -2398,7 +2380,7 @@ change your settings at:</source>
     </message>
     <message>
         <source>Do you want to receive messages combined in digest</source>
-        <translation>Wollen Sie die Nachrichten in eienr Zusammenfassung erhalten</translation>
+        <translation>Wollen Sie die Nachrichten in einer Zusammenfassung erhalten</translation>
     </message>
     <message>
         <source>Digest settings</source>
@@ -2477,7 +2459,7 @@ change your settings at:</source>
     </message>
     <message>
         <source>%sitename notification system</source>
-        <translation>%seitenname Benachrichtungssystem</translation>
+        <translation>%sitename Benachrichtungssystem</translation>
     </message>
     <message>
         <source>[%sitename] New collaboration item</source>
@@ -2486,8 +2468,8 @@ change your settings at:</source>
     <message>
         <source>This email is to inform you that a new collaboration item is awaiting your attention at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation>This email is to inform you that a new collaboration item is awaiting your attention at %sitename.(new line)
-The item can viewed by using the URL below.</translation>
+        <translation>Auf %sitename gibt es Objekte, die durch Sie bearbeitet werden müssen.
+Das Objekt können Sie über untenstehende URL aufrufen.</translation>
     </message>
     <message>
         <source>[%sitename] Digest for %date</source>
@@ -2495,7 +2477,7 @@ The item can viewed by using the URL below.</translation>
     </message>
     <message>
         <source>This digest email is to inform you on new items at %sitename.</source>
-        <translation>Deise Zusammenfassungs E-Mail informiert Sie über neue Elemente auf %sitename.</translation>
+        <translation>Diese E-Mail informiert Sie -zusammengefasst- über neue Elemente auf %sitename.</translation>
     </message>
     <message>
         <source>This email is to inform you on news at %sitename.</source>
@@ -2508,8 +2490,8 @@ The item can viewed by using the URL below.</translation>
     <message>
         <source>This email is to inform you that a new item has been publish at %sitename.
 The item can viewed by using the URL below.</source>
-        <translation>This email is to inform you that a new item has been publish at %sitename.(new line)
-The item can viewed by using the URL below.</translation>
+        <translation>Ein neues Objekt wurde auf %sitename veröffentlicht.
+Über die nachfolgende Adresse gelangen Sie direkt zu dem Objekt.</translation>
     </message>
 </context>
 <context>
@@ -2953,7 +2935,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>The eZ publish admin interface is divided into navigation parts. This is a way to group different areas of the site administration. Select the navigation part that should be active when this section is browsed.</source>
-        <translation>Die eZ publish Administrations Oberfläche is geteilt in Navigationsteile. Auf diese Weise kann man verschiedene Bereiche der Seiten Administration gruppieren. Selectieren Sie den Navigationsteil, der aktiv sein sollte, wenn diese Sektion aufgerufen wird.</translation>
+        <translation>Die eZ publish Administrations Oberfläche ist in Navigationsteile unterteilt. Auf diese Weise kann man verschiedene Bereiche der Website-Administration gruppieren. Wählen Sie den Navigationsteil, der aktiv sein sollte, wenn diese Sektion aufgerufen wird.</translation>
     </message>
     <message>
         <source>ID</source>
@@ -3001,11 +2983,11 @@ menu on the top.</source>
     Select the placements and click the %buttonname button.
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing.</source>
-        <translation>Please choose where you want to start the section assignment for section %sectionname.(new line)
-(new line)
-   Select the placements and click the %buttonname button.(new line)
-   Using the recent and bookmark items for quick placement is also possible.(new line)
-   Click on placement names to change the browse listing.</translation>
+        <translation>Wählen Sie, ab wo die Sektion %sectionname zugewiesen werden soll.
+
+   Markieren Sie die Orte und klicken Sie dann auf &quot;%buttonname&quot;
+   Sie können auch die Elemente aus der Historie oder Ihre Lesezeichen verwenden.
+   Wenn Sie auf die Namen klicken, können Sie navigieren.</translation>
     </message>
 </context>
 <context>
@@ -3128,11 +3110,11 @@ menu on the top.</source>
     </message>
     <message>
         <source>Rapid Application Development Tools</source>
-        <translation></translation>
+        <translation>Werkzeuge zur schnellen Anwendungs-Entwicklung</translation>
     </message>
     <message>
         <source>The rapid application development (RAD) tools allow you to easily get started with creating new functionality for eZ publish.</source>
-        <translation>Die RAD Werkzeuge erlauben Ihnen einfach neue Funktionalität für eZ publish zu erstellen.</translation>
+        <translation>Die RAD Werkzeuge erlauben Ihnen, einfach neue Funktionalität für eZ publish zu erstellen.</translation>
     </message>
     <message>
         <source>Tools</source>
@@ -3140,15 +3122,15 @@ menu on the top.</source>
     </message>
     <message>
         <source>Template operator wizard</source>
-        <translation>Template Operatoren Ersteller</translation>
+        <translation>Template-Operatoren-Assistent</translation>
     </message>
     <message>
         <source>Create new template override for</source>
-        <translation></translation>
+        <translation>Neues Template erstellen für</translation>
     </message>
     <message>
         <source>Could not create template, permission denied.</source>
-        <translation>Könnte kein Template erstellen, Zugriff verweigert.</translation>
+        <translation>Konnte kein Template erstellen,  Zugriff verweigert.</translation>
     </message>
     <message>
         <source>Invalid name. You can only use the characters a-z, numbers and _.</source>
@@ -3180,11 +3162,11 @@ menu on the top.</source>
     </message>
     <message>
         <source>Base template on</source>
-        <translation>Basistemplate von</translation>
+        <translation>Template-Grundlage</translation>
     </message>
     <message>
         <source>Empty file</source>
-        <translation>Lerre Datei</translation>
+        <translation>Leere Datei</translation>
     </message>
     <message>
         <source>Copy of default template</source>
@@ -3216,7 +3198,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Design Resource</source>
-        <translation>Design Quelle</translation>
+        <translation>Design-Ressource</translation>
     </message>
     <message>
         <source>Complete template list</source>
@@ -3243,22 +3225,6 @@ menu on the top.</source>
         <translation type="obsolete">Ein Operator in Klasse</translation>
     </message>
     <message>
-        <source>Handles operator input</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Generates operator output</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Parameter handling</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Next</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Restart</source>
         <translation type="obsolete">Neustart</translation>
     </message>
@@ -3268,41 +3234,7 @@ menu on the top.</source>
     </message>
     <message>
         <source>Name of class</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>The creator of the operator</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Description of your operator</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>The first line will be used as the brief description and the rest are operator documentation.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Handles template operator %operatorname
-By using %operatorname you can ...</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Example code</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>If you wish you can add some example code to explain how your operator should work.
-The default code was made from the basic parameters you chose.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Once the download button is clicked the code will be generated and the browser will ask you to store the generated file.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Download</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Klassenname</translation>
     </message>
     <message>
         <source>Template view</source>
@@ -3310,23 +3242,23 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Default template resource</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard-Template-Ressource</translation>
     </message>
     <message>
         <source>Set</source>
-        <translation type="unfinished"></translation>
+        <translation>Setzen</translation>
     </message>
     <message>
         <source>Override</source>
-        <translation type="unfinished"></translation>
+        <translation>Überschreib-Template</translation>
     </message>
     <message>
         <source>File</source>
-        <translation type="unfinished">Date</translation>
+        <translation>Datei</translation>
     </message>
     <message>
         <source>Match conditions</source>
-        <translation type="unfinished"></translation>
+        <translation>Bedingungen</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -3342,40 +3274,11 @@ The default code was made from the basic parameters you chose.</source>
     </message>
     <message>
         <source>Datatype wizard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name of datatype</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Descriptive name of datatype</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Handle input on class level</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Constant name</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>The creator of the datatype</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Description of your datatype</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Handles the datatype %datatypename
-By using %datatypename you can ...</source>
-        <translation type="obsolete"></translation>
+        <translation>Datentyp-Assistent</translation>
     </message>
     <message>
         <source>Extension setup</source>
-        <translation type="unfinished">Erweiterungen Setup</translation>
+        <translation>Erweiterungs-Setup</translation>
     </message>
     <message>
         <source>Here you can activate/deactivate you extensions. Only system wide extensions can be activated, for site access spesific extensions, modify these configuration files.</source>
@@ -3402,24 +3305,12 @@ By using %datatypename you can ...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>System check</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Ok</source>
         <translation type="obsolete">Ok</translation>
     </message>
     <message>
         <source>Languages</source>
         <translation type="obsolete">Languages</translation>
-    </message>
-    <message>
-        <source>Mail server</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Sitedesign</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Help</source>
@@ -3432,10 +3323,6 @@ By using %datatypename you can ...</source>
     <message>
         <source>Site:</source>
         <translation>Seite:</translation>
-    </message>
-    <message>
-        <source>Image processing</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>System:</source>
@@ -3503,7 +3390,7 @@ By using %datatypename you can ...</source>
     <message>
         <source>Name of class</source>
         <comment>Datatype</comment>
-        <translation type="unfinished"></translation>
+        <translation>Klassenname</translation>
     </message>
     <message>
         <source>Constant name</source>
@@ -3634,7 +3521,7 @@ By using %datatypename you can ...</source>
     <message>
         <source>Name of class</source>
         <comment>Template operator</comment>
-        <translation type="unfinished"></translation>
+        <translation>Klassenname</translation>
     </message>
     <message>
         <source>The creator of the operator</source>
@@ -4320,14 +4207,6 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>We detected both MySQL and PostgreSQL support on your system. Which database system would you like to use?</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>eZ publish support both MySQL and PostgreSQL.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>PostgreSQL or MySQL &gt;= 4.1 are required for unicode support in eZ publish.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4336,24 +4215,8 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>here</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Database initialization</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter database system user information in the boxes below</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Socket (optional)</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>It is recommended to create the databases for eZ publish now. If you are uncertain on how to do this, see the database system user manual.</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>PostgreSQL user name and password is not tested until database names are selected.</source>
@@ -4362,34 +4225,6 @@ The default code was made from the basic parameters you chose.</source>
     <message>
         <source>If you are using MySQL and do not know what to enter in the socket field, leave it blank</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>E-mail settings</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Specify email settings for eZ publish</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>SMTP is recommended for MS Windows users</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Mail system</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Email transport by SMTP requires a server name. If the server requires authentication you must enter a user name and password as well.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Finished!</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>eZ publish has been installed with the following site(s)</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Title</source>
@@ -4412,28 +4247,8 @@ The default code was made from the basic parameters you chose.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Tip: Store this page as an html file by clicking Save-As in your web browser, alternatively you may write down the urls for your sites.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Make sure to visit the %1 and the %2 web site.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>forum</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>eZ publish</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Language and country selection</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Use the radio button to choose primary language, and check boxes to choose additional languages. You may choose more than one additional language.</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>No Unicode support</source>
@@ -4461,70 +4276,24 @@ To fix this problem you must do one of the following:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The selected languages are used to determine character sets, date format, number format, etc.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>These and other additional languages can also be installed later.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>For more information about language customization, see the %1.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>documentation</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Site registration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>If you wish you can register your installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your personal details for unsolicited emails.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>The registration email:</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sending out the email and generating your site might take a couple of seconds so please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt your installation.</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>By sending registration the following data will be sent to eZ systems</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This data will help to improve eZ publish for future releases.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Your site is running in non-virtualhost mode which is considered an unsecure mode. It&apos;s recommended to run eZ publish in virtualhost mode.
-If you do not have the possibility to use virtualhost mode you should follow the instructions below on howto install a .htaccess file, the file tells the webserver to only give access to certain files.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>If you have shell access to the site you can run the following commmand to install the file.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>If you do not have shell access you will have to copy the file using the ftp client or ask your hosting provider to do this for you.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>This security measure is to ensure that your settings are not accessible for other users.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Site access configuration</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Choose which access method you would like to use for your site(s).The access method determines how people will access your site.
- If unsure choose URL.</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>URL (recommended)</source>
@@ -4555,32 +4324,12 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>* This requires that your web server is setup to handle the port numbers.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Hostname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The hostname determines access.*</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>* This requires that you have a DNS setup for your hostname.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>For more detailed information on site access see the %1</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>online documentation</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>You need to specify some information about every site you&apos;ve chosen to install.</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Do not use &apos;admin&apos;, &apos;user&apos; or equal site access values. Please change site illegal access values on sites indicated by *</source>
@@ -4603,34 +4352,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>URL for access</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Port for access</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Hostname for access</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>URL for admin access</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Port for admin access</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Hostname for admin access</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Database not empty</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Leave the data and add new</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4647,28 +4368,12 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>For more information on how to configure site access, see the %1</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Choose site templates</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Choose one or more site templates for your site</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Select which sites you would like to install on your system.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Each site template will create a unique web site.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Since each web site is unique, each site template require a unique database.</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>After you have fixed the problems click the %1 button to re-run the system checking. You may also ignore specific tests by clicking the check boxes.</source>
@@ -4679,78 +4384,16 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The setup has detected some system settings which must be changed.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>If this is not corrected, eZ publish will probably not install correctly and work properly.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Welcome to eZ publish %1</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No data will be stored in the database until the final step of the installation.</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>which will relay the emails. If unsure what to use, ask your webhost. Some webhosts do not support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Email is used for sending out important notices such as user registration and content approval, and it is used to send the site registration.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>features.&quot;
-</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>systems!&quot;
-</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Back</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Refresh</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Fill out the details for each site.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Use the refresh button to update database list.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>The system check found some issues that need to be resolved before the setup can continue.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Welcome to the eZ publish content management system and development framework. This wizard will help you set up eZ publish. Please read the requirements section below and click next to proceed.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Requirements</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>You will need to have information about a database server eZ publish can connect to. The following database servers are supported (both are free):</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>recommended</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Click &quot;Next&quot; to start the configuration of up eZ publish.</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>This section will contain information/help about each step in the setup wizard.</source>
@@ -4763,10 +4406,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
     <message>
         <source>Information about how to set up eZ publish manually is available %1.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter database system user information in the boxes below.</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Servername:</source>
@@ -4791,10 +4430,6 @@ If you do not have the possibility to use virtualhost mode you should follow the
     <message>
         <source>This section is used to configure how eZ publish delivers its outgoing E-mail.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>There are two options:&lt;br&gt;- Direct delivery through sendmail (sendmail must be available on the server where eZ publish is installed)&lt;br&gt;- Indirect delivery using an SMTP relay server.</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>SMTP is recommended for MS Windows users.</source>
@@ -4849,33 +4484,12 @@ If you do not have the possibility to use virtualhost mode you should follow the
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>forums</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Language support</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Use the radio buttons to choose the primary language, and checkboxes to choose additional languages. You may choose more than one additional language.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>For more information about language customization, please refer to the online %1.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
-        <source>Your site is not running in a virtual host mode, this is insecure. It is recommended to run eZ publish in virtual host mode. If you do not have the possibility to use virtual host mode, you should follow the instructions below about how to install an .htaccess file. The .htaccess file tells the web server to only give access to certain files.</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>This security tweak takes care of protecting configuration files and other important files.</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Please choose the access method you wish to use for your site(s).The access method determines how the site can be accessed from within a web browser.
-If unsure: choose URL.</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Port*</source>
@@ -4922,16 +4536,8 @@ If unsure: choose URL.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Use the refresh button to update database listing(s).</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Site templates</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use Plain if you would like to start from scratch.</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>Since each web site is unique, each site template requires a unique database.</source>
@@ -6453,10 +6059,6 @@ your account.</source>
         <translation type="obsolete">Hilfe</translation>
     </message>
     <message>
-        <source>Help on workflows</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Edit workflow</source>
         <translation>Bearbeite Workflow</translation>
     </message>
@@ -6635,7 +6237,7 @@ your account.</source>
     <name>kernel/classes</name>
     <message>
         <source>Approval</source>
-        <translation>Bestätigung</translation>
+        <translation>Freigabe</translation>
     </message>
     <message>
         <source>Standard</source>
@@ -6651,11 +6253,11 @@ your account.</source>
     </message>
     <message>
         <source>Approver</source>
-        <translation>Bestätiger</translation>
+        <translation>Freigebender</translation>
     </message>
     <message>
         <source>Author</source>
-        <translation>Author</translation>
+        <translation>Autor</translation>
     </message>
     <message>
         <source>Inbox</source>
@@ -7202,11 +6804,11 @@ your account.</source>
     </message>
     <message>
         <source>Create policy - step 3 - Specify limitations</source>
-        <translation>Erschaffe Regel - Schritt 3 - Spezifiziere Funktion</translation>
+        <translation>Erschaffe Regel - Schritt 3 - Spezifiziere Einschränkungen</translation>
     </message>
     <message>
         <source>Create policy - step 1 - Specify module</source>
-        <translation>Erschaffe Regel - Schritt 1 - Spezifiziere Funktion</translation>
+        <translation>Erschaffe Regel - Schritt 1 - Spezifiziere Modul</translation>
     </message>
     <message>
         <source>Role list</source>
@@ -7247,7 +6849,7 @@ your account.</source>
     </message>
     <message>
         <source>Rapid Application Development</source>
-        <translation>Richtig schnelle Applikations-Entwicklung</translation>
+        <translation>Schnelle Anwendungs-Entwicklung</translation>
     </message>
     <message>
         <source>Template list</source>
@@ -7267,7 +6869,7 @@ your account.</source>
     </message>
     <message>
         <source>Template operator wizard</source>
-        <translation>Template Operatoren Ersteller</translation>
+        <translation>Template-Operatoren-Assisten</translation>
     </message>
     <message>
         <source>Extension configuration</source>
@@ -7298,7 +6900,7 @@ your account.</source>
     </message>
     <message>
         <source>Group view of discount rule</source>
-        <translation>Gruppen Sicht auf Ermäßigungsregeln</translation>
+        <translation>Gruppen Sicht auf Ermäßigungs-Regeln</translation>
     </message>
     <message>
         <source>Editing rule</source>
@@ -7436,7 +7038,7 @@ your account.</source>
     </message>
     <message>
         <source>Approve</source>
-        <translation>Bestätigen</translation>
+        <translation>Freigeben</translation>
     </message>
     <message>
         <source>Checkout</source>
@@ -7456,7 +7058,7 @@ your account.</source>
     </message>
     <message>
         <source>Simple shipping</source>
-        <translation>Einfaches liefern</translation>
+        <translation>Einfacher Versand</translation>
     </message>
     <message>
         <source>Timing</source>
@@ -7464,7 +7066,7 @@ your account.</source>
     </message>
     <message>
         <source>Unpublish</source>
-        <translation>VEröffentlichung zurücknehmen</translation>
+        <translation>Veröffentlichung zurücknehmen</translation>
     </message>
     <message>
         <source>Wait until date</source>
