@@ -59,6 +59,7 @@ function addNumbers( $valueA, $valueB )
 */
 
 include_once( "lib/ezsoap/classes/ezsoaprequest.php" );
+include_once( "lib/ezsoap/classes/ezsoapfault.php" );
 include_once( "lib/ezsoap/classes/ezsoapresponse.php" );
 include_once( "lib/ezxml/classes/ezxml.php" );
 
@@ -71,6 +72,24 @@ class eZSOAPServer
     {
         global $HTTP_RAW_POST_DATA;
         $this->RawPostData = $HTTP_RAW_POST_DATA;
+    }
+
+
+    function showResponse( $functionName, $namespaceURI, &$value )
+    {
+        // Convert input data to XML
+        $response = new eZSOAPResponse( $functionName, $namespaceURI );
+        $response->setValue( $value );
+
+        $payload = $response->payload();
+
+        header( "SOAPServer: eZ soap" );
+        header( "Content-Type: text/xml; charset=\"UTF-8\"" );
+        Header( "Content-Length: " . strlen( $payload ) );
+
+        ob_end_clean();
+
+        print( $payload );
     }
 
     /*!
@@ -113,28 +132,27 @@ class eZSOAPServer
                 $params[] = $parameterNode->textContent();
             }
 
-            if ( function_exists( $functionName ) )
+            if ( in_array( $functionName, $this->FunctionList ) &&
+                 function_exists( $functionName ) )
             {
-                $value =& call_user_func_array( $functionName, $params );
-
-                // Convert input data to XML
-                $response = new eZSOAPResponse( $functionName, $namespaceURI );
-                $response->setValue( $value );
-
-                $payload = $response->payload();
-
-                header( "SOAPServer: eZ soap" );
-                header( "Content-Type: text/xml; charset=\"UTF-8\"" );
-                Header( "Content-Length: " . strlen( $payload ) );
-
-                ob_end_clean();
-
-                print( $payload );
+                $this->showResponse( $functionName, $namespaceURI,
+                                     call_user_func_array( $functionName, $params ) );
+            }
+            else
+            {
+                $this->showResponse( $functionName, $namespaceURI,
+                                     new eZSOAPFault( 'Server Error',
+                                                      'Method not found' ) );
             }
         }
         else
         {
             // error
+            $this->showResponse( $functionName, $namespaceURI,
+                                 new eZSOAPFault( 'Server Error',
+                                                  '"Body" element in the request '.
+                                                  'has wrong number of children' ) );
+
         }
     }
 
@@ -145,12 +163,7 @@ class eZSOAPServer
     */
     function registerFunction( $name, $params=array() )
     {
-        foreach ( $params as $param )
-        {
-
-        }
-
-        $this->FunctionList[] = $func;
+        $this->FunctionList[] = $name;
     }
 
 
