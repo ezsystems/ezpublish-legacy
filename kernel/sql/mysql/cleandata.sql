@@ -225,7 +225,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE ezcontentobject_tree DISABLE KEYS */;
 LOCK TABLES ezcontentobject_tree WRITE;
-INSERT INTO ezcontentobject_tree VALUES (1,1,0,1,1,0,'/1/',1,1,0,NULL,1),(2,1,1,1,1,1,'/1/2/',1,1,0,'',2),(5,1,4,1,0,1,'/1/5/',1,1,0,'__1',5),(11,5,10,1,1,2,'/1/5/11/',1,1,0,'__1/anonymous_user',11),(12,5,11,1,1,2,'/1/5/12/',1,1,0,'__1/guest_accounts',12),(13,5,12,1,1,2,'/1/5/13/',1,1,0,'__1/administrator_users',13),(14,5,13,1,1,2,'/1/5/14/',1,1,0,'__1/editors',14),(15,13,14,1,1,3,'/1/5/13/15/',1,1,0,'__1/administrator_users/administrator_user',15),(42,12,40,1,1,3,'/1/5/12/42/',9,1,0,'__1/guest_accounts/test_test',42),(43,1,41,1,1,1,'/1/43/',9,1,0,'media',43);
+INSERT INTO ezcontentobject_tree VALUES (1,1,0,1,1,0,'/1/',1,1,0,NULL,1),(2,1,1,1,1,1,'/1/2/',1,1,0,'',2),(5,1,4,1,0,1,'/1/5/',1,1,0,'users',5),(11,5,10,1,1,2,'/1/5/11/',1,1,0,'users/anonymous_user',11),(12,5,11,1,1,2,'/1/5/12/',1,1,0,'users/guest_accounts',12),(13,5,12,1,1,2,'/1/5/13/',1,1,0,'users/administrator_users',13),(14,5,13,1,1,2,'/1/5/14/',1,1,0,'users/editors',14),(15,13,14,1,1,3,'/1/5/13/15/',1,1,0,'users/administrator_users/administrator_user',15),(42,12,40,1,1,3,'/1/5/12/42/',9,1,0,'users/guest_accounts/test_test',42),(43,1,41,1,1,1,'/1/43/',9,1,0,'media',43);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE ezcontentobject_tree ENABLE KEYS */;
 
@@ -624,7 +624,7 @@ UNLOCK TABLES;
 
 /*!40000 ALTER TABLE ezurlalias DISABLE KEYS */;
 LOCK TABLES ezurlalias WRITE;
-INSERT INTO ezurlalias VALUES (1,'media','62933a2951ef01f4eafd9bdf4d3cd2f0','content/view/full/43',1,0);
+INSERT INTO ezurlalias VALUES (12,'','d41d8cd98f00b204e9800998ecf8427e','content/view/full/2',1,0),(13,'users','9bc65c2abec141778ffaa729489f3e87','content/view/full/5',1,0),(14,'users/anonymous_user','a37b7463e2c21098fa1a729dad4b4437','content/view/full/11',1,0),(15,'users/guest_accounts','02d4e844e3a660857a3f81585995ffe1','content/view/full/12',1,0),(16,'users/administrator_users','1b1d79c16700fd6003ea7be233e754ba','content/view/full/13',1,0),(17,'users/editors','0bb9dd665c96bbc1cf36b79180786dea','content/view/full/14',1,0),(18,'users/administrator_users/administrator_user','f1305ac5f327a19b451d82719e0c3f5d','content/view/full/15',1,0),(19,'users/guest_accounts/test_test','27a1813763d43de613bf05c31df7a6ef','content/view/full/42',1,0),(20,'media','62933a2951ef01f4eafd9bdf4d3cd2f0','content/view/full/43',1,0);
 UNLOCK TABLES;
 /*!40000 ALTER TABLE ezurlalias ENABLE KEYS */;
 

@@ -51,7 +51,7 @@ create table ezurlalias
 
 create index ezurlalias_source_md5 on ezurlalias( source_md5 );
 
-insert into ezurlalias ( source_url, source_md5, destination_url, is_internal ) select path_identification_string, md5( path_identification_string ), concat( 'content/view/full/', node_id ), 1 from ezcontentobject_tree;
+insert into ezurlalias ( source_url, source_md5, destination_url, is_internal ) select path_identification_string, md5( path_identification_string ), concat( 'content/view/full/', node_id ), 1 from ezcontentobject_tree where node_id <> 1;
 
 # Drop unneeded columns
 alter table ezcontentobject_tree drop md5_path;
