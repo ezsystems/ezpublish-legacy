@@ -31,7 +31,8 @@ eZPersistentObject:
 *Shop:
 
 *Libraries:
-
+eZImage
+- Added GIF support to the eZImageInterface
 eZUtils:
 - Added functions for creating an ANSI string which stores and restores the
   position in eZCLI.
