@@ -1,3 +1,5 @@
+<div class="block">
+
 {* Sections *}
 <div class="element">
     <label>{'Affected sections'|i18n( 'design/admin/workflow/eventtype/edit' )}</label>
@@ -30,4 +32,6 @@
     <option value="{$Groups.item.value}"{section show=$event.selected_usergroups|contains( $Groups.item.value )} selected="selected" {/section}>{$Groups.item.name|wash} ({$Groups.item.value})</option>
     {/section}
     </select>
+</div>
+
 </div>
