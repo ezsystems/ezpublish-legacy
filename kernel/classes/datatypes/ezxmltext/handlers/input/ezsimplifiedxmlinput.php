@@ -811,26 +811,26 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                     elseif ( $justName == "header" )
                     {
-                        if ( $lastInsertedNodeTag == "paragraph" )
-                         {
-                             $lastNodeArray = array_pop( $TagStack );
-                             $lastTag = $lastNodeArray["TagName"];
-                             $lastNode =& $lastNodeArray["ParentNodeObject"];
-                             $lastChildTag = $lastNodeArray["ChildTag"];
-                             unset( $currentNode );
-                             $currentNode =& $lastNode;
+                        while( $lastInsertedNodeTag == "paragraph" or $lastInsertedNodeTag == "line" )
+                        {
+                            $lastNodeArray = array_pop( $TagStack );
+                            $lastTag = $lastNodeArray["TagName"];
+                            $lastNode =& $lastNodeArray["ParentNodeObject"];
+                            $lastChildTag = $lastNodeArray["ChildTag"];
+                            unset( $currentNode );
+                            $currentNode =& $lastNode;
 
-                             $lastInsertedNodeArray = array_pop( $TagStack );
-                             if ( $lastInsertedNodeArray !== null )
-                             {
-                                 $lastInsertedNodeTag = $lastInsertedNodeArray["TagName"];
-                                 $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
-                                 $parentTag = $lastInsertedNode["TagName"];
-                                 $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
-                                 array_push( $TagStack,
-                                             array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag ) );
-                             }
-                         }
+                            $lastInsertedNodeArray = array_pop( $TagStack );
+                            if ( $lastInsertedNodeArray !== null )
+                            {
+                                $lastInsertedNodeTag = $lastInsertedNodeArray["TagName"];
+                                $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
+                                $parentTag = $lastInsertedNode["TagName"];
+                                $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
+                                array_push( $TagStack,
+                                            array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag ) );
+                            }
+                        }
 
                         if ( in_array( $justName, $lastInsertedChildTag ) )
                         {
@@ -993,7 +993,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
          }
          elseif ( $sectionLevel == $headerLevel )
          {
-             eZDebug::writeDebug( $currentNode, "currentNode" );
              $lastNodeArray = array_pop( $TagStack );
              // $lastTag = $lastNodeArray["TagName"];
              $lastNode =& $lastNodeArray["ParentNodeObject"];
