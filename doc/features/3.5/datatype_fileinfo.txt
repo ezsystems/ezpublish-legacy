@@ -1,0 +1,31 @@
+*Title: General file info interface for datatypes
+
+Incentive:
+Make it easier to find out file information for a given attribute/datatype.
+Instead having to know the datatype that has file information we instead
+want to query the datatype interface if it has file information and if so
+return that information.
+
+*Documentation:
+Some new methods are introduced to the eZDatatype interface, one for checking
+for file info support and one for the actual information
+
+methods:
+ - hasStoredFileInformation(): Returns true if the datatype supports this
+ - storedFileInformation(): Returns the information as an array or false if no info was found
+   The structure looks like:
+   * filepath
+   * filename (optional)
+   * filesize (optional)
+   * mime_type (optional)
+   All optional fields will be calculated if missing.
+
+Supported datatypes:
+ - ezimage: Returns original image
+ - ezbinaryfile: Uses stored binaryfile
+ - ezmedia: Uses stored mediafile
+
+*Testing:
+
+*SVN Revisions:
+8734
