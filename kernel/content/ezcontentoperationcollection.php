@@ -191,7 +191,7 @@ class eZContentOperationCollection
         $version =& $object->version( $versionNum );
         $nodeAssignment =& eZNodeAssignment::fetch( $objectID, $versionNum, $parentNodeID );
         $object->setAttribute( 'current_version', $versionNum );
-        if ( $versionNum == 1 )
+        if ( $object->attribute( 'published' ) == 0 )
         {
             $object->setAttribute( 'published', mktime() );
         }
