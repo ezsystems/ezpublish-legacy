@@ -60,6 +60,7 @@ $options = $script->getOptions( "[type:][user:][host:][password;]" .
                                                          "MySQL: bdb, innodb and myisam\n" .
                                                          "PostgreSQL: \n" .
                                                          "Oracle: " ),
+                                       'clean-existing' => 'Clean up existing schema (remove all database objects)',
                                        'table-charset' => 'Defines the charset to use on tables, the names of the charset depends on database type',
                                        'schema-file' => 'The schema file to use when dumping data structures, is only required when dumping from files',
                                        'allow-multi-insert' => ( 'Will create INSERT statements with multiple data entries (applies to data output only)' . "\n" .
@@ -67,7 +68,8 @@ $options = $script->getOptions( "[type:][user:][host:][password;]" .
                                        'insert-types' => ( "A comma separated list of types to include in dump (default is schema only):\n" .
                                                            "schema - Table schema\n" .
                                                            "data - Table data\n" .
-                                                           "all - Both table schema and data" )
+                                                           "all - Both table schema and data\n" .
+                                                           "none - Insert nothing (useful if you want to clean up schema only)" )
                                        ) );
 $script->initialize();
 
@@ -78,26 +80,6 @@ $password = $options['password'];
 
 if ( !is_string( $password ) )
     $password = '';
-
-switch ( count( $options['arguments'] ) )
-{
-    case 0:
-        $cli->error( "Missing filename and database" );
-        $script->shutdown( 1 );
-        break;
-    case 1:
-        $cli->error( "Missing database" );
-        $script->shutdown( 1 );
-        break;
-    case 2:
-        $filename = $options['arguments'][0];
-        $database = $options['arguments'][1];
-        break;
-    case 3:
-        $cli->error( "Too many arguments" );
-        $script->shutdown( 1 );
-        break;
-}
 
 $includeSchema = true;
 $includeData = false;
@@ -126,8 +108,44 @@ if ( $options['insert-types'] )
             {
                 $includeData = true;
             } break;
+
+            case 'none':
+            {
+                $includeSchema = false;
+                $includeData   = false;
+            } break;
         }
     }
+}
+
+$onlyCleanupSchema = $options['clean-existing'] && !$includeSchema && !$includeData;
+
+switch ( count( $options['arguments'] ) )
+{
+    case 0:
+        $cli->error( "Missing filename and database" );
+        $script->shutdown( 1 );
+        break;
+    case 1:
+        if ( $onlyCleanupSchema )
+        {
+            $database = $options['arguments'][0];
+            $filename  = '';
+        }
+        else
+        {
+            $cli->error( "Missing database" );
+            $script->shutdown( 1 );
+        }
+        break;
+    case 2:
+        $filename = $options['arguments'][0];
+        $database = $options['arguments'][1];
+        break;
+    case 3:
+        $cli->error( "Too many arguments" );
+        $script->shutdown( 1 );
+        break;
 }
 
 $dbschemaParameters = array( 'schema' => $includeSchema,
@@ -144,9 +162,9 @@ if ( strlen( trim( $type ) ) == 0 )
     $script->shutdown( 1 );
 }
 
-if ( !file_exists( $filename ) or !is_file( $filename ) )
+if ( !$onlyCleanupSchema and ( !file_exists( $filename ) or !is_file( $filename ) ) )
 {
-    $cli->error( "Filename $file does not exist" );
+    $cli->error( "File '$filename' does not exist" );
     $script->shutdown( 1 );
 }
 
@@ -277,7 +295,7 @@ if ( $dbSchema === false )
 }
 
 // Insert schema/data by running SQL statements to database
-$status = $dbSchema->insertSchema( $dbschemaParameters );
+$status = ( $includeSchema or $includeData ) ? $dbSchema->insertSchema( $dbschemaParameters ) : true;
 if ( !$status )
 {
     $cli->error( "Failed insert schema/data to database" );
