@@ -43,6 +43,7 @@ Changes from 2.9-6 to 2.9-7
 - Added session cache handler class to manage cached session information
 - Added session cache on current user
 - Fixed crash with ' character in object name translation
+- Added session cache for current user group assignments
 
 contentclass:
 - Moving attributes up in class edit now moves one step instead of two.

@@ -129,6 +129,7 @@ class eZUser extends eZPersistentObject
     function store()
     {
         eZSessionCache::expireSessions( "EZ_SESSION_CACHE_USER_INFO" );
+        eZSessionCache::expireSessions( "EZ_SESSION_CACHE_USER_GROUPS" );
         eZPersistentObject::store();
     }
 
@@ -542,11 +543,12 @@ class eZUser extends eZPersistentObject
     function &groups( $asObject = false, $userID = false )
     {
         $db =& eZDB::instance();
+        $http =& eZHTTPTool::instance();
 
         if ( $asObject == true )
         {
             $this->Groups = array();
-            if( !isset( $this->GroupsAsObjects ) )
+            if ( !isset( $this->GroupsAsObjects ) )
             {
                 if ( $userID )
                 {
@@ -556,7 +558,7 @@ class eZUser extends eZPersistentObject
                 {
                     $contentobjectID = $this->attribute( 'contentobject_id' );
                 }
-                $userGroups = $db->arrayQuery( "SELECT d.*
+                $userGroups =& $db->arrayQuery( "SELECT d.*
                                                 FROM ezcontentobject_tree  b,
                                                      ezcontentobject_tree  c,
                                                      ezcontentobject d
@@ -576,7 +578,7 @@ class eZUser extends eZPersistentObject
         }
         else
         {
-            if( !isset( $this->Groups ) )
+            if ( !isset( $this->Groups ) )
             {
                 if ( $userID )
                 {
@@ -586,19 +588,38 @@ class eZUser extends eZPersistentObject
                 {
                     $contentobjectID = $this->attribute( 'contentobject_id' );
                 }
-                $userGroups = $db->arrayQuery( "SELECT  c.contentobject_id as id
+
+                $userGroups = false;
+                // check for cached version
+                if ( !eZSessionCache::isExpired( EZ_SESSION_CACHE_USER_GROUPS ) )
+                {
+                    $userGroupsTmp =& $http->sessionVariable( 'eZUserGroupsCache_' . $contentobjectID );
+
+                    if ( count( $userGroupsTmp ) > 0 )
+                    {
+                        $userGroups =& $userGroupsTmp;
+                    }
+                }
+
+                if ( count( $userGroups ) == 0 )
+                {
+                    $userGroups =& $db->arrayQuery( "SELECT  c.contentobject_id as id
                                                 FROM ezcontentobject_tree  b,
                                                      ezcontentobject_tree  c
                                                 WHERE b.contentobject_id='$contentobjectID' AND
                                                       b.parent_node_id = c.node_id
                                                 ORDER BY c.contentobject_id  ");
+
+                    $http->setSessionVariable( 'eZUserGroupsCache_' . $contentobjectID, $userGroups );
+                }
+
                 $userGroupArray = array();
 
                 foreach ( $userGroups as $group )
                 {
                     $userGroupArray[] = $group['id'];
                 }
-                $this->Groups = $userGroupArray;
+                $this->Groups =& $userGroupArray;
             }
             return $this->Groups;
         }
