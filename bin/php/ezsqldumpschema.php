@@ -98,7 +98,7 @@ $db =& eZDB::instance( $type,
                               'database' => $database ),
                        true );
 
-if ( !$db )
+if ( !$db or !$db->isConnected() )
 {
     $cli->error( 'Could not initialize database' );
     $script->shutdown( 1 );
