@@ -52,6 +52,7 @@ function &eZSessionRead( $key )
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
+    $key =& $db->escapeString( $key );
 
     $sessionRes =& $db->arrayQuery( "SELECT data FROM ezsession WHERE session_key='$key'" );
 
@@ -78,6 +79,7 @@ function eZSessionWrite( $key, $value )
     $expirationTime = time() + $ini->variable( 'Session', 'SessionTimeout' );
 
     $value =& $db->escapeString( $value );
+    $key =& $db->escapeString( $key );
     // check if session already exists
 
     $sessionRes =& $db->arrayQuery( "SELECT session_key FROM ezsession WHERE session_key='$key'" );
@@ -107,6 +109,7 @@ function eZSessionDestroy( $key )
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
+    $key =& $db->escapeString( $key );
     $query = "DELETE FROM ezsession WHERE session_key='$key'";
 
     $db->query( $query );
