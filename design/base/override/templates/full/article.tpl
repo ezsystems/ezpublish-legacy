@@ -40,6 +40,13 @@
           </p>
         </div>
 
+
+        <div class="attribute-pdf">
+          <p>
+             <a href={concat('/content/pdf/',$node.node_id)|ezurl}>{"Download PDF"|i18n("design/news/layout")}</a>
+          </p>
+        </div>
+
         {* Should we allow comments? *}
         {section show=$node.object.data_map.enable_comments.content}
             <h2>Comments</h2>
