@@ -3866,6 +3866,7 @@ WHERE
         $existNodeAssignment = eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
                                                    null,
                                                    $nodeInfo );
+        $nodeInfo['priority'] = $contentNodeDOMNode->attributeValue( 'priority' );
         if( !is_object( $existNodeAssignment ) )
         {
             $nodeAssignment =& eZNodeAssignment::create( $nodeInfo );
