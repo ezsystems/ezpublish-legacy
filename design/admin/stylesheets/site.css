@@ -1507,6 +1507,10 @@ fieldset label
     font-weight: normal;
 }
 
+div#rightmenu label
+{
+    font-weight: normal;
+}
 
 /* INDEX VIEW*/
 
