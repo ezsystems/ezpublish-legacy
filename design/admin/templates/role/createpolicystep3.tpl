@@ -56,11 +56,11 @@
 
 <p>
 {'Instructions'|i18n( 'design/admin/role/createpolicystep3' )}:
+</p>
 <ol>
 <li>{'Set the desired function limitations using the controls below.'|i18n( 'design/admin/role/createpolicystep3' )}</li>
 <li>{'Click the "OK" button to finish the wizard. The policy will be added to the role that is currently being edited.'|i18n( 'design/admin/role/createpolicystep3' )}</li>
 </ol>
-</p>
 
 <div class="block">
 {section name=Limitations loop=$function_limitations}
@@ -70,7 +70,7 @@
 <div class="element">
 {/section}
 <label>{$Limitations:item.name}</label>
-<select name="{$Limitations:item.name}[]" size="8" multiple >
+<select name="{$Limitations:item.name}[]" size="8" multiple="multiple" >
 <option value="-1" {switch match=$current_limitation_list[$Limitations:item.name]}
 {case match=-1} selected="selected"{/case}{case}{/case}{/switch}>{'Any'|i18n( 'design/admin/role/createpolicystep3' )}</option>
 {section name=LimitationValues loop=$Limitations:item.values}
@@ -92,7 +92,8 @@
 {* Nodes *}
 {case match="Node"}
 <div class="block">
-<label>{'Nodes [%node_count]'|i18n( 'design/admin/role/createpolicystep3',, hash( '%node_count', $node_list|count ) )}</label>
+<fieldset>
+<legend>{'Nodes [%node_count]'|i18n( 'design/admin/role/createpolicystep3',, hash( '%node_count', $node_list|count ) )}</legend>
 {section show=$node_list}
 <table class="list" cellspacing="0">
 <tr>
@@ -101,7 +102,7 @@
 </tr>
 {section var=Nodes loop=$node_list sequence=array( bglight, bgdark )}
 <tr class="{$Nodes.sequence}">
-<td><input type="checkbox" name="DeleteNodeIDArray[]" value={$Nodes.item.node_id} /></td>
+<td><input type="checkbox" name="DeleteNodeIDArray[]" value="{$Nodes.item.node_id}" /></td>
 <td>{$Nodes.item.name}</td>
 </tr>
 {/section}
@@ -118,13 +119,15 @@
 {/section}
 
 <input class="button" type="submit" name="BrowseLimitationNodeButton" value="{'Add nodes'|i18n( 'design/admin/role/createpolicystep3' )}" />
+</fieldset>
 </div>
 {/case}
 
 {* Subtrees *}
 {case match="Subtree"}
 <div class="block">
-<label>{'Subtrees [%subtree_count]'|i18n( 'design/admin/role/createpolicystep3',, hash( '%subtree_count', $subtree_list|count ) )}</label>
+<fieldset>
+<legend>{'Subtrees [%subtree_count]'|i18n( 'design/admin/role/createpolicystep3',, hash( '%subtree_count', $subtree_list|count ) )}</legend>
 {section show=$subtree_list}
 <table class="list" cellspacing="0">
 <tr>
@@ -133,7 +136,7 @@
 </tr>
 {section var=Subtrees loop=$subtree_list sequence=array( bglight, bgdark )}
 <tr class="{$Subtrees.sequence}">
-<td><input type="checkbox" name="DeleteSubtreeIDArray[]" value={$Subtrees.item.node_id} /></td>
+<td><input type="checkbox" name="DeleteSubtreeIDArray[]" value="{$Subtrees.item.node_id}" /></td>
 <td>{$Subtrees.item.name}</td>
 </tr>
 {/section}
@@ -149,6 +152,7 @@
 {/section}
 
 <input class="button" type="submit" name="BrowseLimitationSubtreeButton" value="{'Add subtrees'|i18n( 'design/admin/role/createpolicystep3' )}" />
+</fieldset>
 </div>
 {/case}
 

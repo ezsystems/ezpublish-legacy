@@ -44,10 +44,12 @@
 
 <p>
 {'Instructions'|i18n( 'design/admin/role/createpolicystep2' )}:
+</p>
 <ul>
 <li>{'Use the drop-down menu to select the function that you wish to grant access to.'|i18n( 'design/admin/role/createpolicystep2' )}</li>
 <li>{'Click on one of the "Grant.." buttons (explained below) in order to go to the next step.'}</li>
 </ul>
+<p>
 {'The "Grant full access" button will create a policy that grants unlimited access to the selected function within the module that was specified in step one. If you wish to limit the access method in some way, click the "Grant limited access" button. Function limitation is only supported by some functions. If unsupported, eZ publish will simply set up a policy with unlimited access to the selected function.'|i18n( 'design/admin/role/createpolicystep2' )}
 </p>
 
