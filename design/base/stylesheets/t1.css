@@ -1,0 +1,224 @@
+/* SITE CSS 20040217 */
+
+body
+{
+    background-color: #6699cc;
+}
+
+div#allcontent
+{
+    background-color: #fff;
+    width: 750px;
+}
+
+div#header
+{
+   float: left;
+}
+
+div#header-design
+{
+   width: 400px;
+  
+}
+
+div#header h1
+{
+    font-size: 2em;
+    font-style: italic;
+    margin: 0;
+    height: 70px;
+
+    padding-left: 85px;
+    background-repeat: no-repeat;
+    white-space: nowrap;
+    background-image: url(../images/t1/ezpublish-logo.gif);
+    white-space: nowrap;
+}
+
+div#toolbar-top
+{ 
+   border: 1px solid #333;
+   height: 70px;
+}
+
+div#sep
+{ 
+   clear: both;
+}
+
+div#topmenu
+{
+}
+
+div#topmenu-design
+{
+    height: 22px;
+    text-align: left;
+    vertical-align: middle;
+}
+
+div#topmenu ul
+{
+    height: 22px;
+    background-color: #336699;
+
+    margin: 0 0 0 0;
+    padding: 0;
+}
+
+div#topmenu li, div#topmenu li div
+{
+    display: inline;
+}
+
+div#topmenu li
+{
+}
+
+div#topmenu li a
+{
+    color: #fff;
+    font-size: 9pt;
+    padding: 0 0.5em 0 0.5em; /* This padding must be set on a-level, not li-level, to work correctly in konqueror */
+    text-decoration: none;
+}
+
+div#submenu ul
+{
+    height: 22px;
+    background-color: #7b92bc;
+    margin: 0 0 0 0;
+    padding: 0;
+}
+
+div#submenu li, div#submenu li div
+{
+    display: inline;
+}
+
+div#submenu li a
+{
+    font-size: 9pt;
+    color: #fff;
+    padding: 0 0.5em 0 0.5em; /* This padding must be set on a-level, not li-level, to work correctly in konqueror */
+    text-decoration: none;
+}
+
+div#path
+{
+}
+
+div#path-design
+{
+  margin: 3px 3px 3px 6px;
+}
+
+div#path p
+{
+    color: #6699cc;
+    font-size: 9pt;
+    margin: 0;
+}
+
+div#path p a
+{
+    color: #6699cc;
+    text-decoration: none;
+}
+
+div#columns
+{
+    height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
+}
+
+div#leftmenu ul, div#rightmenu ul
+{
+    margin-left: 1.5em;
+}
+
+div#leftmenu
+{
+    float: left;
+    width: 10em;
+}
+
+div#leftmenu-design
+{
+}
+
+div#rightmenu 
+{
+    float: right;
+    width: 178px;
+}
+
+div#rightmenu-design
+{
+}
+
+div#maincontent
+{
+    margin-left: 11em;
+    margin-right: 178px;
+    height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
+}
+
+div#maincontent-design
+{
+}
+
+/* Toolbar design */
+div.toolbox
+{ 
+    padding-right: 6px;
+}
+
+div.toolbox-design
+{ 
+    padding-left: 10px;
+    padding-bottom: 10px;
+    background-color: #d9e5f2;
+}
+
+div.toolbox-design h2
+{ 
+    width: 100%;
+    position: relative;
+    left: -10px;
+    padding-left: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    font: 12px regular;
+    background-color: #336699;
+    color: #fff;
+}
+
+div#fix /* This style breaks the unwanted connection between the content of the maincontent box and the menues on the left and right in some browsers */
+{
+    float: left;
+    width: 100%;
+}
+
+/* Footer */
+div#footer
+{ 
+    clear: both;
+}
+
+
+/* COMMON STYLES SET JUST AS AN EXAMPLE */
+/* Border and padding is set on these elements inside another positioned elements to avoid wrong width calculations in the parents in some browsers */
+div#leftmenu-design,  div#maincontent-design, div#footer-design 
+{
+    background-color: #ffffff;
+    margin: 1em 0 0 0;
+    padding: 0.5em;
+    border: 1px dashed #a0a0a0;
+    overflow: visible;
+}
+
+div#header-design
+{
+    margin: 0;
+}
