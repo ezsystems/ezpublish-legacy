@@ -54,7 +54,7 @@ class eZSchema
     */
     function setSchemaFromFile( $url )
     {
-        $fp = fopen( $url, "r" );
+        $fp = fopen( $url, "rb" );
         $doc =& fread( $fp, filesize( $url ) );
         fclose( $fp );
         $this->setSchema( $doc );
@@ -230,7 +230,7 @@ class eZSchema
 
         print( "Comparing: " . $domNode->name() . " against " .
                $schemaElement->name() . " <br>" );
-        
+
         if ( $domNode->name() == $schemaElement->name() )
         {
             // find the next schema element

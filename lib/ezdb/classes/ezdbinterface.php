@@ -186,7 +186,7 @@ class eZDBInterface
             $sqlFileName = eZDir::path( array( $path, $type, $sqlFile ) );
         else
             $sqlFileName = eZDir::path( array( $path, $sqlFile ) );
-        $sqlFileHandler = fopen( $sqlFileName, 'r' );
+        $sqlFileHandler = fopen( $sqlFileName, 'rb' );
         $buffer = '';
         $done = false;
         while(  count( ( $sqlArray = $this->prepareSqlQuery( $sqlFileHandler, $buffer ) ) ) > 0 )

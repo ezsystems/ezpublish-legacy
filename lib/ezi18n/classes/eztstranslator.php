@@ -249,7 +249,7 @@ class eZTSTranslator extends eZTranslatorHandler
             }
 
             eZDebug::accumulatorStart( 'tstranslator_load', 'tstranslator', 'TS load' );
-            $fd = fopen( $path, "r" );
+            $fd = fopen( $path, "rb" );
             $trans_xml = fread( $fd, filesize( $path ) );
             fclose( $fd );
 

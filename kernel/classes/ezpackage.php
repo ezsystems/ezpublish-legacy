@@ -380,7 +380,7 @@ class eZPackage
         }
         else
         {
-            $fd = @fopen( $file, 'r' );
+            $fd = @fopen( $file, 'rb' );
             if ( $fd )
             {
                 $data = '';
@@ -1026,7 +1026,7 @@ class eZPackage
     {
         if ( file_exists( $filename ) )
         {
-            $fd = fopen( $filename, 'r' );
+            $fd = fopen( $filename, 'rb' );
             if ( $fd )
             {
                 $xmlText = fread( $fd, filesize( $filename ) );
@@ -1052,7 +1052,7 @@ class eZPackage
         {
             return false;
         }
-        $fd = fopen( $filename, 'r' );
+        $fd = fopen( $filename, 'rb' );
         if ( $fd )
         {
             $xmlText = fread( $fd, filesize( $filename ) );

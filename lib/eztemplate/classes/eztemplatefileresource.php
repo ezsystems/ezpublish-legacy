@@ -216,10 +216,12 @@ class eZTemplateFileResource
             if ( $templateRoot !== null )
                 return true;
 
-            $fd = fopen( $path, "r" );
+            $fd = fopen( $path, "rb" );
             if ( $fd )
             {
                 $text = fread( $fd, filesize( $path ) );
+                // Make sure we have unix newlines
+                $text = preg_replace( "/\n|\r\n|\r/", "\n", $text );
                 $tplINI =& $tpl->ini();
                 $charset = $tplINI->variable( 'CharsetSettings', 'DefaultTemplateCharset' );
                 $pos = strpos( $text, "\n" );

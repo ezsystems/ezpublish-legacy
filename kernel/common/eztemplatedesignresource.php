@@ -588,12 +588,15 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
             $overrideMatchFilePath = false;
             // Find the matching file in the available resources
+            $triedFiles = array();
             foreach ( $resourceArray as $resource )
             {
                 if ( file_exists( $resource . "/" . $overrideMatchFile ) )
                 {
                     $overrideMatchFilePath = $resource . "/" . $overrideMatchFile;
                 }
+                else
+                    $triedFiles[] = $resource . '/' . $overrideMatchFile;
             }
 
             // Only create override if match file exists
@@ -608,7 +611,10 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             }
             else
             {
-                eZDebug::writeError( "Custom match file: $overrideMatchFilePath not found in any resource. Check template settings in settings/override.ini", "Template override settings" );
+                eZDebug::writeError( "Custom match file: path '$overrideMatchFilePath' not found in any resource. Check template settings in settings/override.ini",
+                                     "eZTemplateDesignResource::overrideArray" );
+                eZDebug::writeError( $triedFiles,
+                                     "eZTemplateDesignResource::overrideArray, tried files" );
             }
 
         }

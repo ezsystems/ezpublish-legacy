@@ -91,17 +91,17 @@ class eZContentCache
             include_once( 'kernel/classes/ezcontentobject.php' );
             if ( eZContentObject::isCacheExpired( $timestamp ) )
             {
-                eZDebug::writeDebug( 'cache expired #1' );
+                eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache expired #1' );
                 return false;
             }
-            eZDebug::writeDebug( "checking viewmode '$viewMode' #1" );
+            eZDebugSetting::writeDebug( 'kernel-content-view-cache', "checking viewmode '$viewMode' #1" );
             if ( eZContentObject::isComplexViewModeCacheExpired( $viewMode, $timestamp ) )
             {
-                eZDebug::writeDebug( "viewmode '$viewMode' cache expired #1" );
+                eZDebugSetting::writeDebug( 'kernel-content-view-cache', "viewmode '$viewMode' cache expired #1" );
                 return false;
             }
         }
-        eZDebug::writeDebug( 'cache used #1' );
+        eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache used #1' );
         return $cacheExists;
     }
 
@@ -120,18 +120,18 @@ class eZContentCache
             include_once( 'kernel/classes/ezcontentobject.php' );
             if ( eZContentObject::isCacheExpired( $timestamp ) )
             {
-                eZDebug::writeDebug( 'cache expired #2' );
+                eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache expired #2' );
                 return false;
             }
-            eZDebug::writeDebug( "checking viewmode '$viewMode' #1" );
+            eZDebugSetting::writeDebug( 'kernel-content-view-cache', "checking viewmode '$viewMode' #1" );
             if ( eZContentObject::isComplexViewModeCacheExpired( $viewMode, $timestamp ) )
             {
-                eZDebug::writeDebug( "viewmode '$viewMode' cache expired #2" );
+                eZDebugSetting::writeDebug( 'kernel-content-view-cache', "viewmode '$viewMode' cache expired #2" );
                 return false;
             }
 
         }
-        eZDebug::writeDebug( 'cache used #2' );
+        eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache used #2' );
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         $php = new eZPHPCreator( $cacheDir, $cacheFile );
 
@@ -324,7 +324,7 @@ class eZContentCache
                             if ( preg_match( "/^$nodeID" . "-.*\\.php$/", $file ) )
                             {
                                 $cacheFile = eZDir::path( array( $cacheDir, $file ) );
-                                eZDebug::writeDebug( "Removing cache file '$cacheFile'", 'eZContentCache::cleanup' );
+                                eZDebugSetting::writeDebug( 'kernel-content-view-cache', "Removing cache file '$cacheFile'", 'eZContentCache::cleanup' );
                                 unlink( $cacheFile );
                                 // Write log message to storage.log
                                 include_once( 'lib/ezutils/classes/ezlog.php' );
