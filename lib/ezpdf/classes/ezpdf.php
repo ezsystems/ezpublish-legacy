@@ -689,7 +689,15 @@ class eZPDF
                      ':cmyk:' . implode( ',', $params['cmyk'] ) .
                      '>';
 
+                $operatorValue .= '<C:callSetMargin' .
+                     ':delta_left:' . ( $params['indent'] + $params['radius'] * 2 + $params['pre_indent'] ) .
+                     '>';
+
                 $operatorValue .= $text;
+
+                $operatorValue .= '<C:callSetMargin' .
+                     ':delta_left:' . -1 * ( $params['indent'] + $params['radius'] * 2 + $params['pre_indent'] ) .
+                     '>';
             } break;
 
             case 'filled_circle':
