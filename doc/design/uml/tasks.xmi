@@ -1,0 +1,47 @@
+<XMI xmi.version="1.1" >
+<XMI.header>
+<XMI.metamodel href="/home/amos/src/ez/php/nextgen/doc/design/uml/tasks.xmi" version="1.0.4" name="UML" />
+  <XMI.model href="/home/amos/src/ez/php/nextgen/doc/design/uml/tasks.xmi" version="1" name="/home/amos/src/ez/php/nextgen/doc/design/uml/tasks.xmi" /> </XMI.header>
+ <XMI.content>
+<docsettings viewid="1" documentation="" uniqueid="15" />
+  <umlobjects>
+<UML:Class stereotype="" package="" xmi.id="2" abstract="0" documentation="" name="eZTask" scope="200" >
+<UML:Attribute stereotype="" package="" xmi.id="3" value="" type="int" abstract="0" documentation="" name="Status" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="4" value="" type="int" abstract="0" documentation="" name="ConnectionType" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="5" value="" type="int" abstract="0" documentation="" name="Creator" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="6" value="" type="int" abstract="0" documentation="" name="Receiver" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="7" value="" type="int" abstract="0" documentation="" name="ParentType" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="8" value="" type="int" abstract="0" documentation="" name="Parent" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="9" value="" type="int" abstract="0" documentation="" name="Messages" scope="200" />   </UML:Class>
+   <UML:Class stereotype="" package="" xmi.id="12" abstract="0" documentation="" name="eZAssignment" scope="200" >
+<UML:Attribute stereotype="" package="" xmi.id="13" value="" type="int" abstract="0" documentation="" name="AccessType" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="14" value="" type="int" abstract="0" documentation="" name="ObjectType" scope="200" />
+    <UML:Attribute stereotype="" package="" xmi.id="15" value="" type="int" abstract="0" documentation="" name="Object" scope="200" />   </UML:Class>  </umlobjects>
+  <diagrams>
+<diagram snapgrid="0" showattsig="0" fillcolor="#ffffc0" showgrid="0" showopsig="0" usefillcolor="1" snapx="10" snapy="10" showatts="1" xmi.id="1" documentation="" type="402" showops="1" showpackage="0" name="class diagram" localid="30000" showstereotype="0" showscope="0" font="Arial [Xft],10,-1,5,48,0,0,0,0,0" linecolor="#ff0000" >
+<widgets>
+<UML:ConceptWidget showattsigs="603" x="23" y="34" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="2" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="Arial [Xft],10,-1,5,48,0,0,0,0,0" />
+     <UML:ConceptWidget showattsigs="603" x="229" y="127" showopsigs="603" usefillcolor="1" showattributes="1" xmi.id="12" showoperations="1" showpackage="0" showscope="0" showstereotype="0" font="Arial [Xft],10,-1,5,48,0,0,0,0,0" />    </widgets>
+    <messages/>
+    <associations>
+<UML:AssocWidget totalcounta="2" indexa="1" totalcountb="2" indexb="1" widgetbid="2" widgetaid="12" documentation="" type="500" >
+<linepath>
+<startpoint startx="229" starty="165" />
+       <endpoint endx="137" endy="106" />      </linepath>     </UML:AssocWidget>    </associations>   </diagram>  </diagrams>
+  <listview>
+<listitem open="1" type="800" id="-1" label="Views" >
+<listitem open="1" type="801" id="-1" label="Logical View" >
+<listitem open="0" type="807" id="1" label="class diagram" />
+     <listitem open="1" type="812" id="12" label="eZAssignment" >
+<listitem open="0" type="813" id="13" label="AccessType" />
+      <listitem open="0" type="813" id="15" label="Object" />
+      <listitem open="0" type="813" id="14" label="ObjectType" />     </listitem>
+     <listitem open="1" type="812" id="2" label="eZTask" >
+<listitem open="0" type="813" id="4" label="ConnectionType" />
+      <listitem open="0" type="813" id="5" label="Creator" />
+      <listitem open="0" type="813" id="9" label="Messages" />
+      <listitem open="0" type="813" id="8" label="Parent" />
+      <listitem open="0" type="813" id="7" label="ParentType" />
+      <listitem open="0" type="813" id="6" label="Receiver" />
+      <listitem open="0" type="813" id="3" label="Status" />     </listitem>    </listitem>
+    <listitem open="1" type="802" id="-1" label="Use Case View" />   </listitem>  </listview> </XMI.content></XMI>

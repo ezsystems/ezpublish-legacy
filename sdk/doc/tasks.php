@@ -37,9 +37,115 @@ $DocResult = array( 'title' => 'Tasks' );
 ?>
 
 <p>
-Tasks is a way of doing communication and planning with other users. Each task
-consists of a content object and a number of assignments.
+Tasks is a way of doing communication and planning with other users. It opens up a connection
+between two users were communication can be done in the form of content objects. The connection
+is open until either the creator cancels it or the receiver accepts/denies it.
+The creator will see it as an outgoing task while the receiver sees it as an incoming task.
+Tasks may have another tasks as parent creating a structured tree of related tasks.
 </p>
+
+<h1>Task</h1>
+<p>
+The contents of a task are.
+</p>
+<h2>Status</h2>
+<p>
+The status can be one of the following values.
+</p>
+<h3>Open</h3>
+<p>
+The task was just created and is active.
+</p>
+<h3>Closed</h3>
+<p>
+The task was closed by the receiver, meaning that it is done.
+</p>
+<h3>Canceled</h3>
+<p>
+The task was either canceled(denied) by the receiver or removed by the creator.
+</p>
+
+<h2>Connection Type</h2>
+<p>
+How the task is connected, it's either connected directly to a user which means that the task
+is present on different machines or it's connected to the session which means that the task
+is present only on that session on one machine.
+Direct connections are used for persistent tasks while session connections are used for
+temporary tasks.
+</p>
+
+<h2>Creator</h2>
+<p>
+The user who created the task and is the one managing the task, this user will see the task as outgoing.
+</p>
+
+<h2>Receiver</h2>
+<p>
+The user which receives the task and thus should do it. This user will see the task
+as ingoing.
+</p>
+
+<h2>Parent Type</h2>
+<p>
+The type of the parent, if any. Is either Task, Assignment or Work-flow process.
+</p>
+
+<h2>Parent</h2>
+<p>
+The parent of the task or none if no parent. This is used to perform structured task handling
+or for private redirections.
+</p>
+
+<h2>Messages</h2>
+<p>
+An ordered list of content objects which are sent back and forth between the users.
+The messages are visible only by the creator or the receiver of the task.
+</p>
+
+<h1>Assignment</h1>
+<p>
+Assignments are similar to Tasks and share the same properties with some additions.
+Assignments are used for giving some access to an object, class etc. and still maintain
+the task like communication.
+</p>
+<h2>Access Type</h2>
+<p>
+The type of assignment, it is either Read which means that the receiver can view the
+selected assignment. Or it is Read/Write which means that the receiver can both
+view and edit the assignment. Read/Write assignments usually involves creating a new
+version for the receiver to work on.
+</p>
+<h2>Object Type</h2>
+<p>
+The type of the object assigned, it can be Content Object, Content Class, Work-flow or
+Role. Some types may have more detailed assignments.
+</p>
+<h3>Content Object</h3>
+<p>
+Content Objects are determined by an ID and a version. It's also possible to further
+restrict to a certain language in a version.
+</p>
+<h3>Content Class</h3>
+<p>
+Content Classes are determined by an ID.
+</p>
+<h3>Work-flow</h3>
+<p>
+Work-flows are determined by an ID.
+</p>
+<h3>Role</h3>
+<p>
+Roles are determined by an ID.
+</p>
+
+<h2>Object</h2>
+<p>
+The object which was assigned.
+</p>
+
+<img src="/doc/design/uml/eztask.png">
+
+<h1>Example</h1>
 
 <p>Your tasks</p>
 
@@ -96,72 +202,3 @@ Take some photos.
 </table>
 
 
-<h2>Triggers</h2>
-<p>
-A workflow is executed by a trigger. If a trigger matches the requirements
-a workflow will be executed. Then the workflow will delay a certain function.
-Triggers can be placed before and after a function is executed. If the trigger
-will execute a workflow then the actual execution of a function will be delayed
-until the workflow finishes successfully, if it finishes at all.
-</p>
-
-<h2>Workflows</h2>
-<p>
-A workflow is a series of events which will be executed in order. An event can
-require user interaction like an approval.
-</p>
-
-<h2>Assigning of workflows</h2>
-<p>
-When you want to assign workflows you need to connect a workflow with a trigger.
-Normally every function will have a pre and post trigger. Some functions also have
-special custom triggers.
-</p>
-
-<p>
-If no workflows are assigned, the functions will be executed without workflow
-interruption.
-</p>
-
-<h2>Different types of workflows</h2>
-<p>
-Workflows can be divided into the following basic event types:
-</p>
-<ul>
-    <li><b>Direct events</b> - a user will be prompted for some input, this
-    input will then be validated. If the input was validated then the event
-    is executed and the next event will be triggered.
-    </li>
-    <li><b>Redirect events</b> - a workflow will redirect the event to another
-    user. This event will then come up in the the users task list. The user can
-    continue/finish the event at any time.
-    </li>
-    <li><b>Internal events</b> - this is the kind of events which does not require
-    user input. E.g. wait for 60 seconds, publish object, unpublish object, index in
-    search engine(s), send e-mail notification(s).
-    </li>
-</ul>
-
-<h2>Workflow rejection</h2>
-<p>
-If a workflow does not complete, e.g an editor does not approve the content or
-payment was not successful, the workflow will reject the event.
-</p>
-
-<h2>Combination of workflows</h2>
-<p>
-To get complex functionality from workflows you can combine two or more workflows.
-You can have one workflow event which triggers another workflow. That way you can
-create multiplexing functionality from basic workflows. You will also be able to
-reuse some workflows.
-</p>
-
-<h2>Example workflow usage</h2>
-<p>
-Some examples of workflow usage:
-</p>
-
-<ul>
-	<li><b>Document approval</b> - approve by one or more editors before approval</li>
-	<li><b>Order pipeline</b> - what the user needs to fill out before the order is completed </li>
-</ul>
