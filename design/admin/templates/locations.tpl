@@ -1,24 +1,22 @@
-{* Show node assignment controls if there are more than one assignment or advanced mode is used *}
+{* Locations window. *}
 {let assigned_nodes=$node.object.current.node_assignments
      assignment_count=$assigned_nodes|count}
-<form method="post" action={"content/action"|ezurl}>
 
+<form method="post" action={"content/action"|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 <input type="hidden" name="ViewMode" value="{$viewmode|wash}" />
 <input type="hidden" name="ContentObjectLanguageCode" value="{$language_code|wash}" />
 
 <div class="context-block">
-
-<h2 class="context-title">Locations</h2>
-
+<h2 class="context-title">{'Locations'|i18n( 'design/admin/content/view' )}</h2>
 
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight">&nbsp;</th>
-    <th class="wide">{'Location'|i18n( 'design/admin/locations' )}</th>
-    <th class="tight">{'Sorting'|i18n( 'design/admin/locations' )}</th>
-    <th class="tight">{'Main'|i18n( 'design/admin/location' )}</th>
+    <th class="wide">{'Location'|i18n( 'design/admin/content/view' )}</th>
+    <th class="tight">{'Sorting'|i18n( 'design/admin/content/view' )}</th>
+    <th class="tight">{'Main'|i18n( 'design/admin/content/view' )}</th>
 </tr>
 {section var=assignment loop=$assigned_nodes sequence=array( bglight, bgdark )}
     {let assignment_node=$assignment.node
@@ -31,7 +29,7 @@
     {section-else}
     <td>{section var=node_path loop=$assignment_path} <a href={$node_path.url|ezurl}>{$node_path.name|wash}</a>{delimiter} / {/delimiter}{/section}</td>
     {/section}
-    <td class="nowrap">{$assignment.item.node.sort_array[0][0]} / {$assignment.item.node.sort_array[0][1]|choose( 'up'|i18n( 'design/admin/locations' ), 'down'|i18n( 'design/admin/locations' ) )}</td>
+    <td class="nowrap">{$assignment.item.node.sort_array[0][0]} / {$assignment.item.node.sort_array[0][1]|choose( 'up'|i18n( 'design/admin/content/view' ), 'down'|i18n( 'design/admin/content/view' ) )}</td>
     <td><input type="radio" {section show=ne( $assignment.is_main, 0 )}checked="checked"{/section} name="MainAssignmentCheck" {section show=or( $assignment_node.can_edit|not, $assignment_count|le( 1 ) )}disabled="disabled"{/section} value="{$assignment_node.node_id}" /></td>
 </tr>
 {/let}
@@ -46,16 +44,20 @@
 <div class="block">
 <div class="button-left">
 {section show=$node.can_edit}
-    <input class="button" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/location' )}" {section show=$assignment_count|le( 1 )}disabled="disabled"{/section} />
-    <input class="button" type="submit" name="AddAssignmentButton" value="{'Add new'|i18n( 'design/admin/location' )}" />
+    <input class="button" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/content/view' )}" title="{'Remove selected locations from the list above.'|i18n( 'design/admin/content/view' )}" {section show=$assignment_count|le( 1 )}disabled="disabled"{/section} />
+    <input class="button" type="submit" name="AddAssignmentButton" value="{'Add new'|i18n( 'design/admin/content/view' )}" title="{'Add new location(s).'|i18n( 'design/admin/content/view' )}" />
 {section-else}
-    <input class="button" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/location' )}" title={'__FIX_ME__'|i18n( 'design/admin/location' )} disabled="disabled" />
-    <input class="button" type="submit" name="" value="{'Add new'|i18n( 'design/admin/location' )}" title={'__FIX_ME__'|i18n( 'design/admin/location' )} disabled="disabled" />
+    <input class="button" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/content/view' )}" title={'You can not remove any locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/content/view' )} disabled="disabled" />
+    <input class="button" type="submit" name="" value="{'Add new'|i18n( 'design/admin/content/view' )}" title={'You can not add new locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/content/view' )} disabled="disabled" />
 {/section}
 </div>
 
 <div class="button-right">
-    <input class="button" type="submit" name="UpdateMainAssignmentButton"" value="{'Update main'|i18n( 'design/admin/location' )}" {section show=$assignment_count|le( 1 )}disabled="disabled"{/section} />
+{section show=$node.can_edit}
+    <input class="button" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/content/view' )}" title=""{section show=$assignment_count|le( 1 )}title="{'You can not set the main location because there is only one existing location for the current item.'|i18n( 'design/admin/content/view' )}" disabled="disabled"{/section} />
+{section-else}
+    <input class="button" type="submit" name="" value="{'Set main'|i18n( 'design/admin/content/view' )}" title="{'You can not set the main location because you do not have permissions to edit the current item.'|i18n( 'design/admin/content/view' )}" disabled="disabled" />
+{/section}
 </div>
 
 <div class="break"></div>
