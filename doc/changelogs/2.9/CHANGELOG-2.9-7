@@ -79,6 +79,10 @@ Changes from 2.9-6 to 2.9-7
   makes it much easier to upgrade the pagelayouts.
 - Added ezinfo page which displays copyright and about information.
 - Current URI and version info is now available in the pagelayout.
+- attribute_view_gui and attribute_edit_gui now uses the new view_template
+  and edit_template attributes of eZContentObjectAttribute which 
+  will return the template name from the datatypes. This means
+  datatypes has more control over the template to be used.
 - File download now supports filehandlers which controls how
   files are download, currently PHP passtrough and direct handlers are available.
 
