@@ -43,6 +43,11 @@
 
 */
 include_once( "lib/ezutils/classes/ezini.php" );
+include_once( "lib/ezutils/classes/ezsys.php" );
+
+define( 'EZ_DIR_SEPARATOR_LOCAL', 1 );
+define( 'EZ_DIR_SEPARATOR_UNIX', 2 );
+define( 'EZ_DIR_SEPARATOR_DOS', 3 );
 
 class eZDir
 {
@@ -126,6 +131,53 @@ class eZDir
         return true;
     }
 
+    /*!
+     \static
+     \return the separator used between directories and files according to \a $type.
+
+     Type can be one of the following:
+     - EZ_DIR_SEPARATOR_LOCAL - Returns whatever is applicable for the current machine.
+     - EZ_DIR_SEPARATOR_UNIX  - Returns a /
+     - EZ_DIR_SEPARATOR_DOS   - Returns a \
+    */
+    function separator( $type )
+    {
+        switch ( $type )
+        {
+            case EZ_DIR_SEPARATOR_LOCAL:
+                return eZSys::fileSeparator();
+            case EZ_DIR_SEPARATOR_UNIX:
+                return '/';
+            case EZ_DIR_SEPARATOR_DOS:
+                return "\\";
+        }
+        return null;
+    }
+
+    /*!
+     \static
+     Creates a path out of all the dir and file items in the array \a $names
+     with correct separators in between them.
+     It will also remove unneeded separators.
+     \a $type is used to determine the separator type, see eZDir::separator.
+     If \a $includeEndSeparator is true then it will make sure that the path ends with a
+     separator if false it make sure there are no end separator.
+    */
+    function path( $names, $includeEndSeparator = false, $type = EZ_DIR_SEPARATOR_LOCAL )
+    {
+        $separator = eZDir::separator( $type );
+        $path = implode( $separator, $names );
+        $path = preg_replace( '#//+#', '/', $path );
+        $hasEndSeparator = ( strlen( $path ) > 0 and
+                         $path[strlen( $path ) - 1] == $separator );
+        if ( $includeEndSeparator and
+             !$hasEndSeparator )
+            $path .= $separator;
+        else if ( !$includeEndSeparator and
+                  $hasEndSeparator )
+            $path = substr( $path, 0, strlen( $path ) - 1 );
+        return $path;
+    }
 
 }
 

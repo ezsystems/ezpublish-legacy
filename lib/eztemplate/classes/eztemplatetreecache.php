@@ -121,6 +121,23 @@ class eZTemplateTreeCache
 
     /*!
      \static
+     \return the cache directory for tree node cache files.
+    */
+    function cacheDirectory()
+    {
+        $cacheDirectory =& $GLOBALS['eZTemplateTreeCacheDirectory'];
+        if ( !isset( $cacheDirectory ) )
+        {
+            include_once( 'lib/ezutils/classes/ezdir.php' );
+            include_once( 'lib/ezutils/classes/ezsys.php' );
+            $cacheDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'template/tree' ) );
+            eZDebug::writeDebug( $cacheDirectory, 'cache dir' );
+        }
+        return $cacheDirectory;
+    }
+
+    /*!
+     \static
      \return true if the cache with the key \a $key can be restored.
              A cache file is found restorable when it exists and has a timestamp
              higher or equal to \a $timestamp.
@@ -141,7 +158,7 @@ class eZTemplateTreeCache
 
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
-        $php = new eZPHPCreator( 'var/cache/template/tree', $cacheFileName );
+        $php = new eZPHPCreator( eZTemplateTreeCache::cacheDirectory(), $cacheFileName );
         return $php->canRestore( $timestamp );
     }
 
@@ -167,7 +184,7 @@ class eZTemplateTreeCache
 
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
-        $php = new eZPHPCreator( 'var/cache/template/tree', $cacheFileName );
+        $php = new eZPHPCreator( eZTemplateTreeCache::cacheDirectory(), $cacheFileName );
         $variables =& $php->restore( array( 'info' => 'TemplateInfo',
                                             'root' => 'TemplateRoot',
                                             'cache-date' => 'eZTemplateTreeCacheCodeDate' ) );
@@ -202,7 +219,7 @@ class eZTemplateTreeCache
 
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
-        $php = new eZPHPCreator( 'var/cache/template/tree', $cacheFileName );
+        $php = new eZPHPCreator( eZTemplateTreeCache::cacheDirectory(), $cacheFileName );
         $php->addVariable( 'eZTemplateTreeCacheCodeDate', EZ_TEMPLATE_TREE_CACHE_CODE_DATE );
         $php->addSpace();
         $php->addVariable( 'TemplateInfo', $cache['info'] );

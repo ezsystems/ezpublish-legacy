@@ -120,6 +120,31 @@ class eZSys
     }
 
     /*!
+     \static
+     \return the directory used for storing various kinds of files like cache, temporary files and logs.
+    */
+    function varDirectory()
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+        return $ini->variable( 'FileSettings', 'VarDir' );
+    }
+
+    /*!
+     \static
+     \return the directory used for storing cache files.
+     \note This will include the varDirectory().
+    */
+    function cacheDirectory()
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+        $cacheDir = $ini->variable( 'FileSettings', 'CacheDir' );
+        include_once( 'lib/ezutils/classes/ezdir.php' );
+        return eZDir::path( array( eZSys::varDirectory(), $cacheDir ) );
+    }
+
+    /*!
      The path to where all the code resides.
      \static
     */
