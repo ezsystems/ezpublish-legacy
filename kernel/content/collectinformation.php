@@ -35,6 +35,7 @@
 include_once( 'kernel/classes/ezinformationcollection.php' );
 include_once( 'lib/ezutils/classes/ezmail.php' );
 include_once( 'lib/ezutils/classes/ezmailtransport.php' );
+include_once( 'kernel/common/template.php' );
 
 $Module =& $Params['Module'];
 $http =& eZHTTPTool::instance();
