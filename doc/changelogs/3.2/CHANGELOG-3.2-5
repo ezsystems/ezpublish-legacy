@@ -43,6 +43,8 @@ Changes from 3.2-4 to 3.2-5
   http://ez.no/community/bug_reports/admin_loginpagelayout_tpl_wrong_url
 - Fixed update search script to update user data.
   http://ez.no/community/bug_reports/updatesearchindex_php_don_t_support_emails
+- Fixed sql query for getting search statistics.
+  http://ez.no/community/bug_reports/search_statistics_and_postgresql
 
 *Setup:
 
