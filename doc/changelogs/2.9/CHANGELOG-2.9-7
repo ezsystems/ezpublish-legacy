@@ -70,6 +70,8 @@ eZINI:
 - Added support for override directories which are not a subdir
   of settings.
 - Sitebasics are now only used if available.
+- The main settings/*.ini dir is now used only if it exists, this means
+  that ini files can exists in extensions.
 
 eZModuleFunctionInfo:
 - Added support for extension definitions.

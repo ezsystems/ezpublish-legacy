@@ -234,7 +234,8 @@ class eZINI
         $iniFile = eZDir::path( array( $this->RootDir, $this->FileName ) );
         if ( file_exists( $iniFile . '.php' ) )
             $iniFile .= '.php';
-        $inputFiles[] = $iniFile;
+        if ( file_exists( $iniFile ) )
+            $inputFiles[] = $iniFile;
         $overrideDirs = $this->overrideDirs();
         foreach ( $overrideDirs as $overrideDirItem )
         {
@@ -278,6 +279,8 @@ class eZINI
         }
 
         $this->findInputFiles( $inputFiles, $iniFile );
+        if ( count( $inputFiles ) == 0 )
+            return false;
 
         $md5Files = array();
         foreach ( $inputFiles as $inputFile )

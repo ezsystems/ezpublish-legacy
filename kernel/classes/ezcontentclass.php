@@ -203,6 +203,16 @@ class eZContentClass extends eZPersistentObject
         return $user;
     }
 
+    /*!
+     \return true if the class is part of the group \a $groupID
+    */
+    function inGroup( $groupID )
+    {
+        return eZContentClassClassGroup::classInGroup( $this->attribute( 'id' ),
+                                                       $this->attribute( 'version' ),
+                                                       $groupID );
+    }
+
     function remove( $remove_childs = false, $version = 0 )
     {
         if ( is_array( $remove_childs ) or $remove_childs )

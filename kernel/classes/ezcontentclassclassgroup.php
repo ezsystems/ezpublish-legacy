@@ -162,6 +162,19 @@ class eZContentClassClassGroup extends eZPersistentObject
                                                     $asObject );
     }
 
+    function &classInGroup( $contentclassID, $contentclassVersion, $groupID )
+    {
+        $rows = eZPersistentObject::fetchObjectList( eZContentClassClassGroup::definition(),
+                                                     null,
+                                                     array( 'group_id' => $groupID,
+                                                            "contentclass_id" => $contentclassID,
+                                                            "contentclass_version" => $contentclassVersion ),
+                                                     null,
+                                                     null,
+                                                     false );
+        return count( $rows ) > 0;
+    }
+
     /// \privatesection
     var $ContentClassID;
     var $ContentClassVersion;
