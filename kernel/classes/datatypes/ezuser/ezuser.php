@@ -518,6 +518,8 @@ class eZUser extends eZPersistentObject
     function logoutCurrent()
     {
         $http =& eZHTTPTool::instance();
+        $id = false;
+        $GLOBALS["eZUserGlobalInstance_$id"] = false;
         $contentObjectID = $http->sessionVariable( "eZUserLoggedInID" );
         $http->removeSessionVariable( "eZUserLoggedInID" );
         if ( $contentObjectID )
@@ -605,6 +607,19 @@ class eZUser extends eZPersistentObject
         }
 
         return $currentUser;
+    }
+
+    /*!
+     \return \c true if the user is enabled and can be used on the site.
+    */
+    function isEnabled()
+    {
+        $setting =& eZUserSetting::fetch( $this->attribute( 'contentobject_id' ) );
+        if ( $setting and !$setting->attribute( 'is_enabled' ) )
+        {
+            return false;
+        }
+        return true;
     }
 
     /*!

@@ -87,7 +87,17 @@ function eZCheckUser( &$siteBasics, &$uri )
     if ( $http->hasSessionVariable( "eZUserLoggedInID" ) and
          $http->sessionVariable( "eZUserLoggedInID" ) != '' and
          $http->sessionVariable( "eZUserLoggedInID" ) != $ini->variable( 'UserSettings', 'AnonymousUserID' ) )
-        return null;
+    {
+        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        $currentUser =& eZUser::currentUser();
+        if ( !$currentUser->isEnabled() )
+        {
+            eZUser::logoutCurrent();
+            $currentUser =& eZUser::currentUser();
+        }
+        else
+            return null;
+    }
     $moduleName = $uri->element();
     $viewName = $uri->element( 1 );
     $anonymousAccessList = $ini->variable( "SiteAccessSettings", "AnonymousAccessList" );
