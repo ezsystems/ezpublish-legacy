@@ -104,7 +104,8 @@ Changes from 3.5.0rc1 to 3.5.0rc2
 - Fixed bug: Fatal errors after importing a class with the same identifier as one of the exising classes has.
   http://ez.no/community/bug_reports/package_import_problem_with_same_class_identifiers
 - Added check to class/edit for it to ensure that two different classes cannot have equal identifiers.
-
+- Fixed bug: Day name is not translated with operator l10n(datetime).
+  http://ez.no/community/bug_reports/operator_l10n_day_name_translation_and_datetime
 *Library:
 
 eZURI:
