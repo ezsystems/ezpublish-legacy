@@ -4,11 +4,12 @@
 {*<option value="2" {section show=eq($class_attribute.data_int1,2)}selected{/section}>2</option>*}
 {section name=VatTypeList loop=$class_attribute.content.vat_type}
 <option value="{$VatTypeList:item.id}" 
-          {switch match=$VatTypeList:item.id}
-            {case match=$class_attribute.data_float1}
-	       selected
-            {/case}
-	  {/switch} >{$VatTypeList:item.name|wash}, {$VatTypeList:item.percentage}%</option>
+    {switch match=$VatTypeList:item.id}
+    {case match=$class_attribute.data_float1}
+        selected="selected"
+    {/case}
+    {case/}
+    {/switch} >{$VatTypeList:item.name|wash}, {$VatTypeList:item.percentage}%</option>
 {/section}
 </select>
 </div>

@@ -469,13 +469,14 @@ class eZEnumType extends eZDataType
         $classAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD, $isOption );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD, $isMultiple );
 
+        $enum = new eZEnum( $classAttribute->attribute( 'id' ), $classAttribute->attribute( 'version' ) );
         $elementListNode =& $attributeParametersNode->elementByName( 'elements' );
         $elementList =& $elementListNode->children();
-        print( "elementlist\n" );
-        print_r( $elementList );
         foreach ( array_keys( $elementList ) as $elementKey )
         {
             $element =& $elementList[$elementKey];
+            print( "element\n" );
+            print_r( $element );
             $elementID = $element->attributeValue( 'id' );
             $elementName = $element->attributeValue( 'name' );
             $elementValue = $element->attributeValue( 'value' );
@@ -484,6 +485,7 @@ class eZEnumType extends eZDataType
                                            $elementName );
             $value->setAttribute( 'enumvalue', $elementValue );
             $value->store();
+            $enum->addEnumerationValue( $value );
         }
     }
 }

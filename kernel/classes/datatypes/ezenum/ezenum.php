@@ -154,6 +154,8 @@ class eZEnum
 
     function setVersion( $version )
     {
+        if ( $version == $this->ClassAttributeVersion )
+            return;
         eZEnumValue::removeAllElements( $this->ClassAttributeID, 0 );
         for ( $i=0;$i<count( $this->Enumerations );$i++ )
         {
@@ -192,6 +194,14 @@ class eZEnum
         $enumvalue =& eZEnumValue::create( $this->ClassAttributeID, $this->ClassAttributeVersion, $element );
         $enumvalue->store();
         $this->Enumerations =& eZEnumValue::fetchAllElements( $this->ClassAttributeID, $this->ClassAttributeVersion );
+    }
+
+    /*!
+     Adds the enumeration value object \a $enumValue to the enumeration list.
+    */
+    function addEnumerationValue( &$enumValue )
+    {
+        $this->Enumerations[] = $enumValue;
     }
 
     function removeEnumeration( $id, $enumid, $version )
