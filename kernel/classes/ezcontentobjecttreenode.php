@@ -2118,17 +2118,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-        \a static
+     \static
+     \return An array with content node objects that is present in the node path \a $nodePath.
+     \param $withLastNode If \c true the last node in the path is included in the list.
+                          The last node is the node which the path was fetched from.
+     \param $asObjects If \c true then return PHP objects, if not return raw row data.
     */
-    function &fetchPathByPathString( $nodePath, $fetchLastNodeInThePath = false, $asObjects = true )
+    function &fetchNodesByPathString( $nodePath, $withLastNode = false, $asObjects = true )
     {
         $nodesListArray = array();
 
         $pathString     = false;
-        $pathArray      = explode( '/', trim($nodePath,'/') );
+        $pathArray      = explode( '/', trim( $nodePath, '/' ) );
 
-        if ( $fetchLastNodeInThePath == false )
-            $pathArray = array_slice( $pathArray, 0, count($pathArray)-1 );
+        if ( $withLastNode == false )
+            $pathArray = array_slice( $pathArray, 0, count( $pathArray ) - 1 );
 
         if ( count( $pathArray ) > 0 )
         {
@@ -2137,7 +2141,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $pathString .= 'or node_id = ' . $node . ' ';
 
             }
-            if ( strlen( $pathString) > 0 )
+            if ( strlen( $pathString ) > 0 )
             {
                 $pathString = '('. substr( $pathString, 2 ) . ') and ';
             }
@@ -2145,7 +2149,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $pathString  )
         {
-            $useVersionName     = true;
+            $useVersionName = true;
             if ( $useVersionName )
             {
                 $versionNameTables  = ', ezcontentobject_name ';
@@ -2157,21 +2161,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                     ezcontentobject_name.content_translation = '$lang' ";
             }
 
-            $query="SELECT ezcontentobject.*,
-                           ezcontentobject_tree.*,
-                           ezcontentclass.name as class_name,
-                           ezcontentclass.identifier as class_identifier
-                           $versionNameTargets
-                    FROM ezcontentobject_tree,
-                         ezcontentobject,
-                         ezcontentclass
-                         $versionNameTables
-                    WHERE $pathString
-                          ezcontentobject_tree.contentobject_id=ezcontentobject.id  AND
-                          ezcontentclass.version=0 AND
-                          ezcontentclass.id = ezcontentobject.contentclass_id
-                          $versionNameJoins
-                    ORDER BY path_string";
+            $query = "SELECT ezcontentobject.*,
+                             ezcontentobject_tree.*,
+                             ezcontentclass.name as class_name,
+                             ezcontentclass.identifier as class_identifier
+                             $versionNameTargets
+                      FROM ezcontentobject_tree,
+                           ezcontentobject,
+                           ezcontentclass
+                           $versionNameTables
+                      WHERE $pathString
+                            ezcontentobject_tree.contentobject_id=ezcontentobject.id  AND
+                            ezcontentclass.version=0 AND
+                            ezcontentclass.id = ezcontentobject.contentclass_id
+                            $versionNameJoins
+                      ORDER BY path_string";
 
             $db =& eZDB::instance();
             $nodesListArray = $db->arrayQuery( $query );
@@ -2186,23 +2190,32 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-        \a static
-        Extracts each node that in the path from db and returns an array of class identifiers
+     \static
+     Extracts each node that in the path from db and returns an array of class identifiers
+     \param $nodePath A string containing the path of the node, it consists of
+                      node IDs starting from the root and delimited by / (slash).
+     \param $withLastNode If \c true the last node in the path is included in the list.
+                          The last node is the node which the path was fetched from.
+     \return An array with class identifier and node ID.
+
+     Example
+     \code
+     $list = fetchClassIdentifierListByPathString( '/2/10/', false );
+     \endcode
     */
-    function &getClassIdentifiersListByPath( $nodePath, $includingLastNodeInThePath )
+    function &fetchClassIdentifierListByPathString( $nodePath, $withLastNode )
     {
-        $classIds   =  array();
-        $nodes      =& eZContentObjectTreeNode::fetchPathByPathString( $nodePath, $includingLastNodeInThePath, false );
+        $itemList = array();
+        $nodes =& eZContentObjectTreeNode::fetchNodesByPathString( $nodePath, $withLastNode, false );
 
         foreach ( array_keys( $nodes ) as $nodeKey )
         {
-            $node       =& $nodes[$nodeKey];
-
-            $classIds[]  = array( 'node_id'          => $node['node_id'],
+            $node =& $nodes[$nodeKey];
+            $itemList[]  = array( 'node_id'          => $node['node_id'],
                                   'class_identifier' => $node['class_identifier'] );
         }
 
-        return $classIds;
+        return $itemList;
     }
 
     /*!
