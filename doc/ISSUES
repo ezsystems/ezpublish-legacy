@@ -597,3 +597,70 @@ Template regexp
 -----------------
 Add support for regexp operators in the template engine to work on text. Allow matching,
 extraction, replacement etc.
+
+Object creation dropdown
+------------------------
+Currently the dropdown for classes is sorted using class creation date (or ID?).
+It would be better if it were possible to control the sorting order of the
+list. The best solution would be to use .ini setting for it, you would specify
+a class list name (or identifier) and then a list of groups to fetch classes from
+(or class ID's directly) and then choose the sorting order. That way you could
+create many class lists types and easily reuse them in the templates.
+
+Class editing
+----------------
+Give warning when attributes are deleted and objects exists for the class.
+Change up/down movement to use post buttons instead of url links, that way
+any information entered will not be lost when moving. Perhaps also have
+an input field for all attributes which specifies the order, that way one
+could change the order of many attributes by changing the order.
+
+
+Template engine
+-----------------
+Improve parser with whitespacehandling and better error messages.
+eg.
+this works:
+children=fetch('content',list,hash(parent_node_id,$node.node_id))
+children= fetch('content',list,hash(parent_node_id,$node.node_id))
+
+, but this doesn't:
+children = fetch('content',list,hash(parent_node_id,$node.node_id))
+children =fetch('content',list,hash(parent_node_id,$node.node_id))
+
+Node nice URLs
+---------------
+Had an article in the top folder called test and i could access it with /test
+then i made a copy of the article and saved it without changing any text.
+i now had two articles called test, the first could be accessed with /test, 
+but the other i had to use /test___1 (probably som automatic add-on in the 
+url_alias to avoid duplicates)
+then i deleted the first article and i would like the second one to be 
+accessed with /test, this is not possible. the url_alias is not updated if i 
+chose edit on the article and saves right away. what to i have to do to be 
+able to update this field?
+
+PostgreSQL
+-------------
+In set up tool we need to check if postgresql function digest exists
+query to do it:
+
+select count(*) from pg_proc where proname='digest';
+
+sql file to create this function is in sources of postgresql
+contrib/pgcrypto/pgcrypto.sql
+
+Collaboration/Apporval
+---------------------
+Remove the Pushback(previously Defer) and add two checkboxes,
+ "Requires changes"
+ "Request denied"
+The first will free up the version for reediting (defer) and the second
+will deny the version (Deny). This will make it a bit clearer what you're doing.
+
+Related objects/browse
+------------------
+ + Ability to limit/set the node where the browse function starts from and to limit users to a specific node and it's children
+ + Ability to Limit users to choose related objects of a specific type
+ + Limitations should be dependant on roles.
+ 
