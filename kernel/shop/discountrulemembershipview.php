@@ -37,6 +37,8 @@
 include_once( "kernel/common/template.php" );
 include_once( "kernel/classes/ezdiscountrule.php" );
 include_once( "kernel/classes/ezuserdiscountrule.php" );
+include_once( "kernel/classes/ezdiscountsubrule.php" );
+include_once( "kernel/classes/ezdiscountsubrulevalue.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $module =& $Params["Module"];
@@ -51,6 +53,26 @@ if ( is_numeric( $discountRuleID ) )
 
 
 $http =& eZHttpTool::instance();
+
+if ( $http->hasPostVariable( "AddSubRuleButton" ) )
+{
+    $params = array();
+    $params[] = $discountRuleID;
+    $module->run( "discountsubruleedit", $params );
+    return;
+}
+
+if ( $http->hasPostVariable( "RemoveSubRuleButton" ) )
+{
+    $discountSubRuleIDList = $http->postVariable( "removeSubRuleList" );
+
+    foreach ( $discountSubRuleIDList  as $discountSubRuleID )
+    {
+        eZDiscountSubRule::remove( $discountSubRuleID );
+    }
+    $module->redirectTo( $module->functionURI( "discountrulemembershipview" ) . "/" . $discountRuleID );
+    return;
+}
 
 if ( $http->hasPostVariable( "AddCustomerButton" ) )
 {
@@ -96,10 +118,55 @@ foreach ( $membershipList as $membership )
 {
     $customers[] = eZContentObject::fetch( $membership->attribute( 'contentobject_id' ) );
 }
+
+$ruleList =& eZDiscountSubRule::fetchByRuleID( $discountRuleID );
+
+$subRuleList = array();
+foreach ( $ruleList as $rule )
+{
+    $name = $rule->attribute( 'name' );
+    $percent = $rule->attribute( 'discount_percent' );
+    $limitation = $rule->attribute( 'limitation' );
+    $discountSubRuleID = $rule->attribute( 'id' );
+    if ( $limitation != '*' )
+    {
+         eZDebug::writeDebug( "1234");
+        $ruleValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountSubRuleID );
+        if ( $ruleValues != null )
+        {
+            $limitation = "Class ";
+            foreach ( $ruleValues as $ruleValue )
+            {
+                $classID = $ruleValue->attribute( 'value' );
+                $class =& eZContentClass::fetch( $classID );
+                $className = $class->attribute( 'name' );
+                $limitation .= "'". $className . "' ";
+            }
+        }
+        $sectionRuleValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountSubRuleID, true );
+        if ( $sectionRuleValues != null )
+        {
+            $limitation .= "  in  section ";
+            foreach ( $sectionRuleValues as $sectionRuleValue )
+            {
+                $sectionID = $sectionRuleValue->attribute( 'value' );
+                $section =& eZSection::fetch( $sectionID );
+                $sectionName = $section->attribute( 'name' );
+                $limitation .= "'".$sectionName . "' ";
+            }
+        }
+    }
+    $item = array( "name" => $name,
+                   "discount_percent" => $percent,
+                   "id" => $discountSubRuleID,
+                   "limitation" => $limitation );
+    $subRuleList[] = $item;
+}
 $tpl =& templateInit();
 $tpl->setVariable( "module", $module );
 $tpl->setVariable( "customers", $customers );
 $tpl->setVariable( "discountrule", $discountRule );
+$tpl->setVariable( "subrule_list", $subRuleList );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/discountrulemembershipview.tpl" );

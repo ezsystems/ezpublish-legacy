@@ -226,10 +226,11 @@ class eZBasket extends eZPersistentObject
     function isEmpty()
     {
         $items =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
-                                                       null, array( "productcollection_id" => $this->ProductCollectionID
-                                                                       ),
-                                                          null, null,
-                                                          false );
+                                                       null,
+                                                       array( "productcollection_id" => $this->ProductCollectionID ),
+                                                       null,
+                                                       null,
+                                                       false );
         if ( count( $items ) > 0 )
             return false;
         else

@@ -56,8 +56,7 @@ class eZDiscountRule extends eZPersistentObject
     function &definition()
     {
         return array( "fields" => array( "id" => "ID",
-                                         "name" => "Name",
-                                         "discount_percent" => "DiscountPercent"
+                                         "name" => "Name"
                                          ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
@@ -85,8 +84,7 @@ class eZDiscountRule extends eZPersistentObject
     {
         $row = array(
             "id" => null,
-            "name" => "New rule",
-            "percentage" => null );
+            "name" => "New rule" );
         return new eZDiscountRule( $row );
     }
 
