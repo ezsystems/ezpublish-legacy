@@ -271,7 +271,7 @@ print( "HTTP_HOST=" . eZSys::serverVariable( 'HTTP_HOST' ) . "<br/" );
 */
 
 // include ezsession override implementation
-include( "lib/ezutils/classes/ezsession.php" );
+include_once( "lib/ezutils/classes/ezsession.php" );
 
 
 include( "lib/ezutils/classes/ezweb.php" );
