@@ -140,6 +140,8 @@ class eZNodeviewfunctions
             $viewCacheEnabled = false;
         }
 
+        $Result['cache_ttl'] = $cacheTTL;
+
         // Store view cache
         if ( $viewCacheEnabled )
         {
