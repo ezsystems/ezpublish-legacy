@@ -67,8 +67,10 @@ class eZISBNType extends eZDataType
         {
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
-        if ( preg_match( "#[0-9]{1}-[0-9]+-[0-9]+-[0-9X]{1}#", $isbn ) )
+        if ( preg_match( "#^[0-9]{1}\-[0-9]+\-[0-9]+\-[0-9X]{1}$#", $isbn ) )
+        {
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        }
         return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 

@@ -15,6 +15,11 @@ Image (fixed)
 If no image is uploaded, image should not be shown. Now an invalid url is used
 and you get broken image.
 
+DateTime
+--------
+The return hour is always (input-1). It works properly right now by using simple justment in input value, need to 
+find out what is the real reason. 
+
 Versioning
 ----------
 Object relations are lost when reverting to another version of the object.
@@ -28,7 +33,7 @@ Search
 Too many database calls when indexing objects. Need to find the unique words
 in PHP so that we will only index unique words.
 
-זר? caracters do not work properly, we must also test russian and chinese. 
+ן¿½? caracters do not work properly, we must also test russian and chinese. 
 Probably the same error there.
 
 Note: non-ASCII character support must be done with the i18n system.
