@@ -79,6 +79,7 @@ class eZTemplateLoop
         $this->initialized           = true;
         $this->sequenceVarName       = null;
         $this->sequence              = null;
+        $this->loopVariablesNames    = array();
 
 
         $this->functionName       =  $functionName;
@@ -104,13 +105,15 @@ class eZTemplateLoop
         if ( !isset( $params['sequence_array'] ) || !count( $params['sequence_array'] ) )
             return true;
 
-        $this->parseParamVarName( $params, 'sequence_var', $seqVarName );
+        $this->parseParamVarName( 'sequence_var', $seqVarName );
 
         if ( !$seqVarName )
         {
-            $tpl->error( $this->functionName, "Empty sequence variable name." );
+            $this->tpl->error( $this->functionName, "Empty sequence variable name." );
             return false;
         }
+
+        $this->initLoopVariable( $seqVarName );
 
         $seqArray = $this->tpl->elementValue( $params['sequence_array'],
                                               $this->rootNamespace, $this->currentNamespace, $this->functionPlacement );
@@ -131,8 +134,10 @@ class eZTemplateLoop
 
     function setSequenceVar()
     {
-        if ( $this->hasSequence() )
-            $this->tpl->setVariable( $this->sequenceVarName,  $this->sequence->val() );
+        if ( !$this->hasSequence() )
+            return;
+
+        $this->tpl->setVariable( $this->sequenceVarName,  $this->sequence->val() );
     }
 
     function resetIteration()
@@ -158,8 +163,9 @@ class eZTemplateLoop
 
     function cleanup()
     {
-        if ( $this->hasSequence() )
-            $this->tpl->unsetVariable( $this->sequenceVarName );
+        // destroy loop variable(s)
+        foreach ( $this->loopVariablesNames as $varName )
+            $this->tpl->unsetVariable( $varName, $this->rootNamespace );
     }
 
     /*
@@ -246,18 +252,20 @@ class eZTemplateLoop
     Extracted variable name is stored to $dst.
     \return false if specified parameter is not found or it is wrong, otherwise true is returned.
     */
-    function parseParamVarName( &$functionParameters, $paramName, &$dst )
+    function parseParamVarName( $paramName, &$dst )
     {
         $dst = null;
 
-        if ( !isset( $functionParameters[$paramName] ) || !count( $functionParameters[$paramName] ) )
+        if ( !isset( $this->functionParameters[$paramName] ) ||
+             !count( $this->functionParameters[$paramName] ) )
             return false;
 
-        list( $varNsName, $varNsType, $varName ) = $functionParameters[$paramName][0][1];
+        list( $varNsName, $varNsType, $varName ) = $this->functionParameters[$paramName][0][1];
 
         if ( $varNsType != EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL || $varNsName )
         {
-            $tpl->error( '', 'Loop variables can be defined in root namespace only (e.g. $foo, but not $#foo or $:foo.)' );
+            $this->tpl->error( $this->functionName,
+                               'Loop variables can be defined in root namespace only (e.g. $foo, but not $#foo or $:foo.)' );
             return false;
         }
 
@@ -269,16 +277,29 @@ class eZTemplateLoop
     Parses value the given function parameter and stores it to $dst.
     \return false if specified parameter is not found or it is wrong, otherwise true is returned.
     */
-    function parseParamValue( &$functionParameters, $paramName, &$dst,
-                              &$tpl, &$rootNamespace, &$currentNamespace, &$functionPlacement )
+    function parseParamValue( $paramName, &$dst )
     {
         $dst = null;
 
-        if ( !isset( $functionParameters[$paramName] ) || !count( $functionParameters[$paramName] ) )
+        if ( !isset( $this->functionParameters[$paramName] ) || !count( $this->functionParameters[$paramName] ) )
             return false;
 
-        $dst = $tpl->elementValue( $functionParameters[$paramName], $rootNamespace, $currentNamespace, $functionPlacement );
+        $dst = $this->tpl->elementValue( $this->functionParameters[$paramName], $this->rootNamespace,
+                                         $this->currentNamespace, $this->functionPlacement );
         return true;
+    }
+
+    /*!
+     * Check if the given loop variable already exists. If it does, store its name for later cleanup.
+     * Otherwise show a warning message.
+     * @see eZTemplateLoop::$loopVariablesNames
+     */
+    function initLoopVariable( $varName )
+    {
+        if ( $this->tpl->hasVariable( $varName, $this->rootNamespace ) )
+            $this->tpl->warning( $this->functionName, "Variable '$varName' already exists." );
+        else
+            $this->loopVariablesNames[] = $varName;
     }
 
     var $functionName;
@@ -298,6 +319,12 @@ class eZTemplateLoop
     var $initialized;
     var $sequence;
     var $sequenceVarName;
+    /*!
+     * Before we create a new loop variable, we check if it already exists.
+     * If it does, we store its name in this array, so that we know
+     * which variables to destroy after the loop execution finishes.
+     */
+    var $loopVariablesNames;
 }
 
 ?>

@@ -265,24 +265,24 @@ class eZTemplateForeachFunction
         if ( !$loop->initialized() )
             return;
 
-        $loop->parseParamValue( $functionParameters,   'array',    $array,   $tpl, $rootNamespace, $currentNamespace, $functionPlacement );
+        $loop->parseParamValue( 'array', $array );
         if ( !$array )
         {
             $tpl->error( EZ_TEMPLATE_FOREACH_FUNCTION_NAME, "Missing/malformed array to iterate through." );
             return;
         }
 
-        $loop->parseParamVarName( $functionParameters, 'item_var', $itemVarName );
+        $loop->parseParamVarName( 'item_var', $itemVarName );
         if ( !$itemVarName )
         {
             $tpl->error( EZ_TEMPLATE_FOREACH_FUNCTION_NAME, "Missing/malformed item variable name." );
             return;
         }
 
-        $loop->parseParamVarName( $functionParameters, 'key_var',  $keyVarName );
-        $loop->parseParamValue( $functionParameters,   'max',      $max,     $tpl, $rootNamespace, $currentNamespace, $functionPlacement );
-        $loop->parseParamValue( $functionParameters,   'offset',   $offset,  $tpl, $rootNamespace, $currentNamespace, $functionPlacement );
-        $loop->parseParamValue( $functionParameters,   'reverse',  $reverse, $tpl, $rootNamespace, $currentNamespace, $functionPlacement );
+        $loop->parseParamVarName( 'key_var', $keyVarName );
+        $loop->parseParamValue( 'max',      $max     );
+        $loop->parseParamValue( 'offset',   $offset  );
+        $loop->parseParamValue( 'reverse',  $reverse );
 
         /*
          * run the loop itself
@@ -336,14 +336,18 @@ class eZTemplateForeachFunction
             $lastVal  = $nItems - 1;
         }
 
+        if ( $keyVarName )
+            $loop->initLoopVariable( $keyVarName );
+        $loop->initLoopVariable( $itemVarName );
+
         for ( $i = $firstVal; $nItemsProcessed < $max && ( $reverse ? $i >= $lastVal : $i <= $lastVal ); )
         {
             $key =& $arrayKeys[$i];
             $val =& $array[$key];
 
             if ( $keyVarName )
-                $tpl->setVariable( $keyVarName, $key );
-            $tpl->setVariable( $itemVarName, $val );
+                $tpl->setVariable( $keyVarName, $key, $rootNamespace );
+            $tpl->setVariable( $itemVarName, $val, $rootNamespace );
 
             $loop->resetIteration();
 
@@ -366,10 +370,6 @@ class eZTemplateForeachFunction
             $nItemsProcessed++;
         }
 
-        // destroy the loop variable(s)
-        $tpl->unsetVariable( $itemVarName );
-        if ( $keyVarName )
-            $tpl->unsetVariable( $keyVarName );
         $loop->cleanup();
     }
 

@@ -164,9 +164,9 @@ class eZTemplateForFunction
         if ( !$loop->initialized() )
             return;
 
-        $loop->parseParamValue( $functionParameters,   'first_val', $firstVal, $tpl, $rootNamespace, $currentNamespace, $functionPlacement );
-        $loop->parseParamValue( $functionParameters,   'last_val',  $lastVal,  $tpl, $rootNamespace, $currentNamespace, $functionPlacement );
-        $loop->parseParamVarName( $functionParameters, 'loop_var' , $loopVarName );
+        $loop->parseParamValue( 'first_val', $firstVal );
+        $loop->parseParamValue( 'last_val',  $lastVal  );
+        $loop->parseParamVarName( 'loop_var' , $loopVarName );
 
         if ( is_null( $firstVal ) || is_null( $lastVal ) || !$loopVarName )
         {
@@ -180,24 +180,18 @@ class eZTemplateForFunction
             return;
         }
 
-        // check if the loop variable already exists (it will be created in the loop below)
-        if ( $tpl->hasVariable( $loopVarName, '' ) )
-        {
-            $tpl->error( EZ_TEMPLATE_FOR_FUNCTION_NAME, "variable '$loopVarName' already exists, cannot define" );
-            return;
-        }
+        $loop->initLoopVariable( $loopVarName );
 
         /*
          * Everything is ok, run the 'for' loop itself
          */
-
         for ( $i = $firstVal; $firstVal < $lastVal ? $i <= $lastVal : $i >= $lastVal; )
         {
             $loop->resetIteration();
             $loop->setSequenceVar();
 
             // set loop variable
-            $tpl->setVariable( $loopVarName, $i, '' );
+            $tpl->setVariable( $loopVarName, $i, $rootNamespace );
 
             if ( $loop->processChildren() )
                 break;
@@ -213,8 +207,6 @@ class eZTemplateForFunction
             $loop->incrementSequence();
         } // for
 
-        // destroy the loop variable
-        $tpl->unsetVariable( $loopVarName, $currentNamespace );
         $loop->cleanup();
     }
 

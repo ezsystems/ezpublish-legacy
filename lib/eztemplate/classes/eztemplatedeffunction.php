@@ -38,7 +38,7 @@
 /*!
   \class eZTemplateDefFunction eztemplatedeffunction.php
   \ingroup eZTemplateFunctions
-  \brief Conditional execution in templates
+  \brief Allows to define/undefine template variables in any place.
 
   This class allows to execute on of two or more code pieces depending
   on a condition.
@@ -176,9 +176,15 @@ class eZTemplateDefFunction
             }
             else // {def}
             {
-                if ( $tpl->hasVariable( $varName, $rootNamespace ) )
+                if ( $tpl->hasVariable( $varName, $rootNamespace ) ) // if the variable already exists
+                {
+                    // we don't create new variable but just assign value to the existing one.
                     $tpl->warning( EZ_TEMPLATE_DEF_FUNCTION_NAME, "Variable '$varName' is already defined." );
-                $tpl->setLocalVariable( $varName, $varValue, $rootNamespace );
+                    $tpl->setVariable( $varName, $varValue, $rootNamespace );
+                }
+                else
+                    // create a new local variable and assign a value to it.
+                    $tpl->setLocalVariable( $varName, $varValue, $rootNamespace );
 
             }
         }
