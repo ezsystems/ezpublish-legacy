@@ -380,12 +380,12 @@ class eZRole extends eZPersistentObject
     }
 
     /*!
-      Expires all roles, policies and limitations cache. 
+      Expires all roles, policies and limitations cache.
     */
     function expireCache()
     {
         $http =& eZHTTPTool::instance();
-    
+
         $http->removeSessionVariable( 'UserPolicies' );
         $http->removeSessionVariable( 'UserLimitations' );
         $http->removeSessionVariable( 'UserLimitationValues' );
