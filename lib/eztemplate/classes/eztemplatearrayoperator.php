@@ -1210,7 +1210,7 @@ class eZTemplateArrayOperator
                     $code = '%tmp1% = ' . $inParamCode . ';' . "\n" .
                          'if ( is_string( %tmp1% ) )' . "\n" .
                          '{' . "\n" .
-                         '  %output% = ( strpos( %tmp1%, ' . $compareParamsCode[0] . ' ) == 0 );' . "\n" .
+                         '  %output% = ( strpos( %tmp1%, ' . $compareParamsCode[0] . ' ) === 0 );' . "\n" .
                          '}' . "\n" .
                          'else if( is_array( %tmp1% ) )' . "\n" .
                          '{' . "\n" .

@@ -159,7 +159,7 @@ class eZTemplateToolbarFunction
                 }
                 if ( $toolbarIni->hasGroup( "Tool_" . $toolbarPosition . "_" . $tool . "_" . $placement ) )
                 {
-                    $actionParameters = $toolbarIni->group( "Tool_" . $toolbarPosition . "_" . $tool . "_" . $placement );
+                    $actionParameters = array_merge( $actionParameters, $toolbarIni->group( "Tool_" . $toolbarPosition . "_" . $tool . "_" . $placement ) );
                 }
                 foreach ( array_keys( $actionParameters ) as $key )
                 {
