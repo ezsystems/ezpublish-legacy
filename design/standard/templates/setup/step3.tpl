@@ -1,6 +1,9 @@
 <html>
 <head>
     <title>eZ publish Setup - Step {$step}</title>
+    <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/core.css" />
+    <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/admin.css" />
+    <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/debug.css" />	
 </head>
 <body>
 

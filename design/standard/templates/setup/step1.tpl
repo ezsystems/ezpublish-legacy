@@ -1,9 +1,9 @@
 <html>
 <head>
     <title>eZ publish Setup - Step {$step}</title>
-    <link rel="stylesheet" type="text/css" href="/subversion/design/standard/stylesheets/core.css" />
-    <link rel="stylesheet" type="text/css" href="/subversion/design/standard/stylesheets/admin.css" />
-    <link rel="stylesheet" type="text/css" href="/subversion/design/standard/stylesheets/debug.css" />	
+    <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/core.css" />
+    <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/admin.css" />
+    <link rel="stylesheet" type="text/css" href="design/standard/stylesheets/debug.css" />	
 </head>
 <body>
 
@@ -42,7 +42,7 @@ No critical test failed. You can continue installing eZ publish.
     <button name="buttonNextStep" type="submit">Next Step</button>
 </form>
 {section-else}
-<h2>Error:</h2>
+<h1 class="ezsetup_fatal">Error:</h1>
 <table border="0" cellspacing="5" cellpadding="5">
 <tr valign="top">
     <td><b>Description:</b></td>
