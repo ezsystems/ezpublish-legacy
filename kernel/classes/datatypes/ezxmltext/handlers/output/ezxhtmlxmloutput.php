@@ -97,11 +97,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 if ( count( $linkIDArray ) > 0 )
                 {
                     $inIDSQL = implode( ', ', $linkIDArray );
-    
+
                     $db =& eZDB::instance();
-    
+
                     $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
-    
+
                     foreach ( $linkArray as $linkRow )
                     {
                         $this->LinkArray[$linkRow['id']] = $linkRow['url'];
@@ -111,7 +111,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
             // Fetch all embeded objects and cache by ID
             $objectArray =& $dom->elementsByName( "object" );
-            
+
             if ( count( $objectArray ) > 0 )
             {
                 foreach ( $objectArray as $object )
@@ -136,11 +136,14 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     {
                         $nodeID = $embedTag->attributeValue( 'node_id' );
                         $node =& eZContentObjectTreeNode::fetch( $nodeID );
-                        $objectID = $node->attribute( 'contentobject_id' );
-
-                        $this->NodeObjectIDArray[$nodeID] = $objectID;
-                        
-                        $relatedObjectIDArray[] = $objectID;
+                        if ( $node != null )
+                        {
+	                        $objectID = $node->attribute( 'contentobject_id' );
+	                        $this->NodeObjectIDArray[$nodeID] = $objectID;
+	                        $relatedObjectIDArray[] = $objectID;
+                        }
+                        else
+                        	$this->NodeObjectIDArray[$nodeID] = null;
                     }
                 }
             }
@@ -451,18 +454,24 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             }
             else
                 break;
-                
+
+			if ( $objectID == null )
+            {
+               	eZDebug::writeError( "Object $objectID doesn't exist", "XML output handler" );
+	            break;
+            }
+
 /*            elseif ( $tag->attributeValue( 'node_id' ) != null )
             {
                 $nodeID = $tag->attributeValue( 'node_id' );
-                $node =& eZContentObjectTreeNode::fetch( $nodeID );          
+                $node =& eZContentObjectTreeNode::fetch( $nodeID );
                 $objectID = $node->attribute('contentobject_id');
             }
 */
             // fetch attributes
             $embedAttributes =& $tag->attributes();
             $object =& $this->ObjectArray["$objectID"];
-          
+
             // Fetch from cache
             if ( get_class( $object ) == "ezcontentobject" and
                  $object->attribute( 'status' ) == EZ_CONTENT_OBJECT_STATUS_PUBLISHED )
@@ -479,7 +488,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                    if ( $attrName != 'view' )
                        $objectParameters[$attribute->name()] = $attribute->content();
                 }
-                
+
                 $tpl->setVariable( 'object', $object, 'xmltagns' );
                 $tpl->setVariable( 'view', $view, 'xmltagns' );
                 $tpl->setVariable( 'object_parameters', $objectParameters, 'xmltagns' );
@@ -754,7 +763,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 if ( $tag->attributeValue( 'id' ) != null )
                 {
                     $linkID = $tag->attributeValue( 'id' );
-                    $href = $this->LinkArray[$linkID];                  
+                    $href = $this->LinkArray[$linkID];
 
                     if ( eZMail::validate( $href ) )
                         $href = "mailto:" . $href;
@@ -768,10 +777,18 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 elseif ( $tag->attributeValue( 'object_id' ) != null )
                 {
                     $objectID = $tag->attributeValue( 'object_id' );
-                
-                  //  $object =& eZContentObject::fetch( $objectID );
                     $object = $this->ObjectArray["$objectID"];
+                    if ( $object == null )
+                    {
+                    	eZDebug::writeError( "Object $objectID doesn't exist", "XML output handler" );
+                        break;
+                	}
                     $node =& $object->attribute( 'main_node' );
+                    if ( $node == null )
+                    {
+                    	eZDebug::writeError( "Object $objectID is not attached to a node", "XML output handler" );
+                        break;
+                	}
                     $href = $node->attribute( 'url_alias' );
                 }
                 elseif ( $tag->attributeValue( 'href' ) != null )

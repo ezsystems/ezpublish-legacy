@@ -2024,22 +2024,25 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 // Find all Link id's
                 foreach ( $links as $link )
                 {
-                    $linkIDValue = $link->attributeValue( 'id' );
+                    $linkIDValue = $link->attributeValue( 'id' );                
                     if ( !$linkIDValue )
                         continue;
                     if ( !in_array( $linkIDValue, $linkIDArray ) )
                          $linkIDArray[] = $link->attributeValue( 'id' );
                 }
 
-                $inIDSQL = implode( ', ', $linkIDArray );
-
-                $db =& eZDB::instance();
-
-                $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
-
-                foreach ( $linkArray as $linkRow )
+                if ( count($linkIDArray) > 0 )
                 {
-                    $this->LinkArray[$linkRow['id']] = $linkRow['url'];
+                    $inIDSQL = implode( ', ', $linkIDArray );
+    
+                    $db =& eZDB::instance();
+    
+                    $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
+    
+                    foreach ( $linkArray as $linkRow )
+                    {
+                        $this->LinkArray[$linkRow['id']] = $linkRow['url'];
+                    }
                 }
             }
 
