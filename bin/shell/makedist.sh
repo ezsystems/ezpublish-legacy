@@ -2,12 +2,14 @@
 
 DIST_PROP="ez:distribute"
 DIST_DIR_PROP="ez:distribute_recursive"
-DIST_TYPE='sdk'
+DIST_TYPE='full'
 VERSION="2.9-2"
 NAME="ezpublish"
 DEST_ROOT="/tmp"
 BASE="$NAME-$DIST_TYPE-$VERSION"
 DEST="$DEST_ROOT/$BASE"
+DEFAULT_SVN_SERVER="http://zev.ez.no/svn/nextgen"
+DEFAULT_SVN_RELEASE_PATH="releases"
 
 EXTRA_DIRS="settings/override doc/generated/html"
 
@@ -69,6 +71,79 @@ function scan_dir
 	fi
     done
 }
+
+SVN_SERVER=""
+REPOS_RELEASE="trunk"
+
+# Check parameters
+for arg in $*; do
+    case $arg in
+	--help|-h)
+	    echo "Usage: $0 [options]"
+	    echo
+	    echo "Options: -h"
+	    echo "         --help                     This message"
+	    echo "         --release-sdk              Make SDK release"
+	    echo "         --release-full             Make full release(default)"
+	    echo "         --with-svn-server[=SERVER] Checkout fresh repository"
+	    echo "         --with-release=NAME        Checkout a previous release, default is trunk"
+            echo
+            echo "Example:"
+            echo "$0 --release-sdk --with-svn-server"
+	    exit 1
+	    ;;
+	--release-sdk)
+	    DIST_TYPE="sdk"
+	    ;;
+	--release-full)
+	    DIST_TYPE="full"
+	    ;;
+	--with-svn-server*)
+	    if echo $arg | grep -e "--with-svn-server=" >/dev/null; then
+		SVN_SERVER=`echo $arg | sed 's/--with-svn-server=/\1/'`
+	    else
+		SVN_SERVER=$DEFAULT_SVN_SERVER
+	    fi
+	    ;;
+	--with-release*)
+	    if echo $arg | grep -e "--with-release=" >/dev/null; then
+		REPOS_RELEASE=`echo $arg | sed 's/--with-release=/\1/'`
+	    else
+		REPOS_RELEASE="trunk"
+	    fi
+	    ;;
+	*)
+	    echo "$arg: unkown option specified"
+            $0 -h
+	    exit 1
+	    ;;
+    esac;
+done
+
+if [ "$DIST_TYPE" == "sdk" ]; then
+    echo "Creating SDK release"
+elif [ "$DIST_TYPE" == "full" ]; then
+    echo "Creating full release"
+else
+    echo "Unknown release"
+    exit 1
+fi
+
+if [ "$SVN_SERVER" != "" ]; then
+    echo "Checking out from server $SVN_SERVER"
+    if [ "$REPOS_RELEASE" == "" ]; then
+        SVN_PATH="$SVN_SERVER/DEFAULT_SVN_RELEASE_PATH/$REPOS_RELEASE"
+        echo "Checking out release $REPOS_RELEASE"
+    else
+        SVN_PATH="$SVN_SERVER/trunk"
+        echo "Checking out trunk"
+    fi
+    echo "SVN_PATH=$SVN_PATH"
+else
+    echo "Using local copy"
+fi
+
+exit 1
 
 if [ -d $DEST ]; then
     echo "Removing old distribution"
