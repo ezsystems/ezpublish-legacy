@@ -283,12 +283,13 @@ class eZMySQLDB extends eZDBInterface
                 return false;
             }
 
-            if ( mysql_num_rows( $result ) > 0 )
+            $numRows = mysql_num_rows( $result );
+            if ( $numRows > 0 )
             {
                 if ( !is_string( $column ) )
                 {
                     eZDebug::accumulatorStart( 'mysql_loop', 'mysql_total', 'Looping result' );
-                    for ( $i=0; $i < mysql_num_rows($result); $i++ )
+                    for ( $i=0; $i < $numRows; $i++ )
                     {
                         if ( $this->UseBuiltinEncoding and
                              $this->InputTextCodec->conversionRequired() )
@@ -315,7 +316,7 @@ class eZMySQLDB extends eZDBInterface
                 else
                 {
                     eZDebug::accumulatorStart( 'mysql_loop', 'mysql_total', 'Looping result' );
-                    for ( $i=0; $i < mysql_num_rows($result); $i++ )
+                    for ( $i=0; $i < $numRows; $i++ )
                     {
                         $tmp_row =& mysql_fetch_array( $result, MYSQL_ASSOC );
                         if ( $this->UseBuiltinEncoding and
