@@ -15,6 +15,23 @@
     </div>
     {/section}
 
+    {section show=$error}
+    <div class="error">
+    {section show=$error|eq(1)}
+    <h2>{"Attempted to add object without price to basket."|i18n("design/standard/shop",,)}</h2>
+    {/section}
+    </div>
+    {/section}
+
+    {section show=$error}
+    <div class="error">
+    {section show=eq($error, "aborted")}
+    <h2>{"Your payment was aborted."|i18n("design/standard/shop",,)}</h2>
+    {/section}
+    </div>
+    {/section}
+
+
     {section show=$basket.items}
 
     <div class="content-basket">

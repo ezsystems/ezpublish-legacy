@@ -54,7 +54,7 @@ if ( get_class( $order ) == 'ezorder' )
         if ( $paymentObj != null )
         {
             $startTime = time();
-            while( ( time() - $startTime ) < 29 )
+            while( ( time() - $startTime ) < 25 )
             {
                 eZDebug::writeDebug( "next iteration", "checkout" );
                 $order =& eZOrder::fetch( $orderID );
@@ -120,25 +120,29 @@ if ( get_class( $order ) == 'ezorder' )
         {
             if ( $order->attribute( 'is_temporary' ) == 0 )
             {
+                eZHTTPTool::removeSessionVariable( "CheckoutAttempt" );
                 $module->redirectTo( '/shop/orderview/' . $orderID );
                 return;
             }
             else
             {
-                if( $http->hasPostVariable( 'Attempt' ) )
-                {
-                    $attempt = $http->postVariable( 'Attempt' );
-                }
-                else
-                {
-                    $attempt = 0;
-                }
-                if ( $attempt < 4 )
+                // Get the attempt number and the order.
+                $attempt = (eZHTTPTool::hasSessionVariable("CheckoutAttempt") ? eZHTTPTool::sessionVariable("CheckoutAttempt") : 0 );
+                $attemptOrderID = (eZHTTPTool::hasSessionVariable("CheckoutAttemptOrderID") ? eZHTTPTool::sessionVariable("CheckoutAttemptOrderID") : 0 );
+
+                // This attempt is for another order. So reset the attempt.
+                if ($attempt != 0 && $attemptOrderID != $orderID) $attempt = 0;
+
+                eZHTTPTool::setSessionVariable("CheckoutAttempt", ++$attempt);
+                eZHTTPTool::setSessionVariable("CheckoutAttemptOrderID", $orderID);
+
+                if ( $attempt < 4)
                 {
                     $Result = array();
                     include_once( "kernel/common/template.php" );
                     $tpl =& templateInit();
-                    $tpl->setVariable( 'attempt', $attempt+1 );
+                    $tpl->setVariable( 'attempt', $attempt );
+                    $tpl->setVariable( 'orderID', $orderID );
                     $Result['content'] =& $tpl->fetch( "design:shop/checkoutagain.tpl" ) ;
                     $Result['path'] = array( array( 'url' => false,
                                                     'text' => ezi18n( 'kernel/shop', 'Checkout' ) ) );
@@ -146,9 +150,15 @@ if ( get_class( $order ) == 'ezorder' )
                 }
                 else
                 {
+                    // Got no receipt or callback from the payment server.
+                    eZHTTPTool::removeSessionVariable( "CheckoutAttempt" );
+
                     $Result = array();
                     include_once( "kernel/common/template.php" );
                     $tpl =& templateInit();
+                    $tpl->setVariable ("ErrorCode", "NO_CALLBACK"); 
+                    $tpl->setVariable ("OrderID", $orderID); 
+
                     $Result['content'] =& $tpl->fetch( "design:shop/cancelcheckout.tpl" ) ;
                     $Result['path'] = array( array( 'url' => false,
                                                     'text' => ezi18n( 'kernel/shop', 'Checkout' ) ) );
