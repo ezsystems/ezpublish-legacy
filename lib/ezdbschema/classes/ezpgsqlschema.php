@@ -843,7 +843,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             if ( $table == '_info' )
                 continue;
 
-            $arrays = $this->generateTableArrays( $table, $tableDef, $params );
+            $arrays = $this->generateTableArrays( $table, $tableDef, $params, true );
             if ( $postgresqlCompatible )
             {
                 $allArrays['sequences'] = array_merge( $allArrays['sequences'],
