@@ -15,9 +15,14 @@
 <div class="context-attributes">
 
 <div class="block">
+<label>{'Name'|i18n( 'design/admin/role/view' )}</label>
+{$role.name|wash}
+</div>
 
+<div class="block">
+<fieldset>
+<legend>{'Policies [%policies_count]'|i18n( 'design/admin/role/view',, hash( '%policies_count', $policies|count ) )}</legend>
 {section show=$policies}
-<label>{'Policies [%policies_count]'|i18n( 'design/admin/role/view',, hash( '%policies_count', $policies|count ) )}</label><div class="labelbreak"></div>
 <table class="list" cellspacing="0">
 <tr>
     <th>{'Module'|i18n( 'design/admin/role/view' )}</th>
@@ -66,8 +71,9 @@
 {section-else}
 <p>{'There are no policies set up for this role.'|i18n( 'design/admin/role/view' )}</p>
 {/section}
-
+</fieldset>
 </div>
+
 </div>
 
 {* DESIGN: Content END *}</div></div></div>
