@@ -149,6 +149,7 @@ Changes from 3.1-1 to 3.2.0-1
 - Added feedback message for forgot password if user use an invalid key to confirm.
 - Fixed bug for content preview which can't show children.
 - Fixed bug of unable to edit object although user has permission to create and edit this object using subtree policy.
+- Added new module package which will handle listing, viewing and uploading of eZ publish packages.
 
 *Export:
 - Added start of export system. Currently only the generic package is exported.

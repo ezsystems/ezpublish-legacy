@@ -67,8 +67,12 @@ class eZPackage
                             $modifiedParameters = array() )
     {
         $timestamp = mktime();
+        if ( isset( $_SERVER['HOSTNAME'] ) )
+            $host = $_SERVER['HOSTNAME'];
+        else
+            $host = $_SERVER['HTTP_HOST'];
         $packaging = array( 'timestamp' => $timestamp,
-                            'host' => $_SERVER['HOSTNAME'],
+                            'host' => $host,
                             'packager' => false );
         include_once( 'lib/version.php' );
         $ezpublishVersion = eZPublishSDK::version( true );
@@ -226,9 +230,25 @@ class eZPackage
     }
 
     /*!
+     \return \c true if the attribute named \a $attributeName exists.
+    */
+    function hasAttribute( $attributeName /*, $attributeList = false*/ )
+    {
+        return in_array( $attributeName,
+                         array( 'name', 'summary', 'description',
+                                'vendor', 'priority', 'type',
+                                'extension', 'source',
+                                'version-number', 'release-number', 'release-timestamp',
+                                'maintainers', 'documents', 'groups',
+                                'changelog', 'dependencies',
+                                'install', 'uninstall',
+                                'licence', 'state',
+                                'ezpublish-version', 'ezpublish-named-version', 'packaging-timestamp',
+                                'packaging-host', 'packaging-packager' ) );
+    }
+
+    /*!
      \return the value of the attribute named \a $attributeName.
-     If \a $attributeList is supplied and the value of the attribute is an array,
-     it will fetch the value of keys specified in the list.
     */
     function attribute( $attributeName /*, $attributeList = false*/ )
     {
@@ -255,21 +275,6 @@ class eZPackage
 
         eZDebug::writeError( "No such attribute: $attributeName for eZPackage", 'eZPackage::attribute' );
         return null;
-
-        /*$attributeValue = null;
-        if ( array_key_exists( $attributeName, $this->Parameters ) )
-            $attributeValue = $this->Parameters[$attributeName];
-        if ( is_array( $attributeList ) )
-        {
-            foreach ( $attributeList as $attributeKey )
-            {
-                if ( !is_array( $attributeValue ) or
-                     !array_key_exists( $attributeKey, $attributeValue ) )
-                    break;
-                $attributeValue = $attributeValue[$attributeKey];
-            }
-        }
-        return $attributeValue;*/
     }
 
     function isModified( $attributeName /*, $attributeList = false*/ )
@@ -795,7 +800,7 @@ class eZPackage
     /*!
      Locates all packages in the repository and returns an array with eZPackage objects.
     */
-    function fetchPackages()
+    function fetchPackages( $parameters = array() )
     {
         $path = eZPackage::repositoryPath();
         $packages = array();
