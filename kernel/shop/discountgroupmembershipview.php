@@ -49,9 +49,10 @@ $discountGroupID = null;
 if ( isset( $Params["DiscountGroupID"] ) )
     $discountGroupID = $Params["DiscountGroupID"];
 
-if ( is_numeric( $discountGroupID ) )
+$discountGroup =& eZDiscountRule::fetch( $discountGroupID );
+if( is_null( $discountGroup ) )
 {
-    $discountGroup =& eZDiscountRule::fetch( $discountGroupID );
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
 
