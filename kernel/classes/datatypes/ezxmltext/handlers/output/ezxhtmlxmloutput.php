@@ -402,6 +402,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                $isBlockTag = true;
             }
             case 'link' :
             {

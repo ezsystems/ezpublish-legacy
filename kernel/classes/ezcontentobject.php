@@ -567,7 +567,7 @@ class eZContentObject extends eZPersistentObject
     /*!
      Creates a new content object instance and stores it.
     */
-    function &create( $name, $contentclassID, $userID, $sectionID = 0, $version = 1 )
+    function &create( $name, $contentclassID, $userID, $sectionID = 1, $version = 1 )
     {
         $row = array(
             "name" => $name,
