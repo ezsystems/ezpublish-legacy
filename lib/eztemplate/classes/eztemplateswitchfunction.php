@@ -298,10 +298,12 @@ class eZTemplateSwitchFunction
                                 break;
                             if ( is_null( $case ) )
                             {
-                                if ( is_null( $key_name ) and
-                                     in_array( $match, $child_in ) )
+                                if ( is_null( $key_name ) )
                                 {
-                                    $case =& $child;
+                                    if ( in_array( $match, $child_in ) )
+                                    {
+                                        $case =& $child;
+                                    }
                                 }
                                 else
                                 {
