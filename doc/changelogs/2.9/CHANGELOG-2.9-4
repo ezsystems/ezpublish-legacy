@@ -12,4 +12,6 @@ Changes from 2.9-3 to 2.9-4
 
 *Library :
 
+- Created operation system which will help with creating code to execute triggers and workflows.
+
 eZ debug: Fixed clearing buffer when buffer is empty (ob_end_clear())

@@ -319,3 +319,8 @@ all links stored without this reference to correct.
 Locale
 -------
 Add documents explaining how to write locale files and how to use them.
+
+Caching
+_______
+Create a class for creating PHP cache files, should be use by eZINI and other classes
+which creates cache files.
