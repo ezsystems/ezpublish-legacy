@@ -36,7 +36,7 @@
       <p class="menuitem"><a class="menuitem" href={"/content/view/sitemap/2/"|ezurl}>{"Sitemap"|i18n("design/standard/layout")}</a></p>
     </td>
     <td class="toolbar" align="right" >
-      <p class="menuitem"><a class="menuitem" href={"content/draft/"|ezurl}>{"My drafts"|i18n("design/standard/layout")}</a></p>
+      <p class="menuitem"><a class="menuitem" href={"content/draft/"|ezurl}>{"Personal"|i18n("design/standard/layout")}</a></p>
     </td>
     <td class="toolbar" align="right" >
       <p class="menuitem"><a class="menuitem" href={"content/trash/"|ezurl}>{"Trash"|i18n("design/standard/layout")}</a></p>

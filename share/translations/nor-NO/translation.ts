@@ -85,6 +85,10 @@
         <source>Search stats</source>
         <translation>Søkestatistikk</translation>
     </message>
+    <message>
+        <source>Personal</source>
+        <translation>Personlig</translation>
+    </message>
 </context>
 <context>
     <name>design/standard/class/datatype</name>
@@ -1444,10 +1448,6 @@
         <translation>Nettstedskart</translation>
     </message>
     <message>
-        <source>My drafts</source>
-        <translation>Mine utkast</translation>
-    </message>
-    <message>
         <source>Restart</source>
         <translation>Restart</translation>
     </message>
@@ -1462,10 +1462,6 @@
     <message>
         <source>Search</source>
         <translation>Søk</translation>
-    </message>
-    <message>
-        <source>Installation &amp; configuration</source>
-        <translation>Installasjon og konfigurasjon</translation>
     </message>
     <message>
         <source>Redirecting to:</source>
@@ -1484,22 +1480,6 @@
         <translation>Udefinert modul:</translation>
     </message>
     <message>
-        <source>About eZ publish</source>
-        <translation>Om eZ publish</translation>
-    </message>
-    <message>
-        <source>About eZ publish 3</source>
-        <translation>Om eZ publish 3</translation>
-    </message>
-    <message>
-        <source>SDK &amp; Technical references</source>
-        <translation>SDK og Tekniske referanser</translation>
-    </message>
-    <message>
-        <source>eZ publish SDK</source>
-        <translation>eZ publish SDK</translation>
-    </message>
-    <message>
         <source>Advanced search</source>
         <translation>Avansert søk</translation>
     </message>
@@ -1516,24 +1496,8 @@
         <translation>Logg ut</translation>
     </message>
     <message>
-        <source>Install using installers</source>
-        <translation>Installer med installasjonsprogrammer</translation>
-    </message>
-    <message>
-        <source>Install manually</source>
-        <translation>Installer manuelt</translation>
-    </message>
-    <message>
-        <source>Uninstall</source>
-        <translation>Avinstaller</translation>
-    </message>
-    <message>
         <source>Frontpage</source>
         <translation>Forside</translation>
-    </message>
-    <message>
-        <source>Install using the setup guide</source>
-        <translation>Installer med hjelp av installasjonsguiden</translation>
     </message>
     <message>
         <source>%1 front page</source>
@@ -1544,20 +1508,16 @@
         <translation>Søk %1</translation>
     </message>
     <message>
-        <source>Site access</source>
-        <translation>Nettstedstilgang</translation>
-    </message>
-    <message>
-        <source>Multi site configuration</source>
-        <translation>Konfigurasjon av flere nettsteder</translation>
-    </message>
-    <message>
         <source>Printable version</source>
         <translation>Utskriftsvennlig versjon</translation>
     </message>
     <message>
         <source>Trash</source>
         <translation>Papirkurv</translation>
+    </message>
+    <message>
+        <source>Personal</source>
+        <translation>Personlig</translation>
     </message>
 </context>
 <context>
@@ -2078,6 +2038,30 @@
     <message>
         <source>Removing these sections can corrupt permissions, sitedesigns, and other things in the system. Do not do this unless you know exactly what are you doing.</source>
         <translation>Dersom du fjerner seksjoner kan rettigheter, design, og andre elementer av systemet slutte å fungere som de skal. Ikke gjør dette hvis du ikke er helt sikker på hva du gjør.</translation>
+    </message>
+    <message>
+        <source>Navigation Part:</source>
+        <translation>Navigasjonsdel:</translation>
+    </message>
+    <message>
+        <source>Content</source>
+        <translation>Innhold</translation>
+    </message>
+    <message>
+        <source>Shop</source>
+        <translation>Butikk</translation>
+    </message>
+    <message>
+        <source>Users</source>
+        <translation>Brukere</translation>
+    </message>
+    <message>
+        <source>Set up</source>
+        <translation>Oppsett</translation>
+    </message>
+    <message>
+        <source>Personal</source>
+        <translation>Personlig</translation>
     </message>
 </context>
 <context>

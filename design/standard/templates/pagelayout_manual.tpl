@@ -126,7 +126,7 @@
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
-    <p class="menuhead">{"About eZ publish"|i18n("design/standard/layout")}</p>
+    <p class="menuhead">About eZ publish</p>
     </th>
 </tr>
 <tr>
@@ -134,7 +134,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/manual/about/about"|ezurl}>{"About eZ publish 3"|i18n("design/standard/layout")}</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/about/about"|ezurl}>About eZ publish 3</a></p>
     </td>
 </tr>
 <tr>
@@ -151,7 +151,7 @@
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
-    <p class="menuhead">{"Installation & configuration"|i18n("design/standard/layout")}</p>
+    <p class="menuhead">Installation & configuration</p>
     </th>
 </tr>
 <tr>
@@ -159,7 +159,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/manual/install/installer"|ezurl}>{"Install using installers"|i18n("design/standard/layout")}</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/install/installer"|ezurl}>Install using installers</a></p>
     </td>
 </tr>
 <tr>
@@ -167,7 +167,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/manual/install/setup_guide"|ezurl}>{"Install using the setup guide"|i18n("design/standard/layout")}</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/install/setup_guide"|ezurl}>Install using the setup guide</a></p>
     </td>
 </tr>
 <tr>
@@ -175,7 +175,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/manual/install/install_manually"|ezurl}>{"Install manually"|i18n("design/standard/layout")}</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/install/install_manually"|ezurl}>Install manually</a></p>
     </td>
 </tr>
 <tr>
@@ -183,7 +183,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/manual/install/siteaccess"|ezurl}>{"Site access"|i18n("design/standard/layout")}</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/install/siteaccess"|ezurl}>Site access</a></p>
     </td>
 </tr>
 <tr>
@@ -191,7 +191,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/manual/install/multisite"|ezurl}>{"Multi site configuration"|i18n("design/standard/layout")}</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/install/multisite"|ezurl}>Multi site configuration</a></p>
     </td>
 </tr>
 <tr>
@@ -199,7 +199,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href={"/manual/install/uninstall"|ezurl}>{"Uninstall"|i18n("design/standard/layout")}</a></p>
+    <p class="menuitem"><a class="menuitem" href={"/manual/install/uninstall"|ezurl}>Uninstall</a></p>
     </td>
 </tr>
 </table>
@@ -276,7 +276,7 @@
 <table class="menuboxleft" width="120" cellpadding="1" cellspacing="0" border="0">
 <tr>
     <th class="menuheaddark" colspan="2">
-    <p class="menuhead">{"SDK & Technical references"|i18n("design/standard/layout")}</p>
+    <p class="menuhead">SDK & Technical references</p>
     </th>
 </tr>
 <tr>
@@ -284,7 +284,7 @@
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" /><br />
     </td>
     <td class="menu" width="99%">
-    <p class="menuitem"><a class="menuitem" href="http://sdk.ez.no"}>{"eZ publish SDK"|i18n("design/standard/layout")}</a></p>
+    <p class="menuitem"><a class="menuitem" href="http://sdk.ez.no"}>eZ publish SDK</a></p>
     </td>
 </tr>
 </table>
