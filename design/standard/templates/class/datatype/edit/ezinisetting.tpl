@@ -40,7 +40,7 @@
     <option value="3" {section show=$class_attribute.data_int1|eq(3)}selected="selected"{/section}>{"True/False"|i18n("design/standard/class/datatype")}</option>
     <option value="4" {section show=$class_attribute.data_int1|eq(4)}selected="selected"{/section}>{"Integer"|i18n("design/standard/class/datatype")}</option>
     <option value="5" {section show=$class_attribute.data_int1|eq(5)}selected="selected"{/section}>{"Float"|i18n("design/standard/class/datatype")}</option>
-    <option value="6" {section show=$class_attribute.data_int1|eq(5)}selected="selected"{/section}>{"Array"|i18n("design/standard/class/datatype")}</option>
+    <option value="6" {section show=$class_attribute.data_int1|eq(6)}selected="selected"{/section}>{"Array"|i18n("design/standard/class/datatype")}</option>
   </select>
 </div>
 
