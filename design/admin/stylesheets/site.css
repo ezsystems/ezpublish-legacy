@@ -1084,6 +1084,18 @@ div#footer
     text-align: center;
 }
 
+div#footer address
+{
+    font-size: 0.85em;
+    color: #7a8fa6;
+    font-style: normal;
+}
+
+div#footer a
+{
+    color: #2d537a;
+}
+
 /* GENERAL ITEMS */
 
 input#searchbutton, input.menubutton
