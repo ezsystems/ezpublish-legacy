@@ -127,17 +127,32 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         $tpl =& templateInit();
         $tpl->resetVariables();
 
+        $parentNode =& $contentNode->attribute( 'parent' );
+        $parentContentObject =& $parentNode->attribute( 'object' );
+        $parentContentClass =& $parentContentObject->attribute( 'content_class' );
+
         $res =& eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ),
                               array( 'node', $contentNode->attribute( 'node_id' ) ),
-                              array( 'parent_node', $contentNode->attribute( 'parent_node_id' ) ),
                               array( 'class', $contentObject->attribute( 'contentclass_id' ) ),
                               array( 'class_identifier', $contentClass->attribute( 'identifier' ) ),
+                              array( 'parent_node', $contentNode->attribute( 'parent_node_id' ) ),
+                              array( 'parent_class', $parentContentObject->attribute( 'contentclass_id' ) ),
+                              array( 'parent_class_identifier', $parentContentClass->attribute( 'identifier' ) ),
                               array( 'depth', $contentNode->attribute( 'depth' ) ),
                               array( 'url_alias', $contentNode->attribute( 'url_alias' ) )
                               ) );
 
         $tpl->setVariable( 'object', $contentObject );
+
+        $notificationINI =& eZINI::instance( 'notification.ini' );
+        $emailSender = $notificationINI->variable( 'MailSettings', 'EmailSender' );
+        $ini =& eZINI::instance();
+        if ( !$emailSender )
+            $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
+        if ( !$emailSender )
+            $emailSender = $ini->variable( "MailSettings", "AdminEmail" );
+        $tpl->setVariable( 'sender', $emailSender );
 
         $result = $tpl->fetch( 'design:notification/handler/ezsubtree/view/plain.tpl' );
         $subject = $tpl->variable( 'subject' );

@@ -243,9 +243,37 @@ $tpl->setVariable( 'validation_log', $validatedAttributes );
 $Module->setTitle( 'Edit ' . $class->attribute( 'name' ) . ' - ' . $object->attribute( 'name' ) );
 $res =& eZTemplateDesignResource::instance();
 
-$res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
-                      array( 'class', $class->attribute( 'id' ) ) // Class ID
-                      ) ); // Section ID
+$assignments =& $version->attribute( 'parent_nodes' );
+$mainAssignment = false;
+foreach ( array_keys( $assignments ) as $key )
+{
+    if ( $assignments[$key]->attribute( 'is_main' ) == 1 )
+    {
+        $mainAssignment =& $assignments[$key];
+        break;
+    }
+}
+
+$res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
+                      array( 'class', $class->attribute( 'id' ) ),
+                      array( 'class_identifier', $class->attribute( 'identifier' ) )
+                      ) );
+
+if ( $mainAssignment )
+{
+    $parentNode =& $mainAssignment->attribute( 'parent_node_obj' );
+    if ( $parentNode )
+    {
+        $parentObject =& $parentNode->attribute( 'object' );
+        if ( $parentObject )
+        {
+            $parentClass =& $parentObject->attribute( 'content_class' );
+            $res->setKeys( array( array( 'parent_class', $parentClass->attribute( 'id' ) ),
+                                  array( 'parent_class_identifier', $parentClass->attribute( 'identifier' ) )
+                                  ) );
+        }
+    }
+}
 
 if ( !isset( $OmitSectionSetting ) )
     $OmitSectionSetting = false;
@@ -283,16 +311,6 @@ $Result['content'] =& $tpl->fetch( $templateName );
 $path = array();
 $titlePath = array();
 
-$assignments =& $version->attribute( 'parent_nodes' );
-$mainAssignment = false;
-foreach ( array_keys( $assignments ) as $key )
-{
-    if ( $assignments[$key]->attribute( 'is_main' ) == 1 )
-    {
-        $mainAssignment =& $assignments[$key];
-        break;
-    }
-}
 $hasPath = false;
 if ( $mainAssignment )
 {

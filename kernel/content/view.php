@@ -203,10 +203,10 @@ switch( $operationResult['status'] )
                 $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
 
             $res =& eZTemplateDesignResource::instance();
-            $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
-                                  array( 'node', $node->attribute( 'node_id' ) ), // Node ID
-                                  array( 'parent_node', $node->attribute( 'parent_node_id' ) ), // Parent Node ID
-                                  array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
+            $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
+                                  array( 'node', $node->attribute( 'node_id' ) ),
+                                  array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
+                                  array( 'class', $object->attribute( 'contentclass_id' ) ),
                                   array( 'view_offset', $Offset ),
                                   array( 'viewmode', $ViewMode ),
                                   array( 'navigation_part_identifier', $navigationPartIdentifier ),
