@@ -109,7 +109,7 @@ class eZMatrix
 
     function hasAttribute( $name )
     {
-        if ( $name == "name" ||  $name == "rows" ||  $name == "columns" ||  $name == "matrix"  )
+        if ( $name == "name" ||  $name == "rows" ||  $name == "columns" ||  $name == "matrix" || $name == "rowCount" || $name == "columnCount" )
             return true;
         else
             return false;
