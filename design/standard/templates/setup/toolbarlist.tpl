@@ -1,42 +1,38 @@
+<form method="post" action={"setup/toolbarlist"|ezurl}>
+<h1>{'Toolbar management'|i18n( 'design/standard/toolbar' )}</h1>
+
 <div class="objectheader">
-<h2>Toolbar list</h2>
+    <h2>{'SiteAccess'|i18n( 'design/standard/setup' )}</h2>
 </div>
 <div class="object">
-{section show=$current_siteaccess}
-<p>Current siteaccess: <strong>{$current_siteaccess}</strong></p>
-{/section}
-<br />
-<form method="post" action={"setup/toolbarlist"|ezurl}>
-<div class="block">
-    <div class="element">
-        <label>Select siteaccess</label><div class="labelbreak"></div>
+    {section show=$current_siteaccess}
+        <p>{'Current siteaccess'|i18n( 'design/standard/setup' )}: <strong>{$current_siteaccess}</strong></p>
+    {/section}
+    <div class="block">
+        <label>{'Select siteaccess'|i18n( 'design/standard/setup' )}</label><div class="labelbreak"></div>
         <select name="CurrentSiteAccess">
-        {section name=SiteAccess loop=$siteaccess_list}
-            {section show=eq( $current_siteaccess, $:item )}
-                <option value="{$:item}" selected="selected">{$:item}</option>
-            {section-else}
-                <option value="{$:item}">{$:item}</option>
+            {section var=siteaccess loop=$siteaccess_list}
+                {section show=eq( $current_siteaccess, $siteaccess )}
+                    <option value="{$siteaccess}" selected="selected">{$siteaccess}</option>
+                {section-else}
+                <option value="{$siteaccess}">{$siteaccess}</option>
             {/section}
         {/section}
         </select>
+        &nbsp;
+        <input type="submit" value="{"Set"|i18n("design/standard/setup")}" name="SelectCurrentSiteAccessButton" />
     </div>
 </div>
 
-<div class="block">
-    <input type="submit" name="ChangeINIFile" value="Select" />
-</div>
-</form>
-
-</div>
-
-<form method="post" action={concat("setup/toolbarlist/",$current_siteaccess)|ezurl}>
+<h2>{'Available toolbars'|i18n( 'design/standard/toolbar' )}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
-{section var=Toolbar loop=$toolbar_list}
-<tr>
-<td>
-<a href={concat( "setup/toolbar/",$current_siteaccess,"/",$Toolbar)|ezurl}>{$Toolbar}</a>
-</td>
-</tr>
+{section var=toolbar loop=$toolbar_list sequence=array( bglight, bgdark )}
+    <tr>
+        <td class="{$toolbar.sequence}">
+        <a href={concat( "setup/toolbar/", $current_siteaccess, "/", $toolbar )|ezurl}>{$toolbar}</a>
+        </td>
+    </tr>
 {/section}
 </table>
+
 </form>

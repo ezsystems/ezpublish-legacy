@@ -59,15 +59,22 @@ if ( $module->isCurrentAction( 'SelectCurrentSiteAccess' ) )
     }
 }
 
+$siteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+$siteAccess = false;
+
 // Fetch siteaccess settings for the selected override
 // Default to first defined siteacces if none are selected
-if ( !$http->hasSessionVariable( 'eZTemplateAdminCurrentSiteAccess' ) )
+if ( $http->hasSessionVariable( 'eZTemplateAdminCurrentSiteAccess' ) )
+    $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
+
+if ( !in_array( $siteAccess, $siteAccessList ) )
+    $siteAccess = $siteAccessList[0];
+
+if ( $http->hasPostVariable( 'SelectCurrentSiteAccessButton' ) )
 {
-    $siteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
-    $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $siteAccessList[0] );
+    $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $siteAccess );
 }
 
-$siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 
 if ( $module->isCurrentAction( 'Store' ) )
 {
@@ -122,12 +129,13 @@ foreach ( $availableMenuArray as $menuType )
 
 $tpl->setVariable( 'available_menu_array', $menuArray );
 $tpl->setVariable( 'current_menu', $menuINI->variable( 'SelectedMenu', 'CurrentMenu' ) );
+$tpl->setVariable( 'siteaccess_list', $siteAccessList );
 
 $tpl->setVariable( 'current_siteaccess', $siteAccess );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:setup/menuconfig.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/setup', 'Menu config' ) ) );
+                                'text' => ezi18n( 'design/standard/menuconfig', 'Menu management' ) ) );
 
 ?>

@@ -40,6 +40,12 @@
 include_once( "kernel/common/template.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
+$http =& eZHTTPTool::instance();
+
+$currentSiteAccess = false;
+if ( $http->hasSessionVariable( 'eZTemplateAdminCurrentSiteAccess' ) )
+    $currentSiteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
+
 $module =& $Params["Module"];
 if ( $Params['SiteAccess'] )
     $currentSiteAccess = $Params['SiteAccess'];
@@ -47,13 +53,16 @@ if ( $Params['SiteAccess'] )
 $ini =& eZINI::instance();
 $siteAccessList = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
 
-$http =& eZHTTPTool::instance();
-
 if ( $http->hasPostVariable( 'CurrentSiteAccess' ) )
     $currentSiteAccess = $http->postVariable( 'CurrentSiteAccess' );
 
-if ( !isset( $currentSiteAccess ) )
+if ( !in_array( $currentSiteAccess, $siteAccessList ) )
     $currentSiteAccess = $siteAccessList[0];
+
+if ( $http->hasPostVariable( 'SelectCurrentSiteAccessButton' ) )
+{
+    $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $currentSiteAccess );
+}
 
 $toolbarIni =& eZINI::instance( "toolbar.ini" );
 
@@ -70,7 +79,7 @@ $tpl->setVariable( 'current_siteaccess', $currentSiteAccess );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:setup/toolbarlist.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/setup', 'Toolbar list' ) ) );
+                                'text' => ezi18n( 'design/standard/toolbar', 'Toolbar management' ) ) );
 
 
 ?>

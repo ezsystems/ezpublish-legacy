@@ -1,37 +1,50 @@
 <form method="post" action={"/setup/menuconfig/"|ezurl}>
-<h1>{"Menu setup"|i18n("design/standard/setup")}</h1>
+<h1>{"Menu management"|i18n("design/standard/menuconfig")}</h1>
 
-<select name="CurrentSiteAccess">
-{section name=SiteAccess loop=ezini('SiteAccessSettings','AvailableSiteAccessList')}
-    {section show=eq($current_siteaccess,$:item)}
-        <option value="{$SiteAccess:item}" selected="selected">{$:item}</option>
-    {section-else}
-        <option value="{$SiteAccess:item}">{$:item}</option>
+<div class="objectheader">
+    <h2>{'SiteAccess'|i18n( 'design/standard/setup' )}</h2>
+</div>
+<div class="object">
+    {section show=$current_siteaccess}
+        <p>{'Current siteaccess'|i18n( 'design/standard/setup' )}: <strong>{$current_siteaccess}</strong></p>
     {/section}
-{/section}
-</select>
-<input type="submit" value="{"Set"|i18n("design/standard/setup")}" name="SelectCurrentSiteAccessButton" />
-
+    <div class="block">
+        <label>{'Select siteaccess'|i18n( 'design/standard/setup' )}</label><div class="labelbreak"></div>
+        <select name="CurrentSiteAccess">
+            {section var=siteaccess loop=$siteaccess_list}
+                {section show=eq( $current_siteaccess, $siteaccess )}
+                    <option value="{$siteaccess}" selected="selected">{$siteaccess}</option>
+                {section-else}
+                <option value="{$siteaccess}">{$siteaccess}</option>
+            {/section}
+        {/section}
+        </select>
+        &nbsp;
+        <input type="submit" value="{"Set"|i18n("design/standard/setup")}" name="SelectCurrentSiteAccessButton" />
+    </div>
+</div>
 
 <table border="0">
 <tr>
 {section var=menu loop=$available_menu_array}
     <td>
-    <h2>{$menu.item.settings.TitleText}</h2>
+    <h2>{$menu.settings.TitleText}</h2>
 
-    <img src={$menu.item.settings.MenuThumbnail|ezimage} alt="{$menu.item.settings.TitleText}" />
+    <label for="Menu_{$menu.type}">
+        <img src={$menu.settings.MenuThumbnail|ezimage} alt="{$menu.settings.TitleText}" />
+    </label>
 
-    <input type="radio" name="MenuType" {$current_menu|eq($menu.item.type)|choose('','checked="checked"')}  value="{$menu.item.type}" />
+    <input type="radio" id="Menu_{$menu.type}" name="MenuType" {$current_menu|eq( $menu.type )|choose( '', 'checked="checked"' )}  value="{$menu.type}" />
     </td>
     {delimiter modulo=2}
-     </tr>
-     <tr>
+</tr>
+<tr>
     {/delimiter}
 {/section}
 </tr>
 </table>
 
-<input type="submit" name="StoreButton" value="{"Store"|i18n("design/standard/setup")}" />
+<input class="defaultbutton" type="submit" name="StoreButton" value="{"Store"|i18n("design/standard/setup")}" />
 
 </form>
 

@@ -2,6 +2,7 @@
 
 [Toolbar_right]
 Tool[]
+Tool[]=calendar
 Tool[]=create_object
 Tool[]=node_list
 Tool[]=node_list
@@ -17,16 +18,16 @@ Tool[]
 Tool[]=link
 Tool[]=basket
 
-[Tool_right_create_object_1]
+[Tool_right_create_object_2]
 subtree=news
 class_identifier=weblog
 node_placement=51
 
-[Tool_right_node_list_2]
+[Tool_right_node_list_3]
 parent_node=54
 title=Latest news
 
-[Tool_right_node_list_3]
+[Tool_right_node_list_4]
 parent_node=79
 title=Gallery images
 */ ?>
