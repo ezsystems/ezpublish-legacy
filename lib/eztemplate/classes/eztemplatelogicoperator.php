@@ -629,7 +629,11 @@ class eZTemplateLogicOperator
         }
         else if ( is_null( $val ) )
         {
-            $cnt = 0;
+            $val_cnt = 0;
+        }
+        else if ( is_bool( $val ) )
+        {
+            $val_cnt = (int)$val;
         }
         else if ( is_object( $val ) and
                   method_exists( $val, "attributes" ) )
@@ -642,7 +646,7 @@ class eZTemplateLogicOperator
         }
         else if ( is_string( $val ) )
         {
-            $cnt = strlen( $val );
+            $val_cnt = strlen( $val );
         }
         return $val_cnt;
     }
