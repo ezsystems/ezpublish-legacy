@@ -89,6 +89,10 @@ eZINI:
 - Fixed bug of datatype ezselection may generate wrong search index.
 - Fixed bug in wishlist of wrong culculation of VAT and discount.
   http://ez.no/community/bug_reports/wishlist_is_buggy  
+- Fixed bug of showing media controler when there is no media file.
+  http://ez.no/community/bug_reports/view_of_media_datatype
+
+
 *Library:
 
 eZ Locale:

@@ -1,3 +1,4 @@
+{section show=$attribute.content}
 {switch name=mediaType match=$attribute.contentclass_attribute.data_text1}
 {case match=flash}
 <object codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0"
@@ -53,3 +54,6 @@ width="{$attribute.content.width}" height="{$attribute.content.height}">
 </embed> </object>
 {/case}
 {/switch}
+{section-else}
+No media file is available.
+{/section}
