@@ -236,6 +236,8 @@ if ( !function_exists( 'checkContentActions' ) )
                 if ( $tpl->hasVariable( 'email_receiver' ) )
                     $feedbackReceiver =& $tpl->variable( 'email_receiver' );
 
+                print( "-" . $user->attribute( 'email' ) . "-  -" . $ini->variable( 'MailSettings', 'EmailSender' ) . "-" );
+//                $mail->setReceiver( "bf@ez.no" );
                 $mail->setReceiver( $user->attribute( 'email' ) );
                 $mail->setSender( $ini->variable( 'MailSettings', 'EmailSender' ) );
                 $mail->setSubject( $subject );

@@ -42,11 +42,30 @@ include( "kernel/setup/ezsetuptests.php" );
 */
 function eZSetupStep_summary( &$tpl, &$http, &$ini, &$persistenceList )
 {
+    // Read lauguage settings, if details was skipped
+    $http =& eZHTTPTool::instance();
+    if ( $http->hasPostVariable( 'eZSetupLanguages' ) )
+        $regionalInfo['languages'] = $http->postVariable( 'eZSetupLanguages' );
+    if ( $http->hasPostVariable( 'eZSetupPrimaryLanguage' ) )
+        $regionalInfo['primary_language'] = $http->postVariable( 'eZSetupPrimaryLanguage' );
+
+    // Only overwrite of details were skipped
+    if ( $http->hasPostVariable( 'eZSetupPrimaryLanguage' ) )
+    {
+        $persistenceList['regional_info']['language_type'] = $regionalInfo['language_type'];
+        include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        $availableLanguages = eZLocale::localeList( true );
+        $regionalInfo['language_type'] = 1;
+        $persistenceList['regional_info'] = $regionalInfo;
+    }
+
     $regionalInfo = array( 'language_type' => 1,
                            'languages' => array(),
                            'primary_language' => 'eng-GB' );
+
     if ( isset( $persistenceList['regional_info'] ) )
         $regionalInfo = $persistenceList['regional_info'];
+
     $languages = array();
     if ( isset( $regionalInfo['languages'] ) )
         $languages = $regionalInfo['languages'];
@@ -75,6 +94,7 @@ function eZSetupStep_summary( &$tpl, &$http, &$ini, &$persistenceList )
         }
     }
     $persistenceList['regional_info']['language_list'] = $languageVariations;
+
     include_once( 'lib/ezlocale/classes/ezlocale.php' );
     $languageVariationList = array();
     foreach ( $languageVariations as $languageVariation )
