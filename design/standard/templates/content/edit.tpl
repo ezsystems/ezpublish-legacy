@@ -2,6 +2,8 @@
          content_version=$node.contentobject_version_object
          node_name=$node.name}
 <form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(array($edit_language,"/"),''))|ezurl}>
+<script language=jscript src={"/extension/xmleditor/dhtml/ezeditor.js"|ezroot}></script>  
+<link rel="stylesheet" type="text/css" href={"/extension/xmleditor/dhtml/toolbar.css"|ezroot}>
 <table class="layout" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td valign="top">
