@@ -62,7 +62,7 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatelogicoperator.php',
                                     'class' => 'eZTemplateLogicOperator',
                                     'operator_names' => array( 'lt', 'gt', 'le',
-                                                               'ge', 'eq', 'null',
+                                                               'ge', 'eq', 'ne', 'null',
                                                                'not', 'true', 'false',
                                                                'or', 'and', 'choose' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatetypeoperator.php',

@@ -386,10 +386,10 @@ class eZTemplateLogicOperator
                 else if ( is_object( $value ) and
                           method_exists( $value, "attributes" ) )
                     $value = ( count( $value->attributes() ) == 0 );
-                else if ( is_string( $value ) )
-                    $value = ( strlen( $value ) == 0 );
                 else if ( is_numeric( $value ) )
                     $value = ( $value == 0 );
+                else if ( is_string( $value ) )
+                    $value = ( strlen( $value ) == 0 );
                 else
                     $value = !$value;
             } break;
