@@ -143,6 +143,18 @@ class eZStepLanguageOptions extends eZStepInstaller
                 $languages[] = $locale;
         }
 
+        // bubble sort language based on language name. bubble bad, but only about 8-9 elements
+        for ( $i =0; $i < count( $languages ); $i++ )
+            for ( $n = 0; $n < count( $languages ) - 1; $n++ )
+            {
+                if ( strcmp( $languages[$n]['language_name'], $languages[$n+1]['language_name'] ) > 0 )
+                {
+                    $tmpElement = $languages[$n];
+                    $languages[$n] = $languages[$n+1];
+                    $languages[$n+1] = $tmpElement;
+                }
+            }
+
         $this->Tpl->setVariable( 'language_list', $languages );
         $showUnicodeError = false;
         if ( isset( $this->Error ) )
