@@ -76,7 +76,7 @@
  Has the date of the current cache code implementation as a timestamp,
  if this changes(increases) the cache files will need to be recreated.
 */
-define( "EZ_INI_CACHE_CODE_DATE", 1043407541 );
+define( "EZ_INI_CACHE_CODE_DATE", 1074086775 );
 define( "EZ_INI_DEBUG_INTERNALS", false );
 
 class eZINI
@@ -442,18 +442,25 @@ class eZINI
                 return;
             }
             fwrite( $fp, "<?php\n\$eZIniCacheCodeDate = " . EZ_INI_CACHE_CODE_DATE . ";\n" );
-//             exit;
 
             fwrite( $fp, "\$charset = \"$this->Charset\";\n" );
+            fwrite( $fp, "\$blockValues = array(\n" );
+
+            $blockOutputValues = array();
             reset( $this->BlockValues );
             while ( list( $groupKey, $groupVal ) = each ( $this->BlockValues ) )
             {
+                $tmpBlockOutput = "'$groupKey' => array(\n";
+
+                $groupOutputValues = array();
                 reset( $groupVal );
                 while ( list( $key, $val ) = each ( $groupVal ) )
                 {
                     if ( is_array( $val ) )
                     {
-                        fwrite( $fp, "\$groupArray[\"$key\"] = array();\n" );
+
+                        $tmpGroupOutput = "'$key' => array(";
+                        $tmpGroupOutputArray = array();
                         foreach ( $val as $arrayKey => $arrayValue )
                         {
                             if ( is_string( $arrayKey ) )
@@ -464,8 +471,14 @@ class eZINI
                             $tmpVal = str_replace( "\\", "\\\\", $arrayValue );
                             $tmpVal = str_replace( "$", "\\$", $tmpVal );
                             $tmpVal = str_replace( "\"", "\\\"", $tmpVal );
-                            fwrite( $fp, "\$groupArray[\"$key\"][$tmpArrayKey] = \"$tmpVal\";\n" );
+                            $tmpGroupOutputArray[] = "\t'$tmpArrayKey'=>'$tmpVal'\n";
+
                         }
+                        $tmpGroupOutput .= implode( ',', $tmpGroupOutputArray );
+                        $tmpGroupOutput .= ")";
+
+                        $groupOutputValues[] = $tmpGroupOutput;
+
                     }
                     else
                     {
@@ -474,14 +487,18 @@ class eZINI
                         $tmpVal = str_replace( "$", "\\$", $tmpVal );
                         $tmpVal = str_replace( "\"", "\\\"", $tmpVal );
 
-                        fwrite( $fp, "\$groupArray[\"$key\"] = \"$tmpVal\";\n" );
+                        $groupOutputValues[] = "\t'$key'=>'$tmpVal'\n";
                     }
                 }
+                $tmpBlockOutput .= implode( ",", $groupOutputValues );
+                $tmpBlockOutput .= ")\n";
 
-                fwrite( $fp, "\$blockValues[\"$groupKey\"] =& \$groupArray;\n" );
-                fwrite( $fp, "unset( \$groupArray );\n" );
+                $blockOutputValues[] = $tmpBlockOutput;
                 $i++;
             }
+            fwrite( $fp, implode( ",", $blockOutputValues ) );
+            fwrite( $fp, ")\n" );
+
             fwrite( $fp, "\n?>" );
             fclose( $fp );
             if ( eZINI::isDebugEnabled() )
