@@ -63,10 +63,10 @@ class eZCodePageMapper
         $this->load( $use_cache );
         $this->setSubstituteCharacter( 63 ); // ?
     }
-    
+
     function isValid()
     {
-    	return $this->Valid;
+        return $this->Valid;
     }
 
     function &mapInputCode( $in_code )

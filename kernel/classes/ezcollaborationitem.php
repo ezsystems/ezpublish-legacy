@@ -189,6 +189,8 @@ class eZCollaborationItem extends eZPersistentObject
     function useMessages()
     {
         $handler =& $this->handler();
+        if ( !$handler )
+            return false;
         return $handler->useMessages( $this );
     }
 
