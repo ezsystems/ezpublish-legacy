@@ -75,6 +75,8 @@ Changes from 3.1-1 to 3.2.0-1
 - Added new versionview and node view viewmode called plain which is used for plain read-only views
   on objects. It's currently being used in the collaboration approval system.
 - Added plain override templates for most of the admin default classes.
+- Added support for redirecting to a specific url after a content object is published, the
+  uri is specified in the template as a HTTP POST variable.
 
 *Templates:
 - Made sure that the new $attribute_base variable is used to generate post variable names in datatype edit templates.

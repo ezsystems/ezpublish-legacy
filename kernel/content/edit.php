@@ -360,7 +360,12 @@ if ( !function_exists( 'checkContentActions' ) )
             }
             if ( !$hasRedirected )
             {
-                if ( $node !== null )
+                if ( $http->hasPostVariable( 'RedirectURI' ) )
+                {
+                    $uri = $http->postVariable( 'RedirectURI' );
+                    $module->redirectTo( $uri );
+                }
+                else if ( $node !== null )
                 {
                     $parentNode = $node->attribute( 'parent_node_id' );
                     if ( $parentNode == 1 )
