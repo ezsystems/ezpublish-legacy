@@ -10,3 +10,8 @@ Changes from 3.5.0alpha1 to 3.5.0alpha2
 
 Payment:
 - removed paypal from kernel, from now it is available only in extension.
+
+*Bugfixes:
+- Fixed bug: wrong redirection after changing preferences.
+  (Merged from stable/3.3 rev. 8450, also in stable/3.4 rev. 8451)
+  http://ez.no/community/bug_reports/wrong_redirection_after_changing_preferences

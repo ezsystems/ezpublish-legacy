@@ -54,7 +54,10 @@ if ( $url )
 }
 else
 {
-    $module->redirectTo( $_SERVER['HTTP_REFERER'] );
+    if ( $http->hasSessionVariable( 'LastAccessesURI' ) )
+        $module->redirectTo( $http->sessionVariable( 'LastAccessesURI' ) );
+    else
+        $module->redirectTo( $_SERVER['HTTP_REFERER'] );
 }
 
 ?>
