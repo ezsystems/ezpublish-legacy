@@ -2,7 +2,7 @@
 
 {* Content window. *}
 <div class="context-block">
-<h2 class="context-title"><a href={concat( '/class/view/', $node.object.contentclass_id )|ezurl} onclick="ezpopmnu_showTopLevel( 'ClassMenu', '' , '' , ''); return false;">{$node.class_identifier|class_icon( normal, $node.class_name )}</a> {$node.name} [{$node.class_name}]</h2>
+<h2 class="context-title"><a href={concat( '/class/view/', $node.object.contentclass_id )|ezurl} onclick="ezpopmnu_showTopLevel( 'ClassMenu', '1' , '2' , '{$node.class_name}'); return false;">{$node.class_identifier|class_icon( normal, $node.class_name )}</a> {$node.name} [{$node.class_name}]</h2>
 
 <div class="context-information">
 <p>{'Last modified'|i18n( 'design/admin/node/view/full' )}: {$node.object.modified|l10n(shortdatetime)}, <a href={$node.object.current.creator.main_node.url_alias|ezurl}>{$node.object.current.creator.name}</a></p>
