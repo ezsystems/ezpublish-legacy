@@ -297,7 +297,7 @@ if ( $inputValidated == true )
     {
         if ( $Module->runHooks( 'action_check', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$Result  ) ) )
             return;
-        eZDebug::writeDebug( $Result, 'Result' );
+        //eZDebug::writeDebug( $Result, 'Result' );
         if ( $Result != '' )
             return;
     }
