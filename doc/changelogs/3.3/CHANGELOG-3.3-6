@@ -122,8 +122,23 @@ eZINI:
   http://ez.no/community/bug_reports/array_data_in_fetchalias_ini_don_t_get_treated_as_arrays_content_search
 - Removed vardumps from cronjobs/unpublish.php.
   http://ez.no/community/bug_reports/unpublish_event_displays_debug_info
-- Fixed notification digest bug.    
-
+- Fixed notification digest bug.
+- Fixed bug in {section show=$abc } where $abc is undefined. Bug only occured when template compilation was disabled. 
+  Merged from stable/3.4 rev. 7097.
+- Fixed bug with misquoted filenames in Content-disposition header.
+  http://ez.no/community/bug_reports/content_disposition_in_kernel_classes_binaryhandlers_ezfilepasstrough
+- Fixed problems with overwritten uploaded files.
+  http://ez.no/community/bug_reports/new_binary_files_sometimes_overwrite_existing_binary_files
+- Fixed problem with section placements for new related objects.
+  http://ez.no/community/bug_reports/related_object_added_to_article_set_to_section_0
+- Fixed bogus PostGreSQL version check.
+  http://ez.no/community/bug_reports/fail_installation_with_postgresql_db
+- Fixed wrong urls in registration emails.
+  http://ez.no/community/bug_reports/user_confirmation_e_mail_sends_bugged_link
+  (Merged from stable/3.4 rev. 7167)
+- Removed unused checkboxes and commented template code in 'url management'
+  http://ez.no/community/bug_reports/unused_url_list_checkboxes
+    
 *Library:
 
 eZ Locale:

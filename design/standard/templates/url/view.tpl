@@ -19,7 +19,7 @@
 <option value="-1">{'No object available'|i18n('design/standard/url')}</option>
 {/section}
 </select>
-   <input class="button" type="submit" name="EditObject" value="{'Edit'|i18n('design/standard/node/view')}" />  
+   <input class="button" type="submit" name="EditObject" value="{'Edit'|i18n('design/standard/node/view')}" />
 </p>
 
 {section show=$url_object.modified|gt(0)}
