@@ -23,6 +23,9 @@ Changes from 3.5.0 to 3.6.0alpha1
 - Updated spec #7: 'id' attribute is replaced with 'url_id' attribute in
   <link> tag. Now 'id' attribute means xhtml id.
 - Added new module for viewing and deleting collected information
+
+*WebDAV:
+- Fixed discarding of XML payload when user needs to authenticate.
   
 *Setup:
 - Optimized memory usage in site creation step by logging SQL statements only
