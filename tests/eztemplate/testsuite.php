@@ -45,4 +45,8 @@ $SuiteDefinition['tests'][] = array( 'name' => 'Operator',
                                      'file' => 'eztesttemplateoperator.php',
                                      'class' => 'eZTestTemplateOperator' );
 
+$SuiteDefinition['tests'][] = array( 'name' => 'Function',
+                                     'file' => 'eztesttemplatefunction.php',
+                                     'class' => 'eZTestTemplateFunction' );
+
 ?>

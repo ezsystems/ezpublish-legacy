@@ -115,19 +115,18 @@ class eZTemplateSwitchFunction
                 }
                 
                 $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\tcase $case: {\n" );
-                $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
-
-                foreach ( $children as $child )
-                {
-                    $newNodes[] = $child;
-                }
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\t}\nbreak;\n" );
             }
             else
             {
                 $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\tdefault: {\n" );
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\t}\nbreak;\n" );
             }
+
+            $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
+            foreach ( $children as $child )
+            {
+                $newNodes[] = $child;
+            }
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\t}\nbreak;\n" );
         }
         return $newNodes;
     }
@@ -138,6 +137,8 @@ class eZTemplateSwitchFunction
     {
         $newNodes = array();
         $namespaceValue = false;
+        $varName = 'match';
+
         if ( !isset( $parameters['match'] ) )
         {
             return false;
@@ -148,14 +149,26 @@ class eZTemplateSwitchFunction
             $nameData = $parameters['name'];
             $nameDataInspection = eZTemplateCompiler::inspectVariableData( $tpl, $nameData, false, $resourceData );
             $namespaceValue = $nameDataInspection['new-data'][0][1];
-            $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
         }
+
+        if ( isset( $parameters['var'] ) )
+        {
+            $varData = $parameters['var'];
+            $varDataInspection = eZTemplateCompiler::inspectVariableData( $tpl, $varData, false, $resourceData );
+            $varName = $varDataInspection['new-data'][0][1];
+        }
+
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['match'], false, array(),
-                                                              array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'match' ) );
+                                                              array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $varName ) );
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['match'],
                                                               eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
                                                               array( 'variable-name' => 'match',
                                                                      'text-result' => false ) );
+        if ( isset( $parameters['name'] ) )
+        {
+            $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
+        }
+
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "switch ( \$match )\n{\n" );
 
         $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
@@ -170,12 +183,12 @@ class eZTemplateSwitchFunction
 
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n" );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'match' );
-        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'match' ) );
-
         if ( isset( $parameters['name'] ) )
         {
             $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
         }
+        $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, 'match' ) );
+
        
         return $newNodes;
         return false;
