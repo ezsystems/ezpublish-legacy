@@ -19,7 +19,17 @@ echo
 echo "Check for global variable access"
 find . -name \*.php -exec grep -n -H 'getenv' {} \;
 
+echo "Check for REQUEST_URI"
+rgrep -R '*.php' -n 'REQUEST_URI' .
 
 echo "Checking doxygen code"
 echo "Check for proper use of \return"
+echo "Checking for old doc code"
+# //!! eZKernel
+# //! The class eZURLOperator does
+# /*!
 
+# */
+
+echo "Check templates for <a href=\"\">"
+rgrep -R '*.tpl' -n -i '<a  *href="' .
