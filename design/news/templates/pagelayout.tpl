@@ -8,8 +8,9 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
-   {* @import url({"stylesheets/news_blue.css"|ezdesign}); *}
+{*    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
+*}
+   @import url({"stylesheets/news_blue.css"|ezdesign});
 </style>
 
 </head>
@@ -78,7 +79,7 @@
             <ul>
                    {section var=category loop=$category_list sequence=array(bglight,bgdark)}
                        <li class="{$category.sequence}">
-                       <a href={$category.item.url_alias|ezurl}>{$category.item.name|wash}</a>
+		       <a href={$category.item.url_alias|ezurl}>{$category.item.name|wash}</a>
                        </li>
                    {/section}
             </ul>
@@ -123,7 +124,7 @@
             </div>
                {/let}
 
-	       {let poll_list=fetch( content, list, hash(  parent_node_id, 173, sort_by, array( array( priority ) ), limit, 1 ) ) }
+	       {let poll_list=fetch( content, list, hash(  parent_node_id, 173, sort_by, array( array( published, false() ) ), limit, 1 ) ) }
             <div id="pollbox">
             <h3>Poll</h3>
                 <div class="poll">
@@ -218,7 +219,7 @@
         <div class="design">
             <address>
 		 Copyright &copy; {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
-		 <br /><a href="http://ez.no/">>Powered by eZ publish Content Management System</a>
+		 <br /><a href="http://ez.no/">Powered by eZ publish Content Management System</a>
             </address>
         </div>
     </div>

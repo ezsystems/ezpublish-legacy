@@ -8,8 +8,8 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-{*    @import url("/design/forum/stylesheets/forum_blue.css"); *}
-    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
+    @import url("/design/forum/stylesheets/forum_blue.css");
+{*    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot}); *}
 </style>
 </head>
 
@@ -117,7 +117,7 @@
         <div class="design">
             <address>
 		 Copyright &copy; {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
-		 <br /><a href="http://ez.no/">>Powered by eZ publish Content Management System</a>
+		 <br /><a href="http://ez.no/">Powered by eZ publish Content Management System</a>
             </address>
         </div>
     </div>

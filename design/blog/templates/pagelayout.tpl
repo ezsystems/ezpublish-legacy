@@ -10,8 +10,9 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-   {*  @import url({"stylesheets/blog_blue.css"|ezdesign}); *}
-    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot});
+    @import url({"stylesheets/blog_blue.css"|ezdesign});
+    @import url({"stylesheets/blog_red.css"|ezdesign});
+{*    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot}); *}
 </style>
 </head>
 
@@ -150,7 +151,7 @@
         <div class="design">
             <address>
 		 Copyright &copy; {ezini('SiteSettings','MetaDataArray','site.ini').copyright}
-		 <br /><a href="http://ez.no/">>Powered by eZ publish Content Management System</a>
+		 <br /><a href="http://ez.no/">Powered by eZ publish Content Management System</a>
             </address>
         </div>
     </div>

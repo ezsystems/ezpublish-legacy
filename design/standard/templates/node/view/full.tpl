@@ -111,11 +111,13 @@ function checkAll()
     {/let}
 
     {section show=$is_standalone}
-      {section name=ContentAction loop=$content_object.content_action_list show=$content_object.content_action_list}
-      <div class="block">
-      <input class="button" type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|wash}" />
-      </div>
-      {/section}
+    {let content_action_list=$content_object.content_action_list}
+        {section name=ContentAction loop=$content_action_list show=$content_action_list}
+            <div class="block">
+                <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|wash}" />
+            </div>
+        {/section}
+    {/let}
     {/section}
 
 <div class="buttonblock">

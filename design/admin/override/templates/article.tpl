@@ -44,6 +44,8 @@
     </div>
 </div>
 
+{*
+
 {let name=Object related_objects=$content_version.related_contentobject_array}
 {section name=ContentObject  loop=$Object:related_objects show=$Object:related_objects  sequence=array( bglight, bgdark )}
     <div class="block">
@@ -52,12 +54,18 @@
 {/section}
 {/let}
 
+*}
+
 {section show=$is_standalone}
-    {section name=ContentAction loop=$content_object.content_action_list show=$content_object.content_action_list}
+{let content_action_list=$content_object.content_action_list}
+
+    {section name=ContentAction loop=$content_action_list show=$content_action_list}
         <div class="block">
             <input type="submit" name="{$ContentAction:item.action}" value="{$ContentAction:item.name|wash}" />
         </div>
     {/section}
+
+{/let}
 {/section}
 
 {*

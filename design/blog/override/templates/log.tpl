@@ -73,7 +73,6 @@
   </div>
 </div>
 
-
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
 <input type="hidden" name="ContentObjectID" value="{$node.contentobject_id.}" />
 
