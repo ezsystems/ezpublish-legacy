@@ -74,7 +74,7 @@
 {case match=quick_time}
 
 <div class="block">
-<input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}" />
+<input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 <label>{"Filename"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 <input class="box" name="ContentObjectAttribute_data_mediafilename_{$attribute.id}" type="file" />
 </div>
@@ -103,7 +103,7 @@
 {/case}
 {case match=windows_media_player}
 <div class="block">
-<input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}" />
+<input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 <label>{"Filename"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 <input class="box" name="ContentObjectAttribute_data_mediafilename_{$attribute.id}" type="file" />
 </div>
