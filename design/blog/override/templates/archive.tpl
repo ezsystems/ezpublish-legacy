@@ -57,7 +57,7 @@
 
 {/section}
 
-<strong>{maketime( 0, 0, 0, $view_parameters.month, $view_parameters.day, $view_parameters.year )|datetime( custom, '%d %M %Y' )}</strong>
+<strong>{maketime( 0, 0, 0, $view_parameters.month, $view_parameters.day, $view_parameters.year )|datetime( custom, '%d %F %Y' )}</strong>
 
 {section show=$next_item|gt(0)}
 

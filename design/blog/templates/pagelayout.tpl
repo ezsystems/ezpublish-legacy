@@ -101,28 +101,34 @@
     <div id="navigationcol">
         <div class="design">
             {include uri="design:navigationbar.tpl"}
-         <h2>Poll</h2>
-         <p>
-	 {let poll_list=fetch( content, list, hash(  parent_node_id, 173, sort_by, array( array( priority ) ), limit, 1 ) ) }
-	 {section name=poll loop=$poll_list}
-	     {node_view_gui view=full content_node=$poll:item}
-	 {/let}
-	 </p>   
 
-	 <h2>Recent links</h2>
-	 {let link_list=fetch( content, tree, hash( parent_node_id, 2,
-                                                    limit, 10,
+         <div id="poll">
+             <h2>Poll</h2>
+             <p>
+            {let poll_list=fetch( content, list, hash(  parent_node_id, 173, sort_by, array( array( priority ) ), limit, 1 ) ) }
+            {section name=poll loop=$poll_list}
+                {node_view_gui view=full content_node=$poll:item}
+            {/let}
+            </p>   
+         </div>
+
+         <div id="links">
+         <h2>Recent links</h2>
+         {let link_limit=10
+              link_list=fetch( content, tree, hash( parent_node_id, 2,
+                                                    limit, $link_limit,
                                                     sort_by, array( published, false() ),
                                                     class_filter_type, include, 
-                                                    class_filter_array, array( 24 ) ) )}
+                                                    class_filter_array, array( 'link' ) ) )}
              <ul>
-             {section name=Links loop=$link_list}
+             {section var=link loop=$link_list}
              <li>
-	         {attribute_view_gui attribute=$Links:item.data_map.url}
-	     </li>
+                 <a href={$link.item.data_map.url.content|ezurl}>{$link.item.name}</a>
+             </li>
              {/section}
              </ul> 
-	 {/let}
+         {/let}
+         </div>
 
         </div>
     </div>
