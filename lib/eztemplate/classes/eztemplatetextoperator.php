@@ -194,9 +194,14 @@ class eZTemplateTextOperator
         $values = array();
         $function = $operatorName;
 
-        if ( ( count( $parameters ) < 2) )
+        if ( ( count( $parameters ) < 1 ) )
         {
             return false;
+        }
+        if ( ( count( $parameters ) == 1 ) and
+             eZTemplateNodeTool::isStaticElement( $parameters[0] ) )
+        {
+            return array( eZTemplateNodeTool::createStaticElement( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) ) );
         }
         $newElements = array();
 

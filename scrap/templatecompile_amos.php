@@ -14,6 +14,7 @@ $designResource =& eZTemplateDesignResource::instance();
 //eZTemplateDesignResource::setDesignStartPath( "scrap/design" );
 
 error_reporting ( E_ALL );
+eZDebug::setHandleType( EZ_HANDLE_NONE );
 
 $tpl->autoload();
 

@@ -157,34 +157,46 @@ class eZTemplateArrayOperator
                                                 'element-transformation-func' => 'arrayTrans'),
                       $this->ArrayPrependName => array( 'input' => true,
                                                         'output' => true,
-                                                        'parameters' => true ),
+                                                        'parameters' => true,
+                                                        'element-transformation' => true,
+                                                        'transform-parameters' => true,
+                                                        'input-as-parameter' => 'always',
+                                                        'element-transformation-func' => 'mergeTrans' ),
                       $this->PrependName => array( 'input' => true,
                                                    'output' => true,
                                                    'parameters' => true,
                                                    'element-transformation' => true,
                                                    'transform-parameters' => true,
                                                    'input-as-parameter' => 'always',
-                                                   'element-transformation-func' => 'mergeTrans'),
+                                                   'element-transformation-func' => 'mergeTrans' ),
                       $this->ArrayAppendName => array( 'input' => true,
                                                        'output' => true,
-                                                       'parameters' => true ),
+                                                       'parameters' => true,
+                                                       'element-transformation' => true,
+                                                       'transform-parameters' => true,
+                                                       'input-as-parameter' => 'always',
+                                                       'element-transformation-func' => 'mergeTrans' ),
                       $this->AppendName => array( 'input' => true,
                                                   'output' => true,
                                                   'parameters' => true,
                                                   'element-transformation' => true,
                                                   'transform-parameters' => true,
                                                   'input-as-parameter' => 'always',
-                                                  'element-transformation-func' => 'mergeTrans'),
+                                                  'element-transformation-func' => 'mergeTrans' ),
                       $this->ArrayMergeName => array( 'input' => true,
                                                       'output' => true,
-                                                      'parameters' => true ),
+                                                      'parameters' => true,
+                                                      'element-transformation' => true,
+                                                      'transform-parameters' => true,
+                                                      'input-as-parameter' => 'always',
+                                                      'element-transformation-func' => 'mergeTrans' ),
                       $this->MergeName => array( 'input' => true,
                                                  'output' => true,
                                                  'parameters' => true,
                                                  'element-transformation' => true,
                                                  'transform-parameters' => true,
                                                  'input-as-parameter' => 'always',
-                                                 'element-transformation-func' => 'mergeTrans'),
+                                                 'element-transformation-func' => 'mergeTrans' ),
                       $this->ContainsName => array( 'input' => true,
                                                     'output' => true,
                                                     'parameters' => 1,
@@ -1407,7 +1419,15 @@ class eZTemplateArrayOperator
                      'else if( is_array( ' . $code2 . ' ) )' . "\n" .
                      '  %output% = array_merge( ' . $code2 . ', array( ' . $code . ' ) );';
             }
+            else if ( $operatorName == $this->ArrayAppendName )
+            {
+                $code = '%output% = array_merge( ' . $code2 . ', array( ' . $code . ' ) );';
+            }
             else if ( $operatorName == $this->MergeName )
+            {
+                $code = '%output% = array_merge( ' . $code2 . ', ' . $code . ' );';
+            }
+            else if ( $operatorName == $this->ArrayMergeName )
             {
                 $code = '%output% = array_merge( ' . $code2 . ', ' . $code . ' );';
             }
@@ -1417,6 +1437,10 @@ class eZTemplateArrayOperator
                      '  %output% = implode( \'\', array( ' . $code . ' ) ) . ' . $code2 . ';' . "\n" .
                      'else if( is_array( ' . $code2 . ' ) )' . "\n" .
                      '  %output% = array_merge( ' . $code . ', ' . $code2 . ' );';
+            }
+            else if ( $operatorName == $this->ArrayPrependName )
+            {
+                $code = '%output% = array_merge( ' . $code . ', ' . $code2 . ' );';
             }
         }
         else
@@ -1431,7 +1455,7 @@ class eZTemplateArrayOperator
             }
         }
 
-        return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+        return array( eZTemplateNodeTool::createCodePieceElement( $code . "\n", $values ) );
     }
 
     /*!

@@ -649,6 +649,7 @@ class eZTemplateSectionFunction
                                                                                                         array( 'match-keys' => array( 2 ),
                                                                                                                'match-with' => 'section-else' ) )
                                                                                     ) ) );
+            $elseNodes = eZTemplateCompiler::processNodeTransformationNodes( $tpl, $node, $elseNodes, $privateData );
             if ( count( $elseNodes ) > 0 )
             {
                 $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse\n{\n" );
