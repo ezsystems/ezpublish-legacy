@@ -113,6 +113,16 @@ $ClassID = array(
     "parameter" => array( 0, false )
     );
 
+$ParentClassID = array(
+    'name'=> 'ParentClassID',
+    'values'=> array(),
+    "path" => "classes/",
+    "file" => "ezcontentclass.php",
+    "class" => 'eZContentClass',
+    "function" => "fetchList",
+    "parameter" => array( 0, false )
+    );
+
 $SectionID = array(
     'name'=> 'SectionID',
     'values'=> array(),
@@ -147,7 +157,8 @@ $FunctionList['read'] = array( 'ClassID' => $ClassID,
                                  'SectionID' => $SectionID,
                                  'Assigned' => $Assigned );
 $FunctionList['create'] = array( 'ClassID' => $ClassID,
-                                 'SectionID' => $SectionID
+                                 'SectionID' => $SectionID,
+                                 'ParentClassID' => $ParentClassID
                                 );
 $FunctionList['edit'] = array( 'ClassID' => $ClassID,
                                  'SectionID' => $SectionID,
@@ -156,7 +167,7 @@ $FunctionList['remove'] = array( 'ClassID' => $ClassID,
                                  'SectionID' => $SectionID,
                                  'Assigned' => $Assigned );
 
-    
+
 /*
 $ViewArray["view"] = array(
     "functions" => array( "read", ""

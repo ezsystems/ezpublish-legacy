@@ -316,10 +316,10 @@ class eZContentObject extends eZPersistentObject
         }
 
         $db->query( "DELETE FROM ezcontentobject_attribute
-                                              WHERE contentobject_id='$this->ID' AND version>'$version'" );
+					      WHERE contentobject_id='$this->ID' AND version>'$version'" );
 
         $db->query( "DELETE FROM ezcontentobject_version
-                                              WHERE contentobject_id='$this->ID' AND version>'$version'" );
+					      WHERE contentobject_id='$this->ID' AND version>'$version'" );
         $this->CurrentVersion = $version;
         $this->store();
     }
@@ -369,14 +369,15 @@ class eZContentObject extends eZPersistentObject
         }
 
         $db->query( "DELETE FROM ezcontentobject_attribute
-                     WHERE contentobject_id='$delID'" );
+		     WHERE contentobject_id='$delID'" );
 
         $db->query( "DELETE FROM ezcontentobject_version
-                     WHERE contentobject_id='$delID'" );
+		     WHERE contentobject_id='$delID'" );
 
         $db->query( "DELETE FROM ezcontentobject
-                     WHERE id='$delID'" );
+		     WHERE id='$delID'" );
     }
+
 
     /*
      Fetch all attributes of all versions belongs to a contentObject.
@@ -419,12 +420,12 @@ class eZContentObject extends eZPersistentObject
         $parent =& eZContentObject::fetch( $parentID );
 
         if ( $parentID > 0 )
-        while ( ( $parentID > 0 ) )
-        {
-            $parents = array_merge( array( $parent ), $parents );
-            $parentID = $parent->attribute( "parent_id" );
-            $parent =& eZContentObject::fetch( $parentID );
-        }
+            while ( ( $parentID > 0 ) )
+            {
+                $parents = array_merge( array( $parent ), $parents );
+                $parentID = $parent->attribute( "parent_id" );
+                $parent =& eZContentObject::fetch( $parentID );
+            }
         return $parents;
     }
 
@@ -434,7 +435,7 @@ class eZContentObject extends eZPersistentObject
 
         $tree = array( );
         if ( $level == 0 )
-        $tree[] = array( "Level" => $level, "Object" => eZContentObject::fetch( $objectID ) );
+            $tree[] = array( "Level" => $level, "Object" => eZContentObject::fetch( $objectID ) );
 
         $level++;
         foreach ( $objectList as $childObject )
@@ -453,7 +454,7 @@ class eZContentObject extends eZPersistentObject
     {
         $db =& eZDB::instance();
         $versions =& $db->arrayQuery( "SELECT ( MAX( version ) + 1 ) AS next_id FROM ezcontentobject_version
-                                       WHERE contentobject_id='$this->ID'" );
+				       WHERE contentobject_id='$this->ID'" );
         return $versions[0]["next_id"];
 
     }
@@ -469,7 +470,7 @@ class eZContentObject extends eZPersistentObject
     {
         $db =& eZDB::instance();
         $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id )
-                     VALUES ( '$this->ID', '$version', '$objectID' )" );
+		     VALUES ( '$this->ID', '$version', '$objectID' )" );
     }
 
     /*!
@@ -482,13 +483,13 @@ class eZContentObject extends eZPersistentObject
 
         $db =& eZDB::instance();
         $relatedObjects =& $db->arrayQuery( "SELECT
-                                               ezcontentobject.*
-                                             FROM
-                                               ezcontentobject, ezcontentobject_link
-                                             WHERE
-                                               ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
-                                               ezcontentobject_link.from_contentobject_id='$this->ID' AND
-                                               ezcontentobject_link.from_contentobject_version='$version'" );
+					       ezcontentobject.*
+					     FROM
+					       ezcontentobject, ezcontentobject_link
+					     WHERE
+					       ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
+					       ezcontentobject_link.from_contentobject_id='$this->ID' AND
+					       ezcontentobject_link.from_contentobject_version='$version'" );
 
         $return = array();
         foreach ( $relatedObjects as $object )
@@ -501,13 +502,15 @@ class eZContentObject extends eZPersistentObject
     /*!
      Creates a new content object with the given type.
     */
-    function &createNew( $contentClassID, $parentNode = 1 )
+    function &createNew( $contentClassID, $parentNodeID = 1 )
     {
         $class =& eZContentClass::fetch( $contentClassID );
         $attributes =& $class->fetchAttributes();
 
         $user =& eZUser::currentUser();
         $userID =& $user->attribute( 'contentobject_id' );
+        $parentNode =& eZContentObjectTreeNode::fetch( $parentNodeID );
+        $parentContentObject = $parentNode->attribute( 'contentobject' );
 
         $object = new eZContentObject( array() );
         $object->setAttribute( "name", "New " . $class->attribute( "name" ) );
@@ -517,10 +520,11 @@ class eZContentObject extends eZPersistentObject
         $object->setAttribute( "parent_id", 1 );
         $object->setAttribute( "main_node_id", 0 );
         $object->setAttribute( "owner_id", $userID );
+        $object->setAttribute( "section_id", $parentContentObject->attribute( 'section_id' ) );
 
         $object->store();
 
-        $nodeID = eZContentObjectTreeNode::addChild( $object->attribute( "id" ), $parentNode );
+        $nodeID = eZContentObjectTreeNode::addChild( $object->attribute( "id" ), $parentNodeID );
         $object->setAttribute( "main_node_id", $nodeID );
         $object->store();
         $version = new eZContentObjectVersion( array() );
@@ -581,16 +585,16 @@ class eZContentObject extends eZPersistentObject
     {
         $contentobjectID = $this->attribute( 'id' );
         $query = "SELECT ezcontentobject.*,
-                         ezcontentobject_tree.*,
-                         ezcontentclass.name as class_name
-                  FROM   ezcontentobject_tree,
-                         ezcontentobject,
-                         ezcontentclass
-                  WHERE  contentobject_id=$contentobjectID AND
-                         ezcontentobject_tree.contentobject_id=ezcontentobject.id  AND
-                         ezcontentclass.version=0 AND
-                         ezcontentclass.id = ezcontentobject.contentclass_id
-                  ORDER BY path_string";
+			 ezcontentobject_tree.*,
+			 ezcontentclass.name as class_name
+		  FROM   ezcontentobject_tree,
+			 ezcontentobject,
+			 ezcontentclass
+		  WHERE  contentobject_id=$contentobjectID AND
+			 ezcontentobject_tree.contentobject_id=ezcontentobject.id  AND
+			 ezcontentclass.version=0 AND
+			 ezcontentclass.id = ezcontentobject.contentclass_id
+		  ORDER BY path_string";
         $db =& eZDB::instance();
         $nodesListArray = $db->arrayQuery( $query );
         $nodes = eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
@@ -620,7 +624,7 @@ class eZContentObject extends eZPersistentObject
 
 
 
-    function checkAccess( $functionName, $classID = false )
+    function checkAccess( $functionName, $classID = false, $parentClassID = false )
     {
         $user = eZUser::currentUser();
         $accessResult =  $user->hasAccessTo( 'content' , $functionName );
@@ -647,6 +651,7 @@ class eZContentObject extends eZPersistentObject
             if ( count( $limitationList ) > 0 )
             {
                 $access = 'denied';
+
                 foreach ( $limitationList as $limitationArray )
                 {
                     if ( $access == 'allowed' )
@@ -655,9 +660,18 @@ class eZContentObject extends eZPersistentObject
                     }
                     foreach ( $limitationArray as $limitation )
                     {
+                        if( $functionName == 'remove' )
+                        {
+                            eZDebug::writeNotice( $limitation, 'limitation in check access' );
+                        }
+
                         if ( $limitation->attribute( 'identifier' ) == 'ClassID' )
                         {
-                            if ( in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  ) )
+                            if( $functionName == 'create' )
+                            {
+                                $access = 'allowed';
+                            }
+                            if ( in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  )  )
                             {
                                 eZDebug::writeNotice( $this->attribute( 'contentclass_id' ), 'contentclass_id' );
                                 eZDebug::writeNotice( $limitation->attribute( 'values_as_array' ), 'values_as_array' );
@@ -667,6 +681,19 @@ class eZContentObject extends eZPersistentObject
                             {
                                 eZDebug::writeNotice( $this->attribute( 'contentclass_id' ), 'contentclass_id' );
                                 eZDebug::writeNotice( $limitation->attribute( 'values_as_array' ), 'values_as_array' );
+                                $access = 'denied';
+                                break;
+                            }
+                        }
+                        elseif ( $limitation->attribute( 'identifier' ) == 'ParentClassID' )
+                        {
+
+                            if (  in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  ) )
+                            {
+                                $access = 'allowed';
+                            }
+                            else
+                            {
                                 $access = 'denied';
                                 break;
                             }
@@ -683,8 +710,10 @@ class eZContentObject extends eZPersistentObject
                                 break;
                             }
                         }
-                        elseif ( $limitation->attribute( 'name' ) == 'Assigned' )
+                        elseif ( $limitation->attribute( 'identifier' ) == 'Assigned' )
                         {
+                            eZDebug::writeNotice( $this->attribute( 'owner_id' ), 'owner_id'  );
+                            eZDebug::writeNotice( $user->attribute( 'contentobject_id' ), 'contentobject_id'  );
                             if ( $this->attribute( 'owner_id' ) == $user->attribute( 'contentobject_id' )  )
                             {
                                 $access = 'allowed';
@@ -724,9 +753,17 @@ class eZContentObject extends eZPersistentObject
             {
                 if ( !in_array( $this->attribute( 'section_id' ), $limitation->attribute( 'values_as_array' )  ) )
                 {
-                   return array();
+                    return array();
                 }
             }
+            elseif ( $limitation->attribute( 'identifier' ) == 'ParentClassID' )
+            {
+                if ( !in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  ) )
+                {
+                    return array();
+                }
+            }
+
             elseif ( $limitation->attribute( 'name' ) == 'Assigned' )
             {
                 if ( $this->attribute( 'owner_id' ) != $user->attribute( 'contentobject_id' )  )
@@ -735,7 +772,6 @@ class eZContentObject extends eZPersistentObject
                 }
             }
         }
-
         if ( $hasClassIDLimitation )
         {
             return $canCreateClassIDListPart;
@@ -754,7 +790,6 @@ class eZContentObject extends eZPersistentObject
         {
             $classList =& eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
             eZDebug::writeNotice( $classList, 'can create everithing' );
-
             return $classList;
         }
         elseif ( $accessWord == 'no' )
@@ -765,7 +800,6 @@ class eZContentObject extends eZPersistentObject
         else
         {
             $policies  =& $accessResult['policies'];
-
             $classIDArray = array();
             foreach ( $policies as $policy )
             {
@@ -774,10 +808,9 @@ class eZContentObject extends eZPersistentObject
                 $classIDArrayPart = $this->classListFromLimitation( $limitationArray );
                 if ( $classIDArrayPart == '*' )
                 {
-                        $classList =& eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
-                        eZDebug::writeNotice( $classList, 'can create everything' );
-
-                        return $classList;
+                    $classList =& eZContentClass::fetchList( 0, false,false, null, array( 'id', 'name' ) );
+                    eZDebug::writeNotice( $classList, 'can create everything' );
+                    return $classList;
                 }else
                 {
                     $classIDArray = array_merge( $classIDArray, array_diff( $classIDArrayPart, $classIDArray ) );
@@ -785,14 +818,17 @@ class eZContentObject extends eZPersistentObject
                 }
             }
         }
+        if( count( $classIDArray ) == 0  )
+        {
+            eZDebug::writeNotice( array(), 'can create nothing' );
+            return array();
+        }
         $classList = array();
         // needs to be optimized
         $db = eZDb::instance();
         $classString = implode( ',', $classIDArray );
         $classList = $db->arrayQuery( "select id, name from ezcontentclass where id in ( $classString  )  and version = 0" );
         eZDebug::writeNotice( $classList, 'can create some classes' );
-
-
         return $classList;
     }
 

@@ -6,6 +6,7 @@
 <tr>
 	<th align="left">ID</th>
 	<th align="left">Object</th>
+	<th align="left">OwnerID</th>
 	<th align="left">IsPublished</th>
 	<th align="left">Version</th>
 	<th align="left">Section ID</th>
@@ -39,7 +40,8 @@
 
 	{$Tree:item.name}</a>
 	</td>
-	<td class="{$Tree:sequence}">{$Tree:item.contentobject_is_published}</td>
+	<td class="{$Tree:sequence}">{$Tree:item.contentobject.owner_id}</td>
+	<td class="{$Tree:sequence}">{$Tree:item.contentobject.is_published}</td>
 	<td class="{$Tree:sequence}">{$Tree:item.contentobject.current_version}</td>
 	<td class="{$Tree:sequence}">{$Tree:item.contentobject.section_id}</td>
 	<td class="{$Tree:sequence}">{$Tree:item.contentobject.class_name}</td>

@@ -52,7 +52,7 @@ if ( $http->hasPostVariable( "BrowseNodeButton" )  )
     $http->setSessionVariable( "BrowseActionName", "AssignSection" );
     $http->setSessionVariable( "BrowseReturnType", "NodeID" );
 
-    $Module->redirectTo( "/content/browse/1/" );
+    $Module->redirectTo( "/content/browse/2/" );
     return;
 }
 

@@ -16,7 +16,6 @@
 
 <br />
 
-
 <table width="50%">
 {section name=Node loop=$assigned_node_array sequence=array(bglight,bgdark)}
 <tr>

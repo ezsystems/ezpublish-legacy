@@ -41,9 +41,9 @@
   \class eZContentObjectTreeNode ezcontentobjecttreenode.php
   \brief The class eZContentObjectTreeNode does
   ___________0__________
- |  _____1______        |  
- | |  _2_  _3_  | _4_   |  
- | | |   ||   | ||   |  |  
+ |  _____1______        |
+ | |  _2_  _3_  | _4_   |
+ | | |   ||   | ||   |  |
  |1|2|3 4||5 6|7||8 9|10|
 
 --------------------------------------------------------------------------------------------
@@ -63,7 +63,7 @@ Enter  1 - parent_node
        2 - contentobject_id,  ( that is like a node value )
 
 (a) - get path_string, depth for parent node to built path_string  and to count depth for new one
-(b) - we need to make hole (gap) in tree for to store new node. that is two update queries to change             margins 
+(b) - we need to make hole (gap) in tree for to store new node. that is two update queries to change             margins
 (c) - calculating attributes for new node and inserting it
 
 Returns node_id for added node
@@ -73,21 +73,21 @@ Returns node_id for added node
 Enter - node_id
 (a) - selecting margins of subtree
 (b) - deleting subtree
-(c)  - close gap in the tree, decriment margins, which are to the right of deleted subtree, by the width of deleted tree 
+(c)  - close gap in the tree, decriment margins, which are to the right of deleted subtree, by the width of deleted tree
 
 
-3. Move subtree in tree 
+3. Move subtree in tree
 Enter node_id,new_parent_id
 (a) - get information about node
 (b) - get information about new_parent_id
 (c) - make a hole in tree to store subtree. We need to update margins which are right from place move to.
-      there are two kind of nodes we need to update margins, for example 
-      we have a tree 
+      there are two kind of nodes we need to update margins, for example
+      we have a tree
 
         ___________0__________
-       |  _____1______        |  
-       | |  _2_  _3_  | _4_   |  
-       | | |   ||   | ||   |  |  
+       |  _____1______        |
+       | |  _2_  _3_  | _4_   |
+       | | |   ||   | ||   |  |
        |1|2|3 4||5 6|7||8 9|10|
 
        we need to move node 3 to be child of node 2, node 3 and 4 has both (left and right) margins
@@ -96,11 +96,11 @@ Enter node_id,new_parent_id
        of the subtree.
 
         ___________0______________
-       |  _____1________          |  
-       | |  __2__  _3_  | __4__   |  
-       | | |     ||   | ||     |  |  
+       |  _____1________          |
+       | |  __2__  _3_  | __4__   |
+       | | |     ||   | ||     |  |
        |1|2|3   6||7 8|9||10 11|12|
-    
+
 
 (d) - calculate attributes for node in subtree: new_path_string, movement, new_depth, and margins
       For each node in the subtree
@@ -115,12 +115,12 @@ Enter node_id,new_parent_id
                  new_depth = "depth of node" - "depth of root node in subtree we move" +
                               + "depth of new parent node" + 1;
         ___________0_____________
-       |  _____1_______          |  
-       | |  __2____    | __4__   |  
-       | | |  _3_  |   ||     |  |  
-       | | | |   | |   ||     |  |  
+       |  _____1_______          |
+       | |  __2____    | __4__   |
+       | | |  _3_  |   ||     |  |
+       | | | |   | |   ||     |  |
        |1|2|3|4 5|6|  9||10 11|12|
-                    ^^ 
+                    ^^
                     gap
 
 (e) - close a gap that apeared after moving subtree
@@ -152,6 +152,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                          'contentobject_is_published' => 'ContentObjectIsPublished',
                                          "depth" => "Depth",
                                          "path_string" => "PathString",
+                                         "crc32_path" => "CRC32Path",
+                                         "path_identification_string" => "PathIdentificationString",
                                          "md5_path" => "Md5Path",
                                          "left_margin" => "LeftMargin",
                                          "right_margin" => "RightMargin"
@@ -194,7 +196,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         elseif ( $attr == 'children' )
         {
             return $this->fetchChildren();
-            
+
         }
         elseif ( $attr == 'path' )
         {
@@ -220,7 +222,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else
         {
             $db->query( 'drop table permission' );
-            
+
             $createTempTableQuery="CREATE TEMPORARY TABLE permission(
                                        permission_id int primary key,
                                        can_read int,
@@ -229,7 +231,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                        can_remove int )";
             $db->query( $createTempTableQuery );
         }
-        
+
         $fillPermissionsQuery = "INSERT INTO permission
                                  SELECT permission_id,
                                         max( ezcontentobject_permission.read_permission ) as can_read,
@@ -374,7 +376,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $pathLength = strlen( $childrensPath );
         $db =& eZDB::instance();
 
-        $subStringString = $db->subString( 'path_string', 1, $pathLength ); 
+        $subStringString = $db->subString( 'path_string', 1, $pathLength );
         $pathString = " $subStringString = '$childrensPath' AND ";
 
         $nodeDepth = $this->attribute( 'depth' );
@@ -420,7 +422,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
 
-            $query = "SELECT count(*) as count 
+            $query = "SELECT count(*) as count
                       FROM
                            ezcontentobject_tree,
                            ezcontentobject,ezcontentclass
@@ -455,12 +457,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $nodeListArray[0]['count'];
     }
 
-    
+
     function fetchChildren($params = array() ,$nodeID = 0 )
     {
         return  $this->subTree( $params );
     }
-    
+
 
     /*!
      Will assign a section to the current node and all child objects.
@@ -496,12 +498,31 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db->query( "UPDATE ezcontentobject SET section_id='$sectionID' WHERE id IN ( $inSQL )" );
     }
 
+    function fetchByCRC( $crcSum )
+    {
+        $db =& eZDB::instance();
+
+        $query="SELECT ezcontentobject.*,
+                           ezcontentobject_tree.*,
+                           ezcontentclass.name as class_name
+                    FROM ezcontentobject_tree,
+                         ezcontentobject,
+                         ezcontentclass
+                    WHERE crc32_path = $crcSum AND
+                          ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
+                          ezcontentclass.version=0  AND
+                          ezcontentclass.id = ezcontentobject.contentclass_id  ";
+
+        $nodeListArray = $db->arrayQuery( $query );
+        $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+        return $retNodeArray[0];
+    }
     function fetch( $nodeID )
     {
 
         $ini =& eZINI::instance();
         $db =& eZDB::instance();
-               
+
         if ( $ini->variable( "AccessSetings", "Access" ) == 'GroupBased' )
         {
             eZContentObjectTreeNode::makePermissionTable( $db );
@@ -520,7 +541,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentobject_tree.contentobject_id=ezcontentobject.id  and
                           ezcontentobject.permission_id = permission.permission_id and
                           ezcontentclass.version=0 AND
-                          ezcontentclass.id = ezcontentobject.contentclass_id ";   
+                          ezcontentclass.id = ezcontentobject.contentclass_id ";
 
         }
         else
@@ -529,22 +550,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
-                           ezcontentclass.name as class_name 
+                           ezcontentclass.name as class_name
                     FROM ezcontentobject_tree,
                          ezcontentobject,
                          ezcontentclass
-                    WHERE node_id = $nodeID AND 
+                    WHERE node_id = $nodeID AND
                           ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
-                          ezcontentclass.version=0  AND 
+                          ezcontentclass.version=0  AND
                           ezcontentclass.id = ezcontentobject.contentclass_id  ";
 
 
 
         }
-
-//        var_dump($query);
         $nodeListArray = $db->arrayQuery( $query );
-
         $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
         return $retNodeArray[0];
     }
@@ -558,43 +576,41 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodeID = $this->attribute( 'node_id' );
         $nodePath = $this->attribute( 'path_string' );
 
-        
         $pathArray = explode( '/', trim($nodePath,'/') );
         $pathArray = array_slice( $pathArray, 0, count($pathArray) - 1 );
 
-        flush();
         $pathString = '';
         foreach ( $pathArray as $node )
         {
             $pathString .= 'or node_id = ' . $node . ' ';
-            
+
         }
         if ( strlen( $pathString) > 0 )
         {
-            $pathString = '('. substr( $pathString, 2 ) . ') and '; 
+            $pathString = '('. substr( $pathString, 2 ) . ') and ';
         }
         $query="SELECT ezcontentobject.*,
                        ezcontentobject_tree.*,
-                       ezcontentclass.name as class_name 
+                       ezcontentclass.name as class_name
                 FROM ezcontentobject_tree,
                      ezcontentobject,
                      ezcontentclass
-                WHERE $pathString  
+                WHERE $pathString
                       ezcontentobject_tree.contentobject_id=ezcontentobject.id  AND
-                      ezcontentclass.version=0 AND 
+                      ezcontentclass.version=0 AND
                       ezcontentclass.id = ezcontentobject.contentclass_id
                 ORDER BY path_string";
-      
+
         $db =& eZDB::instance();
         $nodesListArray = $db->arrayQuery( $query );
         $retNodes = array();
         $retNodes =& eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
         return $retNodes;
 
-        
+
     }
 
-    function addChild( $contentobjectID, $nodeID = 0)
+    function addChild( $contentobjectID, $nodeID = 0 )
     {
 
         if ( $nodeID == 0 )
@@ -637,9 +653,44 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            WHERE
                                node_id=$insertedID";
         $db->query( $updatePathQuery );
+        $insertedNode = eZContentObjectTreeNode::fetch( $insertedID );
+        $insertedNode->setAttribute( 'path_identification_string', $insertedNode->pathWithNames() );
+        $insertedNode->setAttribute( 'crc32_path', crc32 ( $insertedNode->attribute( 'path_identification_string' ) ) );
+        eZDebug::writeNotice($insertedNode->pathWithNames(), 'pathWithNames' );
+        eZDebug::writeNotice( crc32 ( $insertedNode->pathWithNames() ), "CRC32" );
+        $insertedNode->store();
         return $insertedID;
     }
 
+    function pathWithNames( $nodeID = 0 )
+    {
+        if ( $nodeID == 0 )
+        {
+            $node = $this;
+        }else
+        {
+            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+        }
+        $nodeList = $node->attribute( 'path' );
+        $nodeList = array_merge( $nodeList, array( &$node ) );
+        $nodePathElementList = array();
+        foreach ( $nodeList as $nodeInPath )
+        {
+            $nodeName = $nodeInPath->attribute( 'name' );
+//            $identifier = $attribute->attribute( "name" );
+            $nodeName = strtolower( $nodeName );
+            $nodeName = preg_replace( array( "/[^a-z0-9_ ]/" ,
+                                             "/ /",
+                                             "/__+/" ),
+                                      array( "",
+                                             "_",
+                                             "_" ),
+                                      $nodeName );
+            $nodePathElementList[]=$nodeName;
+        }
+        return implode( '/', $nodePathElementList );
+
+    }
     function remove( $nodeID = 0 )
     {
         if ( $nodeID == 0 )
@@ -662,7 +713,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 */
         $db =& eZDB::instance();
 
-        $subStringString = $db->subString( 'path_string', 1, $pathLength ); 
+        $subStringString = $db->subString( 'path_string', 1, $pathLength );
 
         $query = "delete from ezcontentobject_tree
                   where $subStringString = '$childrensPath' or
@@ -704,7 +755,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                  node_id = $nodeID";
             $db =& eZDB::instance();
             $subStringString = $db->subString( 'path_string', 1, $oldPathLength );
-            $subStringString2 =  $db->subString( 'path_string', $oldPathLength ); 
+            $subStringString2 =  $db->subString( 'path_string', $oldPathLength );
             $moveQuery1 = "UPDATE
                                  ezcontentobject_tree
                            SET
@@ -728,7 +779,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             unset( $object );
 
             $object =& new eZContentObjectTreeNode( $node );
-//            eZDebug::writeNotice( $node, 'node' ); 
+//            eZDebug::writeNotice( $node, 'node' );
             $object->setName($node['name']);
             if ( $with_contentobject )
             {
@@ -774,19 +825,24 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function deleteNodeWhereParent( $node, $id )
     {
         eZContentObjectTreeNode::remove( eZContentObjectTreeNode::findNode( $node, $id ) );
-        
+
     }
 
-    function findNode( $parent_node, $id )
+    function findNode( $parentNode, $id )
     {
+
+        if ( !isset($parentNode) )
+        {
+            $parentNode = 0;
+        }
+
         $db =& eZDB::instance();
-        $get_node_query = "SELECT node_id
+        $getNodeQuery = "SELECT node_id
                            FROM ezcontentobject_tree
                            WHERE
-                                parent_node_id=$parent_node AND
+                                parent_node_id=$parentNode AND
                                 contentobject_id = $id ";
-        $nodeArr = $db->arrayQuery( $get_node_query );
-                    
+        $nodeArr = $db->arrayQuery( $getNodeQuery );
         return $nodeArr[0]['node_id'];
 
     }
@@ -805,12 +861,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $this->hasContentObject() )
         {
             return $this->ContentObject;
-        }         
+        }
         $contentobject_id = $this->attribute( 'contentobject_id' );
         $obj =& eZContentObject::fetch( $contentobject_id );
         $this->HasContentObject = true;
         return $obj;
-        
+
 
     }
 
@@ -824,7 +880,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $this->ContentObject =& $obj;
         $this->HasContentObject = true;
     }
-    
+
 }
 
 ?>

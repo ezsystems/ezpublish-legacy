@@ -45,7 +45,7 @@ if ( $http->hasPostVariable( 'NewButton' )  )
     {
         $node = eZContentObjectTreeNode::fetch( $http->postVariable( 'NodeID' )  );
         $parentContentObject = $node->attribute( 'contentobject' );
-        if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ) ) == '1' )
+        if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ),  $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
         {
             $contentObject =& eZContentObject::createNew( $http->postVariable( 'ClassID' ), $http->postVariable( 'NodeID' ) );
 

@@ -16,7 +16,9 @@ function eZDisplayDebug()
 
 function fetchModule( &$uri, &$check, $module_path_list, &$module, &$module_name, &$function_name, &$params )
 {
+    eZDebug::writeNotice( $uri, "in fetch module" );
     $module_name = $uri->element();
+    eZDebug::writeNotice( $module_name, "in fetch module" );
     if ( $check !== null and isset( $check["module"] ) )
         $module_name = $check["module"];
 
@@ -72,10 +74,28 @@ eZDebug::addTimingPoint( "Script start" );
 // Remove url parameters
 ereg( "([^?]+)", $REQUEST_URI, $regs );
 $REQUEST_URI = $regs[1];
-
 include_once( "lib/ezutils/classes/ezuri.php" );
 
 $uri =& eZURI::instance( $REQUEST_URI );
+
+
+$nodePathString = $uri->elements();
+eZDebug::writeNotice( $nodePathString, 'nodePathString' );
+$nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
+include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+
+$node = eZContentObjectTreeNode::fetchByCRC( crc32( $nodePathString ) );
+eZDebug::writeNotice( $nodePathString, 'nodePathString' );
+
+if ( get_class( $node ) == 'ezcontentobjecttreenode' )
+{
+    $newURI= '/content/view/full/' . $node->attribute( 'node_id' ) . '/';
+    $uri = & eZURI::instance( $newURI );
+    eZDebug::writeNotice( $uri, 'Uri IN' );
+
+}
+
+
 
 // eZDebug::addTimingPoint( "Access validation" );
 

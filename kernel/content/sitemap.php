@@ -40,7 +40,14 @@ include_once( 'kernel/common/template.php' );
 $http =& eZHTTPTool::instance();
 
 $Module =& $Params['Module'];
+$Module->setTitle( 'Sitemap' );
 
+$TopObjectID = $Params['TopObjectID'];
+$Offset = $Params['Offset'];
+if( $TopObjectID == '' || $TopObjectID == '1' )
+{
+    $TopObjectID = 2;
+}
 if ( $http->hasPostVariable( 'RemoveButton' )  )
 {
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
@@ -62,11 +69,11 @@ if ( $http->hasPostVariable( 'NewButton' )  )
 {
     if ( $http->hasPostVariable( 'ClassID' ) )
     {
-        $parentNode = eZContentObjectTreeNode::fetch( 1 );
+        $parentNode = eZContentObjectTreeNode::fetch( $TopObjectID );
         $parentContentObject = $parentNode->attribute( 'contentobject' );
-        if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ) ) == '1' )
+        if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ), $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
         {
-            $contentObject =& eZContentObject::createNew( $http->postVariable( 'ClassID' ) );
+            $contentObject =& eZContentObject::createNew( $http->postVariable( 'ClassID' ), $TopObjectID );
             $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $contentObject->attribute( 'id' ) . '/' . $contentObject->attribute( 'current_version' ) );
             return;
         }else
@@ -76,10 +83,6 @@ if ( $http->hasPostVariable( 'NewButton' )  )
         }
     }
 }
-$Module->setTitle( 'Sitemap' );
-
-$TopObjectID = $Params['TopObjectID'];
-$Offset = $Params['Offset'];
 
 
 
@@ -87,7 +90,7 @@ $tpl =& templateInit();
 
 //$classes =& eZContentClass::fetchList( $version = 0, $as_object = true, $user_id = false,
 //            array("name"=>"name"), $fields = null );
-$parentNode = eZContentObjectTreeNode::fetch( 1 );
+$parentNode = eZContentObjectTreeNode::fetch( $TopObjectID );
 $parentContentObject = $parentNode->attribute( 'contentobject' );
 $classes = $parentContentObject->attribute( 'can_create_class_list' );
 eZDebug::writeNotice(  $parentContentObject, 'returned classes' );
