@@ -14,11 +14,16 @@
 {section show=$site.redirect}
 <meta http-equiv="Refresh" content="{$site.redirect.timer}; URL={$site.redirect.location}" />
 {/section}
+{section name=HTTP loop=$site.http_equiv}
+<meta http-equiv="{$HTTP:key}" content="{$HTTP:item}" />
+
+{/section}
 
 <!-- Meta information START -->
 
 {section name=meta loop=$site.meta}
 <meta name="{$meta:key}" content="{$meta:item}" />
+
 {/section}
 
 <meta name="MSSmartTagsPreventParsing" content="TRUE" />

@@ -13,11 +13,16 @@
 {section show=$site.redirect}
 <meta http-equiv="Refresh" content="{$site.redirect.timer}; URL={$site.redirect.location}" />
 {/section}
+{section name=HTTP loop=$site.http_equiv}
+<meta http-equiv="{$HTTP:key}" content="{$HTTP:item}" />
+
+{/section}
 
 <!-- Meta information START -->
 
 {section name=meta loop=$site.meta}
 <meta name="{$meta:key}" content="{$meta:item}" />
+
 {/section}
 
 <meta name="MSSmartTagsPreventParsing" content="TRUE" />
@@ -44,7 +49,7 @@
 	<input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="" />
     </td>
     <td class="topbox" width="20%" valign="bottom">
-        <input type="hidden" name="SectionID" value="-1">
+        <input type="hidden" name="SectionID" value="-1" />
 	<input class="button" name="SearchButton" type="submit" value="{"Search"|i18n('pagelayout')}" />
     </td>
     <td class="topbox" valign="bottom" width="20%">

@@ -6,7 +6,11 @@
 
 {* check if we need a http-equiv refresh *}
 {section show=$site.redirect}
-<META HTTP-EQUIV=Refresh CONTENT="{$site.redirect.timer}; URL={$site.redirect.location}" />
+<meta http-equiv="Refresh" content="{$site.redirect.timer}; URL={$site.redirect.location}" />
+{/section}
+{section name=HTTP loop=$site.http_equiv}
+<meta http-equiv="{$HTTP:key}" content="{$HTTP:item}" />
+
 {/section}
 
 <link rel="stylesheet" type="text/css" href={"stylesheets/style.css"|ezdesign} />
@@ -15,6 +19,7 @@
 
 {section name=meta loop=$site.meta}
 <meta name="{$meta:key}" content="{$meta:item}" />
+
 {/section}
 
 <meta name="MSSmartTagsPreventParsing" content="TRUE">
