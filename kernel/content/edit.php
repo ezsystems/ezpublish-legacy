@@ -618,14 +618,19 @@ if ( !function_exists( 'checkContentActions' ) )
                     $viewMode = 'full';
 
                     // Cache the current node
-                    $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $node->attribute( 'node_id' ), 0, false, $language, $viewMode );
-                    $tmpRes = eZNodeviewfunctions::generateNodeView( $tpl, $node, $node->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
-
-                    // Cache the parent nodes
-                    foreach ( $parentNodes as $parentNode )
+                    $assignedNodes =& $object->assignedNodes();
+                    $assignedNodes_keys = array_keys( $assignedNodes );
+                    foreach ( $assignedNodes_keys as $key )
                     {
+                        $node =& $assignedNodes[$key];
+
+                        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $node->attribute( 'node_id' ), 0, false, $language, $viewMode );
+                        $tmpRes =& eZNodeviewfunctions::generateNodeView( $tpl, $node, $node->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
+
+                        // Cache the parent node
+                        $parentNode =& $node->attribute( 'parent' );
                         $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $parentNode->attribute( 'node_id' ), 0, false, $language, $viewMode );
-                        $tmpRes = eZNodeviewfunctions::generateNodeView( $tpl, $parentNode, $parentNode->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
+                        $tmpRes =& eZNodeviewfunctions::generateNodeView( $tpl, $parentNode, $parentNode->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
                     }
                 }
 
