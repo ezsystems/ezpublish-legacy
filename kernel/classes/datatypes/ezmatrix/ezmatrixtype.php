@@ -133,7 +133,6 @@ class eZMatrixType extends eZDataType
         $columnsArray =& $matrix->attribute( 'columns' );
         $columns =& $columnsArray['sequential'];
         $metaDataArray = array();
-        eZDebug::writeDebug( $matrix, 'matrix to index' );
         foreach ( $columns as $column )
         {
             $rows = $column['rows'];
@@ -143,7 +142,6 @@ class eZMatrixType extends eZDataType
                                           'text' => $row );
             }
         }
-//         eZDebug::writeDebug( $metaDataArray, 'metaDataArray for matrix' );
         return $metaDataArray;
     }
 
