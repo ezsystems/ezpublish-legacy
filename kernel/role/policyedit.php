@@ -66,27 +66,34 @@ $limitationValueList =& $policy->limitationList();
 $nodeList = array();
 $subtreeList = array();
 
-$mod = & eZModule::exists( $currentModule );
-$functions =& $mod->attribute( 'available_functions' );
-$currentFunctionLimitations = array();
-foreach( array_keys( $functions[ $currentFunction ] ) as $key )
+if ( $currentModule == "*" )
 {
-    $limitation =& $functions[ $currentFunction ][$key];
-    if( count( $limitation[ 'values' ] == 0 ) && array_key_exists( 'class', $limitation ) )
+    $functions = array();
+}
+else
+{
+    $mod = & eZModule::exists( $currentModule );
+    $functions =& $mod->attribute( 'available_functions' );
+}
+$currentFunctionLimitations = array();
+foreach ( array_keys( $functions[$currentFunction] ) as $key )
+{
+    $limitation =& $functions[$currentFunction][$key];
+    if ( count( $limitation['values'] == 0 ) && array_key_exists( 'class', $limitation ) )
     {
-        include_once( 'kernel/' . $limitation['path'] . $limitation['file']  );
+        include_once( 'kernel/' . $limitation['path'] . $limitation['file'] );
         $obj = new $limitation['class']( array() );
-        $limitationValueList = call_user_func_array ( array( &$obj , $limitation['function']) , $limitation['parameter'] );
+        $limitationValueList = call_user_func_array( array( &$obj, $limitation['function'] ), $limitation['parameter'] );
         $limitationValueArray =  array();
-        foreach( array_keys( $limitationValueList ) as $key )
+        foreach ( array_keys( $limitationValueList ) as $key )
         {
             $limitationValue =& $limitationValueList[$key];
             $limitationValuePair = array();
-            $limitationValuePair['Name'] = $limitationValue[ 'name' ];
-            $limitationValuePair['value'] = $limitationValue[ 'id' ];
+            $limitationValuePair['Name'] = $limitationValue['name'];
+            $limitationValuePair['value'] = $limitationValue['id'];
             $limitationValueArray[] = $limitationValuePair;
         }
-        $limitation[ 'values' ] = $limitationValueArray;
+        $limitation['values'] = $limitationValueArray;
     }
     $currentFunctionLimitations[] = $limitation;
 }
@@ -148,7 +155,7 @@ if ( $http->hasPostVariable( "DeleteSubtreeButton" ) )
 $nodeLimitation =& eZPolicyLimitation::fetchByIdentifier( $policyID, "Node" );
 if ( $nodeLimitation != null )
 {
-    $nodeLimitationID = $nodeLimitation->attribute('id');
+    $nodeLimitationID = $nodeLimitation->attribute( 'id' );
     $nodeLimitationValues =& eZPolicyLimitationValue::fetchList( $nodeLimitationID );
     foreach ( array_keys( $nodeLimitationValues ) as $key )
     {
