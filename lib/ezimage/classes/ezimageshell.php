@@ -189,10 +189,14 @@ class eZImageShell
     */
     function conversionString( &$from, &$to, $pre, $post, &$to_dir, &$to_file, &$dest_str )
     {
-        $str = '';
+        $str = '"';
         if ( $this->ExecPath != '' )
-            $str = $this->ExecPath . '/';
-        $str = $this->Exec;
+            $str .= $this->ExecPath . '/';
+        if ( strstr( $this->Exec, $this->ExecPath ) === false ) // if false, Exec does not contain full path
+            $str .= $this->Exec;
+        else
+            $str = '"$this->Exec';
+        $str .= '"';
         $params = array_merge( $this->PreParams, $pre );
         foreach ( $params as $param )
         {
