@@ -155,12 +155,15 @@ tar -zcvf nor-NO.tar.gz share/locale/nor-NO.ini share/translations/nor-NO/transl
 </pre>
 
 <p>
-To install a translation, simply unpack the package and set the appropriate entries in settings/site.ini.
+To install a translation, simply unpack the package and set the appropriate entries in settings/site.ini. These are the keys you need to change to enable the translation:
 </p>
 
-<p>
-Currently, only the admin interface is translated. Read on for information on how to translate other templates or strings in PHP code.
-</p>
+<pre class="example">
+[RegionalSettings]
+Locale=nor-NO
+TextTranslation=enabled
+TranslationCache=enabled
+</pre>
 
 
 
@@ -177,7 +180,7 @@ All user-visible strings in templates should be embedded in the <b>i18n operator
 </pre>
 
 <p>
-The path in this example, design/mydesign/path, is used as a <b>context</b>. It is by this context that the strings are sorted in the linguist. The context does not have to be the actual path to the template file in question, but it can be useful. See the templates of the admin interface for examples.
+The path in this example, design/mydesign/path, is used as a <b>context</b>. It is by this context that the strings are sorted in the linguist. The context does not have to be the actual path to the template file in question, but this can be useful. See the templates of the admin interface for examples.
 </p>
 
 <p>
@@ -185,23 +188,57 @@ You can also add an optional <b>comment</b> as a second argument to the i18n ope
 </p>
 
 <p>
-The i18n operator calls the <b>ezi18n()</b> function in <b>kernel/common/i18n.php</b>. If translation is not enabled in settings/site.ini, then it will simply output the source it is given. Otherwise, it will look up the string in the corresponding .ts file.
+If you need to add <b>variables</b>, use the third argument to the i18n operator.
 </p>
+
+<pre class="example">
+&lt;b&gt;{"The node %1 is a child of %2."|i18n("design/mydesign/path",,array($node.name,$parent_node.name))}&lt;/b&gt;
+&lt;b&gt;{"The node %node is a child of %parent_node."|i18n("design/mydesign/path",,hash("%node",$node.name,"%parent_node",$parent_node.name))}&lt;/b&gt;
+</pre>
+
+<p>
+As the examples show, variables can be used in two ways. You can use the keys %1 to %9, and an array of values to replace them with. You can also use any key you want, as long as you specify them in a hash. Note that automatic translators, such as the Bork translator, may not treat the keys correctly.
+</p>
+
+<p>
+The i18n operator calls the <b>ezi18n()</b> function in <b>kernel/common/i18n.php</b>. If translation is not enabled in settings/site.ini, then it will simply output the source it is given. Otherwise, it will look up the string in the corresponding .ts file. If a translation is not found, it will use the automatic Bork translation. This is useful, as it makes it easy to spot strings that don't have the i18n operator.
+</p>
+
+<p>
+In <b>extensions</b> you should use the <b>x18n</b> operator instead of i18n. The only difference is that x18n takes an additional parameter before the others: The name of the extension.
+</p>
+
+<pre class="example">
+&lt;b&gt;{"The node %1 is a child of %2."|x18n("myextension","design/mydesign/path",,array($node.name,$parent_node.name))}&lt;/b&gt;
+</pre>
 
 
 
 <h2>Making i18n-friendly PHP code</h2>
 
 <p>
-All user-visible strings in PHP-code should be embedded in the ezi18n() function. It is used like this:
+All user-visible strings in PHP-code should be embedded in the <b>ezi18n()</b> function. It is similar to the template operator, except that it takes the source as the second argument. For extensions, use <b>ezx18n()</b>. As with the template operator, you can also use arguments. Use either a plain array and the keys %1 to %9, or an associative array where you specify the keys yourself.
 </p>
 
 <pre class="example">
 $myObject->myFunction( ezi18n( 'kernel/classes/datatypes',
                                'Input is not integer.',
-                               'eZIntegerType' ) );
-</pre>
+                               'Comment: eZIntegerType' ) );
 
-<p>
-The first argument is the context, the second is the text to be translated, and the third is an optional comment. See for instance kernel/classes/datatypes/ezinteger/ezintegertype.php for examples.
-</p>
+$myObject->myFunction( ezx18n( 'myextension'
+                               'modules/mymodule',
+                               'Input is not integer.',
+                               'Comment: eZIntegerType' ) );
+
+$myObject->myFunction( ezi18n( 'kernel/classes/datatypes',
+                               'The node %1 is a child of %2.',
+                               null,
+                               array( $node->name(), $parent_node->name() ) ) );
+
+$myObject->myFunction( ezx18n( 'myextension'
+                               'modules/mymodule',
+                               'The node %node is a child of %parent_node.',
+                               null,
+                               array( "%node" => $node->name(),
+                                      "%parent_node" => $parent_node->name() ) ) );
+</pre>
