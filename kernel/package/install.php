@@ -114,7 +114,7 @@ else if ( $module->isCurrentAction( 'SkipPackage' ) )
 else
 {
     $installElements = array();
-    foreach ( $installItems as $installItem )
+    foreach ( $installItemArray as $installItem )
     {
         $handler =& eZPackage::packageHandler( $installItem['type'] );
         if ( $handler )
