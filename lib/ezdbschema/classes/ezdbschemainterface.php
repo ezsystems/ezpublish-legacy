@@ -792,7 +792,7 @@ class eZDBSchemaInterface
             if ( isset( $fieldsSchema[$searchColName] )  )
             {
                 arrayReplaceKey( $schema[$tableName]['fields'], $searchColName, $replacementColName );
-                eZDebug::writeDebug( "transformed table column name $tableName.$searchColName to $replacementColName" );
+                //eZDebug::writeDebug( "transformed table column name $tableName.$searchColName to $replacementColName" );
             }
 
             // transform column names in indexes
@@ -802,7 +802,7 @@ class eZDBSchemaInterface
                 if ( ( $key = array_search( $searchColName, $indexSchema['fields'] ) ) !== false )
                 {
                     $indexesSchema[$indexName]['fields'][$key] = $replacementColName;
-                    eZDebug::writeDebug( "transformed index field $schemaType:$indexName.$searchColName to $replacementColName" );
+                    //eZDebug::writeDebug( "transformed index field $schemaType:$indexName.$searchColName to $replacementColName" );
                 }
             }
         }
@@ -852,7 +852,7 @@ class eZDBSchemaInterface
                 $fieldSchema['length'] = $replacementLength;
             else
                 unset( $fieldSchema['length'] );
-            eZDebug::writeDebug( "transformed table column type $schemaType:$tableName.$colName from $searchType to $replacementType" );
+            //eZDebug::writeDebug( "transformed table column type $schemaType:$tableName.$colName from $searchType to $replacementType" );
         }
 
         // remove default field values (which are supposed to be empty due to bug in mysql)
@@ -868,7 +868,7 @@ class eZDBSchemaInterface
             }
 
             unset( $schema[$tableName]['fields'][$colName]['default'] );
-            eZDebug::writeDebug( "removed default value from $schemaType:$tableName.$colName" );
+            //eZDebug::writeDebug( "removed default value from $schemaType:$tableName.$colName" );
         }
 
         return true;
