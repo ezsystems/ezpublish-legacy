@@ -7,7 +7,7 @@
     <div class="navigator">
     {section show=is_array( $month.previous )}<div class="previous"><a href={$month.previous.link|ezurl} title="{$month.previous.month} {$month.previous.year}">&laquo; </a></div>{/section}
     <div class="date">
-      <div class="month"><strong>{$month.month}</strong></div><del> </del><div class="year">{$month.year}</div>
+      <div class="month"><strong>{$month.month}</strong></div><div class="year">{$month.year}</div>
     </div>
     {section show=is_array( $month.next )}<div class="next"><a href={$month.next.link|ezurl} title="{$month.next.month} {$month.next.year}">&raquo; </a></div>{/section}
     </div>
@@ -34,7 +34,7 @@
            day_class=first_set( $day.item.class, false() )
            day_link=first_set( $day.item.link, false() )
            day_highlight=first_set( $day.item.highlight, false() )}
-        <td{section show=$day_class|gt(0)} class="{$day_class|wash}"{/section}>{section show=$day_link|gt(0)}<a href={$day_link|ezurl}>{/section}{section show=and(is_boolean($day_highlight),$day_highlight)}<strong>{/section}{$day_number}{section show=and(is_boolean($day_highlight),$day_highlight)}</strong>{/section}{section show=$day_link}</a>{/section}</td>
+        <td{section show=$day_class|gt(0)} class="{$day_class|wash}"{/section}>{section show=$day_link|gt(0)}<a href={$day_link|ezurl}>{/section}{section show=and(is_boolean($day_highlight),$day_highlight)}<strong>{/section}{$day_number}{section show=and(is_boolean($day_highlight),$day_highlight)}</strong>{/section}{section show=$day_link|gt(0)}</a>{/section}</td>
       {/let}
     {/section}
   {/section}
