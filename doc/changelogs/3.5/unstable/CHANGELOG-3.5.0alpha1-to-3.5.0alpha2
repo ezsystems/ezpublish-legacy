@@ -73,6 +73,8 @@ Payment:
   http://ez.no/community/bug_reports/3_5alpha1_undefined_attribute_can_versionread_cannot_get
 - Fixed bug: cancel button did not work when editing a PDF export.
   http://ez.no/community/bug_reports/cancel_button_in_pdf_export
+- Fixed bug: index.php didn't set LastAccessesURI session variable when viewing node #2.
+  (Merged from stable/3.3 rev. 8611, also in stable/3.4 rev. 8612)
 
 *Library:
 
