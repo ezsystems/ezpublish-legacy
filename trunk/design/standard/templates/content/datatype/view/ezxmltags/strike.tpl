@@ -1,2 +1,0 @@
-<strike>{$content}</strike>
-  

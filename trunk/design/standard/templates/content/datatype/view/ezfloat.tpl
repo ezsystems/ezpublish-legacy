@@ -1,1 +1,0 @@
-{$attribute.data_float}

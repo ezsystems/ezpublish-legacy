@@ -1,1 +1,0 @@
-<input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" src={"trash.png"|ezimage} />

@@ -1,1 +1,0 @@
-<a href={concat('content/versionview/',$version.contentobject_id,'/',$version.version)|ezurl}>{$version.name|wash}</a>

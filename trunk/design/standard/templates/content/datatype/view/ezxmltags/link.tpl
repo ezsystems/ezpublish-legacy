@@ -1,1 +1,0 @@
-<a href={$href|ezurl} {section show=$target|gt(0)}target="{$target}"{/section}>{$content}</a>

@@ -1,1 +1,0 @@
-<input class="defaultbutton" type="submit" name="{$id_name}" value="{$value}" />

@@ -1,3 +1,0 @@
-<tr>
-{$content}
-</tr>
