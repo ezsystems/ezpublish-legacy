@@ -27,7 +27,7 @@ function toggleCheckboxes( formname, checkboxname )
 {/literal}
 
 <div class="context-block">
-<h2 class="context-title">{$group.name|classgroup_icon( 'normal', $group.name )}&nbsp;{'%group_name [Class group]'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name|wash ) )}</h2>
+<h2 class="context-title">{$group.name|classgroup_icon( 'normal', $group.name )}&nbsp;{'%group_name [Class group]'|i18n( 'design/admin/class/classlist',, hash( '%group_name', $group.name ) )|wash}</h2>
 
 <div class="context-information">
 <p>{'Last modified'|i18n( 'design/admin/class/classlist' )}: {$group.modified|l10n( shortdatetime )}, {$group_modifier.name}</p>

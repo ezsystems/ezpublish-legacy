@@ -2,7 +2,7 @@
 <form action={'class/grouplist'|ezurl} method="post" name="GroupList">
 
 <div class="context-block">
-<h2 class="context-title">{'Class groups'|i18n( 'design/admin/class/list' )}&nbsp;[{$groups|count}]</h2>
+<h2 class="context-title">{'Class groups [%group_count]'|i18n( 'design/admin/class/list',, hash( '%group_count', $groups|count ) )|wash}</h2>
 
 <table class="list" cellspacing="0">
 <tr>
