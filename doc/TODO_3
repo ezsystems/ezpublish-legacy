@@ -287,6 +287,17 @@ site.ini
 Move items which can be automically created to a separate ini file.
 Such as main node ids.
 
+images
+------
+
+- Convert all gif images to png, we can't really use gif unless we pay
+  royalties to Unisys. Besides png is much better and is support by major
+  browsers.
+- Make sure we pngcrush for making pngs smaller, some programs (such as Photoshop)
+  doesn't store optimized pngs (and also bad png files).
+  pngcrush homepage:
+  http://freshmeat.net/projects/pngcrush/?topic_id=105%2C42
+
 Some crazy ideas we could think about:
 --------------------------------------
 - Move class relation from objects to object versions, that way it's possible
