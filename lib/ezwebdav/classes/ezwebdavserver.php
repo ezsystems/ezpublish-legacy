@@ -397,7 +397,8 @@ class eZWebDAVServer
     function outputCollectionContent( $collection, $requestedProperties )
     {
         // Sanity check & action: if client forgot to ask, we'll still
-        // play along revealing some basic/default properties.
+        // play along revealing some basic/default properties. This is
+        // necessary to make it work with Windows XP + SP2.
         if( count( $requestedProperties ) == 0 )
         {
             $requestedProperties = array( 'displayname',
@@ -408,6 +409,13 @@ class eZWebDAVServer
                                           'resourcetype' );
         }
 
+        // Fix for CaDAVer (text based linux client) -> error if not revealed.
+        // Apparently it does not mess up for other clients so I'll just leave
+        // it without wrapping it inside a client-specific check.
+        if( !in_array( 'getcontenttype', $requestedProperties ) )
+        {
+            $requestedProperties[] = 'getcontenttype';
+        }
 
         $this->appendLogEntry( 'Client requesed ' .
                                count( $requestedProperties ) .
@@ -442,8 +450,13 @@ class eZWebDAVServer
             $creationTime = date( EZ_WEBDAV_CTIME_FORMAT, $entry['ctime'] );
             $modificationTime = date( EZ_WEBDAV_MTIME_FORMAT, $entry['mtime'] );
 
+            // Keep only the path and convert spaces to %20. This is needed
+            // for CaDAVer compatibility and is a more correct way to reveal paths.
+            $parsedPath = parse_url( $entry['href'] );
+            $fixedPath = str_replace( ' ', '%20', $parsedPath['path'] );
+
             $xmlText .= "<D:response>\n" .
-                 " <D:href>" . $entry['href'] ."</D:href>\n" .
+                 " <D:href>" . $fixedPath ."</D:href>\n" .
                  " <D:propstat>\n" .
                  "  <D:prop>\n";
 
@@ -495,6 +508,7 @@ class eZWebDAVServer
             // List the non supported properties and mark with 404
             // This behavior (although recommended/standard) might
             // confuse some clients. Try commenting out if necessary...
+
             $xmlText .= " <D:propstat>\n";
             $xmlText .= "  <D:prop>\n";
             foreach ( $unknownProperties as $unknownProperty )
