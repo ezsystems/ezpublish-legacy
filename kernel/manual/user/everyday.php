@@ -16,6 +16,7 @@
 	<li><a href="#Translate">Translate your content</a></li>
 	<li><a href="#Sorting">Sorting content</a></li>
 	<li><a href="#Tags">Using tags</a></li>
+	<li><a href="#Classes">Classes</a></li>
 </ul>
 <br></br>
 
@@ -313,8 +314,8 @@ of the sorting dropdown menu.
 
 <h2 id="Tags">Using tags</h2>
 <p>
-When you are writing articles etc in eZ publish sometimes you need to edit the text or related objects. 
-Examples on that can be changing size and placement of a picture, bold text, adding links or making headers. 
+When you are writing articles etc in eZ publish sometimes you need to edit the text or related objects.
+Examples on that can be changing size and placement of a picture, bold text, adding links or making headers.
 for that we use simple tags *.</p>
 
 <p>These are the standard tags you can use to do that:
@@ -334,6 +335,47 @@ for that we use simple tags *.</p>
 <li>&lt;table border='0-10' width="1-100%"&gt;table content&lt;/table&gt; where attribute 'border' and 'width' could be not presented. Table content should be written according to normal table syntax with &lt;tr&gt; and &lt;td&gt; tag.</li>
 <li>&lt;image align="" src="..."&gt; if you want to change size and placement of a picture.</li>
 </ul>
-<p>* Editors will be available at <a href="www.ez.no"> ez.no</a> to make this process much easier.</p>  
+<p>* Editors will be available at <a href="www.ez.no"> ez.no</a> to make this process much easier.</p>
+
+<h2 id="Classes">Classes</h2>
+<p>
+In eZ publish you can define your own content classes. A content class
+is an object definition if you like. Some examples of content classes
+are article, forum, product and user account.
+</p>
+
+<p>
+To be able to create for instance an article you have to decide what
+this article should look like. This you can read more about in
+www.ez.no/SDK and we will not take this further up here. When you have
+created the different classes you seldom need to do anything with this
+again (eZ publish 3 also comes with demo set-ups of articles, folders,
+products etc)
+</p>
+
+<p>
+The "design" of the different classes you can find in the Class list or
+Defined class groups. The Class list is available from the Set up box in
+the Admin interface. When you click "Classes" you will se the Class
+list. This is a list naming the different class groups you have on your
+site. For instance a class group can be "Content". In the "Content"
+folder you store classes like article, form or product. It is from this
+location you will find the classes in the dropdown menu when you want to
+create a new article, product etc. If you create a new class in this
+list it will be available in the dropdown menu.
+</p>
+
+<p>
+In this menu it is also possible to Edit and Remove the Classes. When
+ticking the Remove box for the class you want to delete and click Remove
+it will be deleted from the system.
+You can also create a new class group. To do that you click the "New"
+button and type in the name of the new group and save it. These groups
+can for instance be Partners, Customers, Products, Content and Users.
+</p>
+
+<p>
+For more info about classes please read the <a href="http://sdk.ez.no">eZ publish SDK.</a>
+</p>
 
 
