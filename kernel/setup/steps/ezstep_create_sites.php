@@ -130,7 +130,7 @@ class eZStepCreateSites extends eZStepInstaller
             $accessType = $sitePackage['access_type'];
             $package =& eZPackage::fetch( $sitePackage['identifier'], 'kernel/setup/packages' );
             $this->initializePackage( $package, $sitePackage, $accessMap, $charset,
-                                      $allLanguageCodes, $allLanguages, $primaryLanguage );
+                                      $allLanguageCodes, $allLanguages, $primaryLanguage, $this->PersistenceList['admin'] );
         }
 
         $regionalInfo = $this->PersistenceList['regional_info'];
@@ -233,7 +233,8 @@ class eZStepCreateSites extends eZStepInstaller
 
     function initializePackage( &$package, $sitePackage,
                                 &$accessMap, $charset,
-                                &$allLanguageCodes, &$allLanguages, &$primaryLanguage )
+                                &$allLanguageCodes, &$allLanguages, &$primaryLanguage,
+                                &$admin)
     {
         switch ( $sitePackage['access_type'] )
         {
@@ -322,15 +323,11 @@ class eZStepCreateSites extends eZStepInstaller
                 $siteINIChanges['DatabaseSettings']['Socket'] = $dbSocket;
             else
                 $siteINIChanges['DatabaseSettings']['Socket'] = 'disabled';
-            if ( $sitePackage['email'] )
+            if ( $this->PersistenceList['admin']['email'] )
             {
-//                 $siteINIChanges['InformationCollectionSettings'] = array( 'EmailReceiver' => $sitePackage['email'] );
-//                 $siteINIChanges['UserSettings'] = array( 'RegistrationEmail' => $sitePackage['email'] );
-//                 $siteINIChanges['MailSettings'] = array( 'AdminEmail' => $sitePackage['email'],
-//                                                          'EmailSender' => $sitePackage['email'] );
                 $siteINIChanges['InformationCollectionSettings'] = array( 'EmailReceiver' => false );
                 $siteINIChanges['UserSettings'] = array( 'RegistrationEmail' => false );
-                $siteINIChanges['MailSettings'] = array( 'AdminEmail' => $sitePackage['email'],
+                $siteINIChanges['MailSettings'] = array( 'AdminEmail' =>  $this->PersistenceList['admin']['email'],
                                                          'EmailSender' => false );
             }
             $siteINIChanges['RegionalSettings'] = array( 'Locale' => $primaryLanguage->localeFullCode(),
@@ -346,6 +343,22 @@ class eZStepCreateSites extends eZStepInstaller
             $installParameters['variables']['admin_siteaccess'] = $adminSiteaccessName;
             $installParameters['variables']['design'] = $userDesignName;
             $package->install( $installParameters );
+
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $userAccount =& eZUser::fetch( 14 );
+            $userObject =& $userAccount->attribute( 'contentobject' );
+            $userAccount->setInformation( 14, 'admin', $admin['email'], $admin['password'], $admin['password'] );
+            $dataMap =& $userObject->attribute( 'data_map' );
+            $dataMap['first_name']->setAttribute( 'data_text', $admin['first_name'] );
+            $dataMap['first_name']->store();
+            $dataMap['last_name']->setAttribute( 'data_text', $admin['last_name'] );
+            $dataMap['last_name']->store();
+            $userObject->store();
+            $userAccount->store();
+
+            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userObject->attribute( 'id' ),
+                                                                                         'version' => $userObject->attribute( 'version' ) ) );
         }
         else
             eZDebug::writeError( "Failed fetching package " . $sitePackage['identifier'] );

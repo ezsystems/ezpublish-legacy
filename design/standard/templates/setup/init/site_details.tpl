@@ -41,6 +41,42 @@
 </blockquote>
 {/section}
 
+{section show=eq( $password_missmatch, 1 )}
+<blockquote class="error">
+<h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
+<p>
+  {"Your passwords do not match."|i18n("design/standard/setup/init")}
+</p>
+</blockquote>
+{/section}
+
+<p>
+{"Admin user settings"|i18n("design/standard/setup/init")}
+<table border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td>{"First name"|i18n("design/standard/setup/init")}:&nbsp;</td>
+    <td><input type="text" size="15" name="eZSetup_site_templates_first_name" value="{$admin.first_name|wash}" /></td>
+  </tr>
+  <tr>
+    <td>{"Last name"|i18n("design/standard/setup/init")}:&nbsp;</td>
+    <td><input type="text" size="15" name="eZSetup_site_templates_last_name" value="{$admin.last_name|wash}" /></td>
+  </tr>
+  <tr>
+    <td>{"Email"|i18n("design/standard/setup/init")}:&nbsp;</td>
+    <td><input type="text" size="30" name="eZSetup_site_templates_email" value="{$admin.email|wash}" /></td>
+  </tr>
+  <tr>
+    <td>{"Password"|i18n("design/standard/setup/init")}:&nbsp;</td>
+    <td><input type="password" size="15" name="eZSetup_site_templates_password1" value="{$admin.password|wash}" /></td>
+  </tr>
+  <tr>
+    <td>{"Password"|i18n("design/standard/setup/init")}:&nbsp;</td>
+    <td><input type="password" size="15" name="eZSetup_site_templates_password2" value="{$admin.password|wash}" /></td>
+  </tr>
+
+</table>
+</p>
+
   <p>
   <table border="0" cellspacing="0" cellpadding="0">
     
@@ -60,27 +96,23 @@
 
           <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
-	      <td>{"Title"|i18n("design/standard/setup/init")}: </td>
+	      <td>{"Title"|i18n("design/standard/setup/init")}:&nbsp;</td>
 	      <td><input type="text" size="30" name="eZSetup_site_templates_{$:index}_title" value="{$:item.title|wash}" /></td>
 	    </tr>
 	    <tr>
-	      <td>{"Site url"|i18n("design/standard/setup/init")}: </td>
+	      <td>{"Site url"|i18n("design/standard/setup/init")}:&nbsp;</td>
 	      <td><input type="text" size="30" name="eZSetup_site_templates_{$:index}_url" value="{$:item.url|wash}" /></td>
-	    </tr>
-	    <tr>
-	      <td>{"Admin e-mail"|i18n("design/standard/setup/init")}: </td>
-	      <td><input type="text" size="30" name="eZSetup_site_templates_{$:index}_email" value="{$:item.email|wash}" /></td>
 	    </tr>
 	    <tr>
               {switch match=$:item.access_type}
               {case match='url'}
-                <td>{"User path"|i18n("design/standard/setup/init")}: </td>
+                <td>{"User path"|i18n("design/standard/setup/init")}:&nbsp;</td>
               {/case}
               {case match='port'}
-                <td>{"User port"|i18n("design/standard/setup/init")}: </td>
+                <td>{"User port"|i18n("design/standard/setup/init")}:&nbsp;</td>
               {/case}
               {case match='hostname'}
-                <td>{"User hostname"|i18n("design/standard/setup/init")}: </td>
+                <td>{"User hostname"|i18n("design/standard/setup/init")}:&nbsp;</td>
               {/case}
               {case/}
               {/switch}
@@ -89,13 +121,13 @@
 	    <tr>
               {switch match=$:item.access_type}
               {case match='url'}
-                <td>{"Admin path"|i18n("design/standard/setup/init")}: </td>
+                <td>{"Admin path"|i18n("design/standard/setup/init")}:&nbsp;</td>
               {/case}
               {case match='port'}
-                <td>{"Admin port"|i18n("design/standard/setup/init")}: </td>
+                <td>{"Admin port"|i18n("design/standard/setup/init")}:&nbsp;</td>
               {/case}
               {case match='hostname'}
-                <td>{"Admin hostname"|i18n("design/standard/setup/init")}: </td>
+                <td>{"Admin hostname"|i18n("design/standard/setup/init")}:&nbsp;</td>
               {/case}
               {case/}
               {/switch}

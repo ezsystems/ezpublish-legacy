@@ -21,29 +21,17 @@
         <div align="bottom">
 	  <table border="0" cellspacing="0" cellpadding="0">
             <tr>
-	      <td>{"Title"|i18n("design/standard/setup/init")}: </td>
+	      <td>{"Title"|i18n("design/standard/setup/init")}:&nbsp;</td>
 	      <td>{$:item.name|wash}</td>
 	    </tr>
 	    <tr>
-	      <td>{"URL"|i18n("design/standard/setup/init")}: </td>
+	      <td>{"URL"|i18n("design/standard/setup/init")}:&nbsp;</td>
 	      <td><a href="{$:item.url|wash}" target="_blank" class="setup_final">{"User site"|i18n('design/standard/setup/init')}</a>, <a href="{$:item.admin_url|wash}" target="_blank" class="setup_final">{"Admin site"|i18n('design/standard/setup/init')}</a></td>
 	    </tr>
 	    <tr>
-	      <td>{"Admin e-mail"|i18n("design/standard/setup/init")}: </td>
-	      <td>{$:item.email|wash}</td>
-	    </tr>
-	    <tr>
-	      <td>{"Username"|i18n("design/standard/setup/init")}: </td>
+	      <td>{"Username"|i18n("design/standard/setup/init")}:&nbsp;</td>
 	      <td>admin</td>
 	    </tr>
-	    <tr>
-	      <td>{"Password"|i18n("design/standard/setup/init")}: </td>
-	      <td>publish</td>
-	    </tr>
-{*	    <tr>
-	      <td>{"Site access"|i18n("design/standard/setup/init")} {$:item.access_type|wash}: </td>
-	      <td>{$:item.access_type_value|wash}</td>
-	    </tr>*}
 	  </table>
 
         </div>
