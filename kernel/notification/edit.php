@@ -116,9 +116,7 @@ if ( $http->hasPostVariable( "DiscardRuleButton" ) )
 
 if ( $http->hasPostVariable( "RemoveRuleButton" ) )
 {
-    if ( $rule )
-        $rule->remove();
-    eZNotificationRule::remove( $rule->attribute( 'id' ) );
+    $ruleType->removeRule( $rule );
     if ( !$redirectURL )
         $redirectURL = $Module->functionURI( "list" );
     $Module->redirectTo( $redirectURL );

@@ -175,6 +175,18 @@ class eZNotificationRuleType
         return $rule;
     }
 
+    function &removeRule( &$rule )
+    {
+        if ( is_object( $rule ) )
+        {
+            $ruleID = $rule->attribute( 'id' );
+            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            $userID = eZUser::currentUserID();
+            eZNotificationRule::remove( $ruleID );
+            eZNotificationUserLink::remove( $ruleID, $userID );
+        }
+    }
+
     var $NotificationRuleString;
     var $Name;
 }
