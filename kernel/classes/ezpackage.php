@@ -576,11 +576,11 @@ class eZPackage
 
 	function maintainerRoleName( $roleID )
 	{
-		$nameMap = array( 'lead' => 'Lead',
-						  'developer' => 'Developer',
-						  'designer' => 'Designer',
-						  'contributor' => 'Contributor',
-						  'tester' => 'Tester' );
+		$nameMap = array( 'lead' => ezi18n( 'kernel/package', 'Lead' ),
+						  'developer' => ezi18n( 'kernel/package', 'Developer' ),
+						  'designer' => ezi18n( 'kernel/package', 'Designer' ),
+						  'contributor' => ezi18n( 'kernel/package', 'Contributor' ),
+						  'tester' => ezi18n( 'kernel/package', 'Tester' ) );
 		if ( isset( $nameMap[$roleID] ) )
 			return $nameMap[$roleID];
 		return false;

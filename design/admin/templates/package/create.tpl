@@ -22,14 +22,13 @@
     <p>{'Choose one of the following wizards for creating a package'|i18n('design/admin/package')}</p>
 
     <div class="creatorlist">
-    <ul>
     {section var=creator loop=$creator_list}
-        <li><input class="radiobutton" id="{$creator.item.id|wash}" type="radio" name="CreatorItemID" value="{$creator.item.id|wash}" {section show=$creator.index|eq( 0 )}checked="checked"{/section} />{$creator.item.name|wash}</li>
+        <input class="radiobutton" id="{$creator.item.id|wash}" type="radio" name="CreatorItemID" value="{$creator.item.id|wash}" {section show=$creator.index|eq( 0 )}checked="checked"{/section} />{$creator.item.name|wash}<br />
     {/section}
-    </ul>
     </div>
 
 </div>
+{* DESIGN: Content END *}</div></div></div>
 
     <div class="controlbar">
     {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">

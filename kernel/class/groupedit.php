@@ -54,7 +54,7 @@ else
     $user =& eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
     $classgroup =& eZContentClassGroup::create( $user_id );
-    $classgroup->setAttribute( "name", "New Group" );
+    $classgroup->setAttribute( "name", ezi18n( 'kernel/class/groupedit', "New Group" ) );
     $classgroup->store();
     $GroupID = $classgroup->attribute( "id" );
     $Module->redirectTo( $Module->functionURI( "groupedit" ) . "/" . $GroupID );

@@ -113,7 +113,7 @@ else
     $user =& eZUser::currentUser();
     $user_id = $user->attribute( 'contentobject_id' );
     $class =& eZContentClass::create( $user_id );
-    $class->setAttribute( 'name', 'New Class' );
+    $class->setAttribute( 'name', ezi18n( 'kernel/class/edit', 'New Class' ) );
     $class->store();
     $ClassID = $class->attribute( 'id' );
     $ClassVersion = $class->attribute( 'version' );
@@ -536,7 +536,7 @@ if ( $http->hasPostVariable( 'NewButton' ) )
 {
     $new_attribute =& eZContentClassAttribute::create( $ClassID, $cur_datatype );
     $attrcnt = count( $attributes ) + 1;
-    $new_attribute->setAttribute( 'name', 'new attribute'. $attrcnt );
+    $new_attribute->setAttribute( 'name', ezi18n( 'kernel/class/edit', 'new attribute' ) . $attrcnt );
     $dataType = $new_attribute->dataType();
     $dataType->initializeClassAttribute( $new_attribute );
     $new_attribute->store();
