@@ -47,7 +47,7 @@ class eZTemplateVariableElement
     /*!
      Initializes the object with the value array and operators.
     */
-    function eZTemplateVariableElement( &$data )
+    function eZTemplateVariableElement( $data )
     {
         $this->Variable = $data;
     }
@@ -58,6 +58,13 @@ class eZTemplateVariableElement
     function name()
     {
         return "#variable";
+    }
+
+    function serializeData()
+    {
+        return array( 'class_name' => 'eZTemplateVariableElement',
+                      'parameters' => array( 'data' ),
+                      'variables' => array( 'data' => 'Variable' ) );
     }
 
     /*!

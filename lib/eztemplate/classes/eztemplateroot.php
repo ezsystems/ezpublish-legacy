@@ -53,8 +53,9 @@ class eZTemplateRoot
     /*!
      Initializes the object.
     */
-    function eZTemplateRoot()
+    function eZTemplateRoot( $children = array() )
     {
+        $this->Children = $children;
     }
 
     /*!
@@ -63,6 +64,13 @@ class eZTemplateRoot
     function name()
     {
         return "#root";
+    }
+
+    function serializeData()
+    {
+        return array( 'class_name' => 'eZTemplateRoot',
+                      'parameters' => array( 'children' ),
+                      'variables' => array( 'children' => 'Children' ) );
     }
 
     /*!

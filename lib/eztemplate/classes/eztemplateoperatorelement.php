@@ -51,10 +51,12 @@ class eZTemplateOperatorElement
     /*!
      Initializes the operator with a name and parameters.
     */
-    function eZTemplateOperatorElement( &$name, &$params )
+    function eZTemplateOperatorElement( $name, $params, $resource = null, $templateName = null )
     {
         $this->Name = $name;
         $this->Params = $params;
+        $this->Resource = $resource;
+        $this->TemplateName = $templateName;
     }
 
     function setResourceRelation( $resource )
@@ -83,6 +85,16 @@ class eZTemplateOperatorElement
     function &name()
     {
         return $this->Name;
+    }
+
+    function serializeData()
+    {
+        return array( 'class_name' => 'eZTemplateOperatorElement',
+                      'parameters' => array( 'name', 'parameters', 'resource', 'template_name' ),
+                      'variables' => array( 'name' => 'Name',
+                                            'parameters' => 'Params',
+                                            'resource' => 'Resource',
+                                            'template_name' => 'TemplateName' ) );
     }
 
     /*!

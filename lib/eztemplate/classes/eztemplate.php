@@ -811,7 +811,13 @@ class eZTemplate
     function &doFunction( &$name, &$func_obj, $nspace, $current_nspace )
     {
         $func =& $this->Functions[$name];
-        if ( isset( $func ) )
+        if ( is_array( $func ) )
+        {
+            $this->loadAndRegisterFunctions( $this->Functions[$name] );
+            $func =& $this->Functions[$name];
+        }
+        if ( isset( $func ) and
+             is_object( $func ) )
         {
             return $func->process( $this, $name, $func_obj, $nspace, $current_nspace );
         }

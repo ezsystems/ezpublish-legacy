@@ -47,7 +47,7 @@ class eZTemplateTextElement
     /*!
      Initializes the object with the text.
     */
-    function eZTemplateTextElement( &$text )
+    function eZTemplateTextElement( $text )
     {
         $this->Text = $text;
     }
@@ -58,6 +58,13 @@ class eZTemplateTextElement
     function name()
     {
         return "#text";
+    }
+
+    function serializeData()
+    {
+        return array( 'class_name' => 'eZTemplateTextElement',
+                      'parameters' => array( 'text' ),
+                      'variables' => array( 'text' => 'Text' ) );
     }
 
     /*!

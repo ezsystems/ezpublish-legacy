@@ -53,10 +53,11 @@ class eZTemplateFunctionElement
     /*!
      Initializes the function with a name and parameter array.
     */
-    function eZTemplateFunctionElement( &$name, &$params )
+    function eZTemplateFunctionElement( $name, $params, $children = array() )
     {
         $this->Name = $name;
         $this->Params =& $params;
+        $this->Children = $children;
     }
 
     function setResourceRelation( $resource )
@@ -85,6 +86,15 @@ class eZTemplateFunctionElement
     function name()
     {
         return $this->Name;
+    }
+
+    function serializeData()
+    {
+        return array( 'class_name' => 'eZTemplateFunctionElement',
+                      'parameters' => array( 'name', 'parameters', 'children' ),
+                      'variables' => array( 'name' => 'Name',
+                                            'parameters' => 'Params',
+                                            'children' => 'Children' ) );
     }
 
     /*!

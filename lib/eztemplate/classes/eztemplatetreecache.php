@@ -104,8 +104,64 @@ class eZTemplateTreeCache
                                               'resource_parameters' => $extraParameters );
     }
 
+    function canRestoreCache( $key )
+    {
+        $templateCache =& eZTemplateTreeCache::cacheTable();
+        if ( isset( $templateCache[$key] ) )
+        {
+            return false;
+        }
+        $internalCharset = eZTextCodec::internalCharset();
+        $cacheFileKey = "$key-$internalCharset";
+        $cacheFileName = md5( $cacheFileKey ) . '.php';
+
+        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+
+        $php = new eZPHPCreator( 'var/cache/template/tree', $cacheFileName );
+        return $php->canRestore();
+    }
+
+    function restoreCache( $key )
+    {
+        $templateCache =& eZTemplateTreeCache::cacheTable();
+        if ( isset( $templateCache[$key] ) )
+        {
+            eZDebug::writeWarning( "Template cache for key '$key' already exist, cannot restore cache", 'eZTemplateTreeCache::restoreCache' );
+            return false;
+        }
+        $internalCharset = eZTextCodec::internalCharset();
+        $cacheFileKey = "$key-$internalCharset";
+        $cacheFileName = md5( $cacheFileKey ) . '.php';
+
+        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+
+        $php = new eZPHPCreator( 'var/cache/template/tree', $cacheFileName );
+        $variables =& $php->restore( array( 'info' => 'TemplateInfo',
+                                            'root' => 'TemplateRoot',
+                                            'cache_date' => 'eZTemplateTreeCacheCodeDate' ) );
+//         if ( $variables['info']['uri'] == "design:content/view/text_linked.tpl" or
+//              $variables['info']['uri'] == "design:left_menu.tpl" or
+//              $variables['info']['uri'] == "design:node/view/full.tpl" or
+// //              $variables['info']['uri'] == "design:content/view/versionview.tpl" or
+//              $variables['info']['uri'] == "design:pagelayout.tpl" or
+//              $variables['info']['uri'] == "design:content/datatype/view/ezinteger.tpl" or
+//              $variables['info']['uri'] == "design:content/datatype/view/ezstring.tpl" or
+//              $variables['info']['uri'] == "design:content/datatype/view/ezboolean.tpl" )
+//         if ( false )
+        {
+//             print( "<pre>" );
+//             var_dump( $variables['root'] );
+//             print( "</pre>" );
+            $cache =& $templateCache[$key];
+            $cache['root'] =& $variables['root'];
+            $cache['info'] =& $variables['info'];
+        }
+        return true;
+    }
+
     function storeCache( $key )
     {
+//         return;
         $templateCache =& eZTemplateTreeCache::cacheTable();
         if ( !isset( $templateCache[$key] ) )
         {
@@ -123,7 +179,9 @@ class eZTemplateTreeCache
         $php = new eZPHPCreator( 'var/cache/template/tree', $cacheFileName );
         $php->addVariable( 'eZTemplateTreeCacheCodeDate', EZ_TEMPLATE_TREE_CACHE_CODE_DATE );
         $php->addSpace();
-        $php->addVariable( 'info', $cache['info'] );
+        $php->addVariable( 'TemplateInfo', $cache['info'] );
+        $php->addSpace();
+        $php->addVariable( 'TemplateRoot', $cache['root'] );
         $php->store();
     }
 }

@@ -57,6 +57,7 @@ class eZPHPCreator
         $this->PHPFile = $file;
         $this->FileResource = false;
         $this->Elements = array();
+        $this->TextChunks = array();
     }
 
     function open()
@@ -67,14 +68,14 @@ class eZPHPCreator
             {
                 include_once( 'lib/ezutils/classes/ezdir.php' );
                 $ini =& eZINI::instance();
-                $perm = $ini->variable( 'FileSettings', 'StorageDirPermissions' );
+                $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
                 eZDir::mkdir( $this->PHPDir, $perm, true );
             }
             $path = $this->PHPDir . '/' . $this->PHPFile;
             $oldumask = umask( 0 );
             $pathExisted = file_exists( $path );
             $ini =& eZINI::instance();
-            $perm = $ini->variable( 'FileSettings', 'StorageFilePermissions' );
+            $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
             $this->FileResource = fopen( $path, "w" );
             if ( !$pathExisted )
                 chmod( $path, $perm );
@@ -90,6 +91,30 @@ class eZPHPCreator
             fclose( $this->FileResource );
             $this->FileResource = false;
         }
+    }
+
+    function canRestore()
+    {
+        $path = $this->PHPDir . '/' . $this->PHPFile;
+        return file_exists( $path );
+    }
+
+    function restore( $variableDefinitions )
+    {
+        $returnVariables = array();
+        $path = $this->PHPDir . '/' . $this->PHPFile;
+        include( $path );
+        foreach ( $variableDefinitions as $variableReturnName => $variableName )
+        {
+            if ( isset( ${$variableName} ) )
+            {
+                $returnVariables[$variableReturnName] =& ${$variableName};
+            }
+            else
+                eZDebug::writeError( "Variable '$variableName' is not present in cache '$path'",
+                                     'eZPHPCreator::restore' );
+        }
+        return $returnVariables;
     }
 
     function store()
@@ -113,12 +138,31 @@ class eZPHPCreator
             }
 
             $this->write( "?>\n" );
+
+            $this->writeChunks();
+            $this->flushChunks();
         }
+    }
+
+    function writeChunks()
+    {
+        $count = count( $this->TextChunks );
+        for ( $i = 0; $i < $count; ++$i )
+        {
+            $text = $this->TextChunks[$i];
+            fwrite( $this->FileResource, $text );
+        }
+    }
+
+    function flushChunks()
+    {
+        $this->TextChunks = array();
     }
 
     function write( $text )
     {
-        fwrite( $this->FileResource, $text );
+//         fwrite( $this->FileResource, $text );
+        $this->TextChunks[] = $text;
     }
 
     function writeSpace( $element )
@@ -144,15 +188,49 @@ class eZPHPCreator
             $text = 'null';
         else if ( is_string( $value ) )
         {
-            $valueText = str_replace( array( "\"",
+            $valueText = str_replace( array( "\\",
+                                             "\"",
                                              "\n" ),
-                                      array( "\\\"",
+                                      array( "\\\\",
+                                             "\\\"",
                                              "\\n" ),
                                       $value );
             $text = "\"$valueText\"";
         }
         else if ( is_numeric( $value ) )
             $text = $value;
+        else if ( is_object( $value ) )
+        {
+            $text = '';
+            if ( method_exists( $value, 'serializedata' ) )
+            {
+                $serializeData = $value->serializeData();
+                $className = $serializeData['class_name'];
+                $text = "new $className(";
+
+                $column += strlen( $text );
+                $parameters = $serializeData['parameters'];
+                $variables = $serializeData['variables'];
+
+                $i = 0;
+                foreach ( $parameters as $parameter )
+                {
+                    if ( $i > 0 )
+                    {
+                        $text .= ",\n" . str_repeat( ' ', $column );
+                    }
+                    $variableName = $variables[$parameter];
+                    $variableValue = $value->$variableName;
+                    $keyText = " ";
+                    $text .= $keyText . $this->variableText( $variableValue, $column + strlen( $keyText  ) );
+                    ++$i;
+                }
+                if ( $i > 0 )
+                    $text .= ' ';
+
+                $text .= ')';
+            }
+        }
         else if ( is_array( $value ) )
         {
             $text = 'array(';
@@ -168,9 +246,11 @@ class eZPHPCreator
                 if ( is_int( $key ) )
                     $keyText = $key;
                 else
-                    $keyText = "\"" . str_replace( array( "\"",
+                    $keyText = "\"" . str_replace( array( "\\",
+                                                          "\"",
                                                           "\n" ),
-                                                   array( "\\\"",
+                                                   array( "\\\\",
+                                                          "\\\"",
                                                           "\\n" ),
                                                    $key ) . "\"";
                 $keyText = " $keyText => ";
@@ -206,6 +286,7 @@ class eZPHPCreator
     var $PHPFile;
     var $FileResource;
     var $Elements;
+    var $TextChunks;
 }
 
 ?>
