@@ -179,6 +179,7 @@ function eZSetupCheckMagicQuotes( $type, &$arguments )
 function eZSetupTestPhpVersion( $type, &$arguments )
 {
     $minVersion = eZSetupConfigVariable( $type, 'MinimumVersion' );
+    $unstableVersionArray = eZSetupConfigVariableArray( $type, 'UnstableVersions' );
 
     /*
      // Get the operating systems name
@@ -200,37 +201,31 @@ function eZSetupTestPhpVersion( $type, &$arguments )
     $currentVersion = phpversion();
     $currentVersionArray = explode( '.', $currentVersion );
     $neededVersionArray = explode( '.', $neededVersion );
-//    $compCurrentVersion = str_replace( ".", "", $currentVersion );
-//    $compNeededVersion = str_replace( ".", "", $neededVersion );
-    $result = false;
-    $count = min( count( $currentVersionArray ), count( $neededVersionArray ) );
-    $equal = false;
-    for ( $i = 0; $i < $count; ++$i )
+
+    $warningVersion = false;
+    $result = eZSetupPrvtVersionCompare( $currentVersionArray, $neededVersionArray ) >= 0;
+
+    if ( $result )
     {
-        $equal = false;
-        if ( $currentVersionArray[$i] > $neededVersionArray[$i] )
+        foreach ( array_keys( $unstableVersionArray ) as $key )
         {
-            $result = true;
-            break;
+            $unstableVersion = explode( '.', $unstableVersionArray[$key] );
+            if ( eZSetupPrvtVersionCompare( $currentVersionArray, $unstableVersion ) == 0 )
+            {
+                $result = false;
+                $warningVersion = true;
+                break;
+            }
         }
-        else if ( $currentVersionArray[$i] < $neededVersionArray[$i] )
-        {
-            $result = false;
-            break;
-        }
-        $equal = true;
     }
-    if ( $equal )
-        $result = true;
-//    if ( $compCurrentVersion >= $compNeededVersion )
-//        $result = true;
 
     return array( 'result' => $result,
                   'persistent_data' => array( 'result' => array( 'value' => $result ),
                                               'found' => array( 'value' => $currentVersion ),
                                               'required' => array( 'value' => $neededVersion ) ),
                   'needed_version' => $neededVersion,
-                  'current_version' => $currentVersion );
+                  'current_version' => $currentVersion,
+                  'warning_version' => $warningVersion );
 }
 
 
@@ -641,6 +636,37 @@ function eZSetupTestSafeMode( $type, &$arguments )
     return array( 'result' => $result,
                   'current_path' => realpath( '.' ),
                   'persistent_data' => array() );
+}
+
+/*!
+ Check if two version arrays are equel, greater or less than each other
+
+ \param user first version array
+ \param second version array
+
+ \return < 0 if 1. version less than 2. version
+           0 if versions are equal
+         > 0 if 1. version is greater than 2. version
+*/
+function eZSetupPrvtVersionCompare( $versionArray1, $versionArray2 )
+{
+    $equal = false;
+    $count = min( count( $versionArray1 ), count( $versionArray2 ) );
+    for ( $i = 0; $i < $count; ++$i )
+    {
+        $equal = false;
+        if ( $versionArray1[$i] > $versionArray2[$i] )
+        {
+            return 1;
+        }
+        else if ( $versionArray1[$i] < $versionArray2[$i] )
+        {
+            return -1;
+        }
+        $equal = true;
+    }
+    if ( $equal )
+        return 0;
 }
 
 ?>
