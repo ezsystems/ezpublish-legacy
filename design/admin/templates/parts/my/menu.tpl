@@ -31,9 +31,9 @@
 <ul>
     <li class="nobullet">{'Locations'}:
     {section show=ezpreference( 'admin_edit_show_locations' )}
-        <span class="current">{'on'|i18n( 'design/admin/parts/my/menu' )}</span>&nbsp;<a href={concat( '/user/preferences/set/admin_edit_show_locations/0/', $uri_string )|ezurl} title="{'Disable location window when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'off'|i18n( 'design/admin/parts/my/menu' )}</a>
+        <span class="current">{'on'|i18n( 'design/admin/parts/my/menu' )}</span>&nbsp;<a href={'/user/preferences/set/admin_edit_show_locations/0'|ezurl} title="{'Disable location window when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'off'|i18n( 'design/admin/parts/my/menu' )}</a>
     {section-else}
-        <a href={concat( '/user/preferences/set/admin_edit_show_locations/1/', $uri_string )|ezurl} title="{'Enable location window when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'on'|i18n( 'design/admin/parts/my/menu' )}</a>&nbsp;<span class="current">{'off'|i18n( 'design/admin/parts/my/menu' )}</span>
+        <a href={'/user/preferences/set/admin_edit_show_locations/1'|ezurl} title="{'Enable location window when editing content.'|i18n( 'design/admin/parts/my/menu' )}">{'on'|i18n( 'design/admin/parts/my/menu' )}</a>&nbsp;<span class="current">{'off'|i18n( 'design/admin/parts/my/menu' )}</span>
     {/section}
     </li>
 </ul>
