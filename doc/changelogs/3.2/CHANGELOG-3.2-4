@@ -47,6 +47,7 @@ Changes from 3.2-3 to 3.2-4
 - Sending objects to trash no longer removes the node assignments (location) of the current version.
   http://ez.no/developer/ez_publish_3/bug_reports/restore_from_trash_returns_error
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/kernelcontentversionviewphp_missing_node_pseudo_path_attribute
+- Fixed fetch( content, tree_count ... operator bug, http://ez.no/developer/ez_publish_3/bug_reports/missing_depth_operator_in_function_definition
 
 *Library :
 

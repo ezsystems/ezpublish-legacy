@@ -28,6 +28,7 @@
   http://ez.no/developer/ez_publish_3/bug_reports/custom_notification_handler_in_extension_wont_work
 - Fixed bug dowloading PDF documents directly : http://ez.no/developer/ez_publish_3/bug_reports/pdf_export_for_direct_download_does_not_work
 - Fixed bug http://ez.no/developer/ez_publish_3/bug_reports/kernelcontentversionviewphp_missing_node_pseudo_path_attribute ( merged from stable 4325 )
+- Fixed fetch( content, tree_count ... operator bug, http://ez.no/developer/ez_publish_3/bug_reports/missing_depth_operator_in_function_definition
 - Sending objects to trash no longer removes the node assignments (location) of the current version.
   http://ez.no/developer/ez_publish_3/bug_reports/restore_from_trash_returns_error
 

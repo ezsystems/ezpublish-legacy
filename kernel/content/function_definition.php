@@ -305,7 +305,11 @@ $FunctionList['tree_count'] = array( 'name' => 'tree_count',
                                                             array( 'name' => 'depth',
                                                                    'type' => 'string',
                                                                    'required' => false,
-                                                                   'default' => 0 ) ) );
+                                                                   'default' => false ),
+                                                            array( 'name' => 'depth_operator',
+                                                                   'type' => 'string',
+                                                                   'required' => false,
+                                                                   'default' => false ) ) );
 
 
 $FunctionList['search'] = array( 'name' => 'search',
