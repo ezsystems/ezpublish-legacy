@@ -88,20 +88,20 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
     $nodeAssignments =& eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), $version->attribute( 'version' ) ) ;
     eZDebug::writeNotice( $mainNodeID, "mainNodeID" );
 
-    $sortfieldMap = $http->postVariable( 'SortFieldMap' );
-    $sortorderMap = $http->postVariable( 'SortOrderMap' );
+    $sortOrderMap = $http->postVariable( 'SortOrderMap' );
+    $sortFieldMap = $http->postVariable( 'SortFieldMap' );
+    $assigedNodes =& eZContentObjectTreeNode::fetchByContentObjectID( $object->attribute('id') );
     foreach( array_keys( $nodeAssignments ) as $key )
     {
         $nodeAssignment =& $nodeAssignments[$key];
         eZDebug::writeNotice( $nodeAssignment, "nodeAssignment" );
-        $nodeAssignment->setAttribute( 'sort_field', $sortfieldMap[$nodeAssignment->attribute( 'id' )] );
-        $sortorder = 0;
-        if ( isset( $sortorderMap[$nodeAssignment->attribute( 'id' )] ) )
-            $sortorder = 1;
-        $nodeAssignment->setAttribute( 'sort_order', $sortorder );
+        $nodeAssignment->setAttribute( 'sort_field', $sortFieldMap[$nodeAssignment->attribute( 'id' )] );
+        $sortOrder = 0;
+        if ( isset( $sortOrderMap[$nodeAssignment->attribute( 'id' )] ) )
+            $sortOrder = 1;
+        $nodeAssignment->setAttribute( 'sort_order', $sortOrder );
         if ( $nodeAssignment->attribute( 'main' ) == 1 && $nodeAssignment->attribute( 'parent_node' ) != $mainNodeID )
         {
-
             $nodeAssignment->setAttribute( 'main', 0 );
         }
         elseif ( $nodeAssignment->attribute( 'main' ) == 0 && $nodeAssignment->attribute( 'parent_node' ) == $mainNodeID )
@@ -109,6 +109,15 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
             $nodeAssignment->setAttribute( 'main', 1 );
         }
         $nodeAssignment->store();
+        /* foreach ( $assigedNodes as $assigedNode )
+        {
+            if ( $module->isCurrentAction( 'Publish' ) )
+            {
+                $assigedNode->setAttribute( 'sort_field', $sortfieldMap[$nodeAssignment->attribute( 'id' )] );
+                $assigedNode->setAttribute( 'sort_order', $sortorder );
+                $assigedNode->store();
+            }
+        }*/
     }
 //    $version->setAttribute( 'parent_node', $mainNodeID );
 //    $version->store();
@@ -134,15 +143,20 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
         $http->setSessionVariable( 'BrowseFromPage', $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion ) ) );
         $http->setSessionVariable( 'BrowseActionName', 'AddNodeAssignment' );
         $http->setSessionVariable( 'BrowseReturnType', 'NodeID' );
-
-        $node = eZContentObjectTreeNode::fetch( $version->attribute( 'main_parent_node_id' ) );
+        $mainParentID = $version->attribute( 'main_parent_node_id' );
+        $node = eZContentObjectTreeNode::fetch( $mainParentID );
         $nodePath =  $node->attribute( 'path' );
         $rootNodeForObject = $nodePath[0];
-        $nodeID = $rootNodeForObject->attribute( 'node_id' );
+        if ( $rootNodeForObject != null )
+        {
+            $nodeID = $rootNodeForObject->attribute( 'node_id' );
+        }else
+        {
+            $nodeID = $mainParentID;
+        }
         $module->redirectToView( 'browse', array( $nodeID, $objectID, $editVersion ) );
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
-
     if ( $module->isCurrentAction( 'DeleteNode' ) )
     {
         if ( $http->hasPostVariable( 'DeleteParentIDArray' ) )

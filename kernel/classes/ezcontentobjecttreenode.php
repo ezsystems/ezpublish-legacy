@@ -262,7 +262,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &subTree( $params = array( 'Depth' => false,
                                         'Offset' => false,
                                         'Limit' => false,
-                                        'sort_by' => array(),
+                                        'SortBy' => false,
                                         'ClassFilterType' => false,
                                         'ClassFilterArray' => false ) ,$nodeID = 0 )
     {
@@ -287,14 +287,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $limitationList =& $params['Limitation'];
         }
-
+        $te= $params['SortBy'];
         $sortCount = 0;
-        if ( isset( $params['sort_by'] ) and
-             is_array( $params['sort_by'] ) and
-             count( $params['sort_by'] ) > 0 )
+        if ( isset( $params['SortBy'] ) and
+             is_array( $params['SortBy'] ) and
+             count( $params['SortBy'] ) > 0 )
         {
             $sortingFields = '';
-            foreach ( $params['sort_by'] as $sortBy )
+            foreach ( $params['SortBy'] as $sortBy )
             {
                 if ( is_array( $sortBy ) and count( $sortBy ) > 0 )
                 {
@@ -409,7 +409,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db =& eZDB::instance();
 
 //        eZDebug::writeWarning( $limitationList, 'limitationList' );
-
         if( count( $limitationList ) > 0 )
         {
             $sqlParts = array();
@@ -629,6 +628,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $sort = array( eZContentObjectTreeNode::sortFieldName( $this->attribute( 'sort_field' ) ),
                        $this->attribute( 'sort_order' ) );
         return array( $sort );
+        //return $sort;
     }
 
     /*!
@@ -698,6 +698,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         return $retNodeArray[0];
     }
+
+    function &fetchByContentObjectID( $contentObjectID, $asObject = true )
+    {
+         return eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
+                                                     null,
+                                                     array( "contentobject_id" => $contentObjectID ),
+                                                     null,
+                                                     null,
+                                                     $asObject );
+    }
+
     function fetch( $nodeID )
     {
 
@@ -730,7 +741,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 */
         if ( $nodeID != 1 )
         {
-            
             $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.name as class_name
@@ -765,7 +775,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodePath = $this->attribute( 'path_string' );
 
         $pathArray = explode( '/', trim($nodePath,'/') );
-        $pathArray = array_slice( $pathArray, 0, count($pathArray) - 1 );
+        $pathArray = array_slice( $pathArray, 0, count($pathArray)-1 );
 
         $pathString = '';
         foreach ( $pathArray as $node )

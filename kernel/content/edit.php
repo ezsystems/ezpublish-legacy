@@ -114,7 +114,7 @@ if ( !function_exists ( 'checkContentActions'  ) )
 
         if ( $module->isCurrentAction( 'Publish' ) )
         {
-
+            $http =& eZHttpTool::instance();
             $nodeAssignmentList =& $version->attribute( 'node_assignments' );
 
             $count = 0;
@@ -144,12 +144,8 @@ if ( !function_exists ( 'checkContentActions'  ) )
                                                      $module
                                                      );
                 }
-
                 if ( $status == EZ_TRIGGER_NO_CONNECTED_WORKFLOWS || $status == EZ_TRIGGER_WORKFLOW_DONE || !$runTrigger )
                 {
-
-
-
                     $object->setAttribute( 'current_version', $EditVersion );
                     $object->setAttribute( 'modified', mktime() );
                     $object->setAttribute( 'published', mktime() );
@@ -163,6 +159,13 @@ if ( !function_exists ( 'checkContentActions'  ) )
                         $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
                         $existingNode =&  $parentNode->addChild( $object->attribute( 'id' ), 0, true );
                     }
+                    $sortfieldMap = $http->postVariable( 'SortFieldMap' );
+                    $sortOrderMap = $http->postVariable( 'SortOrderMap' );
+                    $sortOrder = 0;
+                    if ( isset( $sortOrderMap[$nodeAssignment->attribute( 'id' )] ) )
+                        $sortOrder = 1;
+                    $existingNode->setAttribute( 'sort_field', $sortfieldMap[$nodeAssignment->attribute( 'id' )] );
+                    $existingNode->setAttribute( 'sort_order', $sortOrder );
                     $existingNode->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );
                     $existingNode->setAttribute( 'contentobject_is_published', 1 );
                     if ( $version->attribute( 'main_parent_node_id' ) == $existingNode->attribute( 'parent_node_id' ) )

@@ -69,8 +69,8 @@ class eZContentFunctionCollection
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $children =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
                                                               'Offset' => $offset,
-                                                              'SortBy' => $sortBy,
                                                               'Limit' => $limit,
+                                                              'SortBy' => $sortBy,
                                                               'Limitation' => null,
                                                               'ClassFilterType' => $class_filter_type,
                                                               'ClassFilterArray' => $class_filter_array ),
