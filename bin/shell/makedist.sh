@@ -228,7 +228,15 @@ if [ -z $SKIPCHECKPHP ]; then
     if [ $? -ne 0 ]; then
 	echo "Some PHP files have syntax errors"
 	echo "Run the following command to find the files"
-	echo "./bin/shell/phpcheck.sh --errors-only cronjobs kernel lib support update tests"
+	echo "./bin/shell/phpcheck.sh --errors-only cronjobs kernel lib support update tests/classes benchmarks/classes"
+	exit 1
+    fi
+
+    ./bin/php/ezcheckphptag.php -q --no-print cronjobs kernel lib support update tests/classes benchmarks/classes
+    if [ $? -ne 0 ]; then
+	echo "Some PHP files have bad PHP starting and ending tag usage"
+	echo "Run the following command to find the files"
+	echo "./bin/php/ezcheckphptag.php cronjobs kernel lib support update tests/classes benchmarks/classes"
 	exit 1
     fi
 fi

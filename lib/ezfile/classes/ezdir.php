@@ -470,10 +470,14 @@ class eZDir
     function &recursiveFindRelative( $baseDir, $subDir, $suffix )
     {
         $returnFiles = array();
+        $dir = $baseDir;
         if ( $subDir != "" )
-            $dir = $baseDir . "/" . $subDir;
-        else
-            $dir = $baseDir;
+        {
+            if ( $dir != '' )
+                $dir .= "/" . $subDir;
+            else
+                $dir .= $subDir;
+        }
         if ( $handle = @opendir( $dir ) )
         {
             while ( ( $file = readdir( $handle ) ) !== false )
