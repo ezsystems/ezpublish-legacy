@@ -50,7 +50,7 @@ $useTextTranslation = false;
 if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
 {
     $language =& ezcurrentLanguage();
-    if ( file_exists( 'share/translation/' . $language . '/translation.ts' ) )
+    if ( file_exists( 'share/translations/' . $language . '/translation.ts' ) )
     {
         $useTextTranslation = true;
     }
