@@ -35,6 +35,6 @@
 //
 
 
-include_once( 'lib/ezfile/classes/ezfile' );
+include_once( 'lib/ezfile/classes/ezfile.php' );
 
 ?>
