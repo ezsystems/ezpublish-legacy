@@ -353,7 +353,7 @@ alter table ezurl add is_valid int NOT NULL DEFAULT '1';
 alter table ezurl add last_checked int NOT NULL DEFAULT '0';
 alter table ezurl add original_url_md5 varchar(32) NOT NULL DEFAULT '';
 
-# run update/common/scripts/updateurllink.php to fix XML fields with bad links.
+# run update/common/scripts/updatexmltext.php to fix XML fields with bad links.
 
 alter table ezinformationcollection rename as ezinfocollection;
 alter table ezinformationcollection_attribute rename as ezinfocollection_attribute;
@@ -383,7 +383,7 @@ alter table ezorder add data_text_1 text;
 alter table ezsection add navigation_part_identifier varchar(100) default 'ezcontentnavigationpart';
 alter table ezorder add account_identifier varchar(100) not null default 'default';
 
-# run update/common/scripts/updateurllink.php to fix XML fields with inproper text encoding
+# run update/common/scripts/updatexmltext.php to fix XML fields with inproper text encoding
 
 drop table eztask;
 drop table eztask_message;

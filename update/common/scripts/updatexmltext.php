@@ -32,7 +32,7 @@
 // you.
 //
 
-/*! \file updateurllink.php
+/*! \file updatexmltext.php
  Takes care of fixing the links in the XML format to use the url ID
  instead of a HREF.
  Will also fix all /content/download links to use the new format if any
