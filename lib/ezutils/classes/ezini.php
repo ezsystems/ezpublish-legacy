@@ -657,6 +657,14 @@ class eZINI
         $this->BlockValues[$blockName][$varName] = $varValue;
     }
 
+    /*!
+      Returns BlockValues, which is a nicely named Array
+    */
+    function getNamedArray()
+    {
+        return $this->BlockValues;
+    }
+    
     /// \privatesection
     /// The charset of the ini file
     var $Charset;
