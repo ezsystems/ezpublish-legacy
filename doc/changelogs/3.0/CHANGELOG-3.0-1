@@ -52,6 +52,8 @@ eZ template:
 - Fixed call to pow() to explicitly cast to int, required for newer PHP versions.
 - Made sure the ezini operator doesn't quote the return value.
 - Default recursion of the /attribute/ operator is now 2.
+- The default charset for template can now be controlled by settings/template.ini,
+  this means it is no longer required to add charset controls in all template files.
 
 eZ image:
 - Image object and layer classes has been moved from eZ template to eZ image

@@ -195,7 +195,9 @@ class eZTemplateFileResource
             if ( $fd )
             {
                 $text = fread( $fd, filesize( $path ) );
-                $charset = "utf8";
+//                 $charset = "utf8";
+                $tplINI =& $tpl->ini();
+                $charset = $tplINI->variable( 'CharsetSettings', 'DefaultTemplateCharset' );
                 $pos = strpos( $text, "\n" );
                 if ( $pos !== false )
                 {
