@@ -193,16 +193,17 @@ class eZImageVariation extends eZPersistentObject
     {
         $sys =& eZSys::instance();
         $ini =& eZINI::instance();
+        $contentobjectAttributeID = $this->attribute( "contentobject_attribute_id" );
+        $version = $this->attribute( "version" );
+        $img_obj = eZImage::fetch( $contentobjectAttributeID, $version );
+
         $storageDir = $sys->storageDirectory();
-        var_dump( $storageDir );
-//      $category = $this->attribute( "mime_type_category" );
+        $category = $img_obj->attribute( "mime_type_category" );
         $additionalPath = $this->attribute( "additional_path" );
         $filename = $this->attribute( "filename" );
         $variationPath = $ini->variable( "ImageSettings", "VariationsDir" );
-        $fullPath = $storageDir . '/' . $variationPath . '/' . 'image' . '/' . $additionalPath . '/' . $filename;
-        var_dump( $fullPath );
-//        return( $storageDir . '/' . $category . '/' . $additionalPath . '/' . $filename );
-        return( $fullPath );
+
+        return( $storageDir . '/' . $variationPath . '/' . $category . '/' . $additionalPath . '/' . $filename );
     }
 
     var $Version;
