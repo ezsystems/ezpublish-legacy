@@ -475,8 +475,12 @@ class eZDebug
         $debug =& eZDebug::instance();
 
         $time = microtime();
+        $usedMemory = 0;
+        if ( function_exists( "memory_get_usage" ) )
+            $usedMemory = memory_get_usage();
         $tp = array( "Time" => $time,
-                     "Description" => $description );
+                     "Description" => $description,
+                     "MemoryUsage" => $usedMemory );
         $debug->TimePoints[] = $tp;
         $desc = "Timing Point: $description";
         foreach ( array( EZ_LEVEL_NOTICE, EZ_LEVEL_WARNING, EZ_LEVEL_ERROR, EZ_LEVEL_DEBUG ) as $lvl )
@@ -1021,7 +1025,7 @@ td.timingpoint2
             $returnText .= "</table>";
 
             $returnText .= "<h2>Timing points:</h2>";
-            $returnText .= "<table style='border: 1px dashed black;' cellspacing='0'><tr><th>Checkpoint</th><th>Elapsed</th><th>Rel. Elapsed</th></tr>";
+            $returnText .= "<table style='border: 1px dashed black;' cellspacing='0'><tr><th>Checkpoint</th><th>Elapsed</th><th>Rel. Elapsed</th><th>Memory</th><th>Rel. Memory</th></tr>";
         }
         $startTime = false;
         $elapsed = 0.00;
@@ -1041,6 +1045,19 @@ td.timingpoint2
             $elapsed = $time - $startTime;
             $relElapsed = $nextTime - $time;
 
+            $memory = $point["MemoryUsage"];
+            $nextMemory = 0;
+            // Calculate relative memory usage
+            if ( $nextPoint !== false )
+            {
+                $nextMemory = $nextPoint["MemoryUsage"];
+                $relMemory = $nextMemory - $memory;
+            }
+
+            // Convert memeory usage to human readable
+            $memory = number_format( $memory / 1024, 0 ) . "KB";
+            $relMemory = number_format( $relMemory / 1024, 0 ) . "KB";
+
             if ( $i % 2 == 0 )
                $class = "timingpoint1";
             else
@@ -1051,7 +1068,7 @@ td.timingpoint2
                 $returnText .= "<tr><td class='$class'>" . $point["Description"] . "</td><td class='$class'>" .
                                number_format( ( $elapsed ), $this->TimingAccuracy ) . " sec</td><td class='$class'>".
                                ( empty( $nextPoint ) ? "&nbsp;" : number_format( ( $relElapsed ), $this->TimingAccuracy ) . " sec" ) . "</td>"
-                               . "</tr>";
+                               . "<td class='$class'>" . $memory . "</td><td class='$class'>". $relMemory . "</td></tr>";
             }
             else
             {
