@@ -187,6 +187,22 @@ class eZPDFExport extends eZPersistentObject
     }
 
     /*!
+     \reimp
+    */
+    function remove()
+    {
+        $sys =& eZSys::instance();
+        $storage_dir = $sys->storageDirectory();
+
+        $filename = $storage_dir . '/pdf/' . $this->attribute( 'pdf_filename' );
+        if (  file_exists( $filename ) )
+        {
+            unlink( $filename );
+        }
+        eZPersistentObject::remove();
+    }
+
+    /*!
      \static
       Fetches complete list of RSS Exports.
     */
@@ -202,7 +218,7 @@ class eZPDFExport extends eZPersistentObject
     */
     function attributes()
     {
-        return array_merge( eZPersistentObject::attributes(), 'modifier' );
+        return array_merge( eZPersistentObject::attributes(), 'modifier', 'source_node', 'filepath' );
     }
 
     /*!
@@ -210,7 +226,7 @@ class eZPDFExport extends eZPersistentObject
     */
     function hasAttribute( $attr )
     {
-        return ( $attr == 'modifier' or $attr == 'source_node' or
+        return ( $attr == 'modifier' or $attr == 'source_node' or $attr == 'filepath' or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
 
@@ -226,6 +242,14 @@ class eZPDFExport extends eZPersistentObject
                 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
                 return eZUser::fetch( $this->ModifierID );
             } break;
+
+            case 'filepath':
+            {
+                $sys =& eZSys::instance();
+                $storage_dir = $sys->storageDirectory();
+
+                return $storage_dir . '/pdf/' . $this->attribute( 'pdf_filename' );
+            }
 
             case 'source_node':
             {
