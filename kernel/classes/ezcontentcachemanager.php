@@ -327,6 +327,8 @@ class eZContentCacheManager
         $nodeList = array();
 
         $object =& eZContentObject::fetch( $objectID );
+        if ( !$object )
+            return false;
 
         eZContentCacheManager::nodeListForObject( $object, $versionNum, EZ_VCSC_CLEAR_ALL_CACHE, $nodeList );
 
@@ -346,6 +348,9 @@ class eZContentCacheManager
     function clearViewCache( $objectID, $versionNum, $additionalNodeList = false )
     {
         $nodeList =& eZContentCacheManager::nodeList( $objectID, $versionNum );
+        if ( $nodeList === false and
+             !is_array( $additionalNodeList ) )
+            return false;
         if ( is_array( $additionalNodeList ) )
         {
             array_splice( $nodeList, count( $nodeList ), 0, $additionalNodeList );
@@ -374,6 +379,7 @@ class eZContentCacheManager
             eZContentObject::expireAllCache();
         }
         eZDebug::accumulatorStop( 'node_cleanup' );
+        return true;
     }
 
     /*!
