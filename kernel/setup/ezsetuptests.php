@@ -400,8 +400,24 @@ function eZSetupTestFilePermissions( $type, &$arguments )
     	}
     }
     $safeMode = ini_get( 'safe_mode' );
+    $userInfo = array( 'has_extension' => false );
+    if ( extension_loaded( 'posix' ) )
+    {
+        $userInfo['has_extension'] = true;
+        $uinfo = posix_getpwuid( posix_getuid() );
+        $ginfo = posix_getgrgid( posix_getgid() );
+        $userInfo['user_name'] = $uinfo['name'];
+        $userInfo['user_id'] = $uinfo['uid'];
+        $userInfo['group_name'] = $ginfo['name'];
+        $userInfo['group_id'] = $ginfo['gid'];
+        $userInfo['group_members'] = $ginfo['members'];
+        $userInfo['script_user_id'] = getmyuid();
+        $userInfo['script_group_id'] = getmygid();
+    }
+
     return array( 'result' => $result,
                   'safe_mode' => $safeMode,
+                  'user_info' => $userInfo,
                   'persistent_data' => array( 'result' => array( 'value' => $result ) ),
                   'current_path' => realpath( '.' ),
                   'result_elements'   => $resultElements );

@@ -3,31 +3,52 @@
 
 {* {$file_results.safe_mode} *}
 
-<h3>{$result_number}. {"Insufficient directory permissions"|i18n("design/standard/setup/tests")}</h3>
-<p>{"eZ publish cannot write to some important directories, without this the setup cannot finish and parts of eZ publish will fail."|i18n("design/standard/setup/tests")}</p>
-<p>{"It's recommended that you fix this by running the commands below."|i18n("design/standard/setup/tests")}</p>
+<h3>{$result_number}. {'Insufficient directory permissions'|i18n( 'design/standard/setup/tests' )}</h3>
+{set-block variable=dir_list scope=root}{section var=res loop=$file_results.result_elements}{section-exclude match=$res.result}{delimiter} {/delimiter}<i>{$res.file}</i>{/section}{/set-block}
+<p>{'eZ publish cannot write to some important directories, without this the setup cannot finish and parts of eZ publish will fail.'|i18n( 'design/standard/setup/tests' )}<br/>
+{'The affected directories are: %dir_list'|i18n( 'design/standard/setup/tests',,hash( '%dir_list', $dir_list ) )}</p>
 
-<p><b>{"Shell commands"|i18n("design/standard/setup/tests")}</b></p>
+{section show=$file_results.user_info.has_extension}
+<h3>{'Shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
+<p>{"These shell commands will give proper permission to the webserver."|i18n( 'design/standard/setup/tests' )}</p>
 <pre class="example">cd {$file_results.current_path}
+chmod -R ug+rwx {section var=res loop=$file_results.result_elements}{section-exclude match=$res.result}{delimiter} {/delimiter}{$res.file}{/section}
 
-{section name=File loop=$file_results.result_elements}{section-exclude match=$:item.result}chmod -R a+rwx {$:item.file}
+chown -R {$file_results.user_info.user_name}:{$file_results.user_info.group_name} {section var=res loop=$file_results.result_elements}{section-exclude match=$res.result}{delimiter} {/delimiter}{$res.file}{/section}</pre>
 
-{/section}
+<h3>{'Alternative shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
+<p>{"If you don't have permissions to change the ownership you can try these commands."|i18n( 'design/standard/setup/tests' )}</p>
+<pre class="example">cd {$file_results.current_path}
+chmod -R a+rwx {section var=res loop=$file_results.result_elements}{section-exclude match=$res.result}{delimiter} {/delimiter}{$res.file}{/section}
 
 </pre>
 
+{section-else}
+
 <p>
- If you know the user and group of the webserver it's recommended to use a different set of permissions.
- To do this you need to change all the <tt class="note">chmod</tt> commands.
+{"eZ publish could not detect the user and group of the webserver.
+If you know the user and group of the webserver it's recommended to change the ownership of the files to match this user and group.
+To do this you need to change the %chown commands under Alternative shell commands."|i18n( 'design/standard/setup/tests',, hash( '%chown', '<tt class="note">chown</tt>' ) )}
 </p>
-<h3>Example</h3>
-<pre class="example">chmod -R og+rwx var
-chown -R nouser.nouser var</pre>
+
+<h3>{'Shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
+<p>{"These shell commands will give proper permission to the webserver."|i18n( 'design/standard/setup/tests' )}</p>
+<pre class="example">cd {$file_results.current_path}
+chmod -R a+rwx {section var=res loop=$file_results.result_elements}{section-exclude match=$res.result}{delimiter} {/delimiter}{$res.file}{/section}
+
+</pre>
+
+<h3>{'Alternative shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
+<p>{"These commands will setup the permission more correctly, but require knowledge about the running webserver."|i18n( 'design/standard/setup/tests' )}</p>
+<pre class="example">chmod -R og+rwx {section var=res loop=$file_results.result_elements}{section-exclude match=$res.result}{delimiter} {/delimiter}{$res.file}{/section}
+
+chown -R nouser:nouser {section var=res loop=$file_results.result_elements}{section-exclude match=$res.result}{delimiter} {/delimiter}{$res.file}{/section}</pre>
 
 <blockquote class="note">
-<p>
- <b>Note:</b> The <tt>nouser.nouser</tt> must be changed to your webserver username and groupname.
-</p>
+    <p>
+        <b>{'Note'|i18n( 'design/standard/setup/tests' )}:</b> {'The %user_expr must be changed to your webserver username and groupname.'|i18n( 'design/standard/setup/tests',, hash( '%user_expr', '<tt>nouser:nouser</tt>' ) )}
+    </p>
 </blockquote>
+{/section}
 
 {/let}
