@@ -166,7 +166,7 @@ function checkAll()
     {include name=navigator
              uri='design:navigator/google.tpl'
              page_uri=concat( '/setup/session', cond( $user_id, concat( '/', $user_id ), '' ) )
-             item_count=$sessions_active
+             item_count=$sessions_count
              view_parameters=$view_parameters
              item_limit=$page_limit}
 

@@ -173,7 +173,7 @@ function &eZFetchActiveSessions( $params = array() )
             $filterSQL = '';
         } break;
     }
-    
+
     $userID = $params['user_id'];
     $countField = '';
     $countGroup = '';
@@ -238,13 +238,56 @@ ORDER BY $orderBy";
     }
     return $resultArray;
 }
-//$userID=14;
+
+/*
+  Get all sessions by limit and offset, and returns it
+*/
+function &eZFetchActiveSessionCount( $params = array() )
+{
+    $filterType = $params['filter_type'];
+    switch ( $filterType )
+    {
+        case 'registered':
+        {
+            $filterSQL = 'WHERE ezsession.user_id != ' . EZ_USER_ANONYMOUS_ID;
+        } break;
+
+        case 'anonymous':
+        {
+            $filterSQL = 'WHERE ezsession.user_id = ' . EZ_USER_ANONYMOUS_ID;
+        } break;
+
+        case 'everyone':
+        default:
+        {
+            $filterSQL = '';
+        } break;
+    }
+
+    $userID = $params['user_id'];
+    if ( $userID )
+    {
+        $filterSQL = 'WHERE ezsession.user_id = ' .  (int)$userID;
+    }
+
+    include_once( 'lib/ezdb/classes/ezdb.php' );
+    $db =& eZDB::instance();
+    $query = "SELECT count( * ) AS count
+FROM ezsession
+$filterSQL";
+
+    $rows = $db->arrayQuery( $query );
+
+    return $rows[0]['count'];
+}
+
 $param['sortby'] = false;
 $param['filter_type'] = $filterType;
 $param['user_id'] = $userID;
 if ( isset( $viewParameters['sortby'] ) )
     $param['sortby'] = $viewParameters['sortby'];
-$sessionsActive = eZSessionCountActive();
+$sessionsActive = eZSessionCountActive( $param );
+$sessionscount = eZFetchActiveSessionCount( $param );
 $sessionsList =& eZFetchActiveSessions( $param );
 
 
@@ -255,6 +298,7 @@ if ( $param['offset'] >= $sessionsActive and $sessionsActive != 0 )
 
 $tpl->setVariable( "sessions_removed", $sessionsRemoved );
 $tpl->setVariable( "sessions_active", $sessionsActive );
+$tpl->setVariable( "sessions_count", $sessionsCount );
 $tpl->setVariable( "sessions_list", $sessionsList );
 $tpl->setVariable( "page_limit", $param['limit'] );
 $tpl->setVariable( "view_parameters", $viewParameters );
