@@ -1,6 +1,7 @@
 {*{default content_object=$node.object
          content_version=$node.contentobject_version_object
          node_name=$node.name}*}
+
 <form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(array($edit_language,"/"),''))|ezurl}>
 <table class="layout" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
