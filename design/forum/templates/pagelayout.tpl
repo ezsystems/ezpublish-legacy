@@ -9,8 +9,8 @@
 
 <style>
     @import url("/design/forum/stylesheets/core.css");
-    @import url("/design/forum/stylesheets/forum_blue.css");
-{*    @import url("/design/forum/stylesheets/forum.css"); *}
+{*    @import url("/design/forum/stylesheets/forum_blue.css"); *}
+    @import url("/design/forum/stylesheets/forum.css");
 </style>
 </head>
 

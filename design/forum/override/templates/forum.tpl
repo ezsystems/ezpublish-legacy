@@ -61,7 +61,7 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 <tr class="{$Child:sequence}">
     <td class="post">
     <p>
-    {section show=$Child:item.object.data_map.sticky.content}<img src="/design/forum/images/sticky_icon-red.gif" height="20" width="20" align="middle" alt="" />{/section}
+    {section show=$Child:item.object.data_map.sticky.content}<img src={"sticky_icon-red.gif"|ezimage} height="20" width="20" align="middle" alt="" />{/section}
     <a href={$Child:item.url_alias|ezurl}>{$Child:item.object.name|wash}</a>
     </p>
     </td>
