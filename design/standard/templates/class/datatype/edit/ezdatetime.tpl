@@ -12,8 +12,10 @@
 
 {* Custom default value. *}
 <div class="block">
-    <label>{'Custom default value'|i18n( 'design/standard/class/datatype' )}</label>
+<fieldset>
+    <legend>{'Custom default value'|i18n( 'design/standard/class/datatype' )}</legend>
 
+    <div class="block">
     {* Year. *}
     <div class="element">
         <label>{'Year'|i18n( 'design/standard/class/datatype' )}</label>
@@ -30,6 +32,9 @@
     <div class="element">
         <label>{'Day'|i18n( 'design/standard/class/datatype' )}</label>
         <input type="text" name="ContentClass_ezdatetime_day_{$class_attribute.id}" size="3" value="{section show=$class_attribute.content.day}{$class_attribute.content.day}{/section}" />
+        &nbsp;
+        &nbsp;
+        &nbsp;
     </div>
 
     {* Hour. *}
@@ -43,4 +48,9 @@
         <label>{'Minute'|i18n( 'design/standard/class/datatype' )}</label>
         <input type="text" name="ContentClass_ezdatetime_minute_{$class_attribute.id}" size="3" value="{section show=$class_attribute.content.minute}{$class_attribute.content.minute}{/section}" />
     </div>
+
+    <div class="break"></div>
+
+</div>
+</fieldset>
 </div>
