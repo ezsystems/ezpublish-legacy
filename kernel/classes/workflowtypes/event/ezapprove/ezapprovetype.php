@@ -104,19 +104,20 @@ class eZApproveType extends eZWorkflowEventType
             case 'users':
             {
                 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-                $users =& eZPersistentObject::fetchObjectList( eZUser::definition(), array( 'contentobject_id', 'login' ), null,null,null,false );
-                eZDebugSetting::writeDebug( 'kernel-workflow-approve', $users, "attr" );
+                $users =& eZUser::fetchContentList();
                 foreach ( array_keys( $users ) as $key )
                 {
                     $user =& $users[$key];
-                    $user['Name'] = $user['login'];
-                    $user['value'] = $user['contentobject_id'];
+                    $user['Name'] = $user['name'];
+                    $user['value'] = $user['id'];
                 }
                 return $users;
             }break;
             case 'usergroups':
             {
-                $groups =& eZPersistentObject::fetchObjectList( eZContentObject::definition(), array( 'id', 'name' ), array( 'contentclass_id' => 3 ),null,null,false );
+                $ini =& eZINI::instance();
+                $classID = $ini->variable( 'UserSettings', 'UserGroupClassID' );
+                $groups =& eZPersistentObject::fetchObjectList( eZContentObject::definition(), array( 'id', 'name' ), array( 'contentclass_id' => $classID ), null, null, false );
                 foreach ( array_keys( $groups ) as $key )
                 {
                     $group =& $groups[$key];

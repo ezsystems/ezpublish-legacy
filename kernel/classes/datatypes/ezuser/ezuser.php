@@ -274,6 +274,24 @@ class eZUser extends eZPersistentObject
     }
 
     /*!
+     \return a list of valid and enabled users, the data returned is an array
+             with ezcontentobject database data.
+    */
+    function &fetchContentList()
+    {
+        $contentObjectStatus = EZ_CONTENT_OBJECT_STATUS_PUBLISHED;
+        $query = "SELECT ezcontentobject.*
+                  FROM ezuser, ezcontentobject, ezuser_setting
+                  WHERE ezcontentobject.status = '$contentObjectStatus' AND
+                        ezuser_setting.is_enabled = 1 AND
+                        ezcontentobject.id = ezuser.contentobject_id AND
+                        ezuser_setting.user_id = ezuser.contentobject_id";
+        $db =& eZDB::instance();
+        $rows =& $db->arrayQuery( $query );
+        return $rows;
+    }
+
+    /*!
      \static
      \return the default hash type which is specified in UserSettings/HashType in site.ini
     */

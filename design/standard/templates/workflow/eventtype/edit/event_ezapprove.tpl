@@ -21,7 +21,7 @@
 
 
 
->{$Users:item.value}-{$Users:item.Name}</option>
+>{$Users:item.Name|wash} ({$Users:item.value})</option>
      {/section}   
 {/let} 
 
@@ -52,7 +52,7 @@
       {case}
       {/case} 
       {/switch}
-     >{$Sections:item.value}-{$Sections:item.Name}</option>
+     >{$Sections:item.Name|wash} ({$Sections:item.value|wash})</option>
      {/section}  
 {/let} 
      </select>
@@ -82,7 +82,7 @@
       {case}
       {/case} 
       {/switch}
->{$Groups:item.value}-{$Groups:item.Name}</option>
+>{$Groups:item.Name|wash} ({$Groups:item.value|wash})</option>
      {/section}   
 
 {/let}     </select>

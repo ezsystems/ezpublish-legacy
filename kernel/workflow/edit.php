@@ -116,8 +116,7 @@ else
     $WorkflowVersion = $workflow->attribute( "version" );
     $ingroup =& eZWorkflowGroupLink::create( $WorkflowID, $WorkflowVersion, $GroupID, $GroupName );
     $ingroup->store();
-    $Module->redirectTo( $Module->functionURI( "edit" ) . "/" . $WorkflowID );
-    return;
+    return $Module->redirectTo( $Module->functionURI( "edit" ) . "/" . $WorkflowID );
 }
 
 $http =& eZHttpTool::instance();
@@ -127,12 +126,15 @@ if ( $http->hasPostVariable( "DiscardButton" ) )
     $workflow->setVersion( 1 );
     $workflow->remove( true );
     eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, $WorkflowVersion );
-//     include_once( "lib/ezutils/classes/ezexecutionstack.php" );
-//     $execStack =& eZExecutionStack::instance();
-//     $execStack->pop();
-//     $uri = $execStack->peek( "uri" );
-    $Module->redirectTo( $Module->functionURI( "grouplist" ) );
-    return;
+
+    $workflowGroups=& eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
+    $groupID = false;
+    if ( count( $workflowGroups ) > 0 )
+        $groupID = $workflowGroups[0]->attribute( 'group_id' );
+    if ( $groupID )
+        return $Module->redirectToView( 'workflowlist', array( $groupID ) );
+    else
+        return $Module->redirectToView( 'grouplist' );
 }
 if ( $http->hasPostVariable( "AddGroupButton" ) )
 {
@@ -271,12 +273,15 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
     $workflow->setVersion( 0, $event_list );
     $workflow->adjustEventPlacements( $event_list );
     $workflow->store( $event_list );
-//     include_once( "lib/ezutils/classes/ezexecutionstack.php" );
-//     $execStack =& eZExecutionStack::instance();
-//     $execStack->pop();
-//     $uri = $execStack->peek( "uri" );
-    $Module->redirectTo( $Module->functionURI( "grouplist" ) );
-    return;
+
+    $workflowGroups=& eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
+    $groupID = false;
+    if ( count( $workflowGroups ) > 0 )
+        $groupID = $workflowGroups[0]->attribute( 'group_id' );
+    if ( $groupID )
+        return $Module->redirectToView( 'workflowlist', array( $groupID ) );
+    else
+        return $Module->redirectToView( 'grouplist' );
 }
 
 // Remove events which are to be deleted
