@@ -74,10 +74,109 @@ class eZTemplateControlOperator
     {
         return array( $this->CondName => array( 'input' => false,
                                                 'output' => true,
-                                                'parameters' => true ),
+                                                'parameters' => true,
+                                                'element-transformation' => true,
+                                                'transform-parameters' => true,
+                                                'input-as-parameter' => false,
+                                                'element-transformation-func' => 'condTransform' ),
                       $this->FirstSetName => array( 'input' => false,
                                                     'output' => true,
-                                                    'parameters' => true ) );
+                                                    'parameters' => true,
+                                                    'element-transformation' => true,
+                                                    'transform-parameters' => true,
+                                                    'input-as-parameter' => false,
+                                                    'element-transformation-func' => 'condTransform' ) );
+    }
+
+    /*!
+     \reimp
+    */
+    function condTransform( $operatorName, &$node, &$tpl, &$resourceData,
+                            &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        switch( $operatorName )
+        {
+            case $this->CondName:
+            {
+                $paramCount = count( $parameters );
+                $clauseCount = floor( $paramCount / 2 );
+
+                $values = array();
+                $code = '';
+                for ( $i = 0; $i < $clauseCount; ++$i )
+                {
+                    if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i*2] ) )
+                    {
+                        if ( $i != 0 )
+                        {
+                            $code .= 'else ';
+                        }
+
+                        $values[] = $parameters[$i*2];
+                        $code .= 'if ( %' . count( $values ) . '% )' . "\n";
+                    }
+                    else
+                    {
+                        if ( eZTemplateNodeTool::elementStaticValue( $parameters[$i*2] ) )
+                        {
+                            if ( eZTemplateNodeTool::isStaticElement( $parameters[$i*2 + 1] ) )
+                            {
+                                return array( $parameters[$i*2 + 1] );
+                            }
+                            else
+                            {
+                                if ( $i != 0 )
+                                {
+                                    $code .= 'else ';
+                                }
+
+                                $values[] = $parameters[$i*2 + 1];
+                                $code .= '%output% = %' . count( $values ) . '%;';
+                                break;
+                            }
+                        }
+
+                        continue;
+                    }
+
+                    if ( !eZTemplateNodeTool::isStaticElement( $parameters[$i*2 + 1] ) )
+                    {
+                        $values[] = $parameters[$i*2 + 1];
+                        $code .= '%output% = %' . count( $values ) . '%;' . "\n";
+                    }
+                    else
+                    {
+                        $code .= '%output% = ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i*2 + 1] ), 0, 0, false ) . ';' . "\n";
+                    }
+                }
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+            } break;
+
+            case $this->FirstSetName:
+            {
+                $values = array();
+                $code = '';
+                for( $i = 0; $i < count( $parameters ); ++$i )
+                {
+                    if ( $i != 0 )
+                    {
+                        $code .= 'else ';
+                    }
+
+                    if ( eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
+                    {
+                        $code .= '%output% = ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false ) . ';';
+                        break;
+                    }
+
+                    $values[] = $parameters[$i];
+                    $code .= 'if ( isset( %' . count( $values ) . '% ) ) %output% = %' . count( $values ) . '%;' . "\n";
+                }
+
+                return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
+            } break;
+        }
     }
 
     /*!
