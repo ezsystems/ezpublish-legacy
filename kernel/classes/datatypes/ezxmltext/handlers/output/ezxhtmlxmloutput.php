@@ -473,7 +473,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                 $objectParameters = array();
 
-                foreach ( $objectAttributes as $attribute )
+                foreach ( $embedAttributes as $attribute )
                 {
                    $attrName = $attribute->name();
                    if ( $attrName != 'view' )
@@ -782,9 +782,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $href = "mailto:" . $href;
                 }
 
-                if ( $tag->attributeValue( 'anchor_id' ) != null )
+                if ( $tag->attributeValue( 'anchor_name' ) != null )
                 {
-                    $href .= '#' . $tag->attributeValue( 'anchor_id' );
+                    $href .= '#' . $tag->attributeValue( 'anchor_name' );
                 }
 
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
