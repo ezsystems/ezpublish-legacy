@@ -587,6 +587,16 @@ class eZContentFunctionCollection
 
     function fetchKeywordCount( $alphabet, $classid )
     {
+        $classIDArray = array();
+        if ( is_numeric( $classid ) )
+        {
+            $classIDArray = array( $classid );
+        }
+        else if ( is_array( $classid ) )
+        {
+            $classIDArray = $classid;
+        }
+
         $limitationList = array();
         $sqlPermissionCheckingString = "";
         $currentUser =& eZUser::currentUser();
@@ -646,11 +656,12 @@ class eZContentFunctionCollection
 
         if ( $classid != null )
         {
+            $classIDString = '(' . implode( ',', $classIDArray ) . ')';
             $query = "SELECT count(*) AS count
                       FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
                       WHERE ezkeyword.keyword LIKE '$alphabet%'
                       $sqlPermissionCheckingString
-                      AND ezkeyword.class_id='$classid'
+                      AND ezkeyword.class_id IN $classIDString
                       AND ezcontentclass.version=0
                       AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."
                       AND ezcontentobject_attribute.version=ezcontentobject.current_version
@@ -685,6 +696,16 @@ class eZContentFunctionCollection
 
     function fetchKeyword( $alphabet, $classid, $offset, $limit )
     {
+        $classIDArray = array();
+        if ( is_numeric( $classid ) )
+        {
+            $classIDArray = array( $classid );
+        }
+        else if ( is_array( $classid ) )
+        {
+            $classIDArray = $classid;
+        }
+
         $limitationList = array();
         $sqlPermissionCheckingString = "";
         $currentUser =& eZUser::currentUser();
@@ -751,13 +772,14 @@ class eZContentFunctionCollection
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
 
-        if ( $classid != null )
+        if ( $classIDArray != null )
         {
+            $classIDString = '(' . implode( ',', $classIDArray ) . ')';
             $query = "SELECT ezkeyword.keyword,ezcontentobject_tree.node_id
                       FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
                       WHERE ezkeyword.keyword LIKE '$alphabet%'
                       $sqlPermissionCheckingString
-                      AND ezkeyword.class_id='$classid'
+                      AND ezkeyword.class_id IN $classIDString
                       AND ezcontentclass.version=0
                       AND ezcontentobject.status=".EZ_CONTENT_OBJECT_STATUS_PUBLISHED."
                       AND ezcontentobject_attribute.version=ezcontentobject.current_version
