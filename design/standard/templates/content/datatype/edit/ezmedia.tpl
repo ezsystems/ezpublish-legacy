@@ -199,7 +199,7 @@
 {/case}
 {/switch}
 
-{section show=or($attribute.content,$attribute.content.filename)}
+{section show=or($attribute.has_content,$attribute.content.filename)}
 <div class="block">
 <div class="element">
 <label>{"Existing filename"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
