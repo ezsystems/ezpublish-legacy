@@ -108,6 +108,8 @@ links to clickable links.
 - Changed operation definition for checkout, added possibility to call post_checkout trigger
 - Created system for cronjobs, the cronjobs.php script will now be used to run any
   future cronjobs. The actual scripts to run are controlled by settings/cronjob.php.
+- Added next/previous function to standard search.
+- Optimized multiple word search queries.
 
 *SDK :
 

@@ -2,6 +2,19 @@ A list of issues:
 -----------------
 
 
+SPEED
+-------
+Page load time optimization
+Memory usage optimization
+SQL query optmization
+
+Central optimization pages:
+- content view
+- content edit
+- publish process
+- search
+
+
 DOCUMENTATION
 -------------
 
