@@ -893,6 +893,9 @@ div.controlbar input.button
     font-size: 0.9em;
     font-weight: normal;
     color: #ffffff;
+    border: 2px solid #ffffff;
+    border-bottom: 2px solid #2f475f;
+    border-right: 2px solid #2f475f;
     background-color: #2d537a;
     margin: 0;
     padding: 0;
@@ -902,7 +905,10 @@ div.controlbar input.button-disabled
 {
     font-size: 0.9em;
     font-weight: normal;
-    color: #808080;
+    color: #404040;
+    border: 2px solid #f0f0f0;
+    border-bottom: 2px solid #b0b0b0;
+    border-right: 2px solid #b0b0b0;
     background-color: #e7e8e0;
     margin: 0;
     padding: 0;

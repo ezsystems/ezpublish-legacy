@@ -250,6 +250,9 @@ optgroup
 input.button
 {
     color: #ffffff;
+    border: 2px solid #ffffff;
+    border-bottom: 2px solid #2f475f;
+    border-right: 2px solid #2f475f;
     background-color: #2d537a;
     font-weight: normal;
     margin: 0 0.5em 0 0;
