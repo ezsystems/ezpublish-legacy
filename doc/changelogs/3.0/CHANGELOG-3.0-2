@@ -57,6 +57,10 @@ eZ mail:
 - Script in update/common/scripts were made executable which means it can be
   run from shell script with update/common/scripts/nameofscript.php
 
+*Changed templates:
+- Fixed the problem with creating objects in design/admin/override/templates/node/view/full_class_3.tpl.
+  This means that it will no longer ask for placement when using Create Here button.
+
 *New documentation :
 
 *Changed documentation :

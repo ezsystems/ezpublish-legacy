@@ -214,15 +214,13 @@
 {section show=$user_class_list_allowed}
 <div class="buttonblock">
     <form method="post" action={"content/action"|ezurl}>
-         <select name="ClassID" class="classcreate">
+         <input type="hidden" name="NodeID" value="{$node.node_id}" />
+         <select name="ClassID" class="create">
 	      {section name=Classes loop=$user_class_list}
 	      <option value="{$:item.id}">{$:item.name}</option>
 	      {/section}
          </select>
-	 <br />
-
-         <input type="hidden" name="BrowseNodeID" value="5" />
-         <input class="classbutton" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
+         <input class="button" type="submit" name="NewButton" value="{'Create here'|i18n('design/standard/node/view')}" />
     </form>
 </div>
 {/section}
