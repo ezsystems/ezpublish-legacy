@@ -183,9 +183,9 @@ function ezpopmenu_showTopLevel( menuID, substituteValues, menuHeader, disableID
     if( styleObject ) styleObject.visibility = 'visible';
     VisibleMenus[menuArray[menuID]['depth']] = menuID;
 
-    document.getElementById( menuID ).onmouseover=function() { document.onmousedown=function () { return true; } }
-    document.getElementById( menuID ).onmouseout=function() { document.onmousedown=ezpopmenu_hideAll; }
-    document.onmousedown=ezpopmenu_hideAll;
+    document.getElementById( menuID ).onmouseover = function() { document.onmousedown = null; }
+    document.getElementById( menuID ).onmouseout = function() { document.onmousedown = ezpopmenu_hideAll; }
+    document.onmousedown = ezpopmenu_hideAll;
 }
 
 /*!
@@ -234,6 +234,7 @@ function ezpopmenu_hide( id )
 */
 function ezpopmenu_hideAll()
 {
+    document.onmousedown = null;
     ezpopmenu_hideHigher( -1 );
 }
 
