@@ -350,7 +350,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         }
                     }
 
-                    // Fetch the ID's of all existing URL's and register un exsiting
+                    // Fetch the ID's of all existing URL's and register unexisting
                     $linkIDArray =& eZURL::registerURLArray( $urlArray );
 
                     // Register all unique URL's for this object attribute
