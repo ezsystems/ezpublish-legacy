@@ -109,7 +109,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                             'size' => array( 'required' => false, 'value' => $sizeArray),
                                             'align' => array( 'required' => false ),
                                             'view' => array( 'required' => false ),
-                                            'id' => array( 'required' => false ) );
+                                            'id' => array( 'required' => false ),
+                                            'class' => array( 'required' => false ) );
 
         $this->TagAttributeArray['custom'] = array( 'name' => array( 'required' => true ) );
 
@@ -2231,6 +2232,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $nodeID = $tag->attributeValue( 'node_id' );
                 $showPath = $tag->attributeValue( 'show_path' );
                 $htmlID = $tag->attributeValueNS( 'id', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
+                $className = $tag->attributeValue( 'class' );
 
                 if ( $objectID != null )
                 {
@@ -2257,6 +2259,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $objectAttr .= " view='$view'";
                 if ( $htmlID != '' )
                     $objectAttr .= " id='$htmlID'";
+                if ( $className != null )
+                     $objectAttr .= " class='$className'";
 
                 $customAttributes =& $tag->attributesNS( "http://ez.no/namespaces/ezpublish3/custom/" );
                 foreach ( $customAttributes as $attribute )
