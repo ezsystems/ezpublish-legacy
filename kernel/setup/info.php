@@ -76,11 +76,22 @@ if ( extension_loaded( "apc" ) )
     $phpAcceleratorInfo['version_string'] = false;
 }
 
+$webserverInfo = false;
+if ( function_exists( 'apache_get_version' ) )
+{
+    $webserverInfo = array( 'name' => 'Apache',
+                            'modules' => false,
+                            'version' => apache_get_version() );
+    if ( function_exists( 'apache_get_modules' ) )
+        $webserverInfo['modules'] = apache_get_modules();
+}
+
 $tpl->setVariable( 'ezpublish_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
 $tpl->setVariable( 'ezpublish_revision', eZPublishSDK::revision() );
 $tpl->setVariable( 'ezpublish_extensions', eZExtension::activeExtensions() );
 $tpl->setVariable( 'php_version', phpversion() );
 $tpl->setVariable( 'php_accelerator', $phpAcceleratorInfo );
+$tpl->setVariable( 'webserver_info', $webserverInfo );
 $tpl->setVariable( 'apache_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
 $tpl->setVariable( 'database_info', $db->databaseName() );
 $tpl->setVariable( 'database_charset', $db->charset() );

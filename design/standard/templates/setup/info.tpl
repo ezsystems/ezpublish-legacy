@@ -71,6 +71,38 @@
 </div>
 
 <div class="objectheader">
+    <h2>{'Webserver'|i18n( 'design/standard/setup', 'Webserver title' )}</h2>
+</div>
+<div class="object">
+    {section show=$webserver_info}
+        <table width="100%">
+        <tr>
+            <td><p><b>{'Name'|i18n('design/standard/setup','Webserver name')}</b></p></td><td><p>{$webserver_info.name}</p></td>
+        </tr>
+        <tr>
+            <td><p><b>{'Version'|i18n('design/standard/setup','Webserver version')}</b></p></td><td><p>{$webserver_info.version}</p></td>
+        </tr>
+        {section show=$webserver_info.modules}
+            <tr>
+                <td><p><b>{'Modules'|i18n('design/standard/setup','Webserver modules')}</b></p></td>
+                <td>
+                    <p>
+                        {section loop=$webserver_info.modules}{$:item}{delimiter}, {/delimiter}{/section}
+                    </p>
+                </td>
+            </tr>
+        {section-else}
+            <tr>
+                <td colspan="2"><p>{'Webserver modules could not be detected'|i18n('design/standard/setup','Webserver modules')}</p></td>
+            </tr>
+        {/section}
+        </table>
+    {section-else}
+        <p>{'No known information on the webserver'|i18n( 'design/standard/setup' )}</p>
+    {/section}
+</div>
+
+<div class="objectheader">
     <h2>PHP Accelerator</h2>
 </div>
 <div class="object">

@@ -43,6 +43,7 @@ Changes from 3.4.0 to 3.5.0alpha1
 - NO "AS" keyword anymore in SQL FROM clauses for more portability
   between DBMSes.
 - Added daily and monthly digest options in the notification system.
+- Added information on webserver (currently only Apache) to the system information page.
 
 Class:
 - Simplified creation of classes by having a 'New class' button on the group
