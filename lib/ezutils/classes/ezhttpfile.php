@@ -296,6 +296,15 @@ class eZHTTPFile
         return $file;
     }
 
+    /*!
+      Changes the MIME-Type to $mime.
+     */
+    function setMimeType( $mime )
+    {
+        $this->Type = $mime;
+        list ( $this->MimeCategory, $this->MimePart ) = explode( '/', $mime, 2 );
+    }
+
     /// The name of the HTTP file
     var $HTTPName;
     /// The original name of the file from the client

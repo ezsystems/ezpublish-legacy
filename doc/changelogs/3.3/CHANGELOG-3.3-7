@@ -8,6 +8,7 @@ Changes from 3.3-6 to 3.3-7
 - Fixed problem with updateniceurls.php which would not create a forwarding
   url when it created a new nice url for a node.
   (Merged from stable/3.5 (3.5.0) rev. 10428)
+- Changed: Updated mime handling for datatypes ezbinaryfile and ezmedia.
 
 *Bugfixes:
 - Made sure the sortKeyByClassAttributeID() doesn't crash when a datatype is missing.
@@ -88,6 +89,7 @@ Changes from 3.3-6 to 3.3-7
   (Merged from stable/3.5 (3.5.0) rev. 10404)
 
 *Library:
+- Changed: Added method to allow datatypes to set mime type.
 
 eZDebug:
 - Fixed output of arrays and objects to use PHP function var_export if it is

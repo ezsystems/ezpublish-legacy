@@ -229,6 +229,7 @@ class eZMediaType extends eZDataType
                 $mime = $mediaFile->attribute( "mime_type" );
             }
             $extension = preg_replace('/.*\.(.+?)$/', '\\1', $mediaFile->attribute( "original_filename" ) );
+            $mediaFile->setMimeType( $mime );
             if ( !$mediaFile->store( "original", $extension ) )
             {
                 eZDebug::writeError( "Failed to store http-file: " . $mediaFile->attribute( "original_filename" ),
