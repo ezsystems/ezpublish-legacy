@@ -345,6 +345,12 @@ class eZContentFunctionCollection
         include_once( 'kernel/classes/ezcontentbrowserecent.php' );
         return array( 'result' => eZContentBrowseRecent::fetchListForUser( $user->id() ) );
     }
+
+    function fetchSectionList()
+    {
+        include_once( 'kernel/classes/ezsection.php' );
+        return array( 'result' => eZSection::fetchList() );
+    }
 }
 
 ?>
