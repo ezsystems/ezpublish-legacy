@@ -183,6 +183,102 @@ Compiling a template consists of the following steps:
 4. Generate PHP code from the resulting nodes.
 
 
+
+
+******************************************************
+* Template node transformation
+******************************************************
+
+
+Variable Node:
+
+
+Template code:
+{-5|abs}
+
+Internal Variable Element structure:
+array(
+  array( 2, -5 ),
+  array( 6,
+    array( 'abs' ) ) )
+
+Possible transformed structure:
+array(
+  array( 2, 5 ) )
+
+Template code:
+{$a|abs}
+
+Internal Variable Element structure:
+array(
+  array( 4, array( false, 3, 'a' ) ),
+  array( 6,
+    array( 'abs' ) ) )
+
+Possible transformed structure:
+array(
+  array( 4, array( false, 3, 'a' ) ),
+  array( 101,
+         '%output% = abs( %input% );',
+         false ) )
+
+Template code:
+{sum( $a, $b )}
+
+Internal Variable Element structure:
+array(
+  array( 6,
+    array( 'sum'
+      array( array( 4, array( false, 3, 'a' ) ) ),
+      array( array( 4, array( false, 3, 'b' ) ) ) ) ) )
+
+Possible transformed structure:
+array(
+  array( 101,
+         '%output% = %1% + %2%;',
+         false,
+         array( array( array( 4, array( false, 3, 'a' ) ) ), // %1%
+                array( array( 4, array( false, 3, 'b' ) ) )  // %2%
+              )
+       ) )
+
+
+Template code:
+{array( 1, 2, 5 ).1}
+
+Internal Variable Element structure:
+array(
+  array( 6,
+    array( 'array'
+      array( array( 2, 1 ) ),
+      array( array( 2, 2 ) ),
+      array( array( 2, 5 ) ) ) ),
+  array( 5,
+         array( array( 2, 1 ) ) ) )
+
+Template code:
+{max( min( $a, $b ), sum( $c, $d ) )}
+
+
+Internal Variable Element structure:
+array(
+  array( 6,
+    array( 'max',
+      array( array( 6,
+               array( 'min',
+                 array( array( 4,
+                          array( false, 3, 'a' ) ) ),
+                 array( array( 4,
+                          array( false, 3, 'b' ) ) ) ) ) )
+      array( array( 6,
+               array( 'sum',
+                 array( array( 4,
+                          array( false, 3, 'c' ) ) ),
+                 array( array( 4,
+                          array( false, 3, 'd' ) ) ) ) ) ) ) ) )
+
+
+
 ******************************************************
 * Template node definitions
 ******************************************************
@@ -297,6 +393,25 @@ Variable Element Types:
 5 - Attribute (Variable data is an array with Variable Elements)
 6 - Operator (Variable data is an array)
 
+100 - Internal (Not used, only used as starting value)
+101 - Code piece (Custom PHP code)
+//102 - Variable unset (Unsetting of a variable)
+//103 - Namespace change (Changing the namespace)
+//104 - Namespace restore (Restoring the namespace)
+//105 - Variable set (Changing a variable)
+120 - Warning
+121 - Error
+
+Code Piece Element:
+0 - 101
+1 - PHP code with %% markers, %input% is the input value or variable,
+    %output% is the output variable.
+2 - Placement
+3 - Array of sub Variable Elements,
+    each element will be processed before the code and placed
+    in variables. The first entry will be %1%, the second %2% etc.
+    Is optional so it might be omitted.
+
 String Element Type:
 Example:
 "some string"
@@ -314,7 +429,7 @@ array( 3, 'my_identifier', array( ... ) )
 
 Variable Element Type Data array:
 0 - Namespace name
-1 - Namespace scope (root, global or current)
+1 - Namespace scope (root (2), global (1) or current (3))
 2 - Variable name
 
 

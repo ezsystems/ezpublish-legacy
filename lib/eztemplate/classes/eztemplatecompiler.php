@@ -1003,8 +1003,6 @@ class eZTemplateCompiler
                     $newChildNode = eZTemplateCompiler::processNodeTransformationChild( $useComments, $php, $tpl, $childNode, $resourceData );
                     if ( !$newChildNode )
                         $newChildren[] = $childNode;
-                    else if ( !is_array( $newChildNode ) )
-                        $newChildren[] = $newChildNode;
                     else
                         $newChildren = array_merge( $newChildren, $newChildNode );
                 }
@@ -1037,7 +1035,7 @@ class eZTemplateCompiler
 
             if ( is_array( $tpl->Functions[$functionName] ) )
             {
-                $tpl->loadAndRegisterOperators( $tpl->Functions[$functionName] );
+                $tpl->loadAndRegisterFunctions( $tpl->Functions[$functionName] );
             }
             $functionObject =& $tpl->Functions[$functionName];
             if ( is_object( $functionObject ) )
@@ -1089,12 +1087,113 @@ class eZTemplateCompiler
             }
             return false;
         }
+        else if ( $nodeType == EZ_TEMPLATE_NODE_VARIABLE )
+        {
+            $elementTree = $node[2];
+            $elementList = $elementTree;
+//             $functionName = $node[2];
+//             $functionPlacement = $node[3];
+
+            $newParameterElements = eZTemplateCompiler::processElementTransformationChild( $useComments, $php, $tpl, $node,
+                                                                                           $elementTree, $elementList, $resourceData );
+            if ( $newParameterElements )
+            {
+                $newNode = $node;
+                $newNode[2] = $newParameterElements;
+                $newNodes = array( $newNode );
+                return $newNodes;
+            }
+        }
         else if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
         {
             return eZTemplateCompiler::processNodeTransformationRoot( $useComments, $php, $tpl, $node, $resourceData );
         }
         else
             return false;
+    }
+
+    /*!
+     Iterates over the children of the function node \a $node and transforms the tree.
+     If the node is not a function it will return \c false.
+     \sa processNodeTransformationRoot, processNodeTransformationChild
+    */
+    function processElementTransformationChild( $useComments, &$php, &$tpl, &$node,
+                                                &$elementTree, &$elementList, &$resourceData )
+    {
+        $count = count( $elementList );
+        $lastElement = null;
+        $newElementList = array();
+        for ( $i = 0; $i < $count; ++$i )
+        {
+            $element =& $elementList[$i];
+            $elementType = $element[0];
+            if ( $elementType == EZ_TEMPLATE_TYPE_OPERATOR )
+            {
+                $operatorName = $element[1][0];
+                $operatorParameters = array_slice( $element[1], 1 );
+                if ( !isset( $tpl->Operators[$operatorName] ) )
+                    return false;
+
+                if ( is_array( $tpl->Operators[$operatorName] ) )
+                {
+                    $tpl->loadAndRegisterOperators( $tpl->Operators[$operatorName] );
+                }
+                $operatorObject =& $tpl->Operators[$operatorName];
+                if ( is_object( $operatorObject ) )
+                {
+                    $hasTransformationSupport = false;
+                    $transformParameters = false;
+                    if ( method_exists( $operatorObject, 'operatorTemplateHints' ) )
+                    {
+                        $hints = $operatorObject->operatorTemplateHints();
+                        if ( isset( $hints[$operatorName] ) and
+                             isset( $hints[$operatorName]['element-transformation'] ) and
+                             $hints[$operatorName]['element-transformation'] )
+                            $hasTransformationSupport = true;
+                        if ( isset( $hints[$operatorName] ) and
+                             isset( $hints[$operatorName]['transform-parameters'] ) )
+                            $transformParameters = $hints[$operatorName]['transform-parameters'];
+                    }
+                    if ( $hasTransformationSupport and
+                         method_exists( $operatorObject, 'templateElementTransformation' ) )
+                    {
+                        if ( $transformParameters and
+                             count( $operatorParameters ) > 0 )
+                        {
+                            $newParameters = array();
+                            foreach ( $operatorParameters as $operatorParameter )
+                            {
+                                $newParameterElements = eZTemplateCompiler::processElementTransformationChild( $useComments, $php, $tpl, $node,
+                                                                                                               $elementTree, $operatorParameter, $resourceData );
+                                if ( !$newParameterElements )
+                                    $newParameters[] = $operatorParameter;
+                                else
+                                    $newParameters[] = $newParameterElements;
+                            }
+                            $operatorParameters = $newParameters;
+                        }
+
+                        $newElements = $operatorObject->templateElementTransformation( $operatorName, $node, $tpl, $resourceData,
+                                                                                       $element, $lastElement, $elementList, $elementTree,
+                                                                                       $operatorParameters );
+                        if ( is_array( $newElements ) )
+                        {
+                            $newElementList = array_merge( $newElementList, $newElements );
+                        }
+                        else
+                        {
+                            $newElementList[] = $element;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                $newElementList[] = $element;
+            }
+            $lastElement = $element;
+        }
+        return $newElementList;
     }
 
     /*!
@@ -1242,6 +1341,11 @@ class eZTemplateCompiler
             else if ( $variableItemType == EZ_TEMPLATE_TYPE_VOID )
             {
                 $tpl->warning( 'TemplateCompiler', "Void datatype should not be used, ignoring it" );
+            }
+            else if ( $variableItemType > EZ_TEMPLATE_TYPE_INTERNAL and
+                      $variableItemType < EZ_TEMPLATE_TYPE_INTERNAL_STOP )
+            {
+                $newVariableData[] = $variableItem;
             }
             else
             {
@@ -2153,6 +2257,40 @@ else
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_VOID )
             {
+            }
+            else if ( $variableDataType == EZ_TEMPLATE_TYPE_INTERNAL_CODE_PIECE )
+            {
+                $code = $variableDataItem[1];
+                $values = false;
+                $matchMap = array( '%input%', '%output%' );
+                $replaceMap = array( '$' . $variableAssignmentName, '$' . $variableAssignmentName );
+                $unsetList = array();
+                if ( isset( $variableDataItem[3] ) )
+                {
+                    $newParameters = $parameters;
+                    $values = $variableDataItem[3];
+                    $counter = 1;
+                    foreach ( $values as $value )
+                    {
+                        $newParameters['counter'] += 1;
+                        $newVariableAssignmentName = $newParameters['variable'];
+                        $newVariableAssignmentCounter = $newParameters['counter'];
+                        if ( $newVariableAssignmentCounter > 0 )
+                            $newVariableAssignmentName .= $newVariableAssignmentCounter;
+                        $matchMap[] = '%' . $counter . '%';
+                        $replaceMap[] = '$' . $newVariableAssignmentName;
+                        $unsetList[] = $newVariableAssignmentName;
+                        eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $value, $dataInspection,
+                                                                      $persistence, $newParameters );
+                        ++$counter;
+                    }
+                }
+                $code = str_replace( $matchMap, $replaceMap, $code );
+                $php->addCodePiece( $code, array( 'spacing' => $spacing ) );
+                foreach ( $unsetList as $unsetItem )
+                {
+                    $php->addVariableUnset( $unsetItem, array( 'spacing' => $spacing ) );
+                }
             }
         }
     }

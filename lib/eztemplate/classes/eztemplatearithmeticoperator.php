@@ -123,10 +123,14 @@ class eZTemplateArithmeticOperator
     {
         return array( $this->SumName => array( 'input' => true,
                                                'output' => true,
-                                               'parameters' => true ),
+                                               'parameters' => true,
+                                               'element-transformation' => true,
+                                               'transform-parameters' => true ),
                       $this->SubName => array( 'input' => true,
                                                'output' => true,
-                                               'parameters' => true ),
+                                               'parameters' => true,
+                                               'element-transformation' => true,
+                                               'transform-parameters' => true ),
                       $this->IncName => array( 'input' => true,
                                                'output' => true,
                                                'parameters' => 1 ),
@@ -173,6 +177,51 @@ class eZTemplateArithmeticOperator
                                                  'output' => true,
                                                  'parameters' => 1 ) );
     }
+
+    function templateElementTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                            &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        if ( $operatorName == $this->SumName )
+        {
+            if ( count( $parameters ) == 0 )
+                return false;
+            $newElements = array();
+            $code = "%output% =";
+            $counter = 1;
+            foreach ( $parameters as $parameter )
+            {
+                if ( $counter > 1 )
+                    $code .= " +";
+                $code .= ' %' . $counter . '%';
+                $values[] = $parameter;
+                ++$counter;
+            }
+            $code .= ";\n";
+            $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+            return $newElements;
+        }
+        else if ( $operatorName == $this->SubName )
+        {
+            if ( count( $parameters ) == 0 )
+                return false;
+            $newElements = array();
+            $code = "%output% =";
+            $counter = 1;
+            foreach ( $parameters as $parameter )
+            {
+                if ( $counter > 1 )
+                    $code .= " -";
+                $code .= ' %' . $counter . '%';
+                $values[] = $parameter;
+                ++$counter;
+            }
+            $code .= ";\n";
+            $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+            return $newElements;
+        }
+        return false;
+    }
+
     /*!
      \return true to tell the template engine that the parameter list exists per operator type.
     */

@@ -202,6 +202,16 @@ class eZTemplateNodeTool
         return $node;
     }
 
+    function createCodePieceElement( $codePiece, $values = false, $placement = false )
+    {
+        $element = array( EZ_TEMPLATE_TYPE_INTERNAL_CODE_PIECE,
+                          $codePiece,
+                          $placement );
+        if ( $values )
+            $element[] = $values;
+        return $element;
+    }
+
     function createCodePieceNode( $codePiece, $parameters = array() )
     {
         $node = array( EZ_TEMPLATE_NODE_INTERNAL_CODE_PIECE,
