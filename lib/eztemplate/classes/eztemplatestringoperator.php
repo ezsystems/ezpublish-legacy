@@ -74,13 +74,12 @@ class eZTemplateStringOperator
                                                           'code' => '$result = preg_match_all( "#(\w+)#", $staticValues[0], $dummy );'
                                                         ),
                                    'chr' => array( 'return' => 'string',
-                                                   'code' => '$codec =& eZTextCodec::instance( "unicode", false );
-                                                              $result = $codec->convertString( $staticValues[0] );'
+                                                   'code' => '$codec =& eZTextCodec::instance( "unicode", false );' . "\n" .
+                                                             '$result = $codec->convertString( $staticValues[0] );'
                                                  ),
                                    'ord' => array( 'return' => 'string',
-                                                   'code' => '$codec =& eZTextCodec::instance( false, "unicode" );
-                                                              $output = $codec->convertString( $staticValues[0] );
-                                                              $result = implode( ",", $output );'
+                                                   'code' => '$codec =& eZTextCodec::instance( false, "unicode" );' . "\n" .
+                                                             '$result = $codec->convertString( $staticValues[0] );'
                                                  ),
                                    'pad' => array( 'return' => 'string',
                                                    'code' => '$result = $paramCount == 2 ? str_pad( $staticValues[0], $staticValues[1] ) : str_pad ( $staticValues[0], $staticValues[1], $staticValues[2] );',
@@ -107,9 +106,9 @@ class eZTemplateStringOperator
                                                                    {
                                                                        $replacer = $staticValues[1];
                                                                    }
-                                                                   $result = preg_replace( "/$replacer{2,}/", $replacer, $staticValues[0] );',
+                                                                   $result = preg_replace( "/".$replacer."{2,}/", $replacer, $staticValues[0] );',
                                                         'code1' => '$result = preg_replace( "/ {2,}/", " ", $staticValues[0] );',
-                                                        'code2' => '$result = preg_replace( "/{$staticValues[1]}{2,}/", $staticValues[1], $staticValues[0] );',
+                                                        'code2' => '$result = preg_replace( "/".$staticValues[1]."{2,}/", $staticValues[1], $staticValues[0] );',
                                                       ),
                                    'shorten' => array( 'return' => 'string',
                                                        'code' => '$length = 80; $seq = "...";
@@ -131,7 +130,7 @@ class eZTemplateStringOperator
                                                                       $result = $staticValues[0];
                                                                   }'
                                                      )
-                                                                      
+
                                  );
     }
 
@@ -171,7 +170,8 @@ class eZTemplateStringOperator
             $hints[$operator]['output'] = true;
             $hints[$operator]['element-transformation'] = true;
             $hints[$operator]['transform-parameters'] = true;
-            $hints[$operator]['input-as-parameter'] = true;
+            if ( !isset( $hints[$operator]['input-as-parameter'] ) )
+                $hints[$operator]['input-as-parameter'] = 'always';
         }
         return $hints;
     }
@@ -288,20 +288,13 @@ class eZTemplateStringOperator
             {
                 eval( $mapEntry['code'] );
             }
-            if ( $mapEntry['return'] == 'int' )
-            {
-                $code = "%output% = $result;\n";
-            }
-            else
-            {
-                $code = "%output% = '" . addcslashes( $result, "'" ) . "';\n";
-            }
+            return array( eZTemplateNodeTool::createStaticElement( $result ) );
         }
         else
         {
-            $replaceMap = array('$result', '$paramCount');
-            $replacementMap = array('%output%', $paramCount);
-            for ($i = 0; $i < $paramCount; $i++)
+            $replaceMap = array( '$result', '$paramCount' );
+            $replacementMap = array( '%output%', $paramCount );
+            for ( $i = 0; $i < $paramCount; $i++ )
             {
                 $values[] = $parameters[$i];
                 $replaceMap[] = "\$staticValues[$i]";
@@ -357,7 +350,7 @@ class eZTemplateStringOperator
         }
         return $operatorValue;
     }
-    
+
     function washTransformation( $operatorName, &$node, &$tpl, &$resourceData,
                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
@@ -397,7 +390,7 @@ class eZTemplateStringOperator
             }
             $code = "%output% = '" . addcslashes( $this->wash( $staticValues[0], $tpl, $type ), "'" ) . "' ;\n";
         }
-        /* XHTML: Type is static, input is not */ 
+        /* XHTML: Type is static, input is not */
         else if ( ( $paramCount == 1 ) || ( ( $paramCount == 2 ) && isset( $staticValues[1] ) && ( $staticValues[1] == 'xhtml' ) ) )
         {
             $values[] = $parameters[0];

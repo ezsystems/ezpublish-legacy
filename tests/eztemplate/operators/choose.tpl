@@ -1,3 +1,8 @@
+{let choice=true()}
+$choice|choose( 'True', 'False' )='{$choice|choose( 'True', 'False' )}'
+{/let}
+
+
 3|choose( 'a', 'b', 'c', 'd', 'e' )='{3|choose( 'a', 'b', 'c', 'd', 'e' )}'
 
 

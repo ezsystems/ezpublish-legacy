@@ -1,7 +1,5 @@
-{"derick"|ord}
-{ord( 'derick' )}
+{"derick"|ord|implode( ',' )}
 
 {let str='derick'}
-{$str|ord}
-{ord( $str )}
+{$str|ord|implode( ',' )}
 {/let}

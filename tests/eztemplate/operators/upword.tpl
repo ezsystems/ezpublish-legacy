@@ -1,7 +1,7 @@
 {"derick rethans"|upword}
-{upword( "derick rethans" )}
 
 {let text="derick rethans"}
 {$text|upword}
-{upword( $text )}
 {/let}
+
+{array( 97, 115, 99, 32, 105, 105 )|chr|upword}

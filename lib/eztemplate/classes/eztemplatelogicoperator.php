@@ -389,34 +389,44 @@ class eZTemplateLogicOperator
 
             $count = count( $parameters ) - 1;
             $operatorNameText = eZPHPCreator::variableText( $operatorName );
-            $code = ( "if ( %1% < 0 and\n" .
-                      "     %1% >= $count )\n" .
-                      "{\n" .
-                      "    \$tpl->error( $operatorNameText, \"Index \" . %1% . \" out of range\" );\n" .
-                      "}\n" );
-            $code .= "else switch ( %1% )\n{\n";
-            $valueNumber = 2;
-            for ( $i = 0; $i < $count; ++$i )
+
+            if ( count( $parameters ) == ( 2 + 1 ) )
             {
-                $parameterNumber = $i + 1;
-                $code .= "    case $i:";
-                if ( eZTemplateNodeTool::isStaticElement( $parameters[$parameterNumber] ) )
-                {
-                    $value = eZTemplateNodeTool::elementStaticValue( $parameters[$parameterNumber] );
-                    $valueText = eZPHPCreator::variableText( $value, 0, 0, false );
-                    $code .= " %output% = $valueText; break;\n";
-                }
-                else
-                {
-                    $code .= "\n    {\n";
-                    $code .= "%code$valueNumber%\n";
-                    $code .= "%output% = %$valueNumber%;\n";
-                    $code .= "    } break;\n";
-                    $values[] = $parameters[$parameterNumber];
-                    ++$valueNumber;
-                }
+                $code = "%output% = %1% ? %3% : %2%;\n";
+                $values[] = $parameters[1];
+                $values[] = $parameters[2];
             }
-            $code .= "}\n";
+            else
+            {
+                $code = ( "if ( %1% < 0 and\n" .
+                          "     %1% >= $count )\n" .
+                          "{\n" .
+                          "    \$tpl->error( $operatorNameText, \"Index \" . %1% . \" out of range\" );\n" .
+                          "}\n" );
+                $code .= "else switch ( %1% )\n{\n";
+                $valueNumber = 2;
+                for ( $i = 0; $i < $count; ++$i )
+                {
+                    $parameterNumber = $i + 1;
+                    $code .= "    case $i:";
+                    if ( eZTemplateNodeTool::isStaticElement( $parameters[$parameterNumber] ) )
+                    {
+                        $value = eZTemplateNodeTool::elementStaticValue( $parameters[$parameterNumber] );
+                        $valueText = eZPHPCreator::variableText( $value, 0, 0, false );
+                        $code .= " %output% = $valueText; break;\n";
+                    }
+                    else
+                    {
+                        $code .= "\n    {\n";
+                        $code .= "%code$valueNumber%\n";
+                        $code .= "%output% = %$valueNumber%;\n";
+                        $code .= "    } break;\n";
+                        $values[] = $parameters[$parameterNumber];
+                        ++$valueNumber;
+                    }
+                }
+                $code .= "}\n";
+            }
         }
         $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values, eZTemplateNodeTool::extractVariableNodePlacement( $node ), false );
         return $newElements;

@@ -2,7 +2,7 @@
 {"this____string__is___annoying"|simplify( "_" )}
 
 {let str="Blah,   thiis   iis   annoyiing"}
-{simplify( $str )}
-{simplify( $str, 'i' )}
+{$str|simplify}
 {$str|simplify( 'i' )}
+{$str|simplify( 'n' )}
 {/let}

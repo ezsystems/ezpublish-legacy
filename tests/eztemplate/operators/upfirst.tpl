@@ -1,7 +1,7 @@
 {"derick rethans"|upfirst}
-{upfirst( "derick rethans" )}
 
 {let text="derick rethans"}
 {$text|upfirst}
-{upfirst( $text )}
 {/let}
+
+{array( 97, 115, 99, 105, 105 )|chr|upfirst}

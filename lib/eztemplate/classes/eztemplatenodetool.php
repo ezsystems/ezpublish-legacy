@@ -100,7 +100,7 @@ class eZTemplateNodeTool
             return eZTemplateNodeTool::createArrayElement( $static, $variablePlacement );
         else if ( is_string( $static ) )
             return eZTemplateNodeTool::createStringElement( $static, $variablePlacement );
-        else if ( is_boolean( $static ) )
+        else if ( is_bool( $static ) )
             return eZTemplateNodeTool::createBooleanElement( $static, $variablePlacement );
         else if ( is_numeric( $static ) )
             return eZTemplateNodeTool::createNumericElement( $static, $variablePlacement );

@@ -1,7 +1,7 @@
 {"DerickRethans"|upcase}
-{upcase( "DerickRethans" )}
 
 {let text="DerickRethans"}
 {$text|upcase}
-{upcase( $text )}
 {/let}
+
+{array( 97, 115, 99, 105, 105 )|chr|upcase}

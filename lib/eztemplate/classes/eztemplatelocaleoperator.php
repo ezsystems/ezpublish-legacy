@@ -87,11 +87,11 @@ class eZTemplateLocaleOperator
     {
         $hints = array(
             $this->LocaleName      => array( 'input' => true, 'output' => true, 'parameters' => true,
-                                             'transform-parameters' => true, 'input-as-parameter' => true,
+                                             'transform-parameters' => true, 'input-as-parameter' => 'always',
                                              'element-transformation' => true,
                                              'element-transformation-func' => 'l10nTransformation' ),
             $this->DateTimeName    => array( 'input' => true, 'output' => true, 'parameters' => true,
-                                             'transform-parameters' => true, 'input-as-parameter' => true,
+                                             'transform-parameters' => true, 'input-as-parameter' => 'always',
                                              'element-transformation' => true,
                                              'element-transformation-func' => 'dateTimeTransformation' ),
             $this->CurrentDateName => array( 'input' => false, 'output' => true, 'parameters' => false,
@@ -99,15 +99,15 @@ class eZTemplateLocaleOperator
                                              'element-transformation' => true,
                                              'element-transformation-func' => 'currentDateTransformation' ),
             $this->MakeTimeName    => array( 'input' => true, 'output' => true, 'parameters' => true,
-                                             'transform-parameters' => true, 'input-as-parameter' => true,
+                                             'transform-parameters' => true, 'input-as-parameter' => false,
                                              'element-transformation' => true,
                                              'element-transformation-func' => 'makeDateTimeTransformation' ),
             $this->MakeDateName    => array( 'input' => true, 'output' => true, 'parameters' => true,
-                                             'transform-parameters' => true, 'input-as-parameter' => true,
+                                             'transform-parameters' => true, 'input-as-parameter' => false,
                                              'element-transformation' => true,
                                              'element-transformation-func' => 'makeDateTimeTransformation' ),
             $this->GetTimeName     => array( 'input' => true, 'output' => true, 'parameters' => 1,
-                                             'transform-parameters' => true, 'input-as-parameter' => true,
+                                             'transform-parameters' => true, 'input-as-parameter' => 'always',
                                              'element-transformation' => true,
                                              'element-transformation-func' => 'getTimeTransformation' ),
         );
@@ -145,7 +145,7 @@ class eZTemplateLocaleOperator
     }
 
     /*!
-     Transforms 
+     Transforms
      */
     function l10nTransformation( $operatorName, &$node, &$tpl, &$resourceData,
                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
@@ -281,7 +281,7 @@ class eZTemplateLocaleOperator
             return false;
         }
         $newElements[] = eZTemplateNodeTool::createCodePieceElement(
-            $code . 
+            $code .
             "%tmp2% = getdate( %tmp1% );\n".
             "%tmp3% = date( 'W', %tmp1% );\n".
             "if ( %tmp2%['wday'] == 0 )\n{\n\t++%tmp3%;\n}\n".
