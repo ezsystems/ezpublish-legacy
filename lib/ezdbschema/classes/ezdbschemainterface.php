@@ -1270,12 +1270,26 @@ class eZDBSchemaInterface
             {
             case 'null':
                 {
-                    // remove "NOT NULL" requirement
-                    if ( isset( $fieldSchema['not_null'] ) )
+                    if ( $toLocal )
                     {
+                        // remove "NOT NULL" requirement
                         unset( $fieldSchema['not_null'] );
                         eZDebugSetting::writeDebug( 'lib-dbschema-transformation', '',
                                                     "transformed table column option: $schemaType:$tableName.$colName set to NULL" );
+                    }
+                    else
+                    {
+                        // add "NOT NULL" requirement
+                        $fieldSchema['not_null'] = '1';
+                        eZDebugSetting::writeDebug( 'lib-dbschema-transformation', '',
+                                                    "transformed table column option: $schemaType:$tableName.$colName set to NOT NULL" );
+                    }
+
+                    // FIXME: ugly hack preserving keys order in the field schema array, just to be diff-friendly
+                    {
+                        $tmp = $fieldSchema['default'];
+                        unset( $fieldSchema['default'] );
+                        $fieldSchema['default'] = $tmp;
                     }
                 } break;
             default:
