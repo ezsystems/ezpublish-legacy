@@ -67,7 +67,7 @@
 <div class="button-left">
 {section show=$node.can_edit}
     <input class="button" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Remove selected locations from the list above.'|i18n( 'design/admin/node/view/full' )}" {section show=$assignment_count|le( 1 )}disabled="disabled"{/section} />
-    <input class="button" type="submit" name="AddAssignmentButton" value="{'New location'|i18n( 'design/admin/node/view/full' )}" title="{'Add new location(s).'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button" type="submit" name="AddAssignmentButton" value="{'New location'|i18n( 'design/admin/node/view/full' )}" title="{'Add new location(s).'|i18n( 'design/admin/node/view/full' )}" {section show=or( eq( $node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ), eq( $node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ), eq( $node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ) )}disabled="disabled"{/section} />
 {section-else}
     <input class="button" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title={'You can not remove any locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )} disabled="disabled" />
     <input class="button" type="submit" name="" value="{'New location'|i18n( 'design/admin/node/view/full' )}" title={'You can not add new locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )} disabled="disabled" />
