@@ -1680,7 +1680,7 @@ class eZContentObject extends eZPersistentObject
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
             include_once( 'kernel/classes/ezuserdiscountrule.php' );
             $user =& eZUser::currentUser();
-            $languageCode = $Params['LanguageCode'];
+            $languageCode = $Params['Language'];
             $language = $languageCode;
             if ( $language == '' )
                 $language = eZContentObject::defaultLanguage();

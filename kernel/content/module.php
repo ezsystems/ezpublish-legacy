@@ -75,7 +75,7 @@ $ViewList["view"] = array(
     "functions" => array( 'read' ),
     "default_navigation_part" => 'ezcontentnavigationpart',
     "script" => "view.php",
-    "params" => array( "ViewMode", "NodeID", "LanguageCode" ),
+    "params" => array( "ViewMode", "NodeID" ),
     "unordered_params" => array( "language" => "Language",
                                  "offset" => "Offset" )
     );
