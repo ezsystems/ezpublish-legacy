@@ -252,7 +252,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	 */
 	function generateAddIndexSql( $table_name, $index_name, $def, $params, $isEmbedded = false )
 	{
-        $diffFriendly = $params['diff_friendly'];
+        $diffFriendly = isset( $params['diff_friendly'] ) ? $params['diff_friendly'] : false;
         // If the output should compatible with existing MySQL dumps
         $mysqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
         $sql = '';
@@ -474,7 +474,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
     */
 	function generateTableSQL( $tableName, $tableDef, $params, $asArray, $separateTypes = false )
 	{
-        $diffFriendly = $params['diff_friendly'];
+        $diffFriendly = isset( $params['diff_friendly'] ) ? $params['diff_friendly'] : false;
         $mysqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
 
         if ( $asArray )

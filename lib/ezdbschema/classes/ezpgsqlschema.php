@@ -494,7 +494,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
     */
 	function generateAddIndexSql( $table_name, $index_name, $def, $params, $withClosure )
 	{
-        $diffFriendly = $params['diff_friendly'];
+        $diffFriendly = isset( $params['diff_friendly'] ) ? $params['diff_friendly'] : false;
         $postgresqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
 
         $spacing = $postgresqlCompatible ? "\n    " : " ";
@@ -574,7 +574,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 	 */
 	function generateFieldDef( $table_name, $field_name, $def, $add_default_not_null = true, $params )
 	{
-        $diffFriendly = $params['diff_friendly'];
+        $diffFriendly = isset( $params['diff_friendly'] ) ? $params['diff_friendly'] : false;
 
         if ( in_array( $field_name, $this->reservedKeywordList() ) )
         {
@@ -768,7 +768,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
     */
 	function generateTableArrays( $table, $table_def, $params, $withClosure )
 	{
-        $diffFriendly = $params['diff_friendly'];
+        $diffFriendly = isset( $params['diff_friendly'] ) ? $params['diff_friendly'] : false;
         $postgresqlCompatible = isset( $params['compatible_sql'] ) ? $params['compatible_sql'] : false;
 
         $arrays = array( 'sequences' => array(),
