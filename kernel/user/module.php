@@ -120,6 +120,7 @@ $ViewList['activate'] = array(
 
 $ViewList['success'] = array(
     'script' => 'success.php',
+    'ui_context' => 'authentication',
     'default_navigation_part' => 'ezmynavigationpart',
     'params' => array( ) );
 
