@@ -298,7 +298,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             return false;
                         }
 
-                        $relatedObjectIDArray[] = $objectID;
+                        if ( !in_array( $objectID, $relatedObjectIDArray ) )
+                             $relatedObjectIDArray[] = $objectID;
 
                   //    $currentObject =& eZContentObject::fetch( $objectID );
 
@@ -369,7 +370,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                                 $embedTag->appendAttribute( $dom->createAttributeNode( 'object_id', $objectID ) );
 
-                                $relatedObjectIDArray[] = $objectID;
+                                if ( !in_array( $objectID, $relatedObjectIDArray ) )
+                                     $relatedObjectIDArray[] = $objectID;
                             }
                             elseif ( ereg( "^eznode://.+$" , $href ) )
                             {
@@ -416,7 +418,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 	                                return false;
 	                            }
 
-                                $relatedObjectIDArray[] = $objectID;
+                                if ( !in_array( $objectID, $relatedObjectIDArray ) )
+                                     $relatedObjectIDArray[] = $objectID;
                             }
                             else
                             {
@@ -472,7 +475,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 if ( $anchorName )
                                 	$link->appendAttribute( $dom->createAttributeNode( 'anchor_name', $anchorName ) );
 
-                                $relatedObjectIDArray[] = $objectID;
+                                if ( !in_array( $objectID, $relatedObjectIDArray ) )
+                                     $relatedObjectIDArray[] = $objectID;
                             }
                             elseif ( ereg( "^eznode://.+(#.*)?$" , $href ) )
                             {
@@ -515,7 +519,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 	$link->appendAttribute( $dom->createAttributeNode( 'anchor_name', $anchorName ) );
 
                                 $objectID = $node->attribute( 'contentobject_id' );
-                                $relatedObjectIDArray[] = $objectID;
+                                if ( !in_array( $objectID, $relatedObjectIDArray ) )
+                                     $relatedObjectIDArray[] = $objectID;
                             }
                             elseif ( ereg( "^#.*$" , $href ) )
                             {
