@@ -25,6 +25,8 @@ Changes from 3.3-6 to 3.3-7
   (Merged from stable/3.4, rev. 10083)
 - Fixed bug: "target" object parameter was sometimes unset in ezxhtmlxmloutput.php.
   http://ez.no/community/bug_reports/xhtml_output_and_attribute_target
+- Fixed bug: Set preference does return to different location.
+  http://ez.no/community/bug_reports/set_preference_does_return_to_different_location
 
 *Library:
 
