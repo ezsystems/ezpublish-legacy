@@ -5,18 +5,18 @@
 # Server version	3.23.36-log
 
 #
-# Table structure for table 'ezapprovetasks'
+# Table structure for table 'ezapprove_items'
 #
 
-CREATE TABLE ezapprovetasks (
+CREATE TABLE ezapprove_items (
   id int(11) NOT NULL auto_increment,
-  workflow_process_id int(11) default NULL,
-  task_id int(11) default NULL,
+  workflow_process_id int(11) NOT NULL default '0',
+  collaboration_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 #
-# Dumping data for table 'ezapprovetasks'
+# Dumping data for table 'ezapprove_items'
 #
 
 
@@ -65,6 +65,202 @@ INSERT INTO ezbinaryfile (contentobject_attribute_id, version, filename, origina
 INSERT INTO ezbinaryfile (contentobject_attribute_id, version, filename, original_filename, mime_type) VALUES (633,2,'php23Q4Ut.txt','tmp.txt','text/plain');
 INSERT INTO ezbinaryfile (contentobject_attribute_id, version, filename, original_filename, mime_type) VALUES (633,3,'php23Q4Ut.txt','tmp.txt','text/plain');
 INSERT INTO ezbinaryfile (contentobject_attribute_id, version, filename, original_filename, mime_type) VALUES (633,4,'php23Q4Ut.txt','tmp.txt','text/plain');
+
+#
+# Table structure for table 'ezcollab_group'
+#
+
+CREATE TABLE ezcollab_group (
+  id int(11) NOT NULL auto_increment,
+  parent_group_id int(11) NOT NULL default '0',
+  depth int(11) NOT NULL default '0',
+  path_string varchar(255) NOT NULL default '',
+  is_open int(11) NOT NULL default '1',
+  user_id int(11) NOT NULL default '0',
+  title varchar(255) NOT NULL default '',
+  priority int(11) NOT NULL default '0',
+  created int(11) NOT NULL default '0',
+  modified int(11) NOT NULL default '0',
+  PRIMARY KEY  (id),
+  KEY ezcollab_group_path (path_string),
+  KEY ezcollab_group_depth (depth)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezcollab_group'
+#
+
+
+#
+# Table structure for table 'ezcollab_item'
+#
+
+CREATE TABLE ezcollab_item (
+  id int(11) NOT NULL auto_increment,
+  type_identifier varchar(40) NOT NULL default '',
+  creator_id int(11) NOT NULL default '0',
+  status int(11) NOT NULL default '1',
+  data_text1 text NOT NULL,
+  data_text2 text NOT NULL,
+  data_text3 text NOT NULL,
+  data_int1 int(11) NOT NULL default '0',
+  data_int2 int(11) NOT NULL default '0',
+  data_int3 int(11) NOT NULL default '0',
+  data_float1 float NOT NULL default '0',
+  data_float2 float NOT NULL default '0',
+  data_float3 float NOT NULL default '0',
+  created int(11) NOT NULL default '0',
+  modified int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezcollab_item'
+#
+
+
+#
+# Table structure for table 'ezcollab_item_group_link'
+#
+
+CREATE TABLE ezcollab_item_group_link (
+  collaboration_id int(11) NOT NULL default '0',
+  group_id int(11) NOT NULL default '0',
+  user_id int(11) NOT NULL default '0',
+  is_read int(11) NOT NULL default '0',
+  is_active int(11) NOT NULL default '1',
+  last_read int(11) NOT NULL default '0',
+  created int(11) NOT NULL default '0',
+  modified int(11) NOT NULL default '0',
+  PRIMARY KEY  (collaboration_id,group_id,user_id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezcollab_item_group_link'
+#
+
+
+#
+# Table structure for table 'ezcollab_item_message_link'
+#
+
+CREATE TABLE ezcollab_item_message_link (
+  id int(11) NOT NULL auto_increment,
+  collaboration_id int(11) NOT NULL default '0',
+  participant_id int(11) NOT NULL default '0',
+  message_id int(11) NOT NULL default '0',
+  message_type int(11) NOT NULL default '0',
+  created int(11) NOT NULL default '0',
+  modified int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezcollab_item_message_link'
+#
+
+
+#
+# Table structure for table 'ezcollab_item_participant_link'
+#
+
+CREATE TABLE ezcollab_item_participant_link (
+  collaboration_id int(11) NOT NULL default '0',
+  participant_id int(11) NOT NULL default '0',
+  participant_type int(11) NOT NULL default '1',
+  participant_role int(11) NOT NULL default '1',
+  is_read int(11) NOT NULL default '0',
+  is_active int(11) NOT NULL default '1',
+  last_read int(11) NOT NULL default '0',
+  created int(11) NOT NULL default '0',
+  modified int(11) NOT NULL default '0',
+  PRIMARY KEY  (collaboration_id,participant_id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezcollab_item_participant_link'
+#
+
+
+#
+# Table structure for table 'ezcollab_item_status'
+#
+
+CREATE TABLE ezcollab_item_status (
+  collaboration_id int(11) NOT NULL default '0',
+  user_id int(11) NOT NULL default '0',
+  is_read int(11) NOT NULL default '0',
+  is_active int(11) NOT NULL default '1',
+  last_read int(11) NOT NULL default '0',
+  PRIMARY KEY  (collaboration_id,user_id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezcollab_item_status'
+#
+
+
+#
+# Table structure for table 'ezcollab_profile'
+#
+
+CREATE TABLE ezcollab_profile (
+  id int(11) NOT NULL auto_increment,
+  user_id int(11) NOT NULL default '0',
+  main_group int(11) NOT NULL default '0',
+  data_text1 text NOT NULL,
+  created int(11) NOT NULL default '0',
+  modified int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezcollab_profile'
+#
+
+
+#
+# Table structure for table 'ezcollab_simple_message'
+#
+
+CREATE TABLE ezcollab_simple_message (
+  id int(11) NOT NULL auto_increment,
+  message_type varchar(40) NOT NULL default '',
+  creator_id int(11) NOT NULL default '0',
+  data_text1 text NOT NULL,
+  data_text2 text NOT NULL,
+  data_text3 text NOT NULL,
+  data_int1 int(11) NOT NULL default '0',
+  data_int2 int(11) NOT NULL default '0',
+  data_int3 int(11) NOT NULL default '0',
+  data_float1 float NOT NULL default '0',
+  data_float2 float NOT NULL default '0',
+  data_float3 float NOT NULL default '0',
+  created int(11) NOT NULL default '0',
+  modified int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezcollab_simple_message'
+#
+
+
+#
+# Table structure for table 'ezcontent_translation'
+#
+
+CREATE TABLE ezcontent_translation (
+  id int(11) NOT NULL auto_increment,
+  name varchar(255) NOT NULL default '',
+  locale varchar(255) NOT NULL default '',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+#
+# Dumping data for table 'ezcontent_translation'
+#
+
 
 #
 # Table structure for table 'ezcontentclass'
@@ -245,7 +441,6 @@ INSERT INTO ezcontentclassgroup (id, name, creator_id, modifier_id, created, mod
 CREATE TABLE ezcontentobject (
   id int(11) NOT NULL auto_increment,
   owner_id int(11) NOT NULL default '0',
-  parent_id int(11) NOT NULL default '0',
   section_id int(11) NOT NULL default '0',
   contentclass_id int(11) NOT NULL default '0',
   name varchar(255) default NULL,
@@ -253,6 +448,7 @@ CREATE TABLE ezcontentobject (
   is_published int(11) default NULL,
   published int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
+  status int(11) default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -260,146 +456,146 @@ CREATE TABLE ezcontentobject (
 # Dumping data for table 'ezcontentobject'
 #
 
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (1,0,0,1,1,'My folder',3,0,1037197879,1037197879);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (4,0,0,0,3,'Users',1,0,0,0);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (15,14,0,2,1,'White box',5,0,1035893229,1035893229);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (10,8,0,0,4,'Anonymous User',1,0,1033920665,1033920665);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (11,8,0,0,3,'Guest accounts',1,0,1033920746,1033920746);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (12,8,0,0,3,'Administrator users',1,0,1033920775,1033920775);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (13,8,0,0,3,'Editors',1,0,1033920794,1033920794);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (14,8,0,0,4,'Administrator User',1,0,1033920830,1033920830);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (17,14,0,2,1,'Flowers',4,0,1035886818,1035886818);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (93,14,0,2,1,'Water',1,0,1035887037,1035887037);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (94,14,0,2,5,'Water 1',3,0,1035888486,1035888486);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (23,14,0,3,1,'News',2,0,1035967901,1035967901);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (72,14,0,3,2,'Typhoon is near',9,0,1034264438,1034264438);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (25,14,0,3,1,'Frontpage',3,0,1034334677,1034334677);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (26,14,0,3,1,'Sport',3,0,1034334718,1034334718);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (87,14,0,2,5,'Flower 2',3,0,1035892937,1035892937);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (29,14,0,3,1,'World news',3,0,1034334767,1034334767);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (30,14,0,4,1,'Crossroads forum',1,0,1034181792,1034181792);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (31,14,0,4,1,'Forums',1,0,1034181825,1034181825);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (88,14,0,2,5,'',2,0,1035888272,1035888272);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (89,14,0,2,5,'',2,0,1035888302,1035888302);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (86,14,0,2,5,'Flower 1',5,0,1035892919,1035892919);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (84,14,0,2,1,'Forest',5,0,1035892777,1035892777);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (39,10,0,4,8,'New Forum message',1,0,0,0);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (43,10,0,4,8,'First reply',1,0,1034186575,1034186575);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (45,10,0,4,8,'I agree !',1,0,1034186992,1034186992);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (46,10,0,4,8,'This forum is bad!!!!!!!!!!',1,0,1034187189,1034187189);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (47,10,0,4,8,'This is my reply',1,0,1034187441,1034187441);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (90,14,0,2,5,'Forest 2',2,0,1035888387,1035888387);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (57,14,0,1,20,'',1,0,1034190865,1034190865);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (91,14,0,2,5,'Forest 3',2,0,1035888410,1035888410);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (62,14,0,5,1,'The Book Corner',2,0,1035971219,1035971219);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (63,14,0,5,1,'Thriller',3,0,1035973207,1035973207);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (64,14,0,5,1,'Bestsellers',1,0,1034252256,1034252256);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (65,14,0,5,1,'Recommendations',1,0,1034252479,1034252479);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (159,14,0,4,8,'New Forum message',1,0,0,0);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (83,14,0,2,24,'Whitebox contemporary art gallery',5,0,1035967595,1035967595);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (70,14,0,5,23,'Fantastic',1,0,1034259506,1034259506);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (92,14,0,2,5,'Forest 4',2,0,1035888444,1035888444);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (85,14,0,2,5,'Forest 1',3,0,1035888358,1035888358);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (95,14,0,2,5,'Water 2',2,0,1035888527,1035888527);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (96,14,0,2,5,'Water 3',2,0,1035888554,1035888554);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (97,14,0,2,5,'Water 4',2,0,1035888617,1035888617);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (98,14,0,2,1,'Animals',1,0,1035887250,1035887250);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (99,14,0,2,5,'Animal 1',2,0,1035888720,1035888720);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (100,14,0,2,5,'Animal 2',2,0,1035888750,1035888750);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (101,14,0,2,5,'Animal 3',2,0,1035888654,1035888654);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (102,14,0,2,5,'Animal 4',2,0,1035888685,1035888685);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (103,14,0,2,1,'Landscape',1,0,1035887800,1035887800);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (104,14,0,2,5,'Landscape 1',2,0,1035888035,1035888035);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (105,14,0,2,5,'Landscape 2',2,0,1035888065,1035888065);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (106,14,0,2,5,'Landscape 3',2,0,1035888094,1035888094);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (107,14,0,2,5,'Landscape 4',2,0,1035888131,1035888131);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (108,14,0,2,5,'New Image',1,0,0,0);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (109,14,0,3,2,'New article',3,0,1035905739,1035905739);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (110,14,0,3,1,'Action',1,0,1035905816,1035905816);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (111,14,0,3,2,'eZ systems travel company',1,0,1035905861,1035905861);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (112,14,0,3,1,'Leisure',1,0,1035905944,1035905944);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (113,14,0,3,2,'Food for the soul',2,0,1035968283,1035968283);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (114,14,0,3,2,'We did it again',4,0,1035989523,1035989523);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (115,14,0,3,2,'eZ publish 3.0',2,0,1035969409,1035969409);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (116,14,0,3,2,'eZ systems and Siemens partner up',3,0,1035974950,1035974950);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (117,14,0,3,2,'New article',1,0,1035969959,1035969959);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (118,14,0,4,6,'Sports',2,0,1035988501,1035988501);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (119,14,0,4,6,'Computers',2,0,1035988870,1035988870);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (120,14,0,4,6,'Games',3,0,1035989049,1035989049);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (121,14,0,4,6,'Politics',3,0,1035989376,1035989376);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (122,14,0,4,8,'Formula 1 2003',1,0,1035970902,1035970902);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (123,14,0,3,2,'A weekend in the mountain',2,0,1035971131,1035971131);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (125,14,0,5,22,'The thriller book',4,0,1037264916,1037264916);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (126,14,0,3,2,'New Article',1,0,0,0);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (127,14,0,5,23,'I\'ve read this book',1,0,1035974003,1035974003);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (128,14,0,3,2,'Sports weekend',1,0,1035974314,1035974314);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (131,14,0,4,8,'The best football team in England',1,0,1035976181,1035976181);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (132,14,0,4,8,'Are sports for idiots ?',1,0,1035976274,1035976274);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (133,14,0,4,8,'Computer nerds',1,0,1035976334,1035976334);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (134,14,0,4,8,'Without computers the world stops',1,0,1035976395,1035976395);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (135,14,0,4,8,'Colin McRae Rally 3',1,0,1035976440,1035976440);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (136,14,0,4,8,'Games should be done outside',1,0,1035976529,1035976529);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (137,14,0,4,8,'Politics are boring',1,0,1035976603,1035976603);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (138,14,0,4,8,'New Forum message',1,0,0,0);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (139,14,0,4,8,'I do not agree !!!',1,0,1035976794,1035976794);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (140,14,0,4,8,'Without politics chaos will rule',1,0,1035977266,1035977266);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (141,14,0,4,8,'Yes, and it is great',1,0,1035977376,1035977376);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (142,14,0,4,8,'Yes',1,0,1035977386,1035977386);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (143,14,0,4,8,'I agree',1,0,1035977458,1035977458);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (144,14,0,4,8,'Hmmm',1,0,1035977973,1035977973);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (145,14,0,4,8,'Test',1,0,1035978540,1035978540);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (146,14,0,4,8,'Not !',1,0,1035978999,1035978999);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (147,14,0,5,23,'Good',1,0,0,0);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (148,14,0,5,22,'Forest fog',7,0,1037265917,1037265917);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (149,14,0,5,1,'Computers',1,0,1035983221,1035983221);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (150,14,0,5,22,'How to make a perfect CMS solution',7,0,1037265165,1037265165);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (151,14,0,5,22,'eZ publish - a tutorial',3,0,1037264747,1037264747);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (152,14,0,5,1,'House and garden',1,0,1035985040,1035985040);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (153,14,0,5,22,'Color is everything',2,0,1037264782,1037264782);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (154,14,0,5,22,'Peaceful waters',3,0,1037264815,1037264815);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (155,14,0,4,8,'Ferrari or BMW ?',1,0,1035985365,1035985365);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (156,14,0,5,1,'Travel',1,0,1035985697,1035985697);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (157,14,0,5,22,'Travel guide',2,0,1037264847,1037264847);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (158,14,0,5,22,'Animal planet',3,0,1037265973,1037265973);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (160,14,0,6,1,'My company',2,0,1037197585,1037197585);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (161,14,0,6,1,'News',1,0,1037177708,1037177708);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (163,14,0,6,1,'Products',3,0,1037263615,1037263615);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (164,14,0,6,1,'Software',1,0,1037192378,1037192378);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (165,14,0,6,1,'Services',2,0,1037281706,1037281706);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (170,14,0,6,24,'Careers',6,0,1037284973,1037284973);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (169,14,0,6,24,'About',3,0,1037285403,1037285403);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (171,14,0,6,2,'My company wins award',1,0,1037200671,1037200671);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (172,14,0,6,2,'My company wins $ billion contract',1,0,1037201872,1037201872);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (194,10,0,4,8,'New Forum message',1,0,0,0);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (174,14,0,6,1,'Servers',1,0,1037202070,1037202070);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (185,14,0,6,24,'Support',1,0,1037261069,1037261069);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (186,14,0,6,24,'Programming',1,0,1037261113,1037261113);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (187,14,0,6,24,'Sys admin',1,0,1037261172,1037261172);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (178,14,0,6,1,'System administration',1,0,1037202310,1037202310);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (188,14,0,6,24,'Feature request',1,0,1037261217,1037261217);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (192,14,0,6,22,'Server optimized',3,0,1037281397,1037281397);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (193,14,0,5,22,'New Product',1,0,0,0);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (184,14,0,6,24,'Consulting',1,0,1037261018,1037261018);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (190,14,0,5,22,'New Product',1,0,0,0);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (191,14,0,6,22,'My company desktop editor',2,0,1037281355,1037281355);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (195,14,0,1,2,'New Article',1,0,0,0);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (196,14,0,4,1,'Links',1,0,1037280633,1037280633);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (197,14,0,4,25,'eZ systems',1,0,1037280728,1037280728);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (201,14,0,4,25,'eZ publish',1,0,1037281396,1037281396);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (202,14,0,4,24,'About this forum',1,0,1037281592,1037281592);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (200,14,0,3,2,'Test article',1,0,1037281016,1037281016);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (203,14,0,7,1,'My Intranet',1,0,1038916142,1038916142);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (204,14,0,7,1,'News',1,0,1038916156,1038916156);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (205,14,0,7,1,'Files',1,0,1038916201,1038916201);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (206,14,0,7,26,'Important document',1,0,1038917707,1038917707);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (207,14,0,7,2,'This months budget',1,0,1038919010,1038919010);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (208,14,0,7,2,'Wine lottery today',1,0,1038919541,1038919541);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (209,14,0,7,26,'Document template',3,0,1038919177,1038919177);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (210,14,0,7,26,'Another template',4,0,1038919287,1038919287);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (211,14,0,7,2,'Meeting today at 13',1,0,1038920436,1038920436);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (212,14,0,8,1,'My site',1,0,1039687283,1039687283);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (213,14,0,8,24,'About me',2,0,1039687926,1039687926);
-INSERT INTO ezcontentobject (id, owner_id, parent_id, section_id, contentclass_id, name, current_version, is_published, published, modified) VALUES (214,14,0,8,24,'Portfolio',1,0,1039687794,1039687794);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (1,0,1,1,'My folder',3,0,1037197879,1037197879,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (4,0,0,3,'Users',1,0,0,0,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (10,8,0,4,'Anonymous User',1,0,1033920665,1033920665,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (11,8,0,3,'Guest accounts',1,0,1033920746,1033920746,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (12,8,0,3,'Administrator users',1,0,1033920775,1033920775,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (13,8,0,3,'Editors',1,0,1033920794,1033920794,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (14,8,0,4,'Administrator User',1,0,1033920830,1033920830,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (15,14,2,1,'White box',5,0,1035893229,1035893229,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (17,14,2,1,'Flowers',4,0,1035886818,1035886818,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (23,14,3,1,'News',2,0,1035967901,1035967901,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (25,14,3,1,'Frontpage',3,0,1034334677,1034334677,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (26,14,3,1,'Sport',3,0,1034334718,1034334718,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (29,14,3,1,'World news',3,0,1034334767,1034334767,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (30,14,4,1,'Crossroads forum',1,0,1034181792,1034181792,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (31,14,4,1,'Forums',1,0,1034181825,1034181825,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (57,14,1,20,'',1,0,1034190865,1034190865,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (62,14,5,1,'The Book Corner',2,0,1035971219,1035971219,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (63,14,5,1,'Thriller',3,0,1035973207,1035973207,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (64,14,5,1,'Bestsellers',1,0,1034252256,1034252256,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (65,14,5,1,'Recommendations',1,0,1034252479,1034252479,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (83,14,2,24,'Whitebox contemporary art gallery',5,0,1035967595,1035967595,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (84,14,2,1,'Forest',5,0,1035892777,1035892777,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (85,14,2,5,'Forest 1',3,0,1035888358,1035888358,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (86,14,2,5,'Flower 1',5,0,1035892919,1035892919,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (87,14,2,5,'Flower 2',3,0,1035892937,1035892937,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (88,14,2,5,'',2,0,1035888272,1035888272,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (89,14,2,5,'',2,0,1035888302,1035888302,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (90,14,2,5,'Forest 2',2,0,1035888387,1035888387,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (91,14,2,5,'Forest 3',2,0,1035888410,1035888410,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (92,14,2,5,'Forest 4',2,0,1035888444,1035888444,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (93,14,2,1,'Water',1,0,1035887037,1035887037,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (94,14,2,5,'Water 1',3,0,1035888486,1035888486,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (95,14,2,5,'Water 2',2,0,1035888527,1035888527,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (96,14,2,5,'Water 3',2,0,1035888554,1035888554,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (97,14,2,5,'Water 4',2,0,1035888617,1035888617,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (98,14,2,1,'Animals',1,0,1035887250,1035887250,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (99,14,2,5,'Animal 1',2,0,1035888720,1035888720,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (100,14,2,5,'Animal 2',2,0,1035888750,1035888750,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (101,14,2,5,'Animal 3',2,0,1035888654,1035888654,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (102,14,2,5,'Animal 4',2,0,1035888685,1035888685,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (103,14,2,1,'Landscape',1,0,1035887800,1035887800,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (104,14,2,5,'Landscape 1',2,0,1035888035,1035888035,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (105,14,2,5,'Landscape 2',2,0,1035888065,1035888065,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (106,14,2,5,'Landscape 3',2,0,1035888094,1035888094,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (107,14,2,5,'Landscape 4',2,0,1035888131,1035888131,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (109,14,3,2,'New article',3,0,1035905739,1035905739,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (110,14,3,1,'Action',1,0,1035905816,1035905816,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (111,14,3,2,'eZ systems travel company',1,0,1035905861,1035905861,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (112,14,3,1,'Leisure',1,0,1035905944,1035905944,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (113,14,3,2,'Food for the soul',2,0,1035968283,1035968283,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (114,14,3,2,'We did it again',4,0,1035989523,1035989523,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (115,14,3,2,'eZ publish 3.0',2,0,1035969409,1035969409,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (116,14,3,2,'eZ systems and Siemens partner up',3,0,1035974950,1035974950,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (117,14,3,2,'New article',1,0,1035969959,1035969959,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (118,14,4,6,'Sports',2,0,1035988501,1035988501,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (119,14,4,6,'Computers',2,0,1035988870,1035988870,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (120,14,4,6,'Games',3,0,1035989049,1035989049,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (121,14,4,6,'Politics',3,0,1035989376,1035989376,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (122,14,4,8,'Formula 1 2003',1,0,1035970902,1035970902,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (123,14,3,2,'A weekend in the mountain',2,0,1035971131,1035971131,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (125,14,5,22,'The thriller book',4,0,1037264916,1037264916,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (127,14,5,23,'I\'ve read this book',1,0,1035974003,1035974003,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (128,14,3,2,'Sports weekend',1,0,1035974314,1035974314,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (131,14,4,8,'The best football team in England',1,0,1035976181,1035976181,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (132,14,4,8,'Are sports for idiots ?',1,0,1035976274,1035976274,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (133,14,4,8,'Computer nerds',1,0,1035976334,1035976334,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (134,14,4,8,'Without computers the world stops',1,0,1035976395,1035976395,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (135,14,4,8,'Colin McRae Rally 3',1,0,1035976440,1035976440,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (136,14,4,8,'Games should be done outside',1,0,1035976529,1035976529,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (137,14,4,8,'Politics are boring',1,0,1035976603,1035976603,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (139,14,4,8,'I do not agree !!!',1,0,1035976794,1035976794,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (140,14,4,8,'Without politics chaos will rule',1,0,1035977266,1035977266,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (141,14,4,8,'Yes, and it is great',1,0,1035977376,1035977376,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (142,14,4,8,'Yes',1,0,1035977386,1035977386,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (143,14,4,8,'I agree',1,0,1035977458,1035977458,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (144,14,4,8,'Hmmm',1,0,1035977973,1035977973,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (145,14,4,8,'Test',1,0,1035978540,1035978540,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (146,14,4,8,'Not !',1,0,1035978999,1035978999,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (148,14,5,22,'Forest fog',7,0,1037265917,1037265917,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (149,14,5,1,'Computers',1,0,1035983221,1035983221,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (150,14,5,22,'How to make a perfect CMS solution',7,0,1037265165,1037265165,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (151,14,5,22,'eZ publish - a tutorial',3,0,1037264747,1037264747,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (152,14,5,1,'House and garden',1,0,1035985040,1035985040,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (153,14,5,22,'Color is everything',2,0,1037264782,1037264782,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (154,14,5,22,'Peaceful waters',3,0,1037264815,1037264815,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (155,14,4,8,'Ferrari or BMW ?',1,0,1035985365,1035985365,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (156,14,5,1,'Travel',1,0,1035985697,1035985697,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (157,14,5,22,'Travel guide',2,0,1037264847,1037264847,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (158,14,5,22,'Animal planet',3,0,1037265973,1037265973,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (160,14,6,1,'My company',2,0,1037197585,1037197585,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (161,14,6,1,'News',1,0,1037177708,1037177708,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (163,14,6,1,'Products',3,0,1037263615,1037263615,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (164,14,6,1,'Software',1,0,1037192378,1037192378,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (165,14,6,1,'Services',2,0,1037281706,1037281706,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (169,14,6,24,'About',3,0,1037285403,1037285403,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (170,14,6,24,'Careers',6,0,1037284973,1037284973,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (171,14,6,2,'My company wins award',1,0,1037200671,1037200671,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (172,14,6,2,'My company wins $ billion contract',1,0,1037201872,1037201872,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (174,14,6,1,'Servers',1,0,1037202070,1037202070,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (184,14,6,24,'Consulting',1,0,1037261018,1037261018,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (185,14,6,24,'Support',1,0,1037261069,1037261069,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (186,14,6,24,'Programming',1,0,1037261113,1037261113,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (187,14,6,24,'Sys admin',1,0,1037261172,1037261172,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (188,14,6,24,'Feature request',1,0,1037261217,1037261217,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (191,14,6,22,'My company desktop editor',2,0,1037281355,1037281355,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (192,14,6,22,'Server optimized',3,0,1037281397,1037281397,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (196,14,4,1,'Links',1,0,1037280633,1037280633,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (197,14,4,25,'eZ systems',1,0,1037280728,1037280728,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (201,14,4,25,'eZ publish',1,0,1037281396,1037281396,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (202,14,4,24,'About this forum',1,0,1037281592,1037281592,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (203,14,7,1,'My Intranet',1,0,1038916142,1038916142,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (204,14,7,1,'News',1,0,1038916156,1038916156,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (205,14,7,1,'Files',1,0,1038916201,1038916201,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (206,14,7,26,'Important document',1,0,1038917707,1038917707,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (207,14,7,2,'This months budget',1,0,1038919010,1038919010,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (208,14,7,2,'Wine lottery today',1,0,1038919541,1038919541,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (209,14,7,26,'Document template',3,0,1038919177,1038919177,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (210,14,7,26,'Another template',4,0,1038919287,1038919287,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (211,14,7,2,'Meeting today at 13',1,0,1038920436,1038920436,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (212,14,8,1,'My site',1,0,1039687283,1039687283,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (213,14,8,24,'About me',2,0,1039687926,1039687926,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (214,14,8,24,'Portfolio',1,0,1039687794,1039687794,1);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (72,14,3,2,'Typhoon is near',9,0,1034264438,1034264438,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (39,10,4,8,'New Forum message',1,0,0,0,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (43,10,4,8,'First reply',1,0,1034186575,1034186575,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (45,10,4,8,'I agree !',1,0,1034186992,1034186992,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (46,10,4,8,'This forum is bad!!!!!!!!!!',1,0,1034187189,1034187189,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (47,10,4,8,'This is my reply',1,0,1034187441,1034187441,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (159,14,4,8,'New Forum message',1,0,0,0,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (70,14,5,23,'Fantastic',1,0,1034259506,1034259506,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (108,14,2,5,'New Image',1,0,0,0,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (126,14,3,2,'New Article',1,0,0,0,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (138,14,4,8,'New Forum message',1,0,0,0,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (147,14,5,23,'Good',1,0,0,0,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (194,10,4,8,'New Forum message',1,0,0,0,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (178,14,6,1,'System administration',1,0,1037202310,1037202310,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (193,14,5,22,'New Product',1,0,0,0,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (190,14,5,22,'New Product',1,0,0,0,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (195,14,1,2,'New Article',1,0,0,0,0);
+INSERT INTO ezcontentobject (id, owner_id, section_id, contentclass_id, name, current_version, is_published, published, modified, status) VALUES (200,14,3,2,'Test article',1,0,1037281016,1037281016,0);
 
 #
 # Table structure for table 'ezcontentobject_attribute'
@@ -2492,6 +2688,7 @@ CREATE TABLE ezmedia (
   pluginspage varchar(255) default NULL,
   quality varchar(50) default NULL,
   is_loop int(1) default NULL,
+  controls varchar(50) default NULL,
   PRIMARY KEY  (contentobject_attribute_id,version)
 ) TYPE=MyISAM;
 
@@ -10634,6 +10831,7 @@ CREATE TABLE ezsearch_word (
 #
 # Dumping data for table 'ezsearch_word'
 #
+
 INSERT INTO ezsearch_word (id, word, object_count) VALUES (988,'those',6);
 INSERT INTO ezsearch_word (id, word, object_count) VALUES (1659,'strong',1);
 INSERT INTO ezsearch_word (id, word, object_count) VALUES (5,'gallery',3);
@@ -12542,6 +12740,7 @@ CREATE TABLE ezsession (
 # Dumping data for table 'ezsession'
 #
 
+INSERT INTO ezsession (session_key, expiration_time, data, cache_mask_1) VALUES ('74e0548eb086fe1a06c0b1d34b404a28',1044545051,'!eZUserInfoCache_10|eZUserLoggedInID|s:2:\"14\";eZUserInfoCache_14|a:5:{s:16:\"contentobject_id\";s:2:\"14\";s:5:\"login\";s:5:\"admin\";s:5:\"email\";s:12:\"nospam@ez.no\";s:13:\"password_hash\";s:32:\"9b6d0bb3102b87fae57bc4a39149518e\";s:18:\"password_hash_type\";s:1:\"1\";}eZUserGroupsCache_14|a:1:{i:0;a:1:{s:2:\"id\";s:2:\"12\";}}UserRoles|a:1:{i:0;a:2:{s:2:\"id\";s:1:\"2\";s:4:\"name\";s:13:\"Administrator\";}}PermissionCachedForUserID|s:2:\"14\";eZUserDiscountRules14|a:0:{}eZGlobalSection|a:1:{s:2:\"id\";s:1:\"1\";}canInstantiateClassesCachedForUser|s:2:\"14\";canInstantiateClasses|i:1;classesCachedForUser|s:2:\"14\";canInstantiateClassList|a:12:{i:0;a:2:{s:2:\"id\";s:1:\"1\";s:4:\"name\";s:6:\"Folder\";}i:1;a:2:{s:2:\"id\";s:1:\"2\";s:4:\"name\";s:7:\"Article\";}i:2;a:2:{s:2:\"id\";s:1:\"3\";s:4:\"name\";s:10:\"User group\";}i:3;a:2:{s:2:\"id\";s:1:\"4\";s:4:\"name\";s:4:\"User\";}i:4;a:2:{s:2:\"id\";s:1:\"5\";s:4:\"name\";s:5:\"Image\";}i:5;a:2:{s:2:\"id\";s:1:\"6\";s:4:\"name\";s:5:\"Forum\";}i:6;a:2:{s:2:\"id\";s:1:\"8\";s:4:\"name\";s:13:\"Forum message\";}i:7;a:2:{s:2:\"id\";s:2:\"22\";s:4:\"name\";s:7:\"Product\";}i:8;a:2:{s:2:\"id\";s:2:\"23\";s:4:\"name\";s:14:\"Product review\";}i:9;a:2:{s:2:\"id\";s:2:\"24\";s:4:\"name\";s:9:\"Info page\";}i:10;a:2:{s:2:\"id\";s:2:\"25\";s:4:\"name\";s:4:\"Link\";}i:11;a:2:{s:2:\"id\";s:2:\"26\";s:4:\"name\";s:4:\"File\";}}UserPolicies|a:1:{i:2;a:1:{i:0;a:5:{s:2:\"id\";s:3:\"308\";s:7:\"role_id\";s:1:\"2\";s:11:\"module_name\";s:1:\"*\";s:13:\"function_name\";s:1:\"*\";s:10:\"limitation\";s:1:\"*\";}}}',0);
 
 #
 # Table structure for table 'eztask'
@@ -12899,16 +13098,3 @@ CREATE TABLE ezworkflow_process (
 #
 
 
-create table ezcontent_translation(
-    id int NOT NULL auto_increment,
-    name varchar(255) NOT NULL DEFAULT '',
-    locale varchar(255) NOT NULL,
-    PRIMARY KEY  (id)
-    );
-
-# adding status to ezcontentobject and making correct update of it
-alter table ezcontentobject add column status int default 0;
-create temporary table ezcontentobject_temp as select distinct id,owner_id,section_id,contentclass_id,name,current_version,is_published,published,modified, 1 as status from ezcontentobject, ezcontentobject_tree  where ezcontentobject_tree.contentobject_id = ezcontentobject.id;
-insert into ezcontentobject_temp  select ezcontentobject.* from ezcontentobject left join ezcontentobject_tree on ezcontentobject.id = ezcontentobject_tree.contentobject_id where ezcontentobject_tree.contentobject_id is null;
-delete from ezcontentobject;
-insert into ezcontentobject select * from ezcontentobject_temp;
