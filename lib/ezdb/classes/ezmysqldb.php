@@ -59,10 +59,12 @@ class eZMySQLDB extends eZDBInterface
 //                              'mysqldb' );
         $this->DBConnection = @mysql_pconnect( $this->Server, $this->User, $this->Password );
         $dbErrorText = mysql_error();
+        $maxAttempts = $this->connectRetryCount();
+        $waitTime = $this->connectRetryWaitTime();
         $numAttempts = 1;
-        while ( $this->DBConnection == false && $numAttempts < 5 )
+        while ( $this->DBConnection == false and $numAttempts <= $maxAttempts )
         {
-            usleep( 50 );
+            sleep( $waitTime );
             $this->DBConnection = @mysql_pconnect( $this->Server, $this->User, $this->Password );
             $numAttempts++;
         }

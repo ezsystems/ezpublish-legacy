@@ -149,6 +149,7 @@ class eZDB
             $pwd = $ini->variable( 'DatabaseSettings', 'Password' );
             $db = $ini->variable( 'DatabaseSettings', 'Database' );
             $charset = $ini->variable( 'DatabaseSettings', 'Charset' );
+            $retries = $ini->variable( 'DatabaseSettings', 'ConnectRetries' );
             $builtinEncoding = ( $ini->variable( 'DatabaseSettings', 'UseBuiltinEncoding' ) == 'true' );
 
             $extraPluginPathArray = $ini->variableArray( 'DatabaseSettings', 'DatabasePluginPath' );
@@ -161,7 +162,8 @@ class eZDB
                                                 'password' => $pwd,
                                                 'database' => $db,
                                                 'charset' => $charset,
-                                                'builtin_encoding' => $builtinEncoding );
+                                                'builtin_encoding' => $builtinEncoding,
+                                                'connect_retries' => $retries );
             if ( $databaseParameters === false )
             {
                 $databaseParameters = $defaultDatabaseParameters;

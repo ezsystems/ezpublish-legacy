@@ -167,6 +167,8 @@ eZModuleFunctionInfo:
 
 eZ db:
 - Mysql db driver no longer fetches indexed array only associative arrays.
+- Added support for configurable reconnect (default 0), changed reconnect
+  delay to 3 seconds and added reconnect code to postgresql.
 
 eZ debug:
 - Added missing class variable for group loop in debug output.

@@ -57,17 +57,37 @@ class eZPostgreSQLDB extends eZDBInterface
 
         if ( $ini->variable( "DatabaseSettings", "UsePersistentConnection" ) == "enabled" &&  function_exists( "pg_pconnect" ))
         {
-            eZDebug::writeNotice( $ini->variable( "DatabaseSettings", "UsePersistentConnection" ), "using persistent connection" );
+            eZDebugSetting::writeDebug( 'kernel-db-postgresql', $ini->variable( "DatabaseSettings", "UsePersistentConnection" ), "using persistent connection" );
             $this->DBConnection = pg_pconnect( "host=$server dbname=$db user=$user password=$password" );
-            $this->IsConnected = true;
+            $maxAttempts = $this->connectRetryCount();
+            $waitTime = $this->connectRetryWaitTime();
+            $numAttempts = 1;
+            while ( $this->DBConnection == false and $numAttempts <= $maxAttempts )
+            {
+                sleep( $waitTime );
+                $this->DBConnection = pg_pconnect( "host=$server dbname=$db user=$user password=$password" );
+                $numAttempts++;
+            }
+            if ( $this->DBConnection )
+                $this->IsConnected = true;
             // add error checking
 //          eZDebug::writeError( "Error: could not connect to database." . pg_errormessage( $this->DBConnection ), "eZPostgreSQLDB" );
         }
         else if ( function_exists( "pg_connect" ) )
         {
-            eZDebug::writeNotice( "using real connection",  "using real connection" );
+            eZDebugSetting::writeDebug( 'kernel-db-postgresql', "using real connection",  "using real connection" );
             $this->DBConnection = pg_connect( "host=$server dbname=$db user=$user password=$password" );
-            $this->IsConnected = true;
+            $maxAttempts = $this->connectRetryCount();
+            $waitTime = $this->connectRetryWaitTime();
+            $numAttempts = 1;
+            while ( $this->DBConnection == false and $numAttempts <= $maxAttempts )
+            {
+                sleep( $waitTime );
+                $this->DBConnection = pg_connect( "host=$server dbname=$db user=$user password=$password" );
+                $numAttempts++;
+            }
+            if ( $this->DBConnection )
+                $this->IsConnected = true;
         }
         else
         {

@@ -69,6 +69,7 @@ class eZDBInterface
         $db = $parameters['database'];
         $charset = $parameters['charset'];
         $builtinEncoding = $parameters['builtin_encoding'];
+        $connectRetries = $parameters['connect_retries'];
 
         $this->DB = $db;
         $this->Server = $server;
@@ -76,6 +77,7 @@ class eZDBInterface
         $this->Password = $password;
         $this->Charset = $charset;
         $this->UseBuiltinEncoding = $builtinEncoding;
+        $this->ConnectRetries = $connectRetries;
 
         if ( $this->UseBuiltinEncoding )
         {
@@ -176,6 +178,23 @@ class eZDBInterface
     function databaseName()
     {
         return '';
+    }
+
+    /*!
+     \return the number of times the db handler should try to reconnect if it fails.
+    */
+    function connectRetryCount()
+    {
+        return $this->ConnectRetries;
+    }
+
+    /*!
+     \return the number of seconds the db handler should wait before rereconnecting.
+     \note Currently returns 3 seconds.
+    */
+    function connectRetryWaitTime()
+    {
+        return 3;
     }
 
     /*!
@@ -412,6 +431,8 @@ class eZDBInterface
     var $Password;
     /// The charset used for the current database
     var $Charset;
+    /// The number of times to retry a connection if it fails
+    var $ConnectRetries;
     /// Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
     var $OutputTextCodec;
     /// True if a builtin encoder is to be used, this means that all input/output text is converted
