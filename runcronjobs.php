@@ -90,6 +90,7 @@ $scripts = $ini->variable( 'CronjobSettings', 'Scripts' );
 foreach ( $scripts as $script )
 {
     $scriptFile = 'cronjobs/' . $script;
+    print( "Running $scriptFile$endl" );
     include( $scriptFile );
 }
 
