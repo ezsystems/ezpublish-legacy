@@ -1296,7 +1296,7 @@ class eZImageAliasHandler
     {
         $domTree =& $this->domTree();
         if ( $domTree )
-            $this->storeDOMTree( $domTree, false );
+            $this->storeDOMTree( $domTree, true );
         $contentObjectAttribute =& $this->ContentObjectAttribute;
         if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
             $contentObjectAttribute->DataTypeCustom = array();
