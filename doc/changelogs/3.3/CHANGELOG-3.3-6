@@ -242,8 +242,10 @@ eZINI:
   there's no user called root in default PostgreSQL installation.
 - Fixed fatal error regarding to reposting after removal of a section.
   http://ez.no/community/bug_reports/repost_crash_section
-- Fixed bug: fatal error occurs when removing a PDF export.
+- Fixed bug: fatal error occurs when removing a PDF export and then reloading the page.
   http://ez.no/community/bug_reports/repost_crash_pdf
+- Fixed bug: fatal error occurs when one removes a policy and then reloads the page.
+  http://ez.no/community/bug_reports/repost_crash_role
 
 *Library:
 
