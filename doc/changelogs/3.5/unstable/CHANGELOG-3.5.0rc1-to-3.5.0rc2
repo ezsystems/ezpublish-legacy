@@ -78,6 +78,11 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   http://ez.no/community/bug_reports/node_not_set_and_fatal_error
 - Fixed bug with indexing of attributes and translations
   http://ez.no/community/bug_reports/search_doubled_indexed_words_in_ezsearch_object_word_link
+- Fixed bug: When importing a 3.3 content class package, two classes are created instead of one.
+  (Merged from stable/3.4 rev. 10255)
+  http://ez.no/community/bug_reports/import_package_with_one_content_class_results_in_two_content_classes
+- Fixed a PHP warning in packagehandlers/contentclass/ezcontentclasspackagehandler.php.
+  (Merged from stable/3.4 rev. 10255)
 
 *Library:
 

@@ -251,6 +251,7 @@ class eZPersistentObject
     function storeObject( &$obj, $fieldFilters = null )
     {
         $db =& eZDB::instance();
+        $useFieldFilters = ( isset( $fieldFilters ) && is_array( $fieldFilters ) && $fieldFilters );
 
         $def =& $obj->definition();
         $fields =& $def["fields"];
@@ -268,6 +269,9 @@ class eZPersistentObject
                 $exclude_fields[] = $key;
             }
         }
+
+        if ( $useFieldFilters )
+            $insert_object = false;
 
         $use_fields = array_diff( array_keys( $fields ), $exclude_fields );
         $doNotEscapeFields = array();
@@ -351,7 +355,7 @@ class eZPersistentObject
                     $important_keys[] = $relation;
             }
         }
-        if ( count( $important_keys ) == 0 )
+        if ( count( $important_keys ) == 0 && !$useFieldFilters )
         {
             $insert_object = true;
         }
@@ -361,8 +365,17 @@ class eZPersistentObject
                                                           array(), null, false,
                                                           null, null );
             if ( count( $rows ) == 0 )
+            {
+                /* If we only want to update some fields in a record
+                 * and that records does not exist, then we should do nothing, only return.
+                 */
+                if ( $useFieldFilters )
+                    return;
+
                 $insert_object = true;
+            }
         }
+
         if ( $insert_object )
         {
             $use_fields = array_diff( array_keys( $fields ), $exclude_fields );

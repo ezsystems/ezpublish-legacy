@@ -160,7 +160,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
         if ( $classRemoteID != "" )
             $class =& eZContentClass::fetchByRemoteID( $classRemoteID );
 
-        if ( !$class )
+        if ( !isset( $class ) || !$class )
         {
             $class =& eZContentClass::create( $userID,
                                               array( 'version' => 0,

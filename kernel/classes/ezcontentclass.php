@@ -750,7 +750,10 @@ You will need to change the class of the node by using the swap functionality.' 
         }
     }
 
-    function store( $store_childs = false )
+    /*!
+     \reimp
+    */
+    function store( $store_childs = false, $fieldFilters = null )
     {
         if ( is_array( $store_childs ) or $store_childs )
         {
@@ -771,7 +774,16 @@ You will need to change the class of the node by using the swap functionality.' 
         $handler->setTimestamp( 'user-class-cache', mktime() );
         $handler->store();
 
-        eZPersistentObject::store();
+        eZPersistentObject::store( $fieldFilters );
+    }
+
+    /*!
+     \reimp
+    */
+    function sync( $fieldFilters = null )
+    {
+        if ( $this->hasDirtyData() )
+            $this->store( false, $fieldFilters );
     }
 
     /*!
