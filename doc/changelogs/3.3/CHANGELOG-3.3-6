@@ -272,6 +272,8 @@ eZINI:
 - Fixed bug: user should not be able to relate an object to itself.
   http://ez.no/community/bug_reports/you_can_relate_an_object_to_itself
 - Fixed bug: Fixed SQL error that happened when removing classes along with removing class group.
+- Fixed bug: Deleting user account that is not yet activated caused fatal error when activating the account.
+  http://ez.no/community/bug_reports/deleting_user_account_not_activated
 
 *Library:
 
