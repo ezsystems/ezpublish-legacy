@@ -35,6 +35,8 @@ eZINI:
   http://ez.no/community/bug_reports/digest_notification_doesn_t_work
 - Fixed a bug in a template with a missing default case
   http://ez.no/community/bug_reports/no_default_case_in_datatypes_tpl
+- Fixed bug of incorrectly showing checkbox atribute on class view.
+  http://ez.no/community/bug_reports/error_viewing_checkbox_atribute_on_class_view
 
 *Library:
 
