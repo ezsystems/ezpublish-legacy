@@ -41,5 +41,8 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   http://ez.no/community/bug_reports/fatal_error_when_clearing_cache_from_shell
 - Fixed parsing of .tr files in DOS/Mac format.
   http://ez.no/community/bug_reports/3_5_ezcodemapper_lowercase_not_working
+- Fixed PDF generation bug, from stable/3.4 rev. 10099.
+  http://ez.no/community/bug_reports/fatal_error_in_pdf_generation
+
 
 *Library:
