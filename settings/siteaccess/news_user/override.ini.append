@@ -61,3 +61,9 @@ Source=content/edit.tpl
 MatchFile=edit_comment.tpl
 Subdir=templates
 Match[class]=26
+
+[comment]
+Source=node/view/full.tpl
+MatchFile=comment.tpl
+Subdir=templates
+Match[class]=26
