@@ -125,6 +125,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                               'datatype' => 'integer',
                                                               'default' => 0,
                                                               'required' => true ),
+                                         'modified_subnode' => array( 'name' => 'ModifiedSubNode',
+                                                                      'datatype' => 'integer',
+                                                                      'default' => 0,
+                                                                      'required' => true ),
                                          "path_string" => array( 'name' => "PathString",
                                                                  'datatype' => 'string',
                                                                  'default' => '',
@@ -166,6 +170,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       'depth' => 1,
                       'sort_field' => $sortField,
                       'sort_order' => $sortOrder,
+                      'modified_subnode' => 0,
                       'priority' => 0 );
         $node =& new eZContentObjectTreeNode( $row );
         return $node;
@@ -532,6 +537,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $sortingFields .= 'ezcontentobject.modified';
                         } break;
+                        case 'modified_subnode':
+                        {
+                            $sortingFields .= 'modified_subnode';
+                        } break;
                         case 'section':
                         {
                             $sortingFields .= 'ezcontentobject.section_id';
@@ -734,6 +743,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         case 'modified':
                         {
                             $filterField = 'ezcontentobject.modified';
+                        } break;
+                        case 'modified_subnode':
+                        {
+                            $filterField = 'modified_subnode';
                         } break;
                         case 'section':
                         {
@@ -1323,6 +1336,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         {
                             $filterField = 'ezcontentobject.modified';
                         } break;
+                        case 'modified_subnode':
+                        {
+                            $filterField = 'modified_subnode';
+                        } break;
                         case 'section':
                         {
                             $filterField = 'ezcontentobject.section';
@@ -1632,6 +1649,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 return 'priority';
             case 9:
                 return 'name';
+            case 10:
+                return 'modified_subnode';
         }
     }
 
@@ -1688,58 +1707,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         eZDebug::writeWarning( "Obsolete: use ezurlalias instead", 'eZContentObjectTreeNode::fetchByCRC' );
     }
-
-    /*
-    function &fetchByCRC( $pathStr )
-    {
-        $md5hash = md5( $pathStr );
-        $db =& eZDB::instance();
-
-        $useVersionName = true;
-        if ( $useVersionName )
-        {
-            $versionNameTables = ', ezcontentobject_name ';
-            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
-
-            $lang = eZContentObject::defaultLanguage();
-
-            $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
-                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
-                                  ezcontentobject_name.content_translation = '$lang' ";
-        }
-
-        $query="SELECT ezcontentobject.*,
-                           ezcontentobject_tree.*,
-                           ezcontentclass.name as class_name
-                           $versionNameTargets
-                    FROM ezcontentobject_tree,
-                         ezcontentobject,
-                         ezcontentclass
-                         $versionNameTables
-                    WHERE md5_path = '$md5hash' AND
-                          ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
-                          ezcontentclass.version=0  AND
-                          ezcontentclass.id = ezcontentobject.contentclass_id
-                         $versionNameJoins";
-
-        $nodeListArray = $db->arrayQuery( $query );
-        $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
-        if ( count( $retNodeArray ) > 1 )
-        {
-            reset( $retNodeArray );
-            while ( ( $key = key( $retNodeArray )) !== null )
-            {
-                $node =& $retNodeArray[ $key ];
-                if ( $node->attribute( 'path_identification_string' ) == $pathStr )
-                {
-                    return $node;
-                }
-                next( $retNodeArray );
-            }
-        }
-        return $retNodeArray[0];
-    }
-    */
 
     function &fetchByContentObjectID( $contentObjectID, $asObject = true )
     {
@@ -2521,6 +2488,31 @@ WHERE
     function setName( $name )
     {
         $this->Name = $name;
+    }
+
+    /*!
+     Update and store modified_subnode value for this node and all super nodes.
+    */
+    function updateAndStoreModified()
+    {
+        $pathString =& $this->attribute( 'path_string' );
+
+        $pathArray = explode( '/', $pathString );
+        $sqlParts = array();
+        $sql = '';
+
+        $sqlParts = '/';
+        for( $pathCount = 1; $pathCount < count( $pathArray ) - 1; $pathCount++ )
+        {
+            $sqlParts .= $pathArray[$pathCount] . '/' ;
+            $sql .= ( $pathCount != 1 ? ' OR' : '' ) . ' path_string=\'' . $sqlParts . '\' ';
+        }
+
+        $sql = 'UPDATE ezcontentobject_tree SET modified_subnode=' . eZDateTime::currentTimeStamp() .
+             ' WHERE ' . $sql;
+
+        $db =& eZDB::instance();
+        $db->query( $sql );
     }
 
     function store()

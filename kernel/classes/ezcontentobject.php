@@ -247,7 +247,22 @@ class eZContentObject extends eZPersistentObject
         global $eZContentObjectDataMapCache;
         unset( $eZContentObjectDataMapCache[$this->ID] );
 
+        $this->storeNodeModified();
+
         eZPersistentObject::store();
+    }
+
+    /*!
+     Update all nodes to set modified_subnode value
+    */
+    function storeNodeModified()
+    {
+        $nodeArray =& $this->assignedNodes();
+
+        foreach ( array_keys( $nodeArray ) as $key )
+        {
+            $nodeArray[$key]->updateAndStoreModified();
+        }
     }
 
     function &name( $version = false , $lang = false )
