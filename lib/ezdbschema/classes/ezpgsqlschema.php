@@ -455,13 +455,12 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 		{
             case 'primary':
             {
-                $sql = "-- $index_name\n";
                 $pkeyName = $this->primaryKeyIndexName( $table_name, $index_name, $def['fields'] );
                 if ( strlen( $pkeyName ) > 63 )
                 {
                     eZDebug::writeError( "The primary key '$pkeyName' (" . strlen( $pkeyName ) . ") exceeds 63 characters which is the PostgreSQL limit for names" );
                 }
-                $sql .= "ALTER TABLE ONLY $table_name ADD CONSTRAINT $pkeyName PRIMARY KEY";
+                $sql = "ALTER TABLE ONLY $table_name ADD CONSTRAINT $pkeyName PRIMARY KEY";
             } break;
 
             case 'non-unique':
