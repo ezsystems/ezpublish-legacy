@@ -101,7 +101,7 @@
     <div id="navigationcol">
         <div class="design">
             {include uri="design:navigationbar.tpl"}
-         <h3>Poll</h3>
+         <h2>Poll</h2>
          <p>
 	 {let poll_list=fetch( content, list, hash(  parent_node_id, 173, sort_by, array( array( priority ) ), limit, 1 ) ) }
 	 {section name=poll loop=$poll_list}
@@ -109,7 +109,7 @@
 	 {/let}
 	 </p>   
 
-	 <h3>Recent links</h3>
+	 <h2>Recent links</h2>
 	 {let link_list=fetch( content, tree, hash( parent_node_id, 2,
                                                     limit, 10,
                                                     sort_by, array( published, false() ),
