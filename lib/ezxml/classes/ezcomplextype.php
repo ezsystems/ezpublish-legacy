@@ -7,22 +7,34 @@
 // Bård Farstad <bf@ez.no>
 // Created on: <14-Feb-2002 10:22:09 bf>
 //
-// This source file is part of eZ publish, publishing software.
-// Copyright (C) 1999-2004 eZ systems as
+// This source file is part of the eZ publish (tm) Open Source Content
+// Management System.
 //
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
+// This file may be distributed and/or modified under the terms of the
+// "GNU General Public License" version 2 as published by the Free
+// Software Foundation and appearing in the file LICENSE included in
+// the packaging of this file.
 //
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
+// Licencees holding a valid "eZ publish professional licence" version 2
+// may use this file in accordance with the "eZ publish professional licence"
+// version 2 Agreement provided with the Software.
 //
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, US
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
+// THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE.
+//
+// The "eZ publish professional licence" version 2 is available at
+// http://ez.no/ez_publish/licences/professional/ and in the file
+// PROFESSIONAL_LICENCE included in the packaging of this file.
+// For pricing of this licence please contact us via e-mail to licence@ez.no.
+// Further contact information is available at http://ez.no/company/contact/.
+//
+// The "GNU General Public License" (GPL) is available at
+// http://www.gnu.org/copyleft/gpl.html.
+//
+// Contact licence@ez.no if any conditions of this licencing isn't clear to
+// you.
+
 //
 
 /*!
