@@ -410,6 +410,27 @@ class eZPackage
                                                   'modified' => $modified );
     }
 
+    /*!
+     Appends a new bugfix dependency to the dependency section \a $dependencySection.
+     The bug is identified by the parameter \a $bugID which is an ID taken from
+     the ez.no bug list.
+     \param $summary An optional parameter which has a summary of the bug
+     \param $modified Modification timestamp, see appendDependency
+    */
+    function appendBugfix( $dependencySection, $bugID,
+                           $summary = false, $modified = null )
+    {
+        $parameters = array( 'summary' => $summary );
+        $name = 'bugid';
+        $this->appendDependency( $dependencySection, 'bugfix',
+                                 $name, $bugID,
+                                 $parameters, $modified );
+    }
+
+    /*!
+     Appends a new \c provides dependency.
+     \note This function is only a convenience function to the general appendDependency() function.
+    */
     function appendProvides( $type, $name, $value,
                              $parameters = false, $modified = null )
     {
@@ -417,6 +438,16 @@ class eZPackage
                                  $parameters, $modified );
     }
 
+    /*!
+     Appends a new dependency item to the section \a $dependencySection.
+     The dependency is identified by the type \a $type, name \$name
+     and value \$a value.
+     \param $dependencySection Can be one of \c provides, \c requires, \c obsoletes, \c conflicts
+     \param $parameters A list of data specific to the dependency type.
+     \param $modified Timestamp which says when the item was modified,
+                      if set to \c null the modification is NOW.
+                      if \c false it is not used.
+    */
     function appendDependency( $dependencySection, $type, $name, $value,
                                $parameters = false, $modified = null )
     {
