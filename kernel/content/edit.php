@@ -386,6 +386,8 @@ if ( !function_exists( 'checkContentActions' ) )
 //                     $EditLanguage = false;
                 if ( strlen( $EditLanguage ) == 0 )
                     $EditLanguage = eZContentObject::defaultLanguage();
+                // We reset the from language to disable the translation look
+                $FromLanguage = false;
                 $module->redirectToView( 'edit', array( $object->attribute('id'), $EditVersion, $EditLanguage, $FromLanguage ) );
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }
