@@ -46,7 +46,7 @@
     </td>
     <td class="topbox" valign="top" width="20%" valign="bottom">
 	<input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="" />
-	<a class="topline" href={"/content/advancedsearch/"|ezurl}><span class="small">Advanced search</span></a><div class="labelbreak"></div>
+	<a class="topline" href={"/content/advancedsearch/"|ezurl}><span class="small">{"Advanced search"|i18n("design/standard/layout")}</span></a><div class="labelbreak"></div>
     </td>
     <td class="topbox" valign="top" width="20%" valign="bottom">
 	<input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
@@ -54,14 +54,14 @@
     <td class="topbox" valign="bottom" width="20%">
 {*    <p class="menuitem"><a class="menuitem" href={"/user/logout/"|ezurl}>Log out</a></p> *}
 
-    <label class="topline">Name: {content_view_gui view=text_linked content_object=$current_user.contentobject}</label><div class="labelbreak"></div>
-    <p style="padding: 0;"><img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><a class="topline" href={concat("/user/password/",$current_user.contentobject_id,"/")|ezurl}>Change Password</a></p>
+    <label class="topline">{"Name:"|i18n("design/standard/layout")} {content_view_gui view=text_linked content_object=$current_user.contentobject}</label><div class="labelbreak"></div>
+    <p style="padding: 0;"><img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><a class="topline" href={concat("/user/password/",$current_user.contentobject_id,"/")|ezurl}>{"Change Password"|i18n("design/standard/layout")}</a></p>
     <p style="padding: 0;">
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" />
     {section show=eq($current_user.contentobject_id,$anonymous_user_id)}
-    <a class="topline" href={"/user/login/"|ezurl}>Login</a>
+    <a class="topline" href={"/user/login/"|ezurl}>{"Login"|i18n("design/standard/layout")}</a>
     {section-else}
-    <a class="topline" href={"/user/logout/"|ezurl}>Logout</a>
+    <a class="topline" href={"/user/logout/"|ezurl}>{"Logout"|i18n("design/standard/layout")}</a>
     {/section}
     </p>
    </td>
