@@ -91,14 +91,21 @@ class eZTemplateImageOperator
         if ( $ini->variable( "ImageSettings", "UseCache" ) == "disabled" )
             $this->UseCache = false;
 
-        $this->ImageGDSupported = ( function_exists( "ImageTTFBBox" ) and
-                                    function_exists( "ImageCreate" ) and
-                                    function_exists( "ImageColorAllocate" ) and
-                                    function_exists( "ImageColorAllocate" ) and
-                                    function_exists( "ImageTTFText" ) and
-                                    function_exists( "ImagePNG" ) and
-                                    function_exists( "ImageJPEG" ) and
-                                    function_exists( "ImageDestroy" ) );
+        $functions = array( "ImageTTFBBox",
+                            "ImageCreate",
+                            "ImageColorAllocate",
+                            "ImageColorAllocate",
+                            "ImageTTFText",
+                            "ImagePNG",
+                            "ImageJPEG",
+                            "ImageDestroy" );
+        $this->MissingGDFunctions = array();
+        foreach ( $functions as $function )
+        {
+            if ( !function_exists( $function ) )
+                $this->MissingGDFunctions[] = $function;
+        }
+        $this->ImageGDSupported = count( $this->MissingGDFunctions ) == 0;
     }
 
     /*!
@@ -108,7 +115,10 @@ class eZTemplateImageOperator
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$inputValue, &$namedParameters )
     {
         if ( !$this->ImageGDSupported )
+        {
+            eZDebug::writeError( "$operatorName cannot be used since the following ImageGD functions are missing: " . implode( ', ', $this->MissingGDFunctions ) );
             return;
+        }
 
         if ( $operatorName == 'texttoimage' )
         {
