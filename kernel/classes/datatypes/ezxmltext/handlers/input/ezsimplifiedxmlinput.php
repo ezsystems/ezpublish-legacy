@@ -196,15 +196,15 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     }
 
     /*!
-    */
-    function handleStartTag( $standardTagName, $tagName, $lastInsertedNodeTag, &$currentNode, &$domDocument, &$TagStack, &$message, $attrPart )
+     */
+    function &handleStartTag( $standardTagName, $tagName, $lastInsertedNodeTag, &$currentNode, &$domDocument, &$TagStack, &$message, $attrPart )
     {
         unset( $subNode );
         $subNode = new eZDOMNode();
         eZDebug::writeDebug($standardTagName,  "standardTagName");
-         eZDebug::writeDebug($lastInsertedNodeTag,  "lastInsertedNodeTag");
-         eZDebug::writeDebug($currentNode,  "currentNode");
-          eZDebug::writeDebug($domDocument,  "dom");
+        eZDebug::writeDebug($lastInsertedNodeTag,  "lastInsertedNodeTag");
+        eZDebug::writeDebug($currentNode,  "currentNode");
+        eZDebug::writeDebug($domDocument,  "dom");
         $subTagArray['section'] = $this->sectionArray;
         $subTagArray['paragraph'] = array_merge( $this->blockTagArray, $this->inlineTagArray );
         $subTagArray['header'] = array( );
@@ -223,10 +223,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $subTagArray['link'] = $this->inlineTagArray;
         $subTagArray['anchor'] = $this->inlineTagArray;
         $tagAttributeArray['table'] = array( 'width' => array( 'required' => false ),
-                             'border' => array( 'required' => false ) );
+                                             'border' => array( 'required' => false ) );
 
         $tagAttributeArray['link'] = array( 'href' => array( 'required' => false ),
-                            'id' => array( 'required' => false , 'type' => 'string' ) );
+                                            'id' => array( 'required' => false , 'type' => 'string' ) );
 
         $tagAttributeArray['anchor'] = array( 'name' => array( 'required' => true) );
 
@@ -243,7 +243,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         // Deal with block tags.
         if ( in_array( $currentTag, $this->blockTagArray ) )
         {
-            eZDebug::writeDebug("here");
             if ( $parentNodeTag == "section" )
             {
                 // Add paragraph tag
@@ -254,7 +253,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $currentNode->appendChild( $subNode );
                 $childTag = $childTagForParagraph;
                 array_push( $TagStack,
-                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
+                            array( "TagName" => "paragraph", "ParentNodeObject" => $currentNode, "ChildTag" => $childTag ) );
                 $currentNode =& $subNode;
                 $parentNodeTag = "paragraph";
                 unset( $subNode );
@@ -274,7 +273,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $domDocument->registerElement( $subNode );
                 $currentNode->appendChild( $subNode );
                 array_push( $TagStack,
-                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
+                            array( "TagName" => "paragraph", "ParentNodeObject" => $currentNode, "ChildTag" => $childTag ) );
                 $currentNode =& $subNode;
                 $parentNodeTag = "paragraph";
                 unset( $subNode );
@@ -285,7 +284,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         // Deal with paragraph tag.
         if ( $currentTag == "paragraph" and $lastInsertedNodeTag == "paragraph" )
         {
-             eZDebug::writeDebug("here 2");
             //pop up paragraph tag
             $lastNodeArray = array_pop( $TagStack );
             $parentNodeTag = $lastNodeArray["TagName"];
@@ -293,9 +291,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             unset( $currentNode );
             $currentNode =& $lastNode;
         }
+
         if ( in_array( $currentTag, $subTagArray[$parentNodeTag] ) )
         {
-             eZDebug::writeDebug("here 3");
             $subNode->Name = $currentTag;
             $subNode->LocalName = $currentTag;
             $subNode->Type = EZ_NODE_TYPE_ELEMENT;
@@ -344,13 +342,18 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $currentNode->appendChild( $subNode );
 
             $childTag = $subTagArray[$currentTag];
+            $currentNode =& $subNode;
+
+            /*
             if ( $tagName[strlen($tagName) - 1]  != "/" )
             {
+                            print( "addd" );
                 array_push( $TagStack,
                             array( "TagName" => $currentTag, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
                 unset( $currentNode );
                 $currentNode =& $subNode;
             }
+            */
              eZDebug::writeDebug( $currentNode,"changed currentNode");
              eZDebug::writedebug($domDocument->toString(), "dom to string0");
         }
@@ -360,6 +363,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             // Tag does not exist in the array
             $message .= "<li>Tag '" . $currentTag . "' is not allowed to be the child of '" . $lastInsertedNodeTag ."' (removed).</li>";
         }
+        return $currentNode;
     }
 
     /*!
@@ -623,6 +627,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 }
                             }
 
+                            /*
                             // Add section tag
                             unset( $subNode );
                             $subNode = new eZDOMNode();
@@ -635,7 +640,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             array_push( $TagStack,
                                         array( "TagName" => "section", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
                             $currentNode =& $subNode;
-
+                            */
+                            /*
                             $covertedName = 'header';
                             unset( $subNode );
                             $subNode = new eZDOMNode();
@@ -644,6 +650,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $subNode->Type = EZ_NODE_TYPE_ELEMENT;
                             $domDocument->registerElement( $subNode );
                             $currentNode->appendChild( $subNode );
+                            */
+
+
 
                             $childTag = array( );
                             if ( $tagName[strlen($tagName) - 1]  != "/" )
@@ -661,7 +670,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                     else
                     {
-                        $this->handleStartTag( $justName, $tagName, $lastInsertedNodeTag, &$currentNode, &$domDocument, &$TagStack, &$message, $attributePart );
+                        $currentNode =& $this->handleStartTag( $justName, $tagName, $lastInsertedNodeTag, &$currentNode, &$domDocument, &$TagStack, &$message, $attributePart );
                     }
                     if ( $justName == "literal" )
                     {
@@ -684,7 +693,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             {
                 // content tag
                 $tagContent = substr( $data, $endTagPos + 1, $pos - ( $endTagPos + 1 ) );
-                if (  trim( $tagContent ) != "" )
+                if ( trim( $tagContent ) != "" )
                 {
                     // $domDocument->registerElement( $subNode );
                     unset( $subNode );
@@ -703,6 +712,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $subNode->Content = $tagContent;
                     $domDocument->registerElement( $subNode );
                     $currentNode->appendChild( $subNode );
+
                     eZDebug::writedebug($domDocument->toString(), "dom to string1");
                 }
             }
