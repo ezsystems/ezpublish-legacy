@@ -325,6 +325,10 @@ class eZTemplateArithmeticOperator
             $code = '%output% =';
             $counter = 1;
             $index = 0;
+
+            // We include compat.php here because of the ezsprintf function call below
+            require_once( 'lib/compat.php' );
+
             foreach ( $newParameters as $parameter )
             {
                 if ( $index > 0 )
