@@ -584,7 +584,6 @@ WHERE user_id = '" . $userID . "' AND
         eZUserSetting::remove( $userID );
         eZUserAccountKey::remove( $userID );
         eZForgotPassword::remove( $userID );
-        eZUser::cleanupCache();
 
         eZPersistentObject::removeObject( eZUser::definition(),
                                           array( 'contentobject_id' => $userID ) );
@@ -1254,9 +1253,9 @@ WHERE user_id = '" . $userID . "' AND
             /* Figure out when the last update was done */
             $expiredTimestamp = 0;
             $handler =& eZExpiryHandler::instance();
-            if ( $handler->hasTimestamp( 'user-role-policy-cache' ) )
+            if ( $handler->hasTimestamp( 'user-access-cache' ) )
             {
-                $expiredTimestamp = $handler->timestamp( 'user-role-policy-cache' );
+                $expiredTimestamp = $handler->timestamp( 'user-access-cache' );
             }
 
             $cacheFile = eZUser::getCacheFilename( $userID );
@@ -1630,18 +1629,20 @@ WHERE user_id = '" . $userID . "' AND
     }
 
     /*!
-     Creates the cache path if it doesn't exist, and returns the cache directory
+     Creates the cache path if it doesn't exist, and returns the cache
+     directory. The $id parameter is used to create multi-level directory names
      \static
      \return filename of the cachefile
     */
-    function getCacheDir()
+    function getCacheDir( $id = 0 )
     {
         $sys =& eZSys::instance();
-        $dir = $sys->cacheDirectory() . '/user-info';
+        $dir = $sys->cacheDirectory() . '/user-info' . eZDir::createMultilevelPath( $id, 2 );
+        
         if ( !is_dir( $dir ) )
         {
             eZDir::mkdir( $dir, false, true );
-            // var_dump("MADE DIRECTORY");
+            // var_dump("MADE DIRECTORY $dir");
         }
         return $dir;
     }
@@ -1650,7 +1651,7 @@ WHERE user_id = '" . $userID . "' AND
     {
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-role-policy-cache', time() );
+        $handler->setTimestamp( 'user-access-cache', time() );
         $handler->store();
     }
 
@@ -1666,7 +1667,7 @@ WHERE user_id = '" . $userID . "' AND
         if ( $cacheUserPolicies == 'enabled' )
         {
             // var_dump("BUILD FILENAME FOR $id");
-            return eZUser::getCacheDir(). '/user-'. $id . '.cache.php';
+            return eZUser::getCacheDir( $id ). '/user-'. $id . '.cache.php';
         }
         else if ( $cacheUserPolicies != 'disabled' )
         {
@@ -1674,7 +1675,7 @@ WHERE user_id = '" . $userID . "' AND
             if ( in_array( $id, $cachableIDs ) )
             {
                 // var_dump("BUILD FILENAME FOR $id");
-                return eZUser::getCacheDir(). '/user-'. $id . '.cache.php';
+                return eZUser::getCacheDir( $id ). '/user-'. $id . '.cache.php';
             }
         }
         // var_dump("NO CACHE FOR $id");

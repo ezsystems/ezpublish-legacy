@@ -60,6 +60,25 @@ class eZDir
     }
 
 
+    /*!
+     \return a multi-level path from a specific key. For example:
+     \code
+     echo createMultiLevelPath( "42abce", 3 );
+     \endcode
+     returns "/4/2/abce"
+
+     Parameters:
+     $key:      the key to be used as path
+     $maxDepth: the maximum number of path elements to be created (-1 is unlimited)
+     \static
+    */
+    function createMultiLevelPath( $key, $maxDepth = -1 )
+    {
+        $parts = preg_split("//", (string) $key, $maxDepth, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+        $sep = eZDir::separator( EZ_DIR_SEPARATOR_LOCAL );
+        return $sep . join($sep, $parts);
+    }
+
     function getPathFromFilename( $filename )
     {
         $ini =& eZINI::instance();
