@@ -64,6 +64,7 @@ $ViewList["edit"] = array(
 $ViewList["register"] = array(
     "script" => "register.php",
     "params" => array( ),
+    "default_navigation_part" => 'ezmynavigationpart',
     'single_post_actions' => array( 'PublishButton' => 'Publish',
                                     'CancelButton' => 'Cancel' ) );
 $ViewList["activate"] = array(
@@ -72,6 +73,7 @@ $ViewList["activate"] = array(
 
 $ViewList["success"] = array(
     "script" => "success.php",
+    "default_navigation_part" => 'ezmynavigationpart',
     "params" => array( ) );
 
 

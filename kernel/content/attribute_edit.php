@@ -154,7 +154,8 @@ if ( $storingAllowed )
             $attributeName = $attributeName['name'];
             $unvalidatedAttributes[] = array( 'id' => $contentObjectAttribute->attribute( 'id' ),
                                               'identifier' => $contentClassAttribute->attribute( 'identifier' ),
-                                              'name' => $contentObjectAttribute->attribute( 'validation_error' ) );
+                                              'name' => $contentClassAttribute->attribute( 'name' ),
+                                              'description' => $contentObjectAttribute->attribute( 'validation_error' ) );
         }
         elseif ( $status == EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
         {
@@ -167,7 +168,8 @@ if ( $storingAllowed )
             {
                 $validatedAttributesLog[] = array(  'id' => $contentObjectAttribute->attribute( 'id' ),
                                                     'identifier' => $contentClassAttribute->attribute( 'identifier' ),
-                                                    'message' => $contentObjectAttribute->attribute( 'validation_log' ) );
+                                                    'name' => $contentClassAttribute->attribute( 'name' ),
+                                                    'description' => $contentObjectAttribute->attribute( 'validation_log' ) );
             }
         }
     }

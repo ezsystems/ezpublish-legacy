@@ -10,7 +10,7 @@
 <div class="warning">
 <h2>{"Input did not validate"|i18n("design/standard/user")}</h2>
 <ul>
-    <li><i>{$UnvalidatedAttributes:item.identifier}:</i> {$UnvalidatedAttributes:item.name} ({$UnvalidatedAttributes:item.id})</li>
+    <li>{$UnvalidatedAttributes:item.name}: {$UnvalidatedAttributes:item.description}</li>
 </ul>
 </div>
 {section-else}

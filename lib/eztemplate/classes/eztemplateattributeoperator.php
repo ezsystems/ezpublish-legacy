@@ -136,11 +136,20 @@ class eZTemplateAttributeOperator
                 $type = gettype( $item );
                 if ( is_object( $item ) )
                     $type .= "[" . get_class( $item ) . "]";
+                $itemValue = $item;
+                if ( is_bool( $item ) )
+                    $itemValue = $item ? "true" : "false";
+                else if ( is_array( $item ) )
+                    $itemValue = 'Array(' . count( $item ) . ')';
+                else if ( is_numeric( $item ) )
+                    $itemValue = $item;
+                else if ( is_string( $item ) )
+                    $itemValue = "'" . $item . "'";
                 if ( $as_html )
                 {
                     $spacing = str_repeat( ">", $cur_level );
                     if ( $show_values )
-                        $txt .= "<tr><td>$spacing$key</td>\n<td>$type</td>\n<td>$item</td>\n</tr>\n";
+                        $txt .= "<tr><td>$spacing$key</td>\n<td>$type</td>\n<td>$itemValue</td>\n</tr>\n";
                     else
                         $txt .= "<tr><td>$spacing$key</td>\n<td>$type</td>\n</tr>\n";
                 }
@@ -168,11 +177,20 @@ class eZTemplateAttributeOperator
                 $type = gettype( $item );
                 if ( is_object( $item ) )
                     $type .= "[" . get_class( $item ) . "]";
+                $itemValue = $item;
+                if ( is_bool( $item ) )
+                    $itemValue = $item ? "true" : "false";
+                else if ( is_array( $item ) )
+                    $itemValue = 'Array(' . count( $item ) . ')';
+                else if ( is_numeric( $item ) )
+                    $itemValue = $item;
+                else if ( is_string( $item ) )
+                    $itemValue = "'" . $item . "'";
                 if ( $as_html )
                 {
                     $spacing = str_repeat( ">", $cur_level );
                     if ( $show_values )
-                        $txt .= "<tr><td>$spacing$key</td>\n<td>$type</td>\n<td>$item</td>\n</tr>\n";
+                        $txt .= "<tr><td>$spacing$key</td>\n<td>$type</td>\n<td>$itemValue</td>\n</tr>\n";
                     else
                         $txt .= "<tr><td>$spacing$key</td>\n<td>$type</td>\n</tr>\n";
                 }

@@ -116,7 +116,7 @@ class eZUserType extends eZDataType
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
                 }
-                $isValidate =  eZMail::validate( $email );
+                $isValidate = eZMail::validate( $email );
                 if ( !$isValidate )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
@@ -183,10 +183,17 @@ class eZUserType extends eZDataType
             }
         }
 
-        eZDebug::writeDebug( $password, "password" );
-        eZDebug::writeDebug( "setInformation", "ezusertype" );
+        eZDebugSetting::writeDebug( 'kernel-user', $password, "password" );
+        eZDebugSetting::writeDebug( 'kernel-user', $passwordConfirm, "passwordConfirm" );
+        eZDebugSetting::writeDebug( 'kernel-user', $login, "login" );
+        eZDebugSetting::writeDebug( 'kernel-user', $contentObjectID, "contentObjectID" );
         if ( $password != "password" )
-            $user->setInformation( $contentObjectID, $login, $email, $password );
+        {
+            eZDebugSetting::writeDebug( 'kernel-user', "setInformation run", "ezusertype" );
+            $user->setInformation( $contentObjectID, $login, $email, $password, $passwordConfirm );
+        }
+        else
+            eZDebugSetting::writeDebug( 'kernel-user', "setInformation not run", "ezusertype" );
         $contentObjectAttribute->setContent( $user );
     }
 
@@ -203,6 +210,7 @@ class eZUserType extends eZDataType
             $userSetting->store();
         }
         $user->store();
+        $contentObjectAttribute->setContent( $user );
     }
 
     /*!
@@ -223,7 +231,12 @@ class eZUserType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         $userID = $contentObjectAttribute->attribute( "contentobject_id" );
-        return eZUser::fetch( $userID );
+        $user =& $GLOBALS['eZUserObject'];
+        if ( !isset( $user ) or
+             get_class( $user ) != 'ezuser' )
+            $user = eZUser::fetch( $userID );
+        eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
+        return $user;
     }
 
 

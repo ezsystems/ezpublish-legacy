@@ -74,6 +74,8 @@ class eZUser extends eZPersistentObject
     function eZUser( $row )
     {
         $this->eZPersistentObject( $row );
+        $this->OriginalPassword = false;
+        $this->OriginalPasswordConfirm = false;
     }
 
     function &definition()
@@ -87,6 +89,9 @@ class eZUser extends eZPersistentObject
                       'keys' => array( 'contentobject_id' ),
                       'function_attributes' => array( 'contentobject' => 'contentObject',
                                                       'groups' => 'groups',
+                                                      'has_stored_login' => 'hasStoredLogin',
+                                                      'original_password' => 'originalPassword',
+                                                      'original_password_confirm' => 'originalPasswordConfirm',
                                                       'roles' => 'roles',
                                                       'is_logged_in' => 'isLoggedIn'
                                                       ),
@@ -96,21 +101,33 @@ class eZUser extends eZPersistentObject
                       'name' => 'ezuser' );
     }
 
-    function attribute( $attr )
+    function attribute( $name )
     {
-        if ( $attr == 'groups')
+        if ( $name == 'groups')
         {
             return $this->groups();
         }
-        else if ( $attr == 'is_logged_in')
+        else if ( $name == 'is_logged_in')
         {
             return $this->isLoggedIn();
         }
-        else if ( $attr == 'roles')
+        else if ( $name == 'roles')
         {
             return $this->roles();
         }
-        else if ( $attr == 'contentobject' )
+        else if ( $name == 'has_stored_login')
+        {
+            return $this->hasStoredLogin();
+        }
+        else if ( $name == 'original_password' )
+        {
+            return $this->originalPassword();
+        }
+        else if ( $name == 'original_password_confirm' )
+        {
+            return $this->originalPasswordConfirm();
+        }
+        else if ( $name == 'contentobject' )
         {
             if ( $this->ContentObjectID == 0 )
                 return null;
@@ -118,7 +135,7 @@ class eZUser extends eZPersistentObject
             return eZContentObject::fetch( $this->ContentObjectID );
         }
         else
-            return eZPersistentObject::attribute( $attr );
+            return eZPersistentObject::attribute( $name );
     }
 
     function &create( $contentObjectID )
@@ -140,37 +157,77 @@ class eZUser extends eZPersistentObject
         eZPersistentObject::store();
     }
 
+    function &originalPassword()
+    {
+        return $this->OriginalPassword;
+    }
+
+    function setOriginalPassword( $password )
+    {
+        $this->OriginalPassword = $password;
+    }
+
+    function &originalPasswordConfirm()
+    {
+        return $this->OriginalPasswordConfirm;
+    }
+
+    function setOriginalPasswordConfirm( $password )
+    {
+        $this->OriginalPasswordConfirm = $password;
+    }
+
+    function hasStoredLogin()
+    {
+        $db =& eZDB::instance();
+        $contentObjectID = $this->attribute( 'contentobject_id' );
+        $sql = "SELECT * FROM ezuser WHERE contentobject_id='$contentObjectID' AND login!=''";
+        $rows = $db->arrayQuery( $sql );
+        $hasStoredLogin = count( $rows ) > 0;
+        eZDebug::writeDebug( $hasStoredLogin, 'hasStoredLogin' );
+        return $hasStoredLogin;
+    }
+
     /*!
      Fills in the \a $id, \a $login, \a $email and \a $password for the user
      and creates the proper password hash.
     */
-    function setInformation( $id, $login, $email, $password )
+    function setInformation( $id, $login, $email, $password, $passwordConfirm = false )
     {
         $this->setAttribute( "contentobject_id", $id );
         $this->setAttribute( "email", $email );
-        if ( $password !== null ) // Cannot change login or password_hash without login and password
+        $this->setAttribute( "login", $login );
+        if ( $password !== null and
+             $password == $passwordConfirm and
+             strlen( $password ) >= 3 ) // Cannot change login or password_hash without login and password
         {
-            $this->setAttribute( "login", $login );
             $this->setAttribute( "password_hash", eZUser::createHash( $login, $password, eZUser::site(),
                                                                       eZUser::hashType() ) );
             $this->setAttribute( "password_hash_type", eZUser::hashType() );
+        }
+        else
+        {
+            $this->setOriginalPassword( $password );
+            $this->setOriginalPasswordConfirm( $passwordConfirm );
         }
     }
 
     function &fetch( $id, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZUser::definition(),
-                                                null,
-                                                array( 'contentobject_id' => $id ),
-                                                $asObject );
+        $user =& eZPersistentObject::fetchObject( eZUser::definition(),
+                                                  null,
+                                                  array( 'contentobject_id' => $id ),
+                                                  $asObject );
+        return $user;
     }
 
     function &fetchByName( $login, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZUser::definition(),
-                                                null,
-                                                array( 'login' => $login ),
-                                                $asObject );
+        $user =& eZPersistentObject::fetchObject( eZUser::definition(),
+                                                  null,
+                                                  array( 'login' => $login ),
+                                                  $asObject );
+        return $user;
     }
 
     function &removeUser( $userID )
@@ -710,6 +767,8 @@ class eZUser extends eZPersistentObject
     var $PasswordHashType;
     var $Groups;
     var $Roles;
+    var $OriginalPassword;
+    var $OriginalPasswordConfirm;
 }
 
 ?>

@@ -4,7 +4,7 @@
         <div class="warning">
         <h2>{"Input did not validate"|i18n("design/standard/content/edit")}</h2>
         <ul>
-         <li>{$UnvalidatedAttributes:item.identifier}: {$UnvalidatedAttributes:item.name}</li>
+         <li>{$UnvalidatedAttributes:item.name}: {$UnvalidatedAttributes:item.description}</li>
         </ul>
         </div>
 
@@ -12,9 +12,9 @@
 	   <div class="feedback">
 	     <h2>{"Input was stored successfully"|i18n("design/standard/content/edit")}</h2>
 	     {section name=ValidationLog loop=$validation_log show=$validation_log}
-	     <h4>{$UnvalidatedAttributes:ValidationLog:item.identifier}:</h4>
+	     <h4>{$UnvalidatedAttributes:ValidationLog:item.name}:</h4>
 	     <ul>
-	       {$UnvalidatedAttributes:ValidationLog:item.message}
+	       {$UnvalidatedAttributes:ValidationLog:item.description}
 	     </ul>
 	     {/section}
 	   </div>
