@@ -161,8 +161,8 @@ class eZIdentifierType extends eZDataType
         {
             $startValueValue = str_replace( " ", "", $http->postVariable( $startValueName ) );
             $digitsValue = str_replace( " ", "", $http->postVariable( $digitsName ) );
-            $preTextValue = str_replace( " ", "", $http->postVariable( $preTextName ) );
-            $postTextValue = str_replace( " ", "", $http->postVariable( $postTextName ) );
+            $preTextValue =  $http->postVariable( $preTextName );
+            $postTextValue = $http->postVariable( $postTextName );
             
             $classAttribute->setAttribute( EZ_DATATYPESTRING_START_VALUE_FIELD, $startValueValue );
             $classAttribute->setAttribute( EZ_DATATYPESTRING_DIGITS_FIELD, $digitsValue );
@@ -172,11 +172,13 @@ class eZIdentifierType extends eZDataType
             if ( $classAttribute->attribute( 'data_int4' ) == 0 )
             {
                 $originalClassAttribute = eZContentClassAttribute::fetch( $classAttribute->attribute( 'id' ), true, 0 );
-                $classAttribute->setAttribute( 'data_int3', $originalClassAttribute->attribute( 'data_int3' ) );
+                $classAttribute->setAttribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD,
+                                               $originalClassAttribute->attribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD ) );
             }
             else
             {
-                $classAttribute->setAttribute( 'data_int3', $classAttribute->attribute( 'data_int1' ) );
+                $classAttribute->setAttribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD,
+                                               $classAttribute->attribute( EZ_DATATYPESTRING_START_VALUE_FIELD ) );
             }
 
         }
@@ -218,8 +220,12 @@ class eZIdentifierType extends eZDataType
     function onPublish( &$contentObjectAttribute, &$contentObject, &$publishedNodes )
     {
         $contentClassAttribute = $contentObjectAttribute->attribute( 'contentclass_attribute' );
+
         // fetch the root node
-        $value = eZIdentifierType::incrementValue( $contentClassAttribute, $contentObject );
+        $ret = eZIdentifierType::incrementValue( $contentClassAttribute, $contentObjectAttribute );
+
+        $contentObjectAttribute->store();
+        return $ret;
     }
 
     
@@ -229,34 +235,61 @@ class eZIdentifierType extends eZDataType
     */
     function incrementValue( &$contentClassAttribute, &$contentObjectAttribute )
     {
-        $contentClassID = $contentClassAttribute->attribute( 'id' );
 
+        $retValue = true;
         $ret = array();
-        $db =& eZDB::instance();
-        $db->begin();
+        $version = $contentObjectAttribute->attribute( 'version' );
+        $contentClassID = $contentClassAttribute->attribute( 'id' );
+        if ( $version == 1 )
+        {
+            $db =& eZDB::instance();
+            $db->begin();
 
-        // Ensure that we don't get another identifier with the same id.
-        $db->lock( "ezcontentclass_attribute" );
-        $db->lock( "ezcontentobject_attribute" );
+            // Ensure that we don't get another identifier with the same id.
+            $db->query( "LOCK TABLES ezcontentclass_attribute WRITE, ezcontentobject_attribute READ" );
+
+            $updateQuery = "UPDATE ezcontentclass_attribute SET data_int3=data_int3 + 1 WHERE " .
+                 "id='$contentClassID' AND version='0'";
         
+            $ret[] = $db->query( $updateQuery );
+
+            if ( !in_array( false, $ret ) )
+            {
+                $selectQuery = "SELECT data_int3 FROM ezcontentclass_attribute WHERE " .
+                     "id='$contentClassID' AND version='0'";
+                $result = $db->arrayQuery( $selectQuery );
+       
+                $identifierValue = $result[0]['data_int3'];
+
+                $ret[] = eZIdentifierType::storeIdentifierValue( $contentClassAttribute, $contentObjectAttribute, $identifierValue );
+            }
         
-        $updateQuery = "UPDATE ezcontentclass_attribute SET data_int3=data_int3 + 1 WHERE " .
-             "id='$contentClassID' AND version='0'";
-        
-        $ret[] = $db->query( $updateQuery );
+            $db->unlock();
+
+        }
+        else
+        {
+            $ret = eZIdentifierType::copyFromVersionOne( $contentObjectAttribute );
+        }
 
         if ( !in_array( false, $ret ) )
-        {
-            $selectQuery = "SELECT data_int3 FROM ezcontentclass_attribute WHERE " .
-                 "id='$contentClassID' AND version='0'";
-            $result = $db->arrayQuery( $selectQuery );
-       
-            $identifierValue = $result['data_int3'];
-
-            eZIdentifierType::storeIdentifierValue( $contentClassAttribute, $contentObjectAttribute, $identifierValue );
-        }
+            $retValue = true;
         
-        $db->unlock();
+        return $retValue;
+    }
+
+    
+    /*!
+      \private
+      Copy version one to the current version
+    */
+    function copyFromVersionOne( &$contentObjectAttribute )
+    {
+        $contentObjectAttributeVersionOne = eZContentObjectAttribute::fetch( $contentObjectAttribute->attribute( 'id' ), 1 );
+        $contentObjectAttribute->setAttribute( 'data_text', $contentObjectAttributeVersionOne->attribute( 'data_text' ) );
+        $contentObjectAttribute->setAttribute( 'data_int', $contentObjectAttributeVersionOne->attribute( 'data_int' ) );
+
+        return true;
     }
 
     /*!
@@ -271,8 +304,9 @@ class eZIdentifierType extends eZDataType
 
         $value = $preText . str_pad( $identifierValue, $digits, '0', STR_PAD_LEFT ) . $postText;
         
-        $contentObjectAttribute->setAttribute( "data_text", $value );
-        $contentObjectAttribute->setAttribute( "data_int", $identifierValue );
+        $contentObjectAttribute->setAttribute( 'data_text', $value );
+        $contentObjectAttribute->setAttribute( 'data_int', $identifierValue );
+        return true;
     }
 
     /*!
@@ -295,21 +329,6 @@ class eZIdentifierType extends eZDataType
 
     function preStoreClassAttribute( &$classAttribute, $version )
     {
-//          eZDebug::writeDebug( $version, "version in pre store function" );
-
-//          if ( $version == 1 )
-//          {
-//              if ( $classAttribute->attribute( 'data_int4' ) == 0 )
-//              {
-//                  $originalClassAttribute = eZContentClassAttribute::fetch( $classAttribute->attribute( 'id' ), true, 0 );
-//                  $classAttribute->setAttribute( 'data_int3', $originalClassAttribute->attribute( 'data_int3' ) );
-//              }
-//              else
-//              {
-//                  $classAttribute->setAttribute( 'data_int3', $classAttribute->attribute( 'data_int1' ) );
-//              }
-//          }
-        
     }
 
     function preStoreDefinedClassAttribute( &$classAttribute )
