@@ -125,6 +125,11 @@ class eZSOAPServer
                 $payload = $response->payload();
 
                 header( "SOAPServer: eZ soap" );
+                header( "Content-Type: text/xml; charset=utf8" );
+                Header( "Content-Length: " . strlen( $payload ) );
+
+                ob_end_clean();
+
                 print( $payload );
             }
         }
