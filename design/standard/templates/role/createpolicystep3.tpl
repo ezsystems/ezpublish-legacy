@@ -50,14 +50,22 @@
 </div>
 
 <h2>{"Step 3"|i18n("design/standard/role")}</h2>
-<p>{"Specify limitations in function"|i18n("design/standard/role")} <b>{$current_function}</b> {"in module"|i18n("design/standard/role")} <b>{$current_module}</b>. {"'Any' means no limitation by this parameter."|i18n("design/standard/role")}</p>
-<div class="block">
+<p>
+    {"Specify limitations for function %functionname in module %modulename. 'Any' means no limitation by this parameter"
+     |i18n("design/standard/role",,
+           hash('%functionname',concat('<b>',$current_function,'</b>'),
+                '%modulename',concat('<b>',$current_module,'</b>')))}
+</p>
+<div class="objectheader">
+<h2>{'Limitations'|i18n('design/standard/role')}</h2>
+</div>
+<div class="object">
 
      {section name=Limitations loop=$function_limitations}
      {section-exclude match=$Limitations:item.name|eq('Subtree')}
      {section-exclude match=$Limitations:item.name|eq('Node')}
 <div class="element">
-    <label>{$Limitations:item.name}:</label><div class="labelbreak"></div>
+    <label>{$Limitations:item.name}</label><div class="labelbreak"/>
      <select name="{$Limitations:item.name}[]" size="8" multiple >
      <option value="-1" {switch match=$current_limitation_list[$Limitations:item.name]}
      {case match=-1} selected="selected"{/case}{case}{/case}{/switch}>{"Any"|i18n("design/standard/role")}</option>
@@ -73,7 +81,7 @@
 {switch match=$Limitations:item.name} 
   {case match="Node"}
    <div class="element">
-    <label>Node:</label><div class="labelbreak"></div>
+    <label>Node</label><div class="labelbreak"></div>
     <table>
      {section show=$node_list name=NodeList loop=$node_list}
      <tr>
@@ -98,7 +106,7 @@
   {/case}
   {case match="Subtree"}
    <div class="element">
-    <label>Subtree:</label><div class="labelbreak"></div>
+    <label>Subtree</label><div class="labelbreak"></div>
     <table>
      {section show=$subtree_list name=SubtreeList loop=$subtree_list}
      <tr>

@@ -53,7 +53,7 @@
         </tr>
         <tr>
             <td class="bglight">
-                <input type="{$select_type}" name="{$select_name}[]" value="{$main_node[$select_attribute]}" />
+                <input type="{$select_type}" name="{$select_name}[]" value="{$main_node[$select_attribute]}" {section show=eq($browse.selection,'single')}checked="checked"{/section} />
             </td>
         
             <td class="bglight">

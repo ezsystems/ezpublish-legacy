@@ -27,11 +27,13 @@ Changes from 3.0-? to 3.1
 - Added support for draft checking in content/edit, if drafts exists the user is warned and given some options before continuing.
 - Added google navigator in versions management.
 - Added new notification system.
-- Added new browse page.
+- Added new browse system which makes it easier to use for developers and users. The new browse pages will
+  show relevant information and also have quick access to top-level nodes, bookmark and recent nodes.
 - New functionality for automatically creating template operators using a wizard. Part of the new RAD functionality
   and available at setup/templateoperator.
 - Added a new template operator, WordToImage. Replaces any given string with a link to an image.
 - Added template fetch function section_list which returns all available sections
+- Added fetch function for section objects.
 
 Binary file:
 - Added support for resuming downloads.

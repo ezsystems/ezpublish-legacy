@@ -90,8 +90,8 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
     if ( $module->isCurrentAction( 'MoveNodeAssignment' ) )
     {
         $selectedNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
-        $fromNodeID = $http->sessionVariable( "FromNodeID" );
-        $oldAssignmentParentID = $http->sessionVariable( 'OldAssignmentParentID' );
+        $fromNodeID = $http->postVariable( "FromNodeID" );
+        $oldAssignmentParentID = $http->postVariable( 'OldAssignmentParentID' );
 
         if ( $selectedNodeIDArray != null )
         {
@@ -304,7 +304,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                                                          'section' => $object->attribute( 'section_id' ) ),
                                         'content' => array( 'object_id' => $objectID,
                                                             'object_version' => $editVersion ),
-                                        'from_page' => "/content/edit/$objectID/$editVersion/" ),
+                                        'from_page' => "/content/edit/$objectID/$editVersion/$editLanguage" ),
                                  $module );
 
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
@@ -376,25 +376,25 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                 $oldAssignmentParentID = $fromNodeAssignment->attribute( 'parent_node' );
             }
 
-            $http->setSessionVariable( 'BrowseFromPage', $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion, $editLanguage ) ) );
-            $http->setSessionVariable( 'BrowseActionName', 'MoveNodeAssignment' );
-            $http->setSessionVariable( 'FromNodeID', $fromNodeID );
-            $http->setSessionVariable( 'OldAssignmentParentID', $oldAssignmentParentID );
-            $http->setSessionVariable( 'BrowseReturnType', 'NodeID' );
-            $http->setSessionVariable( 'BrowseSelectionType', 'Single' );
+            eZContentBrowse::browse( array( 'action_name' => 'MoveNodeAssignment',
+                                            'description_template' => 'design:content/browse_move_placement.tpl',
+                                            'keys' => array( 'class' => $class->attribute( 'id' ),
+                                                             'classgroup' => $class->attribute( 'ingroup_id_list' ),
+                                                             'section' => $object->attribute( 'section_id' ) ),
+                                            'persistent_data' => array( 'FromNodeID' => $fromNodeID,
+                                                                        'OldAssignmentParentID' => $oldAssignmentParentID ),
+                                            'content' => array( 'object_id' => $objectID,
+                                                                'previous_node_id' => $fromNodeID,
+                                                                'object_version' => $editVersion ),
+                                            'from_page' => "/content/edit/$objectID/$editVersion/$editLanguage" ),
+                                     $module );
+//             $http->setSessionVariable( 'BrowseFromPage', $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion, $editLanguage ) ) );
+//             $http->setSessionVariable( 'BrowseActionName', 'MoveNodeAssignment' );
+//             $http->setSessionVariable( 'FromNodeID', $fromNodeID );
+//             $http->setSessionVariable( 'OldAssignmentParentID', $oldAssignmentParentID );
+//             $http->setSessionVariable( 'BrowseReturnType', 'NodeID' );
+//             $http->setSessionVariable( 'BrowseSelectionType', 'Single' );
 
-            $mainParentID = $version->attribute( 'main_parent_node_id' );
-            $node = eZContentObjectTreeNode::fetch( $mainParentID );
-            $nodePath =  $node->attribute( 'path' );
-            $rootNodeForObject = $nodePath[0];
-            if ( $rootNodeForObject != null )
-            {
-                $nodeID = $rootNodeForObject->attribute( 'node_id' );
-            }else
-            {
-                $nodeID = $mainParentID;
-            }
-            $module->redirectToView( 'browse', array( $nodeID, $objectID, $editVersion, $fromNodeID ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
     }

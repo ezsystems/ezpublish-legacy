@@ -72,6 +72,8 @@ else
 //    $http->setSessionVariable( "BrowseReturnType", "NodeID" );
 
     eZContentBrowse::browse( array( 'action_name' => 'AssignSection',
+                                    'description_template' => 'design:section/browse_assign.tpl',
+                                    'content' => array( 'section_id' => $section->attribute( 'id' ) ),
                                     'from_page' => '/section/assign/' . $section->attribute( 'id' ) . "/" ),
                              $Module );
 //    $Module->redirectTo( "/content/browse/2/" );
