@@ -452,6 +452,7 @@ class eZDir
             }
         }
         $items = eZDir::findSubitems( $sourceDirectory, 'df', false, $includeHidden, $excludeItems );
+        $totalItems = $items;
         while ( count( $items ) > 0 )
         {
             $currentItems = $items;
@@ -464,13 +465,17 @@ class eZDir
                 else if ( is_dir( $fullPath ) )
                 {
                     eZDir::mkdir( $destinationDirectory . '/' . $item, eZDir::directoryPermission(), false );
-                    $items = array_merge( $items, eZDir::findSubitems( $fullPath, 'df', $item, $includeHidden, $excludeItems ) );
+                    $newItems = eZDir::findSubitems( $fullPath, 'df', $item, $includeHidden, $excludeItems );
+                    $items = array_merge( $items, $newItems );
+                    $totalItems = array_merge( $totalItems, $newItems );
+                    unset( $newItems );
                 }
             }
         }
         eZDebugSetting::writeNotice( 'lib-ezfile-copy',
                                      "Copied directory $sourceDirectory to destination $destinationDirectory",
                                      'eZDir::copy' );
+        return $totalItems;
     }
 
     /*!

@@ -62,7 +62,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
      \reimp
      Creates a new contentclass as defined in the xml structure.
     */
-    function install( &$package, $parameters,
+    function install( &$package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
                       &$content )
     {
@@ -171,7 +171,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $package->appendInstall( 'ezcontentclass', false, false, true,
                                      'class-' . $classID, 'ezcontentclass',
                                      array( 'content' => $classNode ) );
-            $package->appendProvides( 'ezcontentclass', $this->handlerType(), $class->attribute( 'identifier' ) );
+            $package->appendProvides( $this->handlerType(), 'contentclass', $class->attribute( 'identifier' ) );
             $package->appendInstall( 'ezcontentclass', false, false, false,
                                      'class-' . $classID, 'ezcontentclass',
                                      array( 'content' => false ) );

@@ -67,6 +67,16 @@ class eZPackageHandler
     }
 
     /*!
+     \pure
+     Installs the package type
+    */
+    function install( &$package, $installType, $parameters,
+                      $name, $os, $filename, $subdirectory,
+                      &$content )
+    {
+    }
+
+    /*!
      \return the name of the type this handler works for.
     */
     function handlerType()
@@ -119,7 +129,7 @@ class eZPackageHandler
      \param $dependencyItem Contains all variables for the dependency
      \param $dependencyType The type of dependency, can be \c 'provide', \c 'require', \c 'obsolete' or \c 'conflict'
     */
-    function createDependencyNode( &$dependencyNode, $dependencyItem, $dependencyType )
+    function createDependencyNode( &$package, $export, &$dependencyNode, $dependencyItem, $dependencyType )
     {
     }
 
@@ -130,7 +140,7 @@ class eZPackageHandler
      \param $installItem Contains all variables for the install
      \param $installType The type of install, can be \c 'install' or \c 'uninstall'
     */
-    function createInstallNode( &$installNode, $installItem, $installType )
+    function createInstallNode( &$package, $export, &$installNode, $installItem, $installType )
     {
     }
 

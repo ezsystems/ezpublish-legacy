@@ -56,7 +56,7 @@ class eZFilePackageHandler extends eZPackageHandler
         $this->eZPackageHandler( 'ezfile' );
     }
 
-    function install( &$package, $parameters,
+    function install( &$package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
                       &$content )
     {

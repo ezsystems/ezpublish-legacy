@@ -494,6 +494,11 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             {
                 if ( $commandItem['name'] === false )
                     $commandItem['name'] = $arg;
+                else if ( $arg == '-d' )
+                {
+                    ++$i;
+                    $commandItem['export-directory'] = $argv[$i];
+                }
             }
         }
     }
@@ -619,7 +624,7 @@ foreach ( $commandList as $commandItem )
             $cli->output( "eZ publish  : " . $package->attribute( 'ezpublish-named-version' ) .
                           " (" . $package->attribute( 'ezpublish-version' ) . ")" );
             $cli->output( "Description : " . $package->attribute( 'description' ) );
-            print_r( $package->Parameters );
+//             print_r( $package->Parameters );
         }
         else
             $cli->output( "package " . $commandItem['name'] . " is not installed" );
@@ -746,8 +751,21 @@ foreach ( $commandList as $commandItem )
     else if ( $command == 'export' )
     {
         $package =& eZPackage::fetch( $commandItem['name'] );
-        $exportPath = $package->archive( $package->exportName() );
-        $cli->notice( "Package " . $package->attribute( 'name' ) . " exported to file $exportPath" );
+        if ( isset( $commandItem['export-directory'] ) )
+        {
+            $exportDirectory = $commandItem['export-directory'];
+            if ( !file_exists( $exportDirectory ) )
+            {
+                $cli->notice( "The directory " . $cli->style( 'dir' ) . $exportDirectory . $cli->style( 'dir-end' ) . " does not exist, cannot export package" );
+            }
+            else
+                $package->export( $exportDirectory );
+        }
+        else
+        {
+            $exportPath = $package->archive( $package->exportName() );
+            $cli->notice( "Package " . $package->attribute( 'name' ) . " exported to file $exportPath" );
+        }
 
 //         $cli->notice( 'Disabled for now' );
 //     $packageName = 'mytest';
