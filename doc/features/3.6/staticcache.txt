@@ -1,0 +1,167 @@
+*Title: Static Caching of Content
+
+*Documentation:
+The Static Caching feature in eZ publish 3.6 makes it possible to statically
+cache content based on a configuration file.  It uses apache rewrite rules to
+check if a static file exists, and serve it straight away from disk without
+having to go through PHP if this is the case. In case the file does not exist,
+the request is simply put through eZ publish.
+
+Static cache files are created in two ways:
+1. By publishing an object.
+2. By running the make cache script.
+
+
+*Set-up With One Site Acccess:
+In this situation there is one site access (in this example "ezno") for which
+we want to implement static caching.  First we modify the Apache VHOST
+configuration to include the following rewrite rules:
+
+<code>
+RewriteEngine On
+
+RewriteCond   /dat/ez.no/static/index.html -f
+RewriteRule  ^/$              /static/index.html [L]
+RewriteCond   /dat/ez.no/static/index.html -f
+RewriteRule  ^$               /static/index.html [L]
+
+RewriteCond   %{REQUEST_METHOD}       !^POST$
+RewriteCond   /dat/ez.no/static$1/index.html -f
+RewriteRule   ^(.*)$  /static$1/index.html [L]
+
+RewriteRule !\.(gif|css|jpg|png|jar|ico|js)$ /index.php
+</code>
+
+Of course, you will need to change "/dat/ez.no" to the path corresponding with
+the root location of your eZ publish installation.
+
+
+In settings/siteaccess/site.ini.append.php add the following settings to enable
+the static caching process:
+
+<code>
+[ContentSettings]
+StaticCache=enabled
+</code>
+
+In settings/siteaccess/ezno/staticcache.ini.append.php configure the details
+about the host and what exactly to cache:
+
+<code>
+[CacheSettings]
+HostName=tequila:1400
+StaticStorageDir=static
+MaxCacheDepth=4
+
+# A list of url's to cache
+CachedURLArray[]=/*
+</code>
+
+- HostName is the host on where the pages can be viewed normally. The static
+  cache feature uses this to retrieve the generated content to store as cache
+  file.
+- StaticStorageDir is the directory on where to store the static cache files.
+  It's relative to the root directory of your eZ publish installation. This
+  needs to match the part between "/dat/ez.no/" and "$1/index.html" in the
+  rewrite rules above.
+- MaxCacheDepth is the maximum number of levels that might be cached as seen
+  from the / of your installation.
+- CachedURLArray configure which parts of your site that are allowed to be
+  statically cached. Use / or /products to cache only page (in this example the
+  front page and the "/products" page). You can also use wildcards, for example
+  with "/products*" you will cache all URLs that start with /products, which
+  basically cache everything below /products. (Be aware that this rule also
+  includes /products2/42!).
+
+
+
+*Set-up With Multiple Language Versions of a Site:
+In this example there are two languages of one site: english and french, where
+the siteaccesses are called news_en and news_fr.
+
+In this case we use the following rewrite rules (which are slightly different),
+the root directory of the eZ publish installation is "/home/httpd/ez-3.6" here:
+
+<code>
+RewriteEngine On
+RewriteLog    /tmp/rewrite
+RewriteLogLevel 4
+
+RewriteCond   /home/httpd/ez-3.6/static/news_en/index.html -f
+RewriteRule  ^/$              /static/news_en/index.html [L]
+RewriteCond   /home/httpd/ez-3.6/static/news_en/index.html -f
+RewriteRule  ^$               /static/news_en/index.html [L]
+
+RewriteCond   /home/httpd/ez-3.6/static/news_fr/index.html -f
+RewriteRule  ^/$              /static/news_fr/index.html [L]
+RewriteCond   /home/httpd/ez-3.6/static/news_fr/index.html -f
+RewriteRule  ^$               /static/news_fr/index.html [L]
+
+RewriteCond   %{REQUEST_METHOD}       !^POST$
+RewriteCond   /home/httpd/ez-3.6/static$1/index.html -f
+RewriteRule   ^(.*)$  /static$1/index.html [L]
+
+RewriteRule !\.(gif|css|jpg|png|jar|ico|js)$ /index.php
+</code>
+
+The following settings need to be made:
+
+In settings/override/site.ini.append.php:
+<code>
+[ContentSettings]
+StaticCache=enabled
+</code>
+
+In settings/siteaccess/news_en/staticcache.ini.append.php:
+<code>
+[CacheSettings]
+StaticStorageDir=static/news_en
+</code>
+and in settings/siteaccess/news_fr/staticcache.ini.append.php:
+<code>
+[CacheSettings]
+StaticStorageDir=static/news_fr
+</code>
+
+Make sure that the part after "static" is the same as the name of the
+siteaccess! You can of course change "static" to something else, but make sure
+it's the same as in the rewrite rules again.
+
+In settings/override/staticcache.ini.append.php we then configure the static
+cache mechanism:
+<code>
+[CacheSettings]
+HostName=localhost
+MaxCacheDepth=4
+
+# A list of url's to cache
+CachedURLArray[]
+CachedURLArray[]=/news*
+CachedURLArray[]=/weblog*
+
+CachedSiteAccesses[]
+CachedSiteAccesses[]=news_en
+CachedSiteAccesses[]=news_fr
+</code>
+
+This will cache the /news and /weblog subtrees of the site on the host
+"localhost" with a maximum depth of 4.
+
+
+*Generating cache files:
+With the bin/php/makestaticcache.php script you can generate all the static
+cache files for a specific site access. In our example with ez.no you can
+forexample use the following invocation to generate the cache files:
+
+<code>
+php bin/php/makestaticcache.php -s ezno
+</code>
+
+If you want to re-create all cache files, even the ones that already exist you
+can use the -f parameter to force the generation of all static cache files.
+This example will regenerate all static cache files for both siteaccesses from
+our second example:
+
+<code>
+php bin/php/makestaticcache.php -f
+</code>

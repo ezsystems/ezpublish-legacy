@@ -2954,6 +2954,8 @@ WHERE
         include_once( "kernel/classes/ezpolicy.php" );
         include_once( "kernel/classes/ezpolicylimitation.php" );
 
+        $ini =& eZINI::instance();
+
         if ( $nodeID == 0 )
         {
             $node =& $this;
@@ -2983,9 +2985,25 @@ WHERE
 
         $urlAlias = $node->attribute( 'url_alias' );
 
+        // Remove static cache
+        if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
+        {
+            include_once( 'kernel/classes/ezstaticcache.php' );
+            $staticCache = new eZStaticCache();
+            $staticCache->removeURL( "/" . $urlAlias );
+
+            $parent = $node->fetchParent();
+        }
+        
         $db->query( "DELETE FROM ezcontentobject_tree
                             WHERE $pathString OR
                             path_string = '$nodePath'" );
+
+        // Remove static cache
+        if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
+        {
+            $staticCache->cacheURL( "/" . $parent->urlAlias() );
+        }
 
         // Clean up URL alias
         $urlObject =& eZURLAlias::fetchBySourceURL( $urlAlias );

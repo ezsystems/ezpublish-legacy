@@ -639,6 +639,28 @@ if ( !function_exists( 'checkContentActions' ) )
                 }
             }
 
+            if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
+            {
+                include_once( 'kernel/classes/ezstaticcache.php' );
+                include_once( 'kernel/classes/ezcontentcachemanager.php' );
+                $staticCache = new eZStaticCache();
+
+                $viewCacheINI =& eZINI::instance( 'viewcache.ini' );
+                if ( $viewCacheINI->variable( 'ViewCacheSettings', 'SmartCacheClear' ) == 'enabled' )
+                {
+                    eZContentCacheManager::nodeListForObject( $object, true, EZ_VCSC_CLEAR_ALL_CACHE, $nodes);
+                }
+                else
+                {
+                    eZContentCacheManager::nodeListForObject( $object, true, EZ_VCSC_CLEAR_NODE_CACHE | EZ_VCSC_CLEAR_PARENT_CACHE, $nodes);
+                }
+                foreach ( $nodes as $nodeID )
+                {
+                    $aNode =& eZContentObjectTreeNode::fetch( $nodeID );
+                    $staticCache->cacheURL( "/" . $aNode->urlAlias(), $nodeID );
+                }
+            }
+
             eZDebug::accumulatorStop( 'generate_cache' );
 
         }

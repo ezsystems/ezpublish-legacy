@@ -6,6 +6,9 @@ Changes from 3.5.0 to 3.6.0alpha1
   want to cache with the RoleSettings/UserPolicyCache setting. enabled means
   that all will be cached, "disabled" means that none will be cached and a
   comma separated list of user IDs means that only those user IDs are cached.
+  http://ez.no/community/developer/specs/caching_user_role_data
+- Added support for static caching of content.
+  http://ez.no/community/developer/specs/static_caching
 - Added role copy feature
 
 *Scripts:
