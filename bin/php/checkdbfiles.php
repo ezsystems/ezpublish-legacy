@@ -43,6 +43,13 @@ $branches[] = '3.1';
 $branches[] = '3.2';
 $branches[] = '3.3';
 
+/********************************************************
+*** NOTE: The following arrays do not follow the
+***       coding standard, the reason for this is
+***       to make it easy to merge any changes between
+***       the various eZ publish branches.
+*********************************************************/
+
 $versions = array();
 $versions30 = array( 'stable' => array( array( '2.9.7', '3.0-1' ),
                                         array( '3.0-1', '3.0-2' ) ),
@@ -55,21 +62,21 @@ $versions32 = array( 'unstable' => array( array( '3.1-1', '3.2.0-1' ),
                                           array( '3.2.0-1', '3.2.0-2' ),
                                           array( '3.2.0-2', '3.2-1' ) ),
                      'unstable_subdir' => 'unstable',
-                     'stable' => array( array( '3.1-1', '3.2-1' ),
-                                        array( '3.2-1', '3.2-2' ),
-                                        array( '3.2-2', '3.2-3' ),
-                                        array( '3.2-3', '3.2-4' ),
-                                        array( '3.2-4', '3.2-5' ),
-                                        array( '3.2-5', '3.2-6' )
+                     'stable' => array( array( '3.1-1', '3.2-1' )
+                                        ,array( '3.2-1', '3.2-2' )
+                                        ,array( '3.2-2', '3.2-3' )
+                                        ,array( '3.2-3', '3.2-4' )
+                                        ,array( '3.2-4', '3.2-5' )
+                                        ,array( '3.2-5', '3.2-6' )
                                         ) );
 $versions33 = array( 'unstable' => array( array( '3.2-3', '3.3.0-1' ),
                                           array( '3.3.0-1', '3.3.0-2' ),
                                           array( '3.3.0-2', '3.3-1' ) ),
                      'unstable_subdir' => 'unstable',
                      'stable' => array( array( '3.2-4', '3.3-1' )
-                                        array( '3.3-1', '3.3-2' ),
-                                        array( '3.3-2', '3.3-3' ),
-                                        array( '3.3-3', '3.3-4' )
+                                        ,array( '3.3-1', '3.3-2' )
+                                        ,array( '3.3-2', '3.3-3' )
+                                        ,array( '3.3-3', '3.3-4' )
                                         ,array( '3.3-4', '3.3-5' )
                                         ) );
 $versions['3.0'] = $versions30;
