@@ -54,11 +54,11 @@
 </tr>
 {section var=Sections loop=$section_array sequence=array( bglight, bgdark )}
 <tr class="{$Sections.sequence}">
-    <td><input type="checkbox" name="SectionIDArray[]" value="{$Sections.item.id}" /></td>
+    <td><input type="checkbox" name="SectionIDArray[]" value="{$Sections.item.id}" title="{'Select section for removal.'|i18n( 'design/admin/section/list' )}" /></td>
     <td>{'section'|icon( 'small', 'section'|i18n( 'design/admin/section/list' ) )}&nbsp;<a href={concat( '/section/view/', $Sections.item.id )|ezurl}>{$Sections.item.name}</a></td>
     <td>{$Sections.item.id}</td>
-    <td><a href={concat( '/section/assign/', $Sections.item.id, '/')|ezurl}><img src={'attach.png'|ezimage} alt="{'Assign'|i18n( 'design/admin/section/list' )}" /></a></td>
-    <td><a href={concat( '/section/edit/',   $Sections.item.id, '/')|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/section/list' )}" /></a></td>
+    <td><a href={concat( '/section/assign/', $Sections.item.id, '/')|ezurl}><img src={'attach.png'|ezimage} alt="{'Assign'|i18n( 'design/admin/section/list' )}" title="{'Assign the <%section_name> section to a subtree.'|i18n( 'design/admin/section/list',, hash( '%section_name', $Sections.item.name ) )|wash}" /></a></td>
+    <td><a href={concat( '/section/edit/',   $Sections.item.id, '/')|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/section/list' )}" title="{'Edit the <%section_name> section.'|i18n( 'design/admin/section/list',, hash( '%section_name', $Sections.item.name ) )|wash}" /></a></td>
 </tr>
 {/section}
 </table>
@@ -79,8 +79,8 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input class="button" type="submit" name="RemoveSectionButton" value="{'Remove selected'|i18n( 'design/admin/section/list' )}" />
-<input class="button" type="submit" name="CreateSectionButton" value="{'New section'|i18n( 'design/admin/section/list' )}" />
+<input class="button" type="submit" name="RemoveSectionButton" value="{'Remove selected'|i18n( 'design/admin/section/list' )}" title="{'Remove selected sections.'|i18n( 'design/admin/section/list' )}" />
+<input class="button" type="submit" name="CreateSectionButton" value="{'New section'|i18n( 'design/admin/section/list' )}" title="{'Create a new section.'|i18n( 'design/admin/section/list' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>

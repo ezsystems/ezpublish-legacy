@@ -32,7 +32,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 <form action={concat( '/section/edit/', $section.id )|ezurl} method="post">
-<input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/section/view' )}" />
+<input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/section/view' )}" title="{'Edit the <%section_name> section.'|i18n( 'design/admin/section/view',, hash( '%section_name', $section.name ) )|wash}" />
 </form>
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
