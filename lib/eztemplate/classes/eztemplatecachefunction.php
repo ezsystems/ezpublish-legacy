@@ -137,10 +137,10 @@ class eZTemplateCacheFunction
             $extraKeyText = eZPHPCreator::variableText( $extraKeyString, 0, 0, false );
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $keysData, false, array(),
                                                                   'cacheKeys' );
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( is_array( \$cacheKeys ) )\n    \$cacheKeys = implode( '_', \$cacheKeys ) . '_';" );
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( is_array( \$cacheKeys ) )\n    \$cacheKeys = implode( '_', \$cacheKeys ) . '_';\nelse\n    \$cacheKeys .= '_';" );
             $cacheDir = eZSys::cacheDirectory();
             $cachePathText = eZPHPCreator::variableText( "$cacheDir/template-block/", 0, 0, false );
-            $code = "\$keyString = md5( \$cacheKeys . $extraKeyText );\n\$cacheDir = $cachePathText . \$keyString[0] . '/' . \$keyString[1] . '/' . \$keyString[2];\n\$cachePath = \$cacheDir . '/' . \$keyString . '.php';";
+            $code = "\$keyString = (string) crc32( \$cacheKeys . $extraKeyText );\n\$cacheDir = $cachePathText . \$keyString[0] . '/' . \$keyString[1] . '/' . \$keyString[2];\n\$cachePath = \$cacheDir . '/' . \$keyString . '.php';";
             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
             $filedirText = "\$cacheDir";
             $filepathText = "\$cachePath";
@@ -150,7 +150,7 @@ class eZTemplateCacheFunction
             $accessName = false;
             if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
                 $accessName = $GLOBALS['eZCurrentAccess']['name'];
-            $keyString = md5( $keyValueText . $placementKeyString . $accessName );
+            $keyString = (string) crc32( $keyValueText . $placementKeyString . $accessName );
             $cacheDir = eZSys::cacheDirectory();
             $dirString = "$cacheDir/template-block/" . $keyString[0] . '/' . $keyString[1] . '/' . $keyString[2];
             $keyString = "$cacheDir/template-block/" . $keyString[0] . '/' . $keyString[1] . '/' . $keyString[2] . '/' . $keyString . '.php';
@@ -244,12 +244,15 @@ class eZTemplateCacheFunction
                     $keyString .= $functionPlacement[2] . "_";
 
                     // Fetch the current siteaccess
-                    $keyString .= $GLOBALS['eZCurrentAccess']['name'];
-                    include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-                    $md5Key = md5( $keyString );
+                    $accessName = false;
+                    if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
+                        $accessName = $GLOBALS['eZCurrentAccess']['name'];
+                    $keyString .= $accessName;
+                    $hashedKey = (string) crc32( $keyString );
 
                     $cacheDir = eZSys::cacheDirectory();
-                    $phpCache = new eZPHPCreator( "$cacheDir/template-block/" . $md5Key[0] . "/" . $md5Key[1] . "/" . $md5Key[2], md5( $keyString ) . ".php" );
+                    $phpDir = "$cacheDir/template-block/" . $hashedKey[0] . "/" . $hashedKey[1] . "/" . $hashedKey[2];
+                    $phpPath = $phpDir . '/' . $hashedKey . ".php";
 
                     // Check if a custom expiry time is defined
                     if ( isset( $functionParameters["expiry"] ) )
@@ -283,11 +286,11 @@ class eZTemplateCacheFunction
                     }
 
                     // Check if we can restore
-                    if ( $phpCache->canRestore( $expiryTime ) )
+                    if ( file_exists( $phpPath ) and
+                         filemtime( $phpPath ) >= $expiryTime )
                     {
-                        $variables = $phpCache->restore( array( 'contentdata' => 'contentData' )  );
-                        $text =& $variables['contentdata'];
-                        $textElements[] = $text;
+                        include( $phpPath );
+                        $textElements[] = $contentData;
                     }
                     else
                     {
@@ -303,8 +306,18 @@ class eZTemplateCacheFunction
                         $text =& implode( '', $childTextElements );
                         $textElements[] = $text;
 
-                        $phpCache->addVariable( 'contentData', $text );
-                        $phpCache->store();
+                        include_once( 'lib/ezfile/classes/ezdir.php' );
+                        $ini =& eZINI::instance();
+                        $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
+                        eZDir::mkdir( $phpDir, $perm, true );
+                        $fd = fopen( $phpPath, 'w' );
+                        fwrite( $fd, '<?' );
+                        fwrite( $fd, "php\n\$contentData = \"" );
+                        fwrite( $fd, str_replace( array( "\\", "\"", "\$", "\n" ),
+                                                  array( "\\\\", "\\\"", "\\$", "\\n" ),
+                                                  $text ) );
+                        fwrite( $fd, "\";\n?>\n" );
+                        fclose( $fd );
                     }
                 }
             } break;
