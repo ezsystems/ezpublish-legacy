@@ -205,7 +205,7 @@ class eZTemplateToolbarFunction
                     $itemValue = $actionParameters[$key];
                     $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $itemValue, false, array(),
                                                                           array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $key ) );
-                    $variableList[] = $itemValue;
+                    $variableList[] = $key;
                 }
 
                 // Add parameter tool_id and offset
