@@ -16,6 +16,10 @@ stable/3.3:
 - Revision=4648
 - Date 02-Jan-2004
 
+stable/3.4:
+- Revision=6744
+- Date 02-June-2004
+
 Various development branches:
 
 unstable/datatype-development-20030530:
