@@ -366,6 +366,7 @@ class eZImageAliasHandler
         {
             eZDir::mkdir( $dirpath, eZDir::directoryPermission(), true );
         }
+        include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $aliasList =& $this->aliasList();
 //         $hasFileCopy = $this->hasFileCopy();
         $this->resetImageSerialNumber();
@@ -498,6 +499,7 @@ class eZImageAliasHandler
         $filename = $aliasList[$aliasName]['filename'];
         if ( $filename )
         {
+            include_once( 'lib/ezutils/classes/ezmimetype.php' );
             $mimeData =& eZMimeType::findByFileContents( $filename );
 
             $imageManager->analyzeImage( $mimeData );
@@ -858,6 +860,7 @@ class eZImageAliasHandler
         $height = false;
         $altText = false;
 
+        include_once( 'lib/ezutils/classes/ezmimetype.php' );
         if ( count( $imageRow ) == 1 )
         {
             $fileName = $imageRow[0]['filename'];
@@ -960,7 +963,6 @@ class eZImageAliasHandler
         */
         }
         include_once( 'kernel/common/image.php' );
-        include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $imageManager =& imageInit();
 
         $mimeData = eZMimeType::findByFileContents( $fileName );
@@ -998,6 +1000,7 @@ class eZImageAliasHandler
         $contentObjectAttribute =& $this->ContentObjectAttribute;
         $this->increaseImageSerialNumber();
 
+        include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $httpFile->attribute( 'filename' ) );
         if ( !$mimeData['is_valid'] )
         {
@@ -1042,6 +1045,7 @@ class eZImageAliasHandler
 
         if ( !$originalFilename )
             $originalFilename = $filename;
+        include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $originalFilename );
         $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
                                                                  $contentObjectAttribute->attribute( 'contentobject_id' ) );

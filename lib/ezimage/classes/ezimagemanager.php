@@ -804,6 +804,7 @@ class eZImageManager
             $aliasKey = $currentAliasInfo['alias_key'];
             if ( file_exists( $aliasFile ) )
             {
+                include_once( 'lib/ezutils/classes/ezmimetype.php' );
                 $sourceMimeData = eZMimeType::findByFileContents( $aliasFile );
                 $destinationMimeData = $sourceMimeData;
                 if ( isset( $parameters['basename'] ) )
@@ -901,6 +902,7 @@ class eZImageManager
     */
     function convert( $sourceMimeData, &$destinationMimeData, $aliasName = false, $parameters = array() )
     {
+        include_once( 'lib/ezutils/classes/ezmimetype.php' );
         if ( is_string( $sourceMimeData ) )
             $sourceMimeData = eZMimeType::findByFileContents( $sourceMimeData );
         $this->analyzeImage( $sourceMimeData );
