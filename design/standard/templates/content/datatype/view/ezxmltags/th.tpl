@@ -5,5 +5,6 @@
   {/case}
   {case}
   {$content}
-  {/case} 
+  {/case}
+{/switch}
 </th>
