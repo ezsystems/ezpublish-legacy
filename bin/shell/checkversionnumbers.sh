@@ -9,6 +9,9 @@
 PREVIOUS_VERSION="3.4.0beta2"
 # The last version of the newest stable branch
 LAST_STABLE="3.3-5"
+# Set this to true if the LAST_STABLE has been modified from the last release
+# This will be set to true automatically if the release is a final release
+LAST_STABLE_CHANGED="false"
 
 MAJOR=3
 MINOR=4
@@ -34,6 +37,10 @@ fi
 
 if [ "$RELEASE" == "0" -a "$DEVELOPMENT" == "false" ]; then
     FINAL="true"
+fi
+
+if [ "$FINAL" == "true" ]; then
+    LAST_STABLE_CHANGED="true"
 fi
 
 # Check parameters
@@ -286,7 +293,7 @@ else
     fi
 fi
 
-if [[ "$DEVELOPMENT" == "false" && "$FINAL" == "true" ]]; then
+if [ "$DEVELOPMENT" == "false" -a "$LAST_STABLE_CHANGED" == "true" ]; then
     file="$files doc/changelogs/$BRANCH_VERSION/CHANGELOG-$LAST_STABLE-to-$VERSION"
 
     if [ ! -f $file ]; then
@@ -315,32 +322,32 @@ if [[ "$DEVELOPMENT" == "false" && "$FINAL" == "true" ]]; then
     fi
 fi
 
-if [ -n "$FIRST_STABLE" ]; then
-    prev="$PREVIOUS_VERSION"
-    if [ "$DEVELOPMENT" == "true" ]; then
-	file="doc/changelogs/$BRANCH_VERSION/unstable/CHANGELOG-$prev-to-$VERSION"
-    else
-	file="doc/changelogs/$BRANCH_VERSION/CHANGELOG-$prev-to-$VERSION"
-    fi
-    if [ ! -f $file ]; then
-	echo "`$SETCOLOR_FAILURE`Missing changelog file`$SETCOLOR_NORMAL`"
-	echo "The changelog file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
-	echo "This file is required for a valid first stable release"
-	echo
-	MAIN_ERROR="1"
-	[ -n "$EXIT_AT_ONCE" ] && exit 1
-    else
-	if ! grep -E "Changes from $prev to $VERSION" $file &>/dev/null; then
-	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-	    echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL`"
-	    echo "The changelog should contain this line at the top:"
-	    echo "Changes from `$SETCOLOR_EMPHASIZE`$prev`$SETCOLOR_NORMAL` to `$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`"
-	    echo
-	    MAIN_ERROR="1"
-	    [ -n "$EXIT_AT_ONCE" ] && exit 1
-	fi
-    fi
-fi
+# if [ -n "$FIRST_STABLE" ]; then
+#     prev="$PREVIOUS_VERSION"
+#     if [ "$DEVELOPMENT" == "true" ]; then
+# 	file="doc/changelogs/$BRANCH_VERSION/unstable/CHANGELOG-$prev-to-$VERSION"
+#     else
+# 	file="doc/changelogs/$BRANCH_VERSION/CHANGELOG-$prev-to-$VERSION"
+#     fi
+#     if [ ! -f $file ]; then
+# 	echo "`$SETCOLOR_FAILURE`Missing changelog file`$SETCOLOR_NORMAL`"
+# 	echo "The changelog file `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL` is missing"
+# 	echo "This file is required for a valid first stable release"
+# 	echo
+# 	MAIN_ERROR="1"
+# 	[ -n "$EXIT_AT_ONCE" ] && exit 1
+#     else
+# 	if ! grep -E "Changes from $prev to $VERSION" $file &>/dev/null; then
+# 	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+# 	    echo "Wrong/missing version number in `$SETCOLOR_EXE`$file`$SETCOLOR_NORMAL`"
+# 	    echo "The changelog should contain this line at the top:"
+# 	    echo "Changes from `$SETCOLOR_EMPHASIZE`$prev`$SETCOLOR_NORMAL` to `$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`"
+# 	    echo
+# 	    MAIN_ERROR="1"
+# 	    [ -n "$EXIT_AT_ONCE" ] && exit 1
+# 	fi
+#     fi
+# fi
 
 
 # update/database/*/$version/
@@ -390,7 +397,7 @@ for driver in $DRIVERS; do
 	fi
     fi
 
-    if [ "$DEVELOPMENT" == "false" -a "$FINAL" == "true" ]; then
+    if [ "$DEVELOPMENT" == "false" -a "$LAST_STABLE_CHANGED" == "true" ]; then
 	prev="$LAST_STABLE"
 	file="update/database/$driver/$BRANCH_VERSION/dbupdate-$prev-to-$VERSION.sql"
 	if [ ! -f $file ]; then
