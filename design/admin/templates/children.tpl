@@ -141,7 +141,9 @@
 
 {* Else: there are no children. *}
 {section-else}
+<div class="box-ml"><div class="box-mr"><div class="box-content">
     <p>{'The current item does not contain any sub items.'|i18n( 'design/admin/node/view/full' )}
+</div></div></div>
 {/section}
 
 {* Button bar for remove and update priorities buttons. *}

@@ -13,7 +13,7 @@ div#allcontent
 
 div#header
 {
-    background-image: url(../images/top-background-repeat.jpg);
+    background-image: url(../images/top-background-repeat.gif);
     background-position: top left;
     background-repeat: repeat-x;
 }
@@ -21,14 +21,28 @@ div#header
 div#header-design
 {
     height: 75px;
-    background-image: url(../images/top-background.jpg);
+    background-image: url(../images/top-background.gif);
     background-position: top left;
     background-repeat: no-repeat;
 }
 
-div#header div#logo
+div#logo
 {
+    position: relative;
     float: left;
+/*    margin: 10px 0 0 10px; */
+    margin: 16px 0 0 10px;
+}
+
+div#logo p
+{
+    color: #ffffff;
+    position: absolute;
+/*    right: 5px;
+    top: 30px; */
+    left: 210px;
+    top: 8px;
+    white-space: nowrap;
 }
 
 div#search
@@ -62,7 +76,7 @@ div#search p
 
 div#search a
 {
-    color: #000000;
+    color: #ffffff;
 }
 
 div#search label
@@ -234,7 +248,7 @@ div#leftmenu
 
 div#leftmenu-design
 {
-    margin: 0.5em 0 0 0.5em;
+    margin: 0.5em 0.1em 0 0.5em;
 }
 
 div#leftmenu div.box-header, div#rightmenu div.box-header
@@ -337,29 +351,36 @@ div#leftmenu div#content-tree div.box-content
     padding: 0 1px 0.5em 0.5em; 
 }
 
+div.box-content
+{
+    padding: 0 2px 2px 1px;
+}
+
+div.box-content p
+{
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0.5em;
+}
+
+div.box-content div p
+{
+    padding: 0;
+}
+
 div#leftmenu div.box-content
 {
     padding: 0.1em 0.5em 0.5em 0.5em;  
 }
 
-div#maincontent div.box-content
+div#rightmenu div.box-content
 {
-    padding: 0 2px 2px 1px;  
+    padding: 0.5em 0.5em 0.5em 0.5em;  
 }
 
 div.controlbar div.box-br
 {
     padding: 0.2em 0.5em 0.4em 0.5em;
-}
-
-div.controlbar div.block
-{
-/*     border: 1px solid #000000; */
-}
-
-div#rightmenu div.box-content
-{
-    padding: 0.5em 0.5em 0.5em 0.5em;  
 }
 
 div#contentstructure
@@ -487,7 +508,7 @@ div#rightmenu
 
 div#rightmenu-design
 {
-    margin: 0.5em 0.5em 0 0;
+    margin: 0.5em 0.5em 0 0.1em;
 }
 
 div#currentuser, div#bookmarks
@@ -823,7 +844,7 @@ div.context-information a
     text-decoration: underline;
 }
 
-div.context-toolbar p, div.context-information p
+div.context-block div.context-toolbar p, div.context-block div.context-information p
 {
     font-size: 0.85em;
     margin: 0;
@@ -855,42 +876,6 @@ div.context-attributes
     background-color: #f8f8f8;
     padding: 0.5em;
 }
-
-/*
-div.context-controlbar
-{
-    background-color: #606060;
-    border: 1px solid #606060;
-    padding: 0 0.25em 0 0.25em;
-    margin: 0;
-}
-
-div.context-controlbar select
-{
-    font-size: 0.85em;
-}
-*/
-
-div.viewbar, div.controlbar
-{
-}
-
-/*
-div.context-block div.block
-{
-    margin: 0.5em 0.5em 1em 0.5em;
-}
-
-div.context-block div.block div.block
-{
-    margin: 0.5em 0 1em 0;
-}
-
-div.context-toolbar div.block
-{
-    margin: 0;
-}
-*/
 
 div.controlbar div.block
 {
