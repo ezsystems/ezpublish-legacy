@@ -76,6 +76,7 @@
             {/section}
      	</select>
 	    <input class="button" type="submit" name="NewButton" value="{'Add new'|i18n('design/standard/content/edit')}" title="{'Click here to upload a file. The file will be placed within the location that is specified using the dropdown menu to the left. In addition, the file will be automatically related to the item that is currently being edited.'|i18n( 'design/admin/layout' )}" />
+        <input class="button" type="submit" name="UploadFileRelationButton" value="{'Upload file'|i18n('design/standard/content/edit')}" />
     </div>
 </div>
 

@@ -51,6 +51,7 @@ $ViewList['edit'] = array(
 //                                    'MoveNodeButton' => 'MoveNode',
                                     'EditLanguageButton' => 'EditLanguage',
                                     'BrowseObjectButton' => 'BrowseForObjects',
+                                    'UploadFileRelationButton' => 'UploadFileRelation',
                                     'NewButton' => 'NewObject',
                                     'DeleteRelationButton' => 'DeleteRelation',
                                     'StoreButton' => 'Store',
@@ -157,6 +158,15 @@ $ViewList['browse'] = array(
     'script' => 'browse.php',
     'params' => array( 'NodeID', 'ObjectID', 'EditVersion' ),
     'unordered_params' => array( 'offset' => 'Offset' ) );
+
+$ViewList['upload'] = array(
+    'functions' => array( 'create' ),
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'ui_context' => 'edit',
+    'script' => 'upload.php',
+    'single_post_actions' => array( 'UploadFileButton' => 'UploadFile',
+                                    ),
+    'params' => array() );
 
 $ViewList['removeobject'] = array(
     'functions' => array( 'read' ),
