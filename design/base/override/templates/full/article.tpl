@@ -5,15 +5,9 @@
 
         <h1>{$node.object.data_map.title.content|wash()}</h1>
 
-        {section}
-            <div class="content-byline">
-                <p class="author"><a href="/">{$node.object.data_map.author.content|wash(xhtml)}</a></p>
-                <p class="date">{$node.object.published|l10n(date)}</p>
-                <div class="break"></div>
-            </div>
-        {/section}
-
-        {content_view_gui view=embed content_object=$node.object.data_map.image.content align=left image_class=medium }
+        <div class="content-image">
+        {attribute_view_gui attribute=$node.object.data_map.image align=right}
+        </div>
 
         {section show=$node.object.data_map.intro.content.is_empty|not}
             <div class="content-short">
@@ -21,6 +15,14 @@
             </div>
         {/section}
 
+        <div class="content-byline">
+        <p class="author">
+             {attribute_view_gui attribute=$node.object.data_map.author} 
+        </p>
+        <p class="date">
+             {$node.object.published|l10n(date)}
+        <p/>
+        </div>
 
 
         {section show=$node.object.data_map.body.content.is_empty|not}
