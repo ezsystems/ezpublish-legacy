@@ -29,8 +29,6 @@ function togglestuff( formname, checkboxname )
 
 <div class="context-block">
 
-<h2 class="context-title">Children</h2>
-
 <form name="children" method="post" action={'content/action'|ezurl}>
 
 {* Generic children list for admin interface. *}
@@ -45,6 +43,9 @@ function togglestuff( formname, checkboxname )
                                           sort_by, $node.sort_array,
                                           limit, $number_of_items,
                                           offset, $view_parameters.offset ) ) }
+
+
+<h2 class="context-title">{'Sub items'|i18n( 'design/admin/layout' )}&nbsp;({$children_count})</h2>
 
 {* If there are children: show list and buttons that belong to the list. *}
 {section show=$children}
@@ -206,7 +207,10 @@ function togglestuff( formname, checkboxname )
     </div>
     {/section}
 <div class="right">
+
 <label>Sorting:</label>
+
+{section show=$node.can_edit}
 <select>
     <option>Priority</option>
     <option>Name</option>
@@ -217,6 +221,9 @@ function togglestuff( formname, checkboxname )
     <option>Up</option>
 </select>
 <input class="button" type="submit" value="Set" />
+{/section}
+
+
 </div>
 
 <div class="break"></div>
