@@ -11,22 +11,41 @@
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
+{* Object ID *}
 <p>
-<label>{'Created'|i18n( 'design/admin/content/edit_draft' )}:</label>
+<label>{'ID'|i18n( 'design/admin/content/edit' )}:</label>
+{$object.id}
+</p>
+
+{* Created *}
+<p>
+<label>{'Created'|i18n( 'design/admin/content/edit' )}:</label>
 {section show=$object.published}
 {$object.published|l10n( shortdatetime )}<br />
 {$object.current.creator.name}
 {section-else}
-{'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
+{'Not yet published'|i18n( 'design/admin/content/edit' )}
 {/section}
 </p>
+
+{* Modified *}
 <p>
-<label>{'Last modified'|i18n( 'design/admin/content/edit_draft' )}:</label>
+<label>{'Modified'|i18n( 'design/admin/content/edit' )}:</label>
 {section show=$object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
 {fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name}
 {section-else}
-{'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
+{'Not yet published'|i18n( 'design/admin/content/edit' )}
+{/section}
+</p>
+
+{* Published version *}
+<p>
+<label>{'Published version'|i18n( 'design/admin/content/edit' )}:</label>
+{section show=$object.published}
+{$object.current_version}
+{section-else}
+{'Not yet published'|i18n( 'design/admin/content/edit' )}
 {/section}
 </p>
 
