@@ -5,8 +5,8 @@ Changes from 2.9-4 to 2.9-5
 *Shell:
 
 modfix:
-* Safer file and directory modes.
-* Added var/log to checking.
+- Safer file and directory modes.
+- Added var/log to checking.
 
 *SDK :
 
@@ -30,11 +30,13 @@ modfix:
 - index.php now uses the execution system, this means that controlled exits should be done with the
   /cleanExit/ function in /eZExecution/.
 - Implemented basic framework for generic information collection ( forms/polls etc )
-- changed browse page. Now the path is shown like on other eZ Publish pages
-- change section assignments. Removed page before browse.
-*DateType :
-- Changed the ezprice interface with VAT type choosing and VAT include/exclude choosing.
+- Changed browse page. Now the path is shown like on other eZ Publish pages
+- Change section assignments. Removed page before browse.
+- Changed node views to use the version for attribute lists, related objects and attribute maps
+  instead of taking it directly from the object (which is always the last published version).
 
+DateType :
+- Changed the ezprice interface with VAT type choosing and VAT include/exclude choosing.
 
 *Library :
 
