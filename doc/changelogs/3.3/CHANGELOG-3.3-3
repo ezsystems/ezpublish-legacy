@@ -7,6 +7,7 @@ Changes from 3.3-2 to 3.3-3
 - Fixed eZSelection::metaData
 - Replaced several " with ' in ezenumtype.php
 - Added storeData() function for eZContentObjectAttribute, this function is safe for datatypes to call (unlike store() ).
+- Fixed eZCache to use eZDir::mkdir when creating folders.
 
 *Bugs:
 - Fixed design class/datatype/view/ezselection.tpl
@@ -40,6 +41,8 @@ Changes from 3.3-2 to 3.3-3
   http://ez.no/developer/ez_publish_3/bug_reports/url_translator_input_fields_in_wrong_order
 - Fixed removing duplicate // from eZModule::redirectTo( ... )
 - Fixed bug when discarding draft of images from 3.2 update.
+- Fixed clearing global ini cache when clearing ini cache in admin interface.
+  http://ez.no/developer/ez_publish_3/bug_reports/clear_all_caches_does_not_clear_override_ini_cache
 
 *Library:
 

@@ -73,6 +73,12 @@ class eZCache
                                        'tag' => array( 'content' ),
                                        'enabled' => $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled',
                                        'path' => $ini->variable( 'ContentSettings', 'CacheDir' ) ),
+                                array( 'name' => 'Global INI cache',
+                                       'id' => 'global_ini',
+                                       'tag' => array( 'ini' ),
+                                       'enabled' => true,
+                                       'path' => 'var/cache/ini',
+                                       'function' => 'eZCacheClearGlobalINI' ),
                                 array( 'name' => 'INI cache',
                                        'id' => 'ini',
                                        'tag' => array( 'ini' ),
@@ -278,6 +284,14 @@ class eZCache
         }
     }
 
+    /*!
+     \static
+     Clear global ini cache
+    */
+    function clearGlobalINICache()
+    {
+        eZDir::recursiveDelete( 'var/cache/ini' );
+    }
 }
 
 /*!
@@ -294,6 +308,14 @@ function eZCacheClearClassID( $cacheItem )
 {
     eZCache::clearClassID( $cacheItem );
 }
+
+/*!
+ */
+function eZCacheClearGlobalINI( $cacheItem )
+{
+    eZCache::clearGlobalINICache();
+}
+
 
 /*!
  */

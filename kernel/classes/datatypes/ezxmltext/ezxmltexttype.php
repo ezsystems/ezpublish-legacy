@@ -370,7 +370,7 @@ class eZXMLTextType extends eZDataType
     */
     function isInformationCollector()
     {
-        return true;
+        return false;
     }
 
     /*!
