@@ -57,6 +57,7 @@ links to clickable links.
   core dumps.
 - Fixed checking of successful generation of imagevariations. 
 - Added missing include in collaboration approval.
+- Added site URL and eZ publish version to admin interface, under setup.
 
 *SDK :
 

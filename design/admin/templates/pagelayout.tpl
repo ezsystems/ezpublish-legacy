@@ -93,6 +93,14 @@
     <td align="left">
 	<input class="searchbox" type="text" size="20" name="SearchText" id="Search" value="" />&nbsp;
 	<input class="searchbutton" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
+
+    </td>
+    <td>
+      <p class="menuitem">
+      {section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
+	Site: {ezini('SiteSettings','SiteURL')} Ver: {$site.version}
+	{/section}
+      </p>
     </td>
     <td align="right">
       <p class="menuitem">

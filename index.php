@@ -642,6 +642,7 @@ if ( $show_page_layout )
     $http_equiv = array( 'Content-Type' => 'text/html; charset=' . $httpCharset,
                          'Content-language' => $languageCode );
 
+    include_once( 'lib/version.php' );
     $site = array(
         "title" => $ini->variable( 'SiteSettings', 'SiteName' ),
         "page_title" => $module->title(),
@@ -649,7 +650,8 @@ if ( $show_page_layout )
         "redirect" => false,
         "design" => "standard",
         "http_equiv" => $http_equiv,
-        "meta" => $meta );
+        "meta" => $meta,
+        "version" => eZPublishSDK::version());
     $tpl->setVariable( "site", $site );
 
     include_once( 'lib/version.php' );
