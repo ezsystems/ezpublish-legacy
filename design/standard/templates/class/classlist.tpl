@@ -35,17 +35,17 @@
     <td class="{$Classes:sequence}"><span class="small">{$Classes:item.modified|l10n(shortdatetime)}</span></td>
     <td class="{$Classes:sequence}" width="1%"><div class="listbutton"><a href={concat("class/edit/",$Classes:item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="edit" /></a></div></td>
     <td class="{$Classes:sequence}" width="1%"><div class="listbutton"><a href={concat("class/copy/",$Classes:item.id)|ezurl}><img class="button" src={"copy.png"|ezimage} width="16" height="16" alt="edit" /></a></div></td>
-    <td class="{$Classes:sequence}" width="1%"><input type="checkbox" name="DeleteIDArray[]" value="{$Classes:item.id}"></td>
+    <td class="{$Classes:sequence}" width="1%"><div align="center"><input type="checkbox" name="DeleteIDArray[]" value="{$Classes:item.id}"></div></td>
 </tr>
 {/section}
 
 <tr>
-  <td colspan="7">
+  <td>
     <div class="buttonblock">
     {include uri="design:gui/button.tpl" name=new id_name=NewButton value="New"|i18n("design/standard/class/view")}
     </div>
   </td>
-  <td>
+  <td colspan="7" align="right">
     {section show=$class_count}
       {include uri="design:gui/button.tpl" name=remove id_name=RemoveButton value="Remove"|i18n("design/standard/class/view")}
     {/section}

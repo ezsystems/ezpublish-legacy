@@ -40,6 +40,7 @@ contentclass:
 - Classes can now be copied, a new function in eZDataType was added which
   tells datatypes to copy data from the old to the new. This is only required
   for complexe datatypes which uses external tables for class options.
+- After creating a new class group you are now redirected to that group.
 
 persistentobject:
 - Added support for between in conditions, it is passed as an array with two elements
