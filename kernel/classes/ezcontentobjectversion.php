@@ -494,7 +494,7 @@ class eZContentObjectVersion extends eZPersistentObject
     function mainParentNodeID()
     {
         $temp =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ), 1 );
-        if( $temp == null )
+        if ( $temp == null )
         {
             return 1;
         }
@@ -504,7 +504,7 @@ class eZContentObjectVersion extends eZPersistentObject
     function &parentNodes( )
     {
         $retNodes = array();
-        $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ),$this->attribute( 'version' ) );
+        $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ) );
         foreach ( array_keys( $nodeAssignmentList ) as $key )
         {
             $nodeAssignment =& $nodeAssignmentList[$key];
@@ -519,7 +519,7 @@ class eZContentObjectVersion extends eZPersistentObject
     function &nodeAssignments()
     {
         $nodeAssignmentList = array();
-        $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ),$this->attribute( 'version' ) );
+        $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ) );
 //         eZDebug::writeDebug( $nodeAssignmentList, "nodeAssignmentList" );
         return $nodeAssignmentList;
     }
