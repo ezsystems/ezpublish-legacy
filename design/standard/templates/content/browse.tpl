@@ -105,7 +105,7 @@
             <td>
                 <img src={"1x1.gif"|ezimage} width="{mul(sub($:item.depth,$main_node.depth),$browse_indentation)}" height="1" alt="" border="0" />
 
-                 {node_view_gui view=line content_node=$Object:item node_url=cond( $browse.ignore_nodes|contains($Object:item.node_id)|not(), concat( 'content/browse/', $Object:item.node_id, '/' ), false() )}
+                 {node_view_gui view=line content_node=$Object:item node_url=concat( 'content/browse/', $Object:item.node_id, '/' )}
             </td>
         
             <td>
@@ -167,8 +167,7 @@
             <td>
             {let top_node=fetch( content, node, hash( node_id, $:item ) )}
                 {node_view_gui view=line content_node=$:top_node
-                               node_url=cond( eq( $:item, $main_node.node_id ), false(),
-                                              $browse.ignore_nodes|contains( $:top_node.node_id )|not(), concat( 'content/browse/', $:top_node.node_id, '/' ), false() )}
+                               node_url=concat( 'content/browse/', $:top_node.node_id, '/' )}
             {/let}
             </td>
         </tr>
@@ -200,8 +199,7 @@
         
             <td>
                 {node_view_gui view=line content_node=$:item.node
-                               node_url=cond( eq( $:item.node_id, $main_node.node_id ), false(),
-                                              $browse.ignore_nodes|contains( $:item.node_id )|not(), concat( 'content/browse/', $:item.node_id, '/' ), false() )}
+                               node_url=concat( 'content/browse/', $:item.node_id, '/' )}
             </td>
         </tr>
         {section-else}
@@ -243,8 +241,7 @@
             
                 <td>
                 {node_view_gui view=line content_node=$:item.node
-                               node_url=cond( eq( $:item.node_id, $main_node.node_id ), false(),
-                                              $browse.ignore_nodes|contains( $:item.node_id )|not(), concat( 'content/browse/', $:item.node_id, '/' ), false() )}
+                               node_url=concat( 'content/browse/', $:item.node_id, '/' )}
                 </td>
             </tr>
             {/section}
