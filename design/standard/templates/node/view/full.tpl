@@ -3,9 +3,13 @@
 {literal}
 function checkAll()
 {
-    if ( document.fullview.selectall.value == "Select all" )
+{/literal}
+    if ( document.fullview.selectall.value == "{'Select all'|i18n('design/standard/node/view')}" )
+{literal}
     {
-        document.fullview.selectall.value = "Deselect all";
+{/literal}
+        document.fullview.selectall.value = "{'Deselect all'|i18n('design/standard/node/view')}";
+{literal}
         with (document.fullview) 
 	{
             for (var i=0; i < elements.length; i++) 
@@ -17,7 +21,9 @@ function checkAll()
      }
      else
      {
-         document.fullview.selectall.value = "Select all";
+{/literal}
+         document.fullview.selectall.value = "{'Select all'|i18n('design/standard/node/view')}";
+{literal}
          with (document.fullview) 
 	 {
             for (var i=0; i < elements.length; i++) 
@@ -48,7 +54,7 @@ function checkAll()
 
 
 <div class="objectheader">
-<h2>Default object view. <a class="menuheadlink" href={"/setup/templateview/node/view/full.tpl"|ezurl}>Click to create a custom template</a></h2>
+<h2>Default object view. <a class="menuheadlink" href={"/setup/templateview/node/view/full.tpl"|ezurl}>{'Click to create a custom template'|i18n('design/standard/node/view')}</a></h2>
 </div>
 
 <div class="object">
@@ -73,8 +79,8 @@ function checkAll()
    {/case}
    {/switch}
 {/section}
-    <input class="button" type="submit" name="ActionPreview" value="Preview" />
-    <input class="button" type="submit" name="ActionRemove" value="Remove" />
+    <input class="button" type="submit" name="ActionPreview" value="{'Preview'|i18n('design/standard/node/view')}" />
+    <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add to Bookmarks'|i18n('design/standard/node/view')}" />
     <input class="button" type="submit" name="ActionAddToNotification" value="{'Notify me about updates'|i18n('design/standard/node/view')}" />
 
@@ -242,8 +248,8 @@ function checkAll()
 {*    {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
     list_count*}
     {section show=$list_count}
-            <input type="submit" name="RemoveButton" value="Remove" />
-		<input name="selectall" onclick=checkAll() type="button" value="Select all">
+            <input type="submit" name="RemoveButton" value="{'Remove'|i18n('design/standard/node/view')}" />
+		<input name="selectall" onclick=checkAll() type="button" value="{'Select all'|i18n('design/standard/node/view')}">
     {/section}
     {/section}
 

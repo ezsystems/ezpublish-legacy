@@ -2,7 +2,7 @@
 <form method="post" action={"/notification/settings/"|ezurl}>
 
 <div class="maincontentheader">
-<h1>{"Notification settings"|i18n("design/standard/section")}</h1>
+<h1>{"Notification settings"|i18n('design/standard/notification')}</h1>
 </div>
 
 {let handlers=fetch('notification','handler_list')}

@@ -1,6 +1,7 @@
 <div class="warning">
 <h2>{"Module not found"|i18n("design/standard/error/kernel")}</h2>
-<p>{"The requested module '%1' could not be found."|i18n("design/standard/error/kernel",,array($parameters.module|wash))}</p>
+<p>{"The requested module %module could not be found."|i18n("design/standard/error/kernel",,
+                                                            hash('%module',$parameters.module|wash))}</p>
 <p>{"Possible reasons for this is."|i18n("design/standard/error/kernel")}</p>
 <ul>
     <li>{"The module name was misspelled, try changing the url."|i18n("design/standard/error/kernel")}</li>

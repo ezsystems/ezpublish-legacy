@@ -2,7 +2,7 @@
 <h2>{"Are you sure you want to remove these nodes?"|i18n("design/standard/node")}</h2>
 <ul>
 {section name=Result loop=$DeleteResult}
-    <li>{"Removing %1 will remove the node itself and it's %2! %3"|i18n("design/standard/node",,array($Result:item.nodeName,$Result:item.childCount,$Result:item.additionalWarning))}</li>
+    <li>{"Removing %1 will remove the node itself and it's %2 children. %3"|i18n("design/standard/node",,array($Result:item.nodeName,$Result:item.childCount,$Result:item.additionalWarning))}</li>
 {/section}
 </ul>
 </div>
