@@ -124,6 +124,7 @@ class eZNodeviewfunctions
         $contentInfoArray['navigation_part_identifier'] = $navigationPartIdentifier;
         $contentInfoArray['node_depth'] = $node->attribute( 'depth' );
         $contentInfoArray['url_alias'] = $node->attribute( 'url_alias' );
+        $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
         $contentInfoArray['class_group'] = $object->attribute( 'match_ingroup_id_list' );
 
         $Result['content_info'] = $contentInfoArray;

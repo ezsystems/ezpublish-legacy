@@ -195,6 +195,7 @@ else
                                    array( 'viewmode', $Result['content_info']['viewmode'] ),
                                    array( 'depth', $Result['content_info']['node_depth'] ),
                                    array( 'url_alias', $Result['content_info']['url_alias'] ),
+                                   array( 'persistent_variable', $Result['content_info']['persistent_variable'] ),
                                    array( 'class_group', $Result['content_info']['class_group'] ) );
 
                 $res->setKeys( $keyArray  );

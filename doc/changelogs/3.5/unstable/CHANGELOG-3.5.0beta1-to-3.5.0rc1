@@ -3,6 +3,10 @@ Changes from 3.5.0beta1 to 3.5.0rc1
 *Kernel:
 - Added template 'fetch' functions to 'setup' module: version, major_version, minor_version, release,
   state, is_development, revision, database_version, database_release.
+- Added support for the template variable 'persistent_variable', which can be used to communicate between
+  content templates and other templates, even though content caching is on. It can be set for example with
+  {set scope=global persistent_variable=42} and fetched with
+  {$module_result.content_info.persistent_variable}
 
 Datatype:
 - Added the possibility for datatypes to return information on how they should
