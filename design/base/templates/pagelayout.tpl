@@ -16,7 +16,7 @@
     @import url({ezini('StylesheetSettings','NoLeftMenuCSS','design.ini')|ezdesign});
     {/section}
 
-    {section show=ezini('Toolbar_right','Tool','toolbar.ini')|count|gt(0)|not()}
+    {section show=ezini('Toolbar_right','Tool','toolbar.ini')|count|eq(0)}
     @import url({ezini('StylesheetSettings','NoRightMenuCSS','design.ini')|ezdesign});
     {/section}
 
@@ -41,11 +41,13 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
     </div>
 </div>
 
+{section show=ezini('Toolbar_top','Tool','toolbar.ini')|count}
 <div id="toolbar-top">
     <div id="toolbar-design">
         {tool_bar name=top view=line}
     </div>
 </div>
+{/section}
 
 <div class="break"></div>
 
@@ -69,6 +71,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 
 <hr class="hide" />
 
+{section show=ezini('Toolbar_right','Tool','toolbar.ini')|count}
 <div id="rightmenu">
 <div id="rightmenu-design">
 
@@ -82,6 +85,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 
 </div>
 </div>
+{/section}
 
 <hr class="hide" />
 
@@ -99,11 +103,13 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 
 <hr class="hide" />
 
+{section show=ezini('Toolbar_right','Tool','toolbar.ini')|count}
 <div id="toolbar-bottom">
     <div id="toolbar-design">
        {tool_bar name=bottom view=line}
     </div>
 </div>
+{/section}
 
 <div id="footer">
 <div id="footer-design">
