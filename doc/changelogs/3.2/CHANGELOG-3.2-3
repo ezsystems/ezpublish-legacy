@@ -22,7 +22,8 @@ Changes from 3.2-2 to 3.2-3
   Added link to folder_thumbnail template.
 - Fixed correct handling of & characters in XML fields, it is now converted into XHTML codes.
 - Fixed missing semicolon (;) in openfts.php.
-
+- Fixed a small bug in class edit. The system tried to fetch all objects of the class each
+  time even if class was not modified.
 
 *Setup:
 
