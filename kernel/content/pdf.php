@@ -38,6 +38,8 @@ include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/eztrigger.php' );
 include_once( 'kernel/common/eztemplatedesignresource.php' );
 include_once( 'kernel/classes/ezcontentcache.php' );
+include_once( 'kernel/common/template.php' );
+include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 
 $NodeID = $Params['NodeID'];
 $Module =& $Params['Module'];
