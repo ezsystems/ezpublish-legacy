@@ -232,8 +232,9 @@ class eZXMLTextType extends eZDataType
                     $tpl->setVariable( 'content', $sectionNode->textContent(), 'xmltagns' );
                     $tpl->setVariable( 'level', $level, 'xmltagns' );
                     $uri = "design:content/datatype/view/ezxmltags/header.tpl";
-                    eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );
-                    $output .= $text;
+                    $textElements = array();
+                    eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                    $output .= implode( '', $textElements );
                 }break;
 
                 case 'paragraph' :
@@ -271,8 +272,9 @@ class eZXMLTextType extends eZDataType
 
         $tpl->setVariable( 'content', $output, 'xmltagns' );
         $uri = "design:content/datatype/view/ezxmltags/paragraph.tpl";
-        eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );
-        $output =& $text;
+        $textElements = array();
+        eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+        $output = implode( '', $textElements );
         return $output;
     }
 
@@ -310,15 +312,24 @@ class eZXMLTextType extends eZDataType
                 $objectID = $tag->attributeValue( 'id' );
                 $view = $tag->attributeValue( 'view' );
                 $alignment = $tag->attributeValue( 'align' );
+                //$size = $tag->attributeValue( 'size' );
+                $src = $tag->attributeValue( 'src' );
+                $parameters = array();
+                $item = array( "alignment" => $alignment ,
+                               // "size" => $size,
+                               "src" => $src );
+                $parameters[] = $item;
                 if ( strlen( $view ) == 0 )
                     $view = "embed";
                 $object =& eZContentObject::fetch( $objectID );
 
                 $tpl->setVariable( 'object', $object, 'xmltagns' );
                 $tpl->setVariable( 'view', $view, 'xmltagns' );
+                $tpl->setVariable( 'parameters', $parameters, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
-                eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, "foo", "xmltagns" );
-                $tagText .= $text;
+                $textElements = array();
+                eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
+                $tagText = implode( '', $textElements );
             }break;
 
             case 'table' :
@@ -340,19 +351,22 @@ class eZXMLTextType extends eZDataType
                         }
                         $tpl->setVariable( 'content', $cellContent, 'xmltagns' );
                         $uri = "design:content/datatype/view/ezxmltags/td.tpl";
-                        eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, "foo", "xmltagns" );
-                        $tableData .= $text;
+                        $textElements = array();
+                        eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
+                        $tableData .= implode( '', $textElements );
                     }
                     $tpl->setVariable( 'content', $tableData, 'xmltagns' );
                     $uri = "design:content/datatype/view/ezxmltags/tr.tpl";
-                    eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, "foo", "xmltagns" );
-                    $tableRows .= $text;
+                    $textElements = array();
+                    eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
+                    $tableRows .= implode( '', $textElements );
                 }
                 $tpl->setVariable( 'rows', $tableRows, 'xmltagns' );
                 $tpl->setVariable( 'border', $border, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/table.tpl";
-                eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, "foo", "xmltagns" );
-                $tagText .= $text;
+                $textElements = array();
+                eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
+                $tagText .= implode( '', $textElements );
             }break;
 
             case 'ul' :
@@ -370,16 +384,17 @@ class eZXMLTextType extends eZDataType
                     $tpl->setVariable( 'content', $listItemContent, 'xmltagns' );
                     $uri = "design:content/datatype/view/ezxmltags/li.tpl";
 
-                    eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );
-
-                    $listContent .= $text;
+                    $textElements = array();
+                    eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                    $listContent .= implode( '', $textElements );
                 }
 
                 $tpl->setVariable( 'content', $listContent, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
-                eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );
-                $tagText .= $text;
+                $textElements = array();
+                eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                $tagText .= implode( '', $textElements );
             }break;
 
             // normal content tags
@@ -389,8 +404,9 @@ class eZXMLTextType extends eZDataType
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
-                eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );
-                $tagText .= $text;
+                $textElements = array();
+                eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                $tagText .= implode( '', $textElements );
             }break;
 
             case 'link' :
@@ -407,8 +423,8 @@ class eZXMLTextType extends eZDataType
 
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
-                eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, 'foo', 'xmltagns' );
-                $tagText .= $text;
+                eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                $tagText .= implode( '', $textElements );
             }break;
             default :
             {
