@@ -457,21 +457,56 @@ class eZContentObject extends eZPersistentObject
 
         if ( !isset( $eZContentObjectContentObjectCache[$id] ) and $asObject )
         {
-            $obj =& eZPersistentObject::fetchObject( eZContentObject::definition(),
-                                                     array( 'id',
-                                                            'parent_id',
-                                                            'section_id',
-                                                            'owner_id',
-                                                            'contentclass_id',
-                                                            'is_published',
-                                                            'published',
-                                                            'modified',
-                                                            'current_version',
-                                                            'remote_id'
-                                                            ),
-                                                     array( 'id' => $id ),
-                                                     $asObject );
-            $eZContentObjectContentObjectCache[$id] =& $obj;
+            $language = eZContentObject::defaultLanguage();
+
+            $useVersionName = true;
+            if ( $useVersionName )
+            {
+                $versionNameTables = ', ezcontentobject_name ';
+                $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
+
+                $ini =& eZINI::instance();
+                if ( $lang == false )
+                {
+                    $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+                }
+
+                $versionNameJoins = " and  ezcontentobject.id = ezcontentobject_name.contentobject_id and
+                                  ezcontentobject.current_version = ezcontentobject_name.content_version and
+                                  ezcontentobject_name.content_translation = '$language' ";
+            }
+
+            $db =& eZDB::instance();
+
+            $query = "SELECT ezcontentobject.* $versionNameTargets
+                      FROM
+                         ezcontentobject
+                         $versionNameTables
+                      WHERE
+                         ezcontentobject.id='$id'
+                         $versionNameJoins";
+
+            $resArray =& $db->arrayQuery( $query );
+
+
+            if ( count( $resArray ) == 1 )
+            {
+                $objectArray =& $resArray[0];
+            }
+            else
+                eZDebug::writeError( 'Object not found', 'eZContentObject::fetch()' );
+
+            if ( $asObject )
+            {
+                $obj = new eZContentObject( $objectArray );
+                $obj->CurrentLanguage = $objectArray['real_translation'];
+                $eZContentObjectContentObjectCache[$id] =& $obj;
+            }
+            else
+            {
+                return $objectArray;
+            }
+
             return $obj;
         }
         else
@@ -1099,7 +1134,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &relatedContentObjectArray( $version = false, $objectID = false )
     {
-        eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $objectID, "objectID1111" );
+        eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $objectID, "objectID" );
         if ( $version == false )
             $version = $this->CurrentVersion;
         if( ! $objectID )
@@ -1107,19 +1142,45 @@ class eZContentObject extends eZPersistentObject
             $objectID = $this->ID;
         }
         $db =& eZDB::instance();
+
+        $language = eZContentObject::defaultLanguage();
+
+        $useVersionName = true;
+        if ( $useVersionName )
+        {
+            $versionNameTables = ', ezcontentobject_name ';
+            $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
+
+            $ini =& eZINI::instance();
+            if ( $lang == false )
+            {
+                $lang = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+            }
+
+            $versionNameJoins = " and  ezcontentobject.id = ezcontentobject_name.contentobject_id and
+                                  ezcontentobject.current_version = ezcontentobject_name.content_version and
+                                  ezcontentobject_name.content_translation = '$language' ";
+        }
+
         $relatedObjects =& $db->arrayQuery( "SELECT
-					       ezcontentobject.*
+					       ezcontentobject.* $versionNameTargets
 					     FROM
-					       ezcontentobject, ezcontentobject_link
+					       ezcontentobject,
+                           ezcontentobject_link
+                           $versionNameTables
 					     WHERE
 					       ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
 					       ezcontentobject_link.from_contentobject_id='$objectID' AND
-					       ezcontentobject_link.from_contentobject_version='$version'" );
+					       ezcontentobject_link.from_contentobject_version='$version'
+                           $versionNameJoins;;" );
 
         $return = array();
         foreach ( $relatedObjects as $object )
         {
-            $return[] = new eZContentObject( $object );
+            $obj = new eZContentObject( $object );
+            $obj->CurrentLanguage = $object['real_translation'];
+
+            $return[] = $obj;
         }
         return $return;
     }
@@ -1157,7 +1218,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &contentObjectListRelatingThis( $version = false, $objectID = false )
     {
-        eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $objectID, "objectID1111" );
+        eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $objectID, "objectID" );
         if ( $version == false )
             $version = $this->CurrentVersion;
         if( ! $objectID )
