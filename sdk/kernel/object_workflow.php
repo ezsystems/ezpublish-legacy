@@ -37,5 +37,44 @@
 <p>
 
 </p>
-
 <h2>Worflows</h2>
+
+<h4> Class diagram </h4>
+<img src="/doc/design/uml/workflows.png" /><br/>
+<h4> State diagram </h4>
+<img src="/doc/design/uml/workflows_state.png" /><br/>
+
+<h4> Database diagram </h4>
+<img src="/doc/images/workflows_db.png" /><br/>
+
+
+Workflows are triggerd by runTrigger function.
+The code may look like: (like I imagine in 'content/edit.php')
+<pre class="example">
+if ( $Module->isCurrentAction( 'publish' ) )
+{
+    $workflowParameters = array( 'contentobject' => $object,
+                                 'session' => $currentSession,
+                                 'user' => $currentUser
+                                 );
+    if ( eZTrigger::runTrigger( 'content', 'publish', 'before' , $workflowParameters) == 'done' )
+    {
+        $object->publish();
+        eZTrigger::runTrigger( 'content', 'publish', 'after', $workflowParameters);
+    }
+}
+</pre>
+
+Here is how the runTrigger function should work:<br/>
+
+ 1. try to look is there worflow connected to that function <br/>
+ 2. look if there is already  started workflow process for the same event.<br/>
+ 3. If so start the next event<br/>
+ 4. if not  create new workflow process and start it<br/>
+
+ If to look to the publish process. Multiplesor workflow looks to parameters and decide what workflow to run next if need it. And shows user a page saying that object is sended for aproval or smth. like that.
+<h4>Example of Publish workflow </h4>
+<img src="/doc/images/publish.png" />
+
+<h4>Example of Checkout workflow </h4>
+<img src="/doc/images/checkout.png" />
