@@ -315,13 +315,6 @@ class eZDate
         return $str;
     }
 
-    /*!
-     \return the timestamp of the date
-    */
-    function &timeStamp()
-    {
-        return $this->Date;
-    }
 
     /// Locale object, is just a reference to minimize memory usage.
     var $Locale;
