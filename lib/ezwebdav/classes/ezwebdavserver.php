@@ -115,11 +115,21 @@ function eZWebDavAppendToLog( $logString )
 {
     if ( !eZWebDavCheckLogSetting() )
         return false;
+        $varDir = 'var';
 
-    $logFile  = fopen( "/tmp/webdavlog.txt", "a" );
+    $logDir = 'log';
+    $logName = 'webdav.log';
+    $fileName = $varDir . '/' . $logDir . '/' . $logName;
+    if ( !file_exists( $varDir . '/' . $logDir ) )
+    {
+        include_once( 'lib/ezutils/classes/ezdir.php' );
+        eZDir::mkdir( $varDir . '/' . $logDir, 0775, true );
+    }
+
+    $logFile  = fopen( $fileName, 'a' );
     $nowTime = date( "Y-m-d H:i:s : " );
-    fwrite( $logFile, $nowTime . $logString . "\n" );
-    fclose( $logFile );
+    fwrite( $fileName, $nowTime . $logString . "\n" );
+    fclose( $fileName );
 }
 
 
