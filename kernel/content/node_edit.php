@@ -233,12 +233,13 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 
         $http->setSessionVariable( 'BrowseFromPage', $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion ) ) );
         $http->setSessionVariable( 'BrowseActionName', 'MoveNodeAssignment' );
-         $http->setSessionVariable( 'FromNodeID', $fromNodeID );
+        $http->setSessionVariable( 'FromNodeID', $fromNodeID );
         $http->setSessionVariable( 'BrowseReturnType', 'NodeID' );
+        $http->setSessionVariable( 'BrowseSelectionType', 'Single' );
         $mainParentID = $version->attribute( 'main_parent_node_id' );
-         eZDebug::writeDebug($mainParentID,"WWWWWWWWWWWW");
+        eZDebug::writeDebug($mainParentID,"WWWWWWWWWWWW");
         $node = eZContentObjectTreeNode::fetch( $mainParentID );
-          eZDebug::writeDebug($node,"WWWWWWWWWWWW");
+        eZDebug::writeDebug($node,"WWWWWWWWWWWW");
         $nodePath =  $node->attribute( 'path' );
         $rootNodeForObject = $nodePath[0];
         if ( $rootNodeForObject != null )

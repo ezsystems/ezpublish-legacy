@@ -30,12 +30,27 @@
 	{$main_node.name}
 	</td>
 	<td class="bglight">
+	
 	{switch name=sw match=$return_type}
 	  {case match='NodeID'}
-	  <input type="checkbox" name="SelectedNodeIDArray[]" value="{$main_node.node_id}" />
+          {switch name=sw match=$selection_type}
+	      {case match='Single'}
+              <input type="radio" name="SelectedNodeIDArray[]" value="{$main_node.node_id}" />
+              {/case}
+	      {case}
+	      <input type="checkbox" name="SelectedNodeIDArray[]" value="{$main_node.node_id}" />
+	      {/case}
+	  {/switch}
 	  {/case}
 	  {case}
-          <input type="checkbox" name="SelectedObjectIDArray[]" value="{$main_node.contentobject_id}" />
+          {switch name=sw match=$selection_type}
+	      {case match='Single'}
+              <input type="radio" name="SelectedObjectIDArray[]" value="{$main_node.contentobject_id}" />
+              {/case}
+	      {case}
+              <input type="checkbox" name="SelectedObjectIDArray[]" value="{$main_node.contentobject_id}" />
+	      {/case}
+	  {/switch}
 	  {/case}
 	{/switch}
 	</td>
@@ -55,10 +70,24 @@
 	<td class="{$Object:sequence}">
 	{switch name=sw match=$return_type}
 	  {case match='NodeID'}
-	  <input type="checkbox" name="SelectedNodeIDArray[]" value="{$Object:item.node_id}" />
+          {switch name=sw match=$selection_type}
+	      {case match='Single'}
+              <input type="radio" name="SelectedNodeIDArray[]" value="{$Object:item.node_id}" />
+              {/case}
+	      {case}
+	      <input type="checkbox" name="SelectedNodeIDArray[]" value="{$Object:item.node_id}" />
+	      {/case}
+	  {/switch}
 	  {/case}
 	  {case}
-          <input type="checkbox" name="SelectedObjectIDArray[]" value="{$Object:item.contentobject_id}" />
+          {switch name=sw match=$selection_type}
+	      {case match='Single'}
+              <input type="radio" name="SelectedObjectIDArray[]" value="{$Object:item.contentobject_id}" />
+              {/case}
+	      {case}
+              <input type="checkbox" name="SelectedObjectIDArray[]" value="{$Object:item.contentobject_id}" />
+	      {/case}
+	  {/switch}
 	  {/case}
 	{/switch}
 	</td>

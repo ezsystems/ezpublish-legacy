@@ -57,6 +57,7 @@ $returnURL = $http->sessionVariable( "BrowseFromPage" );
 $browseActionName = $http->sessionVariable( "BrowseActionName" );
 $customActionButton = $http->sessionVariable( "CustomActionButton" );
 $returnType = $http->sessionVariable( "BrowseReturnType" );
+$browseSelectionType = $http->sessionVariable( "BrowseSelectionType" );
 
 $node =& eZContentObjectTreeNode::fetch( $NodeID );
 
@@ -80,6 +81,7 @@ $tpl->setVariable( "main_node", $node );
 $tpl->setVariable( "return_url", $returnURL );
 $tpl->setVariable( "browse_action_name", $browseActionName );
 $tpl->setVariable( "custom_action_button", $customActionButton );
+$tpl->setVariable( "selection_type", $browseSelectionType );
 
 $tpl->setVariable( "return_type", $returnType );
 
