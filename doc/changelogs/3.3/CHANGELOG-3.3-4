@@ -84,6 +84,8 @@ Changes from 3.3-3 to 3.3-4
 - Made sure the image system works even if a reference of an alias does not exist,
   the system will fallback to the original alias with an error message.
   http://ez.no/community/bug_reports/bug_with_images_if_reference_is_a_invallid_alias
+- Made sure the image is checked for validity before fetching the specified alias.
+  http://ez.no/community/bug_reports/potential_error_in_standard_ezimage_tpl
 
 *Library:
 
