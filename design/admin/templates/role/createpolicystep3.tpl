@@ -69,7 +69,7 @@
 {section show=$function_limitations|count|gt(1)}
 <div class="element">
 {/section}
-<label>{$Limitations:item.name}:</label>
+<label>{$Limitations:item.name|wash}:</label>
 <select name="{$Limitations:item.name}[]" size="8" multiple="multiple" >
 <option value="-1" {switch match=$current_limitation_list[$Limitations:item.name]}
 {case match=-1} selected="selected"{/case}{case}{/case}{/switch}>{'Any'|i18n( 'design/admin/role/createpolicystep3' )}</option>
@@ -103,7 +103,7 @@
 {section var=Nodes loop=$node_list sequence=array( bglight, bgdark )}
 <tr class="{$Nodes.sequence}">
 <td><input type="checkbox" name="DeleteNodeIDArray[]" value="{$Nodes.item.node_id}" /></td>
-<td>{$Nodes.item.name}</td>
+<td>{$Nodes.item.name|wash}</td>
 </tr>
 {/section}
 </table>
@@ -137,7 +137,7 @@
 {section var=Subtrees loop=$subtree_list sequence=array( bglight, bgdark )}
 <tr class="{$Subtrees.sequence}">
 <td><input type="checkbox" name="DeleteSubtreeIDArray[]" value="{$Subtrees.item.node_id}" /></td>
-<td>{$Subtrees.item.name}</td>
+<td>{$Subtrees.item.name|wash}</td>
 </tr>
 {/section}
 </table>

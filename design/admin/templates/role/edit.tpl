@@ -65,7 +65,7 @@
             {section var=Limitations loop=$Policies.item.limitations}
                 {$Limitations.item.identifier}(
                     {section var=LimitationValues loop=$Limitations.item.values_as_array_with_names}
-                        {$LimitationValues.item.Name}
+                        {$LimitationValues.item.Name|wash}
                         {delimiter}, {/delimiter}
                     {/section})
                    {delimiter}, {/delimiter}
