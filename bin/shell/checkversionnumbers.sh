@@ -216,6 +216,56 @@ if [ $? -ne 0 ]; then
     check_common_version_development ""
 fi
 
+# kernel/classes/ezpackage.php
+
+function package_check_version
+{
+    if ! grep "define( 'EZ_PACKAGE_VERSION', '$VERSION' );" kernel/classes/ezpackage.php &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong version number in `$SETCOLOR_EXE`kernel/classes/ezpackage.php`$SETCOLOR_NORMAL` for variable EZ_PACKAGE_VERSION"
+	    echo "Should be:"
+	    echo "define( 'EZ_PACKAGE_VERSION', '`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`' );"
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
+function package_check_version_development
+{
+    if ! grep "define( 'EZ_PACKAGE_DEVELOPMENT', $DEVELOPMENT );" kernel/classes/ezpackage.php &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Setting mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong setting in `$SETCOLOR_EXE`kernel/classes/ezpackage.php`$SETCOLOR_NORMAL` for variable EZ_PACKAGE_DEVELOPMENT"
+	    echo "Should be:"
+	    echo "define( 'EZ_PACKAGE_DEVELOPMENT', `$SETCOLOR_EMPHASIZE`$DEVELOPMENT`$SETCOLOR_NORMAL` );"
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
+package_check_version "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i "s/^define( 'EZ_PACKAGE_VERSION', '[^']*' *)/define( 'EZ_PACKAGE_VERSION', '$VERSION' )/" kernel/classes/ezpackage.php
+    package_check_version ""
+fi
+
+package_check_version_development "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i "s/^define( 'EZ_PACKAGE_DEVELOPMENT',[^)]*)/define( 'EZ_PACKAGE_DEVELOPMENT', $DEVELOPMENT )/" kernel/classes/ezpackage.php
+    package_check_version_development ""
+fi
+
 # lib/version.php
 
 function lib_check_version_major
@@ -310,31 +360,31 @@ function lib_check_version_development
 
 lib_check_version_major "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i 's/^define( "EZ_SDK_VERSION_MAJOR", *[0-9][0-9]* *)/define( \"EZ_SDK_VERSION_MAJOR\", '$MAJOR' )/' lib/version.php
+    sed -i "s/^define( \"EZ_SDK_VERSION_MAJOR\", *[0-9][0-9]* *)/define( \"EZ_SDK_VERSION_MAJOR\", '$MAJOR' )/" lib/version.php
     lib_check_version_major ""
 fi
 
 lib_check_version_minor "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i 's/^define( "EZ_SDK_VERSION_MINOR", *[0-9][0-9]* *)/define( \"EZ_SDK_VERSION_MINOR\", '$MINOR' )/' lib/version.php
+    sed -i "s/^define( \"EZ_SDK_VERSION_MINOR\", *[0-9][0-9]* *)/define( \"EZ_SDK_VERSION_MINOR\", '$MINOR' )/" lib/version.php
     lib_check_version_minor ""
 fi
 
 lib_check_version_release "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i 's/^define( "EZ_SDK_VERSION_RELEASE", *[0-9][0-9]* *)/define( \"EZ_SDK_VERSION_RELEASE\", '$RELEASE' )/' lib/version.php
+    sed -i "s/^define( \"EZ_SDK_VERSION_RELEASE\", *[0-9][0-9]* *)/define( \"EZ_SDK_VERSION_RELEASE\", '$RELEASE' )/" lib/version.php
     lib_check_version_release ""
 fi
 
 lib_check_version_state "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i 's/^define( "EZ_SDK_VERSION_STATE", *'"'"'[^'"'"']*'"'"' *)/define( "EZ_SDK_VERSION_STATE", '"'"$STATE"'"' )/' lib/version.php
+    sed -i "s/^define( \"EZ_SDK_VERSION_STATE\", *'[^']*' *)/define( \"EZ_SDK_VERSION_STATE\", '$STATE' )/" lib/version.php
     lib_check_version_state ""
 fi
 
 lib_check_version_development "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i 's/^define( "EZ_SDK_VERSION_DEVELOPMENT", *[a-zA-Z][a-zA-Z]* *)/define( "EZ_SDK_VERSION_DEVELOPMENT", '$DEVELOPMENT' )/' lib/version.php
+    sed -i "s/^define( \"EZ_SDK_VERSION_DEVELOPMENT\", *[a-zA-Z][a-zA-Z]* *)/define( \"EZ_SDK_VERSION_DEVELOPMENT\", '$DEVELOPMENT' )/" lib/version.php
     lib_check_version_development ""
 fi
 
