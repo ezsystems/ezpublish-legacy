@@ -52,7 +52,7 @@ $Params['TemplateObject'] =& $tpl;
 
 // Create new user object if user is not logged in
 $user =& eZUser::currentUser();
-if ( !$user->isLoggedIn() and !$http->hasSessionVariable( "RegisterUserID" ) )
+if ( !$http->hasSessionVariable( "RegisterUserID" ) )
 {
     $ini =& eZINI::instance();
 
@@ -84,10 +84,6 @@ if ( !$user->isLoggedIn() and !$http->hasSessionVariable( "RegisterUserID" ) )
 else if ( $http->hasSessionVariable( "RegisterUserID" ) )
 {
     $userID = $http->sessionVariable( "RegisterUserID" );
-}
-else
-{
-    $userID = $user->attribute( 'contentobject_id' );
 }
 
 
