@@ -43,11 +43,11 @@ $WorkflowGroupID = null;
 if ( isset( $Params["GroupID"] ) )
     $WorkflowGroupID =& $Params["GroupID"];
 
-include_once( 'lib/ezutils/classes/ezexecutionstack.php' );
-$execStack =& eZExecutionStack::instance();
-$execStack->clear();
-$execStack->addEntry( $Module->functionURI( 'list' ),
-                      $Module->attribute( 'name' ), 'list' );
+// include_once( 'lib/ezutils/classes/ezexecutionstack.php' );
+// $execStack =& eZExecutionStack::instance();
+// $execStack->clear();
+// $execStack->addEntry( $Module->functionURI( 'list' ),
+//                       $Module->attribute( 'name' ), 'list' );
 
 $http =& eZHTTPTool::instance();
 

@@ -58,6 +58,7 @@ class eZPHPCreator
         $this->FileResource = false;
         $this->Elements = array();
         $this->TextChunks = array();
+        $this->TemporaryCounter = 0;
     }
 
     function open()
@@ -93,13 +94,20 @@ class eZPHPCreator
         }
     }
 
-    function canRestore()
+    function canRestore( $timestamp = false )
     {
         $path = $this->PHPDir . '/' . $this->PHPFile;
-        return file_exists( $path );
+        $canRestore = file_exists( $path );
+        if ( $timestamp !== false and
+             $canRestore )
+        {
+            $cacheModifierTime = filemtime( $path );
+            $canRestore = ( $cacheModifierTime >= $timestamp );
+        }
+        return $canRestore;
     }
 
-    function restore( $variableDefinitions )
+    function &restore( $variableDefinitions )
     {
         $returnVariables = array();
         $path = $this->PHPDir . '/' . $this->PHPFile;
@@ -129,7 +137,7 @@ class eZPHPCreator
                 $element =& $this->Elements[$i];
                 if ( $element[0] == EZ_PHPCREATOR_VARIABLE )
                 {
-                    $this->writeVariable( $element );
+                    $this->writeVariable( $element[1], $element[2] );
                 }
                 else if ( $element[0] == EZ_PHPCREATOR_SPACE )
                 {
@@ -171,16 +179,15 @@ class eZPHPCreator
         $this->write( $text );
     }
 
-    function writeVariable( $element )
+    function writeVariable( $variableName, $variableValue )
     {
-        $text = '$' . $element[1] . ' = ';
-        $value = $element[2];
-        $text .= $this->variableText( $value, strlen( $text ) );
+        $text = '$' . $variableName . ' = ';
+        $text .= $this->variableText( $variableValue, strlen( $text ) );
         $text .= ";\n";
         $this->write( $text );
     }
 
-    function variableText( $value, $column )
+    function variableText( $value, $column, $iteration = 0 )
     {
         if ( is_bool( $value ) )
             $text = ( $value ? 'true' : 'false' );
@@ -201,69 +208,109 @@ class eZPHPCreator
             $text = $value;
         else if ( is_object( $value ) )
         {
-            $text = '';
-            if ( method_exists( $value, 'serializedata' ) )
+            if ( $iteration > 2 )
             {
-                $serializeData = $value->serializeData();
-                $className = $serializeData['class_name'];
-                $text = "new $className(";
+                $temporaryVariableName = $this->temporaryVariableName( 'obj' );
+                $this->writeVariable( $temporaryVariableName, $value );
+                $text = '$' . $temporaryVariableName;
+            }
+            else
+            {
+                $text = '';
+                if ( method_exists( $value, 'serializedata' ) )
+                {
+                    $serializeData = $value->serializeData();
+                    $className = $serializeData['class_name'];
+                    $text = "new $className(";
 
+                    $column += strlen( $text );
+                    $parameters = $serializeData['parameters'];
+                    $variables = $serializeData['variables'];
+
+                    $i = 0;
+                    foreach ( $parameters as $parameter )
+                    {
+                        if ( $i > 0 )
+                        {
+                            $text .= ",\n" . str_repeat( ' ', $column );
+                        }
+                        $variableName = $variables[$parameter];
+                        $variableValue = $value->$variableName;
+                        $keyText = " ";
+                        $text .= $keyText . eZPHPCreator::variableText( $variableValue, $column + strlen( $keyText  ), $iteration + 1 );
+                        ++$i;
+                    }
+                    if ( $i > 0 )
+                        $text .= ' ';
+
+                    $text .= ')';
+                }
+            }
+        }
+        else if ( is_array( $value ) )
+        {
+            if ( $iteration > 2 )
+            {
+                $temporaryVariableName = $this->temporaryVariableName( 'arr' );
+                $this->writeVariable( $temporaryVariableName, $value );
+                $text = '$' . $temporaryVariableName;
+            }
+            else
+            {
+                $text = 'array(';
                 $column += strlen( $text );
-                $parameters = $serializeData['parameters'];
-                $variables = $serializeData['variables'];
-
+                $valueKeys = array_keys( $value );
+                $isIndexed = true;
+                for ( $i = 0; $i < count( $valueKeys ); ++$i )
+                {
+                    if ( $i !== $valueKeys[$i] )
+                    {
+                        $isIndexed = false;
+                        break;
+                    }
+                }
                 $i = 0;
-                foreach ( $parameters as $parameter )
+                foreach ( $valueKeys as $key )
                 {
                     if ( $i > 0 )
                     {
                         $text .= ",\n" . str_repeat( ' ', $column );
                     }
-                    $variableName = $variables[$parameter];
-                    $variableValue = $value->$variableName;
-                    $keyText = " ";
-                    $text .= $keyText . eZPHPCreator::variableText( $variableValue, $column + strlen( $keyText  ) );
+                    $element =& $value[$key];
+                    $keyText = ' ';
+                    if ( !$isIndexed )
+                    {
+                        if ( is_int( $key ) )
+                            $keyText = $key;
+                        else
+                            $keyText = "\"" . str_replace( array( "\\",
+                                                                  "\"",
+                                                                  "\n" ),
+                                                           array( "\\\\",
+                                                                  "\\\"",
+                                                                  "\\n" ),
+                                                           $key ) . "\"";
+                        $keyText = " $keyText => ";
+                    }
+                    $text .= $keyText . eZPHPCreator::variableText( $element, $column + strlen( $keyText  ), $iteration + 1 );
                     ++$i;
                 }
                 if ( $i > 0 )
                     $text .= ' ';
-
                 $text .= ')';
             }
-        }
-        else if ( is_array( $value ) )
-        {
-            $text = 'array(';
-            $column += strlen( $text );
-            $i = 0;
-            foreach ( array_keys( $value ) as $key )
-            {
-                if ( $i > 0 )
-                {
-                    $text .= ",\n" . str_repeat( ' ', $column );
-                }
-                $element =& $value[$key];
-                if ( is_int( $key ) )
-                    $keyText = $key;
-                else
-                    $keyText = "\"" . str_replace( array( "\\",
-                                                          "\"",
-                                                          "\n" ),
-                                                   array( "\\\\",
-                                                          "\\\"",
-                                                          "\\n" ),
-                                                   $key ) . "\"";
-                $keyText = " $keyText => ";
-                $text .= $keyText . eZPHPCreator::variableText( $element, $column + strlen( $keyText  ) );
-                ++$i;
-            }
-            if ( $i > 0 )
-                $text .= ' ';
-            $text .= ')';
         }
         else
             $text = 'null';
         return $text;
+    }
+
+    function temporaryVariableName( $prefix )
+    {
+        $temporaryCounter =& $this->TemporaryCounter;
+        $variableName = $prefix . '_' . $temporaryCounter;
+        ++$temporaryCounter;
+        return $variableName;
     }
 
     function addVariable( $name, $value )

@@ -43,10 +43,10 @@ if ( isset( $Params["WorkflowGroupID"] ) )
 else
     $WorkflowGroupID = false;
 
-include_once( "lib/ezutils/classes/ezexecutionstack.php" );
-$execStack =& eZExecutionStack::instance();
-$execStack->addEntry( $Module->functionURI( "groupedit" ) . "/" . $WorkflowGroupID,
-                      $Module->attribute( "name" ), "groupedit" );
+// include_once( "lib/ezutils/classes/ezexecutionstack.php" );
+// $execStack =& eZExecutionStack::instance();
+// $execStack->addEntry( $Module->functionURI( "groupedit" ) . "/" . $WorkflowGroupID,
+//                       $Module->attribute( "name" ), "groupedit" );
 
 if ( is_numeric( $WorkflowGroupID ) )
 {

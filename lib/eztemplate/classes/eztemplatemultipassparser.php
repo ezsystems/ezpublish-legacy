@@ -562,8 +562,15 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                     $attr_pos = $ident_pos;
                     unset( $args );
                     $args = array();
+                    $lastPosition = false;
                     while ( $attr_pos < $text_len )
                     {
+                        if ( $lastPosition !== false and
+                             $lastPosition == $attr_pos )
+                        {
+                            break;
+                        }
+                        $lastPosition = $attr_pos;
                         $attr_pos_start = $this->ElementParser->whitespaceEndPos( $tpl, $text, $attr_pos, $text_len );
                         if ( $attr_pos_start == $attr_pos and
                              $attr_pos_start < $text_len )
@@ -582,7 +589,12 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         }
                         if ( $text[$attr_name_pos] != "=" )
                         {
-                            $tpl->error( "", "Invalid parameter characters in function '$tag': '" .
+                            $placement = $element['placement'];
+                            $startLine = $placement['start']['line'];
+                            $startColumn = $placement['start']['column'];
+                            $subText = substr( $text, 0, $attr_name_pos );
+                            $this->gotoEndPosition( $subText, $startLine, $startColumn, $currentLine, $currentColumn );
+                            $tpl->error( "parser error @ $relatedTemplateName:$currentLine" . "[$currentColumn]", "Invalid parameter characters in function '$tag': '" .
                                           substr( $text, $attr_name_pos )  . "'" );
                             break;
                         }

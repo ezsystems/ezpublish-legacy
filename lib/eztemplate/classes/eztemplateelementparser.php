@@ -43,42 +43,7 @@
 
 */
 
-define( "EZ_TEMPLATE_TYPE_VOID", 0 );
-define( "EZ_TEMPLATE_TYPE_STRING", 1 );
-define( "EZ_TEMPLATE_TYPE_NUMERIC", 2 );
-define( "EZ_TEMPLATE_TYPE_IDENTIFIER", 3 );
-define( "EZ_TEMPLATE_TYPE_VARIABLE", 4 );
-define( "EZ_TEMPLATE_TYPE_ATTRIBUTE", 5 );
-define( "EZ_TEMPLATE_TYPE_OPERATOR", 6 );
-
-define( "EZ_TEMPLATE_TYPE_STRING_BIT", (1 << (EZ_TEMPLATE_TYPE_STRING - 1)) );
-define( "EZ_TEMPLATE_TYPE_NUMERIC_BIT", (1 << (EZ_TEMPLATE_TYPE_NUMERIC - 1)) );
-define( "EZ_TEMPLATE_TYPE_IDENTIFIER_BIT", (1 << (EZ_TEMPLATE_TYPE_IDENTIFIER - 1)) );
-define( "EZ_TEMPLATE_TYPE_VARIABLE_BIT", (1 << (EZ_TEMPLATE_TYPE_VARIABLE - 1)) );
-define( "EZ_TEMPLATE_TYPE_ATTRIBUTE_BIT", (1 << (EZ_TEMPLATE_TYPE_ATTRIBUTE - 1)) );
-define( "EZ_TEMPLATE_TYPE_OPERATOR_BIT", (1 << (EZ_TEMPLATE_TYPE_OPERATOR - 1)) );
-
-define( "EZ_TEMPLATE_TYPE_NONE", 0 );
-
-define( "EZ_TEMPLATE_TYPE_ALL", (EZ_TEMPLATE_TYPE_STRING_BIT |
-                                 EZ_TEMPLATE_TYPE_NUMERIC_BIT |
-                                 EZ_TEMPLATE_TYPE_IDENTIFIER_BIT |
-                                 EZ_TEMPLATE_TYPE_VARIABLE_BIT |
-                                 EZ_TEMPLATE_TYPE_ATTRIBUTE_BIT |
-                                 EZ_TEMPLATE_TYPE_OPERATOR_BIT ) );
-
-define( "EZ_TEMPLATE_TYPE_BASIC", (EZ_TEMPLATE_TYPE_STRING_BIT |
-                                   EZ_TEMPLATE_TYPE_NUMERIC_BIT |
-                                   EZ_TEMPLATE_TYPE_IDENTIFIER_BIT |
-                                   EZ_TEMPLATE_TYPE_VARIABLE_BIT |
-                                   EZ_TEMPLATE_TYPE_OPERATOR_BIT ) );
-
-define( "EZ_TEMPLATE_TYPE_MODIFIER_MASK", (EZ_TEMPLATE_TYPE_ATTRIBUTE_BIT |
-                                           EZ_TEMPLATE_TYPE_OPERATOR_BIT) );
-
-define( "EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL", 1 );
-define( "EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL", 2 );
-define( "EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE", 3 );
+include_once( 'lib/eztemplate/classes/eztemplate.php' );
 
 class eZTemplateElementParser
 {

@@ -55,10 +55,10 @@ if ( $process === null )
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http =& eZHTTPTool::instance();
 
-include_once( "lib/ezutils/classes/ezexecutionstack.php" );
-$execStack =& eZExecutionStack::instance();
-$execStack->addEntry( $Module->functionURI( "run" ) . "/" . $WorkflowProcessID,
-                      $Module->attribute( "name" ), "run" );
+// include_once( "lib/ezutils/classes/ezexecutionstack.php" );
+// $execStack =& eZExecutionStack::instance();
+// $execStack->addEntry( $Module->functionURI( "run" ) . "/" . $WorkflowProcessID,
+//                       $Module->attribute( "name" ), "run" );
 
 // Template handling
 include_once( "kernel/common/template.php" );

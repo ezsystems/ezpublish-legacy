@@ -115,7 +115,6 @@ class eZTemplateIncludeFunction
             next( $params );
         }
         eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, $rootNamespace, $name );
-//         return $text;
     }
 
     /*!
@@ -124,37 +123,7 @@ class eZTemplateIncludeFunction
     */
     function handleInclude( &$textElements, &$uri, &$tpl, $rootNamespace, $name )
     {
-        $canCache = true;
-        $resource =& $tpl->resourceFor( $uri, $resourceName, $templateName );
-        if ( !$resource->servesStaticData() )
-            $canCache = false;
-        $root = null;
-        $extraParameters = null;
-        if ( $canCache )
-            $root = $tpl->cachedTemplateTree( $uri, $extraParameters );
-//         $root = null;
-        if ( $root === null )
-        {
-            $extraParameters = false;
-            $res =& $tpl->loadURI( $uri, true, $extraParameters );
-            if ( $res )
-            {
-//                 $root = new eZTemplateRoot();
-                $root = array( EZ_TEMPLATE_NODE_ROOT, false );
-                $tpl_text =& $res["text"];
-                $tpl->setIncludeText( $uri, $tpl_text );
-                $tpl->parse( $tpl_text, $root, "", $res );
-                if ( $canCache )
-                    $tpl->setCachedTemplateTree( $uri, $extraParameters, $root );
-            }
-        }
-        if ( $root )
-        {
-            $sub_text = "";
-            $tpl->process( $root, $sub_text, $name, $name );
-            $tpl->setIncludeOutput( $uri, $sub_text );
-            $textElements[] = $sub_text;
-        }
+        $tpl->processURI( $uri, true, $extraParameters, $textElements, $name, $name );
     }
 
     /*!

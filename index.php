@@ -454,9 +454,9 @@ if ( $show_page_layout )
         $tpl->setVariable( "current_user", $currentUser );
         $tpl->setVariable( "anonymous_user_id", $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
 
-        include_once( "lib/ezutils/classes/ezexecutionstack.php" );
-        $execStack =& eZExecutionStack::instance();
-        $tpl->setVariable( "execution_entries", $execStack->entries() );
+//         include_once( "lib/ezutils/classes/ezexecutionstack.php" );
+//         $execStack =& eZExecutionStack::instance();
+//         $tpl->setVariable( "execution_entries", $execStack->entries() );
 
         $tpl->setVariable( "access_type", $access );
 

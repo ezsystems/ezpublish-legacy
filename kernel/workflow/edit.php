@@ -72,10 +72,10 @@ switch ( $Params["FunctionName"] )
     }
 }
 
-include_once( "lib/ezutils/classes/ezexecutionstack.php" );
-$execStack =& eZExecutionStack::instance();
-$execStack->addEntry( $Module->functionURI( "edit" ) . "/" . $WorkflowID,
-                      $Module->attribute( "name" ), "edit" );
+// include_once( "lib/ezutils/classes/ezexecutionstack.php" );
+// $execStack =& eZExecutionStack::instance();
+// $execStack->addEntry( $Module->functionURI( "edit" ) . "/" . $WorkflowID,
+//                       $Module->attribute( "name" ), "edit" );
 
 if ( is_numeric( $WorkflowID ) )
 {
@@ -120,10 +120,10 @@ if ( $http->hasPostVariable( "DiscardButton" ) )
     $workflow->setVersion( 1 );
     $workflow->remove( true );
     eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, $WorkflowVersion );
-    include_once( "lib/ezutils/classes/ezexecutionstack.php" );
-    $execStack =& eZExecutionStack::instance();
-    $execStack->pop();
-    $uri = $execStack->peek( "uri" );
+//     include_once( "lib/ezutils/classes/ezexecutionstack.php" );
+//     $execStack =& eZExecutionStack::instance();
+//     $execStack->pop();
+//     $uri = $execStack->peek( "uri" );
     $Module->redirectTo( $Module->functionURI( "grouplist" ) );
     return;
 }
@@ -225,10 +225,10 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
     $workflow->setVersion( 0, $event_list );
     $workflow->adjustEventPlacements( $event_list );
     $workflow->store( $event_list );
-    include_once( "lib/ezutils/classes/ezexecutionstack.php" );
-    $execStack =& eZExecutionStack::instance();
-    $execStack->pop();
-    $uri = $execStack->peek( "uri" );
+//     include_once( "lib/ezutils/classes/ezexecutionstack.php" );
+//     $execStack =& eZExecutionStack::instance();
+//     $execStack->pop();
+//     $uri = $execStack->peek( "uri" );
     $Module->redirectTo( $Module->functionURI( "grouplist" ) );
     return;
 }
@@ -236,7 +236,7 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
 // Remove events which are to be deleted
 if ( $http->hasPostVariable( "DeleteButton" ) )
 {
-    $http->setSessionVariable( "ExecutionStack", $executions );
+//     $http->setSessionVariable( "ExecutionStack", $executions );
     if ( eZHttpPersistence::splitSelected( "WorkflowEvent", $event_list,
                                            $http, "id",
                                            $keepers, $rejects ) )

@@ -21,3 +21,8 @@ eZ template:
 - Better namespace handling, it's now possible to specify a global namespace by adding a # to the start
   of the namespace or a relative one by adding a : to the start of the namespace.
 - Attribute lookup of operator result are now possible.
+- Reworked the template loading functions to make it easier to support caching.
+- Finished the template tree caching and add site.ini setting for turning it on and off.
+
+eZ executionstack:
+- Removed. It no longer had any use as it was.

@@ -125,8 +125,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
      Loads the template file if it exists, also sets the modification timestamp.
      Returns true if the file exists.
     */
-    function handleResource( &$tpl, &$text, &$tstamp, &$path, $method, &$extraParameters )
+    function handleResource( &$tpl, &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData, $method, &$extraParameters )
     {
+//         eZDebug::writeDebug( "design:handleResource( tpl=$tpl, templateRoot=$templateRoot, text=$text, tstamp=$tstamp, uri=$uri, resourceName=$resourceName, path=$path, keyData=$keyData, method=$method, extraParameters=$extraParameters )" );
         $matches = $this->fileMatchingRules( 'templates', $path );
 
         $matchKeys = $this->Keys;
@@ -154,31 +155,33 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $extraParameters['ezdesign:matched_keys'] = $matchedKeys;
         $tpl->setVariable( 'used', $usedKeys, 'DesignKeys' );
         $tpl->setVariable( 'matched', $matchedKeys, 'DesignKeys' );
-        return eZTemplateFileResource::handleResource( $tpl, $text, $tstamp, $file, $method, $extraParameters );
+        $result = eZTemplateFileResource::handleResourceData( $tpl, $this, $templateRoot, $text, $tstamp, $uri, $resourceName, $file, $keyData, $method, $extraParameters );
+//         eZDebug::writeDebug( "done with design:handleResource( tpl=$tpl, templateRoot=$templateRoot, text=$text, tstamp=$tstamp, uri=$uri, resourceName=$resourceName, path=$path, keyData=$keyData, method=$method, extraParameters=$extraParameters )=$result" );
+        return $result;
     }
 
-    function cacheKey( $uri, $res, $templatePath, &$extraParameters )
-    {
-        $matches = $this->fileMatchingRules( 'templates', $templatePath );
+//     function cacheKey( $uri, $res, $templatePath, &$extraParameters )
+//     {
+//         $matches = $this->fileMatchingRules( 'templates', $templatePath );
 
-        $matchKeys = $this->Keys;
-        $matchedKeys = array();
+//         $matchKeys = $this->Keys;
+//         $matchedKeys = array();
 
-        if ( is_array( $extraParameters ) and
-             isset( $extraParameters['ezdesign:keys'] ) )
-        {
-            $this->mergeKeys( $matchKeys, $extraParameters['ezdesign:keys'] );
-        }
+//         if ( is_array( $extraParameters ) and
+//              isset( $extraParameters['ezdesign:keys'] ) )
+//         {
+//             $this->mergeKeys( $matchKeys, $extraParameters['ezdesign:keys'] );
+//         }
 
-        include_once( 'kernel/common/ezoverride.php' );
-        $match = eZOverride::selectFile( $matches, $matchKeys, $matchedKeys, "#^(.+)/(.+)(\.tpl)$#" );
-        if ( $match === null )
-            return false;
+//         include_once( 'kernel/common/ezoverride.php' );
+//         $match = eZOverride::selectFile( $matches, $matchKeys, $matchedKeys, "#^(.+)/(.+)(\.tpl)$#" );
+//         if ( $match === null )
+//             return false;
 
-        $file = $match["file"];
-        $key = md5( $file );
-        return $key;
-    }
+//         $file = $match["file"];
+//         $key = md5( $file );
+//         return $key;
+//     }
 
     /*!
      Sets the override keys to \a $keys, if some of the keys already exists they are overriden

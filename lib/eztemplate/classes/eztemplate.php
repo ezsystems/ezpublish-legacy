@@ -250,6 +250,43 @@ define( "EZ_TEMPLATE_NODE_VARIABLE", 3 );
 define( "EZ_TEMPLATE_NODE_FUNCTION", 4 );
 define( "EZ_TEMPLATE_NODE_OPERATOR", 5 );
 
+define( "EZ_TEMPLATE_TYPE_VOID", 0 );
+define( "EZ_TEMPLATE_TYPE_STRING", 1 );
+define( "EZ_TEMPLATE_TYPE_NUMERIC", 2 );
+define( "EZ_TEMPLATE_TYPE_IDENTIFIER", 3 );
+define( "EZ_TEMPLATE_TYPE_VARIABLE", 4 );
+define( "EZ_TEMPLATE_TYPE_ATTRIBUTE", 5 );
+define( "EZ_TEMPLATE_TYPE_OPERATOR", 6 );
+
+define( "EZ_TEMPLATE_TYPE_STRING_BIT", (1 << (EZ_TEMPLATE_TYPE_STRING - 1)) );
+define( "EZ_TEMPLATE_TYPE_NUMERIC_BIT", (1 << (EZ_TEMPLATE_TYPE_NUMERIC - 1)) );
+define( "EZ_TEMPLATE_TYPE_IDENTIFIER_BIT", (1 << (EZ_TEMPLATE_TYPE_IDENTIFIER - 1)) );
+define( "EZ_TEMPLATE_TYPE_VARIABLE_BIT", (1 << (EZ_TEMPLATE_TYPE_VARIABLE - 1)) );
+define( "EZ_TEMPLATE_TYPE_ATTRIBUTE_BIT", (1 << (EZ_TEMPLATE_TYPE_ATTRIBUTE - 1)) );
+define( "EZ_TEMPLATE_TYPE_OPERATOR_BIT", (1 << (EZ_TEMPLATE_TYPE_OPERATOR - 1)) );
+
+define( "EZ_TEMPLATE_TYPE_NONE", 0 );
+
+define( "EZ_TEMPLATE_TYPE_ALL", (EZ_TEMPLATE_TYPE_STRING_BIT |
+                                 EZ_TEMPLATE_TYPE_NUMERIC_BIT |
+                                 EZ_TEMPLATE_TYPE_IDENTIFIER_BIT |
+                                 EZ_TEMPLATE_TYPE_VARIABLE_BIT |
+                                 EZ_TEMPLATE_TYPE_ATTRIBUTE_BIT |
+                                 EZ_TEMPLATE_TYPE_OPERATOR_BIT ) );
+
+define( "EZ_TEMPLATE_TYPE_BASIC", (EZ_TEMPLATE_TYPE_STRING_BIT |
+                                   EZ_TEMPLATE_TYPE_NUMERIC_BIT |
+                                   EZ_TEMPLATE_TYPE_IDENTIFIER_BIT |
+                                   EZ_TEMPLATE_TYPE_VARIABLE_BIT |
+                                   EZ_TEMPLATE_TYPE_OPERATOR_BIT ) );
+
+define( "EZ_TEMPLATE_TYPE_MODIFIER_MASK", (EZ_TEMPLATE_TYPE_ATTRIBUTE_BIT |
+                                           EZ_TEMPLATE_TYPE_OPERATOR_BIT) );
+
+define( "EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL", 1 );
+define( "EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL", 2 );
+define( "EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE", 3 );
+
 define( "EZ_TEMPLATE_DEBUG_INTERNALS", false );
 
 class eZTemplate
@@ -260,7 +297,6 @@ class eZTemplate
     */
     function eZTemplate()
     {
-//         $this->Tree = new eZTemplateRoot();
         $this->Tree = array( EZ_TEMPLATE_NODE_ROOT, false );
         $this->LDelim = "{";
         $this->RDelim = "}";
@@ -378,7 +414,6 @@ class eZTemplate
             if ( $this->ShowDetails )
                 eZDebug::addTimingPoint( "Process" );
             eZDebug::accumulatorStart( 'template_processing', 'template_total', 'Template processing' );
-//             $root->process( $this, $text, "", "" );
             $this->process( $root, $text, "", "" );
             eZDebug::accumulatorStop( 'template_processing' );
             if ( $this->ShowDetails )
@@ -430,7 +465,6 @@ class eZTemplate
         }
         else if ( $nodeType == EZ_TEMPLATE_NODE_FUNCTION )
         {
-//             eZDebug::writeDebug( $node, '$node' );
             $functionChildren = $node[1];
             $functionName = $node[2];
             $functionParameters = $node[3];
@@ -450,7 +484,6 @@ class eZTemplate
 
     function processFunction( $functionName, &$textElements, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
-//         eZDebug::writeDebug( $functionChildren, '$functionChildren' );
         $func =& $this->Functions[$functionName];
         if ( is_array( $func ) )
         {
@@ -466,8 +499,6 @@ class eZTemplate
         {
             $this->warning( "", "Function \"$functionName\" is not registered" );
         }
-//         $value = $this->elementValue( $variableData, $rootNamespace, $currentNamespace );
-//         return $this->elementText( $value, $rootNamespace, $currentNamespace );
     }
 
     /*!
@@ -475,29 +506,11 @@ class eZTemplate
     */
     function &load( $uri, $extraParameters = false )
     {
-        $canCache = true;
-        $resource =& $this->resourceFor( $uri, $resourceName, $templateName );
-        if ( !$resource->servesStaticData() )
-            $canCache = false;
-        $root = null;
-        if ( $canCache )
-            $root = $this->cachedTemplateTree( $uri, $extraParameters );
-        if ( $root === null )
-        {
-            $res =& $this->loadURI( $uri, true, $extraParameters );
-            $this->Text = "";
-            if ( $res )
-            {
-                $this->Text =& $res["text"];
-                $this->TimeStamp =& $res["time-stamp"];
-                $this->Tree = array( EZ_TEMPLATE_NODE_ROOT, false );
-                $this->parse( $this->Text, $this->Tree, "", $res );
-                $root =& $this->Tree;
-                if ( $canCache )
-                    $this->setCachedTemplateTree( $uri, $extraParameters, $this->Tree );
-            }
-        }
-        return $root;
+        $resourceData =& $this->loadURIRoot( $uri, true, $extraParameters );
+        if ( !$resourceData or
+             $resourceData['root-node'] === null )
+            return null;
+        return $resourceData['root-node'];
     }
 
     function parse( &$sourceText, &$rootElement, $rootNamespace, $relation )
@@ -507,6 +520,29 @@ class eZTemplate
         $parser->parse( $this, $sourceText, $rootElement, $rootNamespace, $relation );
     }
 
+    function &loadURIData( &$resourceObject, $uri, $resourceName, $template, &$extraParameters, $displayErrors = true )
+    {
+        $text = "";
+        $tstamp = null;
+        $result = false;
+        $templateRoot = null;
+        $keyData = null;
+        if ( $resourceObject->handleResource( $this, $templateRoot, $text, $tstamp, $uri, $resourceName, $template, $keyData, EZ_RESOURCE_FETCH, $extraParameters ) )
+        {
+            $result = array();
+            $result['text'] =& $text;
+            $result['root-node'] =& $templateRoot;
+            $result['time-stamp'] =& $tstamp;
+            $result['key-data'] =& $keyData;
+            $result['resource'] =& $resourceName;
+            $result['template_name'] =& $template;
+            $result['handler'] =& $resourceObject;
+        }
+        else if ( $displayErrors )
+            $this->warning( "", "No template could be loaded for \"$template\" using resource \"$resourceName\"" );
+        return $result;
+    }
+
     /*!
      Loads the template using the URI $uri and returns a structure with the text and timestamp,
      false otherwise.
@@ -514,7 +550,7 @@ class eZTemplate
      - "text", the text.
      - "time-stamp", the timestamp.
     */
-    function &loadURI( $uri, $displayErrors = true, &$extraParameters )
+    function &loadURIRoot( $uri, $displayErrors = true, &$extraParameters )
     {
         $res = "";
         $template = "";
@@ -522,66 +558,50 @@ class eZTemplate
         if ( !is_object( $resobj ) )
         {
             if ( $displayErrors )
-                $this->warning( "", "No resource for \"$res\" and no default resource, aborting." );
-            return;
+                $this->warning( "", "No resource handler for \"$res\" and no default resource handler, aborting." );
+            return null;
         }
-        $text = "";
-        $tstamp = null;
-        $result = false;
-        if ( $resobj->handleResource( $this, $text, $tstamp, $template, EZ_RESOURCE_FETCH, $extraParameters ) )
-        {
-            $result = array();
-            $result["text"] =& $text;
-            $result["time-stamp"] =& $tstamp;
-            $result["resource"] =& $res;
-            $result["template_name"] =& $template;
-        }
-        else if ( $displayErrors )
-            $this->warning( "", "No template could be loaded for \"$template\" using resource \"$res\"" );
-        return $result;
-    }
+        $canCache = true;
+        if ( !$resobj->servesStaticData() )
+            $canCache = false;
 
-    /*!
-     Tries to find a cached version of the uri \a $uri in template system.
-     If a cached template root exists for that uri there's no need to reload it
-     and reparse it.
-     \return the root or null if no root is cached.
-     \sa setCachedTemplateTree
-    */
-    function &cachedTemplateTree( $uri, &$extraParameters )
-    {
-        $res = "";
-        $template = "";
+        $resourceData = null;
         $root = null;
-        $resobj =& $this->resourceFor( $uri, $res, $template );
-        if ( !is_object( $resobj ) )
+
+        if ( $resourceData === null )
         {
-            if ( $displayErrors )
-                $this->warning( "", "No resource for \"$res\" and no default resource, aborting." );
-            return $root;
+            $resourceData =& $this->loadURIData( $resobj, $uri, $res, $template, $extraParameters, $displayErrors );
         }
-        $root =& $resobj->cachedTemplateTree( $uri, $res, $template, $root );
-//         if ( isset( $this->TemplateTrees[$uri] ) )
-//             $root = $this->TemplateTrees[$uri];
-        return $root;
+
+        if ( !$resourceData )
+            return null;
+        if ( $resourceData['root-node'] === null )
+        {
+            $root =& $resourceData['root-node'];
+            $root = array( EZ_TEMPLATE_NODE_ROOT, false );
+            $templateText =& $resourceData["text"];
+            $keyData = $resourceData['key-data'];
+            $this->setIncludeText( $uri, $templateText );
+            $rootNamespace = '';
+            $this->parse( $templateText, $root, $rootNamespace, $resourceData );
+            if ( $canCache )
+                $resobj->setCachedTemplateTree( $keyData, $uri, $res, $template, $extraParameters, $root );
+        }
+        return $resourceData;
     }
 
-    /*!
-     Sets the cached template tree for \a $uri to \a $root.
-    */
-    function setCachedTemplateTree( $uri, &$extraParameters, &$root )
+    function processURI( $uri, $displayErrors = true, &$extraParameters,
+                         &$textElements, $rootNamespace, $currentNamespace )
     {
-        $res = "";
-        $template = "";
-        $resobj =& $this->resourceFor( $uri, $res, $template );
-        if ( !is_object( $resobj ) )
-        {
-            if ( $displayErrors )
-                $this->warning( "setCachedTemplateTree", "No resource for \"$uri\" and no default resource, aborting." );
+        $resourceData =& $this->loadURIRoot( $uri, $displayErrors, $extraParameters );
+        if ( !$resourceData or
+             $resourceData['root-node'] === null )
             return;
-        }
-        $resobj->setCachedTemplateTree( $uri, $res, $template, $extraParameters, $root );
-//         $this->TemplateTrees[$uri] =& $root;
+        $root =& $resourceData['root-node'];
+        $text = null;
+        $this->process( $root, $text, $rootNamespace, $currentNamespace );
+        $this->setIncludeOutput( $uri, $text );
+        $textElements[] = $text;
     }
 
     /*!
@@ -610,32 +630,6 @@ class eZTemplate
         }
         return $resobj;
     }
-
-//     function setRelation( &$element, $relatedResource, $relatedTemplateName )
-//     {
-//         $this->setResourceRelation( $element, $relatedResource );
-//         $this->setTemplateNameRelation( $element, $relatedTemplateName );
-//     }
-
-//     function setResourceRelation( &$element, $relatedResource )
-//     {
-//         if ( method_exists( $element, "setResourceRelation" ) )
-//             $element->setResourceRelation( $relatedResource );
-// //         $relation_list =& $this->RelatedResources[$relatedResource];
-// //         if ( !is_array( $relation_list ) )
-// //             $relation_list = array();
-// //         $relation_list[] =& $element;
-//     }
-
-//     function setTemplateNameRelation( &$element, $relatedTemplateName )
-//     {
-//         if ( method_exists( $element, "setTemplateNameRelation" ) )
-//             $element->setTemplateNameRelation( $relatedTemplateName );
-// //         $relation_list =& $this->RelatedNames[$relatedTemplateName];
-// //         if ( !is_array( $relation_list ) )
-// //             $relation_list = array();
-// //         $relation_list[] =& $element;
-//     }
 
     function hasChildren( &$function, $functionName )
     {
@@ -801,20 +795,6 @@ class eZTemplate
                     return null;
                 }
             }
-//             $ops =& $dataElement["operators"];
-//             if ( count( $ops ) > 0 )
-//             {
-//                 reset( $ops );
-//                 while ( ( $key = key( $ops ) ) !== null )
-//                 {
-//                     $op =& $ops[$key];
-//                     unset( $tmp_value );
-//                     $tmp_value = $value;
-//                     $op->process( $this, $tmp_value, $rootNamespace, $rootNamespace );
-//                     $value =& $tmp_value;
-//                     next( $ops );
-//                 }
-//             }
         }
         return $value;
     }
