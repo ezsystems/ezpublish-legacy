@@ -55,7 +55,7 @@
             <form method="post" action={"content/action"|ezurl}>
                 <input type="hidden" name="ClassIdentifier" value="review" />
                 <input type="hidden" name="NodeID" value="{$node.node_id}" />
-                <input class="button" type="submit" name="NewButton" value="New review" />
+                <input class="button" type="submit" name="NewButton" value="{'New review'|i18n( 'design/base' )}" />
             </form>
         </div>
         {section-else}
