@@ -3,8 +3,8 @@ UPDATE ezsite_data SET value='6' WHERE name='ezpublish-release';
 -- incrementing size of 'sort_key_string' to 255 characters
 CREATE LOCAL TEMPORARY TABLE temp_sort_key_string
 (
-    id			integer NOT NULL,
-    sort_key_string	character varying(50) DEFAULT ''::character varying
+    id               integer NOT NULL,
+    sort_key_string  character varying(50) DEFAULT ''::character varying
 );
 
 INSERT INTO temp_sort_key_string SELECT id, sort_key_string FROM ezcontentobject_attribute;
