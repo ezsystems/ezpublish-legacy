@@ -75,7 +75,7 @@ if ( $module->isCurrentAction( 'NewOverride' ) )
         $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $http->postVariable( 'CurrentSiteAccess' ) );
     }
 
-    $module->redirectTo( '/design/templatecreate'. $template );
+    $module->redirectTo( '/visual/templatecreate'. $template );
     return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
 }
 

@@ -186,13 +186,13 @@ if ( $module->isCurrentAction( 'CreateOverride' ) )
 
     if ( $error == false )
     {
-        $module->redirectTo( '/design/templateview'. $template );
+        $module->redirectTo( '/visual/templateview'. $template );
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
 }
 else if( $module->isCurrentAction( 'CancelOverride' ) )
 {
-   $module->redirectTo( '/design/templateview'. $template );
+   $module->redirectTo( '/visual/templateview'. $template );
 }
 
 

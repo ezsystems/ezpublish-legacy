@@ -166,7 +166,7 @@ if ( $module->isCurrentAction( 'Save' ) )
             eZContentObject::expireAllCache();
         }
 
-        $module->redirectTo( '/design/templateview'. $originalTemplate );
+        $module->redirectTo( '/visual/templateview'. $originalTemplate );
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
 }
@@ -174,7 +174,7 @@ if ( $module->isCurrentAction( 'Save' ) )
 
 if ( $module->isCurrentAction( 'Discard' ) )
 {
-    $module->redirectTo( '/design/templateview'. $originalTemplate );
+    $module->redirectTo( '/visual/templateview'. $originalTemplate );
     return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
 }
 
