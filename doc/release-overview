@@ -63,3 +63,8 @@ Security fix 1:
 - Release url=http://zev.ez.no/svn/nextgen/releases/3.1-beta1 (2619)
 - Version url=http://zev.ez.no/svn/nextgen/versions/3.1.0-1 (2620)
 - Date 27-May-2003
+
+Datatype branch:
+- Branched from revision=2627
+- url=http://zev.ez.no/svn/nextgen/unstable/datatype-development-20030530 (2628)
+- Date 30-May-2003
