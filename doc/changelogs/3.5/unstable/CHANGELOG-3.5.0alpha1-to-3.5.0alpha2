@@ -52,8 +52,13 @@ Payment:
   in the setup wizard.
   (Merged from stable/3.4 (3.4.3) rev. 8497)
 - Fixed bug: popupmenu fails on objects with quotes in their names.
+- Fixed bug: Package export produces broken tars.
+  http://ez.no/community/bug_reports/package_export_broken_tars_eztararchivehandler_php
 
 *Library:
+
+eZFile:
+- Tar-handler can store paths longer 99 characters.
 
 eZDB:
 - Added new method relationMatchRegexp() to eZDBInterface,

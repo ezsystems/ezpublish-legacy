@@ -1,14 +1,14 @@
 <?php
 /* vim: set ts=4 sw=4: */
 // +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
+// | PHP Version 5                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2002 The PHP Group                                |
+// | Copyright (c) 1997-2004 The PHP Group                                |
 // +----------------------------------------------------------------------+
-// | This source file is subject to version 2.02 of the PHP license,      |
+// | This source file is subject to version 3.0 of the PHP license,       |
 // | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
-// | http://www.php.net/license/2_02.txt.                                 |
+// | available through the world-wide-web at the following url:           |
+// | http://www.php.net/license/3_0.txt.                                  |
 // | If you did not receive a copy of the PHP license and are unable to   |
 // | obtain it through the world-wide-web, please send a note to          |
 // | license@php.net so we can mail you a copy immediately.               |
@@ -16,7 +16,7 @@
 // | Author: Vincent Blavet <vincent@blavet.net>                          |
 // +----------------------------------------------------------------------+
 //
-// $Id: Tar.php,v 1.5 2002/02/28 08:27:05 sebastian Exp $
+// $Id: Tar.php,v 1.20 2004/01/08 17:33:09 sniper Exp $
 
 // require_once 'kernel/setup/PEAR.php';
 include_once( 'lib/ezfile/classes/ezarchivehandler.php' );
@@ -25,7 +25,7 @@ include_once( 'lib/ezfile/classes/ezarchivehandler.php' );
 * Creates a (compressed) Tar archive
 *
 * @author   Vincent Blavet <vincent@blavet.net>
-* @version  $Revision: 1.5 $
+* @version  $Revision: 1.20 $
 * @package  Archive
 */
 class eZTARArchiveHandler extends eZArchiveHandler
@@ -44,6 +44,10 @@ class eZTARArchiveHandler extends eZArchiveHandler
 //     * @var file descriptor
 //     */
 //     var $_file=0;
+    /**
+    * @var string Type of compression : 'none', 'gz' or 'bz2'
+    */
+    var $_compress_type='none';
 
     /**
     * @var string Local Tar name of a remote Tar (http:// or ftp://)
@@ -56,10 +60,13 @@ class eZTARArchiveHandler extends eZArchiveHandler
     * declare a new Archive_Tar object, identifying it by the name of the
     * tar file.
     * If the compress argument is set the tar will be read or created as a
-    * gzip compressed TAR file.
+    * gzip or bz2 compressed TAR file.
     *
     * @param    string  $p_tarname  The name of the tar archive to create
-    * @param    boolean $p_compress if true, the archive will be gezip(ped)
+    * @param    string  $p_compress can be null, 'gz' or 'bz2'. This
+    *                   parameter indicates if gzip or bz2 compression
+    *                   is required.  For compatibility reason the
+    *                   boolean value 'true' means 'gz'.
     * @access public
     */
     function eZTARArchiveHandler( &$fileHandler, $p_tarname, $p_compress = false )
@@ -158,7 +165,7 @@ class eZTARArchiveHandler extends eZArchiveHandler
         if ($this->_openRead()) {
             if (!$this->_extractList('', $v_list_detail, "list", '', '')) {
                 unset($v_list_detail);
-                return(0);
+                $v_list_detail = 0;
             }
             $this->_close();
         }
@@ -259,9 +266,6 @@ class eZTARArchiveHandler extends eZArchiveHandler
     * error text is send to PEAR error.
     * If a file/dir is not readable the file/dir is ignored. However an
     * error text is send to PEAR error.
-    * If the resulting filename/dirname (after the add/remove option or
-    * not) string is greater than 99 char, the file/dir is
-    * ignored. However an error text is send to PEAR error.
     *
     * @param array      $p_filelist     An array of filenames and directory names, or a single
     *                                   string with names separated by a single blank space.
@@ -291,6 +295,43 @@ class eZTARArchiveHandler extends eZArchiveHandler
 
             $v_result = $this->_append($v_list, $p_add_dir, $p_remove_dir);
         }
+
+        return $v_result;
+    }
+    // }}}
+
+    // {{{ addString()
+    /**
+    * This method add a single string as a file at the
+    * end of the existing archive. If the archive does not yet exists it
+    * is created.
+    *
+    * @param string     $p_filename     A string which contains the full filename path
+    *                                   that will be associated with the string.
+    * @param string     $p_string       The content of the file added in the archive.
+    * @return                           true on success, false on error.
+    * @access public
+    */
+    function addString($p_filename, $p_string)
+    {
+        $v_result = true;
+
+        if (!@is_file($this->_tarname)) {
+            if (!$this->_openWrite()) {
+                return false;
+            }
+            $this->_close();
+        }
+        
+        if (!$this->_openAppend())
+            return false;
+
+        // Need to check the get back to the temporary file ? ....
+        $v_result = $this->_addString($p_filename, $p_string);
+
+        $this->_writeFooter();
+
+        $this->_close();
 
         return $v_result;
     }
@@ -343,6 +384,27 @@ class eZTARArchiveHandler extends eZArchiveHandler
     }
     // }}}
 
+    // {{{ extractInString()
+    /**
+    * This method extract from the archive one file identified by $p_filename.
+    * The return value is a string with the file content, or NULL on error.
+    * @param string $p_filename     The path of the file to extract in a string.
+    * @return                       a string with the file content or NULL.
+    * @access public
+    */
+    function extractInString($p_filename)
+    {
+        if ($this->_openRead()) {
+            $v_result = $this->_extractInString($p_filename);
+            $this->_close();
+        } else {
+            $v_result = NULL;
+        }
+
+        return $v_result;
+    }
+    // }}}
+
     // {{{ extractList()
     /**
     * This method extract from the archive only the files indicated in the
@@ -375,7 +437,7 @@ class eZTARArchiveHandler extends eZArchiveHandler
         }
 
         if ($v_result = $this->_openRead()) {
-            $v_result = $this->_extractList($p_path, $v_list_detail, "complete", $v_list, $p_remove_path);
+            $v_result = $this->_extractList($p_path, $v_list_detail, "partial", $v_list, $p_remove_path);
             $this->_close();
         }
 
@@ -540,89 +602,77 @@ class eZTARArchiveHandler extends eZArchiveHandler
     }
     // }}}
 
-    // {{{ _writeFooter()
-    function _writeFooter()
+    // {{{ _writeBlock()
+    function _writeBlock($p_binary_data, $p_len=null)
     {
-      if ( $this->fileIsOpen() )
-      {
-          // ----- Write the last 0 filled block for end of archive
-          $v_binary_data = pack("a512", '');
-//           if ($this->_compress)
-//             @gzputs($this->_file, $v_binary_data);
-//           else
-//             @fputs($this->_file, $v_binary_data);
-          $this->fileWrite( $v_binary_data );
+      if ($this->_file) {
+          if ($p_len === null) {
+              if ($this->_compress_type == 'gz')
+                  @gzputs($this->_file, $p_binary_data);
+              else if ($this->_compress_type == 'bz2')
+                  @bzwrite($this->_file, $p_binary_data);
+              else if ($this->_compress_type == 'none')
+                  @fputs($this->_file, $p_binary_data);
+              else
+                  $this->_error('Unknown or missing compression type ('.$this->_compress_type.')');
+          } else {
+              if ($this->_compress_type == 'gz')
+                  @gzputs($this->_file, $p_binary_data, $p_len);
+              else if ($this->_compress_type == 'bz2')
+                  @bzwrite($this->_file, $p_binary_data, $p_len);
+              else if ($this->_compress_type == 'none')
+                  @fputs($this->_file, $p_binary_data, $p_len);
+              else
+                  $this->_error('Unknown or missing compression type ('.$this->_compress_type.')');
+
+          }
       }
       return true;
     }
     // }}}
 
-    // {{{ _addList()
-    function _addList($p_list, $p_add_dir, $p_remove_dir)
+    // {{{ _readBlock()
+    function _readBlock($p_len=null)
     {
-      $v_result=true;
-      $v_header = array();
+      $v_block = null;
+      if ($this->_file) {
+          if ($p_len === null)
+              $p_len = 512;
+              
+          if ($this->_compress_type == 'gz')
+              $v_block = @gzread($this->_file, 512);
+          else if ($this->_compress_type == 'bz2')
+              $v_block = @bzread($this->_file, 512);
+          else if ($this->_compress_type == 'none')
+              $v_block = @fread($this->_file, 512);
+          else
+              $this->_error('Unknown or missing compression type ('.$this->_compress_type.')');
 
-//       if (!$this->_file )
-//       {
-//           $this->_error('Invalid file descriptor');
-//           return false;
-//       }
-      if ( !$this->fileIsOpen() )
-      {
-          $this->_error( 'File is not open' );
-          return false;
       }
+      return $v_block;
+    }
+    // }}}
 
-      if ( sizeof($p_list) == 0 )
-          return true;
+    // {{{ _jumpBlock()
+    function _jumpBlock($p_len=null)
+    {
+      if ($this->_file) {
+          if ($p_len === null)
+              $p_len = 1;
 
-      for ( $j = 0; ( $j < count( $p_list ) ) && ( $v_result ); $j++ )
-      {
-        $v_filename = $p_list[$j];
+          if ($this->_compress_type == 'gz')
+              @gzseek($this->_file, @gztell($this->_file)+($p_len*512));
+          else if ($this->_compress_type == 'bz2') {
+              // ----- Replace missing bztell() and bzseek()
+              for ($i=0; $i<$p_len; $i++)
+                  $this->_readBlock();
+          } else if ($this->_compress_type == 'none')
+              @fseek($this->_file, @ftell($this->_file)+($p_len*512));
+          else
+              $this->_error('Unknown or missing compression type ('.$this->_compress_type.')');
 
-        // ----- Skip the current tar name
-        if ($v_filename == $this->_tarname)
-            continue;
-
-        if ($v_filename == '')
-            continue;
-
-        if ( !$this->fileExists( $v_filename ) )
-        {
-            $this->_warning("File '$v_filename' does not exist");
-            continue;
-        }
-
-        // ----- Add the file or directory header
-        if (!$this->_addFile($v_filename, $v_header, $p_add_dir, $p_remove_dir))
-            return false;
-
-        if ( $this->fileIsDirectory( $v_filename ) )
-        {
-            if (!($p_hdir = opendir($v_filename)))
-            {
-                $this->_warning("Directory '$v_filename' can not be read");
-                continue;
-            }
-            $p_hitem = readdir($p_hdir); // '.' directory
-            $p_hitem = readdir($p_hdir); // '..' directory
-            while ($p_hitem = readdir($p_hdir)) {
-                if ($v_filename != ".")
-                    $p_temp_list[0] = $v_filename.'/'.$p_hitem;
-                else
-                    $p_temp_list[0] = $p_hitem;
-
-                $v_result = $this->_addList($p_temp_list, $p_add_dir, $p_remove_dir);
-            }
-
-            unset($p_temp_list);
-            unset($p_hdir);
-            unset($p_hitem);
-        }
       }
-
-      return $v_result;
+      return true;
     }
     // }}}
 
@@ -647,6 +697,7 @@ class eZTARArchiveHandler extends eZArchiveHandler
       }
 
       // ----- Calculate the stored filename
+      $p_filename = $this->_translateWinPath($p_filename, false);;
       $v_stored_filename = $p_filename;
       if (strcmp($p_filename, $p_remove_dir) == 0)
       {
@@ -660,6 +711,7 @@ class eZTARArchiveHandler extends eZArchiveHandler
           if (substr($p_filename, 0, strlen($p_remove_dir)) == $p_remove_dir)
               $v_stored_filename = substr($p_filename, strlen($p_remove_dir));
       }
+      $v_stored_filename = $this->_translateWinPath($v_stored_filename);
       if ($p_add_dir != '') {
           if (substr($p_add_dir, -1) == '/')
               $v_stored_filename = $p_add_dir.$v_stored_filename;
@@ -674,6 +726,7 @@ class eZTARArchiveHandler extends eZArchiveHandler
 //           fclose($v_file);
           return true;
       }
+      $v_stored_filename = $this->_pathReduction($v_stored_filename);
 
       if ( $this->fileIsFile( $p_filename ))
       {
@@ -710,6 +763,127 @@ class eZTARArchiveHandler extends eZArchiveHandler
     }
     // }}}
 
+    // {{{ _addString()
+    function _addString($p_filename, $p_string)
+    {
+      if (!$this->_file) {
+          $this->_error('Invalid file descriptor');
+          return false;
+      }
+
+      if ($p_filename == '') {
+          $this->_error('Invalid file name');
+          return false;
+      }
+
+      // ----- Calculate the stored filename
+      $p_filename = $this->_translateWinPath($p_filename, false);;
+
+      if (!$this->_writeHeaderBlock($p_filename, strlen($p_string), 0, 0, "", 0, 0))
+          return false;
+
+      $i=0;
+      while (($v_buffer = substr($p_string, (($i++)*512), 512)) != '') {
+          $v_binary_data = pack("a512", $v_buffer);
+          $this->_writeBlock($v_binary_data);
+      }
+
+      return true;
+    }
+    // }}}
+
+    // {{{ _writeFooter()
+    function _writeFooter()
+    {
+      if ( $this->fileIsOpen() )
+      {
+          // ----- Write the last 0 filled block for end of archive
+          $v_binary_data = pack("a512", '');
+//           if ($this->_compress)
+//             @gzputs($this->_file, $v_binary_data);
+//           else
+//             @fputs($this->_file, $v_binary_data);
+          $this->fileWrite( $v_binary_data );
+      }
+      return true;
+    }
+    // }}}
+
+    // {{{ _addList()
+    function _addList($p_list, $p_add_dir, $p_remove_dir)
+    {
+      $v_result=true;
+      $v_header = array();
+
+//       if (!$this->_file )
+//       {
+//           $this->_error('Invalid file descriptor');
+//           return false;
+//       }
+      if ( !$this->fileIsOpen() )
+      {
+          $this->_error( 'File is not open' );
+      // ----- Remove potential windows directory separator
+//      $p_add_dir = $this->_translateWinPath($p_add_dir);
+//      $p_remove_dir = $this->_translateWinPath($p_remove_dir, false);
+//
+//      if (!$this->_file) {
+//          $this->_error('Invalid file descriptor');
+          return false;
+      }
+
+      if ( sizeof($p_list) == 0 )
+          return true;
+
+      for ( $j = 0; ( $j < count( $p_list ) ) && ( $v_result ); $j++ )
+      {
+        $v_filename = $p_list[$j];
+
+        // ----- Skip the current tar name
+        if ($v_filename == $this->_tarname)
+            continue;
+
+        if ($v_filename == '')
+            continue;
+
+        if ( !$this->fileExists( $v_filename ) )
+        {
+            $this->_warning("File '$v_filename' does not exist");
+            continue;
+        }
+
+        // ----- Add the file or directory header
+        if (!$this->_addFile($v_filename, $v_header, $p_add_dir, $p_remove_dir))
+            return false;
+
+        if ( $this->fileIsDirectory( $v_filename ) )
+        {
+            if (!($p_hdir = opendir($v_filename)))
+            {
+                $this->_warning("Directory '$v_filename' can not be read");
+                continue;
+            }
+            $p_hitem = readdir($p_hdir); // '.' directory
+            $p_hitem = readdir($p_hdir); // '..' directory
+            while (false !== ($p_hitem = readdir($p_hdir))) {
+                if ($v_filename != ".")
+                    $p_temp_list[0] = $v_filename.'/'.$p_hitem;
+                else
+                    $p_temp_list[0] = $p_hitem;
+
+                $v_result = $this->_addList($p_temp_list, $p_add_dir, $p_remove_dir);
+            }
+
+            unset($p_temp_list);
+            unset($p_hdir);
+            unset($p_hitem);
+        }
+      }
+
+      return $v_result;
+    }
+    // }}}
+
     // {{{ _writeHeader()
     function _writeHeader($p_filename, $p_stored_filename)
     {
@@ -718,6 +892,12 @@ class eZTARArchiveHandler extends eZArchiveHandler
         $v_reduce_filename = $this->_pathReduction($p_stored_filename);
 
         $v_info = $this->fileStatistics( $p_filename );
+        if (strlen($v_reduce_filename) > 99) {
+          if (!$this->_writeLongHeader($v_reduce_filename))
+            return false;
+        }
+
+        $v_info = stat($p_filename);
         $v_uid = sprintf("%6s ", DecOct($v_info[4]));
         $v_gid = sprintf("%6s ", DecOct($v_info[5]));
         $v_perms = sprintf("%6s ", DecOct(fileperms($p_filename)));
@@ -794,6 +974,134 @@ class eZTARArchiveHandler extends eZArchiveHandler
     }
     // }}}
 
+    // {{{ _writeHeaderBlock()
+    function _writeHeaderBlock($p_filename, $p_size, $p_mtime=0, $p_perms=0, $p_type='', $p_uid=0, $p_gid=0)
+    {
+        $p_filename = $this->_pathReduction($p_filename);
+
+        if (strlen($p_filename) > 99) {
+          if (!$this->_writeLongHeader($p_filename))
+            return false;
+        }
+
+        if ($p_type == "5") {
+          $v_size = sprintf("%11s ", DecOct(0));
+        } else {
+          $v_size = sprintf("%11s ", DecOct($p_size));
+        }
+
+        $v_uid = sprintf("%6s ", DecOct($p_uid));
+        $v_gid = sprintf("%6s ", DecOct($p_gid));
+        $v_perms = sprintf("%6s ", DecOct($p_perms));
+
+        $v_mtime = sprintf("%11s", DecOct($p_mtime));
+
+        $v_linkname = '';
+
+        $v_magic = '';
+
+        $v_version = '';
+
+        $v_uname = '';
+
+        $v_gname = '';
+
+        $v_devmajor = '';
+
+        $v_devminor = '';
+
+        $v_prefix = '';
+
+        $v_binary_data_first = pack("a100a8a8a8a12A12", $p_filename, $v_perms, $v_uid, $v_gid, $v_size, $v_mtime);
+        $v_binary_data_last = pack("a1a100a6a2a32a32a8a8a155a12", $p_type, $v_linkname, $v_magic, $v_version, $v_uname, $v_gname, $v_devmajor, $v_devminor, $v_prefix, '');
+
+        // ----- Calculate the checksum
+        $v_checksum = 0;
+        // ..... First part of the header
+        for ($i=0; $i<148; $i++)
+            $v_checksum += ord(substr($v_binary_data_first,$i,1));
+        // ..... Ignore the checksum value and replace it by ' ' (space)
+        for ($i=148; $i<156; $i++)
+            $v_checksum += ord(' ');
+        // ..... Last part of the header
+        for ($i=156, $j=0; $i<512; $i++, $j++)
+            $v_checksum += ord(substr($v_binary_data_last,$j,1));
+
+        // ----- Write the first 148 bytes of the header in the archive
+        $this->_writeBlock($v_binary_data_first, 148);
+
+        // ----- Write the calculated checksum
+        $v_checksum = sprintf("%6s ", DecOct($v_checksum));
+        $v_binary_data = pack("a8", $v_checksum);
+        $this->_writeBlock($v_binary_data, 8);
+
+        // ----- Write the last 356 bytes of the header in the archive
+        $this->_writeBlock($v_binary_data_last, 356);
+
+        return true;
+    }
+    // }}}
+
+    // {{{ _writeLongHeader()
+    function _writeLongHeader($p_filename)
+    {
+        $v_size = sprintf("%11s ", DecOct(strlen($p_filename)));
+
+        $v_typeflag = 'L';
+
+        $v_linkname = '';
+
+        $v_magic = '';
+
+        $v_version = '';
+
+        $v_uname = '';
+
+        $v_gname = '';
+
+        $v_devmajor = '';
+
+        $v_devminor = '';
+
+        $v_prefix = '';
+
+        $v_binary_data_first = pack("a100a8a8a8a12A12", '././@LongLink', 0, 0, 0, $v_size, 0);
+        $v_binary_data_last = pack("a1a100a6a2a32a32a8a8a155a12", $v_typeflag, $v_linkname, $v_magic, $v_version, $v_uname, $v_gname, $v_devmajor, $v_devminor, $v_prefix, '');
+
+        // ----- Calculate the checksum
+        $v_checksum = 0;
+        // ..... First part of the header
+        for ($i=0; $i<148; $i++)
+            $v_checksum += ord(substr($v_binary_data_first,$i,1));
+        // ..... Ignore the checksum value and replace it by ' ' (space)
+        for ($i=148; $i<156; $i++)
+            $v_checksum += ord(' ');
+        // ..... Last part of the header
+        for ($i=156, $j=0; $i<512; $i++, $j++)
+            $v_checksum += ord(substr($v_binary_data_last,$j,1));
+
+        // ----- Write the first 148 bytes of the header in the archive
+        $this->_writeBlock($v_binary_data_first, 148);
+
+        // ----- Write the calculated checksum
+        $v_checksum = sprintf("%6s ", DecOct($v_checksum));
+        $v_binary_data = pack("a8", $v_checksum);
+        $this->_writeBlock($v_binary_data, 8);
+
+        // ----- Write the last 356 bytes of the header in the archive
+        $this->_writeBlock($v_binary_data_last, 356);
+
+        // ----- Write the filename as content of the block
+        $i=0;
+        while (($v_buffer = substr($p_filename, (($i++)*512), 512)) != '') {
+            $v_binary_data = pack("a512", "$v_buffer");
+            $this->_writeBlock($v_binary_data);
+        }
+
+        return true;
+    }
+    // }}}
+
     // {{{ _readHeader()
     function _readHeader($v_binary_data, &$v_header)
     {
@@ -831,7 +1139,7 @@ class eZTARArchiveHandler extends eZArchiveHandler
             if (($v_checksum == 256) && ($v_header['checksum'] == 0))
                 return true;
 
-            $this->_error('Invalid checksum : '.$v_checksum.' calculated, '.$v_header['checksum'].' expected');
+            $this->_error('Invalid checksum for file "'.$v_data['filename'].'" : '.$v_checksum.' calculated, '.$v_header['checksum'].' expected');
             return false;
         }
 
@@ -859,6 +1167,82 @@ class eZTARArchiveHandler extends eZArchiveHandler
     }
     // }}}
 
+    // {{{ _readLongHeader()
+    function _readLongHeader(&$v_header)
+    {
+      $v_filename = '';
+      $n = floor($v_header['size']/512);
+      for ($i=0; $i<$n; $i++) {
+        $v_content = $this->_readBlock();
+        $v_filename .= $v_content;
+      }
+      if (($v_header['size'] % 512) != 0) {
+        $v_content = $this->_readBlock();
+        $v_filename .= $v_content;
+      }
+
+      // ----- Read the next header
+      $v_binary_data = $this->_readBlock();
+
+      if (!$this->_readHeader($v_binary_data, $v_header))
+        return false;
+
+      $v_header['filename'] = $v_filename;
+
+      return true;
+    }
+    // }}}
+
+    // {{{ _extractInString()
+    /**
+    * This method extract from the archive one file identified by $p_filename.
+    * The return value is a string with the file content, or NULL on error.
+    * @param string $p_filename     The path of the file to extract in a string.
+    * @return                       a string with the file content or NULL.
+    * @access private
+    */
+    function _extractInString($p_filename)
+    {
+        $v_result_str = "";
+
+        While (strlen($v_binary_data = $this->_readBlock()) != 0)
+        {
+          if (!$this->_readHeader($v_binary_data, $v_header))
+            return NULL;
+
+          if ($v_header['filename'] == '')
+            continue;
+
+          // ----- Look for long filename
+          if ($v_header['typeflag'] == 'L') {
+            if (!$this->_readLongHeader($v_header))
+              return NULL;
+          }
+
+          if ($v_header['filename'] == $p_filename) {
+              if ($v_header['typeflag'] == "5") {
+                  $this->_error('Unable to extract in string a directory entry {'.$v_header['filename'].'}');
+                  return NULL;
+              } else {
+                  $n = floor($v_header['size']/512);
+                  for ($i=0; $i<$n; $i++) {
+                      $v_result_str .= $this->_readBlock();
+                  }
+                  if (($v_header['size'] % 512) != 0) {
+                      $v_content = $this->_readBlock();
+                      $v_result_str .= substr($v_content, 0, ($v_header['size'] % 512));
+                  }
+                  return $v_result_str;
+              }
+          } else {
+              $this->_jumpBlock(ceil(($v_header['size']/512)));
+          }
+        }
+
+        return NULL;
+    }
+    // }}}
+
     // {{{ _extractList()
     function _extractList($p_path, &$p_list_detail, $p_mode, $p_file_list, $p_remove_path)
     {
@@ -876,6 +1260,7 @@ class eZTARArchiveHandler extends eZArchiveHandler
     if ($p_path == '' || (substr($p_path, 0, 1) != '/' && substr($p_path, 0, 3) != "../" && !strpos($p_path, ':'))) {
       $p_path = "./".$p_path;
     }
+    $p_remove_path = $this->_translateWinPath($p_remove_path);
 
     // ----- Look for path to remove format (should end by /)
     if (($p_remove_path != '') && (substr($p_remove_path, -1) != '/'))
@@ -920,6 +1305,12 @@ class eZTARArchiveHandler extends eZArchiveHandler
       if ($v_header['filename'] == '')
         continue;
 
+      // ----- Look for long filename
+      if ($v_header['typeflag'] == 'L') {
+        if (!$this->_readLongHeader($v_header))
+          return false;
+      }
+
       if ((!$v_extract_all) && (is_array($p_file_list))) {
         // ----- By default no unzip if the file is not found
         $v_extract_file = false;
@@ -950,7 +1341,7 @@ class eZTARArchiveHandler extends eZArchiveHandler
         if (($p_remove_path != '')
             && (substr($v_header['filename'], 0, $p_remove_path_size) == $p_remove_path))
           $v_header['filename'] = substr($v_header['filename'], $p_remove_path_size);
-        if (($p_path != "./") && ($p_path != '/')) {
+        if (($p_path != './') && ($p_path != '/')) {
           while (substr($p_path, -1) == '/')
             $p_path = substr($p_path, 0, strlen($p_path)-1);
 
@@ -1018,8 +1409,11 @@ class eZTARArchiveHandler extends eZArchiveHandler
 
             // ----- Change the file mode, mtime
             @touch($v_header['filename'], $v_header['mtime']);
-            // To be completed
-            //chmod($v_header[filename], DecOct($v_header[mode]));
+            if ($v_header['mode'] & 0111) {
+                // make file executable, obey umask
+                $mode = fileperms($v_header['filename']) | (~umask() & 0111);
+                @chmod($v_header['filename'], $mode);
+            }
           }
 
           // ----- Check the file size
@@ -1069,31 +1463,14 @@ class eZTARArchiveHandler extends eZArchiveHandler
     }
     // }}}
 
-    // {{{ _append()
-    function _append($p_filelist, $p_add_dir='', $p_remove_dir='')
+    // {{{ _openAppend()
+    function _openAppend()
     {
+        if (filesize($this->_tarname) == 0)
+          return $this->_openWrite();
+          
         if ($this->_compress)
         {
-            $this->_close();
-
-//             if (!@rename($this->_tarname, $this->_tarname.".tmp"))
-//             {
-//                 $this->_error('Error while renaming \''.$this->_tarname.'\' to temporary file \''.$this->_tarname.'.tmp\'');
-//                 return false;
-//             }
-
-//             if (($v_temp_tar = @gzopen($this->_tarname.".tmp", "rb")) == 0)
-//             {
-//                 $this->_error('Unable to open file \''.$this->_tarname.'.tmp\' in binary read mode');
-//                 @rename($this->_tarname.".tmp", $this->_tarname);
-//                 return false;
-//             }
-
-//             if (!$this->_openWrite()) {
-//                 @rename($this->_tarname.".tmp", $this->_tarname);
-//                 return false;
-//             }
-
             // Rename to temporary file.
             $this->fileClose();
             $temporaryHandler =& $this->detachHandler();
@@ -1116,6 +1493,7 @@ class eZTARArchiveHandler extends eZArchiveHandler
 //                     @gzputs($this->_file, $v_binary_data);
 //                     $v_buffer = @gzread($v_temp_tar, 512);
 
+//<<<<<<< .working
 //                 } while (!@gzeof($v_temp_tar));
 //             }
             if ( !$temporaryHandler->eof() )
@@ -1127,30 +1505,49 @@ class eZTARArchiveHandler extends eZArchiveHandler
                     $v_buffer = $temporaryHandler->read( 512 );
                 } while( !$temporaryHandler->eof() );
             }
-
-            if ($this->_addList($p_filelist, $p_add_dir, $p_remove_dir))
-                $this->_writeFooter();
+//            elseif ($this->_compress_type == 'bz2') {
+//                $v_buffered_lines   = array();
+//                $v_buffered_lines[] = @bzread($v_temp_tar, 512);
+//
+//                // ----- Read the following blocks but not the last one
+//                while (strlen($v_buffered_lines[] = @bzread($v_temp_tar, 512)) > 0) {
+//                    $v_binary_data = pack("a512", array_shift($v_buffered_lines));
+//                    $this->_writeBlock($v_binary_data);
+//                }
+//                @bzclose($v_temp_tar);
+//            }
 
             $this->_close();
-//             @gzclose($v_temp_tar);
+
 //             if (!@unlink($this->_tarname.".tmp"))
             if ( !$temporaryHandler->unlink() )
             {
                 $this->_error('Error while deleting temporary file \''.$this->_tarname.'.tmp\'');
             }
+        }
+        else
+        {
+            // ----- For not compressed tar, just add files before the last 512 bytes block
+            if (!$this->_openReadWrite())
+               return false;
 
-            return true;
+            clearstatcache();
+            $v_size = filesize($this->_tarname);
+//          fseek($this->_file, $v_size-512);
+            $this->fileSeek( $v_size - 512 );
+
         }
 
-        // ----- For not compressed tar, just add files before the last 512 bytes block
-        if (!$this->_openReadWrite())
-           return false;
+        return true;
+    }
+    // }}}
 
-        clearstatcache();
-        $v_size = filesize($this->_tarname);
-//         fseek($this->_file, $v_size-512);
-        $this->fileSeek( $v_size - 512 );
-
+    // {{{ _append()
+    function _append($p_filelist, $p_add_dir='', $p_remove_dir='')
+    {
+        if (!$this->_openAppend())
+            return false;
+            
         if ($this->_addList($p_filelist, $p_add_dir, $p_remove_dir))
            $this->_writeFooter();
 
@@ -1161,6 +1558,15 @@ class eZTARArchiveHandler extends eZArchiveHandler
     // }}}
 
     // {{{ _dirCheck()
+
+    /**
+     * Check if a directory exists and create it (including parent
+     * dirs) if not.
+     *
+     * @param string $p_dir directory to check
+     *
+     * @return bool TRUE if the directory exists or was created
+     */
     function _dirCheck($p_dir)
     {
         if ((@is_dir($p_dir)) || ($p_dir == ''))
@@ -1180,9 +1586,22 @@ class eZTARArchiveHandler extends eZArchiveHandler
 
         return true;
     }
+
     // }}}
 
     // {{{ _pathReduction()
+
+    /**
+     * Compress path by changing for example "/dir/foo/../bar" to "/dir/bar", and
+     * remove double slashes.
+     *
+     * @param string $p_dir path to reduce
+     *
+     * @return string reduced path
+     *
+     * @access private
+     *
+     */
     function _pathReduction($p_dir)
     {
         $v_result = '';
@@ -1205,7 +1624,7 @@ class eZTARArchiveHandler extends eZArchiveHandler
                 }
                 else if (($v_list[$i] == '') && ($i!=(sizeof($v_list)-1)) && ($i!=0)) {
                     // ----- Ignore only the double '//' in path,
-                    // but not the first and last '/'
+                    // but not the first and last /
                 } else {
                     $v_result = $v_list[$i].($i!=(sizeof($v_list)-1)?'/'.$v_result:'');
                 }
@@ -1213,6 +1632,26 @@ class eZTARArchiveHandler extends eZArchiveHandler
         }
         $v_result = strtr($v_result, '\\', '/');
         return $v_result;
+    }
+
+    // }}}
+
+    // {{{ _translateWinPath()
+    function _translateWinPath($p_path, $p_remove_disk_letter=true)
+    {
+      //if (OS_WINDOWS) {
+      if ( eZSys::osType() == 'win32' )
+      {
+          // ----- Look for potential disk letter
+          if (($p_remove_disk_letter) && (($v_position = strpos($p_path, ':')) != false)) {
+              $p_path = substr($p_path, $v_position+1);
+          }
+          // ----- Change potential windows directory separator
+          if ((strpos($p_path, '\\') > 0) || (substr($p_path, 0,1) == '\\')) {
+              $p_path = strtr($p_path, '\\', '/');
+          }
+      }
+      return $p_path;
     }
     // }}}
 
