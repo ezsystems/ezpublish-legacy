@@ -15,6 +15,7 @@ Changes from 3.5.0 to 3.6.0alpha1
 - Added DebugSettings/DebugLogOnly setting that controls whether to show
   messages in the debug output, or only write them to the logs files.
 - Added new parameter in content_structure_tree operator unfold_node_id for support Simplified treemenu.
+- Added support for user parameters in layout/set/ URLs.
 
 *Setup:
 - Optimized memory usage in site creation step by logging SQL statements only
