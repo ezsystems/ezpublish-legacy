@@ -161,7 +161,7 @@ div#infobox
 
 div#infobox div.design
 {
-    border: 1px solid #000000;
+    border: 1px solid #444444;
     background-position: top left;
     background-repeat: no-repeat;
 }
@@ -172,7 +172,7 @@ div#infobox h3
     margin-top: 0px;
     padding: 0.2em;
     padding-left: 1.2em;
-    background-color: #000000;
+    background-color: #444444;
     color: #ffffff;
 }
 
@@ -204,15 +204,21 @@ div#infobox li.bgdark
 
 div#infobox a
 {
-    color: #000000;
+    text-decoration:none;
+    color: #333333;
+}
+
+div#infobox div.date
+{
+    color: #777777;
 }
 
 div#maincontent
 {
+    clear: none;
     margin-bottom: 2em;
     margin-left: 220px;
     margin-right: 20px;
-    clear: none;
 }
 
 /* News block */
@@ -297,7 +303,7 @@ div#footer a
 #folder div.child h2
 { 
     font: bold 110% Georgia,Serif;
-    color: #ff4444;
+    color: #666666;
     margin: 0px;
     padding: 0px;
     padding-top: 5px;
@@ -312,7 +318,7 @@ div#footer a
 #folder div.child div.byline p
 { 
     color: #888888;
-    font-size: small;
+    font-size: x-small;
     margin: 0px;
     padding: 0px;
 }
@@ -329,6 +335,9 @@ div#footer a
 
 #folder div.child div.readmore a
 { 
+    border-bottom: 1px dotted #ff6633;
+    text-decoration:none;
+    font-size: small;
     color: #304b82;
 }
 
@@ -343,7 +352,7 @@ div#footer a
 #article div.byline p
 { 
     color: #888888;
-    font-size: small;
+    font-size: x-small;
     margin: 0px;
     padding: 0px;
 }
@@ -353,6 +362,46 @@ div#footer a
     font-weight: bold;
     margin: 0px;
     padding: 0px;
+}
+
+#article div.relatedarticles
+{ 
+    border: 1px dashed #aaaaaa;
+    background-color: #eeeeee;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    padding-bottom: 0.5em;
+    padding-top: 0.5em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#article div.relatedarticles h2
+{ 
+    font: bold 100% Georgia,Serif;
+    color: #999999;
+    margin: 0px;
+    padding: 0px;
+}
+
+#article div.relatedarticles a
+{ 
+    border-bottom: 1px dotted #ff6633;
+    text-decoration:none;
+    color: #ff6633;
+}
+
+#article div.articlecomments
+{ 
+    background-color: #eeeeee;
+    padding: 0.5em;
+}
+
+#article div.articlecomments h2
+{ 
+    font: bold 100% Georgia,Serif;
+    color: #999;
+
 }
 
 /* image styles */

@@ -72,7 +72,6 @@
     </div>
 
 {cache-block keys="infobox"}
-
     <div id="infobox">
         <div class="design">
 
@@ -131,32 +130,26 @@
 
     <div id="maincontent">
         <div class="design">
-        
-    <div id="path">
-        <div class="design">
-
-           <p>
-           &gt;
-           {section var=Path loop=$module_result.path }
-               {section show=$Path.item.url}
-                  <a href={$Path.item.url|ezurl}>{$Path.item.text|wash}</a>
-               {section-else}
-    	      {$Path.item.text|wash}
-               {/section}
-    
-               {delimiter}
-                 /
-               {/delimiter}
-            {/section}
-           </p>
-
-        </div>
-    </div>
+            <div id="path">
+                <div class="design">
+                    <p>
+                    &gt;
+                    {section name=Path loop=$module_result.path }
+                        {section show=$Path:item.url}
+                            <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a>
+                        {section-else}
+    	                   {$Path:item.text|wash}
+                        {/section}
+                        {delimiter}
+                          /
+                        {/delimiter}
+                    {/section}
+                    </p>
+                 </div>
+             </div>
 {/let}
 {/cache-block}
-
             {$module_result.content}
-       
         </div>
     </div>
 {cache-block keys="newsblock"}

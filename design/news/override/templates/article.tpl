@@ -6,7 +6,6 @@
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 <input type="hidden" name="ViewMode" value="full" />
 
-
 {default content_object=$node.object
          content_version=$node.contentobject_version_object}
 
@@ -20,7 +19,7 @@
 
 <div class="byline">
   <p>
-   ({$content_object.published|l10n( datetime )})
+   ({$content_object.published|l10n( datetime )} by {attribute_view_gui attribute=$content_version.data_map.author})
   </p>
 </div>
 
@@ -28,26 +27,32 @@
     {attribute_view_gui attribute=$content_version.data_map.thumbnail image_class=medium}
 </div>
 
+<div class="intro">
 {attribute_view_gui attribute=$content_version.data_map.intro}
-{attribute_view_gui attribute=$content_version.data_map.body}
+</div>
 
-<h2>Also read</h2>
+<div class="body">
+{attribute_view_gui attribute=$content_version.data_map.body}
+</div>
+
 {let related_objects=$node.object.related_contentobject_array}
     {section show=$related_objects} 
-       <h2>Related products</h2>  
-           {section name=ContentObject  loop=$related_objects show=$related_objects} 
-              {content_view_gui view=text_linked content_object=$ContentObject:item}
+<div class="relatedarticles">
+       <h2>Related stories</h2>	 
+       <ul>
+           {section name=ContentObject loop=$related_objects show=$related_objects} 
+               <li><a href={$ContentObject:item.url_alias|ezurl}>{$ContentObject:item.name}</a></li>
            {/section}
+       </ul>
+</div>
     {/section}
 {/let}
-
 
 <a href={concat('/content/tipafriend/',$node.node_id)|ezurl}>Tip a friend</a>
 
 
-
-
 {section show=$node.object.data_map.enable_comments.data_int}
+<div class="articlecomments">
     {let message_list=fetch( content, list, hash(
                                                 parent_node_id, $node.object.main_node_id,
                                                 limit, $page_limit, 
@@ -73,6 +78,7 @@
     </div>
 
     {/let}
+</div>
 {/section}
 
 {/default}
