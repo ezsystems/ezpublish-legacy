@@ -62,7 +62,13 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/bookmark' )}" {section show=$bookmark_list|not}disabled="disabled"{/section} />
+
+{section show=$bookmark_list}
+<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/bookmark' )}" />
+{section-else}
+<input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/bookmark' )}" disabled="disabled" />
+{/section}
+
 <input class="button" type="submit" name="AddButton" value="{'Add bookmarks'|i18n( 'design/admin/content/bookmark' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
@@ -73,4 +79,3 @@
 </form>
 
 {/let}
-
