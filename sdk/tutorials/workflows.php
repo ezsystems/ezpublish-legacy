@@ -45,7 +45,7 @@ For example: add some additional actions to publish routing or some additional s
 <p>
 Workflows should be connected to defined eZ Publish operations ( there are only two defined operations in content module currently: "Read"  and "Publish" ) with triggers.
 For each defined operation, eZ Publish kernel tries to execute two triggers. One is activated before the actual operation body is executed and another is activated after that.
-Trigger is just a row stored in database table eztrigger.
+Trigger is just a row stored in database table eztrigger.<br />
 Table definition:
 <pre class="example">
 
