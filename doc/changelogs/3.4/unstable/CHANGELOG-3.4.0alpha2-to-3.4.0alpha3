@@ -76,6 +76,7 @@ eZXML
   http://ez.no/community/bug_reports/getting_a_translation_of_an_objectattribute_is_not_possible
 - Fixed bug with calling purge() on a content object statically
   part of: http://ez.no/community/bug_reports/obj_purge_warning_at_ezmysqldb_escapestring
-  
+- Fixed undefined variables in ezenumtype (Merged from 3.3, rev. 5887)
+  http://ez.no/community/bug_reports/ezenumtype_php_undefined_vars_metadata
 
 *Update
