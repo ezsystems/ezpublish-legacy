@@ -944,7 +944,7 @@ class eZContentObjectVersion extends eZPersistentObject
             return false;
         }
 
-        if ( isset( $options['restore_dates'] ) and $options['restore_dates'] )
+        if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
         {
             include_once( 'lib/ezlocale/classes/ezdateutils.php' );
             $created = eZDateUtils::textToDate( $domNode->attributeValue( 'created' ) );

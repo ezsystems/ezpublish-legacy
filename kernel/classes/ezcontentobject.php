@@ -2444,7 +2444,7 @@ class eZContentObject extends eZPersistentObject
             }
         }
 
-        if ( isset( $options['restore_dates'] ) and $options['restore_dates'] )
+        if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
         {
             include_once( 'lib/ezlocale/classes/ezdateutils.php' );
             $modified = eZDateUtils::textToDate( $domNode->attributeValue( 'modified' ) );
@@ -2472,7 +2472,7 @@ class eZContentObject extends eZPersistentObject
             }
         }
 
-        if ( isset( $options['restore_dates'] ) and $options['restore_dates'] )
+        if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
         {
             include_once( 'lib/ezlocale/classes/ezdateutils.php' );
             $published = eZDateUtils::textToDate( $domNode->attributeValue( 'published' ) );
