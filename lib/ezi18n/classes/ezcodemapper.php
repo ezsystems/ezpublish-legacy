@@ -1542,7 +1542,6 @@ class eZCodeMapper
             $nonCJKCharsets = $this->nonCJKCharsets();
             if ( !in_array( $charsetName, $nonCJKCharsets ) )
             {
-                print( "adding CJK handling\n" );
                 $code .= ( '// Add spaces after chinese / japanese / korean multibyte characters' . "\n" .
                            'include_once( \'lib/ezi18n/classes/eztextcodec.php\' );' . "\n" .
                            '$codec =& eZTextCodec::instance( false, \'unicode\' );' . "\n" .
