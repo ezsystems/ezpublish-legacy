@@ -135,10 +135,10 @@ class eZPackage
         }
     }
 
-    function &create( $name, $parameters = array() )
+    function &create( $name, $parameters = array(), $repositoryPath = false )
     {
         $parameters['name'] = $name;
-        $handler =& new eZPackage( $parameters, $parameters );
+        $handler =& new eZPackage( $parameters, $parameters, $repositoryPath );
         return $handler;
     }
 
@@ -436,7 +436,7 @@ class eZPackage
     function appendFile( $file, $type, $role,
                          $design, $filePath, $collection,
                          $subDirectory = null, $md5 = null,
-                         $copyFile = false, $modified = null )
+                         $copyFile = false, $modified = null, $fileType = false )
     {
         if ( $modified === null )
             $modified = mktime();
@@ -456,6 +456,7 @@ class eZPackage
                            'type' => $type,
                            'role' => $role,
                            'path' => $filePath,
+                           'file-type' => $fileType,
                            'design' => $design,
                            'copy-file' => $copyFile,
                            'modified' => $modified );
@@ -746,7 +747,7 @@ class eZPackage
     */
     function store()
     {
-        $path = eZPackage::repositoryPath() . '/' . $this->attribute( 'name' );
+        $path = $this->path();
         return $this->storePackageFiles( $path );
     }
 
@@ -851,8 +852,8 @@ class eZPackage
     */
     function suffix()
     {
-        return 'tgz';
-//         return 'ezpkg';
+//         return 'tgz';
+        return 'ezpkg';
 //         return 'ezp';
 //         return 'ezpm';
     }
@@ -894,6 +895,9 @@ class eZPackage
         {
             fwrite( $file, $data );
             fclose( $file );
+            eZDebugSetting::writeNotice( 'kernel-ezpackage-store',
+                                         "Stored file $filename",
+                                         'eZPackage::storeString' );
             return true;
         }
         return false;
@@ -996,7 +1000,7 @@ class eZPackage
     */
     function &fetchFromCache( $packageName, $packageModification, &$cacheExpired )
     {
-        $path = eZPackage::repositoryPath() . '/' . $packageName;
+        $path = $this->currentRepositoryPath() . '/' . $packageName;
         $packageCachePath = $path . '/' . eZPackage::cacheDirectory() . '/package.php';
         $cacheExpired = false;
         if ( file_exists( $packageCachePath ) )
@@ -1061,6 +1065,14 @@ class eZPackage
         $path = $this->RepositoryPath;
         $path .= '/' . $this->attribute( 'name' );
         return $path;
+    }
+
+    /*!
+     \return the path to the current repository.
+    */
+    function currentRepositoryPath()
+    {
+        return $this->RepositoryPath;
     }
 
     /*!
@@ -1351,30 +1363,31 @@ class eZPackage
                     $fileType = $fileListNode->attributeValue( 'type' );
                     $fileDesign = $fileListNode->attributeValue( 'design' );
                     $fileRole = $fileListNode->attributeValue( 'role' );
-                    $dirs =& $fileListNode->elementsByName( 'dir' );
-                    {
-                        if ( count( $dirs ) > 0 )
-                        {
-                            foreach ( array_keys( $dirs ) as $dirKey )
-                            {
-                                $dirNode =& $dirs[$dirKey];
-                                $dirName = $dirNode->attributeValue( 'name' );
-                                $dirSubDirectory = $dirNode->attributeValue( 'sub-directory' );
-                                $dirPath = $dirNode->attributeValue( 'path' );
-                                $dirModified = $dirNode->attributeValue( 'modified' );
-                                $this->appendFile( $dirName, $fileType, $fileRole,
-                                                   $fileDesign, $dirPath, $fileCollectionName,
-                                                   $dirSubDirectory, false, false, $dirModified );
-                            }
-                        }
-                    }
-                    unset( $dirs );
+//                     $dirs =& $fileListNode->elementsByName( 'dir' );
+//                     {
+//                         if ( count( $dirs ) > 0 )
+//                         {
+//                             foreach ( array_keys( $dirs ) as $dirKey )
+//                             {
+//                                 $dirNode =& $dirs[$dirKey];
+//                                 $dirName = $dirNode->attributeValue( 'name' );
+//                                 $dirSubDirectory = $dirNode->attributeValue( 'sub-directory' );
+//                                 $dirPath = $dirNode->attributeValue( 'path' );
+//                                 $dirModified = $dirNode->attributeValue( 'modified' );
+//                                 $this->appendFile( $dirName, $fileType, $fileRole,
+//                                                    $fileDesign, $dirPath, $fileCollectionName,
+//                                                    $dirSubDirectory, false, false, $dirModified );
+//                             }
+//                         }
+//                     }
+//                     unset( $dirs );
                     $files =& $fileListNode->elementsByName( 'file' );
                     if ( count( $files ) > 0 )
                     {
                         foreach ( array_keys( $files ) as $fileKey )
                         {
                             $fileNode =& $files[$fileKey];
+                            $fileFileType = $fileNode->attributeValue( 'type' );
                             $fileName = $fileNode->attributeValue( 'name' );
                             $fileSubDirectory = $fileNode->attributeValue( 'sub-directory' );
                             $filePath = $fileNode->attributeValue( 'path' );
@@ -1382,7 +1395,8 @@ class eZPackage
                             $fileModified = $fileNode->attributeValue( 'modified' );
                             $this->appendFile( $fileName, $fileType, $fileRole,
                                                $fileDesign, $filePath, $fileCollectionName,
-                                               $fileSubDirectory, $fileMD5, false, $fileModified );
+                                               $fileSubDirectory, $fileMD5, false, $fileModified,
+                                               $fileFileType );
                         }
                     }
                     else
@@ -1816,7 +1830,8 @@ class eZPackage
                                 if ( $copiedMD5Sum )
                                     $copiedFileAttributes['md5sum'] = $copiedMD5Sum;
                                 if ( is_dir( $destinationPath . '/' . $copiedFile ) )
-                                    $fileListNode->appendChild( $dom->createElementNode( 'dir', $copiedFileAttributes ) );
+                                    $fileListNode->appendChild( $dom->createElementNode( 'file', array_merge( $copiedFileAttributes,
+                                                                                                              array( 'type' => 'dir' ) ) ) );
                                 else
                                     $fileListNode->appendChild( $dom->createElementNode( 'file', $copiedFileAttributes ) );
                             }

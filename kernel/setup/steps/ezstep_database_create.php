@@ -98,6 +98,7 @@ class eZStepDatabaseCreate extends eZStepInstaller
                                'database' => $dbName,
                                'charset' => $dbCharset );
         $db =& eZDB::instance( $dbDriver, $dbParameters, true );
+        eZDB::setInstance( $db );
         $dbStatus['connected'] = $db->isConnected();
 
         $dbError = false;
@@ -114,15 +115,13 @@ class eZStepDatabaseCreate extends eZStepInstaller
 
             if ( $this->PersistenceList['database_info']['existing_database'] != 3 )
             {
-                $setupINI =& eZINI::instance( 'setup.ini' );
-                $sqlSchemaFile = $setupINI->variable( 'DatabaseSettings', 'SQLSchema' );
-                $sqlFile = $setupINI->variable( 'DatabaseSettings', 'CleanSQLData' );
                 $siteCount = $this->PersistenceList['site_templates']['count'];
-                $useKernelClean = $siteCount == 0;
-
-                $result = $db->insertFile( 'kernel/sql/', $sqlSchemaFile );
-                if ( $useKernelClean )
+                if ( $siteCount == 0 )
                 {
+                    $setupINI =& eZINI::instance( 'setup.ini' );
+                    $sqlSchemaFile = $setupINI->variable( 'DatabaseSettings', 'SQLSchema' );
+                    $sqlFile = $setupINI->variable( 'DatabaseSettings', 'CleanSQLData' );
+                    $result = $db->insertFile( 'kernel/sql/', $sqlSchemaFile );
                     $result = $result && $db->insertFile( 'kernel/sql/', $sqlFile );
                 }
             }

@@ -66,6 +66,7 @@ function help()
                   "  -c,--colors        display output using ANSI colors\n" .
                   "  -l,--login USER    login with USER and use it for all operations\n" .
                   "  -p,--password PWD  use PWD as password for USER\n" .
+                  "  -r,--repos REPOS   use REPOS for repository when accessing packages\n" .
                   "  --logfiles         create log files\n" .
                   "  --no-logfiles      do not create log files (default)\n" .
                   "  --no-colors        do not use ANSI coloring (default)\n" );
@@ -180,7 +181,7 @@ function helpHelp()
                   "   export\n" .
                   "   add\n" .
                   "   set\n" .
-                  "   delete (del, remove, rm)\n" .
+//                  "   delete (del, remove, rm)\n" .
                   "   list\n" .
                   "   info\n"
                   );
@@ -211,6 +212,7 @@ $useLogFiles = false;
 $userLogin = false;
 $userPassword = false;
 $command = false;
+$repositoryPath = false;
 
 // $packageName = false;
 // $packageAttribute = false;
@@ -246,8 +248,8 @@ function appendCommandItem( &$commandList, &$commandItem )
 
 resetCommandItem( $commandItem );
 
-$optionsWithData = array( 's', 'o', 'l', 'p' );
-$longOptionsWithData = array( 'siteaccess', 'login', 'password' );
+$optionsWithData = array( 's', 'o', 'l', 'p', 'r' );
+$longOptionsWithData = array( 'siteaccess', 'login', 'password', 'repos' );
 
 $commandAlias = array();
 $commandAlias['help'] = array( '?', 'h' );
@@ -326,6 +328,10 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             else if ( $flag == 'password' )
             {
                 $userPassword = $optionData;
+            }
+            else if ( $flag == 'repos' )
+            {
+                $repositoryPath = $optionData;
             }
         }
         else
@@ -407,6 +413,10 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             else if ( $flag == 'p' )
             {
                 $userPassword = $optionData;
+            }
+            else if ( $flag == 'r' )
+            {
+                $repositoryPath = $optionData;
             }
         }
     }
@@ -625,7 +635,10 @@ foreach ( $commandList as $commandItem )
 
     if ( $command == 'list' )
     {
-        $packages = eZPackage::fetchPackages();
+        $fetchParameters = array();
+        if ( $repositoryPath )
+            $fetchParameters['path'] = $repositoryPath;
+        $packages = eZPackage::fetchPackages( $fetchParameters );
         if ( count( $packages ) > 0 )
         {
             $cli->output( "The following packages are in the repository:" );
@@ -639,7 +652,7 @@ foreach ( $commandList as $commandItem )
     }
     else if ( $command == 'info' )
     {
-        $package =& eZPackage::fetch( $commandItem['name'] );
+        $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
         if ( $package )
         {
             $showInfo = false;
@@ -693,7 +706,7 @@ foreach ( $commandList as $commandItem )
     }
     else if ( $command == 'add' )
     {
-        $package =& eZPackage::fetch( $commandItem['name'] );
+        $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
         if ( $package )
         {
             $itemType = $commandItem['item'];
@@ -753,7 +766,7 @@ foreach ( $commandList as $commandItem )
         }
         else
         {
-            $package =& eZPackage::fetch( $commandItem['name'] );
+            $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
             if ( $package )
             {
                 switch ( $commandItem['attribute'] )
@@ -802,29 +815,32 @@ foreach ( $commandList as $commandItem )
     }
     else if ( $command == 'export' )
     {
-        $package =& eZPackage::fetch( $commandItem['name'] );
-        if ( isset( $commandItem['export-directory'] ) )
-        {
-            $exportDirectory = $commandItem['export-directory'];
-            if ( !file_exists( $exportDirectory ) )
-            {
-                $cli->notice( "The directory " . $cli->style( 'dir' ) . $exportDirectory . $cli->style( 'dir-end' ) . " does not exist, cannot export package" );
-            }
-            else
-            {
-                $package->export( $exportDirectory );
-                $cli->notice( "Package " . $package->attribute( 'name' ) . " exported to directory " . $cli->stylize( 'dir', $exportDirectory ) );
-            }
-        }
-        else
-        {
-            $exportPath = $package->archive( $package->exportName() );
-            $cli->notice( "Package " . $package->attribute( 'name' ) . " exported to file " . $cli->stylize( 'file', $exportPath ) );
-        }
+        $cli->notice( "Disabled for now" );
+//         $package =& eZPackage::fetch( $commandItem['name'] );
+//         if ( isset( $commandItem['export-directory'] ) )
+//         {
+//             $exportDirectory = $commandItem['export-directory'];
+//             if ( !file_exists( $exportDirectory ) )
+//             {
+//                 $cli->notice( "The directory " . $cli->style( 'dir' ) . $exportDirectory . $cli->style( 'dir-end' ) . " does not exist, cannot export package" );
+//             }
+//             else
+//             {
+//                 $package->export( $exportDirectory );
+//                 $cli->notice( "Package " . $package->attribute( 'name' ) . " exported to directory " . $cli->stylize( 'dir', $exportDirectory ) );
+//             }
+//         }
+//         else
+//         {
+//             $exportPath = $package->archive( $package->exportName() );
+//             $cli->notice( "Package " . $package->attribute( 'name' ) . " exported to file " . $cli->stylize( 'file', $exportPath ) );
+//         }
     }
     else if ( $command == 'create' )
     {
-        $package =& eZPackage::create( $commandItem['name'], array( 'summary' => $commandItem['summary'] ) );
+        $package =& eZPackage::create( $commandItem['name'],
+                                       array( 'summary' => $commandItem['summary'] ),
+                                       $repositoryPath );
 
         $user =& eZUser::currentUser();
         $userObject = $user->attribute( 'contentobject' );

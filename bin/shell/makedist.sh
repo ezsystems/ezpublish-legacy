@@ -15,6 +15,7 @@ SDK_EXTRA_DIRS="settings/override var/carhe var/storage doc/generated/html"
 
 FILTER_FILES="settings/site.ini settings/content.ini settings/setup.ini settings/i18n.ini settings/layout.ini settings/template.ini settings/texttoimage.ini settings/units.ini settings/siteaccess/user/site.ini.append settings/siteaccess/admin/site.ini.append settings/siteaccess/demo/site.ini.append settings/siteaccess/sdk/site.ini.append"
 FILTER_FILES2="bin/modfix.sh"
+PACKAGE_DIR="packages"
 
 . ./bin/shell/common.sh
 
@@ -215,6 +216,16 @@ fi
 for file in $EXTRA_DIRS; do
     mkdir -p $DEST/$file
 done
+
+
+if [ -d "$PACKAGE_DIR" ]; then
+    mkdir -p $DEST/kernel/setup/packages
+    for package in "$PACKAGE_DIR/*"; do
+	if [ -d "$PACKAGE_DIR/$package" ]; then
+	    ./ezpm.sh -q -r "$PACKAGE_DIR" export $package -d $DEST/kernel/setup/packages
+	fi
+    done
+fi
 
 # if [ "$DIST_TYPE" == "sdk" ]; then
 if [ -d "doc/generated/html" ]; then

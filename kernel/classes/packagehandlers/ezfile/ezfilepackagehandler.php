@@ -70,9 +70,13 @@ class eZFilePackageHandler extends eZPackageHandler
                 $filePath = $package->fileItemPath( $fileItem, $collectionName );
                 if ( is_dir( $filePath ) )
                 {
+                    $newFilePath = $package->fileItemPath( $fileItem, $collectionName, $installParameters['path'] );
+                    eZDir::mkdir( $newFilePath, eZDir::directoryPermission(), true );
                 }
                 else
                 {
+                    $newFilePath = $package->fileItemPath( $fileItem, $collectionName, $installParameters['path'] );
+                    eZFileHandler::copy( $filePath, $newFilePath );
                 }
             }
         }
@@ -89,7 +93,8 @@ class eZFilePackageHandler extends eZPackageHandler
         {
             $package->appendFile( $fileItem['file'], $fileItem['type'], $fileItem['role'],
                                   $fileItem['design'], $fileItem['path'], $fileItem['collection'],
-                                  null, null, true, null );
+                                  null, null, true, null,
+                                  $fileItem['file-type'] );
             if ( !in_array( $fileItem['collection'], $collections ) )
                 $collections[] = $fileItem['collection'];
             $cli->notice( "Adding file " . $cli->style( 'file' ) . $fileItem['file'] . $cli->style( 'file-end' ) . " (" . $fileItem['type'] . ", " . $fileItem['design'] . ", " . $fileItem['role'] . ") to package" );
@@ -230,9 +235,13 @@ class eZFilePackageHandler extends eZPackageHandler
                                  implode( "\n", $triedFiles ) );
                     return false;
                 }
+                $fileFileType = false;
+                if ( is_dir( $realFilePath ) )
+                    $fileFileType = 'dir';
                 $fileList[] = array( 'file' => $file,
                                      'type' => $type,
                                      'role' => $role,
+                                     'file-type' => $fileFileType,
                                      'design' => $design,
                                      'collection' => $currentCollection,
                                      'path' => $realFilePath );
