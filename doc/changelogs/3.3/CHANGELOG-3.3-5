@@ -16,7 +16,9 @@ Changes from 3.3-4 to 3.3-5
 - Fixed a bug with eZPersistentObject and limit/offset parameters (Merged from
   stable/3.2 rev. 5859)
   http://ez.no/community/bug_reports/ezdebug_trigger_error
-  
+- Fixed bug with getting a translation of an objectattribute. (Merged from 3.2 , rev. 5864)
+  http://ez.no/community/bug_reports/getting_a_translation_of_an_objectattribute_is_not_possible
+
 *Library:
 - Fixed bug where eZSys::varDirectory was not using eZDir::path
 

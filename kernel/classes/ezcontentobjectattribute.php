@@ -351,9 +351,12 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &language( $languageCode = false, $asObject=true )
+    function &language( $languageCode = false, $asObject = true )
     {
-        $languageCode = eZContentObject::defaultLanguage();
+        if ( !$languageCode )
+        {
+            $languageCode = eZContentObject::defaultLanguage();
+        }
         return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
                                                 $field_filters,
                                                 array( "contentclassattribute_id" => $this->ContentClassAttributeID ,
