@@ -25,5 +25,8 @@ Changes from 3.5.0 to 3.6.0alpha1
   (Merged from stable/3.3 rev. 10486, also in stable/3.4 rev. 10488 and stable/3.5 rev. 10489)
 - Fixed bug #6027: PostgreSQL error in section/view.
   (Merged from stable/3.5 rev. 10493)
+- Fixed bugs in eZURI class: Original URI and user parameters were broken during URI translation.
+  $site.original_uri attribute was not listed properly.
+- Fixed bug #5849: Paginated pages only print out first page instead of page being viewed.
 
 *Library:
