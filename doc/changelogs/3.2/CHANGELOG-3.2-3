@@ -31,6 +31,8 @@ Changes from 3.2-2 to 3.2-3
   Added target to embedded image template.
 - http://ez.no/developer/ez_publish_3/bug_reports/standard_edit_template_typo
   Fixed html_class typo.
+- http://ez.no/developer/ez_publish_3/bug_reports/bookmark_ezuser_not_defined
+  Added missing include to ezuser.
 
 *Setup:
 

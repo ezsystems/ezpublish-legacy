@@ -46,6 +46,8 @@
 
 */
 
+include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+
 class eZPreferences
 {
     function eZPreferences()
