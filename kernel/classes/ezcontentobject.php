@@ -139,6 +139,7 @@ class eZContentObject extends eZPersistentObject
                                                       "can_edit" => "canEdit",
                                                       "can_translate" => "canTranslate",
                                                       "can_remove" => "canRemove",
+                                                      "can_move" => "canMove",
                                                       "data_map" => "dataMap",
                                                       "main_parent_node_id" => "mainParentNodeID",
                                                       "assigned_nodes" => "assignedNodes",
@@ -1934,10 +1935,13 @@ class eZContentObject extends eZPersistentObject
         $accessResult = $user->hasAccessTo( 'content' , $functionName );
         $accessWord = $accessResult['accessWord'];
 
-        if ( $functionName == 'remove' )
+        if ( $functionName == 'remove' or
+             $functionName == 'move' )
         {
             $mainNode =& $this->attribute( 'main_node' );
-            // We do not allow removal of objects placed at top-level
+            // We do not allow these actions on objects placed at top-level
+            // - remove
+            // - move
             if ( $mainNode and $mainNode->attribute( 'parent_node_id' ) <= 1 )
             {
                 return 0;
@@ -2384,6 +2388,21 @@ class eZContentObject extends eZPersistentObject
             $this->Permissions["can_remove"] = $this->checkAccess( 'remove' );
         }
         $p = ( $this->Permissions["can_remove"] == 1 );
+        return $p;
+    }
+
+    /*!
+     \return \c true if the object can be moved by the current user.
+     \sa checkAccess().
+    */
+    function canMove( )
+    {
+
+        if ( !isset( $this->Permissions["can_move"] ) )
+        {
+            $this->Permissions["can_move"] = $this->checkAccess( 'move' );
+        }
+        $p = ( $this->Permissions["can_move"] == 1 );
         return $p;
     }
 

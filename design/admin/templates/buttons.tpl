@@ -11,7 +11,13 @@
     <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/standard/node/view' )}" title="{'You do not have permissions to edit the item that is being displayed above.'|i18n( 'design/admin/layout' )} "disabled="disabled" />
 {/section}
 
-{* Allow remove button if this is not a root node and if the user is allowed to remove it: *}
+{section show=$node.object.can_move}
+    <input class="button" type="submit" name="MoveNodeButton" value="{'Move'|i18n( 'design/standard/node/view' )}" title="{'Click here to move the item displayed above to a new location.'|i18n( 'design/admin/layout' )}" />
+{section-else}
+    <input class="button" type="submit" name="MoveNodeButton" value="{'Move'|i18n( 'design/standard/node/view' )}" title="{'You do not have permissions to move the item that is being displayed above.'|i18n( 'design/admin/layout' )} "disabled="disabled" />
+{/section}
+
+    {* Allow remove button if this is not a root node and if the user is allowed to remove it: *}
 {section show=$node.object.can_remove|not}
 <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/standard/node/view')}" title="{'You do not have permissions to remove the item that is being displayed above.'|i18n( 'design/admin/layout' )}"disabled="disabled" />
 {section-else}

@@ -167,6 +167,7 @@ $ViewList['browse'] = array(
     'default_navigation_part' => 'ezcontentnavigationpart',
     'ui_context' => 'browse',
     'script' => 'browse.php',
+    'single_post_actions' => array( 'CancelButton' => 'Cancel' ),
     'params' => array( 'NodeID', 'ObjectID', 'EditVersion' ),
     'unordered_params' => array( 'offset' => 'Offset' ) );
 
@@ -207,7 +208,9 @@ $ViewList['action'] = array(
     'single_post_actions' => array( 'RemoveAssignmentButton' => 'RemoveAssignment',
                                     'AddAssignmentButton' => 'SelectAssignmentLocation',
                                     'AddAssignmentAction' => 'AddAssignment',
-                                    'UpdateMainAssignmentButton' => 'UpdateMainAssignment' ),
+                                    'UpdateMainAssignmentButton' => 'UpdateMainAssignment',
+                                    'MoveNodeButton' => 'MoveNodeRequest',
+                                    'MoveNodeAction' => 'MoveNode' ),
     'post_action_parameters' => array( 'SelectAssignmentLocation' => array( 'AssignmentIDSelection' => 'AssignmentIDSelection',
                                                                             'NodeID' => 'ContentNodeID',
                                                                             'ObjectID' => 'ContentObjectID',
@@ -228,7 +231,14 @@ $ViewList['action'] = array(
                                                                         'NodeID' => 'ContentNodeID',
                                                                         'ObjectID' => 'ContentObjectID',
                                                                         'ViewMode' => 'ViewMode',
-                                                                        'LanguageCode' => 'ContentObjectLanguageCode' ) ),
+                                                                        'LanguageCode' => 'ContentObjectLanguageCode' ),
+                                       'MoveNodeRequest' => array( 'NodeID' => 'ContentNodeID',
+                                                                   'ViewMode' => 'ViewMode',
+                                                                   'LanguageCode' => 'ContentObjectLanguageCode' ),
+                                       'MoveNode' => array( 'NodeID' => 'ContentNodeID',
+                                                            'ViewMode' => 'ViewMode',
+                                                            'NewParentNode' => 'NewParentNode',
+                                                            'LanguageCode' => 'ContentObjectLanguageCode' ) ),
     'post_actions' => array( 'BrowseActionName' ) );
 
 $ViewList['collectinformation'] = array(
@@ -414,6 +424,8 @@ $Subtree = array(
 
 
 $FunctionList['bookmark'] = array();
+
+$FunctionList['move'] = array();
 
 $FunctionList['read'] = array( 'Class' => $ClassID,
                                'Section' => $SectionID,

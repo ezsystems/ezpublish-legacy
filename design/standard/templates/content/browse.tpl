@@ -53,7 +53,15 @@
         </tr>
         <tr>
             <td class="bglight">
-	    {section show=$browse.ignore_nodes_select|contains($main_node.node_id)|not()}
+	    {section show=and( or( $browse.permission|not,
+                                   fetch( content, access,
+                                          cond( is_set( $browse.permission.contentclass_id ),
+                                                hash( access, $browse.permission.access,
+                                                      contentobject, $main_node,
+                                                      contentclass_id, $browse.permission.contentclass_id ),
+                                                hash( access, $browse.permission.access,
+                                                      contentobject, $main_node ) ) ) ),
+                               $browse.ignore_nodes_select|contains( $main_node.node_id )|not() )}
 	      {section show=is_array($browse.class_array)}
 	        {section show=$browse.class_array|contains($main_node.object.content_class.identifier)}
 		  <input type="{$select_type}" name="{$select_name}[]" value="{$main_node[$select_attribute]}" {section show=eq($browse.selection,'single')}checked="checked"{/section} />
@@ -67,7 +75,7 @@
 	        &nbsp;
             {/section}
             </td>
-        
+
             <td class="bglight">
 {*                 {node_view_gui view=line content_node=$main_node node_url=concat( 'content/browse', $main_node.parent_node_id, '/' )} *}
                 {node_view_gui view=line content_node=$main_node node_url=false()}
@@ -77,11 +85,11 @@
                     </a>
                 {/section}
             </td>
-        
+
             <td class="bglight">
             {$main_node.object.content_class.name|wash}
             </td>
-        
+
             <td class="bglight">
             {$main_node.object.section_id}
             </td>
@@ -89,41 +97,42 @@
         {section name=Object loop=$object_array sequence=array(bgdark,bglight)}
         <tr class="{$Object:sequence}">
             <td>
-	        {section show=$browse.ignore_nodes_select|contains($:item.node_id)|not()}
-		  {section show=is_array($browse.class_array)}
-	            {section show=$browse.class_array|contains($:item.object.content_class.identifier)}
-		      <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
-  		    {section-else}
-		      &nbsp;
-		    {/section}
-		  {section-else}
-		    <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
-		  {/section}
+            {section show=and( or( $browse.permission|not,
+                                   fetch( content, access,
+                                          cond( is_set( $browse.permission.contentclass_id ),
+                                                hash( access, $browse.permission.access,
+                                                      contentobject, $:item,
+                                                      contentclass_id, $browse.permission.contentclass_id ),
+                                                hash( access, $browse.permission.access,
+                                                      contentobject, $:item ) ) ) ),
+                               $browse.ignore_nodes_select|contains($:item.node_id)|not() )}
+              {section show=is_array($browse.class_array)}
+                {section show=$browse.class_array|contains($:item.object.content_class.identifier)}
+                  <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+                {section-else}
+                  &nbsp;
                 {/section}
+              {section-else}
+                <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+              {/section}
+            {/section}
             </td>
-        
+
             <td>
                 <img src={"1x1.gif"|ezimage} width="{mul(sub($:item.depth,$main_node.depth),$browse_indentation)}" height="1" alt="" border="0" />
 
                  {node_view_gui view=line content_node=$Object:item node_url=cond( $browse.ignore_nodes_click|contains($Object:item.node_id)|not(), concat( 'content/browse/', $Object:item.node_id, '/' ), false() )}
             </td>
-        
+
             <td>
                     {$Object:item.object.content_class.name|wash}
             </td>
-        
+
             <td>
                     {$:item.object.section_id}
             </td>
         </tr>
         {/section}
-        <tr>
-            <td colspan="4">
-                <div class="buttonblock">
-                    <input class="button" type="submit" name="SelectButton" value="{'Select'|i18n('design/standard/content/view')}" />
-                </div>
-            </td>
-        </tr>
         </table>
         {* Browse listing end *}
 
@@ -148,29 +157,37 @@
                 {'Switch top levels by clicking one of these items.'|i18n('design/standard/content/view')}
             </td>
         </tr>
-        
+
         {section name=TopLevel loop=$browse.top_level_nodes
                  sequence=array(bgdark,bglight)}
         <tr class="{$:sequence}">
-            <td width="1">
-                {section show=$browse.ignore_nodes_select|contains($:item)|not()}
-		  {section show=is_array($browse.class_array)|not()}
-		    <input type="{$select_type}" name="{$select_name}[]" value="{$:item}" />
-		  {section-else}
-		    &nbsp;
-		  {/section}
-                {section-else}
-                    &nbsp;
-                {/section}
-            </td>
-        
-            <td>
             {let top_node=fetch( content, node, hash( node_id, $:item ) )}
+            <td width="1">
+            {section show=and( or( $browse.permission|not,
+                                   fetch( content, access,
+                                          cond( is_set( $browse.permission.contentclass_id ),
+                                                hash( access, $browse.permission.access,
+                                                      contentobject, $:top_node,
+                                                      contentclass_id, $browse.permission.contentclass_id ),
+                                                hash( access, $browse.permission.access,
+                                                      contentobject, $:top_node ) ) ) ),
+                               $browse.ignore_nodes_select|contains( $:item )|not() )}
+              {section show=is_array($browse.class_array)|not()}
+                <input type="{$select_type}" name="{$select_name}[]" value="{$:item}" />
+              {section-else}
+                &nbsp;
+              {/section}
+            {section-else}
+              &nbsp;
+            {/section}
+            </td>
+
+            <td>
                 {node_view_gui view=line content_node=$:top_node
                                node_url=cond( eq( $:item, $main_node.node_id ), false(),
                                               $browse.ignore_nodes_click|contains( $:top_node.node_id )|not(), concat( 'content/browse/', $:top_node.node_id, '/' ), false() )}
-            {/let}
             </td>
+            {/let}
         </tr>
         {/section}
 
@@ -179,25 +196,33 @@
                 {"Bookmarks"|i18n("design/standard/content/view")}
             </th>
         </tr>
-        
+
         {section name=Bookmark loop=$bookmark_list show=$bookmark_list sequence=array(bgdark,bglight)}
         <tr class="{$:sequence}">
             <td width="1">
-	        {section show=$browse.ignore_nodes_select|contains($:item.node_id)|not()}
-		  {section show=is_array($browse.class_array)}
-	            {section show=$browse.class_array|contains($:item.object.content_class.identifier)}
-		      <input type="{$select_type}" name="{$select_name}[]" value="{$:item.node[$select_attribute]}" />
-		    {section-else}
-		      &nbsp;
-		    {/section}
-		  {section-else}
-		    <input type="{$select_type}" name="{$select_name}[]" value="{$:item.node[$select_attribute]}" />
-		  {/section}
+            {section show=and( or( $browse.permission|not,
+                                   fetch( content, access,
+                                          cond( is_set( $browse.permission.contentclass_id ),
+                                                hash( access, $browse.permission.access,
+                                                      contentobject, $:item.node,
+                                                      contentclass_id, $browse.permission.contentclass_id ),
+                                                hash( access, $browse.permission.access,
+                                                      contentobject, $:item.node ) ) ) ),
+                               $browse.ignore_nodes_select|contains( $:item.node_id )|not() )}
+              {section show=is_array($browse.class_array)}
+                {section show=$browse.class_array|contains($:item.object.content_class.identifier)}
+                  <input type="{$select_type}" name="{$select_name}[]" value="{$:item.node[$select_attribute]}" />
                 {section-else}
-                    &nbsp;
-		{/section}
+                  &nbsp;
+                {/section}
+              {section-else}
+                <input type="{$select_type}" name="{$select_name}[]" value="{$:item.node[$select_attribute]}" />
+              {/section}
+            {section-else}
+              &nbsp;
+            {/section}
             </td>
-        
+
             <td>
                 {node_view_gui view=line content_node=$:item.node
                                node_url=cond( eq( $:item.node_id, $main_node.node_id ), false(),
@@ -225,22 +250,30 @@
                 {"Recent items"|i18n("design/standard/content/view")}
             </th>
         </tr>
-        
+
         {section show=$recent_list}
             {section name=Recent loop=$recent_list sequence=array(bgdark,bglight)}
             <tr class="{$:sequence}">
                 <td width="1">
-		    {section show=$browse.ignore_nodes_select|contains($:item.node_id)|not()}
-		      {section show=is_array($browse.class_array)|not()}
-			<input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
-		      {section-else}
-		        &nbsp;
-		      {/section}
-                    {section-else}
-		        &nbsp;
-		    {/section}
+                {section show=and( or( $browse.permission|not,
+                                   fetch( content, access,
+                                          cond( is_set( $browse.permission.contentclass_id ),
+                                                hash( access, $browse.permission.access,
+                                                      contentobject, $:item.node,
+                                                      contentclass_id, $browse.permission.contentclass_id ),
+                                                hash( access, $browse.permission.access,
+                                                      contentobject, $:item.node ) ) ) ),
+                                   $browse.ignore_nodes_select|contains( $:item.node_id )|not() )}
+                  {section show=is_array($browse.class_array)|not()}
+                    <input type="{$select_type}" name="{$select_name}[]" value="{$:item[$select_attribute]}" />
+                  {section-else}
+                    &nbsp;
+                  {/section}
+                {section-else}
+                  &nbsp;
+                {/section}
                 </td>
-            
+
                 <td>
                 {node_view_gui view=line content_node=$:item.node
                                node_url=cond( eq( $:item.node_id, $main_node.node_id ), false(),
@@ -282,6 +315,17 @@
 {/section}
 
 </form>
+
+<div class="controlbar">
+    <div class="block">
+        <input class="button" type="submit" name="SelectButton" value="{'Select'|i18n('design/standard/content/view')}" />
+
+        <form class="blockpart" name="test" method="post" action={"content/browse"|ezurl}>
+            <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/standard/content/view' )}" />
+        </form>
+    </div>
+</div>
+
 <form name="test" method="post" action={"content/action"|ezurl}>
 <table>
         <tr>

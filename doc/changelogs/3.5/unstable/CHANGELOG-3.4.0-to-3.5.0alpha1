@@ -57,6 +57,14 @@ Changes from 3.4.0 to 3.5.0alpha1
   at the top-level (e.g root, media, users). If so access is denied no matter
   what the policy is. This simplies removal checking of nodes and makes it
   a lot safer.
+- Improved the content/browse functionality with cancel button and permission
+  checking on all nodes.
+- Added actions in content/action to move a given node, either to a specific
+  location or user-selectable location with the browse function.
+- Added new 'move' permission to content module, this will be used to do checking
+  when trying to move nodes. By default this permission will deny all attempts
+  to move top-level nodes.
+
 
 eZDatatype:
 - Added new interface for querying datatypes for option information. This replaces

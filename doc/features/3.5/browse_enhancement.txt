@@ -1,0 +1,39 @@
+*Title: Enhancements to the content browse
+
+Incentive:
+Add some enhancements to the browse page which one normally needs.
+- Permission handling on nodes
+- Cancelling a browse
+
+*Documentation:
+1.
+Allow the browse to honour permission in the system by passing the permission
+to check to the browse system.
+
+New entries:
+- permission - An associative array which contains the access method and the class to check,
+               for instance one could give checkable options only to nodes which one can create a special class under.
+               Contains:
+               - access (required Name of content access to check, e.g. read, edit or create
+               - contentclass_id (optional) Which class ID to include in checks, makes only sense for 'create' access.
+
+2.
+Make it possible to have a cancel button on the browse page.
+One of the problem with adding a cancel button is that the browse form actually posts
+back to the from_page, this means that page requesting the browse would have to handle
+browsing itself.
+
+Instead a new form is introduced which posts to content/browse and is placed next to
+the Select button. The request will be pick up by browse.php and redirect to page.
+Redirection follows these rules:
+- cancel_page - If set from the browse request (client) it will redirect to that page
+                Most clients that request browsing don't need this.
+- from_page - If set from the browse request (client) it will redirect to that page
+- No page was defined so it redirects to content/view/full/2
+
+Note: Code placed in content/action or other non-visual pages should set the cancel_page,
+if not the page will redirect back to a place where nothing happens.
+
+*Testing:
+
+*SVN Revisions:

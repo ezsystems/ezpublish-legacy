@@ -1,0 +1,44 @@
+*Title: Add move operation for nodes in navigation mode
+
+Incentive:
+Moving nodes requires the user to edit the node then move one of the locations,
+by having a move operation directly in the navigation interface will make the
+UI easier to use.
+
+*Documentation:
+To move a node the 'content/move' and 'content/edit' permission is required, the user
+must also have 'content/create' with for content class on the new location.
+
+Two new actions has been added to content/action:
+
+MoveNodeRequest:
+This starts check current permissions and starts the browsing of new location
+The browsing will start from the parent of the current node, only locations that
+the user has 'content/create' permission will be selectable, also all locations (with parent)
+are not selectable.
+
+ - POST activation variable: MoveNodeButton
+ - POST parameters:
+   - NodeID (required) : ID of the node to move
+   - ViewMode (optional) : Current viewmode, if missing 'full' is assumed
+   - LanguageCode (optional) : Current language used to show node, if missing default object language is used.
+
+
+
+MoveNode:
+This performes the actual move.
+If you wish to call this directly without the browse page you must supply the NewParentNode variable.
+
+ - POST activation variable: MoveNodeAction
+ - POST parameters:
+   - NodeID (required) : ID of the node to move
+   - ViewMode (optional) : Current viewmode, if missing 'full' is assumed
+   - LanguageCode (optional) : Current language used to show node, if missing default object language is used.
+   - NewParentNode (optional) : The ID of the new parent node, if this is supplied the value from the
+                                browse operation will not be used. You can use to automatically move a node
+                                to a defined location. Note: Permission checking is still performed so it
+                                may fail because of that.
+
+*Testing:
+
+*SVN Revisions:

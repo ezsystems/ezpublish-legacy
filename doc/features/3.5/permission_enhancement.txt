@@ -1,0 +1,18 @@
+*Title: Provide more permissions to role system
+
+Incentive:
+Make it easier to have more fine grained permissions in the system, 
+
+*Documentation:
+
+
+New permissions:
+content/move - Tells whether an object/node can be moved, it will always deny on top-level folders.
+               It was required to move the checking of top-level nodes out of templates and
+               non-class code into a central place. Internally it actually reuses the 'edit' permissions
+               when looking for limitations.
+
+
+*Testing:
+
+*SVN Revisions:

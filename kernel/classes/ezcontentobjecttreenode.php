@@ -156,6 +156,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'can_create' => 'canCreate',
                                                       'can_edit' => 'canEdit',
                                                       'can_remove' => 'canRemove',
+                                                      'can_move' => 'canMove',
                                                       'creator' => 'creator',
                                                       "path" => "fetchPath",
                                                       'path_array' => 'pathArray',
@@ -397,6 +398,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $this->Permissions["can_remove"] = $this->checkAccess( 'remove' );
         }
         $p = ( $this->Permissions["can_remove"] == 1 );
+        return $p;
+    }
+
+    /*!
+     \return \c true if the node can be moved by the current user.
+     \sa checkAccess().
+    */
+    function canMove( )
+    {
+        if ( !isset( $this->Permissions["can_move"] ) )
+        {
+            $this->Permissions["can_move"] = $this->checkAccess( 'move' );
+        }
+        $p = ( $this->Permissions["can_move"] == 1 );
         return $p;
     }
 
@@ -2636,9 +2651,12 @@ WHERE
         $accessWord = $accessResult['accessWord'];
         $contentObject =& $this->attribute( 'object' );
 
-        if ( $functionName == 'remove' )
+        if ( $functionName == 'remove' or
+             $functionName == 'move' )
         {
-            // We do not allow removal of top-level nodes
+            // We do not allow these actions on top-level nodes
+            // - remove
+            // - move
             if ( $this->ParentNodeID <= 1 )
             {
                 return 0;

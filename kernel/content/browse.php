@@ -71,6 +71,17 @@ if ( !$contentObject )
 if ( !$contentObject->attribute( 'can_read' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
+if ( $Module->isCurrentAction( 'Cancel' ) )
+{
+    $cancelPage = $browse->attribute( 'cancel_page' );
+    if ( trim( $cancelPage ) != '' )
+        return $Module->redirectTo( $cancelPage );
+    $fromPage = $browse->attribute( 'from_page' );
+    if ( trim( $fromPage ) != '' )
+        return $Module->redirectTo( $fromPage );
+    return $Module->redirectToView( 'view', array( 'full', 2 ) );
+}
+
 $res =& eZTemplateDesignResource::instance();
 $keyArray = array();
 $attributeKeys = $browse->attribute( 'keys' );

@@ -197,6 +197,9 @@ class eZContentBrowse
         if ( !isset( $parameters['persistent_data'] ) )
             $parameters['persistent_data'] = false;
 
+        if ( !isset( $parameters['permission'] ) )
+            $parameters['permission'] = false;
+
         if ( !isset( $parameters['top_level_nodes'] ) )
         {
             $parameters['top_level_nodes'] = $ini->variable( 'BrowseSettings', 'DefaultTopLevelNodes' );
@@ -212,6 +215,9 @@ class eZContentBrowse
             if ( !is_numeric( $parameters['top_level_nodes'][$i] ) )
                 $parameters['top_level_nodes'][$i] = eZContentBrowse::nodeAliasID( $parameters['top_level_nodes'][$i] );
         }
+
+        if ( !isset( $parameters['cancel_page'] ) )
+            $parameters['cance_page'] = false;
 
         if ( !isset( $parameters['from_page'] ) )
             eZDebug::writeError( $parameters, 'eZContentBrowse::browse() $parameters[\'from_page\'] is not set' );
