@@ -59,19 +59,39 @@ class eZPreferences
 
     /*!
      \static
-     Sets a preference value for the current user. If
+     Sets a preference value for a given user. If
      the user is anonymous the value is only stored in session.
+
+     \param $name The name of the preference to store
+     \param $value The value of the preference to store
+     \param $storeUserID The user which should get the preference,
+                         if \c false it will use the current user
+     \return \c true if the preference was stored correctly or \c false if something went wrong
     */
-    function setValue( $name, $value )
+    function setValue( $name, $value, $storeUserID = false )
     {
         $db =& eZDB::instance();
         $name = $db->escapeString( $name );
         $value = $db->escapeString( $value );
 
-        $user =& eZUser::currentUser();
-        if ( $user->isLoggedIn() )
+        if ( $storeUserID === false )
         {
-            // Only store in DB is user is logged in
+            $user =& eZUser::currentUser();
+        }
+        else
+        {
+            $user =& eZUser::fetch( $storeUserID );
+            if ( !is_object( $user ) )
+            {
+                eZDebug::writeError( "Cannot set preference for user $storeUserID, the user does not exist" );
+                return false;
+            }
+        }
+
+        if ( $storeUserID !== false or $user->isLoggedIn() )
+        {
+            // Only store in DB if user is logged in or we have
+            // a specific user ID defined
             $userID = $user->attribute( 'contentobject_id' );
             $existingRes = $db->arrayQuery( "SELECT * FROM ezpreferences WHERE user_id = $userID AND name='$name'" );
 
@@ -87,7 +107,9 @@ class eZPreferences
                 $db->query( $query );
             }
         }
-        eZPreferences::storeInSession( $name, $value );
+        if ( $storeUserID !== false )
+            eZPreferences::storeInSession( $name, $value );
+        return true;
     }
 
     /*!

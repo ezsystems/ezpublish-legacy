@@ -118,6 +118,9 @@ Changes from 3.4.4 to 3.5.0
   slash.
 - Fixed wrong creation of tree node in content/versionview which could lead to
   undefined member variables.
+- Added a third parameter to eZPreferences::setValue which can be used to
+  define which user should get the preference value. If set to false it will
+  use the current user which is the default behaviour.
 
 eZNodeAssignment:
 - Added attribute 'node' to fetch the node the assignment relates to.
@@ -140,6 +143,8 @@ Setup:
 - Improved directory permission test by checking for the user and group ID of the
   currently running process. This allows the setup to propose chown  commands
   with correct user and group. (Requires posix extension)
+- The setup wizard will now create a preference entry for the admin user which
+  sets the 'preview' block in the admin interface to open by default.
 
 Scripts:
 - New script bin/php/ezcontentcache.php which can be used to clear the
@@ -506,6 +511,9 @@ eztc.php:
   http://ez.no/community/bugs/versionview_in_trash_postgresql
 - Removed warning when redirecting to some views.
   http://ez.no/community/bugs/warning_when_redirecting
+- Fixed bug: fatal error when $node variable is not defined in template
+  http://ez.no/community/bugs/template_compile_include_crash_when_node_not_defined
+  (Merged from trunk rev. 10430)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

@@ -7,6 +7,13 @@ Changes from 3.5.0rc2 to 3.5.0
   slash.
 - Fixed wrong creation of tree node in content/versionview which could lead to
   undefined member variables.
+- Added a third parameter to eZPreferences::setValue which can be used to
+  define which user should get the preference value. If set to false it will
+  use the current user which is the default behaviour.
+
+Setup:
+- The setup wizard will now create a preference entry for the admin user which
+  sets the 'preview' block in the admin interface to open by default.
 
 *Bugfixes:
 - Fixed problem with class/edit and removal of object attributes
