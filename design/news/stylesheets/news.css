@@ -33,7 +33,7 @@ div#logo
 
 div#subheader
 {
-    background-color: #000000;
+    background-color: #ff6633;
     padding: 0.1em; /* Padding needs to be set to a value other than 0 to stop a Mozilla color bug. */
 }
 
@@ -209,6 +209,44 @@ div#maincontent
     margin-left: 220px;
     margin-right: 20px;
     clear: none;
+}
+
+/* News block */
+
+div#newsblock
+{
+    margin: 2em;
+}
+
+div#newsblock div.design
+{
+    border: 1px dotted #000000;
+}
+
+div#newsblock table
+{
+   width: 100%;
+}
+
+div#newsblock td
+{
+   width: 25;
+}
+
+div#newsblock ul
+{
+    list-style-type: none;
+    margin-bottom: 0em;
+    margin-left: 0em;
+}
+
+div#newsblock li
+{
+    margin-top: 0em;
+    margin-bottom: 0em;
+    padding-top: 0.0em;
+    padding-bottom: 0.5em;
+    padding-left: 1em;
 }
 
 div#footer

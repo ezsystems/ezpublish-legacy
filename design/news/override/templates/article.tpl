@@ -31,6 +31,22 @@
 {attribute_view_gui attribute=$content_version.data_map.intro}
 {attribute_view_gui attribute=$content_version.data_map.body}
 
+<h2>Also read</h2>
+{let related_objects=$node.object.related_contentobject_array}
+    {section show=$related_objects} 
+       <h2>Related products</h2>  
+           {section name=ContentObject  loop=$related_objects show=$related_objects} 
+              {content_view_gui view=text_linked content_object=$ContentObject:item}
+           {/section}
+    {/section}
+{/let}
+
+
+<a href={concat('/content/tipafriend/',$node.node_id)|ezurl}>Tip a friend</a>
+
+
+
+
 {section show=$node.object.data_map.enable_comments.data_int}
     {let message_list=fetch( content, list, hash(
                                                 parent_node_id, $node.object.main_node_id,

@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
+{cache-block keys=$uri_string}
 {let pagedesign=fetch_alias(by_identifier,hash(attr_id,gallery_package))}
 <head>
 {include uri="design:page_head.tpl" enable_glossary=false() enable_help=false()}
@@ -62,8 +63,27 @@
         </div>
     </div>
 
+{cache-block keys="infobox"}
+
     <div id="infobox">
         <div class="design">
+
+               {let category_list=fetch( content, tree, hash( parent_node_id, 181,
+							   limit, 5,
+							   sort_by, array( published, false() ),
+							   class_filter_type, include, 
+							   class_filter_array, array( 'folder' ) ) )}
+                                                          
+            <h3>News</h3>
+            <ul>
+                   {section name=News loop=$category_list sequence=array(bglight,bgdark)}
+                       <li class="{$:sequence}">
+                       <a href={$:item.url_alias|ezurl}>{$:item.name|wash}</a>
+                       </li>
+                    {/section}
+            </ul>
+               {/let}
+
                {let news_list=fetch( content, tree, hash( parent_node_id, 2,
 							   limit, 5,
 							   sort_by, array( published, false() ),
@@ -84,6 +104,7 @@
                {/let}
         </div>
     </div>
+{/cache-block}
 
     <div id="maincontent">
         <div class="design">
@@ -108,11 +129,52 @@
 
         </div>
     </div>
+{/let}
+{/cache-block}
+
             {$module_result.content}
-        
+       
         </div>
     </div>
+{cache-block keys="newsblock"}
+    <div id="newsblock">
+        <div class="design">
+            {let category_list=fetch( content, tree, hash( parent_node_id, 181,
+							   limit, 5,
+							   sort_by, array( published, false() ),
+							   class_filter_type, include, 
+							   class_filter_array, array( 'folder' ) ) )}
+            <table>
+            <tr>
+                {section name=Category loop=$category_list}
+                <td>
+                    <h3>{$:item.name}</h3>
+                    {let news_list=fetch( content, list, hash( parent_node_id, $:item.node_id,
+							   limit, 10,
+							   sort_by, array( published, false() ),
+							   class_filter_type, include, 
+							   class_filter_array, array( 'article' ) ) )}
 
+                    {section loop=$:news_list sequence=array(bglight,bgdark)}
+                    <ul>
+                       <li class="{$:sequence}">
+                       <a href={$:item.url_alias|ezurl}>{$:item.name|wash}</a>
+                       </li>
+                    </ul>
+                    {/section}
+                    {/let}
+                </td>
+                   {delimiter modulo=4}
+                    </tr>
+                    <tr>
+                   {/delimiter}
+                {/section}
+            </tr>  
+            </table>
+               {/let}
+        </div>
+    </div>
+{/cache-block}
     <div id="footer">
         <div class="design">
         
@@ -127,5 +189,5 @@
 </div>
 
 </body>
-{/let}
+
 </html>
