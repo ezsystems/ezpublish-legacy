@@ -46,51 +46,83 @@ class eZMySQLDB extends eZDBInterface
     function eZMySQLDB( $parameters )
     {
         $this->eZDBInterface( $parameters );
+        $this->DBWriteConnection = false;
+        $this->IsConnected = false;
 
-//         $ini =& eZINI::instance();
-//         $socketPath =& $ini->variable( "DatabaseSettings", "Socket" );
         $socketPath = $this->socketPath();
+
+        if ( $this->DBConnection == false )
+        {
+            $connection =& $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $socketPath );
+            if ( $connection )
+            {
+                $this->DBConnection = $connection;
+                $this->IsConnected = true;
+            }
+        }
+
+        /// Check if we should try to initialize a write server
+        if ( true )
+        {
+            if ( $this->DBWriteConnection == false )
+            {
+                $connection =& $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $socketPath );
+                if ( $connection )
+                {
+                    $this->DBWriteConnection = $connection;
+                }
+            }
+        }
+
+        eZDebug::createAccumulatorGroup( 'mysql_total', 'Mysql Total' );
+    }
+
+    /*!
+     \private
+     Opens a new connection to a MySQL database and returns the connection
+    */
+    function &connect( $server, $db, $user, $password, $socketPath )
+    {
+        $connection = false;
 
         if ( $socketPath !== false )
         {
             ini_set( "mysql.default_socket", $socketPath );
         }
 
-//         eZDebug::writeDebug( "server=" . $this->Server . "\nuser=" . $this->User . "\npassword=" . $this->Password,
-//                              'mysqldb' );
-        $this->DBConnection = @mysql_pconnect( $this->Server, $this->User, $this->Password );
+        $connection = @mysql_pconnect( $server, $user, $password );
         $dbErrorText = mysql_error();
         $maxAttempts = $this->connectRetryCount();
         $waitTime = $this->connectRetryWaitTime();
         $numAttempts = 1;
-        while ( $this->DBConnection == false and $numAttempts <= $maxAttempts )
+        while ( $connection == false and $numAttempts <= $maxAttempts )
         {
             sleep( $waitTime );
-            $this->DBConnection = @mysql_pconnect( $this->Server, $this->User, $this->Password );
+            $connection = @mysql_pconnect( $this->Server, $this->User, $this->Password );
             $numAttempts++;
         }
         $this->setError();
 
-        $this->IsConnected = true;
+        $isConnected = true;
 
-        if ( $this->DBConnection == false )
+        if ( $connection == false )
         {
             eZDebug::writeError( "Connection error: Couldn't connect to database. Please try again later or inform the system administrator.\n$dbErrorText", "eZMySQLDB" );
-            $this->IsConnected = false;
+            $isConnected = false;
         }
 
-        if ( $this->isConnected() )
+        if ( $isConnected )
         {
-            $ret = @mysql_select_db( $this->DB, $this->DBConnection );
+            $ret = @mysql_select_db( $db, $connection );
             $this->setError();
 
             if ( !$ret )
             {
-                eZDebug::writeError( "Connection error: " . @mysql_errno( $this->DBConnection ) . ": " . @mysql_error( $this->DBConnection ), "eZMySQLDB" );
-                $this->IsConnected = false;
+                eZDebug::writeError( "Connection error: " . @mysql_errno( $connection ) . ": " . @mysql_error( $connection ), "eZMySQLDB" );
+                $isConnected = false;
             }
         }
-        eZDebug::createAccumulatorGroup( 'mysql_total', 'Mysql Total' );
+        return $connection;
     }
 
     /*!
@@ -123,7 +155,25 @@ class eZMySQLDB extends eZDBInterface
             {
                 $this->startTimer();
             }
-            $result =& mysql_query( $sql, $this->DBConnection );
+            // Check if it's a write or read sql query
+            $sql = trim( $sql );
+
+            $isWriteQuery = true;
+            if ( stristr( $sql, "select" ) )
+            {
+                $isWriteQuery = false;
+            }
+
+            if ( $isWriteQuery )
+            {
+                $connection = $this->DBWriteConnection;
+            }
+            else
+            {
+                $connection = $this->DBConnection;
+            }
+
+            $result =& mysql_query( $sql, $connection );
             if ( $this->RecordError )
                 $this->setError();
 
@@ -131,7 +181,7 @@ class eZMySQLDB extends eZDBInterface
             {
                 $this->endTimer();
 
-                $num_rows = mysql_affected_rows( $this->DBConnection );
+                $num_rows = mysql_affected_rows( $connection );
                 $this->reportQuery( 'eZMySQLDB', $sql, $num_rows, $this->timeTaken() );
             }
             eZDebug::accumulatorStop( 'mysql_query' );
@@ -141,7 +191,7 @@ class eZMySQLDB extends eZDBInterface
             }
             else
             {
-                eZDebug::writeError( "Query error: " . mysql_error( $this->DBConnection ) . ". Query: ". $sql, "eZMySQLDB"  );
+                eZDebug::writeError( "Query error: " . mysql_error( $connection ) . ". Query: ". $sql, "eZMySQLDB"  );
                 $this->RecordError = false;
                 $this->unlock();
                 $this->RecordError = true;
@@ -482,6 +532,9 @@ class eZMySQLDB extends eZDBInterface
     /// \privatesection
     /// Contains the current database connection
     var $DBConnection;
+
+    /// Contains the write database connection if used
+    var $DBWriteConnection;
 }
 
 ?>
