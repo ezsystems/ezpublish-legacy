@@ -217,7 +217,7 @@ div#topmenu li a:hover
    color: #000000;
 }
 
-div#topmenu li.selected a
+div#topmenu li.selected a, div#topmenu li.selected span.disabled
 {
     color: #ffffff;
     background-image: url(../images/topmenu-rightedge-sel.gif);
@@ -228,6 +228,11 @@ div#topmenu li.selected a
     font-weight: bold;
     padding: 0.3em 16px 0.3em 16px; /* Must be set on a-level, not li-level, to work correctly in konqueror */
     text-decoration: none;
+}
+
+div#topmenu li.selected span.disabled
+{
+    color: #33485e;
 }
 
 div#topmenu li.selected a:hover
@@ -739,12 +744,17 @@ div#history ul, div#bookmarks ul
 div#history li, div#bookmarks li
 {
     list-style-type: none;
-    margin-bottom: 0;
+    margin-bottom: 0.2em;
 }
 
 div#history img, div#bookmarks img
 {
     vertical-align: middle;
+}
+
+div#bookmarks span.disabled
+{
+    color: #33485e;
 }
 
 a.showhide, div#rightmenu span.openclose
