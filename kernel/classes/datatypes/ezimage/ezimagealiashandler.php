@@ -1282,7 +1282,7 @@ class eZImageAliasHandler
         $xmlString = $domTree->toString();
         $contentObjectAttribute->setAttribute( 'data_text', $xmlString );
         if ( $storeAttribute )
-            $contentObjectAttribute->store();
+            $contentObjectAttribute->storeData();
         return true;
     }
 

@@ -232,6 +232,28 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
+     Similar to store() but does not call eZDataType::storeObjectAttribute().
+
+     If you have some datatype code that needs to store attribute data you should
+     call this instead of store(), this function will avoid infinite recursion.
+    */
+    function storeData()
+    {
+        // Unset the cache
+        global $eZContentObjectContentObjectCache;
+        unset( $eZContentObjectContentObjectCache[$this->ContentObjectID] );
+        global $eZContentObjectDataMapCache;
+        unset( $eZContentObjectDataMapCache[$this->ContentObjectID] );
+
+        $classAttribute =& $this->contentClassAttribute();
+        $dataType =& $classAttribute->dataType();
+        $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
+        $this->updateSortKey( false );
+
+        return eZPersistentObject::store();
+    }
+
+    /*!
      Copies the sort key value from the attribute according to the datatype rules.
      \note The attribute is not stored
     */
