@@ -65,7 +65,7 @@ class eZMySQLDB extends eZDBInterface
         if ( $this->DBWriteConnection == false )
         {
             $connection = $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $socketPath );
-            if ( $connection )
+            if ( $this->isConnected() )
             {
                 $this->DBWriteConnection = $connection;
             }
@@ -133,23 +133,22 @@ class eZMySQLDB extends eZDBInterface
         }
         $this->setError();
 
-        $isConnected = true;
+        $this->IsConnected = true;
 
         if ( $connection == false )
         {
             eZDebug::writeError( "Connection error: Couldn't connect to database. Please try again later or inform the system administrator.\n$dbErrorText", "eZMySQLDB" );
-            $isConnected = false;
+            $this->IsConnected = false;
         }
 
-        if ( $isConnected )
+        if ( $this->isConnected() )
         {
             $ret = @mysql_select_db( $db, $connection );
             $this->setError();
-
             if ( !$ret )
             {
                 eZDebug::writeError( "Connection error: " . @mysql_errno( $connection ) . ": " . @mysql_error( $connection ), "eZMySQLDB" );
-                $isConnected = false;
+                $this->IsConnected = false;
             }
         }
         return $connection;
