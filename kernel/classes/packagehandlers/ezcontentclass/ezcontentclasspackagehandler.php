@@ -187,6 +187,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $attributeIsTranslatable = strtolower( $classAttributeNode->attributeValue( 'translatable' ) ) == 'true';
             $attributeName = $classAttributeNode->elementTextContentByName( 'name' );
             $attributeIdentifier = $classAttributeNode->elementTextContentByName( 'identifier' );
+            $attributePlacement = $classAttributeNode->elementTextContentByName( 'placement' );
             $attributeDatatypeParameterNode = $classAttributeNode->elementByName( 'datatype-parameters' );
 
             $classAttribute =& eZContentClassAttribute::create( $class->attribute( 'id' ),
@@ -197,7 +198,8 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                                        'is_required' => $attributeIsRequired,
                                                                        'is_searchable' => $attributeIsSearchable,
                                                                        'is_information_collector' => $attributeIsInformationCollector,
-                                                                       'can_translate' => $attributeIsTranslatable ) );
+                                                                       'can_translate' => $attributeIsTranslatable,
+                                                                       'placement' => $attributePlacement ) );
             $dataType =& $classAttribute->dataType();
             $classAttribute->store();
             $dataType->unserializeContentClassAttribute( $classAttribute, $classAttributeNode, $attributeDatatypeParameterNode );
@@ -467,6 +469,8 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                                                $attribute->attribute( 'name' ) ) );
             $attributeNode->appendChild( eZDOMDocument::createElementTextNode( 'identifier',
                                                                                $attribute->attribute( 'identifier' ) ) );
+            $attributeNode->appendChild( eZDOMDocument::createElementTextNode( 'placement',
+                                                                               $attribute->attribute( 'placement' ) ) );
             $attributeParametersNode =& eZDOMDocument::createElementNode( 'datatype-parameters' );
             $attributeNode->appendChild( $attributeParametersNode );
 
