@@ -20,6 +20,7 @@
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
+<form method="post" action={'content/action'|ezurl}>
 <div class="box-ml"><div class="box-mr">
 
 <div class="context-information">
@@ -42,7 +43,6 @@
 
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
-<form method="post" action={'content/action'|ezurl}>
 <input type="hidden" name="TopLevelNode" value="{$node.object.main_node_id}" />
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
