@@ -274,7 +274,6 @@ class eZSearch
                                      !isSet( $part['minvalue'] ) || $part['minvalue'] == '' ||
                                      !isSet( $part['maxvalue'] ) || $part['maxvalue'] == '' )
                                 {
-                                    die ("hest" );
                                     $removePart = true;
                                 }
                             }
