@@ -47,10 +47,26 @@ function &imageInit()
     $img =& eZImageManager::instance();
 
     $ini =& eZINI::instance();
-    if ( $ini->variable( 'ImageSettings', 'ScaleLargerThenOriginal' ) == 'true' )
+    $scale = false;
+    if ( $ini->hasVariable( 'ImageSettings', 'ScaleLargerThenOriginal' ) )
+    {
+        $scale = $ini->variable( 'ImageSettings', 'ScaleLargerThenOriginal' ) == 'true';
+        eZDebug::writeWarning( 'ImageSettings ScaleLargerThenOriginal is depricated. Use ScaleLargerThanOriginal instead' );
+    }
+
+    if ( $ini->hasVariable( 'ImageSettings', 'ScaleLargerThanOriginal' ) )
+    {
+        $scale = $ini->variable( 'ImageSettings', 'ScaleLargerThanOriginal' ) == 'true';
+    }
+
+    if ( $scale )
+    {
         $geometry = '-geometry "%wx%h"';
+    }
     else
+    {
         $geometry = '-geometry "%wx%h>"';
+    }
 
     $imgINI =& eZINI::instance( 'image.ini' );
 
