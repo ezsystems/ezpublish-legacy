@@ -225,6 +225,9 @@ eZInformationCollection:
   (Merged from stable/3.5 (3.5.2) rev. 11176)
 - Fixed bug #6375: Tree count and non translated tree.
   (Merged from stable/3.5 (3.5.2) rev. 11184)
+- Fixed bug #6197: Disabling override cache and template compile will make 
+  admin interface missbehave.
+  (Merged from stable/3.5 (3.5.2) rev. 11188)
 
 *Library:
 PDF:
