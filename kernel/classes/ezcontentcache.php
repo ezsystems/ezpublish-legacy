@@ -290,9 +290,11 @@ class eZContentCache
 
         if ( $fp )
         {
+            include_once( 'lib/ezfile/classes/ezfile.php' );
+
             fwrite( $fp, $serializeString );
             fclose( $fp );
-            rename( "$cacheDir/$uniqid", $path );
+            eZFile::rename( "$cacheDir/$uniqid", $path );
         }
 
         return $fp;
