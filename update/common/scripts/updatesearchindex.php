@@ -52,7 +52,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish search inde
 
 $script->startup();
 
-$options = $script->getOptions( "[db-user:][db-password:][db-database:][db-driver:][sql][clean]",
+$options = $script->getOptions( "[db-host:][db-user:][db-password:][db-database:][db-driver:][sql][clean]",
                                 "",
                                 array( 'db-host' => "Database host",
                                        'db-user' => "Database user",

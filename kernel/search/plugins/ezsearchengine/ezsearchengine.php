@@ -161,6 +161,10 @@ class eZSearchEngine
     {
         $db =& eZDB::instance();
 
+        // Initialize transformation system
+        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        $trans = new eZCharTransform();
+
         $wordCount = count( $indexArrayOnlyWords );
         $wordIDArray = array();
         $wordArray = array();
@@ -203,7 +207,7 @@ class eZSearchEngine
                     $newWordCount = count( $newWordRes );
                     for ( $i=0;$i<$newWordCount;++$i )
                     {
-                        $wordLowercase = strtolower( $newWordRes[$i]['word'] );
+                        $wordLowercase = $trans->transformByGroup( $newWordRes[$i]['word'], 'lowercase' );
                         $wordArray[$newWordRes[$i]['word']] = $newWordRes[$i]['id'];
                     }
                 }
@@ -213,7 +217,7 @@ class eZSearchEngine
         {
             foreach ( $indexArrayOnlyWords as $indexWord )
             {
-                $indexWord = strToLower( $indexWord );
+                $indexWord = $trans->transformByGroup( $indexWord, 'lowercase' );
 
                 // Store word if it does not exist.
                 $wordRes = array();
@@ -272,6 +276,10 @@ class eZSearchEngine
         $uniqueWordCount = count( $uniqueIndexArray );
         */
 
+        // Initialize transformation system
+        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+        $trans = new eZCharTransform();
+
         $prevWordID = 0;
         $nextWordID = 0;
         $classID = $contentObject->attribute( 'contentclass_id' );
@@ -284,12 +292,12 @@ class eZSearchEngine
             $contentClassAttributeID = $indexArray[$i]['ContentClassAttributeID'];
             $identifier = $indexArray[$i]['id'];
             $integerValue = $indexArray[$i]['integer_value'];
-            $indexWord = strToLower( $indexWord );
+            $indexWord = $trans->transformByGroup( $indexWord, 'lowercase' );
             $wordID = $wordIDArray[$indexWord];
 
             if ( isset( $indexArray[$i+1] ) )
             {
-                $nextIndexWord = strToLower( $indexArray[$i+1]['Word'] );
+                $nextIndexWord = $trans->transformByGroup( $indexArray[$i+1]['Word'], 'lowercase' );
                 $nextWordID = $wordIDArray[$nextIndexWord];
             }
             else
