@@ -191,6 +191,17 @@ class eZTemplateToolbarFunction
                     $variableList[] = $itemValue;
                 }
 
+                // Add parameter tool_id and offset
+                $toolIDValue =  "Tool_" . $toolbarPosition . "_" . $tool . "_" . $placement;
+                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $toolIDValue, false, array(),
+                                                                      array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, "tool_id" ) );
+                $variableList[] = "tool_id";
+
+                $toolOffset = $placement;
+                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $toolOffset, false, array(),
+                                                                      array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, "offset" ) );
+                $variableList[] = "offset";
+
                 $newNodes = array_merge( $newNodes, $includeNodes );
 
                 foreach ( $variableList as $variableName )
@@ -277,6 +288,12 @@ class eZTemplateToolbarFunction
                             $tpl->setVariable( $key, $itemValue, $name );
                             $definedVariables[] = $key;
                         }
+                        $toolIDValue =  "Tool_" . $toolbarPosition . "_" . $tool . "_" . $placement;
+                        $tpl->setVariable( "tool_id", $toolIDValue, $name );
+                        $definedVariables[] = "tool_id";
+                        $toolOffset = $placement;
+                        $tpl->setVariable( "offset", $toolOffset, $name );
+                        $definedVariables[] = "offset";
                         $uri = "design:toolbar/$viewMode/$tool.tpl";
                         if ( $placement == 1 )
                         {
