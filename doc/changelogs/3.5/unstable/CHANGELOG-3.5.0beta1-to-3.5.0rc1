@@ -108,6 +108,9 @@ Datatype:
   http://ez.no/community/bug_reports/pdf_crash
 - Fixed incorrect break statement
   http://ez.no/community/bug_reports/break_outside_of_loop
+- Fixed bug: viewing the object with attibute of  datatype which is not present causes fatal error
+  http://ez.no/community/bug_reports/crash_with_object_when_datatype_is_not_present
+  (Merged from stable/3.4 rev. 9633)
 
 *Library:
 

@@ -249,13 +249,16 @@ class eZContentObjectAttribute extends eZPersistentObject
 
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
-        $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
-        $this->updateSortKey( false );
+        if ( is_object( $dataType ) )
+        {
+            $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
+            $this->updateSortKey( false );
 
-        // store the content data for this attribute
-        $dataType->storeObjectAttribute( $this );
+            // store the content data for this attribute
+            $dataType->storeObjectAttribute( $this );
 
-        return eZPersistentObject::store();
+            eZPersistentObject::store();
+        }
     }
 
     /*!
@@ -289,26 +292,33 @@ class eZContentObjectAttribute extends eZPersistentObject
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
 
-        $sortKey =& $dataType->sortKey( $this );
-        $this->setAttribute( 'sort_key_string', "" );
-        $this->setAttribute( 'sort_key_int', 0 );
-        if ( $dataType->sortKeyType() == 'string' )
+        $return = false;
+
+        if ( is_object( $dataType ) )
         {
-            $this->setAttribute( 'sort_key_string', $sortKey );
+            $return = true;
+
+            $sortKey =& $dataType->sortKey( $this );
+            $this->setAttribute( 'sort_key_string', "" );
             $this->setAttribute( 'sort_key_int', 0 );
+            if ( $dataType->sortKeyType() == 'string' )
+            {
+                $this->setAttribute( 'sort_key_string', $sortKey );
+                $this->setAttribute( 'sort_key_int', 0 );
 
-        }
-        else if ( $dataType->sortKeyType() == 'int' )
-        {
-            $this->setAttribute( 'sort_key_int', $sortKey );
+            }
+            else if ( $dataType->sortKeyType() == 'int' )
+            {
+                $this->setAttribute( 'sort_key_int', $sortKey );
+            }
+
+            if ( $storeData )
+            {
+                $dataType->storeObjectAttribute( $this );
+                $return = eZPersistentObject::store();
+            }
         }
 
-        $return = true;
-        if ( $storeData )
-        {
-            $dataType->storeObjectAttribute( $this );
-            $return = eZPersistentObject::store();
-        }
         return $return;
     }
 
@@ -496,11 +506,14 @@ class eZContentObjectAttribute extends eZPersistentObject
                             &$inputParameters, $validationParameters = array() )
     {
         $dataType =& $this->dataType();
-        $this->setInputParameters( $inputParameters );
-        $this->setValidationParameters( $validationParameters );
-        $this->IsValid = $dataType->validateObjectAttributeHTTPInput( $http, $base, $this );
-        $this->unsetValidationParameters();
-        $this->unsetInputParameters();
+        if ( is_object( $dataType ) )
+        {
+            $this->setInputParameters( $inputParameters );
+            $this->setValidationParameters( $validationParameters );
+            $this->IsValid = $dataType->validateObjectAttributeHTTPInput( $http, $base, $this );
+            $this->unsetValidationParameters();
+            $this->unsetInputParameters();
+        }
         return $this->IsValid;
     }
 
@@ -572,7 +585,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     function fixupInput( &$http, $base )
     {
         $dataType =& $this->dataType();
-        $dataType->fixupObjectAttributeHTTPInput( $http, $base, $this );
+        if ( is_object( $dataType ) )
+            $dataType->fixupObjectAttributeHTTPInput( $http, $base, $this );
     }
 
     /*!
@@ -581,7 +595,10 @@ class eZContentObjectAttribute extends eZPersistentObject
     function fetchInput( &$http, $base )
     {
         $dataType =& $this->dataType();
-        return $dataType->fetchObjectAttributeHTTPInput( $http, $base, $this );
+        if ( is_object( $dataType ) )
+            return $dataType->fetchObjectAttributeHTTPInput( $http, $base, $this );
+
+        return false;
     }
 
     /*!
@@ -591,11 +608,14 @@ class eZContentObjectAttribute extends eZPersistentObject
                                   &$inputParameters, $validationParameters = array() )
     {
         $dataType =& $this->dataType();
-        $this->setInputParameters( $inputParameters );
-        $this->setValidationParameters( $validationParameters );
-        $this->IsValid = $dataType->validateCollectionAttributeHTTPInput( $http, $base, $this );
-        $this->unsetValidationParameters();
-        $this->unsetInputParameters();
+        if ( is_object( $dataType ) )
+        {
+            $this->setInputParameters( $inputParameters );
+            $this->setValidationParameters( $validationParameters );
+            $this->IsValid = $dataType->validateCollectionAttributeHTTPInput( $http, $base, $this );
+            $this->unsetValidationParameters();
+            $this->unsetInputParameters();
+        }
         return $this->IsValid;
     }
 
@@ -605,10 +625,15 @@ class eZContentObjectAttribute extends eZPersistentObject
     function collectInformation( &$collection, &$collectionAttribute, &$http, $base )
     {
         $dataType =& $this->dataType();
-        $collectionAttribute->setAttribute( 'contentclass_attribute_id', $this->attribute( 'contentclassattribute_id' ) );
-        $collectionAttribute->setAttribute( 'contentobject_attribute_id', $this->attribute( 'id' ) );
-        $collectionAttribute->setAttribute( 'contentobject_id', $this->attribute( 'contentobject_id' ) );
-        return $dataType->fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $this );
+        if ( is_object( $dataType ) )
+        {
+            $collectionAttribute->setAttribute( 'contentclass_attribute_id', $this->attribute( 'contentclassattribute_id' ) );
+            $collectionAttribute->setAttribute( 'contentobject_attribute_id', $this->attribute( 'id' ) );
+            $collectionAttribute->setAttribute( 'contentobject_id', $this->attribute( 'contentobject_id' ) );
+            return $dataType->fetchCollectionAttributeHTTPInput( $collection, $collectionAttribute, $http, $base, $this );
+        }
+
+        return false;
     }
 
     /*!
@@ -617,7 +642,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     function customHTTPAction( &$http, $action, $parameters = array() )
     {
         $dataType =& $this->dataType();
-        $dataType->customObjectAttributeHTTPAction( $http, $action, $this, $parameters );
+        if ( is_object( $dataType ) )
+            $dataType->customObjectAttributeHTTPAction( $http, $action, $this, $parameters );
     }
 
     /*!
@@ -627,15 +653,19 @@ class eZContentObjectAttribute extends eZPersistentObject
                                       $customActionAttributeArray, $customActionParameters )
     {
         $dataType =& $this->dataType();
-        $customActionParameters['contentobject_attribute'] =& $this;
-        $dataType->handleCustomObjectHTTPActions( $http, $attributeDataBaseName,
-                                                  $customActionAttributeArray, $customActionParameters );
+        if ( is_object( $dataType ) )
+        {
+            $customActionParameters['contentobject_attribute'] =& $this;
+            $dataType->handleCustomObjectHTTPActions( $http, $attributeDataBaseName,
+                                                      $customActionAttributeArray, $customActionParameters );
+        }
     }
 
     function onPublish( &$object, &$nodes  )
     {
         $dataType =& $this->dataType();
-        $dataType->onPublish( $this, $object, $nodes );
+        if ( is_object( $dataType ) )
+            $dataType->onPublish( $this, $object, $nodes );
     }
 
     /*!
@@ -754,7 +784,8 @@ class eZContentObjectAttribute extends eZPersistentObject
             $originalContentObjectAttribute = $this;
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
-        $dataType->initializeObjectAttribute( $this, $currentVersion, $originalContentObjectAttribute );
+        if ( is_object( $dataType ) )
+            $dataType->initializeObjectAttribute( $this, $currentVersion, $originalContentObjectAttribute );
     }
 
     /*!
@@ -766,7 +797,8 @@ class eZContentObjectAttribute extends eZPersistentObject
             $originalContentObjectAttribute = $this;
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
-        $dataType->postInitializeObjectAttribute( $this, $currentVersion, $originalContentObjectAttribute );
+        if ( is_object( $dataType ) )
+            $dataType->postInitializeObjectAttribute( $this, $currentVersion, $originalContentObjectAttribute );
     }
 
     /*!
@@ -775,7 +807,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     function &remove( $id, $currentVersion = null )
     {
         $dataType =& $this->dataType();
-        if ( !$dataType )
+        if ( !is_object( $dataType ) )
             return false;
         $dataType->deleteStoredObjectAttribute( $this, $currentVersion );
         if( $currentVersion == null )
@@ -838,7 +870,10 @@ class eZContentObjectAttribute extends eZPersistentObject
     function title()
     {
         $dataType =& $this->dataType();
-        return $dataType->title( $this );
+        if ( is_object( $dataType ) )
+            return $dataType->title( $this );
+
+        return '';
     }
 
     /*!
@@ -923,7 +958,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     function metaData()
     {
         $dataType =& $this->dataType();
-        if ( $dataType )
+        if ( is_object( $dataType ) )
             return $dataType->metaData( $this );
         else
             return false;
@@ -1009,7 +1044,12 @@ class eZContentObjectAttribute extends eZPersistentObject
     function &contentActionList()
     {
         $dataType =& $this->dataType();
-        return $dataType->contentActionList( $this->contentClassAttribute() );
+        $result = false;
+
+        if ( is_object( $dataType ) )
+            $result = $dataType->contentActionList( $this->contentClassAttribute() );
+
+        return $result;
     }
 
     function setValidationError()
@@ -1091,22 +1131,31 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &serialize( &$package )
     {
+        $reuslt = false;
         $dataType =& $this->dataType();
-        return $dataType->serializeContentObjectAttribute( $package, $this );
+        if ( is_object( $dataType ) )
+            $result =& $dataType->serializeContentObjectAttribute( $package, $this );
+
+        return $result;
     }
 
     function unserialize( &$package, $attributeDOMNode )
     {
         $dataType =& $this->dataType();
-        $dataType->unserializeContentObjectAttribute( $package, $this, $attributeDOMNode );
+        if ( is_object( $dataType ) )
+            $dataType->unserializeContentObjectAttribute( $package, $this, $attributeDOMNode );
     }
 
     /*!
     */
     function &isA()
     {
+        $result = false;
         $dataType =& $this->dataType();
-        return $dataType->isA();
+        if ( is_object( $dataType ) )
+            $result = $dataType->isA();
+
+        return $result;
     }
 
     /*!
@@ -1150,12 +1199,13 @@ class eZContentObjectAttribute extends eZPersistentObject
         // We really don't need to do a lookup via the datatype since we already have the string
         */
 
+        $result = false;
         $dataType =& $this->dataType();
-        if ( $dataType )
-        {
-            $str = $dataType->viewTemplate( $this );
-            return $str;
-        }
+
+        if ( is_object( $dataType ) )
+            $result =& $dataType->viewTemplate( $this );
+
+        return $result;
     }
 
     /*!
@@ -1165,8 +1215,12 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &editTemplate()
     {
+        $result = false;
         $dataType =& $this->dataType();
-        return $dataType->editTemplate( $this );
+        if ( is_object( $dataType ) )
+            $result =& $dataType->editTemplate( $this );
+
+        return $result;
 
     }
 
@@ -1181,8 +1235,12 @@ class eZContentObjectAttribute extends eZPersistentObject
         return $this->DataTypeString;
         */
 
+        $result = false;
         $dataType =& $this->dataType();
-        return $dataType->informationTemplate( $this );
+        if ( is_object( $dataType ) )
+            $result =& $dataType->informationTemplate( $this );
+
+        return $result;
     }
 
     /*!
@@ -1196,8 +1254,12 @@ class eZContentObjectAttribute extends eZPersistentObject
         return $this->DataTypeString;
         */
 
+        $result = false;
         $dataType =& $this->dataType();
-        return $dataType->resultTemplate( $this );
+        if ( is_object( $dataType ) )
+            $result = $dataType->resultTemplate( $this );
+
+        return $result;
     }
 
     /// Contains the value(s) submitted in HTTP form

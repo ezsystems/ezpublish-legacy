@@ -471,7 +471,10 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $attributeNode->appendChild( $attributeParametersNode );
 
             $dataType =& $attribute->dataType();
-            $dataType->serializeContentClassAttribute( $attribute, $attributeNode, $attributeParametersNode );
+            if ( is_object( $dataType ) )
+            {
+                $dataType->serializeContentClassAttribute( $attribute, $attributeNode, $attributeParametersNode );
+            }
 
             $attributesNode->appendChild( $attributeNode );
         }
