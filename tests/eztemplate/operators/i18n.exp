@@ -2,3 +2,4 @@
 `Some simple text with indexed parameter: param value`
 `Some simple text with named parameter: param value`
 `Some simple text with dynamic named parameter: "param value"`
+`<a href=content/edit/42><img title="Click here to edit the contents of &quot;param value&quot;" /></a>`
