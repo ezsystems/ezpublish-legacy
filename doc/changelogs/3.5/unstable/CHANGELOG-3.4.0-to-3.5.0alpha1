@@ -18,6 +18,8 @@ Changes from 3.4.0 to 3.5.0alpha1
   the eZContentObject::reverseRelatedObjectList function.
 - eZContentObject::reverseRelatedObjectList now only lists relations from published
   versions and not drafts.
+- Fixed problem with ANSI control chars for the shell scripts.
+  http://ez.no/community/bug_reports/cli_scripts_in_windows_dos_box_show_ansi_control_characters
 
 *Scripts:
 eztc.php:

@@ -339,7 +339,11 @@ class eZCLI
     */
     function gotoColumn( $column )
     {
-        return "\033[" . $column . "G";
+        if ( !$this->UseStyles ) {
+            return "\t\t";
+        } else {
+            return "\033[" . $column . "G";
+        }
     }
 
     /*!
@@ -349,7 +353,10 @@ class eZCLI
     */
     function setUseStyles( $useStyles )
     {
-        $this->UseStyles = $useStyles;
+        if ( getenv('TERM') != '' ) {
+            $this->UseStyles = $useStyles;
+        }
+        
     }
 
     /*!
