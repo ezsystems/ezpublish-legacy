@@ -230,6 +230,7 @@ class eZBinaryFileType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+		eZDebug::writeDebug( "ezbinary:validateObjectAttributeHTTPInput" );
         eZBinaryFileType::checkFileUploads();
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
         $mustUpload = false;
@@ -274,11 +275,17 @@ class eZBinaryFileType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+		eZDebug::writeDebug( "ezbinaryfile::fetchObjectAttributeHTTPInput" );
+		
         eZBinaryFileType::checkFileUploads();
         if ( !eZHTTPFile::canFetch( $base . "_data_binaryfilename_" . $contentObjectAttribute->attribute( "id" ) ) )
             return false;
 
+		
+			
         $binaryFile =& eZHTTPFile::fetch( $base . "_data_binaryfilename_" . $contentObjectAttribute->attribute( "id" ) );
+
+		print_r( $binaryFile );
 
         $contentObjectAttribute->setContent( $binaryFile );
 
@@ -303,7 +310,7 @@ class eZBinaryFileType extends eZDataType
                 $mime = $binaryFile->attribute( "mime_type" );
             }
             $extension = preg_replace('/.*\.(.+?)$/', '\\1', $binaryFile->attribute( "original_filename" ) );
-            if ( !$binaryFile->store( "original", $extension ) )
+            if ( !$binaryFile->store( "original", $extension, $mime ) )
             {
                 eZDebug::writeError( "Failed to store http-file: " . $binaryFile->attribute( "original_filename" ),
                                      "eZBinaryFileType" );
