@@ -161,7 +161,7 @@ if [[ -z $ADDON || $ADDON = 'media' ]]; then
 	create $site "Media types" "$VERSION" -- \
 	set $site description "Adds media functionality. Allows for publishing of Flash, Quicktime, Real video and Windows media files." -- \
 	set $site type 'contentobject' -- \
-	add $site contentobject --siteaccess=base 'media/*' \
+	add $site contentobject --siteaccess=base 'media_files/*' \
 	|| exit 1
 fi
 
