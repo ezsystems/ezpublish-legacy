@@ -18,6 +18,8 @@ Changes from 3.2-5 to 3.2-6
   http://ez.no/community/bug_reports/design_standard_content_datatype_view_plain_ezrangeoption_tpl_missing_section
 - Fixed bug in permissions for versionview.
   http://ez.no/community/bug_reports/unable_to_use_versionview_without_create_permission
+- Fixed bug in shorten template operator.
+  http://ez.no/community/bug_reports/bug_in_template_operator_shorten
 
 *Setup:
 
