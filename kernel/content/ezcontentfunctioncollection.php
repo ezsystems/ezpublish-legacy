@@ -208,7 +208,7 @@ class eZContentFunctionCollection
         return array( 'result' => &$childrenCount );
     }
 
-    function &fetchContentSearch( $searchText, $subTreeArray, $offset, $limit, $searchTimestamp, $publishDate, $sectionID, $classID, $classAttributeID )
+    function &fetchContentSearch( $searchText, $subTreeArray, $offset, $limit, $searchTimestamp, $publishDate, $sectionID, $classID, $classAttributeID, $sortArray )
     {
         include_once( "kernel/classes/ezsearch.php" );
         $searchArray =& eZSearch::buildSearchArray();
@@ -221,6 +221,8 @@ class eZContentFunctionCollection
             $parameters['SearchSectionID'] = $sectionID;
         if ( $publishDate !== false )
             $parameters['SearchDate'] = $publishDate;
+        if ( $sortArray !== false )
+            $parameters['SortArray'] = $sortArray;
         $parameters['SearchLimit'] = $limit;
         $parameters['SearchOffset'] = $offset;
         if ( $subTreeArray !== false )

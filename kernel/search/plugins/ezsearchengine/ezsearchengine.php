@@ -386,6 +386,11 @@ class eZSearchEngine
             else
                 $subTreeArray = array();
 
+            if ( isset( $params['SortArray'] ) )
+                $sortArray = $params['SortArray'];
+            else
+                $sortArray = array();
+
             // strip multiple spaces
             $searchText = preg_replace( "(\s+)", " ", $searchText );
 
@@ -848,6 +853,12 @@ class eZSearchEngine
             if ( $tmpTableCount > 1 )
             $and = " AND ";
 
+            // Generate ORDER BY SQL
+            $orderBySQLArray = $this->buildSortSQL( $sortArray );
+            $orderByFieldsSQL = $orderBySQLArray['sortingFields'];
+            $sortWhereSQL = $orderBySQLArray['whereSQL'];
+            $sortFromSQL = $orderBySQLArray['fromSQL'];
+
             // Fetch data from table
             $searchQuery ='';
             $dbName = $db->databaseName();
@@ -861,6 +872,7 @@ class eZSearchEngine
                        ezcontentclass,
                        ezcontentobject_tree
                        $versionNameTables
+                       $sortFromSQL
                     WHERE
                     $tmpTablesWhere $and
                     ezcontentobject.id=ezsearch_tmp_0.contentobject_id and
@@ -869,7 +881,8 @@ class eZSearchEngine
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $versionNameJoins
-                    ORDER BY ezsearch_tmp_0.published DESC ";
+                    $sortWhereSQL
+                    ORDER BY $orderByFieldsSQL";
             }
             else
             {
@@ -934,6 +947,113 @@ class eZSearchEngine
 
     }
 
+    /*!
+     \private
+     \return an array of ORDER BY SQL
+    */
+    function buildSortSQL( $sortArray )
+    {
+        $sortCount = 0;
+        $sortList = false;
+        if ( isset( $sortArray ) and
+             is_array( $sortArray ) and
+             count( $sortArray ) > 0 )
+        {
+            $sortList = $sortArray;
+            if ( count( $sortList ) > 1 and
+                 !is_array( $sortList[0] ) )
+            {
+                $sortList = array( $sortList );
+            }
+        }
+        $attributeJoinCount = 0;
+        $attributeFromSQL = "";
+        $attributeWereSQL = "";
+        if ( $sortList !== false )
+        {
+            $sortingFields = '';
+            foreach ( $sortList as $sortBy )
+            {
+                if ( is_array( $sortBy ) and count( $sortBy ) > 0 )
+                {
+                    if ( $sortCount > 0 )
+                        $sortingFields .= ', ';
+                    $sortField = $sortBy[0];
+                    switch ( $sortField )
+                    {
+                        case 'path':
+                        {
+                            $sortingFields .= 'path_string';
+                        } break;
+                        case 'published':
+                        {
+                            $sortingFields .= 'ezcontentobject.published';
+                        } break;
+                        case 'modified':
+                        {
+                            $sortingFields .= 'ezcontentobject.modified';
+                        } break;
+                        case 'section':
+                        {
+                            $sortingFields .= 'ezcontentobject.section';
+                        } break;
+                        case 'depth':
+                        {
+                            $sortingFields .= 'depth';
+                        } break;
+                        case 'class_identifier':
+                        {
+                            $sortingFields .= 'ezcontentclass.identifier';
+                        } break;
+                        case 'class_name':
+                        {
+                            $sortingFields .= 'ezcontentclass.name';
+                        } break;
+                        case 'priority':
+                        {
+                            $sortingFields .= 'ezcontentobject_tree.priority';
+                        } break;
+                        case 'name':
+                        {
+                            $sortingFields .= 'ezcontentobject_name.name';
+                        } break;
+                        case 'attribute':
+                        {
+                            $sortClassID = $sortBy[2];
+                            $sortingFields .= "a$attributeJoinCount.sort_key";
+                            $attributeFromSQL .= ", ezcontentobject_attribute as a$attributeJoinCount";
+                            $attributeWereSQL .= " AND a$attributeJoinCount.contentobject_id = ezcontentobject.id AND
+                                                  a$attributeJoinCount.contentclassattribute_id = $sortClassID AND
+                                                  a$attributeJoinCount.version = ezcontentobject_name.content_version";
+
+                            $attributeJoinCount++;
+                        }break;
+
+                        default:
+                        {
+                            eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZContentObjectTreeNode::subTree' );
+                            continue;
+                        };
+                    }
+                    $sortOrder = true; // true is ascending
+                    if ( isset( $sortBy[1] ) )
+                        $sortOrder = $sortBy[1];
+                    $sortingFields .= $sortOrder ? " ASC" : " DESC";
+                    ++$sortCount;
+                }
+            }
+        }
+
+        // Should we sort?
+        if ( $sortCount == 0 )
+        {
+            $sortingFields = " ezcontentobject.published ASC";
+        }
+
+        return array( 'sortingFields' => $sortingFields,
+                      'fromSQL' => $attributeFromSQL,
+                      'whereSQL' => $attributeWereSQL );
+    }
 
     /*!
      \private

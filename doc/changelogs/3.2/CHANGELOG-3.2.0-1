@@ -1,6 +1,7 @@
 Changes from 3.1-1 to 3.2.0-1
 
 *Kernel:
+- Added sorting to search results. It now supports the same as the content fetch function.
 - Added navigation part identifier as override key for content view
 - Added new design to admin
 - Added setting for optional attribute translation, you can now select which attributes can be translated

@@ -316,7 +316,11 @@ $FunctionList['search'] = array( 'name' => 'search',
                                                         array( 'name' => 'class_attribute_id',
                                                                'type' => 'integer',
                                                                'required' => false,
-                                                               'default' => false ) ) );
+                                                               'default' => false ),
+                                                        array( 'name' => 'sort_by',
+                                                               'type' => 'mixed',
+                                                               'required' => false,
+                                                               'default' => false )) );
 
 $FunctionList['trash_count'] = array( 'name' => 'trash_count',
                                       'operation_types' => array( 'read' ),
