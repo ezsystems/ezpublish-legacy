@@ -68,12 +68,29 @@ div#search p
     font-size: 0.8em;
     color: #ffffff;
     margin: 0;
-    text-align: right;
+    text-align: left;
+}
+
+div#search p.select
+{
+    float: left;
+    margin-top: 0.2em;
+}
+
+div#search p.select input
+{
+    vertical-align: middle;
 }
 
 div#search a
 {
     color: #ffffff;
+}
+
+div#search p.advanced
+{
+    margin-top: 0.2em;
+    text-align: right;
 }
 
 div#search label

@@ -23,6 +23,8 @@ div.notranslations li { width: 24%; } /* Avoid width bug in IE */
 div.context-user div.menu-block li { width: 14%; } /* Avoid width bug in IE */
 input.button, input.button-disabled { padding: 0 0.5em 0 0.5em; overflow: visible; }
 input.box, textarea.box { width: 99%; }
+div#search p.select { margin-top: 0; }
+div#search p.advanced { margin-top: 0.3em; }
 </style>
 <![endif]-->
 <!--[if lt IE 6.0]>
@@ -73,7 +75,7 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     <input id="searchtext" name="SearchText" type="text" size="20" value="{section show=is_set( $search_text )}{$search_text|wash}{/section}" />
     <input id="searchbutton" class="button" name="SearchButton" type="submit" value="{'Search'|i18n( 'design/admin/pagelayout' )}" />
 {/section}
-    <p>
+    <p class="select">
     {let disabled=false()
          nd=1
          left_checked=true()
@@ -104,6 +106,8 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
     <label{section show=$disabled} class="disabled"{/section}><input type="radio" name="SubTreeArray" value="1" checked="checked"{section show=$disabled} disabled="disabled"{section-else} title="{'Search within the entire site.'|i18n( 'design/admin/pagelayout' )}"{/section} />{'All content'|i18n( 'design/admin/pagelayout' )}</label>
     <label{section show=$disabled} class="disabled"{/section}><input type="radio" name="SubTreeArray" value="{$nd}"{section show=$disabled} disabled="disabled"{section-else} title="{'Search only from within the current location.'|i18n( 'design/admin/pagelayout' )}"{/section}{section show=not( $left_checked )} checked="checked"{/section} />{section show=$current_loc}{'Current location'|i18n( 'design/admin/pagelayout' )}{section-else}{'The same location'|i18n( 'design/admin/pagelayout' )}{/section}</label>
     {/let}
+    </p>
+    <p class="advanced">
     {section show=eq( $ui_context, 'edit' )}
     <span class="disabled">{'Advanced'|i18n( 'design/admin/pagelayout' )}</span>
     {section-else}
