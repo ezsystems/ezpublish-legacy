@@ -98,6 +98,32 @@ class eZModuleFunctionInfo
         return true;
     }
 
+    /*!
+      Check if a parameter for a function is an array
+
+      \param function name
+      \param parameter name
+
+      \return true if parameter is supposed to be array
+     */
+    function isParameterArray( $functionName, $parameterName )
+    {
+        if ( isset( $this->FunctionList[$functionName]['parameters'] ) )
+        {
+            $parameterList =& $this->FunctionList[$functionName]['parameters'];
+            foreach ( array_keys( $parameterList ) as $key )
+            {
+                if ( $parameterList[$key]['name'] == $parameterName )
+                {
+                    if ( $parameterList[$key]['type'] == 'array' )
+                        return true;
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
     function execute( $functionName, $functionParameters )
     {
         $moduleName = $this->ModuleName;

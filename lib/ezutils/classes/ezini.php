@@ -950,9 +950,17 @@ class eZINI
     /*!
       Checks if a variable is set. Returns true if the variable exists, false if not.
     */
-    function &hasVariable( $blockName, $varName )
+    function hasVariable( $blockName, $varName )
     {
-        return isSet( $this->BlockValues[$blockName][$varName] );
+        return isset( $this->BlockValues[$blockName][$varName] );
+    }
+
+    /*!
+      Check if a block/section is set. Returns true if the section/block is set, false if not
+    */
+    function hasSection( $sectionName )
+    {
+        return is_array( $this->BlockValues[$sectionName] );
     }
 
     /*!
