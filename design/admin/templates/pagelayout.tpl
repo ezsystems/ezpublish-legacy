@@ -22,7 +22,6 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 </head>
 
 <body>
-
 <div id="allcontent">
 
 <div id="header">
@@ -78,7 +77,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
     {include uri="design:page_menuheadgray.tpl" menu_text='User accounts'|i18n('design/admin/layout') menu_url="/content/view/full/5/"}
     {/section}
     </div></li>
-{section show=eq(ezpreference('interface_mode'),'advanced')}
+{section show=eq(ezpreference( 'interface_mode'),'advanced')}
     <li><div>
     {* Shop menu *}
     {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
@@ -197,7 +196,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {section show=$node.node_id|is_set()}
 <form method="post" action={"content/action"|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add bookmark'|i18n('design/standard/node/view')}" />
+<input class="button" type="submit" name="ActionAddToBookmarks" value="{'Add bookmark'|i18n('design/standard/node/view')}" title="{'Click here to add the item that is being displayed to your personal bookmarks.'|i18n( '/design/admin/layout' )}" />
 </form>
 {/section}
 
@@ -223,7 +222,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {section show=$node.node_id|is_set()}
 <form method="post" action={"content/action"|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-<input class="button" type="submit" name="ActionAddToNotification" value="{'Add notification'|i18n('design/standard/node/view')}" />
+<input class="button" type="submit" name="ActionAddToNotification" value="{'Add notification'|i18n('design/standard/node/view')}" title="{'Click here to add the item that is being displayed to your personal notifications list.'|i18n( 'design/admin/layout' )}" />
 </form>
 {/section}
 
@@ -232,12 +231,12 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {section show=eq(ezpreference('interface_mode'),'simple')}
 <p>{"Current mode"|i18n("design/admin/layout")}: {"Simple"|i18n("design/admin/layout")}</p>
 <form method="post" action={"/user/preferences/set/interface_mode/advanced"|ezurl}>
-<input class="button" type="submit" name="SetInterfaceModeAdvanced" value="{'Switch to advanced'|i18n('/design/admin/layout')}" />
+<input class="button" type="submit" name="SetInterfaceModeAdvanced" value="{'Switch to advanced'|i18n('/design/admin/layout')}" title="{'Click here to put the user interface into advanced mode. Advanced mode provides a full-blown interface for power users and administrators.'|i18n( 'design/admin/layout' )}" />
 </form>
 {section-else}
 <p>{"Current mode"|i18n("design/admin/layout")}: {"Advanced"|i18n("design/admin/layout")}</p>
 <form method="post" action={"/user/preferences/set/interface_mode/simple"|ezurl}>
-<input class="button" type="submit" name="SetInterfaceModeAdvanced" value="{'Switch to simple'|i18n('/design/admin/layout')}" />
+<input class="button" type="submit" name="SetInterfaceModeSimple" value="{'Switch to simple'|i18n('/design/admin/layout')}" title="{'Click here to put the user interface into simple mode. Simple mode provides a lightweight interface for content authors.'|i18n( 'design/admin/layout' )}" />
 </form>
 {/section}
 
@@ -275,6 +274,12 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 
 <div class="break"></div>
 </div>
+
+{* __FIX_ME__ Temporary debug stuff - to be removed later. *}
+<h2>Temporary debug stuff (from pagelayout.tpl):</h2>
+$navigation_part.identifier: {$navigation_part.identifier}<br />
+$ui_context:   {$ui_context}<br />
+$ui_component: {$ui_component}<br />
 
 <!--DEBUG_REPORT-->
 
