@@ -361,6 +361,64 @@ div#footer a
     margin: 0px;
 }
 
+
+/* frontpage styles */
+#frontpage div#largenews h2
+{ 
+    font: bold 150% Georgia,Serif;
+    color: #666666;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 5px;
+}
+
+#frontpage div#mediumnews h2
+{ 
+    font: bold 110% Georgia,Serif;
+    color: #666666;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 5px;
+}
+
+#frontpage div.child div.byline
+{ 
+    margin: 0px;
+    padding: 0px;
+}
+
+#frontpage div.child div.byline p
+{ 
+    color: #888888;
+    font-size: x-small;
+    margin: 0px;
+    padding: 0px;
+}
+
+#frontpage div.child div.object_brief p
+{ 
+    margin: 0px;
+    padding: 0px;
+}
+
+#frontpage div.child div.readmore
+{ 
+}
+
+#frontpage div.child div.readmore a
+{ 
+    border-bottom: 1px dotted #ff6633;
+    text-decoration:none;
+    font-size: small;
+    color: #304b82;
+}
+
+#frontpage div.child div.readmore p
+{ 
+    padding: 0px;
+    margin: 0px;
+}
+
 /* article styles */
 
 #article div.byline p

@@ -1,3 +1,9 @@
+[folder_frontpage]
+Source=node/view/full.tpl
+MatchFile=folder_frontpage.tpl
+Subdir=templates
+Match[node]=2
+
 [folder]
 Source=node/view/full.tpl
 MatchFile=folder.tpl
