@@ -18,28 +18,22 @@
     <h2>{'Are you sure you want to remove the class groups?'|i18n( 'design/admin/class/removegroup' )}</h2>
 {/section}
 
-
 {section var=ClassGroups loop=$groups_info}
+
+{section show=$ClassGroups.item.class_list}
+
 <p>{'The following classes will be removed from the <%group_name> class group'|i18n( 'design/admin/class/removegroup',, hash( '%group_name', $ClassGroups.item.group_name ) )|wash}:</p>
 
 <ul>
 {section var=Classes loop=$ClassGroups.item.class_list}
-<li>
-{$Classes.class_name}&nbsp;({'%objects objects will be removed'|i18n( 'design/admin/class/removegroup',, hash( '%objects', $Classes.item.object_count ) )|wash})
-</li>
+    <li>
+        {$Classes.class_name}&nbsp;({'%objects objects will be removed'|i18n( 'design/admin/class/removegroup',, hash( '%objects', $Classes.item.object_count ) )|wash})
+    </li>
 {/section}
 </ul>
-
 {/section}
 
-{*
-
-<ul>
-{section var=DeletedClasses loop=$deleted_classes}
-	<li>{$DeletedClasses.item|wash}</li>
 {/section}
-</ul>
-*}
 
 </div>
 
