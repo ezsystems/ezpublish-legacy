@@ -181,11 +181,11 @@ function eZSetupSiteINISettings( $siteType, $parameters, $isAdmin )
     }
     if ( $isAdmin )
     {
-        $settings['SiteAccessSettings'] = array( 'ShowHiddenNodes' => 'true' );
+        $settings['SiteAccessSettings'] = array_merge( $settings['SiteAccessSettings'], array( 'ShowHiddenNodes' => 'true' ) );
     }
     else
     {
-        $settings['SiteAccessSettings'] = array( 'ShowHiddenNodes' => 'false' );
+        $settings['SiteAccessSettings'] = array_merge( $settings['SiteAccessSettings'], array( 'ShowHiddenNodes' => 'false' ) );
     }
     return array( 'name' => 'site.ini',
                   'settings' => $settings );
