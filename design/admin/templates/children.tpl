@@ -70,9 +70,9 @@
         {* Remove checkbox *}
         <td>
         {section show=$Nodes.item.object.can_remove}
-            <input type="checkbox" name="DeleteIDArray[]" value="{$Nodes.item.node_id}" />
+            <input type="checkbox" name="DeleteIDArray[]" value="{$Nodes.item.node_id}" title="{'Use these checkboxes to mark items for removal. Click the "Remove selected" button to actually remove the selected items.'|i18n( 'design/admin/layout' )|wash()} "/>
             {section-else}
-            <input type="checkbox" name="DeleteIDArray[]" value="{$Nodes.item.node_id}" disabled="disabled" />
+            <input type="checkbox" name="DeleteIDArray[]" value="{$Nodes.item.node_id}" title="{'You do not have permissions to mark this item for removal.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
         {/section}
         </td>
 
@@ -88,10 +88,10 @@
         {section show=eq( $node.sort_array[0][0], 'priority' )}
             <td>
             {section show=$node.object.can_edit}
-                <input type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" />
+                <input type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'Use the priority fields to control the order in which the items appear. Use positive and negative integers. Click the Update priorities button to apply the changes.'|i18n( 'design/admin/layout') }" />
                 <input type="hidden" name="PriorityID[]" value="{$Nodes.item.node_id}" />
                 {section-else}
-                <input type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" disabled="disabled" />
+                <input type="text" name="Priority[]" size="3" value="{$Nodes.item.priority}" title="{'You are not allowed to update the priorities because you do not have permissions to edit %quoted_node'|i18n( 'admin/design/layout',, hash( '%quoted_node', $quoted_node ) )}" disabled="disabled" />
             {/section}
             </td>
         {/section}
@@ -99,7 +99,7 @@
     {* Copy button *}
     <td>
     {section show=$can_copy}
-    <a href={concat( 'content/copy/', $Nodes.item.contentobject_id )|ezurl}><img src={'copy.gif'|ezimage} alt="{'Copy'|i18n( 'design/admin/layout' )}" title={'Click here to create a copy of %quoted_child. The copy will be created within the current location.'|i18n( 'design/admin/layout',,hash( '%quoted_child', $quoted_child ) )}" /></a>
+    <a href={concat( 'content/copy/', $Nodes.item.contentobject_id )|ezurl}><img src={'copy.gif'|ezimage} alt="{'Copy'|i18n( 'design/admin/layout' )}" title="{'Click here to create a copy of %quoted_child. The copy will be created within the current location.'|i18n( 'design/admin/layout',,hash( '%quoted_child', $quoted_child ) )}" /></a>
     {section-else}
     <img src={'copy_disabled.png'|ezimage} alt="{'Copy'|i18n( 'design/admin/layout' )}" title="{'You can not make a copy of %quoted_child because you do not have create permissions for %quoted_node.'|i18n( 'design/admin/layout',,hash( '%quoted_child', $quoted_child, '%quoted_node', $quoted_node ) )}" />
     {/section}
@@ -135,17 +135,17 @@
 <div class="controlbar">
     {* Remove button *}
     {section show=$can_remove}
-        <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/standard/node/view')}" />
+        <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/standard/node/view')}" title="{'Click here to remove the items that are checked from the list above.'|i18n( 'design/admin/layout' )}" />
     {section-else}
-        <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/standard/node/view')}" disabled="disabled" />
+        <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/standard/node/view')}" title="{'You do not have permissions to remove any of the items from the list above.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
     {/section}
 
     {* Update priorities button *}
     {section show=eq( $node.sort_array[0][0], 'priority' )}
     {section show=$node.object.can_edit}
-        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" />
+        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" title="{'Click here to apply changes to the priorities of the items in the list above.'|i18n( 'design/admin/layout' )}" />
     {section-else}
-        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" disabled="disabled" />
+        <input class="button" type="submit" name="UpdatePriorityButton" value="{'Update priorities'|i18n('design/standard/node/view')}" title="{'You do not have permissions to change the priorities of the items in the list above.'|i18n( 'design/admin/layout' )}" disabled="disabled" />
     {/section}
     {/section}
 
@@ -157,7 +157,7 @@
 {section show=$node.object.can_create}
 <div class="createblock">
 <input type="hidden" name="NodeID" value="{$node.node_id}" />
-<select name="ClassID" title="{'Use this menu to select the type of object you wish to create.'|i18n( 'design/admin/layout' )}">
+<select name="ClassID" title="{'Use this menu to select the type of object you wish to create. The object will be created within the current location.'|i18n( 'design/admin/layout' )}">
 {section var=CanCreateClasses loop=$node.object.can_create_class_list}
 <option value="{$CanCreateClasses.item.id}">{$CanCreateClasses.item.name|wash()}</option>
 {/section}
