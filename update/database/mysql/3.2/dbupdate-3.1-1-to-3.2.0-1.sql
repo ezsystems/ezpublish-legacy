@@ -73,6 +73,7 @@ alter table ezcontentobject_attribute add sort_key_string varchar(50) not null d
 # Not needed if you don't upgrade from an svn version of 3.2
 # update ezcontentobject_attribute set sort_key_int=sort_key;
 # update ezcontentobject_attribute set sort_key_string=sort_key;
+# alter table  ezcontentobject_attribute drop sort_key;
 
 
 ALTER TABLE ezcontentobject_attribute ADD index ( sort_key_int );
