@@ -299,10 +299,9 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
 
         /* Make sure to generate a package name that can be called through
          * a urlalias */
-        include 'lib/ezi18n/classes/ezchartransform.php';
+        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans = new eZCharTransform;
         $packageInformation['name'] = $trans->transformByGroup( implode( ',', $nodeNames ), 'urlalias' );
-
         $packageInformation['summary'] = implode( ', ', $nodeNames );
         $packageInformation['description'] = $description;
     }
