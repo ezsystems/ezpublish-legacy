@@ -39,7 +39,6 @@ div#toolbar-top
 { 
     padding: 13px 0 8px 8px;
     text-align: right;
-    float: right;
 }
 
 div#toolbar-design
@@ -50,6 +49,7 @@ div#toolbar-design
 
 div#toolbar-top ul
 {
+    float: right;
 }
 
 div#toolbar-top li.toolbar-item
