@@ -37,7 +37,7 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
  If CheckValidity in SiteAccessSettings is false then no check is done.
 */
 
-function eZCheckValidity( &$siteBasics )
+function eZCheckValidity( &$siteBasics, &$uri )
 {
 //     eZDebug::writeDebug( "Checking validity" );
     $ini =& eZINI::instance();
@@ -67,7 +67,7 @@ function eZCheckValidity( &$siteBasics )
  Checks if user is logged in, if not and the site requires user login for access
  a module redirect is returned.
 */
-function eZCheckUser( &$siteBasics )
+function eZCheckUser( &$siteBasics, &$uri )
 {
 //     eZDebug::writeDebug( "Checking user" );
     if ( !$siteBasics['user-object-required'] )
@@ -81,17 +81,18 @@ function eZCheckUser( &$siteBasics )
     $http =& eZHTTPTool::instance();
     if ( !$requireUserLogin )
         return null;
-    $uri =& $GLOBALS['eZRequestedURI'];
+//     $uri =& $GLOBALS['eZRequestedURI'];
     $check = array( "module" => "user",
                     "function" => "login" );
     if ( $http->hasSessionVariable( "eZUserLoggedInID" ) and
          $http->sessionVariable( "eZUserLoggedInID" ) != '' and
          $http->sessionVariable( "eZUserLoggedInID" ) != $ini->variable( 'UserSettings', 'AnonymousUserID' ) )
         return null;
-    $moduleName =  $uri->element();
+    $moduleName = $uri->element();
     $viewName = $uri->element( 1 );
     $anonymousAccessList = $ini->variable( "SiteAccessSettings", "AnonymousAccessList" );
     $anonymousAccessList[] = 'user/register';
+    $anonymousAccessList[] = 'user/success';
     $anonymousAccessList[] = 'ezinfo';
     foreach ( $anonymousAccessList as $anonymousAccess )
     {
@@ -137,7 +138,7 @@ function eZCheckOrder()
  Does pre checks and returns a structure with redirection information,
  returns null if nothing should be done.
 */
-function eZHandlePreChecks( &$siteBasics )
+function eZHandlePreChecks( &$siteBasics, &$uri )
 {
     $checks = eZCheckList();
     precheckAllowed( $checks );
@@ -150,7 +151,7 @@ function eZHandlePreChecks( &$siteBasics )
         if ( !isset( $check["allow"] ) or $check["allow"] )
         {
             $func = $check["function"];
-            $check = $func( $siteBasics );
+            $check = $func( $siteBasics, $uri );
             if ( $check !== null )
                 return $check;
         }

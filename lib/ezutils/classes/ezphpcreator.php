@@ -93,8 +93,11 @@ class eZPHPCreator
             $pathExisted = file_exists( $path );
             $ini =& eZINI::instance();
             $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
-            $this->FileResource = fopen( $path, "w" );
-            if ( !$pathExisted )
+            $this->FileResource = @fopen( $path, "w" );
+            if ( !$this->FileResource )
+                eZDebug::writeError( "Could not open file '$path' for writing, perhaps wrong permissions" );
+            if ( $this->FileResource and
+                 !$pathExisted )
                 chmod( $path, $perm );
             umask( $oldumask );
         }

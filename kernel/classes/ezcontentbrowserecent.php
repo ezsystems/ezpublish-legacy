@@ -206,7 +206,10 @@ class eZContentBrowseRecent extends eZPersistentObject
         // If we already have the node in the list just return
         if ( count( $matchingRecentList ) > 0 )
         {
-            return $matchingRecentList[0];
+            $oldItem =& $matchingRecentList[0];
+            $oldItem->setAttribute( 'created', mktime() );
+            $oldItem->store();
+            return $oldItem;
         }
         $recentCount = $recentCountList[0]['count'];
         $maximumCount = eZContentBrowseRecent::maximumRecentItems();

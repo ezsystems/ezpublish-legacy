@@ -37,6 +37,7 @@ Changes from 3.0-? to 3.1
 - Added upgrade script from old to new override system
 - Fixed database update files, to a new naming structure.
 - Fixed bug with role assignment cleanup after user is deleted.
+
 Binary file:
 - Added support for resuming downloads.
 
@@ -68,6 +69,8 @@ eZUtils:
 - Added memory usage to debug timing points.
 - Added debug labels to output when displaying plain text debug.
 - Added support for recursive accumulator calls in debug, the caller must specify this for it to work.
+- Made sure sendmail transport sent out correct mails when safe_mode is on.
+- Made sure header list does not return duplicate standard headers.
 
 eZ PHP Creator:
 - Added optional whitespacehandling on comments
@@ -77,6 +80,7 @@ eZ PHP Creator:
 - Added support for creating include statements.
 - Added support for adding variable unset statements.
 - Added return value to store()
+- Made sure errors are detected and reported.
 
 eZDB:
 - postgresql driver has been changed to support 7.3.x version. Fixed problem with limit and offset.

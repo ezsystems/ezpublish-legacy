@@ -61,14 +61,26 @@ class eZSendmailTransport extends eZMailTransport
     */
     function sendMail( &$mail )
     {
-        $message = $mail->body();
-        $extraHeaders = $mail->headerText( array( 'exclude-headers' => array( 'To', 'Subject' ) ) );
         $ini =& eZINI::instance();
         $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
-        if ( preg_match("/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+$/", $emailSender ) )
-            return mail( $mail->receiverEmailText(), $mail->subject(), $message, $extraHeaders, '-f' . $emailSender );
-        else
+        if ( !preg_match("/^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+$/", $emailSender ) )
+            $emailSender = false;
+        $isSafeMode = ini_get( 'safe_mode' );
+        $isSafeMode = true;
+        if ( $isSafeMode and
+             $emailSender and
+             $mail->sender() == false )
+            $mail->setSenderText( $emailSender );
+        include_once( 'lib/version.php' );
+        $version =& eZPublishSDK::version();
+        $mail->addExtraHeader( 'X-Mailer', "eZ publish $version" );
+        $message = $mail->body();
+        $extraHeaders = $mail->headerText( array( 'exclude-headers' => array( 'To', 'Subject' ) ) );
+        if ( $isSafeMode or
+             !$emailSender )
             return mail( $mail->receiverEmailText(), $mail->subject(), $message, $extraHeaders );
+        else
+            return mail( $mail->receiverEmailText(), $mail->subject(), $message, $extraHeaders, '-f' . $emailSender );
     }
 }
 

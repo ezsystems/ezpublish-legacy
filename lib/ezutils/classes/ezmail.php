@@ -56,6 +56,11 @@ class eZMail
         $this->Subject = false;
         $this->BodyText = false;
         $this->ExtraHeaders = array();
+
+        // Add mailer header
+        include_once( 'lib/version.php' );
+        $version =& eZPublishSDK::version();
+        $this->addExtraHeader( 'X-Mailer', "eZ publish $version" );
     }
 
     /*!
@@ -252,6 +257,25 @@ class eZMail
     }
 
     /*!
+     Similar to addExtraHeader() but will overwrite existing entries.
+    */
+    function setExtraHeader( $headerName, $headerValue )
+    {
+        for ( $i = 0; $i < count( $this->ExtraHeaders ); ++$i )
+        {
+            $extraHeader =& $this->ExtraHeaders[$i];
+            if ( isset( $extraHeader['name'] ) and
+                 $extraHeader['name'] == $headerName )
+            {
+                $extraHeader = array( 'name' => $headerName,
+                                      'content' => $headerValue );
+                return true;
+            }
+        }
+        $this->addExtraHeader( $headerName, $headerValue );
+    }
+
+    /*!
      Sets the extra headers to \a $headers.
     */
     function setExtraHeaders( $headers )
@@ -437,43 +461,53 @@ class eZMail
             }
         }
         $headers = array();
+        $headerNames = array();
         if ( !in_array( 'to', $excludeHeaders ) )
+        {
             $headers[] = array( 'name' => 'To',
                                 'content' => $this->composeEmailItems( $this->ReceiverElements ) );
+            $headerNames[] = 'to';
+        }
         if ( count( $this->CcElements ) > 0 and
              !in_array( 'cc', $excludeHeaders ) )
         {
             $headers[] = array( 'name' => 'Cc',
                                 'content' => $this->composeEmailItems( $this->CcElements ) );
+            $headerNames[] = 'cc';
         }
         if ( count( $this->BccElements ) > 0 and
              !in_array( 'bcc', $excludeHeaders ) )
         {
             $headers[] = array( 'name' => 'Bcc',
                                 'content' => $this->composeEmailItems( $this->BccElements ) );
+            $headerNames[] = 'bcc';
         }
         if ( $this->From !== false and
              !in_array( 'from', $excludeHeaders ) )
         {
             $headers[] = array( 'name' => 'From',
                                 'content' => $this->composeEmailName( $this->From ) );
+            $headerNames[] = 'from';
         }
         if ( $this->ReplyTo !== false and
              !in_array( 'reply-to', $excludeHeaders ) )
         {
             $headers[] = array( 'name' => 'Reply-To',
                                 'content' => $this->composeEmailName( $this->ReplyTo ) );
+            $headerNames[] = 'reply-to';
         }
         if ( $this->Subject !== false and
              !in_array( 'subject', $excludeHeaders ) )
         {
             $headers[] = array( 'name' => 'Subject',
                                 'content' => $this->Subject );
+            $headerNames[] = 'subject';
         }
         $extraHeaders = $this->ExtraHeaders;
         foreach ( $extraHeaders as $extraHeader )
         {
-            if ( !in_array( strtolower( $extraHeader['name'] ), $excludeHeaders ) )
+            if ( !in_array( strtolower( $extraHeader['name'] ), $excludeHeaders ) and
+                 !in_array( strtolower( $extraHeader['name'] ), $headerNames ) )
                 $headers[] = $extraHeader;
         }
         return $headers;

@@ -40,7 +40,7 @@
 define( "EZ_SDK_VERSION_MAJOR", 3 );
 define( "EZ_SDK_VERSION_MINOR", 1 );
 define( "EZ_SDK_VERSION_DEVELOPMENT", 0 );
-define( "EZ_SDK_VERSION_RELEASE", 0 );
+define( "EZ_SDK_VERSION_RELEASE", 1 );
 define( "EZ_SDK_VERSION_ALIAS", '3.1 beta1' );
 
 class eZPublishSDK
@@ -55,7 +55,7 @@ class eZPublishSDK
     {
         $versionText = eZPublishSDK::majorVersion() . '.' . eZPublishSDK::minorVersion();
         $development = eZPublishSDK::developmentVersion();
-        if ( $development )
+        if ( $development !== false )
             $versionText .= '.' . $development;
         if ( $withRelease )
             $versionText .= "-" . eZPublishSDK::release();
