@@ -280,7 +280,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         $ruleList =& eZSubtreeNotificationRule::fetchList( $userID, true, $offset, $limit );
         return $ruleList;
     }
-    
+
     function &rulesCount( $user = false )
     {
         if ( $user === false )
@@ -309,7 +309,8 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             {
                 eZPersistentObject::removeObject( eZSubtreeNotificationRule::definition(), array( 'id' => $ruleID ) );
             }
-            $existingNodes =& eZSubtreeNotificationRule::fetchNodesForUserID( $email, false );
+            $user =& eZUser::currentUser();
+            $existingNodes =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
         }
         else if ( $http->hasPostVariable( "BrowseActionName" ) and
                   $http->postVariable( "BrowseActionName" ) == "AddSubtreeSubscribingNode" and
