@@ -305,7 +305,7 @@ div#leftmenu div.box-content
 
 div#maincontent div.box-content
 {
-    padding: 0 1px 3px 1px;  
+    padding: 0 2px 3px 1px;  
 }
 
 div.controlbar div.box-br
@@ -551,12 +551,8 @@ div.mainobject-window
 
 div.menu-block
 {
-    padding: 0.1em 0.2em 0.1em 0.2em;
-    font-weight: bold;
+    padding: 0.5em 0.5em 0.5em 0.5em;
     text-align: center;
-    border: 1px solid #ffffff;
-    border-bottom-color: #d0d0d0;
-    border-right-color: #d0d0d0;
 }
 
 div.menu-block ul
@@ -567,14 +563,15 @@ div.menu-block ul
 
 div.menu-block li
 {
-    display: inline;
-    border: 1px solid #ffffff;
-    border-bottom-color: #d0d0d0;
-    border-right-color: #d0d0d0;
+    display: block;
+    float: left;
+    width: 20%;
+    background-color: #ffffff;
 }
 
 div.menu-block a
 {
+    display: block;
     color: #000000;
     padding: 0 0.5em 0 0.5em;
     text-decoration: none;
@@ -582,8 +579,6 @@ div.menu-block a
 
 div.menu-block a.enabled
 {
-    color: #ffffff;
-    background-color: #606060;
 }
 
 div.menu-block a:hover
@@ -591,6 +586,27 @@ div.menu-block a:hover
     color: #ffffff;
     background-color: #000000;
     text-decoration: none;
+}
+
+div.menu-block li.selected div.button-bl
+{
+    background-image: url(../images/button-bl.gif);
+    background-repeat: no-repeat;
+    background-position: bottom left;
+}
+
+div.menu-block li.selected div.button-br
+{
+    background-image: url(../images/button-br.gif);
+    background-repeat: no-repeat;
+    background-position: bottom right;
+}
+
+div.menu-block li.selected div.button-bc
+{
+    background-image: url(../images/button-bc.gif);
+    background-repeat: repeat-x;
+    background-position: bottom left;
 }
 
 div.context-block
@@ -604,10 +620,10 @@ div.context-block
 
 h2.context-title
 {
-    font-size: 1.3em;
+    font-size: 1em;
     font-weight: bold;
     color: #ffffff;
-    padding: 0.2em;
+    padding: 0.2em 0.2em 0.2em 0.5em;
     margin: 0;
 }
 
@@ -617,6 +633,7 @@ div.header-mainline
     background-repeat: repeat-y;
     background-position: top left;
     background-color: #ef8c00;
+    font-size: 1px;
     height: 7px;
     margin: 0 1px 0 1px;    
 }
@@ -627,6 +644,7 @@ div.header-subline
     background-repeat: repeat-y;
     background-position: top left;
     background-color: #b5bec7;
+    font-size: 1px;
     height: 7px;
     margin: 0 1px 0 1px;    
 }
@@ -682,7 +700,9 @@ div.context-toolbar input.button
 
 div.context-toolbar div.break
 {
-    margin-bottom: -2px;
+    font-size: 1px;
+    height: 1px;
+    clear: both;
 }
 
 div.context-information
@@ -776,7 +796,7 @@ div.controlbar div.block
 {
     margin: 0.5em 0 0.5em 0;
     padding: 0;
-/*    border-bottom: 1px solid #606060; */ /* Set to avoid Mozilla bug */
+    border-bottom: 1px solid transparent;  /* Set to avoid Mozilla bug */
 }
 
 div.controlbar label
