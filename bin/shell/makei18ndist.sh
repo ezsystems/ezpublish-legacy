@@ -17,7 +17,9 @@ then
     targetdir=`pwd`
 fi
 
-file=$targetdir/ezpublish-$VERSION_NICK-$locale.tar.gz
+filebase=$targetdir/ezpublish-$VERSION_NICK-$locale
+file=$filebase.tar.gz
+filezip=$filebase.zip
 
 if [ -f "$file" ]
 then
@@ -26,6 +28,14 @@ then
     exit 1
 fi
 
+if [ -f "$filezip" ]
+then
+    echo File exists, will not overwrite:
+    echo $filezip
+    exit 1
+fi
+
 echo Creating $file
 echo Adding files:
 tar -zcvf $file share/locale/$locale*.ini share/translations/$locale/translation.ts
+zip -9 $filezip share/locale/$locale*.ini share/translations/$locale/translation.ts

@@ -2552,7 +2552,7 @@ CREATE TABLE ezsite_data (
 ) TYPE=MyISAM;
 
 INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2');
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '2');
 
 CREATE INDEX ezorder_item_order_id ON ezorder_item( order_id );
 CREATE INDEX ezproductcollection_item_productcollection_id ON ezproductcollection_item( productcollection_id );

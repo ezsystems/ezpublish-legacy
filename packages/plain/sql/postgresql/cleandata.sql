@@ -715,4 +715,4 @@ SELECT setval ('ezworkflow_group_s', 1, true);
 SELECT setval ('ezworkflow_process_s', 1, false);
 
 INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2');
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '2');

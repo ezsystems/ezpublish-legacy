@@ -4482,4 +4482,4 @@ CREATE TABLE ezsite_data (
 );
 
 INSERT INTO ezsite_data (name, value) VALUES('ezpublish-version', '3.2');
-INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '1');
+INSERT INTO ezsite_data (name, value) VALUES('ezpublish-release', '2');
