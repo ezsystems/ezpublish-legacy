@@ -1,5 +1,5 @@
 <div class="context-block">
-<h2 class="context-title">{'section'|icon( 'normal', 'Section'|i18n( 'design/admin/section/view' ) )}&nbsp;{$section.name}&nbsp;[{'Section'|i18n( '/design/admin/section/view' )}]</h2>
+<h2 class="context-title">{'section'|icon( 'normal', 'Section'|i18n( 'design/admin/section/view' ) )}&nbsp;{'%section_name [Section]'|i18n( '/design/admin/section/view',, hash( '%section_name', $section.name ) )}</h2>
 
 <div class="context-attributes">
 

@@ -1,7 +1,7 @@
 <form method="post" action={concat( '/section/edit/', $section.id, '/' )|ezurl}>
 
 <div class="context-block">
-<h2 class="context-title">{'section'|icon( 'normal', 'Section'|i18n( 'design/admin/section/edit' ) )}{'Edit'|i18n( 'design/admin/section/edit' )}&nbsp;<i>{$section.name}</i>&nbsp;[{'Section'|i18n( 'design/admin/section/edit' )}]</h2>
+<h2 class="context-title">{'section'|icon( 'normal', 'Section'|i18n( 'design/admin/section/edit' ) )}{'Edit <%section_name> [Section]'|i18n( 'design/admin/section/edit',, hash( '%section_name', $section.name ) )|wash}</h2>
 
 <input type="hidden" name="SectionID" value="{$section.id}" />
 

@@ -3,7 +3,7 @@
 {let number_of_items=min( ezpreference( 'admin_section_list_limit' ), 3)|choose( 10, 10, 25, 50 )}
 
 <div class="context-block">
-<h2 class="context-title">{'Sections'|i18n( 'design/admin/section/list' )}&nbsp;[{$section_count}]</h2>
+<h2 class="context-title">{'Sections [%section_count]'|i18n( 'design/admin/section/list',, hash( '%section_count', $section_count ) )}</h2>
 
 {* Items per page selector. *}
 <div class="context-toolbar">
