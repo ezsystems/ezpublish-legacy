@@ -188,7 +188,7 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
     {section show=ne($ui_context,'edit')}
      <h4><a href={"/content/bookmark/"|ezurl} title="{'Click here to manage your personal bookmarks.'|i18n( '/design/admin/layout' )}">{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/off"|ezurl}>[-]</a></h4> 
     {section-else}
-     <h4><span class="disabled">{"Bookmarks"|i18n("design/admin/layout")}</span> <a class="showhide" href={"/user/preferences/set/bookmark_menu/off"|ezurl}>[-]</a></h4> 
+     <h4><span class="disabled">{"Bookmarks"|i18n("design/admin/layout")}</span> <span class="disabled openclose">[-]</span></h4> 
     {/section}
 
 <ul>
@@ -203,7 +203,11 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {/let}
 </ul>
 {section-else}
- <h4><a href={"/content/bookmark/"|ezurl}>{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/on"|ezurl}>[+]</a></h4>
+    {section show=ne($ui_context,'edit')}
+    <h4><a href={"/content/bookmark/"|ezurl}>{"Bookmarks"|i18n("design/admin/layout")}</a> <a class="showhide" href={"/user/preferences/set/bookmark_menu/on"|ezurl}>[+]</a></h4>
+    {section-else}
+     <h4><span class="disabled">{"Bookmarks"|i18n("design/admin/layout")}</span> <span class="disabled">[+]</span></h4> 
+    {/section}
 {/section}
 </div>
 
@@ -218,7 +222,11 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {* --- History --- *}
 <div id="history">
 {section show=eq(ezpreference('history_menu'),'on')}
-<h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/off"|ezurl}>[-]</a></h4> 
+    {section show=ne($ui_context,'edit')}
+    <h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/off"|ezurl}>[-]</a></h4> 
+    {section-else}
+    <h4><span class="disabled">{"History"|i18n("design/admin/layout")}</span> <span class="disabled">[-]</span></h4> 
+    {/section}
 <ul>
 {let history_list=fetch(content,recent)}
 {section name=History loop=$history_list}
@@ -231,7 +239,11 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {/let}
 </ul>
 {section-else}
- <h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/on"|ezurl}>[+]</a></h4>
+    {section show=ne($ui_context,'edit')}
+     <h4>{"History"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/history_menu/on"|ezurl}>[+]</a></h4>
+    {section-else}
+    <h4><span class="disabled">{"History"|i18n("design/admin/layout")}</span> <span class="disabled">[+]</span></h4> 
+    {/section}
 {/section}
 </div>
 

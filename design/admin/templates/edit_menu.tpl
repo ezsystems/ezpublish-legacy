@@ -1,6 +1,5 @@
 <div class="objectinfo">
-{section show=eq(ezpreference('object_info'),'on')}
-<h4>Object info <a class="showhide" href={"/user/preferences/set/object_info/off"|ezurl}>[-]</a></h4>
+<h4>Object info</h4>
 <p>
 <label>{"Created"|i18n("design/standard/content/edit")}:</label>
 {section show=$object.published}
@@ -18,16 +17,12 @@
 {section-else}
 {"Not yet published"|i18n("design/standard/content/edit")}
 {/section}
-{section-else}
-<h4>{"Object info"|i18n("design/admin/layout")} <a class="showhide" href={"/user/preferences/set/object_info/on"|ezurl}>[+]</a></h4>
-{/section}
 </p>
 </div>
 
 
 <div class="versions">
-{section show=eq(ezpreference('versions'),'on')}
-<h4>{"Versions"|i18n("design/standard/content/edit")} <a class="showhide" href={"/user/preferences/set/versions/off"|ezurl}>[-]</a></h4>
+<h4>{"Versions"|i18n("design/standard/content/edit")}</h4>
 <div class="block">
 <div class="element">
 <p>
@@ -45,9 +40,6 @@
 </div>
 <input class="button" type="submit" name="VersionsButton" value="{'Manage'|i18n('design/standard/content/edit')}" />
 <input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('design/standard/content/edit')}" />
-{section-else}
-<h4>{"Versions"|i18n("design/standard/content/edit")} <a class="showhide" href={"/user/preferences/set/versions/on"|ezurl}>[+]</a></h4>
-{/section}
 </div>
 
 <!-- Translation box start-->
@@ -59,8 +51,7 @@
      translation_list=$Translation:other_translation_list|array_prepend($Translation:default_translation)}
 
 {section show=$Translation:translation_list}
-{section show=eq(ezpreference('translations'),'on')}
-<h4>{"Translations"|i18n("design/standard/content/edit")} <a class="showhide" href={"/user/preferences/set/translations/off"|ezurl}>[-]</a></h4>
+<h4>{"Translations"|i18n("design/standard/content/edit")}</h4>
 
 {section loop=$Translation:translation_list}
   {section show=eq($edit_language,$Translation:item.language_code)}
@@ -84,9 +75,6 @@
 	  <input class="button" type="submit" name="TranslateButton" value="{'Manage'|i18n('design/standard/content/edit')}" />
 {section show=$Translation:other_translation_list|gt(0)}
           <input class="button" type="submit" name="EditLanguageButton" value="{'Edit'|i18n('design/standard/content/edit')}" />
-{/section}
-{section-else}
-<h4>{"Translations"|i18n("design/standard/content/edit")} <a class="showhide" href={"/user/preferences/set/translations/on"|ezurl}>[+]</a></h4>
 {/section}
 {/section}
 </p>

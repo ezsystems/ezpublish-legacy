@@ -89,13 +89,18 @@ div#topmenu li
 
 div#topmenu li a, div#topmenu span.disabled
 {
-    color: #000000;
     font-weight: bold;
     padding: 0 0.5em 0 0.5em; /* This padding must be set on a-level, not li-level, to work correctly in konqueror */
     text-decoration: none;
 }
 
-div#topmenu span.disabled
+div#topmenu li a
+{
+   color: #000000;
+     
+}
+
+span.disabled
 {
     color: #c0c0c0;
 }
@@ -198,7 +203,13 @@ a.openclose, span.openclose
     text-decoration: none;
 }
 
-span.openclose
+h4 span.openclose
+{
+    font-size: 1em;
+    color: #c0c0c0;
+}
+
+div#contentstructure span.openclose
 {
     visibility: hidden;
 }
