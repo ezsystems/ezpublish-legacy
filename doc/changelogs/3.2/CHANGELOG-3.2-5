@@ -101,6 +101,8 @@ Changes from 3.2-4 to 3.2-5
   in eZ publish instead of /tmp.
   http://ez.no/community/bug_reports/webdav_log_still_is_in_tmp
   http://ez.no/community/bug_reports/webdav_logging_enabled
+- Made sure codepages are cleared by the clearcache.sh script.
+  http://ez.no/community/bug_reports/cache_translate_and_texttoimage_etc
 
 *Setup:
 - Fixed setup to only check for existing eZ publish tables.
