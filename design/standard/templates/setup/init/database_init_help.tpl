@@ -1,1 +1,5 @@
-{"Todo"|i18n("design/standard/setup/init")}
+{"Please enter correct username and password."|i18n("design/standard/setup/init")}
+<p></p>
+{"PostgreSQL username and password is not tested untill database names are selected."|i18n("design/standard/setup/init")}
+<p></p>
+{"If you are using MySQL and do not know what to enter in the socket field, leave it blank"|i18n("design/standard/setup/init")}

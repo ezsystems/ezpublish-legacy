@@ -116,6 +116,8 @@ td.setup_progress_left
   padding-right: 0px;
   border-top: 6px;
   border-bottom: 6px;
+  border-left: 0px;
+  border-right: 0px;
   border-style: solid;
   border-color: #91b0dd;
   background-color: #4373b4;

@@ -1,1 +1,1 @@
-{"This will enable eZ publish to send mail"|i18n("design/standard/setup/init")}
+{"This will enable eZ publish to send e-mails, containing requested passwords and other customized information."|i18n("design/standard/setup/init")}

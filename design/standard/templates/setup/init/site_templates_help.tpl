@@ -1,0 +1,1 @@
+{"Select which sites you would like to install on your system."|i18n("design/standard/setup/init")}
