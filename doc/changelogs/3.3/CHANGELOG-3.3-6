@@ -220,6 +220,8 @@ eZINI:
   http://ez.no/community/bug_reports/xml_text_text_to_a_links_does_not_work_correctly
   (Merged from stable/3.4 rev. 7355)
 - Fixed typos in mysql/kernel_schema.sql.
+- Fixed bug in div and mul template operators when input parameter was used.
+  http://ez.no/community/bug_reports/operator_mul_does_not_work_as_documented
 
 *Library:
 
