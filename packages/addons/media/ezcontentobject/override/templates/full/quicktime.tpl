@@ -11,7 +11,7 @@
 
     <div class="content-media">
     {let attribute=$node.object.data_map.file}
-        <object classid="clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B" width="{$attribute.content.width}" height="{$attribute.content.height}" codebase="http://www.apple.com/qtactivex/qtplugin.cab">
+        <object width="{$attribute.content.width}" height="{$attribute.content.height}" codebase="http://www.apple.com/qtactivex/qtplugin.cab">
         <param name="movie" value={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl} />
         <param name="controller" value="{section show=$attribute.content.has_controller}true{/section}" />
         <param name="autoplay" value="{section show=$attribute.content.is_autoplay}true{/section}" />

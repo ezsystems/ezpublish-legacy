@@ -99,6 +99,8 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   (Manually merged from stable/3.4 (3.4.5) rev. 10273)
 - Removed setting path in content/versionview, merged from stable/3.3 rev. 10284, stable/3.4 rev. 10286.
   http://ez.no/community/bug_reports/crash_when_using_versionview
+- Fixed bug: unable to view media files.
+  http://ez.no/community/bug_reports/media_files_can_t_be_viewed_flash_quicktime_etc
 
 *Library:
 

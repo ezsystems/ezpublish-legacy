@@ -486,7 +486,7 @@ class eZMediaType extends eZDataType
                                       $objectAttribute->attribute( "version" ) );
         if ( $mediaFile )
         {
-            $mediaFile->storedFileInfo();
+            return $mediaFile->storedFileInfo();
         }
         return false;
     }
