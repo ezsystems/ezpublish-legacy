@@ -124,5 +124,11 @@ MatchFile=embedded_forum.tpl
 Subdir=templates
 Match[class]=20
 
+[frontpage_table]
+Source=content/datatype/view/ezxmltags/table.tpl
+MatchFile=frontpage_table.tpl
+Subdir=templates
+Match[classification]=frontpage
+
 
 */ ?>
