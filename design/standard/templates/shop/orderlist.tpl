@@ -4,6 +4,7 @@
 <h1>{"Order list"|i18n("design/standard/shop")}</h1>
 </div>
 
+{section show=$order_list}
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
@@ -45,6 +46,14 @@
 </tr>
 {/section}
 </table>
+{section-else}
+
+<div class="feedback">
+<h2>{"The order list is empty"|i18n("design/standard/shop")}</h2>
+</div>
+
+{/section}
+
 
 {include name=navigator
          uri='design:navigator/google.tpl'
