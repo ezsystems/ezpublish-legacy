@@ -122,7 +122,7 @@ class eZNotificationRuleType
     */
     function &attributes()
     {
-        return array_keys( $this->Attributes );
+        return array_keys( $this->Attributes, 'has_custom_send_system' );
     }
 
     /*!
@@ -130,7 +130,7 @@ class eZNotificationRuleType
     */
     function hasAttribute( $attr )
     {
-        return isset( $this->Attributes[$attr] );
+        return isset( $this->Attributes[$attr] ) or $attr == 'has_custom_send_system';
     }
 
     /*!
@@ -140,6 +140,8 @@ class eZNotificationRuleType
     {
         if ( isset( $this->Attributes[$attr] ) )
             return $this->Attributes[$attr];
+        else if ( $attr == 'has_custom_send_system' )
+            return $this->hasCustomSendSystem();
         else
             return null;
     }
@@ -153,6 +155,26 @@ class eZNotificationRuleType
         return false;
     }
 
+    function hasCustomInputHandler()
+    {
+        return false;
+    }
+
+    function fetchCustomInput( &$rule )
+    {
+    }
+
+    function hasCustomSendSystem()
+    {
+        return false;
+    }
+
+    function &fetchRule( $id )
+    {
+        $rule =& eZNotificationRule::fetch( $RuleID );
+        return $rule;
+    }
+
     var $NotificationRuleString;
     var $Name;
 }
@@ -160,17 +182,39 @@ class eZNotificationRuleType
 $ini =& eZINI::instance();
 $availableRules =& $ini->variableArray( "NotificationRuleSettings", "AvailableRules" );
 
+include_once( 'lib/ezutils/classes/ezextension.php' );
+
+$extensionParameters = array(
+    'ini-name' => 'notification.ini',
+    'repository-group' => 'RuleSettings',
+    'repository-variable' => 'RepositoryDirectories',
+    'extension-group' => 'RuleSettings',
+    'extension-variable' => 'ExtensionDirectories',
+    'extension-subdir' => 'notification/rules',
+    'suffix-name' => 'rule.php',
+    'type-directory' => false,
+    'type' => false,
+    'alias-group' => 'RuleSettings',
+    'alias-variable' => 'Alias' );
+
 foreach ( $availableRules as $rule )
 {
-    $includeFile = "kernel/notification/rules/" . $rule ."rule.php";
-    if ( file_exists( $includeFile ) )
+    $extensionParameters['type'] = $rule;
+    if ( eZExtension::findExtensionType( $extensionParameters, $out ) )
     {
+        $includeFile = $out['found-file-path'];
         include_once( $includeFile );
+//         $includeFile = "kernel/notification/rules/" . $rule ."rule.php";
+//         if ( file_exists( $includeFile ) )
+//         {
+//             include_once( $includeFile );
+//         }
+//         else
+//         {
+//             eZDebug::writeError( "Rule type: $includeFile not found " );
+//         }
     }
     else
-    {
-        eZDebug::writeError( "Rule type: $includeFile not found " );
-    }
-
+        eZDebug::writeError( "Rule type '$rule' could not be found", 'eZNotificationRuleType' );
 }
 ?>

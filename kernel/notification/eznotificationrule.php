@@ -81,7 +81,8 @@ class eZNotificationRule extends eZPersistentObject
     */
     function &ruleType()
     {
-        $typeString = 'ez' . $this->Type;
+//         $typeString = 'ez' . $this->Type;
+        $typeString = $this->Type;
         return eZNotificationRuleType::create( $typeString );
     }
 

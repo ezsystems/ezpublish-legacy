@@ -47,43 +47,109 @@ $codec =& eZTextCodec::instance( $charset, "ISO-8859-1" );  // This should be mo
 $ini =& eZINI::instance();
 
 $emailMessages = eZMessage::fetchEmailMessages();
+$freeMessages = array();
+$messageBulks = array();
 foreach ( $emailMessages as $emailMessage )
 {
+    $valueText = $emailMessage->attribute( 'title' );
+    $values = explode( ',', $valueText );
+    if ( count( $values ) < 3 )
+    {
+        $emailMessage->remove();
+        continue;
+    }
+    $userID = $values[0];
+    $ruleID = $values[1];
+    $contentObjectID = $values[2];
+
     $send = false;
+    $sendNow = false;
     $sendWeekday = $emailMessage->attribute( "send_weekday" );
     $sendHour =  $emailMessage->attribute( "send_time" );
+    $sendWeekdayArray = explode( ',', $sendWeekday );
     if ( $sendWeekday == -1 )
-        $send = true;
-    elseif ( ( $sendWeekday == $weekday ) and ( $sendHour == -1 or $sendHour <= $hour ) )
-        $send = true;
-    elseif ( $sendWeekday == ( $weekday - 1 ) )
-        $send = true;
-    elseif ( $sendWeekday == 7 and $weekday == 1 )
-        $send = true;
-    else
-        $send = false;
-
-    if ( $send == true )
     {
-        $destinationAddress = $emailMessage->attribute( "destination_address" );
-        $title = $emailMessage->attribute( "title" );
-        $body = $emailMessage->attribute( "body" );
+        $send = true;
+        $sendNow = true;
+    }
+    else if ( ( $sendWeekday == $weekday ) and ( $sendHour == -1 or $sendHour <= $hour ) )
+        $send = true;
+//     else if ( $sendWeekday == ( $weekday - 1 ) )
+//         $send = true;
+//     else if ( $sendWeekday == 7 and $weekday == 1 )
+//         $send = true;
+//     else
+//         $send = false;
+
+    if ( $send and $sendNow )
+    {
+        $freeMessages[] = array( 'user_id' => $userID,
+                                 'rule_id' => $ruleID,
+                                 'message' => array( 'object_id' => $contentObjectID,
+                                                     'message' => $emailMessage ) );
         $emailMessage->setAttribute( "is_sent", true );
         $emailMessage->store();
-        $title = $codec->convertString( $title );
-        $body = $codec->convertString( $body );
-
-        $email = new eZMail();
-        $email->setReceiverText( $destinationAddress );
-        $email->setSenderText( $ini->variable( 'MailSettings', 'AdminEmail' ) );
-//         $email->setSender( "admin@ez.no", "Administrator" );
-        $email->setSubject( $title );
-        $email->setBody( $body );
-
-        print( 'headers:<pre>' . htmlspecialchars( $email->headerText() ) . "</pre>" );
-        print( 'body:<pre>' . htmlspecialchars( $email->body() ) . "</pre>" );
-
-        $mailResult = eZMailTransport::send( $email );
+        continue;
+    }
+    else if ( $send )
+    {
+        if ( !isset( $messageBulks["$userID-$ruleID"] ) )
+        {
+            $messageBulks["$userID-$ruleID"] = array( 'user_id' => $userID,
+                                                      'rule_id' => $ruleID,
+                                                      'email' => $emailMessage->attribute( 'destination_address' ),
+                                                      'messages' => array() );
+        }
+        $messageBulks["$userID-$ruleID"]['messages'][] = array( 'object_id' => $contentObjectID,
+                                                                'message' => $emailMessage );
+        $emailMessage->setAttribute( "is_sent", true );
+        $emailMessage->store();
     }
 }
+
+function sendMessages( $destinationAddress, $userID, $ruleID, $messageList )
+{
+//     $destinationAddress = $emailMessage->attribute( "destination_address" );
+//     $title = $emailMessage->attribute( "title" );
+//     $body = $emailMessage->attribute( "body" );
+//     $title = $codec->convertString( $title );
+//     $body = $codec->convertString( $body );
+
+    include_once( 'kernel/common/template.php' );
+    $tpl =& templateInit();
+
+    $tpl->setVariable( 'user_id', $userID );
+    $tpl->setVariable( 'rule_id', $ruleID );
+    $tpl->setVariable( 'message_list', $messageList );
+
+    $body = $tpl->fetch( 'design:notification/email.tpl' );
+    $subject = $tpl->variable( 'subject' );
+
+    $ini =& eZINI::instance();
+    $email = new eZMail();
+    $email->setReceiverText( $destinationAddress );
+    $email->setSenderText( $ini->variable( 'MailSettings', 'AdminEmail' ) );
+    $email->setSubject( $subject );
+    $email->setBody( $body );
+
+//     print( 'headers:<pre>' . htmlspecialchars( $email->headerText() ) . "</pre>" );
+//     print( 'body:<pre>' . htmlspecialchars( $email->body() ) . "</pre>" );
+
+    $mailResult = eZMailTransport::send( $email );
+}
+
+foreach ( $freeMessages as $freeMessage )
+{
+    sendMessages( $freeMessage['message']['message']->attribute( 'destination_address' ),
+                  $freeMessage['user_id'], $freeMessage['rule_id'],
+                  array( $freeMessage['message'] ) );
+}
+
+foreach ( $messageBulks as $messageBulk )
+{
+    sendMessages( $messageBulk['email'],
+                  $messageBulk['user_id'], $messageBulk['rule_id'],
+                  $messageBulk['messages'] );
+}
+
 ?>

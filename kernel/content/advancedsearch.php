@@ -137,6 +137,13 @@ $tpl->setVariable( "content_class_array", $classArray );
 $tpl->setVariable( "section_array", $sectionArray );
 $tpl->setVariable( "search_content_class_attribute_array", $searchContentClassAttributeArray );
 
+if ( $searchSectionID != -1 )
+{
+    include_once( 'kernel/common/eztemplatedesignresource.php' );
+    $res =& eZTemplateDesignResource::instance();
+    $res->setKeys( array( array( 'section', $searchSectionID ) ) );
+}
+
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/advancedsearch.tpl" );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Search' ),

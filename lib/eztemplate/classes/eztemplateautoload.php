@@ -40,7 +40,7 @@
 $eZTemplateOperatorArray = array();
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatearrayoperator.php',
                                     'class' => 'eZTemplateArrayOperator',
-                                    'operator_names' => array( 'array', 'hash' ) );
+                                    'operator_names' => array( 'array', 'hash', 'contains' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateexecuteoperator.php',
                                     'class' => 'eZTemplateExecuteOperator',
                                     'operator_names' => array( 'fetch' ) );

@@ -105,7 +105,10 @@ links to clickable links.
 - Added possibility to insert options in ezoption datatype
 - Added site.ini variable to allow special characters in created password
 - Fixed bug with sending user information feedback to you, password is not empty
-- Changed operation deffinition for checkout, added possibility to call post_checkout trigger
+- Changed operation definition for checkout, added possibility to call post_checkout trigger
+- Created system for cronjobs, the cronjobs.php script will now be used to run any
+  future cronjobs. The actual scripts to run are controlled by settings/cronjob.php.
+
 *SDK :
 
 *Library :
@@ -168,6 +171,8 @@ eZ template:
 - Added nl2br text operator.
 - Error message for array an object attribute access has been improved, it will now
   display attributes for objects and arrays to pick from.
+- New template operator /contains/ which will return true if the input variable (which should
+  be an array) contains the value specified as input.
 
 eZ image:
 - Image object and layer classes has been moved from eZ template to eZ image

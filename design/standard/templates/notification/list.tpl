@@ -31,7 +31,7 @@
 <div class="buttonblock">
 <select name="notification_rule_type">
 {section name=Rules loop=$rule_type}
-<option value="{$Rules:item.information.name}">{$Rules:item.information.name}</option>
+<option value="{$Rules:item.information.string}">{$Rules:item.information.name}</option>
 {/section}
 </select>
 {include uri="design:gui/button.tpl" name=new id_name=NewRuleButton value="New Rule"|i18n("design/standard/notification")}

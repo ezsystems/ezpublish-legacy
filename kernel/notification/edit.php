@@ -50,16 +50,33 @@ $rule = array();
 $userlink_list = array();
 if ( isset( $Params["RuleID"] ) )
     $RuleID = $Params["RuleID"];
+print( $RuleID );
 if ( isset( $Params["RuleType"] ) )
     $RuleType = $Params["RuleType"];
 
-if ( is_numeric( $RuleID ) )
+$realRuleType = $RuleType;
+
+$notINI =& eZINI::instance( 'notification.ini' );
+$alias = $notINI->variable( 'RuleSettings', 'Alias' );
+if ( isset( $alias[$RuleType] ) )
+    $realRuleType = $alias[$RuleType];
+
+include_once( 'kernel/notification/eznotificationruletype.php' );
+$ruleType =& eZNotificationRuleType::create( $realRuleType );
+if ( !$ruleType )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
+
+$info = $ruleType->attribute( 'information' );
+$RuleType = $info['name'];
+
+$rule =& $ruleType->fetchRule( $RuleID );
+if ( $rule )
 {
     $has_stored = true;
-    $rule =& eZNotificationRule::fetch( $RuleID );
 }
 else
 {
+    unset( $rule );
     $rule = array( "id" => null,
                    "contentclass_name" => "",
                    "path" => "",
@@ -67,74 +84,130 @@ else
                    "has_constraint" => 0 );
 }
 
+// if ( is_numeric( $RuleID ) )
+// {
+//     $has_stored = true;
+//     $rule =& eZNotificationRule::fetch( $RuleID );
+// }
+// else
+// {
+//     $rule = array( "id" => null,
+//                    "contentclass_name" => "",
+//                    "path" => "",
+//                    "keyword" => "",
+//                    "has_constraint" => 0 );
+// }
+
 $class_list =& eZContentClass::fetchList();
 
 $userlink_list =& eZNotificationUserLink::fetch( $RuleID, $user_id );
 
+$redirectURL = false;
+if ( $http->hasPostVariable( 'RedirectURL' ) )
+    $redirectURL = $http->postVariable( 'RedirectURL' );
+
 if ( $http->hasPostVariable( "DiscardRuleButton" ) )
 {
-    $Module->redirectTo( $Module->functionURI( "list" ) );
+    if ( !$redirectURL )
+        $redirectURL = $Module->functionURI( "list" );
+    $Module->redirectTo( $redirectURL );
+    return;
+}
+
+if ( $http->hasPostVariable( "RemoveRuleButton" ) )
+{
+    if ( $rule )
+        $rule->remove();
+    eZNotificationRule::remove( $rule->attribute( 'id' ) );
+    if ( !$redirectURL )
+        $redirectURL = $Module->functionURI( "list" );
+    $Module->redirectTo( $redirectURL );
     return;
 }
 
 if ( $http->hasPostVariable( "StoreRuleButton" ) )
 {
-    $idChanged = false;
-    $email = $user->attribute( "email" );
-    $smsnr = $user->attribute( "smsnr" );
-    if ( $http->hasPostVariable( "contentClassName" ) )
+    if ( $ruleType->hasCustomInputHandler() )
     {
-        $contentClassName = $http->postVariable( "contentClassName" );
+        $ruleType->fetchCustomInput( $rule );
     }
-    if ( $http->hasPostVariable( "path" ) )
+    else
     {
-        $path = $http->postVariable( "path" );
-    }
-    if ( $http->hasPostVariable( "keyword" ) )
-    {
-        $keyword = $http->postVariable( "keyword" );
-    }
-    $sendMethod = $http->postVariable( "sendMethod" );
-    $sendTime_week = $http->postVariable( "sendTime_week" );
-    $sendTime_hour = $http->postVariable( "sendTime_hour" );
-    $condition = array( "contentclass_name" => $contentClassName,
-                        "path" => $path,
-                        "keyword" => $keyword,
-                        "has_constraint" => '0' );
-
-    $existRule =& eZNotificationRule::fetchOne( $condition );
-    if ( $existRule != null )
-    {
-        $RuleID = $existRule->attribute( "id" );
-        $rule_exist = true;
-    }
-
-    if ( $http->hasPostVariable( "CurrentRuleID" ) )
-    {
-        $currentID = $http->postVariable( "CurrentRuleID" );
-        if ( $currentID != $RuleID )
-            $idChanged = true;
-    }
-
-    if ( !$rule_exist )
-    {
-          $newRule =& eZNotificationRule::create( $contentClassName, $RuleType, $path, $keyword, $has_constraint );
-          $newRule->store();
-          $RuleID = $newRule->attribute( "id" );
-    }
-
-    if ( $http->hasPostVariable( "CurrentRuleID" ) )
-    {
-        $currentID = $http->postVariable( "CurrentRuleID" );
-        if ( $currentID != $RuleID and $currentID != "" )
-            $idChanged = true;
-        if ( $idChanged and !$rule_exist )
+        $idChanged = false;
+        $email = $user->attribute( "email" );
+        $smsnr = $user->attribute( "smsnr" );
+        if ( $http->hasPostVariable( "contentClassName" ) )
         {
-            eZNotificationUserLink::remove( $currentID, $user_id );
-            $users =& eZNotificationUserLink::fetchUserList( $currentID );
-            if ( count( $users ) == 0 )
-                eZNotificationRule::remove( $currentID );
+            $contentClassName = $http->postVariable( "contentClassName" );
+        }
+        if ( $http->hasPostVariable( "path" ) )
+        {
+            $path = $http->postVariable( "path" );
+        }
+        if ( $http->hasPostVariable( "keyword" ) )
+        {
+            $keyword = $http->postVariable( "keyword" );
+        }
+        $sendMethod = $http->postVariable( "sendMethod" );
+        $sendTime_week = $http->postVariable( "sendTime_week" );
+        $sendTime_hour = $http->postVariable( "sendTime_hour" );
+        $condition = array( "contentclass_name" => $contentClassName,
+                            "path" => $path,
+                            "keyword" => $keyword,
+                            "has_constraint" => '0' );
 
+        $existRule =& eZNotificationRule::fetchOne( $condition );
+        if ( $existRule != null )
+        {
+            $RuleID = $existRule->attribute( "id" );
+            $rule_exist = true;
+        }
+
+        if ( $http->hasPostVariable( "CurrentRuleID" ) )
+        {
+            $currentID = $http->postVariable( "CurrentRuleID" );
+            if ( $currentID != $RuleID )
+                $idChanged = true;
+        }
+
+        if ( !$rule_exist )
+        {
+            $newRule =& eZNotificationRule::create( $contentClassName, $RuleType, $path, $keyword, $has_constraint );
+            $newRule->store();
+            $RuleID = $newRule->attribute( "id" );
+        }
+
+        if ( $http->hasPostVariable( "CurrentRuleID" ) )
+        {
+            $currentID = $http->postVariable( "CurrentRuleID" );
+            if ( $currentID != $RuleID and $currentID != "" )
+                $idChanged = true;
+            if ( $idChanged and !$rule_exist )
+            {
+                eZNotificationUserLink::remove( $currentID, $user_id );
+                $users =& eZNotificationUserLink::fetchUserList( $currentID );
+                if ( count( $users ) == 0 )
+                    eZNotificationRule::remove( $currentID );
+
+                if ( $sendMethod == "email" )
+                    $userLink =& eZNotificationUserLink::create( $RuleID, $user_id, $sendMethod, $sendTime_week, $sendTime_hour, $email );
+                else if ( $sendMethod == "sms" )
+                    $userLink =& eZNotificationUserLink::create( $RuleID, $user_id, $sendMethod, $sendTime_week, $sendTime_hour, $smsnr );
+                else if ( $sendMethod == "internal message" )
+                    $userLink =& eZNotificationUserLink::create( $RuleID, $user_id, $sendMethod, $sendTime_week, $sendTime_hour, $user_id );
+                $userLink->store();
+            }
+        }
+
+        /*  if ( $has_stored and  $keyword !== null )
+    {
+        $rule->setAttribute( "keyword", $keyword );
+        $rule->setAttribute( "path", $path );
+        $rule->store();
+    }*/
+
+        if ( $userlink_list == null )
+        {
             if ( $sendMethod == "email" )
                 $userLink =& eZNotificationUserLink::create( $RuleID, $user_id, $sendMethod, $sendTime_week, $sendTime_hour, $email );
             else if ( $sendMethod == "sms" )
@@ -143,40 +216,24 @@ if ( $http->hasPostVariable( "StoreRuleButton" ) )
                 $userLink =& eZNotificationUserLink::create( $RuleID, $user_id, $sendMethod, $sendTime_week, $sendTime_hour, $user_id );
             $userLink->store();
         }
-    }
 
-    /*  if ( $has_stored and  $keyword !== null )
-    {
-        $rule->setAttribute( "keyword", $keyword );
-        $rule->setAttribute( "path", $path );
-        $rule->store();
-    }*/
-
-    if ( $userlink_list == null )
-    {
-        if ( $sendMethod == "email" )
-            $userLink =& eZNotificationUserLink::create( $RuleID, $user_id, $sendMethod, $sendTime_week, $sendTime_hour, $email );
-        else if ( $sendMethod == "sms" )
-            $userLink =& eZNotificationUserLink::create( $RuleID, $user_id, $sendMethod, $sendTime_week, $sendTime_hour, $smsnr );
-        else if ( $sendMethod == "internal message" )
-            $userLink =& eZNotificationUserLink::create( $RuleID, $user_id, $sendMethod, $sendTime_week, $sendTime_hour, $user_id );
-        $userLink->store();
+        if ( $userlink_list != null and !$idChanged )
+        {
+            $userlink_list->setAttribute( "send_method", $sendMethod );
+            $userlink_list->setAttribute( "send_weekday", $sendTime_week );
+            $userlink_list->setAttribute( "send_time", $sendTime_hour );
+            if ( $sendMethod == "email" )
+                $userlink_list->setAttribute( "destination_address", $email );
+            if ( $sendMethod == "sms" )
+                $userlink_list->setAttribute( "destination_address", $smsnr );
+            if ( $sendMethod == "internal message" )
+                $userlink_list->setAttribute( "destination_address", $user_id );
+            $userlink_list->store();
+        }
     }
-
-    if ( $userlink_list != null and !$idChanged )
-    {
-        $userlink_list->setAttribute( "send_method", $sendMethod );
-        $userlink_list->setAttribute( "send_weekday", $sendTime_week );
-        $userlink_list->setAttribute( "send_time", $sendTime_hour );
-        if ( $sendMethod == "email" )
-            $userlink_list->setAttribute( "destination_address", $email );
-        if ( $sendMethod == "sms" )
-            $userlink_list->setAttribute( "destination_address", $smsnr );
-        if ( $sendMethod == "internal message" )
-            $userlink_list->setAttribute( "destination_address", $user_id );
-        $userlink_list->store();
-    }
-    $Module->redirectTo( $Module->functionURI( "list" ) );
+    if ( !$redirectURL )
+        $redirectURL = $Module->functionURI( "list" );
+    $Module->redirectTo( $redirectURL );
 }
 
 $Module->setTitle( "Edit rule " );
@@ -186,6 +243,7 @@ $tpl =& templateInit();
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "rule_id", $RuleID );
 $tpl->setVariable( "rule_type", $RuleType );
+$tpl->setVariable( "notification_type", $ruleType );
 $tpl->setVariable( "rule_list", $rule );
 $tpl->setVariable( "class_list", $class_list );
 $tpl->setVariable( "userlink_list", $userlink_list );

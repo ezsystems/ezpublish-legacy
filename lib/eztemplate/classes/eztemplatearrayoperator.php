@@ -59,16 +59,19 @@ class eZTemplateArrayOperator
     */
     function eZTemplateArrayOperator( $arrayName = "array", $hashName = 'hash',
                                       $arrayPrependName = 'array_prepend', $arrayAppendName = 'array_append',
-                                      $arrayMergeName = 'array_merge' )
+                                      $arrayMergeName = 'array_merge',
+                                      $containsName = 'contains' )
     {
         $this->ArrayName = $arrayName;
         $this->HashName = $hashName;
         $this->ArrayPrependName = $arrayPrependName;
         $this->ArrayAppendName = $arrayAppendName;
         $this->ArrayMergeName = $arrayMergeName;
+        $this->ContainsName = $containsName;
         $this->Operators = array( $arrayName, $hashName,
                                   $arrayPrependName, $arrayAppendName,
-                                  $arrayMergeName );
+                                  $arrayMergeName,
+                                  $containsName );
     }
 
     /*!
@@ -161,6 +164,25 @@ class eZTemplateArrayOperator
                 $tmpArray[] =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
             }
             $operatorValue = call_user_func_array( 'array_merge', $tmpArray );
+        }
+        else if ( $operatorName == $this->ContainsName )
+        {
+            if ( count( $operatorParameters ) < 1 )
+            {
+                $tpl->error( $operatorName,
+                             "Missing matching value" );
+                return;
+            }
+            if ( !is_array( $operatorValue ) )
+            {
+                $type = gettype( $operatorValue );
+                $tpl->error( $operatorName,
+                             "Input value was of type '$type', only arrays are support for now." );
+                $operatorValue = false;
+                return;
+            }
+            $matchValue =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+            $operatorValue = in_array( $matchValue, $operatorValue );
         }
         else
         {

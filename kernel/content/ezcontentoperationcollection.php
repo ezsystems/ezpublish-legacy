@@ -326,10 +326,13 @@ class eZContentOperationCollection
         include_once( "kernel/notification/ezmessage.php" );
         $object =& eZContentObject::fetch( $objectID );
         $allrules =& eZNotificationRule::fetchList( null );
+//         print( "running notifications<br/>" );
         foreach ( $allrules as $rule )
         {
             $ruleID = $rule->attribute( "id" );
             $ruleClass = $rule->attribute("rule_type");
+
+//             print( "rule class=" . get_class( $ruleClass ) . ", rule id=$ruleID" . "<br/>" );
 
             if ( is_object( $ruleClass ) && $ruleClass->match( $object, $rule ) )
             {
@@ -347,91 +350,94 @@ class eZContentOperationCollection
                     $domain = $ini->variable( "SiteSettings", "SiteURL" );
 
 // BEGIN HiO specific code
-                    if ( get_class( $ruleClass ) == "ezhiorule" )
-                    {
-                        $userObject = eZUser::fetch( $userID );
-                        ob_start();
-                        print_r( $userObject );
-                        $userString = ob_get_contents();
-                        ob_end_clean();
-                        $userHash = md5( "$ruleID\n$userID\n$userString" );
+//                     if ( get_class( $ruleClass ) == "ezhiorule" )
+//                     {
+//                         $userObject = eZUser::fetch( $userID );
+//                         ob_start();
+//                         print_r( $userObject );
+//                         $userString = ob_get_contents();
+//                         ob_end_clean();
+//                         $userHash = md5( "$ruleID\n$userID\n$userString" );
 
-                        switch ( $sendWeekday )
-                        {
-                            case 1:
-                                $weekday = "Mandag";
-                            break;
-                            case 2:
-                                $weekday = "Tirsdag";
-                            break;
-                            case 3:
-                                $weekday = "Onsdag";
-                            break;
-                            case 4:
-                                $weekday = "Torsdag";
-                            break;
-                            case 5:
-                                $weekday = "Fredag";
-                            break;
-                            case 6:
-                                $weekday = "Lørdag";
-                            break;
-                            case 7:
-                                $weekday = "Søndag";
-                            break;
-                            default:
-                                $weekday = "Med en gang";
-                            break;
-                        }
+//                         switch ( $sendWeekday )
+//                         {
+//                             case 1:
+//                                 $weekday = "Mandag";
+//                             break;
+//                             case 2:
+//                                 $weekday = "Tirsdag";
+//                             break;
+//                             case 3:
+//                                 $weekday = "Onsdag";
+//                             break;
+//                             case 4:
+//                                 $weekday = "Torsdag";
+//                             break;
+//                             case 5:
+//                                 $weekday = "Fredag";
+//                             break;
+//                             case 6:
+//                                 $weekday = "Lørdag";
+//                             break;
+//                             case 7:
+//                                 $weekday = "Søndag";
+//                             break;
+//                             default:
+//                                 $weekday = "Med en gang";
+//                             break;
+//                         }
 
-                        if ( $sendTime == -1 )
-                            $time = "Hver time";
-                        else
-                            $time = $sendTime . ":00";
+//                         if ( $sendTime == -1 )
+//                             $time = "Hver time";
+//                         else
+//                             $time = $sendTime . ":00";
 
-                        $charset = $ini->variable( "CharacterSettings", "Charset" );
-                        $codec =& eZTextCodec::instance( "ISO-8859-1", $charset );
+//                         $charset = $ini->variable( "CharacterSettings", "Charset" );
+//                         $codec =& eZTextCodec::instance( "ISO-8859-1", $charset );
 
-                        $title = "Oppdatering på " . $domain;
-                        $codec->convertString( $title );
+//                         $title = "Oppdatering på " . $domain;
+//                         $codec->convertString( $title );
 
-                        $body1 = "Oppdatering på " . $domain;
-                        $body1 .= "\n\nDenne siden er oppdatert:\n";
-                        $codec->convertString( $body1 );
-                        $body1 .= $object->attribute( "name" );
-                        $body1 .= "\nhttp://" . $domain . "/content/view/full/";
-                        $body1 .= $object->attribute( "main_node_id" );
+//                         $body1 = "Oppdatering på " . $domain;
+//                         $body1 .= "\n\nDenne siden er oppdatert:\n";
+//                         $codec->convertString( $body1 );
+//                         $body1 .= $object->attribute( "name" );
+//                         $body1 .= "\nhttp://" . $domain . "/content/view/full/";
+//                         $body1 .= $object->attribute( "main_node_id" );
 
-                        $body2 = "\n\nDette er en automatisk generert melding. Den ble sendt til deg";
-                        $body2 .= "\nfordi du har startet et abonnement med følgende regler:";
-                        $body2 .= "\nSøkeord: ";
-                        $codec->convertString( $body2 );
-                        $body2 .= $rule->attribute( "keyword" );
+//                         $body2 = "\n\nDette er en automatisk generert melding. Den ble sendt til deg";
+//                         $body2 .= "\nfordi du har startet et abonnement med følgende regler:";
+//                         $body2 .= "\nSøkeord: ";
+//                         $codec->convertString( $body2 );
+//                         $body2 .= $rule->attribute( "keyword" );
 
-                        $body3 = "\nUkedag: " . $weekday;
-                        $body3 .= "\nTime: " . $time;
-                        $body3 .= "\n\nHvis du vil avslutte abonnementet, følg denne lenken:\n";
-                        $body3 .= "http://" . $domain . "/notification/remove/" . $ruleID;
-                        $body3 .= "/" . $userID . "/" . $userHash;
-                        $body3 .= "\n\n\nAdministrator";
-                        $codec->convertString( $body3 );
+//                         $body3 = "\nUkedag: " . $weekday;
+//                         $body3 .= "\nTime: " . $time;
+//                         $body3 .= "\n\nHvis du vil avslutte abonnementet, følg denne lenken:\n";
+//                         $body3 .= "http://" . $domain . "/notification/remove/" . $ruleID;
+//                         $body3 .= "/" . $userID . "/" . $userHash;
+//                         $body3 .= "\n\n\nAdministrator";
+//                         $codec->convertString( $body3 );
 
-                        $body = $body1 . $body2 . $body3;
-                    }
-                    else
-                    {
-// END HiO specific code
-                        $title = "New publishing notification";
-                        $body = $object->attribute( "name" );
-                        $body .= "\nhttp://" .  $domain . "/content/view/full/";
-                        $body .=  $object->attribute( "main_node_id" );
-                        $body .= "\n\n\nAdministrator";
-// BEGIN HiO specific code
-                    }
-// END HiO specific code
+//                         $body = $body1 . $body2 . $body3;
+//                     }
+//                     else
+//                     {
+// // END HiO specific code
+//                         $title = "New publishing notification";
+//                         $body = $object->attribute( "name" );
+//                         $body .= "\nhttp://" .  $domain . "/content/view/full/";
+//                         $body .=  $object->attribute( "main_node_id" );
+//                         $body .= "\n\n\nAdministrator";
+// // BEGIN HiO specific code
+//                     }
+// // END HiO specific code
 
+                    $valueText = implode( ',', array( $userID, $ruleID, $object->attribute( 'id' ) ) );
+//                     $message =& eZMessage::create( $sendMethod, $sendWeekday, $sendTime,
+//                                                    $destinationAddress, $title, $body );
                     $message =& eZMessage::create( $sendMethod, $sendWeekday, $sendTime,
-                                                   $destinationAddress, $title, $body );
+                                                   $destinationAddress, $valueText, false );
                     $message->store();
                     $msgid = $message->attribute( "id" );
                     $mymsg = eZMessage::fetch( $msgid );

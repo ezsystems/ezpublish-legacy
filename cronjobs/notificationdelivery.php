@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <17-Apr-2002 11:05:08 amos>
+// Created on: <18-Mar-2003 17:06:06 amos>
 //
 // Copyright (C) 1999-2003 eZ systems as. All rights reserved.
 //
@@ -32,35 +32,9 @@
 // you.
 //
 
-$Module = array( "name" => "eZNotification" );
 
-$ViewList = array();
-$ViewList["edit"] = array(
-    "functions" => array( 'edit' ),
-    "default_navigation_part" => 'ezmynavigationpart',
-    "script" => "edit.php",
-    "params" => array( "RuleType", "RuleID" ) );
-$ViewList["list"] = array(
-    "functions" => array( 'list' ),
-    "default_navigation_part" => 'ezmynavigationpart',
-    "script" => "list.php",
-    "params" => array() );
-// $ViewList["send"] = array(
-//     "functions" => array( 'send' ),
-//     "default_navigation_part" => 'ezmynavigationpart',
-//     "script" => "messagedelivery.php",
-//     "params" => array() );
+print( "Running notification delivery$endl" );
 
-$Assigned = array(
-    'name'=> 'Owner',
-    'values'=> array(
-        array(
-            'Name' => 'Self',
-            'value' => '1')
-        )
-    );
-
-$FunctionList['create'] = array();
-$FunctionList['edit'] = array( 'Owner' => $Assigned );
+include( 'kernel/notification/messagedelivery.php' );
 
 ?>

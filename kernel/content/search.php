@@ -89,6 +89,13 @@ $searchResult =& eZSearch::search( $searchText, array( "SearchType" => $searchTy
                                                        "SearchLimit" => $pageLimit,
                                                        "SearchOffset" => $Offset ) );
 
+if ( $searchSectionID != -1 )
+{
+    include_once( 'kernel/common/eztemplatedesignresource.php' );
+    $res =& eZTemplateDesignResource::instance();
+    $res->setKeys( array( array( 'section', $searchSectionID ) ) );
+}
+
 $tpl->setVariable( "search_section_id", $searchSectionID );
 $tpl->setVariable( "search_result", $searchResult["SearchResult"] );
 $tpl->setVariable( "search_text", $searchText );
