@@ -78,17 +78,53 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
             $mimeType =  $fileObject->attribute( 'mime_type' );
             $originalFileName = $fileObject->attribute( 'original_filename' );
 
-            header( "Cache-Control:" );
-            header( "Content-Length: $fileSize" );
+//             print( "<pre>" );
+//             var_dump( $_SERVER );
+//             print( "</pre>" );
+//             exit;
+//             eZDebug::writeDebug( $_SERVER, "\$_SERVER" );
+
+            $contentLength = $fileSize;
+            $fileOffset = false;
+            $fileLength = false;
+            if ( isset( $_SERVER['HTTP_RANGE'] ) )
+            {
+                $httpRange = trim( $_SERVER['HTTP_RANGE'] );
+//                 eZDebug::writeDebug( $httpRange, "httpRange" );
+                if ( preg_match( "/^bytes=([0-9]+)-$/", $httpRange, $matches ) )
+                {
+                    $fileOffset = $matches[1];
+//                     eZDebug::writeDebug( $fileOffset, "fileoffset" );
+//                     eZDebug::writeDebug( "Content-Range: bytes $fileOffset" . "-" . ($fileSize - 1) . "/$fileSize" );
+                    header( "Content-Range: bytes $fileOffset-" . $fileSize - 1 . "/$fileSize" );
+                    header( "HTTP/1.1 206 Partial content" );
+                    $contentLength -= $fileOffset;
+                }
+            }
+
+            header( "Pragma: " );
+            header( "Cache-Control: " );
+            header( "Content-Length: $contentLength" );
             header( "Content-Type: $mimeType" );
             header( "X-Powered-By: eZ publish" );
             header( "Content-disposition: attachment; filename=$originalFileName" );
             header( "Content-Transfer-Encoding: binary" );
+            header( "Accept-Ranges: bytes" );
 
             $fh = fopen( "$fileName", "rb" );
+            if ( $fileOffset )
+            {
+                eZDebug::writeDebug( $fileOffset, "seeking to fileoffset" );
+                fseek( $fh, $fileOffset );
+            }
 
             ob_end_clean();
             fpassthru( $fh );
+//             while ( !feof( $fh ) )
+//             {
+//                 $buffer = fread( $fh, 4096 );
+//                 print( $buffer );
+//             }
             fclose( $fh );
             fflush();
             eZExecution::cleanExit();
