@@ -98,8 +98,9 @@
     <td>
       <p class="menuitem">
       {section show=eq($navigation_part.identifier,'ezsetupnavigationpart')}
-	Site: {ezini('SiteSettings','SiteURL')} Ver: {$site.version}
-	{/section}
+        {'Site:'|i18n('design/standard/layout')} {ezini('SiteSettings','SiteURL')}
+        {'Version:'|i18n('design/standard/layout')} {$site.version}
+      {/section}
       </p>
     </td>
     <td align="right">
