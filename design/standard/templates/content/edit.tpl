@@ -46,7 +46,7 @@
 	{/section}
         {$Node:parent_node.name}
 	{/case}
-	{/switch}
+	{/switch} / {$object.name}
 	</span>
         </td>
         <td class="{$Node:sequence}">
