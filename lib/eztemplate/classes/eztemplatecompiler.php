@@ -2345,6 +2345,10 @@ $rbracket
                             $php->addCodePiece( "}\n", array( 'spacing' => $spacing ) );
                         $subSpacing = 4;
                     }
+                    else
+                    {
+                        $php->addCodePiece( "\nif (false)\n{\n}\n" );
+                    }
 
                     if ( $useFallbackCode )
                     {
