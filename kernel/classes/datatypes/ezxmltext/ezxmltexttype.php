@@ -119,30 +119,33 @@ class eZXMLTextType extends eZDataType
             $node = $dom->elementsByName( "section" );
 
             $output = "";
-            $children =& $node[0]->children();
-            foreach ( $children as $child )
+            if ( get_class( $node[0] ) == "ezdomnode" )
             {
-                if ( $child->name() == "paragraph" )
+                $children =& $node[0]->children();
+                foreach ( $children as $child )
                 {
-                    $childContent = '';
-                    $formattingTags =& $child->children();
-                    foreach ( $formattingTags as $tag )
+                    if ( $child->name() == "paragraph" )
                     {
-                        // normal text tag
-                        if ( $tag->name() == "#text" )
+                        $childContent = '';
+                        $formattingTags =& $child->children();
+                        foreach ( $formattingTags as $tag )
                         {
-                            $tpl->setVariable( "content", $tag->content(), "xmltagns" );
-                            $uri = "design:content/datatype/view/ezxmltags/text.tpl";
-                            eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, "foo", "xmltagns" );
-                            $childContent .= $text;
-                        }
+                            // normal text tag
+                            if ( $tag->name() == "#text" )
+                            {
+                                $tpl->setVariable( "content", $tag->content(), "xmltagns" );
+                                $uri = "design:content/datatype/view/ezxmltags/text.tpl";
+                                eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, "foo", "xmltagns" );
+                                $childContent .= $text;
+                            }
 
-                        $childContent .= $this->renderTag( $tpl, $tag );
+                            $childContent .= $this->renderTag( $tpl, $tag );
+                        }
+                        $tpl->setVariable( "content", &$childContent, "xmltagns" );
+                        $uri = "design:content/datatype/view/ezxmltags/paragraph.tpl";
+                        eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, "foo", "xmltagns" );
+                        $output .= $text;
                     }
-                    $tpl->setVariable( "content", &$childContent, "xmltagns" );
-                    $uri = "design:content/datatype/view/ezxmltags/paragraph.tpl";
-                    eZTemplateIncludeFunction::handleInclude( $text, $uri, $tpl, "foo", "xmltagns" );
-                    $output .= $text;
                 }
             }
         }
