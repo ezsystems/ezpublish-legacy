@@ -1,21 +1,23 @@
 <div class="review">
 
 <h3>{$node.name}</h3>
+<div class="byline">
 {section show=$node.object.published}
-<div class="date">
-    {$node.object.published|l10n(shortdatetime)}
-</div>
+<p class="date">{$node.object.published|l10n(shortdatetime)}</p>
 {/section}
-<byline>
-By {$node.object.owner.name}
-</byline>
+<p class="name">By {$node.object.owner.name}</p>
+</div>
+
 <p>{$node.object.data_map.description.content|wash|autolink|wordtoimage|break}</p>
 
 <div class="rating">
 {section show=$node.object.data_map.rating.content|gt(0)}
-    <label>Rating</label> [{$node.object.data_map.rating.content} of 5 Stars!]
+{section loop=$node.object.data_map.rating.content}
+    <img src={"rating-icon.gif"|ezimage} alt="" />
+{/section}
+    <p>Rating: {$node.object.data_map.rating.content} of 5</p>
 {section-else}
-    Not rated
+    <p>No rating</p>
 {/section}
 </div>
 

@@ -225,6 +225,7 @@ div#maincontent
     padding-left: 1em;
     padding-right: 1em;
     clear: none;
+    position: relative;
 }
 
 div#maincontent div.design
@@ -399,44 +400,60 @@ div.editbutton input
   font-weight: bold;
 }
 
-.review
-{
-    margin-top: 4px;
-    margin-bottom: 2px;
-    border: 1px solid #e4eaf3;
-}
-
-.product #relatedorders
-{
-    margin-top: 4px;
-    margin-bottom: 2px;
-    border: 1px solid #e4eaf3;
-}
-
-.product #relatedorders .header h3
-{
-    text-decoration: none;
-    margin-top: 0px;
-    background-color: #afafaf;
-}
-
-.product #relatedorders div.product
-{
-    margin-top: 4px;
-    margin-bottom: 2px;
-    border: 1px solid #e4eaf3;
-}
-
-.product #relatedorders .delimiter
-{
-}
-
 div.block, div.buttonblock
 {
     clear: none;
 }
 
 /*--------------------*/
+
+div.bglight
+{
+    background-color: #fffcf0;
+}
+
+div.bgdark
+{
+    background-color: #fffae6;
+}
+
+div.subfolders p
+{
+    margin: 0;
+    padding: 0.2em;
+}
+
+div.subfolders a
+{
+    color: #000000;
+}
+
+div.folderdescription
+{
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+div.product h2 a
+{
+    color: #000000;
+    text-decoration: none;
+}
+
+div.listimage
+{
+    float: left;
+    margin: 0.2em 0.2em 0.2em 0;
+}
+
+div.child
+{
+}
+
+div.child div.product
+{
+    clear: both;
+}
 
 div.productnumber p
 {
@@ -454,8 +471,46 @@ div.product div.controls
     margin-bottom: 1em;
 }
 
+div.relatedorders
+{
+    padding: 0.5em;
+    background-color: #fffcf0;
+}
+
 div.relatedorders div.product
 {
     margin-top: 0.5em;
     margin-bottom: 0.5em;
+}
+
+div.relatedorders div.product p a
+{
+    font-weight: bold;
+    color: #000000;
+}
+
+div.review
+{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding: 0.5em;
+    background-color: #fffae6;
+}
+
+div.review h3
+{
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    padding: 0.2em;
+    background-color: #ffcc00;
+}
+
+div.rating
+{
+    margin-top: 0.5em;
+}
+
+div.rating p
+{
+    font-weight: bold;
 }

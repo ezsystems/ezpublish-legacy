@@ -12,14 +12,18 @@
                                           sort_by ,$node.sort_array,
                                           class_filter_type, 'include',
                                           class_filter_array, array( 'folder' ) ))}
-{section loop=$folder_list}
+<div class="subfolders">
+{section name=folders loop=$folder_list sequence=array(bglight,bgdark)}
+<div class="{$folders:sequence}">
     <p><a href={$:item.url_alias|ezurl}>{$:item.name|wash}</a></p>
+</div>
 {/section}
+</div>
 
 {/let}
 
 
-<div class="object_content">
+<div class="folderdescription">
 {attribute_view_gui attribute=$node.object.data_map.description}
 </div>
 
@@ -33,21 +37,11 @@
                                           class_filter_array, array( 'folder', 'info_page' ) ))
     list_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
 
-<table width="100%">
-<tr>
 {section name=Child loop=$children sequence=array(bglight,bgdark)}
-    <td>
     <div class="child">
        {node_view_gui view=line content_node=$Child:item}
     </div>
-    </td>
-    {delimiter modulo=2}
-        </tr>
-        <tr>
-    {/delimiter}
 {/section}
-</tr>
-</table>
 
 {include name=navigator
     uri='design:navigator/google.tpl'

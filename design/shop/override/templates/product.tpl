@@ -42,8 +42,9 @@
 </div>
 
 
+<h2>People who bought this also bought</h2>
+
 <div class="relatedorders">
-        <h2>People who bought this also bought</h2>
     {let related_purchase=fetch( shop, related_purchase, hash( contentobject_id, $node.contentobject_id,
                                                                limit, 10 ) )}
     {section var=product loop=$related_purchase}
