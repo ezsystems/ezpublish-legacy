@@ -43,7 +43,7 @@ Here a short todo list (in no order):
     - create new user for database
     - use internationalization    
     - more tests: 
-        + modules (libxml?)
+        + modules (libxml?) <- not needed
         + functions (mbstring, ttftextbox, ...)
         + programs (imagemagick)
         + critical combinations (winxp + php_isapi + ezsession = crash)
