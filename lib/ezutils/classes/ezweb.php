@@ -57,9 +57,9 @@ class eZWeb
     {
         if ( !isset( $this ) or get_class( $this ) != "ezweb" )
             $this =& eZWeb::instance();
-            
+
         $userAgent = eZSys::serverVariable( 'HTTP_USER_AGENT' );
-        eZDebug::writeDebug( $userAgent, 'user agent' );
+        eZDebugSetting::writeDebug( 'lib-ezutil-web', $userAgent, 'user agent' );
     }
 
     /*!
