@@ -71,83 +71,9 @@ $class_list =& eZContentClass::fetchList();
 
 $userlink_list =& eZNotificationUserLink::fetch( $RuleID, $user_id );
 
-// BEGIN HiO specific code
-$hio = false;  // hio #ifdef
-$subscribeNodeID = -1;
-if ( $http->hasVariable( "SubscribeNodeID" ) )  // use this as a test of wether we are doing hio stuff
-{
-    $hio = true;
-    $subscribeNodeID = $http->variable( "SubscribeNodeID" );
-
-    $subscribeNodeName = '';
-    if ( $http->hasVariable( "SubscribeNodeName" ) )
-    {
-        $subscribeNodeName = $http->variable( "SubscribeNodeName" );
-    }
-
-    $subscribeEmail = '';
-    if ( $http->hasVariable( "SubscribeEmail" ) )
-    {
-        $subscribeEmail = $http->variable( "SubscribeEmail" );
-    }
-
-    if ( $http->hasPostVariable( "StoreRuleButton" ) ) // The "register" button has been clicked
-    {
-        $user_login = $user->attribute( "login" );
-        if ( $user_login == $subscribeEmail )  // User is logged in and email is correct
-        {
-            $user->setAttribute( "email", $subscribeEmail );  // Just to be sure
-        }
-        else  // We must create a new user. Set email as login.
-        {
-            // code ripped from sitemap.php
-            $node =& eZContentObjectTreeNode::fetch( 2  );  // use root node as parent
-            $parentContentObject = $node->attribute( 'object' );
-            $parentUserID = 14; // Administrator user
-            $sectionID = $parentContentObject->attribute( 'section_id' );
-            $contentClassID = 4; // User class
-            $class =& eZContentClass::fetch( $contentClassID );
-            $contentObject =& $class->instantiate( $parentUserID, $sectionID );
-            $contentObjectID = $contentObject->attribute( "id" );
-            $nodeAssignment =& eZNodeAssignment::create( array(
-                                                             'contentobject_id' => $contentObjectID,
-                                                             'contentobject_version' => $contentObject->attribute( 'current_version' ),
-                                                             'parent_node' => $node->attribute( 'node_id' ),
-                                                             'is_main' => 1
-                                                             )
-                                                         );
-            $nodeAssignment->store();
-
-            $user = eZUser::create( $contentObjectID );
-            $password = eZUser::createPassword( 8 );
-            $user->setInformation( $contentObjectID, $subscribeEmail, $subscribeEmail, $password );
-            $user->store();
-        }
-        $user_id = $user->attribute( "contentobject_id" );
-    }
-    else  // The first time we view the page. Set the visible email address if we have it.
-    {
-        $user_login = $user->attribute( "login" );
-        if ( $user_login == "anonymous" )     // To detect anonymous user - How safe is this?
-        {
-            $user_email = '';
-        }
-        else  // User is logged in, set his email
-        {
-            $user_email = $user->attribute( "email" );
-        }
-    }
-}
-// END HiO specific code
-
 if ( $http->hasPostVariable( "DiscardRuleButton" ) )
 {
-// BEGIN HiO specific code
-    if ( $hio )
-        $Module->redirectTo( "/content/view/full/" . $subscribeNodeID );
-    else
-// END HiO specific code
-        $Module->redirectTo( $Module->functionURI( "list" ) );
+    $Module->redirectTo( $Module->functionURI( "list" ) );
     return;
 }
 
@@ -169,14 +95,6 @@ if ( $http->hasPostVariable( "StoreRuleButton" ) )
         $keyword = $http->postVariable( "keyword" );
     }
     $sendMethod = $http->postVariable( "sendMethod" );
-// BEGIN HiO specific code
-    if ( $hio )
-    {
-        $RuleType = "hio";
-        $email = $subscribeEmail;
-//        $path = "/content/view/full/" . $subscribeNodeID;  // Do we need this?
-    }
-// END HiO specific code
     $sendTime_week = $http->postVariable( "sendTime_week" );
     $sendTime_hour = $http->postVariable( "sendTime_hour" );
     $condition = array( "contentclass_name" => $contentClassName,
@@ -258,12 +176,7 @@ if ( $http->hasPostVariable( "StoreRuleButton" ) )
             $userlink_list->setAttribute( "destination_address", $user_id );
         $userlink_list->store();
     }
-// BEGIN HiO specific code
-    if ( $hio )
-        $Module->redirectTo( "/content/view/full/" . $subscribeNodeID );
-    else
-// END HiO specific code
-        $Module->redirectTo( $Module->functionURI( "list" ) );
+    $Module->redirectTo( $Module->functionURI( "list" ) );
 }
 
 $Module->setTitle( "Edit rule " );
@@ -277,11 +190,6 @@ $tpl->setVariable( "rule_list", $rule );
 $tpl->setVariable( "class_list", $class_list );
 $tpl->setVariable( "userlink_list", $userlink_list );
 $tpl->setVariable( "ClassAttributeID", $ClassAttributeID );
-// BEGIN HiO specific code
-$tpl->setVariable( "subscribe_node_id", $subscribeNodeID );
-$tpl->setVariable( "subscribe_node_name", $subscribeNodeName );
-$tpl->setVariable( "user_email", $user_email );
-// END HiO specific code
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:notification/edit.tpl" );

@@ -82,18 +82,7 @@ $tpl =& templateInit();
 
 $list = array();
 
-// BEGIN HiO specific code
-if ( $UserID == 14 ) // Admin
-{
-    $userRules =& eZNotificationUserLink::fetchAll();
-}
-else
-{
-// END HiO specific code
-    $userRules =& eZNotificationUserLink::fetchRuleList( $UserID );
-// BEGIN HiO specific code
-}
-// END HiO specific code
+$userRules =& eZNotificationUserLink::fetchRuleList( $UserID );
 
 foreach ( $userRules as $userRule )
 {
