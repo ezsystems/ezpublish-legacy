@@ -12,6 +12,7 @@ Changes from 3.3-3 to 3.3-4
 - Added possibility to add multiple objects to a objectrelationlist in the browse view
   http://ez.no/community/bug_reports/ezobjectrelationlist_doesn_t_support_multiple_values
 - Added the possibility to set attributes in eZWorkflowType. (Merged from stable/3.2 rev. 5533)
+- Made sure it is not possible to move, remove or add locations for top level objects.
 
 *Setup:
 - Fixed checking of existing MySQL databases to use mysql_list_dbs().
@@ -31,6 +32,8 @@ Changes from 3.3-3 to 3.3-4
   (e.g. on when creating a new version).
 - Made sure eZImage, eZMedia and eZENUM only copies attribute data when
   supplied version is non-false.
+- Link tags in ezxml fields with empty href values are now handled properly, empty links
+  will signal a validation error.
 
 *Bugs:
 - Fixed broken datatype range option.
