@@ -38,10 +38,10 @@
 
 define( "EZ_SDK_VERSION_MAJOR", 3 );
 define( "EZ_SDK_VERSION_MINOR", 3 );
-define( "EZ_SDK_VERSION_DEVELOPMENT", 0 );
-define( "EZ_SDK_VERSION_RELEASE", 2 );
+define( "EZ_SDK_VERSION_DEVELOPMENT", false );
+define( "EZ_SDK_VERSION_RELEASE", 1 );
 define( "EZ_SDK_VERSION_REVISION_STRING", '$Rev$' );
-define( "EZ_SDK_VERSION_ALIAS", '3.3 beta 2' );
+define( "EZ_SDK_VERSION_ALIAS", '3.3' );
 define( "EZ_SDK_VERSION_REVISION", preg_replace( "#\\\$Rev:\s+([0-9]+)\s+\\\$#", '$1', EZ_SDK_VERSION_REVISION_STRING ) );
 
 class eZPublishSDK
