@@ -1700,7 +1700,7 @@ class eZPDFTable extends Cezpdf
     {
         if ( strlen( $text ) > 0 )
         {
-            $this->addDocSpecFunction( 'ezInsertBlockFrame', array( $this->fixWhitespace( $text ), $params) );
+            $this->addDocSpecFunction( 'ezInsertBlockFrame', array( $text, $params) );
         }
     }
 
@@ -1784,6 +1784,7 @@ class eZPDFTable extends Cezpdf
     */
     function ezInsertBlockFrame( $text, $textParameters )
     {
+        $header = false;
         switch( $textParameters['location'] )
         {
             case 'footer_block':
@@ -1793,6 +1794,7 @@ class eZPDFTable extends Cezpdf
 
             case 'header_block':
             {
+                $header = true;
                 $frameCoords = $this->ezFrame['header'];
             } break;
         }
@@ -1805,19 +1807,27 @@ class eZPDFTable extends Cezpdf
         {
             $this->pushStack();
 
-            foreach( $frameCoords as $key => $value )
+            if ( $header )
             {
-                $this->ez[$key] = $value;
+                foreach( $frameCoords as $key => $value )
+                {
+                    $this->ez[$key] = $value;
+                }
+                $this->setYOffset( $this->ez['pageHeight'] - $this->ez['topMargin'] );
             }
-
-
-            foreach( $frameCoords as $key => $value )
+            else
             {
-                $this->ez[$key] = $value;
+                $this->ez['topMargin'] = $this->ez['pageHeight'] - $this->ez['bottomMargin'] + $frameCoords['topMargin'];
+                foreach( $frameCoords as $key => $value )
+                {
+                    if ( $key != 'topMargin' )
+                    {
+                        $this->ez[$key] = $value;
+                    }
+                }
             }
 
             $this->setXOffset( 0 );
-            $this->setYOffset( $this->ez['pageHeight'] - $this->ez['topMargin'] );
 
             $frameText = $text; //Create copy of text
             if( $textParameters['page'] == 'even' &&
