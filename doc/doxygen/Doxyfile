@@ -330,6 +330,7 @@ INPUT                  = lib/ezdb/classes \
                          lib/ezwebdav/classes \
                          lib/ezxml/classes \
                          tests/classes \
+                         benchmarks/classes \
                          kernel/classes \
                          kernel/common
 
