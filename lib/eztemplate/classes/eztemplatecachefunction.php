@@ -139,11 +139,11 @@ class eZTemplateCacheFunction
                         $ignoreContentExpiry = $tpl->elementValue( $functionParameters["ignore_content_expiry"], $rootNamespace, $currentNamespace, $functionPlacement ) === true;
                     }
 
+                    $expiryTime = $localExpiryTime;
                     if ( $ignoreContentExpiry == false )
                     {
                         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
                         $handler =& eZExpiryHandler::instance();
-                        $expiryTime = $localExpiryTime;
                         if ( $handler->hasTimestamp( 'content-cache' ) )
                         {
                             $globalExpiryTime = $handler->timestamp( 'content-cache' );
