@@ -147,7 +147,7 @@ class eZHTTPFile
         }
         else
         {
-            $dest_name = $dir .  "/". basename( $this->Filename ) . $suffixString;
+            $dest_name = $dir .  "/". md5( basename( $this->Filename ) + microtime() ). $suffixString;
         }
 
 //         eZDebug::writeDebug( $this->Filename );

@@ -182,6 +182,8 @@ eZINI:
   Merged from stable/3.4 rev. 7097.
 - Fixed bug with misquoted filenames in Content-disposition header.
   http://ez.no/community/bug_reports/content_disposition_in_kernel_classes_binaryhandlers_ezfilepasstrough
+- Fixed problems with overwritten uploaded files.
+  http://ez.no/community/bug_reports/new_binary_files_sometimes_overwrite_existing_binary_files
     
 *Library:
 
