@@ -97,9 +97,16 @@ class eZTimeType extends eZDataType
 
     function makeSeconds( $hour, $minute )
     {
-        $hour   = abs( (int) $hour   % 24 );
-        $minute = abs( (int) $minute % 60 );
-        return ( $hour * 60 + $minute ) * 60;
+        if ( strlen($hour) == 0 || strlen($minute) == 0 )
+        {
+            return null;
+        }
+        else
+        {
+            $hour   = abs( (int) $hour   % 24 );
+            $minute = abs( (int) $minute % 60 );
+            return ( $hour * 60 + $minute ) * 60;
+        }
     }
 
     /*!
@@ -111,6 +118,7 @@ class eZTimeType extends eZDataType
         $minute = $http->postVariable( $base . "_time_minute_" . $contentObjectAttribute->attribute( "id" ) );
         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
         $secondsSinceMidnight = eZTimeType::makeSeconds( $hour, $minute );
+
         $contentObjectAttribute->setAttribute( "data_int", $secondsSinceMidnight );
         return true;
     }
@@ -121,10 +129,11 @@ class eZTimeType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         $content = array();
-        if ( $contentObjectAttribute->attribute( 'data_int' ) != null )
+        $value = $contentObjectAttribute->attribute( 'data_int' );
+        if ( !is_null($value) )
         {
 
-            $seconds = $contentObjectAttribute->attribute( 'data_int' ) % eZTime::secondsPerDay();
+            $seconds = $value % eZTime::secondsPerDay();
             $hour    = (int) ( $seconds / 3600 );
             $minute  = (int) ( ( $seconds - $hour * 3600 ) / 60 );
 

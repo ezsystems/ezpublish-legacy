@@ -289,7 +289,7 @@ class eZPersistentObject
                 {
                     if ( array_key_exists( 'default', $field_def ) &&
                          (! is_null( $field_def['default'] ) ||
-                          ( $field_name == "data_int" &&
+                          ( $field_name == 'data_int' &&
                             array_key_exists( 'required', $field_def ) &&
                             $field_def[ 'required' ] == false ) ) )
                     {
@@ -383,13 +383,12 @@ class eZPersistentObject
             foreach ( $escapeFields as $key )
             {
                 $value =& $obj->attribute( $key );
-
                 $field_def = $fields[$key];
 
-                if ($value == null &&
-                    $key == "data_int" )
+                if (is_null($value) &&
+                    $key == 'data_int' )
                 {
-                    $use_values_hash[$key] = "NULL";
+                    $use_values_hash[$key] = 'NULL';
                 }
                 else
                 {
@@ -445,10 +444,10 @@ class eZPersistentObject
                 else
                 {
                     $field_def = $fields[$key];
-                    if ($value == null &&
-                        $key == "data_int" )
+                    if (is_null($value) &&
+                        $key == 'data_int' )
                     {
-                        $field_text_entry = $use_field_names[$key] . "=NULL";
+                        $field_text_entry = $use_field_names[$key] . '=NULL';
                     }
                     else
                     {
