@@ -25,6 +25,8 @@ eZMail:
 
 eZ template:
 - Added parameter tool_id and offset for toolbar function.
+- Made sure loop item for the section function is unset before children are
+  processed.
 
 *Translations:
 - Updated locale ger-DE

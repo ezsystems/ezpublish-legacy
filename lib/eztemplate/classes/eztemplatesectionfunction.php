@@ -563,7 +563,8 @@ class eZTemplateSectionFunction
                                                                            "}", array( 'spacing' => $mainSpacing + 4 ) );
                 }
             }
-            $code = "\$sectionStack[] = array( " . $variableValuePushText . "&\$loopItem, \$loopKeys, \$loopCount, \$currentIndex, \$index" . $sequencePopText . $maxPopText . " );\n";
+            $code = ( "\$sectionStack[] = array( " . $variableValuePushText . "&\$loopItem, \$loopKeys, \$loopCount, \$currentIndex, \$index" . $sequencePopText . $maxPopText . " );\n" .
+                      "unset( \$loopItem, \$loopKeys );\n" );
             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => $mainSpacing + 4 ) );
 
             $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( $mainSpacing + 4 );
