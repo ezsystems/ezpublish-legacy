@@ -2167,13 +2167,12 @@ $rbracket
 //                         unset( $tmpResourceData2['text'] );
 //                         unset( $tmpResourceData2['root-node'] );
 //                         var_dump( $tmpResourceData2 );
-                        if ( $tmpResourceData['compiled-template'] )
-                            $hasCompiledCode = true;
                         $textName = eZTemplateCompiler::currentTextName( $parameters );
                         if ( $tmpResourceData['compiled-template'] )
                         {
-                            if ( !eZTemplateCompiler::isFallbackResourceCodeEnabled() )
-                                $useFallbackCode = false;
+                            $hasCompiledCode = true;
+//                            if ( !eZTemplateCompiler::isFallbackResourceCodeEnabled() )
+//                                $useFallbackCode = false;
                             $keyData = $tmpResourceData['key-data'];
                             $templatePath = $tmpResourceData['template-name'];
                             $key = $resourceObject->cacheKey( $keyData, $tmpResourceData, $templatePath, $node[5] );
@@ -2217,25 +2216,6 @@ $rbracket
                             $resourceVariableNameText = "\$$resourceVariableName";
                             $php->addCodePiece( "\$phpScript = isset( \$phpScriptArray[$resourceVariableNameText] ) ? \$phpScriptArray[$resourceVariableNameText] : false;\n", array( 'spacing' => $spacing ) );
                             $php->addCodePiece( "\$resourceFound = false;\nif ( $phpScriptText !== false and file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
-
-                            $code = "\$resourceFound = true;\n\$namespaceStack[] = array( \$rootNamespace, \$currentNamespace );\n";
-                            if ( $newRootNamespace )
-                            {
-                                $newRootNamespaceText = $php->variableText( $newRootNamespace, 0, 0, false );
-                                $code .= "\$currentNamespace = \$rootNamespace = !\$currentNamespace ? $newRootNamespaceText : ( \$currentNamespace . ':' . $newRootNamespaceText );\n";
-                            }
-                            else
-                            {
-                                $code .= "\$currentNamespace = \$rootNamespace;\n";
-                            }
-                            $code .= "include( $phpScriptText );
-list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
-                            $php->addCodePiece( $code, array( 'spacing' => $spacing + 4 ) );
-                            if ( $useFallbackCode )
-                                $php->addCodePiece( "}\nelse\n{\n    \$resourceFound = true;\n", array( 'spacing' => $spacing ) );
-                            else
-                                $php->addCodePiece( "}\n", array( 'spacing' => $spacing ) );
-                            $subSpacing = 4;
                         }
                         else
                         {
@@ -2247,25 +2227,27 @@ list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
 //                             $php->addCodePiece( "else " );
                             $php->addCodePiece( "if ( file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
 
-                            $code = "\$resourceFound = true;\n\$namespaceStack[] = array( \$rootNamespace, \$currentNamespace );\n";
-                            if ( $newRootNamespace )
-                            {
-                                $newRootNamespaceText = $php->variableText( $newRootNamespace, 0, 0, false );
-                                $code .= "\$currentNamespace = \$rootNamespace = !\$currentNamespace ? $newRootNamespaceText : ( \$currentNamespace . ':' . $newRootNamespaceText );\n";
-                            }
-                            else
-                            {
-                                $code .= "\$currentNamespace = \$rootNamespace;\n";
-                            }
-                            $code .= "include( $phpScriptText );
-list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
-                            $php->addCodePiece( $code, array( 'spacing' => $spacing + 4 ) );
-                            if ( $useFallbackCode )
-                                $php->addCodePiece( "}\nelse\n{\n    \$resourceFound = true;\n", array( 'spacing' => $spacing ) );
-                            else
-                                $php->addCodePiece( "}\n", array( 'spacing' => $spacing ) );
-                            $subSpacing = 4;
                         }
+
+                        $code = "\$resourceFound = true;\n\$namespaceStack[] = array( \$rootNamespace, \$currentNamespace );\n";
+                        if ( $newRootNamespace )
+                        {
+                            $newRootNamespaceText = $php->variableText( $newRootNamespace, 0, 0, false );
+                            $code .= "\$currentNamespace = \$rootNamespace = !\$currentNamespace ? $newRootNamespaceText : ( \$currentNamespace . ':' . $newRootNamespaceText );\n";
+                        }
+                        else
+                        {
+                            $code .= "\$currentNamespace = \$rootNamespace;\n";
+                        }
+
+                        $code .= "include( $phpScriptText );\n" .
+                            "list( \$rootNamespace, \$currentNamespace ) = array_pop( \$namespaceStack );\n";
+                        $php->addCodePiece( $code, array( 'spacing' => $spacing + 4 ) );
+                        if ( $useFallbackCode )
+                            $php->addCodePiece( "}\nelse\n{\n    \$resourceFound = true;\n", array( 'spacing' => $spacing ) );
+                        else
+                            $php->addCodePiece( "}\n", array( 'spacing' => $spacing ) );
+                        $subSpacing = 4;
                     }
 
                     if ( $useFallbackCode )
