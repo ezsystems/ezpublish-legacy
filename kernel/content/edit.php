@@ -59,6 +59,14 @@ if ( $http->hasPostVariable( 'EditButton' ) )
     if ( $http->hasPostVariable( 'SelectedVersion' ) )
     {
         $selectedVersion = $http->postVariable( 'SelectedVersion' );
+        if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
+        {
+            $EditLanguage = $http->postVariable( 'ContentObjectLanguageCode' );
+            if ( $EditLanguage == eZContentObject::defaultLanguage() )
+            {
+                $EditLanguage = false;
+            }
+        }
         return $Module->redirectToView( "edit", array( $ObjectID, $selectedVersion, $EditLanguage ) );
     }
 }
@@ -66,6 +74,14 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
 {
     $contentINI =& eZINI::instance( 'content.ini' );
     $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
+    if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
+    {
+        $EditLanguage = $http->postVariable( 'ContentObjectLanguageCode' );
+        if ( $EditLanguage == eZContentObject::defaultLanguage() )
+        {
+            $EditLanguage = false;
+        }
+    }
 
     $limitList =& $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
     foreach ( array_keys ( $limitList ) as $key )
@@ -149,6 +165,7 @@ else
                               array( 'class_identifier', $class->attribute( 'identifier' ) ),
                               array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ) ) );
 
+        $tpl->setVariable( 'edit_language', $EditLanguage );
         $tpl->setVariable( 'object', $obj );
         $tpl->setVariable( 'class', $class );
         $tpl->setVariable( 'draft_versions', $draftVersions );

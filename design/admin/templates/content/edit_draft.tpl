@@ -166,6 +166,7 @@
 {* DESIGN: Content END *}</div></div></div>
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+<input type="hidden" name="ContentObjectLanguageCode" value="{$edit_language}" />
 <div class="block">
     <input class="button" type="submit" name="EditButton" value="{'Edit selected'|i18n( 'design/admin/content/edit_draft' )}" {section show=$has_own_drafts|not}disabled="disabled"{/section} />
     <input class="button" type="submit" name="NewDraftButton" value="{'New draft'|i18n( 'design/admin/content/edit_draft' )}" />

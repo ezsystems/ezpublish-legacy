@@ -870,6 +870,14 @@ else if ( $http->hasPostVariable( 'EditButton' )  )
                 $parameters[] = $http->postVariable( 'ContentObjectLanguageCode' );
             }
         }
+        else
+        {
+            if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
+            {
+                $parameters[] = 'f'; // this will be treatead as not entering the version number
+                $parameters[]= $http->postVariable( 'ContentObjectLanguageCode' );
+            }
+        }
         $module->redirectToView( 'edit', $parameters );
         return;
     }
