@@ -66,6 +66,8 @@
 
 */
 
+include_once( 'lib/compat.php' );
+
 class eZTemplateArithmeticOperator
 {
     /*!
