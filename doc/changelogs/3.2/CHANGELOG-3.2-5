@@ -94,6 +94,9 @@ Changes from 3.2-4 to 3.2-5
   http://ez.no/community/bug_reports/fatal_error_fetch_list_count_in_tpls
 - Removed event_ezpaynet workflow event from the standard workflow.ini file.
   http://ez.no/community/bug_reports/workflow_type_not_found_event_ezpaynet
+- Removed the workflow events ezpublish, ezunpublish and eztiming which were
+  only meant as test code.
+  http://ez.no/community/bug_reports/fatal_error_cannot_redeclare_class_when_using_workflow
 
 *Setup:
 - Fixed setup to only check for existing eZ publish tables.
