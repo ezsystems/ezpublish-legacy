@@ -80,11 +80,6 @@ class eZPDF
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
-        if ( ! isset( $this->PDF ) )
-        {
-            $this->createPDF();
-        }
-
         switch ( $namedParameters['operation'] )
         {
             case 'toc':
@@ -151,7 +146,7 @@ class eZPDF
                                                '',
                                                $header['text'] );
 
-                $operatorValue = '<ezCall:callHeader:level:'. $header['level'] .':size:'. $header['size'];
+                $operatorValue = '<C:callNewLine><ezCall:callHeader:level:'. $header['level'] .':size:'. $header['size'];
 
                 if ( isset( $header['align'] ) )
                 {
@@ -220,6 +215,10 @@ class eZPDF
             {
                 $link = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
+                $link['text'] = str_replace( '&quot;',
+                                             '"',
+                                             $link['text'] );
+
                 $operatorValue = '<c:alink:'. rawurlencode( $link['url'] ) .'>'. $link['text'] .'</c:alink>';
                 eZDebug::writeNotice( 'PDF: Added link: '. $link['text'] .', url: '.$link['url'], 'eZPDF::modify' );
             } break;
@@ -252,7 +251,23 @@ class eZPDF
             /* usage : execute/add text to pdf file, pdf(execute,<text>) */
             case 'execute':
             {
+                $config =& eZINI::instance( 'pdf.ini' );
+
                 $text = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
+
+                if ( count ( $operatorParameters ) > 2 )
+                {
+                    $options = $tpl->elementValue( $operatorParameters[2], $rootNamespace, $currentNamespace );
+
+                    $size = isset( $options['size'] ) ? $options['size'] : $config->variable( 'PDFGeneral', 'Format' );
+                    $orientation = isset( $options['orientation'] ) ? $options['orientation'] : $config->variable( 'PDFGeneral', 'Orientation' );
+
+                    $this->createPDF( $size, $orientation );
+                }
+                else
+                {
+                    $this->createPDF( $config->variable( 'PDFGeneral', 'Format' ), $config->variable( 'PDFGeneral', 'Orientation' ) );
+                }
 
                 $text = str_replace( array( ' ', "\n", "\t" ), '', $text );
 
@@ -561,9 +576,9 @@ class eZPDF
      \private
      Create PDF object
     */
-    function createPDF()
+    function createPDF( $paper = 'a4', $orientation = 'portrait' )
     {
-        $this->PDF = new eZPDFTable();
+        $this->PDF = new eZPDFTable( $paper, $orientation );
         $this->PDF->selectFont( 'lib/ezpdf/classes/fonts/Helvetica' );
         eZDebug::writeNotice( 'PDF: File created' );
     }

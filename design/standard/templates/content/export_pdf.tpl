@@ -47,7 +47,7 @@
     </select>
     <br/>
 
-    <label>{"Site access"|i18n("design/standard/content")}</label><div class="labelbreak"></div>
+{*    <label>{"Site access"|i18n("design/standard/content")}</label><div class="labelbreak"></div>
     <select name="SiteAccess" size="1">
     {section var=site_access loop=$export_site_access}
       <option 
@@ -57,7 +57,7 @@
       value="{$site_access.index}">{$site_access.item|wash}</option>
     {/section}
     </select>
-    <br/>
+    <br/> *}
 
     <label>{"Export destination"|i18n("design/standard/content")}</label><div class="labelbreak"></div>
     <input type="radio" name="DestinationType" value="url" checked="checked">{"Export to URL"|i18n("design/standard/content")}</input>

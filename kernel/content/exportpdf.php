@@ -69,7 +69,7 @@ if ( $Module->isCurrentAction( 'BrowseSource' ) ||
     $pdfExport->setAttribute( 'show_frontpage', $Module->hasActionParameter( 'DisplayFrontpage' ) ? 1 : 0 );
     $pdfExport->setAttribute( 'intro_text', $Module->actionParameter( 'IntroText' ) );
     $pdfExport->setAttribute( 'sub_text', $Module->actionParameter( 'SubText' ) );
-    $pdfExport->setAttribute( 'site_access', $Module->actionParameter( 'SiteAccess' ) );
+//    $pdfExport->setAttribute( 'site_access', $Module->actionParameter( 'SiteAccess' ) );
     $pdfExport->setAttribute( 'export_structure', $Module->actionParameter( 'ExportType' ) );
     $pdfExport->setAttribute( 'export_classes', implode( ':', $Module->actionParameter( 'ClassList' ) ) );
     $pdfExport->setAttribute( 'pdf_filename', $Module->actionParameter( 'DestinationFile' ) );

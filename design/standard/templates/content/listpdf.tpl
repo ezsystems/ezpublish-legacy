@@ -9,7 +9,7 @@
     <th>{"Name"|i18n("design/standard/content/view")}</th>
     <th>{"Creator"|i18n("design/standard/content/view")}</th>
     <th>{"Created"|i18n("design/standard/content/view")}</th>
-    <th>{"Regenerate"|i18n("design/standard/content/view")}</th>
+{*    <th>{"Regenerate"|i18n("design/standard/content/view")}</th>  *}
     <th>{"Remove"|i18n("design/standard/content/view")}</th>
 </tr>
 
@@ -18,12 +18,12 @@
     <td class="{$PDFExport:sequence}"><a href={$PDFExport:item.filepath|ezroot}>{$PDFExport:item.title|wash}</a></td>
     <td class="{$PDFExport:sequence}">{content_view_gui view=text_linked content_object=$PDFExport:item.modifier.contentobject}</td>
     <td class="{$PDFExport:sequence}"><span class="small">{$PDFExport:item.modified|l10n(shortdatetime)}</span></td>
-    <td class="{$PDFExport:sequence}"><a href={"content/exportpdf/"}>{"Regenerate"|i18n("design/standard/content/view")}</a></td>
+{*    <td class="{$PDFExport:sequence}"><a href={"content/exportpdf/"}>{"Regenerate"|i18n("design/standard/content/view")}</a></td>   *}
     <td class="{$PDFExport:sequence}" width="1" align="right"><input type="checkbox" name="DeleteIDArray[]" value="{$PDFExport:item.id}"></td>
 </tr>
 {/section}
 <tr>
-  <td colspan="4">
+  <td colspan="3">
     {include uri="design:gui/button.tpl" name=newgroup id_name=NewPDFExport value="New Export"|i18n("design/standard/class/list")}
   </td>
   <td align="right">

@@ -57,9 +57,9 @@ class eZPDFTable extends Cezpdf
     /**
      Constructor. This class is only used to encapsulate a table.
     */
-    function eZPDFTable()
+    function eZPDFTable($paper='a4',$orientation='portrait')
     {
-        $this->Cezpdf();
+        $this->Cezpdf($paper, $orientation);
         $this->TOC = array();
         $this->KeywordArray = array();
         $this->PageCounter = array();
