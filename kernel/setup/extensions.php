@@ -67,7 +67,7 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
 }
 
 $extensionDir = $ini->variable( 'ExtensionSettings', 'ExtensionDirectory' );
-$availableExtensionArray = eZDir::findSubdirs( $extensionDir );
+$availableExtensionArray = eZDir::findSubItems( $extensionDir );
 
 $tpl->setVariable( "available_extension_array", $availableExtensionArray );
 $tpl->setVariable( "selected_extension_array", $selectedExtensionArray );
