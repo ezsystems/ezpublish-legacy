@@ -9,6 +9,7 @@
 <tr>
     <td>
         {$node.name|texttoimage( 'gallery' )}
+{$list_count}
     </td>
 </tr>
 </table>
@@ -29,7 +30,7 @@
                 </tr>
                 </table>
             </td>
-            {delimiter modulo=ceil( div( $list_count, 2 ) )}
+            {delimiter modulo=4}
                 </tr>
                 <tr>
                 <td>
