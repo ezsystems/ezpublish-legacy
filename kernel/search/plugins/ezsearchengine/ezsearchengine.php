@@ -572,8 +572,8 @@ class eZSearchEngine
                 $searchDateQuery = "ezsearch_object_word_link.published >= '$publishedDate' AND ";
                 if ( $publishedDateStop )
                     $searchDateQuery .= "ezsearch_object_word_link.published <= '$publishedDateStop' AND ";
-                 $this->GeneralFilter['searchDateQuery'] = $searchDateQuery;
-           }
+                $this->GeneralFilter['searchDateQuery'] = $searchDateQuery;
+            }
 
             $classQuery = "";
             if ( is_numeric( $searchContentClassID ) and $searchContentClassID > 0 )
@@ -608,7 +608,9 @@ class eZSearchEngine
             $wordIDArrays =& $this->prepareWordIDArrays( $searchText );
             $wordIDArray =& $wordIDArrays['wordIDArray'];
             $wordIDHash =& $wordIDArrays['wordIDHash'];
-            $searchPartsArray =& $this->buildSearchPartArray( $phraseTextArray, $nonPhraseText, $wordIDHash );
+            $wildIDArray =& $wordIDArrays['wildIDArray'];
+            $wildCardCount = $wordIDArrays['wildCardCount'];
+            $searchPartsArray =& $this->buildSearchPartArray( $phraseTextArray, $nonPhraseText, $wordIDHash, $wildIDArray );
 
             /// OR search, not used in this version
             $doOrSearch = false;
@@ -833,34 +835,12 @@ class eZSearchEngine
 
             $i = $this->TempTablesCount;
 
-// Loop every word and insert result in temporary table
-            foreach ( $searchPartsArray as $searchPart )
+            // Loop every word and insert result in temporary table
+
+            if ( $i <= 0 && count( $searchPartsArray ) == 0 )
             {
-//                $wordID = $searchWord['id'];
-
-                $stopWordThresholdValue = 100;
-                if ( $ini->hasVariable( 'SearchSettings', 'StopWordThresholdValue' ) )
-                     $stopWordThresholdValue = $ini->variable( 'SearchSettings', 'StopWordThresholdValue' );
-
-                $stopWordThresholdPercent = 60;
-                if ( $ini->hasVariable( 'SearchSettings', 'StopWordThresholdPercent' ) )
-                     $stopWordThresholdPercent = $ini->variable( 'SearchSettings', 'StopWordThresholdPercent' );
-
-                $searchThresholdValue = $totalObjectCount;
-                if ( $totalObjectCount > $stopWordThresholdValue )
-                {
-                    $searchThresholdValue = (int)( $totalObjectCount * ( $stopWordThresholdPercent / 100 ) );
-                }
-
-                // do not search words that are too frequent
-                if ( $searchPart['object_count'] < $searchThresholdValue )
-                {
-                    $tmpTableCount++;
-                    $searchPartText =& $searchPart['sql_part'];
-                    if ( $i == 0 )
-                    {
-                            $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
-                            $db->query( "INSERT INTO ezsearch_tmp_0 SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
+                $db->query( "INSERT INTO ezsearch_tmp_0 SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
@@ -872,7 +852,6 @@ class eZSearchEngine
                     $sectionQuery
                     $classQuery
                     $classAttributeQuery
-                    $searchPartText
                     $subTreeSQL
                     ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
                     ezcontentobject.contentclass_id = ezcontentclass.id and
@@ -880,43 +859,92 @@ class eZSearchEngine
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $sqlPermissionCheckingString" );
+                $i = 1;
+            }
+            else
+            {
+                foreach ( $searchPartsArray as $searchPart )
+                {
+//                    $wordID = $searchWord['id'];
 
+                    $stopWordThresholdValue = 100;
+                    if ( $ini->hasVariable( 'SearchSettings', 'StopWordThresholdValue' ) )
+                        $stopWordThresholdValue = $ini->variable( 'SearchSettings', 'StopWordThresholdValue' );
+
+                    $stopWordThresholdPercent = 60;
+                    if ( $ini->hasVariable( 'SearchSettings', 'StopWordThresholdPercent' ) )
+                        $stopWordThresholdPercent = $ini->variable( 'SearchSettings', 'StopWordThresholdPercent' );
+
+                    $searchThresholdValue = $totalObjectCount;
+                    if ( $totalObjectCount > $stopWordThresholdValue )
+                    {
+                        $searchThresholdValue = (int)( $totalObjectCount * ( $stopWordThresholdPercent / 100 ) );
+                    }
+
+                    // do not search words that are too frequent
+                    if ( $searchPart['object_count'] < $searchThresholdValue )
+                    {
+                        $tmpTableCount++;
+                        $searchPartText =& $searchPart['sql_part'];
+                        if ( $i == 0 )
+                        {
+                            $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
+                            $db->query( "INSERT INTO ezsearch_tmp_0 SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                                         FROM ezcontentobject,
+                                              ezsearch_object_word_link
+                                              $subTreeTable,
+                                              ezcontentclass,
+                                              ezcontentobject_tree
+                                         WHERE
+                                               $searchDateQuery
+                                               $sectionQuery
+                                               $classQuery
+                                               $classAttributeQuery
+                                               $searchPartText
+                                               $subTreeSQL
+                                         ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
+                                         ezcontentobject.contentclass_id = ezcontentclass.id and
+                                         ezcontentclass.version = '0' and
+                                         ezcontentobject.id = ezcontentobject_tree.contentobject_id and
+                                         ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                                         $sqlPermissionCheckingString" );
+                        }
+                        else
+                        {
+                            $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_$i ( contentobject_id int primary key not null, published int )" );
+                            $db->query( "INSERT INTO ezsearch_tmp_$i SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                                         FROM
+                                             ezcontentobject,
+                                             ezsearch_object_word_link
+                                             $subTreeTable,
+                                             ezcontentclass,
+                                             ezcontentobject_tree,
+                                             ezsearch_tmp_0
+                                          WHERE
+                                          ezsearch_tmp_0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
+                                          $searchDateQuery
+                                          $sectionQuery
+                                          $classQuery
+                                          $classAttributeQuery
+                                          $searchPartText
+                                          $subTreeSQL
+                                          ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
+                                          ezcontentobject.contentclass_id = ezcontentclass.id and
+                                          ezcontentclass.version = '0' and
+                                          ezcontentobject.id = ezcontentobject_tree.contentobject_id and
+                                          ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                                          $sqlPermissionCheckingString" );
+                        }
+                        $i++;
                     }
                     else
                     {
-                            $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_$i ( contentobject_id int primary key not null, published int )" );
-                            $db->query( "INSERT INTO ezsearch_tmp_$i SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
-                    FROM
-                       ezcontentobject,
-                       ezsearch_object_word_link
-                       $subTreeTable,
-                       ezcontentclass,
-                       ezcontentobject_tree,
-                       ezsearch_tmp_0
-                    WHERE
-                    ezsearch_tmp_0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
-                    $searchDateQuery
-                    $sectionQuery
-                    $classQuery
-                    $classAttributeQuery
-                    $searchPartText
-                    $subTreeSQL
-                    ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
-                    ezcontentobject.contentclass_id = ezcontentclass.id and
-                    ezcontentclass.version = '0' and
-                    ezcontentobject.id = ezcontentobject_tree.contentobject_id and
-                    ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
-                    $sqlPermissionCheckingString" );
+                        $stopWordArray[] = array( 'word' => $searchPart['word'] );
                     }
-                    $i++;
-                }
-                else
-                {
-                    $stopWordArray[] = array( 'word' => $searchPart['word'] );
                 }
             }
 
-            $nonExistingWordCount = count( array_unique( $searchWordArray ) ) - count( $wordIDHash );
+            $nonExistingWordCount = count( array_unique( $searchWordArray ) ) - count( $wordIDHash ) - $wildCardCount;
             $excludeWordCount = $searchWordCount - count( $stopWordArray );
 
             if ( ( count( $stopWordArray ) + $nonExistingWordCount ) == $searchWordCount && $this->TempTablesCount == 0 )
@@ -1053,10 +1081,9 @@ class eZSearchEngine
             }
 
             $objectRes = array();
-
             $searchCount = 0;
 
-            if ( $nonExistingWordCount == 0 )
+            if ( $nonExistingWordCount <= 0 )
             {
                 // execute search query
                 $objectResArray =& $db->arrayQuery( $searchQuery, array( "limit" => $searchLimit, "offset" => $searchOffset ) );
@@ -1379,7 +1406,12 @@ class eZSearchEngine
         $text =& str_replace("\\", " ", $text );
         $text =& str_replace("<", " ", $text );
         $text =& str_replace(">", " ", $text );
-        $text =& str_replace("*", " ", $text );
+
+        $ini =& eZINI::instance();
+        if ( $ini->variable( 'SearchSettings', 'EnableWildcard' ) != 'true' )
+        {
+            $text =& str_replace("*", " ", $text );
+        }
 
         $text =& str_replace("\n", " ", $text );
         $text =& str_replace("\t", " ", $text );
@@ -1912,31 +1944,54 @@ class eZSearchEngine
                       'fullText' => $fullText );
     }
 
-    function &buildSearchPartArray( $phraseTextArray, $nonPhraseText, &$wordIDHash )
+    function &buildSearchPartArray( $phraseTextArray, $nonPhraseText, &$wordIDHash, &$wildIDArray )
     {
         $searchPartsArrayForPhrases =& $this->buildSearchPartArrayForPhrases( $phraseTextArray, $wordIDHash );
-        $searchPartsArrayForWords =& $this->buildSearchPartArrayForWords( $nonPhraseText, $wordIDHash );
+        $searchPartsArrayForWords =& $this->buildSearchPartArrayForWords( $nonPhraseText, $wordIDHash, $wildIDArray );
         $searchPartsArray =& array_merge( $searchPartsArrayForPhrases, $searchPartsArrayForWords );
         return $searchPartsArray;
     }
 
-    function &buildSearchPartArrayForWords( $nonPhraseText, &$wordIDHash )
+    function &buildSearchPartArrayForWords( $nonPhraseText, &$wordIDHash, &$wildIDArray )
     {
         $searchPartsArray = array();
         $nonPhraseWordArray =& $this->splitString( $nonPhraseText );
-        foreach ( $nonPhraseWordArray as $word )
+        $uniqueWordArray = array();
+
+        $searchPart = array();
+        if ( isset( $wildIDArray ) && count( $wildIDArray ) > 0 )
         {
-            if ( isset( $wordIDHash[$word] ) )
+            $searchPart['sql_part'] = '( ';
+            $i = 0;
+            $objectCount = -1;
+
+            foreach( $wildIDArray as $wordInfo )
             {
-                $searchPart = array();
-                $searchPart['text'] = $word;
-                $wordID = $wordIDHash[$word]['id'];
-                $searchPart['sql_part'] =& $this->buildSqlPartForWord( $wordID );
-                $searchPart['is_phrase'] = 0;
-                $searchPart['object_count'] = $wordIDHash[$word]['object_count'];
-                $searchPartsArray[] =& $searchPart;
-                unset ( $searchPart );
+
+                if ( $i > 0 )
+                    $searchPart['sql_part'] .= ' or ';
+                $searchPart['sql_part'] .= "ezsearch_object_word_link.word_id='". $wordInfo['id'] ."'";
+                if ( $objectCount < intval($wordInfo['object_count']) )
+                    $objectCount = intval($wordInfo['object_count']);
+                $i++;
             }
+            $searchPart['sql_part'] .= ' ) AND ';
+            $searchPart['object_count'] = $objectCount;
+            $searchPart['is_phrase'] = 0;
+            $searchPartsArray[] =& $searchPart;
+            unset ( $searchPart );
+        }
+
+        foreach( array_keys( $wordIDHash ) as $word )
+        {
+            $searchPart = array();
+            $searchPart['text'] = $word;
+            $wordID = $wordIDHash[$word]['id'];
+            $searchPart['sql_part'] =& $this->buildSqlPartForWord( $wordID );
+            $searchPart['is_phrase'] = 0;
+            $searchPart['object_count'] = $wordIDHash[$word]['object_count'];
+            $searchPartsArray[] =& $searchPart;
+            unset ( $searchPart );
         }
         return $searchPartsArray;
     }
@@ -2054,15 +2109,42 @@ class eZSearchEngine
 
     function &prepareWordIDArrays( $searchText )
     {
+        if ( trim( $searchText ) == "" )
+            return array();
         $db =& eZDB::instance();
         $searchWordArray = $this->splitString( $searchText );
 
-
-        // fetch the word id
+        $wildCardWordArray = array();
         $i = 0;
+        $wildCardQueryString = array();
         $wordQueryString = '';
+
+        $ini =& eZINI::instance();
+        $wildSearchEnabled = ( $ini->variable( 'SearchSettings', 'EnableWildcard' ) == 'true' );
+        if ( $wildSearchEnabled )
+        {
+            $minCharacters =& $ini->variable( 'SearchSettings', 'MinCharacterWildcard' );
+        }
+
         foreach ( $searchWordArray as $searchWord )
         {
+            $wordLength = strlen( $searchWord ) - 1;
+
+            if ( $wildSearchEnabled && ( $wordLength >= $minCharacters ) )
+            {
+                if ( $searchWord[$wordLength] == '*' )
+                {
+                    $baseWord = substr( $searchWord, 0, $wordLength );
+                    $wildCardQueryString[] = " word LIKE '". $baseWord ."%' ";
+                    continue;
+                }
+                else if ( $searchWord[0] == '*' ) /* Change this to allow searching for shorter/longer words using wildcard */
+                {
+                    $baseWord = substr( $searchWord, 1, $wordLength );
+                    $wildCardQueryString[] = " word LIKE '%". $baseWord ."' ";
+                    continue;
+                }
+            }
             if ( $i > 0 )
                 $wordQueryString .= " or ";
 
@@ -2070,12 +2152,17 @@ class eZSearchEngine
             $i++;
         }
 
-        $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wordQueryString order by object_count" );
+        if ( strlen( $wordQueryString ) > 0 )
+            $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wordQueryString order by object_count" );
+        foreach ( $wildCardQueryString as $wildCardQuery )
+        {
+            $wildCardWordArray[] = $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wildCardQuery order by object_count" );
+        }
 
         // create the word hash
         $wordIDArray = array();
         $wordIDHash = array();
-        if ( is_array( $wordIDArrayRes ) )
+        if ( isset( $wordIDArrayRes ) && is_array( $wordIDArrayRes ) )
         {
             foreach ( $wordIDArrayRes as $wordRes )
             {
@@ -2084,8 +2171,23 @@ class eZSearchEngine
             }
         }
 
+        $wildIDArray = array();
+        $wildCardCount = 0;
+        foreach ( array_keys( $wildCardWordArray ) as $key )
+        {
+            if ( is_array( $wildCardWordArray[$key] ) && count( $wildCardWordArray[$key] ) > 0 )
+            {
+                $wildCardCount++;
+                foreach ( $wildCardWordArray[$key] as $wordRes )
+                {
+                    $wildIDArray[] = array( 'id' => $wordRes['id'], 'object_count' => $wordRes['object_count'] );
+                }
+            }
+        }
         return array( 'wordIDArray' => &$wordIDArray,
-                      'wordIDHash' => &$wordIDHash );
+                      'wordIDHash' => &$wordIDHash,
+                      'wildIDArray' => &$wildIDArray,
+                      'wildCardCount' => $wildCardCount );
     }
 
     function fetchTotalObjectCount()
