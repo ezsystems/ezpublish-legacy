@@ -202,6 +202,9 @@ eztc.php:
 - Fixed bug regarding missing declaration for several global variables.
   Merged from stable/3.4 rev. 7038.
   http://ez.no/community/bug_reports/updatexmltext_php_doesn_t_do_anything
+- Fixed bug with misquoted filenames in Content-disposition header. (Merged
+  from stable/3.4, rev. 7108)
+  http://ez.no/community/bug_reports/content_disposition_in_kernel_classes_binaryhandlers_ezfilepasstrough
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
