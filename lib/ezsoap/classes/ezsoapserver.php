@@ -130,7 +130,16 @@ class eZSOAPServer
             // check parameters
             foreach ( $requestNode->children() as $parameterNode )
             {
-                $params[] = $parameterNode->textContent();
+                // text parameter, return text
+                if ( $parameterNode->type() == 3 or $parameterNode->type() == 4 )
+                {
+                    $params[] = $parameterNode->textContent();
+                }
+                else  // array/struct parameter, recursively create PHP datatypes
+                {
+                    $response = new eZSOAPResponse( $functionName, $namespaceURI );
+                    $params[] = $response->decodeDataTypes( $parameterNode );
+                }
             }
 
             if ( in_array( $functionName, $this->FunctionList ) &&

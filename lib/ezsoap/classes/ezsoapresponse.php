@@ -150,15 +150,15 @@ class eZSOAPResponse extends eZSOAPEnvelope
             $dataType = $attrParts[1];
         }
 
-
-        $typeNamespacePrefix = $this->DOMDocument->namespaceByAlias( $attrParts[0] );
-
         // check that this is a namespace type definition
-/*                if ( ( $typeNamespacePrefix == EZ_SOAP_SCHEMA_DATA ) ||
-                     ( $typeNamespacePrefix == EZ_SOAP_ENC )
-                     )
-TODO: add encoding checks with schema validation.
+/*
+        $typeNamespacePrefix = $this->DOMDocument->namespaceByAlias( $attrParts[0] );
+        if ( ( $typeNamespacePrefix == EZ_SOAP_SCHEMA_DATA ) ||
+             ( $typeNamespacePrefix == EZ_SOAP_ENC )
+             )
 */
+        //TODO: add encoding checks with schema validation.
+
         if ( 1 )
         {
             switch ( $dataType )
