@@ -34,6 +34,7 @@
 
 {/let}
 
+{section show=$required_package_array|count}
 <h2>{"Current site functionality"|i18n("design/standard/setup/init")}</h2>
 
 <ul>
@@ -41,11 +42,12 @@
     <li>{$:item.name|wash}</li>
 {/section}
 </ul>
+{/section}
 
 <h2>{"Please select additional functionality"|i18n("design/standard/setup/init")}</h2>
 {section loop=$package_array}
     <div class="block">
-        <input type="checkbox" name="AdditionalPackages[]" value="{$:item.identifier|wash}" />&nbsp;{$:item.name|wash}<br/>
+        <input type="checkbox" name="AdditionalPackages[]" value="{$:item.identifier|wash}" {section show=$recommended_package_array|contains( $:item.identifier )}checked="checked"{/section}/>&nbsp;{$:item.name|wash}<br/>
          <p>
          {$:item.description|wash}
          </p>

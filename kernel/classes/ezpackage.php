@@ -1814,87 +1814,89 @@ class eZPackage
 
         foreach ( $packageRepositories as $packageRepository )
         {
-            if ( $repositoryID !== false and
-                 $repositoryID != $packageRepository['id'] )
-                continue;
-            $path = $packageRepository['path'];
-            if ( file_exists( $path ) )
+            if ( strlen( $repositoryID ) == 0 or
+                 $repositoryID == $packageRepository['id'] )
             {
-                $fileList = array();
-                $dir = opendir( $path );
-                while( ( $file = readdir( $dir ) ) !== false )
+                $path = $packageRepository['path'];
+                print( $path );
+                if ( file_exists( $path ) )
                 {
-                    if ( $file == '.' or
-                         $file == '..' )
-                        continue;
-                    $fileList[] = $file;
-                }
-                closedir( $dir );
-                sort( $fileList );
-                foreach ( $fileList as $file )
-                {
-                    $dirPath = $path . '/' . $file;
-                    if ( !is_dir( $dirPath ) )
-                        continue;
-                    $filePath = $dirPath . '/' . eZPackage::definitionFilename();
-                    if ( file_exists( $filePath ) )
+                    $fileList = array();
+                    $dir = opendir( $path );
+                    while( ( $file = readdir( $dir ) ) !== false )
                     {
-                        $fileModification = filemtime( $filePath );
-                        $name = $file;
-                        $packageCachePath = $dirPath . '/' . eZPackage::cacheDirectory() . '/package.php';
-                        unset( $package );
-                        $package = false;
-                        $cacheExpired = false;
-                        if ( eZPackage::useCache() )
+                        if ( $file == '.' or
+                             $file == '..' )
+                            continue;
+                        $fileList[] = $file;
+                    }
+                    closedir( $dir );
+                    sort( $fileList );
+                    foreach ( $fileList as $file )
+                    {
+                        $dirPath = $path . '/' . $file;
+                        if ( !is_dir( $dirPath ) )
+                            continue;
+                        $filePath = $dirPath . '/' . eZPackage::definitionFilename();
+                        if ( file_exists( $filePath ) )
                         {
-                            $package =& eZPackage::fetchFromCache( $file, $fileModification, $cacheExpired );
-                        }
-                        if ( !$package )
-                        {
-                            $package =& eZPackage::fetchFromFile( $filePath );
-                            if ( $package and
-                                 $cacheExpired and
-                                 eZPackage::useCache() )
+                            $fileModification = filemtime( $filePath );
+                            $name = $file;
+                            $packageCachePath = $dirPath . '/' . eZPackage::cacheDirectory() . '/package.php';
+                            unset( $package );
+                            $package = false;
+                            $cacheExpired = false;
+                            if ( eZPackage::useCache() )
                             {
-                                $package->storeCache( $dirPath . '/' . eZPackage::cacheDirectory() );
+                                $package =& eZPackage::fetchFromCache( $file, $fileModification, $cacheExpired );
                             }
+                            if ( !$package )
+                            {
+                                $package =& eZPackage::fetchFromFile( $filePath );
+                                if ( $package and
+                                     $cacheExpired and
+                                     eZPackage::useCache() )
+                                {
+                                    $package->storeCache( $dirPath . '/' . eZPackage::cacheDirectory() );
+                                }
+                            }
+                            if ( !$package )
+                                continue;
+                            if ( !$package->attribute( 'is_active' ) )
+                                continue;
+
+                            if ( $requiredType !== null )
+                            {
+                                $type = $package->attribute( 'type' );
+                                if ( $type != $requiredType )
+                                    continue;
+                            }
+
+                            if ( $requiredPriority !== null )
+                            {
+                                $type = $package->attribute( 'priority' );
+                                if ( $priority != $requiredPriority )
+                                    continue;
+                            }
+
+                            if ( $requiredExtension !== null )
+                            {
+                                $type = $package->attribute( 'extension' );
+                                if ( $extension != $requiredExtension )
+                                    continue;
+                            }
+
+                            if ( $requiredVendor !== null )
+                            {
+                                $type = $package->attribute( 'vendor' );
+                                if ( $vendor != $requiredVendor )
+                                    continue;
+                            }
+
+                            $package->setCurrentRepositoryInformation( $packageRepository );
+
+                            $packages[] =& $package;
                         }
-                        if ( !$package )
-                            continue;
-                        if ( !$package->attribute( 'is_active' ) )
-                            continue;
-
-                        if ( $requiredType !== null )
-                        {
-                            $type = $package->attribute( 'type' );
-                            if ( $type != $requiredType )
-                                return false;
-                        }
-
-                        if ( $requiredPriority !== null )
-                        {
-                            $type = $package->attribute( 'priority' );
-                            if ( $priority != $requiredPriority )
-                                return false;
-                        }
-
-                        if ( $requiredExtension !== null )
-                        {
-                            $type = $package->attribute( 'extension' );
-                            if ( $extension != $requiredExtension )
-                                return false;
-                        }
-
-                        if ( $requiredVendor !== null )
-                        {
-                            $type = $package->attribute( 'vendor' );
-                            if ( $vendor != $requiredVendor )
-                                return false;
-                        }
-
-                        $package->setCurrentRepositoryInformation( $packageRepository );
-
-                        $packages[] =& $package;
                     }
                 }
             }

@@ -92,7 +92,7 @@ function eZSetupFunctionality( $siteType )
     else if ( $siteType == 'forum' )
     {
         return array( 'required' => array( 'forum' ),
-                      'recommended' => array(),
+                      'recommended' => array( 'poll' ),
                       'theme' => 't8' );
     }
     else if ( $siteType == 'gallery' )
@@ -370,7 +370,7 @@ function eZSetupAdminToolbarINISettings( $siteType, $parameters )
                 ),
             'Tool_setup_setup_link_4' =>
             array (
-                'title' => 'Common ini settings',
+                'title' => 'Settings',
                 'link_icon' => 'common_ini_settings.png',
                 'url' => '/content/edit/52',
                 ),
@@ -385,6 +385,366 @@ function eZSetupAdminToolbarINISettings( $siteType, $parameters )
     return $toolbar;
 }
 
+function eZSetupAdminOverrideINISettings( $siteType, $parameters )
+{
+    return array (
+        'name' => 'override.ini',
+        'settings' =>
+        array (
+            'browse_media' => 
+            array (
+                'Source' => 'content/browse.tpl',
+                'MatchFile' => 'browse_media.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'navigation_part_identifier' => 'ezmedianavigationpart',
+                    ),
+                ),
+            'browse_thumbnail_image' => 
+            array (
+                'Source' => 'node/view/browse_thumbnail.tpl',
+                'MatchFile' => 'image_browse_thumbnail.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'image',
+                    ),
+                ),
+            'browse_thumbnail_folder' => 
+            array (
+                'Source' => 'node/view/browse_thumbnail.tpl',
+                'MatchFile' => 'folder_browse_thumbnail.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'folder',
+                    ),
+                ),
+            'media_folder' => 
+            array (
+                'Source' => 'node/view/full.tpl',
+                'MatchFile' => 'media_folder.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'folder',
+                    'navigation_part_identifier' => 'ezmedianavigationpart',
+                    ),
+                ),
+            'folder' => 
+            array (
+                'Source' => 'node/view/full.tpl',
+                'MatchFile' => 'folder.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'folder',
+                    ),
+                ),
+            'thumbnail_folder' => 
+            array (
+                'Source' => 'node/view/thumbnail.tpl',
+                'MatchFile' => 'folder_thumbnail.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'folder',
+                    ),
+                ),
+            'folder_plain' => 
+            array (
+                'Source' => 'node/view/plain.tpl',
+                'MatchFile' => 'folder_plain.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'folder',
+                    ),
+                ),
+            'article' => 
+            array (
+                'Source' => 'node/view/full.tpl',
+                'MatchFile' => 'article.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'article',
+                    ),
+                ),
+            'article_plain' => 
+            array (
+                'Source' => 'node/view/plain.tpl',
+                'MatchFile' => 'article_plain.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'article',
+                    ),
+                ),
+            'user_group' => 
+            array (
+                'Source' => 'node/view/full.tpl',
+                'MatchFile' => 'user_group.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'user_group',
+                    ),
+                ),
+            'user_group_plain' => 
+            array (
+                'Source' => 'node/view/plain.tpl',
+                'MatchFile' => 'user_group_plain.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'user_group',
+                    ),
+                ),
+            'user' => 
+            array (
+                'Source' => 'node/view/full.tpl',
+                'MatchFile' => 'user.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'user',
+                    ),
+                ),
+            'user_plain' => 
+            array (
+                'Source' => 'node/view/plain.tpl',
+                'MatchFile' => 'user_plain.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'user',
+                    ),
+                ),
+            'forum' => 
+            array (
+                'Source' => 'node/view/full.tpl',
+                'MatchFile' => 'forum.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'forum',
+                    ),
+                ),
+            'forum_plain' => 
+            array (
+                'Source' => 'node/view/plain.tpl',
+                'MatchFile' => 'forum_plain.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'forum',
+                    ),
+                ),
+            'product' => 
+            array (
+                'Source' => 'node/view/full.tpl',
+                'MatchFile' => 'product.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'product',
+                    ),
+                ),
+            'product_plain' => 
+            array (
+                'Source' => 'node/view/plain.tpl',
+                'MatchFile' => 'product_plain.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'product',
+                    ),
+                ),
+            'file' => 
+            array (
+                'Source' => 'node/view/full.tpl',
+                'MatchFile' => 'file.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'file',
+                    ),
+                ),
+            'file_line' => 
+            array (
+                'Source' => 'node/view/line.tpl',
+                'MatchFile' => 'file_line.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'file',
+                    ),
+                ),
+            'file_plain' => 
+            array (
+                'Source' => 'node/view/plain.tpl',
+                'MatchFile' => 'file_plain.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'file',
+                    ),
+                ),
+            'comment' => 
+            array (
+                'Source' => 'node/view/full.tpl',
+                'MatchFile' => 'comment.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'comment',
+                    ),
+                ),
+            'linkclass' => 
+            array (
+                'Source' => 'node/view/full.tpl',
+                'MatchFile' => 'linkclass.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'link',
+                    ),
+                ),
+            'person' => 
+            array (
+                'Source' => 'node/view/full.tpl',
+                'MatchFile' => 'person.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'person',
+                    ),
+                ),
+            'company' => 
+            array (
+                'Source' => 'node/view/full.tpl',
+                'MatchFile' => 'company.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'company',
+                    ),
+                ),
+            'embed_image' => 
+            array (
+                'Source' => 'content/view/embed.tpl',
+                'MatchFile' => 'embed_image.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'image',
+                    ),
+                ),
+            'text_linked_image' => 
+            array (
+                'Source' => 'content/view/text_linked.tpl',
+                'MatchFile' => 'text_linked_image.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'image',
+                    ),
+                ),
+            'image' => 
+            array (
+                'Source' => 'node/view/full.tpl',
+                'MatchFile' => 'image.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'image',
+                    ),
+                ),
+            'thumbnail_image' => 
+            array (
+                'Source' => 'node/view/thumbnail.tpl',
+                'MatchFile' => 'image_thumbnail.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'image',
+                    ),
+                ),
+            'image_plain' => 
+            array (
+                'Source' => 'node/view/plain.tpl',
+                'MatchFile' => 'image_plain.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'image',
+                    ),
+                ),
+            'edit_common_ini_settings' => 
+            array (
+                'Source' => 'content/edit.tpl',
+                'MatchFile' => 'edit_common_ini_settings.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'common_ini_settings',
+                    ),
+                ),
+            'edit_template_look' => 
+            array (
+                'Source' => 'content/edit.tpl',
+                'MatchFile' => 'edit_template_look.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'template_look',
+                    ),
+                ),
+            'edit_person_datatype_matrix' => 
+            array (
+                'Source' => 'content/datatype/edit/ezmatrix.tpl',
+                'MatchFile' => 'edit_datatype_ezmatrix.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'person',
+                    ),
+                ),
+            'edit_company_datatype_matrix' => 
+            array (
+                'Source' => 'content/datatype/edit/ezmatrix.tpl',
+                'MatchFile' => 'edit_datatype_ezmatrix.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'company',
+                    ),
+                ),
+            'matrix_person_view' => 
+            array (
+                'Source' => 'content/datatype/view/ezmatrix.tpl',
+                'MatchFile' => 'matrix_view.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'person',
+                    ),
+                ),
+            'matrix_company_view' => 
+            array (
+                'Source' => 'content/datatype/view/ezmatrix.tpl',
+                'MatchFile' => 'matrix_view.tpl',
+                'Subdir' => 'templates',
+                'Match' => 
+                array (
+                    'class_identifier' => 'company',
+                    ),
+                ),
+            ),
+        );
+}
 function eZSetupOverrideINISettings( $siteType, $parameters )
 {
     return array (
@@ -1256,6 +1616,7 @@ function eZSetupAdminINISettings( $siteType, $parameters )
 {
     $settings = array();
     $settings[] = eZSetupAdminToolbarINISettings( $siteType, $parameters );
+    $settings[] = eZSetupAdminOverrideINISettings( $siteType, $parameters );
 
     return $settings;
 }
