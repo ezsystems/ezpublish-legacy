@@ -628,6 +628,8 @@ Workflow:
 - Fixed bug: undefined function gettime() was used.
   (Merged from stable/3.3 rev. 8397, also in stable/3.4 rev. 8398)
   http://ez.no/community/bug_reports/gettime_no_such_function_with_possible_fix
+- Fixed bug: eZContentObjectTreeNode::subTree() - could not fetch nodes without limitations
+  http://ez.no/community/bug_reports/3_5alpha1_ezcontentobjecttreenode_subtree_could_not_fetch_nodes_without_limitations
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

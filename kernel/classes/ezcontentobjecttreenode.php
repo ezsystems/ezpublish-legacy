@@ -1225,7 +1225,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         $limitationList = array();
 
-        if ( $limitation )
+        if ( $limitation !== false )
         {
             $limitationList = $limitation;
         }
@@ -1302,6 +1302,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $versionNameTargets =& eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
         $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName );
 
+        $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
         $limitationList              =& eZContentObjectTreeNode::getLimitationList( $params['Limitation'] );
         $sqlPermissionCheckingString =& eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
 
