@@ -344,14 +344,8 @@ class eZContentOperationCollection
         }
 
         // Clear cache after publish
-        $ini =& eZINI::instance();
-        $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
-
-        if ( $templateBlockCacheEnabled )
-        {
-            include_once( 'kernel/classes/ezcontentobject.php' );
-            eZContentObject::expireTemplateBlockCache();
-        }
+        include_once( 'kernel/classes/ezcontentobject.php' );
+        eZContentObject::expireTemplateBlockCacheIfNeeded();
 
         if ( $mainNodeID == false )
         {

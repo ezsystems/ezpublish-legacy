@@ -2851,6 +2851,18 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
+    \static
+     Callse eZContentObject::xpireTemplateBlockCache() unless template caching is disabled.
+     */
+    function expireTemplateBlockCacheIfNeeded()
+    {
+        eZDebug::writeDebug( 'expireTemplateBlockCacheIfNeeded()' );
+        $ini =& eZIni::instance();
+        if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
+            eZContentObject::expireTemplateBlockCache();
+    }
+
+    /*!
      Sets all complex viewmode content cache files to be expired.
     */
     function expireComplexViewModeCache()

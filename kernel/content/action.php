@@ -264,12 +264,7 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
 
         // clear cache for new placement.
         eZContentOperationCollection::clearObjectViewCache( $objectID, true );
-
-        $ini =& eZINI::instance();
-        if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
-        {
-            eZContentObject::expireTemplateBlockCache();
-        }
+        eZContentObject::expireTemplateBlockCacheIfNeeded();
     }
     else
     {

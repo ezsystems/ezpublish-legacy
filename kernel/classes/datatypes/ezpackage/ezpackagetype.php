@@ -161,15 +161,8 @@ class eZPackageType extends eZDataType
         $compiledTemplateDir = $cacheDir ."/template/compiled";
         eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
 
-
         // Expire template block cache
-        $ini =& eZIni::instance();
-        $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
-
-        if ( $templateBlockCacheEnabled )
-        {
-            eZContentObject::expireTemplateBlockCache();
-        }
+        eZContentObject::expireTemplateBlockCacheIfNeeded();
     }
 
     /*!

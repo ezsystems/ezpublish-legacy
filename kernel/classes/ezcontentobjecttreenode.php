@@ -2819,15 +2819,11 @@ WHERE
             $urlObject->cleanup();
         }
 
-        $ini =& eZINI::instance();
         // Clean up template cache bocks
-        $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
-        if ( $templateBlockCacheEnabled )
-        {
-            eZContentObject::expireTemplateBlockCache();
-        }
+        eZContentObject::expireTemplateBlockCacheIfNeeded();
 
         // Clean up content view cache
+        $ini =& eZINI::instance();
         $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
         if ( $viewCacheEnabled )
         {
@@ -3584,6 +3580,7 @@ WHERE
         }
 
         eZContentObjectTreeNode::clearViewCacheForSubtree( $node, $modifyRootNode );
+        eZContentObject::expireTemplateBlockCacheIfNeeded();
     }
 
     /*!
@@ -3639,6 +3636,7 @@ WHERE
         }
 
         eZContentObjectTreeNode::clearViewCacheForSubtree( $node, $modifyRootNode );
+        eZContentObject::expireTemplateBlockCacheIfNeeded();
     }
 
     /*!
