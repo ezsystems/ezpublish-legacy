@@ -6,7 +6,7 @@
 {literal}
 <script language="JavaScript" type="text/javascript">
 <!--
-    function confirmDiscard( question, id )
+    function confirmDiscard( question )
     {
         // Disable/bypass the reload-based (plain HTML) confirmation interface.
         document.editform.DiscardConfirm.value = "0";
