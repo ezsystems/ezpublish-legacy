@@ -15,8 +15,13 @@ Changes from 2.9-6 to 2.9-7
   add to this list to insert additional design.
 - Added RepositoryDirectories and ExtensionDirectories array to workflow.ini
   which controls the directories and extensions which have event types.
+- Moved module settings to module.ini file.
 - Added support for literal tag which can contain special html caracters without breaking the XML.
 
 *SDK :
 
 *Library :
+
+eZINI:
+- Added support for override directories which are not a subdir
+  of settings.

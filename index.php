@@ -300,8 +300,20 @@ foreach ( $policyCheckOmitList as $omitItem )
 // Initialize module loading
 include_once( "lib/ezutils/classes/ezmodule.php" );
 
-$globalModuleRepositories = $ini->variable( 'ModuleSettings', 'ModuleRepositories' );
-$moduleRepositories = array_merge( $moduleRepositories, $globalModuleRepositories );
+$moduleINI =& eZINI::instance( 'module.ini' );
+$globalModuleRepositories = $moduleINI->variable( 'ModuleSettings', 'ModuleRepositories' );
+$extensionRepositories = $moduleINI->variable( 'ModuleSettings', 'ExtensionRepositories' );
+$extensionDirectory = eZExtension::baseDirectory();
+$globalExtensionRepositories = array();
+foreach ( $extensionRepositories as $extensionRepository )
+{
+    $modulePath = $extensionDirectory . '/' . $extensionRepository . '/modules';
+    if ( file_exists( $modulePath ) )
+    {
+        $globalExtensionRepositories[] = $modulePath;
+    }
+}
+$moduleRepositories = array_merge( $moduleRepositories, $globalModuleRepositories, $globalExtensionRepositories );
 eZModule::setGlobalPathList( $moduleRepositories );
 
 

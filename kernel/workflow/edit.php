@@ -296,5 +296,9 @@ $tpl->setVariable( "workflow_type", $cur_type );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:workflow/edit.tpl" );
+$Result['path'] = array( array( 'text' => 'Workflow',
+                                'url' => false ),
+                         array( 'text' => 'Edit',
+                                'url' => false ) );
 
 ?>
