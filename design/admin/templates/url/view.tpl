@@ -28,13 +28,13 @@
 
 {* Address. *}
 <div class="block">
-    <label>{'Address'|i18n( 'design/admin/url/view' )}</label>
+    <label>{'Address'|i18n( 'design/admin/url/view' )}:</label>
     <a href="{$full_url}">{$full_url}</a>
 </div>
 
 {* Address. *}
 <div class="block">
-    <label>{'Status'|i18n( 'design/admin/url/view' )}</label>
+    <label>{'Status'|i18n( 'design/admin/url/view' )}:</label>
     {section show=$url_object.is_valid}
         {'Valid'|i18n( 'design/admin/url/view' )}
     {section-else}
@@ -44,7 +44,7 @@
 
 {* Last checked. *}
 <div class="block">
-    <label>{'Last checked'|i18n( 'design/admin/url/view' )}</label>
+    <label>{'Last checked'|i18n( 'design/admin/url/view' )}:</label>
     {section show=$url_object.last_checked|gt(0)}
         {$url_object.last_checked|l10n( shortdatetime )}
     {section-else}

@@ -12,7 +12,7 @@
 
     <div class="context-attributes">
         <div class="block">
-            <label>{'Address'|i18n( 'design/admin/url/edit' )}</label>
+            <label>{'Address'|i18n( 'design/admin/url/edit' )}:</label>
             <input class="box" type="text" name="link" value="{$url.url}" />
         </div>
     </div>
