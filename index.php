@@ -519,13 +519,11 @@ if ( $show_page_layout )
 
     $tpl->setVariable( "module_result", $moduleResult );
 
-    $meta = array( "author" => "eZ systems",
-                   "copyright" => "eZ systems",
-                   "description" => "Content Management System",
-                   "keywords" => "cms, ez, publish, cool" );
+    $meta = $ini->variable( 'SiteSettings', 'MetaDataArray' );
 
     $http_equiv = array( 'Content-Type' => 'text/html; charset=' . $httpCharset,
                          'Content-language' => $languageCode );
+
     $site = array(
         "title" => "eZ publish 3.0",
         "page_title" => $module->title(),
