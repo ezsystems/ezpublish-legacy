@@ -3,14 +3,14 @@
 <h1>{"Menu management"|i18n("design/standard/menuconfig")}</h1>
 
 <div class="objectheader">
-    <h2>{'SiteAccess'|i18n( 'design/standard/setup' )}</h2>
+    <h2>{'SiteAccess'|i18n( 'design/standard/menuconfig' )}</h2>
 </div>
 <div class="object">
     {section show=$current_siteaccess}
-        <p>{'Current siteaccess'|i18n( 'design/standard/setup' )}: <strong>{$current_siteaccess}</strong></p>
+        <p>{'Current siteaccess'|i18n( 'design/standard/menuconfig' )}: <strong>{$current_siteaccess}</strong></p>
     {/section}
     <div class="block">
-        <label>{'Select siteaccess'|i18n( 'design/standard/setup' )}</label><div class="labelbreak"></div>
+        <label>{'Select siteaccess'|i18n( 'design/standard/menuconfig' )}</label><div class="labelbreak"></div>
         <select name="CurrentSiteAccess">
             {section var=siteaccess loop=$siteaccess_list}
                 {section show=eq( $current_siteaccess, $siteaccess )}
@@ -21,7 +21,7 @@
         {/section}
         </select>
         &nbsp;
-        <input type="submit" value="{"Set"|i18n("design/standard/setup")}" name="SelectCurrentSiteAccessButton" />
+        <input type="submit" value="{"Set"|i18n("design/standard/menuconfig")}" name="SelectCurrentSiteAccessButton" />
     </div>
 </div>
 
@@ -45,7 +45,7 @@
 </tr>
 </table>
 
-<input class="defaultbutton" type="submit" name="StoreButton" value="{"Store"|i18n("design/standard/setup")}" />
+<input class="defaultbutton" type="submit" name="StoreButton" value="{"Store"|i18n("design/standard/menuconfig")}" />
 
 </form>
 

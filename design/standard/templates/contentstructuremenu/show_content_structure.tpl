@@ -23,7 +23,7 @@
 
             {* Fold/Unfold/Empty: [-]/[+]/[ ] *}
                 {section show=$:haveChildren}
-                    <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('contentstructuremenu/show_content_structure')}" onclick="ezcst_onFoldClicked( this.parentNode ); return false;"></a>
+                    <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('design/standard/contentstructuremenu/show_content_structure')}" onclick="ezcst_onFoldClicked( this.parentNode ); return false;"></a>
                 {section-else}
                     <span class="openclose"></span>
                 {/section}
@@ -40,7 +40,7 @@
                         {set visibility = 'Hidden'}
                     {/section}
                     {set toolTip = 'Node ID: %node_id Visibility: %visibility' |
-                                    i18n("contentstructuremenu/show_content_structure", , hash( '%node_id'      , $:parentNode.node.node_id,
+                                    i18n("design/standard/contentstructuremenu/show_content_structure", , hash( '%node_id'      , $:parentNode.node.node_id,
                                                                                                 '%visibility'   , $:visibility ) ) }
                 {section-else}
                     {set toolTip = ''}

@@ -30,7 +30,7 @@
 <tr>
   <td colspan="3"><input class="defaultbutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/content')}" /></td>
   <td align="right">
-    <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/workflow')}" src={"trash.png"|ezimage} />
+    <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/content')}" src={"trash.png"|ezimage} />
   </td>
 </tr>
 

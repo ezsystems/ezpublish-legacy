@@ -20,7 +20,7 @@
     </div>
     {/section}
 
-    <h3>{'Placed in'|i18n('design/admin/node/view')}</h3>
+    <h3>{'Placed in'|i18n('design/standard/node/view')}</h3>
     {section name=Parent loop=$content_object.parent_nodes}
         {let parent_node=fetch(content,node,hash(node_id,$:item))}
         {section name=Path loop=$:parent_node.path}

@@ -9,7 +9,7 @@
     {section name=UnvalidatedAttribute loop=$validation.attributes show=$validation.attributes}
 
     <div class="warning">
-    <h2>{"Input did not validate"|i18n("design/standard/content/edit")}</h2>
+    <h2>{"Input did not validate"|i18n("design/standard/content/translate")}</h2>
     <ul>
     	<li>{$:item.name|wash}: {$:item.description}</li>
     </ul>

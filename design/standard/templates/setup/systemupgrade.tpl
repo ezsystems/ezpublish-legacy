@@ -13,7 +13,7 @@
     {section show=$failure_reason}
     {$failure_reason}
     {section-else}
-    {"Warning, it is not safe to upgrade without checking the modifications done to the following files :"|i18n("design/standard/setup")}<br />
+    {"Warning, it is not safe to upgrade without checking the modifications done to the following files "|i18n("design/standard/setup")}:<br />
     <p>
       {section loop=$md5_result}
         {$:item|wash}
@@ -33,7 +33,7 @@
   {section-else}
     <div class="feedback">
     {"Warning, your database is not consistent with the distribution database."|i18n("design/standard/setup")}<br />
-    {"To revert your database to distribution setup, run the following SQL queries:"|i18n("design/standard/setup")}<br />
+    {"To revert your database to distribution setup, run the following SQL queries"|i18n("design/standard/setup")}:<br />
     <p>
       {$upgrade_sql|wash|break}
     </p>

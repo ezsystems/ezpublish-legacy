@@ -6,13 +6,13 @@
 <div>
 
 <div class="block">
-<label>{"URL"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+<label>{"URL"|i18n("design/standard/url/edit")}</label><div class="labelbreak"></div>
 {include uri="design:gui/lineedit.tpl" name=link id_name=link value=$url.url}
 </div>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="Store" value="{'Store'|i18n('design/standard/url')}" />
-<input class="button" type="submit" name="Cancel" value="{'Cancel'|i18n('design/standard/url')}" />
+<input class="button" type="submit" name="Store" value="{'Store'|i18n('design/standard/url/edit')}" />
+<input class="button" type="submit" name="Cancel" value="{'Cancel'|i18n('design/standard/url/edit')}" />
 </div>
 
 </form>

@@ -12,7 +12,7 @@
 
 <div class="context-attributes">
 <div class="block">
-<label>{'Default template resource:'|i18n( 'design/standard/design/templateview' )}</label>
+<label>{'Default template resource'|i18n( 'design/standard/design/templateview' )}:</label>
 {$template_settings.base_dir}
 </div>
 

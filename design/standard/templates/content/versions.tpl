@@ -49,20 +49,20 @@
     {section-else}
     <th>
     {/section}
-	{"Version:"|i18n("design/standard/content/version")}
+	{"Version"|i18n("design/standard/content/version")}:
 	</th>
 	<th>
-	{"Status:"|i18n("design/standard/content/version")}
+	{"Status"|i18n("design/standard/content/version")}:
 	</th>
 	<th>
-	{"Translations:"|i18n("design/standard/content/version")}
+	{"Translations"|i18n("design/standard/content/version")}:
 	</th>
 	<th>
-	{"Creator:"|i18n("design/standard/content/version")}
+	{"Creator"|i18n("design/standard/content/version")}:
 	</th>
 	{section show=$can_edit}
 	<th colspan="2">
-	{"Modified:"|i18n("design/standard/content/version")}
+	{"Modified"|i18n("design/standard/content/version")}:
 	</th>
 	{/section}
 </tr>

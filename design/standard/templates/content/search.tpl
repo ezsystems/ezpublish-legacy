@@ -23,7 +23,7 @@
 
 <div class="block">
     <input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="{$search_text|wash}" />
-    <input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
+    <input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/content/search')}" />
 </div>
 
 <div class="block">
@@ -34,7 +34,7 @@
 
 {section show=$stop_word_array}
 <p>
-{"The following words were excluded from the search:"|i18n("design/standard/content/search")} 
+{"The following words were excluded from the search"|i18n("design/standard/content/search")}:
 {section name=StopWord loop=$stop_word_array}
 {$StopWord:item.word|wash}
 {delimiter}, {/delimiter}

@@ -1,6 +1,6 @@
 <div class="content-new">
     <h1>{"New content since last visit"|i18n("design/standard/content/newcontent")}</h1>
-    <p>{"Your last visit to this site was:"|i18n("design/standard/content/newcontent")}
+    <p>{"Your last visit to this site was"|i18n("design/standard/content/newcontent")}:
         {$last_visit_timestamp|l10n(datetime)}
     </p>
 

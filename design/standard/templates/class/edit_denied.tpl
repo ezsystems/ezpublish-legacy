@@ -6,7 +6,7 @@
 <p>The class will be available for editing once the class is stored by the modifier or when it is automatically unlocked at {sum( $class.modified, $lock_timeout )|l10n( shortdatetime )}</p>
 
 <div class="buttonblock">
-    <input class="defaultbutton" type="submit" name="RetryButton" value="{'Retry'|i18n( 'design/standard/class/edit' )}" />
+    <input class="defaultbutton" type="submit" name="RetryButton" value="{'Retry'|i18n( 'design/standard/class' )}" />
 </div>
 
 </form>

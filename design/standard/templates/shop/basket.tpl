@@ -6,7 +6,7 @@
 </div>
 {section show=$removed_items}
 <div class="warning">
-<h2>{"The following items were removed from your basket, because the products were changed"|i18n("design/standard/node",,)}</h2>
+<h2>{"The following items were removed from your basket, because the products were changed"|i18n("design/standard/shop",,)}</h2>
 <ul>
 {section name=RemovedItem loop=$removed_items}
     <li> <a href={concat("/content/view/full/",$RemovedItem:item.contentobject.main_node_id,"/")|ezurl}>{$RemovedItem:item.contentobject.name}</a></li>
@@ -114,10 +114,10 @@
      <td colspan='6'>
      </td>
      <td>
-     <b>{"Subtotal Ex. VAT:"|i18n("design/standard/shop")}</b>
+     <b>{"Subtotal Ex. VAT"|i18n("design/standard/shop")}</b>:
      </td>
      <td>
-     <b>{"Subtotal Inc. VAT:"|i18n("design/standard/shop")}</b>
+     <b>{"Subtotal Inc. VAT"|i18n("design/standard/shop")}</b>:
      </td>
      <td>
      </td>

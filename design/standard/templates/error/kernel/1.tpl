@@ -31,7 +31,7 @@
 
         <p>{"Click the Login button to login."|i18n("design/standard/error/kernel")}</p>
         <div class="buttonblock">
-        <input class="button" type="submit" name="LoginButton" value="{'Login'|i18n('design/standard/user','Button')}" />
+        <input class="button" type="submit" name="LoginButton" value="{'Login'|i18n('design/standard/error/kernel','Button')}" />
         </div>
 
         <input type="hidden" name="Login" value="" />

@@ -2,7 +2,7 @@
 <h3>{$result_number}. {"PHP safe mode is enabled"|i18n("design/standard/setup/tests")}</h3>
 
 <p>
- {"eZ publish may work with safe mode on, however there might be several features that will be unavailable. Some of the things that might occur are:"|i18n("design/standard/setup/tests")}
+ {"eZ publish may work with safe mode on, however there might be several features that will be unavailable. Some of the things that might occur are"|i18n("design/standard/setup/tests")}:
 </p>
 <ul>
  <li>Not possible to extend time limits
@@ -25,7 +25,7 @@
  {"It's recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 to %3."|i18n("design/standard/setup/tests",,array("<i>php.ini</i>","<i>safe_mode</i>","<i>Off</i>"))}
  {"More information on the subject can be found at %1."|i18n("design/standard/setup/tests",,array('<a href="http://www.php.net/manual/en/features.safe-mode.php">php.net</a>'))}
 </p>
-<label>{"php.ini example:"|i18n("design/standard/setup/tests")}</label><br/>
+<label>{"php.ini example"|i18n("design/standard/setup/tests")}:</label><br/>
 <pre class="example">
 safe_mode = 0
 </pre>

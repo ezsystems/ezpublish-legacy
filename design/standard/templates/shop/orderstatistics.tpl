@@ -56,7 +56,7 @@
 {/section}
 <tr>
 	<td class="bgdark">
-    <h2>{"SUM:"|i18n("design/standard/shop")}</h2>
+    <h2>{"SUM"|i18n("design/standard/shop")}</h2>:
 	</td>
     <td class="bgdark">
 	</td>

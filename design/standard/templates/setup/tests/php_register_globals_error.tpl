@@ -8,14 +8,14 @@
  {"It's recommended that the option is turned off. To turn it off edit your %1 configuration and set %2 to %3."|i18n("design/standard/setup/tests",,array("<i>php.ini</i>","<i>register_globals</i>","<i>0</i>"))}
  {"More information on the subject can be found at %1."|i18n("design/standard/setup/tests",,array('<a href="http://www.php.net/manual/en/function.ini-set.php">php.net</a>'))}
 </p>
-<label>{"php.ini example:"|i18n("design/standard/setup/tests")}</label><br/>
+<label>{"php.ini example"|i18n("design/standard/setup/tests")}:</label><br/>
 <pre class="example">
 register_globals = 0
 </pre>
 <p>
-{"Alternatively you may create a file called %1 in your eZ publish root folder and add the following:"|i18n("design/standard/setup/tests",,array("<i>.htaccess</i>"))}
+{"Alternatively you may create a file called %1 in your eZ publish root folder and add the following"|i18n("design/standard/setup/tests",,array("<i>.htaccess</i>"))}:
 </p>
-<label>{".htaccess example:"|i18n("design/standard/setup/tests")}</label><br/>
+<label>{".htaccess example"|i18n("design/standard/setup/tests")}:</label><br/>
 <pre class="example">
 php_value register_globals 0
 </pre>

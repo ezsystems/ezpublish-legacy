@@ -14,19 +14,19 @@
         <table border="0">
 	<tr>
 	  <td>
-	    <label>{"Year"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+	    <label>{"Year"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
 	  </td>
 	  <td>
-	    <label>{"Month"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+	    <label>{"Month"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
 	  </td>
 	  <td>
-	    <label>{"Day"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+	    <label>{"Day"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
 	  </td>
 	  <td>
-	    <label>{"Hour"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+	    <label>{"Hour"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
 	  </td>
 	  <td>
-	    <label>{"Minute"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+	    <label>{"Minute"|i18n("design/standard/class/datatype")}</label><div class="labelbreak"></div>
 	  </td>
 	</tr>
 	<tr>

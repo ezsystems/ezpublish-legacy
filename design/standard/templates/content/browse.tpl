@@ -29,11 +29,11 @@
     {include name=Description uri=$browse.description_template browse=$browse main_node=$main_node}
 {section-else}
     <div class="maincontentheader">
-    <h1>{"Browse"|i18n("design/standard/content/view")} - {$main_node.name|wash}</h1>
+    <h1>{"Browse"|i18n("design/standard/content/browse")} - {$main_node.name|wash}</h1>
     </div>
 
-    <p>{'To select objects, choose the appropriate radiobutton or checkbox(es), and click the "Choose" button.'|i18n("design/standard/content/view")}</p>
-    <p>{'To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.'|i18n("design/standard/content/view")}</p>
+    <p>{'To select objects, choose the appropriate radiobutton or checkbox(es), and click the "Choose" button.'|i18n("design/standard/content/browse")}</p>
+    <p>{'To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.'|i18n("design/standard/content/browse")}</p>
 {/section}
 
         {* Browse listing start *}
@@ -42,13 +42,13 @@
             <th width="1">
             </th>
             <th width="69%">
-            {"Name"|i18n("design/standard/content/view")}
+            {"Name"|i18n("design/standard/content/browse")}
             </th>
             <th width="30%">
-            {"Class"|i18n("design/standard/content/view")}
+            {"Class"|i18n("design/standard/content/browse")}
             </th>
             <th width="30%">
-            {"Section"|i18n("design/standard/content/view")}
+            {"Section"|i18n("design/standard/content/browse")}
             </th>
         </tr>
         <tr>
@@ -82,7 +82,7 @@
                 {node_view_gui view=line content_node=$main_node node_url=false()}
                 {section show=$main_node.depth|gt(1)}
                     <a href={concat("/content/browse/",$main_node.parent_node_id,"/")|ezurl}>
-                        [{'Up one level'|i18n('design/standard/content/view')}]
+                        [{'Up one level'|i18n('design/standard/content/browse')}]
                     </a>
                 {/section}
             </td>
@@ -150,13 +150,13 @@
 
         <tr>
             <th colspan="2">
-                {"Top levels"|i18n("design/standard/content/view")}
+                {"Top levels"|i18n("design/standard/content/browse")}
             </th>
         </tr>
 
         <tr>
             <td colspan="2">
-                {'Switch top levels by clicking one of these items.'|i18n('design/standard/content/view')}
+                {'Switch top levels by clicking one of these items.'|i18n('design/standard/content/browse')}
             </td>
         </tr>
 
@@ -196,7 +196,7 @@
 
         <tr>
             <th colspan="2">
-                {"Bookmarks"|i18n("design/standard/content/view")}
+                {"Bookmarks"|i18n("design/standard/content/browse")}
             </th>
         </tr>
 
@@ -237,9 +237,9 @@
         <tr>
             <td colspan="2">
                 {'Bookmark items are managed using %bookmarkname in the %personalname part.'
-                 |i18n('design/standard/content/view',,
-                       hash('%bookmarkname',concat('<i>','My bookmarks'|i18n('design/admin/layout'),'</i>'),
-                            '%personalname',concat('<i>','Personal'|i18n('design/admin/layout'),'</i>')))}
+                 |i18n('design/standard/content/browse',,
+                       hash('%bookmarkname',concat('<i>','My bookmarks'|i18n('design/standard/content/browse'),'</i>'),
+                            '%personalname',concat('<i>','Personal'|i18n('design/standard/content/browse'),'</i>')))}
             </td>
         </tr>
         {/section}
@@ -251,7 +251,7 @@
 
         <tr>
             <th colspan="2">
-                {"Recent items"|i18n("design/standard/content/view")}
+                {"Recent items"|i18n("design/standard/content/browse")}
             </th>
         </tr>
 
@@ -289,7 +289,7 @@
         {section-else}
         <tr>
             <td colspan="2">
-                {'Recent items are added on publishing.'|i18n('design/standard/content/view')}
+                {'Recent items are added on publishing.'|i18n('design/standard/content/browse')}
             </td>
         </tr>
         {/section}
@@ -319,11 +319,11 @@
 <input type="hidden" name="{$browse.browse_custom_action.name}" value="{$browse.browse_custom_action.value}" />
 {/section}
 
-        <input class="button" type="submit" name="SelectButton" value="{'Select'|i18n('design/standard/content/view')}" />
+        <input class="button" type="submit" name="SelectButton" value="{'Select'|i18n('design/standard/content/browse')}" />
 </form>
 
         <form class="blockpart" name="test" method="post" action={"content/browse"|ezurl}>
-            <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/standard/content/view' )}" />
+            <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/standard/content/browse' )}" />
         </form>
 
 <form name="test" method="post" action={"content/action"|ezurl}>
@@ -340,7 +340,7 @@
 	    <option value="{$Classes:item.id}">{$Classes:item.name}</option>
 	    {/section}
 	</select>
-	<input class="menubutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/content/edit')}" />
+	<input class="menubutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/content/browse')}" />
 	<input class="menubutton" type="hidden" name="RedirectURIAfterPublish" value="/content/browse/" />
 	<input class="menubutton" type="hidden" name="NodeID" value="{$main_node.node_id}" />
 	</td>

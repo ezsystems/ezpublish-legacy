@@ -11,7 +11,7 @@
       <div class="setup_summary_empty">
     {/section}
 
-    {"System:"|i18n("design/standard/setup")}</div></td>
+    {"System"|i18n("design/standard/setup")}:</div></td>
 
     <td>
     {section show=count( $system_check )}
@@ -28,7 +28,7 @@
       <div class="setup_summary_empty">
     {/section}
 
-    {"Image system:"|i18n("design/standard/setup")}</div></td>
+    {"Image system"|i18n("design/standard/setup")}:</div></td>
 
     <td>
     {section show=count($image_processor)}
@@ -46,7 +46,7 @@
       <div class="setup_summary_empty">
     {/section}
 
-    {"Mail:"|i18n("design/standard/setup")}</td>
+    {"Mail"|i18n("design/standard/setup")}:</td>
 
     <td>
     {section show=count($summary_email_info)}
@@ -63,7 +63,7 @@
       <div class="setup_summary_empty">
     {/section}
 
-    {"Database:"|i18n("design/standard/setup")}</div></td>
+    {"Database"|i18n("design/standard/setup")}:</div></td>
 
     <td>
     {section show=count($database)}
@@ -80,7 +80,7 @@
       <div class="setup_summary_empty">
     {/section}
 
-    {"Language:"|i18n("design/standard/setup")}</div></td>
+    {"Language"|i18n("design/standard/setup")}:</div></td>
 
     <td>
     {section show=count($languages)}
@@ -101,7 +101,7 @@
       <div class="setup_summary_empty">
     {/section}
 
-    {"Site:"|i18n("design/standard/setup")}</div></td>
+    {"Site"|i18n("design/standard/setup")}:</div></td>
 
     <td>
     {section show=$site_types|count|gt( 0 )}

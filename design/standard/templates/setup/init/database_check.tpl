@@ -69,7 +69,7 @@
 
 <blockquote class="note">
 <p>
- <b>{"Note:"|i18n("design/standard/setup/init")}</b>
+ <b>{"Note"|i18n("design/standard/setup/init")}:</b>
  {"The setup will not do an upgrade from older eZ publish versions (such as 2.2.7) if you leave the data as it is. This is only meant for people who have existing data that they don't want to lose. If you have existing eZ publish 3.0 data (such as from an RC release) you should skip DB initialization, however you will then need to do a manual upgrade."|i18n("design/standard/setup/init")}
 </p>
 </blockquote>
@@ -120,7 +120,7 @@
 
 <blockquote class="note">
 <p>
- <b>{"Note:"|i18n("design/standard/setup/init")}</b>
+ <b>{"Note"|i18n("design/standard/setup/init")}:</b>
  {"It can take some time initializing the database so please be patient and wait until the new page is finished."|i18n("design/standard/setup/init")}
 </p>
 </blockquote>

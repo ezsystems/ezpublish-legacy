@@ -10,7 +10,7 @@
 </p>
 
 <table cellpadding="0" cellspacing="0" border="0">
-<tr><th class="normal">{"The registration email:"|i18n("design/standard/setup/init")}</th></tr>
+<tr><th class="normal">{"The registration email"|i18n("design/standard/setup/init")}:</th></tr>
 <tr><td class="normal"><textarea class="box" readonly="readonly" cols="60" rows="10">{$email_body}</textarea></td></tr>
 </table>
 
@@ -22,7 +22,7 @@
 <form method="post" action="{$script}">
 
 <table cellpadding="0" cellspacing="0" border="0">
-<tr><th class="normal">{"Comments:"|i18n("design/standard/setup/init")}</th></tr>
+<tr><th class="normal">{"Comments"|i18n("design/standard/setup/init")}:</th></tr>
 <tr><td class="normal"><textarea class="box" name="eZSetupRegistrationComment" cols="60" rows="6"></textarea></td></tr>
 </table>
 </div>
@@ -30,7 +30,7 @@
 <br/>
 <blockquote class="note">
 <p>
- <b>{"Note:"|i18n("design/standard/setup/init")}</b>
+ <b>{"Note"|i18n("design/standard/setup/init")}:</b>
  {"Sending out the email and generating your site will take about 10 to 30 seconds depending on your machine. Please wait until the next page loads. Clicking the button again will only send out duplicate emails, and may corrupt the installation."|i18n("design/standard/setup/init")}
 </p>
 </blockquote>

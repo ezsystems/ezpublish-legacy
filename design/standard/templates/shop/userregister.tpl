@@ -14,13 +14,13 @@
 <div class="block">
     <div class="element">
     <label>
-    {"First name:*"|i18n("design/standard/shop")}
+    {"First name"|i18n("design/standard/shop")}:*
     </label><div class="labelbreak"></div>
     <input class="halfbox" type="text" name="FirstName" size="20" value="{$first_name}" />
     </div>
     <div class="element">
     <label>
-    {"Last name:*"|i18n("design/standard/shop")}
+    {"Last name"|i18n("design/standard/shop")}:*
     </label><div class="labelbreak"></div>
     <input class="halfbox" type="text" name="LastName" size="20" value="{$last_name}" />
     </div>
@@ -29,21 +29,21 @@
 <br />
 <div class="block">
 <label>
-{"E-mail:*"|i18n("design/standard/shop")}
+{"E-mail"|i18n("design/standard/shop")}:*
 </label><div class="labelbreak"></div>
 <input class="box" type="text" name="EMail" size="20" value="{$email}" />
 </div>
 
 <div class="block">
 <label>
-{"Company:"|i18n("design/standard/shop")}
+{"Company"|i18n("design/standard/shop")}:
 </label><div class="labelbreak"></div>
 <input class="box" type="text" name="Street1" size="20" value="{$street1}" />
 </div>
 
 <div class="block">
 <label>
-{"Street:*"|i18n("design/standard/shop")}
+{"Street"|i18n("design/standard/shop")}:*
 </label><div class="labelbreak"></div>
 <input class="box" type="text" name="Street2" size="20" value="{$street2}" />
 </div>
@@ -51,13 +51,13 @@
 <div class="block">
     <div class="element">
     <label>
-    {"Zip:*"|i18n("design/standard/shop")}
+    {"Zip"|i18n("design/standard/shop")}:*
     </label><div class="labelbreak"></div>
     <input class="halfbox" type="text" name="Zip" size="20" value="{$zip}" />
     </div>
     <div class="element">
     <label>
-    {"Place:*"|i18n("design/standard/shop")}
+    {"Place"|i18n("design/standard/shop")}:*
     </label><div class="labelbreak"></div>
     <input class="halfbox" type="text" name="Place" size="20" value="{$place}" />
     </div>
@@ -66,14 +66,14 @@
 <br/>
 <div class="block">
 <label>
-{"State:"|i18n("design/standard/shop")}
+{"State"|i18n("design/standard/shop")}:
 </label><div class="labelbreak"></div>
 <input class="box" type="text" name="State" size="20" value="{$state}" />
 </div>
 
 <div class="block">
 <label>
-{"Country:*"|i18n("design/standard/shop")}
+{"Country"|i18n("design/standard/shop")}:*
 </label><div class="labelbreak"></div>
 <select name="Country" size="5">
 <option  value="Afghanistan">Afghanistan</option>
@@ -321,7 +321,7 @@
 
 <div class="block">
 <label>
-{"Comment:"|i18n("design/standard/shop")}
+{"Comment"|i18n("design/standard/shop")}:
 </label><div class="labelbreak"></div>
 <textarea name="Comment" cols="80" rows="5">{$comment}</textarea>
 </div>

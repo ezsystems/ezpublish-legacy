@@ -17,7 +17,7 @@
     <option value="{$ObjectArray:item.id}">{$ObjectArray:item.name}-{'version'|i18n('design/standard/url')} {$ObjectArray:item.version}</option>
     {/section}
 </select>
-<input class="button" type="submit" name="EditObject" value="{'Edit'|i18n('design/standard/node/view')}" />
+<input class="button" type="submit" name="EditObject" value="{'Edit'|i18n('design/standard/url')}" />
 {section-else}
 {'No object available'|i18n('design/standard/url')}
 {/section}

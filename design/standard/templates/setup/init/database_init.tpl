@@ -31,7 +31,7 @@
 
 <blockquote class="note">
 <p>
- <b>{"Note:"|i18n("design/standard/setup/init")}</b>
+ <b>{"Note"|i18n("design/standard/setup/init")}:</b>
  {"The setup will not do an upgrade from older eZ publish versions (such as 2.2.7) if you leave the data as it is. This is only meant for people who have existing data that they don't want to lose. If you have existing eZ publish 3.0 data (such as from an RC release) you should skip DB initialization, however you will then need to do a manual upgrade."|i18n("design/standard/setup/init")}
 </p>
 </blockquote>
@@ -93,20 +93,20 @@
 </tr>
 
 <tr>
-  <td class="normal">{"Servername:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Servername"|i18n("design/standard/setup/init")}:</td>
   <td class="normal"><input type="text" name="eZSetupDatabaseServer" size="16" value="{$database_info.server}" /></td>
 </tr>
 <tr>
-  <td class="normal">{"Username:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Username"|i18n("design/standard/setup/init")}:</td>
   <td class="normal"><input type="text" name="eZSetupDatabaseUser" size="16" value="{$database_info.user}" /></td>
 </tr>
 <tr>
-  <td class="normal">{"Password:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Password"|i18n("design/standard/setup/init")}:</td>
   <td class="normal"><input type="password" name="eZSetupDatabasePassword" size="16" value="{$database_info.password}" /></td>
 </tr>
 {section show=eq($database_info.info.driver,'ezmysql')}
 <tr>
-  <td class="normal">{"Socket (optional):"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Socket (optional)"|i18n("design/standard/setup/init")}:</td>
   <td class="normal"><input type="text" name="eZSetupDatabaseSocket" size="16" value="{$database_info.socket}" /></td>
 </tr>
 {/section}

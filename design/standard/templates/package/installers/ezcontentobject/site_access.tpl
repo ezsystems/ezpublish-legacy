@@ -15,7 +15,7 @@ If unsure choose the siteaccess which reflects the user part of your site, i.e. 
     <label>{'Select siteaccess'|i18n('design/standard/package')}</label>
 
     {section loop=$site_access_map}
-      <div>{'Map %siteaccess_name to:'|i18n( 'design/standard/package',, hash( '%siteaccess_name', concat( '<i>', $:key, '</i>' ) ) )} <select name="SiteAccessMap_{$:key|wash}">
+      <div>{'Map %siteaccess_name to'|i18n( 'design/standard/package',, hash( '%siteaccess_name', concat( '<i>', $:key, '</i>' ) ) )}: <select name="SiteAccessMap_{$:key|wash}">
         {section loop=$available_site_access_array}
           <option {section show=eq( $item, $:item )}selected="selected"{/section}>{$:item|wash}</option>
         {/section}

@@ -36,7 +36,7 @@
     {include uri="design:gui/button.tpl" name=newgroup id_name=NewExportButton value="New Export"|i18n("design/standard/rss/list")}
   </td>
   <td align="right">
-    <input type="image" name="RemoveExportButton" value="{'Remove'|i18n('design/standard/rss/view')}" src={"trash.png"|ezimage} />
+    <input type="image" name="RemoveExportButton" value="{'Remove'|i18n('design/standard/rss/list')}" src={"trash.png"|ezimage} />
   </td>
 </tr>
 </table>

@@ -2,22 +2,22 @@
 {let subscribed_nodes=$handler.rules}
 
 <div class="contentheader">
-<h2>{"Node notification"|i18n("design/standard/section")}</h2>
+<h2>{"Node notification"|i18n("design/standard/notification")}</h2>
 </div>
 
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<th width="69%">
-	{"Name"|i18n("design/standard/content/view")}
+	{"Name"|i18n("design/standard/notification")}
 	</th>
 	<th width="30%">
-	{"Class"|i18n("design/standard/content/view")}
+	{"Class"|i18n("design/standard/notification")}
 	</th>
 	<th width="30%">
-	{"Section"|i18n("design/standard/content/view")}
+	{"Section"|i18n("design/standard/notification")}
 	</th>
 	<th width="1%">
-	{"Select"|i18n("design/standard/content/view")}
+	{"Select"|i18n("design/standard/notification")}
 	</th>
 </tr>
 

@@ -5,15 +5,15 @@
     {include name=Description uri=$upload.description_template upload=$upload}
 {section-else}
     <div class="maincontentheader">
-    <h1>{"Upload file"|i18n("design/standard/content/view")}</h1>
+    <h1>{"Upload file"|i18n("design/standard/content/upload")}</h1>
     </div>
 
-    <p>{'Choose a file from your locale machine and click the "Upload" button. An object will be created according to file type and placed in your chosen location.'|i18n("design/standard/content/view")}</p>
+    <p>{'Choose a file from your locale machine and click the "Upload" button. An object will be created according to file type and placed in your chosen location.'|i18n("design/standard/content/upload")}</p>
 {/section}
 
 {section show=$errors|count|gt( 0 )}
     <div class="error">
-        <h2>{"Some errors occured"|i18n( "design/standard/upload" )}</h2>
+        <h2>{"Some errors occured"|i18n( "design/standard/content/upload" )}</h2>
         <ul>
             {section var=error loop=$errors}
                 <li>{$error.description}</li>
@@ -25,9 +25,9 @@
 <input type="hidden" name="UploadActionName" value="{$upload.action_name}" />
 
 <div class="createblock">
-    <label>{'Location'|i18n( 'design/standard/upload' )}</label>
+    <label>{'Location'|i18n( 'design/standard/content/upload' )}</label>
     <select	name="UploadLocationChoice" class="combobox locationchoice">
-        <option value="auto">{'Automatic'|i18n( 'design/standard/upload' )}</option>
+        <option value="auto">{'Automatic'|i18n( 'design/standard/content/upload' )}</option>
     {let root_node_value=ezini( 'LocationSettings', 'RootNode', 'upload.ini' )
          root_node=cond( $root_node_value|is_numeric, fetch( content, node, hash( node_id, $root_node_value ) ),
                          fetch( content, node, hash( node_path, $root_node_value ) ) )}
@@ -49,7 +49,7 @@
     <input name="UploadFile" type="file" />
     &nbsp;
 
-    <input class="defaultbutton" type="submit" name="UploadFileButton" value="{'Upload'|i18n( 'design/standard/upload' )}" title="{'Click here to upload a file. The file will be placed within the location that is specified using the dropdown menu on the top.'|i18n( 'design/standard/upload' )}" />
+    <input class="defaultbutton" type="submit" name="UploadFileButton" value="{'Upload'|i18n( 'design/standard/content/upload' )}" title="{'Click here to upload a file. The file will be placed within the location that is specified using the dropdown menu on the top.'|i18n( 'design/standard/content/upload' )}" />
 
  </div>
 

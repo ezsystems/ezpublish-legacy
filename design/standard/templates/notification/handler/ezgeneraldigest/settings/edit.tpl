@@ -5,7 +5,7 @@
     <label>{'Receive all messages combined in one digest'|i18n('design/standard/notification')}</label><br/>
 
     <div class="block">
-        <label>{'Time of day:'|i18n('design/standard/notification')}</label>
+        <label>{'Time of day'|i18n('design/standard/notification')}:</label>
         <select name="Time_{$handler.id_string}">
         {section name=Time loop=$handler.available_hours}
             <option value="{$Time:item}" {section show=eq($Time:item,$settings.time)}selected="selected"{/section}>{$Time:item}</option>
@@ -19,7 +19,7 @@
         <div class="break"></div>
 
         <input type="radio" name="DigestType_{$handler.id_string}" value="1" {eq($settings.digest_type,1)|choose('',checked)} />
-        <label>{'Weekly, day of week:'|i18n('design/standard/notification')}</label>
+        <label>{'Weekly, day of week'|i18n('design/standard/notification')}:</label>
         <select name="Weekday_{$handler.id_string}">
         {section name=WeekDays loop=$handler.all_week_days}
             <option value="{$WeekDays:item}" {section show=eq($WeekDays:item,$settings.day)}selected="selected"{/section}>{$WeekDays:item}</option>
@@ -28,7 +28,7 @@
         <div class="break"></div>
 
         <input type="radio" name="DigestType_{$handler.id_string}" value="2" {eq($settings.digest_type,2)|choose('',checked)} />
-        <label>{'Monthly, day of month:'|i18n('design/standard/notification')}</label>
+        <label>{'Monthly, day of month'|i18n('design/standard/notification')}:</label>
         <select name="Monthday_{$handler.id_string}">
         {section name=MonthDays loop=$handler.all_month_days}
             <option value="{$MonthDays:item}" {section show=eq($MonthDays:item,$settings.day)}selected="selected"{/section}>{$MonthDays:item}</option>

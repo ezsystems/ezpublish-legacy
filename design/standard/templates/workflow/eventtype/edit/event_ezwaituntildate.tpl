@@ -16,7 +16,7 @@
 {section show=$event.workflow_type.has_class_attributes|eq(1)}
 <div class="element">
     {let possibleClassAttributes=$event.workflow_type.contentclassattribute_list}
-    <label>{"Class Attributes:"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>
+    <label>{"Class Attributes"|i18n("design/standard/workflow/eventtype/edit")}:</label><div class="labelbreak"></div>
     <select name="WorkflowEvent_event_ezwaituntildate_classattribute_{$event.id}[]" size="5">
     {section name=HasClassAttributes loop=$possibleClassAttributes}
         <option value="{$HasClassAttributes:item.id}">{$HasClassAttributes:item.id}-{$HasClassAttributes:item.name}</option>

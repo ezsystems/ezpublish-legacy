@@ -18,7 +18,7 @@
          </select>
      </td>
      <td>
-         <input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/node/view')}" />
+         <input class="button" type="submit" name="NewButton" value="{'New'|i18n('design/standard/layout')}" />
     </td>
 </tr>
 </table>

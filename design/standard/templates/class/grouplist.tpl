@@ -31,7 +31,7 @@
     {include uri="design:gui/button.tpl" name=newgroup id_name=NewGroupButton value="New group"|i18n("design/standard/class/list")}
   </td>
   <td align="right">
-    <input type="image" name="RemoveGroupButton" value="{'Remove'|i18n('design/standard/class/view')}" src={"trash.png"|ezimage} />
+    <input type="image" name="RemoveGroupButton" value="{'Remove'|i18n('design/standard/class/list')}" src={"trash.png"|ezimage} />
   </td>
 </tr>
 </table>
@@ -44,13 +44,13 @@
     </div>
     <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr>
-        <th>{"ID"|i18n("design/standard/class/view")}</th>
-        <th>{"Name"|i18n("design/standard/class/view")}</th>
-        <th>{"Identifier"|i18n("design/standard/class/view")}</th>
-        <th>{"Modifier"|i18n("design/standard/class/view")}</th>
-        <th>{"Modified"|i18n("design/standard/class/view")}</th>
-        <th>{"Edit"|i18n("design/standard/class/view")}</th>
-        <th>{"Copy"|i18n("design/standard/class/view")}</th>
+        <th>{"ID"|i18n("design/standard/class/list")}</th>
+        <th>{"Name"|i18n("design/standard/class/list")}</th>
+        <th>{"Identifier"|i18n("design/standard/class/list")}</th>
+        <th>{"Modifier"|i18n("design/standard/class/list")}</th>
+        <th>{"Modified"|i18n("design/standard/class/list")}</th>
+        <th>{"Edit"|i18n("design/standard/class/list")}</th>
+        <th>{"Copy"|i18n("design/standard/class/list")}</th>
     </tr>
 
     {section var=class loop=$latest_classes sequence=array( bglight, bgdark )}

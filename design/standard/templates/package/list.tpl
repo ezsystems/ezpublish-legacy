@@ -46,7 +46,7 @@ Note: The packages will not be uninstalled.'|i18n('design/standard/package')|bre
 
 <p>{'The following packages are available on this system'|i18n('design/standard/package')}</p>
 
-<label>{'Repositories'|i18n( 'design/standard/packag' )}</label>
+<label>{'Repositories'|i18n( 'design/standard/package' )}</label>
 <select name="RepositoryID">
     <option value="">{'All'|i18n( 'design/standard/package' )}</option>
 {section var=repository loop=$repository_list}

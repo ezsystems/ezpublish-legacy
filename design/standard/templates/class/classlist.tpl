@@ -6,28 +6,28 @@
 {switch name=Sw1 match=$class_count}
   {case match=0}
     <div class="feedback">
-        <h2>{"No classes in "|i18n("design/standard/class/view")}{$group_name|wash}.</h2>
-        <p>{"Click on the 'New' button to create a class."|i18n("design/standard/class/view")}</p>
+        <h2>{"No classes in "|i18n("design/standard/class/classlist")}{$group_name|wash}.</h2>
+        <p>{"Click on the 'New' button to create a class."|i18n("design/standard/class/classlist")}</p>
     </div>
   {/case}
   {case}
     <div class="maincontentheader">
-        <h1>{"Classes in"|i18n("design/standard/class/view")} {$group_name|wash}</h1>
+        <h1>{"Classes in"|i18n("design/standard/class/classlist")} {$group_name|wash}</h1>
     </div>
   {/case}
 {/switch}
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 {section show=$groupclasses}
 <tr>
-    <th>{"ID"|i18n("design/standard/class/view")}</th>
-    <th>{"Name"|i18n("design/standard/class/view")}</th>
-    <th>{"Identifier"|i18n("design/standard/class/view")}</th>
-    <th>{"Modifier"|i18n("design/standard/class/view")}</th>
-    <th>{"Modified"|i18n("design/standard/class/view")}</th>
-    <th>{"Object count"|i18n("design/standard/class/view")}</th>
-    <th>{"Edit"|i18n("design/standard/class/view")}</th>
-    <th>{"Copy"|i18n("design/standard/class/view")}</th>
-    <th>{"Remove"|i18n("design/standard/class/view")}</th>
+    <th>{"ID"|i18n("design/standard/class/classlist")}</th>
+    <th>{"Name"|i18n("design/standard/class/classlist")}</th>
+    <th>{"Identifier"|i18n("design/standard/class/classlist")}</th>
+    <th>{"Modifier"|i18n("design/standard/class/classlist")}</th>
+    <th>{"Modified"|i18n("design/standard/class/classlist")}</th>
+    <th>{"Object count"|i18n("design/standard/class/classlist")}</th>
+    <th>{"Edit"|i18n("design/standard/class/classlist")}</th>
+    <th>{"Copy"|i18n("design/standard/class/classlist")}</th>
+    <th>{"Remove"|i18n("design/standard/class/classlist")}</th>
 </tr>
 
 {section name=Classes loop=$groupclasses sequence=array(bglight,bgdark)}
@@ -48,12 +48,12 @@
 <tr>
   <td colspan="8">
     <div class="buttonblock">
-    {include uri="design:gui/button.tpl" name=new id_name=NewButton value="New class"|i18n("design/standard/class/view")}
+    {include uri="design:gui/button.tpl" name=new id_name=NewButton value="New class"|i18n("design/standard/class/classlist")}
     </div>
   </td>
   <td align="right">
     {section show=$class_count}
-      <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/class/view')}" src={"trash.png"|ezimage} />
+      <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/class/classlist')}" src={"trash.png"|ezimage} />
     {/section}
   </td>
 </tr>
@@ -66,18 +66,18 @@
 
 {section show=$latest_classes}
     <div class="maincontentheader">
-        <h1>{"Last modified classes"|i18n("design/standard/class/list")}</h1>
+        <h1>{"Last modified classes"|i18n("design/standard/class/classlist")}</h1>
     </div>
     <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
     <tr>
-        <th>{"ID"|i18n("design/standard/class/view")}</th>
-        <th>{"Name"|i18n("design/standard/class/view")}</th>
-        <th>{"Identifier"|i18n("design/standard/class/view")}</th>
-        <th>{"Modifier"|i18n("design/standard/class/view")}</th>
-        <th>{"Modified"|i18n("design/standard/class/view")}</th>
-        <th>{"Object count"|i18n("design/standard/class/view")}</th>
-        <th>{"Edit"|i18n("design/standard/class/view")}</th>
-        <th>{"Copy"|i18n("design/standard/class/view")}</th>
+        <th>{"ID"|i18n("design/standard/class/classlist")}</th>
+        <th>{"Name"|i18n("design/standard/class/classlist")}</th>
+        <th>{"Identifier"|i18n("design/standard/class/classlist")}</th>
+        <th>{"Modifier"|i18n("design/standard/class/classlist")}</th>
+        <th>{"Modified"|i18n("design/standard/class/classlist")}</th>
+        <th>{"Object count"|i18n("design/standard/class/classlist")}</th>
+        <th>{"Edit"|i18n("design/standard/class/classlist")}</th>
+        <th>{"Copy"|i18n("design/standard/class/classlist")}</th>
     </tr>
 
     {section var=class loop=$latest_classes sequence=array( bglight, bgdark )}

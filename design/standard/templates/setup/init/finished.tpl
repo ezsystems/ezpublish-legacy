@@ -30,9 +30,9 @@
             '%donebutton',concat('<i>',"Done"|i18n("design/standard/setup/init"),'</i>')))}
 </p>
 
-<p>{"If you ever want to restart this setup, edit the file %filename and look for a line that says:"
+<p>{"If you ever want to restart this setup, edit the file %filename and look for a line that says"
     |i18n("design/standard/setup/init",,
-          hash('%filename','<i>settings/override/site.ini.append.php</i>'))}
+          hash('%filename','<i>settings/override/site.ini.append.php</i>'))}:
 </p>
 <pre class="example">[SiteAccessSettings]
 CheckValidity=false</pre>

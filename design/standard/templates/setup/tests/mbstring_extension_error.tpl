@@ -8,7 +8,7 @@
  {"By enabling the mbstring extension eZ publish will have access to more charsets and also be able to process some of them faster, such as Unicode and iso-8859-*. This is recommended for multilingual sites and sites with more exotic charsets."|i18n("design/standard/setup/tests")}
 </p>
 <p>
- {"The complete list of charsets mbstring supports are:"|i18n("design/standard/setup/tests")}
+ {"The complete list of charsets mbstring supports are"|i18n("design/standard/setup/tests")}:
 </p>
 <p class="example">
  {section name=Charset loop=$test_result[2].charset_list}
@@ -23,7 +23,7 @@
 </p>
 <blockquote class="note">
  <p>
-  <b>{"Note:"|i18n("design/standard/setup/tests")}</b>
+  <b>{"Note"|i18n("design/standard/setup/tests")}:</b>
   {"Do not enable mbstring function overloading, eZ publish will only use the extension whenever it's needed."|i18n("design/standard/setup/tests")}
  </p>
 </blockquote>

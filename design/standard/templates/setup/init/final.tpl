@@ -11,7 +11,7 @@
 
 <blockquote class="note">
 <p>
- <b>{"Note:"|i18n("design/standard/setup/init")}</b>
+ <b>{"Note"|i18n("design/standard/setup/init")}:</b>
  {"The first time the user or admin site is accessed it will take some time (30 to 60 seconds). This is because eZ publish prepares the site for your machine."|i18n("design/standard/setup/init")}
 </p>
 </blockquote>

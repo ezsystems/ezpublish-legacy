@@ -21,7 +21,7 @@
 
 {section show=$error_strings}
 <div class="warning">
-<h2>{"Please correct the following errors:"|i18n("design/standard/content/tipafriend")}</h2>
+<h2>{"Please correct the following errors"|i18n("design/standard/content/tipafriend")}:</h2>
 {section loop=$error_strings}
 <p>{$:item}</p>
 {/section}

@@ -19,7 +19,7 @@
  {"The setup could not get write access to the"|i18n("design/standard/setup/init")} <i>settings</i> {"directory. This is required to disable the initialization. Following the instructions found in"|i18n("design/standard/setup/init")} <i>Issues</i> {"to enable write access and click the"|i18n("design/standard/setup/init")} <i>{"Try Again"|i18n("design/standard/setup/init")}</i> {"button."|i18n("design/standard/setup/init")}
 </p>
 <p>
- {"Optionally you may disable this manually, edit the <i>settings/site.ini</i> file and look for a line that says:"|i18n("design/standard/setup/init")}
+ {"Optionally you may disable this manually, edit the <i>settings/site.ini</i> file and look for a line that says"|i18n("design/standard/setup/init")}:
 </p>
 <pre class="example">[SiteAccessSettings]
 CheckValidity=true</pre>
