@@ -907,7 +907,7 @@ class eZLocale
         $resultDayList = array();
         foreach ( $this->WeekDays as $day )
         {
-            $resultDayList[] = $dayList[ $day ];
+            $resultDayList[ $day ] = $dayList[ $day ];
         }
         return $resultDayList;
     }
