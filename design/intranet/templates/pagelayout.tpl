@@ -99,6 +99,7 @@
     </div>
     {* Top menu END *}
 
+    <div id="pathline">
     {* Main path START *}
     <div id="mainpath">
 	{section name=Path loop=$module_result.path}
@@ -117,7 +118,26 @@
 	{/section}
     </div>
     {* Main path END *}
+    
+    {* Login box START *}
+    <div id="login">
+    {section show=eq($current_user.is_logged_in)}
+    <a href="/user/login">login</a>
+    {section-else}
+    <a href="/user/logout">logout</a> ( {$current_user.contentobject.name} )
+    {/section}
+    </div>
+    {* Login box END *}
 
+    </div>
+    
+    {* Current Date START *}
+    <div id="date">
+    {currentdate()|l10n( date )}
+    </div>
+    {* Current Date END *}
+    
+   
     {* Main part START *}
     <div id="mainframe">
 
@@ -161,7 +181,8 @@
 <div id="footer">
     <a href="http://ez.no">eZ publish&trade;</a> copyright &copy; 1999-2003 <a href="http://ez.no">eZ systems as</a>
 </div>
-{* Footer END *}
+{* Copyright END *}
+
 
 </div>
 <!--DEBUG_REPORT-->

@@ -100,15 +100,22 @@ body
    color: #ffffff;
 }
 
+#pathline
+{ 
+  width: 100%; 
+  color: #777777;
+  background-color: #ffffff;
+}
 
 /* Path */
 #mainpath
 { 
+   width: 70%;
    font-size: 80%;
    color: #777777;
    background-color: #ffffff;
-   width: 100%; 
    padding: 4px;
+   float: left;
 }
 
 #mainpath a
@@ -124,6 +131,27 @@ body
 #mainpath .delimiter
 { 
   display: inline;
+}
+
+#login
+{ 
+   width: 28%;
+   color: #0000ff;
+   font-size: 80%; 
+   display: inline;
+   text-align: right;
+   float: right;
+   padding: 4px; 
+}
+
+#date
+{ 
+  width: 100%;
+  color: #000000;
+  font-size: 80%;
+  text-align: right;
+  float: right;
+  padding: 4px;
 }
 
 /* Main layout */
