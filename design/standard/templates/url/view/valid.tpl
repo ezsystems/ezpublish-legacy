@@ -1,4 +1,4 @@
-<form method="post" action={concat("url/list/valid",$view_parameters.offset|gt(0)|choose(,array("/offset/",$view_parameters)))|ezurl}>
+<form method="post" action={concat("url/list/valid",$view_parameters.offset|gt(0)|choose("",array("/offset/",$view_parameters)))|ezurl}>
 {let url_limit=10
      url_count=fetch('url','list_count',hash(is_valid,true()))
      url_list=fetch('url','list',hash(is_valid,true(),offset,$view_parameters.offset,limit,$url_limit))}

@@ -40,6 +40,7 @@ include_once( 'kernel/classes/ezcontentobjectversion.php' );
 include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 
 include_once( 'kernel/common/template.php' );
+include_once( "lib/ezutils/classes/ezini.php" );
 
 $tpl =& templateInit();
 
@@ -53,11 +54,39 @@ $viewParameters = array( 'offset' => $Offset );
 $object =& eZContentObject::fetch( $ObjectID );
 $editWarning = false;
 
+$canRemove = false;
+
 if ( $object === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( ! $object->attribute( 'can_read' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+if ( $object->attribute( 'can_remove' ) )
+    $canRemove = true;
+$http =& eZHTTPTool::instance();
+
+if ( $http->hasSessionVariable( 'ExcessVesionHistoryLimit' ) )
+{
+    $excessLimit = $http->sessionVariable( 'ExcessVesionHistoryLimit' );
+    if ( $excessLimit )
+        $editWarning = 3;
+    $http->removeSessionVariable( 'ExcessVesionHistoryLimit' );
+}
+
+if ( $http->hasPostVariable( 'RemoveButton' )  )
+{
+    if ( $http->hasPostVariable( 'DeleteIDArray' ) )
+    {
+        $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+        foreach ( $deleteIDArray as $deleteID )
+        {
+            $version =& eZContentObjectVersion::fetch( $deleteID );
+            if ( $version != null )
+                $version->remove();
+        }
+    }
+}
 
 if ( $Module->isCurrentAction( 'Edit' )  )
 {
@@ -101,17 +130,76 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
     if ( !$object->attribute( 'can_edit' ) )
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
-    $versionID = $Module->actionParameter( 'VersionID' );
-    foreach ( array_keys( $versions ) as $versionKey )
+    $contentINI =& eZINI::instance( 'content.ini' );
+    $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
+
+    $limitList =& $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
+
+    $classID = $object->attribute( 'contentclass_id' );
+    foreach ( array_keys ( $limitList ) as $key )
     {
-        $version =& $versions[$versionKey];
-        if ( $version->attribute( 'version' ) == $versionID )
+        if ( $classID == $key )
+            $versionlimit =& $limitList[$key];
+    }
+    $versionCount = $object->getVersionCount();
+    if ( $versionCount < $versionlimit )
+    {
+        $versionID = $Module->actionParameter( 'VersionID' );
+        foreach ( array_keys( $versions ) as $versionKey )
         {
-            $newVersionID = $object->copyRevertTo( $versionID );
-            if ( $Module->hasActionParameter( 'EditLanguage' ) and
-                 $Module->actionParameter( 'EditLanguage' ) )
-                $EditLanguage = $Module->actionParameter( 'EditLanguage' );
-            return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
+            $version =& $versions[$versionKey];
+            if ( $version->attribute( 'version' ) == $versionID )
+            {
+                $newVersionID = $object->copyRevertTo( $versionID );
+                if ( $Module->hasActionParameter( 'EditLanguage' ) and
+                     $Module->actionParameter( 'EditLanguage' ) )
+                    $EditLanguage = $Module->actionParameter( 'EditLanguage' );
+                return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
+            }
+        }
+    }
+    else
+    {
+        // Remove oldest archived version first
+        $params = array( 'conditions'=>array( 'status'=>3 ) );
+        $versions =& $object->versions( true, $params );
+        if ( count( $versions ) > 0 )
+        {
+            $modified = $versions[0]->attribute( 'modified' );
+            $removeVersion =& $versions[0];
+            foreach ( array_keys( $versions ) as $versionKey )
+            {
+                $version =& $versions[$versionKey];
+                $currentModified = $version->attribute( 'modified' );
+                if ( $currentModified < $modified )
+                {
+                    $modified = $currentModified;
+                    $removeVersion = $version;
+                }
+            }
+            $removeVersion->remove();
+            $versionID = $Module->actionParameter( 'VersionID' );
+
+            $versions =& $object->versions();
+            foreach ( array_keys( $versions ) as $versionKey )
+            {
+                $version =& $versions[$versionKey];
+                if ( $version->attribute( 'version' ) == $versionID )
+                {
+                    $newVersionID = $object->copyRevertTo( $versionID );
+                    if ( $Module->hasActionParameter( 'EditLanguage' ) and
+                         $Module->actionParameter( 'EditLanguage' ) )
+                        $EditLanguage = $Module->actionParameter( 'EditLanguage' );
+                    return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
+                }
+            }
+        }
+        else
+        {
+            $http->setSessionVariable( 'ExcessVesionHistoryLimit', true );
+            $currentVersion = $object->attribute( 'current_version' );
+            $Module->redirectToView( 'versions', array( $ObjectID, $currentVersion, $editLanguage ) );
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
     }
 }
@@ -131,6 +219,7 @@ $tpl->setVariable( 'edit_version', $EditVersion );
 $tpl->setVariable( 'edit_language', $EditLanguage );
 $tpl->setVariable( 'versions', $versions );
 $tpl->setVariable( 'edit_warning', $editWarning );
+$tpl->setVariable( 'can_remove', $canRemove );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:content/versions.tpl' );

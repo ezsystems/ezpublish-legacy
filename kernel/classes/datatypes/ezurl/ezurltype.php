@@ -45,6 +45,7 @@ include_once( 'kernel/classes/ezdatatype.php' );
 include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
 include_once( 'kernel/common/i18n.php' );
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
 
 define( 'EZ_DATATYPEURL_URL', 'ezurl' );
 
@@ -119,6 +120,13 @@ class eZURLType extends eZDataType
     {
         $urlID = eZURL::registerURL( $attribute->content() );
         $attribute->setAttribute( 'data_int', $urlID );
+
+        // Update url-object link
+        $contentObjectAttributeID = $attribute->attribute( 'id' );
+        $contentObjectAttributeVersion = $attribute->attribute( 'version' );
+        eZURLObjectLink::removeURLlinkList( $contentObjectAttributeID, $contentObjectAttributeVersion );
+        $linkObjectLink =& eZURLObjectLink::create( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion );
+        $linkObjectLink->store();
     }
 
     function storeClassAttribute( &$attribute, $version )

@@ -38,16 +38,72 @@
 $Module =& $Params['Module'];
 $urlID =& $Params['ID'];
 
+include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
+include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
 
 $url =& eZURL::fetch( $urlID );
 if ( !$url )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
+$link = $url->attribute( 'url' );
+if ( preg_match("/^(http:)/i", $link ) or
+     preg_match("/^(ftp:)/i", $link ) or
+     preg_match("/^(https:)/i", $link ) or
+     preg_match("/^(file:)/i", $link ) or
+     preg_match("/^(mailto:)/i", $link ) )
+{
+    // No changes
+}
+else
+{
+    include_once( "lib/ezutils/classes/ezini.php" );
+    include_once( "lib/ezutils/classes/ezsys.php" );
+    $domain = getenv( 'HTTP_HOST' );
+    $protocol = 'http';
+
+    // Check if SSL port is defined in site.ini
+    $ini =& eZINI::instance();
+    $sslPort = 443;
+    if ( $ini->hasVariable( 'SiteSettings', 'SSLPort' ) )
+    {
+        $sslPort = $ini->variable( 'SiteSettings', 'SSLPort' );
+    }
+
+    if ( eZSys::serverPort() == $sslPort )
+    {
+        $protocol = 'https';
+    }
+
+    $preFix = $protocol . "://" . $domain;
+    $preFix .= eZSys::wwwDir();
+
+    $link = preg_replace("/^\//e", "", $link );
+    $link = $preFix . "/" . $link;
+}
+
+$http =& eZHttpTool::instance();
+$objectList =& eZURLObjectLink::fetchObjectVersionList( $urlID );
+
+if ( $Module->isCurrentAction( 'EditObject' ) )
+{
+    if ( $http->hasPostVariable( 'ObjectList' ) )
+    {
+        $versionID = $http->postVariable( 'ObjectList' );
+        $version =& eZContentObjectVersion::fetch( $versionID );
+        $contentObjectID = $version->attribute( 'contentobject_id' );
+        $versionNr = $version->attribute( 'version' );
+        $Module->redirect( 'content', 'edit', array( $contentObjectID, $versionNr ) );
+    }
+}
+
 include_once( 'kernel/common/template.php' );
 $tpl =& templateInit();
 
+$tpl->setVariable( 'Module', $Module );
 $tpl->setVariable( 'url_object', $url );
+$tpl->setVariable( 'full_url', $link );
+$tpl->setVariable( 'object_list', $objectList );
 
 $Result = array();
 $Result['content'] = $tpl->fetch( 'design:url/view.tpl' );

@@ -62,6 +62,15 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     }
 }
 
+if ( $http->hasPostVariable( 'EmptyButton' )  )
+{
+    $versions =& eZContentObjectVersion::fetchForUser( $userID );
+    foreach ( array_keys( $versions ) as $key )
+    {
+        $version =& $versions[$key];
+        $version->remove();
+    }
+}
 
 //$versions =& eZContentObjectVersion::fetchForUser( $userID );
 

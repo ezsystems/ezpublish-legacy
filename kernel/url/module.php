@@ -45,6 +45,11 @@ $ViewList['list'] = array(
     "unordered_params" => array( "offset" => "Offset" ) );
 $ViewList['view'] = array(
     'script' => 'view.php',
+    'single_post_actions' => array( 'EditObject' => 'EditObject' ),
     'params' => array( 'ID' ) );
-
+$ViewList['edit'] = array(
+    'script' => 'edit.php',
+    'single_post_actions' => array( 'Cancel' => 'Cancel',
+                                    'Store' => 'Store' ),
+    'params' => array( 'ID' ) );
 ?>

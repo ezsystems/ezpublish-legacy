@@ -1,6 +1,39 @@
+<SCRIPT LANGUAGE="JavaScript" type="text/javascript">
+<!--
+{literal}
+function checkAll()
+{
+    if ( document.trashaction.selectall.value == "Select all" )
+    {
+        document.trashaction.selectall.value = "Deselect all";
+        with (document.trashaction) 
+	{
+            for (var i=0; i < elements.length; i++) 
+	    {
+                if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]')
+                     elements[i].checked = true;
+	    }
+        }
+     }
+     else
+     {
+         document.trashaction.selectall.value = "Select all";
+         with (document.trashaction) 
+	 {
+            for (var i=0; i < elements.length; i++) 
+	    {
+                if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]')
+                     elements[i].checked = false;
+	    }
+         }
+     }
+}
+{/literal}
+//-->
+</SCRIPT>
 {let page_limit=30
      list_count=fetch('content','trash_count')}
-<form action={concat("content/trash/")|ezurl} method="post" >
+<form name="trashaction" action={concat("content/trash/")|ezurl} method="post" >
 
 <div class="maincontentheader">
 <h1>{"Trash"|i18n("design/standard/content/trash")}</h1>
@@ -8,6 +41,10 @@
 
 {let object_list=fetch('content','trash_object_list',hash(limit,$page_limit,offset,$view_parameters.offset))}
 {section show=$object_list}
+
+<div class="buttonblock">
+<input type="submit" name="EmptyButton" value="{'Empty Trash'|i18n('design/standard/content/trash')}" />
+</div>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -47,9 +84,10 @@
 </tr>
 {/section}
 <tr>
-  <td colspan="5">
+  <td colspan="3">
   </td>
-  <td align="right">
+  <td colspan="3" align="right">
+    <input name="selectall" onclick=checkAll() type="button" value="Select all">
     <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/content/trash')}" src={"trash.png"|ezimage} />
   </td>
 </tr>

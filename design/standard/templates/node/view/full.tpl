@@ -1,3 +1,37 @@
+<SCRIPT LANGUAGE="JavaScript" type="text/javascript">
+<!--
+{literal}
+function checkAll()
+{
+    if ( document.fullview.selectall.value == "Select all" )
+    {
+        document.fullview.selectall.value = "Deselect all";
+        with (document.fullview) 
+	{
+            for (var i=0; i < elements.length; i++) 
+	    {
+                if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]')
+                     elements[i].checked = true;
+	    }
+        }
+     }
+     else
+     {
+         document.fullview.selectall.value = "Select all";
+         with (document.fullview) 
+	 {
+            for (var i=0; i < elements.length; i++) 
+	    {
+                if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]')
+                     elements[i].checked = false;
+	    }
+         }
+     }
+}
+{/literal}
+//-->
+</SCRIPT>
+
 {* Default object admin view template *}
 {default with_children=true()
          is_editable=true()
@@ -9,7 +43,7 @@
          node_name=$node.name}
 
 {section show=$is_standalone}
-<form method="post" action={"content/action"|ezurl}>
+<form name="fullview" method="post" action={"content/action"|ezurl}>
 {/section}
 
 
@@ -221,6 +255,7 @@
     {section show=$:can_remove}
     {section show=fetch('content','list',hash(parent_node_id,$node.node_id,sort_by,$node.sort_array,limit,$page_limit,offset,$view_parameters.offset))}
                 <input type="submit" name="RemoveButton" value="Remove" />
+		<input name="selectall" onclick=checkAll() type="button" value="Select all">
     {/section}
     {/section}
 

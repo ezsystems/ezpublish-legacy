@@ -35,6 +35,7 @@
 //
 
 include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php' );
+include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 class eZSimplifiedXMLInput extends eZXMLInputHandler
@@ -117,6 +118,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     function &validateInput( &$http, $base, &$contentObjectAttribute )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
+        $contentObjectAttributeVersion = $contentObjectAttribute->attribute('version');
         if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttributeID ) )
         {
             $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttributeID );
@@ -153,18 +155,20 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             }
             else
             {
+                // Remove all url-object links to this attribute.
+                eZURLObjectLink::removeURLlinkList( $contentObjectAttributeID, $contentObjectAttributeVersion );
                 $dom = $data[0];
                 $objects =& $dom->elementsByName( 'object' );
                 if ( $objects !== null )
                 {
+                    $editVersion = $contentObjectAttribute->attribute('version');
+                    $editObjectID = $contentObjectAttribute->attribute('contentobject_id');
+                    $editObject =& eZContentObject::fetch( $editObjectID );
                     foreach ( array_keys( $objects ) as $objectKey )
                     {
                         $object =& $objects[$objectKey];
                         $objectID = $object->attributeValue( 'id' );
                         $currentObject =& eZContentObject::fetch( $objectID );
-                        $editVersion = $contentObjectAttribute->attribute('version');
-                        $editObjectID = $contentObjectAttribute->attribute('contentobject_id');
-                        $editObject =& eZContentObject::fetch( $editObjectID );
                         if (  $currentObject == null )
                         {
                             $GLOBALS[$isInputValid] = false;
@@ -195,6 +199,12 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         if ( $href != null )
                         {
                             $linkID =& eZURL::registerURL( $href );
+                            $linkObjectLink =& eZURLObjectLink::fetch( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
+                            if ( $linkObjectLink == null )
+                            {
+                                $linkObjectLink =& eZURLObjectLink::create( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
+                                $linkObjectLink->store();
+                            }
                             $object->appendAttribute( $dom->createAttributeNodeNS( 'http://ez.no/namespaces/ezpublish3/image/', 'image:ezurl_id', $linkID ) );
                             $object->removeNamedAttribute( 'ezurl_href' );
                         }
@@ -217,6 +227,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                 if ( $links !== null )
                 {
+                    $editVersion = $contentObjectAttribute->attribute('version');
+                    $editObjectID = $contentObjectAttribute->attribute('contentobject_id');
                     foreach ( array_keys( $links ) as $linkKey )
                     {
                         $link =& $links[$linkKey];
@@ -237,6 +249,12 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         {
                             $url = $link->attributeValue( 'href' );
                             $linkID =& eZURL::registerURL( $url );
+                            $linkObjectLink =& eZURLObjectLink::fetch( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
+                            if ( $linkObjectLink == null )
+                            {
+                                $linkObjectLink =& eZURLObjectLink::create( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
+                                $linkObjectLink->store();
+                            }
                             $link->appendAttribute( $dom->createAttributeNode( 'id', $linkID ) );
                             $link->removeNamedAttribute( 'href' );
                         }

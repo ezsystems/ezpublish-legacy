@@ -26,6 +26,15 @@
 </ul>
 </div>
 {/case}
+{case match=3}
+<div class="warning">
+<h2>{"Unable to create new version"|i18n("design/standard/content/version")}</h2>
+<ul>
+    <li>{"Version history limit has been excessed and no archived version can be removed by the system."|i18n("design/standard/content/version")}</li>
+    <li>{"You can change your setting about version history in content.ini, remove draft versions or edit existing drafts."|i18n("design/standard/content/version")}</li>
+</ul>
+</div>
+{/case}
 {case}
 {/case}
 {/switch}
@@ -34,7 +43,7 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<th>
+	<th colspan="2">
 	{"Version:"|i18n("design/standard/content/version")}
 	</th>
 	<th>
@@ -52,6 +61,13 @@
 </tr>
 {section name=Version loop=$version_list sequence=array(bglight,bgdark)}
 <tr>
+	{section show=$can_remove}
+	    <td class="{$Version:sequence}">
+	    {section show=or(eq($Version:item.status,0),eq($Version:item.status,3),eq($Version:item.status,4))}
+	    <input type="checkbox" name="DeleteIDArray[]" value="{$Version:item.id}" />
+	    {/section}
+	    </td>
+	{/section}
 	<td class="{$Version:sequence}">
 	<a href={concat("/content/versionview/",$object.id,"/",$Version:item.version,"/",$edit_language|not|choose(array($edit_language,"/"),""))|ezurl}>{$Version:item.version}</a>
         {section show=eq($Version:item.version,$object.current_version)}*{/section}
@@ -76,8 +92,15 @@
 	</td>
 </tr>
 {/section}
+{section show=$can_remove}
 <tr>
+        <td colspan="8">
+        {include uri="design:gui/trash.tpl"}
+        </td>
+</tr>
+{/section}
 </table>
+
 {include name=navigator
          uri='design:navigator/google.tpl'
          page_uri=concat('/content/versions/', $object.id, '///', )

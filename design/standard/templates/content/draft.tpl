@@ -1,7 +1,40 @@
+<SCRIPT LANGUAGE="JavaScript" type="text/javascript">
+<!--
+{literal}
+function checkAll()
+{
+    if ( document.draftaction.selectall.value == "Select all" )
+    {
+        document.draftaction.selectall.value = "Deselect all";
+        with (document.draftaction) 
+	{
+            for (var i=0; i < elements.length; i++) 
+	    {
+                if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]')
+                     elements[i].checked = true;
+	    }
+        }
+     }
+     else
+     {
+         document.draftaction.selectall.value = "Select all";
+         with (document.draftaction) 
+	 {
+            for (var i=0; i < elements.length; i++) 
+	    {
+                if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]')
+                     elements[i].checked = false;
+	    }
+         }
+     }
+}
+{/literal}
+//-->
+</SCRIPT>
 {let page_limit=30
      list_count=fetch('content','draft_count')}
 
-<form action={concat("content/draft/")|ezurl} method="post" >
+<form name="draftaction" action={concat("content/draft/")|ezurl} method="post" >
 
 <div class="maincontentheader">
 <h1>{"My drafts"|i18n("design/standard/content/view")}</h1>
@@ -10,6 +43,10 @@
 {let draft_list=fetch('content','draft_version_list',hash(limit,$page_limit,offset,$view_parameters.offset))}
 
 {section show=$draft_list}
+
+<div class="buttonblock">
+<input type="submit" name="EmptyButton" value="{'Empty Draft'|i18n('design/standard/content/view')}" />
+</div>
 
 <p>
     {"These are the current objects you are working on. The drafts are owned by you and can only be seen by you.
@@ -55,10 +92,11 @@
 </tr>
 {/section}
 <tr>
-    <td align="left">
+    <td colspan="3" align="left">
         <input type="image" name="RemoveButton" value="{'Remove'|i18n('design/standard/content/view')}" src={"trash.png"|ezimage} />
+	<input name="selectall" onclick=checkAll() type="button" value="Select all">
     </td>
-    <td colspan="6">
+    <td colspan="4">
     </td>
 </tr>
 </table>

@@ -1,3 +1,37 @@
+<SCRIPT LANGUAGE="JavaScript" type="text/javascript">
+<!--
+{literal}
+function checkAll()
+{
+    if ( document.sitemap.selectall.value == "Select all" )
+    {
+        document.sitemap.selectall.value = "Deselect all";
+        with (document.sitemap) 
+	{
+            for (var i=0; i < elements.length; i++) 
+	    {
+                if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]')
+                     elements[i].checked = true;
+	    }
+        }
+     }
+     else
+     {
+         document.sitemap.selectall.value = "Select all";
+         with (document.sitemap) 
+	 {
+            for (var i=0; i < elements.length; i++) 
+	    {
+                if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]')
+                     elements[i].checked = false;
+	    }
+         }
+     }
+}
+{/literal}
+//-->
+</SCRIPT>
+
 {default with_children=true()
 	 is_standalone=true()}
 {let page_limit=15
@@ -9,13 +43,12 @@
          node_name=$node.name}
 
 {section show=$is_standalone}
-<form method="post" action={"content/action/"|ezurl}>
+<form name="sitemap" method="post" action={"content/action/"|ezurl}>
 {/section}
 
 <div class="maincontentheader">
 <h1>{"Site map"|i18n("design/standard/node/view")}</h1>
 </div>
-
 <h1>{$node_name|wash}</h1>
 
 {section name=ContentObjectAttribute loop=$content_version.contentobject_attributes}
@@ -97,17 +130,15 @@
 </tr>
 {/section}
 <tr>
-	<td></td>
-	<td></td>
-	<td></td>
 	{section show=$:can_edit}
 	<td></td>
         {/section}
 	{section show=$:can_copy}
 	<td></td>
         {/section}
-	<td align="right">
+	<td colspan="4" align="right">
 	{section show=$:can_remove}
+	<input name="selectall" onclick=checkAll() type="button" value="Select all">
         {include uri="design:gui/trash.tpl"}
 {*	<input class="button" type="image" src={"remove.png"|ezimage} name="RemoveButton" value="Remove" /> *}
         {/section}

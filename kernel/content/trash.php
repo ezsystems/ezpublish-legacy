@@ -72,6 +72,29 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     }
 }
 
+if ( $http->hasPostVariable( 'EmptyButton' )  )
+{
+    $access = $user->hasAccessTo( 'content', 'cleantrash' );
+    if ( $access['accessWord'] == 'yes' )
+    {
+        $objectList =& eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+                                             null,
+                                             array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
+                                             null,
+                                             null,
+                                             true );
+        foreach ( array_keys( $objectList ) as $key )
+        {
+            $object =& $objectList[$key];
+            $object->purge();
+        }
+    }
+    else
+    {
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    }
+}
+
 $tpl =& templateInit();
 $tpl->setVariable('view_parameters', $viewParameters );
 

@@ -169,6 +169,22 @@ class eZURL extends eZPersistentObject
     }
 
     /*!
+     Sets the last checked date to \a $dateTime or the current
+     date if it's \c false.
+    */
+    function setLastChecked( $id, $dateTime = false )
+    {
+        if ( $dateTime === false )
+        {
+            include_once( 'lib/ezlocale/classes/ezdatetime.php' );
+            $dateTime = eZDateTime::currentTimeStamp();
+        }
+        eZPersistentObject::updateObjectList( array( 'definition' => eZURL::definition(),
+                                                     'update_fields' => array( 'last_checked' => $dateTime ),
+                                                     'conditions' => array( 'id' => $id ) ) );
+    }
+
+    /*!
      \return the url object for id \a $id.
     */
     function &fetch( $id, $asObject = true )
