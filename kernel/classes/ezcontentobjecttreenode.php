@@ -2624,60 +2624,63 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function checkPath( $path )
     {
-        $depth = $this->attribute( 'depth' );
-        $parentNodeID = $this->attribute( 'parent_node_id' );
-        $nodeID = $this->attribute( 'node_id' );
+        $nodeID       =  $this->attribute( 'node_id' );
+        $parentNodeID =  $this->attribute( 'parent_node_id' );
+        $depth        =  $this->attribute( 'depth' );
+        $db           =& eZDB::instance();
 
-        $db =& eZDB::instance();
+        // common part for two queries
+        $pathLikeCheck = 'path_identification_string LIKE \'' . $path . '\\_\\_%\' ESCAPE \'' .  $db->escapeString( '\\' ) . '\'';
 
-		/* The two checks below don't use the return value from the query,
-		 * but are just checks to see if there *is* a record */
-        $sqlToCheckOriginalName = 'SELECT 1
-                                   FROM ezcontentobject_tree
-                                   WHERE  path_identification_string = \'' . $path . '\'
-                                          AND node_id != ' . $nodeID;
-
-        $retNode = $db->arrayQuery( $sqlToCheckOriginalName );
-        if ( count( $retNode ) == 0 )
-        {
-            return $path;
-        }
-        $sqlToCheckCurrentName = 'SELECT 1
-                                  FROM ezcontentobject_tree
-                                  WHERE ( path_identification_string = \'' . $path . '\' OR
-                                          path_identification_string like \'' . $path . '\\\_\\\_%\' )
-                                          AND node_id = ' . $nodeID ;
-        $retNode = $db->arrayQuery( $sqlToCheckCurrentName );
-        if ( count( $retNode ) > 0 )
-        {
-            return $retNode[0]['path_identification_string'];
-		}
-
+        /* If current node has path equal to $path or matching to pattern "<$path>__<number>"
+         * then return its current path without changes.
+         */
         $sql = 'SELECT path_identification_string
                 FROM ezcontentobject_tree
-                WHERE parent_node_id = ' . $parentNodeID . ' AND
-                      depth = ' . $depth . ' AND
-                      ( path_identification_string = \'' . $path . '\' OR path_identification_string like \'' . $path . '\\\_\\\_%\' ) AND
-                      node_id != ' . $nodeID ;
-        $retNodes = $db->arrayQuery( $sql );
-        if ( count( $retNodes ) > 0 )
+                WHERE ( path_identification_string = \'' . $path . '\' OR ' . $pathLikeCheck . ' ) AND node_id = ' . $nodeID;
+        $rows = $db->arrayQuery( $sql );
+        foreach ( $rows as $idx => $row ) // exclude rows that do not match the pattern
         {
-            $nodeNum = 0;
-            $matchedArray = array();
-            foreach ( $retNodes as $node )
-            {
-                if ( preg_match( '/__(\d+)$/', $node['path_identification_string'], $matchedArray ) )
-                {
-                    $nodeNumTemp = $matchedArray[1];
-                    if ( $nodeNumTemp > $nodeNum )
-                    {
-                        $nodeNum = $nodeNumTemp;
-                    }
-                }
-            }
-            $path = $path . '__' . ++$nodeNum;
+            if ( !preg_match( "#^$path(__\d+)?$#", $row['path_identification_string'] ) )
+                 unset( $rows[$idx] );
         }
-        return $path;
+        if ( count( $rows ) > 0 )
+            return $rows[0]['path_identification_string'];
+        unset( $rows );
+
+        /* Else if there are no other nodes having path equal to $path
+         * then return $path.
+         */
+        $sql = 'SELECT COUNT(*) AS cnt
+                FROM ezcontentobject_tree
+                WHERE path_identification_string = \'' . $path . '\' AND node_id <> ' . $nodeID;
+        $rows = $db->arrayQuery( $sql );
+        if ( $rows[0]['cnt'] == 0 )
+            return $path;
+        unset( $rows );
+
+        /* Else if there are other nodes having path like "<$path>__<number>"
+         * then return computed unique path.
+         */
+        if ( $depth == 2 ) // in this case we should take into account toplevels that may have path equal to one we're checking
+            $depthCheck = ' depth IN ( 1, 2 )';
+        else
+            $depthCheck = 'depth = ' . $depth . ' AND parent_node_id = ' . $parentNodeID;
+        $sql = 'SELECT path_identification_string
+                FROM ezcontentobject_tree
+                WHERE ' . $depthCheck . ' AND ' . $pathLikeCheck . ' AND node_id <> ' . $nodeID;
+        $rows = $db->arrayQuery( $sql );
+        $uniqueNumber = 0;
+        foreach ( $rows as $row )
+        {
+            $pathString =& $row['path_identification_string'];
+            if ( !preg_match( "#^${path}__(\d+)$#", $pathString, $matches ) )
+                continue;
+            if ( $matches[1] > $uniqueNumber )
+                $uniqueNumber = $matches[1];
+        }
+        $uniqueNumber++;
+        return $path . '__' . $uniqueNumber;
     }
 
     function updateURLAlias()
