@@ -1,0 +1,5 @@
+123c123,124
+<                                          'url_alias' => $node->attribute( 'url_alias' ) );
+---
+>                                          'url_alias' => $node->attribute( 'url_alias' ),
+>                                          'persistent_variable' => $tpl->variable( 'persistent_variable' ) );

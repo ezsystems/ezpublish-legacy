@@ -1,0 +1,93 @@
+179a180,193
+>                 $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE;
+>                 if ( isset( $parameters['scope'] ) )
+>                 {
+>                     if ( !eZTemplateNodeTool::isStaticElement( $parameters['scope'] ) )
+>                         return false;
+>                     $scopeText = eZTemplateNodeTool::elementStaticValue( $parameters['scope'] );
+>                     if ( $scopeText == 'relative' )
+>                         $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE;
+>                     else if ( $scopeText == 'root' )
+>                         $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_LOCAL;
+>                     else if ( $scopeText == 'global' )
+>                         $scope = EZ_TEMPLATE_NAMESPACE_SCOPE_GLOBAL;
+>                 }
+> 
+182,184c196
+<                 if ( ( $functionName == $this->LetName or
+<                        $functionName == $this->DefaultName ) and
+<                      isset( $parameters['name'] ) )
+---
+>                 if ( isset( $parameters['name'] ) )
+198,199c210
+<                     if ( ( $functionName == $this->LetName or $functionName == $this->DefaultName ) &&
+<                          $parameterName == 'name' )
+---
+>                     if ( $parameterName == 'name' or $parameterName == 'scope' )
+206,207c217,218
+<                             false, $parameterData, eZTemplateNodeTool::extractFunctionNodePlacement( $node ), array(),
+<                             array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ),
+---
+>                             false, $parameterData, eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
+>                             array(), array( $namespaceValue, $scope, $parameterName ),
+217c228,229
+<                 if ( $namespaceValue )
+---
+>                 if ( ( $functionName == $this->LetName or $functionName == $this->DefaultName ) and
+>                      $namespaceValue )
+233c245,246
+<                 if ( $namespaceValue )
+---
+>                 if ( ( $functionName == $this->LetName or $functionName == $this->DefaultName ) and
+>                      $namespaceValue )
+342,345c355,360
+<         $name = '';
+<         if ( isset( $functionParameters['name'] ) )
+<             $name = $tpl->elementValue( $functionParameters['name'], $rootNamespace, $currentNamespace, $functionPlacement );
+<         if ( $currentNamespace != '' )
+---
+> 
+>         $children = $functionChildren;
+>         $parameters = $functionParameters;
+> 
+>         $scope = EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE;
+>         if ( isset( $parameters["scope"] ) )
+347,348c362,368
+<             if ( $name != '' )
+<                 $name = "$currentNamespace:$name";
+---
+>             $scopeText = $tpl->elementValue( $parameters["scope"], $rootNamespace, $currentNamespace, $functionPlacement );
+>             if ( $scopeText == 'relative' )
+>                 $scope = EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE;
+>             else if ( $scopeText == 'root' )
+>                 $scope = EZ_TEMPLATE_BLOCK_SCOPE_ROOT;
+>             else if ( $scopeText == 'global' )
+>                 $scope = EZ_TEMPLATE_BLOCK_SCOPE_GLOBAL;
+349a370,378
+>                 $tpl->warning( $functionName, "Scope value '$scopeText' is not valid, use either 'relative', 'root' or 'global'" );
+>         }
+> 
+>         $name = null;
+>         if ( isset( $parameters["name"] ) )
+>             $name = $tpl->elementValue( $parameters["name"], $rootNamespace, $currentNamespace, $functionPlacement );
+>         if ( $name === null )
+>         {
+>             if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE )
+350a380,392
+>             else if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_ROOT )
+>                 $name = $rootNamespace;
+>             else
+>                 $name = '';
+>         }
+>         else
+>         {
+>             if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_RELATIVE and
+>                  $currentNamespace != '' )
+>                 $name = "$currentNamespace:$name";
+>             else if ( $scope == EZ_TEMPLATE_BLOCK_SCOPE_ROOT and
+>                       $rootNamespace != '' )
+>                 $name = "$rootNamespace:$name";
+351a394
+> 
+360a404
+>                     case 'scope':

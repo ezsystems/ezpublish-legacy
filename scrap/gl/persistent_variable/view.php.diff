@@ -1,0 +1,5 @@
+198c198,199
+<                                           array( 'url_alias', $Result['content_info']['url_alias'] )
+---
+>                                           array( 'url_alias', $Result['content_info']['url_alias'] ),
+>                                           array( 'persistent_variable', $Result['content_info']['persistent_variable'] )

@@ -1,0 +1,3 @@
+design/admin/override/templates/folder.tpl
+design/admin/templates/page_mainarea.tpl
+design/admin/templates/pagelayout.tpl
