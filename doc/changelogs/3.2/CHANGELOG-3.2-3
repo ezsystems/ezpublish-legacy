@@ -52,6 +52,8 @@ Changes from 3.2-2 to 3.2-3
   Fixed updating object name when storing draft, not only when publishing object.
 - http://ez.no/developer/ez_publish_3/bug_reports/eztemplate_controlflow_operator_cond_bug
   Fixed correct handling of odd numbers in cond operator.
+- http://ez.no/developer/ez_publish_3/bug_reports/indefined_variable_objectarray
+  Added initializing of objectArray variable to remove warning when fetching non-existing object.
 
 *Setup:
 

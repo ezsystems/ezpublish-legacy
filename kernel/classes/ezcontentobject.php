@@ -526,6 +526,7 @@ class eZContentObject extends eZPersistentObject
 
             $resArray =& $db->arrayQuery( $query );
 
+            $objectArray = array();
             if ( count( $resArray ) == 1 )
             {
                 $objectArray =& $resArray[0];
