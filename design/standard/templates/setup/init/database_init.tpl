@@ -102,7 +102,7 @@
 </tr>
 <tr>
   <td class="normal">{"Password:"|i18n("design/standard/setup/init")}</td>
-  <td class="normal"><input type="text" name="eZSetupDatabasePassword" size="16" value="{$database_info.password}" /></td>
+  <td class="normal"><input type="password" name="eZSetupDatabasePassword" size="16" value="{$database_info.password}" /></td>
 </tr>
 {section show=eq($database_info.info.driver,'ezmysql')}
 <tr>
