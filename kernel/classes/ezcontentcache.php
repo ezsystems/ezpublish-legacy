@@ -102,7 +102,7 @@ class eZContentCache
 
         if ( $cacheInfo )
         {
-            $timestamp = $cacheInfo['mtime'] );
+            $timestamp = $cacheInfo['mtime'];
             include_once( 'kernel/classes/ezcontentobject.php' );
             if ( eZContentObject::isCacheExpired( $timestamp ) )
             {
