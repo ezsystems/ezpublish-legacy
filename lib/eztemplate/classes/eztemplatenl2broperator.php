@@ -74,7 +74,7 @@ class eZTemplateWashOperator
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
-        $operatorValue = str_replace( "\n"
+        $operatorValue = str_replace( "\n",
                                       "<br />",
                                       $operatorValue );
     }
