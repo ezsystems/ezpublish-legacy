@@ -1,3 +1,3 @@
 #!/bin/bash
 
-PACKAGES="bookshop corporate forum gallery intranet mysite news"
+PACKAGES="blog corporate forum gallery intranet news shop"

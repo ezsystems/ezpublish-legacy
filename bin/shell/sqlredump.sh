@@ -115,6 +115,9 @@ if [ "$USE_MYSQL" != "" ]; then
 	echo "Importing SQL file $sql"
 	mysql "$USERARG" "$DBNAME" < "$sql"
     done
+    ./update/common/scripts/flatten.php --db-driver=ezmysql --db-database=$DBNAME --db-user=$USER all
+    ./update/common/scripts/cleanup.php --db-driver=ezmysql --db-database=$DBNAME --db-user=$USER all
+
     echo "Dumping to SQL file $SQLFILE"
 # mysqldump "$USERARG" -c --quick "$NODATAARG" "$NOCREATEINFOARG" -B"$DBNAME" > "$SQLFILE".0
     if [ "$SQLDUMP" == "schema" ]; then
@@ -124,6 +127,7 @@ if [ "$USE_MYSQL" != "" ]; then
     else
 	mysqldump "$USERARG" -c --quick "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0
     fi
+    perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
 else
     dropdb "$DBNAME"
     createdb "$DBNAME"
