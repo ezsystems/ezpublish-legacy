@@ -117,8 +117,8 @@
 
 <div class="buttonblock">
 {include uri="design:class/datatypes.tpl" name=DataTypes id_name=DataTypeString datatypes=$datatypes current=$datatype}
-{include uri="design:gui/button.tpl" name=New id_name=NewButton value="New Attribute"}
-{include uri="design:gui/button.tpl" name=Delete id_name=DeleteButton value="Delete"}
+{include uri="design:gui/button.tpl" name=New id_name=NewButton value="New"}
+{include uri="design:gui/button.tpl" name=Delete id_name=DeleteButton value="Remove"}
 </div>
 <div class="buttonblock">
 {include uri="design:gui/button.tpl" name=Store id_name=StoreButton value=Store}
