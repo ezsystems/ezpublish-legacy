@@ -140,7 +140,10 @@ class eZBinaryFileHandler
         {
             $mimeData = eZMimeType::findByFileContents( $fileName );
             $mimeData['original_filename'] = $originalFilename;
-            $mimeData['name'] = 'application/octet-stream';
+
+            if ( !isSet( $mimeData['name'] ) )
+                $mimeData['name'] = 'application/octet-stream';
+
             if ( $returnMimeData )
                 return $mimeData;
             else

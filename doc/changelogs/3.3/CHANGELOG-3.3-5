@@ -34,6 +34,7 @@ eZINI:
 - Removed the hardcoded field list in eZContentObject::fetchList. (Merged from stable/3.2 rev. 5901)
 - Fixed bug in the autolink operator. (Merged from 3.2, rev. 5915)
   http://ez.no/community/bug_reports/autolink_operator__1
+- Fixed bug with mime type in ezbinaryhandler (was allways set to application/octet-stream)
 
 *Library:
 - Fixed bug where eZSys::varDirectory was not using eZDir::path
