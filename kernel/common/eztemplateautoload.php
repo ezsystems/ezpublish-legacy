@@ -50,9 +50,14 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezautolinkoperato
                                     'class' => 'eZAutoLinkOperator',
                                     'operator_names' => array( 'autolink' ) );
 
+$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/eztreemenuoperator.php',
+                                    'class' => 'eZTreeMenuOperator',
+                                    'operator_names' => array( 'treemenu' ) );
+
 $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezhiomenuoperator.php',
                                     'class' => 'eZHiOMenuOperator',
                                     'operator_names' => array( 'hiomenu' ) );
+
 
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatephpoperator.php',
                                     'class' => 'eZTemplatePHPOperator',
