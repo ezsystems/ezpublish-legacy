@@ -24,11 +24,11 @@
 <tr class="bglight">
     <td><a href={$node.object.owner.main_node.url_alias|ezurl}>{$node.object.owner.name|wash}</a></td>
     <td>{$node.object.published|l10n( shortdatetime )}</td>
-    <td>{$node.object.versions|count()}</td>
-    <td>{$node.contentobject_version_object.language_list|count}</td>
+    <td class="number" align="right">{$node.object.versions|count()}</td>
+    <td class="number" align="right">{$node.contentobject_version_object.language_list|count}</td>
     <td>{let section_object=fetch( section, object, hash( section_id, $node.object.section_id ) )}{section show=$section_object}<a href={concat( '/section/view/', $node.object.section_id )|ezurl}>{$section_object.name|wash}</a>{section-else}<i>{'Unknown'|i18n( 'design/admin/node/view/full' )}</i>{/section}{/let}</td>
-    <td>{$node.node_id}</td>
-    <td>{$node.object.id}</td>
+    <td class="number" align="right">{$node.node_id}</td>
+    <td class="number" align="right">{$node.object.id}</td>
 </tr>
 </table>
 

@@ -61,7 +61,7 @@
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" title="{'Invert selection.'|i18n( 'design/admin/class/classlist' )}" onclick="ezjs_toggleCheckboxes( document.ClassList, 'DeleteIDArray[]' ); return false;" /></th>
     <th>{'Name'|i18n('design/admin/class/classlist')}</th>
-    <th>{'ID'|i18n('design/admin/class/classlist')}</th>
+    <th class="tight">{'ID'|i18n('design/admin/class/classlist')}</th>
     <th>{'Identifier'|i18n('design/admin/class/classlist')}</th>
     <th>{'Modifier'|i18n('design/admin/class/classlist')}</th>
     <th>{'Modified'|i18n('design/admin/class/classlist')}</th>

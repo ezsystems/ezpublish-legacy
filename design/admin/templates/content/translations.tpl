@@ -16,7 +16,7 @@
     <th>{'Language'|i18n( 'design/admin/content/translations' )}</th>
 	<th>{'Country'|i18n( 'design/admin/content/translations' )}</th>
 	<th>{'Locale'|i18n( 'design/admin/content/translations' )}</th>
-	<th>{'Translations'|i18n( 'design/admin/content/translations' )}</th>
+	<th class="tight">{'Translations'|i18n( 'design/admin/content/translations' )}</th>
 </tr>
 
 {section var=Translations loop=$available_translations sequence=array( bglight, bgdark )}
@@ -34,7 +34,12 @@
     {* Language. *}
 	<td>
     <img src="{$Translations.item.translation.locale_object.locale_code|flag_icon}" alt="{$Translations.item.translation.locale_object.intl_language_name}" /> 
-    <a href={concat( '/content/translations/', $Translations.item.translation.id )|ezurl}>{section show=$Translations.item.translation.name|wash}{$Translations.item.translation.name|wash}{section-else}{$Translations.item.translation.locale_object.intl_language_name|wash}{/section}</a>
+    <a href={concat( '/content/translations/', $Translations.item.translation.id )|ezurl}>
+    {section show=$Translations.item.translation.name|wash}
+        {$Translations.item.translation.name|wash}
+    {section-else}
+        {$Translations.item.translation.locale_object.intl_language_name|wash}
+    {/section}</a>
     </td>
 
     {* Country. *}

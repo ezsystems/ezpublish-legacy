@@ -48,7 +48,7 @@
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/section/list' )}" title="{'Invert selection.'|i18n( 'design/admin/section/list' )}" onclick="ezjs_toggleCheckboxes( document.sections, 'SectionIDArray[]' ); return false;" /></th>
     <th>{'Name'|i18n('design/admin/section/list')}</th>
-    <th>{'ID'|i18n('design/admin/section/list')}</th>
+    <th class="tight">{'ID'|i18n('design/admin/section/list')}</th>
     <th class="tight">&nbsp;</th>
     <th class="tight">&nbsp;</th>
 </tr>

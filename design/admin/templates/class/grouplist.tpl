@@ -74,7 +74,7 @@
     <table class="list" cellspacing="0">
     <tr>
         <th>{'Name'|i18n( 'design/admin/class/grouplist')}</th>
-        <th>{'ID'|i18n( 'design/admin/class/grouplist' )}</th>
+        <th class="tight">{'ID'|i18n( 'design/admin/class/grouplist' )}</th>
         <th>{'Identifier'|i18n( 'design/admin/class/grouplist' )}</th>
         <th>{'Modifier'|i18n( 'design/admin/class/grouplist' )}</th>
         <th>{'Modified'|i18n( 'design/admin/class/grouplist' )}</th>

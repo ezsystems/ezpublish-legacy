@@ -60,6 +60,7 @@
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/workflow/workflowlist' )}" onclick="ezjs_toggleCheckboxes( document.workflowlistform, 'Workflow_id_checked[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/workflow/workflowlist' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/workflow/workflowlist' )}</th>
+    <th class="tight">{'ID'|i18n( 'design/admin/workflow/workflowlist' )}</th>
     <th>{'Modifier'|i18n( 'design/admin/workflow/workflowlist' )}</th>
     <th>{'Modified'|i18n( 'design/admin/workflow/workflowlist' )}</th>
     <th class="tight">&nbsp;</th>
@@ -68,6 +69,7 @@
        <tr class="{$Workflows.sequence}">
     <td><input type="checkbox" name="Workflow_id_checked[]" value="{$Workflows.item.id}" title="{'Select workflow for removal.'|i18n( 'design/admin/workflow/workflowlist' )}" /></td>
     <td><a href={concat( $module.functions.view.uri, '/', $Workflows.item.id )|ezurl}>{$Workflows.item.name|wash}</a></td>
+    <td class="number" align="right">{$Workflows.item.id}</th>
     <td>
     {let modifier=fetch( content, object, hash( object_id, $Workflows.item.modifier_id ) )}
     <a href={$modifier.main_node.url_alias|ezurl}>{$modifier.name|wash}</a>
