@@ -289,6 +289,8 @@ eztc.php:
 - Fixed ezenum class view template to not show HTML input elements.
   http://ez.no/community/bug_reports/enum_attributes_are_editable_when_viewing_not_editing_a_class
   (Merged from stable/3.4 rev. 7223)
+- Fixed URL management (/url/list) bug: 'All' showed only invalid URLs. Should show all URLs.
+  (Merged from stable/3.4 rev. 7231)
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
