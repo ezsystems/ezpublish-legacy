@@ -528,6 +528,11 @@ class eZTemplateCompiler
         if ( $ini->variable( 'TemplateSettings', 'TemplateOptimization' ) == 'enabled' )
         {
             require_once ('lib/eztemplate/classes/eztemplateoptimizer.php');
+            /* Retrieve class information for the attribute lookup table */
+            if ( isset( $resourceData['handler']->Keys ) ) {
+                $resourceData['class-info'] = eZTemplateOptimizer::fetchClassDeclaration( $resourceData['handler']->Keys['class'] ); 
+            }
+            /* Run the optimizations */
             eZTemplateOptimizer::optimize( $useComments, $php, $tpl, $transformedTree, $resourceData );
         }
 
@@ -2130,7 +2135,8 @@ $rbracket
                         $php->addVariableUnset( $variableName, array( 'spacing' => $spacing ) );
                     }
                 }
-                else if ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_RESOURCE_ACQUISITION )
+                else if ( ( $nodeType == EZ_TEMPLATE_NODE_INTERNAL_RESOURCE_ACQUISITION ) || 
+                          ( $nodeType == EZ_TEMPLATE_NODE_OPTIMIZED_RESOURCE_ACQUISITION ) )
                 {
                     $resource = $node[1];
                     $resourceObject =& $tpl->resourceHandler( $resource );
@@ -2142,6 +2148,7 @@ $rbracket
                         $spacing += $node[7]['spacing'];
                     $newRootNamespace = $node[8];
                     $resourceVariableName = $node[9];
+                    $resourceFilename = isset( $node[10] ) ? $node[10] : false;
 
 //                    $templateNameText = $php->variableText( $node[2], 0, 0, false );
                     $useFallbackCode = true;
@@ -2269,16 +2276,25 @@ $rbracket
                     {
                         if ( $resourceVariableName )
                         {
-                            $phpScriptText = $php->variableText( $phpScript, 0, 0, false );
                             $phpScriptText = '$phpScript';
                             $phpScriptArray = array();
+
                             foreach ( $resourceMap as $resourceMapItem )
                             {
                                 $phpScriptArray[$resourceMapItem['key']] = $resourceMapItem['phpscript'];
                             }
-                            $php->addVariable( "phpScriptArray", $phpScriptArray, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'spacing' => $spacing ) );
-                            $resourceVariableNameText = "\$$resourceVariableName";
-                            $php->addCodePiece( "\$phpScript = isset( \$phpScriptArray[$resourceVariableNameText] ) ? \$phpScriptArray[$resourceVariableNameText] : false;\n", array( 'spacing' => $spacing ) );
+                            
+                            if ( !$resourceFilename ) /* Not optimized version */
+                            {
+                                $php->addVariable( "phpScriptArray", $phpScriptArray, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'spacing' => $spacing ) );
+                                $resourceVariableNameText = "\$$resourceVariableName";
+                                $php->addCodePiece( "\$phpScript = isset( \$phpScriptArray[$resourceVariableNameText] ) ? \$phpScriptArray[$resourceVariableNameText] : false;\n", array( 'spacing' => $spacing ) );
+                            }
+                            else /* Optimised version */
+                            {
+                                $php->addVariable( "phpScript", $phpScriptArray[$node[10]], EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array('spacing' => $spacing ) );
+                            }
+
                             $php->addCodePiece( "\$resourceFound = false;\nif ( $phpScriptText !== false and file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
                         }
                         else

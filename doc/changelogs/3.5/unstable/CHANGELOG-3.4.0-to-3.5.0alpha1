@@ -461,9 +461,11 @@ eZ Template:
   (Merged from stable/3.4 (3.4.2) rev. 7517)
 - Fixed problem with fetch() and fetch_alias() operators when the parameter
   hash was a dynamic expression (e.g. cond).
-- Implemented framework for compiled template optimizer:
+- Implemented compiled template optimizer and optimizations:
   - $node.object.data_map optimization and caching.
   - $node.object.data_map.x."content" optimization.
+  - Optimization for {attribute_view_gui..} where we can make use of the
+    available class definition.
 - Added a uniqid resource to a template to unique identify it.
 
 eZXML:

@@ -57,6 +57,50 @@ class eZTemplateOptimizer
     }
 
     /*!
+     Optimizes a resource acquisition node and the variable data before it
+    */
+    function optimizeResourceAcquisition( $useComments, &$php, &$tpl, &$var, &$node, &$resourceData )
+    {
+        $data = $var[2];
+        /* Check if the variable node has the correct format */
+        if ( ( $var[1] == 'attributeAccess' ) and
+             ( count( $data ) == 5 ) and 
+             ( $data[0][0] == EZ_TEMPLATE_TYPE_VARIABLE ) and
+             ( $data[0][1][2] == 'node' ) and
+             ( $data[1][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
+             ( $data[1][1][0][1] == 'object' ) and
+             ( $data[2][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
+             ( $data[2][1][0][1] == 'data_map' ) and
+             ( $data[3][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
+             ( $data[4][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
+             ( $data[4][1][0][1] == 'view_template' ) and
+             ( $node[9] == 'attributeAccess' ) and
+             ( isset( $resourceData['class-info'] ) ) )
+        {
+            $attribute = $data[3][1][0][1];
+            if ( isset( $resourceData['class-info'][$attribute] ) and
+                 isset( $node[2][$resourceData['class-info'][$attribute]] ) )
+            {
+                $file = $node[2][$resourceData['class-info'][$attribute]];
+                $node[0] = EZ_TEMPLATE_NODE_OPTIMIZED_RESOURCE_ACQUISITION;
+                $node[10] = $resourceData['class-info'][$attribute];
+                $node[2] = array( $node[10] => $file );
+
+            }
+            else /* If we can't find it in the lookup table then it's simply
+                  * not there, so we can just kill the array. */
+            {
+                $node[2] = array( 'dummy' => 'foo' );
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /*!
      Analyses function nodes and tries to optimize them
     */
     function optimizeFunction( $useComments, &$php, &$tpl, &$node, &$resourceData )
@@ -90,8 +134,8 @@ class eZTemplateOptimizer
             /* Create a new node representing the optimization */
             $data[0] = array( EZ_TEMPLATE_TYPE_OPTIMIZED_NODE, null, 2 );
             
-            /* Modify the next two nodes in the array too if they're there as
-             * we know for sure what type it is. This fixes the dependency on
+            /* Modify the next two nodes in the array too as we know for sure
+             * what type it is. This fixes the dependency on
              * compiledFetchAttribute */
             if ( ( count( $data ) >= 3 ) and
                  ( $data[3][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
@@ -128,9 +172,36 @@ class eZTemplateOptimizer
             switch ( $kiddie[0] )
             {
                 case 3: /* Variable */
-                    eZTemplateOptimizer::optimizeVariable( $useComments, $php, $tpl, $tree[1][$key][2], $resourceData );
+                    if ( isset( $tree[1][$key + 1] ) and
+                         ( $tree[1][$key + 1][0] == 140 ) and
+                         isset( $resourceData['class-info'] ) )
+                    {
+                        $ret = eZTemplateOptimizer::optimizeResourceAcquisition(
+                            $useComments, $php, $tpl,
+                            $tree[1][$key], $tree[1][$key + 1], $resourceData );
+                        if ($ret)
+                        {
+                            unset( $tree[1][$key] );
+                        }
+                    }
+                    else
+                    {
+                        eZTemplateOptimizer::optimizeVariable( $useComments, $php, $tpl, $tree[1][$key][2], $resourceData );
+                    }
                     break;
             }
         }
+    }
+
+    function fetchClassDeclaration( $classID )
+    {
+        include_once "kernel/classes/ezcontentclass.php";
+        $attributes = eZContentClass::fetchAttributes( $classID );
+        $attributeArray = array();
+        foreach ( $attributes as $attribute )
+        {
+            $attributeArray[ $attribute->Identifier ] = $attribute->DataTypeString;
+        }
+        return $attributeArray;
     }
 }
