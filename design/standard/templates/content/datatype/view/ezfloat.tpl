@@ -1,1 +1,1 @@
-{$attribute.data_float}
+{$attribute.data_float|l10n(number)}

@@ -112,6 +112,7 @@ class eZTemplateLocaleOperator
      - date
      - shortdate
      - currency
+     - clean_currency
      - number
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
@@ -183,6 +184,11 @@ class eZTemplateLocaleOperator
                 case 'currency':
                 {
                     $operatorValue = $locale->formatCurrency( $operatorValue );
+                } break;
+
+                case 'clean_currency':
+                {
+                    $operatorValue = $locale->formatCleanCurrency( $operatorValue );
                 } break;
 
                 case 'number':
