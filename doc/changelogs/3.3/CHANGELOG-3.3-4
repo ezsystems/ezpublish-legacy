@@ -123,18 +123,20 @@ Changes from 3.3-3 to 3.3-4
 
 *Library:
 
-eZ template:
+eZ Template:
 
-eZ db:
+eZ DB:
 
 eZ Locale:
 
-eZDebug:
+eZ Debug:
 - Made sure the dumpVariable function don't mess up any existing output buffers
   or start a new unneeded one. (Merged in from stable/3.2 rev. 5537)
 
 *Design:
 
 *Translations:
+- Updated dut-NL translation
+- Updated fre-FR translation
 
 *Database:
