@@ -1,3 +1,0 @@
-The SQL file dbupdate-3.2.0-1-to-3.2.0-2.sql performs an upgrade from eZ publish 3.2.0-1 to 3.2.0-2.
-
-- Adds some missing indexes for order lists
