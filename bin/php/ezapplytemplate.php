@@ -50,12 +50,12 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish Code Templa
 
 $script->startup();
 
-$options = $script->getOptions( "",
+$options = $script->getOptions( "[a|all]",
                                 "[file]",
-                                array() );
+                                array( 'all' => 'Go trough all files defined in codetemplate.ini' ) );
 $script->initialize();
 
-if ( count( $options['arguments'] ) < 1 )
+if ( !$options['all'] and count( $options['arguments'] ) < 1 )
 {
     $cli->error( "Need at least one file" );
     $script->shutdown( 1 );
@@ -67,7 +67,17 @@ $hasErrors = false;
 $hasModified = false;
 
 $tpl = new eZCodeTemplate();
-foreach ( $options['arguments'] as $file )
+
+if ( $options['all'] )
+{
+    $files = $tpl->allCodeFiles();
+}
+else
+{
+    $files = $options['arguments'];
+}
+
+foreach ( $files as $file )
 {
     $status = $tpl->apply( $file );
     if ( $status == EZ_CODE_TEMPLATE_STATUS_OK )

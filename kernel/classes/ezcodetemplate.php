@@ -377,6 +377,18 @@ class eZCodeTemplate
         return false;
     }
 
+    /*!
+     \static
+     Finds all PHP files which must be updated and returns them as an array.
+
+     The files are defined in \c codetemplate.ini in the variable \c PHPFiles
+    */
+    function allCodeFiles()
+    {
+        $ini =& eZINI::instance( 'codetemplate.ini' );
+        return $ini->variable( 'Files', 'PHPFiles' );
+    }
+
     /// \privatesection
     var $Templates;
 }
