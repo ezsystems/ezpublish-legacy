@@ -97,3 +97,15 @@ CREATE TABLE ezimagefile (
 
 CREATE INDEX ezimagefile_coid ON ezimagefile( contentobject_attribute_id );
 CREATE INDEX ezimagefile_file ON ezimagefile( filepath );
+
+CREATE TABLE eztipafriend_counter (
+  node_id integer NOT NULL default '0',
+  count integer NOT NULL default '0',
+  PRIMARY KEY  (node_id)
+);
+
+CREATE TABLE ezview_counter (
+  node_id integer NOT NULL default '0',
+  count integer NOT NULL default '0',
+  PRIMARY KEY  (node_id)
+);
