@@ -9,7 +9,7 @@ function ezcurrentLanguage()
 {
     include_once( 'lib/ezlocale/classes/ezlocale.php' );
     $locale =& eZLocale::instance();
-    $language =& $locale->localeCode();
+    $language =& $locale->translationCode();
     return $language;
 }
 

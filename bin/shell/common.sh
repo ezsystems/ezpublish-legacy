@@ -1,6 +1,7 @@
 #!/bin/bash
 
 VERSION="3.2-2"
+VERSION_ONLY="3.2"
 VERSION_NICK="3.2 release 2"
 
 RES_COL=60
