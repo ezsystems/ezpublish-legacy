@@ -730,14 +730,14 @@ class eZTemplateArrayOperator
                     $offsetCode = '%' . count( $values ) . '%';
                 }
 
-                $length = 1;
-                $lengthCode = '1';
+                $length = false;
+                $lengthCode = '';
                 if ( count( $parameters ) > 2 )
                 {
                     if ( eZTemplateNodeTool::isStaticElement( $parameters[2] ) )
                     {
                         $length = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
-                        $lengthCode = eZPHPCreator::variableText( $offset, 0, 0, false );
+                        $lengthCode = eZPHPCreator::variableText( $length, 0, 0, false );
                     }
                     else
                     {
@@ -763,23 +763,39 @@ class eZTemplateArrayOperator
 
                 if ( $isString )
                 {
-                    $code = '%output% = substr( ' . $inputArrayCode . ', ' . $offsetCode . ', ' . $lengthCode . ' );';
+                    $code = '%output% = substr( ' . $inputArrayCode . ', ' . $offsetCode;
+                    if ( $lengthCode )
+                        $code .= ', ' . $lengthCode;
+                    $code .= ' );';
                 }
                 else if ( $isArray )
                 {
-                    $code = '%output% = array_merge( array_slice( ' .  $inputArrayCode . ', 0, ' . $offsetCode . ' ), array_slice( ' . $inputArrayCode . ', ' . $offsetCode . ' + ' . $lengthCode . ' ) );';
+                    $code = '%output% = array_merge( array_slice( ' .  $inputArrayCode . ', 0, ' . $offsetCode . ' ), array_slice( ' . $inputArrayCode . ', ' . $offsetCode;
+                    if ( $lengthCode )
+                        $code .= ' + ' . $lengthCode;
+                    $code .= ' ) );';
                 }
                 else
                 {
-                    $code = '%tmp1% = ' . $inputArrayCode . ';' . "\n" .
-                         'if ( is_string( %tmp1% ) )' . "\n" .
-                         '{' . "\n" .
-                         '  %output% = substr(  %tmp1%, ' . $offsetCode . ', ' . $lengthCode . ' );' . "\n" .
-                         '}' . "\n" .
-                         'else if ( is_array( %tmp1% ) )' . "\n" .
-                         '{' . "\n" .
-                         '  %output% = array_merge( array_slice( %tmp1%, 0, ' . $offsetCode . ' ), array_slice( %tmp1%, ' . $offsetCode . ' + ' . $lengthCode . ' ) );' . "\n" .
-                         '}';
+                    $code = ( '%tmp1% = ' . $inputArrayCode . ';' . "\n" .
+                              'if ( is_string( %tmp1% ) )' . "\n" .
+                              '{' . "\n" .
+                              '    %output% = ( substr( %tmp1%, 0, ' . $offsetCode . ' )' );
+                    if ( $lengthCode )
+                    {
+                        $code .= ' . substr( %tmp1%, ' . $offsetCode . ' + ' . $lengthCode . ' )';
+                    }
+                    $code .= ( ' );' . "\n" .
+                               '}' . "\n" .
+                               'else if ( is_array( %tmp1% ) )' . "\n" .
+                               '{' . "\n" .
+                               '    %output% = array_merge( array_slice( %tmp1%, 0, ' . $offsetCode . ' )' );
+                    if ( $lengthCode )
+                    {
+                        $code .= ', array_slice( %tmp1%, ' . $offsetCode . ' + ' . $lengthCode . ' )';
+                    }
+                    $code .= ( ' );' . "\n" .
+                               '}' );
                 }
 
                 return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 1 ) );
@@ -1223,7 +1239,7 @@ class eZTemplateArrayOperator
                            &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
         $offset = 0;
-        $legth = 0;
+        $length = false;
         $values = array();
         $code = '';
         if ( $operatorName == $this->ExtractName )
@@ -1259,12 +1275,12 @@ class eZTemplateArrayOperator
 
         if ( $operatorName == $this->ExtractName )
         {
-            if ( eZTemplateNodeTool::isStaticElement( $parameters[2] ) )
+            if ( isset( $parameters[2] ) and eZTemplateNodeTool::isStaticElement( $parameters[2] ) )
             {
                 $length = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
                 $code .= ', ' . (string)$length;
             }
-            else
+            else if ( isset( $parameters[2] ) )
             {
                 $values[] = $parameters[2];
                 $code .= ', ' . '%' . count ( $values ) . '%';
@@ -1306,7 +1322,10 @@ class eZTemplateArrayOperator
         else
         {
             $values[] = $parameters[0];
-            $code = '%output% = array_slice( %' . count( $values ) . '%, ' . $code . ' );';
+            $code = ( "if ( is_string( %1% ) )\n" .
+                      "    %output% = substr( %" . count( $values ) . "%, " . $code . " );\n" .
+                      "else\n" .
+                      "    %output% = array_slice( %" . count( $values ) . "%, " . $code . " );" );
         }
 
         return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );

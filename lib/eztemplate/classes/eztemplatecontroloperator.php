@@ -165,23 +165,36 @@ class eZTemplateControlOperator
             {
                 $values = array();
                 $code = '';
+                $spacing = 0;
+                $spacingCode = '';
                 for( $i = 0; $i < count( $parameters ); ++$i )
                 {
                     if ( $i != 0 )
                     {
-                        $code .= "}\nelse\n{\n";
+                        $code .= "$spacingCode}\n" . $spacingCode . "else\n$spacingCode{\n";
                     }
+                    $spacingCode = str_repeat( ' ', $spacing*4 );
+                    ++$spacing;
 
                     if ( eZTemplateNodeTool::isStaticElement( $parameters[$i] ) )
                     {
-                        $code .= "\t%output% = " . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false ) . ";\n";
+                        $code .= "$spacingCode%output% = " . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false ) . ";\n";
                         break;
                     }
 
                     $values[] = $parameters[$i];
-                    $code .= 'if ( isset( %' . count( $values ) . "% ) )\n{\n\t%output% = %" . count( $values ) . '%;' . "\n";
+                    $code .= ( $spacingCode . "%code" . count( $values ) . "%\n" .
+                               $spacingCode . 'if ( isset( %' . count( $values ) . "% ) )\n" .
+                               $spacingCode . "{\n" .
+                               $spacingCode . "    %output% = %" . count( $values ) . '%;' . "\n" );
                 }
-                $code .= "}\n";
+                $count = count( $parameters );
+                for ( $i = 1; $i < $count; ++$i )
+                {
+                    $spacing = $count - $i - 1;
+                    $spacingCode = str_repeat( ' ', $spacing*4 );
+                    $code .= $spacingCode . "}\n";
+                }
 
                 return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
             } break;

@@ -1,11 +1,17 @@
 <?php
 
-class TestClass1
+if ( !class_exists( 'testclass1' ) )
 {
+    class TestClass1
+    {
+    }
 }
 
-class TestClass2
+if ( !class_exists( 'testclass2' ) )
 {
+    class TestClass2
+    {
+    }
 }
 
 $object1 = new TestClass1();
