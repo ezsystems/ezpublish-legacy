@@ -74,7 +74,7 @@ function scan_dir
 #    echo "Scanning dir $DIR"
     for file in $DIR/* $DIR/.*; do
 #	if ! echo $file | grep "/\*" &>/dev/null; then
-	if [ -e $file -a ! "$file" = "$DIR/.svn" -a ! "$file" = "$DIR/.." -a ! "$file" = "$DIR/." ]; then
+	if [ -e "$file" -a ! "$file" = "$DIR/.svn" -a ! "$file" = "$DIR/.." -a ! "$file" = "$DIR/." ]; then
 	    DIST_PROP_TYPE=`svn propget $DIST_PROP $file 2>/dev/null`
 	    if [ $? -eq 0 ] && [ ! -z "$DIST_PROP_TYPE" ]; then
 		if echo $DIST_PROP_TYPE | grep $DIST_TYPE &>/dev/null; then
