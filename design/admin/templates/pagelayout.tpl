@@ -24,6 +24,14 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 </style>
 <![endif]-->
 {/literal}
+
+{section show=and( eq( $navigation_part.identifier, 'ezcontentnavigationpart' ), ezpreference( 'admin_left_menu_width' )|gt(0))}
+<style>
+div#leftmenu {ldelim} width: {ezpreference( 'admin_left_menu_width' )}em; {rdelim}
+div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width' ), 0.5 )}em; {rdelim}
+</style>
+{/section}
+
 </head>
 
 <body>
@@ -139,7 +147,12 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {section-else}
 
 {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
-{include uri="design:parts/content/menu.tpl"}
+Menu width: 
+<a href={'/user/preferences/set/admin_left_menu_width/13'|ezurl}>Small</a>
+<a href={'/user/preferences/set/admin_left_menu_width/25'|ezurl}>Medium</a>
+<a href={'/user/preferences/set/admin_left_menu_width/50'|ezurl}>Large</a>
+
+    {include uri="design:parts/content/menu.tpl"}
 {/section}
 
 {section show=eq($navigation_part.identifier,'ezmedianavigationpart')}
@@ -162,7 +175,6 @@ div#maincontent div#maincontent-design { width: 100%; } /* Avoid width bug in IE
 {include uri="design:parts/my/menu.tpl"}
 {/section}
 {/section}
-
 </div>
 </div>
 
@@ -324,8 +336,6 @@ $ui_component: {$ui_component}<br />
 
 {* The popup menu include must be outside all divs. It is hidden by default. *}
 {include uri="design:popupmenu/popup_menu.tpl}
-
-<!--DEBUG_REPORT-->
 
 </body>
 </html>
