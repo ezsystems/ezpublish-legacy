@@ -13,6 +13,7 @@ Changes from 3.4.0alpha1 to 3.4.0alpha2
 - Optimized eZPersitentObject::fill it now uses much less function calls it reduces approx 600+ function calls on a simple view page.
 - Made eZExpiryHandler not use eZPHPCreator a bit faster and we may be able to remove the eZPHPCreator include.
 - Optimized eZContentCache to save a bit more efficient cache files and removing the need to eZPHPCreator, using PHP serialize function instead.
+- Made eZRole::fetchIDListByUser() sort the roles by id thus preventing the need for doing this sorting in PHP when doing view caching.
 
 *Setup
 - Merged checking of existing MySQL databases to use mysql_list_dbs() from stable/3.3 rev. 5376.

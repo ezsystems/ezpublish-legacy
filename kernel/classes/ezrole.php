@@ -393,7 +393,7 @@ class eZRole extends eZPersistentObject
                   FROM ezrole,
                        ezuser_role
                   WHERE ezuser_role.contentobject_id IN ( $groupString ) AND
-                        ezuser_role.role_id = ezrole.id";
+                        ezuser_role.role_id = ezrole.id ORDER BY ezrole.id";
 
         $roleArray =& $db->arrayQuery( $query );
         $roles = array();
