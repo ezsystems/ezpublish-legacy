@@ -39,7 +39,7 @@
 </div>
 {/section}
 
-{section show=$database_info.table.count|gt(0)}
+{section show=$database_info.table.is_empty|not}
 <h1>Warning</h1>
 <p>
  Your database already contains data.
@@ -55,7 +55,7 @@
  <td class="normal">
   <p>Continue but leave the data as it is.</p>
  </td>
- <td rowspan="3" class="normal">
+ <td rowspan="4" class="normal">
   &nbsp;&nbsp;
  </td>
  <td class="normal">
@@ -72,10 +72,18 @@
 </tr>
 <tr>
  <td class="normal">
-  <p>Let me choose a new database.</p>
+  <p>Continue and skip database initialization.</p>
  </td>
  <td class="normal">
   <input type="radio" name="eZSetupDatabaseDataChoice" value="3" />
+ </td>
+</tr>
+<tr>
+ <td class="normal">
+  <p>Let me choose a new database.</p>
+ </td>
+ <td class="normal">
+  <input type="radio" name="eZSetupDatabaseDataChoice" value="4" />
  </td>
 </tr>
 </table>

@@ -69,3 +69,7 @@ Other tests:
 {$:item[1]} - {section show=eq($:item[0],1)}Success{section-else}Failure{/section}
 
 {/section}
+
+
+Comments:
+{$comments}

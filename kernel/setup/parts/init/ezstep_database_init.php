@@ -146,7 +146,7 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
     if ( $http->hasPostVariable( 'eZSetupDatabaseDataChoice' ) )
     {
         $databaseChoice = $http->postVariable( 'eZSetupDatabaseDataChoice' );
-        if ( $databaseChoice == 3 )
+        if ( $databaseChoice == 4 )
             $databaseReady = false;
         $password = $persistenceList['database_info']['password'];
     }
@@ -173,7 +173,7 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
         $dbStatus['connected'] = $db->isConnected();
 
         $dbError = false;
-        $demoDataResult = false;
+        $demoDataResult = true;
         if ( $dbStatus['connected'] )
         {
             $template = "design:setup/init/database_check.tpl";
@@ -184,24 +184,16 @@ function eZSetupStep_database_init( &$tpl, &$http, &$ini, &$persistenceList )
             $demoData = $persistenceList['demo_data'];
             $tpl->setVariable( 'demo_data', $demoData );
 
-            $tableCount = $db->tableCount();
-            $databaseInfo['table']['count'] = $tableCount;
+            include_once( 'lib/ezdb/classes/ezdbtool.php' );
+            $dbIsEmpty = eZDBTool::isEmpty( $db );
+            $databaseInfo['table']['is_empty'] = $dbIsEmpty;
 
             if ( $databaseChoice == 2 )
             {
                 set_time_limit( 0 );
-                $tableList = $db->tableList();
-                $db->OutputSQL = false;
-                foreach ( $tableList as $tableName )
-                {
-                    $sql = "DROP TABLE $tableName";
-                    $result = $db->query( $sql );
-                    if ( !$result )
-                    {
-                        $dbError = true;
-                        break;
-                    }
-                }
+//                 $db->OutputSQL = false;
+                if ( !eZDBTool::cleanup( $db ) )
+                    $dbError = true;
             }
             if ( !$dbError and
                  ( $databaseChoice == 1 or

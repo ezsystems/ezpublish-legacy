@@ -21,6 +21,18 @@
 </ul>
 </div>
 
+<p>
+ If you wish you can also add some comments which will be included in the registration.
+</p>
+
+<div class="highlight">
+<table cellpadding="0" cellspacing="0" border="0">
+<tr><th class="normal">Comments</th></tr>
+<tr><td class="normal"><textarea class="box" name="eZSetupRegistrationComment" cols="60" rows="6"></textarea></td></tr>
+</table>
+</div>
+
+
   <div class="buttonblock">
     <input type="hidden" name="ChangeStepAction" value="" />
     <input class="button" type="submit" name="StepButton_12" value="Send Registration" />

@@ -1134,7 +1134,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $moveQuery1 = "UPDATE
                                  ezcontentobject_tree
                            SET
-                                 path_string = " . $db->cancatString( array( "'$newPath'" , "'$nodeID'",$subStringString2 ) ) . " ,
+                                 path_string = " . $db->concatString( array( "'$newPath'" , "'$nodeID'",$subStringString2 ) ) . " ,
                                  depth = depth + $newParentDepth - $oldDepth + 1
                            WHERE
                                  $subStringString = '$childrensPath' OR

@@ -133,6 +133,15 @@ eZ codepage:
 eZ db:
 - New function hasInstance() which returns true if there is an eZDB instance active.
 
+eZ dbinterface:
+- Added some functionality for handling different relation types, handlers can
+  now return which relation types they support and get counts and lists, and remove
+  them.
+
+eZ dbtool:
+- New class which handles common database tools, such as cleanup and finding out if
+  a database is empty. MySQL and PostgreSQL handlers were updates as well.
+
 eZ mail:
 - Lots of changes to the mail class, it now only takes care of storing header information
   and body text and returns it when requested.

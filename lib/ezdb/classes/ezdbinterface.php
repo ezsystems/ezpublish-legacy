@@ -36,6 +36,26 @@
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 
+define( 'EZ_DB_RELATION_TABLE', 0 );
+define( 'EZ_DB_RELATION_SEQUENCE', 1 );
+define( 'EZ_DB_RELATION_TRIGGER', 2 );
+define( 'EZ_DB_RELATION_VIEW', 3 );
+define( 'EZ_DB_RELATION_INDEX', 4 );
+
+define( 'EZ_DB_RELATION_TABLE_BIT', (1 << EZ_DB_RELATION_TABLE) );
+define( 'EZ_DB_RELATION_SEQUENCE_BIT', (1 << EZ_DB_RELATION_SEQUENCE) );
+define( 'EZ_DB_RELATION_TRIGGER_BIT', (1 << EZ_DB_RELATION_TRIGGER) );
+define( 'EZ_DB_RELATION_VIEW_BIT', (1 << EZ_DB_RELATION_VIEW) );
+define( 'EZ_DB_RELATION_INDEX_BIT', (1 << EZ_DB_RELATION_INDEX) );
+
+define( 'EZ_DB_RELATION_NONE', 0 );
+define( 'EZ_DB_RELATION_MASK', ( EZ_DB_RELATION_TABLE_BIT |
+                                 EZ_DB_RELATION_SEQUENCE_BIT |
+                                 EZ_DB_RELATION_TRIGGER_BIT |
+                                 EZ_DB_RELATION_VIEW_BIT |
+                                 EZ_DB_RELATION_INDEX_BIT ) );
+
+
 class eZDBInterface
 {
     /*!
@@ -160,6 +180,24 @@ class eZDBInterface
 
     /*!
      \pure
+     \return a mask of the relation type it supports.
+    */
+    function supportedRelationTypeMask()
+    {
+        return EZ_DB_RELATION_NONE;
+    }
+
+    /*!
+     \pure
+     \return an array of the relation types.
+    */
+    function supportedRelationTypes()
+    {
+        return array();
+    }
+
+    /*!
+     \pure
     */
     function databaseServerVersion()
     {
@@ -250,18 +288,53 @@ class eZDBInterface
 
     /*!
       \pure
-      \return the number of tables in the database.
+      \return the relation count for all relation types in the mask \a $relationMask.
     */
-    function tableCount()
+    function relationCounts( $relationMask )
     {
     }
 
     /*!
       \pure
-      \return the tables in the database as an array.
+      \return the number of relation objects in the database for the relation type \a $relationType.
     */
-    function tableList()
+    function relationCount( $relationType = EZ_DB_RELATION_TABLE )
     {
+    }
+
+    /*!
+      \pure
+      \return the relation names in the database as an array for the relation type \a $relationType.
+    */
+    function relationList( $relationType = EZ_DB_RELATION_TABLE )
+    {
+    }
+
+    /*!
+      \pure
+      Tries to remove the relation type \a $relationType named \a $relationName
+      \return \c true if successful
+    */
+    function removeRelation( $relationName, $relationType )
+    {
+        return false;
+    }
+
+    /*!
+     \protected
+     \return the name of the relation type which is usable in SQL or false if unknown type.
+     \note This function can be used by som database handlers which can operate on relation types using SQL.
+    */
+    function relationName( $relationType )
+    {
+        $names = array( EZ_DB_RELATION_TABLE => 'TABLE',
+                        EZ_DB_RELATION_SEQUENCE => 'SEQUENCE',
+                        EZ_DB_RELATION_TRIGGER => 'TRIGGER',
+                        EZ_DB_RELATION_VIEW => 'VIEW',
+                        EZ_DB_RELATION_INDEX => 'INDEX' );
+        if ( !isset( $names[$relationType] ) )
+            return false;
+        return $names[$relationType];
     }
 
     /*!

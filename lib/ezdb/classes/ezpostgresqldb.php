@@ -197,21 +197,82 @@ class eZPostgreSQLDB extends eZDBInterface
 
     }
 
-    function cancatString( $strings = array() )
+    function concatString( $strings = array() )
     {
         $str = implode( " || " , $strings );
         return "  $str   ";
     }
 
     /*!
-      \reimp
+     \reimp
     */
-    function tableCount()
+    function supportedRelationTypeMask()
     {
+        return ( EZ_DB_RELATION_TABLE_BIT |
+                 EZ_DB_RELATION_SEQUENCE_BIT |
+                 EZ_DB_RELATION_TRIGGER_BIT |
+                 EZ_DB_RELATION_VIEW_BIT |
+                 EZ_DB_RELATION_INDEX_BIT );
+    }
+
+    /*!
+     \reimp
+    */
+    function supportedRelationTypes()
+    {
+        return array( EZ_DB_RELATION_TABLE,
+                      EZ_DB_RELATION_SEQUENCE,
+                      EZ_DB_RELATION_TRIGGER,
+                      EZ_DB_RELATION_VIEW,
+                      EZ_DB_RELATION_INDEX );
+    }
+
+    /*!
+     \private
+    */
+    function relationKind( $relationType )
+    {
+        $kind = array( EZ_DB_RELATION_TABLE => 'r',
+                       EZ_DB_RELATION_SEQUENCE => 'S',
+                       EZ_DB_RELATION_TRIGGER => 't',
+                       EZ_DB_RELATION_VIEW => 'v',
+                       EZ_DB_RELATION_INDEX => 'i' );
+        if ( !isset( $kind[$relationType] ) )
+            return false;
+        return $kind[$relationType];
+    }
+
+    /*!
+     \reimp
+    */
+    function relationCounts( $relationMask )
+    {
+        $relationTypes = $this->supportedRelationTypes();
+        $relationKinds = array();
+        foreach ( $relationTypes as $relationType )
+        {
+            $relationBit = (1 << $relationType );
+            if ( $relationMask & $relationBit )
+            {
+                $relationKind = $this->relationKind( $relationType );
+                if ( $relationKind )
+                    $relationKinds[] = $relationKind;
+            }
+        }
+        if ( count( $relationKinds ) == 0 )
+            return 0;
         $count = false;
+        $relkindText = '';
+        $i = 0;
+        foreach ( $relationKinds as $relationKind )
+        {
+            if ( $i > 0 )
+                $relkindText .= ' AND ';
+            $relkindText .= "relkind='$relationKind'";
+        }
         if ( $this->isConnected() )
         {
-            $sql = "select count( relname ) as count from pg_class where not relname~'pg_.*'";
+            $sql = "SELECT COUNT( relname ) as count FROM pg_class WHERE $relkindText AND NOT relname~'pg_.*'";
             $array = $this->arrayQuery( $sql, array( 'column' => 0 ) );
             $count = $array[0];
         }
@@ -221,15 +282,65 @@ class eZPostgreSQLDB extends eZDBInterface
     /*!
       \reimp
     */
-    function tableList()
+    function relationCount( $relationType = EZ_DB_RELATION_TABLE )
     {
-        $tables = array();
+        $count = false;
+        $relationKind = $this->relationKind( $relationType );
+        if ( !$relationKind )
+        {
+            eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZPostgreSQLDB::relationCount' );
+            return false;
+        }
+
         if ( $this->isConnected() )
         {
-            $sql = "select relname as name from pg_class where not relname~'pg_.*'";
-            $tables = $this->arrayQuery( $sql );
+            $sql = "SELECT COUNT( relname ) as count FROM pg_class WHERE relkind='$relkind' AND NOT relname~'pg_.*'";
+            $array = $this->arrayQuery( $sql, array( 'column' => 0 ) );
+            $count = $array[0];
         }
-        return $tables;
+        return $count;
+    }
+
+    /*!
+      \reimp
+    */
+    function relationList( $relationType = EZ_DB_RELATION_TABLE )
+    {
+        $count = false;
+        $relationKind = $this->relationKind( $relationType );
+        if ( !$relationKind )
+        {
+            eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZPostgreSQLDB::relationList' );
+            return false;
+        }
+
+        $array = array();
+        if ( $this->isConnected() )
+        {
+            $sql = "SELECT relname FROM pg_class WHERE relkind='$relkind' AND NOT relname~'pg_.*'";
+            $array = $this->arrayQuery( $sql, array( 'column' => 0 ) );
+        }
+        return $array;
+    }
+
+    /*!
+      \reimp
+    */
+    function removeRelation( $relationName, $relationType )
+    {
+        $relationTypeName = $this->relationName( $relationType );
+        if ( !$relationTypeName )
+        {
+            eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZPostgreSQLDB::removeRelation' );
+            return false;
+        }
+
+        if ( $this->isConnected() )
+        {
+            $sql = "DROP $relationTypeName $relationName";
+            return $this->query( $sql );
+        }
+        return false;
     }
 
     /*!

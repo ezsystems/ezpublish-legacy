@@ -251,17 +251,49 @@ class eZMySQLDB extends eZDBInterface
         }
     }
 
-    function cancatString( $strings = array() )
+    function concatString( $strings = array() )
     {
         $str = implode( "," , $strings );
         return " concat( $str  ) ";
     }
 
     /*!
+     \reimp
+    */
+    function supportedRelationTypeMask()
+    {
+        return EZ_DB_RELATION_TABLE_BIT;
+    }
+
+    /*!
+     \reimp
+    */
+    function supportedRelationTypes()
+    {
+        return array( EZ_DB_RELATION_TABLE );
+    }
+
+    /*!
+     \reimp
+    */
+    function relationCounts( $relationMask )
+    {
+        if ( $relationMask & EZ_DB_RELATION_TABLE_BIT )
+            return $this->relationCount();
+        else
+            return 0;
+    }
+
+    /*!
       \reimp
     */
-    function tableCount()
+    function relationCount( $relationType = EZ_DB_RELATION_TABLE )
     {
+        if ( $relationType != EZ_DB_RELATION_TABLE )
+        {
+            eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZMySQLDB::relationCount' );
+            return false;
+        }
         $count = false;
         if ( $this->isConnected() )
         {
@@ -275,8 +307,13 @@ class eZMySQLDB extends eZDBInterface
     /*!
       \reimp
     */
-    function tableList()
+    function relationList( $relationType = EZ_DB_RELATION_TABLE )
     {
+        if ( $relationType != EZ_DB_RELATION_TABLE )
+        {
+            eZDebug::writeError( "Unsupported relation type '$relationType'", 'eZMySQLDB::relationList' );
+            return false;
+        }
         $tables = array();
         if ( $this->isConnected() )
         {
@@ -289,6 +326,26 @@ class eZMySQLDB extends eZDBInterface
             mysql_free_result( $result );
         }
         return $tables;
+    }
+
+    /*!
+      \reimp
+    */
+    function removeRelation( $relationName, $relationType )
+    {
+        $relationTypeName = $this->relationName( $relationType );
+        if ( !$relationTypeName )
+        {
+            eZDebug::writeError( "Unknown relation type '$relationType'", 'eZMySQLDB::removeRelation' );
+            return false;
+        }
+
+        if ( $this->isConnected() )
+        {
+            $sql = "DROP $relationTypeName $relationName";
+            return $this->query( $sql );
+        }
+        return false;
     }
 
     /*!
