@@ -169,7 +169,7 @@ switch( $operationResult['status'] )
                 $roleList = $cacheInfo['role_list'];
                 $discountList = $cacheInfo['discount_list'];
                 $designSetting = eZTemplateDesignResource::designSetting( 'site' );
-                if ( eZContentCache::exists( $designSetting, $NodeID, $ViewMode, $language, $Offset, $roleList, $discountList, $layout,
+                if ( eZContentCache::exists( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout,
                                              array( 'view_parameters' => $viewParameters ) ) )
                 {
                     $cachePathInfo =& eZContentCache::cachePathInfo( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout, false,

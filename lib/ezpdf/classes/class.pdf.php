@@ -2447,6 +2447,7 @@ class Cpdf
  */
     function PRVTcheckTextDirective1(&$text,$i,&$f,$final,&$x,&$y,$size=0,$angle=0,$wordSpaceAdjust=0)
     {
+        $noClose = 0;
         $directive = 0;
         $j=$i;
         if ($text[$j]=='<'){
@@ -2590,7 +2591,8 @@ class Cpdf
             }
         }
         return array( 'directive' => $directive,
-                      'y' => (float)$y );
+                      'y' => (float)$y,
+                      'noClose' => $noClose );
     }
 
 /**
@@ -2811,6 +2813,7 @@ class Cpdf
 	$len=strlen($text);
 	$cf = $this->currentFont;
 	$tw = $width/$size*1000;
+    $directive = 0;
 	for ($i=0;$i<$len;$i++){
 	    $f=1;
         $directiveArray = $this->PRVTcheckTextDirective($text,$i,$f);
