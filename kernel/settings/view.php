@@ -57,12 +57,16 @@ if ( !isset( $currentSiteAccess ) )
     $currentSiteAccess = $siteAccessList[0];
 
 unset( $ini );
-$ini = eZINI::instance( $settingFile, 'settings', null, null, false );
-$ini->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
-$ini->loadCache();
 
 if ( $http->hasPostVariable( 'RemoveButton' ) )
 {
+    if ( isset( $settingFile ) )
+    {
+        $ini = eZINI::instance( $settingFile, 'settings', null, null, false );
+        $ini->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
+        $ini->loadCache();
+    }
+
     $placements = $ini->groupPlacements();
     if ( $http->hasPostVariable( 'RemoveSettingsArray' ) )
     {
@@ -70,8 +74,8 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
         foreach ( $deletedSettingArray as $deletedSetting )
         {
             list( $block, $setting ) = split( ':', $deletedSetting );
-            $placement = $ini->findSettingPlacement( $placements[$block][$setting] );
-            if ( $placement == "undefined" )
+
+            if ( is_array( $placements[$block][$setting] ) )
             {
                 foreach ( $placements[$block][$setting] as $settingElementKey=>$key )
                 {
@@ -87,6 +91,11 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
                     }
                 }
             }
+            else
+            {
+                $placement = $ini->findSettingPlacement( $placements[$block][$setting] );
+            }
+
             if ( $placement == 'siteaccess' )
                 $path = "settings/siteaccess/$currentSiteAccess";
             else
@@ -131,9 +140,15 @@ if ( $http->hasPostVariable( 'ChangeINIFile' ) or
                     {
                         $settingPlacement = $ini->findSettingPlacement( $placements[$block][$setting][$settingElementKey] );
                         if ( $settingElementValue != null )
-                            $settings[$block]['content'][$setting]['content'][$settingElementKey]['content'] = $settingElementValue;
+                        {
+                            // Make a space after the ';' to make it possible for
+                            // the browser to break long lines
+                            $settings[$block]['content'][$setting]['content'][$settingElementKey]['content'] = str_replace( ';', "; ", $settingElementValue );
+                        }
                         else
+                        {
                             $settings[$block]['content'][$setting]['content'][$settingElementKey]['content'] = "";
+                        }
                         $settings[$block]['content'][$setting]['content'][$settingElementKey]['placement'] = $settingPlacement;
                         $hasSetPlacement = true;
                         if ( $settingPlacement != 'default' )
@@ -203,8 +218,6 @@ sort( $iniFiles );
 $tpl->setVariable( 'ini_files', $iniFiles );
 $tpl->setVariable( 'siteaccess_list', $siteAccessList );
 $tpl->setVariable( 'current_siteaccess', $currentSiteAccess );
-
-
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:settings/view.tpl' );
