@@ -16,13 +16,14 @@ Changes from 3.2-1 to 3.3.0-1
 
 *DataType:
 - Added new datatype eZIniSetting for editing ini settings.
-
+- ezauthor datatype modified so in does not adds default author if you have removed it manualy.
+- ezimage datatype modified so you can specify by options if you need to keep original image.
 *Setup:
 
 *Package system:
 
 *Templates:
-
+- created templates to override standard browse page when browsing in media folder.
 *Library :
 - Added basic PDF library. This will be extended in the following weeks.
 
