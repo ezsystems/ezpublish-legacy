@@ -32,10 +32,3 @@
 // Contact licence@ez.no if any conditions of this licensing isn't clear to
 // you.
 //
-
-// The "eZ publish professional licence" is available at
-// http://ez.no/products/licences/professional. For more pricing of this
-// licence please contact us via e-mail to licence@ez.no. Further contact
-// information is available at http://ez.no/home/contact/. 
-
-http://ez.no/home/licences/professional
