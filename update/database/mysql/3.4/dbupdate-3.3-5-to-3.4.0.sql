@@ -196,14 +196,17 @@ DROP TABLE ezuser_session_link;
 ALTER TABLE ezcontentobject_attribute MODIFY sort_key_string VARCHAR(255) NOT NULL default '';
 -- cleans up ezcontentbrowsebookmark and ezcontentbrowserecent tables from corrupted node_id's
 
-create temporary  table ezcontentbrowsebookmark_temp as 
-      select  ezcontentbrowsebookmark.* from ezcontentbrowsebookmark,ezcontentobject_tree 
-      where  ezcontentbrowsebookmark.node_id = ezcontentobject_tree.node_id;
-delete from ezcontentbrowsebookmark;
-insert into ezcontentbrowsebookmark select * from ezcontentbrowsebookmark_temp;
+CREATE TABLE ezcontentbrowsebookmark_temp AS
+  SELECT ezcontentbrowsebookmark.* FROM ezcontentbrowsebookmark,ezcontentobject_tree 
+    WHERE ezcontentbrowsebookmark.node_id = ezcontentobject_tree.node_id;
+DELETE FROM ezcontentbrowsebookmark;
+INSERT INTO ezcontentbrowsebookmark SELECT * FROM ezcontentbrowsebookmark_temp;
+DROP TABLE ezcontentbrowsebookmark_temp;
 
-create temporary  table ezcontentbrowserecent_temp as 
-      select  ezcontentbrowserecent.* from ezcontentbrowserecent,ezcontentobject_tree 
-      where  ezcontentbrowserecent.node_id = ezcontentobject_tree.node_id;
-delete from ezcontentbrowserecent;
-insert into ezcontentbrowserecent select * from ezcontentbrowserecent_temp;
+CREATE TABLE ezcontentbrowserecent_temp AS
+  SELECT ezcontentbrowserecent.* from ezcontentbrowserecent,ezcontentobject_tree 
+    WHERE ezcontentbrowserecent.node_id = ezcontentobject_tree.node_id;
+DELETE FROM ezcontentbrowserecent;
+INSERT INTO ezcontentbrowserecent SELECT * FROM ezcontentbrowserecent_temp;
+DROP TABLE ezcontentbrowserecent_temp;
+
