@@ -132,6 +132,7 @@ class eZDebug
         $this->OldHandler = false;
         $this->UseCSS = false;
         $this->MessageOutput = EZ_OUTPUT_MESSAGE_STORE;
+        $this->ScriptStart = eZDebug::timeToFloat( microtime() );
     }
 
     function reset()
@@ -630,6 +631,15 @@ ezdebug.reload();
         return $time;
     }
 
+    function setScriptStart( $mtime = false )
+    {
+        if ( $mtime == false )
+            $mtime = microtime();
+        $time = eZDebug::timeToFloat( microtime() );
+        $debug =& eZDebug::instance();
+        $debug->ScriptStart = $time;
+    }
+
     function createAccumulator( $key, $name = '' )
     {
         if ( !eZDebug::isDebugEnabled() )
@@ -827,11 +837,8 @@ td.timingpoint2
             $i = 0;
         }
 
-        $totalElapsed = 0.0;
-        foreach ( $this->TimeAccumulatorList as $accumulator )
-        {
-            $totalElapsed += $accumulator['time'];
-        }
+        $scriptEndTime = eZDebug::timeToFloat( microtime() );
+        $totalElapsed = $scriptEndTime - $this->ScriptStart;
         foreach ( $this->TimeAccumulatorList as $accumulator )
         {
             if ( $as_html )
@@ -853,6 +860,14 @@ td.timingpoint2
                 $returnText .= $accumulator['name'] .
                                number_format( ( $elapsed ), $this->TimingAccuracy ) . " sec". "\n";
             }
+        }
+        if ( $as_html )
+        {
+            $returnText .= "<tr><td><b>Total script time:</b></td><td><b>" . number_format( ( $totalElapsed ), $this->TimingAccuracy ) . " sec</b></td><td></td></tr>";
+        }
+        else
+        {
+            $returnText .= "Total script time: " . number_format( ( $totalElapsed ), $this->TimingAccuracy ) . " sec\n";
         }
         if ( $as_html )
         {
@@ -897,6 +912,9 @@ td.timingpoint2
 
     /// Determines how messages are output (screen/log)
     var $MessageOutput;
+
+    /// The time when the script was started
+    var $ScriptStart;
 }
 
 /*!

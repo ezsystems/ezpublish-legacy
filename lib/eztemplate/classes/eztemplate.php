@@ -1572,7 +1572,7 @@ class eZTemplate
     */
     function &fetch( $template = false, $extraParameters = false )
     {
-        eZDebug::accumulatorStart( 'Template' );
+        eZDebug::accumulatorStart( 'Template [Total]' );
         eZDebug::accumulatorStart( 'Template load' );
         if ( is_string( $template ) )
             $this->load( $template, $extraParameters );
@@ -1585,7 +1585,7 @@ class eZTemplate
         eZDebug::accumulatorStop( 'Template processing' );
         if ( $this->ShowDetails )
             eZDebug::addTimingPoint( "Process done" );
-        eZDebug::accumulatorStop( 'Template' );
+        eZDebug::accumulatorStop( 'Template [Total]' );
         return $text;
     }
 

@@ -25,3 +25,6 @@ eZ utils:
 
 eZ debug:
 - Made sure debug messages are ignored when debug is off.
+- New feature: Accumulators, they can be used for profiling how much time
+  a part the program takes.
+- Added support for total script time.

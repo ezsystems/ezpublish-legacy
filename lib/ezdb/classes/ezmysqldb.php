@@ -105,9 +105,9 @@ class eZMySQLDB extends eZDBInterface
             // The converted sql should not be output
             if ( $this->UseBuiltinEncoding )
             {
-                eZDebug::accumulatorStart( 'String conversion in mysql' );
+                eZDebug::accumulatorStart( 'String conversion in mysql [Total]' );
                 $sql = $this->InputTextCodec->convertString( $sql );
-                eZDebug::accumulatorStop( 'String conversion in mysql' );
+                eZDebug::accumulatorStop( 'String conversion in mysql [Total]' );
             }
 
             if ( $this->OutputSQL )
@@ -199,9 +199,9 @@ class eZMySQLDB extends eZDBInterface
                             reset( $tmp_row );
                             while( ( $key = key( $tmp_row ) ) !== null )
                             {
-                                eZDebug::accumulatorStart( 'String conversion in mysql' );
+                                eZDebug::accumulatorStart( 'String conversion in mysql [Total]' );
                                 $conv_row[$key] =& $this->OutputTextCodec->convertString( $tmp_row[$key] );
-                                eZDebug::accumulatorStop( 'String conversion in mysql' );
+                                eZDebug::accumulatorStop( 'String conversion in mysql [Total]' );
                                 next( $tmp_row );
                             }
                             $retArray[$i + $offset] =& $conv_row;
@@ -217,9 +217,9 @@ class eZMySQLDB extends eZDBInterface
                         $tmp_row =& mysql_fetch_array( $result );
                         if ( $this->UseBuiltinEncoding )
                         {
-                            eZDebug::accumulatorStart( 'String conversion in mysql' );
+                            eZDebug::accumulatorStart( 'String conversion in mysql [Total]' );
                             $retArray[$i + $offset] =& $this->OutputTextCodec->convertString( $tmp_row[$column] );
-                            eZDebug::accumulatorStop( 'String conversion in mysql' );
+                            eZDebug::accumulatorStop( 'String conversion in mysql [Total]' );
                         }
                         else
                             $retArray[$i + $offset] =& $tmp_row[$column];
