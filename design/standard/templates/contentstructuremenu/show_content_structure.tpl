@@ -5,10 +5,14 @@
          showToolTips   = ezini( 'TreeMenu', 'ToolTips', 'contentstructuremenu.ini' )
          toolTip        = "" }
 
-        {section show=$:parentNode.node.is_invisible}
+        {section show=$:parentNode.node.is_hidden}
             <li id="n{$:parentNode.node.node_id}" class="hiddennode">
         {section-else}
-            <li id="n{$:parentNode.node.node_id}">
+            {section show=$:parentNode.node.is_invisible}
+                <li id="n{$:parentNode.node.node_id}" class="invisiblenode">
+            {section-else}
+                <li id="n{$:parentNode.node.node_id}">
+            {/section}
         {/section}
 
             {* Fold/Unfold/Empty: [-]/[+]/[ ] *}

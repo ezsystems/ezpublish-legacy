@@ -355,6 +355,7 @@ class eZContentStructureTreeOperator
                                         'sort_array' => eZContentObjectTreeNode::sortArrayBySortFieldAndSortOrder( $treeNode['sort_field'], $treeNode['sort_order'] ),
                                         'path_string' => $treeNode['path_string'],
                                         'depth' => $treeNode['depth'],
+                                        'is_hidden' => $treeNode['is_hidden'],
                                         'is_invisible' => $treeNode['is_invisible'] ),
                        'object' => array( 'id' => $treeNode['id'],
                                           'name' => $treeNode['name'],
@@ -376,7 +377,11 @@ class eZContentStructureTreeOperator
         $rootTreeNode =& eZContentObjectTreeNode::fetch( $rootNodeID );
         $contentObject =& $rootTreeNode->attribute( 'object' );
 
-        if ( $fetchHidden || !$rootTreeNode->attribute( 'is_invisible' ) )
+        if ( !$fetchHidden && ( $rootTreeNode->attribute( 'is_hidden' ) || $rootTreeNode->attribute( 'is_invisible' ) ) )
+        {
+            $nodes = false;
+        }
+        else
         {
             $rootNode = array( 'node' => array( 'node_id' => $rootTreeNode->attribute( 'node_id' ),
                                                 'path_identification_string' => $rootTreeNode->attribute( 'path_identification_string' ),
@@ -384,6 +389,7 @@ class eZContentStructureTreeOperator
                                                 'sort_array' => $rootTreeNode->attribute( 'sort_array' ),
                                                 'path_string' => $rootTreeNode->attribute( 'path_string' ),
                                                 'depth' => $rootTreeNode->attribute( 'depth' ),
+                                                'is_hidden' => $rootTreeNode->attribute( 'is_hidden' ),
                                                 'is_invisible' => $rootTreeNode->attribute( 'is_invisible' ) ),
                                'object' => array( 'id' => $contentObject->attribute( 'id' ),
                                                   'name' => $contentObject->attribute( 'name' ),
@@ -393,10 +399,6 @@ class eZContentStructureTreeOperator
 
             $nodes = array( 'parent_node' => &$rootNode,
                             'children' => array() );
-        }
-        else
-        {
-            $nodes = false;
         }
 
         return $nodes;
