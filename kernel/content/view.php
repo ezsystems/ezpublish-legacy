@@ -87,7 +87,8 @@ $Limit = 15;
 $res =& eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "object", $object->attribute( "id" ) ), // Object ID
                       array( "class", $object->attribute( "contentclass_id" ) ), // Class ID
-                      array( "section", $object->attribute( 'section_id' ) ) // Section ID
+                      array( "section", $object->attribute( 'section_id' ) ), // Section ID
+                      array( "node", $node->attribute( 'node_id' ) ) // Node ID
                       ) );
 
 $tpl->setVariable( "node", $node );

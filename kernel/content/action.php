@@ -82,7 +82,7 @@ if ( $http->hasPostVariable( 'EditButton' )  )
 {
     if ( $http->hasPostVariable( 'ContentObjectID' ) )
     {
-        $module->redirectTo( $module->functionURI( 'edit' ) . '/full/' . $http->postVariable( 'ContentObjectID' ) . '/' );
+        $module->redirectTo( $module->functionURI( 'edit' ) . '/' . $http->postVariable( 'ContentObjectID' ) . '/' );
         return;
     }
 }
