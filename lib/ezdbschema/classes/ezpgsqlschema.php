@@ -210,7 +210,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             }
             else if ( in_array( $field['type'], $numericTypes ) )
             {
-                if ( $field['default'] == false )
+                if ( $field['default'] === false )
                 {
                     if ( $field['not_null'] )
                     {
