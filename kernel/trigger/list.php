@@ -42,6 +42,7 @@ function &makeTriggerArray( &$triggerList )
     }
     return $triggerArray;
 }
+
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
@@ -50,7 +51,6 @@ include_once( 'kernel/classes/eztrigger.php' );
 include_once( "kernel/classes/ezmodulemanager.php" );
 
 $http =& eZHTTPTool::instance();
-
 
 $Module =& $Params['Module'];
 
@@ -63,7 +63,6 @@ $possibleTriggers = array();
 
 $triggers =& makeTriggerArray( eZTrigger::fetchList() );
 
-
 foreach ( $operations as $operation )
 {
     list( $module_name, $operation ) = explode( '_', $operation );
@@ -73,10 +72,12 @@ foreach ( $operations as $operation )
     $trigger['connect_type'] = 'before';
     $trigger['key'] = $module_name . '_' . $operation . '_b';
     $trigger['workflow_id'] = 0;
+    $trigger['allowed_workflows'] = eZWorkflow::fetchLimited( $trigger['module'], $trigger['operation'], $trigger['connect_type'] );
 
     foreach ( array_keys ( $triggers ) as $key )
     {
         $existendTrigger =& $triggers[$key];
+
         if ( $existendTrigger->attribute( 'module_name' ) == $trigger['module'] &&
              $existendTrigger->attribute( 'function_name' ) == $trigger['operation'] &&
              $existendTrigger->attribute( 'connect_type' ) == 'b' )
@@ -101,10 +102,9 @@ foreach ( $operations as $operation )
     $trigger['key'] = $module_name . '_' . $operation . '_a';
 
     $trigger['connect_type'] = 'after';
+    $trigger['allowed_workflows'] = eZWorkflow::fetchLimited( $trigger['module'], $trigger['operation'], $trigger['connect_type'] );
     $possibleTriggers[] = $trigger;
 }
-
-$workflowList =& eZWorkflow::fetchList();
 
 if ( $http->hasPostVariable( 'StoreButton' )  )
 {

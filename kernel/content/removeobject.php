@@ -74,6 +74,7 @@ if ( $http->hasPostVariable( 'SupportsMoveToTrash' ) )
         $moveToTrash = false;
 }
 
+$moveToTrashAllowed = true;
 $deleteResult = array();
 $ChildObjectsCount = 0;
 foreach ( $deleteIDArray as $deleteID )
@@ -85,6 +86,15 @@ foreach ( $deleteIDArray as $deleteID )
         $NodeName = $object->attribute( 'name' );
         $contentObject = $node->attribute( 'object' );
         $nodeID = $node->attribute( 'node_id' );
+        if ( $moveToTrashAllowed )
+        {
+            $class = $contentObject->attribute( 'content_class' );
+            if ( $class->attribute( 'identifier' ) == 'user' )
+            {
+                $moveToTrashAllowed = false;
+            }
+        }
+
         $additionalWarning = '';
         if ( $node->attribute( 'main_node_id' ) == $nodeID )
         {
@@ -209,9 +219,8 @@ $Module->setTitle( ezi18n( 'kernel/content', 'Remove' ) . ' ' . $NodeName );
 
 $tpl =& templateInit();
 
+$tpl->setVariable( 'moveToTrashAllowed', $moveToTrashAllowed );
 $tpl->setVariable( "module", $Module );
-//$tpl->setVariable( "NodeID", $NodeID );
-//$tpl->setVariable( "NodeName", $NodeName );
 $tpl->setVariable( "ChildObjectsCount", $ChildObjectsCount );
 $tpl->setVariable( "DeleteResult",  $deleteResult );
 $Result = array();

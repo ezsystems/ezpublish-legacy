@@ -100,7 +100,11 @@ class eZUser extends eZPersistentObject
                                          'password_hash_type' => array( 'name' => 'PasswordHashType',
                                                                         'datatype' => 'integer',
                                                                         'default' => 1,
-                                                                        'required' => true ) ),
+                                                                        'required' => true ),
+                                         'session_key' => array( 'name' => 'SessionKey',
+                                                                 'datatype' => 'string',
+                                                                 'default' => '',
+                                                                 'required' => true ) ),
                       'keys' => array( 'contentobject_id' ),
                       'function_attributes' => array( 'contentobject' => 'contentObject',
                                                       'groups' => 'groups',
@@ -179,8 +183,10 @@ class eZUser extends eZPersistentObject
         $handler->setTimestamp( 'user-groups-cache', mktime() );
         $handler->setTimestamp( 'user-access-cache', mktime() );
         $handler->store();
+        $userID = $this->attribute( 'contentobject_id' );
         // Clear memory cache
-        unset( $GLOBALS["eZUserObject_$userID"] );
+        unset( $GLOBALS['eZUserObject_' . $userID] );
+        $GLOBALS['eZUserObject_' . $userID] =& $this;
         eZPersistentObject::store();
     }
 
@@ -267,9 +273,28 @@ class eZUser extends eZPersistentObject
         return $user;
     }
 
+    /*!
+     Remove session data for user
+    */
+    function removeSessionData()
+    {
+        if ( $this->SessionKey )
+        {
+            $db =& eZDB::instance();
+            $db->query( 'DELETE FROM ezsession WHERE session_key = \'' . $this->SessionKey . '\'' );
+        }
+    }
+
     function &removeUser( $userID )
     {
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
+
+        $user =& eZUser::fetch( $userID );
+        if ( $user )
+        {
+            $user->removeSessionData();
+        }
+
         eZSubtreeNotificationRule::removeByUserID( $userID );
 
         eZPersistentObject::removeObject( eZUser::definition(),
@@ -488,6 +513,8 @@ class eZUser extends eZPersistentObject
             $http->setSessionVariable( 'eZUserLoggedInID', $userRow['contentobject_id'] );
             eZSessionRegenerate();
             $user->cleanup();
+            $user->setAttribute( 'session_key', session_id() );
+            $user->store();
             return $user;
         }
         else
@@ -500,18 +527,15 @@ class eZUser extends eZPersistentObject
      where you must ensure that the cache user values are refetched.
      \param depricated
     */
-    function cleanup( $contentObjectID = false )
+    function cleanup()
     {
         $http =& eZHTTPTool::instance();
         $http->setSessionVariable( 'eZUserGroupsCache_Timestamp', false );
-        if ( !$contentObjectID )
-            $contentObjectID = $this->attribute( 'contentobject_id' );
         $http->removeSessionVariable( 'eZUserGroupsCache' );
 
         $http->removeSessionVariable( 'eZUserInfoCache' );
 
         $http->removeSessionVariable( 'AccessArray' );
-        $http->removeSessionVariable( 'UserLimitations' );
         $http->removeSessionVariable( 'CanInstantiateClassesCachedForUser' );
         $http->removeSessionVariable( 'CanInstantiateClassList' );
         $http->removeSessionVariable( 'ClassesCachedForUser' );
@@ -544,7 +568,7 @@ class eZUser extends eZPersistentObject
         $contentObjectID = $http->sessionVariable( "eZUserLoggedInID" );
         $http->removeSessionVariable( "eZUserLoggedInID" );
         if ( $contentObjectID )
-            eZUser::cleanup( $contentObjectID );
+            eZUser::cleanup();
     }
 
     /*!
@@ -635,6 +659,11 @@ class eZUser extends eZPersistentObject
     */
     function isEnabled()
     {
+        if ( $this == eZUser::currentUser() )
+        {
+            return true;
+        }
+
         $setting =& eZUserSetting::fetch( $this->attribute( 'contentobject_id' ) );
         if ( $setting and !$setting->attribute( 'is_enabled' ) )
         {

@@ -357,6 +357,74 @@ class eZWorkflowEventType extends eZWorkflowType
     {
         eZWorkflowType::registerType( "event", $typeString, $class_name );
     }
+
+    /*!
+     \reimp
+    */
+    function hasAttribute( $attr )
+    {
+        return ( $attr == 'allowed_triggers' ||
+                 eZWorkflowType::hasAttribute( $attr ) );
+    }
+
+    /*!
+     \reimp
+    */
+    function &attribute( $attr )
+    {
+        switch( $attr )
+        {
+            case 'allowed_triggers':
+            {
+                return $this->getTriggerTypes();
+            } break;
+        }
+        return eZWorkflowType::attribute( $attr );
+    }
+
+    /*!
+     Set trigger types.
+
+     \param allowed trigger types format :
+              array( <module> => array( <function> => array( <event> ) ) )
+            if all is allowed,
+              array( '*' )
+     */
+    function setTriggerTypes( $allowedTypes )
+    {
+        $this->TriggerTypes = $allowedTypes;
+    }
+
+    /*!
+     Check if specified trigger is allowed
+
+      \param module name
+      \param function name
+      \param connect type
+
+     \return true is allowed, false if not.
+    */
+    function isAllowed( $moduleName, $functionName, $connectType )
+    {
+        if ( isset( $this->TriggerTypes['*'] ) )
+        {
+            return true;
+        }
+        else if ( isset( $this->TriggerTypes[$moduleName] ) )
+        {
+            if ( isset( $this->TriggerTypes[$moduleName][$functionName] ) )
+            {
+                if ( in_array( $connectType, $this->TriggerTypes[$moduleName][$functionName] ) )
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    var $TriggerTypes = array( '*' );
 }
 
 class eZWorkflowGroupType extends eZWorkflowType

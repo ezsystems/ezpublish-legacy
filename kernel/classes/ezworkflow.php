@@ -291,6 +291,59 @@ class eZWorkflow extends eZPersistentObject
                                                 $asObject );
     }
 
+    /*!
+      \static
+      Fetch workflows based on module, function and connection type
+
+      \param module name
+      \param function name
+      \param connect type
+
+      \returns array of allowed workflows limited by trigger
+    */
+    function &fetchLimited( $moduleName, $functionName, $connectType )
+    {
+        $workflowArray =& eZWorkflow::fetchList();
+        $returnArray = array();
+
+        foreach ( array_keys( $workflowArray ) as $key )
+        {
+            if ( $workflowArray[$key]->isAllowed( $moduleName,
+                                                  $functionName,
+                                                  $connectType ) )
+            {
+                $returnArray[] = $workflowArray[$key];
+            }
+        }
+
+        return $returnArray;
+    }
+
+    /*!
+      Check if a trigger specified trigger is allowed to use with this workflow
+
+      \param module name
+      \param function name
+      \param connect type
+
+      \return true if allowed, false if not.
+    */
+    function isAllowed( $moduleName, $functionName, $connectType )
+    {
+        $eventArray =& $this->fetchEvents();
+
+        foreach ( array_keys( $eventArray ) as $key )
+        {
+            $eventType =& $eventArray[$key]->attribute( 'workflow_type' );
+            if ( !$eventType->isAllowed( $moduleName, $functionName, $connectType ) )
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     function &fetchList( $version = 0, $enabled = 1, $asObject = true )
     {
         $conds = array( 'version' => $version );

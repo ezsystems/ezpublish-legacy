@@ -1,6 +1,9 @@
 Changes from 3.4.0alpha1 to 3.4.0alpha2
 
 *Kernel:
+- Added removal of session data when removing or disabling user, to automaticly log out invalid user.
+- Removed possibility to remove user to trash, not possible to clean up properly for user in trash.
+- Added Worflow filtering when listing triggers, to only show allowed triggers according to workflows.
 
 *Setup
 
