@@ -98,7 +98,7 @@ class eZDBSchemaInterface
      */
     function eZDBSchemaInterface( $params )
     {
-        $this->DBInstance = $params['instance'];
+        $this->DBInstance =& $params['instance'];
         $this->Schema = false;
         $this->Data = false;
         if ( isset( $params['schema'] ) )
@@ -433,6 +433,7 @@ class eZDBSchemaInterface
                 }
             }
         }
+
         if ( $includeData )
         {
             $data = $this->data( $schema );
@@ -458,6 +459,7 @@ class eZDBSchemaInterface
                 }
             }
         }
+
         $this->DBInstance->OutputSQL = $oldOutputSQL;
         return true;
     }
