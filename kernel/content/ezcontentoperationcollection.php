@@ -145,6 +145,7 @@ class eZContentOperationCollection
         $nodeID = $nodeAssignment->attribute( 'parent_node' );
         $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
         $parentNodeID = $parentNode->attribute( 'node_id' );
+        $existingNode =& eZContentObjectTreeNode::findNode( $nodeAssignment->attribute( 'parent_node' ) , $object->attribute( 'id' ), true );
         if ( $existingNode  == null )
         {
             if ( $fromNodeID == 0 )

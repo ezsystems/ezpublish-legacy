@@ -1,13 +1,13 @@
 CHANGELOG
 
-Changes from 2.9-3 to 2.9-4
+Changes from 2.9-4 to 2.9-5
 
 *SDK :
 
 *Kernel :
 - Debug report can now be place anywhere inside the resulting HTML, it must contain a marker which
   is a HTML comment, it is <!--DEBUG_REPORT-->.
-
+- Fixed bug with duplicating node on publishing
 *Library :
 
 eZ utils:
