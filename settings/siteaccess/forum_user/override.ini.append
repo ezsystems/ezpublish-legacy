@@ -1,15 +1,4 @@
-
-[feedbackform]
-Source=node/view/full.tpl
-MatchFile=feedbackform.tpl
-Subdir=templates
-Match[class]=19
-
-[info_page]
-Source=node/view/full.tpl
-MatchFile=infopage.tpl
-Subdir=templates
-Match[class]=10
+<?php /* #?ini charset="iso-8859-1"?
 
 [folder]
 Source=node/view/full.tpl
@@ -35,7 +24,21 @@ MatchFile=article_line.tpl
 Subdir=templates
 Match[class]=2
 
-[search]
-Source=content/search.tpl
-MatchFile=search.tpl
+[forum]
+Source=node/view/full.tpl
+MatchFile=forum.tpl
 Subdir=templates
+Match[class]=20
+
+[forum_line]
+Source=node/view/line.tpl
+MatchFile=forum_line.tpl
+Subdir=templates
+Match[class]=20
+
+[forummessage]
+Source=node/view/full.tpl
+MatchFile=forummessage.tpl
+Subdir=templates
+Match[class]=21
+*/ ?>
