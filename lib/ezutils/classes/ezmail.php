@@ -749,7 +749,7 @@ class eZMail
         if ( isset( $this->Hostname ) )
         {
             // Incomplete, quick hack... TODO: Do this properly
-            require_once( "lib/ezsetup/classes/smtp.php" );
+            require_once( "lib/ezutils/classes/ezsmtp.php" );
             $params['host'] = $this->Hostname;
             $params['port'] = 25;
             if ( isset( $this->User ) )
