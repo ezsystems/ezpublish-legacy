@@ -32,6 +32,7 @@
 // you.
 //
 
+print( "Starting HiO cron\n" );
 include_once( "lib/ezutils/classes/ezdebug.php" );
 
 eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
@@ -46,16 +47,18 @@ $NumDaysAnnonse = 40;
 //
 // Remove objects of hendelse class which is more than x days
 //
-$NumDaysHendelse = 1;
+$NumDaysHendelse = 3;
 
 //
 // Remove objects of hendelse class which is more than x days
 //
-$NumDaysArticle = 1;
+$NumberOfArticles = 2;
 
 // Get top node
 $node =& eZContentObjectTreeNode::fetch( 2 );
 
+
+print( "Archiving ads\n" );
 // Find all annonser
 $subTree =& $node->subTree( array ( 'ClassFilterType' => 'include',
                                    'ClassFilterArray' => array( 18 )
@@ -72,6 +75,7 @@ foreach ( $subTree as $node )
         $object->remove();
 }
 
+/*
 // Get top node
 $node =& eZContentObjectTreeNode::fetch( 2 );
 
@@ -95,10 +99,12 @@ foreach ( $subTree as $node )
         $object->remove();
     }
 }
+*/
 
 include_once( "lib/ezutils/classes/ezmodule.php" );
 eZModule::setGlobalPathList( array( "kernel" ) );
 
+print( "Archiving news\n" );
 
 // Get top node
 $node =& eZContentObjectTreeNode::fetch( 27 );
@@ -106,6 +112,9 @@ $node =& eZContentObjectTreeNode::fetch( 27 );
 // Find all annonser
 $subTree =& $node->subTree( array ( 'ClassFilterType' => 'include',
                                     'ClassFilterArray' => array( 2 ),
+                                    'SortBy' => array( array( 'priority' ) ),
+                                    'Offset' => 2,
+                                    'Limit' => 100,
                                     'Depth' => 1
                                    ) );
 
@@ -204,12 +213,11 @@ foreach ( $subTree as $node )
     $object =& $node->attribute( 'object' );
     $published = $object->attribute( 'published' );
 
-    // Calculate how many days the ad have been published
-    $diff = (int) ( ( mktime() - $published ) / ( 60 * 60 * 24 ) );
-    if ( $diff >= $NumDaysArticle )
+    // Archive
     {
+        print( "Archive " . $object->attribute( 'name' ) . "\n" );
         $node->move( $monthNodeID );
-        print( "Moved Old " . $object->attribute( 'name' ) . "<br>" );
+//        print( "Moved Old " . $object->attribute( 'name' ) . "<br>" );
     }
 
 }
