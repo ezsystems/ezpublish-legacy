@@ -104,7 +104,7 @@ class eZCollaborationItemHandler
       If it returns \c false the handler does not support notificiation.
       If it returns an array the array contains a list associative arrays each containing a \c name and \c value entry.
     */
-    function notificationTypes()
+    function &notificationTypes()
     {
         return $this->NotificationTypes;
     }

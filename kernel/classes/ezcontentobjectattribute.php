@@ -665,7 +665,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      \return the content for the contentclass attribute which defines this contentobject attribute.
     */
-    function classContent()
+    function &classContent()
     {
         $attribute =& $this->contentClassAttribute();
         return $attribute->content();
@@ -766,7 +766,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         $this->HasValidationError = $hasError;
     }
 
-    function hasValidationError()
+    function &hasValidationError()
     {
         return $this->HasValidationError;
     }
@@ -800,12 +800,12 @@ class eZContentObjectAttribute extends eZPersistentObject
         }
     }
 
-    function validationError()
+    function &validationError()
     {
         return $this->ValidationError;
     }
 
-    function validationLog()
+    function &validationLog()
     {
         return $this->ValidationLog;
     }

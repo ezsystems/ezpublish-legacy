@@ -119,7 +119,7 @@ class eZSection extends eZPersistentObject
     }
 
 
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         return eZPersistentObject::attribute( $attr );
     }

@@ -184,7 +184,7 @@ class eZPolicyLimitation extends eZPersistentObject
                      WHERE ezpolicy_limitation.id = '$delID' " );
     }
 
-    function allValuesAsString()
+    function &allValuesAsString()
     {
         $str='';
         foreach ( $this->attribute( 'values' ) as $value )
@@ -284,7 +284,7 @@ class eZPolicyLimitation extends eZPersistentObject
         return $limitationValuesWithNames;
     }
 
-    function & allValues()
+    function &allValues()
     {
         $values = array();
         foreach ( $this->attribute( 'values' ) as $value )
@@ -297,7 +297,7 @@ class eZPolicyLimitation extends eZPersistentObject
         return $values;
     }
 
-    function & valueList()
+    function &valueList()
     {
         if ( !isset( $this->Values ) )
         {

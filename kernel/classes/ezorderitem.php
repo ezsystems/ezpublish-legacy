@@ -95,7 +95,7 @@ class eZOrderItem extends eZPersistentObject
                                                     $asObject );
     }
 
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         if ( $attr == "vat_value" )
             return $this->vatValue();

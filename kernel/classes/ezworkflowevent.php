@@ -224,7 +224,7 @@ class eZWorkflowEvent extends eZPersistentObject
      Returns the content for this event.
 
     */
-    function content()
+    function &content()
     {
         if ( $this->Content === null )
         {

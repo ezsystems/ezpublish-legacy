@@ -351,7 +351,7 @@ class eZLocale
     /*!
      \return true if the locale is valid, ie the locale file could be loaded.
     */
-    function isValid()
+    function &isValid()
     {
         return $this->IsValid;
     }
@@ -556,7 +556,7 @@ class eZLocale
             $method = $attributeMap[$attribute];
             if ( method_exists( $this, $method ) )
             {
-                $value = $this->$method();
+                $value =& $this->$method();
                 return $value;
             }
             else
@@ -596,7 +596,7 @@ class eZLocale
      Returns the charset for this locale.
      \note It returns an empty string if no charset was set from the locale file.
     */
-    function charset()
+    function &charset()
     {
         return $this->Charset;
     }
@@ -604,7 +604,7 @@ class eZLocale
     /*!
      \return an array with charsets that this locale can work with.
     */
-    function allowedCharsets()
+    function &allowedCharsets()
     {
         return $this->AllowedCharsets;
     }
@@ -612,7 +612,7 @@ class eZLocale
     /*!
      Returns the name of the country in British English.
     */
-    function countryName()
+    function &countryName()
     {
         return $this->Country;
     }
@@ -620,7 +620,7 @@ class eZLocale
     /*!
      Returns the comment for the country, if any.
     */
-    function countryComment()
+    function &countryComment()
     {
         return $this->CountryComment;
     }
@@ -628,7 +628,7 @@ class eZLocale
     /*!
      Returns the code for the country. eg. 'NO'
     */
-    function countryCode()
+    function &countryCode()
     {
         return $this->CountryCode;
     }
@@ -636,7 +636,7 @@ class eZLocale
     /*!
      Returns the variation for the country. eg. 'spraakraad'
     */
-    function countryVariation()
+    function &countryVariation()
     {
         return $this->CountryVariation;
     }
@@ -644,7 +644,7 @@ class eZLocale
     /*!
      Returns the language code for this language, for instance nor for norwegian or eng for english.
     */
-    function languageCode()
+    function &languageCode()
     {
         return $this->LanguageCode;
     }
@@ -652,7 +652,7 @@ class eZLocale
     /*!
      Returns the comment for the language, if any.
     */
-    function languageComment()
+    function &languageComment()
     {
         return $this->LanguageComment;
     }
@@ -672,7 +672,7 @@ class eZLocale
      Returns the locale code for this language which is the language and the country with a dash (-) between them,
      for instance nor-NO or eng-GB.
     */
-    function localeCode()
+    function &localeCode()
     {
         return $this->LocaleCode;
     }
@@ -680,7 +680,7 @@ class eZLocale
     /*!
      Same as localeCode() but appends the country variation if it is set.
     */
-    function localeFullCode()
+    function &localeFullCode()
     {
         $locale = $this->LocaleCode;
         $variation = $this->countryVariation();
@@ -695,7 +695,7 @@ class eZLocale
              if that is empty it will use the value from localeCode().
      \sa localeCode
     */
-    function httpLocaleCode()
+    function &httpLocaleCode()
     {
         $ini =& eZINI::instance();
         $localeCode = '';
@@ -726,7 +726,7 @@ class eZLocale
     /*!
      Returns the name of the language in its own tounge.
     */
-    function languageName()
+    function &languageName()
     {
         return $this->LanguageName;
     }
@@ -734,7 +734,7 @@ class eZLocale
     /*!
      Returns the name of the language in English (eng).
     */
-    function internationalLanguageName()
+    function &internationalLanguageName()
     {
         return $this->IntlLanguageName;
     }
@@ -742,7 +742,7 @@ class eZLocale
     /*!
      Returns the currency symbol for this locale.
     */
-    function currencySymbol()
+    function &currencySymbol()
     {
         return $this->CurrencySymbol;
     }
@@ -750,7 +750,7 @@ class eZLocale
     /*!
      Returns the name of the currency.
     */
-    function currencyName()
+    function &currencyName()
     {
         return $this->CurrencyName;
     }
@@ -758,7 +758,7 @@ class eZLocale
     /*!
      Returns the short name of the currency.
     */
-    function currencyShortName()
+    function &currencyShortName()
     {
         return $this->CurrencyShortName;
     }
@@ -767,7 +767,7 @@ class eZLocale
      Returns true if the week starts with monday, false if sunday.
      \sa weekDays()
     */
-    function isMondayFirst()
+    function &isMondayFirst()
     {
         return $this->MondayFirst;
     }
@@ -777,7 +777,7 @@ class eZLocale
      Each entry in the array can be supplied to the shortDayName() and longDayName() functions.
      \sa isMondayFirst(), weekDayNames()
     */
-    function weekDays()
+    function &weekDays()
     {
         return $this->WeekDays;
     }
@@ -786,7 +786,7 @@ class eZLocale
      Returns the months of the year as an array. This only supplied for completeness.
      \sa weekDays()
     */
-    function months()
+    function &months()
     {
         return $this->Months;
     }
@@ -794,7 +794,7 @@ class eZLocale
     /*!
      Returns the same array as in weekDays() but with all days translated to text.
     */
-    function weekDayNames( $short = false )
+    function &weekDayNames( $short = false )
     {
         if ( $short )
             return $this->ShortWeekDayNames;

@@ -701,7 +701,7 @@ class eZContentObject extends eZPersistentObject
     /*!
       \return an array of versions for the current object.
     */
-    function versions( $asObject = true, $parameters = array() )
+    function &versions( $asObject = true, $parameters = array() )
     {
         $conditions = array( "contentobject_id" => $this->ID );
         if ( isset( $parameters['conditions'] ) )
@@ -1761,7 +1761,7 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns the main node id for the current object.
     */
-    function mainNodeID()
+    function &mainNodeID()
     {
         if ( !is_numeric( $this->MainNodeID ) )
         {
@@ -1773,7 +1773,7 @@ class eZContentObject extends eZPersistentObject
             return $this->MainNodeID;
     }
 
-    function mainNode()
+    function &mainNode()
     {
         return eZContentObjectTreeNode::findMainNode( $this->attribute( 'id' ), true );
     }
@@ -2116,7 +2116,7 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns true if the current
     */
-    function canRead( )
+    function &canRead( )
     {
         if ( !isset( $this->Permissions["can_read"] ) )
         {
@@ -2126,7 +2126,7 @@ class eZContentObject extends eZPersistentObject
         return $p;
     }
 
-    function canCreate( )
+    function &canCreate( )
     {
         if ( !isset( $this->Permissions["can_create"] ) )
         {
@@ -2137,7 +2137,7 @@ class eZContentObject extends eZPersistentObject
     }
 
 
-    function canEdit( )
+    function &canEdit( )
     {
         if ( !isset( $this->Permissions["can_edit"] ) )
         {
@@ -2159,7 +2159,7 @@ class eZContentObject extends eZPersistentObject
         return $p;
     }
 
-    function canTranslate( )
+    function &canTranslate( )
     {
         if ( !isset( $this->Permissions["can_translate"] ) )
         {
@@ -2181,7 +2181,7 @@ class eZContentObject extends eZPersistentObject
         return $p;
     }
 
-    function canRemove( )
+    function &canRemove( )
     {
 
         if ( !isset( $this->Permissions["can_remove"] ) )

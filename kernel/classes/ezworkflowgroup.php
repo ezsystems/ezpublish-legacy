@@ -175,7 +175,7 @@ ORDER BY ezworkflow.name ASC";
                  eZPersistentObject::hasAttribute( $attr ) );
     }
 
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         switch( $attr )
         {

@@ -78,7 +78,7 @@ class eZPolicy extends eZPersistentObject
                                                                 'default' => '',
                                                                 'required' => true ) ),
                       "keys" => array( "id" ),
-                      "function_attributes" => array('limitations' => 'limitationList' ),
+                      "function_attributes" => array( 'limitations' => 'limitationList' ),
                       "increment_key" => "id",
                       "sort" => array( "id" => "asc" ),
                       "class_name" => "eZPolicy",
@@ -90,7 +90,7 @@ class eZPolicy extends eZPersistentObject
         return eZPersistentObject::attributes();
     }
 
-    function & attribute( $attr )
+    function &attribute( $attr )
     {
         if ( $attr == "limitations" )
             return $this->limitationList();
@@ -98,7 +98,7 @@ class eZPolicy extends eZPersistentObject
         return eZPersistentObject::attribute( $attr );
     }
 
-    function & createNew( $roleID , $params = array() )
+    function &createNew( $roleID , $params = array() )
     {
         $policy = new eZPolicy( array() );
         $policy->setAttribute( 'role_id', $roleID );
@@ -163,7 +163,7 @@ class eZPolicy extends eZPersistentObject
                      WHERE id='$delID'" );
     }
 
-    function & limitationList( $useAvailCache = true )
+    function &limitationList( $useAvailCache = true )
     {
         if ( !isset( $this->Limitations ) )
         {

@@ -276,6 +276,9 @@ eZINI:
   http://ez.no/community/bug_reports/deleting_user_account_not_activated
 - Fixed bug: New password was not checked for validity when changing a user's password.
   http://ez.no/community/bug_reports/password_change_blank_passwords_allowed
+- Fixed bug: Apache crashes or suddenly stops on some pages, e.g on content/edit page with
+  a translation chosen or using attribute( show, 2 ) on a node.
+  http://ez.no/community/bug_reports/fatal_error_when_using_attribute_show_2_at_node_data_map
 
 *Library:
 

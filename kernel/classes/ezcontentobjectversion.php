@@ -363,7 +363,7 @@ class eZContentObjectVersion extends eZPersistentObject
     /*!
      Returns true if the current
     */
-    function canVersionRead( )
+    function &canVersionRead( )
     {
         if ( !isset( $this->Permissions["can_versionread"] ) )
         {
@@ -569,7 +569,7 @@ class eZContentObjectVersion extends eZPersistentObject
         return $this->ContentObject;
     }
 
-    function mainParentNodeID()
+    function &mainParentNodeID()
     {
         $temp =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ), 1 );
         if ( $temp == null )
@@ -730,7 +730,7 @@ class eZContentObjectVersion extends eZPersistentObject
         return new eZContentObjectVersion( $row );
     }
 
-    function reverseRelatedObjectList()
+    function &reverseRelatedObjectList()
     {
         $objectID = $this->attribute( 'contentobject_id' );
         return eZContentObject::reverseRelatedObjectList( $this->Version, $objectID );
@@ -806,7 +806,7 @@ class eZContentObjectVersion extends eZPersistentObject
     /*!
      Returns an array with all the translations for the current version.
     */
-    function translations( $asObject = true )
+    function &translations( $asObject = true )
     {
         return $this->translationList( false, $asObject );
     }
@@ -814,7 +814,7 @@ class eZContentObjectVersion extends eZPersistentObject
     /*!
      Returns an array with all the translations for the current version.
     */
-    function translation( $asObject = true )
+    function &translation( $asObject = true )
     {
         return new eZContentObjectTranslation( $this->ContentObjectID, $this->Version, eZContentObject::defaultLanguage() );
     }
@@ -822,7 +822,7 @@ class eZContentObjectVersion extends eZPersistentObject
     /*!
      Returns an array with all the translations for the current version.
     */
-    function translationList( $language = false, $asObject = true )
+    function &translationList( $language = false, $asObject = true )
     {
         $db =& eZDB::instance();
 

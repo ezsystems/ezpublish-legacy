@@ -122,7 +122,7 @@ class eZXMLOutputHandler
     /*!
      \return the template name for this input handler, includes the edit suffix if any.
     */
-    function viewTemplateName()
+    function &viewTemplateName()
     {
         $name = 'ezxmltext';
         $suffix = $this->viewTemplateSuffix();

@@ -219,7 +219,7 @@ class eZOrder extends eZPersistentObject
         return $countArray[0]['count'];
     }
 
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         if ( $attr == "product_items" )
             return $this->productItems();
@@ -562,7 +562,7 @@ class eZOrder extends eZPersistentObject
     /*!
      \return the template to use for account view
     */
-    function accountViewTemplate()
+    function &accountViewTemplate()
     {
         return $this->AccountIdentifier;
     }

@@ -194,7 +194,7 @@ class eZHTTPFile
     /*!
      \return the value for the attribute $attr or null if the attribute does not exist.
     */
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         switch ( $attr )
         {

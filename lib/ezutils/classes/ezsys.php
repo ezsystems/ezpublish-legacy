@@ -445,7 +445,7 @@ class eZSys
      The path to where all the code resides.
      \static
     */
-    function siteDir()
+    function &siteDir()
     {
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
@@ -456,7 +456,7 @@ class eZSys
      The relative directory path of the vhless setup.
      \static
     */
-    function wwwDir()
+    function &wwwDir()
     {
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
@@ -467,7 +467,7 @@ class eZSys
      The filepath for the index file.
      \static
     */
-    function indexDir( $withAccessList = true )
+    function &indexDir( $withAccessList = true )
     {
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
@@ -479,7 +479,7 @@ class eZSys
      \static
      \sa indexFileName
     */
-    function indexFile( $withAccessList = true )
+    function &indexFile( $withAccessList = true )
     {
         if ( !isset( $this ) or get_class( $this ) != "ezsys" )
             $this =& eZSys::instance();
@@ -508,7 +508,7 @@ class eZSys
      Returns the current hostname.
      \static
     */
-    function hostname()
+    function &hostname()
     {
         return eZSys::serverVariable( 'HTTP_HOST' );
     }
@@ -536,9 +536,8 @@ class eZSys
      Returns true if magick quotes is enabled.
      \static
     */
-    function magickQuotes()
+    function &magickQuotes()
     {
-
     }
 
     /*!

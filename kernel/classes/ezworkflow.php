@@ -398,7 +398,7 @@ class eZWorkflow extends eZPersistentObject
                  eZPersistentObject::hasAttribute( $attr ) );
     }
 
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         switch( $attr )
         {

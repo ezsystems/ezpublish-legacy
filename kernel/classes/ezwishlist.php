@@ -82,7 +82,7 @@ class eZWishList extends eZPersistentObject
                       "name" => "ezwishlist" );
     }
 
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         if ( $attr == "items" )
             return $this->items();
