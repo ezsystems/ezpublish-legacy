@@ -10,7 +10,7 @@
         {attribute_view_gui attribute_base=$attribute_base attribute=$attribute.item}
         </div>
     {section-else}
-        <label{section show=$attribute.item.has_validation_error} class="validation-error"{/section}>{$attribute.item.contentclass_attribute_name|wash}
+        <label{section show=$attribute.item.has_validation_error} class="message-error"{/section}>{$attribute.item.contentclass_attribute_name|wash}
         {section show=$attribute.item.is_required}{"[required]"|i18n( 'admin/content/edit' )}{/section}
         {section show=$attribute.item.is_information_collector}{"[information collector]"|i18n( 'admin/content/edit' )}{/section}
         </label>

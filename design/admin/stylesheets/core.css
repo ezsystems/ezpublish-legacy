@@ -361,6 +361,11 @@ div.message-feedback span.time, div.message-warning span.time, div.message-error
     float: right;
 }
 
+label.message-error
+{
+    color: #ff0000;
+}
+
 /* MISC STYLES */
 
 .small
