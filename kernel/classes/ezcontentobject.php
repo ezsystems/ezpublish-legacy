@@ -1583,7 +1583,7 @@ class eZContentObject extends eZPersistentObject
             if ( $language == '' )
                 $language = eZContentObject::defaultLanguage();
             $roleList = $user->roleIDList();
-            $discountList = eZUserDiscountRule::fetchIDListByUserID( $user->attribute( 'contentobject_id' ) );
+            $discountList =& eZUserDiscountRule::fetchIDListByUserID( $user->attribute( 'contentobject_id' ) );
             $contentCacheInfo = array( 'language' => $language,
                                        'role_list' => $roleList,
                                        'discount_list' => $discountList );

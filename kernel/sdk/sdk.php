@@ -107,7 +107,7 @@ function processList( &$module )
 <head>
 <title>eZ publish&trade; SDK</title>
 <link rel="stylesheet" type="text/css" href="%path_prepend%/design/standard/stylesheets/core.css" />
-<link rel="stylesheet" type="text/css" href="%path_prepend%/design/standard/stylesheets/admin.css" />
+<link rel="stylesheet" type="text/css" href="%path_prepend%/design/admin/stylesheets/admin.css" />
 <link rel="stylesheet" type="text/css" href="%path_prepend%/kernel/sdk/style.css" />
 </head>
 
@@ -374,7 +374,7 @@ function process( &$module, $component, $command, $part, $rest )
 <head>
 <title>eZ publish&trade; SDK</title>
 <link rel="stylesheet" type="text/css" href="%path_prepend%/design/standard/stylesheets/core.css" />
-<link rel="stylesheet" type="text/css" href="%path_prepend%/design/standard/stylesheets/admin.css" />
+<link rel="stylesheet" type="text/css" href="%path_prepend%/design/admin/stylesheets/admin.css" />
 <link rel="stylesheet" type="text/css" href="%path_prepend%/kernel/sdk/style.css" />
 </head>
 

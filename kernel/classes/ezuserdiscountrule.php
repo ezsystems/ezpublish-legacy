@@ -45,6 +45,7 @@
 
 include_once( "kernel/classes/ezpersistentobject.php" );
 include_once( "kernel/classes/ezdiscountrule.php" );
+include_once( "lib/ezutils/classes/ezsessioncache.php" );
 
 class eZUserDiscountRule extends eZPersistentObject
 {
@@ -72,6 +73,12 @@ class eZUserDiscountRule extends eZPersistentObject
                       "name" => "ezuser_discountrule" );
     }
 
+    function store()
+    {
+        eZSessionCache::expireSessions( EZ_SESSION_CACHE_USER_DISCOUNT_RULES );
+        eZPersistentObject::store();
+    }
+
     function &fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZUserDiscountRule::definition(),
@@ -93,13 +100,30 @@ class eZUserDiscountRule extends eZPersistentObject
 
     function &fetchIDListByUserID( $userID )
     {
-        $db =& eZDB::instance();
-        $query = "SELECT DISTINCT ezdiscountrule.id
+        $http =& eZHTTPTool::instance();
+
+        $ruleArray = false;
+        // check for cached version in sesssion
+        if ( !eZSessionCache::isExpired( EZ_SESSION_CACHE_USER_DISCOUNT_RULES ) )
+        {
+            if ( $http->hasSessionVariable( 'eZUserDiscountRules' . $userID ) )
+            {
+                $ruleArray =& $http->sessionVariable( 'eZUserDiscountRules' . $userID );
+            }
+        }
+
+        if ( !is_array( $ruleArray ) )
+        {
+            $db =& eZDB::instance();
+            $query = "SELECT DISTINCT ezdiscountrule.id
                   FROM ezdiscountrule,
                        ezuser_discountrule
                   WHERE ezuser_discountrule.contentobject_id = '$userID' AND
                         ezuser_discountrule.discountrule_id = ezdiscountrule.id";
-        $ruleArray =& $db->arrayQuery( $query );
+            $ruleArray =& $db->arrayQuery( $query );
+            $http->setSessionVariable( 'eZUserDiscountRules' . $userID, $ruleArray );
+            eZSessionCache::setIsValid( EZ_SESSION_CACHE_USER_DISCOUNT_RULES );
+        }
 
         $rules = array();
         foreach ( $ruleArray as $ruleRow )
