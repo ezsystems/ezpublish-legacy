@@ -33,7 +33,7 @@
         {section-else}
         <form method="post" action={"/user/login/"|ezurl}>
         <div class="info-text">
-            <label for="id1">{"Login"|i18n( 'design/standard/toolbar' )}</label>
+            <label for="id1">{"Username"|i18n( 'design/standard/toolbar' )}</label>
             <input class="textinput" type="text" size="10" name="Login" id="id1" value="{$User:login}" />
         </div>
 

@@ -4,5 +4,5 @@
 {"User ID"|i18n("design/standard/content/datatype")}
 {$attribute.content.contentobject_id}
 
-{"Login"|i18n("design/standard/content/datatype")} {$attribute.content.login|wash(xhtml)}
-{"Email"|i18n("design/standard/content/datatype")} {$attribute.content.email|wash(email)}
+{"Username"|i18n("design/standard/content/datatype")} {$attribute.content.login|wash(xhtml)}
+{"E-mail"|i18n("design/standard/content/datatype")} {$attribute.content.email|wash(email)}

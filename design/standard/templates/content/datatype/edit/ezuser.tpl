@@ -6,7 +6,7 @@
 <p class="box">{$attribute.content.contentobject_id}</p>
 </div>
 <div class="element">
-<label>{"Login"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+<label>{"Username"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 {section show=$attribute.content.has_stored_login}
 <input type="hidden" name="{$attribute_base}_data_user_login_{$attribute.id}" value="{$attribute.content.login}" />
 {$attribute.content.login}
@@ -15,7 +15,7 @@
 {/section}
 </div>
 <div class="element">
-<label>{"E-Mail"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+    <label>{"E-mail"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 <input type="text" name="{$attribute_base}_data_user_email_{$attribute.id}" size="17" value="{$attribute.content.email|wash(xhtml)}">
 </div>
 </div>

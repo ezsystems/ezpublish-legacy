@@ -6,12 +6,12 @@
 </div>
 
 <div class="block">
-  <label>{"Login"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
+  <label>{"Username"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
   <p class="box">{$userAccount.login|wash}</p>
 </div>
 
 <div class="block">
-  <label>{"E-Mail"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
+  <label>{"E-mail"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
   <p class="box">{$userAccount.email|wash(email)}</p>
 </div>
 

@@ -4,7 +4,7 @@
 {'Thank you for registering at %siteurl.'|i18n('design/standard/user/register',,hash('%siteurl',$site_url))}
 
 {'Your account information'|i18n('design/standard/user/register')}
-{'Login'|i18n('design/standard/user/register')}: {$user.login}
+{'Username'|i18n('design/standard/user/register')}: {$user.login}
 {'Email'|i18n('design/standard/user/register')}: {$user.email}
 
 {section show=$password}

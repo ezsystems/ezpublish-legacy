@@ -7,11 +7,11 @@
 <p class="box">{$attribute.content.contentobject_id}</p>
 </div>
 <div class="element">
-<label>{"Login"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+<label>{"Username"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 <p class="box">{$attribute.content.login|wash(xhtml)}</p>
 </div>
 <div class="element">
-<label>{"Email"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
+<label>{"E-mail"|i18n("design/standard/content/datatype")}</label><div class="labelbreak"></div>
 <p class="box">{$attribute.content.email|wash(email)}</p>
 </div>
 <div class="break"></div>
