@@ -220,6 +220,12 @@ function &eZDisplayDebug()
     eZDebug::setHandleType( EZ_HANDLE_NONE );
     if ( $type == "inline" or $type == "popup" )
     {
+        if ( $ini->variable( "DebugSettings", "DebugToolbar" ) == 'enabled' )
+        {
+            $tpl =& templateInit();
+            $result = $tpl->fetch( 'design:setup/debug_toolbar.tpl' );
+            eZDebug::addHtmlBlockTop( $result );
+        }
         return eZDebug::printReport( $type == "popup", true, false );
     }
     return null;

@@ -31,11 +31,10 @@
       {section-else}
          {section show=eq( $debug_output, '' )}
             <input type=checkbox{eq( $ui_context, 'edit' )|choose( '', ' disabled' )} {eq( ezini( $setting.0, $setting.1, $setting.2 ), 'enabled' )|choose( '', 'checked ' )}name="SelectedList[]" value="{$:index}"/>
-            <span class="disabled">{$setting.3}</span><br/>
          {section-else}
             <input type=checkbox{eq( $ui_context, 'edit' )|choose( '', ' disabled' )} {eq( $debug_output, 'enabled' )|choose( '', 'checked ' )}name="SelectedList[]" value="{$:index}"/>
-            {$setting.3}<br/>
          {/section}
+            {$setting.3}<br/>
       {/section}
       {/let}
       {/let}

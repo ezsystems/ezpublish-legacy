@@ -1148,7 +1148,7 @@ ezdebug.reload();
       Prints a full debug report with notice, warnings, errors and a timing report.
     */
     function printReportInternal( $as_html = true, $returnReport = true, $allowedDebugLevels = false,
-                                   $useAccumulators = true, $useTiming = true, $useIncludedFiles = false  )
+                                   $useAccumulators = true, $useTiming = true, $useIncludedFiles = false )
     {
         $styles = array( 'warning' => false,
                          'warning-end' => false,
@@ -1183,16 +1183,11 @@ ezdebug.reload();
             echo "<table style='border: 1px dashed black;' bgcolor=\"#fefefe\">";
             echo "<tr><th><h1>eZ debug</h1></th></tr>";
 
-            $ini =& eZINI::instance();
-
-            if ( $ini->variable( "DebugSettings", "DebugToolbar" ) == 'enabled' )
+            if ( is_array( $this->htmlBlocksTop ) )
             {
-                $tpl =& templateInit();
-                $result = $tpl->fetch( 'design:setup/debug_toolbar.tpl' );
-
-                echo "<tr><td>$result</td></tr>";
+                foreach( $this->htmlBlocksTop as $block )
+                    echo "<tr><td>$block</td></tr>";
             }
-            unset( $ini );
 
             echo "<tr><td>";
 
@@ -1685,6 +1680,20 @@ td.timingpoint2
         //$debug->TemplatesUsageStatistics[$templateName] = $templateInfo;
         $debug->TemplatesUsageStatistics[] = $templateInfo;
     }
+    
+    /*!
+    */
+    function addHtmlBlockTop( &$htmlBlock )
+    {
+        if ( !isset( $this ) or
+              get_class( $this ) != "ezdebug" )
+            $this =& eZDebug::instance();
+
+        if ( !is_array( $this->htmlBlocksTop ) )
+            $this->htmlBlocksTop = array();
+
+        $this->htmlBlocksTop[] =& $htmlBlock;
+    }
 
     /// \privatesection
     /// String array containing the debug information
@@ -1740,6 +1749,9 @@ td.timingpoint2
 
     /// A list of templates used by a rendered page
     var $TemplatesUsageStatistics;
+
+    /// An array of extra html blocks to append at the top of debug output
+    var $htmlBlocksTop;
 }
 
 /*!
