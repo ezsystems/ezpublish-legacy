@@ -165,7 +165,8 @@ switch( $operationResult['status'] )
 
             // Fetch the navigation part from the section information
             $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
-            $Result['navigation_part'] = $section->attribute( 'navigation_part_idenfifier' );
+            if ( $section )
+                $Result['navigation_part'] = $section->attribute( 'navigation_part_idenfifier' );
 
             if ( $viewCacheEnabled )
             {
