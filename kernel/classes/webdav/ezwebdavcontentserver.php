@@ -397,7 +397,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         if ( !in_array( $virtualFolder, $this->virtualFolderList() ) )
         {
             $this->appendLogEntry( "Unknown virtual folder: '$virtualFolder' in site '$currentSite'", 'CS:put' );
-            return EZ_WEBDAV_FAILED_NOT_FOUND;
+            return EZ_WEBDAV_FAILED_CONFLICT;
         }
 
         if ( !$this->userHasVirtualAccess( $currentSite, $virtualFolder ) )
@@ -432,7 +432,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         {
             // The node does not exist, so we cannot put the file
             $this->appendLogEntry( "Cannot put file $nodePath, not parent found", 'CS:put' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
+            return EZ_WEBDAV_FAILED_CONFLICT;
         }
 
         if ( !$this->userHasPutAccess( $currentSite, $nodePath, $parentNode ) )
@@ -451,32 +451,24 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $iniSettings = $webdavINI->variable( 'PutSettings', 'MIME' );
         $defaultObjectType = $webdavINI->variable( 'PutSettings', 'DefaultClass' );
 
-        $attributeID = false;
-
-        // Attempt to determine the attribute that should be used for display:
-        $objectType = false;
-        if ( isset( $iniSettings[$mime] ) )
-            $objectType = $iniSettings[$mime];
-
-        if ( !$objectType )
-        {
-            $objectType = $defaultObjectType;
-        }
-
         $existingNode = $this->fetchNodeByTranslation( $nodePath );
-        switch ( $objectType )
-        {
-            case 'image':
-            {
-                return $this->putImage( $nodePath, $tempFile, $parentNodeID, $existingNode );
-            } break;
+        include_once( 'kernel/classes/ezcontentupload.php' );
 
-            default:
+        $upload = new eZContentUpload();
+        if ( !$upload->handleLocalFile( $result, $tempFile, $parentNodeID, $existingNode ) )
+        {
+            foreach ( $result['errors'] as $error )
             {
-                return $this->putFile( $nodePath, $tempFile, $parentNodeID, $existingNode );
-            } break;
+                $this->appendLogEntry( "Error: " . $error['description'], 'CS: put' );
+            }
+            foreach ( $result['notices'] as $notice )
+            {
+                $this->appendLogEntry( "Notice: " . $notice['description'], 'CS: put' );
+            }
+            return EZ_WEBDAV_FAILED_UNSUPPORTED;
         }
-        return EZ_WEBDAV_OK;
+
+        return EZ_WEBDAV_OK_CREATED;
     }
 
     /*!
@@ -1021,7 +1013,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $indexDir = eZSys::indexDir();
 
         // Remove indexDir if used in non-virtualhost mode.
-        if ( preg_match( "#^$indexDir(.+)$#", $path, $matches ) )
+        if ( preg_match( "#^" . preg_quote( $indexDir ) . "(.+)$#", $path, $matches ) )
         {
             $path = $matches[1];
         }
@@ -1034,7 +1026,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         foreach ( $sites as $site )
         {
             // Check if given path starts with this site-name, if so: return it.
-            if ( preg_match( "#^/$site(.*)$#", $path, $matches ) )
+            if ( preg_match( "#^/" . preg_quote( $site ) . "(.*)$#", $path, $matches ) )
             {
                 $this->appendLogEntry( "site $site: $path", 'CS:currentSitePath' );
                 return $site ;
@@ -1156,7 +1148,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         {
             $nodePath = 'media';
             if ( strlen( $collection ) > 0 )
-                $nodePath .= $collection;
+                $nodePath .= '/' . $collection;
         }
         else
         {
@@ -1326,6 +1318,11 @@ class eZWebDAVContentServer extends eZWebDAVServer
     }
 
     /*!
+     Functions related to creation collections
+     @{
+    */
+
+    /*!
       Builds and returns the content of the virtual start fodler
       for a site. The virtual startfolder is an intermediate step
       between the site-list and actual content. This directory
@@ -1452,83 +1449,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
     }
 
     /*!
-      Creates a new folder under the given target node.
-    */
-    function createFolder( $node, $target )
-    {
-        // Attempt to get the current user ID.
-        $userID = $this->User->id();
-
-        // Set the parent node ID.
-        $parentNodeID = $node->attribute( 'node_id' );
-
-        // Grab settings from the ini file:
-        $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
-        $folderClassID = $webdavINI->variable( 'FolderSettings', 'FolderClass' );
-
-        // Fetch the folder class.
-        $class =& eZContentClass::fetch( $folderClassID );
-
-        // Check if the user has access to create a folder here
-        if ( $node->checkAccess( 'create', $folderClassID, $node->attribute( 'contentclass_id' ) ) != '1' )
-        {
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
-        }
-
-        // Create object by user id in section 1.
-        $contentObject =& $class->instantiate( $userID, 1 );
-
-        //
-        $nodeAssignment =& eZNodeAssignment::create( array(
-                                                         'contentobject_id' => $contentObject->attribute( 'id' ),
-                                                         'contentobject_version' => $contentObject->attribute( 'current_version' ),
-                                                         'parent_node' => $parentNodeID,
-                                                         'sort_field' => 2,
-                                                         'sort_order' => 0,
-                                                         'is_main' => 1
-                                                         )
-                                                     );
-        //
-        $nodeAssignment->store();
-
-        //
-        $version =& $contentObject->version( 1 );
-        $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
-        $version->store();
-
-        //
-        $contentObjectID = $contentObject->attribute( 'id' );
-        $contentObjectAttributes =& $version->contentObjectAttributes();
-
-        //
-        $contentObjectAttributes[0]->setAttribute( 'data_text', basename( $target ) );
-        $contentObjectAttributes[0]->store();
-
-        include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-        $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID, 'version' => 1 ) );
-
-        return EZ_WEBDAV_OK_CREATED;
-        return EZ_WEBDAV_FAILED_FORBIDDEN;
-        return EZ_WEBDAV_FAILED_EXISTS;
-    }
-
-    /*!
-      Gets and returns a list of the available sites (from site.ini).
-    */
-    function availableSites()
-    {
-        // The site list is an array of strings.
-        $siteList = array();
-
-        // Grab the sitelist from the ini file.
-        $webdavINI =& eZINI::instance();
-        $siteList = $webdavINI->variable( 'SiteSettings', 'SiteList' );
-
-        // Return the site list.
-        return $siteList ;
-    }
-
-    /*!
       Gets and returns the content of an actual node.
       List of other nodes belonging to the target node
       (one level below it) will be returned.
@@ -1616,7 +1536,12 @@ class eZWebDAVContentServer extends eZWebDAVServer
                         $imageFile = $originalAlias['url'];
                         $suffix = $originalAlias['suffix'];
 
-                        $entry["size"] = filesize( $imageFile );
+                        if ( file_exists( $imageFile ) )
+                        {
+                            $entry["size"] = filesize( $imageFile );
+                            $entry["ctime"] = filectime( $imageFile );
+                            $entry["mtime"] = filemtime( $imageFile );
+                        }
                         $entry["mimetype"] = $mime;
                         if ( strlen( $suffix ) > 0 )
                             $entry["name"] .= '.' . $suffix;
@@ -1638,8 +1563,11 @@ class eZWebDAVContentServer extends eZWebDAVServer
                         $entry["mimetype"] = $mime;
                         if ( strlen( $extension ) > 0 )
                             $entry["name"] .= '.' . $extension;
-                        $entry["ctime"] = filectime( $fileLocation );
-                        $entry["mtime"] = filemtime( $fileLocation );
+                        if ( file_exists( $fileLocation ) )
+                        {
+                            $entry["ctime"] = filectime( $fileLocation );
+                            $entry["mtime"] = filemtime( $fileLocation );
+                        }
                     }break;
 
                     default:
@@ -1660,6 +1588,87 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         // Return array of attributes/properties (name, size, mime, times, etc.).
         return $entry;
+    }
+
+    /*!
+     @}
+    */
+
+    /*!
+      Creates a new folder under the given target node.
+    */
+    function createFolder( $node, $target )
+    {
+        // Attempt to get the current user ID.
+        $userID = $this->User->id();
+
+        // Set the parent node ID.
+        $parentNodeID = $node->attribute( 'node_id' );
+
+        // Grab settings from the ini file:
+        $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
+        $folderClassID = $webdavINI->variable( 'FolderSettings', 'FolderClass' );
+
+        // Fetch the folder class.
+        $class =& eZContentClass::fetch( $folderClassID );
+
+        // Check if the user has access to create a folder here
+        if ( $node->checkAccess( 'create', $folderClassID, $node->attribute( 'contentclass_id' ) ) != '1' )
+        {
+            return EZ_WEBDAV_FAILED_FORBIDDEN;
+        }
+
+        // Create object by user id in section 1.
+        $contentObject =& $class->instantiate( $userID, 1 );
+
+        //
+        $nodeAssignment =& eZNodeAssignment::create( array(
+                                                         'contentobject_id' => $contentObject->attribute( 'id' ),
+                                                         'contentobject_version' => $contentObject->attribute( 'current_version' ),
+                                                         'parent_node' => $parentNodeID,
+                                                         'sort_field' => 2,
+                                                         'sort_order' => 0,
+                                                         'is_main' => 1
+                                                         )
+                                                     );
+        //
+        $nodeAssignment->store();
+
+        //
+        $version =& $contentObject->version( 1 );
+        $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+        $version->store();
+
+        //
+        $contentObjectID = $contentObject->attribute( 'id' );
+        $contentObjectAttributes =& $version->contentObjectAttributes();
+
+        //
+        $contentObjectAttributes[0]->setAttribute( 'data_text', basename( $target ) );
+        $contentObjectAttributes[0]->store();
+
+        include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+        $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID, 'version' => 1 ) );
+
+        return EZ_WEBDAV_OK_CREATED;
+        return EZ_WEBDAV_FAILED_FORBIDDEN;
+        return EZ_WEBDAV_FAILED_EXISTS;
+    }
+
+    /*!
+      Gets and returns a list of the available sites (from site.ini).
+    */
+    function availableSites()
+    {
+        // The site list is an array of strings.
+        $siteList = array();
+
+        // Grab the sitelist from the ini file.
+        $webdavINI =& eZINI::instance();
+        $siteList = $webdavINI->variable( 'SiteSettings', 'SiteList' );
+
+        // Return the site list.
+        return $siteList ;
     }
 
     /*!
@@ -1731,189 +1740,5 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $result = unlink( $fileFileName );
     }
 
-    /*!
-    */
-    function putImage( $target, $tempFile, $parentNodeID, $existingNode )
-    {
-        // Attempt to get the current user ID.
-        $userID = $this->User->id();
-
-        //
-        $imageFileName = basename( $target );
-        $imageOriginalFileName = $imageFileName;
-        $imageCaption = $imageFileName;
-
-        // Fetch the image class.
-        $class =& eZContentClass::fetch( 5 );
-
-        if ( !is_object( $existingNode ) )
-        {
-            $objectVersion = 1;
-
-            // Attempt to fetch the parent node.
-            $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
-            if ( !$parentNode )
-            {
-                $sectionID = 1;
-            }
-            else
-            {
-                $sectionID = $parentNode->ContentObject->SectionID;
-            }
-
-            // Create object by user id.
-            $contentObject =& $class->instantiate( $userID, $sectionID );
-
-            $nodeAssignment =& eZNodeAssignment::create( array(
-                                                             'contentobject_id' => $contentObject->attribute( 'id' ),
-                                                             'contentobject_version' => $contentObject->attribute( 'current_version' ),
-                                                             'parent_node' => $parentNodeID,
-                                                             'sort_field' => 2,
-                                                             'sort_order' => 0,
-                                                             'is_main' => 1
-                                                             )
-                                                         );
-            $nodeAssignment->store();
-
-            $imageCreatedTime = mktime();
-            $imageModifiedTime = mktime();
-
-            $version =& $contentObject->version( 1 );
-            $version->setAttribute( 'modified', $imageModifiedTime );
-            $version->setAttribute( 'created', $imageCreatedTime );
-            $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
-            $version->store();
-
-            $objectID = $contentObject->attribute( 'id' );
-            $dataMap = $version->dataMap();
-
-            $storeInDBName = $this->fileBasename( $storeInDBName );
-
-            $dataMap['name']->setAttribute( 'data_text', $storeInDBName );
-            $dataMap['name']->store();
-
-            $imageHandler =& $dataMap['image']->content();
-            $imageIsStored = $imageHandler->initializeFromFile( $tempFile, false, $imageOriginalFileName );
-            $imageHandler->store();
-        }
-        else
-        {
-            $object = $existingNode->attribute( 'object' );
-            $newVersion = $object->createNewVersion();
-
-            $objectVersion = $newVersion->attribute( 'version' );
-            $objectID = $newVersion->attribute( 'contentobject_id' );
-
-            $dataMap = $newVersion->dataMap();
-
-            $imageHandler = $dataMap['image']->content();
-            $imageIsStored = $imageHandler->initializeFromFile( $tempFile, false, $imageOriginalFileName );
-            $imageHandler->store();
-        }
-
-        $this->appendLogEntry( "Image stored? result: " . ( $imageStored ? 'true' : 'false' ), 'CS:putImage' );
-
-        if ( $imageIsStored )
-        {
-            //
-            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $objectID, 'version' => $objectVersion ) );
-
-            // We're safe.
-            return EZ_WEBDAV_OK_CREATED;
-        }
-        // Else: the store didn't succeed...
-        else
-        {
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
-        }
-    }
-
-    /*!
-    */
-    function putFile( $target, $tempFile, $parentNodeID, $existingNode )
-    {
-        // Attempt to get the current user ID.
-        $userID = $this->User->id();
-
-        // Fetch the file class.
-        $class =& eZContentClass::fetch( 12 );
-
-        // Attempt to fetch the parent node.
-        $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
-        if ( !$parentNode )
-        {
-            $sectionID = 1;
-        }
-        else
-        {
-            $sectionID = $parentNode->ContentObject->SectionID;
-        }
-
-        $this->appendLogEntry( "Parent node $parentNodeID $existingNode", 'CS:putFile' );
-        if ( !is_object( $existingNode ) )
-        {
-            $objectVersion = 1;
-
-            $this->appendLogEntry( "Existing node $existingNode", 'CS:putFile' );
-
-            // Create object by user id.
-            $object =& $class->instantiate( $userID, $sectionID );
-
-            $nodeAssignment =& eZNodeAssignment::create( array(
-                                                             'contentobject_id' => $object->attribute( 'id' ),
-                                                             'contentobject_version' => $object->attribute( 'current_version' ),
-                                                             'parent_node' => $parentNodeID,
-                                                             'sort_field' => 2,
-                                                             'sort_order' => 0,
-                                                             'is_main' => 1
-                                                             )
-                                                         );
-            $nodeAssignment->store();
-
-            $version =& $object->version( 1 );
-            $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
-            $version->store();
-
-            $objectID = $object->attribute( 'id' );
-            $dataMap =& $version->dataMap();
-
-            $storeInDBName = basename( $target );
-            $storeInDBName = $this->fileBasename( $storeInDBName );
-
-            $dataMap['name']->setAttribute( 'data_text', $storeInDBName );
-            $dataMap['name']->store();
-
-            // Attempt to store the file object in the DB and copy the file.
-            $fileIsStored = $this->storeFile( $tempFile, basename( $target ), $dataMap['file'] );
-            $dataMap['file']->store();
-        }
-        else
-        {
-            $object = $existingNode->attribute( 'object' );
-            $newVersion = $object->createNewVersion();
-
-            $objectVersion = $newVersion->attribute( 'version' );
-            $objectID = $newVersion->attribute( 'contentobject_id' );
-
-            $dataMap = $newVersion->dataMap();
-
-            $fileIsStored = $this->storeFile( $tempFile, basename( $target ), $dataMap['file'] );
-            $dataMap['file']->store();
-        }
-
-        if ( $fileIsStored )
-        {
-            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-
-            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $objectID, 'version' => $objectVersion ) );
-
-            return EZ_WEBDAV_OK_CREATED;
-        }
-        else
-        {
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
-        }
-    }
 }
 ?>

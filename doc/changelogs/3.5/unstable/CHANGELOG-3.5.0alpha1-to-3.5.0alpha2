@@ -35,6 +35,12 @@ Changes from 3.5.0alpha1 to 3.5.0alpha2
   handleLocalFile(), in which it will reuse the object the node points to.
 - Implemented the missing findRegularFileAttribute() function.
 
+*eZWebDAVContentServer:
+- Made sure correct status message is returned for all operations.
+- Implemented permission checking for all operations.
+- Integrated with the new eZContentUpload system for centralized
+  detection and creation of objects.
+
 Scripts:
 - New script bin/php/ezcontentcache.php which can be used to clear the
   viewcache for a given node or subtree.

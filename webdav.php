@@ -36,6 +36,7 @@
 
 //
 
+ignore_user_abort( true );
 ob_start();
 
 error_reporting ( E_ALL );
@@ -76,11 +77,15 @@ function eZDBCleanup()
 function eZFatalError()
 {
     eZDebug::setHandleType( EZ_HANDLE_NONE );
+    if ( !class_exists( 'eZWebDAVServer' ) )
+    {
+        include_once( "lib/ezwebdav/classes/ezwebdavserver.php" );
+    }
     eZWebDAVServer::appendLogEntry( "****************************************" );
     eZWebDAVServer::appendLogEntry( "Fatal error: eZ publish did not finish its request" );
     eZWebDAVServer::appendLogEntry( "The execution of eZ publish was abruptly ended, the debug output is present below." );
     eZWebDAVServer::appendLogEntry( "****************************************" );
-    $templateResult = null;
+//     $templateResult = null;
 //            eZDisplayResult( $templateResult, eZDisplayDebug() );
 }
 
@@ -90,13 +95,14 @@ if ( $enable == true )
     include_once( 'lib/ezutils/classes/ezexecution.php' );
     eZExecution::addCleanupHandler( 'eZDBCleanup' );
     eZExecution::addFatalErrorHandler( 'eZFatalError' );
+    eZDebug::setHandleType( EZ_HANDLE_TO_PHP );
 
     if ( !isset( $_SERVER['REQUEST_URI'] ) or
          !isset( $_SERVER['REQUEST_METHOD'] ) )
     {
         // We stop the script if these are missing
         // e.g. if run from the shell
-        exit;
+        eZExecution::cleanExit();
     }
     include_once( "lib/ezutils/classes/ezmodule.php" );
     include_once( 'lib/ezutils/classes/ezexecution.php' );
