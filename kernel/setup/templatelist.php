@@ -35,6 +35,11 @@
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
+$offset = $Params['Offset'];
+
+if ( !is_numeric( $offset ) )
+    $offset = 0;
+
 include_once( "kernel/common/template.php" );
 include_once( "kernel/common/eztemplatedesignresource.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
@@ -46,11 +51,28 @@ $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 
 $overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
 
+$mostUsedOverrideArray = array();
+$mostUsedMatchArray = array( 'node/view/', 'content/view/embed', 'pagelayout', 'search', 'basket' );
+foreach ( array_keys( $overrideArray ) as $overrideKey )
+{
+    foreach ( $mostUsedMatchArray as $mostUsedMatch )
+    {
+        if ( strpos( $overrideArray[$overrideKey]['template'], $mostUsedMatch ) )
+        {
+            $mostUsedOverrideArray[$overrideKey] =& $overrideArray[$overrideKey];
+        }
+    }
+}
+
 $tpl->setVariable( 'template_array', $overrideArray );
+$tpl->setVariable( 'most_used_template_array', $mostUsedOverrideArray );
+$viewParameters = array( 'offset' => $Offset );
+$tpl->setVariable( 'view_parameters', $viewParameters );
+$tpl->setVariable( 'template_count', count( $overrideArray ) );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:setup/templatelist.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/setup', 'Template admin list' ) ) );
+                                'text' => ezi18n( 'kernel/setup', 'Template list' ) ) );
 
 ?>

@@ -207,6 +207,10 @@ $tpl->setVariable( 'site_base', $siteBase );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:setup/templatecreate.tpl" );
-$Result['path'] = array( array( 'url' => false,
+$Result['path'] = array( array( 'url' => "/setup/templatelist/",
+                                'text' => ezi18n( 'kernel/setup', 'Template list' ) ),
+                         array( 'url' => "/setup/templateview". $template,
+                                'text' => ezi18n( 'kernel/setup', 'Template view' ) ),
+                         array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'Create new template' ) ) );
 ?>

@@ -135,6 +135,8 @@ $tpl->setVariable( 'current_siteaccess', $siteAccess );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:setup/templateview.tpl" );
-$Result['path'] = array( array( 'url' => false,
+$Result['path'] = array( array( 'url' => "/setup/templatelist/",
+                                'text' => ezi18n( 'kernel/setup', 'Template list' ) ),
+                         array( 'url' => false,
                                 'text' => ezi18n( 'kernel/setup', 'Template view' ) ) );
-?>
+                         ?>
