@@ -70,7 +70,7 @@ class eZURLObjectLink extends eZPersistentObject
                                                                       'default' => 0,
                                                                       'short_name' => 'contentobject_attr_version',
                                                                       'required' => true ) ),
-                      'keys' => array( 'url_id', 'contentobject_attribute_id', 'contentobject_attribute_version' ),
+                      'keys' => array( 'contentobject_attribute_id', 'contentobject_attribute_version' ),
                       'sort' => array( 'url_id' => 'asc' ),
                       'class_name' => 'eZURLObjectLink',
                       'name' => 'ezurl_object_link' );
