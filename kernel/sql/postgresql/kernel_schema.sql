@@ -110,7 +110,7 @@ CREATE TABLE ezcontentclass_attribute (
     data_text1 character varying(50),
     data_text2 character varying(50),
     data_text3 character varying(50),
-    data_text4 character varying(50),
+    data_text4 text,
     data_text5 text,
     is_information_collector integer DEFAULT '0' NOT NULL
 );

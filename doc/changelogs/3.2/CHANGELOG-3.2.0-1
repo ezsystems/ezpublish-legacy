@@ -1,12 +1,43 @@
 Changes from 3.1-1 to 3.2.0-1
 
 *Kernel:
+- By adding a specific postvariable it is now possible to avoid having the class edit try load in data
+  for the attributes, this is required when a datatype redirects to another page and then back again.
+- Added template fetch functions class/list and class/attribute_list.
+- Added classFilter support for eZContentClass::fetchList which will only include classes of a given
+  ID or identifier.
+- Added function to create a temporary contentobject attribute from a contentclass attribute.
+- Added a preStoreClassAttribute function to eZDataType which is called before the class attribute is stored.
+- Added module object to eZContentClassAttribute::customHTTPAction which is stored in the contentclass
+  attribute object and can be read from datatypes by using eZContentClassAttribute::currentModule.
+- Moved functions for input validation, fixup and fetching from attribute_edit.php and into
+  eZContentObject. This allows for easy reuse.
+- Added function hasValidationError and setHasValidationError in eZContentObjectAttribute which
+  can be used to suppress a validation error entry even if an error occured.
+- Added convenience function classContent() to eZContentObjectAttribute which returns the content
+  of the contentclass attribute.
+- Added function handleCustomObjectHTTPActions to eZDataType which can be used by datatypes
+  to handle action checking themselves and forward requests to subobjects.
+- Added input and validation parameters to the validateInput function which can be read
+  using inputParameters() and validationParameters() in eZContentObjectAttribute.
+- Added function fetchActionValue to eZDataType which tries to extract values from action names.
+- Added new datatype eZObjectRelationList which will replace eZObjectRelation and also supports
+  inline editing.
 
-*Doc:
+*Templates:
+- Made sure that the new $attribute_base variable is used to generate post variable names in datatype edit templates.
+  This is required for datatypes to be used in the new eZObjectRelationList.
 
-*SDK:
-
-*Library:
+*Library :
+eZ XML:
+- Fixed regexp to match xml attribute to make it handle - (dash) as it should have been.
+- Added convenience functions for querying if node has attributes or children and getting the count.
+- Added functions to return one or multiple elements by name from the children.
+- Added convenience function which allows fetching attribute names and values into PHP arrays.
+- Added convenience function to append multiple attribute values which are defined in a PHP array.
 
 eZ i18n:
 - New convertStringToUnicode function available which converts any string into an array with Unicode values.
+
+eZ module:
+- Added function to return the current redirection URI which is built from module, view and parameters.

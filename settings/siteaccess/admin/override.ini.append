@@ -94,4 +94,10 @@ Match[class]=5
 Source=content/search.tpl
 MatchFile=search.tpl
 Subdir=templates
+
+[address]
+Source=content/view/embed.tpl
+MatchFile=address.tpl
+Subdir=templates
+Match[class]=14
 */ ?>

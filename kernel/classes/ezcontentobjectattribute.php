@@ -57,6 +57,8 @@ class eZContentObjectAttribute extends eZPersistentObject
         $this->ValidationLog = null;
         $this->ContentClassAttributeIdentifier = null;
         $this->ContentClassAttributeID = null;
+        $this->InputParameters = false;
+        $this->HasValidationError = true;
         $this->eZPersistentObject( $row );
     }
 
@@ -98,9 +100,11 @@ class eZContentObjectAttribute extends eZPersistentObject
                       "function_attributes" => array( "contentclass_attribute" => "contentClassAttribute",
                                                       "contentclass_attribute_identifier" => "contentClassAttributeIdentifier",
                                                       "content" => "content",
+                                                      "class_content" => "classContent",
                                                       "object" => "object",
                                                       'view_template' => 'viewTemplateName',
                                                       'edit_template' => 'editTemplateName',
+                                                      "has_validation_error" => "hasValidationError",
                                                       "validation_error" => "validationError",
                                                       "validation_log" => "validationLog",
                                                       "language" => "language",
@@ -205,12 +209,16 @@ class eZContentObjectAttribute extends eZPersistentObject
             return $this->contentClassAttributeIdentifier();
         else if ( $attr == "content" )
             return $this->content( );
+        else if ( $attr == "class_content" )
+            return $this->classContent( );
         else if ( $attr == "object" )
             return $this->object( );
         else if ( $attr == "xml" )
             return $this->xml( );
         else if ( $attr == "xml_editor" )
             return $this->xmlEditor( );
+        else if ( $attr == "has_validation_error" )
+            return $this->hasValidationError( );
         else if ( $attr == "validation_error" )
             return $this->validationError( );
         else if ( $attr == "validation_log" )
@@ -289,12 +297,79 @@ class eZContentObjectAttribute extends eZPersistentObject
       Validates the data contents, returns true on success false if the data
       does not validate.
     */
-    function validateInput( &$http, $base )
+    function validateInput( &$http, $base,
+                            &$inputParameters, $validationParameters = array() )
     {
         $classAttribute =& $this->contentClassAttribute();
         $definition =& $classAttribute->dataType();
+        $this->setInputParameters( $inputParameters );
+        $this->setValidationParameters( $validationParameters );
         $this->IsValid = $definition->validateObjectAttributeHTTPInput( $http, $base, $this );
+        $this->unsetValidationParameters();
+        $this->unsetInputParameters();
         return $this->IsValid;
+    }
+
+    /*!
+     Sets the current input parameters to \a $parameters.
+     The input parameters are set by validateInput() and made avaiable to
+     datatypes trough the function inputParameters().
+     \note The input parameters will only be available for the duration of validateInput().
+     \sa inputParameters
+    */
+    function setInputParameters( &$parameters )
+    {
+        $this->InputParameters =& $parameters;
+    }
+
+    /*!
+     Unsets the input parameters previously set by setInputParameters().
+     \sa inputParameters
+    */
+    function unsetInputParameters()
+    {
+        unset( $this->InputParameters );
+        $this->InputParameters = false;
+    }
+
+    /*!
+     \return the current input parameters or \c false if no parameters has been set.
+     \sa setInputParameters, unsetInputParameters
+    */
+    function &inputParameters()
+    {
+        return $this->InputParameters;
+    }
+
+    /*!
+     Sets the current validation parameters to \a $parameters.
+     The validation parameters are set by validateInput() and made avaiable to
+     datatypes trough the function validationParameters().
+     \note The validation parameters will only be available for the duration of validateInput().
+     \sa validationParameters
+    */
+    function setValidationParameters( &$parameters )
+    {
+        $this->ValidationParameters =& $parameters;
+    }
+
+    /*!
+     Unsets the validation parameters previously set by setValidationParameters().
+     \sa validationParameters
+    */
+    function unsetValidationParameters()
+    {
+        unset( $this->ValidationParameters );
+        $this->ValidationParameters = false;
+    }
+
+    /*!
+     \return the current validation parameters or \c false if no parameters has been set.
+     \sa setValidationParameters, unsetValidationParameters
+    */
+    function &validationParameters()
+    {
+        return $this->ValidationParameters;
     }
 
     /*!
@@ -325,6 +400,17 @@ class eZContentObjectAttribute extends eZPersistentObject
         $classAttribute =& $this->contentClassAttribute();
         $dataType =& $classAttribute->dataType();
         $dataType->customObjectAttributeHTTPAction( $http, $action, $this, $parameters );
+    }
+
+    /*!
+     Sends custom actions to datatype for custom handling.
+    */
+    function handleCustomHTTPActions( &$http, $attributeDataBaseName,
+                                      $customActionAttributeArray, $customActionParameters )
+    {
+        $dataType =& $this->dataType();
+        $dataType->handleCustomObjectHTTPActions( $http, $attributeDataBaseName,
+                                                  $customActionAttributeArray, $customActionParameters );
     }
 
     function onPublish( &$object, &$nodes  )
@@ -410,6 +496,15 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
+     \return the content for the contentclass attribute which defines this contentobject attribute.
+    */
+    function classContent()
+    {
+        $attribute =& $this->contentClassAttribute();
+        return $attribute->content();
+    }
+
+    /*!
      Returns the content for this attribute.
     */
     function content()
@@ -465,13 +560,30 @@ class eZContentObjectAttribute extends eZPersistentObject
             return;
         }
         $argList =& func_get_args();
+        $text = eZContentObjectAttribute::generateValidationErrorText( $numargs, $argList );
+        $this->ValidationError = $text;
+        $this->HasValidationError = true;
+    }
+
+    function setHasValidationError( $hasError = true )
+    {
+        $this->HasValidationError = $hasError;
+    }
+
+    function hasValidationError()
+    {
+        return $this->HasValidationError;
+    }
+
+    function generateValidationErrorText( $numargs, $argList )
+    {
         $text = $argList[0];
         for ( $i = 1; $i < $numargs; ++$i )
         {
             $arg = $argList[$i];
             $text =& str_replace( "%$i", $arg, $text );
         }
-        $this->ValidationError = $text;
+        return $text;
     }
 
     function setValidationLog( $text )

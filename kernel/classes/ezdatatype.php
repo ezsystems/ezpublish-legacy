@@ -255,16 +255,27 @@ class eZDataType
 
     /*!
      Perfoms necessary actions with attribute data after object is published,
-     it means that you have access  paublished nodes
+     it means that you have access to published nodes.
      \return True if the value was stored correctly.
      \note The method is entirely up to the datatype, for instance
            it could reuse the available types in the the attribute or
            store in a separate object.
     */
-
-    function onPublish( &$attribute, &$contentObject, &$publishedNodes )
+    function onPublish( &$contentObjectAttribute, &$contentObject, &$publishedNodes )
     {
     }
+
+    /*!
+     Similar to the storeClassAttribute but is called before the
+     attribute itself is stored and can be used to set values in the
+     class attribute.
+     \return True if the value was stored correctly.
+     \sa fetchClassAttributeHTTPInput
+    */
+    function preStoreClassAttribute( &$classAttribute, $version )
+    {
+    }
+
     /*!
      Stores the datatype data to the database which is related to the
      class attribute. The \a $version parameter determines which version
@@ -274,6 +285,8 @@ class eZDataType
      \note The method is entirely up to the datatype, for instance
            it could reuse the available types in the the attribute or
            store in a separate object.
+     \note This function is called after the attribute data has been stored.
+           If you need to alter attribute data use preStoreClassAttribute instead.
      \sa fetchClassAttributeHTTPInput
     */
     function storeClassAttribute( &$classAttribute, $version )
@@ -321,6 +334,23 @@ class eZDataType
     }
 
     /*!
+     Matches the action against the action name \a $actionName
+     and extracts the value from the action puts it into \a $value.
+     \return \c true if the action matched and a value was found,
+             \c false otherwise.
+     \node If no match is made or no value found the \a $value parameter is not modified.
+    */
+    function fetchActionValue( $action, $actionName, &$value )
+    {
+        if ( preg_match( "#^" . $actionName . "_(.+)$#", $action, $matches ) )
+        {
+            $value = $matches[1];
+            return true;
+        }
+        return false;
+    }
+
+    /*!
      Validates the input for an object attribute and returns a validation
      state as defined in eZInputValidator.
      \note Default implementation does nothing and returns accepted.
@@ -352,6 +382,17 @@ class eZDataType
      \note Default implementation does nothing.
     */
     function customObjectAttributeHTTPAction( &$http, $action, &$objectAttribute )
+    {
+    }
+
+    /*!
+     Takes care of custom action handling, this means checking if a custom action request
+     must be sent to a contentobject attribute. This function is only useful for
+     datatypes that must do custom action handling for sub objects and attributes.
+     \note Default implementation does nothing.
+    */
+    function handleCustomObjectHTTPActions( &$http, $attributeDataBaseName,
+                                            $customActionAttributeArray, $customActionParameters )
     {
     }
 

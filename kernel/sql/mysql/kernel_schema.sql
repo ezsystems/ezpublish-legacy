@@ -233,7 +233,7 @@ CREATE TABLE ezcontentclass_attribute (
   data_text1 varchar(50) default NULL,
   data_text2 varchar(50) default NULL,
   data_text3 varchar(50) default NULL,
-  data_text4 varchar(50) default NULL,
+  data_text4 varchar(255) default NULL,
   data_text5 text,
   is_information_collector int(11) NOT NULL default '0',
   PRIMARY KEY  (id,version)
