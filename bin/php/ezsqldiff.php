@@ -51,7 +51,7 @@ $script->startup();
 
 $options = $script->getOptions( "[source-type:][source-host:][source-user:][source-password;]" .
                                 "[match-type:][match-host:][match-user:][match-password;]" .
-                                "[t:|type:][host:][u:|user:][p:|password:]" .
+                                "[t:|type:][host:][u:|user:][p:|password;]" .
                                 "[reverse][check-only]",
                                 "[source][match]",
                                 array( 'source-type' => ( "Which database type to use for source, can be one of:\n" .
