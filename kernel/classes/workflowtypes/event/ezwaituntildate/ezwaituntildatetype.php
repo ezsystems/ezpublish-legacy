@@ -87,17 +87,19 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                     }
                     else
                     {
-                        return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
+                        return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+//                        return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
                     }
                 }
                 else
                 {
-                    return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
+                    return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+//                   return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
                 }
             }
         }
-//        return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
-        return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
+        return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
+//        return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
     }
 
     function hasAttribute( $attr )
