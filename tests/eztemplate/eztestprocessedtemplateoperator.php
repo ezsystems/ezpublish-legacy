@@ -82,6 +82,7 @@ class eZTestProcessedTemplateOperator extends eZTestCase
         $tpl =& templateInit();
         $tpl->reset();
 
+        $tpl->setIsDebugEnabled( false );
         eZTemplateCompiler::setSettings( array( 'compile' => false,
                                                 'comments' => false,
                                                 'accumulators' => false,

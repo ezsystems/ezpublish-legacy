@@ -82,6 +82,8 @@ class eZTestProcessedTemplateFunction extends eZTestCase
         $tpl =& templateInit();
         eZTemplateDesignResource::setDesignStartPath( "tests/eztemplate/design" );
         $tpl->reset();
+
+        $tpl->setIsDebugEnabled( false );
         eZTemplateCompiler::setSettings( array( 'compile' => false,
                                                 'comments' => false,
                                                 'accumulators' => false,
