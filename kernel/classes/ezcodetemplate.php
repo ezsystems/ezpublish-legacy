@@ -354,7 +354,7 @@ class eZCodeTemplate
                 unlink( $tempFile );
                 return EZ_CODE_TEMPLATE_STATUS_OK;
             }
-            else if ( $checkOnly )
+            else
             {
                 $backupFile = $filePath . eZSys::backupFilename();
                 // Make a backup and make the temporary file the real one
