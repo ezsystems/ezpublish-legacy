@@ -225,6 +225,12 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
     if ( $http->hasPostVariable( 'SetPlacementNodeIDArray' ) )
         $setPlacementNodeIDArray = $http->postVariable( 'SetPlacementNodeIDArray' );
 
+    // We will quit if some important POST variables are missing
+    if ( !$http->hasPostVariable( 'MainNodeID' ) and
+         !$http->hasPostVariable( 'SortOrderMap' ) and
+         !$http->hasPostVariable( 'SortFieldMap' ) )
+        return;
+
     if ( $http->hasPostVariable( 'MainNodeID' ) )
         $mainNodeID = $http->postVariable( 'MainNodeID' );
     // Check if dropdown placement is used
