@@ -92,3 +92,9 @@ Versionview:
 
 Versions:
 - A link should only be shown for versions which are viewable by the user.
+
+Browsers:
+- Create a framework for checking browser type, version and OS and make it
+  accessible from templates.
+- Create template operators/functions which will input HTML data according to
+  browser data. For instance checked="checked" vs checked.
