@@ -259,6 +259,11 @@ class eZStepDatabaseInit extends eZStepInstaller
              !$this->PersistenceList['database_info']['password'] )
             $this->PersistenceList['database_info']['password'] = $config->variable( 'DatabaseSettings', 'DefaultPassword' );
 
+        if ( $this->Http->postVariable( 'setup_previous_step' ) == 'SiteDetails' ) // Failed to connect to tables in database
+        {
+            $this->Error = EZ_SETUP_DB_ERROR_CONNECTION_FAILED;
+        }
+
         return false; // Always show database initialization
     }
 
