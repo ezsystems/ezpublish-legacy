@@ -1,1 +1,1 @@
-<img src={"collaboration/ezapprove.png"|ezimage} alt="{'Approval'|i18n('design/standard/collaboration/approve')}" />
+<img src={"collaboration/ezapprove.png"|ezimage} alt="{'Approval'|i18n('design/standard/collaboration')}" />

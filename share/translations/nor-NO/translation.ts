@@ -233,10 +233,6 @@
         <translation>Hvis du fjerner klassen %1 vil også %2 bli fjernet!</translation>
     </message>
     <message>
-        <source>Removing group %1 will remove %2!</source>
-        <translation type="obsolete">Hvis du fjerner klassegruppen %1 vil også %2 bli fjernet!</translation>
-    </message>
-    <message>
         <source>Are you sure you want to remove these class groups?</source>
         <translation>Er du sikker på at du vil fjerne disse klassegruppene?</translation>
     </message>
@@ -334,70 +330,52 @@
 <context>
     <name>design/standard/collaboration</name>
     <message>
-        <source>Awaiting approval of %1</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>%1 was approved for publishing</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ble godkjent for publisering</translation>
     </message>
     <message>
         <source>%1 was not approved for publishing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Awaiting approval for %1</source>
-        <translation type="obsolete"></translation>
+        <translation>%1 ble ikke godkjent for publisering</translation>
     </message>
     <message>
         <source>Posted: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Sendt: %1</translation>
     </message>
     <message>
         <source>Group list for &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Gruppeliste for &apos;%1&apos;</translation>
     </message>
     <message>
         <source>No items in group.</source>
-        <translation type="unfinished"></translation>
+        <translation>Gruppen er tom.</translation>
     </message>
     <message>
         <source>Groups</source>
-        <translation type="unfinished">Grupper</translation>
+        <translation>Grupper</translation>
     </message>
     <message>
         <source>%1 awaits approval by editor</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 venter på å bli godkjent av redaktør</translation>
     </message>
     <message>
         <source>%1 awaits your approval</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 må godkjennes av deg</translation>
     </message>
     <message>
         <source>Subject</source>
-        <translation type="unfinished"></translation>
+        <translation>Emne</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation type="unfinished">Dato</translation>
+        <translation>Dato</translation>
     </message>
     <message>
         <source>No new items to be handled.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingen nye enheter.</translation>
     </message>
-</context>
-<context>
-    <name>design/standard/collaboration/approval</name>
     <message>
         <source>Approval</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>design/standard/collaboration/approve</name>
-    <message>
-        <source>Approval</source>
-        <translation type="unfinished"></translation>
+        <translation>Godkjenning</translation>
     </message>
 </context>
 <context>
@@ -451,20 +429,8 @@
         <translation>Lag</translation>
     </message>
     <message>
-        <source>Active translations</source>
-        <translation type="obsolete">Aktive oversettelser</translation>
-    </message>
-    <message>
         <source>Below you&apos;ll find a list of active translations which content objects may be translated into.</source>
         <translation>Under finner du en liste over aktive oversettelser som innholdsobjekter kan bli oversatt til.</translation>
-    </message>
-    <message>
-        <source>Language name</source>
-        <translation type="obsolete">Språknavn</translation>
-    </message>
-    <message>
-        <source>Locale code</source>
-        <translation type="obsolete">Stedskode</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -796,10 +762,6 @@
     <message>
         <source>Input was stored successfully</source>
         <translation>Den innlagte informasjonen er lagret</translation>
-    </message>
-    <message>
-        <source>Path</source>
-        <translation type="obsolete">Sti</translation>
     </message>
     <message>
         <source>Published</source>
@@ -1420,10 +1382,6 @@
         <translation>Logg ut</translation>
     </message>
     <message>
-        <source>My Tasks</source>
-        <translation type="obsolete">Mine oppgaver</translation>
-    </message>
-    <message>
         <source>Install using installers</source>
         <translation>Installer med installasjonsprogrammer</translation>
     </message>
@@ -1506,16 +1464,8 @@
         <translation>Er du sikker på at du vil fjerne %1 fra noden %2?</translation>
     </message>
     <message>
-        <source>Removing this assignment will also remove it&apos;s %1 children!</source>
-        <translation type="obsolete">Hvis du fjerner denne tilordningen blir også %1 barn av denne fjernet!</translation>
-    </message>
-    <message>
         <source>Are you sure you want to remove these nodes?</source>
         <translation>Er du sikker på at du vil fjerne disse nodene?</translation>
-    </message>
-    <message>
-        <source>Removing %1 will remove the node itself and it&apos;s %2 children!</source>
-        <translation type="obsolete">Hvis du fjerner noden %1 blir også %2 barn av denne fjernet!</translation>
     </message>
     <message>
         <source>Removing this assignment will also remove it&apos;s %1!</source>
@@ -4054,13 +4004,6 @@
     </message>
 </context>
 <context>
-    <name>kernel/clas</name>
-    <message>
-        <source>Remove groups</source>
-        <translation type="obsolete"></translation>
-    </message>
-</context>
-<context>
     <name>kernel/class</name>
     <message>
         <source>Class list of group</source>
@@ -4091,12 +4034,15 @@
         <translation>(ingen klasser)</translation>
     </message>
     <message>
-        <source>Remove groups</source>
-        <translation type="obsolete"></translation>
-    </message>
-    <message>
         <source>Remove class groups</source>
         <translation>Fjern klassegrupper</translation>
+    </message>
+</context>
+<context>
+    <name>kernel/classes/collaborationhandlers/ezapprove</name>
+    <message>
+        <source>Approval</source>
+        <translation>Godkjenning</translation>
     </message>
 </context>
 <context>
@@ -4256,44 +4202,44 @@
     </message>
 </context>
 <context>
-    <name>kernel/collaboration/participant</name>
+    <name>kernel/classes/ezcollaborationitemparticipantlink</name>
     <message>
         <source>Standard</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard</translation>
     </message>
     <message>
         <source>Observer</source>
-        <translation type="unfinished"></translation>
+        <translation>Observatør</translation>
     </message>
     <message>
         <source>Owner</source>
-        <translation type="unfinished"></translation>
+        <translation>Eier</translation>
     </message>
     <message>
         <source>Approver</source>
-        <translation type="unfinished"></translation>
+        <translation>Godkjennes av</translation>
     </message>
     <message>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Forfatter</translation>
     </message>
 </context>
 <context>
-    <name>kernel/collaboration/profile</name>
+    <name>kernel/classes/ezcollaborationprofile</name>
     <message>
         <source>Inbox</source>
-        <translation type="unfinished"></translation>
+        <translation>Innboks</translation>
     </message>
 </context>
 <context>
     <name>kernel/content</name>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">Fjern</translation>
+        <translation>Fjern</translation>
     </message>
     <message>
         <source>Remove object</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern objekt</translation>
     </message>
 </context>
 <context>
@@ -4320,10 +4266,6 @@
         <source>children</source>
         <comment>several children</comment>
         <translation>barn</translation>
-    </message>
-    <message>
-        <source>And also it will remove nodes:</source>
-        <translation type="obsolete"></translation>
     </message>
     <message>
         <source>And also it will remove the nodes:</source>
