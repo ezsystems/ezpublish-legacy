@@ -61,7 +61,7 @@
 
 <ol>
 	<li>Become the PostgreSQL super user (normally called postgres)<pre class="example">$ su &lt;postgres_super_user&gt;</pre></li>
-	li>Create a postgresql user<pre class="example">$ createuser &lt;user&gt;</pre></li>
+	<li>Create a postgresql user<pre class="example">$ createuser &lt;user&gt;</pre></li>
 	<li>Create a database <pre class="example">$ createdb &lt;name_of_database&gt;</pre></li>
 </ol>
 
@@ -70,10 +70,10 @@
 <ol>
 	<li>Make sure you have met the eZ publish requirements</li>
 	<li>Go to <a href="http://ez.no/download">http://ez.no/download</a> and download the latest release of eZ publish</li>
-	<li>Extract the downloaded eZ publish file somewhere on Apache's DocumenRoot <pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C Apache_document_root</pre> and rename it something nice like 'ezpublish'</li>
-
-	<li>Open a browser and point it to the server where you extracted ezpublish with the correct url</li>
+	<li>Extract the downloaded eZ publish file somewhere on Apache's DocumenRoot <pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C Apache_document_root</pre> and rename it to something nice like 'ezpublish'</li>
+    <li>Open a browser and enter the url for your eZ publish installation</li>
 	<li>Follow the setup guide instructions</li>
+	<li>When you have finished the setup guide you should be able to login on the admin page with 'admin' as username and 'publish' as password. To view the user site append '/user' to the URL</li>
 </ol>
 
 <p class="important"> <b>Note:</b>The setup guide creates a new settings/site.ini.php which overrides the default settings/site.ini</p>
@@ -102,10 +102,10 @@
 <ol>
 	<li>Make sure you have met the eZ publish requirements</li>
 	<li>Go to <a href="http://ez.no/download">http://ez.no/download</a> and download the latest release of eZ publish</li>
-	<li>Extract the downloaded eZ publish file somewhere on Apache's DocumenRoot</li>
-	<li>Open a browser and point it to the server where you extracted ezpublish</li>
+	<li>Extract the downloaded eZ publish file somewhere on Apache's DocumenRoot and rename it to something nice like 'ezpublish'</li>
+    <li>Open a browser and enter the url for your eZ publish installation</li>
 	<li>Follow the setup guide instructions</li>
-	<li>To access the user site use this URL: http://your_host/index.php/user</li>
+	<li>When you have finished the setup guide you should be able to login on the admin page with 'admin' as username and 'publish' as password. To view the user site append '/user' to the URL</li>
 </ol>
 
 <p>
