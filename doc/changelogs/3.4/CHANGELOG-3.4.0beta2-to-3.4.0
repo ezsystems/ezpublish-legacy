@@ -25,3 +25,6 @@ eZMail:
 
 eZ template:
 - Added parameter tool_id and offset for toolbar function.
+
+*Translations:
+- Updated locale ger-DE
