@@ -1,8 +1,8 @@
 {*?template charset=latin1?*}
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-{switch match=fetch('content', 'can_instantiate_classes')}
-{case match=1}
+{let classlist=fetch('content', 'can_instantiate_class_list')}
+{section show=$classlist}
     <td  class="toolbar">
 
 <form method="post" action={"content/action"|ezurl}>
@@ -11,7 +11,7 @@
 
     <td>
          <select name="ClassID">
-	      {section name=Classes loop=fetch('content', 'can_instantiate_class_list')}
+	      {section name=Classes loop=$classlist}
 	      <option value="{$Classes:item.id}">{$Classes:item.name}</option>
 	      {/section}
          </select>
@@ -24,11 +24,10 @@
 </form>
     </td>
 
-{/case}
-{case match=0}
+{section-else}
 
-{/case}
-{/switch}
+{/section}
+{/let}
 
     <td class="toolbar">
       <p class="menuitem"><a class="menuitem" href={"/content/view/full/2/"|ezurl}>{"Frontpage"|i18n("design/standard/layout")}</a></p>
