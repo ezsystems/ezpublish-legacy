@@ -195,6 +195,8 @@ class eZRole extends eZPersistentObject
         $db->query( $query );
         $temporaryVersion->removePolicies( false );
         $temporaryVersion->remove();
+        eZSessionCache::expireSessions( array( EZ_SESSION_CACHE_USER_ROLES, EZ_SESSION_CACHE_CLASSES_LIST  ) );
+
     }
 
     function remove( $roleID = false )
@@ -355,6 +357,7 @@ class eZRole extends eZPersistentObject
     {
         $db =& eZDB::instance();
 
+        eZSessionCache::expireSessions( array( EZ_SESSION_CACHE_USER_ROLES, EZ_SESSION_CACHE_CLASSES_LIST  ) );
         $query = "INSERT INTO ezuser_role ( role_id, contentobject_id ) VALUES ( '$this->ID', '$userID' )";
 
         $db->query( $query );

@@ -202,6 +202,10 @@ if ( $http->hasPostVariable( "CustomFunction" ) )
 
     $Module->setTitle( "Edit " . $role->attribute( "name" ) );
     $Result = array();
+
+    $Result['path'] = array( array( 'url' => false ,
+                                    'text' => 'Create policy - step 2 - Specify function' ) );
+
     $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep2.tpl' );
     return;
 
@@ -263,6 +267,9 @@ if ( $http->hasPostVariable( "Limitation" ) )
     $tpl->setVariable( "functions", $functionNames );
 
     $Result = array();
+    $Result['path'] = array( array( 'url' => false ,
+                                    'text' => 'Create policy - step 3 - Specify limitations' ) );
+
     $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep3.tpl' );
     return;
 }
@@ -282,6 +289,9 @@ if ( $http->hasPostVariable( "DiscardLimitation" )  || $http->hasPostVariable( "
     $tpl->setVariable( "no_functions", false );
 
     $Result = array();
+    $Result['path'] = array( array( 'url' => false ,
+                                    'text' => 'Create policy - step 2 - Specify function' ) );
+
     $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep2.tpl' );
     return;
 
@@ -295,6 +305,9 @@ if ( $http->hasPostVariable( 'CreatePolicy' ) || $http->hasPostVariable( "Step1"
     $tpl->setVariable( "module", $Module );
 
     $Result = array();
+    $Result['path'] = array( array( 'url' => false ,
+                                    'text' => 'Create policy - step 1 - Specify module' ) );
+
     $Result['content'] =& $tpl->fetch( 'design:role/createpolicystep1.tpl' );
     return;
 
@@ -319,6 +332,9 @@ $tpl->setVariable( "step", 0 );
 $Module->setTitle( "Edit " . $role->attribute( "name" ) );
 
 $Result = array();
+$Result['path'] = array( array( 'url' => '/role/edit/' . $roleID . '/' ,
+                                'text' => 'Role edit' ) );
+
 $Result['content'] =& $tpl->fetch( 'design:role/edit.tpl' );
 
 ?>

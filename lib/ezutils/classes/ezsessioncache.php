@@ -66,10 +66,11 @@ eZSessionCache::expireSessions( EZ_SESSION_CACHE_USER_INFO );
   \endcode
 */
 
-define( "EZ_SESSION_CACHE_USER_ROLES", "0000000000000000000000000000001" );
-define( "EZ_SESSION_CACHE_USER_INFO",  "0000000000000000000000000000010" );
-define( "EZ_SESSION_CACHE_USER_GROUPS",  "0000000000000000000000000000100" );
+define( "EZ_SESSION_CACHE_USER_ROLES",           "0000000000000000000000000000001" );
+define( "EZ_SESSION_CACHE_USER_INFO",            "0000000000000000000000000000010" );
+define( "EZ_SESSION_CACHE_USER_GROUPS",          "0000000000000000000000000000100" );
 define( "EZ_SESSION_CACHE_USER_DISCOUNT_RULES",  "0000000000000000000000000001000" );
+define( "EZ_SESSION_CACHE_CLASSES_LIST",         "0000000000000000000000000010000" );
 
 class eZSessionCache
 {
@@ -84,7 +85,6 @@ class eZSessionCache
     function isExpired( $key )
     {
         global $eZSessionCacheMask;
-
         if ( bindec( $eZSessionCacheMask ) & bindec( $key ) )
         {
             return true;
@@ -103,8 +103,7 @@ class eZSessionCache
         global $eZSessionCacheMask;
 
         // invert mask
-        $mask = ~ bindec( $eZSessionCacheMask );
-
+        $mask = ~ bindec( $key );
         // filter
         $eZSessionCacheMask = decbin( bindec( $eZSessionCacheMask ) & $mask );
     }
@@ -114,9 +113,19 @@ class eZSessionCache
     */
     function expireSessions( $key )
     {
+        $decKey = 0;
+        if ( is_array( $key ) )
+        {
+            foreach ( $key  as $mask )
+            {
+                $decKey |= bindec( $mask );
+            }
+        }
+        else
+        {
+            $decKey = bindec( $key );
+        }
         $db =& eZDB::instance();
-
-        $decKey = bindec( $key );
         $db->query( "UPDATE ezsession SET cache_mask_1 = ( cache_mask_1 | $decKey )" );
 
         // expire current session as well

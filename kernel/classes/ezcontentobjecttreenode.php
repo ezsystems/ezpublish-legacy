@@ -326,11 +326,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
             }
         }
+
+        // Should we sort?
         if ( $sortCount == 0 )
         {
             $sortingFields = " path_string ASC";
         }
 
+        // Check for class filtering
         $classCondition = '';
         if ( ( $params['ClassFilterType'] == 'include' or $params['ClassFilterType'] == 'exclude' )
              and count( $params['ClassFilterArray'] ) > 0 )
@@ -406,7 +409,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                   ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
                                   ezcontentobject_name.content_translation = '$lang' ";
         }
-        if( count( $limitationList ) > 0 )
+
+        if ( count( $limitationList ) > 0 )
         {
             $sqlParts = array();
             foreach( $limitationList as $limitationArray )
