@@ -83,7 +83,7 @@ class eZExpiryHandler
         $creator->addComment( "Array of expiry timestamps for various system parts\nCan be set to current date to force a total expiry" );
         $creator->addVariable( 'Timestamps', $this->Timestamps );
 
-        $creator->store();
+        $creator->store( true );
         $this->IsModified = false;
     }
 
