@@ -37,6 +37,11 @@ include_once( "kernel/classes/ezwishlist.php" );
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
+$user =& eZUser::currentUser();
+if ( !$user->isLoggedIn() )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
+
 if ( $http->hasPostVariable( "ActionAddToWishList" ) )
 {
     $objectID = $http->postVariable( "ContentObjectID" );
