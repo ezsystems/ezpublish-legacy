@@ -65,14 +65,14 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
         $waitUntilDateEntryList = $waitUntilDateObject->attribute( 'classattribute_id_list' );
         $modifyPublishDate = $event->attribute( 'data_int1' );
         eZDebug::writeDebug( 'executing publish on time event' );
-        eZDebug::writeDebug( $waitUntilDateEntryList, 'executing publish on time event' );
-        eZDebug::writeDebug( $objectAttributes, 'publish on time event' );
+//        eZDebug::writeDebug( $waitUntilDateEntryList, 'executing publish on time event' );
+//        eZDebug::writeDebug( $objectAttributes, 'publish on time event' );
 
         foreach ( array_keys( $objectAttributes ) as $key )
         {
             $objectAttribute =& $objectAttributes[$key];
             $contentClassAttributeID = $objectAttribute->attribute( 'contentclassattribute_id' );
-            eZDebug::writeDebug( $waitUntilDateEntryList, "checking if $contentClassAttributeID in array:" );
+//            eZDebug::writeDebug( $waitUntilDateEntryList, "checking if $contentClassAttributeID in array:" );
             if ( in_array( $objectAttribute->attribute( 'contentclassattribute_id' ), $waitUntilDateEntryList ) )
             {
                 include_once( "lib/ezlocale/classes/ezdatetime.php" );
@@ -85,7 +85,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                     {
                         $this->setInformation( "Event delayed until " . $dateTime->toString( true ) );
                         $this->setActivationDate( $dateTime->timeStamp() );
-                        eZDebug::writeDebug( $dateTime->toString(), 'executing publish on time event' );
+//                        eZDebug::writeDebug( $dateTime->toString(), 'executing publish on time event' );
                         return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON;
                     }
                     else if ( $dateTime->isValid() and $modifyPublishDate )
