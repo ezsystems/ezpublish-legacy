@@ -5,6 +5,7 @@ Changes from 3.1.0-1 to 3.1.0-2
 - Improved ezmultiplexer event to let the user select workflow id to be run and class id
 - Added site.ini setting for aditional designs in override system ([DesignSettings], AditionalSiteDesignArray )
 - Added support for setting cachedir with full path ( CacheDir=/var/ezpublish/cache )
+- Fixed a typo in the article template
 
 *Library :
 eZ xml:

@@ -15,7 +15,7 @@
 
 
 <div class="objectheader">
-    <h2>Folder</h2>
+    <h2>Article</h2>
 </div>
 
 <div class="object">
