@@ -44,6 +44,13 @@
     <input class="button" type="submit" name="ActionRemove" value="{'Remove'|i18n('design/admin/node/view/full')}" title="{'You do not have permissions to remove this item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
 {/section}
 
+{* Custom content action buttons. *}
+<div class="right">
+{section var=ContentActions loop=$node.object.content_action_list}
+    <input class="button" type="button" name="{$ContentActions.item.action}" value="{$ContentActions.item.name}" />
+{/section}
+</div>
+
 {* The preview button has been commented out. Might be absent until better preview functionality is implemented. *}
 {* <input class="button" type="submit" name="ActionPreview" value="{'Preview'|i18n('design/admin/node/view/full')}" /> *}
 
