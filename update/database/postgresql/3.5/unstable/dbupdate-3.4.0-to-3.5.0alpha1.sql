@@ -48,3 +48,12 @@ ALTER TABLE ezcontentclass ADD is_container integer;
 UPDATE ezcontentclass SET is_container=0;
 ALTER TABLE ezcontentclass ALTER is_container SET NOT NULL;
 ALTER TABLE ezcontentclass ALTER is_container SET DEFAULT 0;
+
+-- New table for storing the users last visit
+
+CREATE TABLE ezuservisit
+(
+    user_id                 INT NOT NULL PRIMARY KEY,
+    current_visit_timestamp INT NOT NULL,
+    last_visit_timestamp    INT NOT NULL
+);

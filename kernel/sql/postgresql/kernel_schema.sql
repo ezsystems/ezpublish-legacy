@@ -2368,6 +2368,18 @@ CREATE TABLE ezpaymentobject (
 
 
 
+CREATE TABLE ezuservisit (
+    user_id integer NOT NULL,
+    current_visit_timestamp integer NOT NULL,
+    last_visit_timestamp integer NOT NULL
+);
+
+
+
+
+
+
+
 CREATE INDEX ezurl_ol_url_id ON ezurl_object_link USING btree (url_id);
 
 
@@ -3594,5 +3606,14 @@ ALTER TABLE ONLY ezsubtree_notification_rule
 
 ALTER TABLE ONLY ezpaymentobject
     ADD CONSTRAINT ezpaymentobject_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezuservisit
+    ADD CONSTRAINT ezuservisit_pkey PRIMARY KEY (user_id);
 
 
