@@ -185,13 +185,16 @@ class eZModule
     */
     function handleError( $errorCode )
     {
-        $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
-        $this->setErrorCode( $errorCode );
+//         $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
+//         $this->setErrorCode( $errorCode );
         $errorModule =& eZModule::errorModule();
         $module =& eZModule::findModule( $errorModule, $this );
         if ( $module === null )
             return false;
-        return $module->run( $errorCode, array() );
+        $result =& $module->run( $errorCode, array() );
+        $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
+        $this->setErrorCode( $errorCode );
+        return $result;
     }
 
     /*!

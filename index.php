@@ -292,8 +292,9 @@ if ( $show_page_layout )
     }
     else if ( $module->exitStatus() == EZ_MODULE_STATUS_FAILED )
     {
-        $tpl->setVariable( "content",
-                           "Module $module_name failed." );
+        $tpl->setVariable( "content", $content );
+//         $tpl->setVariable( "content",
+//                            "Module $module_name failed." );
     }
 
     $site = array(
