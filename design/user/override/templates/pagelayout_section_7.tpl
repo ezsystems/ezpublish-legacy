@@ -126,6 +126,11 @@
 {$module_result.content}
 
 {* Main area end *}
+<br />
+<div class="credits" align="center">
+<p>Copyright &copy; <a href="http://ez.no">eZ systems as</a><br />1999-2002</p>
+<a href="http://developer.ez.no"><img src={"powered-by-ezpublish-100x35-trans-lgrey.gif"|ezimage} alt="Powered eZ publish" border="0" width="100" height="35" /></a>
+</div>
 
     </td>
     <td class="divider"><img src={"images/1x1.gif"|ezimage} width="16" height="1" alt="" border="0" /></td>
