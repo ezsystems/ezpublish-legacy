@@ -17,7 +17,7 @@
 <tr>
 <td>{$attribute.content.original.original_filename|wash( xhtml )}</td>
 <td>{$attribute.content.original.mime_type|wash( xhtml )}</td>
-<td>{*$attribute.content.original.filesize|si( byte )*}</td>
+<td>{$attribute.content.original.filesize|si( byte )}</td>
 </tr>
 </table>
 {section-else}

@@ -411,6 +411,9 @@ class eZImageAliasHandler
                         $alias =& $aliasList[$aliasName];
                         $alias['original_filename'] = $originalFilename;
                         $alias['text'] = $text;
+                        if ( $alias['url'] and
+                             file_exists( $alias['url'] ) )
+                            $alias['filesize'] = filesize( $alias['url'] );
                         if ( $alias['is_new'] )
                             eZImageFile::appendFilepath( $this->ContentObjectAttribute->attribute( 'id' ), $alias['url'] );
                     }
@@ -490,6 +493,10 @@ class eZImageAliasHandler
         $aliasEntry['full_path'] =& $aliasEntry['url'];
         $aliasEntry['is_valid'] = $imageNodeArray[0]->get_attribute( 'is_valid' );
         $aliasEntry['is_new'] = false;
+        $aliasEntry['filesize'] = false;
+        if ( $aliasEntry['url'] and
+             file_exists( $aliasEntry['url'] ) )
+            $aliasEntry['filesize'] = filesize( $aliasEntry['url'] );
 
         $imageInformation = false;
         if ( count( $imageInfoNodeArray ) > 0 )
@@ -528,6 +535,9 @@ class eZImageAliasHandler
                 $aliasEntry['full_path'] =& $aliasEntry['url'];
                 $aliasEntry['is_new'] = false;
                 $aliasEntry['info'] =& $imageInformation;
+                if ( $aliasEntry['url'] and
+                     file_exists( $aliasEntry['url'] ) )
+                    $aliasEntry['filesize'] = filesize( $aliasEntry['url'] );
 
                 include_once( 'kernel/common/image.php' );
                 $imageManager =& imageInit();
@@ -979,10 +989,12 @@ class eZImageAliasHandler
 
         $aliasList = array( 'original' => $mimeData );
         $aliasList['original']['alternative_text'] = $imageAltText;
+        $aliasList['original']['original_filename'] = $originalFilename;
         if ( $imageManager->createImageAlias( 'original', $aliasList, array( 'basename' => $mimeData['basename'] ) ) )
         {
             $mimeData = $aliasList['original'];
             $mimeData['name'] = $mimeData['mime_type'];
+            $aliasList['original']['original_filename'] = $originalFilename;
         }
 
         $imageManager->analyzeImage( $mimeData );
