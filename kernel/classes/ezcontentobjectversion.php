@@ -147,24 +147,6 @@ class eZContentObjectVersion extends eZPersistentObject
      \return true if the requested attribute exists in object.
     */
 
-    function hasAttribute( $attr )
-    {
-        return $attr == 'creator'
-            or $attr == 'name'
-            or $attr == 'version_name'
-            or $attr == 'main_parent_node_id'
-            or $attr == 'parent_nodes'
-            or $attr == 'node_assignments'
-            or $attr == 'contentobject'
-            or $attr == 'language_list'
-            or $attr == 'translation'
-            or $attr == 'translation_list'
-            or $attr == 'related_contentobject_array'
-            or $attr == 'reverse_related_object_list'
-            or $attr == 'temp_main_node'
-            or eZPersistentObject::hasAttribute( $attr );
-    }
-
     function &fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZContentObjectVersion::definition(),
@@ -228,68 +210,10 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function &attribute( $attr )
     {
-        if ( $attr == 'creator' )
-        {
-            return $this->creator();
-        }
-        else if ( $attr == 'name' )
-        {
-            return $this->name();
-        }
-        else if ( $attr == 'version_name' )
-        {
-            return $this->versionName();
-        }
-        elseif ( $attr == 'main_parent_node_id' )
-        {
-            return $this->mainParentNodeID();
-        }
-        elseif ( $attr == 'parent_nodes' )
-        {
-            return  $this->parentNodes();
-        }
-        elseif ( $attr == 'node_assignments' )
-        {
-            return  $this->nodeAssignments();
-        }
-        elseif ( $attr == 'contentobject' )
-        {
-            return  $this->contentObject();
-        }
-        else if ( $attr == "data_map" )
-        {
-            return $this->dataMap();
-        }
-        elseif ( $attr == 'contentobject_attributes' )
-        {
-            return  $this->contentObjectAttributes();
-        }
-        elseif ( $attr == 'related_contentobject_array' )
-        {
-            return  $this->relatedContentObjectArray();
-        }
-        elseif ( $attr == 'reverse_related_object_list' )
-        {
-            return  $this->reverseRelatedObjectList();
-        }
-        elseif ( $attr == 'language_list' )
-        {
-            return  $this->translations();
-        }
-        elseif ( $attr == 'translation' )
-        {
-            return  $this->translation();
-        }
-        elseif ( $attr == 'translation_list' )
+        if ( $attr == 'translation_list' )
         {
             return  $this->translationList( eZContentObject::defaultLanguage() );
         }
-        else if ( $attr == 'temp_main_node' )
-        {
-            return $this->tempMainNode();
-        }
-        else if ( $attr == "can_versionread" )
-            return $this->canVersionRead();
         else
         {
             return eZPersistentObject::attribute( $attr );

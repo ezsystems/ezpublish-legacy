@@ -136,7 +136,9 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                       "validation_error" => "validationError",
                                                       "validation_log" => "validationLog",
                                                       "language" => "language",
-                                                      "is_a" => "isA"
+                                                      "is_a" => "isA",
+                                                      'xml' => 'xml',
+                                                      'xml_editor' => 'xmlEditor'
                                                       ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObjectAttribute",
@@ -314,50 +316,6 @@ class eZContentObjectAttribute extends eZPersistentObject
     function storeNewRow()
     {
         return eZPersistentObject::store();
-    }
-
-    function &attribute( $attr )
-    {
-        if ( $attr == "contentclass_attribute" )
-            return $this->contentClassAttribute();
-        if ( $attr == "contentclass_attribute_identifier" )
-            return $this->contentClassAttributeIdentifier();
-        if ( $attr == "can_translate" )
-            return $this->contentClassAttributeCanTranslate();
-        else if ( $attr == "value" )
-            return $this->value();
-        else if ( $attr == "content" )
-            return $this->content( );
-        else if ( $attr == "has_http_value" )
-            return $this->hasHTTPValue();
-        else if ( $attr == "has_content" )
-            return $this->hasContent( );
-        else if ( $attr == "class_content" )
-            return $this->classContent( );
-        else if ( $attr == "object" )
-            return $this->object( );
-        else if ( $attr == "xml" )
-            return $this->xml( );
-        else if ( $attr == "xml_editor" )
-            return $this->xmlEditor( );
-        else if ( $attr == "has_validation_error" )
-            return $this->hasValidationError( );
-        else if ( $attr == "validation_error" )
-            return $this->validationError( );
-        else if ( $attr == "validation_log" )
-            return $this->validationLog( );
-        else if  ( $attr == "language" )
-            return $this->language( );
-        else if  ( $attr == "is_a" )
-            return $this->isA( );
-        else if ( $attr == 'view_template' )
-            return $this->viewTemplateName();
-        else if ( $attr == 'edit_template' )
-            return $this->editTemplateName();
-        else if ( $attr == 'result_template' )
-            return $this->resultTemplate();
-        else
-            return eZPersistentObject::attribute( $attr );
     }
 
     /**

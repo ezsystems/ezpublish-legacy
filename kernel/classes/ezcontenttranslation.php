@@ -88,20 +88,6 @@ class eZContentTranslation extends eZPersistentObject
     {
     }
 
-    function hasAttribute( $attribute )
-    {
-        return ( $attribute == 'locale_object' or
-                 eZPersistentObject::hasAttribute( $attribute ) );
-    }
-
-    function &attribute( $attribute )
-    {
-        if ( $attribute == 'locale_object' )
-            return $this->localeObject();
-        else
-            return eZPersistentObject::attribute( $attribute );
-    }
-
     function &localeObject()
     {
         include_once( 'lib/ezlocale/classes/ezlocale.php' );

@@ -156,7 +156,7 @@ class eZContentClassAttribute extends eZPersistentObject
                       'keys' => array( 'id', 'version' ),
                       "function_attributes" => array( "content" => "content",
                                                       'temporary_object_attribute' => 'instantiateTemporary',
-                                                      "contentclass_attribute_identifier" ),
+                                                      'data_type' => 'dataType' ),
                       'increment_key' => 'id',
                       'sort' => array( 'placement' => 'asc' ),
                       'class_name' => 'eZContentClassAttribute',
@@ -222,7 +222,7 @@ class eZContentClassAttribute extends eZPersistentObject
         $attribute->postInitialize();
     }
 
-    function instantiateTemporary( $contentobjectID )
+    function instantiateTemporary( $contentobjectID = false )
     {
         $attribute =& eZContentObjectAttribute::create( $this->attribute( 'id' ), $contentobjectID );
         return $attribute;
@@ -389,31 +389,6 @@ class eZContentClassAttribute extends eZPersistentObject
                                                   array( 'contentclass_id' => $cid,
                                                          'version' => $version ),
                                                   $down );
-    }
-
-    function attributes()
-    {
-        return array_merge( eZPersistentObject::attributes(), array( 'data_type' ) );
-    }
-
-    function hasAttribute( $attr )
-    {
-        return $attr == 'data_type' or eZPersistentObject::hasAttribute( $attr);
-    }
-
-    function &attribute( $attr )
-    {
-        if ( $attr == 'data_type' )
-        {
-            $datatype =& $this->dataType();
-            return $datatype;
-        }
-        else if ( $attr == "content" )
-            return $this->content( );
-        else if ( $attr == 'temporary_object_attribute' )
-            return $this->instantiateTemporary( false );
-        else
-            return eZPersistentObject::attribute( $attr );
     }
 
     function &dataType()

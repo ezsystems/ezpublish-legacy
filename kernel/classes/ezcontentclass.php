@@ -117,7 +117,11 @@ class eZContentClass extends eZPersistentObject
                                                                   'default' => 0,
                                                                   'required' => true )),
                       "keys" => array( "id", "version" ),
-                      "function_attributes" => array( "data_map" => "dataMap" ),
+                      "function_attributes" => array( "data_map" => "dataMap",
+                                                      'object_count' => 'objectCount',
+                                                      'version_count' => 'VersionCount',
+                                                      'version_status' => 'versionStatus',
+                                                      'remote_id' => 'remoteID' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentClass",
                       "sort" => array( "id" => "asc" ),
@@ -360,10 +364,8 @@ class eZContentClass extends eZPersistentObject
     function hasAttribute( $attr )
     {
 
-        return ( $attr == "object_count" or $attr == "version_status" or $attr == "version_count" or
-                 $attr == "creator" or $attr == "modifier" or
-                 $attr == "ingroup_list" or $attr == "ingroup_id_list" or  $attr == "group_list" or
-                 $attr == "defined_list" or $attr == "mixed_list" or $attr == "temporary_list" or
+        return ( $attr == "ingroup_list" or $attr == "ingroup_id_list" or  $attr == "group_list" or
+                 $attr == 'creator' or $attr == 'modifier'or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
 
@@ -371,37 +373,16 @@ class eZContentClass extends eZPersistentObject
     {
         switch( $attr )
         {
-            case 'data_map':
+            case 'creator':
             {
-                return $this->dataMap();
+                return $this->CreatorID;
             } break;
 
-            case "object_count":
+            case 'modifier':
             {
-                return $this->objectCount();
+                return $this->ModifierID;
             } break;
 
-            case "version_count":
-            {
-                return $this->VersionCount;
-            } break;
-
-            case "version_status":
-            {
-                return $this->versionStatus();
-            } break;
-            case "creator":
-            {
-                $user_id = $this->CreatorID;
-            } break;
-            case "modifier":
-            {
-                $user_id = $this->ModifierID;
-            } break;
-            case 'remote_id':
-            {
-                return $this->remoteID();
-            } break;
             case "ingroup_list":
             {
                 $this->InGroups =& eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
@@ -409,6 +390,7 @@ class eZContentClass extends eZPersistentObject
                                                                              true );
                 return $this->InGroups;
             } break;
+
             case "ingroup_id_list":
             {
                 $list = eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
@@ -421,13 +403,17 @@ class eZContentClass extends eZPersistentObject
                 }
                 return $this->InGroupIDs;
             } break;
+
             case "group_list":
             {
                 $this->AllGroups =& eZContentClassGroup::fetchList();
                 return $this->AllGroups;
             } break;
+
             default:
+            {
                 return eZPersistentObject::attribute( $attr );
+            } break;
         }
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $user =& eZUser::fetch( $user_id );
