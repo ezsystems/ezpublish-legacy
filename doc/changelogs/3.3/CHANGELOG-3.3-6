@@ -153,6 +153,14 @@ eZINI:
   http://ez.no/community/bug_reports/operator_mul_does_not_work_as_documented
 - Fixed bug with ezauthor and search meta data.
   http://ez.no/community/bug_reports/search_ezauthor
+- Fixed writing the expiry.php file to be an atomic operation so that multiple
+  content updates can not mangle the file. (Backported from 3.5/rev. 7576)
+- Fixed concurrency issue with cached files.
+  http://ez.no/community/bug_reports/critical_at_high_traffic_sites_files_aren_t_locked_at_writing_process
+- Fixed bug of ezdate and ezdatetime datatypes indexing in the search engine.
+  http://ez.no/community/bug_reports/index_of_ezdate_ezdatetime
+- Removed unused file kernel/classes/datatypes/ezuser/ezaccounthash.php
+  http://ez.no/community/bug_reports/wrong_user_class
 
 *Library:
 

@@ -162,6 +162,14 @@ class eZDateType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function isIndexable()
+    {
+        return true;
+    }
+
+    /*!
      Returns the meta data used for storing search indeces.
     */
     function metaData( $contentObjectAttribute )
