@@ -132,6 +132,29 @@ div#contentstructure
     overflow: scroll;
 }
 
+div#contentstructure ul#content_tree_menu
+{
+    margin-left: 0;
+}
+
+div#contentstructure ul#content_tree_menu li
+{
+    list-style-type: none;
+}
+
+a.openclose, span.openclose
+{
+    font-family: "Courier New", Courier, monospace; 
+    font-size: 0.7em;
+    color: #000000;
+    text-decoration: none;
+}
+
+span.openclose
+{
+    visibility: hidden;
+}
+
 div#rightmenu 
 {
     float: right;

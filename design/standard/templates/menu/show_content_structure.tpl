@@ -4,21 +4,13 @@
      showToolTips   = ezini( 'TreeMenu', 'ToolTips', 'contentstructuremenu.ini' )
      toolTip        = "" }
 
-    {*                                             
-    <li id="n{$:parentNode.node_id}" style="list-style-type:none; white-space:nowrap; margin-left:1em">
-    *}
-    <li id="n{$:parentNode.node.node_id}" style="list-style-type:none; white-space:nowrap; margin-left:1em">
+    <li id="n{$:parentNode.node.node_id}">
                                                       
         {* Fold/Unfold/Empty *}                                                                          
             {section show=$:haveChildren}
-                <a  href="#" 
-                    title={"Fold/Unfold"|i18n("menu/show_content_structure")}
-                    onclick="ezcst_onFoldClicked( this.parentNode ); return false;" 
-                    style="text-decoration:none; font-size:0.7em; font-family:monospace">
-                    [-]
-                </a>
+               <a class="openclose" href="#" title={"Fold/Unfold"|i18n("menu/show_content_structure")} onclick="ezcst_onFoldClicked( this.parentNode ); return false;">[-]</a>
             {section-else}
-                <a style="font-size:0.7em; font-family:monospace; visibility:hidden">[ ]</a>
+                <span class="openclose">[ ]</span>
             {/section}
             
         {* Icon *}
