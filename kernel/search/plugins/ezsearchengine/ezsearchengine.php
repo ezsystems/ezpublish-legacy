@@ -1003,7 +1003,7 @@ class eZSearchEngine
         $text =& str_replace("\t", " ", $text );
         $text =& str_replace("\r", " ", $text );
         $text =& preg_replace("(\s+)", " ", $text );
-      
+
         $text =& strtolower( $text );
 
         return $text;
@@ -1020,6 +1020,9 @@ class eZSearchEngine
                               array( 'type' => 'attribute',
                                      'subtype' =>  'integer',
                                      'params' => array( 'classattribute_id', 'value' ) ),
+                              array( 'type' => 'attribute',
+                                     'subtype' =>  'integers',
+                                     'params' => array( 'classattribute_id', 'values' ) ),
                               array( 'type' => 'attribute',
                                      'subtype' =>  'byrange',
                                      'params' => array( 'classattribute_id' , 'from' , 'to'  ) ),
@@ -1055,7 +1058,6 @@ class eZSearchEngine
     function searchAttributeInteger( $searchParams )
     {
         $classAttributeID = $searchParams['classattribute_id'];
-        $identifier = $searchParams['identifier'];
         $value = $searchParams['value'];
 
         $classAttributeQuery = "";
@@ -1079,10 +1081,36 @@ class eZSearchEngine
         }
     }
 
+    function searchAttributeIntegers( $searchParams )
+    {
+        $classAttributeID = $searchParams['classattribute_id'];
+        $values = $searchParams['values'];
+
+        $classAttributeQuery = "";
+        if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
+        {
+            $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
+        }
+
+        $integerValuesSql = implode( ', ', $values );
+        $searchPartSql = " ezsearch_object_word_link.integer_value IN ( $integerValuesSql ) AND";
+
+        $searchPartText =  $classAttributeQuery . $searchPartSql;
+        $tableResult = $this->createTemporaryTable( $searchPartText );
+
+        if ( $tableResult === false )
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     function searchAttributeByRange( $searchParams )
     {
         $classAttributeID = $searchParams['classattribute_id'];
-        $identifier = $searchParams['identifier'];
         $fromValue = $searchParams['from'];
         $toValue = $searchParams['to'];
 
