@@ -32,47 +32,42 @@
 
     <div class="content-view-children">
 
-        <table class="list" cellspacing="0">
+        <table class="list forum" cellspacing="0">
         <tr>
-            <th>
-                {"Post"|i18n("design/forum/layout")}
+            <th class="topic">
+                {"Topic"|i18n("design/forum/layout")}
             </th>
-            <th>
-                {"Author"|i18n("design/forum/layout")}
-            </th>
-            <th>
+            <th class="replies">
                 {"Replies"|i18n("design/forum/layout")}
             </th>
-            <th>
+            <th class="lastreply">
                 {"Last reply"|i18n("design/forum/layout")}
             </th>
         </tr>
 
-        {section var=topic loop=$topic_list sequence=array(bglightforum,bgdarkforum)}
+        {section var=topic loop=$topic_list sequence=array(bglight,bgdark)}
         <tr class="{$topic.sequence}">
-            <td class="post">
-                {section show=$topic.object.data_map.sticky.content}<img src={"sticky_icon-red.gif"|ezimage} height="20" width="20" align="middle" alt="" />{/section}
-                <a href={$topic.url_alias|ezurl}>{$topic.object.name|wash}</a>
-            </td>
-            <td>
+            <td class="topic">
+                <p>{section show=$topic.object.data_map.sticky.content}<img src={"sticky-16x16-icon.gif"|ezimage} height="16" width="16" align="middle" alt="" />{/section}
+                <a href={$topic.url_alias|ezurl}>{$topic.object.name|wash}</a></p>
                 <div class="attribute-byline">
+                   <p class="author">{$topic.object.owner.name|wash}</p>
                    <p class="date">{$topic.object.published|l10n(shortdatetime)}</p>
-                   <p class="author"> by {$topic.object.owner.name|wash}</p>
                 </div>
             </td>
-            <td>
-                {fetch('content','tree_count',hash(parent_node_id,$topic.node_id))}
+            <td class="replies">
+                <p>{fetch('content','tree_count',hash(parent_node_id,$topic.node_id))}</p>
             </td>
-            <td>
+            <td class="lastreply">
             {let last_reply=fetch('content','list',hash( parent_node_id, $topic.node_id,
                                                          sort_by, array( array( 'published', false() ) ),
                                                          limit, 1 ) ) }
                 {section var=reply loop=$last_reply show=$last_reply}
-                Last reply: <a href={concat($reply.parent.url_alias,'#msg',$reply.node_id)|ezurl}>{$reply.name|wash}</a>
+                <p><a href={concat($reply.parent.url_alias,'#msg',$reply.node_id)|ezurl}>{$reply.name|wash}</a></p>
 
                 <div class="attribute-byline">
+                   <p class="author">{$reply.object.owner.name|wash}</p>
                    <p class="date">{$reply.object.published|l10n(shortdatetime)}</p>
-                   <p class="author"> by {$reply.object.owner.name|wash}</p>
                 </div>
                 {/section}
            {/let}

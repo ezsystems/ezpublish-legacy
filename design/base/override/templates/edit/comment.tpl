@@ -1,11 +1,9 @@
 <form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(array($edit_language,"/"),''))|ezurl}>
-<table class="layout" width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr>
-    <td valign="top">
 
-    <div class="maincontentheader">
+<div class="edit">
+    <div class="class-article-comment">
+
     <h1>{"Edit %1 - %2"|i18n("design/standard/content/edit",,array($class.name|wash,$object.name|wash))}</h1>
-    </div>
 
     {include uri="design:content/edit_validation.tpl"}
 
@@ -48,11 +46,6 @@
         <input type="hidden" name="DiscardConfirm" value="0" />
     </div>
 
-    </td>
-    <td width="120" align="right" valign="top" style="padding-left: 16px;">
-
-    </td>
-</tr>
-</table>
-
+    </div>
+</div>
 </form>

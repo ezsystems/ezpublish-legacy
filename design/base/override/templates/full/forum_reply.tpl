@@ -3,21 +3,23 @@
 <div class="forum_level4">
 <table class="forum" cellspacing="0">
 <tr>
-    <th>
+    <th class="author">
     Author
     </th>
-    <th>
+    <th class="message">
     Topic
     </th>
 </tr>
 <tr class="bglightforum">
     <td class="author">
-    <p>{$node.object.owner.name|wash}<br />
+    <p class="author">{$node.object.owner.name|wash}<br />
     {$node.object.owner.data_map.title.content|wash}</p>
     
-    <p>
+    <p class="date">({$node.object.published|l10n(datetime)})</p>
+
+    <div class="authorimage">
     {attribute_view_gui attribute=$node.object.owner.data_map.user_image image_class=small}
-    </p>
+    </div>
 
     <p>Location:{$node.object.owner.data_map.location.content|wash}</p>
     <p> 	
@@ -40,8 +42,7 @@
     {/section}
     </td>
     <td class="message">
-    <h3 class="title">{$node.name|wash}</h3>
-    <p class="date">({$node.object.published|l10n(datetime)})</p>
+    <h3>{$node.name|wash}</h3>
     <p>
     {$node.object.data_map.message.content|wash(xhtml)|nl2br|wordtoimage|autolink}
     </p>

@@ -26,24 +26,25 @@
         {/section}
 
         <div class="content-view-children">
-            <table class="list" cellspacing="0">
+            <table class="list forum" cellspacing="0">
             <tr>
-                <th>
+                <th class="author">
                     {"Author"|i18n("design/forum/layout")}
                 </th>
-                <th>
-                    {"Topic"|i18n("design/forum/layout")}
-                    {$node.name|wash}
+                <th class="message">
+                    {"Message"|i18n("design/forum/layout")}
                  </th>
             </tr>
             <tr>
-               <td>
+               <td class="author">
                    <p class="author">{$node.object.owner.name|wash}</p>
                    {$node.object.owner.data_map.title.content|wash}
 
-                   <p>
+                  <p class="date">({$node.object.published|l10n(datetime)})</p>
+
+                   <div class="authorimage">
                       {attribute_view_gui attribute=$node.object.owner.data_map.user_image image_class=small}
-                   </p>
+                   </div>
 
                    <p>
                       {let owner_id=$node.object.owner.id}
@@ -63,22 +64,24 @@
                   {/section}
                </td>
                <td>
-                  <p class="date">({$node.object.published|l10n(datetime)})</p>
+                  <h2>{$node.name|wash}</h2>
                   <p>
                     {$node.object.data_map.message.content|wash(xhtml)|nl2br|wordtoimage|autolink}
                   </p>
                </td>
            </tr>
 
-           {section var=reply loop=$reply_list sequence=array(bgdarkforum,bglightforum)}
+           {section var=reply loop=$reply_list sequence=array(bgdark,bglight)}
            <tr class="{$reply.sequence}">
                <td class="author">
                   <p>{$reply.object.owner.name|wash}<br />
                   {$reply.object.owner.data_map.title.content|wash}</p>
 
-                  <p>
+                  <p class="date">({$Child:item.object.published|l10n(datetime)})</p>
+
+                   <div class="authorimage">
                       {attribute_view_gui attribute=$reply.object.owner.data_map.user_image image_class=small}
-                  </p>
+                  </div>
 
                   {let owner_id=$reply.object.owner.id}
                        {section var=author loop=$reply.object.author_array}
@@ -103,11 +106,10 @@
 
     </td>
     <td class="message">
-    <h3 class="title" id="msg{$Child:item.node_id}">{$Child:item.name|wash}</h3>
-    <p class="date">({$Child:item.object.published|l10n(datetime)})</p>
-    <p>
-    {$Child:item.object.data_map.message.content|wash(xhtml)|nl2br|wordtoimage|autolink}
-    </p>
+        <h2 id="msg{$Child:item.node_id}">{$Child:item.name|wash}</h2>
+        <p>
+        {$Child:item.object.data_map.message.content|wash(xhtml)|nl2br|wordtoimage|autolink}
+        </p>
     </td>
 </tr>
 {/section}

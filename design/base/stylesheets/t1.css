@@ -88,6 +88,7 @@ div#toolbar-top input.searchinput
 div#toolbar-top li.toolbar-item a
 { 
     color: #339999;
+    text-decoration: none;
 }
 
 div#toolbar-top li.first
@@ -327,7 +328,7 @@ div#path p a
 
 div#columns
 {
-    height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
+    height: 100%; /* Needs to be set to avoid bug in IE 5.5 */
 }
 
 div#leftmenu ul, div#rightmenu ul
@@ -481,7 +482,7 @@ div.toolbox-design h2
     padding-left: 10px;
     padding-top: 3px;
     padding-bottom: 3px;
-    font: 12px regular;
+    font: 12px;
     background-color: #336699;
     color: #fff;
 }
@@ -498,9 +499,8 @@ div.toolbox-design input.searchtext, div.toolbox-design input.textinput
 {
     height: 18px;
     width: 120px;
-    font: 9pt;
     border: 1px solid #839dbd;
-    background-color: #fff;
+    background-color: #ffffff;
 }
 
 div.toolbox-design label
@@ -508,8 +508,7 @@ div.toolbox-design label
     padding-top: 6px;
     margin-bottom: 0px;
     padding-bottom: 0px;
-    font: 9pt;
-    color: #000;
+    color: #000000;
     font-weight: normal;
 }
 
@@ -520,9 +519,7 @@ div.toolbox-design form
 
 div.toolbox-design div.info-text p
 { 
-    font: 9pt;
-    color: #000;
-    font: 9pt;
+    color: #000000;
     font-weight: normal;
 }
 
@@ -530,7 +527,6 @@ div.toolbox-design div.attribute-link p
 { 
     padding-top: 0px;
     padding-left: 6px;
-    font: 9pt;
     font-weight: normal;
     vertical-align: center;
     background-image: url(../images/t1/t1-arrow.gif);
@@ -543,7 +539,6 @@ div.toolbox-design div.attribute-link-disabled p
     color: #666;
     padding-top: 0px;
     padding-left: 6px;
-    font: 9pt;
     font-weight: normal;
     vertical-align: center;
 }
@@ -570,7 +565,7 @@ div.toollist-design h2
     margin-top: 0px;
     padding-top: 2px;
     padding-bottom: 3px;
-    font: 12px regular;
+    font: 12px;
     background-color: #336699;
     color: #fff;
 }
@@ -585,34 +580,31 @@ div.toollist-design div.content-view-children
 
 div.toollist-design h3
 { 
-    font: 9pt regular underline;
-    color: #369;
-    margin: 0px;
+    text-decoration: underline;
+    color: #336699;
+    margin: 0;
 }
 
 div.toollist-design div.class-article div.attribute-short p
 { 
-    margin: 0px;
-    font: 9pt regular;
-    color: #666;
+    margin: 0;
+    color: #666666;
 }
 
 div.toollist-design div.class-article div.attribute-link p
 { 
-    margin-top: 0px;
+    margin-top: 0;
     margin-bottom: 10px;
-    font: 9pt regular;
-    color: #369;
+    color: #336699;
 }
 
 div.toollist-design div.class-article div.attribute-link-disabled p
 { 
-    color: #666;
-    padding-top: 0px;
+    color: #666666;
+    padding-top: 0;
     padding-left: 6px;
-    font: 9pt;
     font-weight: normal;
-    vertical-align: center;
+    vertical-align: middle;
 }
 
 
@@ -679,7 +671,7 @@ div#maincontent-design h2
     font-weight: bold;
     color: #099;
     margin-bottom: 0px;
-    margin-top: 0px;
+    margin-top: 0.25em;
     clear: both;
 }
 
@@ -696,7 +688,7 @@ div#maincontent-design h4
 { 
     font: 9pt;
     font-weight: bold;
-    color: #036;
+    color: #003366;
     margin-bottom: 0px;
 }
 
@@ -704,37 +696,32 @@ div#maincontent-design h5
 { 
     font: 9pt;
     font-weight: bold;
-    color: #036;
+    color: #003366;
     margin-bottom: 0px;
 }
 
 /* folder */
 div#maincontent-design div.class-folder div.attribute-short p
 { 
-    padding-top: 0px;
-    margin-top: 0px;
-    font: 9pt;
     font-weight: bold;
-    color: #036;
+    color: #003366;
 }
 
 /* article */
 div#maincontent-design div.class-article div.attribute-short p
 { 
-    padding-top: 0px;
-    margin-top: 0px;
-    font: 9pt;
+    padding-top: 0;
+    margin-top: 0;
     font-weight: bold;
-    color: #036;
+    color: #003366;
 }
 
 div#maincontent-design div.class-folder div.class-article div.attribute-short p
 { 
-    padding-top: 0px;
-    margin-top: 0px;
-    font: 9pt;
+    padding-top: 0;
+    margin-top: 0;
     font-weight: normal;
-    color: #036;
+    color: #003366;
 }
 
 /* product */
@@ -770,10 +757,8 @@ div#maincontent-design div.class-product div.attribute-price p
 div#maincontent-design div.content-view-full div.content-view-line div.attribute-link p
 { 
     padding-top: 0px;
-    padding-left: 6px;
-    font: 9pt;
+    padding-left: 8px;
     font-weight: normal;
-    vertical-align: center;
     background-image: url(../images/t1/t1-arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
@@ -783,10 +768,9 @@ div#maincontent-design div.content-view-full div.content-view-line div.attribute
 { 
     color: #666;
     padding-top: 0px;
-    padding-left: 6px;
-    font: 9pt;
+    padding-left: 8px;
     font-weight: normal;
-    vertical-align: center;
+    vertical-align: middle;
     background-image: url(../images/t1/t1-arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
@@ -797,10 +781,8 @@ div#maincontent-design div.content-view-full div.content-view-line div.attribute
 div#maincontent-design div.content-view-full div.attribute-link p, div#maincontent-design div.view-slideshow div.attribute-link p, div#maincontent-design div.content-view-full div.attribute-tipafriend p
 { 
     padding-top: 0px;
-    padding-left: 6px;
-    font: 9pt;
+    padding-left: 8px;
     font-weight: normal;
-    vertical-align: center;
     background-image: url(../images/t1/t1-arrow.gif);
     background-position: center left;
     background-repeat: no-repeat;
@@ -857,7 +839,6 @@ div.content-view-full div.content-view-line div.attribute-byline p.date
 
 div.class-product div.content-view-line div.class-review div.attribute-message p
 { 
-    font: 9pt;
     padding-top: 0px;
     margin-top: 0px;
     color: #036;
@@ -939,7 +920,6 @@ div#maincontent-design div.class-gallery div.content-view-children div.attribute
 
 div#maincontent-design div.attribute-long p
 { 
-    font: 9pt regular;
     color: #036;
 }
 
@@ -963,7 +943,7 @@ div#maincontent-design div.factbox-design h2, div#maincontent-design div.content
     margin-top: 0px;
     padding-top: 2px;
     padding-bottom: 3px;
-    font: 12px regular;
+    font: 12px;
     background-color: #336699;
     color: #fff;
 }
@@ -981,7 +961,7 @@ div#maincontent-design div.content-view-embed div.content-view-children, div.fac
 
 div#maincontent-design div.content-view-embed h3
 { 
-    font: 9pt regular underline;
+    font: 9pt underline;
     color: #369;
     margin: 0px;
 }
@@ -1043,7 +1023,7 @@ div.object-center
 
 div.factbox h3
 { 
-    font: 9pt regular;
+    font: 9pt;
     color: #369;
     margin: 0px;
 }
@@ -1072,7 +1052,7 @@ div.content-view-listitem div.class-image div.attribute-image p
 
 div.content-view-listitem div.class-image div.attribute-caption p
 { 
-    font: 9pt regular;
+    font: 9pt;
     padding: 0px;
     margin: 0px;
     color: #666;
@@ -1081,7 +1061,7 @@ div.content-view-listitem div.class-image div.attribute-caption p
 /* list item product */
 div.content-view-listitem div.class-product div.attribute-short p
 { 
-    font: 9pt regular;
+    font: 9pt;
     padding: 0px;
     margin: 0px;
     color: #666;
@@ -1089,7 +1069,7 @@ div.content-view-listitem div.class-product div.attribute-short p
 
 div.content-view-listitem div.class-product div.attribute-price p
 { 
-    font: 9pt regular;
+    font: 9pt;
     padding: 0px;
     margin: 0px;
     color: #000;
@@ -1097,7 +1077,7 @@ div.content-view-listitem div.class-product div.attribute-price p
 
 div.content-view-listitem div.class-product div.attribute-link a
 { 
-    font: 9pt regular;
+    font: 9pt;
     padding: 0px;
     margin: 0px;
     color: #369;
@@ -1134,7 +1114,7 @@ div.class-article div.attribute-caption
 
 div.class-article div.attribute-image div.imagecaption p
 { 
-    font: 9pt regular;
+    font: 9pt;
     padding: 0px;
     margin: 0px;
     color: #666;
@@ -1385,3 +1365,70 @@ table.renderedtable
     border-bottom: 1px solid #369;
 }
 
+/* Forum */
+
+div.infoline p
+{
+    float: left;
+    margin-right: 1em;
+}
+
+div.infoline
+{
+    margin: -0.5em 0 -0.5em 0;
+}
+
+table.forum div.attribute-byline p
+{
+}
+
+table.forum div.attribute-byline p.author, table.forum div.attribute-byline p.date
+{
+    display: block;
+}
+
+table.forum p.date
+{
+    font-size: 0.8em;
+}
+
+table.forum th
+{
+    color: #ffffff;
+    background-color: #7b92bc;
+}
+
+div.content-view-children table.forum th.topic
+{
+    width: 45%;
+}
+
+div.content-view-children table.forum th.replies
+{
+    width: 10%;
+}
+
+div.content-view-children table.forum th.lastreply
+{
+    width: 45%;
+}
+
+div.content-view-children table.forum th.author
+{
+    width: 25%;
+}
+
+div.content-view-children table.forum th.message
+{
+    width: 75%;
+}
+
+table.forum tr.bglight, table.forum tr.bgdark
+{
+    background-color: #ffffff;
+}
+
+table.forum tr.bglight td, table.forum tr.bgdark td
+{
+    border-top: 1px solid #7b92bc;
+}
