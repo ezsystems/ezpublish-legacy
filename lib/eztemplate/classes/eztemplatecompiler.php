@@ -2281,7 +2281,7 @@ else
                  $variableDataType == EZ_TEMPLATE_TYPE_NUMERIC or
                  $variableDataType == EZ_TEMPLATE_TYPE_IDENTIFIER or
                  $variableDataType == EZ_TEMPLATE_TYPE_ARRAY or
-                 $variableDataTYpe == EZ_TEMPLATE_TYPE_BOOLEAN )
+                 $variableDataType == EZ_TEMPLATE_TYPE_BOOLEAN )
             {
                 $dataValue = $variableDataItem[1];
                 $dataText = $php->variableText( $dataValue, 0 );
