@@ -52,8 +52,6 @@ $http =& eZHTTPTool::instance();
 
 $iniPath = "settings/siteaccess/$currentSiteAccess";
 $ini =& eZINI::instance( "toolbar.ini", 'settings', null, false, null, false );
-$ini->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
-$ini->loadCache();
 
 $iniAppend =& eZINI::instance( 'toolbar.ini.append', $iniPath, null, false, null, true );
 
@@ -90,7 +88,7 @@ if ( $http->hasPostVariable( 'NewToolButton' ) or
     for ( $originalIndex = 0; $originalIndex < count( $existingToolArray ); ++$originalIndex )
     {
         $originalPlacement = $originalIndex + 1;
-        if ( in_array( $originalIndex, $deleteToolKeys ) )
+        if ( in_array( $originalIndex, $deleteToolArray ) )
         {
             continue;
         }
@@ -171,11 +169,6 @@ else if ( $http->hasPostVariable( 'StoreButton' ) )
     $removeCache = true;
 }
 
-if ( $ini->hasVariable( "Tool", "AvailableToolArray" ) )
-{
-    $availableToolArray =  $ini->variable( "Tool", "AvailableToolArray" );
-}
-
 $toolList = array();
 foreach ( array_keys( $toolArray ) as $toolKey )
 {
@@ -187,10 +180,10 @@ foreach ( array_keys( $toolArray ) as $toolKey )
     {
         $defaultActionParameters = $ini->group( "Tool_" . $toolName );
     }
-    if ( $ini->hasGroup( "Tool_" . $toolbarPosition . "_" . $toolName . "_" . ( $toolKey + 1 ) ) )
+    /* if ( $ini->hasGroup( "Tool_" . $toolbarPosition . "_" . $toolName . "_" . ( $toolKey + 1 ) ) )
     {
         $defaultActionParameters = array_merge( $defaultActionParameters, $ini->group( "Tool_" . $toolbarPosition . "_" . $toolName . "_" . ( $toolKey + 1 ) ) );
-    }
+    }*/
 
     if ( $iniAppend->hasGroup( "Tool_" . $toolName ) )
     {
@@ -201,8 +194,6 @@ foreach ( array_keys( $toolArray ) as $toolKey )
         $actionParameters = array_merge( $actionParameters, $iniAppend->group( "Tool_" . $toolbarPosition . "_" . $toolName . "_" . ( $toolKey + 1 ) ) );
     }
     $actionParameters = array_merge( $defaultActionParameters, $actionParameters );
-
-    $makeNewBlock = false;
     $removeNewBlock = true;
     $newActionParameters = array();
     $toolParameters = array();
@@ -267,6 +258,14 @@ if ( $storeList )
 if ( $removeCache )
 {
     removeRelatedCache( $currentSiteAccess );
+}
+
+$ini->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
+$ini->loadCache();
+
+if ( $ini->hasVariable( "Tool", "AvailableToolArray" ) )
+{
+    $availableToolArray =  $ini->variable( "Tool", "AvailableToolArray" );
 }
 
 $tpl =& templateInit();
