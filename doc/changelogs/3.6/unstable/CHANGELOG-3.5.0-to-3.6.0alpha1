@@ -264,6 +264,13 @@ eZInformationCollection:
 - Fixed bug #6443: New bug: Cached view preference list is not used when user
   does not have any preferences set.
   (Manually merged from stable/3.5 (3.5.2) rev. 11276)
+- Fixed bug: Content cache pregeneration: The DesignSetting of the selected
+  siteaccess were not used.
+  (Submitted by: Bruce Morrison)
+- Fixed bug: Content cache pregeneration: The cache was generated for the 
+  currently logged in user instead of the anonymous user or another specific
+  user.
+  (Submitted by: Bruce Morrison)
   
 *Library:
 PDF:
