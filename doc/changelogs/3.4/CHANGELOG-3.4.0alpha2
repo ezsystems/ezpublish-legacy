@@ -88,6 +88,8 @@ eZ PHP creator:
   http://ez.no/community/bug_reports/error_in_ezsimpletagsoperator_php
 - Fixed bug with wrong case usage in arithmetic operator.
   http://ez.no/community/bug_reports/typo_in_eztemplatearithmeticoperator_php
+- Fixed a warning in content/browse.php (Merged from stable/3.3 rev. 5526)
+  http://ez.no/community/bug_reports/warning_in_browse_php_when_assign_a_section
 
 
 *Update
