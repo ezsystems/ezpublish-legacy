@@ -1,4 +1,4 @@
-{section show=$forward_info.error}
+{section show=$forward_info}
     <div class="message-error">
         <h2>{'The requested URL forwarding could not be created.'|i18n( 'design/admin/content/urltranslator' )}<span class="time">{currentdate()|l10n(shortdatetime)}</span></h2>
          <ul>
@@ -9,11 +9,19 @@
     </div>
 {/section}
 
-
 <form name="urltranslator" action={concat( 'content/urltranslator/' )|ezurl} method="post" >
 
+{* New URL translation *}
 <div class="context-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h2 class="context-title">{'New URL translation'|i18n( 'design/admin/content/urltranslator' )}</h2>
+
+{* DESIGN: Mainline *}<div class="header-subline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
 <table class="list" cellspacing="0">
 <tr>
 <th width="40%">{'Virtual URL'|i18n( 'design/admin/content/urltranslator' )}</th>
@@ -44,10 +52,22 @@
 </td>
 </tr>
 </table>
+{* DESIGN: Content END *}</div></div></div></div></div></div>
 </div>
 
+
+
+{* New URL forwarding *}
 <div class="context-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h2 class="context-title">{'New URL forwarding'|i18n( 'design/admin/content/urltranslator' )}</h2>
+
+{* DESIGN: Mainline *}<div class="header-subline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
 <table class="list" cellspacing="0">
 <tr>
 <th width="40%">{'Existing virtual URL'|i18n( 'design/admin/content/urltranslator' )}</th>
@@ -75,10 +95,21 @@
 </td>
 </tr>
 </table>
+{* DESIGN: Content END *}</div></div></div></div></div></div>
 </div>
 
+
+{* New URL wildcard *}
 <div class="context-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h2 class="context-title">{'New URL wildcard'|i18n( 'design/admin/content/urltranslator' )}</h2>
+
+{* DESIGN: Mainline *}<div class="header-subline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
 <table class="list" cellspacing="0">
 <tr>
 <th>{'Existing virtual URL'|i18n( 'design/admin/content/urltranslator' )}</th>
@@ -115,15 +146,27 @@
 </td>
 </tr>
 </table>
+{* DESIGN: Content END *}</div></div></div></div></div></div>
 </div>
 
+
+
+
+{* Custom URL translations  *}
 <div class="context-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h2 class="context-title">{'Custom URL translations [%alias_count]'|i18n(  'design/admin/content/urltranslator' ,, hash( '%alias_count', $alias_list|count ) )}</h2>
+
+{* DESIGN: Mainline *}<div class="header-subline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section show=$alias_list}
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.urltranslator, 'URLAliasSelection[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/urltranslator' )}" onclick="ezjs_toggleCheckboxes( document.urltranslator, 'URLAliasSelection[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/urltranslator' )}" /></th>
     <th>{'Virtual URL'|i18n( 'design/admin/content/urltranslator' )}</th>
     <th>{'System URL'|i18n( 'design/admin/content/urltranslator' )}</th>
     <th>{'Type'|i18n( 'design/admin/content/urltranslator' )}</th>
@@ -172,11 +215,15 @@
 <p>{'There are no entries in this list.'|i18n( 'design/admin/content/urltranslator' )}</p>
 {/section}
 
+{* DESIGN: Content END *}</div></div></div>
+
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 <input class="button" type="submit" name="RemoveURLAliasButton" value="{'Remove selected'|i18n( 'design/admin/content/urltranslator' )}" {section show=$alias_list|not}disabled="disabled"{/section} />
 <input class="button" type="submit" name="StoreURLAliasButton"  value="{'Apply changes'|i18n( 'design/admin/content/urltranslator' )}" {section show=$alias_list|not}disabled="disabled"{/section} />
 </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
 </div>
