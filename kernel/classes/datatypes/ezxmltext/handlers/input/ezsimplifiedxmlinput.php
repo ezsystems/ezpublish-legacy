@@ -34,62 +34,6 @@
 // you.
 //
 
-/*!
-
-<?xml version="1.0" encoding="utf-8" ?>
-<section>
-<header>This is a level one header</header>
-<paragraph>
-This is a <emphasize>block</emphasize> of text.
-</paragraph>
-  <section>
-  <header>This is a level two header</header>
-  <paragraph>
-  This is the second paragraph.<emphasize>emphasized/bold text</emphasize>
-  </paragraph>
-  <header>This is a level two header</header>
-  <paragraph>
-  This is the second paragraph.<emphasize>emphasized/bold text</emphasize>
-  </paragraph>
-  <paragraph>
-  This is the second paragraph.<emphasize>emphasized/bold text</emphasize>
-  </paragraph>
-  <paragraph>
-  <ul>
-     <li>List item 1</li>
-     <li>List item 2</li>
-  </ul>
-  </paragraph>
-  <header>This is a level two header</header>
-  </section>
-</section>
-
-
-$sectionArray = array( 'paragraph', 'section', 'header' );
-
-$blockTagArray = array( 'table', 'ul', 'ol', 'literal', 'custom', 'object' );
-$inlineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'foo' );
-
-$tagAliasArray = array( 'stro' => arrau( 'b', 'bold' ) );
-
-$tableTagArray = array( 'tr' );
-$trTagArray = array( 'td', 'th' );
-
-$tagAttributeArra['table'] = array( 'width' => array( 'required' => false ) );
-$tagAttributeArra['link'] = array( 'href' => array( 'required' => true ) );
-
-$paragraph = array_merge( $blockTagArray, $inlineTagArray );
-
-
-//
-function handleTag()
-{
-}
-
-Section
-
-
-*/
 
 include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php' );
 
@@ -113,16 +57,18 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             eZDebug::writeDebug($data, "input data");
 
             $inputData = "<section>";
-            $inputData .= "<p>";
+            $inputData .= "<paragraph>";
             $inputData .= $data;
-            $inputData .= "</p>";
+            $inputData .= "</paragraph>";
             $inputData .= "</section>";
 
             $data =& $this->convertInput( $inputData );
             $message = $data[1];
             if ( $message == "Valid" )
             {
-                $contentObjectAttribute->setValidationError( $message );
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                     $message,
+                                                                     'ezXMLTextType' ) );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
             else
@@ -139,9 +85,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     if (  $currentObject == null )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Object %1 does not exist.',
-                                                                             'ezXMLTextType',
-                                                                             array( $objectID ) ) );
+                                                                             'Object '. $objectID .' does not exist.',
+                                                                             'ezXMLTextType' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
                     else
@@ -171,9 +116,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         if (  $url == null )
                         {
                             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                                 'Link %1 does not exist.',
-                                                                                 'ezXMLTextType',
-                                                                                 array( $linkID ) ) );
+                                                                                 'Link '. $linkID .' does not exist.',
+                                                                                 'ezXMLTextType' ) );
                             return EZ_INPUT_VALIDATOR_STATE_INVALID;
                         }
                     }
@@ -208,6 +152,217 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     }
 
     /*!
+      Change input tags to standard tag name
+    */
+    function &standizeTag( $tagName )
+    {
+        $convertedTagName = $tagName;
+        if ( in_array( $tagName, $this->tagAliasArray['strong'] ) )
+            $convertedTagName = "strong";
+        if ( in_array( $tagName, $this->tagAliasArray['emphasize'] ) )
+        {
+            $convertedTagName = "emphasize";
+        }
+        return $convertedTagName;
+    }
+
+    /*!
+      Function deal with all block tags, pop up paragraph node.
+    */
+    function &handleEndTag( $tagName, $lastInsertedNodeTag, &$currentNode, &$lastInsertedNode, &$TagStack )
+    {
+        $parentNodeTag = $lastInsertedNodeTag;
+        if ( in_array( $tagName, $this->blockTagArray ) )
+        {
+            print("End called");
+            unset( $currentNode );
+            $currentNode =& $lastInsertedNode ;
+            $lastInsertedNodeArray = array_pop( $TagStack );
+            $parentNodeTag = $lastInsertedNodeArray["TagName"];
+        }
+        if ( $tagName == 'td' or $tagName == 'th' )
+        {
+            while ( $parentNodeTag == "section" or $parentNodeTag == "paragraph" )
+            {
+                unset( $currentNode );
+                $currentNode =& $lastInsertedNode ;
+
+                $parentNodeArray = array_pop( $TagStack );
+                $parentNodeTag = $parentNodeArray["TagName"];
+                $lastInsertedNode =& $parentNodeArray["ParentNodeObject"];
+            }
+        }
+        return $parentNodeTag;
+    }
+
+    /*!
+    */
+    function handleStartTag( $standardTagName, $tagName, $lastInsertedNodeTag, &$currentNode, &$domDocument, &$TagStack, &$message, $attrPart )
+    {
+        unset( $subNode );
+        $subNode = new eZDOMNode();
+        eZDebug::writeDebug($standardTagName,  "standardTagName");
+         eZDebug::writeDebug($lastInsertedNodeTag,  "lastInsertedNodeTag");
+         eZDebug::writeDebug($currentNode,  "currentNode");
+          eZDebug::writeDebug($domDocument,  "dom");
+	    $subTagArray['section'] = $this->sectionArray;
+	    $subTagArray['paragraph'] = array_merge( $this->blockTagArray, $this->inlineTagArray );
+	    $subTagArray['header'] = array( );
+	    $subTagArray['table'] = array( 'tr' );
+	    $subTagArray['tr'] = array( 'td', 'th' );
+	    $subTagArray['td'] = $subTagArray['section'];
+	    $subTagArray['th'] = $subTagArray['section'];
+	    $subTagArray['ol'] = array( 'li' );
+	    $subTagArray['ul'] = array( 'li' );
+	    $subTagArray['literal'] = array( );
+	    $subTagArray['custom'] = $this->sectionArray;
+	    $subTagArray['object'] = array( );
+	    $subTagArray['li'] = $this->inlineTagArray;
+	    $subTagArray['strong'] = $this->inlineTagArray;
+	    $subTagArray['emphasize'] = $this->inlineTagArray;
+	    $subTagArray['link'] = $this->inlineTagArray;
+	    $subTagArray['anchor'] = $this->inlineTagArray;
+	    $tagAttributeArray['table'] = array( 'width' => array( 'required' => false ),
+	    				     'border' => array( 'required' => false ) );
+
+        $tagAttributeArray['link'] = array( 'href' => array( 'required' => false ),
+	    				    'id' => array( 'required' => false , 'type' => 'string' ) );
+
+        $tagAttributeArray['anchor'] = array( 'name' => array( 'required' => true) );
+
+        $tagAttributeArray['object'] = array( 'id' => array( 'required' => true),
+	    				      'size' => array( 'required' => false),
+	    				      'align' => array( 'required' => false) );
+
+        $tagAttributeArray['custom'] = array( 'name' => array( 'required' => true ) );
+
+        // Check if tag is valid
+        $currentTag = $standardTagName;
+        $parentNodeTag = $lastInsertedNodeTag;
+
+        // Deal with block tags.
+        if ( in_array( $currentTag, $this->blockTagArray ) )
+        {
+            eZDebug::writeDebug("here");
+            if ( $parentNodeTag == "section" )
+            {
+                // Add paragraph tag
+                $subNode->Name = "paragraph";
+                $subNode->LocalName = "paragraph";
+                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
+                $domDocument->registerElement( $subNode );
+                $currentNode->appendChild( $subNode );
+                $childTag = $childTagForParagraph;
+                array_push( $TagStack,
+                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
+                $currentNode =& $subNode;
+                $parentNodeTag = "paragraph";
+                unset( $subNode );
+                $subNode = new eZDOMNode();
+            }
+            elseif ( $lastInsertedNodeTag == "paragraph" )
+            {
+                // pop up paragraph tag
+                $lastNodeArray = array_pop( $TagStack );
+                $parentNodeTag = $lastNodeArray["TagName"];
+                $lastNode =& $lastNodeArray["ParentNodeObject"];
+
+                // Add paragraph tag
+                $subNode->Name = "paragraph";
+                $subNode->LocalName = "paragraph";
+                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
+                $domDocument->registerElement( $subNode );
+                $currentNode->appendChild( $subNode );
+                array_push( $TagStack,
+                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
+                $currentNode =& $subNode;
+                $parentNodeTag = "paragraph";
+                unset( $subNode );
+                $subNode = new eZDOMNode();
+            }
+        }
+
+        // Deal with paragraph tag.
+        if ( $currentTag == "paragraph" and $lastInsertedNodeTag == "paragraph" )
+        {
+             eZDebug::writeDebug("here 2");
+            //pop up paragraph tag
+            $lastNodeArray = array_pop( $TagStack );
+            $parentNodeTag = $lastNodeArray["TagName"];
+            $lastNode =& $lastNodeArray["ParentNodeObject"];
+            unset( $currentNode );
+            $currentNode =& $lastNode;
+        }
+        if ( in_array( $currentTag, $subTagArray[$parentNodeTag] ) )
+        {
+             eZDebug::writeDebug("here 3");
+            $subNode->Name = $currentTag;
+            $subNode->LocalName = $currentTag;
+            $subNode->Type = EZ_NODE_TYPE_ELEMENT;
+            if ( $attrPart != null )
+            {
+                $allowedAttr = array();
+                $existAttrNameArray = array();
+                unset( $attr );
+                $attr =& $this->parseAttributes( $attrPart );
+                // Tag is valid Check attributes
+                // parse attruibet
+                foreach ( $attr as $attribute )
+                {
+                    $attrName = $attrbute->Name;
+                    $existAttrNameArray[] = $attrName;
+                    if ( in_array( $attrName, $tagAttributeArray[$currentTag] ) )
+                    {
+                        // attr is allowed
+                        $allowedAttr[] = $attr;
+                    }
+                    else
+                    {
+                        // attr is not allowed
+                    }
+                }
+                // Check if there should be any more attributes
+			    foreach ( $tagAttributeArray[$currentTag] as $attribute )
+			    {
+                    if ( $attribute['required'] == true )
+                    {
+                        // Chekc if tag is already found
+                        if ( in_array( $attribute, $existAttrNameArray ) )
+                        {
+                            //do nothing
+                        }
+                        else
+                        {
+                            //Set input invalid
+                        }
+                    }
+                }
+                $subNode->Attributes = $allowedAttr;
+	        }
+
+            $domDocument->registerElement( $subNode );
+            $currentNode->appendChild( $subNode );
+
+            $childTag = $subTagArray[$currentTag];
+            if ( $tagName[strlen($tagName) - 1]  != "/" )
+            {
+                array_push( $TagStack,
+                            array( "TagName" => $currentTag, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
+                unset( $currentNode );
+                $currentNode =& $subNode;
+            }
+             eZDebug::writeDebug( $currentNode,"changed currentNode");
+             eZDebug::writedebug($domDocument->toString(), "dom to string0");
+        }
+        else
+        {
+            if ( $currentTag != "paragraph" )
+            // Tag does not exist in the array
+            $message .= "<li>Tag '" . $currentTag . "' is not allowed to be the child of '" . $lastInsertedNodeTag ."' (removed).</li>";
+        }
+    }
+
+    /*!
      \reimp
     */
     function &convertInput( &$text )
@@ -222,12 +377,12 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $text =& preg_replace( "#\n[\n]+#", "\n\n", $text );
 
         /* $text =& preg_replace( "#<bold>#", "<strong>", $text );
-        $text =& preg_replace( "#</bold>#", "</strong>", $text );
+        $text =& preg_replace( "#</bold>#", "</strong>", $text );*/
 
         $text =& preg_replace( "#<em>#", "<emphasize>", $text );
-        $text =& preg_replace( "#</em>#", "</emphasize>", $text );*/
+        $text =& preg_replace( "#</em>#", "</emphasize>", $text );
 
-        $text =& preg_replace( "#\n[\n]+#", "<p>", $text );
+        $text =& preg_replace( "#\n[\n]+#", "<paragraph>", $text );
 
         // Convert headers
         $text =& preg_replace( "#<header>#", "<header level='1'>", $text );
@@ -260,19 +415,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     array_push( $TagStack,
                                 array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag ) );
                 }
-                // Get the original last inserted tag name.
-                switch ( $lastInsertedNodeTag )
-                {
-                    case 'paragraph' :
-                    {
-                        $originalTagName = "p";
-                    }break;
-                    default:
-                    {
-                        $originalTagName = $lastInsertedNodeTag;
-                    }break;
-                }
-
                 // find tag name
                 $endTagPos = strpos( $data, ">", $pos );
 
@@ -329,100 +471,13 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
                     $tagName = substr( $justName, 1, strlen( $justName ) );
 
-                    $isPTag = false;
-                    switch ( $tagName )
-                    {
+                    // Convert to standard tag name.
+                    $convertedTag = $this->standizeTag( $tagName );
 
-                        // FIX: Need to use alias array
-                        case 'i' :
-                        case 'em' :
-                        {
-                            $convertedTag = "emphasize";
-                        }break;
-                        case 'b' :
-                        case 'bold' :
-                        case 'strong' :
-                        {
-                            $convertedTag = "strong";
-                        }break;
-                        case 'p' :
-                        {
-                            $convertedTag = "paragraph";
-                            $isPTag = true;
-                        }break;
-                        case 'table' :
-                        {
-                            $convertedTag = "table";
-                        }break;
-                        case 'custom' :
-                        {
-                            unset( $currentNode );
-                            $currentNode =& $lastInsertedNode ;
-                            $lastInsertedNodeArray = array_pop( $TagStack );
-                            $lastInsertedNodeTag = $lastInsertedNodeArray["TagName"];
-                            $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
-                            $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
-                            $convertedTag = "custom";
-                        }break;
-                        case 'header' :
-                        {
-                            $convertedTag = "header";
-                            $isPTag = true;
-                        }break;
-                        case 'ul' :
-                        {
-                            unset( $currentNode );
-                            $currentNode =& $lastInsertedNode ;
-                            $lastInsertedNodeArray = array_pop( $TagStack );
-                            $lastInsertedNodeTag = $lastInsertedNodeArray["TagName"];
-                            $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
-                            $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
-                            $convertedTag = "paragraph";
-                        }break;
-                        case 'ol' :
-                        {
-                            unset( $currentNode );
-                            $currentNode =& $lastInsertedNode ;
-                            $lastInsertedNodeArray = array_pop( $TagStack );
-                            $lastInsertedNodeTag = $lastInsertedNodeArray["TagName"];
-                            $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
-                            $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
-                            $convertedTag = "paragraph";
-                        }break;
-                        case 'td' :
-                        {
-                            while ( $lastInsertedNodeTag == "section" or $lastInsertedNodeTag == "paragraph" )
-                            {
-                                unset( $currentNode );
-                                $currentNode =& $lastInsertedNode ;
+                    // Call function to handle special end tags.
 
-                                $lastInsertedNodeArray = array_pop( $TagStack );
-                                $lastInsertedNodeTag = $lastInsertedNodeArray["TagName"];
-                                $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
-                                $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
-                            }
-                            $convertedTag = "td";
-                        }break;
-                        case 'th' :
-                        {
-                            while ( $lastInsertedNodeTag == "section" or $lastInsertedNodeTag == "paragraph" )
-                            {
-                                unset( $currentNode );
-                                $currentNode =& $lastInsertedNode ;
+                    $lastInsertedNodeTag = $this->handleEndTag( $convertedTag, $lastInsertedNodeTag, &$currentNode, &$lastInsertedNode, &$TagStack );
 
-                                $lastInsertedNodeArray = array_pop( $TagStack );
-                                $lastInsertedNodeTag = $lastInsertedNodeArray["TagName"];
-                                $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
-                                $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
-                            }
-                            $convertedTag = "th";
-                        }break;
-                        default:
-                        {
-                            $convertedTag = $tagName;
-                        }break;
-
-                    }
                     if ( $lastInsertedNodeTag != $convertedTag )
                     {
                         array_push( $TagStack,
@@ -433,7 +488,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         unset( $currentNode );
                         $currentNode =& $lastInsertedNode ;
 
-                        if ( $isPTag )
+                        // If end tag header found, add paragraph node.
+                        if ( $convertedTag == "header" or $convertedTag == "paragraph" )
                         {
                             // Add paragraph tag
                             // create the new XML element node
@@ -444,7 +500,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $subNode->Type = EZ_NODE_TYPE_ELEMENT;
                             $domDocument->registerElement( $subNode );
                             $currentNode->appendChild( $subNode );
-                            $childTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "literal", "custom" );
+                            $childTag = array_merge( $this->blockTagArray, $this->inlineTagArray );
                             array_push( $TagStack,
                                         array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
                             unset( $currentNode );
@@ -456,1170 +512,163 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 }
                 else
                 {
-                    $covertedName = null;
+                    // Convert to standard tag name.
+                    $justName = $this->standizeTag( $justName );
 
-                    // create the new XML element node
-                    unset( $subNode );
-                    $subNode = new eZDOMNode();
-
-                    switch ( $justName )
+                    if ( $tagNameEnd > 0 )
                     {
-                        case 'p' :
+                        $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
+                    }
+                    else
+                    {
+                        $attributePart = null;
+                    }
+
+                    if ( $justName == "section" )
+                    {
+                        $covertedName = 'section';
+                        unset( $subNode );
+                        $subNode = new eZDOMNode();
+                        $subNode->Name = $covertedName;
+                        $subNode->LocalName = $covertedName;
+                        $subNode->Type = EZ_NODE_TYPE_ELEMENT;
+
+                        $domDocument->registerElement( $subNode );
+                        $currentNode->appendChild( $subNode );
+
+                        $childTag = $this->sectionArray;
+                        if ( $tagName[strlen($tagName) - 1]  != "/" )
                         {
-                            if ( $lastInsertedNodeTag == "paragraph" )
-                            {
-                                $lastNodeArray = array_pop( $TagStack );
-                                $lastInsertedNodeTag = $lastNodeArray["TagName"];
-                                $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                $lastInsertedChildTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom", "p", "section" );
-                                unset( $currentNode );
-                                $currentNode =& $lastNode;
-                            }
+                            array_push( $TagStack,
+                                        array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
+                            unset( $currentNode );
+                            $currentNode =& $subNode;
+                        }
+                    }
+                    elseif ( $justName == "header" )
+                    {
+                        if ( $lastInsertedNodeTag == "paragraph" )
+                         {
+                             $lastNodeArray = array_pop( $TagStack );
+                             $lastTag = $lastNodeArray["TagName"];
+                             $lastNode =& $lastNodeArray["ParentNodeObject"];
+                             $lastChildTag = $lastNodeArray["ChildTag"];
+                             unset( $currentNode );
+                             $currentNode =& $lastNode;
 
-                            // Fix the general syntax error that paragraph starts with <b> tag.
-                            if ( $lastInsertedNodeTag == "strong" )
-                            {
-                                $lastNodeArray = array_pop( $TagStack );
-                                $lastTag = $lastNodeArray["TagName"];
-                                $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                $lastInsertedChildTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom", "p", "section" );
-                                unset( $currentNode );
-                                $currentNode =& $lastNode;
+                             $lastInsertedNodeArray = array_pop( $TagStack );
+                             if ( $lastInsertedNodeArray !== null )
+                             {
+                                 $lastInsertedNodeTag = $lastInsertedNodeArray["TagName"];
+                                 $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
+                                 $parentTag = $lastInsertedNode["TagName"];
+                                 $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
+                                 array_push( $TagStack,
+                                             array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag ) );
+                             }
+                         }
 
-
-                                $lastInsertedNodeArray = array_pop( $TagStack );
-                                if ( $lastInsertedNodeArray !== null )
-                                {
-                                    $lastInsertedNodeTag = $lastInsertedNodeArray["TagName"];
-                                    $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
-                                    $parentTag = $lastInsertedNode["TagName"];
-                                    $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
-                                    array_push( $TagStack,
-                                                array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag ) );
-                                }
-                                if ( $lastInsertedNodeTag == "paragraph" )
-                                {
-                                    $lastNodeArray = array_pop( $TagStack );
-                                    $lastTag = $lastNodeArray["TagName"];
-                                    $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                    $lastInsertedChildTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom", "p", "section" );
-                                    unset( $currentNode );
-                                    $currentNode =& $lastNode;
-                                }
-                            }
-
-                            if ( in_array( $justName, $lastInsertedChildTag ) )
-                            {
-                                $covertedName = 'paragraph';
-                                $subNode->Name = $covertedName;
-                                $subNode->LocalName = $covertedName;
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-
-                                $childTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom" );
-                                if ( $tagName[strlen($tagName) - 1]  != "/" )
-                                {
-                                    array_push( $TagStack,
-                                                array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                    unset( $currentNode );
-                                    $currentNode =& $subNode;
-                                    $lastInsertedTag = $covertedName;
-                                }
-                            }
-                            else
-                            {
-                                $message .= "<li>". ezi18n( 'kernel/classes/datatypes',
-                                                            "Tag '%1' is not allowed to be the child of '%2' (removed).",
-                                                            'ezXMLTextType',
-                                                            array( $justName, $originalTagName ) ) . "</li>";
-                            }
-                        }break;
-                        case 'strong' :
-                        case 'b' :
-                        case 'bold' :
+                        if ( in_array( $justName, $lastInsertedChildTag ) )
                         {
-                            if ( $lastInsertedNodeTag == 'section' or $lastInsertedNodeTag == 'td' or $lastInsertedNodeTag == 'th' )
+                            $headerLevel = 1;
+                            $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
+                            // attributes
+                            unset( $attr );
+                            $attr =& $this->parseAttributes( $attributePart );
+                            foreach( $attr as $attrbute )
                             {
-                                // Add paragraph tag
-                                $subNode->Name = "paragraph";
-                                $subNode->LocalName = "paragraph";
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-                                $childTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom" );
-                                array_push( $TagStack,
-                                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                $currentNode =& $subNode;
-                                $lastInsertedTag = "paragraph";
-                                $lastInsertedChildTag = $childTag;
-
-                                unset( $subNode );
-                                $subNode = new eZDOMNode();
-                            }
-                            if ( in_array( $justName, $lastInsertedChildTag ) )
-                            {
-                                $covertedName = 'strong';
-                                $subNode->Name = $covertedName;
-                                $subNode->LocalName = $covertedName;
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-
-                                $childTag = array(  "i", "em", "emphasize", "header", "link", "anchor" );
-                                if ( $tagName[strlen($tagName) - 1]  != "/" )
+                                $attrName = $attrbute->Name;
+                                if ( $attrName == 'level' )
                                 {
-                                    array_push( $TagStack,
-                                                array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                    unset( $currentNode );
-                                    $currentNode =& $subNode;
-                                    $lastInsertedTag = $covertedName;
-                                }
-                            }
-                            else
-                            {
-                                $message .= "<li>". ezi18n( 'kernel/classes/datatypes',
-                                                            "Tag '%1' is not allowed to be the child of '%2' (removed).",
-                                                            'ezXMLTextType',
-                                                            array( $justName, $originalTagName ) ) . "</li>";
-                            }
-                        }break;
-                        case 'i' :
-                        case 'em' :
-                        {
-                            if ( $lastInsertedNodeTag == 'section' )
-                            {
-                                // Add paragraph tag
-                                $subNode->Name = "paragraph";
-                                $subNode->LocalName = "paragraph";
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-                                $childTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom" );
-                                array_push( $TagStack,
-                                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                $currentNode =& $subNode;
-                                $lastInsertedTag = "paragraph";
-                                $lastInsertedChildTag = $childTag;
-
-                                unset( $subNode );
-                                $subNode = new eZDOMNode();
-                            }
-                            if ( in_array( $justName, $lastInsertedChildTag ) )
-                            {
-                                $covertedName = 'emphasize';
-                                $subNode->Name = $covertedName;
-                                $subNode->LocalName = $covertedName;
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-
-                                $childTag = array( "strong", "b", "bold", "header", "link", "anchor" );
-                                if ( $tagName[strlen($tagName) - 1]  != "/" )
-                                {
-                                    array_push( $TagStack,
-                                             array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                    unset( $currentNode );
-                                    $currentNode =& $subNode;
-                                    $lastInsertedTag = $covertedName;
-                                }
-                            }
-                            elseif ( $lastInsertedNodeTag == 'literal' )
-                            {
-                                //no error message;
-                            }
-                            else
-                            {
-                                $message .= "<li>". ezi18n( 'kernel/classes/datatypes',
-                                                            "Tag '%1' is not allowed to be the child of '%2' (removed).",
-                                                            'ezXMLTextType',
-                                                            array( $justName, $originalTagName ) ) . "</li>";
-                            }
-                        }break;
-                        case 'table' :
-                        {
-                            if ( $lastInsertedNodeTag == 'section' )
-                            {
-                                // Add paragraph tag
-                                $subNode->Name = "paragraph";
-                                $subNode->LocalName = "paragraph";
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-                                $childTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "literal", "custom" );
-                                array_push( $TagStack,
-                                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                $currentNode =& $subNode;
-                                $lastInsertedTag = "paragraph";
-                                $lastInsertedChildTag = $childTag;
-
-                                unset( $subNode );
-                                $subNode = new eZDOMNode();
-                            }
-                            if ( in_array( $justName, $lastInsertedChildTag ) )
-                            {
-                                if ( $tagNameEnd > 0 )
-                                {
-                                    $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
-                                    // attributes
-                                    unset( $attr );
-                                    $attr =& $this->parseAttributes( $attributePart );
-                                    $covertedName = 'table';
-                                    $subNode->Attributes = $attr;
-                                    $subNode->Name = $covertedName;
-                                    $subNode->LocalName = $covertedName;
-                                    $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-
-                                    $domDocument->registerElement( $subNode );
-                                    $currentNode->appendChild( $subNode );
-                                    $childTag = array( "tr" );
-                                    if ( $tagName[strlen($tagName) - 1]  != "/" )
-                                    {
-                                        array_push( $TagStack,
-                                                    array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                        unset( $currentNode );
-                                        $currentNode =& $subNode;
-                                        $lastInsertedTag = $covertedName;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                $message .= "<li>". ezi18n( 'kernel/classes/datatypes',
-                                                            "Tag '%1' is not allowed to be the child of '%2' (removed).",
-                                                            'ezXMLTextType',
-                                                            array( $justName, $originalTagName ) ) . "</li>";
-                            }
-                        }break;
-                        case 'tr' :
-                        {
-                            if ( $lastInsertedNodeTag == 'tr' )
-                            {
-                                $lastNodeArray = array_pop( $TagStack );
-                                $lastTag = $lastNodeArray["TagName"];
-                                $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                $lastInsertedChildTag = array( "tr" );
-                                unset( $currentNode );
-                                $currentNode =& $lastNode;
-                                $message .= "<li>". ezi18n( 'kernel/classes/datatypes',
-                                                            "Tag '%1' does not have an end tag '%2' (fixed).",
-                                                            'ezXMLTextType',
-                                                            array( $justName, $originalTagName ) ) . "</li>";
-                            }
-
-                            if ( in_array( $justName, $lastInsertedChildTag ) )
-                            {
-                                $covertedName = 'tr';
-                                $subNode->Name = $covertedName;
-                                $subNode->LocalName = $covertedName;
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-
-                                $childTag = array( "td", "th" );
-                                if ( $tagName[strlen($tagName) - 1]  != "/" )
-                                {
-                                    array_push( $TagStack,
-                                                array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                    unset( $currentNode );
-                                    $currentNode =& $subNode;
-                                    $lastInsertedTag = $covertedName;
-                                }
-                            }
-                            else
-                            {
-                                $message .= "<li>". ezi18n( 'kernel/classes/datatypes',
-                                                            "Tag '%1' is not allowed to be the child of '%2' (removed).",
-                                                            'ezXMLTextType',
-                                                            array( $justName, $originalTagName ) ) . "</li>";
-                            }
-                        }break;
-                        case 'td' :
-                        {
-                            if ( in_array( $justName, $lastInsertedChildTag ) )
-                            {
-                                /* if ( $tagNameEnd > 0 )
-                                {
-                                    $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
-
-                                    // attributes
-                                    unset( $attr );
-                                    $attr =& $this->parseAttributes( $attributePart );
-
-                                    $convertedAttr = array();
-                                    foreach( $attr as $attrbute )
-                                    {
-                                        $attrName = $attrbute->Name;
-                                        $attrName = strtolower( $attrName );
-                                        if ( $attrName == 'colspan' or $attrName == 'rowspan' )
-                                        {
-                                            $convertedAttr[] = $attrbute;
-                                        }
-                                    }
-                                    if ( $convertedAttr != false )
-                                        $subNode->Attributes = $convertedAttr;
-                                }*/
-                                $covertedName = 'td';
-                                $subNode->Name = $covertedName;
-                                $subNode->LocalName = $covertedName;
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-
-                                $childTag = array( "p", "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom"  );
-                                if ( $tagName[strlen($tagName) - 1]  != "/" )
-                                {
-                                    array_push( $TagStack,
-                                                array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                    unset( $currentNode );
-                                    $currentNode =& $subNode;
-                                    $lastInsertedNodeTag = $covertedName;
-                                }
-
-                                // Add paragraph tag
-                                // create the new XML element node
-                                unset( $subNode );
-                                $subNode = new eZDOMNode();
-                                $subNode->Name = "paragraph";
-                                $subNode->LocalName = "paragraph";
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-                                $childTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom" );
-                                array_push( $TagStack,
-                                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                unset( $currentNode );
-                                $currentNode =& $subNode;
-                                $lastInsertedTag = "paragraph";
-                                $lastInsertedChildTag = $childTag;
-                            }
-                            else
-                            {
-                                $message .= "<li>". ezi18n( 'kernel/classes/datatypes',
-                                                            "Tag '%1' is not allowed to be the child of '%2' (removed).",
-                                                            'ezXMLTextType',
-                                                            array( $justName, $originalTagName ) ) . "</li>";
-                                $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
-                            }
-                        }break;
-
-                        case 'th' :
-                        {
-                            if ( in_array( $justName, $lastInsertedChildTag ) )
-                            {
-                                $covertedName = 'th';
-                                $subNode->Name = $covertedName;
-                                $subNode->LocalName = $covertedName;
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-
-                                $childTag = array( "p", "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom"  );
-                                if ( $tagName[strlen($tagName) - 1]  != "/" )
-                                {
-                                    array_push( $TagStack,
-                                                array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                    unset( $currentNode );
-                                    $currentNode =& $subNode;
-                                    $lastInsertedNodeTag = $covertedName;
-                                }
-
-                                // Add paragraph tag
-                                // create the new XML element node
-                                unset( $subNode );
-                                $subNode = new eZDOMNode();
-                                $subNode->Name = "paragraph";
-                                $subNode->LocalName = "paragraph";
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-                                $childTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom" );
-                                array_push( $TagStack,
-                                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                unset( $currentNode );
-                                $currentNode =& $subNode;
-                                $lastInsertedTag = "paragraph";
-                                $lastInsertedChildTag = $childTag;
-                            }
-                            else
-                            {
-                                $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
-                            }
-                        }break;
-
-                        case 'custom' :
-                        {
-                            if ( $lastInsertedNodeTag == 'section' )
-                            {
-                                // Add paragraph tag
-                                $subNode->Name = "paragraph";
-                                $subNode->LocalName = "paragraph";
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-                                $childTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom" );
-                                array_push( $TagStack,
-                                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                $currentNode =& $subNode;
-                                $lastInsertedTag = "paragraph";
-                                $lastInsertedChildTag = $childTag;
-
-                                unset( $subNode );
-                                $subNode = new eZDOMNode();
-                            }
-
-                            if ( in_array( $justName, $lastInsertedChildTag ) )
-                            {
-                                if ( $tagNameEnd > 0 )
-                                {
-                                    $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
-                                    // attributes
-                                    unset( $attr );
-                                    $attr =& $this->parseAttributes( $attributePart );
-                                    $covertedName = 'custom';
-                                    $subNode->Attributes = $attr;
-                                    $subNode->Name = $covertedName;
-                                    $subNode->LocalName = $covertedName;
-                                    $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-
-                                    $domDocument->registerElement( $subNode );
-                                    $currentNode->appendChild( $subNode );
-                                    $childTag = array( "p", "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom" );
-
-                                    if ( $tagName[strlen($tagName) - 1]  != "/" )
-                                    {
-                                        array_push( $TagStack,
-                                                    array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                        unset( $currentNode );
-                                        $currentNode =& $subNode;
-                                        $lastInsertedTag = $covertedName;
-                                    }
-
-                                    // Add paragraph tag
-
-                                    // create the new XML element node
-                                    unset( $subNode );
-                                    $subNode = new eZDOMNode();
-                                    $subNode->Name = "paragraph";
-                                    $subNode->LocalName = "paragraph";
-                                    $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                                    $domDocument->registerElement( $subNode );
-                                    $currentNode->appendChild( $subNode );
-                                    $childTag = array( "table", "strong", "b", "bold", "i", "em", "h1", "h2", "h3", "h4", "h5", "h6", "img", "ol", "ul", "a", "literal", "custom" );
-                                    array_push( $TagStack,
-                                                array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                    unset( $currentNode );
-                                    $currentNode =& $subNode;
-                                    $lastInsertedTag = "paragraph";
-                                    $lastInsertedChildTag = $childTag;
-                                }
-                            }
-                            else
-                            {
-                                $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
-                            }
-                        }break;
-                        case 'literal' :
-                        {
-                            if ( $lastInsertedNodeTag == 'section' )
-                            {
-                                // Add paragraph tag
-                                $subNode->Name = "paragraph";
-                                $subNode->LocalName = "paragraph";
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-                                $childTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom" );
-                                array_push( $TagStack,
-                                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                $currentNode =& $subNode;
-                                $lastInsertedTag = "paragraph";
-                                $lastInsertedChildTag = $childTag;
-
-                                unset( $subNode );
-                                $subNode = new eZDOMNode();
-                            }
-
-                            if ( in_array( $justName, $lastInsertedChildTag ) )
-                            {
-                                $covertedName = 'literal';
-                                $subNode->Name = $covertedName;
-                                $subNode->LocalName = $covertedName;
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-
-                                $childTag = array( "p", "header" );
-                                if ( $tagName[strlen($tagName) - 1]  != "/" )
-                                {
-                                    array_push( $TagStack,
-                                                array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                    unset( $currentNode );
-                                    $currentNode =& $subNode;
-                                    $lastInsertedNodeTag = $covertedName;
-                                }
-                                // Find the end tag and create override contents
-                                $preEndTagPos = strpos( $data, "</literal>", $pos );
-                                $overrideContent = substr( $data, $pos + 5, $preEndTagPos - ( $pos + 5 ) );
-                                $pos = $preEndTagPos - 1;
-                            }
-                            else
-                            {
-                                $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
-                            }
-                        }break;
-                        case 'header' :
-                        {
-                            if ( $lastInsertedNodeTag == "paragraph" )
-                            {
-                                $lastNodeArray = array_pop( $TagStack );
-                                $lastTag = $lastNodeArray["TagName"];
-                                $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                $lastChildTag = $lastNodeArray["ChildTag"];
-                                unset( $currentNode );
-                                $currentNode =& $lastNode;
-
-                                $lastInsertedNodeArray = array_pop( $TagStack );
-                                if ( $lastInsertedNodeArray !== null )
-                                {
-                                    $lastInsertedNodeTag = $lastInsertedNodeArray["TagName"];
-                                    $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
-                                    $parentTag = $lastInsertedNode["TagName"];
-                                    $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
-                                    array_push( $TagStack,
-                                                array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag ) );
+                                    $headerLevel = $attrbute->Content;
                                 }
                             }
 
-                            if ( in_array( $justName, $lastInsertedChildTag ) )
+                            if ( $lastInsertedNodeTag == "td" or $lastInsertedNodeTag == "th" )
                             {
-                                $headerLevel = 1;
-                                $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
-                                // attributes
-                                unset( $attr );
-                                $attr =& $this->parseAttributes( $attributePart );
-                                foreach( $attr as $attrbute )
-                                {
-                                    $attrName = $attrbute->Name;
-                                    if ( $attrName == 'level' )
-                                    {
-                                        $headerLevel = $attrbute->Content;
-                                    }
-                                }
-
-                                if ( $lastInsertedNodeTag == "td" or $lastInsertedNodeTag == "th" )
-                                {
                                     $sectionLevel = $sectionLevel;
-                                }
-                                else
+                            }
+                            else
+                            {
+                                switch ( $headerLevel )
                                 {
-                                    switch ( $headerLevel )
+                                    case "1" :
                                     {
-                                        case "1" :
-                                        {
-                                            if ( $sectionLevel < 1 )
-                                            {
-                                                $sectionLevel += 1;
-                                            }
-                                            elseif ( $sectionLevel == 1 )
-                                            {
-                                                $lastNodeArray = array_pop( $TagStack );
-                                                $lastTag = $lastNodeArray["TagName"];
-                                                $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                                $lastChildTag = $lastNodeArray["ChildTag"];
-                                                unset( $currentNode );
-                                                $currentNode =& $lastNode;
-                                                $sectionLevel = 1;
-                                            }
-                                            else
-                                            {
-                                                for ( $i=1;$i<=( $sectionLevel - 1 + 1 );$i++ )
-                                                {
-                                                    $lastNodeArray = array_pop( $TagStack );
-                                                    $lastTag = $lastNodeArray["TagName"];
-                                                    $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                                    $lastChildTag = $lastNodeArray["ChildTag"];
-                                                    unset( $currentNode );
-                                                    $currentNode =& $lastNode;
-                                                }
-                                                $sectionLevel = 1;
-                                            }
-                                        }break;
-                                        case "2":
-                                        {
-                                            if ( $sectionLevel < 2 )
-                                            {
-                                                $sectionLevel += 1;
-                                            }
-                                            elseif ( $sectionLevel == 2 )
-                                            {
-                                                $lastNodeArray = array_pop( $TagStack );
-                                                $lastTag = $lastNodeArray["TagName"];
-                                                $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                                $lastChildTag = $lastNodeArray["ChildTag"];
-                                                unset( $currentNode );
-                                                $currentNode =& $lastNode;
-                                                $sectionLevel = 2;
-                                            }
-                                            else
-                                            {
-                                                for ( $i=1;$i<=( $sectionLevel - 2 + 1 );$i++ )
-                                                {
-                                                    $lastNodeArray = array_pop( $TagStack );
-                                                    $lastTag = $lastNodeArray["TagName"];
-                                                    $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                                    $lastChildTag = $lastNodeArray["ChildTag"];
-                                                    unset( $currentNode );
-                                                    $currentNode =& $lastNode;
-                                                }
-                                                $sectionLevel = 2;
-                                            }
-                                        }break;
-                                        case "3":
-                                        {
-                                            if ( $sectionLevel < 3 )
-                                            {
-                                                $sectionLevel += 1;
-                                            }
-                                            elseif ( $sectionLevel == 3 )
-                                            {
-                                                $lastNodeArray = array_pop( $TagStack );
-                                                $lastTag = $lastNodeArray["TagName"];
-                                                $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                                $lastChildTag = $lastNodeArray["ChildTag"];
-                                                unset( $currentNode );
-                                                $currentNode =& $lastNode;
-                                                $sectionLevel = 3;
-                                            }
-                                            else
-                                            {
-                                                for ( $i=1;$i<=( $sectionLevel - 3 + 1 );$i++ )
-                                                {
-                                                    $lastNodeArray = array_pop( $TagStack );
-                                                    $lastTag = $lastNodeArray["TagName"];
-                                                    $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                                    $lastChildTag = $lastNodeArray["ChildTag"];
-                                                    unset( $currentNode );
-                                                    $currentNode =& $lastNode;
-                                                }
-                                                $sectionLevel = 3;
-                                            }
-                                        }break;
-                                        case "4":
-                                        {
-                                            if ( $sectionLevel < 4 )
-                                            {
-                                                $sectionLevel += 1;
-                                            }
-                                            elseif ( $sectionLevel == 4 )
-                                            {
-                                                $lastNodeArray = array_pop( $TagStack );
-                                                $lastTag = $lastNodeArray["TagName"];
-                                                $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                                $lastChildTag = $lastNodeArray["ChildTag"];
-                                                unset( $currentNode );
-                                                $currentNode =& $lastNode;
-                                                $sectionLevel = 4;
-                                            }
-                                            else
-                                            {
-                                                for ( $i=1;$i<=( $sectionLevel - 4 + 1 );$i++ )
-                                                {
-                                                    $lastNodeArray = array_pop( $TagStack );
-                                                    $lastTag = $lastNodeArray["TagName"];
-                                                    $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                                    $lastChildTag = $lastNodeArray["ChildTag"];
-                                                    unset( $currentNode );
-                                                    $currentNode =& $lastNode;
-                                                }
-                                                $sectionLevel = 4;
-                                            }
-                                        }break;
-                                        case "5":
-                                        {
-                                            if ( $sectionLevel < 5 )
-                                            {
-                                                $sectionLevel += 1;
-                                            }
-                                            elseif ( $sectionLevel == 5 )
-                                            {
-                                                $lastNodeArray = array_pop( $TagStack );
-                                                $lastTag = $lastNodeArray["TagName"];
-                                                $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                                $lastChildTag = $lastNodeArray["ChildTag"];
-                                                unset( $currentNode );
-                                                $currentNode =& $lastNode;
-                                                $sectionLevel = 5;
-                                            }
-                                            else
-                                            {
-                                                for ( $i=1;$i<=( $sectionLevel - 5 + 1 );$i++ )
-                                                {
-                                                    $lastNodeArray = array_pop( $TagStack );
-                                                    $lastTag = $lastNodeArray["TagName"];
-                                                    $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                                    $lastChildTag = $lastNodeArray["ChildTag"];
-                                                    unset( $currentNode );
-                                                    $currentNode =& $lastNode;
-                                                }
-                                                $sectionLevel = 5;
-                                            }
-                                        }break;
-                                        case "6":
-                                        {
-                                            if ( $sectionLevel < 6 )
-                                            {
-                                                $sectionLevel += 1;
-                                            }
-                                            elseif ( $sectionLevel == 6 )
-                                            {
-                                                $lastNodeArray = array_pop( $TagStack );
-                                                $lastTag = $lastNodeArray["TagName"];
-                                                $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                                $lastChildTag = $lastNodeArray["ChildTag"];
-                                                unset( $currentNode );
-                                                $currentNode =& $lastNode;
-                                                $sectionLevel = 6;
-                                            }
-                                            else
-                                            {
-                                                for ( $i=1;$i<=( $sectionLevel - 6 + 1 );$i++ )
-                                                {
-                                                    $lastNodeArray = array_pop( $TagStack );
-                                                    $lastTag = $lastNodeArray["TagName"];
-                                                    $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                                    $lastChildTag = $lastNodeArray["ChildTag"];
-                                                    unset( $currentNode );
-                                                    $currentNode =& $lastNode;
-                                                }
-                                                $sectionLevel = 6;
-                                            }
-                                        }break;
-                                        default:
-                                        {
-                                            if ( $sectionLevel < 1 )
-                                            {
-                                                $sectionLevel += 1;
-                                            }
-                                            elseif ( $sectionLevel == 1 )
-                                            {
-                                                $lastNodeArray = array_pop( $TagStack );
-                                                $lastTag = $lastNodeArray["TagName"];
-                                                $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                                $lastChildTag = $lastNodeArray["ChildTag"];
-                                                unset( $currentNode );
-                                                $currentNode =& $lastNode;
-                                                $sectionLevel = 1;
-                                            }
-                                            else
-                                            {
-                                                for ( $i=1;$i<=( $sectionLevel - 1 + 1 );$i++ )
-                                                {
-                                                    $lastNodeArray = array_pop( $TagStack );
-                                                    $lastTag = $lastNodeArray["TagName"];
-                                                    $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                                    $lastChildTag = $lastNodeArray["ChildTag"];
-                                                    unset( $currentNode );
-                                                    $currentNode =& $lastNode;
-                                                }
-                                                $sectionLevel = 1;
-                                            }
-                                        }break;
-                                    }
-                                }
-
-                                // Add section tag
-                                $subNode->Name = "section";
-                                $subNode->LocalName = "section";
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-                                $childTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "literal", "custom", "p", "section" );
-                                array_push( $TagStack,
-                                            array( "TagName" => "section", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                $currentNode =& $subNode;
-                                $lastInsertedTag = "section";
-
-                                $covertedName = 'header';
-                                unset( $subNode );
-                                $subNode = new eZDOMNode();
-                                $subNode->Name = $covertedName;
-                                $subNode->LocalName = $covertedName;
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-
-                                $childTag = array( );
-                                if ( $tagName[strlen($tagName) - 1]  != "/" )
-                                {
-                                    array_push( $TagStack,
-                                                array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                    unset( $currentNode );
-                                    $currentNode =& $subNode;
-                                    $lastInsertedTag = $covertedName;
-                                }
-                            }
-                            else
-                            {
-                                $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
-                            }
-                        }break;
-
-                        case 'li' :
-                        {
-                            if ( $lastInsertedNodeTag == 'li' )
-                            {
-                                $lastNodeArray = array_pop( $TagStack );
-                                $lastTag = $lastNodeArray["TagName"];
-                                $lastNode =& $lastNodeArray["ParentNodeObject"];
-                                $lastInsertedChildTag = array( "li" );
-                                unset( $currentNode );
-                                $currentNode =& $lastNode;
-                            }
-                            if ( in_array( $justName, $lastInsertedChildTag ) )
-                            {
-                                $covertedName = 'li';
-                                $subNode->Name = $covertedName;
-                                $subNode->LocalName = $covertedName;
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-
-                                $childTag = array( "strong", "b", "bold", "i", "em", "emphasize", "object", "link", "anchor", "literal", "custom", "table" );
-                                if ( $tagName[strlen($tagName) - 1]  != "/" )
-                                {
-                                    array_push( $TagStack,
-                                                array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                    unset( $currentNode );
-                                    $currentNode =& $subNode;
-                                    $lastInsertedTag = $covertedName;
-                                }
-                            }
-                        }break;
-                        case 'ol' :
-                        {
-                            if ( $lastInsertedNodeTag == 'section' or $lastInsertedNodeTag == 'td' or $lastInsertedNodeTag == 'th' )
-                            {
-                                // Add paragraph tag
-                                $subNode->Name = "paragraph";
-                                $subNode->LocalName = "paragraph";
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-                                $childTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom" );
-                                array_push( $TagStack,
-                                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                $currentNode =& $subNode;
-                                $lastInsertedTag = "paragraph";
-                                $lastInsertedChildTag = $childTag;
-
-                                unset( $subNode );
-                                $subNode = new eZDOMNode();
-                            }
-                            if ( in_array( $justName, $lastInsertedChildTag ) )
-                            {
-                                $covertedName = 'ol';
-                                $subNode->Name = $covertedName;
-                                $subNode->LocalName = $covertedName;
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-
-                                $childTag = array( "li" );
-                                if ( $tagName[strlen($tagName) - 1]  != "/" )
-                                {
-                                    array_push( $TagStack,
-                                                array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                    unset( $currentNode );
-                                    $currentNode =& $subNode;
-                                    $lastInsertedTag = $covertedName;
-                                }
-                            }
-                            else
-                            {
-                                $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
-                            }
-                        }break;
-                        case 'ul' :
-                        {
-                            if ( $lastInsertedNodeTag == 'section' or $lastInsertedNodeTag == 'td' or $lastInsertedNodeTag == 'th' )
-                            {
-                                // Add paragraph tag
-                                $subNode->Name = "paragraph";
-                                $subNode->LocalName = "paragraph";
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-                                $childTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom" );
-                                array_push( $TagStack,
-                                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                $currentNode =& $subNode;
-                                $lastInsertedTag = "paragraph";
-                                $lastInsertedChildTag = $childTag;
-
-                                unset( $subNode );
-                                $subNode = new eZDOMNode();
-                            }
-                            if ( in_array( $justName, $lastInsertedChildTag ) )
-                            {
-                                $covertedName = 'ul';
-                                $subNode->Name = $covertedName;
-                                $subNode->LocalName = $covertedName;
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-
-                                $childTag = array( "li" );
-                                if ( $tagName[strlen($tagName) - 1]  != "/" )
-                                {
-                                    array_push( $TagStack,
-                                                array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                    unset( $currentNode );
-                                    $currentNode =& $subNode;
-                                    $lastInsertedTag = $covertedName;
-                                }
-                            }
-                            else
-                            {
-                                $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
-                            }
-                        }break;
-                        case 'link' :
-                        {
-                            if ( $lastInsertedNodeTag == 'section' )
-                            {
-                                // Add paragraph tag
-                                $subNode->Name = "paragraph";
-                                $subNode->LocalName = "paragraph";
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-                                $childTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom" );
-
-                                array_push( $TagStack,
-                                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                $currentNode =& $subNode;
-                                $lastInsertedTag = "paragraph";
-                                $lastInsertedChildTag = $childTag;
-
-                                unset( $subNode );
-                                $subNode = new eZDOMNode();
-                            }
-                            if ( in_array( $justName, $lastInsertedChildTag ) )
-                            {
-                                if ( $tagNameEnd > 0 )
-                                {
-                                    $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
-                                    // attributes
-                                    unset( $attr );
-                                    $attr =& $this->parseAttributes( $attributePart );
-
-                                    $covertedName = 'link';
-                                    $subNode->Attributes = $attr;
-                                    $subNode->Name = $covertedName;
-                                    $subNode->LocalName = $covertedName;
-                                    $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-
-                                    $domDocument->registerElement( $subNode );
-                                    $currentNode->appendChild( $subNode );
-
-                                    $childTag = array( "object", "i", "em", "emphasize", "b", "bold", "strong" );
-                                    if ( $tagName[strlen($tagName) - 1]  != "/" )
+                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 1, &$TagStack, &$currentNode );
+                                    }break;
+                                    case "2":
                                     {
-                                        array_push( $TagStack,
-                                                    array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                        unset( $currentNode );
-                                        $currentNode =& $subNode;
-                                        $lastInsertedTag = $covertedName;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
-                            }
-                        }break;
-                        case 'anchor' :
-                        {
-                            if ( $lastInsertedNodeTag == 'section' )
-                            {
-                                // Add paragraph tag
-                                $subNode->Name = "paragraph";
-                                $subNode->LocalName = "paragraph";
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-                                $childTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom" );
-
-                                array_push( $TagStack,
-                                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                $currentNode =& $subNode;
-                                $lastInsertedTag = "paragraph";
-                                $lastInsertedChildTag = $childTag;
-
-                                unset( $subNode );
-                                $subNode = new eZDOMNode();
-                            }
-                            if ( in_array( $justName, $lastInsertedChildTag ) )
-                            {
-                                if ( $tagNameEnd > 0 )
-                                {
-                                    $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
-                                    // attributes
-                                    unset( $attr );
-                                    $attr =& $this->parseAttributes( $attributePart );
-
-                                    $covertedName = 'anchor';
-                                    $subNode->Attributes = $attr;
-                                    $subNode->Name = $covertedName;
-                                    $subNode->LocalName = $covertedName;
-                                    $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-
-                                    $domDocument->registerElement( $subNode );
-                                    $currentNode->appendChild( $subNode );
-
-                                    $childTag = array( "object", "i", "em", "emphasize", "b", "bold", "strong" );
-                                    if ( $tagName[strlen($tagName) - 1]  != "/" )
+                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 2, &$TagStack, &$currentNode );
+                                    }break;
+                                    case "3":
                                     {
-                                        array_push( $TagStack,
-                                                    array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                        unset( $currentNode );
-                                        $currentNode =& $subNode;
-                                        $lastInsertedTag = $covertedName;
-                                    }
-                                    $lastNodeArray = array_pop( $TagStack );
-                                    $lastTag = $lastNodeArray["TagName"];
-                                    $lastNode =& $lastNodeArray["ParentNodeObject"];
-
-                                    unset( $currentNode );
-                                    $currentNode =& $lastNode;
-                                }
-                            }
-                            else
-                            {
-                                $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
-                            }
-                        }break;
-                        case 'object' :
-                        {
-                            if ( $lastInsertedNodeTag == 'section' )
-                            {
-                                // Add paragraph tag
-                                $subNode->Name = "paragraph";
-                                $subNode->LocalName = "paragraph";
-                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-                                $domDocument->registerElement( $subNode );
-                                $currentNode->appendChild( $subNode );
-                                $childTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom" );
-                                array_push( $TagStack,
-                                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                $currentNode =& $subNode;
-                                $lastInsertedTag = "paragraph";
-                                $lastInsertedChildTag = $childTag;
-
-                                unset( $subNode );
-                                $subNode = new eZDOMNode();
-                            }
-                            if ( in_array( $justName, $lastInsertedChildTag ) or $lastInsertedNodeTag == 'header' )
-                            {
-                                $convertedAttr = array();
-                                if ( $tagNameEnd > 0 )
-                                {
-                                    $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
-
-                                    // attributes
-                                    unset( $attr );
-                                    $attr =& $this->parseAttributes( $attributePart );
-                                    foreach( $attr as $attrbute )
+                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 3, &$TagStack, &$currentNode );
+                                    }break;
+                                    case "4":
                                     {
-                                        $attrName = $attrbute->Name;
-                                        if ( $attrName == 'id' )
-                                        {
-                                            $convertedAttr[] = $attrbute;
-                                        }
-                                        if ( $attrName == 'size' )
-                                        {
-                                            $convertedAttr[] = $attrbute;
-                                        }
-                                        if ( $attrName == 'align' )
-                                        {
-                                            $convertedAttr[] = $attrbute;
-                                        }
-                                    }
-                                }
-                                if ( in_array( $justName, $lastInsertedChildTag ) )
-                                {
-                                    if ( $convertedAttr != false )
-                                        $subNode->Attributes = $convertedAttr;
-                                    $covertedName = 'object';
-                                    $subNode->Name = $covertedName;
-                                    $subNode->LocalName = $covertedName;
-                                    $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-
-                                    $domDocument->registerElement( $subNode );
-                                    $currentNode->appendChild( $subNode );
-
-                                    $childTag = array( "" );
-                                    if ( $tagName[strlen($tagName) - 1]  != "/" )
+                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 4, &$TagStack, &$currentNode );
+                                    }break;
+                                    case "5":
                                     {
-                                        array_push( $TagStack,
-                                                    array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
-                                        unset( $currentNode );
-                                        $currentNode =& $subNode;
-                                        $lastInsertedTag = $covertedName;
-                                    }
-
-                                    $lastNodeArray = array_pop( $TagStack );
-                                    $lastTag = $lastNodeArray["TagName"];
-                                    $lastNode =& $lastNodeArray["ParentNodeObject"];
-
-                                    unset( $currentNode );
-                                    $currentNode =& $lastNode;
+                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 5, &$TagStack, &$currentNode );
+                                    }break;
+                                    case "6":
+                                    {
+                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 6, &$TagStack, &$currentNode );
+                                    }break;
+                                    default:
+                                    {
+                                        $sectionLevel = $this->sectionLevel( $sectionLevel, 1, &$TagStack, &$currentNode );
+                                    }break;
                                 }
                             }
-                            else
-                            {
-                                $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
-                            }
-                        }break;
-                        case 'section' :
-                        {
-                            $covertedName = 'section';
+
+                            // Add section tag
+                            unset( $subNode );
+                            $subNode = new eZDOMNode();
+                            $subNode->Name = "section";
+                            $subNode->LocalName = "section";
+                            $subNode->Type = EZ_NODE_TYPE_ELEMENT;
+                            $domDocument->registerElement( $subNode );
+                            $currentNode->appendChild( $subNode );
+                            $childTag = $this->sectionArray;
+                            array_push( $TagStack,
+                                        array( "TagName" => "section", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
+                            $currentNode =& $subNode;
+
+                            $covertedName = 'header';
+                            unset( $subNode );
+                            $subNode = new eZDOMNode();
                             $subNode->Name = $covertedName;
                             $subNode->LocalName = $covertedName;
                             $subNode->Type = EZ_NODE_TYPE_ELEMENT;
-
                             $domDocument->registerElement( $subNode );
                             $currentNode->appendChild( $subNode );
 
-                            $childTag = array( "table", "strong", "b", "bold", "i", "em", "emphasize", "header", "object", "ol", "ul", "link", "anchor", "literal", "custom", "p", "section" );
+                            $childTag = array( );
                             if ( $tagName[strlen($tagName) - 1]  != "/" )
                             {
                                 array_push( $TagStack,
                                             array( "TagName" => $covertedName, "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
                                 unset( $currentNode );
                                 $currentNode =& $subNode;
-                                $lastInsertedTag = $covertedName;
                             }
-                        }break;
-                        case 'tbody' :
+                        }
+                        else
                         {
-                            // remove the tag without log message (probably it will be supported later).
-                        }break;
-                        default :
-                        {
-                            $message .= "<li>Tag '" . $justName . "' is not supported (removed).</li>";
-                        }break;
+                            $message .= "<li>Tag '" . $justName . "' is not allowed to be the child of '" . $originalTagName ."' (removed).</li>";
+                        }
+                    }
+                    else
+                    {
+                        $this->handleStartTag( $justName, $tagName, $lastInsertedNodeTag, &$currentNode, &$domDocument, &$TagStack, &$message, $attributePart );
+                    }
+                    if ( $justName == "literal" )
+                    {
+                        // Find the end tag and create override contents
+                        $preEndTagPos = strpos( $data, "</literal>", $pos );
+                        $overrideContent = substr( $data, $pos + 5, $preEndTagPos - ( $pos + 5 ) );
+                        $pos = $preEndTagPos - 1;
                     }
                 }
             }
@@ -1637,7 +686,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $tagContent = substr( $data, $endTagPos + 1, $pos - ( $endTagPos + 1 ) );
                 if (  trim( $tagContent ) != "" )
                 {
-                    $domDocument->registerElement( $subNode );
+                    // $domDocument->registerElement( $subNode );
                     unset( $subNode );
                     $subNode = new eZDOMNode();
                     $subNode->Name = "#text";
@@ -1654,11 +703,65 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $subNode->Content = $tagContent;
                     $domDocument->registerElement( $subNode );
                     $currentNode->appendChild( $subNode );
+                    eZDebug::writedebug($domDocument->toString(), "dom to string1");
                 }
             }
         }
+        eZDebug::writedebug($domDocument->toString(), "dom to string");
         $output = array( $domDocument, $message );
         return $output;
+    }
+
+    // Add an paragrph node to current node
+    function addParagraphNode( &$domDocument, &$TagStack, &$currentNode )
+    {
+        // create the new XML element node
+        //unset( $subNode );
+        $subNode = new eZDOMNode();
+        $subNode->Name = "paragraph";
+        $subNode->LocalName = "paragraph";
+        $subNode->Type = EZ_NODE_TYPE_ELEMENT;
+        $domDocument->registerElement( $subNode );
+        $currentNode->appendChild( $subNode );
+        $childTag = $childTagForParagraph;
+        array_push( $TagStack,
+                    array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
+        $currentNode =& $subNode;
+        $lastInsertedTag = "paragraph";
+        $lastInsertedChildTag = $childTag;
+    }
+
+    // Get section level and reset cuttent node according to input header.
+    function &sectionLevel( $sectionLevel, $headerLevel, &$TagStack, &$currentNode )
+    {
+         if ( $sectionLevel < $headerLevel )
+         {
+             $sectionLevel += 1;
+         }
+         elseif ( $sectionLevel == $headerLevel )
+         {
+             $lastNodeArray = array_pop( $TagStack );
+             // $lastTag = $lastNodeArray["TagName"];
+             $lastNode =& $lastNodeArray["ParentNodeObject"];
+             // $lastChildTag = $lastNodeArray["ChildTag"];
+             unset( $currentNode );
+             $currentNode =& $lastNode;
+             $sectionLevel = $headerLevel;
+         }
+         else
+         {
+             for ( $i=1;$i<=( $sectionLevel - $headerLevel + 1 );$i++ )
+             {
+                 $lastNodeArray = array_pop( $TagStack );
+                 $lastTag = $lastNodeArray["TagName"];
+                                                    $lastNode =& $lastNodeArray["ParentNodeObject"];
+                 $lastChildTag = $lastNodeArray["ChildTag"];
+                 unset( $currentNode );
+                 $currentNode =& $lastNode;
+             }
+             $sectionLevel = $headerLevel;
+         }
+         return $sectionLevel;
     }
 
     /*!
@@ -1875,12 +978,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             {
                 case 'header' :
                 {
-                    /* $level = $sectionNode->attributeValue( 'level' );
-                    if ( is_numeric( $level ) )
-                        $level = $sectionNode->attributeValue( 'level' );
-                    else
-                        $level = 1;*/
-
                     $level = $sectionLevel;
                     $output .= "<$tagName level='$level'>" . $sectionNode->textContent(). "</$tagName>\n";
                 }break;
@@ -2050,8 +1147,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 {
                     $href = $tag->attributeValue( 'href' );
                     $target = $tag->attributeValue( 'target' );
-//                     if ( strlen( $target ) == 0 )
-//                         $target = "self_";
                 }
                 $attributes = array();
                 $attributes[] = "href='$href'";
@@ -2082,6 +1177,15 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         }
         return $output;
     }
+
+    var $sectionArray = array( 'paragraph', 'section', 'header' );
+
+    var $blockTagArray = array( 'table', 'ul', 'ol', 'literal', 'custom', 'object' );
+
+    var $inlineTagArray = array( 'emphasize', 'strong', 'link', 'anchor' );
+
+    var $tagAliasArray = array( 'strong' => array( 'b', 'bold', 'strong' ), 'emphasize' => array( 'em', 'i', 'emphasize' ) );
+
 }
 
 ?>
