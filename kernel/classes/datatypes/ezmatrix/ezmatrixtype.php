@@ -252,7 +252,6 @@ class eZMatrixType extends eZDataType
             // make sure that $matrix contains right columns
             $matrix->adjustColumnsToDefinition( $contentClassAttribute->attribute( 'content' ) );
 
-            $matrix->setName( $contentClassAttribute->attribute( 'data_text1' ) );
             $contentObjectAttribute->setAttribute( 'data_text', $matrix->xmlString() );
             $contentObjectAttribute->setContent( $matrix );
         }
@@ -261,6 +260,8 @@ class eZMatrixType extends eZDataType
             $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
             $numRows = $contentClassAttribute->attribute( 'data_int1' );
             $matrix = new eZMatrix( '', $numRows, $contentClassAttribute->attribute( 'content' ) );
+            // 'default name' is never used => just a stub
+            // $matrix->setName( $contentClassAttribute->attribute( 'data_text1' ) );
             $contentObjectAttribute->setAttribute( 'data_text', $matrix->xmlString() );
             $contentObjectAttribute->setContent( $matrix );
         }
@@ -272,10 +273,14 @@ class eZMatrixType extends eZDataType
     */
     function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )
     {
-        $defaultValueName = $base . EZ_MATRIX_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
+        // 'default name' is never used => just a stub
+        // $defaultValueName = $base . EZ_MATRIX_DEFAULT_NAME_VARIABLE . $classAttribute->attribute( 'id' );
+        $defaultValueName = '';
         $defaultNumColumnsName = $base . EZ_MATRIX_NUMCOLUMNS_VARIABLE . $classAttribute->attribute( 'id' );
         $defaultNumRowsName = $base . EZ_MATRIX_NUMROWS_VARIABLE . $classAttribute->attribute( 'id' );
         $dataFetched = false;
+        // 'default name' is never used => just a stub
+        /*
         if ( $http->hasPostVariable( $defaultValueName ) )
         {
             $defaultValueValue = $http->postVariable( $defaultValueName );
@@ -287,6 +292,7 @@ class eZMatrixType extends eZDataType
             $classAttribute->setAttribute( 'data_text1', $defaultValueValue );
             $dataFetched = true;
         }
+        */
 
         if ( $http->hasPostVariable( $defaultNumRowsName ) )
         {
@@ -315,16 +321,25 @@ class eZMatrixType extends eZDataType
             $columnNames =& $matrixDefinition->attribute( 'columns' );
             foreach ( $columnNames as $columnName )
             {
+                $columnID = '';
+                $name = '';
                 $index = $columnName['index'];
-                $columnID = $columnIDList[$index];
-                $name = $columnNameList[$index];
-                if ( strlen( $columnID ) == 0 )
+
+                // after adding a new column $columnIDList and $columnNameList doesn't contain values for new column.
+                // if so just add column with empty 'name' and 'columnID'.
+                if ( isset( $columnIDList[$index] ) && isset( $columnNameList[$index] ) )
                 {
-                    $columnID = $name;
-                    // Initialize transformation system
-                    include_once( 'lib/ezi18n/classes/ezchartransform.php' );
-                    $trans =& eZCharTransform::instance();
-                    $columnID = $trans->transformByGroup( $columnID, 'identifier' );
+                    $columnID = $columnIDList[$index];
+                    $name = $columnNameList[$index];
+                    if ( strlen( $columnID ) == 0 )
+                    {
+                        $columnID = $name;
+                        // Initialize transformation system
+                        include_once( 'lib/ezi18n/classes/ezchartransform.php' );
+                        $trans =& eZCharTransform::instance();
+                        $columnID = $trans->transformByGroup( $columnID, 'identifier' );
+                        eZDebug::writeDebug( $columnID, 'lazy: $columnID 2' );
+                    }
                 }
 
                 $columns[] = array( 'name' => $name,
