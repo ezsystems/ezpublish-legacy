@@ -189,6 +189,8 @@ class eZPDFTable extends Cezpdf
             return;
         }
 
+	$tableStartY = $this->y;
+
         // Get total column count and column indexes
         if (!is_array($cols)){
             // take the columns from the first row of the data set
@@ -892,6 +894,7 @@ class eZPDFTable extends Cezpdf
             {
                 $tableHeight = $startY - $y;
                 $this->y = $options['yBottom'] + $tableHeight;
+		$yBottom = $options['yBottom'];
                 unset( $options['yBottom'] );
                 $options['test'] = 0;
                 $this->transaction('rewind');
@@ -919,8 +922,16 @@ class eZPDFTable extends Cezpdf
             $this->restoreState();
         }
 
-        $this->y=$y;
-        return $y;
+        if ( $options['overwrite'] > 0 )
+	  {
+            $this->y=$tableStartY;
+	  }
+        else
+	  {
+            $this->y=$y;
+	  }
+
+        return $this->y;
     }
 
     function ezPrvtTableDrawLines($pos,$gap,$x0,$x1,$y0,$y1,$y2,$col,$inner,$outer,$opt=1){
