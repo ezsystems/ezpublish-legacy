@@ -99,6 +99,7 @@ Changes from 3.3-6 to 3.3-7
 - Fixed: Creation of an unneeded workflow process parameter led to multiple
   workflow processes.
 - Fixed bug #6185: Headers are not correctly rendered for XML-fields
+- Fixed bug: eZGeneralDigesthandler returns users when no users should be returned
 
 *Library:
 - Changed: Added method to allow datatypes to set mime type.
