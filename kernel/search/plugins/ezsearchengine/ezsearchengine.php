@@ -66,14 +66,15 @@ class eZSearchEngine
     */
     function addObject( &$contentObject, $uri )
     {
-        $db =& eZDB::instance();
-
         $contentObjectID = $contentObject->attribute( 'id' );
         $currentVersion =& $contentObject->currentVersion();
 
         $indexArray = array();
         $indexArrayOnlyWords = array();
 
+        $wordCount = 0;
+        $placement = 0;
+        $previousWord = '';
         foreach ( $currentVersion->contentObjectAttributes() as $attribute )
         {
 
@@ -121,17 +122,51 @@ class eZSearchEngine
                     {
                         if ( trim( $word ) != "" )
                         {
-                            $indexArray[] = array( "Word" => $word,
-                                                   "ContentClassAttributeID" => $attribute->attribute( 'contentclassattribute_id' ),
+                            $indexArray[] = array( 'Word' => $word,
+                                                   'ContentClassAttributeID' => $attribute->attribute( 'contentclassattribute_id' ),
                                                    'id' => $metaDataPart['id'],
                                                    'integer_value' => $integerValue );
                             $indexArrayOnlyWords[] = $word;
+                            $wordCount++;
+                        }
+
+                        if ( $wordCount == 1000 ) // generates SQL queries of about maximum 85kB
+                        {
+                            $placement = $this->indexWords( $contentObject, $indexArray, $indexArrayOnlyWords, $placement );
+                            unset( $indexArray );
+                            unset( $indexArrayOnlyWords );
+                            $indexArray = array();
+                            $indexArrayOnlyWords = array();
+                            $wordCount = 0;
                         }
                     }
 
                 }
             }
         }
+
+        if ( $wordCount != 0 )
+        {
+            $this->indexWords( $contentObject, $indexArray, $indexArrayOnlyWords, $placement );
+        }
+    }
+
+    /*!
+      \private
+
+      \param contentObject
+      \param indexArray
+      \param indexArrayOnlyWords
+      \param placement offset
+      Index wordIndex
+
+      \return placement offset
+    */
+    function indexWords( &$contentObject, &$indexArray, &$indexArrayOnlyWords, $placement = 0 )
+    {
+        $db =& eZDB::instance();
+
+        $contentObjectID = $contentObject->attribute( 'id' );
 
         // Count the total words in index text
         $totalWordCount = count( $indexArray );
@@ -223,7 +258,7 @@ class eZSearchEngine
                 $wordIDArray[$indexWord] = $wordID;
             }
         }
-        $placement = 0;
+
         $prevWordID = 0;
         $nextWordID = 0;
         $classID = $contentObject->attribute( 'contentclass_id' );
@@ -303,6 +338,8 @@ class eZSearchEngine
             }
             $db->commit();
         }
+
+        return $placement;
     }
 
     /*!

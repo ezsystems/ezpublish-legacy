@@ -25,3 +25,5 @@ Changes from 3.3-1 to 3.3-2
   http://ez.no/developer/ez_publish_3/bug_reports/order_by_time
 - Fixed moving placement of class attributes. Changes done when moving are now store. Minor change of class edit template included. ( merged from 3.2 stable rev. 4687 )
   http://ez.no/developer/ez_publish_3/bug_reports/diappearing_field_information_when_editing_a_class
+- Fixed indexing large documents by deviding the text to be indexed into smaller chunks. ( merged from stable 3.2 rev. 4691 )
+  http://ez.no/developer/ez_publish_3/bug_reports/weird_search_limitations_binary_file
