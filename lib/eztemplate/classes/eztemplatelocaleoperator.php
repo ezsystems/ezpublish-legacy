@@ -64,8 +64,9 @@ class eZTemplateLocaleOperator
     */
     function eZTemplateLocaleOperator()
     {
-        $this->Operators = array( 'l10n', 'datetime', 'currentdate', 'maketime', 'makedate', 'gettime' );
+        $this->Operators = array( 'l10n', 'locale', 'datetime', 'currentdate', 'maketime', 'makedate', 'gettime' );
         $this->LocaleName = 'l10n';
+        $this->LocaleFetchName = 'locale';
         $this->DateTimeName = 'datetime';
         $this->CurrentDateName = 'currentdate';
         $this->MakeTimeName = 'maketime';
@@ -91,6 +92,9 @@ class eZTemplateLocaleOperator
                                              'transform-parameters' => true, 'input-as-parameter' => 'always',
                                              'element-transformation' => true,
                                              'element-transformation-func' => 'l10nTransformation' ),
+            $this->LocaleFetchName      => array( 'input' => true, 'output' => true, 'parameters' => true,
+                                                  'transform-parameters' => true, 'input-as-parameter' => 'always',
+                                                  'element-transformation' => false ),
             $this->DateTimeName    => array( 'input' => true, 'output' => true, 'parameters' => true,
                                              'transform-parameters' => true, 'input-as-parameter' => 'always',
                                              'element-transformation' => true,
@@ -311,6 +315,25 @@ class eZTemplateLocaleOperator
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
+        if ( $operatorName == $this->LocaleFetchName )
+        {
+            if ( $operatorValue !== null )
+            {
+                $localeString = $operatorValue;
+            }
+            else
+            {
+                if ( count( $operatorParameters ) < 1 )
+                {
+                    $tpl->missingParameter( $operatorName, 'localestring' );
+                    return;
+                }
+                $localeString = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, false, true );
+            }
+            $locale =& eZLocale::instance( $localeString );
+            $operatorValue = $locale;
+            return;
+        }
         $locale =& eZLocale::instance();
         if ( $operatorName == $this->GetTimeName )
         {

@@ -1,0 +1,15 @@
+*Title: Locale operator for template language
+
+Incentive:
+Make it possible to fetch locale information (e.g. language string)
+from any locale string without requiring PHP code for it in the module.
+
+*Documentation:
+Pass the locale string as input
+example:
+{'nor-NO'|locale()}
+{'nor-NO'|locale().language_name}
+
+*Testing:
+
+*SVN Revisions:
