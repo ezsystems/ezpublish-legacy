@@ -19,7 +19,7 @@
 
 <h2 id="Requirements"> eZ publish 3 requirements</h2>
 <p>
-	You need to have Apache, MySQL, ImageMagick and PHP installed to run eZ publish 3.
+	You need to have Apache and PHP, and MySQL or PostgreSQL, installed to run eZ publish 3.
 	PHP needs to have compiled-in support for either MySQL or PostgreSQL.
 	For image conversion support you need to have GD compiled in PHP or
 	ImageMagick installed on your system.

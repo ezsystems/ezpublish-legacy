@@ -44,7 +44,7 @@
 	<li>Go to <a href="http://ez.no/developer/download">http://ez.no/developer/download</a></li>
 	<li>Find the Windows installer matching your Windows version.</li>
 	<li>Download the installer to your hard drive.</li>
-	<li>Double click on the downloaded file and follow the instructions.*</li>
+	<li>Double click on the downloaded file and follow the instructions. Choose demo data if you want to see an example of how to use eZ publish.</li>
 	<li>Now the installation will start. This can take a few minutes.</li>
 	<li>When the installation is done, you need to start eZ publish by clicking on the eZ publish icon
 	on the desktop. This will open eZ publish in your default browser. eZ publish will open at the
@@ -53,10 +53,6 @@
     user name, and <i>publish</i> as password.</li>
 	<li>You are now ready to start using eZ publish.</li>
 </ol>
-
-<p>
-	* Choose demo data if you want to see an example of how to use eZ publish.
-</p>
 
 <p class="important">
     <b>Note:</b> If you have anything listening on the same port as Apache (80) or MySQL (3306) you

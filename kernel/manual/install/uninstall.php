@@ -20,7 +20,6 @@
 <h2 id="Windows">Windows</h2>
 <h3 id="Windows_installer">Installer</h3>
 <p>
-	Uninstalling eZ publish should be very easy. In windows you simply
 	Click Start - Settings - Control panel. Open <b>Add/Remove programs</b> and find eZ
 	publish on the list. Highlight <b>eZ publish</b> and click the <b>Change/Remove</b>
 	button. This will delete eZ publish 3.
