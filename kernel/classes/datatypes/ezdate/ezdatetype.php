@@ -182,7 +182,8 @@ class eZDateType extends eZDataType
     */
     function title( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( "data_int" );
+        $locale =& eZLocale::instance();
+        return( $locale->formatDate( $contentObjectAttribute->attribute( "data_int" ) ) );
     }
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
