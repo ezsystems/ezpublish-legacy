@@ -76,7 +76,7 @@
  Has the date of the current cache code implementation as a timestamp,
  if this changes(increases) the cache files will need to be recreated.
 */
-define( "EZ_INI_CACHE_CODE_DATE", 1043316722 );
+define( "EZ_INI_CACHE_CODE_DATE", 1043407541 );
 define( "EZ_INI_DEBUG_INTERNALS", false );
 
 class eZINI
@@ -382,8 +382,12 @@ class eZINI
                         fwrite( $fp, "\$groupArray[\"$key\"] = array();\n" );
                         foreach ( $val as $arrayKey => $arrayValue )
                         {
+                            if ( is_string( $arrayKey ) )
+                                $tmpArrayKey = "\"" . str_replace( "\"", "\\\"", $arrayKey ) . "\"";
+                            else
+                                $tmpArrayKey = $arrayKey;
                             $tmpVal = str_replace( "\"", "\\\"", $arrayValue );
-                            fwrite( $fp, "\$groupArray[\"$key\"][] = \"$tmpVal\";\n" );
+                            fwrite( $fp, "\$groupArray[\"$key\"][$tmpArrayKey] = \"$tmpVal\";\n" );
                         }
                     }
                     else
@@ -494,28 +498,40 @@ class eZINI
                 $varName = trim( $valueArray[1] );
                 $this->BlockValues[$currentBlock][$varName] = array();
             }
-            else if ( preg_match("#^([a-zA-Z0-9_-]+)(\\[\\])?=(.*)$#", $line, $valueArray ) )
+            else if ( preg_match("#^([a-zA-Z0-9_-]+)(\\[([a-zA-Z0-9_-]*)\\])?=(.*)$#", $line, $valueArray ) )
             {
                 $varName = trim( $valueArray[1] );
                 if ( $this->UseTextCodec )
                 {
                     eZDebug::accumulatorStart( 'ini_conversion', false, 'INI string conversion' );
-                    $varValue = $codec->convertString( $valueArray[3] );
+                    $varValue = $codec->convertString( $valueArray[4] );
                     eZDebug::accumulatorStop( 'ini_conversion', false, 'INI string conversion' );
                 }
                 else
                 {
-                    $varValue = $valueArray[3];
+                    $varValue = $valueArray[4];
                 }
 //                 $varValue = $codec->toUnicode( $varValue );
 
                 if ( $valueArray[2] )
                 {
-                    if ( isset( $this->BlockValues[$currentBlock][$varName] ) and
-                         is_array( $this->BlockValues[$currentBlock][$varName] ) )
-                        $this->BlockValues[$currentBlock][$varName][] = $varValue;
+                    if ( $valueArray[3] )
+                    {
+                        $keyName = $valueArray[3];
+                        if ( isset( $this->BlockValues[$currentBlock][$varName] ) and
+                             is_array( $this->BlockValues[$currentBlock][$varName] ) )
+                            $this->BlockValues[$currentBlock][$varName][$keyName] = $varValue;
+                        else
+                            $this->BlockValues[$currentBlock][$varName] = array( $keyName => $varValue );
+                    }
                     else
-                        $this->BlockValues[$currentBlock][$varName] = array( $varValue );
+                    {
+                        if ( isset( $this->BlockValues[$currentBlock][$varName] ) and
+                             is_array( $this->BlockValues[$currentBlock][$varName] ) )
+                            $this->BlockValues[$currentBlock][$varName][] = $varValue;
+                        else
+                            $this->BlockValues[$currentBlock][$varName] = array( $varValue );
+                    }
                 }
                 else
                 {
