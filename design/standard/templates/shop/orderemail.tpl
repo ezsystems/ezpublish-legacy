@@ -1,4 +1,4 @@
-{set-block scope=root variable=subject}{"Order:"|i18n("design/standard/shop")} {$order.id}{/set-block}
+{set-block scope=root variable=subject}{"Order:"|i18n("design/standard/shop")} {$order.order_nr}{/set-block}
 
 {"Order:"|i18n("design/standard/shop")} {$order.order_nr}
 

@@ -26,32 +26,9 @@
 </tr>
 {sequence name=WorkflowSequence}
 {/section}
-</table>
+
 {/section}
 
-{section show=$temp_workflow_list}
-<h2>{"Temporary workflows for"|i18n("design/standard/workflow")} {$group_name}</h2>
-<table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
-<tr>
-    <th>{"Name"|i18n("design/standard/workflow")}</th>
-    <th>{"Modifier"|i18n("design/standard/workflow")}</th>
-    <th>{"Modified"|i18n("design/standard/workflow")}</th>
-    <th width="1%">{"Edit"|i18n("design/standard/workflow")}</th>
-    <th width="1%">{"Remove"|i18n("design/standard/workflow")}</th>
-</tr>
-
-{sequence name=TempWorkflowSequence loop=array(bglight,bgdark)}
-
-{section name=TempWorkflow loop=$temp_workflow_list}
-<tr>
-    <td class="{$TempWorkflowSequence:item}">{$TempWorkflow:item.name}</td>
-    <td class="{$TempWorkflowSequence:item}">{$TempWorkflow:item.modifier_id}</td>
-    <td class="{$TempWorkflowSequence:item}">{$TempWorkflow:item.modified|l10n(shortdatetime)}</td>
-    <td class="{$TempWorkflowSequence:item}"><div class="listbutton"><a href={concat($module.functions.edit.uri,"/",$TempWorkflow:item.id)|ezurl}><img name="edit" src={"edit.png"|ezimage} width="16" height="16" align="Edit" /></a></div></td>
-    <td class="{$TempWorkflowSequence:item}" align="right"><input type="checkbox" name="Temp_Workflow_id_checked[]" value="{$TempWorkflow:item.id}"></td>
-</tr>
-{sequence name=TempWorkflowSequence}
-{/section}
 <tr>
   <td colspan="4">
 
