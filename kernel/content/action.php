@@ -255,9 +255,18 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     else if ( $http->hasPostVariable( "ActionAddToBookmarks" ) )
     {
         $user =& eZUser::currentUser();
-        $nodeID = $http->postVariable( 'ContentNodeID' );
-        $node =& eZContentObjectTreeNode::fetch( $nodeID );
-        $bookmark = eZContentBrowseBookmark::createNew( $user->id(), $nodeID, $node->attribute( 'name' ) );
+        $nodeID = false;
+        if ( $http->hasPostVariable( 'ContentNodeID' ) )
+        {
+            $nodeID = $http->postVariable( 'ContentNodeID' );
+            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            $bookmark = eZContentBrowseBookmark::createNew( $user->id(), $nodeID, $node->attribute( 'name' ) );
+        }
+        if ( !$nodeID )
+        {
+            $contentINI =& eZINI::instance( 'content.ini' );
+            $nodeID = $contentINI->variable( 'NodeSettings', 'RootNode' );
+        }
         if ( $http->hasPostVariable( 'ViewMode' ) )
         {
             $viewMode = $http->postVariable( 'ViewMode' );

@@ -78,6 +78,12 @@ MatchFile=embed_image.tpl
 Subdir=templates
 Match[class]=5
 
+[text_linked_image]
+Source=content/view/text_linked.tpl
+MatchFile=text_linked_image.tpl
+Subdir=templates
+Match[class]=5
+
 [image]
 Source=node/view/full.tpl
 MatchFile=image.tpl

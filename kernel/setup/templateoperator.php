@@ -268,7 +268,7 @@ function templateOperatorDownload( &$tpl, &$persistentData, $stepData )
     header( "Content-Length: $contentLength" );
     header( "Content-Type: $mimeType" );
     header( "X-Powered-By: eZ publish $version" );
-    header( "Content-disposition: attachment; filename=$filename" );
+    header( "Content-Disposition: attachment; filename=$filename" );
     header( "Content-Transfer-Encoding: binary" );
     ob_end_clean();
     print( $content );

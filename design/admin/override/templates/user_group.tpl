@@ -65,6 +65,7 @@
 {section show=$user_class_list_allowed}
 <div class="buttonblock">
     <form method="post" action={"content/action"|ezurl}>
+         <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
          <input type="hidden" name="NodeID" value="{$node.node_id}" />
          <select name="ClassID" class="create">
 	      {section name=Classes loop=$user_class_list}

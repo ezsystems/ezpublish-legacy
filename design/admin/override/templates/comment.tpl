@@ -21,6 +21,7 @@
 <div class="object">
     <h1>{$node_name|wash(xhtml)}</h1>
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
+    <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
     <p class="small">{attribute_view_gui attribute=$node.object.data_map.author}</p>
     <p>{attribute_view_gui attribute=$node.object.data_map.message}</p>
 
