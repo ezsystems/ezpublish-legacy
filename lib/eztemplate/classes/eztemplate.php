@@ -790,7 +790,7 @@ class eZTemplate
                                 unset( $tempValue );
                                 $tempValue =& $value[$attributeValue];
                                 unset( $value );
-                                $value =& $tempValue;
+                                $value = $tempValue;
                             }
                             else
                             {
@@ -810,7 +810,7 @@ class eZTemplate
                                     unset( $tempValue );
                                     $tempValue =& $value->attribute( $attributeValue );
                                     unset( $value );
-                                    $value =& $tempValue;
+                                    $value = $tempValue;
                                 }
                                 else
                                 {

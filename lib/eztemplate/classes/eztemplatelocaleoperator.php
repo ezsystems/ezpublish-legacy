@@ -114,11 +114,11 @@ class eZTemplateLocaleOperator
      - currency
      - number
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         if ( $operatorName == $this->CurrentDateName )
         {
-            $value = eZDateTime::currentTimestamp();
+            $operatorValue = eZDateTime::currentTimestamp();
         }
         else if ( $operatorName == $this->DateTimeName )
         {
@@ -127,7 +127,7 @@ class eZTemplateLocaleOperator
                 return;
             if ( $class == 'custom' )
             {
-                $value = $this->Locale->formatDateTimeType( $namedParameters['data'], $value );
+                $operatorValue = $this->Locale->formatDateTimeType( $namedParameters['data'], $operatorValue );
             }
             else
             {
@@ -136,7 +136,7 @@ class eZTemplateLocaleOperator
                 if ( array_key_exists( $class, $formats ) )
                 {
                     $classFormat = $formats[$class];
-                    $value = $this->Locale->formatDateTimeType( $classFormat, $value );
+                    $operatorValue = $this->Locale->formatDateTimeType( $classFormat, $operatorValue );
                 }
                 else
                     $tpl->error( $operatorName, "DateTime class '$class' is not defined" );
@@ -151,42 +151,42 @@ class eZTemplateLocaleOperator
             {
                 case 'time':
                 {
-                    $value = $this->Locale->formatTime( $value );
+                    $operatorValue = $this->Locale->formatTime( $operatorValue );
                 } break;
 
                 case 'shorttime':
                 {
-                    $value = $this->Locale->formatShortTime( $value );
+                    $operatorValue = $this->Locale->formatShortTime( $operatorValue );
                 } break;
 
                 case 'date':
                 {
-                    $value = $this->Locale->formatDate( $value );
+                    $operatorValue = $this->Locale->formatDate( $operatorValue );
                 } break;
 
                 case 'shortdate':
                 {
-                    $value = $this->Locale->formatShortDate( $value );
+                    $operatorValue = $this->Locale->formatShortDate( $operatorValue );
                 } break;
 
                 case 'datetime':
                 {
-                    $value = $this->Locale->formatDateTime( $value );
+                    $operatorValue = $this->Locale->formatDateTime( $operatorValue );
                 } break;
 
                 case 'shortdatetime':
                 {
-                    $value = $this->Locale->formatShortDateTime( $value );
+                    $operatorValue = $this->Locale->formatShortDateTime( $operatorValue );
                 } break;
 
                 case 'currency':
                 {
-                    $value = $this->Locale->formatCurrency( $value );
+                    $operatorValue = $this->Locale->formatCurrency( $operatorValue );
                 } break;
 
                 case 'number':
                 {
-                    $value = $this->Locale->formatNumber( $value );
+                    $operatorValue = $this->Locale->formatNumber( $operatorValue );
                 } break;
 
                 default:

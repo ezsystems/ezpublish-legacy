@@ -84,7 +84,7 @@ class eZContentClassGroup extends eZPersistentObject
                  $attr == 'creator' or
                  eZPersistentObject::hasAttribute( $attr ) );
     }
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         switch( $attr )
         {

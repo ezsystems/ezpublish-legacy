@@ -106,7 +106,8 @@ eZTemplate:
 - Improved texttoimage to support multiple font directories.
 - When debug output is on the template include name is prepended to the text.
 - Sitebasics are now only used if available.
-- Made sure variable attributes were fetched with references for array as well as objects.
+- Made sure variable attributes are not fetched with references, this is because
+  operators will override the values.
 - New type operators, is_array, is_boolean, is_integer, is_float, is_numeric, is_string,
                       is_object, is_class, is_null, is_set, is_unset, get_type and get_class.
 - New control operators, cond and first_set.
