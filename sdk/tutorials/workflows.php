@@ -169,7 +169,8 @@ eZWorkflowEventType::registerType( EZ_WORKFLOW_TYPE_HELLO_USER_ID, "hellousertyp
 <p>
 This is a very simple workflow event type. To create workflow event type we need to create a class inherited from eZWorkflowEventType
 and then register it into the system using method eZWorkflowEventType::registerType().
-That classs should have at least one method as well as the class constructor. Method <i>execute</i> is called when workflow event is executed. Behaviour of running workflow depends on return value of this function.
+This classs should have at least one method as well as the class constructor. Method <i>execute</i> is called when workflow event is
+executed. The behaviour of running workflow depends on the return value of this function.
 <br/>
 
 <table border="1">
@@ -190,7 +191,7 @@ EZ_WORKFLOW_TYPE_STATUS_REJECTED<br/>
 EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED
 </td>
 <td>
-Both of them means the same for now. All workflow is canceled.
+They have the same meaning currently. The workflow will be canceled.
 </td>
 </tr>
 
@@ -201,7 +202,8 @@ EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON<br/>
 EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT
 </td>
 <td>
-That status means that executing of workflow is defered to cron daemon. Diference between the first and the second is that next time workflow is executed it start from next event in the first case and from the same event in the second case.
+That status means that executing of workflow is deferred to cron daemon. The difference between the first one and the second one is that the workflow will be
+executed from next event in the first case and from the same event in the second case after finishing current running process.
 </td>
 </tr>
 
@@ -211,7 +213,8 @@ EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE<br/>
 EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT
 </td>
 <td>
-Workflow engine should interupt executing workflow and show page to the user. In case of that status workflow event should set up some internal variables. (Will be explaned bellow). Deferences between them same as in previous case
+Workflow engine should interupt executing workflow and show page to the user. In case of that status workflow event should set up some internal variables. (Will be explaned bellow). Defferences between
+them is the same as in the previous case
 
 </td>
 </tr>
@@ -223,7 +226,8 @@ EZ_WORKFLOW_TYPE_STATUS_REDIRECT_REPEAT
 
 </td>
 <td>
-Workflow engine should interupt executing workflow and redirect user to the specified page. In case of that status workflow event should set up some internal variables. (Will be explaned bellow). Deferences between them same as in previous cases
+Workflow engine should interupt executing workflow and redirect user to a specified page. In case of that status workflow event should set up some internal variables. (Will be explaned bellow).
+Defferences between them is the same as in the previous cases
 </td>
 </tr>
 
