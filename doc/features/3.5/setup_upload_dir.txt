@@ -1,0 +1,24 @@
+*Title: Detect bad PHP upload setups
+
+Incentive:
+Make the setup wizard do some more checks to the PHP
+upload system. It should check if the specified upload
+directory really exists and is writeable.
+
+*Documentation:
+The test will now read out 'upload_tmp_dir' from PHP and check
+if that directory exists and can be written to.
+If something is wrong it explains why and gives example shell
+commands for fixing it.
+
+The setup test 'file_upload' was moved from OptionalTests
+to CriticalTests in site.ini.
+
+*Testing:
+Reconfigure php.ini and do one of the following:
+- Disable php uploading by setting file_uploads to 0
+- Change setting 'upload_tmp_dir' to a directory that does not exist.
+- Remove all write permission from the directory taken from setting 'upload_tmp_dir'
+
+*SVN Revisions:
+8412
