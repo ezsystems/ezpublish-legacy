@@ -39,9 +39,9 @@
                                                                sort_by, $root_node.sort_array ) )}
 
             {section show=eq( $menu.object.content_class.identifier, "link" )}
-                <li {$menu.index|eq( 0 )|choose( '', 'class="first"' )}><a href={$menu.object.data_map.link.content}>{$menu.name}</a></li>
+                <li {$menu.index|eq( 0 )|choose( '', 'class="first"' )}><div class="spacing"><a href={$menu.object.data_map.link.content}>{$menu.name}</a></div></li>
             {section-else}
-                <li {$menu.index|eq( 0 )|choose( '', 'class="first"' )}><a href={$menu.url_alias|ezurl}>{$menu.name}</a></li>
+                <li {$menu.index|eq( 0 )|choose( '', 'class="first"' )}><div class="spacing"><a href={$menu.url_alias|ezurl}>{$menu.name}</a></div></li>
             {/section}
         {/section}
     </ul>

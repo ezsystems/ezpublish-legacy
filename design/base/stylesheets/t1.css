@@ -257,12 +257,12 @@ div#submenu
 {
     padding: 0;
     margin: -1px;
+    background-color: #7b92bc;
+    border-bottom: 1px solid #7b92bc; /* This line needs to be set to avoid bug in IE */
 }
 
 div#submenu-design
 {
-    height: 22px;
-    background-color: #7b92bc;
     margin: 0;
     padding: 0;
     text-align: left;
@@ -281,18 +281,20 @@ div#submenu li
     margin: 0;
     display: block;
     float: left;
-    padding-left: 16px;
 }
 
 div#submenu li.first
 {
-    padding-left: 12px;
+}
+
+div#submenu li div.spacing
+{
+    padding: 0.2em 12px 0.3em 12px;
 }
 
 div#submenu li a
 {
     color: #ffffff;
-    font-weight: bold;
     text-decoration: none;
 }
 
@@ -301,21 +303,19 @@ div#submenu li a:hover
     text-decoration: underline;
 }
 
-
-
 div#path
 {
 }
 
 div#path-design
 {
-  margin: 3px 3px 3px 6px;
+  margin: 0.2em 12px 0.2em 12px;
 }
 
 div#path p
 {
     color: #6699cc;
-    font-size: 9pt;
+    font-size: 0.9em;
     margin: 0;
 }
 
