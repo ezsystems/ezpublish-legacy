@@ -138,7 +138,7 @@ class eZStepSiteDetails extends eZStepInstaller
             if ( $dbStatus['connected'] )
             {
 
-                if ( eZDBTool::isEmpty( $db ) === false )
+                if ( count( $db->eZTableList() ) != 0 )
                 {
                     if ( $this->Http->hasPostVariable( 'eZSetup_site_templates_'.$counter.'_existing_database' ) &&
                          $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_existing_database' ) != '4' )

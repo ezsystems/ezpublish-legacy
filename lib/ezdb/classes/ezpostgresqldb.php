@@ -370,6 +370,21 @@ class eZPostgreSQLDB extends eZDBInterface
     }
 
     /*!
+     \reimp
+    */
+    function eZTableList()
+    {
+        $array = array();
+        if ( $this->isConnected() )
+        {
+            $sql = "SELECT relname FROM pg_class WHERE relkind='r' AND relname like 'ez%'";
+            $array = $this->arrayQuery( $sql, array( 'column' => '0' ) );
+        }
+        return $array;
+
+    }
+
+    /*!
       \reimp
     */
     function removeRelation( $relationName, $relationType )

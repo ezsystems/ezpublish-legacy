@@ -47,6 +47,7 @@ Changes from 3.2-4 to 3.2-5
   http://ez.no/community/bug_reports/search_statistics_and_postgresql
 
 *Setup:
+- Fixed setup to only check for existing eZ publish tables.
 
 *Library :
 
