@@ -15,7 +15,7 @@
            {/case}
          {/switch}
     {/section}
-    
+
     {switch match=$:item_next|lt($item_count)}
           {case match=1}
               <span class="next"><a href={concat($page_uri,'/offset/',$:item_next,$:view_parameter_text,$page_uri_suffix)|ezurl}><span class="text">{"Next"|i18n("design/standard/navigator")}&nbsp;&raquo;</span></a></span>
@@ -23,8 +23,7 @@
           {case}
           {/case}
         {/switch}
-    {/section}
-    
+
     </p>
 
     <div class="break"></div>
