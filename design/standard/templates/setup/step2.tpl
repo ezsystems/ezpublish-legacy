@@ -37,12 +37,20 @@ Now we need information about the database eZ publish should use.<br />
         <td><input type="text" name="dbName" size="25" value="{$dbName}" maxlength="60" /></td>
     </tr>
     <tr>
-        <td>Charset of database:</td>
-        <td><input type="text" name="dbCharset" size="25" value="{$dbCharset}" maxlength="60" /></td>
+        <td>Please choose a charset to use:</td>
+        <td><select name="dbCharset">
+            {section name=charsets loop=$charsetArray}
+            <option value="{$charsets:item}">{$charsets:item}</option>
+            {/section}
+        </select></td>
+    </tr>
+    <tr>
+        <td>Delete old tables in database:</td>
+        <td><input type="checkbox" name="dbDeleteTables" {$dbDeleteTables} value="yes" /> (dangerous!)</td>
     </tr>
     </table>
     
-    <p>Now we need a user that is allowed to create databases:</p>
+    <p>Now we need a user who is allowed to create databases:</p>
 
     <table border="1" cellspacing="1" cellpadding="1">
     <tr>
@@ -53,7 +61,7 @@ Now we need information about the database eZ publish should use.<br />
         <td>Password:</td>
         <td><input type="password" name="dbMainPass" size="25" /></td>
     </tr>
-{*    <tr>
+    <tr>
         <td colspan="2">If you want to create a new user to use the database, please enter the information here:</td>
     </tr>
     <tr>
@@ -67,7 +75,7 @@ Now we need information about the database eZ publish should use.<br />
     <tr>
         <td>Password again:</td>
         <td><input type="password" name="dbCreatePass2" size="25" /></td>
-    </tr> *}
+    </tr>
     </table>
     <input type="hidden" name="dbEncoding" value="{$dbEncoding}" />
     {section name=handover loop=$handover}
@@ -76,6 +84,7 @@ Now we need information about the database eZ publish should use.<br />
 
     
     {* <input type="hidden" name="prevStep" value="{$prevStep}" /> *}
+	The next step might take some time. Please be patient.<br />
     <input type="hidden" name="nextStep" value="{$nextStep}" />
     <p>{* <button name="buttonPrevStep" type="submit">Previous step</button>&nbsp; *}
     <button name="buttonNextStep" type="submit">Next step</button></p>

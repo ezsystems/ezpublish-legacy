@@ -28,13 +28,13 @@
         <td><b>Database main user:</b></td>
         <td>{$dbMainUser}</td>
     </tr>
-{*    <tr>
+    <tr>
         <td><b>Database new user:</b></td>
         <td>{$dbCreateUser}</td>
         <td></td>
         <td></td>
         <td></td>
-    </tr> *}
+    </tr>
     </table>
 
     <p>
@@ -47,6 +47,18 @@
     <tr>
         <td>Trying to create the database "{$dbName}":</td>
         <td>{$dbCreate}</td>
+    </tr>
+    {/section}
+    {section name=deleteTables show=$deleteTables}
+    <tr>
+        <td>Trying to delete old tables:</td>
+        <td>{$deleteTablesOK}</td>
+    </tr>
+    {/section}
+    {section name=createUser show=$createUser}
+    <tr>
+        <td>Trying to create the user "{$dbCreateUser}":</td>
+        <td>{$dbCreateUserMsg}</td>
     </tr>
     {/section}
     {section name=createSql show=$createSql}
@@ -66,7 +78,8 @@
 
     {* TODO: Security hole! Use better method! *}
     <input type="hidden" name="dbMainPass" value="{$dbMainPass}" /> 
-    {* <input type="hidden" name="dbCreatePass" value="{$dbCreatePass}" /> *}
+    <input type="hidden" name="dbCreatePass" value="{$dbCreatePass}" />
+    <input type="hidden" name="dbDeleteTables" value="{$dbDeleteTables}" />
     <input type="hidden" name="nextStep" value="{$prevStep}" />
     {section name=handover loop=$handover}
     <input type="hidden" name="{$handover:item.name}" value="{$handover:item.pass}" />
