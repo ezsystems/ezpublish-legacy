@@ -44,6 +44,7 @@
 include_once( "kernel/classes/ezdatatype.php" );
 include_once( "kernel/classes/datatypes/ezbinaryfile/ezbinaryfile.php" );
 include_once( "lib/ezutils/classes/ezfile.php" );
+include_once( "lib/ezutils/classes/ezsys.php" );
 include_once( "lib/ezutils/classes/ezmimetype.php" );
 include_once( "lib/ezutils/classes/ezhttpfile.php" );
 
@@ -91,13 +92,18 @@ class eZBinaryFileType extends eZDataType
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
         $binaryFiles =& eZBinaryFile::fetch( $contentObjectAttributeID );
+        $ini =& eZINI::instance();
+        $sys =& eZSys::instance();
+        $storage_dir = $sys->storageDirectory();
+
         if( $version == null )
         {
             foreach ( $binaryFiles as $binaryFile )
             {
                 $mimeType =  $binaryFile->attribute( "mime_type" );
                 list( $prefix, $suffix ) = split ('[/]', $mimeType );
-                $orig_dir = "var/storage/original/" . $prefix;
+                $orig_dir = $storage_dir . '/original/' . $prefix;
+//              $orig_dir = "var/storage/original/" . $prefix;
                 $fileName = $binaryFile->attribute( "filename" );
                 if( file_exists( $orig_dir . "/" .$fileName ) )
                     unlink( $orig_dir . "/" . $fileName );
@@ -112,7 +118,8 @@ class eZBinaryFileType extends eZDataType
                 $mimeType =  $currentBinaryFile->attribute( "mime_type" );
                 $currentFileName = $currentBinaryFile->attribute( "filename" );
                 list( $prefix, $suffix ) = split ('[/]', $mimeType );
-                $orig_dir = "var/storage/original/" . $prefix;
+//              $orig_dir = "var/storage/original/" . $prefix;
+                $orig_dir = $storage_dir . "/original/" . $prefix;
                 foreach ( $binaryFiles as $binaryFile )
                 {
                     $fileName = $binaryFile->attribute( "filename" );
