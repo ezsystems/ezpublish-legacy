@@ -54,7 +54,7 @@ $http =& eZHTTPTool::instance();
 $iniPath = "settings/siteaccess/$currentSiteAccess";
 $ini =& eZINI::instance( "toolbar.ini", 'settings', null, false, null, false );
 
-$iniAppend =& eZINI::instance( 'toolbar.ini.append.php', $iniPath, null, false, null, true );
+$iniAppend =& eZINI::instance( 'toolbar.ini.append', $iniPath, null, false, null, true );
 
 $toolArray = array();
 if ( $iniAppend->hasVariable( "Toolbar_" . $toolbarPosition, "Tool" ) )

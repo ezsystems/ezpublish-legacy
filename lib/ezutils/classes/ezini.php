@@ -279,6 +279,9 @@ class eZINI
             if ( file_exists ( $iniFile ) )
                 $inputFiles[] = $iniFile;
 
+            if ( file_exists ( $iniFile . '.php' ) )
+                $inputFiles[] = $iniFile . '.php';
+
             if ( file_exists ( $iniFile . '.append' ) )
                 $inputFiles[] = $iniFile . '.append';
 
