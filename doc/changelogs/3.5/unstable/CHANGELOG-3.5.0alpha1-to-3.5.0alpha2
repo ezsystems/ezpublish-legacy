@@ -79,7 +79,7 @@ Payment:
 *Library:
 
 eZFile:
-- Tar-handler can store paths longer 99 characters.
+- Tar-handler can store paths longer than 99 characters.
 
 eZDB:
 - Added new method relationMatchRegexp() to eZDBInterface,
@@ -92,4 +92,6 @@ eZTemplate:
 - Added debug information for template processing (not compiled mode) which is shown
   before and the processed template with uri and filename. Only shown when debug
   is enabled.
+- Improved error handling for function and operators, the file placement will now
+  be included on more of the errors and warnings. (Only for processed mode)
 

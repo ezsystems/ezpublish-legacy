@@ -236,7 +236,8 @@ class eZTemplateTextOperator
     /*!
      Handles concat and indent operators.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+                     $placement )
     {
         switch ( $operatorName )
         {
@@ -247,7 +248,7 @@ class eZTemplateTextOperator
                     $operands[] = $operatorValue;
                 for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                 {
-                    $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
+                    $operand = $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                     if ( !is_object( $operand ) )
                         $operands[] = $operand;
                 }

@@ -313,7 +313,8 @@ class eZTemplateLocaleOperator
      - clean_currency
      - number
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+                     $placement )
     {
         if ( $operatorName == $this->LocaleFetchName )
         {
@@ -328,7 +329,7 @@ class eZTemplateLocaleOperator
                     $tpl->missingParameter( $operatorName, 'localestring' );
                     return;
                 }
-                $localeString = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, false, true );
+                $localeString = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement, true );
             }
             $locale =& eZLocale::instance( $localeString );
             $operatorValue = $locale;
@@ -421,7 +422,7 @@ class eZTemplateLocaleOperator
                     $operatorValue = $locale->formatDateTimeType( $classFormat, $operatorValue );
                 }
                 else
-                    $tpl->error( $operatorName, "DateTime class '$class' is not defined" );
+                    $tpl->error( $operatorName, "DateTime class '$class' is not defined", $placement );
             }
         }
         else if ( $operatorName == $this->LocaleName )
@@ -436,7 +437,7 @@ class eZTemplateLocaleOperator
             }
             else
             {
-                $tpl->error( $operatorName, "Unknown locale type: '$type'" );
+                $tpl->error( $operatorName, "Unknown locale type: '$type'", $placement );
             }
         }
     }

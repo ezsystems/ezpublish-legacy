@@ -165,7 +165,7 @@ class eZTemplateSequenceFunction
         }
         if ( $loop !== null and !is_array( $loop ) )
         {
-            $tpl->error( $func_name, "Can only loop arrays" );
+            $tpl->error( $func_name, "Can only loop arrays", $functionPlacement );
             return;
         }
 

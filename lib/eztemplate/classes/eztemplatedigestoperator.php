@@ -142,7 +142,8 @@ class eZTemplateDigestOperator
     /*!
      Display the variable.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+                     $placement )
     {
         $digestData = $operatorValue;
         switch ( $operatorName )
@@ -174,7 +175,7 @@ class eZTemplateDigestOperator
             // Default case: something went wrong - unknown things...
             default:
             {
-                $tpl->warning( $operatorName, "Unknown input type '$type'" );
+                $tpl->warning( $operatorName, "Unknown input type '$type'", $placement );
             } break;
         }
     }

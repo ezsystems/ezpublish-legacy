@@ -295,7 +295,7 @@ class eZTemplateFileResource
                 {
                     setlocale( LC_CTYPE, $locales );
                 }
-                
+
                 if ( eZTemplate::isDebugEnabled() )
                     eZDebug::writeNotice( "$path, $charset" );
                 $codec =& eZTextCodec::instance( $charset, false, false );

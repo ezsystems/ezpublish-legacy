@@ -225,7 +225,7 @@ class eZTemplateBlockFunction
                     else if ( $scopeText == 'global' )
                         $scope = EZ_TEMPLATE_BLOCK_SCOPE_GLOBAL;
                     else
-                        $tpl->warning( $functionName, "Scope value '$scopeText' is not valid, use either 'relative', 'root' or 'global'" );
+                        $tpl->warning( $functionName, "Scope value '$scopeText' is not valid, use either 'relative', 'root' or 'global'", $functionPlacement );
                 }
 
                 $name = null;

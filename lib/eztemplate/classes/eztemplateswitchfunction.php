@@ -280,7 +280,7 @@ class eZTemplateSwitchFunction
                             }
                             else
                             {
-                                $tpl->warning( $this->SwitchName, "Match value $child_match already set, skipping" );
+                                $tpl->warning( $this->SwitchName, "Match value $child_match already set, skipping", $functionPlacement );
                             }
                         }
                         else if ( isset( $child_params["in"] ) )
@@ -332,7 +332,7 @@ class eZTemplateSwitchFunction
                     default:
                     {
                         $tpl->warning( $this->SwitchName, "Only case functions are allowed as children, found \""
-                                       . $child[2] . "\"" );
+                                       . $child[2] . "\"", $functionPlacement );
                     } break;
                 }
             }
@@ -343,7 +343,7 @@ class eZTemplateSwitchFunction
             else
             {
                 $tpl->warning( $this->SwitchName, "Only functions are allowed as children, found \""
-                               . $childType . "\"" );
+                               . $childType . "\"", $functionPlacement );
             }
             next( $children );
         }
@@ -372,7 +372,7 @@ class eZTemplateSwitchFunction
             }
         }
         else
-            $tpl->warning( $this->SwitchName, "No case match and no default case" );
+            $tpl->warning( $this->SwitchName, "No case match and no default case", $functionPlacement );
         return;
     }
 

@@ -1575,7 +1575,7 @@ class eZTemplateArrayOperator
 
     function modify( &$tpl, &$operatorName, &$operatorParameters,
                      &$rootNamespace, &$currentNamespace, &$operatorValue,
-                     &$namedParameters )
+                     &$namedParameters, $placement )
     {
         switch( $operatorName )
         {
@@ -1586,7 +1586,8 @@ class eZTemplateArrayOperator
                 {
                     $operatorValue[] =& $tpl->elementValue( $operatorParameters[$i],
                                                             $rootNamespace,
-                                                            $currentNamespace );
+                                                            $currentNamespace,
+                                                            $placement );
                 }
                 return;
             }break;
@@ -1599,15 +1600,18 @@ class eZTemplateArrayOperator
                 {
                     $hashName = $tpl->elementValue( $operatorParameters[$i*2],
                                                     $rootNamespace,
-                                                    $currentNamespace );
+                                                    $currentNamespace,
+                                                    $placement );
                     if ( is_string( $hashName ) or
                          is_numeric( $hashName ) )
                         $operatorValue[$hashName] =& $tpl->elementValue( $operatorParameters[($i*2)+1],
                                                                          $rootNamespace,
-                                                                         $currentNamespace );
+                                                                         $currentNamespace,
+                                                                         $placement );
                     else
                         $tpl->error( $operatorName,
-                                     "Unknown hash key type '" . gettype( $hashName ) . "', skipping" );
+                                     "Unknown hash key type '" . gettype( $hashName ) . "', skipping",
+                                     $placement );
                 }
                 return;
             }
@@ -1622,7 +1626,8 @@ class eZTemplateArrayOperator
                 else
                 {
                     $tpl->error( $operatorName,
-                                 "Unknown input type, can only work with arrays '" . gettype( $operatorValue ) . "'" );
+                                 "Unknown input type, can only work with arrays '" . gettype( $operatorValue ) . "'",
+                                 $placement );
                 }
                 return;
             }
@@ -1631,7 +1636,7 @@ class eZTemplateArrayOperator
 
         $isArray = false;
         if ( isset( $operatorParameters[0] ) and
-             is_array( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace ) ) )
+             is_array( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement ) ) )
             $isArray = true;
 
         if ( is_array( $operatorValue ) )
@@ -1653,7 +1658,8 @@ class eZTemplateArrayOperator
                         if ( count( $operatorParameters ) < 1 )
                         {
                             $tpl->error( $operatorName,
-                                         "Requires at least one item!" );
+                                         "Requires at least one item!",
+                                         $placement );
                             return;
                         }
                         $mainArray = $operatorValue;
@@ -1663,19 +1669,22 @@ class eZTemplateArrayOperator
                         if ( count( $operatorParameters ) < 2 )
                         {
                             $tpl->error( $operatorName,
-                                         "Requires an array (and at least one item)!" );
+                                         "Requires an array (and at least one item)!",
+                                         $placement );
                             return;
                         }
                         $mainArray =& $tpl->elementValue( $operatorParameters[$i++],
                                                           $rootNamespace,
-                                                          $currentNamespace );
+                                                          $currentNamespace,
+                                                          $placement );
                     }
                     $tmpArray = array();
                     for ( ; $i < count( $operatorParameters ); ++$i )
                     {
                         $tmpArray[] =& $tpl->elementValue( $operatorParameters[$i],
                                                            $rootNamespace,
-                                                           $currentNamespace );
+                                                           $currentNamespace,
+                                                           $placement );
                     }
                     if ( $operatorName == $this->ArrayPrependName or $operatorName == $this->PrependName )
                         $operatorValue = array_merge( $tmpArray, $mainArray );
@@ -1694,7 +1703,8 @@ class eZTemplateArrayOperator
 
                     if ( count( $operatorParameters ) < 1 )
                     {
-                        $tpl->error( $operatorName, "Requires an array (and at least one item!)" );
+                        $tpl->error( $operatorName, "Requires an array (and at least one item!)",
+                                     $placement );
                         return;
                     }
 
@@ -1702,7 +1712,8 @@ class eZTemplateArrayOperator
                     {
                         $tmpArray[] =& $tpl->elementValue( $operatorParameters[$i],
                                                            $rootNamespace,
-                                                           $currentNamespace );
+                                                           $currentNamespace,
+                                                           $placement );
                     }
                     $operatorValue = call_user_func_array( 'array_merge', $tmpArray );
                 }break;
@@ -1712,12 +1723,14 @@ class eZTemplateArrayOperator
                 {
                     if ( count( $operatorParameters ) < 1 )
                     {
-                        $tpl->error( $operatorName, "Missing matching value!" );
+                        $tpl->error( $operatorName, "Missing matching value!",
+                                     $placement );
                         return;
                     }
                     $matchValue =& $tpl->elementValue( $operatorParameters[0],
                                                        $rootNamespace,
-                                                       $currentNamespace );
+                                                       $currentNamespace,
+                                                       $placement );
 
                     $operatorValue = in_array( $matchValue, $operatorValue );
                 }
@@ -1768,7 +1781,8 @@ class eZTemplateArrayOperator
                     {
                         $test = $tpl->elementValue( $operatorParameters[$i],
                                                     $rootNamespace,
-                                                    $currentNamespace );
+                                                    $currentNamespace,
+                                                    $placement );
 
                         if ( $operatorValue[$i] != $test )
                         {
@@ -1792,7 +1806,8 @@ class eZTemplateArrayOperator
                     {
                         $test = $tpl->elementValue( $operatorParameters[$i],
                                                     $rootNamespace,
-                                                    $currentNamespace );
+                                                    $currentNamespace,
+                                                    $placement );
 
                         if ( $operatorValue[$start+$i] != $test )
                         {
@@ -1851,7 +1866,8 @@ class eZTemplateArrayOperator
                     {
                         $array_to_insert[] =& $tpl->elementValue( $operatorParameters[$i],
                                                                   $rootNamespace,
-                                                                  $currentNamespace );
+                                                                  $currentNamespace,
+                                                                  $placement );
                     }
 
                     $operatorValue = array_merge( $array_one, $array_to_insert, $array_two );
@@ -1877,7 +1893,8 @@ class eZTemplateArrayOperator
                     {
                         $array_mid[] =& $tpl->elementValue( $operatorParameters[$i],
                                                             $rootNamespace,
-                                                            $currentNamespace );
+                                                            $currentNamespace,
+                                                            $placement );
                     }
 
                     $operatorValue = array_merge( $array_one, $array_mid, $array_two );
@@ -1892,7 +1909,7 @@ class eZTemplateArrayOperator
                 // Default case:
                 default:
                 {
-                    $tpl->warning( $operatorName, "Unknown operatorname: $operatorName" );
+                    $tpl->warning( $operatorName, "Unknown operatorname: $operatorName", $placement );
                 }
                 break;
             }
@@ -1904,13 +1921,13 @@ class eZTemplateArrayOperator
                 // Not implemented.
                 case $this->ArrayName:
                 {
-                    $tpl->warning( $operatorName, "$operatorName works only with arrays." );
+                    $tpl->warning( $operatorName, "$operatorName works only with arrays.", $placement );
                 }break;
 
                 // Not implemented.
                 case $this->HashName:
                 {
-                    $tpl->warning( $operatorName, "$operatorName works only with arrays." );
+                    $tpl->warning( $operatorName, "$operatorName works only with arrays.", $placement );
                 }
                 break;
 
@@ -1927,7 +1944,8 @@ class eZTemplateArrayOperator
                     {
                         $operatorValue .= $tpl->elementValue( $operatorParameters[$i],
                                                               $rootNamespace,
-                                                              $currentNamespace );
+                                                              $currentNamespace,
+                                                              $placement );
                     }
 
                 }break;
@@ -1935,7 +1953,7 @@ class eZTemplateArrayOperator
                 // Not implemented.
                 case $this->MergeName:
                 {
-                    $tpl->warning( $operatorName, "$operatorName works only with arrays." );
+                    $tpl->warning( $operatorName, "$operatorName works only with arrays.", $placement );
                 }break;
 
                 // Check if the string contains a specified sequence of chars/string.
@@ -2011,7 +2029,7 @@ class eZTemplateArrayOperator
                 // Only works with arrays.
                 case $this->ImplodeName:
                 {
-                    $tpl->warning( $operatorName, "$operatorName only works with arrays" );
+                    $tpl->warning( $operatorName, "$operatorName only works with arrays", $placement );
                 }break;
 
                 // Explode string (split a string by string).
@@ -2059,7 +2077,8 @@ class eZTemplateArrayOperator
                     {
                         $mid .= $tpl->elementValue( $operatorParameters[$i],
                                                     $rootNamespace,
-                                                    $currentNamespace );
+                                                    $currentNamespace,
+                                                    $placement );
                     }
 
                     $operatorValue = $first . $mid . $second;
@@ -2068,13 +2087,13 @@ class eZTemplateArrayOperator
                 // Not implemented.
                 case $this->UniqueName:
                 {
-                    $tpl->warning( $operatorName, "$operatorName works only with arrays." );
+                    $tpl->warning( $operatorName, "$operatorName works only with arrays.", $placement );
                 }break;
 
                 // Default case:
                 default:
                 {
-                    $tpl->warning( $operatorName, "Unknown operatorname: $operatorName" );
+                    $tpl->warning( $operatorName, "Unknown operatorname: $operatorName", $placement );
                 }
                 break;
             }
@@ -2087,7 +2106,8 @@ class eZTemplateArrayOperator
             {
                 $operatorValue[] =& $tpl->elementValue( $operatorParameters[$i],
                                                         $rootNamespace,
-                                                        $currentNamespace );
+                                                        $currentNamespace,
+                                                        $placement );
             }
         }
     }

@@ -797,7 +797,7 @@ class eZTemplateSectionFunction
             }
             else if ( !is_numeric( $iterationMaxCount ) )
             {
-                $tpl->warning( $functionName, "Wrong parameter type '" . gettype( $iterationMaxCount ) . "' for 'max', use either numericals or arrays" );
+                $tpl->warning( $functionName, "Wrong parameter type '" . gettype( $iterationMaxCount ) . "' for 'max', use either numericals or arrays", $functionPlacement );
             }
             $iterationMaxCount = (int)$iterationMaxCount;
         }
@@ -812,12 +812,12 @@ class eZTemplateSectionFunction
             }
             else if ( !is_numeric( $iterationOffset ) )
             {
-                $tpl->warning( $functionName, "Wrong parameter type '" . gettype( $iterationOffset ) . "' for 'offset', use either numericals or arrays" );
+                $tpl->warning( $functionName, "Wrong parameter type '" . gettype( $iterationOffset ) . "' for 'offset', use either numericals or arrays", $functionPlacement );
             }
             $iterationOffset = (int)$iterationOffset;
             if ( $iterationOffset < 0 )
             {
-                $tpl->warning( $functionName, "The 'offset' parameter can only be negative, $iterationOffset is not accepteed, the value will be reset to 0" );
+                $tpl->warning( $functionName, "The 'offset' parameter can only be negative, $iterationOffset is not accepteed, the value will be reset to 0", $functionPlacement );
                 $iterationOffset = 0;
             }
         }

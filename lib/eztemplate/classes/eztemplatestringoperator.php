@@ -448,7 +448,8 @@ class eZTemplateStringOperator
                      &$rootNamespace,
                      &$currentNamespace,
                      &$operatorValue,
-                     &$namedParameters )
+                     &$namedParameters,
+                     $placement )
     {
         switch ( $operatorName )
         {
@@ -588,7 +589,7 @@ class eZTemplateStringOperator
             // Default case: something went wrong - unknown things...
             default:
             {
-                $tpl->warning( $operatorName, "Unknown string type '$type'" );
+                $tpl->warning( $operatorName, "Unknown string type '$type'", $placement );
             } break;
         }
     }

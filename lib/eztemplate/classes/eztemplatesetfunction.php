@@ -282,7 +282,7 @@ class eZTemplateSetFunction
                         $varname = $key;
                         if ( $name != '' )
                             $varname = "$name:$varname";
-                        $tpl->warning( $this->SetName, "Variable '$varname' already exists, cannot define" );
+                        $tpl->warning( $this->SetName, "Variable '$varname' already exists, cannot define", $functionPlacement );
                     }
                 } break;
             }
@@ -373,7 +373,7 @@ class eZTemplateSetFunction
                             $varname = $key;
                             if ( $name != '' )
                                 $varname = "$name:$varname";
-                            $tpl->warning( $functionName, "Variable '$varname' doesn't exist, cannot set" );
+                            $tpl->warning( $functionName, "Variable '$varname' doesn't exist, cannot set", $functionPlacement );
                         }
                     } break;
                 }

@@ -318,12 +318,12 @@ class eZTemplateTypeOperator
     /*!
      Examines the input value and outputs a boolean value. See class documentation for more information.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters, $placement )
     {
         if ( isset( $this->PHPNameMap[$operatorName] ) )
         {
             $typeFunction = $this->PHPNameMap[$operatorName];
-            $this->checkType( $typeFunction, $tpl, $value, $operatorParameters, $rootNamespace, $currentNamespace );
+            $this->checkType( $typeFunction, $tpl, $value, $operatorParameters, $rootNamespace, $currentNamespace, $placement );
             return;
         }
         switch ( $operatorName )
@@ -332,13 +332,13 @@ class eZTemplateTypeOperator
             {
                 if ( count( $operatorParameters ) == 1 )
                 {
-                    $className =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                    $className =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                     $value = get_class( $value ) == strtolower( $className );
                 }
                 else
                 {
-                    $className =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
-                    $value = get_class( $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace ) ) == strtolower( $className );
+                    $className =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
+                    $value = get_class( $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace, $placement ) ) == strtolower( $className );
                 }
             } break;
             case $this->IsSetName:
@@ -350,7 +350,7 @@ class eZTemplateTypeOperator
                         $tpl->extraParameters( $operatorName, count( $operatorParameters ), 1 );
                     }
 
-                    $operand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, false, true );
+                    $operand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement, true );
                     $value = $operand !== null;
 
 
@@ -367,7 +367,7 @@ class eZTemplateTypeOperator
                         $tpl->extraParameters( $operatorName,
                                                count( $operatorParameters ),
                                                1 );
-                    $operand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, false, true );
+                    $operand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement, true );
                     $value = $operand === null;
                 }
                 else
@@ -381,7 +381,7 @@ class eZTemplateTypeOperator
                         $tpl->extraParameters( $operatorName,
                                                count( $operatorParameters ),
                                                1 );
-                    $operand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                    $operand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                 }
                 else
                     $operand =& $value;
@@ -406,7 +406,7 @@ class eZTemplateTypeOperator
                         $tpl->extraParameters( $operatorName,
                                                count( $operatorParameters ),
                                                1 );
-                    $operand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+                    $operand =& $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
                     $value = get_class( $operand );
                 }
                 else
@@ -417,14 +417,14 @@ class eZTemplateTypeOperator
         }
     }
 
-    function checkType( $typeFunction, &$tpl, &$value, &$operatorParameters, &$rootNamespace, &$currentNamespace )
+    function checkType( $typeFunction, &$tpl, &$value, &$operatorParameters, &$rootNamespace, &$currentNamespace, $placement )
     {
         if ( count( $operatorParameters ) > 0 )
         {
             $value = true;
             for ( $i = 0; $i < count( $operatorParameters ); ++$i )
             {
-                $operand =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace );
+                $operand =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
                 if ( !$typeFunction( $operand) )
                     $value = false;
             }

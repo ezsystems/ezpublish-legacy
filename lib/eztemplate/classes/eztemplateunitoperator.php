@@ -388,7 +388,8 @@ class eZTemplateUnitOperator
     /*!
      Performs unit conversion.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters,
+                     $placement )
     {
         $unit = $namedParameters["unit"];
         $prefix = $namedParameters["prefix"];
@@ -423,7 +424,7 @@ class eZTemplateUnitOperator
         }
         else
         {
-            $tpl->warning( "eZTemplateUnitOperator", "No such unit '$unit'" );
+            $tpl->warning( "eZTemplateUnitOperator", "No such unit '$unit'", $placement );
             return;
         }
         $prefix_var = "";
@@ -502,7 +503,7 @@ class eZTemplateUnitOperator
                 $operatorValue = number_format( $operatorValue, 0, $decimalSymbol, $decimalThousandsSeparator );
             }
             else
-                $tpl->warning( $operatorName, "Prefix \"$prefix\" for unit \"$unit\" not found" );
+                $tpl->warning( $operatorName, "Prefix \"$prefix\" for unit \"$unit\" not found", $placement );
             if ( is_array( $prefix_var ) )
             {
                 $val = pow( $prefix_base, (int)$prefix_var[0] );

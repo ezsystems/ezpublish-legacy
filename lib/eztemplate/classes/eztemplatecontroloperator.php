@@ -222,7 +222,8 @@ class eZTemplateControlOperator
     /*!
      Examines the input value and outputs a boolean value. See class documentation for more information.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, &$namedParameters,
+                     $placement )
     {
         switch ( $operatorName )
         {
@@ -234,10 +235,10 @@ class eZTemplateControlOperator
                 $conditionSuccess = false;
                 for ( $i = 0; $i < $clauseCount; ++$i )
                 {
-                    $condition =& $tpl->elementValue( $operatorParameters[$i*2], $rootNamespace, $currentNamespace );
+                    $condition =& $tpl->elementValue( $operatorParameters[$i*2], $rootNamespace, $currentNamespace, $placement );
                     if ( $condition )
                     {
-                        $body =& $tpl->elementValue( $operatorParameters[$i*2 + 1], $rootNamespace, $currentNamespace );
+                        $body =& $tpl->elementValue( $operatorParameters[$i*2 + 1], $rootNamespace, $currentNamespace, $placement );
                         $conditionSuccess = true;
                         $value = $body;
                         break;
@@ -246,7 +247,7 @@ class eZTemplateControlOperator
                 if ( !$conditionSuccess and
                      $clauseMod > 0 )
                 {
-                    $condition =& $tpl->elementValue( $operatorParameters[count($operatorParameters) - 1], $rootNamespace, $currentNamespace );
+                    $condition =& $tpl->elementValue( $operatorParameters[count($operatorParameters) - 1], $rootNamespace, $currentNamespace, $placement );
                     if ( $condition )
                     {
                         $conditionSuccess = true;
@@ -260,7 +261,7 @@ class eZTemplateControlOperator
                 {
                     for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                     {
-                        $operand =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, false, true );
+                        $operand =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement, true );
                         if ( $operand != false )
                         {
                             $value = $operand;

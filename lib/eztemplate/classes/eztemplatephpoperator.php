@@ -117,13 +117,13 @@ class eZTemplatePHPOperator
     /*!
      Executes the PHP function for the operator $op_name.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$value, $namedParameters, $placement )
     {
         $phpname = $this->PHPNames[$operatorName];
         if ( $value !== null )
             $operand = $value;
         else
-            $operand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace );
+            $operand = $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement );
         $value = $phpname( $operand );
     }
 

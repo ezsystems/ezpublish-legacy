@@ -129,7 +129,8 @@ class eZTemplateImageOperator
      Performs image conversion using Image GD and returns the html
      text for the image.
     */
-    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$inputValue, &$namedParameters )
+    function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$inputValue, &$namedParameters,
+                     $placement )
     {
         if ( !$this->ImageGDSupported )
         {
@@ -248,7 +249,7 @@ class eZTemplateImageOperator
                                                            $absoluteWidth, $absoluteHeight );
                 if ( !$layer )
                 {
-                    $tpl->error( $operatorName, "Could not open font \"$family\", no image created" );
+                    $tpl->error( $operatorName, "Could not open font \"$family\", no image created", $placement );
                     return;
                 }
                 $layer->allocateColor( 'bgcol', $bgcol[0], $bgcol[1], $bgcol[2] );
@@ -273,7 +274,8 @@ class eZTemplateImageOperator
             $image = new eZImageObject();
             $md5Input = "image\n";
             $alternativeText = '';
-            $this->readImageParameters( $tpl, $image, $operatorParameters, $rootNamespace, $currentNamespace, $md5Input, $alternativeText );
+            $this->readImageParameters( $tpl, $image, $operatorParameters, $rootNamespace, $currentNamespace, $md5Input, $alternativeText,
+                                        $placement );
             $image->setAlternativeText( $alternativeText );
             $md5Text = md5( $md5Input );
             if ( !$useCache or
@@ -699,12 +701,13 @@ class eZTemplateImageOperator
         return $layer;
     }
 
-    function readImageParameters( &$tpl, &$image, &$operatorParameters, $rootNamespace, $currentNamespace, &$md5Input, &$alternativeText )
+    function readImageParameters( &$tpl, &$image, &$operatorParameters, $rootNamespace, $currentNamespace, &$md5Input, &$alternativeText,
+                                  $placement )
     {
         $imageAlternativeText = false;
         foreach ( array_keys( $operatorParameters ) as $operatorParameterKey )
         {
-            $operatorParameter =& $tpl->elementValue( $operatorParameters[$operatorParameterKey], $rootNamespace, $currentNamespace );
+            $operatorParameter =& $tpl->elementValue( $operatorParameters[$operatorParameterKey], $rootNamespace, $currentNamespace, $placement );
             unset( $imageLayer );
             $imageLayer = null;
             $imageParameters = array();
