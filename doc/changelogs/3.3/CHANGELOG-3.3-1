@@ -22,6 +22,7 @@ Changes from 3.3.0-2 to 3.3-1
 - Added option to remove class identifier cache and sort key cache in clearcache.sh and admin interface
 - Added flatten script which will remove unneeded elements from the database such as drafts,
   temporary data etc.
+- Made sure users are logged out whenever their user is disabled, this check is done each time the user is fetched trough the session.
 
 *Bugfixes:
 - Fixed problem with cache block expiry when ignore_content_expiry was set

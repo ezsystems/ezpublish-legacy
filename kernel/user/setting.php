@@ -67,13 +67,13 @@ if ( $http->hasPostVariable( "UpdateSettingButton" ) )
     }
     $userSetting->setAttribute( "is_enabled", $isEnabled );
     $userSetting->store();
-    $Module->redirectTo( '/content/view/sitemap/5/' );
+    $Module->redirectTo( '/content/view/full/' . $userObject->attribute( 'main_node_id' ) );
     return;
 }
 
 if ( $http->hasPostVariable( "CancelSettingButton" ) )
 {
-    $Module->redirectTo( '/content/view/sitemap/5/' );
+    $Module->redirectTo( '/content/view/full/' . $userObject->attribute( 'main_node_id' ) );
     return;
 }
 
@@ -84,6 +84,7 @@ $tpl =& templateInit();
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "http", $http );
 $tpl->setVariable( "userID", $UserID );
+$tpl->setVariable( "user", $user );
 $tpl->setVariable( "userSetting", $userSetting );
 
 $Result = array();

@@ -38,8 +38,7 @@ Changes from 3.2-3 to 3.2-4
 - Fixed bug in hostmatching in eZHTTPTool::redirectURL, it did not find host names without . in them, e.g. localhost.
 - Fixed bug in updatesearchindex.php which would only reindex objects
   that the anonymous user could read.
-- Fixed bug in updatesearchindex.php which would only reindex objects
-  that the anonymous user could read.
+- Made sure users are logged out whenever their user is disabled, this check is done each time the user is fetched trough the session.
 
 *Bugfixes:
 - Fixed copy object bug. Current version was not set, multiple version copy did not set object name and redirect did not contain version number.

@@ -4,6 +4,8 @@
 <h1>{"User setting"|i18n("design/standard/user")}</h1>
 </div>
 
+<h2>{$user.contentobject.name}</h2>
+
 <div class="block">
 <label>{"Maximum login"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
 <input type="text" name="max_login" size="11" value="{$userSetting.max_login}" />
@@ -14,7 +16,7 @@
 </div>
 
 <div class="buttonblock">
-<input class="button" type="submit" name="UpdateSettingButton" value="{'Update'|i18n('design/standard/user')}" />
+<input class="defaultbutton" type="submit" name="UpdateSettingButton" value="{'Update'|i18n('design/standard/user')}" />
 <input class="button" type="submit" name="CancelSettingButton" value="{'Cancel'|i18n('design/standard/user')}" />
 </div>
 
