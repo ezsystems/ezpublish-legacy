@@ -7,10 +7,9 @@
 The format of this file is also subject to change until the release version.
 Upgrades to the development format will not be supported.</warning>
   <name>Files</name>
-  <summary>Export of 2 nodes.</summary>
-  <description>This package contains the following nodes :
- Files - subtree
-</description>
+  <summary>Files</summary>
+  <description>Add this package to get a file database to your site.
+  </description>
   <type value="contentobject" />
   <ezpublish xmlns:ezpublish="http://ez.no/ezpublish">
     <version>3.4.0alpha3</version>
