@@ -10,21 +10,10 @@
         {* Class type column *}
         <th class="class">{'Type'|i18n( 'design/admin/layout ')}</th>
 
-        {* Creator column *}
-        {* <th class="creator">{'Creator'|i18n( 'design/admin/layout' )}</th> *}
-
-        {* Section column *}
-        <th class="section">{'Section'|i18n( 'design/admin/layout ')}</th>
-
         {* Priority column *}
         {section show=eq( $node.sort_array[0][0], 'priority' )}
             <th class="priority">{'Priority'|i18n( 'design/standard/node/view' )}</th>
         {/section}
-
-        {* Copy column *}
-        {* section show=$can_copy *}
-            <th class="copy">{'Copy'|i18n( 'design/standard/node/view' )}</th>
-        {* /section *}
 
         {* Edit column *}
         <th class="edit">{'Edit'|i18n( 'design/standard/node/view' )}</th>
@@ -51,12 +40,6 @@
         {* Class type *}
         <td>{$Nodes.item.object.class_name|wash()}</td>
 
-        {* Creator *}
-{*        <td>{$Nodes.item.creator.name|wash()}</td> *}
-
-        {* Section *}
-        <td>{$Nodes.item.object.section_id}</td>
-
         {* Priority *}
         {section show=eq( $node.sort_array[0][0], 'priority' )}
             <td>
@@ -69,17 +52,7 @@
             </td>
         {/section}
 
-    {* Copy button *}
-    <td>
-    {section show=$can_copy}
-    <a href={concat( 'content/copy/', $Nodes.item.contentobject_id )|ezurl}><img src={'copy.gif'|ezimage} alt="{'Copy'|i18n( 'design/admin/layout' )}" title="{'Click here to create a copy of %quoted_child. The copy will be created within the current location.'|i18n( 'design/admin/layout',,hash( '%quoted_child', $quoted_child ) )}" /></a>
-    {section-else}
-    <img src={'copy_disabled.png'|ezimage} alt="{'Copy'|i18n( 'design/admin/layout' )}" title="{'You can not make a copy of %quoted_child because you do not have create permissions for %quoted_node.'|i18n( 'design/admin/layout',,hash( '%quoted_child', $quoted_child, '%quoted_node', $quoted_node ) )}" />
-    {/section}
-    </td>
-
         {* Edit button *}
-        {* section show=$can_edit *}
         <td>
         {section show=$Nodes.item.object.can_edit}
             <a href={concat( 'content/edit/', $Nodes.item.contentobject_id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/layout')}" title="{'Click here to edit %quoted_child.'|i18n( 'design/admin/layout',, hash( '%quoted_child', $quoted_child ) )}" /></a>
@@ -87,7 +60,6 @@
             <img src={'edit_disabled.png'|ezimage} alt="{'Edit'|i18n( 'design/admin/layout' )}" title="{'You do not have permissions to edit %quoted_child.'|i18n( 'design/admin/layout',,hash( '%quoted_child', $quoted_child ) )}" /></a>
         {/section}
         </td>
-        {* /section *}
   </tr>
 
 {/let}
