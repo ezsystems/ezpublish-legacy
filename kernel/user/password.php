@@ -39,7 +39,9 @@ $currentUser =& eZUser::currentUser();
 $currentUserID = $currentUser->attribute( "contentobject_id" );
 $http =& eZHTTPTool::instance();
 $Module =& $Params["Module"];
-$message = null;
+$message = 0;
+$oldPasswordNotValid = 0;
+$newPasswordNotMatch = 0;
 
 if ( isset( $Params["UserID"] ) )
     $UserID = $Params["UserID"];
@@ -48,17 +50,17 @@ $user =& eZUser::fetch( $UserID );
 
 if ( $http->hasPostVariable( "OKButton" ) )
 {
-    if ( $http->hasPostVariable( "old_password" ) )
+    if ( $http->hasPostVariable( "oldPassword" ) )
     {
-        $oldPassword = $http->postVariable( "old_password" );
+        $oldPassword = $http->postVariable( "oldPassword" );
     }
-    if ( $http->hasPostVariable( "new_password" ) )
+    if ( $http->hasPostVariable( "newPassword" ) )
     {
-        $newPassword = $http->postVariable( "new_password" );
+        $newPassword = $http->postVariable( "newPassword" );
     }
-    if ( $http->hasPostVariable( "confirm_password" ) )
+    if ( $http->hasPostVariable( "confirmPassword" ) )
     {
-        $confirmPassword = $http->postVariable( "confirm_password" );
+        $confirmPassword = $http->postVariable( "confirmPassword" );
     }
 
     $login = $user->attribute( "login" );
@@ -73,12 +75,24 @@ if ( $http->hasPostVariable( "OKButton" ) )
             $newHash = $user->createHash( $login, $newPassword, $site, $type );
             $user->setAttribute( "password_hash", $newHash );
             $user->store();
+            $oldPassword = "";
+            $newPassword = "";
+            $confirmPassword = "";
         }
         else
+        {
+            $newPassword = "";
+            $confirmPassword = "";
+            $newPasswordNotMatch = 1;
             $message = "Password didn't match, please retype your new password";
+        }
     }
     else
+    {
+        $oldPassword = "";
+        $oldPasswordNotValid = 1;
         $message = "Please retype your old password";
+    }
 }
 
 if ( $http->hasPostVariable( "CancelButton" ) )
@@ -95,6 +109,11 @@ $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "http", $http );
 $tpl->setVariable( "userID", $UserID );
 $tpl->setVariable( "userAccount", $user );
+$tpl->setVariable( "oldPassword", $oldPassword );
+$tpl->setVariable( "newPassword", $newPassword );
+$tpl->setVariable( "confirmPassword", $confirmPassword );
+$tpl->setVariable( "oldPasswordNotValid", $oldPasswordNotValid );
+$tpl->setVariable( "newPasswordNotMatch", $newPasswordNotMatch );
 $tpl->setVariable( "message", $message );
 
 $Result = array();
