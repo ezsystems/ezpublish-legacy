@@ -235,18 +235,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $lastInsertedNodeArray = array_pop( $TagStack );
             $parentNodeTag = $lastInsertedNodeArray["TagName"];
         }
-        if ( $tagName == 'td' or $tagName == 'th' )
-        {
-            while ( $parentNodeTag == "section" or $parentNodeTag == "paragraph" )
-            {
-                unset( $currentNode );
-                $currentNode =& $lastInsertedNode ;
-
-                $parentNodeArray = array_pop( $TagStack );
-                $parentNodeTag = $parentNodeArray["TagName"];
-                $lastInsertedNode =& $parentNodeArray["ParentNodeObject"];
-            }
-        }
         return $parentNodeTag;
     }
 
@@ -303,6 +291,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $subNode = new eZDOMNode();
             }
         }
+
         // Deal with paragraph tag.
         if ( $currentTag == "paragraph" and $lastInsertedNodeTag == "paragraph" )
         {
@@ -390,6 +379,24 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             array( "TagName" => $currentTag, "ParentNodeObject" =>& $currentNode, "ChildTag" => $childTag ) );
                 unset( $currentNode );
                 $currentNode =& $subNode;
+            }
+
+            // Add paragraph tag for td and th
+            if ( $currentTag == "td" or $currentTag == "th" )
+            {
+                unset( $subNode );
+                $subNode = new eZDOMNode();
+
+                $subNode->Name = "paragraph";
+                $subNode->LocalName = "paragraph";
+                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
+                $domDocument->registerElement( $subNode );
+                $currentNode->appendChild( $subNode );
+                $childTag = $this->subTagArray['paragraph'];
+                array_push( $TagStack,
+                            array( "TagName" => "paragraph", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag ) );
+                $currentNode =& $subNode;
+                $parentNodeTag = "paragraph";
             }
         }
         else
@@ -514,20 +521,31 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     // Convert to standard tag name.
                     $convertedTag = $this->standizeTag( $tagName );
 
-                    // Call function to handle special end tags.
+                    if ( $convertedTag == 'td' or $convertedTag == 'th' )
+                    {
+                        while ( $lastInsertedNodeTag == "section" or $lastInsertedNodeTag == "paragraph" )
+                        {
+                            unset( $currentNode );
+                            $currentNode =& $lastInsertedNode ;
 
-                    $lastInsertedNodeTag = $this->handleEndTag( $convertedTag, $lastInsertedNodeTag, &$currentNode, &$lastInsertedNode, &$TagStack );
+                            $lastInsertedNodeArray = array_pop( $TagStack );
+                            $lastInsertedNodeTag = $lastInsertedNodeArray["TagName"];
+                            $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
+                            $lastInsertedChildTag = $lastInsertedNodeArray["ChildTag"];
+                        }
+                    }
+                    else
+                    {
+
+                        // Call function to handle special end tags.
+                        $lastInsertedNodeTag = $this->handleEndTag( $convertedTag, $lastInsertedNodeTag, &$currentNode, &$lastInsertedNode, &$TagStack );
+                    }
 
                     if ( $lastInsertedNodeTag != $convertedTag )
                     {
                         array_push( $TagStack,
                                     array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode, "ChildTag" => $lastInsertedChildTag ) );
-                        if ( in_array( $convertedTag, $this->supportedInputTagArray ) )
-                        {
-                            //Set input invalid
-                            // $this->isInputValid = false;
-                            $message[] = "Unmatched tag " . $convertedTag . "(removed)";
-                        }
+
                         if ( in_array( $lastInsertedNodeTag, $this->supportedInputTagArray ) and in_array( $convertedTag, $this->supportedTagArray ) )
                         {
                             if ( $this->isInputValid == true )
