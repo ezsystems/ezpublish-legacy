@@ -68,6 +68,8 @@ eZINI:
   http://ez.no/community/bug_reports/rss_export_delete_source_missing
 - Fixed Checkbox datatype bugs.
   http://ez.no/community/bug_reports/checkbox_doesn_t_remember_default_value
+- Fixed bug of sometimes "index.php" appearing in urls on virtual host setup 
+  http://ez.no/community/bug_reports/virtual_host_setup_sometimes_index_php_appearing_in_urls
 
 *Library:
 
