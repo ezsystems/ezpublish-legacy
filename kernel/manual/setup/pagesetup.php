@@ -1,4 +1,4 @@
-<?php
+<!--
 //
 // Created on: <12-Dec-2002 12:21:35 bf>
 //
@@ -30,9 +30,7 @@
 //
 // Contact licence@ez.no if any conditions of this licencing isn't clear to
 // you.
-//
-
-?>
+//-->
 <h1>Page setup</h1>
 
 <p>
@@ -60,6 +58,6 @@ e.g. an article.
 </p>
 
 <p>
-For more information about how to customize eZ publish visit <a href="http://sdk.ez.no">sdk.ez.no</a>
+For more information about how to customize eZ publish visit the <a href={"/sdk"|ezurl}>SDK documentation</a>
 and read the tutorials on the subject.
 </p>

@@ -12,8 +12,8 @@ use.
 </p>
 
 <p>
-eZ publish comes with an SDK, a software development kit, available at sdk.ez.no
-and in every eZ publish distribution. The SDK is a toolkit with documentation,
+eZ publish comes with an SDK, a software development kit, available at <a href="http://sdk.ez.no">sdk.ez.no</a>
+and offline <a href={"/sdk"|ezurl}>here</a>. The SDK is a toolkit with documentation,
 examples and reference documentation on the eZ publish libraries and eZ publish
 kernel.
 </p>

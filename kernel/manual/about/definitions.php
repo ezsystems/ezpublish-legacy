@@ -2,7 +2,7 @@
 
 
 <p>
-Visit sdk.ez.no for more info on the definitions.
+Visit the <a href={"/sdk"|ezurl}>SDK documentation</a> for more info on the definitions.
 </p>
 
 <h2>Content class</h2>

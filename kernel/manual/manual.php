@@ -39,18 +39,24 @@ $Chapter = $Params['Chapter'];
 
 $includeFile = "kernel/manual/$Part/$Chapter.php";
 
+include_once( "lib/eztemplate/classes/eztemplate.php" );
+
+// Init template
+$tpl =& eZTemplate::instance();
+$tpl->setShowDetails( false );
+
 
 if ( file_exists( $includeFile ) )
 {
     ob_start();
-    include_once( $includeFile );
+    $tpl->display( "$includeFile" );
     $result =& ob_get_contents();
     ob_end_clean();
 }
 else
 {
     ob_start();
-    include_once( "kernel/manual/about/about.php" );
+    $tpl->display( "kernel/manual/about/about.php" );
     $result =& ob_get_contents();
     ob_end_clean();
 }
