@@ -14,11 +14,6 @@
 
 <h1>{$node.name}</h1>
 
-
-<div class="object_content">
-{attribute_view_gui attribute=$node.object.data_map.description}
-</div>
-
 <div class="children">
 {let page_limit=20
     children=fetch('content','list',hash( parent_node_id, $node.node_id,

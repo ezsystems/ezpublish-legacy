@@ -11,10 +11,6 @@
 
 <h1>{$node.name}</h1>
 
-{section show=$node.object.can_edit}
-   <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
-{/section}
-
 <div class="byline">
   <p>
    ({$content_object.published|l10n( datetime )} by {attribute_view_gui attribute=$content_version.data_map.author})
