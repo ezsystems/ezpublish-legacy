@@ -1,3 +1,63 @@
+<div id="leftmenu">
+<div id="leftmenu-design">
+
+<div class="objectinfo">
+
+<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h4>{'Object information'|i18n( 'design/admin/content/edit_draft' )}</h4>
+
+</div></div></div></div></div></div>
+
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
+<p>
+<label>{'Created'|i18n( 'design/admin/content/edit_draft' )}:</label>
+{section show=$object.published}
+{$object.published|l10n( shortdatetime )}<br />
+{$object.current.creator.name}
+{section-else}
+{'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
+{/section}
+</p>
+<p>
+<label>{'Last modified'|i18n( 'design/admin/content/edit_draft' )}:</label>
+{section show=$object.modified}
+{$object.modified|l10n( shortdatetime )}<br />
+{fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name}
+{section-else}
+{'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
+{/section}
+</p>
+
+</div></div></div></div></div></div>
+
+</div>
+
+</div>
+</div>
+
+<div id="maincontent"><div id="fix">
+<div id="maincontent-design">
+<!-- Maincontent START -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {switch match=$edit_warning}
 {case match=1}
 <div class="message-warning">
@@ -88,7 +148,7 @@
 	</td>
 
     <td>
-	<a href={concat( '/content/view/full/', $Versions.item.creator.main_node_id, '/')|ezurl}>{$Versions.item.creator.name|wash}</a>
+	{$Versions.item.creator.name|wash}
 	</td>
 
     <td>
@@ -139,3 +199,22 @@
 </form>
 
 {/let}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Maincontent END -->
+</div>
+<div class="break"></div>
+</div></div>
