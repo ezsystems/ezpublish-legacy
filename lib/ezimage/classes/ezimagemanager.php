@@ -618,6 +618,7 @@ class eZImageManager
         }
 
         $result = true;
+        $tempFiles = array();
         if ( $currentMimeData['name'] != $destinationMimeData['name'] or
              count( $filters ) > 0 )
         {

@@ -897,9 +897,9 @@ class eZContentObject extends eZPersistentObject
         }
         $db =& eZDB::instance();
 
-//        $contentobjectAttributes =& $contentobject->allContentObjectAttributes( $delID );
+//         $contentobjectAttributes =& $contentobject->attribute( 'contentobject_attributes' );
+        $contentobjectAttributes =& $contentobject->contentObjectAttributes( true, null, null, false, true );
 
-        $contentobjectAttributes =& $contentobject->attribute( 'contentobject_attributes' );
         foreach (  $contentobjectAttributes as $contentobjectAttribute )
         {
             $classAttribute =& $contentobjectAttribute->contentClassAttribute();
@@ -1000,7 +1000,7 @@ class eZContentObject extends eZPersistentObject
     /*!
       Fetches the attributes for the current published version of the object.
     */
-    function &contentObjectAttributes( $asObject = true, $version = false, $language = false, $contentObjectAttributeID = false )
+    function &contentObjectAttributes( $asObject = true, $version = false, $language = false, $contentObjectAttributeID = false, $distinctItemsOnly = false )
     {
         $db =& eZDB::instance();
         if ( $version === false )
@@ -1031,13 +1031,17 @@ class eZContentObject extends eZPersistentObject
             $attributeIDText = false;
             if ( $contentObjectAttributeID )
                 $attributeIDText = "AND\n                    ezcontentobject_attribute.id = '$contentObjectAttributeID'";
+            $distinctText = false;
+            if ( $distinctItemsOnly )
+                $distinctText = "GROUP BY ezcontentobject_attribute.id";
             $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as identifier FROM
                     ezcontentobject_attribute, ezcontentclass_attribute
                   WHERE
                     ezcontentclass_attribute.version = '0' AND
                     ezcontentclass_attribute.id = ezcontentobject_attribute.contentclassattribute_id AND
                     ezcontentobject_attribute.contentobject_id = '$this->ID' $versionText $languageText $attributeIDText
-                  ORDER by
+                  $distinctText
+                  ORDER BY
                     ezcontentclass_attribute.placement ASC";
 
             $attributeArray =& $db->arrayQuery( $query );

@@ -2360,7 +2360,10 @@ WHERE
                                 parent_node_id=$parentNode AND
                                 contentobject_id = $id ";
             $nodeArr = $db->arrayQuery( $getNodeQuery );
-            return $nodeArr[0]['node_id'];
+            if ( isset( $nodeArr[0] ) )
+                return $nodeArr[0]['node_id'];
+            else
+                return false;
         }
     }
 

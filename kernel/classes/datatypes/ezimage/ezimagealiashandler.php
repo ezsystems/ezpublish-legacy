@@ -181,6 +181,44 @@ class eZImageAliasHandler
 //         $this->setStorageRequired();
 //     }
 
+    function imageSerialNumber()
+    {
+        $serialNumber = $this->imageSerialNumberRaw();
+        if ( $serialNumber < 1 )
+            $serialNumber = 1;
+        return $serialNumber;
+    }
+
+    function &imageSerialNumberRaw()
+    {
+        $contentObjectAttribute =& $this->ContentObjectAttribute;
+        if ( isset( $contentObjectAttribute->DataTypeCustom['serial_number'] ) and
+             $contentObjectAttribute->DataTypeCustom['serial_number'] >= 0 )
+            return $contentObjectAttribute->DataTypeCustom['serial_number'];
+        if ( !is_array( $contentObjectAttribute->DataTypeCustom ) )
+            $contentObjectAttribute->DataTypeCustom = array();
+        $contentObjectAttribute->DataTypeCustom['serial_number'] = 0;
+        return $contentObjectAttribute->DataTypeCustom['serial_number'];
+    }
+
+    function increaseImageSerialNumber()
+    {
+        $serialNumber =& $this->imageSerialNumberRaw();
+        ++$serialNumber;
+    }
+
+    function resetImageSerialNumber()
+    {
+        $serialNumber =& $this->imageSerialNumberRaw();
+        $serialNumber = 0;
+    }
+
+    function setImageSerialNumber( $number )
+    {
+        $serialNumber =& $this->imageSerialNumberRaw();
+        $serialNumber = $number;
+    }
+
     function &attributeFromOriginal( $attributeName )
     {
         $originalAlias =& $this->attribute( 'original' );
@@ -227,8 +265,10 @@ class eZImageAliasHandler
         if ( !$text )
         {
             $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
-                                                                     $contentObjectAttribute->attribute( 'contentobject_id' ) );
-            $text = $contentVersion->attribute( 'version_name' );
+                                                                     $contentObjectAttribute->attribute( 'contentobject_id' ),
+                                                                     true );
+            if ( $contentVersion )
+                $text = $contentVersion->versionName( $contentObjectAttribute->attribute( 'language_code' ) );
         }
         return $text;
     }
@@ -294,6 +334,7 @@ class eZImageAliasHandler
         $imageNode =& $doc->createElementNode( "ezimage" );
         $doc->setRoot( $imageNode );
 
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'serial_number', false ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'is_valid', false ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'filename', false ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'suffix', false ) );
@@ -320,6 +361,7 @@ class eZImageAliasHandler
         }
         $aliasList =& $this->aliasList();
 //         $hasFileCopy = $this->hasFileCopy();
+        $this->resetImageSerialNumber();
         foreach ( array_keys( $aliasList ) as $aliasName )
         {
             $alias =& $aliasList[$aliasName];
@@ -411,7 +453,6 @@ class eZImageAliasHandler
         $originalNode->appendAttribute( eZDOMDocument::createAttributeNode( 'attribute_language', $originalData['attribute_language'] ) );
 //         $originalNode->appendAttribute( eZDOMDocument::createAttributeNode( 'has_file_copy', $originalData['has_file_copy'] ) );
     }
-
     function recreateDOMTree()
     {
         $aliasList =& $this->aliasList();
@@ -431,6 +472,7 @@ class eZImageAliasHandler
         $originalData = $this->originalAttributeData();
         $this->createOriginalAttributeXMLData( $originalNode, $originalData );
 
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'serial_number', $this->imageSerialNumber() ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'is_valid', $aliasList[$aliasName]['is_valid'] ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'filename', $aliasList[$aliasName]['filename'] ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'suffix', $aliasList[$aliasName]['suffix'] ) );
@@ -569,6 +611,10 @@ class eZImageAliasHandler
         $aliasEntry['is_valid'] = $imageNodeArray[0]->attributeValue( 'is_valid' );
         $aliasEntry['is_new'] = false;
 
+        $serialNumber = $imageNodeArray[0]->attributeValue( 'serial_number' );
+        if ( $serialNumber )
+            $this->setImageSerialNumber( $serialNumber );
+
         $aliasList['original'] = $aliasEntry;
 
         if ( is_array( $imageVariationNodeArray ) )
@@ -608,33 +654,52 @@ class eZImageAliasHandler
     function imageName( &$contentObjectAttribute, &$contentVersion )
     {
         $objectName = $contentVersion->attribute( 'version_name' );
-        $objectName = strtolower( $objectName );
-        $objectName = preg_replace( array( "#[^a-z0-9_ ]#" ,
-                                           "/ /",
-                                           "/__+/",
-                                           "/^_|_$/" ),
-                                    array( "",
-                                           "_",
-                                           "_",
-                                           "" ),
-                                    $objectName );
+        if ( !$objectName )
+        {
+            $objectName = $contentVersion->attribute( 'name' );
+            if ( !$objectName )
+            {
+                $objectName = $this->attribute( 'alternative_text' );
+                if ( !$objectName )
+                {
+                    $objectName = ezi18n( 'kernel/classes/datatypes', 'image', 'Default image name' );
+                }
+            }
+        }
+        $objectName = eZImageAliasHandler::normalizeImageName( $objectName );
+        $objectName .= $this->imageSerialNumber();
         return $objectName;
     }
 
     function imageNameByNode( &$contentObjectAttribute, &$mainNode )
     {
         $objectName = $mainNode->attribute( 'name' );
-        $objectName = strtolower( $objectName );
-        $objectName = preg_replace( array( "#[^a-z0-9_ ]#" ,
-                                           "/ /",
-                                           "/__+/",
-                                           "/^_|_$/" ),
-                                    array( "",
-                                           "_",
-                                           "_",
-                                           "" ),
-                                    $objectName );
+        if ( !$objectName )
+        {
+            $objectName = $this->attribute( 'alternative_text' );
+            if ( !$objectName )
+            {
+                $objectName = ezi18n( 'kernel/classes/datatypes', 'image', 'Default image name' );
+            }
+        }
+        $objectName = eZImageAliasHandler::normalizeImageName( $objectName );
+//         $objectName .= $this->imageSerialNumber();
         return $objectName;
+    }
+
+    function normalizeImageName( $imageName )
+    {
+        $imageName = strtolower( $imageName );
+        $imageName = preg_replace( array( "#[^a-z0-9_ ]#" ,
+                                          "/ /",
+                                          "/__+/",
+                                          "/^_|_$/" ),
+                                   array( "",
+                                          "_",
+                                          "_",
+                                          "" ),
+                                   $imageName );
+        return $imageName;
     }
 
     function imagePath( &$contentObjectAttribute, &$contentVersion, $isImageOwner = null )
@@ -659,9 +724,11 @@ class eZImageAliasHandler
             $pathString = $contentImageSubtree;
             $useVersion = true;
         }
-        $imagePath = eZSys::storageDirectory() . '/' . $pathString . '/' . $contentObjectAttribute->attribute( 'id' ) . '/' . $contentObjectAttribute->attribute( 'language_code' );
         if ( $useVersion )
-            $imagePath .= '/' . $contentObjectAttribute->attribute( 'version' );
+            $identifierString = $contentObjectAttribute->attribute( 'id' ) . '/' . $contentObjectAttribute->attribute( 'version' ) . '-' . $contentObjectAttribute->attribute( 'language_code' );
+        else
+            $identifierString = $contentObjectAttribute->attribute( 'id' ) . '-' . $contentObjectAttribute->attribute( 'version' ) . '-' . $contentObjectAttribute->attribute( 'language_code' );
+        $imagePath = eZSys::storageDirectory() . '/' . $pathString . '/' . $identifierString;
         return $imagePath;
     }
 
@@ -670,7 +737,7 @@ class eZImageAliasHandler
         $pathString = $mainNode->attribute( 'path_identification_string' );
         $ini =& eZINI::instance( 'image.ini' );
         $contentImageSubtree = $ini->variable( 'FileSettings', 'PublishedImages' );
-        $imagePath = eZSys::storageDirectory() . '/' . $contentImageSubtree . '/' . $pathString . '/' . $contentObjectAttribute->attribute( 'id' ) . '/' . $contentObjectAttribute->attribute( 'language_code' );
+        $imagePath = eZSys::storageDirectory() . '/' . $contentImageSubtree . '/' . $pathString . '/' . $contentObjectAttribute->attribute( 'id' ) . '-' . $contentObjectAttribute->attribute( 'version' ) . '-' . $contentObjectAttribute->attribute( 'language_code' );
         return $imagePath;
     }
 
@@ -792,6 +859,7 @@ class eZImageAliasHandler
         include_once( 'kernel/common/image.php' );
         $imageManager =& imageInit();
 
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'serial_number', false ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'is_valid', $isValid ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'filename', $fileName ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'suffix', $suffix ) );
@@ -834,6 +902,9 @@ class eZImageAliasHandler
         $imageNode->appendChild( $originalNode );
         $this->createOriginalAttributeXMLData( $originalNode, $this->originalAttributeData() );
 
+        $this->increaseImageSerialNumber();
+
+        $imageNode->appendAttribute( $doc->createAttributeNode( 'serial_number', $this->imageSerialNumber() ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'is_valid', true ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'filename', $mimeData['filename'] ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'suffix', $mimeData['suffix'] ) );
