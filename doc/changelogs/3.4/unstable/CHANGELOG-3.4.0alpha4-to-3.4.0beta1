@@ -22,6 +22,9 @@ eZ template:
 - Fixed a major bug in the si operator, the calculations and prefixes
   were wrong in many cases.
 
+eZ locale:
+- Made the number and currency settings availabe as methods and attributes.
+
 *Unit tests:
 
 *Bugfixes:

@@ -569,6 +569,16 @@ class eZLocale
                       'locale_code' => 'localeCode',
                       'locale_full_code' => 'localeFullCode',
                       'http_locale_code' => 'httpLocaleCode',
+                      'decimal_symbol' => 'decimalSymbol',
+                      'thousands_separator' => 'thousandsSeparator',
+                      'decimal_count' => 'decimalCount',
+                      'negative_symbol' => 'negativeSymbol',
+                      'positive_symbol' => 'positiveSymbol',
+                      'currency_decimal_symbol' => 'currencyDecimalSymbol',
+                      'currency_thousands_separator' => 'currencyThousandsSeparator',
+                      'currency_decimal_count' => 'currencyDecimalCount',
+                      'currency_negative_symbol' => 'currencyNegativeSymbol',
+                      'currency_positive_symbol' => 'currencyPositiveSymbol',
                       'currency_symbol' => 'currencySymbol',
                       'currency_name' => 'currencyName',
                       'currency_short_name' => 'currencyShortName',
@@ -758,6 +768,86 @@ class eZLocale
     function isMondayFirst()
     {
         return $this->MondayFirst;
+    }
+
+    /*!
+     \return the decimal symbol for normal numbers.
+    */
+    function decimalSymbol()
+    {
+        return $this->DecimalSymbol;
+    }
+
+    /*!
+     \return the thousand separator for normal numbers.
+    */
+    function thousandsSeparator()
+    {
+        return $this->ThousandsSeparator;
+    }
+
+    /*!
+     \return the number of decimals for normal numbers.
+    */
+    function decimalCount()
+    {
+        return $this->FractDigits;
+    }
+
+    /*!
+     \return the negative symbol for normal numbers.
+    */
+    function negativeSymbol()
+    {
+        return $this->NegativeSymbol;
+    }
+
+    /*!
+     \return the positive symbol for normal numbers.
+    */
+    function positiveSymbol()
+    {
+        return $this->PositiveSymbol;
+    }
+
+    /*!
+     \return the decimal symbol for currencies.
+    */
+    function currencyDecimalSymbol()
+    {
+        return $this->CurrencyDecimalSymbol;
+    }
+
+    /*!
+     \return the thousand separator for currencies.
+    */
+    function currencyThousandsSeparator()
+    {
+        return $this->CurrencyThousandsSeparator;
+    }
+
+    /*!
+     \return the number of decimals for currencies.
+    */
+    function currencyDecimalCount()
+    {
+        return $this->CurrencyFractDigits;
+    }
+
+    /*!
+     \return the negative symbol for currencies.
+    */
+    function currencyNegativeSymbol()
+    {
+        return $this->CurrencyNegativeSymbol;
+    }
+
+    /*!
+     \return the positive symbol for currencies.
+    */
+    function currencyPositiveSymbol()
+    {
+        return $this->CurrencyPositiveSymbol;
     }
 
     /*!
