@@ -76,7 +76,7 @@ class eZShopFunctionCollection
                        ezorder
                  WHERE ezcontentobject_tree.contentobject_id=ezproductcollection_item.contentobject_id AND
                        ezorder.productcollection_id=ezproductcollection_item.productcollection_id AND
-                       ezcontentobject_tree.path_string like '/1/2%'
+                       ezcontentobject_tree.path_string like '$nodePath%'
                  GROUP BY ezproductcollection_item.contentobject_id
                  ORDER BY count desc
                  LIMIT $limit";
