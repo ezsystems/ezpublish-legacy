@@ -116,14 +116,16 @@ class eZTemplateDoFunction
         $loop->initVars();
 
         // loop header
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "while ( 1 ) // do..while\n{\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "while ( 1 ) // do..while\n{" );
+        $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
 
         $loop->processBody();
 
         // loop footer
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['condition'], $nodePlacement, array( 'treat-value-as-non-object' => true ), 'do_cond' );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( ! \$do_cond ) break;\n" );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n" );
+        $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "} // do..while" );
 
         $loop->cleanup();
 

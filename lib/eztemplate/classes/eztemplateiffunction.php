@@ -113,7 +113,8 @@ class eZTemplateIfFunction
 
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "// if begins" );
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['condition'], $nodePlacement, array( 'treat-value-as-non-object' => true ), 'if_cond' );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$if_cond )\n{\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$if_cond )\n{" );
+        $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
 
         foreach ( array_keys( $children ) as $childKey )
         {
@@ -132,13 +133,19 @@ class eZTemplateIfFunction
                                                                                 $nodePlacement,
                                                                                 array( 'text-result' => true ),
                                                                                 "elseif_cond_$uniqid" );
-                    $newNodes[]      = eZTemplateNodeTool::createCodePieceNode( "}\nelseif ( \$elseif_cond_$uniqid )\n{\n" );
+                    $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
+                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelseif ( \$elseif_cond_$uniqid )\n{" );
+                    $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
                     $nodesToAppend[] = eZTemplateNodeTool::createVariableUnsetNode( "elseif_cond_$uniqid" );
                     // increment unique elseif counter
                     $uniqid        =  md5( $nodePlacement[2] ) . "_" . ++$tpl->ElseifCounter;
                 }
                 elseif ( $childFunctionName == 'else' )
-                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse\n{\n" );
+                {
+                    $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
+                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse\n{" );
+                    $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
+                }
                 elseif ( $childFunctionName == 'break' )
                     $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "break;\n" );
                 elseif ( $childFunctionName == 'continue' )
@@ -151,8 +158,9 @@ class eZTemplateIfFunction
             $newNodes[] = $child;
         }
 
+        $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}" );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "unset( \$if_cond );\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "unset( \$if_cond );" );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "// if ends\n" );
 
         $newNodes = array_merge( $nodesToPrepend, $newNodes, $nodesToAppend );

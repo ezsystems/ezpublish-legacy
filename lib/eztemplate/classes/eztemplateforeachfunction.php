@@ -190,10 +190,12 @@ class eZTemplateForeachFunction
                                                                "}" );
 
         // generate loop header
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "// foreach" );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "for ( \$$i = \$$firstVal; " .
                                                                "\$$nItemsProcessed < \$$max && ( \$$reverse ? \$$i >= \$$lastVal : \$$i <= \$$lastVal ); " .
                                                                "\$$reverse ? \$$i-- : \$$i++ )\n" .
                                                                "{" );
+        $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
 
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$key = \$${arrayKeys}[\$$i];" );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$val = \$${array}[\$$key];" );
@@ -215,6 +217,7 @@ class eZTemplateForeachFunction
 
         // generate loop footer
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$nItemsProcessed++;" );
+        $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "} // foreach" );
 
         $loop->cleanup();

@@ -152,18 +152,29 @@ class eZTemplateCompiledLoop
                                                                                  "    \$skipDelimiter = false;\n" .
                                                                                  "else\n" .
                                                                                  "{ // delimiter begins" );
+                    $this->NewNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
                     foreach ( $child[1] as $delimiterChild )
                         $this->NewNodes[] = $delimiterChild;
+                    $this->NewNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
                     $this->NewNodes[] = eZTemplateNodeTool::createCodePieceNode( "} // delimiter ends\n" );
 
                     continue;
                 }
                 elseif ( $childFunctionName == 'break' )
+                {
                     $this->NewNodes[] = eZTemplateNodeTool::createCodePieceNode( "break;\n" );
+                    continue;
+                }
                 elseif ( $childFunctionName == 'continue' )
+                {
                     $this->NewNodes[] = eZTemplateNodeTool::createCodePieceNode( "continue;\n" );
+                    continue;
+                }
                 elseif ( $childFunctionName == 'skip' )
+                {
                     $this->NewNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$skipDelimiter = true;\ncontinue;\n" );
+                    continue;
+                }
             }
 
             $this->NewNodes[] = $child;
@@ -184,7 +195,7 @@ class eZTemplateCompiledLoop
     function initVars()
     {
         // initialize delimiter processing
-        $this->NewNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$skipDelimiter = true;\n" );
+        $this->NewNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$skipDelimiter = true;" );
 
         // initialize sequence
         $this->createSequenceVars();

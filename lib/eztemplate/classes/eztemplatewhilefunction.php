@@ -116,7 +116,8 @@ class eZTemplateWhileFunction
         $loop->initVars();
 
         // loop header
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "while ( 1 ) // while\n{\n" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "while ( 1 ) // while\n{" );
+        $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['condition'], $nodePlacement, array( 'treat-value-as-non-object' => true ),
                                                               "while_cond" );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( ! \$while_cond ) break;\n" );
@@ -124,6 +125,7 @@ class eZTemplateWhileFunction
         $loop->processBody();
 
         // loop footer
+        $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "} // end of while\n" );
         $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'while_cond' );
         $loop->cleanup();
