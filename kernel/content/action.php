@@ -188,7 +188,7 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
     {
         eZDebug::writeError( "Missing NodeID parameter for action " . $module->currentAction(),
                              'content/action' );
-        return $module->redirectToView( 'view', array( 2 ) );
+        return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
 
     $nodeID = $module->actionParameter( 'NodeID' );
@@ -232,13 +232,13 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
     {
         eZDebug::writeWarning( "Content node with ID $selectedNodeID does not exist, cannot use that as parent node for node $nodeID",
                                'content/action' );
-        return $module->redirectToView( 'view', array( 2 ) );
+        return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
     if ( !$selectedNode->checkAccess( 'create', $classID ) )
     {
         eZDebug::writeError( "Cannot move node $nodeID as child of parent node $selectedNodeID, the current user does not have create permission for class ID $classID",
                              'content/action' );
-        return $module->redirectToView( 'view', array( 2 ) );
+        return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
 
     // clear cache for old placement.
