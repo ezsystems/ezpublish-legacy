@@ -1897,7 +1897,8 @@ CREATE TABLE ezrss_export (
     status integer DEFAULT 0 NOT NULL,
     title character varying(255),
     url character varying(255),
-    number_of_objects integer DEFAULT 0 NOT NULL
+    number_of_objects integer DEFAULT 0 NOT NULL,
+    main_node_only integer DEFAULT 1 NOT NULL
 );
 
 

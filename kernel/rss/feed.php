@@ -50,64 +50,72 @@ if ( $RSSExport == null )
 include_once( 'kernel/classes/ezrssexportitem.php' );
 
 $config =& eZINI::instance( 'site.ini' );
-$cacheDir = $config->variable( 'FileSettings', 'VarDir' ).'/'.$config->variable( 'FileSettings', 'CacheDir' );
-$cacheFile = $cacheDir . '/rss/' . md5( $feedName ) . '.xml';
+$cacheTime = intval( $config->variable( 'RSSSettings', 'CacheTime' ) );
 
-// If cache directory does not exist, create it. Get permissions settings from site.ini
-if ( !is_dir( $cacheDir.'/rss' ) )
-{
-    $mode = $config->variable( 'FileSettings', 'TemporaryPermissions' );
-    if ( !is_dir( $cacheDir ) )
-    {
-        mkdir( $cacheDir );
-        chmod( $cacheDir, octdec( $mode ) );
-    }
-    mkdir( $cacheDir.'/rss' );
-    chmod( $cacheDir.'/rss', octdec( $mode ) );
-}
-
-$rssFeed = null;
-
-if ( !file_exists( $cacheFile ) or ( time() - filectime( $cacheFile ) > 20*60 ) )
+if($cacheTime <= 0)
 {
     $xmlDoc =& $RSSExport->attribute( 'rss-xml' );
-
-    $fid = @fopen( $cacheFile, 'w' );
-
-    // If opening file for write access fails, write debug error
-    if ( $fid === false )
+    $rssContent = $xmlDoc->toString();
+}
+else
+{
+    $cacheDir = $config->variable( 'FileSettings', 'VarDir' ).'/'.$config->variable( 'FileSettings', 'CacheDir' );
+    $cacheFile = $cacheDir . '/rss/' . md5( $feedName ) . '.xml';
+    
+    // If cache directory does not exist, create it. Get permissions settings from site.ini
+    if ( !is_dir( $cacheDir.'/rss' ) )
     {
-        eZDebug::writeError( 'Failed to open cache file for RSS export: '.$cacheFile );
+        $mode = $config->variable( 'FileSettings', 'TemporaryPermissions' );
+        if ( !is_dir( $cacheDir ) )
+        {
+            mkdir( $cacheDir );
+            chmod( $cacheDir, octdec( $mode ) );
+        }
+        mkdir( $cacheDir.'/rss' );
+        chmod( $cacheDir.'/rss', octdec( $mode ) );
+    }
+    
+    if ( !file_exists( $cacheFile ) or ( time() - filemtime( $cacheFile ) > $cacheTime ) )
+    {
+        $xmlDoc =& $RSSExport->attribute( 'rss-xml' );
+    
+        $fid = @fopen( $cacheFile, 'w' );
+    
+        // If opening file for write access fails, write debug error
+        if ( $fid === false )
+        {
+            eZDebug::writeError( 'Failed to open cache file for RSS export: '.$cacheFile );
+        }
+        else
+        {
+            // write, flush, close and change file access mode
+            $mode = $config->variable( 'FileSettings', 'TemporaryPermissions' );
+            $rssContent = $xmlDoc->toString();
+            $length = fwrite( $fid, $rssContent );
+            fflush( $fid );
+            fclose( $fid );
+            chmod( $cacheFile, octdec( $mode ) );
+    
+            if ( $length === false )
+            {
+                eZDebug::writeError( 'Failed to write to cache file for RSS export: '.$cacheFile );
+            }
+        }
     }
     else
     {
-        // write, flush, close and change file access mode
-        $mode = $config->variable( 'FileSettings', 'TemporaryPermissions' );
-        $length = fwrite( $fid, $xmlDoc->toString() );
-        fflush( $fid );
-        fclose( $fid );
-        chmod( $cacheFile, octdec( $mode ) );
-
-        if ( $length === false )
-        {
-            eZDebug::writeError( 'Failed to write to cache file for RSS export: '.$cacheFile );
-        }
+        $rssContent = file_get_contents( $cacheFile );
     }
 }
 
-$length = filesize( $cacheFile );
-$fid = fopen( $cacheFile, 'r' );
-
 // Set header settings
 header( 'Content-Type: text/xml' );
-header( 'Content-Length: '.$length );
+header( 'Content-Length: '.strlen($rssContent) );
 header( 'X-Powered-By: eZ publish' );
 
 while ( @ob_end_flush() );
 
-fpassthru( $fid );
-
-fclose ( $fid );
+echo $rssContent;
 
 eZExecution::cleanExit();
 

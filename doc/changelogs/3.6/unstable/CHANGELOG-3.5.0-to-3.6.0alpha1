@@ -73,6 +73,9 @@ Changes from 3.5.0 to 3.6.0alpha1
 - Fixed bug #4719: Enhancement RSS Feed Configuration
 - Fixed bug #6011: Recursive object inclusion. Added limitation on the 
   level of template nesting.
+- Fixed bug #6148: Enhancement RSS: enable/disable caching
+- Fixed bug #6121: Enhancement RSS: option that link in RSS should go to main node
+- Fixed bug: Feed of RSS export was not cachied properly
 
 *Library:
 PDF:

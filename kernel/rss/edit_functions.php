@@ -87,6 +87,14 @@ function storeRSSExport( &$Module, &$http, $publish = false )
         $rssExport->setAttribute( 'active', 0 );
     }
     $rssExport->setAttribute( 'access_url', $http->postVariable( 'Access_URL' ) );
+    if ( $http->hasPostVariable( 'MainNodeOnly' ) )
+    {
+        $rssExport->setAttribute( 'main_node_only', 1 );
+    }
+    else
+    {
+        $rssExport->setAttribute( 'main_node_only', 0 );
+    }
 
     if ( $publish )
     {

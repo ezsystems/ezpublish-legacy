@@ -51,10 +51,13 @@ include_once( 'kernel/classes/ezrssexport.php' );
 class eZRSSExportItem extends eZPersistentObject
 {
     /*!
-      Number of objects being included in the feed.
+      Criteria for listing of objects.
       \see eZRSSExport::fetchItems()
     */
-    var $NumberOfObjects = 5;
+    var $ObjectListFilter = array(
+                                'number_of_objects' => 5,
+                                'main_node_only'    => true
+                                );
     
     /*!
      Initializes a new RSSExportItem.
@@ -147,14 +150,15 @@ class eZRSSExportItem extends eZPersistentObject
     }
     
     /*!
-      Number of objects being included in the feed.
-      \param number of objects
+      Criteria for listing of objects.
+      
+      \param array
       \see eZRSSExport::fetchRSS1_0()
       \see eZRSSExport::fetchRSS2_0()
     */
-    function setNumberOfObjects($num)
+    function setObjectListFilter($filter)
     {
-        $this->NumberOfObjects = $num;
+        $this->ObjectListFilter = $filter;
     }
     
     /*!
@@ -166,7 +170,7 @@ class eZRSSExportItem extends eZPersistentObject
         {
             case 'object_list':
             {
-                return $this->fetchObjectList($this->NumberOfObjects);
+                return $this->fetchObjectList();
             } break;
             case 'class_attributes':
             {
@@ -254,7 +258,7 @@ class eZRSSExportItem extends eZPersistentObject
 
      \return list of Objects
     */
-    function &fetchObjectList( $num = 5 )
+    function &fetchObjectList()
     {
         // Do not include subnodes
         if ( !intval( $this->attribute( 'subnodes' ) ) )
@@ -270,8 +274,9 @@ class eZRSSExportItem extends eZPersistentObject
         
         return eZContentObjectTreeNode::subTree( array( 'Depth' => $depth,
                                                         'DepthOperator' => 'eq',
-                                                        'Limit' => $num,
+                                                        'Limit' => $this->ObjectListFilter['number_of_objects'],
                                                         'SortBy' => array( 'published', false ),
+                                                        'MainNodeOnly' => $this->ObjectListFilter['main_node_only'],
                                                         'ClassFilterType' => 'include',
                                                         'ClassFilterArray' => array( intval( $this->attribute( 'class_id' ) ) ) ),
                                                  $this->attribute( 'source_node_id' ) );

@@ -34,7 +34,10 @@
 
     <div class="block">
     <label>{'Site URL'|i18n( 'design/admin/rss/edit_export' )}:</label>
-    <input class="halfbox" type="text" name="url" value="{$rss_export.url|wash}" title="{'Use this field to enter the base URL of your site. It is used to produce the URL\'s in the export.'|i18n( 'design/admin/rss/edit_export')}" />
+    <input class="halfbox" type="text" name="url" value="{$rss_export.url|wash}"/>
+    <div class="context-attributes">
+        <p>{'Use this field to enter the base URL of your site. It is used to produce the URLs in the export, composed by the Site URL (e.g. "http://www.example.com/index.php") and the path to the object (e.g. "/articles/my_article"). The Site URL depends on your Webserver and eZ publish configuration.'|i18n( 'design/admin/rss/edit_export')}</p>
+    </div>
     </div>
 
     <input type="hidden" name="RSSImageID" value="{$rss_export.image_id}" />
@@ -66,7 +69,7 @@
     </div>
 
     <div class="block">
-    <label>{'Number of Objects'|i18n( 'design/admin/rss/edit_export' )}:</label>
+    <label>{'Number of objects'|i18n( 'design/admin/rss/edit_export' )}:</label>
     <select name="NumberOfObjects" title="{'Use this drop-down menu to select the maximum number of objects included in the RSS feed.'|i18n('design/admin/rss/edit_export')}">
     {section name=Number loop=$number_of_objects_array}
     <option
@@ -88,6 +91,11 @@
     <div class="block">
     <label>{'Active'|i18n( 'design/admin/rss/edit_export' )}:</label>
     <input type="checkbox" name="active" {section show=$rss_export.active|eq( 1 )}checked="checked"{/section} title="{'Use this checkbox to control if the RSS export is active or not. An inactive export will not be automatically updated.'|i18n('design/admin/rss/edit_export')}"/>
+    </div>
+
+    <div class="block">
+    <label>{'Main node only'|i18n( 'design/admin/rss/edit_export' )}:</label>
+    <input type="checkbox" name="MainNodeOnly" {section show=$rss_export.main_node_only|eq( 1 )}checked="checked"{/section} title="{'Check if you want to only feed the object from the main node.'|i18n('design/admin/rss/edit_export')}"/>
     </div>
 
     <div class="block">

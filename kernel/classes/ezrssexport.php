@@ -125,6 +125,10 @@ class eZRSSExport extends eZPersistentObject
                                          'number_of_objects' => array( 'name' => 'NumberOfObjects',
                                                             'datatype' => 'integer',
                                                             'default' => 0,
+                                                            'required' => true ),
+                                         'main_node_only' => array( 'name' => 'MainNodeOnly',
+                                                            'datatype' => 'integer',
+                                                            'default' => 0,
                                                             'required' => true ) ),
                       "keys" => array( "id", 'status' ),
                       "increment_key" => "id",
@@ -363,6 +367,23 @@ class eZRSSExport extends eZPersistentObject
 
         return eZRSSExportItem::fetchFilteredList( array( 'rssexport_id' => $id, 'status' => $status ) );
     }
+    
+    function getObjectListFilter()
+    {
+        if ( $this->MainNodeOnly == 1 )
+        {
+            $this->MainNodeOnly = true;
+        }
+        else
+        {
+            $this->MainNodeOnly = false;
+        }
+        
+        return array(
+                    'number_of_objects' => intval($this->NumberOfObjects),
+                    'main_node_only'    => $this->MainNodeOnly
+                    );
+    }
 
     /*!
      Get a RSS xml document based on the RSS 2.0 standard based on the RSS Export settings defined by this object
@@ -420,7 +441,8 @@ class eZRSSExport extends eZPersistentObject
         $rssItemArray =& $this->fetchItems();
         foreach ( $rssItemArray as $rssItem )
         {
-            $rssItem->setNumberOfObjects( $this->NumberOfObjects );
+            $rssItem->setObjectListFilter( $this->getObjectListFilter() );
+            $rssItem->setMainNodeOnly(  );
             $nodeArray =& $rssItem->attribute( 'object_list' );
             foreach ( $nodeArray as $node )
             {
@@ -543,7 +565,7 @@ class eZRSSExport extends eZPersistentObject
         $rssItemArray =& $this->fetchItems();
         foreach ( $rssItemArray as $rssItem )
         {
-            $rssItem->setNumberOfObjects( $this->NumberOfObjects );
+            $rssItem->setObjectListFilter( $this->getObjectListFilter() );
             $nodeArray =& $rssItem->attribute( 'object_list' );
             foreach ( $nodeArray as $node )
             {
