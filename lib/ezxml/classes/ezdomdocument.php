@@ -276,8 +276,8 @@ class eZDOMDocument
 
         foreach ( $array as $arrayKey => $value )
         {
-            $valueKeys = array_keys( $value );
-            if ( count( $valueKeys ) > 0 )
+            if ( is_array( $value ) and
+                 count( $valueKeys = array_keys( $value ) ) > 0 )
             {
                 if ( is_int( $valueKeys[0] ) )
                 {
@@ -318,7 +318,17 @@ class eZDOMDocument
             {
                 $retArray[$childNode->name()] = array();
             }
-            $retArray[$childNode->name()][] = eZDOMDocument::createArrayFromDOMNode( $childNode );
+
+            // If the node has children we create an array for this element
+            // and append to it, if not we assign it directly
+            if ( $childNode->hasChildren() )
+            {
+                $retArray[$childNode->name()][] = eZDOMDocument::createArrayFromDOMNode( $childNode );
+            }
+            else
+            {
+                $retArray[$childNode->name()] = eZDOMDocument::createArrayFromDOMNode( $childNode );
+            }
         }
         foreach( $domNode->attributes() as $attributeNode )
         {
