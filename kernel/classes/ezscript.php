@@ -285,6 +285,11 @@ class eZScript
             {
                 eZSessionStart();
             }
+            else
+            {
+                $this->IsInitialized = false;
+                return;
+            }
         }
 
         if ( $this->User )
@@ -330,6 +335,11 @@ class eZScript
             eZModule::setGlobalPathList( $moduleRepositories );
         }
         $this->IsInitialized = true;
+    }
+
+    function isInitialized()
+    {
+        return $this->IsInitialized;
     }
 
     /*!

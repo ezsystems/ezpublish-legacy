@@ -261,6 +261,12 @@ $script->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasi
 $script->setUseSiteAccess( $siteaccess );
 
 $script->initialize();
+if ( !$script->isInitialized() )
+{
+    $cli->error( "Error initializing script (possible database connection error)" );
+    $script->shutdown();
+    exit();
+}
 
 if ( $cronPart )
 {
