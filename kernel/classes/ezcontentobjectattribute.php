@@ -327,6 +327,13 @@ class eZContentObjectAttribute extends eZPersistentObject
         $dataType->customObjectAttributeHTTPAction( $http, $action, $this, $parameters );
     }
 
+    function onPublish( &$object, &$nodes  )
+    {
+        $classAttribute =& $this->contentClassAttribute();
+        $dataType =& $classAttribute->dataType();
+        $dataType->onPublish( $this, $object, $nodes );
+    }
+
     /*!
      Initialized the attribute by using the datatype.
     */

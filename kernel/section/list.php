@@ -39,6 +39,7 @@ $http =& eZHTTPTool::instance();
 $Module =& $Params["Module"];
 $tpl =& templateInit();
 $tpl->setVariable( 'module', $Module );
+
 if ( $http->hasPostVariable( 'CreateSectionButton' ) )
 {
     $section = new eZSection( array( 'name' => 'New section' ) );

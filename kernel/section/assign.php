@@ -35,6 +35,7 @@
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/classes/ezsection.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+include_once( "kernel/classes/ezcontentbrowse.php" );
 include_once( "kernel/common/template.php" );
 
 $http =& eZHTTPTool::instance();
@@ -64,13 +65,16 @@ if ( $http->hasPostVariable( "BrowseActionName" ) and
 }
 else
 {
-    $http->setSessionVariable( "BrowseFromPage", "/section/assign/" . $section->attribute( 'id' ) . "/" );
-    $http->removeSessionVariable( "CustomBrowseActionAttributeID" );
+//    $http->setSessionVariable( "BrowseFromPage", "/section/assign/" . $section->attribute( 'id' ) . "/" );
+//    $http->removeSessionVariable( "CustomBrowseActionAttributeID" );
 
-    $http->setSessionVariable( "BrowseActionName", "AssignSection" );
-    $http->setSessionVariable( "BrowseReturnType", "NodeID" );
+//    $http->setSessionVariable( "BrowseActionName", "AssignSection" );
+//    $http->setSessionVariable( "BrowseReturnType", "NodeID" );
 
-    $Module->redirectTo( "/content/browse/2/" );
+    eZContentBrowse::browse( array( 'action_name' => 'AssignSection',
+                                    'from_page' => '/section/assign/' . $section->attribute( 'id' ) . "/" ),
+                             $Module );
+//    $Module->redirectTo( "/content/browse/2/" );
     return;
 }
 

@@ -331,6 +331,20 @@ class eZContentFunctionCollection
             return array( 'result' => $version->contentObjectAttributes( $languageCode ) );
         }
     }
+
+    function fetchBookmarks()
+    {
+        $user =& eZUser::currentUser();
+        include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
+        return array( 'result' => eZContentBrowseBookmark::fetchListForUser( $user->id() ) );
+    }
+
+    function fetchRecent()
+    {
+        $user =& eZUser::currentUser();
+        include_once( 'kernel/classes/ezcontentbrowserecent.php' );
+        return array( 'result' => eZContentBrowseRecent::fetchListForUser( $user->id() ) );
+    }
 }
 
 ?>

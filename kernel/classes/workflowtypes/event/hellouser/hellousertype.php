@@ -60,7 +60,6 @@ class helloUserType extends eZWorkflowEventType
         $userName =& $user->attribute( 'login' );
         $localhostAddr = eZSys::hostname();
         $requestUri = eZSys::serverVariable( 'REQUEST_URI' );
-
         $process->Template = array( 'templateName' => 'design:workflow/eventtype/result/' . 'event_hellouser' . '.tpl',
                                      'templateVars' => array( 'return_uri' => $requestUri,
                                                               'user_name' => $userName ) );

@@ -159,6 +159,18 @@ class eZContentOperationCollection
         $object->store();
     }
 
+    function attributePublishAction( $objectID, $versionNum )
+    {
+        $object =& eZContentObject::fetch( $objectID );
+        $nodes =& $object->assignedNodes();
+        $dataMap =& $object->attribute( 'data_map' );
+        foreach ( array_keys( $dataMap ) as $key )
+        {
+            $attribute =& $dataMap[$key];
+            $attribute->onPublish( $object, $nodes );
+        }
+    }
+
     function publishNode( $parentNodeID, $objectID, $versionNum )
     {
         $object =& eZContentObject::fetch( $objectID );
@@ -201,6 +213,14 @@ class eZContentOperationCollection
             if ( $fromNodeID == 0 )
             {
                 $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+/* Adds parent node to recent used content */
+//code start
+                include_once( 'kernel/classes/ezcontentbrowserecent.php' );
+                $user =& eZUser::currentUser();
+                eZContentBrowseRecent::createNew( $user->id(), $parentNode->attribute( 'node_id' ), $parentNode->attribute( 'name' ) );
+
+//                eZContentBrowseBookmark::createNew( $user->id(), $parentNode->attribute( 'node_id' ), $parentNode->attribute( 'name' ), EZ_CONTENTBROWSE_BOOKMARK_TYPE_RECENT );
+//code end
                 $existingNode =&  $parentNode->addChild( $object->attribute( 'id' ), 0, true );
             }else
             {
@@ -332,7 +352,13 @@ class eZContentOperationCollection
 
 
     }
-
+    function createNotificationEvent( $objectID, $versionNum )
+    {
+        include_once( 'kernel/classes/notification/eznotificationevent.php' );
+        $event =& eZNotificationEvent::create( 'ezpublish', array( 'object' => $objectID,
+                                                                   'version' => $versionNum ) );
+        $event->store();
+    }
 }
 
 ?>

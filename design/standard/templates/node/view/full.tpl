@@ -83,6 +83,16 @@
       </div>
       {/section}
     {/section}
+      <div class="block">
+      <input type="submit" name="ActionAddToBookmarks" value="{'Add to Bookmarks'|i18n('design/standard/node/view')}" />
+      </div>
+      <div class="block">
+      <input type="submit" name="ActionAddToNotification" value="{'Notify me about updates'|i18n('design/standard/node/view')}" />
+      </div>
+
+    </td>
+</tr>
+</table>
 
 {section show=$with_children}
 

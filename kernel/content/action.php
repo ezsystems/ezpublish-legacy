@@ -33,6 +33,7 @@
 //
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+include_once( 'kernel/classes/ezcontentbrowsebookmark.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http =& eZHTTPTool::instance();
@@ -248,6 +249,43 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
         $result =& $shopModule->run( "wishlist", array() );
         $module->setExitStatus( $shopModule->exitStatus() );
         $module->setRedirectURI( $shopModule->redirectURI() );
+    }
+    else if ( $http->hasPostVariable( "ActionAddToBookmarks" ) )
+    {
+        $user =& eZUser::currentUser();
+        $nodeID = $http->postVariable( 'ContentNodeID' );
+        $node =& eZContentObjectTreeNode::fetch( $nodeID );
+        $bookmark = eZContentBrowseBookmark::createNew( $user->id(), $nodeID, $node->attribute( 'name' ) );
+        if ( $http->hasPostVariable( 'ViewMode' ) )
+        {
+            $viewMode = $http->postVariable( 'ViewMode' );
+        }
+        else
+        {
+            $viewMode = 'full';
+        }
+        $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
+        return;
+
+    }
+    else if ( $http->hasPostVariable( "ActionAddToNotification" ) )
+    {
+        include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
+        $user =& eZUser::currentUser();
+        $address = $user->attribute( 'email' );
+        $nodeIDList =& eZSubtreeNotificationRule::fetchNodesForAddress( $user->attribute( 'email' ), false );
+        $nodeID = $http->postVariable( 'ContentNodeID' );
+        if ( !in_array( $nodeID, $nodeIDList ) )
+        {
+            $rule =& eZSubtreeNotificationRule::create( $nodeID, $address );
+            $rule->store();
+        }
+        if ( $http->hasPostVariable( 'ViewMode' ) )
+            $viewMode = $http->postVariable( 'ViewMode' );
+        else
+            $viewMode = 'full';
+        $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $nodeID . '/' );
+        return;
     }
     else if ( $http->hasPostVariable( "ActionCollectInformation" ) )
     {

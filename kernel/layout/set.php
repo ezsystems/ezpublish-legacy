@@ -50,8 +50,16 @@ if ( $layoutINI->hasGroup( $LayoutStyle ) )
     $res =& eZTemplateDesignResource::instance();
     $res->setKeys( array( array( 'layout', $LayoutStyle ) ) );
 
-    include_once( 'lib/ezutils/classes/ezsys.php' );
-    eZSys::addAccessPath( array( 'layout', 'set', $LayoutStyle ) );
+    if ( $layoutINI->hasVariable( $LayoutStyle, 'UseAccessPass' ) && $layoutINI->variable( $LayoutStyle, 'UseAccessPass' ) == 'false' )
+    {
+    }
+    else
+    {
+        include_once( 'lib/ezutils/classes/ezsys.php' );
+        eZSys::addAccessPath( array( 'layout', 'set', $LayoutStyle ) );
+    }
+
+
 
     $useFullUrl = false;
     $http =& eZHTTPTool::instance();

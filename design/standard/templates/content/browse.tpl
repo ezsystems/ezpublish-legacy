@@ -1,5 +1,6 @@
 {let browse_indentation=10}
-<form action={concat($return_url)|ezurl} method="post">
+
+<form action={concat($browse.from_page)|ezurl} method="post">
 
 <div class="maincontentheader">
 <h1>{"Browse"|i18n("design/standard/content/view")} - {$main_node.name|wash}</h1>
@@ -7,7 +8,138 @@
 
 <p>{'To select objects, choose the appriate radiobutton or checkbox(es), and click the "Choose" button.'|i18n("design/standard/content/view")}</p>
 <p>{'To select an object that is a child of one of the displayed objects, click the object name and you will get a list of the children of the object.'|i18n("design/standard/content/view")}</p>
+<table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<th width="50%">
+	{"Recent"|i18n("design/standard/content/view")}
+</th>
+<th width="50%">
+   {"Bookmarks"|i18n("design/standard/content/view")}
+</th>
+</tr>
+<tr>
+<td valign="top">
+<table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<th width="69%">
+	{"Name"|i18n("design/standard/content/view")}
+	</th>
+	<th width="30%">
+	{"Class"|i18n("design/standard/content/view")}
+	</th>
+	<th width="30%">
+	{"Section"|i18n("design/standard/content/view")}
+	</th>
+	<th width="1%">
+	{"Select"|i18n("design/standard/content/view")}
+	</th>
+</tr>
+{section name=Recent loop=fetch('content','recent',array()) sequence=array(bgdark,bglight)}
+<tr>
+    <td class="{$Recent:sequence}">
+	<a href={concat("/content/browse/",$Recent:item.node_id,"/")|ezurl}>
+	{$Recent:item.name|wash}
+        </a>
+	</td>
 
+	<td class="{$Recent:sequence}">
+	{$Recent:item.node.object.content_class.name|wash}
+	</td>
+
+	<td class="{$Recent:sequence}">
+	{$:item.node.object.section_id}
+	</td>
+
+	<td class="{$Recent:sequence}">
+	{switch name=sw match=$browse.return_type}
+	  {case match='NodeID'}
+          {switch name=sw match=$browse.selection}
+	      {case match='single'}
+              <input type="radio" name="SelectedNodeIDArray[]" value="{$Recent:item.node_id}" />
+              {/case}
+	      {case}
+	      <input type="checkbox" name="SelectedNodeIDArray[]" value="{$Recent:item.node_id}" />
+	      {/case}
+	  {/switch}
+	  {/case}
+	  {case}
+          {switch name=sw match=$browse.selection}
+	      {case match='single'}
+              <input type="radio" name="SelectedObjectIDArray[]" value="{$Recent:item.node.contentobject_id}" />
+              {/case}
+	      {case}
+              <input type="checkbox" name="SelectedObjectIDArray[]" value="{$Recent:item.node.contentobject_id}" />
+	      {/case}
+	  {/switch}
+	  {/case}
+	{/switch}
+	</td>
+</tr>
+{/section}
+</table>
+</td>
+<td valign="top">
+<table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+	<th width="69%">
+	{"Name"|i18n("design/standard/content/view")}
+	</th>
+	<th width="30%">
+	{"Class"|i18n("design/standard/content/view")}
+	</th>
+	<th width="30%">
+	{"Section"|i18n("design/standard/content/view")}
+	</th>
+	<th width="1%">
+	{"Select"|i18n("design/standard/content/view")}
+	</th>
+</tr>
+{section name=Bookmarks loop=fetch('content','bookmarks',array()) sequence=array(bgdark,bglight)}
+<tr>
+    <td class="{$Bookmarks:sequence}">
+	<a href={concat("/content/browse/",$Bookmarks:item.node_id,"/")|ezurl}>
+	{$Bookmarks:item.name|wash}
+        </a>
+	</td>
+
+	<td class="{$Bookmarks:sequence}">
+	{$Bookmarks:item.node.object.content_class.name|wash}
+	</td>
+
+	<td class="{$Bookmarks:sequence}">
+	{$:item.node.object.section_id}
+	</td>
+
+	<td class="{$Bookmarks:sequence}">
+	{switch name=sw match=$browse.return_type}
+	  {case match='NodeID'}
+          {switch name=sw match=$browse.selection}
+	      {case match='single'}
+              <input type="radio" name="SelectedNodeIDArray[]" value="{$Bookmarks:item.node_id}" />
+              {/case}
+	      {case}
+	      <input type="checkbox" name="SelectedNodeIDArray[]" value="{$Bookmarks:item.node_id}" />
+	      {/case}
+	  {/switch}
+	  {/case}
+	  {case}
+          {switch name=sw match=$browse.selection}
+	      {case match='single'}
+              <input type="radio" name="SelectedObjectIDArray[]" value="{$Bookmarks:item.node.contentobject_id}" />
+              {/case}
+	      {case}
+              <input type="checkbox" name="SelectedObjectIDArray[]" value="{$Bookmarks:item.node.contentobject_id}" />
+	      {/case}
+	  {/switch}
+	  {/case}
+	{/switch}
+	</td>
+</tr>
+{/section}
+</table>
+</td>
+</tr>
+</table>
 <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<th width="69%">
@@ -37,10 +169,10 @@
 	</td>
 
 	<td class="bglight">
-	{switch name=sw match=$return_type}
+	{switch name=sw match=$browse.return_type}
 	  {case match='NodeID'}
-          {switch name=sw match=$selection_type}
-	      {case match='Single'}
+          {switch name=sw match=$browse.selection}
+	      {case match='single'}
               <input type="radio" name="SelectedNodeIDArray[]" value="{$main_node.node_id}" />
               {/case}
 	      {case}
@@ -49,8 +181,8 @@
 	  {/switch}
 	  {/case}
 	  {case}
-          {switch name=sw match=$selection_type}
-	      {case match='Single'}
+          {switch name=sw match=$browse.selection}
+	      {case match='single'}
               <input type="radio" name="SelectedObjectIDArray[]" value="{$main_node.contentobject_id}" />
               {/case}
 	      {case}
@@ -80,10 +212,10 @@
 	</td>
 
 	<td class="{$Object:sequence}">
-	{switch name=sw match=$return_type}
+	{switch name=sw match=$browse.return_type}
 	  {case match='NodeID'}
-          {switch name=sw match=$selection_type}
-	      {case match='Single'}
+          {switch name=sw match=$browse.selection}
+	      {case match='single'}
               <input type="radio" name="SelectedNodeIDArray[]" value="{$Object:item.node_id}" />
               {/case}
 	      {case}
@@ -92,8 +224,8 @@
 	  {/switch}
 	  {/case}
 	  {case}
-          {switch name=sw match=$selection_type}
-	      {case match='Single'}
+          {switch name=sw match=$browse.selection}
+	      {case match='single'}
               <input type="radio" name="SelectedObjectIDArray[]" value="{$Object:item.contentobject_id}" />
               {/case}
 	      {case}
@@ -129,9 +261,9 @@
          item_limit=10}
 
 
-<input type="hidden" name="BrowseActionName" value="{$browse_action_name}" />
-{section show=$custom_action_data}
-<input type="hidden" name="{$custom_action_data.name}" value="{$custom_action_data.value}" />
+<input type="hidden" name="BrowseActionName" value="{$browse.action_name}" />
+{section show=$browse.browse_custom_action}
+<input type="hidden" name="{$browse.browse_custom_action.name}" value="{$browse.browse_custom_action.value}" />
 {/section}
 
 </form>

@@ -61,12 +61,18 @@ if ( $http->hasPostVariable( "EditRoleButton" ) )
 // Redirect to content node browse in the user tree
 if ( $http->hasPostVariable( "AssignRoleButton" ) )
 {
-    $http->setSessionVariable( "BrowseFromPage", "/role/view/" . $roleID . "/" );
+/*    $http->setSessionVariable( "BrowseFromPage", "/role/view/" . $roleID . "/" );
 
     $http->setSessionVariable( "BrowseActionName", "AssignRole" );
     $http->setSessionVariable( "BrowseReturnType", "ObjectID" );
 
     $Module->redirectTo( "/content/browse/5/" );
+*/
+    include_once( "kernel/classes/ezcontentbrowse.php" );
+    eZContentBrowse::browse( array( 'action_name' => 'AssignRole',
+                                    'from_page' => '/role/assign/' . $roleID . "/" ),
+                             $Module );
+
     return;
 }
 

@@ -372,4 +372,20 @@ $FunctionList['contentobject_attributes'] = array( 'name' => 'contentobject_attr
                                                                                  'required' => false,
                                                                                  'default' => '' ) ) );
 
+$FunctionList['bookmarks'] = array( 'name' => 'bookmarks',
+                                    'operation_types' => array( 'read' ),
+                                    'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                            'class' => 'eZContentFunctionCollection',
+                                                            'method' => 'fetchBookmarks' ),
+                                    'parameter_type' => 'standard',
+                                    'parameters' => array( ) );
+
+$FunctionList['recent'] = array( 'name' => 'recent',
+                                 'operation_types' => array( 'read' ),
+                                 'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                         'class' => 'eZContentFunctionCollection',
+                                                         'method' => 'fetchRecent' ),
+                                 'parameter_type' => 'standard',
+                                 'parameters' => array( ) );
+
 ?>

@@ -434,14 +434,21 @@ if ( $http->hasPostVariable( "Limitation" ) or
 
     if ( $http->hasPostVariable( "BrowseLimitationNodeButton" ) )
     {
-        $http->setSessionVariable( "BrowseFromPage", "/role/edit/" . $roleID );
+/*        $http->setSessionVariable( "BrowseFromPage", "/role/edit/" . $roleID );
         $http->setSessionVariable( "BrowseActionName", "FindLimitationNode" );
         $http->setSessionVariable( "BrowseReturnType", "NodeID" );
         $http->setSessionVariable( 'BrowseSelectionType', 'Multiple' );
-        $http->setSessionVariable( 'BrowseCurrentModule', $currentModule );
-        $http->setSessionVariable( 'BrowseCurrentFunction', $currentFunction );
         $nodeID = 2;
         $Module->redirectTo( "/content/browse/" . $nodeID );
+*/
+        $http->setSessionVariable( 'BrowseCurrentModule', $currentModule );
+        $http->setSessionVariable( 'BrowseCurrentFunction', $currentFunction );
+
+        include_once( "kernel/classes/ezcontentbrowse.php" );
+        eZContentBrowse::browse( array( 'action_name' => 'FindLimitationNode',
+                                        'from_page' => '/role/edit/' . $roleID . "/" ),
+                                 $Module );
+
         return;
     }
 
@@ -505,18 +512,24 @@ if ( $http->hasPostVariable( "Limitation" ) or
                 }
             }
         }
-        $http->setSessionVariable( "BrowseFromPage", "/role/edit/" . $roleID );
+/*        $http->setSessionVariable( "BrowseFromPage", "/role/edit/" . $roleID );
         $http->setSessionVariable( "BrowseActionName", "FindLimitationSubtree" );
         $http->setSessionVariable( "BrowseReturnType", "NodeID" );
         $http->setSessionVariable( 'BrowseSelectionType', 'Multiple' );
-        $http->setSessionVariable( 'BrowseCurrentModule', $currentModule );
-        $http->setSessionVariable( 'BrowseCurrentFunction', $currentFunction );
         $nodeID = 2;
         $Module->redirectTo( "/content/browse/" . $nodeID );
+*/
+        $http->setSessionVariable( 'BrowseCurrentModule', $currentModule );
+        $http->setSessionVariable( 'BrowseCurrentFunction', $currentFunction );
+
+        include_once( "kernel/classes/ezcontentbrowse.php" );
+        eZContentBrowse::browse( array( 'action_name' => 'FindLimitationSubtree',
+                                        'from_page' => '/role/edit/' . $roleID . "/" ),
+                                 $Module );
         return;
     }
 
-    if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and $http->sessionVariable( "BrowseActionName" ) == "FindLimitationNode" )
+    if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and $http->postVariable( "BrowseActionName" ) == "FindLimitationNode" )
     {
         $selectedNodeIDList = $http->postVariable( "SelectedNodeIDArray" );
 
@@ -556,10 +569,9 @@ if ( $http->hasPostVariable( "Limitation" ) or
         }
     }
 
-    if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and $http->sessionVariable( "BrowseActionName" ) == "FindLimitationSubtree" )
+    if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and $http->postVariable( "BrowseActionName" ) == "FindLimitationSubtree" )
     {
         $selectedSubtreeIDList = $http->postVariable( "SelectedNodeIDArray" );
-
         if ( $http->hasSessionVariable( 'BrowsePolicyID' ) )
         {
             $policy =& eZPolicy::fetch( $http->sessionVariable( 'BrowsePolicyID' ) );

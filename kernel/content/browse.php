@@ -35,6 +35,8 @@
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
+include_once( 'kernel/classes/ezcontentbrowse.php' );
+
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 include_once( 'kernel/common/template.php' );
@@ -42,7 +44,18 @@ include_once( 'kernel/common/template.php' );
 $tpl =& templateInit();
 $http =& eZHTTPTool::instance();
 
-$NodeID = $Params['NodeID'];
+//$browseParams = $http->sessionVariable( 'BrowseParams' );
+$browse = new eZContentBrowse();
+
+
+if ( isset( $Params['NodeID'] ) &&  is_numeric( $Params['NodeID'] ) )
+{
+    $NodeID = $Params['NodeID'];
+    $browse->setStartNode( $NodeID );
+}
+
+$NodeID = $browse->attribute( 'start_node' );
+
 $Offset = $Params['Offset'];
 
 if ( !is_numeric( $Offset ) )
@@ -56,16 +69,15 @@ if ( array_key_exists( 'Limitation', $Params ) )
         $limitationList[] = $policy->attribute( 'limitations' );
     }
 }
+//$returnURL = $http->sessionVariable( 'BrowseFromPage' );
+//$browseActionName = $http->sessionVariable( 'BrowseActionName' );
+//$customActionButton = $http->sessionVariable( 'CustomActionButton' );
+//$returnType = $http->sessionVariable( 'BrowseReturnType' );
+//$browseSelectionType = $http->sessionVariable( 'BrowseSelectionType' );
 
-$returnURL = $http->sessionVariable( 'BrowseFromPage' );
-$browseActionName = $http->sessionVariable( 'BrowseActionName' );
-$customActionButton = $http->sessionVariable( 'CustomActionButton' );
-$returnType = $http->sessionVariable( 'BrowseReturnType' );
-$browseSelectionType = $http->sessionVariable( 'BrowseSelectionType' );
-
-$browseCustomAction = false;
-if ( $http->hasSessionVariable( 'BrowseCustomAction' ) )
-    $browseCustomAction = $http->sessionVariable( 'BrowseCustomAction' );
+//$browseCustomAction = false;
+//if ( $http->hasSessionVariable( 'BrowseCustomAction' ) )
+//    $browseCustomAction = $http->sessionVariable( 'BrowseCustomAction' );
 
 $node =& eZContentObjectTreeNode::fetch( $NodeID );
 
@@ -100,15 +112,17 @@ foreach ( $parents as $parent )
 $path[] = array( 'text' => $contentObject->attribute( 'name' ),
                  'url' => false );
 
+$tpl->setVariable( 'browse', $browse );
+
 $tpl->setVariable( 'main_node', $node );
 
-$tpl->setVariable( 'return_url', $returnURL );
-$tpl->setVariable( 'browse_action_name', $browseActionName );
-$tpl->setVariable( 'custom_action_button', $customActionButton );
-$tpl->setVariable( 'custom_action_data', $browseCustomAction );
-$tpl->setVariable( 'selection_type', $browseSelectionType );
+//$tpl->setVariable( 'return_url', $returnURL );
+//$tpl->setVariable( 'browse_action_name', $browseActionName );
+//$tpl->setVariable( 'custom_action_button', $customActionButton );
+//$tpl->setVariable( 'custom_action_data', $browseCustomAction );
+//$tpl->setVariable( 'selection_type', $browseSelectionType );
 
-$tpl->setVariable( 'return_type', $returnType );
+//$tpl->setVariable( 'return_type', $returnType );
 
 $tpl->setVariable( 'node_id', $NodeID );
 

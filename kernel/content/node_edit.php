@@ -279,7 +279,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
     {
         $objectID = $object->attribute( 'id' );
 //         $http->setSessionVariable( 'BrowseFromPage', "/content/edit/$objectID/$editVersion/" );
-        $http->setSessionVariable( 'BrowseFromPage', $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion, $editLanguage ) ) );
+/*        $http->setSessionVariable( 'BrowseFromPage', $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion, $editLanguage ) ) );
         $http->setSessionVariable( 'BrowseActionName', 'AddNodeAssignment' );
         $http->setSessionVariable( 'BrowseReturnType', 'NodeID' );
         $http->setSessionVariable( 'BrowseSelectionType', 'Multiple' );
@@ -294,7 +294,13 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
         {
             $nodeID = $mainParentID;
         }
+
         $module->redirectToView( 'browse', array( $nodeID, $objectID, $editVersion ) );
+*/
+        eZContentBrowse::browse( array( 'action_name' => 'AddNodeAssignment',
+                                        'from_page' => "/content/edit/$objectID/$editVersion/" ),
+                                 $module );
+
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
     if ( $module->isCurrentAction( 'DeleteNode' ) )

@@ -1,0 +1,1 @@
+{$attribute.content.original_filename|wash(xhtml)} {$attribute.content.filesize|si(byte)}

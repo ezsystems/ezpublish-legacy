@@ -254,6 +254,18 @@ class eZDataType
     }
 
     /*!
+     Perfoms necessary actions with attribute data after object is published,
+     it means that you have access  paublished nodes
+     \return True if the value was stored correctly.
+     \note The method is entirely up to the datatype, for instance
+           it could reuse the available types in the the attribute or
+           store in a separate object.
+    */
+
+    function onPublish( &$attribute, &$contentObject, &$publishedNodes )
+    {
+    }
+    /*!
      Stores the datatype data to the database which is related to the
      class attribute. The \a $version parameter determines which version
      is currently being stored, 0 is the real version while 1 is the

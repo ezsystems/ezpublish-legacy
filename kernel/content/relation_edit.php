@@ -39,6 +39,7 @@ include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentobjectversion.php' );
 include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+include_once( 'kernel/classes/ezcontentbrowse.php' );
 
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
@@ -82,7 +83,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
         $http->setSessionVariable( 'BrowseSelectionType', 'Multiple' );
 
         $objectID = $object->attribute( 'id' );
-//         $http->setSessionVariable( 'BrowseFromPage', "/content/edit/$objectID/$editVersion/" );
+/*//         $http->setSessionVariable( 'BrowseFromPage', "/content/edit/$objectID/$editVersion/" );
         $http->setSessionVariable( 'BrowseFromPage', $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion, $editLanguage ) ) );
         $http->removeSessionVariable( 'CustomBrowseActionAttributeID' );
 
@@ -95,8 +96,13 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
 //             $http->setSessionVariable( 'BrowseActionName', 'CustomAction' );
 //         }
 
-        $nodeID = 2;
-        $module->redirectToView( 'browse', array( $nodeID ) );
+//        $nodeID = 2;
+//        $module->redirectToView( 'browse', array( $nodeID ) );
+*/
+        eZContentBrowse::browse( array( 'action_name' => 'AddRelatedObject',
+                                        'from_page' => $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion, $editLanguage ) ) ),
+                                 $module );
+
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
     }
     if ( $module->isCurrentAction( 'DeleteRelation' ) )

@@ -132,17 +132,27 @@ class eZObjectRelationType extends eZDataType
                 {
                     $module =& $parameters['module'];
                     $redirectionURI = $parameters['current-redirection-uri'];
-                    $http->setSessionVariable( 'BrowseFromPage', $redirectionURI );
+/*                    $http->setSessionVariable( 'BrowseFromPage', $redirectionURI );
                     $http->removeSessionVariable( 'CustomBrowseActionAttributeID' );
 
                     $http->setSessionVariable( 'BrowseActionName', 'AddRelatedObject_' . $contentObjectAttribute->attribute( 'id' ) );
                     $http->setSessionVariable( 'BrowseSelectionType', 'Single' );
                     $http->setSessionVariable( 'BrowseReturnType', 'ObjectID' );
+
                     $http->setSessionVariable( 'BrowseCustomAction', array( 'name' => 'CustomActionButton[' . $contentObjectAttribute->attribute( 'id' ) . '_set_object_relation]',
                                                                             'value' => $contentObjectAttribute->attribute( 'id' ) ) );
 
                     $nodeID = 2;
-                    $module->redirectToView( 'browse', array( $nodeID ) );
+//                    $module->redirectToView( 'browse', array( $nodeID ) );
+                    */
+                    
+                    eZContentBrowse::browse( array( 'action_name' => 'AddRelatedObject_' . $contentObjectAttribute->attribute( 'id' ),
+                                                    'type' => 'AddRelatedObjectToDataType',
+                                                    'browse_custom_action' => array( 'name' => 'CustomActionButton[' . $contentObjectAttribute->attribute( 'id' ) . '_set_object_relation]',
+                                                                                     'value' => $contentObjectAttribute->attribute( 'id' ) ),
+                                                    'from_page' => $redirectionURI ),
+                                             $module );
+
                 }
                 else if ( $http->hasPostVariable( 'BrowseActionName' ) and
                           $http->postVariable( 'BrowseActionName' ) == ( 'AddRelatedObject_' . $contentObjectAttribute->attribute( 'id' ) ) and
