@@ -83,7 +83,7 @@ class eZSMTPTransport extends eZMailTransport
             if ( !$emailSender )
                 $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
 
-            eZMail::extractEmail( $emailSender, &$emailSenderAddress, &$emailSenderName );
+            eZMail::extractEmail( $emailSender, $emailSenderAddress, $emailSenderName );
 
             if ( !eZMail::validate( $emailSenderAddress ) )
                 $emailSender = false;
