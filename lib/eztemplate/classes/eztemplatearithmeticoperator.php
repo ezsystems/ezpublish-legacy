@@ -207,7 +207,7 @@ class eZTemplateArithmeticOperator
                 $value = 0;
                 if ( count( $values ) > 0 )
                 {
-                    $value = $values[$i];
+                    $value = $values[0];
                     for ( $i = 1; $i < count( $values ); ++$i )
                     {
                         $value -= $values[$i];
