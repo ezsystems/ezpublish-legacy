@@ -274,10 +274,12 @@ ENDADDCODE;
         $ini =& eZINI::instance();
         $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
         $code = ( "include_once( 'lib/ezfile/classes/ezdir.php' );\n" .
+                  "\$uniqid = md5( uniqid( 'ezpcache'. getmypid(), true ) );\n" .
                   "eZDir::mkdir( $filedirText, $perm, true );\n" .
-                  "\$fd = fopen( $filepathText, 'w' );\n" .
+                  "\$fd = fopen( $filedirText. '/'. \$uniqid, 'w' );\n" .
                   "fwrite( \$fd, \$cachedText );\n" .
-                  "fclose( \$fd );");
+                  "fclose( \$fd );\n".
+                  "rename( $filedirText. '/'. \$uniqid, $filepathText );\n" );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => 4 ) );
         $newNodes[] = eZTemplateNodeTool::createOutputVariableDecreaseNode( array( 'spacing' => 4 ) );
         $newNodes[] = eZTemplateNodeTool::createWriteToOutputVariableNode( 'cachedText', array( 'spacing' => 4 ) );
@@ -408,10 +410,12 @@ ENDADDCODE;
                         include_once( 'lib/ezfile/classes/ezdir.php' );
                         $ini =& eZINI::instance();
                         $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
+                        $uniqid = md5( uniqid( 'ezpcache'. getmypid(), true ) );
                         eZDir::mkdir( $phpDir, $perm, true );
-                        $fd = fopen( $phpPath, 'w' );
+                        $fd = fopen( "$phpDir/$uniqid", 'w' );
                         fwrite( $fd, $text );
                         fclose( $fd );
+                        rename( "$phpDir/$uniqid", $phpPath );
                         if ( isset( $functionParameters['subtree_expiry'] ) )
                         {
                             include_once( 'lib/ezdb/classes/ezdb.php' );

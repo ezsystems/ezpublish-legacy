@@ -66,7 +66,8 @@ Changes from 3.4.0 to 3.5.0alpha1
   to move top-level nodes.
 - Fixed writing the expiry.php file to be an atomic operation so that multiple
   content updates can not mangle the file.
-
+- Fixed concurrency issue with cached files.
+  http://ez.no/community/bug_reports/critical_at_high_traffic_sites_files_aren_t_locked_at_writing_process
 
 eZDatatype:
 - Added new interface for querying datatypes for option information. This replaces
