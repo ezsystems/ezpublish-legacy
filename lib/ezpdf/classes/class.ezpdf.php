@@ -746,6 +746,7 @@ cla
 
         $newPage=false;
         $store_y = $this->y;
+        $left = $angle = $adjust = 0;
 
         if (is_array($options) && isset($options['aright'])){
             $right=$options['aright'];

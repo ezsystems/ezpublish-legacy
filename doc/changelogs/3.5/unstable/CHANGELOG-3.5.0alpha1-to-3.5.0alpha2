@@ -77,7 +77,11 @@ Payment:
   http://ez.no/community/bug_reports/cancel_button_in_pdf_export
 - Fixed bug: index.php didn't set LastAccessesURI session variable when viewing node #2.
   (Merged from stable/3.3 rev. 8611, also in stable/3.4 rev. 8612)
+- Fixed bug: PDF Undefined variables
+  (Merged from stable/3.4 rev. 8651)
+  http://ez.no/community/bug_reports/pdf_undefined_variables
 
+	
 *Library:
 
 eZFile:
