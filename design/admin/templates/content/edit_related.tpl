@@ -14,7 +14,6 @@
 
 {section show=$related_contentobjects|count|gt( 0 )}
 
-
     {* Related images *}
     {section show=$grouped_related_contentobjects.images|count|gt( 0 )}
     <h3>{'Related images [%related_images]'|i18n( 'design/admin/content/edit',, hash( '%related_images', $grouped_related_contentobjects.images|count ) )}</h3>
@@ -29,7 +28,7 @@
                 <input type="checkbox" id="related-object-id-{$RelatedImageObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedImageObjects.item.id}" />
                 {$RelatedImageObjects.item.name|wash}
            </p>
-           <input class="linkbox" type="text" value="&lt;object id={$RelatedImageObjects.item.id} /&gt;" readonly="readonly" />
+           <input class="linkbox" type="text" value="&lt;object id={$RelatedImageObjects.item.id} /&gt;" readonly="readonly" title="{'Copy and paste this code into an XML field.'|i18n( 'design/admin/content/edit' )}" />
         </div>
         </td>
         {delimiter modulo=4}
@@ -64,7 +63,7 @@
                     <td class="name">{$RelatedFileObjects.item.class_name|class_icon( small, $RelatedFileObjects.class_name )}&nbsp;{$RelatedFileObjects.item.name|wash}</td>
                     <td class="filetype">{$RelatedFileObjects.item.data_map.file.content.mime_type|wash}</td>
                     <td class="filesize">{$RelatedFileObjects.item.data_map.file.content.filesize|si( byte )}</td>
-                    <td class="code"><input class="linkbox" type="text" value="&lt;object id={$RelatedFileObjects.item.id} /&gt;" readonly="readonly" /></td>
+                    <td class="code"><input class="linkbox" type="text" value="&lt;object id={$RelatedFileObjects.item.id} /&gt;" readonly="readonly" title="{'Copy and paste this code into an XML field.'|i18n( 'design/admin/content/edit' )}" /></td>
                 </tr>
             {/section}
 
@@ -92,7 +91,7 @@
                     <td class="checkbox"><input type="checkbox" id="related-object-id-{$RelatedObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedObjects.item.id}" /></td>
                     <td class="name">{$RelatedObjects.item.class_name|class_icon( small, $RelatedObjects.class_name )}&nbsp;{$RelatedObjects.item.name|wash}</td>
                     <td class="class">{$RelatedObjects.item.class_name|wash}</td>
-                    <td class="code"><input class="linkbox" type="text" value="&lt;object id={$RelatedObjects.item.id} /&gt;" readonly="readonly" /></td>
+                    <td class="code"><input class="linkbox" type="text" value="&lt;object id={$RelatedObjects.item.id} /&gt;" readonly="readonly" title="{'Copy and paste this code into an XML field.'i18n( 'design/admin/content/edit' )}" /></td>
                 </tr>
 
             {/section}
@@ -109,20 +108,20 @@
 
 {* DESIGN: Content END *}</div></div></div>
 
-        <div class="controlbar">
-
+<div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
+<div class="block">
 
-            <div class="block">
-                <input {section show=$related_contentobjects|not}class="button-disabled"{section-else}class="button"{/section} type="submit" name="DeleteRelationButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" title="{'Remove the selected items from the list(s) above. It is only the relations that will be removed. The items will not be deleted.'|i18n( 'design/admin/content/edit' )}" {section show=$related_contentobjects|not}disabled="disabled"{/section} />
-                <input class="button" type="Submit" name="BrowseObjectButton" value="{'Add existing'|i18n( 'design/admin/content/edit' )}" title="{'Add an existing item as a related object.'|i18n( 'design/admin/layout' )}" />
-                <input class="button" type="submit" name="UploadFileRelationButton" value="{'Upload new'|i18n( 'design/admin/content/edit' )}" title="{'Upload a file and add it as a related object.'|i18n( 'design/admin/content/edit' )}" />
-            </div>
+    {section show=$related_contentobjects}
+    <input class="button" type="submit" name="DeleteRelationButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" title="{'Remove the selected items from the list(s) above. It is only the relations that will be removed. The items will not be deleted.'|i18n( 'design/admin/content/edit' )}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="DeleteRelationButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
+    {/section}
 
+    <input class="button" type="Submit" name="BrowseObjectButton" value="{'Add existing'|i18n( 'design/admin/content/edit' )}" title="{'Add an existing item as a related object.'|i18n( 'design/admin/layout' )}" />
+    <input class="button" type="submit" name="UploadFileRelationButton" value="{'Upload new'|i18n( 'design/admin/content/edit' )}" title="{'Upload a file and add it as a related object.'|i18n( 'design/admin/content/edit' )}" />
+</div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
-
-        </div>
-
 </div>
 
-
+</div>
