@@ -1,1 +1,1 @@
- <br />{$content}
+ {$content}<br />
