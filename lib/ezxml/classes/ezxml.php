@@ -258,7 +258,7 @@ class eZXML
                         $subNode->LocalName = $justName;
                         $subNode->Type = EZ_NODE_TYPE_ELEMENT;
 
-                        $domDocument->registerElement( &$subNode );
+                        $domDocument->registerElement( $subNode );
                     }
 
 
@@ -311,7 +311,7 @@ class eZXML
                     $subNode->Content = $tagContent;
 //                    $subNode->Content = trim( $tagContent );
 
-                    $domDocument->registerElement( &$subNode );
+                    $domDocument->registerElement( $subNode );
 
                     $currentNode->appendChild( $subNode );
                 }

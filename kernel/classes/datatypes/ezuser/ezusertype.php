@@ -190,7 +190,7 @@ class eZUserType extends eZDataType
     */
     function title( &$contentObjectAttribute, $name = "login" )
     {
-        $user = $this->objectAttributeContent( &$contentObjectAttribute );
+        $user = $this->objectAttributeContent( $contentObjectAttribute );
 
         $value = $user->attribute( $name );
 

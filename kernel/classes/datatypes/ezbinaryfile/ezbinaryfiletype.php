@@ -222,7 +222,7 @@ class eZBinaryFileType extends eZDataType
         {
             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
             $version = $contentObjectAttribute->attribute( "version" );
-            $this->deleteStoredObjectAttribute( &$contentObjectAttribute, $version );
+            $this->deleteStoredObjectAttribute( $contentObjectAttribute, $version );
         }
     }
 

@@ -171,13 +171,13 @@ class eZPolicyLimitation extends eZPersistentObject
         $limitationValueArray =  array();
 
         $limitation =& $functions[ $currentFunction ][$this->attribute( 'identifier' )];
-        eZDebug::writeNotice(  $limitation, "limitation" );
+        eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitation, "limitation" );
         if( count( $limitation[ 'values' ] == 0 ) && array_key_exists( 'class', $limitation ) )
         {
             include_once( 'kernel/' . $limitation['path'] . $limitation['file']  );
             $obj = new $limitation['class']( array() );
             $limitationValueList = call_user_func_array ( array( &$obj , $limitation['function']) , $limitation['parameter'] );
-            eZDebug::writeNotice( $limitationValueList, "limitationList" );
+            eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitationValueList, "limitationList" );
             foreach( $limitationValueList as $limitationValue )
             {
                 $limitationValuePair = array();
@@ -193,7 +193,7 @@ class eZPolicyLimitation extends eZPersistentObject
         foreach ( array_keys( $valueList ) as $key )
         {
             $value = $valueList[$key];
-            eZDebug::writeNotice( $value, "value" );
+            eZDebugSetting::writeDebug( 'kernel-policy-limitation', $value, "value" );
 
             reset ( $limitationValueArray );
             foreach ( array_keys( $limitationValueArray ) as $ckey )
@@ -219,7 +219,7 @@ class eZPolicyLimitation extends eZPersistentObject
 
     function & valueList()
     {
-        eZDebug::writeDebug( "valueList call" );
+        eZDebugSetting::writeDebug( 'kernel-policy-limitation', "valueList call" );
         if ( !isset( $this->Values ) )
         {
 
@@ -245,7 +245,7 @@ class eZPolicyLimitation extends eZPersistentObject
                             $limitationValueRow = $limitationValuesForCurrentLimitation[$key];
                             $limitationValues[] =& new eZPolicyLimitationValue( $limitationValueRow );
                         }
-                        eZDebug::writeDebug( $limitationValues, "using cached  limitationValues for limitation_id=$limitationID" );
+                        eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitationValues, "using cached  limitationValues for limitation_id=$limitationID" );
                         $this->Values =& $limitationValues;
                         $loadFromDb = false;
                     }
@@ -280,7 +280,7 @@ class eZPolicyLimitation extends eZPersistentObject
                         $limitationValueArray = array();
                     }
 
-                    eZDebug::writeDebug(  $limitationValueArray, "using limitationValues from db for limitation_id=$limitationID" );
+                    eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitationValueArray, "using limitationValues from db for limitation_id=$limitationID" );
                     $limitationValueArray["$limitationID"] = $limitationValuesForCurrentLimitation;
 
                 }

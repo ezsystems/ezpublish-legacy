@@ -350,7 +350,7 @@ class eZEnumType extends eZDataType
     */
     function title( &$contentObjectAttribute, $name )
     {
-        $enum = $this->objectAttributeContent( &$contentObjectAttribute );
+        $enum = $this->objectAttributeContent( $contentObjectAttribute );
 
         $value = $enum->attribute( $name );
 

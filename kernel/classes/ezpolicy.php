@@ -173,7 +173,7 @@ class eZPolicy extends eZPersistentObject
                             $limitationRow = $limitationsForCurrentPolicy[$key];
                             $limitations[] =& new eZPolicyLimitation( $limitationRow );
                         }
-                        eZDebug::writeDebug( $limitations, "using cached  limitations for policy_id=$policyID" );
+                        eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitations, "using cached  limitations for policy_id=$policyID" );
                         $this->Limitations =& $limitations;
                         $loadFromDb = false;
                     }
@@ -210,7 +210,7 @@ class eZPolicy extends eZPersistentObject
                         $limitationArray = array();
                     }
 
-                    eZDebug::writeDebug(  $limitationArray, "using limitations from db for policy_id=$policyID" );
+                    eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitationArray, "using limitations from db for policy_id=$policyID" );
                     $limitationArray["$policyID"] = $limitationsForCurrentPolicy;
 
                 }

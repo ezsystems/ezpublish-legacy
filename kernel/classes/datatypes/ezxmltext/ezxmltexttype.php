@@ -396,7 +396,7 @@ class eZXMLTextType extends eZDataType
                     $subNode->LocalName = $justName;
                     $subNode->Type = EZ_NODE_TYPE_ELEMENT;
 
-                    $domDocument->registerElement( &$subNode );
+                    $domDocument->registerElement( $subNode );
                     $currentNode->appendChild( $subNode );
 
                     if ( $tagName[strlen($tagName) - 1]  != "/" )
@@ -421,7 +421,7 @@ class eZXMLTextType extends eZDataType
                 $tagContent = substr( $data, $endTagPos + 1, $pos - ( $endTagPos + 1 ) );
                 if (  trim( $tagContent ) != "" )
                 {
-                    $domDocument->registerElement( &$subNode );
+                    $domDocument->registerElement( $subNode );
                     unset( $subNode );
                     $subNode = new eZDOMNode();
                     $subNode->Name = "#text";
@@ -436,7 +436,7 @@ class eZXMLTextType extends eZDataType
 
                     $subNode->Content = $tagContent;
 
-                    $domDocument->registerElement( &$subNode );
+                    $domDocument->registerElement( $subNode );
 
                     $currentNode->appendChild( $subNode );
                 }
