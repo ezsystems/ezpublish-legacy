@@ -5546,7 +5546,7 @@ INSERT INTO "ezworkflow_group_link" ("workflow_id","group_id","workflow_version"
 
 
 INSERT INTO "ezsite_data" ("name","value") VALUES ('ezpublish-version','3.3.0');
-INSERT INTO "ezsite_data" ("name","value") VALUES ('ezpublish-release','1');
+INSERT INTO "ezsite_data" ("name","value") VALUES ('ezpublish-release','2');
 
 
 

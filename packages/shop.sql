@@ -1723,7 +1723,7 @@ CREATE TABLE ezsite_data (
 
 /*!40000 ALTER TABLE ezsite_data DISABLE KEYS */;
 LOCK TABLES ezsite_data WRITE;
-INSERT INTO ezsite_data VALUES ('ezpublish-version','3.3.0'),('ezpublish-release','1');
+INSERT INTO ezsite_data VALUES ('ezpublish-version','3.3.0'),('ezpublish-release','2');
 UNLOCK TABLES;
 /*!40000 ALTER TABLE ezsite_data ENABLE KEYS */;
 

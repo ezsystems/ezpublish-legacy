@@ -2046,49 +2046,6 @@ CREATE TABLE "ezview_counter" (
 
 
 
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (6,'4e056741be0b1770b826de919af0ad8e',11);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (14,'96838e2837b7ec740be66d1d1512fb9c',25);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (24,'2709afc0124fcde6e6bd1ec3e98c377b',43);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (18,'6b757a80dcd2886681c0a2dc420526f6',32);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (19,'5a46feb97b42e9033959f223e332d629',33);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (25,'d144d837cf1aa4b2cfe9d79040b43308',44);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (26,'460a923efa1a53d177ee3b7244c04e8e',45);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (27,'5385528c29f6908be71c2d3922979714',46);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (28,'528a3407f964179aa9ac7ce28f571756',47);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (29,'5230996141fe53a16fa4df1ac02cd9b9',48);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (30,'0715f5bd606d66c08243d4c67bd00113',49);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (31,'8911f1e666abd88d7e98ecc73bf660ea',50);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (32,'08f57047b34038570d0e62b8860952f9',51);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (33,'c5dd18266345142bb20c57d636c7c8f2',52);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (34,'9d0b93e442855fcb7bd821a57f8eca88',53);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (35,'9fce2c74428fd4af54542d7473f6acee',54);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (36,'3db55e6c42f0409d91be8fe575bd0821',55);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (37,'b65259d5737b8010b281531d84358478',56);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (54,'464212df929324762edc60211494fb9e',76);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (39,'1e9a94f5455d3f67f888567016d88683',58);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (40,'9d660d57da1f1f02106e5f90c4bd0ae9',59);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (41,'9c0fdb01041d138528b605e65a9da8cd',60);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (42,'e28ef2f5db0828140c44212cc15c880b',61);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (43,'868707b573014747f34171a801bba22e',62);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (44,'7548de0deed02f93ed1186bc4a4508bb',63);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (45,'e9602cfbf30dbb61c2453d7191ca0a86',64);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (47,'aeaf8a0e2a1647a9fd602f229abda50f',67);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (48,'08c8b37c737d2f25e72c34bd1515736d',68);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (49,'ad5fbbfd62fb0d669908cc510c28b6f7',69);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (51,'a9bb3c392685347c8dc4969c4eb9181d',72);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (52,'4a40866bc688bb17c40a9d820d8d7f2a',73);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (53,'1dde902a168671f48191995b2f7222f1',74);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (55,'f01cd9ad6c05527b5a586df7a6e97468',77);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (56,'b9a0d3aac222f6ebd2210d5a467c08d1',78);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (57,'e9dfb7981bccd905ef01a27f66aabee6',79);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (58,'6504c19a10041a915e9c9d7e234c8702',80);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (59,'1d8825262cbd96439e0418110ef44615',81);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (60,'310c286311d138e22ca04681dfacc2a7',82);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (61,'11c01243f747387436f65bcba8f50eec',83);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (62,'b73876a5f2527c2045a70e2e57c5c25c',84);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (63,'8ca1c897774457705c1e794a8baf6c27',85);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (64,'1c945923164151668f7b213fe2dd2bab',86);
-INSERT INTO "ezbasket" ("id","session_id","productcollection_id") VALUES (65,'7d14e1920d4dca073d914b7f8a1a59e3',87);
 
 
 
@@ -3664,34 +3621,6 @@ INSERT INTO "eznotificationevent" ("id","status","event_type_string","data_int1"
 
 
 
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (1,14,3,1068475886,0,1,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>test</first-name>\012  <last-name>test</last-name>\012  <email>wy@ez.no</email>\012  <address>efwf</address>\012</shop_account>','simple',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (2,14,5,1068479320,0,2,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>testetw</first-name>\012  <last-name>test</last-name>\012  <email>t@ez.no</email>\012  <address>sfs</address>\012</shop_account>','simple',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (3,14,7,1068479864,0,3,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>test</first-name>\012  <last-name>wer</last-name>\012  <email>wy@ez.no</email>\012  <address>werwe</address>\012</shop_account>','simple',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (4,14,8,1068543796,0,4,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>Bård</first-name>\012  <last-name>Farstad</last-name>\012  <email>bf@ez.no</email>\012  <address>mofsermosfmoasdmfosdmfgmsdofgmo</address>\012</shop_account>','simple',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (5,14,10,1068543948,0,5,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>foo</first-name>\012  <last-name>bf</last-name>\012  <email>bf@ez.no</email>\012  <address>dfgsdfgsd\015\012fgsdf\015\012</address>\012</shop_account>','simple',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (6,14,14,1068545032,0,6,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>oijh</first-name>\012  <last-name>iou</last-name>\012  <email>bf@ez.no</email>\012  <address>dsfg\015\012sdgf\015\012ds\015\012</address>\012</shop_account>','simple',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (7,14,16,1068545316,0,7,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>hj</first-name>\012  <last-name>jkh</last-name>\012  <email>bf@ez.no</email>\012  <address>lk</address>\012</shop_account>','simple',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (8,14,18,1068545671,0,8,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>jklh</first-name>\012  <last-name>jk</last-name>\012  <email>bf@ez.no</email>\012  <address>ljkhkjh</address>\012</shop_account>','simple',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (9,14,11,1068547237,1,0,'','','default',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (10,14,12,1068551308,1,0,'','','default',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (11,14,20,1068551614,0,9,'','','default',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (12,14,21,1068553286,0,10,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>nbg</first-name>\012  <last-name>hjg</last-name>\012  <email>bf@ez.no</email>\012  <address>hj</address>\012</shop_account>','simple',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (13,14,24,1068563272,0,11,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>dfg</first-name>\012  <last-name>sdg</last-name>\012  <email>bf@ez.no</email>\012  <address>dfg</address>\012</shop_account>','simple',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (14,14,27,1068633577,0,12,'','','default',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (15,14,29,1068633830,0,13,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>werwwer</first-name>\012  <last-name>wer</last-name>\012  <email>wr@ese.no</email>\012  <address>wefrwedsfsf\015\012sfs</address>\012</shop_account>','simple',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (16,14,31,1068642068,0,14,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>klj</first-name>\012  <last-name>lkj</last-name>\012  <email>bf@ez.no</email>\012  <address>jkdf\015\012dfghd\015\012f</address>\012</shop_account>','simple',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (17,14,34,1068644005,0,15,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>test</first-name>\012  <last-name>test</last-name>\012  <email>ewtwt@ez.no</email>\012  <address>sfsf</address>\012</shop_account>','simple',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (18,14,35,1068644918,1,0,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>Administrator</first-name>\012  <last-name>User</last-name>\012  <email>bf@ez.no</email>\012  <street1>sfs</street1>\012  <street2>sdf</street2>\012  <zip>sfs</zip>\012  <place>sfs</place>\012  <state></state>\012  <country>Norway</country>\012  <comment></comment>\012</shop_account>','ez',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (19,14,36,1068645768,0,16,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>Administrator</first-name>\012  <last-name>User</last-name>\012  <email>wy@ez.no</email>\012  <street1>sf</street1>\012  <street2>esf</street2>\012  <zip>sf</zip>\012  <place>sfs</place>\012  <state></state>\012  <country>Norway</country>\012  <comment>sdfsf</comment>\012</shop_account>','ez',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (20,14,38,1068646412,0,17,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>Administrator</first-name>\012  <last-name>User</last-name>\012  <email>wy@ez.no</email>\012  <street1>sf</street1>\012  <street2>esf</street2>\012  <zip>sf</zip>\012  <place>sfs</place>\012  <state></state>\012  <country>Norway</country>\012  <comment>dw</comment>\012</shop_account>','ez',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (21,14,40,1068646646,0,18,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>Administrator</first-name>\012  <last-name>User</last-name>\012  <email>wy@ez.no</email>\012  <street1>sf</street1>\012  <street2>esf</street2>\012  <zip>sf</zip>\012  <place>sfs</place>\012  <state></state>\012  <country>Norway</country>\012  <comment>fes</comment>\012</shop_account>','ez',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (22,14,41,1068647937,1,0,'','','default',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (23,14,42,1068648442,0,19,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>Administrator</first-name>\012  <last-name>User</last-name>\012  <email>wy@ez.no</email>\012  <street1>sf</street1>\012  <street2>esf</street2>\012  <zip>sf</zip>\012  <place>sfs</place>\012  <state></state>\012  <country>Norway</country>\012  <comment>re</comment>\012</shop_account>','ez',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (24,14,66,1069416842,0,20,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>Administrator</first-name>\012  <last-name>User</last-name>\012  <email>bf@ez.no</email>\012  <street1>sf</street1>\012  <street2>esf</street2>\012  <zip>sf</zip>\012  <place>sfs</place>\012  <state></state>\012  <country>Norway</country>\012  <comment>fg</comment>\012</shop_account>','ez',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (25,10,71,1069419020,0,21,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>test</first-name>\012  <last-name>test</last-name>\012  <email>etes@yahoo.com</email>\012  <street1>ssffss</street1>\012  <street2>sf</street2>\012  <zip>fsf</zip>\012  <place>sf</place>\012  <state>sfs</state>\012  <country>Norway</country>\012  <comment>sfsf</comment>\012</shop_account>','ez',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (26,14,57,1069422184,1,0,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>Administrator</first-name>\012  <last-name>User</last-name>\012  <email>bf@ez.no</email>\012  <street1>sf</street1>\012  <street2>esf</street2>\012  <zip>sf</zip>\012  <place>sfs</place>\012  <state></state>\012  <country>Norway</country>\012  <comment></comment>\012</shop_account>','ez',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (27,14,57,1069423279,1,0,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>Administrator</first-name>\012  <last-name>User</last-name>\012  <email>bf@ez.no</email>\012  <street1>sf</street1>\012  <street2>esf</street2>\012  <zip>sf</zip>\012  <place>sfs</place>\012  <state></state>\012  <country>Norway</country>\012  <comment></comment>\012</shop_account>','ez',0);
-INSERT INTO "ezorder" ("id","user_id","productcollection_id","created","is_temporary","order_nr","data_text_2","data_text_1","account_identifier","ignore_vat") VALUES (28,14,75,1069425632,0,22,'','<?xml version="1.0" encoding="UTF-8"?>\012<shop_account>\012  <first-name>Administrator</first-name>\012  <last-name>User</last-name>\012  <email>bf@ez.no</email>\012  <street1>sf</street1>\012  <street2>esf</street2>\012  <zip>sf</zip>\012  <place>sfs</place>\012  <state></state>\012  <country>Norway</country>\012  <comment></comment>\012</shop_account>','ez',0);
 
 
 
@@ -3749,177 +3678,12 @@ INSERT INTO "ezpreferences" ("id","user_id","name","value") VALUES (1,14,'advanc
 
 
 
-INSERT INTO "ezproductcollection" ("id","created") VALUES (1,1068472798);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (2,1068475844);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (3,1068475844);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (4,1068479286);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (5,1068479286);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (6,1068479841);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (7,1068479841);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (8,1068472798);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (9,1068543932);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (10,1068543932);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (11,1068544463);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (12,1068544990);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (13,1068545010);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (14,1068545010);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (15,1068545301);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (16,1068545301);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (17,1068545655);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (18,1068545655);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (19,1068545764);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (20,1068544990);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (21,1068545764);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (22,1068562405);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (23,1068563235);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (24,1068563235);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (25,1068563439);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (26,1068624693);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (27,1068562405);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (28,1068633642);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (29,1068633642);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (30,1068633842);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (31,1068624693);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (32,1068642084);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (33,1068643029);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (34,1068633842);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (35,1068644018);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (36,1068644018);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (37,1068645783);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (38,1068645783);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (39,1068646424);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (40,1068646424);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (41,1068647920);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (42,1068647920);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (43,1068648458);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (44,1068726645);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (45,1068728131);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (46,1068812018);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (47,1068824562);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (48,1068824850);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (49,1069064928);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (50,1069069476);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (51,1069069484);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (52,1069077647);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (53,1069077657);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (54,1069150170);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (55,1069161341);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (56,1069233622);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (57,1069318921);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (58,1069327822);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (59,1069330638);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (60,1069334255);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (61,1069406828);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (62,1069407034);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (63,1069407047);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (64,1069407214);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (65,1069416750);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (66,1069416750);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (67,1069416860);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (68,1069418322);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (69,1069418586);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (70,1069418957);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (71,1069418957);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (72,1069419038);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (73,1069424348);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (74,1069425097);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (75,1069318921);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (76,1069425695);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (77,1069425643);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (78,1069430399);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (79,1069674101);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (80,1069676434);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (81,1069680435);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (82,1069686070);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (83,1069747027);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (84,1069747415);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (85,1069756085);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (86,1069837475);
-INSERT INTO "ezproductcollection" ("id","created") VALUES (87,1069843173);
 
 
 
 
 
 
-
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (1,1,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (2,1,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (3,2,211,4,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (4,3,211,4,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (5,4,212,8,120,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (6,5,212,8,120,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (7,6,218,3,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (8,7,218,3,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (9,1,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (10,8,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (11,8,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (12,8,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (13,9,212,1,120,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (14,10,212,1,120,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (15,11,212,1,120,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (16,13,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (17,14,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (18,15,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (19,16,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (20,17,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (21,18,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (22,12,211,5,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (23,11,212,1,120,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (24,20,211,5,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (25,19,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (26,19,212,1,120,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (27,19,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (28,21,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (29,21,212,1,120,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (30,21,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (31,23,230,1,21347,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (32,23,229,1,1247,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (33,24,230,1,21347,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (34,24,229,1,1247,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (35,25,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (36,25,212,1,120,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (37,26,212,1,120,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (38,26,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (39,26,228,1,1249,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (40,22,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (41,27,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (42,28,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (43,29,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (44,30,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (45,30,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (46,26,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (47,31,212,1,120,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (48,31,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (49,31,228,1,1249,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (50,31,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (51,34,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (52,34,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (53,35,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (54,36,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (55,37,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (56,38,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (57,39,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (58,40,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (59,41,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (60,41,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (61,42,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (62,42,211,1,100,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (64,54,212,1,120,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (65,56,230,1,21347,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (66,56,229,1,1247,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (67,57,229,1,1247,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (68,57,230,1,21347,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (72,65,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (73,66,218,1,300,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (74,68,228,1,1249,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (75,69,230,1,21347,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (76,70,230,1,21347,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (77,71,230,1,21347,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (78,75,229,1,1247,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (79,75,230,1,21347,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (81,80,228,1,1249,1,0,0);
-INSERT INTO "ezproductcollection_item" ("id","productcollection_id","contentobject_id","item_count","price","is_vat_inc","vat_value","discount") VALUES (82,80,218,1,300,1,0,0);
 
 
 
@@ -5202,7 +4966,7 @@ INSERT INTO "ezworkflow_group_link" ("workflow_id","group_id","workflow_version"
 
 
 INSERT INTO "ezsite_data" ("name","value") VALUES ('ezpublish-version','3.3.0');
-INSERT INTO "ezsite_data" ("name","value") VALUES ('ezpublish-release','1');
+INSERT INTO "ezsite_data" ("name","value") VALUES ('ezpublish-release','2');
 
 
 

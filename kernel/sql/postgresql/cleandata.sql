@@ -590,7 +590,7 @@ INSERT INTO ezsection VALUES (3,'Media','','ezmedianavigationpart');
 
 
 INSERT INTO ezsite_data VALUES ('ezpublish-version','3.3.0');
-INSERT INTO ezsite_data VALUES ('ezpublish-release','1');
+INSERT INTO ezsite_data VALUES ('ezpublish-release','2');
 
 --
 -- Dumping data for table 'ezsubtree_notification_rule'

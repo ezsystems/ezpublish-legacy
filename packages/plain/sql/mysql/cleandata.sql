@@ -397,17 +397,6 @@ INSERT INTO ezenumvalue VALUES (3,136,0,'Good','5',3);
 
 INSERT INTO eznode_assignment VALUES (2,1,1,1,1,1,1,0,0);
 INSERT INTO eznode_assignment VALUES (4,8,2,5,1,1,1,0,0);
-INSERT INTO eznode_assignment VALUES (144,4,1,1,1,1,1,0,0);
-INSERT INTO eznode_assignment VALUES (147,210,1,5,1,1,1,0,0);
-INSERT INTO eznode_assignment VALUES (146,209,1,5,1,1,1,0,0);
-INSERT INTO eznode_assignment VALUES (148,9,1,2,1,1,1,0,0);
-INSERT INTO eznode_assignment VALUES (149,10,1,5,1,1,1,0,0);
-INSERT INTO eznode_assignment VALUES (150,11,1,5,1,1,1,0,0);
-INSERT INTO eznode_assignment VALUES (151,12,1,5,1,1,1,0,0);
-INSERT INTO eznode_assignment VALUES (152,13,1,5,1,1,1,0,0);
-INSERT INTO eznode_assignment VALUES (153,14,1,13,1,1,1,0,0);
-INSERT INTO eznode_assignment VALUES (181,40,1,12,9,1,1,0,0);
-INSERT INTO eznode_assignment VALUES (182,41,1,1,9,1,1,0,0);
 
 --
 -- Dumping data for table 'eznotificationcollection'
@@ -601,7 +590,7 @@ INSERT INTO ezsection VALUES (3,'Media','','ezmedianavigationpart');
 
 
 INSERT INTO ezsite_data VALUES ('ezpublish-version','3.3.0');
-INSERT INTO ezsite_data VALUES ('ezpublish-release','1');
+INSERT INTO ezsite_data VALUES ('ezpublish-release','2');
 
 --
 -- Dumping data for table 'ezsubtree_notification_rule'
