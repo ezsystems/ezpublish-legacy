@@ -128,8 +128,24 @@ class eZPolicyLimitationValue extends eZPersistentObject
                                                     $asObject );
     }
 
-    function removeByValue( $value )
+    function removeByValue( $value, $policyID = false )
     {
+        if ( $policyID )
+        {
+            $limitationIDList = array();
+            $limitations =& eZPolicyLimitation::fetchByPolicyID( $policyID, false );
+            foreach ( $limitations as $limitationArray )
+            {
+                $limitationIDList[] = $limitationArray['id'];
+            }
+            if  ( count( $limitationIDList ) > 0 )
+            {
+                eZPersistentObject::removeObject( eZPolicyLimitationValue::definition(),
+                                                  array( 'limitation_id' => array( $limitationIDList  ),
+                                                         "value" => $value ) );
+                return;
+            }
+        }
         eZPersistentObject::removeObject( eZPolicyLimitationValue::definition(),
                                           array( "value" => $value ) );
     }

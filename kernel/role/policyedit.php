@@ -135,7 +135,7 @@ if ( $http->hasPostVariable( "DeleteNodeButton" ) )
 
         foreach ( $deletedIDList as $deletedID )
         {
-            eZPolicyLimitationValue::removeByValue( $deletedID );
+            eZPolicyLimitationValue::removeByValue( $deletedID, $policyID );
         }
     }
 }
@@ -150,7 +150,7 @@ if ( $http->hasPostVariable( "DeleteSubtreeButton" ) )
         {
             $subtree =& eZContentObjectTreeNode::fetch( $deletedID );
             $path = $subtree->attribute( 'path_string' );
-            eZPolicyLimitationValue::removeByValue( $path );
+            eZPolicyLimitationValue::removeByValue( $path, $policyID );
         }
     }
 }
@@ -261,6 +261,7 @@ if ( $http->hasPostVariable( "UpdatePolicy" ) )
 
     $Module->redirectTo( $Module->functionURI( "edit" ) . "/" . $roleID . '/');
 }
+/*
 if ( $http->hasPostVariable( "DeleteSubtreeButton" ) )
 {
     if ( $http->hasPostVariable( "DeleteSubtreeIDArray" ) )
@@ -275,7 +276,7 @@ if ( $http->hasPostVariable( "DeleteSubtreeButton" ) )
         }
     }
 }
-
+*/
 if ( $http->hasPostVariable( "BrowseLimitationNodeButton" ) )
 {
     eZContentBrowse::browse( array( 'action_name' => 'FindLimitationNode',
