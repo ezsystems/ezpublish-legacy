@@ -65,6 +65,15 @@
 
 {/section}
 
+{* Select/deselect all links: *}
+{section show=$can_remove}
+<a href="" onclick="selectAll(); return false;" title="{'Click here to select all the items that you are allowed to remove. Use the "Remove Selected" button to carry out the actual removal.'|i18n( 'design/admin/layout' )|wash()}">[ {'Select all'|i18n( 'design/admin/layout' )} ]</a>
+<a href="" onclick="deSelectAll(); return false;" title="{'Click here to deselect the items that are selected in the list above.'|i18n( 'design/admin/layout' )}">[ {'Deselect all'|i18n( 'design/admin/layout' )} ]</a>
+{section-else}
+[ {'Select all'|i18n( 'design/admin/layout' )} ] 
+[ {'Deselect all'|i18n( 'design/admin/layout' )} ]
+{/section}
+
 {* Button bar for remove and update priorities buttons. *}
 <div class="controlbar">
 

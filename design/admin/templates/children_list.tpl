@@ -124,8 +124,5 @@ function deSelectAll()
 {/section}
 
 </table>
-
-<a href="" onclick="selectAll(); return false;">[ Select all ]</a> <a href="" onclick="deSelectAll(); return false;">[ Deselect all ]</a>
-
 </div>
 
