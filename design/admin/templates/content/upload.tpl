@@ -25,7 +25,7 @@
 <label>{'Created'|i18n( 'design/admin/content/upload' )}:</label>
 {section show=$content_object.published}
 {$content_object.published|l10n( shortdatetime )}<br />
-{$content_object.current.creator.name}
+{$content_object.current.creator.name|wash}
 {section-else}
 {'Not yet published'|i18n( 'design/admin/content/upload' )}
 {/section}
@@ -35,7 +35,7 @@
 <label>{'Modified'|i18n( 'design/admin/content/upload' )}:</label>
 {section show=$content_object.modified}
 {$content_object.modified|l10n( shortdatetime )}<br />
-{fetch( content, object, hash( object_id, $content_object.content_class.modifier_id ) ).name}
+{fetch( content, object, hash( object_id, $content_object.content_class.modifier_id ) ).name|wash}
 {section-else}
 {'Not yet published'|i18n( 'design/admin/content/upload' )}
 {/section}
@@ -76,14 +76,14 @@
 <p>
 <label>{'Created'|i18n( 'design/admin/content/upload' )}:</label>
 {$content_version.created|l10n( shortdatetime )}<br />
-{$content_version.creator.name}
+{$content_version.creator.name|wash}
 </p>
 
 {* Modified. *}
 <p>
 <label>{'Modified'|i18n( 'design/admin/content/upload' )}:</label>
 {$content_version.modified|l10n( shortdatetime )}<br />
-{$content_version.creator.name}
+{$content_version.creator.name|wash}
 </p>
 
 {* Version. *}

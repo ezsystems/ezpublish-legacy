@@ -62,7 +62,7 @@
 {section var=Drafts loop=$draft_list sequence=array( bglight, bgdark )}
 <tr class="{$Drafts.sequence}">
     <td><input type="checkbox" name="DeleteIDArray[]" value="{$Drafts.item.id}" title="{'Select draft for removal.'|i18n( 'design/admin/content/draft' )}" /></td>
-    <td>{$Drafts.item.contentobject.content_class.identifier|class_icon( small, $Drafts.item.contentobject.content_class.name )}&nbsp;<a href={concat( '/content/versionview/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/' )|ezurl}>{$Drafts.item.contentobject.name|wash}</a></td>
+    <td>{$Drafts.item.contentobject.content_class.identifier|class_icon( small, $Drafts.item.contentobject.content_class.name|wash )}&nbsp;<a href={concat( '/content/versionview/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/' )|ezurl}>{$Drafts.item.contentobject.name|wash}</a></td>
     <td>{$Drafts.item.contentobject.content_class.name|wash}</td>
     <td>{let section_object=fetch( section, object, hash( section_id, $Drafts.item.contentobject.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown'|i18n( 'design/admin/content/draft' )}</i>{/section}{/let}</td>
     <td>{$Drafts.item.modified|l10n( shortdatetime )}</td>

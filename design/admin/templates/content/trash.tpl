@@ -66,7 +66,7 @@
     <input type="checkbox" name="DeleteIDArray[]" value="{$Objects.item.id}" title="{'Use these checkboxes to mark items for removal. Click the "Remove selected" button to actually remove the selected items.'|i18n( 'design/admin/content/trash' )|wash()}" />
     </td>
     <td>
-    {$Objects.item.content_class.identifier|class_icon( small, $Objects.item.content_class.name )}&nbsp;<a href={concat( '/content/versionview/', $Objects.item.id, '/', $Objects.item.current_version, '/' )|ezurl}>{$Objects.item.name|wash}</a>
+    {$Objects.item.content_class.identifier|class_icon( small, $Objects.item.content_class.name|wash )}&nbsp;<a href={concat( '/content/versionview/', $Objects.item.id, '/', $Objects.item.current_version, '/' )|ezurl}>{$Objects.item.name|wash}</a>
     </td>
     <td>
     {$Objects.item.content_class.name|wash}

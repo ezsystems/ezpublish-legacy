@@ -22,7 +22,7 @@
 <label>{'Created'|i18n( 'design/admin/content/removeassignment' )}:</label>
 {section show=$content_object.published}
 {$content_object.published|l10n( shortdatetime )}<br />
-{$content_object.current.creator.name}
+{$content_object.current.creator.name|wash}
 {section-else}
 {'Not yet published'|i18n( 'design/admin/content/removeassignment' )}
 {/section}
@@ -32,7 +32,7 @@
 <label>{'Modified'|i18n( 'design/admin/content/removeassignment' )}:</label>
 {section show=$content_object.modified}
 {$content_object.modified|l10n( shortdatetime )}<br />
-{fetch( content, object, hash( object_id, $content_object.content_class.modifier_id ) ).name}
+{fetch( content, object, hash( object_id, $content_object.content_class.modifier_id ) ).name|wash}
 {section-else}
 {'Not yet published'|i18n( 'design/admin/content/removeassignment' )}
 {/section}
@@ -73,14 +73,14 @@
 <p>
 <label>{'Created'|i18n( 'design/admin/content/removeassignment' )}:</label>
 {$content_version.created|l10n( shortdatetime )}<br />
-{$content_version.creator.name}
+{$content_version.creator.name|wash}
 </p>
 
 {* Modified. *}
 <p>
 <label>{'Modified'|i18n( 'design/admin/content/removeassignment' )}:</label>
 {$content_version.modified|l10n( shortdatetime )}<br />
-{$content_version.creator.name}
+{$content_version.creator.name|wash}
 </p>
 
 {* Version. *}
@@ -142,7 +142,7 @@
 {section var=remove_item loop=$assignment_data.remove_list sequence=array( bglight, bgdark )}
 <tr class="{$remove_item.sequence}{section show=$remove_item.can_remove|not} object-cannot-remove{/section}">
     {* Object icon. *}
-    <td class="tight">{$remove_item.class.identifier|class_icon( small, $remove_item.class.name )}</td>
+    <td class="tight">{$remove_item.class.identifier|class_icon( small, $remove_item.class.name|wash )}</td>
 
     {* Location. *}
     <td>

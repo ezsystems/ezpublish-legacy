@@ -56,7 +56,7 @@
 
 {section var=PendingItems loop=$pending_list sequence=array(bglight,bgdark)}
 <tr class="{$PendingItems.sequence}">
-    <td>{$PendingItems.item.contentobject.content_class.identifier|class_icon( small, $PendingItems.item.contentobject.content_class.name )}&nbsp;<a href={concat( '/content/versionview/', $PendingItems.item.contentobject.id, '/', $PendingItems.item.version, '/' )|ezurl}>{$PendingItems.item.contentobject.name|wash}</a></td>
+    <td>{$PendingItems.item.contentobject.content_class.identifier|class_icon( small, $PendingItems.item.contentobject.content_class.name|wash )}&nbsp;<a href={concat( '/content/versionview/', $PendingItems.item.contentobject.id, '/', $PendingItems.item.version, '/' )|ezurl}>{$PendingItems.item.contentobject.name|wash}</a></td>
     <td>{$PendingItems.item.contentobject.content_class.name|wash}</td>
     <td>{let section_object=fetch( section, object, hash( section_id, $PendingItems.item.contentobject.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown'|i18n( 'design/admin/content/pendinglist' )}</i>{/section}{/let}</td>
     <td>{$PendingItems.item.modified|l10n( shortdatetime )}</td>

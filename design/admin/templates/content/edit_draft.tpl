@@ -22,7 +22,7 @@
 <label>{'Created'|i18n( 'design/admin/content/edit_draft' )}:</label>
 {section show=$object.published}
 {$object.published|l10n( shortdatetime )}<br />
-{$object.current.creator.name}
+{$object.current.creator.name|wash}
 {section-else}
 {'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
 {/section}
@@ -33,7 +33,7 @@
 <label>{'Modified'|i18n( 'design/admin/content/edit_draft' )}:</label>
 {section show=$object.modified}
 {$object.modified|l10n( shortdatetime )}<br />
-{fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name}
+{fetch( content, object, hash( object_id, $object.content_class.modifier_id ) ).name|wash}
 {section-else}
 {'Not yet published'|i18n( 'design/admin/content/edit_draft' )}
 {/section}
@@ -81,18 +81,18 @@
 {section show=and( $has_own_drafts, $has_other_drafts )}
     <p>{'This object is already being edited by someone else. In addition, it is already being edited by you.'|i18n( 'design/admin/content/edit_draft' )}</p>
     <p>{"You should contact the other user(s) to make sure that you are not stepping on anyone's toes."|i18n( 'design/admin/content/edit_draft' )}
-    <p>{'The most recently modified draft is version #%version, created by %creator, last changed: %modified.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $most_recent_draft.version, '%creator', $most_recent_draft.creator.name, '%modified', $most_recent_draft.modified|l10n( shortdatetime ) ) )}</p>
+    <p>{'The most recently modified draft is version #%version, created by %creator, last changed: %modified.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $most_recent_draft.version, '%creator', $most_recent_draft.creator.name, '%modified', $most_recent_draft.modified|l10n( shortdatetime ) ) )|wash}</p>
 {section-else}
 
     {section show=$has_own_drafts}
         <p>{'This object is already being edited by you.'|i18n( 'design/admin/content/edit_draft' )}</p>
-        <p>{'Your most recently modified draft is version #%version, last changed: %modified.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $most_recent_draft.version, '%creator', $most_recent_draft.creator.name, '%modified', $most_recent_draft.modified|l10n( shortdatetime ) ) )}</p>
+        <p>{'Your most recently modified draft is version #%version, last changed: %modified.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $most_recent_draft.version, '%creator', $most_recent_draft.creator.name, '%modified', $most_recent_draft.modified|l10n( shortdatetime ) ) )|wash}</p>
     {/section}
 
     {section show=$has_other_drafts}
         <p>{'This object is already being edited by someone else.'|i18n( 'design/admin/content/edit_draft' )}</p>
         <p>{"You should contact the other user(s) to make sure that you are not stepping on anyone's toes."|i18n( 'design/admin/content/edit_draft' )}
-        <p>{'The most recently modified draft is version #%version, created by %creator, last changed: %modified.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $most_recent_draft.version, '%creator', $most_recent_draft.creator.name, '%modified', $most_recent_draft.modified|l10n( shortdatetime ) ) )}</p>
+        <p>{'The most recently modified draft is version #%version, created by %creator, last changed: %modified.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $most_recent_draft.version, '%creator', $most_recent_draft.creator.name, '%modified', $most_recent_draft.modified|l10n( shortdatetime ) ) )|wash}</p>
     {/section}
 
 {/section}
