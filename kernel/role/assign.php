@@ -44,6 +44,14 @@ $roleID =& $Params['RoleID'];
 $limitIdent =& $Params['LimitIdent'];
 $limitValue =& $Params['LimitValue'];
 
+if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
+{
+    if ( $http->hasPostVariable( 'BrowseCancelURI' ) )
+    {
+        return $Module->redirectTo( $http->postVariable( 'BrowseCancelURI' ) );
+    }
+}
+
 if ( $http->hasPostVariable( 'AssignSectionID' ) &&
      $http->hasPostVariable( 'SectionID' ) )
 {

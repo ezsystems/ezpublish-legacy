@@ -43,6 +43,14 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
+if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
+{
+    if ( $http->hasPostVariable( 'BrowseCancelURI' ) )
+    {
+        return $module->redirectTo( $http->postVariable( 'BrowseCancelURI' ) );
+    }
+}
+
 if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObjectAddNodeAssignment' )  )
 {
     $hasClassInformation = false;

@@ -38,10 +38,19 @@ $ObjectID =& $Params['ObjectID'];
 
 include_once( 'kernel/classes/ezcontentobject.php' );
 
+$http =& eZHTTPTool::instance();
+
+if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
+{
+    if ( $http->hasPostVariable( 'BrowseCancelURI' ) )
+    {
+        return $Module->redirectTo( $http->postVariable( 'BrowseCancelURI' ) );
+    }
+}
+
 if ( $ObjectID === null )
 {
     // ObjectID is returned after browsing
-    $http =& eZHTTPTool::instance();
     $ObjectID =& $http->postVariable( 'ObjectID' );
 }
 
@@ -213,7 +222,6 @@ else
 if ( $Module->isCurrentAction( 'Copy' ) )
 {
     // actually do copying after a user has selected object versions to copy
-    $http =& eZHTTPTool::instance();
     $newParentNodeID =& $http->postVariable( 'SelectedNodeID' );
     return copyObject( $Module, $object, $allVersions, $newParentNodeID );
 }

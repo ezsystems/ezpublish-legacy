@@ -72,13 +72,9 @@ if ( !$contentObject->attribute( 'can_read' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 $cancelAction = trim( $browse->attribute( 'cancel_page' ) );
-if ( !$cancelAction )
+if ( $cancelAction == trim( $browse->attribute( 'from_page' ) ) )
 {
-    $cancelAction = trim( $browse->attribute( 'from_page' ) );
-    if ( !$cancelAction )
-    {
-        $cancelAction = '/content/view/full/2';
-    }
+    $cancelAction = false;
 }
 
 $res =& eZTemplateDesignResource::instance();

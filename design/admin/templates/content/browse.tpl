@@ -25,6 +25,9 @@
 {/section}
 
 <div class="context-block">
+
+<form action={$browse.from_page|ezurl} method="post">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
 {let current_node=fetch( content, node, hash( node_id, $browse.start_node ) )}
@@ -36,7 +39,6 @@
     <h1 class="context-title"><img src={'back-button-16x16.gif'|ezimage} alt="Back" /> {'folder'|class_icon( small, $current_node.object.content_class.name )}&nbsp;{'Top level'|i18n( 'design/admin/content/browse' )}&nbsp;[{$current_node.children_count}]</h1>
 {/section}
 {/let}
-
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -75,8 +77,6 @@
 <div class="break"></div>
 </div>
 </div>
-
-<form class="content-browse" action={$browse.from_page|ezurl} method="post">
 
 {* Browse listing start *}
 <table class="list" cellspacing="0">
@@ -186,24 +186,21 @@
     <input type="hidden" name="{$browse.browse_custom_action.name}" value="{$browse.browse_custom_action.value}" />
 {/section}
 
+{section show=$cancel_action}
+<input type="hidden" name="BrowseCancelURI" value="{$cancel_action}" />
+{/section}
+
 {* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 <input class="button" type="submit" name="SelectButton" value="{'OK'|i18n('design/standard/content/view')}" />
-
+<input class="button" type="submit" name="BrowseCancelButton" value="{'Cancel'|i18n( 'design/standard/content/view' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
-</form>
-
-<form class="content-browse" method="post" action={$cancel_action|ezurl}>
-    <input class="button" type="submit" name="BrowseCancelButton" value="{'Cancel'|i18n( 'design/standard/content/view' )}" />
-{section name=Persistent show=$browse.persistent_data loop=$browse.persistent_data}
-    <input type="hidden" name="{$:key|wash}" value="{$:item|wash}" />
-{/section}
 </form>
 
 {/let}

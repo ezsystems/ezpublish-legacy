@@ -43,6 +43,14 @@ $http =& eZHTTPTool::instance();
 $SectionID =& $Params["SectionID"];
 $Module =& $Params["Module"];
 
+if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
+{
+    if ( $http->hasPostVariable( 'BrowseCancelURI' ) )
+    {
+        return $Module->redirectTo( $http->postVariable( 'BrowseCancelURI' ) );
+    }
+}
+
 $section =& eZSection::fetch( $SectionID );
 
 // Redirect to content node browse
