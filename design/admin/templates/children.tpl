@@ -1,3 +1,33 @@
+{literal}
+<script language="JavaScript1.2" type="text/javascript">
+<!--
+function selectAll()
+{
+    with (document.childList)
+	{
+        for (var i=0; i < elements.length; i++)
+        {
+            if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]' && elements[i].disabled == "")
+            elements[i].checked = true;
+	    }
+    }
+}
+
+function deSelectAll()
+{
+    with (document.childList)
+	{
+        for (var i=0; i < elements.length; i++)
+	    {
+            if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]' && elements[i].disabled == "")
+            elements[i].checked = false;
+	    }
+    }
+}
+//-->
+</script>
+{/literal}
+
 {* Generic children list for admin interface. *}
 <form name="childList" method="post" action={"content/action"|ezurl}>
 {let item_type=ezpreference( 'items' )
