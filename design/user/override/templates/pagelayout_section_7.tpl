@@ -34,8 +34,6 @@
 
 <body>
 
-<!-- Top box START -->
-
 <form action={"/content/search/"|ezurl} method="get">
 
 <table class="layout" width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -93,17 +91,6 @@
     <td class="maincontent">
 
 <!-- Main area START -->
-
-{section show=$warning_list}
-  {section name=Warning loop=$warning_list}
-      <div class="error">
-      <h2>{$Warning:item.error.type} ({$Warning:item.error.number})</h2>
-      <ul>
-        <li>{$Warning:item.text}</li>
-      </ul>
-      </div>
-  {/section}
-{/section}
 
 {$module_result.content}
 
