@@ -357,6 +357,12 @@ $ViewList['new'] = array(
     'script' => 'newcontent.php',
     'params' => array() );
 
+$ViewList['hide'] = array(
+    'functions' => array( 'edit' ),
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'script' => 'hide.php',
+    'params' => array( 'NodeID' ) );
+
 $ClassID = array(
     'name'=> 'Class',
     'values'=> array(),

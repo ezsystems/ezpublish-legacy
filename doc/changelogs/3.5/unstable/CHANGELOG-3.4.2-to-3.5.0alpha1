@@ -73,6 +73,7 @@ Changes from 3.4.2 to 3.5.0alpha1
 - Removed spam prevention text from PDF version of author datatype
 - Fixed correct image sizes in PDF articles
 - Added google navigator for Search statistics.
+- Added possibility to hide particular nodes (as well as subtrees) in the content tree.
 
 Database:
 - Added index on ezcontentobject_tree( path_identification_string ),

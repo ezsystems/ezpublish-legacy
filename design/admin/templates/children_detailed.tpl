@@ -24,6 +24,9 @@
             <th class="priority">{'Priority'|i18n( 'design/standard/node/view' )}</th>
         {/section}
 
+        {* Hidden/Invisible column *}
+        <th class="hidden_invisible">{'H/X'|i18n( 'design/standard/node/view' )}</th>
+
         {* Copy column *}
         <th class="copy">&nbsp;</th>
 
@@ -72,6 +75,15 @@
             {/section}
             </td>
         {/section}
+
+        {* Hidden/Invisible *}
+        <td>
+        {section show=$Nodes.item.can_edit}
+            <a href={concat( 'content/hide/', $Nodes.item.node_id )|ezurl}>{$Nodes.item.hidden_invisible_string}</a>
+        {section-else}
+            {$Nodes.item.hidden_invisible_string}
+        {/section}
+        </td>
 
     {* Copy button *}
     <td>
