@@ -50,7 +50,7 @@ class eZWordToImageOperator
     */
     function eZWordToImageOperator()
     {
-        $this->Operators = array( "wordtoimage", "mimetype_icon", "class_icon", "classgroup_icon" );
+        $this->Operators = array( "wordtoimage", "mimetype_icon", "class_icon", "classgroup_icon", "icon" );
     }
 
     /*!
@@ -88,6 +88,7 @@ class eZWordToImageOperator
             case 'mimetype_icon':
             case 'class_icon':
             case 'classgroup_icon':
+	    case 'icon':
             {
                 $ini =& eZINI::instance( 'icon.ini' );
                 $repository = $ini->variable( 'IconSettings', 'Repository' );
@@ -179,7 +180,21 @@ class eZWordToImageOperator
                     {
                         $icon = $ini->variable( 'ClassGroupIcons', 'Default' );
                     }
-                }
+	         }	
+                else if ( $operatorName == 'icon' )
+                {
+                    $requestedIcon = strtolower( $operatorValue );
+                    $iconMap = $ini->variable( 'Icons', 'IconMap' );
+                    $icon = false;
+                    if ( isset( $iconMap[$requestedIcon] ) )
+                    {
+                        $icon = $iconMap[$requestedIcon];
+                    }
+                    if ( $icon === false )
+                    {
+                        $icon = $ini->variable( 'Icons', 'Default' );
+                    }
+                 }
 
                 $iconPath = '/' . $repository . '/' . $theme . '/' . $size . '/' . $icon;
 
