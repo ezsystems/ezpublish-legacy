@@ -133,7 +133,6 @@ class eZImageVariation extends eZPersistentObject
 
     function &requestVariation( $ezimageobj, $rwidth = 50, $rheight = 50 )
     {
-
         $contentobjectAttributeID = $ezimageobj->attribute( "contentobject_attribute_id" );
         $version = $ezimageobj->attribute( "version" );
         if( !(( $imagevariation =  eZImageVariation::fetchVariation( $contentobjectAttributeID, $version, $rwidth, $rheight ) ) === null) )
@@ -186,7 +185,19 @@ class eZImageVariation extends eZPersistentObject
                                                       "requested_height" =>  $rheight,
                                                       "width" =>  $imgsize[0],
                                                       "height" =>  $imgsize[1]  ) );
+
+        var_dump( $imageVariation );
+        $imageFullPath = $variationPath . '/' . $additionalPath . '/' . $refImageFilename[1];
         $imageVariation->store();
+
+
+        if( filesize( $imageFullPath ) == 0 || !file_exists( $imageFullPath ) )
+        {
+            eZDebug::writeError( "Could not create variation for $imageFullPath" );
+            eZImageVariation::removeVariation( $imageVariation['contentobject_attribute_id'], $imageVariation['version'] );
+            return false;
+        }
+
         return $imageVariation;
     }
 
