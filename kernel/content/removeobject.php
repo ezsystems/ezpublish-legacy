@@ -88,6 +88,7 @@ foreach ( $deleteIDArray as $deleteID )
             if ( $class->attribute( 'identifier' ) == 'user' )
             {
                 $moveToTrashAllowed = false;
+                $moveToTrash        = false;
             }
         }
 
