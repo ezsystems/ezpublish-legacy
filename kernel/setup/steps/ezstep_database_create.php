@@ -84,7 +84,7 @@ class eZStepDatabaseCreate extends eZStepInstaller
         $dbStatus = array();
         $dbDriver = $databaseInfo['info']['driver'];
         $dbServer = $databaseInfo['server'];
-        $dbName = $databaseInfo['name'];
+        $dbName = $databaseInfo['dbname'];
         $dbUser = $databaseInfo['user'];
         $dbSocket = $databaseInfo['socket'];
         if ( trim( $dbSocket ) == '' )

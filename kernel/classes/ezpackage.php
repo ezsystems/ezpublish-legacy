@@ -397,9 +397,9 @@ class eZPackage
 
     function fileStorePath( $fileItem, $collectionName, $path = false )
     {
-        print( "<pre>fileItem\n" );
-        print_r( $fileItem );
-        print( "</pre>" );
+//         print( "<pre>fileItem\n" );
+//         print_r( $fileItem );
+//         print( "</pre>" );
         $type = $fileItem['type'];
         if ( $type == 'file' )
         {
@@ -435,7 +435,7 @@ class eZPackage
                 $pathArray[] = $fileItem['name'];
             $path = eZDir::path( $pathArray );
         }
-        print( "path=$path<br/>" );
+//         print( "path=$path<br/>" );
         return $path;
     }
 

@@ -32,7 +32,7 @@
       <td>{"Sitedesign"|i18n("design/standard/setup")}</td>
     <td>
       {section name=Sites loop=$sites}
-        {$:item.identifier}<br/>
+        {$:item.name}<br/>
       {/section}
     </td>
   </tr>

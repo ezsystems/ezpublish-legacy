@@ -79,7 +79,7 @@ class eZStepCreateSites extends eZStepInstaller
         $databaseInfo['info'] = $databaseMap[$databaseInfo['type']];
 
         $dbServer = $databaseInfo['server'];
-        $dbName = $databaseInfo['name'];
+        $dbName = $databaseInfo['dbname'];
         $dbSocket = $databaseInfo['socket'];
         $dbUser = $databaseInfo['user'];
         $dbPwd = $databaseInfo['password'];
@@ -158,7 +158,7 @@ class eZStepCreateSites extends eZStepInstaller
 
             $ini->setVariable( "DatabaseSettings", "DatabaseImplementation", $databaseInfo['info']['driver'] );
             $ini->setVariable( "DatabaseSettings", "Server", $databaseInfo['server'] );
-            $ini->setVariable( "DatabaseSettings", "Database", $databaseInfo['name'] );
+            $ini->setVariable( "DatabaseSettings", "Database", $databaseInfo['dbname'] );
             if ( trim( $databaseInfo['socket'] ) != '' )
                 $ini->setVariable( "DatabaseSettings", "Socket", $databaseInfo['socket'] );
             else
@@ -276,7 +276,7 @@ WHERE
         {
             $setupINI = eZINI::create( 'setup.ini' );
             $setupINI->setVariable( "DatabaseSettings", "DefaultServer", $databaseInfo['server'] );
-            $setupINI->setVariable( "DatabaseSettings", "DefaultName", $databaseInfo['name'] );
+            $setupINI->setVariable( "DatabaseSettings", "DefaultName", $databaseInfo['dbname'] );
             $setupINI->setVariable( "DatabaseSettings", "DefaultUser", $databaseInfo['user'] );
             $setupINI->setVariable( "DatabaseSettings", "DefaultPassword", $databaseInfo['password'] );
             if ( $saveData )

@@ -74,7 +74,7 @@ class eZStepDatabaseInit extends eZStepInstaller
         if ( $this->Http->hasPostVariable( 'eZSetupDatabaseServer' ) )
             $this->PersistenceList['database_info']['server'] = $this->Http->postVariable( 'eZSetupDatabaseServer' );
         if ( $this->Http->hasPostVariable( 'eZSetupDatabaseName' ) )
-            $this->PersistenceList['database_info']['name'] = $this->Http->postVariable( 'eZSetupDatabaseName' );
+            $this->PersistenceList['database_info']['dbname'] = $this->Http->postVariable( 'eZSetupDatabaseName' );
         if ( $this->Http->hasPostVariable( 'eZSetupDatabaseUser' ) )
             $this->PersistenceList['database_info']['user'] = $this->Http->postVariable( 'eZSetupDatabaseUser' );
         if ( $this->Http->hasPostVariable( 'eZSetupDatabaseSocket' ) )
@@ -110,7 +110,7 @@ class eZStepDatabaseInit extends eZStepInstaller
         $dbStatus = array();
         $dbDriver = $databaseInfo['info']['driver'];
         $dbServer = $databaseInfo['server'];
-        $dbName = $databaseInfo['name'];
+        $dbName = $databaseInfo['dbname'];
         $dbUser = $databaseInfo['user'];
         $dbSocket = $databaseInfo['socket'];
         if ( trim( $dbSocket ) == '' )
@@ -177,9 +177,9 @@ class eZStepDatabaseInit extends eZStepInstaller
         if ( !isset( $this->PersistenceList['database_info']['server'] ) or
              !$this->PersistenceList['database_info']['server'] )
             $this->PersistenceList['database_info']['server'] = $config->variable( 'DatabaseSettings', 'DefaultServer' );
-        if ( !isset( $this->PersistenceList['database_info']['name'] ) or
-             !$this->PersistenceList['database_info']['name'] )
-            $this->PersistenceList['database_info']['name'] = $config->variable( 'DatabaseSettings', 'DefaultName' );
+        if ( !isset( $this->PersistenceList['database_info']['dbname'] ) or
+             !$this->PersistenceList['database_info']['dbname'] )
+            $this->PersistenceList['database_info']['dbname'] = $config->variable( 'DatabaseSettings', 'DefaultName' );
         if ( !isset( $this->PersistenceList['database_info']['user'] ) or
              !$this->PersistenceList['database_info']['user'] )
             $this->PersistenceList['database_info']['user'] = $config->variable( 'DatabaseSettings', 'DefaultUser' );
