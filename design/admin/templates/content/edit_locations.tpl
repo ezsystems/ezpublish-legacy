@@ -1,6 +1,6 @@
 {default exclude_remote_assignments=false()}
 {let name=Node exclude_remote_assignments=$:exclude_remote_assignments
-               sort_fields=hash( 2, 'Published'|i18n( 'design/standard/content/edit' ),
+               sort_fields=hash( 2, 'Published'|i18n( 'design/admin/content/edit' ),
                                  3, 'Modified'|i18n( 'design/admin/content/edit' ),
                                  4, 'Section'|i18n( 'design/admin/content/edit' ),
                                  5, 'Depth'|i18n( 'design/admin/content/edit' ),
@@ -35,7 +35,7 @@
 
 <table class="list" cellspacing="0" >
 <tr>
-    <th>&nbsp;</th>
+    <th class="tight">&nbsp;</th>
     <th>{'Location'|i18n( 'design/admin/content/edit' )}</th>
     <th>{'Sorting'|i18n( 'design/admin/content/edit' )}</th>
     {section show=$:has_top_levels|not}
@@ -85,12 +85,11 @@
 
     {section show=$:has_top_levels|not}
 
-    {* Current/previous status. *}
+    {* Current/previous visibility status. *}
     <td>
     {section show=$Node:item.node}
     {$Node:item.node.hidden_status_string}
     {section-else}
-	{* If the location is new ($Node:item.node is not set) then we determine current node visibility by parent node *}
 	{section show=$parent_node.is_invisible}
 	{'Hidden by parent'|i18n( 'design/admin/content/edit' )}
 	{section-else}
@@ -99,7 +98,7 @@
     {/section}
     </td>
 
-    {* Status after publishing. *}
+    {* Visibility status after publishing. *}
     <td>
     <select name="FutureNodeHiddenState_{$Node:parent_node.node_id}">
     <option value="unchanged" selected="selected">{'Unchanged'|i18n( 'design/admin/content/edit' )}</option>
@@ -111,7 +110,6 @@
     {/section}
     </select>
     </td>
-    {/section}
 
     {* Main node. *}
     <td>
@@ -122,22 +120,23 @@
     <td>
     {switch match=$Node:item.parent_node}
     {case in=$Node:existingParentNodes}
-    <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
+    <input type="image" name="{concat( 'MoveNodeID_', $Node:item.parent_node )}" src={'move.gif'|ezimage} value="{$Node:item.parent_node}" />
     {/case}
     {case}
-    {section show=$Node:item.from_node_id|gt(0)}
-    <input type="image" name="{concat('MoveNodeID_',$Node:item.parent_node)}" src={"move.gif"|ezimage} value="{$Node:item.parent_node}"  />
+    {section show=$Node:item.from_node_id|gt( 0 )}
+    <input type="image" name="{concat( 'MoveNodeID_', $Node:item.parent_node )}" src={'move.gif'|ezimage} value="{$Node:item.parent_node}" />
     {section-else}
     {/section}
     {/case}
     {/switch}
     </td>
 
+    {/section}
+
     </tr>
     {/let}
     {/section}
  </table>
-
 
 
 {* DESIGN: Content END *}</div></div></div>
@@ -147,11 +146,18 @@
 <div class="block">
 
 {section show=$:has_top_levels|not}
-    <input class="button{section show=$assigned_node_array|count|lt( 1 )}-disabled{/section}" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/standard/content/edit' )}" title="{'Remove selected locations from the list above.'|i18n( 'design/standard/content/edit' )}" {section show=$assigned_node_array|count|lt( 1 )}disabled="disabled"{/section} />
-    <input class="button" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n('design/standard/content/edit')}" />
+
+    {section show=$assigned_node_array|count|ge( 1 )}
+    <input class="button" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" title="{'Remove the selected locations.'|i18n( 'design/admin/content/edit' )}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/content/edit' )}" title="{'There are no locations that can be removed.'|i18n( 'design/admin/content/edit' )}" disabled="disabled" />
+    {/section}
+
+    <input class="button" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n( 'design/admin/content/edit' )}" />
+
 {section-else}
-    <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/standard/content/edit' )}" disabled="disabled" />
-    <input class="button-disabled" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n('design/standard/content/edit')}" disabled="disabled" />
+    <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/standard/content/edit' )}" disabled="disabled"  title="{'You can not add or remove locations because the object being edited belongs to a top node.'|i18n( 'design/admin/content/edit' )}" />
+    <input class="button-disabled" type="submit" name="BrowseNodeButton" value="{'Add locations'|i18n( 'design/standard/content/edit' )}" disabled="disabled" title="{'You can not add or remove locations because the object being edited belongs to a top node.'|i18n( 'design/admin/content/edit' )}" />
     <input type="hidden" name="MainNodeID" value="{$main_node_id}" />
 {/section}
 
@@ -161,8 +167,6 @@
 </div>
 
 </div>
-
-
 
 {/let}
 {/default}
