@@ -8,28 +8,29 @@
 
 <h1>{$node.name}</h1>
 
+{*
 {let folder_list=fetch('content','list',hash( parent_node_id, $node.node_id,
                                           sort_by ,$node.sort_array,
                                           class_filter_type, 'include',
                                           class_filter_array, array( 'folder' ) ))}
-{section show=$folder_list|eq(is_set)}
-test
+{section show=$folder_list|is_set()}
+    <div class="subfolders">
+    {section name=folders loop=$folder_list sequence=array(bglight,bgdark)}
+        <div class="{$folders:sequence}">
+            <p><a href={$:item.url_alias|ezurl}>{$:item.name|wash}</a></p>
+        </div>
+    {/section}
+    </div>
 {/section}
-
-<div class="subfolders">
-{section name=folders loop=$folder_list sequence=array(bglight,bgdark)}
-<div class="{$folders:sequence}">
-    <p><a href={$:item.url_alias|ezurl}>{$:item.name|wash}</a></p>
-</div>
-{/section}
-</div>
 
 {/let}
+*}
 
-
+{section show=$node.object.data_map.description|ne()}
 <div class="folderdescription">
 {attribute_view_gui attribute=$node.object.data_map.description}
 </div>
+{/section}
 
 <div class="children">
 {let page_limit=20

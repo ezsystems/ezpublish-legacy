@@ -49,7 +49,6 @@
                                                                limit, 10 ) )}
     {section var=product loop=$related_purchase}
        {content_view_gui view=text_linked content_object=$product.item}
-       {*{delimiter modulo=2}<div class="delimiter" /> Not legal syntax, needs change!*}
     {/section}
     {/let}
 </div>
@@ -59,7 +58,7 @@
                                              sort_by, array( published, false() ),
                                              limit, $review_limit ) )}
 
-<div id="reviews">
+<div class="reviews">
     <h2>Reviews</h2>
 
     <form method="post" action={"content/action"|ezurl}> 
@@ -77,5 +76,6 @@
 
 {/let}
 
+</div>
 </div>
 {/let}

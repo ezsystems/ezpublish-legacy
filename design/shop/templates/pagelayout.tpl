@@ -31,59 +31,61 @@
         </div>
     </div>
 
+    <div id="mainmenu">
+        <div class="design">
+
+            <h3 class="invisible">Main menu</h3>
+            <ul>
+            {let folder_list=fetch( content, list, hash( parent_node_id, 2, sort_by, array( array( priority ) ) ) )}
+            {section name=Folder loop=$folder_list}
+                <li><a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl}>{$Folder:item.name|wash}</a></li>
+            {/section}
+            {/let}
+            </ul>
+        
+        </div>
+    </div>      
+        
     <div id="subheader">
         <div class="design">
        
+        <div id="searchbox">
+            <div class="design">
+                <form action={"/content/search/"|ezurl} method="get">
+                     <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />
+                     <input class="searchbutton" name="SearchButton" type="submit" value="Search" />
+                </form>
+            </div>
+        </div>
+
         <div id="shoppingmenu">
             <div class="design">
+
+
              <ul>
                  {section show=$current_user.is_logged_in}
-        		 <li><a href={"/notification/settings"|ezurl}>notifications</a></li>
+        		 <li><a href={"/notification/settings"|ezurl}>Notifications</a></li>
                          <li><a href={concat( '/content/edit/', $current_user.contentobject_id )|ezurl}>Edit account</a></li>
         		 <li><a href={"/shop/basket/"|ezurl}>View basket</a></li>
-        		 <li><a href={"/user/logout"|ezurl}>logout</a></li>
+        		 <li><a href={"/user/logout"|ezurl}>Logout</a></li>
         		 {section-else}
-        		 <li><a href={"/user/login"|ezurl}>login</a></li>
+        		 <li><a href={"/user/register/"|ezurl}>Register new customer</a></li>
+        		 <li><a href={"/user/login"|ezurl}>Login</a></li>
                          {/section}
              </ul>
+
              </div>
         </div>
 
-        <div id="mainmenu">
-            <div class="design">
-
-                <h3 class="invisible">Main menu</h3>
-                <ul>
-                {let folder_list=fetch( content, list, hash( parent_node_id, 2, sort_by, array( array( priority ) ) ) )}
-                {section name=Folder loop=$folder_list}
-                    <li><a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl}>{$Folder:item.name|wash}</a></li>
-                {/section}
-                {/let}
-                </ul>
-            
-            </div>
-        </div>      
-        
         <div class="break"></div>
+
         </div>
     </div>
-
-    <div id="searchbox">
-        <div class="design">
-            <form action={"/content/search/"|ezurl} method="get">
-                 <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />
-                 <input class="searchbutton" name="SearchButton" type="submit" value="Search" />
-            </form>
-        <div class="break"></div>
-        </div>
-    </div>
-
-    <div class="break"></div>
 
     <div id="maincolumns">
     <div id="leftmenu">
     
-    <div id="submenu">
+    <div id="productmenu">
         <div class="design">
         <h3>Products</h3>
             {let path=$module_result.path
@@ -94,7 +96,6 @@
                  {set node_id=154}
               {/section}
 
-            <h3 class="invisible">Sub menu</h3>
             <ul>
                 {let mainMenu=treemenu($path,$node_id,array('folder','info_page'), 1, 10 )}
                     {section var=menu loop=$mainMenu}
@@ -150,7 +151,7 @@
             {let basket=fetch( shop, basket )
                  use_urlalias=ezini( 'URLTranslator', 'Translation' )|eq( 'enabled' )
                  basket_items=$basket.items}
-            <h3>Shopping cart</h3>
+            <h3>Shopping basket</h3>
             {section show=$basket_items}
             <ul>
                 {section var=product loop=$basket_items sequence=array( odd, even )}
@@ -161,9 +162,9 @@
                 {/section}
             </ul>
             <div class="price"><p>{$basket.total_inc_vat|l10n(currency)}</p></div>
-            <p><a href={"/shop/basket"|ezurl}>View full cart</a></p>
+            <p><a href={"/shop/basket"|ezurl}>View all details</a></p>
             {section-else}
-                <p>0 items</p>
+                <p>Your basket is empty</p>
             {/section}
             {/let}
 
