@@ -14,7 +14,7 @@
   <th class="normal" colspan="3">Database:</th>
 </tr>
 <tr>
-  <td class="normal">Type:</td>
+  <td class="normal">Type</td>
   <td rowspan="7" class="normal">&nbsp;&nbsp;</td>
   <td class="normal">
   {section show=$database_list|gt(1)}

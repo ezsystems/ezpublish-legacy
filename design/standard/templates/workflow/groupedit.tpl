@@ -10,7 +10,7 @@
 </div>
 
 <div class="block">
-<label>{"Name:"|i18n("design/standard/workflow")}</label><div class="labelbreak"></div>
+<label>{"Name"|i18n("design/standard/workflow")}</label><div class="labelbreak"></div>
 {include uri="design:gui/lineedit.tpl" name=Name id_name=WorkflowGroup_name value=$workflow_group.name}
 </div>
 

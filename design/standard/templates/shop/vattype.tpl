@@ -6,8 +6,8 @@
 {section show=$vattype_array}
 <table width="100%">
 <tr>
-    <th>{"Name:"|i18n("design/standard/shop")}</th>
-    <th>{"Percentage:"|i18n("design/standard/shop")}</th>
+    <th>{"Name"|i18n("design/standard/shop")}</th>
+    <th>{"Percentage"|i18n("design/standard/shop")}</th>
     <th></th>
 </tr>
 {section name="VatType" loop=$vattype_array sequence=array(bglight,bgdark)}

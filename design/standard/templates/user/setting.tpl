@@ -5,7 +5,7 @@
 </div>
 
 <div class="block">
-<label>{"Maximum login"|i18n("design/standard/user")}:</label><div class="labelbreak"></div>
+<label>{"Maximum login"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
 <input type="text" name="max_login" size="11" value="{$userSetting.max_login}" />
 </div>
 

@@ -3,14 +3,14 @@
 {section show=$rule_list}
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th>{"ID:"|i18n("design/standard/notification")}</th>
-    <th>{"Rule Type:"|i18n("design/standard/notification")}</th>
-    <th>{"Class Name:"|i18n("design/standard/notification")}</th>
-    <th>{"Path:"|i18n("design/standard/notification")}</th>
-    <th>{"Keyword:"|i18n("design/standard/notification")}</th>
-    <th>{"Additional constraint:"|i18n("design/standard/notification")}</th>
-    <th>{"Edit:"|i18n("design/standard/notification")}</th>
-    <th>{"Remove:"|i18n("design/standard/notification")}</th>
+    <th>{"ID"|i18n("design/standard/notification")}</th>
+    <th>{"Rule Type"|i18n("design/standard/notification")}</th>
+    <th>{"Class Name"|i18n("design/standard/notification")}</th>
+    <th>{"Path"|i18n("design/standard/notification")}</th>
+    <th>{"Keyword"|i18n("design/standard/notification")}</th>
+    <th>{"Additional constraint"|i18n("design/standard/notification")}</th>
+    <th>{"Edit"|i18n("design/standard/notification")}</th>
+    <th>{"Remove"|i18n("design/standard/notification")}</th>
 </tr>
 
 {section name=Rule loop=$rule_list sequence=array(bglight,bgdark)}

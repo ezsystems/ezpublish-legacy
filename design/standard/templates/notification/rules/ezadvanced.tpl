@@ -1,5 +1,5 @@
 <div class="block">
-<label>{"Content Class Name:"|i18n("design/standard/notification/rules")}</label><div class="labelbreak"></div>
+<label>{"Content Class Name"|i18n("design/standard/notification/rules")}</label><div class="labelbreak"></div>
 <select name="contentClassName">
 <option value="All">{"All"|i18n("design/standard/notification/rules")}</option>
 {section name=ClassList loop=$class_list}
@@ -10,11 +10,11 @@
 
 <div class="block">
 <div class="element">
-<label>{"Path:"|i18n("design/standard/notification/rules")}</label><div class="labelbreak"></div>
+<label>{"Path"|i18n("design/standard/notification/rules")}</label><div class="labelbreak"></div>
 <input class="box" type="text" name="path" value="{section show=$rule_list}{$rule_list.path}{/section}" size="50" />
 </div>
 <div class="element">
-<label>{"Keyword:"|i18n("design/standard/notification/rules")}</label><div class="labelbreak"></div>
+<label>{"Keyword"|i18n("design/standard/notification/rules")}</label><div class="labelbreak"></div>
 <input class="box" type="text" name="keyword" value="{section show=$rule_list}{$rule_list.keyword}{/section}" size="50" />
 </div>
 <div class="break"></div>

@@ -2,19 +2,19 @@
 
 <form action={concat($module.functions.discountgroupview.uri,"/",$discountgroup.id)|ezurl} method="post" name="DiscountGroupView">
 
-<h3>{"Group Name:"|i18n("design/standard/shop")}</h3>
+<h3>{"Group Name"|i18n("design/standard/shop")}</h3>
 {$discountgroup.name}<a href={concat("/shop/discountgroupedit/",$discountgroup.id,"/")|ezurl}>[edit]</a><br/>
-<h3>{"Defined rules:"|i18n("design/standard/shop")}</h3> 
+<h3>{"Defined rules"|i18n("design/standard/shop")}</h3> 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
-	{"Name:"|i18n("design/standard/shop")}
+	{"Name"|i18n("design/standard/shop")}
 	</th>
 	<th>
         {"Percent"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Apply to:"|i18n("design/standard/shop")}
+	{"Apply to"|i18n("design/standard/shop")}
 	</th>
 	<th>
 	</th>

@@ -5,17 +5,17 @@
 </div>
 
 <div class="block">
-<label>{"Name:"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
+<label>{"Name"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
 <input type="text" name="discountrule_name" value="{$discountrule.name}" size=40>
 </div>
 <div class="block">
-<label>{"Discount percent:"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
+<label>{"Discount percent"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
 <input type="text" name="discountrule_percent" value="{$discountrule.discount_percent}" size=4>%
 </div>
 <p>{"Choose which classes or sections applied to this sub rule, 'Any' means the rule will applied to all."|i18n("design/standard/shop")}</p>
 <div class="block">
 <div class="element">
-     <label>{"Class:"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
+     <label>{"Class"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
      <select name="Contentclasses[]" size="5" multiple >
      <option value="-1" {section show=$class_any_selected}selected="selected"{/section} >{"Any"|i18n("design/standard/shop")}</option>
      {section name=Classes loop=$product_class_list}
@@ -24,7 +24,7 @@
      </select>
 </div>
 <div class="element">
-     <label>{"Section:"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
+     <label>{"Section"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
      <select name="Sections[]" size="5" multiple >
      <option value="-1" {section show=$section_any_selected}selected="selected"{/section}>{"Any"|i18n("design/standard/shop")}</option>
      {section name=Sections loop=$section_list}

@@ -21,7 +21,7 @@
 </div>
 
 <div class="block">
-<label>{"Name:"|i18n("design/standard/workflow")}</label><div class="labelbreak"></div>
+<label>{"Name"|i18n("design/standard/workflow")}</label><div class="labelbreak"></div>
 {include uri="design:gui/lineedit.tpl" name=Name id_name=Workflow_name value=$workflow.name}
 </div>
 
@@ -50,9 +50,9 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th width="1%">{"Pos:"|i18n("design/standard/workflow")}</th>
-    <th>{"Description:"|i18n("design/standard/workflow")}</th>
-    <th>{"Type:"|i18n("design/standard/workflow")}</th>
+    <th width="1%">{"Pos"|i18n("design/standard/workflow")}</th>
+    <th>{"Description"|i18n("design/standard/workflow")}</th>
+    <th>{"Type"|i18n("design/standard/workflow")}</th>
     <th width="1%" colspan="3">&nbsp;</th>
 </tr>
 {section name=Event loop=$event_list sequence=array(bglight,bgdark)}

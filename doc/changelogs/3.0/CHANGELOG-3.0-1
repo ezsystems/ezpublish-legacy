@@ -61,6 +61,7 @@ links to clickable links.
 - If require user login is on and the siteaccess is not allowed the user login
   page is shown with a warning about access denied.
 - Added node_id to url array
+- Template cleanups to use the newly revised user interface guidelines.
 - Fixed object rendering as block tag
 
 *SDK :

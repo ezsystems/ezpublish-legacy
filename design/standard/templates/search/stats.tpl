@@ -7,13 +7,13 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
-	{"Phrase:"|i18n("design/standard/search")}
+	{"Phrase"|i18n("design/standard/search")}
 	</th>
 	<th>
-	{"Number of phrases:"|i18n("design/standard/search")}
+	{"Number of phrases"|i18n("design/standard/search")}
 	</th>
 	<th>
-	{"Average result returned:"|i18n("design/standard/search")}
+	{"Average result returned"|i18n("design/standard/search")}
 	</th>
 </tr>
 {section name=Phrase loop=$most_frequent_phrase_array sequence=array(bglight,bgdark)}

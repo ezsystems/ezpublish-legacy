@@ -6,7 +6,7 @@
 </head>
 <body>
   <form action="{$redirect_uri}" method="post" name="Redirect">
-  {"Redirecting to:"|i18n("design/standard/layout")} <b>{$redirect_uri}</b><br/>
+  {"Redirecting to %1"|i18n("design/standard/layout",,array(concat("<b>",$redirect_uri,"</b>")))} <br/>
   <input class="stdbutton" type="submit" Name="RedirectButton" value="{'Redirect'|i18n('design/standard/layout')}"/>
   </form>
 

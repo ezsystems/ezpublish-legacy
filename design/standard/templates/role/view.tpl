@@ -3,7 +3,7 @@
 </div>
 <form action={concat($module.functions.view.uri,"/",$role.id,"/")|ezurl} method="post" >
 <div class="block">
-<label>{"Name:"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
+<label>{"Name"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
 <p class="box">{$role.name} <a href={concat("/role/edit/",$role.id,"/")|ezurl}><img alt="{'Edit'|i18n('design/standard/role')}" src={"edit.png"|ezimage} /></a></p>
 </div>
 
@@ -11,9 +11,9 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th>{"Module:"|i18n("design/standard/role")}</th>
-    <th>{"Function:"|i18n("design/standard/role")}</th>
-    <th>{"Limitation:"|i18n("design/standard/role")}</th>
+    <th>{"Module"|i18n("design/standard/role")}</th>
+    <th>{"Function"|i18n("design/standard/role")}</th>
+    <th>{"Limitation"|i18n("design/standard/role")}</th>
 </tr>
 
 {section name=Policy loop=$policies sequence=array(bglight,bgdark)}
@@ -47,7 +47,7 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-	<th width="99%">{"User:"|i18n("design/standard/role")}</th>
+	<th width="99%">{"User"|i18n("design/standard/role")}</th>
 	<th width="1%">&nbsp;</th>    
 </tr>
 {section name=User loop=$user_array sequence=array(bglight,bgdark)}

@@ -8,11 +8,11 @@
 
 <div class="block">
 <div class="element">
-<label>{"Login ID:"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
+<label>{"Login ID"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
 <input class="halfbox" type="text" name="Login_id" size="20" value="" />
 </div>
 <div class="element">
-<label>{"Password:"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
+<label>{"Password"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
 <input class="halfbox" type="password" name="Password" size="20" value="" />
 </div>
 <div class="break"></div>

@@ -5,7 +5,7 @@
 </div>
 
 <div class="block">
-Do you want wrapping in the Christmas paper: <br/>
+Do you want wrapping in Christmas paper?<br/>
 No <input type="radio" name="answer" value="no" /><br/>
 Yes  <input type="radio" name="answer" value="yes" /> <br/>
 

@@ -2,7 +2,7 @@
 <h1>{"Order"|i18n("design/standard/shop")} {$order.order_nr}</h1>
 </div>
 
-<b>{"Customer:"|i18n("design/standard/shop")}</b> 
+<b>{"Customer"|i18n("design/standard/shop")}</b> 
 {shop_account_view_gui view=html order=$order}
 
 <br />
@@ -11,28 +11,28 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
-	{"Product:"|i18n("design/standard/shop")}
+	{"Product"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Count:"|i18n("design/standard/shop")}
+	{"Count"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"VAT:"|i18n("design/standard/shop")}
+	{"VAT"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Price ex. VAT:"|i18n("design/standard/shop")}
+	{"Price ex. VAT"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Price inc. VAT:"|i18n("design/standard/shop")}
+	{"Price inc. VAT"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Discount:"|i18n("design/standard/shop")}
+	{"Discount"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Total Price ex. VAT:"|i18n("design/standard/shop")}
+	{"Total Price ex. VAT"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Total Price inc. VAT:"|i18n("design/standard/shop")}
+	{"Total Price inc. VAT"|i18n("design/standard/shop")}
 	</th>
 	<th>
 	&nbsp;
@@ -100,7 +100,7 @@
 {/section}
 <tr>
     <td class="bgdark">
-    <b>{"Order total:"|i18n("design/standard/shop")}</b>
+    <b>{"Order total"|i18n("design/standard/shop")}</b>
     </td>
     <td class="bgdark">
     <b>{$order.total_ex_vat|l10n(currency)}</b>

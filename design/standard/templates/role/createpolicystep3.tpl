@@ -12,11 +12,11 @@
 <h2>{"Step 1"|i18n("design/standard/role")}</h2>
 <div class="block">
    	<div class="element">
-	<label>{"Module:"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
+	<label>{"Module"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
     <p class="box">{$current_module}</p>
     </div>
    	<div class="element">
-	<label>{"Access:"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
+	<label>{"Access"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
     <p class="box">{"Limited"|i18n("design/standard/role")}</p>
     </div>
     <div class="break"></div>
@@ -31,11 +31,11 @@
 <h2>{"Step 2"|i18n("design/standard/role")}</h2>
 <div class="block">
    	<div class="element">
-	<label>{"Function:"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
+	<label>{"Function"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
     <p class="box">{$current_function}</p>
     </div>
    	<div class="element">
-	<label>{"Access:"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
+	<label>{"Access"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
     <p class="box">{"Limited"|i18n("design/standard/role")}</p>
     </div>
     <div class="break"></div>

@@ -5,7 +5,7 @@
 </div>
 
 <div class="block">
-<label>{"Name:"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
+<label>{"Name"|i18n("design/standard/shop")}</label><div class="labelbreak"></div>
 <input type="text" name="discount_group_name" value="{$discount_group.name}" size=40>
 </div>
 

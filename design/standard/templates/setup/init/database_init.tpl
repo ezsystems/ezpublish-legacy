@@ -75,54 +75,54 @@
 <div class="highlight">
 <table border="0" cellspacing="0" cellpadding="0">
 <tr>
-  <th class="normal" colspan="3">Database:</th>
+  <th class="normal" colspan="3">Database</th>
 </tr>
 <tr>
-  <td class="normal">{"Type:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Type"|i18n("design/standard/setup/init")}</td>
   <td rowspan="{eq($database_info.info.driver,'ezmysql')|choose(8,9)}" class="normal">&nbsp;&nbsp;</td>
   <td class="normal">
   {$database_info.info.name}
   </td>
 </tr>
 <tr>
-  <td class="normal">{"Driver:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Driver"|i18n("design/standard/setup/init")}</td>
   <td class="normal">
   {$database_info.info.driver}
   </td>
 </tr>
 <tr>
-  <td class="normal">{"Unicode support:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Unicode support"|i18n("design/standard/setup/init")}</td>
   <td class="normal">
   {$database_info.info.supports_unicode|choose("no","yes")}
   </td>
 </tr>
 
 <tr>
-  <td class="normal">{"Servername:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Servername"|i18n("design/standard/setup/init")}</td>
   <td class="normal"><input type="text" name="eZSetupDatabaseServer" size="16" value="{$database_info.server}" /></td>
 </tr>
 {section show=eq($database_info.info.driver,'ezmysql')}
 <tr>
-  <td class="normal">{"Socket:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Socket"|i18n("design/standard/setup/init")}</td>
   <td class="normal"><input type="text" name="eZSetupDatabaseSocket" size="16" value="{$database_info.socket}" /></td>
 </tr>
 {/section}
 <tr>
-  <td class="normal">{"Databasename:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Databasename"|i18n("design/standard/setup/init")}</td>
   <td class="normal"><input type="text" name="eZSetupDatabaseName" size="16" value="{$database_info.name}" maxlength="60" /></td>
 </tr>
 <tr>
-  <td class="normal">{"Username:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Username"|i18n("design/standard/setup/init")}</td>
   <td class="normal"><input type="text" name="eZSetupDatabaseUser" size="16" value="{$database_info.user}" /></td>
 </tr>
 
 
 <tr>
-  <td class="normal">{"Password:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Password"|i18n("design/standard/setup/init")}</td>
   <td class="normal"><input type="password" name="eZSetupDatabasePassword" size="16" value="{$database_info.password}" /></td>
 </tr>
 <tr>
-  <td class="normal">{"Confirm password:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Confirm password"|i18n("design/standard/setup/init")}</td>
   <td class="normal"><input type="password" name="eZSetupDatabasePasswordConfirm" size="16" value="{$database_info.password}" /></td>
 </tr>
 </table>

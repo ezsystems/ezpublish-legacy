@@ -6,11 +6,11 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th>{"ID:"|i18n("design/standard/section")}</th>
-    <th>{"Name:"|i18n("design/standard/section")}</th>
-    <th width="1%">{"Edit:"|i18n("design/standard/section")}</th>
-    <th width="1%">{"Assign:"|i18n("design/standard/section")}</th>
-    <th width="1%">{"Remove:"|i18n("design/standard/section")}</th>
+    <th>{"ID"|i18n("design/standard/section")}</th>
+    <th>{"Name"|i18n("design/standard/section")}</th>
+    <th width="1%">{"Edit"|i18n("design/standard/section")}</th>
+    <th width="1%">{"Assign"|i18n("design/standard/section")}</th>
+    <th width="1%">{"Remove"|i18n("design/standard/section")}</th>
 </tr>
 {section name=Section loop=$section_array sequence=array(bglight,bgdark)}
 <tr>

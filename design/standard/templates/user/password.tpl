@@ -12,19 +12,19 @@
 
 <div class="block">
 {section show=$oldPasswordNotValid}*{/section}
-<label>{"Old Password:"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
+<label>{"Old Password"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
 <input class="halfbox" type="password" name="oldPassword" size="11" value="{$oldPassword}" />
 </div>
 
 <div class="block">
 <div class="element">
 {section show=$newPasswordNotMatch}*{/section}
-<label>{"New Password:"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
+<label>{"New Password"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
 <input class="halfbox" type="password" name="newPassword" size="11" value="{$newPassword}" />
 </div>
 <div class="element">
 {section show=$newPasswordNotMatch}*{/section}
-<label>{"Retype Password:"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
+<label>{"Retype Password"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
 <input class="halfbox" type="password" name="confirmPassword" size="11" value="{$confirmPassword}" />
 </div>
 <div class="break"></div>

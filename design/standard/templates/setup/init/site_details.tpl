@@ -11,7 +11,7 @@
 <table cellspacing="0" cellpadding="0" border="0">
 <tr>
   <td class="normal">
-   {"Title of your site:"|i18n("design/standard/setup/init")}
+   {"Title of your site"|i18n("design/standard/setup/init")}
   </td>
   <td align="right" class="normal">
     <input type="text" size="45" name="eZSetupSiteTitle" value="{$site_info.title}" />
@@ -19,7 +19,7 @@
 </tr>
 <tr>
   <td class="normal">
-   {"URL to your site:"|i18n("design/standard/setup/init")}
+   {"URL to your site"|i18n("design/standard/setup/init")}
   </td>
   <td align="right" class="normal">
     <input type="text" size="45" name="eZSetupSiteURL" value="{$site_info.url}" />

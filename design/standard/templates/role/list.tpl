@@ -8,10 +8,10 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th width="97%">{"Name:"|i18n("design/standard/role")}</th>
-    <th width="1%">{"Assign:"|i18n("design/standard/role")}</th>
-    <th width="1%">{"Edit:"|i18n("design/standard/role")}</th>
-    <th>{"Remove:"|i18n("design/standard/role")}</th>
+    <th width="97%">{"Name"|i18n("design/standard/role")}</th>
+    <th width="1%">{"Assign"|i18n("design/standard/role")}</th>
+    <th width="1%">{"Edit"|i18n("design/standard/role")}</th>
+    <th>{"Remove"|i18n("design/standard/role")}</th>
 </tr>
 
 {section name=All loop=$roles sequence=array(bglight,bgdark)}

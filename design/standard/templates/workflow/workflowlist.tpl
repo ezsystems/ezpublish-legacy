@@ -7,11 +7,11 @@
 {section show=$workflow_list}
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th>{"Name:"|i18n("design/standard/workflow")}</th>
-    <th>{"Modifier:"|i18n("design/standard/workflow")}</th>
-    <th>{"Modified:"|i18n("design/standard/workflow")}</th>
-    <th width="1%">{"Edit:"|i18n("design/standard/workflow")}</th>
-    <th width="1%">{"Remove:"|i18n("design/standard/workflow")}</th>
+    <th>{"Name"|i18n("design/standard/workflow")}</th>
+    <th>{"Modifier"|i18n("design/standard/workflow")}</th>
+    <th>{"Modified"|i18n("design/standard/workflow")}</th>
+    <th width="1%">{"Edit"|i18n("design/standard/workflow")}</th>
+    <th width="1%">{"Remove"|i18n("design/standard/workflow")}</th>
 </tr>
 
 {sequence name=WorkflowSequence loop=array(bglight,bgdark)}
@@ -33,11 +33,11 @@
 <h2>{"Temporary workflows for"|i18n("design/standard/workflow")} {$group_name}</h2>
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th>{"Name:"|i18n("design/standard/workflow")}</th>
-    <th>{"Modifier:"|i18n("design/standard/workflow")}</th>
-    <th>{"Modified:"|i18n("design/standard/workflow")}</th>
-    <th width="1%">{"Edit:"|i18n("design/standard/workflow")}</th>
-    <th width="1%">{"Remove:"|i18n("design/standard/workflow")}</th>
+    <th>{"Name"|i18n("design/standard/workflow")}</th>
+    <th>{"Modifier"|i18n("design/standard/workflow")}</th>
+    <th>{"Modified"|i18n("design/standard/workflow")}</th>
+    <th width="1%">{"Edit"|i18n("design/standard/workflow")}</th>
+    <th width="1%">{"Remove"|i18n("design/standard/workflow")}</th>
 </tr>
 
 {sequence name=TempWorkflowSequence loop=array(bglight,bgdark)}

@@ -2,7 +2,7 @@
 
 <div class="element">
  {let selectedUsers=$event.selected_users}
-    <label>{"Editor:"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>
+    <label>{"Editor"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>
      <select name="WorkflowEvent_event_ezapprove_editor_{$event.id}[]" size="5">
 
      {section name=Users loop=$event.workflow_type.users}
@@ -31,7 +31,7 @@
 
 <div class="element">
  {let selectedSections=$event.selected_sections}
-    <label>{"Sections:"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>
+    <label>{"Sections"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>
     <select name="WorkflowEvent_event_ezapprove_section_{$event.id}[]" size="5" multiple >
      <option value="-1" 
     {switch match=-1}
@@ -61,7 +61,7 @@
 <div class="element">
  {let selectedGroups=$event.selected_usergroups}
  
-     <label>{"Users without approval:"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>
+     <label>{"Users without approval"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>
      <select name="WorkflowEvent_event_ezapprove_groups_{$event.id}[]" size="5" multiple >
      <option value="-1" 
     {switch match=-1}

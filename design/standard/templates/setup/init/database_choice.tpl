@@ -20,7 +20,7 @@
 </tr>
 {section name=DB loop=$database_list}
 <tr>
-  <td class="normal">{"Type:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Type"|i18n("design/standard/setup/init")}</td>
   <td rowspan="3" class="normal">&nbsp;&nbsp;</td>
   <td class="normal">{$:item.name}</td>
   <td rowspan="3" class="normal">&nbsp;&nbsp;</td>
@@ -33,11 +33,11 @@
   </td>
 </tr>
 <tr>
-  <td class="normal">{"Driver:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Driver"|i18n("design/standard/setup/init")}</td>
   <td class="normal">{$:item.driver}</td>
 </tr>
 <tr>
-  <td class="normal">{"Unicode support:"|i18n("design/standard/setup/init")}</td>
+  <td class="normal">{"Unicode support"|i18n("design/standard/setup/init")}</td>
   <td class="normal">{$:item.supports_unicode|choose("no"|i18n("design/standard/setup/init"),"yes"|i18n("design/standard/setup/init"))}</td>
 </tr>
 {/section}

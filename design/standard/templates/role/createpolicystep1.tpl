@@ -6,7 +6,7 @@
 
 <h2>{"Step 1"|i18n("design/standard/role")}</h2>
 <div class="block">
-<label>{"Give access to module:"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
+<label>{"Give access to module"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
     <select  name="Modules" size="1">
     <option value="*">{"Every module"|i18n("design/standard/role")}</option>
     {section name=All loop=$modules }

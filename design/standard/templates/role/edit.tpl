@@ -5,18 +5,18 @@
 <form action={concat($module.functions.edit.uri,"/",$role.id,"/")|ezurl} method="post" >
 
 <div class="block">
-<label>{"Name:"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
+<label>{"Name"|i18n("design/standard/role")}</label><div class="labelbreak"></div>
 <input class="box" type="edit" name="NewName" value="{$role.name}" />
 </div>
 
-<h2>{"Current policies:"|i18n("design/standard/role")}</h2>
+<h2>{"Current policies"|i18n("design/standard/role")}</h2>
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th width="10%">{"Module:"|i18n("design/standard/role")}</th>
-    <th width="10%">{"Function:"|i18n("design/standard/role")}</th>
-    <th width="79%">{"Limitations:"|i18n("design/standard/role")}</th>
-    <th>{"Remove:"|i18n("design/standard/role")}</th>
+    <th width="10%">{"Module"|i18n("design/standard/role")}</th>
+    <th width="10%">{"Function"|i18n("design/standard/role")}</th>
+    <th width="79%">{"Limitations"|i18n("design/standard/role")}</th>
+    <th>{"Remove"|i18n("design/standard/role")}</th>
 </tr>
 {section name=Policy loop=$policies sequence=array(bglight,bgdark) }
 <tr>

@@ -7,12 +7,12 @@
 <input type="hidden" name="SectionID" value="{$section.id}" />
 
 <div class="block">
-<label>{"Name:"|i18n("design/standard/section")}</label><div class="labelbreak"></div>
+<label>{"Name"|i18n("design/standard/section")}</label><div class="labelbreak"></div>
 <input class="box" type="text" name="Name" value="{$section.name}" />
 </div>
 
 <div class="block">
-<label>{"Navigation Part:"|i18n("design/standard/section")}</label><div class="labelbreak"></div>
+<label>{"Navigation Part"|i18n("design/standard/section")}</label><div class="labelbreak"></div>
 <select name="NavigationPartIdentifier">
 <option value="ezcontentnavigationpart" {section show=eq($section.navigation_part_identifier,'ezcontentnavigationpart')}selected="selected"{/section}>{"Content"|i18n("design/standard/section")}</option>
 <option value="ezshopnavigationpart" {section show=eq($section.navigation_part_identifier,'ezshopnavigationpart')}selected="selected"{/section}>{"Shop"|i18n("design/standard/section")}</option>
@@ -24,7 +24,7 @@
 
 {*
 <div class="block">
-<label>Locale:</label><div class="labelbreak"></div>
+<label>Locale</label><div class="labelbreak"></div>
 <input class="box" type="text" name="Locale" value="{$section.locale}" />
 </div>
 *}

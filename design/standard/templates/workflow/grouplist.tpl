@@ -8,9 +8,9 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th>{"Name:"|i18n("design/standard/workflow")}</th>
-    <th>{"Edit:"|i18n("design/standard/workflow")}</th>
-    <th width="1">{"Remove:"|i18n("design/standard/workflow")}</th>
+    <th>{"Name"|i18n("design/standard/workflow")}</th>
+    <th>{"Edit"|i18n("design/standard/workflow")}</th>
+    <th width="1">{"Remove"|i18n("design/standard/workflow")}</th>
 </tr>
 
 {section name=Groups loop=$groups sequence=array(bglight,bgdark)}

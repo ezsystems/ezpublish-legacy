@@ -26,7 +26,7 @@
 <div class="element">
 
 {let possibleClasses=$event.workflow_type.contentclass_list}
-    <label>{"Class:"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>
+    <label>{"Class"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>
      <select name="WorkflowEvent_event_ezwaituntildate_class_{$event.id}[]" size="5">
      {section name=HasClasses loop=$possibleClasses}
      <option value="{$HasClasses:item.id}">{$HasClasses:item.id}-{$HasClasses:item.name}</option>

@@ -10,28 +10,28 @@
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
-	{"Product:"|i18n("design/standard/shop")}
+	{"Product"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Count:"|i18n("design/standard/shop")}
+	{"Count"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"VAT:"|i18n("design/standard/shop")}
+	{"VAT"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Price ex. VAT:"|i18n("design/standard/shop")}
+	{"Price ex. VAT"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Price inc. VAT:"|i18n("design/standard/shop")}
+	{"Price inc. VAT"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Discount:"|i18n("design/standard/shop")}
+	{"Discount"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Total Price ex. VAT:"|i18n("design/standard/shop")}
+	{"Total Price ex. VAT"|i18n("design/standard/shop")}
 	</th>
 	<th>
-	{"Total Price inc. VAT:"|i18n("design/standard/shop")}
+	{"Total Price inc. VAT"|i18n("design/standard/shop")}
 	</th>
 	<th>
 	&nbsp;

@@ -1,5 +1,5 @@
 <div class="block">
-<label>{"Content Class Name:"|i18n("design/standard/notification/rules")}</label><div class="labelbreak"></div>
+<label>{"Content Class Name"|i18n("design/standard/notification/rules")}</label><div class="labelbreak"></div>
 <select name="contentClassName">
 <option value="All">{"All"|i18n("design/standard/notification/rules")}</option>
 {section name=ClassList loop=$class_list}

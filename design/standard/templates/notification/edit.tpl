@@ -17,7 +17,7 @@
 
 <div class="block">
 <div class="element">
-<label>{"Send Method:"|i18n("design/standard/notification")}</label><div class="labelbreak"></div>
+<label>{"Send Method"|i18n("design/standard/notification")}</label><div class="labelbreak"></div>
 <select name="sendMethod">
 <option value="email" {section show=eq($userlink_list.send_method,'email')}selected{/section}>{"Email"|i18n("design/standard/notification")}</option>
 <option value="sms" {section show=eq($userlink_list.send_method,'sms')}selected{/section}>{"SMS"|i18n("design/standard/notification")}</option>
@@ -25,7 +25,7 @@
 </select>
 </div>
 <div class="element">
-<label>{"Send day:"|i18n("design/standard/notification")}</label><div class="labelbreak"></div>
+<label>{"Send day"|i18n("design/standard/notification")}</label><div class="labelbreak"></div>
 <select name="sendTime_week">
 <option value="-1" {section show=eq($userlink_list.send_weekday,-1)}selected{/section}>{"Immediately"|i18n("design/standard/notification")}</option>
 <option value="1" {section show=eq($userlink_list.send_weekday,1)}selected{/section}>{"Monday"|i18n("design/standard/notification")}</option>
@@ -38,7 +38,7 @@
 </select>
 </div>
 <div class="element">
-<label>{"Send time:"|i18n("design/standard/notification")}</label><div class="labelbreak"></div>
+<label>{"Send time"|i18n("design/standard/notification")}</label><div class="labelbreak"></div>
 <select name="sendTime_hour">
 <option value="-1" {section show=eq($userlink_list.send_time,-1)}selected{/section}>x:00</option>
 <option value="1" {section show=eq($userlink_list.send_time,1)}selected{/section}>1:00</option>
