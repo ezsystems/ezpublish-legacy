@@ -70,7 +70,7 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 <table width="100%" cellspacing="0" cellpadding="0" border="1">
 <tr>
     <td class="forumhead" width="80%">
-    Topic: {$node.name|wash}
+    <h2>Topic: {$node.name|wash}</h2>
     </td>
     <td class="forumhead" width="20%">
     Author
@@ -83,42 +83,36 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
     </p>
     </td>
     <td class="bglightforum" valign="top">
+    <h3>{$node.object.owner.name|wash}</h3>
     <p>
-    {$node.object.owner.name|wash}<br />
+    {$node.object.owner.data_map.title.content|wash}<br /><br />
+
+    {attribute_view_gui attribute=$node.object.owner.data_map.user_image image_class=small}<br />
+
+
+    Location:{$node.object.owner.data_map.location.content|wash}<br />
 
     <br />
     {$node.object.published|l10n(datetime)}
     </p>
     <p> 	
     {let owner_id=$node.object.owner.id}
-
-    {section name=Author loop=$node.object.author_array}
-    {section  show=eq($owner_id,$Author:item.contentobject_id)|not()}
-    Moderated by: {$Author:item.contentobject.name}
-    {/section}
-
-    {/section}
-
+        {section name=Author loop=$node.object.author_array}
+            {section  show=eq($owner_id,$Author:item.contentobject_id)|not()}
+                Moderated by: {$Author:item.contentobject.name}
+             {/section}
+         {/section}
     {/let}
-
     </p>
 
-   {switch match=$node.object.can_edit}
-   {case match=1}
+    {section show$node.object.can_edit}
 <form method="post" action={"content/action/"|ezurl}>
 
    <br/>
    <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
 </form>
-
-   {/case}
-   {case match=0}
-   {/case}
-   {/switch}
-
-
-
+    {/section}
     <td>
 </tr>
 {section name=Child loop=$child_list sequence=array(bgdarkforum,bglightforum)}
@@ -130,8 +124,15 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
     </p>
     </td>
     <td valign="top" class="{$Child:sequence}">
+    <h3>{$Child:item.object.owner.name|wash}</h3>
     <p>
-    {$Child:item.object.owner.name|wash}<br />
+    {$Child:item.object.owner.data_map.title.content|wash}<br /><br />
+
+    {attribute_view_gui attribute=$Child:item.object.owner.data_map.user_image image_class=small}<br />
+
+
+    Location:{$Child:item.object.owner.data_map.location.content|wash}<br />
+
 
     <br /> {$Child:item.object.published|l10n(datetime)}
     </p>

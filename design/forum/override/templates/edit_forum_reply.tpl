@@ -2,7 +2,6 @@
 <table class="layout" width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
     <td valign="top">
-    <!-- Left part start -->
     <div class="maincontentheader">
     <h1>{"Edit %1 - %2"|i18n("design/standard/content/edit",,array($class.name|wash,$object.name|wash))}</h1>
     </div>
@@ -20,7 +19,6 @@
     <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('design/standard/content/edit')}" />
     <input class="defaultbutton" type="submit" name="PublishButton" value="{'Post'|i18n('design/standard/content/edit')}" />
     </div>
-    <!-- Left part end -->
     </td>
 </tr>
 </table>

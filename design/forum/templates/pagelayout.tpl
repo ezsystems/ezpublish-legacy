@@ -20,7 +20,13 @@
 
 {section show=$current_user.is_logged_in}
     <span class="shortcut"><img src={"shortcut-bullet.gif"|ezimage} width="8" height="8" alt="" /> <a href={"/notification/settings"|ezurl}>notifications</a></span>
+
+
+<a href={concat('/content/edit/',$current_user.contentobject_id)|ezurl}>Edit account</a>
+
 {/section}
+
+
 
 <div id="mainlayout">
    <div id="header">
@@ -40,6 +46,13 @@
                </div>
            {/section}
        {/let}
+   </div>
+
+   <div id="mainsearchbox">
+       <form action={"/content/search/"|ezurl} method="get">
+          <input class="searchbox" type="text" size="8" name="SearchText" id="Search" value="" />
+          <input class="button" name="SearchButton" type="submit" value="Search forum" />
+        </form>
    </div>
 
    <div id="path">
@@ -77,29 +90,6 @@
             </div>
         {/section}
     {/let}
-   </div>
-
-   <div id="info_bar">
-   {let news_list=fetch( content, tree, hash( parent_node_id, 2,
-                                              limit, 5,
-                                              sort_by, array( published, false() ),
-                                              class_filter_type, include, 
-                                              class_filter_array, array( 2 ) ) )}
-
-       {section name=News loop=$news_list}
-           <h3><a href={concat('content/view/full/',$News:item.node_id)|ezurl}>{$News:item.name|wash}</a></h3>
-           <p>
-            ({$News:item.object.published|l10n( shortdate )})
-           </p>  
-        {/section}
-   {/let}
-
-      <div id="search_box">
-         <form action={"/content/search/"|ezurl} method="get">
-           <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />&nbsp;
-           <input class="searchbutton" name="SearchButton" type="submit" value="Search" />
-         </form>
-      </div>
    </div>
 
    <div id="main_content">
