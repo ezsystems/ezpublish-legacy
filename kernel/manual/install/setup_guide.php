@@ -28,8 +28,9 @@
 <ol>
 	<li>Make sure you have met the eZ publish requirements</li>
 	<li>Go to <a href="http://ez.no/download">http://ez.no/download</a> and download the latest release of eZ publish</li>
-	<li>Extract the downloaded eZ pulish file somewhere on Apache's DocumenRoot <pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C Apache_document_root</pre></li>
-	<li>Open a browser and point it to the server where you extracted ezpublish</li>
+	<li>Extract the downloaded eZ pulish file somewhere on Apache's DocumenRoot <pre class="example"> $ tar xvfz ezpublish-xxx.tar.gz -C Apache_document_root</pre> and rename it something nice like 'ezpublish'</li>
+	<li>Open a browser and point it to the server where you extracted ezpublish
+	If the server is called 'ExampleServer' and the eZ publish directory is called 'ezpublish' and is in Apache's DocumentRoot somwhere, the you would point your browser to something like this: http://ExampleServer/ezpublish/index.php</li>
 	<li>Follow the setup guide instructions</li>
 </ol>
 
