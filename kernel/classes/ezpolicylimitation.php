@@ -236,6 +236,8 @@ class eZPolicyLimitation extends eZPersistentObject
             foreach ( $valueList as $value )
             {
                 $node =& eZContentObjectTreeNode::fetch( $value );
+                if ( $node == null )
+                    continue;
                 $limitationValuePair = array();
                 $limitationValuePair['Name'] = $node->attribute( 'name' );;
                 $limitationValuePair['value'] = $value;
