@@ -109,6 +109,15 @@ function processList( &$module )
 <link rel="stylesheet" type="text/css" href="%path_prepend%/design/standard/stylesheets/core.css" />
 <link rel="stylesheet" type="text/css" href="%path_prepend%/design/admin/stylesheets/admin.css" />
 <link rel="stylesheet" type="text/css" href="%path_prepend%/kernel/sdk/style.css" />
+
+<link rel="home" href="%index_path_prepend%/" title="eZ publish&trade; SDK" />
+<link rel="index" href="%index_path_prepend%/" />
+<link rel="top"  href="%index_path_prepend%/" title="eZ publish&trade; SDK" />
+<link rel="search" href="%index_path_prepend%/content/advancedsearch" title="Search" />
+<link rel="shortcut icon" href="%path_prepend%/design/standard/images/favicon.ico" type="image/x-icon" />
+<link rel="help" href="%index_path_prepend%/manual" />
+<link rel="glossary" href="%index_path_prepend%/sdk" />
+
 </head>
 
 <body style="background: url(/design/standard/images/grid-background.gif);">
