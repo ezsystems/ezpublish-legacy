@@ -59,7 +59,7 @@ else
     $user =& eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
     $workflowGroup =& eZWorkflowGroup::create( $user_id );
-    $workflowGroup->setAttribute( "name", "New WorkflowGroup" );
+    $workflowGroup->setAttribute( "name", ezi18n( 'kernel/workflow/groupedit', "New WorkflowGroup" ) );
     $WorkflowGroupID = $workflowGroup->attribute( "id" );
 }
 
