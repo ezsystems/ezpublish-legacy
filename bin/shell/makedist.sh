@@ -13,7 +13,7 @@ DIST_SRC=`pwd`
 FULL_EXTRA_DIRS="settings/override var/cache var/storage"
 SDK_EXTRA_DIRS="settings/override var/carhe var/storage doc/generated/html"
 
-FILTER_FILES="settings/site.ini settings/i18n.ini settings/layout.ini settings/template.ini settings/texttoimage.ini settings/units.ini settings/siteaccess/user/site.ini.append settings/siteaccess/admin/site.ini.append settings/siteaccess/sdk/site.ini.append"
+FILTER_FILES="settings/site.ini settings/content.ini settings/setup.ini settings/i18n.ini settings/layout.ini settings/template.ini settings/texttoimage.ini settings/units.ini settings/siteaccess/user/site.ini.append settings/siteaccess/admin/site.ini.append settings/siteaccess/sdk/site.ini.append"
 FILTER_FILES2="bin/modfix.sh"
 
 . ./bin/shell/common.sh
@@ -230,6 +230,20 @@ if [ -f $DEST/bin/modfix.sh ]; then
 	chmod a+x modfix.sh)
 fi
 
+# Remove old archives
+if [ -f "$DEST_ROOT/$BASE.tar.gz" ]; then
+    rm -f "$DEST_ROOT/$BASE.tar.gz";
+fi
+
+if [ -f "$DEST_ROOT/$BASE.tar.bz2" ]; then
+    rm -f "$DEST_ROOT/$BASE.tar.bz2";
+fi
+
+if [ -f "$DEST_ROOT/$BASE.zip" ]; then
+    rm -f "$DEST_ROOT/$BASE.zip";
+fi
+
+# Create archives
 echo -n "Creating tar.gz file"
 (cd $DEST_ROOT
     tar cfz $BASE.tar.gz $BASE
