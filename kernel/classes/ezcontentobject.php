@@ -130,6 +130,7 @@ class eZContentObject extends eZPersistentObject
                                                       "can_create" => "canCreate",
                                                       "can_create_class_list" => "canCreateClassList",
                                                       "can_edit" => "canEdit",
+                                                      "can_edit" => "canTranslate",
                                                       "can_remove" => "canRemove",
                                                       "data_map" => "dataMap",
                                                       "main_parent_node_id" => "mainParentNodeID",
@@ -161,6 +162,7 @@ class eZContentObject extends eZPersistentObject
              $attr == "can_create" or
              $attr == "can_create_class_list" or
              $attr == "can_edit" or
+             $attr == "can_translate" or
              $attr == "can_remove" or
              $attr == "data_map" or
              $attr == "default_language" or
@@ -187,6 +189,8 @@ class eZContentObject extends eZPersistentObject
                 return $this->canCreateClassList();
             else if ( $attr == "can_edit" )
                 return $this->canEdit();
+            else if ( $attr == "can_translate" )
+                return $this->canTranslate();
             else if ( $attr == "can_remove" )
                 return $this->canRemove();
             else if ( $attr == "contentobject_attributes" )
@@ -1795,8 +1799,9 @@ class eZContentObject extends eZPersistentObject
         return $this->Permissions;
     }
 
-    function checkAccess( $functionName, $classID = false, $parentClassID = false )
+    function checkAccess( $functionName, $originalClassID = false, $parentClassID = false )
     {
+        $classID = $originalClassID;
         $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
         $accessResult =  $user->hasAccessTo( 'content' , $functionName );
@@ -1842,11 +1847,17 @@ class eZContentObject extends eZPersistentObject
 
                         if ( $limitation->attribute( 'identifier' ) == 'Class' )
                         {
-                            if ( $functionName == 'create' )
+                            if ( $functionName == 'create' and
+                                 !$originalClassID )
                             {
                                 $access = 'allowed';
                             }
-                            elseif ( in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  )  )
+                            else if ( $functionName == 'create' and
+                                 in_array( $classID, $limitation->attribute( 'values_as_array' ) ) )
+                            {
+                                $access = 'allowed';
+                            }
+                            else if ( in_array( $this->attribute( 'contentclass_id' ), $limitation->attribute( 'values_as_array' )  )  )
                             {
                                 $access = 'allowed';
                             }
@@ -1905,6 +1916,15 @@ class eZContentObject extends eZPersistentObject
                                     $access = 'allowed';
                                 }
                                 if ( $access == 'allowed' )
+                                    break;
+                            }
+                            if ( $access == 'allowed' )
+                            {
+                                // do nothing
+                            }
+                            else
+                            {
+                                $access = 'denied';
                                 break;
                             }
                         }
@@ -2106,6 +2126,28 @@ class eZContentObject extends eZPersistentObject
             }
         }
         $p = ( $this->Permissions["can_edit"] == 1 );
+        return $p;
+    }
+
+    function canTranslate( )
+    {
+        if ( !isset( $this->Permissions["can_translate"] ) )
+        {
+            $this->Permissions["can_translate"] = $this->checkAccess( 'translate' );
+            if ( $this->Permissions["can_translate"] != 1 )
+            {
+                 $user =& eZUser::currentUser();
+                 if ( $user->id() == $this->attribute( 'id' ) )
+                 {
+                     $access = $user->hasAccessTo( 'user', 'selfedit' );
+                     if ( $access['accessWord'] == 'yes' )
+                     {
+                         $this->Permissions["can_translate"] = 1;
+                     }
+                 }
+            }
+        }
+        $p = ( $this->Permissions["can_translate"] == 1 );
         return $p;
     }
 

@@ -84,7 +84,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
         }
         else
         {
-            return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+            return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
         }
 
     }
@@ -133,8 +133,7 @@ else if ( $http->hasPostVariable( 'PreviewPublishButton' )  )
             }
         }
         $module->setCurrentAction( 'Publish', 'edit' );
-        $module->run( 'edit', $parameters );
-        return;
+        return $module->run( 'edit', $parameters );
     }
 }
 else if ( $http->hasPostVariable( 'RemoveButton' ) )

@@ -120,16 +120,23 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             $relatedContentObject =& $class->instantiate( $userID, $sectionID );
             $relatedContentVersion =& $relatedContentObject->attribute( 'current' );
 
-            $assignmentHandler = new eZContentObjectAssignmentHandler( $relatedContentObject, $relatedContentVersion );
-            $assignmentHandler->setupAssignments( array( 'group-name' => 'RelationAssignmentSettings',
-                                                         'default-variable-name' => 'DefaultAssignment',
-                                                         'specific-variable-name' => 'ClassSpecificAssignment' ) );
+            if ( $relatedContentObject->attribute( 'can_edit' ) )
+            {
+                $assignmentHandler = new eZContentObjectAssignmentHandler( $relatedContentObject, $relatedContentVersion );
+                $assignmentHandler->setupAssignments( array( 'group-name' => 'RelationAssignmentSettings',
+                                                             'default-variable-name' => 'DefaultAssignment',
+                                                             'specific-variable-name' => 'ClassSpecificAssignment' ) );
 
-            $http->setSessionVariable( 'ParentObject', array( $object->attribute( 'id' ), $editVersion, $editLanguage ) );
-            $http->setSessionVariable( 'NewObjectID', $relatedContentObject->attribute( 'id' ) );
-            $module->redirectToView( 'edit', array( $relatedContentObject->attribute( 'id' ),
-                                                    $relatedContentObject->attribute( 'current_version' ),
-                                                    false ) );
+                $http->setSessionVariable( 'ParentObject', array( $object->attribute( 'id' ), $editVersion, $editLanguage ) );
+                $http->setSessionVariable( 'NewObjectID', $relatedContentObject->attribute( 'id' ) );
+                $module->redirectToView( 'edit', array( $relatedContentObject->attribute( 'id' ),
+                                                        $relatedContentObject->attribute( 'current_version' ),
+                                                        false ) );
+            }
+            else
+            {
+                $relatedContentObject->purge();
+            }
             return;
         }
     }

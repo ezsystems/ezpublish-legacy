@@ -49,6 +49,8 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
     $object =& eZContentObject::fetch( $objectID );
     if ( $object === null )
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    if ( !$object->attribute( 'can_edit' ) )
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     $db =& eZDB::instance();
     $db->query( "DELETE FROM ezcontentobject_link
 		         WHERE from_contentobject_id=$objectID AND from_contentobject_version=$version" );

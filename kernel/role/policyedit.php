@@ -227,7 +227,7 @@ if ( $http->hasPostVariable( "UpdatePolicy" ) )
         }
     }
 
-    if ( !$hasNodeLimitation )
+//    if ( !$hasNodeLimitation )
     {
         foreach ( array_keys( $currentFunctionLimitations ) as $key )
         {

@@ -50,6 +50,9 @@ $http =& eZHTTPTool::instance();
 
 $viewMode = $http->sessionVariable( "CurrentViewMode" );
 $deleteIDArray = $http->sessionVariable( "DeleteIDArray" );
+if ( count( $deleteIDArray ) <= 0 )
+    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
 if ( array_key_exists( 'Limitation', $Params ) )
 {
     $Limitation =& $Params['Limitation'];

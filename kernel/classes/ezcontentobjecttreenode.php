@@ -686,6 +686,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             $attibuteFilterJoinSQL = "";
             $filterCount = $sortCount;
+            $justFilterCount = 0;
 
             if ( is_array( $filterArray ) )
             {
@@ -829,11 +830,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $attibuteFilterJoinSQL .= " $filterJoinType ";
                         $attibuteFilterJoinSQL .= "$filterField $filterOperator '$filterValue' ";
                         $filterCount++;
+                        $justFilterCount++;
                     }
                 }
             }
 
-            if ( $filterCount > 0 )
+            if ( $justFilterCount > 0 )
                 $attributeFilterWhereSQL .= "\n                            ( " . $attibuteFilterJoinSQL . " ) AND ";
         }
 
