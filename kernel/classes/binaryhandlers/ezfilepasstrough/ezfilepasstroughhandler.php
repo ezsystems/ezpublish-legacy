@@ -55,17 +55,20 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $version = $contentObject->attribute( 'current_version' );
-        switch ( $type )
-        {
-            case EZ_BINARY_FILE_TYPE_FILE:
-            {
-                $fileObject =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
-            } break;
-            case EZ_BINARY_FILE_TYPE_MEDIA:
-            {
-                $fileObject =& eZMedia::fetch( $contentObjectAttributeID, $version );
-            } break;
-        }
+        $fileObject =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+        if ( $fileObject === null )
+            $fileObject =& eZMedia::fetch( $contentObjectAttributeID, $version );
+//         switch ( $type )
+//         {
+//             case EZ_BINARY_FILE_TYPE_FILE:
+//             {
+//                 $fileObject =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+//             } break;
+//             case EZ_BINARY_FILE_TYPE_MEDIA:
+//             {
+//                 $fileObject =& eZMedia::fetch( $contentObjectAttributeID, $version );
+//             } break;
+//         }
         if ( $fileObject === null )
             return EZ_BINARY_FILE_RESULT_UNAVAILABLE;
         $fileName = $this->storedFilename( $fileObject );
