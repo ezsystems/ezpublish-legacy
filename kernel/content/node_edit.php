@@ -105,24 +105,9 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
                 if ( !in_array( $nodeID, $assignedIDArray ) )
                 {
                     $version->assignToNode( $nodeID, 0, $fromNodeID );
+                    $version->removeAssignment( $fromNodeID );
                 }
             }
-            $version->removeAssignment( $fromNodeID );
-            // $version->removeAssignment( $fromNodeID );
-            /* $childrens =& eZContentObjectTreeNode::subTree( null, $fromNodeID );
-            foreach ( $childrens as $children )
-            {
-                $contentObjectID = $children->attribute('contentobject_id');
-                if ( $contentObjectID != $ObjectID )
-                {
-                    $childObject =& eZContentObject::fetch( $contentObjectID );
-                    $childVersion =& $childObject->currentVersion();
-                    foreach ( $selectedNodeIDArray as $nodeID )
-                    {
-                        $childVersion->assignToNode( $nodeID );
-                    }
-                }
-            }*/
         }
     }
 }
@@ -187,6 +172,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
         $http->setSessionVariable( 'BrowseFromPage', $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion ) ) );
         $http->setSessionVariable( 'BrowseActionName', 'AddNodeAssignment' );
         $http->setSessionVariable( 'BrowseReturnType', 'NodeID' );
+        $http->setSessionVariable( 'BrowseSelectionType', 'Multiple' );
         $mainParentID = $version->attribute( 'main_parent_node_id' );
         $node = eZContentObjectTreeNode::fetch( $mainParentID );
         $nodePath =  $node->attribute( 'path' );
@@ -216,8 +202,18 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
         {
             if ( $node != $mainNodeID )
             {
-//                eZContentObjectTreeNode::deleteNodeWhereParent( $node, $objectID );
-                $version->removeAssignment( $node );
+                $objectID = $object->attribute( 'id' );
+                $publishedNode =& eZContentObjectTreeNode::fetchNode( $objectID, $node );
+                if ( $publishedNode != null )
+                {
+                    $children =& $publishedNode->children();
+                    $childrenCount =& $publishedNode->childrenCount();
+                    if ( $childrenCount != 0 )
+                    {
+                        $module->redirectTo( "/content/deletenode/" . $node . '/' . $objectID . '/' . $editVersion   );
+                    }
+                }
+                //$version->removeAssignment( $node );
             }
         }
 
@@ -237,9 +233,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
         $http->setSessionVariable( 'BrowseReturnType', 'NodeID' );
         $http->setSessionVariable( 'BrowseSelectionType', 'Single' );
         $mainParentID = $version->attribute( 'main_parent_node_id' );
-        eZDebug::writeDebug($mainParentID,"WWWWWWWWWWWW");
         $node = eZContentObjectTreeNode::fetch( $mainParentID );
-        eZDebug::writeDebug($node,"WWWWWWWWWWWW");
         $nodePath =  $node->attribute( 'path' );
         $rootNodeForObject = $nodePath[0];
         if ( $rootNodeForObject != null )
@@ -256,14 +250,12 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 
 function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, &$tpl )
 {
-//$nodes =& eZContentObjectTreeNode::fetchList( true, $object->attribute( 'id' ) );
     $assignedNodeArray =& $version->attribute( 'parent_nodes' );
-
-    // just for debug should be removed
-//    $publishedNodeList
-//         $assignedNodeArray  =& $object->parentNodes( $editVersion  );
+    $currentVersion =& $object->currentVersion();
+    $publishedNodeArray =& $currentVersion->attribute( 'parent_nodes' );
     $mainParentNodeID = $version->attribute( 'main_parent_node_id' );
     $tpl->setVariable( 'assigned_node_array', $assignedNodeArray );
+    $tpl->setVariable( 'published_node_array', $publishedNodeArray );
     $tpl->setVariable( 'main_node_id', $mainParentNodeID );
 }
 

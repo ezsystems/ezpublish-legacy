@@ -95,14 +95,17 @@ if ( $http->hasPostVariable( "CustomActionButton" ) )
     $customAction = $matchArray[2];
 }
 /********** Custom Action Code End ***************/
-
 $storeActions = array( 'Preview',
                        'Translate',
                        'VersionEdit',
                        'Apply',
                        'Publish',
                        'Store',
-                       'CustomAction' );
+                       'CustomAction',
+                       'BrowseForObjects',
+                       'BrowseForNodes',
+                       'DeleteRelation',
+                       'DeleteNode' );
 $storingAllowed = in_array( $Module->currentAction(), $storeActions );
 
 

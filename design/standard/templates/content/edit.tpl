@@ -68,7 +68,7 @@
         <td class="{$Node:sequence}" align="right">
         <input type="radio" name="MainNodeID" {section show=eq($main_node_id,$Node:item.parent_node)}checked="checked"{/section} value="{$Node:item.parent_node}" />
         <input type="checkbox" name="DeleteParentIDArray[]" value="{$Node:item.parent_node}" />
-       </td>
+        </td>
     </tr>
     {/let}
     {/section}
@@ -173,7 +173,7 @@
     </tr>
     {section name=Object loop=$related_contentobjects sequence=array(bglight,bgdark)}
     <tr>
-        <td class="{$Object:sequence}">
+        <td class="{$Object:sequence}" align="left">
           {content_view_gui view=text_linked content_object=$Object:item}
         </td>
 	<td>
@@ -182,12 +182,12 @@
     </tr>
     {/section}
     <tr>
-        <td colspan="2">
+        <td colspan="2" align="left">
           <input class="menubutton" type="submit" name="BrowseObjectButton" value="{'Find object'|i18n('content/object')}" />
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td colspan="2" align="left">
           <input class="menubutton" type="submit" name="DeleteRelationButton" value="{'Delete object'|i18n('content/object')}" />
         </td>
     </tr>
