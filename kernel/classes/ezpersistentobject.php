@@ -221,6 +221,8 @@ class eZPersistentObject
         }
 
         $use_fields = array_diff( array_keys( $fields ), $exclude_fields );
+        $doNotEscapeFields = array();
+        $changedValueFields = array();
         foreach ( $use_fields as $field_name  )
         {
             $field_def = $fields[$field_name];
@@ -264,6 +266,19 @@ class eZPersistentObject
                 $obj->setAttribute( $field_name, substr( $value, 0, $field_def['max_length'] ) );
                 eZDebug::writeDebug( $value, "truncation of $field_name to max_length=". $field_def['max_length'] );
             }
+            $bindDataTypes = array( 'text' );
+            if ( $db->bindingType() != EZ_DB_BINDING_NO &&
+                 strlen( $value ) > 2000 &&
+                 is_array( $field_def ) &&
+                 in_array( $field_def['datatype'], $bindDataTypes  ) 
+                 )
+            {
+                $bindedValue = $db->bindVariable( $value, $field_def );
+//                $obj->setAttribute( $field_name, $value );
+                $doNotEscapeFields[] = $field_name;
+                $changedValueFields[$field_name] = $bindedValue;
+            }
+
         }
         $key_conds = array();
         foreach ( $keys as $key )
@@ -314,10 +329,17 @@ class eZPersistentObject
 
             $field_text = implode( ", ", $use_field_names );
             $use_values = array();
-            foreach ( $use_fields as $key )
+            $escapeFields = array_diff( $use_fields, $doNotEscapeFields );
+            foreach ( $escapeFields as $key )
             {
                 $value =& $obj->attribute( $key );
                 $use_values[] = "'" . $db->escapeString( $value ) . "'";
+            }
+            foreach ( $doNotEscapeFields as $key )
+            {
+                $value =& $changedValueFields[$key];
+                $use_values[] = $value;
+
             }
             $value_text = implode( ", ", $use_values );
             $sql = "INSERT INTO $table ($field_text) VALUES($value_text)";
@@ -349,7 +371,14 @@ class eZPersistentObject
             foreach ( $use_fields as $key )
             {
                 $value =& $obj->attribute( $key );
-                $field_text_entry = $use_field_names[$key] . "='" . $db->escapeString( $value ) . "'";
+                if ( in_array( $use_field_names[$key], $doNotEscapeFields ) )
+                {
+                    $field_text_entry = $use_field_names[$key] . "=" .  $changedValueFields[$key];
+                }
+                else
+                {
+                    $field_text_entry = $use_field_names[$key] . "='" . $db->escapeString( $value ) . "'";
+                }
                 $field_text_len += strlen( $field_text_entry );
                 $needNewline = false;
                 if ( $field_text_len > 60 )

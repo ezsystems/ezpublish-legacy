@@ -159,11 +159,11 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         $sql = 'SELECT DISTINCT policy.id AS policy_id, subtree_rule.user_id,
                                 user_role.limit_identifier AS identifier,
                                 user_role.limit_value AS value
-                  FROM ezuser_role AS user_role,
-                       ezsubtree_notification_rule AS subtree_rule,
-                       ezcontentobject_tree AS user_tree,
-                       ezcontentobject_tree AS user_node,
-                       ezpolicy AS policy
+                  FROM ezuser_role user_role,
+                       ezsubtree_notification_rule subtree_rule,
+                       ezcontentobject_tree user_tree,
+                       ezcontentobject_tree user_node,
+                       ezpolicy policy
                   WHERE subtree_rule.node_id IN ( ' . implode( ', ', $nodeIDList ) . ' ) AND
                         user_node.contentobject_id=subtree_rule.user_id AND
                         user_node.path_string like ' . $concatString . " AND

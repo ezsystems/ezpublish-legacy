@@ -68,6 +68,7 @@ class eZURLObjectLink extends eZPersistentObject
                                          'contentobject_attribute_version' => array( 'name' => 'ContentObjectAttributeVersion',
                                                                       'datatype' => 'integer',
                                                                       'default' => 0,
+                                                                      'short_name' => 'contentobject_attr_version',
                                                                       'required' => true ) ),
                       'keys' => array( 'url_id', 'contentobject_attribute_id', 'contentobject_attribute_version' ),
                       'sort' => array( 'url_id' => 'asc' ),

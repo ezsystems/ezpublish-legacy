@@ -130,7 +130,7 @@ class eZContentClassClassGroup extends eZPersistentObject
 
         $db =& eZDB::instance();
         $sql = "SELECT contentclass.*
-                FROM ezcontentclass  contentclass, ezcontentclass_classgroup AS class_group
+                FROM ezcontentclass  contentclass, ezcontentclass_classgroup class_group
                 WHERE contentclass.id=class_group.contentclass_id
                 $versionCond
                 AND class_group.group_id='$group_id'";

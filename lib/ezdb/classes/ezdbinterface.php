@@ -47,6 +47,10 @@
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 
+define( 'EZ_DB_BINDING_NO', 0 );
+define( 'EZ_DB_BINDING_NAME', 1 );
+define( 'EZ_DB_BINDING_ORDERED', 2 );
+
 define( 'EZ_DB_RELATION_TABLE', 0 );
 define( 'EZ_DB_RELATION_SEQUENCE', 1 );
 define( 'EZ_DB_RELATION_TRIGGER', 2 );
@@ -467,6 +471,22 @@ class eZDBInterface
     function usesBuiltinEncoding()
     {
         return $this->UseBuiltinEncoding;
+    }
+
+    /*!
+      \pure
+       Returns type of binding used in database plugin.
+    */
+    function bindingType( )
+    {
+    }
+
+    /*!
+      \pure
+       Binds variable.
+    */
+    function bindVariable( $value, $fieldDef = false )
+    {
     }
 
     /*!

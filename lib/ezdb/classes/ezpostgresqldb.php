@@ -129,6 +129,22 @@ class eZPostgreSQLDB extends eZDBInterface
     }
 
     /*!
+      \reimp
+    */
+    function bindingType( )
+    {
+        return EZ_DB_BINDING_NO;
+    }
+
+    /*!
+      \reimp
+    */
+    function bindVariable( &$value, $fieldDef = false )
+    {
+        return $value;
+    }
+
+    /*!
      \reimp
     */
     function &query( $sql )
