@@ -951,6 +951,9 @@ class eZContentObject extends eZPersistentObject
             $dataType->deleteStoredObjectAttribute( $contentobjectAttribute );
         }
 
+        include_once( 'kernel/classes/ezinformationcollection.php' );
+        eZInformationCollection::removeContentObject( $delID );
+
         $db->query( "DELETE FROM ezcontentobject_attribute
 		     WHERE contentobject_id='$delID'" );
 
