@@ -55,9 +55,11 @@
 	<th>
 	{"Creator:"|i18n("design/standard/content/version")}
 	</th>
+	{section show=$can_edit}
 	<th colspan="2">
 	{"Modified:"|i18n("design/standard/content/version")}
 	</th>
+	{/section}
 </tr>
 {section name=Version loop=$version_list sequence=array(bglight,bgdark)}
 <tr>
@@ -87,9 +89,11 @@
 	<td class="{$Version:sequence}">
 	<span class="small">{$Version:item.modified|l10n(shortdatetime)}</span>
 	</td>
+	{section show=$can_edit}
 	<td class="{$Version:sequence}">
 	<input type="radio" name="RevertToVersionID" value="{$Version:item.version}" {section show=eq($Version:item.version,$edit_version)}checked="checked"{/section} />
 	</td>
+	{/section}
 </tr>
 {/section}
 {section show=$can_remove}
@@ -108,10 +112,12 @@
          view_parameters=$view_parameters
          item_limit=$page_limit}
 
+{section show=$can_edit}
 <div class="buttonblock" align="right">
 <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/content/version')}" />
 <input class="button" type="submit" name="CopyVersionButton" value="{'Copy and edit'|i18n('design/standard/content/version')}" />
 </div>
+{/section}
 
 <input type="hidden" name="EditLanguage" value="{$edit_language}" />
 

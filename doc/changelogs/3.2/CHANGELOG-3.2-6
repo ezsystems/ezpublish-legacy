@@ -14,8 +14,10 @@ Changes from 3.2-5 to 3.2-6
   http://ez.no/community/bug_reports/error_in_confirmorder_php
 - Made sure the SubTreeArray parameter is remembered on next/previous links in advanced search.
   http://ez.no/community/bug_reports/ez_no_documentation_search_problem
-- Fixed missing {section} start in ezrangeoption.tpl
+- Fixed missing {section} start in ezrangeoption.tpl.
   http://ez.no/community/bug_reports/design_standard_content_datatype_view_plain_ezrangeoption_tpl_missing_section
+- Fixed bug in permissions for versionview.
+  http://ez.no/community/bug_reports/unable_to_use_versionview_without_create_permission
 
 *Setup:
 
