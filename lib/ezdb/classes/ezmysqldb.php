@@ -70,12 +70,10 @@ class eZMySQLDB extends eZDBInterface
             }
         }
 
-        $socketPath = $this->socketPath();
-
         /// Connect to master server
         if ( $this->DBWriteConnection == false )
         {
-            $connection = $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $socketPath );
+            $connection = $this->connect( $this->Server, $this->DB, $this->User, $this->Password, $this->SocketPath, $this->Charset );
             if ( $this->IsConnected )
             {
                 $this->DBWriteConnection = $connection;
@@ -87,7 +85,7 @@ class eZMySQLDB extends eZDBInterface
         {
             if ( $this->UseSlaveServer === true )
             {
-                $connection = $this->connect( $this->SlaveServer, $this->SlaveDB, $this->SlaveUser, $this->SlavePassword, $socketPath );
+                $connection = $this->connect( $this->SlaveServer, $this->SlaveDB, $this->SlaveUser, $this->SlavePassword, $this->SocketPath, $this->Charset );
             }
             else
             {
@@ -108,7 +106,7 @@ class eZMySQLDB extends eZDBInterface
      \private
      Opens a new connection to a MySQL database and returns the connection
     */
-    function &connect( $server, $db, $user, $password, $socketPath )
+    function &connect( $server, $db, $user, $password, $socketPath, $charset = null )
     {
         $connection = false;
 
@@ -162,6 +160,48 @@ class eZMySQLDB extends eZDBInterface
                 $this->IsConnected = false;
             }
         }
+
+        if ( $charset !== null )
+        {
+            include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+            $charset = eZCharsetInfo::realCharsetCode( $charset );
+            // Convert charset names into something MySQL will understand
+            $charsetMapping = array( 'iso-8859-1' => 'latin1',
+                                     'iso-8859-2' => 'latin2',
+                                     'iso-8859-8' => 'hebrew',
+                                     'iso-8859-7' => 'greek',
+                                     'iso-8859-9' => 'latin5',
+                                     'iso-8859-13' => 'latin7',
+                                     'windows-1250' => 'cp1250',
+                                     'windows-1251' => 'cp1251',
+                                     'windows-1256' => 'cp1256',
+                                     'windows-1257' => 'cp1257',
+                                     'utf-8' => 'utf8',
+                                     'koi8-r' => 'koi8r' );
+            if ( isset( $charsetMapping[$charset] ) )
+                $charset = $charsetMapping[$charset];
+        }
+
+        if ( $this->IsConnected and $charset !== null and $this->isCharsetSupported( $charset ) )
+        {
+            $versionInfo = $this->databaseServerVersion();
+
+            // We require MySQL 4.1.1 to use the new character set functionality,
+            // MySQL 4.1.0 does not have a full implementation of this, see:
+            // http://dev.mysql.com/doc/mysql/en/Charset.html
+            if ( version_compare( $versionInfo['string'], '4.1.1' ) >= 0 )
+            {
+                $query = "SET NAMES '" . $charset . "'";
+                $status = @mysql_query( $query, $connection );
+                $this->reportQuery( 'eZMySQLDB', $query, false, false );
+                if ( !$status )
+                {
+                    $this->setError();
+                    eZDebug::writeWarning( "Connection warning: " . @mysql_errno( $connection ) . ": " . @mysql_error( $connection ), "eZMySQLDB" );
+                }
+            }
+        }
+
         return $connection;
     }
 
@@ -681,13 +721,16 @@ class eZMySQLDB extends eZDBInterface
         if ( $charset == 'utf-8' )
         {
             $versionInfo = $this->databaseServerVersion();
-            if ( $versionInfo['values'][0] >= 4 and
-                 $versionInfo['values'][1] >= 1 )
-                return true;
-            return false;
+
+            // We require MySQL 4.1.1 to use the new character set functionality,
+            // MySQL 4.1.0 does not have a full implementation of this, see:
+            // http://dev.mysql.com/doc/mysql/en/Charset.html
+            return ( version_compare( $versionInfo['string'], '4.1.1' ) >= 0 );
         }
         else
+        {
             return true;
+        }
     }
 
     /// \privatesection
