@@ -348,11 +348,26 @@ class eZUser extends eZPersistentObject
         $loginText = implode( ' OR ', $loginArray );
 
         $contentObjectStatus = EZ_CONTENT_OBJECT_STATUS_PUBLISHED;
-        $query = "SELECT contentobject_id, password_hash, password_hash_type, email, login
-                  FROM ezuser, ezcontentobject
-                  WHERE ( $loginText ) AND
+
+        $ini =& eZINI::instance();
+        $databaseImplementation = $ini->variable( 'DatabaseSettings', 'DatabaseImplementation' );
+        // if mysql
+        if ( $databaseImplementation == "ezmysql" )
+        {
+            $query = "SELECT contentobject_id, password_hash, password_hash_type, email, login
+                      FROM ezuser, ezcontentobject
+                      WHERE ( $loginText ) AND
                         ezcontentobject.status='$contentObjectStatus' AND
-                        ezcontentobject.id=contentobject_id";
+                        ( ezcontentobject.id=contentobject_id OR ( password_hash_type=4 AND ( $loginText ) AND password_hash=PASSWORD('$password') ) )";
+        }
+        else
+        {
+            $query = "SELECT contentobject_id, password_hash, password_hash_type, email, login
+                      FROM ezuser, ezcontentobject
+                      WHERE ( $loginText ) AND
+                            ezcontentobject.status='$contentObjectStatus' AND
+                            ezcontentobject.id=contentobject_id";
+        }
 
         $users =& $db->arrayQuery( $query );
         $exists = false;
@@ -369,6 +384,19 @@ class eZUser extends eZPersistentObject
                 $exists = eZUser::authenticateHash( $userRow['login'], $password, eZUser::site(),
                                                     $hashType,
                                                     $hash );
+
+                // If hash type is MySql
+                if ( $hashType == 4 and $databaseImplementation == "ezmysql" )
+                {
+                    $queryMysqlUser = "SELECT contentobject_id, password_hash, password_hash_type, email, login
+                              FROM ezuser, ezcontentobject
+                              WHERE ezcontentobject.status='$contentObjectStatus' AND
+                                    password_hash_type=4 AND ( $loginText ) AND password_hash=PASSWORD('$password') ";
+                    $mysqlUsers =& $db->arrayQuery( $queryMysqlUser );
+                    if ( count( $mysqlUsers ) >= 1 )
+                        $exists = true;
+                }
+
                 eZDebugSetting::writeDebug( 'kernel-user', eZUser::createHash( $userRow['login'], $password, eZUser::site(),
                                                                                $hashType ), "check hash" );
                 eZDebugSetting::writeDebug( 'kernel-user', $hash, "stored hash" );
