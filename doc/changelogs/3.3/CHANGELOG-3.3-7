@@ -16,6 +16,8 @@ Changes from 3.3-6 to 3.3-7
   http://ez.no/community/bug_reports/deleting_the_meta_data_array_makes_site_unreachable_default_siteaccess_is_undefined
 - Fixed bug with viewing discount rules with removed products.
   http://ez.no/community/bug_reports/deleted_product_and_discount_list
+- Fixed missing error checking of non-existing nodes when fetching subtrees.
+  http://ez.no/community/bug_reports/3_5_fatal_error_ezcontentobjecttreenode_php
 
 *Library:
 
