@@ -294,7 +294,7 @@ div.block /* Use this style around groups of objects which are connected in some
 
 div.block div.element, div.buttonblock div.element /* Use this style if several objects are to be stacked horizontally within the same block */
 {
-    padding-right: 1em;
+    padding-right: 1em !important;
     float: left;
 }
 
