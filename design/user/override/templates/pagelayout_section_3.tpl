@@ -30,7 +30,7 @@
 
 <body>
 
-<img src={"toppmeny.gif"|ezimage} alt="" border="0" usemap="#map" /><br /><br />
+<img src={"toppmeny.gif"|ezimage} alt="" border="0" usemap="#map" /><br />
 
 <map name="map">
 <area shape="rect" coords="1,1,71,25" href={"content/view/full/26/"|ezurl}>
@@ -107,22 +107,21 @@
     
         <table class="rightmenu" width="145" border="0" cellspacing="0" cellpadding="8">
         <tr>             
-             <th valign="top" bgcolor="#663366">
+            <th>
 	        Latest update.... 
-             </th>
+            </th>
          </tr>
          {section name=News loop=$news_list max=1}
          <tr>
-         <td width="100%" valign="top">
-         {node_view_gui view=menu content_node=$News:item}
-	 <br /><br />
-         </td>
+            <td class="menuitem">
+            {node_view_gui view=menu content_node=$News:item}
+            </td>
          </tr>
          {/section} 
          {section name=News loop=$news_list offset=1}
          <tr> 
-             <td width="125" bgcolor="#FFF4EA" class="links"> 
-             <a class="small" href={concat("/content/view/full/",$News:item.node_id,"/")|ezurl}>{$News:item.name}</a>
+             <td class="menuitem"> 
+             <p class="readmore"><a href={concat("/content/view/full/",$News:item.node_id,"/")|ezurl}>{$News:item.name}</a></p>
              </td>
          </tr>
          {/section}   

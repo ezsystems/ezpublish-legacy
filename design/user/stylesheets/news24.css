@@ -31,6 +31,12 @@ h3
     font-size: 80%;
 }
 
+div.byline
+{
+    padding-top: 0px;
+    margin-top: 0px;
+}
+
 a
 {
     color: #000000;
@@ -47,6 +53,11 @@ td.date, td.path, td.maincontent
 {
     padding-left: 8px;
     padding-right: 8px;
+}
+
+td.maincontent, td.leftcolumn, td.rightcolumn
+{
+    padding-bottom: 16px;
 }
 
 td.date
@@ -70,6 +81,11 @@ td.leftcolumn
 td.rightcolumn
 {
     background-color: #fff4ea;
+}
+
+table.rightmenu td.menuitem 
+{
+    font-size: 100%;
 }
 
 table.leftmenu td.menuitem
@@ -98,9 +114,20 @@ input.searchbutton
     margin: 4px;
 }
 
+p.readmore
+{
+    font-size: 65%;
+    font-weight: normal;
+}
+
+table.rightmenu td.menuitem p.readmore
+{
+    font-size: 80%;
+}
+
 p.readmore a
 {
-    font-weight: bold;
+    text-decoration: underline;
 }
 
 div.listitem
