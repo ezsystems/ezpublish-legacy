@@ -384,8 +384,11 @@ class eZSearch
 
         }
 
-        $searchArray['and'] =& $andSearchParts;
-        $searchArray['general'] =& $generalFilter;
+        if ( $andSearchParts != null )
+            $searchArray['and'] =& $andSearchParts;
+        if ( $generalFilter != null )
+            $searchArray['general'] =& $generalFilter;
+
         eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $searchArray, 'search array' );
         return $searchArray;
     }

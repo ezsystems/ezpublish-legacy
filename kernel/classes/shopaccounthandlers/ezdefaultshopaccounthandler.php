@@ -74,7 +74,7 @@ class eZDefaultShopAccountHandler
     {
         eZHTTPTool::setSessionVariable( 'RedirectAfterUserRegister', '/shop/basket/' );
         eZHTTPTool::setSessionVariable( 'DoCheckoutAutomatically', true );
-        $module->redirectTo( '/user/register/' );
+        $module->redirectTo( '/user/login/' );
     }
 }
 
