@@ -2824,6 +2824,29 @@ class eZContentObjectTreeNode extends eZPersistentObject
         eZURLAlias::cleanupForwardingURLs( $newPathString );
         eZURLAlias::cleanupWildcards( $newPathString );
 
+        $oldPathString = $this->attribute( 'path_identification_string' );
+
+        // Only update if the name has changed
+        if ( strcmp( $oldPathString, $newPathString ) != 0 )
+        {
+            $oldUrlAlias = false;
+            // Check if there exists an URL alias for this name already
+            if ( $oldPathString != "" )
+            {
+                $oldUrlAlias = eZURLAlias::fetchBySourceURL( $oldPathString );
+                var_dump( $oldUrlAlias );
+            }
+
+            // Update old url alias and old forwarding urls
+            if ( get_class( $oldUrlAlias ) == 'ezurlalias' )
+            {
+                $oldUrlAlias->setAttribute( 'forward_to_id', $alias->attribute( 'id' ) );
+                $oldUrlAlias->setAttribute( 'destination_url', 'content/view/full/' . $this->NodeID );
+                $oldUrlAlias->store();
+                eZURLAlias::updateForwardID( $alias->attribute( 'id' ), $oldUrlAlias->attribute( 'id' ) );
+            }
+        }
+
         if ( $this->attribute( 'path_identification_string' ) != $newPathString )
             $hasChanged++;
         $this->setAttribute( 'path_identification_string', $newPathString );
