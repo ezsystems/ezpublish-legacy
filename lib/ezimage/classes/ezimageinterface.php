@@ -62,11 +62,20 @@ class eZImageInterface
         $this->IsProcessed = false;
     }
 
+    /*!
+     \return true if the image is true color. True color images behave differently from palette based
+     and GD has problems with mixing the two types.
+    */
     function isTruecolor()
     {
         return $this->IsTrueColor;
     }
 
+    /*!
+     \private
+     \return a map array which maps from an attribute name to a member variable.
+     Used by attributes, hasAttribute and attribute.
+    */
     function attributeMemberMap()
     {
         return array( 'filepath' => 'StoredPath',
@@ -76,18 +85,29 @@ class eZImageInterface
                       'alternative_text' => 'AlternativeText' );
     }
 
+    /*!
+     \private
+     \return a map array which maps from an attribute name to a member function.
+     Used by attributes, hasAttribute and attribute.
+    */
     function attributeFunctionMap()
     {
         return array( 'imagepath' => 'imagePath',
                       'has_size' => 'hasSize' );
     }
 
+    /*!
+     \return an array with attribute names which this object supports.
+    */
     function attributes()
     {
         return array_merge( array_keys( eZImageInterface::attributeMemberMap() ),
                             array_keys( eZImageInterface::attributeFunctionMap() ) );
     }
 
+    /*!
+     \return true if the attribute \a $name exists.
+    */
     function hasAttribute( $name )
     {
         $attributeMemberMap = eZImageInterface::attributeMemberMap();
@@ -99,6 +119,9 @@ class eZImageInterface
         return false;
     }
 
+    /*!
+     \return the attribute with name \a $name or \c null if the attribute does not exist.
+    */
     function &attribute( $name )
     {
         $attributeMemberMap = eZImageInterface::attributeMemberMap();
@@ -107,6 +130,7 @@ class eZImageInterface
             $member = $attributeMemberMap[$name];
             if ( isset( $this->$member ) )
                 return $this->$member;
+            eZDebug::writeWarning( 'The member variable $member was not found for attribute $name', 'eZImageInterface::attribute' );
             return null;
         }
         $attributeFunctionMap = eZImageInterface::attributeFunctionMap();
@@ -115,36 +139,62 @@ class eZImageInterface
             $function = $attributeFunctionMap[$name];
             if ( method_exists( $this, $function ) )
                 return $this->$function();
+            eZDebug::writeWarning( 'The member function $function was not found for attribute $name', 'eZImageInterface::attribute' );
             return null;
         }
+        eZDebug::writeWarning( 'Unknown attribute $name', 'eZImageInterface::attribute' );
         return null;
     }
 
+    /*!
+     \return true if the image object has been processed, this means that
+             image has been rendered.
+    */
     function isProcessed()
     {
         return $this->IsProcessed;
     }
 
+    /*!
+      \return true if the width and height of the image has been set.
+    */
     function hasSize()
     {
         return $this->Width !== false and $this->Height !== false;
     }
 
+    /*!
+     \return the path to the image file including the file.
+    */
     function &imagePath()
     {
         return $this->StoredPath . '/' . $this->StoredFile;
     }
 
+    /*!
+     Sets the alternative text to \a $text, it will be used for describing the
+     image and can be used by browsers that cannot view images.
+    */
     function setAlternativeText( $text )
     {
         $this->AlternativeText = $text;
     }
 
+    /*!
+     \return the alternative text for the image.
+     \sa setAlternativeText
+    */
     function &alternativeText()
     {
         return $this->AlternativeText;
     }
 
+    /*!
+     \protected
+     Registers the GD image object \a $image for destruction upon script end.
+     This makes sure that image resources are cleaned up after use.
+     \return a reference for the image which can be used in unregisterImage later on.
+    */
     function registerImage( $image )
     {
         $imageObjectRef = md5( microtime() );
@@ -158,6 +208,9 @@ class eZImageInterface
         return $imageObjectRef;
     }
 
+    /*!
+     Tries to unregister the image with reference \a $imageRef
+    */
     function unregisterImage( $imageRef )
     {
         $createdImageArray =& $GLOBALS['eZImageCreatedArray'];
@@ -168,6 +221,9 @@ class eZImageInterface
         unset( $createdImageArray[$imageRef] );
     }
 
+    /*!
+     Cleans up all registered images.
+    */
     function cleanupRegisteredImages()
     {
         $createdImageArray =& $GLOBALS['eZImageCreatedArray'];
@@ -180,7 +236,11 @@ class eZImageInterface
         }
     }
 
-
+    /*!
+     Tries to load the PNG image from the path \a $storedPath and file \a $storedFile into
+     the current image object.
+     \return true if succesful.
+    */
     function loadPNG( $storedPath, $storedFile )
     {
         $this->ImageObject = ImageCreateFromPNG( $storedPath . '/' . $storedFile );
@@ -192,6 +252,11 @@ class eZImageInterface
         return false;
     }
 
+    /*!
+     Tries to load the JPEG image from the path \a $storedPath and file \a $storedFile into
+     the current image object.
+     \return true if succesful.
+    */
     function loadJPEG( $storedPath, $storedFile )
     {
         $this->ImageObject = ImageCreateFromJPEG( $storedPath . '/' . $storedFile );
@@ -203,6 +268,11 @@ class eZImageInterface
         return false;
     }
 
+    /*!
+     Tries to load the stored image set by setStoredFile().
+     If the stored type is not set it will try all formats until one succeeds.
+     \return true if succesful.
+    */
     function load()
     {
         if ( $this->ImageObject !== null and
@@ -232,6 +302,9 @@ class eZImageInterface
         return false;
     }
 
+    /*!
+     Cleans up the current image object if it is set.
+    */
     function destroy()
     {
         if ( $this->ImageObjectRef === null )
@@ -243,6 +316,12 @@ class eZImageInterface
         $this->ImageObjectRef = null;
     }
 
+    /*!
+     \return the current image object, if \a $createMissing is true if will
+             run the image processing to make sure it is created.
+             Returns \c null if no image is available.
+     \sa imageObjectInternal
+    */
     function imageObject( $createMissing = true )
     {
         if ( $this->ImageObject === null or
@@ -259,6 +338,12 @@ class eZImageInterface
         return $this->ImageObject;
     }
 
+    /*!
+     \protected
+     \return the current image object, will create an empty image object if \a $createMissing
+             is true and the image object is not already created.
+     \sa imageObject
+    */
     function imageObjectInternal( $createMissing = true )
     {
         if ( $this->ImageObject === null or
@@ -270,6 +355,10 @@ class eZImageInterface
         return $this->ImageObject;
     }
 
+    /*!
+     Makes sure the image object is processed and rendered.
+     Calls processImage() which is implemented by all descendants of this class to do the real work.
+    */
     function process()
     {
         if ( $this->processImage() )
@@ -278,6 +367,9 @@ class eZImageInterface
 
     /*!
      \virtual
+     Tries to render an image onto the image object, each inheriting class must override this to do
+     somethign sensible. By default it will try to load the stored image if one is set.
+     \return true if the image was succesfully processed.
     */
     function processImage()
     {
@@ -305,6 +397,11 @@ class eZImageInterface
         return false;
     }
 
+    /*!
+     Stores the current image object to disk, the image is stored in the path \a $filePath with filename \a $fileName.
+     The parameter \a $type determines the image format, supported are \c png and \c jpg.
+     \return true if the image was stored correctly.
+    */
     function store( $fileName, $filePath, $type )
     {
         if ( !$this->IsProcessed )
@@ -385,6 +482,12 @@ class eZImageInterface
         return $imageObject;
     }
 
+    /*!
+     Creates a new image object with width \a $width and height \a $height.
+     \a $useTruecolor determines the type of image, if \c true it will be truecolor,
+     if \c false it will be palette based or if \c null it will create it depending on
+     the GD version. GD 2 will get truecolor while < 2 will get palette based.
+    */
     function create( $width, $height, $useTruecolor = null )
     {
         if ( $this->ImageObject !== null and
@@ -401,12 +504,19 @@ class eZImageInterface
         $this->ImageObjectRef = eZImageInterface::registerImage( $this->ImageObject );
     }
 
+    /*!
+     Copies the image from \a $image as the current image object.
+    */
     function clone( &$image )
     {
         $this->cloneImage( $image->imageObject(), $image->width(), $image->height(),
                            $image->isTruecolor() );
     }
 
+    /*!
+     Clones the image object \a $imageObject with width \a $width, height \a $height
+     and truecolor settings \a $useTruecolor.
+    */
     function cloneImage( $imageObject, $width, $height, $useTruecolor = null )
     {
         if ( $this->ImageObject !== null and
@@ -420,27 +530,42 @@ class eZImageInterface
         ImageCopy( $this->ImageObject, $imageObject, 0, 0, 0, 0, $width, $height );
     }
 
-
+    /*!
+     \return the current width of the image or \a false if no size has been set.
+    */
     function width()
     {
         return $this->Width;
     }
 
+    /*!
+     \return the current height of the image or \a false if no size has been set.
+    */
     function height()
     {
         return $this->Height;
     }
 
+    /*!
+     Sets the width of the image to \a $w.
+    */
     function setWidth( $w )
     {
         $this->Width = $w;
     }
 
+    /*!
+     Sets the height of the image to \a $h.
+    */
     function setHeight( $h )
     {
         $this->Height = $h;
     }
 
+    /*!
+     Sets the path, file and type of the stored file.
+     These settings will be used by load().
+    */
     function setStoredFile( $file, $path, $type )
     {
         $this->StoredFile = $file;
@@ -448,16 +573,27 @@ class eZImageInterface
         $this->StoredType = $type;
     }
 
+    /*!
+     Sets the current font object to \a $font.
+    */
     function setFont( $font )
     {
         $this->Font = $font;
     }
 
+    /*!
+     \return the current font object or \c null if not font object has been set.
+    */
     function font()
     {
         return $this->Font;
     }
 
+    /*!
+     Copies the image \a $imageObject with size \a $sourceWidth and \a $sourceHeight
+     and position \a $sourceX and \a $sourceY onto the destination image \a $destinationImageObject
+     at position \a $destinationX and \a $destinationY.
+    */
     function copyImage( $destinationImageObject, $imageObject,
                         $destinationX, $destinationY,
                         $sourceWidth, $sourceHeight, $sourceX = 0, $sourceY = 0 )
@@ -467,6 +603,14 @@ class eZImageInterface
                    $sourceX, $sourceY, $sourceWidth, $sourceHeight );
     }
 
+    /*!
+     Merges the image \a $imageObject with size \a $sourceWidth and \a $sourceHeight
+     and position \a $sourceX and \a $sourceY with the destination image \a $destinationImageObject
+     at position \a $destinationX and \a $destinationY.
+     The merged image is placed on the \a $destinationImageObject.
+     \param $transparency determines how transparent the source image is. 0 is the same as copyImage
+            and 100 is the same is no copy is made.
+    */
     function mergeImage( $destinationImageObject, $imageObject,
                          $destinationX, $destinationY,
                          $sourceWidth, $sourceHeight, $sourceX = 0, $sourceY = 0,
@@ -479,6 +623,12 @@ class eZImageInterface
                         $percent );
     }
 
+    /*!
+     Alpha blends the image \a $imageObject with size \a $sourceWidth and \a $sourceHeight
+     and position \a $sourceX and \a $sourceY onto the destination image \a $destinationImageObject
+     at position \a $destinationX and \a $destinationY.
+     \note This required GD2 and uses color 0 (black) for blending.
+    */
     function blendImage( $destinationImageObject, $imageObject,
                          $destinationX, $destinationY,
                          $sourceWidth, $sourceHeight, $sourceX = 0, $sourceY = 0 )
@@ -500,6 +650,10 @@ class eZImageInterface
         ImageCopyMerge( $this->ImageObject, $imageObject, $x, $y, 0, 0, $width, $height, 50 );
     }
 
+    /*!
+     Clears the image object with color \a $color.
+     If \a $color is not specified it will use the first color set.
+    */
     function clear( $color = false )
     {
         if ( $color === false )
@@ -514,6 +668,10 @@ class eZImageInterface
         ImageFilledRectangle( $this->ImageObject, 0, 0, $this->Width, $this->Height, $color );
     }
 
+    /*!
+     Allocates the color \a $red, \a $green and \a $blue with name \a $name and returns it.
+     Will return the palette index for palette based images and the color value for true color.
+    */
     function allocateColor( $name, $red, $green, $blue )
     {
         if ( isset( $this->Palette[$name] ) )
@@ -525,16 +683,14 @@ class eZImageInterface
         $green = max( 0, min( 255, $green ) );
         $blue = max( 0, min( 255, $blue ) );
         $color = ImageColorAllocate( $this->ImageObject, $red, $green, $blue );
-        if ( count( $this->PaletteIndex ) == 0 )
-        {
-//             imagecolortransparent( $this->ImageObject, $color );
-//             ImageFilledRectangle( $this->ImageObject, 0, 0, $this->Width, $this->Height, $color );
-        }
         $this->Palette[$name] = $color;
         $this->PaletteIndex[] = $color;
         return $color;
     }
 
+    /*!
+     \return the color for the name \a $name.
+    */
     function color( $name )
     {
         if ( !isset( $this->Palette[$name] ) )
@@ -545,16 +701,28 @@ class eZImageInterface
         return $this->Palette[$name];
     }
 
+    /*!
+     \return the color used for text drawing.
+    */
     function textColor()
     {
         return $this->TextColor;
     }
 
+    /*!
+     Sets the color used for text drawing to \a $textColor.
+    */
     function setTextColor( $textColor )
     {
         $this->TextColor = $textColor;
     }
 
+    /*!
+     Draws the text \a $text using the font \a $font and color \a $textColor
+     at position \a $x and \a $y with angle \a $angle.
+     If \a $imageObject is specified it will use that for drawing instead of
+     the current image.
+    */
     function drawText( &$font, $textColor, $text, $x, $y, $angle,
                        $imageObject = null )
     {
@@ -605,6 +773,10 @@ class eZImageInterface
     var $IsProcessed;
 }
 
+/*!
+ Global function for eZImageInterface. It will be called at the end of the script execution
+ and will cleanup all images left behind.
+*/
 function eZGlobalImageCleanupFunction()
 {
     eZImageInterface::cleanupRegisteredImages();

@@ -59,6 +59,10 @@ class eZImageLayer extends eZImageInterface
         $this->TemplateURI = 'design:image/layer.tpl';
     }
 
+    /*!
+     A definition which tells the template engine which template to use
+     for displaying the image.
+    */
     function templateData()
     {
         return array( 'type' => 'template',
@@ -66,11 +70,20 @@ class eZImageLayer extends eZImageInterface
                       'uri' => $this->TemplateURI );
     }
 
+    /*!
+     Sets the URI of the template to use for displaying it using the template engine to \a $uri.
+    */
     function setTemplateURI( $uri )
     {
         $this->TemplateURI = $uri;
     }
 
+    /*!
+     \virtual
+     Tries to merge the current layer with the layer \a $lastLayerData
+     onto the image object \a $image.
+     Different kinds of layer classes will merge layers differently.
+    */
     function mergeLayer( &$image, &$layerData, &$lastLayerData )
     {
         $position = $image->calculatePosition( $layerData['parameters'], $this->width(), $this->height() );
@@ -102,6 +115,9 @@ class eZImageLayer extends eZImageInterface
         }
     }
 
+    /*!
+     Creates a new file layer for the file \a $fileName in path \a $filePath.
+    */
     function &createForFile( $fileName, $filePath, $fileType = false )
     {
         $layer =& new eZImageLayer();

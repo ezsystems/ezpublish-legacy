@@ -46,14 +46,20 @@
 
 include_once( 'lib/ezimage/classes/ezimageinterface.php' );
 
+/// Alignment values @{
 define( 'EZ_IMAGE_ALIGN_AXIS_NONE', 0x00 );
 define( 'EZ_IMAGE_ALIGN_AXIS_START', 0x01 );
 define( 'EZ_IMAGE_ALIGN_AXIS_STOP', 0x02 );
 define( 'EZ_IMAGE_ALIGN_AXIS_CENTER', EZ_IMAGE_ALIGN_AXIS_START | EZ_IMAGE_ALIGN_AXIS_STOP );
 define( 'EZ_IMAGE_ALIGN_AXIS_MASK', EZ_IMAGE_ALIGN_AXIS_START | EZ_IMAGE_ALIGN_AXIS_STOP );
+///@}
 
+/// Placement types @{
+/// Places the layer absolutely from on the axis.
 define( 'EZ_IMAGE_PLACE_CONSTANT', 1 );
+/// Places the layer relative to the axis size.
 define( 'EZ_IMAGE_PLACE_RELATIVE', 2 );
+///@}
 
 class eZImageObject extends eZImageInterface
 {
@@ -65,6 +71,10 @@ class eZImageObject extends eZImageInterface
         $this->ImageLayerCounter = 0;
     }
 
+    /*!
+     A definition which tells the template engine which template to use
+     for displaying the image.
+    */
     function templateData()
     {
         return array( 'type' => 'template',
@@ -72,6 +82,9 @@ class eZImageObject extends eZImageInterface
                       'uri' => $this->TemplateURI );
     }
 
+    /*!
+     Sets the URI of the template to use for displaying it using the template engine to \a $uri.
+    */
     function setTemplateURI( $uri )
     {
         $this->TemplateURI = $uri;
@@ -250,6 +263,7 @@ class eZImageObject extends eZImageInterface
 
     /*!
      \virtual
+     Flattens the image so that it can be displayed.
     */
     function processImage()
     {
@@ -257,6 +271,10 @@ class eZImageObject extends eZImageInterface
         return true;
     }
 
+    /*!
+     Goes trough all layers and merges them together into a single image.
+     This image can then be displayed on the webpage.
+    */
     function flatten()
     {
         $i = 0;

@@ -64,6 +64,7 @@ class eZImageTextLayer extends eZImageLayer
 
     /*!
      \virtual
+     Draws the text on the current image object.
     */
     function processImage()
     {
@@ -75,6 +76,15 @@ class eZImageTextLayer extends eZImageLayer
         return true;
     }
 
+    /*!
+     Renders the text with the other layer data. It will perform something
+     that will look like alphablending of the text.
+
+     It will copy the area which it will render on from the other layer
+     and render on it and then merge the result back on the other layer
+     using the transparency value. This means that the original image data
+     is kept and the actual text will be transparent.
+    */
     function mergeLayer( &$image, &$layerData, &$lastLayerData )
     {
         $position = $image->calculatePosition( $layerData['parameters'], $this->width(), $this->height() );
@@ -105,31 +115,50 @@ class eZImageTextLayer extends eZImageLayer
         }
     }
 
+    /*!
+     Sets the current text to \a $text.
+    */
     function setText( $text )
     {
         $this->Text = $text;
     }
 
+    /*!
+     \return the current text.
+    */
     function text()
     {
         return $this->Text;
     }
 
+    /*!
+     Sets the angle of the text to \a $textAngle.
+    */
     function setTextAngle( $textAngle )
     {
         $this->TextAngle = $textAngle;
     }
 
+    /*!
+     \return the current text angle.
+    */
     function textAngle()
     {
         return $this->TextAngle;
     }
 
+    /*!
+     \return the current bounding box for the text. See the PHP function ImageTTFBBox for more info.
+    */
     function textBoundingBox()
     {
         return $this->TextBoundingBox;
     }
 
+    /*!
+     Creates a new text layer with the text \a $text, font \a $font and adjustment
+     \a $widthAdjustment and \a $heightAdjustment at the angle \a $angle and returns it.
+    */
     function &createForText( $text, &$font, $widthAdjustment, $heightAdjustment, $angle )
     {
         if ( get_class( $font ) != 'ezimagefont' )
