@@ -17,6 +17,7 @@
 {/section}
 </style>
 {include uri="design:page_head.tpl" enable_print=false()}
+</head>
 
 <body>
 
