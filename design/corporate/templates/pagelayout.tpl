@@ -7,101 +7,148 @@
 
 <link rel="stylesheet" type="text/css" href={$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot} />
 
+<style>
+    @import url("/design/corporate/stylesheets/core.css");
+    @import url("/design/corporate/stylesheets/corporate.css");
+</style>
+
 </head>
 
 <body>
-{* Top box START *}
 
-<div id="mainlayout">
-   <div id="header">
-   {let content=$pagedesign.data_map.image.content}
-       <div id="logo">
-           <a href={"/"|ezurl}><img src={$content[logo].full_path|ezroot} /></a>
-       </div>
-   {/let}
-   </div>
+<div id="background">
 
-   <div id="navigation_bar">
-       {let folder_list=fetch( content, list, hash( parent_node_id, 2,
-                                                    sort_by, array( array( priority ) ) ) )}
-           {section name=Folder loop=$folder_list}
-               <div class="navigation_item">
-               <a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl}>{$Folder:item.name|wash}</a> 
-               </div>
-           {/section}
-       {/let}
-   </div>
-
-   <div id="path">
-       <p>
-       &gt;
-       {section name=Path loop=$module_result.path }
-           {section show=$Path:item.url}
-              <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a>
-           {section-else}
-	      {$Path:item.text|wash}
-           {/section}
-
-           {delimiter}
-             /
-           {/delimiter}
-        {/section}
-       </p>
-   </div>
-
-   <div id="mainmenu">
-    {let mainMenu=treemenu($module_result.path,$module_result.node_id,1,array('folder','info_page'))}
-        {section name=Menu loop=$mainMenu}
-            <div class="item">
-	    {section show=$:item.is_selected}
-               <div class="selected">
-            {/section}
-
-            <div class="level_{$:item.level}">
-               <a href={$:item.url_alias|ezurl}>{$Menu:item.text}</a>
+    <div id="header">
+        <div class="design">
+        
+           {let content=$pagedesign.data_map.image.content}
+            <div id="logo">
+                <a href={"/"|ezurl}><img src={$content[logo].full_path|ezroot} /></a>
             </div>
+           {/let}
+                  
+        </div>
+    </div>
 
-	    {section show=$:item.is_selected}
-               </div>
-            {/section}
+    <div id="subheader">
+        <div class="design">
+        
+            <div id="searchbox">
+                <form action={"/content/search/"|ezurl} method="get">
+                    <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />
+                    <input class="searchbutton" name="SearchButton" type="submit" value="Search" />
+                </form>
             </div>
-        {/section}
-    {/let}
-   </div>
+        
+        <div id="mainmenu">
+            <div class="design">
 
-   <div id="info_bar">
-   {let news_list=fetch( content, tree, hash( parent_node_id, 2,
-                                              limit, 5,
-                                              sort_by, array( published, false() ),
-                                              class_filter_type, include, 
-                                              class_filter_array, array( 2 ) ) )}
+                <h3 class="invisible">Main menu</h3>
+                <ul>
+                {let folder_list=fetch( content, list, hash( parent_node_id, 2, sort_by, array( array( priority ) ) ) )}
+                {section name=Folder loop=$folder_list}
+                    <li><a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl}>{$Folder:item.name|wash}</a></li>
+                {/section}
+                {/let}
+                </ul>
+            
+            </div>
+        </div>
+        
+        <div class="break"></div> {* This is needed for proper flow of floating objects *}
+        
+        </div>
+    </div>
 
-       {section name=News loop=$news_list}
-           <h3><a href={concat('content/view/full/',$News:item.node_id)|ezurl}>{$News:item.name|wash}</a></h3>
+    <div id="submenu">
+        <div class="design">
+        
+            <h3 class="invisible">Sub menu</h3>
+            <ul>
+                {let mainMenu=treemenu($module_result.path,$module_result.node_id,1,array('folder','info_page'))}
+                    {section name=Menu loop=$mainMenu}
+            	    {section show=$:item.is_selected}
+            
+                        {/section}
+            
+                        <li class="level_{$:item.level}">
+                           <a href={$:item.url_alias|ezurl}>{$Menu:item.text}</a>
+                        </li>
+            
+            	    {section show=$:item.is_selected}
+            
+                        {/section}
+                    {/section}
+                {/let}
+            </ul>
+        
+        </div>
+    </div>
+
+    <div id="infobox">
+        <div class="design">
+        
+               {let news_list=fetch( content, tree, hash( parent_node_id, 2,
+                                                          limit, 5,
+                                                          sort_by, array( published, false() ),
+                                                          class_filter_type, include, 
+                                                          class_filter_array, array( 2 ) ) )}
+                                                          
+            <h3>Latest news</h3>
+            <ul>
+                   {section name=News loop=$news_list}
+                       <li>
+                       <a href={concat('content/view/full/',$News:item.node_id)|ezurl}>{$News:item.name|wash}</a>
+                       <div class="date">
+                        ({$News:item.object.published|l10n( shortdate )})
+                       </div>  
+                       </li>
+                    {/section}
+            </ul>
+               {/let}
+        
+        </div>
+    </div>
+
+    <div id="maincontent">
+        <div class="design">
+        
+    <div id="path">
+        <div class="design">
+
            <p>
-            ({$News:item.object.published|l10n( shortdate )})
-           </p>  
-        {/section}
-   {/let}
+           &gt;
+           {section name=Path loop=$module_result.path }
+               {section show=$Path:item.url}
+                  <a href={$Path:item.url|ezurl}>{$Path:item.text|wash}</a>
+               {section-else}
+    	      {$Path:item.text|wash}
+               {/section}
+    
+               {delimiter}
+                 /
+               {/delimiter}
+            {/section}
+           </p>
 
-      <div id="search_box">
-         <form action={"/content/search/"|ezurl} method="get">
-           <input class="searchtext" type="text" size="10" name="SearchText" id="Search" value="" />&nbsp;
-           <input class="searchbutton" name="SearchButton" type="submit" value="Search" />
-         </form>
-      </div>
-   </div>
+        </div>
+    </div>
+            {$module_result.content}
+        
+        </div>
+    </div>
 
-   <div id="main_content">
-      {$module_result.content}
-   </div>
-
-   <div id="footer">
-       <p>
+    <div id="footer">
+        <div class="design">
+        
+            <address>
             Copyright &copy; <a href="http://ez.no">eZ systems as</a> 1999-2003
             <a href="http://ez.no/">Powered by eZ publish Content Management System</a>
-       </p>
-   </div>
+            </address>
+        
+        </div>
+    </div>
+
 </div>
 
 </body>
