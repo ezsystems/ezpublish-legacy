@@ -1157,8 +1157,8 @@ class eZContentObject extends eZPersistentObject
 
         // Finds all the attributes that store relations to the given object.
 
-        $result = $db->arrayQuery( "SELECT attr.* 
-                                    FROM ezcontentobject_link link, 
+        $result = $db->arrayQuery( "SELECT attr.*
+                                    FROM ezcontentobject_link link,
                                          ezcontentobject_attribute attr
                                     WHERE link.from_contentobject_id=attr.contentobject_id AND
                                           link.from_contentobject_version=attr.version AND
@@ -2217,7 +2217,8 @@ class eZContentObject extends eZPersistentObject
                             {
                                 $access = 'allowed';
                             }
-                            else if ( in_array( $this->attribute( 'contentclass_id' ), $limitationArray[$key] )  )
+                            else if ( $functionName != 'create' and
+                                      in_array( $this->attribute( 'contentclass_id' ), $limitationArray[$key] )  )
                             {
                                 $access = 'allowed';
                             }

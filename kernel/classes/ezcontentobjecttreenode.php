@@ -4116,7 +4116,8 @@ WHERE
                             {
                                 $access = 'allowed';
                             }
-                            else if ( in_array( $contentObject->attribute( 'contentclass_id' ), $limitationArray[$key] )  )
+                            else if ( $functionName != 'create' and
+                                      in_array( $contentObject->attribute( 'contentclass_id' ), $limitationArray[$key] ) )
                             {
                                 $access = 'allowed';
                             }
