@@ -243,6 +243,8 @@ class eZImageInterface
     */
     function loadPNG( $storedPath, $storedFile )
     {
+        if ( !function_exists( 'ImageCreateFromPNG' ) )
+            return false;
         $this->ImageObject = ImageCreateFromPNG( $storedPath . '/' . $storedFile );
         if ( $this->ImageObject )
         {
