@@ -54,8 +54,23 @@ class eZMail
       If $id is set the object's values are fetched from the
       database.
     */
-    function eZMail( $id = "" )
+    function eZMail( $id = "", $params = array() )
     {
+        // See if we should use SMTP
+        if ( isset( $params["hostname"] ) )
+        {
+            $this->Hostname = $params["hostname"];
+            if ( isset( $params["port"] ) )
+                $this->Port = $params["port"];
+            else
+                $this->Port = 25;
+            if ( isset( $params["user"] ) )
+                $this->User = $params["user"];
+            if ( isset( $params["password"] ) )
+                $this->Password = $params["password"];
+        }
+
+        
         $this->FilesAttached = false;
 
         // array used when sending mail.. do not alter!!!
@@ -731,7 +746,33 @@ class eZMail
         }
 
         $mime .= "MIME-Version: 1.0\n" . $this->build_multipart();
-        mail( $this->To, $this->Subject, "", $mime );
+        if ( isset( $this->Hostname ) )
+        {
+            // Incomplete, quick hack... TODO: Do this properly
+            require_once( "lib/ezsetup/classes/smtp.php" );
+            $params['host'] = $this->Hostname;
+            $params['port'] = 25;
+            if ( isset( $this->User ) )
+            {
+                $params['auth'] = true;
+                $params['user'] = $this->User;
+                $params['pass'] = $this->Password;
+            }
+
+            $send["from"] = $this->From;
+            $send["recipients"][] = $this->To;
+            $send["headers"][] = "From: " . $this->FromName . " <" . $this->From . ">";
+            $send["headers"][] = "To: " . $this->To;
+            $send["headers"][] = "Subject: " . $this->Subject;
+            $send["body"] = $this->BodyText;
+
+            $email = smtp::connect( $params );
+            $result = $email->send( $send );
+            if ( isset( $email->errors[0] ) )
+                eZDebug::writeError( "Error sending SMTP mail: " . $email->errors[0], "eZMail::send()" );
+        }    
+        else
+            mail( $this->To, $this->Subject, "", $mime );
         $this->parts = array();
     }
 
@@ -762,7 +803,7 @@ class eZMail
         $message = $part["message"];
         $message = chunk_split( base64_encode( $message ) );
         $encoding = "base64";
-	//EP - different charsets for the MIME mail ---------------
+    //EP - different charsets for the MIME mail ---------------
 //        global $GlobalSectionID;
 //
 //        include_once("ezsitemanager/classes/ezsection.php");
@@ -777,7 +818,7 @@ class eZMail
 //        return "Content-Type: " . $part["ctype"] . ";\n\tcharset=\"$iso\"" .
 //            ( $part["name"] ? "; name = \"" . $part["name"] . "\"" : "" ) .
 //            "\nContent-Transfer-Encoding: $encoding\n\n$message\n";
-	//EP	---------------------------------------------------
+    //EP    ---------------------------------------------------
         return "Content-Type: " . $part["ctype"] .
             ( $part["name"] ? "; name = \"" . $part["name"] . "\"" : "" ) .
             "\nContent-Transfer-Encoding: $encoding\n\n$message\n";
@@ -825,6 +866,9 @@ class eZMail
         return $return_array;
     }
 
+
+
+
     /// this variable is only used during the buildup of a mail that is beeing sent. NEVER access directly!!!
     var $parts;
 
@@ -848,6 +892,12 @@ class eZMail
     var $UDate;
     var $Status;
 
+    /// SMTP settings
+    var $Hostname;
+    var $Port;
+    var $User;
+    var $Password;
+    
     // variable to check if files are attached ( no need to use database if not)
     var $FilesAttached;
     /* database specific variables */
