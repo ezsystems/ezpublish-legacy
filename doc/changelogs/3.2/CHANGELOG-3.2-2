@@ -3,6 +3,7 @@ Changes from 3.2-1 to 3.2-2
 *Kernel:
 - Cache clearing now works with custom var directories. This means that clearing the cache
   for installed site packages will work.
+- Fixed attribute_base for xml text field.
 
 *DataType:
 
