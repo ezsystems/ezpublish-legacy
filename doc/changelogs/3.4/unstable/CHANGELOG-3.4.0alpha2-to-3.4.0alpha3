@@ -18,7 +18,7 @@ Changes from 3.4.0alpha2 to 3.4.0alpha3
 *Updates:
 - Fixed cleanup.php script to cleanup the user/session link table when
   cleaning session.
-- New script to create any missing top level objects/nodes.
+- New script called updatetoplevel.php to create any missing top level objects/nodes.
   It will create Content, Users, Media and Setup.
 
 eZPersistentObject:
