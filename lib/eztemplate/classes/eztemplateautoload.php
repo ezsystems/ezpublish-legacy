@@ -40,53 +40,56 @@
 $eZTemplateOperatorArray = array();
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatearrayoperator.php',
                                     'class' => 'eZTemplateArrayOperator',
-                                    'operator_names' => array( "array" ) );
+                                    'operator_names' => array( 'array', 'hash' ) );
+$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateexecuteoperator.php',
+                                    'class' => 'eZTemplateExecuteOperator',
+                                    'operator_names' => array( 'fetch' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatelocaleoperator.php',
                                     'class' => 'eZTemplateLocaleOperator',
-                                    'operator_names' => array( "l10n" ) );
+                                    'operator_names' => array( 'l10n' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateattributeoperator.php',
                                     'class' => 'eZTemplateAttributeOperator',
-                                    'operator_names' => array( "attribute" ) );
+                                    'operator_names' => array( 'attribute' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatetextoperator.php',
                                     'class' => 'eZTemplateTextOperator',
-                                    'operator_names' => array( "concat" ) );
+                                    'operator_names' => array( 'concat' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateunitoperator.php',
                                     'class' => 'eZTemplateUnitOperator',
-                                    'operator_names' => array( "si" ) );
+                                    'operator_names' => array( 'si' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatelogicoperator.php',
                                     'class' => 'eZTemplateLogicOperator',
-                                    'operator_names' => array( "lt", "gt", "le",
-                                                               "ge", "eq", "null",
-                                                               "not", "true", "false",
-                                                               "or", "and", "choose" ) );
+                                    'operator_names' => array( 'lt', 'gt', 'le',
+                                                               'ge', 'eq', 'null',
+                                                               'not', 'true', 'false',
+                                                               'or', 'and', 'choose' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateimageoperator.php',
                                     'class' => 'eZTemplateImageOperator',
-                                    'operator_names' => array( "texttoimage", 'image', 'imagefile' ) );
+                                    'operator_names' => array( 'texttoimage', 'image', 'imagefile' ) );
 
 // Function autoloading
 
 $eZTemplateFunctionArray = array();
-$eZTemplateFunctionArray[] = array( 'script' => "lib/eztemplate/classes/eztemplatesectionfunction.php",
+$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatesectionfunction.php',
                                     'class' => 'eZTemplateSectionFunction',
                                     'function_names' => array( 'section' ),
-                                    'function_attributes' => array( "delimiter",
-                                                                    "section-exclude",
-                                                                    "section-include",
-                                                                    "section-else" ) );
-$eZTemplateFunctionArray[] = array( 'script' => "lib/eztemplate/classes/eztemplatedelimitfunction.php",
+                                    'function_attributes' => array( 'delimiter',
+                                                                    'section-exclude',
+                                                                    'section-include',
+                                                                    'section-else' ) );
+$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatedelimitfunction.php',
                                     'class' => 'eZTemplateDelimitFunction',
                                     'function_names' => array( 'ldelim', 'rdelim' ) );
-$eZTemplateFunctionArray[] = array( 'script' => "lib/eztemplate/classes/eztemplateincludefunction.php",
+$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateincludefunction.php',
                                     'class' => 'eZTemplateIncludeFunction',
                                     'function_names' => array( 'include' ) );
-$eZTemplateFunctionArray[] = array( 'script' => "lib/eztemplate/classes/eztemplateswitchfunction.php",
+$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateswitchfunction.php',
                                     'class' => 'eZTemplateSwitchFunction',
                                     'function_names' => array( 'switch' ),
-                                    'function_attributes' => array( "case" ) );
-$eZTemplateFunctionArray[] = array( 'script' => "lib/eztemplate/classes/eztemplatesequencefunction.php",
+                                    'function_attributes' => array( 'case' ) );
+$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatesequencefunction.php',
                                     'class' => 'eZTemplateSequenceFunction',
                                     'function_names' => array( 'sequence' ) );
-$eZTemplateFunctionArray[] = array( 'script' => "lib/eztemplate/classes/eztemplatesetfunction.php",
+$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatesetfunction.php',
                                     'class' => 'eZTemplateSetFunction',
                                     'function_names' => array( 'set', 'let' ) );
 

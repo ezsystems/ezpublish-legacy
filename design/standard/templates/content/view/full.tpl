@@ -22,6 +22,15 @@
 </tr>
 </table>
 
+{*
+// Use this for fetching children
+
+{section name=Test loop=fetch('content','list',hash(parent_node_id,$nodeID))}
+{$Test:item.name}<br/>
+{/section}
+*}
+
+
 <table width="100%">
 <tr>
     <td width="80%" valign="top">

@@ -57,9 +57,11 @@ class eZTemplateArrayOperator
     /*!
      Initializes the array operator with the operator name $name.
     */
-    function eZTemplateArrayOperator( $name = "array" )
+    function eZTemplateArrayOperator( $arrayName = "array", $hashName = 'hash' )
     {
-        $this->Operators = array( $name );
+        $this->ArrayName = $arrayName;
+        $this->HashName = $hashName;
+        $this->Operators = array( $arrayName, $hashName );
     }
 
     /*!
@@ -71,18 +73,41 @@ class eZTemplateArrayOperator
     }
 
     /*!
-     Creates an array of all it's input parameters and sets $value.
+     Creates an array of all it's input parameters and sets $operatorValue.
     */
     function modify( &$element,
-                     &$tpl, &$op_name, /*! Contains all array elements */ &$op_params,
-                     &$namespace, &$current_nspace, &$value, &$named_params )
+                     &$tpl, &$operatorName, /*! Contains all array elements */ &$operatorParameters,
+                     &$namespace, &$current_nspace, &$operatorValue, &$named_params )
     {
-        $value = array();
-        for ( $i = 0; $i < count( $op_params ); ++$i )
+        if ( $operatorName == $this->HashName )
         {
-            $value[] =& $tpl->elementValue( $op_params[$i], $namespace );
+            $operatorValue = array();
+            $hashCount = (int)( count( $operatorParameters ) / 2 );
+            for ( $i = 0; $i < $hashCount; ++$i )
+            {
+                $hashName = $tpl->elementValue( $operatorParameters[$i*2], $namespace );
+                if ( is_string( $hashName ) or
+                     is_numerical( $hashName ) )
+                    $operatorValue[$hashName] =& $tpl->elementValue( $operatorParameters[($i*2)+1], $namespace );
+                else
+                    $tpl->error( $operatorName,
+                                 "Unknown hash key type '" . gettype( $hashName ) . "', skipping" );
+            }
+        }
+        else
+        {
+            $operatorValue = array();
+            for ( $i = 0; $i < count( $operatorParameters ); ++$i )
+            {
+                $operatorValue[] =& $tpl->elementValue( $operatorParameters[$i], $namespace );
+            }
         }
     }
+
+    /// \privatesection
+    var $Operators;
+    var $ArrayName;
+    var $HashName;
 }
 
 ?>

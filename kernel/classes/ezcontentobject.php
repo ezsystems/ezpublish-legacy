@@ -296,7 +296,7 @@ class eZContentObject extends eZPersistentObject
         $nodeAssignmentList =& $version->attribute( 'node_assignments' );
 
         eZDebug::writeNotice( $nodeAssignmentList , 'nodeAssignmentList' );
-        
+
         foreach ( array_keys( $nodeAssignmentList ) as $key )
         {
             $nodeAssignment =& $nodeAssignmentList[$key];
@@ -310,7 +310,7 @@ class eZContentObject extends eZPersistentObject
 
         $clonedVersion = $version->clone( $nextVersionNumber, $userID );
         $clonedVersion->store();
-        
+
         foreach ( array_keys( $contentObjectTranslations ) as $contentObjectTranslationKey )
         {
             $contentObjectTranslation =& $contentObjectTranslations[$contentObjectTranslationKey];
