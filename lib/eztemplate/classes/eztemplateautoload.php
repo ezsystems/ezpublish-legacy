@@ -50,6 +50,9 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplateattributeoperator.php',
                                     'class' => 'eZTemplateAttributeOperator',
                                     'operator_names' => array( 'attribute' ) );
+$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatewashoperator.php',
+                                    'class' => 'eZTemplateWashOperator',
+                                    'operator_names' => array( 'wash' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatetextoperator.php',
                                     'class' => 'eZTemplateTextOperator',
                                     'operator_names' => array( 'concat' ) );

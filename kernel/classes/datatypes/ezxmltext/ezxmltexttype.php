@@ -689,10 +689,6 @@ class eZXMLTextType extends eZDataType
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
-                $tagText =& str_replace(">", "&gt;", $tagText );
-                $tagText =& str_replace("<", "&lt;", $tagText );
-                $tagText =& str_replace("&lt;pre&gt;", "<pre>", $tagText );
-                $tagText =& str_replace("&lt;/pre&gt;", "</pre>", $tagText );
                 eZDebug::writeDebug("ooo" .$tagText);
             }break;
 

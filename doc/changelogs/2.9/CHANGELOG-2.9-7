@@ -25,6 +25,9 @@ eZ extension:
 
 *Library :
 
+eZTemplate:
+- Added wash operator which handles conversion of text to e.g. xhtml compatible format
+
 eZINI:
 - Added support for override directories which are not a subdir
   of settings.

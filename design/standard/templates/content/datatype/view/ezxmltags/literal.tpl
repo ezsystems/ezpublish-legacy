@@ -1,1 +1,1 @@
-<pre>{$content}</pre>
+<pre>{$content|wash(xhtml)}</pre>
