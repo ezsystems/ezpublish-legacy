@@ -93,7 +93,7 @@
 <input class="button" type="submit" name="PreviewButton" value="{'Preview'|i18n('design/admin/content/edit')}" />
 </div>
 <div class="block">
-<input class="button" type="submit" name="StoreButton" value="{'Store'|i18n('design/standard/content/edit')}" />
+{*<input class="button" type="submit" name="StoreButton" value="{'Store'|i18n('design/standard/content/edit')}" />*}
 <input class="button" type="submit" name="StoreExitButton" value="{'Store and exit'|i18n('design/standard/content/edit')}" />
 </div>
 
