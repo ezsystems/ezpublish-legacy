@@ -16,9 +16,9 @@ menuArray['ClassMenu']['depth'] = 0;
 menuArray['ClassMenu']['headerID'] = 'class-header';
 menuArray['ClassMenu']['elements'] = new Array();
 menuArray['ClassMenu']['elements']['class-view'] = new Array();
-menuArray['ClassMenu']['elements']['class-view']['url'] = {"/content/view/full/%nodeID%"|ezurl};
+menuArray['ClassMenu']['elements']['class-view']['url'] = {"/class/view/%classID%"|ezurl};
 menuArray['ClassMenu']['elements']['class-edit'] = new Array();
-menuArray['ClassMenu']['elements']['class-edit']['url'] = {"/content/view/full/%nodeID%"|ezurl};
+menuArray['ClassMenu']['elements']['class-edit']['url'] = {"/class/edit/%classID%"|ezurl};
 
 menuArray['BookmarkMenu'] = new Array();
 menuArray['BookmarkMenu']['depth'] = 0;
@@ -61,6 +61,14 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
     </div>
     <a id="class-view" href="#" onmouseover="ezpopmnu_mouseOver( 'ClassMenu' )">{"View class"|i18n("design/standard/popupmenu")}</a>
     <a id="class-edit" href="#" onmouseover="ezpopmnu_mouseOver( 'ClassMenu' )">{"Edit class"|i18n("design/standard/popupmenu")}</a>
+    <hr />
+    <a id="view-cache-delete" href="#" onmouseover="ezpopmnu_mouseOver( 'ClassMenu' )">{"Delete view cache"|i18n("design/standard/popupmenu")}</a>
+    <a id="template-cache-delete" href="#" onmouseover="ezpopmnu_mouseOver( 'ClassMenu' )">{"Delete template cache"|i18n("design/standard/popupmenu")}</a>
+    <a id="recursive-view-cache-delete" href="#" onmouseover="ezpopmnu_mouseOver( 'ClassMenu' )">{"Delete view cache from here"|i18n("design/standard/popupmenu")}</a>
+    <hr />
+    <a id="override-view" href="#" onmouseover="ezpopmnu_mouseOver( 'ClassMenu' )">{"Template overrides"|i18n("design/standard/popupmenu")}</a>
+    <a id="override-view" href="#" onmouseover="ezpopmnu_mouseOver( 'ClassMenu' )">{"New class override"|i18n("design/standard/popupmenu")}</a>
+    <a id="override-view" href="#" onmouseover="ezpopmnu_mouseOver( 'ClassMenu' )">{"New node override"|i18n("design/standard/popupmenu")}</a>
 </div>
 
 
