@@ -55,13 +55,16 @@ define( "EZ_WEBDAV_FAILED_BAD_GATEWAY",   36 ); //
 define( "EZ_WEBDAV_FAILED_STORAGE_FULL",  37 ); //
 define( "EZ_WEBDAV_FAILED_UNSUPPORTED",   38 ); //
 
+
 // File timestamp formats (MUST be correct, or else: Won't work in MSIE...).
 // Yes, the two timestamps are actually in different formats. Don't touch!
 define( "EZ_WEBDAV_CTIME_FORMAT", "Y-m-d\\TH:i:s\\Z" );
 define( "EZ_WEBDAV_MTIME_FORMAT", "D, d M Y H:i:s" );
 
+
 // Get the location of the correct var directory.
 $varDir = eZSys::varDirectory();
+
 
 // Temporary (uploaded) file stuff:
 define( "EZ_WEBDAV_TEMP_DIRECTORY",   $varDir."/webdav/tmp" );

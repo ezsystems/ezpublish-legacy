@@ -47,7 +47,7 @@ include_once( "lib/ezutils/classes/ezdir.php" );
 include_once( "kernel/classes/ezurlalias.php" );
 include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 include_once( "access.php" );
-
+include_once( "kernel/common/i18n.php" );
 
 
 
@@ -76,9 +76,6 @@ function getSiteAccessList()
     $siteList = $webdavINI->variable( 'SiteAccessSettings', 'SiteList' );
 
     ob_start(); var_dump( $siteList ); $output = ob_get_contents(); ob_end_clean();
-
-    //
-    append_to_log( $output );
 }
 
 
@@ -88,8 +85,8 @@ function getSiteAccessList()
  */
 function setSiteAccess( $site )
 {
-    $access = array( 'name' => $site,
-                     'type' => EZ_ACCESS_TYPE_STATIC );
+    //
+    $access = array( 'name' => $site, 'type' => EZ_ACCESS_TYPE_STATIC );
 
     //
     $access = changeAccess( $access );
@@ -340,147 +337,6 @@ function getContent( $target )
 
 
 
-/*!
- */
-function putImage ( $target, $tempFile, $parentNodeID )
-{
-    // Attempt to get the current user ID.
-    $user = eZUser::currentUser();
-    $userID = $user->id();
-
-    $imageFileName = basename( $target );
-    $imageOriginalFileName = $imageFileName;
-    $imageCaption = $imageFileName;
-
-    // Fetch the image class.
-    $class =& eZContentClass::fetch( 5 );
-
-    // Create object by user id in section 1.
-    $contentObject =& $class->instantiate( $userID, 1 );
-
-    //
-    $nodeAssignment =& eZNodeAssignment::create( array(
-                                                     'contentobject_id' => $contentObject->attribute( 'id' ),
-                                                     'contentobject_version' => $contentObject->attribute( 'current_version' ),
-                                                     'parent_node' => $parentNodeID,
-                                                     'sort_field' => 2,
-                                                     'sort_order' => 0,
-                                                     'is_main' => 1
-                                                     )
-                                                 );
-    $nodeAssignment->store();
-
-    //
-    $version =& $contentObject->version( 1 );
-    $version->setAttribute( 'modified', $imageCreatedTime );
-    $version->setAttribute( 'created', $imageCreatedTime );
-    $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
-    $version->store();
-
-    $contentObjectID = $contentObject->attribute( 'id' );
-    $contentObjectAttributes =& $version->contentObjectAttributes();
-
-    $storeInDBName = preg_replace( "/\.\w*$/", "", $imageFileName );
-    $storeInDBName = preg_replace( "#\/$#", "", $storeInDBName );
-
-    $contentObjectAttributes[0]->setAttribute( 'data_text', $storeInDBName );
-    $contentObjectAttributes[0]->store();
-
-    $contentObjectAttribute =& $contentObjectAttributes[2];
-
-    // Attempt to store the image object in the DB and copy the file.
-    $result = storeImage( $tempFile, $imageOriginalFileName, $imageCaption, $contentObjectAttribute );
-
-    // If the store operation was OK:
-    if ( $result )
-    {
-        //
-        $contentObjectAttributes[2]->store();
-
-        //
-        include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-        $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID, 'version' => 1 ) );
-
-        // We're safe.
-        return( EZ_WEBDAV_OK_CREATED );
-    }
-    // Else: the store didn't succeed...
-    else
-    {
-        return( EZ_WEBDAV_FAILED_FORBIDDEN );
-    }
-}
-
-
-
-
-/*!
- */
-function putFile( $target, $tempFile, $parentNodeID )
-{
-    // Attempt to get the current user ID.
-    $user = eZUser::currentUser();
-    $userID = $user->id();
-
-    // Fetch the file class.
-    $class =& eZContentClass::fetch( 12 );
-
-    // Create object by user id in section 1.
-    $contentObject =& $class->instantiate( $userID, 1 );
-
-    $nodeAssignment =& eZNodeAssignment::create( array(
-                                                     'contentobject_id' => $contentObject->attribute( 'id' ),
-                                                     'contentobject_version' => $contentObject->attribute( 'current_version' ),
-                                                     'parent_node' => $parentNodeID,
-                                                     'sort_field' => 2,
-                                                     'sort_order' => 0,
-                                                     'is_main' => 1
-                                                     )
-                                                 );
-    $nodeAssignment->store();
-
-    //
-    $version =& $contentObject->version( 1 );
-    $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
-    $version->store();
-
-    $contentObjectID = $contentObject->attribute( 'id' );
-    $contentObjectAttributes =& $version->contentObjectAttributes();
-
-    $storeInDBName = basename( $target );
-    $storeInDBName = preg_replace( "/\.\w*$/", "", $storeInDBName );
-    $storeInDBName = preg_replace( "#\/$#", "", $storeInDBName );
-
-    $contentObjectAttributes[0]->setAttribute( 'data_text', $storeInDBName );
-    $contentObjectAttributes[0]->store();
-
-    $contentObjectAttribute =& $contentObjectAttributes[2];
-
-    // Attempt to store the file object in the DB and copy the file.
-    $result = storeFile( $tempFile, basename( $target ), $contentObjectAttribute );
-
-    // If the store operation succeded:
-    if ( $result )
-    {
-        $contentObjectAttributes[2]->store();
-
-        include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-
-        $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID, 'version'   => 1 ) );
-        $contentObject->store();
-
-        return( EZ_WEBDAV_OK_CREATED );
-    }
-    // Else: the store operation failed.
-    else
-    {
-        return( EZ_WEBDAV_FAILED_FORBIDDEN );
-    }
-}
-
-
-
-
 /*! Creates a new instance of an ezimage object, stores it
     in the database. Sets the necessary object attributes.
     The image that was uploaded is copied to its
@@ -502,7 +358,7 @@ function storeImage( $imageFileName, $originalImageFileName, $caption, &$content
     $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
     $version = $contentObjectAttribute->attribute( "version" );
 
-    // Necessary for eZIMage stuff.
+    // Necessary for eZImage stuff.
     include_once( "kernel/common/image.php" );
 
     // Create a new instance of an image object.
@@ -646,6 +502,151 @@ function storeFile( $fileFileName, $fileOriginalFileName, &$contentObjectAttribu
     $result = unlink( $fileFileName );
 }
 
+
+
+
+/*!
+ */
+function putImage ( $target, $tempFile, $parentNodeID )
+{
+    // Attempt to get the current user ID.
+    $user = eZUser::currentUser();
+    $userID = $user->id();
+
+    //
+    $imageFileName = basename( $target );
+    $imageOriginalFileName = $imageFileName;
+    $imageCaption = $imageFileName;
+
+
+    // Fetch the image class.
+    $class =& eZContentClass::fetch( 5 );
+
+    // Create object by user id in section 1.
+    $contentObject =& $class->instantiate( $userID, 1 );
+
+
+    //
+    $nodeAssignment =& eZNodeAssignment::create( array(
+                                                     'contentobject_id' => $contentObject->attribute( 'id' ),
+                                                     'contentobject_version' => $contentObject->attribute( 'current_version' ),
+                                                     'parent_node' => $parentNodeID,
+                                                     'sort_field' => 2,
+                                                     'sort_order' => 0,
+                                                     'is_main' => 1
+                                                     )
+                                                 );
+    $nodeAssignment->store();
+
+    //
+    $version =& $contentObject->version( 1 );
+    $version->setAttribute( 'modified', $imageCreatedTime );
+    $version->setAttribute( 'created', $imageCreatedTime );
+    $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+    $version->store();
+
+    $contentObjectID = $contentObject->attribute( 'id' );
+    $contentObjectAttributes =& $version->contentObjectAttributes();
+
+    $storeInDBName = preg_replace( "/\.\w*$/", "", $imageFileName );
+    $storeInDBName = preg_replace( "#\/$#", "", $storeInDBName );
+
+    $contentObjectAttributes[0]->setAttribute( 'data_text', $storeInDBName );
+    $contentObjectAttributes[0]->store();
+
+    $contentObjectAttribute =& $contentObjectAttributes[2];
+
+    // Attempt to store the image object in the DB and copy the file.
+    $result = storeImage( $tempFile, $imageOriginalFileName, $imageCaption, $contentObjectAttribute );
+
+    // If the store operation was OK:
+    if ( $result )
+    {
+        //
+        $contentObjectAttributes[2]->store();
+
+        //
+        include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+        $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID, 'version' => 1 ) );
+
+        // We're safe.
+        return( EZ_WEBDAV_OK_CREATED );
+    }
+    // Else: the store didn't succeed...
+    else
+    {
+        return( EZ_WEBDAV_FAILED_FORBIDDEN );
+    }
+}
+
+
+
+
+/*!
+ */
+function putFile( $target, $tempFile, $parentNodeID )
+{
+    // Attempt to get the current user ID.
+    $user = eZUser::currentUser();
+    $userID = $user->id();
+
+    // Fetch the file class.
+    $class =& eZContentClass::fetch( 12 );
+
+    // Create object by user id in section 1.
+    $contentObject =& $class->instantiate( $userID, 1 );
+
+    //
+    $nodeAssignment =& eZNodeAssignment::create( array(
+                                                     'contentobject_id' => $contentObject->attribute( 'id' ),
+                                                     'contentobject_version' => $contentObject->attribute( 'current_version' ),
+                                                     'parent_node' => $parentNodeID,
+                                                     'sort_field' => 2,
+                                                     'sort_order' => 0,
+                                                     'is_main' => 1
+                                                     )
+                                                 );
+    //
+    $nodeAssignment->store();
+
+    //
+    $version =& $contentObject->version( 1 );
+    $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+    $version->store();
+
+    $contentObjectID = $contentObject->attribute( 'id' );
+    $contentObjectAttributes =& $version->contentObjectAttributes();
+
+    $storeInDBName = basename( $target );
+    $storeInDBName = preg_replace( "/\.\w*$/", "", $storeInDBName );
+    $storeInDBName = preg_replace( "#\/$#", "", $storeInDBName );
+
+    $contentObjectAttributes[0]->setAttribute( 'data_text', $storeInDBName );
+    $contentObjectAttributes[0]->store();
+
+    $contentObjectAttribute =& $contentObjectAttributes[2];
+
+    // Attempt to store the file object in the DB and copy the file.
+    $result = storeFile( $tempFile, basename( $target ), $contentObjectAttribute );
+
+    // If the store operation succeded:
+    if ( $result )
+    {
+        $contentObjectAttributes[2]->store();
+
+        include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+
+        $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObjectID, 'version'   => 1 ) );
+        $contentObject->store();
+
+        return( EZ_WEBDAV_OK_CREATED );
+    }
+    // Else: the store operation failed.
+    else
+    {
+        return( EZ_WEBDAV_FAILED_FORBIDDEN );
+    }
+}
 
 
 
