@@ -2125,6 +2125,8 @@ $rbracket
                         $tmpResourceData['key-data'] = null;
                         $subSpacing = 0;
                         $hasResourceData = false;
+
+                        $savedLocale = setlocale( LC_CTYPE, null );
                         if ( isset( $GLOBALS['eZTemplateCompilerResourceCache'][$tmpResourceData['template-filename']] ) )
                         {
                             $tmpFileName = $tmpResourceData['template-filename'];
@@ -2160,6 +2162,7 @@ $rbracket
                             }
                             $GLOBALS['eZTemplateCompilerResourceCache'][$tmpResourceData['template-filename']] =& $tmpResourceData;
                         }
+                        setlocale( LC_CTYPE, $savedLocale );
 //                         $tmpResourceData2 = $tmpResourceData;
 //                         unset( $tmpResourceData2['text'] );
 //                         unset( $tmpResourceData2['root-node'] );

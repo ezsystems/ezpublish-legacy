@@ -291,15 +291,16 @@ class eZTemplateFileResource
                     $locales = array_merge( $locales, explode( ',', $defaultLocale ) );
                 }
                 $localeData = $locales;
+                setlocale( LC_CTYPE, $locales );var_dump($locales);
                 
                 if ( eZTemplate::isDebugEnabled() )
                     eZDebug::writeNotice( "$path, $charset" );
                 $codec =& eZTextCodec::instance( $charset, false, false );
                 if ( $codec )
                 {
-                    eZDebug::accumulatorStart( 'templage_resource_conversion', 'template_total', 'String conversion in template resource' );
+                    eZDebug::accumulatorStart( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );
                     $text = $codec->convertString( $text );
-                    eZDebug::accumulatorStop( 'templage_resource_conversion', 'template_total', 'String conversion in template resource' );
+                    eZDebug::accumulatorStop( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );
                 }
                 $result = true;
                 if ( eZTemplate::isDebugEnabled() )

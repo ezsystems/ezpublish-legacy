@@ -36,7 +36,11 @@
 include_once( "lib/ezutils/classes/ezextension.php" );
 include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( 'lib/ezutils/classes/ezcli.php' );
+include_once( 'lib/ezutils/classes/ezini.php' );
 include_once( 'kernel/classes/ezscript.php' );
+
+$ini =& eZINI::instance();
+$ini->appendOverrideDir( 'tests/settings', true );
 
 $cli =& eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "eZ publish Unit Tester\n" .
