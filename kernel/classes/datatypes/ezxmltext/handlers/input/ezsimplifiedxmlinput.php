@@ -1240,7 +1240,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $originalInput = "originalInput_" . $contentObjectAttributeID;
         $isInputValid = "isInputValid_" . $contentObjectAttributeID;
 
-        if ( $GLOBALS[$isInputValid] == false )
+        if ( isset( $GLOBALS[$isInputValid] ) and $GLOBALS[$isInputValid] == false )
         {
             $output = $GLOBALS[$originalInput];
         }
