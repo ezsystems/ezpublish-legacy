@@ -277,6 +277,15 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
 //                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
     }
 
+    // clear template block cache if needed
+    $ini =& eZINI::instance();
+    $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
+    if ( $templateBlockCacheEnabled )
+    {
+        include_once( 'kernel/classes/ezcontentobject.php' );
+        eZContentObject::expireTemplateBlockCache();
+    }
+
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
     return;
 }
