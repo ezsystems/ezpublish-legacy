@@ -218,7 +218,7 @@ class eZModuleFunctionInfo
     {
         if ( $extension )
         {
-            include_once( 'kernel/classes/ezextension.php' );
+            include_once( 'lib/ezutils/classes/ezextension.php' );
             $extensionDir = eZExtension::baseDirectory();
             $includeFile = $extensionDir . '/' . $extension . '/modules/' . $includeFile;
         }

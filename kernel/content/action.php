@@ -255,7 +255,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     }
     else
     {
-        include_once( 'kernel/classes/ezextension.php' );
+        include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
         $contentINI =& eZINI::instance( 'content.ini' );
         $extensionDirectories = $contentINI->variable( 'ActionSettings', 'ExtensionDirectories' );

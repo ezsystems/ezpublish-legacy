@@ -76,6 +76,7 @@ links to clickable links.
   expiry is used.
 - The bug with the original size not working on images has been fixed.
 - Fixed a problem with the eZXMLText datatype not initializing correctly from older versions.
+- Moved eZExtension class into eZUtils library.
 
 *SDK :
 
@@ -102,6 +103,7 @@ eZ utils:
 - New class eZExpiryHandler which keeps track of expiry timestamps which can be
   used for cache handlers.
 - Made sure the result from getPathFromFilename() in eZDir does not contain extra slash at the end.
+- eZExtension was moved from kernel to this library.
 
 eZ PHP creator:
 - Added support for end-of-line comments.

@@ -322,31 +322,4 @@ function kernel_class( $name )
     return include_once( $include );
 }
 
-/*!
-*/
-function kernel_include( $name )
-{
-    $include = "kernel/$name";
-    return include_once( $include );
-}
-
-/*!
-*/
-function kernel_common( $name )
-{
-    $name = strtolower( $name );
-    $include = "kernel/common/$name.php";
-    return include_once( $include );
-}
-
-/*!
-*/
-function datatype_class( $datatype, $className )
-{
-    $className = strtolower( $className );
-    $include = "kernel/classes/datatypes/$datatype/$className.php";
-    return include_once( $include );
-}
-
-
 ?>

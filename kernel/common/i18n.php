@@ -47,7 +47,7 @@ function &ezinsertarguments( $text, $arguments )
 $ini =& eZINI::instance();
 if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
 {
-    include_once( 'kernel/classes/ezextension.php' );
+    include_once( 'lib/ezutils/classes/ezextension.php' );
     include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
     include_once( 'lib/ezi18n/classes/eztstranslator.php' );
 

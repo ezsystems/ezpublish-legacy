@@ -216,7 +216,7 @@ class eZWorkflowType
         $group = $typeElements[0];
         $type = $typeElements[1];
 
-        include_once( 'kernel/classes/ezextension.php' );
+        include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
         $wfINI =& eZINI::instance( 'workflow.ini' );
         $repositoryDirectories = $wfINI->variable( 'EventSettings', 'RepositoryDirectories' );

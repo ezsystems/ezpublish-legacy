@@ -299,7 +299,8 @@ include( "lib/ezutils/classes/ezweb.php" );
 eZWeb::init();
 
 // Check for extension
-include_once( 'kernel/classes/ezextension.php' );
+include_once( 'lib/ezutils/classes/ezextension.php' );
+include_once( 'kernel/common/ezincludefunctions.php' );
 eZExtension::activateExtensions();
 // Extension check end
 

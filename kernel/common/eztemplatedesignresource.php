@@ -117,7 +117,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( !$onlyStandard )
             $siteBase = eZTemplateDesignResource::designSetting( 'site' );
 
-        include_once( 'kernel/classes/ezextension.php' );
+        include_once( 'lib/ezutils/classes/ezextension.php' );
         $extensionDirectory = eZExtension::baseDirectory();
 
         $designINI =& eZINI::instance( 'design.ini' );

@@ -484,7 +484,7 @@ class eZDataType
             return false;
         }
 
-        include_once( 'kernel/classes/ezextension.php' );
+        include_once( 'lib/ezutils/classes/ezextension.php' );
         $baseDirectory = eZExtension::baseDirectory();
         $contentINI =& eZINI::instance( 'content.ini' );
         $repositoryDirectories = $contentINI->variable( 'DataTypeSettings', 'RepositoryDirectories' );
