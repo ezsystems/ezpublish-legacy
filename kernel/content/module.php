@@ -97,10 +97,10 @@ $ViewList["browse"] = array(
     "script" => "browse.php",
     "params" => array( "NodeID", "ObjectID", "EditVersion" ) );
 
-$ViewList["deletenode"] = array(
+$ViewList["removeobject"] = array(
     "functions" => array( 'read' ),
-    "script" => "deletenode.php",
-    "params" => array( "NodeID", "ObjectID", "EditVersion" ) );
+    "script" => "removeobject.php",
+    "params" => array( "NodeID" ) );
 
 $ViewList["download"] = array(
     "functions" => array( 'read' ),

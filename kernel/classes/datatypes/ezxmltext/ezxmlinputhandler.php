@@ -203,11 +203,21 @@ class eZXMLInputHandler
         $pos = 0;
         $endTagPos = 0;
         $unMatchedParagraph = false;
+        $headerSubtag = false;
+        $lastInsertedNodeTag = null;
         while ( $pos < strlen( $data ) )
         {
             $char = $data[$pos];
             if ( $char == "<" )
             {
+                 $lastInsertedNodeArray = array_pop( $TagStack );
+                 if ( $lastInsertedNodeArray !== null )
+                 {
+                     $lastInsertedNodeTag = $lastInsertedNodeArray["TagName"];
+                     $lastInsertedNode =& $lastInsertedNodeArray["ParentNodeObject"];
+                     array_push( $TagStack,
+                             array( "TagName" => $lastInsertedNodeTag, "ParentNodeObject" => &$lastInsertedNode ) );
+                 }
                 // find tag name
                 $endTagPos = strpos( $data, ">", $pos );
 
@@ -218,7 +228,6 @@ class eZXMLInputHandler
                 {
                     $lastNodeArray = array_pop( $TagStack );
                     $lastTag = $lastNodeArray["TagName"];
-
                     $lastNode =& $lastNodeArray["ParentNodeObject"];
 
                     $tagName = substr( $tagName, 1, strlen( $tagName ) );
@@ -231,11 +240,15 @@ class eZXMLInputHandler
                                         array( "TagName" => $lastTag, "ParentNodeObject" => &$lastNode ) );
                             $unMatchedParagraph = true;
                         }
+                        elseif ( ( $lastTag  == "header" ) and $headerSubtag )
+                        {
+                            array_push( $TagStack,
+                                        array( "TagName" => $lastTag, "ParentNodeObject" => &$lastNode ) );
+                        }
                         else
                         {
                             $message =  "Unmatched tag " . $tagName;
                             $output = array( null, $message );
-                            eZDebug::writeDebug( $message,"1111111111111111111");
                             return $output;
                         }
                     }
@@ -250,6 +263,11 @@ class eZXMLInputHandler
                 {
                     // Do nothing
                     $unMatchedParagraph = false;
+                }
+                elseif ( $lastInsertedNodeTag == "header" )
+                {
+                    // Do nothing
+                    $headerSubtag = true;
                 }
                 else
                 {
@@ -323,6 +341,7 @@ class eZXMLInputHandler
                                     array( "TagName" => $justName, "ParentNodeObject" => &$currentNode ) );
                         unset( $currentNode );
                         $currentNode =& $subNode;
+                        $lastInsertedTag = $justName;
                     }
                 }
             }
@@ -360,9 +379,9 @@ class eZXMLInputHandler
             }
         }
         $output = array( $domDocument, $message );
-        eZDebug::writeDebug($domDocument->toString(),"2222222222");
         return $output;
     }
+
     /*!
      Returns the input XML representation of the datatype.
     */

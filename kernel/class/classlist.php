@@ -57,7 +57,7 @@ function &removeSelectedClasses( &$http, &$classes, $base, &$Module, $GroupID )
                 $ClassVersion = $reject->attribute( "version" );
                 if ( $ClassVersion == 0 )
                 {
-                    $Module->redirectTo( "/class/delete/" . $GroupID . '/' . $ClassID );
+                    $Module->redirectTo( "/class/removeclass/" . $GroupID . '/' . $ClassID );
                 }else
                 {
                     $reject->remove( true, $ClassVersion );

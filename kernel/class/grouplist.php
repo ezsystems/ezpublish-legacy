@@ -38,7 +38,9 @@ include_once( "kernel/classes/ezcontentclassgroup.php" );
 include_once( "kernel/classes/ezcontentclassclassgroup.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
-function &removeSelectedGroups( &$http, &$groups, $base )
+$Module =& $Params["Module"];
+
+function &removeSelectedGroups( &$http, &$groups, $base,  &$Module )
 {
     if ( $http->hasPostVariable( "DeleteGroupButton" ) )
     {
@@ -50,15 +52,12 @@ function &removeSelectedGroups( &$http, &$groups, $base )
             for ( $i = 0; $i < count( $rejects ); ++$i )
             {
                 $reject =& $rejects[$i];
-                $reject->remove( );
-                $group_id = $reject->attribute( "id" );
-                eZContentClassClassGroup::removeGroupMembers( $group_id );
+                $GroupID = $reject->attribute( "id" );
+                $Module->redirectTo( "/class/removegroup/" . $GroupID );
             }
         }
     }
 }
-
-$Module =& $Params["Module"];
 
 $http =& eZHttpTool::instance();
 
@@ -92,7 +91,7 @@ foreach( $TemplateData as $tpldata )
     unset( $list );
 //     $list =& eZContentClassGroup::fetchList( $user->attribute( "contentobject_id" ), $asObject );
     $list =& eZContentClassGroup::fetchList( false, $asObject );
-    removeSelectedGroups( $http, $list, $base );
+    removeSelectedGroups( $http, $list, $base, $Module );
     $tpl->setVariable( $tplname, $list );
 }
 

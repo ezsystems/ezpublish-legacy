@@ -1,13 +1,12 @@
 <div class="warning">
-<h2 class="warning">Are you sure you will delete class {$ClassName}?</h2>
+<h2 class="warning">Are you sure you will remove {$GroupName}?</h2>
 <ul class="warning">
-	<li>Delete this class will cause {$ClassObjectsCount} removed!</li>
+	<li>Remove group "{$GroupName}" will remove {$ClassCount}!</li>
 </ul>
 </div>
 
-<form action={concat($module.functions.delete.uri,"/",$GroupID,"/",$ClassID)|ezurl} method="post" name="ClassDelete">
-<h1>Deleting class - {$ClassName}</h1>
-
+<form action={concat($module.functions.removegroup.uri,"/",$GroupID)|ezurl} method="post" name="GroupRemove">
+<h1>Remove group - {$GroupName}</h1>
 
 <table width="100%">
 <tr>
@@ -17,5 +16,7 @@
 </tr>
 </table>
 
+</td></tr>
+</table>
 
 </form>
