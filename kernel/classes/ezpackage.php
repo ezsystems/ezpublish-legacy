@@ -74,13 +74,7 @@ class eZPackage
                                               'release' => false ),
                           'timestamp' => false,
                           'licence' => false,
-                          'state' => false,
-                          'dependencies' => array( 'file-lists' => array() ),
-                          'provides' => array() );
-        $install = array( 'pre' => array(),
-                          'post' => array() );
-        $uninstall = array( 'pre' => array(),
-                            'post' => array() );
+                          'state' => false );
         $defaults = array( 'name' => false,
                            'summary' => false,
                            'description' => false,
@@ -98,8 +92,12 @@ class eZPackage
                            'groups' => array(),
                            'changelog' => array(),
                            'release' => $release,
-                           'install' => $install,
-                           'uninstall' => $uninstall );
+                           'dependencies' => array( 'provides' => array(),
+                                                    'requires' => array(),
+                                                    'obsoletes' => array(),
+                                                    'conflicts' => array() ),
+                           'install' => array(),
+                           'uninstall' => array() );
         $this->Parameters = array_merge( $defaults, $parameters );
         $this->ModifiedParameters = array();
         foreach ( $modifiedParameters as $name => $modifiedParameter )
@@ -142,7 +140,7 @@ class eZPackage
                     $name = $install['name'];
                     $os = $install['os'];
                     $filename = $install['filename'];
-                    $subdirectory = $install['subdirectory'];
+                    $subdirectory = $install['sub-directory'];
                     $parameters = $install['parameters'];
                     $partType = $parameters['type'];
                     $content = $parameters['content'];
@@ -288,11 +286,13 @@ class eZPackage
         $this->ModifiedParameters['documents'][$index] = $modified;
     }
 
-    function appendGroup( $name )
+    function appendGroup( $name, $modified = null )
     {
+        if ( $modified === null )
+            $modified = mktime();
         $index = count( $this->Parameters['groups'] );
-        $this->Parameters['groups'][$index] = array( 'name' => $name );
-        $this->ModifiedParameters['groups'][$index] = mktime();
+        $this->Parameters['groups'][$index] = array( 'name' => $name,
+                                                     'modified' => $modified );
     }
 
     function appendChange( $person, $email, $changes,
@@ -317,53 +317,75 @@ class eZPackage
         $this->ModifiedParameters['changelog'][$index] = $modified;
     }
 
-    function appendFileList( $files, $role = false, $subDirectory = false,
-                             $parameters = false )
+    function appendProvides( $name, $value,
+                             $parameters = false, $modified = null )
     {
-        $this->Parameters['release']['provides']['file-lists'][] = array( 'files' => $files,
-                                                                          'role' => $role,
-                                                                          'sub-directory' => $subDirectory,
-                                                                          'parameters' => $parameters );
+        $this->appendDependency( 'provides', $name, $value,
+                                 $parameters, $modified );
     }
 
-    function appendInstall( $type, $name, $os = false, $isPre = true,
-                            $filename = false, $subdirectory = false,
-                            $parameters = false )
+    function appendDependency( $dependencyName, $name, $value,
+                               $parameters = false, $modified = null )
     {
-        $installEntry = array( 'type' => $type,
-                               'name' => $name,
-                               'os' => $os,
-                               'filename' => $filename,
-                               'subdirectory' => $subdirectory,
-                               'parameters' => $parameters );
-        $prePost = 'pre';
-        if ( !$isPre )
-            $prePost = 'post';
-        $this->Parameters['install'][$prePost][] = $installEntry;
+        if ( $modified === null )
+            $modified = mktime();
+        $parameters['name'] = $name;
+        $parameters['value'] = $value;
+        $parameters['modified'] = $modified;
+        $this->Parameters['dependencies'][$dependencyName][] = $parameters;
+    }
+
+    function appendFileList( $files, $role = false, $subDirectory = false,
+                             $parameters = false, $modified = null )
+    {
+        if ( $modified === null )
+            $modified = mktime();
+        $index = count( $this->Parameters['dependencies']['provides'] );
+        $parameters['name'] = 'file-list';
+        $parameters['files'] = $files;
+        $parameters['role'] = $role;
+        $parameters['sub-directory'] = $subDirectory;
+        $this->Parameters['dependencies']['provides'][$index] = $parameters;
+        $this->ModifiedParameters['dependencies']['provides'][$index] = $modified;
+    }
+
+    function appendInstall( $type, $name, $os = false, $isInstall = true,
+                            $filename = false, $subdirectory = false,
+                            $parameters = false, $modified = null )
+    {
+        if ( $modified === null )
+            $modified = mktime();
+        $installEntry = $parameters;
+        $installEntry['type'] = $type;
+        $installEntry['name'] = $name;
+        $installEntry['modified'] = $modified;
+        $installEntry['os'] = $os;
+        $installEntry['filename'] = $filename;
+        $installEntry['sub-directory'] = $subdirectory;
         if ( $installEntry['filename'] )
         {
-            $content = $installEntry['parameters']['content'];
+            $content = $installEntry['content'];
             if ( get_class( $content ) == 'ezdomnode' )
             {
                 $partContentNode =& $content;
-                $subdirectory = false;
-                if ( $installEntry['subdirectory'] )
+                $path = $this->path();
+                if ( $installEntry['sub-directory'] )
                 {
-                    $subdirectory = $installEntry['subdirectory'];
+                    $path .= '/' . $installEntry['sub-directory'];
                 }
-                $filePath = $installEntry['filename'] . '.xml';
-                if ( $subdirectory )
-                {
-                    if ( !file_exists( $subdirectory ) )
-                        eZDir::mkdir( $subdirectory, 0777, true );
-                    $filePath = $subdirectory . '/' . $filePath;
-                }
+                $filePath = $path . '/' . $installEntry['filename'] . '.xml';
+                if ( !file_exists( $path ) )
+                    eZDir::mkdir( $path, eZDir::directoryPermission(), true );
                 $partDOM = new eZDOMDocument();
                 $partDOM->setRoot( $partContentNode );
-                print( "Storing $filePath\n" );
                 $this->storeDOM( $filePath, $partDOM );
+                $installEntry['content'] = false;
             }
         }
+        $installName = 'install';
+        if ( !$isInstall )
+            $installName = 'uninstall';
+        $this->Parameters[$installName][] = $installEntry;
     }
 
     /*!
@@ -607,32 +629,32 @@ class eZPackage
         return false;
     }
 
-    function handleExportList( $exportList )
-    {
-        $handlers = array();
-        foreach ( $exportList as $exportItem )
-        {
-            $exportType = $exportItem['type'];
-            $exportParameters = $exportItem['parameters'];
-            $exportHandler = 'kernel/classes/packagehandlers/' . $exportType . '/' . $exportType . 'exporthandler.php';
-            if ( file_exists( $exportHandler ) )
-            {
-                include_once( $exportHandler );
-                $exportClass = $exportType . 'ExportHandler';
-                if ( isset( $handlers[$exportType] ) )
-                {
-                    $handler =& $handlers[$exportType];
-                    $handler->reset();
-                }
-                else
-                {
-                    $handler =& new $exportClass;
-                    $handlers[$exportType] =& $handler;
-                }
-                $handler->handle( $this, $exportParameters );
-            }
-        }
-    }
+//     function handleExportList( $exportList )
+//     {
+//         $handlers = array();
+//         foreach ( $exportList as $exportItem )
+//         {
+//             $exportType = $exportItem['type'];
+//             $exportParameters = $exportItem['parameters'];
+//             $exportHandler = 'kernel/classes/packagehandlers/' . $exportType . '/' . $exportType . 'exporthandler.php';
+//             if ( file_exists( $exportHandler ) )
+//             {
+//                 include_once( $exportHandler );
+//                 $exportClass = $exportType . 'ExportHandler';
+//                 if ( isset( $handlers[$exportType] ) )
+//                 {
+//                     $handler =& $handlers[$exportType];
+//                     $handler->reset();
+//                 }
+//                 else
+//                 {
+//                     $handler =& new $exportClass;
+//                     $handlers[$exportType] =& $handler;
+//                 }
+//                 $handler->handle( $this, $exportParameters );
+//             }
+//         }
+//     }
 
     /*!
      \return the full path to this package.
@@ -811,7 +833,7 @@ class eZPackage
         }
 
         // Read changelog
-        $changelogList =& $root->elementChildrenByName( 'changelogs' );
+        $changelogList =& $root->elementChildrenByName( 'changelog' );
         foreach ( array_keys( $changelogList ) as $changelogKey )
         {
             $changelogEntryNode =& $changelogList[$changelogKey];
@@ -826,13 +848,11 @@ class eZPackage
         }
 
         // Read release info
-        $releaseNode =& $root->elementByName( 'release' );
-
-        $versionNode =& $releaseNode->elementByName( 'version' );
+        $versionNode =& $root->elementByName( 'version' );
         $versionNumber = $versionNode->elementTextContentByName( 'number' );
         $versionRelease = $versionNode->elementTextContentByName( 'release' );
-        $licence = $releaseNode->elementTextContentByName( 'licence' );
-        $state = $releaseNode->elementTextContentByName( 'state' );
+        $licence = $root->elementTextContentByName( 'licence' );
+        $state = $root->elementTextContentByName( 'state' );
         $releaseModifications = array();
         $releaseNumberModification = $versionNode->elementAttributeValueByName( 'number', 'modified' );
         if ( $releaseNumberModification )
@@ -840,63 +860,89 @@ class eZPackage
         $releaseReleaseModification = $versionNode->elementAttributeValueByName( 'release', 'modified' );
         if ( $releaseReleaseModification )
             $releaseModifications['release'] = $releaseReleaseModification;
-        $releaseLicenceModification = $releaseNode->elementAttributeValueByName( 'licence', 'modified' );
+        $releaseLicenceModification = $root->elementAttributeValueByName( 'licence', 'modified' );
         if ( $releaseLicenceModification )
             $releaseModifications['licence'] = $releaseLicenceModification;
-        $releaseStateModification = $releaseNode->elementAttributeValueByName( 'state', 'modified' );
+        $releaseStateModification = $root->elementAttributeValueByName( 'state', 'modified' );
         if ( $releaseStateModification )
             $releaseModifications['state'] = $releaseStateModification;
         $this->setRelease( $versionNumber, $versionRelease, false,
                            $licence, $state,
                            $releaseModifications );
 
-        $installNode =& $releaseNode->elementByName( 'install' );
-        $installPreNode =& $installNode->elementByName( 'pre' );
-        $installPreChildren =& $installPreNode->children();
-        for ( $i = 0; $i < count( $installPreChildren ); ++$i )
+        $dependenciesNode =& $root->elementByName( 'dependencies' );
+        $providesList =& $dependenciesNode->elementChildrenByName( 'provides' );
+        $requiresList =& $dependenciesNode->elementChildrenByName( 'requires' );
+        $obsoletesList =& $dependenciesNode->elementChildrenByName( 'obsoletes' );
+        $conflictsList =& $dependenciesNode->elementChildrenByName( 'conflicts' );
+        $this->parseDependencyTree( $providesList, 'provides' );
+        $this->parseDependencyTree( $requiresList, 'requires' );
+        $this->parseDependencyTree( $obsoletesList, 'obsoletes' );
+        $this->parseDependencyTree( $conflictsList, 'conflicts' );
+
+        $installList =& $root->elementChildrenByName( 'install' );
+        $uninstallList =& $root->elementChildrenByName( 'uninstall' );
+        $this->parseInstallTree( $installList, true );
+        $this->parseInstallTree( $uninstallList, false );
+    }
+
+    /*!
+     \private
+    */
+    function parseDependencyTree( &$node, $name )
+    {
+        foreach ( array_keys( $dependenciesList ) as $dependencyKey )
         {
-            $installPreChild =& $installPreChildren[$i];
-            $this->importInstallPart( $installPreChild, true );
+            $dependencyNode =& $dependenciesList[$dependencyKey];
         }
     }
 
     /*!
      \private
     */
-    function importInstallPart( &$child, $isPre )
+    function parseInstallTree( &$installList, $isInstall )
     {
-        $installType = $child->name();
-        switch ( $installType )
+        for ( $i = 0; $i < count( $installList ); ++$i )
         {
-            case 'run':
-            {
-            } break;
-            case 'database':
-            {
-            } break;
-            case 'part':
-            {
-                $os = $child->attributeValue( 'os' );
-                $name = $child->attributeValue( 'name' );
-                $type = $child->attributeValue( 'type' );
-                $filename = $child->attributeValue( 'filename' );
-                $subdirectory = $child->attributeValue( 'sub-directory' );
-                $content = false;
-                if ( !$filename )
-                {
-                    $content =& $child->firstChild();
-                }
-                $this->appendInstall( 'part', $name, $os, $isPre,
-                                      $filename, $subdirectory,
-                                      array( 'type' => $type,
-                                             'content' => $content ) );
-            } break;
-            case 'operation':
-            {
-            } break;
+            $installNode =& $installList[$i];
         }
+//         $installType = $child->name();
+//         switch ( $installType )
+//         {
+//             case 'run':
+//             {
+//             } break;
+//             case 'database':
+//             {
+//             } break;
+//             case 'part':
+//             {
+//                 $os = $child->attributeValue( 'os' );
+//                 $name = $child->attributeValue( 'name' );
+//                 $type = $child->attributeValue( 'type' );
+//                 $filename = $child->attributeValue( 'filename' );
+//                 $subdirectory = $child->attributeValue( 'sub-directory' );
+//                 $modified = $child->attributeValue( 'modified' );
+//                 $content = false;
+//                 if ( !$filename )
+//                 {
+//                     $content =& $child->firstChild();
+//                 }
+//                 $this->appendInstall( 'part', $name, $os, true,
+//                                       $filename, $subdirectory,
+//                                       array( 'type' => $type,
+//                                              'content' => $content ),
+//                                       $modified );
+//             } break;
+//             case 'operation':
+//             {
+//             } break;
+//         }
     }
 
+    /*!
+     \return the dom document of the package.
+    */
     function &domStructure()
     {
         $dom = new eZDOMDocument();
@@ -944,9 +990,10 @@ class eZPackage
         $documents = $this->attribute( 'documents' );
         $groups = $this->attribute( 'groups' );
         $release = $this->attribute( 'release' );
+        $dependencies = $this->attribute( 'dependencies' );
         $install = $this->attribute( 'install' );
         $uninstall = $this->attribute( 'uninstall' );
-        $changelogs = $this->attribute( 'changelog' );
+        $changelog = $this->attribute( 'changelog' );
 
         $root->appendChild( $dom->createElementTextNode( 'name', $name,
                                                          $nameAttributes ) );
@@ -1027,7 +1074,8 @@ class eZPackage
                 if ( $document['audience'] )
                     $documentNode->appendAttribute( $dom->createAttributeNode( 'audience', $document['audience'] ) );
                 $documentsNode->appendChild( $documentNode );
-                if ( $document['create-document'] )
+                if ( isset( $document['create-document'] ) and
+                     $document['create-document'] )
                 {
                     eZFile::create( $document['name'], $this->path() . '/' . eZPackage::documentDirectory(),
                                     $document['data'] );
@@ -1042,37 +1090,40 @@ class eZPackage
             $groupsNode =& $dom->createElementNode( 'groups' );
             foreach ( $groups as $group )
             {
-                $groupNode =& $dom->createElementNode( 'group', array( 'name' => $group['name'] ) );
+                $groupAttributes = array( 'name' => $group['name'] );
+                $groupModified = $group['modified'];
+                if ( $groupModified )
+                    $groupAttributes['modified'] = $groupModified;
+                $groupNode =& $dom->createElementNode( 'group', $groupAttributes );
                 $groupsNode->appendChild( $groupNode );
             }
             $root->appendChild( $groupsNode );
         }
 
-        if ( count( $changelogs ) > 0 )
+        if ( count( $changelog ) > 0 )
         {
-            $changelogsNode =& $dom->createElementNode( 'changelogs' );
-            $changelogsNode->appendAttribute( $dom->createAttributeNode( 'ezchangelog', 'http://ez.no/ezpackage', 'xmlns' ) );
+            $changelogNode =& $dom->createElementNode( 'changelog' );
+            $changelogNode->appendAttribute( $dom->createAttributeNode( 'ezchangelog', 'http://ez.no/ezpackage', 'xmlns' ) );
             $index = 0;
-            foreach ( $changelogs as $changelog )
+            foreach ( $changelog as $changeEntry )
             {
-                $changelogNode =& $dom->createElementNode( 'entry' );
-                $changelogNode->appendAttribute( $dom->createAttributeNode( 'timestamp', $changelog['timestamp'] ) );
-                $changelogNode->appendAttribute( $dom->createAttributeNode( 'person', $changelog['person'] ) );
-                $changelogNode->appendAttribute( $dom->createAttributeNode( 'email', $changelog['email'] ) );
-                $changelogNode->appendAttribute( $dom->createAttributeNode( 'release', $changelog['release'] ) );
-                foreach ( $changelog['changes'] as $change )
+                $changeEntryNode =& $dom->createElementNode( 'entry' );
+                $changeEntryNode->appendAttribute( $dom->createAttributeNode( 'timestamp', $changeEntry['timestamp'] ) );
+                $changeEntryNode->appendAttribute( $dom->createAttributeNode( 'person', $changeEntry['person'] ) );
+                $changeEntryNode->appendAttribute( $dom->createAttributeNode( 'email', $changeEntry['email'] ) );
+                $changeEntryNode->appendAttribute( $dom->createAttributeNode( 'release', $changeEntry['release'] ) );
+                foreach ( $changeEntry['changes'] as $change )
                 {
-                    $changelogNode->appendChild( $dom->createElementTextNode( 'change', $change ) );
+                    $changeEntryNode->appendChild( $dom->createElementTextNode( 'change', $change ) );
                 }
                 if ( $this->isModified( 'changelog', array( $index ) ) )
-                    $changelogNode->appendAttribute( $dom->createAttributeNode( 'modified', $this->isModified( 'changelog', array( $index ) ) ) );
-                $changelogsNode->appendChild( $changelogNode );
+                    $changeEntryNode->appendAttribute( $dom->createAttributeNode( 'modified', $this->isModified( 'changelog', array( $index ) ) ) );
+                $changelogNode->appendChild( $changeEntryNode );
                 ++$index;
             }
-            $root->appendChild( $changelogsNode );
+            $root->appendChild( $changelogNode );
         }
 
-        $releaseNode =& $dom->createElementNode( 'release' );
         $versionNode =& $dom->createElementNode( 'version' );
         $versionNode->appendAttribute( $dom->createAttributeNode( 'ezversion', 'http://ez.no/ezpackage', 'xmlns' ) );
         $numberAttributes = array();
@@ -1085,127 +1136,159 @@ class eZPackage
             $releaseAttributes['modified'] = $this->isModified( 'release', array( 'version', 'release' ) );
         $versionNode->appendChild( $dom->createElementTextNode( 'release', $release['version']['release'],
                                                                 $releaseAttributes ) );
-        $releaseNode->appendChild( $versionNode );
+        $root->appendChild( $versionNode );
         if ( $release['timestamp'] )
         {
-//             $release['timestamp'] = mktime();
             $timestampAttributes = array();
             if ( $this->isModified( 'release', array( 'timestamp' ) ) )
                 $timestampAttributes['modified'] = $this->isModified( 'release', array( 'timestamp' ) );
-            $releaseNode->appendChild( $dom->createElementTextNode( 'timestamp', $release['timestamp'],
+            $root->appendChild( $dom->createElementTextNode( 'timestamp', $release['timestamp'],
                                                                     $timestampAttributes ) );
         }
         $licenceAttributes = array();
         if ( $this->isModified( 'release', array( 'licence' ) ) )
             $licenceAttributes['modified'] = $this->isModified( 'release', array( 'licence' ) );
         if ( $release['licence'] )
-            $releaseNode->appendChild( $dom->createElementTextNode( 'licence', $release['licence'],
+            $root->appendChild( $dom->createElementTextNode( 'licence', $release['licence'],
                                                                     $licenceAttributes ) );
         $stateAttributes = array();
         if ( $this->isModified( 'release', array( 'state' ) ) )
             $stateAttributes['modified'] = $this->isModified( 'release', array( 'state' ) );
         if ( $release['state'] )
-            $releaseNode->appendChild( $dom->createElementTextNode( 'state', $release['state'],
+            $root->appendChild( $dom->createElementTextNode( 'state', $release['state'],
                                                                     $stateAttributes ) );
 
-        $providesNode =& $dom->createElementNode( 'provides' );
-        $providesNode->appendAttribute( $dom->createAttributeNode( 'ezprovision', 'http://ez.no/ezpackage', 'xmlns' ) );
-        if ( isset( $release['provides']['file-lists'] ) )
-        {
-            foreach ( $release['provides']['file-lists'] as $fileList )
-            {
-                $fileListNode =& $dom->createElementNode( 'file-list' );
-                if ( $fileList['role'] )
-                    $fileListNode->appendAttribute( $dom->createAttributeNode( 'role', $fileList['role'] ) );
-                if ( $fileList['sub-directory'] )
-                    $fileListNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $fileList['sub-directory'] ) );
-                foreach ( $fileList['parameters'] as $parameterName => $parameterValue )
-                {
-                    $fileListNode->appendAttribute( $dom->createAttributeNode( $parameterName, $parameterValue ) );
-                }
-                $providesNode->appendChild( $fileListNode );
-                foreach ( $fileList['files'] as $file )
-                {
-                    $fileNode =& $dom->createElementNode( 'file', array( 'name' => $file['name'] ) );
-                    if ( $file['role'] )
-                        $fileNode->appendAttribute( $dom->createAttributeNode( 'role', $file['role'] ) );
-                    if ( $file['sub-directory'] )
-                        $fileNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $file['sub-directory'] ) );
-                    if ( $file['md5sum'] )
-                        $fileNode->appendAttribute( $dom->createAttributeNode( 'md5sum', $file['md5sum'] ) );
-                    $fileListNode->appendChild( $fileNode );
-                }
-            }
-        }
-        $releaseNode->appendChild( $providesNode );
+        $dependencyNode =& $dom->createElementNode( 'dependencies' );
+        $dependencyNode->appendAttribute( $dom->createAttributeNode( 'ezdependency', 'http://ez.no/ezpackage', 'xmlns' ) );
+
+//         if ( isset( $release['provides']['file-lists'] ) )
+//         {
+//             foreach ( $release['provides']['file-lists'] as $fileList )
+//             {
+//                 $fileListNode =& $dom->createElementNode( 'file-list' );
+//                 if ( $fileList['role'] )
+//                     $fileListNode->appendAttribute( $dom->createAttributeNode( 'role', $fileList['role'] ) );
+//                 if ( $fileList['sub-directory'] )
+//                     $fileListNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $fileList['sub-directory'] ) );
+//                 foreach ( $fileList['parameters'] as $parameterName => $parameterValue )
+//                 {
+//                     $fileListNode->appendAttribute( $dom->createAttributeNode( $parameterName, $parameterValue ) );
+//                 }
+//                 $providesNode->appendChild( $fileListNode );
+//                 foreach ( $fileList['files'] as $file )
+//                 {
+//                     $fileNode =& $dom->createElementNode( 'file', array( 'name' => $file['name'] ) );
+//                     if ( $file['role'] )
+//                         $fileNode->appendAttribute( $dom->createAttributeNode( 'role', $file['role'] ) );
+//                     if ( $file['sub-directory'] )
+//                         $fileNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $file['sub-directory'] ) );
+//                     if ( $file['md5sum'] )
+//                         $fileNode->appendAttribute( $dom->createAttributeNode( 'md5sum', $file['md5sum'] ) );
+//                     $fileListNode->appendChild( $fileNode );
+//                 }
+//             }
+//         }
+
+        $providesNode =& $dependencyNode->appendChild( $dom->createElementNode( 'provides' ) );
+        $requiresNode =& $dependencyNode->appendChild( $dom->createElementNode( 'requires' ) );
+        $obsoletesNode =& $dependencyNode->appendChild( $dom->createElementNode( 'obsoletes' ) );
+        $conflictsNode =& $dependencyNode->appendChild( $dom->createElementNode( 'conflicts' ) );
+
+        $this->createDependencyTree( $providesNode, 'provide', $dependencies['provides'] );
+        $this->createDependencyTree( $requiresNode, 'require', $dependencies['requires'] );
+        $this->createDependencyTree( $obsoletesNode, 'obsolete', $dependencies['obsoletes'] );
+        $this->createDependencyTree( $conflictsNode, 'conflict', $dependencies['conflicts'] );
+
+        $root->appendChild( $dependencyNode );
 
         $installNode =& $dom->createElementNode( 'install' );
         $installNode->appendAttribute( $dom->createAttributeNode( 'ezinstall', 'http://ez.no/ezpackage', 'xmlns' ) );
-        $installPreNode =& $dom->createElementNode( 'pre' );
-        $installNode->appendChild( $installPreNode );
-        $installPostNode =& $dom->createElementNode( 'post' );
-        $installNode->appendChild( $installPostNode );
-        $this->handleInstallPart( $installPreNode, $dom, $install['pre'] );
-        $this->handleInstallPart( $installPostNode, $dom, $install['post'] );
+        $uninstallNode =& $dom->createElementNode( 'uninstall' );
+        $uninstallNode->appendAttribute( $dom->createAttributeNode( 'ezinstall', 'http://ez.no/ezpackage', 'xmlns' ) );
 
-        $releaseNode->appendChild( $installNode );
+        $this->createInstallTree( $installNode, $dom, $install, 'install' );
+        $this->createInstallTree( $uninstallNode, $dom, $uninstall, 'uninstall' );
 
-        $root->appendChild( $releaseNode );
+        $root->appendChild( $installNode );
+        $root->appendChild( $uninstallNode );
 
         return $dom;
     }
 
-    function handleInstallPart( &$installNode, &$dom, $list )
+    /*!
+     \private
+     Creates xml elements as children of the main node \a $installNode.
+     The install elements are taken from \a $list.
+     \param $installType Is either \c 'install' or \c 'uninstall'
+    */
+    function createInstallTree( &$installNode, &$dom, $list, $installType )
     {
-        foreach ( $list as $item )
+        foreach ( $list as $installItem )
         {
-            $type = $item['type'];
-            switch ( $type )
+            $type = $installItem['type'];
+            if ( $installItem['content'] or
+                 $installItem['filename'] )
             {
-                case 'run':
+                $installItemNode =& $dom->createElementNode( 'item',
+                                                             array( 'type' => $type ) );
+                $installNode->appendChild( $installItemNode );
+                $content = $installItem['content'];
+                if ( $installItem['os'] )
+                    $installItemNode->appendAttribute( $dom->createAttributeNode( 'os', $installItem['os'] ) );
+                if ( $installItem['name'] )
+                    $installItemNode->appendAttribute( $dom->createAttributeNode( 'name', $installItem['name'] ) );
+                $installModified = $installItem['modified'];
+                if ( $installModified )
+                    $installItemNode->appendAttribute( $dom->createAttributeNode( 'modified', $installModified ) );
+                if ( $installItem['filename'] )
                 {
-                } break;
-                case 'database':
-                {
-                } break;
-                case 'part':
-                {
-                    if ( $item['parameters']['content'] )
+                    $installItemNode->appendAttribute( $dom->createAttributeNode( 'filename', $installItem['filename'] ) );
+                    if ( $installItem['sub-directory'] )
                     {
-                        $content = $item['parameters']['content'];
-                        $partNode =& $dom->createElementNode( 'part' );
-                        $partType = $item['parameters']['type'];
-                        $partNode->appendAttribute( $dom->createAttributeNode( 'type', $partType ) );
-                        if ( $item['os'] )
-                            $partNode->appendAttribute( $dom->createAttributeNode( 'os', $item['os'] ) );
-                        if ( $item['name'] )
-                            $partNode->appendAttribute( $dom->createAttributeNode( 'name', $item['name'] ) );
-                        if ( get_class( $content ) == 'ezdomnode' )
-                        {
-                            $partContentNode =& $content;
-                        }
-                        if ( $item['filename'] )
-                        {
-                            $partNode->appendAttribute( $dom->createAttributeNode( 'filename', $item['filename'] ) );
-                            if ( $item['subdirectory'] )
-                            {
-                                $partNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $item['subdirectory'] ) );
-                            }
-                        }
-                        else
-                        {
-                            $partNode->appendChild( $partContentNode );
-                        }
-                        $installNode->appendChild( $partNode );
+                        $installItemNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $installItem['sub-directory'] ) );
                     }
-                } break;
-                case 'operation':
+                }
+                else
                 {
-                } break;
+                    $installItemNode->appendChild( $content );
+                }
+
+                $handler =& $this->packageHandler( $type );
+                if ( $handler )
+                {
+                    $handler->createInstallNode( $installItemNode, $installItem, $installType );
+                }
             }
         }
     }
 
+    /*!
+     Creates dependency xml elements as child of $dependenciesNode.
+     The dependency elements are take from \a $list.
+     \param $dependencyType Is either \c 'provide', \c 'require', \c 'obsolete' or \c 'conflict'
+    */
+    function createDependencyTree( &$dependenciesNode, $dependencyType, $list )
+    {
+        foreach ( $list as $dependencyItem )
+        {
+            $dependencyNode =& eZDOMDocument::createElementNode( $dependencyType );
+            $dependencyNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $dependencyItem['name'] ) );
+            $dependencyNode->appendAttribute( eZDOMDocument::createAttributeNode( 'value', $dependencyItem['value'] ) );
+            $dependencyModified = $dependencyItem['modified'];
+            if ( $dependencyModified )
+                $dependencyNode->appendAttribute( eZDOMDocument::createAttributeNode( 'modified', $dependencyModified ) );
+            $dependenciesNode->appendChild( $dependencyNode );
+            $handler =& $this->packageHandler( $dependencyItem['name'] );
+            if ( $handler )
+            {
+                $handler->createDependencyNode( $dependencyNode, $dependencyItem, $dependencyType );
+            }
+        }
+    }
+
+    /*!
+     \return the package handler object for the handler named \a $handlerName.
+    */
     function &packageHandler( $handlerName )
     {
         $handlers =& $GLOBALS['eZPackageHandlers'];
@@ -1231,18 +1314,6 @@ class eZPackage
             }
         }
         return $handler;
-    }
-
-    function handleAddParameters( $handlerName, &$cli, $arguments )
-    {
-        $handler =& $this->packageHandler( $handlerName );
-        if ( is_object( $handler ) )
-        {
-            return $handler->handleAddParameters( $cli, $arguments );
-        }
-        else
-            $cli->error( "Unknown package handler $handlerName" );
-        return false;
     }
 
     /// \privatesection

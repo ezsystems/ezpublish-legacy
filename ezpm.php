@@ -50,36 +50,10 @@ $script->startup();
 $endl = $cli->endlineString();
 $webOutput = $cli->isWebOutput();
 
-$siteaccess = false;
-$debugOutput = false;
-$useColors = false;
-$isQuiet = false;
-$useLogFiles = false;
-$userLogin = false;
-$userPassword = false;
-$command = false;
-
-$packageName = false;
-$packageAttribute = false;
-$packageAttributeValue = false;
-$packagePart = false;
-$packagePartParameters = array();
-$packageSummary = false;
-$packageLicence = false;
-$packageVersion = false;
-$packageFile = false;
-$outputFile = false;
-$exportType = false;
-$exportParameters = array();
-
-
-$optionsWithData = array( 's', 'o', 'l', 'p' );
-$longOptionsWithData = array( 'siteaccess', 'login', 'password' );
-
 function help()
 {
     $argv = $_SERVER['argv'];
-    print( "Usage: " . $argv[0] . " [OPTION]... COMMAND\n" .
+    print( "Usage: " . $argv[0] . " [OPTION]... COMMAND [-- COMMAND]...\n" .
            "eZ publish package manager.\n" .
            "\n" .
            "Type " . $argv[0] . " help for command overview\n" .
@@ -143,10 +117,11 @@ function helpInfo()
 
 function helpAdd()
 {
-    print( "add: Adds an eZ publish part to the package.\n" .
-           "usage: add PACKAGE PART [PART PARAMETERS]...\n" .
+    print( "add: Adds an eZ publish item to the package.\n" .
+           "usage: add PACKAGE ITEM [ITEMPARAMETERS]...\n" .
            "\n" .
-           "Parts:\n" .
+           "Items:\n" .
+           "  group: Add categorization groups\n" .
            "  ezcontentclass: Add contentclass definitions\n" .
            "Note: Will open up a new release if no open releases exists yet.\n"
            );
@@ -174,8 +149,8 @@ function helpSet()
 
 function helpDelete()
 {
-    print( "delete (del, remove, rm): Removes an eZ publish part from the package.\n" .
-           "usage: delete PACKAGE PART [PART PARAMETERS]...\n" .
+    print( "delete (del, remove, rm): Removes an eZ publish item from the package.\n" .
+           "usage: delete PACKAGE ITEM [ITEMPARAMETERS]...\n" .
            "\n" .
            "Note: Will open up a new release if no open releases exists yet.\n"
            );
@@ -215,6 +190,52 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
     }
 }
 
+$siteaccess = false;
+$debugOutput = false;
+$useColors = false;
+$isQuiet = false;
+$useLogFiles = false;
+$userLogin = false;
+$userPassword = false;
+$command = false;
+
+// $packageName = false;
+// $packageAttribute = false;
+// $packageAttributeValue = false;
+// $packagePart = false;
+// $packagePartParameters = array();
+// $packageSummary = false;
+// $packageLicence = false;
+// $packageVersion = false;
+// $packageFile = false;
+
+$commandList = array();
+$commandItem = array();
+
+function resetCommandItem( &$commandItem )
+{
+    $commandItem = array( 'command' => false,
+                          'name' => false,
+                          'attribute' => false,
+                          'attribute-value' => false,
+                          'item' => false,
+                          'item-parameters' => array(),
+                          'summary' => false,
+                          'licence' => false,
+                          'version' => false,
+                          'file' => false );
+}
+
+function appendCommandItem( &$commandList, &$commandItem )
+{
+    $commandList[] = $commandItem;
+}
+
+resetCommandItem( $commandItem );
+
+$optionsWithData = array( 's', 'o', 'l', 'p' );
+$longOptionsWithData = array( 'siteaccess', 'login', 'password' );
+
 $commandAlias = array();
 $commandAlias['help'] = array( '?', 'h' );
 $commandAlias['delete'] = array( 'del', 'remove', 'rm' );
@@ -234,7 +255,12 @@ $readOptions = true;
 for ( $i = 1; $i < count( $argv ); ++$i )
 {
     $arg = $argv[$i];
-    if ( $readOptions and
+    if ( $arg == '--' )
+    {
+        appendCommandItem( $commandList, $commandItem );
+        resetCommandItem( $commandItem );
+    }
+    else if ( $readOptions and
          strlen( $arg ) > 0 and
          $arg[0] == '-' )
     {
@@ -314,10 +340,6 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             {
                 $isQuiet = true;
             }
-            else if ( $flag == 'o' )
-            {
-                $outputFile = $optionData;
-            }
             else if ( $flag == 'c' )
             {
                 $useColors = true;
@@ -329,10 +351,6 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             else if ( $flag == 's' )
             {
                 changeSiteAccessSetting( $siteaccess, $optionData );
-            }
-            else if ( $flag == 'o' )
-            {
-                $outputFile = $optionData;
             }
             else if ( $flag == 'l' )
             {
@@ -346,15 +364,15 @@ for ( $i = 1; $i < count( $argv ); ++$i )
     }
     else
     {
-        if ( $command === false )
+        if ( $commandItem['command'] === false )
         {
             $realCommand = $arg;
             // Check for alias
             if ( isset( $commandMap[$realCommand] ) )
-                $command = $commandMap[$realCommand];
+                $commandItem['command'] = $commandMap[$realCommand];
             else
-                $command = $realCommand;
-            if ( !in_array( $command,
+                $commandItem['command'] = $realCommand;
+            if ( !in_array( $commandItem['command'],
                            array( 'help',
                                   'create', 'import', 'export',
                                   'add', 'set', 'delete',
@@ -366,7 +384,7 @@ for ( $i = 1; $i < count( $argv ); ++$i )
         }
         else
         {
-            if ( $command == 'help' )
+            if ( $commandItem['command'] == 'help' )
             {
                 $realHelpTopic = $arg;
                 // Check for alias
@@ -394,120 +412,111 @@ for ( $i = 1; $i < count( $argv ); ++$i )
                     helpHelp();
                 exit();
             }
-            else if ( $command == 'create' )
+            else if ( $commandItem['command'] == 'create' )
             {
-                if ( $packageName === false )
-                    $packageName = $arg;
-                else if ( $packageSummary === false )
-                    $packageSummary = $arg;
-                else if ( $packageLicence === false )
-                    $packageLicence = $arg;
-                else if ( $packageVersion === false )
-                    $packageVersion = $arg;
+                if ( $commandItem['name'] === false )
+                    $commandItem['name'] = $arg;
+                else if ( $commandItem['summary'] === false )
+                    $commandItem['summary'] = $arg;
+                else if ( $commandItem['licence'] === false )
+                    $commandItem['licence'] = $arg;
+                else if ( $commandItem['version'] === false )
+                    $commandItem['version'] = $arg;
             }
-            else if ( $command == 'set' )
+            else if ( $commandItem['command'] == 'set' )
             {
-                if ( $packageName === false )
-                    $packageName = $arg;
-                else if ( $packageAttribute === false )
-                    $packageAttribute = $arg;
-                else if ( $packageAttributeValue === false )
-                    $packageAttributeValue = $arg;
+                if ( $commandItem['name'] === false )
+                    $commandItem['name'] = $arg;
+                else if ( $commandItem['attribute'] === false )
+                    $commandItem['attribute'] = $arg;
+                else if ( $commandItem['attribute-value'] === false )
+                    $commandItem['attribute-value'] = $arg;
             }
-            else if ( $command == 'add' )
+            else if ( $commandItem['command'] == 'add' )
             {
-                if ( $packageName === false )
-                    $packageName = $arg;
-                else if ( $packagePart === false )
-                    $packagePart = $arg;
+                if ( $commandItem['name'] === false )
+                    $commandItem['name'] = $arg;
+                else if ( $commandItem['item'] === false )
+                    $commandItem['item'] = $arg;
                 else
-                    $packagePartParameters[] = $arg;
+                    $commandItem['item-parameters'][] = $arg;
             }
-            else if ( $command == 'info' )
+            else if ( $commandItem['command'] == 'info' )
             {
-                if ( $packageName === false )
-                    $packageName = $arg;
+                if ( $commandItem['name'] === false )
+                    $commandItem['name'] = $arg;
             }
-            else if ( $command == 'import' )
+            else if ( $commandItem['command'] == 'import' )
             {
-                if ( $packageFile === false )
-                    $packageFile = $arg;
+                if ( $package['file'] === false )
+                    $package['file'] = $arg;
             }
-            else if ( $command == 'export' )
+            else if ( $commandItem['command'] == 'export' )
             {
-                if ( $exportType === false )
-                {
-                    $readOptions = false;
-                    $exportType = $arg;
-                }
-                else
-                    $exportParameters[] = $arg;
             }
         }
     }
 }
 $script->setUseDebugOutput( $debugOutput );
 
-if ( $command == 'import' )
+appendCommandItem( $commandList, $commandItem );
+
+// Check all commands
+foreach ( $commandList as $commandItem )
 {
-    if ( !$packageFile )
+    if ( $commandItem['command'] == 'import' )
     {
-        helpImport();
+        if ( !$commandItem['file'] )
+        {
+            helpImport();
+            exit();
+        }
+    }
+    else if ( $commandItem['command'] == 'add' )
+    {
+        if ( !$commandItem['name'] and
+             !$commandItem['item'] )
+        {
+            helpSet();
+            exit();
+        }
+    }
+    else if ( $commandItem['command'] == 'set' )
+    {
+        if ( !$commandItem['name'] and
+             !$commandItem['attribute'] and
+             !$commandItem['attribute-value'] )
+        {
+            helpSet();
+            exit();
+        }
+    }
+    else if ( $commandItem['command'] == 'create' )
+    {
+        if ( !$commandItem['name'] )
+        {
+            helpCreate();
+            exit();
+        }
+    }
+    else if ( $commandItem['command'] == 'info' )
+    {
+        if ( !$commandItem['name'] )
+        {
+            helpInfo();
+            exit();
+        }
+    }
+    else if ( $commandItem['command'] == 'help' )
+    {
+        helpHelp();
         exit();
     }
-}
-else if ( $command == 'export' )
-{
-    if ( !$exportType )
+    else
     {
-        helpExport();
+        help();
         exit();
     }
-}
-else if ( $command == 'add' )
-{
-    if ( !$packageName and
-         !$packagePart )
-    {
-        helpSet();
-        exit();
-    }
-}
-else if ( $command == 'set' )
-{
-    if ( !$packageName and
-         !$packageAttribute and
-         !$packageAttributeValue )
-    {
-        helpSet();
-        exit();
-    }
-}
-else if ( $command == 'create' )
-{
-    if ( !$packageName )
-    {
-        helpCreate();
-        exit();
-    }
-}
-else if ( $command == 'info' )
-{
-    if ( !$packageName )
-    {
-        helpInfo();
-        exit();
-    }
-}
-else if ( $command == 'help' )
-{
-    helpHelp();
-    exit();
-}
-else
-{
-    help();
-    exit();
 }
 
 if ( $webOutput )
@@ -523,96 +532,128 @@ $script->initialize();
 
 include_once( 'kernel/classes/ezpackage.php' );
 
-if ( $command == 'list' )
+foreach ( $commandList as $commandItem )
 {
-    $packages = eZPackage::fetchPackages();
-    if ( count( $packages ) > 0 )
+    $command = $commandItem['command'];
+
+    if ( $command == 'list' )
     {
-        $cli->output( "The following packages are installed:" );
-        foreach ( $packages as $package )
+        $packages = eZPackage::fetchPackages();
+        if ( count( $packages ) > 0 )
         {
-            $cli->output( $package->attribute( 'name' ) . ' (' . $package->attribute( 'summary' ) . ')' );
-        }
-    }
-    else
-        $cli->output( "No packages are installed" );
-}
-else if ( $command == 'info' )
-{
-    $package =& eZPackage::fetch( $packageName );
-    if ( $package )
-    {
-        $release = $package->attribute( 'release' );
-        $cli->output( "Name        : " . $package->attribute( 'name' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'name' ) ) ) . "Vendor  : " . $package->attribute( 'vendor' ) );
-        $cli->output( "Version     : " . $release['version']['number'] . str_repeat( ' ', 30 - strlen( $release['version']['number'] ) ) . "Source  : " . $package->attribute( 'source' ) );
-        $cli->output( "Release     : " . $release['version']['release'] . str_repeat( ' ', 30 - strlen( $release['version']['release'] ) ) . "Licence : " . $package->attribute( 'release', array( 'licence' ) ) );
-        $cli->output( "Summary     : " . $package->attribute( 'summary' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'summary' ) ) ) . "State   : " . $package->attribute( 'release', array( 'state' ) ) );
-        $cli->output( "eZ publish  : " . $package->attribute( 'ezpublish', array( 'named-version' ) ) .
-                      " (" . $package->attribute( 'ezpublish', array( 'version' ) ) . ")" );
-        $cli->output( "Description : "  );
-        $cli->output( $package->attribute( 'description' ) );
-    }
-    else
-        $cli->output( "package $packageName is not installed" );
-}
-else if ( $command == 'add' )
-{
-    $package =& eZPackage::fetch( $packageName );
-    if ( $package )
-    {
-        $parameters = $package->handleAddParameters( $packagePart, $cli, $packagePartParameters );
-        if ( $parameters )
-        {
-            print_r( $parameters );
-            $package->store();
-        }
-    }
-    else
-        $cli->output( "package $packageName is not installed" );
-}
-else if ( $command == 'set' )
-{
-    $packageAttributes = array( 'summary',
-                                'description',
-                                'vendor',
-                                'priority',
-                                'type',
-                                'extension',
-                                'source',
-                                'version',
-//                                 'licence',
-                                'state' );
-    if ( !in_array( $packageAttribute, $packageAttributes ) )
-    {
-        helpSet();
-    }
-    else
-    {
-        $package =& eZPackage::fetch( $packageName );
-        if ( $package )
-        {
-            switch ( $packageAttribute )
+            $cli->output( "The following packages are installed:" );
+            foreach ( $packages as $package )
             {
-                case 'summary':
-                case 'description':
-                case 'vendor':
-                case 'extension':
-                case 'source':
-//                 case 'licence':
-                case 'state':
-                {
-                    $package->setAttribute( $packageAttribute, $packageAttributeValue );
-                } break;
+                $cli->output( $package->attribute( 'name' ) . ' (' . $package->attribute( 'summary' ) . ')' );
             }
-            $package->store();
         }
         else
-            $cli->output( "package $packageName is not installed" );
+            $cli->output( "No packages are installed" );
     }
-}
-else if ( $command == 'import' )
-{
-    $cli->notice( 'Disabled for now' );
+    else if ( $command == 'info' )
+    {
+        $package =& eZPackage::fetch( $commandItem['name'] );
+        if ( $package )
+        {
+            $release = $package->attribute( 'release' );
+            $cli->output( "Name        : " . $package->attribute( 'name' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'name' ) ) ) . "Vendor  : " . $package->attribute( 'vendor' ) );
+            $cli->output( "Version     : " . $release['version']['number'] . str_repeat( ' ', 30 - strlen( $release['version']['number'] ) ) . "Source  : " . $package->attribute( 'source' ) );
+            $cli->output( "Release     : " . $release['version']['release'] . str_repeat( ' ', 30 - strlen( $release['version']['release'] ) ) . "Licence : " . $package->attribute( 'release', array( 'licence' ) ) );
+            $cli->output( "Summary     : " . $package->attribute( 'summary' ) . str_repeat( ' ', 30 - strlen( $package->attribute( 'summary' ) ) ) . "State   : " . $package->attribute( 'release', array( 'state' ) ) );
+            $cli->output( "eZ publish  : " . $package->attribute( 'ezpublish', array( 'named-version' ) ) .
+                          " (" . $package->attribute( 'ezpublish', array( 'version' ) ) . ")" );
+            $cli->output( "Description : "  );
+            $cli->output( $package->attribute( 'description' ) );
+        }
+        else
+            $cli->output( "package " . $commandItem['name'] . " is not installed" );
+    }
+    else if ( $command == 'add' )
+    {
+        $package =& eZPackage::fetch( $commandItem['name'] );
+        if ( $package )
+        {
+            $itemType = $commandItem['item'];
+            switch ( $itemType )
+            {
+                case 'group':
+                {
+                    $groups = $commandItem['item-parameters'];
+                    if ( count( $groups ) > 0 )
+                    {
+                        foreach ( $groups as $group )
+                        {
+                            $package->appendGroup( $group );
+                            $cli->notice( "Added to group $group" );
+                        }
+                        $package->store();
+                    }
+                    else
+                        $cli->error( "No groups supplied" );
+                } break;
+                default:
+                {
+                    $handler =& $package->packageHandler( $itemType );
+                    if ( is_object( $handler ) )
+                    {
+                        $parameters = $handler->handleAddParameters( $package, $cli, $commandItem['item-parameters'] );
+                        if ( $parameters )
+                        {
+                            $handler->add( $package, $cli, $parameters );
+                            $package->store();
+                        }
+                    }
+                    else
+                        $cli->error( "Unknown package item type $itemType" );
+                } break;
+            }
+        }
+        else
+            $cli->output( "package " . $commandItem['name'] . " is not installed" );
+    }
+    else if ( $command == 'set' )
+    {
+        $packageAttributes = array( 'summary',
+                                    'description',
+                                    'vendor',
+                                    'priority',
+                                    'type',
+                                    'extension',
+                                    'source',
+                                    'version',
+//                                 'licence',
+                                    'state' );
+        if ( !in_array( $commandItem['attribute'], $packageAttributes ) )
+        {
+            helpSet();
+        }
+        else
+        {
+            $package =& eZPackage::fetch( $commandItem['name'] );
+            if ( $package )
+            {
+                switch ( $commandItem['attribute'] )
+                {
+                    case 'summary':
+                    case 'description':
+                    case 'vendor':
+                    case 'extension':
+                    case 'source':
+//                 case 'licence':
+                    case 'state':
+                    {
+                        $package->setAttribute( $commandItem['attribute'], $commandItem['attribute-value'] );
+                    } break;
+                }
+                $package->store();
+            }
+            else
+                $cli->output( "package " . $commandItem['name'] . " is not installed" );
+        }
+    }
+    else if ( $command == 'import' )
+    {
+        $cli->notice( 'Disabled for now' );
 //     $package =& eZPackage::fetchFromFile( $packageFile );
 //     if ( $package )
 //     {
@@ -622,10 +663,10 @@ else if ( $command == 'import' )
 //     {
 //         $cli->warning( "Could not open package file $packageFile" );
 //     }
-}
-else if ( $command == 'export' )
-{
-    $cli->notice( 'Disabled for now' );
+    }
+    else if ( $command == 'export' )
+    {
+        $cli->notice( 'Disabled for now' );
 //     $packageName = 'mytest';
 //     $packageSummary = 'hm';
 //     $packageExtension = 'myext';
@@ -671,33 +712,34 @@ else if ( $command == 'export' )
 //     {
 //         print( $package->toString() . "\n" );
 //     }
-}
-else if ( $command == 'create' )
-{
-    $package =& eZPackage::create( $packageName, array( 'summary' => $packageSummary ) );
+    }
+    else if ( $command == 'create' )
+    {
+        $package =& eZPackage::create( $commandItem['name'], array( 'summary' => $commandItem['summary'] ) );
 
-    $user =& eZUser::currentUser();
-    $userObject = $user->attribute( 'contentobject' );
+        $user =& eZUser::currentUser();
+        $userObject = $user->attribute( 'contentobject' );
 
-    if ( !$packageLicence )
-        $packageLicence = 'GPL';
-    if ( !$packageVersion )
-        $packageVersion = '1.0';
+        if ( !$commandItem['licence'] )
+            $commandItem['licence'] = 'GPL';
+        if ( !$commandItem['version'] )
+            $commandItem['version'] = '1.0';
 
-    $package->setRelease( $packageVersion, '1', false, $packageLicence, 'alpha' );
-    $package->appendMaintainer( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'lead' );
-    $package->appendDocument( 'README', false, false, false, true,
-                              "$packageName README" .
-                              "\n" .
-                              "\n" .
-                              "What is $packageName?\n" .
-                              "--------" . str_repeat( '-', strlen( $packageName ) ) . "-\n" .
-                              "$packageName is a ...\n" .
-                              "\n" .
-                              "Licence\n" .
-                              "-------\n" .
-                              "Insert licence here...\n" );
-    $package->appendChange( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'Creation of package' );
+        $package->setRelease( $commandItem['version'], '1', false,
+                              $commandItem['licence'], 'alpha' );
+        $package->appendMaintainer( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'lead' );
+        $package->appendDocument( 'README', false, false, false, true,
+                                  $commandItem['name'] . " README" .
+                                  "\n" .
+                                  "\n" .
+                                  "What is " . $commandItem['name'] . "?\n" .
+                                  "--------" . str_repeat( '-', strlen( $commandItem['name'] ) ) . "-\n" .
+                                  $commandItem['name'] . " is a ...\n" .
+                                  "\n" .
+                                  "Licence\n" .
+                                  "-------\n" .
+                                  "Insert licence here...\n" );
+        $package->appendChange( $userObject->attribute( 'name' ), $user->attribute( 'email' ), 'Creation of package' );
 
 // $package->appendFileList( array( array( 'role' => 'override',
 //                                         'md5sum' => false,
@@ -708,9 +750,10 @@ else if ( $command == 'create' )
 // $package->appendInstall( 'part', 'Classes', false, true,
 //                          array( 'content' => 'yup' ) );
 
-    $package->store();
-    $cli->output( "Created package $packageName" );
-    $cli->output( "Use 'ezpm.php add' and 'ezpm.php set' to change and add settings to the package." );
+        $package->store();
+        $cli->output( "Created package " . $commandItem['name'] );
+        $cli->output( "Use 'ezpm.php add' and 'ezpm.php set' to change and add settings to the package." );
+    }
 }
 
 $script->shutdown();

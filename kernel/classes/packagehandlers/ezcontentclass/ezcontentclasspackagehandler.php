@@ -152,16 +152,38 @@ class eZContentClassPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function add( &$package, $parameters )
+    function add( &$package, &$cli, $parameters )
     {
+        foreach ( $parameters['class-list'] as $classItem )
+        {
+            $classID = $classItem['id'];
+            $classValue = $classItem['value'];
+            $cli->notice( "Adding class $classValue to package" );
+            unset( $class );
+            $class = false;
+            if ( is_numeric( $classID ) )
+                $class =& eZContentClass::fetch( $classID );
+            if ( !$class )
+                continue;
+            $classNode =& $this->classDOMTree( $class );
+            if ( !$classNode )
+                continue;
+            $package->appendInstall( 'ezcontentclass', false, false, true,
+                                     'class-' . $classID, 'ezcontentclass',
+                                     array( 'content' => $classNode ) );
+            $package->appendProvides( 'ezcontentclass', $class->attribute( 'identifier' ) );
+            $package->appendInstall( 'ezcontentclass', false, false, false,
+                                     'class-' . $classID, 'ezcontentclass',
+                                     array( 'content' => false ) );
+        }
     }
 
-    function handleAddParameters( &$cli, $arguments )
+    function handleAddParameters( &$package, &$cli, $arguments )
     {
-        return $this->handleParameters( $cli, 'add', $arguments );
+        return $this->handleParameters( $package, $cli, 'add', $arguments );
     }
 
-    function handleParameters( &$cli, $type, $arguments )
+    function handleParameters( &$package, &$cli, $type, $arguments )
     {
         $classList = false;
         foreach ( $arguments as $argument )
@@ -227,40 +249,41 @@ class eZContentClassPackageHandler extends eZPackageHandler
         return array( 'class-list' => $classList );
     }
 
-    function handle( &$package, $parameters )
-    {
-        print( "Handling content classes\n" );
-        print_r( $parameters );
-        $classList = array();
-        for ( $i = 0; $i < count( $parameters ); ++$i )
-        {
-            $parameter = $parameters[$i];
-            if ( $parameter == '-class' )
-            {
-                $classList = explode( ',', $parameters[$i+1] );
-                ++$i;
-            }
-        }
-        print_r( $classList );
-        if ( count( $classList ) > 0 )
-        {
-            foreach ( $classList as $classID )
-            {
-                $classNode =& $this->classDOMTree( $classID );
-                if ( !$classNode )
-                    continue;
-                $package->appendInstall( 'part', false, false, true,
-                                         'class-' . $classID, 'contentclass',
-                                         array( 'type' => 'ezcontentclass',
-                                                'content' => $classNode ) );
-            }
-        }
-    }
+//     function handle( &$package, $parameters )
+//     {
+//         print( "Handling content classes\n" );
+//         print_r( $parameters );
+//         $classList = array();
+//         for ( $i = 0; $i < count( $parameters ); ++$i )
+//         {
+//             $parameter = $parameters[$i];
+//             if ( $parameter == '-class' )
+//             {
+//                 $classList = explode( ',', $parameters[$i+1] );
+//                 ++$i;
+//             }
+//         }
+//         print_r( $classList );
+//         if ( count( $classList ) > 0 )
+//         {
+//             foreach ( $classList as $classID )
+//             {
+//                 $classNode =& $this->classDOMTree( $classID );
+//                 if ( !$classNode )
+//                     continue;
+//                 $package->appendInstall( 'part', false, false, true,
+//                                          'class-' . $classID, 'contentclass',
+//                                          array( 'type' => 'ezcontentclass',
+//                                                 'content' => $classNode ) );
+//             }
+//         }
+//     }
 
-    function classDOMTree( $classID )
+    /*!
+     Creates the DOM tree for the content class \a $class and returns the root node.
+    */
+    function &classDOMTree( &$class )
     {
-        if ( is_numeric( $classID ) )
-            $class =& eZContentClass::fetch( $classID );
         if ( !$class )
             return false;
         $classNode =& eZDOMDocument::createElementNode( 'content-class' );
@@ -359,6 +382,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
 
             $attributesNode->appendChild( $attributeNode );
         }
+        return $classNode;
     }
 }
 

@@ -76,11 +76,33 @@ class eZPackageHandler
     {
     }
 
+//     /*!
+//      \pure
+//      Inteprets the parameters defined in \a $parameters and adds items to \a $package.
+//     */
+//     function handle( &$package, $parameters )
+//     {
+//     }
+
     /*!
      \pure
-     Inteprets the parameters defined in \a $parameters and adds items to \a $package.
+     Fills in extra information on the dependency node \a $dependencyNode which is
+     specific to the current handler.
+     \param $dependencyItem Contains all variables for the dependency
+     \param $dependencyType The type of dependency, can be \c 'provide', \c 'require', \c 'obsolete' or \c 'conflict'
     */
-    function handle( &$package, $parameters )
+    function createDependencyNode( &$dependencyNode, $dependencyItem, $dependencyType )
+    {
+    }
+
+    /*!
+     \pure
+     Fills in extra information on the install node \a $installNode which is
+     specific to the current handler.
+     \param $installItem Contains all variables for the install
+     \param $installType The type of install, can be \c 'install' or \c 'uninstall'
+    */
+    function createInstallNode( &$installNode, $installItem, $installType )
     {
     }
 }
