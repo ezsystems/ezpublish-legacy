@@ -1,9 +1,6 @@
-<?php /* #?ini charset="utf8"?
 
 [SiteSettings]
 LoginPage=embeded
-SiteName=Corporate
-SiteURL=tequila:1133/index.php
 
 [SiteAccessSettings]
 RequireUserLogin=false
@@ -16,30 +13,6 @@ SiteDesign=blog
 VarDir=var/blog
 
 [ContentSettings]
+# What to do when editing an object that has draft versions newer than the current version.
+# Use 'showversions' to select which version to edit, or 'usecurrent' to always edit the current version.
 EditDirtyObjectAction=usecurrent
-TranslationList=
-
-[DatabaseSettings]
-DatabaseImplementation=ezpostgresql
-Server=localhost
-Database=ez33
-User=derick
-Password=t5xr5l2s
-Charset=
-Socket=disabled
-
-[InformationCollectionSettings]
-EmailReceiver=
-
-[UserSettings]
-RegistrationEmail=
-
-[MailSettings]
-AdminEmail=admin@localhost
-EmailSender=
-
-[RegionalSettings]
-Locale=eng-GB
-ContentObjectLocale=eng-GB
-TextTranslation=disabled
-*/ ?>
