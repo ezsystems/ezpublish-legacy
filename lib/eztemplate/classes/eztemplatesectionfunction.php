@@ -257,15 +257,43 @@ class eZTemplateSectionFunction
             }
         }
 
+        // Controls whether the 'if' statement with brackets is added
         $useShow = false;
+        // Controls whether main nodes are handled, also controls delimiter and filters
+        $useMain = true;
+        // Controls wether else nodes are handled
+        $useElse = false;
+
         $spacing = 0;
         if ( isset( $parameters['show'] ) )
         {
-            $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['show'], eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
-                                                                  array(), 'show' );
-            $spacing = 4;
-            $useShow = true;
+            if ( eZTemplateNodeTool::isStaticElement( $parameters['show'] ) )
+            {
+                $showValue = eZTemplateNodeTool::elementStaticValue( $parameters['show'] );
+                if ( $showValue )
+                {
+                    $useMain = true;
+                    $useElse = false;
+                    $useShow = false;
+                }
+                else
+                {
+                    $useMain = false;
+                    $useElse = true;
+                    $useShow = false;
+                }
+                $newNodes[] = eZTemplateNodeTool::createTextNode( '' );
+            }
+            else
+            {
+                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['show'], eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
+                                                                      array(), 'show' );
+                $spacing = 4;
+                $useElse = true;
+                $useShow = true;
+            }
         }
+
         $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
         if ( $useShow )
         {
@@ -302,9 +330,13 @@ class eZTemplateSectionFunction
         if ( count( $delimiterNodes ) > 0 )
             $delimiterNode = $delimiterNodes[0];
 
-        $mainNodes = eZTemplateCompiler::processNodeTransformationNodes( $tpl, $node, $mainNodes, $privateData );
+        if ( $useMain )
+        {
+            // Avoid transformation if the nodes will not be used, saves time
+            $mainNodes = eZTemplateCompiler::processNodeTransformationNodes( $tpl, $node, $mainNodes, $privateData );
+        }
 
-        if ( $useLoop )
+        if ( $useLoop and $useMain )
         {
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['loop'], eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
                                                                   array(), 'loopItem' );
@@ -642,7 +674,7 @@ class eZTemplateSectionFunction
             $code .= " );";
             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
         }
-        else
+        else if ( $useMain )
         {
             $newNodes = array_merge( $newNodes, $mainNodes );
         }
@@ -655,7 +687,7 @@ class eZTemplateSectionFunction
             $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( $spacing );
         }
 
-        if ( $useShow )
+        if ( $useElse )
         {
             $elseNodes = eZTemplateNodeTool::extractNodes( $children,
                                                            array( 'match' => array( 'type' => 'after',
@@ -667,17 +699,32 @@ class eZTemplateSectionFunction
             $elseNodes = eZTemplateCompiler::processNodeTransformationNodes( $tpl, $node, $elseNodes, $privateData );
             if ( count( $elseNodes ) > 0 )
             {
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse\n{\n" );
-                $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( $spacing );
-                $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'show' );
+                if ( $useShow )
+                {
+                    // This is needed if a 'if ( $show )' was used earlier
+                    $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\nelse\n{\n" );
+                    $newNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode( $spacing );
+                    $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'show' );
+                }
+
                 if ( isset( $parameters['name'] ) )
                     $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
                 $newNodes = array_merge( $newNodes, $elseNodes );
                 if ( isset( $parameters['name'] ) )
                     $newNodes[] = eZTemplateNodeTool::createNamespaceRestoreNode();
-                $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( $spacing );
+
+                if ( $useShow )
+                {
+                    // This is needed if a 'if ( $show )' was used earlier
+                    $newNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode( $spacing );
+                }
             }
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n" );
+
+            if ( $useShow )
+            {
+                // This is needed if a 'if ( $show )' was used earlier
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "}\n" );
+            }
         }
         return $newNodes;
     }

@@ -396,6 +396,9 @@ eZ Template:
   (Merged from stable/3.4 rev. 7239)
 - Optimized the logical operators, eq, ne, lt, le, gt, ge, and, or
   when static values are used.
+- Optimized section function, if the 'show' parameter contains a static
+  value it will remove the need to have both an 'if' and 'else' block,
+  only one will be needed.
 
 *Templates:
 - Added the red color marking of titles of attributes with invalid content.
