@@ -212,8 +212,9 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         $textPortion = substr( $sourceText, $tagPos );
                         $this->gotoEndPosition( $textBefore, $currentLine, $currentColumn, $tagStartLine, $tagStartColumn );
                         $this->gotoEndPosition( $textPortion, $tagStartLine, $tagStartColumn, $tagEndLine, $tagEndColumn );
-                        $tpl->warning( "", "Unterminated tag, needs a $rightDelimiter to end the tag.\n" . $leftDelimiter . $textPortion,
-                                       array( array( $tagStartLine, $tagStartColumn, $tagPosition ),
+                        $tpl->error( "", "parser error @ $relatedTemplateName:$currentLine" . "[$currentColumn]" . "\n" .
+                                     "Unterminated tag, needs a $rightDelimiter to end the tag.\n" . $leftDelimiter . $textPortion,
+                                     array( array( $tagStartLine, $tagStartColumn, $tagPosition ),
                                               array( $tagEndLine, $tagEndColumn, $sourceLength - 1 ),
                                               $relatedTemplateName ) );
                         $textElements[] = array( "text" => $data,
@@ -482,7 +483,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                 {
                     $text =& $element["text"];
                     $text_len = strlen( $text );
-                    $var_data =& $this->ElementParser->parseVariableTag( $tpl, $text, 0, $var_end, $text_len, $rootNamespace );
+                    $var_data =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, 0, $var_end, $text_len, $rootNamespace );
 
                     unset( $node );
                     $node = array( EZ_TEMPLATE_NODE_VARIABLE,
@@ -492,8 +493,15 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                     $this->appendChild( $currentRoot, $node );
                     if ( $var_end < $text_len )
                     {
-                        $tpl->warning( "", "Junk at variable end: '" . substr( $text, $var_end, $text_len - $var_end ) . "' (" . substr( $text, 0, $var_end ) . ")",
-                                       $placement );
+                        $placement = $element['placement'];
+                        $startLine = $placement['start']['line'];
+                        $startColumn = $placement['start']['column'];
+                        $subText = substr( $text, 0, $var_end );
+                        $this->gotoEndPosition( $subText, $startLine, $startColumn, $currentLine, $currentColumn );
+                        $tpl->error( "", "parser error @ $relatedTemplateName:$currentLine" . "[$currentColumn]" . "\n" .
+                                     "Extra characters found in expression, they will be ignored.\n" .
+                                     substr( $text, $var_end, $text_len - $var_end ) . "' (" . substr( $text, 0, $var_end ) . ")",
+                                     $placement );
                     }
                 } break;
                 case EZ_ELEMENT_SINGLE_TAG:
@@ -524,7 +532,14 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         if ( $attr_pos_start == $attr_pos and
                              $attr_pos_start < $text_len )
                         {
-                            $tpl->error( "", "Expected whitespace, got: '" . substr( $text, $attr_pos ) . "'" );
+                            $placement = $element['placement'];
+                            $startLine = $placement['start']['line'];
+                            $startColumn = $placement['start']['column'];
+                            $subText = substr( $text, 0, $attr_pos );
+                            $this->gotoEndPosition( $subText, $startLine, $startColumn, $currentLine, $currentColumn );
+                            $tpl->error( "", "parser error @ $relatedTemplateName:$currentLine" . "[$currentColumn]" . "\n" .
+                                         "Extra characters found, should have been a whitespace or the end of the expression\n".
+                                         "Characters: '" . substr( $text, $attr_pos ) . "'" );
                             break;
                         }
                         $attr_pos = $attr_pos_start;
@@ -551,21 +566,26 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                             $startColumn = $placement['start']['column'];
                             $subText = substr( $text, 0, $attr_name_pos );
                             $this->gotoEndPosition( $subText, $startLine, $startColumn, $currentLine, $currentColumn );
-                            $tpl->error( "parser error @ $relatedTemplateName:$currentLine" . "[$currentColumn]", "Invalid parameter characters in function '$tag': '" .
+                            $tpl->error( "", "parser error @ $relatedTemplateName:$currentLine" . "[$currentColumn]\n".
+                                         "Invalid parameter characters in function '$tag': '" .
                                           substr( $text, $attr_name_pos )  . "'" );
                             break;
                         }
                         ++$attr_name_pos;
                         unset( $var_data );
-                        $var_data =& $this->ElementParser->parseVariableTag( $tpl, $text, $attr_name_pos, $var_end, $text_len, $rootNamespace );
+                        $var_data =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $attr_name_pos, $var_end, $text_len, $rootNamespace );
                         $args[$attr_name] = $var_data;
                         $attr_pos = $var_end;
                     }
 
                     if ( $type == EZ_ELEMENT_END_TAG and count( $args ) > 0 )
                     {
-                        $tpl->warning( "", "End tag \"$tag\" cannot have attributes\n$leftDelimiter/" . $text . $rightDelimiter,
-                                       $element['placement'] );
+                        $placement = $element['placement'];
+                        $startLine = $placement['start']['line'];
+                        $startColumn = $placement['start']['column'];
+                        $tpl->error( "", "parser error @ $relatedTemplateName:$startLine" . "[$startColumn]" . "\n" .
+                                     "End tag \"$tag\" cannot have attributes\n$leftDelimiter/" . $text . $rightDelimiter,
+                                     $element['placement'] );
                         $args = array();
                     }
 
@@ -616,8 +636,12 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         }
                         if ( !$has_children )
                         {
-                            $tpl->warning( "", "End tag \"$tag\" for function which does not accept children, ignoring tag",
-                                           $element['placement'] );
+                            $placement = $element['placement'];
+                            $startLine = $placement['start']['line'];
+                            $startColumn = $placement['start']['column'];
+                            $tpl->error( "", "parser error @ $relatedTemplateName:$startLine" . "[$startColumn]" . "\n" .
+                                         "End tag \"$tag\" for function which does not accept children, ignoring tag",
+                                         $element['placement'] );
                         }
                         else
                         {
@@ -631,8 +655,12 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
                             if ( $oldTagName != $tag )
                             {
-                                $tpl->warning( "", "Unterminated tag \"$oldTagName\" does not match tag \"$tag\"",
-                                               $element['placement'] );
+                                $placement = $element['placement'];
+                                $startLine = $placement['start']['line'];
+                                $startColumn = $placement['start']['column'];
+                                $tpl->error( "", "parser error @ $relatedTemplateName:$startLine" . "[$startColumn]" . "\n" .
+                                             "Unterminated tag \"$oldTagName\" does not match tag \"$tag\"",
+                                             $element['placement'] );
                             }
                         }
                     }
