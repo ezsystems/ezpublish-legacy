@@ -30,4 +30,10 @@ MatchFile=info_page.tpl
 Subdir=templates
 Match[class]=10
 
+[embed_image]
+Source=content/view/embed.tpl
+MatchFile=embed_image.tpl
+Subdir=templates
+Match[class]=5
+
 */ ?>
