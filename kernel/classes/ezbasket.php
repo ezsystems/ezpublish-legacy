@@ -77,8 +77,10 @@ class eZBasket extends eZPersistentObject
     {
         if ( $attr == "items" )
             return $this->items();
-        else if ( $attr == "total" )
-            return $this->total();
+        else if ( $attr == "total_ex_vat" )
+            return $this->totalExVAT();
+        else if ( $attr == "total_inc_vat" )
+            return $this->totalIncVAT();
         else if ( $attr == "is_empty" )
             return $this->isEmpty();
         else
@@ -89,7 +91,9 @@ class eZBasket extends eZPersistentObject
     {
         if ( $attr == "items" )
             return true;
-        else if ( $attr == "total" )
+        else if ( $attr == "total_ex_vat" )
+            return true;
+        else if ( $attr == "total_inc_vat" )
             return true;
         else if ( $attr == "is_empty" )
             return true;
@@ -189,14 +193,26 @@ class eZBasket extends eZPersistentObject
         return $addedProducts;
     }
 
-    function &total()
+    function &totalIncVAT()
     {
         $items =& $this->items();
 
         $total = 0.0;
         foreach ( $items as $item )
         {
-            $total += $item->totalPrice();
+            $total += $item['total_price_inc_vat'];
+        }
+        return $total;
+    }
+
+    function &totalExVAT()
+    {
+        $items =& $this->items();
+
+        $total = 0.0;
+        foreach ( $items as $item )
+        {
+            $total += $item['total_price_ex_vat'];
         }
         return $total;
     }

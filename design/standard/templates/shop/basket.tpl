@@ -83,9 +83,38 @@
 	</td>
 </tr>
 {/section}
-
+<tr>
+     <td colspan='8'>
+     <hr size='2' />
+     </td>
+     <td>
+     </td>
+</tr>
+<tr>
+     <td colspan='6'>
+     </td>
+     <td>
+     <b>Subtotal Ex. VAT:</b>
+     </td>
+     <td>
+     <b>Subtotal Inc. VAT:</b>
+     </td>
+     <td>
+     </td>
+</tr>
+<tr>
+<td colspan='6'>
+</td>
+<td>
+{$basket.total_ex_vat|l10n(currency)}
+</td>
+<td>
+{$basket.total_inc_vat|l10n(currency)}
+</td>
+<td>
+</td>
+</tr>
 </table>
-
 <div class="buttonblock">
 <input class="button" type="submit" name="StoreChangesButton" value="Store" /> &nbsp;
 <input class="button" type="submit" name="RemoveProductItemButton" value="Remove item(s)" />
