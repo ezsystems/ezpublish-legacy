@@ -93,7 +93,7 @@ $tpl =& templateInit();
 $parentNode = eZContentObjectTreeNode::fetch( $TopObjectID );
 $parentContentObject = $parentNode->attribute( 'contentobject' );
 $classes = $parentContentObject->attribute( 'can_create_class_list' );
-eZDebug::writeNotice(  $parentContentObject, 'returned classes' );
+//eZDebug::writeNotice(  $parentContentObject, 'returned classes' );
 
 
 //$tree =& eZContentObject::fetchTree( $TopObjectID );

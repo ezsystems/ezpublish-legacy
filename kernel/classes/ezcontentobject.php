@@ -669,10 +669,10 @@ class eZContentObject extends eZPersistentObject
                     foreach ( $limitationArray as $limitation )
                     {
                         $limitation =& $limitationArray[$key];
-                        if ( $functionName == 'remove' )
-                        {
-                            eZDebug::writeNotice( $limitation, 'limitation in check access' );
-                        }
+//                        if ( $functionName == 'remove' )
+//                        {
+//                            eZDebug::writeNotice( $limitation, 'limitation in check access' );
+//                        }
 
                         if ( $limitation->attribute( 'identifier' ) == 'ClassID' )
                         {
@@ -791,7 +791,7 @@ class eZContentObject extends eZPersistentObject
     function &canCreateClassList()
     {
 
-        eZDebug::writeNotice( $this, "object in canCreateClass" );
+//        eZDebug::writeNotice( $this, "object in canCreateClass" );
         $user =& eZUser::currentUser();
         $accessResult =  $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];

@@ -54,7 +54,6 @@ class eZPolicyLimitation extends eZPersistentObject
     {
           $this->eZPersistentObject( $row );
     }
-    
 
     function &definition()
     {
@@ -80,7 +79,7 @@ class eZPolicyLimitation extends eZPersistentObject
         return eZPersistentObject::attributes();
     }
 
-    function attribute( $attr )
+    function & attribute( $attr )
     {
         if ( $attr == "values" )
         {
@@ -128,7 +127,7 @@ class eZPolicyLimitation extends eZPersistentObject
 
         $db =& eZDB::instance();
 
-        $db->query( "DELETE FROM ezpolicy_limitation_value 
+        $db->query( "DELETE FROM ezpolicy_limitation_value
                      WHERE ezpolicy_limitation_value.limitation_id = '$delID'" );
 
         $db->query( "DELETE FROM ezpolicy_limitation
@@ -149,9 +148,8 @@ class eZPolicyLimitation extends eZPersistentObject
             }
         }
         return $str;
-             
     }
-    function allValues()
+    function & allValues()
     {
         $values = array();
         foreach ( $this->attribute( 'values' ) as $value )
@@ -160,10 +158,9 @@ class eZPolicyLimitation extends eZPersistentObject
 
         }
         return $values;
-             
     }
 
-    function valueList()
+    function & valueList()
     {
         if ( !isset( $this->Values ) )
         {
@@ -171,14 +168,9 @@ class eZPolicyLimitation extends eZPersistentObject
                                                               null, array( 'limitation_id' => $this->attribute( 'id') ), null, null,
                                                                true);
             $this->Values =& $values;
-            
         }
-
         return $this->Values;
-
     }
-
-
 }
 
 ?>

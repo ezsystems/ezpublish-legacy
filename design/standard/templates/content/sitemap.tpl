@@ -50,6 +50,8 @@
         {case match=1}  
             <a href="/content/edit/{$Tree:item.contentobject.id}"><img src={"edit.png"|ezimage} border="0"></a>
 	{/case}
+        {case} 
+        {/case}
         {/switch} 
         </td>
         <td class="{$Tree:sequence}">
@@ -58,6 +60,8 @@
              <input type="checkbox" name="DeleteIDArray[]" value="{$Tree:item.contentobject.id}" />
              <img src={"editdelete.png"|ezimage} border="0">
 	{/case}
+        {case} 
+        {/case}
         {/switch} 
         </td>
 

@@ -77,16 +77,15 @@ if ( $LanguageCode != "" )
 }
 
 $Limit = 15;
-$children =& $node->subTree( array( 'FromNode' => $NodeID,
-                                    'Depth' => 1,
+$children =& $node->subTree( array( 'Depth' => 1,
                                     'Offset' => $Offset,
                                     'Limit' => $Limit,
                                     'Limitation' => $limitationList
                                     ) );
 
-$childrenCount = $node->subTreeCount( array( 'NodeID' => $NodeID,
-                                          'Depth' => 1
-                                        ) );
+$childrenCount = $node->subTreeCount( array( 'Depth' => 1,
+                                             'Limitation' => $limitationList
+                                             ) );
 
 $relatedObjectArray =& $object->relatedContentObjectArray( $object->attribute( 'current_version' ) );
 

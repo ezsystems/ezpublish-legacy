@@ -76,7 +76,7 @@ class eZPolicy extends eZPersistentObject
         return eZPersistentObject::attributes();
     }
 
-    function attribute( $attr )
+    function & attribute( $attr )
     {
         if ( $attr == "limitations" )
             return $this->limitationList();

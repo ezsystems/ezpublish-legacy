@@ -127,15 +127,9 @@ if ( !accessAllowed( $uri ) )
 
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http =& eZHTTPTool::instance();
-
 $UserID =& $http->sessionVariable( "eZUserLoggedInID" );
-
-eZDebug::writeNotice( "Current user id:" . $UserID . "<br>" );
-eZDebug::writeNotice( $http->sessionVariable( 'eZUserLoggedInID' ), "Current user id: <br>" );
-
 $currentUser =& eZUser::currentUser();
 eZDebug::writeNotice( $currentUser, "currentUser" );
-eZDebug::writeNotice( "Current user id:" . $UserID . "<br>" );
 
 
 // eZDebug::addTimingPoint( "Pre checks" );
