@@ -14,12 +14,12 @@ Filters[]=geometry/scaledownonly=250;58
 [small_h]
 Reference=
 Filters[]
-Filters[]=geometry/scaleheightdownonly=130
+Filters[]=geometry/scaleheight=130
 
 [small_v]
 Reference=
 Filters[]
-Filters[]=geometry/scalewidthdownonly=150
+Filters[]=geometry/scalewidth=150
 
 [navigator]
 Reference=
