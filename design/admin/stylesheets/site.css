@@ -376,12 +376,18 @@ div.box-content
 
 div.box-content div.block
 {
+    margin: 0;
     padding: 0.5em;
 }
 
-div#maincontent div.box-content div.block
+div#maincontent div.box-content div.block div
 {
     padding: 0;
+}
+
+div#maincontent div.box-content div.block p
+{
+    margin: 0;
 }
 
 div.box-content div.block div.block
@@ -477,11 +483,17 @@ div#contentstructure a.nodetext:hover
 div#contentstructure li.currentnode a.nodetext /* Highlighting of current node */
 {
     font-weight: bold;
+    color: #ffffff;
+    background-color: #f08c00;
+    padding: 0 0.25em 0 0.2em;
 }
 
 div#contentstructure li.currentnode li a.nodetext
 {
     font-weight: normal;
+    color: #315578;
+    background-color: transparent;
+    padding: 0;
 }
 
 div#leftmenu div.translations label
@@ -586,6 +598,12 @@ div#currentuser ul
 {
     margin-bottom: 0;
     padding-bottom: 0.5em;
+}
+
+div#currentuser a
+{
+    font-weight: bold;
+    color: #f08c00;
 }
 
 div#history ul, div#bookmarks ul

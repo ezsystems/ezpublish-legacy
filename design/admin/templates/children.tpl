@@ -239,7 +239,7 @@
     <option value="1"{section show=eq($node.sort_order, 1)} selected="selected"{/section}>{'Down'|i18n( 'design/admin/node/view/full' )}</option>
 </select>
 
-<input class="button" type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/node/view/full' )}" title="{$title}"{$disabled} />
+<input {section show=$disabled}class="button-disabled"{section-else}class="button"{/section} type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/node/view/full' )}" title="{$title}"{$disabled} />
 
 {/let}
 
