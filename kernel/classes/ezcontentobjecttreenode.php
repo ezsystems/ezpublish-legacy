@@ -1009,7 +1009,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             foreach( $limitationList as $limitationArray )
             {
                 $sqlPartPart = array();
-                $hasNodeLimitation = false;
                 foreach ( $limitationArray as $limitation )
                 {
                     if ( $limitation->attribute( 'identifier' ) == 'Class' )
@@ -1029,7 +1028,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     elseif( $limitation->attribute( 'identifier' ) == 'Node' )
                     {
                         $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
-                        $hasNodeLimitation = true;
                     }
                     elseif( $limitation->attribute( 'identifier' ) == 'Subtree' )
                     {
@@ -1042,10 +1040,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
                     }
                 }
-                if ( $hasNodeLimitation )
-                    $sqlParts[] = implode( ' OR ', $sqlPartPart );
-                else
-                    $sqlParts[] = implode( ' AND ', $sqlPartPart );
+                $sqlParts[] = implode( ' AND ', $sqlPartPart );
             }
             $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
             $query = "SELECT ezcontentobject.*,
@@ -1478,7 +1473,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             foreach( $limitationList as $limitationArray )
             {
                 $sqlPartPart = array();
-                $hasNodeLimitation = false;
                 foreach ( $limitationArray as $limitation )
                 {
                     if ( $limitation->attribute( 'identifier' ) == 'Class' )
@@ -1498,7 +1492,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                     elseif( $limitation->attribute( 'identifier' ) == 'Node' )
                     {
                         $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . $limitation->attribute( 'values_as_string' ) . ')';
-                        $hasNodeLimitation = true;
                     }
                     elseif( $limitation->attribute( 'identifier' ) == 'Subtree' )
                     {
@@ -1510,10 +1503,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         $hasNodeLimitation = true;
                     }
                 }
-                if ( $hasNodeLimitation )
-                     $sqlParts[] = implode( ' OR ', $sqlPartPart );
-                else
-                    $sqlParts[] = implode( ' AND ', $sqlPartPart );
+                $sqlParts[] = implode( ' AND ', $sqlPartPart );
             }
 
             $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
