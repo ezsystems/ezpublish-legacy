@@ -21,7 +21,7 @@
         {/section}
        {section name=UnvalidatedPlacements loop=$validation.placement show=$validation.placement}
         <div class="warning">
-        <h2>{"Placemnent did not validate"|i18n("design/standard/content/edit")}</h2>
+        <h2>{"Placement did not validate"|i18n("design/standard/content/edit")}</h2>
         <ul>
          <li>{$UnvalidatedPlacements:item.text}</li>
         </ul>
