@@ -9,6 +9,7 @@ function show_help
     echo "Options: -h"
     echo "         --help                     This message"
     echo "         -f                         Force overwrite of existing files"
+    echo "         --locale=LOCALE            Add locale to package (default is to add same locale as translation)"
 }
 
 for arg in $*; do
@@ -19,6 +20,11 @@ for arg in $*; do
 	    ;;
 	-f)
 	    OVERWRITE="true"
+	    ;;
+	--locale=*)
+	    if echo $arg | grep -e "--locale=" >/dev/null; then
+		LOCALE_LIST="$LOCALE_LIST `echo $arg | sed 's/--locale=//'`"
+	    fi
 	    ;;
 	-*)
 	    echo "$arg: unkown option specified"
@@ -40,6 +46,10 @@ done
 if [ -z "$LOCALE" ]; then
     show_help
     exit 1
+fi
+
+if [ -z "$LOCALE_LIST" ]; then
+    LOCALE_LIST=$LOCALE
 fi
 
 if [ -z "$TARGET" ]; then
@@ -68,8 +78,14 @@ if [ -f "$filezip" ]; then
     fi
 fi
 
+FILES=share/translations/$LOCALE/translation.ts
+
+for l in $LOCALE_LIST; do
+    FILES="$FILES share/locale/$l*.ini"
+done
+
 echo Adding files:
 echo Creating $file
-tar -zcvf $file share/locale/$LOCALE*.ini share/translations/$LOCALE/translation.ts
+tar -zcvf $file $FILES
 echo Creating $filezip
-zip -9 $filezip share/locale/$LOCALE*.ini share/translations/$LOCALE/translation.ts
+zip -9 $filezip $FILES
