@@ -341,12 +341,20 @@ class eZRole extends eZPersistentObject
         $ini =& eZINI::instance();
         $db =& eZDB::instance();
 
-        $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
+        $currentUser =& eZUser::currentUser();
+        $currentUserGroups = $currentUser->attribute( 'groups' );
+        $currentUserGroups[] = $currentUser->attribute( 'contentobject_id' );
 
         $roleArray = false;
-        if ( $enableCaching == 'true' )
+        // Only check cache if fetching roles for current user
+        if ( count( array_diff( $currentUserGroups, $idArray ) ) == 0 )
         {
-            $roleArray =& eZRole::cachedRoles();
+            $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
+
+            if ( $enableCaching == 'true' )
+            {
+                $roleArray =& eZRole::cachedRoles();
+            }
         }
 
         if ( $roleArray == false )
@@ -367,6 +375,7 @@ class eZRole extends eZPersistentObject
         {
             $roles[] = $roleArray[$key]['id'];
         }
+
         return $roles;
     }
 
