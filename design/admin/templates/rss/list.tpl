@@ -11,8 +11,8 @@
 
 <form name="rssexportslist" action={'rss/list'|ezurl} method="post" name="RSSExport">
 
+{section show=$rssexport_list}
 <table class="list" cellspacing="0">
-{section show=$rssexport_list|count}
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.rssexportslist, 'DeleteIDArray[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
     <th>{'Name'|i18n( 'design/admin/rss/list' )}</th>
@@ -34,10 +34,13 @@
     <td><a href={concat("rss/edit_export/",$RSSExports.item.id)|ezurl}><img class="button" src={"edit.png"|ezimage} width="16" height="16" alt="Edit" /></a></td>
 </tr>
 {/section}
-{section-else}
-<tr class="bglight"><td>{'The RSS export list is empty.'|i18n( 'design/admin/rss/list' )}</td></tr>
-{/section}
 </table>
+{section-else}
+<div class="block">
+<p>{'The RSS export list is empty.'|i18n( 'design/admin/rss/list' )}</p>
+</div>
+{/section}
+
 
 {* DESIGN: Content END *}</div></div></div>
 
@@ -72,8 +75,8 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
+{section show=$rssimport_list}
 <table class="list" cellspacing="0">
-{section show=$rssimport_list|count}
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Invert selection." onclick="ezjs_toggleCheckboxes( document.rssimportslist, 'DeleteIDArrayImport[]' ); return false;" title="{'Invert selection.'|i18n( 'design/admin/content/trash' )}" /></th>
     <th>{"Name"|i18n( 'design/admin/rss/list' )}</th>
@@ -93,10 +96,13 @@
     <td><a href={concat( 'rss/edit_import/', $RSSImports.item.id )|ezurl}><img class="button" src={'edit.png'|ezimage} width="16" height="16" alt="Edit" /></a></td>
 </tr>
 {/section}
-{section-else}
-<tr class="bglight"><td>{'The RSS import list is empty.'|i18n( 'design/admin/rss/list' )}</td></tr>
-{/section}
 </table>
+{section-else}
+<div class="block">
+<p>{'The RSS import list is empty.'|i18n( 'design/admin/rss/list' )}</p>
+</div>
+{/section}
+
 
 {* DESIGN: Content END *}</div></div></div>
 
