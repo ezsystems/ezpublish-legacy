@@ -29,6 +29,8 @@ eZINI:
   http://ez.no/community/bug_reports/problems_with_fetching_from_multiple_nodes
 - Fixed bug of datatype objectrelationlist where related objects will not be published.
   http://ez.no/community/bug_reports/objectrelationlist_doesn_t_work_properly
+- Fixed bug of datatype ezenum does not remove unselected value for translated objects
+  http://ez.no/community/bug_reports/ezenum_does_not_remove_unselected_value
 
 *Library:
 
