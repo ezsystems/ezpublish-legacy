@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZTemplateProcessCache class
+// Definition of eZTemplateCompiler class
 //
 // Created on: <06-Dec-2002 14:17:10 amos>
 //
@@ -34,35 +34,65 @@
 // you.
 //
 
-/*! \file eztemplateprocesscache.php
+/*! \file eztemplatecompiler.php
 */
 
 /*!
-  \class eZTemplateProcessCache eztemplateprocesscache.php
-  \brief The class eZTemplateProcessCache does
+  \class eZTemplateCompiler eztemplatecompiler.php
+  \brief Creates compiled PHP code from templates to speed up template usage.
 
+   Various optimizations that can be done are:
+
+    Data:
+    - Is constant, generate static data
+    - Is variable, generate direct variable extraction
+    - Has operators
+    - Has attributes
+
+    Attributes:
+    - Is constant, generate static data
+
+    Operators:
+    - Supports input
+    - Supports output
+    - Supports parameters
+    - Generates static data (true, false)
+    - Custom PHP code
+    - Modifies template variables, if possible name which ones. Allows
+      for caching of variables in the script.
+
+    Functions:
+    - Supports parameters
+    - Supports children (set? no, section? yes)
+    - Generates static data (ldelim,rdelim)
+    - Children usage, no result(set-block) | copy(let,default) | dynamic(conditional, repeated etc.)
+    - Children tree, requires original tree | allows custom processing
+    - Custom PHP code
+    - Deflate/transform tree, create new non-nested tree (let, default)
+    - Modifies template variables, if possible name which ones. Allows
+      for caching of variables in the script.
 */
 
 include_once( 'lib/ezutils/classes/ezdebug.php' );
 include_once( 'lib/eztemplate/classes/eztemplatenodetool.php' );
 
-define( 'EZ_TEMPLATE_PROCESS_CACHE_CODE_DATE', 1041857934 );
+define( 'EZ_TEMPLATE_COMPILE_CODE_DATE', 1052920095 );
 
-class eZTemplateProcessCache
+class eZTemplateCompiler
 {
     /*!
      Constructor
     */
-    function eZTemplateProcessCache()
+    function eZTemplateCompiler()
     {
     }
 
     /*!
      \static
-     \return true if template process caching is enabled.
-     \note To change this setting edit settings/site.ini and locate the group TemplateSettings and the entry ProcessCaching.
+     \return true if template compiling is enabled.
+     \note To change this setting edit settings/site.ini and locate the group TemplateSettings and the entry TemplateCompile.
     */
-    function isCacheEnabled()
+    function isCompilationEnabled()
     {
         if ( isset( $GLOBALS['eZSiteBasics'] ) )
         {
@@ -75,151 +105,165 @@ class eZTemplateProcessCache
 
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
-        $cacheEnabled = $ini->variable( 'TemplateSettings', 'ProcessCaching' ) == 'enabled';
-        return $cacheEnabled;
+        $compilationEnabled = $ini->variable( 'TemplateSettings', 'TemplateCompile' ) == 'enabled';
+        return $compilationEnabled;
     }
 
     /*!
      \static
-     \return true if template process caching should include comments in the cache files.
+     \return true if template compilation should include comments.
     */
     function isCommentsEnabled()
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
-        $commentsEnabled = $ini->variable( 'TemplateSettings', 'ProcessComments' ) == 'enabled';
+        $commentsEnabled = $ini->variable( 'TemplateSettings', 'CompileComments' ) == 'enabled';
         return $commentsEnabled;
     }
 
     /*!
      \static
-     \return true if template process execution is enabled.
+     \return true if the compiled template execution is enabled.
     */
     function isExecutionEnabled()
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
-        $execution = $ini->variable( 'TemplateSettings', 'ProcessExecution' ) == 'enabled';
+        $execution = $ini->variable( 'TemplateSettings', 'CompileExecution' ) == 'enabled';
         return $execution;
     }
 
     /*!
      \static
-     \return true if template process caching should always be created even if a sufficient cache already exists.
+     \return true if template compilation should always be run even if a sufficient compilation already exists.
     */
     function alwaysGenerate()
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
-        $alwaysGenerate = $ini->variable( 'TemplateSettings', 'ProcessAlwaysGenerate' ) == 'enabled';
+        $alwaysGenerate = $ini->variable( 'TemplateSettings', 'CompileAlwaysGenerate' ) == 'enabled';
         return $alwaysGenerate;
     }
 
     /*!
      \static
-     \return true if template node tree named \a $treeName should be included the cache file.
+     \return true if template node tree named \a $treeName should be included the compiled template.
     */
     function isTreeEnabled( $treeName )
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
-        $treeList = $ini->variable( 'TemplateSettings', 'ProcessIncludeNodeTree' );
+        $treeList = $ini->variable( 'TemplateSettings', 'CompileIncludeNodeTree' );
         return in_array( $treeName, $treeList );
     }
 
     /*!
      \static
-     \return the cache directory for process cache files.
+     \return the directory for compiled templates.
     */
-    function cacheDirectory()
+    function compilationDirectory()
     {
-        $cacheDirectory =& $GLOBALS['eZTemplateProcessCacheDirectory'];
-        if ( !isset( $cacheDirectory ) )
+        $compilationDirectory =& $GLOBALS['eZTemplateCompilerDirectory'];
+        if ( !isset( $compilationDirectory ) )
         {
             include_once( 'lib/ezutils/classes/ezdir.php' );
             include_once( 'lib/ezutils/classes/ezsys.php' );
-            $cacheDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'template/process' ) );
+            $compilationDirectory = eZDir::path( array( eZSys::cacheDirectory(), 'template/compiled' ) );
         }
-        return $cacheDirectory;
+        return $compilationDirectory;
+    }
+
+    /*!
+     Creates the name for the compiled template and returns it.
+     The name conists of the md5 of the key and charset with the original filename appended.
+    */
+    function compilationFilename( $key, $resourceData )
+    {
+        $internalCharset = eZTextCodec::internalCharset();
+        $templateFilepath = $resourceData['template-filename'];
+        $extraName = '';
+        if ( preg_match( "#^.+/(.*)\.tpl$#", $templateFilepath, $matches ) )
+            $extraName = '-' . $matches[1];
+        else if ( preg_match( "#^(.*)\.tpl$#", $templateFilepath, $matches ) )
+            $extraName = '-' . $matches[1];
+        $cacheFileKey = "$key-$internalCharset";
+        $cacheFileName = md5( $cacheFileKey ) . $extraName . '.php';
+        return $cacheFileName;
     }
 
     /*!
      \static
-     \return true if the cache with the key \a $key exists.
-             A cache file is found restorable when it exists and has a timestamp
+     \return true if the compiled template with the key \a $key exists.
+             A compiled template is found usable when it exists and has a timestamp
              higher or equal to \a $timestamp.
     */
-    function hasProcessCache( $key, $timestamp )
+    function hasCompiledTemplate( $key, $timestamp, &$resourceData )
     {
-        if ( !eZTemplateProcessCache::isCacheEnabled() )
+        if ( !eZTemplateCompiler::isCompilationEnabled() )
             return false;
-        if ( eZTemplateProcessCache::alwaysGenerate() )
+        if ( eZTemplateCompiler::alwaysGenerate() )
             return false;
 
-        $internalCharset = eZTextCodec::internalCharset();
-        $cacheFileKey = "$key-$internalCharset";
-        $cacheFileName = md5( $cacheFileKey ) . '.php';
+        $cacheFileName = eZTemplateCompiler::compilationFilename( $key, $resourceData );
 
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
-        $php = new eZPHPCreator( eZTemplateProcessCache::cacheDirectory(), $cacheFileName );
+        $php = new eZPHPCreator( eZTemplateCompiler::compilationDirectory(), $cacheFileName );
         $canRestore = $php->canRestore( $timestamp );
         $uri = false;
         if ( $canRestore )
-            eZDebugSetting::writeDebug( 'eztemplate-process-cache', "Cache hit for uri '$uri' with key '$key'", 'eZTemplateProcessCache::hasProcessCache' );
+            eZDebugSetting::writeDebug( 'eztemplate-compile', "Cache hit for uri '$uri' with key '$key'", 'eZTemplateCompiler::hasCompiledTemplate' );
         else
-            eZDebugSetting::writeDebug( 'eztemplate-process-cache', "Cache miss for uri '$uri' with key '$key'", 'eZTemplateProcessCache::hasProcessCache' );
+            eZDebugSetting::writeDebug( 'eztemplate-compile', "Cache miss for uri '$uri' with key '$key'", 'eZTemplateCompiler::hasCompiledTemplate' );
         return $canRestore;
     }
 
     /*!
-     Tries to execute the process cache and returns \c true if succsesful.
-     Returns \c false if caching is disabled or the process cache could not be executed.
+     Tries to execute the compiled template and returns \c true if succsesful.
+     Returns \c false if caching is disabled or the compiled template could not be executed.
     */
-    function executeCache( &$tpl, &$textElements, $key, &$resourceData,
-                           $rootNamespace, $currentNamespace )
+    function executeCompilation( &$tpl, &$textElements, $key, &$resourceData,
+                                 $rootNamespace, $currentNamespace )
     {
-        if ( !eZTemplateProcessCache::isCacheEnabled() )
+        if ( !eZTemplateCompiler::isCompilationEnabled() )
             return false;
-        if ( !eZTemplateProcessCache::isExecutionEnabled() )
+        if ( !eZTemplateCompiler::isExecutionEnabled() )
             return false;
-        $internalCharset = eZTextCodec::internalCharset();
-        $cacheFileKey = "$key-$internalCharset";
-        $cacheFileName = md5( $cacheFileKey ) . '.php';
+        $cacheFileName = eZTemplateCompiler::compilationFilename( $key, $resourceData );
 
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
-        $directory = eZTemplateProcessCache::cacheDirectory();
+        $directory = eZTemplateCompiler::compilationDirectory();
         $phpScript = eZDir::path( array( $directory, $cacheFileName ) );
         if ( file_exists( $phpScript ) )
         {
             $text = false;
-            $helperStatus = eZTemplateProcessCache::executeCacheHelper( $phpScript, $text,
-                                                                        $tpl, $key, $resourceData,
-                                                                        $rootNamespace, $currentNamespace );
+            $helperStatus = eZTemplateCompiler::executeCompilationHelper( $phpScript, $text,
+                                                                          $tpl, $key, $resourceData,
+                                                                          $rootNamespace, $currentNamespace );
             if ( $helperStatus )
             {
                 $textElements[] = $text;
                 return true;
             }
             else
-                eZDebug::writeError( "Failed executing process cache file '$phpScript'" );
+                eZDebug::writeError( "Failed executing compiled template '$phpScript'", 'eZTemplateCompiler::executeCompilation' );
         }
         else
-            eZDebug::writeError( "Unknown process cache file '$phpScript'" );
+            eZDebug::writeError( "Unknown compiled template '$phpScript'", 'eZTemplateCompiler::executeCompilation' );
         return false;
     }
 
     /*!
-     Helper function for executeCache. Will execute the script \a $phpScript and
+     Helper function for executeCompilation. Will execute the script \a $phpScript and
      set the result text in \a $text.
      The parameters \a $tpl, \a $resourceData, \a $rootNamespace and \a $currentNamespace
-     are passed to the executed process script.
+     are passed to the executed template compilation script.
      \return true if a text result was created.
     */
-    function executeCacheHelper( $phpScript, &$text,
-                                 &$tpl, $key, &$resourceData,
-                                 $rootNamespace, $currentNamespace )
+    function executeCompilationHelper( $phpScript, &$text,
+                                       &$tpl, $key, &$resourceData,
+                                       $rootNamespace, $currentNamespace )
     {
         include( $phpScript );
         if ( isset( $text ) )
@@ -231,16 +275,14 @@ class eZTemplateProcessCache
 
     /*!
      \static
-     Generates the cache which will be used for handling optimized processinging using the key \a $key.
+     Generates the cache which will be used for handling optimized processing using the key \a $key.
      \return false if the cache does not exist.
     */
-    function generateCache( &$tpl, $key, &$resourceData )
+    function compileTemplate( &$tpl, $key, &$resourceData )
     {
-        if ( !eZTemplateProcessCache::isCacheEnabled() )
+        if ( !eZTemplateCompiler::isCompilationEnabled() )
             return false;
-        $internalCharset = eZTextCodec::internalCharset();
-        $cacheFileKey = "$key-$internalCharset";
-        $cacheFileName = md5( $cacheFileKey ) . '.php';
+        $cacheFileName = eZTemplateCompiler::compilationFilename( $key, $resourceData );
 
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
@@ -248,27 +290,37 @@ class eZTemplateProcessCache
         if ( !$rootNode )
             return false;
 
-        $useComments = eZTemplateProcessCache::isCommentsEnabled();
+        $useComments = eZTemplateCompiler::isCommentsEnabled();
 
-        $php = new eZPHPCreator( eZTemplateProcessCache::cacheDirectory(), $cacheFileName );
+        $php = new eZPHPCreator( eZTemplateCompiler::compilationDirectory(), $cacheFileName );
         $php->addComment( 'URI:       ' . $resourceData['uri'] );
         $php->addComment( 'Filename:  ' . $resourceData['template-filename'] );
         $php->addComment( 'Timestamp: ' . $resourceData['time-stamp'] . ' (' . date( 'D M j G:i:s T Y', $resourceData['time-stamp'] ) . ')' );
         if ( $useComments )
         {
-            $php->addComment( "Original code:\n" . $resourceData['text'] );
-            $php->addVariable( 'eZTemplateProcessCacheCodeDate', EZ_TEMPLATE_PROCESS_CACHE_CODE_DATE );
+            $templateFilename = $resourceData['template-filename'];
+            if ( file_exists( $templateFilename ) )
+            {
+                $fd = fopen( $templateFilename, 'r' );
+                if ( $fd )
+                {
+                    $templateText = fread( $fd, filesize( $templateFilename ) );
+                    $php->addComment( "Original code:\n" . $templateText );
+                    fclose( $fd );
+                }
+            }
         }
+        $php->addVariable( 'eZTemplateCompilerCodeDate', EZ_TEMPLATE_COMPILE_CODE_DATE );
         $php->addSpace();
 
-        $php->addCodePiece( "eZDebug::accumulatorStart( 'template_process_cache', 'template_total', 'Template process cache' );" );
+        $php->addCodePiece( "eZDebug::accumulatorStart( 'template_compiled_execution', 'template_total', 'Template compiled execution', true );" );
 
         $php->addCodePiece( "\$vars =& \$tpl->Variables;\n" );
         $lbracket = '{';
         $rbracket = '}';
-        $initText = "if ( !function_exists( 'processfetchvariable' ) )
+        $initText = "if ( !function_exists( 'compiledfetchvariable' ) )
 $lbracket
-    function &processFetchVariable( &\$vars, \$namespace, \$name )
+    function &compiledFetchVariable( &\$vars, \$namespace, \$name )
     $lbracket
         \$exists = ( array_key_exists( \$namespace, \$vars ) and
                     array_key_exists( \$name, \$vars[\$namespace] ) );
@@ -281,18 +333,18 @@ $lbracket
         return \$var;
     $rbracket
 $rbracket
-if ( !function_exists( 'processfetchtext' ) )
+if ( !function_exists( 'compiledfetchtext' ) )
 $lbracket
-    function processFetchText( &\$tpl, \$rootNamespace, \$currentNamespace, \$namespace, &\$var )
+    function compiledFetchText( &\$tpl, \$rootNamespace, \$currentNamespace, \$namespace, &\$var )
     $lbracket
         \$text = '';
         \$tpl->appendElement( \$text, \$var, \$rootNamespace, \$currentNamespace );
         return \$text;
     $rbracket
 $rbracket
-if ( !function_exists( 'processfetchattribute' ) )
+if ( !function_exists( 'compiledfetchattribute' ) )
 $lbracket
-    function processFetchAttribute( &\$value, \$attributeValue )
+    function compiledFetchAttribute( &\$value, \$attributeValue )
     $lbracket
         if ( !is_null( \$attributeValue ) )
         $lbracket
@@ -333,64 +385,31 @@ $rbracket
         $php->addSpace();
 
         $transformedTree = array();
-        eZTemplateProcessCache::processNodeTransformation( $useComments, $php, $tpl, $rootNode, $resourceData, $transformedTree );
+        eZTemplateCompiler::processNodeTransformation( $useComments, $php, $tpl, $rootNode, $resourceData, $transformedTree );
 
         $staticTree = array();
-        eZTemplateProcessCache::processStaticOptimizations( $useComments, $php, $tpl, $transformedTree, $resourceData, $staticTree );
+        eZTemplateCompiler::processStaticOptimizations( $useComments, $php, $tpl, $transformedTree, $resourceData, $staticTree );
 
         $combinedTree = array();
-        eZTemplateProcessCache::processNodeCombining( $useComments, $php, $tpl, $staticTree, $resourceData, $combinedTree );
+        eZTemplateCompiler::processNodeCombining( $useComments, $php, $tpl, $staticTree, $resourceData, $combinedTree );
 
-        eZTemplateProcessCache::generatePHPCode( $useComments, $php, $tpl, $combinedTree, $resourceData );
+        eZTemplateCompiler::generatePHPCode( $useComments, $php, $tpl, $combinedTree, $resourceData );
 
-        if ( eZTemplateProcessCache::isTreeEnabled( 'combined' ) )
+        if ( eZTemplateCompiler::isTreeEnabled( 'combined' ) )
             $php->addVariable( 'combinedTree', $combinedTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
-        if ( eZTemplateProcessCache::isTreeEnabled( 'static' ) )
+        if ( eZTemplateCompiler::isTreeEnabled( 'static' ) )
             $php->addVariable( 'staticTree', $staticTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
-        if ( eZTemplateProcessCache::isTreeEnabled( 'transformed' ) )
+        if ( eZTemplateCompiler::isTreeEnabled( 'transformed' ) )
             $php->addVariable( 'transformedTree', $transformedTree, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
-        if ( eZTemplateProcessCache::isTreeEnabled( 'original' ) )
+        if ( eZTemplateCompiler::isTreeEnabled( 'original' ) )
             $php->addVariable( 'originalTree', $rootNode, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array( 'full-tree' => true ) );
 
-        $php->addCodePiece( "eZDebug::accumulatorStop( 'template_process_cache' );" );
+        $php->addCodePiece( "eZDebug::accumulatorStop( 'template_compiled_execution', true );" );
 
         $php->store();
 
         return true;
     }
-
-    /*
-
-    Data:
-    - Is constant, generate static data
-    - Is variable, generate direct variable extraction
-    - Has operators
-    - Has attributes
-
-    Attributes:
-    - Is constant, generate static data
-
-    Operators:
-    - Supports input
-    - Supports output
-    - Supports parameters
-    - Generates static data (true, false)
-    - Custom PHP code
-    - Modifies template variables, if possible name which ones. Allows
-      for caching of variables in the script.
-
-    Functions:
-    - Supports parameters
-    - Supports children (set? no, section? yes)
-    - Generates static data (ldelim,rdelim)
-    - Children usage, no result(set-block) | copy(let,default) | dynamic(conditional, repeated etc.)
-    - Children tree, requires original tree | allows custom processing
-    - Custom PHP code
-    - Deflate/transform tree, create new non-nested tree (let, default)
-    - Modifies template variables, if possible name which ones. Allows
-      for caching of variables in the script.
-
-    */
 
     /*!
      Generates the PHP code defined in the template node tree \a $node.
@@ -406,7 +425,7 @@ $rbracket
             $children = $node[1];
             if ( $children )
             {
-                eZTemplateProcessCache::generatePHPCodeChildren( $useComments, $php, $tpl, $children, $resourceData, $parameters );
+                eZTemplateCompiler::generatePHPCodeChildren( $useComments, $php, $tpl, $children, $resourceData, $parameters );
             }
         }
         else
@@ -429,14 +448,14 @@ $rbracket
                 $children = $node[1];
                 if ( $children )
                 {
-                    eZTemplateProcessCache::generatePHPCodeChildren( $useComments, $php, $tpl, $children, $resourceData, $parameters );
+                    eZTemplateCompiler::generatePHPCodeChildren( $useComments, $php, $tpl, $children, $resourceData, $parameters );
                 }
             }
             else if ( $nodeType == EZ_TEMPLATE_NODE_TEXT )
             {
                 $text = $node[2];
                 $variablePlacement = $node[3];
-                $originalText = eZTemplateProcessCache::fetchTemplatePiece( $variablePlacement );
+                $originalText = eZTemplateCompiler::fetchTemplatePiece( $variablePlacement );
                 if ( $useComments )
                 {
                     $php->addComment( "Text start:" );
@@ -449,7 +468,7 @@ $rbracket
             {
                 $variableData = $node[2];
                 $variablePlacement = $node[3];
-                $dataInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
+                $dataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
                                                                                $variableData, $variablePlacement,
                                                                                $resourceData );
                 $newNode = array( $nodeType,
@@ -464,14 +483,14 @@ $rbracket
                                       " Has attributes: " . ( $dataInspection['has-attributes'] ? 'Yes' : 'No' ) .
                                       " Has operators: " . ( $dataInspection['has-operators'] ? 'Yes' : 'No' )
                                       );
-                    $originalText = eZTemplateProcessCache::fetchTemplatePiece( $variablePlacement );
+                    $originalText = eZTemplateCompiler::fetchTemplatePiece( $variablePlacement );
                     $php->addComment( '{' . $originalText . '}' );
                 }
-                eZTemplateProcessCache::generateVariableCode( $php, $tpl, $node, $dataInspection,
+                eZTemplateCompiler::generateVariableCode( $php, $tpl, $node, $dataInspection,
                                                               array( 'variable' => 'var',
                                                                      'counter' => 0 ) );
                 $php->addCodePiece( "if ( is_object( \$var ) )
-    \$text .= processFetchText( \$tpl, \$rootNamespace, \$currentNamespace, \$namespace, \$var );
+    \$text .= compiledFetchText( \$tpl, \$rootNamespace, \$currentNamespace, \$namespace, \$var );
 else
     \$text .= \$var;
 unset( \$var );\n" );
@@ -498,7 +517,7 @@ unset( \$var );\n" );
                 if ( $useComments )
                 {
                     $php->addComment( "Function: $functionName, $parameterText" );
-                    $originalText = eZTemplateProcessCache::fetchTemplatePiece( $functionPlacement );
+                    $originalText = eZTemplateCompiler::fetchTemplatePiece( $functionPlacement );
                     $php->addComment( '{' . $originalText . '}' );
                 }
                 if ( isset( $node[5] ) )
@@ -571,9 +590,9 @@ unset( \$var );\n" );
                             if ( isset( $functionParameters['name'] ) )
                             {
                                 $nameParameter = $functionParameters['name'];
-                                $nameInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
-                                                                                               $nameParameter, $functionPlacement,
-                                                                                               $resourceData );
+                                $nameInspection = eZTemplateCompiler::inspectVariableData( $tpl,
+                                                                                           $nameParameter, $functionPlacement,
+                                                                                           $resourceData );
                                 if ( $nameInspection['is-constant'] and
                                      !$nameInspection['is-variable'] and
                                      !$nameInspection['has-attributes'] and
@@ -590,7 +609,7 @@ else
                                 else
                                 {
                                     $persistence = array();
-                                    eZTemplateProcessCache::generateVariableCode( $php, $tpl, $nameParameter, $nameInspection,
+                                    eZTemplateCompiler::generateVariableCode( $php, $tpl, $nameParameter, $nameInspection,
                                                                                   $persistence,
                                                                                   array( 'variable' => 'name',
                                                                                          'counter' => 0 ) );
@@ -724,7 +743,7 @@ else
     {
         $variableData = $node[2];
         $persistence = array();
-        eZTemplateProcessCache::generateVariableDataCode( $php, $tpl, $variableData, $dataInspection, $persistence, $parameters );
+        eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $variableData, $dataInspection, $persistence, $parameters );
     }
 
     /*!
@@ -755,21 +774,21 @@ else
                 $namespace = $variableDataItem[1][0];
                 $namespaceScope = $variableDataItem[1][1];
                 $variableName = $variableDataItem[1][2];
-                eZTemplateProcessCache::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope );
+                eZTemplateCompiler::generateMergeNamespaceCode( $php, $tpl, $namespace, $namespaceScope );
                 $variableNameText = $php->variableText( $variableName, 0 );
-                $php->addCodePiece( "\$$variableAssignmentName =& processFetchVariable( \$vars, \$namespace, $variableNameText );\n" );
+                $php->addCodePiece( "\$$variableAssignmentName =& compiledFetchVariable( \$vars, \$namespace, $variableNameText );\n" );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_ATTRIBUTE )
             {
                 $newParameters = $parameters;
                 $newParameters['counter'] += 1;
-                eZTemplateProcessCache::generateVariableDataCode( $php, $tpl, $variableDataItem[1], $dataInspection,
+                eZTemplateCompiler::generateVariableDataCode( $php, $tpl, $variableDataItem[1], $dataInspection,
                                                                   $persistence, $newParameters );
                 $newVariableAssignmentName = $newParameters['variable'];
                 $newVariableAssignmentCounter = $newParameters['counter'];
                 if ( $newVariableAssignmentCounter > 0 )
                     $newVariableAssignmentName .= $newVariableAssignmentCounter;
-                $php->addCodePiece( "\$$variableAssignmentName = processFetchAttribute( \$$variableAssignmentName, \$$newVariableAssignmentName );\n" );
+                $php->addCodePiece( "\$$variableAssignmentName = compiledFetchAttribute( \$$variableAssignmentName, \$$newVariableAssignmentName );\n" );
 // $php->addVariable( 'attr', $variableDataItem[1] );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPERATOR )
@@ -805,7 +824,7 @@ else
             $newNode[1] = false;
             if ( $children )
             {
-                eZTemplateProcessCache::processNodeCombiningChildren( $useComments, $php, $tpl, $children, $resourceData, $newNode );
+                eZTemplateCompiler::processNodeCombiningChildren( $useComments, $php, $tpl, $children, $resourceData, $newNode );
             }
         }
         else
@@ -831,7 +850,7 @@ else
                                   false );
                 if ( $children )
                 {
-                    eZTemplateProcessCache::processNodeCombiningChildren( $useComments, $php, $tpl, $children, $resourceData, $newNode );
+                    eZTemplateCompiler::processNodeCombiningChildren( $useComments, $php, $tpl, $children, $resourceData, $newNode );
                 }
             }
             else if ( $nodeType == EZ_TEMPLATE_NODE_TEXT )
@@ -843,13 +862,13 @@ else
                                   false,
                                   $text,
                                   $placement );
-                eZTemplateProcessCache::combineStaticNodes( $tpl, $resourceData, $lastNode, $newNode );
+                eZTemplateCompiler::combineStaticNodes( $tpl, $resourceData, $lastNode, $newNode );
             }
             else if ( $nodeType == EZ_TEMPLATE_NODE_VARIABLE )
             {
                 $variableData = $node[2];
                 $variablePlacement = $node[3];
-                $dataInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
+                $dataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
                                                                                $variableData, $variablePlacement,
                                                                                $resourceData );
                 $newNode = array( $nodeType,
@@ -857,7 +876,7 @@ else
                                   $variableData,
                                   $variablePlacement );
                 unset( $dataInspection );
-                eZTemplateProcessCache::combineStaticNodes( $tpl, $resourceData, $lastNode, $newNode );
+                eZTemplateCompiler::combineStaticNodes( $tpl, $resourceData, $lastNode, $newNode );
             }
             else if ( $nodeType == EZ_TEMPLATE_NODE_FUNCTION )
             {
@@ -876,7 +895,7 @@ else
 
                 if ( is_array( $functionChildren ) )
                 {
-                    eZTemplateProcessCache::processNodeCombiningChildren( $useComments, $php, $tpl,
+                    eZTemplateCompiler::processNodeCombiningChildren( $useComments, $php, $tpl,
                                                                           $functionChildren, $resourceData, $newNode );
                 }
 
@@ -918,7 +937,7 @@ else
             return false;
         if ( $lastNodeType == EZ_TEMPLATE_NODE_VARIABLE )
         {
-            $lastDataInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
+            $lastDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
                                                                                $lastNode[2], $lastNode[3],
                                                                                $resourceData );
             if ( !$lastDataInspection['is-constant'] or
@@ -929,7 +948,7 @@ else
         }
         if ( $newNodeType == EZ_TEMPLATE_NODE_VARIABLE )
         {
-            $newDataInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
+            $newDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
                                                                               $newNode[2], $newNode[3],
                                                                               $resourceData );
             if ( !$newDataInspection['is-constant'] or
@@ -939,8 +958,8 @@ else
                 return false;
         }
         $textElements = array();
-        $lastNodeData = eZTemplateProcessCache::staticNodeData( $lastNode );
-        $newNodeData = eZTemplateProcessCache::staticNodeData( $newNode );
+        $lastNodeData = eZTemplateCompiler::staticNodeData( $lastNode );
+        $newNodeData = eZTemplateCompiler::staticNodeData( $newNode );
         $tpl->appendElementText( $textElements, $lastNodeData, false, false );
         $tpl->appendElementText( $textElements, $newNodeData, false, false );
         $newData = implode( '', $textElements );
@@ -1011,7 +1030,7 @@ else
                 foreach ( $children as $child )
                 {
                     $newChild = array();
-                    eZTemplateProcessCache::processStaticOptimizations( $useComments, $php, $tpl, $child, $resourceData, $newChild );
+                    eZTemplateCompiler::processStaticOptimizations( $useComments, $php, $tpl, $child, $resourceData, $newChild );
                     $newNode[1][] = $newChild;
                 }
             }
@@ -1030,7 +1049,7 @@ else
         {
             $variableData = $node[2];
             $variablePlacement = $node[3];
-            $dataInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
+            $dataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
                                                                            $variableData, $variablePlacement,
                                                                            $resourceData );
             if ( isset( $dataInspection['new-data'] ) )
@@ -1056,7 +1075,7 @@ else
                 foreach ( $functionChildren as $functionChild )
                 {
                     $newChild = array();
-                    eZTemplateProcessCache::processStaticOptimizations( $useComments, $php, $tpl,
+                    eZTemplateCompiler::processStaticOptimizations( $useComments, $php, $tpl,
                                                                         $functionChild, $resourceData, $newChild );
                     $newFunctionChildren[] = $newChild;
                 }
@@ -1068,7 +1087,7 @@ else
             {
                 foreach ( $functionParameters as $functionParameterName => $functionParameterData )
                 {
-                    $dataInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
+                    $dataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
                                                                                    $functionParameterData, false,
                                                                                    $resourceData );
                     if ( isset( $dataInspection['new-data'] ) )
@@ -1097,7 +1116,7 @@ else
     */
     function processNodeTransformation( $useComments, &$php, &$tpl, &$node, &$resourceData, &$newNode )
     {
-        $newNode = eZTemplateProcessCache::processNodeTransformationRoot( $useComments, $php, $tpl, $node, $resourceData );
+        $newNode = eZTemplateCompiler::processNodeTransformationRoot( $useComments, $php, $tpl, $node, $resourceData );
     }
 
     /*!
@@ -1117,7 +1136,7 @@ else
                 $newChildren = array();
                 foreach ( $children as $childNode )
                 {
-                    $newChildNode = eZTemplateProcessCache::processNodeTransformationChild( $useComments, $php, $tpl, $childNode, $resourceData );
+                    $newChildNode = eZTemplateCompiler::processNodeTransformationChild( $useComments, $php, $tpl, $childNode, $resourceData );
                     if ( !$newChildNode )
                         $newChildren[] = $childNode;
                     else if ( !is_array( $newChildNode ) )
@@ -1158,9 +1177,9 @@ else
             if ( is_object( $functionObject ) )
             {
                 $hasTransformationSupport = false;
-                if ( method_exists( $functionObject, 'processCacheHints' ) )
+                if ( method_exists( $functionObject, 'functionTemplateHints' ) )
                 {
-                    $hints = $functionObject->processCacheHints();
+                    $hints = $functionObject->functionTemplateHints();
                     if ( isset( $hints[$functionName] ) and
                          isset( $hints[$functionName]['tree-transformation'] ) and
                          $hints[$functionName]['tree-transformation'] )
@@ -1174,7 +1193,7 @@ else
                         $newChildren = array();
                         foreach ( $functionChildren as $childNode )
                         {
-                            $newChildNode = eZTemplateProcessCache::processNodeTransformationChild( $useComments, $php, $tpl, $childNode, $resourceData );
+                            $newChildNode = eZTemplateCompiler::processNodeTransformationChild( $useComments, $php, $tpl, $childNode, $resourceData );
                             if ( !$newChildNode )
                                 $newChildren[] = $childNode;
                             else if ( !is_array( $newChildNode ) )
@@ -1197,7 +1216,7 @@ else
         }
         else if ( $nodeType == EZ_TEMPLATE_NODE_ROOT )
         {
-            return eZTemplateProcessCache::processNodeTransformationRoot( $useComments, $php, $tpl, $node, $resourceData );
+            return eZTemplateCompiler::processNodeTransformationRoot( $useComments, $php, $tpl, $node, $resourceData );
         }
         else
             return false;
@@ -1250,7 +1269,7 @@ else
             else if ( $variableItemType == EZ_TEMPLATE_TYPE_ATTRIBUTE )
             {
                 $dataInspection['has-attributes'] = true;
-                $newDataInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
+                $newDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
                                                                                   $variableItemData, $variableItemPlacement,
                                                                                   $resourceData );
                 if ( isset( $newDataInspection['new-data'] ) )
@@ -1265,7 +1284,7 @@ else
             {
                 $dataInspection['has-operators'] = true;
                 $operatorName = $variableItemData[0];
-                $operatorHint = eZTemplateProcessCache::operatorHint( $tpl, $operatorName );
+                $operatorHint = eZTemplateCompiler::operatorHint( $tpl, $operatorName );
                 $newVariableItem = $variableItem;
                 if ( $operatorHint )
                 {
@@ -1276,8 +1295,8 @@ else
                         $newVariableItem[1] = array( $operatorName );
                     if ( $operatorHint['static'] )
                     {
-                        $operatorStaticData = eZTemplateProcessCache::operatorStaticData( $tpl, $operatorName );
-                        $newVariableItem = eZTemplateProcessCache::createStaticVariableData( $tpl, $operatorStaticData, $variableItemPlacement );
+                        $operatorStaticData = eZTemplateCompiler::operatorStaticData( $tpl, $operatorName );
+                        $newVariableItem = eZTemplateCompiler::createStaticVariableData( $tpl, $operatorStaticData, $variableItemPlacement );
                         $dataInspection['is-constant'] = true;
                         $dataInspection['is-variable'] = false;
                         $dataInspection['has-operators'] = false;
@@ -1290,7 +1309,7 @@ else
                     for ( $i = 1; $i < count( $tmpVariableItem ); ++$i )
                     {
                         $operatorParameter = $tmpVariableItem[$i];
-                        $newDataInspection = eZTemplateProcessCache::inspectVariableData( $tpl,
+                        $newDataInspection = eZTemplateCompiler::inspectVariableData( $tpl,
                                                                                           $operatorParameter, false,
                                                                                           $resourceData );
                         if ( isset( $newDataInspection['new-data'] ) )
@@ -1304,11 +1323,11 @@ else
             }
             else if ( $variableItemType == EZ_TEMPLATE_TYPE_VOID )
             {
-                $tpl->warning( 'processCache', "Void datatype should not be used, ignoring it" );
+                $tpl->warning( 'TemplateCompiler', "Void datatype should not be used, ignoring it" );
             }
             else
             {
-                $tpl->warning( 'processCache', "Unknown data type $variableItemType, ignoring it" );
+                $tpl->warning( 'TemplateCompiler', "Unknown data type $variableItemType, ignoring it" );
             }
         }
         $dataInspection['new-data'] = $newVariableData;
@@ -1329,9 +1348,9 @@ else
         $operatorHint = false;
         if ( is_object( $operatorObject ) )
         {
-            if ( method_exists( $operatorObject, 'processCacheHints' ) )
+            if ( method_exists( $operatorObject, 'operatorTemplateHints' ) )
             {
-                $operatorHintArray = $operatorObject->processCacheHints();
+                $operatorHintArray = $operatorObject->operatorTemplateHints();
                 if ( isset( $operatorHintArray[$operatorName] ) )
                 {
                     $operatorHint = $operatorHintArray[$operatorName];
@@ -1357,9 +1376,9 @@ else
         $operatorData = null;
         if ( is_object( $operatorObject ) )
         {
-            if ( method_exists( $operatorObject, 'processCacheStaticData' ) )
+            if ( method_exists( $operatorObject, 'operatorCompiledStaticData' ) )
             {
-                $operatorData = $operatorObject->processCacheStaticData( $operatorName );
+                $operatorData = $operatorObject->operatorCompiledStaticData( $operatorName );
             }
         }
         return $operatorData;

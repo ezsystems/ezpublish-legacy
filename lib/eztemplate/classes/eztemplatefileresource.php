@@ -44,7 +44,7 @@
 
 include_once( "lib/ezi18n/classes/eztextcodec.php" );
 include_once( "lib/eztemplate/classes/eztemplatetreecache.php" );
-include_once( "lib/eztemplate/classes/eztemplateprocesscache.php" );
+include_once( "lib/eztemplate/classes/eztemplatecompiler.php" );
 
 class eZTemplateFileResource
 {
@@ -99,50 +99,48 @@ class eZTemplateFileResource
     {
         return false;
         $key = $this->cacheKey( $keyData, $res, $templatePath, $extraParameters );
-        if ( eZTemplateTreeCache::canRestoreCache( $key, $timestamp ) )
-            eZTemplateTreeCache::restoreCache( $key );
+        if ( eZTemplateTreeCache::canRestoreCache( $key, $timestamp, $templatePath ) )
+            eZTemplateTreeCache::restoreCache( $key, $templatePath );
         return eZTemplateTreeCache::cachedTree( $key, $uri, $res, $templatePath, $extraParameters );
     }
 
     /*!
      Sets the cached node tree for the selected template to \a $root.
     */
-    function generateProcessCache( &$tpl, $keyData, $uri, $res, $templatePath, &$extraParameters, &$resourceData )
+    function compileTemplate( &$tpl, $keyData, $uri, $res, $templatePath, &$extraParameters, &$resourceData )
     {
-        eZDebug::writeDebug( 'generateProcessCache( $keyData, $uri, $res, $templatePath, &$extraParameters, &$resourceData )', 'eztemplatefileresource' );
         $key = $this->cacheKey( $keyData, $res, $templatePath, $extraParameters );
-        return eZTemplateProcessCache::generateCache( $tpl, $key, $resourceData );
+        return eZTemplateCompiler::compileTemplate( $tpl, $key, $resourceData );
     }
 
     /*!
      Sets the cached node tree for the selected template to \a $root.
     */
-    function executeProcessCache( &$tpl, &$textElements,
-                                  $keyData, $uri, $res, $templatePath,
-                                  &$extraParameters, $timestamp,
-                                  $rootNamespace, $currentNamespace )
+    function executeCompiledTemplate( &$tpl, &$textElements,
+                                      $keyData, $uri, $res, $templatePath,
+                                      &$extraParameters, $timestamp,
+                                      $rootNamespace, $currentNamespace )
     {
-        eZDebug::writeDebug( 'function executeProcessCache( &$tpl, $keyData, $uri, $res, $templatePath, &$extraParameters, $timestamp, $rootNamespace, $currentNamespace )', 'eztemplatefileresource' );
         $key = $this->cacheKey( $keyData, $res, $templatePath, $extraParameters );
-        return eZTemplateProcessCache::executeCache( $tpl, $textElements, $key, $resourceData,
-                                                     $rootNamespace, $currentNamespace );
+        return eZTemplateCompiler::executeCompilation( $tpl, $textElements, $key, $resourceData,
+                                                       $rootNamespace, $currentNamespace );
     }
 
-    function hasGeneratedProcessCache( $keyData, $uri, &$resourceData, $templatePath, &$extraParameters, $timestamp )
+    /*!
+     \return \c true if a compiled template exists for the current request.
+    */
+    function hasCompiledTemplate( $keyData, $uri, &$resourceData, $templatePath, &$extraParameters, $timestamp )
     {
         $key = $this->cacheKey( $keyData, $resourceData, $templatePath, $extraParameters );
-        return eZTemplateProcessCache::hasProcessCache( $key, $timestamp );
+        return eZTemplateCompiler::hasCompiledTemplate( $key, $timestamp, $resourceData );
     }
 
-    function canGenerateProcessCache( &$tpl, &$resourceData, &$extraParameters )
+    /*!
+     \return \c true if a compiled template can be generated for this request.
+    */
+    function canCompileTemplate( &$tpl, &$resourceData, &$extraParameters )
     {
-//         $keyData = $resourceData['key-data'];
-//         $templatePath = $resourceData['template-name'];
-//         $key = $this->cacheKey( $keyData, $resourceData, $templatePath, $extraParameters );
-//         $timestamp = $resourceData['time-stamp'];
-//         return eZTemplateProcessCache::hasProcessCache( $key, $timestamp );
-//         if ( $timestamp )
-        return eZTemplateProcessCache::isCacheEnabled();
+        return eZTemplateCompiler::isCompilationEnabled();
     }
 
     /*!
@@ -151,8 +149,8 @@ class eZTemplateFileResource
     function &cachedTemplateTree( $keyData, $uri, $res, $templatePath, &$extraParameters, $timestamp )
     {
         $key = $this->cacheKey( $keyData, $res, $templatePath, $extraParameters );
-        if ( eZTemplateTreeCache::canRestoreCache( $key, $timestamp ) )
-            eZTemplateTreeCache::restoreCache( $key );
+        if ( eZTemplateTreeCache::canRestoreCache( $key, $timestamp, $templatePath ) )
+            eZTemplateTreeCache::restoreCache( $key, $templatePath );
         return eZTemplateTreeCache::cachedTree( $key, $uri, $res, $templatePath, $extraParameters );
     }
 
@@ -163,14 +161,13 @@ class eZTemplateFileResource
     {
         $key = $this->cacheKey( $keyData, $res, $templatePath, $extraParameters );
         eZTemplateTreeCache::setCachedTree( $key, $uri, $res, $templatePath, $extraParameters, $root );
-        eZTemplateTreeCache::storeCache( $key );
+        eZTemplateTreeCache::storeCache( $key, $templatePath );
     }
 
     /*!
      Loads the template file if it exists, also sets the modification timestamp.
      Returns true if the file exists.
     */
-//     function handleResource( &$tpl, &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData, $method, &$extraParameters )
     function handleResource( &$tpl, &$resourceData, $method, &$extraParameters )
     {
         return $this->handleResourceData( $tpl, $this, $resourceData, $method, $extraParameters );
@@ -183,7 +180,6 @@ class eZTemplateFileResource
      It will load the template file and handle any charsets conversion if necessary.
      It will also handle tree node caching if one is found.
     */
-//     function handleResourceData( &$tpl, &$handler, &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData, $method, &$extraParameters )
     function handleResourceData( &$tpl, &$handler, &$resourceData, $method, &$extraParameters )
     {
         // &$templateRoot, &$text, &$tstamp, $uri, $resourceName, &$path, &$keyData
@@ -208,11 +204,9 @@ class eZTemplateFileResource
         {
             if ( $canCache )
             {
-//     if ( $handler->hasCachedProcessTree( $keyData, $uri, $resourceName, $path, $extraParameters, $tstamp ) )
-//                      $resourceData['process-cache'] = true;
-                if ( $handler->hasGeneratedProcessCache( $keyData, $uri, $resourceName, $path, $extraParameters, $tstamp ) )
+                if ( $handler->hasCompiledTemplate( $keyData, $uri, $resourceName, $path, $extraParameters, $tstamp ) )
                 {
-                    $resourceData['process-cache'] = true;
+                    $resourceData['compiled-template'] = true;
                     return true;
                 }
             }
@@ -226,7 +220,6 @@ class eZTemplateFileResource
             if ( $fd )
             {
                 $text = fread( $fd, filesize( $path ) );
-//                 $charset = "utf8";
                 $tplINI =& $tpl->ini();
                 $charset = $tplINI->variable( 'CharsetSettings', 'DefaultTemplateCharset' );
                 $pos = strpos( $text, "\n" );

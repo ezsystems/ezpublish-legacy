@@ -79,7 +79,7 @@ class eZTemplateSetFunction
         return array( $this->SetName, $this->LetName, $this->DefaultName );
     }
 
-    function processCacheHints()
+    function functionTemplateHints()
     {
         return array( $this->LetName => array( 'parameters' => true,
                                                'static' => false,
@@ -87,12 +87,6 @@ class eZTemplateSetFunction
                       $this->DefaultName => array( 'parameters' => true,
                                                    'static' => false,
                                                    'tree-transformation' => true ) );
-    }
-
-    function templateHookHints()
-    {
-        return array( $this->LetName => array( 'pre' => true ),
-                      $this->DefaultName => array( 'pre' => true ) );
     }
 
     function templateNodeTransformation( $functionName, &$node,

@@ -929,7 +929,7 @@ ezdebug.reload();
      Starts an time count for the accumulator \a $key.
      You can also specify a name which will be displayed.
     */
-    function accumulatorStart( $key, $inGroup = false, $name = false )
+    function accumulatorStart( $key, $inGroup = false, $name = false, $recursive = false )
     {
         if ( !eZDebug::isDebugEnabled() )
             return;
@@ -940,13 +940,22 @@ ezdebug.reload();
         }
 
         $accumulator =& $debug->TimeAccumulatorList[$key];
+        if ( $recursive )
+        {
+            if ( isset( $accumulator['recursive_counter'] ) )
+            {
+                $accumulator['recursive_counter']++;
+                return;
+            }
+            $accumulator['recursive_counter'] = 0;
+        }
         $accumulator['temp_time'] = $debug->timeToFloat( microtime() );
     }
 
     /*!
      Stops a previous time count and adds the total time to the accumulator \a $key.
     */
-    function accumulatorStop( $key )
+    function accumulatorStop( $key, $recursive = false )
     {
         if ( !eZDebug::isDebugEnabled() )
             return;
@@ -958,6 +967,17 @@ ezdebug.reload();
             return;
         }
         $accumulator =& $debug->TimeAccumulatorList[$key];
+        if ( $recursive )
+        {
+            if ( isset( $accumulator['recursive_counter'] ) )
+            {
+                if ( $accumulator['recursive_counter'] > 0 )
+                {
+                    $accumulator['recursive_counter']--;
+                    return;
+                }
+            }
+        }
         $diffTime = $stopTime - $accumulator['temp_time'];
         $accumulator['time'] = $accumulator['time'] + $diffTime;
         ++$accumulator['count'];

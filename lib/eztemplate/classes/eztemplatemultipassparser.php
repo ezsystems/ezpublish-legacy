@@ -66,7 +66,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     function parse( &$tpl, &$sourceText, &$rootElement, $rootNamespace, $relation )
     {
         $relatedResource = $relation['resource'];
-        $relatedTemplateName = $relation['template-name'];
+        $relatedTemplateName = $relation['template-filename'];
 
 //         $tpl->setRelation( $rootElement, $relatedResource, $relatedTemplateName );
 //         $tpl->CurrentRelatedResource = $relatedResource;

@@ -258,9 +258,9 @@ class eZObjectForwarder
                 }
             }
 
-            if ( $resourceData['process-cache'] )
+            if ( $resourceData['compiled-template'] )
             {
-                $tpl->handleProcessCache( $resourceData, $textElements, $currentNamespace, $currentNamespace, $extraParameters );
+                $tpl->executeCompiledTemplate( $resourceData, $textElements, $currentNamespace, $currentNamespace, $extraParameters );
             }
             else if ( $resourceData['root-node'] )
             {

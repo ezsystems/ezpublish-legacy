@@ -418,30 +418,27 @@ class eZTemplate
         eZDebug::accumulatorStop( 'template_load' );
         $text = "";
         if ( $root !== null or
-             $resourceData['process-cache'] )
+             $resourceData['compiled-template'] )
         {
             if ( $this->ShowDetails )
                 eZDebug::addTimingPoint( "Process" );
             eZDebug::accumulatorStart( 'template_processing', 'template_total', 'Template processing' );
 
-            $processCacheLoaded = false;
-//             print( "\$resourceData['process-cache']=" . $resourceData['process-cache'] . "<br/>" );
-            if ( $resourceData['process-cache'] )
+            $templateCompilationUsed = false;
+            if ( $resourceData['compiled-template'] )
             {
                 $textElements = array();
-                if ( $this->handleProcessCache( $resourceData, $textElements, "", "", $extraParameters ) )
+                if ( $this->executeCompiledTemplate( $resourceData, $textElements, "", "", $extraParameters ) )
                 {
                     $text = implode( '', $textElements );
-                    $processCacheLoaded = true;
+                    $templateCompilationUsed = true;
                 }
             }
-            if ( !$processCacheLoaded )
+            if ( !$templateCompilationUsed )
             {
-//                 print( "Using old process<br/>" );
                 $this->process( $root, $text, "", "" );
             }
 
-//             $this->process( $root, $text, "", "" );
             eZDebug::accumulatorStop( 'template_processing' );
             if ( $this->ShowDetails )
                 eZDebug::addTimingPoint( "Process done" );
@@ -511,7 +508,7 @@ class eZTemplate
 
     function processFunction( $functionName, &$textElements, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
-        // Note: This code piece is replicated in the eZTemplateProcessCache,
+        // Note: This code piece is replicated in the eZTemplateCompiler,
         //       if this code is changed the replicated code must be updated as well.
         $func =& $this->Functions[$functionName];
         if ( is_array( $func ) )
@@ -571,7 +568,7 @@ class eZTemplate
         $resourceData = array();
         $resourceData['text'] = null;
         $resourceData['root-node'] = null;
-        $resourceData['process-cache'] = false;
+        $resourceData['compiled-template'] = false;
         $resourceData['time-stamp'] = null;
         $resourceData['key-data'] = null;
         $resourceData['uri'] = $uri;
@@ -618,7 +615,7 @@ class eZTemplate
 
         if ( !$resourceData )
             return null;
-        if ( !$resourceData['process-cache'] and
+        if ( !$resourceData['compiled-template'] and
              $resourceData['root-node'] === null )
         {
             $root =& $resourceData['root-node'];
@@ -631,14 +628,13 @@ class eZTemplate
             if ( $canCache )
                 $resobj->setCachedTemplateTree( $keyData, $uri, $res, $template, $extraParameters, $root );
         }
-        if ( !$resourceData['process-cache'] and
+        if ( !$resourceData['compiled-template'] and
              $canCache and
-             $this->canGenerateProcessCache( $resourceData, $extraParameters ) )
+             $this->canCompileTemplate( $resourceData, $extraParameters ) )
         {
-            $generateStatus = $this->generateProcessCache( $resourceData, $extraParameters );
-//             print( "Generate status: $generateStatus<br/>" );
+            $generateStatus = $this->compileTemplate( $resourceData, $extraParameters );
             if ( $generateStatus )
-                $resourceData['process-cache'] = true;
+                $resourceData['compiled-template'] = true;
         }
         return $resourceData;
     }
@@ -646,20 +642,18 @@ class eZTemplate
     function processURI( $uri, $displayErrors = true, &$extraParameters,
                          &$textElements, $rootNamespace, $currentNamespace )
     {
-        eZDebug::writeDebug( "processURI" );
         $resourceData =& $this->loadURIRoot( $uri, $displayErrors, $extraParameters );
         if ( !$resourceData or
-             ( !$resourceData['process-cache'] and
+             ( !$resourceData['compiled-template'] and
                $resourceData['root-node'] === null ) )
             return;
-        $processCacheLoaded = false;
-//         print( "\$resourceData['process-cache']=" . $resourceData['process-cache'] . "<br/>" );
-        if ( $resourceData['process-cache'] )
+        $templateCompilationUsed = false;
+        if ( $resourceData['compiled-template'] )
         {
-            if ( $this->handleProcessCache( $resourceData, $textElements, $rootNamespace, $currentNamespace, $extraParameters ) )
-                $processCacheLoaded = true;
+            if ( $this->executeCompiledTemplate( $resourceData, $textElements, $rootNamespace, $currentNamespace, $extraParameters ) )
+                $templateCompilationUsed = true;
         }
-        if ( !$processCacheLoaded )
+        if ( !$templateCompilationUsed )
         {
             $root =& $resourceData['root-node'];
             $text = null;
@@ -669,16 +663,16 @@ class eZTemplate
         }
     }
 
-    function canGenerateProcessCache( &$resourceData, &$extraParameters )
+    function canCompileTemplate( &$resourceData, &$extraParameters )
     {
         $resourceObject =& $resourceData['handler'];
         if ( !$resourceObject )
             return false;
-        $canGenerate = $resourceObject->canGenerateProcessCache( $this, $resourceData, $extraParameters );
+        $canGenerate = $resourceObject->canCompileTemplate( $this, $resourceData, $extraParameters );
         return $canGenerate;
     }
 
-    function generateProcessCache( &$resourceData, &$extraParameters )
+    function compileTemplate( &$resourceData, &$extraParameters )
     {
         $resourceObject =& $resourceData['handler'];
         if ( !$resourceObject )
@@ -687,11 +681,11 @@ class eZTemplate
         $uri = $resourceData['uri'];
         $resourceName = $resourceData['resource'];
         $templatePath = $resourceData['template-name'];
-        eZDebug::writeDebug( 'Generating process cache', 'eztemplate' );
-        return $resourceObject->generateProcessCache( $this, $keyData, $uri, $resourceName, $templatePath, $extraParameters, $resourceData );
+        eZDebug::writeDebug( 'Generating compiled template', 'eztemplate' );
+        return $resourceObject->compileTemplate( $this, $keyData, $uri, $resourceName, $templatePath, $extraParameters, $resourceData );
     }
 
-    function handleProcessCache( &$resourceData, &$textElements, $rootNamespace, $currentNamespace, &$extraParameters )
+    function executeCompiledTemplate( &$resourceData, &$textElements, $rootNamespace, $currentNamespace, &$extraParameters )
     {
         $resourceObject =& $resourceData['handler'];
         if ( !$resourceObject )
@@ -701,11 +695,11 @@ class eZTemplate
         $resourceName = $resourceData['resource'];
         $templatePath = $resourceData['template-name'];
         $timestamp = $resourceData['time-stamp'];
-        eZDebug::writeDebug( 'Handling process cache', 'eztemplate' );
-        return $resourceObject->executeProcessCache( $this, $textElements,
-                                                     $keyData, $uri, $resourceData, $templatePath,
-                                                     $extraParameters, $timestamp,
-                                                     $rootNamespace, $currentNamespace );
+        eZDebug::writeDebug( 'Executing compiled template', 'eztemplate' );
+        return $resourceObject->executeCompiledTemplate( $this, $textElements,
+                                                         $keyData, $uri, $resourceData, $templatePath,
+                                                         $extraParameters, $timestamp,
+                                                         $rootNamespace, $currentNamespace );
     }
 
     /*!

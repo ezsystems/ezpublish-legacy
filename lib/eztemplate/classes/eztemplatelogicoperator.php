@@ -157,7 +157,7 @@ class eZTemplateLogicOperator
         return true;
     }
 
-    function processCacheHints()
+    function operatorTemplateHints()
     {
         return array( $this->TrueName => array( 'input' => false,
                                                 'output' => true,
@@ -169,7 +169,7 @@ class eZTemplateLogicOperator
                                                  'static' => true ) );
     }
 
-    function processCacheStaticData( $operatorName )
+    function operatorCompiledStaticData( $operatorName )
     {
         switch( $operatorName )
         {

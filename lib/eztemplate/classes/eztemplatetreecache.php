@@ -169,12 +169,29 @@ class eZTemplateTreeCache
     }
 
     /*!
+     Creates the name for the tree cache file and returns it.
+     The name conists of the md5 of the key and charset with the original filename appended.
+    */
+    function treeCacheFilename( $key, $templateFilepath )
+    {
+        $internalCharset = eZTextCodec::internalCharset();
+        $extraName = '';
+        if ( preg_match( "#^.+/(.*)\.tpl$#", $templateFilepath, $matches ) )
+            $extraName = '-' . $matches[1];
+        else if ( preg_match( "#^(.*)\.tpl$#", $templateFilepath, $matches ) )
+            $extraName = '-' . $matches[1];
+        $cacheFileKey = "$key-$internalCharset";
+        $cacheFileName = md5( $cacheFileKey ) . $extraName . '.php';
+        return $cacheFileName;
+    }
+
+    /*!
      \static
      \return true if the cache with the key \a $key can be restored.
              A cache file is found restorable when it exists and has a timestamp
              higher or equal to \a $timestamp.
     */
-    function canRestoreCache( $key, $timestamp )
+    function canRestoreCache( $key, $timestamp, $templateFilepath )
     {
         if ( !eZTemplateTreeCache::isCacheEnabled() )
             return false;
@@ -185,9 +202,7 @@ class eZTemplateTreeCache
         {
             return false;
         }
-        $internalCharset = eZTextCodec::internalCharset();
-        $cacheFileKey = "$key-$internalCharset";
-        $cacheFileName = md5( $cacheFileKey ) . '.php';
+        $cacheFileName = eZTemplateTreeCache::treeCacheFilename( $key, $templateFilepath );
 
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
@@ -200,7 +215,7 @@ class eZTemplateTreeCache
      Loads the cache with the key \a $key from a file and sets the result in the cache table.
      \return true if the cache was successfully restored.
     */
-    function restoreCache( $key )
+    function restoreCache( $key, $templateFilepath )
     {
         if ( !eZTemplateTreeCache::isCacheEnabled() )
             return false;
@@ -212,9 +227,7 @@ class eZTemplateTreeCache
             eZDebug::writeWarning( "Template cache for key '$key' already exist, cannot restore cache", 'eZTemplateTreeCache::restoreCache' );
             return false;
         }
-        $internalCharset = eZTextCodec::internalCharset();
-        $cacheFileKey = "$key-$internalCharset";
-        $cacheFileName = md5( $cacheFileKey ) . '.php';
+        $cacheFileName = eZTemplateTreeCache::treeCacheFilename( $key, $templateFilepath );
 
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
@@ -235,7 +248,7 @@ class eZTemplateTreeCache
      Stores the data of the cache with the key \a $key to a file.
      \return false if the cache does not exist.
     */
-    function storeCache( $key )
+    function storeCache( $key, $templateFilepath )
     {
         if ( !eZTemplateTreeCache::isCacheEnabled() )
             return false;
@@ -246,9 +259,7 @@ class eZTemplateTreeCache
             eZDebug::writeWarning( "Template cache for key '$key' does not exist, cannot store cache", 'eZTemplateTreeCache::storeCache' );
             return;
         }
-        $internalCharset = eZTextCodec::internalCharset();
-        $cacheFileKey = "$key-$internalCharset";
-        $cacheFileName = md5( $cacheFileKey ) . '.php';
+        $cacheFileName = eZTemplateTreeCache::treeCacheFilename( $key, $templateFilepath );
 
         $cache =& $templateCache[$key];
 
