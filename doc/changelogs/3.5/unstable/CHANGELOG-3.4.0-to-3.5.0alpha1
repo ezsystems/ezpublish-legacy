@@ -435,6 +435,9 @@ Workflow:
 - Fixed bug in cache block with subtree expiry. Subtree expiry partly rewritten, 
   merged from stable/3.4 rev. 7853.
   http://ez.no/community/bug_reports/cache_block_subtree_expiry_after_deleting
+- Removed unused file kernel/classes/datatypes/ezuser/ezaccounthash.php
+  http://ez.no/community/bug_reports/wrong_user_class
+  (Merged from stable/3.3 rev. 7860, also in stable/3.4 rev. 7862)
 
 
 *Library:
