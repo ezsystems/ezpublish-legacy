@@ -74,8 +74,20 @@ switch ( $Params["FunctionName"] )
 if ( is_numeric( $ClassID ) )
 {
     $class =& eZContentClass::fetch( $ClassID, true, 1 );
-    if ( is_null( $class ) ) // If temporary version does not exist fetch the current
+    eZDebug::writeError( $class ,"uhghjgfjhg");
+    // If temporary version does not exist fetch the current and add temperory class to corresponding group
+    if ( $class->attribute("id") == null )
+    {
         $class =& eZContentClass::fetch( $ClassID, true, 0 );
+        $classGroups=& eZContentClassClassGroup::fetchGroupList( $ClassID, 0);
+        foreach ( $classGroups as $classGroup )
+        {
+            $groupID = $classGroup->attribute( "group_id" );
+            $groupName = $classGroup->attribute( "group_name" );
+            $ingroup =& eZContentClassClassGroup::create( $ClassID, 1, $groupID, $groupName );
+            $ingroup->store();
+        }
+    }
 }
 else
 {
@@ -310,8 +322,10 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
 //     $class->setAttribute( "modified", eZDateTime::currentTimeStamp() );
 //     $class->adjustAttributePlacements( $attributes );
 //     $class->store( $attributes );
+
+    // Remove version 1
+    eZContentClassClassGroup::removeClassMembers( $ClassID, 1 );
     $Module->redirectTo( $Module->functionURI( 'grouplist' ) );
-    eZDebug::writeError("efsfasfes". $GroupID);
     return;
 }
 

@@ -61,6 +61,7 @@ class eZContentClassAttribute extends eZPersistentObject
                                          'identifier' => 'Identifier',
                                          'placement' => 'Position',
                                          'is_searchable' => 'IsSearchable',
+                                         'is_required' => 'IsRequired',
                                          'data_type_string' => 'DataTypeString',
                                          'data_int1' => 'DataInt1',
                                          'data_int2' => 'DataInt2',
@@ -92,6 +93,7 @@ class eZContentClassAttribute extends eZPersistentObject
             'identifier' => '',
             'name' => '',
             'is_searchable' => true,
+            'is_required' => false,
             'data_type_string' => $data_type_string,
             'placement' => eZPersistentObject::newObjectOrder( eZContentClassAttribute::definition(),
                                                               'placement',
@@ -245,6 +247,7 @@ class eZContentClassAttribute extends eZPersistentObject
     var $DataTypeString;
     var $Position;
     var $IsSearchable;
+    var $IsRequired;
 }
 
 ?>

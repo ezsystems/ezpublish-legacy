@@ -266,7 +266,8 @@ class eZContentClass extends eZPersistentObject
 
     function &fetch( $id, $as_object = true, $version = 0, $user_id = false ,$parent_id = null )
     {
-        $conds = array( "id" => $id );
+        $conds = array( "id" => $id,
+                        "version" => $version );
         if ( $user_id !== false and is_numeric( $user_id ) )
             $conds["creator_id"] = $user_id;
         $version_sort = "desc";

@@ -54,6 +54,9 @@ function &removeSelectedClasses( &$http, &$classes, $base )
             {
                 $reject =& $rejects[$i];
                 $reject->remove( true );
+                $ClassID =  $reject->attribute( "id" );
+                $ClassVersion = $reject->attribute( "version" );
+                eZContentClassClassGroup::removeClassMembers( $ClassID, $ClassVersion );
             }
         }
     }

@@ -2,7 +2,6 @@
 //
 // Definition of eZContentClass class
 //
-// Created on: <16-Apr-2002 11:08:14 amos>
 //
 // Copyright (C) 1999-2002 eZ systems as. All rights reserved.
 //
