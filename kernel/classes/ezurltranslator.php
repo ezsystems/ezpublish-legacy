@@ -87,6 +87,7 @@ class eZURLTranslator
         eZDebugSetting::addTimingPoint( 'kernel-urltranslator', 'Node Path Match start' );
         $nodePathString = $uri->elements();
         $nodePathString = preg_replace( "/\.\w*$/", "", $nodePathString );
+        $nodePathString = preg_replace( "#\/$#", "", $nodePathString );
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $node = eZContentObjectTreeNode::fetchByCRC( $nodePathString );
