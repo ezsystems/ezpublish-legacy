@@ -45,7 +45,7 @@ class eZOE
 {
     function requiredVersionList()
     {
-        $requiredOEVersionList = array( '1.3.1' );
+        $requiredOEVersionList = array( '1.3.1', '1.3.2' );
         return $requiredOEVersionList;
     }
 }
