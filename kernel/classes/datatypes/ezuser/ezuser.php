@@ -45,6 +45,7 @@ include_once( 'kernel/classes/ezpersistentobject.php' );
 include_once( 'kernel/classes/ezrole.php' );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
+include_once( "kernel/classes/ezcontentobject.php" );
 
 $ini =& eZINI::instance();
 define( 'EZ_USER_ANONYMOUS_ID', $ini->variable( 'UserSettings', 'AnonymousUserID' ) );
