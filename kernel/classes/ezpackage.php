@@ -2069,7 +2069,7 @@ class eZPackage
                     else if ( $fileItem['type'] == 'thumbnail' )
                         $fileListNode =& $fileThumbnailLists[$fileItem['role']];
                     else
-                        $fileListNode =& $fileLists[$fileItem['type']][$fileItem['role']];
+                        $fileListNode =& $fileLists[$fileItem['type']][$fileItem['role']][$fileItem['role-value']][$fileItem['variable-name']];
                     if ( !isset( $fileListNode ) )
                     {
                         $fileListAttributes = array( 'type' => $fileItem['type'] );
