@@ -614,8 +614,21 @@ class eZContentObject extends eZPersistentObject
         return $objectRetArray;
     }
 
-    function &fetchList( $asObject = true )
+    /*!
+     \return An array with content objects.
+     \param $asObject Whether to return objects or not
+     \param $conditions Optional conditions to limit the fetch, set to \c null to skip it.
+     \param $offset Where to start fetch from, set to \c false to skip it.
+     \param $limit Maximum number of objects to fetch, set \c false to skip it.
+     \sa fetchListCount
+    */
+    function &fetchList( $asObject = true, $conditions = null, $offset = false, $limit = false )
     {
+        $limitation = null;
+        if ( $offset !== false or
+             $limit !== false )
+            $limitation = array( 'offset' => $offset,
+                                 'length' => $limit );
         return eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                     array( 'id',
                                                            'parent_id',
@@ -628,7 +641,7 @@ class eZContentObject extends eZPersistentObject
                                                            'current_version',
                                                            'remote_id'
                                                            ),
-                                                    null, null, null,
+                                                    $conditions, null, $limitation,
                                                     $asObject );
     }
 
@@ -642,6 +655,21 @@ class eZContentObject extends eZPersistentObject
                                                     null,
                                                     $conditions, null, $limits,
                                                     $asObject );
+    }
+
+    /*!
+     \return The number of objects in the database. Optionally \a $conditions can be used to limit the list count.
+     \sa fetchList
+    */
+    function fetchListCount( $conditions = null )
+    {
+        $rows =  eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+                                                      array(),
+                                                      $conditions, null, null,
+                                                      false, false,
+                                                      array( array( 'operation' => 'count( * )',
+                                                                    'name' => 'count' ) ) );
+        return $rows[0]['count'];
     }
 
     function &fetchSameClassList( $contentClassID, $asObject = true )

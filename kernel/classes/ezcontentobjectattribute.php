@@ -170,11 +170,14 @@ class eZContentObjectAttribute extends eZPersistentObject
             return $objectList;
     }
 
-    function &fetchSameClassAttributeIDList( $contentClassAttributeID, $asObject = true )
+    function &fetchSameClassAttributeIDList( $contentClassAttributeID, $asObject = true, $version = false )
     {
+        $conditions = array( "contentclassattribute_id" => $contentClassAttributeID );
+        if ( $version !== false )
+            $conditions['version'] = $version;
         return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
                                                     null,
-                                                    array( "contentclassattribute_id" => $contentClassAttributeID ),
+                                                    $conditions,
                                                     null,
                                                     null,
                                                     $asObject);

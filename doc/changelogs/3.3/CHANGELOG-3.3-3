@@ -18,6 +18,17 @@ Changes from 3.3-2 to 3.3-3
 - Added support for cleanup of class attribute cache for clearcache.sh.
 - Added quick updated of eZEmail datatype to updateattributefilter.php update script.
 - Changed text_linked.tpl to use url_alias attribute instead of hardcoded content/view/full/*
+- New function in eZDataType called repairContentObjectAttribute() which is
+  called from the updatetranslations.php script. It allows datatypes
+  do repair external tables which have missing attribute data as a result of
+  a previous bug in 3.2 and lower.
+- New function in eZContentObject called fetchListCount() which can be used
+  to fetch the number of objects, conditions are also supported.
+- Added conditions and offset/limit support to eZContentObject::fetchList.
+- Added repairContentObjectAttribute support to eZImage datatype, this should
+  fix the problem with empty images on a 3.3 upgrade.
+- Added support for sending version number to
+  eZContentObjectAttribute::fetchSameClassAttributeIDList
 
 *Setup:
 - Added check for AcceptPathInfo setting in apache2.
