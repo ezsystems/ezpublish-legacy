@@ -54,6 +54,8 @@ $userLogin = false;
 $userPassword = false;
 $command = false;
 
+$packageName = false;
+$packageSummary = false;
 $packageFile = false;
 $outputFile = false;
 $exportType = false;
@@ -83,6 +85,13 @@ function help()
            "  --no-colors        do not use ANSI coloring (default)\n" );
 }
 
+function helpCreate()
+{
+    print( "create: Create a new package.\n" .
+           "usage: create NAME [SUMMARY]\n"
+           );
+}
+
 function helpExport()
 {
     print( "export: Export a part of the eZ publish installation into a package.\n" .
@@ -104,6 +113,38 @@ function helpImport()
            );
 }
 
+function helpList()
+{
+    print( "list (ls): Lists all packages in the repository.\n" .
+           "usage: list\n"
+           );
+}
+
+function helpInfo()
+{
+    print( "info: Displays information on a given package.\n" .
+           "usage: info PACKAGE\n"
+           );
+}
+
+function helpAdd()
+{
+    print( "add: Adds an eZ publish part to the package.\n" .
+           "usage: add PACKAGE PART [PART PARAMETERS]...\n" .
+           "\n" .
+           "Note: Will open up a new release if no open releases exists yet."
+           );
+}
+
+function helpDelete()
+{
+    print( "delete (del, remove, rm): Removes an eZ publish part from the package.\n" .
+           "usage: delete PACKAGE PART [PART PARAMETERS]...\n" .
+           "\n" .
+           "Note: Will open up a new release if no open releases exists yet."
+           );
+}
+
 function helpHelp()
 {
     $argv = $_SERVER['argv'];
@@ -113,9 +154,14 @@ function helpHelp()
            "Type \"" . $argv[0] . " help COMMAND\" for help on a specific command.\n" .
            "\n" .
            "Available commands:\n" .
-           "    help\n" .
-           "    import\n" .
-           "    export\n"
+           "   help (?, h)\n" .
+           "   create\n" .
+           "   import\n" .
+           "   export\n" .
+           "   add\n" .
+           "   delete (del, remove, rm)\n" .
+           "   list\n" .
+           "   info\n"
            );
 }
 
@@ -129,6 +175,20 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
     else
     {
         print( "Siteaccess $optionData does not exist, using default siteaccess" );
+    }
+}
+
+$commandAlias = array();
+$commandAlias['help'] = array( '?', 'h' );
+$commandAlias['delete'] = array( 'del', 'remove', 'rm' );
+$commandAlias['list'] = array( 'ls' );
+$commandMap = array();
+
+foreach ( $commandAlias as $alias => $list )
+{
+    foreach ( $list as $commandName )
+    {
+        $commandMap[$commandName] = $alias;
     }
 }
 
@@ -247,9 +307,17 @@ for ( $i = 1; $i < count( $argv ); ++$i )
     {
         if ( $command === false )
         {
-            $command = $arg;
+            $realCommand = $arg;
+            // Check for alias
+            if ( isset( $commandMap[$realCommand] ) )
+                $command = $commandMap[$realCommand];
+            else
+                $command = $realCommand;
             if ( !in_array( $command,
-                           array( 'help', 'import', 'export' ) ) )
+                           array( 'help',
+                                  'create', 'import', 'export',
+                                  'add', 'delete',
+                                  'list', 'info' ) ) )
             {
                 help();
                 exit();
@@ -259,14 +327,36 @@ for ( $i = 1; $i < count( $argv ); ++$i )
         {
             if ( $command == 'help' )
             {
-                $helpTopic = $arg;
+                $realHelpTopic = $arg;
+                // Check for alias
+                if ( isset( $commandMap[$realHelpTopic] ) )
+                    $helpTopic = $commandMap[$realHelpTopic];
+                else
+                    $helpTopic = $realHelpTopic;
                 if ( $helpTopic == 'import' )
                     helpImport();
                 else if ( $helpTopic == 'export' )
                     helpExport();
+                else if ( $helpTopic == 'create' )
+                    helpCreate();
+                else if ( $helpTopic == 'add' )
+                    helpAdd();
+                else if ( $helpTopic == 'delete' )
+                    helpDelete();
+                else if ( $helpTopic == 'list' )
+                    helpList();
+                else if ( $helpTopic == 'info' )
+                    helpInfo();
                 else
                     helpHelp();
                 exit();
+            }
+            else if ( $command == 'create' )
+            {
+                if ( $packageName === false )
+                    $packageName = $arg;
+                else if ( $packageSummary === false )
+                    $packageSummary = $arg;
             }
             else if ( $command == 'import' )
             {
@@ -300,6 +390,14 @@ else if ( $command == 'export' )
     if ( !$exportType )
     {
         helpExport();
+        exit();
+    }
+}
+else if ( $command == 'create' )
+{
+    if ( !$packageName )
+    {
+        helpCreate();
         exit();
     }
 }
@@ -382,7 +480,21 @@ eZModule::setGlobalPathList( $moduleRepositories );
 
 include_once( 'kernel/classes/ezpackagehandler.php' );
 
-if ( $command == 'import' )
+if ( $command == 'list' )
+{
+    $packages = eZPackageHandler::fetchPackages();
+    if ( count( $packages ) > 0 )
+    {
+        $cli->output( "The following packages are installed:" );
+        foreach ( $packages as $package )
+        {
+            $cli->output( $package->attribute( 'name' ) . ' (' . $package->attribute( 'summary' ) . ')' );
+        }
+    }
+    else
+        $cli->output( "No packages are installed" );
+}
+else if ( $command == 'import' )
 {
     $package =& eZPackageHandler::fetchFromFile( $packageFile );
     if ( $package )

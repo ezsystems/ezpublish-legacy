@@ -191,6 +191,13 @@ class eZCLI
         return $this->UseStyles;
     }
 
+    function output( $string, $addEOL = true )
+    {
+        print( $string );
+        if ( $addEOL )
+            print( $this->endlineString() );
+    }
+
     function notice( $string, $addEOL = true )
     {
         print( $string );
@@ -199,6 +206,13 @@ class eZCLI
     }
 
     function warning( $string, $addEOL = true )
+    {
+        print( $string );
+        if ( $addEOL )
+            print( $this->endlineString() );
+    }
+
+    function error( $string, $addEOL = true )
     {
         print( $string );
         if ( $addEOL )

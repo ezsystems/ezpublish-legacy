@@ -38,7 +38,15 @@ if [ ! -d var/cache/translation ]; then
     mkdir var/cache/translation
     echo "Created var/cache/translation"
 fi
-chmod $DIR_MODE var/cache/translation
+
+chmod $DIR_MODE var/storage/packages
+
+if [ ! -d var/storage/packages ]; then
+    mkdir var/storage/packages
+    echo "Created var/storage/packages"
+fi
+chmod $DIR_MODE var/storage/packages
+
 
 chmod $DIR_MODE var/cache/ini
 chmod -R $DIR_MODE var/storage

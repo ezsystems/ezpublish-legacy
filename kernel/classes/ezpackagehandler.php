@@ -596,6 +596,20 @@ class eZPackageHandler
         return $string;
     }
 
+    function storeCache( $directory )
+    {
+        if ( !file_exists( $directory ) )
+            eZDir::mkdir( $directory, true );
+        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+        $php =& new eZPHPCreator( $directory, 'package.php' );
+        $php->addComment( "Automatically created cache file for the package format\n" .
+                          "Do not modify this file" );
+        $php->addSpace();
+        $php->addVariable( 'Parameters', $this->Parameters, EZ_PHPCREATOR_VARIABLE_ASSIGNMENT,
+                           array( 'full-tree' => true ) );
+        $php->store();
+    }
+
     function storeToFile( $filename )
     {
         print( "Storing package $filename\n" );
@@ -689,6 +703,60 @@ class eZPackageHandler
             }
         }
     }
+
+    function repositoryDirectory()
+    {
+        $ini =& eZINI::instance( 'package.ini' );
+        return $ini->variable( 'RepositorySettings', 'RepositoryDirectory' );
+    }
+
+    function repositoryPath()
+    {
+        $path = eZDir::path( array( eZSys::storageDirectory(),
+                                    eZPackageHandler::repositoryDirectory() ) );
+        return $path;
+    }
+
+    function fetchPackages()
+    {
+        $path = eZPackageHandler::repositoryPath();
+        $packages = array();
+        if ( file_exists( $path ) )
+        {
+            $dir = opendir( $path );
+            while( ( $file = readdir( $dir ) ) !== false )
+            {
+                $dirPath = $path . '/' . $file;
+                if ( !is_dir( $dirPath ) )
+                    continue;
+                $filePath = $dirPath . '/package.xml';
+                if ( file_exists( $filePath ) )
+                {
+                    $name = $file;
+                    $packageCachePath = $dirPath . '/cache/package.php';
+                    if ( file_exists( $packageCachePath ) )
+                    {
+                        include( $packageCachePath );
+                        if ( isset( $Parameters ) )
+                        {
+                            $package = new eZPackageHandler( $Parameters );
+                        }
+                    }
+                    if ( !$package )
+                    {
+                        $package =& eZPackageHandler::fetchFromFile( $filePath );
+                        $package->storeCache( $dirPath . '/cache' );
+                    }
+                    $packages[] =& $package;
+                }
+            }
+            closedir( $dir );
+        }
+        return $packages;
+    }
+
+    /// \privatesection
+    var $Parameters;
 }
 
 ?>
