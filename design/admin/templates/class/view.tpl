@@ -1,7 +1,7 @@
 {section show=$validation.processed}
 {section show=$validation.groups}
 <div class="message-warning">
-<h2>{"Input did not validate"|i18n("design/standard/class/edit")}</h2>
+<h2>{'Input did not validate'|i18n( 'design/admin/class/edit' )}</h2>
 <ul>
 {section var=item loop=$validation.groups}
     <li>{$item.text}</li>
@@ -11,8 +11,17 @@
 {/section}
 {/section}
 
+
+
 <div class="context-block">
-<h2 class="context-title">{$class.identifier|class_icon( 'normal', $class.name )}&nbsp;{'%1 [Class]'|i18n( 'design/admin/class/view',, array( $class.name) )|wash}</h2>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<h1 class="context-title">{$class.identifier|class_icon( 'normal', $class.name )}&nbsp;{'%1 [Class]'|i18n( 'design/admin/class/view',, array( $class.name) )|wash}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-information">
     <p>{'Last modified: %time, %username'|i18n( 'design/admin/class/view',, hash( '%username',$class.modifier.contentobject.name, '%time', $class.modified|l10n( shortdatetime ) ) )}</p>
@@ -102,7 +111,7 @@
         {section show=$Attributes:item.data_type.is_information_collector}
         <div class="block">
             <p>{section show=$Attributes:item.is_information_collector}{'Collects information'|i18n( 'design/admin/class/view' )}{section-else}{'Does not collect information'|i18n( 'design/admin/class/view' )}{/section}</p>
-        </div> 
+        </div>
         {section-else}
         <div class="block">
             <p>{'Does not collect information'|i18n( 'design/admin/class/view' )}</p>
@@ -126,63 +135,91 @@
 
 </div>
 
+{* DESIGN: Content END *}</div></div></div>
+
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
         <form>
             <input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/class/edit' )}" />
             <input class="button" type="submit" name="" value="{'Remove'|i18n( 'design/admin/class/edit' )}" />
         </form>
     </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
 </div>
+
+
+
+
 
 {*-- Class group Start --*}
-<form {concat($module.functions.view.uri,"/",$class.id)|ezurl} method="post">
+<form action={concat( $module.functions.view.uri, '/', $class.id )|ezurl} method="post">
 <div class="context-block">
-<h2 class="context-title">{"Groups"|i18n("design/standard/class/view")} [{count($class.ingroup_list)}]</h2>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+<h2 class="context-title">{'Member of groups [%group_count]'|i18n( 'design/admin/class/view',, hash( '%group_count', $class.ingroup_list|count ) )}</h2>
+
+{* DESIGN: Mainline *}<div class="header-subline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
+
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight">&nbsp;</th>
-    <th class="wide">{"Member of groups"|i18n("design/standard/class/view")}</th>
+    <th class="wide">{'Group'|i18n( 'design/admin/class/view' )}</th>
 </tr>
-{section name=InGroups loop=$class.ingroup_list sequence=array(bglight,bgdark)}
-<tr class="{$InGroups:sequence}">
-    <td class="tight"><input type="checkbox" name="group_id_checked[]" value="{$InGroups:item.group_id}" /></td>
-    <td class="wide">{$InGroups:item.group_name|wash}</td>
+{section var=Groups loop=$class.ingroup_list sequence=array( bglight, bgdark )}
+<tr class="{$Groups.sequence}">
+    <td class="tight"><input type="checkbox" name="group_id_checked[]" value="{$Groups.item.group_id}" /></td>
+    <td class="wide">{$Groups.item.group_name|wash}</td>
 </tr>
 {/section}
 </table>
+{* DESIGN: Content END *}</div></div></div>
+
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
-    <input class="button" type="submit" name="RemoveGroupButton" value="{'Remove selected'|i18n('design/standard/class/view')}" />
+    <input class="button" type="submit" name="RemoveGroupButton" value="{'Remove selected'|i18n( 'design/admin/class/view' )}" />
     </div>
     <div class="block">
-    {section show=sub(count($class.group_list),count($class.ingroup_list))}
+    {section show=sub( count( $class.group_list ),count( $class.ingroup_list ) )}
         <select name="ContentClass_group">
         {section name=AllGroup loop=$class.group_list}
-            {section show=$class.ingroup_id_list|contains($AllGroup:item.id)|not}
+            {section show=$class.ingroup_id_list|contains( $AllGroup:item.id )|not}
                 <option value="{$AllGroup:item.id}/{$AllGroup:item.name}">{$AllGroup:item.name|wash}</option>
             {/section}
         {/section}
         </select>
-        <input class="button" type="submit" name="AddGroupButton" value="{"Add to group"|i18n("design/standard/class/view")}" />
+        <input class="button" type="submit" name="AddGroupButton" value="{'Add to group'|i18n( 'design/admin/class/view' )}" />
     {section-else}
         <select name="ContentClass_group" disabled="disabled">
-        <option value="">{"No group"|i18n("design/standard/class/view")}</option>
+        <option value="-1">{'No group'|i18n( 'design/admin/class/view' )}</option>
         </select>
-        <input class="button" type="submit" name="AddGroupButton" value="{"Add to group"|i18n("design/standard/class/view")}" disabled="disabled" />
+        <input class="button" type="submit" name="AddGroupButton" value="{'Add to group'|i18n( 'design/admin/class/view' )}" disabled="disabled" />
     {/section}
     </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 </div>
 </form>
 {*-- Class group End --*}
 
-{* Override templates. *}
+{*-- Override templates start. --*}
 {let override_templates=fetch( class, override_template_list, hash( class_id, $class.id ) )}
 <div class="context-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h2 class="context-title">{'Override templates [%1]'|i18n( 'design/admin/class/view',, array( $override_templates|count ) )}</h2>
+
+{* DESIGN: Mainline *}<div class="header-subline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
 <table class="list" cellspacing="0">
 <tr>
     <th>{'SiteAccess'|i18n( 'design/admin/class/view' )}</th>
@@ -203,6 +240,8 @@
 {/section}
 </table>
 
-</div>
+{*DESIGN: Content END *}</div></div></div></div></div></div>
 
+</div>
 {/let}
+{*-- Override templates end. --*}
