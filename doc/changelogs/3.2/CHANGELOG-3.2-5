@@ -72,6 +72,9 @@ Changes from 3.2-4 to 3.2-5
   http://ez.no/community/bug_reports/can_create_class_list_incorrect
 - Fixed bug. Used depreated content.ini setting AvailableSiteDesigns when cleaning up contentcache
   http://ez.no/community/bug_reports/ezcontentcache
+- Fixed bug. When sending arrays to the repeat operator the output was
+  repeated too many times.
+  http://ez.no/community/bug_reports/repeat_operator_for_arrays_repeats_too_much
 
 *Setup:
 - Fixed setup to only check for existing eZ publish tables.
