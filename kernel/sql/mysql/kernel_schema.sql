@@ -876,6 +876,7 @@ CREATE TABLE ezproductcollection_item (
   id int(11) NOT NULL auto_increment,
   is_vat_inc int(11) default NULL,
   item_count int(11) NOT NULL default '0',
+  name varchar(255) NOT NULL default '',
   price float default '0',
   productcollection_id int(11) NOT NULL default '0',
   vat_value float default NULL,

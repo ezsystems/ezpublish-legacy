@@ -3804,6 +3804,13 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
+      'name' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
       'price' => 
       array (
         'type' => 'float',

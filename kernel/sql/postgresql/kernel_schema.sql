@@ -1840,6 +1840,7 @@ CREATE TABLE ezproductcollection_item (
     id integer DEFAULT nextval('ezproductcollection_item_s'::text) NOT NULL,
     is_vat_inc integer,
     item_count integer DEFAULT 0 NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
     price double precision DEFAULT 0::double precision,
     productcollection_id integer DEFAULT 0 NOT NULL,
     vat_value double precision
