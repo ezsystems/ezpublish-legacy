@@ -109,6 +109,7 @@ class eZScript
         $this->UseExtensions = $settings['use-extensions'];
         $this->User = $settings['user'];
         $this->SiteAccess = $settings['site-access'];
+        $this->ExitCode = false;
     }
 
     /*!
@@ -263,6 +264,8 @@ class eZScript
         include_once( 'lib/ezutils/classes/ezexecution.php' );
         eZExecution::cleanup();
         eZExecution::setCleanExit();
+        if ( $this->ExitCode !== false )
+            exit( $this->ExitCode );
     }
 
     function setDebugMessage( $message )
@@ -321,6 +324,20 @@ class eZScript
                              'password' => $userPassword );
     }
 
+    /*!
+     Sets the current exit code which will be set with an exit() call in shutdown().
+     If you don't want shutdown() to exit automatically set it to \c false.
+    */
+    function setExitCode( $code = false )
+    {
+        $this->ExitCode = $code;
+    }
+
+    function exitCode()
+    {
+        return $this->ExitCode;
+    }
+
     function &instance( $settings = array() )
     {
         $implementation =& $GLOBALS['eZScriptInstance'];
@@ -340,6 +357,7 @@ class eZScript
     var $UseModules;
     var $User;
     var $SiteAccess;
+    var $ExitCode;
 }
 
 function eZDBCleanup()

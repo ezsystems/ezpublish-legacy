@@ -80,7 +80,7 @@ class eZCLI
         $this->WebOutput = $webOutput;
         $this->TerminalStyles = array( 'warning' => "\033[1;35m",
                                        'warning-end' => "\033[0;39m",
-                                       'error' => "\033[0;31m",
+                                       'error' => "\033[1;31m",
                                        'error-end' => "\033[0;39m",
                                        'notice' => "\033[0;32m",
                                        'notice-end' => "\033[0;39m",
@@ -96,6 +96,66 @@ class eZCLI
                                        'dir-end' => "\033[0;39m",
                                        'link' => "\033[0;36m",
                                        'link-end' => "\033[0;39m",
+                                       'exe' => "\033[1;32m",
+                                       'exe-end' => "\033[0;39m",
+                                       'archive' => "\033[1;31m",
+                                       'archive-end' => "\033[0;39m",
+                                       'image' => "\033[1;35m",
+                                       'image-end' => "\033[0;39m",
+
+                                       'red' => "\033[1;31m",
+                                       'red-end' => "\033[0;39m",
+                                       'green' => "\033[1;32m",
+                                       'green-end' => "\033[0;39m",
+                                       'yellow' => "\033[1;33m",
+                                       'yellow-end' => "\033[0;39m",
+                                       'blue' => "\033[1;34m",
+                                       'blue-end' => "\033[0;39m",
+                                       'magenta' => "\033[1;35m",
+                                       'magenta-end' => "\033[0;39m",
+                                       'cyan' => "\033[1;36m",
+                                       'cyan-end' => "\033[0;39m",
+                                       'white' => "\033[1;37m",
+                                       'white-end' => "\033[0;39m",
+                                       'gray' => "\033[1;30m",
+                                       'gray-end' => "\033[0;39m",
+
+                                       'dark-red' => "\033[0;31m",
+                                       'dark-red-end' => "\033[0;39m",
+                                       'dark-green' => "\033[0;32m",
+                                       'dark-green-end' => "\033[0;39m",
+                                       'dark-yellow' => "\033[0;33m",
+                                       'dark-yellow-end' => "\033[0;39m",
+                                       'dark-blue' => "\033[0;34m",
+                                       'dark-blue-end' => "\033[0;39m",
+                                       'dark-magenta' => "\033[0;35m",
+                                       'dark-magenta-end' => "\033[0;39m",
+                                       'dark-cyan' => "\033[0;36m",
+                                       'dark-cyan-end' => "\033[0;39m",
+                                       'dark-white' => "\033[0;37m",
+                                       'dark-white-end' => "\033[0;39m",
+                                       'dark-gray' => "\033[0;30m",
+                                       'dark-gray-end' => "\033[0;39m",
+
+                                       'red-bg' => "\033[1;41m",
+                                       'red-bg-end' => "\033[0;39m",
+                                       'green-bg' => "\033[1;42m",
+                                       'green-bg-end' => "\033[0;39m",
+                                       'yellow-bg' => "\033[1;43m",
+                                       'yellow-bg-end' => "\033[0;39m",
+                                       'blue-bg' => "\033[1;44m",
+                                       'blue-bg-end' => "\033[0;39m",
+                                       'magenta-bg' => "\033[1;45m",
+                                       'magenta-bg-end' => "\033[0;39m",
+                                       'cyan-bg' => "\033[1;46m",
+                                       'cyan-bg-end' => "\033[0;39m",
+                                       'white-bg' => "\033[1;47m",
+                                       'white-bg-end' => "\033[0;39m",
+
+                                       'text' => "\033[0;39m",
+                                       'text-end' => "\033[0;39m",
+                                       'variable' => "\033[1;34m",
+                                       'variable-end' => "\033[0;39m",
                                        'symbol' => "\033[0;37m",
                                        'symbol-end' => "\033[0;39m",
                                        'emphasize' => "\033[1;38m",
@@ -286,6 +346,7 @@ class eZCLI
     */
     function warning( $string = false, $addEOL = true )
     {
+        $string = $this->stylize( 'warning', $string );
         print( $string );
         if ( $addEOL )
             print( $this->endlineString() );
@@ -297,6 +358,7 @@ class eZCLI
     */
     function error( $string = false, $addEOL = true )
     {
+        $string = $this->stylize( 'error', $string );
         print( $string );
         if ( $addEOL )
             print( $this->endlineString() );
