@@ -70,6 +70,8 @@ Changes from 2.9-6 to 2.9-7
 - Cleaned up eZXMLText class interface
 - User registration now works even when login is required, it will
   also behaves like user login with custom pagelayout.
+- Fixed problem with postgresql db not being found, postgresql extension
+  was searched for while pgsql is the correct extension.
 
 contentclass:
 - Moving attributes up in class edit now moves one step instead of two.
