@@ -108,7 +108,8 @@ class eZDate
 
     function hasAttribute( $attr )
     {
-        if ( $attr == "year" or
+        if ( $attr == "timestamp" or
+             $attr == "year" or
              $attr == "month" or
              $attr == "day")
             return true;
@@ -118,6 +119,8 @@ class eZDate
 
     function &attribute( $attr )
     {
+        if ( $attr == "timestamp"  )
+            return $this->timeStamp();
         if ( $attr == "day"  )
             return $this->day();
         else if ( $attr == "year"  )
@@ -310,6 +313,14 @@ class eZDate
         else
             $str =& $this->Locale->formatDate( $this->Date );
         return $str;
+    }
+
+    /*!
+     \return the timestamp of the date
+    */
+    function &timeStamp()
+    {
+        return $this->Date;
     }
 
     /// Locale object, is just a reference to minimize memory usage.

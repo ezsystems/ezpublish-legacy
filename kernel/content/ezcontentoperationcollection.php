@@ -119,7 +119,6 @@ class eZContentOperationCollection
         eZDebug::writeDebug( "loopNodeAssignment:\$objectID=$objectID<br/>" );
         eZDebug::writeDebug( "loopNodeAssignment:\$version=$versionNum<br/>" );
 
-        
         return array( 'parameters' => $parameters );
     }
 
@@ -137,7 +136,6 @@ class eZContentOperationCollection
             {
                 $statusName = 'pending';
                 $version->setAttribute( 'status', EZ_VERSION_STATUS_PENDING );
-                
             } break;
             case 2:
             {
@@ -256,6 +254,7 @@ class eZContentOperationCollection
 
     function checkNotifications(  $objectID, $versionNum )
     {
+        /*
         include_once( "kernel/notification/eznotificationrule.php" );
         include_once( "kernel/notification/eznotificationruletype.php" );
         include_once( "kernel/notification/eznotificationuserlink.php" );
@@ -286,6 +285,8 @@ class eZContentOperationCollection
                 }
             }
         }
+
+        */
         eZDebug::writeDebug( "checkNotifications:\$objectID=$objectID<br/>" );
 
     }

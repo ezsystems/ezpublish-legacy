@@ -24,11 +24,15 @@ modfix:
 - New class eZURLTranslator which handles all types of url translations.
 - Moved url nodepath matching to the new urltranslator class.
 - Added general XML serialization framework
+- Added function to fetch node children by name in eZContentObjectTreeNode
 
 *Library :
 
 eZ utils:
 - Added function for automatically remove escaped ' and " characters done by magic quote
+
+eZ locale:
+- Added function for returning the timestamp of a date
 
 eZ text codec:
 - A new function /conversionRequired/ can be used to detect if it's necessary to call
