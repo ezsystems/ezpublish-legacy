@@ -477,7 +477,9 @@ Workflow:
   http://ez.no/community/bug_reports/incorrectly_built_sql_query
 - Fixed bug with class filter in subTree and subtree count functions.
   http://ez.no/community/bug_reports/critcal_sql_error_in_ezcontentobjecttreenode_subtree_and_ezcontentobjecttreenode_subtreecount
-
+- Fixed some warnings / errors with empty template files (Merged from
+  stable/3.4, rev. 7940)
+  http://ez.no/community/bug_reports/empty_template_causes_malfunction
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

@@ -165,6 +165,10 @@ class eZTemplateOptimizer
     */
     function optimize( $useComments, &$php, &$tpl, &$tree, &$resourceData )
     {
+        /* If for some reason we don't have elements, simply return */
+        if (! is_array( $tree[1] ) )
+            return;
+
         /* Loop through the children of the root */
         foreach ( $tree[1] as $key => $kiddie )
         {

@@ -422,10 +422,13 @@ class eZTemplateCompiler
     {
         $vars =& $tpl->Variables;
 
-        $text = null;
+        /* We use $setArray to detect if execution failed, and not $text,
+         * because an empty template does not return any $text and this is not
+         * an error. */
+        $setArray = null;
         $namespaceStack = array();
         include( eZTemplateCompiler::TemplatePrefix() . $phpScript );
-        if ( $text !== null )
+        if ( $setArray !== null )
         {
             return true;
         }
