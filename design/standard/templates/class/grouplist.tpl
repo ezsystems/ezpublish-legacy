@@ -1,9 +1,10 @@
 <form action={"class/grouplist"|ezurl} method="post" name="GroupList">
 
+<a href="/UNDEFINED" target="_blank"><img src="/design/standard/images/help.gif" align="right"> </a>
+
 <div class="maincontentheader">
 <h1>{"Defined class groups"|i18n("design/standard/class/list")}</h1>
 </div>
-
 <table class="list" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
     <th>{"Name:"|i18n("design/standard/class/list")}</th>
