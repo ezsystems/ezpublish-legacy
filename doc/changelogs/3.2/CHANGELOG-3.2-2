@@ -37,6 +37,7 @@ Changes from 3.2-1 to 3.2-2
 - The default subtree notification email will not report updates to objects
   different from new objects.
 - Added separate setting for notification email, can be specified, if not AdminEmail is used.
+- Made sure emails are sent with Bcc instead of To header.
 
 *DataType:
 eZURL:
