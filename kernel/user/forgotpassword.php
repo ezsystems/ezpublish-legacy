@@ -171,7 +171,7 @@ $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:user/forgotpassword.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
                                 'url' => false ),
-                         array( 'text' => ezi18n( 'kernel/user', 'Login' ),
+                         array( 'text' => ezi18n( 'kernel/user', 'Forgot password' ),
                                 'url' => false ) );
 
 
