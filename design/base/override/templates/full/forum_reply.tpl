@@ -42,7 +42,7 @@
         <br/>
 
         <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
-        <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+        <input class="button forum-edit-reply" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
 
         </form>
         {/section}

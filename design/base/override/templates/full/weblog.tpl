@@ -29,7 +29,17 @@
                 </div>
             {/section}
 
-            {section show=and( $previous_log, $next_log )}
+            {section show=$previous_log}
+                <div class="content-navigator-separator">|</div>
+            {section-else}
+                <div class="content-navigator-separator-disabled">|</div>
+            {/section}
+
+            {let weblogs=$node.parent}
+                <div class="content-navigator-weblog-link"><a href={$weblogs.url_alias|ezurl}>{$weblogs.name|wash}</a></div>
+            {/let}
+
+            {section show=$next_log}
                 <div class="content-navigator-separator">|</div>
             {section-else}
                 <div class="content-navigator-separator-disabled">|</div>
@@ -73,7 +83,7 @@
                 <form method="post" action={"content/action"|ezurl}>
                    <input type="hidden" name="ClassIdentifier" value="comment" />
                    <input type="hidden" name="NodeID" value="{$node.node_id}" />
-                   <input class="button" type="submit" name="NewButton" value={"New comment"|i18n("design/base")} />
+                   <input class="button weblog-new-comment" type="submit" name="NewButton" value={"New comment"|i18n("design/base")} />
                 </form>
             </div>
             {section-else}

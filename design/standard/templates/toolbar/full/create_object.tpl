@@ -7,7 +7,7 @@
 
         <div class="toolbox-content">
         <form method="post" action={"content/action/"|ezurl}>
-            <input class="button" type="submit" name="NewButton" value="{$title|wash}" />
+            <input class="button new-object-{$type_classidentifier|wash}" type="submit" name="NewButton" value="{$title|wash}" />
             <input type="hidden" name="NodeID" value="{$placement_node|wash}" />
             <input type="hidden" name="ClassIdentifier" value="{$type_classidentifier|wash}" />
          </form>
