@@ -304,6 +304,7 @@ function contentPDFGenerate( $cacheFile, &$node, $object = false, $viewCacheEnab
     else
     {
         $tpl->setVariable( 'generate_file', 0 );
+        $tpl->setVariable( 'generate_stream', 1 );
     }
 
     $textElements = array();
