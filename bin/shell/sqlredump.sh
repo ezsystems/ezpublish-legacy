@@ -10,6 +10,11 @@ SCHEMAFILES=""
 USE_MYSQL=""
 USE_POSTGRESQL=""
 
+if ! which php &>/dev/null; then
+    echo "No PHP executable found, please add it to the path"
+    exit 1
+fi
+
 function help
 {
 	    echo "Usage: $0 [options] DBNAME SQLFILE [SQLFILE]..."
