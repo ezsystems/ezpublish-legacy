@@ -41,9 +41,11 @@ $Module =& $Params["Module"];
 $http =& eZHTTPTool::instance();
 $deleteIDArray = $http->sessionVariable( "DeleteGroupIDArray" );
 $groupsInfo = array();
+$deleteResult = array();
 $deleteClassIDList = array();
 foreach ( $deleteIDArray as $deleteID )
 {
+    $deletedClassName = '';
     $group =& eZContentClassGroup::fetch( $deleteID );
     if ( $group != null )
     {
@@ -57,11 +59,17 @@ foreach ( $deleteIDArray as $deleteID )
             if ( count( $classGroups ) == 1 )
             {
                 $classObject =& eZContentclass::fetch( $classID );
+                $className = $classObject->attribute( "name" );
+                $deletedClassName .= " '" . $className . "'" ;
                 $deleteClassIDList[] = $classID;
-                $groupClassesInfo[] = array( 'class_name'   => $classObject->attribute( 'name' ),
+                $groupClassesInfo[] = array( 'class_name'   => $className,
                                              'object_count' => $classObject->objectCount() );
             }
         }
+        if ( $deletedClassName == '' )
+            $deletedClassName = ezi18n( 'kernel/class', '(no classes)' );
+        $deleteResult[] = array( 'groupName'        => $GroupName,
+                                 'deletedClassName' => $deletedClassName );
         $groupsInfo[] = array( 'group_name' => $GroupName,
                                'class_list' => $groupClassesInfo );
     }
@@ -92,6 +100,7 @@ $Module->setTitle( ezi18n( 'kernel/class', 'Remove class groups' ) . ' ' . $Grou
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
+$tpl->setVariable( "DeleteResult", $deleteResult );
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "groups_info", $groupsInfo );
 $Result = array();
