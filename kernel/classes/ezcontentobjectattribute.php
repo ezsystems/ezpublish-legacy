@@ -544,6 +544,18 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
+     Initialized the attribute  by using the datatype after the actual attribute is stored.
+    */
+    function postInitialize( $currentVersion = null, $originalContentObjectAttribute = null )
+    {
+        if ( $originalContentObjectAttribute === null )
+            $originalContentObjectAttribute = $this;
+        $classAttribute =& $this->contentClassAttribute();
+        $dataType =& $classAttribute->dataType();
+        $dataType->postInitializeObjectAttribute( $this, $currentVersion, $originalContentObjectAttribute );
+    }
+
+    /*!
      Remove the attribute by using the datatype.
     */
     function &remove( $id, $currentVersion = null )

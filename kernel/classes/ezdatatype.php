@@ -471,6 +471,13 @@ class eZDataType
     }
 
     /*!
+     Initializes the object attribute with some data after object attribute is already stored. It means that for initial version you allready have an attribute_id and you can store data somewhere using this id.
+     \note Default implementation does nothing.
+    */
+    function postInitializeObjectAttribute( &$objectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    {
+    }
+    /*!
      Clean up stored object attribute
      \note Default implementation does nothing.
     */
