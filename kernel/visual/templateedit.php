@@ -184,8 +184,7 @@ if ( $module->isCurrentAction( 'Discard' ) )
     $templateContent = file_get_contents( $fileName );
     if ( !$templateContent )
     {
-        print( "Could not open file" );
-        $templateContent = "Could not open file";
+        $templateContent = ezi18n( 'kernel/design', 'The file could not be opened.' );
     }
 }
 
