@@ -90,6 +90,8 @@ Payment:
 - Fixed bug: RSS caches where not cleared after the definition was updated
   (Merged from stable/3.4 rev. 8678)
   http://ez.no/community/bug_reports/rss_cache_not_cleared_when_rss_feed_definition_is_changed
+- Fixed bug of multiple breaks in xmltext can't be shown in preview mode or after publishing.
+  (Merged from stable/3.4 rev. 8688)
 
 *Library:
 
