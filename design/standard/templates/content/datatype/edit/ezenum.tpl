@@ -13,6 +13,7 @@
             {case match=$EnumList:EnumObjectList:item.enumelement}
 	       checked
             {/case}
+	    {case}{/case}
 	  {/switch} 
 	  {/section}
 	    />&nbsp;<label class="check">{$EnumList:item.enumelement}</label><div class="labelbreak"></div>
@@ -31,6 +32,7 @@
           {/section}  
 	  </select>
        {/case}
+       {case}{/case}
      {/switch} 
   {/case}
   {case match=0}
@@ -47,6 +49,7 @@
             {case match=$EnumList:EnumObjectList:item.enumelement}
 	       checked
             {/case}
+	    {case}{/case}
           {/switch}
           {/section}
             />&nbsp;<label class="check">{$EnumList:item.enumelement}</label><div class="labelbreak"></div>
@@ -70,7 +73,9 @@
 	  {/section}
 	  </select>
         {/case}
+	{case}{/case}
       {/switch} 
    {/case}
+   {case}{/case}
 {/switch}
 {/default}

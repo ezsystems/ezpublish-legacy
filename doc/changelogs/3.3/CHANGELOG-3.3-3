@@ -8,6 +8,8 @@ Changes from 3.3-1 to 3.3-2
 *Bugs:
 - Fixed design class/datatype/view/ezselection.tpl
   http://ez.no/developer/ez_publish_3/bug_reports/class_datatype_view_ezselection_tpl_bugs
+- Fixed	design content/datatype/edit/ezenum.tpl
+  http://ez.no/developer/ez_publish_3/bug_reports/datatype_edit_ezenum_tpl
 
 *Design:
 - Added content for content/datatype/pdf/ezmatrix.tpl
