@@ -5,7 +5,7 @@
          content_version=$node.contentobject_version_object}
 {let map=$content_version.data_map
      comment_limit=3
-     list_count=array($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id)))}
+     list_count=fetch('content','list_count',hash(parent_node_id,$node.node_id))}
 
 {section show=$is_standalone}
 <form method="post" action={"content/action/"|ezurl}>
