@@ -67,6 +67,30 @@
 </div>
 
 <div class="objectheader">
+    <h2>PHP Accelerator</h2>
+</div>
+<div class="object">
+{section show=$php_accelerator}
+    <table width="100%">
+    <tr>
+        <td><p><b>{'Version'|i18n('design/standard/setup','PHP Accelerator version')}</b></p></td><td><p>{$php_accelerator.version_string}</p></td>
+    </tr>
+    </table>
+    <p>
+        {section show=$php_accelerator.enabled}
+            {'PHP Accelerator is enabled.'|i18n('design/standard/setup')}<br/>
+        {section-else}
+            {'PHP Accelerator is disabled.'|i18n('design/standard/setup')}<br/>
+        {/section}
+    </p>
+{section-else}
+    <p>
+            {'There is no known PHP accelerator active.'|i18n('design/standard/setup')}<br/>
+    </p>
+{/section}
+</div>
+
+<div class="objectheader">
     <h2>{'Database'|i18n('design/standard/setup')}</h2>
 </div>
 <div class="object">

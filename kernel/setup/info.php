@@ -45,10 +45,20 @@ $tpl =& templateInit();
 
 $db =& eZDB::instance();
 
+$phpAcceleratorInfo = false;
+if ( isset( $GLOBALS['_PHPA'] ) )
+{
+    $phpAcceleratorInfo = array();
+    $phpAcceleratorInfo['enabled'] = $GLOBALS['_PHPA']['ENABLED'];
+    $phpAcceleratorInfo['version_integer'] = $GLOBALS['_PHPA']['iVERSION'];
+    $phpAcceleratorInfo['version_string'] = $GLOBALS['_PHPA']['VERSION'];
+}
+
 $tpl->setVariable( 'ezpublish_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
 $tpl->setVariable( 'ezpublish_revision', eZPublishSDK::revision() );
 $tpl->setVariable( 'ezpublish_extensions', eZExtension::activeExtensions() );
 $tpl->setVariable( 'php_version', phpversion() );
+$tpl->setVariable( 'php_accelerator', $phpAcceleratorInfo );
 $tpl->setVariable( 'apache_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );
 $tpl->setVariable( 'database_info', $db->databaseName() );
 $tpl->setVariable( 'database_charset', $db->charset() );
