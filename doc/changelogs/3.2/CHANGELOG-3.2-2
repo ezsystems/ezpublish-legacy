@@ -37,6 +37,7 @@ Changes from 3.2-1 to 3.2-2
 - Added support for reverse translation in eZURLAlias, that way you can translate from a
   real URL to an alias.
 - Made sure all redirects in index.php is translated to URL aliases if possible.
+- Fixed permission bug for function "password" and "preference" in user module. 
 
 *Notification:
 - Made sure the subtree handlers sets some design keys for template overriding.
