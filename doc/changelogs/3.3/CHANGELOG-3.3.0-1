@@ -1,6 +1,7 @@
 Changes from 3.2-1 to 3.3.0-1
 
 *Kernel:
+- Added count function for tipsafriend and content view.
 
 *Setup:
 
