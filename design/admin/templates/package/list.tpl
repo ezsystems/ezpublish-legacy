@@ -14,7 +14,7 @@
 {* ## START messages ## *}
 {section show=$remove_list}
 
-<div class="warning">
+<div class="message-warning">
 <h2>{'Removal of packages'|i18n('design/admin/package')}</h2>
 <p>{'Are you sure you wish to remove the following packages?
 The packages will be lost forever.
@@ -31,7 +31,7 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package')|break}
 
 <div class="buttonblock">
     <input class="button" type="submit" name="ConfirmRemovePackageButton" value="{'Confirm removal'|i18n('design/admin/package')}" />
-    <input class="defaultbutton" type="submit" name="CancelRemovePackageButton" value="{'Keep packages'|i18n('design/admin/package')}" />
+    <input class="button" type="submit" name="CancelRemovePackageButton" value="{'Keep packages'|i18n('design/admin/package')}" />
 </div>
 
 {section-else}
@@ -125,6 +125,7 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package')|break}
 {/let}
 
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
+</div>
 
 {/section}
 
