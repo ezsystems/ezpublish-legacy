@@ -153,9 +153,6 @@ $featureArray[] = array( "uri" => "subversion_standard",
 // $featureArray[] = array( "uri" => "workflows",
 //                          "level" => 2,
 //                          "name" => "Workflows" );
-// $featureArray[] = array( "uri" => "tasks",
-//                          "level" => 2,
-//                          "name" => "Tasks" );
 // $featureArray[] = array( "uri" => "notification_system",
 //                          "level" => 2,
 //                          "name" => "Notification system" );

@@ -64,20 +64,5 @@ $ViewList['group'] = array(
     'params' => array( 'ViewMode', 'GroupID' ),
     "unordered_params" => array( "language" => "Language",
                                  "offset" => "Offset" ) );
-/*
-$ViewList['messageview'] = array(
-    'script' => 'messageview.php',
-    'params' => array( 'MessageID' ),
-    'single_post_actions' => array( 'EditButton' => 'Edit',
-                                    'PublishButton' => 'Publish',
-                                    'CancelButton' => 'Cancel' ) );
-$ViewList['message'] = array(
-    'script' => 'message.php',
-    'params' => array( 'TaskID', 'MessageID' ),
-    'single_post_actions' => array( 'PreviewButton' => 'Preview',
-                                    'ApplyButton' => 'Apply',
-                                    'PublishButton' => 'Publish',
-                                    'CancelButton' => 'Cancel' ) );
-*/
 
 ?>

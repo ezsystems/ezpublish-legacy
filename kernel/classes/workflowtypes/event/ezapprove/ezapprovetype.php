@@ -41,7 +41,6 @@
 */
 
 include_once( "kernel/classes/ezworkflowtype.php" );
-// include_once( 'kernel/classes/eztask.php' );
 include_once( 'kernel/classes/collaborationhandlers/ezapprove/ezapprovecollaborationhandler.php' );
 
 define( "EZ_WORKFLOW_TYPE_APPROVE_ID", "ezapprove" );
@@ -264,11 +263,6 @@ class eZApproveType extends eZWorkflowEventType
         $collaborationItem =& eZApproveCollaborationHandler::createApproval( $contentobjectID, $contentobjectVersion,
                                                                              $authorID, $editor );
 
-//         $task =& eZTask::createAssignment( $userID );
-//         $task->setAttribute( 'object_id',  $contentobjectID );
-//         $task->setAttribute( 'receiver_id', $editor );
-//         $task->setAttribute( 'status',  EZ_TASK_STATUS_OPEN  );
-//         $task->store();
         $db = & eZDb::instance();
         $db->query( 'insert into ezapprove_items( workflow_process_id,
                                                       collaboration_id )
@@ -281,7 +275,6 @@ class eZApproveType extends eZWorkflowEventType
         $db = & eZDb::instance();
         $taskResult = $db->arrayQuery( 'select workflow_process_id, collaboration_id from ezapprove_items where workflow_process_id = ' . $process->attribute( 'id' )  );
         $collaborationID = $taskResult[0]['collaboration_id'];
-//         $task =& eZTask::fetch( $taskID );
         $collaborationItem =& eZCollaborationItem::fetch( $collaborationID );
         $contentObjectVersion =& eZApproveCollaborationHandler::contentObjectVersion( $collaborationItem );
         $approvalStatus = eZApproveCollaborationHandler::checkApproval( $collaborationID );

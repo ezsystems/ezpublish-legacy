@@ -382,3 +382,6 @@ alter table ezsection add navigation_part_identifier varchar(100) default 'ezcon
 alter table ezorder add account_identifier varchar(100) not null default 'default';
 
 # run update/common/scripts/updateurllink.php to fix XML fields with inproper text encoding
+
+drop table eztask;
+drop table eztask_message;

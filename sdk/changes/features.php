@@ -80,7 +80,7 @@ favourite search engine. In custom content you can specify which attributes that
 <h2>Role-based permissions</h2>
 <p>
 The permissions are specified by roles. The role system allows you to specify access
-by module (content, shop, task, etc.), by function (read, create, edit, remove, etc.),
+by module (content, shop, collaboration, etc.), by function (read, create, edit, remove, etc.),
 by object owner, by object class, and by site section. This gives the site administrator
 full freedom to customize who gets access to what.
 </p>

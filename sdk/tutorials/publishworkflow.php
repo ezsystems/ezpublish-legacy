@@ -45,8 +45,9 @@ publishing approval workflow.
 
 <p>
 The workflow we will create will allow you to set up approval of object publishing in some places of your site,
-for certain user groups. It consists of "Approve" and "Message" events. The "Approve" event creates a task
-when it runs and "Message" creates a message and sends it back to the user when the task is closed.
+for certain user groups. It consists of an "Approve" event. The "Approve" event creates a collaboration item
+when it runs, the collaboration item will link the author and the approver together were they may discuss
+the content object and the approver will then decide what to do with it.
 </p>
 
 <p>
@@ -61,7 +62,7 @@ To set up an approval workflow you need to do next tree steps:
 <h2>Create the workflow</h2>
 
 <p>
-To create the new workflow you need to get into one of the workflow groups and click "New" there. It will create a new workflow and redirect you to an edit page. There you should fill in the "name" text entry with the name of your workflow, something like "Approval by editor", it is up to you. After that select Event/Publish from the drop down and click "New". Then select Event/Message from the dropdown and click "New". Now you have added two events to the workflow.
+To create the new workflow you need to get into one of the workflow groups and click "New" there. It will create a new workflow and redirect you to an edit page. There you should fill in the "name" text entry with the name of your workflow, something like "Approval by editor", it is up to you. After that select Event/Approve from the drop down and click "New". Now you have created the necessary workflow.
 </p>
 
 <p>
