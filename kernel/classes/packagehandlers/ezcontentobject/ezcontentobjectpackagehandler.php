@@ -309,31 +309,34 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                                                                                                   'site-access' => $siteAccess ) );
 
                     $fetchBlock = $aliasINI->group( $fetchAlias );
-                    foreach ( $fetchBlock['Constant'] as $matchKey => $value )
+                    if ( isset( $fetchBlock['Constant'] ) )
                     {
-                        if ( strpos( $matchKey, 'class_' ) === 0 &&
-                             is_int( $value ) )
+                        foreach ( $fetchBlock['Constant'] as $matchKey => $value )
                         {
-                            $contentClass = eZContentClass::fetch( $value );
-                            $fetchBlock['Constant']['class_remote_id'] = $contentClass->attribute( 'remote_id' );
-                        }
-                        if ( strpos( $matchKey, 'node_' ) === 0 &&
-                             is_int( $value ) )
-                        {
-                            $contentTreeNode = eZContentObjectTreeNode::fetch( $value );
-                            $fetchBlock['Constant']['node_remote_id'] = $contentTreeNode->attribute( 'remote_id' );
-                        }
-                        if ( strpos( $matchKey, 'parent_node_' ) === 0 &&
-                             is_int( $value ) )
-                        {
-                            $contentTreeNode = eZContentObjectTreeNode::fetch( $value );
-                            $fetchBlock['Constant']['parent_node_remote_id'] = $contentTreeNode->attribute( 'remote_id' );
-                        }
-                        if ( strpos( $matchKey, 'object_' ) === 0 &&
-                             is_int( $value ) )
-                        {
-                            $contentObject = eZContentObject::fetch( $value );
-                            $fetchBlock['Constant']['object_remote_id'] = $contentObject->attribute( 'remote_id' );
+                            if ( strpos( $matchKey, 'class_' ) === 0 &&
+                                 is_int( $value ) )
+                            {
+                                $contentClass = eZContentClass::fetch( $value );
+                                $fetchBlock['Constant']['class_remote_id'] = $contentClass->attribute( 'remote_id' );
+                            }
+                            if ( strpos( $matchKey, 'node_' ) === 0 &&
+                                 is_int( $value ) )
+                            {
+                                $contentTreeNode = eZContentObjectTreeNode::fetch( $value );
+                                $fetchBlock['Constant']['node_remote_id'] = $contentTreeNode->attribute( 'remote_id' );
+                            }
+                            if ( strpos( $matchKey, 'parent_node_' ) === 0 &&
+                                 is_int( $value ) )
+                            {
+                                $contentTreeNode = eZContentObjectTreeNode::fetch( $value );
+                                $fetchBlock['Constant']['parent_node_remote_id'] = $contentTreeNode->attribute( 'remote_id' );
+                            }
+                            if ( strpos( $matchKey, 'object_' ) === 0 &&
+                                 is_int( $value ) )
+                            {
+                                $contentObject = eZContentObject::fetch( $value );
+                                $fetchBlock['Constant']['object_remote_id'] = $contentObject->attribute( 'remote_id' );
+                            }
                         }
                     }
                     $fetchAliasDOMNode->appendChild( eZDOMDocument::createElementNodeFromArray( $fetchAlias,  $fetchBlock ) );
@@ -440,7 +443,9 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                         continue;
                     }
 
-                    $matchSettings = $overrideINI->variable( $blockName, 'Match' );
+                    $matchSettings = false;
+                    if ( $overrideINI->hasVariable( $blockName, 'Match' ) )
+                        $matchSettings = $overrideINI->variable( $blockName, 'Match' );
 
                     $matchValue = array();
                     $validMatch = true;
@@ -913,6 +918,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function handleParameters( $packageType, &$package, &$cli, $type, $arguments )
     {
+        $error = false;
         $nodeList = array();
         $includeClasses = true;
         $includeTemplates = true;

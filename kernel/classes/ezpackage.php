@@ -92,9 +92,10 @@ class eZPackage
                             $modifiedParameters = array() )
     {
         $timestamp = mktime();
+        $host = 'localhost';
         if ( isset( $_SERVER['HOSTNAME'] ) )
             $host = $_SERVER['HOSTNAME'];
-        else
+        else if ( isset( $_SERVER['HTTP_HOST'] ) )
             $host = $_SERVER['HTTP_HOST'];
         $packaging = array( 'timestamp' => $timestamp,
                             'host' => $host,
@@ -216,6 +217,8 @@ class eZPackage
         if ( $repositoryID === false )
             $repositoryID = 'local';
         $repositoryInformation = $handler->repositoryInformation( $repositoryID );
+        if ( $repositoryPath !== false )
+            $repositoryInformation['path'] = $repositoryPath;
         $handler->setCurrentRepositoryInformation( $repositoryInformation );
         return $handler;
     }
@@ -2584,24 +2587,27 @@ class eZPackage
         }
 
         // Handle simple files
-        foreach( $simpleFileList as $key => $fileInfo )
+        if ( is_array( $simpleFileList ) )
         {
-            if ( $export )
+            foreach( $simpleFileList as $key => $fileInfo )
             {
-                $sourcePath = $this->path() . '/' . $fileInfo['package-path'];
-                $destinationPath = $exportPath . '/' . $fileInfo['package-path'];
-                eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
-                eZFileHandler::copy( $sourcePath, $destinationPath );
-            }
-            else if ( $simpleFileList[$key]['package-path'] == '' )
-            {
-                $suffix = eZFile::suffix( $fileInfo['original-path'] );
-                $sourcePath = $fileInfo['original-path'];
-                $fileInfo['package-path'] = eZPackage::simpleFilesDirectory() . '/' . substr( md5( mt_rand() ), 0, 8 ) . '.' . $suffix;
-                $destinationPath = $this->path() . '/' . $fileInfo['package-path'];
-                eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
-                eZFileHandler::copy( $sourcePath, $destinationPath );
-                $this->Parameters['simple-file-list'][$key] = $fileInfo;
+                if ( $export )
+                {
+                    $sourcePath = $this->path() . '/' . $fileInfo['package-path'];
+                    $destinationPath = $exportPath . '/' . $fileInfo['package-path'];
+                    eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
+                    eZFileHandler::copy( $sourcePath, $destinationPath );
+                }
+                else if ( $simpleFileList[$key]['package-path'] == '' )
+                {
+                    $suffix = eZFile::suffix( $fileInfo['original-path'] );
+                    $sourcePath = $fileInfo['original-path'];
+                    $fileInfo['package-path'] = eZPackage::simpleFilesDirectory() . '/' . substr( md5( mt_rand() ), 0, 8 ) . '.' . $suffix;
+                    $destinationPath = $this->path() . '/' . $fileInfo['package-path'];
+                    eZDir::mkdir( eZDir::dirpath( $destinationPath ), false, true );
+                    eZFileHandler::copy( $sourcePath, $destinationPath );
+                    $this->Parameters['simple-file-list'][$key] = $fileInfo;
+                }
             }
         }
         $root->appendChild( $dom->createElementNodeFromArray( 'simple-files', $this->Parameters['simple-file-list'] ) );
