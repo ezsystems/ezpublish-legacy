@@ -177,6 +177,17 @@ class eZWordToImageOperator
                     $size = $sizes[0];
                 }
 
+                $pathDivider = strpos( $size, ';' );
+                if ( $pathDivider !== false )
+                {
+                    $sizePath = substr( $size, $pathDivider + 1 );
+                    $size = substr( $size, 0, $pathDivider );
+                }
+                else
+                {
+                    $sizePath = $size;
+                }
+
                 $width = false;
                 $height = false;
                 $xDivider = strpos( $size, 'x' );
@@ -227,7 +238,7 @@ class eZWordToImageOperator
                 }
 
                 $iconPath = '/' . $repository . '/' . $theme;
-                $iconPath .= '/' . $size;
+                $iconPath .= '/' . $sizePath;
                 $iconPath .= '/' . $icon;
 
                 $wwwDirPrefix = "";
