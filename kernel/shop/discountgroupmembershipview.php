@@ -35,6 +35,7 @@
 //
 
 include_once( "kernel/common/template.php" );
+include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezdiscountrule.php" );
 include_once( "kernel/classes/ezuserdiscountrule.php" );
 include_once( "kernel/classes/ezdiscountsubrule.php" );
