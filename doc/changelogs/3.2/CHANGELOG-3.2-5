@@ -79,6 +79,8 @@ Changes from 3.2-4 to 3.2-5
   repeated too many times.
   http://ez.no/community/bug_reports/repeat_operator_for_arrays_repeats_too_much
 - Fixed bug, typo with section_id http://ez.no/community/bug_reports/typos_ezcontentobject_section_instead_of_ezcontentobject_section_id
+- Fixed bug, templateoperator append now may append multiple strings
+  http://ez.no/community/forum/developer/bug_in_template_operator_append
 
 *Setup:
 - Fixed setup to only check for existing eZ publish tables.
