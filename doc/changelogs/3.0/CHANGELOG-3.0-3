@@ -8,6 +8,7 @@ Changes from 3.0-2 to 3.0-3
 - Fixed problem with not being able to unset the information collector setting in class edit.
 - Fixed missing error type in kernel/content/copy.php when no object was found.
 - Fixed security bug which user could move or add object to anywhere if he could edit the object.
+- Fixed bug in ezsearch. Not all word was indexed if contentobject contained some special chars.
 
 *Library :
 - The handleChecked function in eZHTTPPersistence is now deprecated.

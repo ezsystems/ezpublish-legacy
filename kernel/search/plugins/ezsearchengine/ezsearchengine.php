@@ -120,6 +120,7 @@ class eZSearchEngine
             $wordsString = implode( '\',\'', $indexArrayOnlyWords );
             $wordRes =& $db->arrayQuery( "SELECT * FROM ezsearch_word WHERE word IN ( '$wordsString' ) " );
 
+            
             // Build a has of the existing words
             $wordResCount = count( $wordRes );
             $wordIDArray = array();
@@ -137,9 +138,9 @@ class eZSearchEngine
                 $db->query( " UPDATE ezsearch_word SET object_count=( object_count + 1 ) WHERE id IN ( $wordIDString )" );
 
             // Insert if there is any news words
-            if ( count( $indexArrayOnlyWords ) > $wordResCount )
+            $newWordArray = array_diff( $indexArrayOnlyWords, $existingWordArray );
+            if ( count ($newWordArray) > 0 )
             {
-                $newWordArray = array_diff( $indexArrayOnlyWords, $existingWordArray );
                 $newWordString = implode( "', '1' ), ('", $newWordArray );
                 $db->query( "INSERT INTO
                                ezsearch_word ( word, object_count )
