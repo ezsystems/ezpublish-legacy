@@ -1343,7 +1343,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName );
 
         $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
-        $limitationList              =& eZContentObjectTreeNode::getLimitationList( $params['Limitation'] );
+        $limitationList              =& eZContentObjectTreeNode::getLimitationList( $limitation );
         $sqlPermissionCheckingString =& eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
 
         // Determine whether we should show invisible nodes.

@@ -156,6 +156,8 @@ Payment:
   (Merged from stable/3.4 rev.9043)
 - Fixed bug: Fixed SQL error that happened when removing classes along with removing class group.
   (Merged from stable/3.3 rev. 9059, also in stable/3.4 rev. 9061)
+- Fixed bug: Limitation list and fetchtree.
+  http://ez.no/community/bug_reports/limitation_list_and_fetchtree
 - Fixed bug in template, option and multioption datatype works properly for shop.
   http://ez.no/community/bug_reports/option_value
 
