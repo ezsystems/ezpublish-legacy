@@ -377,18 +377,10 @@ if ( $contentClassHasInput )
 // Store version 0 and discard version 1
 if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 {
-    $firstStoreAttemt =& eZSessionRead( $http->sessionVariable( 'CanStoreTicket' ) );
-    if ( !$firstStoreAttemt )
+    $firstStoreAttempt =& eZSessionRead( $http->sessionVariable( 'CanStoreTicket' ) );
+    if ( !$firstStoreAttempt )
     {
-        if ( $fromGroupID === false )
-        {
-            $Module->redirectToView( 'grouplist' );
-        }
-        else
-        {
-            $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
-        }
-        return;
+        return $Module->redirectToView( 'view', array( $ClassID ) );
     }
     eZSessionDestroy( $http->sessionVariable( 'CanStoreTicket' ) );
 
@@ -507,15 +499,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 
     $http->removeSessionVariable( 'CanStoreTicket' );
 
-    if ( $fromGroupID === false )
-    {
-        $Module->redirectToView( 'grouplist' );
-    }
-    else
-    {
-        $Module->redirectTo( $Module->functionURI( 'classlist' ) . '/' . $fromGroupID . '/' );
-    }
-    return;
+    return $Module->redirectToView( 'view', array( $ClassID ) );
 }
 
 // Store changes
