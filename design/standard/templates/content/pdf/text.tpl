@@ -1,0 +1,1 @@
+{pdf(text, $object.name|wash)}

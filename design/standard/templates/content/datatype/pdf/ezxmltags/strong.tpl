@@ -1,0 +1,1 @@
+{pdf(text, concat("<b>", $content, "</b>"))}

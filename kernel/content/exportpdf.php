@@ -71,8 +71,7 @@ else if ( $Module->isCurrentAction( 'Export' ) &&
     {
         $tpl->setVariable( 'generate_file', 1 );
     }
-
-    print_r( $tpl->fetch( 'design:node/view/pdf.tpl' ) );
+    $tpl->fetch( 'design:node/view/pdf.tpl' );
 }
 
 $tpl =& templateInit();

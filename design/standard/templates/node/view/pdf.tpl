@@ -13,16 +13,19 @@
   {attribute_pdf_gui attribute=$ContentObjectAttribute:item}
 {/section}
 
-{section var=Child loop=$children show=$tree_traverse|eq(1)}
-  {section show=$class_array|contains($Child.item.object.contentclass_id)}
-    {$Child.item|attribute(show)}
-    {section var=Child2 loop=$Child.item.children}
-      {$Child2.item|attribute(show)}    
+{section show=$tree_traverse|eq(1)}
+  {section name=Child loop=$children}
+    {section show=$class_array|contains($Child:item.object.contentclass_id)}
+      {include uri="design:node/view/pdf.tpl" node=$Child:item tree_traverse=$tree_traverse class_array=$class_array}
     {/section}
-    {include uri="design:node/view/pdf.tpl" node=$Child.item}
   {/section}
 {/section}
 
-
-
 {/let}
+
+{section show=$generate_stream|eq(1)}
+{/section}
+
+{section show=$generate_file|eq(1)}
+  {pdf(close)}
+{/section}
