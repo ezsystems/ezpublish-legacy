@@ -143,7 +143,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
                                 'name' => 'count' ) );
         $countRes =& eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
                                                           array(), array( 'user_id' => $userID ),
-                                                          null, null, false, false, $custom );
+                                                          false, null, false, false, $custom );
         return $countRes[0]['count'];
     }
 
