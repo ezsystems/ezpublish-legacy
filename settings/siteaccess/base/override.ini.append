@@ -156,6 +156,12 @@ MatchFile=embed/forum.tpl
 Subdir=templates
 Match[class_identifier]=forum
 
+[forum_topic_edit]
+Source=content/edit.tpl
+MatchFile=edit/forum_topic.tpl
+Subdir=templates
+Match[class_identifier]=forum_topic
+
 [forum_topic_full]
 Source=node/view/full.tpl
 MatchFile=full/forum_topic.tpl
