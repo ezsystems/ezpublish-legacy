@@ -258,7 +258,7 @@ function templateOperatorDownload( &$tpl, &$persistentData, $stepData )
     $content = $tpl->fetch( 'design:setup/templateoperator_code.tpl' );
 
     $contentLength = strlen( $content );
-    $mimeType = 'text/x-php';
+    $mimeType = 'application/octet-stream';
 
     include_once( 'lib/version.php' );
     $version = eZPublishSDK::version();
