@@ -73,6 +73,10 @@ Features which needs to be implemented and/or tested. Prioritized
 order.
 
 - Workflows needs to be completed ( SP )
+- Rename userfriendly_readable_url to url_alias. ( must work on object and node, object should use main nodeinformation )
+   * add url() function to object and node
+   * Add site.ini setting to return the url_alias or the /content/view/... URL 
+     from the function url() ( SP )
 - Complete task system ( JB )
 - Implement messaging system ( WY )
 - XML format definition and implementation. Validation ( BF )
