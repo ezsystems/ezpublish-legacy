@@ -47,37 +47,87 @@ class eZWordToImageOperator
     /*!
      Initializes the object with the name $name, default is "wash".
     */
-    function eZWordToImageOperator( $name = "wordtoimage" )
+    function eZWordToImageOperator()
     {
-	$this->Operators = array( $name );
+        $this->Operators = array( "wordtoimage", "mimetype_icon" );
     }
 
     /*!
-Returns the template operators.
+      Returns the template operators.
     */
     function &operatorList()
     {
-	return $this->Operators;
+        return $this->Operators;
     }
 
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
-        include_once( "lib/ezutils/classes/ezini.php" );
-        $ini =& eZINI::instance("wordtoimage.ini");
-        $iconRoot = $ini->variable( 'WordToImageSettings', 'IconRoot' );
-
-        $replaceText = $ini->variable( 'WordToImageSettings', 'ReplaceText' );
-        $replaceIcon = $ini->variable( 'WordToImageSettings', 'ReplaceIcon' );
-
-        $wwwDirPrefix = "";
-        if ( strlen( eZSys::wwwDir() ) > 0 )
-            $wwwDirPrefix = eZSys::wwwDir() . "/";
-        foreach( $replaceIcon as $icon )
+        switch ( $operatorName )
         {
-            $icons[] = '<img src="' . $wwwDirPrefix . $iconRoot .'/' . $icon . '"/>';
-        }
+            case "wordtoimage" :
+            {
+                include_once( "lib/ezutils/classes/ezini.php" );
+                $ini =& eZINI::instance("wordtoimage.ini");
+                $iconRoot = $ini->variable( 'WordToImageSettings', 'IconRoot' );
 
-        $operatorValue = str_replace( $replaceText, $icons, $operatorValue );
+                $replaceText = $ini->variable( 'WordToImageSettings', 'ReplaceText' );
+                $replaceIcon = $ini->variable( 'WordToImageSettings', 'ReplaceIcon' );
+
+                $wwwDirPrefix = "";
+                if ( strlen( eZSys::wwwDir() ) > 0 )
+                    $wwwDirPrefix = eZSys::wwwDir() . "/";
+                foreach( $replaceIcon as $icon )
+                {
+                    $icons[] = '<img src="' . $wwwDirPrefix . $iconRoot .'/' . $icon . '"/>';
+                }
+
+                $operatorValue = str_replace( $replaceText, $icons, $operatorValue );
+            }
+
+            case "mimetype_icon" :
+            {
+                switch( $operatorValue )
+                {
+                    case "text/plain":
+                    {
+                        $icon = "ascii.png";
+                    }break;
+
+                    case "image/jpeg":
+                    {
+                        $icon = "image.png";
+                    }break;
+
+                    case "application/x-gzip":
+                    {
+                        $icon = "tgz.png";
+                    }break;
+
+                    case "application/pdf":
+                    {
+                        $icon = "pdf.png";
+                    }break;
+
+                    default:
+                    {
+                        $icon = "document.png";
+                    }break;
+                }
+                $iconPath = '/share/icons/mimetypes/32x32/' . $icon;
+
+                $wwwDirPrefix = "";
+                if ( strlen( eZSys::wwwDir() ) > 0 )
+                    $wwwDirPrefix = eZSys::wwwDir() . "/";
+
+                $operatorValue = '<img src="' . $wwwDirPrefix . $iconPath . '" width="32" height="32" alt="$operatorValue" />';
+            }
+
+            default:
+            {
+                eZDebug::writeError( "Unknown operator: $operatorName", "ezwordtoimageoperator.php" );
+            }
+
+        }
     }
     var $Operators;
 }
