@@ -2974,17 +2974,12 @@ WHERE
     */
     function updateAndStoreModified()
     {
-        $pathString =& $this->attribute( 'path_string' );
-
-        $pathArray = explode( '/', $pathString );
-        $sqlParts = array();
+        $pathArray = explode( '/', $this->attribute( 'path_string' ) );
         $sql = '';
 
-        $sqlParts = '/';
         for( $pathCount = 1; $pathCount < count( $pathArray ) - 1; ++$pathCount )
         {
-            $sqlParts .= $pathArray[$pathCount] . '/' ;
-            $sql .= ( $pathCount != 1 ? 'OR ' : '' ) . 'path_string=\'' . $sqlParts . '\' ';
+            $sql .= ( $pathCount != 1 ? 'OR ' : '' ) . 'node_id=\'' . $pathArray[$pathCount] . '\' ';
         }
 
         if ( $sql != '' )
