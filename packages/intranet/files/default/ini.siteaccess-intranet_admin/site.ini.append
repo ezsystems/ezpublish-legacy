@@ -1,5 +1,10 @@
 <?php /* #?ini charset="utf8"?
 
+[DesignSettings]
+StandardDesign=standard
+SiteDesign=admin
+AdditionalSiteDesignList[]=intranet
+
 [ContentSettings]
 TranslationList=
 
