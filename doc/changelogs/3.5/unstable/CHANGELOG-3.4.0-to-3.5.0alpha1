@@ -542,6 +542,9 @@ Workflow:
 - Fixed bug: Object relation selection method was not stored when clicking 'Store' button.
   (Merged from stable/3.4 rev. 8020)
   http://ez.no/community/bug_reports/object_relation_selection_method_not_free_to_choose
+- Fixed typo in ezmodule.php.
+  (Merged from stable/3.4 rev. 8025)
+  http://ez.no/community/bug_reports/non_fatal_doxygen_comment_in_ezmodule_php
 
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.
