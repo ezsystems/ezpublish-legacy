@@ -403,7 +403,6 @@ CREATE TABLE ezcontentobject_tree (
   contentobject_id int(11) default NULL,
   contentobject_version int(11) default NULL,
   contentobject_is_published int(11) default NULL,
-  crc32_path int(11) default NULL,
   depth int(11) NOT NULL default '0',
   path_string varchar(255) NOT NULL default '',
   sort_field int(11) default '1',
@@ -411,15 +410,11 @@ CREATE TABLE ezcontentobject_tree (
   priority int(11) NOT NULL default '0',
   path_identification_string text,
   main_node_id int(11) default NULL,
-  md5_path varchar(32) default NULL,
   PRIMARY KEY  (node_id),
   KEY ezcontentobject_tree_path (path_string),
   KEY ezcontentobject_tree_p_node_id (parent_node_id),
   KEY ezcontentobject_tree_co_id (contentobject_id),
-  KEY ezcontentobject_tree_depth (depth),
-  KEY ezcontentobject_tree_crc32_path (crc32_path),
-  KEY md5_path (md5_path),
-  KEY md5_path_2 (md5_path)
+  KEY ezcontentobject_tree_depth (depth)
 ) TYPE=MyISAM CHARSET=latin1;
 
 --
