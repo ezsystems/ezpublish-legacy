@@ -170,6 +170,12 @@ td.nowrap
     white-space: nowrap;
 }
 
+div.context-attributes table.list th, div.context-attributes table.special th
+{
+    color: #404040;
+    background-color: #bfbfb7;
+}
+
 /* ORDERED AND UNORDERED LISTS */
 
 ul, ol
