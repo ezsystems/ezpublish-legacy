@@ -47,7 +47,7 @@
 <h2>{"Please select additional functionality"|i18n("design/standard/setup/init")}</h2>
 {section loop=$package_array}
     <div class="block">
-        <input type="checkbox" name="AdditionalPackages[]" value="{$:item.identifier|wash}" {section show=$recommended_package_array|contains( $:item.identifier )}checked="checked"{/section}/>&nbsp;{$:item.name|wash}<br/>
+        <input id="package_{$:item.identifier|wash}" type="checkbox" name="AdditionalPackages[]" value="{$:item.identifier|wash}" {section show=$recommended_package_array|contains( $:item.identifier )}checked="checked"{/section}/>&nbsp;<label for="package_{$:item.identifier|wash}">{$:item.name|wash}</label><br/>
          <p>
          {$:item.description|wash}
          </p>
