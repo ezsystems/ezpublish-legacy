@@ -65,13 +65,15 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                                    'width' => array( 'required' => false ),
                                                    'border' => array( 'required' => false ) );
 
-        $this->TagAttributeArray['link'] = array( 'href' => array( 'required' => false ),
+        $this->TagAttributeArray['link'] = array( 'class' => array( 'required' => false ),
+                                                  'href' => array( 'required' => false ),
                                                   'id' => array( 'required' => false ),
                                                   'target' => array( 'required' => false ) );
 
         $this->TagAttributeArray['anchor'] = array( 'name' => array( 'required' => true ) );
 
-        $this->TagAttributeArray['object'] = array( 'id' => array( 'required' => true ),
+        $this->TagAttributeArray['object'] = array( 'class' => array( 'required' => false ),
+                                                    'id' => array( 'required' => true ),
                                                     'size' => array( 'required' => false ),
                                                     'align' => array( 'required' => false ),
                                                     'ezurl_href' => array( 'required' => false ),
@@ -1565,6 +1567,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $view = $tag->attributeValue( 'view' );
                 $size = $tag->attributeValue( 'size' );
                 $alignment = $tag->attributeValue( 'align' );
+                $className = $tag->attributeValue( 'class' );
                 $hasLink = false;
                 $linkID = $tag->attributeValueNS( 'ezurl_id', "http://ez.no/namespaces/ezpublish3/image/" );
 
@@ -1582,6 +1585,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                 $objectAttr = "id=\"$objectID\"";
 
+                if ( $className != null )
+                     $objectAttr .= " class=\"$className\"";
                 if ( $size != null )
                     $objectAttr .= " size=\"$size\"";
                 if ( $alignment != null )
@@ -1592,7 +1597,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     if ( $target != null )
                         $objectAttr .= " target=\"$target\"";
                 }
-
                 $output .= "<object $objectAttr />";
             }break;
 
@@ -1622,10 +1626,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $tableRows = "";
                 $border = $tag->attributeValue( 'border' );
                 $width = $tag->attributeValue( 'width' );
-                if ( $border == null )
-                    $border = 1;
+                $tableClass = $tag->attributeValue( 'class' );
                 if ( $width == null )
                     $width = "100%";
+                if ( $border == null )
+                    $border = 1;
                 // find all table rows
                 foreach ( $tag->children() as $tableRow )
                 {
@@ -1665,10 +1670,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                     $tableRows .= "<tr>\n$tableData</tr>\n";
                 }
-                if ( $width != null )
-                    $output .= "<table border='$borde' width='$width'>\n$tableRows</table>\n";
+                if ( $tableClass != null )
+                    $output .= "<table class='$tableClass' border='$border' width='$width'>\n$tableRows</table>\n";
                 else
-                    $output .= "<table border='$border'>\n$tableRows</table>\n";
+                    $output .= "<table border='$border' width='$width'>\n$tableRows</table>\n";
             }break;
 
             case 'literal' :
@@ -1744,6 +1749,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             {
                 $linkID = $tag->attributeValue( 'id' );
                 $target = $tag->attributeValue( 'target' );
+                $className = $tag->attributeValue( 'class' );
                 if ( $linkID != null )
                     $href =& eZURL::url( $linkID );
                 else
@@ -1751,6 +1757,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $href = $tag->attributeValue( 'href' );
                 }
                 $attributes = array();
+                if ( $className != '' )
+                    $attributes[] = "class='$className'";
                 $attributes[] = "href='$href'";
                 if ( $target != '' )
                     $attributes[] = "target='$target'";
