@@ -164,10 +164,6 @@ div#maincontent
     height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
 }
 
-div#maincontent-design
-{
-}
-
 /* Toolbar design */
 div.toolbox
 { 
@@ -216,7 +212,8 @@ div.toollist-design
 
 div.toollist-design h2
 { 
-    margin: 0px;
+    margin-top: 0px;
+    margin-bottom: 6px;
     width: 100%;
     position: relative;
     left: -10px;
@@ -281,6 +278,11 @@ div#header-design
 }
 
 /* Common content styles */
+div#maincontent-design
+{
+    padding-right: 22px;
+    padding-left: 22px;
+}
 
 div#maincontent-design h1
 { 
@@ -313,6 +315,58 @@ div.content-byline p.author
 div.content-byline p.date
 {
     font: 9pt;
+    color: #036;
+}
+
+
+div.content-file
+{ 
+
+}
+
+/* Special formatting in XML fields */
+div.factbox-design
+{ 
+    padding-right: 6px;
+    padding-left: 6px;
+    float: right;
+    width: 178px;
+    background-color: #fff;
+    border: 1px solid #369;
+}
+
+div.factbox-design h2
+{ 
+    position: relative;
+    left: -6px;
+
+    width: 178px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 6px;
+
+    padding-left: 6px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+
+    font: 12px regular;
+    background-color: #369;
+    color: #fff;
+}
+
+div.factbox h3
+{ 
+    font: 9pt regular;
+    color: #369;
+    margin: 0px;
+}
+
+div.factbox div.content-file p
+{ 
+    padding-top: 0px;
+    margin-top: 0px;
+    font: 9pt;
+    font-weight: normal;
     color: #036;
 }
 

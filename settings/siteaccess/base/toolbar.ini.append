@@ -4,6 +4,7 @@
 Tool[]
 Tool[]=create_object
 Tool[]=node_list
+Tool[]=node_list
 
 [Toolbar_top]
 Tool[]
@@ -24,4 +25,8 @@ node_placement=51
 [Tool_right_node_list_2]
 parent_node=54
 title=Latest images
+
+[Tool_right_node_list_3]
+parent_node=61
+title=Downloads
 */ ?>

@@ -2,7 +2,7 @@
 
 <div class="view-children">
     {section var=child loop=$children sequence=array(bglight,bgdark)}
-         {node_view_gui view=line content_node=$child}
+         {node_view_gui view=listitem content_node=$child}
     {/section}
 </div>
 {/let}

@@ -40,6 +40,12 @@ MatchFile=line/article.tpl
 Subdir=templates
 Match[class_identifier]=article
 
+[article_listitem]
+Source=node/view/listitem.tpl
+MatchFile=listitem/article.tpl
+Subdir=templates
+Match[class_identifier]=article
+
 [class_image]
 Source=content/datatype/view/ezobjectrelation.tpl
 MatchFile=datatype/ezobjectrelation/image.tpl
@@ -95,11 +101,16 @@ MatchFile=embed/file.tpl
 Subdir=templates
 Match[class_identifier]=file
 
+[file_listitem]
+Source=node/view/listitem.tpl
+MatchFile=listitem/file.tpl
+Subdir=templates
+Match[class_identifier]=file
+
 [file_binaryfile]
 Source=content/datatype/view/ezbinaryfile.tpl
 MatchFile=datatype/ezbinaryfile.tpl
 Subdir=templates
-Match[class_identifier]=file
 
 # Link templates
 
@@ -357,7 +368,6 @@ Source=node/view/line.tpl
 MatchFile=line/poll.tpl
 Subdir=templates
 Match[class_identifier]=poll
-
 
 [poll_embed]
 Source=content/view/embed.tpl

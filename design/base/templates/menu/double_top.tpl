@@ -1,7 +1,7 @@
 <div id="topmenu">
-<div id="topmenu-design">
+    <div id="topmenu-design">
 
-<h3 class="hide">Top menu</h3>
+    <h3 class="hide">Top menu</h3>
 
 
 {let menuitems=fetch('content','list',hash('parent_node_id',2,'sort_by',array(array(priority,true()))))}
@@ -17,20 +17,21 @@
     </ul>
 {/let}
 
-</div>
+    </div>
 </div>
 
 {section show=and(is_set($module_result.path[1]),is_set($module_result.node_id))}
 
 <div id="submenu">
+    <div id="submenu-design">
 
-<h2 class="hide">Sub menu</h2>
+    <h3 class="hide">Sub menu</h3>
 
-<ul>
+     <ul>
 {section var=menu loop=fetch('content','list',hash(parent_node_id,$module_result.path[1].node_id,sort_by,array(array(priority,true()))))}
-    <li {$menu.index|eq(0)|choose('','class="first"')}><a href={$menu.url_alias|ezurl}>{$menu.name}</a></li>
+    <li {$menu.index|eq(0)|choose('','class="first"')}><div><a href={$menu.url_alias|ezurl}>{$menu.name}</a></div></li>
 {/section}
-</ul>
+    </ul>
 
 <div class="breakall"></div>
 
