@@ -68,7 +68,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $this->SubTagArray['literal'] = array( );
         $this->SubTagArray['custom'] = $this->SectionArray;
         $this->SubTagArray['object'] = array( );
-        $this->SubTagArray['li'] = $this->SubTagArray['section'];
+        $this->SubTagArray['li'] = array( 'paragraph' );
         $this->SubTagArray['strong'] = $this->InLineTagArray;
         $this->SubTagArray['emphasize'] = $this->InLineTagArray;
         $this->SubTagArray['link'] = $this->InLineTagArray;
