@@ -23,7 +23,7 @@
 
         <div class="attribute-link">
            <p>
-            <a href={$node.url_alias|ezurl}>More information</a>
+            <a href={$node.url_alias|ezurl}>{"More information"|i18n("design/base")}</a>
            </p>
         </div>
    </div>

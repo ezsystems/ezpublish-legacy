@@ -21,11 +21,11 @@
         <div class="content-navigator">
             {section show=$previous_log}
                 <div class="content-navigator-previous">
-                    <div class="content-navigator-arrow">&laquo;&nbsp;</div><a href={$previous_log[0].url_alias|ezurl} title="{$previous_log[0].name|wash}">{'Previous entry'|i18n( 'design/base/weblog' )}</a>
+                    <div class="content-navigator-arrow">&laquo;&nbsp;</div><a href={$previous_log[0].url_alias|ezurl} title="{$previous_log[0].name|wash}">{'Previous entry'|i18n( 'design/base' )}</a>
                 </div>
             {section-else}
                 <div class="content-navigator-previous-disabled">
-                    <div class="content-navigator-arrow">&laquo;&nbsp;</div>{'Previous entry'|i18n( 'design/base/weblog' )}
+                    <div class="content-navigator-arrow">&laquo;&nbsp;</div>{'Previous entry'|i18n( 'design/base' )}
                 </div>
             {/section}
 
@@ -37,11 +37,11 @@
 
             {section show=$next_log}
                 <div class="content-navigator-next">
-                    <a href={$next_log[0].url_alias|ezurl} title="{$next_log[0].name|wash}">{'Next entry'|i18n( 'design/base/weblog' )}</a><div class="content-navigator-arrow">&nbsp;&raquo;</div>
+                    <a href={$next_log[0].url_alias|ezurl} title="{$next_log[0].name|wash}">{'Next entry'|i18n( 'design/base' )}</a><div class="content-navigator-arrow">&nbsp;&raquo;</div>
                 </div>
             {section-else}
                 <div class="content-navigator-next-disabled">
-                    {'Next entry'|i18n( 'design/base/weblog' )}<div class="content-navigator-arrow">&nbsp;&raquo;</div>
+                    {'Next entry'|i18n( 'design/base' )}<div class="content-navigator-arrow">&nbsp;&raquo;</div>
                 </div>
             {/section}
         </div>
@@ -57,7 +57,7 @@
         </div>
 
         {section show=$node.object.data_map.enable_comments.content}
-            <h2>{"Comments"|i18n("design/weblog/layout")}</h2>
+            <h2>{"Comments"|i18n("design/base")}</h2>
 
             <div class="content-view-children">
                {section var=comment loop=fetch_alias( comments, hash( parent_node_id, $node.node_id ) )}
@@ -73,12 +73,12 @@
                 <form method="post" action={"content/action"|ezurl}>
                    <input type="hidden" name="ClassIdentifier" value="comment" />
                    <input type="hidden" name="NodeID" value="{$node.node_id}" />
-                   <input class="button" type="submit" name="NewButton" value={"New comment"|i18n("design/weblog/layout")} />
+                   <input class="button" type="submit" name="NewButton" value={"New comment"|i18n("design/base")} />
                 </form>
             </div>
             {section-else}
                 <div class="message-warning">
-                    <h3>You are not allowed to create comments.</h3>
+                    <h3>{"You are not allowed to create comments."|i18n("design/base")}</h3>
                 </div>
             {/section}
         {/section}

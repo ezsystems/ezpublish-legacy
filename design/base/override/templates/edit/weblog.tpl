@@ -8,7 +8,7 @@
         {include uri="design:content/edit_related.tpl"}
 
         <div class="object_header">
-            <h1>{"Create new blog entry"|i18n("design/blog/layout")}</h1>
+            <h1>{"Create new blog entry"|i18n("design/base")}</h1>
         </div>
 	<input type="hidden" name="MainNodeID" value="{$main_node_id}" />
 

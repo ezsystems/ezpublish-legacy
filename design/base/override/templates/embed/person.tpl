@@ -12,7 +12,7 @@
     {/section}
 
         <div class="attribute-matrix">
-            <h3>{"Contact information"|i18n("design/intranet/layout")}</h3>
+            <h3>{"Contact information"|i18n("design/base")}</h3>
             {attribute_view_gui attribute=$object.data_map.person_numbers}
         </div>
 

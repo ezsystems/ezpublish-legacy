@@ -6,7 +6,7 @@
 
     {section show=$node.object.data_map.image.content}
         <div class="attribute-image">
-            {attribute_view_gui alignment=right image_class=small attribute=$node.object.data_map.image.content.data_map.image} 
+            {attribute_view_gui alignment=right image_class=small attribute=$node.object.data_map.image.content.data_map.image}
         </div>
     {/section}
 
@@ -16,7 +16,7 @@
 
     {section show=$node.object.data_map.body.content.is_empty|not}
         <div class="attribute-link">
-            <p><a href={$node.url_alias|ezurl}>Read more...</a></p>
+            <p><a href={$node.url_alias|ezurl}>{"Read more..."|i18n("design/base")}</a></p>
         </div>
     {/section}
 

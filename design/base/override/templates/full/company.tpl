@@ -20,22 +20,22 @@
     {/section}
 
     <div class="attribute-matrix">
-    <h2>{"Contact information"|i18n("design/intranet/layout")}</h2>
+    <h2>{"Contact information"|i18n("design/base")}</h2>
         {attribute_view_gui attribute=$node.object.data_map.company_numbers}
     </div>
 
     <div class="attribute-matrix">
-    <h2>{"Address"|i18n("design/intranet/layout")}</h2>
+    <h2>{"Address"|i18n("design/base")}</h2>
         {attribute_view_gui attribute=$node.object.data_map.company_address}
     </div>
 
     <div class="attribute-long">
-    <h2>{"Additional information"|i18n("design/intranet/layout")}</h2>
+    <h2>{"Additional information"|i18n("design/base")}</h2>
         {attribute_view_gui attribute=$node.object.data_map.additional_information}
     </div>
 
     <div class="attribute-objectrelationlist">
-    <h2>{"Contacts"|i18n("design/intranet/layout")}</h2>
+    <h2>{"Contacts"|i18n("design/base")}</h2>
     <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
     {section name=Relation loop=$node.object.data_map.contacts.content.relation_list}
     <tr>

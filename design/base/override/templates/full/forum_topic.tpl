@@ -29,10 +29,10 @@
             <table class="list forum" cellspacing="0">
             <tr>
                 <th class="author">
-                    {"Author"|i18n("design/forum/layout")}
+                    {"Author"|i18n("design/base")}
                 </th>
                 <th class="message">
-                    {"Message"|i18n("design/forum/layout")}
+                    {"Message"|i18n("design/base")}
                  </th>
             </tr>
             <tr>
@@ -50,7 +50,7 @@
                       {let owner_id=$node.object.owner_id}
                           {section var=author loop=$node.object.author_array}
                           {section show=eq($owner_id,$author.contentobject_id)|not()}
-                             Moderated by: {$author.contentobject.name}
+                             {"Moderated by:"|i18n("design/base")} {$author.contentobject.name}
                           {/section}
                           {/section}
                       {/let}

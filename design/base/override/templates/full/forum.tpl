@@ -25,7 +25,7 @@
         </form>
     {section-else}
         <p>
-        You need to be logged in to get access to the forums. You can do so <a href={"/user/login/"|ezurl}>here</a>
+        {"You need to be logged in to get access to the forums. You can do so"|i18n("design/base")} <a href={"/user/login/"|ezurl}>{"here"|i18n("design/base")}</a>
         </p>
     {/section}
 
@@ -35,13 +35,13 @@
         <table class="list forum" cellspacing="0">
         <tr>
             <th class="topic">
-                {"Topic"|i18n("design/forum/layout")}
+                {"Topic"|i18n("design/base")}
             </th>
             <th class="replies">
-                {"Replies"|i18n("design/forum/layout")}
+                {"Replies"|i18n("design/base")}
             </th>
             <th class="lastreply">
-                {"Last reply"|i18n("design/forum/layout")}
+                {"Last reply"|i18n("design/base")}
             </th>
         </tr>
 

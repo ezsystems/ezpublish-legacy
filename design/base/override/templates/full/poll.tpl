@@ -23,7 +23,7 @@
 
         <div class="content-results">
             <p>
-            <a href={concat( "/content/collectedinfo/", $node.node_id, "/" )|ezurl}>Result</a>
+            <a href={concat( "/content/collectedinfo/", $node.node_id, "/" )|ezurl}>{"Result"|i18n("design/base")}</a>
             </p>
         </div>
 

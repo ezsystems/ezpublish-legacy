@@ -11,12 +11,12 @@
 
         <input type="hidden" name="MainNodeID" value="{$main_node_id}" />
 
-        <h3>{'Subject'|i18n('design/standard/content/edit')}</h3>
+        <h3>{'Subject'|i18n('design/base')}</h3>
         {attribute_edit_gui attribute=$object.data_map.subject}
-        <h3>{'Message'|i18n('design/standard/content/edit')}</h3>
+        <h3>{'Message'|i18n('design/base')}</h3>
         {attribute_edit_gui attribute=$object.data_map.message}
 
-        <h3>{'Notify me about updates'|i18n('design/standard/content/edit')}</h3>
+        <h3>{'Notify me about updates'|i18n('design/base')}</h3>
         {attribute_edit_gui attribute=$object.data_map.notify_me}
 
         {let current_user=fetch( 'user', 'current_user' )
@@ -26,7 +26,7 @@
 
             {section var=sticky loop=$sticky_groups}
                 {section show=$current_user.groups|contains($sticky)}
-                <h3>{'Sticky'|i18n('design/standard/content/edit')}</h3>
+                <h3>{'Sticky'|i18n('design/base')}</h3>
                 {attribute_edit_gui attribute=$object.data_map.sticky}
                 {/section}
             {/section}

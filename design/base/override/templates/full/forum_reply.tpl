@@ -14,19 +14,19 @@
     <td class="author">
     <p class="author">{$node.object.owner.name|wash}<br />
     {$node.object.owner.data_map.title.content|wash}</p>
-    
+
     <p class="date">({$node.object.published|l10n(datetime)})</p>
 
     <div class="authorimage">
     {attribute_view_gui attribute=$node.object.owner.data_map.user_image image_class=small}
     </div>
 
-    <p>Location:{$node.object.owner.data_map.location.content|wash}</p>
-    <p> 	
+    <p>{"Location:"|i18n("design/base")}{$node.object.owner.data_map.location.content|wash}</p>
+    <p>
     {let owner_id=$node.object.owner.id}
         {section name=Author loop=$node.object.author_array}
             {section  show=eq($owner_id,$Author:item.contentobject_id)|not()}
-                Moderated by: {$Author:item.contentobject.name}
+                {"Moderated by:"|i18n("design/base")} {$Author:item.contentobject.name}
              {/section}
          {/section}
     {/let}
