@@ -180,17 +180,20 @@ class eZContentObject extends eZPersistentObject
      Get class groups this object's class belongs to if match for class groups is enabled.
 
      \return array of class group ids. False if match is disabled.
-     */
-    function matchIngroupIDList()
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &matchIngroupIDList()
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $contentINI =& eZINI::instance( 'content.ini' );
+        $inList = false;
         if( $contentINI->variable( 'ContentOverrideSettings', 'EnableClassGroupOverride' ) == 'true' )
         {
             $contentClass =& $this->contentClass();
-            return $contentClass->attribute( 'ingroup_id_list' );
+            $inList =& $contentClass->attribute( 'ingroup_id_list' );
         }
-        return false;
+        return $inList;
     }
 
     /*!
@@ -817,8 +820,10 @@ class eZContentObject extends eZPersistentObject
 
     /*!
       \return an array of versions for the current object.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function versions( $asObject = true, $parameters = array() )
+    function &versions( $asObject = true, $parameters = array() )
     {
         $conditions = array( "contentobject_id" => $this->ID );
         if ( isset( $parameters['conditions'] ) )
@@ -1963,7 +1968,7 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns the main node id for the current object.
     */
-    function mainNodeID()
+    function &mainNodeID()
     {
         if ( !is_numeric( $this->MainNodeID ) )
         {
@@ -2401,9 +2406,11 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-     Returns true if the current
+     \return \c true if the current user can read this content object.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function canRead( )
+    function &canRead( )
     {
         if ( !isset( $this->Permissions["can_read"] ) )
         {
@@ -2413,7 +2420,11 @@ class eZContentObject extends eZPersistentObject
         return $p;
     }
 
-    function canCreate( )
+    /*!
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &canCreate( )
     {
         if ( !isset( $this->Permissions["can_create"] ) )
         {
@@ -2423,8 +2434,11 @@ class eZContentObject extends eZPersistentObject
         return $p;
     }
 
-
-    function canEdit( )
+    /*!
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &canEdit( )
     {
         if ( !isset( $this->Permissions["can_edit"] ) )
         {
@@ -2446,7 +2460,11 @@ class eZContentObject extends eZPersistentObject
         return $p;
     }
 
-    function canTranslate( )
+    /*!
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &canTranslate( )
     {
         if ( !isset( $this->Permissions["can_translate"] ) )
         {
@@ -2468,7 +2486,11 @@ class eZContentObject extends eZPersistentObject
         return $p;
     }
 
-    function canRemove( )
+    /*!
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &canRemove( )
     {
 
         if ( !isset( $this->Permissions["can_remove"] ) )
@@ -2482,8 +2504,10 @@ class eZContentObject extends eZPersistentObject
     /*!
      \return \c true if the object can be moved by the current user.
      \sa checkAccess().
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function canMove( )
+    function &canMove( )
     {
 
         if ( !isset( $this->Permissions["can_move"] ) )

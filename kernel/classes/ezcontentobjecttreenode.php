@@ -361,8 +361,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return \c true if the node can be read by the current user.
      \sa checkAccess().
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function canRead( )
+    function &canRead( )
     {
         if ( !isset( $this->Permissions["can_read"] ) )
         {
@@ -375,8 +377,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return \c true if the node can be edited by the current user.
      \sa checkAccess().
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function canEdit( )
+    function &canEdit( )
     {
         if ( !isset( $this->Permissions["can_edit"] ) )
         {
@@ -389,8 +393,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return \c true if the current user can create a new node as child of this node.
      \sa checkAccess().
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function canCreate( )
+    function &canCreate( )
     {
         if ( !isset( $this->Permissions["can_create"] ) )
         {
@@ -403,8 +409,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return \c true if the node can be removed by the current user.
      \sa checkAccess().
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function canRemove( )
+    function &canRemove( )
     {
         if ( !isset( $this->Permissions["can_remove"] ) )
         {
@@ -417,8 +425,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return \c true if the node can be moved by the current user.
      \sa checkAccess().
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function canMove( )
+    function &canMove( )
     {
         if ( !isset( $this->Permissions["can_move"] ) )
         {
@@ -2347,12 +2357,20 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $returnValue;
     }
 
-    function fetchParent()
+    /*!
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &fetchParent()
     {
         return $this->fetch( $this->attribute( 'parent_node_id' ) );
     }
 
-    function pathArray()
+    /*!
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &pathArray()
     {
         $pathString = $this->attribute( 'path_string' );
         $pathItems = explode( '/', $pathString );
@@ -3727,16 +3745,18 @@ WHERE
     }
 
     /*!
-    \return the creator of the version published in the node.
+     \return the creator of the version published in the node.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
     */
-    function creator()
+    function &creator()
     {
         $db =& eZDB::instance();
-         $query = "SELECT creator_id
-                           FROM ezcontentobject_version
-                           WHERE
-                                contentobject_id = '$this->ContentObjectID' AND
-                                version = '$this->ContentObjectVersion' ";
+        $query = "SELECT creator_id
+                  FROM ezcontentobject_version
+                  WHERE
+                        contentobject_id = '$this->ContentObjectID' AND
+                        version = '$this->ContentObjectVersion' ";
 
         $creatorArray = $db->arrayQuery( $query );
         return eZContentObject::fetch( $creatorArray[0]['creator_id'] );
