@@ -1,0 +1,29 @@
+*Title: Provide override support for attributes in persistentobject
+
+Incentive:
+In 3.4 the 'fields' in a persistentobject definition is checked before
+the 'attribute_functions'. This makes it impossible to override these
+'fields' without rewriting the attribute() method on the class.
+
+The solution is to make attribute() method to first look trough
+'attribute_functions' before checking 'fields' in the peristentobject definition.
+This means that 'function_attributes' can override 'fields' to perform
+custom code.
+Usage: It is currently needed to fix 'remote_id' issue in ezcontentclass
+
+*Documentation:
+Add a new entry to 'attribute_functions' which is the same as a 'field'
+and make it point to a method that exists in the class. This method should
+then be called whenever the attribute is accessed.
+
+However with this it will be impossible to fetch the value of the actual
+'field'.
+To remedy this a second parameter is added to eZPersistentObject::attribute
+which is false by default. If set to true it will only check fields.
+
+Note: eZContentClass:remoteID() has been fixed to use eZPersistentObject::attribute( 'remote_id', true );
+
+*Testing:
+
+*SVN Revisions:
+8367, 8368, 8379
