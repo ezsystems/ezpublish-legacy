@@ -127,13 +127,27 @@ $classArray =& eZContentClass::fetchList();
 
 $sectionArray =& eZSection::fetchList();
 
+/* $searchResult =& eZSearch::search( $searchText, array( "SearchSectionID" => $searchSectionID,
+                                                       "SearchContentClassID" => $searchContentClassID,
+                                                       "SearchContentClassAttributeID" => $searchContentClassAttributeID,
+                                                       "SearchSubTreeArray" => $subTreeArray,
+                                                       "SearchDate" => $searchDate,
+                                                       "SearchLimit" => $pageLimit,
+                                                       "SearchOffset" => $Offset ) ); */
+$searchArray =& eZSearch::buildSearchArray();
+
 $searchResult =& eZSearch::search( $searchText, array( "SearchSectionID" => $searchSectionID,
                                                        "SearchContentClassID" => $searchContentClassID,
                                                        "SearchContentClassAttributeID" => $searchContentClassAttributeID,
                                                        "SearchSubTreeArray" => $subTreeArray,
                                                        "SearchDate" => $searchDate,
                                                        "SearchLimit" => $pageLimit,
-                                                       "SearchOffset" => $Offset ) );
+                                                       "SearchOffset" => $Offset ),
+                                   $searchArray );
+if ( strlen(trim($searchText)) == 0 && count( $searchArray ) > 0  )
+{
+    $searchText = 'search by additional parameter';
+}
 
 $tpl->setVariable( "search_contentclass_id", $searchContentClassID );
 $tpl->setVariable( "search_section_id", $searchSectionID );

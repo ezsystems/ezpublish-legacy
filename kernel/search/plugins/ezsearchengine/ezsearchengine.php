@@ -50,7 +50,15 @@ class eZSearchEngine
      */
     function eZSearchEngine()
     {
-
+        $generalFilter = array( 'subTreeTable' => '',
+                                'searchDateQuery' => '',
+                                'sectionQuery' => '',
+                                'classQuery' => '',
+                                'classAttributeQuery' => '',
+                                'searchPartText' => '',
+                                'subTreeSQL' => '',
+                                'sqlPermissionCheckingString' => '' );
+        $this->GeneralFilter =& $generalFilter;
     }
 
     /*!
@@ -74,20 +82,40 @@ class eZSearchEngine
             if ( $classAttribute->attribute( "is_searchable" ) == 1 )
             {
                 // strip tags
-                $text =& strip_tags( $attribute->metaData( ) );
-                $text = eZSearchEngine::normalizeText( $text );
-
-                // Split text on whitespace
-                $wordArray =& split( " ", $text );
-
-                foreach ( $wordArray as $word )
+                $metaData =& $attribute->metaData( );
+                if( ! is_array( $metaData ) )
                 {
-                    if ( trim( $word ) != "" )
+                    $metaData = array( array( 'id' => '',
+                                              'text' => $metaData ) );
+                }
+
+                foreach( $metaData as $metaDataPart )
+                {
+                    $text = eZSearchEngine::normalizeText( strip_tags(  $metaDataPart['text'] ) );
+
+                    // Split text on whitespace
+                    if ( is_numeric( trim( $text ) ) )
                     {
-                        $indexArray[] = array( "Word" => $word,
-                                               "ContentClassAttributeID" => $attribute->attribute( 'contentclassattribute_id' ) );
-                        $indexArrayOnlyWords[] = $word;
+                        $integerValue = (int) $text;
                     }
+                    else
+                    {
+                        $integerValue = 0;
+                    }
+                    $wordArray =& split( " ", $text );
+
+                    foreach ( $wordArray as $word )
+                    {
+                        if ( trim( $word ) != "" )
+                        {
+                            $indexArray[] = array( "Word" => $word,
+                                                   "ContentClassAttributeID" => $attribute->attribute( 'contentclassattribute_id' ),
+                                                   'id' => $metaDataPart['id'],
+                                                   'integer_value' => $integerValue );
+                            $indexArrayOnlyWords[] = $word;
+                        }
+                    }
+
                 }
             }
         }
@@ -193,6 +221,8 @@ class eZSearchEngine
         {
             $indexWord = $indexArray[$i]['Word'];
             $contentClassAttributeID = $indexArray[$i]['ContentClassAttributeID'];
+            $identifier = $indexArray[$i]['id'];
+            $integerValue = $indexArray[$i]['integer_value'];
             $indexWord = strToLower( $indexWord );
             $wordID = $wordIDArray[$indexWord];
 
@@ -208,7 +238,7 @@ class eZSearchEngine
             // Calculate the relevans ranking for this word
 //            $frequency = ( $wordCountArray[$indexWord] / $totalWordCount );
             $frequency = 0;
-            $valuesStringList[] = " ( '$wordID', '$contentObjectID', '$frequency', '$placement', '$nextWordID', '$prevWordID', '$classID', '$contentClassAttributeID', '$published', '$sectionID' ) ";
+            $valuesStringList[] = " ( '$wordID', '$contentObjectID', '$frequency', '$placement', '$nextWordID', '$prevWordID', '$classID', '$contentClassAttributeID', '$published', '$sectionID', '$identifier', '$integerValue' ) ";
 
             $prevWordID = $wordID;
             $placement++;
@@ -221,14 +251,25 @@ class eZSearchEngine
                 $valuesString = implode( ',', $valuesStringList );
                 $db->query( "INSERT INTO
                            ezsearch_object_word_link
-                        ( word_id, contentobject_id, frequency, placement, next_word_id, prev_word_id, contentclass_id, contentclass_attribute_id, published, section_id )
-                     VALUES $valuesString" );
+                        ( word_id,
+                          contentobject_id,
+                          frequency,
+                          placement,
+                          next_word_id,
+                          prev_word_id,
+                          contentclass_id,
+                          contentclass_attribute_id,
+                          published,
+                          section_id,
+                          identifier,
+                          integer_value )
+                          VALUES $valuesString" );
             }
         }
         else
         {
             $db->begin();
-            foreach( array_keys( $valuesStringList ) as $key )
+            foreach ( array_keys( $valuesStringList ) as $key )
             {
                 $valuesString =& $valuesStringList[$key];
                 $db->query("INSERT INTO
@@ -242,7 +283,9 @@ class eZSearchEngine
                              contentclass_id,
                              contentclass_attribute_id,
                              published,
-                             section_id )
+                             section_id,
+                             identifier,
+                             integer_value )
                              VALUES $valuesString"  );
             }
             $db->commit();
@@ -278,9 +321,9 @@ class eZSearchEngine
      \static
      Runs a query to the search engine.
     */
-    function &search( $searchText, $params = array()  )
+    function &search( $searchText, $params = array(), $searchTypes = array() )
     {
-        if ( trim( $searchText ) != "" )
+        if ( trim( $searchText ) != "" || count( $searchTypes ) > 0 )
         {
             $searchText =& $this->normalizeText( $searchText );
             $db =& eZDB::instance();
@@ -326,7 +369,7 @@ class eZSearchEngine
             $searchText = preg_replace( "(\s+)", " ", $searchText );
 
             // find the phrases
-            $numQuotes = substr_count( $searchText, "\"" );
+/*            $numQuotes = substr_count( $searchText, "\"" );
 
             $phraseTextArray = array();
             $fullText = $searchText;
@@ -352,6 +395,12 @@ class eZSearchEngine
                 }
             }
             $nonPhraseText .= $postPhraseText;
+*/
+            $phrasesResult =& $this->getPhrases( $searchText );
+            $phraseTextArray = $phrasesResult['phrases'];
+            $nonPhraseText = $phrasesResult['nonPhraseText'];
+            $fullText = $phrasesResult['fullText'];
+
             $sectionQuery = '';
             if ( is_numeric( $searchSectionID ) and  $searchSectionID > 0 )
             {
@@ -432,90 +481,13 @@ class eZSearchEngine
                 $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id IN ( $attributeString ) AND ";
             }
 
-            $searchWordArray = $this->splitString( $searchText );
-
             // Get the total number of objects
-            $objectCount = array();
-            $objectCount =& $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentobject" );
-            $totalObjectCount = $objectCount[0]["count"];
+            $totalObjectCount = $this->fetchTotalObjectCount();
 
-            // fetch the word id
-            $i = 0;
-            $wordQueryString = '';
-            foreach ( $searchWordArray as $searchWord )
-            {
-                if ( $i > 0 )
-                    $wordQueryString .= " or ";
-
-                $wordQueryString .= " word='$searchWord' ";
-                $i++;
-            }
-
-            $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wordQueryString order by object_count" );
-
-            // create the word hash
-            $wordIDArray = array();
-            $wordIDHash = array();
-            foreach ( $wordIDArrayRes as $wordRes )
-            {
-                $wordIDArray[] = $wordRes['id'];
-                $wordIDHash[$wordRes['word']] = array( 'id' => $wordRes['id'], 'word' => $wordRes['word'], 'object_count' => $wordRes['object_count'] );
-            }
-
-            // build an array of the word id's for each phrase
-            $phraseIDArrayArray = array();
-            foreach ( $phraseTextArray as $phraseText )
-            {
-                $wordArray =& $this->splitString( $phraseText );
-                $wordIDArray = array();
-                foreach ( $wordArray as $word )
-                {
-                    $wordIDArray[] = $wordIDHash[$word]['id'];
-                }
-                $phraseIDArrayArray[] = $wordIDArray;
-            }
-
-            // build phrase SQL query part(s)
-            $phraseSearchSQLArray = array();
-//            $phraseSQL = "";
-            foreach ( $phraseIDArrayArray as $phraseIDArray )
-            {
-                $phraseSearchSQL =& $this->buildPhraseSqlQueryPart( $phraseIDArray );
-                $phraseSearchSQLArray[] =& $phraseSearchSQL;
-//                $phraseSQL .= "( $phraseSearchSQL ) AND ";
-                unset( $phraseSearchSQL );
-            }
-
-
-
-            ///Build search parts array for phrases and normal words
-            $searchPartsArray = array();
-            $i = 0;
-            foreach ( $phraseTextArray as $phraseText )
-            {
-                $searchPart = array();
-                $searchPart['text'] = $phraseText;
-                $searchPart['sql_part'] = $phraseSearchSQLArray[$i] . 'AND';
-                $searchPart['is_phrase'] = 1;
-                $searchPart['object_count'] = 0;
-                $searchPartsArray[] =& $searchPart;
-                unset( $searchPart );
-                $i++;
-            }
-
-            $nonPhraseWordArray =& $this->splitString( $nonPhraseText );
-
-            foreach ( $nonPhraseWordArray as $word )
-            {
-                $searchPart = array();
-                $searchPart['text'] = $word;
-                $wordID = $wordIDHash[$word]['id'];
-                $searchPart['sql_part'] =& $this->buildSqlPartForWord( $wordID );
-                $searchPart['is_phrase'] = 0;
-                $searchPart['object_count'] = $wordIDHash[$word]['object_count'];
-                $searchPartsArray[] =& $searchPart;
-                unset ( $searchPart );
-            }
+            $wordIDArrays =& $this->prepareWordIDArrays( $searchText );
+            $wordIDArray =& $wordIDArrays['wordIDArray'];
+            $wordIDHash =& $wordIDArrays['wordIDHash'];
+            $searchPartsArray =& $this->buildSearchPartArray( $phraseTextArray, $nonPhraseText, $wordIDHash );
 
             /// OR search, not used in this version
             $doOrSearch = false;
@@ -673,10 +645,22 @@ class eZSearchEngine
 
             $tmpTableCount = 0;
             $i = 0;
-            // Loop every word and insert result in temporary table
+            foreach ( $searchTypes['and'] as $searchType )
+            {
+                $methodName = $this->constructMethodName( $searchType );
+                $intermediateResult = $this->callMethod( $methodName, array( $searchType ) );
+                if ( $intermediateResult == false )
+                {
+                    return array( "SearchResult" => array(),
+                                  "SearchCount" => 0,
+                                  "StopWordArray" => array() );
+                }
+            }
 
-//            foreach ( $wordIDHash as $searchWord )
-//            eZDebug::writeDebug( $searchPartsArray, "Search parts array" );
+            $i = $this->TempTablesCount;
+
+// Loop every word and insert result in temporary table
+
             foreach ( $searchPartsArray as $searchPart )
             {
 //                $wordID = $searchWord['id'];
@@ -762,17 +746,17 @@ class eZSearchEngine
             $nonExistingWordCount = count( $searchWordArray ) - count( $wordIDHash );
             $excludeWordCount = $searchWordCount - count( $stopWordArray );
 
-            if ( ( count( $stopWordArray ) + $nonExistingWordCount ) == $searchWordCount )
+            if ( ( count( $stopWordArray ) + $nonExistingWordCount ) == $searchWordCount && $this->TempTablesCount == 0 )
             {
                 // No words to search for, return empty result
                 return array( "SearchResult" => array(),
                           "SearchCount" => 0,
                           "StopWordArray" => $stopWordArray );
             }
-
             $tmpTablesFrom = "";
             $tmpTablesWhere = "";
             /// tmp tables
+            $tmpTableCount = $i;
             for ( $i = 0; $i < $tmpTableCount; $i++ )
             {
                 $tmpTablesFrom .= "ezsearch_tmp_$i ";
@@ -1019,10 +1003,679 @@ class eZSearchEngine
         $text =& str_replace("\t", " ", $text );
         $text =& str_replace("\r", " ", $text );
         $text =& preg_replace("(\s+)", " ", $text );
+      
         $text =& strtolower( $text );
 
         return $text;
     }
+
+    function &suportedSearchTypes()
+    {
+        $searchTypes = array( array( 'type' => 'attribute',
+                                     'subtype' =>  'fulltext',
+                                     'params' => array( 'classattribute_id', 'value' ) ),
+                              array( 'type' => 'attribute',
+                                     'subtype' =>  'patterntext',
+                                     'params' => array( 'classattribute_id', 'value' ) ),
+                              array( 'type' => 'attribute',
+                                     'subtype' =>  'integer',
+                                     'params' => array( 'classattribute_id', 'value' ) ),
+                              array( 'type' => 'attribute',
+                                     'subtype' =>  'byrange',
+                                     'params' => array( 'classattribute_id' , 'from' , 'to'  ) ),
+                              array( 'type' => 'attribute',
+                                     'subtype' => 'byidentifier',
+                                     'params' => array( 'classattribute_id', 'identifier', 'value' ) ),
+                              array( 'type' => 'attribute',
+                                     'subtype' => 'byidentifierrange',
+                                     'params' => array( 'classattribute_id', 'identifier', 'from', 'to' ) ),
+                              array( 'type' => 'fulltext',
+                                     'subtype' => 'text',
+                                     'params' => array( 'value' ) ) );
+        $generalSearchFilter = array( array( 'type' => 'general',
+                                             'subtype' => 'class',
+                                             'params' => array( array( 'type' => 'array',
+                                                                       'value' => 'value'),
+                                                                'operator' ) ),
+                                      array( 'type' => 'general',
+                                             'subtype' => 'publishdate',
+                                             'params'  => array( 'value', 'operator' ) ),
+                                      array( 'type' => 'general',
+                                             'subtype' => 'subtree',
+                                             'params'  => array( array( 'type' => 'array',
+                                                                        'value' => 'value'),
+                                                                 'operator' ) ) );
+        return array( 'types' => $searchTypes,
+                      'general_filter' => $generalSearchFilter );
+    }
+
+    function searchAttributeInteger( $searchParams )
+    {
+        $classAttributeID = $searchParams['classattribute_id'];
+        $identifier = $searchParams['identifier'];
+        $value = $searchParams['value'];
+
+        $classAttributeQuery = "";
+        if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
+        {
+            $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
+        }
+
+        $searchPartSql = " ezsearch_object_word_link.integer_value = $value AND";
+
+        $searchPartText =  $classAttributeQuery . $searchPartSql;
+        $tableResult = $this->createTemporaryTable( $searchPartText );
+
+        if ( $tableResult === false )
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    function searchAttributeByRange( $searchParams )
+    {
+        $classAttributeID = $searchParams['classattribute_id'];
+        $identifier = $searchParams['identifier'];
+        $fromValue = $searchParams['from'];
+        $toValue = $searchParams['to'];
+
+        $classAttributeQuery = "";
+        if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
+        {
+            $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
+        }
+
+        $searchPartSql = " ezsearch_object_word_link.integer_value between $fromValue AND $toValue AND";
+        $searchPartText =  $classAttributeQuery . $searchPartSql;
+        $tableResult = $this->createTemporaryTable( $searchPartText );
+
+        if ( $tableResult === false )
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+
+    }
+
+    function searchAttributeByIdentifierRange( $searchParams )
+    {
+//        $textValue = $searchParams['value'];
+//        if( ! is_numeric( $textValue ) )
+//            return false;
+        $classAttributeID = $searchParams['classattribute_id'];
+        $identifier = $searchParams['identifier'];
+        $fromValue = $searchParams['from'];
+        $toValue = $searchParams['to'];
+
+        $classAttributeQuery = "";
+        if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
+        {
+            $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
+        }
+
+        $searchPartSql = " ezsearch_object_word_link.integer_value between $fromValue AND $toValue AND ezsearch_object_word_link.identifier = '$identifier'  AND";
+        $searchPartText =  $classAttributeQuery . $searchPartSql;
+        $tableResult = $this->createTemporaryTable( $searchPartText );
+
+        if ( $tableResult === false )
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    function searchAttributePatternText( $searchParams )
+    {
+        $classAttributeID = $searchParams['classattribute_id'];
+        $textValue = $searchParams['value'];
+
+//        $searchText = $this->normalizeText( $textValue );
+        $searchText =& $textValue;
+
+        $classAttributeQuery = "";
+        if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
+        {
+            $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
+        }
+
+        $wordIDArrays =& $this->prepareWordIDArraysForPattern( $searchText );
+        $wordIDArray =& $wordIDArrays['wordIDArray'];
+        $wordIDHash =& $wordIDArrays['wordIDHash'];
+        $patternWordIDHash = & $wordIDArrays['patternWordIDHash'];
+
+        $searchWordArray =& $this->splitString( $searchText );
+
+        $nonExistingWordCount = count( $searchWordArray ) - count( $wordIDHash ) - count( $patternWordIDHash );
+        if ( $nonExistingWordCount > 0 )
+            return false;
+//        $searchPartsArray =& $this->buildSearchPartArrayForPhrases( $phraseTextArray, $nonPhraseText, $wordIDHash );
+
+        preg_replace( "/(\w+\*\s)/", " ", $searchText );
+        $nonPhraseText = $this->normalizeText( $searchText );
+        
+        $searchPartsArray =& $this->buildSearchPartArrayForWords( $nonPhraseText, $wordIDHash );
+
+        foreach ( $patternWordIDHash as $patternWord )
+        {
+            $searchPart = '( ';
+            $i = 0;
+            foreach ( $patternWord as $word )
+            {
+                if ( $i > 0 )
+                    $searchPart .= ' or ';
+                $wordID = $word['id'];
+                $searchPart .= "ezsearch_object_word_link.word_id='$wordID' ";
+
+
+            }
+            $searchPart .= ' ) AND ';
+            $this->createTemporaryTable( $searchPart );
+        }
+
+//        $searchPartsArray =& $this->buildSearchPartArrayForPatterns( $nonPhraseText, $wordIDHash );
+        $this->buildTempTablesForFullTextSearch( $searchPartsArray, array() );
+        return true;
+
+    }
+
+    function searchAttributeFulltext( $searchParams )
+    {
+        $classAttributeID = $searchParams['classattribute_id'];
+        $textValue = $searchParams['value'];
+
+        $searchText = $this->normalizeText( $textValue );
+
+        $phrasesResult =& $this->getPhrases( $searchText );
+        $phraseTextArray = $phrasesResult['phrases'];
+        $nonPhraseText = $phrasesResult['nonPhraseText'];
+        $fullText = $phrasesResult['fullText'];
+
+
+        $classAttributeQuery = "";
+        if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
+        {
+            $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
+        }
+
+        $totalObjectCount = $this->fetchTotalObjectCount();
+
+        $wordIDArrays =& $this->prepareWordIDArrays( $searchText );
+        $wordIDArray =& $wordIDArrays['wordIDArray'];
+        $wordIDHash =& $wordIDArrays['wordIDHash'];
+
+        $searchWordArray =& $this->splitString( $searchText );
+
+        $nonExistingWordCount = count( $searchWordArray ) - count( $wordIDHash );
+        if ( $nonExistingWordCount > 0 )
+            return false;
+        $searchPartsArray =& $this->buildSearchPartArray( $phraseTextArray, $nonPhraseText, $wordIDHash );
+
+
+        $this->buildTempTablesForFullTextSearch( $searchPartsArray, array() );
+        return true;
+
+    }
+
+    function createTemporaryTable( $searchPartText  )
+    {
+
+        $subTreeTable = $this->GeneralFilter['subTreeTable'];
+        $searchDateQuery = $this->GeneralFilter['searchDateQuery'];
+        $sectionQuery = $this->GeneralFilter['sectionQuery'];
+        $classQuery = $this->GeneralFilter['classQuery'];
+        $classAttributeQuery = $this->GeneralFilter['classAttributeQuery'];
+//        $searchPartText = $this->GeneralFilter['searchPartText'];
+        $subTreeSQL = $this->GeneralFilter['subTreeSQL'];
+        $sqlPermissionCheckingString = $this->GeneralFilter['sqlPermissionCheckingString'];
+        $db =& eZDB::instance();
+        $i = $this->TempTablesCount;
+        if ( $i == 0 )
+        {
+            $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
+            $db->query( "INSERT INTO ezsearch_tmp_0 SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                    FROM
+                       ezcontentobject,
+                       ezsearch_object_word_link
+                       $subTreeTable,
+                       ezcontentclass,
+                       ezcontentobject_tree
+                    WHERE
+                    $searchDateQuery
+                    $sectionQuery
+                    $classQuery
+                    $classAttributeQuery
+                    $searchPartText
+                    $subTreeSQL
+                    ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
+                    ezcontentobject.contentclass_id = ezcontentclass.id and
+                    ezcontentclass.version = '0' and
+                    ezcontentobject.id = ezcontentobject_tree.contentobject_id and
+                    ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                    $sqlPermissionCheckingString" );
+
+        }
+        else
+        {
+            $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_$i ( contentobject_id int primary key not null, published int )" );
+            $db->query( "INSERT INTO ezsearch_tmp_$i SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                    FROM
+                       ezcontentobject,
+                       ezsearch_object_word_link
+                       $subTreeTable,
+                       ezcontentclass,
+                       ezcontentobject_tree,
+                       ezsearch_tmp_0
+                    WHERE
+                    ezsearch_tmp_0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
+                    $searchDateQuery
+                    $sectionQuery
+                    $classQuery
+                    $classAttributeQuery
+                    $searchPartText
+                    $subTreeSQL
+                    ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
+                    ezcontentobject.contentclass_id = ezcontentclass.id and
+                    ezcontentclass.version = '0' and
+                    ezcontentobject.id = ezcontentobject_tree.contentobject_id and
+                    ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                    $sqlPermissionCheckingString" );
+        }
+
+        $insertedCountArray = $db->arrayQuery( "SELECT count(*) as count from ezsearch_tmp_$i " );
+        $i++;
+        $this->TempTablesCount++;
+        if ( $insertedCountArray[0]['count'] == 0 )
+        {
+            return false;
+        }
+        else
+        {
+            return $insertedCountArray[0]['count'];
+        }
+    }
+
+    function buildTempTablesForFullTextSearch( $searchPartsArray, $generalFilterList )
+    {
+        $ini = eZINI::instance();
+        $db =& eZDB::instance();
+
+        $i = $this->TempTablesCount;
+        if ( isset(  $generalFilterList[ 'publish_date'] )  )
+            $searchDateQuery = $generalFilterList[ 'publish_date'];
+        else
+            $searchDateQuery = '';
+
+        if ( isset(  $generalFilterList[ 'section'] )  )
+            $sectionQuery = $generalFilterList[ 'section'];
+        else
+            $sectionQuery = '';
+
+        if ( isset(  $generalFilterList[ 'class'] )  )
+            $classQuery = $generalFilterList[ 'class'];
+        else
+            $classQuery = '';
+
+        if ( isset(  $generalFilterList[ 'class_attribute'] )  )
+            $classAttributeQuery = $generalFilterList[ 'class_attribute'];
+        else
+            $classAttributeQuery = '';
+
+        if ( isset(  $generalFilterList[ 'permissions'] )  )
+            $sqlPermissionCheckingString = $generalFilterList[ 'permissions'];
+        else
+            $sqlPermissionCheckingString = '';
+
+        if ( isset(  $generalFilterList[ 'subtree'] )  )
+        {
+            $subTreeTable = $generalFilterList[ 'subtree']['tables'];
+            $subTreeSQL = $generalFilterList[ 'subtree']['where'];
+        }
+        else
+        {
+            $subTreeTable = '';
+            $subTreeSQL = '';
+        }
+
+        $totalObjectCount = $this->fetchTotalObjectCount();
+
+        $stopWordThresholdValue = 100;
+        if ( $ini->hasVariable( 'SearchSettings', 'StopWordThresholdValue' ) )
+            $stopWordThresholdValue = $ini->variable( 'SearchSettings', 'StopWordThresholdValue' );
+
+        $stopWordThresholdPercent = 60;
+        if ( $ini->hasVariable( 'SearchSettings', 'StopWordThresholdPercent' ) )
+            $stopWordThresholdPercent = $ini->variable( 'SearchSettings', 'StopWordThresholdPercent' );
+
+        $searchThresholdValue = $totalObjectCount;
+        if ( $totalObjectCount > $stopWordThresholdValue )
+        {
+            $searchThresholdValue = (int)( $totalObjectCount * ( $stopWordThresholdPercent / 100 ) );
+        }
+
+        foreach ( $searchPartsArray as $searchPart )
+        {
+//                $wordID = $searchWord['id'];
+
+
+            // do not search words that are too frequent
+            if ( $searchPart['object_count'] < $searchThresholdValue )
+            {
+//                $tmpTableCount++;
+                $searchPartText =& $searchPart['sql_part'];
+                if ( $i == 0 )
+                {
+                    $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
+                    $db->query( "INSERT INTO ezsearch_tmp_0 SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                    FROM
+                       ezcontentobject,
+                       ezsearch_object_word_link
+                       $subTreeTable,
+                       ezcontentclass,
+                       ezcontentobject_tree
+                    WHERE
+                    $searchDateQuery
+                    $sectionQuery
+                    $classQuery
+                    $classAttributeQuery
+                    $searchPartText
+                    $subTreeSQL
+                    ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
+                    ezcontentobject.contentclass_id = ezcontentclass.id and
+                    ezcontentclass.version = '0' and
+                    ezcontentobject.id = ezcontentobject_tree.contentobject_id and
+                    ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                    $sqlPermissionCheckingString" );
+
+                }
+                else
+                {
+                    $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_$i ( contentobject_id int primary key not null, published int )" );
+                    $db->query( "INSERT INTO ezsearch_tmp_$i SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                    FROM
+                       ezcontentobject,
+                       ezsearch_object_word_link
+                       $subTreeTable,
+                       ezcontentclass,
+                       ezcontentobject_tree,
+                       ezsearch_tmp_0
+                    WHERE
+                    ezsearch_tmp_0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
+                    $searchDateQuery
+                    $sectionQuery
+                    $classQuery
+                    $classAttributeQuery
+                    $searchPartText
+                    $subTreeSQL
+                    ezcontentobject.id=ezsearch_object_word_link.contentobject_id and
+                    ezcontentobject.contentclass_id = ezcontentclass.id and
+                    ezcontentclass.version = '0' and
+                    ezcontentobject.id = ezcontentobject_tree.contentobject_id and
+                    ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                    $sqlPermissionCheckingString" );
+                }
+                $i++;
+            }
+            else
+            {
+                $stopWordArray[] = array( 'word' => $searchWord['word'] );
+            }
+        }
+        $this->TempTablesCount = $i;
+    }
+
+
+    function &getPhrases( $searchText )
+    {
+        $numQuotes = substr_count( $searchText, "\"" );
+
+        $phraseTextArray = array();
+        $fullText = $searchText;
+        $nonPhraseText ='';
+
+        $postPhraseText = $fullText;
+        $pos = 0;
+        if ( ( $numQuotes > 0 ) and ( ( $numQuotes % 2 ) == 0 ) )
+        {
+            for ( $i = 0; $i < ( $numQuotes / 2 ); $i ++ )
+            {
+                $quotePosStart = strpos( $searchText, '"',  $pos );
+                $quotePosEnd = strpos( $searchText, '"',  $quotePosStart + 1 );
+
+                $prePhraseText =& substr( $searchText, $pos, $quotePosStart - $pos );
+                $postPhraseText =& substr( $searchText, $quotePosEnd +1 );
+                $phraseText =& substr( $searchText, $quotePosStart + 1, $quotePosEnd - $quotePosStart - 1 );
+
+                $phraseTextArray[] = $phraseText;
+//                    $fullText .= $prePhraseText;
+                $nonPhraseText .= $prePhraseText;
+                $pos = $quotePosEnd + 1;
+            }
+        }
+        $nonPhraseText .= $postPhraseText;
+        return array( 'phrases' => &$phraseTextArray,
+                      'nonPhraseText' => $nonPhraseText,
+                      'fullText' => $fullText );
+    }
+
+    function &buildSearchPartArray( $phraseTextArray, $nonPhraseText, &$wordIDHash )
+    {
+        $searchPartsArrayForPhrases =& $this->buildSearchPartArrayForPhrases( $phraseTextArray, $wordIDHash );
+        $searchPartsArrayForWords =& $this->buildSearchPartArrayForWords( $nonPhraseText, $wordIDHash );
+        $searchPartsArray =& array_merge( $searchPartsArrayForPhrases, $searchPartsArrayForWords );
+        return $searchPartsArray;
+    }
+
+    function &buildSearchPartArrayForWords( $nonPhraseText, &$wordIDHash )
+    {
+        $searchPartsArray = array();
+        $nonPhraseWordArray =& $this->splitString( $nonPhraseText );
+        foreach ( $nonPhraseWordArray as $word )
+        {
+            if ( isset( $wordIDHash[$word] ) )
+            {
+                $searchPart = array();
+                $searchPart['text'] = $word;
+                $wordID = $wordIDHash[$word]['id'];
+                $searchPart['sql_part'] =& $this->buildSqlPartForWord( $wordID );
+                $searchPart['is_phrase'] = 0;
+                $searchPart['object_count'] = $wordIDHash[$word]['object_count'];
+                $searchPartsArray[] =& $searchPart;
+                unset ( $searchPart );
+            }
+        }
+        return $searchPartsArray;
+    }
+
+    function &buildSearchPartArrayForPhrases( $phraseTextArray, &$wordIDHash )
+    {
+        // build an array of the word id's for each phrase
+        $phraseIDArrayArray = array();
+        foreach ( $phraseTextArray as $phraseText )
+        {
+            $wordArray =& $this->splitString( $phraseText );
+            $wordIDArray = array();
+            foreach ( $wordArray as $word )
+            {
+                $wordIDArray[] = $wordIDHash[$word]['id'];
+            }
+            $phraseIDArrayArray[] = $wordIDArray;
+        }
+
+        // build phrase SQL query part(s)
+        $phraseSearchSQLArray = array();
+//            $phraseSQL = "";
+        foreach ( $phraseIDArrayArray as $phraseIDArray )
+        {
+            $phraseSearchSQL =& $this->buildPhraseSqlQueryPart( $phraseIDArray );
+            $phraseSearchSQLArray[] =& $phraseSearchSQL;
+//                $phraseSQL .= "( $phraseSearchSQL ) AND ";
+            unset( $phraseSearchSQL );
+        }
+
+
+
+        ///Build search parts array for phrases and normal words
+        $searchPartsArray = array();
+        $i = 0;
+        foreach ( $phraseTextArray as $phraseText )
+        {
+            $searchPart = array();
+            $searchPart['text'] = $phraseText;
+            $searchPart['sql_part'] = $phraseSearchSQLArray[$i] . 'AND';
+            $searchPart['is_phrase'] = 1;
+            $searchPart['object_count'] = 0;
+            $searchPartsArray[] =& $searchPart;
+            unset( $searchPart );
+            $i++;
+        }
+
+        return $searchPartsArray;
+    }
+
+    function &prepareWordIDArraysForPattern( $searchText )
+    {
+        $db =& eZDB::instance();
+        $searchWordArray = $this->splitString( $searchText );
+
+
+        // fetch the word id
+        $wordQueryString = '';
+        $patternWordsCount = 0;
+        $patternWordArray = array();
+        $wordsCount = 0;
+        $patternWordQueryString = '';
+        foreach ( $searchWordArray as $searchWord )
+        {
+            if ( preg_match ( "/(\w+)(\*)/", $searchWord, $matches ) )
+            {
+                if ( $patternWordsCount > 0 )
+                    $patternWordQueryString .= " or ";
+                $patternWordArray[] = $matches[1];
+                $patternWordsCount++;
+            }
+            else
+            {
+                if ( $wordsCount > 0 )
+                    $wordQueryString .= " or ";
+                $wordQueryString .= " word='$searchWord' ";
+                $wordsCount++;
+            }
+        }
+        
+        // create the word hash
+        $wordIDArray = array();
+        $wordIDHash = array();
+        if ( $wordsCount > 0 )
+        {
+            $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wordQueryString order by object_count" );
+
+            foreach ( $wordIDArrayRes as $wordRes )
+            {
+                $wordIDArray[] = $wordRes['id'];
+                $wordIDHash[$wordRes['word']] = array( 'id' => $wordRes['id'], 'word' => $wordRes['word'], 'object_count' => $wordRes['object_count'] );
+            }
+        }
+
+        $patternWordIDHash = array();
+        foreach ( $patternWordArray as $word )
+        {
+            $patternWordIDRes =& $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where  word like '" . $word . "%'  order by object_count" );
+            $matchedWords = array();
+            foreach ( $patternWordIDRes as $wordRes )
+            {
+                $matchedWords[] = array( 'id' => $wordRes['id'], 'word' => $wordRes['word'], 'object_count' => $wordRes['object_count'] );
+            }
+            $patternWordIDHash[$word] = $matchedWords;
+        }
+
+
+        return array( 'wordIDArray' => &$wordIDArray,
+                      'wordIDHash' => &$wordIDHash,
+                      'patternWordIDHash' => &$patternWordIDHash );
+    }
+
+    function &prepareWordIDArrays( $searchText )
+    {
+        $db =& eZDB::instance();
+        $searchWordArray = $this->splitString( $searchText );
+
+
+        // fetch the word id
+        $i = 0;
+        $wordQueryString = '';
+        foreach ( $searchWordArray as $searchWord )
+        {
+            if ( $i > 0 )
+                $wordQueryString .= " or ";
+
+            $wordQueryString .= " word='$searchWord' ";
+            $i++;
+        }
+
+        $wordIDArrayRes =& $db->arrayQuery( "SELECT id, word, object_count FROM ezsearch_word where $wordQueryString order by object_count" );
+        
+        // create the word hash
+        $wordIDArray = array();
+        $wordIDHash = array();
+        foreach ( $wordIDArrayRes as $wordRes )
+        {
+            $wordIDArray[] = $wordRes['id'];
+            $wordIDHash[$wordRes['word']] = array( 'id' => $wordRes['id'], 'word' => $wordRes['word'], 'object_count' => $wordRes['object_count'] );
+        }
+
+        return array( 'wordIDArray' => &$wordIDArray,
+                      'wordIDHash' => &$wordIDHash );
+    }
+
+    function fetchTotalObjectCount()
+    {
+        // Get the total number of objects
+        $db =& eZDB::instance();
+        $objectCount = array();
+        $objectCount =& $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentobject" );
+        $totalObjectCount = $objectCount[0]["count"];
+        return $totalObjectCount;
+    }
+
+    function constructMethodName( $searchTypeData )
+    {
+        $type = $searchTypeData['type'];
+        $subtype = $searchTypeData['subtype'];
+        $methodName = 'search' . $type . $subtype;
+        return $methodName;
+
+    }
+
+    function callMethod( $methodName, $parameterArray )
+    {
+        if ( !method_exists( $this, $methodName ) )
+        {
+            eZDebug::writeErrror( $methodName, "Method does not exist in ez search engine" );
+            return false;
+        }
+
+        if ( $this->UseOldCall )
+            return call_user_method_array( $methodName, $this, $parameterArray );
+        else
+            return $this->$methodName($parameterArray[0]);
+                //call_user_func_array( array( $this, $methodName ), $parameterArray );
+                //
+                //
+    }
+    
+
+    var $UseOldCall = false;
+    var $TempTablesCount = 0;
 }
 
 ?>

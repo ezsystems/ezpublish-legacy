@@ -184,6 +184,9 @@ class eZXMLTextType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        $xmlText =& $this->objectAttributeContent( $contentObjectAttribute );
+        $input =& $xmlText->attribute( 'input' );
+        $isValid = $input->validateInput( $http, $base, $contentObjectAttribute );
         return true;
     }
 

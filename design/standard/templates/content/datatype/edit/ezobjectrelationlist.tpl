@@ -9,7 +9,7 @@
 </div>
 <div class="object">
 <table width="100%" cellpadding="0" cellspacing="2" border="0">
-            {section name=Attribute loop=fetch(class,attribute_list,hash(class_id,$:item.id))}
+{*            {section name=Attribute loop=fetch(class,attribute_list,hash(class_id,$:item.id))}
 <tr>
     <td width="1">
         <label>{$:item.name|wash}</label>
@@ -20,7 +20,7 @@
                             attribute=$:item.temporary_object_attribute}
     </td>
 </tr>
-            {/section}
+            {/section}*}
 <tr>
     <td colspan="2" align="left">
         <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_class_{$:item.id}]" value="{'Add %classname'|i18n('design/standard/content/',,hash('%classname',$:item.name|wash))}" />

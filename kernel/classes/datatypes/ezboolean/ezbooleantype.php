@@ -109,7 +109,28 @@ class eZBooleanType extends eZDataType
         return true;
     }
 
-/*!
+    function metaData( &$contentObjectAttribute )
+    {
+        return $contentObjectAttribute->attribute( "data_int" );
+    }
+
+    /*!
+     \reimp
+    */
+    function isIndexable()
+    {
+        return true;
+    }
+
+    /*!
+     \reimp
+    */
+    function isInformationCollector()
+    {
+        return true;
+    }
+
+    /*!
      Returns the content.
     */
     function &objectAttributeContent( &$contentObjectAttribute )

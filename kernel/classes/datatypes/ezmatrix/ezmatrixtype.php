@@ -64,7 +64,7 @@ class eZMatrixType extends eZDataType
         $this->eZDataType( EZ_DATATYPESTRING_MATRIX, "Matrix" );
     }
 
-        /*!
+    /*!
      Validates the input and returns true if the input was
      valid for this datatype.
     */
@@ -91,8 +91,8 @@ class eZMatrixType extends eZDataType
     function storeClassAttribute( &$contentClassAttribute, $version )
     {
         $matrixDefinition =& $contentClassAttribute->content();
-        $contentClassAttribute->setAttribute( 'data_text4', $matrixDefinition->xmlString() );
-        $matrixDefinition->decodeClassAttribute( $contentClassAttribute->attribute( "data_text4" ) );
+        $contentClassAttribute->setAttribute( 'data_text5', $matrixDefinition->xmlString() );
+        $matrixDefinition->decodeClassAttribute( $contentClassAttribute->attribute( "data_text5" ) );
         $contentClassAttribute->setContent(  $matrixDefinition );
     }
 
@@ -114,7 +114,23 @@ class eZMatrixType extends eZDataType
     */
     function metaData( $contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( "data_text" );
+        $matrix =& $contentObjectAttribute->content();
+        $columnsArray =& $matrix->attribute( "columns" );
+        $columns =& $columnsArray['sequential'];
+        $metaDataArray = array();
+        eZDebug::writeDebug( $matrix, "matrix to index" );
+        foreach ( $columns as $column )
+        {
+            $rows = $column['rows'];
+            foreach ( $rows as $row )
+            {
+                $metaDataArray[] = array( 'id' => $column['identifier'],
+                                          'text' => $row );
+            }
+        }
+        eZDebug::writeDebug( $metaDataArray, 'metaDataArray for matrix' );
+        return $metaDataArray;
+//        return $contentObjectAttribute->attribute( "data_text" );
     }
 
     /*!
@@ -312,7 +328,7 @@ class eZMatrixType extends eZDataType
 
             $matrixDefinition->ColumnNames =& $columns;
             $classAttribute->setContent( $matrixDefinition );
-            $classAttribute->setAttribute( 'data_text4', $matrixDefinition->xmlString() );
+            $classAttribute->setAttribute( 'data_text5', $matrixDefinition->xmlString() );
 
             $dataFetched = true;
         }
@@ -331,7 +347,7 @@ class eZMatrixType extends eZDataType
     function &classAttributeContent( &$contentClassAttribute )
     {
         $matrixDefinition =& new eZMatrixDefinition();
-        $matrixDefinition->decodeClassAttribute( $contentClassAttribute->attribute( 'data_text4' ) );
+        $matrixDefinition->decodeClassAttribute( $contentClassAttribute->attribute( 'data_text5' ) );
         return $matrixDefinition;
     }
 
@@ -367,6 +383,23 @@ class eZMatrixType extends eZDataType
             }break;
         }
     }
+
+    /*!
+     \reimp
+    */
+    function isIndexable()
+    {
+        return true;
+    }
+
+    /*!
+     \reimp
+    */
+    function isInformationCollector()
+    {
+        return true;
+    }
+
 
 }
 

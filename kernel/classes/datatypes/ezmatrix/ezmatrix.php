@@ -276,7 +276,8 @@ class eZMatrix
                 {
                     $columnRows[] =& $sequentialRows[$j]['columns'][$i];
                 }
-                $column['rows'] =& $rowColumns;
+                $column['rows'] =& $columnRows;
+                unset( $columnRows );
                 $sequentialColumns[] =& $column;
                 $idColumns[$column['identifier']] =& $column;
 

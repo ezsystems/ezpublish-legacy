@@ -98,7 +98,7 @@ class eZSearch
      \static
      Runs a query to the search engine.
     */
-    function &search( $searchText, $params )
+    function &search( $searchText, $params, $searchTypes = array() )
     {
         $ini =& eZINI::instance();
 
@@ -111,7 +111,7 @@ class eZSearch
         include_once( "kernel/search/plugins/" . strToLower( $searchEngineString ) . "/" . strToLower( $searchEngineString ) . ".php" );
         $searchEngine = new $searchEngineString;
 
-        return $searchEngine->search( $searchText, $params );
+        return $searchEngine->search( $searchText, $params, $searchTypes );
     }
 
     /*!
@@ -132,6 +132,78 @@ class eZSearch
 
         return $searchEngine->normalizeText( $text );
     }
+
+    /*!
+     \static
+      returns search parameters in array based on supported search types and post variables
+     */
+    function &buildSearchArray()
+    {
+        $ini =& eZINI::instance();
+
+        $searchEngineString = "ezsearch";
+        if ( $ini->hasVariable( "SearchSettings", "SearchEngine" ) == true )
+        {
+            $searchEngineString = $ini->variable( "SearchSettings", "SearchEngine" );
+        }
+
+        include_once( "kernel/search/plugins/" . strToLower( $searchEngineString ) . "/" . strToLower( $searchEngineString ) . ".php" );
+        $searchEngine = new $searchEngineString;
+
+        $searchTypesDefinition =& $searchEngine->suportedSearchTypes();
+
+        $searchArray = array();
+        $andSearchParts = array();
+
+        $http =& eZHTTPTool::instance();
+
+        foreach ( $searchTypesDefinition['types'] as $searchType )
+        {
+            $postVariablePrefix = 'Content_search_' . $searchType['type'] . '_' . $searchType['subtype'] . '_';
+
+            $searchArrayPartForType = array();
+
+            $searchPart = array();
+            $valuesFetched = false;
+            foreach ( $searchType['params'] as $parameter )
+            {
+                eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $postVariablePrefix . $parameter, "post var to check" );
+
+                if ( $http->hasVariable( $postVariablePrefix . $parameter ) )
+                {
+                    $values = $http->variable( $postVariablePrefix . $parameter );
+                    eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $values, "fetched values" );
+                    $valuesCount = count( $values );
+
+                    for ( $i = 0; $i < $valuesCount; $i++ )
+                    {
+                        $searchArrayPartForType[$i][$parameter] = $values[$i] ;
+                        $valuesFetched = true;
+                    }
+                }
+                else
+                {
+                    eZDebugSetting::writeDebug( 'kernel-search-ezsearch', "variable does not exist" );
+                    break;
+                }
+            }
+            if ( $valuesFetched == true )
+            {
+                foreach ( array_keys( $searchArrayPartForType ) as $key )
+                {
+                    $part =& $searchArrayPartForType[$key];
+                    $part['type'] = $searchType['type'];
+                    $part['subtype'] = $searchType['subtype'];
+                }
+                $andSearchParts = array_merge( $andSearchParts, $searchArrayPartForType );
+            }
+        }
+
+        $searchArray['and'] =& $andSearchParts;
+        eZDebugSetting::writeDebug( 'kernel-search-ezsearch', $searchArray, "search array" );
+        return $searchArray;
+    }
+
 }
 
 ?>
