@@ -161,7 +161,8 @@ class eZKeyword
 
         $attributeID = $attribute->attribute( 'id' );
         // Find the words which is new for this attribute
-        $currentWordArray =& $db->arrayQuery( "SELECT ezkeyword.id, ezkeyword.keyword FROM ezkeyword, ezkeyword_attribute_link
+        if ($attributeID == null) $attributeID = "0";
+        $currentWordArray = $db->arrayQuery( "SELECT ezkeyword.id, ezkeyword.keyword FROM ezkeyword, ezkeyword_attribute_link
                                                WHERE ezkeyword.id=ezkeyword_attribute_link.keyword_id
                                                AND ezkeyword_attribute_link.objectattribute_id='$attributeID'" );
 
@@ -220,9 +221,11 @@ class eZKeyword
     function fetch( &$attribute )
     {
         $db =& eZDB::instance();
-        $wordArray =& $db->arrayQuery( "SELECT ezkeyword.keyword FROM ezkeyword_attribute_link, ezkeyword
+        $attributeID = $attribute->attribute( 'id' );
+        if ($attributeID == null) $attributeID = 0;
+        $wordArray = $db->arrayQuery( "SELECT ezkeyword.keyword FROM ezkeyword_attribute_link, ezkeyword
                                     WHERE ezkeyword_attribute_link.keyword_id=ezkeyword.id AND
-                                    ezkeyword_attribute_link.objectattribute_id='" . $attribute->attribute( 'id' ) ."' " );
+                                    ezkeyword_attribute_link.objectattribute_id='$attributeID' " );
 
         $this->ObjectAttributeID = $attribute->attribute( 'id' );
         foreach ( array_keys( $wordArray ) as $wordKey )
