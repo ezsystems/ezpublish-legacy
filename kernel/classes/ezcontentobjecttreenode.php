@@ -676,6 +676,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
         }
 
+        // Main node check
+        $mainNodeOnlyCond = '';
+        if ( isset( $params['MainNodeOnly'] ) && $params['MainNodeOnly'] === true )
+        {
+            $mainNodeOnlyCond = 'ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id AND';
+        }
+
         // Check for attribute filtering
         $attributeFilterFromSQL = "";
         $attributeFilterWhereSQL = "";
@@ -1043,6 +1050,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           $notEqParentString
                           ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
                           ezcontentclass.id = ezcontentobject.contentclass_id AND
+                          $mainNodeOnlyCond
                           $classCondition
                           ezcontentobject_tree.contentobject_is_published = 1
                           $versionNameJoins
@@ -1073,6 +1081,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $notEqParentString
                             ezcontentobject_tree.contentobject_id = ezcontentobject.id  AND
                             ezcontentclass.id = ezcontentobject.contentclass_id AND
+                            $mainNodeOnlyCond
                             $classCondition
                             ezcontentobject_tree.contentobject_is_published = 1
                             $versionNameJoins
