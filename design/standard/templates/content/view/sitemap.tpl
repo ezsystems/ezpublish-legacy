@@ -42,23 +42,7 @@
 	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.id}</span></td>
 	<td class="{$Tree:sequence}">
        	<img src="1x1.gif" width="{$Tree:item.depth|dec}0" height="1" alt="" />
-	<a class="normal" href="/content/view/full/{$Tree:item.node_id}">
-{switch name=sw match=$Tree:item.object.contentclass_id}
-{case match=2}
-	<img src={"class_2.png"|ezimage} border="0"> 
-{/case}
-{case match=3}
-	<img src={"user_group.png"|ezimage} border="0"> 
-{/case}
-{case match=4}
-	<img src={"class_1.png"|ezimage} border="0"> 
-{/case}
-{case}
-	<img src={"class_1.png"|ezimage} border="0"> 
-{/case}
-{/switch}
-
-	{$Tree:item.name}</a>
+	<a class="normal" href="/content/view/full/{$Tree:item.node_id}"><img src={"class_1.png"|ezimage} border="0"> &nbsp;{$Tree:item.name}</a>
 	</td>
 	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.owner_id}</span></td>
 	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.current_version}</span></td>
