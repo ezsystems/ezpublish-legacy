@@ -236,7 +236,9 @@ if ( $Module->isCurrentAction( 'ChangeSettings' ) )
     }
 }
 
-$assignment =& eZNodeAssignment::fetchByID( $placementID );
+$assignment = null;
+if ( is_numeric( $placementID ) )
+    $assignment =& eZNodeAssignment::fetchByID( $placementID );
 if ( $assignment !== null )
 {
     $node =& $assignment->getParentNode();

@@ -25,6 +25,8 @@ Changes from 3.5.0rc2 to 3.5.0
   (Merged from trunk rev. 10348)
 - Fixed problem with & being escaped inside attributes
   http://ez.no/community/bug_reports/xml_and_broken_link_with
+- Fixed SQL error in PostgreSQL when versionviewing objects in trash.
+  http://ez.no/community/bugs/versionview_in_trash_postgresql
 
 *Library:
 
