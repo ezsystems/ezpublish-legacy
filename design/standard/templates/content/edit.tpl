@@ -249,7 +249,6 @@
 	    {/section}
 	</select>
 	<input class="menubutton" type="submit" name="NewButton" value="{'New'|i18n('design/standard/content/edit')}" />
-	<input type="hidden" name="NodeID" value="{$surplus_node}" />
 	</td>
     </tr>
     </table>
