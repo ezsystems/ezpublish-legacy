@@ -384,8 +384,6 @@ if ( $show_page_layout )
                               );
         if ( in_array( $moduleResult['section_id'], $sessionIDs ) )
             $offset = 2;
-//         if ( $moduleResult['section_id'] == 2 )
-//             $offset = 2;
         while ( !$done )
         {
 
