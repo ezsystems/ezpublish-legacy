@@ -14,8 +14,8 @@
 {/section}
 
 <table width="100%" >
-<tr><td width="1%">From:</td><td width="1%">{content_view_gui view=text content_object=$message.task.creator.contentobject}</td><td width="99%"></td></tr>
-<tr><td width="1%">To:</td>  <td width="1%">{content_view_gui view=text content_object=$message.task.receiver.contentobject}</td><td width="99%"></td></tr>
+<tr><td width="1%">From:</td><td width="1%"><b>{content_view_gui view=text_linked content_object=$message.task.creator.contentobject}</b></td><td width="99%"></td></tr>
+<tr><td width="1%">To:</td>  <td width="1%"><b>{content_view_gui view=text_linked content_object=$message.task.receiver.contentobject}</b></td><td width="99%"></td></tr>
 
 <tr>
 	<td valign="top" colspan="3">

@@ -2,7 +2,7 @@
      tree=fetch('content','tree',hash(parent_node_id,$node.node_id,limit,$page_limit,offset,$view_parameters.offset))
      tree_count=fetch('content','tree_count',hash(parent_node_id,$node.node_id))}
 
-<form action="{$module.functions.view.uri}/sitemap/{$node.node_id}{section show=$view_parameters.offset|gt(0)}/offset/{$view_parameters.offset}{/section}" method="post" >
+<form method="post" action={"content/action/"|ezurl}>
 
 <h1>{"Site map"|i18n('content/object')}</h1>
 
@@ -41,8 +41,8 @@
 <tr>
 	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.id}</span></td>
 	<td class="{$Tree:sequence}">
-       	<img src="1x1.gif" width="{$Tree:item.depth|dec}0" height="1" alt="" />
-	<a class="normal" href="/content/view/full/{$Tree:item.node_id}"><img src={"class_1.png"|ezimage} border="0"> &nbsp;{$Tree:item.name}</a>
+       	<img src="1x1.gif" width="{sub($Tree:item.depth,$node.depth)|dec}0" height="1" alt="" />
+	<a class="normal" href={concat("content/view/full/",$Tree:item.node_id)|ezurl}><img src={"class_1.png"|ezimage} border="0"> &nbsp;{$Tree:item.name}</a>
 	</td>
 	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.owner_id}</span></td>
 	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.current_version}</span></td>
@@ -53,10 +53,10 @@
         {case match=1}  
 	{switch name=cidsw match=$Tree:item.object.contentclass_id}
 	    {case match=4}
-	    <a class="normal" href="/user/edit/{$Tree:item.object.id}"><img src={"edit.png"|ezimage} border="0"></a>
+	    <a class="normal" href={concat("user/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
 	    {/case}
 	    {case}
-            <a class="normal" href="/content/edit/{$Tree:item.object.id}"><img src={"edit.png"|ezimage} border="0"></a>
+            <a class="normal" href={concat("content/edit/",$Tree:item.object.id)|ezurl}><img src={"edit.png"|ezimage} border="0"></a>
 	    {/case}
         {/switch}
         {/case}
@@ -80,8 +80,7 @@
 
 {include name=navigator
          uri='design:navigator/google.tpl'
-         page_uri=concat($module.functions.view.uri,'/sitemap/',$node.node_id)
-         module=$module
+         page_uri=concat('/content/view','/sitemap/',$node.node_id)
          item_count=$tree_count
          view_parameters=$view_parameters
          item_limit=$page_limit}

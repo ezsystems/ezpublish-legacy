@@ -1,10 +1,10 @@
-<form enctype="multipart/form-data" method="post" action="/task/messageview/{$message.id}">
+<form enctype="multipart/form-data" method="post" action={concat("task/messageview/",$message.id)|ezurl}>
 
 <h1>Task message '{$message.contentobject.name}'</h1>
 
 <table width="100%" >
-<tr><td width="1%">From:</td><td width="1%">{content_view_gui view=text content_object=$message.task.creator.contentobject}</td><td width="99%"></td></tr>
-<tr><td width="1%">To:</td>  <td width="1%">{content_view_gui view=text content_object=$message.task.receiver.contentobject}</td><td width="99%"></td></tr>
+<tr><td width="1%">From:</td><td width="98%"><b>{content_view_gui view=text_linked content_object=$message.task.creator.contentobject}</b></td><td width="1%"></td></tr>
+<tr><td width="1%">To:</td>  <td width="98%"><b>{content_view_gui view=text_linked content_object=$message.task.receiver.contentobject}</b></td><td width="1%"></td></tr>
 
 <tr>
 	<td valign="top" colspan="3">

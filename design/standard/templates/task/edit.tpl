@@ -12,11 +12,11 @@
 
 <table cellpadding="0">
 <tr><td>Date:</td><td>{$task.created|l10n('shortdatetime')} ({$task.modified|l10n('shortdatetime')})</td></tr>
-<tr><td>From:</td><td>{content_view_gui view=text content_object=$task.creator.contentobject}
+<tr><td>From:</td><td><b>{content_view_gui view=text_linked content_object=$task.creator.contentobject}</b>
 <td></tr>
 <tr><td>To:</td><td>
 {section show=$task.receiver_id|gt(0)}
-{content_view_gui view=text content_object=$task.receiver.contentobject}
+<b>{content_view_gui view=text_linked content_object=$task.receiver.contentobject}</b>
 {section-else}
 {"Please select receiver"|i18n('task')}
 {/section}

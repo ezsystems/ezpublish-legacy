@@ -39,7 +39,7 @@
     {section name=Object loop=$node.object.related_contentobject_array show=$node.object.related_contentobject_array sequence=array(bglight,bgdark)}
 
     <div class="block">
-    {content_view_gui view=line content_node=$Object:item.main_node}
+    {content_view_gui view=line content_object=$Object:item}
     </div>
     
     {section-else}
@@ -63,7 +63,7 @@
 	<td class="{$Child:sequence}">
     <span class="normal">
 	<a href={concat('content/view/full/',$Child:item.node_id)|ezurl}>
-	{content_view_gui view=line content_node=$Child:item}
+	{node_view_gui view=line content_node=$Child:item}
 	</a>
 
 	<a href={concat('content/view/full/',$Child:item.object.id)|ezurl}>[ edit ]</a>

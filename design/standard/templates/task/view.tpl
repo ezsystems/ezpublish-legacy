@@ -22,8 +22,8 @@
 
 <table width="100%" cellpadding="0" cellspacing="0">
 {section show=$task_id|gt(0)}
-<tr><td width="1%">From:</td><td width="99%">{content_view_gui view=text content_object=$task.creator.contentobject}</td></tr>
-<tr><td width="1%">To:</td><td width="99%">{content_view_gui view=text content_object=$task.receiver.contentobject}</td></tr>
+<tr><td width="1%">From:</td><td width="99%"><b>{content_view_gui view=text_linked content_object=$task.creator.contentobject}</b></td></tr>
+<tr><td width="1%">To:</td><td width="99%"><b>{content_view_gui view=text_linked content_object=$task.receiver.contentobject}</b></td></tr>
 <tr><td width="1%">Status:</td><td width="99%">{$task.status|choose('None','Temporary','Open','Closed','Cancelled')}</td></tr>
 <tr><td width="1%">Date:</td>  <td width="99%">{$task.created|l10n('shortdatetime')}</td></tr>
 <tr><td colspan="2"><h2>Message</h2></td></tr>
