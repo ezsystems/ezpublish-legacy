@@ -99,7 +99,7 @@ class eZPublishSDK
     }
 
     /*!
-     \return the SVN revision number
+     \return the SVN revision number.
     */
     function revision()
     {
