@@ -84,7 +84,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
 
     if ( $http->hasPostVariable( 'YourEmail' ) )
         $yourEmail = $http->variable( 'YourEmail' );
-
+    $receiversName = "Foo";
     if ( $http->hasPostVariable( 'ReceiversName' ) )
         $receiversName = $http->variable( 'ReceiversName' );
 
@@ -103,6 +103,11 @@ if ( $http->hasPostVariable( 'SendButton' ) )
     if ( !eZMail::validate( $receiversEmail ) )
         $error_strings[] = ezi18n( 'kernel/content', 'The email address of the receiver is not valid' );
 
+    $fromEmail = $yourEmail;
+    if ( $ini->hasVariable( 'TipAFriend', 'FromEmail' ) )
+    {
+        $fromEmail = $ini->variable( 'TipAFriend', 'FromEmail' );
+    }
     include_once( "kernel/classes/eztipafriendrequest.php" );
     if ( !eZTipafriendRequest::checkReceiver( $receiversEmail ) )
         $error_strings[] = ezi18n( 'kernel/content', 'The receiver has allready got to many tipafriend mails during past couple of hours' );
@@ -111,7 +116,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
     if ( count( $error_strings ) == 0 )
     {
         $mail = new eZMail();
-        $mail->setSender( $yourEmail, $yourName );
+        $mail->setSender( $fromEmail, $yourName );
         $mail->setReceiver( $receiversEmail, $receiversName );
         $mail->setSubject( $subject );
 

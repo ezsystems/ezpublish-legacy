@@ -265,10 +265,12 @@
         ** Function that handles the MAIL FROM: cmd
         ***************************************/
 
-        function mail($from){
-
+        function mail($from)
+        {
+            if ( !preg_match( "/<.+>/", $from ) )
+                $from = '<' . $from .'>';
             if($this->is_connected()
-                AND $this->send_data('MAIL FROM:<'.$from.'>')
+                AND $this->send_data('MAIL FROM: '.$from.'')
                 AND substr(trim($this->get_data()), 0, 2) === '250' ){
 
                 return TRUE;
@@ -281,10 +283,12 @@
         ** Function that handles the RCPT TO: cmd
         ***************************************/
 
-        function rcpt($to){
-
+        function rcpt($to)
+        {
+            if ( !preg_match( "/<.+>/", $to ) )
+                $to = '<' . $to .'>';
             if($this->is_connected()
-                AND $this->send_data('RCPT TO:<'.$to.'>')
+                AND $this->send_data('RCPT TO: '.$to.'' )
                 AND substr(trim($error = $this->get_data()), 0, 2) === '25' ){
 
                 return TRUE;
