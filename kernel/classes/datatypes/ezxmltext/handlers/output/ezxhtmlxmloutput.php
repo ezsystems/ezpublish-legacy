@@ -293,7 +293,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $isBlockTag = true;
 
                     // Check if the template overrides the block flow setting
-                    if ( $tpl->hasVariable( 'is_block', 'xmltagns' ) )
+                    if ( $tpl->hasVariable( 'is_block', 'xmltagns:ContentView' ) )
                     {
                         $isBlockTagOverride = $tpl->variable( 'is_block', 'xmltagns' );
 
