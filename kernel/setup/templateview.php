@@ -146,11 +146,12 @@ if ( $module->isCurrentAction( 'RemoveOverride' ) )
         }
         $overrideINI->save( "siteaccess/$siteAccess/override.ini.append" );
 
-        // Expire content cache
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'content-cache', mktime() );
-        $handler->store();
+        // Expire content view cache
+        $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
+        if ( $viewCacheEnabled )
+        {
+            eZContentObject::expireAllCache();
+        }
 
         // Clear override cache
         $cachedDir = eZSys::cacheDirectory();

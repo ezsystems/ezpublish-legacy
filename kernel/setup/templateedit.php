@@ -109,11 +109,12 @@ if ( $module->isCurrentAction( 'Save' ) )
         $filePermissions = $siteConfig->variable( 'FileSettings', 'StorageFilePermissions');
         @chmod( $template, octdec( $filePermissions ) );
 
-        // Expire content cache
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'content-cache', mktime() );
-        $handler->store();
+        // Expire content view cache
+        $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' );
+        if ( $viewCacheEnabled )
+        {
+            eZContentObject::expireAllCache();
+        }
 
         $module->redirectTo( '/setup/templateview'. $originalTemplate );
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;

@@ -225,16 +225,16 @@ class eZTemplateCacheFunction
         }
 
         $code = '';
-        
+
         if ( !$ignoreContentExpiry )
         {
             $code .= <<<ENDADDCODE
 include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
 \$handler =& eZExpiryHandler::instance();
 \$globalExpiryTime = -1;
-if ( \$handler->hasTimestamp( 'content-cache' ) )
+if ( \$handler->hasTimestamp( 'template-block-cache' ) )
 {
-    \$globalExpiryTime = \$handler->timestamp( 'content-cache' );
+    \$globalExpiryTime = \$handler->timestamp( 'template-block-cache' );
 }
 
 ENDADDCODE;
@@ -378,9 +378,9 @@ ENDADDCODE;
                     {
                         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
                         $handler =& eZExpiryHandler::instance();
-                        if ( $handler->hasTimestamp( 'content-cache' ) )
+                        if ( $handler->hasTimestamp( 'template-block-cache' ) )
                         {
-                            $globalExpiryTime = $handler->timestamp( 'content-cache' );
+                            $globalExpiryTime = $handler->timestamp( 'template-block-cache' );
                             $expiryTime = max( $localExpiryTime, $globalExpiryTime );
                         }
                     }

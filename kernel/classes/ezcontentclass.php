@@ -611,8 +611,9 @@ class eZContentClass extends eZPersistentObject
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-class-cache', mktime() );
-        $handler->setTimestamp( 'content-cache', mktime() );
         $handler->store();
+
+        eZContentObject::expireAllCache();
 
         eZPersistentObject::store();
     }
