@@ -725,9 +725,12 @@ class eZContentObjectVersion extends eZPersistentObject
             }
         }
         $contentobject = $this->attribute( 'contentobject' );
-        if ( !$contentobject->hasRemainingVersions() )
+        if ( is_object( $contentobject ) )
         {
-            $contentobject->purge();
+            if ( !$contentobject->hasRemainingVersions() )
+            {
+                $contentobject->purge();
+            }
         }
         $db->query( "DELETE FROM ezcontentobject_name
                          WHERE contentobject_id=$contentobjectID AND content_version=$versionNum" );
