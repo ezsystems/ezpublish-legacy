@@ -382,7 +382,7 @@ class eZINI
                 $this->parseFile( $filePath . ".php" );
             else if ( file_exists( $filePath ) )
                 $this->parseFile( $filePath );
-            
+
             $appendName = $this->RootDir . "/$override_dir/" . $file . ".append";
             if ( file_exists( $appendName . ".php" ) )
                 $this->parseFile( $appendName . ".php" );
@@ -451,9 +451,9 @@ class eZINI
             }
 
             // check for variable
-            if ( preg_match("#^([^=]+)=(.*)$#", $line, $valueArray ) )
+            if ( preg_match("#^(\w+)=(.*)$#", $line, $valueArray ) )
             {
-                $varName = trim( $valueArray[1] );
+                 $varName = trim( $valueArray[1] );
                 if ( $this->UseTextCodec )
                 {
                     $varValue = $codec->convertString( $valueArray[2] );
@@ -510,12 +510,12 @@ class eZINI
             {
                 $varKey = $blockVariable;
                 $varValue = $this->BlockValues[$blockName][$blockVariable];
-                fwrite( $fp, "$varKey=$varValue$sep" );                
+                fwrite( $fp, "$varKey=$varValue$sep" );
             }
             ++$i;
-        }        
+        }
         fwrite( $fp, "*/ ?>" );
-        
+
         @fclose( $fp );
         return true;
     }
@@ -663,7 +663,7 @@ class eZINI
     {
         return $this->BlockValues;
     }
-    
+
     /// \privatesection
     /// The charset of the ini file
     var $Charset;
