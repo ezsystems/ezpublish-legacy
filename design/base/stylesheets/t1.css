@@ -206,7 +206,7 @@ div#columns
 
 div#leftmenu ul, div#rightmenu ul
 {
-    margin-left: 1.5em;
+    margin-left: 6px;
 }
 
 div#leftmenu
@@ -227,10 +227,10 @@ div#leftmenu-design ul
 div#leftmenu-design li.menu-level-0
 { 
     text-decoration: none;
-    width: 140px;
-    border-top: 2px solid #99ccff;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    width: 150px;
+    border-top: 1px solid #99ccff;
+    padding-top: 4px;
+    padding-bottom: 2px;
     list-style-type: none;
 }
 
@@ -258,8 +258,8 @@ div#leftmenu-design li.menu-level-1
 { 
     text-decoration: none;
     width: 140px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     list-style-type: none;
 }
 
@@ -296,7 +296,7 @@ div#rightmenu-design
 
 div#maincontent
 {
-    margin-left: 184px;
+    margin-left: 190px;
     margin-right: 184px;
     height: 100%; /* Needs to be set to 1% to avoid bug in IE 5.5 */
 }
@@ -414,7 +414,7 @@ div#header-design
 div#maincontent-design
 {
     padding-right: 22px;
-    padding-left: 22px;
+    padding-left: 0px;
 }
 
 div#maincontent-design h1
@@ -564,29 +564,6 @@ div.view-listitem div.class-image div.content-caption p
     padding: 0px;
     margin: 0px;
     color: #666;
-}
-
-/* search line styles  */
-div.search-line
-{ 
-    display: inline;
-}
-
-div.search-line input.searchinput
-{ 
-    color: #666;
-}
-
-div.search-line input.searchbutton
-{
-    height: 18px;
-    width: 18px;
-    border: 1px solid #336699;
-    background-color: #99ccff;
-    color: #99ccff;
-    background-image: url(../images/t1/t1-arrow.gif);
-    background-position: center;
-    background-repeat: no-repeat;
 }
 
 /* list item product */
