@@ -1,6 +1,6 @@
 {* Full class template for Multipage Article *}
 
-<h1>{$node.name}</h1>
+<h1>{$node.name|wash}</h1>
 <div class="byline">Last updated {$node.parent.object.published|l10n(datetime)}</div>
 
 <div class="block">
@@ -20,7 +20,7 @@
 <ul>
 {section show=$children}
 <h2>Sections</h2>
-<li>{$node.name}</li>
+<li>{$node.name|wash}</li>
 {/section}
 {section name=Child loop=$children}
     <li><a href={$Child:item.url_alias|ezurl}>{$Child:item.name}</a></li>

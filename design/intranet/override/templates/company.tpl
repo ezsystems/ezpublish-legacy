@@ -7,7 +7,7 @@
 <input type="hidden" name="ViewMode" value="full" />
 
 <div class="object_title">
-<a href={$node.url_alias|ezurl}><h1>{$node.name} </h1></a>
+<a href={$node.url_alias|ezurl}><h1>{$node.name|wash} </h1></a>
 </div>
 
 {section show=$node.object.can_edit}

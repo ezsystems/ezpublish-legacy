@@ -7,7 +7,7 @@
 <input type="hidden" name="ViewMode" value="full" />
 
 <div class="object_title">
-    <h3>{$node.name}</h3>
+    <h3>{$node.name|wash}</h3>
 </div>
 {attribute_view_gui attribute=$node.object.data_map.option}
 {section name=ContentAction loop=$node.object.content_action_list show=$content_object.content_action_list}

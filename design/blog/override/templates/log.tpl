@@ -45,7 +45,7 @@
 
 <h2>{$node.object.published|datetime('custom', '%l | %j %F %Y')}</h2>
  <div class="logentry">
-    <h3>{$node.name}</h3>
+    <h3>{$node.name|wash}</h3>
     {attribute_view_gui attribute=$node.object.data_map.log}
     <div class="byline">
        <p>

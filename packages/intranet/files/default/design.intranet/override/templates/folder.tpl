@@ -13,7 +13,7 @@
 </div>
 {/section}
 *}
-<h1>{$node.name}</h1>
+<h1>{$node.name|wash}</h1>
 
 
 <div class="object_content">

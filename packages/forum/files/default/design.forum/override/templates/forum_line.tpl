@@ -1,6 +1,6 @@
 <div class="forumlist">
 <div class="image">{attribute_view_gui attribute=$node.object.data_map.image image_class=original}</div>
-<h2><a href={$node.url_alias|ezurl}>{$node.name}</a></h2>
+<h2><a href={$node.url_alias|ezurl}>{$node.name|wash}</a></h2>
 {attribute_view_gui attribute=$node.object.data_map.description}
 <p>
 {"Number of Topics:"|i18n("design/forum/layout")} 

@@ -19,7 +19,7 @@
 
   <h2>{$node.object.published|datetime('custom', '%l | %j %F %Y')}</h2>
   <div class="logentry">
-    <h3><a href={concat( "content/view/full/", $node.node_id )|ezurl}>{$node.name}</a></h3>
+    <h3><a href={concat( "content/view/full/", $node.node_id )|ezurl}>{$node.name|wash}</a></h3>
     {attribute_view_gui attribute=$node.object.data_map.log}
     <div class="byline">
        <p>

@@ -6,7 +6,7 @@
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 <input type="hidden" name="ViewMode" value="full" />
 
-<h1>{$node.name}</h1>
+<h1>{$node.name|wash}</h1>
 
 <div class="children">
 {let page_limit=20

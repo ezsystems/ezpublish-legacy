@@ -1,6 +1,6 @@
 <tr class="subheader">
     <th colspan="2">
-    {$node.name}
+    {$node.name|wash}
     </td>
     <th>
     &nbsp;

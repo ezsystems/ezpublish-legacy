@@ -6,7 +6,7 @@
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
 <input type="hidden" name="ViewMode" value="full" />
 
-<h1>{$node.name} ( {attribute_view_gui attribute=$node.object.data_map.position} )</h1>
+<h1>{$node.name|wash} ( {attribute_view_gui attribute=$node.object.data_map.position} )</h1>
 
 {section show=$node.object.can_edit}
    <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />

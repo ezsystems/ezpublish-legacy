@@ -1,6 +1,6 @@
 <div class="person_line">
 
-<a href={$node.url_alias|ezurl}><h2>{$node.name} ( {attribute_view_gui attribute=$node.object.data_map.position} )</h2></a>
+<a href={$node.url_alias|ezurl}><h2>{$node.name|wash} ( {attribute_view_gui attribute=$node.object.data_map.position} )</h2></a>
 
 {attribute_view_gui attribute=$node.object.data_map.picture image_class=medium}
 

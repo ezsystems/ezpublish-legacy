@@ -1,6 +1,6 @@
 <div class="article_line">
 
-<h2>{$node.name}</h2>
+<h2>{$node.name|wash}</h2>
 
 <div class="byline">
   <p>

@@ -1,4 +1,4 @@
-<h1>{$node.name}</h1>
+<h1>{$node.name|wash}</h1>
 
 <form method="post" action={"content/action"|ezurl}> 
 

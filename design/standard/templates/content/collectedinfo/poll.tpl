@@ -18,7 +18,7 @@
 
 {/section}
 
-<h2>{$node.name}</h2>
+<h2>{$node.name|wash}</h2>
 
 {section loop=$object.contentobject_attributes}
     {section show=$:item.contentclass_attribute.is_information_collector}

@@ -4,7 +4,7 @@
                                               sort_by, array( 'name', true() ) ) )}
 <div id="frontpage">
 
-    <h1>{$node.name}</h1>
+    <h1>{$node.name|wash}</h1>
 
     {attribute_view_gui attribute=$node.object.data_map.description}
 
