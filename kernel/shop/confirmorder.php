@@ -46,6 +46,8 @@ $tpl->setVariable( "module_name", 'shop' );
 $orderID = eZHTTPTool::sessionVariable( 'MyTemporaryOrderID' );
 
 $order = eZOrder::fetch( $orderID );
+if ( !is_object( $order ) )
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
 include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
