@@ -199,12 +199,14 @@ if ( $storingAllowed )
     if ( !isset( $currentRedirectionURI ) )
         $currentRedirectionURI = $Module->redirectionURI( 'content', 'edit', array( $ObjectID, $EditVersion, $EditLanguage ) );
     $attributeHasInput = array();
+    $dataMap =& $object->attribute( 'data_map' );
     foreach( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute =& $contentObjectAttributes[$key];
         if ( $contentObjectAttribute->fetchInput( $http, "ContentObjectAttribute" ) )
         {
             $requireStoreAction = true;
+            $dataMap[$contentObjectAttribute->attribute( 'contentclass_attribute_identifier' )] =& $contentObjectAttribute;
             $attributeHasInput[$contentObjectAttribute->attribute('id')] = true;
         }
 /********** Custom Action Code Start ***************/
@@ -218,6 +220,7 @@ if ( $storingAllowed )
 /********** Custom Action Code End ***************/
 
     }
+
 
     if ( $Module->isCurrentAction( 'Discard' ) )
     {
@@ -312,6 +315,7 @@ $tpl->setVariable( 'http', $http );
 $tpl->setVariable( 'content_attributes', $contentObjectAttributes );
 $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'object', $object );
+
 if ( $Module->runHooks( 'pre_template', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, &$tpl ) ) )
     return;
 $templateName = 'design:content/edit.tpl';
