@@ -8,7 +8,7 @@
 # wich case $LAST_STABLE is used.
 PREVIOUS_VERSION=""
 # The last version of the newest stable branch
-LAST_STABLE="3.4.0"
+LAST_STABLE="3.4.1"
 # Set this to true if the LAST_STABLE has been modified from the last release
 # This will be set to true automatically if the release is a final release
 LAST_STABLE_CHANGED="false"
@@ -52,11 +52,15 @@ for arg in $*; do
 	    echo "Options: -h"
 	    echo "         --help                     This message"
 	    echo "         --exit-at-once             Exit at the first version error"
+	    echo "         --fix                      Try to fix the errors found"
             echo
 	    exit 1
 	    ;;
 	--exit-at-once)
 	    EXIT_AT_ONCE="1"
+	    ;;
+	--fix)
+	    FIX="1"
 	    ;;
 	-*)
 	    echo "$arg: unkown option specified"
@@ -68,129 +72,299 @@ done
 
 # bin/shell/common.sh
 
-if ! grep "VERSION=\"$VERSION\"" bin/shell/common.sh &>/dev/null; then
-    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong version number in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION"
-    echo "Should be:"
-    echo "VERSION=\"`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`\""
-    echo
-    MAIN_ERROR="1"
-    [ -n "$EXIT_AT_ONCE" ] && exit 1
+function check_common_version
+{
+    if ! grep "VERSION=\"$VERSION\"" bin/shell/common.sh &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong version number in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION"
+	    echo "Should be:"
+	    echo "VERSION=\"`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`\""
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
+function check_common_version_only
+{
+    if ! grep "VERSION_ONLY=\"$VERSION_ONLY\"" bin/shell/common.sh &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong version number in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_ONLY"
+	    echo "Should be:"
+	    echo "VERSION_ONLY=\"`$SETCOLOR_EMPHASIZE`$VERSION_ONLY`$SETCOLOR_NORMAL`\""
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
+function check_common_version_stable
+{
+    if ! grep "VERSION_STABLE=\"$LAST_STABLE\"" bin/shell/common.sh &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Stable version number mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong version number in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_STABLE"
+	    echo "Should be:"
+	    echo "VERSION_STABLE=\"`$SETCOLOR_EMPHASIZE`$LAST_STABLE`$SETCOLOR_NORMAL`\""
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
+function check_common_version_state
+{
+    if ! grep "VERSION_STATE=\"$STATE\"" bin/shell/common.sh &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Version state mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong version state in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_STATE"
+	    echo "Should be:"
+	    echo "VERSION_STATE=\"`$SETCOLOR_EMPHASIZE`$STATE`$SETCOLOR_NORMAL`\""
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
+function check_common_version_previous
+{
+    if ! grep "VERSION_PREVIOUS=\"$PREVIOUS_VERSION\"" bin/shell/common.sh &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Previous version mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong previous version in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_PREVIOUS"
+	    echo "Should be:"
+	    echo "VERSION_PREVIOUS=\"`$SETCOLOR_EMPHASIZE`$PREVIOUS_VERSION`$SETCOLOR_NORMAL`\""
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
+function check_common_version_development
+{
+    if ! grep "DEVELOPMENT=\"$DEVELOPMENT\"" bin/shell/common.sh &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Development type mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong development type in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable DEVELOPMENT"
+	    echo "Should be:"
+	    echo "DEVELOPMENT=\"`$SETCOLOR_EMPHASIZE`$DEVELOPMENT`$SETCOLOR_NORMAL`\""
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
+check_common_version "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i 's/^VERSION="[^"]*"/VERSION="'$VERSION'"/' bin/shell/common.sh
+    check_common_version ""
 fi
 
-if ! grep "VERSION_ONLY=\"$VERSION_ONLY\"" bin/shell/common.sh &>/dev/null; then
-    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong version number in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_ONLY"
-    echo "Should be:"
-    echo "VERSION_ONLY=\"`$SETCOLOR_EMPHASIZE`$VERSION_ONLY`$SETCOLOR_NORMAL`\""
-    echo
-    MAIN_ERROR="1"
-    [ -n "$EXIT_AT_ONCE" ] && exit 1
+check_common_version_only "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i 's/^VERSION_ONLY="[^"]*"/VERSION_ONLY="'$VERSION_ONLY'"/' bin/shell/common.sh
+    check_common_version_only ""
 fi
 
-if ! grep "VERSION_STABLE=\"$LAST_STABLE\"" bin/shell/common.sh &>/dev/null; then
-    echo "`$SETCOLOR_FAILURE`Stable version number mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong version number in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_STABLE"
-    echo "Should be:"
-    echo "VERSION_STABLE=\"`$SETCOLOR_EMPHASIZE`$LAST_STABLE`$SETCOLOR_NORMAL`\""
-    echo
-    MAIN_ERROR="1"
-    [ -n "$EXIT_AT_ONCE" ] && exit 1
+check_common_version_stable "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i 's/^VERSION_STABLE="[^"]*"/VERSION_STABLE="'$LAST_STABLE'"/' bin/shell/common.sh
+    check_common_version_stable ""
 fi
 
-if ! grep "VERSION_STATE=\"$STATE\"" bin/shell/common.sh &>/dev/null; then
-    echo "`$SETCOLOR_FAILURE`Version state mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong version state in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_STATE"
-    echo "Should be:"
-    echo "VERSION_STATE=\"`$SETCOLOR_EMPHASIZE`$STATE`$SETCOLOR_NORMAL`\""
-    echo
-    MAIN_ERROR="1"
-    [ -n "$EXIT_AT_ONCE" ] && exit 1
+check_common_version_state "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i 's/^VERSION_STATE="[^"]*"/VERSION_STATE="'$STATE'"/' bin/shell/common.sh
+    check_common_version_state ""
 fi
 
-if ! grep "VERSION_PREVIOUS=\"$PREVIOUS_VERSION\"" bin/shell/common.sh &>/dev/null; then
-    echo "`$SETCOLOR_FAILURE`Previous version mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong previous version in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_PREVIOUS"
-    echo "Should be:"
-    echo "VERSION_PREVIOUS=\"`$SETCOLOR_EMPHASIZE`$PREVIOUS_VERSION`$SETCOLOR_NORMAL`\""
-    echo
-    MAIN_ERROR="1"
-    [ -n "$EXIT_AT_ONCE" ] && exit 1
+check_common_version_previous "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i 's/^VERSION_PREVIOUS="[^"]*"/VERSION_PREVIOUS="'$PREVIOUS_VERSION'"/' bin/shell/common.sh
+    check_common_version_previous ""
 fi
 
-if ! grep "DEVELOPMENT=\"$DEVELOPMENT\"" bin/shell/common.sh &>/dev/null; then
-    echo "`$SETCOLOR_FAILURE`Development type mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong development type in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable DEVELOPMENT"
-    echo "Should be:"
-    echo "DEVELOPMENT=\"`$SETCOLOR_EMPHASIZE`$DEVELOPMENT`$SETCOLOR_NORMAL`\""
-    echo
-    MAIN_ERROR="1"
-    [ -n "$EXIT_AT_ONCE" ] && exit 1
+check_common_version_development "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i 's/^DEVELOPMENT="[^"]*"/DEVELOPMENT="'$DEVELOPMENT'"/' bin/shell/common.sh
+    check_common_version_development ""
 fi
 
 # lib/version.php
 
-if ! grep "define( \"EZ_SDK_VERSION_MAJOR\", $MAJOR );" lib/version.php &>/dev/null; then
-    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_MAJOR"
-    echo "Should be:"
-    echo "define( \"EZ_SDK_VERSION_MAJOR\", `$SETCOLOR_EMPHASIZE`$MAJOR`$SETCOLOR_NORMAL` );"
-    echo
-    MAIN_ERROR="1"
-    [ -n "$EXIT_AT_ONCE" ] && exit 1
+function lib_check_version_major
+{
+    if ! grep "define( \"EZ_SDK_VERSION_MAJOR\", $MAJOR );" lib/version.php &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_MAJOR"
+	    echo "Should be:"
+	    echo "define( \"EZ_SDK_VERSION_MAJOR\", `$SETCOLOR_EMPHASIZE`$MAJOR`$SETCOLOR_NORMAL` );"
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
+function lib_check_version_minor
+{
+    if ! grep "define( \"EZ_SDK_VERSION_MINOR\", $MINOR );" lib/version.php &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_MINOR"
+	    echo "Should be:"
+	    echo "define( \"EZ_SDK_VERSION_MINOR\", `$SETCOLOR_EMPHASIZE`$MINOR`$SETCOLOR_NORMAL` );"
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n $EXIT_AT_ONCE ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
+function lib_check_version_release
+{
+    if ! grep "define( \"EZ_SDK_VERSION_RELEASE\", $RELEASE );" lib/version.php &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_RELEASE"
+	    echo "Should be:"
+	    echo "define( \"EZ_SDK_VERSION_RELEASE\", `$SETCOLOR_EMPHASIZE`$RELEASE`$SETCOLOR_NORMAL` );"
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
+function lib_check_version_state
+{
+    if ! grep "define( \"EZ_SDK_VERSION_STATE\", '$STATE' );" lib/version.php &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_STATE"
+	    echo "Should be:"
+	    echo "define( \"EZ_SDK_VERSION_STATE\", '`$SETCOLOR_EMPHASIZE`$STATE`$SETCOLOR_NORMAL`' );"
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
+function lib_check_version_development
+{
+    if ! grep "define( \"EZ_SDK_VERSION_DEVELOPMENT\", $DEVELOPMENT );" lib/version.php &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_DEVELOPMENT"
+	    echo "Should be:"
+	    echo "define( \"EZ_SDK_VERSION_DEVELOPMENT\", `$SETCOLOR_EMPHASIZE`$DEVELOPMENT`$SETCOLOR_NORMAL` );"
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
+lib_check_version_major "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i 's/^define( "EZ_SDK_VERSION_MAJOR", *[0-9][0-9]* *)/define( \"EZ_SDK_VERSION_MAJOR\", '$MAJOR' )/' lib/version.php
+    lib_check_version_major ""
 fi
 
-if ! grep "define( \"EZ_SDK_VERSION_MINOR\", $MINOR );" lib/version.php &>/dev/null; then
-    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_MINOR"
-    echo "Should be:"
-    echo "define( \"EZ_SDK_VERSION_MINOR\", `$SETCOLOR_EMPHASIZE`$MINOR`$SETCOLOR_NORMAL` );"
-    echo
-    MAIN_ERROR="1"
-    [ -n $EXIT_AT_ONCE ] && exit 1
+lib_check_version_minor "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i 's/^define( "EZ_SDK_VERSION_MINOR", *[0-9][0-9]* *)/define( \"EZ_SDK_VERSION_MINOR\", '$MINOR' )/' lib/version.php
+    lib_check_version_minor ""
 fi
 
-if ! grep "define( \"EZ_SDK_VERSION_RELEASE\", $RELEASE );" lib/version.php &>/dev/null; then
-    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_RELEASE"
-    echo "Should be:"
-    echo "define( \"EZ_SDK_VERSION_RELEASE\", `$SETCOLOR_EMPHASIZE`$RELEASE`$SETCOLOR_NORMAL` );"
-    echo
-    MAIN_ERROR="1"
-    [ -n "$EXIT_AT_ONCE" ] && exit 1
+lib_check_version_release "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i 's/^define( "EZ_SDK_VERSION_RELEASE", *[0-9][0-9]* *)/define( \"EZ_SDK_VERSION_RELEASE\", '$RELEASE' )/' lib/version.php
+    lib_check_version_release ""
 fi
 
-if ! grep "define( \"EZ_SDK_VERSION_STATE\", '$STATE' );" lib/version.php &>/dev/null; then
-    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_STATE"
-    echo "Should be:"
-    echo "define( \"EZ_SDK_VERSION_STATE\", '`$SETCOLOR_EMPHASIZE`$STATE`$SETCOLOR_NORMAL`' );"
-    echo
-    MAIN_ERROR="1"
-    [ -n "$EXIT_AT_ONCE" ] && exit 1
+lib_check_version_state "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i 's/^define( "EZ_SDK_VERSION_STATE", *'"'"'[^'"'"']*'"'"' *)/define( "EZ_SDK_VERSION_STATE", '"'"$STATE"'"' )/' lib/version.php
+    lib_check_version_state ""
 fi
 
-if ! grep "define( \"EZ_SDK_VERSION_DEVELOPMENT\", $DEVELOPMENT );" lib/version.php &>/dev/null; then
-    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong version number in `$SETCOLOR_EXE`lib/version.php`$SETCOLOR_NORMAL` for variable EZ_SDK_VERSION_DEVELOPMENT"
-    echo "Should be:"
-    echo "define( \"EZ_SDK_VERSION_DEVELOPMENT\", `$SETCOLOR_EMPHASIZE`$DEVELOPMENT`$SETCOLOR_NORMAL` );"
-    echo
-    MAIN_ERROR="1"
-    [ -n "$EXIT_AT_ONCE" ] && exit 1
+lib_check_version_development "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i 's/^define( "EZ_SDK_VERSION_DEVELOPMENT", *[a-zA-Z][a-zA-Z]* *)/define( "EZ_SDK_VERSION_DEVELOPMENT", '$DEVELOPMENT' )/' lib/version.php
+    lib_check_version_development ""
 fi
+
 
 # doc/doxygen/Doxyfile
 
-if ! grep -E "PROJECT_NUMBER[ ]+=[ ]+$VERSION" doc/doxygen/Doxyfile &>/dev/null; then
-    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong version number in `$SETCOLOR_EXE`doc/doxygen/Doxyfile`$SETCOLOR_NORMAL` for variable PROJECT_NUMBER"
-    echo "Should be:"
-    echo "PROJECT_NUMBER         = `$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`"
-    echo
-    MAIN_ERROR="1"
-    [ -n "$EXIT_AT_ONCE" ] && exit 1
+function doxygen_check_version
+{
+    if ! grep -E "PROJECT_NUMBER[ ]+=[ ]+$VERSION" doc/doxygen/Doxyfile &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong version number in `$SETCOLOR_EXE`doc/doxygen/Doxyfile`$SETCOLOR_NORMAL` for variable PROJECT_NUMBER"
+	    echo "Should be:"
+	    echo "PROJECT_NUMBER         = `$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`"
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
+doxygen_check_version "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i 's/^PROJECT_NUMBER[ ]*=[ ]*[0-9.-][0-9.-]*/PROJECT_NUMBER         = '$VERSION'/' doc/doxygen/Doxyfile
+    doxygen_check_version ""
 fi
+
 
 # kernel/sql/common/cleandata.sql
 
@@ -252,14 +426,28 @@ fi
 
 # support/lupdate-ezpublish3/main.cpp
 
-if ! grep -E "static QString version = \"$VERSION\";" support/lupdate-ezpublish3/main.cpp &>/dev/null; then
-    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
-    echo "Wrong/missing version number in `$SETCOLOR_EXE`support/lupdate-ezpublish3/main.cpp`$SETCOLOR_NORMAL` for variable version"
-    echo "Should be:"
-    echo "static QString version = \"`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`\""
-    echo
-    MAIN_ERROR="1"
-    [ -n "$EXIT_AT_ONCE" ] && exit 1
+function lupdate_check_version
+{
+    if ! grep -E "static QString version = \"$VERSION\";" support/lupdate-ezpublish3/main.cpp &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong/missing version number in `$SETCOLOR_EXE`support/lupdate-ezpublish3/main.cpp`$SETCOLOR_NORMAL` for variable version"
+	    echo "Should be:"
+	    echo "static QString version = \"`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`\""
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
+lupdate_check_version "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i 's/^static QString version = "[^"]*";/static QString version = "'$VERSION'";/' support/lupdate-ezpublish3/main.cpp
+    lupdate_check_version ""
 fi
 
 # doc/changelogs/$version/
