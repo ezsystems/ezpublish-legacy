@@ -30,6 +30,7 @@ Changes from 3.2-1 to 3.2-2
 - Fixed the user class to properly cleanup the cache session data when logging in
   and logging out.
 - Made sure the shopping orders get their own product collections before the checkout is started.
+- Fixed a bug in runcronjobs.php that caused cronjob parts to not be handled anymore.
 
 *Notification:
 - Made sure the subtree handlers sets some design keys for template overriding.
