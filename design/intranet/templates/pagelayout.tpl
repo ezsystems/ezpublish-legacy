@@ -13,7 +13,7 @@
 
 <style>
     @import url({"stylesheets/core.css"|ezdesign});
-    @import url({"stylesheets/intranet_leftmenu.css"|ezdesign});
+    @import url({"stylesheets/intranet.css"|ezdesign});
 {*    @import url({$pagedesign.data_map.css.content|ezpackage(filepath,"cssfile")|ezroot}); *}
 </style>
 </head>
