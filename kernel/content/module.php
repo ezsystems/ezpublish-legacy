@@ -118,6 +118,8 @@ $ViewList["urltranslator"] = array(
     "script" => "urltranslator.php",
     'single_post_actions' => array( 'NewURLAliasButton' => 'NewURLAlias',
                                     'NewForwardURLAliasButton' => 'NewForwardURLAlias',
+                                    'NewWildcardURLAliasButton' => 'NewWildcardURLAlias',
+                                    'RemoveURLAliasButton' => 'RemoveURLAlias',
                                     'StoreURLAliasButton' => 'StoreURLAlias' ),
     "params" => array( ),
     "unordered_params" => array( "offset" => "Offset" ) );

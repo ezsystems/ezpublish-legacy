@@ -368,6 +368,9 @@ foreach ( array_keys( $topLevelNodesArray ) as $key )
     $cli->output( "Updated " . $cli->stylize( 'emphasize', "$changedNodes/$nodeCount" ) . " for " . $cli->stylize( 'mark', $rootNode->attribute( 'name' ) ) );
     $cli->output();
 }
+
+eZURLAlias::expireWildcards();
+
 $cli->output();
 $cli->output( "Total update " . $cli->stylize( 'emphasize', "$totalChangedNodes/$totalNodeCount" ) );
 

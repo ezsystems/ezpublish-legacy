@@ -55,6 +55,7 @@ if ( $module->isCurrentAction( 'StoreURLAlias' ) )
         $sourceArray = $http->postVariable( 'URLAliasSourceValue' );
         $destArray = $http->postVariable( 'URLAliasDestinationValue' );
 
+        $requireExpiration = false;
         foreach ( array_keys( $sourceArray ) as $keyID )
         {
             unset( $alias );
@@ -63,12 +64,46 @@ if ( $module->isCurrentAction( 'StoreURLAlias' ) )
             if ( $alias )
             {
                 if ( isset( $sourceArray[$keyID] ) )
-                    $alias->setAttribute( 'source_url', $sourceArray[$keyID] );
+                {
+                    if ( $alias->attribute( 'source_url' ) !=  $sourceArray[$keyID] )
+                        $alias->setAttribute( 'source_url', $sourceArray[$keyID] );
+                }
                 if ( isset( $destArray[$keyID] ) )
-                    $alias->setAttribute( 'destination_url', $destArray[$keyID] );
+                {
+                    if ( $alias->attribute( 'destination_url' ) != $destArray[$keyID] )
+                        $alias->setAttribute( 'destination_url', $destArray[$keyID] );
+                }
+                if ( $alias->hasDirtyData() and
+                     $alias->attribute( 'is_wildcard' ) != EZ_URLALIAS_WILDCARD_TYPE_NONE )
+                    $requireExpiration = true;
                 $alias->sync();
             }
         }
+        if ( $requireExpiration )
+            eZURLAlias::expireWildcards();
+    }
+}
+
+if ( $module->isCurrentAction( 'RemoveURLAlias' ) )
+{
+    if ( $http->hasPostVariable( 'URLAliasSelection' ) )
+    {
+        $aliasSelection = $http->postVariable( 'URLAliasSelection' );
+
+        $requireExpiration = false;
+        foreach ( array_keys( $aliasSelection ) as $keyID )
+        {
+            unset( $alias );
+            $alias = eZURLAlias::fetch( $keyID );
+
+            if ( $alias )
+            {
+                $alias->cleanup();
+                $requireExpiration = true;
+            }
+        }
+        if ( $requireExpiration )
+            eZURLAlias::expireWildcards();
     }
 }
 
@@ -123,6 +158,29 @@ if ( $module->isCurrentAction( 'NewForwardURLAlias' ) )
     }
 }
 
+$wildcardInfo = false;
+
+if ( $module->isCurrentAction( 'NewWildcardURLAlias' ) )
+{
+    if ( $http->hasPostVariable( 'NewWildcardURLAliasSource' ) and
+         $http->hasPostVariable( 'NewWildcardURLAliasDestination' ) )
+    {
+        $source = $http->postVariable( 'NewWildcardURLAliasSource' );
+        $destination = $http->postVariable( 'NewWildcardURLAliasDestination' );
+        $isForwarding = false;
+        if ( $http->hasPostVariable( 'NewWildcardURLAliasIsForwarding' ) )
+            $isForwarding = true;
+
+        $wildcardInfo = array( 'error' => false,
+                               'source' => $source,
+                               'destination' => $destination );
+
+        $alias =& eZURLAlias::create( $source, $destination, false, false, $isForwarding ? EZ_URLALIAS_WILDCARD_TYPE_FORWARD : EZ_URLALIAS_WILDCARD_TYPE_DIRECT );
+        $alias->store();
+        eZURLAlias::expireWildcards();
+    }
+}
+
 $aliasList =& eZURLAlias::fetchByOffset( $Offset, $limit, true );
 $aliasCount =& eZURLAlias::totalCount();
 
@@ -131,6 +189,7 @@ $tpl->setVariable( 'alias_list', $aliasList );
 $tpl->setVariable( 'alias_count', $aliasCount );
 $tpl->setVariable( 'translation_info', $translationInfo );
 $tpl->setVariable( 'forward_info', $forwardInfo );
+$tpl->setVariable( 'wildcard_info', $wildcardInfo );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();

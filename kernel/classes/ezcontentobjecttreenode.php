@@ -2106,8 +2106,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
         eZURLAlias::cleanupForwardingURLs( $newPathString );
         eZURLAlias::cleanupWildcards( $newPathString );
 
-        $wildcardAlias =& eZURLAlias::create( $oldPathString . '/*', $newPathString . '/{1}', true, false, EZ_URLALIAS_WILDCARD_TYPE_FORWARD );
-        $wildcardAlias->store();
+        $subNodeCount = $this->subTreeCount( array( 'Limitation' => array() ) );
+        if ( $subNodeCount > 0 )
+        {
+            $wildcardAlias =& eZURLAlias::create( $oldPathString . '/*', $newPathString . '/{1}', true, false, EZ_URLALIAS_WILDCARD_TYPE_FORWARD );
+            $wildcardAlias->store();
+        }
 
         // Update old url alias and old forwarding urls
         if ( get_class( $oldUrlAlias ) == 'ezurlalias' )
