@@ -10,3 +10,10 @@ INSERT INTO ezuser_role
 INSERT INTO ezuser_role
        (role_id, contentobject_id, limit_identifier,limit_value)
        VALUES (3,13,'Subtree','/1/43/');
+
+CREATE SEQUENCE tmp_notification_rule_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
