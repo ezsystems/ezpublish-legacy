@@ -743,6 +743,7 @@ CREATE TABLE ezorder (
   data_text_1 text,
   account_identifier varchar(100) NOT NULL default 'default',
   ignore_vat int(11) NOT NULL default '0',
+  email varchar(150) NOT NULL default '',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 

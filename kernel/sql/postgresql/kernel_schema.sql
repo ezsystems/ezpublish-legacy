@@ -1601,7 +1601,8 @@ CREATE TABLE ezorder (
     data_text_2 text,
     data_text_1 text,
     account_identifier character varying(100) DEFAULT 'default'::character varying NOT NULL,
-    ignore_vat integer DEFAULT 0 NOT NULL
+    ignore_vat integer DEFAULT 0 NOT NULL,
+    email character varying(150) DEFAULT ''
 );
 
 

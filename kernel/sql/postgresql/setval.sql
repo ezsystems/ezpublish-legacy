@@ -29,7 +29,6 @@ SELECT setval('eznotificationcollection_s',max(id)+1) FROM eznotificationcollect
 SELECT setval('eznotificationcollection_item_s',max(id)+1) FROM eznotificationcollection_item;
 SELECT setval('eznotificationevent_s',max(id)+1) FROM eznotificationevent;
 SELECT setval('ezoperation_memento_s',max(id)+1) FROM ezoperation_memento;
-SELECT setval('ezorder_s',max(id)+1) FROM ezorder;
 SELECT setval('ezorder_item_s',max(id)+1) FROM ezorder_item;
 SELECT setval('ezpolicy_s',max(id)+1) FROM ezpolicy;
 SELECT setval('ezpolicy_limitation_s',max(id)+1) FROM ezpolicy_limitation;
@@ -61,4 +60,5 @@ SELECT setval('ezrss_export_item_s',max(id)+1) FROM ezrss_export_item;
 SELECT setval('ezrss_import_s',max(id)+1) FROM ezrss_import;
 SELECT setval('ezimagefile_s',max(id)+1) FROM ezimagefile;
 SELECT setval('ezsubtree_notification_rule_s',max(id)+1) FROM ezsubtree_notification_rule;
+SELECT setval('ezorder_s',max(id)+1) FROM ezorder;
 SELECT setval('ezcontentobject_tree_s', max(node_id)) , 'ezcontentobject_tree' as tablename FROM ezcontentobject_tree;
