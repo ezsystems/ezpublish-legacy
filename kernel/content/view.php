@@ -377,10 +377,11 @@ switch( $operationResult['status'] )
                 $objectID = $object->attribute( 'id' );
                 $parentNodeID = $node->attribute( 'parent_node_id' );
                 $classID = $object->attribute( 'contentclass_id' );
+                $classIdentifier = $class->attribute( 'identifier' );
                 $nodeDepth = $node->attribute( 'depth' );
                 $urlAlias = $node->attribute( 'url_alias' );
 
-                if ( eZContentCache::store( $designSetting, $objectID, $classID,
+                if ( eZContentCache::store( $designSetting, $objectID, $classID, $classIdentifier,
                                             $NodeID, $parentNodeID, $nodeDepth, $urlAlias, $ViewMode, $sectionID, $language,
                                             $Offset, $roleList, $discountList, $layout, $navigationPartIdentifier, $Result, $cacheTTL,
                                             array( 'view_parameters' => $viewParameters ) ) )

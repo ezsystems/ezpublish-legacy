@@ -205,7 +205,7 @@ class eZContentCache
         return $result;
     }
 
-    function store( $siteDesign, $objectID, $classID,
+    function store( $siteDesign, $objectID, $classID, $classIdentifier,
                     $nodeID, $parentNodeID, $nodeDepth, $urlAlias, $viewMode, $sectionID,
                     $language, $offset, $roleList, $discountList, $layout, $navigationPartIdentifier,
                     $result, $cacheTTL = -1,
@@ -234,6 +234,7 @@ class eZContentCache
                               'url_alias' => $urlAlias,
                               'object_id' => $objectID,
                               'class_id' => $classID,
+                              'class_identifier' => $classIdentifier,
                               'navigation_part' => $navigationPartIdentifier,
                               'viewmode' => $viewMode,
                               'language' => $language,
