@@ -320,6 +320,8 @@ class eZTemplateToolbarFunction
                         }
                         else
                         {
+                            $tpl->setVariable( "first", false );
+                            $tpl->setVariable( "last",  false );
                             $tpl->setVariable( "placement", "" );
                             $definedVariables[] = "placement";
                         }
