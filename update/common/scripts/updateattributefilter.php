@@ -299,7 +299,7 @@ $simpleTypes = array( array( 'field' => 'data_int',
                              'datatypes' => array( 'ezinteger', 'ezboolean', 'ezdate', 'eztime', 'ezdatetime' ) ),
                       array( 'field' => 'data_text',
                              'sort_field' => 'sort_key_string',
-                             'datatypes' => array( 'ezstring' ) ) );
+                             'datatypes' => array( 'ezstring', 'ezemail' ) ) );
 
 $complexTypes = array();
 

@@ -114,6 +114,11 @@ class eZEmailType extends eZDataType
         return $contentObjectAttribute->attribute( "data_text" );
     }
 
+    function isIndexable()
+    {
+        return true;
+    }
+
     /*!
      Returns the meta data used for storing search indeces.
     */
@@ -127,7 +132,23 @@ class eZEmailType extends eZDataType
     */
     function title( &$contentObjectAttribute )
     {
-        return  $contentObjectAttribute->attribute( "data_text" );
+        return $contentObjectAttribute->attribute( "data_text" );
+    }
+
+    /*!
+     \reimp
+    */
+    function &sortKey( &$contentObjectAttribute )
+    {
+        return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
+    }
+
+    /*!
+     \reimp
+    */
+    function &sortKeyType()
+    {
+        return 'string';
     }
 }
 
