@@ -94,6 +94,7 @@ $versions34 = array( 'unstable' => array( array( '3.3-3', '3.4.0alpha1' )
                      'stable' => array( array( '3.3-5', '3.4.0' )
 		                                ,array( '3.4.0', '3.4.1' )
 		                                ,array( '3.4.1', '3.4.2' )
+		                                ,array( '3.4.2', '3.4.3' )
                                         ) );
 $versions['3.0'] = $versions30;
 $versions['3.1'] = $versions31;
