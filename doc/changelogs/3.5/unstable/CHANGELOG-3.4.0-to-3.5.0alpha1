@@ -137,6 +137,8 @@ Workflow:
 - Implemented usage of the new addRawVariable method.
 
 *Bugs
+- Added whitespace removal to mail Transport setting (in site.ini file) -
+  it is critical that there's no whitespace there.
 - Fixed using the loginpagelayout for forgotpassword
   http://ez.no/community/bug_reports/forgot_password_pagelayout_template_not_consistent
 - Fixed bug in when editing XML lists. It included some code as text.
