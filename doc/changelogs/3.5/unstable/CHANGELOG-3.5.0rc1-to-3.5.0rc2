@@ -71,6 +71,8 @@ Changes from 3.5.0rc1 to 3.5.0rc2
   http://ez.no/community/bug_reports/treemenu_top_folder_icon_disappears_when_no_content_is_present
 - Fixed bug with setting template namespaces and toolboxes
   http://ez.no/community/bug_reports/toolbar_function_ignores_namespaces_in_template_variable_management
+- Fixed bug with ezstring and max-length validation
+  http://ez.no/community/bug_reports/3_5_max_text_input_restriction_don_t_work_with_utf_8
 
 *Library:
 

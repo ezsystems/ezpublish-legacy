@@ -86,7 +86,7 @@ class eZTextCodec
         $encodingStrlenMap = array();
 
         $encodingStrlenMap['unicode'] = 'strlenUnicode';
-        $encodingStrlenMap['utf-8'] = 'strlenCodepageRev';
+        $encodingStrlenMap['utf-8'] = 'strlenUTF8';
         $encodingStrlenMap['singlebyte'] = 'strlenCodepage';
         $encodingStrlenMap['doublebyte'] = 'strlenCodepage';
 
@@ -198,10 +198,20 @@ class eZTextCodec
         {
             $inpenc = $this->InputCharacterEncodingScheme;
             if ( $isSinglebyteSame )
+            {
                 $strlenFunction = 'strlenNone';
+            }
+            else if ( $useMBString and isset( $mbStringCharsets[$this->InputCharsetCode] ) )
+            {
+                $strlenFunction = 'strlenMBString';
+            }
             else if ( isset( $encodingStrlenMap[$inpenc] ) )
             {
                 $strlenFunction = $encodingStrlenMap[$inpenc];
+                if ( $inpenc == 'utf-8')
+                {
+                    include_once( "lib/ezi18n/classes/ezutf8codec.php" );
+                }
             }
         }
 
@@ -420,6 +430,12 @@ class eZTextCodec
     function strlenCodepage( $str )
     {
         return $this->Codepage->strlen( $str );
+    }
+
+    function strlenUTF8( $str )
+    {
+        $utf8_codec =& eZUTF8Codec::instance();
+        return $utf8_codec->strlen( $str );
     }
 
     function strlenCodepageRev( $str )
