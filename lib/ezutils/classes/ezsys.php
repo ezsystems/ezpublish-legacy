@@ -169,7 +169,6 @@ class eZSys
     /*!
      \static
      \return the directory used for storing various kinds of files like cache, temporary files and logs.
-     \Note This will include the varDirectory().
     */
     function varDirectory()
     {
@@ -181,12 +180,15 @@ class eZSys
     /*!
      \static
      \ return the directory used for storing various kinds of files like images, audio and more.
+     \Note This will include the varDirectory().
     */
     function storageDirectory()
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
-        $this =& eZSys::instance();
+        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
+            $this =& eZSys::instance();
+
         $varDir = $this->varDirectory();
         $storageDir = $ini->variable( 'FileSettings', 'StorageDir' );
         return( $varDir . '/' . $storageDir );
