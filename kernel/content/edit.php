@@ -69,6 +69,8 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
         if ( $classID == $key )
             $versionlimit =& $limitList[$key];
     }
+    if ( $versionlimit < 2 )
+        $versionlimit = 2;
     $versionCount = $obj->getVersionCount();
     if ( $versionCount < $versionlimit )
     {
@@ -221,6 +223,9 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
                 if ( $classID == $key )
                     $versionlimit =& $limitList[$key];
             }
+            if ( $versionlimit < 2 )
+                $versionlimit = 2;
+
             $versionCount = $object->getVersionCount();
             if ( $versionCount < $versionlimit )
             {
