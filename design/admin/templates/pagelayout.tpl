@@ -204,7 +204,7 @@
 {include uri="design:parts/media/menu.tpl"}
 {/section}
 
-{cache-block keys=array($current_user.contentobject_id,ezpreference('bookmark_menu'),ezpreference('history_menu'),$navigation_part.identifier)}
+{cache-block keys=array($current_user.contentobject_id,ezpreference('bookmark_menu'),ezpreference('history_menu'),ezpreference('advanced_menu'),$navigation_part.identifier)}
 
 {section show=eq($navigation_part.identifier,'ezshopnavigationpart')}
 {include uri="design:parts/shop/menu.tpl"}
