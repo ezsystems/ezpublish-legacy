@@ -28,7 +28,7 @@
 <tr>
     <td>{$attribute.content.original_filename}</td>
     <td>{$attribute.content.mime_type}</td>
-    <td>{$attribute.content.filesize}</td>
+    <td>{$attribute.content.filesize|si( byte )}</td>
 </tr>
 </table>
 {section-else}
