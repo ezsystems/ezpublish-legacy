@@ -198,13 +198,34 @@ else
     createdb $USERARG $USERARGVAL "$DBNAME" || exit 1
     for sql in $SCHEMAFILES; do
 	echo "Importing schema SQL file $sql"
-	psql $USERARG $USERARGVAL "$DBNAME" < "$sql" &>/dev/null || exit 1
+	psql $USERARG $USERARGVAL "$DBNAME" < "$sql" &>.psql.log || exit 1
+	if cat .psql.log | grep 'ERROR:' &>/dev/null; then
+	    echo "Postgresql import from schema $sql failed"
+	    cat .psql.log
+	    rm .psql.log
+	    exit 1
+	fi
+	rm .psql.log
     done
     echo "Importing SQL file $SQLFILE"
-    psql $USERARG $USERARGVAL "$DBNAME" < "$SQLFILE" &>/dev/null || exit 1
+    psql $USERARG $USERARGVAL "$DBNAME" < "$SQLFILE" &>.psql.log || exit 1
+    if cat .psql.log | grep 'ERROR:' &>/dev/null; then
+	echo "Postgresql import from $sql failed"
+	cat .psql.log
+	rm .psql.log
+	exit 1
+    fi
+    rm .psql.log
     for sql in $SQLFILES; do
 	echo "Importing SQL file $sql"
-	psql $USERARG $USERARGVAL "$DBNAME" < "$sql" &>/dev/null || exit 1
+        psql $USERARG $USERARGVAL "$DBNAME" < "$sql" &>.psql.log || exit 1
+        if cat .psql.log | grep 'ERROR:' &>/dev/null; then
+            echo "Postgresql import from $sql failed"
+            cat .psql.log
+            rm .psql.log
+            exit 1
+        fi
+        rm .psql.log
     done
 
     if [ ! -z $USE_PAUSE ]; then
