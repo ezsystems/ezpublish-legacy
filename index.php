@@ -36,6 +36,8 @@
 // }
 // xdebug_start_trace( 'ezp' );
 
+ignore_user_abort( true );
+
 $scriptStartTime = microtime();
 ob_start();
 
