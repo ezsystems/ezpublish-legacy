@@ -50,9 +50,14 @@
 
 {section-else}
 
-   <div class="feedback">
-       <h2>{"No classes in "|i18n('design/admin/class/classlist')}{$group_name|wash}.</h2>
-       <p>{"Click on the 'New' button to create a class."|i18n('design/admin/class/classlist')}</p>
-   </div>
+<div class="feedback">
+    <h2>{"No classes in "|i18n('design/admin/class/classlist')}{$group_name|wash}.</h2>
+    <p>{"Click the 'New class' button to create a class."|i18n( 'design/admin/class/classlist' )}</p>
+</div>
+<form action={concat( 'class/classlist/', $GroupID )|ezurl} method="post" name="ClassList">
+<input type="hidden" name = "CurrentGroupID" value="{$GroupID}" />
+<input type="hidden" name = "CurrentGroupName" value="{$group_name}" />
+<input class="button" type="submit" name="NewButton" value="{'New class'|i18n( 'design/admin/class/classlist' )}" />
+</form>
 
 {/section}
