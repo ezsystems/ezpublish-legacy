@@ -144,61 +144,24 @@ class eZPDF
                 {
                     $tableSettings = $tpl->elementValue( $operatorParameters[2], $rootNamespace, $currentNamespace );
 
-                    if ( isset( $tableSettings['showLines'] ) )
+                    foreach( array_keys( $tableSettings ) as $key )
                     {
-                        $operatorValue .= ':showLines:'. $tableSettings['showLines'];
-                    }
-                    if ( isset( $tableSettings['cellSpacing'] ) )
-                    {
-                        $operatorValue .= ':cellSpacing:' . $tableSettings['cellSpacing'];
-                    }
-                    if ( isset( $tableSettings['headerCMYK'] ) )
-                    {
-                        $operatorValue .= ':headerCMYK:' . implode( ',', $tableSettings['headerCMYK'] );
-                    }
-                    if ( isset( $tableSettings['cellCMYK'] ) )
-                    {
-                        $operatorValue .= ':cellCMYK:' . implode( ',', $tableSettings['cellCMYK'] );
-                    }
-                    if ( isset( $tableSettings['textCMYK'] ) )
-                    {
-                        $operatorValue .= ':textCMYK:' . implode( ',', $tableSettings['textCMYK'] );
-                    }
-                    if( isset( $tableSettings['rowGap'] ) )
-                    {
-                        $operatorValue .= ':rowGap:' . $tableSettings['rowGap'];
-                    }
-                    if( isset( $tableSettings['colGap'] ) )
-                    {
-                        $operatorValue .= ':colGap:' . $tableSettings['colGap'];
-                    }
-                    if ( isset( $tableSettings['cellPadding'] ) )
-                    {
-                        $operatorValue .= ':cellPadding:' . $tableSettings['cellPadding'];
-                    }
-                    if( isset( $tableSettings['firstRowTitle'] ) )
-                    {
-                        $operatorValue .= ':firstRowTitle:' . $tableSettings['firstRowTitle'];
-                    }
-                    if( isset( $tableSettings['titleFontSize'] ) )
-                    {
-                        $operatorValue .= ':titleFontSize:' . $tableSettings['titleFontSize'];
-                    }
-                    if( isset( $tableSettings['titleCellCMYK'] ) )
-                    {
-                        $operatorValue .= ':titleCellCMYK:' . implode( ',', $tableSettings['titleCellCMYK'] );
-                    }
-                    if( isset( $tableSettings['titleTextCMYK'] ) )
-                    {
-                        $operatorValue .= ':titleTextCMYK:' . implode( ',', $tableSettings['titleTextCMYK'] );
-                    }
-                    if( isset ( $tableSettings['width'] ) )
-                    {
-                        $operatorValue .= ':width:' . $tableSettings['width'];
-                    }
-                    if ( isset( $tableSettings['yBottom'] ) )
-                    {
-                        $operatorValue .= ':yBottom:' . $tableSettings['yBottom'];
+                        switch( $key )
+                        {
+                            case 'headerCMYK':
+                            case 'cellCMYK':
+                            case 'textCMYK':
+                            case 'titleCellCMYK':
+                            case 'titleTextCMYK':
+                            {
+                                $operatorValue .= ':' . $key . ':' . implode( ',', $tableSettings[$key] );
+                            } break;
+
+                            default:
+                            {
+                                $operatorValue .= ':' . $key . ':' . $tableSettings[$key];
+                            } break;
+                        }
                     }
                 }
 
@@ -207,8 +170,8 @@ class eZPDF
                 $rows = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
                 $operatorValue .= urlencode( str_replace( array( ' ', "\t", "\r\n", "\n" ),
-                                               '',
-                                               $rows ) );
+                                                          '',
+                                                          $rows ) );
 
                 $operatorValue .= '</ezGroup:callTable><C:callNewLine>';
 
@@ -644,31 +607,10 @@ class eZPDF
                 $operatorValue = '<C:callSetMargin';
                 $options = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
-                if ( isset( $options['left'] ) )
+                foreach( array_keys( $options ) as $key )
                 {
-                    $operatorValue .= ':left:' . $options['left'];
+                    $operatorValue .= ':' . $key . ':' . $options[$key];
                 }
-                if ( isset( $options['right'] ) )
-                {
-                    $operatorValue .= ':right:' . $options['right'];
-                }
-                if ( isset( $options['x'] ) )
-                {
-                    $operatorValue .= ':x:' . $options['x'];
-                }
-                if ( isset( $options['y'] ) )
-                {
-                    $operatorValue .= ':y:' . $options['y'];
-                }
-                if ( isset( $options['bottom'] ) )
-                {
-                    $operatorValue .= ':bottom:' . $options['bottom'];
-                }
-                if ( isset( $options['top'] ) )
-                {
-                    $operatorValue .= ':top:' . $options['top'];
-                }
-
 
                 $operatorValue .= '>';
 
@@ -746,6 +688,7 @@ class eZPDF
                      ':radius:' . $params['radius'] .
                      ':cmyk:' . implode( ',', $params['cmyk'] ) .
                      '>';
+
                 $operatorValue .= $text;
             } break;
 
