@@ -66,19 +66,64 @@
     <div class="menubox">
     <table class="menubox" width="120" cellpadding="0" cellspacing="0" border="0">
     <tr>
-        <th>menutitle</th>
+        <th>News</th>
     </tr>
     <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Menu choice 1</a></td>
+        <td class="menuchoice" colspan="2"><a href="/">Latest news</a></td>
     </tr>
     <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Menu choice 2</a></td>
+        <td class="menuchoice" colspan="2"><a href="/">Internal archive</a></td>
     </tr>
     <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Menu choice 3</a></td>
+        <td class="menuchoice" colspan="2"><a href="/">External archive</a></td>
     </tr>
     <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Menu choice 4</a></td>
+        <td class="menuchoice" colspan="2"><a href="/">Full archive</a></td>
+    </tr>
+    </table>
+    </div>
+    
+<!-- Menubox END -->
+
+<!-- Menubox START -->
+
+    <div class="menubox">
+    <table class="menubox" width="120" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+        <th>Files</th>
+    </tr>
+    <tr>
+        <td class="menuchoice" colspan="2"><a href="/">Internal files</a></td>
+    </tr>
+    <tr>
+        <td class="menuchoice" colspan="2"><a href="/">External files</a></td>
+    </tr>
+    <tr>
+        <td class="menuchoice" colspan="2"><a href="/">Profile and marketing material</a></td>
+    </tr>
+    <tr>
+        <td class="menuchoice" colspan="2"><a href="/">Upload new file</a></td>
+    </tr>
+    </table>
+    </div>
+    
+<!-- Menubox END -->
+
+<!-- Menubox START -->
+
+    <div class="menubox">
+    <table class="menubox" width="120" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+        <th>Contacts</th>
+    </tr>
+    <tr>
+        <td class="menuchoice" colspan="2"><a href="/">All contacts</a></td>
+    </tr>
+    <tr>
+        <td class="menuchoice" colspan="2"><a href="/">User contacts</a></td>
+    </tr>
+    <tr>
+        <td class="menuchoice" colspan="2"><a href="/">New contact</a></td>
     </tr>
     </table>
     </div>
@@ -88,7 +133,7 @@
     </td>
 
     <td class="divider"><img src={"images/1x1.gif"|ezimage} width="16" height="1" alt="" border="0" /></td>
-    <td class="maincontent">
+    <td class="maincontent" valign="top">
 
 <!-- Main area START -->
 
@@ -105,19 +150,61 @@
     <div class="menubox">
     <table class="menubox" width="120" cellpadding="0" cellspacing="0" border="0">
     <tr>
-        <th>menutitle</th>
+        <th>User</th>
     </tr>
     <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Menu choice 1</a></td>
+        <td class="menuchoice" colspan="2"><a href="/">Change user info</a></td>
     </tr>
     <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Menu choice 2</a></td>
+        <td class="menuchoice" colspan="2"><a href="/">Change password</a></td>
     </tr>
     <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Menu choice 3</a></td>
+        <td class="menuchoice" colspan="2"><a href="/">View all user data</a></td>
     </tr>
     <tr>
-        <td class="menuchoice" colspan="2"><a href="/">Menu choice 4</a></td>
+        <td class="menuchoice" colspan="2"><a href="/">Log out</a></td>
+    </tr>
+    </table>
+    </div>
+    
+<!-- Menubox END -->
+
+<!-- Menubox START -->
+
+    <div class="menubox">
+    <table class="menubox" width="120" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+        <th>Calendar</th>
+    </tr>
+    <tr>
+        <td class="menuchoice" colspan="2"><a href="/">View calendar</a></td>
+    </tr>
+    <tr>
+        <td class="menuchoice" colspan="2"><a href="/">User appointments</a></td>
+    </tr>
+    <tr>
+        <td class="menuchoice" colspan="2"><a href="/">All appointments</a></td>
+    </tr>
+    <tr>
+        <td class="menuchoice" colspan="2"><a href="/">New appointment</a></td>
+    </tr>
+    </table>
+    </div>
+    
+<!-- Menubox END -->
+
+<!-- Menubox START -->
+
+    <div class="menubox">
+    <table class="menubox" width="120" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+        <th>Employees</th>
+    </tr>
+    <tr>
+        <td class="menuchoice" colspan="2"><a href="/">View employees</a></td>
+    </tr>
+    <tr>
+        <td class="menuchoice" colspan="2"><a href="/">Send message</a></td>
     </tr>
     </table>
     </div>
