@@ -31,7 +31,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<form action={concat( '/section/edit/', $section.id )|ezurl} method="post">
+<form method="post" action={concat( '/section/edit/', $section.id )|ezurl}>
 <input class="button" type="submit" name="" value="{'Edit'|i18n( 'design/admin/section/view' )}" title="{'Edit this section.'|i18n( 'design/admin/section/view' )}" />
 </form>
 </div>
@@ -160,7 +160,9 @@
 
 {section show=$objects}
 <table class="list" cellspacing="0">
+<tr>
 <th>{'Name'|i18n( 'design/admin/section/view' )}</th>
+</tr>
 
 {section var=Objects loop=$objects sequence=array( bgdark, bglight )}
 <tr class="{$Objects.sequence}">
