@@ -107,7 +107,7 @@
     {section name=Object loop=$related_contentobjects sequence=array(bglight,bgdark)}
     <tr>
         <td class="menu">
-        {content_view_gui view=line content_object=$Object:item}
+        {content_view_gui view=text_linked content_object=$Object:item}
         </td>
     </tr>
     {/section}

@@ -76,7 +76,21 @@ $classID = $object->attribute( "contentclass_id" );
 $class =& eZContentClass::fetch( $classID );
 $originalContentAttributes =& $version->contentObjectAttributes();
 $translateContentAttributes =& $version->contentObjectAttributes( $translateToLanguage );
-eZDebug::writeError($translateContentAttributes,"wwwwwwwwwww".$translateContentAttributes);
+
+// create a new language
+if ( count( $translateContentAttributes ) == 0 )
+{
+    $translateContentAttributes = $originalContentAttributes;
+    eZDebug::writeError("here           1");
+    foreach ( $translateContentAttributes as $contentAttribute )
+    {
+        $contentAttribute->setAttribute( "id", null );
+        $contentAttribute->setAttribute( "language_code", $translateToLanguage );
+        $contentAttribute->store();
+    }
+    $translateContentAttributes =& $version->contentObjectAttributes( $translateToLanguage );
+}
+
 if ( $http->hasPostVariable( "StoreButton" )  )
 {
     $inputValidated = true;
@@ -126,23 +140,8 @@ if ( $http->hasPostVariable( "StoreButton" )  )
             $i++;
             next( $translateContentAttributes );
         }
-
         $object->store();
     }
-}
-
-// create a new language
-if ( count( $translateContentAttributes ) == 0 )
-{
-    $translateContentAttributes = $originalContentAttributes;
-
-    foreach ( $translateContentAttributes as $contentAttribute )
-    {
-        $contentAttribute->setAttribute( "id", null );
-        $contentAttribute->setAttribute( "language_code", $translateToLanguage );
-        $contentAttribute->store();
-    }
-
 }
 
 $tpl->setVariable( "object", $object );
