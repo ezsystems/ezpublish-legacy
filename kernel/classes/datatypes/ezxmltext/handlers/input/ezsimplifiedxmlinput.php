@@ -240,7 +240,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
     /*!
      */
-    function &handleStartTag( $standardTagName, $tagName, $lastInsertedNodeTag, &$currentNode, &$domDocument, &$TagStack, &$message, $attrPart )
+    function &handleStartTag( $standardTagName, $tagName, $lastInsertedNodeTag, &$currentNode, &$domDocument, &$TagStack, &$message, $attrPart, &$isInsideTd )
     {
         unset( $subNode );
         $subNode = new eZDOMNode();
@@ -469,6 +469,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             // Add paragraph tag for td and th
             if ( $currentTag == "td" or $currentTag == "th" or $currentTag == "custom" )
             {
+                // Set variable isInsideTd to true
+                $isInsideTd = true;
+
                 unset( $subNode );
                 $subNode = new eZDOMNode();
 
@@ -528,6 +531,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $lastInsertedNode = null;
         $sectionLevel = 0;
         $overrideContent = false;
+        $isInsideTd = false;
+        $tdSectionLevel = 0;
         while ( $pos < strlen( $data ) )
         {
             $char = $data[$pos];
@@ -655,6 +660,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                     if ( $convertedTag == 'td' or $convertedTag == 'th' or $convertedTag == 'custom' )
                     {
+                        $isInsideTd = false;
+                        // Reset table section level
+                        $tdSectionLevel = 0;
                         while ( $lastInsertedNodeTag == "section" or $lastInsertedNodeTag == "paragraph" )
                         {
                             unset( $currentNode );
@@ -861,9 +869,45 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 }
                             }
 
-                            if ( $lastInsertedNodeTag == "td" or $lastInsertedNodeTag == "th" )
+                            /* if ( $lastInsertedNodeTag == "td" or $lastInsertedNodeTag == "th" )
                             {
                                     $sectionLevel = $sectionLevel;
+                            }*/
+                            if ( $isInsideTd )
+                            {
+                                $sectionLevel = $sectionLevel;
+                                //$tdSectionLevel
+                                switch ( $headerLevel )
+                                {
+                                    case "1" :
+                                    {
+                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 1, $TagStack, $currentNode );
+                                    }break;
+                                    case "2":
+                                    {
+                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 2, $TagStack, $currentNode );
+                                    }break;
+                                    case "3":
+                                    {
+                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 3, $TagStack, $currentNode );
+                                    }break;
+                                    case "4":
+                                    {
+                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 4, $TagStack, $currentNode );
+                                    }break;
+                                    case "5":
+                                    {
+                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 5, $TagStack, $currentNode );
+                                    }break;
+                                    case "6":
+                                    {
+                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 6, $TagStack, $currentNode );
+                                    }break;
+                                    default:
+                                    {
+                                        $currentNode =& $this->sectionLevel( $tdSectionLevel, 1, $TagStack, $currentNode );
+                                    }break;
+                                }
                             }
                             else
                             {
@@ -938,7 +982,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                     else
                     {
-                        $currentNode =& $this->handleStartTag( $justName, $tagName, $lastInsertedNodeTag, $currentNode, $domDocument, $TagStack, $message, $attributePart );
+                        $currentNode =& $this->handleStartTag( $justName, $tagName, $lastInsertedNodeTag, $currentNode, $domDocument, $TagStack, $message, $attributePart, $isInsideTd );
                     }
                     if ( $justName == "literal" )
                     {
