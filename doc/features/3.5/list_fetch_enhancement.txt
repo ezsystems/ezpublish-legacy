@@ -1,4 +1,4 @@
-*Title: New AutoConvertOnSave setting
+*Title: List fetch enhancement
 
 *Incentive:
 Make it possible to list all children of a node allthough the current
