@@ -168,8 +168,15 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
     foreach ( $itemIDList as $id )
     {
         $item = eZProductCollectionItem::fetch( $id );
-        $item->setAttribute( "item_count", $itemCountList[$i] );
-        $item->store();
+        if ( $itemCountList[$i] == 0 )
+        {
+            $item->remove();
+        }
+        else
+        {
+            $item->setAttribute( "item_count", $itemCountList[$i] );
+            $item->store();
+        }
 
         $i++;
     }

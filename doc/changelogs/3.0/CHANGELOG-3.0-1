@@ -112,9 +112,10 @@ links to clickable links.
 - Optimized multiple word search queries.
 - Search and advanced search now use design keys for section if a section id override is used,
   this means that override templates can be used per section.
-- Redirect after redirect is now controlled by UserSettings/LogoutRedirect in settings/site.ini.
+- Redirect after logout is now controlled by UserSettings/LogoutRedirect in settings/site.ini.
 - Added class and object overide keys for informationcollector mail
-
+- If email can be used as login, now validation checks if email is unique
+- If we update basket with 0 amount, then product is deleted from basket
 *SDK :
 
 *Library :

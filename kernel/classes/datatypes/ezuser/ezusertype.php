@@ -125,6 +125,22 @@ class eZUserType extends eZDataType
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
 
+                $authenticationMatch = eZUser::authenticationMatch();
+                if ( $authenticationMatch & EZ_USER_AUTHENTICATE_EMAIL )
+                {
+                    $userByEmail =& eZUser::fetchByEmail( $email );
+                    if ( $userByEmail != null )
+                    {
+                        if ( $userID !=  $contentObjectAttribute->attribute( "contentobject_id" ) )
+                        {
+                            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                                 'User with this email already exists, if you forgot your password go to the
+                                                                                  forgot password.',
+                                                                                 'eZUserType' ) );
+                            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                        }
+                    }
+                }
                 $ini =& eZINI::instance();
                 $generatePasswordIfEmpty = $ini->variable( "UserSettings", "GeneratePasswordIfEmpty" ) == 'true';
                 if ( !$generatePasswordIfEmpty || ( $password != "" ) )

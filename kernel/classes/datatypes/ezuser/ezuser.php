@@ -235,6 +235,15 @@ class eZUser extends eZPersistentObject
         return $user;
     }
 
+    function &fetchByEmail( $email, $asObject = true )
+    {
+        $user =& eZPersistentObject::fetchObject( eZUser::definition(),
+                                                  null,
+                                                  array( 'email' => $email ),
+                                                  $asObject );
+        return $user;
+    }
+
     function &removeUser( $userID )
     {
         eZPersistentObject::removeObject( eZUser::definition(),
