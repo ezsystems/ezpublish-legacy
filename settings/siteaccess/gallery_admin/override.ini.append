@@ -175,5 +175,11 @@ MatchFile=configure_gallery.tpl
 Subdir=templates
 Match[class]=15
 
+[ini_settings]
+Source=content/edit.tpl
+MatchFile=ini_settings.tpl
+Subdir=templates
+Match[class]=29
+
 
 */ ?>
