@@ -80,9 +80,28 @@ if ( $http->hasPostVariable( 'EditButton' )  )
 {
     if ( $http->hasPostVariable( 'ContentObjectID' ) )
     {
-        $module->redirectTo( $module->functionURI( 'edit' ) . '/' . $http->postVariable( 'ContentObjectID' ) . '/' );
+        $module->redirectTo( $module->functionURI( 'edit' ) . '/full/' . $http->postVariable( 'ContentObjectID' ) . '/' );
         return;
     }
+}
+
+if ( $http->hasPostVariable( 'RemoveButton' )  )
+{
+    if ( $http->hasPostVariable( 'DeleteIDArray' ) )
+    {
+        $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+        foreach ( $deleteIDArray as $deleteID )
+        {
+            $contentObject = eZContentObject::fetch( $deleteID );
+            if ( $contentObject->attribute( 'can_remove' ) )
+            {
+                $contentObject->remove();
+            }
+        }
+        unset( $contentObject );
+    }
+    $module->redirectTo( $module->functionURI( 'view' ) . '/' . $http->postVariable( 'ContentObjectID' ) . '/' );
+    return;
 }
 
 if ( $http->hasPostVariable( "ContentObjectID" )  )

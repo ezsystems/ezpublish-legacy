@@ -70,7 +70,7 @@ if ( $http->hasPostVariable( 'NewButton' )  )
     if ( $http->hasPostVariable( 'ClassID' )  )
     {
         $node =& eZContentObjectTreeNode::fetch( 2  );
-        $parentContentObject = $node->attribute( 'contentobject' );
+        $parentContentObject = $node->attribute( 'object' );
         if ( $parentContentObject->checkAccess( 'create', $http->postVariable( 'ClassID' ),  $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
         {
             $user =& eZUser::currentUser();
@@ -109,7 +109,7 @@ $tpl =& templateInit();
 //$classes =& eZContentClass::fetchList( $version = 0, $asObject = true, $user_id = false,
 //            array("name"=>"name"), $fields = null );
 $parentNode = eZContentObjectTreeNode::fetch( $TopObjectID );
-$parentContentObject = $parentNode->attribute( 'contentobject' );
+$parentContentObject = $parentNode->attribute( 'object' );
 $classes = $parentContentObject->attribute( 'can_create_class_list' );
 //eZDebug::writeNotice(  $parentContentObject, 'returned classes' );
 
@@ -126,7 +126,7 @@ if ( !get_class( $mainNode ) == 'ezcontentobjecttreenode' )
 }
 unset( $contentObject );
 
-$contentObject = $mainNode->attribute( 'contentobject' );
+$contentObject = $mainNode->attribute( 'object' );
 
 
 if ( ! $contentObject->attribute( 'can_read' ) )

@@ -40,6 +40,8 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 
 include_once( "kernel/common/template.php" );
 
+$http =& eZHTTPTool::instance();
+
 $tpl =& templateInit();
 
 $ViewMode = $Params['ViewMode'];
@@ -82,7 +84,7 @@ $Limit = 15;
 
 $res =& eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "object", $object->attribute( "id" ) ), // Object ID
-                      array( "class", $object->attribute( "contentclass_id" ) ), // Class I
+                      array( "class", $object->attribute( "contentclass_id" ) ), // Class ID
                       array( "section", $object->attribute( 'section_id' ) ) // Section ID
                       ) );
 
@@ -91,10 +93,6 @@ $tpl->setVariable( "node", $node );
 /*
 $tpl->setVariable( "previous", $Offset - $Limit );
 $tpl->setVariable( "next", $Offset + $Limit );
-$tpl->setVariable( "parents", $parents );
-$tpl->setVariable( "object", $object );
-$tpl->setVariable( "children", $children );
-$tpl->setVariable( "children_count", $childrenCount );
 */
 
 $tpl->setVariable( "module", $Module );

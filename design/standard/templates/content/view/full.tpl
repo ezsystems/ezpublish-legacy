@@ -69,16 +69,26 @@
 
 <h1>Children</h1>
 <table width="100%">
-{section name=Children loop=$node.children sequence=array(bglight,bgdark)}
+{section name=Child loop=$node.children sequence=array(bglight,bgdark)}
 <tr>
-	<td class="{$Children:sequence}" >
+	<td class="{$Child:sequence}">
 
-	<a href="{$module.functions.view.uri}/full/{$Children:item.node_id}">
-	{content_view_gui view=line content_object=$Children:item.object}
+	<a href="{$module.functions.view.uri}/full/{$Child:item.node_id}">
+	{content_view_gui view=line content_object=$Child:item.object}
 	</a>
 
-	<a href="{$module.functions.edit.uri}/{$Children:item.object_id}">[ edit ]</a>
-        - {$Children:item.object.class_name}
+	<a href="{$module.functions.edit.uri}/{$Child:item.object_id}">[ edit ]</a>
+        - {$Child:item.object.class_name}
+	</td>
+	<td class="{$Child:sequence}" align="right">
+	{switch name=sw match=$Child:item.object.can_remove}
+        {case match=1}  
+             <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.object.id}" />
+             <img src={"editdelete.png"|ezimage} border="0">
+	{/case}
+        {case} 
+        {/case}
+        {/switch} 
 	</td>
 </tr>
 {/section}
@@ -98,6 +108,8 @@
   You are not allowed to create child objects
 {/case}
 {/switch}
+
+<input class="button" type="submit" name="RemoveButton" value="Remove object(s)" />
 
 <table width="100%">
 <tr>

@@ -17,13 +17,13 @@
 
 {section name=Tree loop=$tree sequence=array(bglight,bgdark)}
 <tr>
-	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.contentobject.id}</span></td>
+	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.id}</span></td>
 	<td class="{$Tree:sequence}">
 {*	<img src="1x1.gif" width="{$Tree:item.Level}0" height="1" alt="" /> *}
         	<img src="1x1.gif" width="{$Tree:item.depth}0" height="1" alt="" />
 	<a class="normal" href="/content/view/full/{$Tree:item.node_id}">
 
-{switch name=sw match=$Tree:item.contentobject.contentclass_id}
+{switch name=sw match=$Tree:item.object.contentclass_id}
 {case match=2}
 	<img src={"class_2.png"|ezimage} border="0"> 
 {/case}
@@ -40,20 +40,20 @@
 
 	{$Tree:item.name}</a>
 	</td>
-	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.contentobject.owner_id}</span></td>
-	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.contentobject.is_published}</span></td>
-	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.contentobject.current_version}</span></td>
-	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.contentobject.section_id}</span></td>
-	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.contentobject.class_name}</span></td>
+	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.owner_id}</span></td>
+	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.is_published}</span></td>
+	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.current_version}</span></td>
+	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.section_id}</span></td>
+	<td class="{$Tree:sequence}"><span class="normal">{$Tree:item.object.class_name}</span></td>
 	<td class="{$Tree:sequence}">
-	{switch name=sw1 match=$Tree:item.contentobject.can_edit}
+	{switch name=sw1 match=$Tree:item.object.can_edit}
         {case match=1}  
-	{switch name=cidsw match=$Tree:item.contentobject.contentclass_id}
+	{switch name=cidsw match=$Tree:item.object.contentclass_id}
 	    {case match=4}
-	    <a class="normal" href="/user/edit/{$Tree:item.contentobject.id}"><img src={"edit.png"|ezimage} border="0"></a>
+	    <a class="normal" href="/user/edit/{$Tree:item.object.id}"><img src={"edit.png"|ezimage} border="0"></a>
 	    {/case}
 	    {case}
-            <a class="normal" href="/content/edit/{$Tree:item.contentobject.id}"><img src={"edit.png"|ezimage} border="0"></a>
+            <a class="normal" href="/content/edit/{$Tree:item.object.id}"><img src={"edit.png"|ezimage} border="0"></a>
 	    {/case}
         {/switch}
         {/case}
@@ -62,9 +62,9 @@
         {/switch} 
         </td>
         <td class="{$Tree:sequence}">
-	{switch name=sw2 match=$Tree:item.contentobject.can_remove}
+	{switch name=sw2 match=$Tree:item.object.can_remove}
         {case match=1}  
-             <input type="checkbox" name="DeleteIDArray[]" value="{$Tree:item.contentobject.id}" />
+             <input type="checkbox" name="DeleteIDArray[]" value="{$Tree:item.object.id}" />
              <img src={"editdelete.png"|ezimage} border="0">
 	{/case}
         {case} 
