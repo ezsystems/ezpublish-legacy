@@ -359,6 +359,14 @@ class eZIntegerType extends eZDataType
     }
 
     /*!
+     \return true if the datatype can be indexed
+    */
+    function isIndexable()
+    {
+        return true;
+    }
+
+    /*!
      \return a DOM representation of the content object attribute
     */
     function &serializeContentObjectAttribute( $objectAttribute )
