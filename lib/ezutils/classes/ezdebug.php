@@ -437,6 +437,12 @@ class eZDebug
     */
     function &dumpVariable( $var )
     {
+        // If we have var_export (PHP >= 4.2.0) we use the instead
+        // provides better output, doesn't require output buffering
+        // and doesn't get mangled by XDebug
+        if ( function_exists( 'var_export' ) )
+            return var_export( $var, true );
+
         $variableContents = "";
         ob_start();
         var_dump( $var );
