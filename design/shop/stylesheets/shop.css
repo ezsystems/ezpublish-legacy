@@ -454,3 +454,8 @@ div.product div.controls
     margin-bottom: 1em;
 }
 
+div.relatedorders div.product
+{
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
