@@ -191,11 +191,6 @@ div#maincontent {ldelim} margin-left: {sum( ezpreference( 'admin_left_menu_width
 
 {section show=eq($navigation_part.identifier,'ezcontentnavigationpart')}
     {include uri="design:parts/content/menu.tpl"}
-    <p>
-    <a href={'/user/preferences/set/admin_left_menu_width/13'|ezurl}>Small</a>
-    <a href={'/user/preferences/set/admin_left_menu_width/25'|ezurl}>Medium</a>
-    <a href={'/user/preferences/set/admin_left_menu_width/50'|ezurl}>Large</a>
-    </p>
 {/section}
 
 {section show=eq($navigation_part.identifier,'ezmedianavigationpart')}

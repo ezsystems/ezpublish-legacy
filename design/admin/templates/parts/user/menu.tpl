@@ -18,3 +18,10 @@
 <ul>
     <li><a href={concat( '/content/trash/', ezini( 'NodeSettings', 'RootNode', 'content.ini' ) )|ezurl}>{'Trash'|i18n( 'design/admin/pagelayout' )}</a></li>
 </ul>
+
+{* Left menu width control. *}
+<p>
+<a href={'/user/preferences/set/admin_left_menu_width/13'|ezurl}>Small</a>
+<a href={'/user/preferences/set/admin_left_menu_width/25'|ezurl}>Medium</a>
+<a href={'/user/preferences/set/admin_left_menu_width/50'|ezurl}>Large</a>
+</p>
