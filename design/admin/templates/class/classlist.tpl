@@ -9,7 +9,7 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-information">
-<p>{'Last modified'|i18n( 'design/admin/class/classlist' )}: {$group.modified|l10n( shortdatetime )}, {$group_modifier.name}</p>
+<p>{'Last modified'|i18n( 'design/admin/class/classlist' )}: {$group.modified|l10n( shortdatetime )}, {$group_modifier.name|wash}</p>
 </div>
 
 <div class="context-attributes">
@@ -21,7 +21,7 @@
 
 <div class="block">
 <label>{'Name'|i18n( 'design/admin/class/classlist' )}:</label>
-{$group.name}
+{$group.name|wash}
 </div>
 
 </div>
@@ -73,7 +73,7 @@
 {section var=Classes loop=$groupclasses sequence=array( bglight, bgdark )}
 <tr class="{$Classes.sequence}">
     <td><input type="checkbox" name="DeleteIDArray[]" value="{$Classes.item.id}" title="{'Select class for removal.'|i18n( 'design/admin/class/classlist' )}" /></td>
-    <td>{$Classes.item.identifier|class_icon( small, $Classes.item.name )}&nbsp;<a href={concat( "/class/view/", $Classes.item.id )|ezurl}>{$Classes.item.name|wash}</a></td>
+    <td>{$Classes.item.identifier|class_icon( small, $Classes.item.name|wash )}&nbsp;<a href={concat( "/class/view/", $Classes.item.id )|ezurl}>{$Classes.item.name|wash}</a></td>
     <td class="number" align="right">{$Classes.item.id}</td>
     <td>{$Classes.item.identifier|wash}</td>
     <td>{content_view_gui view=text_linked content_object=$Classes.item.modifier.contentobject}</td>

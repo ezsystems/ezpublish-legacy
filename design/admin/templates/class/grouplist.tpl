@@ -94,7 +94,7 @@
             <td>{$LatestClasses.item.identifier|wash}</td>
 
             {* Modifier. *}
-            <td><a href={$LatestClasses.item.modifier.contentobject.main_node.url_alias|ezurl}>{$LatestClasses.item.modifier.contentobject.name}</a></td>
+            <td><a href={$LatestClasses.item.modifier.contentobject.main_node.url_alias|ezurl}>{$LatestClasses.item.modifier.contentobject.name|wash}</a></td>
 
             {* Modified. *}
             <td>{$LatestClasses.item.modified|l10n(shortdatetime)}</td>

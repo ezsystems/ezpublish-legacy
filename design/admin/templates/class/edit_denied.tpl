@@ -36,7 +36,7 @@
 
 <div class="block">
 <label>{'Current modifier'|i18n( 'design/admin/class/edit_denied' )}:</label>
-<a href={$class.modifier.contentobject.main_node.url_alias|ezurl}>{$class.modifier.contentobject.name}</a>
+<a href={$class.modifier.contentobject.main_node.url_alias|ezurl}>{$class.modifier.contentobject.name|wash}</a>
 </div>
 
 <div class="block">
