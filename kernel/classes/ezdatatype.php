@@ -471,12 +471,22 @@ class eZDataType
     }
 
     /*!
+     Tries to do a repair on the content object attribute \a $contentObjectAttribute and returns \c true if it succeeds.
+     \return \c false if it fails or \c null if it is not supported to do a repair.
+    */
+    function repairContentObjectAttribute( &$contentObjectAttribute )
+    {
+        return null;
+    }
+
+    /*!
      Initializes the object attribute with some data after object attribute is already stored. It means that for initial version you allready have an attribute_id and you can store data somewhere using this id.
      \note Default implementation does nothing.
     */
     function postInitializeObjectAttribute( &$objectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
     }
+
     /*!
      Clean up stored object attribute
      \note Default implementation does nothing.
