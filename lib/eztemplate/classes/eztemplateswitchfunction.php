@@ -185,7 +185,8 @@ class eZTemplateSwitchFunction
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['match'],
                                                               eZTemplateNodeTool::extractFunctionNodePlacement( $node ),
                                                               array( 'variable-name' => 'match',
-                                                                     'text-result' => false ) );
+                                                                     'text-result' => true ), 'match' );
+//                                                                       'text-result' => false ) );
         if ( isset( $parameters['name'] ) )
         {
             $newNodes[] = eZTemplateNodeTool::createNamespaceChangeNode( $parameters['name'] );
