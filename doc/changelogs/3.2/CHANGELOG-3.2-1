@@ -1,10 +1,13 @@
 Changes from 3.2.0-2 to 3.2-1
 
 *Kernel:
+- Added mapping from class/attribute string to attribute id in attribute filtering and sorting.
 
 *Bugfixes:
 - Fixed sitemap bug (the links didn't work in non-virtual-host mode), changed template to handle this.
 - Fixed using datatype enum as object pattern name in classes
+- Fixed problem with attribute filtering when attribute sorting weren't used.
+  http://ez.no/developer/ez_publish_3/bug_reports/filtering_and_sorting_problems
 
 *Setup:
 
