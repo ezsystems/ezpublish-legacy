@@ -15,8 +15,16 @@
 </tr>
 <tr>
 	<td class="bglight">
-
-	<input type="text" name="ContentObjectAttribute_data_user_login_{$attribute.id}" size="11" value="{$attribute.content.login}">
+	{switch name=Sw match=$attribute.content.login}
+	{case match=""}
+	<input type="text" name="ContentObjectAttribute_data_user_login_{$attribute.id}" size="11" value="">
+	{/case}
+	{case}
+	<input type="hidden" name="ContentObjectAttribute_data_user_login_{$attribute.id}" value="{$attribute.content.login}">
+	{$attribute.content.login}
+	{$attribute.content.email}
+        {/case}
+	{/switch}
 	</td>
 	<td class="bglight">
 	<input type="text" name="ContentObjectAttribute_data_user_email_{$attribute.id}" size="11" value="{$attribute.content.email}">

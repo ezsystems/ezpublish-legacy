@@ -1,2 +1,2 @@
-{$attribute.data_int|choose(yes,no)}
+{$attribute.data_int|choose(no,yes)}
 

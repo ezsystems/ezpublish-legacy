@@ -59,13 +59,13 @@ if ( $http->hasPostVariable( "UpdateSettingButton" ) )
     }
     $userSetting->setAttribute( "is_enabled", $isEnabled );
     $userSetting->store();
-    $Module->redirectTo( '/content/sitemap/5/' );
+    $Module->redirectTo( '/content/view/sitemap/5/' );
     return;
 }
 
 if ( $http->hasPostVariable( "CancelSettingButton" ) )
 {
-    $Module->redirectTo( '/content/sitemap/5/' );
+    $Module->redirectTo( '/content/view/sitemap/5/' );
     return;
 }
 

@@ -159,6 +159,12 @@ class eZUser extends eZPersistentObject
                                                 $asObject );
     }
 
+    function &removeUser( $userID )
+    {
+        eZPersistentObject::removeObject( eZUser::definition(),
+                                          array( 'contentobject_id' => $userID ) );
+    }
+
     /*!
      \static
      \return the default hash type which is specified in UserSettings/HashType in site.ini

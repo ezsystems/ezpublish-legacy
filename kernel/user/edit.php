@@ -43,8 +43,10 @@ $Module =& $Params["Module"];
 if ( isset( $Params["UserID"] ) )
     $UserID = $Params["UserID"];
 
+$classID = 4;
 $userAccount =& eZUser::fetch( $UserID );
-$userClassAttributes =& eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => 4, 'version' => 0 ) );
+$userClass =& eZContentClass::fetch( $classID );
+$userClassAttributes =& eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $classID, 'version' => 0 ) );
 $userObject =& eZContentObject::fetch( $UserID );
 $currentVersion = $userObject->attribute( 'current_version' );
 $userProfile = array();
@@ -54,7 +56,8 @@ foreach ( $userClassAttributes as $userClassAttribute )
     $classAttributeName = $userClassAttribute->attribute( 'name' );
     $userObjectAttribute =& eZContentObjectAttribute::fetchObject( eZContentObjectAttribute::definition(),
                                                                    null,
-                                                                   array( 'contentclassattribute_id' => $classAttributeID,
+                                                                   array( 'contentobject_id' => $UserID,
+                                                                          'contentclassattribute_id' => $classAttributeID,
                                                                           'version' => $currentVersion ) );
     $objectAttributeContent = $userObjectAttribute->attribute( 'data_text' );
     if( $objectAttributeContent != "")
@@ -77,7 +80,8 @@ if ( $http->hasPostVariable( "UpdateProfileButton" ) )
             $value = $http->postVariable( "ContentclassAttribute_" . $profile['classAttribute_id'] );
             $objectAttribute =& eZContentObjectAttribute::fetchObject( eZContentObjectAttribute::definition(),
                                                                        null,
-                                                                       array( 'contentclassattribute_id' => $classAttributeID,
+                                                                       array( 'contentobject_id' => $UserID,
+                                                                              'contentclassattribute_id' => $classAttributeID,
                                                                               'version' => $currentVersion ) );
             $objectAttribute->setAttribute( 'data_text', $value );
             $objectAttribute->store();
@@ -89,7 +93,12 @@ if ( $http->hasPostVariable( "UpdateProfileButton" ) )
         $userAccount->setAttribute( "email", $email );
         $userAccount->store();
     }
-    $Module->redirectTo( '/content/sitemap/5/' );
+
+    $userObject =& eZContentObject::fetch( $UserID );
+    $objectName = $userClass->contentObjectName( $userObject );
+    $userObject->setAttribute( 'name', $objectName );
+    $userObject->store();
+    $Module->redirectTo( '/content/view/sitemap/5/' );
     return;
 }
 
@@ -107,7 +116,7 @@ if ( $http->hasPostVariable( "ChangeSettingButton" ) )
 
 if ( $http->hasPostVariable( "CancelButton" ) )
 {
-    $Module->redirectTo( '/content/sitemap/5/' );
+    $Module->redirectTo( '/content/view/sitemap/5/' );
     return;
 }
 
@@ -120,8 +129,6 @@ $tpl->setVariable( "http", $http );
 $tpl->setVariable( "userID", $UserID );
 $tpl->setVariable( "userAccount", $userAccount );
 $tpl->setVariable( "userProfile", $userProfile );
-//$tpl->setVariable( "userClassAttributes", $userClassAttributes );
-//$tpl->setVariable( "userObjectAttributes", $userObjectAttributes );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:user/edit.tpl" );

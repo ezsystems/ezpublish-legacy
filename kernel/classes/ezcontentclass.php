@@ -186,7 +186,7 @@ class eZContentClass extends eZPersistentObject
         return $user;
     }
 
-    function remove( $remove_childs = false )
+    function remove( $remove_childs = false, $version = 0 )
     {
         if ( is_array( $remove_childs ) or $remove_childs )
         {
@@ -201,24 +201,40 @@ class eZContentClass extends eZPersistentObject
             }
             else
             {
-                $contentObjects =& eZContentObject::fetchSameClassList( $this->ID );
-                foreach ( $contentObjects as $contentObject )
+                if ( $version == 0 )
                 {
-                    $contentObject->remove();
-                }
+                    $contentObjects =& eZContentObject::fetchSameClassList( $this->ID );
+                    foreach ( $contentObjects as $contentObject )
+                    {
+                        $contentObject->remove();
+                    }
+                    $contentClassID = $this->ID;
+                    $version = $this->Version;
+                    $classAttributes =& $this->fetchAttributes( );
 
-                $contentClassID = $this->ID;
-                $version = $this->Version;
-                $classAttributes =& $this->fetchAttributes( );
-
-                foreach ( $classAttributes as $classAttribute )
+                    foreach ( $classAttributes as $classAttribute )
+                    {
+                        $dataType =& $classAttribute->dataType();
+                        $dataType->deleteStoredClassAttribute( $classAttribute, $version );
+                    }
+                    eZPersistentObject::removeObject( eZContentClassAttribute::definition(),
+                                                      array( "contentclass_id" => $contentClassID,
+                                                             "version" => $version ) );
+                }else
                 {
-                    $dataType =& $classAttribute->dataType();
-                    $dataType->deleteStoredClassAttribute( $classAttribute, $version );
+                    $contentClassID = $this->ID;
+                    $version = $this->Version;
+                    $classAttributes =& $this->fetchAttributes( );
+
+                    foreach ( $classAttributes as $classAttribute )
+                    {
+                        $dataType =& $classAttribute->dataType();
+                        $dataType->deleteStoredClassAttribute( $classAttribute, $version );
+                    }
+                    eZPersistentObject::removeObject( eZContentClassAttribute::definition(),
+                                                      array( "contentclass_id" => $contentClassID,
+                                                             "version" => $version ) );
                 }
-                eZPersistentObject::removeObject( eZContentClassAttribute::definition(),
-                                                  array( "contentclass_id" => $contentClassID,
-                                                         "version" => $version ) );
             }
         }
         eZPersistentObject::remove();

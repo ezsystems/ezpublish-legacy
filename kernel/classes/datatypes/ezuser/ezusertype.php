@@ -67,6 +67,18 @@ class eZUserType extends eZDataType
     }
 
     /*!
+     Delete stored object attribute
+    */
+    function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
+    {
+        $userID = $contentObjectAttribute->attribute( "contentobject_id" );
+        if ( $version == null )
+        {
+            eZUser::removeUser( $userID );
+        }
+    }
+
+    /*!
      Validates the input and returns true if the input was
      valid for this datatype.
     */
@@ -94,10 +106,14 @@ class eZUserType extends eZDataType
                 $existUser =& eZUser::fetchByName( $loginName );
                 if ( $existUser != null )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
-                                                                         'eZUserType',
-                                                                         'Login name exist, please choose another one.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    $userID = $existUser->attribute( 'contentobject_id' );
+                    if ( $userID !=  $contentObjectAttribute->attribute( "contentobject_id" ) )
+                    {
+                        $contentObjectAttribute->setValidationError( ezi18n( 'content/datatypes',
+                                                                             'eZUserType',
+                                                                             'Login name exist, please choose another one.' ) );
+                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    }
                 }
                 $isValidate =  eZMail::validate( $email );
                 if ( ! $isValidate )

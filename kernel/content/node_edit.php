@@ -90,7 +90,6 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
 
     foreach( array_keys( $nodeAssignments ) as $key )
     {
-        
         $nodeAssignment =& $nodeAssignments[$key];
         eZDebug::writeNotice( $nodeAssignment, "nodeAssignment" );
         if ( $nodeAssignment->attribute( 'main' ) == 1 && $nodeAssignment->attribute( 'parent_node' ) != $mainNodeID )
