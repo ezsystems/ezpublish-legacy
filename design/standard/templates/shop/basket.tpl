@@ -36,6 +36,9 @@
 	Price inc. VAT:
 	</th>
 	<th>
+	Discount:
+	</th>
+	<th>
 	Total Price ex. VAT:
 	</th>
 	<th>
@@ -50,7 +53,7 @@
 	<td class="{$Basket:ProductItem:sequence}">
 	<input type="hidden" name="ProductItemIDList[]" value="{$Basket:ProductItem:item.id}" />
 	{$Basket:ProductItem:item.id} - 
-	<a href={concat("/content/view/full/",$Basket:ProductItem:item.contentobject.main_node_id,"/")|ezurl}>{$Basket:ProductItem:item.contentobject.name}</a>
+	<a href={concat("/content/view/full/",$Basket:ProductItem:item.node_id,"/")|ezurl}>{$Basket:ProductItem:item.object_name}</a>
 	</td>
 	<td class="{$Basket:ProductItem:sequence}">
 
@@ -65,6 +68,9 @@
 	</td>
 	<td class="{$Basket:ProductItem:sequence}" align="right">
 	{$Basket:ProductItem:item.price_inc_vat|l10n(currency)}
+	</td>
+	<td class="{$ProductItem:ProductItem:sequence}" align="right">
+	{$ProductItem:item.discount_percent}%
 	</td>
 	<td class="{$Basket:ProductItem:sequence}" align="right">
 	{$Basket:ProductItem:item.total_price_ex_vat|l10n(currency)}

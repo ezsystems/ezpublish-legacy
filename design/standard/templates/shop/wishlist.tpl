@@ -27,6 +27,9 @@
 	Price inc. VAT:
 	</th>
 	<th>
+	Discount:
+	</th>
+	<th>
 	Total Price ex. VAT:
 	</th>
 	<th>
@@ -41,7 +44,7 @@
 	<td class="{$ProductItem:sequence}">
 	<input type="hidden" name="ProductItemIDList[]" value="{$ProductItem:item.id}" />
 	{$ProductItem:item.id} - 
-	<a href={concat("/content/view/full/",$ProductItem:item.contentobject.main_node_id,"/")|ezurl}>{$ProductItem:item.contentobject.name}</a>
+	<a href={concat("/content/view/full/",$ProductItem:item.node_id,"/")|ezurl}>{$ProductItem:item.object_name}</a>
 	</td>
 	<td class="{$ProductItem:sequence}">
 
@@ -56,6 +59,9 @@
 	</td>
 	<td class="{$ProductItem:sequence}" align="right">
 	{$ProductItem:item.price_inc_vat|l10n(currency)}
+	</td>
+	<td class="{$ProductItem:ProductItem:sequence}" align="right">
+	{$ProductItem:item.discount_percent}%
 	</td>
 	<td class="{$ProductItem:sequence}" align="right">
 	{$ProductItem:item.total_price_ex_vat|l10n(currency)}
