@@ -40,6 +40,8 @@ include_once( "kernel/common/template.php" );
 $http =& eZHTTPTool::instance();
 $SectionID =& $Params["SectionID"];
 $Module =& $Params["Module"];
+$Offset = $Params['Offset'];
+$viewParameters = array( 'offset' => $Offset );
 
 $section =& eZSection::fetch( $SectionID );
 
@@ -50,6 +52,7 @@ if ( !$section )
 
 $tpl =& templateInit();
 
+$tpl->setVariable( "view_parameters", $viewParameters );
 $tpl->setVariable( "section", $section );
 
 $Result = array();

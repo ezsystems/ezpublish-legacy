@@ -37,6 +37,7 @@
 */
 
 $FunctionList = array();
+
 $FunctionList['object'] = array( 'name' => 'object',
                                  'call_method' => array( 'include_file' => 'kernel/section/ezsectionfunctioncollection.php',
                                                          'class' => 'eZSectionFunctionCollection',
@@ -45,11 +46,60 @@ $FunctionList['object'] = array( 'name' => 'object',
                                  'parameters' => array( array( 'name' => 'section_id',
                                                                'type' => 'integer',
                                                                'required' => true ) ) );
+
 $FunctionList['list'] = array( 'name' => 'list',
                                  'call_method' => array( 'include_file' => 'kernel/section/ezsectionfunctioncollection.php',
                                                          'class' => 'eZSectionFunctionCollection',
                                                          'method' => 'fetchSectionList' ),
                                  'parameter_type' => 'standard',
                                  'parameters' => array( ) );
+
+$FunctionList['object_list'] = array( 'name' => 'object_list',
+                                      'call_method' => array( 'include_file' => 'kernel/section/ezsectionfunctioncollection.php',
+                                                              'class' => 'eZSectionFunctionCollection',
+                                                              'method' => 'fetchObjectList' ),
+                                      'parameter_type' => 'standard',
+                                      'parameters' => array( array( 'name' => 'section_id',
+                                                                    'type' => 'integer',
+                                                                    'required' => true ),
+                                                             array( 'name' => 'offset',
+                                                                    'type' => 'integer',
+                                                                    'required' => false,
+                                                                    'default' => false ),
+                                                             array( 'name' => 'limit',
+                                                                    'type' => 'integer',
+                                                                    'required' => false,
+                                                                    'default' => false ),
+                                                             array( 'name' => 'sort_order',
+                                                                    'type' => 'variant',
+                                                                    'required' => false,
+                                                                    'default' => false ) ) );
+
+$FunctionList['object_list_count'] = array( 'name' => 'object_list_count',
+                                            'call_method' => array( 'include_file' => 'kernel/section/ezsectionfunctioncollection.php',
+                                                                    'class' => 'eZSectionFunctionCollection',
+                                                                    'method' => 'fetchObjectListCount' ),
+                                            'parameter_type' => 'standard',
+                                            'parameters' => array( array( 'name' => 'section_id',
+                                                                          'type' => 'integer',
+                                                                          'required' => true ) ) );
+
+$FunctionList['roles'] = array( 'name' => 'fetch_roles',
+                                'call_method' => array( 'include_file' => 'kernel/section/ezsectionfunctioncollection.php',
+                                                        'class' => 'eZSectionFunctionCollection',
+                                                        'method' => 'fetchRoles' ),
+                                'parameter_type' => 'standard',
+                                'parameters' => array( array( 'name' => 'section_id',
+                                                              'type' => 'integer',
+                                                              'required' => true ) ) );
+
+$FunctionList['user_roles'] = array( 'name' => 'fetch_user_roles',
+                                     'call_method' => array( 'include_file' => 'kernel/section/ezsectionfunctioncollection.php',
+                                                             'class' => 'eZSectionFunctionCollection',
+                                                             'method' => 'fetchUserRoles' ),
+                                     'parameter_type' => 'standard',
+                                     'parameters' => array( array( 'name' => 'section_id',
+                                                                   'type' => 'integer',
+                                                                   'required' => true ) ) );
 
 ?>

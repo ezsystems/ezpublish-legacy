@@ -754,6 +754,30 @@ class eZRole extends eZPersistentObject
         return $userRoles;
     }
 
+    function &fetchRolesByLimitation( $limit_identifier, $limit_value )
+    {
+        $db =& eZDB::instance();
+
+        $query = "SELECT DISTINCT 
+                     ezuser_role.role_id as role_id,
+                     ezuser_role.contentobject_id as user_id
+                  FROM
+                     ezuser_role
+                  WHERE
+                     ezuser_role.limit_value = '$limit_value' AND
+                     ezuser_role.limit_identifier = '$limit_identifier'";
+
+        $userRoleArray = $db->arrayQuery( $query );
+        $userRoles = array();
+        foreach ( $userRoleArray as $userRole )
+        {
+            $role = array();
+            $role['user'] = eZContentObject::fetch( $userRole['user_id'] );
+            $role['role'] = eZRole::fetch( $userRole['role_id'] );
+            $userRoles[] =& $role;
+        }
+        return $userRoles;
+    }
 
     /*!
      Fetches the role identified by the role ID \a $roleID and returns it.

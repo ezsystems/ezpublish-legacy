@@ -45,6 +45,7 @@
 */
 
 include_once( 'kernel/classes/ezpolicylimitation.php' );
+include_once( 'kernel/classes/ezrole.php' );
 
 class eZPolicy extends eZPersistentObject
 {
@@ -76,7 +77,8 @@ class eZPolicy extends eZPersistentObject
                                                                    'default' => '',
                                                                    'required' => true ) ),
                       'keys' => array( 'id' ),
-                      'function_attributes' => array( 'limitations' => 'limitationList' ),
+                      'function_attributes' => array( 'limitations' => 'limitationList',
+                                                      'role' => 'role' ),
                       'increment_key' => 'id',
                       'sort' => array( 'id' => 'asc' ),
                       'class_name' => 'eZPolicy',
@@ -297,6 +299,16 @@ class eZPolicy extends eZPersistentObject
         }
 
         return $this->Limitations;
+    }
+
+    function &role()
+    {
+        if ( $this->ID )
+        {
+            return eZPersistentObject::fetchObject( eZRole::definition(),
+                                                    null, array( 'id' => $this->RoleID ), true );
+        }
+        return false;
     }
 
     function &fetch( $policyID )
