@@ -62,8 +62,6 @@ td.bglight .small, td.bgdark .small
 
 h1, h2, h3
 {
-    padding-top: 0.5ex;
-    padding-bottom: 0.5ex;
     padding-left: 0px;
     padding-right: 0px;
     margin: 0px;
@@ -72,12 +70,19 @@ h1, h2, h3
 
 h1
 {
+    padding-top: 0.5ex;
     padding-bottom: 1ex;
 }
 
 h1, h2
 {
     font-weight: normal;
+}
+
+h2, h3
+{
+    padding-top: 1.5ex;
+    padding-bottom: 0.5ex;
 }
 
 h3
