@@ -58,7 +58,11 @@
 
 </div></div></div></div></div></div>
 
+{section show=fetch( content, translation_list )|count|gt( 1 )}
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-content">
+{section-else}
+<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+{/section}
 
 <p>
 <label>{'Editing version'|i18n( 'design/admin/content/edit' )}:</label>
@@ -87,11 +91,17 @@
 <input class="button" type="submit" name="StoreExitButton" value="{'Store and exit'|i18n('design/standard/content/edit')}" />
 </div>
 
+{section show=fetch( content, translation_list )|count|gt( 1 )}
 </div></div></div></div>
+{section-else}
+</div></div></div></div></div></div>
+{/section}
 
 </div>
 
 
+
+{section show=fetch( content, translation_list )|count|gt( 1 )}
 
 <!-- Translation box start-->
 <div class="translations">
@@ -103,7 +113,7 @@
 
 {section show=$Translation:translation_list}
 <div class="box-header"><div class="box-ml"><div class="box-mr">
-<h4>{'Translations [%translations_count]'|i18n( 'design/admin/content/edit',, hash( '%translations_count', $Translation:translation_list|count ) )}</h4>
+<h4>{'Draft translations'|i18n( 'design/admin/content/edit',, hash( '%translations_count', $Translation:translation_list|count ) )}</h4>
 </div></div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
@@ -143,3 +153,6 @@
 </div>
 
 <!-- Translation box end-->
+
+{/section}
+
