@@ -41,10 +41,23 @@ $http =& eZHTTPTool::instance();
 $SectionID =& $Params["SectionID"];
 $Module =& $Params["Module"];
 
-$section =& eZSection::fetch( $SectionID );
+if ( $SectionID == 0 )
+{
+    $section = array( 'id' => 0,
+                      'name' => ezi18n( 'kernel/section', 'New section' ),
+                      'navigation_part_identifier' => 'ezcontentnavigationpart' );
+}
+else
+{
+    $section =& eZSection::fetch( $SectionID );
+}
 
 if ( $http->hasPostVariable( "StoreButton" ) )
 {
+    if ( $SectionID == 0 )
+    {
+        $section = new eZSection( array() );
+    }
     $section->setAttribute( 'name', $http->postVariable( 'Name' ) );
     $section->setAttribute( 'navigation_part_identifier', $http->postVariable( 'NavigationPartIdentifier' ) );
     $section->setAttribute( 'locale', $http->postVariable( 'Locale' ) );
@@ -57,8 +70,6 @@ if ( $http->hasPostVariable( 'CancelButton' )  )
 {
     $Module->redirectTo( $Module->functionURI( 'list' ) );
 }
-
-
 
 $tpl =& templateInit();
 

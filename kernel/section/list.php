@@ -60,9 +60,7 @@ else
 
 if ( $http->hasPostVariable( 'CreateSectionButton' ) )
 {
-    $section = new eZSection( array( 'name' => 'New section' ) );
-    $section->store();
-    $Module->redirectTo( $Module->functionURI( "edit" ) . '/' . $section->attribute( 'id' ) . '/' );
+    $Module->redirectTo( $Module->functionURI( "edit" ) . '/0/' );
     return;
 }
 
