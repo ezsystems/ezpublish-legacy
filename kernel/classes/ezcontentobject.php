@@ -2013,15 +2013,23 @@ class eZContentObject extends eZPersistentObject
             {
                 $limitationMatch = false;
 
-                $node =& eZContentObjectTreeNode::fetch( $this->attribute ( 'main_node_id' ) );
-                $nodePathString= $node->attribute ('path_string');
-                
-                foreach ( $limitation->attribute( 'values') as $limitationValues )
+                $mainNodeID = $this->attribute ( 'main_node_id' );
+                if ( $mainNodeID )
                 {
-                    if ( strpos( $nodePathString, $limitationValues->attribute( 'value' ) ) === 0 )
+                    $node =& eZContentObjectTreeNode::fetch( $mainNodeID );
+                    $nodePathString = $node->attribute ('path_string');
+                
+                    foreach ( $limitation->attribute( 'values') as $limitationValues )
                     {
-                        $limitationMatch = true;
+                        if ( strpos( $nodePathString, $limitationValues->attribute( 'value' ) ) === 0 )
+                        {
+                            $limitationMatch = true;
+                        }
                     }
+                } else
+                {
+                    // creating new object, main_node_id not yet set
+                    $limitationMatch = true;
                 }
                 if ( ! $limitationMatch )
                     return array(); 
