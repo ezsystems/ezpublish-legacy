@@ -62,6 +62,8 @@
     {'Container'|i18n( 'design/admin/class/edit' )}</label>
     </div>
 
+
+{section show=$attributes}
 <hr />
 
 <table class="list" cellspacing="0">
@@ -139,6 +141,14 @@
 </table>
 
 <hr />
+{section-else}
+
+<div class="block">
+<p>{'There are no attributes within this class.'|i18n( 'design/admin/class/edit' )}</p>
+</div>
+{/section}
+
+
 <div class="controlbar">
 
 {* Remove selected attributes button *}
