@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="2.9-3"
+VERSION="2.9-4"
 
 # column to start "[  OK  ]" label in
 RES_COL=60
