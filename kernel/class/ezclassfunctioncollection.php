@@ -59,6 +59,10 @@ class eZClassFunctionCollection
     function &fetchClassList( $classFilter )
     {
         $contentClassList = array();
+        if ( is_array( $classFilter ) and count( $classFilter ) == 0)
+        {
+            $classFilter = false;
+        }
         if ( !is_array( $classFilter ) or
              count( $classFilter ) > 0 )
         {
