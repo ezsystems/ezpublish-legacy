@@ -71,6 +71,7 @@ class eZTextCodec
         $noneConversionFunction = 'convertNone';
         $noneStrlenFunction = 'strlenNone';
         $conversionFunction = null;
+        $unicodeConversionFunction = 'convertNoneToUnicode';
         $strlenFunction = null;
         $useMapper = false;
 
@@ -149,6 +150,25 @@ class eZTextCodec
                 }
             }
         }
+        if ( $this->InputCharacterEncodingScheme == "utf-8" )
+        {
+            $unicodeConversionFunction = 'convertUTF8ToUnicode';
+        }
+        else
+        {
+            if ( eZCodePage::exists( $this->InputCharsetCode ) )
+            {
+                $this->UnicodeCodepage =& eZCodepage::instance( $this->InputCharsetCode );
+                if ( $this->UnicodeCodepage->isValid() )
+                {
+                    $unicodeConversionFunction = 'convertCodepageToUnicode';
+                }
+                else
+                {
+                    unset( $this->UnicodeCodepage );
+                }
+            }
+        }
         if ( !$conversionFunction ) // No support, display error and no conversion
         {
             eZDebug::writeError( "Cannot create textcodec from characterset " . $this->RequestedInputCharsetCode .
@@ -211,7 +231,16 @@ class eZTextCodec
         eZDebug::accumulatorStart( 'textcodec_conversion', false, 'String conversion' );
         $conversionFunction = $this->ConversionFunction;
         $tmp =& $this->$conversionFunction( $str );
-        eZDebug::accumulatorStop( 'textcodec_conversion', false, 'String conversion' );
+        eZDebug::accumulatorStop( 'textcodec_conversion' );
+        return $tmp;
+    }
+
+    function &convertStringToUnicode( $str )
+    {
+        eZDebug::accumulatorStart( 'textcodec_unicode_conversion', false, 'String conversion to Unicode' );
+        $conversionFunction = $this->UnicodeConversionFunction;
+        $tmp =& $this->$conversionFunction( $str );
+        eZDebug::accumulatorStop( 'textcodec_unicode_conversion' );
         return $tmp;
     }
 
@@ -221,6 +250,30 @@ class eZTextCodec
         return $this->$strlenFunction( $str );
     }
 
+
+    /*!
+     \return an empty array since no conversion is possible.
+    */
+    function &convertNoneToUnicode( $str )
+    {
+        return array();
+    }
+
+    function &convertCodepageToUnicode( $str )
+    {
+        eZDebug::accumulatorStart( 'textcodec_codepage_unicode', false, 'String conversion w/ codepage to Unicode' );
+        $tmp = $this->Codepage->convertStringFromUTF8ToUnicode( $str );
+        eZDebug::accumulatorStop( 'textcodec_codepage_unicode' );
+        return $tmp;
+    }
+
+    function &convertUTF8ToUnicode( $str )
+    {
+        eZDebug::accumulatorStart( 'textcodec_utf8_unicode', false, 'String conversion w/ codepage to Unicode' );
+        $tmp = eZUTF8Codec::convertStringToUnicode( $str );
+        eZDebug::accumulatorStop( 'textcodec_utf8_unicode' );
+        return $tmp;
+    }
 
     function &convertNone( $str )
     {
