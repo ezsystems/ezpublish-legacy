@@ -8,7 +8,7 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <th><a href={concat($module.functions.list.uri,"/name")|ezurl}>{"Name:"|i18n("design/standard/workflow")}</a></th>
+    <th>{"Name:"|i18n("design/standard/workflow")}</th>
     <th width="1%" colspan="2">&nbsp;</th>
 </tr>
 

@@ -25,10 +25,6 @@
 
 <table width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    <td valign="top">
-    {attribute_view_gui attribute=$node.object.data_map.description}
-
-    </td>
     <td width="120" valign="top">
 
     {let name=Object  related_objects=$content_version.related_contentobject_array}
