@@ -78,7 +78,7 @@ $ViewList["register"] = array(
                                     'CancelButton' => 'Cancel' ) );
 $ViewList["activate"] = array(
     "script" => "activate.php",
-    "params" => array( "LoginID","UserIDHash" ) );
+    "params" => array( "Hash" ) );
 
 $ViewList["success"] = array(
     "script" => "success.php",

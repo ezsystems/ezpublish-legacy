@@ -1476,3 +1476,14 @@ CREATE TABLE ezworkflow_process (
 --
 
 
+
+create table ezuser_accountkey(
+    id int NOT NULL auto_increment,
+    user_id int not null,
+    hash_key varchar(32) not null,
+    time int not null,
+    PRIMARY KEY  (id)
+    );
+
+
+

@@ -37,6 +37,13 @@ $Module->setTitle( "Successful registration" );
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 $tpl->setVariable( "module", $Module );
+$ini =& eZINI::instance();
+$verifyUserEmail = $ini->variable( 'UserSettings', 'VerifyUserEmail' );
+if ( $verifyUserEmail == "enabled" )
+    $tpl->setVariable( "verify_user_email", true );
+else
+    $tpl->setVariable( "verify_user_email", false );
+
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:user/success.tpl" );
 

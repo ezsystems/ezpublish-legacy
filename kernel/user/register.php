@@ -204,6 +204,45 @@ if ( !function_exists( 'checkContentActions' ) )
                 }
             }
 
+            $verifyUserEmail = $ini->variable( 'UserSettings', 'VerifyUserEmail' );
+            if ( $verifyUserEmail == "enabled" )
+            {
+                // Disable user account and send verification mail to the user
+                $userSetting = eZUserSetting::fetch( $user->attribute( 'contentobject_id' ) );
+                $userSetting->setAttribute( 'is_enabled', 0 );
+                $userSetting->store();
+
+                // Log out current user
+                $user->logoutCurrent();
+
+                // Create enable account hash and send it to the newly registered user
+                $hash = md5( mktime( ) . $user->attribute('contentobject_id' ) );
+                include_once( "kernel/classes/datatypes/ezuser/ezuseraccountkey.php" );
+                $accountKey = eZUserAccountKey::createNew( $user->attribute('contentobject_id' ), $hash, mktime() );
+                $accountKey->store();
+
+                // Send mail to user
+                $mail = new eZMail();
+                $tpl->resetVariables();
+                $tpl->setVariable( 'user', $user );
+                $tpl->setVariable( 'object', $object );
+                $tpl->setVariable( 'hash', $hash );
+
+                $templateResult =& $tpl->fetch( 'design:user/activateaccountmail.tpl' );
+
+                $subject = ezi18n( 'kernel/user/register', 'New user registered' );
+                if ( $tpl->hasVariable( 'subject' ) )
+                    $subject =& $tpl->variable( 'subject' );
+                if ( $tpl->hasVariable( 'email_receiver' ) )
+                    $feedbackReceiver =& $tpl->variable( 'email_receiver' );
+
+                $mail->setReceiver( $user->attribute( 'email' ) );
+                $mail->setSender( $ini->variable( 'MailSettings', 'EmailSender' ) );
+                $mail->setSubject( $subject );
+                $mail->setBody( $templateResult );
+                $mailResult = eZMailTransport::send( $mail );
+            }
+
             $http->removeSessionVariable( "GeneratedPassword" );
             $http->removeSessionVariable( "RegisterUserID" );
 

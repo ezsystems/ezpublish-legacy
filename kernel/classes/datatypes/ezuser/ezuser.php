@@ -448,6 +448,15 @@ class eZUser extends eZPersistentObject
     }
 
     /*!
+     Logs out the current user
+    */
+    function logoutCurrent()
+    {
+        $http =& eZHTTPTool::instance();
+        $http->removeSessionVariable( "eZUserLoggedInID" );
+    }
+
+    /*!
      Finds the user with the id \a $id and returns the unique instance of it.
      If the user instance is not created yet it tries to either fetch it from the
      database with eZUser::fetch(). If $id is false or the user was not found, the
