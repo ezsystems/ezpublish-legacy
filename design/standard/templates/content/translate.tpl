@@ -1,6 +1,6 @@
 <h1>Object translation</h1>
 
-<form action="/content/translate/{$object.id}/{$edit_version}/" method="post">
+<form action={concat("/content/translate/",$object.id,"/",$edit_version,"/")|ezurl} method="post">
 
 <select name="TranslateToLanguage" >
 <option value="no_NO">nor-NO</option>

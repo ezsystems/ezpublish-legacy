@@ -1,4 +1,4 @@
-<form action="{$module.functions.setting.uri}/{$userID}" method="post" name="Setting">
+<form action={concat($module.functions.setting.uri,"/",$userID)|ezurl} method="post" name="Setting">
 <h1>User setting:
 <table width="100%" cellpadding="2" cellspacing="0">
 <tr>

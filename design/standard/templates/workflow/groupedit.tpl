@@ -1,4 +1,4 @@
-<form action="{$module.functions.groupedit.uri}/{$workflow_group.id}" method="post" name="WorkflowGroupEdit">
+<form action={concat($module.functions.groupedit.uri,"/",$workflow_group.id)|ezurl} method="post" name="WorkflowGroupEdit">
 
 <h1>Editing workflow group - {$workflow_group.name}</h1>
 

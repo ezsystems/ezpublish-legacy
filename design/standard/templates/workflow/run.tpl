@@ -1,4 +1,4 @@
-<form action="{$module.functions.process.uri}/{$process.id}" method="post" name="WorkflowProcess">
+<form action={concat($module.functions.process.uri,"/",$process.id)|ezurl} method="post" name="WorkflowProcess">
 
 <h1>Workflow process {$process.id}</h1>
 
@@ -9,7 +9,7 @@ and modified at <b>{$process.modified|l10n(shortdatetime)}</b>.
 
 <h2>Workflow</h2>
 <p>
-Using workflow <b><a href="{$module.functions.edit.uri}/{$process.workflow_id}">{$current_workflow.name} ({$process.workflow_id})</a></b> for processing.
+Using workflow <b><a href={concat($module.functions.edit.uri,"/",$process.workflow_id)|ezurl}>{$current_workflow.name} ({$process.workflow_id})</a></b> for processing.
 </p>
 
 <h2>User</h2>
@@ -19,9 +19,9 @@ This workflow is running for user <b>{$process.user.login}</b>.
 
 <h2>Content object</h2>
 <p>
-Workflow was created for content <b><a href="/content/view/{$process.content_id}">{$process.content.name}</a></b>
-using version <b><a href="/content/view/{$process.content_id}/{$process.content_version}">{$process.content_version}</a></b>
-in parent <b><a href="/content/view/{$process.node_id}">{$process.node.name}</a></b>
+Workflow was created for content <b><a href={concat("/content/view/",$process.content_id)|ezurl}>{$process.content.name}</a></b>
+using version <b><a href={concat("/content/view/",$process.content_id,"/",$process.content_version)|ezurl}>{$process.content_version}</a></b>
+in parent <b><a href={concat("/content/view/",$process.node_id)|ezurl}>{$process.node.name}</a></b>
 </p>
 
 <h2>Workflow event log</h2>

@@ -12,6 +12,7 @@
 	<td>
 	{$node.object.name|texttoimage('archtura')}
 {* 	<h1>{$node.object.name}</h1> *}
+        <input type="hidden" name="TopLevelNode" value="{$node.object.main_node_id}" />
 	</td>
 </tr>
 </table>
@@ -68,7 +69,7 @@
         <td class="{$Tree:sequence}">
 	{switch name=sw2 match=$Tree:item.object.can_remove}
         {case match=1}  
-             <input type="checkbox" name="DeleteIDArray[]" value="{$Tree:item.object.id}" />
+             <input type="checkbox" name="DeleteIDArray[]" value="{$Tree:item.object.id}" align="top" />
              <input type="image" src={"editdelete.png"|ezimage} border="0" name="RemoveObject" value="{$Tree:item.object.id}" onClick="return confirm('Remove {$Tree:item.object.class_name} {$Tree:item.name} ?');">
 	{/case}
         {case} 
@@ -105,6 +106,9 @@
 <input class="button" type="submit" name="RemoveButton" value="Remove object(s)" />
 
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+
+<input type="hidden" name="ViewMode" value="sitemap" />
+
 </div>
 
 </form>

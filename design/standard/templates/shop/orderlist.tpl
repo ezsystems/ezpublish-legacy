@@ -7,7 +7,7 @@
 <tr>
 	<td class="{$Order:sequence}">
 	{$Order:item.id} - {$Order:item.created|l10n(date)}
-	<a href="/shop/orderview/{$Order:item.id}/">[ view ]</a>
+	<a href={concat("/shop/orderview/",$Order:item.id,"/")|ezurl}>[ view ]</a>
 	</td>
 </tr>
 {/section}

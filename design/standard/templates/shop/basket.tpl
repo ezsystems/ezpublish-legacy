@@ -1,4 +1,4 @@
-<form method="post" action="/shop/basket/">
+<form method="post" action={"/shop/basket/"|ezurl}>
 
 <h1>{"Basket"|i18n}</h1>
 
@@ -37,7 +37,7 @@ Basket ID: {$basket.id}, Session ID: {$basket.session_id} <br />
 	<td class="{$Basket:ProductItem:sequence}">
 	<input type="hidden" name="ProductItemIDList[]" value="{$Basket:ProductItem:item.id}" />
 	{$Basket:ProductItem:item.id} - 
-	<a href="/content/view/full/{$Basket:ProductItem:item.contentobject.main_node_id}/">{$Basket:ProductItem:item.contentobject.name}</a>
+	<a href={concat("/content/view/full/",$Basket:ProductItem:item.contentobject.main_node_id,"/")|ezurl}>{$Basket:ProductItem:item.contentobject.name}</a>
 	</td>
 	<td class="{$Basket:ProductItem:sequence}">
 

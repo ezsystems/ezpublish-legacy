@@ -1,4 +1,4 @@
-<form enctype="multipart/form-data" method="post" action="/task/message/{$task.id}/{$message.id}">
+<form enctype="multipart/form-data" method="post" action={concat("/task/message/",$task.id,"/",$message.id)|ezurl}>
 
 <h1>Edit task message '{$object.name}'</h1>
 

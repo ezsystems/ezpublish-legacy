@@ -1,4 +1,4 @@
-<form action="{$module.functions.edit.uri}/{$class.id}" method="post" name="ClassEdit">
+<form action={concat($module.functions.edit.uri,"/",$class.id)|ezurl} method="post" name="ClassEdit">
 
 <h1>Editing class type - {$class.name}</h1>
 <p>Created by {$class.creator_id} on {$class.created|l10n(shortdatetime)}</p>
@@ -56,9 +56,9 @@
     <tr><td>{include uri="design:gui/lineedit.tpl" name=FieldID id_name="ContentAttribute_identifier[]" value=$Attributes:item.identifier}</td></tr>
     <tr>
         <td>{include uri="design:gui/lineedit.tpl" name=FieldName id_name="ContentAttribute_name[]" value=$Attributes:item.name}</td>
-        <td><a href="{$module.functions.down.uri}/{$class.id}/{$Attributes:item.id}"><img src={"move-down.gif"|ezimage} height="12" width="12" border="0" alt="Down" /></a></td>
-        <td><a href="{$module.functions.up.uri}/{$class.id}/{$Attributes:item.id}"><img src={"move-up.gif"|ezimage} height="12" width="12" border="0" alt="Up" /></a></td>
-        {*<td><a href="/attribute/edit/{$Attributes:item.id}/{$class.id}"><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>*}
+        <td><a href={concat($module.functions.down.uri,"/",$class.id,"/",$Attributes:item.id)|ezurl}><img src={"move-down.gif"|ezimage} height="12" width="12" border="0" alt="Down" /></a></td>
+        <td><a href={concat($module.functions.up.uri,"/",$class.id,"/",$Attributes:item.id)|ezurl}> <img src={"move-up.gif"|ezimage} height="12" width="12" border="0" alt="Up" /></a></td>
+        {*<td><a href={concat("/attribute/edit/",$Attributes:item.id,"/",$class.id)|ezurl}><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>*}
         <td><input type="checkbox" name="ContentAttribute_id_checked[]" value="{$Attributes:item.id}" /></td></tr>
     <tr>
         <td>

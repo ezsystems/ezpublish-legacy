@@ -1,4 +1,4 @@
-<form method="post" action="/user/login/">
+<form method="post" action={"/user/login/"|ezurl}>
 
 <h1 class="top">Login</h1>
 

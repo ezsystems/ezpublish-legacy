@@ -74,7 +74,6 @@ $Module->addHook( 'post_publish', 'registerSearchObject', 1, false );
 
 if ( !function_exists ( 'checkContentActions'  ) )
 {
-
     function checkContentActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion )
     {
         if ( $module->isCurrentAction( 'Preview' ) )
@@ -252,9 +251,9 @@ if ( !function_exists ( 'checkContentActions'  ) )
         }
     }
 }
-
+eZDebug::writeError("77777777777777777777777777777777777777777");
 $Module->addHook( 'action_check', 'checkContentActions' );
-
+eZDebug::writeError("6666666666666666666666666666666666666666666666666");
 $includeResult = include( 'kernel/content/attribute_edit.php' );
 
 if ( $includeResult != 1 )

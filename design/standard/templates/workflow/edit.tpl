@@ -1,4 +1,4 @@
-<form action="{$module.functions.edit.uri}/{$workflow.id}" method="post" name="WorkflowEdit">
+<form action={concat($module.functions.edit.uri,"/",$workflow.id)|ezurl} method="post" name="WorkflowEdit">
 
 <h1>Editing workflow - {$workflow.name}</h1>
 <p>Created by {$workflow.creator_id} on {$workflow.created|l10n(shortdatetime)}</p>
@@ -53,8 +53,8 @@
     <td width="1%">{$Event:number}({$Event:item.placement})</td>
     <td>{include uri="design:gui/lineedit.tpl" name=EventDescription id_name="WorkflowEvent_description[]" value=$Event:item.description}</td>
     <td>{$Event:item.workflow_type.group_name}/{$Event:item.workflow_type.name}</td>
-    <td width="1%"><a href="{$module.functions.down.uri}/{$workflow.id}/{$Event:item.id}"><img src={"move-down.gif"|ezimage} height="12" width="12" border="0" alt="Down" /></a></td>
-    <td width="1%"><a href="{$module.functions.up.uri}/{$workflow.id}/{$Event:item.id}"><img src={"move-up.gif"|ezimage} height="12" width="12" border="0" alt="Up" /></a></td>
+    <td width="1%"><a href={concat($module.functions.down.uri,"/",$workflow.id,"/",$Event:item.id)|ezurl}><img src={"move-down.gif"|ezimage} height="12" width="12" border="0" alt="Down" /></a></td>
+    <td width="1%"><a href={concat($module.functions.up.uri,"/",$workflow.id,"/",$Event:item.id)|ezurl}><img src={"move-up.gif"|ezimage} height="12" width="12" border="0" alt="Up" /></a></td>
     <td width="1%"><input type="checkbox" name="WorkflowEvent_id_checked[]" value="{$Event:item.id}" /></td>
 </tr>
 <tr>

@@ -35,7 +35,7 @@ Created: {$order.created|l10n(date)}<br/>
 	<input type="hidden" name="ProductItemIDList[]" value="{$ProductItem:item.id}" />
 
 	{$ProductItem:item.id}
-	<a href="/content/view/full/{$ProductItem:item.contentobject.main_node_id}/">{$ProductItem:item.contentobject.name}</a>
+	<a href={concat("/content/view/full/",$ProductItem:item.contentobject.main_node_id,"/")|ezurl}>{$ProductItem:item.contentobject.name}</a>
 	</td>
 	<td class="{$ProductItem:sequence}">
 	{$ProductItem:item.item_count}

@@ -1,6 +1,6 @@
 <h1>Object versions: {$object.name} </h1>
 
-<form action="/content/versions/{$object.id}/" method="post">
+<form action={concat("/content/versions/",$object.id,"/")|ezurl} method="post">
 <table width="100%" cellspacing="0" cellpadding="2">
 <tr>
 	<th>
@@ -20,7 +20,7 @@
 <tr>
 	<td class="{$Versions:sequence}" valign="top">
 	<img src={"history.png"|ezimage}  alt="" />
-	<a href="/content/versionview/{$object.id}/{$Versions:item.version}/">{$Versions:item.version}</a>
+	<a href={concat("/content/versionview/",$object.id,"/",$Versions:item.version,"/")|ezurl}>{$Versions:item.version}</a>
 
 {switch name=sw match=$Versions:item.version}
 {case match=$object.current_version}
@@ -53,5 +53,5 @@
 <input type="submit" name="CopyRevertButton" value="Copy as current" />
 <br />
 
-<a href="/content/edit/{$object.id}/">Back to edit object</a>
+<a href={concat("/content/edit/",$object.id,"/")|ezurl}>Back to edit object</a>
 </form>

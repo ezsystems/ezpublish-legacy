@@ -1,7 +1,7 @@
 <h1>{"Role view"|i18n('role/view')}</h1>
 
-<form action="{$module.functions.view.uri}/{$role.id}/" method="post" >
-View role - {$role.name} <a href="/role/edit/{$role.id}/">[edit]</a><br/>
+<form action={concat($module.functions.view.uri,"/",$role.id,"/")|ezurl} method="post" >
+View role - {$role.name} <a href={concat("/role/edit/",$role.id,"/")|ezurl}>[edit]</a><br/>
 
 
 <table width="100%" cellspacing="0">

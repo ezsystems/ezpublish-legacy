@@ -1,4 +1,4 @@
-<form action="{$module.functions.edit.uri}/{$rule_type}/{$rule_id}" method="post" name="Edit">
+<form action={concat($module.functions.edit.uri,"/",$rule_type,"/",$rule_id)|ezurl} method="post" name="Edit">
 <h1>Notification registration form</h1>
 <table>
 {switch match=$rule_type}

@@ -1,4 +1,4 @@
-<form action="{$module.functions.list.uri}" method="post" name="RuleList">
+<form action={concat($module.functions.list.uri)|ezurl} method="post" name="RuleList">
 
 {section show=$rule_list}
 <table width="100%" cellspacing="0">
@@ -19,7 +19,7 @@
     <td class="{$Rule:sequence}">{$Rule:item.path}</td>
     <td class="{$Rule:sequence}">{$Rule:item.keyword}</td>
     <td class="{$Rule:sequence}">{section show=$Rule:item.has_constraint}Yes{/section}</td>
-    <td class="{$Rule:sequence}" width="1%"><a href="{$module.functions.edit.uri}/{$Rule:item.type}/{$Rule:item.id}"><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>
+    <td class="{$Rule:sequence}" width="1%"><a href={concat($module.functions.edit.uri,"/",$Rule:item.type,"/",$Rule:item.id)|ezurl}><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>
     <td class="{$Rule:sequence}" width="1%"><input type="checkbox" name="Rule_id_checked[]" value="{$Rule:item.id}"></td>
 </tr>
 {/section}

@@ -7,7 +7,7 @@
   {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
 
 	<td class="{$SearchResult:sequence}" valign="top">
-<a href="/content/view/full/{$SearchResult:item.main_node_id}">{$SearchResult:item.name}</a>
+<a href={concat("/content/view/full/",$SearchResult:item.main_node_id)|ezurl}>{$SearchResult:item.name}</a>
         
 	</td>
 {delimiter modulo=1}

@@ -1,7 +1,7 @@
 {section show=$task_id|eq(0)}
-<form action="{$module.functions.view.uri}" method="post" name="TaskList">
+<form action={concat($module.functions.view.uri)|ezurl}" method="post" name="TaskList">
 {section-else}
-<form action="{$module.functions.view.uri}/{$task_id}" method="post" name="TaskList">
+<form action={concat($module.functions.view.uri,"/",$task_id)|ezurl}" method="post" name="TaskList">
 {/section}
 
 {section show=$task_id|gt(0)}
@@ -12,9 +12,9 @@
 
 {section show=$task_id|gt(0)}
   {section show=$task.parent_task_id|gt(0)}
-<a href="{$module.functions.view.uri}/{$task.parent_task_id}">Parent</a>
+<a href={concat($module.functions.view.uri,"/",$task.parent_task_id)|ezurl}>Parent</a>
   {section-else}
-<a href="{$module.functions.view.uri}">Parent</a>
+<a href={concat($module.functions.view.uri)|ezurl}>Parent</a>
   {/section}
 {/section}
 
@@ -61,12 +61,12 @@
 </tr>
 {section name=Incoming loop=$incoming_task_list sequence=array('bglight','bgdark')}
 <tr>
-  <td class="{$Incoming:sequence}"><a href="{$module.functions.view.uri}/{$Incoming:item.id}">{$Incoming:item.id}</a></td>
+  <td class="{$Incoming:sequence}"><a href={concat($module.functions.view.uri,"/",$Incoming:item.id)|ezurl}>{$Incoming:item.id}</a></td>
   <td class="{$Incoming:sequence}">
 {section show=$Incoming:item.task_type|eq(1)}
 {let message=$Incoming:item.first_message}
   {section show=$Incoming:message}
-  <a href="{$module.functions.view.uri}/{$Incoming:item.id}">{$Incoming:message.name}</a>
+  <a href={concat($module.functions.view.uri,"/",$Incoming:item.id)|ezurl}>{$Incoming:message.name}</a>
   {/section}
 {/let}
 {section-else}

@@ -1,4 +1,4 @@
-<form method="post" action="/section/assign/{$section.id}/">
+<form method="post" action={concat("/section/assign/",$section.id,"/")|ezurl}>
 <h1>Assign section - {$section.name}</h1>
 
 

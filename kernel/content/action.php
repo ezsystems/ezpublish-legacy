@@ -109,8 +109,11 @@ if ( $http->hasPostVariable( 'PreviewPublishButton' )  )
                $parameters[] = $http->postVariable( 'ContentObjectLanguageCode' );
            }
        }
-       $module->setCurrentAction( 'Publish', 'edit' );
-       $module->run( 'edit' , $parameters);
+       eZDebug::writeError($parameters,"QQQQQQQQQQQ");
+        $module->setCurrentAction( 'Publish', 'edit' );
+         eZDebug::writeError("kkkkkk".$module->currentAction( 'edit' ));
+       $module->run( 'edit', $parameters );
+         eZDebug::writeError("kkkkkyyyyyyyyyyyyyyyyyyy".$module->currentAction( 'edit' ));
        return;
     }
 }

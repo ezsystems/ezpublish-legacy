@@ -1,4 +1,4 @@
-<form method="post" action="/shop/wishlist/">
+<form method="post" action={"/shop/wishlist/"|ezurl}>
 
 <h1>{"Wish list"|i18n}</h1>
 
@@ -35,7 +35,7 @@ Wish list ID: {$wish_list.id} <br />
 	<td class="{$ProductItem:sequence}">
 	<input type="hidden" name="ProductItemIDList[]" value="{$ProductItem:item.id}" />
 	{$ProductItem:item.id} - 
-	<a href="/content/view/full/{$ProductItem:item.contentobject.main_node_id}/">{$ProductItem:item.contentobject.name}</a>
+	<a href={concat("/content/view/full/",$ProductItem:item.contentobject.main_node_id,"/")|ezurl}>{$ProductItem:item.contentobject.name}</a>
 	</td>
 	<td class="{$ProductItem:sequence}">
 

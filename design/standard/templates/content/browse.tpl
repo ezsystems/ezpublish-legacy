@@ -1,11 +1,11 @@
-<form action="{$return_url}" method="post">
+<form action={concat($return_url)|ezurl} method="post">
 
 <h1>{"Browse"|i18n}</h1>
 
 <br /><b>Path:</b><br />
 &gt;
 {section name=Path loop=$parents}
- <a href="/content/browse/{$Path:item.node_id}/">{$Path:item.name}</a> /
+ <a href={concat("/content/browse/",$Path:item.node_id,"/")|ezurl}>{$Path:item.name}</a> /
 {/section}
 {$main_node.name}
 <br/>
@@ -48,7 +48,7 @@
 	</td>
 	<td class="{$Object:sequence}">
 	<img src="1x1.gif" width="10" height="1" alt="" />
-	<a href="/content/browse/{$Object:item.node_id}/">
+	<a href={concat("/content/browse/",$Object:item.node_id,"/")|ezurl}>
 	{$Object:item.name}
         </a>
 	</td>

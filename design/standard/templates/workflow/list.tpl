@@ -1,4 +1,4 @@
-<form action="{$module.functions.list.uri}" method="post" name="WorkflowList">
+<form action={concat($module.functions.list.uri)|ezurl} method="post" name="WorkflowList">
 
 <h1>Defined workflows</h1>
 <table width="100%" cellspacing="0">
@@ -18,7 +18,7 @@
 <tr>
     <td><h2>{$WorkflowGroup:item.name}</h2>
     <td colspan="6"></td>
-    <td width="1%"><a href="{$module.functions.groupedit.uri}/{$WorkflowGroup:item.id}"><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>
+    <td width="1%"><a href={concat($module.functions.groupedit.uri,"/",$WorkflowGroup:item.id)|ezurl}><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>
     <td width="1%"><input type="checkbox" name="WorkflowGroup_id_checked[]" value="{$WorkflowGroup:item.id}"></td>
 </tr>
 
@@ -32,7 +32,7 @@
     <td class="{$WorkflowSequence:item}">{$WorkflowGroup:Workflow:workflow.modifier_id}</td>
     <td class="{$WorkflowSequence:item}">{$WorkflowGroup:Workflow:workflow.created|l10n(shortdatetime)}</td>
     <td class="{$WorkflowSequence:item}">{$WorkflowGroup:Workflow:workflow.modified|l10n(shortdatetime)}</td>
-    <td class="{$WorkflowSequence:item}" width="1%"><a href="{$module.functions.edit.uri}/{$WorkflowGroup:Workflow:workflow.id}"><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>
+    <td class="{$WorkflowSequence:item}" width="1%"><a href={concat($module.functions.edit.uri,"/",$WorkflowGroup:Workflow:workflow.id)|ezurl}><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>
     <td class="{$WorkflowSequence:item}" width="1%"><input type="checkbox" name="Workflow_id_checked[]" value="{$WorkflowGroup:Workflow:workflow.id}"></td>
     </tr>
     {/let}

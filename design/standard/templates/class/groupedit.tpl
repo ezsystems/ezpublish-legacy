@@ -1,4 +1,4 @@
-<form action="{$module.functions.groupedit.uri}/{$classgroup.id}" method="post" name="GroupEdit">
+<form action={concat($module.functions.groupedit.uri,"/",$classgroup.id)|ezurl} method="post" name="GroupEdit">
 
 <h1>Editing class group - {$classgroup.name}</h1>
 <p>Created by {$classgroup.creator_id} on {$classgroup.created|l10n(shortdatetime)}</p>

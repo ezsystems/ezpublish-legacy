@@ -1,6 +1,6 @@
 <h1>{"Role edit"|i18n('role/edit')} {$role.name}</h1>
 
-<form action="{$module.functions.edit.uri}/{$role.id}/" method="post" >
+<form action={concat($module.functions.edit.uri,"/",$role.id,"/")|ezurl} method="post" >
 
 <input type="edit" name="NewName" value="{$role.name}">
 

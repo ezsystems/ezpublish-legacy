@@ -811,7 +811,6 @@ class eZModule
             $currentView = array_pop( $viewStack );
         else
             $currentView = false;
-
         return $Return;
     }
 

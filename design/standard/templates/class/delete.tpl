@@ -5,8 +5,7 @@
 </ul>
 </div>
 
-<form action="{$module.functions.delete.uri}/{$GroupID}/{$ClassID}" method="post" name="ClassDelete">
-
+<form action={concat($module.functions.delete.uri,"/",$GroupID,"/",$ClassID)|ezurl} method="post" name="ClassDelete">
 <h1>Deleting class - {$ClassName}</h1>
 
 

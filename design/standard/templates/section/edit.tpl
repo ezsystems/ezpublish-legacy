@@ -1,4 +1,4 @@
-<form method="post" action="/section/edit/{$section.id}/">
+<form method="post" action={concat("/section/edit/",$section.id,"/")|ezurl}>
 <h1>Section edit</h1>
 
 <input type="hidden" name="SectionID" value="{$section.id}" />

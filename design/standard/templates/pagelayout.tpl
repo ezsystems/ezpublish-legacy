@@ -51,7 +51,7 @@
 {*    <p class="menuitem"><a class="menuitem" href={"/user/logout/"|ezurl}>Log out</a></p> *}
 
     <label class="topline">Name: {content_view_gui view=text_linked content_object=$current_user.contentobject}</label><div class="labelbreak"></div>
-    <p style="padding: 0;"><img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><a class="topline" href={"/user/password/$current_user.contentobject_id"|ezurl}>Change Password</a></p>
+    <p style="padding: 0;"><img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" /><a class="topline" href={concat("/user/password/",$current_user.contentobject_id,"/")|ezurl}>Change Password</a></p>
     <p style="padding: 0;">
     <img src={"bullet.gif"|ezimage} width="12" height="12" alt="" align="middle" hspace="2" />
     {section show=eq($current_user.contentobject_id,$anonymous_user_id)}

@@ -1,4 +1,4 @@
-<form method="post" action="/section/list/">
+<form method="post" action={"/section/list/"|ezurl}>
 <h1>Section list</h1>
 
 <table cellspacing="0" width="100%">
@@ -11,10 +11,10 @@
 	{$Section:item.name}
 	</td>
 	<td class="{$Section:sequence}">
-	<a href="/section/edit/{$Section:item.id}/">[ edit ]</a>
+	<a href={concat("/section/edit/",$Section:item.id,"/")|ezurl}>[ edit ]</a>
 	</td>
 	<td class="{$Section:sequence}">
-	<a href="/section/assign/{$Section:item.id}/">[ assign ]</a>
+	<a href={concat("/section/assign/",$Section:item.id,"/")|ezurl}>[ assign ]</a>
 	</td>
 	<td class="{$Section:sequence}">
 	<input type="checkbox" name="SectionIDArray[]" value="{$Section:item.id}" />

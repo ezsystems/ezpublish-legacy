@@ -1,4 +1,4 @@
-<form action="{$module.functions.activate.uri}/{$LoginID}/{$UserIDHash}" method="post" name="Register">
+<form action={concat($module.functions.activate.uri,"/",$LoginID,"/",$UserIDHash)|ezurl} method="post" name="Register">
 <h1>Activite account:</h1>
 
 <h2>{$message}</h2>

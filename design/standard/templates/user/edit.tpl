@@ -1,4 +1,4 @@
-<form action="{$module.functions.edit.uri}/{$userID}" method="post" name="Edit">
+<form action={concat($module.functions.edit.uri,"/",$userID)|ezurl} method="post" name="Edit">
 <h1>Registed user profile:
 
 <table width="100%" cellpadding="2" cellspacing="0">

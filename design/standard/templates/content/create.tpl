@@ -1,4 +1,4 @@
-<form method="post" action="/content/create/">
+<form method="post" action={"/content/create/"|ezurl}>
 <h1>Create new {$class.name}</h1>
 
 

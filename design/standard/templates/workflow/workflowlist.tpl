@@ -1,4 +1,4 @@
-<form action="{$module.functions.workflowlist.uri}/{$group_id}" method="post" name="WorkflowList">
+<form action={concat($module.functions.workflowlist.uri,"/",$group_id)|ezurl} method="post" name="WorkflowList">
 
 <h1>{"Defined workflows for "}{$group_name}</h1>
 {section show=$workflow_list}
@@ -24,7 +24,7 @@
     <td class="{$WorkflowSequence:item}">{$Workflow:item.modifier_id}</td>
     <td class="{$WorkflowSequence:item}">{$Workflow:item.created|l10n(shortdatetime)}</td>
     <td class="{$WorkflowSequence:item}">{$Workflow:item.modified|l10n(shortdatetime)}</td>
-    <td class="{$WorkflowSequence:item}" width="1%"><a href="{$module.functions.edit.uri}/{$Workflow:item.id}"><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>
+    <td class="{$WorkflowSequence:item}" width="1%"><a href={concat($module.functions.edit.uri,"/",$Workflow:item.id)|ezurl}><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>
     <td class="{$WorkflowSequence:item}" width="1%"><input type="checkbox" name="Workflow_id_checked[]" value="{$Workflow:item.id}"></td>
 </tr>
 {sequence name=WorkflowSequence}
@@ -56,7 +56,7 @@
     <td class="{$TempWorkflowSequence:item}">{$TempWorkflow:item.modifier_id}</td>
     <td class="{$TempWorkflowSequence:item}">{$TempWorkflow:item.created|l10n(shortdatetime)}</td>
     <td class="{$TempWorkflowSequence:item}">{$TempWorkflow:item.modified|l10n(shortdatetime)}</td>
-    <td class="{$TempWorkflowSequence:item}" width="1%"><a href="{$module.functions.edit.uri}/{$TempWorkflow:item.id}"><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>
+    <td class="{$TempWorkflowSequence:item}" width="1%"><a href={concat($module.functions.edit.uri,"/",$TempWorkflow:item.id)|ezurl}><img name="edit" border="0" src={"edit.png"|ezimage} width="16" height="16" align="top"></a></td>
     <td class="{$TempWorkflowSequence:item}" width="1%"><input type="checkbox" name="Temp_Workflow_id_checked[]" value="{$TempWorkflow:item.id}"></td>
 </tr>
 {sequence name=TempWorkflowSequence}

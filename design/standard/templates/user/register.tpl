@@ -1,4 +1,4 @@
-<form action="{$module.functions.register.uri}" method="post" name="Register">
+<form action={concat($module.functions.register.uri)|ezurl} method="post" name="Register">
 <h1>Sign up form:</h1>
 
 <h2>{$message}</h2>

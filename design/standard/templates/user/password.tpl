@@ -1,4 +1,4 @@
-<form action="{$module.functions.password.uri}/{$userID}" method="post" name="Password">
+<form action={concat($module.functions.password.uri,"/",$userID)|ezurl} method="post" name="Password">
 <h1>Change password for user {$userAccount.login}</h1>
 <hr noshade size="4">
 
