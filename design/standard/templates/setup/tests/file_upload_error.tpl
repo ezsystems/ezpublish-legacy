@@ -17,16 +17,25 @@
 {section show=$upload_results.upload_dir_exists|not}
 {* START: directory existance *}
 <p>
- {"The PHP upload directory %upload_dir does not exists, without this you will not be able to upload files or images to eZ publish."|i18n( 'design/standard/setup/tests',, hash( '%upload_dir', concat( '<i>', $upload_results.php_upload_dir, '</i>' ) ) )}
+ {"The PHP upload directory %upload_dir does not exists or is not accessible, without this you will not be able to upload files or images to eZ publish."|i18n( 'design/standard/setup/tests',, hash( '%upload_dir', concat( '<i>', $upload_results.php_upload_dir, '</i>' ) ) )}
 </p>
 <p>
  {"Create the directory %upload_dir on your system. If you do not have the possibility to create this yourself ask the administrator to create it for you."|i18n( 'design/standard/setup/tests',, hash( '%upload_dir', concat( '<i>', $upload_results.php_upload_dir, '</i>' ) ) )}
 </p>
 
+{section show=$upload_results.php_upload_is_root}
+<blockquote class="note">
+<p>
+ <b>{'Note'|i18n( 'design/standard/setup/tests' )}:</b>{'The upload directory is currently placed in the directory of the root user.
+This is a security problem and should be changed to another global temporary directory'|i18n( 'design/standard/setup/tests' )}
+</p>
+</blockquote>
+{/section}
+
 {* START: mkdir examples *}
 <h3>{'Shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
 <p>{"This shell command will create the upload directory."|i18n( 'design/standard/setup/tests' )}</p>
-<pre class="example">mkdir -p {$upload_results.php_upload_dir}</pre>
+<pre class="example">mkdir -p {section var=dir loop=$upload_results.php_upload_split_dirs}{$dir}{delimiter}{' '}{/delimiter}{/section}</pre>
 {* END: mkdir examples *}
 
 {* END: directory existance *}
@@ -42,17 +51,26 @@
  {"You must change the permission on the directory %upload_dir. If you do not have the possibility to create this yourself ask the administrator to do this for you."|i18n( 'design/standard/setup/tests',, hash( '%upload_dir', concat( '<i>', $upload_results.php_upload_dir, '</i>' ) ) )}
 </p>
 
+{section show=$upload_results.php_upload_is_root}
+<blockquote class="note">
+<p>
+ <b>{'Note'|i18n( 'design/standard/setup/tests' )}:</b>{'The upload directory is currently placed in the directory of the root user.
+This is a security problem and should be changed to another global temporary directory'|i18n( 'design/standard/setup/tests' )}
+</p>
+</blockquote>
+{/section}
 
 {* START: chmod examples *}
 {section show=$upload_results.user_info.has_extension}
 <h3>{'Shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
 <p>{"These shell commands will give proper permission to the upload directory."|i18n( 'design/standard/setup/tests' )}</p>
-<pre class="example">chown {$upload_results.user_info.user_name}:{$upload_results.user_info.group_name} {$upload_results.php_upload_dir}
-chmod ug+rwx {$upload_results.php_upload_dir}</pre>
+<pre class="example">chown {$upload_results.user_info.user_name}:{$upload_results.user_info.group_name} {section var=dir loop=$upload_results.php_upload_split_dirs}{$dir}{delimiter}{' '}{/delimiter}{/section}
+
+chmod ug+rwx {section var=dir loop=$upload_results.php_upload_split_dirs}{$dir}{delimiter}{' '}{/delimiter}{/section}</pre>
 
 <h3>{'Alternative shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
 <p>{"If you don't have permissions to change the ownership you can try this command."|i18n( 'design/standard/setup/tests' )}</p>
-<pre class="example">chmod a+rwx {$upload_results.php_upload_dir}</pre>
+<pre class="example">chmod a+rwx {section var=dir loop=$upload_results.php_upload_split_dirs}{$dir}{delimiter}{' '}{/delimiter}{/section}</pre>
 {section-else}
 <p>
 {"eZ publish could not detect the user and group of the webserver.
@@ -61,12 +79,13 @@ To do this you need to change the %chown commands under Alternative shell comman
 </p>
 <h3>{'Shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
 <p>{"This shell command will give proper permission to the upload directory."|i18n( 'design/standard/setup/tests' )}</p>
-<pre class="example">chmod a+rwx {$upload_results.php_upload_dir}</pre>
+<pre class="example">chmod a+rwx {section var=dir loop=$upload_results.php_upload_split_dirs}{$dir}{delimiter}{' '}{/delimiter}{/section}</pre>
 
 <h3>{'Alternative shell commands'|i18n( 'design/standard/setup/tests' )}</h3>
 <p>{"If you know the user and group of the webserver you can try this command. Replace apache:apache with the user and group."|i18n( 'design/standard/setup/tests' )}</p>
-<pre class="example">chmod ug+rwx {$upload_results.php_upload_dir}
-chown apache:apache {$upload_results.php_upload_dir}</pre>
+<pre class="example">chmod ug+rwx {section var=dir loop=$upload_results.php_upload_split_dirs}{$dir}{delimiter}{' '}{/delimiter}{/section}
+
+chown apache:apache {section var=dir loop=$upload_results.php_upload_split_dirs}{$dir}{delimiter}{' '}{/delimiter}{/section}</pre>
 {/section}
 {* END: chmod examples *}
 

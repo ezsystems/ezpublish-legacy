@@ -172,6 +172,7 @@ function eZSetupTestFileUpload( $type, &$arguments )
     $uploadDirExists = true;
     $uploadDirWriteable = true;
     $uploadDirCreateFile = true;
+    $uploadIsRoot = false;
     // Empty upload_tmp_dir variable means that the system
     // default is used. However the system default variable is hidden
     // from PHP code and must be guessed.
@@ -211,18 +212,33 @@ function eZSetupTestFileUpload( $type, &$arguments )
             }
         }
     }
+    $uploadDirs = array();
     if ( strlen( $uploadDir ) > 0 )
     {
         $uploadDirExists = file_exists( $uploadDir );
         $uploadDirWriteable = eZDir::isWriteable( $uploadDir );
-        $uploadDirCreateFile = false;
-        $tmpFile = 'ezsetuptmp_' . md5( microtime() ) . '.tmp';
-        $tmpFilePath = $uploadDir . '/' . $tmpFile;
-        if ( $fd = @fopen( $tmpFilePath, 'w' ) )
+        if ( $uploadDirExists and $uploadDirWriteable )
         {
-            $uploadDirCreateFile = true;
-            @fclose( $fd );
-            unlink( $tmpFilePath );
+            $uploadDirCreateFile = false;
+            $tmpFile = 'ezsetuptmp_' . md5( microtime() ) . '.tmp';
+            $tmpFilePath = $uploadDir . '/' . $tmpFile;
+            if ( $fd = @fopen( $tmpFilePath, 'w' ) )
+            {
+                $uploadDirCreateFile = true;
+                @fclose( $fd );
+                unlink( $tmpFilePath );
+            }
+        }
+        $splitDirs = explode( '/', trim( $uploadDir, '/' ) );
+        $dirPath = '';
+        foreach ( $splitDirs as $splitDir )
+        {
+            $dirPath .= '/' . $splitDir;
+            $uploadDirs[] = $dirPath;
+        }
+        if ( substr( $uploadDir, 0, 5 ) == '/root' )
+        {
+            $uploadIsRoot = true;
         }
     }
     $result = ( $uploadEnabled and $uploadDirExists and
@@ -230,7 +246,9 @@ function eZSetupTestFileUpload( $type, &$arguments )
     $userInfo = eZSetupPrvPosixExtension();
     return array( 'result' => $result,
                   'php_upload_is_enabled' => $uploadEnabled,
+                  'php_upload_is_root' => $uploadIsRoot,
                   'php_upload_dir' => $uploadDir,
+                  'php_upload_split_dirs' => $uploadDirs,
                   'upload_dir_exists' => $uploadDirExists,
                   'upload_dir_writeable' => $uploadDirWriteable,
                   'upload_dir_create_file' => $uploadDirCreateFile,
