@@ -26,7 +26,15 @@
 
 <form action={'/content/advancedsearch/'|ezurl} method="get">
 <div class="context-block">
-<h2 class="context-title">{'Advanced search'|i18n( 'design/admin/content/search/' )}</h2>
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h1 class="context-title">{'Advanced search'|i18n( 'design/admin/content/search/' )}</h1>
+
+{* DESIGN: Mainline *}<div class="header-mainline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-attributes">
 
@@ -145,17 +153,27 @@ selected="selected"
   {/case}
 {/switch}
 </div>
+{* DESIGN: Content END *}</div></div></div>
 
 <div class="controlbar">
+{* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
 <input class="button" type="submit" name="SearchButton" value="{'Search'|i18n( 'design/admin/content/search' )}" />
 </div>
+{* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
 </div>
 
 <div class="context-block">
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 <h2 class="context-title">{'Search for <%1> returned %2 matches'|i18n( 'design/admin/content/search/',, array( $search_text, $search_count ) )|wash}</h2>
+
+{* DESIGN: Mainline *}<div class="header-subline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 {include name=Result
          uri='design:content/searchresult.tpl'
@@ -171,6 +189,8 @@ selected="selected"
          view_parameters=$view_parameters
          item_limit=$page_limit}
 </div>
+
+{* DESIGN: Content END *}</div></div></div></div></div></div>
 
 </div>
 
