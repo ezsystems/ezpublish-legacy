@@ -107,7 +107,7 @@ Setup:
   (Merged from stable/3.4 rev. 7243)
 - Improved directory permission test by checking for the user and group ID of the
   currently running process. This allows the setup to propose chown  commands
-  with correct user and group.
+  with correct user and group. (Requires posix extension)
 
 *Scripts:
 eztc.php:
