@@ -51,10 +51,11 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     /*!
      Initializes with a default resource name "design".
     */
-    function eZTemplateDesignResource( $name = "design" )
+    function eZTemplateDesignResource( $name = "design", $onlyStandard = false )
     {
         $this->eZTemplateFileResource( $name, true );
         $this->Keys = array();
+        $this->OnlyStandard = $onlyStandard;
     }
 
     /*!
@@ -110,10 +111,11 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     /*!
      \return the rules used for matching design elements. \a $element defines the element type.
     */
-    function fileMatchingRules( $element, $path )
+    function fileMatchingRules( $element, $path, $onlyStandard = false )
     {
         $standardBase = eZTemplateDesignResource::designSetting( 'standard' );
-        $siteBase = eZTemplateDesignResource::designSetting( 'site' );
+        if ( !$onlyStandard )
+            $siteBase = eZTemplateDesignResource::designSetting( 'site' );
 
         include_once( 'kernel/classes/ezextension.php' );
         $extensionDirectory = eZExtension::baseDirectory();
@@ -124,27 +126,31 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $matches = array();
 
         // Override
-        $matches[] = array( "file" => "design/$siteBase/override/$element/$path",
-                            "type" => "override" );
+        if ( !$onlyStandard )
+            $matches[] = array( "file" => "design/$siteBase/override/$element/$path",
+                                "type" => "override" );
         $matches[] = array( "file" => "design/$standardBase/override/$element/$path",
                             "type" => "override" );
         foreach ( $extensions as $extension )
         {
-            $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$siteBase/override/$element/$path",
-                                'type' => 'override' );
+            if ( !$onlyStandard )
+                $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$siteBase/override/$element/$path",
+                                    'type' => 'override' );
             $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$standardBase/override/$element/$path",
                                 'type' => 'override' );
         }
 
         // Normal
-        $matches[] = array( "file" => "design/$siteBase/$element/$path",
-                            "type" => "normal" );
+        if ( !$onlyStandard )
+            $matches[] = array( "file" => "design/$siteBase/$element/$path",
+                                "type" => "normal" );
         $matches[] = array( "file" => "design/$standardBase/$element/$path",
                             "type" => "normal" );
         foreach ( $extensions as $extension )
         {
-            $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$siteBase/$element/$path",
-                                'type' => 'normal' );
+            if ( !$onlyStandard )
+                $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$siteBase/$element/$path",
+                                    'type' => 'normal' );
             $matches[] = array( 'file' => "$extensionDirectory/$extension/design/$standardBase/$element/$path",
                                 'type' => 'normal' );
         }
@@ -167,7 +173,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $path =& $resourceData['template-name'];
         $keyData =& $resourceData['key-data'];
 
-        $matches = $this->fileMatchingRules( 'templates', $path );
+        $matches = $this->fileMatchingRules( 'templates', $path, $this->OnlyStandard );
 
         $matchKeys = $this->Keys;
         $matchedKeys = array();
@@ -267,7 +273,21 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         return $instance;
     }
 
+    /*!
+     \return the unique instance of the standard resource.
+    */
+    function &standardInstance()
+    {
+        $instance =& $GLOBALS["eZTemplateStandardResourceInstance"];
+        if ( get_class( $instance ) != "eztemplatedesignresource" )
+        {
+            $instance = new eZTemplateDesignResource( 'standard', true );
+        }
+        return $instance;
+    }
+
     var $Keys;
+    var $OnlyStandard;
 }
 
 ?>

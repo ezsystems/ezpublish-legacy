@@ -59,6 +59,7 @@ class eZNodeAssignment extends eZPersistentObject
     function &definition()
     {
         return array( 'fields' => array( 'id' => 'ID',
+                                         'remote_id' => 'RemoteID',
                                          'contentobject_id' => 'ContentobjectID',
                                          'contentobject_version' => 'ContentObjectVersion',
                                          'parent_node' => 'ParentNode',
@@ -110,6 +111,10 @@ class eZNodeAssignment extends eZPersistentObject
         {
             $parameters['contentobject_version'] = 1;
         }
+        if ( !isset( $parameters['remote_id'] ) )
+        {
+            $parameters['remote_id'] = 0;
+        }
         if ( !isset( $parameters['parent_node'] ) )
         {
             $parameters['parent_node'] = 2;
@@ -145,7 +150,6 @@ class eZNodeAssignment extends eZPersistentObject
                                                     null,
                                                     $cond,
                                                     $asObject );
-
     }
 
     function &fetch( $contentObjectID, $version = 1, $parentNode = 0 ,$asObject = true )
@@ -174,6 +178,7 @@ class eZNodeAssignment extends eZPersistentObject
     {
         return eZNodeAssignment::create( array( 'contentobject_id' => $this->attribute( 'contentobject_id' ),
                                                 'contentobject_version' => $nextVersionNumber,
+                                                'remote_id' => $this->attribute( 'remote_id' ),
                                                 'parent_node' => $this->attribute( 'parent_node' ),
                                                 'sort_field' => $this->attribute( 'sort_field' ),
                                                 'sort_order' => $this->attribute( 'sort_order' ),
@@ -189,6 +194,9 @@ class eZNodeAssignment extends eZPersistentObject
 
     /// \privatesection
     var $ID;
+    /// Used for giving unique values to an assignment which can later be checked.
+    /// This is often used in templates to provide limited choices for assignments.
+    var $RemoteID;
     var $ContentobjectID;
     var $ContentObjectVersion;
     var $ParentNode;

@@ -67,7 +67,13 @@ $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                                                'or', 'and', 'choose' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatetypeoperator.php',
                                     'class' => 'eZTemplateTypeOperator',
-                                    'operator_names' => array( 'is_array' ) );
+                                    'operator_names' => array( 'is_array', 'is_boolean', 'is_integer',
+                                                               'is_float', 'is_numeric', 'is_string',
+                                                               'is_object', 'is_class', 'is_null',
+                                                               'is_set', 'is_unset', 'get_type', 'get_class' ) );
+$eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatecontroloperator.php',
+                                    'class' => 'eZTemplateControlOperator',
+                                    'operator_names' => array( 'cond', 'first_set' ) );
 $eZTemplateOperatorArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatearithmeticoperator.php',
                                     'class' => 'eZTemplateArithmeticOperator',
                                     'operator_names' => array( 'sum', 'sub', 'inc', 'dec',

@@ -79,6 +79,7 @@ class eZPersistentObject
     */
     function eZPersistentObject( $row )
     {
+        $this->PersistentDataDirty = false;
         if ( is_numeric( $row ) )
             $row =& $this->fetch( $row, false );
         $this->fill( $row );
@@ -183,6 +184,21 @@ class eZPersistentObject
         eZPersistentObject::storeObject( $this, $fieldFilters );
     }
 
+    /*!
+     Makes sure data is stored if the data is considered dirty.
+     \sa hasDirtyData
+    */
+    function sync( $fieldFilters = null )
+    {
+        if ( $this->hasDirtyData() )
+            $this->store( $fieldFilters );
+    }
+
+    /*!
+     \private
+     Stores the data in \a $obj to database.
+     \param fieldFilters If specified only certain fields will be stored.
+    */
     function storeObject( &$obj, $fieldFilters = null )
     {
         $db =& eZDB::instance();
@@ -268,6 +284,7 @@ class eZPersistentObject
 //             eZDebug::writeNotice( $sql );
             $db->query( $sql );
         }
+        $obj->setHasDirtyData( false );
     }
 
     /*!
@@ -875,8 +892,31 @@ function definition()
         {
             $attr_name = $fields[$attr];
             $this->$attr_name = $val;
+            $this->setHasDirtyData( true );
         }
     }
+
+    /*!
+     \return true if the data is considered dirty and needs to be stored.
+     \sa sync
+    */
+    function hasDirtyData()
+    {
+        return $this->PersistentDataDirty;
+    }
+
+    /*!
+     Sets whether the object has dirty data or not.
+     \sa hasDirtyData, sync
+    */
+    function setHasDirtyData( $hasDirtyData )
+    {
+        $this->PersistentDataDirty = $hasDirtyData;
+    }
+
+    /// \privatesection
+    /// Whether the data is dirty, ie needs to be stored, or not.
+    var $PersistentDataDirty;
 }
 
 ?>

@@ -1,5 +1,39 @@
 {* Placement code for content/edit *}
 
+{* Example code of how to do limitation placement
+   {let name=Choice
+        list_node1=first_set($:assigned_remote_map[2].parent_node,0)
+        list_node2=first_set($:assigned_remote_map[3].parent_node,31)}
+
+   <input type="hidden" name="MainNodeID" value="26" />
+
+   <input type="hidden" name="SetPlacementNodeIDArray[1]" value="26" />
+   <input type="hidden" name="SetRemoteIDOrderMap[1]" value="1" />
+   <input type="hidden" name="SetRemoteIDFieldMap[1]" value="9" />
+
+   <select name="SetPlacementNodeIDArray[2]">
+   {section loop=hash(0,"None",28,"Feature",29,"Intervjuet",30,"En artikkel i Feature")}
+     <option value="{$:key}" {section show=eq($:list_node1,$:key)}selected="selected"{/section}>{$:item}</option>
+   {/section}
+   </select>
+   <input type="hidden" name="SetRemoteIDOrderMap[2]" value="0" />
+   <input type="hidden" name="SetRemoteIDFieldMap[2]" value="1" />
+
+   <select name="SetPlacementNodeIDArray[3]">
+   {section loop=hash(0,"None",31,"1",32,"2")}
+     <option value="{$:key}" {section show=eq($:list_node2,$:key)}selected="selected"{/section}>{$:item}</option>
+   {/section}
+   </select>
+   <input type="hidden" name="SetRemoteIDOrderMap[3]" value="1" />
+   <input type="hidden" name="SetRemoteIDFieldMap[3]" value="4" />
+
+   {/let}
+
+*}
+
+
+{default exclude_remote_assignments=true()}
+
     <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
         <th width="60%">{"Location"|i18n("design/standard/content/edit")}:</th>
@@ -8,9 +42,12 @@
         <th colspan="1">{"Main"|i18n("design/standard/content/edit")}:</th>
         <th colspan="1">{"Move"|i18n("design/standard/content/edit")}:</th>
     </tr>
-    {let name=Node sort_fields=hash(1,"Path"|i18n("design/standard/content/edit"),9,"Name"|i18n("design/standard/content/edit"),2,"Published"|i18n("design/standard/content/edit"),3,"Modified"|i18n("design/standard/content/edit"),4,"Section"|i18n("design/standard/content/edit"),5,"Depth"|i18n("design/standard/content/edit"),6,"Class Identifier"|i18n("design/standard/content/edit"),7,"Class Name"|i18n("design/standard/content/edit"),8,"Priority"|i18n("design/standard/content/edit"))}
-   {let existingParentNodes=$object.parent_nodes}
+    {let name=Node exclude_remote_assignments=$:exclude_remote_assignments
+                   sort_fields=hash(1,"Path"|i18n("design/standard/content/edit"),9,"Name"|i18n("design/standard/content/edit"),2,"Published"|i18n("design/standard/content/edit"),3,"Modified"|i18n("design/standard/content/edit"),4,"Section"|i18n("design/standard/content/edit"),5,"Depth"|i18n("design/standard/content/edit"),6,"Class Identifier"|i18n("design/standard/content/edit"),7,"Class Name"|i18n("design/standard/content/edit"),8,"Priority"|i18n("design/standard/content/edit"))}
+    {let existingParentNodes=$object.parent_nodes}
     {section loop=$assigned_node_array sequence=array(bglight,bgdark)}
+    {section-exclude match=$:item.parent_node|le(0)}
+    {section-exclude match=and($:exclude_remote_assignments,$:item.remote_id|gt(0))}
     {let parent_node=$Node:item.parent_node_obj}
     <tr>
         <td class="{$Node:sequence}">
@@ -69,3 +106,4 @@
  <div align="right" class="buttonblock">
   <input class="button" type="submit" name="BrowseNodeButton" value="{'Add location(s)'|i18n('design/standard/content/edit')}" />
  </div>
+{/default}

@@ -710,13 +710,14 @@ class eZTemplate
     /*!
      Returns the actual value of a template type or null if an unknown type.
     */
-    function &elementValue( &$dataElements, $rootNamespace, $currentNamespace, $placement = false )
+    function &elementValue( &$dataElements, $rootNamespace, $currentNamespace, $placement = false,
+                            $checkExistance = false )
     {
         $value = null;
         if ( !is_array( $dataElements ) )
         {
             $this->error( "elementValue",
-                          "Missing data structure" );
+                          "Missing array data structure, got " . gettype( $dataElements ) );
             return null;
         }
         foreach ( $dataElements as $dataElement )
@@ -730,8 +731,11 @@ class eZTemplate
             {
                 case EZ_TEMPLATE_TYPE_VOID:
                 {
-                    $this->warning( 'elementValue',
-                                    'Found void datatype, should not be used' );
+                    if ( !$checkExistance )
+                        $this->warning( 'elementValue',
+                                        'Found void datatype, should not be used' );
+                    else
+                        return null;
                 } break;
                 case EZ_TEMPLATE_TYPE_STRING:
                 case EZ_TEMPLATE_TYPE_NUMERIC:
@@ -758,20 +762,25 @@ class eZTemplate
                         $value = $this->variable( $variableName, $namespace );
                     }
                     else
-                        $this->error( '', "Unknown template variable '$variableName' in namespace '$namespace'", $placement );
+                    {
+                        if ( !$checkExistance )
+                            $this->error( '', "Unknown template variable '$variableName' in namespace '$namespace'", $placement );
+                        return null;
+                    }
                 } break;
                 case EZ_TEMPLATE_TYPE_ATTRIBUTE:
                 {
                     $attributeData = $dataElement[1];
-                    $attributeValue = $this->elementValue( $attributeData, $rootNamespace, $currentNamespace );
+                    $attributeValue = $this->elementValue( $attributeData, $rootNamespace, $currentNamespace, false, $checkExistance );
 
                     if ( !is_null( $attributeValue ) )
                     {
                         if ( !is_numeric( $attributeValue ) and
                              !is_string( $attributeValue ) )
                         {
-                            $this->error( "",
-                                          "Cannot use type " . gettype( $attributeValue ) . " for attribute lookup", $placement );
+                            if ( !$checkExistance )
+                                $this->error( "",
+                                              "Cannot use type " . gettype( $attributeValue ) . " for attribute lookup", $placement );
                             return null;
                         }
                         if ( is_array( $value ) )
@@ -785,8 +794,9 @@ class eZTemplate
                             }
                             else
                             {
-                                $this->error( "",
-                                              "No such attribute for array: $attributeValue", $placement );
+                                if ( !$checkExistance )
+                                    $this->error( "",
+                                                  "No such attribute for array: $attributeValue", $placement );
                                 return null;
                             }
                         }
@@ -804,33 +814,37 @@ class eZTemplate
                                 }
                                 else
                                 {
-                                    $this->error( "",
-                                                  "No such attribute for object: $attributeValue", $placement );
+                                    if ( !$checkExistance )
+                                        $this->error( "",
+                                                      "No such attribute for object: $attributeValue", $placement );
                                     return null;
                                 }
                             }
                             else
                             {
-                                $this->error( "",
-                                              "Cannot retrieve attribute of object(" . get_class( $value ) .
-                                              "), no attribute functions available",
-                                              $placement );
+                                if ( !$checkExistance )
+                                    $this->error( "",
+                                                  "Cannot retrieve attribute of object(" . get_class( $value ) .
+                                                  "), no attribute functions available",
+                                                  $placement );
                                 return null;
                             }
                         }
                         else
                         {
-                            $this->error( "",
-                                          "Cannot retrieve attribute of a " . gettype( $value ),
-                                          $placement );
+                            if ( !$checkExistance )
+                                $this->error( "",
+                                              "Cannot retrieve attribute of a " . gettype( $value ),
+                                              $placement );
                             return null;
                         }
                     }
                     else
                     {
-                        $this->error( '',
-                                      'Attribute value was null, cannot get attribute',
-                                      $placement );
+                        if ( !$checkExistance )
+                            $this->error( '',
+                                          'Attribute value was null, cannot get attribute',
+                                          $placement );
                         return null;
                     }
                 } break;
@@ -840,12 +854,13 @@ class eZTemplate
                     $operatorName = $operatorParameters[0];
                     $operatorParameters = array_splice( $operatorParameters, 1 );
                     $this->processOperator( $operatorName, $operatorParameters, $rootNamespace, $currentNamespace,
-                                            $value, $placement );
+                                            $value, $placement, $checkExistance );
                 } break;
                 default:
                 {
-                    $this->error( "elementValue",
-                                  "Unknown data type: '$dataType'" );
+                    if ( !$checkExistance )
+                        $this->error( "elementValue",
+                                      "Unknown data type: '$dataType'" );
                     return null;
                 }
             }
@@ -854,7 +869,7 @@ class eZTemplate
     }
 
     function processOperator( $operatorName, $operatorParameters, $rootNamespace, $currentNamespace,
-                              &$value, $placement = false )
+                              &$value, $placement = false, $checkExistance = false )
     {
         $namedParameters = array();
         $operatorParameterDefinition = $this->operatorParameterList( $operatorName );
@@ -866,8 +881,9 @@ class eZTemplate
             {
                 if ( $parameterType["required"] )
                 {
-                    $this->warning( "eZTemplateOperatorElement", "Parameter '$parameterName' ($i) missing",
-                                    $placement );
+                    if ( !$checkExistance )
+                        $this->warning( "eZTemplateOperatorElement", "Parameter '$parameterName' ($i) missing",
+                                        $placement );
                     $namedParameters[$parameterName] = $parameterType["default"];
                 }
                 else
@@ -878,7 +894,7 @@ class eZTemplate
             else
             {
                 $parameterData = $operatorParameters[$i];
-                $namedParameters[$parameterName] = $this->elementValue( $parameterData, $rootNamespace, $currentNamespace );
+                $namedParameters[$parameterName] = $this->elementValue( $parameterData, $rootNamespace, $currentNamespace, false, $checkExistance );
             }
             ++$i;
         }
@@ -892,7 +908,7 @@ class eZTemplate
         {
             $op->modify( $this, $operatorName, $operatorParameters, $rootNamespace, $currentNamespace, $value, $namedParameters );
         }
-        else
+        else if ( !$checkExistance )
             $this->warning( "", "Operator '$operatorName' is not registered",
                             $placement );
     }
@@ -1038,7 +1054,8 @@ class eZTemplate
     function operatorParameterList( $name )
     {
         $param_list = array();
-        if ( is_array( $this->Operators[$name] ) )
+        if ( isset( $this->Operators[$name] ) and
+             is_array( $this->Operators[$name] ) )
         {
 //             eZDebug::writeDebug( $this->Operators[$name], "\$this->Operators[$name]" );
             $this->loadAndRegisterOperators( $this->Operators[$name] );
@@ -1609,6 +1626,14 @@ class eZTemplate
     function missingParameter( $name, $param )
     {
         $this->warning( $name, "Missing parameter $param" );
+    }
+
+    /*!
+     Outputs a warning about the parameter count being to high for function/operator $name.
+    */
+    function extraParameters( $name, $count, $maxCount )
+    {
+        $this->warning( $name, "Passed $count parameters but correct count is $maxCount" );
     }
 
     /*!

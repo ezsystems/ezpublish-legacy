@@ -385,17 +385,22 @@ class eZContentObjectVersion extends eZPersistentObject
         return $nodeAssignmentList;
     }
 
-    function &assignToNode( $nodeID, $main = 0, $fromNodeID = 0 )
+    function &assignToNode( $nodeID, $main = 0, $fromNodeID = 0, $sortField = null, $sortOrder = null,
+                            $remoteID = 0 )
     {
-         $nodeAssignment =&  eZNodeAssignment::create( array( 'contentobject_id' => $this->attribute( 'contentobject_id' ),
-                                                              'contentobject_version' => $this->attribute( 'version' ),
-                                                              'parent_node' => $nodeID,
-                                                              'is_main' => $main,
-                                                              'from_node_id' => $fromNodeID
-                                                              )
-                                                       );
-         $nodeAssignment->store();
-         return $nodeAssignment;
+        $nodeRow = array( 'contentobject_id' => $this->attribute( 'contentobject_id' ),
+                          'contentobject_version' => $this->attribute( 'version' ),
+                          'parent_node' => $nodeID,
+                          'is_main' => $main,
+                          'remote_id' => $remoteID,
+                          'from_node_id' => $fromNodeID );
+        if ( $sortField !== null )
+            $nodeRow['sort_field'] = $sortField;
+        if ( $sortOrder !== null )
+            $nodeRow['sort_order'] = ( $sortOrder ? 1 : 0 );
+        $nodeAssignment =&  eZNodeAssignment::create( $nodeRow );
+        $nodeAssignment->store();
+        return $nodeAssignment;
     }
     function removeAssignment( $nodeID )
     {

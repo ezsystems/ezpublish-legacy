@@ -144,23 +144,88 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
     $nodeAssignments =& eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), $version->attribute( 'version' ) ) ;
     eZDebug::writeNotice( $mainNodeID, "mainNodeID" );
 
-    $sortOrderMap = $http->postVariable( 'SortOrderMap' );
-    $sortFieldMap = $http->postVariable( 'SortFieldMap' );
-    $assigedNodes =& eZContentObjectTreeNode::fetchByContentObjectID( $object->attribute('id') );
+    $setPlacementNodeIDArray = array();
+    if ( $http->hasPostVariable( 'SetPlacementNodeIDArray' ) )
+        $setPlacementNodeIDArray = $http->postVariable( 'SetPlacementNodeIDArray' );
+
+    $setPlacementNodeIDArray = array_unique( $setPlacementNodeIDArray );
+    eZDebug::writeDebug( $setPlacementNodeIDArray, '$setPlacementNodeIDArray' );
+    $remoteIDFieldMap = array();
+    if ( $http->hasPostVariable( 'SetRemoteIDFieldMap' ) )
+        $remoteIDFieldMap = $http->postVariable( 'SetRemoteIDFieldMap' );
+    $remoteIDOrderMap = array();
+    if ( $http->hasPostVariable( 'SetRemoteIDOrderMap' ) )
+        $remoteIDOrderMap = $http->postVariable( 'SetRemoteIDOrderMap' );
+    if ( count( $setPlacementNodeIDArray ) > 0 )
+    {
+        foreach ( $setPlacementNodeIDArray as $setPlacementRemoteID => $setPlacementNodeID )
+        {
+            $hasAssignment = false;
+            foreach ( array_keys( $nodeAssignments ) as $key )
+            {
+                $nodeAssignment =& $nodeAssignments[$key];
+                if ( $nodeAssignment->attribute( 'remote_id' ) == $setPlacementRemoteID )
+                {
+                    eZDebug::writeDebug( "Remote ID $setPlacementRemoteID already in use for node " . $nodeAssignment->attribute( 'parent_node' ), 'node_edit' );
+                    if ( isset( $remoteIDFieldMap[$setPlacementRemoteID] ) )
+                        $nodeAssignment->setAttribute( 'sort_field',  $remoteIDFieldMap[$setPlacementRemoteID] );
+                    if ( isset( $remoteIDOrderMap[$setPlacementRemoteID] ) )
+                        $nodeAssignment->setAttribute( 'sort_order', $remoteIDOrderMap[$setPlacementRemoteID] );
+                    $nodeAssignment->setAttribute( 'parent_node', $setPlacementNodeID );
+                    $nodeAssignment->sync();
+                    $hasAssignment = true;
+                    break;
+                }
+            }
+            if ( !$hasAssignment )
+            {
+                eZDebug::writeDebug( "Adding to node $setPlacementNodeID", 'node_edit' );
+                $sortField = null;
+                $sortOrder = null;
+                if ( isset( $remoteIDFieldMap[$setPlacementRemoteID] ) )
+                    $sortField = $remoteIDFieldMap[$setPlacementRemoteID];
+                if ( isset( $remoteIDOrderMap[$setPlacementRemoteID] ) )
+                    $sortOrder = $remoteIDOrderMap[$setPlacementRemoteID];
+                $version->assignToNode( $setPlacementNodeID, 0, 0, $sortField, $sortOrder, $setPlacementRemoteID );
+            }
+        }
+        $nodeAssignments =& eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), $version->attribute( 'version' ) );
+    }
+
+    $sortOrderMap = false;
+    if ( $http->hasPostVariable( 'SortOrderMap' ) )
+        $sortOrderMap = $http->postVariable( 'SortOrderMap' );
+    $sortFieldMap = false;
+    if ( $http->hasPostVariable( 'SortFieldMap' ) )
+        $sortFieldMap = $http->postVariable( 'SortFieldMap' );
+
+//     $assigedNodes =& eZContentObjectTreeNode::fetchByContentObjectID( $object->attribute('id') );
     foreach ( array_keys( $nodeAssignments ) as $key )
     {
         $nodeAssignment =& $nodeAssignments[$key];
         eZDebug::writeNotice( $nodeAssignment, "nodeAssignment" );
-        $nodeAssignment->setAttribute( 'sort_field', $sortFieldMap[$nodeAssignment->attribute( 'id' )] );
-        $sortOrder = 0;
-        if ( $sortOrderMap[$nodeAssignment->attribute( 'id' )] == 1 )
+        if ( $sortFieldMap !== false )
+        {
+            if ( isset( $sortFieldMap[$nodeAssignment->attribute( 'id' )] ) )
+                $nodeAssignment->setAttribute( 'sort_field', $sortFieldMap[$nodeAssignment->attribute( 'id' )] );
+        }
+
+        if ( $sortOrderMap !== false )
+        {
             $sortOrder = 1;
-        $nodeAssignment->setAttribute( 'sort_order', $sortOrder );
-        if ( $nodeAssignment->attribute( 'is_main' ) == 1 && $nodeAssignment->attribute( 'parent_node' ) != $mainNodeID )
+            if ( isset( $sortOrderMap[$nodeAssignment->attribute( 'id' )] ) and
+                 $sortOrderMap[$nodeAssignment->attribute( 'id' )] == 1 )
+                $sortOrder = $sortOrderMap[$nodeAssignment->attribute( 'id' )];
+            $nodeAssignment->setAttribute( 'sort_order', $sortOrder );
+        }
+
+        if ( $nodeAssignment->attribute( 'is_main' ) == 1 and
+             $nodeAssignment->attribute( 'parent_node' ) != $mainNodeID )
         {
             $nodeAssignment->setAttribute( 'is_main', 0 );
         }
-        elseif ( $nodeAssignment->attribute( 'is_main' ) == 0 && $nodeAssignment->attribute( 'parent_node' ) == $mainNodeID )
+        else if ( $nodeAssignment->attribute( 'is_main' ) == 0 and
+                  $nodeAssignment->attribute( 'parent_node' ) == $mainNodeID )
         {
             $nodeAssignment->setAttribute( 'is_main', 1 );
         }
@@ -312,10 +377,19 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )
 {
     $assignedNodeArray =& $version->attribute( 'parent_nodes' );
+    $remoteMap = array();
+    foreach ( array_keys( $assignedNodeArray ) as $assignedNodeKey )
+    {
+        $assignedNode =& $assignedNodeArray[$assignedNodeKey];
+        $remoteID = $assignedNode->attribute( 'remote_id' );
+        if ( $remoteID > 0 )
+            $remoteMap[$remoteID] =& $assignedNode;
+    }
     $currentVersion =& $object->currentVersion();
     $publishedNodeArray =& $currentVersion->attribute( 'parent_nodes' );
     $mainParentNodeID = $version->attribute( 'main_parent_node_id' );
     $tpl->setVariable( 'assigned_node_array', $assignedNodeArray );
+    $tpl->setVariable( 'assigned_remote_map', $remoteMap );
     $tpl->setVariable( 'published_node_array', $publishedNodeArray );
     $tpl->setVariable( 'main_node_id', $mainParentNodeID );
 }

@@ -265,7 +265,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                              ( $tag[0] == '-' and
                                isset( $tag[1] ) and
                                is_numeric( $tag[1] ) ) or
-                             preg_match( "/^[a-z0-9]+\(/", $tag ) )
+                             preg_match( "/^[a-z0-9_-]+\(/", $tag ) )
                         {
                             $textElements[] = array( "text" => $tag,
                                                      "type" => EZ_ELEMENT_VARIABLE,

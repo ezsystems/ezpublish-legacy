@@ -104,9 +104,9 @@ class eZContentOperationCollection
         $parameters = array();
         foreach ( array_keys( $nodeAssignmentList ) as $key )
         {
-//            $nodeAssignment =& $nodeAssignmentList[$key];
-
-            $parameters[] = array( 'parent_node_id' => $nodeAssignmentList[$key]->attribute( 'parent_node' ) );
+            $nodeAssignment =& $nodeAssignmentList[$key];
+            if ( $nodeAssignment->attribute( 'parent_node' ) > 0 )
+                $parameters[] = array( 'parent_node_id' => $nodeAssignment->attribute( 'parent_node' ) );
         }
 
         return array( 'parameters' => $parameters );

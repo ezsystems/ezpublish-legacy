@@ -57,6 +57,7 @@ function &templateInit( $name = false )
     $tpl->autoload();
 
     $tpl->registerResource( eZTemplateDesignResource::instance() );
+    $tpl->registerResource( eZTemplateDesignResource::standardInstance() );
 
     return $tpl;
 }

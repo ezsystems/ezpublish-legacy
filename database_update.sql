@@ -192,3 +192,7 @@ create table ezpublishontimevalue(
     PRIMARY KEY  (id,workflow_event_id,workflow_event_version),
     KEY ezpublishontimevalue_wf_ev_id_wf_ver (workflow_event_id,workflow_event_version)
     );
+
+# After RC1
+
+alter table eznode_assignment add remote_id int(11) NOT NULL default '0';
