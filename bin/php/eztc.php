@@ -37,16 +37,36 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => 'eZ publish Template Compiler',
+$script =& eZScript::instance( array( 'description' => ( "eZ publish Template Compiler\n" .
+                                                         "\n" .
+                                                         "./bin/eztc.php -snews --www-dir='/mypath/' --index-file='index.php' access-path='news'" ),
                                       'use-session' => false,
                                       'use-modules' => true,
                                       'use-extensions' => true ) );
 
 $script->startup();
 
-$options = $script->getOptions( "[compile-directory:]",
+$options = $script->getOptions( "[compile-directory:][www-dir:][index-file:][access-path:]",
                                 "",
-                                array( 'compile-directory' => "Where to place compiled files,\ndefault is template/compiled in current cache directory" ) );
+                                array( 'compile-directory' => "Where to place compiled files,\ndefault is template/compiled in current cache directory",
+                                       'www-dir' => "The part before the index.php in your URL, you should supply this if you are running in non-virtualhost mode",
+                                       'index-file' => "The name of your index.php if you are running in non-virtualhost mode",
+                                       'access-path' => "Extra access path" ) );
+$sys =& eZSys::instance();
+
+if ( $options['www-dir'] )
+{
+    $sys->WWWDir = $options['www-dir'];
+}
+if ( $options['index-file'] )
+{
+    $sys->IndexFile = $options['index-file'];
+}
+if ( $options['access-path'] )
+{
+    $sys->AccessPath = array( $options['access-path'] );
+}
+
 $script->initialize();
 
 $ini =& eZINI::instance();
