@@ -52,11 +52,14 @@
      <tr>
          <td class="{$product_item.sequence}" colspan='4'>
          {"Selected options"|i18n("design/standard/shop")}
-         {section name=Options loop=$product_item.item_object.option_list}
-             {$product_item.name}<br/>
-             {$product_item.value}<br/>
-             {$product_item.price|l10n(currency)}<br/>
+         <table class="shop-option_list">
+         {section var=option_item loop=$product_item.item_object.option_list}
+         <tr>
+             <td class="shop-option_name">{$option_item.name}<br/>
+             <td class="shop-option_value">{$option_item.value}</td>
+             <td class="shop-option_price">{section show=$option_item.price|ne( 0 )}{$option_item.price|l10n( currency )}{/section}</td>
          {/section}
+         </table>
          </td>
      </tr>
      {/section}

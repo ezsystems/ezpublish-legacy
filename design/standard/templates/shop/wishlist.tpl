@@ -71,6 +71,30 @@
 	<input type="checkbox" name="RemoveProductItemDeleteList[]" value="{$ProductItem:item.id}" />
 	</td>
 </tr>
+
+{section show=$ProductItem:item.item_object.option_list}
+<tr>
+    <td class="{$ProductItem:sequence}" colspan='4'>
+    <table class="shop-option_list">
+    <tr>
+        <td colspan='3'>
+        {"Selected options"|i18n("design/standard/shop")}
+        </td>
+    </tr>
+    {section var=option_item loop=$ProductItem:item.item_object.option_list}
+        <tr>
+            <td width="33%">{$ProductItem:option_item.name}</td>
+            <td width="33%">{$ProductItem:option_item.value}</td>
+            <td width="33%">{$ProductItem:option_item.price|l10n(currency)}</td>
+        </tr>
+    {/section}
+    </table>
+    </td>
+    <td class="{$ProductItem:sequence}" colspan='5'>
+    </td>
+</tr>
+{/section}
+
 {/section}
 </table>
 

@@ -85,7 +85,7 @@
 {section show=$Basket:ProductItem:item.item_object.option_list}
 <tr>
   <td class="{$Basket:ProductItem:sequence}" colspan='4'>
-     <table width="100%"  border="0">
+     <table class="shop-option_list">
 <tr>
 <td colspan='3'>
 {"Selected options"|i18n("design/standard/shop")}
