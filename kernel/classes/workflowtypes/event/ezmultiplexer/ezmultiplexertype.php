@@ -54,23 +54,145 @@ class eZMultiplexerType extends eZWorkflowEventType
         $this->eZWorkflowEventType( EZ_WORKFLOW_TYPE_MULTIPLEXER_ID, 'Multiplexer' );
     }
 
+    function &attributeDecoder( &$event, $attr )
+    {
+        switch ( $attr )
+        {
+            case 'selected_sections':
+            {
+                if ( trim( $event->attribute( 'data_text1' ) ) == '' )
+                    $sections = array( -1 );
+                else
+                    $sections = explode( ',', $event->attribute( 'data_text1' ) );
+                return $sections;
+            }
+            break;
+
+            case 'selected_classes':
+            {
+                if ( trim( $event->attribute( 'data_text3' ) ) == '' )
+                    $users = array( -1 );
+                else
+                    $users = explode( ',', $event->attribute( 'data_text3' ) );
+                return $users;
+            }
+            break;
+
+            case 'selected_usergroups':
+            {
+                $groups = explode( ',', $event->attribute( 'data_text2' ) );
+                return $groups;
+            }
+
+            case 'selected_workflow':
+            {
+                return $event->attribute( 'data_int1' );
+            }
+        }
+        return null;
+    }
+
+    function typeFunctionalAttributes()
+    {
+        return array( 'selected_sections',
+                      'selected_usergroups',
+                      'selected_classes',
+                      'selected_workflow' );
+    }
+
+    function &attribute( $attr )
+    {
+        switch( $attr )
+        {
+            case 'sections':
+            {
+                include_once( 'kernel/classes/ezsection.php' );
+                $sections =& eZSection::fetchList( false );
+                foreach ( array_keys( $sections ) as $key )
+                {
+                    $section =& $sections[$key];
+                    $section['Name'] = $section['name'];
+                    $section['value'] = $section['id'];
+                }
+                return $sections;
+            }
+            break;
+
+            case 'usergroups':
+            {
+                $groups =& eZPersistentObject::fetchObjectList( eZContentObject::definition(), array( 'id', 'name' ),
+                                                                array( 'contentclass_id' => 3 ), null, null, false );
+                foreach ( array_keys( $groups ) as $key )
+                {
+                    $group =& $groups[$key];
+                    $group['Name'] = $group['name'];
+                    $group['value'] = $group['id'];
+                }
+                return $groups;
+            }
+            break;
+
+            case 'contentclass_list':
+            {
+                $classes =& eZContentClass::fetchList();
+                $classList = array();
+                for ( $i = 0; $i < count( $classes ); $i++ )
+                {
+                    $classList[$i]['Name'] = $classes[$i]->attribute( 'name' );
+                    $classList[$i]['value'] = $classes[$i]->attribute( 'id' );
+                }
+                return $classList;
+            }
+            break;
+
+            case 'workflow_list':
+            {
+                $workflows =& eZWorkflow::fetchList();
+                $workflowList = array();
+                for ( $i = 0; $i < count( $workflows ); $i++ )
+                {
+                    $workflowList[$i]['Name'] = $workflows[$i]->attribute( 'name' );
+                    $workflowList[$i]['value'] = $workflows[$i]->attribute( 'id' );
+                }
+                return $workflowList;
+            }
+            break;
+        }
+        return eZWorkflowEventType::attribute( $attr );
+    }
+
+    function hasAttribute( $attr )
+    {
+        return in_array( $attr, array( 'sections',
+                                       'contentclass_list',
+                                       'workflow_list',
+                                       'usergroups' ) ) || eZWorkflowEventType::hasAttribute( $attr );
+    }
+
     function execute( &$process, &$event )
     {
+        eZDebug::writeNotice( "jhe- execute" );
         $processParameters = $process->attribute( 'parameter_list' );
         $nodeID = $processParameters['node_id'];
         $node = & eZContentObjectTreeNode::fetch( $nodeID );
         $objectID = $node->attribute( 'contentobject_id' );
         $object =& $node->attribute( 'object');
         $class =& $object->attribute( 'content_class' );
-        $userArray = split( '[,; ]', $event->attribute( 'data_text2' ) );
-        $classArray = split( '[,; ]', $event->attribute( 'data_text3' ) );
-        $userID = $processParameters['user_id'];
-        if ( ( !in_array( $userID, $userArray ) ) &&
-             in_array( $class->attribute( 'id' ), $classArray ) )
+        $userArray = explode( ',', $event->attribute( 'data_text2' ) );
+        $classArray = explode( ',', $event->attribute( 'data_text3' ) );
+
+        $user =& eZUser::currentUser();
+        $userGroups = $user->attribute( 'groups' );
+        $inExcludeGroups = count( array_intersect( $userGroups, $userArray ) ) != 0;
+
+        if ( ( !$inExcludeGroups ) &&
+             ( in_array( -1, $classArray ) ||
+               in_array( $class->attribute( 'id' ), $classArray ) ) )
         {
-            $sectionArray = split( '[,; ]', $event->attribute( 'data_text1' ) );
+            $sectionArray = explode( ',', $event->attribute( 'data_text1' ) );
+
             if ( in_array( $object->attribute( 'section_id' ), $sectionArray ) ||
-                 count( $sectionArray ) == 0 )
+                 in_array( -1, $sectionArray ) )
             {
                 $sessionKey = $processParameters['session_key'];
                 $workflowToRun = $event->attribute( 'data_int1' );
@@ -81,6 +203,7 @@ class eZMultiplexerType extends eZWorkflowEventType
                                           'node_id' => $processParameters['node_id'],
                                           'session_key' => $sessionKey
                                           );
+
                 $childProcessKey = eZWorkflowProcess::createKey( $childParameters );
 
                 $childProcessArray =& eZWorkflowProcess::fetchListByKey( $childProcessKey );
@@ -128,7 +251,6 @@ class eZMultiplexerType extends eZWorkflowEventType
             }
         }
         return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
-
     }
 
     function initializeEvent( &$event )
@@ -141,21 +263,32 @@ class eZMultiplexerType extends eZWorkflowEventType
         $sectionsVar = $base . "_event_ezmultiplexer_section_ids_" . $event->attribute( "id" );
         if ( $http->hasPostVariable( $sectionsVar ) )
         {
-            $sectionsID = $http->postVariable( $sectionsVar );
-            $event->setAttribute( "data_text1", $sectionsID );
+            $sectionsArray = $http->postVariable( $sectionsVar );
+            if ( in_array( '-1', $sectionsArray ) )
+            {
+                $sectionsArray = array( -1 );
+            }
+            $sectionsString = implode( ',', $sectionsArray );
+            $event->setAttribute( "data_text1", $sectionsString );
         }
+
         $usersVar = $base . "_event_ezmultiplexer_not_run_ids_" . $event->attribute( "id" );
-        if ( $http->hasPostVariable( $usersVar ) )
-        {
-            $usersID = $http->postVariable( $usersVar );
-            $event->setAttribute( "data_text2", $usersID );
-        }
+        $usersArray = $http->postVariable( $usersVar );
+        $usersString = implode( ',', $usersArray );
+        $event->setAttribute( "data_text2", $usersString );
+
         $classesVar = $base . "_event_ezmultiplexer_class_ids_" . $event->attribute( "id" );
         if ( $http->hasPostVariable( $classesVar ) )
         {
-            $classesID = $http->postVariable( $classesVar );
-            $event->setAttribute( "data_text3", $classesID );
+            $classesArray = $http->postVariable( $classesVar );
+            if ( in_array( '-1', $classesArray ) )
+            {
+                $classesArray = array( -1 );
+            }
+            $classesString = implode( ',', $classesArray );
+            $event->setAttribute( "data_text3", $classesString );
         }
+
         $workflowVar = $base . "_event_ezmultiplexer_workflow_id_" . $event->attribute( "id" );
         if ( $http->hasPostVariable( $workflowVar ) )
         {
