@@ -145,8 +145,6 @@ eZ utils:
 - Added class ezlog which provides functions to write storage log message.
 
 
-
-
 eZ PHP creator:
 - Added support for end-of-line comments.
 - When restoring PHP files the variables fetching can now be set as optional
@@ -196,6 +194,7 @@ eZ db:
   will not initialize the DB.
 - Fixed correct initializing of master/slave connections in MySQL and reading values from site.ini
 - Fixed correct lastSerialID when running in master/slave configuration
+- Fixed sending "create temporary" queries to slave server ( pr connection memory tables )
 
 eZ debug:
 - The popup window was fixed to use the var directory and works on non-virtual hosts as well.
