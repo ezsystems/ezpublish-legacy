@@ -680,10 +680,15 @@ class eZModuleOperationInfo
         if ( isset( $mementoData['loop_data'] ) )
             $currentLoopData = $mementoData['loop_data'];
 
-        $mementoData = null;
         if ( isset( $mementoData['skip_trigger'] ) && $mementoData['skip_trigger'] == true )
         {
+            $mementoData = null;
             return false;
+        }
+        else
+        {
+            $mementoData = null;
+            return true;
         }
 
         return true;
