@@ -40,3 +40,6 @@ Changes from 3.3-6 to 3.3-7
 eZDebug:
 - Fixed output of arrays and objects to use PHP function var_export if it is
   available.
+
+Design:
+- Removed admin.css from pagelayout.tpl and redirect.tpl in standard design.

@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="no" lang="no">
 <head>
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
 
     <title>{'eZ publish redirection - %url'|i18n('design/standard/layout',,hash('%url',$redirect_uri|wash))}</title>
