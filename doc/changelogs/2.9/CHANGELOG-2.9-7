@@ -90,7 +90,7 @@ user-login-* without that user will not be able to login.
   datatypes has more control over the template to be used.
 - File download now supports filehandlers which controls how
   files are download, currently PHP passtrough and direct handlers are available.
-
+- Fixed bug with new version creating for bynary file
 contentclass:
 - Moving attributes up in class edit now moves one step instead of two.
 - Classes can now be copied, a new function in eZDataType was added which

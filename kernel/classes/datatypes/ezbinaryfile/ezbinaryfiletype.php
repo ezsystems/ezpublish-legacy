@@ -140,7 +140,7 @@ class eZBinaryFileType extends eZDataType
             $oldfile =& eZBinaryFile::fetch( $contentObjectAttributeID, $currentVersion );
             if ( $oldfile != null )
             {
-                $oldfile->setAttribute( 'contentobject_attribute_id', $contentObjectAttribute->attribute( 'id ' ) );
+                $oldfile->setAttribute( 'contentobject_attribute_id', $contentObjectAttribute->attribute( 'id' ) );
                 $oldfile->setAttribute( "version",  $version );
                 $oldfile->store();
             }
