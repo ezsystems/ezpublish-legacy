@@ -45,6 +45,7 @@ $ViewList["edit"] = array(
                                     'CancelButton' => 'Cancel',
                                     'BrowseNodeButton' => 'BrowseForNodes',
                                     'DeleteNodeButton' => 'DeleteNode',
+                                    'MoveNodeButton' => 'MoveNode',
                                     'BrowseObjectButton' => 'BrowseForObjects',
                                     'DeleteRelationButton' => 'DeleteRelation',
                                     'StoreButton' => 'Store',

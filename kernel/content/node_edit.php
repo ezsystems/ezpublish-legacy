@@ -82,6 +82,38 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
     }
 }
 
+function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $fromNodeID )
+{
+    $http =& eZHTTPTool::instance();
+    $ObjectID = $object->attribute( 'id' );
+    // Move to another node
+    if ( $module->isCurrentAction( 'MoveNodeAssignment' ) )
+    {
+        $selectedNodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
+        if ( $selectedNodeIDArray != null )
+        {
+            $version->removeAssignment( $fromNodeID );
+            $fromNodeID = $http->postVariable( 'FromNodeID' );
+            $children =& eZContentObjectTreeNode::subTree( null, $fromNodeID );
+            eZDebug::writeDebug( $children,"WWWWWWWWWWWW");
+            $assignedNodes =& $version->nodeAssignments();
+            $assignedIDArray =array();
+            foreach ( $assignedNodes as  $assignedNode )
+            {
+                $assignedNodeID = $assignedNode->attribute( 'parent_node' );
+                $assignedIDArray[] = $assignedNodeID;
+            }
+            foreach ( $selectedNodeIDArray as $nodeID )
+            {
+                if ( !in_array( $nodeID, $assignedIDArray ) )
+                {
+                    $version->assignToNode( $nodeID );
+                }
+            }
+        }
+    }
+}
+
 function storeNodeAssignments( &$module, &$class, &$object, &$version, &$contentObjectAttributes )
 {
     $http =& eZHTTPTool::instance();
@@ -177,6 +209,35 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
         }
 
     }
+    if ( $module->isCurrentAction( 'MoveNode' ) )
+    {
+        $objectID = $object->attribute( 'id' );
+        if ( $http->hasPostVariable( 'DeleteParentIDArray' ) )
+        {
+            $sourceNodeID = $http->postVariable( 'DeleteParentIDArray' );
+        }
+        $fromNodeID = $sourceNodeID[0];
+
+        $http->setSessionVariable( 'BrowseFromPage', $module->redirectionURI( 'content', 'edit', array( $objectID, $editVersion ) ) );
+        $http->setSessionVariable( 'BrowseActionName', 'MoveNodeAssignment' );
+         $http->setSessionVariable( 'FromNodeID', $fromNodeID );
+        $http->setSessionVariable( 'BrowseReturnType', 'NodeID' );
+        $mainParentID = $version->attribute( 'main_parent_node_id' );
+         eZDebug::writeDebug($mainParentID,"WWWWWWWWWWWW");
+        $node = eZContentObjectTreeNode::fetch( $mainParentID );
+          eZDebug::writeDebug($node,"WWWWWWWWWWWW");
+        $nodePath =  $node->attribute( 'path' );
+        $rootNodeForObject = $nodePath[0];
+        if ( $rootNodeForObject != null )
+        {
+            $nodeID = $rootNodeForObject->attribute( 'node_id' );
+        }else
+        {
+            $nodeID = $mainParentID;
+        }
+        $module->redirectToView( 'browse', array( $nodeID, $objectID, $editVersion, $fromNodeID ) );
+        return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+    }
 }
 
 function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, &$tpl )
@@ -196,6 +257,7 @@ function initializeNodeEdit( &$module )
 {
     $module->addHook( 'pre_fetch', 'checkNodeCorrectness', -10 );
     $module->addHook( 'post_fetch', 'checkNodeAssignments' );
+    $module->addHook( 'post_fetch', 'checkNodeMovements' );
     $module->addHook( 'pre_commit', 'storeNodeAssignments' );
     $module->addHook( 'action_check', 'checkNodeActions' );
     $module->addHook( 'pre_template', 'handleNodeTemplate' );

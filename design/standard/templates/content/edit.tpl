@@ -80,7 +80,8 @@
 	{case}
 	 <div class="buttonblock">
 	 <input class="button" type="submit" name="BrowseNodeButton" value="{'Add placement(s)'|i18n('content/object')}" />
-	 <input class="button" type="submit" name="DeleteNodeButton" value="{'Remove placement(s)'|i18n('content/object')}" />
+	 <input class="button" type="submit" name="DeleteNodeButton" value="{'Remove placement'|i18n('content/object')}" />
+	 <input class="button" type="submit" name="MoveNodeButton" value="{'Move placement'|i18n('content/object')}" />
 	 </div>
 	{/case}
     {/switch}

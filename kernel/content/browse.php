@@ -55,6 +55,7 @@ if ( array_key_exists( 'Limitation', $Params ) )
 
 $returnURL = $http->sessionVariable( "BrowseFromPage" );
 $browseActionName = $http->sessionVariable( "BrowseActionName" );
+$fromNodeID = $http->sessionVariable( "FromNodeID" );
 $customActionButton = $http->sessionVariable( "CustomActionButton" );
 $returnType = $http->sessionVariable( "BrowseReturnType" );
 
@@ -76,6 +77,8 @@ $objectArray =& $node->subTree( array( "Depth" => 1,
 $parents =& $node->attribute( 'path' );
 
 $tpl->setVariable( "main_node", $node );
+
+$tpl->setVariable( "from_node_id", $fromNodeID );
 
 $tpl->setVariable( "return_url", $returnURL );
 $tpl->setVariable( "browse_action_name", $browseActionName );
