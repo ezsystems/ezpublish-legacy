@@ -24,6 +24,7 @@
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" title="{'Invert selection.'|i18n( 'design/admin/node/view/full' )}" onclick="ezjs_toggleCheckboxes( document.locationsform, 'AssignmentIDSelection[]' ); return false;"/></th>
     <th class="wide">{'Location'|i18n( 'design/admin/node/view/full' )}</th>
+    <th class="wide">{'Sub items'|i18n( 'design/admin/node/view/full' )}</th>
 {*   <th class="tight">{'Sorting'|i18n( 'design/admin/node/view/full' )}</th> *}
     <th class="tight">{'Visibility'|i18n( 'design/admin/node/view/full' )}</th>
     <th class="tight">{'Main'|i18n( 'design/admin/node/view/full' )}</th>
@@ -41,6 +42,10 @@
     {section-else}
     <td>{section var=node_path loop=$assignment_path} <a href={$node_path.url|ezurl}>{$node_path.name|wash}</a>{delimiter} / {/delimiter}{/section}</td>
     {/section}
+
+
+    {* Sub items. *}
+    <td>{$assignment.item.node.children_count}</td>
 
     {* Sorting. *}
 {*
