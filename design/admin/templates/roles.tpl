@@ -1,7 +1,9 @@
 {let member_groups=fetch( user, member_of, hash( id, $node.contentobject_id ) )}
 
 <div class="context-block">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
 <h2 class="context-title">{'Assigned roles [%roles_count]'|i18n( 'design/admin/node/view/full',, hash( '%roles_count', $member_groups|count ) )}</h2>
 
 {* DESIGN: Mainline *}<div class="header-subline"></div>
@@ -10,8 +12,8 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-<table class="list" cellspacing="0">
 {section show=count( $member_groups )}
+<table class="list" cellspacing="0">
 <tr>
     <th>{'Name'|i18n( 'design/admin/node/view/full' )}</th>
     <th>{'Limitation'|i18n( 'design/admin/node/view/full' )}</th>
@@ -41,18 +43,19 @@
         </td>
 
         {* Edit. *}
-        <td><a href={concat( '/role/edit/', $Roles.item.id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit role.'|i18n( 'design/admin/node/view/full' )}" title="{'Edit role.'|i18n( 'design/admin/node/view/full' )}" /</a></td> 
+        <td><a href={concat( '/role/edit/', $Roles.item.id )|ezurl}><img src={'edit.png'|ezimage} alt="{'Edit role.'|i18n( 'design/admin/node/view/full' )}" title="{'Edit role.'|i18n( 'design/admin/node/view/full' )}" /</a></td>
+
     </tr>
 {/section}
-{section-else}
-<tr>
-    <td>{'There are no assigned roles.'|i18n( 'design/admin/node/view/full' )}</td>
-</tr>
-{/section}
 </table>
-
-{/let}
+{section-else}
+<div class="block">
+    <p>{'There are no assigned roles.'|i18n( 'design/admin/node/view/full' )}</p>
+</div>
+{/section}
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 
 </div>
+
+{/let}
