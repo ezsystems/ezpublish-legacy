@@ -32,6 +32,8 @@ menuArray['SubitemsContextMenu']['elements']['child-menu-edit'] = new Array();
 menuArray['SubitemsContextMenu']['elements']['child-menu-edit']['url'] = {"/content/edit/%objectID%"|ezurl};
 menuArray['SubitemsContextMenu']['elements']['child-menu-copy'] = new Array();
 menuArray['SubitemsContextMenu']['elements']['child-menu-copy']['url'] = {"/content/copy/%objectID%"|ezurl};
+menuArray['SubitemsContextMenu']['elements']['child-menu-copy-subtree'] = new Array();
+menuArray['SubitemsContextMenu']['elements']['child-menu-copy-subtree']['url'] = {"/content/copysubtree/%nodeID%"|ezurl};
 
 menuArray['ClassMenu'] = new Array();
 menuArray['ClassMenu']['depth'] = 0;
@@ -113,6 +115,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
     <a id="child-menu-edit" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"Edit"|i18n("design/admin/popupmenu")}</a>
     <hr />
     <a id="child-menu-copy" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"Copy"|i18n("design/admin/popupmenu")}</a>
+    <a id="child-menu-copy-subtree" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"Copy Subtree"|i18n("design/admin/popupmenu")}</a>
     <a id="child-menu-move" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
        onclick="ezpopmenu_submitForm( 'menu-form-move' ); return false;">{"Move"|i18n("design/admin/popupmenu")}</a>
     <a id="child-menu-remove" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
