@@ -855,6 +855,20 @@ class eZContentFunctionCollection
             return array( 'result' => $result );
         }
     }
+
+    // Fetches all navigation parts as an array
+    function fetchNavigationParts()
+    {
+        include_once( 'kernel/classes/eznavigationpart.php' );
+        return array( 'result' => eZNavigationPart::fetchList() );
+    }
+
+    // Fetches one navigation parts by identifier
+    function fetchNavigationPart( $identifier )
+    {
+        include_once( 'kernel/classes/eznavigationpart.php' );
+        return array( 'result' => eZNavigationPart::fetchPartByIdentifier( $identifier ) );
+    }
 }
 
 ?>

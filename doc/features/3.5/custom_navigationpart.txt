@@ -1,0 +1,36 @@
+*Title: Custom navigation part identifiers
+
+*Incentive:
+Make it possible for extensions to create custom
+navigation part identifiers for their own modules.
+This can be used in conjunction with the new topmenu
+system to create custom tabs in the admin interface.
+
+*Documentation:
+The navigiation part identifiers have been moved from
+PHP code in eZNavigationPart and into the INI file
+menu.ini.
+
+The list is defined by an associative array in the
+NavigationPart group in a variable called Parts.
+
+To create your own part simply add a new entry.
+
+Example:
+Part[ezcustomnavigationpart]=Custom
+
+Note: Make sure your identifier is unique, identifiers starting
+      with ez is reserved for eZ systems.
+
+Translations:
+
+The text in the INI file will not be translatable unless you create
+some dummy PHP code somewhere.
+Create a new PHP file in your extension or add a dummy function to
+one of your classes and add
+
+ezi18n( 'kernel/navigationpart', 'Custom navigation', 'Navigation part' );
+
+Then run ezlupdate with your extension. You should then find the string
+in the translation file(s).
+

@@ -759,4 +759,24 @@ $FunctionList['access'] = array( 'name' => 'access',
                                                                'type' => 'integer',
                                                                'required' => false,
                                                                'default' => false ) ) );
+
+// Fetches all navigation parts as an array
+$FunctionList['navigation_parts'] = array( 'name' => 'navigation_parts',
+                                           'operation_types' => array( 'read' ),
+                                           'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                   'class' => 'eZContentFunctionCollection',
+                                                                   'method' => 'fetchNavigationParts' ),
+                                           'parameter_type' => 'standard',
+                                           'parameters' => array() );
+
+// Fetches one navigation part by identifier
+$FunctionList['navigation_part'] = array( 'name' => 'navigation_part',
+                                          'operation_types' => array( 'read' ),
+                                          'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
+                                                                  'class' => 'eZContentFunctionCollection',
+                                                                  'method' => 'fetchNavigationPart' ),
+                                          'parameter_type' => 'standard',
+                                          'parameters' => array( array( 'name' => 'identifier',
+                                                                        'type' => 'string',
+                                                                        'required' => true ) ) );
 ?>

@@ -24,13 +24,9 @@
 <div class="block">
 <label>{'Navigation Part'|i18n( 'design/admin/section/edit' )}:</label>
 <select name="NavigationPartIdentifier">
-<option value="ezcontentnavigationpart" {section show=eq( $section.navigation_part_identifier, 'ezcontentnavigationpart')}selected="selected"{/section}>{'Content'|i18n( 'design/admin/section/edit' )}</option>
-<option value="ezmedianavigationpart"   {section show=eq( $section.navigation_part_identifier, 'ezmedianavigationpart'  )}selected="selected"{/section}>{'Media'|i18n( 'design/admin/section/edit' )}</option>
-<option value="ezshopnavigationpart"    {section show=eq( $section.navigation_part_identifier, 'ezshopnavigationpart'   )}selected="selected"{/section}>{'Shop'|i18n( 'design/admin/section/edit' )}</option>
-<option value="ezusernavigationpart"    {section show=eq( $section.navigation_part_identifier, 'ezusernavigationpart'   )}selected="selected"{/section}>{'Users'|i18n( 'design/admin/section/edit' )}</option>
-<option value="ezvisualnavigationpart"   {section show=eq( $section.navigation_part_identifier, 'ezvisualnavigationpart'  )}selected="selected"{/section}>{'Design'|i18n( 'design/admin/section/edit' )}</option>
-<option value="ezsetupnavigationpart"   {section show=eq( $section.navigation_part_identifier, 'ezsetupnavigationpart'  )}selected="selected"{/section}>{'Setup'|i18n( 'design/admin/section/edit' )}</option>
-<option value="ezmynavigationpart"      {section show=eq( $section.navigation_part_identifier, 'ezmynavigationpart'     )}selected="selected"{/section}>{'Personal'|i18n( 'design/admin/section/edit' )}</option>
+{section var=part loop=fetch( content, navigation_parts )}
+    <option value="{$part.identifier|wash}" {section show=eq( $section.navigation_part_identifier, $part.identifier )}selected="selected"{/section}>{$part.name|wash}</option>
+{/section}
 </select>
 </div>
 

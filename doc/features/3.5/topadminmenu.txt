@@ -1,31 +1,40 @@
 *Title: INI setting for top admin menu url's
 
-Incentive:
-Add new settings to the menu.ini
-- TopAdminMenu
-- Tabs[item_name]
-- URL[context]
-- NavigationPartIdentifier
-- Name
-- Tooltip
-- Enabled[context]
-- Shown[context]
+*Incentive:
+Make it possible to control various aspects of the
+top menu in the admin interface as well as new entries.
+
+
 *Documentation:
-1.
-Tabs[item_name] - Array of top admin menu items.
-Here are the settings which controls behavour of each
-menuitem in top admin menu.
-URL['ui_context'] - which view item points to in different contextes.
-NavigationPartIdentifier  - Navigation part identifier of the menu item.
-Name - name which is shown on the menu item, if it is not set the default value 
-       is used. Note!!! When you use the not default value the text translation
-       of a menu item is done. 
-Tooltip - tooltip which is shown for the menu item, if it is not set the default value 
-          is used. Note!!! When you use the not default value the text translation
-          of a menu item is done. 
-Enabled[ui_context] - sets if menuitem is clickable in current ui_context.
-Shown[ui_context]  - sets if menuitem is clickable in current ui_context
+Each top menu entry now consists of:
+- Name
+    The name of the menu
+    Note: Only the names bundled by eZ publish are translatable
+- Tooltip
+    Some text which will be displayed in a tooltip
+- URL
+    Array of URLs which are used on the menu entry.
+    The key in the array referes to the UI context (e.g edit),
+    the default context must at least be defined
+- NavigationPartIdentifier
+    The navigation part identifier used by this entry.
+    If the identifier of the curren module matches this
+    one it will be highlighted.
+- Enabled
+    Controls if the menu can selected in the different
+    UI contexts.
+- Shown
+    Controls which UI contexts the menu entry is shown.
 
+To create a new entry just add it to menu.ini,
+if you use an extension you must add it to menu.ini.append.
 
+First you need to add an entry to the Tabs variable in the
+TopAdminMenu group. This is a list of tab identifiers which
+are currently in use.
 
+Then you need to create a new INI group using the identifier
+you just chose. e.g. If you named it custom you need to create
+a group called Topmenu_custom.
 
+In the group you must add the various elements defined above.
