@@ -1,6 +1,6 @@
 <h1>{$node.name}</h1>
 
-<form method="post" action={"content/action"|ezurl}> 
+<form method="post" action={"content/action"|ezurl}>
 
 {attribute_view_gui attribute=$node.object.data_map.description}
 
