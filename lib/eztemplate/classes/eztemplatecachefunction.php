@@ -106,7 +106,9 @@ class eZTemplateCacheFunction
                 // Check if we can restore
                 if ( $phpCache->canRestore( mktime() - $expiry ) )
                 {
-                    $text =& $phpCache->restore( );
+                    $variables = $phpCache->restore( array( 'contentdata' => 'contentData' )  );
+                    $text =& $variables['contentdata'];
+                    $textElements[] = $text;
                 }
                 else
                 {
@@ -122,7 +124,7 @@ class eZTemplateCacheFunction
                     $text =& implode( '', $childTextElements );
                     $textElements[] = $text;
 
-                    $phpCache->write( $text );
+                    $phpCache->addVariable( 'contentData', $text );
                     $phpCache->store();
                 }
             } break;
