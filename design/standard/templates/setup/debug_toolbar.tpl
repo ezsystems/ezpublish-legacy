@@ -1,4 +1,4 @@
-<div class="block">
+<div class="block debug-toolbar">
 
 <div class="element">
 <h3>Clear cache:</h3>
