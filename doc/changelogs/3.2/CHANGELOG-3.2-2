@@ -112,6 +112,9 @@ eZ db:
 - The postgresql driver now allows for recursive transactions, it does so by keeping track
   of the number of transactions and only commits when all are done.
 
+eZ sys:
+- Made sure the request URI is url decoded to turn %xx elements into real characters, no Unicode support yet.
+
 *Translations:
 - Updated german translation (ger-DE), thanks to Björn Dieding.
 
