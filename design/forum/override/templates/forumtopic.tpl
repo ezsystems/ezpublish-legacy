@@ -89,7 +89,11 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 
     {attribute_view_gui attribute=$node.object.owner.data_map.user_image image_class=small}<br />
 
-
+    Topics:{fetch('content', 'object_count_by_user_id', hash( 'class_id', 22,
+                                                       'user_id', $node.object.owner.id ) )}<br />
+						       
+    Replies: {fetch('content', 'object_count_by_user_id', hash( 'class_id', 21,
+                                                       'user_id', $node.object.owner.id ) )}<br />
     Location:{$node.object.owner.data_map.location.content|wash}<br />
 
     <br />
@@ -130,6 +134,12 @@ You need to be logged in to get access to the forums. You can do so <a href={"/u
 
     {attribute_view_gui attribute=$Child:item.object.owner.data_map.user_image image_class=small}<br />
 
+
+    Topics:{fetch('content', 'object_count_by_user_id', hash( 'class_id', 22,
+                                                       'user_id', $Child:item.object.owner.id ) )}<br />
+						       
+    Replies: {fetch('content', 'object_count_by_user_id', hash( 'class_id', 21,
+                                                       'user_id', $Child:item.object.owner.id ) )}<br />
 
     Location:{$Child:item.object.owner.data_map.location.content|wash}<br />
 
