@@ -1408,9 +1408,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $versionNameJoins
                       $showInvisibleNodesCond
                       $sqlPermissionCheckingString
-                $groupByText
-                ORDER BY $sortingInfo[sortingFields]";
-
+                $groupByText";
+        
+        if ( $sortingInfo['sortingFields'] )
+            $query .= " ORDER BY $sortingInfo[sortingFields]";
 
         $db =& eZDB::instance();
 
