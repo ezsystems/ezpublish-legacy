@@ -225,6 +225,77 @@ class eZURLObjectLink extends eZPersistentObject
         return $linkList;
     }
 
+    function fetchObjectLinkList( $urlID )
+    //function &fetchObjectLinkList( $urlID )
+    {
+        /*
+        // rush:
+        exit("VYLETAEM!");
+        $urlObjectLinkList =& eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
+                                                                    null,
+                                                                    array( 'url_id' => $urlID ),
+                                                                    null,
+                                                                    null,
+                                                                    true );
+        foreach ( array_keys( $urlObjectLinkList ) as $key )
+        {
+            $urlObjectLink =& $urlObjectLinkList[$key];
+            $objectAttributeID = $urlObjectLink->attribute( 'contentobject_attribute_id' );
+            $objectAttributeVersion = $urlObjectLink->attribute( 'contentobject_attribute_version' );
+            $objectAttribute =& eZContentObjectAttribute::fetch( $objectAttributeID, $objectAttributeVersion );
+            if ( $objectAttribute )
+            {
+                $objectID = $objectAttribute->attribute( 'contentobject_id' );
+                $objectVersion = $objectAttribute->attribute( 'version' );
+
+                eZContentCacheManager::clearObjectViewCache( $objectID, $objectVersion );
+                /*
+                $object =& eZContentObject::fetch( $objectID );
+                if ( $object )
+                {
+                    $versionObject =& $object->version( $objectVersion );
+                    $versionID = $versionObject->attribute( 'id' );
+                    if ( !in_array( $versionID, $storedVersionList ) )
+                    {
+                        $objectVersionList[] =& $versionObject;
+                        $storedVersionList[] = $versionID;
+                    }
+                }
+
+            }
+        }
+        return $urlObjectLinkList;
+        */
+    }
+
+    /*!
+     \static
+     Clear view cache for every object which contains URL with given link ID \a $urlID.
+    */
+    function clearCacheForObjectLink( $urlID )
+    {
+        include_once( "kernel/classes/ezcontentcachemanager.php" );
+        $urlObjectLinkList =& eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
+                                                                    null,
+                                                                    array( 'url_id' => $urlID ),
+                                                                    null,
+                                                                    null,
+                                                                    true );
+        foreach ( $urlObjectLinkList as $urlObjectLink )
+        {
+            $objectAttributeID = $urlObjectLink->attribute( 'contentobject_attribute_id' );
+            $objectAttributeVersion = $urlObjectLink->attribute( 'contentobject_attribute_version' );
+            $objectAttribute =& eZContentObjectAttribute::fetch( $objectAttributeID, $objectAttributeVersion );
+            if ( $objectAttribute )
+            {
+                $objectID = $objectAttribute->attribute( 'contentobject_id' );
+                $objectVersion = $objectAttribute->attribute( 'version' );
+                eZContentCacheManager::clearObjectViewCache( $objectID, $objectVersion );
+            }
+        }
+    }
+
+
     /// \privatesection
     var $URLID;
     var $ContentObjectAttributeID;
