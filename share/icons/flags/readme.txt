@@ -5,11 +5,15 @@ created and delivered during September 2004.
 By the way of this text file, Cedric "Zone" Grandemange gives all rights
 and copyrights to eZ systems. eZ systems can use these flags within the
 upcoming releases of their main product, eZ publish. The flags can be
-used by eZ systems for both commercial and non-commercial purposes.
-However, the flags themselves (the GIF files alone) can not be sold
-to individuals or companies. Only eZ systems will have the rights to
-distribute the flags, which will only happen by the way of including
-them in the eZ publish CMS suite.
+used by eZ systems for both commercial and non-commercial purposes. 
+The flags themselves (the GIF files alone) can not be sold or distributed
+to individuals or companies. There are only two ways these flags can be
+used/distributed:
+
+1) As a part of an eZ publish distribution released by eZ systems
+
+2) As a part of an eZ publish variant released under the professional license
+
 
 Cedric'Zone'Grandemange
 http://www.lezone.fr.st
