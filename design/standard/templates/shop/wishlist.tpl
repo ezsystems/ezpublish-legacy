@@ -83,9 +83,9 @@
     </tr>
     {section var=option_item loop=$ProductItem:item.item_object.option_list}
         <tr>
-            <td width="33%">{$ProductItem:option_item.name}</td>
+            <td width="33%">{$ProductItem:option_item.name|wash}</td>
             <td width="33%">{$ProductItem:option_item.value}</td>
-            <td width="33%">{$ProductItem:option_item.price|l10n(currency)}</td>
+            <td width="33%">{section show=$ProductItem:option_item.price|ne( 0 )}{$ProductItem:option_item.price|l10n(currency)}{/section}</td>
         </tr>
     {/section}
     </table>
