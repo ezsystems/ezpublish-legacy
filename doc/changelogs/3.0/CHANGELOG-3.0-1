@@ -133,6 +133,7 @@ links to clickable links.
 - Made sure modfix.sh sets all required directories.
 - Setup modifies the database to accomodate the language selected if different
   than eng-GB.
+- Fixed bug of unable to delete class group when discard button is pushed.
 
 *SDK :
 
