@@ -367,19 +367,22 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                     {
                         $matchCondition = "";
                         $condCount = 0;
-                        foreach ( array_keys( $customMatch['conditions'] ) as $conditionKey )
+                        if ( is_array( $customMatch['conditions'] ) )
                         {
-                            if ( $condCount > 0 )
-                                $matchCondition .= " and ";
+                            foreach ( array_keys( $customMatch['conditions'] ) as $conditionKey )
+                            {
+                                if ( $condCount > 0 )
+                                    $matchCondition .= " and ";
 
-                            // Have a special substring match for subtree matching
-                            if ( $conditionKey == 'url_alias' )
-                                $matchCondition .= "( strpos( \$matchKeys[\\'url_alias\\'],  \\'" . $customMatch['conditions'][$conditionKey] . "\\' ) === 0 )";
-                            else
-                                $matchCondition .= "\$matchKeys[\\'$conditionKey\\'] == \\'" . $customMatch['conditions'][$conditionKey] . "\\'";
+                                // Have a special substring match for subtree matching
+                                if ( $conditionKey == 'url_alias' )
+                                    $matchCondition .= "( strpos( \$matchKeys[\\'url_alias\\'],  \\'" . $customMatch['conditions'][$conditionKey] . "\\' ) === 0 )";
+                                else
+                                    $matchCondition .= "\$matchKeys[\\'$conditionKey\\'] == \\'" . $customMatch['conditions'][$conditionKey] . "\\'";
 
 
-                            $condCount++;
+                                $condCount++;
+                            }
                         }
 
                         // Only create custom match if conditions are defined

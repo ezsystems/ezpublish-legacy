@@ -53,7 +53,7 @@
              <ul>
                  {section show=$current_user.is_logged_in}
 		 <li><a href={"/notification/settings"|ezurl}>notifications</a></li>
-                 <li><a href={concat('/content/edit/',$current_user.contentobject_id)|ezurl}>Edit account</a></li>
+                 <li><a href={concat( '/content/edit/', $current_user.contentobject_id )|ezurl}>Edit account</a></li>
                  {/section}
 		 <li><a href={"/shop/basket/"|ezurl}>View basket</a></li>
              </ul>
@@ -142,7 +142,7 @@
                 {section var=product loop=$basket_items sequence=array( odd, even )}
                     <li>
                     {$product.item.item_count} x <a href={cond( $use_urlalias, $product.item.item_object.contentobject.main_node.url_alias,
-                                   concat( "content/view/full/", $product.item.node_id ) )|ezurl}>{$product.item.object_name}</a>
+                                                                concat( "content/view/full/", $product.item.node_id ) )|ezurl}>{$product.item.object_name}</a>
                     </li>
                 {/section}
             </ul>
@@ -183,7 +183,7 @@
             <ul>
                    {section name=Products loop=$bestseller_list}
                        <li>
-                       <a href={concat('content/view/full/',$Products:item.main_node_id)|ezurl}>{$Products:item.name|wash}</a> 
+                       <a href={concat( 'content/view/full/', $Products:item.main_node_id )|ezurl}>{$Products:item.name|wash}</a> 
                        </li>
                     {/section}
             </ul>
@@ -199,7 +199,7 @@
             <ul>
                    {section name=News loop=$news_list}
                        <li>
-                       <a href={concat('content/view/full/',$News:item.node_id)|ezurl}>{$News:item.name|wash}</a>
+                       <a href={concat( 'content/view/full/', $News:item.node_id )|ezurl}>{$News:item.name|wash}</a>
                        <div class="date">
                         ({$News:item.object.published|l10n( shortdate )})
                        </div>  
@@ -255,4 +255,3 @@
 </body>
 {/let}
 </html>
-

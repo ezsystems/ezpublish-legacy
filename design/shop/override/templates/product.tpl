@@ -19,7 +19,7 @@
     {/section}
 {/let}
 
-<a href={concat('/layout/set/print/', $node.url_alias )|ezurl}><img src={"print.gif"|ezimage} alt="Printer version" /></a>
+<a href={concat( '/layout/set/print/', $node.url_alias )|ezurl}><img src={"print.gif"|ezimage} alt="Printer version" /></a>
 <input type="submit" class="defaultbutton" name="ActionAddToBasket" value="Add to basket" />
 
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />

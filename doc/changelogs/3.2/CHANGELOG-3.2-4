@@ -1,0 +1,12 @@
+Changes from 3.2-3 to 3.2-4
+
+*Kernel:
+
+*Bugfixes:
+
+*Library :
+
+eZ template:
+- Added line/column information to the error messages from the template parser.
+
+*Translations:

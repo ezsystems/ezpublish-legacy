@@ -28,6 +28,10 @@ Changes from 3.2-3 to 3.3.0-1
 - Added new fetch function object_count_by_user_id which returns the number of objects from a class created by a user.
 - Added fetch function best_sell_list in module shop which returns best sellers of product.
 - Added fetch function related_purchase in module shop which returns related purchases for a product.
+- Fixed wrong include line in ezwordtoimageoperator.php
+- Added content_info structure to module result when the view is not cached, previously this was only available
+  when the view was cached and restored.
+- Removed warnings from eztemplatedesignresource.
 
 *DataType:
 
@@ -71,6 +75,7 @@ eZ template:
   to fetch 10 last news articles. fetch_alias uses settings in settings/fetchalias.ini 
 - Added templates for new design of setup in admin
 - Added wash operator for pdf generation ( for escaping linebreaks, tabs and spaces in pdf definition ). Usage : |wash(pdf)
+- Added line/column information to the error messages from the template parser.
 
 eZ xml:
 - Added the functions removeAttributes and removeChildren in eZDOMNode.
