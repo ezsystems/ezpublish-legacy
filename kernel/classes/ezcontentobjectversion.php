@@ -98,7 +98,7 @@ class eZContentObjectVersion extends eZPersistentObject
      Clones the version with new version \a $newVersionNumber and creator \a $userID
      \note The cloned version is not stored.
     */
-    function clone( $newVersionNumber, $userID )
+    function &clone( $newVersionNumber, $userID )
     {
         $clonedVersion = $this;
         $clonedVersion->setAttribute( 'id', null );
@@ -107,6 +107,7 @@ class eZContentObjectVersion extends eZPersistentObject
         $clonedVersion->setAttribute( 'created', eZDateTime::currentTimeStamp() );
         $clonedVersion->setAttribute( 'modified', eZDateTime::currentTimeStamp() );
         $clonedVersion->setAttribute( 'creator_id', $userID );
+        return $clonedVersion;
     }
 
     /*!

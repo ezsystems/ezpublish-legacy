@@ -295,7 +295,7 @@ class eZContentObject extends eZPersistentObject
             $contentObjectAttributes =& $contentObjectTranslation->attributes();
             foreach ( array_keys( $contentObjectAttributes ) as $attributeKey )
             {
-                $attribute =& $attributes[$attributeKey];
+                $attribute =& $contentObjectAttributes[$attributeKey];
                 $clonedAttribute =& $attribute->clone( $nextVersionNumber, $currentVersionNumber );
                 $clonedAttribute->store();
             }
