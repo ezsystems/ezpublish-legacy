@@ -1,7 +1,7 @@
 <form action={'/shop/statistics'|ezurl} method="post" name="Statistics">
 
 <div class="context-block">
-<h2 class="context-title">{'Order statistics [%count]'|i18n( 'design/admin/shop/orderstatistics',, hash( '%count', $statistic_result[0].product_list|count  ) )}</h2>
+<h2 class="context-title">{'Product statistics [%count]'|i18n( 'design/admin/shop/orderstatistics',, hash( '%count', $statistic_result[0].product_list|count  ) )}</h2>
 
 {section show=$statistic_result}
 <table class="list" cellspacing="0">
