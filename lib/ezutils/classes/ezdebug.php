@@ -832,8 +832,18 @@ class eZDebug
         if ( $settings['debug-enabled'] and
              $settings['debug-by-ip'] )
         {
-            $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR' );
-            $debugEnabled = in_array( $ipAddress, $settings['debug-ip-list'] );
+            $ipAddress = eZSys::serverVariable( 'REMOTE_ADDR', true );
+            if ( $ipAddress )
+            {
+                $debugEnabled = in_array( $ipAddress, $settings['debug-ip-list'] );
+            }
+            else
+            {
+                $debugEnabled = (
+                    in_array( 'commandline', $settings['debug-ip-list'] ) &&
+                    (php_sapi_name() == 'cli')
+                );
+            }
         }
         eZDebug::setHandleType( $oldHandleType );
     }

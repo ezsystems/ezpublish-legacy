@@ -81,6 +81,8 @@ eZINI:
   http://ez.no/community/bug_reports/remove_object_should_also_remove_bookmark
 - Fixed comment in source that wrongly said that eZXML should not be instantiated.
   http://ez.no/community/bug_reports/ezxml_domtree_call_to_undefined_function_parseattributes
+- Fixed problem in eZDebug when running cronjobs. (Merged from 3.4, rev. 5858)
+  http://ez.no/community/bug_reports/cronjob_debugger_broken
   
 *Library:
 
