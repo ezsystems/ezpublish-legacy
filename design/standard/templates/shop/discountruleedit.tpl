@@ -60,6 +60,7 @@
                  </td>
                  <td>
                      <input type="checkbox" name="DeleteProductIDArray[]" value="{$Products:item.id}" />
+                     <input type="hidden" name="Products[]" value="{$Products:item.id}" />
                  </td>
              </tr>
              {section-else}

@@ -96,7 +96,12 @@ class eZDiscountSubRule extends eZPersistentObject
                 include_once( 'lib/ezlocale/classes/ezlocale.php' );
                 $locale =& eZLocale::instance();
 
-                eZPersistentObject::setAttribute( $attr, $locale->internalNumber( $val ) );
+                $val = $locale->internalNumber( $val );
+                if ( $val < 0.0 )
+                    $val = 0.0;
+                if ( $val > 100.0 )
+                    $val = 100.0;
+                eZPersistentObject::setAttribute( $attr, $val );
             } break;
 
             default:

@@ -140,8 +140,11 @@ foreach ( $ruleList as $rule )
             {
                 $classID = $ruleValue->attribute( 'value' );
                 $class =& eZContentClass::fetch( $classID );
-                $className = $class->attribute( 'name' );
-                $limitation .= "'". $className . "' ";
+                if ( $class )
+                {
+                    $className = $class->attribute( 'name' );
+                    $limitation .= "'". $className . "' ";
+                }
             }
         }
         $sectionRuleValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 1 );
@@ -152,8 +155,11 @@ foreach ( $ruleList as $rule )
             {
                 $sectionID = $sectionRuleValue->attribute( 'value' );
                 $section =& eZSection::fetch( $sectionID );
-                $sectionName = $section->attribute( 'name' );
-                $limitation .= "'".$sectionName . "' ";
+                if ( $section )
+                {
+                    $sectionName = $section->attribute( 'name' );
+                    $limitation .= "'".$sectionName . "' ";
+                }
             }
         }
         $productRuleValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 2 );
@@ -165,8 +171,11 @@ foreach ( $ruleList as $rule )
             {
                 $objectID = $productRuleValue->attribute( 'value' );
                 $product =& eZContentObject::fetch( $objectID );
-                $productName = $product->attribute( 'name' );
-                $limitation .= "'".$productName . "' ";
+                if ( $product )
+                {
+                    $productName = $product->attribute( 'name' );
+                    $limitation .= "'".$productName . "' ";
+                }
             }
         }
     }

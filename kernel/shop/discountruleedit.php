@@ -33,273 +33,269 @@
 // you.
 //
 
-include_once( "kernel/common/template.php" );
-include_once( "kernel/classes/ezcontentobject.php" );
-include_once( "kernel/classes/ezdiscountrule.php" );
-include_once( "kernel/classes/ezdiscountsubrule.php" );
-include_once( "kernel/classes/ezdiscountsubrulevalue.php" );
-include_once( "kernel/classes/ezcontentbrowse.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
+include_once( 'kernel/common/template.php' );
+include_once( 'kernel/classes/ezcontentobject.php' );
+include_once( 'kernel/classes/ezdiscountrule.php' );
+include_once( 'kernel/classes/ezdiscountsubrule.php' );
+include_once( 'kernel/classes/ezdiscountsubrulevalue.php' );
+include_once( 'kernel/classes/ezcontentbrowse.php' );
+include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
-$module =& $Params["Module"];
-if ( !isset( $Params["DiscountGroupID"] ) )
+$module =& $Params['Module'];
+
+if ( !isset( $Params['DiscountGroupID'] ) )
 {
-    $module->setExitStatus( EZ_MODULE_STATUS_FAILED );
-    return;
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 else
 {
-    $discountGroupID = $Params["DiscountGroupID"];
+    $discountGroupID = $Params['DiscountGroupID'];
 }
 
-$discountRuleID = null;
-if ( isset( $Params["DiscountRuleID"] ) )
-    $discountRuleID = $Params["DiscountRuleID"];
+$discountRuleID = false;
 
-if ( is_numeric( $discountRuleID ) )
+if ( isset( $Params['DiscountRuleID'] ) )
 {
-    $discountRule =& eZDiscountSubRule::fetch( $discountRuleID );
-}
-else
-{
-    $discountRule =& eZDiscountSubRule::create( $discountGroupID );
-    $discountRule->setAttribute( "name", ezi18n( "design/admin/shop/discountruleedit", "New discount rule" ) );
-    $discountRule->store();
-    $discountRuleID = $discountRule->attribute( "id" );
-    $module->redirectTo( $module->functionURI( "discountruleedit" ) . "/" . $discountGroupID . "/" . $discountRuleID );
-    return;
+    $discountRuleID = $Params['DiscountRuleID'];
 }
 
-//$productList = array();
+$http =& eZHTTPTool::instance();
 
-$http =& eZHttpTool::instance();
-
-// Check if we are finding specific products
-if ( $module->isCurrentAction( 'FindProduct' ) )
+if ( $http->hasPostVariable( 'DiscardButton' ) )
 {
-    $selectedObjectIDArray = eZContentBrowse::result( 'FindProduct' );
-
-    foreach ( $selectedObjectIDArray as $objectID )
-    {
-        $include = false;
-        $object =& eZContentObject::fetch( $objectID );
-        $class =& $object->attribute( 'content_class' );
-        $classAttributes =& $class->fetchAttributes();
-        foreach (  $classAttributes as  $classAttribute )
-        {
-            $dataType = $classAttribute->attribute( 'data_type_string' );
-            if ( $dataType == "ezprice" )
-            {
-                $include = true;
-            }
-        }
-        if ( $include )
-        {
-            $ruleValue =& eZDiscountSubRuleValue::create( $discountRuleID, $objectID, 2 );
-            $ruleValue->store();
-        }
-    }
-    if ( count( $selectedObjectIDArray ) > 0 )
-    {
-        include_once( 'kernel/classes/ezcontentobject.php' );
-        eZContentObject::expireAllCache();
-    }
+    return $module->redirectTo( $module->functionURI( 'discountgroupview' ) . '/' . $discountGroupID );
 }
 
-$storedClassValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 0 );
-$storeClassID = array();
-if ( $storedClassValues != null )
-{
-    foreach ( $storedClassValues as $storedClassValue )
-    {
-        $classID = $storedClassValue->attribute( 'value' );
-        $storeClassID[] = $classID;
-    }
-}
 
-$storedSectionValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 1 );
-$storeSectionID = array();
-if ( $storedSectionValues != null )
+if ( $http->hasPostVariable( 'BrowseProductButton' ) )
 {
-    foreach ( $storedSectionValues as $storedSectionValue )
-    {
-        $sectionID = $storedSectionValue->attribute( 'value' );
-        $storeSectionID[] = $sectionID;
-    }
-}
-
-$storedObjectValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 2 );
-$storedProductList = array();
-if ( $storedObjectValues != null )
-{
-    foreach ( $storedObjectValues as $storedObjectValue )
-    {
-        $objectID = $storedObjectValue->attribute( 'value' );
-        $product =& eZContentObject::fetch( $objectID );
-        $storedProductList[] = $product;
-    }
-}
-
-if ( $http->hasPostVariable( "DiscardButton" ) )
-{
-    if ( $discountRule->attribute( 'name' ) == ezi18n( "design/admin/shop/discountruleedit", "New discount rule" ) )
-    {
-        eZDiscountSubRule::remove( $discountRuleID );
-        eZDiscountSubRuleValue::removeBySubRuleID ( $discountRuleID );
-    }
-    $module->redirectTo( $module->functionURI( "discountgroupview" ) . "/" . $discountGroupID );
-    return;
-}
-
-if ( $http->hasPostVariable( "BrowseProductButton" ) )
-{
-    if ( $http->hasPostVariable( "discountrule_name" ) )
-    {
-        $name = $http->postVariable( "discountrule_name" );
-        $discountRule->setAttribute( "name", $name );
-    }
-    if ( $http->hasPostVariable( "discountrule_percent" ) )
-    {
-        $percent = $http->postVariable( "discountrule_percent" );
-        if ( $percent <= 100 )
-        {
-            $discountRule->setAttribute( "discount_percent", $percent );
-        }
-        else
-        {
-            //Do not update the percent.
-        }
-    }
-    $discountRule->store();
-
     eZContentBrowse::browse( array( 'action_name' => 'FindProduct',
                                     'description_template' => 'design:shop/browse_discountproduct.tpl',
                                     'keys' => array( 'discountgroup_id' => $discountGroupID,
                                                      'discountrule_id' => $discountRuleID ),
                                     'content' => array( 'discountgroup_id' => $discountGroupID,
                                                         'discountrule_id' => $discountRuleID ),
+                                    'persistent_data' => array( 'discountrule_name' => $http->postVariable( 'discountrule_name' ),
+                                                                'discountrule_percent' => $http->postVariable( 'discountrule_percent' ),
+                                                                'Contentclasses' => ( $http->hasPostVariable( 'Contentclasses' ) )? serialize( $http->postVariable( 'Contentclasses' ) ): '',
+                                                                'Sections' => ( $http->hasPostVariable( 'Sections' ) )? serialize( $http->postVariable( 'Sections' ) ): '',
+                                                                'Products' => ( $http->hasPostVariable( 'Products' ) )? serialize( $http->postVariable( 'Products' ) ): '' ),
                                     'from_page' => "/shop/discountruleedit/$discountGroupID/$discountRuleID" ),
                              $module );
     return;
 }
 
-if ( $http->hasPostVariable( "DeleteProductButton" ) )
+if ( $http->hasPostVariable( 'discountrule_name' ) )
 {
-    if ( $http->hasPostVariable( "discountrule_name" ) )
-    {
-        $name = $http->postVariable( "discountrule_name" );
-        $discountRule->setAttribute( "name", $name );
-    }
-    if ( $http->hasPostVariable( "discountrule_percent" ) )
-    {
-        $percent = $http->postVariable( "discountrule_percent" );
-        if ( $percent <= 100 )
-        {
-            $discountRule->setAttribute( "discount_percent", $percent );
-        }
-        else
-        {
-            //Do not update the percent.
-        }
-    }
-    $discountRule->store();
+    // if it has post variables, the values will be taken from POST variables instead of object itself
+    include_once( 'lib/ezlocale/classes/ezlocale.php' );
+    $locale =& eZLocale::instance();
 
-    if ( $http->hasPostVariable( "DeleteProductIDArray" ) )
-    {
-        $deletedIDList = $http->postVariable( "DeleteProductIDArray" );
+    $discountRuleName =& $http->postVariable( 'discountrule_name' );
+    $discountRulePercent = $locale->internalNumber( $http->postVariable( 'discountrule_percent' ) );
 
-        foreach ( $deletedIDList as $deletedID )
+    $discountRuleSelectedClasses = array();
+    if ( $http->hasPostVariable( 'Contentclasses' ) && $http->postVariable( 'Contentclasses' ) )
+    {
+        $discountRuleSelectedClasses =& $http->postVariable( 'Contentclasses' );
+        if ( !is_array( $discountRuleSelectedClasses ) )
         {
-            eZDiscountSubRuleValue::remove( $discountRuleID, $deletedID, 2 );
+            $discountRuleSelectedClasses = unserialize( $discountRuleSelectedClasses );
         }
     }
 
-    $module->redirectTo( $module->functionURI( "discountruleedit" ) . "/" . $discountGroupID . "/" . $discountRuleID );
-    return;
+    $discountRuleSelectedSections = array();
+    if ( $http->hasPostVariable( 'Sections' ) && $http->postVariable( 'Sections' ) )
+    {
+        $discountRuleSelectedSections =& $http->postVariable( 'Sections' );
+        if ( !is_array( $discountRuleSelectedSections ) )
+        {
+            $discountRuleSelectedSections = unserialize( $discountRuleSelectedSections );
+        }
+    }
+
+    $discountRuleSelectedProducts = array();
+    if ( $http->hasPostVariable( 'Products' ) && $http->postVariable( 'Products' ) )
+    {
+        $discountRuleSelectedProducts =& $http->postVariable( 'Products' );
+        if ( !is_array( $discountRuleSelectedProducts ) )
+        {
+            $discountRuleSelectedProducts = unserialize( $discountRuleSelectedProducts );
+        }
+    }
+
+    $discountRule = array( 'id' => $discountRuleID ,
+                           'name' => $discountRuleName,
+                           'discount_percent' => $discountRulePercent );
+}
+else
+{
+    // read variables from object, if it exists, if not, create new one...
+    if ( $discountRuleID )
+    {
+        // exists => read needed info from db
+        $discountRule =& eZDiscountSubRule::fetch( $discountRuleID );
+        if ( !$discountRule )
+        {
+            return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        }
+
+        $discountRuleSelectedClasses = array();
+        $discountRuleSelectedClassesValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 0, false );
+        foreach( $discountRuleSelectedClassesValues as $value )
+        {
+            $discountRuleSelectedClasses[] = $value['value'];
+        }
+        if ( count( $discountRuleSelectedClasses ) == 0 )
+        {
+            $discountRuleSelectedClasses[] = -1;
+        }
+        
+        $discountRuleSelectedSections = array();
+        $discountRuleSelectedSectionsValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 1, false );
+        foreach( $discountRuleSelectedSectionsValues as $value )
+        {
+            $discountRuleSelectedSections[] = $value['value'];
+        }
+        if ( count( $discountRuleSelectedSections ) == 0 )
+        {
+            $discountRuleSelectedSections[] = -1;
+        }
+
+        $discountRuleSelectedProductsValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 2, false );
+        foreach( $discountRuleSelectedProductsValues as $value )
+        {
+            $discountRuleSelectedProducts[] = $value['value'];
+        }
+    }
+    else
+    {
+        // does not exist => create new one, but do not store...
+        $discountRuleName = ezi18n( 'design/admin/shop/discountruleedit', 'New discount rule' );
+        $discountRulePercent = 0.0;
+        $discountRuleSelectedClasses = array( -1 );
+        $discountRuleSelectedSections = array( -1 );
+        $discountRuleSelectedProducts = array();
+
+        $discountRule = array( 'id' => false,
+                               'name' => $discountRuleName,
+                               'discount_percent' => $discountRulePercent );
+    }
 }
 
-if ( $http->hasPostVariable( "StoreButton" ) )
+if ( $module->isCurrentAction( 'FindProduct' ) )
 {
-    eZDiscountSubRuleValue::removeBySubRuleID ( $discountRuleID );
-    if ( $http->hasPostVariable( "discountrule_name" ) )
+    // returning from browse; add products to product list
+    $result = eZContentBrowse::result( 'FindProduct' );
+    if ( $result )
     {
-        $name = $http->postVariable( "discountrule_name" );
-        $discountRule->setAttribute( "name", $name );
+        $discountRuleSelectedProducts = array_merge( $discountRuleSelectedProducts, $result );
+        $discountRuleSelectedProducts = array_unique( $discountRuleSelectedProducts );
     }
-    if ( $http->hasPostVariable( "discountrule_percent" ) )
+}
+
+if ( $http->hasPostVariable( 'DeleteProductButton' ) )
+{
+    // remove products from list:
+    if ( $http->hasPostVariable( 'DeleteProductIDArray' ) )
     {
-        $percent = $http->postVariable( "discountrule_percent" );
-        if ( $percent <= 100 )
+        $deletedIDList =& $http->postVariable( 'DeleteProductIDArray' );
+        $arrayKeys = array_keys( $discountRuleSelectedProducts );
+
+        foreach( $arrayKeys as $key )
         {
-            $discountRule->setAttribute( "discount_percent", $percent );
+            if ( in_array( $discountRuleSelectedProducts[$key], $deletedIDList ) )
+            {
+                unset( $discountRuleSelectedProducts[$key] );
+            }
         }
-        else
+    }
+}
+
+$productList = array();
+foreach ( $discountRuleSelectedProducts as $productID )
+{
+    $object =& eZContentObject::fetch( $productID );
+    if ( $object )
+    {
+        $class =& $object->attribute( 'content_class' );
+        $classAttributes =& $class->fetchAttributes();
+        if ( $classAttributes )
         {
-            //Do not update the percent.
+            $include = false;
+            foreach ( $classAttributes as $classAttribute )
+            {
+                $dataType = $classAttribute->attribute( 'data_type_string' );
+                if ( $dataType == 'ezprice' )
+                {
+                    $include = true;
+                    break;
+                }
+            }
+            if ( $include )
+            {
+                $productList[] = $object;
+            }
         }
+    }
+}
+
+if ( $http->hasPostVariable( 'StoreButton' ) )
+{
+    // remove products stored in the database and store them again
+    if ( $discountRuleID )
+    {
+        $discountRule =& eZDiscountSubRule::fetch( $discountRuleID );
+        eZDiscountSubRuleValue::removeBySubRuleID ( $discountRuleID );
+    }
+    else
+    {
+        $discountRule =& eZDiscountSubRule::create( $discountGroupID );
+        $discountRule->store();
+        $discountRuleID = $discountRule->attribute( 'id' );
     }
 
-    if ( count( $storedProductList ) != 0 )
+    $discountRule->setAttribute( 'name', trim( $http->postVariable( 'discountrule_name' ) ) );
+    $discountRule->setAttribute( 'discount_percent', $http->postVariable( 'discountrule_percent' ) );
+    $discountRule->setAttribute( 'limitation', '*' );
+
+    if ( $http->hasPostVariable( 'Products' ) && $http->postVariable( 'Products' ) )
     {
-        foreach ( $storedProductList as $storedProduct )
+        foreach( $productList as $product )
         {
-            $objectID = $storedProduct->attribute( 'id' );
-            $ruleValue =& eZDiscountSubRuleValue::create( $discountRuleID, $objectID, 2 );
+            $ruleValue =& eZDiscountSubRuleValue::create( $discountRuleID, $product->attribute( 'id' ), 2 );
             $ruleValue->store();
         }
-        $discountRule->setAttribute( 'limitation', null );
-        $discountRule->store();
-        $module->redirectTo( $module->functionURI( "discountgroupview" ) . "/". $discountGroupID );
-        return;
+        $discountRule->setAttribute( 'limitation', false );
     }
-
-    $limitation = false;
-    if ( $http->hasPostVariable( "Contentclasses" ) )
+    else
     {
-        $withClassLimitation = true;
-        $classIDList = $http->postVariable( "Contentclasses" );
-        foreach ( $classIDList as $classID )
+        if ( $discountRuleSelectedClasses && !in_array( -1, $discountRuleSelectedClasses ) )
         {
-            if ( $classID == -1 )
-                $withClassLimitation = false;
+            foreach( $discountRuleSelectedClasses as $classID )
+            {
+                $ruleValue =& eZDiscountSubRuleValue::create( $discountRuleID, $classID, 0 );
+                $ruleValue->store();
+            }
+            $discountRule->setAttribute( 'limitation', false );
         }
-        if ( $withClassLimitation )
+        if ( $discountRuleSelectedSections && !in_array( -1, $discountRuleSelectedSections ) )
         {
-             foreach ( $classIDList as $classID )
-             {
-                 $ruleValue =& eZDiscountSubRuleValue::create( $discountRuleID, $classID );
-                 $ruleValue->store();
-             }
-             $discountRule->setAttribute( 'limitation', null );
-             $limitation = true;
-        }
-    }
-    if ( $http->hasPostVariable( "Sections" ) )
-    {
-        $sectionIDList = $http->postVariable( "Sections" );
-        $withSectionLimitation = true;
-        foreach ( $sectionIDList as $sectionID )
-        {
-            if ( $sectionID == -1 )
-                $withSectionLimitation = false;
-        }
-        if ( $withSectionLimitation )
-        {
-             foreach ( $sectionIDList as $sectionID )
-             {
-                 $ruleValue =& eZDiscountSubRuleValue::create( $discountRuleID, $sectionID, 1 );
-                 $ruleValue->store();
-             }
-             $discountRule->setAttribute( 'limitation', null );
-             $limitation = true;
+            foreach( $discountRuleSelectedSections as $sectionID )
+            {
+                $ruleValue =& eZDiscountSubRuleValue::create( $discountRuleID, $sectionID, 1 );
+                $ruleValue->store();
+            }
+            $discountRule->setAttribute( 'limitation', false );
         }
     }
 
-    if ( !$limitation )
-        $discountRule->setAttribute( 'limitation', '*' );
     $discountRule->store();
-    $module->redirectTo( $module->functionURI( "discountgroupview" ) . "/". $discountGroupID );
-    return;
+    return $module->redirectTo( $module->functionURI( 'discountgroupview' ) . '/' . $discountGroupID );
+
+    // we changed prices => remove content cache
+    include_once( 'kernel/classes/ezcontentobject.php' );
+    eZContentObject::expireAllCache();
 }
 
 $classList =& eZContentClass::fetchList();
@@ -308,12 +304,13 @@ foreach ( $classList as $class )
 {
     $include = false;
     $classAttributes =& $class->fetchAttributes();
-    foreach (  $classAttributes as  $classAttribute )
+    foreach ( $classAttributes as  $classAttribute )
     {
         $dataType = $classAttribute->attribute( 'data_type_string' );
-        if ( $dataType == "ezprice" )
+        if ( $dataType == 'ezprice' )
         {
             $include = true;
+            break;
         }
     }
     if ( $include )
@@ -323,46 +320,26 @@ foreach ( $classList as $class )
 }
 
 $sectionList =& eZSection::fetchList();
-$module->setTitle( "Adding discount rule" );
+
 $tpl =& templateInit();
-$tpl->setVariable( "module", $module );
-$tpl->setVariable( "discountgroup_id", $discountGroupID );
-$tpl->setVariable( "discountrule", $discountRule );
-$tpl->setVariable( "product_class_list", $productClassList );
-$tpl->setVariable( "section_list", $sectionList );
-$tpl->setVariable( "stored_section_id", $storedSectionID );
-$tpl->setVariable( "stored_class_id", $storedClassID );
-$tpl->setVariable( "product_list", $storedProductList );
 
-$sectionLimitationList =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRule->attribute( 'id' ), 1, false );
-$sectionIDList = array();
-foreach ( $sectionLimitationList as $limitation )
-{
-    $sectionIDList[] = $limitation['value'];
-}
-$tpl->setVariable( "section_limitation_list", $sectionIDList );
+$tpl->setVariable( 'module', $module );
+$tpl->setVariable( 'discountgroup_id', $discountGroupID );
+$tpl->setVariable( 'discountrule', $discountRule );
 
-if ( count( $sectionIDList ) > 0 )
-    $tpl->setVariable( "section_any_selected", false );
-else
-    $tpl->setVariable( "section_any_selected", true );
+$tpl->setVariable( 'product_class_list', $productClassList );
+$tpl->setVariable( 'section_list', $sectionList );
 
+$tpl->setVariable( 'class_limitation_list', $discountRuleSelectedClasses );
+$tpl->setVariable( 'section_limitation_list', $discountRuleSelectedSections );
+$tpl->setVariable( 'product_list', $productList );
 
-$classLimitationList =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRule->attribute( 'id' ), 0, false );
-$classIDList = array();
-foreach ( $classLimitationList as $limitation )
-{
-    $classIDList[] = $limitation['value'];
-}
-$tpl->setVariable( "class_limitation_list", $classIDList );
-
-if ( count( $classIDList ) > 0 )
-    $tpl->setVariable( "class_any_selected", false );
-else
-    $tpl->setVariable( "class_any_selected", true );
+$tpl->setVariable( 'class_any_selected', in_array( -1, $discountRuleSelectedClasses ) );
+$tpl->setVariable( 'section_any_selected', in_array( -1, $discountRuleSelectedSections ) );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/discountruleedit.tpl" );
+$Result['content'] =& $tpl->fetch( 'design:shop/discountruleedit.tpl' );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/shop', 'Editing rule' ) ) );
+
 ?>

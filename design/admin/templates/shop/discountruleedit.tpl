@@ -29,7 +29,14 @@
 {* Classes *}
 <div class="element">
 <label>{'Product types'|i18n( 'design/admin/shop/discountruleedit' )}:</label>
-<select name="Contentclasses[]" size="5" multiple="multiple" >
+{section show=$product_list}
+    {section var=class loop=$class_limitation_list}
+    <input type="hidden" name="Contentclasses[]" value="{$class}" />
+    {/section}
+    <select name="ContentclassesDisabled[]" size="5" multiple="multiple" disabled="disabled">
+{section-else}
+    <select name="Contentclasses[]" size="5" multiple="multiple">
+{/section}
 <option value="-1" {section show=$class_any_selected}selected="selected"{/section} >{'Any'|i18n( 'design/admin/shop/discountruleedit' )}</option>
 {section name=Classes loop=$product_class_list}
 <option value="{$Classes:item.id}" {switch match=$Classes:item.id}{case in=$class_limitation_list} selected="selected"{/case}{case/}{/switch}>
@@ -42,7 +49,14 @@
 {* Sections *}
 <div class="element">
 <label>{'in sections'|i18n( 'design/admin/shop/discountruleedit' )}:</label>
-<select name="Sections[]" size="5" multiple="multiple" >
+{section show=$product_list}
+    {section var=section loop=$section_limitation_list}
+    <input type="hidden" name="Sections[]" value="{$section}" />
+    {/section}
+    <select name="SectionsDisabled[]" size="5" multiple="multiple" disabled="disabled">
+{section-else}
+    <select name="Sections[]" size="5" multiple="multiple">
+{/section}
 <option value="-1" {section show=$section_any_selected}selected="selected"{/section}>{'Any'|i18n( 'design/admin/shop/discountruleedit' )}</option>
 {section name=Sections loop=$section_list}
 <option value="{$Sections:item.id}" {switch match=$Sections:item.id}{case in=$section_limitation_list} selected="selected"{/case}{case/}{/switch}>
@@ -67,7 +81,7 @@
 </tr>
 {section var=Product show=$product_list loop=$product_list sequence=array( bglight, bgdark )}
 <tr class="{$Product.sequence}">
-<td><input type="checkbox" name="DeleteProductIDArray[]" value="{$Product.id}" /></td>
+<td><input type="hidden" name="Products[]" value="{$Product.id}" /><input type="checkbox" name="DeleteProductIDArray[]" value="{$Product.id}" /></td>
 <td>{$Product.name|wash}</td>
 </tr>
 {/section}
