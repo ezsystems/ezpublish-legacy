@@ -80,12 +80,10 @@ class eZModule
             $this->Name = $moduleName;
             $this->Path = $path;
             $this->Title = "";
-            reset( $this->Functions );
-            while( ( $key = key( $this->Functions ) ) !== null )
+
+            foreach( $this->Functions as $key => $dummy)
             {
-                $func =& $this->Functions[$key];
-                $func["uri"] = "/$moduleName/$key";
-                next( $this->Functions );
+                $this->Functions[$key]["uri"] = "/$moduleName/$key";
             }
         }
         else
@@ -878,8 +876,7 @@ class eZModule
         {
             $unorderedParams =& $function["unordered_params"];
 
-            reset( $unorderedParams );
-            while ( list( $urlParamName, $variableParamName ) = each( $unorderedParams ) )
+            foreach ( $unorderedParams as $urlParamName => $variableParamName )
             {
                 if ( in_array( $urlParamName, $parameters ) )
                 {

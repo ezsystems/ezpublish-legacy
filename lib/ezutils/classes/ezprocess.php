@@ -64,15 +64,13 @@ class eZProcess
     {
         if ( $params_as_var )
         {
-            reset( $Params );
-            while( ( $key = key( $Params ) ) !== null )
+            foreach ( $Params as $key => $dummy )
             {
                 if ( $key != "Params" and
                      $key != "this" and
                      $key != "file" and
                      !is_numeric( $key ) )
                     ${$key} =& $Params[$key];
-                next( $Params );
             }
         }
 

@@ -384,9 +384,6 @@ class eZLocale
         $languageINI->assign( "RegionalSettings", "LanguageComment", $this->LanguageComment );
         $languageINI->assign( 'RegionalSettings', 'TranslationCode', $this->TranslationCode );
 
-//         $languageINI->assign( 'HTTP', 'ContentLanguage', $this->HTTPLocaleCode );
-//         $httpLocaleCode =& $languageINI->variable( 'HTTP', 'ContentLanguage' );
-//         $this->HTTPLocaleCode = $httpLocaleCode;
         if ( $this->OverrideCharset == '' )
         {
             $charset = false;
@@ -407,41 +404,50 @@ class eZLocale
                 $this->AllowedCharsets[] = $languageINI->variable( 'Charset', 'Preferred' );
         }
 
+        
         if ( !is_array( $this->ShortDayNames ) )
             $this->ShortDayNames = array();
         if ( !is_array( $this->LongDayNames ) )
             $this->LongDayNames = array();
-        foreach ( $this->DayNames as $day )
+
+        $tmpShortDayNames = $languageINI->variableMulti( 'ShortDayNames', $this->DayNames );
+        $tmpLongDayNames = $languageINI->variableMulti( 'LongDayNames', $this->DayNames );
+        foreach ( $this->DayNames as $key => $day )
         {
-            if ( $languageINI->hasVariable( 'ShortDayNames', $day ) )
-                $this->ShortDayNames[$day] = $languageINI->variable( 'ShortDayNames', $day );
-            if ( $languageINI->hasVariable( 'LongDayNames', $day ) )
-                $this->LongDayNames[$day] = $languageINI->variable( 'LongDayNames', $day );
+            if ( $tmpShortDayNames[$key] !== null )
+                $this->ShortDayNames[$day] = $tmpShortDayNames[$key];
+            if ( $tmpLongDayNames[$key] !== null )
+                $this->LongDayNames[$day] = $tmpLongDayNames[$key];
         }
 
+        
         if ( !is_array( $this->ShortMonthNames ) )
             $this->LongMonthNames = array();
         if ( !is_array( $this->ShortMonthNames ) )
             $this->LongMonthNames = array();
-        foreach ( $this->MonthNames as $month )
+
+        $tmpShortMonthNames = $languageINI->variableMulti( 'ShortMonthNames', $this->MonthNames );
+        $tmpLongMonthNames = $languageINI->variableMulti( 'LongMonthNames', $this->MonthNames );
+        foreach ( $this->MonthNames as $key => $day )
         {
-            if ( $languageINI->hasVariable( 'ShortMonthNames', $month ) )
-                $this->ShortMonthNames[$month] = $languageINI->variable( 'ShortMonthNames', $month );
-            if ( $languageINI->hasVariable( 'LongMonthNames', $month ) )
-                $this->LongMonthNames[$month] = $languageINI->variable( 'LongMonthNames', $month );
+            if ( $tmpShortMonthNames[$key] !== null )
+                $this->ShortMonthNames[$day] = $tmpShortMonthNames[$key];
+            if ( $tmpLongMonthNames[$key] !== null )
+                $this->LongMonthNames[$day] = $tmpLongMonthNames[$key];
         }
+
 
         if ( !is_array( $this->ShortWeekDayNames ) )
             $this->ShortWeekDayNames = array();
         if ( !is_array( $this->LongWeekDayNames ) )
             $this->LongWeekDayNames = array();
-        foreach( $this->WeekDays as $wday )
+
+        foreach ( $this->WeekDays as $key => $day )
         {
-            $code = $this->DayNames[$wday];
-            if ( $languageINI->hasVariable( 'ShortDayNames', $code ) )
-                $this->ShortWeekDayNames[$wday] = $languageINI->variable( 'ShortDayNames', $code );
-            if ( $languageINI->hasVariable( 'LongDayNames', $code ) )
-                $this->LongWeekDayNames[$wday] = $languageINI->variable( 'LongDayNames', $code );
+            if ( $tmpShortDayNames[$key] !== null )
+                $this->ShortWeekDayNames[$day] = $tmpShortDayNames[$key];
+            if ( $tmpLongDayNames[$key] !== null )
+                $this->LongWeekDayNames[$day] = $tmpLongDayNames[$key];
         }
     }
 
