@@ -50,6 +50,36 @@ $upload = new eZContentUpload();
 
 $errors = array();
 
+if ( $module->isCurrentAction( 'CancelUpload' ) )
+{
+    $url = false;
+    if ( $upload->attribute( 'cancel_uri' ) )
+    {
+        $url = $module->redirectTo( $upload->attribute( 'cancel_uri' ) );
+    }
+    else if ( $upload->attribute( 'result_uri' ) )
+    {
+        $url = $module->redirectTo( $upload->attribute( 'result_uri' ) );
+    }
+    else if ( $upload->attribute( 'result_module' ) )
+    {
+        $info = $upload->attribute( 'result_module' );
+        $moduleName = isset( $info[0] ) ? $info[0] : false;
+        $viewName = isset( $info[1] ) ? $info[1] : false;
+        $parameters = isset( $info[2] ) ? $info[2] : false;
+        $unorderedParameters = isset( $info[3] ) ? $info[3] : false;
+        $userParameters = isset( $info[4] ) ? $info[4] : false;
+        $anchor = isset( $info[5] ) ? $info[5] : false;
+        $url = $module->redirectionURI( $moduleName, $viewName, $parameters,
+                                        $unorderedParameters, $userParameters, $anchor );
+    }
+    else
+    {
+        $url = '/';
+    }
+    return $module->redirectTo( $url );
+}
+
 if ( $module->isCurrentAction( 'UploadFile' ) )
 {
     $location = $module->actionParameter( 'UploadLocation' );

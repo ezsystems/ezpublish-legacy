@@ -177,7 +177,8 @@ $ViewList['upload'] = array(
     'default_navigation_part' => 'ezcontentnavigationpart',
     'ui_context' => 'edit',
     'script' => 'upload.php',
-    'single_post_actions' => array( 'UploadFileButton' => 'UploadFile' ),
+    'single_post_actions' => array( 'UploadFileButton' => 'UploadFile',
+                                    'CancelUploadButton' => 'CancelUpload' ),
     'post_action_parameters' => array( 'UploadFile' => array( 'UploadLocation' => 'UploadLocationChoice' ) ),
     'params' => array() );
 

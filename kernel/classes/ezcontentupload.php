@@ -213,6 +213,9 @@ class eZContentUpload
         if ( !isset( $parameters['result_uri'] ) )
             $parameters['result_uri'] = false;
 
+        if ( !isset( $parameters['cancel_uri'] ) )
+            $parameters['cancel_uri'] = false;
+
         if ( !isset( $parameters['result_module'] ) )
             $parameters['result_module'] = false;
 
