@@ -27,11 +27,12 @@
 <h2>{'Function limitations'|i18n( 'design/admin/role/policyedit' )}</h2>
 
 {section show=$function_limitations}
+
 <div class="block">
 {section name=Limitations loop=$function_limitations}
-{section-exclude match=$Limitations:item.name|eq('Subtree')}
-{section-exclude match=$Limitations:item.name|eq('Node')}
-{section show=$function_limitations|count|gt(1)}
+{section-exclude match=$Limitations:item.name|eq( 'Subtree' )}
+{section-exclude match=$Limitations:item.name|eq( 'Node' )}
+{section show=$function_limitations|count|gt( 1 )}
 <div class="element">
 {/section}
 <label>{$Limitations:item.name}</label>
@@ -43,7 +44,7 @@
 {case in=$current_limitation_list[$Limitations:item.name]}selected="selected"{/case}{case}{/case}{/switch}>{$Limitations:LimitationValues:item.Name}</option>
 {/section}
 </select>
-{section show=$function_limitations|count|gt(1)}
+{section show=$function_limitations|count|gt( 1 )}
 </div>
 {/section}
 {/section}
@@ -55,7 +56,7 @@
 {switch match=$Limitations.item.name}
 
 {* Nodes *}
-{case match="Node"}
+{case match='Node'}
 <div class="block">
 <label>{'Nodes [%node_count]'|i18n( 'design/admin/role/policyedit',, hash( '%node_count', $node_list|count ) )}</label>
 {section show=$node_list}
@@ -88,7 +89,7 @@
 {/case}
 
 {* Subtrees *}
-{case match="Subtree"}
+{case match='Subtree'}
 <div class="block">
 <label>{'Subtrees [%subtree_count]'|i18n( 'design/admin/role/policyedit',, hash( '%subtree_count', $subtree_list|count ) )}</label>
 {section show=$subtree_list}
