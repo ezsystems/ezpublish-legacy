@@ -699,7 +699,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         foreach( array_keys( $attributes ) as $key )
         {
             $attribute =& $attributes[$key];
-            $classAttribute =& $attribute->contentClassAttribute;
+            $classAttribute =& $attribute->contentClassAttribute();
             if ( $classAttribute->attribute( 'is_searchable' ) )
             {
                 $attributeMetaData = $attribute->metaData();
