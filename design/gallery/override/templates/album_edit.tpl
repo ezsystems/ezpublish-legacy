@@ -1,9 +1,11 @@
 {let gallery_node=fetch( content, node, hash( node_id, $main_node_id ) )}
 <div id="album">
 
-    <div class="maincontentheader">
+    {section show=$object.main_node_id}
+        <h1>Edit album in gallery {$gallery_node.name|wash}</h1>
+    {section-else}
         <h1>Create a new album in gallery {$gallery_node.name|wash}</h1>
-    </div>
+    {/section}
 
 <form enctype="multipart/form-data" method="post" action={concat("/content/edit/",$object.id,"/",$edit_version,"/",$edit_language|not|choose(array($edit_language,"/"),''))|ezurl}>
 

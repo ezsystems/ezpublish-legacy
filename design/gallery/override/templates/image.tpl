@@ -60,12 +60,22 @@
 
 <form method="post" action={"content/action/"|ezurl}>
 
-<h1>{$node.name}</h1>
+    <h1>{$node.name}</h1>
 
-{attribute_view_gui attribute=$image_attribute image_class=large link_to_image}
-<p>
-  {attribute_view_gui attribute=$node.object.data_map.caption}
-</p>
+    {section show=$is_preview|not}
+        <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+        <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+        <input type="hidden" name="ViewMode" value="full" />
+
+        {section show=$node.object.can_edit}
+        <div class="editbutton">
+           <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+        </div>
+        {/section}
+    {/section}
+
+    {attribute_view_gui attribute=$image_attribute image_class=large link_to_image}
+    <p class="caption">{attribute_view_gui attribute=$node.object.data_map.caption}</p>
 
 {section show=$is_preview|not}
 <div class="download">

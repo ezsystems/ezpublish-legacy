@@ -5,6 +5,12 @@ MatchFile=frontpage.tpl
 Subdir=templates
 Match[node]=2
 
+[infobox_frontpage]
+Source=infobox.tpl
+MatchFile=infobox_frontpage.tpl
+Subdir=templates
+Match[node]=2
+
 [image]
 Source=node/view/full.tpl
 MatchFile=image.tpl
@@ -14,6 +20,12 @@ Match[class]=5
 [image_line]
 Source=node/view/line.tpl
 MatchFile=image_line.tpl
+Subdir=templates
+Match[class]=5
+
+[image_search]
+Source=node/view/search.tpl
+MatchFile=image_search.tpl
 Subdir=templates
 Match[class]=5
 
@@ -57,6 +69,12 @@ MatchFile=album_edit.tpl
 Subdir=templates
 Match[class]=28
 
+[edit_gallery]
+Source=content/edit.tpl
+MatchFile=gallery_edit.tpl
+Subdir=templates
+Match[class]=27
+
 [edit_image]
 Source=content/edit.tpl
 MatchFile=image_edit.tpl
@@ -79,6 +97,12 @@ Match[class]=26
 [album_view]
 Source=node/view/full.tpl
 MatchFile=album.tpl
+Subdir=templates
+Match[class]=28
+
+[album_search]
+Source=node/view/search.tpl
+MatchFile=album_search.tpl
 Subdir=templates
 Match[class]=28
 
@@ -106,3 +130,8 @@ MatchFile=gallery.tpl
 Subdir=templates
 Match[class]=27
 
+[gallery_search]
+Source=node/view/search.tpl
+MatchFile=gallery_search.tpl
+Subdir=templates
+Match[class]=27

@@ -338,7 +338,7 @@ div.right
 div.block
 {
     display: block;
-    clear: both;
+    clear: none;
     padding: 0em;
     margin-top: 0.25em;
     margin-bottom: 0.25em;
@@ -357,7 +357,6 @@ div.step
 
 div.buttonblock
 {
-    clear: both;
     margin: 0em;
     padding-top: 0.25em;
     padding-bottom: 0.5em;
@@ -409,7 +408,6 @@ div.imageleft, div.imageright, div.faxtboxleft, div.faxtboxright, div.leftobject
     margin-top: 0.3em;
     margin-bottom: 0.1em;
     display: inline;
-    clear: both;
 }
 
 div.imagecenter, div.factboxcenter, div.centerobject

@@ -1,7 +1,9 @@
 
 [AliasSettings]
+AliasList[]
 AliasList[]=logo
-AliasList[]=small
+AliasList[]=small_h
+AliasList[]=small_v
 AliasList[]=navigator
 AliasList[]=large
 
@@ -9,15 +11,20 @@ AliasList[]=large
 Reference=
 Filters[]=geometry/scaledownonly=250;58
 
-[small]
+[small_h]
 Reference=
 Filters[]
-Filters[]=geometry/scaledownonly=150;150
+Filters[]=geometry/scaleheightdownonly=130
+
+[small_v]
+Reference=
+Filters[]
+Filters[]=geometry/scalewidthdownonly=150
 
 [navigator]
 Reference=
 Filters[]
-Filters[]=geometry/scaleheight=120
+Filters[]=geometry/scaleheight=100
 Filters[]=colorspace/gray
 
 [large]

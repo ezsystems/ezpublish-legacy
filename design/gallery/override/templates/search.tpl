@@ -41,6 +41,7 @@
 </p>
 {/section}
 
+<div id="searchtips">
 {switch name=Sw match=$search_count}
   {case match=0}
   <div class="warning">
@@ -60,16 +61,17 @@
   </div>
   {/case}
 {/switch}
+</div>
 
 {* Default search results lister *}
 {let use_url_translation=ezini('URLTranslator','Translation')|eq('enabled')}
 
-<table width="100%">
+<table class="result">
 <tr>
     {section show=$search_result}
       {section name=SearchResult loop=$search_result show=$search_result sequence=array(bglight,bgdark)}
-          <td>
-              {node_view_gui view=line content_node=$:item}
+          <td class="{$:sequence}">
+              {node_view_gui view=search content_node=$:item}
           </td>
           {delimiter modulo=3}
               </tr>

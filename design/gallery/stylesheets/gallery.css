@@ -219,6 +219,11 @@ div#footer a
     color: #000000;
 }
 
+div#footer
+{
+    text-align: center;
+}
+
 /* General child "line view" object settings */
 
 #folder div.child h2
@@ -283,6 +288,23 @@ div#footer a
 
 /* image styles */
 
+.imagelist table
+{
+    width: 100%;
+}
+
+.imagelist td
+{
+    text-align: center;
+    vertical-align: top;
+}
+
+.imagelist td img
+{
+    background-color: #ff6600;
+    padding: 6px;
+}
+
 #image img
 { 
     background-color: #ff6600;
@@ -292,8 +314,13 @@ div#footer a
 div.image_line img
 { 
     background-color: #ff6600;
-    border: 2px solid #a17000;
     padding: 6px;
+}
+
+div.image_line h2
+{
+    font-size: 85%;
+    font-weight: bold;
 }
 
 #image .navigation
@@ -353,11 +380,6 @@ div.image_line img
     background-color: #cccccc;
 }
 
-#album img
-{ 
-    background-color: #ff6600;
-    padding: 20px;
-}
 
 #album .navigation
 {
@@ -443,6 +465,20 @@ div.image_line img
     color: #000000;
 }
 
+#search .result .gallery_search h3
+{
+    text-align: left;
+}
+
+#search .result .gallery_search ul
+{
+}
+
+#search .result .gallery_search li
+{
+    text-align: left;
+}
+
 /* image comments */
 
 #commentlist
@@ -463,6 +499,13 @@ div.advancedsearchbox
 { 
    display: none;
 }
+
+#search img
+{
+    background-color: #ff6600;
+    padding: 6px;
+}
+
 
 /* General */
 
@@ -491,4 +534,39 @@ div.editbutton input
 {
     background-color: #ff6600;
     padding: 6px;
+}
+
+div.error, div.warning, div.feedback, div.highlight
+{
+    font-size: 80%;
+    color: #000;
+    border-width: 0px;
+}
+
+div#searchtips h2
+{ 
+    font-size: 140%;
+    font-weight: bold;
+}
+
+div#searchtips p
+{ 
+    font-weight: bold;
+}
+
+#search .result td
+{
+    text-align: center;
+    vertical-align: top;
+}
+
+#search .result td h2
+{
+    font-size: 85%;
+    font-weight: bold;
+}
+
+#search .result img
+{
+    padding: 3px;
 }

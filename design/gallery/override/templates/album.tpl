@@ -53,25 +53,38 @@
 
 <div id="album">
 
+    <h1>{$node.name|wash}</h1>
+
+    {section show=$is_preview|not}
     <form method="post" action={"content/action"|ezurl}>
 
-    <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-    <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
-    <input type="hidden" name="ViewMode" value="full" />
+        <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
+        <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
+        <input type="hidden" name="ViewMode" value="full" />
 
-    {section show=and( $is_preview|not, $node.object.can_edit )}
-    <div class="editbutton">
-       <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
-    </div>
+        {section show=and( $is_preview|not, $node.object.can_edit )}
+        <div class="editbutton">
+           <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+        </div>
+        {/section}
+
+        {let class_list=$node.object.can_create_class_list
+             id_list=array()}
+        {section var=class loop=$class_list}
+            {set id_list=$id_list|array_append( $class.item.id )}
+        {/section}
+        {section show=$id_list|contains( 5 )}
+            <div class="editbutton">
+                <input type="hidden" name="NodeID" value="{$node.node_id}" />
+                <input type="hidden" name="ClassID" value="5" />
+                <input class="button" type="submit" name="NewButton" value="{'New image'|i18n('design/standard/node/view')}" />
+            </div>
+        {/section}
+        {/let}
+    </form>
     {/section}
 
-    <div class="object_title">
-        <h1>{$node.name}</h1>
-    </div>
-
     {attribute_view_gui attribute=$node.object.data_map.description}
-
-    </form>
 
     <div class="info">
       {section show=$page_count_count|gt( 1 )}
@@ -91,19 +104,19 @@
       {/section}
     </div>
   
-    <table>
-      <tr> 
-      {section var=image loop=$image_list}  
-         <td>
+    <table class="imagelist">
+    <tr> 
+    {section var=image loop=$image_list}  
+        <td>
             {node_view_gui view=line href=$image.item.url_alias|ezurl content_node=$image.item}
-         </td>
-         {delimiter modulo=$node.object.data_map.column.content}
-           </tr>
-           <tr>
-         {/delimiter}
-      {/section}
-      </tr>
-      </table>
+        </td>
+        {delimiter modulo=$node.object.data_map.column.content}
+        </tr>
+        <tr>
+        {/delimiter}
+    {/section}
+    </tr>
+    </table>
 
     {section show=$is_preview|not}
     <div class="info">
@@ -153,29 +166,6 @@
         {/section}
 
     </div>
-
-    {section show=$is_preview|not}
-        <form method="post" action={"content/action"|ezurl}>
-
-        <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-        <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
-        <input type="hidden" name="ViewMode" value="full" />
-
-        {let class_list=$node.object.can_create_class_list
-             id_list=array()}
-        {section var=class loop=$class_list}
-            {set id_list=$id_list|array_append( $class.item.id )}
-        {/section}
-        {section show=$id_list|contains( 5 )}
-            <div class="editbutton">
-                <input type="hidden" name="NodeID" value="{$node.node_id}" />
-                <input type="hidden" name="ClassID" value="5" />
-               <input class="button" type="submit" name="NewButton" value="{'New image'|i18n('design/standard/node/view')}" />
-            </div>
-        {/section}
-        {/let}
-        </form>
-    {/section}
 
 </div>
 

@@ -49,8 +49,8 @@
                                                              sort_by, array( array( priority ) ),
   							     class_filter_type, exclude, 
 							     class_filter_array, array( 'gallery' ) ) )}
-                {section name=Folder loop=$folder_list}
-                    <li><a href={concat( "/content/view/full/", $Folder:item.node_id, "/" )|ezurl} title="{attribute_view_gui attribute=$Folder:item.description}">{$Folder:item.name|wash}</a></li>
+                {section var=folder loop=$folder_list}
+                    <li><a href={$folder.item.url_alias|ezurl} title="{attribute_view_gui attribute=$folder.item.description}">{$folder.item.name|wash}</a></li>
                 {/section}
                 {/let}
     {/cache-block}
@@ -74,80 +74,10 @@
         </div>
     </div>
 
-    <div id="infobox">
-        <div class="design">
-               {let gallery_list=fetch( content, tree, hash( parent_node_id, 2,
-							   limit, 5,
-							   sort_by, array( published, false() ),
-							   class_filter_type, include, 
-							   class_filter_array, array( 'gallery' ) ) )}
-                                                          
-            <h3>Gallery list</h3>
-            <ul>
-                   {section name=Gallery loop=$gallery_list}
-                       <li>
-                       <a href={$:item.url_alias|ezurl}>{$Gallery:item.name|wash}</a>  
-                       </li>
-                    {/section}
-            </ul>
-               {/let}
+    {/cache-block}
 
-               {let image_list=fetch( content, tree, hash( parent_node_id, 2,
-							   limit, 5,
-							   sort_by, array( published, false() ),
-							   class_filter_type, include, 
-							   class_filter_array, array( 'image' ) ) )}
-                                                          
-            <h3>Latest images</h3>
-            <ul>
-                   {section name=Images loop=$image_list}
-                       <li>
-                       {attribute_view_gui href=$Images:item.url_alias|ezurl image_class=small attribute=$Images:item.data_map.image}
-		       {attribute_view_gui attribute=$Images:item.data_map.caption}
-                       </li>
-                    {/section}
-            </ul>
-               {/let}
-	         {let news_list=fetch( content, tree, hash( parent_node_id, 2,
-                                                          limit, 5,
-                                                          sort_by, array( published, false() ),
-                                                          class_filter_type, include, 
-                                                          class_filter_array, array( 'article' ) ) )}
-                                                          
-            <h3>Latest news</h3>
-            <ul>
-                   {section name=News loop=$news_list}
-                       <li>
-                       <a href={concat('content/view/full/',$News:item.node_id)|ezurl}>{$News:item.name|wash}</a>
-                       <div class="date">
-                        ({$News:item.object.published|l10n( shortdate )})
-                       </div>  
-                       </li>
-                    {/section}
-            </ul>
-               {/let}
-
-	       {let comments_list=fetch( content, tree, hash( parent_node_id, 2,
-                                                          limit, 5,
-                                                          sort_by, array( published, false() ),
-                                                          class_filter_type, include, 
-                                                          class_filter_array, array( 'comment' ) ) )}
-                                                          
-            <h3>Latest comments</h3>
-            <ul>
-                   {section var=comment loop=$comments_list}
-                       <li>
-                       <a href={concat( $comment.item.parent.url_alias, "/#commentlist" )|ezurl}>{$comment.item.name|wash}</a>
-                       <div class="date">
-                        ({$comment.item.object.published|l10n( shortdate )})
-                       </div>  
-                       </li>
-                    {/section}
-            </ul>
-               {/let}
-        
-        </div>
-    </div>
+    {cache-block keys=array( $uri_string )}
+    {include uri="design:infobox.tpl"}
     {/cache-block}
 
     <div id="maincontent">
@@ -175,7 +105,10 @@
 
         </div>
     </div>
+
+    <div class="content">
             {$module_result.content}
+    </div>
         
         </div>
     </div>
