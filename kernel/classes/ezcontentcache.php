@@ -176,7 +176,7 @@ class eZContentCache
 
     function store( $siteDesign, $objectID, $classID,
                     $nodeID, $parentNodeID, $nodeDepth, $urlAlias, $viewMode, $sectionID,
-                    $language, $offset, $roleList, $discountList, $layout,
+                    $language, $offset, $roleList, $discountList, $layout, $navigationPartIdentifier,
                     $result )
     {
         $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout );
@@ -192,6 +192,7 @@ class eZContentCache
                               'object_id' => $objectID,
                               'class_id' => $classID,
                               'section_id' => $sectionID,
+                              'navigation_part_identifier' => $navigationPartIdentifier,
                               'viewmode' => $viewMode,
                               'language' => $language,
                               'offset' => $offset,

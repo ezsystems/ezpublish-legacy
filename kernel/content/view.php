@@ -98,6 +98,7 @@ if ( $viewCacheEnabled and ( $useTriggers == false ) )
                                   array( 'class', $Result['content_info']['class_id'] ), // Class ID
                                   array( 'view_offset', $Result['content_info']['offset'] ),
                                   array( 'viewmode', $Result['content_info']['viewmode'] ),
+                                  array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
                                   array( 'depth', $Result['content_info']['node_depth'] ),
                                   array( 'url_alias', $Result['content_info']['url_alias'] )
                                   ) );
@@ -160,6 +161,7 @@ switch( $operationResult['status'] )
                                               array( 'parent_node', $Result['content_info']['parent_node_id'] ), // Parent Node ID
                                               array( 'class', $Result['content_info']['class_id'] ), // Class ID
                                               array( 'view_offset', $Result['content_info']['offset'] ),
+                                              array( 'navigation_part_identifier', $Result['content_info']['navigation_part_identifier'] ),
                                               array( 'viewmode', $Result['content_info']['viewmode'] ),
                                               array( 'depth', $Result['content_info']['node_depth'] ),
                                               array( 'url_alias', $Result['content_info']['url_alias'] )
@@ -191,6 +193,14 @@ switch( $operationResult['status'] )
 //                 eZDebug::printReport();
             }
 
+            include_once( 'kernel/classes/ezsection.php' );
+            eZSection::setGlobalID( $object->attribute( 'section_id' ) );
+
+            // Fetch the navigation part from the section information
+            $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
+            if ( $section )
+                $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
+
             $res =& eZTemplateDesignResource::instance();
             $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object ID
                                   array( 'node', $node->attribute( 'node_id' ) ), // Node ID
@@ -198,12 +208,11 @@ switch( $operationResult['status'] )
                                   array( 'class', $object->attribute( 'contentclass_id' ) ), // Class ID
                                   array( 'view_offset', $Offset ),
                                   array( 'viewmode', $ViewMode ),
+                                  array( 'navigation_part_identifier', $navigationPartIdentifier ),
                                   array( 'depth', $node->attribute( 'depth' ) ),
                                   array( 'url_alias', $node->attribute( 'url_alias' ) )
                                   ) );
 
-            include_once( 'kernel/classes/ezsection.php' );
-            eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 
             $tpl->setVariable( 'node', $node );
             $tpl->setVariable( 'language_code', $LanguageCode );
@@ -247,10 +256,8 @@ switch( $operationResult['status'] )
             $Result['title_path'] =& $titlePath;
             $Result['section_id'] =& $object->attribute( 'section_id' );
             $Result['node_id'] =& $NodeID;
-            // Fetch the navigation part from the section information
-            $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
-            if ( $section )
-                $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
+            $Result['navigation_part'] = $navigationPartIdentifier;
+
 
             if ( $viewCacheEnabled )
             {
@@ -267,7 +274,7 @@ switch( $operationResult['status'] )
                 $urlAlias = $node->attribute( 'url_alias' );
                 if ( eZContentCache::store( $designSetting, $objectID, $classID,
                                             $NodeID, $parentNodeID, $nodeDepth, $urlAlias, $ViewMode, $sectionID, $language,
-                                            $Offset, $roleList, $discountList, $layout, $Result ) )
+                                            $Offset, $roleList, $discountList, $layout, $navigationPartIdentifier, $Result ) )
                 {
                     eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache written', 'content/view' );
                 }
