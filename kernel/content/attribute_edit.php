@@ -149,10 +149,10 @@ if ( $storingAllowed )
         $contentObjectAttribute =& $contentObjectAttributes[$key];
         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
 
-        if ( $http->hasPostVariable( "SelectedObjectIDArray" ) )
+/*        if ( $http->hasPostVariable( "SelectedObjectIDArray" ) )
             $status == EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-        else
-            $status = $contentObjectAttribute->validateInput( $http, 'ContentObjectAttribute' );
+        else*/
+        $status = $contentObjectAttribute->validateInput( $http, 'ContentObjectAttribute' );
 
         if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
             $requireFixup = true;
