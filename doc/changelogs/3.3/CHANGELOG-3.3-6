@@ -152,6 +152,8 @@ eZINI:
 - Fixed bug: "Registration" setup step didn't notice that convert program
   (included into Imagemagick) had been found in path entered by user. 
   http://ez.no/community/bug_reports/setup_registration_email_problem
+- Fixed bug with unabling to upload image to a new translated object.
+  http://ez.no/community/bug_reports/unable_to_upload_image_to_a_new_translated_object
 
 *Library:
 

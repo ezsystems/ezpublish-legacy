@@ -36,6 +36,8 @@ include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( 'kernel/classes/ezcontentobjectversion.php' );
 include_once( 'kernel/classes/ezcontentobjectattribute.php' );
+include_once( 'kernel/classes/ezcontentbrowse.php' );
+
 
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezlocale/classes/ezlocale.php' );
@@ -180,12 +182,34 @@ if ( $translateToLanguage !== false )
 
 if ( $activeTranslation )
 {
+    // Custom Action Code Start
+    $customAction = false;
+    $customActionAttributeArray = array();
+    // Check for custom actions
+    if ( $http->hasPostVariable( "CustomActionButton" ) )
+    {
+        $customActionArray = $http->postVariable( "CustomActionButton" );
+        foreach ( $customActionArray as $customActionKey => $customActionValue )
+        {
+            $customActionString = $customActionKey;
+
+            if ( preg_match( "#^([0-9]+)_(.*)$#", $customActionString, $matchArray ) )
+            {
+                $customActionAttributeID = $matchArray[1];
+                $customAction = $matchArray[2];
+                $customActionAttributeArray[$customActionAttributeID] = array( 'id' => $customActionAttributeID,
+                                                                               'value' => $customAction );
+            }
+        }
+    }
+    // Custom Action Code End
+
     $storeActions = array( 'Store', 'EditObject', 'AddLanguage', 'RemoveLanguage', 'EditLanguage' );
 
     $inputValidated = true;
     $storeRequired = in_array( $Module->currentAction(), $storeActions );
 
-    if ( $storeRequired )
+    if ( $storeRequired  || $http->hasPostVariable( 'CustomActionButton' ) )
     {
         $defaultLanguage = $object->defaultLanguage();
         $unvalidatedAttributes = array();
@@ -231,6 +255,7 @@ if ( $activeTranslation )
                         eZDebug::writeDebug( 'Validating ' . $contentObjectAttribute->attribute( 'id' ) . ' success' );
                     }
                     $contentObjectAttribute->fetchInput( $http, 'ContentObjectAttribute' );
+
                 }
             }
         }
@@ -269,6 +294,41 @@ if ( $activeTranslation )
                     }
                 }
             }
+
+           
+            foreach( array_keys( $translateContentAttributes ) as $translateContentAttributeKey )
+            {
+                $contentObjectAttribute =& $translateContentAttributes[$translateContentAttributeKey];
+
+                // Check if this is a translation
+                $currentLanguage = $contentObjectAttribute->attribute( 'language_code' );
+
+                $isTranslation = false;
+                if ( $currentLanguage != $defaultLanguage )
+                    $isTranslation = true;
+
+                // If current attribute is a translation
+                // Check if this attribute can be translated
+                // If not do not store, since the input will be copyed from the original
+                $doNotStore = false;
+                if ( $isTranslation )
+                {
+                    if ( !$contentClassAttribute->attribute( 'can_translate' ) )
+                        $doNotStore = true;
+                }
+
+                if ( $doNotStore == false )
+                {
+                    if ( !isset( $currentRedirectionURI ) )
+                        $currentRedirectionURI = $Module->redirectionURI( 'content', 'translate', array( $ObjectID, $EditVersion ) );
+                    $object->handleCustomHTTPActions( $contentObjectAttribute, 'ContentObjectAttribute',
+                                                      $customActionAttributeArray,
+                                                      array( 'module' => &$Module,
+                                                             'current-redirection-uri' => $currentRedirectionURI ) );
+                    $contentObjectAttribute->setContent( $contentObjectAttribute->attribute( 'content' ) );
+                }
+            }
+
             $object->store();
         }
 

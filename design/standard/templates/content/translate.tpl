@@ -1,4 +1,4 @@
-<form action={concat("/content/translate/",$object.id,"/",$edit_version)|ezurl} method="post">
+<form action={concat("/content/translate/",$object.id,"/",$edit_version)|ezurl} method="post"  enctype="multipart/form-data" >
 
 <div class="maincontentheader">
 <h1>{"Translating '%1'"|i18n("design/standard/content/translate",,array($object.name|wash))}</h1>
