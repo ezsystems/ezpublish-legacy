@@ -289,12 +289,22 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $limitationList =& $params['Limitation'];
         }
         $sortCount = 0;
+        $sortList = false;
         if ( isset( $params['SortBy'] ) and
              is_array( $params['SortBy'] ) and
              count( $params['SortBy'] ) > 0 )
         {
+            $sortList = $params['SortBy'];
+            if ( count( $sortList ) > 1 and
+                 !is_array( $sortList[0] ) )
+            {
+                $sortList = array( $sortList );
+            }
+        }
+        if ( $sortList !== false )
+        {
             $sortingFields = '';
-            foreach ( $params['SortBy'] as $sortBy )
+            foreach ( $sortList as $sortBy )
             {
                 if ( is_array( $sortBy ) and count( $sortBy ) > 0 )
                 {

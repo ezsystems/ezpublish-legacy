@@ -96,7 +96,7 @@ class eZContentFunctionCollection
         $treeParameters = array( 'Offset' => $offset,
                                  'Limit' => $limit,
                                  'Limitation' => null,
-                                 'sort_by' => $sortBy,
+                                 'SortBy' => $sortBy,
                                  'class_id' => $classID,
                                  'ClassFilterType' => $class_filter_type,
                                  'ClassFilterArray' => $class_filter_array );
