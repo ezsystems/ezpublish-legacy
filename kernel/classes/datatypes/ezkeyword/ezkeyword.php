@@ -112,6 +112,7 @@ class eZKeyword
         // Store relations to keyword for this content object
         foreach ( $existingWords as $keywordArray )
         {
+            $db->query( "DELETE from ezkeyword_attribute_link WHERE keyword_id='" . $keywordArray['id'] . "' AND objectattribute_id='" . $attribute->attribute( 'id' ) ."' " );
             $db->query( "INSERT INTO ezkeyword_attribute_link ( keyword_id, objectattribute_id ) VALUES ( '" . $keywordArray['id'] ."', '" . $attribute->attribute( 'id' ) . "' )" );
         }
     }
@@ -137,3 +138,4 @@ class eZKeyword
 }
 
 ?>
+
