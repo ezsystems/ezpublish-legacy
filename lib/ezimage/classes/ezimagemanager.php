@@ -981,7 +981,7 @@ class eZImageManager
         }
         else
         {
-            $useCopy = false;
+            $useCopy = true;
             if ( $aliasName and
                  $aliasName != 'original' )
             {

@@ -191,7 +191,8 @@ class eZFileHandler
     */
     function symlink( $sourceFilename, $destinationFilename )
     {
-        if ( !file_exists( $sourceFilename ) )
+        if ( !file_exists( $sourceFilename ) and
+             !is_link( $sourceFilename ) )
         {
             eZDebug::writeError( "Cannot symbolicly link to file $sourceFilename, it does not exist",
                                  'eZFileHandler::symlink' );
@@ -212,7 +213,24 @@ class eZFileHandler
                 $destinationFilename .= '/' . substr( $sourceFilename, $filePosition );
         }
         $destinationFilename = preg_replace( "#/+#", '/', $destinationFilename );
-        $directoryCount = substr_count( $destinationFilename, '/' );
+        $sourceDir = $sourceFilename;
+        $sourceName = false;
+        $sourceDirPos = strrpos( $sourceDir, '/' );
+        if ( $sourceDirPos !== false )
+        {
+            $sourceName = substr( $sourceDir, $sourceDirPos + 1 );
+            $sourceDir = substr( $sourceDir, 0, $sourceDirPos );
+        }
+        $commonOffset = 0;
+        for ( $i = 0; $i < strlen( $sourceFilename ) and $i < strlen( $sourceDir ); ++$i )
+        {
+            if ( $sourceFilename[$i] != $sourceDir[$i] )
+                break;
+            $commonOffset = $i;
+        }
+        if ( $commonOffset > 0 )
+            $sourceDir = substr( $sourceDir, $commonOffset + 1 );
+        $directoryCount = substr_count( $sourceDir, '/' );
         $cdupText = str_repeat( '../', $directoryCount );
         if ( file_exists( $destinationFilename ) and
              !is_dir( $destinationFilename ) )
@@ -224,7 +242,11 @@ class eZFileHandler
                 return false;
             }
         }
-        if ( symlink( $cdupText . $sourceFilename, $destinationFilename ) )
+        if ( $sourceDir )
+            $sourceDir = $sourceDir . '/' . $sourceName;
+        else
+            $sourceDir = $sourceName;
+        if ( symlink( $cdupText . $sourceDir, $destinationFilename ) )
         {
             return true;
         }
@@ -241,7 +263,8 @@ class eZFileHandler
     */
     function move( $sourceFilename, $destinationFilename )
     {
-        if ( !file_exists( $sourceFilename ) )
+        if ( !file_exists( $sourceFilename ) and
+             !is_link( $sourceFilename ) )
         {
             eZDebug::writeError( "Cannot rename file $sourceFilename, it does not exist",
                                  'eZFileHandler::move' );
@@ -271,7 +294,13 @@ class eZFileHandler
                 return false;
             }
         }
-        if ( @rename( $sourceFilename, $destinationFilename ) )
+        $isLink = false;
+        if ( is_link( $sourceFilename ) )
+        {
+            $isLink = true;
+        }
+        if ( !$isLink and
+             @rename( $sourceFilename, $destinationFilename ) )
         {
             return true;
         }
