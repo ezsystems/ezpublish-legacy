@@ -6,7 +6,7 @@ body
 
 div#background /* Stretching over the the whole area the other DIVs cover, and the areas in between them; visible where no other color is set or any other DIVs cover. */
 {
-    background-color: #ffffff;
+    background-color: #333333;
     height: 1%; /* Needed for IE5.5 to stop background color bug */
 }
 
@@ -97,8 +97,9 @@ div#searchbox input.searchbutton
 div#path
 {
     background-color: #aaaaaa;
-    margin-top: 1em;
-    margin-bottom: 0.5em;
+    margin-top: 0em;
+    margin-bottom: 0em;
+    padding-left: 25px;
 }
 
 div#path p
@@ -114,7 +115,6 @@ div#path a
 
 div#maincontent
 {
-    background-color: #ffffff;
     margin-bottom: 0em;
     margin-top: 0em;
     margin-left: 0em;
@@ -124,25 +124,29 @@ div#maincontent
 
 div#maincol
 {
+    background-color: #ffffff;
     margin-top: 0px;
+    margin-left: 0px;
+    width: 70%;
+    float: left;
+}
+
+div#maincol div.design
+{
     margin-left: 25px;
     border-left: 1px solid #ccc;
-    max-width: 400px;
-    width: 400px;
-    float: left;
 }
 
 div#navigationcol
 {
-    background-color: #666666;
-    max-width: 200px;
-    width: 200px;
+    width: 30%;
     float: right;
 }
 
-div#path
+div#navigationcol div.design
 {
-    padding-left: 20px;
+    color: #aaaaaa;
+    padding-left: 10px;
 }
 
 div#footer
