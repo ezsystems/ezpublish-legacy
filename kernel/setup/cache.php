@@ -63,6 +63,10 @@ if ( $module->isCurrentAction( 'ClearTemplateCache' ) )
 {
     $cachedDir = "var/cache/template/";
     eZDir::recursiveDelete( $cachedDir );
+    $cachedDir = "var/cache/override/";
+    eZDir::recursiveDelete( $cachedDir );
+    $cachedDir = "var/cache/template-block/";
+    eZDir::recursiveDelete( $cachedDir );
     $templateCacheCleared = true;
 }
 
