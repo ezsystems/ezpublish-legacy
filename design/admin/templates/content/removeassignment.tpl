@@ -107,7 +107,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h2 class="context-title">{'Removal of locations'|i18n( 'design/admin/content/removeassignment' )}</h2>
+<h2 class="context-title">{'Removal of locations with sub items'|i18n( 'design/admin/content/removeassignment' )}</h2>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -115,9 +115,13 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
+<div class="block">
+
 <p>{'Some of the locations that are about to be removed have sub items.'|i18n( 'design/admin/content/removeassignment' )}</p>
-<p>{'Removing these locations will also result in the removal of the items below them.'|i18n( 'design/admin/content/removeassignment' )}</p>
+<p>{'Removing the locations will also result in the removal of their sub items.'|i18n( 'design/admin/content/removeassignment' )}</p>
 <p>{'Are you sure you want to remove these locations along with their contents?'|i18n( 'design/admin/content/removeassignment' )}</p>
+
+</div>
 
 <table class="list" cellspacing="0">
 <tr>
@@ -141,7 +145,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input type="submit" class="button" name="ConfirmRemovalButton" value="{'OK'|i18n( 'design/admin/content/removeassignment' )}" title="{'Remove the locations along with their contents.'|i18n( 'design/admin/content/removeassignment' )}" />
+<input type="submit" class="button" name="ConfirmRemovalButton" value="{'OK'|i18n( 'design/admin/content/removeassignment' )}" title="{'Remove the locations along with all the sub items.'|i18n( 'design/admin/content/removeassignment' )}" />
 <input type="submit" class="button" name="CancelRemovalButton" value="{'Cancel'|i18n( 'design/admin/content/removeassignment' )}" title="{'Cancel the removal operation and go back to the edit page.'|i18n( 'design/admin/content/removeassignment' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
