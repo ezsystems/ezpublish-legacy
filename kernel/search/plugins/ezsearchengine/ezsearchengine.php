@@ -94,7 +94,7 @@ class eZSearchEngine
 
                 foreach ( $attributeTranslations as $translation )
                 {
-                    $tmpMetaData = $translation->metaData();;
+                    $tmpMetaData = $translation->metaData();
                     if( ! is_array( $tmpMetaData ) )
                     {
                         $tmpMetaData = array( array( 'id' => '',
@@ -560,7 +560,7 @@ class eZSearchEngine
                         } break;
                         case 5:
                         {
-                            $adjustment = 365*24*60*60;; //seconds for one year
+                            $adjustment = 365*24*60*60; //seconds for one year
                             $publishedDate = $timestamp - $adjustment;
                         } break;
                         default:

@@ -139,7 +139,8 @@ eZINI:
 - Fixed bug: no email adress in registration email.
   Merged from trunk (3.5) rev. 5416.
   http://ez.no/community/bug_reports/no_emailadres_in_registration_email
-
+- Fixed typo (double ;; in ez search engine).
+  http://ez.no/community/bug_reports/typo_in_ezsearchengine_php
 *Library:
 
 eZ Locale:
