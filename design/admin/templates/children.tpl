@@ -236,8 +236,8 @@ function toggleCheckboxes( formname, checkboxname )
 </select>
 
 <select name="SortingOrder" title="{$title}"{$disabled}>
-    <option value="1"{section show=eq($node.sort_order, 1)} selected="selected"{/section}>{'Down'|i18n( 'design/admin/content/view' )}</option>
     <option value="0"{section show=eq($node.sort_order, 0)} selected="selected"{/section}>{'Up'|i18n( 'design/admin/content/view' )}</option>
+    <option value="1"{section show=eq($node.sort_order, 1)} selected="selected"{/section}>{'Down'|i18n( 'design/admin/content/view' )}</option>
 </select>
 
 <input class="button" type="submit" name="SetSorting" value="{'Set'|i18n( 'design/admin/content/view' )}" title="{$title}"{$disabled} />
