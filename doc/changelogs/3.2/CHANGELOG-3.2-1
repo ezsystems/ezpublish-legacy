@@ -20,6 +20,7 @@ Changes from 3.2.0-2 to 3.2-1
 - Fixed bug with notification system crashing when dirty data is present in the database.
   http://ez.no/developer/ez_publish_3/bug_reports/notification_crashes
 - Fixed bug in the generateoverridesettings.php script for upgrading override templates from 3.0 to 3.1
+- Fixed storing SMTP settings during setup, http://ez.no/developer/ez_publish_3/bug_reports/setup_does_not_store_smtp_settings
 
 *Setup:
 

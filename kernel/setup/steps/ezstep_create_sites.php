@@ -216,6 +216,20 @@ class eZStepCreateSites extends eZStepInstaller
             $defaultAccess = $accessMap['accesses'][0];
         $ini->setVariable( 'SiteSettings', 'DefaultAccess', $defaultAccess );
 
+        if ( $emailInfo['type'] == 1 )
+        {
+//         eZDebug::writeDebug( 'Changing to sendmail' );
+            $ini->setVariable( 'MailSettings', 'Transport', 'sendmail' );
+        }
+        else
+        {
+//         eZDebug::writeDebug( 'Changing to SMTP' );
+            $ini->setVariable( 'MailSettings', 'Transport', 'SMTP' );
+            $ini->setVariable( 'MailSettings', 'TransportServer', $emailInfo['server'] );
+            $ini->setVariable( 'MailSettings', 'TransportUser', $emailInfo['user'] );
+            $ini->setVariable( 'MailSettings', 'TransportPassword', $emailInfo['password'] );
+        }
+
         if ( $saveData )
         {
             $saveResult = $ini->save( false, '.php', 'append', true, true, true );
@@ -366,7 +380,7 @@ class eZStepCreateSites extends eZStepInstaller
 
         if ( $saveResult )
         {
-            eZSetupChangeEmailSetting( $this->PersistenceList['email_info'] );
+//            eZSetupChangeEmailSetting( $this->PersistenceList['email_info'] );
 
             $primaryLanguageLocaleCode = $primaryLanguage->localeCode();
 
