@@ -96,9 +96,10 @@ class eZDBSchemaInterface
 
      \sa eZDB
      */
-    function eZDBSchemaInterface( $dbInstance )
+    function eZDBSchemaInterface( $params )
     {
-        $this->DBInstance = $dbInstance;
+        $this->DBInstance = $params['instance'];
+        $this->Schema = $params['schema'];
     }
 
     /*!
@@ -337,6 +338,57 @@ class eZDBSchemaInterface
     }
 
     /*!
+      Insert PHP schema to the current database instance by running one SQL at a time.
+
+      \param $params Optional parameter which controls what to insert:
+                     - schema - Whether to insert the schema or not, default is \c true.
+                     - data - Whether to insert the data or not, default is \c false
+      \return \c false if the schema could not be inserted, \c true if successful
+    */
+    function insertSchema( $params = array() )
+    {
+        $params = array_merge( array( 'schema' => true,
+                                      'data' => false ),
+                               $params );
+
+        if ( !is_object( $this->DBInstance ) )
+        {
+            eZDebug::writeError( "No database instance is available, cannot insert", 'eZDBSchemaInterface::insertSchema' );
+            return false;
+        }
+
+        $includeSchema = $params['schema'];
+        $includeData = $params['data'];
+        $params['format'] = 'local';
+        $schema = $this->schema( $params );
+        if ( $includeSchema )
+        {
+            foreach ( $schema as $tableName => $table )
+            {
+                // Skip the information array, this is not a table
+                if ( $tableName == '_info' )
+                    continue;
+
+                $sqlList = $this->generateTableSQLList( $tableName, $table, $params, false );
+                foreach ( $sqlList as $sql )
+                {
+                    if ( !$this->DBInstance->query( $sql ) )
+                    {
+                        eZDebug::writeError( "Failed inserting the SQL:\n$sql" );
+                        return false;
+                    }
+                }
+            }
+        }
+        if ( $includeData )
+        {
+            // TODO
+            $data = $this->data( $schema );
+        }
+        return true;
+    }
+
+    /*!
      \private
      \param database schema
      \return schema for file output
@@ -491,6 +543,7 @@ class eZDBSchemaInterface
                            The groups are:
                            - sequences - List of sequences
                            - tables - List of tables
+                           - trigger - List of triggers
                            - indexes - List of indexes
                            - constraints - List of constraints/primary keys
                            - other - Other SQLs that doesn't fit into the above

@@ -49,23 +49,33 @@ class eZDbSchema
      \param eZDB instance (optional), if none provided, eZDB::instance() will be used.
      \return new Instance of eZDBSchema, false if failed
     */
-    function instance( $db = false )
+    function instance( $params = false )
     {
-        if ( $db === false )
+        if ( $params === false )
         {
             include_once( 'lib/ezdb/classes/ezdb.php' );
             $db = eZDB::instance();
+            $params = array( 'type' => $db->databaseName(),
+                             'instance' => &$db,
+                             'schema' => false );
+        }
+        else if ( is_object( $params ) )
+        {
+            $db =& $params;
+            unset( $params );
+            $params = array( 'type' => $db->databaseName(),
+                             'instance' => &$db,
+                             'schema' => false );
         }
 
-        /* Figure out the database name */
-        if ( is_subclass_of( $db, 'ezdbinterface' ) )
-        {
-            $dbname = $db->databaseName();
-        }
-        else
-        {
-            $dbname = $db['type'];
-        }
+        if ( !isset( $params['instance'] ) )
+            $params['instance'] = false;
+        if ( !isset( $params['schema'] ) )
+            $params['schema'] = false;
+
+        unset( $db );
+        $db =& $params['instance'];
+        $dbname = $params['type'];
 
         /* Load the database schema handler INI stuff */
         require_once( 'lib/ezutils/classes/ezini.php' );
@@ -82,7 +92,7 @@ class eZDbSchema
 
         /* Include the schema file and instantiate it */
         require_once( $schemaPaths[$dbname] );
-        return new $schemaHandlerClasses[$dbname]( $db );
+        return new $schemaHandlerClasses[$dbname]( $params );
     }
 
     /*!

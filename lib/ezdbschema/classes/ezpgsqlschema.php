@@ -126,7 +126,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
                                $params );
         $schema = array();
 
-        if ( is_subclass_of( $this->DBInstance, 'ezdbinterface' ) )
+        if ( $this->Schema === false )
         {
             $resultArray = $this->DBInstance->arrayQuery( SHOW_TABLES_QUERY );
 
@@ -141,13 +141,13 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             }
             $this->transformSchema( $schema, $params['format'] == 'local' );
             ksort( $schema );
+            $this->Schema = $schema;
         }
         else
         {
-            $schema = $this->DBInstance['schema'];
+            $schema = $this->Schema;
         }
-        $this->schema = $schema;
-		return $this->schema;
+		return $schema;
     }
 
 	/*!

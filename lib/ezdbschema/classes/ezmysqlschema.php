@@ -51,9 +51,9 @@ class eZMysqlSchema extends eZDBSchemaInterface
 
      \param db instance
     */
-    function eZMysqlSchema( $db )
+    function eZMysqlSchema( $params )
     {
-        $this->eZDBSchemaInterface( $db );
+        $this->eZDBSchemaInterface( $params );
     }
 
     /*!
@@ -66,7 +66,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
                                $params );
         $schema = array();
 
-        if ( is_subclass_of( $this->DBInstance, 'ezdbinterface' ) )
+        if ( $this->Schema === false )
         {
             $tableArray = $this->DBInstance->arrayQuery( "SHOW TABLES" );
 
@@ -81,10 +81,11 @@ class eZMysqlSchema extends eZDBSchemaInterface
             }
             $this->transformSchema( $schema, $params['format'] == 'local' );
             ksort( $schema );
+            $this->Schema = $schema;
         }
         else
         {
-            $schema = $this->DBInstance['schema'];
+            $schema = $this->Schema;
         }
         return $schema;
     }
