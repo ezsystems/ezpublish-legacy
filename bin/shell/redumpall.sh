@@ -145,7 +145,7 @@ if [ "$USE_POSTGRESQL" != "" ]; then
 	echo "Failed re-dumping SQL file $KERNEL_POSTGRESQL_SCHEMA_FILE"
 	exit 1
     fi
-    ./bin/php/ezsqldumpschema.php --type=ezpostgresql --user=root $DBNAME share/db_postgresql_schema.dat
+    ./bin/php/ezsqldumpschema.php --type=ezpostgresql --user=$POST_USER $DBNAME share/db_postgresql_schema.dat
 fi
 
 if [ "$DUMP_DATA" != "" ]; then
