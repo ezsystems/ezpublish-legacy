@@ -216,6 +216,9 @@ eztc.php:
   http://ez.no/community/bug_reports/related_object_added_to_article_set_to_section_0
 - Fixed wrong check for INI setting. (Merged from stable/3.4, rev. 7141)
   http://ez.no/community/bug_reports/usefullurl_in_kernel_layout_set_php
+- Fixed superfluous variable and INI class instantiation. (merged from stable/3.4, rev. 7145)
+  http://ez.no/community/bug_reports/unused_variable_enablecaching_in_ezrole_fetchbyuser
+  
   
 *Library:
 - Added eZDir::isWriteable() and eZFile::isWriteable() methods.

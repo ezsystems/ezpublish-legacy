@@ -329,9 +329,6 @@ class eZRole extends eZPersistentObject
     */
     function &fetchByUser( $idArray, $recursive = false )
     {
-        $ini =& eZINI::instance();
-        $enableCaching = $ini->variable( 'RoleSettings', 'EnableCaching' );
-
         $db =& eZDB::instance();
 
         if ( !$recursive )
