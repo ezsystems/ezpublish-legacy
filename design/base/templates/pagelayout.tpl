@@ -32,17 +32,14 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 </div>
 </div>
 
+{include uri="design:parts/path.tpl"}
 <div>
-{tool_bar name=top view=line}
+{tool_bar name=top view=line class=red}
 </div>
 
 <hr class="hide" />
 
-{let top_menu=ezini( 'SelectedMenu', 'TopMenu', 'menu.ini' )}
-    {section show=$top_menu|is_string()}
-        {include uri=concat('design:menu/',$top_menu,'.tpl')}
-    {/section }
-{/let}
+{menu name=TopMenu}
 
 <hr class="hide" />
 
@@ -58,11 +55,7 @@ div#maincontent div.design { width: 100%; } /* This is needed to avoid width bug
 
 <div id="columns">
 
-{let left_menu=ezini( 'SelectedMenu', 'LeftMenu', 'menu.ini' )}
-    {section show=$left_menu|is_string()}
-        {include uri=concat('design:menu/',$left_menu,'.tpl')}
-    {/section}
-{/let}
+{menu name=LeftMenu}
 
 <hr class="hide" />
 

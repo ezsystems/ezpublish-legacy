@@ -184,6 +184,10 @@ $eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
                                     'class' => 'eZTemplateToolbarFunction',
                                     'function_names' => array( 'tool_bar' ) );
 
+$eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatemenufunction.php',
+                                    'class' => 'eZTemplateMenuFunction',
+                                    'function_names' => array( 'menu' ) );
+
 // eZTemplatePHPOperator is not autoload due to it's generic use
 // it's up to the users of eZTemplate to initiate a proper usage
 // for this operator class.
