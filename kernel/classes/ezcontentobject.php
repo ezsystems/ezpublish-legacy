@@ -1772,7 +1772,6 @@ class eZContentObject extends eZPersistentObject
             ezcontentobject_link.from_contentobject_id='$objectID' AND
             ezcontentobject_link.from_contentobject_version='$version'
             $versionNameJoins" );
-
         $return = array();
         foreach ( $relatedObjects as $object )
         {

@@ -720,7 +720,7 @@ class eZRole extends eZPersistentObject
 
     function fetchList( $tempVersions = false )
     {
-        if ( ! $tempVersions )
+        if ( !$tempVersions )
         {
             return eZPersistentObject::fetchObjectList( eZRole::definition(),
                                                         null, array( 'version' => '0'), null,null,

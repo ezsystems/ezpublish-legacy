@@ -669,7 +669,10 @@ class eZPersistentObject
             if ( isset( $limit["offset"] ) )
             {
                 $db_params["offset"] = $limit["offset"];
-                $db_params["limit"] = $limit["length"];
+            }
+            if ( isset( $limit['limit'] ) )
+            {
+                $db_params["limit"] = $limit["limit"];
             }
             else
             {
