@@ -64,7 +64,7 @@
     <td>{$Drafts.item.contentobject.content_class.name|wash}</td>
     <td>{fetch( section, object, hash( section_id, $Drafts.item.contentobject.section_id ) ).name|wash}</td>
     <td>{$Drafts.item.modified|l10n( shortdatetime )}</td>
-    <td><a href={concat( '/content/edit/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/' )|ezurl} title="{'Edit draft.'|i18n( 'design/admin/content/draft' )}" ><img src={'edit.png'|ezimage} border="0"></a></td>
+    <td><a href={concat( '/content/edit/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/' )|ezurl} title="{'Edit <%draft_name>.'|i18n( 'design/admin/content/draft',, hash( '%draft_name', $Drafts.item.name ) )|wash}" ><img src={'edit.png'|ezimage} border="0"></a></td>
 </tr>
 {/section}
 </table>
