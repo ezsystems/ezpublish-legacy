@@ -59,6 +59,7 @@ define( 'EZ_VCSC_CLEAR_KEYWORD_CACHE'   , 8 );
 define( 'EZ_VCSC_CLEAR_ALL_CACHE'       , 15 );
 
 include_once( 'kernel/classes/ezcontentobject.php' );
+include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZContentCacheManager
 {
@@ -405,6 +406,16 @@ class eZContentCacheManager
 
     /*!
      \static
+     Depreciated. Use 'clearObjectViewCache' instead
+    */
+    function clearViewCache( $objectID, $versionNum = true , $additionalNodeList = false )
+    {
+        eZDebug::writeWarning( "'clearViewCache' function was depreciated. Use 'clearObjectViewCache' instead", 'eZContentCacheManager::clearViewCache' );
+        eZContentCacheManager::clearObjectViewCache( $objectID, $versionNum, $additionalNodeList );
+    }
+
+    /*!
+     \static
      Clears view caches of nodes, parent nodes and relating nodes
      of content objects with id \a $objectID.
      It will use 'viewcache.ini' to determine additional nodes.
@@ -413,12 +424,13 @@ class eZContentCacheManager
      \param $additionalNodeList An array with node IDs to add to clear list,
                                 or \c false for no additional nodes.
     */
-    function clearViewCache( $objectID, $versionNum, $additionalNodeList = false )
+    function clearObjectViewCache( $objectID, $versionNum = true, $additionalNodeList = false )
     {
         $nodeList =& eZContentCacheManager::nodeList( $objectID, $versionNum );
-        if ( $nodeList === false and
-             !is_array( $additionalNodeList ) )
+
+        if ( $nodeList === false and !is_array( $additionalNodeList ) )
             return false;
+
         if ( is_array( $additionalNodeList ) )
         {
             array_splice( $nodeList, count( $nodeList ), 0, $additionalNodeList );
@@ -434,55 +446,122 @@ class eZContentCacheManager
         $cleanupValue = eZContentCache::calculateCleanupValue( count( $nodeList ) );
 
         if ( eZContentCache::inCleanupThresholdRange( $cleanupValue ) )
-        {
-//                     eZDebug::writeDebug( 'cache file cleanup' );
-            if ( eZContentCache::cleanup( $nodeList ) )
-            {
-//                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
-            }
-        }
+            eZContentCache::cleanup( $nodeList );
         else
-        {
-//                     eZDebug::writeDebug( 'expire all cache files' );
-            eZContentObject::expireAllCache();
-        }
+            eZContentObject::expireAllViewCache();
+
         eZDebug::accumulatorStop( 'node_cleanup' );
         return true;
     }
 
     /*!
      \static
-     Clears the related viewcaches for the content object using the smart viewcache system.
-     This is a wrapper for 'clearViewCache' function. The 'site.ini' and 'viewcache.ini'
-     files are checked to see if 'ViewCaching' and 'SmartCacheClear' are enabled.
-
-     \param $objectID The ID of the content object to clear caches for
-     \param $versionNum The version of the object to use or \c true for current version
-     \param $additionalNodeList An array with node IDs to add to clear list,
-                                or \c false for no additional nodes.
+     Clears view cache for specified object.
+     Checks 'ViewCaching' ini setting to determine whether cache is enabled or not.
     */
-    function clearObjectViewCache( $objectID, $versionNum, $additionalNodeList = false )
+    function clearObjectViewCacheIfNeeded( $objectID, $versionNum = true, $additionalNodeList = false )
     {
-        // AHTUNG!! modifing this function don't forget to modify
-        // eZContentOperationCollection::clearObjectViewCache() too.
+        $ini = eZINI::instance();
+        if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) === 'enabled' )
+            eZContentCacheManager::clearObjectViewCache( $objectID, $versionNum, $additionalNodeList );
+    }
 
+    /*!
+     \static
+     Clears template-block cache and template-block with subtree_expiry parameter caches for specified object.
+     Checks 'TemplateCache' ini setting to determine whether cache is enabled or not.
+     If $objectID is \c false all template block caches will be cleared.
+    */
+    function clearTemplateBlockCacheIfNeeded( $objectID )
+    {
+        $ini = eZINI::instance();
+        if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) === 'enabled' )
+            eZContentCacheManager::clearTemplateBlockCache( $objectID );
+    }
+
+    /*!
+     \static
+     Clears template-block cache and template-block with subtree_expiry parameter caches for specified object
+     without checking 'TemplateCache' ini setting. If $objectID is \c false all template block caches will be cleared.
+    */
+    function clearTemplateBlockCache( $objectID )
+    {
+        $time_start = microtime_float();
+
+        // ordinary template block cache
+        eZContentObject::expireTemplateBlockCache();
+
+        // subtree template block cache
+        $nodeList = false;
+        $object = false;
+        if ( $objectID )
+            $object = eZContentObject::fetch( $objectID );
+        if ( $object )
+            $nodeList = $object->assignedNodes();
+
+        include_once( 'kernel/classes/ezsubtreecache.php' );
+        eZSubtreeCache::cleanup( $nodeList );
+
+        $time_end = microtime_float();
+        $time = $time_end - $time_start;
+    }
+
+    /*!
+     \static
+     Clears content cache for specified object: view cache, template-block cache, template-block with subtree_expiry parameter cache.
+     Checks appropriate ini settings to determine whether caches are enabled or not.
+    */
+    function clearContentCacheIfNeeded( $objectID, $versionNum = true, $additionalNodeList = false )
+    {
         eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
 
-        $ini =& eZINI::instance();
-        if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' ||
-             $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
+        eZContentCacheManager::clearObjectViewCacheIfNeeded( $objectID, $versionNum, $additionalNodeList );
+        eZContentCacheManager::clearTemplateBlockCacheIfNeeded( $objectID );
+
+        eZDebug::accumulatorStop( 'check_cache' );
+        return true;
+    }
+
+    /*!
+     \static
+     Clears content cache for specified object: view cache, template-block cache, template-block with subtree_expiry parameter cache
+     without checking of ini settings.
+    */
+    function clearContentCache( $objectID, $versionNum = true, $additionalNodeList = false )
+    {
+        eZDebug::accumulatorStart( 'check_cache', '', 'Check cache' );
+
+        eZContentCacheManager::clearObjectViewCache( $objectID, $versionNum, $additionalNodeList );
+        eZContentCacheManager::clearTemplateBlockCache( $objectID );
+
+        eZDebug::accumulatorStop( 'check_cache' );
+        return true;
+    }
+
+    /*!
+     \static
+     Clears all content cache: view cache, template-block cache, template-block with subtree_expiry parameter cache.
+     If $forceClear is \c false appropriate ini settings will be checked to determine whether caches are enabled or not.
+     If $forceClear is \c true ini settings will be ignored and all caches will be expiry.
+    */
+    function clearAllContentCache( $forceClear = false )
+    {
+        $ini = eZINI::instance();
+        $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) === 'enabled' );
+        $templateCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) === 'enabled' );
+
+        if ( $forceClear || $viewCacheEnabled || $templateCacheEnabled )
         {
-            $viewCacheINI =& eZINI::instance( 'viewcache.ini' );
-            if ( $viewCacheINI->variable( 'ViewCacheSettings', 'SmartCacheClear' ) == 'enabled' )
+            // view cache and/or ordinary template block cache
+            eZContentObject::expireAllCache();
+
+            // subtree template block caches
+            if ( $forceClear || $templateCacheEnabled )
             {
-                eZContentCacheManager::clearViewCache( $objectID, $versionNum, $additionalNodeList );
-            }
-            else
-            {
-                eZContentObject::expireAllCache();
+                include_once( 'kernel/classes/ezsubtreecache.php' );
+                eZSubtreeCache::cleanupAll();
             }
         }
-        eZDebug::accumulatorStop( 'check_cache' );
     }
 }
 

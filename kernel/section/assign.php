@@ -66,8 +66,8 @@ if ( $Module->isCurrentAction( 'AssignSection' ) )
     }
     if ( count( $selectedNodeIDArray ) > 0 )
     {
-        include_once( 'kernel/classes/ezcontentobject.php' );
-        eZContentObject::expireAllCache();
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearAllContentCache();
     }
     $Module->redirectTo( "/section/list/" );
 }

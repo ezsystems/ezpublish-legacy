@@ -418,11 +418,8 @@ function removeRelatedCache( $siteAccess )
     eZCache::clearByTag( 'template-block' );
 
     // Expire content view cache
-    if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' ||
-         $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
-    {
-        eZContentObject::expireAllCache();
-    }
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
 }
 
 ?>

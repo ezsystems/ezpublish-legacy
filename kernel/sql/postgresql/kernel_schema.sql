@@ -2040,17 +2040,6 @@ CREATE TABLE ezsite_data (
 
 
 
-CREATE TABLE ezsubtree_expiry (
-    cache_file character varying(255) DEFAULT ''::character varying NOT NULL,
-    subtree integer
-);
-
-
-
-
-
-
-
 CREATE TABLE ezsubtree_notification_rule (
     id integer DEFAULT nextval('ezsubtree_notification_rule_s'::text) NOT NULL,
     node_id integer DEFAULT 0 NOT NULL,
@@ -2698,14 +2687,6 @@ CREATE INDEX expiration_time ON ezsession USING btree (expiration_time);
 
 
 CREATE INDEX ezsession_user_id ON ezsession USING btree (user_id);
-
-
-
-
-
-
-
-CREATE INDEX ezsubtree_expiry_subtree ON ezsubtree_expiry USING btree (subtree);
 
 
 

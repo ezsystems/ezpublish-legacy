@@ -871,7 +871,8 @@ You will need to change the class of the node by using the swap functionality.' 
         $handler->setTimestamp( 'user-class-cache', mktime() );
         $handler->store();
 
-        eZContentObject::expireAllCache();
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearAllContentCache();
 
         eZPersistentObject::store();
     }

@@ -320,7 +320,6 @@ class eZMultiplexerType extends eZWorkflowEventType
                 $usersArray = array( -1 );
             }
             $usersString = implode( ',', $usersArray );
-            eZDebug::writeDebug( $usersString, 'lazy.$usersString' );
             $event->setAttribute( "data_text2", $usersString );
         }
 

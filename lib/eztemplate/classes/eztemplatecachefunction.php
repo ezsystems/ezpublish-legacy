@@ -128,7 +128,6 @@ class eZTemplateCacheFunction
         $keyValueText = false;
         $useDynamicKeys = false;
         $subtreeExpiryData = false;
-        $subtreeExpiryCode = false;
         if ( isset( $parameters['keys'] ) )
         {
             $keysData = $parameters['keys'];
@@ -146,17 +145,10 @@ class eZTemplateCacheFunction
         {
             $subtreeExpiryData = $parameters['subtree_expiry'];
             if ( !eZTemplateNodeTool::isStaticElement( $subtreeExpiryData ) )
-            {
                 $useDynamicKeys = true;
-            }
             else
-            {
                 $subtreeValue = eZTemplateNodeTool::elementStaticValue( $subtreeExpiryData );
-                if ( substr( $subtreeValue, -1 ) != '/')
-                {
-                    $subtreeValue .= '/';
-                }
-            }
+
             $ignoreContentExpiry = true;
         }
         if ( $useDynamicKeys )
@@ -169,54 +161,19 @@ class eZTemplateCacheFunction
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $keysData, false, array(), 'cacheKeys' );
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $subtreeExpiryData, false, array(), 'subtreeExpiry' );
             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( is_array( \$cacheKeys ) )\n    \$cacheKeys = implode( '_', \$cacheKeys ) . '_';\nelse\n    \$cacheKeys .= '_';" );
-            $cacheDir = eZSys::cacheDirectory();
-            $cachePathText = eZPHPCreator::variableText( "$cacheDir/template-block/", 0, 0, false );
-            $code = "\$keyString = sprintf( '%u', crc32( \$cacheKeys . $extraKeyText ) );\n\$cacheDir = $cachePathText . \$keyString[0] . '/' . \$keyString[1] . '/' . \$keyString[2];\n\$cachePath = \$cacheDir . '/' . \$keyString . '.cache';";
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
-            $filedirText = "\$cacheDir";
-            $filepathText = "\$cachePath";
-
-            $subtreeExpiryCode = ( "if ( isset( \$subtreeExpiry ) )\n" .
-                                   "{\n" .
-                                   "    include_once( 'lib/ezdb/classes/ezdb.php' );\n" .
-                                   "    \$db =& eZDB::instance();\n" .
-                                   "\n" .
-                                   "    if ( substr( \$subtreeExpiry, -1 ) == '/'  )\n" .
-                                   "    {\n" .
-                                   "        \$subtreeExpiry .= substr( \$subtreeExpiry, 0, -1 );\n" .
-                                   "    }\n" .
-                                   "    if ( substr( \$subtreeExpiry, 0, 1 ) == '/'  )\n" .
-                                   "    {\n" .
-                                   "        \$subtreeExpiry .= substr( \$subtreeExpiry, 1 );\n" .
-                                   "    }\n" .
-                                   "    \$subtree =& \$db->escapeString( \$subtreeExpiry );\n" .
-                                   "    \$nonAliasPath = 'content/view/full/';\n" .
-                                   "    if ( strpos( \$subtreeExpiry, \$nonAliasPath ) === 0 )\n" .
-                                   "    {\n" .
-                                   "        \$subtreeNodeID = substr( \$subtree, strlen( \$nonAliasPath ) );\n" .
-                                   "    }\n" .
-                                   "    else\n" .
-                                   "    {\n" .
-                                   "         if ( \$subtree == '' )\n" .
-                                   "         {\n" .
-                                   "              \$subtreeNodeID = 2;\n" .
-                                   "         }\n" .
-                                   "         else\n" .
-                                   "         {\n" .
-                                   "              \$subtreeNodeIDSQL = \"SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='\$subtree'\";\n" .
-                                   "              \$subtreeNodeID =& \$db->arrayQuery( \$subtreeNodeIDSQL );\n" .
-                                   "              if ( count( \$subtreeNodeID ) == 1 )\n" .
-                                   "              {\n" .
-                                   "                   \$subtreeNodeID = \$subtreeNodeID[0]['node_id'];\n" .
-                                   "              }\n" .
-                                   "         }\n" .
-                                   "    }\n" .
-                                   "    \$cacheKey =& \$db->escapeString( \$cachePath );\n" .
-                                   "\n" .
-                                   "    \$insertQuery = \"INSERT INTO ezsubtree_expiry ( subtree, cache_file )\n" .
-                                   "                VALUES ( '\$subtreeNodeID', '\$cacheKey' )\";\n" .
-                                   "    \$db->query( \$insertQuery );\n" .
-                                   "}" );
+            $cacheDir = eZTemplateCacheFunction::templateBlockCacheDir();
+            $cachePathText = eZPHPCreator::variableText( "$cacheDir", 0, 0, false );
+            $code = ( "\$keyString = sprintf( '%u', crc32( \$cacheKeys . $extraKeyText ) );\n" .
+                      "if ( isset( \$subtreeExpiry ) )\n" .
+                      "{\n" .
+                      "    include_once( 'lib/eztemplate/classes/eztemplatecachefunction.php' );\n" .
+                      "    \$cacheDir = $cachePathText . eZTemplateCacheFunction::subtreeCacheDir( \$subtreeExpiry );\n" .
+                      "}\n" .
+                      "else\n" .
+                      "{\n" .
+                      "    \$cacheDir = $cachePathText . \$keyString[0] . '/' . \$keyString[1] . '/' . \$keyString[2];\n" .
+                      "}\n" .
+                      "\$cachePath = \$cacheDir . '/' . \$keyString . '.cache';" );
         }
         else
         {
@@ -224,57 +181,21 @@ class eZTemplateCacheFunction
             if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
                 $accessName = $GLOBALS['eZCurrentAccess']['name'];
             $keyString = sprintf( '%u', crc32( $keyValueText . $placementKeyString . $accessName ) );
-            $cacheDir = eZSys::cacheDirectory();
-            $dirString = "$cacheDir/template-block/" . $keyString[0] . '/' . $keyString[1] . '/' . $keyString[2];
-            $keyString = "$cacheDir/template-block/" . $keyString[0] . '/' . $keyString[1] . '/' . $keyString[2] . '/' . $keyString . '.cache';
-            $filedirText = eZPHPCreator::variableText( $dirString, 0, 0, false );
-            $filepathText = eZPHPCreator::variableText( $keyString, 0, 0, false );
+            $cacheDir = eZTemplateCacheFunction::templateBlockCacheDir();
+            if ( isset( $subtreeValue ) )
+                $cacheDir = "$cacheDir" . eZTemplateCacheFunction::subtreeCacheDir( $subtreeValue );
+            else
+                $cacheDir = "$cacheDir" . $keyString[0] . '/' . $keyString[1] . '/' . $keyString[2];
 
-            if ( isset( $parameters['subtree_expiry'] ) && ( $parameters['subtree_expiry'] ) )
-            {
-                include_once( 'lib/ezdb/classes/ezdb.php' );
-                $db =& eZDB::instance();
-
-                if ( substr( $subtreeValue, -1 ) == '/' )
-                {
-                    $subtreeValue = substr( $subtreeValue, 0, -1 );
-                }
-                $subtree =& $db->escapeString( $subtreeValue );
-                $nonAliasPath = 'content/view/full/';
-                if ( strpos( $subtree, $nonAliasPath ) === 0 )
-                {
-                    $subtreeNodeID = substr( $subtree, strlen( $nonAliasPath ) );
-                }
-                else
-                {
-                    $subtreeNodeIDSQL = "SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='$subtree'";
-                    $subtreeNodeID =& $db->arrayQuery( $subtreeNodeIDSQL );
-                    $subtreeError = false;
-                    if ( count( $subtreeNodeID ) != 1 )
-                    {
-                        eZDebug::writeError( 'Could not find path_string for node.', 'eZTemplateCacheFunction::process()' );
-                        $subtreeError = true;
-                    }
-                    else
-                    {
-                        $subtreeNodeID = $subtreeNodeID[0]['node_id'];
-                    }
-                }
-                if ( $subtreeError != true )
-                {
-                    $cacheKey =& $db->escapeString( $keyString );
-
-                    $insertQuery = "INSERT INTO ezsubtree_expiry ( subtree, cache_file )
-                            VALUES ( '$subtreeNodeID', '$cacheKey' )";
-
-                    $subtreeExpiryCode = ( "include_once( 'lib/ezdb/classes/ezdb.php' );\n" .
-                                           "\$db =& eZDB::instance();\n" .
-                                           "\n" .
-                                           "\$db->query( \"$insertQuery\" );\n" .
-                                           "            " );
-                }
-            }
+            $cachePath = "$cacheDir" . '/' . $keyString . '.cache';
+            $code = ( "\$keyString = '$keyString';\n" .
+                      "\$cacheDir = '$cacheDir';\n" .
+                      "\$cachePath = '$cachePath';" );
         }
+
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code );
+        $filedirText = "\$cacheDir";
+        $filepathText = "\$cachePath";
 
         $code = '';
 
@@ -340,10 +261,6 @@ ENDADDCODE;
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => 4 ) );
         $newNodes[] = eZTemplateNodeTool::createOutputVariableDecreaseNode( array( 'spacing' => 4 ) );
         $newNodes[] = eZTemplateNodeTool::createWriteToOutputVariableNode( 'cachedText', array( 'spacing' => 4 ) );
-        if ( $subtreeExpiryCode )
-        {
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $subtreeExpiryCode, array( 'spacing' => 4 ) );
-        }
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "    unset( \$cachedText );\n}" );
         return $newNodes;
     }
@@ -407,9 +324,13 @@ ENDADDCODE;
                     $keyString .= $accessName;
                     $hashedKey = sprintf( '%u', crc32( $keyString ) );
 
-                    $cacheDir = eZSys::cacheDirectory();
-                    $phpDir = "$cacheDir/template-block/" . $hashedKey[0] . "/" . $hashedKey[1] . "/" . $hashedKey[2];
-                    $phpPath = $phpDir . '/' . $hashedKey . ".cache";
+                    $phpDir = eZTemplateCacheFunction::templateBlockCacheDir();
+                    if ( isset( $functionParameters['subtree_expiry'] ) )
+                        $phpDir .= eZTemplateCacheFunction::subtreeCacheDir( $tpl->elementValue( $functionParameters["subtree_expiry"], $rootNamespace, $currentNamespace, $functionPlacement ) );
+                    else
+                        $phpDir .= $hashedKey[0] . "/" . $hashedKey[1] . "/" . $hashedKey[2];
+
+                    $phpPath = $phpDir . "/" . $hashedKey . ".cache";
 
                     // Check if a custom expiry time is defined
                     if ( isset( $functionParameters["expiry"] ) )
@@ -468,7 +389,6 @@ ENDADDCODE;
                         $text =& implode( '', $childTextElements );
                         $textElements[] = $text;
 
-                        include_once( 'lib/ezfile/classes/ezdir.php' );
                         include_once( 'lib/ezfile/classes/ezfile.php' );
                         $ini =& eZINI::instance();
                         $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
@@ -478,55 +398,6 @@ ENDADDCODE;
                         fwrite( $fd, $text );
                         fclose( $fd );
                         eZFile::rename( "$phpDir/$uniqid", $phpPath );
-                        if ( isset( $functionParameters['subtree_expiry'] ) )
-                        {
-                            include_once( 'lib/ezdb/classes/ezdb.php' );
-                            $db =& eZDB::instance();
-
-                            $subtreeExpiry = $tpl->elementValue( $functionParameters["subtree_expiry"], $rootNamespace, $currentNamespace, $functionPlacement );
-                            $subtreeValue =& $db->escapeString( $subtreeExpiry );
-                            if ( substr( $subtreeExpiry, -1 ) == '/' )
-                            {
-                                $subtreeExpiry = substr( $subtreeExpiry, 0, -1 );
-                            }
-                            if ( substr( $subtreeExpiry, 0, 1 ) == '/' )
-                            {
-                                $subtreeExpiry = substr( $subtreeExpiry, 1 );
-                            }
-                            $subtree =& $db->escapeString( $subtreeExpiry );
-                            $nonAliasPath = 'content/view/full/';
-                            if ( strpos( $subtree, $nonAliasPath ) === 0 )
-                            {
-                                $subtreeNodeID = substr( $subtree, strlen( $nonAliasPath ) );
-                            }
-                            else
-                            {
-                                if ( $subtree == '' )
-                                {
-                                    $subtreeNodeID = 2;
-                                }
-                                else
-                                {
-                                    $subtreeNodeIDSQL = "SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='$subtree'";
-                                    $subtreeNodeID =& $db->arrayQuery( $subtreeNodeIDSQL );
-                                    if ( count( $subtreeNodeID ) != 1 )
-                                    {
-                                        eZDebug::writeError( 'Could not find path_string for node.', 'eZTemplateCacheFunction::process()' );
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        $subtreeNodeID = $subtreeNodeID[0]['node_id'];
-                                    }
-                                }
-                            }
-
-                            $cacheKey =& $db->escapeString( $phpPath );
-
-                            $insertQuery = "INSERT INTO ezsubtree_expiry ( subtree, cache_file )
-                                        VALUES ( '$subtreeNodeID', '$cacheKey' )";
-                            $db->query( $insertQuery );
-                        }
                     }
                 }
             } break;
@@ -540,6 +411,93 @@ ENDADDCODE;
     {
         return true;
     }
+
+    /*!
+     \static
+     Returns base directory where 'subtree_expiry' caches are stored.
+    */
+    function subtreeCacheBaseDir()
+    {
+        return 'subtree';
+    }
+
+    /*!
+     \static
+     Returns base directory where expired 'subtree_expiry' caches are stored.
+    */
+    function expiryTemplateBlockCacheDir()
+    {
+        $expiryCacheDir = eZSys::cacheDirectory() . '/' . 'template-block-expiry';
+        return $expiryCacheDir;
+    }
+
+    /*!
+     \static
+     Returns base directory where template block caches are stored.
+    */
+    function templateBlockCacheDir()
+    {
+        $cacheDir = eZSys::cacheDirectory() . '/template-block/' ;
+        return $cacheDir;
+    }
+
+    /*!
+     \static
+     Returns path of the directory where 'subtree_expiry' caches are stored.
+    */
+    function subtreeCacheDir( $subtreeExpiryParameter )
+    {
+        $cacheDir = eZTemplateCacheFunction::subtreeCacheBaseDir();
+        $nodePathString = '';
+
+        include_once( 'lib/ezdb/classes/ezdb.php' );
+        $db =& eZDB::instance();
+
+        // clean up $subtreeExpiryParameter
+        $subtreeExpiryParameter = trim( $subtreeExpiryParameter, '/' );
+
+        // get 'path_stirng' attribute for node.
+        $nodeID = false;
+        $subtree =& $db->escapeString( $subtreeExpiryParameter );
+
+        if ( $subtree == '' )
+        {
+            // 'subtree_expiry' is empty => use root node.
+            $nodeID = 2;
+        }
+        else
+        {
+            $nonAliasPath = 'content/view/full/';
+
+            if ( strpos( $subtree, $nonAliasPath ) === 0 )
+            {
+                // 'subtree_expiry' is like 'content/view/full/2'
+                $nodeID = substr( $subtree, strlen( $nonAliasPath ) );
+            }
+            else
+            {
+                // 'subtree_expiry' is url_alias
+                $nodePathStringSQL = "SELECT node_id FROM ezcontentobject_tree WHERE path_identification_string='$subtree'";
+                $nodes = $db->arrayQuery( $nodePathStringSQL );
+                if ( count( $nodes ) != 1 )
+                {
+                    eZDebug::writeError( 'Could not find path_string for \'subtree_expiry\' node.', 'eZTemplateCacheFunction::subtreeExpiryCacheDir()' );
+                }
+                else
+                {
+                    $nodeID = $nodes[0]['node_id'];
+                }
+            }
+        }
+
+        if ( $nodeID !== false )
+            $cacheDir .= '/' . $nodeID;
+        else
+            eZDebug::writeWarning( "Unable to determine nodeID of subtree for 'subtree_expiry' = $subtreeExpiryParameter", 'eZtemplateCacheFunction::subtreeCacheDir' );
+
+        return $cacheDir;
+    }
+
 
     /// \privatesection
     /// Name of the function

@@ -73,8 +73,8 @@ if ( $http->hasPostVariable( "RemoveRuleButton" ) )
     }
 
     // we changed prices => remove content cache
-    include_once( 'kernel/classes/ezcontentobject.php' );
-    eZContentObject::expireAllCache();
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
 
     $module->redirectTo( $module->functionURI( "discountgroupview" ) . "/" . $discountGroupID );
     return;
@@ -106,8 +106,8 @@ if ( $module->isCurrentAction( 'AddCustomer' ) )
     }
 
     // because we changed users, we have to remove content cache
-    include_once( 'kernel/classes/ezcontentobject.php' );
-    eZContentObject::expireAllCache();      
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
 }
 if ( $http->hasPostVariable( "RemoveCustomerButton" ) )
 {
@@ -120,8 +120,8 @@ if ( $http->hasPostVariable( "RemoveCustomerButton" ) )
         }
     }
 
-    include_once( 'kernel/classes/ezcontentobject.php' );
-    eZContentObject::expireAllCache();
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
 }
 
 $membershipList = eZUserDiscountRule::fetchByRuleID( $discountGroupID );

@@ -84,8 +84,8 @@ else if ( $http->hasPostVariable( 'BrowseActionName' ) and
     }
     if ( count( $selectedObjectIDArray ) > 0 )
     {
-        include_once( 'kernel/classes/ezcontentobject.php' );
-        eZContentObject::expireAllCache();
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearAllContentCache();
     }
     $Module->redirectTo( '/role/view/' . $roleID );
 }

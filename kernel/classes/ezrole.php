@@ -352,7 +352,9 @@ class eZRole extends eZPersistentObject
                 {
                     $policy->remove();
                 }
-                eZContentObject::expireAllCache();
+
+                include_once( 'kernel/classes/ezcontentcachemanager.php' );
+                eZContentCacheManager::clearAllContentCache();
                 eZRole::expireCache();
             }
         }
@@ -378,7 +380,9 @@ class eZRole extends eZPersistentObject
             {
                 $policy =& eZPolicy::fetch( $limitation->attribute( 'policy_id' ) );
                 $policy->remove();
-                eZContentObject::expireAllCache();
+
+                include_once( 'kernel/classes/ezcontentcachemanager.php' );
+                eZContentCacheManager::clearAllContentCache();
                 eZRole::expireCache();
             }
         }
@@ -533,7 +537,7 @@ class eZRole extends eZPersistentObject
                     foreach( array_keys( $accessArray[$moduleKey][$functionKey] ) as $policyKey )
                     {
                         if ( is_array( $accessArray[$moduleKey][$functionKey][$policyKey] ) )
-                                                                                               
+
                             foreach( array_keys( $accessArray[$moduleKey][$functionKey][$policyKey] ) as $limitationKey )
                             {
                                 $limitKeyArray =& $accessArray[$moduleKey][$functionKey][$policyKey][$limitationKey];

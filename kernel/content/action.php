@@ -176,9 +176,8 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
     $node->store();
 
     // invalidate node view cache
-    include_once( 'kernel/classes/ezcontentcache.php' );
-    eZContentCache::cleanup( array( $nodeID ) );
-    eZContentObject::expireTemplateBlockCacheIfNeeded();
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearContentCache( $contentObjectID );
 
     return $module->redirectToView( 'view', array( 'full', $nodeID,
                                                    $languageCode = $module->actionParameter( 'LanguageCode' ) ) );
@@ -243,8 +242,8 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
     }
 
     // clear cache for old placement.
-    include_once( 'kernel/content/ezcontentoperationcollection.php' );
-    eZContentOperationCollection::clearObjectViewCache( $objectID, true );
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
     $oldParentNode = $node->fetchParent();
     $oldParentObject = $oldParentNode->object();
@@ -285,8 +284,7 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
         }
 
         // clear cache for new placement.
-        eZContentOperationCollection::clearObjectViewCache( $objectID, true );
-        eZContentObject::expireTemplateBlockCacheIfNeeded();
+        eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
     }
     else
     {
@@ -432,8 +430,8 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     }
 
     // clear cache.
-    include_once( 'kernel/content/ezcontentoperationcollection.php' );
-    eZContentOperationCollection::clearObjectViewCache( $objectID, true );
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
     $selectedObject =& $selectedNode->object();
     $selectedObjectID =& $selectedObject->attribute( 'id' );
@@ -470,10 +468,7 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     $changedTargetNode->updateSubTreePath();
 
     // clear cache for new placement.
-    eZContentOperationCollection::clearObjectViewCache( $objectID, true );
-
-    // clear template block cache
-    eZContentObject::expireTemplateBlockCacheIfNeeded();
+    eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
     return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
 }
@@ -615,8 +610,7 @@ else if ( $module->isCurrentAction( 'UpdateMainAssignment' ) )
                                                        $newMainNode->attribute( 'parent_node_id' ) );
 
             include_once( 'kernel/classes/ezcontentcachemanager.php' );
-            eZContentCacheManager::clearObjectViewCache( $objectID, true );
-            eZContentObject::expireTemplateBlockCacheIfNeeded();
+            eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
         }
     }
     else
@@ -724,9 +718,8 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
                 }
             }
         }
-        include_once( 'kernel/content/ezcontentoperationcollection.php' );
-        eZContentOperationCollection::clearObjectViewCache( $objectID, true );
-        eZContentObject::expireTemplateBlockCacheIfNeeded();
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
     }
     else if ( $module->isCurrentAction( 'SelectAssignmentLocation' ) )
     {
@@ -884,9 +877,8 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
         }
     }
 
-    include_once( 'kernel/content/ezcontentoperationcollection.php' );
-    eZContentOperationCollection::clearObjectViewCache( $objectID, true );
-
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearObjectViewCacheIfNeeded( $objectID );
     // we don't clear template block cache here since it's cleared in eZContentObjectTreeNode::remove()
 
     return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
@@ -1027,21 +1019,13 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
         }
     }
 
-    $clearNodeArray = array();
     if ( $http->hasPostVariable( 'ContentObjectID' ) )
     {
-        $object =& eZContentObject::fetch( $http->postVariable( 'ContentObjectID' ) );
-        $nodes =& $object->assignedNodes( false );
-        foreach ( $nodes as $node )
-        {
-            $clearNodeArray[] = $node['node_id'];
-        }
+        $objectID = $http->postVariable( 'ContentObjectID' );
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearContentCache( $objectID );
     }
-    if ( eZContentCache::cleanup( $clearNodeArray ) )
-    {
-//                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
-    }
-    eZContentObject::expireTemplateBlockCacheIfNeeded();
+
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $contentNodeID . '/' );
     return;
 }
@@ -1285,7 +1269,7 @@ else if ( $module->isCurrentAction( 'ClearViewCache' ) or
     include_once( 'kernel/classes/ezcontentcachemanager.php' );
     if ( $module->isCurrentAction( 'ClearViewCache' ) )
     {
-        eZContentCacheManager::clearViewCache( $objectID, true );
+        eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
     }
     else
     {
@@ -1319,9 +1303,7 @@ else if ( $module->isCurrentAction( 'ClearViewCache' ) or
             unset( $subtree );
 
             foreach ( $objectIDList as $objectID )
-            {
-                eZContentCacheManager::clearViewCache( $objectID, true );
-            }
+                eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
         }
     }
 

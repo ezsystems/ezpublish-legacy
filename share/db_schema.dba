@@ -4652,37 +4652,6 @@ $schema = array (
       ),
     ),
   ),
-  'ezsubtree_expiry' => 
-  array (
-    'name' => 'ezsubtree_expiry',
-    'fields' => 
-    array (
-      'cache_file' => 
-      array (
-        'length' => 255,
-        'type' => 'varchar',
-        'not_null' => '1',
-        'default' => '',
-      ),
-      'subtree' => 
-      array (
-        'length' => 11,
-        'type' => 'int',
-        'default' => NULL,
-      ),
-    ),
-    'indexes' => 
-    array (
-      'ezsubtree_expiry_subtree' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'subtree',
-        ),
-      ),
-    ),
-  ),
   'ezsubtree_notification_rule' => 
   array (
     'name' => 'ezsubtree_notification_rule',

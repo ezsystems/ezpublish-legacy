@@ -153,7 +153,7 @@ else
         {
             $discountRuleSelectedClasses[] = -1;
         }
-        
+
         $discountRuleSelectedSections = array();
         $discountRuleSelectedSectionsValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 1, false );
         foreach( $discountRuleSelectedSectionsValues as $value )
@@ -297,8 +297,8 @@ if ( $http->hasPostVariable( 'StoreButton' ) )
     return $module->redirectTo( $module->functionURI( 'discountgroupview' ) . '/' . $discountGroupID );
 
     // we changed prices => remove content cache
-    include_once( 'kernel/classes/ezcontentobject.php' );
-    eZContentObject::expireAllCache();
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
 }
 
 $classList =& eZContentClass::fetchList();
