@@ -13,6 +13,14 @@ Subdir=templates
 #Match[class_identifier]=folder
 
 
+[thumbnail_image]
+Source=node/view/thumbnail.tpl
+MatchFile=image_thumbnail.tpl
+Subdir=templates
+Match[class_identifier]=image
+
+
+
 #[browse_media]
 #Source=content/browse.tpl
 #MatchFile=browse_media.tpl

@@ -11,13 +11,5 @@
 {* Buttons for remove/edit/etc. and the location interface. *}
 {include uri="design:buttons.tpl"}
 
-{* Show the children of this node: *}
-{section show=eq( ezpreference( 'viewmode' ), 'thumbnail' )}
-
-    {include uri="design:children_thumbnail.tpl"}
-
-    {section-else}
-
-    {include uri="design:children.tpl"}
-
-{/section}
+{* List of children. *}
+{include uri="design:children.tpl"}
