@@ -295,7 +295,7 @@ foreach ( $policyCheckOmitList as $omitItem )
 // Initialize module loading
 include_once( "lib/ezutils/classes/ezmodule.php" );
 
-$globalModuleRepositories = $ini->variableArray( 'ModuleSettings', 'ModuleRepositories' );
+$globalModuleRepositories = $ini->variable( 'ModuleSettings', 'ModuleRepositories' );
 $moduleRepositories = array_merge( $moduleRepositories, $globalModuleRepositories );
 eZModule::setGlobalPathList( $moduleRepositories );
 

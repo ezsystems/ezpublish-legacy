@@ -4,8 +4,9 @@ Changes from 2.9-6 to 2.9-7
 
 *Kernel :
 - Fixed redirection to self when editing top level node
+- The ModuleRepositories setting in ModuleSettings in settings/site.ini
+  has been changed to an array.
 
 *SDK :
 
 *Library :
-
