@@ -209,7 +209,7 @@ class eZTemplateExecuteOperator
                 }
             }
 
-            $parametersCode .= $parameterName . ' => ';
+            $parametersCode .= '\'' . $parameterName . '\' => ';
 
             if ( in_array( $parameterName, $functionKeys ) )
             {
@@ -261,7 +261,7 @@ class eZTemplateExecuteOperator
         }
         else
         {
-            $code .= 'call_user_func_array( array( new ' . $functionDefinition['call_method']['class'] . '(), ' . $functionDefinition['call_method']['method'] . ' ), ' . $parametersCode . ' );';
+            $code .= 'call_user_func_array( array( new ' . $functionDefinition['call_method']['class'] . '(), \'' . $functionDefinition['call_method']['method'] . '\' ), ' . $parametersCode . ' );';
         }
         $code .= "\n";
 
