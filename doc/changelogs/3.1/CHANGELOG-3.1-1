@@ -13,6 +13,7 @@ Setup tool:
 - has been changed to support separate ( for schema and for data ) kernel sql files.
 Shop:
 - Added support for choosing objects ( products ) to discount rule editing.
+- Added support for sorting of order list.
 
 *SDK :
 
