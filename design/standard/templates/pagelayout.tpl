@@ -10,7 +10,6 @@
 {/section}
 
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
     <link rel="stylesheet" type="text/css" href={"stylesheets/debug.css"|ezdesign} />
 <style type="text/css">
 {section var=css_file loop=ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' )}
