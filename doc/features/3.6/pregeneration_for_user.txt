@@ -1,0 +1,27 @@
+Title: Pregeneration of content cache for specific users
+
+Documentation:
+The pregeneration of content cache has been enhanced to allow the site
+administrator to choose which users the content cache should be made for.
+This can be used to prepare new content for certain users/usergroups.
+The default setting for this is to generate it for anonymous users.
+
+Configuration:
+To configure this the variable PreviewCacheUsers setting in site.ini is used.
+It is an array with user IDs of which should be used. The system will then use
+the assigned roles for that user to generate the content cache file.
+
+It is also possible to use some special identifiers as entries, these are supported:
+- anonymous - Means to fetch the user which is defined as anonymous users
+- current - Means to use the user which is publishing the object
+
+If you intend to create cache for a given user group you should choose one specific user
+from the group. For instance you could create a dummy user for this purpose.
+
+Example:
+Here we generate cache for anonymous, the current user and a specific user.
+
+PreviewCacheUsers[]
+PreviewCacheUsers[]=anonymous
+PreviewCacheUsers[]=current
+PreviewCacheUsers[]=86
