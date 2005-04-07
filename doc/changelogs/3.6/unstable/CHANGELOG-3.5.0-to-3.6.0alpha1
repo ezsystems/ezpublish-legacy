@@ -50,6 +50,11 @@ eZContentObject:
 - Added: Static function exists() to check if an object exists.
   (Submitted by: Paul Forsyth)
 
+Shop:
+- Added: Adding products to basket is now done in an operation allowing workflows
+  to be attached to the operation.
+  (Submitted by Jo Henrik Endrerud)
+
 *INI settings
 - Fixed: ShowHiddenNodes now defaults to false. If you want to see hidden nodes by default
   you will need to override this setting for that siteaccess.

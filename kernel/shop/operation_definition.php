@@ -37,6 +37,31 @@
 */
 
 $OperationList = array();
+// This operation is used when a user tries to add an object to the basket
+// It will be called from content/add
+$OperationList['addtobasket'] = array( 'name' => 'addtobasket',
+                                       'default_call_method' => array( 'include_file' => 'kernel/shop/ezshopoperationcollection.php',
+                                                                       'class' => 'eZShopOperationCollection' ),
+                                       'parameter_type' => 'standard',
+                                       'parameters' => array( array( 'name' => 'object_id',
+                                                                     'type' => 'integer',
+                                                                     'required' => true ),
+                                                              array( 'name' => 'option_list',
+                                                                     'type' => 'array',
+                                                                     'required' => true )
+                                                             ),
+                                       'keys' => array( 'order_id' ),
+                                       'body' => array( array( 'type' => 'trigger',
+                                                               'name' => 'pre_addtobasket',
+                                                               'keys' => array( 'object_id' ) ),
+                                                        array( 'type' => 'method',
+                                                               'name' => 'add-to-basket',
+                                                               'frequency' => 'once',
+                                                               'method' => 'addToBasket' ),
+                                                        array( 'type' => 'trigger',
+                                                               'name' => 'post_addtobasket',
+                                                               'keys' => array( 'object_id' ) ),
+                                                       ) );
 $OperationList['confirmorder'] = array( 'name' => 'confirmorder',
                                         'default_call_method' => array( 'include_file' => 'kernel/shop/ezshopoperationcollection.php',
                                                                         'class' => 'eZShopOperationCollection' ),

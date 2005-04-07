@@ -1140,8 +1140,15 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     {
         $shopModule =& eZModule::exists( "shop" );
         $result =& $shopModule->run( "basket", array() );
-        $module->setExitStatus( $shopModule->exitStatus() );
-        $module->setRedirectURI( $shopModule->redirectURI() );
+        if ( $result['content'] )
+        {
+            return $result;
+        }
+        else
+        {
+            $module->setExitStatus( $shopModule->exitStatus() );
+            $module->setRedirectURI( $shopModule->redirectURI() );
+        }
 
     }
     else if ( $http->hasPostVariable( "ActionAddToWishList" ) )

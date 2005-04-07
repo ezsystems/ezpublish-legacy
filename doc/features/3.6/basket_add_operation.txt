@@ -1,0 +1,16 @@
+Title: Operation for add-to-basket
+
+Documentation:
+The add-to-basket action has been moved inside an Operation. This means that it
+has a pre- and post-trigger attached to it and workflows can be used.
+To handle this the shop/add view has been added which calls the operation.
+
+After the item is added the system will redirect based on a new configuration
+switch in site.ini.
+It is placed under the group ShopSettings and is called RedirectAfterAddToBasket.
+It can contain on of these settings:
+- basket - Redirect back to the basket to show the newly added item
+- reload - Redirect back to where the user was previously, this allows
+           the user to continue shopping.
+
+The default is basket which redirects to the basket listing.

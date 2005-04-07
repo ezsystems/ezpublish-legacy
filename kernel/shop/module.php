@@ -37,6 +37,12 @@ $Module = array( "name" => "eZShop",
                  "variable_params" => true );
 
 $ViewList = array();
+$ViewList["add"] = array(
+    "functions" => array( 'buy' ),
+    "script" => "add.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
+    "params" => array( "ObjectID" ) );
+
 $ViewList["orderview"] = array(
     "functions" => array( 'buy' ),
     "script" => "orderview.php",
