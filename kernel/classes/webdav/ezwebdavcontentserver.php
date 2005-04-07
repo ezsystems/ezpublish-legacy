@@ -71,6 +71,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
     {
         $this->eZWebDAVServer();
         $this->User =& eZUser::currentUser();
+        $this->FolderClasses = null;
     }
 
     /*!
@@ -1403,6 +1404,26 @@ class eZWebDAVContentServer extends eZWebDAVServer
     }
 
     /*!
+      \return \c true if the object \a $object should always be considered a folder.
+    */
+    function isObjectFolder( &$object, &$class )
+    {
+        $classIdentifier = $class->attribute( 'identifier' );
+        if ( $this->FolderClasses === null )
+        {
+            $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
+            $folderClasses = array();
+            if ( $webdavINI->hasGroup( 'GeneralSettings' ) and
+                 $webdavINI->hasVariable( 'GeneralSettings', 'FolderClasses' ) )
+            {
+                $folderClasses = $webdavINI->variable( 'GeneralSettings', 'FolderClasses' );
+            }
+            $this->FolderClasses = $folderClasses;
+        }
+        return in_array( $classIdentifier, $this->FolderClasses );
+    }
+
+    /*!
       Gathers information about a given node (specified as parameter).
     */
     function fetchNodeInfo( &$node )
@@ -1429,7 +1450,14 @@ class eZWebDAVContentServer extends eZWebDAVServer
         include_once( 'kernel/classes/ezcontentupload.php' );
         $upload = new eZContentUpload();
         $info = $upload->objectFileInfo( $object );
-        if ( $info )
+        $class =& $object->contentClass();
+        $isObjectFolder = $this->isObjectFolder( $object, $class );
+
+        if ( $isObjectFolder )
+        {
+            // We do nothing, the default is to see it as a folder
+        }
+        else if ( $info )
         {
             $filePath = $info['filepath'];
             $entry["mimetype"] = false;
@@ -1470,7 +1498,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
         {
             // Here we only show items as folders if they have
             // is_container set to true, otherwise it's an unknown binary file
-            $class =& $object->contentClass();
             if ( !$class->attribute( 'is_container' ) )
             {
                 $entry['mimetype'] = 'application/octet-stream';
@@ -1573,5 +1600,9 @@ class eZWebDAVContentServer extends eZWebDAVServer
         // Return the site list.
         return $siteList ;
     }
+
+    /// \privatesection
+    /// Contains an array with classes that are considered folder
+    var $FolderClasses;
 }
 ?>

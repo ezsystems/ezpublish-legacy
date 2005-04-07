@@ -56,6 +56,10 @@ eZContentObject:
 
 *WebDAV:
 - Fixed discarding of XML payload when user needs to authenticate.
+- Added configuration of which classes should always be considered as folders.
+  This is configured in webdav.ini.
+  (Manually merged from stable/3.5 (3.5.2) rev. 11307)
+  (Submitted by Xavier DUTOIT)
 
 *Setup:
 - Optimized memory usage in site creation step by logging SQL statements only
