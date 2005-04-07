@@ -4614,7 +4614,7 @@ WHERE
         if ( $clearForRootNode )
         {
             $objectID = $node->attribute( 'contentobject_id' );
-            eZContentCacheManager::clearObjectViewCacheIfNeeded( $objectID );
+            eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
         }
 
         $offset = 0;
