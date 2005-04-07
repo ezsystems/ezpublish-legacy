@@ -193,7 +193,7 @@ class eZContentOperationCollection
 
      \param $objectID The ID of the content object to generate caches for.
     */
-    function generateObjectViewCache( $objectID, $versionNum )
+    function generateObjectViewCache( $objectID )
     {
         // Generate the view cache
         $ini =& eZINI::instance();
