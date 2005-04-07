@@ -960,12 +960,12 @@ class eZImageAliasHandler
 
         eZMimeType::changeBaseName( $mimeData, $objectName );
         eZMimeType::changeDirectoryPath( $mimeData, $objectPathString );
+        $this->removeAliases();
         if ( !file_exists( $mimeData['dirpath'] ) )
         {
             eZDir::mkdir( $mimeData['dirpath'], false, true );
         }
         eZFileHandler::copy( $filename, $mimeData['url'] );
-        $this->removeAliases();
 
         return $this->initialize( $mimeData, $filename, $imageAltText );
     }
