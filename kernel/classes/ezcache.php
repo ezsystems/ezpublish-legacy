@@ -144,7 +144,12 @@ class eZCache
                                        'id' => 'rss_cache',
                                        'tag' => array( 'content' ),
                                        'enabled' => true,
-                                       'path' => 'rss' )
+                                       'path' => 'rss' ),
+                                array( 'name' => ezi18n( 'kernel/cache', 'User info cache' ),
+                                       'id' => 'user_info_cache',
+                                       'tag' => array( 'user' ),
+                                       'enabled' => true,
+                                       'path' => 'user-info' )
                                 );
         }
         return $cacheList;
