@@ -189,6 +189,142 @@ class eZContentOperationCollection
 
     /*!
      \static
+     Generates the related viewcaches (PreGeneration) for the content object.
+     It will only do this if [ContentSettings]/PreViewCache in site.ini is enabled.
+
+     \param $objectID The ID of the content object to generate caches for.
+    */
+    function generateObjectViewCache( $objectID )
+    {
+        // Generate the view cache
+        $ini =& eZINI::instance();
+        $object = eZContentObject::fetch( $objectID );
+        $user =& eZUser::currentUser();
+
+        include_once( 'kernel/classes/eznodeviewfunctions.php' );
+        eZDebug::accumulatorStart( 'generate_cache', '', 'Generating view cache' );
+        if ( $ini->variable( 'ContentSettings', 'PreViewCache' ) == 'enabled' )
+        {
+            $preCacheSiteaccessArray = $ini->variable( 'ContentSettings', 'PreCacheSiteaccessArray' );
+
+            $currentSiteAccess = $GLOBALS['eZCurrentAccess']['name'];
+
+            // This is the default view parameters for content/view
+            $viewParameters = array( 'offset' => 0,
+                                     'year' => false,
+                                     'month' => false,
+                                     'day' => false );
+
+            foreach ( $preCacheSiteaccessArray as $changeToSiteAccess )
+            {
+                $GLOBALS['eZCurrentAccess']['name'] = $changeToSiteAccess;
+
+                if ( $GLOBALS['eZCurrentAccess']['type'] == EZ_ACCESS_TYPE_URI )
+                {
+                    eZSys::clearAccessPath();
+                    eZSys::addAccessPath( $changeToSiteAccess );
+                }
+
+                include_once( 'kernel/common/template.php' );
+                $tpl =& templateInit();
+                $res =& eZTemplateDesignResource::instance();
+
+                // Get the sitedesign and cached view preferences for this siteaccess
+                $siteini = eZINI::instance( 'site.ini', 'settings', null, null, false );
+                $siteini->prependOverrideDir( "siteaccess/$changeToSiteAccess", false, 'siteaccess' );
+                $siteini->loadCache();
+                $designSetting = $siteini->variable( "DesignSettings", "SiteDesign" );
+                $cachedViewPreferences = $siteini->variable( 'ContentSettings', 'CachedViewPreferences' );
+                $res->setDesignSetting( $designSetting, 'site' );
+
+                $res->setOverrideAccess( $changeToSiteAccess );
+
+                $language = false; // Needs to be specified if you want to generate the cache for a specific language
+                $viewMode = 'full';
+
+                $assignedNodes =& $object->assignedNodes();
+                $assignedNodes_keys = array_keys( $assignedNodes );
+                foreach ( $assignedNodes_keys as $key )
+                {
+                    $node =& $assignedNodes[$key];
+
+                    // We want to generate the cache for the specified user
+                    $previewCacheUsers = $ini->variable( 'ContentSettings', 'PreviewCacheUsers' );
+                    foreach ( $previewCacheUsers as $previewCacheUserID )
+                    {
+                        // If the text is 'anon' we need to fetch the Anonymous user ID.
+                        if ( $previewCacheUserID === 'anonymous' )
+                        {
+                            $previewCacheUserID = $siteini->variable( "UserSettings", "AnonymousUserID" );
+                            $previewCacheUser =& eZUser::fetch( $previewCacheUserID  );
+                        }
+                        else if ( $previewCacheUserID === 'current' )
+                        {
+                            $previewCacheUser =& $user;
+                        }
+                        else
+                        {
+                            $previewCacheUser =& eZUser::fetch( $previewCacheUserID  );
+                        }
+                        if ( !$previewCacheUser )
+                            continue;
+
+                        // Before we generate the view cache we must change the currently logged in user to $previewCacheUser
+                        // If not the templates might read in wrong personalized data (preferences etc.)
+                        $previewCacheUser->setCurrentlyLoggedInUser( $previewCacheUser, $previewCacheUser->attribute( 'contentobject_id' ) );
+
+                        // Cache the current node
+                        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $previewCacheUser, $node->attribute( 'node_id' ), 0, false, $language, $viewMode, $viewParameters, $cachedViewPreferences );
+                        $tmpRes =& eZNodeviewfunctions::generateNodeView( $tpl, $node, $node->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
+
+                        // Cache the parent node
+                        $parentNode =& $node->attribute( 'parent' );
+                        $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $previewCacheUser, $parentNode->attribute( 'node_id' ), 0, false, $language, $viewMode, $viewParameters, $cachedViewPreferences );
+                        $tmpRes =& eZNodeviewfunctions::generateNodeView( $tpl, $parentNode, $parentNode->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
+                    }
+                }
+                // Restore the old user as the current one
+                $user->setCurrentlyLoggedInUser( $user, $user->attribute( 'contentobject_id' ) );
+            }
+
+            $GLOBALS['eZCurrentAccess']['name'] = $currentSiteAccess;
+            $res->setDesignSetting( $currentSiteAccess, 'site' );
+            $res->setOverrideAccess( false );
+            if ( $GLOBALS['eZCurrentAccess']['type'] == EZ_ACCESS_TYPE_URI )
+            {
+                eZSys::clearAccessPath();
+                eZSys::addAccessPath( $currentSiteAccess );
+            }
+        }
+
+        if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
+        {
+            include_once( 'kernel/classes/ezstaticcache.php' );
+            include_once( 'kernel/classes/ezcontentcachemanager.php' );
+            $staticCache = new eZStaticCache();
+
+            $viewCacheINI =& eZINI::instance( 'viewcache.ini' );
+            if ( $viewCacheINI->variable( 'ViewCacheSettings', 'SmartCacheClear' ) == 'enabled' )
+            {
+                eZContentCacheManager::nodeListForObject( $object, true, EZ_VCSC_CLEAR_ALL_CACHE, $nodes);
+            }
+            else
+            {
+                eZContentCacheManager::nodeListForObject( $object, true, EZ_VCSC_CLEAR_NODE_CACHE | EZ_VCSC_CLEAR_PARENT_CACHE, $nodes);
+            }
+            foreach ( $nodes as $nodeID )
+            {
+                $aNode =& eZContentObjectTreeNode::fetch( $nodeID );
+                $staticCache->cacheURL( "/" . $aNode->urlAlias(), $nodeID );
+            }
+            $staticCache->generateAlwaysUpdatedCache();
+        }
+
+        eZDebug::accumulatorStop( 'generate_cache' );
+    }
+
+    /*!
+     \static
      Clears the related viewcaches for the content object using the smart viewcache system.
 
      \param $objectID The ID of the content object to clear caches for
