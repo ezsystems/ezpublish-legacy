@@ -1,4 +1,5 @@
 {default icon_size='normal' icon_title=$attribute.content.mime_type}
+{section show=$attribute.has_content}
 {section show=$attribute.content}
 {switch match=$icon}
     {case match='no'}
@@ -10,5 +11,6 @@
 {/switch}
 {section-else}
 	<div class="message-error"><h2>{"The file could not be found."|i18n("design/standard/content/datatype")}</h2></div>
+{/section}
 {/section}
 {/default}
