@@ -281,9 +281,9 @@ class eZContentOperationCollection
                         $tmpRes = eZNodeviewfunctions::generateNodeView( $tpl, $parentNode, $parentNode->attribute( 'object' ), $language, $viewMode, 0, $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], true );
                     }
                 }
-                // Restore the old user as the current one
-                $user->setCurrentlyLoggedInUser( $user, $user->attribute( 'contentobject_id' ) );
             }
+            // Restore the old user as the current one
+            $user->setCurrentlyLoggedInUser( $user, $user->attribute( 'contentobject_id' ) );
 
             $GLOBALS['eZCurrentAccess']['name'] = $currentSiteAccess;
             $res->setDesignSetting( $currentSiteAccess, 'site' );
