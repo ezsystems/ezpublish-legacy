@@ -949,12 +949,12 @@ class eZImageAliasHandler
         eZDebug::writeDebug( $mimeData, 'mimeData' );
         eZMimeType::changeDirectoryPath( $mimeData, $objectPathString );
         eZDebug::writeDebug( $mimeData, 'mimeData' );
+        $this->removeAliases();
         if ( !file_exists( $mimeData['dirpath'] ) )
         {
             eZDir::mkdir( $mimeData['dirpath'], false, true );
         }
         eZFileHandler::copy( $filename, $mimeData['url'] );
-        $this->removeAliases();
 
         return $this->initialize( $mimeData, $filename, $imageAltText );
     }
