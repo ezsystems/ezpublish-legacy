@@ -66,56 +66,13 @@ if ( $Module->isCurrentAction( 'Cancel' ) )
     return $Module->redirectToView( 'view', array( 'full', $parentNodeID ) );
 }
 
-// check if number of nodes being copied not more then MaxNodesCopySubtree setting
-$Result = array();
-$contentINI =& eZINI::instance( 'content.ini' );
-$maxNodesCopySubtree = $contentINI->variable( 'CopySettings', 'MaxNodesCopySubtree' );
-$srcSubtreeNodesCount = $srcNode->subTreeCount();
-
-if ( $srcSubtreeNodesCount > $maxNodesCopySubtree )
-{
-    include_once( 'kernel/common/template.php' );
-    $tpl =& templateInit();
-
-
-    if ( $http->hasSessionVariable( "LastAccessesURI" ) )
-    {
-        $tpl->setVariable( 'redirect_url', $http->sessionVariable( "LastAccessesURI" ) );
-    }
-    else
-    {
-        $parentRootNodeID = $srcNode->attribute( 'parent_node_id' );
-        if ( $Module->hasActionParameter( 'LanguageCode' ) )
-            $languageCode = $Module->actionParameter( 'LanguageCode' );
-        else
-            $languageCode = eZContentObject::defaultLanguage();
-
-        if ( $Module->hasActionParameter( 'ViewMode' ) )
-            $viewMode = $module->actionParameter( 'ViewMode' );
-        else
-            $viewMode = 'full';
-
-        $redirectURI = $Module->redirectionURIForModule( $Module, 'view', array( $viewMode, $parentRootNodeID, $languageCode ) );
-        $tpl->setVariable( 'redirect_url', $redirectURI );
-    }
-
-    $tpl->setVariable( 'node', $srcNode );
-    $tpl->setVariable( 'subtree_nodes_count', $srcSubtreeNodesCount );
-
-    $Result['content'] = $tpl->fetch( 'design:content/copy_subtree_notification.tpl' );
-    $Result['path'] = array( array( 'url' => false,
-                                    'text' => ezi18n( 'kernel/content', 'Content' ) ),
-                             array( 'url' => false,
-                                    'text' => ezi18n( 'kernel/content', 'Copy Subtree' ) ) );
-    return;
-}
-
 ///// functions START =============================================================================
 function &copyPublishContentObject( &$sourceObject,
                                     &$sourceSubtreeNodeIDList,
                                     &$syncNodeIDListSrc, &$syncNodeIDListNew,
                                     &$syncObjectIDListSrc, &$syncObjectIDListNew,
                                     &$objectIDBlackList, &$nodeIDBlackList,
+                                    &$notifications,
                                     $allVersions = false, $keepCreator = false, $keepTime = false )
 {
     $sourceObjectID = $sourceObject->attribute( 'id' );
@@ -142,6 +99,9 @@ function &copyPublishContentObject( &$sourceObject,
     if ( !$sourceObject->attribute( 'can_read' ) )
     {
         $objectIDBlackList[] = $sourceObjectID;
+        $notifications['Warnings'][] = ezi18n( 'kernel/content/copysubtree',
+                                               "Object (ID = %1) was not copied: you don't have permissions to read object.",
+                                               null, array( $sourceObjectID ) );
 
         $srcNodeList = $sourceObject->attribute( 'assigned_nodes' );
         foreach( $srcNodeList as $srcNode )
@@ -153,6 +113,9 @@ function &copyPublishContentObject( &$sourceObject,
             if ( $key !== false )
             {
                 $nodeIDBlackList[] = $srcNodeID;
+                $notifications['Warnings'][] = ezi18n( 'kernel/content/copysubtree',
+                                                       "Node (ID = %1) was not copied: you don't have permissions to read object (ID = %2).",
+                                                       null, array( $srcNodeID, $sourceObjectID ) );
             }
         }
         return 0;
@@ -181,6 +144,9 @@ function &copyPublishContentObject( &$sourceObject,
         if ( $key !== false )
         {
             $nodeIDBlackList[] = $srcNodeID;
+            $notifications['Warnings'][] = ezi18n( 'kernel/content/copysubtree',
+                                                   "Node (ID = %1) wasn't copied: parent node (ID = %2) wasn't copied.",
+                                                   null, array( $srcNodeID, $srcParentNodeID ) );
             continue;
         }
 
@@ -207,6 +173,10 @@ function &copyPublishContentObject( &$sourceObject,
             if ( $newParentNode->checkAccess( 'create', $sourceObject->attribute( 'contentclass_id' ) ) != 1 )
             {
                 $nodeIDBlackList[] = $srcNodeID;
+                $notifications['Warnings'][] = ezi18n( 'kernel/content/copysubtree',
+                                                       "Node (ID = %1) was not copied: you don't have permissions to create.",
+                                                       null, array( $srcNodeID ) );
+
                 continue;
             }
             else
@@ -221,6 +191,9 @@ function &copyPublishContentObject( &$sourceObject,
     if ( $isReadyToPublish == false )
     {
         $objectIDBlackList[] = $sourceObjectID;
+        $notifications['Warnings'][] = ezi18n( 'kernel/content/copysubtree',
+                                               "Object (ID = %1) was not copied: no one nodes of object wasn't copied.",
+                                               null, array( $sourceObjectID) );
         return 0;
     }
 
@@ -287,6 +260,9 @@ function &copyPublishContentObject( &$sourceObject,
         $newObject->purge();
         eZDebug::writeError( "Cannot publish contentobject.",
                              "Subtree Copy Error!" );
+        $notifications['Warnings'][] = ezi18n( 'kernel/content/copysubtree',
+                                               "Cannot publish object (ID = %1).",
+                                               null, array( $sourceObjectID) );
         return -1;
     }
 
@@ -311,8 +287,8 @@ function &copyPublishContentObject( &$sourceObject,
         {
             if ( $srcNode->attribute( 'parent_node_id' ) == $srcParentNodeID )
             {
-                $newNode->setAttribute( 'priority',     $srcNode->attribute( 'priority' ) );
-                $newNode->setAttribute( 'is_hidden',    $srcNode->attribute( 'is_hidden' ) );
+                $newNode->setAttribute( 'priority', $srcNode->attribute( 'priority' ) );
+                $newNode->setAttribute( 'is_hidden', $srcNode->attribute( 'is_hidden' ) );
                 // Update node visibility
                 if ( $newParentNode->attribute( 'is_invisible' ) or $newParentNode->attribute( 'is_hidden' ) )
                     $newNode->setAttribute( 'is_invisible', 1 );
@@ -327,7 +303,7 @@ function &copyPublishContentObject( &$sourceObject,
         }
         if ( $bSrcParentFound == false )
         {
-            eZDebug::writeError( "Cannot find source parent node ID in source parent node ID's list of contentobject being copied.",
+            eZDebug::writeError( "Cannot find source parent node in list of nodes already copied.",
                                  "Subtree Copy Error!" );
         }
         $newNode->store();
@@ -413,7 +389,7 @@ function &copyPublishContentObject( &$sourceObject,
 } // function copyPublishContentObject END
 
 
-function copySubtree( $srcNodeID, $dstNodeID, $allVersions, $keepCreator, $keepTime )
+function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $keepCreator, $keepTime )
 {
     // 1. Copy subtree and form the arrays of accordance of the old and new nodes and content objects.
 
@@ -424,13 +400,19 @@ function copySubtree( $srcNodeID, $dstNodeID, $allVersions, $keepCreator, $keepT
     {
         eZDebug::writeError( "Cannot get subtree main node (nodeID = $srcNodeID).",
                              "Subtree copy Error!" );
-        return 1;
+        $notifications['Errors'][] = ezi18n( 'kernel/content/copysubtree',
+                                            "Fatal error: cannot get subtree main node (ID = %1).",
+                                            null, array( $srcNodeID ) );
+        return $notifications;
     }
     if ( !$destinationNode )
     {
-        eZDebug::writeError( "Cannot get destination node.",
+        eZDebug::writeError( "Cannot get destination node (nodeID = $dstNodeID).",
                              "Subtree copy Error!" );
-        return 1;
+        $notifications['Errors'][] = ezi18n( 'kernel/content/copysubtree',
+                                            "Fatal error: cannot get destination node (ID = %1).",
+                                            null, array( $dstNodeID ) );
+        return $notifications;
     }
 
     $sourceNodeList    = array();
@@ -452,6 +434,10 @@ function copySubtree( $srcNodeID, $dstNodeID, $allVersions, $keepCreator, $keepT
     $sourceNodeList = array_merge( $sourceNodeList,
                                    eZContentObjectTreeNode::subTree( array( 'Limitation' => array() ), $sourceSubTreeMainNodeID ) );
     $countNodeList = count( $sourceNodeList );
+
+    $notifications['Notifications'][] = ezi18n( 'kernel/content/copysubtree',
+                                                "Number of nodes of source subtree - %1",
+                                                null, array( $countNodeList ) );
 
     // Prepare list of source node IDs. We will need it in the future
     // for checking node is inside or outside of the subtree being copied.
@@ -500,6 +486,7 @@ function copySubtree( $srcNodeID, $dstNodeID, $allVersions, $keepCreator, $keepT
                                                     $syncNodeIDListSrc, $syncNodeIDListNew,
                                                     $syncObjectIDListSrc, $syncObjectIDListNew,
                                                     $objectIDBlackList, $nodeIDBlackList,
+                                                    $notifications,
                                                     $allVersions, $keepCreator, $keepTime );
             if ( $copyResult === 0 )
             {   // if copying successful then remove $sourceNode from $sourceNodeList
@@ -514,6 +501,27 @@ function copySubtree( $srcNodeID, $dstNodeID, $allVersions, $keepCreator, $keepT
     array_shift( $syncNodeIDListSrc );
     array_shift( $syncNodeIDListNew );
 
+
+    $countNewNodes = count( $syncNodeIDListNew );
+    $countNewObjects = count( $syncObjectIDListNew );
+
+    $key = array_search( $sourceSubTreeMainNodeID, $syncNodeIDListSrc );
+    if ( $key === false )
+    {
+        eZDebug::writeDebug( "Root node of given subtree was not copied.",
+                             "Subtree copy:" );
+        $notifications['Notifacations'][] = ezi18n( 'kernel/content/copysubtree',
+                                                    "Subtree was not copied." );
+        return $notifications;
+    }
+
+    $notifications['Notifications'][] = ezi18n( 'kernel/content/copysubtree',
+                                                "Number of copied nodes - %1",
+                                                null, array( $countNewNodes ) );
+    $notifications['Notifications'][] = ezi18n( 'kernel/content/copysubtree',
+                                                "Number of copied contentobjects - %1",
+                                                null, array( $countNewObjects ) );
+
     eZDebug::writeDebug( count( $syncNodeIDListNew ) ,"Number of copied nodes: " );
     eZDebug::writeDebug( count( $syncObjectIDListNew ), "Number of copied contentobjects: " );
 
@@ -521,14 +529,6 @@ function copySubtree( $srcNodeID, $dstNodeID, $allVersions, $keepCreator, $keepT
     eZDebug::writeDebug( $nodeIDBlackList, "Copy subtree: Not copied node IDs list:" );
 
     // 2. fetch all new subtree
-
-    $key = array_search( $sourceSubTreeMainNodeID, $syncNodeIDListSrc );
-    if ( $key === false )
-    {
-        eZDebug::writeDebug( "Root node of given subtree was not copied.",
-                             "Subtree copy:" );
-        return 2;
-    }
 
     $newSubTreeMainNodeID = $syncNodeIDListSrc[ $key ];
     $newSubTreeMainNode   = eZContentObjectTreeNode::fetch( $newSubTreeMainNodeID );
@@ -546,7 +546,9 @@ function copySubtree( $srcNodeID, $dstNodeID, $allVersions, $keepCreator, $keepT
     {
         eZDebug::writeError( "Cannot create instance of eZDB for fixing local links (related objects).",
                              "Subtree Copy Error!" );
-        return 3;
+        $notifications['Errors'][] = ezi18n( 'kernel/content/copysubtree',
+                                             "Cannot create instance of eZDB to fix local links (related objects)." );
+        return $notifications;
     }
 
     $idListStr = implode( ',', $syncObjectIDListNew );
@@ -688,6 +690,9 @@ function copySubtree( $srcNodeID, $dstNodeID, $allVersions, $keepCreator, $keepT
     eZDebug::writeDebug( "Successfuly DONE.",
                          "Copy subtree:" );
 
+    $notifications['Notifications'][] = ezi18n( 'kernel/content/copysubtree',
+                                                "Successfuly DONE." );
+    return $notifications;
 } // function copySubtree END
 
 /*!
@@ -766,10 +771,70 @@ function chooseOptionsToCopy( &$Module, &$Result, &$srcNode, $chooseVersions, $c
                                  array( 'url' => false,
                                         'text' => ezi18n( 'kernel/content', 'Copy Subtree' ) ) );
 }
+
+function showNotificationAfterCopying( &$http, &$Module, &$Result, &$Notifications, &$srcNode )
+{
+    include_once( 'kernel/common/template.php' );
+    $tpl =& templateInit();
+
+    if ( $http->hasSessionVariable( "LastAccessesURI" ) )
+    {
+        $tpl->setVariable( 'redirect_url', $http->sessionVariable( "LastAccessesURI" ) );
+    }
+    else
+    {
+        $parentRootNodeID = $srcNode->attribute( 'parent_node_id' );
+        if ( $Module->hasActionParameter( 'LanguageCode' ) )
+            $languageCode = $Module->actionParameter( 'LanguageCode' );
+        else
+            $languageCode = eZContentObject::defaultLanguage();
+
+        if ( $Module->hasActionParameter( 'ViewMode' ) )
+            $viewMode = $module->actionParameter( 'ViewMode' );
+        else
+            $viewMode = 'full';
+
+        $redirectURI = $Module->redirectionURIForModule( $Module, 'view', array( $viewMode, $parentRootNodeID, $languageCode ) );
+        $tpl->setVariable( 'redirect_url', $redirectURI );
+    }
+
+    $tpl->setVariable( 'source_node', $srcNode );
+    //$tpl->setVariable( 'subtree_nodes_count', $srcSubtreeNodesCount );
+    $tpl->setVariable( 'notifications', $Notifications );
+
+    $Result['content'] = $tpl->fetch( 'design:content/copy_subtree_notification.tpl' );
+    $Result['path'] = array( array( 'url' => false,
+                                    'text' => ezi18n( 'kernel/content', 'Content' ) ),
+                             array( 'url' => false,
+                                    'text' => ezi18n( 'kernel/content', 'Copy Subtree' ) ) );
+}
 /////////// functions END ==================================================================
 
-
+$Result = array();
+$notifications = array( 'Notifications' => array(),
+                        'Warnings' => array(),
+                        'Errors' => array() );
 $contentINI =& eZINI::instance( 'content.ini' );
+
+// check if number of nodes being copied not more then MaxNodesCopySubtree setting
+$maxNodesCopySubtree = $contentINI->variable( 'CopySettings', 'MaxNodesCopySubtree' );
+$srcSubtreeNodesCount = $srcNode->subTreeCount();
+
+if ( $srcSubtreeNodesCount > $maxNodesCopySubtree )
+{
+    $notifications['Warnings'][] = ezi18n( 'kernel/content/copysubtree',
+                                           "You are trying to copy subtree which contain more then".
+                                           "maximum available number of nodes for copying subtree. ".
+                                           "(MaxNodesCopySubtree = %1, see settings/content.ini, CopySettings section). ".
+                                           "Please try to copy this subtree using Subtree Copy script.",
+                                           null, array( $maxNodesCopySubtree ) );
+    $notifications['Notifications'][] = ezi18n( 'kernel/content/copysubtree',
+                                                "Subtree was not copied." );
+
+    showNotificationAfterCopying( $http, $Module, $Result, $notifications, $srcNode );
+    return;
+}
+
 $versionHandling = $contentINI->variable( 'CopySettings', 'VersionHandling' );
 $creatorHandling = $contentINI->variable( 'CopySettings', 'CreatorHandling' );
 $timeHandling    = $contentINI->variable( 'CopySettings', 'TimeHandling' );
@@ -806,12 +871,13 @@ if ( $Module->isCurrentAction( 'Copy' ) )
 {
     // actually do copying after a user has selected object versions to copy
     $newParentNodeID =& $http->postVariable( 'SelectedNodeID' );
-    $copyResult = copySubtree( $NodeID, $newParentNodeID, $allVersions, $keepCreator, $keepTime );
+    copySubtree( $NodeID, $newParentNodeID, $notifications, $allVersions, $keepCreator, $keepTime );
 
     if ( $showNotification )
     {
+        showNotificationAfterCopying( $http, $Module, $Result, $notifications, $srcNode );
+        return;
     }
-
     return $Module->redirectToView( 'view', array( 'full', $newParentNodeID ) );
 }
 else if ( $Module->isCurrentAction( 'CopySubtree' ) )
@@ -820,7 +886,6 @@ else if ( $Module->isCurrentAction( 'CopySubtree' ) )
     if( $chooseVersions or $chooseCreator or $chooseTime )
     {
         // redirect to the page with choice of versions to copy
-        $Result = array();
         chooseOptionsToCopy( $Module, $Result, $srcNode, $chooseVersions, $chooseCreator, $chooseTime );
     }
     else
@@ -829,12 +894,13 @@ else if ( $Module->isCurrentAction( 'CopySubtree' ) )
         include_once( 'kernel/classes/ezcontentbrowse.php' );
         $selectedNodeIDArray = eZContentBrowse::result( $Module->currentAction() );
         $newParentNodeID =& $selectedNodeIDArray[0];
-        $copyResult = copySubtree( $NodeID, $newParentNodeID, $allVersions, $keepCreator, $keepTime );
+        copySubtree( $NodeID, $newParentNodeID, $notifications, $allVersions, $keepCreator, $keepTime );
 
         if ( $showNotification )
         {
+            showNotificationAfterCopying( $http, $Module, $Result, $notifications, $srcNode );
+            return;
         }
-
         return $Module->redirectToView( 'view', array( 'full', $newParentNodeID ) );
     }
 }

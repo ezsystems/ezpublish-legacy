@@ -12,8 +12,20 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="block">
-You are trying to copy subtree which contain more then maximum available number of nodes for copying subtree.
-(See content.ini, CopySettings/MaxNodesCopySubtree). Please try to copy this subtree using Subtree Copy script.
+{section show=$notifications.Warnings|count|gt(0)}
+<h4>Warnings:</h4>{section loop=$notifications.Warnings}<br/>{$item}{/section}
+<hr/>
+{/section}
+
+{section show=$notifications.Errors|count|gt(0)}
+<h4>Errors:</h4>{section loop=$notifications.Errors}<br/>{$item}{/section}
+<hr/>
+{/section}
+
+{section show=$notifications.Notifications|count|gt(0)}
+{section loop=$notifications.Notifications}<br/>{$item}{/section}
+{/section}
+
 </div>
 
 {* DESIGN: Content END *}</div></div></div>
