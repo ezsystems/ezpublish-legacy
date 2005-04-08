@@ -18,7 +18,11 @@
     <textarea name="Description" cols="64" rows="3">{$rss_export.description|wash}</textarea>
     <br/>
     <label>{"Site URL"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
-    {include uri="design:gui/lineedit.tpl" id_name=url value=$rss_export.url}
+    {*{include uri="design:gui/lineedit.tpl" id_name=url value=$rss_export.url}*}
+	<input class="halfbox" type="text" name="url" value="{$rss_export.url|wash}"/>
+    <div class="context-attributes">
+    <p>{'Use this field to enter the base URL of your site. It is used to produce the URLs in the export, composed by the Site URL (e.g. "http://www.example.com/index.php") and the path to the object (e.g. "/articles/my_article"). The Site URL depends on your Webserver and eZ publish configuration.'|i18n( 'design/admin/rss/edit_export')}</p>
+	</div>
     <br/>
 
     <input type="hidden" name="RSSImageID" value="{$rss_export.image_id}" />
@@ -61,21 +65,44 @@
     </select>
 
     <br/>
+    <div class="block">
+    <label>{'Number of objects'|i18n( 'design/admin/rss/edit_export' )}:</label>
+    <select name="NumberOfObjects" title="{'Use this drop-down menu to select the maximum number of objects included in the RSS feed.'|i18n('design/admin/rss/edit_export')}">
+    {section name=Number loop=$number_of_objects_array}
+    <option
+    {section name=DefaultSet show=eq( $rss_export.number_of_objects, 0 )}
+      {section name=Default show=eq( $Number:item, $number_of_objects_default )}
+        selected="selected"
+      {/section}
+    {section-else}
+      {section name=Default2 show=eq( $Number:item, $rss_export.number_of_objects )}
+        selected="selected"
+      {/section}
+    {/section}
+      value="{$:item}">{$:item|wash}
+    </option>
+    {/section}
+    </select>
+    </div>
+
 
     <label>{"Active"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
-    <input type="checkbox" name="active" {section show=$rss_export.active|eq(1)}checked="checked"{/section}>{"Active"|i18n("design/standard/rss/edit")}</input>
+    <input type="checkbox" name="active" {section show=$rss_export.active|eq(1)}checked="checked"{/section}></input>
     <br/>
+	<label>{'Main node only'|i18n( 'design/admin/rss/edit_export' )}:</label>
+    <input type="checkbox" name="MainNodeOnly" {section show=$rss_export.main_node_only|eq( 1 )}checked="checked"{/section} 
+		title="{'Check if you want to only feed the object from the main node.'|i18n('design/admin/rss/edit_export')}"/>
+	
     <label>{"Access URL"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
     rss/feed/ {include uri="design:gui/lineedit.tpl" id_name="Access_URL" value=$rss_export.access_url}
     <br/>
 
     </div>
-
+ 
     <input type="hidden" name="RSSExport_ID" value={$rss_export.id} />
     <input type="hidden" name="Item_Count" value={count($rss_export.item_list)} />
 
     <br/>
-    <div class="block">{"Note. Each source only fetch 5 objects from 1 level below."|i18n("design/standard/rss/edit")}</div>
 
     {section name=Source loop=$rss_export.item_list}
 
@@ -88,11 +115,11 @@
                 name=concat( "SourceBrowse_", $Source:index )
                 id_name=concat( "SourceBrowse_", $Source:index )
                 value="Browse"|i18n("design/standard/rss/edit")}
-       {include uri="design:gui/button.tpl"
-                name=concat( "RemoveSource_", $Source:index )
-                id_name=concat( "RemoveSource_", $Source:index )
-                value="Remove Source"|i18n("design/standard/rss/edit")}
-       <br/>
+      <br/>
+
+	   <label>{'Subnodes'|i18n( 'design/admin/rss/edit_export' )}:</label>
+       <input type="checkbox" name="Item_Subnodes_{$Source:index}" {section show=$Source:item.subnodes|wash|eq( 1 )}checked="checked"{/section} 
+	   title="{'Activate this checkbox if also objects from the subnodes of the source should be feeded.'|i18n('design/admin/rss/edit_export')}"/>
 
        <label>{"Class"|i18n("design/standard/rss/edit")}:</label><div class="labelbreak"></div>
        <select name="Item_Class_{$Source:index}">
@@ -135,6 +162,10 @@
 
        {/section}
 
+       {include uri="design:gui/button.tpl"
+                name=concat( "RemoveSource_", $Source:index )
+                id_name=concat( "RemoveSource_", $Source:index )
+                value="Remove Source"|i18n("design/standard/rss/edit")}
     {/section}
 
     <div class="buttonblock">
