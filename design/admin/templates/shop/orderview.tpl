@@ -1,4 +1,7 @@
 <div class="context-block">
+
+<form action={concat("/shop/orderlist")|ezurl} method="post" name="Orderlist">
+
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
 <h1 class="context-title">{'Order #%order_id'|i18n( 'design/admin/shop/orderview',, hash( '%order_id', $order.order_nr ) )}</h1>
@@ -94,9 +97,12 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-<input class="button" type="submit" name="" value="{'Remove'|i18n( 'design/admin/shop/orderview' )}" title="{'Remove this order.'|i18n( 'design/admin/shop/orderview' )}" />
+<input type="hidden" name="DeleteIDArray[]" value="{$order.order_nr}" />
+<input class="button" type="submit" name="RemoveButton" value="{'Remove'|i18n( 'design/admin/shop/orderview' )}" title="{'Remove this order.'|i18n( 'design/admin/shop/orderview' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
+
+</form>
 
 </div>
