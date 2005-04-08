@@ -2004,27 +2004,24 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function &fetchByRemoteID( $remoteID, $asObject = true )
     {
-         return eZPersistentObject::fetchObject( eZContentObjectTreeNode::definition(),
-                                                 null,
-                                                 array( "remote_id" => $remoteID ),
-                                                 $asObject );
+        return eZContentObjectTreeNode::fetch( false, false, $asObject, array( "remote_id" => $remoteID ) );
     }
 
     function &fetchByPath( $pathString, $asObject = true )
     {
-         return eZPersistentObject::fetchObject( eZContentObjectTreeNode::definition(),
-                                                 null,
-                                                 array( "path_string" => $pathString ),
-                                                 $asObject );
+        return eZContentObjectTreeNode::fetch( false, false, $asObject, array( "path_string" => $pathString ) );
     }
 
     function &fetchByURLPath( $pathString, $asObject = true )
     {
-         return eZPersistentObject::fetchObject( eZContentObjectTreeNode::definition(),
+        return eZContentObjectTreeNode::fetch( false, false, $asObject, array( "path_identification_string" => $pathString ) );
+
+        /* return eZPersistentObject::fetchObject( eZContentObjectTreeNode::definition(),
                                                  null,
                                                  array( "path_identification_string" => $pathString,
                                                         'contentobject_id' => array( '!=', 0 ) ),
-                                                 $asObject );
+                                                   $asObject );
+        */
     }
 
     function &findMainNode( $objectID, $asObject = false )
@@ -2100,15 +2097,24 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return null;
     }
 
-    function &fetch( $nodeID, $lang = false )
+    /*!
+     \static
+     Fetch node by $nodeID. If $nodeID is an array of ids then list of nodes will be returned.
+    */
+    function fetch( $nodeID = false, $lang = false, $asObject = true, $conditions = false )
     {
         $returnValue = null;
-        $ini =& eZINI::instance();
-        $db =& eZDB::instance();
 
-        $useVersionName = true;
-        if ( $useVersionName )
+        if ( ( is_numeric( $nodeID ) && $nodeID == 1 ) ||
+             ( is_array( $nodeID ) && count( $nodeID ) === 1 && $nodeID[0] == 1 ) )
         {
+            $query = "SELECT *
+                FROM ezcontentobject_tree
+                WHERE node_id = 1";
+        }
+        else
+        {   
+
             $versionNameTables = ', ezcontentobject_name ';
             $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
@@ -2120,42 +2126,77 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
                                   ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
                                   ezcontentobject_name.content_translation = '$lang' ";
+
+            $sqlCondition = '';
+
+            if ( $nodeID !== false )
+            {
+                if ( is_array( $nodeID ) )
+                {
+                    if( count( $nodeID ) === 1 )
+                        $sqlCondition = 'node_id IN ( ' . $nodeID[0] . ' ) AND';
+                    else
+                        $sqlCondition = 'node_id IN ( ' . implode( ',', $nodeID ) . ' ) AND';
+                }
+                else
+                {
+                    $sqlCondition = 'node_id IN ( ' . $nodeID . ' ) AND';
+                }
+            }
+
+            if ( is_array( $conditions ) )
+            {
+                foreach( $conditions as $key => $condition )
+                {
+                    if ( is_string( $condition ) )
+                        $condition = "'$condition'";
+
+                    $sqlCondition .= "ezcontentobject_tree.$key=$condition AND ";
+                }
+            }
+
+            if ( $sqlCondition == '' )
+            {
+                eZDebug::writeWarning( 'Cannot fetch node, emtpy ID or no conditions given', 'eZContentObjectTreeNode::fetch' );
+                return null;
+            }
+
+            $query="SELECT ezcontentobject.*,
+                       ezcontentobject_tree.*,
+                       ezcontentclass.name as class_name,
+                       ezcontentclass.identifier as class_identifier
+                       $versionNameTargets
+                FROM ezcontentobject_tree,
+                     ezcontentobject,
+                     ezcontentclass
+                     $versionNameTables
+                WHERE $sqlCondition
+                      ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
+                      ezcontentclass.version=0  AND
+                      ezcontentclass.id = ezcontentobject.contentclass_id
+                      $versionNameJoins";
         }
 
-        if ( $nodeID != '' && is_numeric( $nodeID ) )
+        $db = eZDB::instance();
+        $nodeListArray = $db->arrayQuery( $query );
+
+        if ( count( $nodeListArray ) > 0 )
         {
-            if ( $nodeID != 1 )
+            if ( $asObject )
             {
-                $query="SELECT ezcontentobject.*,
-                           ezcontentobject_tree.*,
-                           ezcontentclass.name as class_name
-                           $versionNameTargets
-                    FROM ezcontentobject_tree,
-                         ezcontentobject,
-                         ezcontentclass
-                         $versionNameTables
-                    WHERE node_id = $nodeID AND
-                          ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
-                          ezcontentclass.version=0  AND
-                          ezcontentclass.id = ezcontentobject.contentclass_id
-                          $versionNameJoins";
+                $returnValue = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+                if ( count( $returnValue ) === 1 )
+                    $returnValue = $returnValue[0];
             }
             else
             {
-                $query="SELECT *
-                    FROM ezcontentobject_tree
-                    WHERE node_id = $nodeID ";
-            }
-
-            $nodeListArray =& $db->arrayQuery( $query );
-            if ( count( $nodeListArray ) == 1 )
-            {
-                $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
-                $returnValue =& $retNodeArray[0];
+                if ( count( $nodeListArray ) === 1 )
+                    $returnValue = $nodeListArray[0];
+                else
+                    $returnValue = $nodeListArray;
             }
         }
-        else
-            eZDebug::writeWarning( 'Cannot fetch node from empty node ID', 'eZContentObjectTreeNode::fetch' );
+
         return $returnValue;
     }
 
