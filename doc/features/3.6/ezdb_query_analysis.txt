@@ -1,0 +1,14 @@
+Title: eZDB query analysis
+
+Documentation:
+The eZDB interface is now given the possiblity to run an analysis of each query
+and display the result with the SQL output.
+
+The analyis depends on the database type and is only supported with MySQL for now.
+
+To enable it the site.ini setting QueryAnalysisOutput (DatabaseSetings group) must
+be set to enabled.
+
+Example:
+[DebugSettings]
+QueryAnalysisOutput=enabled
