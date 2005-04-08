@@ -289,6 +289,7 @@ eZInformationCollection:
 - Fixed bug #6077: eZImageAliasHandler::initializeFromFile may mess things up.
   (Manually merged from stable/3.4 (3.4.6) rev. 11303)
 - Fixed bug #6038: Wrong check in template for binaryfile datatype.
+- Fixed bug #6438: Defect node fetching
   
 *Library:
 PDF:
