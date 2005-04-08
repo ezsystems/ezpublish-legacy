@@ -156,6 +156,12 @@ class eZDBInterface
             $this->SlowSQLTimeout = (int) $ini->variable( "DatabaseSettings", "SlowQueriesOutput" );
         }
 
+        $this->QueryAnalysisOutput = false;
+        if ( $ini->variable( "DatabaseSettings", "QueryAnalysisOutput" ) == "enabled" )
+        {
+            $this->QueryAnalysisOutput = true;
+        }
+
         $this->IsConnected = false;
         $this->NumQueries = 0;
         $this->StartTime = false;

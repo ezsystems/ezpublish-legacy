@@ -308,6 +308,8 @@ eZDebug:
   will always log errors even if debug output is off.
 - When logging IP address the current hostname will be used if a remote address
   is missing (e.g running a script).
+- Added support for display an analysis of the query that is being executed.
+  (Currently only supported for MySQL).
 
 eZDB:
 - The reading of INI settings can now be disabled by passing the 'use_default'

@@ -361,6 +361,94 @@ class eZMySQLDB extends eZDBInterface
                 $connection = $this->DBConnection;
             }
 
+            $analysisText = false;
+            // If query analysis is enable we need to run the query
+            // with an EXPLAIN in front of it
+            // Then we build a human-readable table out of the result
+            if ( $this->QueryAnalysisOutput )
+            {
+                $analysisResult = mysql_query( 'EXPLAIN ' . $sql, $connection );
+                if ( $analysisResult )
+                {
+                    $numRows = mysql_num_rows( $analysisResult );
+                    $rows = array();
+                    if ( $numRows > 0 )
+                    {
+                        for ( $i = 0; $i < $numRows; ++$i )
+                        {
+                            if ( $this->InputTextCodec )
+                            {
+                                $tmpRow = mysql_fetch_array( $analysisResult, MYSQL_ASSOC );
+                                unset( $convRow );
+                                $convRow = array();
+                                reset( $tmpRow );
+                                while( ( $key = key( $tmpRow ) ) !== null )
+                                {
+                                    $convRow[$key] = $this->OutputTextCodec->convertString( $tmpRow[$key] );
+                                    next( $tmpRow );
+                                }
+                                $rows[$i] = $convRow;
+                            }
+                            else
+                                $rows[$i] = mysql_fetch_array( $analysisResult, MYSQL_ASSOC );
+                        }
+                    }
+
+                    // Figure out all columns and their maximum display size
+                    $columns = array();
+                    foreach ( $rows as $row )
+                    {
+                        foreach ( $row as $col => $data )
+                        {
+                            if ( !isset( $columns[$col] ) )
+                                $columns[$col] = array( 'name' => $col,
+                                                        'size' => strlen( $col ) );
+                            $columns[$col]['size'] = max( $columns[$col]['size'], strlen( $data ) );
+                        }
+                    }
+
+                    $analysisText = '';
+                    $delimiterLine = array();
+                    // Generate the column line and the vertical delimiter
+                    // The look of the table is taken from the MySQL CLI client
+                    // It looks like this:
+                    // +-------+-------+
+                    // | col_a | col_b |
+                    // +-------+-------+
+                    // | txt   |    42 |
+                    // +-------+-------+
+                    foreach ( $columns as $col )
+                    {
+                        $delimiterLine[] = str_repeat( '-', $col['size'] + 2 );
+                        $colLine[] = ' ' . str_pad( $col['name'], $col['size'], ' ', STR_PAD_RIGHT ) . ' ';
+                    }
+                    $delimiterLine = '+' . join( '+', $delimiterLine ) . "+\n";
+                    $analysisText = $delimiterLine;
+                    $analysisText .= '|' . join( '|', $colLine ) . "|\n";
+                    $analysisText .= $delimiterLine;
+
+                    // Go trough all data and pad them to create the table correctly
+                    foreach ( $rows as $row )
+                    {
+                        $rowLine = array();
+                        foreach ( $columns as $col )
+                        {
+                            $name = $col['name'];
+                            $size = $col['size'];
+                            $data = isset( $row[$name] ) ? $row[$name] : '';
+                            // Align numerical values to the right (ie. pad left)
+                            $rowLine[] = ' ' . str_pad( $row[$name], $size, ' ',
+                                                        is_numeric( $row[$name] ) ? STR_PAD_LEFT : STR_PAD_RIGHT ) . ' ';
+                        }
+                        $analysisText .= '|' . join( '|', $rowLine ) . "|\n";
+                        $analysisText .= $delimiterLine;
+                    }
+
+                    // Reduce memory usage
+                    unset( $rows, $delimiterLine, $colLine, $columns );
+                }
+            }
+
             $result =& mysql_query( $sql, $connection );
             if ( $this->RecordError and !$result )
                 $this->setError();
@@ -372,7 +460,13 @@ class eZMySQLDB extends eZDBInterface
                 if ($this->timeTaken() > $this->SlowSQLTimeout)
                 {
                     $num_rows = mysql_affected_rows( $connection );
-                    $this->reportQuery( 'eZMySQLDB', $sql, $num_rows, $this->timeTaken() );
+                    $text = $sql;
+
+                    // If we have some analysis text we append this to the SQL output
+                    if ( $analysisText !== false )
+                        $text .= "\n\nANALYSIS:\n" . $analysisText;
+
+                    $this->reportQuery( 'eZMySQLDB', $text, $num_rows, $this->timeTaken() );
                 }
             }
             eZDebug::accumulatorStop( 'mysql_query' );
