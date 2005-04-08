@@ -2819,23 +2819,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &fetchByRemoteID( $remoteID, $asObject = true )
     {
         return eZContentObjectTreeNode::fetch( false, false, $asObject, array( "remote_id" => $remoteID ) );
-
-        /* return eZPersistentObject::fetchObject( eZContentObjectTreeNode::definition(),
-                                                 null,
-                                                 array( "remote_id" => $remoteID ),
-                                                 $asObject );
-        */
     }
 
     function &fetchByPath( $pathString, $asObject = true )
     {
         return eZContentObjectTreeNode::fetch( false, false, $asObject, array( "path_string" => $pathString ) );
-
-        /* return eZPersistentObject::fetchObject( eZContentObjectTreeNode::definition(),
-                                                 null,
-                                                 array( "path_string" => $pathString ),
-                                                 $asObject );
-        */
     }
 
     function &fetchByURLPath( $pathString, $asObject = true )
@@ -2934,7 +2922,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( ( is_numeric( $nodeID ) && $nodeID == 1 ) ||
              ( is_array( $nodeID ) && count( $nodeID ) === 1 && $nodeID[0] == 1 ) )
         {
-            $query="SELECT *
+            $query = "SELECT *
                 FROM ezcontentobject_tree
                 WHERE node_id = 1";
         }
@@ -2972,7 +2960,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             if ( is_array( $conditions ) )
             {
-                foreach( $conditions as $key=>$condition )
+                foreach( $conditions as $key => $condition )
                 {
                     if ( is_string( $condition ) )
                         $condition = "'$condition'";
