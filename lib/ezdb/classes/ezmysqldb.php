@@ -464,7 +464,7 @@ class eZMySQLDB extends eZDBInterface
 
                     // If we have some analysis text we append this to the SQL output
                     if ( $analysisText !== false )
-                        $text .= "\n\nANALYSIS:\n" . $analysisText;
+                        $text = "EXPLAIN\n" . $text . "\n\nANALYSIS:\n" . $analysisText;
 
                     $this->reportQuery( 'eZMySQLDB', $text, $num_rows, $this->timeTaken() );
                 }
