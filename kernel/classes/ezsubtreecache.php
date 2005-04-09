@@ -89,7 +89,7 @@ class eZSubtreeCache
     */
     function cleanup( &$nodeList )
     {
-        $cacheDir = eZTemplateCacheFunction::templateBlockCacheDir() . eZTemplateCacheFunction::subtreeCacheBaseDir();
+        $cacheDir = eZTemplateCacheFunction::templateBlockCacheDir();
 
         $keys = array_keys( $nodeList );
         foreach ( $keys as $key )
@@ -101,16 +101,8 @@ class eZSubtreeCache
 
             foreach( $nodeListID as $nodeID )
             {
-                $cachePath = $cacheDir . '/' . $nodeID;
-                if ( file_exists( $cachePath ) )
-                {
-                    include_once( 'lib/ezutils/classes/ezini.php' );
-                    $ini =& eZINI::instance();
-                    if ( $ini->variable( 'TemplateSettings', 'DelayedCacheBlockCleanup' ) === 'enabled' )
-                        eZSubtreeCache::renameDir( $cachePath );
-                    else
-                        eZSubtreeCache::removeExpiryCacheFromDisk( $cachePath );
-                }
+                $cachePath = $cacheDir . eZTemplateCacheFunction::subtreeCacheSubDirForNode( $nodeID );
+                eZSubtreeCache::cleanupCacheDir( $cachePath );
             }
         }
     }
@@ -121,8 +113,25 @@ class eZSubtreeCache
     */
     function cleanupAll()
     {
-        $subtreeCacheDir = eZTemplateCacheFunction::subtreeCacheBaseDir();
-        eZSubtreeCache::renameDir( $subtreeCacheDir );
+        $subtreeCacheDir = eZTemplateCacheFunction::templateBlockCacheDir() . eZTemplateCacheFunction::subtreeCacheBaseSubDir();
+        eZSubtreeCache::cleanupCacheDir( $subtreeCacheDir );
+    }
+
+    /*!
+     \static
+     If DelayedCacheBlockCleanup is enables just renames $cachDir, otherwise removes $cacheDir from disk.
+    */
+    function cleanupCacheDir( $cacheDir )
+    {
+        if ( file_exists( $cacheDir ) )
+        {
+            include_once( 'lib/ezutils/classes/ezini.php' );
+            $ini =& eZINI::instance();
+            if ( $ini->variable( 'TemplateSettings', 'DelayedCacheBlockCleanup' ) === 'enabled' )
+                eZSubtreeCache::renameDir( $cacheDir );
+            else
+                eZSubtreeCache::removeExpiryCacheFromDisk( $cacheDir );
+        }
     }
 
     /*!
@@ -132,20 +141,23 @@ class eZSubtreeCache
     */
     function renameDir( $dir )
     {
+        // just rename. Actual removing will be performed by cronjob.
+
         if ( $dir )
         {
             include_once( 'lib/ezfile/classes/ezfile.php' );
             $expiryCacheDir = eZTemplateCacheFunction::expiryTemplateBlockCacheDir();
+
+            $uniqid = md5( uniqid( 'ezpsubtreecache'. getmypid(), true ) );
+            $expiryCacheDir .= '/' . $uniqid[0] . '/' . $uniqid[1] . '/' . $uniqid[2] . '/' . $uniqid;
+
             if ( !file_exists( $expiryCacheDir ) )
             {
                 $ini =& eZINI::instance();
                 $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
                 eZDir::mkdir( $expiryCacheDir, $perm, true );
             }
-
-            // just rename. Actual removing will be performed by cronjob.
-            $uniqid = md5( uniqid( 'ezpsubtreecache'. getmypid(), true ) );
-            eZFile::rename( $dir, "$expiryCacheDir/$uniqid" );
+            eZFile::rename( $dir, $expiryCacheDir );
         }
         else
         {

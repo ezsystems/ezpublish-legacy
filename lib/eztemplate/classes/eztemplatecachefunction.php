@@ -164,16 +164,17 @@ class eZTemplateCacheFunction
             $cacheDir = eZTemplateCacheFunction::templateBlockCacheDir();
             $cachePathText = eZPHPCreator::variableText( "$cacheDir", 0, 0, false );
             $code = ( "\$keyString = sprintf( '%u', crc32( \$cacheKeys . $extraKeyText ) );\n" .
+                      "\$cacheFilename = \$keyString . '.cache';\n" .
                       "if ( isset( \$subtreeExpiry ) )\n" .
                       "{\n" .
                       "    include_once( 'lib/eztemplate/classes/eztemplatecachefunction.php' );\n" .
-                      "    \$cacheDir = $cachePathText . eZTemplateCacheFunction::subtreeCacheDir( \$subtreeExpiry );\n" .
+                      "    \$cacheDir = $cachePathText . eZTemplateCacheFunction::subtreeCacheSubDir( \$subtreeExpiry, \$cacheFilename );\n" .
                       "}\n" .
                       "else\n" .
                       "{\n" .
                       "    \$cacheDir = $cachePathText . \$keyString[0] . '/' . \$keyString[1] . '/' . \$keyString[2];\n" .
                       "}\n" .
-                      "\$cachePath = \$cacheDir . '/' . \$keyString . '.cache';" );
+                      "\$cachePath = \$cacheDir . '/' . \$cacheFilename;" );
         }
         else
         {
@@ -181,13 +182,14 @@ class eZTemplateCacheFunction
             if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
                 $accessName = $GLOBALS['eZCurrentAccess']['name'];
             $keyString = sprintf( '%u', crc32( $keyValueText . $placementKeyString . $accessName ) );
+            $cacheFilename = $keyString . '.cache';
             $cacheDir = eZTemplateCacheFunction::templateBlockCacheDir();
             if ( isset( $subtreeValue ) )
-                $cacheDir = "$cacheDir" . eZTemplateCacheFunction::subtreeCacheDir( $subtreeValue );
+                $cacheDir = "$cacheDir" . eZTemplateCacheFunction::subtreeCacheSubDir( $subtreeValue, $cacheFilename );
             else
                 $cacheDir = "$cacheDir" . $keyString[0] . '/' . $keyString[1] . '/' . $keyString[2];
 
-            $cachePath = "$cacheDir" . '/' . $keyString . '.cache';
+            $cachePath = "$cacheDir" . '/' . $cacheFilename;
             $code = ( "\$keyString = '$keyString';\n" .
                       "\$cacheDir = '$cacheDir';\n" .
                       "\$cachePath = '$cachePath';" );
@@ -323,14 +325,15 @@ ENDADDCODE;
                         $accessName = $GLOBALS['eZCurrentAccess']['name'];
                     $keyString .= $accessName;
                     $hashedKey = sprintf( '%u', crc32( $keyString ) );
+                    $cacheFilename = $hashedKey . ".cache";
 
                     $phpDir = eZTemplateCacheFunction::templateBlockCacheDir();
                     if ( isset( $functionParameters['subtree_expiry'] ) )
-                        $phpDir .= eZTemplateCacheFunction::subtreeCacheDir( $tpl->elementValue( $functionParameters["subtree_expiry"], $rootNamespace, $currentNamespace, $functionPlacement ) );
+                        $phpDir .= eZTemplateCacheFunction::subtreeCacheSubDir( $tpl->elementValue( $functionParameters["subtree_expiry"], $rootNamespace, $currentNamespace, $functionPlacement ), $cacheFilename );
                     else
-                        $phpDir .= $hashedKey[0] . "/" . $hashedKey[1] . "/" . $hashedKey[2];
+                        $phpDir .= $hashedKey[0] . '/' . $hashedKey[1] . '/' . $hashedKey[2];
 
-                    $phpPath = $phpDir . "/" . $hashedKey . ".cache";
+                    $phpPath = $phpDir . '/' . $cacheFilename;
 
                     // Check if a custom expiry time is defined
                     if ( isset( $functionParameters["expiry"] ) )
@@ -416,7 +419,7 @@ ENDADDCODE;
      \static
      Returns base directory where 'subtree_expiry' caches are stored.
     */
-    function subtreeCacheBaseDir()
+    function subtreeCacheBaseSubDir()
     {
         return 'subtree';
     }
@@ -445,9 +448,8 @@ ENDADDCODE;
      \static
      Returns path of the directory where 'subtree_expiry' caches are stored.
     */
-    function subtreeCacheDir( $subtreeExpiryParameter )
+    function subtreeCacheSubDir( $subtreeExpiryParameter, $cacheFilename )
     {
-        $cacheDir = eZTemplateCacheFunction::subtreeCacheBaseDir();
         $nodePathString = '';
 
         include_once( 'lib/ezdb/classes/ezdb.php' );
@@ -490,14 +492,39 @@ ENDADDCODE;
             }
         }
 
-        if ( $nodeID !== false )
-            $cacheDir .= '/' . $nodeID;
-        else
-            eZDebug::writeWarning( "Unable to determine nodeID of subtree for 'subtree_expiry' = $subtreeExpiryParameter", 'eZtemplateCacheFunction::subtreeCacheDir' );
+        $cacheDir = eZTemplateCacheFunction::subtreeCacheSubDirForNode( $nodeID );
+        $cacheDir .= '/' . $cacheFilename[0] . '/' . $cacheFilename[1] . '/' . $cacheFilename[2];
 
         return $cacheDir;
     }
 
+    /*!
+     \static
+     Builds and returns path from $nodeID, e.g. if $nodeID = 23 then path = subtree/2/3
+    */
+    function subtreeCacheSubDirForNode( $nodeID )
+    {
+        $cacheDir = eZTemplateCacheFunction::subtreeCacheBaseSubDir();
+
+        if ( is_numeric( $nodeID ) )
+        {
+            $nodeID = (string)$nodeID;
+            $length = strlen( $nodeID );
+            $pos = 0;
+            while ( $pos < $length )
+            {
+                $cacheDir .= '/' . $nodeID[$pos];
+                ++$pos;
+            }
+        }
+        else
+        {
+            eZDebug::writeWarning( "Unable to determine cacheDir for nodeID = $nodeID", 'eZtemplateCacheFunction::subtreeCacheSubDirForNode' );
+        }
+
+        $cacheDir .= '/cache';
+        return $cacheDir;
+    }
 
     /// \privatesection
     /// Name of the function

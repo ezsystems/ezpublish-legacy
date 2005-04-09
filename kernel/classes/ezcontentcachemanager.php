@@ -536,22 +536,28 @@ class eZContentCacheManager
     /*!
      \static
      Clears all content cache: view cache, template-block cache, template-block with subtree_expiry parameter cache.
-     If $forceClear is \c false appropriate ini settings will be checked to determine whether caches are enabled or not.
-     If $forceClear is \c true ini settings will be ignored and all caches will be expiry.
     */
-    function clearAllContentCache( $forceClear = false )
+    function clearAllContentCache( $ingnoreINISettings = false )
     {
-        $ini = eZINI::instance();
-        $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) === 'enabled' );
-        $templateCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) === 'enabled' );
+        if ( !$ingnoreINISettings )
+        {
+            $ini = eZINI::instance();
+            $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) === 'enabled' );
+            $templateCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) === 'enabled' );
+        }
+        else
+        {
+            $viewCacheEnabled = true;
+            $templateCacheEnabled = true;
+        }
 
-        if ( $forceClear || $viewCacheEnabled || $templateCacheEnabled )
+        if ( $viewCacheEnabled || $templateCacheEnabled )
         {
             // view cache and/or ordinary template block cache
             eZContentObject::expireAllCache();
 
             // subtree template block caches
-            if ( $forceClear || $templateCacheEnabled )
+            if ( $templateCacheEnabled )
             {
                 include_once( 'kernel/classes/ezsubtreecache.php' );
                 eZSubtreeCache::cleanupAll();

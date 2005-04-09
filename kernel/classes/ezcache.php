@@ -360,6 +360,7 @@ class eZCache
     */
     function clearTemplateBlockCache( $cacheItem )
     {
+        // remove existing cache
         $cachePath = eZSys::cacheDirectory() . "/" . $cacheItem['path'];
         if ( is_file( $cachePath ) )
         {
@@ -371,6 +372,7 @@ class eZCache
             eZDir::recursiveDelete( $cachePath );
         }
 
+        // remove expiried 'subtree' cache
         include_once( 'kernel/classes/ezsubtreecache.php' );
         eZSubtreeCache::removeAllExpiryCacheFromDisk();
     }
