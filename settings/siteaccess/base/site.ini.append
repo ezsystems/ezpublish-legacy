@@ -1,5 +1,5 @@
 [SiteSettings]
-LoginPage=embeded
+LoginPage=embedded
 
 [SiteAccessSettings]
 RequireUserLogin=false
