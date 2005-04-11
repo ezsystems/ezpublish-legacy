@@ -4254,6 +4254,40 @@ keywords=cms, publish, e-commerce, content management, development framework',
       ),
     ),
   ),
+  'ezorder_status' => 
+  array (
+    'fields' => 
+    array (
+      0 => 'id',
+      1 => 'is_active',
+      2 => 'name',
+      3 => 'status_id',
+    ),
+    'rows' => 
+    array (
+      0 => 
+      array (
+        0 => '1',
+        1 => '1',
+        2 => 'Pending',
+        3 => '1',
+      ),
+      1 => 
+      array (
+        0 => '2',
+        1 => '1',
+        2 => 'Processing',
+        3 => '2',
+      ),
+      2 => 
+      array (
+        0 => '3',
+        1 => '1',
+        2 => 'Delivered',
+        3 => '3',
+      ),
+    ),
+  ),
   'ezpolicy' => 
   array (
     'fields' => 

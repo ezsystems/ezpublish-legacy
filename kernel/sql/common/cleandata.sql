@@ -7197,6 +7197,40 @@ INSERT INTO eznode_assignment (
   0
 );
 
+INSERT INTO ezorder_status (
+  id,
+  is_active,
+  name,
+  status_id
+) VALUES (
+  1,
+  1,
+  'Pending',
+  1
+);
+INSERT INTO ezorder_status (
+  id,
+  is_active,
+  name,
+  status_id
+) VALUES (
+  2,
+  1,
+  'Processing',
+  2
+);
+INSERT INTO ezorder_status (
+  id,
+  is_active,
+  name,
+  status_id
+) VALUES (
+  3,
+  1,
+  'Delivered',
+  3
+);
+
 INSERT INTO ezpolicy (
   function_name,
   id,
