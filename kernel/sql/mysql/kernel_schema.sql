@@ -746,8 +746,12 @@ CREATE TABLE ezorder (
   is_temporary int(11) NOT NULL default '1',
   order_nr int(11) NOT NULL default '0',
   productcollection_id int(11) NOT NULL default '0',
+  status_id int(11) default '0',
+  status_modified int(11) default '0',
+  status_modifier_id int(11) default '0',
   user_id int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezorder_is_tmp (is_temporary)
 ) TYPE=MyISAM;
 
 
@@ -762,6 +766,37 @@ CREATE TABLE ezorder_item (
   vat_value int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY ezorder_item_order_id (order_id)
+) TYPE=MyISAM;
+
+
+
+
+
+CREATE TABLE ezorder_status (
+  id int(11) NOT NULL auto_increment,
+  is_active int(11) NOT NULL default '1',
+  name varchar(255) NOT NULL default '',
+  status_id int(11) NOT NULL default '0',
+  PRIMARY KEY  (id),
+  KEY ezorder_status_active (is_active),
+  KEY ezorder_status_name (name),
+  KEY ezorder_status_sid (status_id)
+) TYPE=MyISAM;
+
+
+
+
+
+CREATE TABLE ezorder_status_history (
+  id int(11) NOT NULL auto_increment,
+  modified int(11) NOT NULL default '0',
+  modifier_id int(11) NOT NULL default '0',
+  order_id int(11) NOT NULL default '0',
+  status_id int(11) NOT NULL default '0',
+  PRIMARY KEY  (id),
+  KEY ezorder_status_history_mod (modified),
+  KEY ezorder_status_history_oid (order_id),
+  KEY ezorder_status_history_sid (status_id)
 ) TYPE=MyISAM;
 
 

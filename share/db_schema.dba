@@ -3324,6 +3324,24 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
+      'status_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => 0,
+      ),
+      'status_modified' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => 0,
+      ),
+      'status_modifier_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'default' => 0,
+      ),
       'user_id' => 
       array (
         'length' => 11,
@@ -3340,6 +3358,14 @@ $schema = array (
         'fields' => 
         array (
           0 => 'id',
+        ),
+      ),
+      'ezorder_is_tmp' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'is_temporary',
         ),
       ),
     ),
@@ -3396,6 +3422,149 @@ $schema = array (
         'fields' => 
         array (
           0 => 'order_id',
+        ),
+      ),
+    ),
+  ),
+  'ezorder_status' => 
+  array (
+    'name' => 'ezorder_status',
+    'fields' => 
+    array (
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'is_active' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 1,
+      ),
+      'name' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'status_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+      'ezorder_status_active' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'is_active',
+        ),
+      ),
+      'ezorder_status_name' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'name',
+        ),
+      ),
+      'ezorder_status_sid' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'status_id',
+        ),
+      ),
+    ),
+  ),
+  'ezorder_status_history' => 
+  array (
+    'name' => 'ezorder_status_history',
+    'fields' => 
+    array (
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'modified' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'modifier_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'order_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'status_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+      'ezorder_status_history_mod' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'modified',
+        ),
+      ),
+      'ezorder_status_history_oid' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'order_id',
+        ),
+      ),
+      'ezorder_status_history_sid' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'status_id',
         ),
       ),
     ),

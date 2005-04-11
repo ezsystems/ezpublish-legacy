@@ -503,6 +503,32 @@ CREATE SEQUENCE ezorder_item_s
 
 
 
+CREATE SEQUENCE ezorder_status_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
+CREATE SEQUENCE ezorder_status_history_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
 CREATE SEQUENCE ezpaymentobject_s
     START 1
     INCREMENT 1
@@ -1701,6 +1727,9 @@ CREATE TABLE ezorder (
     is_temporary integer DEFAULT 1 NOT NULL,
     order_nr integer DEFAULT 0 NOT NULL,
     productcollection_id integer DEFAULT 0 NOT NULL,
+    status_id integer DEFAULT 0,
+    status_modified integer DEFAULT 0,
+    status_modifier_id integer DEFAULT 0,
     user_id integer DEFAULT 0 NOT NULL
 );
 
@@ -1716,6 +1745,33 @@ CREATE TABLE ezorder_item (
     order_id integer DEFAULT 0 NOT NULL,
     price double precision,
     vat_value integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezorder_status (
+    id integer DEFAULT nextval('ezorder_status_s'::text) NOT NULL,
+    is_active integer DEFAULT 1 NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL,
+    status_id integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezorder_status_history (
+    id integer DEFAULT nextval('ezorder_status_history_s'::text) NOT NULL,
+    modified integer DEFAULT 0 NOT NULL,
+    modifier_id integer DEFAULT 0 NOT NULL,
+    order_id integer DEFAULT 0 NOT NULL,
+    status_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2586,7 +2642,63 @@ CREATE INDEX ezoperation_memento_memento_key_main ON ezoperation_memento USING b
 
 
 
+CREATE INDEX ezorder_is_tmp ON ezorder USING btree (is_temporary);
+
+
+
+
+
+
+
 CREATE INDEX ezorder_item_order_id ON ezorder_item USING btree (order_id);
+
+
+
+
+
+
+
+CREATE INDEX ezorder_status_active ON ezorder_status USING btree (is_active);
+
+
+
+
+
+
+
+CREATE INDEX ezorder_status_name ON ezorder_status USING btree (name);
+
+
+
+
+
+
+
+CREATE INDEX ezorder_status_sid ON ezorder_status USING btree (status_id);
+
+
+
+
+
+
+
+CREATE INDEX ezorder_status_history_mod ON ezorder_status_history USING btree (modified);
+
+
+
+
+
+
+
+CREATE INDEX ezorder_status_history_oid ON ezorder_status_history USING btree (order_id);
+
+
+
+
+
+
+
+CREATE INDEX ezorder_status_history_sid ON ezorder_status_history USING btree (status_id);
 
 
 
@@ -3269,6 +3381,24 @@ ALTER TABLE ONLY ezorder
 
 ALTER TABLE ONLY ezorder_item
     ADD CONSTRAINT ezorder_item_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezorder_status
+    ADD CONSTRAINT ezorder_status_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezorder_status_history
+    ADD CONSTRAINT ezorder_status_history_pkey PRIMARY KEY (id);
 
 
 
