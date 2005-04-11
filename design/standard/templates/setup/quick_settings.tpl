@@ -56,6 +56,6 @@
     {/let}
 {/section}
 
-<input {eq( $ui_context, 'edit' )|choose( "class='button'", "class='button-disabled'" )}{eq( $ui_context, 'edit' )|choose( '', ' disabled' )} type=submit name="SetButton" value="Set" />
+<input {eq( $ui_context, 'edit' )|choose( "class='button'", "class='button-disabled'" )}{eq( $ui_context, 'edit' )|choose( '', ' disabled' )} type="submit" name="SetButton" value="Set" />
 </form>
 {let}

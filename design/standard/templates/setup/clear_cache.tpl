@@ -13,10 +13,10 @@
 <select{eq( $ui_context, 'edit' )|choose( '', ' disabled="disabled"' )} name="CacheTypeValue">
    {section loop=$caches_list}
       {section show=eq( $:item.2, false )}
-        <option{eq( $selected_cache_type, $:item.0 )|choose( '', ' selected="selected"' )} value="{$:item.0}">{$:item.1|i18n( 'design/admin/pagelayout' )}</option>
+        <option{eq( $selected_cache_type, $:item.0 )|choose( '', ' selected="selected"' )} value="{$:item.0}">{$:item.1|i18n( 'design/admin/pagelayout' )|wash}</option>
       {section-else}
        {section show=is_set( $module_result.content_info )}
-        <option{eq( $selected_cache_type, $:item.0 )|choose( '', ' selected="selected"' )} value="{$:item.0}">{$:item.1|i18n( 'design/admin/pagelayout' )}</option>
+        <option{eq( $selected_cache_type, $:item.0 )|choose( '', ' selected="selected"' )} value="{$:item.0}">{$:item.1|i18n( 'design/admin/pagelayout' )|wash}</option>
        {/section}
       {/section}
    {/section}
