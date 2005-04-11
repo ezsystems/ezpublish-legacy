@@ -302,6 +302,8 @@ class eZOrderStatus extends eZPersistentObject
         eZPersistentObject::removeObject( eZOrderStatus::definition(), array( "id" => $id ) );
 
         $db->commit();
+
+        eZOrderStatus::flush();
     }
 
     /*!
@@ -348,6 +350,7 @@ class eZOrderStatus extends eZPersistentObject
     {
         if ( $this->StatusID )
         {
+            eZOrderStatus::flush();
             $this->store();
         }
         else
@@ -374,6 +377,8 @@ class eZOrderStatus extends eZPersistentObject
             $this->store();
 
             $db->unlock();
+
+            eZOrderStatus::flush();
         }
     }
 }
