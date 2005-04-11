@@ -1,6 +1,6 @@
 <?php
 //
-// Created on: <31-Jul-2002 16:49:13 bf>
+// Created on: <08-Mar-2005 18:16:54 jhe>
 //
 // Copyright (C) 1999-2005 eZ systems as. All rights reserved.
 //
@@ -33,73 +33,50 @@
 // you.
 //
 
-$OrderID = $Params['OrderID'];
-$module =& $Params['Module'];
 include_once( "kernel/common/template.php" );
-
 include_once( "kernel/classes/ezorder.php" );
+include_once( "kernel/classes/ezorderstatus.php" );
+include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
-$ini =& eZINI::instance();
-$http =& eZHTTPTool::instance();
+$module =& $Params["Module"];
+$http =& eZHttpTool::instance();
 $user =& eZUser::currentUser();
-$access = false;
+
 $order = eZOrder::fetch( $OrderID );
 if ( !$order )
 {
     return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
-$accessToAdministrate =& $user->hasAccessTo( 'shop', 'administrate' );
-$accessToAdministrateWord = $accessToAdministrate['accessWord'];
-eZDebug::writeDebug( $accessToAdministrateWord, 'accessToAdministrateWord' );
-
-$accessToBuy =& $user->hasAccessTo( 'shop', 'buy' );
-$accessToBuyWord = $accessToBuy['accessWord'];
-eZDebug::writeDebug( $accessToBuyWord, 'accessToBuyWord' );
-
-if ( $accessToAdministrateWord != 'no' )
+if ( $http->hasPostVariable( "OrderID" ) && $http->hasPostVariable( "StatusID" ) && $http->hasPostVariable( "SetOrderStatusButton" ) )
 {
-    $access = true;
-}
-elseif ( $accessToBuyWord != 'no' )
-{
-    if ( $user->id() == $ini->variable( 'UserSettings', 'AnonymousUserID' ) )
+    $access = $order->canModifyStatus( $StatusID );
+
+    if ( $access )
     {
-        if( $OrderID != $http->sessionVariable( 'UserOrderID' ) )
+        if ( $order->attribute( 'status_id' ) != $StatusID )
         {
-            $access = false;
+            $order->modifyStatus( $StatusID );
+        }
+
+        if ( $http->hasPostVariable( 'RedirectURI' ) )
+        {
+            $uri = $http->postVariable( 'RedirectURI' );
+            $module->redirectTo( $uri );
+            return;
         }
         else
         {
-            $access = true;
+            $module->redirectTo( '/shop/orderview/' . $orderID );
+            return;
         }
     }
     else
     {
-        if ( $order->attribute( 'user_id' ) == $user->id() )
-        {
-            $access = true;
-        }
-        else
-        {
-            $access = false;
-        }
+        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     }
 }
-if ( !$access )
-{
-     return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-}
-$tpl =& templateInit();
 
-
-$tpl->setVariable( "order", $order );
-
-$Result = array();
-$Result['content'] =& $tpl->fetch( "design:shop/orderview.tpl" );
-$Result['path'] = array( array( 'url' => 'shop/orderlist',
-                                'text' => ezi18n( 'kernel/shop', 'Order list' ) ),
-                         array( 'url' => false,
-                                'text' => ezi18n( 'kernel/shop', 'Order #%order_id', null, array( '%order_id' => $order->attribute( 'order_nr' ) ) ) ) );
+return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
 ?>

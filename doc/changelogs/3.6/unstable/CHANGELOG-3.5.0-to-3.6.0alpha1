@@ -54,6 +54,9 @@ Shop:
 - Added: Adding products to basket is now done in an operation allowing workflows
   to be attached to the operation.
   (Submitted by Jo Henrik Endrerud)
+- Added: Orders can now have a status related to it.
+  (See doc/features/3.6/shop_status.txt for more details)
+  (Original code submitted by Jo Henrik Endrerud)
 
 *INI settings
 - Fixed: ShowHiddenNodes now defaults to false. If you want to see hidden nodes by default

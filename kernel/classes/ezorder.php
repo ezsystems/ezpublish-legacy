@@ -58,6 +58,7 @@ class eZOrder extends eZPersistentObject
     function eZOrder( $row )
     {
         $this->eZPersistentObject( $row );
+        $this->Status = null;
     }
 
     function &definition()
@@ -105,7 +106,22 @@ class eZOrder extends eZPersistentObject
                                          "email" => array( 'name' => "Email",
                                                            'datatype' => 'string',
                                                            'default' => '',
-                                                           'required' => true ) ),
+                                                           'required' => true ),
+                                         "status_id" => array( 'name' => 'StatusID',
+                                                               'datatype' => 'integer',
+                                                               'default' => 0,
+                                                               'required' => false ),
+                                         "status_modified" => array( 'name' => "StatusModified",
+                                                                     'datatype' => 'integer',
+                                                                     'default' => 0,
+                                                                     'required' => true ),
+                                         "status_modifier_id" => array( 'name' => "StatusModifierID",
+                                                                        'datatype' => 'integer',
+                                                                        'default' => 0,
+                                                                        'required' => true ) ),
+                      'function_attributes' => array( 'status_name' => 'statusName',
+                                                      'status' => 'statusObject',
+                                                      'status_modification_list' => 'statusModificationList' ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZOrder",
@@ -918,6 +934,7 @@ class eZOrder extends eZPersistentObject
         $db =& eZDB::instance();
         $db->begin();
         $this->removeCollection();
+        $this->removeHistory();
         $this->remove();
         $db->commit();
     }
@@ -930,6 +947,17 @@ class eZOrder extends eZPersistentObject
     {
         $collection =& eZProductCollection::fetch( $this->attribute( 'productcollection_id' ) );
         $collection->remove();
+    }
+
+    /*!
+     Removes the order status history for this order.
+     \note transaction unsafe
+    */
+    function removeHistory()
+    {
+        $db =& eZDB::instance();
+        $orderID = (int)$this->OrderNr;
+        $db->query( "DELETE FROM ezorder_status_history WHERE order_id=$orderID" );
     }
 
     /*!
@@ -1006,6 +1034,251 @@ class eZOrder extends eZPersistentObject
     }
 
     /*!
+     \return The status object if \a $asObject is \c true, otherwise the status ID.
+    */
+    function status( $asObject = false )
+    {
+        if ( $asObject )
+            return eZOrderStatus::fetch( $this->StatusID );
+        else
+            return $this->StatusID;
+    }
+
+    /*!
+      \return \c true if the user \a $user can modify the status to $statusID
+    */
+    function canModifyStatus( $statusID, $user = false )
+    {
+        if ( $user === false )
+            $user =& eZUser::currentUser();
+        else if ( is_numeric( $user ) )
+            $user =& eZUser::fetch( $user );
+
+        if ( !is_object( $user ) )
+        {
+            eZDebug::writeError( "Cannot check status access without a user", 'eZOrder::canModifyStatus' );
+            return false;
+        }
+
+        $accessResult = $user->hasAccessTo( 'shop' , 'setstatus' );
+        $accessWord = $accessResult['accessWord'];
+        $access = false;
+
+        $currentStatusID = $this->attribute( "status_id" );
+
+        if ( $accessWord == 'yes' )
+            $access = true;
+
+        if ( $accessWord == 'limited' )
+        {
+            $limitationList =& $accessResult['policies'];
+            $access = true;
+            foreach ( $limitationList as $pid => $limit )
+            {
+                $access = true;
+                foreach ( $limit as $name => $value )
+                {
+                    if ( $name == 'FromStatus' )
+                    {
+                        if ( !in_array( $currentStatusID, $value )  )
+                            $access = false;
+                    }
+                    if ( $name == 'ToStatus' )
+                    {
+                        if ( !in_array( $statusID, $value ) )
+                            $access = false;
+                    }
+                    if ( !$access )
+                        break;
+                }
+                if ( $access )
+                    break;
+            }
+        }
+        return $access;
+    }
+
+    /*!
+     \return A list of status items that the current user can set this order to.
+     \note If the user doesn't have any access at all for this order it will
+           return an empty array.
+    */
+    function statusModificationList( $user = false )
+    {
+        if ( $user === false )
+            $user =& eZUser::currentUser();
+        else if ( is_numeric( $user ) )
+            $user =& eZUser::fetch( $user );
+
+        if ( !is_object( $user ) )
+        {
+            eZDebug::writeError( "Cannot calculate status access list without a user", 'eZOrder::canModifyStatus' );
+            return false;
+        }
+
+        $accessResult = $user->hasAccessTo( 'shop' , 'setstatus' );
+        $accessWord = $accessResult['accessWord'];
+        $access = false;
+
+        $currentStatusID = $this->attribute( "status_id" );
+
+        if ( $accessWord == 'yes' )
+        {
+            // We have full access so we return all of them
+            include_once( 'kernel/classes/ezorderstatus.php' );
+            return eZOrderStatus::fetchOrderedList( true, false );
+        }
+
+        $statusList = array();
+        if ( $accessWord == 'limited' )
+        {
+            $limitationList =& $accessResult['policies'];
+            $access = true;
+            // All 'to' statues will be appended to this array
+            $accessList = array();
+            foreach ( $limitationList as $pid => $limit )
+            {
+                $access = true;
+                foreach ( $limit as $name => $value )
+                {
+                    if ( $name == 'FromStatus' )
+                    {
+                        if ( !in_array( $currentStatusID, $value )  )
+                            $access = false;
+                    }
+                    if ( !$access )
+                        break;
+                }
+                if ( $access )
+                {
+                    if ( isset( $limit['ToStatus'] ) )
+                    {
+                        $accessList = array_merge( $accessList, $limit['ToStatus'] );
+                    }
+                    else
+                    {
+                        // We have full access for the current status so we return all of them
+                        include_once( 'kernel/classes/ezorderstatus.php' );
+                        return eZOrderStatus::fetchOrderedList( true, false );
+                    }
+                }
+            }
+            if ( count( $accessList ) > 0 )
+            {
+                $accessList = array_unique( array_merge( $accessList, array( $currentStatusID ) ) );
+                include_once( 'kernel/classes/ezorderstatus.php' );
+                $statuses = eZOrderStatus::fetchOrderedList( true, false );
+                foreach ( $statuses as $status )
+                {
+                    if ( in_array( $status->attribute( 'status_id' ), $accessList ) )
+                        $statusList[] = $status;
+                }
+            }
+        }
+        return $statusList;
+    }
+
+    /*!
+     Modifies the status on the order to $statusID.
+     It will store the previous status in the history list using \a $userID.
+     \param $statusID The ID of the status that is to be set, this must be the global ID not the DB ID.
+     \param $userID The ID of the user that did the change, if \c false it will fetch the current user ID.
+
+     \note transaction safe
+     \note If you only want to change the status ID use the setStatus() function instead.
+    */
+    function modifyStatus( $statusID, $userID = false )
+    {
+        $db =& eZDB::instance();
+        $db->begin();
+
+        $time = mktime();
+        if ( $userID === false )
+            $userID = eZUser::currentUserID();
+
+        include_once( 'kernel/classes/ezorderstatushistory.php' );
+        $history = eZOrderStatusHistory::create( $this->OrderNr, $statusID, $userID, $time );
+        $history->store();
+
+        $this->StatusID = $statusID;
+        $this->StatusModified = $time;
+        $this->StatusModifierID = $userID;
+
+        $this->store();
+
+        $db->commit();
+    }
+
+    /*!
+     Creates a status history element from the the current status information
+     and stores it in the database.
+     \return The new history element that was stored in the database.
+     \note This is usually only needed the first time an order is created.
+     \note transaction unsafe
+    */
+    function createStatusHistory()
+    {
+        include_once( 'kernel/classes/ezorderstatushistory.php' );
+        $history = eZOrderStatusHistory::create( $this->OrderNr, // Note: Use the order nr, not id
+                                                 $this->StatusID,
+                                                 $this->StatusModifierID,
+                                                 $this->StatusModified );
+        $history->store();
+        return $history;
+    }
+
+    /*!
+     Sets the status ID to \a $status and updates the status modification timestamp.
+     \note This does not create a status history element, use modifyStatus() instead.
+    */
+    function setStatus( $status )
+    {
+        if ( get_class( $status ) == "ezorderstatus" )
+            $this->StatusID = $staus->attribute( 'id' );
+        else
+            $this->StatusID = $status;
+        $this->setStatusModified( mktime() );
+    }
+
+    /*!
+     Sets the modification time of the status change to \a $timestamp.
+    */
+    function setStatusModified( $timestamp )
+    {
+        $this->StatusModified = $timestamp;
+    }
+
+    /*!
+     \return The name of the current status.
+     \note It will cache the current status object in the $Status member variable
+           to make multiple calls to this function fast.
+    */
+    function statusName()
+    {
+        if ( $this->Status === null )
+        {
+            include_once( 'kernel/classes/ezorderstatus.php' );
+            $this->Status = eZOrderStatus::fetchByStatus( $this->StatusID );
+        }
+        return $this->Status->attribute( 'name' );
+    }
+
+    /*!
+     \return The current status object.
+     \note It will cache the current status object in the $Status member variable
+           to make multiple calls to this function fast.
+    */
+    function statusObject()
+    {
+        if ( $this->Status === null )
+        {
+            include_once( 'kernel/classes/ezorderstatus.php' );
+            $this->Status = eZOrderStatus::fetchByStatus( $this->StatusID );
+        }
+        return $this->Status;
+    }
+
+    /*!
      Creates a real order from the temporary state
      \note transaction unsafe.
     */
@@ -1013,12 +1286,17 @@ class eZOrder extends eZPersistentObject
     {
         $db =& eZDB::instance();
         $db->lock( 'ezorder' );
+
         $this->setAttribute( 'is_temporary', 0 );
         $nextIDArray = $db->arrayQuery(  "SELECT ( max( order_nr ) + 1 ) AS next_nr FROM ezorder" );
         $nextID = $nextIDArray[0]['next_nr'];
         $this->setAttribute( 'order_nr', $nextID );
         $this->store();
+
         $db->unlock();
+
+        // Create an order status history element that matches the current status
+        $this->createStatusHistory();
     }
 
     /*!
@@ -1037,15 +1315,17 @@ class eZOrder extends eZPersistentObject
     function cleanupOrder( $orderID )
     {
         $db =& eZDB::instance();
-        $rows = $db->arrayQuery( "SELECT productcollection_id FROM ezorder WHERE id='$orderID'" );
+        $rows = $db->arrayQuery( "SELECT productcollection_id, order_nr FROM ezorder WHERE id='$orderID'" );
         if ( count( $rows ) > 0 )
         {
             $productCollectionID = $rows[0]['productcollection_id'];
+            $orderNr = (int)$rows[0]['order_nr'];
             $db =& eZDB::instance();
             $db->begin();
             $db->query( "DELETE FROM ezorder where id='$orderID'" );
             $db->query( "DELETE FROM ezproductcollection where id='$productCollectionID'" );
             $db->query( "DELETE FROM ezproductcollection_item where productcollection_id='$productCollectionID'" );
+            $db->query( "DELETE FROM ezorder_status_history WHERE order_id=$orderNr" );
             $db->commit();
         }
     }
@@ -1073,9 +1353,14 @@ class eZOrder extends eZPersistentObject
         }
         include_once( 'kernel/classes/ezorderitem.php' );
         eZOrderItem::cleanup();
+        $db->query( "DELETE FROM ezorder_status_history" );
         $db->query( "DELETE FROM ezorder" );
         $db->commit();
     }
+
+    /// \privatesection
+    /// The cached status object or \c null if not cached yet.
+    var $Status;
 }
 
 ?>

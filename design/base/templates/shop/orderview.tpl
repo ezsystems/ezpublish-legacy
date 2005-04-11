@@ -1,5 +1,7 @@
 <div class="shop-orderview">
-    <h1>{"Order %1"|i18n("design/standard/shop",,array($order.order_nr))}</h1>
+    <h1>{"Order %order_id [%order_status]"|i18n("design/standard/shop",,
+         hash( '%order_id', $order.order_nr,
+               '%order_status', $order.status_name ) )}</h1>
 
     {shop_account_view_gui view=html order=$order}
 
@@ -109,5 +111,19 @@
         <b>{$order.total_inc_vat|l10n(currency)}</b>
         </td>
     </tr>
+    </table>
+
+    <h2>{"Order history"|i18n("design/standard/shop")}:</h2>
+    <table class="list" cellspacing="0" cellpadding="0" border="0">
+    {let order_status_history=fetch( shop, order_status_history,
+                                     hash( 'order_id', $order.order_nr ) )}
+    {section var=history loop=$order_status_history sequence=array(bglight,bgdark)}
+    <tr>
+        <td class="{$history.sequence} date">{$sel_pre}{$history.modified|l10n( shortdatetime )}</td>
+    	<td class="{$history.sequence}">{$history.status_name|wash}</td>
+    </tr>
+    {/section}
+    {/let}
+
     </table>
 </div>

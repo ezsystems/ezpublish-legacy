@@ -35,6 +35,7 @@
 
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezorder.php' );
+include_once( 'kernel/classes/ezorderstatus.php' );
 include_once( 'kernel/classes/ezpreferences.php' );
 
 $module =& $Params['Module'];
@@ -75,8 +76,23 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
         if ( $deleteIDArray !== null )
         {
             $http->setSessionVariable( 'DeleteOrderIDArray', $deleteIDArray );
-            print_r($deleteIDArray );
             $Module->redirectTo( $Module->functionURI( 'removeorder' ) . '/' );
+        }
+    }
+}
+
+if ( $http->hasPostVariable( 'SaveOrderStatusButton' ) )
+{
+    if ( $http->hasPostVariable( 'StatusList' ) )
+    {
+        foreach ( $http->postVariable( 'StatusList' ) as $orderID => $statusID )
+        {
+            $order = eZOrder::fetch( $orderID );
+            $access = $order->canModifyStatus( $statusID );
+            if ( $access and $order->attribute( 'status_id' ) != $statusID )
+            {
+                $order->modifyStatus( $statusID );
+            }
         }
     }
 }

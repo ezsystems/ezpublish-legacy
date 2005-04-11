@@ -1,3 +1,4 @@
+{let can_apply=false()}
 <form name="orderlist" method="post" action={concat( '/shop/orderlist' )|ezurl}>
 
 <div class="context-block">
@@ -51,15 +52,39 @@
 	<th class="tight">{'Total (ex. VAT)'|i18n( 'design/admin/shop/orderlist' )}</th>
 	<th class="tight">{'Total (inc. VAT)'|i18n( 'design/admin/shop/orderlist' )}</th>
 	<th class="wide">{'Time'|i18n( 'design/admin/shop/orderlist' )}</th>
+	<th class="wide">{'Status'|i18n( 'design/admin/shop/orderlist' )}</th>
 </tr>
 {section var=Orders loop=$order_list sequence=array( bglight, bgdark )}
 <tr class="{$Orders.sequence}">
     <td><input type="checkbox" name="DeleteIDArray[]" value="{$Orders.item.id}" title="{'Select order for removal.'|i18n( 'design/admin/shop/orderlist' )}" /></td>
 	<td><a href={concat( '/shop/orderview/', $Orders.item.id, '/' )|ezurl}>{$Orders.item.order_nr}</a></td>
 	<td><a href={concat( '/shop/customerorderview/', $Orders.item.user_id, '/', $Orders.item.account_email )|ezurl}>{$Orders.item.account_name}</a></td>
+
+    {* NOTE: These two attribute calls are slow, they cause the system to generate lots of SQLs.
+             The reason is that their values are not cached in the order tables *}
 	<td class="number" align="right">{$Orders.item.total_ex_vat|l10n( currency )}</td>
 	<td class="number" align="right">{$Orders.item.total_inc_vat|l10n( currency )}</td>
+
 	<td>{$Orders.item.created|l10n( shortdatetime )}</td>
+	<td>
+    {let order_status_list=$Orders.status_modification_list}
+
+    {section show=$order_status_list|count|gt( 0 )}
+        {set can_apply=true()}
+        <select name="StatusList[{$Orders.item.id}]">
+        {section var=Status loop=$order_status_list}
+            <option value="{$Status.item.status_id}"
+                {section show=eq( $Status.item.status_id, $Orders.item.status_id )}selected="selected"{/section}>
+                {$Status.item.name|wash}</option>
+        {/section}
+        </select>
+    {section-else}
+        {* Lets just show the name if we don't have access to change the status *}
+        {$Orders.status_name|wash}
+    {/section}
+
+    {/let}
+	</td>
 </tr>
 {/section}
 </table>
@@ -79,19 +104,32 @@
 </div>
 
 {* DESIGN: Content END *}</div></div></div>
+</div>
+
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
-<div class="block">
 
+<div class="block">
+<div class="button-left">
 {section show=$order_list}
     <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/shop/orderlist' )}" title="{'Remove selected orders.'|i18n( 'design/admin/shop/orderlist' )}" />
 {section-else}
     <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/shop/orderlist' )}" disabled="disabled" />
 {/section}
+</div>
+<div class="button-right">
+    {section show=and( $order_list|count|gt( 0 ), $can_apply )}
+    <input class="button" type="submit" name="SaveOrderStatusButton" value="{'Apply changes'|i18n( 'design/admin/shop/status' )}" title="{'Click this button to store changes if you have modified any of the fields above.'|i18n( 'design/admin/shop/status' )}" />
+    {section-else}
+    <input class="button-disabled" type="submit" name="SaveOrderStatusButton" value="{'Apply changes'|i18n( 'design/admin/shop/status' )}" disabled="disabled" />
+    {/section}
+</div>
+<div class="break"></div>
 
 </div>
-</div>
+
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
 </form>
+{/let}

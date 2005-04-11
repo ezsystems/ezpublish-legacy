@@ -339,10 +339,16 @@ class eZBasket extends eZPersistentObject
         $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
 
+        include_once( 'kernel/classes/ezorderstatus.php' );
+        $time = mktime();
         $order = new eZOrder( array( 'productcollection_id' => $productCollectionID,
                                      'user_id' => $userID,
                                      'is_temporary' => 1,
-                                     'created' => mktime() ) );
+                                     'created' => $time,
+                                     'status_id' => EZ_ORDER_STATUS_PENDING,
+                                     'status_modified' => $time,
+                                     'status_modifier_id' => $userID
+                                     ) );
 
         $db =& eZDB::instance();
         $db->begin();

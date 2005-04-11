@@ -161,8 +161,41 @@ $ViewList["discountgroupview"] = array(
     'post_actions' => array( 'BrowseActionName' ),
     "params" => array( 'DiscountGroupID' ) );
 
+$ViewList['status'] = array(
+    "functions" => array( 'edit_status' ),
+    "script" => 'status.php',
+    "default_navigation_part" => 'ezshopnavigationpart',
+    "params" => array(  ) );
+
+$ViewList['setstatus'] = array(
+    "functions" => array( 'setstatus' ),
+    "script" => 'setstatus.php',
+    "default_navigation_part" => 'ezshopnavigationpart',
+    "params" => array(  ) );
+
+$FromStatus = array(
+    'name' => 'FromStatus',
+    'values' => array(),
+    'path' => 'classes/',
+    'file' => 'ezorderstatus.php',
+    'class' => 'eZOrderStatus',
+    'function' => 'fetchPolicyList',
+    'parameter' => array( false ) );
+
+$ToStatus = array(
+    'name' => 'ToStatus',
+    'values' => array(),
+    'path' => 'classes/',
+    'file' => 'ezorderstatus.php',
+    'class' => 'eZOrderStatus',
+    'function' => 'fetchPolicyList',
+    'parameter' => array( false ) );
+
 $FunctionList['setup'] = array( );
 $FunctionList['adminstrate'] = array( );
 $FunctionList['buy'] = array( );
+$FunctionList['edit_status'] = array( );
+$FunctionList['setstatus'] = array( 'FromStatus' => $FromStatus,
+                                    'ToStatus' => $ToStatus );
 
 ?>

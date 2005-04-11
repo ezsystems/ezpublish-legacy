@@ -149,6 +149,28 @@ class eZShopFunctionCollection
         $result =& eZWishList::itemCount( $production_id );
         return array( 'result' => $result );
     }
+
+    /*!
+     Finds the number of history element for the order \a $orderID.
+    */
+    function fetchOrderStatusHistoryCount( $orderID )
+    {
+        include_once( 'kernel/classes/ezorderstatushistory.php' );
+
+        $count = eZOrderStatusHistory::fetchCount( $orderID );
+        return array( 'result' => $count );
+    }
+
+    /*!
+     Finds the history elements for the order \a $orderID.
+    */
+    function fetchOrderStatusHistory( $orderID )
+    {
+        include_once( 'kernel/classes/ezorderstatushistory.php' );
+
+        $list = eZOrderStatusHistory::fetchListByOrder( $orderID );
+        return array( 'result' => $list );
+    }
 }
 
 ?>

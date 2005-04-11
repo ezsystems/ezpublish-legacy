@@ -1,0 +1,40 @@
+Title: Status on orders
+
+Documentation:
+The order list has been enhanced by giving it the possibility to set a status per
+order. This allows the shop owner to clearly state what is going on with an
+order.
+
+The system comes with 3 pre-defined statues named:
+1 - Pending - The order has just been created and is not handled by a person yet.
+2 - Processing - The order is currently being handled, this could mean that a person is assembling the parts.
+3 - Delivered - The order is delivered to the end-user, e.g. sent by snail mail.
+
+It is also possible for the site administrator to create more statuses, they are
+known as custom statuses and will start at ID 1000 and increase from that.
+
+Also a special status is defined, the status Undefined (value 0), this is used for
+statuses that have been removed.
+
+A status element consists of:
+- status_id - A unique ID for the status, IDs lower than 1000 are internal ones.
+- name - A describing name for the status
+- is_active - Whether the status can be used or not, if false it will not be
+              shown in drop-down lists.
+
+In the permission system two new access functions have been added, they are:
+shop/setstatus - Defines which status a user can set, also optionally which status
+                 the order must originally have to be modified.
+shop/edit_status - Controls if a user can edit/remove status items or not.
+
+New templates:
+shop/status.tpl - Controls the interface for editing, creating and removing statuses.
+                  Implemented for admin and standard design.
+
+New module views:
+shop/status - Handles status elements, uses shop/status.tpl
+shop/setstatus - View to change the status of an order.
+
+New fetch functions:
+shop/order_status_history_count - Returns the number of history elements for a given order ID
+shop/order_status_history - Returns the status history elements for a given order ID

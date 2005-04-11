@@ -98,5 +98,23 @@ $FunctionList['wish_list_count'] = array( 'name' => 'wish_list_count',
                                           'parameters' => array( array( 'name' => 'production_id',
                                                                         'type' => 'integer',
                                                                         'required' => true ) ) );
+$FunctionList['order_status_history_count'] = array( 'name' => 'order_status_history_count',
+                                                     'operation_types' => array( 'read' ),
+                                                     'call_method' => array( 'include_file' => 'kernel/shop/ezshopfunctioncollection.php',
+                                                                             'class' => 'eZShopFunctionCollection',
+                                                                             'method' => 'fetchOrderStatusHistoryCount' ),
+                                                     'parameter_type' => 'standard',
+                                                     'parameters' => array( array( 'name' => 'order_id',
+                                                                                   'type' => 'integer',
+                                                                                   'required' => true ) ) );
+$FunctionList['order_status_history'] = array( 'name' => 'order_status_history',
+                                               'operation_types' => array( 'read' ),
+                                               'call_method' => array( 'include_file' => 'kernel/shop/ezshopfunctioncollection.php',
+                                                                       'class' => 'eZShopFunctionCollection',
+                                                                 'method' => 'fetchOrderStatusHistory' ),
+                                               'parameter_type' => 'standard',
+                                               'parameters' => array( array( 'name' => 'order_id',
+                                                                             'type' => 'integer',
+                                                                             'required' => true ) ) );
 
 ?>
