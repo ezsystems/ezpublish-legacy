@@ -540,9 +540,17 @@ if ( !function_exists( 'checkContentActions' ) )
                         $Result['content'] = "Content publish cancelled<br/>";
                     }
                 }
+
+                /* If we already have a correct module result
+                 * we don't need to continue module execution.
+                 */
                 if ( is_array( $Result ) )
-                    return $Result;
+                    return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }
+
+            // update content object attributes array by refetching them from database
+            $object = eZContentObject::fetch( $object->attribute( 'id' ) );
+            $contentObjectAttributes = $object->attribute( 'contentobject_attributes' );
 
             // set chosen hidden/invisible attributes for object nodes
             $http          =& eZHTTPTool::instance();
@@ -586,6 +594,8 @@ if ( !function_exists( 'checkContentActions' ) )
             $http =& eZHttpTool::instance();
 
             computeRedirect( $module, $object, $version );
+            // we have set redirection URI for module so we don't need to continue module execution
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
     }
 }
