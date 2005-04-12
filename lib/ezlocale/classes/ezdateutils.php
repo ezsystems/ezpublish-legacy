@@ -74,7 +74,7 @@ class eZDateUtils
             $timestamp = mktime();
         $info = getdate( $timestamp );
         $days = array( 1 => 'Mon', 2 => 'Tue', 3 => 'Wed',
-                       4 => 'Thu', 5 => 'Fri', 6 => 'Sat', 7 => 'Sun' );
+                       4 => 'Thu', 5 => 'Fri', 6 => 'Sat', 0 => 'Sun' );
         $wkday = $days[$info['wday']];
         $months = array( 1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
                          5 => 'May', 6 => 'Jun', 7 => 'Jul', 8 => 'Aug',
@@ -106,7 +106,7 @@ class eZDateUtils
             $timestamp = mktime();
         $info = getdate( $timestamp );
         $days = array( 1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday',
-                       4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday', 7 => 'Sunday' );
+                       4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday', 0 => 'Sunday' );
         $weekday = $days[$info['wday']];
         $months = array( 1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
                          5 => 'May', 6 => 'Jun', 7 => 'Jul', 8 => 'Aug',
