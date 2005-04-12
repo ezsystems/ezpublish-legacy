@@ -26,7 +26,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-<th width="40%">{'Old URL'|i18n( 'design/admin/content/urltranslator' )}</th>
+<th width="40%">{'New virtual URL'|i18n( 'design/admin/content/urltranslator' )}</th>
 <th>{'System URL'|i18n( 'design/admin/content/urltranslator' )}</th>
 
 <th class="tight">&nbsp;</th>
@@ -72,7 +72,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-<th width="40%">{'Old URL'|i18n( 'design/admin/content/urltranslator' )}</th>
+<th width="40%">{'New virtual URL'|i18n( 'design/admin/content/urltranslator' )}</th>
 <th>{'Existing virtual URL'|i18n( 'design/admin/content/urltranslator' )}</th>
 <th class="tight">&nbsp;</th>
 </tr>
@@ -114,7 +114,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-<th width="40%">{'Old URL'|i18n( 'design/admin/content/urltranslator' )}</th>
+<th width="40%">{'New virtual URL wildcard'|i18n( 'design/admin/content/urltranslator' )}</th>
 <th>{'Existing virtual URL'|i18n( 'design/admin/content/urltranslator' )}</th>
 <th class="tight">{'Redirecting URL'|i18n( 'design/admin/content/urltranslator' )}</th>
 <th class="tight">&nbsp;</th>

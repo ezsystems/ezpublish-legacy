@@ -297,6 +297,8 @@ eZInformationCollection:
 - Fixed bug #6464: Uploading new related objects to new content object 
   erases contents of the object.
   (Merged from stable/3.5 (3.5.2) rev. 11339)
+- Fixed bug #6180: URL translator confusion revisited.
+  (Merged from stable/3.5 (3.5.2) rev. 11342)
   
 *Library:
 PDF:
