@@ -63,7 +63,7 @@
                     <td class="name">{$RelatedFileObjects.item.class_name|class_icon( small, $RelatedFileObjects.class_name )}&nbsp;{$RelatedFileObjects.item.name|wash}</td>
                     <td class="filetype">{$RelatedFileObjects.item.data_map.file.content.mime_type|wash}</td>
                     <td class="filesize">{$RelatedFileObjects.item.data_map.file.content.filesize|si( byte )}</td>
-                    <td class="code"><input class="linkbox" type="text" value="&lt;object id={$RelatedFileObjects.item.id} /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /></td>
+                    <td class="code"><input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedFileObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /></td>
                 </tr>
             {/section}
 
