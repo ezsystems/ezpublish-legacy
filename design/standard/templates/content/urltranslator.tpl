@@ -10,10 +10,10 @@
 <div class="object">
 <table cellspacing="4" cellpadding="0">
 <tr>
-    <th>{'System URL'}</th>
-    <th>{'Virtual URL'}</th>
-    <th>{'Type'}</th>
-    <th>{'Remove'}</th>
+    <th>{'Existing URL'|i18n('design/standard/content')}</th>
+    <th>{'New URL'|i18n('design/standard/content')}</th>
+    <th>{'Type'|i18n('design/standard/content')}</th>
+    <th>{'Remove'|i18n('design/standard/content')}</th>
 </tr>
 {section name=Alias loop=$alias_list show=$alias_list}
 <tr>
@@ -33,12 +33,12 @@
     </td>
     <td>
     {section show=$Alias:item.is_wildcard|gt(0)}
-        Wildcard
+	{'Wildcard'|i18n('design/standard/content')}
     {section-else}
         {section show=$Alias:item.forward_to_id|eq(0)}
-            Normal
+            {'Translation'|i18n('design/standard/content')}
         {section-else}
-            Forwarding
+	    {'Forwarding'|i18n('design/standard/content')}
         {/section}
     {/section}
     </td>
@@ -52,7 +52,7 @@
         <input type="submit" name="StoreURLAliasButton" value="{'Store'|i18n('design/standard/content')}" />
     </td>
     <td align="right">
-         <input type="image" name="RemoveURLAliasButton" value="{'Remove'}" src={"trash.png"|ezimage} />
+         <input type="image" name="RemoveURLAliasButton" value="{'Remove'|i18n('design/standard/content')}" src={"trash.png"|ezimage} />
     </td>
 </tr>
 </table>
@@ -108,15 +108,15 @@
 <table cellspacing="4" cellpadding="0">
 <tr>
     <th colspan="3">
-        {'Translation'}
+        {'Translation'|i18n('design/standard/content')}
     </th>
 </tr>
 <tr>
     <td>
-        {'System URL'}
+        {'Existing system URL'|i18n('design/standard/content')}
     </td>
     <td>
-        {'Virtual URL'}
+        {'New virtual URL'|i18n('design/standard/content')}
     </td>
 </tr>
 <tr>
@@ -136,23 +136,23 @@
 </tr>
 <tr>
     <td>
-        {'e.g. /content/view/full/42'}
+        {'e.g. %url'|i18n('design/standard/content',, hash( '%url', '/content/view/full/42'))}
     </td>
     <td colspan="2">
-        {'e.g. /services'}
+        {'e.g. %url'|i18n('design/standard/content',, hash( '%url', '/services'))}
     </td>
 </tr>
 <tr>
     <th colspan="3">
-        {'Forwarding'}
+        {'Forwarding'|i18n('design/standard/content')}
     </th>
 </tr>
 <tr>
     <td>
-        {'Old virtual URL'}
+        {'Existing virtual URL'|i18n('design/standard/content')}
     </td>
     <td>
-        {'Existing virtual URL'}
+        {'New virtual URL'|i18n('design/standard/content')}
     </td>
 </tr>
 <tr>
@@ -172,23 +172,23 @@
 </tr>
 <tr>
     <td>
-        {'e.g. /about/service'}
+        {'e.g. %url'|i18n('design/standard/content',, hash( '%url', '/about/service'))}
     </td>
     <td colspan="2">
-        {'e.g. /services'}
+        {'e.g. %url'|i18n('design/standard/content',, hash( '%url', '/services'))}
     </td>
 </tr>
 <tr>
     <th colspan="3">
-        {'Wildcard'}
+        {'Wildcard'|i18n('design/standard/content')}
     </th>
 </tr>
 <tr>
     <td>
-        {'Old virtual URL'}
+        {'Existing virtual URL'|i18n('design/standard/content')}
     </td>
     <td>
-        {'Existing virtual URL'}
+        {'New virtual URL wildcard'|i18n('design/standard/content')}
     </td>
 </tr>
 <tr>
@@ -213,10 +213,10 @@
 </tr>
 <tr>
     <td>
-        {literal}e.g. /dev/{1}{/literal}
+	{'e.g. %url'|i18n('design/standard/content',, hash( '%url', '/dev/'))}{literal}{1}{/literal}
     </td>
     <td colspan="2">
-        {'e.g. /developer/*'}
+        {'e.g. %url'|i18n('design/standard/content',, hash( '%url', '/developer/*'))}
     </td>
 </tr>
 </table>
