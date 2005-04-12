@@ -365,7 +365,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $target = "_self";
 
                     $objectParameters = array();
-//                    $objectParameters['align'] = "right;
+                    $objectParameters['align'] = "right";
                     foreach ( $objectAttributes as $attribute )
                     {
                         if ( $attribute->name() == "ezurl_id" )
