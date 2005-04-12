@@ -33,9 +33,9 @@
 {/case}
 {case match="right"}
 <div class="imageright">
-{section show=$href}<a href={$href|ezurl} target="{$attribute_parameters.target}">{/section}
+{section show=$link_parameters.href}<a href={$link_parameters.href} target="{$link_parameters.target}">{/section}
 <img src={$image_variation.full_path|ezroot} alt="{$object.data_map.image.content.alternative_text|wash(xhtml)}" />
-{section show=$href}</a>{/section}
+{section show=$link_parameters.href}</a>{/section}
 
 <div style="width: {$image_variation.width}px;">
 {$object.data_map.caption.content.output.output_text}

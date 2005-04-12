@@ -74,6 +74,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             $domNode =& $dom->elementsByName( "section" );
 
             $relatedObjectIDArray = array();
+            $nodeIDArray = array();
 
             // Fetch all links and cache the url's
             $links =& $dom->elementsByName( "link" );
@@ -91,7 +92,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                     $objectID = $link->attributeValue( 'object_id' );
                     if ( $objectID != null )
-                        $relatedObjectIDArray[] = $objectID;
+                        if ( !in_array( $objectID, $relatedObjectIDArray ) )
+                            $relatedObjectIDArray[] = $objectID;
+
+                    $nodeID = $link->attributeValue( 'node_id' );
+                    if ( $nodeID != null )
+                        if ( !in_array( $nodeID, $nodeIDArray ) )
+                            $nodeIDArray[] = $nodeID;
                 }
 
                 if ( count( $linkIDArray ) > 0 )
@@ -99,7 +106,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $inIDSQL = implode( ', ', $linkIDArray );
 
                     $db =& eZDB::instance();
-
                     $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
 
                     foreach ( $linkArray as $linkRow )
@@ -117,7 +123,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 foreach ( $objectArray as $object )
                 {
                     $objectID = $object->attributeValue( 'id' );
-                    $relatedObjectIDArray[] = $objectID;
+                    if ( $objectID != null )
+                        if ( !in_array( $objectID, $relatedObjectIDArray ) )
+                            $relatedObjectIDArray[] = $objectID;
                 }
             }
 
@@ -127,32 +135,44 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             {
                 foreach ( $embedTagArray as $embedTag )
                 {
-                    if ( $embedTag->attributeValue( 'object_id' ) !=null )
-                    {
-                        $objectID = $embedTag->attributeValue( 'object_id' );
-                        $relatedObjectIDArray[] = $objectID;
-                    }
-                    if ( $embedTag->attributeValue( 'node_id' ) !=null )
-                    {
-                        $nodeID = $embedTag->attributeValue( 'node_id' );
-                        $node =& eZContentObjectTreeNode::fetch( $nodeID );
-                        if ( $node != null )
-                        {
-	                        $objectID = $node->attribute( 'contentobject_id' );
-	                        $this->NodeObjectIDArray[$nodeID] = $objectID;
-	                        $relatedObjectIDArray[] = $objectID;
-                        }
-                        else
-                        {
-                            eZDebug::writeError( "Node $nodeID doesn't exist", "XML output handler" );
-                            $this->NodeObjectIDArray[$nodeID] = null;
-                        }
-                    }
+                    $objectID = $embedTag->attributeValue( 'object_id' );
+                    if ( $objectID != null )
+                        if ( !in_array( $objectID, $relatedObjectIDArray ) )
+                            $relatedObjectIDArray[] = $objectID;
+
+                    $nodeID = $embedTag->attributeValue( 'node_id' );
+                    if ( $nodeID !=null )
+                        if ( !in_array( $nodeID, $nodeIDArray ) )
+                            $nodeIDArray[] = $nodeID;
                 }
             }
 
             if ( $relatedObjectIDArray != null )
                 $this->ObjectArray =& eZContentObject::fetchIDArray( $relatedObjectIDArray );
+
+            if ( $nodeIDArray != null )
+            {
+                $nodes =& eZContentObjectTreeNode::fetch( $nodeIDArray );
+
+                if ( is_array( $nodes ) )
+                {
+                    foreach( $nodes as $node )
+                    {
+                        $nodeID = $node->attribute( 'node_id' );
+                        $this->NodeArray["$nodeID"] =& $node;
+                    }
+                }
+                elseif ( $nodes )
+                {
+                    $node =& $nodes;
+                    $nodeID = $node->attribute( 'node_id' );
+                    $this->NodeArray["$nodeID"] =& $node;
+                }
+                else
+                {
+                    eZDebug::writeError( "Embedded node(s) fetching failed", "XML output handler" );
+                }
+            }
 
             $sectionNode =& $domNode[0];
             $output = "";
@@ -350,6 +370,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         // Set link parameters for rendering children of link tag
         if ( $tagName=="link" )
         {
+            $href='';
             $this->LinkParameters = array();
 
             if ( $tag->attributeValue( 'url_id' ) != null )
@@ -364,57 +385,64 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             elseif ( $tag->attributeValue( 'node_id' ) != null )
             {
                 $nodeID = $tag->attributeValue( 'node_id' );
-                $node =& eZContentObjectTreeNode::fetch( $nodeID );
+                $node =& $this->NodeArray[$nodeID];
                 if ( $node == null )
                 {
                     eZDebug::writeError( "Node $nodeID doesn't exist", "XML output handler" );
-                    $href = '';
                 }
                 else
+                {
                     $href = $node->attribute( 'url_alias' );
+                }
             }
             elseif ( $tag->attributeValue( 'object_id' ) != null )
             {
                 $objectID = $tag->attributeValue( 'object_id' );
-                $object = $this->ObjectArray["$objectID"];
-                if ( $object == null )
+                $object =& $this->ObjectArray["$objectID"];
+                if ( $object )
+                {
+                    $node =& $object->attribute( 'main_node' );
+                    if ( $node )
+                    {
+                        $href = $node->attribute( 'url_alias' );
+                    }
+                    else
+                    {
+                        eZDebug::writeError( "Object $objectID is not attached to a node", "XML output handler" );
+                    }
+                }
+                else
                 {
                     eZDebug::writeError( "Object $objectID doesn't exist", "XML output handler" );
-                    break;
                 }
-                $node =& $object->attribute( 'main_node' );
-                if ( $node == null )
-                {
-                    eZDebug::writeError( "Object $objectID is not attached to a node", "XML output handler" );
-                    break;
-                }
-                $href = $node->attribute( 'url_alias' );
             }
             elseif ( $tag->attributeValue( 'href' ) != null )
             {
                 $href = $tag->attributeValue( 'href' );
-
                 include_once( 'lib/ezutils/classes/ezmail.php' );
                 if ( eZMail::validate( $href ) )
                     $href = "mailto:" . $href;
             }
 
-            if ( $tag->attributeValue( 'anchor_name' ) != null )
+            if ( $href != '' )
             {
-                $href .= '#' . $tag->attributeValue( 'anchor_name' );
+                if ( $tag->attributeValue( 'anchor_name' ) != null )
+                {
+                    $href .= '#' . $tag->attributeValue( 'anchor_name' );
+                }
+    
+                // Making valid URI
+                include_once( 'lib/ezutils/classes/ezuri.php' );
+                eZURI::transformURI( $href );
+    
+                $this->LinkParameters['href'] = $href;
+    
+                $this->LinkParameters['class'] = $tag->attributeValue( 'class' );
+                $this->LinkParameters['target'] = $tag->attributeValue( 'target' );
+                
+                $this->LinkParameters['title'] = $tag->attributeValueNS( 'title', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
+                $this->LinkParameters['id'] = $tag->attributeValueNS( 'id', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
             }
-
-            // Making valid URI
-            include_once( 'lib/ezutils/classes/ezuri.php' );
-            eZURI::transformURI( $href );
-
-            $this->LinkParameters['href'] = $href;
-
-            $this->LinkParameters['class'] = $tag->attributeValue( 'class' );
-            $this->LinkParameters['target'] = $tag->attributeValue( 'target' );
-            
-            $this->LinkParameters['title'] = $tag->attributeValueNS( 'title', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
-            $this->LinkParameters['id'] = $tag->attributeValueNS( 'id', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
         }
 
         // render children tags using recursion
@@ -435,10 +463,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $tagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, $href != '' );
                 }break;
                 default :
-                    if ( $isChildOfLinkTag )
-                        $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, true );
-                    else
-                        $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel );
+                    $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, $isChildOfLinkTag );
             }
         }
 
@@ -493,9 +518,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 {
                     $view = $tag->attributeValue( 'view' );
                     $alignment = $tag->attributeValue( 'align' );
-                    $size = $tag->attributeValue( 'size' );
-                    $src = "";
-                    $classID = $object->attribute( 'contentclass_id' );
                     $class = $tag->attributeValue( 'class' );
 
                     $res =& eZTemplateDesignResource::instance();
@@ -573,23 +595,37 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         {
             //$isBlockTag = true;
 
-            if ( $tag->attributeValue( 'object_id' ) != null )
-            {
-                $objectID = $tag->attributeValue( 'object_id' );
-            }
-            elseif ( $tag->attributeValue( 'node_id' ) != null )
-            {
-                $objectID = $this->NodeObjectIDArray[$tag->attributeValue( 'node_id' )];
-            }
-            else
-                break;
+            $objectID = $tag->attributeValue( 'object_id' );
 
-			if ( $objectID == null )
+            if ( $objectID )
+            {
+                $object =& $this->ObjectArray["$objectID"];
+            }
+
+            $nodeID = $tag->attributeValue( 'node_id' );
+            if ( $nodeID )
+            {
+                if ( isset( $this->NodeArray[$nodeID] ) )
+                {
+                    $node =& $this->NodeArray[$nodeID];
+                    $objectID = $node->attribute( 'contentobject_id' );
+                    $object =& $node->object();
+                }
+                else
+                {
+                    eZDebug::writeError( "Node $nodeID doesn't exist", "XML output handler" );
+                    break;
+                }
+            }
+
+			if ( !$object )
+            {
+                eZDebug::writeError( "Can't fetch object. objectID: $objectID, nodeID: $nodeID", "XML output handler" );
 	            break;
+            }
 
             // fetch attributes
             $embedAttributes =& $tag->attributes();
-            $object =& $this->ObjectArray["$objectID"];
 
             // Fetch from cache
             if ( get_class( $object ) == "ezcontentobject" and
@@ -909,10 +945,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     /// Contains the URL's for <link> tags hashed by ID
     var $LinkArray = array();
 
-    /// Contains the Objects for the <object> tags hashed by ID
+    /// Contains the Objects hashed by ID
     var $ObjectArray = array();
 
-    var $NodeObjectIDArray = array();
+    /// Contains the Nodes hashed by ID
+    var $NodeArray = array();
 
     /// Array of parameters for rendering tags that are children of 'link' tag
     var $LinkParameters = array();
