@@ -95,7 +95,7 @@ class eZIntegerType extends eZDataType
                 case EZ_INTEGER_NO_MIN_MAX_VALUE:
                 {
                     $state = $this->IntegerValidator->validate( $data );
-                    if( $state === EZ_INPUT_VALIDATOR_STATE_INVALID )
+                    if( $state === EZ_INPUT_VALIDATOR_STATE_INVALID || $state === EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The input is not a valid integer.' ) );
                     else
