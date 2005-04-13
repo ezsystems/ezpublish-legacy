@@ -180,7 +180,7 @@
 
    {let can_create_classes=fetch( content, can_instantiate_class_list, hash( group_id, array( ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), ezini( 'ClassGroupIDs', 'Setup', 'content.ini' ) ), parent_node, $node, filter_type, exclude ) )}
 
-   {section show=eq( $node.path_array[1], ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
+   {section show=$node.path_array|contains(ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) )}
           {set can_create_classes=fetch( content, can_instantiate_class_list, hash( group_id, ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), parent_node, $node ) )}
    {/section}
 
