@@ -1140,7 +1140,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
     {
         $shopModule =& eZModule::exists( "shop" );
         $result =& $shopModule->run( "basket", array() );
-        if ( $result['content'] )
+        if ( isset( $result['content'] ) && $result['content'] )
         {
             return $result;
         }

@@ -49,18 +49,17 @@ include_once( "kernel/common/template.php" );
 include_once( 'lib/ezutils/classes/ezhttptool.php' );
 
 $basket =& eZBasket::currentBasket();
-$basket->updatePrices(); // Update the prices. Transaction not necessary. 
+$basket->updatePrices(); // Update the prices. Transaction not necessary.
 
 
 if ( $http->hasPostVariable( "ActionAddToBasket" ) )
 {
     $objectID = $http->postVariable( "ContentObjectID" );
 
-    $optionList = $http->postVariable( "eZOption" );
-    if ( !$optionList )
-    {
+    if ( $http->hasPostVariable( 'eZOption' ) )
+        $optionList = $http->postVariable( 'eZOption' );
+    else
         $optionList = array();
-    }
 
     $http->setSessionVariable( "FromPage", $_SERVER['HTTP_REFERER'] );
     $http->setSessionVariable( "AddToBasket_OptionList_" . $objectID, $optionList );
