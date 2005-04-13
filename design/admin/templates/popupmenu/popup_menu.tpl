@@ -133,6 +133,11 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
     {/section}
 </div>
 
+{* Include additional submenus based on .ini files *}
+{section var=template loop=ezini( 'AdditionalMenuSettings', 'SubMenuTemplateArray', 'admininterface.ini' )}
+   {include uri=concat('design:', $template )}
+{/section}
+
 <!-- Advanced menu -->
 <div class="popupmenu" id="Advanced">
 {*    <div class="popupmenuheader"><h3 id="menu-header">{'Advanced'|i18n( 'design/admin/popupmenu' )}</h3>

@@ -3,7 +3,7 @@
 *Documentation:
 To load additional popup menu items used in the eZ publish
 administration interface you can use the following settings in 
-contentstructuremenu.ini:
+admininterface.ini:
 
 [AdditionalMenuSettings]
 ContextMenuTemplateArray[]=node/oocontextmenu.tpl
@@ -29,3 +29,40 @@ subitemscontextmenu.tpl:
     <hr/>
     <a id="menu-export-ooo" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
        onclick="ezpopmenu_submitForm( 'menu-form-export-ooo' ); return false;">{"Export OpenOffice.org"|i18n("design/admin/popupmenu")}</a>
+
+I addition:
+SubMenuTemplateArray[] you can specify submenus to your menu-elements:
+
+Example:
+
+admininterface.ini:
+ContextMenuTemplateArray[]=createhereitem.tpl
+SubitemsContextMenuTemplateArray[]=subitemscreatehereitem.tpl
+SubMenuTemplateArray[]=createheresubmenu.tpl
+
+createheresubmenu.tpl:
+  {* Create here submenu *}
+  <script language="JavaScript1.2" type="text/javascript">
+  menuArray['CreateHere'] = new Array();
+  menuArray['CreateHere']['depth'] = 1; // this is a first level submenu of ContextMenu
+  </script>
+
+  <div class="popupmenu" id="CreateHere">
+    {section var=class loop=fetch(class, latest_list, hash())}
+       <a id="menu-create-here-{$class.identifier}" href="#" onmouseover="ezpopmenu_mouseOver( 'CreateHere' )" onclick="ezpopupmenu_setSubstituteValue('%classID%', {$class.id}); ezpopmenu_submitForm( 'menu-form-create-here' ); return false;">{$class.name|wash(javascript)}</a>
+    {/section}
+  </div>
+
+  <form id="menu-form-create-here" method="post" action={"/content/action"|ezurl}>
+    <input type="hidden" name="NodeID" value="%nodeID%" />
+    <input type="hidden" name="ClassID" value="%classID%" />
+    <input type="hidden" name="NewButton" value="x" />
+  </form>
+
+createhereitem.tpl
+	<hr />
+    <a id="menu-createhere" class="more" href="#" onmouseover="ezpopmenu_showSubLevel( event,  'CreateHere', 'menu-createhere' ); return false;">{"Create here"|i18n("design/admin/popupmenu")}</a>
+
+subitemscreatehereitem.tpl
+	<hr />
+    <a id="child-menu-createhere" class="more" href="#" onmouseover="ezpopmenu_showSubLevel( event,  'CreateHere', 'menu-createhere' ); return false;">{"Create here"|i18n("design/admin/popupmenu")}</a>
