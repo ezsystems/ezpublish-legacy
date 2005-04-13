@@ -182,7 +182,7 @@ class eZURLType extends eZDataType
             $urlID = eZURL::registerURL( $urlValue );
             $attribute->setAttribute( 'data_int', $urlID );
 
-            if ( $oldURLID &&
+            if ( $oldURLID && $oldURLID != $urlID &&
                  !eZURLObjectLink::hasObjectLinkList( $oldURLID ) )
                     eZURL::removeByID( $oldURLID );
         }

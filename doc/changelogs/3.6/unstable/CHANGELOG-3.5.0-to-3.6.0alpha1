@@ -301,6 +301,8 @@ eZInformationCollection:
   (Merged from stable/3.5 (3.5.2) rev. 11342)
 - Fixed bug #6469: Wrong order number used in removeorder.
   (Manually merged from stable/3.4 (3.4.6) rev. 11358)
+- Fixed bug #6424: Wrong behaviour of packaging ezurltype
+  (Manually merged from stable/3.5 (3.5.2) rev. 11366)
   
 *Library:
 PDF:

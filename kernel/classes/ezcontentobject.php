@@ -2995,6 +2995,13 @@ class eZContentObject extends eZPersistentObject
                                                                          $nodeList,
                                                                          $options,
                                                                          $package );
+
+            if ( !$contentObjectVersion )
+            {
+                eZDebug::writeError( 'Unserialize error', 'eZContentObject::unserialize' );
+                return false;
+            }
+
             $versionStatus = $versionDOMNode->attributeValue( 'status' ); // we're really getting value of ezremote:status here
             $versionList[$versionDOMNode->attributeValue( 'version' )] = array( 'node_list' => $nodeList,
                                                                                 'status' =>    $versionStatus );
