@@ -1163,6 +1163,11 @@ div.context-block h1.context-title img, div.context-block h2.context-title img
     vertical-align: middle;
 }
 
+div.context-block h2.context-title span.input
+{
+    width: 20px;
+}
+
 div.context-block table.list, div.context-block table.special
 {
     margin: 0;
@@ -1469,6 +1474,8 @@ input.linkbox
 {
     border: 1px dashed #bfbeb6;
     background-color: #f8f8f8;
+    font-size: 0.85em;
+    width: 14em;
 }
 
 tr.bglight input.linkbox
