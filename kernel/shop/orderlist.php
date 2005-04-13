@@ -75,7 +75,6 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
         if ( $deleteIDArray !== null )
         {
             $http->setSessionVariable( 'DeleteOrderIDArray', $deleteIDArray );
-            print_r($deleteIDArray );
             $Module->redirectTo( $Module->functionURI( 'removeorder' ) . '/' );
         }
     }
