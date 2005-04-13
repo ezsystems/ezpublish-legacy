@@ -4192,9 +4192,18 @@ WHERE
     function unserialize( $contentNodeDOMNode, $contentObject, $version, $isMain, &$nodeList, $options )
     {
         $parentNodeID = -1;
-        if ( $contentNodeDOMNode->attributeValue( 'parent-node-remote-id' ) !== false )
+
+        $remoteID = $contentNodeDOMNode->attributeValue( 'remote-id' );
+        if ( eZContentObjectTreeNode::fetchByRemoteID( $remoteID ) )
         {
-            $parentNode = eZContentObjectTreeNode::fetchByRemoteID( $contentNodeDOMNode->attributeValue( 'parent-node-remote-id' ) );
+            eZDebug::writeError( "Node with remote ID = $remoteID already exists, can't import", "eZContentObjectTreeNode::unserialize" );
+            return false;
+        }
+
+        $parentNodeRemoteID = $contentNodeDOMNode->attributeValue( 'parent-node-remote-id' );
+        if ( $parentNodeRemoteID !== false )
+        {
+            $parentNode = eZContentObjectTreeNode::fetchByRemoteID( $parentNodeRemoteID );
             $parentNodeID = $parentNode->attribute( 'node_id' );
         }
         else
@@ -4236,6 +4245,8 @@ WHERE
             $nodeList[] = $nodeInfo;
             $nodeAssignment->store();
         }
+
+        return true;
     }
 
     /*!

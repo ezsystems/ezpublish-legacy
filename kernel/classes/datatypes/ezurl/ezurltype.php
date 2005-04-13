@@ -172,7 +172,7 @@ class eZURLType extends eZDataType
             $urlID = eZURL::registerURL( $urlValue );
             $attribute->setAttribute( 'data_int', $urlID );
 
-            if ( $oldURLID &&
+            if ( $oldURLID && $oldURLID != $urlID &&
                  !eZURLObjectLink::hasObjectLinkList( $oldURLID ) )
                     eZURL::removeByID( $oldURLID );
         }
@@ -249,6 +249,7 @@ class eZURLType extends eZDataType
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
 
         $url =& eZURL::fetch( $objectAttribute->attribute( 'data_int' ) );
+
         if ( is_object( $url ) and
              trim( $url->attribute( 'url' ) ) != '' )
         {
@@ -277,16 +278,18 @@ class eZURLType extends eZDataType
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
         $urlNode = $attributeNode->elementByName( 'url' );
+
         $urlTextNode = is_object( $urlNode ) ? $urlNode->firstChild() : null;
         if ( is_object( $urlTextNode ) )
         {
             unset( $url );
-            $url =& $urlTextNode->content();
+            $url = $urlTextNode->content();
 
             $urlID = eZURL::registerURL( $url );
+
             if ( $urlID )
             {
-                $urlObject =& eZURL::fetch( $urlID );
+                $urlObject = eZURL::fetch( $urlID );
 
                 $urlObject->setAttribute( 'original_url_md5', $urlNode->attributeValue( 'original-url-md5' ) );
                 $urlObject->setAttribute( 'is_valid', $urlNode->attributeValue( 'is-valid' ) );

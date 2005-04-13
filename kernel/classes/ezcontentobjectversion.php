@@ -904,12 +904,14 @@ class eZContentObjectVersion extends eZPersistentObject
         $nodeAssignmentNodeArray = $nodeAssignmentNodeList->elementsByName( 'node-assignment' );
         foreach( $nodeAssignmentNodeArray as $nodeAssignmentNode )
         {
-            eZContentObjectTreeNode::unserialize( $nodeAssignmentNode,
+            $result = eZContentObjectTreeNode::unserialize( $nodeAssignmentNode,
                                                   $contentObject,
                                                   $contentObjectVersion->attribute( 'version' ),
                                                   ( $oldVersion == $activeVersion ? 1 : 0 ),
                                                   $nodeList,
                                                   $options );
+            if ( $result === false )
+                return false;
         }
         $contentObjectVersion->store();
 

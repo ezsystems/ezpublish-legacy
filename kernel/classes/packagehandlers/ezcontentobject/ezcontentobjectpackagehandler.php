@@ -716,7 +716,9 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $userID = $installParameters['user_id'];
         foreach( $objectListNode->elementsByName( 'object' ) as $objectNode )
         {
-            eZContentobject::unserialize( $this->Package, $objectNode, $installParameters, $userID );
+            $result = eZContentobject::unserialize( $this->Package, $objectNode, $installParameters, $userID );
+            if ( !$result )
+                return false;
         }
         return true;
     }
