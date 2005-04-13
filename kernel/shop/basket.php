@@ -56,7 +56,10 @@ if ( $http->hasPostVariable( "ActionAddToBasket" ) )
 {
     $objectID = $http->postVariable( "ContentObjectID" );
 
-    $optionList =& $http->postVariable( "eZOption" );
+    if ( $http->hasPostVariable( 'eZOption' ) )
+        $optionList = $http->postVariable( 'eZOption' );
+    else
+        $optionList = array();
 
     $object = eZContentObject::fetch( $objectID );
     $nodeID = $object->attribute( 'main_node_id' );

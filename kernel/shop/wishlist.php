@@ -47,7 +47,11 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
 {
     $objectID = $http->postVariable( "ContentObjectID" );
     $object = eZContentObject::fetch( $objectID );
-    $optionList =& $http->postVariable( "eZOption" );
+
+    if ( $http->hasPostVariable( 'eZOption' ) )
+        $optionList = $http->postVariable( 'eZOption' );
+    else
+        $optionList = array();
 
     //$price = 0.0;
     //$isVATIncluded = true;
