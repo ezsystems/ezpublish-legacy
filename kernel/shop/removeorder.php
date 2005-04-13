@@ -45,7 +45,6 @@ $Module =& $Params["Module"];
 $http =& eZHTTPTool::instance();
 $deleteIDArray = $http->sessionVariable( "DeleteOrderIDArray" );
 
-$deleteResult = implode( ", ", $deleteIDArray );
 if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
     $db =& eZDB::instance();
@@ -57,23 +56,34 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
     $db->commit();
     $Module->redirectTo( '/shop/orderlist/' );
 }
-if ( $http->hasPostVariable( "CancelButton" ) )
+elseif ( $http->hasPostVariable( "CancelButton" ) )
 {
     $Module->redirectTo( '/shop/orderlist/' );
 }
+else // no action yet: just displaying the template
+{
+    $orderNumbersArray = array();
+    foreach ( $deleteIDArray as $orderID )
+    {
+        $order = eZOrder::fetch( $orderID );
+        if ( is_null( $order ) )
+            continue;   // just to prevent possible fatal error below
 
-$Module->setTitle( ezi18n( 'shop', 'Remove orders' ) );
+        $orderNumbersArray[] = $order->attribute( 'order_nr' );
+    }
+    $orderNumbersString = implode( ', ', $orderNumbersArray );
 
-$tpl =& templateInit();
-$tpl->setVariable( "module", $Module );
-$tpl->setVariable( "delete_result", $deleteResult );
-$Result = array();
+    $Module->setTitle( ezi18n( 'shop', 'Remove orders' ) );
 
-$path = array();
-$path[] = array( 'text' => ezi18n( 'kernel/shop', 'Remove order' ),
-                 'url' => false );
-$Result['path'] =& $path;
-$Result['content'] =& $tpl->fetch( "design:shop/removeorder.tpl" );
+    $tpl =& templateInit();
+    $tpl->setVariable( "module", $Module );
+    $tpl->setVariable( "delete_result", $orderNumbersString );
+    $Result = array();
 
-
+    $path = array();
+    $path[] = array( 'text' => ezi18n( 'kernel/shop', 'Remove order' ),
+                     'url' => false );
+    $Result['path'] =& $path;
+    $Result['content'] =& $tpl->fetch( "design:shop/removeorder.tpl" );
+}
 ?>

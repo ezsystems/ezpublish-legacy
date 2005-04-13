@@ -299,6 +299,8 @@ eZInformationCollection:
   (Merged from stable/3.5 (3.5.2) rev. 11339)
 - Fixed bug #6180: URL translator confusion revisited.
   (Merged from stable/3.5 (3.5.2) rev. 11342)
+- Fixed bug #6469: Wrong order number used in removeorder.
+  (Manually merged from stable/3.4 (3.4.6) rev. 11358)
   
 *Library:
 PDF:
