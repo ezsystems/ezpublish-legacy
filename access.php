@@ -310,7 +310,10 @@ function accessAllowed( $uri )
     foreach( $items as $item )
     {
         $name = strtolower( $item[0] );
-        $value = $item[1];
+        if ( isset ( $item[1] ) )
+            $value = $item[1];
+        else
+            $value = null;
         switch( $name )
         {
             case 'access':
