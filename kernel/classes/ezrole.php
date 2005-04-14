@@ -715,11 +715,8 @@ class eZRole extends eZPersistentObject
         {
             $db =& eZDB::instance();
             $result = $db->arrayQuery( "SELECT contentobject_id FROM  ezuser_role WHERE id='$id'" );
-            if ( !is_array( $result ) || !$result )
-            {
-                eZDebug::writeError( 'eZRole::removeUserAssignmentByID()', 'No such assignment to remove' );
+            if ( !is_array( $result ) || !$result ) // No such assignment to remove.
                 return;
-            }
             $userID = $result[0]['contentobject_id'];
             include_once( 'kernel/classes/ezcontentcachemanager.php' );
             eZContentCacheManager::clearObjectViewCache( $userID, true );
