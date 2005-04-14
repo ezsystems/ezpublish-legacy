@@ -151,6 +151,9 @@ class eZContentBrowse
         if ( !isset( $parameters['ignore_nodes_select'] ) )
             $parameters['ignore_nodes_select'] = array();
 
+        if ( !isset( $parameters['ignore_nodes_select_subtree'] ) )
+            $parameters['ignore_nodes_select_subtree'] = array();
+
         if ( !isset( $parameters['ignore_nodes_click'] ) )
             $parameters['ignore_nodes_click'] = array();
 
