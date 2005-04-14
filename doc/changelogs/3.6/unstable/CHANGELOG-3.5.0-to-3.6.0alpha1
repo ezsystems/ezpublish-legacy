@@ -303,6 +303,9 @@ eZInformationCollection:
   (Manually merged from stable/3.4 (3.4.6) rev. 11358)
 - Fixed bug #6424: Wrong behaviour of packaging ezurltype
   (Manually merged from stable/3.5 (3.5.2) rev. 11366)
+- Fixed bug #6255: Removing user group from a role assignment does not clear
+  the caches.
+  (Manually merged from stable/3.4 (3.4.6) rev. 11377)
   
 *Library:
 PDF:
