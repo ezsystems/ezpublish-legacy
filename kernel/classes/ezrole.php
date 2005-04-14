@@ -711,10 +711,35 @@ class eZRole extends eZPersistentObject
     */
     function removeUserAssignmentByID( $id )
     {
+        // Clear content cache for the user/group the assignment is being removed for.
+        {
+            $db =& eZDB::instance();
+            $result = $db->arrayQuery( "SELECT contentobject_id FROM  ezuser_role WHERE id='$id'" );
+            if ( !is_array( $result ) || !$result )
+            {
+                eZDebug::writeError( 'eZRole::removeUserAssignmentByID()', 'No such assignment to remove' );
+                return;
+            }
+            $userID = $result[0]['contentobject_id'];
+            include_once( 'kernel/classes/ezcontentcachemanager.php' );
+            eZContentCacheManager::clearObjectViewCache( $userID, true );
+        }
+
+        // Clear template block cache if needed.
+        $ini =& eZINI::instance();
+        $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
+        if ( $templateBlockCacheEnabled )
+        {
+            include_once( 'kernel/classes/ezcontentobject.php' );
+            eZContentObject::expireTemplateBlockCache();
+        }
+
+        // Clear role, policies and limitations cache.
+        eZRole::expireCache();
+
+        // Remove the assignment.
         $db =& eZDB::instance();
-
         $query = "DELETE FROM ezuser_role WHERE id='$id'";
-
         $db->query( $query );
     }
 
