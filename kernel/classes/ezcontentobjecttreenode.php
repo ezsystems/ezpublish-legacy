@@ -2566,7 +2566,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 WHERE node_id = 1";
         }
         else
-        {   
+        {
 
             $versionNameTables = ', ezcontentobject_name ';
             $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
@@ -3299,6 +3299,7 @@ WHERE
             $childCount = 0;
             $newMainNodeID = false;
             $objectNodeCount = 0;
+            $readableChildCount = 0;
             if ( $canRemove )
             {
                 if ( $moveToTrashAllowed and
