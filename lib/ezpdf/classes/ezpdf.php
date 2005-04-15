@@ -212,12 +212,14 @@ class eZPDF
                 $this->createPDF();
             } break;
 
-            case 'newline':
+            case 'new_line':
+            case 'newline':  // Deprecated
             {
                 $operatorValue = '<C:callNewLine>';
             } break;
 
-            case 'newpage':
+            case 'new_page':
+            case 'newpage':  // Deprecated
             {
                 $operatorValue = '<C:callNewPage>';
 
@@ -652,6 +654,7 @@ class eZPDF
 
             /* add Keyword index to pdf document */
             case 'createIndex':
+            case 'create_index':
             {
                 $operatorValue = '<C:callIndex>';
 
