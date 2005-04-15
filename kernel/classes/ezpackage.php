@@ -2637,7 +2637,16 @@ class eZPackage
                 $this->Parameters['simple-file-list'][$key] = $fileInfo;
             }
         }
-        $root->appendChild( $dom->createElementNodeFromArray( 'simple-files', $this->Parameters['simple-file-list'] ) );
+
+        // Avoid a PHP warning if 'simple-file-list' is not an array
+        if ( is_array( $this->Parameters['simple-file-list'] ) )
+        {
+            $root->appendChild( $dom->createElementNodeFromArray( 'simple-files', $this->Parameters['simple-file-list'] ) );
+        }
+        else
+        {
+            $root->appendChild( $dom->createElementNodeFromArray( 'simple-files', array() ) );
+        }
 
         // Handle files
         $filesNode =& $dom->createElementNode( 'files' );

@@ -58,7 +58,7 @@ function &eZSessionRead( $key )
 
     $sessionRes =& $db->arrayQuery( "SELECT data, user_id, expiration_time FROM ezsession WHERE session_key='$key'" );
 
-    if ( count( $sessionRes ) == 1 )
+    if ( $sessionRes !== false and count( $sessionRes ) == 1 )
     {
         $ini =& eZINI::instance();
 

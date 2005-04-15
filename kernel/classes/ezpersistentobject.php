@@ -774,9 +774,12 @@ class eZPersistentObject
         if ( $asObject )
         {
             $objects = array();
-            foreach ( $rows as $row )
+            if ( is_array( $rows ) )
             {
-                $objects[] = new $class_name( $row );
+                foreach ( $rows as $row )
+                {
+                    $objects[] = new $class_name( $row );
+                }
             }
             return $objects;
         }

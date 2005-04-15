@@ -757,7 +757,7 @@ WHERE user_id = '" . $userID . "' AND
 
         $users =& $db->arrayQuery( $query );
         $exists = false;
-        if ( count( $users ) >= 1 )
+        if ( $users !== false and count( $users ) >= 1 )
         {
             include_once( 'lib/ezutils/classes/ezini.php' );
             $ini =& eZINI::instance();
