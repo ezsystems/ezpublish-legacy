@@ -58,7 +58,7 @@ function &eZSessionRead( $key )
 
     $sessionRes =& $db->arrayQuery( "SELECT data, user_id FROM ezsession WHERE session_key='$key'" );
 
-    if ( count( $sessionRes ) == 1 )
+    if ( $sessionRes !== false and count( $sessionRes ) == 1 )
     {
         $data =& $sessionRes[0]['data'];
         $GLOBALS['eZSessionUserID'] = $sessionRes[0]['user_id'];
