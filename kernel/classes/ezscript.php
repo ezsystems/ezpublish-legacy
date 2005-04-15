@@ -276,6 +276,9 @@ class eZScript
             // Extension check end
         }
 
+        // Set the global setting which is read by the session lib
+        $GLOBALS['eZSiteBasics']['session-required'] = $this->UseSession;
+
         if ( $this->UseSession )
         {
             // include ezsession override implementation
