@@ -2504,7 +2504,7 @@ class eZTemplate
         if ( !isset( $GLOBALS['eZTemplateDebugTemplatesUsageStatisticsEnabled'] ) )
         {
             $ini =& eZINI::instance();
-            $GLOBALS['eZTemplateDebugTemplatesUsageStatisticsEnabled'] = $ini->variable( 'TemplateSettings', 'ShowTemplatesUsageStatistics' ) == 'enabled';
+            $GLOBALS['eZTemplateDebugTemplatesUsageStatisticsEnabled'] = $ini->variable( 'TemplateSettings', 'ShowUsedTemplates' ) == 'enabled';
         }
         return ( $GLOBALS['eZTemplateDebugTemplatesUsageStatisticsEnabled'] );
     }
@@ -2526,7 +2526,7 @@ class eZTemplate
 
     /*!
      \static
-     Checks settings and if 'ShowTemplatesUsageStatistics' is enabled appends template info to stats.
+     Checks settings and if 'ShowUsedTemplates' is enabled appends template info to stats.
     */
     function appendTemplateToStatisticsIfNeeded( &$templateName, &$templateFileName )
     {

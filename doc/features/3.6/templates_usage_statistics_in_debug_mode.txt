@@ -10,7 +10,7 @@ To enable this feature make sure that your "site.ini.append" contains:
 DebugOutput=enabled
 
 [TemplateSettings]
-ShowTemplatesUsageStatistics=enabled
+ShowUsedTemplates=enabled
 
 *Design:
 After that you will see a table "Template Usage Statistics" at the bottom 
