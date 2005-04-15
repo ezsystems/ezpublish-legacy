@@ -1,8 +1,17 @@
 <table class="list-thumbnails" cellspacing="0">
   <tr>
     {section var=Nodes loop=$node_array sequence=array( bglight, bgdark )}
+    {* Note: The tpl code for $ignore_nodes_merge with the eq, unique and count
+             is just a replacement for a missing template operator.
+             If there are common elements the unique array will have less elements
+             than the merged one
+             In the future this should be replaced with a  new template operator that checks
+             one array against another and returns true if elements in the first
+             exists in the other *}
     {let child_name=$Nodes.item.name|wash
-         ShowLink=and( $browse.ignore_nodes_click|contains( $Nodes.item.node_id )|not,
+         ignore_nodes_merge_click=merge( $browse.ignore_nodes_click, $Nodes.item.path_array )
+         ShowLink=and( eq( $ignore_nodes_merge_click|count,
+                            $ignore_nodes_merge_click|unique|count ),
                        or( ne( $browse.action_name, 'MoveNode' ), ne( $browse.action_name, 'CopyNode' ) ),
                        $Nodes.item.object.content_class.is_container ) }
         <td width="25%">
@@ -10,6 +19,14 @@
         {node_view_gui view=browse_thumbnail content_node=$Nodes.item show_link=$ShowLink}
         <div class="controls">
         {* Checkboxes *}
+        {* Note: The tpl code for $ignore_nodes_merge with the eq, unique and count
+                 is just a replacement for a missing template operator.
+                 If there are common elements the unique array will have less elements
+                 than the merged one
+                 In the future this should be replaced with a  new template operator that checks
+                 one array against another and returns true if elements in the first
+                 exists in the other *}
+        {let ignore_nodes_merge=merge( $browse.ignore_nodes_select_subtree, $Nodes.item.path_array )}
         {section show=and( or( $browse.permission|not,
                            cond( is_set( $browse.permission.contentclass_id ),
                                  fetch( content, access, hash( access,          $browse.permission.access,
@@ -17,7 +34,8 @@
                                                                contentclass_id, $browse.permission.contentclass_id ) ),
                                  fetch( content, access, hash( access,          $browse.permission.access,
                                                                contentobject,   $Nodes.item ) ) ) ),
-                           $browse.ignore_nodes_select|contains( $Nodes.item.node_id )|not() )}
+                           eq( $ignore_nodes_merge|count,
+                               $ignore_nodes_merge|unique|count ) )}
             {section show=is_array( $browse.class_array )}
                 {section show=$browse.class_array|contains( $Nodes.item.object.content_class.identifier )}
                     <input type="{$select_type}" name="{$select_name}[]" value="{$Nodes.item[$select_attribute]}" />
@@ -34,6 +52,7 @@
         {section-else}
             <input type="{$select_type}" name="" value="" disabled="disabled" />
         {/section}
+        {/let}
 
         <p>{section show=$ShowLink}
             <a href={concat( '/content/browse/', $Nodes.item.node_id )|ezurl}>{$Nodes.item.name|wash}</a>

@@ -258,6 +258,14 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
 
+    // Check if we try to move the node as child of itself or one of its children
+    if ( in_array( $node->attribute( 'node_id' ), $selectedNode->pathArray()  ) )
+    {
+        eZDebug::writeError( "Cannot move node $nodeID as child of itself or one of its own children (node $selectedNodeID).",
+                             'content/action' );
+        return $module->redirectToView( 'view', array( 'full', $node->attribute( 'node_id' ) ) );
+    }
+
     // clear cache for old placement.
     include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
@@ -361,17 +369,20 @@ else if ( $module->isCurrentAction( 'MoveNodeRequest' ) )
     $class =& $object->contentClass();
 
     $ignoreNodesSelect = array();
+    $ignoreNodesSelectSubtree = array();
     $ignoreNodesClick = array();
 
     $publishedAssigned = $object->assignedNodes( false );
     foreach ( $publishedAssigned as $element )
     {
         $ignoreNodesSelect[] = $element['node_id'];
+        $ignoreNodesSelectSubtree[] = $element['node_id'];
         $ignoreNodesClick[]  = $element['node_id'];
         $ignoreNodesSelect[] = $element['parent_node_id'];
     }
 
     $ignoreNodesSelect = array_unique( $ignoreNodesSelect );
+    $ignoreNodesSelectSubtree = array_unique( $ignoreNodesSelectSubtree );
     $ignoreNodesClick = array_unique( $ignoreNodesClick );
     eZContentBrowse::browse( array( 'action_name' => 'MoveNode',
                                     'description_template' => 'design:content/browse_move_node.tpl',
@@ -380,6 +391,7 @@ else if ( $module->isCurrentAction( 'MoveNodeRequest' ) )
                                                      'classgroup' => $class->attribute( 'ingroup_id_list' ),
                                                      'section' => $object->attribute( 'section_id' ) ),
                                     'ignore_nodes_select' => $ignoreNodesSelect,
+                                    'ignore_nodes_select_subtree' => $ignoreNodesSelectSubtree,
                                     'ignore_nodes_click'  => $ignoreNodesClick,
                                     'persistent_data' => array( 'ContentNodeID' => $nodeID,
                                                                 'ViewMode' => $viewMode,
