@@ -294,11 +294,12 @@ if ( $http->hasPostVariable( 'StoreButton' ) )
     }
 
     $discountRule->store();
-    return $module->redirectTo( $module->functionURI( 'discountgroupview' ) . '/' . $discountGroupID );
 
     // we changed prices => remove content cache
     include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
+
+    return $module->redirectTo( $module->functionURI( 'discountgroupview' ) . '/' . $discountGroupID );
 }
 
 $classList =& eZContentClass::fetchList();
