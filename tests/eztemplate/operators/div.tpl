@@ -18,7 +18,7 @@
 
 Test of input + parameters:
 
-{let a=2 b=3 c=4}
-2|div( 3, 4 )=0.167: {2|div( 3, 4 )}
-$a|div( $b, $c )=0.167: {$a|div( $b, $c )}
+{let a=2 b=3 c=4 div_const_value=concat('div_value_', 2|div( 3, 4)) div_var_value=concat('div_value_', $a|div( $b, $c))}
+2|div( 3, 4 )=0.167: {eq($exp_div_value, $div_const_value)}
+$a|div( $b, $c )=0.167: {eq($exp_div_value, $div_var_value)}
 {/let}
