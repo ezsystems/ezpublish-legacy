@@ -521,8 +521,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $class = $tag->attributeValue( 'class' );
 
                     $res =& eZTemplateDesignResource::instance();
-                    $res->setKeys( array( array( 'classification', $class ) ) );
-                                         // array( 'class_identifier', $object->attribute( 'class_identifier' ) ) ) );
+                    $res->setKeys( array( array( 'classification', $class ),
+                                          array( 'class_identifier', $object->attribute( 'class_identifier' ) ) ) );
 
                     $hasLink = false;
                     $linkID = $tag->attributeValueNS( 'ezurl_id', "http://ez.no/namespaces/ezpublish3/image/" );
