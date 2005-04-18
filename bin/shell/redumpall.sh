@@ -20,11 +20,15 @@ function help
     echo "         --data                     Redump data files"
     echo "         --clean                    Cleanup various data entries before dumping (e.g. session, drafts)"
     echo "         --clean-search             Cleanup search index (implies --clean)"
-    echo "         --postgresql-user=USER     Use USER as login on postgresql database"
-    echo "         --socket=SOCK              Use socket SOCK to connect to database"
+    echo
+
+    # Show options for database
+    ezdist_mysql_show_options
+    ezdist_postgresql_show_options
+
     echo
     echo "Example:"
-    echo "$0 tmp"
+    echo "$0 --mysql tmp"
 }
 
 USE_MYSQL=""
@@ -32,8 +36,8 @@ USE_POSTGRESQL=""
 DUMP_DATA=""
 PAUSE=""
 
-POST_USER="postgres"
-SOCKET=""
+# Initialise several database related variables, see sqlcommon.sh
+ezdist_db_init
 
 # Check parameters
 for arg in $*; do
@@ -51,16 +55,6 @@ for arg in $*; do
 	--data)
 	    DUMP_DATA="yes"
 	    ;;
-	--socket=*)
-	    if echo $arg | grep -e "--socket=" >/dev/null; then
-		SOCKET=`echo $arg | sed 's/--socket=//'`
-	    fi
-	    ;;
-	--postgresql-user=*)
-	    if echo $arg | grep -e "--postgresql-user=" >/dev/null; then
-		POST_USER=`echo $arg | sed 's/--postgresql-user=//'`
-	    fi
-	    ;;
 	--pause)
 	    USE_PAUSE="yes"
             PAUSE="--pause"
@@ -72,22 +66,44 @@ for arg in $*; do
 	    CLEAN="--clean"
 	    CLEAN_SEARCH="--clean-search"
 	    ;;
+
+	--*)
+	    # Check for DB options
+	    ezdist_mysql_check_options "$arg" && continue
+	    ezdist_postgresql_check_options "$arg" && continue
+
+	    if [ $? -ne 0 ]; then
+		echo "$arg: unknown long option specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
+	    fi
+	    ;;
 	-*)
-	    echo "$arg: unkown option specified"
-            $0 -h
-	    exit 1
+	    # Check for DB options
+	    ezdist_mysql_check_short_options "$arg" && continue
+	    ezdist_postgresql_check_short_options "$arg" && continue
+
+	    if [ $? -ne 0 ]; then
+		echo "$arg: unknown option specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
+	    fi
 	    ;;
 	*)
 	    if [ -z $DBNAME ]; then
-		DBNAME=$arg
+		DBNAME="$arg"
+	    else
+		echo "$arg: unknown argument specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
 	    fi
 	    ;;
+
     esac;
 done
-
-if [ "$SOCKET"x != "x" ]; then
-    SOCKETARG="--socket=$SOCKET"
-fi
 
 if [ -z $DBNAME ]; then
     echo "Missing database name"
@@ -137,12 +153,17 @@ if [ "$USE_MYSQL" != "" ]; then
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --mysql $PAUSE $SOCKETARG --sql-schema-only $DBNAME $KERNEL_MYSQL_SCHEMA_FILE $MYSQL_SCHEMA_UPDATES
+    # Init MySQL
+    ezdist_db_init_mysql_from_defaults
+    ezdist_mysql_prepare_params
+
+    ./bin/shell/sqlredump.sh --mysql $PAUSE $PARAM_EZ_MYSQL_ALL --sql-schema-only $DBNAME $KERNEL_MYSQL_SCHEMA_FILE $MYSQL_SCHEMA_UPDATES
     if [ $? -ne 0 ]; then
 	echo "Failed re-dumping SQL file $KERNEL_MYSQL_SCHEMA_FILE"
 	exit 1
     fi
-    ./bin/php/ezsqldumpschema.php --type=ezmysql --user=root $DBNAME share/db_mysql_schema.dat
+    ezdist_db_prepare_params_from_mysql "1"
+    ./bin/php/ezsqldumpschema.php --type=mysql $PARAM_EZ_DB_ALL $DBNAME share/db_mysql_schema.dat
 fi
 if [ "$USE_POSTGRESQL" != "" ]; then
 
@@ -152,12 +173,17 @@ if [ "$USE_POSTGRESQL" != "" ]; then
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --postgresql $PAUSE $SOCKETARG --postgresql-user=$POST_USER --sql-schema-only --setval-file=$KERNEL_POSTGRESQL_SETVAL_FILE $DBNAME $KERNEL_POSTGRESQL_SCHEMA_FILE $POSTGRESQL_SCHEMA_UPDATES
+    # Init PostgreSQL
+    ezdist_db_init_postgresql_from_defaults
+    ezdist_postgresql_prepare_params
+
+    ./bin/shell/sqlredump.sh --postgresql $PAUSE $PARAM_EZ_POSTGRESQL_ALL --sql-schema-only --setval-file=$KERNEL_POSTGRESQL_SETVAL_FILE $DBNAME $KERNEL_POSTGRESQL_SCHEMA_FILE $POSTGRESQL_SCHEMA_UPDATES
     if [ $? -ne 0 ]; then
 	echo "Failed re-dumping SQL file $KERNEL_POSTGRESQL_SCHEMA_FILE"
 	exit 1
     fi
-    ./bin/php/ezsqldumpschema.php --type=ezpostgresql --user=root $DBNAME share/db_postgresql_schema.dat
+    ezdist_db_prepare_params_from_postgresql "1"
+    ./bin/php/ezsqldumpschema.php --type=postgresql $PARAM_EZ_DB_ALL $DBNAME share/db_postgresql_schema.dat
 fi
 
 if [ "$DUMP_DATA" != "" ]; then
@@ -167,18 +193,14 @@ if [ "$DUMP_DATA" != "" ]; then
 	exit 1
     fi
 
-    ./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE $SOCKETARG --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_SQL_DATA_FILE $DATA_UPDATES
+    # Init MySQL
+    ezdist_db_init_mysql_from_defaults
+    ezdist_mysql_prepare_params
+
+    ./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE $PARAM_EZ_MYSQL_ALL --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $KERNEL_SQL_DATA_FILE $DATA_UPDATES
     if [ $? -ne 0 ]; then
 	echo "Failed re-dumping SQL file $KERNEL_SQL_DATA_FILE"
 	exit 1
     fi
-
-#    for sql in $PACKAGE_DATA_FILES; do
-#	./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE --sql-data-only $DBNAME --schema-sql=$KERNEL_MYSQL_SCHEMA_FILE $sql $DATA_UPDATES
-#	if [ $? -ne 0 ]; then
-#	    "Failed re-dumping SQL file $sql"
-#	    exit 1
-#	fi
-#    done
 
 fi

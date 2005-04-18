@@ -60,3 +60,46 @@ SETCOLOR_NORMAL="echo -en \\033[0;39m"
 # Position handling
 POSITION_STORE="echo -en \\033[s"
 POSITION_RESTORE="echo -en \\033[u"
+
+
+# Returns 0 if the variable is considered undefined
+# Currently this means if it contains the text 'undef'
+function ezdist_is_undef
+{
+    if [ "$1" == "undef" ]; then
+	return 0
+    fi
+    return 1
+}
+
+# Returns 0 if the variable is considered defined
+# Currently this means if it does not contain the text 'undef'
+function ezdist_is_def
+{
+    if [ "$1" == "undef" ]; then
+	return 1
+    fi
+    return 0
+}
+
+# Returns 0 if the variable is considered empty
+# Currently this means if it contains the text 'none' or is undefined
+function ezdist_is_empty
+{
+    ezdist_is_undef "$1" && return 0
+    if [ "$1" == "none" -o "$1" == "undef" ]; then
+	return 0
+    fi
+    return 1
+}
+
+# Returns 0 if the variable is considered not empty
+# Currently this means if it does not contain the text 'none' or is undefined
+function ezdist_is_nonempty
+{
+    ezdist_is_undef "$1" && return 1
+    if [ "$1" == "none" -o "$1" == "undef" ]; then
+	return 1
+    fi
+    return 0
+}

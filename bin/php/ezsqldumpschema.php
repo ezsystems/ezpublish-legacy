@@ -92,7 +92,8 @@ if ( strlen( trim( $user ) ) == 0)
 
 include_once( 'lib/ezdb/classes/ezdb.php' );
 $db =& eZDB::instance( $type,
-                       array( 'server' => $host,
+                       array( 'use_defaults' => false,
+                              'server' => $host,
                               'user' => $user,
                               'password' => $password,
                               'database' => $database ),

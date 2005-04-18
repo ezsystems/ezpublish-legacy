@@ -47,6 +47,7 @@ $script =& eZScript::instance( array( 'debug-message' => '',
                                       'use-extensions' => true ) );
 
 $script->startup();
+include_once( 'kernel/common/i18n.php' );
 
 $endl = $cli->endlineString();
 $webOutput = $cli->isWebOutput();
@@ -61,17 +62,23 @@ function help()
                   "Type " . $argv[0] . " help for command overview\n" .
                   "\n" .
                   "General options:\n" .
-                  "  -h,--help          display this help and exit \n" .
-                  "  -q,--quiet         do not give any output except when errors occur\n" .
-                  "  -s,--siteaccess    selected siteaccess for operations, if not specified default siteaccess is used\n" .
-                  "  -d,--debug         display debug output at end of execution\n" .
-                  "  -c,--colors        display output using ANSI colors (default)\n" .
-                  "  -l,--login USER    login with USER and use it for all operations\n" .
-                  "  -p,--password PWD  use PWD as password for USER\n" .
-                  "  -r,--repos REPOS   use REPOS for repository when accessing packages\n" .
-                  "  --logfiles         create log files\n" .
-                  "  --no-logfiles      do not create log files (default)\n" .
-                  "  --no-colors        do not use ANSI coloring\n" );
+                  "  -h,--help            display this help and exit \n" .
+                  "  -q,--quiet           do not give any output except when errors occur\n" .
+                  "  -s,--siteaccess      selected siteaccess for operations, if not specified default siteaccess is used\n" .
+                  "  -d,--debug           display debug output at end of execution\n" .
+                  "  -c,--colors          display output using ANSI colors (default)\n" .
+                  "  -l,--login USER      login with USER and use it for all operations\n" .
+                  "  -p,--password PWD    use PWD as password for USER\n" .
+                  "  -r,--repos REPOS     use REPOS for repository when accessing packages\n" .
+                  "  --db-type TYPE       set type of db to use\n" .
+                  "  --db-name NAME       set name of db to use\n" .
+                  "  --db-user USER       set database user\n" .
+                  "  --db-password PASSWD set password for database user\n" .
+                  "  --db-socket SOCKET   set socket for db connection\n" .
+                  "  --db-host HOST       set host name for db connection\n" .
+                  "  --logfiles           create log files\n" .
+                  "  --no-logfiles        do not create log files (default)\n" .
+                  "  --no-colors          do not use ANSI coloring\n" );
 }
 
 function helpCreate()
@@ -237,6 +244,13 @@ $userPassword = false;
 $command = false;
 $repositoryPath = false;
 
+$dbUser = false;
+$dbPassword = false;
+$dbSocket = false;
+$dbHost = false;
+$dbType = false;
+$dbName = false;
+
 // $packageName = false;
 // $packageAttribute = false;
 // $packageAttributeValue = false;
@@ -272,7 +286,8 @@ function appendCommandItem( &$commandList, &$commandItem )
 resetCommandItem( $commandItem );
 
 $optionsWithData = array( 's', 'o', 'l', 'p', 'r' );
-$longOptionsWithData = array( 'siteaccess', 'login', 'password', 'repos' );
+$longOptionsWithData = array( 'siteaccess', 'login', 'password', 'repos',
+                              'db-type', 'db-name', 'db-user', 'db-password', 'db-socket', 'db-host' );
 
 $commandAlias = array();
 $commandAlias['help'] = array( '?', 'h' );
@@ -306,7 +321,12 @@ for ( $i = 1; $i < count( $argv ); ++$i )
              $arg[1] == '-' )
         {
             $flag = substr( $arg, 2 );
-            if ( in_array( $flag, $longOptionsWithData ) )
+            if ( preg_match( '#^([^=]+)=(.+)$#', $flag, $matches ) )
+            {
+                $flag = $matches[1];
+                $optionData = $matches[2];
+            }
+            else if ( in_array( $flag, $longOptionsWithData ) )
             {
                 $optionData = $argv[$i+1];
                 ++$i;
@@ -355,6 +375,30 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             else if ( $flag == 'repos' )
             {
                 $repositoryPath = $optionData;
+            }
+            else if ( $flag == 'db-user' )
+            {
+                $dbUser = $optionData;
+            }
+            else if ( $flag == 'db-password' )
+            {
+                $dbPassword = $optionData;
+            }
+            else if ( $flag == 'db-socket' )
+            {
+                $dbSocket = $optionData;
+            }
+            else if ( $flag == 'db-host' )
+            {
+                $dbHost = $optionData;
+            }
+            else if ( $flag == 'db-type' )
+            {
+                $dbType = $optionData;
+            }
+            else if ( $flag == 'db-name' )
+            {
+                $dbName = $optionData;
             }
         }
         else
@@ -668,6 +712,49 @@ $cli->setUseStyles( $useColors );
 $script->setDebugMessage( "\n\n" . str_repeat( '#', 36 ) . $cli->style( 'emphasize' ) . " DEBUG " . $cli->style( 'emphasize-end' )  . str_repeat( '#', 36 ) . "\n" );
 
 $script->setUseSiteAccess( $siteaccess );
+
+// Check the database settings and initialize them as current settings
+if ( $dbUser !== false or $dbHost !== false or $dbSocket !== false or
+     $dbType !== false or $dbName !== false )
+{
+    if ( $dbUser === false )
+    {
+        $cli->error( "No --db-user specified, cannot connect without a user." );
+        $script->shutdown( 1 );
+    }
+
+    if ( $dbType === false )
+    {
+        $cli->error( "No --db-type specified, cannot connect without a specific type." );
+        $script->shutdown( 1 );
+    }
+
+    $params = array( 'use_defaults' => false,
+                     'server' => $dbHost,
+                     'user' => $dbUser,
+                     'socket' => $dbSocket,
+                     'password' => $dbPassword,
+                     'database' => $dbName );
+    $db =& eZDB::instance( $dbType,
+                           $params,
+                           true );
+
+    if ( !$db->isValid() )
+    {
+        $cli->error( "Database type '$dbType' could not be found" );
+        $script->shutdown( 1 );
+    }
+
+    if ( !$db->isConnected() )
+    {
+        $str = "Failed to connnect to database: ";
+        $str .= $db->displayableConnectionString();
+        $cli->error( $str );
+        $script->shutdown( 1 );
+    }
+    eZDB::setInstance( $db );
+}
+
 $script->setUser( $userLogin, $userPassword );
 
 $script->initialize();

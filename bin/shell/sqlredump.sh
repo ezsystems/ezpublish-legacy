@@ -1,8 +1,7 @@
 #!/bin/bash
 
 . ./bin/shell/common.sh
-
-USER="root"
+. ./bin/shell/sqlcommon.sh
 
 SQLFILES=""
 SQLDUMP=""
@@ -11,8 +10,6 @@ SCHEMAFILES=""
 
 USE_MYSQL=""
 USE_POSTGRESQL=""
-
-SOCKET=""
 
 if ! which php &>/dev/null; then
     echo "No PHP executable found, please add it to the path"
@@ -31,17 +28,24 @@ function help
 	    echo "         --clean                    Cleanup various data entries before dumping (e.g. session, drafts)"
 	    echo "         --clean-search             Cleanup search index (implies --clean)"
 	    echo "         --mysql                    Redump using MySQL"
-	    echo "         --socket=SOCK              Use SOCK as MySQL socket"
 	    echo "         --postgresql               Redump using PostgreSQL"
-	    echo "         --postgresql-user=USER     Use USER as login for PostgreSQL"
 	    echo "         --schema-sql=FILE          Schema sql file to use before the SQLFILE,"
 	    echo "                                    useful for data only redumping"
 	    echo "         --setval-file=FILE         File to write setval statements to*"
+	    echo
+
+           # Show options for database
+	    ezdist_mysql_show_options
+	    ezdist_postgresql_show_options
+
             echo
 	    echo "* Postgresql only"
             echo "Example:"
-            echo "$0 tmp data.sql"
+            echo "$0 --mysql tmp data.sql"
 }
+
+# Initialise several database related variables, see sqlcommon.sh
+ezdist_db_init
 
 # Check parameters
 for arg in $*; do
@@ -77,11 +81,6 @@ for arg in $*; do
 	--pause)
 	    USE_PAUSE="yes"
 	    ;;
-        --socket=*)
-            if echo $arg | grep -e "--socket=" >/dev/null; then
-                SOCKET=`echo $arg | sed 's/--socket=//'`
-            fi
-            ;;
         --setval-file=*)
 	    if echo $arg | grep -e "--setval-file=" >/dev/null; then
 		SETVALFILE=`echo $arg | sed 's/--setval-file=//'`
@@ -90,21 +89,36 @@ for arg in $*; do
 	--postgresql)
 	    USE_POSTGRESQL="yes"
 	    ;;
-	--postgresql-user=*)
-	    if echo $arg | grep -e "--postgresql-user=" >/dev/null; then
-		POST_USER=`echo $arg | sed 's/--postgresql-user=//'`
-	    fi
-	    ;;
 	--schema-sql=*)
 	    if echo $arg | grep -e "--schema-sql=" >/dev/null; then
 		SCHEMAFILE=`echo $arg | sed 's/--schema-sql=//'`
 		SCHEMAFILES="$SCHEMAFILES $SCHEMAFILE"
 	    fi
 	    ;;
+
+	--*)
+	    # Check for DB options
+	    ezdist_mysql_check_options "$arg" && continue
+	    ezdist_postgresql_check_options "$arg" && continue
+
+	    if [ $? -ne 0 ]; then
+		echo "$arg: unknown long option specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
+	    fi
+	    ;;
 	-*)
-	    echo "$arg: unkown option specified"
-            $0 -h
-	    exit 1
+	    # Check for DB options
+	    ezdist_mysql_check_short_options "$arg" && continue
+	    ezdist_postgresql_check_short_options "$arg" && continue
+
+	    if [ $? -ne 0 ]; then
+		echo "$arg: unknown option specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
+	    fi
 	    ;;
 	*)
 	    if [ -z $DBNAME ]; then
@@ -117,11 +131,6 @@ for arg in $*; do
 	    ;;
     esac;
 done
-
-if [ "$SOCKET"x != "x" ]; then
-    SOCKETARG="--socket=$SOCKET"
-    echo "socket: '$SOCKET', '$SOCKETARG'"
-fi
 
 if [ -z $DBNAME ]; then
     echo "Missing database name"
@@ -145,24 +154,23 @@ if [ "$USE_MYSQL" == "" -a "$USE_POSTGRESQL" == "" ]; then
     exit 1
 fi
 
-if [ -z $POST_USER ]; then
-    POST_USER=$USER
-fi
-
-USERARG="-u$USER"
-
 if [ "$USE_MYSQL" != "" ]; then
-    mysqladmin "$USERARG" $SOCKETARG -f drop "$DBNAME"
-    mysqladmin "$USERARG" $SOCKETARG create "$DBNAME" || exit 1
+    # Init MySQL
+    ezdist_db_init_mysql_from_defaults
+    echo "Connecting to MySQL using `ezdist_mysql_show_config`"
+    ezdist_mysql_prepare_params
+
+    mysqladmin $PARAM_MYSQL_ALL -f drop "$DBNAME"
+    mysqladmin $PARAM_MYSQL_ALL create "$DBNAME" || exit 1
     for sql in $SCHEMAFILES; do
 	echo "Importing schema SQL file $sql"
-	mysql "$USERARG" $SOCKETARG "$DBNAME" < "$sql" || exit 1
+	mysql $PARAM_MYSQL_ALL "$DBNAME" < "$sql" || exit 1
     done
     echo "Importing SQL file $SQLFILE"
-    mysql "$USERARG" $SOCKETARG "$DBNAME" < "$SQLFILE" || exit 1
+    mysql $PARAM_MYSQL_ALL "$DBNAME" < "$SQLFILE" || exit 1
     for sql in $SQLFILES; do
 	echo "Importing SQL file $sql"
-	mysql "$USERARG" $SOCKETARG "$DBNAME" < "$sql" || exit 1
+	mysql $PARAM_MYSQL_ALL "$DBNAME" < "$sql" || exit 1
     done
 
     if [ ! -z $USE_PAUSE ]; then
@@ -170,37 +178,39 @@ if [ "$USE_MYSQL" != "" ]; then
     fi
 
     if [[ "$SQLDUMP" != "schema" && -n $CLEAN ]]; then
-	./update/common/scripts/flatten.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER all
-	[ $CLEAN_SEARCH ] && ./update/common/scripts/updatesearchindex.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER --clean
-	./update/common/scripts/updateniceurls.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER
-	./update/common/scripts/cleanup.php --db-driver=ezmysql --db-server=localhost --db-database=$DBNAME --db-user=$USER all
+	./update/common/scripts/flatten.php --db-driver=mysql "--db-database=$DBNAME" $PARAM_EZ_MYSQL_ALL all
+	[ $CLEAN_SEARCH ] && ./update/common/scripts/updatesearchindex.php --db-driver=mysql "--db-database=$DBNAME" $PARAM_EZ_MYSQL_ALL --clean
+	./update/common/scripts/updateniceurls.php --db-driver=mysql "--db-database=$DBNAME" $PARAM_EZ_MYSQL_ALL
+	./update/common/scripts/cleanup.php --db-driver=mysql "--db-database=$DBNAME" $PARAM_EZ_MYSQL_ALL all
     fi
 
     echo "Dumping to SQL file $SQLFILE"
-# mysqldump "$USERARG" -c --quick "$NODATAARG" "$NOCREATEINFOARG" -B"$DBNAME" > "$SQLFILE".0
     if [ "$SQLDUMP" == "schema" ]; then
-	mysqldump "$USERARG" $SOCKETARG -c --quick -d "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0
+	mysqldump $PARAM_MYSQL_ALL -c --quick -d "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0
     elif [ "$SQLDUMP" == "data" ]; then
-	mysqldump "$USERARG" $SOCKETARG -c --quick -t "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0
+	mysqldump $PARAM_MYSQL_ALL -c --quick -t "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0
     else
-	mysqldump "$USERARG" $SOCKETARG -c --quick "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0
+	mysqldump $PARAM_MYSQL_ALL -c --quick "$DBNAME" | perl -pi -e "s/(^--.*$)|(^#.*$)//g" > "$SQLFILE".0
     fi
     perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
 else
+    # Init PostgreSQL
+    ezdist_db_init_postgresql_from_defaults
+    echo "Connecting to PostgreSQL using `ezdist_postgresql_show_config`"
+    ezdist_postgresql_prepare_params
+
     psql --version | grep 'psql (PostgreSQL) 7.3' &>/dev/null
-    if [ $? -ne 0 ]; then
-	echo "You cannot run this command on your PostgreSQL version, requires 7.3"
-	exit 1
-    fi
-    if [ "$POST_USER"x != "x" ]; then
-        USERARG="-U"
-        USERARGVAL="$POST_USER"
-    fi
-    dropdb $USERARG $USERARGVAL "$DBNAME"
-    createdb $USERARG $USERARGVAL "$DBNAME" || exit 1
+#    if [ $? -ne 0 ]; then
+#	POSTGRESQL_VERSION=`psql --version | grep -E 'psql \(PostgreSQL\) [0-9][0-9.]*' | sed 's#^psql (PostgreSQL)  *##'`
+#	echo "You cannot run this command on your PostgreSQL version ($POSTGRESQL_VERSION), requires 7.3"
+#	exit 1
+#    fi
+
+    dropdb $PARAM_POSTGRESQL_ALL "$DBNAME"
+    createdb $PARAM_POSTGRESQL_ALL "$DBNAME" || exit 1
     for sql in $SCHEMAFILES; do
 	echo "Importing schema SQL file $sql"
-	psql $USERARG $USERARGVAL "$DBNAME" < "$sql" &>.psql.log || exit 1
+	psql $PARAM_POSTGRESQL_ALL "$DBNAME" < "$sql" &>.psql.log || exit 1
 	if cat .psql.log | grep 'ERROR:' &>/dev/null; then
 	    echo "`$SETCOLOR_FAILURE`Postgresql import from schema $sql failed`$SETCOLOR_NORMAL`"
 	    echo `$SETCOLOR_FAILURE`
@@ -212,7 +222,7 @@ else
 	rm .psql.log
     done
     echo "Importing SQL file $SQLFILE"
-    psql $USERARG $USERARGVAL "$DBNAME" < "$SQLFILE" &>.psql.log || exit 1
+    psql $PARAM_POSTGRESQL_ALL "$DBNAME" < "$SQLFILE" &>.psql.log || exit 1
     if cat .psql.log | grep 'ERROR:' &>/dev/null; then
 	echo "`$SETCOLOR_FAILURE`Postgresql import from $sql failed`$SETCOLOR_NORMAL`"
 	echo `$SETCOLOR_FAILURE`
@@ -224,7 +234,7 @@ else
     rm .psql.log
     for sql in $SQLFILES; do
 	echo "Importing SQL file $sql"
-        psql $USERARG $USERARGVAL "$DBNAME" < "$sql" &>.psql.log || exit 1
+        psql $PARAM_POSTGRESQL_ALL "$DBNAME" < "$sql" &>.psql.log || exit 1
         if cat .psql.log | grep 'ERROR:' &>/dev/null; then
             echo "`$SETCOLOR_FAILURE`Postgresql import from $sql failed`$SETCOLOR_NORMAL`"
 	    echo `$SETCOLOR_FAILURE`
@@ -241,23 +251,22 @@ else
     fi
 
     if [[ "$SQLDUMP" != "schema" && -n $CLEAN ]]; then
-	./update/common/scripts/flatten.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER all
-	[ $CLEAN_SEARCH ] && ./update/common/scripts/updatesearchindex.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER --clean
-	./update/common/scripts/updateniceurls.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER
-	./update/common/scripts/cleanup.php --db-driver=ezpostgresql --db-server=localhost --db-database=$DBNAME --db-user=$POST_USER all
+	./update/common/scripts/flatten.php --db-driver=postgresql "--db-database=$DBNAME" $PARAM_EZ_POSTGRESQL_ALL all
+	[ $CLEAN_SEARCH ] && ./update/common/scripts/updatesearchindex.php --db-driver=postgresql "--db-database=$DBNAME" $PARAM_EZ_POSTGRESQL_ALL --clean
+	./update/common/scripts/updateniceurls.php --db-driver=postgresql "--db-database=$DBNAME" $PARAM_EZ_POSTGRESQL_ALL
+	./update/common/scripts/cleanup.php --db-driver=postgresql "--db-database=$DBNAME" $PARAM_EZ_POSTGRESQL_ALL all
     fi
 
     echo "Dumping to SQL file $SQLFILE"
-# mysqldump "$USERARG" -c --quick "$NODATAARG" "$NOCREATEINFOARG" -B"$DBNAME" > "$SQLFILE".0
     if [ "$SQLDUMP" == "schema" ]; then
-	pg_dump --no-owner --inserts --schema-only $USERARG $USERARGVAL "$DBNAME" > "$SQLFILE".0
+	pg_dump --no-owner --inserts --schema-only $PARAM_POSTGRESQL_ALL "$DBNAME" > "$SQLFILE".0
     elif [ "$SQLDUMP" == "data" ]; then
-	pg_dump --no-owner --inserts --data-only $USERARG $USERARGVAL "$DBNAME" > "$SQLFILE".0
+	pg_dump --no-owner --inserts --data-only $PARAM_POSTGRESQL_ALL "$DBNAME" > "$SQLFILE".0
     else
-	pg_dump --no-owner --inserts $USERARG $USERARGVAL "$DBNAME" > "$SQLFILE".0
+	pg_dump --no-owner --inserts $PARAM_POSTGRESQL_ALL "$DBNAME" > "$SQLFILE".0
     fi
     if [ -n $SETVALFILE ]; then
-	(echo "select 'SELECT setval(\'' || relname || '_s\',max(id)+1) FROM ' || relname || ';' as query from pg_class where relname in (  select substring(relname FROM '^(.*)_s$') from pg_class where relname like 'ez%\_s' and  relname != 'ezcontentobject_tree_s'  and relkind='S' );" | psql "$DBNAME" -P format=unaligned -t > "$SETVALFILE".0 && echo "SELECT setval('ezcontentobject_tree_s', max(node_id)+1) FROM ezcontentobject_tree;" >> "$SETVALFILE".0) || exit 1
+	(echo "select 'SELECT setval(\'' || relname || '_s\',max(id)+1) FROM ' || relname || ';' as query from pg_class where relname in (  select substring(relname FROM '^(.*)_s$') from pg_class where relname like 'ez%\_s' and  relname != 'ezcontentobject_tree_s'  and relkind='S' );" | psql $PARAM_POSTGRESQL_ALL "$DBNAME" -P format=unaligned -t > "$SETVALFILE".0 && echo "SELECT setval('ezcontentobject_tree_s', max(node_id)+1) FROM ezcontentobject_tree;" >> "$SETVALFILE".0) || exit 1
     fi
     perl -pi -e "s/SET search_path = public, pg_catalog;//g" "$SQLFILE".0
     perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
