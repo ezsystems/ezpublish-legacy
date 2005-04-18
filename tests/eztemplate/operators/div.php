@@ -7,4 +7,4 @@
 $exp_div = 2/3/4;
 $tpl->setVariable( 'exp_div_value', "div_value_$exp_div" );
 
-?> 
+?>
