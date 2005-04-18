@@ -875,7 +875,7 @@ class eZContentObject extends eZPersistentObject
         // Set version number
         if ( $allVersions )
             $contentObject->setAttribute( 'current_version', $this->attribute( 'current_version' ) );
-        
+
         $contentObject->store();
 
         eZDebugSetting::writeDebug( 'kernel-content-object-copy', 'Copy done', 'copy' );
@@ -2577,7 +2577,7 @@ class eZContentObject extends eZPersistentObject
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'published', eZDateUtils::rfc1123Date( $this->attribute( 'published' ) ), 'ezremote' ) );
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'modified', eZDateUtils::rfc1123Date( $this->attribute( 'modified' ) ), 'ezremote' ) );
 
-        
+
         $db =& eZDB::instance();
         $resultArray = $db->arrayQuery( 'SELECT remote_id FROM ezcontentobject WHERE id=\'' . $this->attribute( 'id' ) . '\'' );
         if ( count( $resultArray ) )
@@ -2645,6 +2645,17 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
+     Sets all view cache files to be expired
+    */
+    function expireAllViewCache()
+    {
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+        $handler =& eZExpiryHandler::instance();
+        $handler->setTimestamp( 'content-view-cache', mktime() );
+        $handler->store();
+    }
+
+    /*!
      Sets all content cache files to be expired. Both view cache and cache blocks are expired.
     */
     function expireAllCache()
@@ -2666,6 +2677,17 @@ class eZContentObject extends eZPersistentObject
         $handler =& eZExpiryHandler::instance();
         $handler->setTimestamp( 'template-block-cache', mktime() );
         $handler->store();
+    }
+
+    /*!
+    \static
+     Calls eZContentObject::expireTemplateBlockCache() unless template caching is disabled.
+    */
+    function expireTemplateBlockCacheIfNeeded()
+    {
+        $ini =& eZIni::instance();
+        if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
+            eZContentObject::expireTemplateBlockCache();
     }
 
     /*!

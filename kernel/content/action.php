@@ -262,28 +262,10 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
         $topLevelNode = '2';
     }
 
-    $clearNodeArray = array();
     if ( $http->hasPostVariable( 'ContentObjectID' ) )
     {
-        $object =& eZContentObject::fetch( $http->postVariable( 'ContentObjectID' ) );
-        $nodes =& $object->assignedNodes( false );
-        foreach ( $nodes as $node )
-        {
-            $clearNodeArray[] = $node['node_id'];
-        }
-    }
-    if ( eZContentCache::cleanup( $clearNodeArray ) )
-    {
-//                     eZDebug::writeDebug( 'cache cleaned up', 'content' );
-    }
-
-    // clear template block cache if needed
-    $ini =& eZINI::instance();
-    $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
-    if ( $templateBlockCacheEnabled )
-    {
-        include_once( 'kernel/classes/ezcontentobject.php' );
-        eZContentObject::expireTemplateBlockCache();
+         include_once( 'kernel/classes/ezcontentcachemanager.php' );
+         eZContentCacheManager::clearContentCacheIfNeeded( $http->postVariable( 'ContentObjectID' ) );
     }
 
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );

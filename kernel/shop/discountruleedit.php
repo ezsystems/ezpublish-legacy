@@ -100,8 +100,8 @@ if ( $module->isCurrentAction( 'FindProduct' ) )
     }
     if ( count( $selectedObjectIDArray ) > 0 )
     {
-        include_once( 'kernel/classes/ezcontentobject.php' );
-        eZContentObject::expireAllCache();
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearAllContentCache();
     }
 }
 
@@ -297,8 +297,12 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     if ( !$limitation )
         $discountRule->setAttribute( 'limitation', '*' );
     $discountRule->store();
-    $module->redirectTo( $module->functionURI( "discountgroupview" ) . "/". $discountGroupID );
-    return;
+
+    // we changed prices => remove content cache
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
+
+    return $module->redirectTo( $module->functionURI( 'discountgroupview' ) . '/' . $discountGroupID );
 }
 
 $classList =& eZContentClass::fetchList();

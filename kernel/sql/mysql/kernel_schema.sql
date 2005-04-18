@@ -1063,16 +1063,6 @@ CREATE TABLE ezsite_data (
 
 
 
-CREATE TABLE ezsubtree_expiry (
-  subtree int(11) default NULL,
-  cache_file varchar(255) NOT NULL default '',
-  KEY ezsubtree_expiry_subtree (subtree)
-) TYPE=MyISAM DELAY_KEY_WRITE=1;
-
-
-
-
-
 CREATE TABLE ezsubtree_notification_rule (
   id int(11) NOT NULL auto_increment,
   use_digest int(11) default '0',

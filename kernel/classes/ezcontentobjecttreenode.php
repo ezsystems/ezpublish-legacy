@@ -2113,7 +2113,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 WHERE node_id = 1";
         }
         else
-        {   
+        {
 
             $versionNameTables = ', ezcontentobject_name ';
             $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
@@ -2810,21 +2810,9 @@ WHERE
             $urlObject->cleanup();
         }
 
-        $ini =& eZINI::instance();
-        // Clean up template cache bocks
-        $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
-        if ( $templateBlockCacheEnabled )
-        {
-            eZContentObject::expireTemplateBlockCache();
-        }
-
-        // Clean up content view cache
-        if ( $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled' ||
-             $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' )
-        {
-            include_once( 'kernel/classes/ezcontentcache.php' );
-            eZContentCache::cleanup( array( $node->attribute( 'parent_node_id' ), $node->attribute( 'node_id' ) ) );
-        }
+        // Clean up content cache
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearContentCache( $node->attribute( 'contentobject_id' ) );
 
         // Clean up policies and limitations
         eZRole::cleanupByNode( $node );

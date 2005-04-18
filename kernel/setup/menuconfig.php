@@ -121,12 +121,7 @@ if ( $module->isCurrentAction( 'Store' ) )
     eZDir::unlinkWildcard( $compiledTemplateDir . "/", "*pagelayout*.*" );
 
     // Expire template block cache
-    $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
-
-    if ( $templateBlockCacheEnabled )
-    {
-        eZContentObject::expireTemplateBlockCache();
-    }
+    eZContentObject::expireTemplateBlockCacheIfNeeded();
 }
 
 $availableMenuArray = $menuINI->variable( 'MenuSettings', 'AvailableMenuArray' );

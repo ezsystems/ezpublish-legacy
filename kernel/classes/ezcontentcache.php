@@ -327,62 +327,12 @@ class eZContentCache
         return ( $value < $threshold );
     }
 
-    /*!
-     \static
-     Removes all cache files for the path string list \a $pathStringList.
-    */
-    function subtreeCleanup( $pathStringList )
-    {
-        include_once( 'lib/ezdb/classes/ezdb.php' );
-        $db =& eZDB::instance();
-
-        $selectSQL = '';
-        foreach( $pathStringList as $pathString )
-        {
-            if ( is_array( $pathString ) )
-            {
-                $nodeIDarray = explode( '/', $pathString['path_string'] );
-            }
-            else
-            {
-                $nodeIDarray = explode( '/', $pathString );
-            }
-
-            array_shift( $nodeIDarray );
-            array_pop( $nodeIDarray );
-
-            foreach( $nodeIDarray as $nodeID )
-            {
-                if ( $selectSQL != '' )
-                {
-                    $selectSQL .= ', ';
-                }
-                $selectSQL .= '\'' . $db->escapeString( $nodeID ) . '\'';
-            }
-        }
-
-        if ( $selectSQL != '' )
-        {
-            $entries = $db->arrayQuery( "SELECT cache_file FROM ezsubtree_expiry WHERE subtree IN( $selectSQL )" );
-            foreach ( $entries as $entry )
-            {
-                @unlink( $entry['cache_file'] );
-            }
-            if ( count( $entries ) > 0 )
-            {
-                $db->query( "DELETE FROM ezsubtree_expiry WHERE subtree IN( $selectSQL )" );
-            }
-        }
-    }
-
     function cleanup( $nodeList )
     {
-//         print( "cleanup" );
         $ini =& eZINI::instance();
         $cacheBaseDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ) ) );
         $viewModes = $ini->variableArray( 'ContentSettings', 'CachedViewModes' );
         $languages =& eZContentTranslation::fetchLocaleList();
-//        $languages = $ini->variableArray( 'ContentSettings', 'TranslationList' );
 
         $contentINI =& eZINI::instance( "content.ini" );
         if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesigns' ) )
@@ -394,19 +344,6 @@ class eZContentCache
             $siteDesigns = $contentINI->variable( 'VersionView', 'AvailableSiteDesignList' );
         }
 
-        // Cleanup subtree cache blocks
-        $pathStringArray = eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
-                                                                array( 'path_string' ),
-                                                                array( 'node_id' => array( $nodeList ) ),
-                                                                null,
-                                                                null,
-                                                                false );
-        eZContentCache::subtreeCleanup( $pathStringArray );
-
-//         eZDebug::writeDebug( $viewModes, 'viewmodes' );
-//         eZDebug::writeDebug( $siteDesigns, 'siteDesigns' );
-//         eZDebug::writeDebug( $languages, 'languages' );
-//         eZDebug::writeDebug( $nodeList, 'nodeList' );
         foreach ( $siteDesigns as $siteDesign )
         {
             foreach ( $viewModes as $viewMode )
@@ -445,7 +382,6 @@ class eZContentCache
             }
         }
     }
-
 }
 
 ?>

@@ -354,7 +354,9 @@ class eZRole extends eZPersistentObject
                 {
                     $policy->remove();
                 }
-                eZContentObject::expireAllCache();
+
+                include_once( 'kernel/classes/ezcontentcachemanager.php' );
+                eZContentCacheManager::clearAllContentCache();
                 eZRole::expireCache();
             }
         }
@@ -380,7 +382,9 @@ class eZRole extends eZPersistentObject
             {
                 $policy =& eZPolicy::fetch( $limitation->attribute( 'policy_id' ) );
                 $policy->remove();
-                eZContentObject::expireAllCache();
+
+                include_once( 'kernel/classes/ezcontentcachemanager.php' );
+                eZContentCacheManager::clearAllContentCache();
                 eZRole::expireCache();
             }
         }
@@ -536,11 +540,13 @@ class eZRole extends eZPersistentObject
                 {
                     foreach( array_keys( $accessArray[$moduleKey][$functionKey] ) as $policyKey )
                     {
-                        foreach( array_keys( $accessArray[$moduleKey][$functionKey][$policyKey] ) as $limitationKey )
-                        {
-                            $limitKeyArray =& $accessArray[$moduleKey][$functionKey][$policyKey][$limitationKey];
-                            $limitKeyArray = array_unique( $limitKeyArray );
-                        }
+                        if ( is_array( $accessArray[$moduleKey][$functionKey][$policyKey] ) )
+
+                            foreach( array_keys( $accessArray[$moduleKey][$functionKey][$policyKey] ) as $limitationKey )
+                            {
+                                $limitKeyArray =& $accessArray[$moduleKey][$functionKey][$policyKey][$limitationKey];
+                                $limitKeyArray = array_unique( $limitKeyArray );
+                            }
                     }
                 }
             }
@@ -712,24 +718,14 @@ class eZRole extends eZPersistentObject
     function removeUserAssignmentByID( $id )
     {
         // Clear content cache for the user/group the assignment is being removed for.
-        {
-            $db =& eZDB::instance();
-            $result = $db->arrayQuery( "SELECT contentobject_id FROM  ezuser_role WHERE id='$id'" );
-            if ( !is_array( $result ) || !$result ) // No such assignment to remove.
-                return;
-            $userID = $result[0]['contentobject_id'];
-            include_once( 'kernel/classes/ezcontentcachemanager.php' );
-            eZContentCacheManager::clearObjectViewCache( $userID, true );
-        }
-
-        // Clear template block cache if needed.
-        $ini =& eZINI::instance();
-        $templateBlockCacheEnabled = ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'enabled' );
-        if ( $templateBlockCacheEnabled )
-        {
-            include_once( 'kernel/classes/ezcontentobject.php' );
-            eZContentObject::expireTemplateBlockCache();
-        }
+        $db =& eZDB::instance();
+        $result = $db->arrayQuery( "SELECT contentobject_id FROM  ezuser_role WHERE id='$id'" );
+        if ( !is_array( $result ) || !$result ) // No such assignment to remove.
+            return;
+        $userID = $result[0]['contentobject_id'];
+        
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearContentCacheIfNeeded( $userID );
 
         // Clear role, policies and limitations cache.
         eZRole::expireCache();

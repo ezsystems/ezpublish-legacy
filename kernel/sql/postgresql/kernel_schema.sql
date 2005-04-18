@@ -2328,17 +2328,6 @@ CREATE TABLE ezsubtree_notification_rule (
 
 
 
-CREATE TABLE ezsubtree_expiry (
-    cache_file character varying(255) NOT NULL,
-    subtree integer
-);
-
-
-
-
-
-
-
 CREATE TABLE eztipafriend_request (
     email_receiver character varying(100) NOT NULL,
     created integer NOT NULL
@@ -2759,14 +2748,6 @@ CREATE INDEX idx_object_version_objver ON ezcontentobject_version USING btree (c
 
 
 CREATE INDEX ezproductcollection_item_contentobject_id ON ezproductcollection_item USING btree (contentobject_id);
-
-
-
-
-
-
-
-CREATE INDEX ezsubtree_expiry_subtree ON ezsubtree_expiry USING btree (subtree);
 
 
 

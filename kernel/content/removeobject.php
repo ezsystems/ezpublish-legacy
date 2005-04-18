@@ -152,7 +152,7 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
         if ( $node != null )
         {
             include_once( "kernel/classes/ezcontentcachemanager.php" );
-            eZContentCacheManager::clearObjectViewCache( $object->attribute( 'id' ), true );
+            eZContentCacheManager::clearContentCacheIfNeeded( $object->attribute( 'id' ) );
 
             if ( $node->attribute( 'main_node_id' ) == $deleteID )
             {

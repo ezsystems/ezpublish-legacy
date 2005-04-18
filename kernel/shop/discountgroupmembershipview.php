@@ -74,6 +74,11 @@ if ( $http->hasPostVariable( "RemoveRuleButton" ) )
     {
         eZDiscountSubRule::remove( $discountRuleID );
     }
+
+    // we changed prices => remove content cache
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
+
     $module->redirectTo( $module->functionURI( "discountgroupview" ) . "/" . $discountGroupID );
     return;
 }
@@ -102,6 +107,10 @@ if ( $module->isCurrentAction( 'AddCustomer' ) )
             $userRule->store();
         }
     }
+
+    // because we changed users, we have to remove content cache
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
 }
 if ( $http->hasPostVariable( "RemoveCustomerButton" ) )
 {
@@ -113,6 +122,9 @@ if ( $http->hasPostVariable( "RemoveCustomerButton" ) )
             eZUserDiscountRule::removeUser( $customerID );
         }
     }
+
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
 }
 $module->setTitle( "View membership" );
 $membershipList = eZUserDiscountRule::fetchByRuleID( $discountGroupID );

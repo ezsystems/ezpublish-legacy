@@ -231,7 +231,7 @@ class eZURLObjectLink extends eZPersistentObject
             {
                 $objectID = $objectAttribute->attribute( 'contentobject_id' );
                 $objectVersion = $objectAttribute->attribute( 'version' );
-                eZContentCacheManager::clearObjectViewCache( $objectID, $objectVersion );
+                eZContentCacheManager::clearContentCacheIfNeeded( $objectID, $objectVersion );
             }
         }
     }
