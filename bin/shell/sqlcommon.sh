@@ -320,7 +320,7 @@ function ezdist_db_prepare_params
 
     ezdist_is_nonempty "DB_USER" && PARAM_EZ_DB_USER="--db-user=$DB_USER"
     ezdist_is_nonempty "$DB_PASSWD" && PARAM_EZ_DB_PASSWD="--db-password=$DB_PASSWD"
-    ezdist_is_nonempty "$DB_SOCKET" && PARAM_EZ_DB_SOCKET="--db-host=$DB_SOCKET"
+    ezdist_is_nonempty "$DB_SOCKET" && PARAM_EZ_DB_SOCKET="--db-socket=$DB_SOCKET"
     ezdist_is_nonempty "$DB_HOST" && PARAM_EZ_DB_HOST="--db-host=$DB_HOST"
     ezdist_is_nonempty "$DB_PORT" && PARAM_EZ_DB_PORT="--db-port=$DB_HOST"
     ezdist_is_nonempty "$DB_NAME" && PARAM_EZ_DB_NAME="--db-name=$DB_NAME"
@@ -352,7 +352,7 @@ function ezdist_db_prepare_params_from_mysql
 
     ezdist_is_nonempty "$MYSQL_USER" && PARAM_EZ_DB_USER="--"$prefix"user=$MYSQL_USER"
     ezdist_is_nonempty "$MYSQL_PASSWD" && PARAM_EZ_DB_PASSWD="--"$prefix"password=$MYSQL_PASSWD"
-    ezdist_is_nonempty "$MYSQL_SOCKET" && PARAM_EZ_DB_SOCKET="--"$prefix"host=$MYSQL_SOCKET"
+    ezdist_is_nonempty "$MYSQL_SOCKET" && PARAM_EZ_DB_SOCKET="--"$prefix"socket=$MYSQL_SOCKET"
     ezdist_is_nonempty "$MYSQL_HOST" && PARAM_EZ_DB_HOST="--"$prefix"host=$MYSQL_HOST"
     ezdist_is_nonempty "$MYSQL_PORT" && PARAM_EZ_DB_PORT="--"$prefix"port=$MYSQL_PORT"
     ezdist_is_nonempty "$MYSQL_NAME" && PARAM_EZ_DB_NAME="--"$prefix"name=$MYSQL_NAME"
@@ -391,7 +391,7 @@ function ezdist_mysql_prepare_params
 {
     ezdist_is_nonempty "$MYSQL_USER" && PARAM_EZ_MYSQL_USER="--mysql-user=$MYSQL_USER"
     ezdist_is_nonempty "$MYSQL_PASSWD" && PARAM_EZ_MYSQL_PASSWD="--mysql-password=$MYSQL_PASSWD"
-    ezdist_is_nonempty "$MYSQL_SOCKET" && PARAM_EZ_MYSQL_SOCKET="--mysql-host=$MYSQL_SOCKET"
+    ezdist_is_nonempty "$MYSQL_SOCKET" && PARAM_EZ_MYSQL_SOCKET="--mysql-socket=$MYSQL_SOCKET"
     ezdist_is_nonempty "$MYSQL_HOST" && PARAM_EZ_MYSQL_HOST="--mysql-host=$MYSQL_HOST"
     ezdist_is_nonempty "$MYSQL_PORT" && PARAM_EZ_MYSQL_PORT="--mysql-port=$MYSQL_PORT"
     ezdist_is_nonempty "$MYSQL_NAME" && PARAM_EZ_MYSQL_HOST="--mysql-name=$MYSQL_NAME"
