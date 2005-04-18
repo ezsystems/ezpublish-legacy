@@ -19,10 +19,8 @@
 {set href=""}
 {/section}
 
-{switch match=$align}
-{case match="left"}
-<div class="imageleft">
-{section show=$href}<a href={$href|ezurl} target="{$attribute_parameters.target}">{/section}
+<div class="image{$align}">
+{section show=$href}<a href={$href|ezurl} target="{$link_parameters.target}">{/section}
 <img src={$image_variation.full_path|ezroot} alt="{$object.data_map.image.content.alternative_text|wash(xhtml)}" />
 {section show=$href}</a>{/section}
 
@@ -30,30 +28,5 @@
 {$object.data_map.caption.content.output.output_text}
 </div>
 </div>
-{/case}
-{case match="right"}
-<div class="imageright">
-{section show=$href}<a href={$href|ezurl} target="{$attribute_parameters.target}">{/section}
-<img src={$image_variation.full_path|ezroot} alt="{$object.data_map.image.content.alternative_text|wash(xhtml)}" />
-{section show=$href}</a>{/section}
-
-<div style="width: {$image_variation.width}px;">
-{$object.data_map.caption.content.output.output_text}
-</div>
-</div>
-{/case}
-{case}
-
-<div class="imagecenter">
-{section show=$href}<a href={$href|ezurl} target="{$attribute_parameters.target}">{/section}
-<img src={$image_variation.full_path|ezroot} alt="{$object.data_map.image.content.alternative_text|wash(xhtml)}"  />
-{section show=$href}</a>{/section}
-
-<div style="width: {$image_variation.width}px;">
-{$object.data_map.caption.content.output.output_text}
-</div>
-</div>
-{/case}
-{/switch}
 
 {/let}

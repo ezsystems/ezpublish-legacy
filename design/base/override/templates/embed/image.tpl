@@ -4,7 +4,7 @@
     <div class="attribute-image">
     {let href="" target="_self"}
         {section show=is_set($object_parameters.href)}
-            {set href=$object_parameters.href}
+            {set href=$object_parameters.href|ezurl}
         {/section}
         {section show=is_set($object_parameters.target)}
             {set target=$object_parameters.target}
