@@ -118,7 +118,7 @@
 <!--
     window.onload=function()
     {
-        with( editform )
+        with( document.editform )
         {
             for( var i=0; i<elements.length; i++ )
             {
