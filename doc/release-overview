@@ -307,3 +307,12 @@ Datatype branch:
 - Revision=10959
 - Version url=http://zev.ez.no/svn/nextgen/versions/3.5.1
 - Date 24-Feb-2005
+
+3.4.6:
+- Release branch=release/3.4.6
+- Release branch start=11431
+- Release branch end=
+- From revision=
+- Revision=
+- Version url=
+- Date 18-Apr-2005
