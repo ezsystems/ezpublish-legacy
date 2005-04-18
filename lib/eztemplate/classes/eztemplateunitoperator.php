@@ -316,7 +316,7 @@ class eZTemplateUnitOperator
                 {
                     $values = array();
                     $values[] = $parameters[0];
-                    $values[] = array( eZTemplateNodeTool::createStringElement( $prefix_var[1] ) );
+                    $values[] = array( eZTemplateNodeTool::createStringElement( '' ) );
                     $values[] = array( eZTemplateNodeTool::createStringElement( $base ) );
 
                     $code = '%output% = number_format( %1%, 0, ' . $decimalSymbolText . ', ' . $decimalThousandsSeparatorText . ' ) . \' \' . %2% . %3%;';
