@@ -165,7 +165,7 @@ class eZTemplateCacheFunction
             $cachePathText = eZPHPCreator::variableText( "$cacheDir", 0, 0, false );
             $code = ( "\$keyString = sprintf( '%u', crc32( \$cacheKeys . $extraKeyText ) );\n" .
                       "\$cacheFilename = \$keyString . '.cache';\n" .
-                      "if ( isset( \$subtreeExpiry ) )\n" .
+                      "if ( isset( \$subtreeExpiry ) && \$subtreeExpiry !== false )\n" .
                       "{\n" .
                       "    include_once( 'lib/eztemplate/classes/eztemplatecachefunction.php' );\n" .
                       "    \$cacheDir = $cachePathText . eZTemplateCacheFunction::subtreeCacheSubDir( \$subtreeExpiry, \$cacheFilename );\n" .
