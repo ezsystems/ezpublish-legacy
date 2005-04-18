@@ -196,6 +196,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $designSetting =& $designSettings[$type];
         $siteBasics =& $GLOBALS['eZSiteBasics'];
         if ( $type == 'site' and
+             isset( $siteBasics['site-design-override'] ) and
              is_string( $siteBasics['site-design-override'] ) )
         {
             return $siteBasics['site-design-override'];
@@ -471,7 +472,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     {
         if ( isset( $GLOBALS['eZSiteBasics'] ) )
         {
-            if ( $GLOBALS['eZSiteBasics']['no-cache-adviced'] )
+            if ( isset( $GLOBALS['eZSiteBasics']['no-cache-adviced'] ) and
+                 $GLOBALS['eZSiteBasics']['no-cache-adviced'] )
                 return false;
         }
         global $eZTemplateOverrideCacheNoPermission;
