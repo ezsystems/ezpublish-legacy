@@ -144,6 +144,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
             $timestamp = $date->attribute( 'timestamp' );
 
             $addressArray =& $this->fetchUsersForDigest( $timestamp );
+
             include_once( 'kernel/common/template.php' );
             $tpl =& templateInit();
 
@@ -174,7 +175,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
     function &fetchUsersForDigest( $timestamp )
     {
         return eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
-                                                    null, array( 'send_date' => array( '', array( 1, $timestamp ) ) ),
+                                                    array(), array( 'send_date' => array( '', array( 1, $timestamp ) ) ),
                                                     array( 'address' => 'asc' ),null,
                                                     false,false,array( array( 'operation' => 'distinct address' ) ) );
 
