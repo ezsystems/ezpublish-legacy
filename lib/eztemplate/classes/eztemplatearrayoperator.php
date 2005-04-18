@@ -907,9 +907,15 @@ class eZTemplateArrayOperator
                 else
                 {
                     $code = '%tmp1% = ' . $inputArrayCode . ';' . "\n" .
-                         '%tmp2% = array_slice( %tmp1%, 0, ' . $offsetCode . ' );' . "\n" .
-                         '%tmp3% = array_slice( %tmp1%, ' . $offsetCode . ' );' . "\n" .
-                         '%tmp4% = array( ';
+                         'if ( is_string( %tmp1% ) )' . "\n" .
+                         '{' . "\n" .
+                         '  %output% = substr( ' . $inputArrayCode . ', 0, ' . $offsetCode . ' ) . ' . $insertElemCode[0] . ' . substr( ' . $inputArrayCode . ', ' . $offsetCode . ' );' . "\n" .
+                         '}' . "\n" .
+                         'else if ( is_array( %tmp1% ) )' . "\n" .
+                         '{' . "\n" .
+                         '  %tmp2% = array_slice( %tmp1%, 0, ' . $offsetCode . ' );' . "\n" .
+                         '  %tmp3% = array_slice( %tmp1%, ' . $offsetCode . ' );' . "\n" .
+                         '  %tmp4% = array( ';
                     for( $i = 0; $i < count( $insertElemCode ); ++$i )
                     {
                         if ( $i != 0 )
@@ -919,12 +925,6 @@ class eZTemplateArrayOperator
                         $code .= $insertElemCode[$i];
                     }
                     $code .= ' );' . "\n" .
-                         'if ( is_string( %tmp1% ) )' . "\n" .
-                         '{' . "\n" .
-                         '  %output% = substr( ' . $inputArrayCode . ', 0, ' . $offsetCode . ' ) . ' . $insertElemCode[0] . ' . substr( ' . $inputArrayCode . ', ' . $offsetCode . ' );' . "\n" .
-                         '}' . "\n" .
-                         'else if ( is_array( %tmp1% ) )' . "\n" .
-                         '{' . "\n" .
                          '  %output% = array_merge( %tmp2%, %tmp4%, %tmp3% );' . "\n" .
                          '}' . "\n";
                     $tmpCount = 4;
