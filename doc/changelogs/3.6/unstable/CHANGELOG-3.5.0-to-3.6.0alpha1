@@ -311,6 +311,7 @@ eZInformationCollection:
 - Fixed bug: Session would be activated allthough eZScript was instructed not
   to start sessions.
   (Manually merged from stable/3.5 (3.5.2) rev. 11389)
+- Fixed bug: Notification digest handler raised fatal error.
   
 *Library:
 PDF:
