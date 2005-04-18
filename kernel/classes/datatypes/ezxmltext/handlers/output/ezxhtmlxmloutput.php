@@ -431,15 +431,14 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $href .= '#' . $tag->attributeValue( 'anchor_name' );
                 }
     
-                // Making valid URI
-                include_once( 'lib/ezutils/classes/ezuri.php' );
-                eZURI::transformURI( $href );
+               // Making valid URI  (commented cause decided to use ezurl in template)
+               // include_once( 'lib/ezutils/classes/ezuri.php' );
+               //  eZURI::transformURI( $href );
     
                 $this->LinkParameters['href'] = $href;
     
                 $this->LinkParameters['class'] = $tag->attributeValue( 'class' );
                 $this->LinkParameters['target'] = $tag->attributeValue( 'target' );
-                
                 $this->LinkParameters['title'] = $tag->attributeValueNS( 'title', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
                 $this->LinkParameters['id'] = $tag->attributeValueNS( 'id', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
             }
