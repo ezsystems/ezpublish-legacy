@@ -52,6 +52,10 @@ include_once( 'kernel/classes/ezcontentbrowse.php' );
 
 $http =& eZHTTPTool::instance();
 
+$siteini =& eZINI::instance();
+if ( !in_array( $currentSiteAccess, $siteini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) ) )
+    return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+
 $iniPath = "settings/siteaccess/$currentSiteAccess";
 $ini =& eZINI::instance( "toolbar.ini", 'settings', null, false, null, false );
 
