@@ -141,7 +141,8 @@ class eZTemplateTreeCache
         if ( isset( $GLOBALS['eZSiteBasics'] ) )
         {
             $siteBasics = $GLOBALS['eZSiteBasics'];
-            if ( $siteBasics['no-cache-adviced'] )
+            if ( isset( $siteBasics['no-cache-adviced'] ) and
+                 $siteBasics['no-cache-adviced'] )
             {
                 return false;
             }
