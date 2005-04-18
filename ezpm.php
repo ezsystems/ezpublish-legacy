@@ -739,12 +739,6 @@ if ( $dbUser !== false or $dbHost !== false or $dbSocket !== false or
                            $params,
                            true );
 
-    if ( !$db->isValid() )
-    {
-        $cli->error( "Database type '$dbType' could not be found" );
-        $script->shutdown( 1 );
-    }
-
     if ( !$db->isConnected() )
     {
         $str = "Failed to connnect to database: ";
