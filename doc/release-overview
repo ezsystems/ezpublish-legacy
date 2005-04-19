@@ -317,3 +317,13 @@ Datatype branch:
 - Revision=
 - Version url=
 - Date 18-Apr-2005
+
+3.5.2:
+- Release branch=release/3.5.2
+- Release branch start=11458
+- Release branch end=
+- Release branch configured=
+- From revision=
+- Revision=
+- Version url=
+- Date 19-Apr-2005
