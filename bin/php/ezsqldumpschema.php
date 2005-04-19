@@ -47,7 +47,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema 
 
 $script->startup();
 
-$options = $script->getOptions( "[type:][user:][host:][password;][output-array][output-serialized][output-sql]" .
+$options = $script->getOptions( "[type:][user:][host:][password;][socket:][output-array][output-serialized][output-sql]" .
                                 "[diff-friendly][meta-data][table-type:][table-charset:][compatible-sql]" .
                                 "[format:]" .
                                 "[output-types:][allow-multi-insert][schema-file:]",
@@ -57,6 +57,7 @@ $options = $script->getOptions( "[type:][user:][host:][password;][output-array][
                                        'host' => "Connect to host source database",
                                        'user' => "User for login to source database",
                                        'password' => "Password to use when connecting to source database",
+                                       'socket' => 'Socket to connect to match and source database (only for MySQL)',
                                        'output-array' => 'Create file with array structures (Human readable)',
                                        'output-serialized' => 'Create file with serialized data (Saves space)',
                                        'output-sql' => 'Create file with SQL data (DB friendly)',
@@ -84,6 +85,7 @@ $script->initialize();
 $type = $options['type'];
 $host = $options['host'];
 $user = $options['user'];
+$socket = $options['socket'];
 $password = $options['password'];
 
 if ( !is_string( $password ) )
@@ -167,7 +169,7 @@ if ( strlen( trim( $type ) ) == 0)
 
 // Creates a displayable string for the end-user explaining
 // which database, host, user and password which were tried
-function eZTriedDatabaseString( $database, $host, $user, $password )
+function eZTriedDatabaseString( $database, $host, $user, $password, $socket )
 {
     $msg = "'$database'";
     if ( strlen( $host ) > 0 )
@@ -184,6 +186,8 @@ function eZTriedDatabaseString( $database, $host, $user, $password )
     }
     if ( strlen( $password ) > 0 )
         $msg .= " and with a password";
+    if ( strlen( $socket ) > 0 )
+        $msg .= " and with socket '$socket'";
     return $msg;
 }
 
@@ -242,12 +246,15 @@ else
     }
 
     include_once( 'lib/ezdb/classes/ezdb.php' );
+    $parameters = array( 'use_defaults' => false,
+                         'server' => $host,
+                         'user' => $user,
+                         'password' => $password,
+                         'database' => $database );
+    if ( $socket )
+        $parameters['socket'] = $socket;
     $db =& eZDB::instance( $type,
-                           array( 'use_defaults' => false,
-                                  'server' => $host,
-                                  'user' => $user,
-                                  'password' => $password,
-                                  'database' => $database ),
+                           $parameters,
                            true );
 
     if ( !is_object( $db ) )
@@ -259,7 +266,7 @@ else
     if ( !$db or !$db->isConnected() )
     {
         $cli->error( "Could not initialize database:" );
-        $cli->error( "* Tried database " . eZTriedDatabaseString( $database, $host, $user, $password ) );
+        $cli->error( "* Tried database " . eZTriedDatabaseString( $database, $host, $user, $password, $socket ) );
 
         // Fetch the database error message if there is one
         // It will give more feedback to the user what is wrong
