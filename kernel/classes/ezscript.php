@@ -905,7 +905,7 @@ class eZScript
         {
             if ( !$this->IsInitialized )
                 $this->initialize();
-            $this->shutdown();
+            $this->shutdown( 1 );
             exit;
         }
         if ( $useStandardOptions )
