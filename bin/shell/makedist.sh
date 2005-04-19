@@ -454,6 +454,21 @@ if [ -z $SKIPTRANSLATION ]; then
     fi
 fi
 
+
+#
+# *****   Make sure common.sh contains correct branch info *****
+#
+
+CUR_SVN_PATH=`svn info | grep 'URL:' | sed 's#URL: '$REPOSITORY_BASE_URL'/##'`
+if [ "$CUR_SVN_PATH" != "$REPOSITORY_BRANCH_PATH" ]; then
+    echo "The repository branch path defined in bin/shell/common.sh is not correct."
+    echo "The variable `$SETCOLOR_EMPHASIZE`REPOSITORY_BRANCH_PATH`$SETCOLOR_NORMAL` is set to `$SETCOLOR_NEW`$REPOSITORY_BRANCH_PATH`$SETCOLOR_NORMAL`"
+    echo "The correct path is `$SETCOLOR_NEW`$CUR_SVN_PATH`$SETCOLOR_NORMAL`, change the setting to:"
+    echo "REPOSITORY_BRANCH_PATH=\"$CUR_SVN_PATH\""
+    echo "and commit the changes before restarting makedist.sh"
+    exit 1
+fi
+
 echo "Connecting to MySQL using `ezdist_mysql_show_config`"
 echo "Connecting to PostgreSQL using `ezdist_postgresql_show_config`"
 
