@@ -50,7 +50,7 @@ extern void fetchtr_tpl( QFileInfo *fi, MetaTranslator *tor, bool mustExist );
 extern void merge( MetaTranslator *tor, const MetaTranslator *virginTor, const QString &language, bool verbose );
 
 static int verbose = 0;
-static QString version = "3.5.2"; // eZ publish version plus local version
+static QString version = "3.5.1"; // eZ publish version plus local version
 static QStringList dirs;          // Additional scan directories
 static bool extension = false;    // Extension mode
 static QDir extension_dir;        // Extension directory
@@ -237,9 +237,19 @@ int main( int argc, char **argv )
         QDir dir;
         if ( verbose )
             qWarning( "Checking eZ publish directory: '%s'", dir.absPath().latin1() );
-        traverse( dir.path() + QDir::separator() + "kernel", fetchedTor );
-        traverse( dir.path() + QDir::separator() + "lib", fetchedTor );
-        traverse( dir.path() + QDir::separator() + "design", fetchedTor );
+
+        // Fix for bug in qt win free, only reads content of current directory
+//        traverse( dir.path() + QDir::separator() + "kernel", fetchedTor );
+//        traverse( dir.path() + QDir::separator() + "lib", fetchedTor );
+//        traverse( dir.path() + QDir::separator() + "design", fetchedTor );
+        QString currentPath = dir.absPath();
+        dir.setCurrent( currentPath + "/kernel" );
+        traverse( dir.currentDirPath(), fetchedTor );
+        dir.setCurrent( currentPath + "/lib" );
+        traverse( dir.currentDirPath(), fetchedTor );
+        dir.setCurrent( currentPath + "/design" );
+        traverse( dir.currentDirPath(), fetchedTor );
+        dir.setCurrent( currentPath );
     }
 
     // Additional directories
@@ -314,16 +324,17 @@ void traverse( const QDir &dir, MetaTranslator &fetchedTor )
     QFileInfo *fi;
     while ( (fi = it.current()) )
     {
+        ++it;
         if ( fi->fileName().startsWith( "." ) )
         {
-            ++it;
-            continue;
+            // Do nothing
         }
         else if ( fi->isDir() )
         {
             QDir subdir = dir;
-            if ( subdir.cd( fi->fileName() ) )
-                traverse( subdir, fetchedTor );
+            subdir.setCurrent( subdir.path() + QDir::separator() + fi->fileName() );
+            traverse( subdir.currentDirPath(), fetchedTor );
+            subdir.setCurrent( dir.path() );
         }
         else
         {
@@ -340,6 +351,5 @@ void traverse( const QDir &dir, MetaTranslator &fetchedTor )
                 fetchtr_tpl( fi, &fetchedTor, true );
             }
         }
-        ++it;
     }
 }
