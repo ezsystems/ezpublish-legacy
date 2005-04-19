@@ -280,8 +280,9 @@ if [ "$USE_MYSQL" != "" ]; then
 # 	[ -n "$DB_HOST" ] && DB_HOST_OPT="--host=$DB_HOST"
 # 	[ -n "$DB_PWD" ] && DB_PWD_OPT="--password=$DB_PWD"
 
+	ezdist_db_prepare_params_from_mysql "1"
 	echo -n "Dumping to SQL file `ez_color_file $SQL_SCHEMA_FILE`"
-	./bin/php/ezsqldumpschema.php --type=mysql --output-array $PARAM_EZ_MYSQL_ALL $DB_OUTPUT_TYPES "$DBNAME" >"$SQL_SCHEMA_FILE".0 2>.mysql.log
+	./bin/php/ezsqldumpschema.php --type=mysql --output-array $PARAM_EZ_DB_ALL $DB_OUTPUT_TYPES "$DBNAME" >"$SQL_SCHEMA_FILE".0 2>.mysql.log
 	ez_result_file $? .mysql.log || exit 1
     fi
 else
@@ -388,8 +389,9 @@ else
 	[ -n "$DB_HOST" ] && DB_HOST_OPT="--host=$DB_HOST"
 	[ -n "$DB_PWD" ] && DB_PWD_OPT="--password=$DB_PWD"
 
+	ezdist_db_prepare_params_from_postgresql "1"
 	echo -n "Dumping to SQL file `ez_color_file $SQL_SCHEMA_FILE`"
-	./bin/php/ezsqldumpschema.php --type=postgresql --output-array $PARAM_EZ_POSTGRESQL_ALL $DB_OUTPUT_TYPES "$DBNAME" >"$SQL_SCHEMA_FILE".0 2>.psql.log
+	./bin/php/ezsqldumpschema.php --type=postgresql --output-array $PARAM_EZ_DB_ALL $DB_OUTPUT_TYPES "$DBNAME" >"$SQL_SCHEMA_FILE".0 2>.psql.log
 	pg_error_code ".psql.log"
 	ez_result_file $? .psql.log || exit 1
     fi

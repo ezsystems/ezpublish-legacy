@@ -142,7 +142,7 @@ function helpUpdatePostgreSQL
     echo "The definitions and data is normally taken from the database update files for the current release"
 }
 
-if [ "DUMP_SCHEMA" == "" -a "$DUMP_DATA" == "" ]; then
+if [ "$DUMP_SCHEMA" == "" -a "$DUMP_DATA" == "" ]; then
     echo "You must choose either to dump schema with --schema or data with --data"
     echo
     help
