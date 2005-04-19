@@ -234,6 +234,16 @@ function ez_result_output
     return 0
 }
 
+# Prints Skipped at a given column and prints the message
+# Syntax:
+# ez_result_output_skipped
+# Usage:
+# ez_result_output_skipped
+function ez_result_output_skipped
+{
+    echo "`ez_move_to_col``ez_color_ok '[ Skipped ]'`"
+}
+
 # Prints Success or Failure at a given column and prints the contents of the file
 # Syntax:
 # ez_result_file <status> <failure-file>
@@ -248,5 +258,48 @@ function ez_result_file
 	return 1
     fi
     echo "`ez_move_to_col``ez_color_ok '[ Success ]'`"
+    return 0
+}
+
+
+# Returns 0 if the variable is considered undefined
+# Currently this means if it contains the text 'undef'
+function ezdist_is_undef
+{
+    if [ "$1" == "undef" ]; then
+	return 0
+    fi
+    return 1
+}
+
+# Returns 0 if the variable is considered defined
+# Currently this means if it does not contain the text 'undef'
+function ezdist_is_def
+{
+    if [ "$1" == "undef" ]; then
+	return 1
+    fi
+    return 0
+}
+
+# Returns 0 if the variable is considered empty
+# Currently this means if it contains the text 'none' or is undefined
+function ezdist_is_empty
+{
+    ezdist_is_undef "$1" && return 0
+    if [ "$1" == "none" -o "$1" == "undef" ]; then
+	return 0
+    fi
+    return 1
+}
+
+# Returns 0 if the variable is considered not empty
+# Currently this means if it does not contain the text 'none' or is undefined
+function ezdist_is_nonempty
+{
+    ezdist_is_undef "$1" && return 1
+    if [ "$1" == "none" -o "$1" == "undef" ]; then
+	return 1
+    fi
     return 0
 }

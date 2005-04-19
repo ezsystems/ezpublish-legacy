@@ -135,7 +135,8 @@ function &loadDatabaseSchema( $type, $host, $user, $password, $db, &$cli )
         include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $dbInstance =& eZDB::instance( 'ez' . $type,
-                                       array( 'server' => $host,
+                                       array( 'use_defaults' => false,
+                                              'server' => $host,
                                               'user' => $user,
                                               'password' => $password,
                                               'database' => $db ),

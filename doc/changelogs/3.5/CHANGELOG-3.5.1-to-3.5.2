@@ -10,6 +10,12 @@ Changes from 3.5.1 to 3.5.2
 - Changed pregeneration of content cache to happen inside the 'publish'
   operation instead of in the content/edit page.
   (Manually merged from stable/3.4 (3.4.6) rev. 11295)
+- Changed all DB releated PHP scripts to not use the default INI values if
+  database settings are supplied to the script.
+
+ezpm.php:
+- Added options for configuring database settings. If used the default values
+  from INI settings are not used.
 
 WebDAV:
 - Added configuration of which classes should always be considered as folders.
