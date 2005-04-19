@@ -114,7 +114,7 @@ if ezdist_is_empty "$DB_TYPE"; then
     exit 1
 fi
 
-echo "Connecting to DB using `ezdist_db_show_config`"
+[ -z "$QUIET" ] && echo "Connecting to DB using `ezdist_db_show_config`"
 ezdist_db_prepare_params
 
 # Contacts addon

@@ -200,11 +200,11 @@ else
     ezdist_postgresql_prepare_params
 
     psql --version | grep 'psql (PostgreSQL) 7.3' &>/dev/null
-#    if [ $? -ne 0 ]; then
-#	POSTGRESQL_VERSION=`psql --version | grep -E 'psql \(PostgreSQL\) [0-9][0-9.]*' | sed 's#^psql (PostgreSQL)  *##'`
-#	echo "You cannot run this command on your PostgreSQL version ($POSTGRESQL_VERSION), requires 7.3"
-#	exit 1
-#    fi
+    if [ $? -ne 0 ]; then
+	POSTGRESQL_VERSION=`psql --version | grep -E 'psql \(PostgreSQL\) [0-9][0-9.]*' | sed 's#^psql (PostgreSQL)  *##'`
+	echo "You cannot run this command on your PostgreSQL version ($POSTGRESQL_VERSION), requires 7.3"
+	exit 1
+    fi
 
     dropdb $PARAM_POSTGRESQL_ALL "$DBNAME"
     createdb $PARAM_POSTGRESQL_ALL "$DBNAME" || exit 1
