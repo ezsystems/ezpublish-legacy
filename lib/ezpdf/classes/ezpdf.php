@@ -337,6 +337,7 @@ class eZPDF
                 eZDebug::writeNotice( 'Execute text in PDF, length: "'. strlen( $text ) .'"', 'eZPDF::modify' );
             } break;
 
+            case 'page_number':
             case 'pageNumber':
             {
                 $numberDesc = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
