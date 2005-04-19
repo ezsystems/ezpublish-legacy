@@ -271,6 +271,42 @@ fi
 DEST="$DEST_ROOT/$BASE"
 DEST_EXTENSION_ARCHIVE="$DEST_ROOT/$BASE-extensions"
 
+#
+# *****   Handle translations and locale   *****
+#
+
+if [ -z $SKIPTRANSLATION ]; then
+    if [ ! -f bin/linux/ezlupdate ]; then
+	echo "You do not have the ezlupdate program compiled"
+	echo "this is required to create a distribution"
+	echo
+	echo "cd support/lupdate-ezpublish3"
+	echo "qmake ezlupdate.pro"
+	echo "make"
+	echo
+	echo "NOTE: qmake may in some cases not be in PATH, provide the full path in those cases"
+	exit 1
+    fi
+fi
+
+
+#
+# *****   Make sure common.sh contains correct branch info *****
+#
+
+CUR_SVN_PATH=`svn info | grep 'URL:' | sed 's#URL: '$REPOSITORY_BASE_URL'/##'`
+if [ "$CUR_SVN_PATH" != "$REPOSITORY_BRANCH_PATH" ]; then
+    echo "The repository branch path defined in bin/shell/common.sh is not correct."
+    echo "The variable `$SETCOLOR_EMPHASIZE`REPOSITORY_BRANCH_PATH`$SETCOLOR_NORMAL` is set to `$SETCOLOR_NEW`$REPOSITORY_BRANCH_PATH`$SETCOLOR_NORMAL`"
+    echo "The correct path is `$SETCOLOR_NEW`$CUR_SVN_PATH`$SETCOLOR_NORMAL`, change the setting to:"
+    echo "REPOSITORY_BRANCH_PATH=\"$CUR_SVN_PATH\""
+    echo "and commit the changes before restarting makedist.sh"
+    exit 1
+fi
+
+echo "Connecting to MySQL using `ezdist_mysql_show_config`"
+echo "Connecting to PostgreSQL using `ezdist_postgresql_show_config`"
+
 if [ "$SVN_SERVER" != "" ]; then
     echo "Checking out from server $SVN_SERVER"
     if [ "$REPOS_RELEASE" == "" ]; then
@@ -524,18 +560,6 @@ fi
 #
 # *****   Handle translations and locale   *****
 #
-
-if [ ! -f bin/linux/ezlupdate ]; then
-    echo "You do not have the ezlupdate program compiled"
-    echo "this is required to create a distribution"
-    echo
-    echo "cd support/lupdate-ezpublish3"
-    echo "qmake ezlupdate.pro"
-    echo "make"
-    echo
-    echo "NOTE: qmake may in some cases not be in PATH, provide the full path in those cases"
-    exit 1
-fi
 
 # Make sure share directory exists
 mkdir -p "$DEST/share"
