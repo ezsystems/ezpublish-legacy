@@ -392,7 +392,6 @@ else
 	ezdist_db_prepare_params_from_postgresql "1"
 	echo -n "Dumping to SQL file `ez_color_file $SQL_SCHEMA_FILE`"
 	./bin/php/ezsqldumpschema.php --type=postgresql --output-array $PARAM_EZ_DB_ALL $DB_OUTPUT_TYPES "$DBNAME" >"$SQL_SCHEMA_FILE".0 2>.psql.log
-	pg_error_code ".psql.log"
 	ez_result_file $? .psql.log || exit 1
     fi
 
