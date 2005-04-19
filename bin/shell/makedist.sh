@@ -158,10 +158,7 @@ function scan_dir
 SVN_SERVER=""
 REPOS_RELEASE="trunk"
 
-DB_USER="root"
-DB_NAME="ez_tmp_makedist"
-DB_SERVER="localhost"
-DB_PASSWORD=""
+TMP_DB_NAME="ez_tmp_makedist"
 
 # Check parameters
 for arg in $*; do
@@ -193,10 +190,6 @@ for arg in $*; do
 	    echo "         --skip-changelogs          Do not changelogs from earlier versions*"
 	    echo "         --skip-sql-generation      Do not generate SQL files*"
 	    echo "         --skip-extensions          Do not package extensions*"
-# 	    echo "         --db-server=server         Mysql DB server ( default: localhost )"
-#             echo "         --db-user=user             Mysql DB user ( default: root )"
-#             echo "         --db-name=databasename     Mysql DB name ( default: ez_tmp_makedist )"
-#             echo "         --db-password=password     Mysql DB password ( default: <empty> )"
 	    echo
 
 	    # Show options for database
@@ -247,29 +240,6 @@ for arg in $*; do
 	    SVN_EXPORT="wc"
 	    ;;
 
-# 	--db-server*)
-# 	    if echo $arg | grep -e "--db-server=" >/dev/null; then
-# 		DB_SERVER=`echo $arg | sed 's/--db-server=//'`
-# 	    fi
-# 	    ;;
-# 	--db-user*)
-# 	    if echo $arg | grep -e "--db-user=" >/dev/null; then
-# 		DB_USER=`echo $arg | sed 's/--db-user=//'`
-# 	    fi
-# 	    ;;
-# 	--db-name*)
-# 	    if echo $arg | grep -e "--db-name=" >/dev/null; then
-# 		DB_NAME=`echo $arg | sed 's/--db-name=//'`
-# 	    fi
-# 	    ;;
-# 	--db-password*)
-# 	    if echo $arg | grep -e "--db-password=" >/dev/null; then
-# 		DB_PASSWORD=`echo $arg | sed 's/--db-password=//'`
-# 	    fi
-# 	    ;;
-#	--skip-site-creation)
-#	    SKIPSITECREATION="1"
-#	    ;;
 	--skip-all-checks)
 	    SKIPCHECKVERSION="1"
 	    SKIPCHECKPHP="1"
@@ -582,12 +552,12 @@ fi
 
 if [ -z $SKIPDBCHECK ]; then
     echo -n "Checking database schemas"
-    ./bin/shell/checkdbschema.sh $PARAM_EZ_MYSQL_ALL $PARAM_EZ_POSTGRESQL_ALL "$DB_NAME" &>/dev/null
+    ./bin/shell/checkdbschema.sh $PARAM_EZ_MYSQL_ALL $PARAM_EZ_POSTGRESQL_ALL "$TMP_DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "The database schema check failed"
 	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbschema.sh $PARAM_EZ_MYSQL_ALL $PARAM_EZ_POSTGRESQL_ALL $DB_NAME"
+	echo "./bin/shell/checkdbschema.sh $PARAM_EZ_MYSQL_ALL $PARAM_EZ_POSTGRESQL_ALL $TMP_DB_NAME"
 	exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
@@ -595,39 +565,39 @@ fi
 
 if [ -z $SKIPDBUPDATE ]; then
     echo -n "Checking MySQL database updates"
-    ./bin/shell/checkdbupdate.sh --check-stable --mysql $PARAM_EZ_MYSQL_ALL "$DB_NAME" &>/dev/null
+    ./bin/shell/checkdbupdate.sh --check-stable --mysql $PARAM_EZ_MYSQL_ALL "$TMP_DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "The database update check for MySQL failed"
 	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbupdate.sh --check-stable --mysql $PARAM_EZ_MYSQL_ALL $DB_NAME"
+	echo "./bin/shell/checkdbupdate.sh --check-stable --mysql $PARAM_EZ_MYSQL_ALL $TMP_DB_NAME"
 	exit 1
     fi
-    ./bin/shell/checkdbupdate.sh --check-previous --mysql $PARAM_EZ_MYSQL_ALL "$DB_NAME" &>/dev/null
+    ./bin/shell/checkdbupdate.sh --check-previous --mysql $PARAM_EZ_MYSQL_ALL "$TMP_DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "The database update check for MySQL failed"
 	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbupdate.sh --check-previous --mysql $PARAM_EZ_MYSQL_ALL $DB_NAME"
+	echo "./bin/shell/checkdbupdate.sh --check-previous --mysql $PARAM_EZ_MYSQL_ALL $TMP_DB_NAME"
 	exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 
     echo -n "Checking PostgreSQL database updates"
-    ./bin/shell/checkdbupdate.sh --check-stable --postgresql $PARAM_EZ_POSTGRESQL_ALL "$DB_NAME" &>/dev/null
+    ./bin/shell/checkdbupdate.sh --check-stable --postgresql $PARAM_EZ_POSTGRESQL_ALL "$TMP_DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "The database update check for Postgresql failed"
 	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbupdate.sh --check-stable --postgresql $PARAM_EZ_POSTGRESQL_ALL $DB_NAME"
+	echo "./bin/shell/checkdbupdate.sh --check-stable --postgresql $PARAM_EZ_POSTGRESQL_ALL $TMP_DB_NAME"
 	exit 1
     fi
-     ./bin/shell/checkdbupdate.sh --check-previous --postgresql $PARAM_EZ_POSTGRESQL_ALL "$DB_NAME" &>/dev/null
+     ./bin/shell/checkdbupdate.sh --check-previous --postgresql $PARAM_EZ_POSTGRESQL_ALL "$TMP_DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "The database update check for Postgresql failed"
 	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbupdate.sh --check-previous --postgresql $PARAM_EZ_POSTGRESQL_ALL $DB_NAME"
+	echo "./bin/shell/checkdbupdate.sh --check-previous --postgresql $PARAM_EZ_POSTGRESQL_ALL $TMP_DB_NAME"
 	exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
@@ -1188,45 +1158,6 @@ fi
 if [ -f "$DEST_ROOT/$BASE.zip" ]; then
     rm -f "$DEST_ROOT/$BASE.zip";
 fi
-
-# if [ -z "$SKIPDBSCHEMA" ]; then
-# # Create SQL schema definition for later checks
-# 
-#     echo "Creating MySQL schema"
-#     if [ "$DB_PASSWORD"x == x ]; then
-# 	DBPWDOPTION=""
-# 	DBPWDOPTION_LONG=""
-#     else
-# 	DBPWDOPTION="-p $DB_PASSWORD"
-# 	DBPWDOPTION_LONG="--password=$DB_PASSWORD"
-#     fi
-#     mysqladmin -u "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION -f drop "$DB_NAME" &>/dev/null
-#     mysqladmin -u "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION create "$DB_NAME"  &>/dev/null || exit 1
-#     mysql -u "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" < kernel/sql/mysql/kernel_schema.sql  &>/dev/null || exit 1
-# 
-#     ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" $DBPWDOPTION_LONG "$DB_NAME" $DEST/share/db_mysql_schema.dat  &>/dev/null || exit 1
-# 
-#     mysqladmin -u "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION -f drop "$DB_NAME" &>/dev/null
-# 
-# 
-#     echo "Creating PostgreSQL schema"
-#     if [ "$DB_PASSWORD"x == x ]; then
-# 	DBPWDOPTION=""
-# 	DBPWDOPTION_LONG=""
-#     else
-# 	DBPWDOPTION=""
-# 	DBPWDOPTION_LONG="--password=$DB_PASSWORD"
-#     fi
-# 
-#     dropdb -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" &>/dev/null
-#     createdb -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME"  &>/dev/null || exit 1
-#     psql -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" < kernel/sql/postgresql/kernel_schema.sql  &>/dev/null || exit 1
-#     psql -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" < kernel/sql/postgresql/setval.sql  &>/dev/null || exit 1
-# 
-#     ./bin/php/ezsqldumpschema.php --type=ezpostgresql --user="$DB_USER" --host="$DB_SERVER" $DBPWDOPTION_LONG "$DB_NAME" $DEST/share/db_postgresql_schema.dat  &>/dev/null || exit 1
-# 
-#     dropdb -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" &>/dev/null
-# fi
 
 # Create MD5 check sums
 if [ -z "$SKIP_CORE_FILES" ]; then
