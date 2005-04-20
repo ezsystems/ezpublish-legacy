@@ -322,7 +322,7 @@ Datatype branch:
 - Release branch=release/3.5.2
 - Release branch start=11458
 - Release branch end=
-- Release branch configured=
+- Release branch configured=11461
 - From revision=
 - Revision=
 - Version url=
