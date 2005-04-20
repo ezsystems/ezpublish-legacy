@@ -114,11 +114,10 @@ class eZShopFunctionCollection
                  WHERE ezproductcollection_item.productcollection_id=ezproductcollection_tmp.productcollection_id
                    AND ezproductcollection_item.contentobject_id<>$contentObjectID
               GROUP BY ezproductcollection_item.contentobject_id
-              ORDER BY count desc
-                 LIMIT $limit";
+              ORDER BY count desc";
 
         $db =& eZDB::instance();
-        $objectList=& $db->arrayQuery( $query );
+        $objectList=& $db->arrayQuery( $query, array( 'limit' => $limit ) );
 
         $db->dropTempTable( "DROP TABLE ezproductcollection_tmp" );
         $contentObjectList = array();
