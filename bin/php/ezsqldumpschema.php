@@ -47,13 +47,14 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema 
 
 $script->startup();
 
-$options = $script->getOptions( "[type:][user:][host:][password:][output-array][output-serialized]",
+$options = $script->getOptions( "[type:][user:][host:][password:][socket:][output-array][output-serialized]",
                                 "[database][filename]",
                                 array( 'type' => ( "Which database type to use for source, can be one of:\n" .
                                                           "mysql, postgresql" ),
                                        'host' => "Connect to host source database",
                                        'user' => "User for login to source database",
                                        'password' => "Password to use when connecting to source database",
+                                       'socket' => 'Socket to connect to database (only for MySQL)',
                                        'output-array' => 'Create file with array structures (Human readable)',
                                        'output-serialized' => 'Create file with serialized data (Saves space)'
                                        ) );
@@ -68,6 +69,7 @@ if ( count( $options['arguments'] ) < 2 )
 $type = $options['type'];
 $host = $options['host'];
 $user = $options['user'];
+$socket = $options['socket'];
 $password = $options['password'];
 $database = $options['arguments'][0];
 $filename = $options['arguments'][1];
@@ -91,15 +93,18 @@ if ( strlen( trim( $user ) ) == 0)
 }
 
 include_once( 'lib/ezdb/classes/ezdb.php' );
+$parameters = array( 'use_defaults' => false,
+                     'server' => $host,
+                     'user' => $user,
+                     'password' => $password,
+                     'database' => $database );
+if ( $socket )
+    $parameters['socket'] = $socket;
 $db =& eZDB::instance( $type,
-                       array( 'use_defaults' => false,
-                              'server' => $host,
-                              'user' => $user,
-                              'password' => $password,
-                              'database' => $database ),
+                       $parameters,
                        true );
 
-if ( !$db )
+if ( !$db or !$db->isConnected() )
 {
     $cli->error( 'Could not initialize database' );
     $script->shutdown( 1 );
