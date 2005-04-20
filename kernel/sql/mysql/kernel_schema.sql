@@ -1105,7 +1105,7 @@ CREATE TABLE eztrigger (
   connect_type char(1) NOT NULL default '',
   workflow_id int(11) default NULL,
   PRIMARY KEY  (id),
-  UNIQUE KEY eztrigger_def_id (module_name,function_name,connect_type),
+  UNIQUE KEY eztrigger_def_id (module_name(50),function_name(50),connect_type),
   KEY eztrigger_fetch (name(25),module_name(50),function_name(50))
 ) TYPE=MyISAM;
 
