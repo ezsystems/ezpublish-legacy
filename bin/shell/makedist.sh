@@ -19,32 +19,145 @@ PACKAGE_DIR="packages"
 BUILD_NUMBER=1
 CACHE=".ezp.cache"
 
+SVN_EXPORT="undef"
+
+# Read in cache file if it exists
 if [ -f $CACHE ]; then
     . $CACHE
 fi
 
 . ./bin/shell/common.sh
 . ./bin/shell/distcommon.sh
+. ./bin/shell/sqlcommon.sh
 . ./bin/shell/packagescommon.sh
 . ./bin/shell/extensionscommon.sh
+
+# Initialise several database related variables, see sqlcommon.sh
+ezdist_db_init
+[ -z "$DIST_DB_NAME" ] && DIST_DB_NAME="undef"
+
 
 if ! which php &>/dev/null; then
     echo "No PHP executable found, please add it to the path"
     exit 1
 fi
 
+# Writes all cached values to the cache file, should be done at the end of the script
+# or when certain input variables are read
+function ezdist_write_cache_file
+{
+    echo -n '' > $CACHE
+    echo '# Cache file for eZ publish makedist.sh' >> $CACHE
+
+    ezdist_is_def "$MYSQL_USER" && echo "MYSQL_USER=\"$MYSQL_USER\"" >> $CACHE
+    ezdist_is_def "$MYSQL_PASSWD" && echo "MYSQL_PASSWD=\"$MYSQL_PASSWD\"" >> $CACHE
+    ezdist_is_def "$MYSQL_SOCKET" && echo "MYSQL_SOCKET=\"$MYSQL_SOCKET\"" >> $CACHE
+    ezdist_is_def "$MYSQL_HOST" && echo "MYSQL_HOST=\"$MYSQL_HOST\"" >> $CACHE
+    ezdist_is_def "$MYSQL_PORT" && echo "MYSQL_PORT=\"$MYSQL_PORT\"" >> $CACHE
+    ezdist_is_def "$MYSQL_NAME" && echo "MYSQL_NAMe=\"$MYSQL_NAME\"" >> $CACHE
+
+    ezdist_is_def "$POSTGRESQL_USER" && echo "POSTGRESQL_USER=\"$POSTGRESQL_USER\"" >> $CACHE
+    ezdist_is_def "$POSTGRESQL_PASSWD" && echo "POSTGRESQL_PASSWD=\"$POSTGRESQL_PASSWD\"" >> $CACHE
+    ezdist_is_def "$POSTGRESQL_HOST" && echo "POSTGRESQL_HOST=\"$POSTGRESQL_HOST\"" >> $CACHE
+    ezdist_is_def "$POSTGRESQL_PORT" && echo "POSTGRESQL_PORT=\"$POSTGRESQL_PORT\"" >> $CACHE
+    ezdist_is_def "$POSTGRESQL_NAME" && echo "POSTGRESQL_NAME=\"$POSTGRESQL_NAME\"" >> $CACHE
+
+    ezdist_is_def "$SVN_EXPORT" && echo "SVN_EXPORT=\"$SVN_EXPORT\"" >> $CACHE
+    ezdist_is_def "$DIST_DB_NAME" && echo "DIST_DB_NAME=\"$DIST_DB_NAME\"" >> $CACHE
+
+    echo "BUILD_NUMBER=\"$BUILD_NUMBER\"" >> $CACHE
+}
+
+function make_dir
+{
+    local DIR
+    DIR=`echo "$1" | sed 's#^\./##'`
+    if [ ! -d "$DEST/$DIR" ]; then
+	mkdir "$DEST/$DIR"
+    fi
+}
+
+function copy_file
+{
+    local SRC_FILE DST_FILE
+    SRC_FILE=`echo $1 | sed 's#^\./##'`
+    DST_FILE="$SRC_FILE"
+    cp -f "$SRC_FILE" "$DEST/$DST_FILE"
+
+}
+
+function scan_dir_normal
+{
+    local file
+    local DIR
+
+    DIR=$1
+#    echo "Scanning dir $DIR normally"
+    for file in $DIR/*; do
+	if [ -e "$file" -a ! "$file" = "$DIR/.svn" -a ! "$file" = "$DIR/.." -a ! "$file" = "$DIR/." ]; then
+# 	if ! echo $file | grep "/\*" &>/dev/null; then
+	    if [ -d "$file" ]; then
+	        # Do not include .svn dirs
+		if [ "$file" != ".svn" ]; then
+		    make_dir "$file"
+		    scan_dir_normal "$file"
+		fi
+	    else
+	        # Do not include temporary files
+		if ! echo "$file" | grep '[~#]$' &>/dev/null; then
+		    copy_file "$file"
+		fi
+	    fi
+	fi
+    done
+}
+
+function scan_dir
+{
+    local file
+    local DIR
+    local DIST_PROP_TYPE
+    local DIST_DIR
+
+    DIR=$1
+#    echo "Scanning dir $DIR"
+    for file in $DIR/* $DIR/.*; do
+#	if ! echo $file | grep "/\*" &>/dev/null; then
+	if [ -e "$file" -a ! "$file" = "$DIR/.svn" -a ! "$file" = "$DIR/.." -a ! "$file" = "$DIR/." ]; then
+	    DIST_PROP_TYPE=`svn propget $DIST_PROP $file 2>/dev/null`
+	    if [ $? -eq 0 ] && [ ! -z "$DIST_PROP_TYPE" ]; then
+		if echo $DIST_PROP_TYPE | grep $DIST_TYPE &>/dev/null; then
+		    DIST_DIR=`svn propget $DIST_DIR_PROP $file 2>/dev/null`
+		    DIST_DIR_RECURSIVE=""
+		    if [ $? -eq 0 ] && [ ! -z "$DIST_DIR" ]; then
+			if echo $DIST_DIR | grep $DIST_TYPE &>/dev/null; then
+#			    echo "Found include all marker for $file"
+			    DIST_DIR_RECURSIVE=$DIST_TYPE
+			fi
+		    fi
+		    if [ -d "$file" ]; then
+			echo -n " "`$SETCOLOR_DIR`"$file"`$SETCOLOR_NORMAL`"/"
+			make_dir "$file"
+			if [ -z $DIST_DIR_RECURSIVE ]; then
+			    scan_dir "$file"
+			else
+			    echo -n "*"
+			    scan_dir_normal "$file"
+			fi
+		    else
+			echo -n " "`$SETCOLOR_FILE`"$file"`$SETCOLOR_NORMAL`
+			copy_file "$file"
+		    fi
+		fi
+	    fi
+	fi
+    done
+}
+
 SVN_SERVER=""
 REPOS_RELEASE="trunk"
 
-DB_NAME="ez_tmp_makedist"
-MYSQL_USER='root'
-MYSQL_HOST='localhost'
-MYSQL_PORT=''
-MYSQL_PASSWORD=''
-PGSQL_USER='postgres'
-PGSQL_HOST='localhost'
-PGSQL_PORT=''
-PGSQL_PASSWORD=''
+TMP_DB_NAME="ez_tmp_makedist"
 
 # Check parameters
 for arg in $*; do
@@ -76,21 +189,24 @@ for arg in $*; do
 	    echo "         --skip-changelogs          Do not changelogs from earlier versions*"
 	    echo "         --skip-sql-generation      Do not generate SQL files*"
 	    echo "         --skip-extensions          Do not package extensions*"
-            echo "         --use-local-translations   Do not fetch translation from the SVN repository"
-            echo "         --use-local-locales        Do not fetch locales from the SVN repository"
-            echo "         --use-local-changelogs     Do not fetch changelogs from the SVN repository"
-            echo "         --use-local-extensions     Do not fetch extensions from the SVN repository"
-            echo "         --mysql-host=server        MySQL DB server ( default: localhost )"
-            echo "         --mysql-port=port          MySQL DB port"
-            echo "         --mysql-user=user          MySQL DB user ( default: root )"
-            echo "         --mysql-password=password  MySQL DB password ( default: <empty> )"
             echo "         --db-name=databasename     MySQL DB name ( default: ez_tmp_makedist )"
-            echo "         --pgsql-host=server        PostgreSQL DB server ( default: localhost )"
-            echo "         --pgsql-port=port          PostgreSQL DB port"
-            echo "         --pgsql-user=user          PostgreSQL DB user ( default: root )"
-            echo "         --pgsql-password=password  PostgreSQL DB password ( default: <empty> )"
-            echo "         --pgsql-db=databasename    PostgreSQL DB name ( default: ez_tmp_makedist )"
             echo
+
+	    # Show options for database
+	    ezdist_db_show_options
+
+	    echo "SVN options:"
+            echo "         --use-svn-server           Do all operation using SVN server"
+            echo "         --use-working-copy         Do all operations on working copy, SVN server is not contacted"
+	    echo
+
+	    # Show options for database
+	    ezdist_db_show_options
+
+	    echo "SVN options:"
+            echo "         --use-svn-server           Do all operation using SVN server"
+            echo "         --use-working-copy         Do all operations on working copy, SVN server is not contacted"
+	    echo
 	    echo "* Warning: Using these options will not make a valid distribution"
             echo
             echo "Example:"
@@ -125,51 +241,18 @@ for arg in $*; do
 		REPOS_RELEASE="trunk"
 	    fi
 	    ;;
-	--mysql-host=*)
-	    if echo $arg | grep -e "--mysql-host=" >/dev/null; then
-		MYSQL_HOST=`echo $arg | sed 's/--mysql-host=//'`
-	    fi
+	--use-svn-server)
+	    SVN_EXPORT="svn"
 	    ;;
-	--mysql-port=*)
-	    if echo $arg | grep -e "--mysql-port=" >/dev/null; then
-		MYSQL_PORT=`echo $arg | sed 's/--mysql-port=//'`
-	    fi
-	    ;;
-	--mysql-user=*)
-	    if echo $arg | grep -e "--mysql-user=" >/dev/null; then
-		MYSQL_USER=`echo $arg | sed 's/--mysql-user=//'`
-	    fi
-	    ;;
-	--mysql-password=*)
-	    if echo $arg | grep -e "--mysql-password=" >/dev/null; then
-		MYSQL_PASS=`echo $arg | sed 's/--mysql-password=//'`
-	    fi
+	--use-working-copy)
+	    SVN_EXPORT="wc"
 	    ;;
 	--db-name=*)
 	    if echo $arg | grep -e "--mysql-db=" >/dev/null; then
-		MYSQL_DB=`echo $arg | sed 's/--mysql-db=//'`
+		TMP_DB_NAME=`echo $arg | sed 's/--mysql-db=//'`
 	    fi
 	    ;;
-	--pgsql-host=*)
-	    if echo $arg | grep -e "--pgsql-host=" >/dev/null; then
-		PGSQL_HOST=`echo $arg | sed 's/--pgsql-host=//'`
-	    fi
-	    ;;
-	--pgsql-port=*)
-	    if echo $arg | grep -e "--pgsql-port=" >/dev/null; then
-		PGSQL_PORT=`echo $arg | sed 's/--pgsql-port=//'`
-	    fi
-	    ;;
-	--pgsql-user=*)
-	    if echo $arg | grep -e "--pgsql-user=" >/dev/null; then
-		PGSQL_USER=`echo $arg | sed 's/--pgsql-user=//'`
-	    fi
-	    ;;
-	--pgsql-password=*)
-	    if echo $arg | grep -e "--pgsql-password=" >/dev/null; then
-		PGSQL_PASS=`echo $arg | sed 's/--pgsql-password=//'`
-	    fi
-	    ;;
+
 #	--skip-site-creation)
 #	    SKIPSITECREATION="1"
 #	    ;;
@@ -227,27 +310,95 @@ for arg in $*; do
 	--skip-extensions)
 	    SKIP_EXTENSIONS="1"
 	    ;;
-	--use-local-translations)
-	    USE_LOCAL_TRANSLATIONS="1"
+
+
+	--*)
+	    # Check for DB options
+	    ezdist_db_check_options "$arg"
+
+	    if [ $? -ne 0 ]; then
+		echo "$arg: unknown long option specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
+	    fi
 	    ;;
-	--use-local-locales)
-	    USE_LOCAL_LOCALES="1"
-	    ;;
-	--use-local-changelogs)
-	    USE_LOCAL_CHANGELOGS="1"
-	    ;;
-	--use-local-extensions)
-	    USE_LOCAL_EXTENSIONS="1"
+	-*)
+	    # Check for DB options
+	    ezdist_db_check_short_options "$arg"
+
+	    if [ $? -ne 0 ]; then
+		echo "$arg: unknown option specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
+	    fi
 	    ;;
 	*)
-	    echo "$arg: unkown option specified"
-            $0 -h
+	    echo "$arg: unknown argument specified"
+	    echo
+            echo "Type '$0 --help\` for a list of options to use."
 	    exit 1
 	    ;;
     esac;
 done
 
 BASE="$NAME-$DIST_TYPE-$VERSION"
+
+# Read in MySQL data if they are missing
+ezdist_mysql_read_info
+# Read in PostgreSQL data if they are missing
+ezdist_postgresql_read_info
+
+function ezdist_svn_read_info
+{
+    local type
+
+    while ezdist_is_undef "$SVN_EXPORT"; do
+	echo -n "SVN: Do you wish to use the live SVN server or the working copy (wc) [Svn|wc]: "
+	read type
+	type=`echo $type | tr A-Z a-z`
+	[ -z "$type" ] && type="svn"
+	case $type in
+	    wc)
+		SVN_EXPORT="wc"
+		;;
+
+	    svn)
+		SVN_EXPORT="svn"
+		;;
+	    q)
+		exit 1
+		;;
+	    *)
+		echo "Unknown type $type"
+		;;
+	esac
+    done
+}
+
+function ezdist_dbname_read_info
+{
+    local name
+
+    while ezdist_is_undef "$DIST_DB_NAME"; do
+	echo -n "DB: Which database should be used for creating addon packages: "
+	read name
+	if [ -z "$name" ]; then
+	    DIST_DB_NAME="none"
+	else
+	    DIST_DB_NAME="$name"
+	fi
+    done
+}
+
+ezdist_svn_read_info
+ezdist_dbname_read_info
+
+ezdist_write_cache_file
+
+ezdist_mysql_prepare_params
+ezdist_postgresql_prepare_params
 
 if [ "$DIST_TYPE" == "sdk" ]; then
     echo "Creating SDK release"
@@ -318,11 +469,17 @@ if [ "$SVN_SERVER" != "" ]; then
     fi
     echo "SVN_PATH=$SVN_PATH"
     DIST_SRC="/tmp/nextgen-$REPOS_RELEASE"
-    echo "Distribution source files taken from `$SETCOLOR_DIR`$DIST_SRC`$SETCOLOR_NORMAL`"
 else
-    echo "Using local copy: `$SETCOLOR_DIR``pwd``$SETCOLOR_NORMAL`"
+    echo "Using local copy from `$SETCOLOR_DIR``pwd``$SETCOLOR_NORMAL`"
 fi
-echo
+
+if [ "$SVN_EXPORT" == "svn" ]; then
+    echo "All operations are done from SVN server, official builds are possible"
+else
+    echo "All operations are done from working copy (WC), only test builds are possible"
+fi
+
+echo "Distribution source files taken from `$SETCOLOR_DIR`$DIST_SRC`$SETCOLOR_NORMAL`"
 
 if [ -z $SKIPCHECKVERSION ]; then
     echo -n "Checking db update version numbers"
@@ -411,21 +568,12 @@ fi
 
 if [ -z $SKIPDBCHECK ]; then
     echo -n "Checking database schemas"
-    CHECKDBSCHEMA_PARAMS=''
-    [ -n "$MYSQL_HOST" ] && CHECKDBSCHEMA_PARAMS="$CHECKDBSCHEMA_PARAMS --mysql-host=$MYSQL_HOST"
-    [ -n "$MYSQL_PORT" ] && CHECKDBSCHEMA_PARAMS="$CHECKDBSCHEMA_PARAMS --mysql-port=$MYSQL_PORT"
-    [ -n "$MYSQL_USER" ] && CHECKDBSCHEMA_PARAMS="$CHECKDBSCHEMA_PARAMS --mysql-user=$MYSQL_USER"
-    [ -n "$MYSQL_PASS" ] && CHECKDBSCHEMA_PARAMS="$CHECKDBSCHEMA_PARAMS --mysql-password=$MYSQL_PASS"
-    [ -n "$PGSQL_HOST" ] && CHECKDBSCHEMA_PARAMS="$CHECKDBSCHEMA_PARAMS --pgsql-host=$PGSQL_HOST"
-    [ -n "$PGSQL_PORT" ] && CHECKDBSCHEMA_PARAMS="$CHECKDBSCHEMA_PARAMS --pgsql-port=$PGSQL_PORT"
-    [ -n "$PGSQL_USER" ] && CHECKDBSCHEMA_PARAMS="$CHECKDBSCHEMA_PARAMS --pgsql-user=$PGSQL_USER"
-    [ -n "$PGSQL_PASS" ] && CHECKDBSCHEMA_PARAMS="$CHECKDBSCHEMA_PARAMS --pgsql-password=$PGSQL_PASS"
-    ./bin/shell/checkdbschema.sh $CHECKDBSCHEMA_PARAMS "$DB_NAME" &>/dev/null
+    ./bin/shell/checkdbschema.sh $PARAM_EZ_MYSQL_ALL $PARAM_EZ_POSTGRESQL_ALL "$TMP_DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "The database schema check failed"
 	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbschema.sh $DB_NAME"
+	echo "./bin/shell/checkdbschema.sh $PARAM_EZ_MYSQL_ALL $PARAM_EZ_POSTGRESQL_ALL $TMP_DB_NAME"
 	exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
@@ -433,43 +581,39 @@ fi
 
 if [ -z $SKIPDBUPDATE ]; then
     echo -n "Checking MySQL database updates"
-    CHECKDBUPDATE_PARAMS=''
-    [ -n "$MYSQL_HOST" ] && CHECKDBUPDATE_PARAMS="$CHECKDBUPDATE_PARAMS --db-host=$MYSQL_HOST"
-    [ -n "$MYSQL_PORT" ] && CHECKDBUPDATE_PARAMS="$CHECKDBUPDATE_PARAMS --db-port=$MYSQL_PORT"
-
-    ./bin/shell/checkdbupdate.sh --check-stable --mysql $CHECKDBUPDATE_PARAMS "$DB_NAME" &>/dev/null
+    ./bin/shell/checkdbupdate.sh --check-stable --mysql $PARAM_EZ_MYSQL_ALL "$TMP_DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "The database update check for MySQL failed"
 	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbupdate.sh --check-stable --mysql $DB_NAME"
+	echo "./bin/shell/checkdbupdate.sh --check-stable --mysql $PARAM_EZ_MYSQL_ALL $TMP_DB_NAME"
 	exit 1
     fi
-    ./bin/shell/checkdbupdate.sh --check-previous --mysql $CHECKDBUPDATE_PARAMS "$DB_NAME" &>/dev/null
+    ./bin/shell/checkdbupdate.sh --check-previous --mysql $PARAM_EZ_MYSQL_ALL "$TMP_DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "The database update check for MySQL failed"
 	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbupdate.sh --check-previous --mysql $DB_NAME"
+	echo "./bin/shell/checkdbupdate.sh --check-previous --mysql $PARAM_EZ_MYSQL_ALL $TMP_DB_NAME"
 	exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 
     echo -n "Checking PostgreSQL database updates"
-    ./bin/shell/checkdbupdate.sh --check-stable --postgresql "$DB_NAME" &>/dev/null
+    ./bin/shell/checkdbupdate.sh --check-stable --postgresql $PARAM_EZ_POSTGRESQL_ALL "$TMP_DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "The database update check for Postgresql failed"
 	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbupdate.sh --check-stable --postgresql $DB_NAME"
+	echo "./bin/shell/checkdbupdate.sh --check-stable --postgresql $PARAM_EZ_POSTGRESQL_ALL $TMP_DB_NAME"
 	exit 1
     fi
-     ./bin/shell/checkdbupdate.sh --check-previous --postgresql "$DB_NAME" &>/dev/null
+     ./bin/shell/checkdbupdate.sh --check-previous --postgresql $PARAM_EZ_POSTGRESQL_ALL "$TMP_DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
 	echo "The database update check for Postgresql failed"
 	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbupdate.sh --check-previous --postgresql $DB_NAME"
+	echo "./bin/shell/checkdbupdate.sh --check-previous --postgresql $PARAM_EZ_POSTGRESQL_ALL $TMP_DB_NAME"
 	exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
@@ -518,7 +662,11 @@ fi
 if [ -z "$SKIP_TEST_FRAMEWORK" ]; then
     if [ "$DEVELOPMENT" == "true" ]; then
 	echo -n "Copying `ez_color_em UnitTest` framework"
-	svn export "$CURRENT_URL/tests" "$DEST/tests" &>.export.log
+	if [ "$SVN_EXPORT" == "svn" ]; then
+	    svn export "$CURRENT_URL/tests" "$DEST/tests" &>.export.log
+	else
+	    svn export "tests" "$DEST/tests" &>.export.log
+	fi
 	ez_result_file $? .export.log || exit 1
 	rm .export.log
     fi
@@ -557,8 +705,11 @@ if [ -z "$SKIP_CORE_FILES" ]; then
     ez_result_output 0 ""
 fi
 
+# Make sure share directory exists
+mkdir -p "$DEST/share"
+
 #
-# *****   Handle translations and locale   *****
+# *****   Copy translations (SVN or WC)   *****
 #
 
 # Make sure share directory exists
@@ -566,16 +717,18 @@ mkdir -p "$DEST/share"
 
 echo -n "Exporting translations"
 rm -rf "$DEST/share/translations"
-if [ "$USE_LOCAL_TRANSLATIONS" = 1 ]; then
-    TRANSLATIONS_LOCALTION='share/translations'
-else
-    TRANSLATIONS_LOCALTION="$TRANSLATION_URL"
-fi
-svn export "$TRANSLATIONS_LOCALTION" "$DEST/share/translations" &>/dev/null
-ez_result_output $? "
-svn export $TRANSLATIONS_LOCALTION $DEST/share/translations &>/dev/null
+if [ "$SVN_EXPORT" == "svn" ]; then
+    svn export "$TRANSLATION_URL" "$DEST/share/translations" &>/dev/null
+    ez_result_output $? "
+svn export $TRANSLATION_URL $DEST/share/translations &>/dev/null
 Failed to check out translations from trunk" || exit 1
-unset TRANSLATIONS_LOCATION
+else
+    svn export "share/translations" "$DEST/share/translations" &>/dev/null
+    ez_result_output $? "
+svn export share/translations $DEST/share/translations &>/dev/null
+Failed to check out translations from WC" || exit 1
+fi
+
 dir=`pwd`
 # We do not validate the translations if SKIPTRANSLATION is set
 if [ -z "$SKIPTRANSLATION" ]; then
@@ -697,32 +850,28 @@ fi
 
 echo -n "Exporting locales"
 rm -rf "$DEST/share/locale"
-if [ "$USE_LOCAL_LOCALES" = 1 ]; then
-    LOCALES_LOCATION='share/translations'
-else
-    LOCALES_LOCATION="$LOCALE_URL"
-fi
-svn export "$LOCALES_LOCATION" "$DEST/share/locale" &>/dev/null
-ez_result_output $? "
-svn export LOCALES_LOCATION $DEST/share/locale &>/dev/null
+if [ "$SVN_EXPORT" == "svn" ]; then
+    svn export "$LOCALE_URL" "$DEST/share/locale" &>/dev/null
+    ez_result_output $? "
+svn export $LOCALE_URL $DEST/share/locale &>/dev/null
 Failed to check out locale from trunk" || exit 1
-unset LOCALES_LOCATION
+else
+    svn export "share/locale" "$DEST/share/locale" &>/dev/null
+    ez_result_output $? "
+svn export share/locale $DEST/share/locale &>/dev/null
+Failed to check out locale from WC" || exit 1
+fi
 
 #
 # *****   Handle changelogs from earlier versions   *****
 #
 
-if [ -z "$SKIP_CHANGELOGS" ]; then
+if [ -z "$SKIP_CHANGELOGS" -a "$SVN_EXPORT" == "svn" ]; then
     echo -n "Changelogs:"
     for version in $STABLE_VERSIONS; do
 	changelog_url="$REPOSITORY_BASE_URL/$REPOSITORY_STABLE_BRANCH_PATH/$version/doc/changelogs/$version"
 	rm -rf "$DEST/doc/changelogs/$version"
 	echo -n " `ez_store_pos`$version"
-        if [ "$USE_LOCAL_CHANGELOGS" = 1 ]; then
-            CHANGELOGS_LOCALTION="doc/changelogs/$version"
-        else
-            CHANGELOGS_LOCALTION="$changelog_url"
-        fi
         svn export "$CHANGELOGS_LOCALTION" "$DEST/doc/changelogs/$version" &>/dev/null
 	if [ $? -ne 0 ]; then
 	    ez_result_output 1 "Failed to check out changelogs for version `$SETCOLOR_EMPHASIZE`$version`$SETCOLOR_NORMAL`"
@@ -731,6 +880,9 @@ if [ -z "$SKIP_CHANGELOGS" ]; then
 	echo -n "`ez_restore_pos``$SETCOLOR_EMPHASIZE`$version`$SETCOLOR_NORMAL`"
     done
     ez_result_output 0 ""
+elif [ "$SVN_EXPORT" != "svn" ]; then
+    echo -n "Changelogs:"
+    ez_result_output_skipped
 fi
 
 #
@@ -811,10 +963,12 @@ if [ -z $SKIPADDONCREATION ]; then
    echo -n "Creating and exporting addons"
    rm -rf "$DEST/packages/addons"
    mkdir -p "$DEST/packages/addons" || exit 1
-   ./bin/shell/makeaddonpackages.sh -q --export-path="$DEST/packages/addons"
+   ezdist_db_prepare_params_from_mysql
+   ezdist_is_nonempty "$DIST_DB_NAME" && PARAM_EZ_DB_NAME="--db-name=$DIST_DB_NAME"
+   ./bin/shell/makeaddonpackages.sh -q --export-path="$DEST/packages/addons" --db-type=mysql $PARAM_EZ_DB_NAME $PARAM_EZ_DB_ALL
    ez_result_output $? "The creation of addon packages failed
 Run the following command to see what went wrong
-./bin/shell/makeaddonpackages.sh --export-path=\"$DEST/packages/addons\"" || exit 1
+./bin/shell/makeaddonpackages.sh --export-path=\"$DEST/packages/addons\" --db-type=mysql $PARAM_EZ_DB_NAME $PARAM_EZ_DB_ALL" || exit 1
 fi
 
 if [ -z $SKIPSTYLECREATION ]; then
@@ -1024,45 +1178,6 @@ if [ -f "$DEST_ROOT/$BASE.zip" ]; then
     rm -f "$DEST_ROOT/$BASE.zip";
 fi
 
-# if [ -z "$SKIPDBSCHEMA" ]; then
-# # Create SQL schema definition for later checks
-#
-#     echo "Creating MySQL schema"
-#     if [ "$DB_PASSWORD"x == x ]; then
-# 	DBPWDOPTION=""
-# 	DBPWDOPTION_LONG=""
-#     else
-# 	DBPWDOPTION="-p $DB_PASSWORD"
-# 	DBPWDOPTION_LONG="--password=$DB_PASSWORD"
-#     fi
-#     mysqladmin -u "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION -f drop "$DB_NAME" &>/dev/null
-#     mysqladmin -u "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION create "$DB_NAME"  &>/dev/null || exit 1
-#     mysql -u "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" < kernel/sql/mysql/kernel_schema.sql  &>/dev/null || exit 1
-#
-#     ./bin/php/ezsqldumpschema.php --type=ezmysql --user="$DB_USER" --host="$DB_SERVER" $DBPWDOPTION_LONG "$DB_NAME" $DEST/share/db_mysql_schema.dat  &>/dev/null || exit 1
-#
-#     mysqladmin -u "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION -f drop "$DB_NAME" &>/dev/null
-#
-#
-#     echo "Creating PostgreSQL schema"
-#     if [ "$DB_PASSWORD"x == x ]; then
-# 	DBPWDOPTION=""
-# 	DBPWDOPTION_LONG=""
-#     else
-# 	DBPWDOPTION=""
-# 	DBPWDOPTION_LONG="--password=$DB_PASSWORD"
-#     fi
-#
-#     dropdb -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" &>/dev/null
-#     createdb -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME"  &>/dev/null || exit 1
-#     psql -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" < kernel/sql/postgresql/kernel_schema.sql  &>/dev/null || exit 1
-#     psql -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" < kernel/sql/postgresql/setval.sql  &>/dev/null || exit 1
-#
-#     ./bin/php/ezsqldumpschema.php --type=ezpostgresql --user="$DB_USER" --host="$DB_SERVER" $DBPWDOPTION_LONG "$DB_NAME" $DEST/share/db_postgresql_schema.dat  &>/dev/null || exit 1
-#
-#     dropdb -U "$DB_USER" -h "$DB_SERVER" $DBPWDOPTION "$DB_NAME" &>/dev/null
-# fi
-
 # Create MD5 check sums
 if [ -z "$SKIP_CORE_FILES" ]; then
     echo -n "Creating MD5 checksums"
@@ -1089,7 +1204,7 @@ fi
 # *****   Build package files for extensions *****
 #
 
-if [ -z "$SKIP_EXTENSIONS" ]; then
+if [ -z "$SKIP_EXTENSIONS" -a "$SVN_EXPORT" == "svn" ]; then
     echo
     echo "`ez_color_h1 'Building extension packages'`"
 
@@ -1098,11 +1213,15 @@ if [ -z "$SKIP_EXTENSIONS" ]; then
         touch .ez.extension-name
         # FIXME: make an option to (not) use SVN when exporting extensions
         [ "$BUILD_SNAPSHOT" = 1 ] && build_number_opt="--build-number=$CURRENT_BUILD_NUMBER"
-        [ "$USE_LOCAL_EXTENSIONS" != 1 ] && use_svn_opt='--svn'
+        [ "$SVN_EXPORT" == "svn" ] && use_svn_opt='--svn'
         bin/shell/packext.sh $use_svn_opt --dist-type=$DIST_TYPE --output-dir=$DEST_EXTENSION_ARCHIVE $build_number_opt $extension
         [ -s .ez.extension-name ] && EXTENSION_FILES="$EXTENSION_FILES `cat .ez.extension-name`"
         rm -f .ez.extension-name
     done
+elif [ "$SVN_EXPORT" != "svn" ]; then
+    echo
+    echo -n "`ez_color_h1 'Building extension packages'`"
+    ez_result_output_skipped
 fi
 
 #

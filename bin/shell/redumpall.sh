@@ -22,15 +22,21 @@ function help
     echo "         --clean                    Cleanup various data entries before dumping (e.g. session, drafts)"
     echo "         --clean-search             Cleanup search index (implies --clean)"
     echo
+
+    # Show options for database
+    ezdist_mysql_show_options
+    ezdist_postgresql_show_options
+
+    echo
     echo "Example:"
-    echo "$0 tmp"
+    echo "$0 --mysql tmp"
 }
 
 DUMP_DATA=""
 PAUSE=""
 
-POST_USER="postgres"
-DB_USER=""
+# Initialise several database related variables, see sqlcommon.sh
+ezdist_db_init
 
 # DataBaseArray file
 GENERIC_SCHEMA="share/db_schema.dba"
@@ -53,21 +59,6 @@ for arg in $*; do
 	--data)
 	    DUMP_DATA="yes"
 	    ;;
-	--postgresql-user=*)
-	    if echo $arg | grep -e "--postgresql-user=" >/dev/null; then
-		POST_USER=`echo $arg | sed 's/--postgresql-user=//'`
-	    fi
-	    ;;
-	--db-user=*)
-	    if echo $arg | grep -e "--db-user=" >/dev/null; then
-		DB_USER=`echo $arg | sed 's/--db-user=//'`
-	    fi
-	    ;;
-	--db-host=*)
-	    if echo $arg | grep -e "--db-host=" >/dev/null; then
-		DB_HOST=`echo $arg | sed 's/--db-host=//'`
-	    fi
-	    ;;
 	--pause)
 	    USE_PAUSE="yes"
             PAUSE="--pause"
@@ -79,16 +70,42 @@ for arg in $*; do
 	    CLEAN="--clean"
 	    CLEAN_SEARCH="--clean-search"
 	    ;;
+
+	--*)
+	    # Check for DB options
+	    ezdist_mysql_check_options "$arg" && continue
+	    ezdist_postgresql_check_options "$arg" && continue
+
+	    if [ $? -ne 0 ]; then
+		echo "$arg: unknown long option specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
+	    fi
+	    ;;
 	-*)
-	    echo "$arg: unkown option specified"
-            $0 -h
-	    exit 1
+	    # Check for DB options
+	    ezdist_mysql_check_short_options "$arg" && continue
+	    ezdist_postgresql_check_short_options "$arg" && continue
+
+	    if [ $? -ne 0 ]; then
+		echo "$arg: unknown option specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
+	    fi
 	    ;;
 	*)
 	    if [ -z $DBNAME ]; then
-		DBNAME=$arg
+		DBNAME="$arg"
+	    else
+		echo "$arg: unknown argument specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
 	    fi
 	    ;;
+
     esac;
 done
 
@@ -125,7 +142,7 @@ function helpUpdatePostgreSQL
     echo "The definitions and data is normally taken from the database update files for the current release"
 }
 
-if [ "DUMP_SCHEMA" == "" -a "$DUMP_DATA" == "" ]; then
+if [ "$DUMP_SCHEMA" == "" -a "$DUMP_DATA" == "" ]; then
     echo "You must choose either to dump schema with --schema or data with --data"
     echo
     help
@@ -156,12 +173,13 @@ if [ -n "$DUMP_SCHEMA" ]; then
     # Handle MySQL schema
     #
 
-    [ -z "$DB_USER" ] && DB_USER="root"
+    # Init MySQL
+    ezdist_db_init_mysql_from_defaults
+    ezdist_mysql_prepare_params
 
-    [ -n "$DB_USER" ] && DB_USER_OPT="--db-user=$DB_USER"
-    [ -n "$DB_HOST" ] && DB_HOST_OPT="--db-host=$DB_HOST"
     echo "Handling `ez_color_em MySQL` schema"
-    ./bin/shell/sqlredump.sh --mysql $DB_USER_OPT $DB_HOST_OPT $PAUSE --sql-schema-file="$TEMP_MYSQL_SCHEMA_FILE" --sql-schema-only "$DBNAME" "$KERNEL_GENERIC_SCHEMA_FILE" "$MYSQL_SCHEMA_UPDATES"
+    ./bin/shell/sqlredump.sh --mysql $PARAM_EZ_MYSQL_ALL $PAUSE --sql-schema-file="$TEMP_MYSQL_SCHEMA_FILE" --sql-schema-only "$DBNAME" "$KERNEL_GENERIC_SCHEMA_FILE" "$MYSQL_SCHEMA_UPDATES"
+
     if [ $? -ne 0 ]; then
 	echo "Failed re-dumping schema file `ez_color_file $KERNEL_GENERIC_SCHEMA_FILE`"
 	exit 1
@@ -172,12 +190,12 @@ if [ -n "$DUMP_SCHEMA" ]; then
     # Handle PostgreSQL schema
     #
 
-    [ -z "$DB_USER" ] && DB_USER="$POST_USER"
+    # Init PostgreSQL
+    ezdist_db_init_postgresql_from_defaults
+    ezdist_postgresql_prepare_params
 
-    [ -n "$DB_USER" ] && DB_USER_OPT="--db-user=$DB_USER"
-    [ -n "$DB_HOST" ] && DB_HOST_OPT="--db-host=$DB_HOST"
     echo "Handling `ez_color_em PostgreSQL` schema"
-    ./bin/shell/sqlredump.sh --postgresql $DB_USER_OPT $DB_HOST_OPT $PAUSE --sql-schema-file="$TEMP_POSTGRESQL_SCHEMA_FILE" --sql-schema-only --setval-file=$KERNEL_POSTGRESQL_SETVAL_FILE "$DBNAME" "$KERNEL_GENERIC_SCHEMA_FILE" "$POSTGRESQL_SCHEMA_UPDATES"
+    ./bin/shell/sqlredump.sh --postgresql $PARAM_EZ_POSTGRESQL_ALL $PAUSE --sql-schema-file="$TEMP_POSTGRESQL_SCHEMA_FILE" --sql-schema-only --setval-file=$KERNEL_POSTGRESQL_SETVAL_FILE "$DBNAME" "$KERNEL_GENERIC_SCHEMA_FILE" "$POSTGRESQL_SCHEMA_UPDATES"
     if [ $? -ne 0 ]; then
 	echo "Failed re-dumping SQL file `ez_color_file $KERNEL_POSTGRESQL_SCHEMA_FILE`"
 	exit 1
@@ -244,13 +262,15 @@ if [ -n "$DUMP_SCHEMA" ]; then
     #
 
     # MySQL
+    ezdist_db_prepare_params_from_mysql "1"
     echo -n "Updating MySQL file `ez_color_file $KERNEL_MYSQL_SCHEMA_FILE`"
-    ./bin/php/ezsqldumpschema.php --type=mysql --output-sql --compatible-sql --table-type=myisam "$KERNEL_GENERIC_SCHEMA_FILE" "$KERNEL_MYSQL_SCHEMA_FILE" 2>.dump.log
+    ./bin/php/ezsqldumpschema.php --type=mysql --output-sql --compatible-sql --table-type=myisam $PARAM_EZ_DB_ALL "$KERNEL_GENERIC_SCHEMA_FILE" "$KERNEL_MYSQL_SCHEMA_FILE" 2>.dump.log
     ez_result_file $? .dump.log || exit 1
 
     # PostgreSQL
+    ezdist_db_prepare_params_from_postgresql "1"
     echo -n "Updating PostgreSQL file `ez_color_file $KERNEL_POSTGRESQL_SCHEMA_FILE`"
-    ./bin/php/ezsqldumpschema.php --type=postgresql --output-sql --compatible-sql "$KERNEL_GENERIC_SCHEMA_FILE" "$KERNEL_POSTGRESQL_SCHEMA_FILE" 2>.dump.log
+    ./bin/php/ezsqldumpschema.php --type=postgresql --output-sql --compatible-sql $PARAM_EZ_DB_ALL "$KERNEL_GENERIC_SCHEMA_FILE" "$KERNEL_POSTGRESQL_SCHEMA_FILE" 2>.dump.log
     ez_result_file $? .dump.log || exit 1
 fi
 
@@ -265,9 +285,12 @@ if [ "$DUMP_DATA" != "" ]; then
     # Handle database data
     #
 
-    [ -n "$DB_USER" ] && DB_USER_OPT="--db-user=$DB_USER"
+    # Init MySQL
+    ezdist_db_init_mysql_from_defaults
+    ezdist_mysql_prepare_params
+
     echo "Handling database data"
-    ./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE $DB_USER_OPT --sql-schema-file="$TEMP_DATA_FILE" --sql-data-only "$DBNAME" --schema-sql="$KERNEL_GENERIC_SCHEMA_FILE" "$KERNEL_GENERIC_DATA_FILE" "$DATA_UPDATES"
+    ./bin/shell/sqlredump.sh --mysql $CLEAN $CLEAN_SEARCH $PAUSE $PARAM_EZ_MYSQL_ALL --sql-schema-file="$TEMP_DATA_FILE" --sql-data-only "$DBNAME" --schema-sql="$KERNEL_GENERIC_SCHEMA_FILE" "$KERNEL_GENERIC_DATA_FILE" "$DATA_UPDATES"
     if [ $? -ne 0 ]; then
 	echo "Failed re-dumping SQL file `ez_color_file $KERNEL_GENERIC_DATA_FILE`"
 	exit 1

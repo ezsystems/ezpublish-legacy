@@ -3,8 +3,6 @@
 . ./bin/shell/common.sh
 . ./bin/shell/sqlcommon.sh
 
-USER="root"
-
 SQLFILES=""
 SQLDUMP=""
 
@@ -36,11 +34,20 @@ function help
 	    echo "         --schema-sql=FILE          Schema sql file to use before the SQLFILE,"
 	    echo "                                    useful for data only redumping"
 	    echo "         --setval-file=FILE         File to write setval statements to*"
+	    echo
+
+           # Show options for database
+	    ezdist_mysql_show_options
+	    ezdist_postgresql_show_options
+
             echo
 	    echo "* Postgresql only"
             echo "Example:"
-            echo "$0 tmp data.sql"
+            echo "$0 --mysql tmp data.sql"
 }
+
+# Initialise several database related variables, see sqlcommon.sh
+ezdist_db_init
 
 # Check parameters
 for arg in $*; do
@@ -81,7 +88,7 @@ for arg in $*; do
 	--pause)
 	    USE_PAUSE="yes"
 	    ;;
-	--setval-file=*)
+        --setval-file=*)
 	    if echo $arg | grep -e "--setval-file=" >/dev/null; then
 		SETVALFILE=`echo $arg | sed 's/--setval-file=//'`
 	    fi
@@ -89,36 +96,36 @@ for arg in $*; do
 	--postgresql)
 	    USE_POSTGRESQL="yes"
 	    ;;
-	--db-user=*)
-	    if echo $arg | grep -e "--db-user=" >/dev/null; then
-		DB_USER=`echo $arg | sed 's/--db-user=//'`
-	    fi
-	    ;;
-	--db-password=*)
-	    if echo $arg | grep -e "--db-password=" >/dev/null; then
-		DB_PWD=`echo $arg | sed 's/--db-password=//'`
-	    fi
-	    ;;
-	--db-host=*)
-	    if echo $arg | grep -e "--db-host=" >/dev/null; then
-		DB_HOST=`echo $arg | sed 's/--db-host=//'`
-	    fi
-	    ;;
-	--postgresql-user=*)
-	    if echo $arg | grep -e "--postgresql-user=" >/dev/null; then
-		POST_USER=`echo $arg | sed 's/--postgresql-user=//'`
-	    fi
-	    ;;
 	--schema-sql=*)
 	    if echo $arg | grep -e "--schema-sql=" >/dev/null; then
 		SCHEMAFILE=`echo $arg | sed 's/--schema-sql=//'`
 		SCHEMAFILES="$SCHEMAFILES $SCHEMAFILE"
 	    fi
 	    ;;
+
+	--*)
+	    # Check for DB options
+	    ezdist_mysql_check_options "$arg" && continue
+	    ezdist_postgresql_check_options "$arg" && continue
+
+	    if [ $? -ne 0 ]; then
+		echo "$arg: unknown long option specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
+	    fi
+	    ;;
 	-*)
-	    echo "$arg: unkown option specified"
-            $0 -h
-	    exit 1
+	    # Check for DB options
+	    ezdist_mysql_check_short_options "$arg" && continue
+	    ezdist_postgresql_check_short_options "$arg" && continue
+
+	    if [ $? -ne 0 ]; then
+		echo "$arg: unknown option specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
+	    fi
 	    ;;
 	*)
 	    if [ -z $DBNAME ]; then
@@ -154,43 +161,44 @@ if [ "$USE_MYSQL" == "" -a "$USE_POSTGRESQL" == "" ]; then
     exit 1
 fi
 
-if [ -z $POST_USER ]; then
-    POST_USER=$USER
-fi
-
-if [ -z "$DB_USER" ]; then
-    DB_USER="$POST_USER"
-fi
+#if [ -z "$DB_USER" ]; then
+#    DB_USER="$POST_USER"
+#fi
 
 function ez_cleanup_db
 {
     if [[ "$SQLDUMP" != "schema" && -n $CLEAN ]]; then
-	[ -n "$DB_USER" ] && DB_USER_OPT="--db-user=$DB_USER"
-	[ -n "$DB_HOST" ] && DB_HOST_OPT="--db-server=$DB_HOST"
-	[ -n "$DB_PWD" ] && DB_PWD_OPT="--db-password=$DB_PWD"
+# 	[ -n "$DB_USER" ] && DB_USER_OPT="--db-user=$DB_USER"
+# 	[ -n "$DB_HOST" ] && DB_HOST_OPT="--db-server=$DB_HOST"
+# 	[ -n "$DB_PWD" ] && DB_PWD_OPT="--db-password=$DB_PWD"
 	echo -n "Flattening objects"
-	./update/common/scripts/flatten.php --db-driver=ezmysql $DB_HOST_OPT --db-database=$DBNAME $DB_USER_OPT all &>.mysql.log
+	./update/common/scripts/flatten.php --db-driver=mysql $PARAM_EZ_MYSQL_ALL --db-database=$DBNAME all &>.mysql.log
 	ez_result_file $? .mysql.log || exit 1
 	if [ $CLEAN_SEARCH ]; then
 	    echo -n "Cleaning search engine"
-	    ./update/common/scripts/updatesearchindex.php --db-driver=ezmysql $DB_HOST_OPT --db-database=$DBNAME $DB_USER_OPT --clean &>.mysql.log
+	    ./update/common/scripts/updatesearchindex.php --db-driver=mysql $PARAM_EZ_MYSQL_ALL --db-database=$DBNAME --clean &>.mysql.log
 	    ez_result_file $? .mysql.log || exit 1
 	fi
 	echo -n "Updating nice urls"
-	./update/common/scripts/updateniceurls.php --db-driver=ezmysql $DB_HOST_OPT --db-database=$DBNAME -$DB_USER_OPT &>.mysql.log
+	./update/common/scripts/updateniceurls.php --db-driver=mysql $PARAM_EZ_MYSQL_ALL --db-database=$DBNAME &>.mysql.log
 	ez_result_file $? .mysql.log || exit 1
 	echo -n "Cleaning up data"
-	./update/common/scripts/cleanup.php --db-driver=ezmysql $DB_HOST_OPT --db-database=$DBNAME $DB_USER_OPT all &>.mysql.log
+	./update/common/scripts/cleanup.php --db-driver=mysql $PARAM_EZ_MYSQL_ALL --db-database=$DBNAME all &>.mysql.log
 	ez_result_file $? .mysql.log || exit 1
     fi
 }
 
 if [ "$USE_MYSQL" != "" ]; then
+    # Init MySQL
+    ezdist_db_init_mysql_from_defaults
+    echo "Connecting to MySQL using `ezdist_mysql_show_config`"
+    ezdist_mysql_prepare_params
+
     [ -n "$SQLDUMP" ] && OUTPUT_TYPES_ARG="--output-types=$SQLDUMP"
     [ -n "$SQLDUMP" ] && [ -n "$SCHEMAFILE" ] && DUMP_SCHEMA_FILE="--schema-file=$SCHEMAFILE"
-    [ -n "$DB_USER" ] && USERARG="-u$DB_USER"
-    [ -n "$DB_HOST" ] && HOSTARG="-h$DB_HOST"
-    [ -n "$DB_PWD" ] && PWDARG="-p$DB_PWD"
+#     [ -n "$DB_USER" ] && USERARG="-u$DB_USER"
+#     [ -n "$DB_HOST" ] && HOSTARG="-h$DB_HOST"
+#     [ -n "$DB_PWD" ] && PWDARG="-p$DB_PWD"
 
     function ez_mysql_loadschema
     {
@@ -200,12 +208,12 @@ if [ "$USE_MYSQL" != "" ]; then
 	case $file in
 	    *.dba)
 		# Create SQL from generic schema and dump them to mysql
-		./bin/php/ezsqldumpschema.php --type=mysql --output-sql "$file" | mysql $USERARG $HOSTARG $PWDARG "$DBNAME"
+		./bin/php/ezsqldumpschema.php --type=mysql --output-sql "$file" | mysql $PARAM_MYSQL_ALL "$DBNAME"
 		status=$?
 		;;
 	    *.sql)
 		# Import SQL directly to mysql
-		mysql $USERARG $HOSTARG $PWDARG "$DBNAME" < "$file"
+		mysql $PARAM_MYSQL_ALL "$DBNAME" < "$file"
 		status=$?
 		;;
 	    *)
@@ -224,12 +232,12 @@ if [ "$USE_MYSQL" != "" ]; then
 	case $file in
 	    *.dba)
 		# Create SQL from generic schema and dump them to mysql
-		./bin/php/ezsqldumpschema.php --type=mysql --output-sql $OUTPUT_TYPES_ARG $DUMP_SCHEMA_FILE "$file" | mysql $USERARG $HOSTARG $PWDARG "$DBNAME"
+		./bin/php/ezsqldumpschema.php --type=mysql --output-sql $OUTPUT_TYPES_ARG $DUMP_SCHEMA_FILE "$file" | mysql $PARAM_MYSQL_ALL "$DBNAME"
 		status=$?
 		;;
 	    *.sql)
 		# Import SQL directly to mysql
-		mysql $USERARG $HOSTARG $PWDARG "$DBNAME" < "$file"
+		mysql $PARAM_MYSQL_ALL "$DBNAME" < "$file"
 		status=$?
 		;;
 	    *)
@@ -240,9 +248,9 @@ if [ "$USE_MYSQL" != "" ]; then
 	return $status
     }
 
-    mysqladmin $USERARG $HOSTARG $PWDARG -f drop "$DBNAME" &>/dev/null
+    mysqladmin $PARAM_MYSQL_ALL -f drop "$DBNAME" &>/dev/null
     echo -n "Creating database `ez_color_comment $DBNAME`"
-    mysqladmin $USERARG $HOSTARG $PWDARG create "$DBNAME" 2>.mysql.log
+    mysqladmin $PARAM_MYSQL_ALL create "$DBNAME" 2>.mysql.log
     ez_result_file $? .mysql.log || exit 1
     for sql in $SCHEMAFILES; do
 	echo -n "Importing schema SQL file `ez_color_file $sql`"
@@ -268,20 +276,26 @@ if [ "$USE_MYSQL" != "" ]; then
     if [ -n "$SQL_SCHEMA_FILE" ]; then
 	[ -z "$SQLDUMP" ] && SQLDUMP="all"
 	[ -n "$SQLDUMP" ] && DB_OUTPUT_TYPES="--output-types=$SQLDUMP"
-	[ -n "$DB_USER" ] && DB_USER_OPT="--user=$DB_USER"
-	[ -n "$DB_HOST" ] && DB_HOST_OPT="--host=$DB_HOST"
-	[ -n "$DB_PWD" ] && DB_PWD_OPT="--password=$DB_PWD"
+# 	[ -n "$DB_USER" ] && DB_USER_OPT="--user=$DB_USER"
+# 	[ -n "$DB_HOST" ] && DB_HOST_OPT="--host=$DB_HOST"
+# 	[ -n "$DB_PWD" ] && DB_PWD_OPT="--password=$DB_PWD"
 
+	ezdist_db_prepare_params_from_mysql "1"
 	echo -n "Dumping to SQL file `ez_color_file $SQL_SCHEMA_FILE`"
-	./bin/php/ezsqldumpschema.php --type=mysql --output-array $DB_USER_OPT $DB_HOST_OPT $DB_PWD_OPT $DB_OUTPUT_TYPES "$DBNAME" >"$SQL_SCHEMA_FILE".0 2>.mysql.log
+	./bin/php/ezsqldumpschema.php --type=mysql --output-array $PARAM_EZ_DB_ALL $DB_OUTPUT_TYPES "$DBNAME" >"$SQL_SCHEMA_FILE".0 2>.mysql.log
 	ez_result_file $? .mysql.log || exit 1
     fi
 else
+    # Init PostgreSQL
+    ezdist_db_init_postgresql_from_defaults
+    echo "Connecting to PostgreSQL using `ezdist_postgresql_show_config`"
+    ezdist_postgresql_prepare_params
+
     [ -n "$SQLDUMP" ] && OUTPUT_TYPES_ARG="--output-types=$SQLDUMP"
     [ -n "$SQLDUMP" ] && [ -n "$SCHEMAFILE" ] && DUMP_SCHEMA_FILE="--schema-file=$SCHEMAFILE"
-    [ -n "$DB_USER" ] && USERARG="--username $DB_USER"
-    [ -n "$DB_HOST" ] && HOSTARG="--host $DB_HOST"
-    [ -n "$DB_PWD" ] && PWDARG="--password $DB_PWD"
+#     [ -n "$DB_USER" ] && USERARG="--username $DB_USER"
+#     [ -n "$DB_HOST" ] && HOSTARG="--host $DB_HOST"
+#     [ -n "$DB_PWD" ] && PWDARG="--password $DB_PWD"
 
     function ez_postgresql_loadschema
     {
@@ -291,12 +305,12 @@ else
 	case $file in
 	    *.dba)
 		# Create SQL from generic schema and dump them to mysql
-		./bin/php/ezsqldumpschema.php --type=postgresql --output-sql "$file" | psql $USERARG $HOSTARG "$DBNAME"
+		./bin/php/ezsqldumpschema.php --type=postgresql --output-sql "$file" | psql $PARAM_POSTGRESQL_ALL "$DBNAME"
 		status=$?
 		;;
 	    *.sql)
 		# Import SQL directly to mysql
-		psql $USERARG $HOSTARG "$DBNAME" < "$file"
+		psql $PARAM_POSTGRESQL_ALL "$DBNAME" < "$file"
 		status=$?
 		;;
 	    *)
@@ -315,12 +329,12 @@ else
 	case $file in
 	    *.dba)
 		# Create SQL from generic schema and dump them to mysql
-		./bin/php/ezsqldumpschema.php --type=postgresql --output-sql $OUTPUT_TYPES_ARG $DUMP_SCHEMA_FILE "$file" | psql $USERARG $HOSTARG "$DBNAME"
+		./bin/php/ezsqldumpschema.php --type=postgresql --output-sql $OUTPUT_TYPES_ARG $DUMP_SCHEMA_FILE "$file" | psql $PARAM_POSTGRESQL_ALL "$DBNAME"
 		status=$?
 		;;
 	    *.sql)
 		# Import SQL directly to mysql
-		psql $USERARG $HOSTARG "$DBNAME" < "$file"
+		psql $PARAM_POSTGRESQL_ALL "$DBNAME" < "$file"
 		status=$?
 		;;
 	    *)
@@ -336,9 +350,9 @@ else
 	echo "You cannot run this command on your PostgreSQL version, requires 7.3"
 	exit 1
     fi
-    dropdb $USERARG $HOSTARG "$DBNAME" &>/dev/null
+    dropdb $PARAM_POSTGRESQL_ALL "$DBNAME" &>/dev/null
     echo -n "Creating database `ez_color_comment $DBNAME`"
-    createdb $USERARG $HOSTARG "$DBNAME" &>.psql.log
+    createdb $PARAM_POSTGRESQL_ALL "$DBNAME" &>.psql.log
     ez_result_file $? .psql.log || exit 1
 
     for sql in $SCHEMAFILES; do
@@ -375,17 +389,12 @@ else
 	[ -n "$DB_HOST" ] && DB_HOST_OPT="--host=$DB_HOST"
 	[ -n "$DB_PWD" ] && DB_PWD_OPT="--password=$DB_PWD"
 
+	ezdist_db_prepare_params_from_postgresql "1"
 	echo -n "Dumping to SQL file `ez_color_file $SQL_SCHEMA_FILE`"
-	./bin/php/ezsqldumpschema.php --type=postgresql --output-array $DB_USER_OPT $DB_HOST_OPT $DB_PWD_OPT $DB_OUTPUT_TYPES "$DBNAME" >"$SQL_SCHEMA_FILE".0 2>.psql.log
-	pg_error_code ".psql.log"
+	./bin/php/ezsqldumpschema.php --type=postgresql --output-array $PARAM_EZ_DB_ALL $DB_OUTPUT_TYPES "$DBNAME" >"$SQL_SCHEMA_FILE".0 2>.psql.log
 	ez_result_file $? .psql.log || exit 1
     fi
 
-#    if [ -n $SETVALFILE ]; then
-#	(echo "select 'SELECT setval(\'' || relname || '_s\',max(id)+1) FROM ' || relname || ';' as query from pg_class where relname in (  select substring(relname FROM '^(.*)_s$') from pg_class where relname like 'ez%\_s' and  relname != 'ezcontentobject_tree_s'  and relkind='S' );" | psql "$DBNAME" -P format=unaligned -t > "$SETVALFILE".0 && echo "SELECT setval('ezcontentobject_tree_s', max(node_id)+1) FROM ezcontentobject_tree;" >> "$SETVALFILE".0) || exit 1
-#    fi
-#    perl -pi -e "s/SET search_path = public, pg_catalog;//g" "$SQLFILE".0
-#    perl -pi -e "s/(^--.*$)|(^#.*$)//g" "$SQLFILE".0
 fi
 
 function ez_file_make_backup

@@ -6,9 +6,8 @@
 CHECK_TYPE="previous"
 SUBPATH=""
 
-MYSQL_USER=root
-DB_HOST=''
-DB_PORT=''
+# Initialise several database related variables, see sqlcommon.sh
+ezdist_db_init
 
 # Check parameters
 for arg in $*; do
@@ -20,10 +19,11 @@ for arg in $*; do
 	    echo "         --help                     This message"
 	    echo "         --check-stable             Check against the last stable"
 	    echo "         --check-previous           Check against the last release (Default)"
-	    echo "         --mysql                    Check MySQL schema"
-	    echo "         --postgresql               Check PostgreSQL schema"
-            echo "         --db-host                  DB host"
-            echo "         --db-port                  DB port"
+            echo
+
+	    # Show options for database
+	    ezdist_db_show_options
+
             echo
 	    exit 1
 	    ;;
@@ -33,35 +33,43 @@ for arg in $*; do
 	--check-previous)
 	    CHECK_TYPE="previous"
 	    ;;
-	--mysql)
-	    DB_TYPE="mysql"
+
+	--*)
+	    # Check for DB options
+	    ezdist_db_check_options "$arg"
+
+	    if [ $? -ne 0 ]; then
+		echo "$arg: unknown long option specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
+	    fi
 	    ;;
-	--postgresql)
-	    DB_TYPE="postgresql"
-	    ;;
-        --db-host=*)
-            if echo $arg | grep -e "--db-host=" >/dev/null; then
-                DB_HOST=`echo $arg | sed 's/--db-host=//'`
-            fi
-            ;;
-        --db-port=*)
-            if echo $arg | grep -e "--db-port=" >/dev/null; then
-                DB_PORT=`echo $arg | sed 's/--db-port=//'`
-            fi
-            ;;
-        -*)
-	    echo "$arg: unkown option specified"
-            $0 -h
-	    exit 1
+	-*)
+	    # Check for DB options
+	    ezdist_db_check_short_options "$arg"
+
+	    if [ $? -ne 0 ]; then
+		echo "$arg: unknown option specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
+	    fi
 	    ;;
 	*)
 	    if [ -z "$DATABASE_NAME" ]; then
 		DATABASE_NAME=$arg
+	    else
+		echo "$arg: unknown argument specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
 	    fi
+	    ;;
     esac;
 done
 
-if [ -z "$DB_TYPE" ]; then
+if ezdist_is_empty "$DB_TYPE"; then
     echo "No database type specified"
     exit 1
 fi
@@ -84,6 +92,16 @@ else
     if [ "$DEVELOPMENT" == "true" ]; then
         SUBPATH="unstable/"
     fi
+fi
+
+if [ "$DB_TYPE" == "mysql" ]; then
+    ezdist_db_init_mysql_from_defaults
+    echo "Connecting to MySQL using `ezdist_mysql_show_config`"
+    ezdist_mysql_prepare_params
+elif [ "$DB_TYPE" == "postgresql" ]; then
+    ezdist_db_init_postgresql_from_defaults
+    echo "Connecting to PostgreSQL using `ezdist_postgresql_show_config`"
+    ezdist_postgresql_prepare_params
 fi
 
 DEST="/tmp/ez-$USER"
@@ -230,17 +248,12 @@ function db_validate_failure
     echo "./bin/php/ezsqldiff.php --type=$type $db_name share/db_schema.dba"
 }
 
-echo "DB_TYPE=$DB_TYPE"
 if [ "$DB_TYPE" == "mysql" ]; then
-    [ -n "$DB_HOST" ] && MYSQL_HOST_OPT="-h $DB_HOST"
-    [ -n "$DB_PORT" ] && MYSQL_PORT_OPT="-P $DB_PORT"
-    MYSQL_CONNECT_OPT="-u $MYSQL_USER $MYSQL_HOST_OPT $MYSQL_PORT_OPT"
-    echo mysqladmin $MYSQL_CONNECT_OPT -f drop "$DATABASE_NAME"
-    mysqladmin $MYSQL_CONNECT_OPT -f drop "$DATABASE_NAME" &>/dev/null
+    mysqladmin $PARAM_MYSQL_ALL -f drop "$DATABASE_NAME" &>/dev/null
     echo -n "MySQL:"
     echo -n " "
     db_step_start "Creating" "$DATABASE_NAME"
-    mysqladmin $MYSQL_CONNECT_OPT create "$DATABASE_NAME" &>/dev/null
+    mysqladmin $PARAM_MYSQL_ALL create "$DATABASE_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	db_create_failure $DB_TYPE "$DATABASE_NAME"
 	exit 1
@@ -262,7 +275,7 @@ if [ "$DB_TYPE" == "mysql" ]; then
 
     echo -n " "
     db_step_start "Initializing" ""
-    mysql $MYSQL_CONNECT_OPT "$DATABASE_NAME" < "$DEST/mysql/kernel_schema.sql" &>/dev/null
+    mysql $PARAM_MYSQL_ALL "$DATABASE_NAME" < "$DEST/mysql/kernel_schema.sql" &>/dev/null
     if [ $? -ne 0 ]; then
 	db_initialize_failure $DB_TYPE "$DATABASE_NAME"
 	exit 1
@@ -279,7 +292,7 @@ if [ "$DB_TYPE" == "mysql" ]; then
 	db_update_failure_dbfile $DB_TYPE "$DATABASE_NAME" "$from_to_str" "$dbupdatefile"
 	exit 1
     fi
-    mysql $MYSQL_CONNECT_OPT "$DATABASE_NAME" < "$dbupdatefile" &>/dev/null
+    mysql $PARAM_MYSQL_ALL "$DATABASE_NAME" < "$dbupdatefile" &>/dev/null
     if [ $? -ne 0 ]; then
 	db_update_failure_import $DB_TYPE "$DATABASE_NAME" "$from_to_str" "$dbupdatefile"
 	exit 1
@@ -288,12 +301,9 @@ if [ "$DB_TYPE" == "mysql" ]; then
 
     echo -n " "
     db_step_start "Validating" ""
-    EZSQLDIFF_DB_PARAMETERS=''
-    if [ -n "$MYSQL_HOST" ]; then
-        EZSQLDIFF_DB_PARAMETERS="$EZSQLDIFF_DB_PARAMETERS --host=$MYSQL_HOST"
-        [ -n "$MYSQL_PORT" ] && EZSQLDIFF_DB_PARAMETERS="$EZSQLDIFF_DB_PARAMETERS:$MYSQL_PORT"
-    fi
-    ./bin/php/ezsqldiff.php $EZSQLDIFF_DB_PARAMETERS --type=mysql "$DATABASE_NAME" share/db_schema.dba &>/dev/null
+    # Create parameters
+    ezdist_mysql_prepare_source_params
+    ./bin/php/ezsqldiff.php --type=mysql $PARAM_SOURCE_ALL "$DATABASE_NAME" share/db_schema.dba &>/dev/null
     if [ $? -ne 0 ]; then
 	db_validate_failure $DB_TYPE "$DATABASE_NAME"
 	exit 1
@@ -308,11 +318,11 @@ elif [ "$DB_TYPE" == "postgresql" ]; then
     [ -n "$PGSQL_PORT" ] && PGSQL_PORT_OPT="-p $PGSQL_PORT"
     PGSQL_CONNECT_OPT="$PGSQL_HOST_OPT $PGSQL_PORT_OPT"
 
-    dropdb $PGSQL_CONNECT_OPT "$DATABASE_NAME" &>/dev/null
+    dropdb $PARAM_POSTGRESQL_ALL "$DATABASE_NAME" &>/dev/null
     echo -n "PostgreSQL:"
     echo -n " "
     db_step_start "Creating" "$DATABASE_NAME"
-    createdb $PGSQL_CONNECT_OPT "$DATABASE_NAME" &>/dev/null
+    createdb $PARAM_POSTGRESQL_ALL "$DATABASE_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
 	db_create_failure $DB_TYPE "$DATABASE_NAME"
 	exit 1
@@ -332,7 +342,7 @@ elif [ "$DB_TYPE" == "postgresql" ]; then
 
     echo -n " "
     db_step_start "Initializing" ""
-    psql $PGSQL_CONNECT_OPT "$DATABASE_NAME" < "$DEST/postgresql/kernel_schema.sql" &>.psql.log
+    psql $PARAM_POSTGRESQL_ALL "$DATABASE_NAME" < "$DEST/postgresql/kernel_schema.sql" &>.psql.log
     if cat .psql.log | grep 'ERROR:' &>/dev/null; then
 	db_initialize_failure $DB_TYPE "$DATABASE_NAME"
 	echo `$SETCOLOR_FAILURE`
@@ -343,7 +353,7 @@ elif [ "$DB_TYPE" == "postgresql" ]; then
     fi
     rm .psql.log
     if [ "$has_setval" == "true" ]; then
-	psql $PGSQL_CONNECT_OPT "$DATABASE_NAME" < "$DEST/postgresql/setval.sql" &>.psql.log
+	psql $PARAM_POSTGRESQL_ALL "$DATABASE_NAME" < "$DEST/postgresql/setval.sql" &>.psql.log
 	if cat .psql.log | grep 'ERROR:' &>/dev/null; then
 	    db_initialize_failure_setval $DB_TYPE "$DATABASE_NAME"
 	    echo `$SETCOLOR_FAILURE`
@@ -366,7 +376,7 @@ elif [ "$DB_TYPE" == "postgresql" ]; then
 	db_update_failure_dbfile $DB_TYPE "$DATABASE_NAME" "$from_to_str" "$dbupdatefile"
 	exit 1
     fi
-    psql "$DATABASE_NAME" < "$dbupdatefile" &>.psql.log
+    psql $PARAM_POSTGRESQL_ALL "$DATABASE_NAME" < "$dbupdatefile" &>.psql.log
     if cat .psql.log | grep 'ERROR:' &>/dev/null; then
 	db_update_failure_import $DB_TYPE "$DATABASE_NAME" "$from_to_str" "$dbupdatefile"
 	echo `$SETCOLOR_FAILURE`
@@ -380,7 +390,9 @@ elif [ "$DB_TYPE" == "postgresql" ]; then
 
     echo -n " "
     db_step_start "Validating" ""
-    ./bin/php/ezsqldiff.php --type=postgresql "$DATABASE_NAME" share/db_schema.dba &>/dev/null
+    # Create parameters
+    ezdist_postgresql_prepare_source_params
+    ./bin/php/ezsqldiff.php --type=postgresql $PARAM_SOURCE_ALL "$DATABASE_NAME" share/db_schema.dba &>/dev/null
     if [ $? -ne 0 ]; then
 	db_validate_failure $DB_TYPE "$DATABASE_NAME"
 	exit 1

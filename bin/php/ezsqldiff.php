@@ -49,9 +49,9 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL diff\n\
 
 $script->startup();
 
-$options = $script->getOptions( "[source-type:][source-host:][source-user:][source-password;]" .
-                                "[match-type:][match-host:][match-user:][match-password;]" .
-                                "[t:|type:][host:][u:|user:][p:|password;]" .
+$options = $script->getOptions( "[source-type:][source-host:][source-user:][source-password;][source-socket:]" .
+                                "[match-type:][match-host:][match-user:][match-password;][match-socket:]" .
+                                "[t:|type:][host:][u:|user:][p:|password;][socket:]" .
                                 "[lint-check]" .
                                 "[reverse][check-only]",
                                 "[source][match]",
@@ -60,16 +60,19 @@ $options = $script->getOptions( "[source-type:][source-host:][source-user:][sour
                                        'source-host' => "Connect to host source database",
                                        'source-user' => "User for login to source database",
                                        'source-password' => "Password to use when connecting to source database",
+                                       'source-socket' => 'Socket to connect to source database (only for MySQL)',
                                        'match-type' => ( "Which database type to use for match, can be one of:\n" .
                                                          "mysql, postgresql" ),
                                        'match-host' => "Connect to host match database",
                                        'match-user' => "User for login to match database",
                                        'match-password' => "Password to use when connecting to match database",
+                                       'match-socket' => 'Socket to connect to match database (only for MySQL)',
                                        'type' => ( "Which database type to use for match and source, can be one of:\n" .
                                                    "mysql, postgresql" ),
                                        'host' => "Connect to host match and source database",
                                        'user' => "User for login to match and source database",
                                        'password' => "Password to use when connecting to match and source database",
+                                       'socket' => 'Socket to connect to match and source database (only for MySQL)',
                                        'reverse' => "Reverse the differences",
                                        'check-only' => "Don't show SQLs for the differences, just set exit code and return"
                                        ) );
@@ -92,6 +95,7 @@ $sourceType = $options['source-type'] ? $options['source-type'] : $options['type
 $sourceDBHost = $options['source-host'] ? $options['source-host'] : $options['host'];
 $sourceDBUser = $options['source-user'] ? $options['source-user'] : $options['user'];
 $sourceDBPassword = $options['source-password'] ? $options['source-password'] : $options['password'];
+$sourceDBSocket = $options['source-socket'] ? $options['source-socket'] : $options['socket'];
 $sourceDB = $options['arguments'][0];
 
 if( !is_string( $sourceDBPassword ) )
@@ -101,6 +105,7 @@ $matchType = $options['match-type'] ? $options['match-type'] : $options['type'];
 $matchDBHost = $options['match-host'] ? $options['match-host'] : $options['host'];
 $matchDBUser = $options['match-user'] ? $options['match-user'] : $options['user'];
 $matchDBPassword = $options['match-password'] ? $options['match-password'] : $options['password'];
+$matchDBSocket = $options['match-socket'] ? $options['match-socket'] : $options['socket'];
 $matchDB = count( $options['arguments'] ) >= 2 ? $options['arguments'][1] : '';
 
 if ( !is_string( $matchDBPassword ) )
@@ -122,7 +127,7 @@ if ( strlen( trim( $matchType ) ) == 0 )
 
 $ini =& eZINI::instance();
 
-function &loadDatabaseSchema( $type, $host, $user, $password, $db, &$cli )
+function &loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, &$cli )
 {
     if ( file_exists( $db ) and is_file( $db ) )
     {
@@ -134,11 +139,15 @@ function &loadDatabaseSchema( $type, $host, $user, $password, $db, &$cli )
     {
         include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
         include_once( 'lib/ezdb/classes/ezdb.php' );
+        $parameters = array( 'use_defaults' => false,
+                             'server' => $host,
+                             'user' => $user,
+                             'password' => $password,
+                             'database' => $db );
+        if ( $socket )
+            $parameters['socket'] = $socket;
         $dbInstance =& eZDB::instance( 'ez' . $type,
-                                       array( 'server' => $host,
-                                              'user' => $user,
-                                              'password' => $password,
-                                              'database' => $db ),
+                                       $parameters,
                                        true );
 
         if ( !is_object( $dbInstance ) )
@@ -190,7 +199,7 @@ function &loadLintSchema( &$dbSchema, &$cli )
     return new eZLintSchema( false, $dbSchema );
 }
 
-$sourceSchema = loadDatabaseSchema( $sourceType, $sourceDBHost, $sourceDBUser, $sourceDBPassword, $sourceDB, $cli );
+$sourceSchema = loadDatabaseSchema( $sourceType, $sourceDBHost, $sourceDBUser, $sourceDBPassword, $sourceDBSocket, $sourceDB, $cli );
 if ( !$sourceSchema )
 {
     $cli->error( "Failed to load schema from source database" );
@@ -206,7 +215,7 @@ if ( $options['lint-check'] )
 }
 else
 {
-    $matchSchema = loadDatabaseSchema( $matchType, $matchDBHost, $matchDBUser, $matchDBPassword, $matchDB, $cli );
+    $matchSchema = loadDatabaseSchema( $matchType, $matchDBHost, $matchDBUser, $matchDBPassword, $matchDBSocket, $matchDB, $cli );
     if ( !$matchSchema )
     {
         $cli->error( "Failed to load schema from match database" );

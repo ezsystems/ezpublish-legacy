@@ -47,7 +47,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish SQL Schema 
 
 $script->startup();
 
-$options = $script->getOptions( "[type:][user:][host:][password;]" .
+$options = $script->getOptions( "[type:][user:][host:][password;][socket:]" .
                                 "[table-type:][table-charset:]" .
                                 "[insert-types:][allow-multi-insert][schema-file:][clean-existing]",
                                 "[filename][database]",
@@ -56,6 +56,7 @@ $options = $script->getOptions( "[type:][user:][host:][password;]" .
                                        'host' => "Connect to host source database",
                                        'user' => "User for login to source database",
                                        'password' => "Password to use when connecting to source database",
+                                       'socket' => 'Socket to connect to match and source database (only for MySQL)',
                                        'table-type' => ( "The table storage type to use for SQL output when creating tables.\n" .
                                                          "MySQL: bdb, innodb and myisam\n" .
                                                          "PostgreSQL: \n" .
@@ -76,6 +77,7 @@ $script->initialize();
 $type = $options['type'];
 $host = $options['host'];
 $user = $options['user'];
+$socket = $options['socket'];
 $password = $options['password'];
 
 if ( !is_string( $password ) )
@@ -176,7 +178,7 @@ if ( strlen( trim( $user ) ) == 0)
 
 // Creates a displayable string for the end-user explaining
 // which database, host, user and password which were tried
-function eZTriedDatabaseString( $database, $host, $user, $password )
+function eZTriedDatabaseString( $database, $host, $user, $password, $socket )
 {
     $msg = "'$database'";
     if ( strlen( $host ) > 0 )
@@ -193,17 +195,23 @@ function eZTriedDatabaseString( $database, $host, $user, $password )
     }
     if ( strlen( $password ) > 0 )
         $msg .= " and with a password";
+    if ( strlen( $socket ) > 0 )
+        $msg .= " and with socket '$socket'";
     return $msg;
 }
 
 // Connect to database
 
 include_once( 'lib/ezdb/classes/ezdb.php' );
+$parameters = array( 'server' => $host,
+                     'user' => $user,
+                     'password' => $password,
+                     'database' => $database );
+if ( $socket )
+    $parameters['socket'] = $socket;
 $db =& eZDB::instance( $type,
-                       array( 'server' => $host,
-                              'user' => $user,
-                              'password' => $password,
-                              'database' => $database ) );
+                       $parameters,
+                       true );
 
 if ( !is_object( $db ) )
 {
@@ -214,7 +222,7 @@ if ( !is_object( $db ) )
 if ( !$db or !$db->isConnected() )
 {
     $cli->error( "Could not initialize database:" );
-    $cli->error( "* Tried database " . eZTriedDatabaseString( $database, $host, $user, $password ) );
+    $cli->error( "* Tried database " . eZTriedDatabaseString( $database, $host, $user, $password, $socket ) );
 
     // Fetch the database error message if there is one
     // It will give more feedback to the user what is wrong
@@ -276,7 +284,7 @@ if ( $options['clean-existing'] )
     if ( !$status )
     {
         $cli->error( "Failed cleaning up existing database elements" );
-        $cli->error( "* Tried database " . eZTriedDatabaseString( $database, $host, $user, $password ) );
+        $cli->error( "* Tried database " . eZTriedDatabaseString( $database, $host, $user, $password, $socket ) );
         $cli->error( "Error(" . $db->errorNumber() . "): " . $db->errorMessage() );
         $script->shutdown( 1 );
     }
@@ -299,7 +307,7 @@ $status = ( $includeSchema or $includeData ) ? $dbSchema->insertSchema( $dbschem
 if ( !$status )
 {
     $cli->error( "Failed insert schema/data to database" );
-    $cli->error( "* Tried database " . eZTriedDatabaseString( $database, $host, $user, $password ) );
+    $cli->error( "* Tried database " . eZTriedDatabaseString( $database, $host, $user, $password, $socket ) );
     $script->shutdown( 1 );
 }
 

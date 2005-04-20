@@ -9,15 +9,8 @@ DEVELOPMENT="false"
 SUBPATH=""
 [ "$DEVELOPMENT" == "true" ] && SUBPATH="unstable/"
 
-MYSQL_USER=root
-MYSQL_PASS=''
-MYSQL_HOST=''
-MYSQL_PORT=''
-
-PGSQL_USER=''
-PGSQL_PASS=''
-PGSQL_HOST=''
-PGSQL_PORT=''
+# Initialise several database related variables, see sqlcommon.sh
+ezdist_db_init
 
 # Check parameters
 for arg in $*; do
@@ -27,61 +20,51 @@ for arg in $*; do
 	    echo
 	    echo "Options: -h"
 	    echo "         --help                     This message"
-            echo "         --mysql-user               MySQL user"
-            echo "         --mysql-password           MySQL password"
-            echo "         --mysql-host               MySQL host"
-            echo "         --mysql-port               MySQL port"
-            echo "         --pgsql-user               PostgreSQL user"
-            echo "         --pgsql-host               PostgreSQL host"
-            echo "         --pgsql-port               PostgreSQL port"
+            echo
+
+	    # Show options for database
+	    ezdist_mysql_show_options
+	    ezdist_postgresql_show_options
+
             echo
 	    exit 1
 	    ;;
-        --mysql-user=*)
-            if echo $arg | grep -e "--mysql-user=" >/dev/null; then
-                MYSQL_USER=`echo $arg | sed 's/--mysql-user=//'`
-            fi
-            ;;
-        --mysql-password=*)
-            if echo $arg | grep -e "--mysql-password=" >/dev/null; then
-                MYSQL_PASS=`echo $arg | sed 's/--mysql-user=//'`
-            fi
-            ;;
-        --mysql-host=*)
-            if echo $arg | grep -e "--mysql-host=" >/dev/null; then
-                MYSQL_HOST=`echo $arg | sed 's/--mysql-host=//'`
-            fi
-            ;;
-        --mysql-port=*)
-            if echo $arg | grep -e "--mysql-port=" >/dev/null; then
-                MYSQL_PORT=`echo $arg | sed 's/--mysql-port=//'`
-            fi
-            ;;
 
-        --pgsql-user=*)
-            if echo $arg | grep -e "--pgsql-user=" >/dev/null; then
-                PGSQL_USER=`echo $arg | sed 's/--pgsql-user=//'`
-            fi
-            ;;
-        --pgsql-host=*)
-            if echo $arg | grep -e "--pgsql-host=" >/dev/null; then
-                PGSQL_HOST=`echo $arg | sed 's/--pgsql-host=//'`
-            fi
-            ;;
-        --pgsql-port=*)
-            if echo $arg | grep -e "--pgsql-port=" >/dev/null; then
-                PGSQL _PORT=`echo $arg | sed 's/--pgsql-port=//'`
-            fi
-            ;;
-        -*)
-	    echo "$arg: unkown option specified"
-            $0 -h
-	    exit 1
+
+	--*)
+	    # Check for DB options
+	    ezdist_mysql_check_options "$arg" && continue
+	    ezdist_postgresql_check_options "$arg" && continue
+
+	    if [ $? -ne 0 ]; then
+		echo "$arg: unknown long option specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
+	    fi
+	    ;;
+	-*)
+	    # Check for DB options
+	    ezdist_mysql_check_short_options "$arg" && continue
+	    ezdist_postgresql_check_short_options "$arg" && continue
+
+	    if [ $? -ne 0 ]; then
+		echo "$arg: unknown option specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
+	    fi
 	    ;;
 	*)
 	    if [ -z "$DATABASE_NAME" ]; then
 		DATABASE_NAME=$arg
+	    else
+		echo "$arg: unknown argument specified"
+		echo
+		echo "Type '$0 --help\` for a list of options to use."
+		exit 1
 	    fi
+	    ;;
     esac;
 done
 
@@ -89,6 +72,16 @@ if [ -z "$DATABASE_NAME" ]; then
     echo "No database name specified"
     exit 1
 fi
+
+# Init MySQL
+ezdist_db_init_mysql_from_defaults
+echo "Connecting to MySQL using `ezdist_mysql_show_config`"
+ezdist_mysql_prepare_params
+
+# Init PostgreSQL
+ezdist_db_init_postgresql_from_defaults
+echo "Connecting to PostgreSQL using `ezdist_postgresql_show_config`"
+ezdist_postgresql_prepare_params
 
 DEST="/tmp/ez-$USER"
 SCHEMA_URL="http://zev.ez.no/svn/nextgen/versions/$VERSION"
@@ -98,16 +91,10 @@ PREVIOUS_SCHEMA_URL="http://zev.ez.no/svn/nextgen/versions/$VERSION_PREVIOUS"
 
 ## MySQL
 
-[ -n "$MYSQL_USER" ] && MYSQL_USER_OPT="-u $MYSQL_USER"
-[ -n "$MYSQL_PASS" ] && MYSQL_PASS_OPT="-p$MYSQL_PASS"
-[ -n "$MYSQL_HOST" ] && MYSQL_HOST_OPT="-h $MYSQL_HOST"
-[ -n "$MYSQL_PORT" ] && MYSQL_PORT_OPT="-P $MYSQL_PORT"
-MYSQL_CONNECT_OPT="$MYSQL_USER_OPT $MYSQL_PASS_OPT $MYSQL_HOST_OPT $MYSQL_PORT_OPT"
-
-mysqladmin $MYSQL_CONNECT_OPT -f drop "$DATABASE_NAME" &>/dev/null
+mysqladmin $PARAM_MYSQL_ALL -f drop "$DATABASE_NAME" &>/dev/null
 echo -n "MySQL:"
 echo -n " `$POSITION_STORE`Creating"
-mysqladmin $MYSQL_CONNECT_OPT create "$DATABASE_NAME" &>/dev/null
+mysqladmin $PARAM_MYSQL_ALL create "$DATABASE_NAME" &>/dev/null
 if [ $? -ne 0 ]; then
     echo
     echo "Failed to create MySQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL`"
@@ -117,7 +104,7 @@ echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Creating`$SETCOLOR_NORMAL`"
 
 echo -n " `$POSITION_STORE`Initializing"
 for sql_file in $KERNEL_MYSQL_SCHEMA_FILES; do
-    mysql $MYSQL_CONNECT_OPT "$DATABASE_NAME" < "$sql_file"
+    mysql $PARAM_MYSQL_ALL "$DATABASE_NAME" < "$sql_file"
     if [ $? -ne 0 ]; then
 	echo
 	echo "Failed to initialize MySQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL` with $sql_file"
@@ -130,15 +117,10 @@ echo
 
 ## PostgreSQL
 
-[ -n "$PGSQL_USER" ] && PGSQL_USER_OPT="-U $PGSQL_USER"
-[ -n "$PGSQL_HOST" ] && PGSQL_HOST_OPT="-h $PGSQL_HOST"
-[ -n "$PGSQL_PORT" ] && PGSQL_PORT_OPT="-p $PGSQL_PORT"
-PGSQL_CONNECT_OPT="$PGSQL_USER_OPT $PGSQL_HOST_OPT $PGSQL_PORT_OPT"
-
-dropdb $PGSQL_CONNECT_OPT "$DATABASE_NAME" &>/dev/null
+dropdb $PARAM_POSTGRESQL_ALL "$DATABASE_NAME" &>/dev/null
 echo -n "PostgreSQL:"
 echo -n " `$POSITION_STORE`Creating"
-createdb $PGSQL_CONNECT_OPT "$DATABASE_NAME" &>/dev/null
+createdb $PARAM_POSTGRESQL_ALL "$DATABASE_NAME" &>/dev/null
 if [ $? -ne 0 ]; then
     echo
     echo "Failed to create PostgreSQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL`"
@@ -148,7 +130,7 @@ echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Creating`$SETCOLOR_NORMAL`"
 
 echo -n " `$POSITION_STORE`Initializing"
 for sql_file in $KERNEL_POSTGRESQL_SCHEMA_FILES; do
-    psql $PGSQL_CONNECT_OPT "$DATABASE_NAME" < "$sql_file" &>.psql.log
+    psql $PARAM_POSTGRESQL_ALL "$DATABASE_NAME" < "$sql_file" &>.psql.log
     if cat .psql.log | grep 'ERROR:' &>/dev/null; then
 	echo
 	echo "Failed to initialize PostgreSQL database `$SETCOLOR_EMPHASIZE`$DATABASE_NAME`$SETCOLOR_NORMAL` with $sql_file"
@@ -166,28 +148,16 @@ echo
 
 ## Validation
 
+ezdist_mysql_prepare_source_params
+ezdist_postgresql_prepare_match_params
+
 echo -n "`$POSITION_STORE`Validating"
-
-# construct database connection options for ezsqldiff.php
-EZSQLDIFF_DB_PARAMETERS=''
-if [ -n "$MYSQL_HOST" ]; then
-    EZSQLDIFF_DB_PARAMETERS="$EZSQLDIFF_DB_PARAMETERS --source-host=$MYSQL_HOST"
-    [ -n "$MYSQL_PORT" ] && EZSQLDIFF_DB_PARAMETERS="$EZSQLDIFF_DB_PARAMETERS:$MYSQL_PORT"
-fi
-[ -n "$MYSQL_USER" ] && EZSQLDIFF_DB_PARAMETERS="$EZSQLDIFF_DB_PARAMETERS --source-user=$MYSQL_USER"
-[ -n "$MYSQL_PASS" ] && EZSQLDIFF_DB_PARAMETERS="$EZSQLDIFF_DB_PARAMETERS --source-password=$MYSQL_PASS"
-if [ -n "$PGSQL_HOST" ]; then
-    EZSQLDIFF_DB_PARAMETERS="$EZSQLDIFF_DB_PARAMETERS --match-host=$PGSQL_HOST"
-    [ -n "$PGSQL_PORT" ] && EZSQLDIFF_DB_PARAMETERS="$EZSQLDIFF_DB_PARAMETERS:$PGSQL_PORT"
-fi
-[ -n "$PGSQL_USER" ] && EZSQLDIFF_DB_PARAMETERS="$EZSQLDIFF_DB_PARAMETERS --match-user=$PGSQL_USER"
-
-./bin/php/ezsqldiff.php $EZSQLDIFF_DB_PARAMETERS --source-type=mysql --match-type=postgresql "$DATABASE_NAME" "$DATABASE_NAME" &>/dev/null
+./bin/php/ezsqldiff.php --source-type=mysql $PARAM_SOURCE_ALL --match-type=postgresql $PARAM_MATCH_ALL "$DATABASE_NAME" "$DATABASE_NAME" &>/dev/null
 if [ $? -ne 0 ]; then
     echo
     echo "Database schemas did not match, this could mean that one of the database is missing an SQL update"
     echo "Check the database difference with"
-    echo "./bin/php/ezsqldiff.php --source-type=mysql --match-type=postgresql \"$DATABASE_NAME\" \"$DATABASE_NAME\""
+    echo "./bin/php/ezsqldiff.php --source-type=mysql $PARAM_SOURCE_ALL --match-type=postgresql $PARAM_MATCH_ALL \"$DATABASE_NAME\" \"$DATABASE_NAME\""
     exit 1
 fi
 echo -n "`$POSITION_RESTORE``$SETCOLOR_EMPHASIZE`Validating`$SETCOLOR_NORMAL`"
