@@ -77,38 +77,14 @@ class eZBasket extends eZPersistentObject
                                                                           'datatype' => 'integer',
                                                                           'default' => '0',
                                                                           'required' => true ) ),
+                      'function_attributes' => array( 'items' => 'items',
+                                                      'total_ex_vat' => 'totalExVAT',
+                                                      'total_inc_vat' => 'totalIncVAT',
+                                                      'is_empty' => 'isEmpty' ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZBasket",
                       "name" => "ezbasket" );
-    }
-
-    function &attribute( $attr )
-    {
-        if ( $attr == "items" )
-            return $this->items();
-        else if ( $attr == "total_ex_vat" )
-            return $this->totalExVAT();
-        else if ( $attr == "total_inc_vat" )
-            return $this->totalIncVAT();
-        else if ( $attr == "is_empty" )
-            return $this->isEmpty();
-        else
-            return eZPersistentObject::attribute( $attr );
-    }
-
-    function hasAttribute( $attr )
-    {
-        if ( $attr == "items" )
-            return true;
-        else if ( $attr == "total_ex_vat" )
-            return true;
-        else if ( $attr == "total_inc_vat" )
-            return true;
-        else if ( $attr == "is_empty" )
-            return true;
-        else
-            return eZPersistentObject::hasAttribute( $attr );
     }
 
     function &items( $asObject = true )
