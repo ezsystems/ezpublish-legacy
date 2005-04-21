@@ -251,6 +251,13 @@ class eZObjectRelationListType extends eZDataType
                 {
                     $class =& $object->contentClass();
 					$time = time();
+
+                    // Make the previous version archived
+                    $currentVersion =& $object->currentVersion();
+                    $currentVersion->setAttribute( 'status', EZ_VERSION_STATUS_ARCHIVED );
+                    $currentVersion->setAttribute( 'modified', $time );
+                    $currentVersion->store();
+
                     $version =& eZContentObjectVersion::fetchVersion( $subObjectVersion, $subObjectID );
                     $version->setAttribute( 'modified', $time );
                     $version->setAttribute( 'status', EZ_VERSION_STATUS_PUBLISHED );
