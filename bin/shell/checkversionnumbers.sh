@@ -242,6 +242,29 @@ if [ $? -ne 0 ]; then
     check_common_version_development_previous ""
 fi
 
+# bin/php/checkdbfiles.php
+
+function check_dbfiles_update
+{
+    if ! grep "array(  *'$LAST_STABLE',  *'$VERSION'  *)" bin/php/checkdbfiles.php &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`DB update missing`$SETCOLOR_NORMAL`"
+	    echo "Missing database update entry in `$SETCOLOR_EXE`bin/php/checkdbfiles.sh`$SETCOLOR_NORMAL`"
+	    echo "The \$versions""$MAJOR""$MINOR"" should contain:"
+	    echo ",array( '$LAST_STABLE', '$VERSION' )"
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
+
+check_dbfiles_update "$FIX"
+
 # kernel/classes/ezpackage.php
 
 function package_check_version
