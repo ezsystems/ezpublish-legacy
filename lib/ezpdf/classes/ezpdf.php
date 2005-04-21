@@ -219,7 +219,7 @@ class eZPDF
 
             case 'newpage':
             {
-                $operatorValue = '<C:callNewPage>';
+                $operatorValue = '<C:callNewPage><C:callNewLine>';
 
                 eZDebug::writeNotice( 'PDF: New page', 'eZPDF::modify' );
             } break;
