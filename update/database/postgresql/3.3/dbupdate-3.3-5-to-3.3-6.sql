@@ -4,7 +4,7 @@ UPDATE ezsite_data SET value='6' WHERE name='ezpublish-release';
 CREATE LOCAL TEMPORARY TABLE temp_sort_key_string
 (
     id               integer NOT NULL,
-    sort_key_string  character varying(50) NOT NULL DEFAULT ''::character varying
+    sort_key_string  character varying(50) DEFAULT ''::character varying NOT NULL
 );
 
 INSERT INTO temp_sort_key_string SELECT id, sort_key_string FROM ezcontentobject_attribute;
