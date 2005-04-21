@@ -121,9 +121,9 @@ class eZPDF
                     }
                     else if ( $key == 'colorRGB' )
                     {
-                        $operatorValue .= ':cmyk:' . implode( ',', eZMath::rgbToCMYK2( $value[0],
-                                                                                       $value[1],
-                                                                                       $value[2] ) );
+                        $operatorValue .= ':cmyk:' . implode( ',', eZMath::rgbToCMYK2( $value[0]/255,
+                                                                                       $value[1]/255,
+                                                                                       $value[2]/255 ) );
                     }
                     else
                     {
@@ -709,9 +709,9 @@ class eZPDF
                 if ( isset( $params['rgb'] ) )
                 {
                     eZMath::normalizeColorArray( $params['rgb'] );
-                    $params['cmyk'] = eZMath::rgbToCMYK2( $params['rgb'][0],
-                                                          $params['rgb'][1],
-                                                          $params['rgb'][2] );
+                    $params['cmyk'] = eZMath::rgbToCMYK2( $params['rgb'][0]/255,
+                                                          $params['rgb'][1]/255,
+                                                          $params['rgb'][2]/255 );
                 }
 
                 if ( !isset( $params['cmyk'] ) )
@@ -779,9 +779,9 @@ class eZPDF
                 if ( isset( $options['rgb'] ) )
                 {
                     eZMath::normalizeColorArray( $options['rgb'] );
-                    $options['cmyk'] = eZMath::rgbToCMYK2( $options['rgb'][0],
-                                                           $options['rgb'][1],
-                                                           $options['rgb'][2] );
+                    $options['cmyk'] = eZMath::rgbToCMYK2( $options['rgb'][0]/255,
+                                                           $options['rgb'][1]/255,
+                                                           $options['rgb'][2]/255 );
                 }
 
                 $operatorValue = '<C:callCircle' .
@@ -827,9 +827,9 @@ class eZPDF
                     if ( $key == 'rgb' )
                     {
                         eZMath::normalizeColorArray( $options['rgb'] );
-                        $operatorValue .= ':cmyk:' . implode( ',',  eZMath::rgbToCMYK2( $options['rgb'][0],
-                                                                                        $options['rgb'][1],
-                                                                                        $options['rgb'][2] ) );
+                        $operatorValue .= ':cmyk:' . implode( ',',  eZMath::rgbToCMYK2( $options['rgb'][0]/255,
+                                                                                        $options['rgb'][1]/255,
+                                                                                        $options['rgb'][2]/255 ) );
                     }
                     else if ( $key == 'cmyk' )
                     {
@@ -869,9 +869,9 @@ class eZPDF
                 if ( isset( $options['rgb'] ) )
                 {
                     eZMath::normalizeColorArray( $options['rgb'] );
-                    $options['cmyk'] = eZMath::rgbToCMYK2( $options['rgb'][0],
-                                                           $options['rgb'][1],
-                                                           $options['rgb'][2] );
+                    $options['cmyk'] = eZMath::rgbToCMYK2( $options['rgb'][0]/255,
+                                                           $options['rgb'][1]/255,
+                                                           $options['rgb'][2]/255 );
                 }
 
                 if ( isset( $options['cmyk'] ) )
@@ -885,9 +885,9 @@ class eZPDF
                     if ( isset( $options['rgbTop'] ) )
                     {
                         eZMath::normalizeColorArray( $options['rgbTop'] );
-                        $options['cmykTop'] = eZMath::rgbToCMYK2( $options['rgbTop'][0],
-                                                                  $options['rgbTop'][1],
-                                                                  $options['rgbTop'][2] );
+                        $options['cmykTop'] = eZMath::rgbToCMYK2( $options['rgbTop'][0]/255,
+                                                                  $options['rgbTop'][1]/255,
+                                                                  $options['rgbTop'][2]/255 );
                     }
                     else
                     {
@@ -900,9 +900,9 @@ class eZPDF
                     if ( isset( $options['rgbBottom'] ) )
                     {
                         eZMath::normalizeColorArray( $options['rgbBottom'] );
-                        $options['cmykBottom'] = eZMath::rgbToCMYK2( $options['rgbBottom'][0],
-                                                                     $options['rgbBottom'][1],
-                                                                     $options['rgbBottom'][2] );
+                        $options['cmykBottom'] = eZMath::rgbToCMYK2( $options['rgbBottom'][0]/255,
+                                                                     $options['rgbBottom'][1]/255,
+                                                                     $options['rgbBottom'][2]/255 );
                     }
                     else
                     {
@@ -962,9 +962,9 @@ class eZPDF
 
                         if ( isset( $textSettings['rgb'] ) )
                         {
-                            $textSettings['cmyk'] = eZMath::rgbToCMYK2( $textSettings['rgb'][0],
-                                                                        $textSettings['rgb'][1],
-                                                                        $textSettings['rgb'][2] );
+                            $textSettings['cmyk'] = eZMath::rgbToCMYK2( $textSettings['rgb'][0]/255,
+                                                                        $textSettings['rgb'][1]/255,
+                                                                        $textSettings['rgb'][2]/255 );
                         }
 
                         if ( isset( $textSettings['cmyk'] ) )
@@ -1029,9 +1029,9 @@ class eZPDF
                             }
                             else if ( $key == 'frameRGB' )
                             {
-                                $operatorValue .= ':frameCMYK:' . implode( ',', eZMath::rgbToCMYK2( $textSettings['frameRGB'][0],
-                                                                                                    $textSettings['frameRGB'][1],
-                                                                                                    $textSettings['frameRGB'][2] ) );
+                                $operatorValue .= ':frameCMYK:' . implode( ',', eZMath::rgbToCMYK2( $textSettings['frameRGB'][0]/255,
+                                                                                                    $textSettings['frameRGB'][1]/255,
+                                                                                                    $textSettings['frameRGB'][2]/255 ) );
                             }
                             else if ( $key == 'textCMYK' )
                             {
@@ -1039,9 +1039,9 @@ class eZPDF
                             }
                             else if ( $key == 'textRGB' )
                             {
-                                $operatorValue .= ':textCMYK:' . implode( ',', eZMath::rgbToCMYK2( $textSettings['textRGB'][0],
-                                                                                                   $textSettings['textRGB'][1],
-                                                                                                   $textSettings['textRGB'][2] ) );
+                                $operatorValue .= ':textCMYK:' . implode( ',', eZMath::rgbToCMYK2( $textSettings['textRGB'][0]/255,
+                                                                                                   $textSettings['textRGB'][1]/255,
+                                                                                                   $textSettings['textRGB'][2]/255 ) );
                             }
                             else
                             {
