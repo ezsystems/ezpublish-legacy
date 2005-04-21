@@ -79,11 +79,10 @@ class eZShopFunctionCollection
                        ezorder.productcollection_id=ezproductcollection_item.productcollection_id AND
                        ezcontentobject_tree.path_string like '$nodePath%'
                  GROUP BY ezproductcollection_item.contentobject_id
-                 ORDER BY count desc
-                 LIMIT $limit";
+                 ORDER BY count desc";
 
         $db =& eZDB::instance();
-        $topList=& $db->arrayQuery( $query );
+        $topList=& $db->arrayQuery( $query, array( 'limit' => $limit ) );
 
         $contentObjectList = array();
         foreach ( array_keys ( $topList ) as $key )
