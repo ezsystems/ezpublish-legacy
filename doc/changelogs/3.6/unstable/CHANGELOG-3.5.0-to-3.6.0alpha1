@@ -315,6 +315,9 @@ eZInformationCollection:
 - Fixed bug #5583: ezimage.tpl produces bare href and target - bad XHTML.
 - Fixed bug: JavaScript error in content/edit
   (Merged from stable/3.5 (3.5.2) rev. 11437)
+- Fixed bug #6514: ezobjectrelationlist does not archive old versions
+  (Merged from release/3.4.6(3.4.6) rev. 11485, also in 
+  relase/3.5.2(3.5.2) rev.11486)
   
 *Library:
 PDF:
