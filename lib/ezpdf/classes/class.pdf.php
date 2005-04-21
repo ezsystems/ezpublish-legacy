@@ -1664,108 +1664,109 @@ class Cpdf
  *
  * @access private
  */
-    function openFont($font){
-	// assume that $font contains both the path and perhaps the extension to the file, split them
-	$pos=strrpos($font,'/');
-	if ($pos===false){
-	    $dir = './';
-	    $name = $font;
-	} else {
-	    $dir=substr($font,0,$pos+1);
-	    $name=substr($font,$pos+1);
-	}
+    function openFont($font)
+    {
+        // assume that $font contains both the path and perhaps the extension to the file, split them
+        $pos=strrpos($font,'/');
+        if ($pos===false){
+            $dir = './';
+            $name = $font;
+        } else {
+            $dir=substr($font,0,$pos+1);
+            $name=substr($font,$pos+1);
+        }
 
-    if (substr($name,-5)=='.font'){
-        $name=substr($name,0,strlen($name)-5);
-    }
+        if (substr($name,-5)=='.font'){
+            $name=substr($name,0,strlen($name)-5);
+        }
 
-	$this->addMessage('openFont: '.$font.' - '.$name);
-	if (file_exists($dir.'php_'.$name.'.font')){
-	    $this->addMessage('openFont: php file exists '.$dir.'php_'.$name.'.font');
-	    $tmp = file($dir.'php_'.$name.'.font');
-	    $this->fonts[$font]=unserialize($tmp[0]);
-	    if (!isset($this->fonts[$font]['_version_']) || $this->fonts[$font]['_version_']<1){
-		// if the font file is old, then clear it out and prepare for re-creation
-		$this->addMessage('openFont: clear out, make way for new version.');
-		unset($this->fonts[$font]);
-	    }
-	}
-	if (!isset($this->fonts[$font]) && file_exists($dir.$name.'.afm')){
-	    // then rebuild the php_<font>.afm file from the <font>.afm file
-	    $this->addMessage('openFont: build php file from '.$dir.$name.'.afm');
-	    $data = array();
-	    $file = file($dir.$name.'.afm');
-	    foreach ($file as $rowA){
-		$row=trim($rowA);
-		$pos=strpos($row,' ');
-		if ($pos){
-		    // then there must be some keyword
-		    $key = substr($row,0,$pos);
-		    switch ($key){
-			case 'FontName':
-			case 'FullName':
-			case 'FamilyName':
-			case 'Weight':
-			case 'ItalicAngle':
-			case 'IsFixedPitch':
-			case 'CharacterSet':
-			case 'UnderlinePosition':
-			case 'UnderlineThickness':
-			case 'Version':
-			case 'EncodingScheme':
-			case 'CapHeight':
-			case 'XHeight':
-			case 'Ascender':
-			case 'Descender':
-			case 'StdHW':
-			case 'StdVW':
-			case 'StartCharMetrics':
-			    $data[$key]=trim(substr($row,$pos));
-			break;
-			case 'FontBBox':
-			    $data[$key]=explode(' ',trim(substr($row,$pos)));
-			break;
-			case 'C':
-			    //C 39 ; WX 222 ; N quoteright ; B 53 463 157 718 ;
-			    $bits=explode(';',trim($row));
-			$dtmp=array();
-			foreach($bits as $bit){
-			    $bits2 = explode(' ',trim($bit));
-			    if (strlen($bits2[0])){
-				if (count($bits2)>2){
-				    $dtmp[$bits2[0]]=array();
-				    for ($i=1;$i<count($bits2);$i++){
-					$dtmp[$bits2[0]][]=$bits2[$i];
-				    }
-				} else if (count($bits2)==2){
-				    $dtmp[$bits2[0]]=$bits2[1];
-				}
-			    }
-			}
-			if ($dtmp['C']>=0){
-			    $data['C'][$dtmp['C']]=$dtmp;
-			    $data['C'][$dtmp['N']]=$dtmp;
-			} else {
-			    $data['C'][$dtmp['N']]=$dtmp;
-			}
-			break;
-			case 'KPX':
-			    //KPX Adieresis yacute -40
-			    $bits=explode(' ',trim($row));
-			$data['KPX'][$bits[1]][$bits[2]]=$bits[3];
-			break;
-		    }
-		}
-	    }
-	    $data['_version_']=1;
-	    $this->fonts[$font]=$data;
-	    $fp = fopen($dir.'php_'.$name.'.font','w');
-	    fwrite($fp,serialize($data));
-	    fclose($fp);
-	} else if (!isset($this->fonts[$font])){
-	    $this->addMessage('openFont: no font file found');
+        $this->addMessage('openFont: '.$font.' - '.$name);
+        if (file_exists($dir.'php_'.$name.'.font')){
+            $this->addMessage('openFont: php file exists '.$dir.'php_'.$name.'.font');
+            $tmp = file($dir.'php_'.$name.'.font');
+            $this->fonts[$font]=unserialize($tmp[0]);
+            if (!isset($this->fonts[$font]['_version_']) || $this->fonts[$font]['_version_']<1){
+                // if the font file is old, then clear it out and prepare for re-creation
+                $this->addMessage('openFont: clear out, make way for new version.');
+                unset($this->fonts[$font]);
+            }
+        }
+        if (!isset($this->fonts[$font]) && file_exists($dir.$name.'.afm')){
+            // then rebuild the php_<font>.afm file from the <font>.afm file
+            $this->addMessage('openFont: build php file from '.$dir.$name.'.afm');
+            $data = array();
+            $file = file($dir.$name.'.afm');
+            foreach ($file as $rowA){
+                $row=trim($rowA);
+                $pos=strpos($row,' ');
+                if ($pos){
+                    // then there must be some keyword
+                    $key = substr($row,0,$pos);
+                    switch ($key){
+                        case 'FontName':
+                        case 'FullName':
+                        case 'FamilyName':
+                        case 'Weight':
+                        case 'ItalicAngle':
+                        case 'IsFixedPitch':
+                        case 'CharacterSet':
+                        case 'UnderlinePosition':
+                        case 'UnderlineThickness':
+                        case 'Version':
+                        case 'EncodingScheme':
+                        case 'CapHeight':
+                        case 'XHeight':
+                        case 'Ascender':
+                        case 'Descender':
+                        case 'StdHW':
+                        case 'StdVW':
+                        case 'StartCharMetrics':
+                            $data[$key]=trim(substr($row,$pos));
+                        break;
+                        case 'FontBBox':
+                            $data[$key]=explode(' ',trim(substr($row,$pos)));
+                        break;
+                        case 'C':
+                            //C 39 ; WX 222 ; N quoteright ; B 53 463 157 718 ;
+                            $bits=explode(';',trim($row));
+                        $dtmp=array();
+                        foreach($bits as $bit){
+                            $bits2 = explode(' ',trim($bit));
+                            if (strlen($bits2[0])){
+                                if (count($bits2)>2){
+                                    $dtmp[$bits2[0]]=array();
+                                    for ($i=1;$i<count($bits2);$i++){
+                                        $dtmp[$bits2[0]][]=$bits2[$i];
+                                    }
+                                } else if (count($bits2)==2){
+                                    $dtmp[$bits2[0]]=$bits2[1];
+                                }
+                            }
+                        }
+                        if ($dtmp['C']>=0){
+                            $data['C'][$dtmp['C']]=$dtmp;
+                            $data['C'][$dtmp['N']]=$dtmp;
+                        } else {
+                            $data['C'][$dtmp['N']]=$dtmp;
+                        }
+                        break;
+                        case 'KPX':
+                            //KPX Adieresis yacute -40
+                            $bits=explode(' ',trim($row));
+                        $data['KPX'][$bits[1]][$bits[2]]=$bits[3];
+                        break;
+                    }
+                }
+            }
+            $data['_version_']=1;
+            $this->fonts[$font]=$data;
+            $fp = fopen($dir.'php_'.$name.'.font','w');
+            fwrite($fp,serialize($data));
+            fclose($fp);
+        } else if (!isset($this->fonts[$font])){
+            $this->addMessage('openFont: no font file found');
 //    echo 'Font not Found '.$font;
-	}
+        }
     }
 
 /**
@@ -1787,10 +1788,16 @@ class Cpdf
                 $this->numObj++;
                 $this->numFonts++;
                 $pos=strrpos($fontName,'/');
-//      $dir=substr($fontName,0,$pos+1);
                 $name=substr($fontName,$pos+1);
                 if (substr($name,-5)=='.font'){
                     $name=substr($name,0,strlen($name)-5);
+                }
+                if ( !isset( $this->fontFamilies[$name] ) )
+                {
+                    $this->setFontFamily( $name, array( 'b' => $name . '-Bold',
+                                                        'i' => $name . '-Italic',
+                                                        'bi' =>  $name . '-BoldItalic',
+                                                        'ib' => $name . '-BoldItalic' ) );
                 }
                 $options=array('name'=>$name);
                 if (is_array($encoding)){
@@ -1821,12 +1828,9 @@ class Cpdf
                 }
                 $fbfile = $basefile.'.'.$fbtype;
 
-//      $pfbfile = substr($fontName,0,strlen($fontName)-4).'.pfb';
-//      $ttffile = substr($fontName,0,strlen($fontName)-4).'.ttf';
                 $this->addMessage('selectFont: checking for - '.$fbfile);
                 if ( strlen( $fbtype ) ){
                     $adobeFontName = $this->fonts[$fontName]['FontName'];
-//        $fontObj = $this->numObj;
                     $this->addMessage('selectFont: adding font file - '.$fbfile.' - '.$adobeFontName);
                     // find the array of fond widths, and put that into an object.
                     $firstChar = -1;
@@ -2347,6 +2351,8 @@ class Cpdf
 	}
     $tmp = ltrim($tmp);
 
+//    var_dump( $this->objects );exit();
+    
     ob_clean();
 
     header( 'Pragma: ' );
@@ -3540,7 +3546,7 @@ class Cpdf
 	    // the user is trying to set a font family
 	    // note that this can also be used to set the base ones to something else
 	    if (strlen($family)){
-		$this->fontFamilies[$family] = $options;
+            $this->fontFamilies[$family] = $options;
 	    }
 	}
     }

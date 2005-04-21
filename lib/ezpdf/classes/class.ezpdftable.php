@@ -1411,7 +1411,8 @@ class eZPDFTable extends Cezpdf
         $this->ezInsertMode(0);
     }
 
-    function dots($info){
+    function dots($info)
+    {
         // draw a dotted line over to the right and put on a page number
         $tmp = $info['p'];
         $size = substr($tmp, 0, 2);
@@ -1430,8 +1431,8 @@ class eZPDFTable extends Cezpdf
     /**
      * Callback function to set font
      */
-    function callFont( $params ){
-
+    function callFont( $params )
+    {
         $options = array();
 
         $keyArray = array ( 'c', 'm', 'y', 'k' );
@@ -2172,6 +2173,7 @@ class eZPDFTable extends Cezpdf
         $fontSize = $this->fontSize();
 
         $text = $this->fixWhitespace( $text );
+        $this->setXOffset( 0 );
 
         Cezpdf::ezText( $text, $params['size'], array( 'justification' => $params['justification'],
                                                        'top_margin' => $params['top_margin'] ) );
