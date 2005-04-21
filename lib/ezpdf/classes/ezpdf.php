@@ -221,7 +221,7 @@ class eZPDF
             case 'new_page':
             case 'newpage':  // Deprecated
             {
-                $operatorValue = '<C:callNewPage>';
+                $operatorValue = '<C:callNewPage><C:callNewLine>';
 
                 eZDebug::writeNotice( 'PDF: New page', 'eZPDF::modify' );
             } break;

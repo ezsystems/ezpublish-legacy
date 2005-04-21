@@ -320,6 +320,8 @@ eZInformationCollection:
   relase/3.5.2(3.5.2) rev.11486)
 - Fixed Bug #6517: Bug Template operator: pdf(set_font, ...) ColorRGB.
   ( Merged from stable/3.4 rev. 11501, stable/3.5 rev. 11502 )
+- Fixed bug #6516: Bug Template operator: pdf(new_page) has no newline.
+  ( Merged from stable/3.4 rev. 11504, stable/3.5 rev. 11505 )
   
 *Library:
 PDF:
