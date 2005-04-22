@@ -159,14 +159,14 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     foreach( $nodes as $node )
                     {
                         $nodeID = $node->attribute( 'node_id' );
-                        $this->NodeArray["$nodeID"] =& $node;
+                        $this->NodeArray["$nodeID"] = $node;
                     }
                 }
                 elseif ( $nodes )
                 {
                     $node =& $nodes;
                     $nodeID = $node->attribute( 'node_id' );
-                    $this->NodeArray["$nodeID"] =& $node;
+                    $this->NodeArray["$nodeID"] = $node;
                 }
                 else
                 {
