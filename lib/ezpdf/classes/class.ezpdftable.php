@@ -2185,13 +2185,17 @@ class eZPDFTable extends Cezpdf
 
         $this->setYOffset( $params['y'] );
         $this->setXOffset( $params['x'] );
-        $this->ez['leftMargin'] = $params['x'];
-        $this->ez['rightMargin'] = $this->ez['pageWidth'] - $params['width'] - $params['x'];
 
-        $this->setJustification( isset( $params['align'] ) ? $params['align'] : 'left' );
-        $this->setFontSize( isset( $params['size'] ) ? $params['size'] : $this->fontSize() );
+        $marginText = '<C:callSetMargin';
+        $marginText .= ':left:' . ( $params['x'] );
+        $marginText .= ':right:' . ( $this->ez['pageWidth'] - $params['width'] - $params['x'] );
+        $marginText .= '>';
+        $marginText .= '<ezCall:callText';
+        $marginText .= ':size:' . ( isset( $params['size'] ) ? $params['size'] : $this->fontSize() );
+        $marginText .= ':justification:' . ( isset( $params['align'] ) ? $params['align'] : 'left' );
+        $marginText .= '>';
 
-        $this->ezText( urldecode( $text ) );
+        $this->ezText( $marginText . urldecode( $text ) . '</ezCall:callText>' );
 
         $this->popStack();
     }
