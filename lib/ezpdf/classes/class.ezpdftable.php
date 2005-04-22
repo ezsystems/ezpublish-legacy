@@ -1697,7 +1697,7 @@ class eZPDFTable extends Cezpdf
 
         if ( isset( $options['line_space'] ) )
         {
-            $this->ez['lineSpace'] = (float)$options['lineSpace'];
+            $this->ez['lineSpace'] = (float)$options['line_space'];
         }
 
         if ( isset( $options['top'] ) )
