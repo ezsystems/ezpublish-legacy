@@ -615,6 +615,11 @@ class eZMatrix
             return false;
     }
 
+    function attributes()
+    {
+        return array( 'name' , 'rows', 'columns', 'matrix', 'cells', 'rowCount', 'columnCount' );
+    }
+
     function &attribute( $name )
     {
         switch ( $name )
