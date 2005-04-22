@@ -328,6 +328,8 @@ eZInformationCollection:
   ( Merged from stable/3.4 rev. 11511 )
 - Fixed bug #6525: ezmatrix doesn't support attribute( show ).
   (Merged from stable/3.4 (3.4.7) rev. 11515) 
+- Fixed bug #6523: Bug Template operator: pdf(text_box, ...) alignment and size doesn't work.
+  ( Merged from stable/3.4 rev. 11514, stable/3.5 rev. 11520 )
   
 *Library:
 PDF:
