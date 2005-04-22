@@ -367,12 +367,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         $childTagText = "";
         $tagName = $tag->name();
 
+        if ( !$isChildOfLinkTag && count( $this->LinkParameters ) )
+            $this->LinkParameters = array();
+
         // Set link parameters for rendering children of link tag
         if ( $tagName=="link" )
         {
             $href='';
-            $this->LinkParameters = array();
-
             if ( $tag->attributeValue( 'url_id' ) != null )
             {
                 $linkID = $tag->attributeValue( 'url_id' );
