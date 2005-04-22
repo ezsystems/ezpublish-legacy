@@ -1730,6 +1730,7 @@ class eZPDFTable extends Cezpdf
     function callCircle( $info )
     {
         $params = array();
+        $forceYPos = true;
 
         eZPDFTable::extractParameters( $info['p'], 0, $params, true );
 
@@ -1753,6 +1754,7 @@ class eZPDFTable extends Cezpdf
         }
         if ( $params['y'] == -1 )
         {
+            $forceYPos = false;
             $params['y'] = $this->yOffset();
         }
         if ( isset( $params['yOffset'] ) )
@@ -1767,11 +1769,12 @@ class eZPDFTable extends Cezpdf
             }
         }
 
-	if ( $params['y'] - $this->getFontHeight( $this->fontSize() ) < $this->ez['bottomMargin'] )
-	  {
-	    $this->ezNewPage();
-	    return $this->callCircle( $info );
-	  }
+        if ( $params['y'] - $this->getFontHeight( $this->fontSize() ) < $this->ez['bottomMargin'] &&
+             !$forceYPos )
+        {
+            $this->ezNewPage();
+            return $this->callCircle( $info );
+        }
 
         $params['x'] += $params['pre_indent'];
 
