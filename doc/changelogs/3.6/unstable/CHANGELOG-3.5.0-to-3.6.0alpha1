@@ -333,6 +333,8 @@ eZInformationCollection:
 - Fixed bug #6493: Template operator: pdf(filled_circle, ...) gets into a recursive 
   loop if the "y" parameter is wrong.
   ( Merged from stable/3.4 rev. 11525 )
+- Fixed bug #6503: Bug Template operator: pdf(footer, ...) line thickness doesn't work.
+  ( Merged from stable/3.4 rev. 11529, stable/3.5 rev. 11530 )
 - Fixed bug #6508: Cannot remove URL Attribute.
   
 *Library:
