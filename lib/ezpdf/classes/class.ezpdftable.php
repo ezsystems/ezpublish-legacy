@@ -2532,6 +2532,8 @@ class eZPDFTable extends Cezpdf
             $leftMargin = $parameters['leftMargin'];
         }
 
+        $this->setLineStyle( $parameters['thickness'] );
+
         reset( $this->ezPages );
         foreach ( $this->ezPages as $pageNum => $pageID )
         {
@@ -2550,6 +2552,8 @@ class eZPDFTable extends Cezpdf
             $this->line( $leftMargin, $yOffset, $this->ez['pageWidth'] - $rightMargin, $yOffset );
             $this->closeObject();
         }
+
+        $this->setLineStyle( 1 );
     }
 
     /*!

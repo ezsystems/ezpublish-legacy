@@ -415,7 +415,7 @@ class eZPDF
                 $operatorValue .= ':y1:' . $lineDesc['y1'];
                 $operatorValue .= ':y2:' . $lineDesc['y2'];
 
-                $operatorValue .= ':thinkness:' . ( isset( $lineDesc['thickness'] ) ? $lineDesc['thickness'] : '1' );
+                $operatorValue .= ':thickness:' . ( isset( $lineDesc['thickness'] ) ? $lineDesc['thickness'] : '1' );
 
                 $operatorValue .= '>';
 
@@ -592,16 +592,15 @@ class eZPDF
                         $operatorValue .= $this->Config->variable( $frameType, 'Page' );
                     }
 
-                    $operatorValue .= ':thicknes:';
-                    if ( isset( $frameDesc['line']['thicknes'] ) )
+                    $operatorValue .= ':thickness:';
+                    if ( isset( $frameDesc['line']['thickness'] ) )
                     {
-                        $operatorValue .= $frameDesc['line']['thicknes'];
+                        $operatorValue .= $frameDesc['line']['thickness'];
                     }
                     else
                     {
-                        $operatorValue .= $this->Config->variable( $frameType, 'LineThicknes' );
+                        $operatorValue .= $this->Config->variable( $frameType, 'LineThickness' );
                     }
-
                     $operatorValue .= '>';
                 }
 
