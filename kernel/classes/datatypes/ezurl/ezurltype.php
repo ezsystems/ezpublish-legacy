@@ -169,6 +169,11 @@ class eZURLType extends eZDataType
                 }
             }
         }
+        else
+        {
+            $attribute->setAttribute( 'data_int', 0 );
+        }
+
     }
 
     function storeClassAttribute( &$attribute, $version )
@@ -200,6 +205,9 @@ class eZURLType extends eZDataType
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
+        if ( $contentObjectAttribute->attribute( 'data_int' ) == 0 )
+            return false;
+
         $url =& eZURL::fetch( $contentObjectAttribute->attribute( 'data_int' ) );
         if ( is_object( $url ) and
              trim( $url->attribute( 'url' ) ) != '' and
