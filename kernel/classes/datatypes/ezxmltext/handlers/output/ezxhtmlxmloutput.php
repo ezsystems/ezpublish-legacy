@@ -425,13 +425,14 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $href = "mailto:" . $href;
             }
 
+            if ( $tag->attributeValue( 'anchor_name' ) != null )
+            {
+                $href .= '#' . $tag->attributeValue( 'anchor_name' );
+            }
+
             if ( $href != '' )
             {
-                if ( $tag->attributeValue( 'anchor_name' ) != null )
-                {
-                    $href .= '#' . $tag->attributeValue( 'anchor_name' );
-                }
-    
+
                // Making valid URI  (commented cause decided to use ezurl in template)
                // include_once( 'lib/ezutils/classes/ezuri.php' );
                //  eZURI::transformURI( $href );

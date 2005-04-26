@@ -621,7 +621,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         $link =& $links[$linkKey];
 
                         // We need to append url id only if it's not a link to an object or a node
-                        if ( $link->attributeValue( 'node_id' ) == null && $link->attributeValue( 'object_id' ) == null )
+                        if ( $link->attributeValue( 'node_id' ) == null && $link->attributeValue( 'object_id' ) == null && $link->attributeValue( 'anchor_name' ) == null )
                         {
                             $url = strtok( $link->attributeValue( 'href' ), '#' );
                             if ( $url != null )
