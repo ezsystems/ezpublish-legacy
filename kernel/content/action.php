@@ -208,7 +208,7 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
     if ( !$node )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
 
-    if ( !$node->checkAccess( 'move' ) )
+    if ( !$node->canMoveFrom() )
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
 
     $object =& $node->object();
@@ -234,7 +234,8 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
                                'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
-    if ( !$selectedNode->checkAccess( 'create', $classID ) )
+    // check if the object can be moved to (under) the selected node
+    if ( !$selectedNode->canMoveTo( $classID ) )
     {
         eZDebug::writeError( "Cannot move node $nodeID as child of parent node $selectedNodeID, the current user does not have create permission for class ID $classID",
                              'content/action' );
@@ -328,7 +329,7 @@ else if ( $module->isCurrentAction( 'MoveNodeRequest' ) )
     if ( !$node )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
 
-    if ( !$node->checkAccess( 'move' ) )
+    if ( !$node->canMoveFrom() )
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
 
     $object =& $node->object();
@@ -405,10 +406,11 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     if ( !$node )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
 
-    if ( !$node->checkAccess( 'move' ) )
+    if ( !$node->canMoveFrom() )
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
 
     $nodeParentNodeID = & $node->attribute( 'parent_node_id' );
+
     $object =& $node->object();
     if ( !$object )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
@@ -434,9 +436,9 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
                                'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
-    if ( !$selectedNode->checkAccess( 'edit' ) )
+    if ( !$selectedNode->canMoveFrom() )
     {
-        eZDebug::writeError( "Cannot use node $selectedNodeID as the exchanging node for $nodeID, the current user does not have edit permission for it",
+        eZDebug::writeError( "Cannot use node $selectedNodeID as the exchanging node for $nodeID, the current user does not have edit or remove permission for it",
                              'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
@@ -449,6 +451,36 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     $selectedObjectID =& $selectedObject->attribute( 'id' );
     $selectedObjectVersion =& $selectedObject->attribute( 'current_version' );
     $selectedNodeParentNodeID=& $selectedNode->attribute( 'parent_node_id' );
+
+
+    /* In order to swap node1 and node2 a user should have the following permissions:
+     * 1. move_from: move node1
+     * 2. move_from: move node2
+     * 3. move_to: move an object of the same class as node2 under parent of node1
+     * 4. move_to: move an object of the same class as node1 under parent of node2
+     *
+     * The First two has already been checked. Let's check the rest.
+     */
+    $nodeParent            =& $node->attribute( 'parent' );
+    $selectedNodeParent    =& $selectedNode->attribute( 'parent' );
+    $objectClassID         =& $object->attribute( 'contentclass_id' );
+    $selectedObjectClassID =& $selectedObject->attribute( 'contentclass_id' );
+
+    if ( !$nodeParent || !$selectedNodeParent )
+        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
+
+    if ( !$nodeParent->canMoveTo( $selectedObjectClassID ) )
+    {
+        eZDebug::writeError( "Cannot move an object of class $selectedObjectClassID to node $nodeParentNodeID (no create permission)" );
+        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
+    }
+    if ( !$selectedNodeParent->canMoveTo( $objectClassID ) )
+    {
+        eZDebug::writeError( "Cannot move an object of class $objectClassID to node $selectedNodeParentNodeID (no create permission)" );
+        return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
+    }
+
+    // exchange contentobject ids and versions.
     $node->setAttribute( 'contentobject_id', $selectedObjectID );
     $node->setAttribute( 'contentobject_version', $selectedObjectVersion );
     $node->store();
@@ -510,8 +542,11 @@ else if ( $module->isCurrentAction( 'SwapNodeRequest' ) )
     if ( !$node )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
 
-    if ( !$node->checkAccess( 'move' ) )
+    if ( !$node->canMoveFrom() )
+    {
+        eZDebug::writeError( "Cannot move node $nodeID (no edit or remove permission)" );
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
+    }
 
     $object =& $node->object();
     if ( !$object )

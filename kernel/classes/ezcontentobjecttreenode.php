@@ -166,7 +166,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'can_edit' => 'canEdit',
                                                       'can_hide' => 'canHide',
                                                       'can_remove' => 'canRemove',
-                                                      'can_move' => 'canMove',
+                                                      'can_move' => 'canMoveFrom',
                                                       'creator' => 'creator',
                                                       "path" => "fetchPath",
                                                       'path_array' => 'pathArray',
@@ -444,18 +444,35 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
+     Check if the node can be moved. (actually checks 'edit' and 'remove' permissions)
      \return \c true if the node can be moved by the current user.
      \sa checkAccess().
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &canMove( )
+    function &canMoveFrom( )
     {
-        if ( !isset( $this->Permissions["can_move"] ) )
+        if ( !isset( $this->Permissions['can_move_from'] ) )
         {
-            $this->Permissions["can_move"] = $this->checkAccess( 'move' );
+            $this->Permissions['can_move_from'] = $this->checkAccess( 'edit' ) && $this->checkAccess( 'remove' );
         }
-        $p = ( $this->Permissions["can_move"] == 1 );
+        $p = ( $this->Permissions['can_move_from'] == 1 );
+        return $p;
+    }
+
+    /*!
+     \return \c true if a node of class \a $classID can be moved to the current node by the current user.
+     \sa checkAccess().
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &canMoveTo( $classID = false )
+    {
+        if ( !isset( $this->Permissions['can_move_to'] ) )
+        {
+            $this->Permissions['can_move_to'] = $this->checkAccess( 'create', $classID );
+        }
+        $p = ( $this->Permissions['can_move_to'] == 1 );
         return $p;
     }
 

@@ -139,7 +139,7 @@ class eZContentObject extends eZPersistentObject
                                                       "can_edit" => "canEdit",
                                                       "can_translate" => "canTranslate",
                                                       "can_remove" => "canRemove",
-                                                      "can_move" => "canMove",
+                                                      "can_move" => "canMoveFrom",
                                                       "data_map" => "dataMap",
                                                       "main_parent_node_id" => "mainParentNodeID",
                                                       "assigned_nodes" => "assignedNodes",
@@ -2594,19 +2594,20 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
+     Check if the object can be moved. (actually checks 'edit' and 'remove' permissions)
      \return \c true if the object can be moved by the current user.
      \sa checkAccess().
      \note The reference for the return value is required to workaround
            a bug with PHP references.
     */
-    function &canMove( )
+    function &canMoveFrom( )
     {
 
-        if ( !isset( $this->Permissions["can_move"] ) )
+        if ( !isset( $this->Permissions['can_move_from'] ) )
         {
-            $this->Permissions["can_move"] = $this->checkAccess( 'move' );
+            $this->Permissions['can_move_from'] = $this->checkAccess( 'edit' ) && $this->checkAccess( 'remove' );
         }
-        $p = ( $this->Permissions["can_move"] == 1 );
+        $p = ( $this->Permissions['can_move_from'] == 1 );
         return $p;
     }
 
