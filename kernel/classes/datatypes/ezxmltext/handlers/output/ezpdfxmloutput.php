@@ -160,14 +160,14 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                     foreach( $nodes as $node )
                     {
                         $nodeID = $node->attribute( 'node_id' );
-                        $this->NodeArray["$nodeID"] =& $node;
+                        $this->NodeArray["$nodeID"] = $node;
                     }
                 }
                 elseif ( $nodes )
                 {
                     $node =& $nodes;
                     $nodeID = $node->attribute( 'node_id' );
-                    $this->NodeArray["$nodeID"] =& $node;
+                    $this->NodeArray["$nodeID"] = $node;
                 }
                 else
                 {
@@ -353,11 +353,13 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
         $childTagText = '';
         $tagName = $tag->name();
 
+        if ( !$isChildOfLinkTag && count( $this->LinkParameters ) )
+            $this->LinkParameters = array();
+
         // Set link parameters for rendering children of link tag
         if ( $tagName=="link" )
         {
             $href='';
-            $this->LinkParameters = array();
 
             if ( $tag->attributeValue( 'url_id' ) != null )
             {
@@ -410,16 +412,16 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                     $href = "mailto:" . $href;
             }
 
+            if ( $tag->attributeValue( 'anchor_name' ) != null )
+            {
+                $href .= '#' . $tag->attributeValue( 'anchor_name' );
+            }
+
             if ( $href != '' )
             {
-                if ( $tag->attributeValue( 'anchor_name' ) != null )
-                {
-                    $href .= '#' . $tag->attributeValue( 'anchor_name' );
-                }
-    
                 // Making valid URI
-                include_once( 'lib/ezutils/classes/ezuri.php' );
-                eZURI::transformURI( $href );
+                // include_once( 'lib/ezutils/classes/ezuri.php' );
+                // eZURI::transformURI( $href );
     
                 $this->LinkParameters['href'] = $href;
     
