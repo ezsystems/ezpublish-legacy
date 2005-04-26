@@ -765,12 +765,13 @@ class eZWebDAVContentServer extends eZWebDAVServer
             return EZ_WEBDAV_FAILED_NOT_FOUND;
         }
 
-        if ( !$sourceNode->canMove() )
+        if ( !$sourceNode->canMoveFrom() )
         {
             return EZ_WEBDAV_FAILED_FORBIDDEN;
         }
 
         $object = $sourceNode->attribute( 'object' );
+        $classID = $object->attribute( 'contentclass_id' );
 
         // Get rid of possible extensions, remove .jpeg .txt .html etc..
         $destination = $this->fileBasename( $destination );
@@ -791,13 +792,13 @@ class eZWebDAVContentServer extends eZWebDAVServer
         }
 
         // Can we move the node from $sourceNode to $destinationNode
-        if ( !$sourceNode->canMove() )
+        if ( !$sourceNode->canMoveFrom() )
         {
             $this->appendLogEntry( "No access to move '$sourceSite':'$nodePath' to '$destinationSite':'$destinationNodePath'", 'CS:move' );
             return EZ_WEBDAV_FAILED_FORBIDDEN;
         }
 
-        if ( !$destinationNode->canMove() )
+        if ( !$destinationNode->canMoveTo( $classID ) )
         {
             return EZ_WEBDAV_FAILED_FORBIDDEN;
         }

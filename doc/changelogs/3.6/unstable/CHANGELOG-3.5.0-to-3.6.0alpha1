@@ -338,6 +338,8 @@ eZInformationCollection:
 - Fixed bug #6508: Cannot remove URL Attribute.
 - Fixed bug #6507: Bug Template operator: pdf( frontpage, ...) alignment parameter must be present.
   ( Merged from stable/3.4 rev. 11533, stable/3.5 rev. 11534 )
+- Fixed bug #6036: Role issues with copy and move.
+  (Merged from stable/3.5 (3.5.3) rev. 11542)
   
 *Library:
 PDF:
