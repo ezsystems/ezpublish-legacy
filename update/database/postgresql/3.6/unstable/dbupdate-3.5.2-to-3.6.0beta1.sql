@@ -1,13 +1,6 @@
 UPDATE ezsite_data SET value='3.6.0beta1' WHERE name='ezpublish-version';
 UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
 
-CREATE TABLE eztipafriend_request (
-        email_receiver varchar(100) not null,
-        created int not null
-);
-create index email_receiver on eztipafriend_request(email_receiver);
-create index created on eztipafriend_request(created);
-
 ALTER TABLE ezrss_export_item ADD COLUMN subnodes integer;
 ALTER TABLE ezrss_export_item ALTER subnodes SET NOT NULL;
 ALTER TABLE ezrss_export_item ALTER subnodes SET DEFAULT 0;
@@ -33,7 +26,6 @@ CREATE INDEX ezco_link_from     ON ezcontentobject_link ( from_contentobject_id,
                                                           from_contentobject_version,
                                                           contentclassattribute_id );
 
-DROP TABLE ezsubtree_expiry;
 
 
 -- Add missing index for orders
