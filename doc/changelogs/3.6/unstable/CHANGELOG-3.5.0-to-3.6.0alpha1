@@ -340,6 +340,8 @@ eZInformationCollection:
   ( Merged from stable/3.4 rev. 11533, stable/3.5 rev. 11534 )
 - Fixed bug #6036: Role issues with copy and move.
   (Merged from stable/3.5 (3.5.3) rev. 11542)
+- Fixed bug #6538: Clean eZ publish 3.5.2 install causes kernel error 20.
+  (Merged from stable/3.4 (3.4.7) rev. 11550)
   
 *Library:
 PDF:
