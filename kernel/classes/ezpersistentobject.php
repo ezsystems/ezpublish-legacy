@@ -177,7 +177,8 @@ class eZPersistentObject
      is defined as an array with fieldnames.
      It uses removeObject to do the real job and passes the object defintion,
      conditions and extra conditions \a $extraConditions to this function.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function remove( $conditions = null, $extraConditions = null )
     {
@@ -200,7 +201,8 @@ class eZPersistentObject
      and extra conditions \a $extraConditions. The extra conditions will either be
      appended to the existing conditions or overwrite existing fields.
      Uses conditionText() to create the condition SQL.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function removeObject( &$def, $conditions = null, $extraConditions = null )
     {
@@ -229,7 +231,8 @@ class eZPersistentObject
     /*!
      Stores the object in the database, uses storeObject() to do the actual
      job and passes \a $fieldFilters to it.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function store( $fieldFilters = null )
     {
@@ -239,7 +242,8 @@ class eZPersistentObject
     /*!
      Makes sure data is stored if the data is considered dirty.
      \sa hasDirtyData
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function sync( $fieldFilters = null )
     {
@@ -251,7 +255,8 @@ class eZPersistentObject
      \private
      Stores the data in \a $obj to database.
      \param fieldFilters If specified only certain fields will be stored.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function storeObject( &$obj, $fieldFilters = null )
     {
@@ -789,7 +794,8 @@ class eZPersistentObject
 
     /*!
      Sets row id \a $id2 to have the placement of row id \a $id1.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function swapRow( $table, &$keys, &$order_id, &$rows, $id1, $id2 )
     {
@@ -833,7 +839,8 @@ class eZPersistentObject
      with the first item or the last item depending on whether this row is first or last.
      Uses \a $conditions to figure out unique rows.
      \sa swapRow
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function reorderObject( &$def,
                             /*! Associative array with one element, the key is the order id and values is order value. */
@@ -955,7 +962,8 @@ function definition()
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function updateObjectList( $parameters )
     {

@@ -514,7 +514,8 @@ class eZContentObjectVersion extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function removeAssignment( $nodeID )
     {
@@ -639,7 +640,8 @@ class eZContentObjectVersion extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function remove()
     {
@@ -683,7 +685,8 @@ class eZContentObjectVersion extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function removeTranslation( $languageCode )
     {
@@ -748,7 +751,8 @@ class eZContentObjectVersion extends eZPersistentObject
      \note The reference for the return value is required to workaround
            a bug with PHP references.
 
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &translationList( $language = false, $asObject = true )
     {
@@ -813,7 +817,8 @@ class eZContentObjectVersion extends eZPersistentObject
      \a $language defines the language to fetch.
      \static
      \sa attributes
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &fetchAttributes( $version, $contentObjectID, $language, $asObject = true )
     {
@@ -860,7 +865,8 @@ class eZContentObjectVersion extends eZPersistentObject
      \param package
 
      \returns created object, false if could not create object/xml invalid
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &unserialize( &$domNode, &$contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, &$nodeList, $options, &$package )
     {
@@ -952,7 +958,8 @@ class eZContentObjectVersion extends eZPersistentObject
      \param package options ( optianal )
      \param array of allowed nodes ( optional )
      \param array of top nodes in current package export (optional )
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &serialize( &$package, $options = false, $contentNodeIDArray = false, $topNodeIDArray = false )
     {
@@ -1038,7 +1045,8 @@ class eZContentObjectVersion extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function unpublish()
     {

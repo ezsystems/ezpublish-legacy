@@ -91,7 +91,8 @@ class eZPolicyLimitationValue extends eZPersistentObject
 
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function createNew( $limitationID, $value )
     {
@@ -118,7 +119,8 @@ class eZPolicyLimitationValue extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function copy( $limitationID )
     {
@@ -136,7 +138,8 @@ class eZPolicyLimitationValue extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function removeByValue( $value, $policyID = false )
     {
@@ -161,7 +164,8 @@ class eZPolicyLimitationValue extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function remove( $id = false )
     {

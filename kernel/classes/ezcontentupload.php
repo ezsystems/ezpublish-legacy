@@ -226,7 +226,8 @@ class eZContentUpload
                           if not it will create one from scratch.
 
      \return \c false if something failed or \c true if succesful.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function handleLocalFile( &$result, $filePath, $location, $existingNode )
     {
@@ -446,7 +447,8 @@ class eZContentUpload
                           if not it will create one from scratch.
 
      \return \c false if something failed or \c true if succesful.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function handleUpload( &$result, $httpFileIdentifier, $location, $existingNode )
     {

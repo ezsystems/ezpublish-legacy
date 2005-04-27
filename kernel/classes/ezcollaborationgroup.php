@@ -103,7 +103,8 @@ class eZCollaborationGroup extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function addChild( &$group, $store = true )
     {
@@ -121,7 +122,8 @@ class eZCollaborationGroup extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function &instantiate( $userID, $title, $parentGroupID = 0, $isOpen = true )
     {

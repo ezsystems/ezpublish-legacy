@@ -68,7 +68,8 @@ class eZPreferences
      \param $storeUserID The user which should get the preference,
                          if \c false it will use the current user
      \return \c true if the preference was stored correctly or \c false if something went wrong
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function setValue( $name, $value, $storeUserID = false )
     {
@@ -242,7 +243,8 @@ class eZPreferences
     /*!
      \static
      Removes all preferences for all users.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function cleanup()
     {

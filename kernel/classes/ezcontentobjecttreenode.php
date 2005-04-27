@@ -2737,7 +2737,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      Will assign a section to the current node and all child objects.
      Only main node assignments will be updated.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function assignSectionToSubTree( $nodeID, $sectionID, $oldSectionID = false )
     {
@@ -2790,7 +2791,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \param $version The version of the object to update node assignments, use \c false for currently published version.
      \param $parentMainNodeID The ID of the parent node of the current main placement
 
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function updateMainNodeID( $mainNodeID, $objectID, $version = false, $parentMainNodeID )
     {
@@ -3199,7 +3201,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     /*!
      Add a child to the object tree.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &addChild( $contentobjectID, $nodeID = 0, $asObject = false )
     {
@@ -3399,7 +3402,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function updateURLAlias()
     {
@@ -3463,7 +3467,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function updateSubTreePath()
     {
@@ -3560,7 +3565,8 @@ WHERE
     /*!
       Removes the current node.
 
-      \note transaction unsafe.
+      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function remove( $nodeID = 0 )
     {
@@ -3685,7 +3691,8 @@ WHERE
      -- sole_node_count    - The number of nodes in the subtree (excluding current) that does
                              not have multiple locations.
 
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function subtreeRemovalInformation( $deleteIDArray )
     {
@@ -3705,7 +3712,8 @@ WHERE
                       if it is removed. See subtreeRemovalInformation() for the
                       returned structure.
 
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function removeSubtrees( $deleteIDArray, $moveToTrash = true, $infoOnly = false )
     {
@@ -3861,7 +3869,8 @@ WHERE
                          the object will be purged from the system.
 
      \note This uses remove() to do the actual node removal but has some extra logic
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function removeNodeFromTree( $moveToTrash = true )
     {
@@ -3993,7 +4002,8 @@ WHERE
 
     /*!
       Moves the node to the given node.
-      \note transaction unsafe.
+      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function move( $newParentNodeID, $nodeID = 0 )
     {
@@ -4556,7 +4566,8 @@ WHERE
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function deleteNodeWhereParent( $node, $id )
     {
@@ -4650,7 +4661,8 @@ WHERE
      \param isMain
      \param options
 
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function unserialize( $contentNodeDOMNode, $contentObject, $version, $isMain, &$nodeList, $options )
     {
@@ -4753,7 +4765,8 @@ WHERE
 
     /*!
      Update and store modified_subnode value for this node and all super nodes.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function updateAndStoreModified()
     {
@@ -4775,7 +4788,8 @@ WHERE
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function store()
     {
@@ -4963,7 +4977,8 @@ WHERE
      after content/move or content/copy.
      That's why $modifyRootNode argument is used.
 
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &hideSubTree( &$node, $modifyRootNode = true )
     {
@@ -5011,7 +5026,8 @@ WHERE
         Mark root node as not hidden.
      }
 
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &unhideSubTree( &$node, $modifyRootNode = true )
     {

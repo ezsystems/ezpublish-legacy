@@ -172,7 +172,8 @@ class eZContentBrowseBookmark extends eZPersistentObject
      \static
      Creates a new bookmark item for user \a $userID with node id \a $nodeID and name \a $nodeName.
      The new item is returned.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &createNew( $userID, $nodeID, $nodeName )
     {
@@ -209,7 +210,8 @@ class eZContentBrowseBookmark extends eZPersistentObject
     /*!
      \static
      Removes all bookmark entries for all users.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function cleanup()
     {
@@ -220,7 +222,8 @@ class eZContentBrowseBookmark extends eZPersistentObject
     /*!
      \static
      Removes all bookmark entries for node.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function removeByNodeID( $nodeID )
     {

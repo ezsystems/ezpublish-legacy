@@ -146,7 +146,8 @@ class eZRole extends eZPersistentObject
 
     /*!
      Copies this role, stores it and returns it.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function copy()
     {
@@ -163,7 +164,8 @@ class eZRole extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function createTemporaryVersion()
     {
@@ -183,7 +185,8 @@ class eZRole extends eZPersistentObject
     /*!
      \static
      Creates a new role with the name 'New role', stores it and returns it.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function createNew()
     {
@@ -224,7 +227,8 @@ class eZRole extends eZPersistentObject
      $policy3 =& $role->appendPolicy( 'content', 'read', array( 'Class' => array( 2, 5 ) ) );
      \encode
 
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function appendPolicy( $module, $function, $limitations = array() )
     {
@@ -254,7 +258,8 @@ class eZRole extends eZPersistentObject
 
     /*!
      Copies all policies for this role and assigns them to the role identified by ID \a $roleID.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function copyPolicies( $roleID )
     {
@@ -268,7 +273,8 @@ class eZRole extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function revertFromTemporaryVersion()
     {
@@ -302,7 +308,8 @@ class eZRole extends eZPersistentObject
     /*!
      \static
      Removes all temporary roles and roles without policies from the database.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function removeTemporary()
     {
@@ -321,7 +328,8 @@ class eZRole extends eZPersistentObject
      \static
      Removes the role, it's policies and any assignments to users/groups.
      \param $roleID If this is \c false then the function is not static and the ID is fetched from \c $this.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function remove( $roleID = false )
     {
@@ -353,7 +361,8 @@ class eZRole extends eZPersistentObject
     /*!
      Removes the policy object list from this role.
      \param $fromDB If \c true then the policies are removed from database.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function removePolicies( $fromDB = true )
     {
@@ -373,7 +382,8 @@ class eZRole extends eZPersistentObject
     /*!
      \static
      Cleans up policies and role assignments related to node when this node is removed
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function cleanupByNode( $node )
     {
@@ -687,7 +697,8 @@ class eZRole extends eZPersistentObject
 
     /*!
      Assigns the current role to the given user or user group identified by the id.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function assignToUser( $userID, $limitIdent = '', $limitValue = '' )
     {
@@ -758,7 +769,8 @@ class eZRole extends eZPersistentObject
 
     /*!
      Removes the role assignment
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function removeUserAssignment( $userID )
     {
@@ -773,7 +785,8 @@ class eZRole extends eZPersistentObject
      Remove ezuser_role by id
 
      \param ezuser_role id
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function removeUserAssignmentByID( $id )
     {

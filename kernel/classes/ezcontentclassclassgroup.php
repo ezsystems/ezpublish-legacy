@@ -90,7 +90,8 @@ class eZContentClassClassGroup extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function &remove( $contentclass_id, $contentclass_version, $group_id )
     {
@@ -110,7 +111,8 @@ class eZContentClassClassGroup extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function &removeGroupMembers( $group_id )
     {
@@ -119,7 +121,8 @@ class eZContentClassClassGroup extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function &removeClassMembers( $contentclass_id, $contentclass_version )
     {

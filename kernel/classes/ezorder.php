@@ -190,7 +190,8 @@ class eZOrder extends eZPersistentObject
      and sets the copied collection as the current collection.
      \note This will store the order with the new product collection.
      \return the new collection or \c false if something failed.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &detachProductCollection()
     {
@@ -927,7 +928,8 @@ class eZOrder extends eZPersistentObject
 
     /*!
      Removes the order and the product collection it uses.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function purge()
     {
@@ -941,7 +943,8 @@ class eZOrder extends eZPersistentObject
 
     /*!
      Removes the product collection this order uses.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function removeCollection()
     {
@@ -962,7 +965,8 @@ class eZOrder extends eZPersistentObject
 
     /*!
      Removes the product collection item \a $itemID.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function removeItem( $itemID )
     {
@@ -1280,7 +1284,8 @@ class eZOrder extends eZPersistentObject
 
     /*!
      Creates a real order from the temporary state
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function activate()
     {
@@ -1310,7 +1315,8 @@ class eZOrder extends eZPersistentObject
     /*!
      \static
      Removes an order and its related data from the database.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function cleanupOrder( $orderID )
     {
@@ -1333,7 +1339,8 @@ class eZOrder extends eZPersistentObject
     /*!
      \static
      Removes all orders from the database.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function cleanup()
     {

@@ -130,7 +130,8 @@ class eZCollaborationItemHandler
      \static
      Handles a notification event for collaboration items.
      \note The default implementation sends out a generic email.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function handleCollaborationEvent( &$event, &$item, &$parameters )
     {

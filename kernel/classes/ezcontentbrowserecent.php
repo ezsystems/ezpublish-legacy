@@ -189,7 +189,8 @@ class eZContentBrowseRecent extends eZPersistentObject
 
      It will also remove items when the maximum number of items for the user \a $userID is exceeded.
      \sa maximumRecentItems
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &createNew( $userID, $nodeID, $nodeName )
     {
@@ -270,7 +271,8 @@ class eZContentBrowseRecent extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function removeRecentByNodeID( $nodeID )
     {
@@ -279,7 +281,8 @@ class eZContentBrowseRecent extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function updateNodeID( $oldNodeID, $newNodeID )
     {
@@ -290,7 +293,8 @@ class eZContentBrowseRecent extends eZPersistentObject
     /*!
      \static
      Removes all recent entries for all users.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function cleanup()
     {

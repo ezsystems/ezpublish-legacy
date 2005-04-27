@@ -248,7 +248,8 @@ class eZContentClassAttribute extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function storeDefined()
     {
@@ -268,7 +269,8 @@ class eZContentClassAttribute extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function remove()
     {
@@ -394,7 +396,8 @@ class eZContentClassAttribute extends eZPersistentObject
     /*!
      Moves the object down if $down is true, otherwise up.
      If object is at either top or bottom it is wrapped around.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &move( $down, $params = null )
     {

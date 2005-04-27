@@ -230,7 +230,8 @@ class eZBasket extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function removeItem( $itemID )
     {
@@ -258,7 +259,8 @@ class eZBasket extends eZPersistentObject
     /*!
      Will return the basket for the current session. If a basket does not exist one will be created.
      \return current eZBasket object
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &currentBasket( $asObject=true, $byOrderID=-1 )
     {
@@ -305,7 +307,8 @@ class eZBasket extends eZPersistentObject
     /*!
      Creates a temporary order for the current basket.
      The order object is returned.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &createOrder()
     {
@@ -339,7 +342,8 @@ class eZBasket extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function updatePrices()
     {
@@ -389,7 +393,8 @@ class eZBasket extends eZPersistentObject
     /*!
      \static
      Removes all baskets for all users.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function cleanup()
     {

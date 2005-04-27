@@ -193,7 +193,8 @@ class eZNodeAssignment extends eZPersistentObject
 
      \param $parentNodeID The ID of the parent node
      \param $contentObjectID The ID of the object
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function remove( $parentNodeID = false, $contentObjectID = false )
     {
@@ -219,7 +220,8 @@ class eZNodeAssignment extends eZPersistentObject
      \param $assignmentID Either an ID or an array with IDs.
      \return \c true if it were able to remove the assignments, \c false if something failed.
      \note If \a $assignmentID is an empty array it immediately returns \c false.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function removeByID( $assignmentID )
     {
@@ -339,7 +341,8 @@ class eZNodeAssignment extends eZPersistentObject
     \static
     Chooses and sets new main assignment for the specified object, in case if there's main assignment already.
     \return false if there is already main assignment, true on success.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function setNewMainAssignment( $objectID, $version )
     {

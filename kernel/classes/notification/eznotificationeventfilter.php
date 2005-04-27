@@ -54,7 +54,8 @@ class eZNotificationEventFilter
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function process()
     {
@@ -154,7 +155,8 @@ class eZNotificationEventFilter
     /*!
      \static
      Goes through all event handlers and tells them to cleanup.
-     \note transaction unsafe. 
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit. 
     */
     function cleanup()
     {

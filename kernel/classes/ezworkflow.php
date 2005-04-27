@@ -157,7 +157,8 @@ class eZWorkflow extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function removeWorkflow( $id, $version )
     {
@@ -167,7 +168,8 @@ class eZWorkflow extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function remove( $remove_childs = false )
     {
@@ -198,7 +200,8 @@ class eZWorkflow extends eZPersistentObject
     /*!
      \static
      Removes all temporary versions.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function removeTemporary()
     {
@@ -217,7 +220,8 @@ class eZWorkflow extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function removeEvents( $events = false, $id = false, $version = false )
     {
@@ -256,7 +260,8 @@ class eZWorkflow extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function store( $store_childs = false )
     {
@@ -549,7 +554,8 @@ class eZWorkflow extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function cleanupWorkFlowProcess()
     {

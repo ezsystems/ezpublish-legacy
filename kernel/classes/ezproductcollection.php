@@ -91,7 +91,8 @@ class eZProductCollection extends eZPersistentObject
      Copies the collection object, the collection items and options.
      \return the new collection object.
      \note The new collection will already be present in the database.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &copy()
     {
@@ -177,7 +178,8 @@ class eZProductCollection extends eZPersistentObject
      \static
      Removes all product collections which are specified in the array \a $productCollectionIDList.
      Will also remove the product collection items.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function cleanupList( $productCollectionIDList )
     {

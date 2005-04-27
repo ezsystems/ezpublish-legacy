@@ -143,7 +143,8 @@ class eZPolicy extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function &createNew( $roleID , $params = array() )
     {
@@ -189,7 +190,8 @@ class eZPolicy extends eZPersistentObject
      \note The limitation and it's values will be stored to the database before returning.
      \param $identifier The identifier for the limitation, e.g. \c 'Class'
      \param $values Array of values to store for limitation.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &appendLimitation( $identifier, $values )
     {
@@ -221,7 +223,8 @@ class eZPolicy extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function copy( $roleID )
     {
@@ -240,7 +243,8 @@ class eZPolicy extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function remove( $id = false )
     {

@@ -198,7 +198,8 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Store the object
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function store()
     {
@@ -219,7 +220,8 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Update all nodes to set modified_subnode value
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function storeNodeModified()
     {
@@ -284,7 +286,8 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Sets the name of the object in all translations.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function setName( $objectName, $versionNum = false, $translation = false )
     {
@@ -914,7 +917,8 @@ class eZContentObject extends eZPersistentObject
      \param $versionCheck If \c true it will check if there are too many version and
                           remove some of them to make room for a new.
 
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &createNewVersion( $copyFromVersion = false, $versionCheck = false )
     {
@@ -982,7 +986,8 @@ class eZContentObject extends eZPersistentObject
     /*!
      Creates a new version and returns it as an eZContentObjectVersion object.
      If version number is given as argument that version is used to create a copy.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &copyVersion( &$newObject, &$version, $newVersionNumber, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT )
     {
@@ -1077,7 +1082,8 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Makes a copy of the object which is stored and then returns it.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &copy( $allVersions = true )
     {
@@ -1139,7 +1145,8 @@ class eZContentObject extends eZPersistentObject
     /*!
       Reverts the object to the given version. All versions newer then the given version will
       be deleted.
-      \note transaction unsafe.
+      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function revertTo( $version )
     {
@@ -1175,7 +1182,8 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Copies the given version of the object and creates a new current version.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function copyRevertTo( $version )
     {
@@ -1215,7 +1223,8 @@ class eZContentObject extends eZPersistentObject
     /*!
       If nodeID is not given, this function will remove object from database. All versions and translations of this object will be lost.
       Otherwise, it will check node assignment and only delete the object from this node if it was assigned to other nodes as well.
-      \note transaction unsafe.
+      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function purge( $id = false )
     {
@@ -1276,7 +1285,8 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function remove( $id = false, $nodeID = null )
     {
@@ -1736,7 +1746,8 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function storeInput( &$contentObjectAttributes,
                          $attributeInputMap )
@@ -1855,7 +1866,8 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Adds a link to the given content object id.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function addContentObjectRelation( $toObjectID, $fromObjectVersion = false, $fromObjectID = false, $attributeID = 0 )
     {
@@ -1874,7 +1886,8 @@ class eZContentObject extends eZPersistentObject
     /*!
      Removes a link to the given content object id.
      \param $toObjectID If \c false it will delete relations to all the objects.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function removeContentObjectRelation( $toObjectID = false, $fromObjectVersion = false, $fromObjectID = false, $attributeID = 0 )
     {
@@ -2079,7 +2092,8 @@ class eZContentObject extends eZPersistentObject
      \param $isMain \c true if the created node is the main node of the object
      \param $remoteID A string denoting the unique remote ID of the assignment or \c false for no remote id.
      \note The return assignment will already be stored in the database
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &createNodeAssignment( $nodeID, $isMain, $remoteID = false )
     {
@@ -2935,7 +2949,8 @@ class eZContentObject extends eZPersistentObject
      \param owner ID, override owner ID, null to use XML owner id (optional)
 
      \returns created object, false if could not create object/xml invalid
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &unserialize( &$package, &$domNode, $options, $ownerID = false )
     {
@@ -3095,7 +3110,8 @@ class eZContentObject extends eZPersistentObject
      \param array of allowed nodes ( optional )
      \param array of top nodes in current package export (optional )
 
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &serialize( &$package, $specificVersion = false, $options = false, $contentNodeIDArray = false, $topNodeIDArray = false )
     {
@@ -3199,7 +3215,8 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Sets all content cache files to be expired. Both view cache and cache blocks are expired.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function expireAllCache()
     {
@@ -3213,7 +3230,8 @@ class eZContentObject extends eZPersistentObject
     /*!
      Expires all template block cache. This should be expired anytime any content
      is published/modified or removed.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function expireTemplateBlockCache()
     {
@@ -3236,7 +3254,8 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Sets all complex viewmode content cache files to be expired.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function expireComplexViewModeCache()
     {
@@ -3329,7 +3348,8 @@ class eZContentObject extends eZPersistentObject
      Will remove all version that match the status set in \a $versionStatus.
      \param $versionStatus can either be a single value or an array with values,
                            if \c false the function will remove all status except published.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function removeVersions( $versionStatus = false )
     {

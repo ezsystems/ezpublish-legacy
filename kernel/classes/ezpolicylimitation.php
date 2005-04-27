@@ -162,7 +162,8 @@ class eZPolicyLimitation extends eZPersistentObject
     }
 
     /*! 
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function createNew( $policyID, $identifier )
     {
@@ -189,7 +190,8 @@ class eZPolicyLimitation extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function &removeSelected( $ID )
     {
@@ -217,7 +219,8 @@ class eZPolicyLimitation extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function copy( $policyID )
     {
@@ -229,7 +232,8 @@ class eZPolicyLimitation extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
      */
     function remove( $id = false )
     {

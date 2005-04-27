@@ -187,7 +187,8 @@ class eZURLAlias extends eZPersistentObject
 
     /*!
      Generates the md5 for the alias and stores the values.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function store()
     {
@@ -217,7 +218,8 @@ class eZURLAlias extends eZPersistentObject
      \static
      Makes sure all aliases which are children of the alias \a $oldPathString is updated
      to have the correct \a $newPathString.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function updateChildAliases( $newPathString, $oldPathString )
     {
@@ -264,7 +266,8 @@ WHERE
 
     /*!
      Removes all wildcards that matches the base URL \a $baseURL.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function cleanupWildcards( $baseURL )
     {
@@ -279,7 +282,8 @@ WHERE
 
     /*!
      Removes forwarding urls where source_url match \a $oldURL.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function cleanupForwardingURLs( $oldURL )
     {
@@ -295,7 +299,8 @@ WHERE
     /*!
      Updates all forwards urls that originally points to \a $oldForwardID
      to point to correct url \a $newForardID.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function updateForwardID( $newForwardID, $oldForwardID )
     {

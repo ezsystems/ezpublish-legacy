@@ -239,7 +239,8 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
      \reimp
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function store()
     {
@@ -273,7 +274,8 @@ class eZContentObjectAttribute extends eZPersistentObject
 
      If you have some datatype code that needs to store attribute data you should
      call this instead of store(), this function will avoid infinite recursion.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function storeData()
     {
@@ -294,7 +296,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Copies the sort key value from the attribute according to the datatype rules.
      \note The attribute is not stored
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function updateSortKey( $storeData = true )
     {
@@ -333,7 +336,8 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
      Store one row into content attribute table
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function storeNewRow()
     {
@@ -690,7 +694,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     }
 
     /*!
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function onPublish( &$object, &$nodes  )
     {
@@ -824,7 +829,8 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
      Initialized the attribute by using the datatype.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function initialize( $currentVersion = null, $originalContentObjectAttribute = null )
     {
@@ -851,7 +857,8 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
      Remove the attribute by using the datatype.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &remove( $id, $currentVersion = null )
     {
@@ -900,7 +907,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Clones the attribute to the translation \a $languageCode.
      \note The cloned attribute is not stored.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &translateTo( $languageCode )
     {

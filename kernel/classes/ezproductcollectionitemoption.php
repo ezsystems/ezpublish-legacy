@@ -117,7 +117,8 @@ class eZProductCollectionItemOption extends eZPersistentObject
      the new copy will point to the collection item \a $collectionItemID.
      \return the new collection item option object.
      \note The new collection item option will already be present in the database.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &copy( $collectionItemID )
     {
@@ -141,7 +142,8 @@ class eZProductCollectionItemOption extends eZPersistentObject
     /*!
      \static
      Removes all product collections options which are related to the collection items specified in the array \a $itemIDList.
-     \note transaction unsafe.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function cleanupList( $itemIDList )
     {
