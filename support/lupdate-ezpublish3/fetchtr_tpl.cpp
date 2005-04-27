@@ -192,11 +192,32 @@ static void parse( MetaTranslator *tor, const QString &filename )
     }
 }
 
-void fetchtr_tpl( QFileInfo *fi, MetaTranslator *tor, bool mustExist )
+void fetchtr_tpl( QFileInfo *fi, MetaTranslator *tor, bool mustExist, bool assumeUTF8 )
 {
     QFile file( fi->filePath() );
     if ( file.open( IO_ReadOnly ) )
+    {
+        // Hack: Check if the template is utf8
+        QTextStream testStream;
+        testStream.setDevice( &file );
+        QString testContent = testStream.read();
+        file.close();
+        if ( file.open( IO_ReadOnly ) )
+        {
+            if ( ( testContent.startsWith( "{*?template charset=", false ) &&
+                   ( testContent.startsWith( "{*?template charset=utf8?*}", false ) ||
+                     testContent.startsWith( "{*?template charset=utf-8?*}", false ) ) ) ||
+                 assumeUTF8 )
+            {
+                stream.setEncoding( QTextStream::UnicodeUTF8 );
+            }
+            else
+            {
+                stream.setEncoding( QTextStream::Locale );
+            }
+        }
         stream.setDevice( &file );
+    }
     else if ( mustExist )
     {
         qWarning( "lupdate error: cannot open translation file '%s'",
