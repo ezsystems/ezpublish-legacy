@@ -98,6 +98,8 @@ fi
 if [ "$CHECK_TYPE" = "previous" ]; then
     if [ "$DEVELOPMENT_PREVIOUS" == "true" ]; then
         SUBPATH="unstable/"
+    elif [ "$DEVELOPMENT" == "true" ]; then
+        SUBPATH="unstable/"
     fi
 else
     if [ "$DEVELOPMENT" == "true" ]; then
