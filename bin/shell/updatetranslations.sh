@@ -26,17 +26,8 @@ for arg in $*; do
     esac;
 done
 
-if [ ! -f bin/linux/ezlupdate ]; then
-    echo "You do not have the ezlupdate program compiled"
-    echo "this is required to create a distribution"
-    echo
-    echo "cd support/lupdate-ezpublish3"
-    echo "qmake ezlupdate.pro"
-    echo "make"
-    echo
-    echo "NOTE: qmake may in some cases not be in PATH, provide the full path in those cases"
-    exit 1
-fi
+# Check ezlupdate
+ezdist_check_ezlupdate
 
 dir=`pwd`
 echo -n "Processing: "
