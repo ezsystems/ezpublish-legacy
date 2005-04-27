@@ -87,7 +87,7 @@ bool TsHandler::startElement( const QString& /* namespaceURI */,
 		if ( n != 0 )
 		    accum += QChar( n );
 	    }
-	}	
+	}
     } else {
 	if ( qName == QString("context") ) {
 	    context.truncate( 0 );
@@ -455,7 +455,7 @@ bool MetaTranslator::release( const QString& filename, bool verbose ) const
     if ( saved && verbose )
 	qWarning( " %d finished, %d unfinished and %d untranslated messages",
 		  finished, unfinished, untranslated );
-		
+
     return saved;
 }
 

@@ -40,17 +40,17 @@
 
 
 // used in eZ publish mode
-void traverse( const QDir &dir, MetaTranslator &fetchedTor );
+void traverse( const QDir &dir, MetaTranslator &fetchedTor, bool assumeUTF8 = false );
 
 // defined in fetchtr_php.cpp and fetchtr_tpl.cpp
 extern void fetchtr_php( QFileInfo *fi, MetaTranslator *tor, bool mustExist );
-extern void fetchtr_tpl( QFileInfo *fi, MetaTranslator *tor, bool mustExist );
+extern void fetchtr_tpl( QFileInfo *fi, MetaTranslator *tor, bool mustExist, bool assumeUTF8 = false );
 
 // defined in merge.cpp
 extern void merge( MetaTranslator *tor, const MetaTranslator *virginTor, const QString &language, bool verbose );
 
 static int verbose = 0;
-static QString version = "3.5.3"; // eZ publish version plus local version
+static QString version = "3.5.2"; // eZ publish version plus local version
 static QStringList dirs;          // Additional scan directories
 static bool extension = false;    // Extension mode
 static QDir extension_dir;        // Extension directory
@@ -69,6 +69,7 @@ static void printUsage()
               "                              and designs\n"
               "    -u, --untranslated        Create/update the untranslated file as well\n"
               "    -no, --noobsolete         Drop all obsolete strings\n"
+              "    --utf8                    Assume UTF8 when the encoding is uncertain\n"
               "    -v, --verbose             Explain what is being done\n"
               "    -vv                       Really explain what is being done\n"
               "    --version                 Display the version of ezlupdate and exit\n" );
@@ -85,6 +86,7 @@ int main( int argc, char **argv )
 
     // Argument handling
     bool noObsolete = false;
+    bool assumeUTF8 = false;
     QStringList languages;
     for ( int i = 1; i < argc; i++ )
     {
@@ -147,6 +149,11 @@ int main( int argc, char **argv )
                   qstrcmp( argv[i], "-no" ) == 0 )
         {
             noObsolete = true;
+            continue;
+        }
+        else if ( qstrcmp( argv[i], "--utf8" ) == 0 )
+        {
+            assumeUTF8 = true;
             continue;
         }
         else if ( qstrcmp( argv[i], "--verbose" ) == 0 ||
@@ -225,36 +232,43 @@ int main( int argc, char **argv )
     }
 
     // Start the real job
+    QDir dir;
+    QString currentPath = dir.absPath();
     MetaTranslator fetchedTor;
     if ( extension )
     {
         if ( verbose )
             qWarning( "Checking eZ publish extension directory: '%s'", extension_dir.absPath().latin1() );
-        traverse( extension_dir.path(), fetchedTor );
+        dir.setCurrent( extension_dir.absPath() );
+        traverse( dir.currentDirPath(), fetchedTor, assumeUTF8 );
     }
     else
     {
-        QDir dir;
         if ( verbose )
             qWarning( "Checking eZ publish directory: '%s'", dir.absPath().latin1() );
+//        traverse( dir.path() + QDir::separator() + "kernel", fetchedTor, assumeUTF8 );
+//        traverse( dir.path() + QDir::separator() + "lib", fetchedTor, assumeUTF8 );
+//        traverse( dir.path() + QDir::separator() + "design", fetchedTor, assumeUTF8 );
 
         // Fix for bug in qt win free, only reads content of current directory
-//        traverse( dir.path() + QDir::separator() + "kernel", fetchedTor );
-//        traverse( dir.path() + QDir::separator() + "lib", fetchedTor );
-//        traverse( dir.path() + QDir::separator() + "design", fetchedTor );
-        QString currentPath = dir.absPath();
         dir.setCurrent( currentPath + "/kernel" );
-        traverse( dir.currentDirPath(), fetchedTor );
+        traverse( dir.currentDirPath(), fetchedTor, assumeUTF8 );
         dir.setCurrent( currentPath + "/lib" );
-        traverse( dir.currentDirPath(), fetchedTor );
+        traverse( dir.currentDirPath(), fetchedTor, assumeUTF8 );
         dir.setCurrent( currentPath + "/design" );
-        traverse( dir.currentDirPath(), fetchedTor );
-        dir.setCurrent( currentPath );
+        traverse( dir.currentDirPath(), fetchedTor, assumeUTF8 );
     }
 
     // Additional directories
+    dir.setCurrent( currentPath );
     for ( QStringList::Iterator it = dirs.begin(); it != dirs.end(); ++it )
-        traverse( *it, fetchedTor );
+    {
+        dir.setCurrent( *it );
+        traverse( dir.currentDirPath(), fetchedTor, assumeUTF8 );
+    }
+
+    // Cleanup
+    dir.setCurrent( currentPath );
 
 //         // Try to find codec from locale file
 //         QString codec;
@@ -311,7 +325,7 @@ int main( int argc, char **argv )
 /**!
    Recursively traverse an eZ publish directory
 */
-void traverse( const QDir &dir, MetaTranslator &fetchedTor )
+void traverse( const QDir &dir, MetaTranslator &fetchedTor, bool assumeUTF8 )
 {
     if ( verbose )
         qWarning( "   Checking subdirectory '%s'", dir.path().latin1() );
@@ -333,22 +347,22 @@ void traverse( const QDir &dir, MetaTranslator &fetchedTor )
         {
             QDir subdir = dir;
             subdir.setCurrent( subdir.path() + QDir::separator() + fi->fileName() );
-            traverse( subdir.currentDirPath(), fetchedTor );
+            traverse( subdir.currentDirPath(), fetchedTor, assumeUTF8 );
             subdir.setCurrent( dir.path() );
         }
         else
         {
-            if ( fi->fileName().endsWith( ".php" ) )
+            if ( fi->fileName().endsWith( ".php", false ) )
             {
                 if ( verbose > 1 )
                     qWarning( "      Checking '%s'", fi->fileName().latin1() );
                 fetchtr_php( fi, &fetchedTor, true );
             }
-            else if ( fi->fileName().endsWith( ".tpl" ) )
+            else if ( fi->fileName().endsWith( ".tpl", false ) )
             {
                 if ( verbose > 1 )
                     qWarning( "      Checking '%s'", fi->fileName().latin1() );
-                fetchtr_tpl( fi, &fetchedTor, true );
+                fetchtr_tpl( fi, &fetchedTor, true, assumeUTF8 );
             }
         }
     }
