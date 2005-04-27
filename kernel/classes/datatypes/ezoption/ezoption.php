@@ -67,6 +67,11 @@ class eZOption
         $this->OptionCount = 0;
     }
 
+    function attributes()
+    {
+        return array( 'name', 'option_list' );
+    }
+
     /*!
      Sets the name of the option
     */
@@ -75,6 +80,7 @@ class eZOption
         $this->Name = $name;
     }
 
+             
     /*!
      Returns the name of the option set.
     */
