@@ -1,4 +1,4 @@
-Changes from 3.5.0 to 3.6.0alpha1
+Changes from 3.5.2 to 3.6.0beta1
 
 *Kernel:
 - Rewritten login handler. Supports beeing placed in extensions, and interrupt in several stages of the login process.

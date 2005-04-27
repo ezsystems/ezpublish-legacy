@@ -1,4 +1,4 @@
-UPDATE ezsite_data SET value='3.6.0alpha1' WHERE name='ezpublish-version';
+UPDATE ezsite_data SET value='3.6.0beta1' WHERE name='ezpublish-version';
 UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
 
 CREATE TABLE eztipafriend_request (

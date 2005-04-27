@@ -146,7 +146,7 @@ $versions35 = array( 'unstable' => array( array( '3.4.2', '3.5.0alpha1' )
                                         ,array( '3.5.0', '3.5.1' )
                                         ,array( '3.5.1', '3.5.2' )
                                         ) );
-$versions36 = array( 'unstable' => array( array( '3.5.0', '3.6.0alpha1' )
+$versions36 = array( 'unstable' => array( array( '3.5.2', '3.6.0beta1' )
                                           ),
                      'unstable_subdir' => 'unstable',
                      'stable' => array( ) );

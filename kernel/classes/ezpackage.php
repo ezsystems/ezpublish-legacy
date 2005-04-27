@@ -51,8 +51,8 @@ include_once( 'lib/ezfile/classes/ezfile.php' );
 include_once( 'lib/ezfile/classes/ezdir.php' );
 include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 
-define( 'EZ_PACKAGE_VERSION', '3.6.0alpha1' );
-define( 'EZ_PACKAGE_DEVELOPMENT', true );
+define( 'EZ_PACKAGE_VERSION', '3.5.2' );
+define( 'EZ_PACKAGE_DEVELOPMENT', false );
 define( 'EZ_PACKAGE_USE_CACHE', true );
 define( 'EZ_PACKAGE_CACHE_CODEDATE', 1069339607 );
 
