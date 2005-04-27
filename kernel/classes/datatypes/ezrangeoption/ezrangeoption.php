@@ -111,6 +111,14 @@ class eZRangeOption
         }
     }
 
+    /*!
+     \return list of supported attributes
+    */
+    function attributes()
+    {
+        return array( 'name', 'start_value', 'stop_value', 'step_value', 'option_list' );
+    }
+
     function addOption( $valueArray )
     {
         $this->Options[] = array( "id" => $this->OptionCount,

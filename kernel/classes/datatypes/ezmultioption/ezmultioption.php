@@ -311,6 +311,14 @@ class eZMultiOption
     }
 
     /*!
+     \return list of supported attributes
+    */
+    function attributes()
+    {
+        return array( 'name', 'multioption_list' );
+    }
+
+    /*!
     Will decode an xml string and initialize the eZ Multi option object.
     If $xmlString is on empty then it will call addMultiOption() and addOption() functions
     to create new multioption else it will decode the xml string.
