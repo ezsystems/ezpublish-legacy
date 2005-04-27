@@ -873,7 +873,8 @@ class eZSys
                             $requestURI = $req[1];
                             $index = '';
                         }
-                        elseif ( ereg( "^$wwwDir(.*)", $requestURI, $req ) )
+                        elseif ( $phpSelf == "$wwwDir$index" and ereg( "^$wwwDir$index(.*)", $requestURI, $req ) or
+                                 ereg( "^$wwwDir(.*)", $requestURI, $req ) )
                         {
                             $requestURI = $req[1];
                         }
