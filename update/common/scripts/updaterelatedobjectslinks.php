@@ -60,7 +60,7 @@ $script =& eZScript::instance( array( 'description' => ( "\nDatabase converter f
                                                          "Updates 'ezcontentobject_link' table by adding related objects links made with\n" .
                                                          "attributes of 'ezobjectrelation' and 'ezobjectrelationlist' types.\n\n" .
                                                          "Run this script before using database created with eZ publish version 3.5.* or lower.\n" .
-                                                         "Don't forget to update database structute before running this script." ),
+                                                         "Don't forget to update database structure before running this script." ),
                                       'use-session' => false,
                                       'use-modules' => false,
                                       'use-extensions' => false ) );
