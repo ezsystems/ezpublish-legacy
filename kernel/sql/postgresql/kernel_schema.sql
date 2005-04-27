@@ -2834,7 +2834,7 @@ CREATE INDEX ezsubtree_notification_rule_user_id ON ezsubtree_notification_rule 
 
 
 
-CREATE INDEX created ON eztipafriend_request USING btree (created);
+CREATE INDEX eztipafriend_request_created ON eztipafriend_request USING btree (created);
 
 
 
@@ -2842,7 +2842,7 @@ CREATE INDEX created ON eztipafriend_request USING btree (created);
 
 
 
-CREATE INDEX email_receiver ON eztipafriend_request USING btree (email_receiver);
+CREATE INDEX eztipafriend_request_email_rec ON eztipafriend_request USING btree (email_receiver);
 
 
 
