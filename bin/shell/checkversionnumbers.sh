@@ -22,6 +22,9 @@ STATE="alpha1"
 VERSION=$MAJOR"."$MINOR"."$RELEASE""$STATE
 VERSION_ONLY=$MAJOR"."$MINOR
 BRANCH_VERSION=$MAJOR"."$MINOR
+# This is the version of the package format, this must be updated only if the format has changes.
+PACKAGE_VERSION="3.5.2"
+PACKAGE_DEVELOPMENT="false"
 # Is automatically set to 'true' when $STATE contains some text
 DEVELOPMENT="true"
 # Whether the previous release is a development release or not.
@@ -269,12 +272,12 @@ check_dbfiles_update "$FIX"
 
 function package_check_version
 {
-    if ! grep "define( 'EZ_PACKAGE_VERSION', '$VERSION' );" kernel/classes/ezpackage.php &>/dev/null; then
+    if ! grep "define( 'EZ_PACKAGE_VERSION', '$PACKAGE_VERSION' );" kernel/classes/ezpackage.php &>/dev/null; then
 	if [ -z "$1" ]; then
 	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
 	    echo "Wrong version number in `$SETCOLOR_EXE`kernel/classes/ezpackage.php`$SETCOLOR_NORMAL` for variable EZ_PACKAGE_VERSION"
 	    echo "Should be:"
-	    echo "define( 'EZ_PACKAGE_VERSION', '`$SETCOLOR_EMPHASIZE`$VERSION`$SETCOLOR_NORMAL`' );"
+	    echo "define( 'EZ_PACKAGE_VERSION', '`$SETCOLOR_EMPHASIZE`$PACKAGE_VERSION`$SETCOLOR_NORMAL`' );"
 	    echo
 	fi
 	MAIN_ERROR="1"
@@ -287,12 +290,12 @@ function package_check_version
 
 function package_check_version_development
 {
-    if ! grep "define( 'EZ_PACKAGE_DEVELOPMENT', $DEVELOPMENT );" kernel/classes/ezpackage.php &>/dev/null; then
+    if ! grep "define( 'EZ_PACKAGE_DEVELOPMENT', $PACKAGE_DEVELOPMENT );" kernel/classes/ezpackage.php &>/dev/null; then
 	if [ -z "$1" ]; then
 	    echo "`$SETCOLOR_FAILURE`Setting mismatch`$SETCOLOR_NORMAL`"
 	    echo "Wrong setting in `$SETCOLOR_EXE`kernel/classes/ezpackage.php`$SETCOLOR_NORMAL` for variable EZ_PACKAGE_DEVELOPMENT"
 	    echo "Should be:"
-	    echo "define( 'EZ_PACKAGE_DEVELOPMENT', `$SETCOLOR_EMPHASIZE`$DEVELOPMENT`$SETCOLOR_NORMAL` );"
+	    echo "define( 'EZ_PACKAGE_DEVELOPMENT', `$SETCOLOR_EMPHASIZE`$PACKAGE_DEVELOPMENT`$SETCOLOR_NORMAL` );"
 	    echo
 	fi
 	MAIN_ERROR="1"
@@ -305,13 +308,13 @@ function package_check_version_development
 
 package_check_version "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i "s/^define( 'EZ_PACKAGE_VERSION', '[^']*' *)/define( 'EZ_PACKAGE_VERSION', '$VERSION' )/" kernel/classes/ezpackage.php
+    sed -i "s/^define( 'EZ_PACKAGE_VERSION', '[^']*' *)/define( 'EZ_PACKAGE_VERSION', '$PACKAGE_VERSION' )/" kernel/classes/ezpackage.php
     package_check_version ""
 fi
 
 package_check_version_development "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i "s/^define( 'EZ_PACKAGE_DEVELOPMENT',[^)]*)/define( 'EZ_PACKAGE_DEVELOPMENT', $DEVELOPMENT )/" kernel/classes/ezpackage.php
+    sed -i "s/^define( 'EZ_PACKAGE_DEVELOPMENT',[^)]*)/define( 'EZ_PACKAGE_DEVELOPMENT', $PACKAGE_DEVELOPMENT )/" kernel/classes/ezpackage.php
     package_check_version_development ""
 fi
 
