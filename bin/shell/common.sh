@@ -66,6 +66,67 @@ SETCOLOR_NORMAL="echo -en \\033[0;39m"
 POSITION_STORE="echo -en \\033[s"
 POSITION_RESTORE="echo -en \\033[u"
 
+# Checks if ezlupdate is compiled
+# Parameters: CHECK_ONLY
+# CHECK_ONLY: If this is set to 1 it will not ask the interact with the user
+function ezdist_check_ezlupdate
+{
+    local check
+    check="$1"
+
+    if [ ! -f bin/linux/ezlupdate ]; then
+	[ "x$check" == "x1" ] && return 1
+	echo "You do not have the ezlupdate program compiled"
+	echo "this is required to create a distribution"
+	echo
+	echo "(cd support/lupdate-ezpublish3; qmake; make)"
+	echo
+	echo "NOTE: qmake may in some cases not be in PATH, provide the full path in those cases"
+	echo
+
+	while [ 1 ]; do
+	    echo -n "Do you wish updatetranslation.sh to compile ezlupdate for you? [Yes|no] "
+	    read make_it
+	    make_it=`echo $make_it | tr A-Z a-z`
+	    [ -z "$make_it" ] && make_it="y"
+	    case "$make_it" in
+		y|yes)
+		    make_it="1"
+		    ;;
+		n|no|q|quit)
+		    exit 1
+		    ;;
+		*)
+		    echo "Invalid answer $make_it, use y|yes|n|no"
+		    make_it=""
+		    ;;
+	    esac
+	    if [ -n "$make_it" ]; then
+		echo
+		echo "Building ezlupdate"
+		echo
+		(cd support/lupdate-ezpublish3 &&
+		    qmake &&
+		    make)
+		if [ $? -ne 0 ]; then
+		    echo "Failed to build ezlupdate automatically"
+		    exit 1
+		fi
+		break
+	    fi
+	done
+	if [ ! -f bin/linux/ezlupdate ]; then
+	    echo
+	    echo "The compilation process for ezlupdate was successful but the executable"
+	    echo "bin/linux/ezlupdate could not be found"
+	    echo
+	    echo "Try building the executable yourself"
+	    exit 1
+	fi
+    fi
+    return 0
+}
+
 # Moves the console cursor to a given column
 # If the column is not specified it uses the default
 # which is defined in $RES_COL
