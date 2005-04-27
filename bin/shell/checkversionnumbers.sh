@@ -416,7 +416,7 @@ fi
 
 function doxygen_check_version
 {
-    if ! grep -E "PROJECT_NUMBER[ ]+=[ ]+$VERSION" doc/doxygen/Doxyfile &>/dev/null; then
+    if ! grep -E "PROJECT_NUMBER[ ]+=[ ]+$VERSION$" doc/doxygen/Doxyfile &>/dev/null; then
 	if [ -z "$1" ]; then
 	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
 	    echo "Wrong version number in `$SETCOLOR_EXE`doc/doxygen/Doxyfile`$SETCOLOR_NORMAL` for variable PROJECT_NUMBER"
@@ -434,7 +434,7 @@ function doxygen_check_version
 
 doxygen_check_version "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i 's/^PROJECT_NUMBER[ ]*=[ ]*[0-9.-][0-9.-]*/PROJECT_NUMBER         = '$VERSION'/' doc/doxygen/Doxyfile
+    sed -i 's/^PROJECT_NUMBER[ ]*=[ ]*.*$/PROJECT_NUMBER         = '$VERSION'/' doc/doxygen/Doxyfile
     doxygen_check_version ""
 fi
 
