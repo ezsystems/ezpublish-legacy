@@ -758,28 +758,44 @@ class eZDBInterface
             $site = eZSys::serverVariable( 'HTTP_HOST' );
             $uri = eZSys::serverVariable( 'REQUEST_URI' );
 
-            print( "<div class=\"fatal-error\" style=\"" );
-            print( 'margin: 0.5em 0 1em 0; ' .
-                   'padding: 0.25em 1em 0.75em 1em;' .
-                   'border: 4px solid #000000;' .
-                   'background-color: #f8f8f4;' .
-                   'border-color: #f95038;" >' );
-            print( "<b>Fatal error</b>: A database transaction in eZ publish failed.<br/>" );
-            print( "<p>" );
-            print( "The current execution was stopped to prevent further problems.<br/>\n" .
-                   "You should contact the <a href=\"mailto:$adminEmail?subject=Transaction failed on $site and URI $uri with ID $transID\">System Administrator</a> of this site with the information on this page.<br/>\n" .
-                   "The current transaction ID is <b>$transID</b> and has been logged.<br/>\n" .
-                   "Please include the transaction ID and the current URL when contacting the system administrator.<br/>\n" );
-            print( "</p>" );
-            print( "</div>" );
-            $templateResult = null;
-            if ( function_exists( 'eZDisplayResult' ) )
+            $htmlErrors = ini_get( 'html_errors' );
+
+            if ( $htmlErrors )
             {
-                eZDisplayResult( $templateResult );
+                print( "<div class=\"fatal-error\" style=\"" );
+                print( 'margin: 0.5em 0 1em 0; ' .
+                       'padding: 0.25em 1em 0.75em 1em;' .
+                       'border: 4px solid #000000;' .
+                       'background-color: #f8f8f4;' .
+                       'border-color: #f95038;" >' );
+                print( "<b>Fatal error</b>: A database transaction in eZ publish failed.<br/>" );
+                print( "<p>" );
+                print( "The current execution was stopped to prevent further problems.<br/>\n" .
+                       "You should contact the <a href=\"mailto:$adminEmail?subject=Transaction failed on $site and URI $uri with ID $transID\">System Administrator</a> of this site with the information on this page.<br/>\n" .
+                       "The current transaction ID is <b>$transID</b> and has been logged.<br/>\n" .
+                       "Please include the transaction ID and the current URL when contacting the system administrator.<br/>\n" );
+                print( "</p>" );
+                print( "</div>" );
+
+                $templateResult = null;
+                if ( function_exists( 'eZDisplayResult' ) )
+                {
+                    eZDisplayResult( $templateResult );
+                }
+            }
+            else
+            {
+                print( "Fatal error: A database transaction in eZ publish failed.\n" );
+                print( "\n" );
+                print( "The current execution was stopped to prevent further problems.\n" .
+                       "You should contact the System Administrator ($adminEmail) of this site with the information on this page.\n" .
+                       "The current transaction ID is $transID and has been logged.\n" .
+                       "Please include the transaction ID and the current URL when contacting the system administrator.\n" );
+                print( "\n" );
             }
 
             // PHP execution stops here
-            exit;
+            exit( 1 );
         }
     }
 
