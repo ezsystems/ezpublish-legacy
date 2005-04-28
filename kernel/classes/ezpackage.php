@@ -1346,7 +1346,7 @@ class eZPackage
     */
     function storeString( $filename, $data )
     {
-        $file = fopen( $filename, 'w' );
+        $file = @fopen( $filename, 'w' );
         if ( $file )
         {
             fwrite( $file, $data );
@@ -1360,6 +1360,10 @@ class eZPackage
                                          "Stored file $filename",
                                          'eZPackage::storeString' );
             return true;
+        }
+        else
+        {
+            eZDebug::writeError( "Failed to write package '$filename'" );
         }
         return false;
     }
