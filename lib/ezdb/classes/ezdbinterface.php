@@ -785,13 +785,15 @@ class eZDBInterface
             }
             else
             {
-                print( "Fatal error: A database transaction in eZ publish failed.\n" );
-                print( "\n" );
-                print( "The current execution was stopped to prevent further problems.\n" .
+                fputs( STDERR,"Fatal error: A database transaction in eZ publish failed.\n" );
+                fputs( STDERR, "\n" );
+                fputs( STDERR, "The current execution was stopped to prevent further problems.\n" .
                        "You should contact the System Administrator ($adminEmail) of this site with the information on this page.\n" .
                        "The current transaction ID is $transID and has been logged.\n" .
                        "Please include the transaction ID and the current URL when contacting the system administrator.\n" );
-                print( "\n" );
+                fputs( STDERR, "\n" );
+
+                fputs( STDERR, eZDebug::printReport( false, false, true ) );
             }
 
             // PHP execution stops here
