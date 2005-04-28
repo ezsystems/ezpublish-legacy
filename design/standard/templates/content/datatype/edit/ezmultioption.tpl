@@ -2,6 +2,11 @@
 
 {default attribute_base=ContentObjectAttribute}
 
+<div class="block">
+<label>{'Option set name'|i18n( 'design/standard/content/datatype/ezmultioption' )}:</label>
+<input class="box" type="text" name="{$attribute_base}_data_optionset_name_{$attribute.id}" value="{$attribute.content.name}" />
+</div>
+
 {section show=$attribute.content.multioption_list}
 <table class="special" cellspacing="0">
 {section var=MultiOptionList loop=$attribute.content.multioption_list sequence=array( bglight, bgdark )}
