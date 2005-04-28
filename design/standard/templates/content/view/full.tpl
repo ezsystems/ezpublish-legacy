@@ -10,7 +10,7 @@
 <p class="box">{$object.current_version}</p>
 </div>
 
-{section name=ContentObjectAttribute loop=$version_attributes}
+{section name=ContentObjectAttribute loop=$object.contentobject_attributes}
 <div class="block">
 <label>{$ContentObjectAttribute:item.contentclass_attribute.name|wash}:</label><div class="labelbreak"></div>
 {attribute_view_gui attribute=$ContentObjectAttribute:item}
