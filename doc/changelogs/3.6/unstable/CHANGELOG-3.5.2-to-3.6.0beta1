@@ -351,6 +351,7 @@ eZInformationCollection:
 - Fixed bug #6510: ezlupdate did not work with UTF-8 templates
 - Fixed wrong handling of the option set name in ezmultioption datatype.
   (Merged from stable/3.5 (3.5.3) rev. 11594)
+- Fixed bug #6478: 'choose' operator returns wrong value.
 
 *Library:
 PDF:
