@@ -862,7 +862,7 @@ if [ -z "$SKIP_CHANGELOGS" -a "$SVN_EXPORT" == "svn" ]; then
 	changelog_url="$REPOSITORY_BASE_URL/$REPOSITORY_STABLE_BRANCH_PATH/$version/doc/changelogs/$version"
 	rm -rf "$DEST/doc/changelogs/$version"
 	echo -n " `ez_store_pos`$version"
-        svn export "$CHANGELOGS_LOCALTION" "$DEST/doc/changelogs/$version" &>/dev/null
+        svn export "$changelog_url" "$DEST/doc/changelogs/$version" &>/dev/null
 	if [ $? -ne 0 ]; then
 	    ez_result_output 1 "Failed to check out changelogs for version `$SETCOLOR_EMPHASIZE`$version`$SETCOLOR_NORMAL`"
 	    exit 1
