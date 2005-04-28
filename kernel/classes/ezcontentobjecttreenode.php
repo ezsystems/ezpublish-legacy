@@ -1319,8 +1319,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $useVersionName )
         {
-            // Find the default language for use if lang is not set or wrong.
-            $defaultLanguage = eZContentObject::defaultLanguage();
             if ( $lang )
             {
                 // Escape the language string
@@ -1329,7 +1327,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             else // Set the language to the default if the parameter is not set.
             {
-                $lang = $defaultLanguage;
+                $lang = eZContentObject::defaultLanguage();
             }
 
             if ( $includeAnd )
