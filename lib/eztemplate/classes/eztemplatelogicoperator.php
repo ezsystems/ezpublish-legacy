@@ -585,6 +585,7 @@ class eZTemplateLogicOperator
                           "     %1% >= $count )\n" .
                           "{\n" .
                           "    \$tpl->error( $operatorNameText, \"Index \" . %1% . \" out of range\" );\n" .
+                          "     %output% = false;\n" .
                           "}\n" );
                 $code .= "else switch ( %1% )\n{\n";
                 $valueNumber = 2;
@@ -812,6 +813,7 @@ class eZTemplateLogicOperator
                 {
                     $tpl->error( $operatorName, "Index $index out of range 0 => " . ( count( $operatorParameters ) - 1 ),
                                  $placement );
+                    $value = false;
                     return;
                 }
                 $value = $tpl->elementValue( $operatorParameters[$index], $rootNamespace, $currentNamespace, $placement );
