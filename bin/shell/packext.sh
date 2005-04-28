@@ -231,11 +231,6 @@ function create_extension_archive
         EXTENSION_TGZFILE="$EXTENSION_ARCHIVE_NAME""-extension-$EXTENSION_VERSION.tgz"
     fi
 
-    # Store paypal archive name
-    if [ "$EXTENSION_IDENTIFIER" = "ezpaypal" ]; then
-        EXTENSION_PAYPAL_ARCHIVE="$OUTPUT_DIR/$EXTENSION_TGZFILE"
-    fi
-
     echo -n "Creating extension archive `ez_color_file $EXTENSION_TGZFILE`"
     (cd "$OUTPUT_DIR"
         rm -f "$EXTENSION_TGZFILE"
@@ -279,7 +274,8 @@ apply_filters
 create_extension_archive
 clean_dirs_up
 echo "Extension `ez_color_em $EXTENSION_IDENTIFIER` has been packaged to `ez_color_dir $OUTPUT_DIR/$EXTENSION_TGZFILE`"
-# Let makedist.sh know about name of the package we have created.
+# Let makedist.sh know about name and identifier of the package we have created.
 [ -f .ez.extension-name ] && echo -n $EXTENSION_TGZFILE > .ez.extension-name
+[ -f .ez.extension-id ] && echo -n $EXTENSION_IDENTIFIER > .ez.extension-id
 exit 0
 

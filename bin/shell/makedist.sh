@@ -199,14 +199,6 @@ for arg in $*; do
             echo "         --use-svn-server           Do all operation using SVN server"
             echo "         --use-working-copy         Do all operations on working copy, SVN server is not contacted"
 	    echo
-
-	    # Show options for database
-	    ezdist_db_show_options
-
-	    echo "SVN options:"
-            echo "         --use-svn-server           Do all operation using SVN server"
-            echo "         --use-working-copy         Do all operations on working copy, SVN server is not contacted"
-	    echo
 	    echo "* Warning: Using these options will not make a valid distribution"
             echo
             echo "Example:"
@@ -1200,13 +1192,27 @@ if [ -z "$SKIP_EXTENSIONS" -a "$SVN_EXPORT" == "svn" ]; then
 
     EXTENSION_FILES=""
     for extension in $EXTENSIONS; do
-        touch .ez.extension-name
+        touch .ez.extension-name .ez.extension-id
         # FIXME: make an option to (not) use SVN when exporting extensions
         [ "$BUILD_SNAPSHOT" = 1 ] && build_number_opt="--build-number=$CURRENT_BUILD_NUMBER"
         [ "$SVN_EXPORT" == "svn" ] && use_svn_opt='--svn'
         bin/shell/packext.sh $use_svn_opt --dist-type=$DIST_TYPE --output-dir=$DEST_EXTENSION_ARCHIVE $build_number_opt $extension
+	if [ $? -ne 0 ]; then
+	    echo "Failed to build extension $extension"
+	    exit 1
+	fi
+
+	# Store paypal archive name
+	EXTENSION_IDENTIFIER=""
+	EXTENSION_TGZFILE=""
+        [ -s .ez.extension-id ] && EXTENSION_IDENTIFIER=`cat .ez.extension-id`
+        [ -s .ez.extension-name ] && EXTENSION_TGZFILE=`cat .ez.extension-name`
+	if [ "$EXTENSION_IDENTIFIER" = "ezpaypal" ]; then
+	    EXTENSION_PAYPAL_ARCHIVE="$DEST_EXTENSION_ARCHIVE/$EXTENSION_TGZFILE"
+	fi
+
         [ -s .ez.extension-name ] && EXTENSION_FILES="$EXTENSION_FILES `cat .ez.extension-name`"
-        rm -f .ez.extension-name
+        rm -f .ez.extension-name .ez.extension-id
     done
 elif [ "$SVN_EXPORT" != "svn" ]; then
     echo
