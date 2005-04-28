@@ -46,6 +46,11 @@ Changes from 3.5.2 to 3.6.0beta1
   operation instead of in the content/edit page.
   (Manually merged from stable/3.5 (3.5.2) rev. 11297)
 
+ezpm.php:
+- Added: The database is checked to see if it has the same version as the
+         eZ publish installation before continuing.
+  (Merged from stable/3.5 (3.5.3) rev. 11592)
+
 eZContentObject:
 - Added: Static function exists() to check if an object exists.
   (Submitted by: Paul Forsyth)
