@@ -143,8 +143,6 @@ class eZStepSiteAccess extends eZStepInstaller
                 {
                     $siteType =& $siteTypes[$siteTypeKey];
                     $siteType['access_type'] = $accessType;
-                    $siteType['access_type_value'] = $siteType['identifier'];
-                    $siteType['admin_access_type_value'] = $siteType['identifier'] . '_admin';
                 }
                 $this->storeSiteTypes( $siteTypes );
 
