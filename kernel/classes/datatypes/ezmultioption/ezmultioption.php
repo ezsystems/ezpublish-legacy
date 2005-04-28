@@ -335,7 +335,7 @@ class eZMultiOption
             $dom =& $xml->domTree( $xmlString );
             $root =& $dom->root();
             // set the name of the node
-            $this->name =& $root->elementTextContentByName( "name" );
+            $this->Name =& $root->elementTextContentByName( "name" );
             $this->OptionCounter =& $root->attributeValue("option_counter");
             $multioptionsNode =& $root->elementByName( "multioptions" );
             $multioptionsList =& $multioptionsNode->elementsByName( "multioption" );

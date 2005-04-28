@@ -349,6 +349,8 @@ eZInformationCollection:
   (Merged from stable/3.4 (3.4.7) rev. 11550)
 - Fixed bug #6509: ezlupdate did not scan extensions correctly (windows version only)
 - Fixed bug #6510: ezlupdate did not work with UTF-8 templates
+- Fixed wrong handling of the option set name in ezmultioption datatype.
+  (Merged from stable/3.5 (3.5.3) rev. 11594)
 
 *Library:
 PDF:

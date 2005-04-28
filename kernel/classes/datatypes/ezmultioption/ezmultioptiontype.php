@@ -161,13 +161,18 @@ class eZMultiOptionType extends eZDataType
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
         $multioptionIDArray =& $http->postVariable( $base . "_data_multioption_id_" . $contentObjectAttribute->attribute( "id" ) );
-        $multioption = new eZMultiOption( '' );
+        $optionSetName =& $http->postVariable( $base . "_data_optionset_name_" . $contentObjectAttribute->attribute( "id" ) );
+        $multioption = new eZMultiOption( $optionSetName );
         foreach ( $multioptionIDArray as $id )
         {
             $multioptionName =& $http->postVariable( $base . "_data_multioption_name_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
             $optionIDArray =& $http->postVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
             $optionPriority =& $http->postVariable( $base . "_data_multioption_priority_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
-            $optionDefaultValue =& $http->postVariable( $base . "_data_radio_checked_" . $contentObjectAttribute->attribute("id") . '_' . $id );
+            // check to prevent PHP warning if the default choice is specified (no radio button selected)
+            if ( $http->hasPostVariable( $base . "_data_radio_checked_" . $contentObjectAttribute->attribute("id") . '_' . $id ) )
+                $optionDefaultValue =& $http->postVariable( $base . "_data_radio_checked_" . $contentObjectAttribute->attribute("id") . '_' . $id );
+            else
+                $optionDefaultValue = '';
             $newID = $multioption->addMultiOption( $multioptionName,$optionPriority, $optionDefaultValue );
 
             $optionCountArray =& $http->postVariable( $base . "_data_option_option_id_" . $contentObjectAttribute->attribute( "id" ) . '_' . $id );
