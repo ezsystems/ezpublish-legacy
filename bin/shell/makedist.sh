@@ -1470,6 +1470,5 @@ if [ -n "$FINAL" ]; then
     echo "Where REV is the revision number"
 fi
 
-echo '' > $CACHE
-echo "BUILD_NUMBER=\"$BUILD_NUMBER\"" >> $CACHE
+ezdist_write_cache_file
 
