@@ -318,6 +318,8 @@ class eZStepCreateSites extends eZStepInstaller
 
 //         if ( $package )
         {
+            if ( !isset( $siteType['existing_database'] ) )
+                $siteType['existing_database'] = false;
             if ( $siteType['existing_database'] == 2 )
             {
                 include_once( 'lib/ezdb/classes/ezdbtool.php' );
