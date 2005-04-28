@@ -746,6 +746,19 @@ if ( $dbUser !== false or $dbHost !== false or $dbSocket !== false or
         $script->shutdown( 1 );
     }
     eZDB::setInstance( $db );
+
+    // Only continue if the database is using the same version as the PHP code
+    $rows = $db->arrayQuery( "SELECT * FROM ezsite_data WHERE name = 'ezpublish-version'" );
+    if ( count( $rows ) > 0 )
+    {
+        $version = $rows[0]['value'];
+        include_once( 'lib/version.php' );
+        if ( version_compare( $version, eZPublishSDK::version() ) != 0 )
+        {
+            $cli->error( "Version '$version' in database '$dbName' is different from the running version " . eZPublishSDK::version() );
+            $script->shutdown( 1 );
+        }
+    }
 }
 
 $script->setUser( $userLogin, $userPassword );
