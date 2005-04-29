@@ -251,6 +251,13 @@ class eZObjectRelationListType extends eZDataType
                 {
                     $class =& $object->contentClass();
 					$time = time();
+
+                    // Make the previous version archived
+                    $currentVersion =& $object->currentVersion();
+                    $currentVersion->setAttribute( 'status', EZ_VERSION_STATUS_ARCHIVED );
+                    $currentVersion->setAttribute( 'modified', $time );
+                    $currentVersion->store();
+
                     $version =& eZContentObjectVersion::fetchVersion( $subObjectVersion, $subObjectID );
                     $version->setAttribute( 'modified', $time );
                     $version->setAttribute( 'status', EZ_VERSION_STATUS_PUBLISHED );
@@ -267,27 +274,33 @@ class eZObjectRelationListType extends eZDataType
                 }
                 if ( $relationItem['parent_node_id'] > 0 )
                 {
-                    $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $object->attribute( 'id' ),
-                                                                        'contentobject_version' => $object->attribute( 'current_version' ),
-                                                                        'parent_node' => $relationItem['parent_node_id'],
-                                                                        'sort_field' => 2,
-                                                                        'sort_order' => 0,
-                                                                        'is_main' => 1 ) );
-                    $nodeAssignment->store();
+                    if ( !eZNodeAssignment::fetch( $object->attribute( 'id' ), $object->attribute( 'current_version' ), $relationItem['parent_node_id'], false ) )
+                    {
+                        $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $object->attribute( 'id' ),
+                                                                            'contentobject_version' => $object->attribute( 'current_version' ),
+                                                                            'parent_node' => $relationItem['parent_node_id'],
+                                                                            'sort_field' => 2,
+                                                                            'sort_order' => 0,
+                                                                            'is_main' => 1 ) );
+                        $nodeAssignment->store();
+                    }
                     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                                  'version' => $object->attribute( 'current_version' ) ) );
                     $objectNodeID = $object->attribute( 'main_node_id' );
                     $content['relation_list'][$i]['node_id'] = $objectNodeID;
                 }
                 else
-                {
-                    $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $object->attribute( 'id' ),
-                                                                        'contentobject_version' => $object->attribute( 'current_version' ),
-                                                                        'parent_node' => $contentObject->attribute( 'main_node_id' ),
-                                                                        'sort_field' => 2,
-                                                                        'sort_order' => 0,
-                                                                        'is_main' => 1 ) );
-                    $nodeAssignment->store();
+                { 
+                    if ( !eZNodeAssignment::fetch( $object->attribute( 'id' ), $object->attribute( 'current_version' ), $contentObject->attribute( 'main_node_id' ), false ) )
+                    {
+                        $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $object->attribute( 'id' ),
+                                                                            'contentobject_version' => $object->attribute( 'current_version' ),
+                                                                            'parent_node' => $contentObject->attribute( 'main_node_id' ),
+                                                                            'sort_field' => 2,
+                                                                            'sort_order' => 0,
+                                                                            'is_main' => 1 ) );
+                        $nodeAssignment->store();
+                    }
                 }
                 $content['relation_list'][$i]['is_modified'] = false;
             }
