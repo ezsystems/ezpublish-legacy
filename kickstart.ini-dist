@@ -1,0 +1,264 @@
+# Kickstart configuration for the setup wizard
+#
+# DESCRIPTION
+#
+# In this file, installation parameters for each step
+# in the setup wizard can be specified. For example, by
+# providing the database connection parameters here, the
+# corresponding graphical user interface asking for the
+# database parameters will have the input forms pre-filled
+# or be skipped, using the values provided here.
+#
+# USAGE
+#
+# Initialization:
+#
+# Copy this file as kickstart.ini to the root of your
+# eZ publish installation to enable this functionality.
+#
+# Installation Steps:
+#
+# For each step in the setup wizard asking for user input,
+# there exists a corresponding configuration block in this
+# file. The name of a configuration block is placed within
+# squared brackets.
+#
+# The available blocks are:
+# email_settings
+# database_choice
+# database_init
+# language_options
+# site_types
+# site_packages
+# site_access
+# site_details
+# site_admin
+# security
+# registration
+#
+# Uncomment the blocks that you want kickstarted and
+# modify their parameter values as shown below.
+#
+# Parameter Values:
+#
+# Each parameter value is explained in details within a
+# configuration block.
+#
+# As a general convention, the following syntax is being
+# used to identify mandatory and optional parameters:
+# <string> - Angle brackets mean that this parameter value
+#            is mandatory
+# [string] - Squared brackets mean that this parameter value
+#            is optional
+#
+# "Continue" Parameter:
+#
+# The "Continue" parameter specifies whether a certain step
+# in the setup wizard should be skipped:
+# Continue=false - Show the interface, pre-filled with the
+#                  values defined in kickstart.ini. This is the
+#                  default behaviour if "Continue" is commented.
+# Continue=true  - Do not show the interface, instead continue
+#                  to the next one and use the values defined
+#                  in the kickstart configuration file.
+#
+# TROUBLESHOOTING
+#
+# Remove all leading whitespaces from uncommented
+# configuration blocks or parameters - otherwise the
+# settings will not be read properly by eZ publish.
+#
+# Do not mix up optional parameter values and configuration
+# blocks, just because both use squared brackets! Optional
+# parameter values only appear after the equal (=) sign.
+
+
+#[email_settings]
+## Continue=<true|false>
+## Whether this step should continue after reading the data
+#Continue=true
+## Type=<email-type>
+## Type of email handler
+## <email-type>:
+## - mta - Use Sendmail/MTA
+## - smtp - Use SMTP
+#Type=mta
+## Server=<hostname>
+## Which server to use for SMTP
+#Server=
+## User=<username>
+## Which user to use for SMTP
+#User=
+## Password=<hostname>
+## Which password to use for SMTP
+#Password=
+
+#[database_choice]
+## Continue=<true|false>
+## Whether this step should continue after reading the data
+#Continue=true
+## Type=<database-system>
+## Which database system to use
+## <database-system>:
+## - mysql - Use mysql
+## - postgresql - Use postgresql
+## other values are possible if provided by extension
+#Type=mysql
+
+#[database_init]
+## Continue=<true|false>
+## Whether this step should continue after reading the data
+#Continue=true
+## Server=<hostname>
+## Which hostname has the database server
+#Server=localhost
+## Database=<database>
+## Which database to use
+#Database=ezp35test
+## User=<username>
+## Which user should be used in database
+#User=root
+## Server=<password>
+## Which password should be used for user
+#Password=
+## Socket=<socket-path>
+## Path to socket or empty for no socket 
+#Socket=
+
+#[language_options]
+## Continue=<true|false>
+## Whether this step should continue after reading the data
+#Continue=true
+## Primary=<locale>
+## The primary language for the site
+#Primary=eng-GB
+## Languages[]=<locale>
+## Additional languages
+#Languages[]
+
+#[site_types]
+## Continue=<true|false>
+## Whether this step should continue after reading the data
+#Continue=true
+## Sites[]=<identifier>
+## Which site to install, identifier is taken from site package (ezpkg)
+#Sites[]
+#Sites[]=news
+
+#[site_packages]
+## Continue=<true|false>
+## Whether this step should continue after reading the data
+#Continue=true
+## Packages[]=<identifier>
+## Which additional package to install, identifier is taken from addon package (ezpkg)
+#Packages[]
+#Packages[]=gallery
+
+#[site_access]
+## Continue=<true|false>
+## Whether this step should continue after reading the data
+#Continue=true
+## Access=<access-type>
+## <access-type>:
+## - url - Use url/path for matching
+## - port - Use port for matching
+## - hostname - Use hostname for matching
+#Access=url
+
+#[site_details]
+## Continue=<true|false>
+## Whether this step should continue after reading the data
+#Continue=true
+## Title[<site-identifier>]=<string>
+## The title to use for a given site-identifier
+## if not supplied it uses the site type name
+#Title[]
+#Title[news]=My cool new site
+
+## URL[<site-identifier>]=<url>
+## The URL to use for a given site-identifier
+## if not supplied it will generate it from the current url
+#URL[]
+#URL[news]=
+
+## Access[<site-identifier>]=<string>
+## The access name to use for user page
+## if not supplied it will use site identifier
+#Access[]
+#Access[news]=news
+
+## AdminAccess[<site-identifier>]=<string>
+## The access name to use for admin page
+## if not supplied it will use site identifier + _admin
+#AdminAccess[]
+#AdminAccess[news]=news_admin
+
+## AccessPort[<site-identifier>]=<number>
+## The access port to use for user page
+#AccessPort[]
+#AccessPort[news]=8080
+
+## AdminAccessPort[<site-identifier>]=<number>
+## The access port to use for admin page
+#AdminAccessPort[]
+#AdminAccessPort[news]=8081
+
+## AccessHostname[<site-identifier>]=<url>
+## The access hostname to use for user page
+#AccessHostname[]
+#AccessHostname[news]=news.test.com
+
+## AdminAccessHostname[<site-identifier>]=<url>
+## The access hostname to use for admin page
+#AdminAccessHostname[]
+#AdminAccessHostname[news]=news-admin.test.com
+
+## Database[<site-identifier>]=<databasename>
+## The database name to use for site
+#Database[]
+#Database[news]=ezp35test
+
+## DatabaseAction[<site-identifier>]=<action>
+## What to do with the database, can be one of:
+## <action>:
+## - ignore
+##     Try to add entries without cleaning up
+## - remove
+##     Clean up entries and add new ones
+## - skip
+##     Do not insert database schema + data
+#DatabaseAction[]
+#DatabaseAction[news]=remove
+
+#[site_admin]
+## Continue=<true|false>
+## Whether this step should continue after reading the data
+#Continue=true
+## FirstName=[string]
+## The first name of the administrator user
+#FirstName=God
+## LastName=[string]
+## The first name of the administrator user
+#LastName=Like
+## Email=[string]
+## The email address of the administrator user
+#Email=nospam@ez.no
+## Password=[string]
+## The password of the administrator user
+#Password=publish
+
+#[security]
+## Continue=<true|false>
+## Whether this step should continue after reading the data
+#Continue=true
+
+#[registration]
+## Continue=<true|false>
+## Whether this step should continue after reading the data
+#Continue=true
+## Comments=<string>
+## Comment string to add to registration email
+#Comments=
+## Send=<boolean>
+## Whether to send registration email or not
+#Send=false
