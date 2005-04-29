@@ -27,15 +27,15 @@ To fix this problem you must do one of the following:"|i18n('design/standard/set
 <table border="0" cellspacing="0" cellpadding="0">
 
   <tr>
-    <th class="normal">{"Primary/Additional"|i18n("design/standard/setup/init")}:</th>
+    <th class="label">{"Primary/Additional"|i18n("design/standard/setup/init")}:</th>
   </tr>
 
   {section name=Language loop=$language_list}
     <tr>
       <td class="normal">
-	<input type="radio" name="eZSetupDefaultLanguage" value="{$:item.locale_code}" {section show=$Language:item.locale_code|eq( $regional_info.primary_language )}checked="checked" {/section}/>
-        <input type="checkbox" name="eZSetupLanguages[]" value="{$:item.locale_code}" {section show=$regional_info.languages|contains( $Language:item.locale_code )}{section show=$Language:item.locale_code|ne( $regional_info.primary_language )}checked="checked"{/section}{/section}/>
-	{$:item.intl_language_name}
+       <input type="radio" id="eZSetupDefaultLanguage_{$:item.locale_code}" name="eZSetupDefaultLanguage" value="{$:item.locale_code}" {section show=$Language:item.locale_code|eq( $regional_info.primary_language )}checked="checked" {/section}/>
+       <input type="checkbox" name="eZSetupLanguages[]" value="{$:item.locale_code}" {section show=$regional_info.languages|contains( $Language:item.locale_code )}{section show=$Language:item.locale_code|ne( $regional_info.primary_language )}checked="checked"{/section}{/section}/>
+       <label for="eZSetupDefaultLanguage_{$:item.locale_code}" class="radio">{$:item.intl_language_name}</label>
       </td>
     </tr>
   {/section}

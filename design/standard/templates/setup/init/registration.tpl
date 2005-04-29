@@ -9,9 +9,9 @@
  {"If you wish, you can register this installation by sending some information to eZ systems. No confidential data will be transmitted and eZ systems will not use or sell your details for unsolicited e-mails."|i18n("design/standard/setup/init")}
 </p>
 
-<table cellpadding="0" cellspacing="0" border="0">
-<tr><th class="normal">{"The registration e-mail"|i18n("design/standard/setup/init")}:</th></tr>
-<tr><td class="normal"><textarea class="box" readonly="readonly" cols="60" rows="10">{$email_body}</textarea></td></tr>
+<table cellpadding="0" cellspacing="0" border="0" class="full">
+<tr><th class="label">{"The registration e-mail"|i18n("design/standard/setup/init")}:</th></tr>
+<tr><td class="normal"><textarea class="box full" readonly="readonly" cols="60" rows="10">{$email_body}</textarea></td></tr>
 </table>
 
 <p>
@@ -21,9 +21,9 @@
 
 <form method="post" action="{$script}">
 
-<table cellpadding="0" cellspacing="0" border="0">
-<tr><th class="normal">{"Comments"|i18n("design/standard/setup/init")}:</th></tr>
-<tr><td class="normal"><textarea class="box" name="eZSetupRegistrationComment" cols="60" rows="6"></textarea></td></tr>
+<table cellpadding="0" cellspacing="0" border="0" class="full">
+<tr><th class="label">{"Comments"|i18n("design/standard/setup/init")}:</th></tr>
+<tr><td class="normal"><textarea class="box full" name="eZSetupRegistrationComment" cols="60" rows="6"></textarea></td></tr>
 </table>
 </div>
 
@@ -37,7 +37,7 @@
 <br/>
 
 <div align="right">
-<input type="checkbox" name="eZSetupSendRegistration" checked="checked" value="checked" id="ez_reg_me" /><label for="ez_reg_me">{"Send registration"|i18n("design/standard/setup/init")}</label>
+<input type="checkbox" name="eZSetupSendRegistration" checked="checked" value="checked" id="ez_reg_me" /><label class="checkbox" for="ez_reg_me">{"Send registration"|i18n("design/standard/setup/init")}</label>
 </div>
 
   <div class="buttonblock" align="right">

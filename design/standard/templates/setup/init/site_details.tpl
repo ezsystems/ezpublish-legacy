@@ -72,7 +72,7 @@ The setup can continue with the initialization but may damage the present data."
         {section var=site loop=$site_types}
 
             <td class="setup_site_templates">
-            <div align="top">
+            <div align="top" class="site-thumbnail">
                 {section show=eq( $site.site_access_illegal, 1 )}<div style="color: #ff7f00;">*</div>{/section}
                 {section show=$site.thumbnail}
                     <img class="site-type" src={concat( "design/standard/images/setup/thumbnails/", $site.thumbnail )|ezroot}>
@@ -84,23 +84,23 @@ The setup can continue with the initialization but may damage the present data."
             <div align="bottom">
                 <table border="0" cellspacing="2" cellpadding="0">
                 <tr>
-                    <td>{"Title"|i18n("design/standard/setup/init")}:&nbsp;</td>
+                    <td><label class="textfield">{"Title"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
                     <td><input type="text" size="30" name="eZSetup_site_templates_{$site.index}_title" value="{$site.title|wash}" /></td>
                 </tr>
                 <tr>
-                    <td>{"Site url"|i18n("design/standard/setup/init")}:&nbsp;</td>
+                    <td><label class="textfield">{"Site url"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
                     <td><input type="text" size="30" name="eZSetup_site_templates_{$site.index}_url" value="{$site.url|wash}" /></td>
                 </tr>
                 <tr>
                     {switch match=$site.access_type}
                     {case match='url'}
-                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}>{"User path"|i18n("design/standard/setup/init")}:&nbsp;</td>
+                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}><label class="textfield">{"User path"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
                     {/case}
                     {case match='port'}
-                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}>{"User port"|i18n("design/standard/setup/init")}:&nbsp;</td>
+                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}><label class="textfield">{"User port"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
                     {/case}
                     {case match='hostname'}
-                        <td{section show=or( eq( $site_access_illegal, 1 ), eq( $site_access_illegal_name, 1) )} class="invalid"{/section}>{"User hostname"|i18n("design/standard/setup/init")}:&nbsp;</td>
+                        <td{section show=or( eq( $site_access_illegal, 1 ), eq( $site_access_illegal_name, 1) )} class="invalid"{/section}><label class="textfield">{"User hostname"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
                     {/case}
                     {case/}
                     {/switch}
@@ -109,13 +109,13 @@ The setup can continue with the initialization but may damage the present data."
                 <tr>
                     {switch match=$site.access_type}
                     {case match='url'}
-                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}>{"Admin path"|i18n("design/standard/setup/init")}:&nbsp;</td>
+                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}><label class="textfield">{"Admin path"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
                     {/case}
                     {case match='port'}
-                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}>{"Admin port"|i18n("design/standard/setup/init")}:&nbsp;</td>
+                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}><label class="textfield">{"Admin port"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
                     {/case}
                     {case match='hostname'}
-                        <td{section show=or( eq( $site_access_illegal, 1 ), eq( $site_access_illegal_name, 1) )} class="invalid"{/section}>{"Admin hostname"|i18n("design/standard/setup/init")}:&nbsp;</td>
+                        <td{section show=or( eq( $site_access_illegal, 1 ), eq( $site_access_illegal_name, 1) )} class="invalid"{/section}><label class="textfield">{"Admin hostname"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
                     {/case}
                     {case/}
                     {/switch}
@@ -123,7 +123,7 @@ The setup can continue with the initialization but may damage the present data."
                 </tr>
 
                 <tr>
-                    <td{section show=or( eq( $db_not_empty, 1 ), eq( $db_charset_differs, 1 ) )} class="invalid"{/section}>{"Database"|i18n("design/standard/setup/init")}{section show=eq( $site.db_already_chosen, 1 )}<div style="color: #ff7f00;">*</div>{/section}: </td>
+                    <td{section show=or( eq( $db_not_empty, 1 ), eq( $db_charset_differs, 1 ) )} class="invalid"{/section}><label class="textfield">{"Database"|i18n("design/standard/setup/init")}</label>{section show=eq( $site.db_already_chosen, 1 )}<div style="color: #ff7f00;">*</div>{/section}: </td>
                     <td>
                     {section show=$database_available|count|gt( 0 )}
                         <select name="eZSetup_site_templates_{$site.index}_database">
@@ -138,7 +138,7 @@ The setup can continue with the initialization but may damage the present data."
                 </tr>
                 {section show=eq( $site.db_not_empty, 1 )}
                     <tr>
-                        <td class="invalid">{"Action: "|i18n("design/standard/setup/init")}</td>
+                        <td class="invalid"><label class="textfield">{"Action: "|i18n("design/standard/setup/init")}</label></td>
                         <td>
                         <select name="eZSetup_site_templates_{$site.index}_existing_database">
                         <option value="1">{"Leave the data and add new"|i18n("design/standard/setup/init")}</option>

@@ -283,3 +283,73 @@ img.site-type
 {
     color: #a00;
 }
+
+
+label.radio, label.checkbox, label.textfield
+{
+    display: inline;
+    font-weight: normal;
+}
+
+th.label
+{
+    text-align: left;
+    font-size: 1.2em;
+}
+
+h2.site-functionality
+{
+    display: block;
+    clear: both;
+    padding-top: 0.6em;
+}
+
+div.site-thumbnail
+{
+    padding-top: 0.6em;
+    padding-bottom: 0.6em;
+}
+
+div.navigation-block
+{
+    padding-top: 0.8em;
+}
+
+table.full
+{
+    width: 98%;
+}
+
+textarea.full
+{
+    width: 98%;
+}
+
+/* Adjustments from core design **/
+
+input.defaultbutton
+{
+    font-size: 0.9em;
+    font-weight: bold;
+    color: #000000;
+    border: 2px solid #ffffff;
+    border-bottom: 2px solid #404040;
+    border-right: 2px solid #404040;
+    background-color: #e0e0e0;
+    background-repeat: repeat-x;
+    background-position: top;
+    padding: 0em 0.25em 0em 0.25em;
+}
+
+blockquote
+{
+    margin-top: 1ex;
+    margin-bottom: 1ex;
+    padding: 0.5ex;
+    padding-left: 1ex;
+    padding-right: 2ex;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #505050;
+    background-color: #f8f8f8;
+}
