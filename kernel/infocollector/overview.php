@@ -67,7 +67,7 @@ if( $module->isCurrentAction( 'RemoveObjectCollection' ) && $http->hasPostVariab
     $Result = array();
     $Result['content'] =& $tpl->fetch( 'design:infocollector/confirmremoval.tpl' );
     $Result['path'] = array( array( 'url' => false,
-                                    'text' => ezi18n( 'kernel/infocollector', 'Collected inrofmation' ) ) );
+                                    'text' => ezi18n( 'kernel/infocollector', 'Collected information' ) ) );
     return;
 }
 
