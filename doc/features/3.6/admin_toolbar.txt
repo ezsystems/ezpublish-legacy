@@ -39,22 +39,26 @@ be deleted.
 The next settings should be presented in the toolbar.ini in order to get admin
 toolbar working:
 
-[Toolbar]
-AvailableToolBarArray[]=admin_right
+[Toolbar] 
+AvailableToolBarArray[]=admin_right 
+AvailableToolBarArray[]=admin_developer 
 
-[Tool]
-AvailableToolArray[]=admin_current_user
-AvailableToolArray[]=admin_bookmarks
-AvailableToolArray[]=admin_clear_cache
-AvailableToolArray[]=admin_quick_settings
+[Tool] 
+AvailableToolArray[]=admin_current_user 
+AvailableToolArray[]=admin_bookmarks 
+AvailableToolArray[]=admin_clear_cache 
+AvailableToolArray[]=admin_quick_settings 
 
-# Default configuration of the toolbar:
-[Toolbar_admin_right]
-Tool[]
-Tool[]=admin_current_user
-Tool[]=admin_bookmarks
-Tool[]=admin_clear_cache
+[Toolbar_admin_right] 
+Tool[] 
+Tool[]=admin_current_user 
+Tool[]=admin_bookmarks 
+
+[Toolbar_admin_developer] 
+Tool[] 
+Tool[]=admin_clear_cache 
 Tool[]=admin_quick_settings
+
 
 *Note:
 Template operator 'ezini' has been modified, now it has the following format:
