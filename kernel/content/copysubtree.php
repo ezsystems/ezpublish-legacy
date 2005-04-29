@@ -823,10 +823,9 @@ $srcSubtreeNodesCount = $srcNode->subTreeCount();
 if ( $srcSubtreeNodesCount > $maxNodesCopySubtree )
 {
     $notifications['Warnings'][] = ezi18n( 'kernel/content/copysubtree',
-                                           "You are trying to copy subtree which contain more then".
-                                           "maximum available number of nodes for copying subtree. ".
-                                           "(MaxNodesCopySubtree = %1, see settings/content.ini, CopySettings section). ".
-                                           "Please try to copy this subtree using Subtree Copy script.",
+                                           "You are trying to copy a subtree that contains more than ".
+                                           "the maximum possible nodes for subtree copying. ".
+                                           "You can copy this subtree using Subtree Copy script.",
                                            null, array( $maxNodesCopySubtree ) );
     $notifications['Notifications'][] = ezi18n( 'kernel/content/copysubtree',
                                                 "Subtree was not copied." );
