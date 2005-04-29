@@ -193,6 +193,26 @@
 #AdminAccess[]
 #AdminAccess[news]=news_admin
 
+## AccessPort[<site-identifier>]=<number>
+## The access port to use for user page
+#AccessPort[]
+#AccessPort[news]=8080
+
+## AdminAccessPort[<site-identifier>]=<number>
+## The access port to use for admin page
+#AdminAccessPort[]
+#AdminAccessPort[news]=8081
+
+## AccessHostname[<site-identifier>]=<url>
+## The access hostname to use for user page
+#AccessHostname[]
+#AccessHostname[news]=news.test.com
+
+## AdminAccessHostname[<site-identifier>]=<url>
+## The access hostname to use for admin page
+#AdminAccessHostname[]
+#AdminAccessHostname[news]=news-admin.test.com
+
 ## Database[<site-identifier>]=<databasename>
 ## The database name to use for site
 #Database[]
