@@ -10,7 +10,7 @@
     <h1>{$node.name|wash} ( {attribute_view_gui attribute=$node.object.data_map.job_title} )</h1>
 
     {section show=$node.object.can_edit}
-        <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+        <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/base')}" />
     {/section}
 
     {section show=$node.object.data_map.picture.content}

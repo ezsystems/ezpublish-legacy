@@ -2,11 +2,11 @@
 
     <form method="post" action={"/shop/basket/"|ezurl}>
 
-    <h1>{"Basket"|i18n("design/standard/shop")}</h1>
+    <h1>{"Basket"|i18n("design/base/shop")}</h1>
 
     {section show=$removed_items}
     <div class="warning">
-        <h2>{"The following items were removed from your basket, because the products were changed"|i18n("design/standard/node",,)}</h2>
+        <h2>{"The following items were removed from your basket, because the products were changed"|i18n("design/base/shop",,)}</h2>
         <ul>
         {section name=RemovedItem loop=$removed_items}
             <li> <a href={concat("/content/view/full/",$RemovedItem:item.contentobject.main_node_id,"/")|ezurl}>{$RemovedItem:item.contentobject.name}</a></li>
@@ -18,7 +18,7 @@
     {section show=$error}
     <div class="error">
     {section show=$error|eq(1)}
-    <h2>{"Attempted to add object without price to basket."|i18n("design/standard/shop",,)}</h2>
+    <h2>{"Attempted to add object without price to basket."|i18n("design/base/shop",,)}</h2>
     {/section}
     </div>
     {/section}
@@ -26,7 +26,7 @@
     {section show=$error}
     <div class="error">
     {section show=eq($error, "aborted")}
-    <h2>{"Your payment was aborted."|i18n("design/standard/shop",,)}</h2>
+    <h2>{"Your payment was aborted."|i18n("design/base/shop",,)}</h2>
     {/section}
     </div>
     {/section}
@@ -41,20 +41,20 @@
         {"Quantity"|i18n("design/base/shop")}
         </th>
         <th>
-        {"VAT"|i18n("design/standard/shop")}
+        {"VAT"|i18n("design/base/shop")}
         </th>
         <th>
     	{"Price"|i18n("design/base/shop")}
         </th>
         <th>
-	    {"Discount"|i18n("design/standard/shop")}
+	    {"Discount"|i18n("design/base/shop")}
         </th>
         <th>
      	{"Total Price"|i18n("design/base/shop")}
         </th>
         <th>
-       {* <input type="image" src={"t1/t1-bin.gif"|ezimage} name="RemoveProductItemButton" value="{'Remove'|i18n('design/standard/shop')}" /> &nbsp; *}
-        <input type="image" class="shop-basketbin" src={"1x1.gif"|ezimage} name="RemoveProductItemButton" value="{'Remove'|i18n('design/standard/shop')}" />
+       {* <input type="image" src={"t1/t1-bin.gif"|ezimage} name="RemoveProductItemButton" value="{'Remove'|i18n('design/base/shop')}" /> &nbsp; *}
+        <input type="image" class="shop-basketbin" src={"1x1.gif"|ezimage} name="RemoveProductItemButton" value="{'Remove'|i18n('design/base/shop')}" />
         </th>
     </tr>
     {section var=product_item loop=$basket.items sequence=array(bglight,bgdark)}
@@ -87,7 +87,7 @@
      {section show=$product_item.item.item_object.option_list}
      <tr>
          <td class="{$product_item.sequence}" colspan='4'>
-         {"Selected options"|i18n("design/standard/shop")}<br/>
+         {"Selected options"|i18n("design/base/shop")}<br/>
 
          <table class="shop-option_list">
          {section var=option_item loop=$product_item.item_object.option_list}
@@ -104,7 +104,7 @@
      {/section}
      <tr>
          <td class="product-subtotal" colspan='5'>
-         {"Subtotal Inc. VAT:"|i18n("design/base/shop")}
+         {"Subtotal Inc. VAT"|i18n("design/base/shop")}:
          <strong>{$basket.total_inc_vat|l10n(currency)}</strong>
          </td>
          <td class="product-subtotal">
@@ -116,18 +116,18 @@
       </div>
 
      <div class="buttonblock">
-         <input class="shopbutton" type="submit" name="CheckoutButton" value="{'Checkout'|i18n('design/standard/shop')}" /> &nbsp;
+         <input class="shopbutton" type="submit" name="CheckoutButton" value="{'Checkout'|i18n('design/base/shop')}" /> &nbsp;
      </div>
 
      <div class="buttonblock">
-         <input class="shopbutton" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n('design/standard/shop')}" />
-         <input class="shopbutton" type="submit" name="StoreChangesButton" value="{'Store quantities'|i18n('design/base')}" />
+         <input class="shopbutton" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n('design/base/shop')}" />
+         <input class="shopbutton" type="submit" name="StoreChangesButton" value="{'Store quantities'|i18n('design/base/shop')}" />
      </div>
 
     {section-else}
 
     <div class="feedback">
-        <h2>{"You have no products in your basket"|i18n("design/standard/shop")}</h2>
+        <h2>{"You have no products in your basket"|i18n("design/base/shop")}</h2>
     </div>
 
     {/section}

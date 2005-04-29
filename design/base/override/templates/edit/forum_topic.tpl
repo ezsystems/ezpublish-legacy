@@ -5,7 +5,7 @@
 
         <form enctype="multipart/form-data" method="post" action={concat( "/content/edit/", $object.id, "/", $edit_version, "/", $edit_language|not|choose( concat( $edit_language, "/" ), '' ) )|ezurl}>
 
-        <h1>{"Edit %1 - %2"|i18n("design/standard/content/edit",,array($class.name|wash,$object.name|wash))}</h1>
+        <h1>{"Edit %1 - %2"|i18n("design/base",,array($class.name|wash,$object.name|wash))}</h1>
 
         {include uri="design:content/edit_validation.tpl"}
 
@@ -35,8 +35,8 @@
         <br/>
 
         <div class="buttonblock">
-            <input class="defaultbutton" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
-            <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('design/standard/content/edit')}" />
+            <input class="defaultbutton" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/base')}" />
+            <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('design/base')}" />
             <input type="hidden" name="DiscardConfirm" value="0" />
         </div>
 

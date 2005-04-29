@@ -1,5 +1,5 @@
 <div class="shop-orderview">
-    <h1>{"Order %order_id [%order_status]"|i18n("design/standard/shop",,
+    <h1>{"Order %order_id [%order_status]"|i18n("design/base/shop",,
          hash( '%order_id', $order.order_nr,
                '%order_status', $order.status_name ) )}</h1>
 
@@ -12,13 +12,13 @@
         {"Quantity"|i18n("design/base/shop")}
         </th>
         <th>
-        {"VAT"|i18n("design/standard/shop")}
+        {"VAT"|i18n("design/base/shop")}
         </th>
         <th>
     	{"Price"|i18n("design/base/shop")}
         </th>
         <th>
-	    {"Discount"|i18n("design/standard/shop")}
+	    {"Discount"|i18n("design/base/shop")}
         </th>
         <th>
      	{"Total Price"|i18n("design/base/shop")}
@@ -50,7 +50,7 @@
      {section show=$product_item.item.item_object.option_list}
      <tr>
          <td class="{$product_item.sequence}" colspan='4'>
-         {"Selected options"|i18n("design/standard/shop")}
+         {"Selected options"|i18n("design/base/shop")}
 
          <table class="shop-option_list">
          {section var=option_item loop=$product_item.item_object.option_list}
@@ -67,7 +67,7 @@
      {/section}
      <tr>
          <td class="product-subtotal" colspan='5'>
-         {"Subtotal Inc. VAT:"|i18n("design/base/shop")}
+         {"Subtotal Inc. VAT"|i18n("design/base/shop")}:
          <strong>{$order.product_total_inc_vat|l10n(currency)}</strong>
          </td>
          <td class="product-subtotal">
@@ -80,11 +80,11 @@
 
 
 
-    <h2>{"Order summary"|i18n("design/standard/shop")}:</h2>
+    <h2>{"Order summary"|i18n("design/base/shop")}:</h2>
     <table class="list" cellspacing="0" cellpadding="0" border="0">
     <tr>
         <td class="bgdark">
-        {"Subtotal of items"|i18n("design/standard/shop")}:
+        {"Subtotal of items"|i18n("design/base/shop")}:
         </td>
         <td class="bgdark">
         {$order.product_total_inc_vat|l10n(currency)}
@@ -102,7 +102,7 @@
     {/section}
     <tr>
         <td class="bgdark">
-        <b>{"Order total"|i18n("design/standard/shop")}</b>
+        <b>{"Order total"|i18n("design/base/shop")}</b>
         </td>
         <td class="bgdark">
         <b>{$order.total_ex_vat|l10n(currency)}</b>
@@ -113,7 +113,7 @@
     </tr>
     </table>
 
-    <h2>{"Order history"|i18n("design/standard/shop")}:</h2>
+    <h2>{"Order history"|i18n("design/base/shop")}:</h2>
     <table class="list" cellspacing="0" cellpadding="0" border="0">
     {let order_status_history=fetch( shop, order_status_history,
                                      hash( 'order_id', $order.order_nr ) )}

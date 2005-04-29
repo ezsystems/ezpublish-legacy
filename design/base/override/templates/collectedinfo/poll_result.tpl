@@ -1,21 +1,21 @@
-{set-block scope=global variable=title}{'Poll %pollname'|i18n('design/standard/content/poll',,hash('%pollname',$node.name))}{/set-block}
+{set-block scope=global variable=title}{'Poll %pollname'|i18n('design/base',,hash('%pollname',$node.name))}{/set-block}
 <div class="content-view-full">
     <div class="class-poll">
         <div class="poll-result">
 
-        <h1>{'Results'|i18n( 'design/standard/content/poll' )}</h1>
+        <h1>{'Results'|i18n( 'design/base' )}</h1>
 
         {section show=$error}
 
         {section show=$error_anonymous_user}
         <div class="warning">
-            <h2>{'Anonymous users are not allowed to vote on this poll, please login.'|i18n('design/standard/content/poll')}</h2>
+            <h2>{'Anonymous users are not allowed to vote on this poll, please login.'|i18n('design/base')}</h2>
         </div>
         {/section}
 
         {section show=$error_existing_data}
         <div class="warning">
-            <h2>{'You have already voted for this poll.'|i18n('design/standard/content/poll')}</h2>
+            <h2>{'You have already voted for this poll.'|i18n('design/base')}</h2>
         </div>
         {/section}
 
@@ -56,7 +56,7 @@
                                 <i>{$:percentage}%</i>
                             </td>
                             <td class="poll-votecount">
-                                {'Votes:'|i18n('design/standard/content/poll')} {$:item_count}
+                                {'Votes'|i18n('design/base')}: {$:item_count}
                             </td>
                         </tr>
                         <tr>
@@ -93,7 +93,7 @@
 
         <br/>
 
-        {"%count total votes"|i18n( 'design/standard/content/poll' ,,
+        {"%count total votes"|i18n( 'design/base' ,,
                                      hash( '%count', fetch( content, collected_info_count, hash( object_id, $object.id ) ) ) )}
 
             <div class="content-results">

@@ -6,7 +6,7 @@
 
         <div class="attribute-byline">
             <p class="date">{$node.object.published|l10n(date)}</p>
-            <p class="count">{"%count votes"|i18n( 'design/standard/content/poll',, hash( '%count', fetch( content, collected_info_count, hash( object_id, $node.object.id ) ) ) )}</p>
+            <p class="count">{"%count votes"|i18n( 'design/base',, hash( '%count', fetch( content, collected_info_count, hash( object_id, $node.object.id ) ) ) )}</p>
             <div class="break"></div>
         </div>
 

@@ -11,7 +11,7 @@
 
     {section show=$versionview_mode}
     {section show=$node.object.can_edit}
-        <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+        <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/base')}" />
     {/section}
     {/section}
 

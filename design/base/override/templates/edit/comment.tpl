@@ -3,7 +3,7 @@
 <div class="edit">
     <div class="class-article-comment">
 
-    <h1>{"Edit %1 - %2"|i18n("design/standard/content/edit",,array($class.name|wash,$object.name|wash))}</h1>
+    <h1>{"Edit %1 - %2"|i18n("design/base",,array($class.name|wash,$object.name|wash))}</h1>
 
     {include uri="design:content/edit_validation.tpl"}
 
@@ -40,8 +40,8 @@
     </div>
 
     <div class="buttonblock">
-        <input class="defaultbutton" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/standard/content/edit')}" />
-	    <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('design/standard/content/edit')}" />
+        <input class="defaultbutton" type="submit" name="PublishButton" value="{'Send for publishing'|i18n('design/base')}" />
+	    <input class="button" type="submit" name="DiscardButton" value="{'Discard'|i18n('design/base')}" />
         <input type="hidden" name="MainNodeID" value="{$main_node_id }" />
         <input type="hidden" name="DiscardConfirm" value="0" />
     </div>

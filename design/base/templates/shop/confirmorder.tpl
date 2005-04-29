@@ -1,10 +1,10 @@
 <div class="shop-confirmorder">
     <form method="post" action={"/shop/confirmorder/"|ezurl}>
-    <h1>{"Confirm order"|i18n("design/standard/shop")}</h1>
+    <h1>{"Confirm order"|i18n("design/base/shop")}</h1>
 
     {shop_account_view_gui view=html order=$order}
 
-    <h2>{"Product items"|i18n("design/standard/shop")}</h2>
+    <h2>{"Product items"|i18n("design/base/shop")}</h2>
 
     <div class="content-basket">
     <table cellspacing="0">
@@ -13,13 +13,13 @@
         {"Quantity"|i18n("design/base/shop")}
         </th>
         <th>
-        {"VAT"|i18n("design/standard/shop")}
+        {"VAT"|i18n("design/base/shop")}
         </th>
         <th>
     	{"Price"|i18n("design/base/shop")}
         </th>
         <th>
-	    {"Discount"|i18n("design/standard/shop")}
+	    {"Discount"|i18n("design/base/shop")}
         </th>
         <th>
      	{"Total Price"|i18n("design/base/shop")}
@@ -51,7 +51,7 @@
      {section show=$product_item.item.item_object.option_list}
      <tr>
          <td class="{$product_item.sequence}" colspan='4'>
-         {"Selected options"|i18n("design/standard/shop")}
+         {"Selected options"|i18n("design/base/shop")}
          <table class="shop-option_list">
          {section var=option_item loop=$product_item.item_object.option_list}
          <tr>
@@ -67,7 +67,7 @@
      {/section}
      <tr>
          <td class="product-subtotal" colspan='5'>
-         {"Subtotal Inc. VAT:"|i18n("design/base/shop")}
+         {"Subtotal Inc. VAT"|i18n("design/base/shop")}:
          <strong>{$order.product_total_inc_vat|l10n(currency)}</strong>
          </td>
          <td class="product-subtotal">
@@ -79,11 +79,11 @@
      </div>
 
 
-    <h2>{"Order summary"|i18n("design/standard/shop")}:</h2>
+    <h2>{"Order summary"|i18n("design/base/shop")}:</h2>
 <table class="list" cellspacing="0" cellpadding="0" border="0">
 <tr>
     <td class="bgdark">
-    {"Subtotal of items"|i18n("design/standard/shop")}:
+    {"Subtotal of items"|i18n("design/base/shop")}:
     </td>
     <td class="bgdark">
     {$order.product_total_inc_vat|l10n(currency)}
@@ -102,7 +102,7 @@
 {/section}
 <tr>
     <td class="bgdark">
-    <b>{"Order total"|i18n("design/standard/shop")}:</b>
+    <b>{"Order total"|i18n("design/base/shop")}:</b>
     </td>
     <td class="bgdark">
     <b>{$order.total_inc_vat|l10n(currency)}</b>
@@ -111,8 +111,8 @@
 </table>
 
     <div class="buttonblock">
-        <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/standard/shop')}" /> &nbsp;
-        <input class="button" type="submit" name="ConfirmOrderButton" value="{'Confirm'|i18n('design/standard/shop')}" /> &nbsp;
+        <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/base/shop')}" /> &nbsp;
+        <input class="button" type="submit" name="ConfirmOrderButton" value="{'Confirm'|i18n('design/base/shop')}" /> &nbsp;
     </div>
 
     </form>

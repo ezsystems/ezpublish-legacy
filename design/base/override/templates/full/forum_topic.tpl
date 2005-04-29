@@ -122,7 +122,7 @@
                   {section show=$node.object.can_edit}
                       <form method="post" action={"content/action/"|ezurl}>
                           <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
-                          <input class="button forum-account-edit" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+                          <input class="button forum-account-edit" type="submit" name="EditButton" value="{'Edit'|i18n('design/base')}" />
                       </form>
                   {/section}
                </td>
@@ -173,7 +173,7 @@
                    {case match=1}
                        <form method="post" action={"content/action/"|ezurl}>
                        <input type="hidden" name="ContentObjectID" value="{$reply.object.id}" />
-                       <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+                       <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n('design/base')}" />
                        </form>
                    {/case}
                    {case match=0}

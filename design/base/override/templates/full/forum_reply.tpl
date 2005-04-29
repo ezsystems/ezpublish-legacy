@@ -24,13 +24,13 @@
         {/section}
 
         {section show=is_set( $owner_map.location )}
-            <p>{"Location:"|i18n("design/base")}{$owner_map.location.content|wash}</p>
+            <p>{"Location"|i18n("design/base")}:{$owner_map.location.content|wash}</p>
         {/section}
         <p>
         {let owner_id=$node.object.owner.id}
             {section name=Author loop=$node.object.author_array}
                 {section  show=eq($owner_id,$Author:item.contentobject_id)|not()}
-                    {"Moderated by:"|i18n("design/base")} {$Author:item.contentobject.name}
+                    {"Moderated by"|i18n("design/base")}: {$Author:item.contentobject.name}
                  {/section}
              {/section}
         {/let}
@@ -42,7 +42,7 @@
         <br/>
 
         <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
-        <input class="button forum-edit-reply" type="submit" name="EditButton" value="{'Edit'|i18n('design/standard/node/view')}" />
+        <input class="button forum-edit-reply" type="submit" name="EditButton" value="{'Edit'|i18n('design/base')}" />
 
         </form>
         {/section}

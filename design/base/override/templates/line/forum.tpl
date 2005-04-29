@@ -9,11 +9,11 @@
 
     <div class="infoline">
         <p class="topics">
-        {"Number of Topics:"|i18n("design/base")}
+        {"Number of Topics"|i18n("design/base")}:
         {fetch('content','list_count',hash(parent_node_id,$node.node_id))}
         </p>
         <p class="posts">
-        {"Number of Posts:"|i18n("design/base")}
+        {"Number of Posts"|i18n("design/base")}:
         {fetch('content','tree_count',hash(parent_node_id,$node.node_id))}
         </p>
     <div class="break"></div>
