@@ -24,7 +24,7 @@
         </embed>
         </object>
     {section-else}
-        {'No media file is available.'|i18n( 'design/standard/content/datatype' )}
+        {'No media file is available.'|i18n( 'design/admin/content/datatype' )}
     {/section}
     {/let}
     </div>

@@ -27,7 +27,7 @@
 {/section}
 </table>
 {section-else}
-<p>{'There are no authors in the author list.'|i18n( 'design/standar/content/datatype' )}</p>
+<p>{'There are no authors in the author list.'|i18n( 'design/standard/content/datatype' )}</p>
 {/section}
 
 

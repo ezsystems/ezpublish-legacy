@@ -26,7 +26,7 @@
 {/section}
 </table>
 {section-else}
-<p>{'There are no rows in the matrix.'|i18n( 'design/content/datatype/edit' )}</p>
+<p>{'There are no rows in the matrix.'|i18n( 'design/standard/content/datatype' )}</p>
 {/section}
 
 

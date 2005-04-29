@@ -50,7 +50,7 @@ CheckValidity=true</pre>
 
 <blockquote class="note">
 <p>
- <b>{"Note:"|i18n("design/standard/setup/init")}</b>
+ <b>{"Note"|i18n("design/standard/setup/init")}:</b>
  {"The default username for the administrator is %1 and the default password is %2."|i18n("design/standard/setup/init",,array("<i>admin</i>","<i>publish</i>"))}
 </p>
 </blockquote>

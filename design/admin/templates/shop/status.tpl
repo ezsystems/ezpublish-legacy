@@ -11,7 +11,7 @@
 {/section}
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{'Order status [%order_status]'|i18n( 'design/admin/shop/orderstatus',, hash( '%order_status', $orderstatus_array|count ) )}</h1>
+<h1 class="context-title">{'Order status [%order_status]'|i18n( 'design/admin/shop/status',, hash( '%order_status', $orderstatus_array|count ) )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 

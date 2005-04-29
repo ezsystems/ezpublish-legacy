@@ -44,7 +44,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h2 class="context-title">{"Group tree for '%1'"|i18n('design/admin/collaboration/view/list',,array($collab_group.title|wash))}</h2>
+<h2 class="context-title">{"Group tree for '%1'"|i18n('design/admin/collaboration/group/view/list',,array($collab_group.title|wash))}</h2>
 
 {* DESIGN: Mainline *}<div class="header-subline"></div>
 

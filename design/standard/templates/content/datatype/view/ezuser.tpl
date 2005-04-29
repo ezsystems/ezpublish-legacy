@@ -2,20 +2,20 @@
 <div class="block">
 
 <div class="element">
-<label>{'User ID'|i18n( 'design/admin/content/datatype/ezuser' )}:</label>
+<label>{'User ID'|i18n( 'design/standard/content/datatype' )}:</label>
 {$attribute.content.contentobject_id}
 </div>
 
 <div class="element">
-<label>{'Username'|i18n( 'design/admin/content/datatype/ezuser' )}:</label>
+<label>{'Username'|i18n( 'design/standard/content/datatype' )}:</label>
 {$attribute.content.login|wash( xhtml )}
 </div>
 
 <div class="element">
-<label>{'E-mail'|i18n( 'design/admin/content/datatype/ezuser' )}:</label>
+<label>{'E-mail'|i18n( 'design/standard/content/datatype' )}:</label>
 <a href="mailto:{$attribute.content.email}">{$attribute.content.email}</a>
 </div>
 
 <div class="break"></div>
 </div>
-<p><a href={concat( '/user/setting/', $attribute.contentobject_id )|ezurl} title="{'Enable/disable the user account and set the maximum allowed number of concurrent logins.'}">{'Configure user account settings'|i18n( 'design/standard/content/datatype/' )}</a></p>
+<p><a href={concat( '/user/setting/', $attribute.contentobject_id )|ezurl} title="{'Enable/disable the user account and set the maximum allowed number of concurrent logins.'}">{'Configure user account settings'|i18n( 'design/standard/content/datatype' )}</a></p>

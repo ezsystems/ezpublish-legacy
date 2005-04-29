@@ -119,9 +119,9 @@
 </div>
 <div class="button-right">
     {section show=and( $order_list|count|gt( 0 ), $can_apply )}
-    <input class="button" type="submit" name="SaveOrderStatusButton" value="{'Apply changes'|i18n( 'design/admin/shop/status' )}" title="{'Click this button to store changes if you have modified any of the fields above.'|i18n( 'design/admin/shop/status' )}" />
+    <input class="button" type="submit" name="SaveOrderStatusButton" value="{'Apply changes'|i18n( 'design/admin/shop/orderlist' )}" title="{'Click this button to store changes if you have modified any of the fields above.'|i18n( 'design/admin/shop/orderlist' )}" />
     {section-else}
-    <input class="button-disabled" type="submit" name="SaveOrderStatusButton" value="{'Apply changes'|i18n( 'design/admin/shop/status' )}" disabled="disabled" />
+    <input class="button-disabled" type="submit" name="SaveOrderStatusButton" value="{'Apply changes'|i18n( 'design/admin/shop/orderlist' )}" disabled="disabled" />
     {/section}
 </div>
 <div class="break"></div>

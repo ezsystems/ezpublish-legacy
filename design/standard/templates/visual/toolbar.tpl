@@ -2,7 +2,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Tool List for <Toolbar_%toolbar_position>'|i18n( 'design/admin/visual/toolbar',, hash( '%toolbar_position', $toolbar_position ) )|wash}
+<h1 class="context-title">{'Tool List for <Toolbar_%toolbar_position>'|i18n( 'design/standard/visual/toolbar',, hash( '%toolbar_position', $toolbar_position ) )|wash}
 </h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
@@ -53,7 +53,7 @@
                     {$Parameter.value|wash}
                 {/section}
                 {/let}
-                <input type="submit" name="BrowseButton[{$Tool.index}_parameter_{$Parameter.name|wash}]" value="{'Browse'|i18n( 'design/admin/visual/toolbar' )}" />
+                <input type="submit" name="BrowseButton[{$Tool.index}_parameter_{$Parameter.name|wash}]" value="{'Browse'|i18n( 'design/standard/visual/toolbar' )}" />
                 <input type="hidden" name="{$Tool.index}_parameter_{$Parameter.name|wash}" size="20" value="{$Parameter.value|wash}">
             {/case}
             {case match=2}
@@ -82,17 +82,17 @@
                     {$Parameter.value|wash}
                 {/section}
                 {/let}
-                <input type="submit" name="BrowseButton[{$Tool.index}_parameter_{$Parameter.name|wash}]" value="{'Browse'|i18n( 'design/admin/visual/toolbar' )}" />
+                <input type="submit" name="BrowseButton[{$Tool.index}_parameter_{$Parameter.name|wash}]" value="{'Browse'|i18n( 'design/standard/visual/toolbar' )}" />
                 <input type="hidden" name="{$Tool.index}_parameter_{$Parameter.name|wash}" size="20" value="{$Parameter.value|wash}" />
             {/case}
             {case match=5}
                 {section show=array( 'true', 'false' )|contains( $Parameter.value )}
-                    <label for="{$Tool.index}_parameter_{$Parameter.name|wash}_true"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name|wash}" id="{$Tool.index}_parameter_{$Parameter.name|wash}_true" value="true" {section show=$Parameter.value|ne( 'false' )}checked="checked"{/section} />{'True'|i18n( 'design/admin/visual/toolbar' )}</label>
-                    <label for="{$Tool.index}_parameter_{$Parameter.name|wash}_false"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name|wash}" id="{$Tool.index}_parameter_{$Parameter.name|wash}_false" value="false" {section show=$Parameter.value|eq( 'false' )}checked="checked"{/section} />{'False'|i18n( 'design/admin/visual/toolbar' )}</label>
+                    <label for="{$Tool.index}_parameter_{$Parameter.name|wash}_true"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name|wash}" id="{$Tool.index}_parameter_{$Parameter.name|wash}_true" value="true" {section show=$Parameter.value|ne( 'false' )}checked="checked"{/section} />{'True'|i18n( 'design/standard/visual/toolbar' )}</label>
+                    <label for="{$Tool.index}_parameter_{$Parameter.name|wash}_false"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name|wash}" id="{$Tool.index}_parameter_{$Parameter.name|wash}_false" value="false" {section show=$Parameter.value|eq( 'false' )}checked="checked"{/section} />{'False'|i18n( 'design/standard/visual/toolbar' )}</label>
                 {section-else}
                   {section show=array( 'yes', 'no' )|contains( $Parameter.value )}
-                      <label for="{$Tool.index}_parameter_{$Parameter.name|wash}_true"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name|wash}" id="{$Tool.index}_parameter_{$Parameter.name|wash}_true" value="yes" {section show=$Parameter.value|ne( 'no' )}checked="checked"{/section} />{'Yes'|i18n( 'design/admin/visual/toolbar' )}</label>
-                      <label for="{$Tool.index}_parameter_{$Parameter.name|wash}_false"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name|wash}" id="{$Tool.index}_parameter_{$Parameter.name|wash}_false" value="no" {section show=$Parameter.value|eq( 'no' )}checked="checked"{/section} />{'No'|i18n( 'design/admin/visual/toolbar' )}</label>
+                      <label for="{$Tool.index}_parameter_{$Parameter.name|wash}_true"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name|wash}" id="{$Tool.index}_parameter_{$Parameter.name|wash}_true" value="yes" {section show=$Parameter.value|ne( 'no' )}checked="checked"{/section} />{'Yes'|i18n( 'design/standard/visual/toolbar' )}</label>
+                      <label for="{$Tool.index}_parameter_{$Parameter.name|wash}_false"><input type="radio" name="{$Tool.index}_parameter_{$Parameter.name|wash}" id="{$Tool.index}_parameter_{$Parameter.name|wash}_false" value="no" {section show=$Parameter.value|eq( 'no' )}checked="checked"{/section} />{'No'|i18n( 'design/standard/visual/toolbar' )}</label>
                   {section-else}
                       <input type="text" name="{$Tool.index}_parameter_{$Parameter.name|wash}" size="20" value="{$Parameter.value|wash}" />
                   {/section}
@@ -112,15 +112,15 @@
 {/section}
 </table>
 {section-else}
-{'There are currently no tools in this toolbar'|i18n( 'design/admin/visual/toolbar' )}
+{'There are currently no tools in this toolbar'|i18n( 'design/standard/visual/toolbar' )}
 {/section}
 
 <div class="block">
 <div class="left">
-<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/admin/visual/toolbar')}" />
+<input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n('design/standard/visual/toolbar')}" />
 </div>
 <div class="right">
-<input class="button" type="submit" name="UpdatePlacementButton" value="{'Update priorities'|i18n('design/admin/visual/toolbar')}" />
+<input class="button" type="submit" name="UpdatePlacementButton" value="{'Update priorities'|i18n('design/standard/visual/toolbar')}" />
 </div>
 </div>
 
@@ -130,7 +130,7 @@
     <option value="{$Tool}">{$Tool}</option>
 {/section}
 </select>
-<input class="button" type="submit" name="NewToolButton" value="{'Add Tool'|i18n('design/admin/visual/toolbar')}" />
+<input class="button" type="submit" name="NewToolButton" value="{'Add Tool'|i18n('design/standard/visual/toolbar')}" />
 </div>
 
 {* DESIGN: Content END *}</div></div></div>
@@ -139,8 +139,8 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
     <div class="block">
-       <input class="button" type="submit" name="StoreButton" value="{'Apply changes'|i18n('design/admin/visual/toolbar')}" title="{'Click this button to store changes if you have modified the parameters above.'|i18n( 'design/admin/visual/toolbar' )}" />
-       <input class="button" type="submit" name="BackToToolbarsButton" value="{'Back to toolbars'|i18n('design/admin/visual/toolbar')}" title="{'Go back to the toolbar list.'|i18n( 'design/admin/visual/toolbar' )}" />
+       <input class="button" type="submit" name="StoreButton" value="{'Apply changes'|i18n('design/standard/visual/toolbar')}" title="{'Click this button to store changes if you have modified the parameters above.'|i18n( 'design/standard/visual/toolbar' )}" />
+       <input class="button" type="submit" name="BackToToolbarsButton" value="{'Back to toolbars'|i18n('design/standard/visual/toolbar')}" title="{'Go back to the toolbar list.'|i18n( 'design/standard/visual/toolbar' )}" />
     </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>

@@ -34,7 +34,7 @@
 {* we're about to store the class, so let's handle basic class properties errors (name, identifier, presence of attributes) *}
     {section show=or( $validation.class_errors )}
     <div class="message-warning">
-	<h2>{"The class definition contains the following errors:"|i18n("design/admin/class/edit")}</h2>
+	<h2>{"The class definition contains the following errors"|i18n("design/admin/class/edit")}:</h2>
 	<ul>
 	{section var=ClassErrors loop=$validation.class_errors}
 	    <li>{$ClassErrors.item.text}</li>

@@ -36,7 +36,7 @@
                 {/section}{/section}>
                 {* Fold/Unfold/Empty: [-]/[+]/[ ] *}
                 {section show=or($:haveChildren, $:isRootNode)}
-                   <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('design/admin/simplified_treemenu')}"></a>
+                   <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('design/standard/simplified_treemenu')}"></a>
                 {section-else}
                     <span class="openclose"></span>
                 {/section}

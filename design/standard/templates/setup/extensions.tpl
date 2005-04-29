@@ -14,5 +14,5 @@
  />{$:item}<br />
 {/section}
 <br />
-<input type="submit" name="ActivateExtensionsButton" value="{'Activate extensions'|i18n('kernel/setup')}" />
+<input type="submit" name="ActivateExtensionsButton" value="{'Activate extensions'|i18n('design/standard/setup')}" />
 </form>

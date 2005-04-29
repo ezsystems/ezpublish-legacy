@@ -23,7 +23,7 @@
 
             {* Fold/Unfold/Empty: [-]/[+]/[ ] *}
                 {section show=or($:haveChildren, $:isRootNode)}
-                   <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('design/admin/contentstructuremenu')}"
+                   <a class="openclose" href="#" title="{'Fold/Unfold'|i18n('design/standard/contentstructuremenu')}"
                       onclick="ezcst_onFoldClicked( this.parentNode ); return false;"></a>
                 {section-else}
                     <span class="openclose"></span>
@@ -33,7 +33,7 @@
             {section show=eq( $#ui_context, 'browse' )}
                 <a class="nodeicon" href={$:parentNode.node.path_identification_string|ezurl}>{$:parentNode.object.class_identifier|class_icon( $:classIconsSize )}</a>
             {section-else}
-                <a class="nodeicon" href={$:parentNode.node.path_identification_string|ezurl}>{$:parentNode.object.class_identifier|class_icon( $:classIconsSize, "[%classname] Click on the icon to get a context sensitive menu."|i18n( 'design/admin/contentstructuremenu',, hash( '%classname', $:parentNode.object.class_name ) ) )}</a>
+                <a class="nodeicon" href={$:parentNode.node.path_identification_string|ezurl}>{$:parentNode.object.class_identifier|class_icon( $:classIconsSize, "[%classname] Click on the icon to get a context sensitive menu."|i18n( 'design/standard/contentstructuremenu',, hash( '%classname', $:parentNode.object.class_name ) ) )}</a>
             {/section}
             {* Label *}
                 {* Tooltip *}

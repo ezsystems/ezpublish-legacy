@@ -4,7 +4,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h1 class="context-title">{'Menu management'|i18n( 'design/admin/visual/menuconfig' )}</h1>
+<h1 class="context-title">{'Menu management'|i18n( 'design/standard/visual/menuconfig' )}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 
@@ -14,7 +14,7 @@
 
 <div class="context-attributes">
 
-<label>{'SiteAccess'|i18n( 'design/admin/visual/menuconfig' )}:</label>
+<label>{'SiteAccess'|i18n( 'design/standard/visual/menuconfig' )}:</label>
 
         <select name="CurrentSiteAccess">
             {section var=siteaccess loop=$siteaccess_list}
@@ -34,7 +34,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-        <input class="button" type="submit" value="{'Set'|i18n( 'design/admin/visual/menuconfig' )}" name="SelectCurrentSiteAccessButton" />
+        <input class="button" type="submit" value="{'Set'|i18n( 'design/standard/visual/menuconfig' )}" name="SelectCurrentSiteAccessButton" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
@@ -46,7 +46,7 @@
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
-<h2 class="context-title">{"Menu positioning"|i18n( 'design/admin/visual/menuconfig' )}</h2>
+<h2 class="context-title">{"Menu positioning"|i18n( 'design/standard/visual/menuconfig' )}</h2>
 
 {* DESIGN: Subline *}<div class="header-subline"></div>
 
@@ -78,7 +78,7 @@
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 <div class="block">
-    <input class="button" type="submit" name="StoreButton" value="{'Apply changes'|i18n( 'design/admin/visual/menuconfig' )}" title="{'Click here to store the changes if you have modified the menu settings above.'|i18n( 'design/admin/visual/menuconfig' )}" />
+    <input class="button" type="submit" name="StoreButton" value="{'Apply changes'|i18n( 'design/standard/visual/menuconfig' )}" title="{'Click here to store the changes if you have modified the menu settings above.'|i18n( 'design/standard/visual/menuconfig' )}" />
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>

@@ -52,7 +52,7 @@
     <td colspan='3'>
     <table border="0">
     <tr>
-        <td colspan='3'>{'Selected options'|i18n( 'design/admin/shop/confirmorder' )}</td>
+        <td colspan='3'>{'Selected options'|i18n( 'design/admin/shop/orderview' )}</td>
     </tr>
     {section var=Options loop=$ProductItem:item.item_object.option_list}
     <tr>
@@ -112,7 +112,7 @@
 {* Status history *}
 <div class="context-block">
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{'Status history [%status_count]'|i18n( 'design/admin/shop/customerorderview',,
+<h2 class="context-title">{'Status history [%status_count]'|i18n( 'design/admin/shop/orderview',,
                             hash( '%status_count', fetch( shop, order_status_history_count, hash( 'order_id', $order.order_nr ) ) ) )}</h2>
 
 {* DESIGN: Mainline *}<div class="header-subline"></div>

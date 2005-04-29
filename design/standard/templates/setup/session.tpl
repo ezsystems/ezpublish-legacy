@@ -55,7 +55,7 @@ function checkAll()
     <p>{"Total number of sessions"|i18n( "design/standard/setup/session" )}: {$sessions_active}<br/>
         {let logged_in_count=fetch( user, logged_in_count )
              anonymous_count=fetch( user, anonymous_count )}
-        {'There are %logged_in_count registered and %anonymous_count anonymous users online.'|i18n( 'design/standard/toolbar',,
+        {'There are %logged_in_count registered and %anonymous_count anonymous users online.'|i18n( 'design/standard/setup/session',,
           hash( '%logged_in_count', $logged_in_count, '%anonymous_count', $anonymous_count ) )}
         {/let}
     </p>
@@ -158,7 +158,7 @@ function checkAll()
 <table>
 <tr>
     <td>
-        <input type="submit" name="RemoveSelectedSessionsButton" value="{"Remove"|i18n( "design/standard/setup/session ")}" />
+        <input type="submit" name="RemoveSelectedSessionsButton" value="{"Remove"|i18n( "design/standard/setup/session")}" />
     </td>
     <td colspan="5">
         <input name="selectall" onclick=checkAll() type="button" value="Select all">

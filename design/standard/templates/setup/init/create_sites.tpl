@@ -13,7 +13,7 @@
 
 
     <p>
-        {'The following errors were detected:'|i18n( 'design/standard/setup/init' )}
+        {'The following errors were detected'|i18n( 'design/standard/setup/init' )}:
     </p>
 
     <ul class="error">

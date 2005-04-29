@@ -3,7 +3,7 @@
 {default attribute_base=ContentObjectAttribute}
 
 <div class="block">
-<label>{'Option set name'|i18n( 'design/standard/content/datatype/ezmultioption' )}:</label>
+<label>{'Option set name'|i18n( 'design/standard/content/datatype' )}:</label>
 <input class="box" type="text" name="{$attribute_base}_data_optionset_name_{$attribute.id}" value="{$attribute.content.name}" />
 </div>
 
@@ -41,7 +41,7 @@
 <tr class="{$OptionList.sequence}">
 
 {* Remove. *}
-<td><input type="checkbox" name="{$attribute_base}_data_option_remove_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.id}" title="{'Select option for removal.'|i18n('design/standard/contet/datatype')}" /></td>
+<td><input type="checkbox" name="{$attribute_base}_data_option_remove_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.id}" title="{'Select option for removal.'|i18n('design/standard/content/datatype')}" /></td>
 
 {* Option. *}
 <td><input class="box" type="text" name="{$attribute_base}_data_option_value_{$attribute.id}_{$MultiOptionList.id}[]" value="{$OptionList.value}" /></td>
