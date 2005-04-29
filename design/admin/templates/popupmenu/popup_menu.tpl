@@ -193,7 +193,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 
     {section var=siteAccess loop=ezini('SiteAccessSettings','AvailableSiteAccessList')}
         {let link=concat("visual/templatecreate/node/view/full.tpl/(siteAccess)/",$siteAccess)|ezurl}
-            <a class="menu-siteAccess-{$siteAccess}" onclick='ezpopmenu_hideAll(); ezpopup_SubstituteAndRedirect({$link}); return true;' onmouseover="ezpopmenu_mouseOver( 'OverrideSiteAccess' )">{$siteAccess}</a>
+            <a id="menu-override-siteAccess-{$siteAccess}" onclick='ezpopmenu_hideAll(); ezpopup_SubstituteAndRedirect({$link}); return true;' onmouseover="ezpopmenu_mouseOver( 'OverrideSiteAccess' )">{$siteAccess}</a>
         {/let}
     {/section}
 </div>
@@ -206,7 +206,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 
     {section var=siteAccess loop=ezini('SiteAccessSettings','AvailableSiteAccessList')}
         {let link=concat('visual/templatecreate/node/view/full.tpl/(siteAccess)/', $siteAccess, '/(classID)/%classID%')|ezurl}
-            <a id="menu-siteAccess-{$siteAccess}" onclick='ezpopmenu_hideAll(); ezpopup_SubstituteAndRedirect({$link}); return true;' onmouseover="ezpopmenu_mouseOver( 'OverrideByClassSiteAccess' )">{$siteAccess}</a>
+            <a id="menu-override-by-class-siteAccess-{$siteAccess}" onclick='ezpopmenu_hideAll(); ezpopup_SubstituteAndRedirect({$link}); return true;' onmouseover="ezpopmenu_mouseOver( 'OverrideByClassSiteAccess' )">{$siteAccess}</a>
         {/let}
     {/section}
 
@@ -220,7 +220,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 
     {section var=siteAccess loop=ezini('SiteAccessSettings','AvailableSiteAccessList')}
         {let link=concat('visual/templatecreate/node/view/full.tpl/(siteAccess)/', $siteAccess, '/(nodeID)/%nodeID%')|ezurl}
-            <a class="menu-siteAccess-{$siteAccess}" onclick='ezpopmenu_hideAll(); ezpopup_SubstituteAndRedirect({$link}); return true;' onmouseover="ezpopmenu_mouseOver( 'OverrideByNodeSiteAccess' )">{$siteAccess}</a>
+            <a id="menu-override-by-node-siteAccess-{$siteAccess}" onclick='ezpopmenu_hideAll(); ezpopup_SubstituteAndRedirect({$link}); return true;' onmouseover="ezpopmenu_mouseOver( 'OverrideByNodeSiteAccess' )">{$siteAccess}</a>
         {/let}
     {/section}
 </div>
