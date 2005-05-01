@@ -354,6 +354,7 @@ eZInformationCollection:
 - Fixed bug #6478: 'choose' operator returns wrong value.
 - Fixed bug #6547: Event / Payment Gateway shows type "all" even when there 
   are no extensions installed.
+- Fixed bug #6484: "Continue shopping" returns to wrong place.
 
 *Library:
 PDF:
