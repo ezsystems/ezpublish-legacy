@@ -23,7 +23,7 @@ Fetches all objects for the current user.
 {fetch( content, tree,
         hash( parent_node_id, 2,
               attribute_filter,
-              hash( 'owern', $current_user.contentobject_id ) )}
+              hash( 'owner', $current_user.contentobject_id ) )}
 
 
 Example of 'in' usage:
