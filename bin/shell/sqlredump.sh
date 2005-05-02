@@ -232,8 +232,7 @@ if [ "$USE_MYSQL" != "" ]; then
 	case $file in
 	    *.dba)
 		# Create SQL from generic schema and dump them to mysql
-		# We output InnoDB tables by default, older MySQLs will use MyISAM instead
-		./bin/php/ezsqldumpschema.php --type=mysql --output-sql --table-type=innodb $OUTPUT_TYPES_ARG $DUMP_SCHEMA_FILE "$file" | mysql $PARAM_MYSQL_ALL "$DBNAME"
+		./bin/php/ezsqldumpschema.php --type=mysql --output-sql $OUTPUT_TYPES_ARG $DUMP_SCHEMA_FILE "$file" | mysql $PARAM_MYSQL_ALL "$DBNAME"
 		status=$?
 		;;
 	    *.sql)
