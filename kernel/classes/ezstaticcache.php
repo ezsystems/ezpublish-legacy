@@ -209,7 +209,7 @@ class eZStaticCache
         return $this->CachedURLArray;
     }
 
-    function generateCache( $force = false, $quiet = false )
+    function generateCache( $force = false, $quiet = false, $cli = false )
     {
         $staticURLArray = $this->cachedURLArray();
         $db =& eZDB::instance();
@@ -217,16 +217,16 @@ class eZStaticCache
         {
             if ( strpos( $url, '*') === false )
             {
-                if ( !$quiet )
-                    print( "caching: $url " );
+                if ( !$quiet and $cli )
+                    $cli->output( "caching: $url ", false );
                 $this->cacheURL( $url, false, !$force );
-                if ( !$quiet )
-                    print( "done\n" );
+                if ( !$quiet and $cli )
+                    $cli->output( "done" );
             }
             else
             {
-                if ( !$quiet )
-                    print( "wildcard cache: $url\n" );
+                if ( !$quiet and $cli )
+                    $cli->output( "wildcard cache: $url" );
                 $queryURL = ltrim( str_replace( '*', '%', $url ), '/' );
 
                 $aliasArray = $db->arrayQuery( "SELECT source_url, destination_url FROM ezurlalias WHERE source_url LIKE '$queryURL' AND source_url NOT LIKE '%*' ORDER BY source_url" );
@@ -237,13 +237,13 @@ class eZStaticCache
                     $id = $matches[1];
                     if ( $this->cacheURL( $url, (int) $id, !$force ) )
                     {
-                        if ( !$quiet )
-                            print( "  cache $url\n" );
+                        if ( !$quiet and $cli )
+                            $cli->output( "  cache $url" );
                     }
                 }
 
-                if ( !$quiet )
-                    print( "done\n" );
+                if ( !$quiet and $cli )
+                    $cli->output( "done" );
             }
         }
     }
