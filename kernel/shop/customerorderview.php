@@ -59,7 +59,11 @@ $tpl->setVariable( "order_list", $orderList );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/customerorderview.tpl" );
-$Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/shop', ' Customer order view' ) ) );
+$path = array();
+$path[] = array( 'url' => '/shop/orderlist',
+                 'text' => ezi18n( 'kernel/shop', 'Order list' ) );
+$path[] = array( 'url' => false,
+                 'text' => ezi18n( 'kernel/shop', 'Customer order view' ) );
+$Result['path'] = $path;
 
 ?>

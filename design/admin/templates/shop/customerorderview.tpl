@@ -36,6 +36,7 @@
 	<th>{'Total (ex. VAT)'|i18n( 'design/admin/shop/customerorderview' )}</th>
 	<th>{'Total (inc. VAT)'|i18n( 'design/admin/shop/customerorderview' )}</th>
 	<th>{'Time'|i18n( 'design/admin/shop/customerorderview' )}</th>
+	<th>{'Status'|i18n( 'design/admin/shop/customerorderview' )}</th>
 </tr>
 {section var=Orders loop=$order_list sequence=array( bglight, bgdark )}
 <tr class="{$Orders.sequence}">
@@ -43,6 +44,7 @@
 	<td class="number" align="right">{$Orders.item.total_ex_vat|l10n( currency )}</td>
 	<td class="number" align="right">{$Orders.item.total_inc_vat|l10n( currency )}</td>
 	<td>{$Orders.item.created|l10n( shortdatetime )}</td>
+	<td>{$Orders.item.status_name|wash}</td>
 </tr>
 {/section}
 </table>
