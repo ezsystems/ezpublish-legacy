@@ -16,9 +16,6 @@ Changes from 3.5.2 to 3.6.0beta1
   messages in the debug output, or only write them to the logs files.
 - Added new parameter in content_structure_tree operator unfold_node_id for support Simplified treemenu.
 - Added support for user parameters in layout/set/ URLs.
-- Added pdf view mode to CachedViewModes, merged from stable/3.4 rev. 10621, stable/3.5 rev. 10622.
-- Added support for setting information collection email sender in templates
-  (Merged from stable/3.5 (3.5.1) rev. 10736)
 - Fixed enhancement #5754: Fetch objects by translation
 - Updated spec #7: 'id' attribute is replaced with 'url_id' attribute in
   <link> tag. Now 'id' attribute means xhtml id.
@@ -42,9 +39,6 @@ Changes from 3.5.2 to 3.6.0beta1
   (see doc/features/3.6/advanced_related_objects.txt for details)
 - Added functionality to copy subtree.
   (see doc/features/3.6/admin_copy_subtree.txt for details)
-- Changed pregeneration of content cache to happen inside the 'publish'
-  operation instead of in the content/edit page.
-  (Manually merged from stable/3.5 (3.5.2) rev. 11297)
 
 ezpm.php:
 - Added: The database is checked to see if it has the same version as the
@@ -99,191 +93,35 @@ eZ Price:
 - Added enhancement #2155: VAT selections can now be changed at object level.
   (Submitted by: Eirik Johansen)
 
-eZ Xmltext:
-- Modified: Handling of special characters.
-  (Merged from stable/3.5 (3.5.1) rev. 10831)
-
 eZInformationCollection:
 - Added some new fetch & remove functions
 
 *Bugfixes:
-- Object name is now exported/imported in all object versions and translations.
-  (Merged from stable/3.5 rev. 10459)
-- Fixed bug #6010: SQL error in product statistics when year isn't selected and a month is selected.
-  (Merged from stable/3.4 rev. 10460, also in stable/3.5 rev. 10461)
-- Fixed bug #4299: No Translations update when changing an Object Relation Attribute with Disabled Translation.
-  http://ez.no/community/bugs/no_translations_update_when_changing_an_object_relation_attribute_with_disabled_translation
-  (Merged from stable/3.3 rev. 10470, also in stable/3.4 rev. 10471 and stable/3.5 rev. 10472)
-- Fixed bug #6022: var_dump in ezcontentobjecttreenode.php.
-  (Merged from stable/3.5 rev. 10475)
-- Fixed bug #5943: When changing the list of objects related to object A, translation of A were not updated.
-  (Merged from stable/3.3 rev. 10477, also in stable/3.4 rev. 10478 and stable/3.5 rev. 10479)
-- Fixed bug #6013: Warnings in eZRole class. Array type check added.
-  (Merged from stable/3.5 rev. 10483)
-- Fixed bug #6024: Debug: popup - wrong path to debug.html file.
-  (Merged from stable/3.3 rev. 10486, also in stable/3.4 rev. 10488 and stable/3.5 rev. 10489)
-- Fixed bug #6027: PostgreSQL error in section/view.
-  (Merged from stable/3.5 rev. 10493)
 - Fixed bugs in eZURI class: Original URI and user parameters were broken during URI translation.
   $site.original_uri attribute was not listed properly.
 - Fixed bug #5849: Paginated pages only print out first page instead of page being viewed.
-- Fixed bug #4553: Problems with \0 characters for PostGreSQL and ezXML::createTextNode.
-  http://ez.no/bugs/view/4553
-  (Merged from stable/3.4, rev. 10502 and stable/3.5, rev. 10503)
-- Fixed bug #6057: calendar toolbox with only 1. and last week of Jan 2005
-  (Merged from stable/3.4, rev. 10522, also in stable/3.5 rev. 10523)
-- Fixed bug #5965: Partially broken tipafriend functionality.
-- Fixed bug using template caching, and not viewcache. Template cache is now cleared properly.
-  Example : {cache-block} would not expire properly earlier when content cache was disabled. 
-  Merged from stable/3.4 rev. 10531, stable/3.5 rev. 10532.
 - Fixed bug #6097: Treemenu doesn't update after priority changes.
-- Fixed bug #6030: Wrong function's name in workflow/edit.php.
-  ( Merged from stable/3.5 rev. 10543 )
 - Fixed bug #6066: Error when remove node from subtree notification.
 - Fixed bug #6117: Unable to change any states of view mode when ViewCaching is disabled.
 - Fixed bug #6124: Subtree_expiry when template compiler disabled.
-- Fixed bug #6092: Extra whitespace is added after link.
-  ( Merged from stable/3.5 rev. 10611 )
-- Fixed bug 6102: Bug PDF Lists Content Empty, merged from stable/3.5 rev. 10614.
 - Fixed bug #6128: Enhancement RSS - Option to feed subtree items
 - Fixed bug #6101: Wrong "day of the week" in countries with MondayFirst=yes.
   Duplicate of #5834: MondayFirst and wrong DayName.
-- Fixed bug: Classification for paragraph is not rendered.
-  ( Merged from stable/3.5 rev. 10657 )
 - Fixed bug #4719: Enhancement RSS Feed Configuration
 - Fixed bug #6011: Recursive object inclusion. Added limitation on the 
   level of template nesting.
 - Fixed bug #6148: Enhancement RSS: enable/disable caching
 - Fixed bug #6121: Enhancement RSS: option that link in RSS should go to main node
 - Fixed bug: Feed of RSS export was not cachied properly
-- Fixed bug #6044: manage locations - caching problem.
-  ( Merged from stable/3.5 rev.10678 )
-- Fixed bug #6107: Variables loosing content in deep nesting template constructs.
-  (Merged from stable/3.4 (3.4.5) rev. 10580)
 - Added missing soap.php to distribution, merged from stable/3.5 rev. 10689.
-- Fixed bug #6094: eZPersistentObject uses a locale dependent decimal separator
-  when generating SQL.
-  (Merged from stable/3.4 (3.4.5) rev. 10694, also in stable/3.5 (3.5.1) rev. 10695)
-- Fixed bug #6096: URL management, possible cache problem.
-  (Merged from stable/3.5 (3.5.1) rev. 10698).
-- Fixed bug #4033: <literal> tag removes heading whitespace.
-  (Merged from stable/3.3 (3.3-7) rev. 10697, also in stable/3.4 (3.4.5) rev.10706,
-  also in stable/3.5 (3.5.1) rev. 10707)
-- Fixed bug #6144: URL management page counter faulty.
-  ( Merged from stable/3.4 rev. 10711)
-- Fixed bug #6040: URLS are stored incorrectly into ezstring attributes.
-  (Merged from stable/3.3 (3.3-7) rev. 10709)
-- Fixed bug #6151: Buggy node fetching when using classfilter with nonexistent
-  class identifier.
-  (Merged from stable/3.5 rev. 10715)
-- Fixed bug #6091: Template operators and locate settings problem.
-  (Merged from stable/3.3 (3.3-7) rev. 10720, also in stable/3.4 (3.4.5) rev. 10721 and stable/3.5 (3.5.1) rev. 10722)
-- Fixed bug #6166: forgot password entries are not removed once password is 
-  regenerated.
-  (Merged from stable/3.5 rev. 10719)
 - Fixed bug #6169: SQL errors and general warnings when create new RSS export.
-- Fixed bug #6163: Admin: Minor CSS issue package/uninstall
-  (Merged from stable/3.5 rev. 10732)
-- Fixed bug #5967: Undefined variable warnings in compiled templates.
-  (Merged from stable/3.5 (3.5.1) rev. 10742)
-- Fixed bug #6034: eZMYSQLDB::query() unproper error handling
-  (Merged from stable/3.5 (3.5.1) rev. 10748)
-- Fixed bug #6032: sql error after deleting object.
-  (Manually merged from stable/3.4 (3.4.5) rev. 10755, 
-  also in stable/3.5 (3.5.1) rev. 10759)
 - Fixed bug #6171:  Top level object problem. SQL errors.
-- Fixed bug #4411: Modules does not work after creating node named like module.
-  (Merged from stable/3.5 (3.5.1) rev. 10770)
-- Fixed bug #6179: Bug Symlinked entries in the extension dir will not been shown.
-  (Merged from stable/3.4 (3.4.5) rev. 10780,
-   stable/3.5 (3.5.1) rev 10781)
-- Fixed bug #6165: A Problem with Paypal Extension in Ez 3.5.0.
-  (Merged from stable/3.5 (3.5.1) rev.10786)
-- Fixed bug: SQL error in some DBMSs when publishing a large article.
-  (Merged from stable/3.3 (3.3-7) rev. 10801)
 - Fixed bug #6153: RSS export: Objects from multiple sources in wrong order
 - Fixed bug #6185: Headers are not correctly rendered for XML-fields
-- Fixed: Creation of an unneeded workflow process parameter led to multiple
-  workflow processes.
-  (Merged from stable/3.5 (3.5.1) rev. 10823)
-- Fixed bug #6192: Unwanted XML field behavior in <table> tag.
-  (Merged from stable/3.5 (3.5.1) rev. 10854)
-- Fixed bug: eZGeneralDigesthandler returns users when no users should be returned
-  (Merged from stable/3.3 (3.3-7) rev. 10861)
-- Fixed bug: Toolbar template function trying to unset variables that are not set
-  (Merged from stable/3.5 (3.5.1) rev. 10873)
-- Fixed bug #6149: Directory permission checking routine error.
-  (Merged from stable/3.5 (3.5.1) rev. 10912)
-- Fixed bug #6188: Wrong CookieTimeout in site.ini
-  (Merged from stable/3.5 (3.5.1) rev. 10904)
-- Fixed: SQL errors in ezkeyword and ezenum datatypes when running
-  on PostgreSQL.
-  (Merged from release/3.5.1 rev. 10896)
-- Fixed bug #6198: Date and datetime as object name pattern for a class.
-  (Merged from stable/3.5 (3.5.1) rev. 10940)
-- Fixed bug #6198: Time field as object name pattern for a class.
-  (Merged from stable/3.5 (3.5.1) rev. 10944)
-- Fixed bug: infinite loop during RSS import.
-  (Merged from stable/3.5 (3.5.2) rev. 10974)
-- Fixed bug #6181: Error sending SMTP mail, invalid rcpt header. 
-  (Merged from stable/3.4 (3.4.6) rev. 10978)
-- Fixed bug when modulo variable in delimiter contains whitespace, and template compile is disabled.
-  (Merged from stable/3.5 (3.5.2) rev. 10984)
-- Fixed bug with incorrect current_version when copying eZContentObject.
-  ( Merged from stable/3.5 ( 3.5.2 ) rev. 10992 )
-- Fixed bug with creating URL translation from existing url_alias to other system module.
-  ( Merged from stable/3.5 ( 3.5.2 ) rev. 10996 )
-- Fixed bug #6265: show children always "yes" in preview.
-  ( Merged from stable/3.5 rev. 10969 )
-- Fixed bug #6321: Not valid HTML in template
-  (Manually merged from stable/3.4 (3.4.6) rev. 11023)
-- Fixed bug #5987: ez.no: Save draft should not respect the required field.
-  (Merged from stable/3.4 (3.4.6) rev. 10976, stable/3.5 (3.5.2) rev. 11018)
-- Fixed bug #6276: ez.no: PreViewCache not working
-  (Merged from stable/3.5 (3.5.2) rev. 11025)
-- Fixed bug #6280: Previous location not displayed when moving node
-  (Manually merged from stable/3.5 (3.5.2) rev. 11042)
-- Fixed bug #6323: Wrong condition for http post to url conversion.
-  (Merged from stable/3.5 (3.5.2) rev. 11046)
-- Fixed bug #6269: Error in ezpackage.php after updating 3.5.0 to 3.5.1
-  (Merged from stable/3.4 (3.4.6) rev.11052, stable/3.5 (3.5.2) rev. 11054)
-- Fixed bug #6270: Error in ezpackage.php
-  (Merged from stable/3.4 (3.4.6) rev.11052, stable/3.5 (3.5.2) rev. 11054)
 - Fixed: Session data was rewritten in case of HTTP request errors.
 - Fixed bug #6307: Ini arrays' definitions were erased when saving ini files.
-- Fixed bug #6354: Template compile breaks maketime function
-  (Merged from stable 3.4 (3.4.6) rev 11101)
-- Fixed problem with the popupmenu not handling cases with dynamic substitutevalue changing.
-- Fixed bug #6221: Media node linked wrongly in upgrade.
-  (Merged from stable/3.5 (3.5.2) rev. 11176)
-- Fixed bug #6375: Tree count and non translated tree.
-  (Merged from stable/3.5 (3.5.2) rev. 11184)
-- Fixed bug #6197: Disabling override cache and template compile will make 
-  admin interface missbehave.
-  (Merged from stable/3.5 (3.5.2) rev. 11188)
 - Fixed bug #6211: Deleting a related object doesnt remove the related reference.
 - Fixed bug #6391: Editing of eZURL results in transaction error.
-- Fixed bug #6175: Subtree_expiry not expiry
-  (Merged from stable/3.5 (3.5.2) rev. 11213)
-- Fixed bug #6359: Fatal error (and PHP warning) when adding source to an
-  RSS export.
-  (Merged from stable/3.5 (3.5.2) rev. 11224)
-- Fixed bug #6074: Major crash because of typo in site.ini.
-  (Merged from stable/3.5 (3.5.2) rev. 11232)
-- Fixed bug #6078: Wrong RSS rights to anonymous users.
-  (Manually merged from stable/3.5 (3.5.2) rev. 11261) 
-- Fixed bug #6446: eZPreferences::values() always assumes the current user.
-  (Manually merged from stable/3.5 (3.5.2) rev. 11264, 11274)
-- Fixed bug #6447: eZUser session caching problems.
-  (Manually merged from stable/3.5 (3.5.2) rev. 11267)
-- Fixed bug #6445: Pregeneration of content cache: Missing default view parameters.
-  (Manually merged from stable/3.5 (3.5.2) rev. 11270)
-- Fixed bug #6444: Default cached view preference values are only included when
-  they are false.
-  (Manually merged from stable/3.5 (3.5.2) rev. 11272)
-- Fixed bug #6443: New bug: Cached view preference list is not used when user
-  does not have any preferences set.
-  (Manually merged from stable/3.5 (3.5.2) rev. 11276)
 - Fixed bug: Content cache pregeneration: The DesignSetting of the selected
   siteaccess were not used.
   (Submitted by: Bruce Morrison)
@@ -291,35 +129,11 @@ eZInformationCollection:
   currently logged in user instead of the anonymous user or another specific
   user.
   (Submitted by: Bruce Morrison)
-- Fixed bug #6448: Pregeneration of content cache: Wrong CachedViewPreferences
-  in some cases.
-  (Manually merged from stable/3.5 (3.5.2) rev. 11293)
-- Fixed bug #6077: eZImageAliasHandler::initializeFromFile may mess things up.
-  (Manually merged from stable/3.4 (3.4.6) rev. 11303)
 - Fixed bug #6038: Wrong check in template for binaryfile datatype.
 - Fixed bug #6438: Defect node fetching
 - Fixed bug #6462: Templates for RSS in the default design do not correspond.
-- Fixed bug #6464: Uploading new related objects to new content object 
-  erases contents of the object.
-  (Merged from stable/3.5 (3.5.2) rev. 11339)
-- Fixed bug #6180: URL translator confusion revisited.
-  (Merged from stable/3.5 (3.5.2) rev. 11342)
-- Fixed bug #6469: Wrong order number used in removeorder.
-  (Manually merged from stable/3.4 (3.4.6) rev. 11358)
-- Fixed bug #6424: Wrong behaviour of packaging ezurltype
-  (Manually merged from stable/3.5 (3.5.2) rev. 11366)
-- Fixed bug #6255: Removing user group from a role assignment does not clear
-  the caches.
-  (Manually merged from stable/3.4 (3.4.6) rev. 11377)
-- Fixed bug #2648: Moving node under own child node.
-  (Manually merged from stable/3.5 (3.5.2) rev. 11381)
-- Fixed bug: Session would be activated allthough eZScript was instructed not
-  to start sessions.
-  (Manually merged from stable/3.5 (3.5.2) rev. 11389)
 - Fixed bug: Notification digest handler raised fatal error.
 - Fixed bug #5583: ezimage.tpl produces bare href and target - bad XHTML.
-- Fixed bug: JavaScript error in content/edit
-  (Merged from stable/3.5 (3.5.2) rev. 11437)
 - Fixed bug #6514: ezobjectrelationlist does not archive old versions
   (Merged from release/3.4.6(3.4.6) rev. 11485, also in 
   relase/3.5.2(3.5.2) rev.11486)
@@ -376,14 +190,6 @@ eZDebug:
 - Added support for display an analysis of the query that is being executed.
   (Currently only supported for MySQL).
 
-eZDB:
-- The reading of INI settings can now be disabled by passing the 'use_default'
-  entry to the database parameter array in eZDB.
-  (Merged from stable/3.5 (3.5.2) rev. 11143)
-- PostgreSQL driver will no longer send false/null parameters to the connect
-  function.
-  (Merged from stable/3.5 (3.5.2) rev. 11242)
-
 eZURI:
 - Added transformURI function that makes valid URI (encapsultes 'ezurl' template
   operator functionality).
@@ -419,8 +225,3 @@ eZURI:
 
 eZDateTime:
 -  Fixed bug with missing array in function setHMS().
-
-eZMail:
-- Fixed bug with extractEmail() in eZMail.
-  (Also fixed in stable/3.4 (3.4.5) rev. 10777 and
-   stable/3.5 (3.5.1) rev. 10778 ).
