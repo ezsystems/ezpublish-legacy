@@ -499,8 +499,15 @@ class eZStepCreateSites extends eZStepInstaller
                             $result = true;
                             // This will insert the schema, then the data and
                             // run any sequence value correction SQL if required
-                            if ( !$dbSchema->insertSchema( array( 'schema' => true,
-                                                                  'data' => true ) ) )
+                            $params = array( 'schema' => true,
+                                             'data' => true );
+                            // If we use MySQL we try to create the tables with the InnoDB type.
+                            // MySQL versions without this type will just use the default table type.
+                            if ( $db->databaseName() == 'mysql' )
+                            {
+                                $params['table_type'] = 'innodb';
+                            }
+                            if ( !$dbSchema->insertSchema( $params ) )
                             {
                                 $resultArray['errors'][] = array( 'code' => 'EZSW-004',
                                                                   'text' => ( "Failed inserting data to " . $db->databaseName() . "\n" .
