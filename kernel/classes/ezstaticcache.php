@@ -107,12 +107,21 @@ class eZStaticCache
     }
 
     /*!
+     \return An array with URLs that is to be cached statically, the URLs may contain wildcards.
+    */
+    function &cachedURLArray()
+    {
+        return $this->CachedURLArray;
+    }
+
+    /*!
      \return An array with URLs that is to always be updated.
      \note These URLs are configured with \c AlwaysUpdateArray in \c staticcache.ini.
      \sa generateAlwaysUpdatedCache()
     */
     function alwaysUpdateURLArray()
     {
+        return $this->AlwaysUpdateArray;
     }
 
     /*!
@@ -128,6 +137,52 @@ class eZStaticCache
         foreach ( $this->AlwaysUpdate as $uri )
         {
             $this->storeCache( $uri, $hostname, $staticStorageDir, array(), false );
+        }
+    }
+
+    /*!
+     Generates the static cache from the configured INI settings.
+
+     \param $force If \c true then it will create all static caches even if it is not outdated.
+     \param $quiet If \c true then the function will not output anything.
+     \param $cli The eZCLI object or \c false if no output can be done.
+    */
+    function generateCache( $force = false, $quiet = false, $cli = false )
+    {
+        $staticURLArray = $this->cachedURLArray();
+        $db =& eZDB::instance();
+        foreach ( $staticURLArray as $url )
+        {
+            if ( strpos( $url, '*') === false )
+            {
+                if ( !$quiet and $cli )
+                    $cli->output( "caching: $url ", false );
+                $this->cacheURL( $url, false, !$force );
+                if ( !$quiet and $cli )
+                    $cli->output( "done" );
+            }
+            else
+            {
+                if ( !$quiet and $cli )
+                    $cli->output( "wildcard cache: $url" );
+                $queryURL = ltrim( str_replace( '*', '%', $url ), '/' );
+
+                $aliasArray = $db->arrayQuery( "SELECT source_url, destination_url FROM ezurlalias WHERE source_url LIKE '$queryURL' AND source_url NOT LIKE '%*' ORDER BY source_url" );
+                foreach ( $aliasArray as $urlAlias )
+                {
+                    $url = "/" . $urlAlias['source_url'];
+                    preg_match( '/([0-9]+)$/', $urlAlias['destination_url'], $matches );
+                    $id = $matches[1];
+                    if ( $this->cacheURL( $url, (int) $id, !$force ) )
+                    {
+                        if ( !$quiet and $cli )
+                            $cli->output( "  cache $url" );
+                    }
+                }
+
+                if ( !$quiet and $cli )
+                    $cli->output( "done" );
+            }
         }
     }
 
@@ -307,60 +362,6 @@ class eZStaticCache
 
         @unlink( $dir . "/index.html" );
         @rmdir( $dir );
-    }
-
-    /*!
-     \return An array with URLs that is to be cached statically, the URLs may contain wildcards.
-    */
-    function &cachedURLArray()
-    {
-        return $this->CachedURLArray;
-    }
-
-    /*!
-     Generates the static cache from the configured INI settings.
-
-     \param $force If \c true then it will create all static caches even if it is not outdated.
-     \param $quiet If \c true then the function will not output anything.
-     \param $cli The eZCLI object or \c false if no output can be done.
-    */
-    function generateCache( $force = false, $quiet = false, $cli = false )
-    {
-        $staticURLArray = $this->cachedURLArray();
-        $db =& eZDB::instance();
-        foreach ( $staticURLArray as $url )
-        {
-            if ( strpos( $url, '*') === false )
-            {
-                if ( !$quiet and $cli )
-                    $cli->output( "caching: $url ", false );
-                $this->cacheURL( $url, false, !$force );
-                if ( !$quiet and $cli )
-                    $cli->output( "done" );
-            }
-            else
-            {
-                if ( !$quiet and $cli )
-                    $cli->output( "wildcard cache: $url" );
-                $queryURL = ltrim( str_replace( '*', '%', $url ), '/' );
-
-                $aliasArray = $db->arrayQuery( "SELECT source_url, destination_url FROM ezurlalias WHERE source_url LIKE '$queryURL' AND source_url NOT LIKE '%*' ORDER BY source_url" );
-                foreach ( $aliasArray as $urlAlias )
-                {
-                    $url = "/" . $urlAlias['source_url'];
-                    preg_match( '/([0-9]+)$/', $urlAlias['destination_url'], $matches );
-                    $id = $matches[1];
-                    if ( $this->cacheURL( $url, (int) $id, !$force ) )
-                    {
-                        if ( !$quiet and $cli )
-                            $cli->output( "  cache $url" );
-                    }
-                }
-
-                if ( !$quiet and $cli )
-                    $cli->output( "done" );
-            }
-        }
     }
 
     /// \privatesection
