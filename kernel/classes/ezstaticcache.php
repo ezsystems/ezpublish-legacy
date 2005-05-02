@@ -35,10 +35,34 @@
 // you.
 //
 
+/*! \file ezstaticcache.php
+*/
+
+/*!
+  \class eZStaticCache ezstaticcache.php
+  \brief Manages the static cache system.
+
+  This class can be used to generate static cache files usable
+  by the static cache system.
+
+  Generating static cache is done by instatiating the class and then
+  calling generateCache(). For example:
+  \code
+  $staticCache = new eZStaticCache();
+  $staticCache->generateCache();
+  \endcode
+
+  To generate the URLs that must always be updated call generateAlwaysUpdatedCache()
+
+*/
+
 include_once( 'lib/ezutils/classes/ezini.php' );
 
 class eZStaticCache
 {
+    /*!
+     Initialises the static cache object with settings from staticcache.ini.
+    */
     function eZStaticCache()
     {
         $ini =& eZINI::instance( 'staticcache.ini');
@@ -50,6 +74,52 @@ class eZStaticCache
         $this->AlwaysUpdate = $ini->variable( 'CacheSettings', 'AlwaysUpdateArray' );
     }
 
+    /*!
+     \return The currently configured host-name.
+    */
+    function hostName()
+    {
+        return $this->HostName;
+    }
+
+    /*!
+     \return The currently configured storage directory for the static cache.
+    */
+    function storageDirectory()
+    {
+        return $this->StaticStorageDir;
+    }
+
+    /*!
+     \return The maximum depth in the url which will be cached.
+    */
+    function maxCacheDepth()
+    {
+        return $this->MaxCacheDepth;
+    }
+
+    /*!
+     \return An array with site-access names that should be cached.
+    */
+    function cachedSiteAccesses()
+    {
+        return $this->CachedSiteAccesses;
+    }
+
+    /*!
+     \return An array with URLs that is to always be updated.
+     \note These URLs are configured with \c AlwaysUpdateArray in \c staticcache.ini.
+     \sa generateAlwaysUpdatedCache()
+    */
+    function alwaysUpdateURLArray()
+    {
+    }
+
+    /*!
+     Generates the caches for all URLs that must always be generated.
+
+     \sa alwaysUpdateURLArray().
+    */
     function generateAlwaysUpdatedCache()
     {
         $hostname = $this->HostName;
@@ -61,6 +131,14 @@ class eZStaticCache
         }
     }
 
+    /*!
+     \private
+     Generates the caches for the url \a $url using the currently configured hostName() and storageDirectory().
+
+     \param $url The URL to cache, e.g \c /news
+     \param $nodeID The ID of the node to cache, if supplied it will also cache content/view/full/xxx.
+     \param $skipExisting If \c true it will not unlink existing cache files.
+    */
     function cacheURL( $url, $nodeID = false, $skipExisting = false )
     {
         // Set default hostname
@@ -97,6 +175,17 @@ class eZStaticCache
         return true;
     }
 
+    /*!
+     \private
+     Stores the static cache for \a $url and \a $hostname by fetching the web page using
+     fopen() and storing the fetched HTML data.
+
+     \param $url The URL to cache, e.g \c /news
+     \param $hostname The name of the host which serves web pages dynamically, see hostName().
+     \param $staticStorageDir The base directory for storing cache files, see storageDirectory().
+     \param $alternativeStaticLocations An array with additional URLs that should also be cached.
+     \param $skipUnlink If \c true it will not unlink existing cache files.
+    */
     function storeCache( $url, $hostname, $staticStorageDir, $alternativeStaticLocations = array(), $skipUnlink = false )
     {
         if ( is_array( $this->CachedSiteAccesses ) and count ( $this->CachedSiteAccesses ) )
@@ -158,6 +247,12 @@ class eZStaticCache
         }
     }
 
+    /*!
+     \private
+     \param $staticStorageDir The storage for cache files.
+     \param $url The URL for the current item, e.g \c /news
+     \return The full path to the cache file (index.html) based on the input parameters.
+    */
     function buildCacheFilename( $staticStorageDir, $url )
     {
         $file = "{$staticStorageDir}{$url}/index.html";
@@ -165,6 +260,11 @@ class eZStaticCache
         return $file;
     }
 
+    /*!
+     \private
+     Stores the cache file \a $file with contents \a $content.
+     Takes care of setting proper permissions on the new file.
+    */
     function storeCachedFile( $file, $content )
     {
         $dir = dirname( $file );
@@ -193,6 +293,11 @@ class eZStaticCache
         umask( $oldumask );
     }
 
+    /*!
+     Removes the static cache file (index.html) and its directory if it exists.
+     The directory path is based upon the URL \a $url and the configured static storage dir.
+     \param $url The URL for the curren item, e.g \c /news
+    */
     function removeURL( $url )
     {
         if ( $url == "/" )
@@ -204,11 +309,21 @@ class eZStaticCache
         @rmdir( $dir );
     }
 
+    /*!
+     \return An array with URLs that is to be cached statically, the URLs may contain wildcards.
+    */
     function &cachedURLArray()
     {
         return $this->CachedURLArray;
     }
 
+    /*!
+     Generates the static cache from the configured INI settings.
+
+     \param $force If \c true then it will create all static caches even if it is not outdated.
+     \param $quiet If \c true then the function will not output anything.
+     \param $cli The eZCLI object or \c false if no output can be done.
+    */
     function generateCache( $force = false, $quiet = false, $cli = false )
     {
         $staticURLArray = $this->cachedURLArray();
@@ -248,10 +363,14 @@ class eZStaticCache
         }
     }
 
+    /// \privatesection
+    /// The name of the host to fetch HTML data from.
     var $HostName;
+    /// The base path for the directory where static files are placed.
     var $StaticStorage;
+    /// The maximum depth of URLs that will be cached.
     var $MaxCacheDepth;
-
+    /// Array of URLs to cache.
     var $CachedURLArray;
 }
 
