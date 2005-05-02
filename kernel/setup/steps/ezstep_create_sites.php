@@ -501,9 +501,10 @@ class eZStepCreateSites extends eZStepInstaller
                             // run any sequence value correction SQL if required
                             $params = array( 'schema' => true,
                                              'data' => true );
-                            // If we use MySQL we try to create the tables with the InnoDB type.
+                            // If we use MySQL 4.0+ we try to create the tables with the InnoDB type.
                             // MySQL versions without this type will just use the default table type.
-                            if ( $db->databaseName() == 'mysql' )
+                            if ( $db->databaseName() == 'mysql' and
+                                 version_compare( $db->databaseServerVersion(), '4.0' ) >= 0 )
                             {
                                 $params['table_type'] = 'innodb';
                             }
