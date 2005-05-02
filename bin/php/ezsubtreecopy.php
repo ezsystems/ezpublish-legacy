@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 //
 // Created on: <20-Feb-2005 15:00:00 rl>
@@ -52,8 +53,8 @@ $scriptOptions = $script->getOptions( "[src-node-id:][dst-node-id:][all-versions
                                       array( 'src-node-id' => "Source subtree parent node ID.",
                                              'dst-node-id' => "Destination node ID.",
                                              'allversions' => "Copy all versions for each contentobject being copied.",
-                                             'keep-creator'=> "Keep creator of contentobjects being copied unchanged.",
-                                             'keep-time'   => "Keep time of creation and modification of contentobjects being copied unchaged."
+                                             'keep-creator'=> "Do not change the creator (user) for the copied content objects.",
+                                             'keep-time'   => "Do not change the creation and modification time of the copied content objects."
                                              ),
                                       false,
                                       array( 'user' => true )
