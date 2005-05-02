@@ -41,7 +41,9 @@ include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli =& eZCLI::instance();
-$script =& eZScript::instance( array( 'description' => ( "\nSubtree Copy Script for eZPublish 3.6\n" ),
+$script =& eZScript::instance( array( 'description' => ( "\n" .
+                                                         "This script will make a copy of a content object subtree and place it in a specified\n" .
+                                                         "location.\n" ),
                                       'use-session' => false,
                                       'use-modules' => true,
                                       'use-extensions' => false,
@@ -66,31 +68,7 @@ $dstNodeID   = $scriptOptions[ 'dst-node-id' ] ? $scriptOptions[ 'dst-node-id' ]
 $allVersions = $scriptOptions[ 'all-versions' ];
 $keepCreator = $scriptOptions[ 'keep-creator' ];
 $keepTime    = $scriptOptions[ 'keep-time' ];
-$siteAccess  = $scriptOptions[ 'siteaccess' ]  ? $scriptOptions[ 'siteaccess' ]  : false;
 
-if ( $siteAccess )
-{
-    changeSiteAccessSetting( $siteaccess, $siteAccess );
-}
-
-function changeSiteAccessSetting( &$siteaccess, $optionData )
-{
-    global $isQuiet;
-    $cli =& eZCLI::instance();
-    if ( file_exists( 'settings/siteaccess/' . $optionData ) )
-    {
-        $siteaccess = $optionData;
-        if ( !$isQuiet )
-            $cli->notice( "Using siteaccess $siteaccess" );
-    }
-    else
-    {
-        if ( !$isQuiet )
-            $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////////
 include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 
@@ -169,7 +147,7 @@ function &copyPublishContentObject( &$sourceObject,
         $key = array_search( $parentNodeID, $syncNodeIDListSrc );
         if ( $key === false )
         {
-            $cli->output( "Subtree Copy Error!\nOne of parent nodes for contentobject (ID = $sourceObjectID) is not published yet." );
+            $cli->error( "Subtree Copy Error!\nOne of parent nodes for contentobject (ID = $sourceObjectID) is not published yet." );
             return 4;
         }
 
@@ -199,7 +177,7 @@ function &copyPublishContentObject( &$sourceObject,
     if ( count($newNodeList) == 0 )
     {
         $newObject->purge();
-        $cli->output( "Subtree Copy Error!\nCannot publish contentobject." );
+        $cli->error( "Subtree Copy Error!\nCannot publish contentobject." );
         return 5;
     }
 
@@ -329,13 +307,13 @@ $destinationNode = ( $dstNodeID ) ? eZContentObjectTreeNode::fetch( $dstNodeID )
 
 if ( !$sourceSubTreeMainNode )
 {
-    $cli->output( "Subtree copy Error!\nCannot get subtree main node. Please check src-node-id argument and try again." );
-    return 1;
+    $cli->error( "Subtree copy Error!\nCannot get subtree main node. Please check src-node-id argument and try again." );
+    $script->shutdown( 1 );
 }
 if ( !$destinationNode )
 {
-    $cli->output( "Subtree copy Error!\nCannot get destination node. Please check dst-node-id argument and try again." );
-    return 1;
+    $cli->error( "Subtree copy Error!\nCannot get destination node. Please check dst-node-id argument and try again." );
+    $script->shutdown( 1 );
 }
 
 $sourceNodeList    = array();
@@ -367,8 +345,8 @@ while ( count( $sourceNodeList ) > 0 )
 {
     if ( $k > $countNodeList )
     {
-        $cli->output( "Subtree Copy Error!\nToo many loops while copying nodes." );
-        return 6;
+        $cli->error( "Subtree Copy Error!\nToo many loops while copying nodes." );
+        $script->shutdown( 6 );
     }
 
     for ( $i = 0; $i < count( $sourceNodeList ); $i)
@@ -410,8 +388,8 @@ $cli->output( "Number of copied contentobjects: " . count( $syncObjectIDListNew 
 $key = array_search( $sourceSubTreeMainNodeID, $syncNodeIDListSrc );
 if ( $key === false )
 {
-    $cli->output( "Subtree copy Error!\nCannot find subtree root node in array of IDs of copied nodes." );
-    return 2;
+    $cli->error( "Subtree copy Error!\nCannot find subtree root node in array of IDs of copied nodes." );
+    $script->shutdown( 1 );
 }
 
 $newSubTreeMainNodeID = $syncNodeIDListSrc[ $key ];
@@ -429,8 +407,8 @@ $db =& eZDB::instance();
 
 if ( !$db )
 {
-    $cli->output( "Subtree Copy Error!\nCannot create instance of eZDB for fixing local links (related objects)." );
-    return 3;
+    $cli->error( "Subtree Copy Error!\nCannot create instance of eZDB for fixing local links (related objects)." );
+    $script->shutdown( 3 );
 }
 
 $idListStr = implode( ',', $syncObjectIDListNew );
