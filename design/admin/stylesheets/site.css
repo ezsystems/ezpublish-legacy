@@ -1519,7 +1519,7 @@ div#rightmenu label
     font-weight: normal;
 }
 
-/* INDEX VIEW*/
+/* INDEX VIEW */
 
 div.content-viewindex ul
 {
@@ -1701,10 +1701,16 @@ div.popupmenu hr
     border-top: 1px solid #c0c0c0;
 }
 
-
 span.overriden
 {
     color: red;
+}
+
+/* OE FIX */
+
+div.oe-window
+{
+    border-bottom: 1px solid #ffffff;
 }
 
 /* th[eZ] */
