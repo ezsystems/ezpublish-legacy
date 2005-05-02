@@ -21,8 +21,9 @@
 <div class="box-ml"><div class="box-mr"><div class="box-content">
 {/section}
 
-<ul>
 {let bookmark_list=fetch( content, bookmarks )}
+{section show=$bookmark_list}
+<ul>
     {section var=Bookmarks loop=$bookmark_list}
         {section show=ne( $ui_context, 'edit' )}
          <li>
@@ -39,8 +40,9 @@
          <li>{$Bookmarks.item.node.object.content_class.identifier|class_icon( ghost, $Bookmarks.item.node.object.content_class.name )}&nbsp;<span class="disabled">{$Bookmarks.item.node.name|wash}</span></li>
          {/section}
     {/section}
-{/let}
 </ul>
+{/section}
+{/let}
 
 <div class="block">
 {* Show "Add to bookmarks" button if we're viewing an actual node. *}

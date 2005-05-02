@@ -25,7 +25,7 @@
       <input type="hidden" name="NodeID" value="{$module_result.content_info.node_id}" />
       <input type="hidden" name="ObjectID" value="{$module_result.content_info.object_id}" />
     {/section}
-    <br/>
+    <br />
     <input {eq( $ui_context, 'edit' )|choose( 'class="button"', 'class="button-disabled"' )}{eq( $ui_context, 'edit' )|choose( '', ' disabled="disabled"' )} type="submit" name="ClearCacheButton" value="{'Clear'|i18n( 'design/standard/pagelayout' )}" />
 </form>
 {/let}

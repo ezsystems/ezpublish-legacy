@@ -1,11 +1,7 @@
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight">
-    {section show=eq( $select_type, 'checkbox' )}
-        <img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/content/browse' )}" title="{'Invert selection.'|i18n( 'design/admin/content/browse' )}" onclick="ezjs_toggleCheckboxes( document.browse, '{$select_name}[]' ); return false;" />
-    {section-else}
-        &nbsp;
-    {/section}
+    <a href={concat( '/content/browse/', $main_node.parent_node_id, '/' )|ezurl}><img src={'back-button-16x16.gif'|ezimage} alt="{'Back'|i18n( 'design/admin/content/browse' )}" /></a>
     </th>
     <th class="wide">
     {'Name'|i18n( 'design/admin/content/browse' )}

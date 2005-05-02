@@ -88,7 +88,7 @@
 {* Static content cache. *}
 <tr class="bgdark">
 <td>{'Static content cache'|i18n( 'design/admin/setup/cache' )}:</td>
-<td><input class="button" type="submit" name="RegenerateStaticCacheButton" value="{'Regenerate static content cache'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will regenerate all the static content caches that are configured. This action can take quite some time depending on the specifications of the server and the number of locations that are configured to be statically cached. If you encounter time-out problems, please use the "bin/php/makestaticcache.php" shell script.'|i18n( 'design/admin/setup/cache' )}" /></td>
+<td><input class="button" type="submit" name="RegenerateStaticCacheButton" value="{'Regenerate static content cache'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will regenerate all the static content caches that are configured. This action can take quite some time depending on the specifications of the server and the number of locations that are configured to be statically cached. If you encounter time-out problems, please use the &quot;bin/php/makestaticcache.php&quot; shell script.'|i18n( 'design/admin/setup/cache' )}" /></td>
 </tr>
 
 </table>
