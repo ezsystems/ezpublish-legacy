@@ -36,7 +36,7 @@ Of course, you will need to change "/dat/ez.no" to the path corresponding with
 the root location of your eZ publish installation.
 
 
-In settings/siteaccess/site.ini.append.php add the following settings to enable
+In settings/siteaccess/ezno/site.ini.append.php add the following settings to enable
 the static caching process:
 
 <code>
