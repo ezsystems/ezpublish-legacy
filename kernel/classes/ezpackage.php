@@ -1420,6 +1420,11 @@ class eZPackage
             if ( !$parameters )
                 return false;
 
+            /*
+            This has been disabled due to a previous bug which caused most
+            packages to be created as development packages (even in a stable
+            release).
+
             if ( $package and
                  !EZ_PACKAGE_DEVELOPMENT )
             {
@@ -1435,6 +1440,7 @@ class eZPackage
                     return false;
                 }
             }
+            */
 
             $root =& $dom->root();
             if ( !$root )
@@ -1532,6 +1538,11 @@ class eZPackage
                      isset( $ModifiedParameters ) and
                      isset( $InstallData ) )
                 {
+                    /*
+                    This has been disabled due to a previous bug which caused most
+                    packages to be created as development packages (even in a stable
+                    release).
+
                     if ( !EZ_PACKAGE_DEVELOPMENT )
                     {
                         if ( !isset( $Parameters['development'] ) or
@@ -1546,6 +1557,7 @@ class eZPackage
                             return false;
                         }
                     }
+                    */
 
                     $package = new eZPackage( $Parameters, array(), $RepositoryPath );
                     $package->InstallData = $InstallData;
@@ -2079,6 +2091,11 @@ class eZPackage
         if ( !$root )
             return false;
 
+        /*
+        This has been disabled due to a previous bug which caused most
+        packages to be created as development packages (even in a stable
+        release).
+
         if ( !EZ_PACKAGE_DEVELOPMENT )
         {
             // If it has a warning we don't read it in production mode
@@ -2087,6 +2104,7 @@ class eZPackage
                 return false;
             }
         }
+        */
 
         // Read basic info
         $parameters = array();
