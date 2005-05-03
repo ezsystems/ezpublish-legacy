@@ -1128,6 +1128,10 @@ class eZObjectRelationListType extends eZDataType
         if ( $content['default_placement'] )
             $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-placement',
                                                                                      array( 'node-id' => $content['default_placement']['node_id'] ) ) );
+        if ( is_numeric( $content['type'] ) )
+            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'type', $content['type'] ) );
+        else
+            $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'type', '0' ) );
         $classConstraintsNode =& eZDOMDocument::createElementNode( 'class-constraints' );
         $attributeParametersNode->appendChild( $classConstraintsNode );
         foreach ( $content['class_constraint_list'] as $classConstraint )
@@ -1148,6 +1152,7 @@ class eZObjectRelationListType extends eZDataType
         $content['default_placement'] = false;
         if ( $defaultPlacementNode )
             $content['default_placement'] = $defaultPlacementNode->attributeValue( 'node-id' );
+        $content['type'] = $attributeParametersNode->elementTextContentByName( 'type' );
         $classConstraintsNode =& $attributeParametersNode->elementByName( 'class-constraints' );
         $classConstraintList =& $classConstraintsNode->children();
         $content['class_constraint_list'] = array();
