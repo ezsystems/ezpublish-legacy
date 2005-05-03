@@ -251,7 +251,7 @@ class eZContentFunctionCollection
         }
 
         $children = null;
-        if ( is_numeric( $parentNodeID ) )
+        if ( is_numeric( $parentNodeID ) or is_array( $parentNodeID ) )
         {
             $children =& eZContentObjectTreeNode::subTree( $treeParameters,
                                                            $parentNodeID );
@@ -281,7 +281,7 @@ class eZContentFunctionCollection
 
         $childrenCount = null;
 
-        if ( is_numeric( $parentNodeID ) )
+        if ( is_numeric( $parentNodeID ) or is_array( $parentNodeID ) )
         {
             $childrenCount =& eZContentObjectTreeNode::subTreeCount( array( 'Limitation' => $limitation,
                                                                             'ClassFilterType' => $class_filter_type,
