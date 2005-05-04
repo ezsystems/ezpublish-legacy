@@ -503,8 +503,9 @@ class eZStepCreateSites extends eZStepInstaller
                                              'data' => true );
                             // If we use MySQL 4.0+ we try to create the tables with the InnoDB type.
                             // MySQL versions without this type will just use the default table type.
+                            $dbVersion = $db->databaseServerVersion();
                             if ( $db->databaseName() == 'mysql' and
-                                 version_compare( $db->databaseServerVersion(), '4.0' ) >= 0 )
+                                 version_compare( $dbVersion['string'], '4.0' ) >= 0 )
                             {
                                 $params['table_type'] = 'innodb';
                             }
