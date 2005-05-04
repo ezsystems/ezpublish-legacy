@@ -1879,6 +1879,13 @@ class eZContentObject extends eZPersistentObject
         if ( !$fromObjectID )
             $fromObjectID = $this->ID;
 
+        if ( !is_numeric( $toObjectID ) )
+        {
+            eZDebug::writeError( "Related object ID (toObjectID): '$toObjectID', is not a numeric value.", 
+                                 "eZContentObject::addContentObjectRelation" );
+            return false;
+        }
+        
         $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id )
 		     VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID )" );
     }

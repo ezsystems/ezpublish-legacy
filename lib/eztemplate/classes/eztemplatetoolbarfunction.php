@@ -110,6 +110,8 @@ class eZTemplateToolbarFunction
             $toolbarPosition = $nameValue;
             $toolbarName = "Toolbar_" . $toolbarPosition;
             $toolArray = $toolbarIni->variable( $toolbarName, 'Tool' );
+            if ( !is_array( $toolArray ) ) 
+                $toolArray = array();
 
             $newNodes = array();
             foreach ( array_keys( $toolArray ) as $toolKey )
@@ -260,6 +262,10 @@ class eZTemplateToolbarFunction
                     $definedVariables = array();
                     $toolbarName = "Toolbar_" . $toolbarPosition;
                     $toolArray = $toolbarIni->variable( $toolbarName, 'Tool' );
+
+                    if ( !is_array( $toolArray ) )
+                        $toolArray = array();
+
                     $actionParameters = array();
                     foreach ( array_keys( $toolArray ) as $toolKey )
                     {

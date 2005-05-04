@@ -762,6 +762,15 @@ class eZObjectRelationListType extends eZDataType
 
                 foreach ( $selectedObjectIDArray as $objectID )
                 {
+                    // Check if the given object ID has a numeric value, if not go to the next object.
+                    if ( !is_numeric( $objectID ) )
+                    {
+                        eZDebug::writeError( "Related object ID (objectID): '$objectID', is not a numeric value.", 
+                            "eZObjectRelationListType::customObjectAttributeHTTPAction" );
+
+                        continue;
+                    }
+                    
                     /* Here we check if current object is already in the related objects list.
                      * If so, we don't add it again.
                      * FIXME: Stupid linear search. Maybe there's some better way?

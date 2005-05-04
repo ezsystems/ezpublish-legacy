@@ -21,6 +21,8 @@ Changes from 3.6.0beta1 to 3.6.0rc1
   always be used.
 - Fixed bug #6506: Shopping permissions for a guest user don't work 
   properly.
+- Fixed bug #6571: Object relations list crash.
+
 *Library:
 
 *Design:
