@@ -69,7 +69,6 @@ class eZSendmailTransport extends eZMailTransport
         if ( !eZMail::validate( $emailSender ) )
             $emailSender = false;
         $isSafeMode = ini_get( 'safe_mode' );
-        $isSafeMode = true;
         if ( $isSafeMode and
              $emailSender and
              $mail->sender() == false )
