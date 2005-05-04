@@ -556,7 +556,7 @@ fi
 if [ -z $SKIPDBUPDATE ]; then
     echo -n "Checking MySQL database updates"
     # Only check stable->current update when it's a final release
-    if [ "$FINAL" == "true" ]; then
+    if [ "$VERSION_FINAL" == "true" ]; then
 	./bin/shell/checkdbupdate.sh --check-stable --mysql $PARAM_EZ_MYSQL_ALL "$TMP_DB_NAME" &>/dev/null
 	if [ $? -ne 0 ]; then
 	    echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
@@ -578,7 +578,7 @@ if [ -z $SKIPDBUPDATE ]; then
 
     echo -n "Checking PostgreSQL database updates"
     # Only check stable->current update when it's a final release
-    if [ "$FINAL" == "true" ]; then
+    if [ "$VERSION_FINAL" == "true" ]; then
 	./bin/shell/checkdbupdate.sh --check-stable --postgresql $PARAM_EZ_POSTGRESQL_ALL "$TMP_DB_NAME" &>/dev/null
 	if [ $? -ne 0 ]; then
 	    echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
