@@ -93,6 +93,24 @@ function check_common_version
     fi
 }
 
+function check_common_version_release
+{
+    if ! grep "VERSION_RELEASE=\"$RELEASE\"" bin/shell/common.sh &>/dev/null; then
+	if [ -z "$1" ]; then
+	    echo "`$SETCOLOR_FAILURE`Version number mismatch`$SETCOLOR_NORMAL`"
+	    echo "Wrong version number in `$SETCOLOR_EXE`bin/shell/common.sh`$SETCOLOR_NORMAL` for variable VERSION_RELEASE"
+	    echo "Should be:"
+	    echo "VERSION_RELEASE=\"`$SETCOLOR_EMPHASIZE`$RELEASE`$SETCOLOR_NORMAL`\""
+	    echo
+	fi
+	MAIN_ERROR="1"
+	[ -n "$EXIT_AT_ONCE" ] && exit 1
+	if [ -n "$1" ]; then
+	    return 1
+	fi
+    fi
+}
+
 function check_common_version_only
 {
     if ! grep "VERSION_ONLY=\"$VERSION_ONLY\"" bin/shell/common.sh &>/dev/null; then
@@ -187,6 +205,12 @@ check_common_version "$FIX"
 if [ $? -ne 0 ]; then
     sed -i 's/^VERSION="[^"]*"/VERSION="'$VERSION'"/' bin/shell/common.sh
     check_common_version ""
+fi
+
+check_common_version_release "$FIX"
+if [ $? -ne 0 ]; then
+    sed -i 's/^VERSION_RELEASE="[^"]*"/VERSION_RELEASE="'$RELEASE'"/' bin/shell/common.sh
+    check_common_version_release ""
 fi
 
 check_common_version_only "$FIX"

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 VERSION="3.4.7"
+VERSION_RELEASE="7"
 VERSION_ONLY="3.4"
 VERSION_STATE=""
 VERSION_PREVIOUS="3.4.6"
@@ -8,6 +9,12 @@ VERSION_BRANCH="$VERSION_ONLY"
 VERSION_NICK="$VERSION"
 VERSION_STABLE="3.4.6"
 DEVELOPMENT="false"
+
+# Figure out if this is the final release
+FINAL="false"
+if [ "$VERSION_RELEASE" == "0" -a "$DEVELOPMENT" == "false" ]; then
+    FINAL="true"
+fi
 
 # URLs for the various repositories
 REPOSITORY_BASE_URL="http://zev.ez.no/svn/nextgen"
