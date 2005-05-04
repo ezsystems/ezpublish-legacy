@@ -16,6 +16,7 @@ Changes from 3.6.0beta1 to 3.6.0rc1
 - Fixed bug #6580: fetch-content-list: no data fetching with an array of
   node_ids for 'parent_node_id'.
   (Merged from stable/3.5 (3.5.3) rev. 11667)
+- Fixed bug #6593: Typo in site.ini
 
 *Library:
 
