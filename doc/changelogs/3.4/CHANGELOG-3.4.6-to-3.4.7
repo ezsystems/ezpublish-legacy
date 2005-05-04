@@ -2,6 +2,7 @@ Changes from 3.4.6 to 3.4.7
 
 *Kernel:
 - Added missing 'socket' parameter to some DB scripts.
+- Added parameter with_translation to content/locale_list fetch function.
 
 ezpm.php:
 - Added: The database is checked to see if it has the same version as the
@@ -30,6 +31,7 @@ eZScript:
 - Fixed bug #6580: fetch-content-list: no data fetching with an array of
   node_ids for 'parent_node_id'.
 - Fixed bug: eZSendmailTransport always asumes safe-mode is enabled.
+- Fixed bug #5843: Invalid locale values can be added to content/translations.
 
 *Library:
 
