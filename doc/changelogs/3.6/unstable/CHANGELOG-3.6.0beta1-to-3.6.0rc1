@@ -19,7 +19,8 @@ Changes from 3.6.0beta1 to 3.6.0rc1
 - Fixed bug #6593: Typo in site.ini
 - Fixed bug: Wrong check for MySQL version in setup wizard causing InnoDB to
   always be used.
-
+- Fixed bug #6506: Shopping permissions for a guest user don't work 
+  properly.
 *Library:
 
 *Design:
