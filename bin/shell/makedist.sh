@@ -555,13 +555,16 @@ fi
 
 if [ -z $SKIPDBUPDATE ]; then
     echo -n "Checking MySQL database updates"
-    ./bin/shell/checkdbupdate.sh --check-stable --mysql $PARAM_EZ_MYSQL_ALL "$TMP_DB_NAME" &>/dev/null
-    if [ $? -ne 0 ]; then
-	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
-	echo "The database update check for MySQL failed"
-	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbupdate.sh --check-stable --mysql $PARAM_EZ_MYSQL_ALL $TMP_DB_NAME"
-	exit 1
+    # Only check stable->current update when it's a final release
+    if [ "$FINAL" == "true" ]; then
+	./bin/shell/checkdbupdate.sh --check-stable --mysql $PARAM_EZ_MYSQL_ALL "$TMP_DB_NAME" &>/dev/null
+	if [ $? -ne 0 ]; then
+	    echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+	    echo "The database update check for MySQL failed"
+	    echo "Run the following command to find out what is wrong"
+	    echo "./bin/shell/checkdbupdate.sh --check-stable --mysql $PARAM_EZ_MYSQL_ALL $TMP_DB_NAME"
+	    exit 1
+	fi
     fi
     ./bin/shell/checkdbupdate.sh --check-previous --mysql $PARAM_EZ_MYSQL_ALL "$TMP_DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
@@ -574,13 +577,16 @@ if [ -z $SKIPDBUPDATE ]; then
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 
     echo -n "Checking PostgreSQL database updates"
-    ./bin/shell/checkdbupdate.sh --check-stable --postgresql $PARAM_EZ_POSTGRESQL_ALL "$TMP_DB_NAME" &>/dev/null
-    if [ $? -ne 0 ]; then
-	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
-	echo "The database update check for Postgresql failed"
-	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbupdate.sh --check-stable --postgresql $PARAM_EZ_POSTGRESQL_ALL $TMP_DB_NAME"
-	exit 1
+    # Only check stable->current update when it's a final release
+    if [ "$FINAL" == "true" ]; then
+	./bin/shell/checkdbupdate.sh --check-stable --postgresql $PARAM_EZ_POSTGRESQL_ALL "$TMP_DB_NAME" &>/dev/null
+	if [ $? -ne 0 ]; then
+	    echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+	    echo "The database update check for Postgresql failed"
+	    echo "Run the following command to find out what is wrong"
+	    echo "./bin/shell/checkdbupdate.sh --check-stable --postgresql $PARAM_EZ_POSTGRESQL_ALL $TMP_DB_NAME"
+	    exit 1
+	fi
     fi
      ./bin/shell/checkdbupdate.sh --check-previous --postgresql $PARAM_EZ_POSTGRESQL_ALL "$TMP_DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
