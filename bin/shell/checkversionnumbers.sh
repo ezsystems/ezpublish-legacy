@@ -23,7 +23,7 @@ VERSION=$MAJOR"."$MINOR"."$RELEASE""$STATE
 VERSION_ONLY=$MAJOR"."$MINOR
 BRANCH_VERSION=$MAJOR"."$MINOR
 # This is the version of the package format, this must be updated only if the format has changes.
-PACKAGE_VERSION="3.4.6"
+PACKAGE_VERSION="3.5.3"
 PACKAGE_DEVELOPMENT="false"
 # Is automatically set to 'true' when $STATE contains some text
 DEVELOPMENT="false"
