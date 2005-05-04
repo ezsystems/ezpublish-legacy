@@ -11,9 +11,9 @@ VERSION_STABLE="3.4.6"
 DEVELOPMENT="false"
 
 # Figure out if this is the final release
-FINAL="false"
+VERSION_FINAL="false"
 if [ "$VERSION_RELEASE" == "0" -a "$DEVELOPMENT" == "false" ]; then
-    FINAL="true"
+    VERSION_FINAL="true"
 fi
 
 # URLs for the various repositories
