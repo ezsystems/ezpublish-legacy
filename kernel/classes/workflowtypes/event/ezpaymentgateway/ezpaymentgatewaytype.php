@@ -204,7 +204,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
         $gatewaysINI        =& eZINI::instance( 'paymentgateways.ini' );
         $siteINI            =& eZINI::instance( 'site.ini' );
         $extensionDirectory = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
-        $activeExtensions   = $siteINI->variable( 'ExtensionSettings', 'ActiveExtensions' );
+        $activeExtensions   = eZExtension::activeExtensions();
       
         foreach ( $activeExtensions as $extension )
         {
