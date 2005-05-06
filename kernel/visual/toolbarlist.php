@@ -65,7 +65,7 @@ if ( $http->hasPostVariable( 'SelectCurrentSiteAccessButton' ) )
     $http->setSessionVariable( 'eZTemplateAdminCurrentSiteAccess', $currentSiteAccess );
 }
 
-$toolbarIni =& eZINI::instance( "toolbar.ini" );
+$toolbarIni =& eZINI::instance( "toolbar.ini", null, null, null, true );
 $toolbarIni->prependOverrideDir( "siteaccess/$currentSiteAccess", false, 'siteaccess' );
 $toolbarIni->loadCache();
 
