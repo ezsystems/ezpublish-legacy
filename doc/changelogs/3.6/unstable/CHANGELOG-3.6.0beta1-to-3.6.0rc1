@@ -2,6 +2,10 @@ Changes from 3.6.0beta1 to 3.6.0rc1
 
 *Kernel:
 
+Fetch functions:
+- Added parameter with_variations to content/locale_list fetch function.
+  (Merged from stable/3.5 (3.5.3) rev. 11707)
+
 *INI settings
 
 *WebDAV:
@@ -26,6 +30,8 @@ Changes from 3.6.0beta1 to 3.6.0rc1
   (Merged from stable/3.5 (3.5.3) rev. 11695)
 - Added: Fetching a country, locale or language list can now exclude variations.
   (Merged from stable/3.5 (3.5.3) rev. 11704)
+- Fixed bug #5843: Invalid locale values can be added to content/translations.
+  (Merged from stable/3.4 (3.5.3) rev. 11707)
 
 *Library:
 

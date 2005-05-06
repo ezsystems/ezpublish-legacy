@@ -88,17 +88,54 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
         eZDebug::writeDebug( $translationName, 'translationName' );
         eZDebug::writeDebug( $translationLocale, 'translationLocale' );
     }
+
+    include_once( 'lib/ezlocale/classes/ezlocale.php' );
+    // Make sure the locale string is valid, if not we try to extract a valid part of it
+    if ( !preg_match( "/^" . eZLocale::localeRegexp( false, false ) . "$/", $translationLocale ) )
+    {
+        if ( preg_match( "/(" . eZLocale::localeRegexp( false, false ) . ")/", $translationLocale, $matches ) )
+        {
+            $translationLocale = $matches[1];
+        }
+        else
+        {
+            // The locale cannot be used so we show the edit page again.
+            $tpl->setVariable( 'is_edit', $Module->isCurrentAction( 'Edit' ) );
+            $Result['content'] =& $tpl->fetch( 'design:content/translationnew.tpl' );
+            $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Translation' ),
+                                            'url' => false ),
+                                     array( 'text' => 'New',
+                                            'url' => false ) );
+            return;
+        }
+    }
+
     if ( !eZContentTranslation::hasTranslation( $translationLocale ) )
     {
-        $translation =& eZContentTranslation::createNew( $translationName, $translationLocale );
+        $locale =& eZLocale::instance( $translationLocale );
+        if ( $locale->isValid() )
+        {
+            $translation =& eZContentTranslation::createNew( $translationName, $locale->localeCode() );
 
-        $db =& eZDB::instance();
-        $db->begin();
-        $translation->store();
-        $translation->updateObjectNames();
+            $db =& eZDB::instance();
+            $db->begin();
+            $translation->store();
+            $translation->updateObjectNames();
 
-        translations_clearCache();
-        $db->commit();
+            translations_clearCache();
+            $db->commit();
+        }
+        else
+        {
+            // The locale cannot be used so we show the edit page again.
+            $tpl->setVariable( 'is_edit', $Module->isCurrentAction( 'Edit' ) );
+            $Result['content'] =& $tpl->fetch( 'design:content/translationnew.tpl' );
+            $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Translation' ),
+                                            'url' => false ),
+                                     array( 'text' => 'New',
+                                            'url' => false ) );
+            return;
+        }
     }
 }
 
