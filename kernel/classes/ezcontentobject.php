@@ -1550,6 +1550,14 @@ class eZContentObject extends eZPersistentObject
     function addContentObjectRelation( $objectID, $version )
     {
         $db =& eZDB::instance();
+
+         if ( !is_numeric( $objectID ) )
+         {
+             eZDebug::writeError( "Related object ID (objectID): '$objectID', is not a numeric value.", 
+                                  "eZContentObject::addContentObjectRelation" );
+             return false;
+         }
+
         $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id )
 		     VALUES ( '$this->ID', '$version', '$objectID' )" );
     }
