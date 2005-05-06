@@ -168,6 +168,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'can_hide' => 'canHide',
                                                       'can_remove' => 'canRemove',
                                                       'can_move' => 'canMoveFrom',
+                                                      'can_move_from' => 'canMoveFrom',
                                                       'creator' => 'creator',
                                                       "path" => "fetchPath",
                                                       'path_array' => 'pathArray',
@@ -442,6 +443,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         $p = ( $this->Permissions["can_remove"] == 1 );
         return $p;
+    }
+
+    /*!
+     Check if the node can be moved. (actually checks 'edit' and 'remove' permissions)
+     \return \c true if the node can be moved by the current user.
+     \sa checkAccess().
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+     \deprecated The function canMove() is preferred since its naming is clearer.
+    */
+    function &canMove()
+    {
+        return $this->canMoveFrom();
     }
 
     /*!

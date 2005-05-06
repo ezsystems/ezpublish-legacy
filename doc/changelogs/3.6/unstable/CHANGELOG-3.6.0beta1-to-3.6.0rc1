@@ -6,6 +6,11 @@ Fetch functions:
 - Added parameter with_variations to content/locale_list fetch function.
   (Merged from stable/3.5 (3.5.3) rev. 11707)
 
+Attributes:
+- Added: 'can_move_from' attribute to eZContentObject and
+  eZContentObjectTreeNode.
+  (Merged from stable/3.5 (3.5.3) rev. 11710)
+
 *INI settings
 
 *WebDAV:
