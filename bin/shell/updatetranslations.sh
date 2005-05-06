@@ -29,6 +29,11 @@ done
 # Check ezlupdate
 ezdist_check_ezlupdate
 
+# Make sure ezlupdate is up to date, in case of source changes
+echo -n "Updating ezlupdate"
+EZLUPDATE_LOG=`ezdist_update_ezlupdate 2>/dev/stdout`
+ez_result_output $? "$EZLUPDATE_LOG" || exit 1
+
 dir=`pwd`
 echo -n "Processing: "
 cd share/translations
