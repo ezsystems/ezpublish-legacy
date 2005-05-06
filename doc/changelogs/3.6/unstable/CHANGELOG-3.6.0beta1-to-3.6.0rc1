@@ -1,6 +1,8 @@
 Changes from 3.6.0beta1 to 3.6.0rc1
 
 *Kernel:
+- Added: Show PHP eAccelerator information in the system information page.
+  (Submitted by: Vittal Aithal)
 
 Fetch functions:
 - Added parameter with_variations to content/locale_list fetch function.
