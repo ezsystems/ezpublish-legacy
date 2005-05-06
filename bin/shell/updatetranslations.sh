@@ -29,6 +29,17 @@ done
 # Check ezlupdate
 ezdist_check_ezlupdate
 
+# Make sure ezlupdate is up to date, in case of source changes
+echo -n "Updating ezlupdate"
+EZLUPDATE_LOG=`ezdist_update_ezlupdate 2>/dev/stdout`
+if [ $? -ne 0 ]; then
+    echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+    echo
+    echo "$EZLUPDATE_LOG"
+    exit 1
+fi
+echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
+
 dir=`pwd`
 echo -n "Processing:"
 cd share/translations

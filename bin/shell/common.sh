@@ -129,6 +129,30 @@ function ezdist_check_ezlupdate
     return 0
 }
 
+# Makes sure ezlupdate is up to date by running qmake + make
+# Returns 0 if everything was built successfully
+function ezdist_update_ezlupdate
+{
+    echo "Building ezlupdate executable"
+    echo
+    (cd support/lupdate-ezpublish3 &&
+	qmake &&
+	make)
+    if [ $? -ne 0 ]; then
+	echo "Failed to build ezlupdate automatically"
+	return 1
+    fi
+    if [ ! -f bin/linux/ezlupdate ]; then
+	echo
+	echo "The compilation process for ezlupdate was successful but the executable"
+	echo "bin/linux/ezlupdate could not be found"
+	echo
+	echo "Try building the executable yourself"
+	return 1
+    fi
+    return 0
+}
+
 # Returns 0 if the variable is considered undefined
 # Currently this means if it contains the text 'undef'
 function ezdist_is_undef
