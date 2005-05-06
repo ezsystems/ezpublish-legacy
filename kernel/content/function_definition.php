@@ -80,7 +80,10 @@ $FunctionList['locale_list'] = array( 'name' => 'locale_list',
                                                               'class' => 'eZContentFunctionCollection',
                                                               'method' => 'fetchLocaleList' ),
                                       'parameter_type' => 'standard',
-                                      'parameters' => array( ) );
+                                      'parameters' => array( array( 'name' => 'with_variations',
+                                                                    'type' => 'boolean',
+                                                                    'required' => false,
+                                                                    'default' => true ) ) );
 $FunctionList['translation_list'] = array( 'name' => 'translation_list',
                                            'operation_types' => array( 'read' ),
                                            'call_method' => array( 'include_file' => 'kernel/content/ezcontentfunctioncollection.php',
