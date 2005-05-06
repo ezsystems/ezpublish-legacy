@@ -475,10 +475,13 @@ class eZLocale
      - 5 - The charset
      - 6 - The separator and the variation (7)
      - 7 - The variation
+     \note The groyps 4 and 5 will only be used if \a $withCharset is \c true.
+           The groups 6 and 7 will only be used if \a $withVariations is \c true.
+     \param $withVariations If \c true it will include variations of locales (ends with @identifier)
     */
-    function localeRegexp()
+    function localeRegexp( $withVariations = true, $withCharset = true )
     {
-        return "([a-zA-Z]+)([_-]([a-zA-Z]+))?(\.([a-zA-Z-]+))?(@([a-zA-Z0-9]+))?";
+        return "([a-zA-Z]+)([_-]([a-zA-Z]+))?" . ( $withCharset ? "(\.([a-zA-Z-]+))?" : '' ) . ( $withVariations ? "(@([a-zA-Z0-9]+))?" : '' );
     }
 
     /*!
@@ -1342,13 +1345,15 @@ class eZLocale
     /*!
      \static
      \return a list of locale objects which was found in the system.
+     \param $asObject If \c true it returns each element as an eZLocale object
+     \param $withVariations If \c true it will include variations of locales (ends with @identifier)
     */
-    function localeList( $asObject = false )
+    function localeList( $asObject = false, $withVariations = true )
     {
         $locales =& $GLOBALS['eZLocaleLocaleStringList'];
         if ( !is_array( $locales ) )
         {
-            $localeRegexp = eZLocale::localeRegexp();
+            $localeRegexp = eZLocale::localeRegexp( $withVariations, false );
             $locales = array();
             $dir = opendir( 'share/locale' );
             while( ( $file = readdir( $dir ) ) !== false )
@@ -1380,13 +1385,14 @@ class eZLocale
      \static
      \return a list of countries which was found in the system, the countries are in identifier form,
              for instance: NO, GB, US
+     \param $withVariations If \c true it will include variations of locales (ends with @identifier)
     */
-    function countryList()
+    function countryList( $withVariations = true )
     {
         $countries =& $GLOBALS['eZLocaleCountryList'];
         if ( !is_array( $countries ) )
         {
-            $localeRegexp = eZLocale::localeRegexp();
+            $localeRegexp = eZLocale::localeRegexp( $withVariations, false );
             $countries = array();
             $dir = opendir( 'share/locale' );
             while( ( $file = readdir( $dir ) ) !== false )
@@ -1406,13 +1412,14 @@ class eZLocale
      \static
      \return a list of languages which was found in the system, the languages are in identifier form,
              for instance: nor, eng
+     \param $withVariations If \c true it will include variations of locales (ends with @identifier)
     */
-    function languageList()
+    function languageList( $withVariations = true )
     {
         $languages =& $GLOBALS['eZLocaleLanguageist'];
         if ( !is_array( $languages ) )
         {
-            $localeRegexp = eZLocale::localeRegexp();
+            $localeRegexp = eZLocale::localeRegexp( $withVariations, false );
             $languages = array();
             $dir = opendir( 'share/locale' );
             while( ( $file = readdir( $dir ) ) !== false )
