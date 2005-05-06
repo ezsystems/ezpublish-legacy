@@ -65,6 +65,15 @@ if ( extension_loaded( "Turck MMCache" ) )
     $phpAcceleratorInfo['version_integer'] = false;
     $phpAcceleratorInfo['version_string'] = false;
 }
+if ( extension_loaded( "eAccelerator" ) )
+{
+    $phpAcceleratorInfo = array();
+    $phpAcceleratorInfo['name'] = "eAccelerator";
+    $phpAcceleratorInfo['url'] = "http://sourceforge.net/projects/eaccelerator/";
+    $phpAcceleratorInfo['enabled'] = true;
+    $phpAcceleratorInfo['version_integer'] = false;
+    $phpAcceleratorInfo['version_string'] = phpversion('eAccelerator');
+}
 if ( extension_loaded( "apc" ) )
 {
     $phpAcceleratorInfo = array();
