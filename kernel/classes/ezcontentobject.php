@@ -140,6 +140,7 @@ class eZContentObject extends eZPersistentObject
                                                       "can_translate" => "canTranslate",
                                                       "can_remove" => "canRemove",
                                                       "can_move" => "canMoveFrom",
+                                                      "can_move_from" => "canMoveFrom",
                                                       "data_map" => "dataMap",
                                                       "main_parent_node_id" => "mainParentNodeID",
                                                       "assigned_nodes" => "assignedNodes",
@@ -2591,6 +2592,19 @@ class eZContentObject extends eZPersistentObject
         }
         $p = ( $this->Permissions["can_remove"] == 1 );
         return $p;
+    }
+
+    /*!
+     Check if the object can be moved. (actually checks 'edit' and 'remove' permissions)
+     \return \c true if the object can be moved by the current user.
+     \sa checkAccess().
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+     \deprecated The function canMove() is preferred since its naming is clearer.
+    */
+    function &canMove( )
+    {
+        return $this->canMoveFrom();
     }
 
     /*!
