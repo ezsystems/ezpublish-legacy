@@ -42,7 +42,7 @@ function toggleInputs( selection )
 <label>{'Translation'|i18n( 'design/admin/content/translationnew' )}:</label>
 <select id="localeSelector" name="LocaleID" onchange="toggleInputs(this); return false;">
   <option value="-1">{'Custom'|i18n( 'design/admin/content/translationnew' )}</option>
-  {section var=Translations loop=fetch( content, locale_list )}
+  {section var=Translations loop=fetch( content, locale_list, hash( with_variations, false() ) )}
       <option value="{$Translations.item.locale_full_code|wash}">
           {$Translations.item.intl_language_name|wash}{section show=$Translations.item.country_variation} [{$Translations.item.language_comment|wash}]{/section}
       </option>
