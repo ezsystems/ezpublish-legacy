@@ -5,6 +5,7 @@
      type=$content.type
      all_class_list=fetch( class, list )}
 
+{*
 <div class="block">
     <label>{'Type'|i18n( 'design/standard/class/datatype' )}:</label>
     <select name="ContentClass_ezobjectrelationlist_type_{$class_attribute.id}" title="{'Create or browse objects'|i18n( 'design/standard/class/datatype' )}">
@@ -13,6 +14,7 @@
     <option value="2" {section show=eq( $type, 2 )}selected="selected"{/section}>{'Only existing objects'|i18n( 'design/standard/class/datatype' )}</option>
     </select>
 </div>
+*}
 
 <div class="block">
     <label>{'Allowed classes'|i18n( 'design/standard/class/datatype' )}:</label>
@@ -24,6 +26,7 @@
     </select>
 </div>
 
+{*
 <div class="block">
 <fieldset>
 <legend>{'Default location for objects'|i18n( 'design/standard/class/datatype' )}</legend>
@@ -58,6 +61,7 @@
 <input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_browse_for_placement]" value="{'Select location'|i18n('design/standard/class/datatype')}" />
 
 </fieldset>
+*}
 
 </div>
 {/let}
