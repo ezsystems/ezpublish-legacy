@@ -32,6 +32,7 @@ Attributes:
   always be used.
 - Fixed bug #6506: Shopping permissions for a guest user don't work 
   properly.
+- Fixed bug: Paymentgatewayevent does not find all gateway extensions.
 - Fixed bug #6571: Object relations list crash.
 - Fixed bug: eZSendmailTransport always asumes safe-mode is enabled.
   (Merged from stable/3.5 (3.5.3) rev. 11695)
