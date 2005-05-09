@@ -48,6 +48,12 @@ $ViewList["toolbar"] = array(
     'ui_context' => 'edit',
     "default_navigation_part" => 'ezvisualnavigationpart',
     'post_actions' => array( 'BrowseActionName' ),
+    'single_post_actions' => array( 'BackToToolbarsButton' => 'BackToToolbars',
+                                    'NewToolButton' => 'NewTool',
+                                    'UpdatePlacementButton' => 'UpdatePlacement',
+                                    'BrowseButton' => 'Browse',
+                                    'RemoveButton' => 'Remove',
+                                    'StoreButton' => 'Store' ),    
     "params" => array( 'SiteAccess', 'Position' ) );
 
 $ViewList["menuconfig"] = array(
