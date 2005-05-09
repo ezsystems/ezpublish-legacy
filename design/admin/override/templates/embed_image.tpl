@@ -13,9 +13,9 @@
 {/section}
 
 <div class="image{$align}">
-{section show=$link_parameters.href}<a href={$link_parameters.href|ezurl} target="{$link_parameters.target}">{/section}
+{section show=is_set($link_parameters.href)}<a href={$link_parameters.href|ezurl} target="{$link_parameters.target}">{/section}
 <img src={$image_variation.full_path|ezroot} alt="{$object.data_map.image.content.alternative_text|wash(xhtml)}" />
-{section show=$link_parameters.href}</a>{/section}
+{section show=is_set($link_parameters.href)}</a>{/section}
 
 <div style="width: {$image_variation.width}px;">
 {$object.data_map.caption.content.output.output_text}
