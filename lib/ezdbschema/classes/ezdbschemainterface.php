@@ -140,6 +140,11 @@ class eZDBSchemaInterface
         {
             if ( $schema === false )
                 $schema = $this->schema( $params );
+
+            // We need to transform schema to local format for data to be fetched correctly.
+            if ( $schema['_info']['format'] == 'generic' )
+                $this->transformSchema( $schema, true );
+
             $data = array();
             foreach ( $schema as $tableName => $tableInfo )
             {
