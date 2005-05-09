@@ -95,7 +95,7 @@ if ( $http->hasPostVariable( 'WriteSetting' ) )
     else
         $path = 'settings/override';
 
-    $ini =& eZINI::instance( $iniFile . '.append', $path, null, null, null, true );
+    $ini =& eZINI::instance( $iniFile . '.append', $path, null, null, null, true, true );
 
     $hasValidationError = false;
     include_once( 'kernel/settings/validation.php' );

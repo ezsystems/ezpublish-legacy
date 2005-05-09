@@ -87,8 +87,8 @@ class eZINI
 {
     /*!
       Initialization of object;
-    */
-    function eZINI( $fileName, $rootDir = "", $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false )
+    */                                                                                                                              
+    function eZINI( $fileName, $rootDir = "", $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )
     {
         $this->Charset = "utf8";
         if ( $fileName == "" )
@@ -110,6 +110,7 @@ class eZINI
         $this->UseCache = $useCache;
         $this->DirectAccess = $directAccess;
         $this->UseLocalOverrides = $useLocalOverrides;
+        $this->AddArrayDefinition = $addArrayDefinition;
 
         if ( $this->UseLocalOverrides == true )
         {
@@ -649,7 +650,7 @@ class eZINI
                 // In direct access mode we create empty elements at the beginning of an array
                 // in case it is redefined in this ini file. So when we will save it, definition
                 // will be created as well.
-                if ( $this->DirectAccess )
+                if ( $this->AddArrayDefinition )
                 {
                     $this->BlockValues[$currentBlock][$varName][] = "";
                 }
@@ -1314,7 +1315,7 @@ class eZINI
       Direct access is for accessing the filename directly in the specified path. .append and .append.php is automaticly added to filename
       \note Use create() if you need to get a unique copy which you can alter.
     */
-    function &instance( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false )
+    function &instance( $fileName = "site.ini", $rootDir = "settings", $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )
     {
         $impl =& $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"];
         $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides"];
@@ -1324,7 +1325,7 @@ class eZINI
         {
             $isLoaded = false;
 
-            $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess );
+            $impl = new eZINI( $fileName, $rootDir, $useTextCodec, $useCache, $useLocalOverrides, $directAccess, $addArrayDefinition );
 
             $isLoaded = true;
         }
@@ -1387,6 +1388,9 @@ class eZINI
 
     /// If \c true then all file loads are done directly on the filename.
     var $DirectAccess;
+
+    /// If \c true empty element will be created in the beginning of array if it is defined in this ini file.
+    var $AddArrayDefinition;
 }
 
 ?>

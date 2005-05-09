@@ -74,14 +74,13 @@ else if ( $ini->hasVariable( "Toolbar_" . $toolbarPosition, "Tool" ) )
 $storeList = false;
 $removeCache = false;
 
-if( $http->hasPostVariable( 'BackToToolbarsButton' ) )
+$currentAction = $module->currentAction();
+
+if ( $currentAction == 'BackToToolbars' )
 {
     return $Module->redirectToView( 'toolbarlist', array() );
 }
-
-
-
-if ( $module->isCurrentAction( 'SelectToolbarNode' ) )
+elseif ( $currentAction == 'SelectToolbarNode' )
 {
     $selectedNodeIDArray = eZContentBrowse::result( 'SelectToolbarNode' );
 
@@ -95,7 +94,7 @@ if ( $module->isCurrentAction( 'SelectToolbarNode' ) )
         $succeed = $iniAppend->save(  false, false, false, false, true, true );
     }
 }
-else if ( $module->isCurrentAction( 'SelectToolbarNodePath' ) )
+elseif ( $currentAction == 'SelectToolbarNodePath' )
 {
     $selectedNodeIDArray = eZContentBrowse::result( 'SelectToolbarNode' );
 
@@ -110,14 +109,13 @@ else if ( $module->isCurrentAction( 'SelectToolbarNodePath' ) )
         $succeed = $iniAppend->save(  false, false, false, false, true, true );
     }
 }
-
-if ( $http->hasPostVariable( 'NewToolButton' ) or
-     $http->hasPostVariable( 'UpdatePlacementButton' ) or
-     $http->hasPostVariable( 'BrowseButton' ) or
-     $http->hasPostVariable( 'RemoveButton' ) )
+elseif ( $currentAction == 'NewTool' ||
+         $currentAction == 'UpdatePlacement' ||
+         $currentAction == 'Browse' ||
+         $currentAction == 'Remove' )
 {
     $deleteToolArray = array();
-    if ( $http->hasPostVariable( 'RemoveButton' ) and
+    if ( $currentAction == 'Remove' &&
          $http->hasPostVariable( 'deleteToolArray' ) )
     {
         $deleteToolArray = $http->postVariable( 'deleteToolArray' );
@@ -183,7 +181,7 @@ if ( $http->hasPostVariable( 'NewToolButton' ) or
         }
     }
 
-    if ( $http->hasPostVariable( 'NewToolButton' ) and
+    if ( $currentAction == 'NewTool' &&
          $http->hasPostVariable( 'toolName' ) )
     {
         $addedToolName = $http->postVariable( 'toolName' );
@@ -202,9 +200,9 @@ if ( $http->hasPostVariable( 'NewToolButton' ) or
     }
 
     $iniAppend->setVariable( "Toolbar_" . $toolbarPosition, "Tool", $updatedToolArray );
-    $succeed = $iniAppend->save(  false, false, false, false, true, true );
+    $succeed = $iniAppend->save( false, false, false, false, true, true );
 
-    if ( $http->hasPostVariable( 'BrowseButton' ) )
+    if ( $currentAction == 'Browse' )
     {
         $browseArray = $http->postVariable( 'BrowseButton' );
         if ( preg_match( "/_node$/", key( $browseArray ) ) )
@@ -238,7 +236,7 @@ if ( $http->hasPostVariable( 'NewToolButton' ) or
     $toolArray = $updatedToolArray;
     $removeCache = true;
 }
-else if ( $http->hasPostVariable( 'StoreButton' ) )
+elseif ( $currentAction == 'Store' )
 {
     $storeList = true;
     $removeCache = true;
