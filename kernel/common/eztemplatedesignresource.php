@@ -418,6 +418,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                         if ( $matchOverride == true )
                         {
                             $match['file'] = $customMatch['match_file'];
+                            $matchFound = true;
                             break;
                         }
                         else
@@ -428,6 +429,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                     {
                         // Default match without conditions
                         $match['file'] = $customMatch['match_file'];
+                        $matchFound = true;
                     }
                 }
                 if ( !$matchFound )
