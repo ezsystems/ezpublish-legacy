@@ -82,6 +82,7 @@ class eZCharsetInfo
 
                                  'koi8-r' => 'koi8-r',
                                  'koi-8-r' => 'koi8-r',
+                                 'koi8r' => 'koi8-r',
 
                                  'cp1250' => 'windows-1250',
                                  'cp1251' => 'windows-1251',
@@ -151,7 +152,10 @@ class eZCharsetInfo
                                  'big5' => 'cp850'
                                  );
             for ( $i = 1; $i <= 15; ++$i )
+            {
                 $aliasTable["iso8859-$i"] = "iso-8859-$i";
+                $aliasTable["iso8859$i"] = "iso-8859-$i";
+            }
             $aliasTable['unicode'] = 'unicode';
         }
         return $aliasTable;
@@ -214,6 +218,10 @@ class eZCharsetInfo
         $charsetCode = strtolower( $charsetCode );
         if ( isset( $aliasTable[$charsetCode] ) )
             return $aliasTable[$charsetCode];
+        // Check alias without any dashes
+        $charsetCodeNoDash = str_replace( '-', '', $charsetCode );
+        if ( isset( $aliasTable[$charsetCodeNoDash] ) )
+            return $aliasTable[$charsetCodeNoDash];
         return $charsetCode;
     }
 

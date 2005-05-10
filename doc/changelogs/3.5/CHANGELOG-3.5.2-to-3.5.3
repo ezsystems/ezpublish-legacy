@@ -64,6 +64,7 @@ Attributes:
 - Fixed bug #6605: Toolbar manager always shows empty tool as first on the list.
 - Fixed bug #6543: Disabling cache causes template override failure.
 - Fixed bug #6435: Recognize eAccelerator (mmCache fork) as valid PHP Accelerator.
+- Fixed bug #6608: Missing koi8r alias in eZCharsetInfo.
 
 *WebDAV:
 
@@ -72,6 +73,11 @@ Attributes:
 eZLocale:
 - Added: Fetching a country, locale or language list can now exclude variations.
   (Merged from stable/3.4 (3.4.7) rev. 11694)
+
+eZI18N:
+- Added: koi8r is now a known charset alias.
+- Added: If a charset alias fails it will try to find the alias without any
+  dashes.
 
 eZDebug:
 
