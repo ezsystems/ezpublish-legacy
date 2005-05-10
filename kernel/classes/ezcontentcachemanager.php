@@ -204,68 +204,71 @@ class eZContentCacheManager
              - clear_cache_type - Bitfield of clear types, see nodeListForObject() for more details
              - object_filter - Array with object IDs, if there are entries only these objects should be checked.
     */
-    function dependencyInfo( $classID )
+    function dependencyInfo( $classID, $ingnoreINISettings = false )
     {
         $ini =& eZINI::instance( 'viewcache.ini' );
         $info = false;
 
-        if ( $ini->hasGroup( $classID ) )
+        if ( $ingnoreINISettings || $ini->variable( 'ViewCacheSettings', 'SmartCacheClear' ) == 'enabled' )
         {
-            $info = array();
-            $info['dependent_class_identifier'] = $ini->variable( $classID, 'DependentClassIdentifier' );
-
-            if ( $ini->hasVariable( $classID, 'MaxParents' ) )
-                $info['max_parents'] = $ini->variable( $classID, 'MaxParents' );
-            else
-                $info['max_parents'] = 0;
-
-            $info['clear_cache_type'] = 0;
-            if ( $ini->hasVariable( $classID, 'ClearCacheMethod' ) )
+            if ( $ini->hasGroup( $classID ) )
             {
-                $type = $ini->variable( $classID, 'ClearCacheMethod' );
+                $info = array();
+                $info['dependent_class_identifier'] = $ini->variable( $classID, 'DependentClassIdentifier' );
 
-                if ( $type == 'clear_all_caches' )
+                if ( $ini->hasVariable( $classID, 'MaxParents' ) )
+                    $info['max_parents'] = $ini->variable( $classID, 'MaxParents' );
+                else
+                    $info['max_parents'] = 0;
+
+                $info['clear_cache_type'] = 0;
+                if ( $ini->hasVariable( $classID, 'ClearCacheMethod' ) )
                 {
-                    $info['clear_cache_type'] = EZ_VCSC_CLEAR_ALL_CACHE;
+                    $type = $ini->variable( $classID, 'ClearCacheMethod' );
+
+                    if ( $type == 'clear_all_caches' )
+                    {
+                        $info['clear_cache_type'] = EZ_VCSC_CLEAR_ALL_CACHE;
+                    }
+                    else
+                    {
+                        if ( $type == 'clear_object_caches_only' ||
+                             $type == 'clear_object_and_parent_nodes_caches' ||
+                             $type == 'clear_object_and_relating_objects_caches' )
+                        {
+                            $info['clear_cache_type'] |= EZ_VCSC_CLEAR_NODE_CACHE;
+                        }
+
+                        if ( $type == 'clear_object_and_parent_nodes_caches' ||
+                             $type == 'clear_parent_nodes_caches_only' ||
+                             $type == 'clear_parent_nodes_and_relating_caches' )
+                        {
+                            $info['clear_cache_type'] |= EZ_VCSC_CLEAR_PARENT_CACHE;
+                        }
+
+                        if ( $type == 'clear_object_and_relating_objects_caches' ||
+                             $type == 'clear_parent_nodes_and_relating_caches' ||
+                             $type == 'clear_relating_caches_only' )
+                        {
+                            $info['clear_cache_type'] |= EZ_VCSC_CLEAR_RELATING_CACHE;
+                        }
+
+                        if ( $type == 'clear_keyword_caches_only' )
+                        {
+                            $info['clear_cache_type'] |= EZ_VCSC_CLEAR_KEYWORD_CACHE;
+                        }
+                    }
                 }
                 else
                 {
-                    if ( $type == 'clear_object_caches_only' ||
-                         $type == 'clear_object_and_parent_nodes_caches' ||
-                         $type == 'clear_object_and_relating_objects_caches' )
-                    {
-                        $info['clear_cache_type'] |= EZ_VCSC_CLEAR_NODE_CACHE;
-                    }
-
-                    if ( $type == 'clear_object_and_parent_nodes_caches' ||
-                         $type == 'clear_parent_nodes_caches_only' ||
-                         $type == 'clear_parent_nodes_and_relating_caches' )
-                    {
-                        $info['clear_cache_type'] |= EZ_VCSC_CLEAR_PARENT_CACHE;
-                    }
-
-                    if ( $type == 'clear_object_and_relating_objects_caches' ||
-                         $type == 'clear_parent_nodes_and_relating_caches' ||
-                         $type == 'clear_relating_caches_only' )
-                    {
-                        $info['clear_cache_type'] |= EZ_VCSC_CLEAR_RELATING_CACHE;
-                    }
-
-                    if ( $type == 'clear_keyword_caches_only' )
-                    {
-                        $info['clear_cache_type'] |= EZ_VCSC_CLEAR_KEYWORD_CACHE;
-                    }
+                    $info['clear_cache_type'] = EZ_VCSC_CLEAR_ALL_CACHE;
                 }
-            }
-            else
-            {
-                $info['clear_cache_type'] = EZ_VCSC_CLEAR_ALL_CACHE;
-            }
 
-            $info['object_filter'] = array();
-            if ( $ini->hasVariable( $classID, 'ObjectFilter' ) )
-            {
-                $info['object_filter'] = $ini->variable( $classID, 'ObjectFilter' );
+                $info['object_filter'] = array();
+                if ( $ini->hasVariable( $classID, 'ObjectFilter' ) )
+                {
+                    $info['object_filter'] = $ini->variable( $classID, 'ObjectFilter' );
+                }
             }
         }
         return $info;
