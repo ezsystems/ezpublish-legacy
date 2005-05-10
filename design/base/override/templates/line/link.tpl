@@ -5,7 +5,7 @@
 
     <h2>{$node.name}</h2>
 
-    {section show=$node.object.data_map.description.content.has_content}
+    {section show=$node.object.data_map.description.has_content}
         <div class="attribute-long">
             {attribute_view_gui attribute=$node.object.data_map.description}
         </div>
