@@ -5,16 +5,20 @@
      type=$content.type
      all_class_list=fetch( class, list )}
 
-{*
 <div class="block">
     <label>{'Type'|i18n( 'design/standard/class/datatype' )}:</label>
-    <select name="ContentClass_ezobjectrelationlist_type_{$class_attribute.id}" title="{'Create or browse objects'|i18n( 'design/standard/class/datatype' )}">
+    {section show=eq( ezini( 'BackwardCompatibilitySettings', 'AdvancedObjectRelationList' ), 'enabled' )}
+    <select name="ContentClass_ezobjectrelationlist_type_{$class_attribute.id}">
     <option value="0" {section show=eq( $type, 0 )}selected="selected"{/section}>{'New and existing objects'|i18n( 'design/standard/class/datatype' )}</option>
     <option value="1" {section show=eq( $type, 1 )}selected="selected"{/section}>{'Only new objects'|i18n( 'design/standard/class/datatype' )}</option>
     <option value="2" {section show=eq( $type, 2 )}selected="selected"{/section}>{'Only existing objects'|i18n( 'design/standard/class/datatype' )}</option>
     </select>
+    {section-else}
+    <select name="ContentClass_ezobjectrelationlist_type_{$class_attribute.id}" title="{'For more options, please set "AdvancedObjectRelationList" to "enabled" in a configuration override for "site.ini".'|i18n( 'design/standard/class/datatype' )|wash()}">
+    <option value="2" {section show=eq( $type, 2 )}selected="selected"{/section}>{'Only existing objects'|i18n( 'design/standard/class/datatype' )}</option>
+    </select>
+    {/section}
 </div>
-*}
 
 <div class="block">
     <label>{'Allowed classes'|i18n( 'design/standard/class/datatype' )}:</label>
@@ -26,7 +30,6 @@
     </select>
 </div>
 
-{*
 <div class="block">
 <fieldset>
 <legend>{'Default location for objects'|i18n( 'design/standard/class/datatype' )}</legend>
@@ -61,7 +64,6 @@
 <input class="button" type="submit" name="CustomActionButton[{$class_attribute.id}_browse_for_placement]" value="{'Select location'|i18n('design/standard/class/datatype')}" />
 
 </fieldset>
-*}
 
 </div>
 {/let}
