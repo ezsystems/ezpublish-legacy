@@ -172,18 +172,19 @@ function ez_cleanup_db
 # 	[ -n "$DB_HOST" ] && DB_HOST_OPT="--db-server=$DB_HOST"
 # 	[ -n "$DB_PWD" ] && DB_PWD_OPT="--db-password=$DB_PWD"
 	echo -n "Flattening objects"
-	./update/common/scripts/flatten.php --db-driver=mysql $PARAM_EZ_MYSQL_ALL --db-database=$DBNAME all &>.mysql.log
+	ezdist_db_prepare_params_from_mysql "1"
+	./update/common/scripts/flatten.php --db-driver=mysql $PARAM_EZ_DB_ALL --db-database=$DBNAME all &>.mysql.log
 	ez_result_file $? .mysql.log || exit 1
 	if [ $CLEAN_SEARCH ]; then
 	    echo -n "Cleaning search engine"
-	    ./update/common/scripts/updatesearchindex.php --db-driver=mysql $PARAM_EZ_MYSQL_ALL --db-database=$DBNAME --clean &>.mysql.log
+	    ./update/common/scripts/updatesearchindex.php --db-driver=mysql $PARAM_EZ_DB_ALL --db-database=$DBNAME --clean &>.mysql.log
 	    ez_result_file $? .mysql.log || exit 1
 	fi
 	echo -n "Updating nice urls"
-	./update/common/scripts/updateniceurls.php --db-driver=mysql $PARAM_EZ_MYSQL_ALL --db-database=$DBNAME &>.mysql.log
+	./update/common/scripts/updateniceurls.php --db-driver=mysql $PARAM_EZ_DB_ALL --db-database=$DBNAME &>.mysql.log
 	ez_result_file $? .mysql.log || exit 1
 	echo -n "Cleaning up data"
-	./update/common/scripts/cleanup.php --db-driver=mysql $PARAM_EZ_MYSQL_ALL --db-database=$DBNAME all &>.mysql.log
+	./update/common/scripts/cleanup.php --db-driver=mysql $PARAM_EZ_DB_ALL --db-database=$DBNAME all &>.mysql.log
 	ez_result_file $? .mysql.log || exit 1
     fi
 }
