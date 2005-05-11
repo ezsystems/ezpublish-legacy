@@ -486,12 +486,12 @@ class eZXMLTextType extends eZDataType
                 foreach ( array_keys( $links ) as $index )
                 {
                     $linkRef =& $links[$index];
-                    $linkID =& $linkRef->attributeValue( 'id' );
+                    $linkID =& $linkRef->attributeValue( 'url_id' );
                     if ( !( $urlObj =& eZURL::fetch( $linkID ) ) ) // an error occured
                         continue;
                     $url =& $urlObj->attribute( 'url' );
                     $linkRef->set_attribute( 'href', $url );
-                    $linkRef->remove_attribute( 'id' );
+                    $linkRef->remove_attribute( 'url_id' );
                     unset( $urlObj );
                 }
             }
@@ -546,7 +546,7 @@ class eZXMLTextType extends eZDataType
                     }
 
                     $linkRef->remove_attribute( 'href' );
-                    $linkRef->set_attribute( 'id', $urlObj->attribute( 'id' ) );
+                    $linkRef->set_attribute( 'url_id', $urlObj->attribute( 'id' ) );
                     $urlObjectLink =& eZURLObjectLink::create( $urlObj->attribute( 'id' ),
                                                                $objectAttribute->attribute( 'id' ),
                                                                $objectAttribute->attribute( 'version' ) );

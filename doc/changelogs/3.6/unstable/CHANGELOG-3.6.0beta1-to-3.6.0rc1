@@ -47,6 +47,7 @@ Attributes:
 - Fixed bug #6435: Recognize eAccelerator (mmCache fork) as valid PHP Accelerator.
 - Fixed bug #6608: Missing koi8r alias in eZCharsetInfo.
   (Merged from stable/3.5 (3.5.3) rev. 11739)
+- Fixed bug #6614: Wrong URL ID used for ezxmltext datatype export.
 
 *Library:
 
