@@ -52,13 +52,14 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish search inde
 
 $script->startup();
 
-$options = $script->getOptions( "[db-host:][db-user:][db-password:][db-database:][db-driver:][sql][clean]",
+$options = $script->getOptions( "[db-host:][db-user:][db-password:][db-database:][db-type:|db-driver:][sql][clean]",
                                 "",
                                 array( 'db-host' => "Database host",
                                        'db-user' => "Database user",
                                        'db-password' => "Database password",
                                        'db-database' => "Database name",
                                        'db-driver' => "Database driver",
+                                       'db-type' => "Database driver, alias for --db-driver",
                                        'sql' => "Display sql queries",
                                        'clean' =>  "Remove all search data before beginning indexing"
                                        ) );
