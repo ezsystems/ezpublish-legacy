@@ -1519,6 +1519,15 @@ div#rightmenu label
     font-weight: normal;
 }
 
+table.cache th
+{
+    background-color: transparent;
+    border-top: none;
+    border-right: none;    
+    vertical-align: middle;
+    padding-left: 0.5em;
+}
+
 /* INDEX VIEW */
 
 div.content-viewindex ul

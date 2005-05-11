@@ -5,6 +5,7 @@
 <form name="quicksettings" action={'setup/settingstoolbar'|ezurl} method="post">
 <input type="hidden" name="SiteAccess" value="{$siteaccess}" />
 
+<div class="block">
 {section show=eq( $siteaccess, 'global_override' )}
    {section loop=$settings_list}
      <input type="hidden" name="AllSettingsList[]" value="{$:item}"/>
@@ -44,18 +45,22 @@
       {/let}
    {/section}   
 {/section}
+</div>
 {section show=eq( $select_siteaccess, true )}
-    <label>Siteaccess:</label>
     {let siteaccesslist=ezini( 'SiteAccessSettings', 'AvailableSiteAccessList' )}
+    <div class="block">
+    <label>Siteaccess:</label>
     <select name="siteaccesslist"{eq( $ui_context, 'edit' )|choose( '', ' disabled="disabled"' )}>
             <option onclick='location.href={'/user/preferences/set/admin_quicksettings_siteaccess/global_override'|ezurl}'{section show=eq( $siteaccess, 'global_override')} selected="selected"{/section}>Global (override)</option>
     {section loop=$siteaccesslist}
     		<option onclick='location.href={concat( '/user/preferences/set/admin_quicksettings_siteaccess/', $:item )|ezurl}'{section show=eq( $siteaccess, $:item )} selected="selected"{/section}>{$:item}</option>
     {/section}
-    </select><br/>
+    </select>
+    </div>
     {/let}
 {/section}
-
+<div class="block">
 <input {eq( $ui_context, 'edit' )|choose( "class='button'", "class='button-disabled'" )}{eq( $ui_context, 'edit' )|choose( '', ' disabled="disabled"' )} type="submit" name="SetButton" value="Set" />
+</div>
 </form>
 {let}

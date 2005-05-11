@@ -59,36 +59,30 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-<table class="list" cellspacing="0">
+<table class="list cache" cellspacing="0">
 
 {* Template cache. *}
 <tr class="bglight">
-<td>{'Template overrides and compiled templates'|i18n( 'design/admin/setup/cache' )}:</td>
-<td><input class="button" type="submit" name="ClearTemplateCacheButton" value="{'Clear template caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all the template override caches and the compiled templates. It may lead to weaker performance until the caches are up and running again.'|i18n( 'design/admin/setup/cache' )}" /></td>
+<th width="60%">{'Template overrides and compiled templates'|i18n( 'design/admin/setup/cache' )}:</th>
+<td width="40%"><input class="button" type="submit" name="ClearTemplateCacheButton" value="{'Clear template caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all the template override caches and the compiled templates. It may lead to weaker performance until the caches are up and running again.'|i18n( 'design/admin/setup/cache' )}" /></td>
 </tr>
 
 {* Content cache. *}
 <tr class="bgdark">
-<td>{'Content views and template blocks'|i18n( 'design/admin/setup/cache' )}:</td>
+<th>{'Content views and template blocks'|i18n( 'design/admin/setup/cache' )}:</th>
 <td><input class="button" type="submit" name="ClearContentCacheButton" value="{'Clear content caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all caches that are related to either template views or cache blocks inside the pagelayout template. Use it if you have modified templates or if you have changed something inside a cache block.'|i18n( 'design/admin/setup/cache' )}"/></td>
 </tr>
 
 {* Configuration cache. *}
 <tr class="bglight">
-<td>{'Configuration (ini) caches'|i18n( 'design/admin/setup/cache' )}:</td>
+<th>{'Configuration (ini) caches'|i18n( 'design/admin/setup/cache' )}:</th>
 <td><input class="button" type="submit" name="ClearINICacheButton" value="{'Clear ini caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear all the configuration caches. Use it to force the system to re-read the configuration files if you have changed some settings.'|i18n( 'design/admin/setup/cache' )}" /></td>
 </tr>
 
 {* All caches. *}
 <tr class="bgdark">
-<td>{'Everything'|i18n( 'design/admin/setup/cache' )}:</td>
+<th>{'Everything'|i18n( 'design/admin/setup/cache' )}:</th>
 <td><input class="button" type="submit" name="ClearAllCacheButton" value="{'Clear all caches'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will clear ALL the caches and may lead to long response times until the caches are up and running again.'|i18n( 'design/admin/setup/cache' )}" /></td>
-</tr>
-
-{* Static content cache. *}
-<tr class="bgdark">
-<td>{'Static content cache'|i18n( 'design/admin/setup/cache' )}:</td>
-<td><input class="button" type="submit" name="RegenerateStaticCacheButton" value="{'Regenerate static content cache'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will regenerate all the static content caches that are configured. This action can take quite some time depending on the specifications of the server and the number of locations that are configured to be statically cached. If you encounter time-out problems, please use the &quot;bin/php/makestaticcache.php&quot; shell script.'|i18n( 'design/admin/setup/cache' )}" /></td>
 </tr>
 
 </table>
@@ -149,6 +143,35 @@
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
+
+</div>
+
+
+{* Regenerate static cache window. *}
+
+<div class="context-block">
+
+{* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
+
+<h1 class="context-title">{'Static content cache'|i18n( 'design/admin/setup/cache' )}</h1>
+
+{* DESIGN: Mainline *}<div class="header-subline"></div>
+
+{* DESIGN: Header END *}</div></div></div></div></div></div>
+
+{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
+
+<table class="list cache" cellspacing="0">
+
+{* Static content cache. *}
+<tr class="bgdark">
+<th width="60%">{'Regenerate static content cache'|i18n( 'design/admin/setup/cache' )}:</th>
+<td width="40%"><input class="button" type="submit" name="RegenerateStaticCacheButton" value="{'Create new'|i18n( 'design/admin/setup/cache' )}" title="{'This operation will regenerate all the static content caches that are configured. This action can take quite some time depending on the specifications of the server and the number of locations that are configured to be statically cached. If you encounter time-out problems, please use the &quot;bin/php/makestaticcache.php&quot; shell script.'|i18n( 'design/admin/setup/cache' )}" /></td>
+</tr>
+
+</table>
+
+{* DESIGN: Content END *}</div></div></div></div></div></div>
 
 </div>
 
