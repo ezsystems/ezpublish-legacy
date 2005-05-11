@@ -324,13 +324,13 @@ class eZSys
 
         while ( $pos < strlen( $argumentText ) )
         {
-            if ( $argumentText[$pos] == '"' )
+            if ( $argumentText[$pos] == '"' || $argumentText[$pos] == "'" )
             {
                 $quoteStartPos = $pos + 1;
                 $quoteEndPos = $pos + 1;
                 while ( $quoteEndPos < strlen( $argumentText ) )
                 {
-                    $tmpPos = strpos( $argumentText, '"', $quoteEndPos );
+                    $tmpPos = strpos( $argumentText, $argumentText[$pos], $quoteEndPos );
                     if ( $tmpPos !== false and
                          $argumentText[$tmpPos - 1] != "\\" );
                     {

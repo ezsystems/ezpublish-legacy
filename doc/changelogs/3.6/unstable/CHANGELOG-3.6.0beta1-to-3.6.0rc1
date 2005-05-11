@@ -48,6 +48,7 @@ Attributes:
 - Fixed bug #6608: Missing koi8r alias in eZCharsetInfo.
   (Merged from stable/3.5 (3.5.3) rev. 11739)
 - Fixed bug #6614: Wrong URL ID used for ezxmltext datatype export.
+- Fixed bug #6549: eZSYS::splitArgumentIntoElements and/or ImageMagick.
 
 *Library:
 
