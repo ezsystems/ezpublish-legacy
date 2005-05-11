@@ -55,13 +55,14 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish database cl
 
 $script->startup();
 
-$options = $script->getOptions( "[db-user:][db-password:][db-database:][db-driver:][sql]",
+$options = $script->getOptions( "[db-user:][db-password:][db-database:][db-type:|db-driver:][sql]",
                                 "[name]",
                                 array( 'db-host' => "Database host",
                                        'db-user' => "Database user",
                                        'db-password' => "Database password",
                                        'db-database' => "Database name",
                                        'db-driver' => "Database driver",
+                                       'db-type' => "Database driver, alias for --db-driver",
                                        'sql' => "Display sql queries"
                                        ) );
 $script->initialize();
