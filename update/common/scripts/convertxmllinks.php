@@ -62,54 +62,26 @@ $script =& eZScript::instance( array( 'description' => ( "\nDatabase converter f
 
 $script->startup();
 
-$options = $script->getOptions( "[db-host:][db-user:][db-password:][db-database:][db-driver:]",
+$options = $script->getOptions( "[db-host:][db-user:][db-password:][db-database:][db-type:]",
                                 "",
                                 array( 'db-host' => "Database host",
                                        'db-user' => "Database user",
                                        'db-password' => "Database password",
                                        'db-database' => "Database name",
-                                       'db-driver' => "Database driver"
+                                       'db-type' => "Database type, e.g. mysql or postgresql"
                                        ) );
 $script->initialize();
 
-$dbUser = $options['db-user'] ? $options['db-user'] : false;
-$dbPassword = $options['db-password'] ? $options['db-password'] : false;
-$dbHost = $options['db-host'] ? $options['db-host'] : false;
-$dbName = $options['db-database'] ? $options['db-database'] : false;
-$dbImpl = $options['db-driver'] ? $options['db-driver'] : false;
-$siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;
-
-if ( $siteAccess )
-{
-    changeSiteAccessSetting( $siteaccess, $siteAccess );
-}
-
-function changeSiteAccessSetting( &$siteaccess, $optionData )
-{
-    global $isQuiet;
-    $cli =& eZCLI::instance();
-    if ( file_exists( 'settings/siteaccess/' . $optionData ) )
-    {
-        $siteaccess = $optionData;
-        if ( !$isQuiet )
-            $cli->notice( "Using siteaccess $siteaccess for xml text field update" );
-    }
-    else
-    {
-        if ( !$isQuiet )
-            $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
-    }
-}
-
-$db =& eZDB::instance();
-if ( !$db )
-{
-    $cli->notice( "Can't initialize database connection.\n" );
-}
+$dbUser = $options['db-user'];
+$dbPassword = $options['db-password'];
+$dbHost = $options['db-host'];
+$dbName = $options['db-database'];
+$dbImpl = $options['db-type'];
+$isQuiet = $script->isQuiet();
 
 if ( $dbHost or $dbName or $dbUser or $dbImpl )
 {
-    $params = array();
+    $params = array( 'use_defaults' => false );
     if ( $dbHost !== false )
         $params['server'] = $dbHost;
     if ( $dbUser !== false )
@@ -121,12 +93,19 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
         $params['password'] = $dbPassword;
     if ( $dbName !== false )
         $params['database'] = $dbName;
+
     $db =& eZDB::instance( $dbImpl, $params, true );
-    if ( !$db )
-    {
-        $cli->notice( "Can't initialize database connection.\n" );
-    }
     eZDB::setInstance( $db );
+}
+else
+{
+    $db =& eZDB::instance();
+}
+
+if ( !$db->isConnected() )
+{
+    $cli->notice( "Can't initialize database connection.\n" );
+    $script->shutdown( 1 );
 }
 
 $xmlFieldsQuery = "SELECT id, version, contentobject_id, data_text
@@ -136,13 +115,16 @@ $xmlFieldsQuery = "SELECT id, version, contentobject_id, data_text
 $xmlFieldsArray =& $db->arrayQuery( $xmlFieldsQuery );
 $count = 0;
 
-foreach( $xmlFieldsArray as $xmlField )
+foreach ( $xmlFieldsArray as $xmlField )
 {
     $text = $xmlField['data_text'];
     $textLen = strlen ( $text );
-    
+
     $isTextModified = false;
     $pos = 1;
+
+    if ( $textLen == 0 )
+        continue;
 
     do
     {
@@ -154,7 +136,7 @@ foreach( $xmlFieldsArray as $xmlField )
                 break;
             $pos = $literalTagEnd + 9;
         }
-    
+
         $linkPos = strpos( $text, "<link", $pos );
         if ( $linkPos )
         {
@@ -162,14 +144,14 @@ foreach( $xmlFieldsArray as $xmlField )
             $linkTagEnd = strpos( $text, ">", $linkTagBegin );
             if ( !$linkTagEnd )
                 break;
-    
+
             $linkTag = substr( $text, $linkTagBegin, $linkTagEnd - $linkTagBegin );
 
             if ( strpos( $linkTag, " id=\"" ) !== false )
             {
                 $linkTag = str_replace( " id=\"", " url_id=\"", $linkTag );
                 $text = substr_replace( $text, $linkTag, $linkTagBegin, $linkTagEnd - $linkTagBegin );
-    
+
                 $isTextModified = true;
             }
 
@@ -178,7 +160,7 @@ foreach( $xmlFieldsArray as $xmlField )
         else
            break;
 
-    } while ($pos < $textLen );
+    } while ( $pos < $textLen );
 
     if ( $isTextModified )
     {
@@ -192,13 +174,14 @@ foreach( $xmlFieldsArray as $xmlField )
         $count++;
     }
 }
-    if ( !$isQuiet )
-    {
-        if ( $count )
-            $cli->notice( "Total: " . $count . " attribute(s) converted." );
-        else
-            $cli->notice( "No old-style <link> tags found." );
-    }
+
+if ( !$isQuiet )
+{
+    if ( $count )
+        $cli->notice( "Total: " . $count . " attribute(s) converted." );
+    else
+        $cli->notice( "No old-style <link> tags found." );
+}
 
 $script->shutdown();
 
