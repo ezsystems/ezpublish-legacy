@@ -50,7 +50,8 @@ $cacheCleared = array( 'all' => false,
                        'content' => false,
                        'ini' => false,
                        'template' => false,
-                       'list' => false );
+                       'list' => false,
+                       'static' => false );
 
 $contentCacheEnabled = $ini->variable( 'ContentSettings', 'ViewCaching' ) == 'enabled';
 $iniCacheEnabled = true;
