@@ -27,10 +27,10 @@
 
 {section show=$attribute.content}
     <input class="button" type="submit" name="RemoveObjectButton_{$attribute.id}" value="{'Remove object'|i18n( 'design/standard/content/datatype' )}" />
-    <input class="button" type="submit" name="BrowseObjectButton_{$attribute.id}" value="{'Find object'|i18n( 'design/standard/content/datatype' )}" />
+    <input class="button" type="submit" name="BrowseObjectButton_{$attribute.id}" value="{'Add object'|i18n( 'design/standard/content/datatype' )}" />
 {section-else}
     <input class="button-disabled" type="submit" name="RemoveObjectButton_{$attribute.id}" value="{'Remove object'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />
-    <input class="button" type="submit" name="BrowseObjectButton_{$attribute.id}" value="{'Find object'|i18n( 'design/standard/content/datatype' )}" />
+    <input class="button" type="submit" name="BrowseObjectButton_{$attribute.id}" value="{'Add object'|i18n( 'design/standard/content/datatype' )}" />
 {/section}
 
 <input type="hidden" name="CustomActionButton[{$attribute.id}_set_object_relation]" value="{$attribute.id}" />

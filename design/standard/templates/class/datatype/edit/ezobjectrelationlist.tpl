@@ -14,7 +14,7 @@
     <option value="2" {section show=eq( $type, 2 )}selected="selected"{/section}>{'Only existing objects'|i18n( 'design/standard/class/datatype' )}</option>
     </select>
     {section-else}
-    <select name="ContentClass_ezobjectrelationlist_type_{$class_attribute.id}" title="{'For more options, please set "AdvancedObjectRelationList" to "enabled" in a configuration override for "site.ini".'|i18n( 'design/standard/class/datatype' )|wash()}">
+    <select name="ContentClass_ezobjectrelationlist_type_{$class_attribute.id}" title="{'For more options, set "AdvancedObjectRelationList" to "enabled" in a configuration override for "site.ini".'|i18n( 'design/standard/class/datatype' )|wash()}">
     <option value="2" {section show=eq( $type, 2 )}selected="selected"{/section}>{'Only existing objects'|i18n( 'design/standard/class/datatype' )}</option>
     </select>
     {/section}

@@ -13,8 +13,8 @@
 
 {section show=$attribute.content.relation_list}
 <table class="list" cellspacing="0">
-<tr>
-    <th class="tight">&nbsp;</th>
+<tr class="bglight">
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/standard/content/datatype' )}" onclick="ezjs_toggleCheckboxes( document.editform, '{$attribute_base}_selection[{$attribute.id}][]' ); return false;" title="{'Invert selection.'|i18n( 'design/standard/content/datatype' )}" /></th>
     <th>Name</th>
     <th>Type</th>
     <th>Section</th>
@@ -116,6 +116,7 @@
 
 
 {section show=and( $can_create, array( 0, 1 )|contains( $class_content.type ) )}
+<div class="block">
 <select class="combobox" name="{$attribute_base}_new_class[{$attribute.id}]">
 {section name=Class loop=$class_list}
 <option value="{$:item.id}">{$:item.name|wash}</option>
@@ -126,6 +127,7 @@
 {/section}
 
 <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_new_class]" value="{'Create new object'|i18n( 'design/standard/content/datatype' )}" />
+</div>
 {/section}
 
 
@@ -136,7 +138,7 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th class="tight">&nbsp;</th>
+    <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/standard/content/datatype' )}" onclick="ezjs_toggleCheckboxes( document.editform, '{$attribute_base}_selection[{$attribute.id}][]' ); return false;" title="{'Invert selection.'|i18n( 'design/standard/content/datatype' )}" /></th>
     <th>Name</th>
     <th>Type</th>
     <th>Section</th>
