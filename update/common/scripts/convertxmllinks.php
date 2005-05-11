@@ -115,6 +115,40 @@ $xmlFieldsQuery = "SELECT id, version, contentobject_id, data_text
 $xmlFieldsArray =& $db->arrayQuery( $xmlFieldsQuery );
 $count = 0;
 
+/*!
+  Finds all link tags in text \a $text and replaces the attribute \c id with \c url_id.
+  \param $pos The current position to start looking for tags in \a $text.
+  \param $isTextModified The global flag which tells if a link was modified or not
+  \return \c true if it has found a link tag, \c false otherwise.
+*/
+function findLinkTags( &$text, &$pos, &$isTextModified )
+{
+    $linkPos = strpos( $text, "<link", $pos );
+    if ( $linkPos )
+    {
+        $linkTagBegin = $linkPos + 5;
+        $linkTagEnd = strpos( $text, ">", $linkTagBegin );
+        if ( !$linkTagEnd )
+        {
+            return false;
+        }
+
+        $linkTag = substr( $text, $linkTagBegin, $linkTagEnd - $linkTagBegin );
+
+        if ( strpos( $linkTag, " id=\"" ) !== false )
+        {
+            $linkTag = str_replace( " id=\"", " url_id=\"", $linkTag );
+            $text = substr_replace( $text, $linkTag, $linkTagBegin, $linkTagEnd - $linkTagBegin );
+
+            $isTextModified = true;
+        }
+
+        $pos = $linkTagEnd;
+        return true;
+    }
+    return false;
+}
+
 foreach ( $xmlFieldsArray as $xmlField )
 {
     $text = $xmlField['data_text'];
@@ -124,41 +158,50 @@ foreach ( $xmlFieldsArray as $xmlField )
     $pos = 1;
 
     if ( $textLen == 0 )
+    {
         continue;
+    }
 
+    $oldPos = false;
     do
     {
+        // Avoid infinite loop
+        if ( $oldPos === $pos or $oldPos > $pos )
+        {
+            break;
+        }
+        $oldPos = $pos;
+
         $literalTagBegin = strpos( $text, "<literal", $pos );
         if ( $literalTagBegin )
         {
-            $literalTagEnd = strpos( $text, "</literal>", $literalTagBegin );
-            if ( !$literalTagEnd )
-                break;
-            $pos = $literalTagEnd + 9;
-        }
 
-        $linkPos = strpos( $text, "<link", $pos );
-        if ( $linkPos )
-        {
-            $linkTagBegin = $linkPos + 5;
-            $linkTagEnd = strpos( $text, ">", $linkTagBegin );
-            if ( !$linkTagEnd )
-                break;
-
-            $linkTag = substr( $text, $linkTagBegin, $linkTagEnd - $linkTagBegin );
-
-            if ( strpos( $linkTag, " id=\"" ) !== false )
+            $preLiteralText = substr( $text, $pos, $literalTagBegin - $pos );
+            $preLiteralLen = strlen( $preLiteralText );
+            $tmpPos = 0;
+            // We need to check the text before the literal tag for link tags
+            if ( findLinkTags( $preLiteralText, $tmpPos, $isTextModified ) )
             {
-                $linkTag = str_replace( " id=\"", " url_id=\"", $linkTag );
-                $text = substr_replace( $text, $linkTag, $linkTagBegin, $linkTagEnd - $linkTagBegin );
+                // We found some link tags, now replace the text and adjust position
+                $diff = strlen( $preLiteralText ) - $preLiteralLen;
+                $text = substr_replace( $text, $preLiteralText, $pos, $literalTagBegin - $pos );
 
-                $isTextModified = true;
+                // Adjust begin position with the changes in text
+                $literalTagBegin += $diff;
             }
 
-            $pos = $linkTagEnd;
+            $literalTagEnd = strpos( $text, "</literal>", $literalTagBegin );
+            if ( !$literalTagEnd )
+            {
+                break;
+            }
+            $pos = $literalTagEnd + 9;
         }
         else
-           break;
+        {
+            if ( !findLinkTags( $text, $pos, $isTextModified ) )
+                break;
+        }
 
     } while ( $pos < $textLen );
 
