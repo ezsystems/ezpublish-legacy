@@ -12665,26 +12665,6 @@ keywords=cms, publish, e-commerce, content management, development framework',
       1 => 
       array (
         0 => '1082368571',
-        1 => '2',
-        2 => '1',
-        3 => '0',
-        4 => '1082368571',
-        5 => '5ca92fe4817cc195283779360ddc308b',
-        6 => 'http://ez.no/ez_publish/documentation/ez_publish_basics',
-      ),
-      2 => 
-      array (
-        0 => '1082368571',
-        1 => '3',
-        2 => '1',
-        3 => '0',
-        4 => '1082368571',
-        5 => '9aa3c35e22c69315d8557424af40f760',
-        6 => 'http://ez.no/ez_publish/documentation/day_to_day_use',
-      ),
-      3 => 
-      array (
-        0 => '1082368571',
         1 => '4',
         2 => '1',
         3 => '0',
@@ -12692,7 +12672,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
         5 => '41caff1d7f5ad51e70ad46abbcf28fb7',
         6 => 'http://ez.no/community/forum',
       ),
-      4 => 
+      2 => 
       array (
         0 => '1082368571',
         1 => '5',
@@ -12702,7 +12682,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
         5 => '7f0bed2dad9e69cc2c573d0868fe1a00',
         6 => 'http://ez.no/services/support',
       ),
-      5 => 
+      3 => 
       array (
         0 => '1082368571',
         1 => '6',
@@ -12712,7 +12692,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
         5 => '90c2b2894d43ee98fd5df8452dbfbfbd',
         6 => 'http://ez.no/services/consulting',
       ),
-      6 => 
+      4 => 
       array (
         0 => '1082368571',
         1 => '7',
@@ -12722,7 +12702,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
         5 => '23b22a1f1e566e15dead54b6d1b42706',
         6 => 'http://ez.no/services/training',
       ),
-      7 => 
+      5 => 
       array (
         0 => '1082368571',
         1 => '8',
@@ -12747,82 +12727,34 @@ keywords=cms, publish, e-commerce, content management, development framework',
       0 => 
       array (
         0 => '104',
-        1 => '2',
+        1 => '3',
         2 => '1',
       ),
       1 => 
       array (
         0 => '104',
-        1 => '2',
-        2 => '2',
+        1 => '3',
+        2 => '4',
       ),
       2 => 
       array (
         0 => '104',
-        1 => '2',
-        2 => '3',
+        1 => '3',
+        2 => '5',
       ),
       3 => 
       array (
         0 => '104',
-        1 => '2',
-        2 => '4',
+        1 => '3',
+        2 => '6',
       ),
       4 => 
       array (
         0 => '104',
-        1 => '2',
-        2 => '5',
+        1 => '3',
+        2 => '7',
       ),
       5 => 
-      array (
-        0 => '104',
-        1 => '2',
-        2 => '6',
-      ),
-      6 => 
-      array (
-        0 => '104',
-        1 => '2',
-        2 => '7',
-      ),
-      7 => 
-      array (
-        0 => '104',
-        1 => '2',
-        2 => '8',
-      ),
-      8 => 
-      array (
-        0 => '104',
-        1 => '3',
-        2 => '1',
-      ),
-      9 => 
-      array (
-        0 => '104',
-        1 => '3',
-        2 => '4',
-      ),
-      10 => 
-      array (
-        0 => '104',
-        1 => '3',
-        2 => '5',
-      ),
-      11 => 
-      array (
-        0 => '104',
-        1 => '3',
-        2 => '6',
-      ),
-      12 => 
-      array (
-        0 => '104',
-        1 => '3',
-        2 => '7',
-      ),
-      13 => 
       array (
         0 => '104',
         1 => '3',

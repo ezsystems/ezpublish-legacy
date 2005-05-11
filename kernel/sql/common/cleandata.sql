@@ -21915,40 +21915,6 @@ INSERT INTO ezurl (
   url
 ) VALUES (
   1082368571,
-  2,
-  1,
-  0,
-  1082368571,
-  '5ca92fe4817cc195283779360ddc308b',
-  'http://ez.no/ez_publish/documentation/ez_publish_basics'
-);
-INSERT INTO ezurl (
-  created,
-  id,
-  is_valid,
-  last_checked,
-  modified,
-  original_url_md5,
-  url
-) VALUES (
-  1082368571,
-  3,
-  1,
-  0,
-  1082368571,
-  '9aa3c35e22c69315d8557424af40f760',
-  'http://ez.no/ez_publish/documentation/day_to_day_use'
-);
-INSERT INTO ezurl (
-  created,
-  id,
-  is_valid,
-  last_checked,
-  modified,
-  original_url_md5,
-  url
-) VALUES (
-  1082368571,
   4,
   1,
   0,
@@ -22025,78 +21991,6 @@ INSERT INTO ezurl (
   'http://ez.no'
 );
 
-INSERT INTO ezurl_object_link (
-  contentobject_attribute_id,
-  contentobject_attribute_version,
-  url_id
-) VALUES (
-  104,
-  2,
-  1
-);
-INSERT INTO ezurl_object_link (
-  contentobject_attribute_id,
-  contentobject_attribute_version,
-  url_id
-) VALUES (
-  104,
-  2,
-  2
-);
-INSERT INTO ezurl_object_link (
-  contentobject_attribute_id,
-  contentobject_attribute_version,
-  url_id
-) VALUES (
-  104,
-  2,
-  3
-);
-INSERT INTO ezurl_object_link (
-  contentobject_attribute_id,
-  contentobject_attribute_version,
-  url_id
-) VALUES (
-  104,
-  2,
-  4
-);
-INSERT INTO ezurl_object_link (
-  contentobject_attribute_id,
-  contentobject_attribute_version,
-  url_id
-) VALUES (
-  104,
-  2,
-  5
-);
-INSERT INTO ezurl_object_link (
-  contentobject_attribute_id,
-  contentobject_attribute_version,
-  url_id
-) VALUES (
-  104,
-  2,
-  6
-);
-INSERT INTO ezurl_object_link (
-  contentobject_attribute_id,
-  contentobject_attribute_version,
-  url_id
-) VALUES (
-  104,
-  2,
-  7
-);
-INSERT INTO ezurl_object_link (
-  contentobject_attribute_id,
-  contentobject_attribute_version,
-  url_id
-) VALUES (
-  104,
-  2,
-  8
-);
 INSERT INTO ezurl_object_link (
   contentobject_attribute_id,
   contentobject_attribute_version,
