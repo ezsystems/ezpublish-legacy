@@ -109,6 +109,7 @@ class eZKeyword
 
         $object =& $attribute->attribute( 'object' );
         $classID = $object->attribute( 'contentclass_id' );
+
         // Get already existing keywords
         $wordArray = array();
         $escapedKeywordArray = array();
@@ -216,7 +217,28 @@ class eZKeyword
             $db->query( "INSERT INTO ezkeyword_attribute_link ( keyword_id, objectattribute_id ) VALUES ( '" . $keywordArray['id'] ."', '" . $attribute->attribute( 'id' ) . "' )" );
         }
 
-        // Clean up no longer used words
+        /* Clean up no longer used words:
+         * 1. Select words having no links.
+         * 2. Delete them.
+         * We cannot do this in one cross-table DELETE since older MySQL versions do not support this.
+         */
+        if ( $db->databaseName() == 'oracle' )
+        {
+            $query =
+                'SELECT ezkeyword.id FROM ezkeyword, ezkeyword_attribute_link ' .
+                'WHERE ezkeyword.id=ezkeyword_attribute_link.keyword_id(+) AND ' .
+                'ezkeyword_attribute_link.keyword_id IS NULL';
+        }
+        else
+        {
+            $query =
+                'SELECT ezkeyword.id FROM ezkeyword LEFT JOIN ezkeyword_attribute_link ' .
+                ' ON ezkeyword.id=ezkeyword_attribute_link.keyword_id' .
+                ' WHERE ezkeyword_attribute_link.keyword_id IS NULL';
+        }
+        $unusedWordsIDs =& $db->arrayQuery( $query );
+        foreach ( $unusedWordsIDs as $wordID )
+            $db->query( 'DELETE FROM ezkeyword WHERE id=' . $wordID['id'] );
     }
 
     /*!

@@ -47,6 +47,10 @@ Attributes:
 - Fixed bug #6604: Transaction error when publishing an object from the trash.
 - Fixed bug #6617: Add location problem.
 - Fixed bug: wrong behaviour when search using objectrelation attributes
+- Fixed bug #6203: Disable translations in Keywords does not act as advertised.
+  (Merged from stable/3.4 (3.4.7) rev. 11793)
+- Fixed bug: Unused keywords are never deleted.
+  (Merged from stable/3.4 (3.4.7) rev. 11793)
 
 *Library:
 
