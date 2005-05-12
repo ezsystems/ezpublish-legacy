@@ -43,6 +43,6 @@
     <p><a href={'/user/forgotpassword'|ezurl}>{'Forgot your password?'|i18n( 'design/standard/user' )}</a></p>
 {/section}
 
-<input type="hidden" name="RedirectURI" value="{$User:redirect_uri}" />
+<input type="hidden" name="RedirectURI" value="{$User:redirect_uri|wash}" />
 
 </form>
