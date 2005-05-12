@@ -127,7 +127,10 @@ class eZContentCacheManager
     */
     function appendRelatingNodeIDs( &$object, &$nodeIDList )
     {
-        $relatedObjects =& $object->contentObjectListRelatingThis();
+        $normalRelated =& $object->relatedContentObjectArray(); 
+        $reversedRelated =& $object->contentObjectListRelatingThis(); 
+
+        $relatedObjects = array_merge( $normalRelated, $reversedRelated );
         foreach ( array_keys( $relatedObjects ) as $relatedObjectKey )
         {
             $relatedObject =& $relatedObjects[$relatedObjectKey];
