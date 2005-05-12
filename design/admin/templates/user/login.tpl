@@ -44,7 +44,7 @@
 
 <div class="block">
     <label for="id1">{'Username'|i18n( 'design/admin/user/login' )}:</label>
-    <input class="halfbox" type="text" size="10" name="Login" id="id1" value="{$User:login}" tabindex="1" title="{'Enter a valid username into this field.'|i18n( 'design/admin/user/login' )}" />
+    <input class="halfbox" type="text" size="10" name="Login" id="id1" value="{$User:login|wash}" tabindex="1" title="{'Enter a valid username into this field.'|i18n( 'design/admin/user/login' )}" />
 </div>
 
 <div class="block">
