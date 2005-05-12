@@ -46,7 +46,7 @@ include_once( "kernel/common/template.php" );
 
 $http =& eZHTTPTool::instance();
 
-$NodeID = $Params['NodeID'];
+$NodeID = (int)$Params['NodeID'];
 $Module =& $Params['Module'];
 
 $tpl =& templateInit();
@@ -68,7 +68,7 @@ $receiversName = '';
 $receiversEmail = '';
 
 if ( $http->hasPostVariable( 'NodeID' ) )
-    $NodeID = $http->variable( 'NodeID' );
+    $NodeID = (int)$http->variable( 'NodeID' );
 
 $node =& eZFunctionHandler::execute( 'content', 'node', array( 'node_id' => $NodeID ) );
 if ( $node )
