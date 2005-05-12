@@ -29,8 +29,8 @@ Tool[]=admin_bookmarks
 
 [Toolbar_admin_developer]
 Tool[]
-Tool[]=admin_clear_cache
-Tool[]=admin_quick_settings
+#Tool[]=admin_clear_cache
+#Tool[]=admin_quick_settings
 
 [Tool_setup_link]
 title=
