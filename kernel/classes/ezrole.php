@@ -703,7 +703,6 @@ class eZRole extends eZPersistentObject
     function assignToUser( $userID, $limitIdent = '', $limitValue = '' )
     {
         $db =& eZDB::instance();
-        $db->begin();
 
         switch( $limitIdent )
         {
@@ -735,8 +734,9 @@ class eZRole extends eZPersistentObject
         if ( count( $rows ) > 0 )
             return false;
 
-        $query = "INSERT INTO ezuser_role ( role_id, contentobject_id, limit_identifier, limit_value ) VALUES ( '$this->ID', '$userID', '$limitIdent', '$limitValue' )";
+        $db->begin();
 
+        $query = "INSERT INTO ezuser_role ( role_id, contentobject_id, limit_identifier, limit_value ) VALUES ( '$this->ID', '$userID', '$limitIdent', '$limitValue' )";
         $db->query( $query );
 
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
