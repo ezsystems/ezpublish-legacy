@@ -76,12 +76,11 @@ class eZSearchEngine
         $wordCount = 0;
         $placement = 0;
         $previousWord = '';
-        $metaData = array();
 
         eZContentObject::recursionProtectionStart();
         foreach ( $currentVersion->contentObjectAttributes() as $attribute )
         {
-
+            $metaData = array();
             $classAttribute =& $attribute->contentClassAttribute();
             if ( $classAttribute->attribute( "is_searchable" ) == 1 )
             {
