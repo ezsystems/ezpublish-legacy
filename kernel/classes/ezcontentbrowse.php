@@ -278,7 +278,29 @@ class eZContentBrowse
             $postName = 'SelectedObjectIDArray';
         $http =& eZHTTPTool::instance();
         if ( $http->hasPostVariable( $postName ) )
-            return $http->postVariable( $postName );
+        {
+            $postList = $http->postVariable( $postName );
+            $list = array();
+            foreach ( $postList as $value )
+            {
+                if ( !is_numeric( $value ) )
+                {
+                    eZDebug::writeError( "Non-numeric value ($value) found for POST variable $postName for browse action '$actionName', the value will be excluded",
+                                         'eZContentBrowse::result' );
+                    continue;
+                }
+                // Append the value as a real integer, avoids XSS problems.
+                $intValue = (int)$value;
+                if ( $value != $intValue )
+                {
+                    eZDebug::writeError( "Non-integer value ($value) found for POST variable $postName for browse action '$actionName', the value will be excluded",
+                                         'eZContentBrowse::result' );
+                    continue;
+                }
+                $list[] = $intValue;
+            }
+            return array_unique( $list );
+        }
         return false;
     }
 
