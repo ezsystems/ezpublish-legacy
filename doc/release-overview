@@ -333,3 +333,9 @@ Datatype branch:
 - Revision=11656
 - Version url=http://zev.ez.no/svn/nextgen/versions/3.6.0beta1
 - Date  2-May-2005
+
+3.6.0rc1:
+- From revision=11798
+- Revision=11799
+- Version url=http://zev.ez.no/svn/nextgen/versions/3.6.0rc1
+- Date 12-May-2005
