@@ -168,10 +168,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $nodeID = $node->attribute( 'node_id' );
                     $this->NodeArray["$nodeID"] = $node;
                 }
-                else
-                {
-                    eZDebug::writeError( "Embedded node(s) fetching failed", "XML output handler" );
-                }
+              //  else
+              //  {
+              //      eZDebug::writeError( "Embedded node(s) fetching failed", "XML output handler" );
+              //  }
             }
 
             $sectionNode =& $domNode[0];
@@ -387,14 +387,14 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             {
                 $nodeID = $tag->attributeValue( 'node_id' );
                 $node =& $this->NodeArray[$nodeID];
-                if ( $node == null )
-                {
-                    eZDebug::writeError( "Node $nodeID doesn't exist", "XML output handler" );
-                }
-                else
+                if ( $node != null )
                 {
                     $href = $node->attribute( 'url_alias' );
                 }
+                //else
+                //{
+                //    eZDebug::writeError( "Node $nodeID doesn't exist", "XML output handler" );
+                //}
             }
             elseif ( $tag->attributeValue( 'object_id' ) != null )
             {
@@ -407,15 +407,15 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     {
                         $href = $node->attribute( 'url_alias' );
                     }
-                    else
-                    {
-                        eZDebug::writeError( "Object $objectID is not attached to a node", "XML output handler" );
-                    }
+                   // else
+                   // {
+                   //     eZDebug::writeError( "Object $objectID is not attached to a node", "XML output handler" );
+                   // }
                 }
-                else
-                {
-                    eZDebug::writeError( "Object $objectID doesn't exist", "XML output handler" );
-                }
+               // else
+               //  {
+               //     eZDebug::writeError( "Object $objectID doesn't exist", "XML output handler" );
+               //  }
             }
             elseif ( $tag->attributeValue( 'href' ) != null )
             {
@@ -614,14 +614,14 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 }
                 else
                 {
-                    eZDebug::writeError( "Node $nodeID doesn't exist", "XML output handler" );
+                 //   eZDebug::writeError( "Node $nodeID doesn't exist", "XML output handler" );
                     break;
                 }
             }
 
 			if ( !$object )
             {
-                eZDebug::writeError( "Can't fetch object. objectID: $objectID, nodeID: $nodeID", "XML output handler" );
+                //eZDebug::writeError( "Can't fetch object. objectID: $objectID, nodeID: $nodeID", "XML output handler" );
 	            break;
             }
 
