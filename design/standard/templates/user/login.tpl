@@ -39,6 +39,6 @@
 <input class="button" type="submit" name="RegisterButton" value="{'Sign Up'|i18n('design/standard/user','Button')}" />
 </div>
 
-<input type="hidden" name="RedirectURI" value="{$User:redirect_uri}" />
+<input type="hidden" name="RedirectURI" value="{$User:redirect_uri|wash}" />
 
 </form>

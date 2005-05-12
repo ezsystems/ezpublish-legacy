@@ -47,6 +47,6 @@
 
 <div class="break"></div>
 
-<input type="hidden" name="RedirectURI" value="{$User:redirect_uri}" />
+<input type="hidden" name="RedirectURI" value="{$User:redirect_uri|wash}" />
 
 </form>
