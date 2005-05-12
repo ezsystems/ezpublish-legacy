@@ -27,7 +27,7 @@
 
 <div class="block">
 <label for="id1">{"Login"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
-<input class="halfbox" type="text" size="10" name="Login" id="id1" value="{$User:login}" />
+<input class="halfbox" type="text" size="10" name="Login" id="id1" value="{$User:login|wash}" />
 </div>
 <div class="block">
 <label for="id2">{"Password"|i18n("design/standard/user")}</label><div class="labelbreak"></div>
