@@ -184,7 +184,7 @@ class eZSelectionType extends eZDataType
         if ( $http->hasPostVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $selectOptions =& $http->postVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) );
-            $idString = implode( '-', $selectOptions );
+            $idString = ( is_array( $selectOptions ) ? implode( '-', $selectOptions ) : "" ); 
             $contentObjectAttribute->setAttribute( 'data_text', $idString );
             return true;
         }
