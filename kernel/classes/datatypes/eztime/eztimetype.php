@@ -154,7 +154,6 @@ class eZTimeType extends eZDataType
     */
     function &sortKey( &$contentObjectAttribute )
     {
-        //return $contentObjectAttribute->attribute( 'data_int' );
         // translate time from GMT to local time for proper sort key
         $gmtSeconds = $contentObjectAttribute->attribute( 'data_int' );
         if ( !is_null($gmtSeconds) )
@@ -241,8 +240,17 @@ class eZTimeType extends eZDataType
     */
     function title( &$contentObjectAttribute )
     {
+        $gmtSeconds = $contentObjectAttribute->attribute( 'data_int' );
+        $time = '';
+        if ( !is_null($gmtSeconds) )
+        {
+            $time = new eZTime();
+            $last_midnight = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY;
+            $time = $last_midnight + ( $gmtSeconds % EZTIME_SECONDS_A_DAY );
+        }
+
         $locale =& eZLocale::instance();
-        return $locale->formatTime( $contentObjectAttribute->attribute( "data_int" ) );
+        return $locale->formatTime( $time );
     }
 
     function hasObjectAttributeContent( &$contentObjectAttribute )

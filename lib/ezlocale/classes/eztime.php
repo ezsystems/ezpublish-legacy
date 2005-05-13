@@ -244,7 +244,7 @@ class eZTime
     /*!
      Returns the hour element.
     */
-    function &hour()
+    function hour()
     {
         $last_midnight = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY;
         $time = $last_midnight + ( $this->Time % EZTIME_SECONDS_A_DAY );
@@ -255,7 +255,7 @@ class eZTime
     /*!
      Returns the minute element.
     */
-    function &minute()
+    function minute()
     {
         $last_midnight = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY;
         $time = $last_midnight + ( $this->Time % EZTIME_SECONDS_A_DAY );
@@ -265,7 +265,7 @@ class eZTime
     /*!
      Returns the second element.
     */
-    function &second()
+    function second()
     {
         $last_midnight = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY;
         $time = $last_midnight + ( $this->Time % EZTIME_SECONDS_A_DAY );
@@ -277,7 +277,7 @@ class eZTime
      a clamped value to the number of seconds in a day.
      \note The value is returned as a reference and should not be modified.
     */
-    function &timeStamp()
+    function timeStamp()
     {
         return $this->Time;
     }
@@ -286,6 +286,16 @@ class eZTime
     {
         $this->Time = $time_stamp % EZTIME_SECONDS_A_DAY;
         $this->IsValid = $time_stamp >= 0;
+    }
+
+    /*
+     Return long timestamp ($this->Time + current day midnight timestamp)
+    */
+    function longTimeStamp()
+    {
+        $last_midnight = (int) (mktime() / EZTIME_SECONDS_A_DAY) * EZTIME_SECONDS_A_DAY;
+        $time = $last_midnight + ( $this->Time % EZTIME_SECONDS_A_DAY );
+        return $time;
     }
 
     /*!
