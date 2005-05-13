@@ -862,7 +862,7 @@ class eZRole extends eZPersistentObject
             $role = array();
             $role['user'] = eZContentObject::fetch( $userRole['user_id'] );
             $role['role'] = eZRole::fetch( $userRole['role_id'] );
-            $userRoles[] =& $role;
+            $userRoles[] = $role;
         }
         return $userRoles;
     }
