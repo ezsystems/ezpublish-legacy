@@ -225,6 +225,9 @@ function &eZDisplayDebug()
 {
     $ini =& eZINI::instance();
 
+    if ( $ini->variable( 'DebugSettings', 'DebugOutput' ) != 'enabled' )
+        return null;
+
     $type = $ini->variable( "DebugSettings", "Debug" );
     eZDebug::setHandleType( EZ_HANDLE_NONE );
     if ( $type == "inline" or $type == "popup" )
