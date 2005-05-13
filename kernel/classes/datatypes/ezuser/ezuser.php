@@ -357,7 +357,7 @@ class eZUser extends eZPersistentObject
         $sortText = '';
         if ( $asObject )
         {
-            $selectArray = array( "ezuser.*" );
+            $selectArray = array( "distinct ezuser.*" );
         }
         else
         {
