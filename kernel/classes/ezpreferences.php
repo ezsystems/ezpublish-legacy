@@ -74,12 +74,17 @@ class eZPreferences
         $name = $db->escapeString( $name );
         $value = $db->escapeString( $value );
 
+        $isCurrentUser = true;
         if ( $storeUserID === false )
         {
             $user =& eZUser::currentUser();
         }
         else
         {
+            $currentID = eZUser::currentUserID();
+            if ( $currentID != $storeUserID )
+                $isCurrentUser = false;
+
             $user =& eZUser::fetch( $storeUserID );
             if ( !is_object( $user ) )
             {
@@ -88,6 +93,10 @@ class eZPreferences
             }
         }
 
+        // We must store the database changes if:
+        // a - The current user is logged in (ie. not anonymous)
+        // b - We have specified a specific user (not the current).
+        //    in which case isLoggedIn() will fail.
         if ( $storeUserID !== false or $user->isLoggedIn() )
         {
             // Only store in DB if user is logged in or we have
@@ -106,6 +115,11 @@ class eZPreferences
                 $query = "INSERT INTO ezpreferences ( user_id, name, value ) VALUES ( $userID, '$name', '$value' )";
                 $db->query( $query );
             }
+        }
+
+        // We also store in session if this is the current user (anonymous or normal user)
+        if ( $isCurrentUser )
+        {
             eZPreferences::storeInSession( $name, $value );
         }
 
@@ -131,6 +145,10 @@ class eZPreferences
         $useCache = ( $user->ContentObjectID == $http->sessionVariable( 'eZUserLoggedInID' ) );
         if ( $useCache and eZPreferences::isStoredInSession( $name ) )
             return eZPreferences::storedSessionValue( $name );
+
+        // If this the anonymous user we should return false, no need to check database.
+        if ( $user->isAnonymous() )
+            return false;
 
         $db =& eZDB::instance();
         $name = $db->escapeString( $name );
@@ -161,7 +179,8 @@ class eZPreferences
     {
         if ( get_class( $user ) != 'ezuser' )
             $user =& eZUser::currentUser();
-        if ( $user->isLoggedIn() )
+
+        if ( !$user->isAnonymous() )
         {
             // If the user object is not the currently logged in user we cannot use the session values
             $http =& eZHTTPTool::instance();
@@ -181,6 +200,10 @@ class eZPreferences
         }
         else
         {
+            // For the anonymous user we just return all values
+            $http =& eZHTTPTool::instance();
+            if ( $http->hasSessionVariable( EZ_PREFERENCES_SESSION_NAME ) )
+                return $http->sessionVariable( EZ_PREFERENCES_SESSION_NAME );
             return array();
         }
     }
