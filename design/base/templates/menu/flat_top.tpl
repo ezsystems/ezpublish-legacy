@@ -6,7 +6,7 @@
     {let root_node=fetch( content, node, hash( node_id, 2 ) )
          menuitems=fetch( content, list, hash( parent_node_id, 2,
                                                class_filter_type, include,
-                                               class_filter_array, ezini( 'MenuContentSettings', 'LeftIdentifierList', 'menu.ini' ),
+                                               class_filter_array, ezini( 'MenuContentSettings', 'TopIdentifierList', 'menu.ini' ),
                                                sort_by, $root_node.sort_array ) )}
     <ul>
     {section var=menu loop=$menuitems}
