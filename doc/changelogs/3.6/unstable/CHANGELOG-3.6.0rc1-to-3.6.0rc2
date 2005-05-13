@@ -3,6 +3,8 @@ Changes from 3.6.0rc1 to 3.6.0rc2
 *Kernel:
 
 *Bugfixes:
+- Fixed bug #6626: Remove border attribute from image tag.
+  (Manually merged from stable/3.4 (3.4.7) rev. 11807)
 
 *Library:
 
