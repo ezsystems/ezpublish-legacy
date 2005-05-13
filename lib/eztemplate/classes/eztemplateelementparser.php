@@ -190,8 +190,10 @@ class eZTemplateElementParser
                 $quote = $text[$currentPosition];
                 ++$currentPosition;
                 $quoteEndPosition = $this->quoteEndPos( $tpl, $text, $currentPosition, $textLength, $quote );
+                $string = substr( $text, $currentPosition, $quoteEndPosition - $currentPosition );
+                $string = $this->unescapeCharacters( $string );
                 $element = array( EZ_TEMPLATE_TYPE_STRING, // type
-                                  substr( $text, $currentPosition, $quoteEndPosition - $currentPosition ), // content
+                                  $string, // content
                                   false // debug
                                   );
                 $elements[] = $element;
@@ -421,6 +423,75 @@ class eZTemplateElementParser
         $namespace = implode( ':', $namespaces );
         $name = $variableName;
         return $currentPosition;
+    }
+
+    /*!
+     Finds any escaped characters and unescapes them if they are one of:
+     - \n - A newline
+     - \r - A carriage return
+     - \t - A tab
+     - \' - A single quote
+     - \" - A double quote
+
+     If the escaped character is not known it keeps both characters (escape + character).
+     \return The transformed string without escape characters.
+    */
+    function unescapeCharacters( $string )
+    {
+        $newString = '';
+        $len = strlen( $string );
+
+        // Fix escaped characters (double-quote, single-quote, newline, carriage-return, tab)
+        for ( $i = 0; $i < $len; ++$i )
+        {
+            $c = $string[$i];
+
+            // If we don't have an escape character we keep it as-is
+            if ( $c != "\\" )
+            {
+                $newString .= $c;
+                continue;
+            }
+
+            // If this is the last character we keep it as-is
+            if ( $i + 1 >= $len )
+            {
+                $newString .= $c;
+                break;
+            }
+
+            $c2 = $string[++$i];
+            switch ( $c2 )
+            {
+                case 'n':
+                {
+                    $newString .= "\n";
+                } break;
+
+                case 'r':
+                {
+                    $newString .= "\r";
+                } break;
+
+                case 't':
+                {
+                    $newString .= "\t";
+                } break;
+
+                case "'":
+                case '"':
+                {
+                    $newString .= $c2;
+                } break;
+
+                // If it is not known we keep the characters.
+                default:
+                {
+                    $newString .= $c . $c2;
+                }
+            }
+        }
+        return $newString;
     }
 
     /*!
