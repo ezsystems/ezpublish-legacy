@@ -7,7 +7,7 @@
   {let image_content=$attribute.content
        image=$image_content[$image_class]}
 
-     <img src="{$image.filename}" width="{$image.width}" height="{$image.height}" {section show=$hspace}hspace="{$hspace}"{/section} {section show=$alignment}align="{$alignment}"{/section} border="{$border_size}" alt="{$image_content.alternative_text|wash(xhtml)}" />
+     <img src="{$image.filename}" width="{$image.width}" height="{$image.height}" {section show=$hspace}hspace="{$hspace}"{/section} {section show=$alignment}align="{$alignment}"{/section} style="border: {$border_size}px;" alt="{$image_content.alternative_text|wash(xhtml)}" />
 
 {append-block scope=global variable=htmlmail_image_list}{$image.full_path}|{$image.filename}{/append-block}
 
