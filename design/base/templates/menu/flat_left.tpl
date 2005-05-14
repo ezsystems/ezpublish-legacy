@@ -7,20 +7,22 @@
                     $module_result.node_id,
                     ezini( 'MenuContentSettings', 'LeftIdentifierList', 'menu.ini' ),
                     0, 5 )
-                    depth=1}
+                    depth=1
+                    last_level=0}
         <ul>
         {section var=menu loop=$:docs last-value}
-            {section show=and( $menu.last.level|eq( $menu.level ), $menu.number|gt( 1 ) )}
+            {set last_level=$menu.last|is_array|choose( $menu.level, $menu.last.level )}
+            {section show=and( $last_level|eq( $menu.level ), $menu.number|gt( 1 ) )}
                 </li>
             {section-else}
-            {section show=and( $menu.last.level|gt( $menu.level ), $menu.number|gt( 1 ) )}
+            {section show=and( $last_level|gt( $menu.level ), $menu.number|gt( 1 ) )}
                 </li>
                     {"</ul>
-                </li>"|repeat(sub( $menu.last.level, $menu.level ))}
+                </li>"|repeat(sub( $last_level, $menu.level ))}
             {/section}
             {/section}
 
-            {section show=and( $menu.last.level|lt( $menu.level ), $menu.number|gt( 1 ) )}
+            {section show=and( $last_level|lt( $menu.level ), $menu.number|gt( 1 ) )}
                 <ul>
                     <li class="menu-level-{$menu.level}">
             {section-else}

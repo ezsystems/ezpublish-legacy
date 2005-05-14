@@ -88,7 +88,7 @@ class eZMediaType extends eZDataType
     function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-        $mediaFiles =& eZMedia::fetch( $contentObjectAttributeID );
+        $mediaFiles =& eZMedia::fetch( $contentObjectAttributeID, null );
         $sys =& eZSys::instance();
         $storage_dir = $sys->storageDirectory();
         if( $version == null )
@@ -112,7 +112,7 @@ class eZMediaType extends eZDataType
             {
                 $mimeType =  $currentBinaryFile->attribute( "mime_type" );
                 $currentFileName = $currentBinaryFile->attribute( "filename" );
-                list( $prefix, $suffix ) = split ('[/]', $mimeType );
+                list( $prefix, $suffix ) = is_string( $mimeType ) ? split ('[/]', $mimeType ) : array( null, null );
 //              $orig_dir = "var/storage/original/" . $prefix;
                 $orig_dir = $storage_dir . '/original/' . $prefix;
                 foreach ( $mediaFiles as $mediaFile )
@@ -205,7 +205,10 @@ class eZMediaType extends eZDataType
         $width = $http->postVariable( $base . "_data_media_width_" . $contentObjectAttribute->attribute( "id" ) );
         $height = $http->postVariable( $base . "_data_media_height_" . $contentObjectAttribute->attribute( "id" ) );
         $quality = $http->postVariable( $base . "_data_media_quality_" . $contentObjectAttribute->attribute( "id" ) );
-        $controls = $http->postVariable( $base . "_data_media_controls_" . $contentObjectAttribute->attribute( "id" ) );
+        if ( $http->hasPostVariable( $base . "_data_media_controls_" . $contentObjectAttribute->attribute( "id" ) ) )
+            $controls = $http->postVariable( $base . "_data_media_controls_" . $contentObjectAttribute->attribute( "id" ) );
+        else
+            $controls = null;
 
 
         $media =& eZMedia::fetch( $contentObjectAttributeID, $version );

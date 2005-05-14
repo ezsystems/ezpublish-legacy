@@ -2,7 +2,7 @@
 //
 // Definition of eZRangeOptionType class
 //
-// Created on: <17-æÅ×-2003 16:24:57 sp>
+// Created on: <17-Feb-2003 16:24:57 sp>
 //
 // Copyright (C) 1999-2005 eZ systems as. All rights reserved.
 //
@@ -72,7 +72,10 @@ class eZRangeOptionType extends eZDataType
     {
 
         $optionName =& $http->postVariable( $base . "_data_rangeoption_name_" . $contentObjectAttribute->attribute( "id" ) );
-        $optionIDArray =& $http->postVariable( $base . "_data_rangeoption_id_" . $contentObjectAttribute->attribute( "id" ) );
+        if ( $http->hasPostVariable( $base . "_data_rangeoption_id_" . $contentObjectAttribute->attribute( "id" ) ) )
+            $optionIDArray =& $http->postVariable( $base . "_data_rangeoption_id_" . $contentObjectAttribute->attribute( "id" ) );
+        else
+            $optionIDArray = array();
         $optionStartValue =& $http->postVariable( $base . "_data_rangeoption_start_value_" . $contentObjectAttribute->attribute( "id" ) );
         $optionStopValue =& $http->postVariable( $base . "_data_rangeoption_stop_value_" . $contentObjectAttribute->attribute( "id" ) );
         $optionStepValue =& $http->postVariable( $base . "_data_rangeoption_step_value_" . $contentObjectAttribute->attribute( "id" ) );

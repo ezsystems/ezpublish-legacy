@@ -88,7 +88,8 @@ class eZPackageOperator
             {
                 if ( get_class( $operatorValue ) == 'ezpackage' )
                 {
-                    $fileList = $operatorValue->fileList( 'default' );
+                    if ( !is_array( $fileList = $operatorValue->fileList( 'default' ) ) )
+                        $fileList = array();
                     foreach ( array_keys( $fileList ) as $key )
                     {
                         $file =& $fileList[$key];

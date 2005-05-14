@@ -131,8 +131,7 @@ class eZPackageType extends eZDataType
     {
         $ini =& eZIni::instance();
         // Delete compiled template
-        $iniPath = "settings/siteaccess/$siteAccess";
-        $siteINI = eZINI::instance( 'site.ini.append', $iniPath );
+        $siteINI = eZINI::instance();
         if ( $siteINI->hasVariable( 'FileSettings', 'CacheDir' ) )
         {
             $cacheDir = $siteINI->variable( 'FileSettings', 'CacheDir' );

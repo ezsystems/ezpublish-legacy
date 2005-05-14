@@ -89,6 +89,9 @@ class eZSubtreeCache
     */
     function cleanup( &$nodeList )
     {
+        if ( !is_array( $nodeList ) )
+            return;
+
         $cacheDir = eZTemplateCacheFunction::templateBlockCacheDir();
 
         $keys = array_keys( $nodeList );
