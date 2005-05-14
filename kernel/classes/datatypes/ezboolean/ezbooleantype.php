@@ -112,8 +112,10 @@ class eZBooleanType extends eZDataType
         if ( $http->hasPostVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) ))
         {
             $data = $http->postVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) );
-            if ( isset( $data ) )
-                $data = 1;
+            if ( isset( $data ) && $data !== '0' && $data !== 'false' )
+              $data = 1;
+            else
+              $data = 0;
         }
         else
         {
