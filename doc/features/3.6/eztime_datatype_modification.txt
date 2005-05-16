@@ -6,7 +6,7 @@ Attribute of type eZTimeType contain two content attributes for now:
  - 'short_timestamp' is the number of seconds from begining of a day
     (since last midnight).
  - 'timestamp' is the calculated value as sum of last midnight timestamp
-   (from the 01/01/1970) and 'short_timestamp'.
+   (from the 00:00 01/01/1970) and 'short_timestamp'.
 
 The only value of 'short_timestamp' attribute is stored in database as
 'data_int' field. The value of 'timestamp' attribute is calculated on
