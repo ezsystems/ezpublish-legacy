@@ -14,6 +14,7 @@ Changes from 3.6.0rc1 to 3.6.0rc2
 - Fixed bug #6465: Can not unselect *all* ezselection, multi options.
 - Fixed bug #6583: 'ezboolean' datatype logic.
   (Merged from stable/3.5 (3.5.3) rev. 11828)
+- Fixed bug #6629: New template syntax breaks node_view_gui.
   
 *Library:
 

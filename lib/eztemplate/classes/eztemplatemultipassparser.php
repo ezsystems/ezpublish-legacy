@@ -527,7 +527,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
                     // special handling for some functions having complex syntax
                     if ( $type == EZ_ELEMENT_NORMAL_TAG &&
-                         in_array( $tag, array( 'if', 'elseif', 'while', 'for', 'foreach', 'def', 'undef', 'set', 'let', 'default', 'set-block', 'append-block' ) ) )
+                         in_array( $tag, array( 'if', 'elseif', 'while', 'for', 'foreach', 'def', 'undef',
+                                                'set', 'let', 'default', 'set-block', 'append-block', 'section' ) ) )
                     {
                         $attr_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $attr_pos, $text_len );
 
@@ -546,6 +547,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                             $this->parseSetFunction( $tag, $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $startLine, $startColumn, $rootNamespace );
                         elseif ( $tag == 'set-block' || $tag == 'append-block' )
                             $this->parseBlockFunction( $tag, $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $startLine, $startColumn, $rootNamespace );
+                        elseif ( $tag == 'section' )
+                            $this->parseSectionFunction( $tag, $args, $tpl, $text, $text_len, $attr_pos, $relatedTemplateName, $startLine, $startColumn, $rootNamespace );
                     }
                     elseif ( $type == EZ_ELEMENT_END_TAG && $tag == 'do' )
                     {
@@ -1201,7 +1204,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
     /*!
     Parse arguments for {set-block}/{append-block}.
-    This function has been created to correctly handle the case when ($) is used in variable name, e.g. {set-block variable=$var}
+    This method has been created to correctly handle the case when ($) is used in variable name, e.g. {set-block variable=$var}
     Here we strip the dollar sign and pass the variable name as string.
     */
     function parseBlockFunction( $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos,
@@ -1237,6 +1240,58 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
             // skip optional dollar sign
             if ( $paramName == 'variable' && $cur_pos < $text_len && $text[$cur_pos] == '$' )
+            {
+                $cur_pos++;
+            }
+
+            // parse parameter value
+            $paramValue =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+            $args[$paramName] =& $paramValue;
+
+            // skip whitespaces
+            $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+        }
+    }
+
+    /*!
+    Parse arguments for {section}.
+    This method has been created to correctly handle the case when ($) is used in variable name, e.g. {section var=$item}
+    Here we strip the dollar sign and pass the variable name as string.
+    */
+    function parseSectionFunction( $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos,
+                                   $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
+    {
+        while ( $cur_pos < $text_len )
+        {
+            // parse parameter name
+            $wordEndPos = $this->ElementParser->identifierEndPosition( $tpl, $text, $cur_pos, $text_len );
+            $paramName  = substr( $text, $cur_pos, $wordEndPos-$cur_pos );
+            $cur_pos    = $wordEndPos;
+            if ( !$paramName )
+            {
+                $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
+                                              $funcName, 'Empty parameter name' );
+                return;
+            }
+
+            // skip whitespaces
+            $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+
+            // skip (=)
+            if ( $cur_pos < $text_len && $text[$cur_pos] != '=' ) // if the parameter has no value, i.e. not followed by '=<value>'
+            {
+                // the parameter gets boolean true value.
+                $ValText = '1';
+                $args[$paramName] =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $valText, 0, $valPos, 1, $rootNamespace );
+                continue;
+            }
+            $cur_pos++;
+
+            // skip whitespaces
+            $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
+
+            // skip optional dollar sign that is allowed in value of 'var' parameter
+            if ( $paramName == 'var' && $cur_pos < $text_len && $text[$cur_pos] == '$' )
             {
                 $cur_pos++;
             }
