@@ -608,7 +608,7 @@ class eZSys
         if ( !isset( $port ) )
         {
             $port = eZSys::serverVariable( 'SERVER_PORT' );
-            $hostname = eZSys::serverVariable( 'HTTP_HOST' );
+            $hostname = eZSys::hostname();
             if ( preg_match( "/.*:([0-9]+)/", $hostname, $regs ) )
             {
                 $port = $regs[1];
