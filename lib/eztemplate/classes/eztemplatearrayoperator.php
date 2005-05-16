@@ -1195,7 +1195,7 @@ class eZTemplateArrayOperator
 
                 if ( $isString )
                 {
-                    $code = '%output% = ( strpos( ' . $inParamCode . ', ' . $compareParamsCode[0] . ' ) == 0 );';
+                    $code = '%output% = ( ' . $compareParamsCode[0] . ' && strpos( ' . $inParamCode . ', ' . $compareParamsCode[0] . ' ) == 0 );';
                 }
                 else if ( $isArray )
                 {
@@ -1216,7 +1216,7 @@ class eZTemplateArrayOperator
                     $code = '%tmp1% = ' . $inParamCode . ';' . "\n" .
                          'if ( is_string( %tmp1% ) )' . "\n" .
                          '{' . "\n" .
-                         '  %output% = ( strpos( %tmp1%, ' . $compareParamsCode[0] . ' ) === 0 );' . "\n" .
+                         '  %output% = ( ' . $compareParamsCode[0] . ' && strpos( %tmp1%, ' . $compareParamsCode[0] . ' ) === 0 );' . "\n" .
                          '}' . "\n" .
                          'else if( is_array( %tmp1% ) )' . "\n" .
                          '{' . "\n" .

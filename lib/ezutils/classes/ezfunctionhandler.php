@@ -93,13 +93,20 @@ class eZFunctionHandler
                 $parameterTranslation =& $aliasSettings->variable( $aliasFunctionName, 'Parameter' );
                 foreach( array_keys( $parameterTranslation ) as $functionKey )
                 {
-                    $functionArray[$functionKey] = $functionParameters[$parameterTranslation[$functionKey]];
+                    $translatedParameter = $parameterTranslation[$functionKey];
+                    if ( array_key_exists( $translatedParameter, $functionParameters ) )
+                         $functionArray[$functionKey] = $functionParameters[$translatedParameter];
+                    else
+                        $functionArray[$functionKey] = null;
                 }
             }
 
             if ( $aliasSettings->hasVariable( $aliasFunctionName, 'Constant' ) )
             {
                 $constantParameterArray =& $aliasSettings->variable( $aliasFunctionName, 'Constant' );
+                // prevent PHP warning in the loop below
+                if ( !is_array( $constantParameterArray ) )
+                    $constantParameterArray = array();
                 foreach ( array_keys( $constantParameterArray ) as $constKey )
                 {
                     if ( $moduleFunctionInfo->isParameterArray( $functionName, $constKey ) )
