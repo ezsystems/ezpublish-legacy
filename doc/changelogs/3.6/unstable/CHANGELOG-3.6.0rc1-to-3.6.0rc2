@@ -15,6 +15,9 @@ Changes from 3.6.0rc1 to 3.6.0rc2
 - Fixed bug #6583: 'ezboolean' datatype logic.
   (Merged from stable/3.5 (3.5.3) rev. 11828)
 - Fixed bug #6629: New template syntax breaks node_view_gui.
+- Fixed bug: When copying an object having two or more versions, each
+  attribute in the copy gets different IDs in different versions.
+  (Merged from stable/3.4 (3.4.7) rev. 11833).
   
 *Library:
 

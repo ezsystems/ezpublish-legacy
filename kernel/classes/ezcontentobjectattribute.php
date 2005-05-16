@@ -889,8 +889,26 @@ class eZContentObjectAttribute extends eZPersistentObject
         $tmp->setAttribute( "version", $newVersionNumber );
         if ( $contentObjectID !== false )
         {
+            // if copying the whole object
             if ( $contentObjectID != $tmp->attribute( 'contentobject_id' ) )
-                $tmp->setAttribute( 'id', null );
+            {
+                $exAttr =  eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
+                                                            null,
+                                                            array( 'contentobject_id'         => $contentObjectID,
+                                                                   'contentclassattribute_id' => $tmp->attribute( 'contentclassattribute_id' ),
+                                                                   'language_code'            => $tmp->attribute( 'language_code' ) ),
+                                                            true );
+
+                // if the new object already contains the same attribute with another version
+                if ( is_object( $exAttr ) )
+                    // we take attribute id from it
+                    $id = $exAttr->attribute( 'id' );
+                else
+                    // otherwise new attribute id will be generated
+                    $id = null;
+
+                $tmp->setAttribute( 'id', $id );
+            }
             $tmp->setAttribute( 'contentobject_id', $contentObjectID );
         }
         $db =& eZDB::instance();
