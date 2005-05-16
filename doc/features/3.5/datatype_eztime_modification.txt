@@ -1,0 +1,20 @@
+*Title: Allowing eZTimeType datatype to be independent from DST
+        and GMT transformations.
+
+*Documentation:
+Attribute of type eZTimeType contain two content attributes for now:
+ - 'short_timestamp' is the number of seconds from begining of a day
+    (since last midnight).
+ - 'timestamp' is the calculated value as sum of last midnight timestamp
+   (from the 00:00 01/01/1970) and 'short_timestamp'.
+
+The only value of 'short_timestamp' attribute is stored in database as
+'data_int' field. The value of 'timestamp' attribute is calculated on
+the fly. Thus 'timestamp' contain different value every new day which
+differ from its value on previous day by 24 hours. That gives us
+possibility to interpret the value of hours and minutes properly and
+independently from DST and GMT transformations when we use template
+operator such as 'datetime'. And it is always possible to compare time
+values are stored in various eZTimeType attributes using 'short_timestamp'
+attribute.
+So eZTimeType datatype is stored in database as server local time of a day.
