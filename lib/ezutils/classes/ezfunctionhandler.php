@@ -93,7 +93,11 @@ class eZFunctionHandler
                 $parameterTranslation =& $aliasSettings->variable( $aliasFunctionName, 'Parameter' );
                 foreach( array_keys( $parameterTranslation ) as $functionKey )
                 {
-                    $functionArray[$functionKey] = $functionParameters[$parameterTranslation[$functionKey]];
+                    $translatedParameter = $parameterTranslation[$functionKey];
+                    if ( array_key_exists( $translatedParameter, $functionParameters ) )
+                         $functionArray[$functionKey] = $functionParameters[$translatedParameter];
+                    else
+                        $functionArray[$functionKey] = null;
                 }
             }
 
