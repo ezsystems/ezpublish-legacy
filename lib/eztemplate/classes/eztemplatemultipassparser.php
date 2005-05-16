@@ -1278,11 +1278,13 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
 
             // skip (=)
-            if ( $cur_pos < $text_len && $text[$cur_pos] != '=' ) // if the parameter has no value, i.e. not followed by '=<value>'
+            if ( $cur_pos >= $text_len || $text[$cur_pos] != '=' ) // if the parameter has no value, i.e. not followed by '=<value>'
             {
                 // the parameter gets boolean true value.
-                $ValText = '1';
-                $args[$paramName] =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $valText, 0, $valPos, 1, $rootNamespace );
+                $args[$paramName] = array( array( EZ_TEMPLATE_TYPE_NUMERIC, // type
+                                                  true, // content
+                                                  false // debug
+                                                  ) );
                 continue;
             }
             $cur_pos++;
