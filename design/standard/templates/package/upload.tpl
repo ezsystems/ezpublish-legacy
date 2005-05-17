@@ -4,7 +4,7 @@
 <form enctype="multipart/form-data" method="post" action={'package/upload'|ezurl}>
 
     <h2>{'Upload package'|i18n('design/standard/package')}</h2>
-    
+
     {section show=$error_list}
     <div class="error">
     <ul>
@@ -22,6 +22,7 @@
 
     <div class="buttonblock">
         <input class="defaultbutton" type="submit" name="UploadPackageButton" value="{'Import package'|i18n('design/standard/package')}" />
+        <input class="defaultbutton" type="submit" name="UploadCancelButton" value="{'Cancel'|i18n('design/standard/package')}" />
     </div>
 
 </form>
