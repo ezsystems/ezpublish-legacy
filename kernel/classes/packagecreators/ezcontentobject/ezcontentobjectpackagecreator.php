@@ -244,8 +244,8 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
     {
         $options =& $persistentData['object_options'];
 
-        $options['include_classes'] = $http->postVariable( 'IncludeClasses' );
-        $options['include_templates'] = $http->postVariable( 'IncludeTemplates' );
+        $options['include_classes'] = $http->hasPostVariable( 'IncludeClasses' ) ? $http->postVariable( 'IncludeClasses' ) : 0;
+        $options['include_templates'] = $http->hasPostVariable( 'IncludeTemplates' ) ? $http->postVariable( 'IncludeTemplates' ) : 0;
         $options['site_access_array'] = $http->postVariable( 'SiteAccesses' );
         $options['versions'] = $http->postVariable( 'VersionExport' );
         $options['language_array'] = $http->postVariable( 'Languages' );
