@@ -112,7 +112,7 @@ class eZMediaType extends eZDataType
             {
                 $mimeType =  $currentBinaryFile->attribute( "mime_type" );
                 $currentFileName = $currentBinaryFile->attribute( "filename" );
-                list( $prefix, $suffix ) = is_string( $mimeType ) ? split ('[/]', $mimeType ) : array( null, null );
+                list( $prefix, $suffix ) = is_string( $mimeType ) && $mimeType ? split ( '[/]', $mimeType ) : array( null, null );
 //              $orig_dir = "var/storage/original/" . $prefix;
                 $orig_dir = $storage_dir . '/original/' . $prefix;
                 foreach ( $mediaFiles as $mediaFile )
@@ -236,7 +236,11 @@ class eZMediaType extends eZDataType
         else
             $media->setAttribute( "is_loop", false );
 
-        $mediaFile =& eZHTTPFile::fetch( $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" ) );
+        $mediaFilePostVarName = $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" );
+        if ( $http->hasPostVariable( $mediaFilePostVarName ) )
+            $mediaFile =& eZHTTPFile::fetch( $mediaFilePostVarName );
+        else
+            $mediaFile = null;
         if ( get_class( $mediaFile ) == "ezhttpfile" )
         {
             $mimeData =& eZMimeType::findByFileContents( $mediaFile->attribute( "original_filename" ) );

@@ -136,6 +136,9 @@ if ( $http->hasPostVariable( 'ChangeINIFile' ) or
             switch ( $type )
             {
                 case 'array':
+                    if ( count( $settingKey ) == 0 )
+                        $settings[$block]['content'][$setting]['content'] = array();
+
                     foreach( $settingKey as $settingElementKey=>$settingElementValue )
                     {
                         $settingPlacement = $ini->findSettingPlacement( $placements[$block][$setting][$settingElementKey] );

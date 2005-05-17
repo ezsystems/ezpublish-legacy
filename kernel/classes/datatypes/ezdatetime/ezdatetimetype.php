@@ -118,7 +118,6 @@ class eZDateTimeType extends eZDataType
         }
         else
             $dateTime->setMDYHMS( $month, $day, $year, $hour, $minute, 0 );
-        eZDebug::writeDebug( $dateTime->timeStamp(), 'datetime' );
         $contentObjectAttribute->setAttribute( "data_int", $dateTime->timeStamp() );
         return true;
     }
