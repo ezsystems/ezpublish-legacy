@@ -91,6 +91,11 @@ if ( $module->isCurrentAction( 'UploadPackage' ) )
         eZDebug::writeError( "No uploaded package file was found" );
     }
 }
+else if ( $module->isCurrentAction( 'UploadCancel' ) )
+{
+    $module->redirectToView( 'list' );
+    return;
+}
 
 $tpl =& templateInit();
 

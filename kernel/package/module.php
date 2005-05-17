@@ -55,9 +55,9 @@ $ViewList['list'] = array(
 $ViewList['upload'] = array(
     'functions' => array( 'import' ),
     'script' => 'upload.php',
-    'ui_context' => 'edit',
     'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'UploadPackageButton' => 'UploadPackage' ),
+    'single_post_actions' => array( 'UploadPackageButton' => 'UploadPackage',
+                                    'UploadCancelButton' => 'UploadCancel' ),
     'params' => array() );
 
 $ViewList['create'] = array(

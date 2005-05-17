@@ -38,6 +38,7 @@
 
     <div class="block">
         <input class="button" type="submit" name="UploadPackageButton" value="{'Import package'|i18n('design/admin/package')}" />
+        <input class="button" type="submit" name="UploadCancelButton" value="{'Cancel'|i18n('design/admin/package')}" />
     </div>
 
 </form>
