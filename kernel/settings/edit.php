@@ -155,7 +155,7 @@ if ( $http->hasPostVariable( 'WriteSetting' ) )
         }
         else
         {
-            $Module->redirectTo( '/settings/view/' . $siteAccess . '/' . $iniFile );
+            return $Module->redirectTo( '/settings/view/' . $siteAccess . '/' . $iniFile );
         }
     }
     else // found validation errors...
@@ -174,7 +174,7 @@ else
 
 if ( $http->hasPostVariable( 'Cancel' ) )
 {
-    $Module->redirectTo( '/settings/view/' . $siteAccess . '/' . $iniFile );
+    return $Module->redirectTo( '/settings/view/' . $siteAccess . '/' . $iniFile );
 }
 
 $ini =& eZINI::instance( $iniFile, 'settings', null, null, false );
@@ -188,7 +188,7 @@ if ( isset( $settingPlacement ) and $settingPlacement == 'siteaccess' )
 $value = $ini->variable( $block, $settingName );
 
 // Do modifications to the value before it's sent to the template
-if ( $value and !isset( $settingType ) )
+if ( ( is_array( $value ) || $value ) and !isset( $settingType ) )
 {
     $settingType = $ini->settingType( $value );
     if ( $settingType == 'array' )

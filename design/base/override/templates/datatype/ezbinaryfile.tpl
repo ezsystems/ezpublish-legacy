@@ -1,4 +1,4 @@
-{default icon_size='normal' icon_title=$attribute.content.mime_type}
+{default icon_size='normal' icon_title=$attribute.content.mime_type icon='no'}
 {section show=$attribute.has_content}
 {section show=$attribute.content}
 {switch match=$icon}

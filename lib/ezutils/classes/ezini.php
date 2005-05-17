@@ -87,7 +87,7 @@ class eZINI
 {
     /*!
       Initialization of object;
-    */                                                                                                                              
+    */
     function eZINI( $fileName, $rootDir = "", $useTextCodec = null, $useCache = null, $useLocalOverrides = null, $directAccess = false, $addArrayDefinition = false )
     {
         $this->Charset = "utf8";
@@ -278,14 +278,18 @@ class eZINI
         else
             $iniFile = eZDir::path( array( $this->FileName ) );
 
+        if ( file_exists( $iniFile ) )
+            $inputFiles[] = $iniFile;
+
+        // try the same file name with '.append.php' replace with '.append'
+        if ( preg_match('/^(.+.append).php$/i', $iniFile, $matches ) && file_exists( $matches[1] ) )
+            $inputFiles[] = $matches[1];
+
+        if ( file_exists ( $iniFile . '.php' ) )
+            $inputFiles[] = $iniFile . '.php';
+
         if ( $this->DirectAccess )
         {
-            if ( file_exists ( $iniFile ) )
-                $inputFiles[] = $iniFile;
-
-            if ( file_exists ( $iniFile . '.php' ) )
-                $inputFiles[] = $iniFile . '.php';
-
             if ( file_exists ( $iniFile . '.append' ) )
                 $inputFiles[] = $iniFile . '.append';
 
@@ -294,10 +298,6 @@ class eZINI
         }
         else
         {
-            if ( file_exists( $iniFile ) )
-                $inputFiles[] = $iniFile;
-            if ( file_exists( $iniFile . '.php' ) )
-                $inputFiles[] = $iniFile . '.php';
             $overrideDirs = $this->overrideDirs();
             foreach ( $overrideDirs as $overrideDirItem )
             {
@@ -643,7 +643,7 @@ class eZINI
                         eZDebug::writeError( "Wrong operation on the ini setting array '$varName'", 'eZINI' );
                         continue;
                     }
-                
+
                 $this->BlockValues[$currentBlock][$varName] = array();
                 $valuesPlacement[$varName][] = $file;
 
@@ -654,7 +654,7 @@ class eZINI
                 {
                     $this->BlockValues[$currentBlock][$varName][] = "";
                 }
-                
+
             }
             else if ( preg_match("#^([a-zA-Z0-9_-]+)(\\[([^\\]]*)\\])?=(.*)$#", $line, $valueArray ) )
             {
@@ -1205,6 +1205,8 @@ class eZINI
 
     function &findSettingPlacement( $path )
     {
+        if ( is_array( $path ) && count( $path ) )
+            $path = $path[0];
         $directoryCount = count( explode( '/', $path ) );
 
         switch ( $directoryCount )

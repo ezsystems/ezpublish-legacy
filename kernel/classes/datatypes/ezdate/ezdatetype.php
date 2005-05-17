@@ -111,7 +111,6 @@ class eZDateType extends eZDataType
         }
         else
             $date->setMDY( $month, $day, $year );
-        eZDebug::writeDebug( $date->timeStamp(), 'date' );
         $contentObjectAttribute->setAttribute( "data_int", $date->timeStamp() );
         return true;
     }

@@ -38,6 +38,7 @@ function validate( $fields, $type, $spacesAllowed = true )
 {
     $validationMessage = '';
     $fieldContainingError = '';
+    $validationErrorType = '';
     $hasValidationError = false;
     $fieldNumber = 0;
     foreach( $fields as $fieldName=>$fieldValue )
