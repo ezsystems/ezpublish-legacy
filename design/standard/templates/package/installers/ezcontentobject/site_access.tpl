@@ -14,15 +14,15 @@ If unsure choose the siteaccess which reflects the user part of your site, i.e. 
 
     <label>{'Select siteaccess'|i18n('design/standard/package')}</label>
 
-    {section loop=$site_access_map}
-      <div>{'Map %siteaccess_name to:'|i18n( 'design/standard/package',, hash( '%siteaccess_name', concat( '<i>', $:key, '</i>' ) ) )} <select name="SiteAccessMap_{$:key|wash}">
-        {section loop=$available_site_access_array}
-          <option {section show=eq( $item, $:item )}selected="selected"{/section}>{$:item|wash}</option>
+    {section var=site_access loop=$site_access_map}
+      <div>{'Map %siteaccess_name to:'|i18n( 'design/standard/package',, hash( '%siteaccess_name', concat( '<i>', $site_access.key, '</i>' ) ) )} <select name="SiteAccessMap_{$site_access.key|wash}">
+        {section var=available_access loop=$available_site_access_array}
+          <option {section show=eq( $site_access.key, $available_access.item )}selected="selected"{/section}>{$available_access.item|wash}</option>
         {/section}
         </select>
       </div>
       {delimiter}
-        <div class="break">
+        <div class="break"></div>
       {/delimiter}
     {/section}
 
