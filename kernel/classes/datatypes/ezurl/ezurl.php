@@ -293,7 +293,7 @@ class eZURL extends eZPersistentObject
 
             if ( $asCount )
             {
-                $urls = $db->arrayQuery( "SELECT count(*) AS count
+                $urls = $db->arrayQuery( "SELECT count( DISTINCT ezurl.id ) AS count
                                             FROM
                                                  ezurl,
                                                  ezurl_object_link,
@@ -311,7 +311,7 @@ class eZURL extends eZPersistentObject
             }
             else
             {
-                $query = "SELECT ezurl.*
+                $query = "SELECT DISTINCT ezurl.*
                             FROM
                                   ezurl,
                                   ezurl_object_link,
