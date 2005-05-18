@@ -251,6 +251,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
         $options['language_array'] = $http->postVariable( 'Languages' );
         $options['node_assignment'] = $http->postVariable( 'NodeAssignment' );
         $options['related_objects'] = $http->postVariable( 'RelatedObjects' );
+        $options['minimal_template_set'] = $http->hasPostVariable( 'MinimalTemplateSet' ) ? $http->postVariable( 'MinimalTemplateSet' ) : 0;
 
         $result = true;
         if ( count( $persistentData['object_options']['language_array'] ) == 0 )
