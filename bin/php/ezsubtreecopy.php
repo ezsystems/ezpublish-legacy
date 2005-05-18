@@ -455,7 +455,7 @@ foreach ( $syncObjectIDListNew as $contentObjectID )
             if ( $literalTagBeginPos )
             {
                 $literalTagEndPos = strpos( $xmlText, "</literal>", $literalTagBeginPos );
-                if ( $literalTagEnd === false )
+                if ( $literalTagEndPos === false )
                     break;
                 $curPos = $literalTagEndPos + 9;
             }
