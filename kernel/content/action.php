@@ -789,13 +789,15 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
         {
             if ( !in_array( $selectedNodeID, $assignedIDArray ) )
             {
-                $isPermitted = true;
                 $parentNode =& eZContentObjectTreeNode::fetch( $selectedNodeID );
                 $parentNodeObject =& $parentNode->attribute( 'object' );
 
                 $canCreate = $parentNode->checkAccess( 'create', $class->attribute( 'id' ), $parentNodeObject->attribute( 'contentclass_id' ) ) == 1;
-                if ( $isPermitted )
+
+                if ( $canCreate )
                 {
+                    $newVersion =& $object->createNewVersion( false, true );
+    
                     if ( $object->attribute( 'contentclass_id' ) == $userClassID )
                     {
                         eZUser::cleanupCache();
@@ -803,18 +805,22 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
                     $isMain = 0;
                     if ( $setMainNode )
                         $isMain = 1;
-                    $setMainNode = false;
-                    $nodeAssignment =& $version->assignToNode( $selectedNodeID, $isMain );
+                    //$setMainNode = false;
+                    $nodeAssignment =& $newVersion->assignToNode( $selectedNodeID, $isMain );
                     $newNode =& $parentNode->addChild( $object->attribute( 'id' ), 0, true );
                     $newNode->setAttribute( 'sort_field', $nodeAssignment->attribute( 'sort_field' ) );
                     $newNode->setAttribute( 'sort_order', $nodeAssignment->attribute( 'sort_order' ) );
-                    $newNode->setAttribute( 'contentobject_version', $version->attribute( 'version' ) );
+                    $newNode->setAttribute( 'contentobject_version', $newVersion->attribute( 'version' ) );
                     $newNode->setAttribute( 'contentobject_is_published', 1 );
                     $newNode->setAttribute( 'main_node_id', $mainNodeID );
                     $newNode->setName( $objectName );
                     $newNode->updateSubTreePath();
                     $newNode->store();
                     eZContentObjectTreeNode::updateNodeVisibility( $newNode, $parentNode, false );
+    
+                    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+                    $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
+                                                                                         'version' => $newVersion->attribute( 'version' ) ) );
                 }
             }
         }

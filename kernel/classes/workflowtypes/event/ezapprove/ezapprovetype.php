@@ -175,9 +175,30 @@ class eZApproveType extends eZWorkflowEventType
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $workflowGroups, 'eZApproveType::execute::workflowGroups' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $object->attribute( 'section_id'), 'eZApproveType::execute::section_id' );
 
-        $correctSection = true;
-        if ( !in_array( -1, $workflowSections ) )
-            $correctSection = in_array( $object->attribute( 'section_id'), $workflowSections );
+        $section = $object->attribute( 'section_id');
+        $correctSection = false;
+
+        if ( !in_array( $section, $workflowSections ) && !in_array( -1, $workflowSections ) )
+        {
+            $assignedNodes = $object->attribute( 'assigned_nodes' );
+            if ( $assignedNodes )
+            {
+                foreach( $assignedNodes as $assignedNode )
+                {
+                    $parent =& $assignedNode->attribute( 'parent' );
+                    $parentObject =& $parent->object();
+                    $section = $parentObject->attribute( 'section_id');
+
+                    if ( in_array( $section, $workflowSections ) )
+                    {
+                        $correctSection = true;
+                        break;
+                    }
+                }
+            }
+        }
+        else
+            $correctSection = true;
 
         $inExcludeGroups = count( array_intersect( $userGroups, $workflowGroups ) ) != 0;
 
