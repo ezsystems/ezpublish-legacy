@@ -23,6 +23,8 @@ Changes from 3.6.0rc1 to 3.6.0rc2
 - Fixed bug #6064: Escaping of strings doesn't work.
   (Merged from stable/3.5 (3.5.3) rev. 11823)
 - Fixed bug #6537: Adding locations after workflow approval skips workflow.
+- Fixed bug #5605: Unreadable text when installing an addon package
+  (Merged from stable/3.5 (3.5.3) rev. 11862)
   
 *Library:
 
