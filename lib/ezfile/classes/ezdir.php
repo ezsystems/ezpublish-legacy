@@ -551,6 +551,16 @@ class eZDir
 
     /*!
      Copies a directory (and optionally all it's subitems) to another directory.
+     \param $sourceDirectory The source directory which should be copied, this location must exist.
+     \param $destinationDirectory The location for the copied directory structure, this location must exist.
+            This parameter will be modified if \a $asChild is \c true.
+     \param If \c true then it will use last part of the \a $sourceDirectory as a sub-folder to \a $destinationDirectory.
+            e.g. copying /etc/httpd to /var/ will create /var/httpd and place all folders/files under it.
+     \param $recursive If \c true then it will copy folders/files recursively from folders found in \a $sourceDirectory.
+     \param $includeHidden If \c true it will include files or folders beginning with a dot (.).
+     \param $excludeItems A regular expression used to exclude files or folders in the subtree, use \c false for no exclusion.
+
+     \note The parameter \a $recursive is currently unused, it will always copy recursively.
     */
     function copy( $sourceDirectory, &$destinationDirectory,
                    $asChild = true, $recursive = true, $includeHidden = false, $excludeItems = false )
