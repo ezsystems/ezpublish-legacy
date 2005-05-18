@@ -57,6 +57,9 @@ Fetch functions:
 - Fixed bug: When copying an object having two or more versions, each
   attribute in the copy gets different IDs in different versions.
 - Fixed bug #5605: Unreadable text when installing an addon package
+- Fixed eZTemplate::elementValue() so that it does not complain about
+  absence of an array element when the element exists and its value is null.  
+  (Merged from trunk (3.6.0rc2) rev. 11831)
 
 *Library:
 

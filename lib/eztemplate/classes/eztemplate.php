@@ -1037,7 +1037,7 @@ class eZTemplate
                         }
                         if ( is_array( $value ) )
                         {
-                            if ( isset( $value[$attributeValue] ) )
+                            if ( array_key_exists( $attributeValue, $value ) )
                             {
                                 unset( $tempValue );
                                 $tempValue =& $value[$attributeValue];
