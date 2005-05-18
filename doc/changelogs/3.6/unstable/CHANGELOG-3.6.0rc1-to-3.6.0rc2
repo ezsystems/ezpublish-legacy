@@ -20,6 +20,8 @@ Changes from 3.6.0rc1 to 3.6.0rc2
   (Merged from stable/3.4 (3.4.7) rev. 11833).
 - Fixed bug: #6400: Time attribute and DST.
 - Fixed bug: #6454: ADMIN /package/upload no option to abort.
+- Fixed bug #6064: Escaping of strings doesn't work.
+  (Merged from stable/3.5 (3.5.3) rev. 11823)
   
 *Library:
 
