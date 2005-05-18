@@ -245,7 +245,6 @@ class eZShopOperationCollection
         include_once( 'kernel/classes/ezshopaccounthandler.php' );
         $accountHandler =& eZShopAccountHandler::instance();
         $email = $accountHandler->email( $order );
-        eZDebug::writeDebug( $email,  'email' );
 
         include_once( "kernel/common/template.php" );
         $tpl =& templateInit();

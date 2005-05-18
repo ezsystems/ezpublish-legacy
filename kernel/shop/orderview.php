@@ -51,11 +51,9 @@ if ( !$order )
 
 $accessToAdministrate =& $user->hasAccessTo( 'shop', 'administrate' );
 $accessToAdministrateWord = $accessToAdministrate['accessWord'];
-eZDebug::writeDebug( $accessToAdministrateWord, 'accessToAdministrateWord' );
 
 $accessToBuy =& $user->hasAccessTo( 'shop', 'buy' );
 $accessToBuyWord = $accessToBuy['accessWord'];
-eZDebug::writeDebug( $accessToBuyWord, 'accessToBuyWord' );
 
 if ( $accessToAdministrateWord != 'no' )
 {

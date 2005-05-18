@@ -436,9 +436,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                // Making valid URI  (commented cause decided to use ezurl in template)
                // include_once( 'lib/ezutils/classes/ezuri.php' );
                //  eZURI::transformURI( $href );
-    
+
                 $this->LinkParameters['href'] = $href;
-    
+
                 $this->LinkParameters['class'] = $tag->attributeValue( 'class' );
                 $this->LinkParameters['target'] = $tag->attributeValue( 'target' );
                 $this->LinkParameters['title'] = $tag->attributeValueNS( 'title', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
@@ -481,7 +481,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 {
                     $res =& eZTemplateDesignResource::instance();
                     $res->setKeys( array( array( 'classification', $this->LinkParameters['class'] ) ) );
-    
+
                     $tpl->setVariable( 'content', $text, 'xmltagns' );
 
                     $tpl->setVariable( 'href', $this->LinkParameters['href'], 'xmltagns' );
@@ -732,9 +732,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $cellCount++;
                         // Remove the design key, so it will not override other tags
                         $res->removeKey( 'classification' );
-                        $tpl->unsetVariable( 'classification', 'xmltagns' );
+                        if ( $tpl->hasVariable( 'classification', 'xmltagns' ) )
+                             $tpl->unsetVariable( 'classification', 'xmltagns' );
                         $res->removeKey( 'table_classification' );
-                        $tpl->unsetVariable( 'table_classification', 'xmltagns' );
+                        if ( $tpl->hasVariable( 'table_classification', 'xmltagns' ) )
+                             $tpl->unsetVariable( 'table_classification', 'xmltagns' );
                     }
                     $res =& eZTemplateDesignResource::instance();
                     $res->setKeys( array( array( 'classification', $class ),
@@ -750,9 +752,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                     // Remove the design key, so it will not override other tags
                     $res->removeKey( 'classification' );
-                    $tpl->unsetVariable( 'classification', 'xmltagns' );
+                    if ( $tpl->hasVariable( 'classification', 'xmltagns' ) )
+                        $tpl->unsetVariable( 'classification', 'xmltagns' );
                     $res->removeKey( 'table_classification' );
-                    $tpl->unsetVariable( 'table_classification', 'xmltagns' );
+                    if ( $tpl->hasVariable( 'table_classification', 'xmltagns' ) )
+                        $tpl->unsetVariable( 'table_classification', 'xmltagns' );
                 }
 
                 $res =& eZTemplateDesignResource::instance();
