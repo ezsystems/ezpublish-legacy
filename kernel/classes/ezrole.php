@@ -659,7 +659,7 @@ class eZRole extends eZPersistentObject
             {
                 foreach ( array_keys( $policies ) as $policyKey )
                 {
-                    $policies[$policyKey]->setAttribute( 'limit_identifier', $this->attribute( 'limit_identifier' ) );
+                    $policies[$policyKey]->setAttribute( 'limit_identifier', 'User_' . $this->attribute( 'limit_identifier' ) );
                     $policies[$policyKey]->setAttribute( 'limit_value', $this->attribute( 'limit_value' ) );
                 }
             }

@@ -2245,7 +2245,6 @@ class eZContentObject extends eZPersistentObject
         {
             $policies  =& $accessResult['policies'];
             $access = 'denied';
-
             foreach ( array_keys( $policies ) as $pkey  )
             {
                 $limitationArray =& $policies[ $pkey ];
@@ -2255,6 +2254,24 @@ class eZContentObject extends eZPersistentObject
                 }
 
                 $limitationList = array();
+                if ( isset( $limitationArray['Subtree' ] ) )
+                {
+                    $checkedSubtree = false;
+                }
+                else
+                {
+                    $checkedSubtree = true;
+                    $accessSubtree = false;
+                }
+                if ( isset( $limitationArray['Node'] ) )
+                {
+                    $checkedNode = false;
+                }
+                else
+                {
+                    $checkedNode = true;
+                    $accessNode = false;
+                }
                 foreach ( array_keys( $limitationArray ) as $key  )
                 {
                     $access = 'denied';
@@ -2301,6 +2318,7 @@ class eZContentObject extends eZPersistentObject
                         } break;
 
                         case 'Section':
+                        case 'User_Section':
                         {
                             if ( in_array( $this->attribute( 'section_id' ), $limitationArray[$key]  ) )
                             {
@@ -2329,6 +2347,7 @@ class eZContentObject extends eZPersistentObject
 
                         case 'Node':
                         {
+                            $accessNode = false;
                             $mainNodeID = $this->attribute( 'main_node_id' );
                             foreach ( $limitationArray[$key] as $nodeID )
                             {
@@ -2337,22 +2356,94 @@ class eZContentObject extends eZPersistentObject
                                 if ( $mainNodeID == $limitationNodeID )
                                 {
                                     $access = 'allowed';
+                                    $accessNode = true;
                                     break;
                                 }
                             }
-                            if ( $access != 'allowed' )
+                            if ( $access != 'allowed' && $checkedSubtree && !$accessSubtree )
                             {
                                 $access = 'denied';
+                                // ??? TODO: if there is a limitation on Subtree, return two limitations?
                                 $limitationList = array( 'Limitation' => $key,
                                                          'Required' => $limitationArray[$key] );
-                                break;
                             }
+                            else
+                            {
+                                $access = 'allowed';
+                            }
+                            $checkedNode = true;
                         } break;
 
                         case 'Subtree':
                         {
+                            $accessSubtree = false;
                             $assignedNodes = $this->attribute( 'assigned_nodes' );
-                            if ( count(  $assignedNodes ) != 0 )
+                            if ( count( $assignedNodes ) != 0 )
+                            {
+                                foreach (  $assignedNodes as  $assignedNode )
+                                {
+                                    $path = $assignedNode->attribute( 'path_string' );
+                                    $subtreeArray = $limitationArray[$key];
+                                    foreach ( $subtreeArray as $subtreeString )
+                                    {
+                                        if ( strstr( $path, $subtreeString ) )
+                                        {
+                                            $access = 'allowed';
+                                            $accessSubtree = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                $parentNodes = $this->attribute( 'parent_nodes' );
+                                if ( count( $parentNodes ) == 0 )
+                                {
+                                    if ( $this->attribute( 'owner_id' ) == $userID || $this->ID == $userID )
+                                    {
+                                        $access = 'allowed';
+                                        $accessSubtree = true;
+                                    }
+                                }
+                                else
+                                {
+                                    foreach ( $parentNodes as $parentNode )
+                                    {
+                                        $parentNode =& eZContentObjectTreeNode::fetch( $parentNode );
+                                        $path = $parentNode->attribute( 'path_string' );
+
+                                        $subtreeArray = $limitationArray[$key];
+                                        foreach ( $subtreeArray as $subtreeString )
+                                        {
+                                            if ( strstr( $path, $subtreeString ) )
+                                            {
+                                                $access = 'allowed';
+                                                $accessSubtree = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            if ( $access != 'allowed' && $checkedNode && !$accessNode )
+                            {
+                                $access = 'denied';
+                                // ??? TODO: if there is a limitation on Node, return two limitations?
+                                $limitationList = array( 'Limitation' => $key,
+                                                         'Required' => $limitationArray[$key] );
+                            }
+                            else
+                            {
+                                $access = 'allowed';
+                            }
+                            $checkedSubtree = true;
+                        } break;
+
+                        case 'User_Subtree':
+                        {
+                            $assignedNodes = $this->attribute( 'assigned_nodes' );
+                            if ( count( $assignedNodes ) != 0 )
                             {
                                 foreach (  $assignedNodes as  $assignedNode )
                                 {
@@ -2404,7 +2495,6 @@ class eZContentObject extends eZPersistentObject
                             }
                         } break;
                     }
-
                     if ( $access == 'denied' )
                     {
                         break;
@@ -2451,9 +2541,39 @@ class eZContentObject extends eZPersistentObject
             $hasClassIDLimitation = true;
         }
 
+        if ( isset( $policy['User_Section'] ) )
+        {
+            if ( !in_array( $this->attribute( 'section_id' ), $policy['User_Section'] ) )
+            {
+                return array();
+            }
+        }
+
+        if ( isset( $policy['User_Subtree'] ) )
+        {
+            $allowed = false;
+            $assignedNodes =& $this->attribute( 'assigned_nodes' );
+            foreach ( $assignedNodes as $assignedNode )
+            {
+                $path =& $assignedNode->attribute( 'path_string' );
+                foreach ( $policy['User_Subtree'] as $subtreeString )
+                {
+                    if ( strstr( $path, $subtreeString ) )
+                    {
+                        $allowed = true;
+                        break;
+                    }
+                }
+            }
+            if( !$allowed )
+            {
+                return array();
+            }
+        }
+
         if ( isset( $policy['Section'] ) )
         {
-            if ( !in_array( $this->attribute( 'section_id' ),  $policy['Section']  ) )
+            if ( !in_array( $this->attribute( 'section_id' ), $policy['Section'] ) )
             {
                 return array();
             }
@@ -2475,6 +2595,7 @@ class eZContentObject extends eZPersistentObject
             }
         }
 
+        $allowedNode = false;
         if ( isset( $policy['Node'] ) )
         {
             $allowed = false;
@@ -2485,10 +2606,11 @@ class eZContentObject extends eZPersistentObject
                 if ( $mainNodeID == $node->attribute( 'main_node_id' ) )
                 {
                     $allowed = true;
+                    $allowedNode = true;
                     break;
                 }
             }
-            if ( !$allowed )
+            if ( !$allowed && !isset( $policy['Subtree'] ) )
             {
                 return array();
             }
@@ -2510,7 +2632,7 @@ class eZContentObject extends eZPersistentObject
                     }
                 }
             }
-            if( !$allowed )
+            if ( !$allowed && !$allowedNode )
             {
                 return array();
             }
