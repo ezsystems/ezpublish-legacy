@@ -105,17 +105,19 @@ class eZTime
      Creates a new time object with default locale, if $time is not supplied
      the current time is used.
     */
-    function eZTime( $short_timestamp = false )
+    function eZTime( $timestamp = false )
     {
-        if ( $short_timestamp === false )
+        if ( $timestamp === false )
         {
             $cur_date = getdate();
             $this->setHMS( $cur_date[ 'hours' ],
                            $cur_date[ 'minutes' ],
                            $cur_date[ 'seconds' ] );
         }
+        else if ( $timestamp > EZTIME_SECONDS_A_DAY )
+            $this->setTimeStamp( $timestamp );
         else
-            $this->setShortTimeStamp( $short_timestamp );
+            $this->setTimeOfDay( $timestamp );
 
         $this->Locale =& eZLocale::instance();
     }
@@ -123,7 +125,7 @@ class eZTime
     function attributes()
     {
         return array( 'timestamp',
-                      'short_timestamp',
+                      'time_of_day',
                       'hour',
                       'minute',
                       'is_valid' );
@@ -132,7 +134,7 @@ class eZTime
     function hasAttribute( $name )
     {
         if ( $name == 'timestamp' or
-             $name == 'short_timestamp' or
+             $name == 'time_of_day' or
              $name == 'hour' or
              $name == 'minute' or
              $name == 'is_valid' )
@@ -145,8 +147,8 @@ class eZTime
     {
         if ( $name == 'timestamp' )
             return $this->timeStamp();
-        else if ( $name == 'short_timestamp' )
-            return $this->shortTimeStamp();
+        else if ( $name == 'time_of_day' )
+            return $this->timeOfDay();
         else if ( $name == 'hour' )
             return $this->hour();
         else if ( $name == 'minute' )
@@ -271,15 +273,15 @@ class eZTime
      Returns the timestamp value, this is not the number of seconds since the epoch but
      a clamped value to the number of seconds in a day.
     */
-    function shortTimeStamp()
+    function timeOfDay()
     {
         return $this->Time;
     }
 
     /*
-     Sets timestamp (the number of seconds since begining of day, short timestamp)
+     Sets time of day (the number of seconds since begining of day)
     */
-    function setShortTimeStamp( $timestamp )
+    function setTimeOfDay( $timestamp )
     {
         $this->Time = $timestamp % EZTIME_SECONDS_A_DAY;
         if ( $this->Time < 0 )
@@ -287,15 +289,16 @@ class eZTime
         $this->IsValid = $this->Time >= 0;
     }
 
+
     /*!
      Adjusts the time relative to it's current value. This is useful for adding/subtracting
      hours, minutes or seconds to an existing time.
     */
     function adjustTime( $hour, $minute = 0, $second = 0 )
     {
-        $this->setShortTimeStamp( $hour * EZTIME_SECONDS_AN_HOUR +
-                                  $minute * EZTIME_SECONDS_A_MINUTE +
-                                  $second + $this->Time );
+        $this->setTimeOfDay( $hour * EZTIME_SECONDS_AN_HOUR +
+                             $minute * EZTIME_SECONDS_A_MINUTE +
+                             $second + $this->Time );
     }
 
     /*!
@@ -332,7 +335,7 @@ class eZTime
     {
         $t1 =& $this->Time;
         if ( get_class( $time ) == 'eztime' )
-            $t2 =& $time->shortTimeStamp();
+            $t2 =& $time->timeOfDay();
         else
             $t2 = ( $time % EZTIME_SECONDS_A_DAY );
         if ( $t1 > $t2 )
@@ -351,7 +354,7 @@ class eZTime
     {
         $t1 =& $this->Time;
         if ( get_class( $time ) == 'eztime' )
-            $t2 =& $time->shortTimeStamp();
+            $t2 =& $time->timeOfDay();
         else
             $t2 = ( $time % EZTIME_SECONDS_A_DAY );
         return $t1 == $t2;

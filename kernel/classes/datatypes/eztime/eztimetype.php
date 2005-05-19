@@ -108,7 +108,7 @@ class eZTimeType extends eZDataType
             $time = new eZTime();
             $time->setHMS( $hour, $minute );
         }
-        $contentObjectAttribute->setAttribute( "data_int", (is_null($time)) ? null : $time->shortTimeStamp() );
+        $contentObjectAttribute->setAttribute( "data_int", (is_null($time)) ? null : $time->timeOfDay() );
         return true;
     }
 
@@ -126,7 +126,7 @@ class eZTimeType extends eZDataType
         }
         else
             return array( 'timestamp' => '',
-                          'short_timestamp' => '',
+                          'time_of_day' => '',
                           'hour' => '',
                           'minute' => '',
                           'is_valid' => false );
@@ -141,7 +141,7 @@ class eZTimeType extends eZDataType
         if ( !is_null( $timestamp ) )
         {
             $time = new eZTime( $timestamp );
-            return $time->shortTimeStamp();
+            return $time->timeOfDay();
         }
         else
             return 0;
@@ -183,7 +183,7 @@ class eZTimeType extends eZDataType
             if ( $defaultType == 1 )
             {
                 $time = new eZTime();
-                $contentObjectAttribute->setAttribute( 'data_int', $time->shortTimeStamp() );
+                $contentObjectAttribute->setAttribute( 'data_int', $time->timeOfDay() );
             }
         }
     }
@@ -312,14 +312,13 @@ class eZTimeType extends eZDataType
         {
             include_once( 'lib/ezlocale/classes/ezdateutils.php' );
             $timestamp = eZDateUtils::textToDate( $timestampNode->content() );
-            $short_timestamp = null;
+            $timeOfDay = null;
             if ( $timestamp >= 0 )
             {
-                $time = new eZTime();
-                $time->setTimeStamp( $timestamp );
-                $short_timestamp = $time->shortTimeStamp();
+                $time = new eZTime( $timestamp );
+                $timeOfDay = $time->timeOfDay();
             }
-            $objectAttribute->setAttribute( 'data_int', $short_timestamp );
+            $objectAttribute->setAttribute( 'data_int', $timeOfDay );
         }
     }
 }
