@@ -2912,7 +2912,7 @@ class Cpdf
 			if (isset($this->fonts[$cf]['differences'][$ctmp])){
 			    $ctmp=$this->fonts[$cf]['differences'][$ctmp];
 			}
-			$tmpw=($w-$this->fonts[$cf]['C'][$ctmp]['WX'])*$size/1000; //TODO !!!!
+			$tmpw=($w-$this->fonts[$cf]['C'][$ctmp]['WX'])*$size/1000;
 			$this->PRVTadjustWrapText($tmp,$tmpw,$width,$x,$adjust,$justification);
 			// reset the text state
 			$this->currentTextState = $store_currentTextState;
