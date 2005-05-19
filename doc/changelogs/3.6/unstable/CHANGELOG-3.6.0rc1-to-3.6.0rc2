@@ -37,6 +37,9 @@ Changes from 3.6.0rc1 to 3.6.0rc2
 - Fixed bug #6501: It is possible to create users with the same login or
   email that differs only in case.
   (Merged from stable/3.4 (3.4.7) rev. 11897)
+- Fixed bug: User login and password are shown incorrectly in the user 
+  edit page. The bug occurs only on some of the supported databases.
+  (Merged from stable/3.4 (3.4.7) rev. 11900)
   
 *Library:
 
