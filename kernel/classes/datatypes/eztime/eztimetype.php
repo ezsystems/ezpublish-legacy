@@ -316,7 +316,6 @@ class eZTimeType extends eZDataType
             if ( $timestamp >= 0 )
             {
                 $time = new eZTime( $timestamp );
-                $time->setTimeStamp( $timestamp );
                 $timeOfDay = $time->timeOfDay();
             }
             $objectAttribute->setAttribute( 'data_int', $timeOfDay );
