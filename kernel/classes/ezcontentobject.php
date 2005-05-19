@@ -1170,6 +1170,9 @@ class eZContentObject extends eZPersistentObject
         $db->query( "DELETE FROM ezuser_role
              WHERE contentobject_id = '$delID'" );
 
+        $db->query( "DELETE FROM ezuser_discountrule
+                    WHERE contentobject_id = '$delID'" );
+
         $db->query( "DELETE FROM ezcontentobject_link
              WHERE from_contentobject_id = '$delID' OR to_contentobject_id = '$delID'" );
     }
