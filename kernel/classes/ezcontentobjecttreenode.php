@@ -1295,6 +1295,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             foreach( $limitationList as $limitationArray )
             {
                 $sqlPartPart = array();
+                $sqlPartPartPart = array();
 
                 foreach ( array_keys( $limitationArray ) as $ident )
                 {
@@ -1306,6 +1307,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
 
                         case 'Section':
+                        case 'User_Section':
                         {
                             $sqlPartPart[] = 'ezcontentobject.section_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
                         } break;
@@ -1319,24 +1321,38 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         case 'Node':
                         {
-                            $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
+                            $sqlPartPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
                         } break;
 
                         case 'Subtree':
                         {
-                            $pathArray       =& $limitationArray[$ident];
-                            $sqlPartPartPart = array();
+                            $pathArray =& $limitationArray[$ident];
+
                             foreach ( $pathArray as $limitationPathString )
                             {
                                 $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
                             }
-                            $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
                         } break;
+
+                        case 'User_Subtree':
+                        {
+                            $pathArray =& $limitationArray[$ident];
+                            $sqlPartUserSubtree = array();
+                            foreach ( $pathArray as $limitationPathString )
+                            {
+                                $sqlPartUserSubtree[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
+                            }
+                            $sqlPartPart[] = implode( ' OR ', $sqlPartUserSubtree );
+                        }
                     }
+                }
+                if ( $sqlPartPartPart )
+                {
+                    $sqlPartPart[] = '( ' . implode( ' ) OR ( ', $sqlPartPartPart ) . ' )';
                 }
                 $sqlParts[] = implode( ' AND ', $sqlPartPart );
             }
-            $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
+            $sqlPermissionCheckingString = ' AND ((' . implode( ') OR (', $sqlParts ) . ')) ';
         }
 
         return $sqlPermissionCheckingString;
@@ -2051,6 +2067,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             foreach( $limitationList as $limitationArray )
             {
                 $sqlPartPart = array();
+                $sqlPartPartPart = array();
+
                 foreach ( array_keys( $limitationArray ) as $ident )
                 {
                     switch( $ident )
@@ -2061,6 +2079,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
 
                         case 'Section':
+                        case 'User_Section':
                         {
                             $sqlPartPart[] = 'ezcontentobject.section_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
                         } break;
@@ -2074,20 +2093,33 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         case 'Node':
                         {
-                            $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
+                            $sqlPartPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
                         } break;
 
                         case 'Subtree':
                         {
                             $pathArray =& $limitationArray[$ident];
-                            $sqlPartPartPart = array();
                             foreach ( $pathArray as $limitationPathString )
                             {
                                 $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
                             }
-                            $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
                         } break;
+
+                        case 'User_Subtree':
+                        {
+                            $pathArray =& $limitationArray[$ident];
+                            $sqlPartUserSubtree = array();
+                            foreach ( $pathArray as $limitationPathString )
+                            {
+                                $sqlPartUserSubtree[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
+                            }
+                            $sqlPartPart[] = implode( ' OR ', $sqlPartUserSubtree );
+                        }
                     }
+                }
+                if ( $sqlPartPartPart )
+                {
+                    $sqlPartPart[] = '( ' . implode( ' ) OR ( ', $sqlPartPartPart ). ' )';
                 }
                 $sqlParts[] = implode( ' AND ', $sqlPartPart );
             }
@@ -3704,6 +3736,24 @@ WHERE
 
                 $limitationArray =& $policies[$pkey];
                 $limitationList = array();
+                if ( isset( $limitationArray['Subtree' ] ) )
+                {
+                    $checkedSubtree = false;
+                }
+                else
+                {
+                    $checkedSubtree = true;
+                    $accessSubtree = false;
+                }
+                if ( isset( $limitationArray['Node'] ) )
+                {
+                    $checkedNode = false;
+                }
+                else
+                {
+                    $checkedNode = true;
+                    $accessNode = false;
+                }
                 foreach ( array_keys( $limitationArray ) as $key  )
                 {
                     $access = 'denied';
@@ -3735,7 +3785,6 @@ WHERE
 
                         case 'ParentClass':
                         {
-
                             if (  in_array( $contentObject->attribute( 'contentclass_id' ), $limitationArray[$key]  ) )
                             {
                                 $access = 'allowed';
@@ -3749,8 +3798,9 @@ WHERE
                         } break;
 
                         case 'Section':
+                        case 'UserSection':
                         {
-                            if ( in_array( $contentObject->attribute( 'section_id' ), $limitationArray[$key]  ) )
+                            if ( in_array( $contentObject->attribute( 'section_id' ), $limitationArray[$key] ) )
                             {
                                 $access = 'allowed';
                             }
@@ -3777,6 +3827,7 @@ WHERE
 
                         case 'Node':
                         {
+                            $accessNode = false;
                             $mainNodeID = $this->attribute( 'main_node_id' );
                             foreach ( $limitationArray[$key] as $nodeID )
                             {
@@ -3785,25 +3836,59 @@ WHERE
                                 if ( $mainNodeID == $limitationNodeID )
                                 {
                                     $access = 'allowed';
+                                    $accessNode = true;
                                     break;
                                 }
                             }
-                            if ( $access != 'allowed' )
+                            if ( $access != 'allowed' && $checkedSubtree && !$accessSubtree )
                             {
                                 $access = 'denied';
+                                // ??? TODO: if there is a limitation on Subtree, return two limitations?
                                 $limitationList = array( 'Limitation' => $key,
                                                          'Required' => $limitationArray[$key] );
-                                break;
                             }
+                            else
+                            {
+                                $access = 'allowed';
+                            }
+                            $checkedNode = true;
                         } break;
 
                         case 'Subtree':
                         {
-                            $path =  $this->attribute( 'path_string' );
+                            $accessSubtree = false;
+                            $path = $this->attribute( 'path_string' );
                             $subtreeArray = $limitationArray[$key];
                             foreach ( $subtreeArray as $subtreeString )
                             {
-                                if (  strstr( $path, $subtreeString ) )
+                                if ( strstr( $path, $subtreeString ) )
+                                {
+                                    $access = 'allowed';
+                                    $accessSubtree = true;
+                                    break;
+                                }
+                            }
+                            if ( $access != 'allowed' && $checkedNode && !$accessNode )
+                            {
+                                $access = 'denied';
+                                // ??? TODO: if there is a limitation on Node, return two limitations?
+                                $limitationList = array( 'Limitation' => $key,
+                                                         'Required' => $limitationArray[$key] );
+                            }
+                            else
+                            {
+                                $access = 'allowed';
+                            }
+                            $checkedSubtree = true;
+                        } break;
+
+                        case 'User_Subtree':
+                        {
+                            $path = $this->attribute( 'path_string' );
+                            $subtreeArray = $limitationArray[$key];
+                            foreach ( $subtreeArray as $subtreeString )
+                            {
+                                if ( strstr( $path, $subtreeString ) )
                                 {
                                     $access = 'allowed';
                                 }
@@ -3858,11 +3943,45 @@ WHERE
             $hasClassIDLimitation = true;
         }
 
+        if ( isset( $policy['User_Section'] ) )
+        {
+            if ( $object === false )
+                $object =& $this->attribute( 'object' );
+            if ( !in_array( $object->attribute( 'section_id' ), $policy['Section']  ) )
+            {
+                return array();
+            }
+        }
+
+        if ( isset( $policy['User_Subtree'] ) )
+        {
+            $allowed = false;
+            if ( $object === false )
+                $object =& $this->attribute( 'object' );
+            $assignedNodes =& $object->attribute( 'assigned_nodes' );
+            foreach ( $assignedNodes as $assignedNode )
+            {
+                $path =& $assignedNode->attribute( 'path_string' );
+                foreach ( $policy['User_Subtree'] as $subtreeString )
+                {
+                    if ( strstr( $path, $subtreeString ) )
+                    {
+                        $allowed = true;
+                        break;
+                    }
+                }
+            }
+            if( !$allowed )
+            {
+                return array();
+            }
+        }
+
         if ( isset( $policy['Section'] ) )
         {
             if ( $object === false )
                 $object =& $this->attribute( 'object' );
-            if ( !in_array( $object->attribute( 'section_id' ),  $policy['Section']  ) )
+            if ( !in_array( $object->attribute( 'section_id' ), $policy['Section']  ) )
             {
                 return array();
             }
@@ -3888,6 +4007,7 @@ WHERE
             }
         }
 
+        $allowedNode = false;
         if ( isset( $policy['Node'] ) )
         {
             $allowed = false;
@@ -3898,10 +4018,11 @@ WHERE
                 if ( $mainNodeID == $node->attribute( 'main_node_id' ) )
                 {
                     $allowed = true;
+                    $allowedNode = true;
                     break;
                 }
             }
-            if ( !$allowed )
+            if ( !$allowed && !isset( $policy['Subtree'] ) )
             {
                 return array();
             }
@@ -3925,7 +4046,7 @@ WHERE
                     }
                 }
             }
-            if( !$allowed )
+            if ( !$allowed && !$allowedNode )
             {
                 return array();
             }

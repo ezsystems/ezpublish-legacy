@@ -167,7 +167,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
 
 
         $sql = 'SELECT DISTINCT policy.id AS policy_id, subtree_rule.user_id,
-                                user_role.limit_identifier AS identifier,
+                                user_role.limit_identifier AS limitation,
                                 user_role.limit_value AS value
                   FROM ezuser_role user_role,
                        ezsubtree_notification_rule subtree_rule,
@@ -192,7 +192,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
 
         foreach( $resultArray as $result )
         {
-            if ( $result['identifier'] == '' )
+            if ( $result['limitation'] == '' )
             {
                 $policyIDArray[(string)$result['policy_id']][] =& $userIDArray[(string)$result['user_id']];
             }
@@ -290,7 +290,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         $policy = eZPolicy::fetch( $policyID );
         if ( $userLimits )
         {
-            $policy->setAttribute( 'limit_identifier', $userLimits['identifier'] );
+            $policy->setAttribute( 'limit_identifier', 'User_' . $userLimits['identifier'] );
             $policy->setAttribute( 'limit_value', $userLimits['value'] );
         }
 
@@ -315,7 +315,26 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         $classID = $contentObject->attribute( 'contentclass_id' );
         $nodeArray = $contentObject->attribute( 'assigned_nodes' );
 
-        foreach ( array_keys( $limitationArray ) as $key  )
+        if ( isset( $limitationArray['Subtree' ] ) )
+        {
+            $checkedSubtree = false;
+        }
+        else
+        {
+            $checkedSubtree = true;
+            $nodeSubtree = true;
+        }
+        if ( isset( $limitationArray['Node'] ) )
+        {
+            $checkedNode = false;
+        }
+        else
+        {
+            $checkedNode = true;
+            $nodeLimit = true;
+        }
+
+        foreach ( array_keys( $limitationArray ) as $key )
         {
             if ( count( $accessUserIDArray ) == 0 )
             {
@@ -341,6 +360,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
                 } break;
 
                 case 'Section':
+                case 'User_Section':
                 {
                     if ( !in_array( $contentObject->attribute( 'section_id' ), $limitationArray[$key]  ) )
                     {
@@ -375,15 +395,16 @@ class eZSubtreeNotificationRule extends eZPersistentObject
                             break;
                         }
                     }
-                    if ( $nodeLimit )
+                    if ( $nodeLimit && $checkedSubtree && $nodeSubtree )
                     {
                         return array();
                     }
+                    $checkedNode = true;
                 } break;
 
                 case 'Subtree':
                 {
-                    $nodeLimit = true;
+                    $nodeSubtree = true;
                     foreach ( $nodeArray as $node )
                     {
                         $path = $node->attribute( 'path_string' );
@@ -393,16 +414,44 @@ class eZSubtreeNotificationRule extends eZPersistentObject
                         {
                             if ( strstr( $path, $subtreeString ) )
                             {
-                                $nodeLimit = false;
+                                $nodeSubtree = false;
                                 break;
                             }
                         }
-                        if ( !$nodeLimit )
+                        if ( !$nodeSubtree )
                         {
                             break;
                         }
                     }
-                    if ( $nodeLimit )
+                    if ( $nodeSubtree && $checkedNode && $nodeLimit )
+                    {
+                        return array();
+                    }
+                    $checkedSubtree = true;
+                } break;
+
+                case 'User_Subtree':
+                {
+                    $userSubtreeLimit = true;
+                    foreach ( $nodeArray as $node )
+                    {
+                        $path = $node->attribute( 'path_string' );
+                        $subtreeArray = $limitationArray[$key];
+                        $validSubstring = false;
+                        foreach ( $subtreeArray as $subtreeString )
+                        {
+                            if ( strstr( $path, $subtreeString ) )
+                            {
+                                $userSubtreeLimit = false;
+                                break;
+                            }
+                        }
+                        if ( !$userSubtreeLimit )
+                        {
+                            break;
+                        }
+                    }
+                    if ( $userSubtreeLimit )
                     {
                         return array();
                     }

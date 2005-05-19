@@ -11,15 +11,59 @@
             $hasClassIDLimitation = true;
         }
 
+        if ( isset( $policy['User_Section'] ) )
+        {
+/*START:code-template::is-node*/
+            if ( $object === false )
+                $object =& $this->attribute( 'object' );
+            if ( !in_array( $object->attribute( 'section_id' ), $policy['Section']  ) )
+/*END:code-template::is-node*/
+/*START:code-template::is-object*/
+            if ( !in_array( $this->attribute( 'section_id' ), $policy['User_Section'] ) )
+/*END:code-template::is-object*/
+            {
+                return array();
+            }
+        }
+
+        if ( isset( $policy['User_Subtree'] ) )
+        {
+            $allowed = false;
+/*START:code-template::is-node*/
+            if ( $object === false )
+                $object =& $this->attribute( 'object' );
+            $assignedNodes =& $object->attribute( 'assigned_nodes' );
+/*END:code-template::is-node*/
+/*START:code-template::is-object*/
+            $assignedNodes =& $this->attribute( 'assigned_nodes' );
+/*END:code-template::is-object*/
+            foreach ( $assignedNodes as $assignedNode )
+            {
+                $path =& $assignedNode->attribute( 'path_string' );
+                foreach ( $policy['User_Subtree'] as $subtreeString )
+                {
+                    if ( strstr( $path, $subtreeString ) )
+                    {
+                        $allowed = true;
+                        break;
+                    }
+                }
+            }
+            if( !$allowed )
+            {
+                return array();
+            }
+        }
+
         if ( isset( $policy['Section'] ) )
         {
 /*START:code-template::is-node*/
             if ( $object === false )
                 $object =& $this->attribute( 'object' );
-            if ( !in_array( $object->attribute( 'section_id' ),  $policy['Section']  ) )
+            if ( !in_array( $object->attribute( 'section_id' ), $policy['Section']  ) )
 /*END:code-template::is-node*/
 /*START:code-template::is-object*/
-            if ( !in_array( $this->attribute( 'section_id' ),  $policy['Section']  ) )
+            if ( !in_array( $this->attribute( 'section_id' ), $policy['Section'] ) )
 /*END:code-template::is-object*/
             {
                 return array();
@@ -56,6 +100,7 @@
             }
         }
 
+        $allowedNode = false;
         if ( isset( $policy['Node'] ) )
         {
             $allowed = false;
@@ -66,10 +111,11 @@
                 if ( $mainNodeID == $node->attribute( 'main_node_id' ) )
                 {
                     $allowed = true;
+                    $allowedNode = true;
                     break;
                 }
             }
-            if ( !$allowed )
+            if ( !$allowed && !isset( $policy['Subtree'] ) )
             {
                 return array();
             }
@@ -98,7 +144,7 @@
                     }
                 }
             }
-            if( !$allowed )
+            if ( !$allowed && !$allowedNode )
             {
                 return array();
             }
