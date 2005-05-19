@@ -33,6 +33,7 @@ Changes from 3.6.0rc1 to 3.6.0rc2
 - Fixed bug #6373: Role assignments with restriction are not applied.
 - Fixed bug #6661: Typo in soap.ini and soap.php
   (Merged from stable/3.5 (3.5.3) rev. 11893)
+- Fixed bug #6587: Empty lines in discount group when deleting users.
   
 *Library:
 
