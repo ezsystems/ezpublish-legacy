@@ -319,7 +319,7 @@ class eZUser extends eZPersistentObject
     {
         $user =& eZPersistentObject::fetchObject( eZUser::definition(),
                                                   null,
-                                                  array( 'login' => $login ),
+                                                  array( 'LOWER( login )' => strtolower( $login ) ),
                                                   $asObject );
         return $user;
     }
@@ -328,7 +328,7 @@ class eZUser extends eZPersistentObject
     {
         $user =& eZPersistentObject::fetchObject( eZUser::definition(),
                                                   null,
-                                                  array( 'email' => $email ),
+                                                  array( 'LOWER( email )' => strtolower( $email ) ),
                                                   $asObject );
         return $user;
     }
