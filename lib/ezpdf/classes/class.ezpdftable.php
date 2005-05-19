@@ -1391,9 +1391,13 @@ class eZPDFTable extends Cezpdf
             {
                 if ( $dots )
                 {
-                    Cezpdf::ezText('<c:ilink:toc'. $k .'>'. $v['label'] .'</c:ilink><C:dots:'. $sizeArray[$v['level']-1].$v['localPageNumber'] .'>'."\n",
-                                   $sizeArray[$v['level']-1],
-                                   array('left' => $indentArray[$v['level']-1] ) );
+                    Cezpdf::ezText( '<c:ilink:toc'. $k .'>'. $v['label'] .'</c:ilink>',
+                                    $sizeArray[$v['level']-1],
+                                    array( 'left' => $indentArray[$v['level']-1],
+                                           'right' => 100 ) );
+                    Cezpdf::ezText( '<C:dots:'. $sizeArray[$v['level']-1].$v['localPageNumber'] .'>',
+                                    $sizeArray[$v['level']-1] );
+                    Cezpdf::ezText( "\n", $sizeArray[$v['level']-1] );
                 }
                 else
                 {
@@ -2900,7 +2904,6 @@ class eZPDFTable extends Cezpdf
             return $pageNum - $this->PageCounter[$identifier]['start'] + 1;
     }
 
-    /* --- Private --- */
     /*!
       \private
 

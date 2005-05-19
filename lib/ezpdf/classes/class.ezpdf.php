@@ -823,8 +823,21 @@ class Cezpdf extends Cpdf
                     $noClose = $directiveArray['noClose'];
                     if ( $noClose )
                     {
-                        $this->addText($left,$this->y,$size,substr( $line, 0, $directiveArray['directive'] ) ,$angle,$adjust);
+                        if ( $this->ez['xOffset'] != 0 )
+                        {
+                            $left = $this->ez['xOffset'];
+                        }
+                        else
+                        {
+                            $left = $this->leftMargin() + ((is_array($options) && isset($options['left']))?$options['left']:0);
+                        }
+
+                        $textInfo = $this->addText($left,$this->y,$size,substr( $line, 0, $directiveArray['directive'] ) ,$angle,$adjust);
                         $line = substr( $line, $directiveArray['directive'] );
+                        if ( $textInfo['width'] != 0 )
+                        {
+                            $this->setXOffset( $left + $textInfo['width'] );
+                        }
                     }
                 }
 
@@ -840,9 +853,11 @@ class Cezpdf extends Cpdf
                 {
                     $left = $this->ez['xOffset'];
                 }
-                else {
+                else
+                {
                     $left = $this->leftMargin() + ((is_array($options) && isset($options['left']))?$options['left']:0);
                 }
+
                 if (is_array($options) && isset($options['aleft'])){
                     $left=$options['aleft'];
                 }
@@ -868,7 +883,7 @@ class Cezpdf extends Cpdf
                 }
                 else if ( $textInfo['width'] != 0 )
                 {
-                    $this->ez['xOffset'] = $left + $textInfo['width'];
+                    $this->setXOffset( $left + $textInfo['width'] );
                 }
             }
         }
@@ -1053,7 +1068,7 @@ class Cezpdf extends Cpdf
 
 // ------------------------------------------------------------------------------
     function ilink($info){
-        $this->alink($info,1);
+        return $this->alink($info,1);
     }
 
     function alink($info,$internal=0){
