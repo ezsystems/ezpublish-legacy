@@ -127,6 +127,7 @@ class eZUserType extends eZDataType
                         $userByEmail =& eZUser::fetchByEmail( $email );
                         if ( $userByEmail != null )
                         {
+                            $userID = $userByEmail->attribute( 'contentobject_id' );
                             if ( $userID !=  $contentObjectAttribute->attribute( "contentobject_id" ) )
                             {
                                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',

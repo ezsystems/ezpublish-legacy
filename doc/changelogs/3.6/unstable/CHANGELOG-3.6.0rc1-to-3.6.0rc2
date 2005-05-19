@@ -34,6 +34,9 @@ Changes from 3.6.0rc1 to 3.6.0rc2
 - Fixed bug #6661: Typo in soap.ini and soap.php
   (Merged from stable/3.5 (3.5.3) rev. 11893)
 - Fixed bug #6587: Empty lines in discount group when deleting users.
+- Fixed bug #6501: It is possible to create users with the same login or
+  email that differs only in case.
+  (Merged from stable/3.4 (3.4.7) rev. 11897)
   
 *Library:
 
