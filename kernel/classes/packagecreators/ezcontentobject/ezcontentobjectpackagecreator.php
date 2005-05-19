@@ -244,14 +244,14 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
     {
         $options =& $persistentData['object_options'];
 
-        $options['include_classes'] = $http->hasPostVariable( 'IncludeClasses' ) ? $http->postVariable( 'IncludeClasses' ) : 0;
-        $options['include_templates'] = $http->hasPostVariable( 'IncludeTemplates' ) ? $http->postVariable( 'IncludeTemplates' ) : 0;
+        $options['include_classes'] = $http->hasPostVariable( 'IncludeClasses' ) ? $http->postVariable( 'IncludeClasses' ) : false;
+        $options['include_templates'] = $http->hasPostVariable( 'IncludeTemplates' ) ? $http->postVariable( 'IncludeTemplates' ) : false;
         $options['site_access_array'] = $http->postVariable( 'SiteAccesses' );
         $options['versions'] = $http->postVariable( 'VersionExport' );
         $options['language_array'] = $http->postVariable( 'Languages' );
         $options['node_assignment'] = $http->postVariable( 'NodeAssignment' );
         $options['related_objects'] = $http->postVariable( 'RelatedObjects' );
-        $options['minimal_template_set'] = $http->hasPostVariable( 'MinimalTemplateSet' ) ? $http->postVariable( 'MinimalTemplateSet' ) : 0;
+        $options['minimal_template_set'] = $http->hasPostVariable( 'MinimalTemplateSet' ) ? $http->postVariable( 'MinimalTemplateSet' ) : false;
 
         $result = true;
         if ( count( $persistentData['object_options']['language_array'] ) == 0 )
