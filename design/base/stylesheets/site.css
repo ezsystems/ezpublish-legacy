@@ -467,13 +467,13 @@ div.toollist-design div.class-article div.attribute-short p
 
 div.toollist-design div.class-article div.attribute-link p
 { 
-    margin-top: 0 0 10px 0;
+    margin: 0 0 10px 0;
 }
 
 div.toollist-design div.class-article div.attribute-link-disabled p
 { 
     font-weight: normal;
-    padding-top: 0 0 0 6px;
+    padding: 0 0 0 6px;
     vertical-align: middle;
 }
 
@@ -487,7 +487,7 @@ div#footer
 
 div#footer-design 
 {
-    padding-top: 10px 0 10px 0;
+    padding: 10px 0 10px 0;
     text-align: center;
 }
 
