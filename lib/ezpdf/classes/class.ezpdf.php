@@ -805,6 +805,10 @@ class Cezpdf extends Cpdf
 
         $lastOnlyDirective = false;
         $lines = explode( "\n", $text );
+        if ( $text == "\n" )
+        {
+            $lines = array( "" );
+        }
         foreach ( array_keys( $lines ) as $key ){
             $line = $lines[$key];
             if ( ( $key > 0 || strlen($line) == 0 ) &&
