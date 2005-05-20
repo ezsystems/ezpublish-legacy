@@ -64,6 +64,12 @@ Fetch functions:
   email that differs only in case.
 - Fixed bug: User login and password are shown incorrectly in the user 
   edit page. The bug occurs only on some of the supported databases.
+- Fixed bug: 6400, time (eztime) attribute and DST.
+  Added new attribute 'time_of_day' in eZTimeType, which
+  contain timestamp clamped off from the last midnight.
+  And old style attribute 'timestamp' contain saved time
+  plus last midnight full timestamp.
+  (Manually merged from trunk (3.6.0rc2) rev. 11841)
 
 *Library:
 
