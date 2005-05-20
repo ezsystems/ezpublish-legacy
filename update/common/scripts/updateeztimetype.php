@@ -72,8 +72,6 @@ if ( !$script->validateVersion() )
     $script->shutdown( 1 );
 }
 
-
-include_once( 'lib/version.php' );
 include_once( 'lib/ezlocale/classes/eztime.php' );
 include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 
