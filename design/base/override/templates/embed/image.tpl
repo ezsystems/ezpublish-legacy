@@ -13,9 +13,11 @@
     {/let}
     </div>
 
+    {section show=$object.data_map.caption.has_content}
     <div class="attribute-caption" style="width: {$object.data_map.image.content[$object_parameters.size].width}px">
         {attribute_view_gui attribute=$object.data_map.caption}
     </div>
+    {/section}
 
     </div>
 </div>
