@@ -40,6 +40,8 @@ Changes from 3.6.0rc1 to 3.6.0rc2
 - Fixed bug: User login and password are shown incorrectly in the user 
   edit page. The bug occurs only on some of the supported databases.
   (Merged from stable/3.4 (3.4.7) rev. 11900)
+- Fixed bug #6651: Embed Image caption.
+  (Also in stable/3.5 (3.5.3) rev. 11915)
   
 *Library:
 
