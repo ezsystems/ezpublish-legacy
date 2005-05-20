@@ -28,7 +28,7 @@ your account.'|i18n('design/admin/user')}
 {/section}
 
 <form action={"/user/register"|ezurl} method="post">
-    <input class="button" type="submit" value="{'OK'|i18n( 'design/admin/user' )}" />
+    <input class="button" type="submit" value="{'OK'|i18n( 'design/admin/user/success' )}" />
 </form>
 
 </div>
