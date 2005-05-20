@@ -173,7 +173,9 @@ class eZTimeType extends eZDataType
         if ( $currentVersion != false )
         {
             $dataInt = $originalContentObjectAttribute->attribute( 'data_int' );
+            $dataFloat = $originalContentObjectAttribute->attribute( 'data_float' );
             $contentObjectAttribute->setAttribute( 'data_int', $dataInt );
+            $contentObjectAttribute->setAttribute( 'data_float', $dataFloat );
         }
         else
         {
@@ -185,6 +187,9 @@ class eZTimeType extends eZDataType
                 $time = new eZTime();
                 $contentObjectAttribute->setAttribute( 'data_int', $time->timeOfDay() );
             }
+            // Set 'data_float' to '1' to avoid future update of eZTimeType attribute
+            // using update/common/scripts/updateeztimetype.php script:
+            $contentObjectAttribute->setAttribute( 'data_float', 1 );
         }
     }
 
