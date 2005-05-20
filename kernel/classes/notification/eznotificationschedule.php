@@ -107,7 +107,7 @@ class eZNotificationSchedule
                 if ( $daysDiff < 0 or
                      ( $daysDiff == 0 and $hoursDiff <= 0 ) )
                 {
-                    $daysDiff += 31;
+                    $daysDiff += $daysInMonth;
                 }
 
                 $secondsDiff = 3600 * ( $daysDiff * 24 + $hoursDiff )
