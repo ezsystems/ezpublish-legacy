@@ -98,7 +98,9 @@ class eZScript
                                         'use-modules' => false,
                                         'user' => false,
                                         'description' => 'eZ publish script',
-                                        'site-access' => false ),
+                                        'site-access' => false,
+                                        'min_version' => false,
+                                        'max_version' => false ),
                                  $settings );
         $this->DebugMessage = $settings['debug-message'];
         $this->UseDebugOutput = $settings['debug-output'];
@@ -112,6 +114,8 @@ class eZScript
         $this->User = $settings['user'];
         $this->SiteAccess = $settings['site-access'];
         $this->Description = $settings['description'];
+        $this->MinVersion = $settings['min_version'];
+        $this->MaxVersion = $settings['max_version'];
         $this->ExitCode = false;
         $this->IsQuiet = false;
         $this->ShowVerbose = false;
@@ -133,6 +137,41 @@ class eZScript
 
         $this->InitializationErrorMessage = 'unknown error';
         $this->IsInitialized = false;
+    }
+
+    /*!
+     Checks if the script is run on correct eZ publish version.
+    */
+    function validateVersion()
+    {
+        include_once( 'lib/version.php' );
+        $versionValidated = false;
+        $ezversion = eZPublishSDK::version();
+        if ( $this->MinVersion !== false )
+        {
+            if ( $this->MaxVersion !== false )
+            {
+                if ( version_compare( $this->MinVersion, $ezversion , 'le' ) &&
+                     version_compare( $this->MaxVersion, $ezversion , 'ge' ) )
+                {
+                    return true;
+                }
+                return false;
+            }
+            if ( version_compare( $this->MinVersion, $ezversion , 'le' ) )
+            {
+                return true;
+            }
+            return false;
+        }
+        else
+        {
+            if ( version_compare( $this->MaxVersion, $ezversion , 'ge' ) )
+            {
+                return true;
+            }
+            return false;
+        }
     }
 
     /*!
