@@ -70,10 +70,13 @@ class eZSetupSummary
     {
         $databaseMap = eZSetupDatabaseMap();
 
-        if ( isset( $this->PersistenceList['tests_run'] ) )
+        $persistenceList = $this->PersistenceList;
+
+        if ( isset( $persistenceList['tests_run'] ) and
+             count( $persistenceList['tests_run'] ) > 0 )
         {
             $checkPassed = true;
-            foreach ( $this->PersistenceList['tests_run'] as $checkValue )
+            foreach ( $persistenceList['tests_run'] as $checkValue )
             {
                 if ( $checkValue != 1 )
                 {
@@ -82,13 +85,16 @@ class eZSetupSummary
                 }
             }
             if ( $checkPassed === true )
-            {
                 $this->Tpl->setVariable( 'system_check', 'ok' );
-            }
+            else
+                $this->Tpl->setVariable( 'system_check', '' );
+        }
+        else
+        {
+            $this->Tpl->setVariable( 'system_check', '' );
         }
 
         // Image settings
-        $persistenceList = $this->PersistenceList;
         if ( isset( $persistenceList['imagegd_extension'] ) && $persistenceList['imagegd_extension']['result'] )
         {
             $this->Tpl->setVariable( 'image_processor', 'ImageGD' );
