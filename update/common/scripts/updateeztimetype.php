@@ -102,12 +102,13 @@ $cli->output( "\nUpdating eZTimeType attributes..." );
 
 foreach( $times_array as $item )
 {
-    // if attribute was already update the skip it:
+    // if attribute was already updated just skip it:
     if ( $item[ 'data_float' ] == 1 )
         continue;
 
     $oldtimestamp = $item[ 'data_int' ];
     $timestamp = $item[ 'data_int' ];
+    $sortkeyint = $item[ 'sort_key_int' ];
 
     if ( !is_null( $timestamp ) )
     {
@@ -124,13 +125,19 @@ foreach( $times_array as $item )
         {
             $timestamp = ( $timestamp + $timezone_offset ) % EZTIME_SECONDS_A_DAY;
         }
+        $sortkeyint = $timestamp;
+    }
+    else
+    {
+        $timestamp = "NULL";
+        $sortkeyint = 0;
     }
 
     if ( $timestamp != $oldtimestamp )
     {
         $sql = "UPDATE ezcontentobject_attribute " .
                "SET data_int=$timestamp, " .
-                   "sort_key_int=$timestamp, " .
+                   "sort_key_int=$sortkeyint, " .
                    "data_float=1 " .
                "WHERE id=" . $item[ 'id' ];
 
