@@ -56,7 +56,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish eZTimeType 
                                       'use-session' => false,
                                       'use-modules' => true,
                                       'use-extensions' => true,
-                                      'min_version'  => '3.5.2',
+                                      'min_version' => '3.4.7',
                                       'max_version' => '3.5.3' ) );
 
 $script->startup();
@@ -73,6 +73,7 @@ if ( !$script->validateVersion() )
 }
 
 
+include_once( 'lib/version.php' );
 include_once( 'lib/ezlocale/classes/eztime.php' );
 include_once( 'kernel/classes/ezcontentobjectattribute.php' );
 
@@ -101,27 +102,47 @@ $cli->output( "\nUpdating eZTimeType attributes..." );
 
 foreach( $times_array as $item )
 {
-    // if time stamp more when 24 hours then identify
-    // it as old style full timestamp, and update it
+    // if attribute was already update the clear old flag and skip it:
+    if ( $item[ 'data_float' ] == 1 )
+    {
+        $sql = "UPDATE ezcontentobject_attribute " .
+               "SET data_float=0 " .
+               "WHERE id=" . $item[ 'id' ];
+
+        if ( !$db->query( $sql ) )
+        {
+            $cli->error( "Failed to run update query..." );
+            $cli->error( $db->errorMessage() );
+        }
+        continue;
+    }
+
     $oldtimestamp = $item[ 'data_int' ];
     $timestamp = $item[ 'data_int' ];
 
-    if ( $timestamp >= EZTIME_SECONDS_A_DAY )
+    if ( !is_null( $timestamp ) )
     {
-        $date = getdate( $timestamp );
-        $timestamp = $date[ 'hours' ] * EZTIME_SECONDS_AN_HOUR +
-                     $date[ 'minutes' ] * EZTIME_SECONDS_A_MINUTE +
-                     $date[ 'seconds' ];
-    }
-    else
-    {
-        $timestamp = ( $timestamp + $timezone_offset ) % EZTIME_SECONDS_A_DAY;
+        // if time stamp more when 24 hours then identify
+        // it as old style full timestamp, and update it
+        if ( $timestamp >= EZTIME_SECONDS_A_DAY )
+        {
+            $date = getdate( $timestamp );
+            $timestamp = $date[ 'hours' ] * EZTIME_SECONDS_AN_HOUR +
+                         $date[ 'minutes' ] * EZTIME_SECONDS_A_MINUTE +
+                         $date[ 'seconds' ];
+        }
+        else
+        {
+            $timestamp = ( $timestamp + $timezone_offset ) % EZTIME_SECONDS_A_DAY;
+        }
     }
 
     if ( $timestamp != $oldtimestamp )
     {
         $sql = "UPDATE ezcontentobject_attribute " .
-               "SET data_int=$timestamp, sort_key_int=$timestamp " .
+               "SET data_int=$timestamp, " .
+                   "sort_key_int=$timestamp, " .
+                   "data_float=0 " .
                "WHERE id=" . $item[ 'id' ];
 
         if ( !$db->query( $sql ) )
@@ -145,6 +166,7 @@ foreach( $times_array as $item )
         $count_updated++;
     }
 }
+
 
 $cli->output( "\nNumber of updated eZTimeType attributes: $count_updated" );
 $script->shutdown();
