@@ -97,6 +97,8 @@ $siteBasics['module-repositories'] =& $moduleRepositories;
 
 $GLOBALS['eZSiteBasics'] =& $siteBasics;
 
+$GLOBALS['eZRedirection'] = false;
+
 error_reporting ( E_ALL );
 
 // include standard libs
@@ -234,14 +236,14 @@ function &eZDisplayDebug()
     {
         $as_html = true;
 
-        if ( $ini->variable( "DebugSettings", "DebugToolbar" ) == 'enabled' && $as_html == true)
+        if ( $ini->variable( "DebugSettings", "DebugToolbar" ) == 'enabled' && $as_html == true && !$GLOBALS['eZRedirection'] )
         {
             include_once( 'kernel/common/template.php' );
             $tpl =& templateInit();
             $result = "<tr><td>" . $tpl->fetch( 'design:setup/debug_toolbar.tpl' ) . "</td></tr>";
             eZDebug::appendTopReport( "Debug toolbar", $result );
         }
-
+        
         include_once( 'kernel/common/eztemplatesstatisticsreporter.php' );
         eZDebug::appendBottomReport( 'Template Usage Statistics', eZTemplatesStatisticsReporter::generateStatistics( $as_html ) );
 
@@ -742,6 +744,7 @@ while ( $moduleRunRequired )
 
 if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 {
+    $GLOBALS['eZRedirection'] = true;
     $ini =& eZINI::instance();
     $uri =& eZURI::instance( eZSys::requestURI() );
 
