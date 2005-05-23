@@ -1,4 +1,40 @@
-*Title: Admin Copy Subtree feature
+*Title: Admin Copy Subtree feature.
 
 *Documentation:
-To copy subtree click on node icon in content tree menu and choose <Copy Subtree>.
+To copy subtree click on icon of node in content tree menu and choose <Copy Subtree>.
+Then using browse mode choose parent node of new location of subtree being copied.
+The size of subtree being copied are limited by MaxNodesCopySubtree. That is
+implemented to avoid browser timeouts which can occur when you are trying to copy
+big subtree. You can use copy subtree script (see bin/php/ezsubtreecopy.php,
+doc/features/subtree_copy_script.txt) instead of admin interface copy subtree
+feature to get free of any limits (of course if you have proper admin rights to
+run scripts on your site).
+
+*Settings:
+The settings for Copy Subtree feature are placed in file content.ini file, within
+section [CopySettings]:
+ MaxNodesCopySubtree   - Maximum allowable number of nodes to copy using Copy
+                         Subtree feature (default 30).
+ VersionHandling       - Use either user-defined, last-published or all
+ CreatorHandling       - Sets current user as creators of copied contentobjects or
+                         leave creators unchanged. Default 'current', use either
+                         'user-defined', 'keep-unchanged' or 'current'. In the case
+                         of 'user-defined', user will be prompt to choose how to
+                         proceed this option during copying process.
+ TimeHandling          - Save time of creation of objects being copied unchange or
+                         sets new (current) time. Default 'current', use either
+                         'user-defined', 'keep-unchanged' or 'current'. In the case
+                         of 'user-defined', user will be prompt to choose how to
+                         proceed this option during copying process.
+ ShowCopySubtreeNotification
+                       - Show or not notification after copying subtree (default
+                         'enabled', use either 'enabled' or 'disabled'). On the
+                         notification page you can see information about count of
+                         copied nodes and errors happened during copying process.
+
+*Modules:
+kernel/content/copysubtree.php
+
+*Templates:
+templates/content/copy_subtree.tpl
+templates/content/copy_subtree_notification.tpl
