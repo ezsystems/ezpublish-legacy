@@ -848,6 +848,9 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
         $redirectURI .= $moduleRedirectUri;
     }
 
+    include_once( 'kernel/classes/ezstaticcache.php' );
+    eZStaticCache::executeActions();
+
     if ( $automatic_redir )
     {
         eZHTTPTool::redirect( $redirectURI );

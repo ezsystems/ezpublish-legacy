@@ -295,7 +295,7 @@ class eZStaticCache
                     }
                     if ( $content !== false )
                     {
-                        $this->storeCachedFile( $file, $content );
+                        $this->addAction( 'store', array( $file, $content ) );
                     }
                 }
             }
@@ -317,6 +317,7 @@ class eZStaticCache
 
     /*!
      \private
+     \static
      Stores the cache file \a $file with contents \a $content.
      Takes care of setting proper permissions on the new file.
     */
@@ -362,6 +363,40 @@ class eZStaticCache
 
         @unlink( $dir . "/index.html" );
         @rmdir( $dir );
+    }
+
+    /*!
+     \private
+     This function adds an action to the list that is used at the end of the
+     request to remove and regenerate static cache files.
+    */
+    function addAction( $action, $parameters )
+    {
+        if (! isset( $GLOBALS['eZStaticCache-ActionList'] ) ) {
+            $GLOBALS['eZStaticCache-ActionList'] = array();
+        }
+        $GLOBALS['eZStaticCache-ActionList'][] = array( $action, $parameters );
+    }
+
+    /*!
+     \static
+     This function goes over the list of recorded actions and excecutes them.
+    */
+    function executeActions()
+    {
+        if (! isset( $GLOBALS['eZStaticCache-ActionList'] ) ) {
+            return;
+        }
+        foreach ( $GLOBALS['eZStaticCache-ActionList'] as $action )
+        {
+            list( $action, $parameters ) = $action;
+
+            switch( $action ) {
+                case 'store':
+                    eZStaticCache::storeCachedFile( $parameters[0], $parameters[1] );
+                    break;
+            }
+        }
     }
 
     /// \privatesection
