@@ -45,6 +45,9 @@ Changes from 3.6.0rc1 to 3.6.0rc2
 - Fixed bug #6663: Attempt to add image to an article as a related object fails
   but uploads to gallery work fine.
 - Fixed bug #6648: Anonymous poll problem.
+- Fixed error and warning messages in setup/extensions when there is no
+  group ExtensionSettings defined in site.ini.append[.php].  
+  (Merged from stable/3.4 (3.4.7) rev. 11930)
   
 *Library:
 
