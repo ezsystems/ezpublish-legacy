@@ -572,12 +572,13 @@ class eZInformationCollection extends eZPersistentObject
         if ( $user->attribute( 'is_logged_in' ) )
         {
             $userIdentifierBase = 'ezuser-' . $user->attribute( 'contentobject_id' );
+            $userIdentifier = md5( $userIdentifierBase );
         }
         else
-        {
-            $userIdentifierBase = 'ezuser-anonymous-' . eZSys::serverVariable( 'REMOTE_ADDR' );
+        {   
+            $userIdentifier = session_id();
+            //$userIdentifierBase = 'ezuser-anonymous-' . eZSys::serverVariable( 'REMOTE_ADDR' );
         }
-        $userIdentifier = md5( $userIdentifierBase );
         return $userIdentifier;
     }
 

@@ -44,6 +44,7 @@ Changes from 3.6.0rc1 to 3.6.0rc2
   (Also in stable/3.5 (3.5.3) rev. 11915)
 - Fixed bug #6663: Attempt to add image to an article as a related object fails
   but uploads to gallery work fine.
+- Fixed bug #6648: Anonymous poll problem.
   
 *Library:
 
