@@ -43,11 +43,12 @@ include_once( 'lib/ezutils/classes/ezhttptool.php' );
 include_once( 'lib/ezfile/classes/ezdir.php' );
 
 $tpl =& templateInit();
-$ini =& eZINI::instance();
 
-$siteINI = eZINI::instance( 'site.ini.append', 'settings/override', null, null, false );
+// open site.ini for reading
+$siteINI = eZINI::instance();
 $siteINI->loadCache();
-$selectedExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
+$extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
+$availableExtensionArray = eZDir::findSubItems( $extensionDir );
 
 if ( $module->isCurrentAction( 'ActivateExtensions' ) )
 {
@@ -62,12 +63,17 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
         $selectedExtensionArray = array();
     }
 
-    $siteINI->setVariable( "ExtensionSettings", "ActiveExtensions", $selectedExtensionArray );
-    $siteINI->save( 'site.ini.append', '.php', false, false );
+    // open settings/override/site.ini.append[.php] for writing
+    $writeSiteINI = eZINI::instance( 'site.ini.append', 'settings/override', null, null, false, true );
+    $writeSiteINI->setVariable( "ExtensionSettings", "ActiveExtensions", $selectedExtensionArray );
+    $writeSiteINI->save( 'site.ini.append', '.php', false, false );
+    include_once( 'kernel/classes/ezcache.php' );
+    eZCache::clearByTag( 'ini' );
 }
-
-$extensionDir = $ini->variable( 'ExtensionSettings', 'ExtensionDirectory' );
-$availableExtensionArray = eZDir::findSubItems( $extensionDir );
+else
+{
+    $selectedExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
+}
 
 $tpl->setVariable( "available_extension_array", $availableExtensionArray );
 $tpl->setVariable( "selected_extension_array", $selectedExtensionArray );
