@@ -50,6 +50,7 @@ include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
 include_once( 'kernel/classes/notification/eznotificationcollection.php' );
 include_once( 'kernel/classes/notification/eznotificationschedule.php' );
 include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
+include_once( 'kernel/classes/notification/handler/ezgeneraldigest/ezgeneraldigestusersettings.php' );
 
 class eZSubTreeHandler extends eZNotificationEventHandler
 {
@@ -256,7 +257,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             $addressList[] = $items[$key]->attribute( 'address' );
             $items[$key]->remove();
         }
-        
+
         $transport =& eZNotificationTransport::instance( 'ezmail' );
         $transport->send( $addressList, $collection->attribute( 'data_subject' ), $collection->attribute( 'data_text' ), null,
                           $parameters );
