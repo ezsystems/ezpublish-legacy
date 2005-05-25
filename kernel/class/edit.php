@@ -407,6 +407,32 @@ if ( $contentClassHasInput )
     }
 }
 
+if ( $validationRequired )
+{
+    // check for duplicate attribute identifiers in the input
+    if ( count( $attributes ) > 1 )
+    {
+        for( $attrIndex = 0; $attrIndex < count( $attributes ) - 1; $attrIndex++ )
+        {
+            $classAttribute = $attributes[$attrIndex];
+            $identifier = $classAttribute->attribute( 'identifier' );
+            for ( $attrIndex2 = $attrIndex + 1; $attrIndex2 < count( $attributes ); $attrIndex2++ )
+            {
+                $classAttribute2 = $attributes[$attrIndex2];
+                $identifier2 = $classAttribute2->attribute( 'identifier' );
+                if ( $identifier == $identifier2 )
+                {
+                    $validation['attributes'][] = array( 'identifier' => $identifier,
+                                                         'name' => $classAttribute->attribute( 'name' ),
+                                                         'id' => $classAttribute->attribute( 'id' ),
+                                                         'reason' => array ( 'text' => 'duplicate attribute identifier' ) );
+                    $canStore = false;
+                    break;
+                }
+            }
+        }
+    }
+}
 
 // Store version 0 and discard version 1
 if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
@@ -441,7 +467,8 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
         }
 
         // validate class identifier
-        $db              =& eZDB::instance();
+
+        $db =& eZDB::instance();
         $classCount = $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentclass WHERE  identifier='$classIdentifier' AND version=" . EZ_CLASS_VERSION_STATUS_DEFINED . " AND id <> $classID" );
         if ( $classCount[0]['count'] > 0 )
         {
