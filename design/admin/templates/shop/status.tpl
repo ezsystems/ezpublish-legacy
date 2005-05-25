@@ -3,7 +3,7 @@
 <div class="context-block">
 
 {section show=$messages|count|gt( 0 )}
-<div class="message-warning">
+<div class="message-feedback">
     {section var=message loop=$messages}
         <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {$message.description|wash}</h2>
     {/section}
