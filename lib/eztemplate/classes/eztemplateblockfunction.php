@@ -163,7 +163,13 @@ class eZTemplateBlockFunction
                 $data = array( eZTemplateNodeTool::createVariableElement( $variableName, $name, $scope ) );
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $data, false, array(),
                                                                       'blockData' );
-                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$blockData[] = \$blockText;" );
+
+                // This block checks whether the append-block variable is an array or not. 
+                // TODO: This is a temporary solution and should also check whether the template variable exists. 
+                // This new solution requires probably writing the createVariableElement and createVariableNode your self.
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( is_null ( \$blockData ) ) \$blockData = array();" );
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( is_array ( \$blockData ) ) \$blockData[] = \$blockText;" );
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "else eZDebug::writeError( \"Variable '$variableName' is already in use.\" );" );
                 $newNodes[] = eZTemplateNodeTool::createVariableNode( false, 'blockData', false, array(),
                                                                       array( $name, $scope, $variableName ), false, true, true );
                 $newNodes[] = eZTemplateNodeTool::createVariableUnsetNode( 'blockData' );
@@ -272,7 +278,14 @@ class eZTemplateBlockFunction
                 {
                     $textArray = array();
                     if ( $tpl->hasVariable( $variableItem, $name ) )
+                    {
                         $textArray = $tpl->variable( $variableItem, $name );
+                        if ( !is_array( $textArray ) )
+                        {
+                           $tpl->warning( $functionName, "Variable '$variableItem' is already in use.", $functionPlacement );
+                           return;
+                        }
+                    }
                     $textArray[] = $text;
                     $tpl->setVariable( $variableItem, $textArray, $name );
                 }
