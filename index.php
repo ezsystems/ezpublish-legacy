@@ -247,7 +247,7 @@ function &eZDisplayDebug()
         include_once( 'kernel/common/eztemplatesstatisticsreporter.php' );
         eZDebug::appendBottomReport( 'Template Usage Statistics', eZTemplatesStatisticsReporter::generateStatistics( $as_html ) );
 
-        return eZDebug::printReport( $type == "popup", $as_html, false );
+        return eZDebug::printReport( $type == "popup", $as_html, true );
     }
     return null;
 }
