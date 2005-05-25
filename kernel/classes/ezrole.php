@@ -251,6 +251,7 @@ class eZRole extends eZPersistentObject
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-access-cache', mktime() );
+        $handler->setTimestamp( 'user-info-cache', mktime() );
         $handler->setTimestamp( 'user-class-cache', mktime() );
         $handler->store();
     }
@@ -669,6 +670,7 @@ class eZRole extends eZPersistentObject
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-access-cache', mktime() );
+        $handler->setTimestamp( 'user-info-cache', mktime() );
         $handler->setTimestamp( 'user-class-cache', mktime() );
         $handler->store();
         return true;
