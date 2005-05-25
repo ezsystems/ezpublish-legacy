@@ -1,0 +1,12 @@
+*Title: Improving the features of our RSS module.
+
+*Incentive: Fix enhancement requests, 6128, 4719, 6148, 6121.
+
+*Documentation:
+It is now possible to configure if an RSS feed should serve the complete subtree of a source or only the direct children of the selected source node. The latter is the default behavior which was present in older versions.
+
+It is now possible to select from a drop down menu the number of items that should be exported. In older versions of eZ publish this was a ini setting. The options available can be configured from site.ini under [RSSSettings].
+
+It is now possible to turn of the RSS cache during development. Simply set the setting CacheTime to 0 under [RSSSettings]
+
+There is now an option that will make links in the RSS feed always point to the main node of that object. This is useful if you are exporting items from locations that have no full view.
