@@ -52,6 +52,8 @@ Changes from 3.6.0rc1 to 3.6.0rc2
   (Merged from stable/3.5 (3.5.3) rev. 11937)
 - Fixed bug #6500: Crash when set-block and append-block is used with same 
   variable.
+- Fixed bug #6675: Duplicate attribute identifiers.
+  (Merged from stable/3.5 (3.5.3) rev. 11947)
   
 *Library:
 
