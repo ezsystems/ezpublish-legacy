@@ -225,7 +225,7 @@ ENDADDCODE;
         $code .= " )\n" .
                  "{\n" .
                  "    \$fp = fopen( $filepathText, 'r' );\n" .
-                 "    \$contentData = fread( \$fp, filesize( $filepathText ) );\n" .
+                 "    \$contentData = @fread( \$fp, filesize( $filepathText ) );\n" .
                  "    fclose( \$fp );\n";
 
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => 0 ) );
