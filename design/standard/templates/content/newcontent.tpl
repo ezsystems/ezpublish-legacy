@@ -23,7 +23,7 @@
                 {section var=child loop=$list_items show=$list_items sequence=array(bglight,bgdark)}
                     {node_view_gui view=line content_node=$child}
                 {section-else}
-                     <p>{"There are no new content since your last visit."|i18n("design/standard/content/newcontent")}</p>
+                     <p>{"There is no new content since your last visit."|i18n("design/standard/content/newcontent")}</p>
                 {/section}
             </div>
 
