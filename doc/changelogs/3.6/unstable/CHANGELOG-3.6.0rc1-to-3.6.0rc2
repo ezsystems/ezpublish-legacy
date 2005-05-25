@@ -56,6 +56,8 @@ Changes from 3.6.0rc1 to 3.6.0rc2
   (Merged from stable/3.5 (3.5.3) rev. 11947)
 - Fixed bug #6440: Role caching problem.
   (Manually merged from stable/3.4 (3.4.7) rev. 11949)
+- Fixed bug #6677: Template variable $site.design is always set to 'standard'
+  (Merged from stable/3.4 (3.4.7) rev. 11952, also in stable/3.5 (3.5.3) rev.11953)
   
 *Library:
 
