@@ -1,0 +1,219 @@
+*Title: Improved template syntax
+
+*Incentive:
+
+To make template syntax clearer and more similar to syntax of widespread
+procedural programming languages.
+
+*Documentation:
+
+1 Variables
+===========
+
+1.1 Dollar sign
+    -----------
+
+We will use dollar sign ($) everywhere a variable is used, including assignments.
+Example:
+ {set $i=10}
+ i: {$i}
+
+Old-style assignments without "$" shall work.
+
+1.2 New functions to create/destroy variables
+    -----------------------------------------
+
+We should avoid usage of {let}...{/let} block since it makes harder to
+read tpl file and move code within it. Instead, two new functions
+proposed: {def} and {undef}:
+
+- def    creates a new variable in the current namespace and assigns a
+         value to it. 
+- undef  destroys given variable, in a manner like the corresponding PHP
+         operator does. 
+
+Syntax:
+ {def $var1=<value1> [$var2=<value2> ...]}
+ {undef [$var1 [$var2] ...]}
+
+Example:
+ {def $i=10 $j=20}
+ {def $s1='hello' $s2='world'}
+ ...
+ {set $i=$i+1}
+ ...
+ {undef $i}
+ {undef $s1 $s2}
+ {undef}
+
+If the variable being created already exists, {def} shows a warning
+message and doesn't do anything except of assigning new value to the
+variable. {undef} destroys all variables when called without arguments.
+
+1.3 Variables scope
+    ---------------
+
+Variables created with {def} exist till the end of file, unless destroyed
+with {undef}. A template file opens (and closes) a new scope.
+
+2 New control structures
+  ======================
+
+A few new control structures are proposed. They are meant to be much
+simplier to understand and use by developers than the allmighty
+{section} function.
+
+2.1 IF statement
+    ------------
+
+Syntax:
+ {if <condition>}
+ [{elseif <condition>}]
+ [{else}]
+ {/if}
+
+Example:
+ {if eq( $var, true() )}
+ Hello world
+ {else}
+ No world here, move along.
+ {/if}
+
+2.2 WHILE statement
+    ---------------
+
+Syntax:
+ {while <condition> [sequence <array> as $seqVar] }
+ [{delimiter}...{/delimiter}]
+ [{break}]
+ [{continue}]
+ [{skip}]
+ {/while}
+
+Example:
+ {while ne( $var, false() ) }
+ I like big trucks
+ {/while}
+
+2.3 DO..WHILE statement
+    -------------------
+
+Syntax:
+ {do}
+ [{delimiter}...{/delimiter}]
+ [{break}]
+ [{continue}]
+ [{skip}]
+ {/do while <condition> [sequence <array> as $seqVar]}
+
+Example:
+ {do}
+ One more beer, please.
+ {/do while eq( $drunk, false() )}
+
+2.4 FOR statement
+    -------------
+
+Syntax:
+ {for <number> to <number> as $itemVar [sequence <array> as $seqVar]}
+ [{delimiter}...{/delimiter}]
+ [{break}]
+ [{continue}]
+ [{skip}]
+ {/for}
+
+Examples:
+ {for 1 to 5 as $i}
+     i: {$i}
+ {/for}
+ {for 5 to 1 as $i}
+     i: {$i}
+ {/for}
+
+$itemVar is destroyed after the loop ends.
+
+2.5 FOREACH statement
+    -----------------
+
+Syntax:
+ {foreach <array> as [$keyVar =>] $itemVar  
+          [sequence <array> as $sequenceVar]
+          [offset <offset>]
+          [max <max>]
+          [reverse]}
+     [{delimiter}...{/delimiter}]
+     [{break}]   
+     [{continue}]
+     [{skip}]
+ {/foreach}
+
+Examlple:
+ {foreach $objects as $object}
+ <tr>
+     {foreach $object.nodes as $node sequence array(dark,light) as $class}
+         <td class=$class>{$node.name|wash}</td>   
+     {/foreach}
+ </tr>
+ {/foreach}
+
+Variables $keyVar, $itemVar and $sequenceVar are destroyed after the loop ends. 
+
+{foreach} does not support iterating through strings like
+{section loop=...} does. So, {foreach $string as $character} will not work.
+
+{foreach} also does not support iterating within a numeric range, like
+{section loop=NUMBER} did. You should use {for} instead. 
+
+Also, {foreach} does not use the proxy iterator as {section loop=...}
+does. ie you cannot do: {$node.key}, {$node.index}.
+
+Prameters 'offset', 'max' and 'reverse' have the same meaning as in {section}.
+
+2.6 Notes on the loop functions
+    ---------------------------
+
+All the new loop functions support the following features: 
+
+- 'sequence' optional parameter: array to cycle through continuously. 
+- {delimiter} function: piece of code/text executed/shown after each
+  iteration, except of the last one. 
+- {break} function: immediately terminate the loop. 
+- {continue} function: go to the next loop iteration, executing {delimiter}
+  if specified. 
+- {skip} function: go to the next loop iteration, without executing {delimiter}.
+
+The {delimeter} construct must be placed as a direct child of the loop
+construct. e.g. this should not be possible:
+
+ {foreach ...}
+ {if eq( $item, 5 )}
+     {delimiter}----{/delimiter}
+ {else}
+     {delimiter}===={/delimiter}
+ {/if}
+ {/foreach}
+
+Instead it must be written as:
+
+ {foreach ...}
+ {delimiter}
+ {if eq( $item, 5 )}
+ ----
+ {else}
+ ====
+ {/if}
+ {/delimiter}
+ {/foreach}
+
+The {skip}, {continue} and {break} functions can be used as a child no
+matter how deep. In other words they will react to the last looping
+construct that was in effect.
+
+*Note* that if you have a code similar to "{section var=start loop=array(
+1, 2 )}..." you cannot use $start as parameter of the new loop functions
+directly, instead you should use $start.item. That is, section loop
+proxy iterators must be previously dereferenced.
+
+
+Online version of this article can be found here:
+http://ez.no/community/developer/specs/improved_template_syntax
