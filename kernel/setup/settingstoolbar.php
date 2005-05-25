@@ -48,6 +48,9 @@ else
     $selectedList=array();
 
 $siteAccess = $module->actionParameter( 'SiteAccess' );
+if ( !$siteAccess )
+    $siteAccess = 'global_override';
+
 eZPreferences::setValue( 'admin_quicksettings_siteaccess', $siteAccess );
 
 $iniFiles = array();
