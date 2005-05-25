@@ -1050,17 +1050,34 @@ class eZDebug
 <SCRIPT LANGUAGE='JavaScript'>
 <!-- hide this script from old browsers
 
-function showDebug( fileName, title )
+function showDebug()
 {
-  debugWindow = window.open( '/$debugFilePath', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
-  debugWindow.document.close();
-  debugWindow.location.reload();
+    var debugWindow;
+
+    if  (navigator.appName == \"Microsoft Internet Explorer\")
+    {
+        //Microsoft Internet Explorer
+        debugWindow = window.open( '/$debugFilePath', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
+        debugWindow.document.close();
+        debugWindow.location.reload();
+    }
+    else if (navigator.appName == \"Opera\")
+    {
+        //Opera
+        debugWindow = window.open( '', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
+        debugWindow.location.href=\"/$debugFilePath\";  
+        debugWindow.navigate(\"/$debugFilePath\");
+        debugWindow.location.reload(true);
+    }
+    else
+    {
+	//Mozilla, Firefox, etc.
+        debugWindow = window.open( '', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
+        debugWindow.document.location.href=\"/$debugFilePath\";  
+    };
 }
 
 showDebug();
-
-ezdebug.reload();
-
 
 // done hiding from old browsers -->
 </SCRIPT>
