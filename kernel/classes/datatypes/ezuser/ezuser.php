@@ -1675,6 +1675,7 @@ WHERE user_id = '" . $userID . "' AND
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
         $handler->setTimestamp( 'user-access-cache', time() );
+        $handler->setTimestamp( 'user-info-cache', mktime() );
         $handler->store();
     }
 
