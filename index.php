@@ -963,7 +963,7 @@ if ( $show_page_layout )
         "page_title" => $module->title(),
         "uri" => $oldURI,
         "redirect" => false,
-        "design" => "standard",
+        "design" => $ini->variable( 'DesignSettings', 'SiteDesign' ),
         "http_equiv" => $http_equiv,
         "meta" => $meta,
         "version" => eZPublishSDK::version());
