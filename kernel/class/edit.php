@@ -204,7 +204,7 @@ $basicClassAttributesInitialized = true;
 // Validate input
 $validation = array( 'processed' => false,
                      'attributes' => array() );
-$unvalidatedAttributes = array();
+//$unvalidatedAttributes = array();
 
 $storeActions = array( 'MoveUp',
                        'MoveDown',
@@ -240,13 +240,14 @@ if ( $contentClassHasInput )
                 $canStore = false;
                 $attributeName = $dataType->attribute( 'information' );
                 $attributeName = $attributeName['name'];
-                $unvalidatedAttributes[] = array( 'id' => $attribute->attribute( 'id' ),
-                                                  'identifier' => $attribute->attribute( 'identifier' ),
-                                                  'name' => $attributeName );
+                $validation['attributes'][] = array( 'id' => $attribute->attribute( 'id' ),
+                                                     'identifier' => $attribute->attribute( 'identifier' ),
+                                                     'name' => $attributeName,
+                                                     'text' => '' );
             }
         }
         $validation['processed'] = true;
-        $validation['attributes'] = $unvalidatedAttributes;
+        //$validation['attributes'] = $unvalidatedAttributes;
         $requireVariable = 'ContentAttribute_is_required_checked';
         $searchableVariable = 'ContentAttribute_is_searchable_checked';
         $informationCollectorVariable = 'ContentAttribute_is_information_collector_checked';
@@ -383,6 +384,33 @@ if ( $contentClassHasInput )
     }
 }
 
+if ( $validationRequired )
+{
+    // check for duplicate attribute identifiers in the input
+    if ( count( $attributes ) > 1 )
+    {
+        for( $attrIndex = 0; $attrIndex < count( $attributes ) - 1; $attrIndex++ )
+        {
+            $classAttribute = $attributes[$attrIndex];
+            $identifier = $classAttribute->attribute( 'identifier' );
+            for ( $attrIndex2 = $attrIndex + 1; $attrIndex2 < count( $attributes ); $attrIndex2++ )
+            {
+                $classAttribute2 = $attributes[$attrIndex2];
+                $identifier2 = $classAttribute2->attribute( 'identifier' );
+                if ( $identifier == $identifier2 )
+                {
+                    $validation['attributes'][] = array( 'identifier' => $identifier,
+                                                         'name' => $classAttribute->attribute( 'name' ),
+                                                         'id' => $classAttribute->attribute( 'id' ),
+                                                         'text' => 'Duplicate attribute' );
+                    $canStore = false;
+                    break;
+                }
+            }
+        }
+    }
+}
+
 // Store version 0 and discard version 1
 if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 {
@@ -497,7 +525,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
         eZContentClassClassGroup::removeClassMembers( $ClassID, EZ_CLASS_VERSION_STATUS_DEFINED );
 
         $classgroups =& eZContentClassClassGroup::fetchGroupList( $ClassID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
-    	for ( $i=0;$i<count(  $classgroups );$i++ )
+        for ( $i=0; $i < count( $classgroups ); $i++ )
         {
             $classgroup =& $classgroups[$i];
             $classgroup->setAttribute('contentclass_version', EZ_CLASS_VERSION_STATUS_DEFINED );
@@ -519,7 +547,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
 
         $http->removeSessionVariable( 'CanStoreTicket' );
 
-        return $Module->redirectToView( 'view', array( $ClassID ) );
+        return $Module->redirectToView( 'view', array( $ClassID ) );        
     }
 }
 
