@@ -892,7 +892,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                     $filterAttributeID = $filter[0];
                     $filterType = $filter[1];
-                    $filterValue = $db->escapeString( $filter[2] );
+                    $filterValue = $db->escapeString( is_array( $filter[2] ) ? '' : $filter[2] );
 
                     $useAttributeFilter = false;
                     switch ( $filterAttributeID )
