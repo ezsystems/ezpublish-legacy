@@ -443,6 +443,7 @@ class eZContentFunctionCollection
         else
         {
             //eZDebug::writeDebug( "can_create_class_list for all " );
+            include_once( 'kernel/classes/ezcontentclass.php' );
             $classList =& eZContentClass::canInstantiateClassList( $asObject, $filterType == 'include', $ClassGroupIDs, $fetchID );
         }
 
@@ -882,6 +883,7 @@ class eZContentFunctionCollection
             $contentObject =& $contentObject->attribute( 'object' );
         if (  $contentClassID !== false and !is_numeric( $contentClassID ) )
         {
+            include_once( 'kernel/classes/ezcontentclass.php' );
             $class =& eZContentClass::fetchByIdentifier( $contentClassID );
             if ( !$class )
                 return array( 'error' => array( 'error_type' => 'kernel',
