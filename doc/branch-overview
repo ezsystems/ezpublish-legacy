@@ -25,6 +25,11 @@ stable/3.5:
 - Final revision=10454
 - Date 10-Dec-2004
 
+stable/3.6:
+- Revision=11989
+- Final revision=
+- Date 26-May-2005
+
 Various development branches:
 
 unstable/datatype-development-20030530:
