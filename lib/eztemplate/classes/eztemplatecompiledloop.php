@@ -157,6 +157,9 @@ class eZTemplateCompiledLoop
         $transformedChildren = eZTemplateCompiler::processNodeTransformationNodes( $this->Tpl, $this->Node, $children, $this->PrivateData );
         unset( $children );
 
+        $childrenNodes = array();
+        $delimiter = null;
+
         foreach ( array_keys( $transformedChildren ) as $childKey )
         {
             $child =& $transformedChildren[$childKey];
@@ -166,37 +169,48 @@ class eZTemplateCompiledLoop
                 $childFunctionName = $child[2];
                 if ( $childFunctionName == 'delimiter' )
                 {
-                    $this->NewNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$skipDelimiter )\n" .
-                                                                                 "    \$skipDelimiter = false;\n" .
-                                                                                 "else\n" .
-                                                                                 "{ // delimiter begins" );
-                    $this->NewNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
-                    foreach ( $child[1] as $delimiterChild )
-                        $this->NewNodes[] = $delimiterChild;
-                    $this->NewNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
-                    $this->NewNodes[] = eZTemplateNodeTool::createCodePieceNode( "} // delimiter ends\n" );
-
+                    // save delimiter for it to be processed below
+                    $delimiter =& $child;
                     continue;
                 }
                 elseif ( $childFunctionName == 'break' )
                 {
-                    $this->NewNodes[] = eZTemplateNodeTool::createCodePieceNode( "break;\n" );
+                    $childrenNodes[] = eZTemplateNodeTool::createCodePieceNode( "break;\n" );
                     continue;
                 }
                 elseif ( $childFunctionName == 'continue' )
                 {
-                    $this->NewNodes[] = eZTemplateNodeTool::createCodePieceNode( "continue;\n" );
+                    $childrenNodes[] = eZTemplateNodeTool::createCodePieceNode( "continue;\n" );
                     continue;
                 }
                 elseif ( $childFunctionName == 'skip' )
                 {
-                    $this->NewNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$skipDelimiter = true;\ncontinue;\n" );
+                    $childrenNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$skipDelimiter = true;\ncontinue;\n" );
                     continue;
                 }
             }
 
-            $this->NewNodes[] = $child;
+            $childrenNodes[] = $child;
         }
+
+        if ( $delimiter ) // if delimiter is specified
+        {
+            $delimiterNodes = array();
+            $delimiterNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$skipDelimiter )\n" .
+                                                                         "    \$skipDelimiter = false;\n" .
+                                                                         "else\n" .
+                                                                         "{ // delimiter begins" );
+            $delimiterNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
+            foreach ( $delimiter[1] as $delimiterChild )
+                $delimiterNodes[] = $delimiterChild;
+            $delimiterNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
+            $delimiterNodes[] = eZTemplateNodeTool::createCodePieceNode( "} // delimiter ends\n" );
+
+            // we place its code right before other loop children
+            $childrenNodes = array_merge( $delimiterNodes, $childrenNodes );
+        }
+
+        $this->NewNodes = array_merge( $this->NewNodes, $childrenNodes );
     }
 
     /*!

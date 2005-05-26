@@ -64,6 +64,8 @@ Changes from 3.6.0rc1 to 3.6.0
   (Manually merged from stable/3.5 (3.5.3) rev. 11964)
 - Fixed bug #6177: Enum type saves wrong style
   (Merged from stable/3.5 (3.5.3) rev. 11982)
+- Fixed bug: {delimiter} is incorrectly processed in the new template loop  
+  functions if it's placed not at the top of a function.  
   
 *Library:
 
