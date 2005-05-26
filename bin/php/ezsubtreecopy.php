@@ -308,11 +308,13 @@ $destinationNode = ( $dstNodeID ) ? eZContentObjectTreeNode::fetch( $dstNodeID )
 if ( !$sourceSubTreeMainNode )
 {
     $cli->error( "Subtree copy Error!\nCannot get subtree main node. Please check src-node-id argument and try again." );
+    $script->showHelp();
     $script->shutdown( 1 );
 }
 if ( !$destinationNode )
 {
     $cli->error( "Subtree copy Error!\nCannot get destination node. Please check dst-node-id argument and try again." );
+    $script->showHelp();
     $script->shutdown( 1 );
 }
 
