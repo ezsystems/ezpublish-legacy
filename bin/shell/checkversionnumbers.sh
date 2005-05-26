@@ -25,8 +25,8 @@ BRANCH_VERSION=$MAJOR"."$MINOR
 # This is the version of the package format, this must be updated only if the format has changes.
 PACKAGE_VERSION="3.5.2"
 PACKAGE_DEVELOPMENT="false"
-# Is automatically set to 'true' when $STATE contains some text
-DEVELOPMENT="true"
+# Is automatically set to 'true' when $STATE contains some text, do not modify
+DEVELOPMENT="false"
 # Whether the previous release is a development release or not.
 DEVELOPMENT_PREVIOUS="true"
 # Is only true when the release is a final release (ie. the first of the stable ones)
@@ -482,7 +482,7 @@ fi
 
 lib_check_version_development "$FIX"
 if [ $? -ne 0 ]; then
-    sed -i "s/^define( \"EZ_SDK_VERSION_DEVELOPMENT\", *[a-zA-Z][a-zA-Z]* *)/define( \"EZ_SDK_VERSION_DEVELOPMENT\", '$DEVELOPMENT' )/" lib/version.php
+    sed -i "s/^define( \"EZ_SDK_VERSION_DEVELOPMENT\", *[a-zA-Z][a-zA-Z]* *)/define( \"EZ_SDK_VERSION_DEVELOPMENT\", $DEVELOPMENT )/" lib/version.php
     lib_check_version_development ""
 fi
 
