@@ -62,6 +62,8 @@ Changes from 3.6.0rc1 to 3.6.0
   (Manually merged from stable/3.5 (3.5.3) rev. 11933)
 - Fixed bug #6569: Debug popup JS code breaks admin design.
   (Manually merged from stable/3.5 (3.5.3) rev. 11964)
+- Fixed bug #6177: Enum type saves wrong style
+  (Merged from stable/3.5 (3.5.3) rev. 11982)
   
 *Library:
 
