@@ -380,6 +380,7 @@ class eZContentFunctionCollection
         }
         else
         {
+            include_once( 'kernel/classes/ezcontentclass.php' );
             $canInstantiateClassList =& eZContentClass::canInstantiateClassList();
         }
         if ( $groupID > 0 )
@@ -812,6 +813,7 @@ class eZContentFunctionCollection
             $contentObject =& $contentObject->attribute( 'object' );
         if (  $contentClassID !== false and !is_numeric( $contentClassID ) )
         {
+            include_once( 'kernel/classes/ezcontentclass.php' );
             $class =& eZContentClass::fetchByIdentifier( $contentClassID );
             if ( !$class )
                 return array( 'error' => array( 'error_type' => 'kernel',
