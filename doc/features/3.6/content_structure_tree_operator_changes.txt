@@ -1,7 +1,17 @@
-*Title: content_structure_tree operator chages
+*Title: New parameter in 'content_structure_tree' operator.
 
 *Documentation:
-Added new parameter in content_structure_tree operator: unfold_node_id.
-Then unfold_node_id not set or equal 0, content_structure_operator works
-in the same way. Otherwise, unfold_node_id define a node among first-level
-children of rootNode (root_node_id), which must be unfolded.
+Added new boolean parameter in 'content_structure_tree' operator: $unfoldNodeID.
+<code>
+{set contentStructureTree = content_structure_tree( $rootNodeID, $classFilter,
+                                                    $maxDepth, $maxNodes,
+                                                    $sortBy, $fetchHidden,
+                                                    $unfoldNodeID ) }
+</code>
+
+If $unfoldNodeID is not set or equal 0 (false) then 'content_structure_operator'
+works as it worked before. Otherwise, $unfoldNodeID define a node which must be
+unfolded. Note what node (defined by the $unfoldNodeID) can be only first-level
+child of the root node (defined by the $rootNodeID). If node $unfoldNodeID is
+not first-level child of the root node or cannot be fetched att all then
+'content_structure_tree' operator works as it worked before too.
