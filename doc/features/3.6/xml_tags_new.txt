@@ -1,0 +1,72 @@
+*Title: Changes in XML tags.
+
+*Description:
+We introduce new tags that replace and extend functionality of an "object" tag.
+"link" tag produces a text link either directly or by pointing to an internal
+object while "embed" embeds an internal object into the rendered page.
+
+*Render as link:
+
+<link href="URL" [ class="" ] [ target="" ] [ title="" ] [ id="" ]> </link>
+
+Attributes:
+target: This option specifies the target window.
+title: Used to set the title attribute when rendering in HTML. This attribute
+is needed for accesability optimized sites.
+id: Used to set the id attribute when rendering as HTML. The ID can be used for
+anchors.
+
+*Render inline:
+
+<embed href="URL" [ view="..."  ] [ align="left|right|center" ]
+                  [ size="small|medium|large" ] [ id="" ] />
+
+Attributes:
+size: This attribute is (currently) only valid for images. Other object types
+may ignore the attribute.
+view: Choose the view that should be chosen when rendering the object.
+
+*New protocols:
+
+In order to be able to link to internal objects in href attributes we introduce
+the "ezobject" and "eznode" protocols which create a relation to that
+object/node and resolves to the full url when rendered. The ID is stored however,
+which makes it possible to perform copies of trees where links internally in the
+tree are changed.
+
+Example:
+ezobject://[id]#[anchor]
+eznode://[id]#[anchor]
+eznode://[path_string]#[anchor]
+
+Of course you can use all other protocols like http, https, ftp etc. like before
+if you want. It should also be possible to use nodepaths instead of an ID. If a
+nodepath is detected (e.g community/specs would be valid on ez.no) the page is
+translated into the corresponding node or object id. This id is then used for in
+the URL. 
+
+*Backward compatibility:
+
+The old object tag which was used to render both links and embedded objects is
+now depricated. However it is not removed to keep backward compatibility.
+
+*Implementation details:
+
+- 'href' attribute is not stored in DB. Instead we store 'node_id', 'object_id',
+  'url_id' attributes depending on used protocol. 
+
+- When you use nodepath in 'eznode://' protocol, for ex.:
+  " href='eznode://galleries/misc_flowers' ", no nodepath is stored in the DB.
+  Only node IDs are stored and we generate nodepath when displaying XML to a user.
+  So you can move or rename nodes without worrying about corresponding XML links.
+
+*Examples:
+
+To embed an image object with node id = 999 and make it link to an object with
+object id = 333 use:
+
+<link href="ezobject://333"><embed href="eznode://999" /></link>
+
+If you would like to make a text link to that node instead use:
+
+<link href="eznode://999">Nice cat</link>
