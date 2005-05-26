@@ -1,0 +1,345 @@
+Changes from 3.5.2 to 3.6.0
+
+*Kernel:
+- Rewritten login handler. Supports beeing placed in extensions, and interrupt in several stages of the login process.
+- Added support for caching of user-policy data. You can configure what you
+  want to cache with the RoleSettings/UserPolicyCache setting. enabled means
+  that all will be cached, "disabled" means that none will be cached and a
+  comma separated list of user IDs means that only those user IDs are cached.
+  (Spec #8)
+  http://ez.no/community/developer/specs/caching_user_role_data
+- Added support for static caching of content. (Spec #11)
+  http://ez.no/community/developer/specs/static_caching
+- Added support for "Always Updated" nodes when using static caching. (Spec #11)
+- Added role copy feature
+- Added DebugSettings/DebugLogOnly setting that controls whether to show
+  messages in the debug output, or only write them to the logs files.
+- Added new parameter in content_structure_tree operator unfold_node_id for support Simplified treemenu.
+- Added support for user parameters in layout/set/ URLs.
+- Fixed enhancement #5754: Fetch objects by translation
+- Updated spec #7: 'id' attribute is replaced with 'url_id' attribute in
+  <link> tag. Now 'id' attribute means xhtml id.
+- Added new module for viewing and deleting collected information
+- Added spec #15: new views for 'setup' module: cachetoolbar and settingstoolbar
+- Added propper preview generation when editing content objects.
+- Added site.ini setting DebugSetting/AlwaysLog which controls the debug types
+  to always log to files.
+- Added database transaction to the critical sections. (Spec #8)
+- Changed parameter type 'classid' used in keyword fetch function. It can be either integer or array.
+- Added: Attribute filter for content/list* and content/tree* have new
+  operators called in, not_in, like, not_like, between and not_between.
+  Filter field 'owner' is now also available.
+  (Submitted by: Paul Borgemans)
+- Added: The content upload system can now pass the upload file to a specific
+  handler which can be defined in an extension. This allows for better handling
+  of more complex file types.
+- Added: Template fetch functions 'reverse_related_objects' and
+  'reverse_related_objects_count' to get reverse related objects with relations
+  made by attributes of 'ezobjectrelationlist' and 'ezobjectrelation' types.
+  (see doc/features/3.6/advanced_related_objects.txt for details)
+- Added functionality to copy subtree.
+  (see doc/features/3.6/admin_copy_subtree.txt for details)
+- Added: Show PHP eAccelerator information in the system information page.
+  (Submitted by: Vittal Aithal)
+- Changed: eZContentBrowse::result will only return a valid integer array,
+  invalid entries are excluded.
+
+Fetch functions:
+- Added parameter with_variations to content/locale_list fetch function.
+  (Merged from stable/3.5 (3.5.3) rev. 11707)
+
+Attributes:
+- Added: 'can_move_from' attribute to eZContentObject and
+  eZContentObjectTreeNode.
+  (Merged from stable/3.5 (3.5.3) rev. 11710)
+
+ezpm.php:
+- Added: The database is checked to see if it has the same version as the
+         eZ publish installation before continuing.
+  (Merged from stable/3.5 (3.5.3) rev. 11592)
+
+eZContentObject:
+- Added: Static function exists() to check if an object exists.
+  (Submitted by: Paul Forsyth)
+
+Shop:
+- Added: Adding products to basket is now done in an operation allowing workflows
+  to be attached to the operation.
+  (Submitted by Jo Henrik Endrerud)
+- Added: Orders can now have a status related to it.
+  (See doc/features/3.6/shop_status.txt for more details)
+  (Original code submitted by Jo Henrik Endrerud)
+
+*INI settings
+- Fixed: ShowHiddenNodes now defaults to false. If you want to see hidden nodes by default
+  you will need to override this setting for that siteaccess.
+
+*WebDAV:
+- Fixed discarding of XML payload when user needs to authenticate.
+- Added configuration of which classes should always be considered as folders.
+  This is configured in webdav.ini.
+  (Manually merged from stable/3.5 (3.5.2) rev. 11307)
+  (Submitted by Xavier DUTOIT)
+
+*Setup:
+- Optimized memory usage in site creation step by logging SQL statements only
+  to file.
+
+*Search:
+- Added/Completed support for allowing empty search.
+
+*Scripts:
+- Added cronjob for hiding objects. The hide cronjob is configured in settings/content.ini.
+- Added: convertxmllinks.php script to update <link> tags in ezxml fields
+  (replacing 'id' attributes with 'url_id').
+- Added subtree copy script to copy part of node tree from one parent node to another.
+  (files: bin/php/ezsubtreecopy.php, doc/features/3.6/subtree_copy_script.txt)
+- Added ezconvertmysqldbtype.php script to convert from MyISAM tables to InnoDB tables or 
+  from InnoDB to MyISAM tables.
+- Added: updaterelatedobjectslinks.php script to add related objects links made with
+  attributes of 'ezobjectrelation' and 'ezobjectrelationlist' types to
+  'ezcontentobject_link' table.
+
+*DataType:
+
+eZ Price:
+- Added enhancement #2155: VAT selections can now be changed at object level.
+  (Submitted by: Eirik Johansen)
+
+eZInformationCollection:
+- Added some new fetch & remove functions
+
+eZDateTime:
+-  Fixed bug with missing array in function setHMS().
+
+*Bugfixes:
+- Fixed bugs in eZURI class: Original URI and user parameters were broken during URI translation.
+  $site.original_uri attribute was not listed properly.
+- Fixed bug #5849: Paginated pages only print out first page instead of page being viewed.
+- Fixed bug #6097: Treemenu doesn't update after priority changes.
+- Fixed bug #6066: Error when remove node from subtree notification.
+- Fixed bug #6117: Unable to change any states of view mode when ViewCaching is disabled.
+- Fixed bug #6124: Subtree_expiry when template compiler disabled.
+- Fixed bug #6128: Enhancement RSS - Option to feed subtree items
+- Fixed bug #6101: Wrong "day of the week" in countries with MondayFirst=yes.
+  Duplicate of #5834: MondayFirst and wrong DayName.
+- Fixed bug #4719: Enhancement RSS Feed Configuration
+- Fixed bug #6011: Recursive object inclusion. Added limitation on the 
+  level of template nesting.
+- Fixed bug #6148: Enhancement RSS: enable/disable caching
+- Fixed bug #6121: Enhancement RSS: option that link in RSS should go to main node
+- Fixed bug: Feed of RSS export was not cachied properly
+- Added missing soap.php to distribution.
+  (Merged from stable/3.5 rev. 10689)
+- Fixed bug #6169: SQL errors and general warnings when create new RSS export.
+- Fixed bug #6171:  Top level object problem. SQL errors.
+- Fixed bug #6153: RSS export: Objects from multiple sources in wrong order
+- Fixed bug #6185: Headers are not correctly rendered for XML-fields
+- Fixed: Session data was rewritten in case of HTTP request errors.
+- Fixed bug #6307: Ini arrays' definitions were erased when saving ini files.
+- Fixed bug #6211: Deleting a related object doesnt remove the related reference.
+- Fixed bug #6391: Editing of eZURL results in transaction error.
+- Fixed bug: Content cache pregeneration: The DesignSetting of the selected
+  siteaccess were not used.
+  (Submitted by: Bruce Morrison)
+- Fixed bug: Content cache pregeneration: The cache was generated for the 
+  currently logged in user instead of the anonymous user or another specific
+  user.
+  (Submitted by: Bruce Morrison)
+- Fixed bug #6038: Wrong check in template for binaryfile datatype.
+- Fixed bug #6438: Defect node fetching
+- Fixed bug #6462: Templates for RSS in the default design do not correspond.
+- Fixed bug: Notification digest handler raised fatal error.
+- Fixed bug #5583: ezimage.tpl produces bare href and target - bad XHTML.
+- Fixed bug #6514: ezobjectrelationlist does not archive old versions
+  (Merged from release/3.4.6(3.4.6) rev. 11485, also in 
+  relase/3.5.2(3.5.2) rev.11486)
+- Fixed Bug #6517: Bug Template operator: pdf(set_font, ...) ColorRGB.
+  ( Merged from stable/3.4 rev. 11501, stable/3.5 rev. 11502 )
+- Fixed bug #6516: Bug Template operator: pdf(new_page) has no newline.
+  ( Merged from stable/3.4 rev. 11504, stable/3.5 rev. 11505 )
+- Fixed bug #6519: ezobjectrelationlist creates lots of needless nodeassignments
+  (Merged from release/3.5.2(3.5.2) rev.11509, also in release/3.4.6(3.4.6) rev.11508)
+- Fixed bug #6518: Bug Template operator: pdf(set_margin, ...) line_space is broken.
+  ( Merged from stable/3.4 rev. 11511 )
+- Fixed bug #6525: ezmatrix doesn't support attribute( show ).
+  (Merged from stable/3.4 (3.4.7) rev. 11515) 
+- Fixed bug #6523: Template operator: pdf(text_box, ...) alignment and size doesn't work.
+  ( Merged from stable/3.4 rev. 11514, stable/3.5 rev. 11520 )
+- Fixed bug #6493: Template operator: pdf(filled_circle, ...) gets into a recursive 
+  loop if the "y" parameter is wrong.
+  ( Merged from stable/3.4 rev. 11525 )
+- Fixed bug #6503: Bug Template operator: pdf(footer, ...) line thickness doesn't work.
+  ( Merged from stable/3.4 rev. 11529, stable/3.5 rev. 11530 )
+- Fixed bug #6508: Cannot remove URL Attribute.
+- Fixed bug #6507: Bug Template operator: pdf( frontpage, ...) alignment parameter must be present.
+  ( Merged from stable/3.4 rev. 11533, stable/3.5 rev. 11534 )
+- Fixed bug #6036: Role issues with copy and move.
+  (Merged from stable/3.5 (3.5.3) rev. 11542)
+- Fixed bug #6538: Clean eZ publish 3.5.2 install causes kernel error 20.
+  (Merged from stable/3.4 (3.4.7) rev. 11550)
+- Fixed bug #6509: ezlupdate did not scan extensions correctly (windows version only)
+- Fixed bug #6510: ezlupdate did not work with UTF-8 templates
+- Fixed wrong handling of the option set name in ezmultioption datatype.
+  (Merged from stable/3.5 (3.5.3) rev. 11594)
+- Fixed bug #6478: 'choose' operator returns wrong value.
+- Fixed bug #6547: Event / Payment Gateway shows type "all" even when there 
+  are no extensions installed.
+- Fixed bug #6484: "Continue shopping" returns to wrong place.
+- Fixed bug #6528: Can't list or import packages from earlier versions.
+  (Merged from stable/3.5 (3.5.3) rev. 11660)
+- Fixed bug #6580: fetch-content-list: no data fetching with an array of
+  node_ids for 'parent_node_id'.
+  (Merged from stable/3.5 (3.5.3) rev. 11667)
+- Fixed bug #6593: Typo in site.ini
+- Fixed bug #6506: Shopping permissions for a guest user don't work 
+  properly.
+- Fixed bug: Paymentgatewayevent does not find all gateway extensions.
+- Fixed bug #6571: Object relations list crash.
+- Fixed bug: eZSendmailTransport always asumes safe-mode is enabled.
+  (Merged from stable/3.5 (3.5.3) rev. 11695)
+- Added: Fetching a country, locale or language list can now exclude variations.
+  (Merged from stable/3.5 (3.5.3) rev. 11704)
+- Fixed bug #5843: Invalid locale values can be added to content/translations.
+  (Merged from stable/3.4 (3.5.3) rev. 11707)
+- Fixed bug #6605: Toolbar manager always shows empty tool as first on the list.
+  (Merged from stable/3.5 (3.5.3) rev. 11725)
+- Fixed bug #6543: Disabling cache causes template override failure.
+  (Merged from stable/3.5 (3.5.3) rev. 11731)
+- Fixed bug #6435: Recognize eAccelerator (mmCache fork) as valid PHP Accelerator.
+- Fixed bug #6608: Missing koi8r alias in eZCharsetInfo.
+  (Merged from stable/3.5 (3.5.3) rev. 11739)
+- Fixed bug #6614: Wrong URL ID used for ezxmltext datatype export.
+- Fixed bug #6549: eZSYS::splitArgumentIntoElements and/or ImageMagick.
+- Fixed bug: wrong behaviour when search using objectrelation attributes
+- Fixed bug #6617: Add location problem.
+- Fixed bug #6203: Disable translations in Keywords does not act as advertised.
+  (Merged from stable/3.4 (3.4.7) rev. 11793)
+- Fixed bug: Unused keywords are never deleted.
+  (Merged from stable/3.4 (3.4.7) rev. 11793)
+- Fixed bug #6625: Relation list cache not updated.
+  (Merged from stable/3.5 (3.5.3) rev. 11797.)
+- Fixed bug #6626: Remove border attribute from image tag.
+  (Manually merged from stable/3.4 (3.4.7) rev. 11807)
+- Fixed bug #6622: user/preference/set not stored for anonymous user.
+  (Manually merged from stable/3.5 (3.5.3) rev. 11810)
+- Fixed bug #6620: Failure in eZRole::fetchRolesByLimitation.
+  (Merged from stable/3.5 (3.5.3) rev. 11814)
+- Fixed bug #6613: Fetch function user/logged_in_users returns duplicates.
+  (Merged from stable/3.5 (3.5.3) rev. 11819)
+- Fixed bug #6465: Can not unselect *all* ezselection, multi options.
+- Fixed bug #6583: 'ezboolean' datatype logic.
+  (Merged from stable/3.5 (3.5.3) rev. 11828)
+- Fixed bug: When copying an object having two or more versions, each
+  attribute in the copy gets different IDs in different versions.
+  (Merged from stable/3.4 (3.4.7) rev. 11833).
+- Fixed bug: #6400: Time attribute and DST.
+- Fixed bug: #6454: ADMIN /package/upload no option to abort.
+- Fixed bug #6064: Escaping of strings doesn't work.
+  (Merged from stable/3.5 (3.5.3) rev. 11823)
+- Fixed bug #6537: Adding locations after workflow approval skips workflow.
+- Fixed bug #5605: Unreadable text when installing an addon package
+  (Merged from stable/3.5 (3.5.3) rev. 11862)
+- Fixed eZTemplate::elementValue() so that it does not complain about  
+  absence of an array element when the element exists and its value is
+  null.
+- Fixed bug #6612: URL management displays duplicates.
+  (Merged from stable/3.5 (3.5.3) rev. 11880)
+- Fixed bug #6373: Role assignments with restriction are not applied.
+- Fixed bug #6661: Typo in soap.ini and soap.php
+  (Merged from stable/3.5 (3.5.3) rev. 11893)
+- Fixed bug #6587: Empty lines in discount group when deleting users.
+- Fixed bug #6501: It is possible to create users with the same login or
+  email that differs only in case.
+  (Merged from stable/3.4 (3.4.7) rev. 11897)
+- Fixed bug: User login and password are shown incorrectly in the user 
+  edit page. The bug occurs only on some of the supported databases.
+  (Merged from stable/3.4 (3.4.7) rev. 11900)
+- Fixed bug #6651: Embed Image caption.
+  (Also in stable/3.5 (3.5.3) rev. 11915)
+- Fixed bug #6663: Attempt to add image to an article as a related object fails
+  but uploads to gallery work fine.
+- Fixed bug #6648: Anonymous poll problem.
+- Fixed error and warning messages in setup/extensions when there is no
+  group ExtensionSettings defined in site.ini.append[.php].  
+  (Merged from stable/3.4 (3.4.7) rev. 11930)
+- Fixed bug #6676: Surpressed php warning when cache-block is empty.
+  (Merged from stable/3.5 (3.5.3) rev. 11937)
+- Fixed bug #6500: Crash when set-block and append-block is used with same 
+  variable.
+- Fixed bug #6675: Duplicate attribute identifiers.
+  (Merged from stable/3.5 (3.5.3) rev. 11947)
+- Fixed bug #6440: Role caching problem.
+  (Manually merged from stable/3.4 (3.4.7) rev. 11949)
+- Fixed bug #6677: Template variable $site.design is always set to 'standard'
+  (Merged from stable/3.4 (3.4.7) rev. 11952, also in stable/3.5 (3.5.3) rev.11953)
+- Fixed bug #6633: conditional cron notification failure.
+  (Manually merged from stable/3.5 (3.5.3) rev. 11933)
+- Fixed bug #6569: Debug popup JS code breaks admin design.
+  (Manually merged from stable/3.5 (3.5.3) rev. 11964)
+
+
+
+*Library:
+PDF:
+- Added support for GIF images.
+
+eZFile:
+- Added a function to eZLog that appends a log message to a log file.
+
+eZSys:
+- Added a function that determins if the script got executed over the web or the shell.
+
+eZDebug:
+- Added background highlighting for the queries in a transaction section.
+- Added "templates usage statistics".
+- Added support for choosing which debug levels to always log. By default it
+  will always log errors even if debug output is off.
+- When logging IP address the current hostname will be used if a remote address
+  is missing (e.g running a script).
+- Added support for display an analysis of the query that is being executed.
+  (Currently only supported for MySQL).
+
+eZURI:
+- Added transformURI function that makes valid URI (encapsulates 'ezurl' template
+  operator functionality).
+
+eZI18N:
+- Added: koi8r is now a known charset alias.
+  (Merged from stable/3.5 (3.5.3) rev. 11739)
+- Added: If a charset alias fails it will try to find the alias without any
+  dashes.
+  (Merged from stable/3.5 (3.5.3) rev. 11739)
+
+*SOAP:
+- Added authentication support.
+- Added ability to cleanup in the end of execution.
+
+*Design:
+- Added new templates for support Simplified treemenu:
+  design/standard/templates/simplified_treemenu/simplified_treemenu.tpl
+  design/standard/templates/simplified_treemenu/show_simplified_menu.tpl
+- Added thumbnail in browse mode for admin interface. Added new templates:
+  design/admin/override/templates/thumbnail/image_browse.tpl
+  design/admin/templates/content/browse_mode_list.tpl
+  design/admin/templates/content/browse_mode_thumbnail.tpl
+- Added "Override Template" popup menu when clicking on the big icon during viewing a node 
+- Added "Remove bookmark" menu item in popup menu when clicking on the icon of
+  bookmark in the "Bookmarks" list in admin interface.
+- Added "Result page" after adding notification.
+- Added spec #15:
+  'Clear cache' and 'Quick Settings' functionality templates:
+  design/standard/templates/setup/clearcache.tpl
+  design/standard/templates/setup/quicksettings.tpl
+  Admin toolbar templates:
+  design/admin/templates/toolbar/full/admin_bookmarks.tpl
+  design/admin/templates/toolbar/full/admin_clear_cache.tpl
+  design/admin/templates/toolbar/full/admin_current_user.tpl
+  design/admin/templates/toolbar/full/admin_quick_settings.tpl
+  Debug toolbar template:
+  design/standard/templates/setup/debug_toolbar.tpl
+
+*Translations:
+- Updated Polish (pol-PL) translation from pubsvn contribution.
+- Updated Italian (ita-IT) translation from:
+  http://ez.no/community/contribs/internationalization/italian_translation_for_3_6
