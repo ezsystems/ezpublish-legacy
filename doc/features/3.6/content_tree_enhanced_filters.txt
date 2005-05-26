@@ -23,27 +23,27 @@ Fetches all objects for the current user.
 {fetch( content, tree,
         hash( parent_node_id, 2,
               attribute_filter,
-              hash( 'owner', $current_user.contentobject_id ) )}
+              array( array( 'owner', '=', $current_user.contentobject_id ) ) ) )}
 
 
 Example of 'in' usage:
 Fetches bugs with priority 1 and 4.
-{fetch( content, list,
+{fetch( content, tree,
         hash( parent_node_id, 2,
               attribute_filter,
-              hash( 'bug/priority', 'in', array( 1, 4 ) ) )}
+              array( array( 'bug/priority', 'in', array( 1, 4 ) ) ) ) )}
 
 Example of 'between' usage:
 Fetches bugs with priority 2, 3 and 4.
-{fetch( content, list,
+{fetch( content, tree,
         hash( parent_node_id, 2,
               attribute_filter,
-              hash( 'bug/priority', 'between', array( 2, 4 ) ) )}
+              array( array( 'bug/priority', 'between', array( 2, 4 ) ) ) ) )}
 
 Example of 'like' usage:
 Fetches all bugs with the text 'class' in it.
-{fetch( content, list,
+{fetch( content, tree,
         hash( parent_node_id, 2,
               attribute_filter,
-              hash( 'bug/title', 'like', '*class*' ) )}
+              array( array( 'bug/title', 'like', '*class*' ) ) ) )}
 
