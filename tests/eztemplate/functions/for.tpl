@@ -4,6 +4,12 @@ i={$i}
 
 {/for}
 
+{* simple case reversed *}
+{for 5 to 1 as $i}
+i={$i}
+
+{/for}
+
 {* test {break} *}
 {for 1 to 5 as $i}
 i={$i}
