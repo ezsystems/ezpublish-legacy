@@ -40,7 +40,7 @@ include_once( 'kernel/classes/ezscript.php' );
 $cli =& eZCLI::instance();
 $script =& eZScript::instance( array( 'description' => ( "eZ publish Database Converter\n\n" .
                                                          "Convert the database to the given type\n".
-                                                         "ezconvertmysqltabletype.php [--host=VALUE --user=VALUE --database=VALUE [--password=VALUE]] [--list] [--newtype=TYPE] [--usecopy]"),
+                                                         "ezconvertmysqltabletype.php [--host=VALUE --user=VALUE --database=VALUE [--password=VALUE]] [--list] [--newtype=TYPE] [--usecopy]" ),
                                       'use-session' => false,
                                       'use-modules' => false,
                                       'use-extensions' => false ) );
@@ -58,39 +58,39 @@ $options = $script->getOptions( "[host:][user:][password:][database:][list][newt
                                                     "Make sure that you have made a BACKUP UP of YOUR DATABASE!",
                                        'usecopy' => "To convert the table we rename the original table and copy the data to the new table structure.\n".
                                                     "This conversion method is much slower and has a higher risk to corrupt the data in the database.\n".
-                                                    "However this option may circumvent the MySQL crash on the ALTER query.")
+                                                    "However this option may circumvent the MySQL crash on the ALTER query." )
                               );
 $script->initialize();
 
 $host = $options['host'];
 $user = $options['user'];
 
-$password = (is_string($options['password']) ? $options['password'] : "");
+$password = is_string( $options['password'] ) ? $options['password'] : "";
 $database = $options['database'];
 $listMode = $options['list'];
 $newType = $options["newtype"];
 $usecopy = $options["usecopy"];
 
-checkParameters($cli, $script, $options, $host, $user, $password, $database, $listMode, $newType);
-$db =& connectToDatabase($cli, $script, $host, $user, $password, $database);
+checkParameters( $cli, $script, $options, $host, $user, $password, $database, $listMode, $newType );
+$db =& connectToDatabase( $cli, $script, $host, $user, $password, $database );
 
 // If the listMode parameter is set or no newType is assigned then show the list.
-if ($listMode || !isset($newType))
+if ( $listMode || !isset( $newType ) )
 {
-    listTypes($cli, $db);
+    listTypes( $cli, $db );
 }
 else
 {
-    setNewType($cli, $db, $newType, $usecopy);
+    setNewType( $cli, $db, $newType, $usecopy );
 }
 
 /**
  *  Check whether the parameters are correctly set.
 **/
-function checkParameters($cli, $script, $options, $host, $user, $password, $database, $listMode, $newType)
+function checkParameters( $cli, $script, $options, $host, $user, $password, $database, $listMode, $newType )
 {
     // Extra parameters are not tolerated.
-    if (count ($options['arguments']) != 0)
+    if ( count ( $options['arguments'] ) != 0 )
     {
             $cli->error( "Unknown parameters" );
             $script->shutdown( 1 );
@@ -98,7 +98,7 @@ function checkParameters($cli, $script, $options, $host, $user, $password, $data
 
     // Host, User, and database are like the three musketeers.
     // Either the three parameters must be set or none.
-    if (isset($host) || isset($user) || isset($database))
+    if ( isset( $host ) || isset( $user ) || isset( $database ) )
     {
         if ( !isset( $host ) || !isset( $user ) || !isset( $database ) )
         {
@@ -108,9 +108,9 @@ function checkParameters($cli, $script, $options, $host, $user, $password, $data
     }
 
     // If the newType is set, check whether the given type exist.
-    if ($newType)
+    if ( $newType )
     {
-        switch (strtolower($newType))
+        switch ( strtolower( $newType ) )
         {
             case "innodb": break;
             case "myisam": break;
@@ -124,11 +124,11 @@ function checkParameters($cli, $script, $options, $host, $user, $password, $data
 /**
  * Connect to the database
 **/
-function &connectToDatabase($cli, $script, $host, $user, $password, $database)
+function &connectToDatabase( $cli, $script, $host, $user, $password, $database )
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
 
-    if ($user)
+    if ( $user )
     {
         $db =& eZDB::instance( "mysql",
                            array( 'server' => $host,
@@ -138,10 +138,10 @@ function &connectToDatabase($cli, $script, $host, $user, $password, $database)
     } else
     {
          $db =& eZDB::instance();
-         if ($db->databaseName() != "mysql")
+         if ( $db->databaseName() != "mysql" )
          {
             $cli->error( 'This script can only show and convert mysql databases.' );
-            $script->shutdown(1);
+            $script->shutdown( 1 );
          }
     }
 
@@ -172,86 +172,85 @@ function &connectToDatabase($cli, $script, $host, $user, $password, $database)
     return $db;
 }
 
-function getTableType ($db, $tableName)
+function getTableType( $db, $tableName )
 {
-        $res = $db->arrayQuery ("SHOW CREATE TABLE `$tableName`");
-        preg_match('/(?:TYPE|ENGINE)=(\w*)/', $res[0]["Create Table"], $grep);
-        return $grep[1];
+    $res = $db->arrayQuery( "SHOW CREATE TABLE `$tableName`" );
+    preg_match( '/(?:TYPE|ENGINE)=(\w*)/', $res[0]["Create Table"], $grep );
+    return $grep[1];
 }
 
-function listTypes($cli, $db)
+function listTypes( $cli, $db )
 {
     $tables = $db->arrayQuery( "show tables" );
 
-    $spaces = str_pad (' ', 35);
-    $cli->notice( "Table $spaces Type");
-    $cli->notice( "----- $spaces ----");
+    $spaces = str_pad ( ' ', 35 );
+    $cli->notice( "Table $spaces Type" );
+    $cli->notice( "----- $spaces ----" );
     foreach ( $tables as $table )
     {
         $tableName = current( $table );
         $tableType = getTableType( $db, $tableName );
 
-        $spaces = str_pad (' ', 40 - strlen($tableName));
-        $eZpublishTable = ( strncmp ( $tableName, "ez", 2 ) == 0 ? "" : "(non eZ publish)" );
+        $spaces = str_pad(' ', 40 - strlen( $tableName ) );
+        $eZpublishTable = strncmp( $tableName, "ez", 2 ) == 0 ? "" : "(non eZ publish)";
         $cli->notice( "$tableName $spaces $tableType $eZpublishTable" );
     }
 }
 
-function alterType($db, $tableName, $newType)
+function alterType( $db, $tableName, $newType )
 {
-     $db->query ("ALTER TABLE $tableName TYPE=$newType");
+     $db->query( "ALTER TABLE $tableName TYPE=$newType" );
 }
 
-function renameTable($db, $tableFrom, $tableTo)
+function renameTable( $db, $tableFrom, $tableTo )
 {
-    $db->query ("ALTER TABLE $tableFrom RENAME $tableTo");
+    $db->query( "ALTER TABLE $tableFrom RENAME $tableTo" );
 }
 
-function copyTable($db, $tableFrom, $tableTo)
+function copyTable( $db, $tableFrom, $tableTo )
 {
-    $db->query ("INSERT INTO $tableTo SELECT * FROM $tableFrom");
+    $db->query( "INSERT INTO $tableTo SELECT * FROM $tableFrom" );
 }
 
-function createTableStructure( $db, $tableFrom, $tableTo, $newType)
+function createTableStructure( $db, $tableFrom, $tableTo, $newType )
 {
-    $res = $db->arrayQuery ("SHOW CREATE TABLE `$tableFrom`");
+    $res = $db->arrayQuery( "SHOW CREATE TABLE `$tableFrom`" );
 
-    $pattern = array ("/TYPE=(\w*)/", "/TABLE `$tableFrom`/");
-    $replacement = array ("TYPE=$newType", "TABLE `$tableTo`");
-    $structure = preg_replace($pattern, $replacement, $res[0]["Create Table"]);
+    $pattern = array( "/TYPE=(\w*)/", "/TABLE `$tableFrom`/" );
+    $replacement = array( "TYPE=$newType", "TABLE `$tableTo`" );
+    $structure = preg_replace( $pattern, $replacement, $res[0]["Create Table"] );
 
-    $db->query ($structure);
+    $db->query( $structure );
 }
 
-
-function dropTable ($db, $tableName)
+function dropTable( $db, $tableName )
 {
-    $db->query ("DROP TABLE $tableName");
+    $db->query( "DROP TABLE $tableName" );
 }
 
-function setNewType($cli, $db, $newType, $usecopy)
+function setNewType( $cli, $db, $newType, $usecopy )
 {
     $tables = $db->arrayQuery( "show tables" );
 
     foreach ( $tables as $table )
     {
-        $tableName = current($table);
+        $tableName = current( $table );
 
         // Checking if it is necessary to convert the table.
-        if ( strncmp ( $tableName, "ez", 2 ) != 0 )
+        if ( strncmp( $tableName, "ez", 2 ) != 0 )
         {
-            $cli->notice( "Skipping table $tableName because it is not an eZ publish table");
+            $cli->notice( "Skipping table $tableName because it is not an eZ publish table" );
         }
         else if ( strcasecmp( getTableType( $db, $tableName ), $newType ) == 0 )
         {
-            $cli->notice( "Skipping table $tableName because it has already the $newType type");
+            $cli->notice( "Skipping table $tableName because it has already the $newType type" );
         }
         else
         {
             // Yes, convert.
-            $cli->notice( "Converting table $tableName ... ");
+            $cli->notice( "Converting table $tableName ... " );
 
-            if (!$usecopy)
+            if ( !$usecopy )
             {
                 // The simple one
                 alterType( $db, $tableName, $newType );
@@ -259,15 +258,13 @@ function setNewType($cli, $db, $newType, $usecopy)
             else
             {
                 renameTable( $db, $tableName, "eztemp__$tableName" );
-                createTableStructure( $db, "eztemp__$tableName", $tableName, $newType);
-                copyTable ($db, "eztemp__$tableName", $tableName);
-                dropTable ($db, "eztemp__$tableName");
+                createTableStructure( $db, "eztemp__$tableName", $tableName, $newType );
+                copyTable( $db, "eztemp__$tableName", $tableName );
+                dropTable( $db, "eztemp__$tableName" );
             }
-
         }
     }
 }
-
 
 $script->shutdown();
 ?>
