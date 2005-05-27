@@ -1,19 +1,19 @@
-* Title: Automatic loading of additional popupmenu items
+*Title: Automatic loading of additional popupmenu items
 
 *Documentation:
 To load additional popup menu items used in the eZ publish
-administration interface you can use the following settings in 
+administration interface you can use the following settings in
 admininterface.ini:
 
 [AdditionalMenuSettings]
 ContextMenuTemplateArray[]=node/oocontextmenu.tpl
 SubitemsContextMenuTemplateArray[]=node/oosubitemscontextmenu.tpl
 
-The setting ContextMenuTemplateArray and SubitemsContextMenuTemplateArray 
+The setting ContextMenuTemplateArray and SubitemsContextMenuTemplateArray
 is used to load templates for the actual HTML defenition of the menu items.
 Examples follows.
 
-contextmenu.tpl:
+oocontextmenu.tpl:
     <hr/>
     <a id="menu-export-ooo" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )"
        onclick="ezpopmenu_submitForm( 'menu-form-export-ooo' ); return false;">{"Export OpenOffice.org"|i18n("design/admin/popupmenu")}</a>
@@ -25,15 +25,15 @@ contextmenu.tpl:
   <input type="hidden" name="CurrentURL" value="%currentURL%" />
 </form>
 
-subitemscontextmenu.tpl:
+oosubitemscontextmenu.tpl:
     <hr/>
     <a id="menu-export-ooo" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )"
        onclick="ezpopmenu_submitForm( 'menu-form-export-ooo' ); return false;">{"Export OpenOffice.org"|i18n("design/admin/popupmenu")}</a>
 
-I addition:
+In addition:
 SubMenuTemplateArray[] you can specify submenus to your menu-elements:
 
-Example:
+*Example:
 
 admininterface.ini:
 ContextMenuTemplateArray[]=createhereitem.tpl
