@@ -237,7 +237,7 @@ class eZMediaType extends eZDataType
             $media->setAttribute( "is_loop", false );
 
         $mediaFilePostVarName = $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" );
-        if ( $http->hasPostVariable( $mediaFilePostVarName ) )
+        if ( eZHTTPFile::canFetch( $mediaFilePostVarName ) )
             $mediaFile =& eZHTTPFile::fetch( $mediaFilePostVarName );
         else
             $mediaFile = null;
