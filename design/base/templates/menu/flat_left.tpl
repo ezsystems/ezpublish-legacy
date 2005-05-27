@@ -4,7 +4,7 @@
 <h3 class="hide">{"Left menu"|i18n("design/base")}</h3>
 
 {let docs=treemenu( $module_result.path,
-                    $module_result.node_id,
+                    is_set( $module_result.node_id )|choose( 2, $module_result.node_id ),
                     ezini( 'MenuContentSettings', 'LeftIdentifierList', 'menu.ini' ),
                     0, 5 )
                     depth=1
