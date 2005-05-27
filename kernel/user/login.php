@@ -130,7 +130,6 @@ if ( $Module->isCurrentAction( 'Login' ) and
     {
         $http->removeSessionVariable( 'eZUserLoggedInID' );
         $http->setSessionVariable( 'eZUserLoggedInID', $userID );
-        eZDebug::writeDebug( $http->sessionVariable( 'eZUserLoggedInID' ), 'userid' );
         return $Module->redirectTo( $redirectionURI );
     }
 }
