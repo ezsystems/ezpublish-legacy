@@ -70,6 +70,8 @@ Changes from 3.6.0rc1 to 3.6.0
   attribute is of time eztime and value of that attribute is not set.
 - Fixed bug: Cannot upload files to media datatype.
   (Merged from stable/3.5 (3.5.3) rev. 12028)
+- Fixed bug: Current design settings were not considered when clearing viewcache.
+  (Merged from stable/3.5 (3.5.3) rev. 12032)
   
 *Library:
 
