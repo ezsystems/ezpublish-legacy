@@ -28,6 +28,18 @@ i={$i}
 {/foreach}
 
 =====================================
+{* test delimiter/continue/skip/sequence, delimiter at bottom *}
+{foreach $array as $i sequence $seq as $color}
+{if eq( $i, 'c' )}
+{skip}
+{elseif eq( $i, 'e' )}
+{continue}
+{/if}
+{$i}
+{delimiter} :: {/delimiter}
+{/foreach}
+
+=====================================
 {* test max/offset *}
 {foreach $array as $i max 3 offset 1}
 {$i}
