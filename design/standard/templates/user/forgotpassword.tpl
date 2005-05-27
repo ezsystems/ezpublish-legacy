@@ -31,7 +31,7 @@
       <div class="block">
       <label for="email">{"E-mail"|i18n('design/standard/user/forgotpassword')}:</label>
       <div class="labelbreak"></div>
-      <input class="halfbox" type="text" name="UserEmail" size="40" value="{$wrong_email}" />
+      <input class="halfbox" type="text" name="UserEmail" size="40" value="{$wrong_email|wash}" />
       </div>
 
       <div class="buttonblock">
