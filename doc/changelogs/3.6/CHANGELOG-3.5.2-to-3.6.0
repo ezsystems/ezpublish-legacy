@@ -280,7 +280,7 @@ eZDateTime:
 - Fixed bug #6177: Enum type saves wrong style
   (Merged from stable/3.5 (3.5.3) rev. 11982)
 - Fixed bug #6683: node_id not set in flat_left.tpl in every context.
-  (Merged from trunk (3.6.0) rev. 12003)
+  (Merged from trunk (3.7.0alpha1) rev. 12003)
 
 *Library:
 PDF:
