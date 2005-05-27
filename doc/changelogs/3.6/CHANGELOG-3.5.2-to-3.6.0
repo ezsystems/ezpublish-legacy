@@ -281,6 +281,8 @@ eZDateTime:
   (Merged from stable/3.5 (3.5.3) rev. 11982)
 - Fixed bug #6683: node_id not set in flat_left.tpl in every context.
   (Merged from trunk (3.7.0alpha1) rev. 12003)
+- Fixed bug: Cannot upload files to media datatype.
+  (Merged from stable/3.5 (3.5.3) rev. 12028)
 
 *Library:
 PDF:
