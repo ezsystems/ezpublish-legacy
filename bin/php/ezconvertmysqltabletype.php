@@ -49,15 +49,15 @@ $script->startup();
 
 $options = $script->getOptions( "[host:][user:][password:][database:][list][newtype:][usecopy]",
                                 "",
-                                array( 
+                                array(
                                        'list' => "List the table types",
                                        'host' => "Connect to host database",
                                        'user' => "User for login to the database",
                                        'password' => "Password to use when connecting to the database",
                                        'newtype' => "Convert the database to the given type.\nType can either be: myisam or innodb\n".
-                                                    "Make sure that you have made a BACKUP UP of YOUR DATABASE!", 
+                                                    "Make sure that you have made a BACKUP UP of YOUR DATABASE!",
                                        'usecopy' => "To convert the table we rename the original table and copy the data to the new table structure.\n".
-                                                    "This conversion method is much slower and has a higher risk to corrupt the data in the database.\n". 
+                                                    "This conversion method is much slower and has a higher risk to corrupt the data in the database.\n".
                                                     "However this option may circumvent the MySQL crash on the ALTER query.")
                               );
 $script->initialize();
@@ -68,7 +68,7 @@ $user = $options['user'];
 $password = (is_string($options['password']) ? $options['password'] : "");
 $database = $options['database'];
 $listMode = $options['list'];
-$newType = $options["newtype"]; 
+$newType = $options["newtype"];
 $usecopy = $options["usecopy"];
 
 checkParameters($cli, $script, $options, $host, $user, $password, $database, $listMode, $newType);
@@ -79,25 +79,25 @@ if ($listMode || !isset($newType))
 {
     listTypes($cli, $db);
 }
-else 
+else
 {
     setNewType($cli, $db, $newType, $usecopy);
 }
 
 /**
- *  Check whether the parameters are correctly set.  
+ *  Check whether the parameters are correctly set.
 **/
 function checkParameters($cli, $script, $options, $host, $user, $password, $database, $listMode, $newType)
 {
-    // Extra parameters are not tolerated. 
-    if (count ($options['arguments']) != 0) 
+    // Extra parameters are not tolerated.
+    if (count ($options['arguments']) != 0)
     {
             $cli->error( "Unknown parameters" );
             $script->shutdown( 1 );
     }
 
     // Host, User, and database are like the three musketeers.
-    // Either the three parameters must be set or none. 
+    // Either the three parameters must be set or none.
     if (isset($host) || isset($user) || isset($database))
     {
         if ( !isset( $host ) || !isset( $user ) || !isset( $database ) )
@@ -127,7 +127,7 @@ function checkParameters($cli, $script, $options, $host, $user, $password, $data
 function &connectToDatabase($cli, $script, $host, $user, $password, $database)
 {
     include_once( 'lib/ezdb/classes/ezdb.php' );
-    
+
     if ($user)
     {
         $db =& eZDB::instance( "mysql",
@@ -144,7 +144,7 @@ function &connectToDatabase($cli, $script, $host, $user, $password, $database)
             $script->shutdown(1);
          }
     }
-    
+
     if ( !is_object( $db ) )
     {
         $cli->error( 'Could not initialize database:' );
@@ -175,7 +175,7 @@ function &connectToDatabase($cli, $script, $host, $user, $password, $database)
 function getTableType ($db, $tableName)
 {
         $res = $db->arrayQuery ("SHOW CREATE TABLE `$tableName`");
-        preg_match('/TYPE=(\w*)/', $res[0]["Create Table"], $grep);
+        preg_match('/(?:TYPE|ENGINE)=(\w*)/', $res[0]["Create Table"], $grep);
         return $grep[1];
 }
 
@@ -263,7 +263,7 @@ function setNewType($cli, $db, $newType, $usecopy)
                 copyTable ($db, "eztemp__$tableName", $tableName);
                 dropTable ($db, "eztemp__$tableName");
             }
-            
+
         }
     }
 }
