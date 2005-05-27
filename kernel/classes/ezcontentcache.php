@@ -343,6 +343,17 @@ class eZContentCache
         {
             $siteDesigns = $contentINI->variable( 'VersionView', 'AvailableSiteDesignList' );
         }
+        // Additional designs from the currently used ones
+        // this helps reduce errors when the AvailableSiteDesignList does not
+        // contain a new design, e.g. by forgetting the setting.
+        $standardDesign = $ini->variable( 'DesignSettings', 'StandardDesign' );
+        $siteDesign = $ini->variable( 'DesignSettings', 'SiteDesign' );
+        $additionalSiteDesign = $ini->variable( 'DesignSettings', 'AdditionalSiteDesignList' );
+        $siteDesigns = array_merge( $siteDesigns,
+                                    array( $standardDesign, $siteDesign ),
+                                    $additionalSiteDesign );
+
+        $siteDesigns = array_unique( $siteDesigns );
 
         foreach ( $siteDesigns as $siteDesign )
         {
