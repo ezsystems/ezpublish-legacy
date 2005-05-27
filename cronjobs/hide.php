@@ -81,7 +81,7 @@ foreach( $rootNodeIDList as $nodeID )
 
             $dateAttribute =& $dataMap[$dateAttributeName];
 
-            if ( is_null( $dateAttribute ) )
+            if ( is_null( $dateAttribute ) || !$dateAttribute->hasContent() )
             {
                 continue;
             }

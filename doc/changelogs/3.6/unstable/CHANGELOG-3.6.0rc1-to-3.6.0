@@ -66,6 +66,8 @@ Changes from 3.6.0rc1 to 3.6.0
   (Merged from stable/3.5 (3.5.3) rev. 11982)
 - Fixed bug: {delimiter} is incorrectly processed in the new template loop  
   functions if it's placed not at the top of a function.  
+- Fixed fatal error in the hide cronjob that happens when the hide
+  attribute is of time eztime and value of that attribute is not set.
   
 *Library:
 
