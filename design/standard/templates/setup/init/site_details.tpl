@@ -24,7 +24,7 @@
     <blockquote class="error">
         <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
         <p>
-            {"The access values must not be named 'admin' or 'user' and each values must be unique. Please change invalid values on site indicated by *"|i18n("design/standard/setup/init")}
+            {"The access values must not be named 'admin' or 'user' and each value must be unique. Please change invalid values on site indicated by *"|i18n("design/standard/setup/init")}
         </p>
     </blockquote>
 {/section}
