@@ -1,0 +1,29 @@
+*Title: Order archive
+
+*Documentation:
+This feature replaces the RemoveButton for the ArchiveButton in the order list
+from the webshop. The archive functionality is added. The RemoveButton is
+replaced because it gave the following problems: 
+
+1. Removed IDs are reused. See bug number: 6623.
+2. Payment gateways (Paynet) links to the deleted orders.
+3. There is no way to keep the order list compact and clean, without deleting 
+   orders.
+
+The archive is the place where old processed or irrelevant orders should be
+stored. The order list will be more compact and clean.
+
+The ezorder table in the database has one new field: 
+"is_archived int not null default 0". 
+
+Set to 0 means that the order is not in the archive. If set to 1 the order is
+archived. 
+
+New templates:
+shop/archivelist.tpl    - Show the archive overview. This is implemented for
+                          the admin and standard design.
+
+New module views:
+shop/archivelist.php    - Overview of all archived orders.
+shop/archiveorder.php   - Places an order to the archive (set archive state).
+shop/unarchiveorder.php - Moves an order back to the order list (unarchive). 

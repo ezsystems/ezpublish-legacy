@@ -1,0 +1,63 @@
+*Title: Database transactions
+
+*Documentation:
+This feature adds transactions to the database in order to ensure that
+integrity of a database is maintained. MySQL needs transaction safe-tables to 
+support transactions. Therefore the MySQL table type is switched to InnoDB.
+PostgreSQL and Oracle have already transaction safe-tables by default.
+
+In the kernel and library code of eZ Publish, groups of queries that
+modify the data are encapsulated in a transaction. Some examples of 
+queries that modifies the data are: insert, replace, update, and delete queries.
+A transaction starts with the $db->begin() query, and ends with the
+$db->commit() query. 
+
+The following code demonstrates how transactions are implemented in the
+kernel:
+
+
+The eZRole class has the following function:
+function eZRole::remove ( ... )
+{
+	// ...
+	$db =& eZDB::instance();
+    $db->begin();
+    foreach ( $role->attribute( 'policies' ) as $policy )
+    {
+        $policy->remove();
+    }
+    $db->query( "DELETE FROM ezrole WHERE id='$roleID'" );
+    $db->query( "DELETE FROM ezuser_role WHERE role_id = '$roleID'" );
+    $db->commit();
+}
+
+The transaction encapsulates the policy->remove() function and two DELETE
+queries. Policy->remove() is encapsulated because this function changes the
+data in the database as well. 
+
+The remove function in eZPolicy is as follows:
+
+function eZPolicy::remove ( ... )
+{
+	// ...
+    $db =& eZDB::instance();
+    $db->begin();
+    foreach ( $policy->attribute( 'limitations' ) as $limitation )
+    {
+        $limitation->remove();
+    }
+    $db->query( "DELETE FROM ezpolicy WHERE id='$delID'" );
+    $db->commit();
+}
+
+This function calls the remove function from eZPolicyLimitation and has one
+DELETE query. 
+
+So, the transactions can be (and should be) nested. An internal counter keeps 
+track of the number of begin() and matching commit() queries. The transaction
+is performed on the database as soon as the last commit() query is called. 
+
+In order to know which functions modify the database, and therefore should be
+encapsulated in the transaction, is a comment added above the function itself.
+The comment: "Transaction unsafe" is set above each function that modifies
+data in the database.
