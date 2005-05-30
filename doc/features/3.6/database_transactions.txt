@@ -58,6 +58,7 @@ track of the number of begin() and matching commit() queries. The transaction
 is performed on the database as soon as the last commit() query is called. 
 
 In order to know which functions modify the database, and therefore should be
-encapsulated in the transaction, is a comment added above the function itself.
-The comment: "Transaction unsafe" is set above each function that modifies
-data in the database.
+encapsulated in a transaction, a comment "Transaction unsafe" is added to the
+function documentation. If your code (both kernel and extension code) calls 
+several "Transaction unsafe" methods that change data in a way that should
+be atomic you must enclose the code within begin() and end() calls.
