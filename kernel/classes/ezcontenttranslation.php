@@ -165,26 +165,25 @@ class eZContentTranslation extends eZPersistentObject
         include_once( 'kernel/classes/ezcontentobject.php' );
         $defaultLanguage = eZContentObject::defaultLanguage();
         $newLanguage = $this->attribute( 'locale' );
-        $db =& eZDB::instance();
-        $existingNamesArray = $db->arrayQuery( "SELECT *
-                                                FROM ezcontentobject_name
-                                                WHERE content_translation = '$defaultLanguage'  " );
-        $nameCount =  count( $existingNamesArray );
-        for ( $i=0;$i<$nameCount;++$i )
-        {
-            if ( $existingNamesArray[$i]['content_translation'] == $newLanguage )
-                continue;
 
-            $db->query( "INSERT INTO ezcontentobject_name(contentobject_id,
-                                                          name,
-                                                          content_version,
-                                                          content_translation,
-                                                          real_translation)
-                                                  VALUES( '" . $existingNamesArray[$i]['contentobject_id'] . "',
-                                                          '" .$existingNamesArray[$i]['name'] . "',
-                                                          '" .$existingNamesArray[$i]['content_version'] . "',
-                                                          '$newLanguage',
-                                                          '$defaultLanguage' )" );
+        if ( $defaultLanguage != $newLanguage )
+        {
+            $db =& eZDB::instance();
+            $db->query( "INSERT INTO ezcontentobject_name( contentobject_id,
+                                                           name,
+                                                           content_version,
+                                                           content_translation,
+                                                           real_translation )
+
+                         SELECT con.contentobject_id,
+                                con.name,
+                                con.content_version,
+                                '$newLanguage',
+                                '$defaultLanguage'
+
+                         FROM   ezcontentobject_name AS con
+
+                         WHERE  con.content_translation = '$defaultLanguage'");
         }
     }
 
