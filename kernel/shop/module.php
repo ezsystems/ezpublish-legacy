@@ -90,12 +90,34 @@ $ViewList["orderlist"] = array(
     "unordered_params" => array( "offset" => "Offset" ),
     "params" => array(  ) );
 
+$ViewList["archivelist"] = array(
+    "functions" => array( 'adminstrate' ),
+    "script" => "archivelist.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
+    "unordered_params" => array( "offset" => "Offset" ),
+    "params" => array(  ) );
+
 $ViewList["removeorder"] = array(
     "functions" => array( 'adminstrate' ),
     "script" => "removeorder.php",
     'ui_context' => 'edit',
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array() );
+
+$ViewList["archiveorder"] = array(
+    "functions" => array( 'adminstrate' ),
+    "script" => "archiveorder.php",
+    'ui_context' => 'edit',
+    "default_navigation_part" => 'ezshopnavigationpart',
+    "params" => array() );
+
+$ViewList["unarchiveorder"] = array(
+    "functions" => array( 'adminstrate' ),
+    "script" => "unarchiveorder.php",
+    'ui_context' => 'edit',
+    "default_navigation_part" => 'ezshopnavigationpart',
+    "params" => array() );
+
 
 $ViewList["customerlist"] = array(
     "functions" => array( 'adminstrate' ),

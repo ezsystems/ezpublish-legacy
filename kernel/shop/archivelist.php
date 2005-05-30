@@ -43,12 +43,12 @@ $module =& $Params['Module'];
 $tpl =& templateInit();
 
 $offset = $Params['Offset'];
-$limit = 15;
+$limit = 50;
 
 
-if( eZPreferences::value( 'admin_orderlist_sortfield' ) )
+if( eZPreferences::value( 'admin_archivelist_sortfield' ) )
 {
-    $sortField = eZPreferences::value( 'admin_orderlist_sortfield' );
+    $sortField = eZPreferences::value( 'admin_archivelist_sortfield' );
 }
 
 if ( !isset( $sortField ) || ( ( $sortField != 'created' ) && ( $sortField!= 'user_name' ) ) )
@@ -56,9 +56,9 @@ if ( !isset( $sortField ) || ( ( $sortField != 'created' ) && ( $sortField!= 'us
     $sortField = 'created';
 }
 
-if( eZPreferences::value( 'admin_orderlist_sortorder' ) )
+if( eZPreferences::value( 'admin_archivelist_sortorder' ) )
 {
-    $sortOrder = eZPreferences::value( 'admin_orderlist_sortorder' );
+    $sortOrder = eZPreferences::value( 'admin_archivelist_sortorder' );
 }
 
 if ( !isset( $sortOrder ) || ( ( $sortOrder != 'asc' ) && ( $sortOrder!= 'desc' ) ) )
@@ -68,27 +68,8 @@ if ( !isset( $sortOrder ) || ( ( $sortOrder != 'asc' ) && ( $sortOrder!= 'desc' 
 
 $http =& eZHttpTool::instance();
 
-// The RemoveButton is not present in the orderlist, but is here for backwards
-// compatibility. Simply replace the ArchiveButton for the RemoveButton will
-// do the trick.
-//
-// Note that removing order can cause wrong order numbers (order_nr are
-// reused).  See eZOrder::activate.
-if ( $http->hasPostVariable( 'RemoveButton' ) )
-{
-    if ( $http->hasPostVariable( 'OrderIDArray' ) )
-    {
-        $orderIDArray =& $http->postVariable( 'OrderIDArray' );
-        if ( $orderIDArray !== null )
-        {
-            $http->setSessionVariable( 'DeleteOrderIDArray', $orderIDArray );
-            $Module->redirectTo( $Module->functionURI( 'removeorder' ) . '/' );
-        }
-    }
-}
-
-// Archive options.
-if ( $http->hasPostVariable( 'ArchiveButton' ) )
+// Unarchive options.
+if ( $http->hasPostVariable( 'UnarchiveButton' ) )
 {
     if ( $http->hasPostVariable( 'OrderIDArray' ) )
     {
@@ -96,32 +77,16 @@ if ( $http->hasPostVariable( 'ArchiveButton' ) )
         if ( $orderIDArray !== null )
         {
             $http->setSessionVariable( 'OrderIDArray', $orderIDArray );
-            $Module->redirectTo( $Module->functionURI( 'archiveorder' ) . '/' );
+            $Module->redirectTo( $Module->functionURI( 'unarchiveorder' ) . '/' );
         }
     }
 }
 
-if ( $http->hasPostVariable( 'SaveOrderStatusButton' ) )
-{
-    if ( $http->hasPostVariable( 'StatusList' ) )
-    {
-        foreach ( $http->postVariable( 'StatusList' ) as $orderID => $statusID )
-        {
-            $order = eZOrder::fetch( $orderID );
-            $access = $order->canModifyStatus( $statusID );
-            if ( $access and $order->attribute( 'status_id' ) != $statusID )
-            {
-                $order->modifyStatus( $statusID );
-            }
-        }
-    }
-}
+$archiveArray =& eZOrder::active( true, $offset, $limit, $sortField, $sortOrder, SHOW_ARCHIVED_ORDERS );
+$archiveCount = eZOrder::activeCount( $offset, $limit, SHOW_ARCHIVED_ORDERS );
 
-$orderArray =& eZOrder::active( true, $offset, $limit, $sortField, $sortOrder );
-$orderCount = eZOrder::activeCount( $offset, $limit );
-
-$tpl->setVariable( 'order_list', $orderArray );
-$tpl->setVariable( 'order_list_count', $orderCount );
+$tpl->setVariable( 'archive_list', $archiveArray );
+$tpl->setVariable( 'archive_list_count', $archiveCount );
 $tpl->setVariable( 'limit', $limit );
 
 $viewParameters = array( 'offset' => $offset );
@@ -136,5 +101,5 @@ $path[] = array( 'text' => ezi18n( 'kernel/shop', 'Order list' ),
 $Result = array();
 $Result['path'] =& $path;
 
-$Result['content'] =& $tpl->fetch( 'design:shop/orderlist.tpl' );
+$Result['content'] =& $tpl->fetch( 'design:shop/archivelist.tpl' );
 ?>

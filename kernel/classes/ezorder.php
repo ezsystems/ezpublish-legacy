@@ -51,6 +51,11 @@ include_once( "kernel/classes/ezuserdiscountrule.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 include_once( "kernel/classes/ezorderitem.php" );
 
+
+define ( "SHOW_NORMAL_ORDERS",   0 );
+define ( "SHOW_ARCHIVED_ORDERS", 1 );
+define ( "SHOW_ALL_ORDERS",      2 );
+
 class eZOrder extends eZPersistentObject
 {
     /*!
@@ -116,6 +121,10 @@ class eZOrder extends eZPersistentObject
                                                                      'default' => 0,
                                                                      'required' => true ),
                                          "status_modifier_id" => array( 'name' => "StatusModifierID",
+                                                                        'datatype' => 'integer',
+                                                                        'default' => 0,
+                                                                        'required' => true ),
+                                         "is_archived" => array( 'name' => "isArchived",
                                                                         'datatype' => 'integer',
                                                                         'default' => 0,
                                                                         'required' => true ) ),
@@ -250,10 +259,24 @@ class eZOrder extends eZPersistentObject
                                                     $asObject );
     }
 
+    function getShowOrdersQuery( $show, $table = null )
+    {
+        $table = ( is_null( $table ) ? "" : $table . "." );
+
+        switch( $show )
+        {
+            case SHOW_NORMAL_ORDERS   : return $table."is_archived = '0'"; break;
+            case SHOW_ARCHIVED_ORDERS : return $table."is_archived = '1'"; break;
+            case SHOW_ALL_ORDERS      : 
+            default                   : return $table."is_archived IN (0, 1)"; break;
+        }
+    }
+    
+
     /*!
      \return the active orders
     */
-    function &active( $asObject = true, $offset, $limit, $sortField = "created", $sortOrder = "asc" )
+    function &active( $asObject = true, $offset, $limit, $sortField = "created", $sortOrder = "asc", $show = SHOW_NORMAL_ORDERS )
     {
         if ( $sortField == "user_name" )
         {
@@ -268,8 +291,9 @@ class eZOrder extends eZPersistentObject
                             ezorder,
                             ezcontentobject
                       WHERE
-                            ezorder.is_temporary = 0 AND
-                            ezcontentobject.id = ezorder.user_id
+                            ".eZOrder::getShowOrdersQuery( $show, "ezorder" )." AND
+                            ezorder.is_temporary = '0' AND
+                            ezcontentobject.id = ezorder.user_id 
                       ORDER BY ezcontentobject.name $sortOrder";
             $orderArray =& $db->arrayQuery( $query, $db_params );
             if ( $asObject )
@@ -287,23 +311,29 @@ class eZOrder extends eZPersistentObject
         }
         else
         {
+            $where['is_temporary'] = 0;
+            if ( $show != SHOW_ALL_ORDERS ) $where['is_archived'] = $show;
+
             return eZPersistentObject::fetchObjectList( eZOrder::definition(),
-                                                        null, array( 'is_temporary' => 0 ),
-                                                        array( $sortField => $sortOrder ),
-                                                        array( 'offset' => $offset,
-                                                               'length' => $limit ),
-                                                        $asObject );
+            null, $where , array( $sortField => $sortOrder ),
+                           array( 'offset' => $offset,
+                                  'length' => $limit ), $asObject );
         }
     }
 
     /*!
      \return the number of active orders
     */
-    function &activeCount()
+    function &activeCount( $offset, $limit, $show = SHOW_NORMAL_ORDERS )
     {
         $db =& eZDB::instance();
 
-        $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezorder WHERE is_temporary='0'" );
+
+        $db_params["offset"] = $offset;
+        $db_params["limit"] = $limit;
+        $query = "SELECT count( * ) AS count FROM ezorder WHERE ".eZOrder::getShowOrdersQuery( $show )." AND is_temporary='0'";
+
+        $countArray = $db->arrayQuery( $query, $db_params );
         return $countArray[0]['count'];
     }
 
@@ -430,6 +460,7 @@ class eZOrder extends eZPersistentObject
         {
             $orderArray = $db->arrayQuery( "SELECT ezorder.* FROM ezorder
                                             WHERE user_id='$CustomID'
+                                              AND is_archived='0'
                                               AND is_temporary='0'
                                          ORDER BY order_nr" );
         }
@@ -437,6 +468,7 @@ class eZOrder extends eZPersistentObject
         {
             $orderArray = $db->arrayQuery( "SELECT ezorder.* FROM ezorder
                                             WHERE user_id='$CustomID'
+                                              AND is_archived='0'
                                               AND is_temporary='0'
                                               AND email='$Email'
                                          ORDER BY order_nr" );
@@ -462,6 +494,7 @@ class eZOrder extends eZPersistentObject
             $productArray = $db->arrayQuery(  "SELECT ezproductcollection_item.*, ignore_vat FROM ezorder, ezproductcollection_item
                                                 WHERE ezproductcollection_item.productcollection_id=ezorder.productcollection_id
                                                   AND user_id='$CustomID'
+                                                  AND is_archived='0'
                                                   AND is_temporary='0'
                                              ORDER BY contentobject_id" );
         }
@@ -470,6 +503,7 @@ class eZOrder extends eZPersistentObject
             $productArray = $db->arrayQuery(  "SELECT ezproductcollection_item.*, ignore_vat FROM ezorder, ezproductcollection_item
                                                 WHERE ezproductcollection_item.productcollection_id=ezorder.productcollection_id
                                                   AND user_id='$CustomID'
+                                                  AND is_archived='0'
                                                   AND is_temporary='0'
                                                   AND email='$Email'
                                              ORDER BY contentobject_id" );
@@ -550,7 +584,7 @@ class eZOrder extends eZPersistentObject
     }
 
     /*!
-     \returns number of customs.
+     \returns number of customers.
     */
     function &customerCount( )
     {
@@ -561,7 +595,7 @@ class eZOrder extends eZPersistentObject
     }
 
     /*!
-     \return the list customs.
+     \return the list customers.
     */
     function &customerList( $offset, $limit )
     {
@@ -1283,7 +1317,24 @@ class eZOrder extends eZPersistentObject
     }
 
     /*!
-     Creates a real order from the temporary state
+     Creates a real order from the temporary state.
+
+     The ezorder has an internal (id) and an external (order_nr) ID.
+     The ID will be set as soon as a customer (who buys a product), approves the account information. 
+     A row is added to the ezorder table (the ID (auto_increment) is generated). 
+     This ID is needed for extensions, such as PaynetTerminal (The ID is given.)
+
+     The active (confirmed and paid) orders have an order_nr. 
+     This order_nr is generated as soon as the order is processed. 
+     
+     We use order_nr instead of the id to (externally) rever to an order:
+     - We don't have gaps in the order_nr's.
+     - The lowest order_nr goes to the order which is accepted first. (Not started first.)
+     
+
+     Another solution would be to use an temporary_order table, instead of adding two IDs. 
+     I think (rb) this is a cleaner solution.
+     
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
@@ -1338,6 +1389,30 @@ class eZOrder extends eZPersistentObject
 
     /*!
      \static
+     Archive an order.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
+    */
+    function archiveOrder( $orderID )
+    {
+        $db =& eZDB::instance();
+        $db->query( "UPDATE ezorder SET is_archived='1' WHERE id='$orderID' " );
+    }
+    
+    /*!
+     \static
+     Unarchive an order, make it 'normal' again.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
+    */
+    function unArchiveOrder( $orderID )
+    {
+        $db =& eZDB::instance();
+        $db->query( "UPDATE ezorder SET is_archived='0' WHERE id='$orderID' " );
+    }
+ 
+    /*!
+     \static
      Removes all orders from the database.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
@@ -1368,6 +1443,7 @@ class eZOrder extends eZPersistentObject
     /// \privatesection
     /// The cached status object or \c null if not cached yet.
     var $Status;
+
 }
 
 ?>
