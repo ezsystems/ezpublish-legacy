@@ -12,21 +12,21 @@
 <table>
 <tr>
     <td>{"First name"|i18n("design/standard/shop")}</td>
-    <td><input type="text" name="FirstName" size="20" value="{$first_name}" /></td>
+    <td><input type="text" name="FirstName" size="20" value="{$first_name|wash}" /></td>
 </tr>
 <tr>
     <td>{"Last name"|i18n("design/standard/shop")}</td>
-    <td><input type="text" name="LastName" size="20" value="{$last_name}" /></td>
+    <td><input type="text" name="LastName" size="20" value="{$last_name|wash}" /></td>
 <tr>
     <td>{"E-Mail"|i18n("design/standard/shop")}</td>
-    <td><input type="text" name="EMail" size="20" value="{$email}" /></td>
+    <td><input type="text" name="EMail" size="20" value="{$email|wash}" /></td>
 </tr>
 <tr>
     <td colspan="2">{"Address"|i18n("design/standard/shop")}</td>
 </tr>
 <tr>
     <td colspan="2">
-    <textarea name="Address" cols="50" rows="10" >{$address}</textarea>
+    <textarea name="Address" cols="50" rows="10" >{$address|wash}</textarea>
     </td>
 </tr>
 </table>
