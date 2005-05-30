@@ -312,10 +312,14 @@ class eZTSTranslator extends eZTranslatorHandler
     /*!
      \static
      Validates the DOM tree \a $tree and returns true if it is correct.
-     \warning There's no validation done yet, for it returns \c true for all DOM trees.
+     \warning There's no validation done yet. It checks if \a $tree is object only.
+     In all other cases it returns \c true for all DOM trees.
     */
     function validateDOMTree( &$tree )
     {
+        if ( !is_object( $tree ) )
+            return false;
+
         return true;
 /*        $xmlSchema = '<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 xmlns="http://www.w3.org/2001/XMLSchema/default">

@@ -16,7 +16,9 @@ Changes from 3.6.0 to 3.7.0alpha1
 
 *Bugfixes:
 - Fixed bug #6683: node_id not set in flat_left.tpl in every context.
-- Fixed bug #6623: Shop reaffect the numbers of deleted orders.
+- Fixed bug #6685: Error when American English selected as primary language
+  (Merged from stable/3.4 (3.4.7) rev. 12066, also in stable/3.5 (3.5.3) rev.12067,
+  in stable/3.6 (3.6.1) rev. 12068)
 
 *Library:
 
