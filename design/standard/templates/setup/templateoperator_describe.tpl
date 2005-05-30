@@ -9,7 +9,7 @@
 <h2>{'Name of class'|i18n('design/standard/setup','Template operator')}</h2>
 </div>
 <div class="object">
-<input type="text" name="ClassName" value="{$class_name|wasah}" size="40" />
+<input type="text" name="ClassName" value="{$class_name|wash}" size="40" />
 </div>
 
 <div class="objectheader">

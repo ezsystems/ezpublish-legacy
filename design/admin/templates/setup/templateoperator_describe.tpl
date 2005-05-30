@@ -14,7 +14,7 @@
 
 <div class="block">
 <label>{'Class name'|i18n( 'design/admin/setup/rad/templateoperator' )}:</label>
-<input class="box" type="text" name="ClassName" value="{$class_name|wasah}" />
+<input class="box" type="text" name="ClassName" value="{$class_name|wash}" />
 </div>
 
 <div class="block">
