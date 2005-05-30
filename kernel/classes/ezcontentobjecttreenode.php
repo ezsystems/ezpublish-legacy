@@ -3363,6 +3363,7 @@ WHERE
             $newMainNodeID = false;
             $objectNodeCount = 0;
             $readableChildCount = 0;
+
             if ( $canRemove )
             {
                 if ( $moveToTrashAllowed and
@@ -3398,7 +3399,7 @@ WHERE
                     // Find the number of items in the subtree we are allowed to remove
                     // if this differs from the total count it means we have items we cannot remove
                     // We do this by fetching the limitation list for content/remove
-                    // and passing it to the subtre count function.
+                    // and passing it to the subtree count function.
                     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
                     $currentUser =& eZUser::currentUser();
                     $accessResult = $currentUser->hasAccessTo( 'content', 'remove' );
@@ -3421,12 +3422,22 @@ WHERE
 
                     eZContentCacheManager::clearContentCacheIfNeeded( $node->attribute( 'contentobject_id' ) );
 
-                    $children =& $node->subTree( array( 'Limitation' => array() ) );
-                    foreach ( array_keys( $children ) as $childKey )
+                    // Remove children, fetching them by 100 to avoid memory overflow.
+                    while ( 1 )
                     {
-                        $child =& $children[$childKey];
-                        $child->removeNodeFromTree( $moveToTrashTemp );
+                        $children =& $node->subTree( array( 'Limitation' => array(),
+                                                            'Limit' => 100 ) );
+                        if ( !$children )
+                            break;
+
+                        foreach ( array_keys( $children ) as $childKey )
+                        {
+                            $child =& $children[$childKey];
+                            $child->removeNodeFromTree( $moveToTrashTemp );
+                            eZContentObject::clearCache();
+                        }
                     }
+
                     $node->removeNodeFromTree( $moveToTrashTemp );
                 }
             }
