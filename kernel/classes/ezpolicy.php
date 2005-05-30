@@ -333,7 +333,7 @@ class eZPolicy extends eZPersistentObject
                                     eZDebugSetting::writeDebug(  'kernel-policy-limitation',  $value,
                                                                  "Limitationvalue has been removed from limitation [limitValue=$limitValue]" );
                                     //exlude limitation value from limitation..
-                                    $limitationValue = null;
+                                    unset( $limitationValue );
                                 }
                             }
                             if ( $checkEmptyLimitation )
