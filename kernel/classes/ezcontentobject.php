@@ -208,11 +208,45 @@ class eZContentObject extends eZPersistentObject
         global $eZContentObjectDataMapCache;
         unset( $eZContentObjectDataMapCache[$this->ID] );
         global $eZContentObjectVersionCache;
-        unset( $eZContentObjectDataMapCache );
+        unset( $eZContentObjectVersionCache[$this->ID] );
 
         $this->storeNodeModified();
 
         eZPersistentObject::store();
+    }
+
+    /*!
+     Clear in-memory caches.
+     \param  $idArray  objects to clear caches for.
+
+     If the parameter is ommitted the caches are cleared for all objects.
+    */
+
+    function clearCache( $idArray = array() )
+    {
+        if ( is_numeric( $idArray ) )
+            $idArray = array( $idArray );
+
+        // clear in-memory cache for all objects
+        if ( count( $idArray ) == 0 )
+        {
+            unset( $GLOBALS['eZContentObjectContentObjectCache'] );
+            unset( $GLOBALS['eZContentObjectDataMapCache'] );
+            unset( $GLOBALS['eZContentObjectVersionCache'] );
+
+            return;
+        }
+
+        // clear in-memory cache for specified object(s)
+        global $eZContentObjectContentObjectCache;
+        global $eZContentObjectDataMapCache;
+        global $eZContentObjectVersionCache;
+        foreach ( $idArray as $objectID )
+        {
+            unset( $eZContentObjectContentObjectCache[$objectID] );
+            unset( $eZContentObjectDataMapCache[$objectID] );
+            unset( $eZContentObjectVersionCache[$objectID] );
+        }
     }
 
     /*!
@@ -809,15 +843,18 @@ class eZContentObject extends eZPersistentObject
         {
             global $eZContentObjectVersionCache;
 
-            $hash = $this->ID . "-" . $version;
-            if ( isset( $eZContentObjectVersionCache[$hash] ) )
+            if ( !isset( $eZContentObjectVersionCache ) ) // prevent PHP warning below
+                $eZContentObjectVersionCache = array();
+
+            if ( array_key_exists( $this->ID, $eZContentObjectVersionCache ) &&
+                 array_key_exists( $version, $eZContentObjectVersionCache[$this->ID] ) )
             {
-                return $eZContentObjectVersionCache[$hash];
+                return $eZContentObjectVersionCache[$this->ID][$version];
             }
             else
             {
-                $eZContentObjectVersionCache[$hash] = eZContentObjectVersion::fetchVersion( $version, $this->ID, $asObject );
-                return $eZContentObjectVersionCache[$hash];
+                $eZContentObjectVersionCache[$this->ID][$version] = eZContentObjectVersion::fetchVersion( $version, $this->ID, $asObject );
+                return $eZContentObjectVersionCache[$this->ID][$version];
             }
         }
         else
@@ -1749,7 +1786,7 @@ class eZContentObject extends eZPersistentObject
 
          if ( !is_numeric( $objectID ) )
          {
-             eZDebug::writeError( "Related object ID (objectID): '$objectID', is not a numeric value.", 
+             eZDebug::writeError( "Related object ID (objectID): '$objectID', is not a numeric value.",
                                   "eZContentObject::addContentObjectRelation" );
              return false;
          }

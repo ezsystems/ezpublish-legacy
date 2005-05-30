@@ -5,6 +5,8 @@ Changes from 3.5.2 to 3.5.3
   (Submitted by: Vittal Aithal)
 - Changed: eZContentBrowse::result will only return a valid integer array,
   invalid entries are excluded.
+- Added method eZContentObject::clearCache() that can be used to clear all
+  in-memory caches [for a given object].
 
 ezpm.php:
 - Added: The database is checked to see if it has the same version as the
@@ -139,6 +141,10 @@ Attributes:
   site running in non-virtualhost mode.
   (Merged from stable/3.4 (3.4.7) rev. 12070)
 - Fixed bug #6700: Database transaction failure when adding a new translation.
+- Fixed inability to effectively clean up object version cache for
+  a single object.  
+- Fixed bug: object version cache is incorrectly cleared in
+  eZConentObject::store().
 
 *WebDAV:
 
