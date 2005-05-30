@@ -70,7 +70,7 @@ $iniPath = ( $siteAccess == "global_override" ) ? "settings/override" : "setting
 
 foreach( $iniFiles as $fileName => $settings )
 {
-    $ini =& eZINI::instance( $fileName . '.append', $iniPath, null, null, null, true );
+    $ini =& eZINI::instance( $fileName . '.append', $iniPath, null, null, null, true, true );
     $baseIni =& eZINI::instance( $fileName );
 
     foreach( $settings as $setting )
@@ -95,7 +95,7 @@ foreach( $iniFiles as $fileName => $settings )
     // Remove variable from the global override
     if ( $siteAccess != "global_override" )
     {
-        $ini =& eZINI::instance( $fileName . '.append', "settings/override", null, null, null, true );
+        $ini =& eZINI::instance( $fileName . '.append', "settings/override", null, null, null, true, true );
         foreach( $settings as $setting )
         {   
             if ( $ini->hasVariable( $setting[0], $setting[1] ) )
