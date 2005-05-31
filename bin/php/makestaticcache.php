@@ -67,6 +67,8 @@ if ( !$force )
     $staticCache->generateAlwaysUpdatedCache();
 }
 
+eZStaticCache::executeActions();
+
 $script->shutdown();
 
 ?>
