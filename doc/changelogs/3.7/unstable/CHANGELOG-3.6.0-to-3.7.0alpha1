@@ -38,6 +38,9 @@ Changes from 3.6.0 to 3.7.0alpha1
   (Merged from stable/3.5 (3.5.3) rev. 12088)
 - Fixed bug #5876: Two persistent_variable problems in content templates.
   (Merged from stable/3.4 (3.4.7) rev. 12098)
+- Fixed bug #6704: Generated static cache is not stored when using the
+  cli script
+  (Merged from stable/3.6 (3.6.1) rev. 12100)
 
 *Library:
 
