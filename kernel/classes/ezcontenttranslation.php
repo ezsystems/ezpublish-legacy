@@ -193,7 +193,7 @@ class eZContentTranslation extends eZPersistentObject
                             '$newLanguage',
                             '$defaultLanguage'
 
-                     FROM   ezcontentobject_name AS con
+                     FROM   ezcontentobject_name con
 
                      WHERE  con.content_translation = '$defaultLanguage' ");
     }
