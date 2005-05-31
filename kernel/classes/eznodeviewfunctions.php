@@ -78,6 +78,7 @@ class eZNodeviewfunctions
         $tpl->setVariable( 'view_parameters', $viewParameters );
         $tpl->setVariable( 'collection_attributes', $collectionAttributes );
         $tpl->setVariable( 'validation', $validation );
+        $tpl->setVariable( 'persistent_variable', false );
 
         $parents =& $node->attribute( 'path' );
 
@@ -125,7 +126,7 @@ class eZNodeviewfunctions
         $contentInfoArray['node_depth'] = $node->attribute( 'depth' );
         $contentInfoArray['url_alias'] = $node->attribute( 'url_alias' );
         $contentInfoArray['persistent_variable'] = false;
-        if ( $tpl->hasVariable( 'persistent_variable' ) )
+        if ( $tpl->variable( 'persistent_variable' ) !== false )
         {
             $contentInfoArray['persistent_variable'] = $tpl->variable( 'persistent_variable' );
         }
