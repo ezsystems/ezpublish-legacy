@@ -29,7 +29,7 @@ for the class.
 
 INI example:
 [CreateSettings]
-MIME[application/vnd.sun.xml.writer]=ezopenofficeuploadhandler
+MimeUploadHandlerMap[application/vnd.sun.xml.writer]=ezopenofficeuploadhandler
 
 Example code of a upload handler is shown below:
 
