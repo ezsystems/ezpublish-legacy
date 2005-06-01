@@ -44,6 +44,9 @@ Changes from 3.6.0 to 3.7.0alpha1
 - Fixed bug #6706: Static cache is not stored when regenerating via
   admin interface
   (Merged from stable/3.6 (3.6.1) rev. 12105)
+- Fixed bug #6477: URL forwarding with wildcard does not work if
+  "Redirecting URL" option is disabled.
+  (Merged from stable/3.6 (3.6.1) rev. 12109)
 
 *Library:
 
