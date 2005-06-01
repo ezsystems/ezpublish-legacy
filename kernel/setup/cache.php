@@ -118,6 +118,7 @@ if ( $module->isCurrentAction( 'RegenerateStaticCache' ) )
 
     $staticCache = new eZStaticCache();
     $staticCache->generateCache( true, true );
+    eZStaticCache::executeActions();
     $cacheCleared['static'] = true;
 }
 
