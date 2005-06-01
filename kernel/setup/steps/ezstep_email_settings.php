@@ -91,6 +91,11 @@ class eZStepEmailSettings extends eZStepInstaller
             $this->PersistenceList['email_info']['sent'] = false;
             $this->PersistenceList['email_info']['result'] = false;
             $this->PersistenceList['email_info']['type'] = 1;
+
+            $systemType = eZSys::filesystemType();
+            if ( $systemType == 'win32' )
+                $data['Type'] = 'smtp';
+
             if ( $data['Type'] == 'smtp' )
             {
                 $this->PersistenceList['email_info']['type'] = 2;
@@ -115,7 +120,7 @@ class eZStepEmailSettings extends eZStepInstaller
                             'sent' => false,
                             'result' => false );
         if ( isset( $this->PersistenceList['email_info'] ) )
-            $emailInfo = $this->PersistenceList['email_info'];
+            $emailInfo = array_merge( $emailInfo, $this->PersistenceList['email_info'] );
         if ( $emailInfo['server'] and
              $this->Ini->variable( 'MailSettings', 'TransportServer' ) )
             $emailInfo['server'] = $this->Ini->variable( 'MailSettings', 'TransportServer' );
