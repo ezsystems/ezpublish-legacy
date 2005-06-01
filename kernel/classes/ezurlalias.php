@@ -594,18 +594,34 @@ WHERE
                             $url =& eZURLAlias::fetchBySourceURL( $uriString, true, true, false );
                         if ( $url and $url->attribute( 'forward_to_id' ) != 0 )
                         {
+                            // This will set the forwarded alias as the URL to redirect to.
                             $return =& eZURLAlias::fetch( $url->attribute( 'forward_to_id' ) );
                             $uriString = 'error/301';
                         }
                         else if ( $url )
                         {
+                            // This will set the current alias as the URL to redirect to.
                             $return =& $url;
                             $uriString = 'error/301';
                         }
                     }
                     else if ( $urlAlias['is_wildcard'] == EZ_URLALIAS_WILDCARD_TYPE_DIRECT )
                     {
-                        $return = true;
+                        if ( !$url )
+                            $url =& eZURLAlias::fetchBySourceURL( $uriString, true, true, false );
+                        if ( $url and $url->attribute( 'forward_to_id' ) != 0 )
+                        {
+                            // This will set the forwarded alias as the URL to use as system URL.
+                            $url =& eZURLAlias::fetch( $url->attribute( 'forward_to_id' ) );
+                            $uriString = $url->attribute( 'destination_url' );
+                            $return = true;
+                        }
+                        else if ( $url )
+                        {
+                            // This will set the current alias as the URL to use as system URL.
+                            $uriString = $url->attribute( 'destination_url' );
+                            $return = true;
+                        }
                     }
                 }
             }
