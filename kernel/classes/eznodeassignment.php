@@ -218,6 +218,8 @@ class eZNodeAssignment extends eZPersistentObject
         return eZPersistentObject::fetchObjectList( eZNodeAssignment::definition(),
                                                     null,
                                                     $cond,
+                                                    null,
+                                                    null,
                                                     $asObject );
     }
 
