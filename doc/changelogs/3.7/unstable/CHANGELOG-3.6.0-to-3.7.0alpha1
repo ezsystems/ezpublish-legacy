@@ -48,6 +48,8 @@ Changes from 3.6.0 to 3.7.0alpha1
   "Redirecting URL" option is disabled.
   (Merged from stable/3.6 (3.6.1) rev. 12109)
 - Fixed bug #6459: Kickstart sendmail under Win.
+- Fixed bug #6698: Linkcheck checks url from all archived content
+  (Merged from stable/3.5 (3.5.3) rev. 12119, also in stable/3.6 (3.6.1) rev.12120)
 
 *Library:
 
