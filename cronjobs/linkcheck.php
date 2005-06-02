@@ -49,7 +49,7 @@ if ( !$isQuiet )
 
 $cronjobIni =& eZINI::instance( 'cronjob.ini' );
 $siteURLs = $cronjobIni->variable( 'linkCheckSettings', 'SiteURL' );
-$linkList = eZURL::fetchList();
+$linkList = eZURL::fetchList( array( 'only_published' => true ) );
 foreach ( array_keys( $linkList ) as $key )
 {
     $link =& $linkList[$key];
