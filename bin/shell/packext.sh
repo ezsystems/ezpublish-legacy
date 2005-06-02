@@ -226,17 +226,30 @@ function apply_filters
 function create_extension_archive
 {
     if [ "$BUILD_SNAPSHOT" == "1" ]; then
-        EXTENSION_TGZFILE="$EXTENSION_ARCHIVE_NAME""-extension-$EXTENSION_VERSION-build$CURRENT_BUILD_NUMBER.tgz"
+        EXTENSION_FILE_PREFIX="$EXTENSION_ARCHIVE_NAME""-extension-$EXTENSION_VERSION-build$CURRENT_BUILD_NUMBER"
     else
-        EXTENSION_TGZFILE="$EXTENSION_ARCHIVE_NAME""-extension-$EXTENSION_VERSION.tgz"
+        EXTENSION_FILE_PREFIX="$EXTENSION_ARCHIVE_NAME""-extension-$EXTENSION_VERSION"
     fi
+    EXTENSION_TGZFILE="$EXTENSION_FILE_PREFIX.tar.gz"
+    EXTENSION_ZIPFILE="$EXTENSION_FILE_PREFIX.zip"
+    EXTENSION_TBZFILE="$EXTENSION_FILE_PREFIX.tar.bz2"
 
     echo -n "Creating extension archive `ez_color_file $EXTENSION_TGZFILE`"
     (cd "$OUTPUT_DIR"
         rm -f "$EXTENSION_TGZFILE"
-        tar cfz "$EXTENSION_TGZFILE" "$EXTENSION_IDENTIFIER"
-        rm -rf "$EXTENSION_IDENTIFIER")
+        tar cfz "$EXTENSION_TGZFILE" "$EXTENSION_IDENTIFIER")
     ez_result_output $? "Failed to package extension" || exit 1
+    echo -n "Creating extension archive `ez_color_file $EXTENSION_TBZFILE`"
+    (cd "$OUTPUT_DIR"
+        rm -f "$EXTENSION_TBZFILE"
+        tar cfj "$EXTENSION_TBZFILE" "$EXTENSION_IDENTIFIER")
+    ez_result_output $? "Failed to package extension" || exit 1
+    echo -n "Creating extension archive `ez_color_file $EXTENSION_ZIPFILE`"
+    (cd "$OUTPUT_DIR"
+        rm -f "$EXTENSION_ZIPFILE"
+        zip -9 -r -q "$EXTENSION_ZIPFILE" "$EXTENSION_IDENTIFIER")
+    ez_result_output $? "Failed to package extension" || exit 1
+    rm -rf "$EXTENSION_IDENTIFIER"
 }
 
 function clean_dirs_up
@@ -274,6 +287,8 @@ apply_filters
 create_extension_archive
 clean_dirs_up
 echo "Extension `ez_color_em $EXTENSION_IDENTIFIER` has been packaged to `ez_color_dir $OUTPUT_DIR/$EXTENSION_TGZFILE`"
+echo "Extension `ez_color_em $EXTENSION_IDENTIFIER` has been packaged to `ez_color_dir $OUTPUT_DIR/$EXTENSION_TBZFILE`"
+echo "Extension `ez_color_em $EXTENSION_IDENTIFIER` has been packaged to `ez_color_dir $OUTPUT_DIR/$EXTENSION_ZIPFILE`"
 # Let makedist.sh know about name and identifier of the package we have created.
 [ -f .ez.extension-name ] && echo -n $EXTENSION_TGZFILE > .ez.extension-name
 [ -f .ez.extension-id ] && echo -n $EXTENSION_IDENTIFIER > .ez.extension-id
