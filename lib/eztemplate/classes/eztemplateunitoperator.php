@@ -399,7 +399,7 @@ class eZTemplateUnitOperator
         $decimalCount = $locale->decimalCount();
         $decimalSymbol = $locale->decimalSymbol();
         $decimalThousandsSeparator = $locale->thousandsSeparator();
-        if ( $namedParameters['decimal_count'] )
+        if ( $namedParameters['decimal_count'] !== false )
             $decimalCount = $namedParameters['decimal_count'];
         if ( strlen( $namedParameters['decimal_symbol'] ) > 0 )
             $decimalSymbol = $namedParameters['decimal_symbol'];
