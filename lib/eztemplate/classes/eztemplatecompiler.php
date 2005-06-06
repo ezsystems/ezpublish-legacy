@@ -463,7 +463,8 @@ class eZTemplateCompiler
         // have enough time to compile
         // However if time limit is unlimited (0) we leave it be
         // Time limit will also be reset after subtemplates are compiled
-        if ( ini_get( 'max_execution_time' ) != 0  )
+        $maxExecutionTime = ini_get( 'max_execution_time' );
+        if ( $maxExecutionTime != 0 && $maxExecutionTime < 30 )
         {
             @set_time_limit( 30 );
         }
@@ -2288,7 +2289,8 @@ $rbracket
                                      * ensure that remaining template has
                                      * enough time to compile. However if time
                                      * limit is unlimited (0) we leave it be */
-                                    if ( ini_get( 'max_execution_time' ) != 0  )
+                                    $maxExecutionTime = ini_get( 'max_execution_time' );
+                                    if ( $maxExecutionTime != 0 && $maxExecutionTime < 60 )
                                     {
                                         @set_time_limit( 60 );
                                     }
