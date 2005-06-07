@@ -68,6 +68,26 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
     foreach ( $deleteIDArray as $deleteID )
     {
+        //Remove all object
+        $db =& eZDB::instance();
+        $deleteID = $db->escapeString( $deleteID ); //security thing
+        while ( true )
+        {
+            $resArray =& $db->arrayQuery( "SELECT ezcontentobject.id FROM ezcontentobject WHERE ezcontentobject.contentclass_id='$deleteID'", array( 'length' => 50 ) );
+            if( !$resArray || count( $resArray ) == 0 )
+            {
+                break;
+            }
+            foreach( $resArray as $row )
+            {
+                include_once( 'kernel/classes/ezcontentcachemanager.php' );
+                eZContentCacheManager::clearContentCacheIfNeeded( $row['id'] );
+
+                $object =& eZContentObject::fetch( $row['id'] );
+                $object->purge();
+       	    }
+        }
+
         eZContentClassClassGroup::removeClassMembers( $ClassID, 0 );
         eZContentClassClassGroup::removeClassMembers( $ClassID, 1 );
 
@@ -80,23 +100,6 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
         $tempDeleteClass =& eZContentClass::fetch( $deleteID, true, 1 );
         if ( $tempDeleteClass != null )
             $tempDeleteClass->remove( true, 1 );
-
-        //Remove all object from thrash
-        $db =& eZDB::instance();
-        $deleteID = $db->escapeString( $deleteID ); //security thing
-        while ( true )
-        {
-            $resArray =& $db->arrayQuery( "SELECT ezcontentobject.id FROM ezcontentobject WHERE ezcontentobject.contentclass_id='$deleteID'", array( 'length' => 50 ) );
-            if( !$resArray || count( $resArray ) == 0 )
-            {
-               break;
-            }
-            foreach( $resArray as $row )
-            {
-                $object =& eZContentObject::fetch( $row['id'] );
-                $object->purge();
-       	    }
-        }
     }
     $Module->redirectTo( '/class/classlist/' . $GroupID );
 }
