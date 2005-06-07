@@ -522,6 +522,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $class = $tag->attributeValue( 'class' );
 
                     $res =& eZTemplateDesignResource::instance();
+
+                    // Save current class identifier for it to be restored below
+                    $savedKeys = $res->keys();
+                    $savedClassIdentifier = $savedKeys['class_identifier'];
+                    unset( $savedKeys );
+
                     $res->setKeys( array( array( 'classification', $class ),
                                           array( 'class_identifier', $object->attribute( 'class_identifier' ) ) ) );
 
@@ -589,6 +595,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     // Remove the design key, so it will not override other tags
                     $res->removeKey( 'classification' );
                     $tpl->unsetVariable( 'classification', 'xmltagns' );
+
+                    // Restore previously saved class identifier
+                    $res->removeKey( 'class_identifier' );
+                    $res->setKeys( array( array( 'class_identifier', $savedClassIdentifier ) ) );
                 }
             }break;
 
