@@ -216,7 +216,7 @@ class eZDebug
     {
         $impl =& $GLOBALS["eZDebugGlobalInstance"];
 
-        $class =& get_class( $impl );
+        $class = get_class( $impl );
         if ( $class != "ezdebug" )
         {
             $impl = new eZDebug();
