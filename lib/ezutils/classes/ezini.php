@@ -1322,7 +1322,7 @@ class eZINI
         $impl =& $GLOBALS["eZINIGlobalInstance-$rootDir-$fileName-$useLocalOverrides"];
         $isLoaded =& $GLOBALS["eZINIGlobalIsLoaded-$rootDir-$fileName-$useLocalOverrides"];
 
-        $class =& get_class( $impl );
+        $class = get_class( $impl );
         if ( $class != "ezini" )
         {
             $isLoaded = false;

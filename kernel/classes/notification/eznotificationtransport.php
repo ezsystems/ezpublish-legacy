@@ -61,7 +61,7 @@ class eZNotificationTransport
             $transport = $ini->variable( 'TransportSettings', 'DefaultTransport' );
         }
         $transportImpl =& $GLOBALS['eZNotificationTransportGlobalInstance_' . $transport ];
-        $class =& get_class( $transportImpl );
+        $class = get_class( $transportImpl );
 
         $fetchInstance = false;
         if ( !preg_match( '/.*?transport/', $class ) )

@@ -129,7 +129,7 @@ class eZDB
     function hasInstance()
     {
         $impl =& $GLOBALS['eZDBGlobalInstance'];
-        $class =& get_class( $impl );
+        $class = get_class( $impl );
         $hasDB = false;
         if ( preg_match( '/.*?db/', $class ) )
         {
