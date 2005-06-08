@@ -124,7 +124,7 @@ class eZOrder extends eZPersistentObject
                                                                         'datatype' => 'integer',
                                                                         'default' => 0,
                                                                         'required' => true ),
-                                         "is_archived" => array( 'name' => "isArchived",
+                                         "is_archived" => array( 'name' => "IsArchived",
                                                                         'datatype' => 'integer',
                                                                         'default' => 0,
                                                                         'required' => true ) ),
