@@ -60,7 +60,7 @@ static bool untranslated = false;    // Untranslated translation is off by defau
 static void printUsage()
 {
     qWarning( "Creates or updates eZ publish 3 translations.\n"
-              "Usage: ezlupdate [OPTION]... [LANGUAGE]...\n\n"
+              "Usage: ezlupdate [OPTION]... LANGUAGE\n\n"
               "Options:\n"
               "    -h, --help                Display this information and exit\n"
               "    -e, --extension EXT       Extension mode. Scans extension EXT instead of\n"
