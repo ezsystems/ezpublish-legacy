@@ -3349,6 +3349,13 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
+      'is_archived' => 
+      array (
+        'length' => 4,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
     ),
     'indexes' => 
     array (
@@ -3366,6 +3373,14 @@ $schema = array (
         'fields' => 
         array (
           0 => 'is_temporary',
+        ),
+      ),
+      'ezorder_is_archived' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'is_archived',
         ),
       ),
     ),

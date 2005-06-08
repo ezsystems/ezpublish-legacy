@@ -1730,7 +1730,8 @@ CREATE TABLE ezorder (
     status_id integer DEFAULT 0,
     status_modified integer DEFAULT 0,
     status_modifier_id integer DEFAULT 0,
-    user_id integer DEFAULT 0 NOT NULL
+    user_id integer DEFAULT 0 NOT NULL,
+    is_archived integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2643,6 +2644,14 @@ CREATE INDEX ezoperation_memento_memento_key_main ON ezoperation_memento USING b
 
 
 CREATE INDEX ezorder_is_tmp ON ezorder USING btree (is_temporary);
+
+
+
+
+
+
+
+CREATE INDEX ezorder_is_archived ON ezorder USING btree (is_archived);
 
 
 

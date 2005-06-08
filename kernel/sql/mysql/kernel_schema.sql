@@ -750,6 +750,7 @@ CREATE TABLE ezorder (
   status_modified int(11) default '0',
   status_modifier_id int(11) default '0',
   user_id int(11) NOT NULL default '0',
+  is_archived int(4) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY ezorder_is_tmp (is_temporary)
 ) TYPE=MyISAM;
