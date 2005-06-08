@@ -760,7 +760,8 @@ class eZSearchEngine
                 foreach( $limitationList as $limitationArray )
                 {
                     $sqlPartPart = array();
-                    $hasNodeLimitation = false;
+                    $sqlPartPartPart = array();
+
                     foreach ( array_keys( $limitationArray ) as $ident )
                     {
                         switch( $ident )
@@ -785,26 +786,35 @@ class eZSearchEngine
                             case 'Node':
                             {
                                 $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
-                                $hasNodeLimitation = true;
                             } break;
-
+                            
                             case 'Subtree':
                             {
                                 $pathArray =& $limitationArray[$ident];
-                                $sqlPartPartPart = array();
                                 foreach ( $pathArray as $limitationPathString )
                                 {
                                     $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
                                 }
-                                $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
+                            } break;
+
+                            case 'User_Subtree':
+                            {
+                                $pathArray =& $limitationArray[$ident];
+                                $sqlPartUserSubtree = array();
+                                foreach ( $pathArray as $limitationPathString )
+                                {
+                                    $sqlPartUserSubtree[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
+                                }
+                                $sqlPartPart[] = implode( ' OR ', $sqlPartUserSubtree );
                             } break;
                         }
                     }
 
-                    if ( count( $sqlPartPart ) > 0 )
+                    if ( count ( $sqlPartPartPart ) > 0 )
                     {
-                        $sqlParts[] = implode( ' AND ', $sqlPartPart );
+                        $sqlPartPart[] = '( ' . implode( ' ) OR ( ', $sqlPartPartPart ) . ' )';
                     }
+                    $sqlParts[] = implode( ' AND ', $sqlPartPart );
                 }
                 if ( count( $sqlParts ) > 0 )
                 {
