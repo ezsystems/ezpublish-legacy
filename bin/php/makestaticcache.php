@@ -60,11 +60,11 @@ include_once( 'lib/ezutils/classes/ezini.php' );
 include_once( 'kernel/classes/ezstaticcache.php' );
 
 $staticCache = new eZStaticCache();
-$staticCache->generateCache( $force, false, $cli );
+$staticCache->generateCache( $force, false, $cli, false );
 
 if ( !$force )
 {
-    $staticCache->generateAlwaysUpdatedCache();
+    $staticCache->generateAlwaysUpdatedCache( false, $cli, false );
 }
 
 eZStaticCache::executeActions();

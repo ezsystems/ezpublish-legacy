@@ -14,6 +14,8 @@ Changes from 3.6.0 to 3.7.0alpha1
 *Search:
 
 *Scripts:
+- Changed makestaticcache.php script to generate cache files while running, and
+  not all at the end.
 
 *DataType:
 
@@ -67,6 +69,8 @@ Changes from 3.6.0 to 3.7.0alpha1
 - Fixed bug #6744: Search fails for roles with limited assignment.
 - Fixed bug #6740: SWAP in 3.6.0 is BROKEN
   (Merged from stable/3.5 (3.5.3) rev. 12159, also in stable/3.6 (3.6.1) rev.12160)
+- Fixed bug with static caching that cause old content to be put into the cache
+  files.
 
 *Library:
 

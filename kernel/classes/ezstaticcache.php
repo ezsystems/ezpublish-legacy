@@ -129,14 +129,18 @@ class eZStaticCache
 
      \sa alwaysUpdateURLArray().
     */
-    function generateAlwaysUpdatedCache()
+    function generateAlwaysUpdatedCache( $quiet = false, $cli = false, $delay = true )
     {
         $hostname = $this->HostName;
         $staticStorageDir = $this->StaticStorageDir;
 
         foreach ( $this->AlwaysUpdate as $uri )
         {
-            $this->storeCache( $uri, $hostname, $staticStorageDir, array(), false );
+            if ( !$quiet and $cli )
+                $cli->output( "caching: $uri ", false );
+            $this->storeCache( $uri, $hostname, $staticStorageDir, array(), false, $delay );
+            if ( !$quiet and $cli )
+                $cli->output( "done" );
         }
     }
 
@@ -147,7 +151,7 @@ class eZStaticCache
      \param $quiet If \c true then the function will not output anything.
      \param $cli The eZCLI object or \c false if no output can be done.
     */
-    function generateCache( $force = false, $quiet = false, $cli = false )
+    function generateCache( $force = false, $quiet = false, $cli = false, $delay = true )
     {
         $staticURLArray = $this->cachedURLArray();
         $db =& eZDB::instance();
@@ -157,7 +161,7 @@ class eZStaticCache
             {
                 if ( !$quiet and $cli )
                     $cli->output( "caching: $url ", false );
-                $this->cacheURL( $url, false, !$force );
+                $this->cacheURL( $url, false, !$force, $delay );
                 if ( !$quiet and $cli )
                     $cli->output( "done" );
             }
@@ -173,7 +177,7 @@ class eZStaticCache
                     $url = "/" . $urlAlias['source_url'];
                     preg_match( '/([0-9]+)$/', $urlAlias['destination_url'], $matches );
                     $id = $matches[1];
-                    if ( $this->cacheURL( $url, (int) $id, !$force ) )
+                    if ( $this->cacheURL( $url, (int) $id, !$force, $delay ) )
                     {
                         if ( !$quiet and $cli )
                             $cli->output( "  cache $url" );
@@ -194,7 +198,7 @@ class eZStaticCache
      \param $nodeID The ID of the node to cache, if supplied it will also cache content/view/full/xxx.
      \param $skipExisting If \c true it will not unlink existing cache files.
     */
-    function cacheURL( $url, $nodeID = false, $skipExisting = false )
+    function cacheURL( $url, $nodeID = false, $skipExisting = false, $delay = true )
     {
         // Set default hostname
         $hostname = $this->HostName;
@@ -225,7 +229,7 @@ class eZStaticCache
             return false;
         }
 
-        $this->storeCache( $url, $hostname, $staticStorageDir, $nodeID ? array( "/content/view/full/$nodeID" ) : array(), $skipExisting );
+        $this->storeCache( $url, $hostname, $staticStorageDir, $nodeID ? array( "/content/view/full/$nodeID" ) : array(), $skipExisting, $delay );
 
         return true;
     }
@@ -241,7 +245,7 @@ class eZStaticCache
      \param $alternativeStaticLocations An array with additional URLs that should also be cached.
      \param $skipUnlink If \c true it will not unlink existing cache files.
     */
-    function storeCache( $url, $hostname, $staticStorageDir, $alternativeStaticLocations = array(), $skipUnlink = false )
+    function storeCache( $url, $hostname, $staticStorageDir, $alternativeStaticLocations = array(), $skipUnlink = false, $delay = true )
     {
         if ( is_array( $this->CachedSiteAccesses ) and count ( $this->CachedSiteAccesses ) )
         {
@@ -287,15 +291,28 @@ class eZStaticCache
             {
                 if ( !file_exists( $file ) )
                 {
-                    /* Generate content, if required */
-                    if ( $content === false )
+                    $fileName = "http://$hostname$dir$url";
+                    if ( $delay )
                     {
-                        $fileName = "http://$hostname$dir$url";
-                        $content = @file_get_contents( $fileName );
+                        $this->addAction( 'store', array( $file, $fileName ) );
                     }
-                    if ( $content !== false )
+
+                    if ( !$delay )
                     {
-                        $this->addAction( 'store', array( $file, $content ) );
+                        /* Generate content, if required */
+                        if ( $content === false )
+                        {
+                            $content = @file_get_contents( $fileName );
+                            var_dump( $content );
+                        }
+                        if ( $content === false )
+                        {
+                            eZDebug::writeNotice( 'Could not grab content, is the hostname correct and Apache running?', 'Static Cache' );
+                        }
+                        else
+                        {
+                            $this->storeCachedFile( $file, $content );
+                        }
                     }
                 }
             }
@@ -341,7 +358,7 @@ class eZStaticCache
         $fp = fopen( $tmpFileName, 'w' );
         if ( $fp )
         {
-            fwrite( $fp, $content . '<!-- Generated: '. date( 'Y-m-d H:i:s' ). ' -->' );
+            fwrite( $fp, $content . '<!-- Generated: '. date( 'Y-m-d H:i:s' ). " -->\n\n" );
             fclose( $fp );
             rename( $tmpFileName, $file );
         }
@@ -387,16 +404,33 @@ class eZStaticCache
         if (! isset( $GLOBALS['eZStaticCache-ActionList'] ) ) {
             return;
         }
+
+        $fileContentCache = array();
+      
         foreach ( $GLOBALS['eZStaticCache-ActionList'] as $action )
         {
             list( $action, $parameters ) = $action;
 
             switch( $action ) {
                 case 'store':
-                    eZStaticCache::storeCachedFile( $parameters[0], $parameters[1] );
+                    list( $destination, $source ) = $parameters;
+                    if ( ! isset( $fileContentCache[$source] ) )
+                    {
+                        $fileContentCache[$source] = @file_get_contents( $source );
+                        var_dump( $fileContentCache[$source] );
+                    }
+                    if ( $fileContentCache[$source] === false )
+                    {
+                        eZDebug::writeNotice( 'Could not grab content, is the hostname correct and Apache running?', 'Static Cache' );
+                    }
+                    else
+                    {
+                        eZStaticCache::storeCachedFile( $destination, $fileContentCache[$source] );
+                    }
                     break;
             }
         }
+        $GLOBALS['eZStaticCache-ActionList'] = array();
     }
 
     /// \privatesection
