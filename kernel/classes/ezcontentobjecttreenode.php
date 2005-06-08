@@ -3682,10 +3682,13 @@ WHERE
                             WHERE $pathString OR
                             path_string = '$nodePath'" );
 
-        // Remove static cache
+        // Re-cache parent node
         if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
         {
-            $staticCache->cacheURL( "/" . $parent->urlAlias() );
+            if ( $parent )
+            {
+                $staticCache->cacheURL( "/" . $parent->urlAlias() );
+            }
         }
 
         // Clean up URL alias
