@@ -112,7 +112,7 @@ class eZTemplateStringOperator
                                                         'code2' => '$result = preg_replace( "/".$staticValues[1]."{2,}/", $staticValues[1], $staticValues[0] );',
                                                       ),
                                    'shorten' => array( 'return' => 'string',
-                                                       'code' => '$length = 80; $seq = "...";
+                                                       'code' => '$length = 80; $seq = "..."; $trimType = "right";
                                                                   if ( $paramCount > 1 )
                                                                   {
                                                                       $length = $staticValues[1];
@@ -121,14 +121,38 @@ class eZTemplateStringOperator
                                                                   {
                                                                       $seq = $staticValues[2];
                                                                   }
-                                                                  $maxLength = $length - $strlenFunc( $seq );
-                                                                  if ( ( $strlenFunc( $staticValues[0] ) > $length ) && $strlenFunc( $staticValues[0] ) > $maxLength )
+                                                                  if ( $paramCount > 3 )
                                                                   {
-                                                                      $result = trim( $substrFunc( $staticValues[0], 0, $maxLength) ) . $seq;
+                                                                      $trimType = $staticValues[3];
                                                                   }
-                                                                  else
+                                                                  if ( $trimType === "middle" )
                                                                   {
-                                                                      $result = $staticValues[0];
+                                                                      $appendedStrLen = $strlenFunc( $seq );
+                                                                      if ( $length > $appendedStrLen )
+                                                                      {
+                                                                          $operatorValueLength = $strlenFunc( $staticValues[0] );
+                                                                          $chop = $length - $appendedStrLen;
+                                                                          $middlePos = (int)($chop / 2);
+                                                                          $leftPartLength = $middlePos;
+                                                                          $rightPartLength = $chop - $middlePos;
+                                                                          $result = trim( $substrFunc( $staticValues[0], 0, $leftPartLength ) . $seq . $substrFunc( $staticValues[0], $operatorValueLength - $rightPartLength, $rightPartLength ) );
+                                                                      }
+                                                                      else
+                                                                      {
+                                                                          $result = $seq;
+                                                                      }
+                                                                  }
+                                                                  else // default: trim_type === "right"
+                                                                  {
+                                                                      $maxLength = $length - $strlenFunc( $seq );
+                                                                      if ( ( $strlenFunc( $staticValues[0] ) > $length ) && $strlenFunc( $staticValues[0] ) > $maxLength )
+                                                                      {
+                                                                          $result = trim( $substrFunc( $staticValues[0], 0, $maxLength) ) . $seq;
+                                                                      }
+                                                                      else
+                                                                      {
+                                                                          $result = $staticValues[0];
+                                                                      }
                                                                   }'
                                                      )
 
@@ -157,7 +181,7 @@ class eZTemplateStringOperator
             $this->ChrName          => array( 'parameters' => false, 'element-transformation-func' => 'customMapTransformation' ),
             $this->OrdName          => array( 'parameters' => false, 'element-transformation-func' => 'customMapTransformation' ),
             $this->PadName          => array( 'parameters' => false, 'element-transformation-func' => 'customMapTransformation' ),
-            $this->ShortenName      => array( 'parameters' => 2    , 'element-transformation-func' => 'customMapTransformation' ),
+            $this->ShortenName      => array( 'parameters' => 3    , 'element-transformation-func' => 'customMapTransformation' ),
             $this->SimplifyName     => array( 'parameters' => false, 'element-transformation-func' => 'customMapTransformation' ),
             $this->TrimName         => array( 'parameters' => 1    , 'element-transformation-func' => 'customMapTransformation' ),
             $this->WrapName         => array( 'parameters' => false, 'element-transformation-func' => 'customMapTransformation' ),
@@ -207,10 +231,13 @@ class eZTemplateStringOperator
                                                                              "default" => "xhtml" ) ),
                       $this->ShortenName => array( 'chars_to_keep' => array( "type" => "integer",
                                                                              "required" => false,
-                                                                             "default" => 16 ),
+                                                                             "default" => 80 ),
                                                    'str_to_append' => array( "type" => "string",
                                                                              "required" => false,
-                                                                             "default" => "..." ) ),
+                                                                             "default" => "..." ),
+                                                   'trim_type'     => array( "type" => "string",
+                                                                             "required" => false,
+                                                                             "default" => "right" ) ),
                       $this->PadName => array(  'desired_length'   => array( "type"     => "integer",
                                                                              "required" => false,
                                                                              "default"  => 80 ),
@@ -577,14 +604,37 @@ class eZTemplateStringOperator
             {
                 $strlenFunc = function_exists( 'mb_strlen' ) ? 'mb_strlen' : 'strlen';
                 $substrFunc = function_exists( 'mb_substr' ) ? 'mb_substr' : 'substr';
-                if ( strlen( $operatorValue ) > $namedParameters['chars_to_keep'] )
+                if ( $strlenFunc( $operatorValue ) > $namedParameters['chars_to_keep'] )
                 {
-                    $chop = $namedParameters['chars_to_keep'] - $strlenFunc( $namedParameters['str_to_append'] );
                     $operatorLength = $strlenFunc( $operatorValue );
-                    $operatorValue = $substrFunc( $operatorValue, 0, $chop );
-                    $operatorValue = trim( $operatorValue );
-                    if ( $operatorLength > $chop )
-                        $operatorValue = $operatorValue.$namedParameters['str_to_append'];
+
+                    if ( $namedParameters['trim_type'] === 'middle' )
+                    {
+                        $appendedStrLen = $strlenFunc( $namedParameters['str_to_append'] );
+
+                        if ( $namedParameters['chars_to_keep'] > $appendedStrLen )
+                        {
+                            $chop = $namedParameters['chars_to_keep'] - $appendedStrLen;
+
+                            $middlePos = (int)($chop / 2);
+                            $leftPartLength = $middlePos;
+                            $rightPartLength = $chop - $middlePos;
+
+                            $operatorValue = trim( $substrFunc( $operatorValue, 0, $leftPartLength ) . $namedParameters['str_to_append'] . $substrFunc( $operatorValue, $operatorLength - $rightPartLength, $rightPartLength ) );
+                        }
+                        else
+                        {
+                            $operatorValue = $namedParameters['str_to_append'];
+                        }
+                    }
+                    else // default: trim_type === 'right'
+                    {
+                        $chop = $namedParameters['chars_to_keep'] - $strlenFunc( $namedParameters['str_to_append'] );
+                        $operatorValue = $substrFunc( $operatorValue, 0, $chop );
+                        $operatorValue = trim( $operatorValue );
+                        if ( $operatorLength > $chop )
+                            $operatorValue = $operatorValue.$namedParameters['str_to_append'];
+                    }
                 }
             }break;
 
