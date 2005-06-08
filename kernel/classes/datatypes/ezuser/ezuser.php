@@ -1227,7 +1227,7 @@ WHERE user_id = '" . $userID . "' AND
                               'policies', array containing the policy limitations
                               'accessList', array describing missing access rights
     */
-    function &hasAccessTo( $module, $function )
+    function &hasAccessTo( $module, $function = false )
     {
         $accessArray = null;
         $ini =& eZINI::instance();
@@ -1294,10 +1294,18 @@ WHERE user_id = '" . $userID . "' AND
             {
                 $functionArray = $accessArray['*']['*'];
             }
-            if ( isset( $accessArray['*'][$function] ) )
+            if ( $function === false )
+            {
+                foreach( array_keys( $accessArray['*'] ) as $key )
+                {
+                    $functionArray = array_merge_recursive( $functionArray, $accessArray['*'][$key] );
+                }
+            }
+            elseif ( isset( $accessArray['*'][$function] ) )
             {
                 $functionArray = array_merge_recursive( $functionArray, $accessArray['*'][$function] );
             }
+
         }
         if ( isset( $accessArray[$module] ) )
         {
@@ -1305,7 +1313,14 @@ WHERE user_id = '" . $userID . "' AND
             {
                 $functionArray = array_merge_recursive( $functionArray, $accessArray[$module]['*'] );
             }
-            if ( isset( $accessArray[$module][$function] ) )
+            if ( $function === false )
+            {
+                foreach( array_keys( $accessArray[$module] ) as $key )
+                {
+                    $functionArray = array_merge_recursive( $functionArray, $accessArray[$module][$key] );
+                }
+            }
+            elseif ( isset( $accessArray[$module][$function] ) )
             {
                 $functionArray = array_merge_recursive( $functionArray, $accessArray[$module][$function] );
             }

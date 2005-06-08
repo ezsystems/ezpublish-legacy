@@ -56,14 +56,28 @@ if ( $http->hasSessionVariable( "DiscardConfirm" ) )
         $isConfirmed = true;
 }
 
-
 if ( $isConfirmed )
 {
     $object =& eZContentObject::fetch( $objectID );
     if ( $object === null )
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     if ( !$object->attribute( 'can_edit' ) )
-        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+    {
+        // Check if it is a first created version of an object.
+        // If so, then edit is allowed if we have an access to the 'create' function.
+        if ( $object->attribute( 'current_version' ) == 1 && !$object->attribute( 'status' ) )
+        {
+            $mainNode = eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), 1 );
+            $parentObj = $mainNode[0]->attribute( 'parent_contentobject' );
+            $allowEdit = $parentObj->checkAccess( 'create', $object->attribute( 'contentclass_id' ), $parentObj->attribute( 'contentclass_id' ) );
+        }
+        else
+            $allowEdit = false;
+
+        if ( !$allowEdit )
+            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'edit' ) ) );
+    }
+
     $db =& eZDB::instance();
     $db->begin();
     $db->query( "DELETE FROM ezcontentobject_link

@@ -60,6 +60,10 @@ Changes from 3.6.0 to 3.7.0alpha1
 - Fixed bug #6702: Template cache-blocks are not cleared after deleting object
   via WEBDAV.
   (Merged from stable/3.5 (3.5.3) rev. 12145, also in stable/3.6 (3.6.1) rev.12146)
+- Fixed bug #6680: Anonymous user can edit data submitted by other anonymous
+  users. (It is now allowed to edit the first version of an object by the 'create'
+  permission, so now it is not needed to give 'edit' permission to anonymous
+  users.)
 
 *Library:
 

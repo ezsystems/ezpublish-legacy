@@ -38,7 +38,8 @@ $Module = array( 'name' => 'eZContentObject',
 
 $ViewList = array();
 $ViewList['edit'] = array(
-    'functions' => array( 'edit' ),
+// Access permissions for this view are now checked inside the edit.php, so we don't need it here.
+//    'functions' => array( 'edit' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'ui_context' => 'edit',
     'single_post_actions' => array( 'PreviewButton' => 'Preview',

@@ -48,8 +48,23 @@ if ( !$obj )
 
 //if ( !$obj->attribute( 'can_edit' ) )
 //    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-if ( !$obj->canEdit() )
-    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $obj->accessList( 'edit' ) ) );
+if ( !$obj->attribute( 'can_edit' ) )
+{
+    // Check if it is a first created version of an object.
+    // If so, then edit is allowed if we have an access to the 'create' function.
+
+    if ( $obj->attribute( 'current_version' ) == 1 && !$obj->attribute( 'status' ) )
+    {
+        $mainNode = eZNodeAssignment::fetchForObject( $obj->attribute( 'id' ), 1 );
+        $parentObj = $mainNode[0]->attribute( 'parent_contentobject' );
+        $allowEdit = $parentObj->checkAccess( 'create', $obj->attribute( 'contentclass_id' ), $parentObj->attribute( 'contentclass_id' ) );
+    }
+    else
+        $allowEdit = false;
+
+    if ( !$allowEdit )
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $obj->accessList( 'edit' ) ) );
+}
 
 $classID = $obj->attribute( 'contentclass_id' );
 $class =& eZContentClass::fetch( $classID );
