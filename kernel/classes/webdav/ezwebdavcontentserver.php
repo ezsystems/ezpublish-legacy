@@ -634,8 +634,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         }
 
         $this->appendLogEntry( "Removing node: $nodePath", 'CS:delete' );
-        $object =& $node->attribute( 'object' );
-        $object->remove();
+        $node->removeNodeFromTree( true );
         return EZ_WEBDAV_OK;
     }
 
