@@ -788,7 +788,7 @@ class eZSearchEngine
                                 $hasNodeLimitation = true;
                             } break;
 
-                            case 'Subtree':
+                            case 'User_Subtree':
                             {
                                 $pathArray =& $limitationArray[$ident];
                                 $sqlPartPartPart = array();
