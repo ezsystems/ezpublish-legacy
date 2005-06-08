@@ -492,6 +492,22 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
+     \return \c true if a node can be swaped by the current user.
+     \sa checkAccess().
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &canSwap()
+    {
+        if ( !isset( $this->Permissions['can_swap'] ) )
+        {
+            $this->Permissions['can_swap'] = $this->checkAccess( 'edit' );
+        }
+        $p = ( $this->Permissions['can_swap'] == 1 );
+        return $p;
+    }
+
+    /*!
      \returns the sort key for the given classAttributeID.
       int|string is returend. False is returned if unsuccessful.
     */
