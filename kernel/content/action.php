@@ -406,8 +406,11 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     if ( !$node )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
 
-    if ( !$node->canMoveFrom() )
+    if ( !$node->canSwap() )
+    {
+        eZDebug::writeError( "Cannot swap node $nodeID (no edit permission)" );
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
+    }
 
     $nodeParentNodeID = & $node->attribute( 'parent_node_id' );
 
@@ -436,9 +439,9 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
                                'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
-    if ( !$selectedNode->canMoveFrom() )
+    if ( !$selectedNode->canSwap() )
     {
-        eZDebug::writeError( "Cannot use node $selectedNodeID as the exchanging node for $nodeID, the current user does not have edit or remove permission for it",
+        eZDebug::writeError( "Cannot use node $selectedNodeID as the exchanging node for $nodeID, the current user does not have edit permission for it",
                              'content/action' );
         return $module->redirectToView( 'view', array( 'full', 2 ) );
     }
@@ -542,9 +545,9 @@ else if ( $module->isCurrentAction( 'SwapNodeRequest' ) )
     if ( !$node )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
 
-    if ( !$node->canMoveFrom() )
+    if ( !$node->canSwap() )
     {
-        eZDebug::writeError( "Cannot move node $nodeID (no edit or remove permission)" );
+        eZDebug::writeError( "Cannot swap node $nodeID (no edit permission)" );
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array() );
     }
 
@@ -554,18 +557,9 @@ else if ( $module->isCurrentAction( 'SwapNodeRequest' ) )
     $objectID = $object->attribute( 'id' );
     $class =& $object->contentClass();
 
-    $ignoreNodesSelect = array();
+    $ignoreNodesSelect = array( $nodeID );
     $ignoreNodesClick = array();
 
-    $publishedAssigned = $object->assignedNodes( false );
-    foreach ( $publishedAssigned as $element )
-    {
-        $ignoreNodesSelect[] = $element['node_id'];
-        $ignoreNodesClick[]  = $element['node_id'];
-        $ignoreNodesSelect[] = $element['parent_node_id'];
-    }
-    $ignoreNodesSelect = array_unique( $ignoreNodesSelect );
-    $ignoreNodesClick = array_unique( $ignoreNodesClick );
     eZContentBrowse::browse( array( 'action_name' => 'SwapNode',
                                     'description_template' => 'design:content/browse_swap_node.tpl',
                                     'keys' => array( 'class' => $class->attribute( 'id' ),
