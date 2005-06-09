@@ -24,29 +24,34 @@ Attributes:
 *Bugfixes:
 - Fixed bug: eZBasket does not return all available attributes.
   (Merged from stable/3.4 (3.4.7) rev. 11487)
-- Fixed Bug #6517: Bug Template operator: pdf(set_font, ...) ColorRGB.
-  ( Merged from stable/3.4 rev. 11501 )
-- Fixed bug #6516: Bug Template operator: pdf(new_page) has no newline.
-  ( Merged from stable/3.4 rev. 11504 )
-- Fixed bug #6518: Bug Template operator: pdf(set_margin, ...) line_space is broken.
-- Fixed bug #6523: Bug Template operator: pdf(text_box, ...) alignment and size doesn't work.
-  ( Merged from stable/3.4 rev. 11514 )
+- Fixed Bug #6517: Template operator: pdf(set_font, ...) ColorRGB.
+  (Merged from stable/3.4 rev. 11501)
+- Fixed bug #6516: Template operator: pdf(new_page) has no newline.
+  (Merged from stable/3.4 rev. 11504)
+- Fixed bug #6518: Template operator: pdf(set_margin, ...) line_space is 
+  broken.
+- Fixed bug #6523: Template operator: pdf(text_box, ...) alignment and size 
+  doesn't work.
+  (Merged from stable/3.4 rev. 11514)
 - Fixed bug #6525: ezmatrix doesn't support attribute( show ).
   (Merged from stable/3.4 (3.4.6) rev. 11515)
-- Fixed bug #6493: New bug: Template operator: pdf(filled_circle, ...) gets into a recursive 
-  loop if the "y" parameter is wrong.
-- Fixed bug #6503: Bug Template operator: pdf(footer, ...) line thickness doesn't work.
-  ( Merged from stable/3.4 rev. 11529 )
-- Fixed bug #6507: Bug Template operator: pdf( frontpage, ...) alignment parameter must be present.
-  ( Merged from stable/3.4 rev. 11533 )
+- Fixed bug #6493: Template operator: pdf(filled_circle, ...) gets into a 
+  recursive loop if the "y" parameter is wrong.
+- Fixed bug #6503: Template operator: pdf(footer, ...) line thickness doesn't 
+  work.
+  (Merged from stable/3.4 rev. 11529)
+- Fixed bug #6507: Template operator: pdf( frontpage, ...) alignment parameter
+  must be present.
+  (Merged from stable/3.4 rev. 11533)
 - Fixed bug #6508: Cannot remove URL Attribute.
   (Merged from trunk/3.6 (3.6.0alpha) rev. 11531)
 - Fixed bug #6036: Role issues with copy and move.
 - Fixed bug #6538: Clean eZ publish 3.5.2 install causes kernel error 20.
   (Merged from stable/3.4 (3.4.7) rev. 11550)
-- Fixed bug #6509: ezlupdate did not scan extensions correctly (windows version only)
-- Fixed bug #6510: ezlupdate did not work with UTF-8 templates
-- Fixed wrong handling of the option set name in ezmultioption datatype.
+- Fixed bug #6509: ezlupdate did not scan extensions correctly (windows version 
+  only).
+- Fixed bug #6510: ezlupdate did not work with UTF-8 templates.
+- Fixed: wrong handling of the option set name in ezmultioption datatype.
 - Fixed bug #6478: 'choose' operator returns wrong value.
   (Merged from trunk/3.6 (3.6.0alpha) rev. 11597)
 - Fixed bug #6542: tree_count failure.
@@ -58,16 +63,19 @@ Attributes:
   (Merged from stable/3.4 (3.4.7) rev. 11665)
 - Fixed bug #6506: Shopping permissions for a guest user don't work properly.
 - Fixed bug: Paymentgatewayevent does not find all gateway extensions.
-- Fixed Bug #4699: INIOverridedir was prepended in global context in visual/toolbarlist.
+- Fixed bug #4699: INIOverridedir was prepended in global context in 
+  visual/toolbarlist.
 - Fixed bug: eZSendmailTransport always asumes safe-mode is enabled.
   (Merged from stable/3.4 (3.4.7) rev. 11692)
 - Fixed bug #5843: Invalid locale values can be added to content/translations.
   (Merged from stable/3.4 (3.4.7) rev. 11696)
 - Fixed bug #6571: Object relations list crash.
   (Manually merged from trunk rev. 11693)
-- Fixed bug #6605: Toolbar manager always shows empty tool as first on the list.
+- Fixed bug #6605: Toolbar manager always shows empty tool as first on the 
+  list.
 - Fixed bug #6543: Disabling cache causes template override failure.
-- Fixed bug #6435: Recognize eAccelerator (mmCache fork) as valid PHP Accelerator.
+- Fixed bug #6435: Recognize eAccelerator (mmCache fork) as valid PHP 
+  Accelerator.
 - Fixed bug #6608: Missing koi8r alias in eZCharsetInfo.
 - Fixed bug #6549: eZSYS::splitArgumentIntoElements and/or ImageMagick.
   (Merged from trunk rev. 11765)
@@ -77,7 +85,7 @@ Attributes:
   (Merged from 3.6.0rc1(trunk rev.11788))
 - Fixed bug #6203: Disable translations in Keywords does not act as advertised.
   (Merged from stable/3.4 (3.4.7) rev. 11793)
-- Fixed bug: Unused keywords are never deleted.
+- Fixed: Unused keywords are never deleted.
   (Merged from stable/3.4 (3.4.7) rev. 11793)
 - Fixed bug #6625: Relation list cache not updated.
 - Fixed bug #6626: Remove border attribute from image tag.
@@ -89,8 +97,8 @@ Attributes:
 - Fixed bug #6064: Escaping of strings doesn't work.
   (Merged from stable/3.4 (3.4.7) rev. 11821)
 - Fixed bug #6583: 'ezboolean' datatype logic.
-- Fixed bug: When copying an object having two or more versions, each
-  attribute in the copy gets different IDs in different versions.
+- Fixed: When copying an object having two or more versions, each attribute in
+  the copy gets different IDs in different versions.
   (Merged from stable/3.4 (3.4.7) rev. 11833).
 - Fixed bug: 6400: Time attribute and DST.
   (Manually merged from trunk (3.6.0rc2) rev. 11841)
@@ -98,7 +106,7 @@ Attributes:
   (Manually merged from trunk (3.6.0rc2) rev. 11851)
 - Fixed bug #5605: Unreadable text when installing an addon package
   (Manually merged from stable/3.4 (3.4.7) rev. 11859)
-- Fixed eZTemplate::elementValue() so that it does not complain about
+- Fixed: changed eZTemplate::elementValue() so that it does not complain about
   absence of an array element when the element exists and its value is null.  
   (Merged from trunk (3.6.0rc2) rev. 11831) 
 - Fixed bug #6612: URL management displays duplicates.
@@ -116,8 +124,8 @@ Attributes:
 - Fixed bug #6651: Embed Image caption.
 - Fixed bug #6648: Anonymous poll problem.
   (Merged from trunk (3.6.0) rev.11927)
-- Fixed error and warning messages in setup/extensions when there is no
-  group ExtensionSettings defined in site.ini.append[.php].  
+- Fixed: removed error and warning messages in setup/extensions when there is 
+  no group ExtensionSettings defined in site.ini.append[.php].  
   (Merged from stable/3.4 (3.4.7) rev. 11930)
 - Fixed bug #6676: Surpressed php warning when cache-block is empty.
   (Merged from stable/3.4 (3.4.7) rev. 11936)
@@ -132,8 +140,8 @@ Attributes:
 - Fixed bug #6177: Enum type saves wrong style
 - Fixed bug #6683: node_id not set in flat_left.tpl in every context.
   (Merged from trunk (3.7.0alpha1) rev. 12003)
-- Fixed bug: Cannot upload files to media datatype.
-- Fixed bug: Current design settings were not considered when clearing viewcache.
+- Fixed: Cannot upload files to media datatype.
+- Fixed: Current design settings were not considered when clearing viewcache.
   (Merged from stable/3.4 (3.4.7) rev. 12031)
 - Fixed bug #6685: Error when American English selected as primary language
   (Merged from stable/3.4 (3.4.7) rev. 12066)
@@ -141,8 +149,8 @@ Attributes:
   site running in non-virtualhost mode.
   (Merged from stable/3.4 (3.4.7) rev. 12070)
 - Fixed bug #6700: Database transaction failure when adding a new translation.
-- Fixed inability to effectively clean up object version cache for
-  a single object.  
+- Fixed: fixed inability to effectively clean up object version cache for
+  a single object.
 - Fixed bug: object version cache is incorrectly cleared in
   eZConentObject::store().
 - Fixed bug #6431: eZContentObjectTreeNode::removeSubtrees() causes
@@ -154,23 +162,19 @@ Attributes:
   (Merged from stable/3.4 (3.4.7) rev. 12107)
 - Fixed bug #6459: kickstart, sendmail under Win.
   (Manually merged from trunk (3.7.0alpha1) rev. 12111)
-- Fixed bug: si operator ignores decimal count of 0 in uncompiled state
+- Fixed: si operator ignores decimal count of 0 in uncompiled state.
   (Merged from stable/3.4 (3.4.7) rev. 12117)
-- Fixed bug #6698: Linkcheck checks url from all archived content
+- Fixed bug #6698: Linkcheck checks url from all archived content.
 - Fixed bug #6732: Content object tree is not updated after deleting a class.
   (Manually merged from stable/3.4 (3.4.7) rev. 12133)
 - Fixed bug in ezxmltext datatype: <object> tag corrupts design keys.
   (Merged from stable/3.4 (3.4.7) rev. 12141)
 - Fixed bug #6702: Template cache-blocks are not cleared after deleting object
   via WEBDAV. 
-- Fixed bug #6740: SWAP in 3.6.0 is BROKEN
+- Fixed bug #6740: SWAP in 3.6.0 is BROKEN.
 - Fixed bug #6744: Search fails for roles with limited assignment.
   (Merged from trunk (3.7.0alpha) rev. 12162)
 - Fixed bug #6750: node_view_gui doesn't interprete url_alias correctly.
-
-*WebDAV:
-
-*Library:
 
 eZLocale:
 - Added: Fetching a country, locale or language list can now exclude variations.
@@ -180,12 +184,6 @@ eZI18N:
 - Added: koi8r is now a known charset alias.
 - Added: If a charset alias fails it will try to find the alias without any
   dashes.
-
-eZDebug:
-
-eZDB:
-
-eZTemplate:
 
 *Translations:
 - Updated Catalan (cat-ES) translation from ez.no contribution.
