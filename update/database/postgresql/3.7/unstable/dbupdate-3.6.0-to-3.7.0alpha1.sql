@@ -7,3 +7,9 @@ ALTER TABLE ezorder ALTER COLUMN is_archived SET NOT NULL;
 
 CREATE INDEX ezorder_is_archived ON ezorder USING btree (is_archived);
 
+
+-- Improved Approval Workflow -- START --
+
+UPDATE ezworkflow_event set data_text3=data_int1;
+
+-- Improved Approval Workflow --  END  --

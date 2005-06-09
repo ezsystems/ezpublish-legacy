@@ -154,8 +154,6 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     */
     function unreadMessageCount( &$collaborationItem )
     {
-//         $participantID =& eZUser::currentUserID();
-//         $participant =& eZCollaborationItemParticipantLink::fetch( $collaborationItem->attribute( 'id' ), $participantID );
         $lastRead = 0;
         $status =& $collaborationItem->attribute( 'user_status' );
         if ( $status )
@@ -207,10 +205,10 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     /*!
      Creates a new approval collaboration item which will approve the content object \a $contentObjectID
      with version \a $contentObjectVersion.
-     The item will be added to the author \a $authorID and the approver \a $approverID.
+     The item will be added to the author \a $authorID and the approver array \a $approverIDArray.
      \return the collaboration item.
     */
-    function createApproval( $contentObjectID, $contentObjectVersion, $authorID, $approverID )
+    function createApproval( $contentObjectID, $contentObjectVersion, $authorID, $approverIDArray )
     {
         $collaborationItem =& eZCollaborationItem::create( 'ezapprove', $authorID );
         $collaborationItem->setAttribute( 'data_int1', $contentObjectID );
@@ -219,22 +217,23 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
         $collaborationItem->store();
         $collaborationID = $collaborationItem->attribute( 'id' );
 
-        $participantList = array( array( 'id' => $authorID,
+        $participantList = array( array( 'id' => array( $authorID ),
                                          'role' => EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR ),
-                                  array( 'id' => $approverID,
+                                  array( 'id' => $approverIDArray,
                                          'role' => EZ_COLLABORATION_PARTICIPANT_ROLE_APPROVER ) );
         foreach ( $participantList as $participantItem )
         {
-            $participantID = $participantItem['id'];
-            $participantRole = $participantItem['role'];
-            $link =& eZCollaborationItemParticipantLink::create( $collaborationID, $participantID,
-                                                                 $participantRole, EZ_COLLABORATION_PARTICIPANT_TYPE_USER );
-            $link->store();
+            foreach( $participantItem['id'] as $participantID )
+            {
+                $participantRole = $participantItem['role'];
+                $link =& eZCollaborationItemParticipantLink::create( $collaborationID, $participantID,
+                                                                     $participantRole, EZ_COLLABORATION_PARTICIPANT_TYPE_USER );
+                $link->store();
 
-            $profile =& eZCollaborationProfile::instance( $participantID );
-            $groupID =& $profile->attribute( 'main_group' );
-//             eZDebug::writeDebug( 'Adding item group link' );
-            eZCollaborationItemGroupLink::addItem( $groupID, $collaborationID, $participantID );
+                $profile =& eZCollaborationProfile::instance( $participantID );
+                $groupID =& $profile->attribute( 'main_group' );
+                eZCollaborationItemGroupLink::addItem( $groupID, $collaborationID, $participantID );
+            }
         }
 
         // Create the notification

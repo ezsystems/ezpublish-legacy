@@ -4,6 +4,7 @@ Changes from 3.6.0 to 3.7.0alpha1
 - Added method eZContentObject::clearCache() that can be used to clear all
   in-memory caches [for a given object].
   (Merged from stable/3.5 (3.5.3) rev. 12085)
+- Added user groups options to approval workflow.
 
 *INI settings
 

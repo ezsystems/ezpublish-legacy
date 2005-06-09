@@ -15,13 +15,24 @@
 {* User who functions as approver *}
 <div class="element">
     <label>{'User who approves content'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
-    <select name="WorkflowEvent_event_ezapprove_editor_{$event.id}[]" size="5">
+    <select name="WorkflowEvent_event_ezapprove_editors_{$event.id}[]" size="5" multiple="multiple">
+    <option value="">{"None"|i18n("design/standard/workflow/eventtype/edit")}</option>
     {section var=Users loop=$event.workflow_type.users}
-    <option value="{$Users.item.value}"{section show=$event.selected_users|contains( $Users.item.value )} selected="selected"{/section}>{$Users.item.name|wash}</option>
+    <option value="{$Users.item.value}"{section show=$event.approve_users|contains( $Users.item.value )} selected="selected"{/section}>{$Users.item.name|wash}</option>
     {/section}
     </select>
 </div>
 
+{* User groups who functions as approver *}
+<div class="element">
+    <label>{'User groups who approves content'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
+    <select name="WorkflowEvent_event_ezapprove_editor_groups_{$event.id}[]" size="5" multiple="multiple">
+    <option value="">{"None"|i18n("design/standard/workflow/eventtype/edit")}</option>
+    {section var=Users loop=$event.workflow_type.usergroups}
+    <option value="{$Users.item.value}"{section show=$event.approve_groups|contains( $Users.item.value )} selected="selected"{/section}>{$Users.item.name|wash}</option>
+    {/section}
+    </select>
+</div>
 
 {* Excluded users & groups *}
 <div class="element">

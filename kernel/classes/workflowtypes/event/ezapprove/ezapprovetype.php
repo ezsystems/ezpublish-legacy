@@ -39,6 +39,12 @@
   \class eZApproveType ezapprovetype.php
   \brief Event type for user approvals
 
+  WorkflowEvent storage fields : data_text1 - selected_sections
+                                 data_text2 - selected_usergroups
+                                 data_text3 - approve_users
+                                 data_text4 - approve_groups
+
+
 */
 
 include_once( "kernel/classes/ezworkflowtype.php" );
@@ -66,9 +72,14 @@ class eZApproveType extends eZWorkflowEventType
                 $sections = explode( ',', $event->attribute( 'data_text1' ) );
                 return $sections;
             }break;
-            case 'selected_users':
+            case 'approve_users':
             {
-                $users =  array( $event->attribute( 'data_int1' ) );
+                $users =  explode(  ',', $event->attribute( 'data_text3' ) ); //array( $event->attribute( 'data_int1' ) );
+                return $users;
+            }break;
+            case 'approve_groups':
+            {
+                $users =  explode(  ',', $event->attribute( 'data_text4' ) );
                 return $users;
             }break;
             case 'selected_usergroups':
@@ -83,7 +94,8 @@ class eZApproveType extends eZWorkflowEventType
     function typeFunctionalAttributes( )
     {
         return array( 'selected_sections',
-                      'selected_users',
+                      'approve_users',
+                      'approve_groups',
                       'selected_usergroups' );
     }
 
@@ -166,11 +178,12 @@ class eZApproveType extends eZWorkflowEventType
         $userGroups = $user->attribute( 'groups' );
         $workflowSections = explode( ',', $event->attribute( 'data_text1' ) );
         $workflowGroups = explode( ',', $event->attribute( 'data_text2' ) );
-        $editor = $event->attribute( 'data_int1' );
+        $editors = explode( ',', $event->attribute( 'data_text3' ) ); //$event->attribute( 'data_int1' );
+        $approveGroups = explode( ',', $event->attribute( 'data_text4' ) );
 
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $user, 'eZApproveType::execute::user' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $userGroups, 'eZApproveType::execute::userGroups' );
-        eZDebugSetting::writeDebug( 'kernel-workflow-approve', $editor, 'eZApproveType::execute::editor' );
+        eZDebugSetting::writeDebug( 'kernel-workflow-approve', $editors, 'eZApproveType::execute::editor' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $workflowSections, 'eZApproveType::execute::workflowSections' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $workflowGroups, 'eZApproveType::execute::workflowGroups' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $object->attribute( 'section_id'), 'eZApproveType::execute::section_id' );
@@ -202,24 +215,46 @@ class eZApproveType extends eZWorkflowEventType
 
         $inExcludeGroups = count( array_intersect( $userGroups, $workflowGroups ) ) != 0;
 
-        $userIsEditor = $user->id() == $editor;
+        $userIsEditor = ( in_array( $user->id(), $editors ) ||
+                          count( array_intersect( $userGroups, $approveGroups ) ) != 0 );
 
         if ( !$userIsEditor and
              !$inExcludeGroups and
              $correctSection )
         {
 
+            /* Get user IDs from approve user groups */
+            $ini =& eZINI::instance();
+            $userClassIDArray = array( $ini->variable( 'UserSettings', 'UserClassID' ) );
+            $approveUserIDArray = array();
+            foreach( $approveGroups as $approveUserGroupID )
+            {
+                $approveUserGroup =& eZContentObject::fetch( $approveUserGroupID );
+                foreach( $approveUserGroup->attribute( 'assigned_nodes' ) as $assignedNode )
+                {
+                    $userNodeArray =& $assignedNode->subTree( array( 'ClassFilterType' => 'include',
+                                                                     'ClassFilterArray' => $userClassIDArray,
+                                                                     'Limitation' => array() ) );
+                    foreach( $userNodeArray as $userNode )
+                    {
+                        $approveUserIDArray[] = $userNode->attribute( 'contentobject_id' );
+                    }
+                }
+            }
+            $approveUserIDArray = array_merge( $approveUserIDArray, $editors );
+            $approveUserIDArray = array_unique( $approveUserIDArray );
+
             $collaborationID = false;
             $db = & eZDb::instance();
             $taskResult = $db->arrayQuery( 'select workflow_process_id, collaboration_id from ezapprove_items where workflow_process_id = ' . $process->attribute( 'id' )  );
             if ( count( $taskResult ) > 0 )
                 $collaborationID = $taskResult[0]['collaboration_id'];
-//             if( $process->attribute( 'event_state') == EZ_APPROVE_COLLABORATION_NOT_CREATED )
+
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $collaborationID, 'approve collaborationID' );
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $process->attribute( 'event_state'), 'approve $process->attribute( \'event_state\')' );
             if ( $collaborationID === false )
             {
-                $this->createApproveCollaboration( $process, $event, $user->id(), $object->attribute( 'id' ), $versionID, $editor );
+                $this->createApproveCollaboration( $process, $event, $user->id(), $object->attribute( 'id' ), $versionID, $approveUserIDArray );
                 $this->setInformation( "We are going to create approval" );
                 $process->setAttribute( 'event_state', EZ_APPROVE_COLLABORATION_CREATED );
                 $process->store();
@@ -234,8 +269,7 @@ class eZApproveType extends eZWorkflowEventType
                 eZDebugSetting::writeDebug( 'kernel-workflow-approve', $this, 'approve re-execute' );
                 return EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT;
             }
-//             else if ( $process->attribute( 'event_state') == EZ_APPROVE_COLLABORATION_CREATED )
-            else
+            else //EZ_APPROVE_COLLABORATION_CREATED
             {
                 $this->setInformation( "we are checking approval now" );
                 eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'check approval' );
@@ -247,7 +281,7 @@ class eZApproveType extends eZWorkflowEventType
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $workflowSections , "we are not going to create approval " . $object->attribute( 'section_id') );
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $userGroups, "we are not going to create approval" );
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $workflowGroups,  "we are not going to create approval" );
-            eZDebugSetting::writeDebug( 'kernel-workflow-approve', $user->id(), "we are not going to create approval $editor "  );
+            eZDebugSetting::writeDebug( 'kernel-workflow-approve', $user->id(), "we are not going to create approval "  );
             return EZ_WORKFLOW_TYPE_STATUS_ACCEPTED;
         }
     }
@@ -258,12 +292,19 @@ class eZApproveType extends eZWorkflowEventType
 
     function fetchHTTPInput( &$http, $base, &$event )
     {
-        $editorVar = $base . "_event_ezapprove_editor_" . $event->attribute( "id" );
-        if ( $http->hasPostVariable( $editorVar ) )
+        $editorsVar = $base . "_event_ezapprove_editors_" . $event->attribute( "id" );
+        if ( $http->hasPostVariable( $editorsVar ) )
         {
-            $editorID = $http->postVariable( $editorVar );
-            $editorID = $editorID[0];
-            $event->setAttribute( "data_int1", $editorID );
+            $editorIDArray = $http->postVariable( $editorsVar );
+            $editorIDString = implode( ',', $editorIDArray );
+            $event->setAttribute( "data_text3", $editorIDString );
+        }
+        $editorGroupsVar = $base . "_event_ezapprove_editor_groups_" . $event->attribute( "id" );
+        if ( $http->hasPostVariable( $editorGroupsVar ) )
+        {
+            $editorGroupArray = $http->postVariable( $editorGroupsVar );
+            $editorGroupString = implode( ',', $editorGroupArray );
+            $event->setAttribute( "data_text4", $editorGroupString );
         }
         $userGroupsVar = $base . "_event_ezapprove_groups_" . $event->attribute( "id" );
         if ( $http->hasPostVariable( $userGroupsVar ) )
@@ -288,25 +329,23 @@ class eZApproveType extends eZWorkflowEventType
                 $sectionsArray = array( -1 );
             }
             $sectionsString = implode( ',', $sectionsArray );
-//            $userGroupList = explode( ',', $userGroupsString );
             $event->setAttribute( "data_text1", $sectionsString );
         }
 
     }
 
-    function createApproveCollaboration( &$process, &$event, $userID, $contentobjectID, $contentobjectVersion, $editor )
+    function createApproveCollaboration( &$process, &$event, $userID, $contentobjectID, $contentobjectVersion, $editors )
     {
-        if ( $editor === null )
+        if ( $editors === null )
             return false;
         $authorID = $userID;
         $collaborationItem =& eZApproveCollaborationHandler::createApproval( $contentobjectID, $contentobjectVersion,
-                                                                             $authorID, $editor );
+                                                                             $authorID, $editors );
 
         $db = & eZDb::instance();
         $db->query( 'insert into ezapprove_items( workflow_process_id,
-                                                      collaboration_id )
-                                              values(' . $process->attribute( 'id' ) .','. $collaborationItem->attribute( 'id' ) .' ) '
-                    );
+                                                  collaboration_id )
+                                 values(' . $process->attribute( 'id' ) .','. $collaborationItem->attribute( 'id' ) .' )' );
     }
 
     function checkApproveCollaboration( &$process, &$event )
@@ -331,16 +370,9 @@ class eZApproveType extends eZWorkflowEventType
                   $approvalStatus == EZ_COLLABORATION_APPROVE_STATUS_DEFERRED )
         {
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'approval was denied' );
-//             $contentObjectVersion->setAttribute( 'status', EZ_VERSION_STATUS_REJECTED );
             $contentObjectVersion->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
             $status = EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
         }
-//         else if ( $approvalStatus == EZ_COLLABORATION_APPROVE_STATUS_DEFERRED )
-//         {
-//             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, 'approval was deferred' );
-//             $contentObjectVersion->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
-//             $status = EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_RESET;
-//         }
         else
         {
             eZDebugSetting::writeDebug( 'kernel-workflow-approve', $event, "approval unknown status '$approvalStatus'" );

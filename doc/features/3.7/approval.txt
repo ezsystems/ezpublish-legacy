@@ -1,0 +1,6 @@
+*Title: Approve by user group
+
+*Documentation:
+This enhancement enables selection of mutiple user groups to approve content. 
+Multiple users and/or usergroups can now be set up to approve content. Old
+workflows using the approval event will still work after the upgrade.
