@@ -235,9 +235,13 @@ class eZObjectRelationListType extends eZDataType
                     $object->storeInput( $attributes,
                                          $attributeInputMap );
                     $version =& eZContentObjectVersion::fetchVersion( $subObjectVersion, $subObjectID );
-                    $version->setAttribute( 'modified', time() );
-                    $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
-                    $version->store();
+                    if ( $version )
+                    {
+                        $version->setAttribute( 'modified', time() );
+                        $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+                        $version->store();
+                    }
+
                     $object->setAttribute( 'status', EZ_CONTENT_OBJECT_STATUS_DRAFT );
                     $object->store();
                 }
