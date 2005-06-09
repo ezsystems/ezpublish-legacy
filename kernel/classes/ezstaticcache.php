@@ -303,7 +303,6 @@ class eZStaticCache
                         if ( $content === false )
                         {
                             $content = @file_get_contents( $fileName );
-                            var_dump( $content );
                         }
                         if ( $content === false )
                         {
@@ -417,7 +416,6 @@ class eZStaticCache
                     if ( ! isset( $fileContentCache[$source] ) )
                     {
                         $fileContentCache[$source] = @file_get_contents( $source );
-                        var_dump( $fileContentCache[$source] );
                     }
                     if ( $fileContentCache[$source] === false )
                     {
