@@ -56,11 +56,34 @@ class eZShopFunctionCollection
     function &fetchBasket( )
     {
         include_once( 'kernel/classes/ezbasket.php' );
-        $basket =& eZBasket::currentBasket();
-        if ( $basket === null )
+        $http =& eZHTTPTool::instance();
+        $sessionID = $http->sessionID();
+
+        $basketList =& eZPersistentObject::fetchObjectList( eZBasket::definition(),
+                                                          null, array( "session_id" => $sessionID
+                                                                       ),
+                                                          null, null,
+                                                          true );
+
+        $currentBasket = false;
+        if ( count( $basketList ) == 0 )
+        {
+            // If we don't have a stored basket we create a temporary
+            // one which can be returned.
+            $collection =& eZProductCollection::create();
+
+            $currentBasket = new eZBasket( array( "session_id" => $sessionID,
+                                                  "productcollection_id" => 0 ) );
+        }
+        else
+        {
+            $currentBasket =& $basketList[0];
+        }
+
+        if ( $currentBasket === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => $basket );
+        return array( 'result' => $currentBasket );
     }
 
     function fetchBestSellList( $topParentNodeID, $limit )
