@@ -84,7 +84,7 @@
                {/section}
             </div>
 
-            {section show=fetch( content, access, hash( access, 'can_create',
+            {section show=fetch( content, access, hash( access, 'create',
                                                         contentobject, $node,
                                                         contentclass_id, 'comment',
                                                         parent_contentclass_id, $node.object.class_identifier ) )}
