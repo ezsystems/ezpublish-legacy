@@ -78,6 +78,7 @@ Attributes:
   files.
 - Fixed bug #6750: node_view_gui doesn't interprete url_alias correctly.
   (Merged from stable/3.5 (3.5.3) rev. 12176)
+- Fixed bug #6738: Online Editor 3.0 not working with eZ 3.7.0Alpha1.
 
 *Library:
 
