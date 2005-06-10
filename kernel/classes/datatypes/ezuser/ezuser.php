@@ -110,7 +110,8 @@ class eZUser extends eZPersistentObject
                                                       'roles' => 'roles',
                                                       'role_id_list' => 'roleIDList',
                                                       'is_logged_in' => 'isLoggedIn',
-                                                      'is_enabled' => 'isEnabled'
+                                                      'is_enabled' => 'isEnabled',
+                                                      'last_visit' => 'lastVisit'
                                                       ),
                       'relations' => array( 'contentobject_id' => array( 'class' => 'ezcontentobject',
                                                                          'field' => 'id' ) ),
