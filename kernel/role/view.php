@@ -96,6 +96,12 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
             $role->assignToUser( $objectID );
         }
     }
+    // Clear role caches.
+    eZRole::expireCache();
+
+    // Clear all content cache.
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
 }
 
 // Remove the role assignment
@@ -107,6 +113,13 @@ if ( $http->hasPostVariable( 'RemoveRoleAssignmentButton' ) )
     {
         $role->removeUserAssignmentByID( $id );
     }
+
+    // Clear role caches.
+    eZRole::expireCache();
+
+    // Clear all content cache.
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
 }
 
 $tpl =& templateInit();

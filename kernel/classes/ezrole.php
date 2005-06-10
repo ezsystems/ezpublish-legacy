@@ -328,7 +328,6 @@ class eZRole extends eZPersistentObject
                      WHERE limit_value LIKE '$pathString%' AND limit_identifier='Subtree'" );
                         // Clean up subtree limitations related to this object
 
-
         $limitationsToFix =& eZPolicyLimitation::findByType( 'SubTree', $node->attribute( 'path_string' ), true, true );
 
         foreach( $limitationsToFix as $limitation )
@@ -353,10 +352,6 @@ class eZRole extends eZPersistentObject
                 {
                     $policy->remove();
                 }
-
-                include_once( 'kernel/classes/ezcontentcachemanager.php' );
-                eZContentCacheManager::clearAllContentCache();
-                eZRole::expireCache();
             }
         }
 
@@ -380,15 +375,16 @@ class eZRole extends eZPersistentObject
             if( $valueCount == 0 )
             {
                 $policy =& eZPolicy::fetch( $limitation->attribute( 'policy_id' ) );
-                $policy->remove();
-
-                include_once( 'kernel/classes/ezcontentcachemanager.php' );
-                eZContentCacheManager::clearAllContentCache();
-                eZRole::expireCache();
+                if ( is_object ( $policy ) )
+                {
+                    $policy->remove();
+                }
             }
         }
 
-
+        eZRole::expireCache();
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearAllContentCache();
     }
 
     /*!
@@ -667,12 +663,6 @@ class eZRole extends eZPersistentObject
 
         $db->query( $query );
 
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-access-cache', mktime() );
-        $handler->setTimestamp( 'user-info-cache', mktime() );
-        $handler->setTimestamp( 'user-class-cache', mktime() );
-        $handler->store();
         return true;
     }
 
@@ -700,9 +690,7 @@ class eZRole extends eZPersistentObject
     function removeUserAssignment( $userID )
     {
         $db =& eZDB::instance();
-
         $query = "DELETE FROM ezuser_role WHERE role_id='$this->ID' AND contentobject_id='$userID'";
-
         $db->query( $query );
     }
 
@@ -713,20 +701,6 @@ class eZRole extends eZPersistentObject
     */
     function removeUserAssignmentByID( $id )
     {
-        // Clear content cache for the user/group the assignment is being removed for.
-        {
-            $db =& eZDB::instance();
-            $result = $db->arrayQuery( "SELECT contentobject_id FROM  ezuser_role WHERE id='$id'" );
-            if ( !is_array( $result ) || !$result ) // No such assignment to remove
-                return;
-            $userID = $result[0]['contentobject_id'];
-            include_once( 'kernel/classes/ezcontentcachemanager.php' );
-            eZContentCacheManager::clearContentCacheIfNeeded( $userID );
-        }
-
-        // Clear role, policies and limitations cache.
-        eZRole::expireCache();
-
         // Remove the assignment.
         $db =& eZDB::instance();
         $query = "DELETE FROM ezuser_role WHERE id='$id'";

@@ -71,6 +71,12 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         {
             eZRole::remove( $deleteID );
         }
+        // Clear role caches.
+        eZRole::expireCache();
+
+        // Clear all content cache.
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearAllContentCache();
     }
 }
 // Redirect to content node browse in the user tree
@@ -83,6 +89,12 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
     {
         $role->assignToUser( $objectID );
     }
+    // Clear role caches.
+    eZRole::expireCache();
+
+    // Clear all content cache.
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
 }
 
 if ( $http->hasPostVariable( 'NewButton' )  )

@@ -82,6 +82,9 @@ else if ( $http->hasPostVariable( 'BrowseActionName' ) and
     {
         $role->assignToUser( $objectID, $limitIdent, $limitValue );
     }
+    // Clear role caches.
+    eZRole::expireCache();
+
     if ( count( $selectedObjectIDArray ) > 0 )
     {
         include_once( 'kernel/classes/ezcontentcachemanager.php' );
