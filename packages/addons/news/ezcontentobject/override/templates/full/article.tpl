@@ -58,7 +58,7 @@
 
                 {* Are we allowed to create new object under this node? *}
                 {section show=fetch( content, access,
-                                     hash( access, 'can_create',
+                                     hash( access, 'create',
                                            contentobject, $node,
                                            contentclass_id, 'comment' ) )}
                     <form method="post" action={"content/action"|ezurl}>
