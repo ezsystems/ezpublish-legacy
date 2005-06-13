@@ -352,3 +352,9 @@ Datatype branch:
 - Release branch end=
 - Release branch configured=12205
 - Date 13-Jun-2005
+
+3.5.3:
+- Release branch=release/3.5.3
+- Release branch start=12206
+- Release branch end=
+- Date 13-Jun-2005
