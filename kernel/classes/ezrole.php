@@ -422,10 +422,6 @@ class eZRole extends eZPersistentObject
                 {
                     $policy->remove();
                 }
-
-                include_once( 'kernel/classes/ezcontentcachemanager.php' );
-                eZContentCacheManager::clearAllContentCache();
-                eZRole::expireCache();
             }
         }
 
@@ -449,13 +445,17 @@ class eZRole extends eZPersistentObject
             if( $valueCount == 0 )
             {
                 $policy =& eZPolicy::fetch( $limitation->attribute( 'policy_id' ) );
-                $policy->remove();
-
-                include_once( 'kernel/classes/ezcontentcachemanager.php' );
-                eZContentCacheManager::clearAllContentCache();
-                eZRole::expireCache();
+                if ( is_object ( $policy ) )
+                {
+                    $policy->remove();
+                }
             }
         }
+
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearAllContentCache();
+        eZRole::expireCache();
+
         $db->commit();
 
     }
@@ -700,6 +700,7 @@ class eZRole extends eZPersistentObject
      Assigns the current role to the given user or user group identified by the id.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
+     \note WARNING: Roles and content caches need to be cleared after calling this function.
     */
     function assignToUser( $userID, $limitIdent = '', $limitValue = '' )
     {
@@ -740,13 +741,6 @@ class eZRole extends eZPersistentObject
         $query = "INSERT INTO ezuser_role ( role_id, contentobject_id, limit_identifier, limit_value ) VALUES ( '$this->ID', '$userID', '$limitIdent', '$limitValue' )";
         $db->query( $query );
 
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-access-cache', mktime() );
-        $handler->setTimestamp( 'user-info-cache', mktime() );
-        $handler->setTimestamp( 'user-class-cache', mktime() );
-        $handler->store();
-
         $db->commit();
         return true;
     }
@@ -773,6 +767,7 @@ class eZRole extends eZPersistentObject
      Removes the role assignment
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
+     \note WARNING: Roles and content caches need to be cleared after calling this function.
     */
     function removeUserAssignment( $userID )
     {
@@ -789,23 +784,10 @@ class eZRole extends eZPersistentObject
      \param ezuser_role id
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
+     \note WARNING: Roles and content caches need to be cleared after calling this function.
     */
     function removeUserAssignmentByID( $id )
     {
-        // Clear content cache for the user/group the assignment is being removed for.
-        {
-            $db =& eZDB::instance();
-            $result = $db->arrayQuery( "SELECT contentobject_id FROM  ezuser_role WHERE id='$id'" );
-            if ( !is_array( $result ) || !$result ) // No such assignment to remove
-                return;
-            $userID = $result[0]['contentobject_id'];
-            include_once( 'kernel/classes/ezcontentcachemanager.php' );
-            eZContentCacheManager::clearContentCacheIfNeeded( $userID );
-        }
-
-        // Clear role, policies and limitations cache.
-        eZRole::expireCache();
-
         // Remove the assignment.
         $db =& eZDB::instance();
         $query = "DELETE FROM ezuser_role WHERE id='$id'";

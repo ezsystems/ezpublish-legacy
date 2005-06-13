@@ -84,6 +84,9 @@ else if ( $http->hasPostVariable( 'BrowseActionName' ) and
     {
         $role->assignToUser( $objectID, $limitIdent, $limitValue );
     }
+    // Clear role caches.
+    eZRole::expireCache();
+
     $db->commit();
     if ( count( $selectedObjectIDArray ) > 0 )
     {

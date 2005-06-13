@@ -99,11 +99,18 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
             $role->assignToUser( $objectID );
         }
     }
-    $db->commit();
-
     /* Clean up policy cache */
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
     eZUser::cleanupCache();
+
+    // Clear role caches.
+    eZRole::expireCache();
+
+    // Clear all content cache.
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
+
+    $db->commit();
 }
 
 // Remove the role assignment
@@ -117,11 +124,18 @@ if ( $http->hasPostVariable( 'RemoveRoleAssignmentButton' ) )
     {
         $role->removeUserAssignmentByID( $id );
     }
-    $db->commit();
-
     /* Clean up policy cache */
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
     eZUser::cleanupCache();
+ 
+    // Clear role caches.
+    eZRole::expireCache();
+
+    // Clear all content cache.
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
+
+    $db->commit();
 }
 
 $tpl =& templateInit();
