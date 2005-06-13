@@ -624,6 +624,7 @@ class eZRole extends eZPersistentObject
 
     /*!
      Assigns the current role to the given user or user group identified by the id.
+     \note WARNING: Roles and content caches need to be cleared after calling this function.
     */
     function assignToUser( $userID, $limitIdent = '', $limitValue = '' )
     {
@@ -686,6 +687,7 @@ class eZRole extends eZPersistentObject
 
     /*!
      Removes the role assignment
+     \note WARNING: Roles and content caches need to be cleared after calling this function.
     */
     function removeUserAssignment( $userID )
     {
@@ -696,8 +698,8 @@ class eZRole extends eZPersistentObject
 
     /*!
      Remove ezuser_role by id
-
      \param ezuser_role id
+     \note WARNING: Roles and content caches need to be cleared after calling this function.
     */
     function removeUserAssignmentByID( $id )
     {
