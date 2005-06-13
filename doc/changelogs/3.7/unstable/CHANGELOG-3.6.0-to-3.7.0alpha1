@@ -82,6 +82,10 @@ Attributes:
 
 *Library:
 
+eZDB:
+- Added: New function hasRequiredServerVersion() to make it easier to check for
+  required version and type.
+
 *SOAP:
 
 *Design:

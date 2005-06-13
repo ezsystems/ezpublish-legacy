@@ -471,6 +471,25 @@ class eZDBInterface
     }
 
     /*!
+     Checks if the version number of the server is equal or larger than \a $minVersion.
+     Will also check if the database type is correct if \a $name is set.
+
+     \param $minVersion A string denoting the min. required version.
+     \param $name The name of the database type it requires or \c false if it does not matter.
+     \return \c true if the server fulfills the requirements.
+    */
+    function hasRequiredServerVersion( $minVersion, $name = false )
+    {
+        if ( $name !== false and
+             $name != $this->databaseName() )
+            return false;
+
+        $version = $this->databaseServerVersion();
+        $version = $version['string'];
+        return version_compare( $version, $minVersion ) >= 0;
+    }
+
+    /*!
      \virtual
      \return the version of the database server or \c false if no version could be retrieved/
     */
@@ -533,6 +552,8 @@ class eZDBInterface
       \pure
       Execute a query on the global MySQL database link.  If it returns an error,
       the script is halted and the attempted SQL query and MySQL error message are printed.
+
+      \param $sql SQL query to execute.
     */
     function &query( $sql )
     {
@@ -542,9 +563,16 @@ class eZDBInterface
       \pure
       Executes an SQL query and returns the result as an array of accociative arrays.
 
-      /param SQL query
-      /param Offset, limit or column limit.
-             Ex: ->arrayQuery( 'SELECT * FROM eztable', array( 'limit' => 10, 'offset' => 5 ) )
+      \param $sql SQL query to execute.
+      \param $params Associative array containing extra parameters, can contain:
+             - offset - The offset of the query.
+             - limit - The limit of the query.
+             - column - Limit returned row arrays to only contain this column.
+
+      An example would be:
+      \code
+      $db->arrayQuery( 'SELECT * FROM eztable', array( 'limit' => 10, 'offset' => 5 ) );
+      \endcode
     */
     function &arrayQuery( $sql, $params = array() )
     {
