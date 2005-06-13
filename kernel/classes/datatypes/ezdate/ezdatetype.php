@@ -86,6 +86,13 @@ class eZDateType extends eZDataType
             }
         }
 
+        if ( !checkdate( $month, $day, $year ) || $year < 1970 )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                 'Date is not valid.' ) );
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        }
+
         $datetime = mktime( 0, 0, 0, $month, $day, $year );
         if ( $datetime !== false )
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
@@ -102,7 +109,8 @@ class eZDateType extends eZDataType
         $day = $http->postVariable( $base . "_date_day_" . $contentObjectAttribute->attribute( "id" ) );
         $date = new eZDate();
         $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-        if ( $year == '' and $month == '' and $day == '' )
+        if ( ( $year == '' and $month == '' and $day == '' )
+             or !checkdate( $month, $day, $year ) or $year < 1970 )
         {
 //             if ( !$contentClassAttribute->attribute( "is_required" ) )
                 $date->setTimeStamp( 0 );
@@ -112,6 +120,7 @@ class eZDateType extends eZDataType
         else
             $date->setMDY( $month, $day, $year );
         $contentObjectAttribute->setAttribute( "data_int", $date->timeStamp() );
+
         return true;
     }
 
