@@ -700,6 +700,7 @@ class eZRole extends eZPersistentObject
      Assigns the current role to the given user or user group identified by the id.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
+     \note WARNING: Roles and content caches need to be cleared after calling this function.
     */
     function assignToUser( $userID, $limitIdent = '', $limitValue = '' )
     {
@@ -766,6 +767,7 @@ class eZRole extends eZPersistentObject
      Removes the role assignment
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
+     \note WARNING: Roles and content caches need to be cleared after calling this function.
     */
     function removeUserAssignment( $userID )
     {
@@ -782,6 +784,7 @@ class eZRole extends eZPersistentObject
      \param ezuser_role id
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
+     \note WARNING: Roles and content caches need to be cleared after calling this function.
     */
     function removeUserAssignmentByID( $id )
     {
