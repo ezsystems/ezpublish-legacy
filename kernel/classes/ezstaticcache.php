@@ -144,6 +144,17 @@ class eZStaticCache
         }
     }
 
+    function generateNodeListCache( $nodeList )
+    {
+        $hostname = $this->HostName;
+        $staticStorageDir = $this->StaticStorageDir;
+
+        foreach ( $nodeList as $uri )
+        {
+            $this->storeCache( '/' . $uri['path_identification_string'], $hostname, $staticStorageDir, array(), false, true );
+        }
+    }
+
     /*!
      Generates the static cache from the configured INI settings.
 
@@ -155,8 +166,11 @@ class eZStaticCache
     {
         $staticURLArray = $this->cachedURLArray();
         $db =& eZDB::instance();
+        $configSettingCount = count( $staticURLArray );
+        $currentSetting = 0;
         foreach ( $staticURLArray as $url )
         {
+            $currentSetting++;
             if ( strpos( $url, '*') === false )
             {
                 if ( !$quiet and $cli )
@@ -172,20 +186,31 @@ class eZStaticCache
                 $queryURL = ltrim( str_replace( '*', '%', $url ), '/' );
 
                 $aliasArray = $db->arrayQuery( "SELECT source_url, destination_url FROM ezurlalias WHERE source_url LIKE '$queryURL' AND source_url NOT LIKE '%*' ORDER BY source_url" );
+                $urlCount = count( $aliasArray );
+                $currentURL = 0;
                 foreach ( $aliasArray as $urlAlias )
                 {
+                    $currentURL++;
                     $url = "/" . $urlAlias['source_url'];
                     preg_match( '/([0-9]+)$/', $urlAlias['destination_url'], $matches );
                     $id = $matches[1];
                     if ( $this->cacheURL( $url, (int) $id, !$force, $delay ) )
                     {
                         if ( !$quiet and $cli )
-                            $cli->output( "  cache $url" );
+                        {
+                            $cli->output( sprintf("   %5.1f%% CACHE  $url", 100 * ($currentURL / $urlCount)));
+                        }
+                    }
+                    else
+                    {
+                        $cli->output( sprintf("   %5.1f%% SKIP   $url", 100 * ($currentURL / $urlCount)));
                     }
                 }
 
                 if ( !$quiet and $cli )
-                    $cli->output( "done" );
+                {
+                    $cli->output( sprintf("%5.1f%% done", 100 * ($currentSetting / $configSettingCount)));
+                }
             }
         }
     }

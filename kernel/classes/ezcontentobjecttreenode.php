@@ -2917,6 +2917,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
         */
     }
 
+    function fetchAliasesFromNodeList( $nodeList )
+    {
+        if ( !is_array( $nodeList ) || count( $nodeList ) < 1 )
+            return array();
+        $nodeIDs = implode( ', ', $nodeList );
+        $query = "SELECT path_identification_string FROM ezcontentobject_tree WHERE node_id IN ( $nodeIDs )";
+        $db =& eZDB::instance();
+        $pathListArray = $db->arrayQuery( $query );
+        return $pathListArray;
+    }
+
     function &findMainNode( $objectID, $asObject = false )
     {
         $query="SELECT ezcontentobject.*,

@@ -21,6 +21,11 @@ Attributes:
 *Scripts:
 - Changed makestaticcache.php script to generate cache files while running, and
   not all at the end.
+- Added progress bar to makestaticcache.php script.
+
+*StaticCache:
+- Added static cache cleanups to the Smart ViewCache algorithms.
+  (Merged from stable/3.6 (3.6.1) rev. 12224)
 
 *DataType:
 
