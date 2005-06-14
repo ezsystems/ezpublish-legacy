@@ -81,6 +81,9 @@ Attributes:
 - Fixed bug #6738: Online Editor 3.0 not working with eZ 3.7.0Alpha1.
 - Fixed bug #6753: Cache is not cleared after deleting a role.
   (Manually merged from stable/3.5 (3.5.3) rev. 12197)
+- Fixed bugs #6733 and #6737: "Date and time" and "Date" datatypes were not
+  validated properly.
+  (Merged from stable/3.5 (3.5.4) rev. 12215)
 
 *Library:
 
