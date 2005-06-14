@@ -17,8 +17,8 @@ if [ "$VERSION_RELEASE" == "0" -a "$DEVELOPMENT" == "false" ]; then
 fi
 
 # URLs for the various repositories
-REPOSITORY_BASE_URL="http://zev.ez.no/svn/nextgen"
-TR_REPOSITORY_BASE_URL="http://zev.ez.no/svn/translation"
+REPOSITORY_BASE_URL="http://svn.ez.no/svn/ezpublish"
+TR_REPOSITORY_BASE_URL="http://svn.ez.no/svn/translations"
 # This needs to be set correctly when a new branch is created
 # e.g. stable/3.4 stable/3.5
 REPOSITORY_BRANCH_PATH="release/3.4.7"
