@@ -444,6 +444,16 @@ class eZContentCacheManager
 
         eZDebugSetting::writeDebug( 'kernel-content-edit', count( $nodeList ), "count in nodeList" );
 
+        $ini =& eZINI::instance();
+        if ( $ini->variable( 'ContentSettings', 'StaticCache' ) == 'enabled' )
+        {
+            include_once( 'kernel/classes/ezstaticcache.php' );
+            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            $staticCache = new eZStaticCache();
+            $staticCache->generateAlwaysUpdatedCache();
+            $staticCache->generateNodeListCache( eZContentObjectTreeNode::fetchAliasesFromNodeList( $nodeList ) );
+        }
+
         include_once( 'kernel/classes/ezcontentcache.php' );
 
         eZDebug::accumulatorStart( 'node_cleanup', '', 'Node cleanup' );

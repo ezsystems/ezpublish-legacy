@@ -144,6 +144,17 @@ class eZStaticCache
         }
     }
 
+    function generateNodeListCache( $nodeList )
+    {
+        $hostname = $this->HostName;
+        $staticStorageDir = $this->StaticStorageDir;
+
+        foreach ( $nodeList as $uri )
+        {
+            $this->storeCache( '/' . $uri['path_identification_string'], $hostname, $staticStorageDir, array(), false, true );
+        }
+    }
+
     /*!
      Generates the static cache from the configured INI settings.
 
