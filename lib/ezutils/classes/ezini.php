@@ -667,7 +667,7 @@ class eZINI
                 }
                 else
                 {
-                    $varValue = $valueArray[4];
+                    $varValue = trim( $valueArray[4] );
                 }
 //                 $varValue = $codec->toUnicode( $varValue );
 
