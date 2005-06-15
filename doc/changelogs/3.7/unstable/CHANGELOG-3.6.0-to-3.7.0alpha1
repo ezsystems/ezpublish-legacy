@@ -102,6 +102,10 @@ eZDB:
 - Added: New function hasRequiredServerVersion() to make it easier to check for
   required version and type.
 
+eZSession:
+- Added support for callback functions. They allow external code to do extra
+  cleanup when a session is expired/removed.
+
 *SOAP:
 
 *Design:

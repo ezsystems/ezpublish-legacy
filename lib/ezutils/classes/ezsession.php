@@ -37,6 +37,55 @@
 
 /*!
   Re-implementation of PHP session management using database.
+
+  The session system has a hook system which allows external code to perform
+  extra tasks before and after a certain action is executed. For instance to
+  cleanup a table when sessions are removed.
+  To create a hook function the global variable \c eZSessionFunctions must be
+  filled in. This contains an associative array with hook points, e.g.
+  \c destroy_pre which is checked by the session system.
+  Each hook point must contain an array with function names to execute, if the
+  hook point does not exist the session handler will not handle the hooks.
+
+  \code
+  function cleanupStuff( &$db, $key, $escKey )
+  {
+      // Do cleanup here
+  }
+  if ( !isset( $GLOBALS['eZSessionFunctions']['destroy_pre'] ) )
+      $GLOBALS['eZSessionFunctions']['destroy_pre'] = array();
+  $GLOBALS['eZSessionFunctions']['destroy_pre'][] = 'cleanupstuff';
+  \endcode
+
+  When new data is inserted to the database it will call the \c update_pre and
+  \c update_post hooks. The signature of the function is
+  function insert( &$db, $key, $escapedKey, $expirationTime, $userID, $value )
+
+  When existing data is updated in the databbase it will call the \c insert_pre
+  and \c insert_post hook. The signature of the function is
+  function update( &$db, $key, $escapedKey, $expirationTime, $userID, $value )
+
+  When a specific session is destroyed in the database it will call the
+  \c destroy_pre and \c destroy_post hooks. The signature of the function is
+  function destroy( &$db, $key, $escapedKey )
+
+  When multiple sessions are expired (garbage collector) in the database it
+  will call the \c gc_pre and \c gc_post hooks. The signature of the function is
+  function gcollect( &$db, $expiredTime )
+
+  When all sessionss are removed from the database it will call the
+  \c empty_pre and \c empty_post hooks. The signature of the function is
+  function empty( &$db )
+
+  \param $db The database object used by the session manager.
+  \param $key The session key which are being worked on, see also \a $escapedKey
+  \param $escapedKey The same key as \a $key but is escaped correctly for the database.
+                     Use this to save a call to eZDBInterface::escapeString()
+  \param $expirationTime An integer specifying the timestamp of when the session
+                         will expire.
+  \param $expiredTime Similar to \a $expirationTime but is the time used to figure
+                      if a session is expired in the database. ie. all sessions with
+                      lower expiration times will be removed.
 */
 
 function eZSessionOpen( )
@@ -110,7 +159,7 @@ function eZSessionWrite( $key, $value )
 
     }
 //    $value =& $db->escapeString( $value );
-    $key =& $db->escapeString( $key );
+    $escKey =& $db->escapeString( $key );
     // check if session already exists
 
     $userID = 0;
@@ -118,23 +167,55 @@ function eZSessionWrite( $key, $value )
         $userID = $GLOBALS['eZSessionUserID'];
     $userID = $db->escapeString( $userID );
 
-    $sessionRes =& $db->arrayQuery( "SELECT session_key FROM ezsession WHERE session_key='$key'" );
+    $sessionRes =& $db->arrayQuery( "SELECT session_key FROM ezsession WHERE session_key='$escKey'" );
 
     if ( count( $sessionRes ) == 1 )
     {
+        if ( isset( $GLOBALS['eZSessionFunctions']['update_pre'] ) )
+        {
+            foreach ( $GLOBALS['eZSessionFunctions']['update_pre'] as $func )
+            {
+                $func( $db, $key, $escKey, $expirationTime, $userID, $value );
+            }
+        }
+
         $updateQuery = "UPDATE ezsession
                     SET expiration_time='$expirationTime', data=$value, user_id='$userID'
-                    WHERE session_key='$key'";
+                    WHERE session_key='$escKey'";
 
         $ret = $db->query( $updateQuery );
+
+        if ( isset( $GLOBALS['eZSessionFunctions']['update_post'] ) )
+        {
+            foreach ( $GLOBALS['eZSessionFunctions']['update_post'] as $func )
+            {
+                $func( $db, $key, $escKey, $expirationTime, $userID, $value );
+            }
+        }
     }
     else
     {
+        if ( isset( $GLOBALS['eZSessionFunctions']['insert_pre'] ) )
+        {
+            foreach ( $GLOBALS['eZSessionFunctions']['insert_pre'] as $func )
+            {
+                $func( $db, $key, $escKey, $expirationTime, $userID, $value );
+            }
+        }
+
         $insertQuery = "INSERT INTO ezsession
                     ( session_key, expiration_time, data, user_id )
-                    VALUES ( '$key', '$expirationTime', $value, '$userID' )";
+                    VALUES ( '$escKey', '$expirationTime', $value, '$userID' )";
 
         $ret = $db->query( $insertQuery );
+
+        if ( isset( $GLOBALS['eZSessionFunctions']['insert_post'] ) )
+        {
+            foreach ( $GLOBALS['eZSessionFunctions']['insert_post'] as $func )
+            {
+                $func( $db, $key, $escKey, $expirationTime, $userID, $value );
+            }
+        }
     }
 }
 
@@ -146,11 +227,25 @@ function eZSessionDestroy( $key )
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
 
-    $key =& $db->escapeString( $key );
-    $query = "DELETE FROM ezsession WHERE session_key='$key'";
+    $escKey =& $db->escapeString( $key );
+    if ( isset( $GLOBALS['eZSessionFunctions']['destroy_pre'] ) )
+    {
+        foreach ( $GLOBALS['eZSessionFunctions']['destroy_pre'] as $func )
+        {
+            $func( $db, $key, $escKey );
+        }
+    }
 
+    $query = "DELETE FROM ezsession WHERE session_key='$escKey'";
     $db->query( $query );
 
+    if ( isset( $GLOBALS['eZSessionFunctions']['destroy_post'] ) )
+    {
+        foreach ( $GLOBALS['eZSessionFunctions']['destroy_post'] as $func )
+        {
+            $func( $db, $key, $escKey );
+        }
+    }
 }
 
 /*!
@@ -162,9 +257,25 @@ function eZSessionGarbageCollector()
     $db =& eZDB::instance();
     $time = time();
 
+    if ( isset( $GLOBALS['eZSessionFunctions']['gc_pre'] ) )
+    {
+        foreach ( $GLOBALS['eZSessionFunctions']['gc_pre'] as $func )
+        {
+            $func( $db, $time );
+        }
+    }
+
     $query = "DELETE FROM ezsession WHERE expiration_time < " . $time;
 
     $db->query( $query );
+
+    if ( isset( $GLOBALS['eZSessionFunctions']['gc_post'] ) )
+    {
+        foreach ( $GLOBALS['eZSessionFunctions']['gc_post'] as $func )
+        {
+            $func( $db, $time );
+        }
+    }
 }
 
 /*!
@@ -175,10 +286,25 @@ function eZSessionEmpty()
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
 
+    if ( isset( $GLOBALS['eZSessionFunctions']['empty_pre'] ) )
+    {
+        foreach ( $GLOBALS['eZSessionFunctions']['empty_pre'] as $func )
+        {
+            $func( $db );
+        }
+    }
+
     $query = "TRUNCATE TABLE ezsession";
 
     $db->query( $query );
 
+    if ( isset( $GLOBALS['eZSessionFunctions']['empty_post'] ) )
+    {
+        foreach ( $GLOBALS['eZSessionFunctions']['empty_post'] as $func )
+        {
+            $func( $db );
+        }
+    }
 }
 
 /*!
