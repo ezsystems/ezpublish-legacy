@@ -89,6 +89,9 @@ Attributes:
 - Fixed bugs #6733 and #6737: "Date and time" and "Date" datatypes were not
   validated properly.
   (Merged from stable/3.5 (3.5.4) rev. 12215)
+- Fixed bug #6765: Fields are cleared on relating an object with related
+  object attribute.
+  (Merged from stable/3.5 (3.5.4) rev. 12235, also in stable/3.6 (3.6.1) rev. 12236)
 
 *Library:
 
