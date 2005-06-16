@@ -189,7 +189,8 @@ if ( $storingAllowed && $hasObjectInput)
 {
     // Disable checking 'is_required' flag for some actions.
     $validationParameters = array( 'skip-isRequired' => false );
-    if ( $Module->isCurrentAction( 'Store' ) )
+    if ( $Module->isCurrentAction( 'Store' ) ||             // 'store draft'
+         $http->hasPostVariable( 'CustomActionButton' ) )   // 'custom action' like 'Find object' for 'object relation' datatype.
     {
         $validationParameters['skip-isRequired'] = true;
     }
