@@ -158,8 +158,12 @@ class eZURLType extends eZDataType
             $contentObjectAttributeID = $attribute->attribute( 'id' );
             $contentObjectAttributeVersion = $attribute->attribute( 'version' );
             eZURLObjectLink::removeURLlinkList( $contentObjectAttributeID, $contentObjectAttributeVersion );
-            $linkObjectLink =& eZURLObjectLink::create( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion );
-            $linkObjectLink->store();
+
+            if ( !eZURLObjectLink::fetch( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion, false ) )
+            {
+                $linkObjectLink =& eZURLObjectLink::create( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion );
+                $linkObjectLink->store();
+            }
 
             if ( $oldURLID )
             {
