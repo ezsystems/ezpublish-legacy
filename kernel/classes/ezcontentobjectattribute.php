@@ -435,7 +435,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
             $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeIsRequired = $classAttribute->attribute( 'is_required' );
-            eZDebug::accumulatorStart( 'class_a_is_req' );
+            eZDebug::accumulatorStop( 'class_a_is_req' );
         }
 
         return $this->ContentClassAttributeIsRequired;
@@ -454,7 +454,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
             $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeIsInformationCollector = $classAttribute->attribute( 'is_information_collector' );
-            eZDebug::accumulatorStart( 'class_a_is_ic' );
+            eZDebug::accumulatorStop( 'class_a_is_ic' );
         }
 
         return $this->ContentClassAttributeIsInformationCollector;
@@ -472,8 +472,8 @@ class eZContentObjectAttribute extends eZPersistentObject
             eZDebug::accumulatorStart( 'class_a_name', 'Sytem overhead', 'Fetch class attribute name' );
 
             $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
-            $this->ContentClassAttributeCanTranslate = $classAttribute->attribute( 'can_translate' );
-            eZDebug::accumulatorStart( 'class_a_name' );
+            $this->ContentClassAttributeName = $classAttribute->attribute( 'name' );
+            eZDebug::accumulatorStop( 'class_a_name' );
         }
 
         return $this->ContentClassAttributeName;
@@ -492,7 +492,7 @@ class eZContentObjectAttribute extends eZPersistentObject
 
             $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
             $this->ContentClassAttributeCanTranslate = $classAttribute->attribute( 'can_translate' );
-            eZDebug::accumulatorStart( 'class_a_can_translate' );
+            eZDebug::accumulatorStop( 'class_a_can_translate' );
         }
 
         return $this->ContentClassAttributeCanTranslate;
