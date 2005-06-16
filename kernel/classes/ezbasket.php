@@ -51,6 +51,11 @@ include_once( "kernel/classes/ezuserdiscountrule.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 include_once( "kernel/classes/ezorder.php" );
 
+/*!
+ Controls the default value for how many items are cleaned in one batch operation.
+*/
+define( "EZ_BASKET_ITEM_LIMIT", 3000 );
+
 class eZBasket extends eZPersistentObject
 {
     /*!
@@ -257,6 +262,19 @@ class eZBasket extends eZPersistentObject
     }
 
     /*!
+     Fetches the basket which belongs to session \a $sessionKey.
+     \param $sessionKey A string containing the session key.
+     \return An eZSessionBasket object or \c false if none was found.
+    */
+    function &fetch( $sessionKey )
+    {
+        $basket =& eZPersistentObject::fetchObject( eZBasket::definition(),
+                                                    null, array( "session_id" => $sessionKey ),
+                                                    true );
+        return $basket;
+    }
+
+    /*!
      Will return the basket for the current session. If a basket does not exist one will be created.
      \return current eZBasket object
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
@@ -392,6 +410,63 @@ class eZBasket extends eZPersistentObject
 
     /*!
      \static
+     Removes all baskets which are considered expired (due to session expiration).
+     \note This will also remove the product collection the basket is using.
+    */
+    function cleanupExpired( $time )
+    {
+        $db =& eZDB::instance();
+
+        if ( $db->hasRequiredServerVersion( '4.0', 'mysql' ) )
+        {
+            // If we have the required MySQL version we use a DELETE statement
+            // with multiple tables
+            $sql = "DELETE FROM ezbasket, ezproductcollection, ezproductcollection_item, ezproductcollection_item_opt
+USING ezsession
+      JOIN ezbasket
+        ON ezsession.session_key = ezbasket.session_id
+      LEFT JOIN ezproductcollection
+        ON ezbasket.productcollection_id = ezproductcollection.id
+      LEFT JOIN ezproductcollection_item
+        ON ezproductcollection.id = ezproductcollection_item.productcollection_id
+      LEFT JOIN ezproductcollection_item_opt
+        ON ezproductcollection_item.id = ezproductcollection_item_opt.item_id";
+            if ( $time !== false )
+                $sql .= "\nWHERE ezsession.expiration_time < " . (int)$time;
+            $db->query( $sql );
+            return;
+        }
+
+        // Find all baskets whos session will expire
+        $sql = "SELECT id, productcollection_id
+FROM ezbasket, ezsession
+WHERE ezbasket.session_id = ezsession.session_key AND
+      ezsession.expiration_time < " . (int)$time;
+        $limit = EZ_BASKET_ITEM_LIMIT;
+
+        do
+        {
+            $rows = $db->arrayQuery( $sql, array( 'offset' => 0, 'limit' => $limit ) );
+            if ( count( $rows ) == 0 )
+                break;
+
+            $productCollectionIDList = array();
+            $idList = array();
+            foreach ( $rows as $row )
+            {
+                $idList[] = (int)$row['id'];
+                $productCollectionIDList[] = (int)$row['productcollection_id'];
+            }
+            eZProductCollection::cleanupList( $productCollectionIDList );
+
+            $ids = implode( ', ', $idList );
+            $db->query( "DELETE FROM ezbasket WHERE id IN ( $ids )" );
+
+        } while ( true );
+    }
+
+    /*!
+     \static
      Removes all baskets for all users.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
@@ -399,19 +474,28 @@ class eZBasket extends eZPersistentObject
     function cleanup()
     {
         $db =& eZDB::instance();
-        $rows = $db->arrayQuery( "SELECT productcollection_id FROM ezbasket" );
+        $sql = "SELECT productcollection_id FROM ezbasket";
+        $limit = EZ_BASKET_ITEM_LIMIT;
 
         $db->begin();
-        if ( count( $rows ) > 0 )
+        do
         {
+            $rows = $db->arrayQuery( $sql, array( 'offset' => 0, 'limit' => $limit ) );
+
+            if ( count( $rows ) == 0 )
+                break;
+
             $productCollectionIDList = array();
             foreach ( $rows as $row )
             {
-                $productCollectionIDList[] = $row['productcollection_id'];
+                $productCollectionIDList[] = (int)$row['productcollection_id'];
             }
             eZProductCollection::cleanupList( $productCollectionIDList );
+
+            $ids = implode( ', ', $productCollectionIDList );
+            $db->query( "DELETE FROM ezbasket WHERE productcollection_id IN ( $ids )" );
         }
-        $db->query( "DELETE FROM ezbasket" );
+        while ( true );
         $db->commit();
     }
 }

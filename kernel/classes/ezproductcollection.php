@@ -185,6 +185,7 @@ class eZProductCollection extends eZPersistentObject
     {
         $db =& eZDB::instance();
         $db->begin();
+        include_once( 'kernel/classes/ezproductcollectionitem.php' );
         eZProductCollectionItem::cleanupList( $productCollectionIDList );
         $idText = implode( ', ', $productCollectionIDList );
         $db->query( "DELETE FROM ezproductcollection WHERE id IN ( $idText )" );
