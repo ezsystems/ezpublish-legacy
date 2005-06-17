@@ -1255,17 +1255,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             if ( $nodeID == 0 )
             {
+                if ( !is_object( $treeNode ) )
+                    return false;
+
                 $node =& $treeNode;
+                $nodeID = $node->attribute( 'node_id' );
             }
             else
             {
                 $node =& eZContentObjectTreeNode::fetch( $nodeID );
+                if ( !is_object( $node ) )
+                    return false;
             }
-
-            if ( !is_object( $node ) )
-                return false;
-
-            $nodeID     = $treeNode->attribute( 'node_id' );
 
             $nodePath   = $node->attribute( 'path_string' );
             $nodeDepth  = $node->attribute( 'depth' );
@@ -1791,7 +1792,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $pathStringCond     = '';
             $notEqParentString  = '';
             // If the node(s) doesn't exist we return null.
-            if ( !eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, null, $nodeID, $depth, $depthOperator ) )
+            $noNode = null;
+            if ( !eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $noNode, $nodeID, $depth, $depthOperator ) )
             {
                 return null;
             }
