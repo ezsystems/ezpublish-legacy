@@ -6,7 +6,7 @@ DIST_TYPE='full'
 VERSION="2.9-2"
 NAME="ezpublish"
 DEST_ROOT="/tmp"
-DEFAULT_SVN_SERVER="http://zev.ez.no/svn/nextgen"
+DEFAULT_SVN_SERVER="http://svn.ez.no/svn/ezpublish"
 DEFAULT_SVN_RELEASE_PATH="releases"
 
 SVN_SERVER=""
