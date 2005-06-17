@@ -1085,7 +1085,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     function parseUnnamedCondition( $funcName, &$args, &$tpl, &$text, &$text_len, &$cur_pos,
                                     $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
-        $cond =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+        $cond = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
         if ( !count( $cond ) )
         {
             $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
