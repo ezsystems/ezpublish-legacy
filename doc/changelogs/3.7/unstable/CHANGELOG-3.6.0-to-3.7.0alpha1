@@ -102,6 +102,9 @@ Attributes:
 - Fixed bug: Illegal use of $this variable in static functions, which does not
   work in PHP 4.4.
   (Merged from stable/3.6 (3.6.1) rev. 12249)
+- Fixed bug: Wrong usage of references from function return-values in template
+  parser.
+  (Merged from stable/3.6 (3.6.1) rev. 12251)
 
 *Library:
 

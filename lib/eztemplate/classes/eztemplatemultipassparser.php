@@ -764,8 +764,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         }
 
         // parse sequence array
-        $seqArray =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
-        $args['sequence_array'] =& $seqArray;
+        $args['sequence_array'] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
 
         // skip whitespaces
         $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
@@ -833,8 +832,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $lastValStartPos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $toEndPos, $text_len );
 
         // parse last value
-        $lastVal =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $lastValStartPos, $lastValEndPos, $text_len, $rootNamespace );
-        $args['last_val'] = $lastVal;
+        $args['last_val'] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $lastValStartPos, $lastValEndPos, $text_len, $rootNamespace );;
 
         $asStartPos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $lastValEndPos, $text_len );
 
@@ -851,8 +849,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $loopVarStartPos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $asEndPos, $text_len );
 
         // parse loop variable
-        $loopVar =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $loopVarStartPos, $loopVarEndPos, $text_len, $rootNamespace );
-        $args['loop_var'] = $loopVar;
+        $args['loop_var'] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $loopVarStartPos, $loopVarEndPos, $text_len, $rootNamespace );
 
         if ( $loopVarEndPos == $text_len  ) // no more parameters
             $cur_pos = $loopVarEndPos;
@@ -883,8 +880,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                    $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
         // parse array
-        $array =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
-        $args['array'] =& $array;
+        $args['array'] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
 
         // skip whitespaces
         $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
@@ -904,7 +900,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
 
         // parse variable name
-        $var1 =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+        $var1 = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
 
         $nextTokenPos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
 
@@ -914,14 +910,13 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             // skip whitespaces
             $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $nextTokenPos+2, $text_len );
 
-            // parse item variable name
-            $itemVar =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+            $args['key_var']  = $var1;
 
-            $args['key_var']  =& $var1;
-            $args['item_var'] =& $itemVar;
+            // parse item variable name
+            $args['item_var'] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
         }
         else
-            $args['item_var'] =& $var1;
+            $args['item_var'] = $var1;
 
         /*
          * parse optional parameters
@@ -945,19 +940,17 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             elseif ( $paramName == 'offset' )
             {
                 $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
-                $offset =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
-                $args['offset'] =& $offset;
+                $args['offset'] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
             }
             elseif ( $paramName == 'max' )
             {
                 $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
-                $max =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
-                $args['max'] =& $max;
+                $args['max'] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );;
             }
             elseif ( $paramName == 'reverse' )
             {
                 $reverseValText = '1';
-                $args['reverse'] =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $reverseValText, 0, $reverseValPos, 1, $rootNamespace );
+                $args['reverse'] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $reverseValText, 0, $reverseValPos, 1, $rootNamespace );
             }
             else
             {
@@ -1000,9 +993,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         // skip whitespaces
         $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
 
-        $cond =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
-        //eZDebug::writeDebug( $cond, 'do condition' );
-        $args['condition'] =& $cond;
+        $args['condition'] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
 
         // skip whitespaces
         $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
@@ -1074,13 +1065,12 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                 // skip whitespaces
                 $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
 
-                $varValue =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
-                $args[$varName] =& $varValue;
+                $args[$varName] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
             }
             else
             {
                 $varValueText = '1';
-                $args[$varName] =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $varValueText, 0, $varValPos, 1, $rootNamespace );
+                $args[$varName] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $varValueText, 0, $varValPos, 1, $rootNamespace );
             }
 
 
@@ -1112,7 +1102,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
     function parseWhileFunction( &$args, &$tpl, &$text, &$text_len, &$cur_pos,
                                  $relatedTemplateName, $startLine, $startColumn, &$rootNamespace )
     {
-        $cond =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+        $cond = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
         if ( !count( $cond ) )
         {
             $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
@@ -1194,8 +1184,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             // skip whitespaces
             $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
 
-            $varValue =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
-            $args[$varName] =& $varValue;
+            $args[$varName] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
 
             // skip whitespaces
             $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
@@ -1245,8 +1234,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             }
 
             // parse parameter value
-            $paramValue =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
-            $args[$paramName] =& $paramValue;
+            $args[$paramName] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
 
             // skip whitespaces
             $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
@@ -1299,8 +1287,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             }
 
             // parse parameter value
-            $paramValue =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
-            $args[$paramName] =& $paramValue;
+            $args[$paramName] = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
 
             // skip whitespaces
             $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
