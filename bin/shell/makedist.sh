@@ -3,7 +3,7 @@
 DIST_TYPE='full'
 NAME="ezpublish"
 DEST_ROOT="/tmp/ez-$USER"
-DEFAULT_SVN_SERVER="http://zev.ez.no/svn/nextgen"
+DEFAULT_SVN_SERVER="http://svn.ez.no/svn/ezpublish"
 DEFAULT_SVN_RELEASE_PATH="releases"
 DEFAULT_SVN_VERSION_PATH="versions"
 DIST_SRC=`pwd`
