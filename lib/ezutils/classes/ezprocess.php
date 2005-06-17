@@ -52,10 +52,12 @@ class eZProcess
 
     function &run( $file, $Params = array(), $params_as_var = false )
     {
-        if ( !isset( $this ) or
-             get_class( $this ) != "ezprocess" )
-            $this =& eZProcess::instance();
-        return $this->runFile( $Params, $file, $params_as_var );
+        if ( isset( $this ) and
+             get_class( $this ) == "ezprocess" )
+            $instance =& $this;
+        else
+            $instance =& eZProcess::instance();
+        return $instance->runFile( $Params, $file, $params_as_var );
     }
 
     /*!
