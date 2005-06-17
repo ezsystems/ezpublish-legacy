@@ -205,10 +205,12 @@ class eZMimeType
     */
     function findByName( $mimeName, $returnDefault = true )
     {
-        if ( !isset( $this ) or
-             get_class( $this ) != 'ezmimetype' )
-            $this =& eZMimeType::instance();
-        $mimeList =& $this->MIMEList;
+        if ( isset( $this ) and
+             get_class( $this ) == 'ezmimetype' )
+            $instance =& $this;
+        else
+            $instance =& eZMimeType::instance();
+        $mimeList =& $instance->MIMEList;
         if ( isset( $mimeList[$mimeName] ) )
         {
             $mime = $mimeList[$mimeName];
@@ -237,9 +239,11 @@ class eZMimeType
     */
     function findByURL( $url, $returnDefault = true )
     {
-        if ( !isset( $this ) or
-             get_class( $this ) != 'ezmimetype' )
-            $this =& eZMimeType::instance();
+        if ( isset( $this ) and
+             get_class( $this ) == 'ezmimetype' )
+            $instance =& $this;
+        else
+            $instance =& eZMimeType::instance();
         $protocol = 'file';
         if ( preg_match( "#^([a-zA-Z0-9]+):#", $url, $matches ) )
         {
@@ -263,7 +267,7 @@ class eZMimeType
             if ( $suffix )
             {
                 $subURL = substr( $file, 0, $suffixPosition );
-                $suffixList =& $this->SuffixList;
+                $suffixList =& $instance->SuffixList;
                 if ( array_key_exists( $suffix, $suffixList ) )
                 {
                     $mimeName = $suffixList[$suffix];
@@ -279,7 +283,7 @@ class eZMimeType
                 if ( $prefix )
                 {
                     $subURL = substr( $file, $suffixPosition + 1 );
-                    $prefixList =& $this->PrefixList;
+                    $prefixList =& $instance->PrefixList;
                     if ( array_key_exists( $prefix, $prefixList ) )
                     {
                         $mimeName = $prefixList[$prefix];
@@ -288,7 +292,7 @@ class eZMimeType
             }
             if ( $mimeName )
             {
-                $mimeList =& $this->MIMEList;
+                $mimeList =& $instance->MIMEList;
                 if ( array_key_exists( $mimeName, $mimeList ) )
                 {
                     $lastDirPosition = strrpos( $url, '/' );
