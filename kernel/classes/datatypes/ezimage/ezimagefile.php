@@ -147,10 +147,12 @@ class eZImageFile extends eZPersistentObject
 
     function removeForContentObjectAttribute( $contentObjectAttributeID )
     {
-        if ( !isset( $this ) or
-             get_class( $this ) != 'ezimagefile' )
-            $this =& eZImageFile::instance();
-        $this->remove( array( 'contentobject_attribute_id' => $contentObjectAttributeID ) );
+        if ( isset( $this ) and
+             get_class( $this ) == 'ezimagefile' )
+            $instance =& $this;
+        else
+            $instance =& eZImageFile::instance();
+        $instance->remove( array( 'contentobject_attribute_id' => $contentObjectAttributeID ) );
     }
 
     function &instance()

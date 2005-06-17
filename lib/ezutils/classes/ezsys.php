@@ -147,9 +147,11 @@ class eZSys
     */
     function osType()
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        return $this->OSType;
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        return $instance->OSType;
     }
 
     /*!
@@ -163,9 +165,11 @@ class eZSys
     */
     function osName()
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        return $this->OS;
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        return $instance->OS;
     }
 
     /*!
@@ -174,9 +178,11 @@ class eZSys
     */
     function filesystemType()
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        return $this->FileSystemType;
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        return $instance->FileSystemType;
     }
 
     /*!
@@ -185,9 +191,11 @@ class eZSys
     */
     function fileSeparator()
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        return $this->FileSeparator;
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        return $instance->FileSeparator;
     }
 
     /*!
@@ -267,9 +275,11 @@ class eZSys
     */
     function escapeShellArgument( $argument )
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        $escapeChar = $this->ShellEscapeCharacter;
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        $escapeChar = $instance->ShellEscapeCharacter;
         $argument = str_replace( "\\", "\\\\", $argument );
         $argument = str_replace( $escapeChar, "\\" . $escapeChar, $argument );
         $argument = $escapeChar . $argument . $escapeChar;
@@ -284,9 +294,11 @@ class eZSys
     */
     function createShellArgument( $argumentText, $replaceList )
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        $elements = $this->splitArgumentIntoElements( $argumentText );
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        $elements = $instance->splitArgumentIntoElements( $argumentText );
         $replacedElements = array();
         foreach ( $elements as $element )
         {
@@ -297,7 +309,7 @@ class eZSys
             }
             $replacedElements[] = $element;
         }
-        $text = $this->mergeArgumentElements( $replacedElements );
+        $text = $instance->mergeArgumentElements( $replacedElements );
         return $text;
     }
 
@@ -317,8 +329,10 @@ class eZSys
     */
     function splitArgumentIntoElements( $argumentText )
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
         $argumentElements = array();
         $pos = 0;
 
@@ -399,8 +413,10 @@ class eZSys
     */
     function mergeArgumentElements( $argumentElements )
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
         $argumentText = '';
         foreach ( $argumentElements as $element )
         {
@@ -410,7 +426,7 @@ class eZSys
             }
             else if ( is_string( $element ) )
             {
-                $argumentText .= $this->escapeShellArgument( $element );
+                $argumentText .= $instance->escapeShellArgument( $element );
             }
         }
         return $argumentText;
@@ -422,9 +438,11 @@ class eZSys
     */
     function backupFilename()
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        return $this->BackupFilename;
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        return $instance->BackupFilename;
     }
 
     /*!
@@ -433,9 +451,11 @@ class eZSys
     */
     function lineSeparator()
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        return $this->LineSeparator;
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        return $instance->LineSeparator;
     }
 
     /*!
@@ -444,9 +464,11 @@ class eZSys
     */
     function envSeparator()
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        return $this->EnvSeparator;
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        return $instance->EnvSeparator;
     }
 
     /*!
@@ -504,27 +526,29 @@ class eZSys
     */
     function rootDir()
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        if ( $this->RootDir )
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        if ( $instance->RootDir )
         {
-            return $this->RootDir;
+            return $instance->RootDir;
         }
         $cwd  = getcwd();
-        $self  = $this->serverVariable( 'PHP_SELF' );
-        if ( file_exists( $cwd.$this->FileSeparator.$self ) )
+        $self  = $instance->serverVariable( 'PHP_SELF' );
+        if ( file_exists( $cwd.$instance->FileSeparator.$self ) )
         {
-            $this->RootDir = $cwd;
+            $instance->RootDir = $cwd;
         }
-        else if ( file_exists( $cwd.$this->FileSeparator.$this->IndexFile ) )
+        else if ( file_exists( $cwd.$instance->FileSeparator.$instance->IndexFile ) )
         {
-            $this->Root = $cwd;
+            $instance->Root = $cwd;
         }
         else
         {
-            $this->RootDir=null;
+            $instance->RootDir=null;
         }
-        return $this->RootDir;
+        return $instance->RootDir;
     }
 
     /*!
@@ -533,9 +557,11 @@ class eZSys
     */
     function &siteDir()
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        return $this->SiteDir;
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        return $instance->SiteDir;
     }
 
     /*!
@@ -544,9 +570,11 @@ class eZSys
     */
     function &wwwDir()
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        return $this->WWWDir;
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        return $instance->WWWDir;
     }
 
     /*!
@@ -555,9 +583,11 @@ class eZSys
     */
     function &indexDir( $withAccessList = true )
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        return $this->wwwDir() . $this->indexFile( $withAccessList );
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        return $instance->wwwDir() . $instance->indexFile( $withAccessList );
     }
 
     /*!
@@ -567,13 +597,15 @@ class eZSys
     */
     function &indexFile( $withAccessList = true )
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        $text = $this->IndexFile;
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        $text = $instance->IndexFile;
 
-        if ( $withAccessList and count( $this->AccessPath ) > 0 )
+        if ( $withAccessList and count( $instance->AccessPath ) > 0 )
         {
-                $text .= '/' . implode( '/', $this->AccessPath );
+                $text .= '/' . implode( '/', $instance->AccessPath );
         }
         return $text;
     }
@@ -584,9 +616,11 @@ class eZSys
     */
     function indexFileName()
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        return $this->IndexFile;
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        return $instance->IndexFile;
     }
 
     /*!
@@ -736,11 +770,13 @@ class eZSys
     */
     function addAccessPath( $path )
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
         if ( !is_array( $path ) )
             $path = array( $path );
-        $this->AccessPath = array_merge( $this->AccessPath, $path );
+        $instance->AccessPath = array_merge( $instance->AccessPath, $path );
     }
 
     /*!
@@ -749,9 +785,11 @@ class eZSys
     */
     function clearAccessPath()
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        $this->AccessPath = array();
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        $instance->AccessPath = array();
     }
 
     /*!
@@ -786,8 +824,10 @@ class eZSys
     {
         $isCGI = ( php_sapi_name() == 'cgi' );
 
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
 
         if ( eZSys::isDebugEnabled() )
         {
@@ -829,10 +869,10 @@ class eZSys
         if ( trim( $includePath ) != "" )
 
             // Old line:
-            //$includePath .= $this->envSeparator() . $siteDir;
+            //$includePath .= $instance->envSeparator() . $siteDir;
 
             // New line:
-            $includePath = $siteDir . $this->envSeparator() . $includePath;
+            $includePath = $siteDir . $instance->envSeparator() . $includePath;
 
         else
             $includePath = $siteDir;
@@ -931,17 +971,17 @@ class eZSys
             $requestURI = $regs[1];
         }
 
-        $this->AccessPath = array();
-        $this->SiteDir =& $siteDir;
-        $this->WWWDir =& $wwwDir;
-        $this->IndexFile =& $index;
-        $this->RequestURI = $requestURI;
+        $instance->AccessPath = array();
+        $instance->SiteDir =& $siteDir;
+        $instance->WWWDir =& $wwwDir;
+        $instance->IndexFile =& $index;
+        $instance->RequestURI = $requestURI;
 
         if ( eZSys::isDebugEnabled() )
         {
-            eZDebug::writeNotice( $this->SiteDir, 'SiteDir' );
-            eZDebug::writeNotice( $this->WWWDir, 'WWWDir' );
-            eZDebug::writeNotice( $this->IndexFile, 'IndexFile' );
+            eZDebug::writeNotice( $instance->SiteDir, 'SiteDir' );
+            eZDebug::writeNotice( $instance->WWWDir, 'WWWDir' );
+            eZDebug::writeNotice( $instance->IndexFile, 'IndexFile' );
             eZDebug::writeNotice( eZSys::requestURI(), 'eZSys::requestURI()' );
         }
 
@@ -952,9 +992,11 @@ class eZSys
     */
     function requestURI()
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
-        return $this->RequestURI;
+        if ( isset( $this ) and get_class( $this ) == "ezsys" )
+            $instance =& $this;
+        else
+            $instance =& eZSys::instance();
+        return $instance->RequestURI;
     }
 
     /*!
@@ -963,8 +1005,6 @@ class eZSys
     */
     function initIni( &$ini )
     {
-        if ( !isset( $this ) or get_class( $this ) != "ezsys" )
-            $this =& eZSys::instance();
     }
 
     /*!

@@ -142,8 +142,6 @@ class eZTranslatorManager
     {
         if ( !is_string( $context ) or $context == "" )
             $context = "default";
-//         if ( !isset( $this ) or get_class( $this ) != "eztranslatormanager" )
-//             $this =& eZTranslatorManager::instance();
         $trans = null;
         for ( $i = 0; $i < count( $this->Handlers ) and $trans === null; ++$i )
         {
@@ -173,9 +171,11 @@ class eZTranslatorManager
     */
     function registerHandler( &$handler )
     {
-        if ( !isset( $this ) or get_class( $this ) != "eztranslatormanager" )
-            $this =& eZTranslatorManager::instance();
-        $this->Handlers[] =& $handler;
+        if ( isset( $this ) and get_class( $this ) == "eztranslatormanager" )
+            $instance =& $this;
+        else
+            $instance =& eZTranslatorManager::instance();
+        $instance->Handlers[] =& $handler;
     }
 
     /*!
