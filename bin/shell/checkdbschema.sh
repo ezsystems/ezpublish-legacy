@@ -84,8 +84,8 @@ echo "Connecting to PostgreSQL using `ezdist_postgresql_show_config`"
 ezdist_postgresql_prepare_params
 
 DEST="/tmp/ez-$USER"
-SCHEMA_URL="http://zev.ez.no/svn/nextgen/versions/$VERSION"
-PREVIOUS_SCHEMA_URL="http://zev.ez.no/svn/nextgen/versions/$VERSION_PREVIOUS"
+SCHEMA_URL="http://svn.ez.no/svn/ezpublish/versions/$VERSION"
+PREVIOUS_SCHEMA_URL="http://svn.ez.no/svn/ezpublish/versions/$VERSION_PREVIOUS"
 
 [ -d "$DEST" ] || mkdir "$DEST"
 
