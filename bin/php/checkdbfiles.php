@@ -268,7 +268,7 @@ function exportSVNVersion( $version, $exportPath )
     if ( file_exists( $versionPath ) )
         return true;
 
-    $svn = "svn export http://zev.ez.no/svn/nextgen/stable/$version/update/database '$versionPath'";
+    $svn = "svn export http://svn.ez.no/svn/ezpublish/stable/$version/update/database '$versionPath'";
     exec( $svn, $output, $code );
     if ( $code != 0 )
     {
