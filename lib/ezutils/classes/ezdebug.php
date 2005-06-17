@@ -198,10 +198,12 @@ class eZDebug
     */
     function messageName( $messageType )
     {
-        if ( !isset( $this ) or
-             get_class( $this ) != "ezdebug" )
-            $this =& eZDebug::instance();
-        return $this->MessageNames[$messageType];
+        if ( isset( $this ) and
+             get_class( $this ) == "ezdebug" )
+            $instance =& $this;
+        else
+            $instance =& eZDebug::instance();
+        return $instance->MessageNames[$messageType];
     }
 
     /*!
@@ -235,21 +237,23 @@ class eZDebug
     */
     function alwaysLogMessage( $level )
     {
-        if ( !isset( $this ) or
-             get_class( $this ) != "ezdebug" )
-            $this =& eZDebug::instance();
+        if ( isset( $this ) and
+             get_class( $this ) == "ezdebug" )
+            $instance =& $this;
+        else
+            $instance =& eZDebug::instance();
 
         // If there is a global setting for this get the value
         // and unset it globally
         if ( isset( $GLOBALS['eZDebugAlwaysLog'] ) )
         {
-            $this->AlwaysLog = $GLOBALS['eZDebugAlwaysLog'] + $this->AlwaysLog;
+            $instance->AlwaysLog = $GLOBALS['eZDebugAlwaysLog'] + $instance->AlwaysLog;
             unset( $GLOBALS['eZDebugAlwaysLog'] );
         }
 
-        if ( !isset( $this->AlwaysLog[$level] ) )
+        if ( !isset( $instance->AlwaysLog[$level] ) )
             return false;
-        return $this->AlwaysLog[$level];
+        return $instance->AlwaysLog[$level];
     }
 
     /*!
@@ -260,19 +264,21 @@ class eZDebug
     */
     function setHandleType( $type )
     {
-        if ( !isset( $this ) or
-             get_class( $this ) != "ezdebug" )
-            $this =& eZDebug::instance();
+        if ( isset( $this ) and
+             get_class( $this ) == "ezdebug" )
+            $instance =& $this;
+        else
+            $instance =& eZDebug::instance();
         if ( $type != EZ_HANDLE_TO_PHP and
              $type != EZ_HANDLE_FROM_PHP )
             $type = EZ_HANDLE_NONE;
         if ( extension_loaded( 'xdebug' ) and
              $type == EZ_HANDLE_FROM_PHP )
             $type = EZ_HANDLE_NONE;
-        if ( $type == $this->HandleType )
-            return $this->HandleType;
+        if ( $type == $instance->HandleType )
+            return $instance->HandleType;
 
-        if ( $this->HandleType == EZ_HANDLE_FROM_PHP )
+        if ( $instance->HandleType == EZ_HANDLE_FROM_PHP )
             restore_error_handler();
         switch ( $type )
         {
@@ -290,8 +296,8 @@ class eZDebug
             {
             }
         }
-        $oldHandleType = $this->HandleType;
-        $this->HandleType = $type;
+        $oldHandleType = $instance->HandleType;
+        $instance->HandleType = $type;
         return $oldHandleType;
     }
 
@@ -304,13 +310,15 @@ class eZDebug
     */
     function showTypes( $types = false )
     {
-        if ( !isset( $this ) or
-             get_class( $this ) != "ezdebug" )
-            $this =& eZDebug::instance();
+        if ( isset( $this ) and
+             get_class( $this ) == "ezdebug" )
+            $instance =& $this;
+        else
+            $instance =& eZDebug::instance();
         if ( $types === false )
-            return $this->ShowTypes;
-        $old_types = $this->ShowTypes;
-        $this->ShowTypes = $types;
+            return $instance->ShowTypes;
+        $old_types = $instance->ShowTypes;
+        $instance->ShowTypes = $types;
         return $old_types;
     }
 
@@ -570,10 +578,12 @@ class eZDebug
     */
     function setUseExternalCSS( $use )
     {
-        if ( !isset( $this ) or
-             get_class( $this ) != "ezdebug" )
-            $this =& eZDebug::instance();
-        $this->UseCSS = $use;
+        if ( isset( $this ) and
+             get_class( $this ) == "ezdebug" )
+            $instance =& $this;
+        else
+            $instance =& eZDebug::instance();
+        $instance->UseCSS = $use;
     }
 
     /*!
@@ -582,20 +592,24 @@ class eZDebug
     */
     function setMessageOutput( $output )
     {
-        if ( !isset( $this ) or
-             get_class( $this ) != "ezdebug" )
-            $this =& eZDebug::instance();
-        $this->MessageOutput = $output;
+        if ( isset( $this ) and
+             get_class( $this ) == "ezdebug" )
+            $instance =& $this;
+        else
+            $instance =& eZDebug::instance();
+        $instance->MessageOutput = $output;
     }
 
     /*!
     */
     function setStoreLog( $store )
     {
-        if ( !isset( $this ) or
-             get_class( $this ) != "ezdebug" )
-            $this =& eZDebug::instance();
-        $this->StoreLog = $store;
+        if ( isset( $this ) and
+             get_class( $this ) == "ezdebug" )
+            $instance =& $this;
+        else
+            $instance =& eZDebug::instance();
+        $instance->StoreLog = $store;
     }
 
     /*!
@@ -852,16 +866,18 @@ class eZDebug
     */
     function setLogFileEnabled( $enabled, $types = false )
     {
-        if ( !isset( $this ) or
-             get_class( $this ) != "ezdebug" )
-            $this =& eZDebug::instance();
+        if ( isset( $this ) and
+             get_class( $this ) == "ezdebug" )
+            $instance =& $this;
+        else
+            $instance =& eZDebug::instance();
         if ( $types === false )
-            $types =& $this->messageTypes();
+            $types =& $instance->messageTypes();
         if ( !is_array( $types ) )
             $types = array( $types );
         foreach ( $types as $type )
         {
-            $this->LogFileEnabled[$type] = $enabled;
+            $instance->LogFileEnabled[$type] = $enabled;
         }
     }
 
