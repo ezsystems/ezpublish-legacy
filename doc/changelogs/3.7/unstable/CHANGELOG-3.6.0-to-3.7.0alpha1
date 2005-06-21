@@ -105,6 +105,7 @@ Attributes:
 - Fixed bug: Illegal use of $this variable in static functions.
   (Became visible when using PHP 4.4).
   (Merged from stable/3.6 (3.6.1) rev. 12251)
+- Fixed bug #6796: Draft problems when copying objects with relations.
 
 *Library:
 
