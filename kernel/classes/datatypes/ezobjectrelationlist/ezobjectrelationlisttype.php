@@ -339,9 +339,14 @@ class eZObjectRelationListType extends eZDataType
                     for ( $i = 0; $i < count( $content['relation_list'] ); $i++ )
                     {
                         $relationItem =& $content['relation_list'][$i];
-                        $object =& eZContentObject::fetch( $relationItem['contentobject_id'] );
-                        $newObject =& $object->copy( true );
-                        $relationItem['contentobject_id'] = $newObject->attribute( 'id' );
+
+                        // create related object copies only if they are subobjects
+                        if ( !isset( $relationItem['node_id'] ) )
+                        {
+                            $object =& eZContentObject::fetch( $relationItem['contentobject_id'] );
+                            $newObject =& $object->copy( true );
+                            $relationItem['contentobject_id'] = $newObject->attribute( 'id' );
+                        }
                     }
                     $contentObjectAttribute->setContent( $content );
                     $contentObjectAttribute->store();
