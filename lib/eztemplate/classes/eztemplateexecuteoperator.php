@@ -238,63 +238,66 @@ class eZTemplateExecuteOperator
         else
         {
             $parametersCode = 'array( ';
-            foreach( $functionDefinition['parameters'] as $parameterDefinition )
+            if ( count( $functionDefinition['parameters'] ) )
             {
-                if ( $paramCount != 0 )
+                foreach( $functionDefinition['parameters'] as $parameterDefinition )
                 {
-                    $parametersCode .= ',' . "\n";
-                }
-                ++$paramCount;
-
-                $parameterName = $parameterDefinition['name'];
-
-                if ( $parameterTranslation )
-                {
-                    if ( in_array( $parameterName, array_keys( $parameterTranslation ) ) )
+                    if ( $paramCount != 0 )
                     {
-                        $parameterName = $parameterTranslation[$parameterName];
+                        $parametersCode .= ',' . "\n";
                     }
-                }
+                    ++$paramCount;
 
-                $parametersCode .= '    \'' . $parameterName . '\' => ';
+                    $parameterName = $parameterDefinition['name'];
 
-                if ( in_array( $parameterName, $functionKeys ) )
-                {
-                    if ( $isDynamic )
+                    if ( $parameterTranslation )
                     {
-                        if ( eZTemplateNodeTool::isStaticElement( $dynamicParameters[$parameterName] ) )
+                        if ( in_array( $parameterName, array_keys( $parameterTranslation ) ) )
                         {
-                            $parametersCode .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $dynamicParameters[$parameterName] ), 0, 0, false );
+                            $parameterName = $parameterTranslation[$parameterName];
+                        }
+                    }
+
+                    $parametersCode .= '    \'' . $parameterName . '\' => ';
+
+                    if ( in_array( $parameterName, $functionKeys ) )
+                    {
+                        if ( $isDynamic )
+                        {
+                            if ( eZTemplateNodeTool::isStaticElement( $dynamicParameters[$parameterName] ) )
+                            {
+                                $parametersCode .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $dynamicParameters[$parameterName] ), 0, 0, false );
+                            }
+                            else
+                            {
+                                $values[] = $dynamicParameters[$parameterName];
+                                $parametersCode .= '%' . count( $values ) . '%';
+                            }
                         }
                         else
                         {
-                            $values[] = $dynamicParameters[$parameterName];
-                            $parametersCode .= '%' . count( $values ) . '%';
+                            $parametersCode .= eZPHPCreator::variableText( $staticParameters[$parameterName], 0, 0, false );
                         }
                     }
-                    else
+                    else if( $constParameters &&
+                             isset( $constParameters[$parameterName] ) )
                     {
-                        $parametersCode .= eZPHPCreator::variableText( $staticParameters[$parameterName], 0, 0, false );
-                    }
-                }
-                else if( $constParameters &&
-                         isset( $constParameters[$parameterName] ) )
-                {
-                    $parametersCode .= eZPHPCreator::variableText( $constParameters[$parameterName], 0, 0, false );
-                }
-                else
-                {
-                    if ( $parameterDefinition['required'] )
-                    {
-                        return false;
-                    }
-                    else if ( isset( $parameterDefinition['default'] ) )
-                    {
-                        $parametersCode .= eZPHPCreator::variableText( $parameterDefinition['default'], 0, 0, false );
+                        $parametersCode .= eZPHPCreator::variableText( $constParameters[$parameterName], 0, 0, false );
                     }
                     else
                     {
-                        $parametersCode .= 'null';
+                        if ( $parameterDefinition['required'] )
+                        {
+                            return false;
+                        }
+                        else if ( isset( $parameterDefinition['default'] ) )
+                        {
+                            $parametersCode .= eZPHPCreator::variableText( $parameterDefinition['default'], 0, 0, false );
+                        }
+                        else
+                        {
+                            $parametersCode .= 'null';
+                        }
                     }
                 }
             }

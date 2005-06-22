@@ -128,25 +128,26 @@ class eZXML
         }
         else if ( !preg_match( "#<[a-zA-Z0-9_-]+>#", $xmlDoc ) )
         {
-            return null;
+            $retVal = null;
+            return $retVal;
         }
         if ( $charset !== false )
         {
             include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-            $codec =& eZTextCodec::instance( $charset, false, false );
+            $codec = eZTextCodec::instance( $charset, false, false );
             if ( $codec )
             {
                 $xmlDoc =& $codec->convertString( $xmlDoc );
             }
         }
 
-        $xmlDoc =& preg_replace( "#<\?.*?\?>#", "", $xmlDoc );
+        $xmlDoc = preg_replace( "#<\?.*?\?>#", "", $xmlDoc );
 
         // get document version
-        $xmlDoc =& preg_replace( "%<\!DOCTYPE.*?>%is", "", $xmlDoc );
+        $xmlDoc = preg_replace( "%<\!DOCTYPE.*?>%is", "", $xmlDoc );
 
         // convert all newline types to unix newlines
-        $xmlDoc =& preg_replace( "#\n|\r\n|\r#", "\n", $xmlDoc );
+        $xmlDoc = preg_replace( "#\n|\r\n|\r#", "\n", $xmlDoc );
 
         // strip comments
         $xmlDoc =& eZXML::stripComments( $xmlDoc );
@@ -194,7 +195,8 @@ class eZXML
                     if ( $lastTag != $tagName )
                     {
                         eZDebug::writeError( "Error parsing XML, unmatched tags $tagName" );
-                        return false;
+                        $retVal = false;
+                        return $retVal;
                     }
                     else
                     {
@@ -366,11 +368,11 @@ class eZXML
                     // convert special chars
                     if ( $params["ConvertSpecialChars"] == true )
                     {
-                        $tagContent =& str_replace("&gt;", ">", $tagContent );
-                        $tagContent =& str_replace("&lt;", "<", $tagContent );
-                        $tagContent =& str_replace("&apos;", "'", $tagContent );
-                        $tagContent =& str_replace("&quot;", '"', $tagContent );
-                        $tagContent =& str_replace("&amp;", "&", $tagContent );
+                        $tagContent = str_replace("&gt;", ">", $tagContent );
+                        $tagContent = str_replace("&lt;", "<", $tagContent );
+                        $tagContent = str_replace("&apos;", "'", $tagContent );
+                        $tagContent = str_replace("&quot;", '"', $tagContent );
+                        $tagContent = str_replace("&amp;", "&", $tagContent );
                     }
 
                     $subNode->Content = $tagContent;
@@ -392,7 +394,7 @@ class eZXML
     */
     function &stripComments( &$str )
     {
-        $str =& preg_replace( "#<\!--.*?-->#s", "", $str );
+        $str = preg_replace( "#<\!--.*?-->#s", "", $str );
         return $str;
     }
 

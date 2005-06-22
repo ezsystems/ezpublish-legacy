@@ -678,7 +678,7 @@ class eZTemplate
         {
             if ( eZTemplate::isMethodDebugEnabled() )
                 eZDebug::writeDebug( "START FUNCTION: $functionName" );
-            $value =& $func->process( $this, $textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
+            $value = $func->process( $this, $textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
             if ( eZTemplate::isMethodDebugEnabled() )
                 eZDebug::writeDebug( "END FUNCTION: $functionName" );
             return $value;
@@ -749,7 +749,7 @@ class eZTemplate
      \note If you only have the URI you should call resourceFor() first to
            figure out the resource handler.
     */
-    function resourceData( &$resourceObject, $uri, $resourceName, $templateName )
+    function &resourceData( &$resourceObject, $uri, $resourceName, $templateName )
     {
         $resourceData = array();
         $resourceData['uri'] = $uri;
@@ -1026,7 +1026,7 @@ class eZTemplate
     */
     function &resourceFor( &$uri, &$res, &$template )
     {
-        $args =& explode( ":", $uri );
+        $args = explode( ":", $uri );
         if ( count( $args ) > 1 )
         {
             $res = $args[0];
@@ -1108,13 +1108,15 @@ class eZTemplate
         {
             $this->error( "elementValue",
                           "Missing array data structure, got " . gettype( $dataElements ) );
-            return null;
+            $retVal = null;
+            return $retVal;
         }
         foreach ( $dataElements as $dataElement )
         {
             if ( is_null( $dataElement ) )
             {
-                return null;
+                $retVal = null;
+                return $retVal;
             }
             $dataType = $dataElement[0];
             switch ( $dataType )
@@ -1125,7 +1127,10 @@ class eZTemplate
                         $this->warning( 'elementValue',
                                         'Found void datatype, should not be used' );
                     else
-                        return null;
+                    {
+                        $retVal = null;
+                        return $retVal;
+                    }
                 } break;
                 case EZ_TEMPLATE_TYPE_STRING:
                 case EZ_TEMPLATE_TYPE_NUMERIC:
@@ -1157,7 +1162,10 @@ class eZTemplate
                     {
                         if ( !$checkExistance )
                             $this->error( '', "Unknown template variable '$variableName' in namespace '$namespace'", $placement );
-                        return null;
+                        {
+                            $retVal = null;
+                            return $retVal;
+                        }
                     }
                 } break;
                 case EZ_TEMPLATE_TYPE_ATTRIBUTE:
@@ -1174,7 +1182,10 @@ class eZTemplate
                             if ( !$checkExistance )
                                 $this->error( "",
                                               "Cannot use type " . gettype( $attributeValue ) . " for attribute lookup", $placement );
-                            return null;
+                            {
+                                $retVal = null;
+                                return $retVal;
+                            }
                         }
                         if ( is_array( $value ) )
                         {
@@ -1198,7 +1209,8 @@ class eZTemplate
                                     $this->error( "",
                                                   $errorMessage, $placement );
                                 }
-                                return null;
+                                $retVal = null;
+                                return $retVal;
                             }
                         }
                         else if ( is_object( $value ) )
@@ -1228,7 +1240,8 @@ class eZTemplate
                                         $this->error( "",
                                                       $errorMessage, $placement );
                                     }
-                                    return null;
+                                    $retVal = null;
+                                    return $retVal;
                                 }
                             }
                             else
@@ -1238,7 +1251,8 @@ class eZTemplate
                                                   "Cannot retrieve attribute of object(" . get_class( $value ) .
                                                   "), no attribute functions available",
                                                   $placement );
-                                return null;
+                                $retVal = null;
+                                return $retVal;
                             }
                         }
                         else
@@ -1247,7 +1261,8 @@ class eZTemplate
                                 $this->error( "",
                                               "Cannot retrieve attribute of a " . gettype( $value ),
                                               $placement );
-                            return null;
+                            $retVal = null;
+                            return $retVal;
                         }
                     }
                     else
@@ -1256,7 +1271,8 @@ class eZTemplate
                             $this->error( '',
                                           'Attribute value was null, cannot get attribute',
                                           $placement );
-                        return null;
+                        $retVal = null;
+                        return $retVal;
                     }
                 } break;
                 case EZ_TEMPLATE_TYPE_OPERATOR:
@@ -1282,7 +1298,8 @@ class eZTemplate
                     if ( !$checkExistance )
                         $this->error( "elementValue",
                                       "Unknown data type: '$dataType'" );
-                    return null;
+                    $retVal = null;
+                    return $retVal;
                 }
             }
         }
@@ -1886,7 +1903,7 @@ class eZTemplate
             $function = $functionDefinition['function'];
 //             print( "loadAndRegisterFunction: $function<br/>" );
             if ( function_exists( $function ) )
-                $functionObject =& $function();
+                $functionObject = $function();
         }
         else if ( isset( $functionDefinition['script'] ) )
         {
@@ -2282,7 +2299,7 @@ class eZTemplate
     */
     function autoload()
     {
-        $pathList =& $this->autoloadPathList();
+        $pathList = $this->autoloadPathList();
         foreach ( $pathList as $path )
         {
             $autoloadFile = $path . '/eztemplateautoload.php';

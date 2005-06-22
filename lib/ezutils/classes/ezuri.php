@@ -136,7 +136,7 @@ class eZURI
      \return the element at $index.
      If $relative is true the index is relative to the current index().
     */
-    function &element( $index = 0, $relative = true )
+    function element( $index = 0, $relative = true )
     {
         $pos = $index;
         if ( $relative )
@@ -155,7 +155,10 @@ class eZURI
     {
         $elements = array_slice( $this->URIArray, $this->Index );
         if ( $as_text )
-            return implode( '/', $elements );
+        {
+            $retVal = implode( '/', $elements );
+            return $retVal;
+        }
         else
             return $elements;
     }
@@ -274,7 +277,7 @@ class eZURI
     /*!
      \return the value for attribute $attr or null if it does not exist.
     */
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         switch ( $attr )
         {
@@ -291,6 +294,7 @@ class eZURI
             case 'original_uri':
                 return $this->originalURIString();
         }
+
         return null;
     }
 

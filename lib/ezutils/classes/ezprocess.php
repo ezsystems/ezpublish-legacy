@@ -50,7 +50,7 @@ class eZProcess
     {
     }
 
-    function &run( $file, $Params = array(), $params_as_var = false )
+    function run( $file, $Params = array(), $params_as_var = false )
     {
         if ( isset( $this ) and
              get_class( $this ) == "ezprocess" )

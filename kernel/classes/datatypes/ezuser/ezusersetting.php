@@ -50,7 +50,7 @@ class eZUserSetting extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function &definition()
+    function definition()
     {
         return array( 'fields' => array( 'user_id' => array( 'name' => 'UserID',
                                                              'datatype' => 'integer',
@@ -130,10 +130,11 @@ class eZUserSetting extends eZPersistentObject
     */
     function &fetch( $userID,  $asObject = true  )
     {
-        return eZPersistentObject::fetchObject( eZUserSetting::definition(),
-                                                null,
-                                                array('user_id' => $userID ),
-                                                $asObject );
+        $object =& eZPersistentObject::fetchObject( eZUserSetting::definition(),
+                                                    null,
+                                                    array('user_id' => $userID ),
+                                                    $asObject );
+        return $object;
     }
 
     /*!

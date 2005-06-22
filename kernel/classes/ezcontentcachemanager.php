@@ -177,7 +177,7 @@ class eZContentCacheManager
             $keywordString = "'" . implode( "', '", $keywordArray ) . "'";
             include_once( 'lib/ezdb/classes/ezdb.php' );
             $db = eZDB::instance();
-            $rows =& $db->arrayQuery( "SELECT DISTINCT ezcontentobject_tree.node_id
+            $rows = $db->arrayQuery( "SELECT DISTINCT ezcontentobject_tree.node_id
                                        FROM
                                          ezcontentobject_tree,
                                          ezcontentobject_attribute,
@@ -321,7 +321,7 @@ class eZContentCacheManager
 
         // determine if $contentObject has dependent objects for which cache should be cleared too.
         $objectClassIdentifier =  $contentObject->attribute( 'class_identifier' );
-        $dependentClassInfo =& eZContentCacheManager::dependencyInfo( $objectClassIdentifier );
+        $dependentClassInfo = eZContentCacheManager::dependencyInfo( $objectClassIdentifier );
 
         if ( isset( $dependentClassInfo['dependent_class_identifier'] ) )
         {

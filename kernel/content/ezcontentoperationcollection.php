@@ -398,7 +398,7 @@ class eZContentOperationCollection
         }
         if ( !$existingNode );
         {
-            $existingNode =& eZContentObjectTreeNode::findNode( $nodeID , $object->attribute( 'id' ), true );
+            $existingNode = eZContentObjectTreeNode::findNode( $nodeID , $object->attribute( 'id' ), true );
         }
         $updateSectionID = false;
         if ( $existingNode  == null )

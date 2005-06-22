@@ -291,7 +291,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         return $ruleList;
     }
 
-    function &rulesCount( $user = false )
+    function rulesCount( $user = false )
     {
         if ( $user === false )
         {

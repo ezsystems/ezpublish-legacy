@@ -210,7 +210,7 @@ class eZEmailType extends eZDataType
     /*!
      \reimp
     */
-    function &sortKey( &$contentObjectAttribute )
+    function sortKey( &$contentObjectAttribute )
     {
         return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
     }
@@ -218,7 +218,7 @@ class eZEmailType extends eZDataType
     /*!
      \reimp
     */
-    function &sortKeyType()
+    function sortKeyType()
     {
         return 'string';
     }

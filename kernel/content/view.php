@@ -274,11 +274,11 @@ else
 
     if ( $LanguageCode != '' )
     {
-        $node =& eZContentObjectTreeNode::fetch( $NodeID, $LanguageCode );
+        $node = eZContentObjectTreeNode::fetch( $NodeID, $LanguageCode );
     }
     else
     {
-        $node =& eZContentObjectTreeNode::fetch( $NodeID );
+        $node = eZContentObjectTreeNode::fetch( $NodeID );
     }
 
     if ( !is_object( $node ) )

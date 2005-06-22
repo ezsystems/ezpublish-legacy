@@ -71,7 +71,7 @@ class eZMail
 
         // Sets some default values
         include_once( 'lib/version.php' );
-        $version =& eZPublishSDK::version();
+        $version = eZPublishSDK::version();
 
         $this->MIMEVersion = '1.0';
         $this->ContentType = array( 'type' => 'text/plain',

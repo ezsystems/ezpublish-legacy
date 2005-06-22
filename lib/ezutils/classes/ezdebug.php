@@ -402,7 +402,7 @@ class eZDebug
             return;
 
         if ( is_object( $string ) || is_array( $string ) )
-             $string =& eZDebug::dumpVariable( $string );
+             $string = eZDebug::dumpVariable( $string );
 
         $GLOBALS['eZDebugNotice'] = true;
         if ( !isset( $GLOBALS['eZDebugNoticeCount'] ) )
@@ -445,7 +445,7 @@ class eZDebug
             return;
 
         if ( is_object( $string ) || is_array( $string ) )
-            $string =& eZDebug::dumpVariable( $string );
+            $string = eZDebug::dumpVariable( $string );
 
         $GLOBALS['eZDebugWarning'] = true;
         if ( !isset( $GLOBALS['eZDebugWarningCount'] ) )
@@ -488,7 +488,7 @@ class eZDebug
             return;
 
         if ( is_object( $string ) || is_array( $string ) )
-            $string =& eZDebug::dumpVariable( $string );
+            $string = eZDebug::dumpVariable( $string );
 
         $GLOBALS['eZDebugError'] = true;
         if ( !isset( $GLOBALS['eZDebugErrorCount'] ) )
@@ -531,7 +531,7 @@ class eZDebug
             return;
 
         if ( is_object( $string ) || is_array( $string ) )
-            $string =& eZDebug::dumpVariable( $string );
+            $string = eZDebug::dumpVariable( $string );
 
         $GLOBALS['eZDebugDebug'] = true;
         if ( !isset( $GLOBALS['eZDebugDebugCount'] ) )

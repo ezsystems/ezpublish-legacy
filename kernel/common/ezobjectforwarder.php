@@ -567,7 +567,7 @@ class eZObjectForwarder
         return $newNodes;
     }
 
-    function &process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         if ( !isset( $this->Rules[$functionName] ) )
         {

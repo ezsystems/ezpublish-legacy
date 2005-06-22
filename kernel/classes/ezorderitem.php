@@ -58,7 +58,7 @@ class eZOrderItem extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function &definition()
+    function definition()
     {
         return array( "fields" => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -88,12 +88,13 @@ class eZOrderItem extends eZPersistentObject
 
     function &fetchList( $orderID, $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZOrderItem::definition(),
-                                                    null,
-                                                    array( "order_id" => $orderID ),
-                                                    null,
-                                                    null,
-                                                    $asObject );
+        $objectList =& eZPersistentObject::fetchObjectList( eZOrderItem::definition(),
+                                                            null,
+                                                            array( "order_id" => $orderID ),
+                                                            null,
+                                                            null,
+                                                            $asObject );
+        return $objectList;
     }
 
     function &attribute( $attr )

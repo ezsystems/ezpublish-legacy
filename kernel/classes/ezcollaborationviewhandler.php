@@ -98,7 +98,7 @@ class eZCollaborationViewHandler
     */
     function exists( $viewMode )
     {
-        $list =& eZCollaborationViewHandler::fetchList();
+        $list = eZCollaborationViewHandler::fetchList();
         return in_array( $viewMode, $list );
     }
 

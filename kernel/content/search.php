@@ -134,12 +134,12 @@ $Module->setTitle( "Search for: $searchText" );
 if ( $useSearchCode )
 {
     $sortArray = array( array( 'attribute', true, 153 ), array( 'priority', true ) );
-    $searchResult =& eZSearch::search( $searchText, array( "SearchType" => $searchType,
-                                                           "SearchSectionID" => $searchSectionID,
-                                                           "SearchSubTreeArray" => $subTreeArray,
-                                                           'SearchTimestamp' => $searchTimestamp,
-                                                           "SearchLimit" => $pageLimit,
-                                                           "SearchOffset" => $Offset ) );
+    $searchResult = eZSearch::search( $searchText, array( "SearchType" => $searchType,
+                                                          "SearchSectionID" => $searchSectionID,
+                                                          "SearchSubTreeArray" => $subTreeArray,
+                                                          'SearchTimestamp' => $searchTimestamp,
+                                                          "SearchLimit" => $pageLimit,
+                                                          "SearchOffset" => $Offset ) );
 }
 
 if ( $searchSectionID != -1 )

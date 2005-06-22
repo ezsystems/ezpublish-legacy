@@ -64,7 +64,7 @@ else
 $http =& eZHttpTool::instance();
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
-    $existingClassList =& eZContentClassClassGroup::fetchClassList( 0, $GroupID );
+    $existingClassList = eZContentClassClassGroup::fetchClassList( 0, $GroupID );
     if ( count( $existingClassList ) == 0 )
     {
         eZContentClassGroup::removeSelected( $GroupID );

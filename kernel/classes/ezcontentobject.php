@@ -75,7 +75,7 @@ class eZContentObject extends eZPersistentObject
         $this->CurrentLanguage = eZContentObject::defaultLanguage();
     }
 
-    function &definition()
+    function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -163,7 +163,8 @@ class eZContentObject extends eZPersistentObject
     {
         if ( $attr == 'assigned_nodes' )
         {
-            return $this->assignedNodes( true );
+            $assignedNodes =& $this->assignedNodes( true );
+            return $assignedNodes;
         }
         else if ( $attr == 'parent_nodes' )
         {
@@ -171,10 +172,14 @@ class eZContentObject extends eZPersistentObject
         }
         else if ( $attr == 'remote_id' )
         {
-            return $this->remoteID();
+            $remoteID = $this->remoteID();
+            return $remoteID;
         }
         else
-            return eZPersistentObject::attribute( $attr );
+        {
+            $retVal = eZPersistentObject::attribute( $attr );
+            return $retVal;
+        }
     }
 
     /*!
@@ -301,7 +306,7 @@ class eZContentObject extends eZPersistentObject
         }
         $db =& eZDb::instance();
         $query= "select name,real_translation from ezcontentobject_name where contentobject_id = '$contentObjectID' and content_version = '$version'  and content_translation = '$lang'";
-        $result =& $db->arrayQuery( $query );
+        $result = $db->arrayQuery( $query );
         if ( count( $result ) < 1 )
         {
             eZDebug::writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)", 'eZContentObject::versionLanguageName' );
@@ -548,7 +553,8 @@ class eZContentObject extends eZPersistentObject
             return null;
         }
 
-        return eZContentClass::fetch( $this->ClassID );
+        $contentClass =& eZContentClass::fetch( $this->ClassID );
+        return $contentClass;
     }
 
     /*!
@@ -722,7 +728,7 @@ class eZContentObject extends eZPersistentObject
                          ezcontentobject.current_version=ezcontentobject_tree.contentobject_version
                          $versionNameJoins";
 
-        $resArray =& $db->arrayQuery( $query );
+        $resArray = $db->arrayQuery( $query );
 
         $objectArray = array();
         if ( count( $resArray ) == 1 && $resArray !== false )
@@ -783,7 +789,7 @@ class eZContentObject extends eZPersistentObject
                          ezcontentobject.id IN ( $objectInSQL )
                          $versionNameJoins";
 
-        $resRowArray =& $db->arrayQuery( $query );
+        $resRowArray = $db->arrayQuery( $query );
 
         $objectRetArray = array();
         foreach ( $resRowArray as $resRow )
@@ -855,12 +861,13 @@ class eZContentObject extends eZPersistentObject
 
     function &fetchSameClassList( $contentClassID, $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZContentObject::definition(),
-                                                    null,
-                                                    array( "contentclass_id" => $contentClassID ),
-                                                    null,
-                                                    null,
-                                                    $asObject );
+        $objectList =& eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+                                                            null,
+                                                            array( "contentclass_id" => $contentClassID ),
+                                                            null,
+                                                            null,
+                                                            $asObject );
+        return $objectList;
     }
 
     function &fetchSameClassListCount( $contentClassID )
@@ -879,13 +886,14 @@ class eZContentObject extends eZPersistentObject
     */
     function &currentVersion( $asObject = true )
     {
-        return eZContentObjectVersion::fetchVersion( $this->attribute( "current_version" ), $this->ID, $asObject );
+        $currentVersion =& eZContentObjectVersion::fetchVersion( $this->attribute( "current_version" ), $this->ID, $asObject );
+        return $currentVersion;
     }
 
     /*!
       Returns the given object version. False is returned if the versions does not exist.
     */
-    function version( $version, $asObject = true )
+    function &version( $version, $asObject = true )
     {
         if ( $asObject )
         {
@@ -924,10 +932,11 @@ class eZContentObject extends eZPersistentObject
             if ( isset( $parameters['conditions']['creator_id'] ) )
                 $conditions['creator_id'] = $parameters['conditions']['creator_id'];
         }
-        return eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
-                                                    null, $conditions,
-                                                    null, null,
-                                                    $asObject );
+        $objectList =& eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                            null, $conditions,
+                                                            null, null,
+                                                            $asObject );
+        return $objectList;
     }
 
     /*!
@@ -944,7 +953,7 @@ class eZContentObject extends eZPersistentObject
         return true;
     }
 
-    function &createInitialVersion( $userID )
+    function createInitialVersion( $userID )
     {
         return eZContentObjectVersion::create( $this->attribute( "id" ), $userID, 1 );
     }
@@ -958,7 +967,7 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &createNewVersion( $copyFromVersion = false, $versionCheck = false )
+    function createNewVersion( $copyFromVersion = false, $versionCheck = false )
     {
         $db =& eZDB::instance();
         $db->begin();
@@ -1027,7 +1036,7 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &copyVersion( &$newObject, &$version, $newVersionNumber, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT )
+    function copyVersion( &$newObject, &$version, $newVersionNumber, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT )
     {
         $user =& eZUser::currentUser();
         $userID =& $user->attribute( 'contentobject_id' );
@@ -1039,7 +1048,7 @@ class eZContentObject extends eZPersistentObject
         foreach ( array_keys( $nodeAssignmentList ) as $key )
         {
             $nodeAssignment =& $nodeAssignmentList[$key];
-            $clonedAssignment =& $nodeAssignment->clone( $newVersionNumber, $contentObjectID );
+            $clonedAssignment = $nodeAssignment->clone( $newVersionNumber, $contentObjectID );
             $clonedAssignment->store();
             eZDebugSetting::writeDebug( 'kernel-content-object-copy', $clonedAssignment, 'copyVersion:Copied assignment' );
         }
@@ -1090,7 +1099,7 @@ class eZContentObject extends eZPersistentObject
     /*!
      Creates a new content object instance and stores it.
     */
-    function &create( $name, $contentclassID, $userID, $sectionID = 1, $version = 1 )
+    function create( $name, $contentclassID, $userID, $sectionID = 1, $version = 1 )
     {
         $row = array(
             "name" => $name,
@@ -1452,7 +1461,7 @@ class eZContentObject extends eZPersistentObject
                   ORDER BY
                     ezcontentclass_attribute.placement ASC";
 
-            $attributeArray =& $db->arrayQuery( $query );
+            $attributeArray = $db->arrayQuery( $query );
 
             $returnAttributeArray = array();
             foreach ( $attributeArray as $attribute )
@@ -1487,7 +1496,7 @@ class eZContentObject extends eZPersistentObject
       Fetches the attributes for an array of objects. The objectList parameter
       contains an array of object id's , versions and language to fetch attributes from.
     */
-    function &fillNodeListAttributes( &$nodeList, $asObject = true )
+    function fillNodeListAttributes( &$nodeList, $asObject = true )
     {
         $db =& eZDB::instance();
 
@@ -1524,7 +1533,7 @@ class eZContentObject extends eZPersistentObject
                   ORDER BY
                     ezcontentobject_attribute.contentobject_id, ezcontentclass_attribute.placement ASC";
 
-            $attributeArray =& $db->arrayQuery( $query );
+            $attributeArray = $db->arrayQuery( $query );
 
             $tmpAttributeObjectList = array();
             $returnAttributeArray = array();
@@ -1883,7 +1892,7 @@ class eZContentObject extends eZPersistentObject
     function nextVersion()
     {
         $db =& eZDB::instance();
-        $versions =& $db->arrayQuery( "SELECT ( MAX( version ) + 1 ) AS next_id FROM ezcontentobject_version
+        $versions = $db->arrayQuery( "SELECT ( MAX( version ) + 1 ) AS next_id FROM ezcontentobject_version
 				       WHERE contentobject_id='$this->ID'" );
         return $versions[0]["next_id"];
 
@@ -1895,7 +1904,7 @@ class eZContentObject extends eZPersistentObject
     function getVersionCount()
     {
         $db =& eZDB::instance();
-        $versionCount =& $db->arrayQuery( "SELECT ( COUNT( version ) ) AS version_count FROM ezcontentobject_version
+        $versionCount = $db->arrayQuery( "SELECT ( COUNT( version ) ) AS version_count FROM ezcontentobject_version
 				       WHERE contentobject_id='$this->ID'" );
         return $versionCount[0]["version_count"];
 
@@ -1967,7 +1976,7 @@ class eZContentObject extends eZPersistentObject
             $fromObjectID = $this->ID;
 
         $db =& eZDB::instance();
-        $relatedObjectArray =& $db->arrayQuery( "SELECT
+        $relatedObjectArray = $db->arrayQuery( "SELECT
 					       count( ezcontentobject_link.from_contentobject_id ) as count
 					     FROM
 					       ezcontentobject,
@@ -2008,7 +2017,7 @@ class eZContentObject extends eZPersistentObject
                                   ezcontentobject_name.content_translation = '$language' ";
         }
 
-        $relatedObjects =& $db->arrayQuery( "SELECT
+        $relatedObjects = $db->arrayQuery( "SELECT
                                     ezcontentclass.name AS class_name,
                                     ezcontentobject.* $versionNameTargets
                                  FROM
@@ -2049,7 +2058,7 @@ class eZContentObject extends eZPersistentObject
             $toObjectID = $this->ID;
 
         $db =& eZDB::instance();
-        $relatedObjects =& $db->arrayQuery( "SELECT DISTINCT ezcontentobject.*
+        $relatedObjects = $db->arrayQuery( "SELECT DISTINCT ezcontentobject.*
                     					     FROM
                     					       ezcontentobject, ezcontentobject_link
                     					     WHERE
@@ -2078,7 +2087,7 @@ class eZContentObject extends eZPersistentObject
             $toObjectID = $this->ID;
 
         $db =& eZDB::instance();
-        $rows =& $db->arrayQuery( "SELECT count( DISTINCT ezcontentobject.id ) AS count
+        $rows = $db->arrayQuery( "SELECT count( DISTINCT ezcontentobject.id ) AS count
 					     FROM
 					       ezcontentobject, ezcontentobject_link
 					     WHERE
@@ -2097,7 +2106,8 @@ class eZContentObject extends eZPersistentObject
     */
     function &contentObjectListRelatingThis( $version = false, $objectID = false )
     {
-        return $this->reverseRelatedObjectList( $version, $objectID );
+        $reverseRelatedList =& $this->reverseRelatedObjectList( $version, $objectID );
+        return $reverseRelatedObjectList;
     }
 
     /*!
@@ -2149,7 +2159,7 @@ class eZContentObject extends eZPersistentObject
                        'contentobject_version' => $this->attribute( 'current_version' ),
                        'parent_node' => $nodeID,
                        'is_main' => $isMain ? 1 : 0 );
-        $nodeAssignment =& eZNodeAssignment::create( $data );
+        $nodeAssignment = eZNodeAssignment::create( $data );
         if ( $remoteID !== false )
         {
             $nodeAssignment->setAttribute( 'remote_id', $remoteID );
@@ -2176,7 +2186,7 @@ class eZContentObject extends eZPersistentObject
 			 ezcontentclass.id = ezcontentobject.contentclass_id
 		  ORDER BY path_string";
         $db =& eZDB::instance();
-        $nodesListArray =& $db->arrayQuery( $query );
+        $nodesListArray = $db->arrayQuery( $query );
         if ( $asObject == true )
         {
             $nodes =& eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
@@ -2201,9 +2211,10 @@ class eZContentObject extends eZPersistentObject
             return $this->MainNodeID;
     }
 
-    function mainNode()
+    function &mainNode()
     {
-        return eZContentObjectTreeNode::findMainNode( $this->attribute( 'id' ), true );
+        $mainNode =& eZContentObjectTreeNode::findMainNode( $this->attribute( 'id' ), true );
+        return $mainNode;
     }
 
     /*!
@@ -2571,7 +2582,7 @@ class eZContentObject extends eZPersistentObject
     // This code is automatically generated from templates/classlistfrompolicy.ctpl
     // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD
 
-    function &classListFromPolicy( &$policy )
+    function classListFromPolicy( &$policy )
     {
         $canCreateClassIDListPart = array();
         $hasClassIDLimitation = false;
@@ -2732,7 +2743,7 @@ class eZContentObject extends eZPersistentObject
             $policies  =& $accessResult['policies'];
             foreach ( $policies as $policyKey => $policy )
             {
-                $classIDArrayPart =& $this->classListFromPolicy( $policy );
+                $classIDArrayPart = $this->classListFromPolicy( $policy );
                 if ( $classIDArrayPart == '*' )
                 {
                     $fetchAll = true;
@@ -2769,10 +2780,10 @@ class eZContentObject extends eZPersistentObject
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*" : "cc.id, cc.name";
-            $rows =& $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                      "FROM ezcontentclass cc$filterTableSQL\n" .
-                                      "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
-                                      "ORDER BY cc.name ASC" );
+            $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
+                                     "FROM ezcontentclass cc$filterTableSQL\n" .
+                                     "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
+                                     "ORDER BY cc.name ASC" );
             $classList =& eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
         else
@@ -2786,11 +2797,11 @@ class eZContentObject extends eZPersistentObject
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
             $fields = $asObject ? "cc.*" : "cc.id, cc.name";
-            $rows =& $db->arrayQuery( "SELECT DISTINCT $fields\n" .
-                                      "FROM ezcontentclass cc$filterTableSQL\n" .
-                                      "WHERE cc.id IN ( $classString  ) AND\n" .
-                                      "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
-                                      "ORDER BY cc.name ASC" );
+            $rows = $db->arrayQuery( "SELECT DISTINCT $fields\n" .
+                                     "FROM ezcontentclass cc$filterTableSQL\n" .
+                                     "WHERE cc.id IN ( $classString  ) AND\n" .
+                                     "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
+                                     "ORDER BY cc.name ASC" );
             $classList =& eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
 

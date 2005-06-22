@@ -52,7 +52,7 @@ class eZProductCollection extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function &definition()
+    function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -71,7 +71,7 @@ class eZProductCollection extends eZPersistentObject
     /*!
      Creates a new empty collection and returns it.
     */
-    function &create( )
+    function create( )
     {
         $row = array( "created" => time() );
         return new eZProductCollection( $row );
@@ -117,10 +117,11 @@ class eZProductCollection extends eZPersistentObject
     */
     function &fetch( $productCollectionID, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZProductCollection::definition(),
-                                                null,
-                                                array( 'id' => $productCollectionID ),
-                                                $asObject );
+        $object =& eZPersistentObject::fetchObject( eZProductCollection::definition(),
+                                                    null,
+                                                    array( 'id' => $productCollectionID ),
+                                                    $asObject );
+        return $object;
     }
 
     /*!

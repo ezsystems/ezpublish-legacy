@@ -140,7 +140,7 @@ class eZPublishSDK
     {
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
-        $rows =& $db->arrayQuery( "SELECT value as version FROM ezsite_date WHERE name='ezpublish-version'" );
+        $rows = $db->arrayQuery( "SELECT value as version FROM ezsite_date WHERE name='ezpublish-version'" );
         $version = false;
         if ( count( $rows ) > 0 )
         {
@@ -161,7 +161,7 @@ class eZPublishSDK
     {
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
-        $rows =& $db->arrayQuery( "SELECT value as release FROM ezsite_date WHERE name='ezpublish-release'" );
+        $rows = $db->arrayQuery( "SELECT value as release FROM ezsite_date WHERE name='ezpublish-release'" );
         $release = false;
         if ( count( $rows ) > 0 )
         {

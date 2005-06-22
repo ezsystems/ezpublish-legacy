@@ -125,7 +125,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
         $objectID = $object->attribute( 'id' );
 
         include_once( 'kernel/classes/ezsection.php' );
-        $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
+        $section = eZSection::fetch( $object->attribute( 'section_id' ) );
         $navigationPart = false;
         if ( $section )
             $navigationPart = $section->attribute( 'navigation_part_identifier' );

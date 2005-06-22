@@ -95,7 +95,8 @@ class eZXMLOutputHandler
         {
             case 'output_text':
             {
-                return $this->outputText();
+                $retVal =& $this->outputText();
+                return $retVal;
             } break;
             case 'aliased_type':
             {
@@ -149,7 +150,8 @@ class eZXMLOutputHandler
     */
     function &viewTemplateSuffix( &$contentobjectAttribute )
     {
-        return false;
+        $suffix = false;
+        return $suffix;
     }
 
     /*!
@@ -167,7 +169,8 @@ class eZXMLOutputHandler
     */
     function &outputText()
     {
-        return null;
+        $retVal = null;
+        return $retVal;
     }
 
     /// \privatesection

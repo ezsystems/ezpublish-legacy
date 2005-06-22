@@ -189,8 +189,8 @@ class openFts
 
         $objectRes = array();
 
-        $objectRes =& $db->arrayQuery( $searchQuery );
-        $objectCountRes =& $db->arrayQuery( $searchCountQuery );
+        $objectRes = $db->arrayQuery( $searchQuery );
+        $objectCountRes = $db->arrayQuery( $searchCountQuery );
         $searchCount = $objectCountRes[0]['count'];
 
 //        eZDebugSetting::writeDebug( 'kernel-search-openfts', $objectRes, 'search result' );
@@ -203,9 +203,9 @@ class openFts
         if ( count( $nonExistingWordArray ) == 0 )
         {
             // execute search query
-            $objectRes =& $db->arrayQuery( $searchQuery );
+            $objectRes = $db->arrayQuery( $searchQuery );
             // execute search count query
-            $objectCountRes =& $db->arrayQuery( $searchCountQuery );
+            $objectCountRes = $db->arrayQuery( $searchCountQuery );
             $searchCount = $objectCountRes[0]['count'];
         }
         else

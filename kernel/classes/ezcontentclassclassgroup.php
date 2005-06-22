@@ -51,7 +51,7 @@ class eZContentClassClassGroup extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function &definition()
+    function definition()
     {
         return array( "fields" => array( "contentclass_id" => array( 'name' => "ContentClassID",
                                                                      'datatype' => 'integer',
@@ -76,7 +76,7 @@ class eZContentClassClassGroup extends eZPersistentObject
                       "name" => "ezcontentclass_classgroup" );
     }
 
-    function &create( $contentclass_id, $contentclass_version, $group_id, $group_name )
+    function create( $contentclass_id, $contentclass_version, $group_id, $group_name )
     {
         if( $contentclass_version == null )
         {
@@ -93,7 +93,7 @@ class eZContentClassClassGroup extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function &remove( $contentclass_id, $contentclass_version, $group_id )
+    function remove( $contentclass_id, $contentclass_version, $group_id )
     {
         if ( $contentclass_version == null )
         {
@@ -114,7 +114,7 @@ class eZContentClassClassGroup extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function &removeGroupMembers( $group_id )
+    function removeGroupMembers( $group_id )
     {
         eZPersistentObject::removeObject( eZContentClassClassGroup::definition(),
                                           array( "group_id" => $group_id ) );
@@ -124,7 +124,7 @@ class eZContentClassClassGroup extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function &removeClassMembers( $contentclass_id, $contentclass_version )
+    function removeClassMembers( $contentclass_id, $contentclass_version )
     {
         eZPersistentObject::removeObject( eZContentClassClassGroup::definition(),
                                           array( "contentclass_id" =>$contentclass_id,
@@ -141,10 +141,10 @@ class eZContentClassClassGroup extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &fetchClassList( $contentclass_version, $group_id, $asObject = true, $orderByArray = array( 'name' ) )
+    function fetchClassList( $contentclass_version, $group_id, $asObject = true, $orderByArray = array( 'name' ) )
     {
         include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
-        $classIDList =& eZContentClassClassGroup::fetchClassListByGroups( 0, array( 1,3 ) );
+        $classIDList = eZContentClassClassGroup::fetchClassListByGroups( 0, array( 1,3 ) );
         $versionCond = '';
         $orderByClause = '';
 
@@ -164,17 +164,12 @@ class eZContentClassClassGroup extends eZPersistentObject
                 $versionCond
                 AND class_group.group_id='$group_id'
                 $orderByClause";
-        $rows =& $db->arrayQuery( $sql );
+        $rows = $db->arrayQuery( $sql );
         return eZPersistentObject::handleRows( $rows, "eZContentClass", $asObject );
     }
 
-    function &fetchClassListByGroups( $contentclassVersion, $groupIDList, $asObject = true )
+    function fetchClassListByGroups( $contentclassVersion, $groupIDList, $asObject = true )
     {
-//         $db =& eZDB::instance();
-//         $sql = 'SELECT contentclass_id, contentclass_version, group_id, group_name
-// FROM   ezcontentclass_classgroup
-// WHERE  contentclass_version='0' AND group_id IN ( '1', '3' )
-// ORDER BY contentclass_id ASC';
         if ( is_array( $groupIDList ) )
         {
             $groupIDList = array( $groupIDList );
@@ -208,13 +203,14 @@ class eZContentClassClassGroup extends eZPersistentObject
 
     function &fetchGroupList( $contentclass_id, $contentclass_version, $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZContentClassClassGroup::definition(),
-                                                    null,
-                                                    array( "contentclass_id" => $contentclass_id,
-                                                           "contentclass_version" => $contentclass_version ),
-                                                    null,
-                                                    null,
-                                                    $asObject );
+        $objectList =& eZPersistentObject::fetchObjectList( eZContentClassClassGroup::definition(),
+                                                            null,
+                                                            array( "contentclass_id" => $contentclass_id,
+                                                                   "contentclass_version" => $contentclass_version ),
+                                                            null,
+                                                            null,
+                                                            $asObject );
+        return $objectList;
     }
 
     function &classInGroup( $contentclassID, $contentclassVersion, $groupID )

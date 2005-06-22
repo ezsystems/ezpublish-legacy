@@ -194,7 +194,7 @@ class eZPostgreSQLDB extends eZDBInterface
     /*!
      \reimp
     */
-    function &arrayQuery( $sql, $params = array() )
+    function arrayQuery( $sql, $params = array() )
     {
         $retArray = array();
         if ( $this->isConnected() )
@@ -627,7 +627,7 @@ class eZPostgreSQLDB extends eZDBInterface
     {
         if ( $this->isConnected() )
         {
-            $rows =& $this->arrayQuery( "SELECT pg_class.relname AS table, pg_attribute.attname AS column
+            $rows = $this->arrayQuery( "SELECT pg_class.relname AS table, pg_attribute.attname AS column
                 FROM pg_class,pg_attribute,pg_attrdef
                 WHERE pg_attrdef.adsrc LIKE 'nextval(%'
                     AND pg_attrdef.adrelid=pg_attribute.attrelid

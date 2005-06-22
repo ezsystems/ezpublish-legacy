@@ -223,7 +223,7 @@ class eZMimeType
              get_class( $this ) == 'ezmimetype' )
             $instance =& $this;
         else
-            $instance =& eZMimeType::instance();
+            $instance = eZMimeType::instance();
         $mimeList =& $instance->MIMEList;
         if ( isset( $mimeList[$mimeName] ) )
         {
@@ -257,7 +257,8 @@ class eZMimeType
              get_class( $this ) == 'ezmimetype' )
             $instance =& $this;
         else
-            $instance =& eZMimeType::instance();
+            $instance = eZMimeType::instance();
+
         $protocol = 'file';
         if ( preg_match( "#^([a-zA-Z0-9]+):#", $url, $matches ) )
         {
