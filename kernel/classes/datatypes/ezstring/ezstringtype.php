@@ -124,7 +124,7 @@ class eZStringType extends eZDataType
                 }
             }
             $maxLen = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_LEN_FIELD );
-            $textCodec =& eZTextCodec::instance( false );
+            $textCodec = eZTextCodec::instance( false );
             if ( ($textCodec->strlen( $data ) <= $maxLen ) || ( $maxLen == 0 ) )
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
@@ -321,7 +321,7 @@ class eZStringType extends eZDataType
     /*!
      \reimp
     */
-    function &sortKey( &$contentObjectAttribute )
+    function sortKey( &$contentObjectAttribute )
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans =& eZCharTransform::instance();
@@ -331,7 +331,7 @@ class eZStringType extends eZDataType
     /*!
      \reimp
     */
-    function &sortKeyType()
+    function sortKeyType()
     {
         return 'string';
     }

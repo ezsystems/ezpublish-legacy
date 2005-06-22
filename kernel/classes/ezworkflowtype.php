@@ -177,7 +177,7 @@ class eZWorkflowType
 
     function loadAndRegisterAllTypes()
     {
-        $allowedTypes =& eZWorkflowType::allowedTypes();
+        $allowedTypes = eZWorkflowType::allowedTypes();
         foreach( $allowedTypes as $type )
         {
             eZWorkflowType::loadAndRegisterType( $type );

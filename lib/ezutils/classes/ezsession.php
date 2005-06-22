@@ -54,9 +54,9 @@ function &eZSessionRead( $key )
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
 
-    $key =& $db->escapeString( $key );
+    $key = $db->escapeString( $key );
 
-    $sessionRes =& $db->arrayQuery( "SELECT data, user_id, expiration_time FROM ezsession WHERE session_key='$key'" );
+    $sessionRes = $db->arrayQuery( "SELECT data, user_id, expiration_time FROM ezsession WHERE session_key='$key'" );
 
     if ( $sessionRes !== false and count( $sessionRes ) == 1 )
     {
@@ -80,7 +80,8 @@ function &eZSessionRead( $key )
     }
     else
     {
-        return false;
+        $retVal = false;
+        return $retVal;
     }
 }
 
@@ -110,7 +111,7 @@ function eZSessionWrite( $key, $value )
 
     }
 //    $value =& $db->escapeString( $value );
-    $key =& $db->escapeString( $key );
+    $key = $db->escapeString( $key );
     // check if session already exists
 
     $userID = 0;
@@ -118,7 +119,7 @@ function eZSessionWrite( $key, $value )
         $userID = $GLOBALS['eZSessionUserID'];
     $userID = $db->escapeString( $userID );
 
-    $sessionRes =& $db->arrayQuery( "SELECT session_key FROM ezsession WHERE session_key='$key'" );
+    $sessionRes = $db->arrayQuery( "SELECT session_key FROM ezsession WHERE session_key='$key'" );
 
     if ( count( $sessionRes ) == 1 )
     {
@@ -146,7 +147,7 @@ function eZSessionDestroy( $key )
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
 
-    $key =& $db->escapeString( $key );
+    $key = $db->escapeString( $key );
     $query = "DELETE FROM ezsession WHERE session_key='$key'";
 
     $db->query( $query );

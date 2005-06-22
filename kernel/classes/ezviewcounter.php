@@ -51,7 +51,7 @@ class eZViewCounter extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function &definition()
+    function definition()
     {
         return array( "fields" => array( "node_id" => array( 'name' => "NodeID",
                                                              'datatype' => 'integer',
@@ -146,11 +146,11 @@ class eZViewCounter extends eZPersistentObject
 
         if ( !$offset && !$limit )
         {
-            $countListArray =& $db->arrayQuery( $query );
+            $countListArray = $db->arrayQuery( $query );
         }
         else
         {
-            $countListArray =& $db->arrayQuery( $query, array( "offset" => $offset,
+            $countListArray = $db->arrayQuery( $query, array( "offset" => $offset,
                                                                "limit" => $limit ) );
         }
         return $countListArray;

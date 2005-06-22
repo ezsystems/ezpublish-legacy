@@ -54,7 +54,7 @@ class eZWorkflowEvent extends eZPersistentObject
 
     }
 
-    function &definition()
+    function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -120,7 +120,7 @@ class eZWorkflowEvent extends eZPersistentObject
                       "name" => "ezworkflow_event" );
     }
 
-    function &create( $workflow_id, $type_string )
+    function create( $workflow_id, $type_string )
     {
         $row = array(
             "id" => null,
@@ -146,16 +146,18 @@ class eZWorkflowEvent extends eZPersistentObject
 
     function &fetchList( $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
-                                                    null, null, null, null,
-                                                    $asObject );
+        $objectList =& eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
+                                                            null, null, null, null,
+                                                            $asObject );
+        return $objectList;
     }
 
     function &fetchFilteredList( $cond, $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
-                                                    null, $cond, null, null,
-                                                    $asObject );
+        $objectList =& eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
+                                                            null, $cond, null, null,
+                                                            $asObject );
+        return $objectList;
     }
 
     /*!
@@ -207,7 +209,8 @@ class eZWorkflowEvent extends eZPersistentObject
             return $this->content( );
         else if ( in_array( $attr, $eventType->typeFunctionalAttributes( ) ) )
         {
-            return $eventType->attributeDecoder( $this, $attr );
+            $attributeDecoder =& $eventType->attributeDecoder( $this, $attr );
+            return $attributeDecoder;
         }else
             return eZPersistentObject::attribute( $attr );
     }

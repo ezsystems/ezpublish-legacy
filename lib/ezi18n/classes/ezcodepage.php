@@ -64,7 +64,7 @@ class eZCodePage
         $this->load( $use_cache );
     }
 
-    function &convertString( &$str )
+    function convertString( &$str )
     {
         $len = strlen( $str );
         $chars = array();
@@ -82,7 +82,7 @@ class eZCodePage
         return implode( '', $chars );
     }
 
-    function &convertStringToUnicode( &$str )
+    function convertStringToUnicode( &$str )
     {
         $len = strlen( $str );
         $unicodeValues = array();
@@ -97,7 +97,7 @@ class eZCodePage
         return $unicodeValues;
     }
 
-    function &convertUnicodeToString( $unicodeValues )
+    function convertUnicodeToString( $unicodeValues )
     {
         if ( !is_array( $unicodeValues ) )
             return false;
@@ -127,7 +127,7 @@ class eZCodePage
     }
     */
 
-    function &convertStringFromUTF8( &$multi_char )
+    function convertStringFromUTF8( &$multi_char )
     {
         $strlen = strlen( $multi_char );
         $text = '';
@@ -329,7 +329,7 @@ class eZCodePage
             return chr( $this->SubstituteChar );
     }
 
-    function &unicodeToChar( &$ucode )
+    function unicodeToChar( &$ucode )
     {
         if ( isset( $this->CodeMap[$ucode] ) )
         {
@@ -625,7 +625,7 @@ $str
         $this->MinCharValue = 0;
         $this->MaxCharValue = 31;
 
-        $lines =& file( $file );
+        $lines = file( $file );
         reset( $lines );
         while ( ( $key = key( $lines ) ) !== null )
         {

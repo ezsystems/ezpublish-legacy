@@ -461,7 +461,7 @@ ENDADDCODE;
 
         // get 'path_stirng' attribute for node.
         $nodeID = false;
-        $subtree =& $db->escapeString( $subtreeExpiryParameter );
+        $subtree = $db->escapeString( $subtreeExpiryParameter );
 
         if ( $subtree == '' )
         {

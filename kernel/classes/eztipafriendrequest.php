@@ -55,7 +55,7 @@ class eZTipafriendRequest extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function &definition()
+    function definition()
     {
         return array( "fields" => array( "email_receiver" => array( 'name' => "EmailReceiver",
                                                                     'datatype' => 'string',

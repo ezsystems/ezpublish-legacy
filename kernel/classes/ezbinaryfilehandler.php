@@ -91,7 +91,8 @@ class eZBinaryFileHandler
     */
     function &viewTemplate( &$contentobjectAttribute )
     {
-        return false;
+        $retVal = false;
+        return $retVal;
     }
 
     /*!
@@ -100,7 +101,8 @@ class eZBinaryFileHandler
     */
     function &editTemplate( &$contentobjectAttribute )
     {
-        return false;
+        $retVal = false;
+        return $retVal;
     }
 
     /*!
@@ -109,7 +111,8 @@ class eZBinaryFileHandler
     */
     function &informationTemplate( &$contentobjectAttribute )
     {
-        return false;
+        $retVal = false;
+        return $retVal;
     }
 
     /*!

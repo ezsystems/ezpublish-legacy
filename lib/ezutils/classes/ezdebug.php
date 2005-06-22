@@ -398,7 +398,7 @@ class eZDebug
             return;
 
         if ( is_object( $string ) || is_array( $string ) )
-             $string =& eZDebug::dumpVariable( $string );
+             $string = eZDebug::dumpVariable( $string );
 
         $GLOBALS['eZDebugNotice'] = true;
         if ( !isset( $GLOBALS['eZDebugNoticeCount'] ) )
@@ -441,7 +441,7 @@ class eZDebug
             return;
 
         if ( is_object( $string ) || is_array( $string ) )
-            $string =& eZDebug::dumpVariable( $string );
+            $string = eZDebug::dumpVariable( $string );
 
         $GLOBALS['eZDebugWarning'] = true;
         if ( !isset( $GLOBALS['eZDebugWarningCount'] ) )
@@ -484,7 +484,7 @@ class eZDebug
             return;
 
         if ( is_object( $string ) || is_array( $string ) )
-            $string =& eZDebug::dumpVariable( $string );
+            $string = eZDebug::dumpVariable( $string );
 
         $GLOBALS['eZDebugError'] = true;
         if ( !isset( $GLOBALS['eZDebugErrorCount'] ) )
@@ -527,7 +527,7 @@ class eZDebug
             return;
 
         if ( is_object( $string ) || is_array( $string ) )
-            $string =& eZDebug::dumpVariable( $string );
+            $string = eZDebug::dumpVariable( $string );
 
         $GLOBALS['eZDebugDebug'] = true;
         if ( !isset( $GLOBALS['eZDebugDebugCount'] ) )
@@ -556,7 +556,7 @@ class eZDebug
       \private
       Dumps the variables contents using the dump_var function
     */
-    function &dumpVariable( $var )
+    function dumpVariable( $var )
     {
         // If we have var_export (PHP >= 4.2.0) we use the instead
         // provides better output, doesn't require output buffering

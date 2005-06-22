@@ -56,7 +56,7 @@ class eZDiscountSubRule extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function &definition()
+    function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -94,7 +94,7 @@ class eZDiscountSubRule extends eZPersistentObject
             case 'discount_percent':
             {
                 include_once( 'lib/ezlocale/classes/ezlocale.php' );
-                $locale =& eZLocale::instance();
+                $locale = eZLocale::instance();
 
                 $val = $locale->internalNumber( $val );
                 if ( $val < 0.0 )
@@ -113,30 +113,33 @@ class eZDiscountSubRule extends eZPersistentObject
 
     function &fetch( $id, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZDiscountSubRule::definition(),
-                                                null,
-                                                array( "id" => $id ),
-                                                $asObject );
+        $object =& eZPersistentObject::fetchObject( eZDiscountSubRule::definition(),
+                                                    null,
+                                                    array( "id" => $id ),
+                                                    $asObject );
+        return $object;
     }
 
     function &fetchList( $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZDiscountSubRule::definition(),
-                                                    null, null, null, null,
-                                                    $asObject );
+        $objectList =& eZPersistentObject::fetchObjectList( eZDiscountSubRule::definition(),
+                                                            null, null, null, null,
+                                                            $asObject );
+        return $objectList;
     }
 
     function &fetchByRuleID( $discountRuleID, $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZDiscountSubRule::definition(),
-                                                    null,
-                                                    array( "discountrule_id" => $discountRuleID ),
-                                                    null,
-                                                    null,
-                                                    $asObject );
+        $objectList =& eZPersistentObject::fetchObjectList( eZDiscountSubRule::definition(),
+                                                            null,
+                                                            array( "discountrule_id" => $discountRuleID ),
+                                                            null,
+                                                            null,
+                                                            $asObject );
+        return $objectList;
     }
 
-    function &create( $discountRuleID )
+    function create( $discountRuleID )
     {
         $row = array(
             "id" => null,
@@ -147,7 +150,7 @@ class eZDiscountSubRule extends eZPersistentObject
         return new eZDiscountSubRule( $row );
     }
 
-    function &remove ( $id )
+    function remove ( $id )
     {
         eZPersistentObject::removeObject( eZDiscountSubRule::definition(),
                                           array( "id" => $id ) );

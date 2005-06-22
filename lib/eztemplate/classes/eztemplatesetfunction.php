@@ -79,7 +79,7 @@ class eZTemplateSetFunction
     /*!
      Returns an array of the function names, required for eZTemplate::registerFunctions.
     */
-    function &functionList()
+    function functionList()
     {
         return array( $this->SetName, $this->LetName, $this->DefaultName );
     }

@@ -55,7 +55,7 @@ class eZSection extends eZPersistentObject
     /*!
      \return the persistent object definition for the eZCard class.
     */
-    function &definition()
+    function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -82,7 +82,7 @@ class eZSection extends eZPersistentObject
     /*!
      \return the section object with the given id.
     */
-    function &fetch( $sectionID, $asObject = true )
+    function fetch( $sectionID, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZSection::definition(),
                                                 null,
@@ -91,14 +91,14 @@ class eZSection extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &fetchList( $asObject = true )
+    function fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZSection::definition(),
                                                     null, null, null, null,
                                                     $asObject );
     }
 
-    function &fetchByOffset( $offset, $limit, $asObject = true )
+    function fetchByOffset( $offset, $limit, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZSection::definition(),
                                                     null,

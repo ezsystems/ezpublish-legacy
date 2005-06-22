@@ -58,7 +58,7 @@ class eZNodeAssignment extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function &definition()
+    function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -115,11 +115,17 @@ class eZNodeAssignment extends eZPersistentObject
     function &attribute( $attr )
     {
         if ( $attr == 'parent_node_obj' )
-            return $this->getParentNode();
+        {
+            $parent =& $this->getParentNode();
+            return $parent;
+        }
         else if ( $attr == 'temp_node' )
             return $this->tempNode();
         else
-            return eZPersistentObject::attribute( $attr );
+        {
+            $attrValue =& eZPersistentObject::attribute( $attr );
+            return $attrValue;
+        }
     }
 
     function &tempNode()
@@ -145,7 +151,7 @@ class eZNodeAssignment extends eZPersistentObject
         return $this->Name;
     }
 
-    function &create( $parameters = array() )
+    function create( $parameters = array() )
     {
         if ( !isset( $parameters['contentobject_id'] ) )
         {
@@ -253,12 +259,13 @@ class eZNodeAssignment extends eZPersistentObject
         {
             $cond['is_main'] = 1;
         }
-        return eZPersistentObject::fetchObjectList( eZNodeAssignment::definition(),
-                                                    null,
-                                                    $cond,
-                                                    null,
-                                                    null,
-                                                    $asObject );
+        $objectList =& eZPersistentObject::fetchObjectList( eZNodeAssignment::definition(),
+                                                            null,
+                                                            $cond,
+                                                            null,
+                                                            null,
+                                                            $asObject );
+        return $objectList;
     }
 
     function &fetch( $contentObjectID, $version = 1, $parentNode = 0 ,$asObject = true )
@@ -266,11 +273,11 @@ class eZNodeAssignment extends eZPersistentObject
         $cond = array( 'contentobject_id' => $contentObjectID,
                        'contentobject_version' => $version,
                        'parent_node' => $parentNode );
-        return eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
-                                                null,
-                                                $cond,
-                                                $asObject );
-
+        $object =& eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
+                                                    null,
+                                                    $cond,
+                                                    $asObject );
+        return $object;
     }
 
     /*!
@@ -280,7 +287,8 @@ class eZNodeAssignment extends eZPersistentObject
     */
     function &fetchNode()
     {
-        return eZContentObjectTreeNode::fetchNode( $this->ContentobjectID, $this->ParentNode );
+        $node =& eZContentObjectTreeNode::fetchNode( $this->ContentobjectID, $this->ParentNode );
+        return $node;
     }
 
     /*!
@@ -290,9 +298,10 @@ class eZNodeAssignment extends eZPersistentObject
     function &fetchByID( $id ,$asObject = true )
     {
         $cond = array( 'id' => $id );
-        return eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
-                                                null, $cond,
-                                                $asObject );
+        $object =& eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
+                                                    null, $cond,
+                                                    $asObject );
+        return $object;
     }
 
     /*!
@@ -307,7 +316,7 @@ class eZNodeAssignment extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &clone( $nextVersionNumber = 1, $contentObjectID = false )
+    function clone( $nextVersionNumber = 1, $contentObjectID = false )
     {
         $assignmentRow = array( 'contentobject_id' => $this->attribute( 'contentobject_id' ),
                                 'contentobject_version' => $nextVersionNumber,
@@ -324,7 +333,8 @@ class eZNodeAssignment extends eZPersistentObject
 
     function &getParentNode()
     {
-        return eZContentObjectTreeNode::fetch( $this->attribute( 'parent_node' ) );
+        $parent =& eZContentObjectTreeNode::fetch( $this->attribute( 'parent_node' ) );
+        return $parent;
     }
 
     /*!

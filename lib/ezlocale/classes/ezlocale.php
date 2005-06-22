@@ -999,7 +999,8 @@ class eZLocale
     */
     function &formatDate( $date = false )
     {
-        return $this->formatDateType( $this->DateFormat, $date );
+        $formatDateType =& $this->formatDateType( $this->DateFormat, $date );
+        return $formatDateType;
     }
 
     /*!
@@ -1008,7 +1009,8 @@ class eZLocale
     */
     function &formatShortDate( $date = false )
     {
-        return $this->formatDateType( $this->ShortDateFormat, $date );
+        $formatDateType =& $this->formatDateType( $this->ShortDateFormat, $date );
+        return $formatDateType;
     }
 
     /*!
@@ -1017,7 +1019,8 @@ class eZLocale
     */
     function &formatDateTime( $date = false )
     {
-        return $this->formatDateTimeType( $this->DateTimeFormat, $date );
+        $formatDateTimeType =& $this->formatDateTimeType( $this->DateTimeFormat, $date );
+        return $formatDateTimeType;
     }
 
     /*!
@@ -1026,7 +1029,8 @@ class eZLocale
     */
     function &formatShortDateTime( $date = false )
     {
-        return $this->formatDateTimeType( $this->ShortDateTimeFormat, $date );
+        $formatShortDateTime =& $this->formatDateTimeType( $this->ShortDateTimeFormat, $date );
+        return $formatDateTimeType;
     }
 
     /*!
@@ -1148,7 +1152,7 @@ class eZLocale
     {
         $neg = $number < 0;
         $num = $neg ? -$number : $number;
-        $text =& number_format( $num, $this->FractDigits, $this->DecimalSymbol, $this->ThousandsSeparator );
+        $text = number_format( $num, $this->FractDigits, $this->DecimalSymbol, $this->ThousandsSeparator );
         $text = ( $neg ? $this->NegativeSymbol : $this->PositiveSymbol ) . $text;
         return $text;
     }
@@ -1178,13 +1182,13 @@ class eZLocale
     {
         $neg = $number < 0;
         $num = $neg ? -$number : $number;
-        $num_text =& number_format( $num, $this->CurrencyFractDigits,
-                                    $this->CurrencyDecimalSymbol, $this->CurrencyThousandsSeparator );
-        $text =& str_replace( array( '%c', '%p', '%q' ),
-                              array( $this->CurrencySymbol,
-                                     $neg ? $this->CurrencyNegativeSymbol : $this->CurrencyPositiveSymbol,
-                                     $num_text ),
-                              $neg ? $this->CurrencyNegativeFormat : $this->CurrencyPositiveFormat );
+        $num_text = number_format( $num, $this->CurrencyFractDigits,
+                                   $this->CurrencyDecimalSymbol, $this->CurrencyThousandsSeparator );
+        $text = str_replace( array( '%c', '%p', '%q' ),
+                             array( $this->CurrencySymbol,
+                                    $neg ? $this->CurrencyNegativeSymbol : $this->CurrencyPositiveSymbol,
+                                    $num_text ),
+                             $neg ? $this->CurrencyNegativeFormat : $this->CurrencyPositiveFormat );
         return $text;
     }
 
@@ -1197,13 +1201,13 @@ class eZLocale
     {
         $neg = $number < 0;
         $num = $neg ? -$number : $number;
-        $num_text =& number_format( $num, $this->CurrencyFractDigits,
-                                    $this->CurrencyDecimalSymbol, $this->CurrencyThousandsSeparator );
-        $text =& str_replace( array( '%c', '%p', '%q' ),
-                              array( '',
-                                     $neg ? $this->CurrencyNegativeSymbol : $this->CurrencyPositiveSymbol,
-                                     $num_text ),
-                              $neg ? $this->CurrencyNegativeFormat : $this->CurrencyPositiveFormat );
+        $num_text = number_format( $num, $this->CurrencyFractDigits,
+                                   $this->CurrencyDecimalSymbol, $this->CurrencyThousandsSeparator );
+        $text = str_replace( array( '%c', '%p', '%q' ),
+                             array( '',
+                                    $neg ? $this->CurrencyNegativeSymbol : $this->CurrencyPositiveSymbol,
+                                    $num_text ),
+                             $neg ? $this->CurrencyNegativeFormat : $this->CurrencyPositiveFormat );
         return trim( $text );
     }
 

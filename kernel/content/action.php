@@ -103,13 +103,10 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
                 if ( is_object( $class ) )
                 {
                     $contentObject =& $class->instantiate( $userID, $sectionID );
-                    $nodeAssignment =& eZNodeAssignment::create( array(
-                                                                     'contentobject_id' => $contentObject->attribute( 'id' ),
-                                                                     'contentobject_version' => $contentObject->attribute( 'current_version' ),
-                                                                     'parent_node' => $node->attribute( 'node_id' ),
-                                                                     'is_main' => 1
-                                                                     )
-                                                                 );
+                    $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
+                                                                       'contentobject_version' => $contentObject->attribute( 'current_version' ),
+                                                                       'parent_node' => $node->attribute( 'node_id' ),
+                                                                       'is_main' => 1 ) );
                     if ( $http->hasPostVariable( 'AssignmentRemoteID' ) )
                     {
                         $nodeAssignment->setAttribute( 'remote_id', $http->postVariable( 'AssignmentRemoteID' ) );

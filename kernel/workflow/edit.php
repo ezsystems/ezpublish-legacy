@@ -108,14 +108,14 @@ else
     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
     $user =& eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
-    $workflow =& eZWorkflow::create( $user_id );
+    $workflow = eZWorkflow::create( $user_id );
     $workflowCount = eZWorkflow::fetchListCount();
     ++$workflowCount;
     $workflow->setAttribute( "name", ezi18n( 'kernel/workflow/edit', "New Workflow" ) . "$workflowCount" );
     $workflow->store();
     $WorkflowID = $workflow->attribute( "id" );
     $WorkflowVersion = $workflow->attribute( "version" );
-    $ingroup =& eZWorkflowGroupLink::create( $WorkflowID, $WorkflowVersion, $GroupID, $GroupName );
+    $ingroup = eZWorkflowGroupLink::create( $WorkflowID, $WorkflowVersion, $GroupID, $GroupName );
     $ingroup->store();
     return $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $WorkflowID . '/' . $GroupID );
 }
@@ -307,7 +307,7 @@ if ( $http->hasPostVariable( "DeleteButton" ) )
 
 if ( $http->hasPostVariable( "NewButton" ) )
 {
-    $new_event =& eZWorkflowEvent::create( $WorkflowID, $cur_type );
+    $new_event = eZWorkflowEvent::create( $WorkflowID, $cur_type );
     $new_event_type =& $new_event->eventType();
     $new_event_type->initializeEvent( $new_event );
     $new_event->store();

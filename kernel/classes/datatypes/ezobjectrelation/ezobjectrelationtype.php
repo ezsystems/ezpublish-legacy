@@ -325,7 +325,10 @@ class eZObjectRelationType extends eZDataType
         if ( $objectID != 0 )
             return eZContentObject::fetch( $contentObjectAttribute->attribute( "data_int" ) );
         else
-            return false;
+        {
+            $retVal = false;
+            return $retVal;
+        }
     }
 
     /*!
@@ -348,7 +351,7 @@ class eZObjectRelationType extends eZDataType
     /*!
      \reimp
     */
-    function &sortKey( &$contentObjectAttribute )
+    function sortKey( &$contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_int' );
     }
@@ -356,7 +359,7 @@ class eZObjectRelationType extends eZDataType
     /*!
      \reimp
     */
-    function &sortKeyType()
+    function sortKeyType()
     {
         return 'int';
     }

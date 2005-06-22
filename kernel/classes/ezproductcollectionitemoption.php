@@ -55,7 +55,7 @@ class eZProductCollectionItemOption extends eZPersistentObject
 
     }
 
-    function &definition()
+    function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',

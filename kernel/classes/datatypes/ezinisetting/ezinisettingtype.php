@@ -453,8 +453,9 @@ class eZIniSettingType extends eZDataType
             }
         }
 
-        return array( 'data' => $contentObjectAttribute->attribute( 'data_text' ),
-                      'modified' => $modified );
+        $data = array( 'data' => $contentObjectAttribute->attribute( 'data_text' ),
+                       'modified' => $modified );
+        return $data;
     }
 
     /*!

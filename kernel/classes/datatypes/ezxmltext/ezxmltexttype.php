@@ -275,7 +275,8 @@ class eZXMLTextType extends eZDataType
     {
         $content =& $this->objectAttributeContent( $contentobjectAttribute );
         $outputHandler =& $content->attribute( 'output' );
-        return $outputHandler->viewTemplateSuffix( $contentobjectAttribute );
+        $retVal = $outputHandler->viewTemplateSuffix( $contentobjectAttribute );
+        return $retVal;
     }
 
     /*!
@@ -285,7 +286,8 @@ class eZXMLTextType extends eZDataType
     {
         $content =& $this->objectAttributeContent( $contentobjectAttribute );
         $inputHandler =& $content->attribute( 'input' );
-        return $inputHandler->editTemplateSuffix( $contentobjectAttribute );
+        $editTemplateSuffix =& $inputHandler->editTemplateSuffix( $contentobjectAttribute );
+        return $editTemplateSuffix;
     }
 
     /*!
@@ -311,8 +313,8 @@ class eZXMLTextType extends eZDataType
         {
             include_once( 'lib/ezi18n/classes/eztextcodec.php' );
             $charset = 'UTF-8';
-            $codec =& eZTextCodec::instance( false, $charset );
-            $text =& $codec->convertString( $text );
+            $codec = eZTextCodec::instance( false, $charset );
+            $text = $codec->convertString( $text );
             $timestamp = EZ_XMLTEXT_VERSION_30_TIMESTAMP;
         }
         return $text;

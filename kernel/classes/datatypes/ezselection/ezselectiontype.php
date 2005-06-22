@@ -196,8 +196,8 @@ class eZSelectionType extends eZDataType
     */
     function &objectAttributeContent( &$contentObjectAttribute )
     {
-        $idString = $contentObjectAttribute->attribute( 'data_text' );
-        return explode( '-', $idString );
+        $idString = explode( '-', $contentObjectAttribute->attribute( 'data_text' ) );
+        return $idString;
     }
 
     /*!
@@ -223,9 +223,9 @@ class eZSelectionType extends eZDataType
             $optionArray[] = array( 'id' => 0,
                                     'name' => '' );
         }
-        return  array( 'options' => $optionArray,
-                       'is_multiselect' => $classAttribute->attribute( 'data_int1' )
-                       );
+        $attrValue = array( 'options' => $optionArray,
+                            'is_multiselect' => $classAttribute->attribute( 'data_int1' ) );
+        return $attrValue;
     }
 
     /*!

@@ -95,7 +95,7 @@ foreach( $TemplateData as $tpldata )
        return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
-    $list = & eZContentClassClassGroup::fetchClassList( 0, $GroupID, $asObject = true );
+    $list = eZContentClassClassGroup::fetchClassList( 0, $GroupID, $asObject = true );
     $groupModifier =& eZContentObject::fetch( $groupInfo->attribute( 'modifier_id') );
     $tpl->setVariable( $tplname, $list );
     $tpl->setVariable( "class_count", count( $list ) );

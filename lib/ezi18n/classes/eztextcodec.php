@@ -324,7 +324,7 @@ class eZTextCodec
     {
         eZDebug::accumulatorStart( 'textcodec_conversion', false, 'String conversion' );
         $conversionFunction = $this->ConversionFunction;
-        $tmp =& $this->$conversionFunction( $str );
+        $tmp = $this->$conversionFunction( $str );
         eZDebug::accumulatorStop( 'textcodec_conversion' );
         return $tmp;
     }
@@ -385,7 +385,7 @@ class eZTextCodec
     function &convertCodepage( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_codepage', false, 'String conversion w/ codepage' );
-        $tmp =& $this->Codepage->convertString( $str );
+        $tmp = $this->Codepage->convertString( $str );
         eZDebug::accumulatorStop( 'textcodec_codepage', false, 'String conversion w/ codepage' );
         return $tmp;
     }
@@ -393,7 +393,7 @@ class eZTextCodec
     function &convertCodepageRev( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_codepage_rev', false, 'String conversion w/ codepage reverse' );
-        $tmp =& $this->Codepage->convertStringFromUTF8( $str );
+        $tmp = $this->Codepage->convertStringFromUTF8( $str );
         eZDebug::accumulatorStop( 'textcodec_codepage_rev', false, 'String conversion w/ codepage reverse' );
         return $tmp;
     }
@@ -401,18 +401,18 @@ class eZTextCodec
     function &convertCodepageMapper( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_codepage_mapper', false, 'String conversion w/ codepage mapper' );
-        $tmp =& $this->CodepageMapper->convertString( $str );
+        $tmp = $this->CodepageMapper->convertString( $str );
         eZDebug::accumulatorStop( 'textcodec_codepage_mapper', false, 'String conversion w/ codepage mapper' );
         return $tmp;
     }
 
-    function &convertMBString( $str )
+    function convertMBString( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_mbstring', false, 'String conversion w/ mbstring' );
 //        $tmp =& $this->MBStringMapper->convertString( $str );
         // NOTE:
         // Uses the mbstring function directly instead of going trough the class
-        $tmp =& mb_convert_encoding( $str, $this->OutputCharsetCode, $this->InputCharsetCode );
+        $tmp = mb_convert_encoding( $str, $this->OutputCharsetCode, $this->InputCharsetCode );
         eZDebug::accumulatorStop( 'textcodec_mbstring', false, 'String conversion w/ mbstring' );
         return $tmp;
     }
@@ -465,7 +465,7 @@ class eZTextCodec
      \param $alwaysReturn If \c false it will only return a textcodec instance if it is required for the input and output charset.
                           In which case it returns \c null.
     */
-    function &instance( $inputCharsetCode, $outputCharsetCode = false, $alwaysReturn = true )
+    function instance( $inputCharsetCode, $outputCharsetCode = false, $alwaysReturn = true )
     {
         if ( $inputCharsetCode === false or $outputCharsetCode === false )
         {

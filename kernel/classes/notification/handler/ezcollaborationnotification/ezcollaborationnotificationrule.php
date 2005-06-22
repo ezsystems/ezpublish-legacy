@@ -55,7 +55,7 @@ class eZCollaborationNotificationRule extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function &definition()
+    function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -130,9 +130,10 @@ class eZCollaborationNotificationRule extends eZPersistentObject
     {
         if ( !$userID )
             $userID =& eZUser::currentUserID();
-        return eZPersistentObject::fetchObjectList( eZCollaborationNotificationRule::definition(),
-                                                    null, array( 'user_id' => $userID ),
-                                                    null, null, $asObject );
+        $objectList =& eZPersistentObject::fetchObjectList( eZCollaborationNotificationRule::definition(),
+                                                            null, array( 'user_id' => $userID ),
+                                                            null, null, $asObject );
+        return $objectList;
     }
 
     function &fetchItemTypeList( $collaborationIdentifier, $userIDList, $asObject = true )

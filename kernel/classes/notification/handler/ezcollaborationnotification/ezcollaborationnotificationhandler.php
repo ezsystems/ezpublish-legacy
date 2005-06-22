@@ -81,7 +81,8 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         }
         else if ( $attr == 'collaboration_selections' )
         {
-            return $this->collaborationSelections();
+            $selections = $this->collaborationSelections();
+            return $selections;
         }
         return eZNotificationEventHandler::attribute( $attr );
     }
@@ -96,7 +97,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
 
     /*!
     */
-    function &collaborationSelections()
+    function collaborationSelections()
     {
         $rules =& eZCollaborationNotificationRule::fetchList();
         $selection = array();

@@ -62,7 +62,7 @@ class eZWorkflow extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function &definition()
+    function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -127,7 +127,7 @@ class eZWorkflow extends eZPersistentObject
         return false;
     }
 
-    function &create( $user_id )
+    function create( $user_id )
     {
         $date_time = time();
         $row = array(
@@ -271,24 +271,12 @@ class eZWorkflow extends eZPersistentObject
 
     function &fetch( $id, $asObject = true, $version = 0 )
     {
-//         $workflowDBData =& $GLOBALS["eZWorkflowDBData"];
-//         if ( !is_array( $workflowDBData ) )
-//             $workflowDBData = array();
-//         $row =& $workflowDBData[$id][$version];
-//         if ( !is_array( $row ) )
-//              $row = eZPersistentObject::fetchObject( eZWorkflow::definition(),
-//                                                      null,
-//                                                      array( "id" => $id,
-//                                                             "version" => $version ),
-//                                                      false );
-//         if ( $asObject )
-//             return new eZWorkflow( $row );
-//         return $row;
-        return eZPersistentObject::fetchObject( eZWorkflow::definition(),
-                                                null,
-                                                array( "id" => $id,
-                                                       "version" => $version ),
-                                                $asObject );
+        $object =& eZPersistentObject::fetchObject( eZWorkflow::definition(),
+                                                    null,
+                                                    array( "id" => $id,
+                                                           "version" => $version ),
+                                                    $asObject );
+        return $object;
     }
 
     /*!
@@ -349,9 +337,10 @@ class eZWorkflow extends eZPersistentObject
         $conds = array( 'version' => $version );
         if ( $enabled !== null )
             $conds['is_enabled'] = $enabled;
-        return eZPersistentObject::fetchObjectList( eZWorkflow::definition(),
-                                                    null, $conds, null, null,
-                                                    $asObject );
+        $objectList =& eZPersistentObject::fetchObjectList( eZWorkflow::definition(),
+                                                            null, $conds, null, null,
+                                                            $asObject );
+        return $objectList;
     }
 
     function &fetchListCount( $version = 0, $enabled = 1 )
@@ -399,8 +388,9 @@ class eZWorkflow extends eZPersistentObject
             else
                 return null;
         }
-        return eZWorkflowEvent::fetchFilteredList( array( "workflow_id" => $id,
-                                                          "version" => $version ) );
+        $filteredList =& eZWorkflowEvent::fetchFilteredList( array( "workflow_id" => $id,
+                                                                    "version" => $version ) );
+        return $filteredList;
     }
 
     function &fetchEventCount( $id = false, $version = 0 )
@@ -414,7 +404,10 @@ class eZWorkflow extends eZPersistentObject
                 $version = $this->Version;
             }
             else
-                return null;
+            {
+                $count = null;
+                return $count;
+            }
         }
         $custom = array( array( "name" => "count",
                                 "operation" => "count( id )" ) );

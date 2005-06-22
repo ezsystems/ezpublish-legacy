@@ -484,7 +484,7 @@ while ( $moduleRunRequired )
          !$uri->isEmpty() )
     {
         include_once( 'kernel/classes/ezurlalias.php' );
-        $translateResult =& eZURLAlias::translate( $uri );
+        $translateResult = eZURLAlias::translate( $uri );
 
 
         if ( !$translateResult )
@@ -789,7 +789,7 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 
 
 
-    $redirectURI = eZSys::indexDir();
+    $redirectURI =& eZSys::indexDir();
 //     eZDebug::writeDebug( eZSys::indexDir(), 'eZSys::indexDir()' );
 //     eZDebug::writeDebug( $module->redirectURI(), '$module->redirectURI()' );
 
@@ -933,7 +933,7 @@ if ( $show_page_layout )
     $tpl =& templateInit();
     if ( !isset( $moduleResult['path'] ) )
         $moduleResult['path'] = false;
-    $moduleResult['uri'] =& eZSys::requestURI();
+    $moduleResult['uri'] = eZSys::requestURI();
 
     $tpl->setVariable( "module_result", $moduleResult );
 

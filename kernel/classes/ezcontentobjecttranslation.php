@@ -92,9 +92,10 @@ class eZContentObjectTranslation
     /*!
      Returns the attributes for the current content object translation.
     */
-    function objectAttributes( $asObject = true )
+    function &objectAttributes( $asObject = true )
     {
-        return eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $this->LanguageCode, $asObject );
+        $attributeList =& eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $this->LanguageCode, $asObject );
+        return $attributeList;
     }
 
     /// The content object identifier

@@ -63,7 +63,7 @@ class eZPDFExport extends eZPersistentObject
     /*!
      \reimp
     */
-    function &definition()
+    function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -175,7 +175,6 @@ class eZPDFExport extends eZPersistentObject
         {
             $originalVersion = $this->attribute( 'version' );
             $this->setAttribute( 'version', EZ_PDFEXPORT_VERSION_VALID );
-            
         }
         $user =& eZUser::currentUser();
         $this->setAttribute( 'modified', time() );
@@ -229,12 +228,13 @@ class eZPDFExport extends eZPersistentObject
     */
     function &fetchList( $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZPDFExport::definition(),
-                                                    null,
-                                                    array( 'version' => EZ_PDFEXPORT_VERSION_VALID ),
-                                                    null,
-                                                    null,
-                                                    $asObject );
+        $objectList =& eZPersistentObject::fetchObjectList( eZPDFExport::definition(),
+                                                            null,
+                                                            array( 'version' => EZ_PDFEXPORT_VERSION_VALID ),
+                                                            null,
+                                                            null,
+                                                            $asObject );
+        return $objectList;
     }
 
     /*!

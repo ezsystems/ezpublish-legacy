@@ -167,7 +167,7 @@ class eZTemplateFileResource
     /*!
      \return the cached node tree for the selected template.
     */
-    function &cachedTemplateTree( $keyData, $uri, $res, $templatePath, &$extraParameters, $timestamp )
+    function cachedTemplateTree( $keyData, $uri, $res, $templatePath, &$extraParameters, $timestamp )
     {
         $key = $this->cacheKey( $keyData, $res, $templatePath, $extraParameters );
         if ( eZTemplateTreeCache::canRestoreCache( $key, $timestamp, $templatePath ) )
@@ -298,7 +298,7 @@ class eZTemplateFileResource
 
                 if ( eZTemplate::isDebugEnabled() )
                     eZDebug::writeNotice( "$path, $charset" );
-                $codec =& eZTextCodec::instance( $charset, false, false );
+                $codec = eZTextCodec::instance( $charset, false, false );
                 if ( $codec )
                 {
                     eZDebug::accumulatorStart( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );

@@ -89,7 +89,7 @@
   $rowID = $db->lastSerialID( 'sql_test', 'id' );
 
   // fetch some data into an array of associative arrays
-  $rows =& $db->arrayQuery( 'SELECT * FROM sql_test' );
+  $rows = $db->arrayQuery( 'SELECT * FROM sql_test' );
 
   foreach ( $rows as $row )
   {
@@ -98,7 +98,7 @@
 
   // fetch some data with a limit
   // will return the 10 first rows in the result
-  $ret =& $db->arrayQuery( 'SELECT id, name, description, rownum FROM sql_test',
+  $ret = $db->arrayQuery( 'SELECT id, name, description, rownum FROM sql_test',
                            array( 'offset' => 0, 'limit' => 10 ) );
 
   // check which implementation we're running

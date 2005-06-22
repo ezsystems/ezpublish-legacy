@@ -56,7 +56,7 @@ class eZDiscountRule extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function &definition()
+    function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                          'datatype' => 'integer',
@@ -74,21 +74,22 @@ class eZDiscountRule extends eZPersistentObject
 
     function &fetch( $id, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZDiscountRule::definition(),
-                                                null,
-                                                array( "id" => $id
-                                                      ),
-                                                $asObject );
+        $object =& eZPersistentObject::fetchObject( eZDiscountRule::definition(),
+                                                    null,
+                                                    array( "id" => $id ),
+                                                    $asObject );
+        return $object;
     }
 
     function &fetchList( $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZDiscountRule::definition(),
-                                                    null, null, null, null,
-                                                    $asObject );
+        $objectList =& eZPersistentObject::fetchObjectList( eZDiscountRule::definition(),
+                                                            null, null, null, null,
+                                                            $asObject );
+        return $objectList;
     }
 
-    function &create()
+    function create()
     {
         $row = array(
             "id" => null,

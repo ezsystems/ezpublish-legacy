@@ -53,7 +53,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     */
     function &outputText()
     {
-        return $this->xhtml();
+        $retVal =& $this->xhtml();
+        return $retVal;
     }
 
     /*!

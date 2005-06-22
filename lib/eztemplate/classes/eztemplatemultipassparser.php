@@ -126,7 +126,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
             {
                 // No more tags
                 unset( $data );
-                $data =& substr( $sourceText, $sourcePosition );
+                $data = substr( $sourceText, $sourcePosition );
                 $this->gotoEndPosition( $data, $currentLine, $currentColumn, $endLine, $endColumn );
                 $textElements[] = array( "text" => $data,
                                          "type" => EZ_ELEMENT_TEXT,
@@ -154,7 +154,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                     {
                         // Add text before tag.
                         unset( $data );
-                        $data =& substr( $sourceText, $sourcePosition, $blockStart - $sourcePosition );
+                        $data = substr( $sourceText, $sourcePosition, $blockStart - $sourcePosition );
                         $this->gotoEndPosition( $data, $currentLine, $currentColumn, $endLine, $endColumn );
                         $textElements[] = array( "text" => $data,
                                                  "type" => EZ_ELEMENT_TEXT,
@@ -239,7 +239,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         {
                             // Add text before tag.
                             unset( $data );
-                            $data =& substr( $sourceText, $sourcePosition, $blockStart - $sourcePosition );
+                            $data = substr( $sourceText, $sourcePosition, $blockStart - $sourcePosition );
                             $this->gotoEndPosition( $data, $currentLine, $currentColumn, $endLine, $endColumn );
                             $textElements[] = array( "text" => $data,
                                                      "type" => EZ_ELEMENT_TEXT,
@@ -487,7 +487,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                 {
                     $text =& $element["text"];
                     $text_len = strlen( $text );
-                    $var_data =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, 0, $var_end, $text_len, $rootNamespace );
+                    $var_data = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, 0, $var_end, $text_len, $rootNamespace );
 
                     unset( $node );
                     $node = array( EZ_TEMPLATE_NODE_VARIABLE,
@@ -585,7 +585,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         }
                         ++$attr_name_pos;
                         unset( $var_data );
-                        $var_data =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $attr_name_pos, $var_end, $text_len, $rootNamespace );
+                        $var_data = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $attr_name_pos, $var_end, $text_len, $rootNamespace );
                         $args[$attr_name] = $var_data;
                         $attr_pos = $var_end;
                     }
@@ -660,7 +660,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                             unset( $oldTag );
                             unset( $oldTagName );
                             include_once( "lib/ezutils/classes/ezphpcreator.php" );
-                            $oldTag =& array_pop( $tagStack );
+                            $oldTag = array_pop( $tagStack );
                             $oldTagName = $oldTag["Tag"];
                             unset( $currentRoot );
                             $currentRoot =& $oldTag["Root"];

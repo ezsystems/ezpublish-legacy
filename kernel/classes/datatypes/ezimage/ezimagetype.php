@@ -361,7 +361,7 @@ class eZImageType extends eZDataType
             if ( $mainNode )
             {
                 $dirpath = $imageHandler->imagePathByNode( $contentObjectAttribute, $mainNode );
-                $oldDirpath =& $imageHandler->directoryPath();
+                $oldDirpath = $imageHandler->directoryPath();
                 if ( $oldDirpath != $dirpath )
                 {
                     $name = $imageHandler->imageNameByNode( $contentObjectAttribute, $mainNode );

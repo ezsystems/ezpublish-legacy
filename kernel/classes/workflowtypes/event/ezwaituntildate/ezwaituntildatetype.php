@@ -161,7 +161,8 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
             case 'has_class_attributes' :
             {
                 // for the backward compatability:
-                return 1;
+                $hasClassAttribute = 1;
+                return $hasClassAttribute;
             }break;
             default:
                 return eZWorkflowEventType::attribute( $attr );

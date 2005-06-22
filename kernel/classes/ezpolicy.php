@@ -59,7 +59,7 @@ class eZPolicy extends eZPersistentObject
           $this->NodeID = 0;
     }
 
-    function &definition()
+    function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -254,7 +254,7 @@ class eZPolicy extends eZPersistentObject
 
      return access array
     */
-    function &accessArray( $ignoreLimitIdentifier = false )
+    function accessArray( $ignoreLimitIdentifier = false )
     {
         $limitations =& $this->limitationList( true, $ignoreLimitIdentifier );
         if ( $this->Disabled === true )
@@ -370,13 +370,16 @@ class eZPolicy extends eZPersistentObject
             return eZPersistentObject::fetchObject( eZRole::definition(),
                                                     null, array( 'id' => $this->RoleID ), true );
         }
-        return false;
+
+        $role = false;
+        return $role;
     }
 
     function &fetch( $policyID )
     {
-        return eZPersistentObject::fetchObject( eZPolicy::definition(),
-                                                null, array('id' => $policyID ), true);
+        $object =& eZPersistentObject::fetchObject( eZPolicy::definition(),
+                                                    null, array('id' => $policyID ), true);
+        return $object;
 
     }
 

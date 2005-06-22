@@ -91,7 +91,7 @@ class eZPersistentObject
     {
         if ( $row == false )
             return;
-        $def =& $this->definition();
+        $def = $this->definition();
         $fields =& $def["fields"];
 
         foreach ( $fields as $key => $value )
@@ -165,7 +165,7 @@ class eZPersistentObject
                                /*! An array of extra fields to fetch, each field may be a SQL operation */
                                $custom_fields = null )
     {
-        $rows =& eZPersistentObject::fetchObjectList( $def, $field_filters, $conds,
+        $rows = eZPersistentObject::fetchObjectList( $def, $field_filters, $conds,
                                                       array(), null, $asObject,
                                                       $grouping, $custom_fields );
         return $rows[0];
@@ -180,7 +180,7 @@ class eZPersistentObject
     */
     function remove( $conditions = null, $extraConditions = null )
     {
-        $def =& $this->definition();
+        $def = $this->definition();
         $keys =& $def["keys"];
         if ( !is_array( $conditions ) )
         {
@@ -253,7 +253,7 @@ class eZPersistentObject
         $db =& eZDB::instance();
         $useFieldFilters = ( isset( $fieldFilters ) && is_array( $fieldFilters ) && $fieldFilters );
 
-        $def =& $obj->definition();
+        $def = $obj->definition();
         $fields =& $def["fields"];
         $keys =& $def["keys"];
         $table =& $def["name"];
@@ -512,7 +512,7 @@ class eZPersistentObject
     /*!
      Calls conditionTextByRow with an empty row and \a $conditions.
     */
-    function &conditionText( &$conditions )
+    function conditionText( &$conditions )
     {
         $row = null;
         return eZPersistentObject::conditionTextByRow( $conditions, $row );
@@ -751,10 +751,11 @@ class eZPersistentObject
         }
 
         $sqlText = "SELECT $field_text\nFROM   $table" . $where_text . $grouping_text . $sort_text;
-        $rows =& $db->arrayQuery( $sqlText,
-                                  $db_params );
+        $rows = $db->arrayQuery( $sqlText,
+                                 $db_params );
 
-        return eZPersistentObject::handleRows( $rows, $class_name, $asObject );
+        $objectList =& eZPersistentObject::handleRows( $rows, $class_name, $asObject );
+        return $objectList;
     }
 
     /*!
@@ -812,7 +813,7 @@ class eZPersistentObject
         $table =& $def["name"];
         $keys =& $def["keys"];
         $cond_text = eZPersistentObject::conditionText( $conditions );
-        $rows =& $db->arrayQuery( "SELECT MAX($orderField) AS $orderField FROM $table $cond_text" );
+        $rows = $db->arrayQuery( "SELECT MAX($orderField) AS $orderField FROM $table $cond_text" );
         if ( count( $rows ) > 0 and isset( $rows[0][$orderField] ) )
             return $rows[0][$orderField] + 1;
         else
@@ -919,7 +920,7 @@ function definition()
 }
 \endcode
     */
-    function &definition()
+    function definition()
     {
         return array();
     }
@@ -964,7 +965,7 @@ function definition()
         foreach( $updateFields as $field => $value )
         {
             $fieldDef =& $fields[ $field ];
-            $numericDataTypes = array( 'integer', 'float', 'double' );		
+            $numericDataTypes = array( 'integer', 'float', 'double' );
             if ( strlen( $value ) == 0 &&
                  is_array( $fieldDef ) &&
                  in_array( $fieldDef['datatype'], $numericDataTypes  ) &&
@@ -1041,7 +1042,7 @@ function definition()
     */
     function hasAttribute( $attr )
     {
-        $def =& $this->definition();
+        $def = $this->definition();
         $has_attr = isset( $def["fields"][$attr] );
         if ( !$has_attr and isset( $def["function_attributes"] ) )
             $has_attr = isset( $def["function_attributes"][$attr] );
@@ -1056,14 +1057,15 @@ function definition()
     */
     function &attribute( $attr, $noFunction = false )
     {
-        $def =& $this->definition();
+        $def = $this->definition();
         $fields =& $def["fields"];
         $functions =& $def["functions"];
         $attrFunctions =& $def["function_attributes"];
         if ( $noFunction === false and isset( $attrFunctions[$attr] ) )
         {
             $functionName = $attrFunctions[$attr];
-            return $this->$functionName();
+            $retVal =& $this->$functionName();
+            return $retVal;
         }
         else if ( isset( $fields[$attr] ) )
         {
@@ -1083,7 +1085,8 @@ function definition()
         {
             eZDebug::writeError( "Undefined attribute '$attr', cannot get",
                                   $def['class_name'] );
-            return null;
+            $attrValue = null;
+            return $attrValue;
         }
     }
 
@@ -1093,7 +1096,7 @@ function definition()
     */
     function setAttribute( $attr, $val )
     {
-        $def =& $this->definition();
+        $def = $this->definition();
         $fields =& $def["fields"];
         $functions =& $def["set_functions"];
         if ( isset( $fields[$attr] ) )

@@ -78,7 +78,7 @@ class eZUser extends eZPersistentObject
         $this->OriginalPasswordConfirm = false;
     }
 
-    function &definition()
+    function definition()
     {
         return array( 'fields' => array( 'contentobject_id' => array( 'name' => 'ContentObjectID',
                                                                       'datatype' => 'integer',
@@ -134,11 +134,13 @@ class eZUser extends eZPersistentObject
         }
         else if ( $name == 'role_id_list')
         {
-            return $this->roleIDList();
+            $roleIDList =& $this->roleIDList();
+            return $roleIDList;
         }
         else if ( $name == 'has_stored_login')
         {
-            return $this->hasStoredLogin();
+            $hasStoredLogin =& $this->hasStoredLogin();
+            return $hasStoredLogin;
         }
         else if ( $name == 'original_password' )
         {
@@ -603,7 +605,7 @@ WHERE user_id = '" . $userID . "' AND
                         ezcontentobject.id = ezuser.contentobject_id AND
                         ezuser_setting.user_id = ezuser.contentobject_id";
         $db =& eZDB::instance();
-        $rows =& $db->arrayQuery( $query );
+        $rows = $db->arrayQuery( $query );
         return $rows;
     }
 
@@ -753,7 +755,7 @@ WHERE user_id = '" . $userID . "' AND
                             ezcontentobject.id=contentobject_id";
         }
 
-        $users =& $db->arrayQuery( $query );
+        $users = $db->arrayQuery( $query );
         $exists = false;
         if ( $users !== false and count( $users ) >= 1 )
         {
@@ -776,7 +778,7 @@ WHERE user_id = '" . $userID . "' AND
                               FROM ezuser, ezcontentobject
                               WHERE ezcontentobject.status='$contentObjectStatus' AND
                                     password_hash_type=4 AND ( $loginText ) AND password_hash=PASSWORD('$passwordEscaped') ";
-                    $mysqlUsers =& $db->arrayQuery( $queryMysqlUser );
+                    $mysqlUsers = $db->arrayQuery( $queryMysqlUser );
                     if ( count( $mysqlUsers ) >= 1 )
                         $exists = true;
 
@@ -1214,7 +1216,7 @@ WHERE user_id = '" . $userID . "' AND
                               'policies', array containing the policy limitations
                               'accessList', array describing missing access rights
     */
-    function &hasAccessTo( $module, $function )
+    function hasAccessTo( $module, $function )
     {
         $accessArray = null;
         $ini =& eZINI::instance();
@@ -1378,7 +1380,7 @@ WHERE user_id = '" . $userID . "' AND
                 {
                     $contentobjectID = $this->attribute( 'contentobject_id' );
                 }
-				$userGroups =& $db->arrayQuery( "SELECT d.*, c.path_string
+				$userGroups = $db->arrayQuery( "SELECT d.*, c.path_string
                                                 FROM ezcontentobject_tree  b,
                                                      ezcontentobject_tree  c,
                                                      ezcontentobject d
@@ -1404,7 +1406,7 @@ WHERE user_id = '" . $userID . "' AND
 
                 if ( count( $pathArray ) != 0 )
                 {
-                    $extraGroups =& $db->arrayQuery( "SELECT d.*
+                    $extraGroups = $db->arrayQuery( "SELECT d.*
                                                 FROM ezcontentobject_tree  c,
                                                      ezcontentobject d
                                                 WHERE c.node_id in ( " . implode( ', ', $pathArray ) . " ) AND
@@ -1459,7 +1461,7 @@ WHERE user_id = '" . $userID . "' AND
 
                 $userGroups = false;
 
-                $userGroups =& $db->arrayQuery( "SELECT  c.contentobject_id as id,c.path_string
+                $userGroups = $db->arrayQuery( "SELECT  c.contentobject_id as id,c.path_string
                                                 FROM ezcontentobject_tree  b,
                                                      ezcontentobject_tree  c
                                                 WHERE b.contentobject_id='$contentobjectID' AND
@@ -1484,7 +1486,7 @@ WHERE user_id = '" . $userID . "' AND
                 if ( count( $pathArray ) > 0 )
                 {
                     $pathArray = array_unique ($pathArray);
-                    $extraGroups =& $db->arrayQuery( "SELECT c.contentobject_id as id
+                    $extraGroups = $db->arrayQuery( "SELECT c.contentobject_id as id
                                                     FROM ezcontentobject_tree  c,
                                                          ezcontentobject d
                                                     WHERE c.node_id in ( " . implode( ', ', $pathArray ) . " ) AND

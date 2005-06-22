@@ -51,7 +51,7 @@ class eZNodeviewfunctions
         include_once( 'kernel/classes/ezsection.php' );
         eZSection::setGlobalID( $object->attribute( 'section_id' ) );
 
-        $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
+        $section = eZSection::fetch( $object->attribute( 'section_id' ) );
         if ( $section )
             $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
         else
@@ -230,7 +230,7 @@ class eZNodeviewfunctions
             $depPreferences = explode( ';', $depPreferences[$viewMode] );
             $pString = "";
             // Fetch preferences for the specified user
-            $preferences =& eZPreferences::values( $user );
+            $preferences = eZPreferences::values( $user );
             foreach( $depPreferences as $pref )
             {
                 $pref = explode( '=', $pref );
