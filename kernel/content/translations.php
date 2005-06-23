@@ -242,7 +242,7 @@ $availableTranslations = array();
 
 foreach( $translations as $currentTranslation )
 {
-    $translation =& eZContentTranslation::fetch( $currentTranslation->attribute( 'id' ) );
+    $translation = eZContentTranslation::fetch( $currentTranslation->attribute( 'id' ) );
     $translatedObjectsCount = $translation->translatedObjectsCount();
 
     $availableTranslations[] = array( 'translation' => $translation, 'object_count' => $translatedObjectsCount );

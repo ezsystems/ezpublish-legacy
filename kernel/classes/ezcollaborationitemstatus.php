@@ -57,7 +57,7 @@ class eZCollaborationItemStatus extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function &definition()
+    function definition()
     {
         return array( 'fields' => array( 'collaboration_id' => array( 'name' => 'CollaborationID',
                                                                       'datatype' => 'integer',

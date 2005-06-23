@@ -97,7 +97,7 @@ function eZCheckUser( &$siteBasics, &$uri )
     $http =& eZHTTPTool::instance();
     $ini =& eZINI::instance();
     $requireUserLogin = ( $ini->variable( "SiteAccessSettings", "RequireUserLogin" ) == "true" );
-    $forceLogin =& $http->hasSessionVariable( EZ_LOGIN_HANDLER_FORCE_LOGIN );
+    $forceLogin = $http->hasSessionVariable( EZ_LOGIN_HANDLER_FORCE_LOGIN );
     if ( !$requireUserLogin &&
          !$forceLogin )
     {

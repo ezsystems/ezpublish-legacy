@@ -54,7 +54,7 @@ class eZBinaryFile extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function &definition()
+    function definition()
     {
         return array( 'fields' => array( 'contentobject_attribute_id' => array( 'name' => 'ContentObjectAttributeID',
                                                                                 'datatype' => 'integer',
@@ -115,9 +115,15 @@ class eZBinaryFile extends eZPersistentObject
             {
                 $fileInfo = $this->storedFileInfo();
                 if ( file_exists( $fileInfo['filepath'] ) )
-                    return filesize( $fileInfo['filepath'] );
+                {
+                    $filesize = filesize( $fileInfo['filepath'] );
+                    return $filesize;
+                }
                 else
-                    return 0;
+                {
+                    $filesize = 0;
+                    return $filesize;
+                }
             } break;
             case 'filepath':
             {
@@ -164,11 +170,12 @@ class eZBinaryFile extends eZPersistentObject
         }
         else
         {
-            return eZPersistentObject::fetchObject( eZBinaryFile::definition(),
+            $retVal =& eZPersistentObject::fetchObject( eZBinaryFile::definition(),
                                                     null,
                                                     array( 'contentobject_attribute_id' => $id,
                                                            'version' => $version ),
                                                     $asObject );
+            return $retVal;
         }
     }
 

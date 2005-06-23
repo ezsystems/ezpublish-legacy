@@ -218,7 +218,7 @@ class eZXMLTextType extends eZDataType
               $origlinkList =& eZURLObjectLink::fetchLinkList( $origObjectAttributeID, $origObjectAttributeVersion, false );
               foreach ( $origlinkList as $origUrlID )
               {
-                  $linkObjectLink =& eZURLObjectLink::create( $origUrlID, $objectAttributeID, $objectAttributeVersion );
+                  $linkObjectLink = eZURLObjectLink::create( $origUrlID, $objectAttributeID, $objectAttributeVersion );
                   $linkObjectLink->store();
               }
         }
@@ -275,7 +275,8 @@ class eZXMLTextType extends eZDataType
     {
         $content =& $this->objectAttributeContent( $contentobjectAttribute );
         $outputHandler =& $content->attribute( 'output' );
-        return $outputHandler->viewTemplateSuffix( $contentobjectAttribute );
+        $retVal = $outputHandler->viewTemplateSuffix( $contentobjectAttribute );
+        return $retVal;
     }
 
     /*!
@@ -285,7 +286,8 @@ class eZXMLTextType extends eZDataType
     {
         $content =& $this->objectAttributeContent( $contentobjectAttribute );
         $inputHandler =& $content->attribute( 'input' );
-        return $inputHandler->editTemplateSuffix( $contentobjectAttribute );
+        $editTemplateSuffix =& $inputHandler->editTemplateSuffix( $contentobjectAttribute );
+        return $editTemplateSuffix;
     }
 
     /*!
@@ -311,8 +313,8 @@ class eZXMLTextType extends eZDataType
         {
             include_once( 'lib/ezi18n/classes/eztextcodec.php' );
             $charset = 'UTF-8';
-            $codec =& eZTextCodec::instance( false, $charset );
-            $text =& $codec->convertString( $text );
+            $codec = eZTextCodec::instance( false, $charset );
+            $text = $codec->convertString( $text );
             $timestamp = EZ_XMLTEXT_VERSION_30_TIMESTAMP;
         }
         return $text;
@@ -547,7 +549,7 @@ class eZXMLTextType extends eZDataType
 
                     $linkRef->remove_attribute( 'href' );
                     $linkRef->set_attribute( 'url_id', $urlObj->attribute( 'id' ) );
-                    $urlObjectLink =& eZURLObjectLink::create( $urlObj->attribute( 'id' ),
+                    $urlObjectLink = eZURLObjectLink::create( $urlObj->attribute( 'id' ),
                                                                $objectAttribute->attribute( 'id' ),
                                                                $objectAttribute->attribute( 'version' ) );
                     $urlObjectLink->store();

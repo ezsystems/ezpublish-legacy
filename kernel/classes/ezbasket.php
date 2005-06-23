@@ -68,7 +68,7 @@ class eZBasket extends eZPersistentObject
     /*!
      \return the persistent object definition for the eZCard class.
     */
-    function &definition()
+    function definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -247,7 +247,7 @@ class eZBasket extends eZPersistentObject
         }
     }
 
-    function isEmpty()
+    function &isEmpty()
     {
         $items =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        null,
@@ -256,9 +256,15 @@ class eZBasket extends eZPersistentObject
                                                        null,
                                                        false );
         if ( count( $items ) > 0 )
-            return false;
+        {
+            $result = false;
+        }
         else
-            return true;
+        {
+            $result = true;
+        }
+
+        return $result;
     }
 
     /*!
@@ -307,7 +313,7 @@ class eZBasket extends eZPersistentObject
         {
             $db =& eZDB::instance();
             $db->begin();
-            $collection =& eZProductCollection::create();
+            $collection = eZProductCollection::create();
             $collection->store();
 
             $currentBasket = new eZBasket( array( "session_id" => $sessionID,

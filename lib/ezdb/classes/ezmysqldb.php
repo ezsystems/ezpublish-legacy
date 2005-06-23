@@ -319,7 +319,7 @@ class eZMySQLDB extends eZDBInterface
     /*!
      \reimp
     */
-    function &query( $sql )
+    function query( $sql )
     {
         if ( $this->IsConnected )
         {
@@ -449,7 +449,8 @@ class eZMySQLDB extends eZDBInterface
                 }
             }
 
-            $result =& mysql_query( $sql, $connection );
+            $result = mysql_query( $sql, $connection );
+
             if ( $this->RecordError and !$result )
                 $this->setError();
 
@@ -499,7 +500,7 @@ class eZMySQLDB extends eZDBInterface
     /*!
      \reimp
     */
-    function &arrayQuery( $sql, $params = array() )
+    function arrayQuery( $sql, $params = array() )
     {
         $retArray = array();
         if ( $this->IsConnected )
@@ -528,7 +529,7 @@ class eZMySQLDB extends eZDBInterface
             {
                 $sql .= "\nLIMIT $offset, 18446744073709551615"; // 2^64-1
             }
-            $result =& $this->query( $sql );
+            $result = $this->query( $sql );
 
             if ( $result == false )
             {
@@ -560,7 +561,7 @@ class eZMySQLDB extends eZDBInterface
                             $retArray[$i + $offset] =& $conv_row;
                         }
                         else
-                            $retArray[$i + $offset] =& mysql_fetch_array( $result, MYSQL_ASSOC );
+                            $retArray[$i + $offset] = mysql_fetch_array( $result, MYSQL_ASSOC );
                     }
                     eZDebug::accumulatorStop( 'mysql_loop' );
 
@@ -817,7 +818,7 @@ class eZMySQLDB extends eZDBInterface
     /*!
      \reimp
     */
-    function &escapeString( $str )
+    function escapeString( $str )
     {
         return mysql_escape_string( $str );
     }

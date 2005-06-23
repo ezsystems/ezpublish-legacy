@@ -183,7 +183,7 @@ class eZBooleanType extends eZDataType
     /*!
      \reimp
     */
-    function &sortKey( &$contentObjectAttribute )
+    function sortKey( &$contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_int' );
     }
@@ -191,7 +191,7 @@ class eZBooleanType extends eZDataType
     /*!
      \reimp
     */
-    function &sortKeyType()
+    function sortKeyType()
     {
         return 'int';
     }

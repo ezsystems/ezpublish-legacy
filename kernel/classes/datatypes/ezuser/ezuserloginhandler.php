@@ -201,7 +201,7 @@ class eZUserLoginHandler
                 foreach( $handlerList as $handler )
                 {
                     $userObject =& eZUserLoginHandler::instance( $handler );
-                    $check =& $userObject->checkUser( $siteBasics, $url );
+                    $check = $userObject->checkUser( $siteBasics, $url );
                     if ( $check === null ) // No login needed.
                     {
                         eZUserLoginHandler::sessionCleanup();

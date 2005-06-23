@@ -56,7 +56,7 @@ class eZContentClassAttribute extends eZPersistentObject
         $this->Module = null;
     }
 
-    function &definition()
+    function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -195,7 +195,7 @@ class eZContentClassAttribute extends eZPersistentObject
         return new eZContentClassAttribute( $row );
     }
 
-    function &create( $class_id, $data_type_string, $optionalValues = array() )
+    function create( $class_id, $data_type_string, $optionalValues = array() )
     {
         $row = array(
             'id' => null,
@@ -218,7 +218,7 @@ class eZContentClassAttribute extends eZPersistentObject
 
     function instantiate( $contentobjectID )
     {
-        $attribute =& eZContentObjectAttribute::create( $this->attribute( 'id' ), $contentobjectID );
+        $attribute = eZContentObjectAttribute::create( $this->attribute( 'id' ), $contentobjectID );
         $attribute->initialize();
         $attribute->store();
         $attribute->postInitialize();
@@ -379,7 +379,7 @@ class eZContentClassAttribute extends eZPersistentObject
 
     function &fetchFilteredList( $cond, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
+        $objectList = eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
                                                             null, $cond, null, null,
                                                             $asObject );
         foreach ( array_keys( $objectList ) as $objectKey )

@@ -106,6 +106,10 @@ Attributes:
   (Became visible when using PHP 4.4).
   (Merged from stable/3.6 (3.6.1) rev. 12251)
 - Fixed bug #6796: Draft problems when copying objects with relations.
+- Added reference fixes for PHP 4.4.
+  ( Merged from stable/3.5 rev. 12287 )
+- Added reference fixes for PHP 4.4.
+  ( Merged from stable/3.5 rev. 12287, stable/3.6 rev. 12288 )
 
 *Library:
 

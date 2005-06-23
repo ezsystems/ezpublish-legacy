@@ -106,7 +106,7 @@ class eZApproveType extends eZWorkflowEventType
             case 'sections':
             {
                 include_once( 'kernel/classes/ezsection.php' );
-                $sections =& eZSection::fetchList( false );
+                $sections = eZSection::fetchList( false );
                 foreach ( array_keys( $sections ) as $key )
                 {
                     $section =& $sections[$key];

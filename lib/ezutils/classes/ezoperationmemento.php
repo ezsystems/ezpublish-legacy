@@ -54,7 +54,7 @@ class eZOperationMemento extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function &definition()
+    function definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -146,11 +146,12 @@ class eZOperationMemento extends eZPersistentObject
             $mementoKey = eZOperationMemento::createKey( $mementoKey );
         }
 
-        return eZPersistentObject::fetchObject( eZOperationMemento::definition(),
-                                                null,
-                                                array( 'memento_key' => $mementoKey,
-                                                       'main' => 1 ),
-                                                $asObject );
+        $object =& eZPersistentObject::fetchObject( eZOperationMemento::definition(),
+                                                    null,
+                                                    array( 'memento_key' => $mementoKey,
+                                                           'main' => 1 ),
+                                                    $asObject );
+        return $object;
     }
 
     function &fetchList( $mementoKey, $asObject = true )
@@ -160,13 +161,14 @@ class eZOperationMemento extends eZPersistentObject
             $mementoKey = eZOperationMemento::createKey( $mementoKey );
         }
 
-        return eZPersistentObject::fetchObjectList( eZOperationMemento::definition(),
-                                                    null,
-                                                    array( 'memento_key' => $mementoKey,
-                                                           'main' => 0 ),
-                                                    null,
-                                                    null,
-                                                    $asObject );
+        $objectList =& eZPersistentObject::fetchObjectList( eZOperationMemento::definition(),
+                                                            null,
+                                                            array( 'memento_key' => $mementoKey,
+                                                                   'main' => 0 ),
+                                                            null,
+                                                            null,
+                                                            $asObject );
+        return $objectList;
     }
 
     function setData( $data = array() )
@@ -179,7 +181,7 @@ class eZOperationMemento extends eZPersistentObject
         return unserialize( $this->MementoData );
     }
 
-    function &create( $mementoKey, $data = array(), $isMainKey = false, $mainKey = null )
+    function create( $mementoKey, $data = array(), $isMainKey = false, $mainKey = null )
     {
         if( is_array( $mementoKey ) )
         {

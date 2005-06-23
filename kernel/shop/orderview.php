@@ -49,10 +49,10 @@ if ( !$order )
     return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
-$accessToAdministrate =& $user->hasAccessTo( 'shop', 'administrate' );
+$accessToAdministrate = $user->hasAccessTo( 'shop', 'administrate' );
 $accessToAdministrateWord = $accessToAdministrate['accessWord'];
 
-$accessToBuy =& $user->hasAccessTo( 'shop', 'buy' );
+$accessToBuy = $user->hasAccessTo( 'shop', 'buy' );
 $accessToBuyWord = $accessToBuy['accessWord'];
 
 if ( $accessToAdministrateWord != 'no' )

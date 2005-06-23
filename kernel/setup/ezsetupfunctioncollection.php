@@ -59,61 +59,61 @@ class eZSetupFunctionCollection
 
     function &fetchFullVersionString()
     {
-        $result = eZPublishSDK::version();
-        return array( 'result' => $result );
+        $result = array( 'result' => eZPublishSDK::version() );
+        return $result;
     }
 
     function &fetchMajorVersion()
     {
-        $result = eZPublishSDK::majorVersion();
-        return array( 'result' => $result );
+        $result = array( 'result' => eZPublishSDK::majorVersion() );
+        return $result;
     }
 
     function &fetchMinorVersion()
     {
-        $result = eZPublishSDK::minorVersion();
-        return array( 'result' => $result );
+        $result = array( 'result' => eZPublishSDK::minorVersion() );
+        return $result;
     }
 
     function &fetchRelease()
     {
-        $result = eZPublishSDK::release();
-        return array( 'result' => $result );
+        $result = array( 'result' => eZPublishSDK::release() );
+        return $result;
 
     }
 
     function &fetchState()
     {
-        $result = eZPublishSDK::state();
-        return array( 'result' => $result );
+        $result = array( 'result' => eZPublishSDK::state() );
+        return $result;
 
     }
 
     function &fetchIsDevelopment()
     {
-        $result = eZPublishSDK::developmentVersion();
-        return array( 'result' => ( $result ? true : false ) );
+        $result = array( 'result' => eZPublishSDK::developmentVersion() ? true : false );
+        return $result;
 
     }
 
     function &fetchRevision()
     {
-        $result = eZPublishSDK::revision();
-        return array( 'result' => $result );
+        $result = array( 'result' => eZPublishSDK::revision() );
+        return $result;
 
     }
 
     function &fetchDatabaseVersion( $withRelease = true )
     {
-        $result = eZPublishSDK::databaseVersion( $withRelease );
-        return array( 'result' => $result );
+        $result = array( 'result' => eZPublishSDK::databaseVersion( $withRelease ) );
+        return $result;
 
     }
 
     function &fetchDatabaseRelease()
     {
-        $result = eZPublishSDK::databaseRelease();
-        return array( 'result' => $result );
+        $result = array( 'result' => eZPublishSDK::databaseRelease() );
+        return $result;
 
     }
 }

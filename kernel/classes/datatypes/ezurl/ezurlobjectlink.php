@@ -55,7 +55,7 @@ class eZURLObjectLink extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function &definition()
+    function definition()
     {
         return array( 'fields' => array( 'url_id' => array( 'name' => 'URLID',
                                                             'datatype' => 'integer',
@@ -79,7 +79,7 @@ class eZURLObjectLink extends eZPersistentObject
     /*!
      \static
     */
-    function &create( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion )
+    function create( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion )
     {
         $row = array(
             'url_id' => $urlID,
@@ -180,7 +180,7 @@ class eZURLObjectLink extends eZPersistentObject
      Removes all links for the object attribute \a $contentObjectAttributeID and version \a $contentObjectVersion.
      If \a $contentObjectVersion is \c false then all versions are removed as well.
     */
-    function &removeURLlinkList( $contentObjectAttributeID, $contentObjectAttributeVersion )
+    function removeURLlinkList( $contentObjectAttributeID, $contentObjectAttributeVersion )
     {
         $conditions = array( 'contentobject_attribute_id' => $contentObjectAttributeID );
         if ( $contentObjectAttributeVersion !== false )

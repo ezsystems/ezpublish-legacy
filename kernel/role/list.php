@@ -57,7 +57,7 @@ if( eZPreferences::value( 'admin_role_list_limit' ) )
 	default:  { $limit = 10; } break;
     }
 }
-else 
+else
 {
     $limit = 10;
 }
@@ -113,7 +113,7 @@ $tpl =& templateInit();
 //$roles =& eZRole::fetchList();
 $roles =& eZRole::fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = true );
 $roleCount =& eZRole::roleCount();
-$tempRoles = & eZRole::fetchList( $temporaryVersions = true );
+$tempRoles = eZRole::fetchList( $temporaryVersions = true );
 $tpl->setVariable( 'roles', $roles );
 $tpl->setVariable( 'role_count', $roleCount );
 $tpl->setVariable( 'temp_roles', $tempRoles );

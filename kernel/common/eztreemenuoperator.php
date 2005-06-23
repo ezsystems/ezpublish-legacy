@@ -110,7 +110,7 @@ class eZTreeMenuOperator
             $nodeID = $elements[4];
 
             $excludeNode = false;
-            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
 
             if ( $elements[1] == 'content' and $elements[2] == 'view' and is_numeric( $nodeID ) and $excludeNode == false and $level < $maxLevel )
             {

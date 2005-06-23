@@ -60,7 +60,7 @@ if( is_null( $policy ) )
 $currentModule = $policy->attribute( 'module_name' );
 $currentFunction = $policy->attribute( 'function_name' );
 $roleID = $policy->attribute( 'role_id' );
-$role =& eZRole::fetch( $roleID );
+$role = eZRole::fetch( $roleID );
 $roleName = $role->attribute( 'name' );
 $limitationValueList =& $policy->limitationList();
 $nodeList = array();

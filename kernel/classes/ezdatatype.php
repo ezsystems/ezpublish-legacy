@@ -1132,7 +1132,7 @@ class eZDataType
 
     function loadAndRegisterAllTypes()
     {
-        $allowedTypes =& eZDataType::allowedTypes();
+        $allowedTypes = eZDataType::allowedTypes();
         foreach( $allowedTypes as $type )
         {
             eZDataType::loadAndRegisterType( $type );

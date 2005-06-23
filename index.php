@@ -223,7 +223,7 @@ eZDebug::setScriptStart( $scriptStartTime );
 // Enable this line to turn off ini caching
 // eZINI::setIsCacheEnabled( false);
 
-function &eZDisplayDebug()
+function eZDisplayDebug()
 {
     $ini =& eZINI::instance();
 
@@ -243,7 +243,7 @@ function &eZDisplayDebug()
             $result = "<tr><td>" . $tpl->fetch( 'design:setup/debug_toolbar.tpl' ) . "</td></tr>";
             eZDebug::appendTopReport( "Debug toolbar", $result );
         }
-        
+
         include_once( 'kernel/common/eztemplatesstatisticsreporter.php' );
         eZDebug::appendBottomReport( 'Template Usage Statistics', eZTemplatesStatisticsReporter::generateStatistics( $as_html ) );
 
@@ -536,7 +536,7 @@ while ( $moduleRunRequired )
          !$uri->isEmpty() )
     {
         include_once( 'kernel/classes/ezurlalias.php' );
-        $translateResult =& eZURLAlias::translate( $uri );
+        $translateResult = eZURLAlias::translate( $uri );
 
 
         if ( !$translateResult )
@@ -846,7 +846,7 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 
 
 
-    $redirectURI = eZSys::indexDir();
+    $redirectURI =& eZSys::indexDir();
 //     eZDebug::writeDebug( eZSys::indexDir(), 'eZSys::indexDir()' );
 //     eZDebug::writeDebug( $module->redirectURI(), '$module->redirectURI()' );
 
@@ -997,7 +997,7 @@ if ( $show_page_layout )
     $tpl =& templateInit();
     if ( !isset( $moduleResult['path'] ) )
         $moduleResult['path'] = false;
-    $moduleResult['uri'] =& eZSys::requestURI();
+    $moduleResult['uri'] = eZSys::requestURI();
 
     $tpl->setVariable( "module_result", $moduleResult );
 

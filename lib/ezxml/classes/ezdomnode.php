@@ -462,7 +462,8 @@ class eZDOMNode
     */
     function &get_attribute( $attributeName )
     {
-        return $this->attributeValue( $attributeName );
+        $retVal =& $this->attributeValue( $attributeName );
+        return $retVal;
     }
 
     /*!
@@ -771,7 +772,17 @@ class eZDOMNode
     */
     function &lastChild()
     {
-        return end( $this->Children );
+        $childCount = count( $this->Children );
+        if ( $childCount == 0 )
+        {
+            $retVal = null;
+        }
+        else
+        {
+            $retVal =& $this->Children[$childCount - 1];
+        }
+
+        return $retVal;
     }
 
     /*!
@@ -789,7 +800,10 @@ class eZDOMNode
             return $children[0]->content();
         }
         else
-            return false;
+        {
+            $textContent = false;
+            return $textContent;
+        }
     }
 
     /*!
@@ -821,11 +835,11 @@ class eZDOMNode
             {
                 $tagContent = $this->Content;
 
-                $tagContent =& str_replace( "&", "&amp;", $tagContent );
-                $tagContent =& str_replace( ">", "&gt;", $tagContent );
-                $tagContent =& str_replace( "<", "&lt;", $tagContent );
-                $tagContent =& str_replace( "'", "&apos;", $tagContent );
-                $tagContent =& str_replace( '"', "&quot;", $tagContent );
+                $tagContent = str_replace( "&", "&amp;", $tagContent );
+                $tagContent = str_replace( ">", "&gt;", $tagContent );
+                $tagContent = str_replace( "<", "&lt;", $tagContent );
+                $tagContent = str_replace( "'", "&apos;", $tagContent );
+                $tagContent = str_replace( '"', "&quot;", $tagContent );
 
                 $ret = $tagContent;
             }break;
@@ -875,11 +889,11 @@ class eZDOMNode
                             $attrStr .= ' ';
 
                         $attrContent = $attr->content();
-                        $attrContent =& str_replace( "&", "&amp;", $attrContent );
-                        $attrContent =& str_replace( ">", "&gt;", $attrContent );
-                        $attrContent =& str_replace( "<", "&lt;", $attrContent );
-                        $attrContent =& str_replace( "'", "&apos;", $attrContent );
-                        $attrContent =& str_replace( '"', "&quot;", $attrContent );
+                        $attrContent = str_replace( "&", "&amp;", $attrContent );
+                        $attrContent = str_replace( ">", "&gt;", $attrContent );
+                        $attrContent = str_replace( "<", "&lt;", $attrContent );
+                        $attrContent = str_replace( "'", "&apos;", $attrContent );
+                        $attrContent = str_replace( '"', "&quot;", $attrContent );
 
                         $attrStr .=  $attrPrefix . $attr->name() . "=\"" . $attrContent . "\"";
                         ++$i;

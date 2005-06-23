@@ -50,7 +50,7 @@ foreach ( $deleteIDArray as $deleteID )
     if ( $group != null )
     {
         $GroupName = $group->attribute( 'name' );
-        $classList =& eZContentClassClassGroup::fetchClassList( null, $deleteID );
+        $classList = eZContentClassClassGroup::fetchClassList( null, $deleteID );
         $groupClassesInfo = array();
         foreach ( $classList as $class )
         {

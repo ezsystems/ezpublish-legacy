@@ -54,7 +54,7 @@ $query = "SELECT contentobject_id, login
           WHERE remote_id like 'LDAP%'
           AND ezcontentobject.id=contentobject_id";
 
-$LDAPUsers =& $db->arrayQuery( $query );
+$LDAPUsers = $db->arrayQuery( $query );
 $ini =& eZINI::instance();
 $LDAPIni =& eZINI::instance( 'ldap.ini' );
 $LDAPVersion = $LDAPIni->variable( 'LDAPSettings', 'LDAPVersion' );
@@ -124,7 +124,7 @@ if ( $LDAPUserGroupType != null )
                                 WHERE ezcontentobject.name like '$groupName'
                                   AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
                                   AND ezcontentobject.contentclass_id=3";
-                $groupObject =& $db->arrayQuery( $groupQuery );
+                $groupObject = $db->arrayQuery( $groupQuery );
                 if ( count( $groupObject ) > 0 and $key == 0 )
                 {
                     $defaultUserPlacement = $groupObject[0]['node_id'];
@@ -143,7 +143,7 @@ if ( $LDAPUserGroupType != null )
                             WHERE ezcontentobject.name like '$groupName'
                               AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
                               AND ezcontentobject.contentclass_id=3";
-            $groupObject =& $db->arrayQuery( $groupQuery );
+            $groupObject = $db->arrayQuery( $groupQuery );
 
             if ( count( $groupObject ) > 0  )
             {
@@ -163,7 +163,7 @@ if ( $LDAPUserGroupType != null )
                                 WHERE ezcontentobject.id='$groupID'
                                   AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
                                   AND ezcontentobject.contentclass_id=3";
-                $groupObject =& $db->arrayQuery( $groupQuery );
+                $groupObject = $db->arrayQuery( $groupQuery );
                 if ( count( $groupObject ) > 0 and $key == 0 )
                 {
                     $defaultUserPlacement = $groupObject[0]['node_id'];
@@ -182,7 +182,7 @@ if ( $LDAPUserGroupType != null )
                             WHERE ezcontentobject.id='$groupID'
                               AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
                               AND ezcontentobject.contentclass_id=3";
-            $groupObject =& $db->arrayQuery( $groupQuery );
+            $groupObject = $db->arrayQuery( $groupQuery );
 
             if ( count( $groupObject ) > 0  )
             {
@@ -360,7 +360,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
                                         WHERE ezcontentobject.name like '$groupName'
                                           AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
                                           AND ezcontentobject.contentclass_id=3";
-                        $groupObject =& $db->arrayQuery( $groupQuery );
+                        $groupObject = $db->arrayQuery( $groupQuery );
 
                         if ( count( $groupObject ) > 0 )
                         {
@@ -426,7 +426,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
                                         WHERE ezcontentobject.name like '$groupName'
                                           AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
                                           AND ezcontentobject.contentclass_id=3";
-                        $groupObject =& $db->arrayQuery( $groupQuery );
+                        $groupObject = $db->arrayQuery( $groupQuery );
 
                         if ( count( $groupObject ) > 0 )
                         {
