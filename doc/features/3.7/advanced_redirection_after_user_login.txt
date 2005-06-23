@@ -1,0 +1,38 @@
+*Title: Advanced redirection after user/login.
+
+*Incentive:
+
+Currently, the redirect after login is set to the site root (or 
+hardcoded from the login template). This is not very useful for sites 
+with advanced permissions where some users can access parts of the site 
+and others can access only other parts of the site. What we need is a 
+system that allows the administrators to set up where users are 
+redirected after login.
+
+*Documentation:
+
+Redirection URI can now be specified either per-user or per-group via 
+additional attribute of type 'Text line'.
+
+If a user is member of several groups (= is a child of several
+'User group' nodes), "main" group (= main parent node) is
+preferred.
+
+Two new INI settings have been added to site.ini:
+[UserSettings]
+LoginRedirectionUriAttribute[user]=<attr_name>
+LoginRedirectionUriAttribute[group]=<attr_name>
+
+The first one specifies which attribute of class 'User' contains
+redirection URI for the user.
+
+The second one specifies which attribute of class 'User group' contains
+redirection URI for members the group.
+
+Note: It is not mandatory for the classes to be 'User' or 'User group'.
+The first class should just contain an attribute of type 'User account'.
+The second class is just a class that is able to have children.
+
+*New settings:
+
+site.ini :: [UserSettings] :: LoginRedirectionUriAttribute

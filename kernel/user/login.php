@@ -122,6 +122,103 @@ if ( $Module->isCurrentAction( 'Login' ) and
     if ( $redirectionURI == '' )
         $redirectionURI = $ini->variable( 'SiteSettings', 'DefaultPage' );
 
+    if ( is_object( $user ) ) // if the user has successfully passed authorization
+    {
+        /*
+         * Choose where to redirect the user to after successful login.
+         * The checks are done in the following order:
+         * 1. Per-user.
+         * 2. Per-group.
+         *    If the user object is published under several groups, main node is chosen
+         *    (it its URI non-empty; otherwise first non-empty URI is chosen from the group list -- if any).
+         *
+         * See doc/features/3.7/advanced_redirection_after_user_login.txt for more information.
+         */
+
+        // First, let's determine which attributes we should search redirection URI in.
+        $userUriAttrName  = '';
+        $groupUriAttrName = '';
+        $ini =& eZINI::instance();
+        if ( $ini->hasVariable( 'UserSettings', 'LoginRedirectionUriAttribute' ) )
+        {
+            $uriAttrNames = $ini->variable( 'UserSettings', 'LoginRedirectionUriAttribute' );
+            if ( is_array( $uriAttrNames ) )
+            {
+                if ( isset( $uriAttrNames['user'] ) )
+                    $userUriAttrName = $uriAttrNames['user'];
+
+                if ( isset( $uriAttrNames['group'] ) )
+                    $groupUriAttrName = $uriAttrNames['group'];
+            }
+
+        }
+
+        $userObject = $user->attribute( 'contentobject' );
+
+        // 1. Check if redirection URI is specified for the user
+        $userUriSpecified = false;
+        if ( $userUriAttrName )
+        {
+            $userDataMap = $userObject->attribute( 'data_map' );
+            $uriAttribute =& $userDataMap[$userUriAttrName];
+
+            if ( !isset( $userDataMap[$userUriAttrName] ) )
+            {
+                eZDebug::writeWarning( "Cannot find redirection URI: there is no attribute '$userUriAttrName' in object '" .
+                                       $userObject->attribute( 'name' ) .
+                                       "' of class '" .
+                                       $userObject->attribute( 'class_name' ) . "'." );
+            }
+            elseif ( ( $uriAttribute =& $userDataMap[$userUriAttrName] ) &&
+                     ( $uri = $uriAttribute->attribute( 'content' ) ) )
+            {
+                $redirectionURI = $uri;
+                $userUriSpecified = true;
+            }
+        }
+
+        // 2.Check if redirection URI is specified for at least one of the user's groups (preferring main parent group).
+        if ( !$userUriSpecified && $groupUriAttrName && $user->hasAttribute( 'groups' ) )
+        {
+            $groups = $user->attribute( 'groups' );
+
+            if ( isset( $groups ) && is_array( $groups ) )
+            {
+                $chosenGroupURI = '';
+                foreach ( $groups as $groupID )
+                {
+                    $group = eZContentObject::fetch( $groupID );
+                    $groupDataMap = $group->attribute( 'data_map' );
+                    $isMainParent = ( $group->attribute( 'main_node_id' ) == $userObject->attribute( 'main_parent_node_id' ) );
+
+                    if ( !isset( $groupDataMap[$groupUriAttrName] ) )
+                    {
+                        eZDebug::writeWarning( "Cannot find redirection URI: there is no attribute '$groupUriAttrName' in object '" .
+                                               $group->attribute( 'name' ) .
+                                               "' of class '" .
+                                               $group->attribute( 'class_name' ) . "'." );
+                        continue;
+                    }
+                    $uriAttribute =& $groupDataMap[$groupUriAttrName];
+                    $uri = $uriAttribute->attribute( 'content' );
+                    if ( $uri )
+                    {
+                        if ( $isMainParent )
+                        {
+                            $chosenGroupURI = $uri;
+                            break;
+                        }
+                        elseif ( !$chosenGroupURI )
+                            $chosenGroupURI = $uri;
+                    }
+                }
+
+                if ( $chosenGroupURI ) // if we've chose an URI from one of the user's groups.
+                    $redirectionURI = $chosenGroupURI;
+            }
+        }
+    }
+
 //     eZDebug::writeDebug( $user, 'user');
     $userID = 0;
     if ( get_class( $user ) == 'ezuser' )
@@ -136,6 +233,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
 }
 else
 {
+    // called from outside of a template (?)
     $loginPage = $ini->variable( 'SiteSettings', 'LoginPage' );
 
     if ( $loginPage == 'embedded' ||
