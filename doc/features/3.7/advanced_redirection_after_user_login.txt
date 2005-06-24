@@ -61,3 +61,8 @@ preferred.
 It is not mandatory for the classes to be 'User' or 'User group'.
 The first class should just contain an attribute of type 'User account'.
 The second class is just a class that is able to have children.
+
+If the redirection URI has already been specified (e.g. via 'LastAccessesURI' session variable),
+the advanced redirection feature gets disabled.
+That means that if a user starts browser and goes to our.site.com/news,
+he/she will _not_ be redirected to his/her "home page".

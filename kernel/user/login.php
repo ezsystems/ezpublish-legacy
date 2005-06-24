@@ -122,7 +122,10 @@ if ( $Module->isCurrentAction( 'Login' ) and
     if ( $redirectionURI == '' )
         $redirectionURI = $ini->variable( 'SiteSettings', 'DefaultPage' );
 
-    if ( is_object( $user ) ) // if the user has successfully passed authorization
+    /* If the user has successfully passed authorization
+     * and we don't know redirection URI yet.
+     */
+    if ( is_object( $user ) && ( !$redirectionURI || $redirectionURI == '/' ) )
     {
         /*
          * Choose where to redirect the user to after successful login.
