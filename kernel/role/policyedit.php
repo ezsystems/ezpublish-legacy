@@ -352,7 +352,7 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and
     {
         if ( !in_array( $nodeID, $nodeIDList ) )
         {
-            $nodeLimitationValue =& eZPolicyLimitationValue::createNew( $nodeLimitation->attribute( 'id' ),  $nodeID );
+            $nodeLimitationValue = eZPolicyLimitationValue::createNew( $nodeLimitation->attribute( 'id' ),  $nodeID );
             $node =& eZContentObjectTreeNode::fetch( $nodeID );
             $nodeList[] = $node;
         }
@@ -375,7 +375,7 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and $http->postVariable( "B
         {
             $subtree =& eZContentObjectTreeNode::fetch( $nodeID );
             $pathString = $subtree->attribute( 'path_string' );
-            $policyLimitationValue =& eZPolicyLimitationValue::createNew( $subtreeLimitation->attribute( 'id' ),  $pathString );
+            $policyLimitationValue = eZPolicyLimitationValue::createNew( $subtreeLimitation->attribute( 'id' ),  $pathString );
             $subtreeList[] = $subtree;
         }
     }

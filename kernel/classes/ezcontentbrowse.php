@@ -101,7 +101,8 @@ class eZContentBrowse
     {
         if ( isset( $this->Parameters[$attributeName] ) )
             return $this->Parameters[$attributeName];
-        return null;
+        $attribute = null;
+        return $attribute;
     }
 
     /*!
