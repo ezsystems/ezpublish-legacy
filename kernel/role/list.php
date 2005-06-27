@@ -99,7 +99,7 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
 
 if ( $http->hasPostVariable( 'NewButton' )  )
 {
-    $role =& eZRole::createNew( );
+    $role = eZRole::createNew( );
     return $Module->redirectToView( 'edit', array( $role->attribute( 'id' ) ) );
 }
 

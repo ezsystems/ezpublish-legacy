@@ -278,7 +278,7 @@ class eZRole extends eZPersistentObject
     {
         if ( $roleID )
         {
-            $role =& eZRole::fetch( $roleID );
+            $role = eZRole::fetch( $roleID );
         }
         else
         {

@@ -2563,7 +2563,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function &fetchByPath( $pathString, $asObject = true )
     {
-        return eZContentObjectTreeNode::fetch( false, false, $asObject, array( "path_string" => $pathString ) );
+        $node =& eZContentObjectTreeNode::fetch( false, false, $asObject, array( "path_string" => $pathString ) );
+        return $node;
     }
 
     function &fetchByURLPath( $pathString, $asObject = true )
