@@ -4710,6 +4710,7 @@ WHERE
             {
                 if ( array_key_exists( 'class_name', $node ) )
                 {
+                    unset( $node['remote_id'] );
                     $contentObject =& new eZContentObject( $node );
 
                     $permissions = array();
