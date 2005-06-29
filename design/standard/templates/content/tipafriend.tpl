@@ -68,7 +68,7 @@
 
 <br/>
 
-<div class="buttonblock'">
+<div class="buttonblock">
 <input class="button" type="submit" name="SendButton" value="{'Send'|i18n('design/standard/content/tipafriend')}" />
 <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n('design/standard/content/tipafriend')}" />
 </div>
