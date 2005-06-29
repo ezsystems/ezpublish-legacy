@@ -428,8 +428,15 @@ class eZObjectRelationType extends eZDataType
         $object = $this->objectAttributeContent( $contentObjectAttribute );
         if ( $object )
         {
-            $attributes =& $object->contentObjectAttributes();
-            return eZContentObjectAttribute::metaDataArray( $attributes );
+            if ( eZContentObject::recursionProtect( $object->attribute( 'id' ) ) )
+            {
+                $attributes =& $object->contentObjectAttributes();
+                return eZContentObjectAttribute::metaDataArray( $attributes );
+            }
+            else
+            {
+                return array();
+            }
         }
         return false;
     }
