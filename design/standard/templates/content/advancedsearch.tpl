@@ -148,7 +148,7 @@ selected="selected"
 <div class="break"></div>
 </div>
 
-<div class="buttonblock'">
+<div class="buttonblock">
 <input class="button" type="submit" name="SearchButton" value="{'Search'|i18n('design/standard/content/search')}" />
 </div>
 
