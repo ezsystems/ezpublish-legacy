@@ -121,9 +121,6 @@ class eZSOAPClient
 
         $payload =& $request->payload();
 
-        eZDebug::writeNotice( $payload, "myload" );
-
-
         if ( $fp != 0 )
         {
             $authentification = "";
