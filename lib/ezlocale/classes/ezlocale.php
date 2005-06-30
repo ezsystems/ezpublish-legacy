@@ -1030,7 +1030,7 @@ class eZLocale
     function &formatShortDateTime( $date = false )
     {
         $formatShortDateTime =& $this->formatDateTimeType( $this->ShortDateTimeFormat, $date );
-        return $formatDateTimeType;
+        return $formatShortDateTime;
     }
 
     /*!
