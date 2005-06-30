@@ -1713,6 +1713,8 @@ function eZDebugErrorHandler( $errno, $errstr, $errfile, $errline )
         $GLOBALS['eZDebugRecursionFlag'] = false;
         return;
     }
+    if ( preg_match( "/variable(.*?)reference/", $errstr ) )
+        return;
     $GLOBALS['eZDebugRecursionFlag'] = true;
     $debug =& eZDebug::instance();
     $debug->errorHandler( $errno, $errstr, $errfile, $errline );
