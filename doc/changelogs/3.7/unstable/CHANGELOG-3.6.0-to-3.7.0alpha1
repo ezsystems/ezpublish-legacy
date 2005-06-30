@@ -134,5 +134,6 @@ eZSession:
   cleanup when a session is expired/removed.
 
 *SOAP:
+- Added: Default for parameter path to root for eZSOAPClient.
 
 *Design:

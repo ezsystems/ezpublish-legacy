@@ -85,7 +85,7 @@ class eZSOAPClient
     /*!
       Creates a new SOAP client.
     */
-    function eZSOAPClient( $server, $path, $port=80 )
+    function eZSOAPClient( $server, $path = '/', $port = 80 )
     {
         $this->Login = "";
         $this->Password = "";
