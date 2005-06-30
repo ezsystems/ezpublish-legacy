@@ -643,12 +643,12 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                 $domString = eZXMLTextType::domString( $dom );
 
-                $domString = preg_replace( "#<paragraph> </paragraph>#", "<paragraph>&nbsp;</paragraph>", $domString );
+                $domString = str_replace( "<paragraph> </paragraph>", "<paragraph>&nbsp;</paragraph>", $domString );
                 $domString = str_replace ( "<paragraph />" , "", $domString );
                 $domString = str_replace ( "<line />" , "", $domString );
                 $domString = str_replace ( "<paragraph></paragraph>" , "", $domString );
-                $domString = preg_replace( "#<paragraph>&nbsp;</paragraph>#", "<paragraph />", $domString );
-                $domString = preg_replace( "#<paragraph></paragraph>#", "", $domString );
+                //$domString = preg_replace( "#<paragraph>&nbsp;</paragraph>#", "<paragraph />", $domString );
+                $domString = str_replace( "<paragraph></paragraph>", "", $domString );
 
                 $domString = preg_replace( "#[\n]+#", "", $domString );
                 $domString = preg_replace( "#&lt;/line&gt;#", "\n", $domString );
@@ -1665,7 +1665,6 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $subNode->Type = EZ_NODE_TYPE_TEXT;
 
                     // convert special chars
-                    $tagContent = str_replace("&foo;", "<", $tagContent );
                     if ( $justName != 'literal' )
                     {
                         $tagContent = str_replace("&gt;", ">", $tagContent );
