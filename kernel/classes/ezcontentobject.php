@@ -550,10 +550,10 @@ class eZContentObject extends eZPersistentObject
         $remoteID = eZPersistentObject::attribute( 'remote_id' );
 
         // Ensures that we provide the correct remote_id if we have one in the database
-        if ( $remoteID === null and $this->attribute('id') )
+        if ( $remoteID === null and $this->attribute( 'id' ) )
         {
             $db =& eZDB::instance();
-            $resultArray = $db->arrayQuery( "SELECT remote_id FROM ezcontentobject WHERE id = '". $this->attribute('id') ."'" );
+            $resultArray = $db->arrayQuery( "SELECT remote_id FROM ezcontentobject WHERE id = '" . $this->attribute( 'id' ) . "'" );
             if ( count( $resultArray ) == 1 )
             {
                 $remoteID = $resultArray[0]['remote_id'];
