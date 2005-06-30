@@ -9,8 +9,7 @@ function ezcurrentLanguage()
 {
     include_once( 'lib/ezlocale/classes/ezlocale.php' );
     $locale =& eZLocale::instance();
-    $language =& $locale->translationCode();
-    return $language;
+    return $locale->translationCode();
 }
 
 /*!
@@ -64,17 +63,19 @@ if ( $useTextTranslation )
 
     function &ezi18n( $context, $source, $comment = null, $arguments = null )
     {
-        return eZTranslateText( $context, $source, $comment, $arguments );
+        $text = eZTranslateText( $context, $source, $comment, $arguments );
+        return $text;
     }
 
     function &ezx18n( $extension, $context, $source, $comment = null, $arguments = null )
     {
-        return eZTranslateText( $context, $source, $comment, $arguments );
+        $text = eZTranslateText( $context, $source, $comment, $arguments );
+        return $text;
     }
 
     function &eZTranslateText( $context, $source, $comment = null, $arguments = null )
     {
-        $language =& ezcurrentLanguage();
+        $language = ezcurrentLanguage();
 
         $file = 'translation.ts';
 
@@ -95,11 +96,14 @@ if ( $useTextTranslation )
 
         $man =& eZTranslatorManager::instance();
         $trans =& $man->translate( $context, $source, $comment );
-        if ( $trans !== null )
-            return ezinsertarguments( $trans, $arguments );
+        if ( $trans !== null ) {
+            $text =& ezinsertarguments( $trans, $arguments );
+            return $text;
+        }
 
         eZDebug::writeWarning( "No translation for file(translation.ts) in context($context): '$source' with comment($comment)", "ezi18n" );
-        return ezinsertarguments( $source, $arguments );
+        $text =& ezinsertarguments( $source, $arguments );
+        return $text;
     }
 }
 else
