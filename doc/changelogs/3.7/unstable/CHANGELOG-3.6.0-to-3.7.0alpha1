@@ -124,6 +124,8 @@ Attributes:
 - Fixed bug #6854: Use of 'proxy' objects in template expressions fails with
   compilation enabled.
   (Merged from stable/3.6 rev. 12382)
+- Fixed bug #6856: Wrong namespaces set when including another template.
+  (Merged from stable/3.6 (3.6.1) rev. 12386)
 
 *Library:
 

@@ -2379,7 +2379,7 @@ $rbracket
                         }
                         else
                         {
-                            $code .= "\$currentNamespace = \$rootNamespace;\n";
+                            $code .= "\$rootNamespace = \$currentNamespace;\n";
                         }
 
                         $code .=
@@ -2419,7 +2419,7 @@ $rbracket
                         }
                         else
                         {
-                            $code .= "\$currentNamespace = \$rootNamespace;\n";
+                            $code .= "\$rootNamespace = \$currentNamespace;\n";
                         }
                         $php->addCodePiece( $code );
 
