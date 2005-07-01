@@ -2584,9 +2584,7 @@ END;
                     $textName = eZTemplateCompiler::currentTextName( $parameters );
                     if ( count( $knownTypes ) == 0 or in_array( 'objectproxy', $knownTypes ) )
                     {
-                        $php->addCodePiece( "while " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( is_object( \$$generatedVariableName ) and method_exists( \$$generatedVariableName, 'templateValue' ) )\n" .
-                                            "    \$$generatedVariableName = \$$generatedVariableName" . "->templateValue();\n" .
-                                            "\$$textName .= ( is_object( \$$generatedVariableName ) ? compiledFetchText( \$tpl, \$rootNamespace, \$currentNamespace, false, \$$generatedVariableName ) : \$$generatedVariableName );\n" .
+                        $php->addCodePiece( "\$$textName .= ( is_object( \$$generatedVariableName ) ? compiledFetchText( \$tpl, \$rootNamespace, \$currentNamespace, false, \$$generatedVariableName ) : \$$generatedVariableName );" .  ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "\n" .
                                             "unset( \$$generatedVariableName );\n", array( 'spacing' => $spacing ) );
                     }
                     else
@@ -2656,12 +2654,7 @@ END;
                 }
                 else if ( $variableAssignmentName !== false and !$isStaticElement and !$treatVariableDataAsNonObject )
                 {
-                    if ( count( $knownTypes ) == 0 or in_array( 'objectproxy', $knownTypes ) )
-                    {
-                        $php->addCodePiece( "while " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( is_object( \$$generatedVariableName ) and method_exists( \$$generatedVariableName, 'templateValue' ) )\n" .
-                                            "    \$$generatedVariableName = \$$generatedVariableName" . "->templateValue();\n",
-                                            array( 'spacing' => $spacing ) );
-                    }
+                    // Normal assignment from an expression, no need to anything extra
                 }
                 unset( $dataInspection );
             }
@@ -3265,6 +3258,9 @@ unset( \$" . $variableAssignmentName . "Data );\n",
                 $php->addVariableUnsetList( $unsetList, array( 'spacing' => $spacing ) );
             }
         }
+        // After the entire expression line is done we try to extract the actual value if proxies are used
+        $php->addCodePiece( "while " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( is_object( \$$variableAssignmentName ) and method_exists( \$$variableAssignmentName, 'templateValue' ) )\n" .
+                            "    \$$variableAssignmentName = \$$variableAssignmentName" . "->templateValue();\n" );
     }
 }
 
