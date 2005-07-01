@@ -805,13 +805,23 @@ class eZTARArchiveHandler extends eZArchiveHandler
     {
       if ( $this->fileIsOpen() )
       {
-          // ----- Write the last 0 filled block for end of archive
-          $v_binary_data = pack("a512", '');
-//           if ($this->_compress)
-//             @gzputs($this->_file, $v_binary_data);
-//           else
-//             @fputs($this->_file, $v_binary_data);
-          $this->fileWrite( $v_binary_data );
+          $endBlocks = ( filesize( $this->_tarname ) / 512 ) + 1;
+          $blockPadding = 20;
+          $modulo = $endBlocks % $blockPadding;
+          if ( $modulo == 0 )
+          {
+              $blockCount = $blockPadding;
+          }
+          else
+          {
+              $blockCount = ( $blockPadding - $modulo ) + 1;
+          }
+          // ----- Write the last 0 filled block for end of archive and pad it to 20 blocks
+          for ( $i = 0; $i < $blockCount; ++$i )
+          {
+              $v_binary_data = pack("a512", '');
+              $this->fileWrite( $v_binary_data );
+          }
       }
       return true;
     }

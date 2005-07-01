@@ -9,6 +9,12 @@ Changes from 3.4.7 to 3.4.8
 - Fixed bug #6649: Warning: PHP - strpos() Empty delimiter.
   (Merged from stable/3.6 rev. 10583)
 - Fixed bug #4617: Package export produces broken tars.
-  (Merged from stable/3.5 rev.8568)
+  (Merged from stable/3.5 (3.5.4) rev.8568)
 
 *Library:
+
+eZTarArchiveHandler:
+- Made sure tar files are padded to 20 blocks (of 512 bytes) containing
+  zero filled blocks.
+  (Merged from stable/3.5 (3.5.4) rev. 10295)
+
