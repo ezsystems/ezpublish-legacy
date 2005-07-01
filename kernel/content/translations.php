@@ -240,6 +240,7 @@ $db->commit();
 
 $availableTranslations = array();
 
+unset( $translation );
 foreach( $translations as $currentTranslation )
 {
     $translation = eZContentTranslation::fetch( $currentTranslation->attribute( 'id' ) );
