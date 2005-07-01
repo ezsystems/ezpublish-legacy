@@ -1684,14 +1684,8 @@ function eZSetupContentINISettings( $siteType, $parameters, $isAdmin )
         $allowVersions = true;
     $image = array( 'name' => 'content.ini',
                     'reset_arrays' => true,
-                    'settings' => array( 'VersionView' => array( 'AvailableSiteDesignList' => $designList,
-                                                                 'AllowChangeButtons' => 'disabled',
-                                                                 'AllowVersionsButton' => ( $allowVersions ? 'enabled' : 'disabled' ) ) ) );
-
-    if ( !$isAdmin )
-    {
-        $image['settings']['VersionView']['DefaultPreviewDesign'] = $parameters['preview_design'];
-    }
+                    'settings' => array( 'VersionView' =>
+                                         array( 'AvailableSiteDesignList' => $designList ) ) );
 
     return $image;
 }
