@@ -101,6 +101,10 @@ Attributes:
 - Fixed bug #6854: Use of 'proxy' objects in template expressions fails with
   compilation enabled.
   (Merged from stable/3.5 rev. 12380)
+- Fixed bug: Wrong conditional permisssion when you use more then one "assign with
+  limitation" to one role for the same user (limitations are mixed using logical AND
+  instead of logical OR operation).
+  (Merged from trunk (3.7.0alpha1) rev. 12370)
 
 *Library:
 
