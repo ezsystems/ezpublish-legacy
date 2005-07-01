@@ -2343,7 +2343,7 @@ $rbracket
                         }
                         else
                         {
-                            $code .= "\$currentNamespace = \$rootNamespace;\n";
+                            $code .= "\$rootNamespace = \$currentNamespace;\n";
                         }
 
                         $code .= "include( '" . eZTemplateCompiler::TemplatePrefix() . "' . $phpScriptText );\n" .
@@ -2378,7 +2378,7 @@ $rbracket
                         }
                         else
                         {
-                            $code .= "\$currentNamespace = \$rootNamespace;\n";
+                            $code .= "\$rootNamespace = \$currentNamespace;\n";
                         }
                         $php->addCodePiece( $code );
                         $php->addCodePiece( "\$textElements = array();\n\$extraParameters = array();\n\$tpl->processURI( $uriText, true, \$extraParameters, \$textElements, \$rootNamespace, \$currentNamespace );\n\$$textName .= implode( '', \$textElements );\n", array( 'spacing' => $spacing + $subSpacing ) );
