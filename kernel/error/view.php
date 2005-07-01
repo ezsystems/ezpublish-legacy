@@ -188,6 +188,8 @@ if ( (isset( $Params['ExtraParameters']['AccessList'] ) ) and  ( $ini->variable(
     $tpl->setVariable( 'function_required', $Params['ExtraParameters']['AccessList']['FunctionRequired']['Function'] );
 }
 
+$res =& eZTemplateDesignResource::instance();
+$res->setKeys( array( array( 'error_type', $errorType ), array( 'error_number', $errorNumber ) ) );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:error/$errorType/$errorNumber.tpl" );

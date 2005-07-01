@@ -1,0 +1,4 @@
+*Title: Error override keys
+
+*Documentation:
+We have added the override keys error_type and error_number to use with the module error. This allows you to override e.g pagelayout.tpl when an error situation occurs.
