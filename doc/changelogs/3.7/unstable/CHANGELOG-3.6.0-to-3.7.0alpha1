@@ -118,9 +118,12 @@ Attributes:
 - Fixed bug: Wrong conditional permisssion when you use more then one "assign with
   limitation" to one role for the same user (limitations are mixed using logical AND
   instead of logical OR operation).
-- Fixed bug #6852: eZTemplate: default values for fetch operator does not work
+- Fixed bug #6852: Default values for template fetch operator does not work
   in compiled mode.
-  (Merged from stable/3.7 rev. 12377)
+  (Merged from stable/3.6 rev. 12377)
+- Fixed bug #6854: Use of 'proxy' objects in template expressions fails with
+  compilation enabled.
+  (Merged from stable/3.6 rev. 12382)
 
 *Library:
 
