@@ -228,8 +228,12 @@ class eZTemplateExecuteOperator
                     }
                 }
 
+                $defaultValue = 'null';
+                if ( !$parameterDefinition['required'] )
+                    $defaultValue = eZPHPCreator::variableText( $parameterDefinition['default'], 0, 0, false );
+
                 $parametersSelection = '%1%[\'' . $parameterName . '\']';
-                $parametersCode .= '( isset( ' . $parametersSelection . ' ) ? ' . $parametersSelection . ' : false )';
+                $parametersCode .= '( isset( ' . $parametersSelection . ' ) ? ' . $parametersSelection . " : $defaultValue )";
             }
 
             $parametersCode .= ' )';
