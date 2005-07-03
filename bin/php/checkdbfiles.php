@@ -149,10 +149,10 @@ $versions35 = array( 'unstable' => array( array( '3.4.2', '3.5.0alpha1' )
 $versions36 = array( 'unstable' => array( array( '3.5.2', '3.6.0beta1' )
                                           ,array( '3.6.0beta1', '3.6.0rc1' )
                                           ,array( '3.6.0rc1', '3.6.0' )
+                                          ,array( '3.6.0', '3.6.1rc1' )
                                           ),
                      'unstable_subdir' => 'unstable',
-                     'stable' => array( array( '3.5.2', '3.6.0' )
-                                        ,array( '3.6.0', '3.6.1' ) ) );
+                     'stable' => array( array( '3.5.2', '3.6.0' ) ) );
 
 $versions['3.0'] = $versions30;
 $versions['3.1'] = $versions31;
