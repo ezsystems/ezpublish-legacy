@@ -1654,7 +1654,7 @@ INSERT INTO ezsection (id, name, locale, navigation_part_identifier) VALUES (4,'
 
 
 
-INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','3.4.8');
+INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-version','3.4.8rc1');
 INSERT INTO ezsite_data (name, value) VALUES ('ezpublish-release','15');
 
 
