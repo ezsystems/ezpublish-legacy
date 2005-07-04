@@ -128,6 +128,8 @@ Attributes:
   (Merged from stable/3.6 (3.6.1) rev. 12386)
 - Fixed bug #6845: Added check for object's if it exists.
   (Merged from stable/3.6 (3.6.1) rev. 12408)
+- Fixed bug #6847: Added missing lines <?php and ?> at start and end of file.
+  (Merged from unstable/3.6 (3.6.1) rev. 12417)
 
 *Library:
 
