@@ -490,7 +490,7 @@ class eZRole extends eZPersistentObject
                                       ezrole.name,
                                       ezuser_role.limit_identifier,
                                       ezuser_role.limit_value,
-                                      ezuser_role.id user_role_id
+                                      ezuser_role.id as user_role_id
                       FROM ezrole,
                            ezuser_role
                       WHERE ezuser_role.contentobject_id IN ( $groupString ) AND
