@@ -70,9 +70,9 @@ class eZFile
         if ( !$fp )
             return false;
         $size = filesize( $file );
-        $contents =& fread( $fp, $size );
+        $contents = fread( $fp, $size );
         fclose( $fp );
-        $lines =& preg_split( "#\r\n|\r|\n#", $contents );
+        $lines = preg_split( "#\r\n|\r|\n#", $contents );
         unset( $contents );
         return $lines;
     }

@@ -233,7 +233,7 @@ class eZMySQLDB extends eZDBInterface
                 $connection = $this->DBConnection;
             }
 
-            $result =& mysql_query( $sql, $connection );
+            $result = mysql_query( $sql, $connection );
             if ( $this->RecordError and !$result )
                 $this->setError();
 
@@ -319,7 +319,7 @@ class eZMySQLDB extends eZDBInterface
                     {
                         if ( $this->InputTextCodec )
                         {
-                            $tmp_row =& mysql_fetch_array( $result, MYSQL_ASSOC );
+                            $tmp_row = mysql_fetch_array( $result, MYSQL_ASSOC );
                             unset( $conv_row );
                             $conv_row = array();
                             reset( $tmp_row );
@@ -333,7 +333,7 @@ class eZMySQLDB extends eZDBInterface
                             $retArray[$i + $offset] =& $conv_row;
                         }
                         else
-                            $retArray[$i + $offset] =& mysql_fetch_array( $result, MYSQL_ASSOC );
+                            $retArray[$i + $offset] = mysql_fetch_array( $result, MYSQL_ASSOC );
                     }
                     eZDebug::accumulatorStop( 'mysql_loop' );
 
@@ -343,7 +343,7 @@ class eZMySQLDB extends eZDBInterface
                     eZDebug::accumulatorStart( 'mysql_loop', 'mysql_total', 'Looping result' );
                     for ( $i=0; $i < $numRows; $i++ )
                     {
-                        $tmp_row =& mysql_fetch_array( $result, MYSQL_ASSOC );
+                        $tmp_row = mysql_fetch_array( $result, MYSQL_ASSOC );
                         if ( $this->InputTextCodec )
                         {
                             eZDebug::accumulatorStart( 'mysql_conversion', 'mysql_total', 'String conversion in mysql' );
@@ -425,7 +425,7 @@ class eZMySQLDB extends eZDBInterface
         $count = false;
         if ( $this->IsConnected )
         {
-            $result =& mysql_list_tables( $this->DB, $this->DBConnection );
+            $result = mysql_list_tables( $this->DB, $this->DBConnection );
             $count = mysql_num_rows( $result );
             mysql_free_result( $result );
         }
@@ -445,7 +445,7 @@ class eZMySQLDB extends eZDBInterface
         $tables = array();
         if ( $this->IsConnected )
         {
-            $result =& mysql_list_tables( $this->DB, $this->DBConnection );
+            $result = mysql_list_tables( $this->DB, $this->DBConnection );
             $count = mysql_num_rows( $result );
             for ( $i = 0; $i < $count; ++ $i )
             {
@@ -464,7 +464,7 @@ class eZMySQLDB extends eZDBInterface
         $tables = array();
         if ( $this->IsConnected )
         {
-            $result =& mysql_list_tables( $this->DB, $this->DBConnection );
+            $result = mysql_list_tables( $this->DB, $this->DBConnection );
             $count = mysql_num_rows( $result );
             for ( $i = 0; $i < $count; ++ $i )
             {
@@ -590,7 +590,8 @@ class eZMySQLDB extends eZDBInterface
     */
     function &escapeString( $str )
     {
-        return mysql_escape_string( $str );
+        $str = mysql_escape_string( $str );
+        return $str;
     }
 
     /*!
