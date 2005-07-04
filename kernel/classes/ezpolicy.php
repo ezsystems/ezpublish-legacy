@@ -104,6 +104,10 @@ class eZPolicy extends eZPersistentObject
             {
                 return $this->LimitValue;
             } break;
+            case 'user_role_id':
+            {
+                return $this->UserRoleID;
+            } break;
 
             default:
             {
@@ -132,6 +136,13 @@ class eZPolicy extends eZPersistentObject
                 if ( !$this->LimitValue )
                 {
                     $this->LimitValue = $val;
+                }
+            } break;
+            case 'user_role_id':
+            {
+                if ( !$this->UserRoleID )
+                {
+                    $this->UserRoleID = $val;
                 }
             } break;
 
@@ -274,7 +285,9 @@ class eZPolicy extends eZPersistentObject
             $limitArray = array_merge_recursive( $limitArray, $limitations[$limitKey]->limitArray() );
         }
 
-        return array( $this->attribute( 'module_name' ) => array ( $this->attribute( 'function_name' ) => array( 'p_' . $this->attribute( 'id' ) => $limitArray ) ) );
+        $policyName = 'p_' . $this->attribute( 'id' ) . ( isset($this->UserRoleID) ? ( '_' . $this->UserRoleID ) : '' );
+
+        return array( $this->attribute( 'module_name' ) => array ( $this->attribute( 'function_name' ) => array( $policyName => $limitArray ) ) );
     }
 
     /*!
@@ -294,7 +307,7 @@ class eZPolicy extends eZPersistentObject
             eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitations, "before policy limitations " . $this->ID );
             eZDebugSetting::writeDebug( 'kernel-policy-limitation', $this, "policy itself before before limitations check"  );
 
-            if ( $ignoreLimitIdentifier === false  && $this->LimitIdentifier )
+            if ( $ignoreLimitIdentifier === false  && isset( $this->LimitIdentifier ) && $this->LimitIdentifier )
             {
                 $limitIdentifier =  $this->attribute( 'limit_identifier' );
                 $limitValue = $this->attribute( 'limit_value' );
@@ -346,6 +359,7 @@ class eZPolicy extends eZPersistentObject
                         }
                     }
                 }
+
                 if ( !$limitationTouched )
                 {
                     $policyLimitation = new eZPolicyLimitation( array ( 'id' => -1,
@@ -387,6 +401,7 @@ class eZPolicy extends eZPersistentObject
     var $Disabled = false;
     var $LimitValue;
     var $LimitIdentifier;
+    var $UserRoleID;
 
 }
 

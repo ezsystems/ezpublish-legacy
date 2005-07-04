@@ -80,6 +80,8 @@ class eZRole extends eZPersistentObject
             $this->LimitIdentifier = $row['limit_identifier'];
         if ( isset( $row['limit_value'] ) )
             $this->LimitValue = $row['limit_value'];
+        if ( isset( $row['user_role_id'] ) )
+            $this->UserRoleID = $row['user_role_id'];
     }
 
     function definition()
@@ -102,7 +104,8 @@ class eZRole extends eZPersistentObject
                                                             'required' => false ) ),
                       "function_attributes" => array( "policies" => "policyList",
                                                       'limit_identifier' => 'limitIdentifier',
-                                                      'limit_value' => 'limitValue' ),
+                                                      'limit_value' => 'limitValue',
+                                                      'user_role_id' => 'userRoleID' ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "sort" => array( "id" => "asc" ),
@@ -142,6 +145,16 @@ class eZRole extends eZPersistentObject
     function &limitValue()
     {
         return $this->LimitValue;
+    }
+
+    /*!
+     Returns the user role ID if it is set.
+    \note This will only be available when fetching roles for a specific user
+    \sa userRoleID
+    */
+    function &userRoleID()
+    {
+        return $this->UserRoleID;
     }
 
     function createTemporaryVersion()
@@ -403,7 +416,8 @@ class eZRole extends eZPersistentObject
             $query = "SELECT DISTINCT ezrole.id,
                                       ezrole.name,
                                       ezuser_role.limit_identifier,
-                                      ezuser_role.limit_value
+                                      ezuser_role.limit_value,
+                                      ezuser_role.id as user_role_id
                       FROM ezrole,
                            ezuser_role
                       WHERE ezuser_role.contentobject_id IN ( $groupString ) AND
@@ -424,7 +438,8 @@ class eZRole extends eZPersistentObject
             $query = 'SELECT DISTINCT ezrole.id,
                                       ezrole.name,
                                       ezuser_role.limit_identifier,
-                                      ezuser_role.limit_value
+                                      ezuser_role.limit_value,
+                                      ezuser_role.id as user_role_id
                       FROM ezrole,
                            ezuser_role,
                            ezcontentobject_tree role_tree
@@ -588,6 +603,7 @@ class eZRole extends eZPersistentObject
                 {
                     $policies[$policyKey]->setAttribute( 'limit_identifier', 'User_' . $this->attribute( 'limit_identifier' ) );
                     $policies[$policyKey]->setAttribute( 'limit_value', $this->attribute( 'limit_value' ) );
+                    $policies[$policyKey]->setAttribute( 'user_role_id', $this->attribute( 'user_role_id' ) );
                 }
             }
             $this->Policies =& $policies;
@@ -867,6 +883,7 @@ class eZRole extends eZPersistentObject
     var $Functions;
     var $LimitValue;
     var $LimitIdentifier;
+    var $UserRoleID;
     var $PolicyArray;
     var $Sets;
     var $Policies;

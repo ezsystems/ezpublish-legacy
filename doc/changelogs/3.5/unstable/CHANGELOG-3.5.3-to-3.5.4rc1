@@ -24,5 +24,9 @@ Changes from 3.5.3 to 3.5.4rc1
 - Fixed bug #6854: Use of 'proxy' objects in template expressions fails with
   compilation enabled.
 - Fixed bug #6856: Wrong namespaces set when including another template.
+- Fixed bug: Wrong conditional permisssion when you use more then one "assign
+  with limitation" to one role for the same user (limitations are mixed using
+  logical AND instead of logical OR operation).
+  (Merged from trunk (3.7.0alpha1) rev. 12370)
   
 *Translations:
