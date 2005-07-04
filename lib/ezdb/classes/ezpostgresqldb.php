@@ -246,14 +246,14 @@ class eZPostgreSQLDB extends eZDBInterface
                 {
                     for($i = 0; $i < pg_numrows($result); $i++)
                     {
-                        $retArray[$i + $offset] =& pg_fetch_array ( $result, $i, PGSQL_ASSOC );
+                        $retArray[$i + $offset] = pg_fetch_array ( $result, $i, PGSQL_ASSOC );
                     }
                 }
                 else
                 {
                     for ($i = 0; $i < pg_numrows( $result ); $i++ )
                     {
-                        $tmp_row =& pg_fetch_array ( $result, $i, PGSQL_ASSOC );
+                        $tmp_row = pg_fetch_array ( $result, $i, PGSQL_ASSOC );
                         $retArray[$i + $offset] =& $tmp_row[$column];
                     }
                 }
@@ -597,8 +597,8 @@ class eZPostgreSQLDB extends eZDBInterface
     */
     function &escapeString( $str )
     {
-        $str = str_replace("\0", '', $str);
-        return pg_escape_string( $str );
+        $str = pg_escape_string( str_replace("\0", '', $str) );
+        return $str;
     }
 
     /*!

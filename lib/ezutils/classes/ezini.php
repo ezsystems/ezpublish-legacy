@@ -566,6 +566,8 @@ class eZINI
                 $this->parseFile( $inputFile );
             }
         }
+        $return = null;
+        return $return;
     }
 
     /*!

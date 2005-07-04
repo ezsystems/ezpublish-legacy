@@ -500,7 +500,8 @@ class eZTextCodec
         $check =& $GLOBALS["eZTextCodecCharsetCheck"]["$realInputCharsetCode-$realOutputCharsetCode"];
         if ( !$alwaysReturn and isset( $check ) and !$check )
         {
-            return null;
+            $return = null;
+            return $return;
         }
         if ( isset( $check ) and is_object( $check ) )
         {
@@ -525,7 +526,8 @@ class eZTextCodec
              $realInputCharsetCode == $realOutputCharsetCode )
         {
             $check = false;
-            return null;
+            $return = null;
+            return $return;
         }
         $codec =& $GLOBALS["eZTextCodec-$realInputCharsetCode-$realOutputCharsetCode"];
         if ( get_class( $codec ) != "eztextcodec" )

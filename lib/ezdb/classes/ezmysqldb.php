@@ -296,7 +296,7 @@ class eZMySQLDB extends eZDBInterface
 
         for ( $i = 0; $i < $numRows; ++$i )
         {
-            $tmpRow =& mysql_fetch_array( $status, MYSQL_ASSOC );
+            $tmpRow = mysql_fetch_array( $status, MYSQL_ASSOC );
             if ( $tmpRow['Database'] == $this->DB )
             {
                 $createText = $tmpRow['Create Database'];
@@ -450,7 +450,7 @@ class eZMySQLDB extends eZDBInterface
                     {
                         if ( $this->InputTextCodec )
                         {
-                            $tmp_row =& mysql_fetch_array( $result, MYSQL_ASSOC );
+                            $tmp_row = mysql_fetch_array( $result, MYSQL_ASSOC );
                             unset( $conv_row );
                             $conv_row = array();
                             reset( $tmp_row );
@@ -474,7 +474,7 @@ class eZMySQLDB extends eZDBInterface
                     eZDebug::accumulatorStart( 'mysql_loop', 'mysql_total', 'Looping result' );
                     for ( $i=0; $i < $numRows; $i++ )
                     {
-                        $tmp_row =& mysql_fetch_array( $result, MYSQL_ASSOC );
+                        $tmp_row = mysql_fetch_array( $result, MYSQL_ASSOC );
                         if ( $this->InputTextCodec )
                         {
                             eZDebug::accumulatorStart( 'mysql_conversion', 'mysql_total', 'String conversion in mysql' );
@@ -556,7 +556,7 @@ class eZMySQLDB extends eZDBInterface
         $count = false;
         if ( $this->IsConnected )
         {
-            $result =& mysql_list_tables( $this->DB, $this->DBConnection );
+            $result = mysql_list_tables( $this->DB, $this->DBConnection );
             $count = mysql_num_rows( $result );
             mysql_free_result( $result );
         }
@@ -576,7 +576,7 @@ class eZMySQLDB extends eZDBInterface
         $tables = array();
         if ( $this->IsConnected )
         {
-            $result =& mysql_list_tables( $this->DB, $this->DBConnection );
+            $result = mysql_list_tables( $this->DB, $this->DBConnection );
             $count = mysql_num_rows( $result );
             for ( $i = 0; $i < $count; ++ $i )
             {
@@ -595,7 +595,7 @@ class eZMySQLDB extends eZDBInterface
         $tables = array();
         if ( $this->IsConnected )
         {
-            $result =& mysql_list_tables( $this->DB, $this->DBConnection );
+            $result = mysql_list_tables( $this->DB, $this->DBConnection );
             $count = mysql_num_rows( $result );
             for ( $i = 0; $i < $count; ++ $i )
             {
