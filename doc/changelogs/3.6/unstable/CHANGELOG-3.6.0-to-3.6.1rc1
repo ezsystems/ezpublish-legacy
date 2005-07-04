@@ -107,6 +107,7 @@ Attributes:
   (Merged from trunk (3.7.0alpha1) rev. 12370)
 - Fixed bug #6856: Wrong namespaces set when including another template.
   (Merged from stable/3.5 (3.5.4) rev. 12385)
+- Fixed bug #6845: Added check for object's if it exists.
 
 *Library:
 
