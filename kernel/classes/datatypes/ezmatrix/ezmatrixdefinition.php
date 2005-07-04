@@ -107,11 +107,12 @@ class eZMatrixDefinition
 
         foreach ( $this->ColumnNames as $columnName )
         {
-            $columnNameNode =& $doc->createElementNode( 'column-name' );
+            $columnNameNode = $doc->createElementNode( 'column-name' );
             $columnNameNode->appendAttribute( $doc->createAttributeNode( 'id', $columnName['identifier'] ) );
             $columnNameNode->appendAttribute( $doc->createAttributeNode( 'idx', $columnName['index'] ) );
             $columnNameNode->appendChild( $doc->createTextNode( $columnName['name'] ) );
             $root->appendChild( $columnNameNode );
+            unset( $columnNameNode );
         }
 
         $xml =& $doc->toString();
