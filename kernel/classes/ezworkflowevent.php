@@ -207,7 +207,7 @@ class eZWorkflowEvent extends eZPersistentObject
             return $this->eventType();
         else if ( $attr == "content" )
             return $this->content( );
-        else if ( in_array( $attr, $eventType->typeFunctionalAttributes( ) ) )
+        else if ( is_object( $eventType ) and in_array( $attr, $eventType->typeFunctionalAttributes( ) ) )
         {
             $attributeDecoder =& $eventType->attributeDecoder( $this, $attr );
             return $attributeDecoder;

@@ -355,7 +355,7 @@ class eZWorkflow extends eZPersistentObject
         foreach ( array_keys( $eventArray ) as $key )
         {
             $eventType =& $eventArray[$key]->attribute( 'workflow_type' );
-            if ( !$eventType->isAllowed( $moduleName, $functionName, $connectType ) )
+            if ( !is_object( $eventType ) or !$eventType->isAllowed( $moduleName, $functionName, $connectType ) )
             {
                 return false;
             }
