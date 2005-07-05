@@ -1118,7 +1118,7 @@ ob_end_flush();
 $db =& eZDB::instance();
 while ( $db->TransactionCounter > 0 )
 {
-    eZDebug::writeError( "Internal error, transaction was not comitted." );
+    eZDebug::writeError( "Internal transaction counter mismatch : " . $db->TransactionCounter . ". Should be zero." );
     $db->commit();
 }
 
