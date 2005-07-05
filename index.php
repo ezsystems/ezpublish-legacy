@@ -208,7 +208,7 @@ function &eZDisplayDebug()
     $type = $ini->variable( "DebugSettings", "Debug" );
     eZDebug::setHandleType( EZ_HANDLE_NONE );
     if ( $type == "inline" or $type == "popup" )
-        $text =& eZDebug::printReport( $type == "popup", true, true );
+        $text = eZDebug::printReport( $type == "popup", true, true );
 
     return $text;
 }
