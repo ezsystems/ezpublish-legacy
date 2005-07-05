@@ -223,16 +223,15 @@ eZDebug::setScriptStart( $scriptStartTime );
 
 function &eZDisplayDebug()
 {
+    $text = null;
     $ini =& eZINI::instance();
 
     $type = $ini->variable( "DebugSettings", "Debug" );
     eZDebug::setHandleType( EZ_HANDLE_NONE );
     if ( $type == "inline" or $type == "popup" )
-    {
         $text =& eZDebug::printReport( $type == "popup", true, true );
-        return $text;
-    }
-    return null;
+
+    return $text;
 }
 
 function eZDisplayResult( &$templateResult, &$debugReport )
