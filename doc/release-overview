@@ -373,3 +373,21 @@ Datatype branch:
 - Revision=12371
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.4.8
 - Date 30-Jun-2005
+
+3.4.8rc1:
+- From revision=12428
+- Revision=12430
+- Version url=http://zev.ez.no/svn/nextgen/versions/3.4.8rc1
+- Date 6-Jul-2005
+
+3.5.4rc1:
+- From revision=12427
+- Revision=12431
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.5.4rc1
+- Date 6-Jul-2005
+
+3.6.1rc1:
+- From revision=12420
+- Revision=12432
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.6.1rc1
+- Date 6-Jul-2005
