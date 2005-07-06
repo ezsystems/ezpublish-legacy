@@ -468,16 +468,17 @@ class eZTemplateDesignResource extends eZTemplateFileResource
     */
     function &createOverrideCache()
     {
+        $noOverrideCacheFile = false;
         if ( isset( $GLOBALS['eZSiteBasics'] ) )
         {
             if ( isset( $GLOBALS['eZSiteBasics']['no-cache-adviced'] ) and
                  $GLOBALS['eZSiteBasics']['no-cache-adviced'] )
-                return false;
+                return $noOverrideCacheFile;
         }
         global $eZTemplateOverrideCacheNoPermission;
         if ( $eZTemplateOverrideCacheNoPermission == "nocache" )
         {
-            return false;
+            return $noOverrideCacheFile;
         }
 
         $ini =& eZINI::instance( 'site.ini' );
