@@ -130,7 +130,12 @@ class eZTemplateDesignResource extends eZTemplateFileResource
                             $code .= " and\n" . str_repeat( ' ', $ifLength );
                         $conditionNameText = eZPHPCreator::variableText( $conditionName, 0 );
                         $conditionValueText = eZPHPCreator::variableText( $conditionValue, 0 );
-                        $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and \$" . $designKeysName . "[$conditionNameText] == $conditionValueText";
+                        if ( $conditionName == 'url_alias' )
+                        {
+                            $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and  strpos( \$" . $designKeysName . "[$conditionNameText], $conditionValueText ) ===0 ";
+                        }
+                        else
+                            $code .= "isset( \$" . $designKeysName . "[$conditionNameText] ) and \$" . $designKeysName . "[$conditionNameText] == $conditionValueText";
                         ++$conditionCount;
                     }
                     if ( $matchConditionCount > 0 )
