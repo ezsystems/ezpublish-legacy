@@ -637,7 +637,7 @@ class eZTemplate
         {
             $variableData = $node[2];
             $variablePlacement = $node[3];
-            $rslt =& $this->processVariable( $textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace );
+            $rslt = $this->processVariable( $textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace );
             if ( !is_array( $textElements ) )
                 eZDebug::writeError( "Textelements is no longer array: '$textElements'",
                                      'eztemplate::processNode::variable' );
@@ -648,7 +648,7 @@ class eZTemplate
             $functionName = $node[2];
             $functionParameters = $node[3];
             $functionPlacement = $node[4];
-            $rslt =& $this->processFunction( $functionName, $textElements, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
+            $rslt = $this->processFunction( $functionName, $textElements, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
             if ( !is_array( $textElements ) )
                 eZDebug::writeError( "Textelements is no longer array: '$textElements'",
                                      "eztemplate::processNode::function( '$functionName' )" );
