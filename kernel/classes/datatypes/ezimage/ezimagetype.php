@@ -243,9 +243,10 @@ class eZImageType extends eZDataType
     */
     function onPublish( &$contentObjectAttribute, &$contentObject, &$publishedNodes )
     {
-        $imageHandler =& $contentObjectAttribute->attribute( 'content' );
-        if ( $imageHandler )
+        $hasContent = $contentObjectAttribute->hasContent();
+        if ( $hasContent )
         {
+            $imageHandler =& $contentObjectAttribute->attribute( 'content' );
             $mainNode = false;
             foreach ( array_keys( $publishedNodes ) as $publishedNodeKey )
             {
