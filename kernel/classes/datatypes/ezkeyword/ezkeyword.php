@@ -55,7 +55,8 @@ class eZKeyword
     {
         if ( $name == 'keywords' or
              $name == 'keyword_string' or
-             $name == 'related_objects' )
+             $name == 'related_objects' or
+             $name == 'related_nodes' )
         {
             return true;
         }
@@ -81,6 +82,7 @@ class eZKeyword
             }break;
 
             case 'related_objects' :
+            case 'related_nodes' :
             {
                 return $this->relatedObjects();
             }break;
@@ -322,16 +324,16 @@ class eZKeyword
                     $objectIDArray[] = $object['contentobject_id'];
                 }
 
-		$aNodes =& eZContentObjectTreeNode::findMainNodeArray( $objectIDArray );		
-		foreach ( $aNodes as $key => $node )
-		{
-		    $theObject = $node->object();
-		    if ( $theObject->canRead() )
-		    {
-			$return[] = $node;
-		    }
-		}
-	    }
+                $aNodes =& eZContentObjectTreeNode::findMainNodeArray( $objectIDArray );
+                foreach ( $aNodes as $key => $node )
+                {
+                    $theObject = $node->object();
+                    if ( $theObject->canRead() )
+                    {
+                        $return[] = $node;
+                    }
+                }
+            }
         }
         return $return;
     }
