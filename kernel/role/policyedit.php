@@ -76,7 +76,7 @@ else
     $functions =& $mod->attribute( 'available_functions' );
 }
 $currentFunctionLimitations = array();
-if ( $functions[$currentFunction] )
+if ( isset( $functions[$currentFunction] ) && $functions[$currentFunction] )
 {
     foreach ( array_keys( $functions[$currentFunction] ) as $key )
     {
