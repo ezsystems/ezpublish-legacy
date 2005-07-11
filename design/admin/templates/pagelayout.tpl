@@ -46,6 +46,7 @@ div#search p.advanced { margin-top: 0.3em; }
 div.content-navigation div.mainobject-window div.fixedsize { float: none; overflow: scroll; }
 div.fixedsize input.box, div.fixedsize textarea.box, div.fixedsize table.list { width: 95%; }
 a.openclose img, span.openclose img { margin-right: 4px; }
+div#fix { overflow: hidden; }
 </style>
 <![endif]-->
 <!--[if lt IE 6.0]>
