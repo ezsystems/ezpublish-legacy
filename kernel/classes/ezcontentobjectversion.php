@@ -1074,7 +1074,9 @@ class eZContentObjectVersion extends eZPersistentObject
             {
                 $translationNode->appendChild( $attribute->serialize( $package ) );
             }
+
             $versionNode->appendChild( $translationNode );
+            unset( $translationNode );
         }
 
         $nodeAssignmentListNode = new eZDOMNode();
