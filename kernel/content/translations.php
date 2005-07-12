@@ -222,6 +222,7 @@ foreach ( array_keys( $translations ) as $translationKey )
 
 $availableTranslations = array();
 
+unset( $translation );
 foreach( $translations as $currentTranslation )
 {
     $translation = eZContentTranslation::fetch( $currentTranslation->attribute( 'id' ) );
