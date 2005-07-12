@@ -159,6 +159,28 @@ if ( !function_exists( 'checkContentActions' ) )
 
             $tpl->setVariable( 'password', $password );
 
+            // Check whether account activation is required.
+            $verifyUserEmail = $ini->variable( 'UserSettings', 'VerifyUserEmail' );
+
+            if ( $verifyUserEmail == "enabled" ) // and if it is
+            {
+                // Disable user account and send verification mail to the user
+                $userSetting = eZUserSetting::fetch( $user->attribute( 'contentobject_id' ) );
+                $userSetting->setAttribute( 'is_enabled', 0 );
+                $userSetting->store();
+
+                // Log out current user
+                $user->logoutCurrent();
+
+                // Create enable account hash and send it to the newly registered user
+                $hash = md5( mktime( ) . $user->attribute( 'contentobject_id' ) );
+                include_once( "kernel/classes/datatypes/ezuser/ezuseraccountkey.php" );
+                $accountKey = eZUserAccountKey::createNew( $user->attribute( 'contentobject_id' ), $hash, mktime() );
+                $accountKey->store();
+
+                $tpl->setVariable( 'hash', $hash );
+            }
+
             $templateResult =& $tpl->fetch( 'design:user/registrationinfo.tpl' );
             $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
             if ( !$emailSender )
@@ -208,51 +230,7 @@ if ( !function_exists( 'checkContentActions' ) )
                 }
             }
 
-            $verifyUserEmail = $ini->variable( 'UserSettings', 'VerifyUserEmail' );
-            if ( $verifyUserEmail == "enabled" )
-            {
-                // Disable user account and send verification mail to the user
-                $userSetting = eZUserSetting::fetch( $user->attribute( 'contentobject_id' ) );
-                $userSetting->setAttribute( 'is_enabled', 0 );
-                $userSetting->store();
 
-                // Log out current user
-                $user->logoutCurrent();
-
-                // Create enable account hash and send it to the newly registered user
-                $hash = md5( mktime( ) . $user->attribute('contentobject_id' ) );
-                include_once( "kernel/classes/datatypes/ezuser/ezuseraccountkey.php" );
-                $accountKey = eZUserAccountKey::createNew( $user->attribute('contentobject_id' ), $hash, mktime() );
-                $accountKey->store();
-
-                // Send mail to user
-                $mail = new eZMail();
-                $tpl->resetVariables();
-                $tpl->setVariable( 'user', $user );
-                $tpl->setVariable( 'object', $object );
-                $tpl->setVariable( 'hash', $hash );
-                $hostname = eZSys::hostname();
-                $tpl->setVariable( 'hostname', $hostname );
-
-                $templateResult =& $tpl->fetch( 'design:user/activateaccountmail.tpl' );
-
-                $subject = ezi18n( 'kernel/user/register', 'New user registered' );
-                if ( $tpl->hasVariable( 'subject' ) )
-                    $subject =& $tpl->variable( 'subject' );
-                if ( $tpl->hasVariable( 'email_receiver' ) )
-                    $feedbackReceiver =& $tpl->variable( 'email_receiver' );
-
-//                 print( "-" . $user->attribute( 'email' ) . "-  -" . $ini->variable( 'MailSettings', 'EmailSender' ) . "-" );
-//                $mail->setReceiver( "bf@ez.no" );
-                $mail->setReceiver( $user->attribute( 'email' ) );
-                $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
-                if ( !$emailSender )
-                    $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
-                $mail->setSender( $emailSender );
-                $mail->setSubject( $subject );
-                $mail->setBody( $templateResult );
-                $mailResult = eZMailTransport::send( $mail );
-            }
 
             $http->removeSessionVariable( "GeneratedPassword" );
             $http->removeSessionVariable( "RegisterUserID" );
