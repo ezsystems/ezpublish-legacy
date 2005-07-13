@@ -250,8 +250,7 @@ function changeAccess( $access )
     $ini =& eZINI::instance();
 
     $name = $access['name'];
-    if ( isset( $access['type'] ) &&
-         $access['type'] == EZ_ACCESS_TYPE_URI )
+    if ( $access['type'] == EZ_ACCESS_TYPE_URI )
     {
         include_once( 'lib/ezutils/classes/ezsys.php' );
         eZSys::addAccessPath( $name );

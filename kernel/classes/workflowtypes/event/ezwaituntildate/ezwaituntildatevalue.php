@@ -57,7 +57,7 @@ class eZWaitUntilDateValue extends eZPersistentObject
 
     }
 
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -152,14 +152,14 @@ class eZWaitUntilDateValue extends eZPersistentObject
     }
 
 
-    function removeAllElements( $workflowEventID, $version )
+    function &removeAllElements( $workflowEventID, $version )
     {
         eZPersistentObject::removeObject( eZWaitUntilDateValue::definition(),
                                           array( "workflow_event_id" => $workflowEventID,
                                                  "workflow_event_version" => $version) );
     }
 
-    function remove( $id , $version )
+    function &remove( $id , $version )
     {
         eZPersistentObject::removeObject( eZWaitUntilDateValue::definition(),
                                           array( "id" => $id,
@@ -168,24 +168,22 @@ class eZWaitUntilDateValue extends eZPersistentObject
 
     function &fetch( $id, $version, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZWaitUntilDateValue::definition(),
-                                                    null,
-                                                    array( "id" => $id,
-                                                           "workflow_event_version" => $version),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZWaitUntilDateValue::definition(),
+                                                null,
+                                                array( "id" => $id,
+                                                       "workflow_event_version" => $version),
+                                                $asObject );
     }
 
     function &fetchAllElements( $workflowEventID, $version, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZWaitUntilDateValue::definition(),
-                                                            null,
-                                                            array( "workflow_event_id" => $workflowEventID,
-                                                                   "workflow_event_version" => $version ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZWaitUntilDateValue::definition(),
+                                                    null,
+                                                    array( "workflow_event_id" => $workflowEventID,
+                                                           "workflow_event_version" => $version ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
     var $ClassName;

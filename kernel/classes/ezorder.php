@@ -61,7 +61,7 @@ class eZOrder extends eZPersistentObject
         $this->Status = null;
     }
 
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -128,57 +128,30 @@ class eZOrder extends eZPersistentObject
                       "name" => "ezorder" );
     }
 
-    function &attribute( $attr )
+    function attribute( $attr )
     {
         if ( $attr == "product_items" )
-        {
-            $productItems =& $this->productItems();
-            return $productItems;
-        }
+            return $this->productItems();
         if ( $attr == "order_items" )
-        {
-            $orderItems =& $this->orderItems();
-            return $orderItems;
-        }
+            return $this->orderItems();
         if ( $attr == "product_total_inc_vat" )
-        {
-            $prodIncVat = $this->productTotalIncVAT();
-            return $prodIncVat;
-        }
+            return $this->productTotalIncVAT();
         if ( $attr == "product_total_ex_vat" )
-        {
-            $prodExVat = $this->productTotalExVAT();
-            return $prodExVat;
-        }
+            return $this->productTotalExVAT();
         if ( $attr == "total_inc_vat" )
-        {
-            $incVat = $this->totalIncVAT();
-            return $incVat;
-        }
+            return $this->totalIncVAT();
         if ( $attr == "total_ex_vat" )
-        {
-            $exVat = $this->totalExVAT();
-            return $exVat;
-        }
+            return $this->totalExVAT();
         else if ( $attr == "user" )
             return $this->user();
         else if ( $attr == "account_view_template" )
             return $this->accountViewTemplate();
         else if ( $attr == "account_information" )
-        {
-            $accountInformation = $this->accountInformation();
-            return $accountInformation;
-        }
+            return $this->accountInformation();
         else if ( $attr == "account_name" )
-        {
-            $accountName =& $this->accountName();
-            return $accountName;
-        }
+            return $this->accountName();
         else if ( $attr == "account_email" )
-        {
-            $email =& $this->accountEmail();
-            return $email;
-        }
+            return $this->accountEmail();
         else
             return eZPersistentObject::attribute( $attr );
     }
@@ -252,11 +225,11 @@ class eZOrder extends eZPersistentObject
 
     function &fetch( $id, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZOrder::definition(),
-                                                    null,
-                                                    array( "id" => $id ),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZOrder::definition(),
+                                                null,
+                                                array( "id" => $id
+                                                      ),
+                                                $asObject );
     }
 
     function &fetchList( $asObject = true )
@@ -269,13 +242,12 @@ class eZOrder extends eZPersistentObject
 
     function &activeByUserID( $userID, $asObject = true )
     {
-        $user =& eZPersistentObject::fetchObjectList( eZOrder::definition(),
-                                                      null,
-                                                      array( "user_id" => $userID,
-                                                             'is_temporary' => 0 ),
-                                                      array( "created" => "desc" ), null,
-                                                      $asObject );
-        return $user;
+        return eZPersistentObject::fetchObjectList( eZOrder::definition(),
+                                                    null,
+                                                    array( "user_id" => $userID,
+                                                           'is_temporary' => 0 ),
+                                                    array( "created" => "desc" ), null,
+                                                    $asObject );
     }
 
     /*!
@@ -315,13 +287,12 @@ class eZOrder extends eZPersistentObject
         }
         else
         {
-            $objectList =& eZPersistentObject::fetchObjectList( eZOrder::definition(),
-                                                                null, array( 'is_temporary' => 0 ),
-                                                                array( $sortField => $sortOrder ),
-                                                                array( 'offset' => $offset,
-                                                                       'length' => $limit ),
-                                                                $asObject );
-            return $objectList;
+            return eZPersistentObject::fetchObjectList( eZOrder::definition(),
+                                                        null, array( 'is_temporary' => 0 ),
+                                                        array( $sortField => $sortOrder ),
+                                                        array( 'offset' => $offset,
+                                                               'length' => $limit ),
+                                                        $asObject );
         }
     }
 
@@ -600,7 +571,7 @@ class eZOrder extends eZPersistentObject
         $db_params["offset"] = $offset;
         $db_params["limit"] = $limit;
 
-        $customEmailResult = $db->arrayQuery( "SELECT DISTINCT email FROM ezorder WHERE is_temporary='0' ORDER BY email", $db_params );
+        $customEmailResult =& $db->arrayQuery( "SELECT DISTINCT email FROM ezorder WHERE is_temporary='0' ORDER BY email", $db_params );
         $customEmailArray = array();
 
         foreach( $customEmailResult as $customEmailRow )
@@ -759,7 +730,7 @@ class eZOrder extends eZPersistentObject
             }
 
             // Fetch the discount sub rules
-            $subRules = $db->arrayQuery( "SELECT * FROM
+            $subRules =& $db->arrayQuery( "SELECT * FROM
                                        ezdiscountsubrule
                                        WHERE discountrule_id IN ( $subRuleStr )
                                        ORDER BY discount_percent DESC" );
@@ -777,7 +748,7 @@ class eZOrder extends eZPersistentObject
                     else
                     {
                         // Do limitation check
-                        $limitationArray = $db->arrayQuery( "SELECT * FROM
+                        $limitationArray =& $db->arrayQuery( "SELECT * FROM
                                        ezdiscountsubrule_value
                                        WHERE discountsubrule_id='" . $subRule['id']. "'" );
 
@@ -893,7 +864,7 @@ class eZOrder extends eZPersistentObject
         return $addedProducts;
     }
 
-    function productTotalIncVAT()
+    function &productTotalIncVAT()
     {
         $items =& $this->productItems();
 
@@ -906,7 +877,7 @@ class eZOrder extends eZPersistentObject
         return $total;
     }
 
-    function productTotalExVAT()
+    function &productTotalExVAT()
     {
         $items =& $this->productItems();
 
@@ -919,7 +890,7 @@ class eZOrder extends eZPersistentObject
         return $total;
     }
 
-    function orderTotalIncVAT()
+    function &orderTotalIncVAT()
     {
         $items =& $this->orderItems();
 
@@ -932,7 +903,7 @@ class eZOrder extends eZPersistentObject
         return $total;
     }
 
-    function orderTotalExVAT()
+    function &orderTotalExVAT()
     {
         $items =& $this->orderItems();
 
@@ -945,12 +916,12 @@ class eZOrder extends eZPersistentObject
         return $total;
     }
 
-    function totalIncVAT()
+    function &totalIncVAT()
     {
         return $this->productTotalIncVAT() + $this->orderTotalIncVAT();
     }
 
-    function totalExVAT()
+    function &totalExVAT()
     {
         return $this->productTotalExVAT() + $this->orderTotalExVAT();
     }
@@ -1030,7 +1001,7 @@ class eZOrder extends eZPersistentObject
      \return the account information
      The shop account handler decides what is returned here
     */
-    function accountInformation()
+    function &accountInformation()
     {
         // Fetch the shop account handler
         include_once( 'kernel/classes/ezshopaccounthandler.php' );
@@ -1050,8 +1021,7 @@ class eZOrder extends eZPersistentObject
         include_once( 'kernel/classes/ezshopaccounthandler.php' );
         $accountHandler =& eZShopAccountHandler::instance();
 
-        $accountName = $accountHandler->accountName( $this );
-        return $accountName;
+        return $accountHandler->accountName( $this );
     }
 
     /*!
@@ -1064,8 +1034,7 @@ class eZOrder extends eZPersistentObject
         include_once( 'kernel/classes/ezshopaccounthandler.php' );
         $accountHandler =& eZShopAccountHandler::instance();
 
-        $email = $accountHandler->email( $this );
-        return $email;
+        return $accountHandler->email( $this );
     }
 
     /*!

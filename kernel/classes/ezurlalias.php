@@ -74,7 +74,7 @@ class eZURLAlias extends eZPersistentObject
     /*!
      \reimp
     */
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -344,11 +344,10 @@ WHERE
                              'is_internal' => $isInternal );
         if ( $noForwardID )
             $conditions['forward_to_id'] = 0;
-        $object =& eZPersistentObject::fetchObject( eZURLAlias::definition(),
+        return eZPersistentObject::fetchObject( eZURLAlias::definition(),
                                                 null,
                                                 $conditions,
                                                 $asObject );
-        return $object;
     }
 
     /*!
@@ -375,13 +374,12 @@ WHERE
     */
     function &fetchByOffset( $offset, $limit, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZURLAlias::definition(),
-                                                            null,
-                                                            array( "is_internal" => 0 ),
-                                                            null,
-                                                            array( 'offset' => $offset, 'length' => $limit ),
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZURLAlias::definition(),
+                                                    null,
+                                                    array( "is_internal" => 0 ),
+                                                    null,
+                                                    array( 'offset' => $offset, 'length' => $limit ),
+                                                    $asObject );
     }
 
     /*!
@@ -390,13 +388,12 @@ WHERE
     */
     function &fetchWildcards( $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZURLAlias::definition(),
-                                                            null,
-                                                            array( "is_wildcard" => array( array( EZ_URLALIAS_WILDCARD_TYPE_FORWARD, EZ_URLALIAS_WILDCARD_TYPE_DIRECT ) ) ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZURLAlias::definition(),
+                                                    null,
+                                                    array( "is_wildcard" => array( array( EZ_URLALIAS_WILDCARD_TYPE_FORWARD, EZ_URLALIAS_WILDCARD_TYPE_DIRECT ) ) ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
     /*!
@@ -431,7 +428,7 @@ WHERE
     */
     function cacheInfoDirectories( &$wildcardCacheDir, &$wildcardCacheFile, &$wildcardCachePath, &$wildcardKeys )
     {
-        $info = eZURLAlias::cacheInfo();
+        $info =& eZURLAlias::cacheInfo();
         $wildcardCacheDir = $info['dir'];
         $wildcardCacheFile = $info['file'];
         $wildcardCachePath = $info['path'];
@@ -523,15 +520,14 @@ WHERE
     */
     function &isWildcardExpired( $timestamp )
     {
-        $retVal = false;
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
         if ( !$handler->hasTimestamp( 'urlalias-wildcard' ) )
-            return $retVal;
+            return false;
         $expiryTime = $handler->timestamp( 'urlalias-wildcard' );
         if ( $expiryTime > $timestamp )
-            $retVal = true;
-        return $retVal;
+            return true;
+        return false;
     }
 
     /*!
@@ -564,7 +560,7 @@ WHERE
         }
         $uriString = eZURLAlias::cleanURL( $uriString );
 
-        $info = eZURLAlias::cacheInfo();
+        $info =& eZURLAlias::cacheInfo();
         $hasCache = false;
         $isExpired = true;
         $return = false;

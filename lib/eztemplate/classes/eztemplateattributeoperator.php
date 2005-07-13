@@ -139,7 +139,7 @@ class eZTemplateAttributeOperator
         if ( is_array( $value ) )
         {
             reset( $value );
-            while ( ( $key = key( $value ) ) !== null )
+            while ( ( $key =& key( $value ) ) !== null )
             {
                 $item =& $value[$key];
                 $type = gettype( $item );

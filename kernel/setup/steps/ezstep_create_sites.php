@@ -852,7 +852,7 @@ WHERE
                 $role =& eZRole::fetchByName( $extraRoleName );
                 if ( !is_object( $role ) )
                 {
-                    $role = eZRole::create( $extraRoleName );
+                    $role =& eZRole::create( $extraRoleName );
                     $role->store();
                 }
                 $roleID = $role->attribute( 'id' );

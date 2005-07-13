@@ -110,7 +110,7 @@ $Result = array();
 
 // Fetch the navigation part from the section information
 include_once( 'kernel/classes/ezsection.php' );
-$section = eZSection::fetch( $contentObject->attribute( 'section_id' ) );
+$section =& eZSection::fetch( $contentObject->attribute( 'section_id' ) );
 if ( $section )
     $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
 

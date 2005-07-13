@@ -50,7 +50,7 @@ if ( is_numeric( $discountGroupID ) )
 }
 else
 {
-    $discountGroup = eZDiscountRule::create();
+    $discountGroup =& eZDiscountRule::create();
     $discountGroupID = $discountGroup->attribute( "id" );
 }
 

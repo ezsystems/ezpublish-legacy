@@ -175,20 +175,20 @@ $Module->setTitle( "Search for: $searchText" );
 
 $classArray =& eZContentClass::fetchList();
 
-$sectionArray = eZSection::fetchList();
+$sectionArray =& eZSection::fetchList();
 
 $searchArray =& eZSearch::buildSearchArray();
 
 if ( $useSearchCode )
 {
-    $searchResult = eZSearch::search( $searchText, array( 'SearchSectionID' => $searchSectionID,
-                                                          'SearchContentClassID' => $searchContentClassID,
-                                                          'SearchContentClassAttributeID' => $searchContentClassAttributeID,
-                                                          'SearchSubTreeArray' => $subTreeArray,
-                                                          'SearchDate' => $searchDate,
-                                                          'SearchTimestamp' => $searchTimestamp,
-                                                          'SearchLimit' => $pageLimit,
-                                                          'SearchOffset' => $Offset ),
+    $searchResult =& eZSearch::search( $searchText, array( 'SearchSectionID' => $searchSectionID,
+                                                           'SearchContentClassID' => $searchContentClassID,
+                                                           'SearchContentClassAttributeID' => $searchContentClassAttributeID,
+                                                           'SearchSubTreeArray' => $subTreeArray,
+                                                           'SearchDate' => $searchDate,
+                                                           'SearchTimestamp' => $searchTimestamp,
+                                                           'SearchLimit' => $pageLimit,
+                                                           'SearchOffset' => $Offset ),
                                        $searchArray );
     if ( strlen(trim($searchText)) == 0 && count( $searchArray ) > 0  )
     {

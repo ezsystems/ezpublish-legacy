@@ -113,7 +113,7 @@ class eZTextFileUser extends eZUser
                             ezcontentobject.id=contentobject_id";
         }
 
-        $users = $db->arrayQuery( $query );
+        $users =& $db->arrayQuery( $query );
         $exists = false;
         if ( count( $users ) >= 1 )
         {
@@ -134,7 +134,7 @@ class eZTextFileUser extends eZUser
                                        FROM ezuser, ezcontentobject
                                        WHERE ezcontentobject.status='$contentObjectStatus' AND
                                              password_hash_type=4 AND ( $loginText ) AND password_hash=PASSWORD('$password') ";
-                    $mysqlUsers = $db->arrayQuery( $queryMysqlUser );
+                    $mysqlUsers =& $db->arrayQuery( $queryMysqlUser );
                     if ( count( $mysqlUsers ) >= 1 )
                         $exists = true;
                 }
@@ -195,7 +195,7 @@ class eZTextFileUser extends eZUser
                                        FROM ezcontentobject, ezcontentobject_tree
                                        WHERE ezcontentobject.name='$groupName'
                                        AND ezcontentobject.id=ezcontentobject_tree.contentobject_id";
-                    $groupObject = $db->arrayQuery( $groupQuery );
+                    $groupObject =& $db->arrayQuery( $groupQuery );
 
                     if ( count( $groupObject ) > 0  )
                     {
@@ -209,7 +209,7 @@ class eZTextFileUser extends eZUser
                                            FROM ezcontentobject, ezcontentobject_tree
                                            WHERE ezcontentobject.id='$groupID'
                                            AND ezcontentobject.id=ezcontentobject_tree.contentobject_id";
-                    $groupObject = $db->arrayQuery( $groupQuery );
+                    $groupObject =& $db->arrayQuery( $groupQuery );
 
                     if ( count( $groupObject ) > 0  )
                     {

@@ -113,8 +113,7 @@ class eZImageAliasHandler
             return $originalAttribute;
         }
         $aliasName = $attributeName;
-        $imageAlias =& $this->imageAlias( $aliasName );
-        return $imageAlias;
+        return $this->imageAlias( $aliasName );
     }
 
     /*!
@@ -424,9 +423,7 @@ class eZImageAliasHandler
                 }
             }
         }
-
-        $imageAlias = null;
-        return $imageAlias;
+        return null;
     }
 
     /*!
@@ -629,7 +626,7 @@ class eZImageAliasHandler
             $contentObjectAttribute->DataTypeCustom = array();
 
         $doc = new eZDOMDocument();
-        $imageNode = $doc->createElementNode( "ezimage" );
+        $imageNode =& $doc->createElementNode( "ezimage" );
         $doc->setRoot( $imageNode );
 
         $imageNode->appendAttribute( $doc->createAttributeNode( 'serial_number', false ) );
@@ -727,10 +724,10 @@ class eZImageAliasHandler
         $aliasList =& $this->aliasList();
 
         $doc = new eZDOMDocument();
-        $imageNode = $doc->createElementNode( "ezimage" );
+        $imageNode =& $doc->createElementNode( "ezimage" );
         $doc->setRoot( $imageNode );
 
-        $originalNode = $doc->createElementNode( "original" );
+        $originalNode =& $doc->createElementNode( "original" );
         $imageNode->appendChild( $originalNode );
 
         include_once( 'kernel/common/image.php' );
@@ -760,7 +757,7 @@ class eZImageAliasHandler
         if ( $filename )
         {
             include_once( 'lib/ezutils/classes/ezmimetype.php' );
-            $mimeData = eZMimeType::findByFileContents( $filename );
+            $mimeData =& eZMimeType::findByFileContents( $filename );
 
             $imageManager->analyzeImage( $mimeData );
 
@@ -901,9 +898,7 @@ class eZImageAliasHandler
                 unset( $contentObjectAttribute->DataTypeCustom['http_file'] );
             return $httpFile;
         }
-
-        $httpFile = false;
-        return $httpFile;
+        return false;
     }
 
     /*!
@@ -1004,7 +999,7 @@ class eZImageAliasHandler
         $imageManager->analyzeImage( $mimeData );
 
         $doc = new eZDOMDocument();
-        $imageNode = $doc->createElementNode( "ezimage" );
+        $imageNode =& $doc->createElementNode( "ezimage" );
         $doc->setRoot( $imageNode );
 
         $width = false;
@@ -1018,7 +1013,7 @@ class eZImageAliasHandler
 
         $this->setOriginalAttributeDataValues( false, false, false );
 
-        $originalNode = $doc->createElementNode( "original" );
+        $originalNode =& $doc->createElementNode( "original" );
         $imageNode->appendChild( $originalNode );
         $this->createOriginalAttributeXMLData( $originalNode, $this->originalAttributeData() );
 
@@ -1053,7 +1048,7 @@ class eZImageAliasHandler
         if ( isset( $mimeData['info'] ) and
              $mimeData['info'] )
         {
-            $imageInfoNode = eZDOMDocument::createElementNode( 'information' );
+            $imageInfoNode =& eZDOMDocument::createElementNode( 'information' );
             $info = $mimeData['info'];
             foreach ( $info as $infoItemName => $infoItem )
             {
@@ -1077,7 +1072,7 @@ class eZImageAliasHandler
                     }
                     else
                     {
-                        $arrayNode = eZDOMDocument::createElementNode( 'array',
+                        $arrayNode =& eZDOMDocument::createElementNode( 'array',
                                                                         array( 'name' => $infoItemName ) );
                         $imageInfoNode->appendChild( $arrayNode );
                         foreach ( $infoItem as $infoArrayKey => $infoArrayItem )
@@ -1150,7 +1145,7 @@ class eZImageAliasHandler
         {
             $rootNode =& $domTree->root();
 # CHECK FOR EZXML PARSER
-            $imageNode = $domTree->create_element( "alias" );
+            $imageNode =& $domTree->create_element( "alias" );
             $rootNode->append_child( $imageNode );
         }
         else
@@ -1398,13 +1393,13 @@ class eZImageAliasHandler
 
         if ( is_numeric( $attributeID ) )
         {
-            $imageRow = $db->arrayQuery( "SELECT * FROM ezimage
+            $imageRow =& $db->arrayQuery( "SELECT * FROM ezimage
                                            WHERE contentobject_attribute_id=$attributeID AND
                                                  version=$attributeVersion" );
         }
 
         $doc = new eZDOMDocument();
-        $imageNode = $doc->createElementNode( "ezimage" );
+        $imageNode =& $doc->createElementNode( "ezimage" );
         $doc->setRoot( $imageNode );
 
         $isValid = false;
@@ -1501,7 +1496,7 @@ class eZImageAliasHandler
 
         /*
         // Fetch variations
-        $imageVariationRowArray = $db->arrayQuery( "SELECT * FROM ezimagevariation
+        $imageVariationRowArray =& $db->arrayQuery( "SELECT * FROM ezimagevariation
                                            WHERE contentobject_attribute_id=$attributeID AND
                                                  version=$attributeVersion" );
 

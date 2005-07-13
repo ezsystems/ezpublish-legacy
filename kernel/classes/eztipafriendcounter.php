@@ -51,7 +51,7 @@ class eZTipafriendCounter extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "node_id" => array( 'name' => "NodeID",
                                                              'datatype' => 'integer',

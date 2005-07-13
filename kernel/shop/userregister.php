@@ -52,9 +52,7 @@ if ( $module->isCurrentAction( 'Cancel' ) )
 
 $user =& eZUser::currentUser();
 
-$firstName = '';
-$lastName = '';
-$email = '';
+
 if ( $user->isLoggedIn() )
 {
     $userObject = $user->attribute( 'contentobject' );

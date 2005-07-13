@@ -50,7 +50,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     /*!
      \return the persistent object definition for the eZInformationCollectionAttribute class.
     */
-    function definition()
+    function &definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -165,7 +165,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     function &contentClassAttributeName()
     {
         $db =& eZDB::instance();
-        $nameArray = $db->arrayQuery( "SELECT name FROM ezcontentclass_attribute WHERE id='$this->ContentClassAttributeID'" );
+        $nameArray =& $db->arrayQuery( "SELECT name FROM ezcontentclass_attribute WHERE id='$this->ContentClassAttributeID'" );
 
         return $nameArray[0]['name'];
     }

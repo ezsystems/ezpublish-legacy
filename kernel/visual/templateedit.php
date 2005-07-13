@@ -159,7 +159,7 @@ if ( $module->isCurrentAction( 'Save' ) )
 
             /* If we're saving a template after editting we need to convert it to the template's
              * Charset. */
-            $codec = eZTextCodec::instance( $outputCharset, $templateCharset, false );
+            $codec =& eZTextCodec::instance( $outputCharset, $templateCharset, false );
             if ( $codec )
             {
                 $templateContent = $codec->convertString( $templateContent );
@@ -247,7 +247,7 @@ else
 
 /* If we're loading a template for editting we need to convert it to the HTTP
  * Charset. */
-$codec = eZTextCodec::instance( $templateCharset, $outputCharset, false );
+$codec =& eZTextCodec::instance( $templateCharset, $outputCharset, false );
 if ( $codec )
 {
     $templateContent = $codec->convertString( $templateContent );

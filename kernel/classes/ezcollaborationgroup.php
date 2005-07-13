@@ -57,7 +57,7 @@ class eZCollaborationGroup extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    function &definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -304,7 +304,7 @@ class eZCollaborationGroup extends eZPersistentObject
             $sqlParameters['offset'] = $offset;
             $sqlParameters['limit'] = $limit;
         }
-        $groupListArray = $db->arrayQuery( $sql, $sqlParameters );
+        $groupListArray =& $db->arrayQuery( $sql, $sqlParameters );
         $returnGroupList =& eZPersistentObject::handleRows( $groupListArray, 'eZCollaborationGroup', $asObject );
         eZDebugSetting::writeDebug( 'collaboration-group-tree', $returnGroupList );
         return $returnGroupList;
@@ -326,7 +326,7 @@ class eZCollaborationGroup extends eZPersistentObject
                 FROM     ezcollab_item_group_link
                 WHERE    user_id = '$userID' AND
                          group_id = '$groupID'";
-        $countArray = $db->arrayQuery( $sql );
+        $countArray =& $db->arrayQuery( $sql );
         return $countArray[0]['count'];
     }
 

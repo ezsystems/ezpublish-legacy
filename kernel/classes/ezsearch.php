@@ -99,7 +99,7 @@ class eZSearch
      \static
      Runs a query to the search engine.
     */
-    function search( $searchText, $params, $searchTypes = array() )
+    function &search( $searchText, $params, $searchTypes = array() )
     {
         $ini =& eZINI::instance();
 
@@ -154,11 +154,11 @@ class eZSearch
         // This method was renamed in pre 3.5 trunk
         if ( method_exists( $searchEngine, 'supportedSearchTypes' ) )
         {
-            $searchTypesDefinition = $searchEngine->supportedSearchTypes();  // new and correct
+            $searchTypesDefinition =& $searchEngine->supportedSearchTypes();  // new and correct
         }
         else
         {
-            $searchTypesDefinition = $searchEngine->suportedSearchTypes();  // deprecated
+            $searchTypesDefinition =& $searchEngine->suportedSearchTypes();  // deprecated
         }
 
         $searchArray = array();

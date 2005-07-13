@@ -164,7 +164,7 @@ class eZURLType extends eZDataType
 
             if ( !eZURLObjectLink::fetch( $urlID, $objectAttributeID, $objectAttributeVersion, false ) )
             {
-                $linkObjectLink = eZURLObjectLink::create( $urlID, $objectAttributeID, $objectAttributeVersion );
+                $linkObjectLink =& eZURLObjectLink::create( $urlID, $objectAttributeID, $objectAttributeVersion );
                 $linkObjectLink->store();
             }
         }
@@ -215,10 +215,7 @@ class eZURLType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         if ( !$contentObjectAttribute->attribute( 'data_int' ) )
-        {
-            $attrValue = false;
-            return $attrValue;
-        }
+            return false;
 
         return eZURL::url( $contentObjectAttribute->attribute( 'data_int' ) );
     }

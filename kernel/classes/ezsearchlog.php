@@ -63,7 +63,7 @@ class eZSearchLog
         $phrase = $db->escapeString( $phrase );
 
         // find or store the phrase
-        $phraseRes = $db->arrayQuery( "SELECT * FROM ezsearch_search_phrase WHERE phrase='$phrase'" );
+        $phraseRes =& $db->arrayQuery( "SELECT * FROM ezsearch_search_phrase WHERE phrase='$phrase'" );
 
         if ( count( $phraseRes ) == 1 )
         {
@@ -101,7 +101,7 @@ class eZSearchLog
                     ezsearch_search_phrase.id, ezsearch_search_phrase.phrase
                   ORDER BY phrase_count DESC';
 
-        $phraseArray = $db->arrayQuery( $query, $parameters );
+        $phraseArray =& $db->arrayQuery( $query, $parameters );
 
         return $phraseArray;
     }

@@ -1,4 +1,4 @@
-    function classListFromPolicy( &$policy )
+    function &classListFromPolicy( &$policy )
     {
         $canCreateClassIDListPart = array();
         $hasClassIDLimitation = false;

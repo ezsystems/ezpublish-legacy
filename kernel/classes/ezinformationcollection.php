@@ -56,7 +56,7 @@ class eZInformationCollection extends eZPersistentObject
     /*!
      \return the persistent object definition for the eZInformationCollection class.
     */
-    function definition()
+    function &definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -457,7 +457,7 @@ class eZInformationCollection extends eZPersistentObject
             }
         }
 
-        $resArray = $db->arrayQuery( "SELECT count( ezinfocollection_attribute.id ) as count FROM ezinfocollection_attribute, ezinfocollection
+        $resArray =& $db->arrayQuery( "SELECT count( ezinfocollection_attribute.id ) as count FROM ezinfocollection_attribute, ezinfocollection
                                        WHERE ezinfocollection_attribute.informationcollection_id = ezinfocollection.id
                                        AND ezinfocollection_attribute.contentobject_attribute_id = '" . $db->escapeString( $objectAttributeID ) . "' " .  $valueSQL );
 
@@ -469,7 +469,7 @@ class eZInformationCollection extends eZPersistentObject
         $db =& eZDB::instance();
         // Do a count on the value of collected integer info. Useful for e.g. polls
 
-        $resArray = $db->arrayQuery( "SELECT count( ezinfocollection.id ) as count FROM ezinfocollection
+        $resArray =& $db->arrayQuery( "SELECT count( ezinfocollection.id ) as count FROM ezinfocollection
                                        WHERE ezinfocollection.contentobject_id = '" . $db->escapeString( $objectID ) . "' " );
 
         return $resArray[0]['count'];
@@ -501,7 +501,7 @@ class eZInformationCollection extends eZPersistentObject
 //             }
 //         }
 
-        $resArray = $db->arrayQuery( "SELECT data_int, count( ezinfocollection_attribute.id ) as count FROM ezinfocollection_attribute, ezinfocollection
+        $resArray =& $db->arrayQuery( "SELECT data_int, count( ezinfocollection_attribute.id ) as count FROM ezinfocollection_attribute, ezinfocollection
                                        WHERE ezinfocollection_attribute.informationcollection_id = ezinfocollection.id
                                        AND ezinfocollection_attribute.contentobject_attribute_id = '" . $db->escapeString( $objectAttributeID ) . "' " .  $valueSQL . "
                                        GROUP BY data_int" );

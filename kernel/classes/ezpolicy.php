@@ -59,7 +59,7 @@ class eZPolicy extends eZPersistentObject
           $this->NodeID = 0;
     }
 
-    function definition()
+    function &definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -157,7 +157,7 @@ class eZPolicy extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function createNew( $roleID , $params = array() )
+    function &createNew( $roleID , $params = array() )
     {
         $policy = new eZPolicy( array() );
         $policy->setAttribute( 'role_id', $roleID );
@@ -290,7 +290,7 @@ class eZPolicy extends eZPersistentObject
 
      return access array
     */
-    function accessArray( $ignoreLimitIdentifier = false )
+    function &accessArray( $ignoreLimitIdentifier = false )
     {
         $limitations =& $this->limitationList( true, $ignoreLimitIdentifier );
         if ( $this->Disabled === true )
@@ -409,16 +409,13 @@ class eZPolicy extends eZPersistentObject
             return eZPersistentObject::fetchObject( eZRole::definition(),
                                                     null, array( 'id' => $this->RoleID ), true );
         }
-
-        $role = false;
-        return $role;
+        return false;
     }
 
     function &fetch( $policyID )
     {
-        $object =& eZPersistentObject::fetchObject( eZPolicy::definition(),
-                                                    null, array('id' => $policyID ), true);
-        return $object;
+        return eZPersistentObject::fetchObject( eZPolicy::definition(),
+                                                null, array('id' => $policyID ), true);
 
     }
 

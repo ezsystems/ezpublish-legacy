@@ -100,7 +100,7 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
         $deleteID = $db->escapeString( $deleteID ); //security thing
         while ( true )
         {
-            $resArray = $db->arrayQuery( "SELECT ezcontentobject.id FROM ezcontentobject WHERE ezcontentobject.contentclass_id='$deleteID'", array( 'length' => 50 ) );
+            $resArray =& $db->arrayQuery( "SELECT ezcontentobject.id FROM ezcontentobject WHERE ezcontentobject.contentclass_id='$deleteID'", array( 'length' => 50 ) );
             if( !$resArray || count( $resArray ) == 0 )
             {
                 break;

@@ -329,25 +329,13 @@ class eZPackage
         else if ( $attributeName == 'packaging-packager' )
             return $this->Parameters['packaging']['packager'];
         else if ( $attributeName == 'can_read' )
-        {
-            $canRead = $this->canRead();
-            return $canRead;
-        }
+            return $this->canRead();
         else if ( $attributeName == 'can_export' )
-        {
-            $canExport = $this->canExport();
-            return $canExport;
-        }
+            return $this->canExport();
         else if ( $attributeName == 'can_import' )
-        {
-            $canImport = $this->canImport();
-            return $canImport;
-        }
+            return $this->canImport();
         else if ( $attributeName == 'can_install' )
-        {
-            $canInstall = $this->canInstall();
-            return $canInstall;
-        }
+            return $this->canInstall();
         else if ( $attributeName == 'file-count' )
             return $this->fileCount();
         else if ( $attributeName == 'thumbnail-list' )
@@ -355,13 +343,11 @@ class eZPackage
         else if ( $attributeName == 'is_local' )
         {
             $repositoryInformation = $this->currentRepositoryInformation();
-            $isLocal = $repositoryInformation['type'] == 'local';
-            return $isLocal;
+            return $repositoryInformation['type'] == 'local';
         }
 
         eZDebug::writeError( "No such attribute: $attributeName for eZPackage", 'eZPackage::attribute' );
-        $attributeValue = null;
-        return $attributeValue;
+        return null;
     }
 
     function isModified( $attributeName /*, $attributeList = false*/ )
@@ -1518,8 +1504,7 @@ class eZPackage
                 return $package;
             }
         }
-        $retVal = false;
-        return $retVal;
+        return false;
     }
 
     function useCache()

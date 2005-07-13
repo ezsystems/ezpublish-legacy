@@ -60,18 +60,17 @@ class eZShopFunctionCollection
         $sessionID = $http->sessionID();
 
         $basketList =& eZPersistentObject::fetchObjectList( eZBasket::definition(),
-                                                            null,
-                                                            array( "session_id" => $sessionID ),
-                                                            null,
-                                                            null,
-                                                            true );
+                                                          null, array( "session_id" => $sessionID
+                                                                       ),
+                                                          null, null,
+                                                          true );
 
         $currentBasket = false;
         if ( count( $basketList ) == 0 )
         {
             // If we don't have a stored basket we create a temporary
             // one which can be returned.
-            $collection = eZProductCollection::create();
+            $collection =& eZProductCollection::create();
 
             $currentBasket = new eZBasket( array( "session_id" => $sessionID,
                                                   "productcollection_id" => 0 ) );
@@ -82,16 +81,9 @@ class eZShopFunctionCollection
         }
 
         if ( $currentBasket === null )
-        {
-            $result = array( 'error' => array( 'error_type' => 'kernel',
-                                               'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        }
-        else
-        {
-            $result = array( 'result' => $currentBasket );
-        }
-
-        return $result;
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => $currentBasket );
     }
 
     function fetchBestSellList( $topParentNodeID, $limit )
@@ -113,7 +105,7 @@ class eZShopFunctionCollection
                  ORDER BY count desc";
 
         $db =& eZDB::instance();
-        $topList = $db->arrayQuery( $query, array( 'limit' => $limit ) );
+        $topList=& $db->arrayQuery( $query, array( 'limit' => $limit ) );
 
         $contentObjectList = array();
         foreach ( array_keys ( $topList ) as $key )
@@ -147,7 +139,7 @@ class eZShopFunctionCollection
               ORDER BY count desc";
 
         $db =& eZDB::instance();
-        $objectList = $db->arrayQuery( $query, array( 'limit' => $limit ) );
+        $objectList=& $db->arrayQuery( $query, array( 'limit' => $limit ) );
 
         $db->dropTempTable( "DROP TABLE ezproductcollection_tmp" );
         $contentObjectList = array();

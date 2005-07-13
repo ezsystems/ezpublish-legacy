@@ -59,7 +59,7 @@ class eZPolicyLimitation extends eZPersistentObject
           $this->NodeID = 0;
     }
 
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -97,8 +97,7 @@ class eZPolicyLimitation extends eZPersistentObject
         {
             case 'policy':
             {
-                $policy =& $this->policy();
-                return $policy;
+                return $this->policy();
             }
 
             case 'values':
@@ -113,14 +112,12 @@ class eZPolicyLimitation extends eZPersistentObject
 
             case 'values_as_array':
             {
-                $allValues =& $this->allValues();
-                return $allValues;
+                return $this->allValues();
             } break;
 
             case 'values_as_array_with_names':
             {
-                $allValuesAsArray =& $this->allValuesAsArrayWithNames();
-                return $allValuesAsArray;
+                return $this->allValuesAsArrayWithNames();
             } break;
 
             case 'limit_value':
@@ -142,8 +139,7 @@ class eZPolicyLimitation extends eZPersistentObject
     {
         include_once( 'kernel/classes/ezpolicy.php' );
 
-        $policy =& eZPolicy::fetch( $this->attribute( 'policy_id' ) );
-        return $policy;
+        return eZPolicy::fetch( $this->attribute( 'policy_id' ) );
     }
 
     /*!
@@ -205,23 +201,21 @@ class eZPolicyLimitation extends eZPersistentObject
 
     function &fetchByIdentifier( $policyID, $identifier, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZPolicyLimitation::definition(),
-                                                    null,
-                                                    array( "policy_id" => $policyID,
-                                                           "identifier" => $identifier ),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZPolicyLimitation::definition(),
+                                                null,
+                                                array( "policy_id" => $policyID,
+                                                       "identifier" => $identifier ),
+                                                $asObject );
     }
 
     function &fetchByPolicyID( $policyID, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZPolicyLimitation::definition(),
-                                                            null,
-                                                            array( "policy_id" => $policyID ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZPolicyLimitation::definition(),
+                                                    null,
+                                                    array( "policy_id" => $policyID ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
     /*!
@@ -375,7 +369,7 @@ class eZPolicyLimitation extends eZPersistentObject
 
      \return access limitation array
     */
-    function limitArray()
+    function &limitArray()
     {
         $limitValues =& $this->attribute( 'values' );
 
@@ -394,7 +388,7 @@ class eZPolicyLimitation extends eZPersistentObject
         $values = array();
         foreach ( $this->attribute( 'values' ) as $value )
         {
-                $values[] = $value->attribute( 'value' );
+                $values[] =  $value->attribute( 'value' );
         }
 
         return $values;
@@ -440,7 +434,7 @@ class eZPolicyLimitation extends eZPersistentObject
                        $cond AND
                        ezpolicy_limitation_value.limitation_id =  ezpolicy_limitation.id";
         $db = eZDB::instance();
-        $dbResult = $db->arrayQuery( $query );
+        $dbResult =& $db->arrayQuery( $query );
         $resultArray = array();
         $resultCount = count( $dbResult );
         for( $i = 0; $i < $resultCount; $i++ )

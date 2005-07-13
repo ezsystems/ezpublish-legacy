@@ -236,7 +236,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
      \reimp
      Validates the input and returns true if the input was valid for this datatype.
     */
-    function validateInput( &$http, $base, &$contentObjectAttribute )
+    function &validateInput( &$http, $base, &$contentObjectAttribute )
     {
         $contentObjectID = $contentObjectAttribute->attribute( "contentobject_id" );
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
@@ -302,6 +302,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         if ( !in_array( $objectID, $relatedObjectIDArray ) )
                              $relatedObjectIDArray[] = $objectID;
 
+                  //    $currentObject =& eZContentObject::fetch( $objectID );
+
                         // If there are any image object with links.
                         $href = $object->attributeValueNS( 'ezurl_href', "http://ez.no/namespaces/ezpublish3/image/" );
                         $urlID = $object->attributeValueNS( 'ezurl_id', "http://ez.no/namespaces/ezpublish3/image/" );
@@ -312,7 +314,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $linkObjectLink =& eZURLObjectLink::fetch( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
                             if ( $linkObjectLink == null )
                             {
-                                $linkObjectLink = eZURLObjectLink::create( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
+                                $linkObjectLink =& eZURLObjectLink::create( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
                                 $linkObjectLink->store();
                             }
                             $object->appendAttribute( $dom->createAttributeNodeNS( 'http://ez.no/namespaces/ezpublish3/image/', 'image:ezurl_id', $linkID ) );
@@ -335,7 +337,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 $linkObjectLink =& eZURLObjectLink::fetch( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion );
                                 if ( $linkObjectLink == null )
                                 {
-                                    $linkObjectLink = eZURLObjectLink::create( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion );
+                                    $linkObjectLink =& eZURLObjectLink::create( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion );
                                     $linkObjectLink->store();
                                 }
                             }
@@ -568,7 +570,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     if ( count( $urlArray ) > 0 )
                     {
                         // Fetch the ID's of all existing URL's and register unexisting
-                        $linkIDArray = eZURL::registerURLArray( $urlArray );
+                        $linkIDArray =& eZURL::registerURLArray( $urlArray );
 
                         // Register all unique URL's for this object attribute
                         /* We're not using the persistent object interface here as
@@ -582,7 +584,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                         // replace column names with their short aliases
                         include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-                        $def       = eZURLObjectLink::definition();
+                        $def       =& eZURLObjectLink::definition();
                         $fieldDefs =& $def['fields'];
                         $insertFields = array( 'url_id', 'contentobject_attribute_id', 'contentobject_attribute_version' );
                         eZPersistentObject::replaceFieldsWithShortNames( $db, $fieldDefs, $insertFields );
@@ -641,7 +643,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
 
-                $domString = eZXMLTextType::domString( $dom );
+                $domString =& eZXMLTextType::domString( $dom );
 
                 $domString = str_replace( "<paragraph> </paragraph>", "<paragraph>&nbsp;</paragraph>", $domString );
                 $domString = str_replace ( "<paragraph />" , "", $domString );
@@ -1060,25 +1062,25 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $message = array();
         // fix newlines
         // Convet windows newlines
-        $text = preg_replace( "#\r\n#", "\n", $text );
+        $text =& preg_replace( "#\r\n#", "\n", $text );
         // Convet mac newlines
-        $text = preg_replace( "#\r#", "\n", $text );
+        $text =& preg_replace( "#\r#", "\n", $text );
 
-        $text = preg_replace( "#\n[\n]+#", "\n\n", $text );
+        $text =& preg_replace( "#\n[\n]+#", "\n\n", $text );
 
-        $text = preg_replace( "#\n[\n]+#", "<paragraph>", $text );
-        $text = preg_replace( "#\n#", "</line>", $text );
+        $text =& preg_replace( "#\n[\n]+#", "<paragraph>", $text );
+        $text =& preg_replace( "#\n#", "</line>", $text );
 
         // Convert headers
-        $text = preg_replace( "#<header>#", "<header level='1'>", $text );
+        $text =& preg_replace( "#<header>#", "<header level='1'>", $text );
 
         // This code is currently commented out, it should not be run on the whole
         // text but only on parts of it
 //         // Make sure & is turned into &amp;, this ensures that if you write
 //         // text like & &#200; the text is kept when its output again
-//         $text = preg_replace( "/&/", "&amp;", $text );
+//         $text =& preg_replace( "/&/", "&amp;", $text );
         // Convert the < character followed by anything but a character that tags start with (letter, :, _, /) into &lt;
-//        $text = preg_replace( "#<([^a-zA-Z_:/])#", "&foo;$1", $text );
+//        $text =& preg_replace( "#<([^a-zA-Z_:/])#", "&foo;$1", $text );
 
         $data = $text;
         $domDocument = new eZDOMDocument();
@@ -1351,7 +1353,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                     if ( $tagNameEnd > 0 )
                     {
-                        $attributePart = substr( $tagName, $tagNameEnd, strlen( $tagName ) );
+                        $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
                     }
                     else
                     {
@@ -1366,7 +1368,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                         if ( $tagNameEnd > 0 )
                         {
-                            $attributePart = substr( $tagName, $tagNameEnd, strlen( $tagName ) );
+                            $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
                             // attributes
                             unset( $attr );
                             $attr =& $this->parseAttributes( $attributePart );
@@ -1417,7 +1419,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         if ( in_array( $justName, $lastInsertedChildTag ) )
                         {
                             $headerLevel = 1;
-                            $attributePart = substr( $tagName, $tagNameEnd, strlen( $tagName ) );
+                            $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
                             // attributes
                             $allowedAttr = array();
                             unset( $attr );
@@ -1550,7 +1552,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                     elseif ( $justName == "custom" )
                     {
-                        $attributePart = substr( $tagName, $tagNameEnd, strlen( $tagName ) );
+                        $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
                         // attributes
                         unset( $attr );
                         $attr =& $this->parseAttributes( $attributePart );
@@ -1667,11 +1669,12 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     // convert special chars
                     if ( $justName != 'literal' )
                     {
-                        $tagContent = str_replace("&gt;", ">", $tagContent );
-                        $tagContent = str_replace("&lt;", "<", $tagContent );
-                        $tagContent = str_replace("&apos;", "'", $tagContent );
-                        $tagContent = str_replace("&quot;", '"', $tagContent );
-                        $tagContent = str_replace("&amp;", "&", $tagContent );
+                        $tagContent =& str_replace("&gt;", ">", $tagContent );
+                        $tagContent =& str_replace("&lt;", "<", $tagContent );
+                        $tagContent =& str_replace("&apos;", "'", $tagContent );
+                        $tagContent =& str_replace("&quot;", '"', $tagContent );
+                        $tagContent =& str_replace("&amp;", "&", $tagContent );
+                //        $tagContent =& str_replace("&nbsp;", " ", $tagContent );
                     }
 
                     $subNode->Content = $tagContent;
@@ -1780,10 +1783,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
            return $attrbutes;
         }
         else
-        {
-            $retVal = null;
-            return $retVal;
-        }
+            return null;
     }
 
     /*!
@@ -1955,8 +1955,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 if ( count($linkIDArray) > 0 )
                 {
                     $inIDSQL = implode( ', ', $linkIDArray );
+    
                     $db =& eZDB::instance();
+    
                     $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
+    
                     foreach ( $linkArray as $linkRow )
                     {
                         $this->LinkArray[$linkRow['id']] = $linkRow['url'];
@@ -2134,11 +2137,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             if ( $tagName == 'literal' )
             {
                 $tagContent = $childTag->content();
-                $tagContent = str_replace("&lt;", "<", $tagContent );
-                $tagContent = str_replace("&gt;", ">", $tagContent );
-                $tagContent = str_replace("&apos;", "'", $tagContent );
-                $tagContent = str_replace("&quot;", '"', $tagContent );
-                $tagContent = str_replace("&amp;", "&", $tagContent );
+                $tagContent =& str_replace("&lt;", "<", $tagContent );
+                $tagContent =& str_replace("&gt;", ">", $tagContent );
+                $tagContent =& str_replace("&apos;", "'", $tagContent );
+                $tagContent =& str_replace("&quot;", '"', $tagContent );
+                $tagContent =& str_replace("&amp;", "&", $tagContent );
 
                 $childTagText .= $tagContent;
             }
@@ -2155,14 +2158,14 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 // If there is a character after '&lt;', we should not convert it to '<' to avoid conflicts.
                 // ( if this is not a literal tag )
 
-                $tagContent = preg_replace( "#&lt;(?![a-zA-Z_:/])#", "<", $tagContent );
+                $tagContent =& preg_replace( "#&lt;(?![a-zA-Z_:/])#", "<", $tagContent );
 
-                $tagContent = str_replace("&gt;", ">", $tagContent );
-                $tagContent = str_replace("&apos;", "'", $tagContent );
-                $tagContent = str_replace("&quot;", '"', $tagContent );
+                $tagContent =& str_replace("&gt;", ">", $tagContent );
+                $tagContent =& str_replace("&apos;", "'", $tagContent );
+                $tagContent =& str_replace("&quot;", '"', $tagContent );
 
                 // Sequence like '&amp;amp;' should not be converted to '&amp;' ( if not inside a literal tag )
-                $tagContent = preg_replace("#&amp;(?!lt;|gt;|amp;|&apos;|&quot;)#", "&", $tagContent );
+                $tagContent =& preg_replace("#&amp;(?!lt;|gt;|amp;|&apos;|&quot;)#", "&", $tagContent );
 
                 $output .= $tagContent;
                 // Get rid of linebreak and spaces stored in xml file

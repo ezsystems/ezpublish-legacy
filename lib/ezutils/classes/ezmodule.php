@@ -300,7 +300,7 @@ class eZModule
                                    'eZModule::handleError' );
             $errorType = 'kernel';
         }
-        $errorModule = eZModule::errorModule();
+        $errorModule =& eZModule::errorModule();
         $module =& eZModule::findModule( $errorModule['module'], $this );
 
         if ( $module === null )
@@ -866,7 +866,7 @@ class eZModule
                         if ( $parameters === null or $expandParameters === null )
                             $retVal =& $functionName( $this );
                         else if ( $expandParameters )
-                            $retVal = call_user_func_array( $functionName, array_merge( array( &$this ), $parameters ) );
+                            $retVal =& call_user_func_array( $functionName, array_merge( array( &$this ), $parameters ) );
                         else
                             $retVal =& $functionName( $this, $parameters );
                     }
@@ -1136,7 +1136,7 @@ class eZModule
             $viewStack[] = $currentView;
         $currentView = array( 'view' => $functionName,
                               'module' => $this->Name );
-        $Return = eZProcess::run( $this->Path . "/" . $this->Name . "/" . $function["script"],
+        $Return =& eZProcess::run( $this->Path . "/" . $this->Name . "/" . $function["script"],
                                    $params,
                                    $params_as_var );
 

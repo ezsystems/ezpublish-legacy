@@ -65,7 +65,7 @@ class eZRSSExport extends eZPersistentObject
     /*!
      \reimp
     */
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',

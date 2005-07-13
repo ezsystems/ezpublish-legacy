@@ -477,11 +477,9 @@ class eZImageGDHandler extends eZImageHandler
     {
         $geometry = $this->calculateScaledAspectGeometry( ImageSX( $imageObject ), ImageSY( $imageObject ),
                                                           $filterData['data'][0], $filterData['data'][1], false );
-        $scaleDownOnly =& $this->scaleImageCopy( $imageObject,
-                                                 $geometry,
-                                                 $sourceMimeData, $destinationMimeData );
-
-        return $scaleDownOnly;
+        return $this->scaleImageCopy( $imageObject,
+                                      $geometry,
+                                      $sourceMimeData, $destinationMimeData );
     }
 
     /*!
@@ -674,7 +672,7 @@ class eZImageGDHandler extends eZImageHandler
         $sourceWidth = ImageSX( $imageObject );
         $sourceHeight = ImageSY( $imageObject );
 
-        $temporaryImageObject = $this->imageCreate( $destinationWidth, $destinationHeight, eZImageGDHandler::isImageTrueColor( $imageObject, $sourceMimeData ) );
+        $temporaryImageObject =& $this->imageCreate( $destinationWidth, $destinationHeight, eZImageGDHandler::isImageTrueColor( $imageObject, $sourceMimeData ) );
         ImageCopyResampled( $temporaryImageObject, $imageObject,
                             0, 0, 0, 0,
                             $destinationWidth, $destinationHeight, $sourceWidth, $sourceHeight );
@@ -690,7 +688,7 @@ class eZImageGDHandler extends eZImageHandler
         $destinationWidth = $destinationGeometry['width'];
         $destinationHeight = $destinationGeometry['height'];
 
-        $temporaryImageObject = $this->imageCreate( $destinationWidth, $destinationHeight, eZImageGDHandler::isImageTrueColor( $imageObject, $sourceMimeData ) );
+        $temporaryImageObject =& $this->imageCreate( $destinationWidth, $destinationHeight, eZImageGDHandler::isImageTrueColor( $imageObject, $sourceMimeData ) );
         ImageCopy( $temporaryImageObject, $imageObject,
                    $destinationGeometry['x'], $destinationGeometry['y'],
                    $sourceGeometry['x'], $sourceGeometry['y'], $sourceGeometry['width'], $sourceGeometry['height'] );
@@ -715,7 +713,7 @@ class eZImageGDHandler extends eZImageHandler
      Creates a new GD image and returns it.
      \param $isTrueColor determines if a true color image is created, if false an indexed image is created.
     */
-    function imageCreate( $width, $height, $isTrueColor = true )
+    function &imageCreate( $width, $height, $isTrueColor = true )
     {
         if ( $isTrueColor )
             return ImageCreateTrueColor( $width, $height );

@@ -55,7 +55,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -131,14 +131,13 @@ class eZSubtreeNotificationRule extends eZPersistentObject
 
     function &fetchList( $userID, $asObject = true, $offset = false, $limit = false )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
-                                                            null, array( 'user_id' => $userID ),
-                                                            null, array( 'offset' => $offset,
-                                                                         'length' => $limit ), $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
+                                                    null, array( 'user_id' => $userID ),
+                                                    null, array( 'offset' => $offset,
+                                                                 'length' => $limit ), $asObject );
     }
 
-    function fetchListCount( $userID )
+    function &fetchListCount( $userID )
     {
         $custom = array( array( 'operation' => 'count( id )',
                                 'name' => 'count' ) );
@@ -265,7 +264,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
 
         $nodeIDWhereString = implode( ',', $nodeIDList );
         $userIDWhereString = implode( ',', $acceptedUserArray );
-        $rules = $db->arrayQuery( "SELECT rule.user_id, rule.use_digest, ezuser.email as address
+        $rules =& $db->arrayQuery( "SELECT rule.user_id, rule.use_digest, ezuser.email as address
                                       FROM ezsubtree_notification_rule as rule, ezuser
                                       WHERE rule.user_id=ezuser.contentobject_id AND
                                             rule.node_id IN ( $nodeIDWhereString ) AND

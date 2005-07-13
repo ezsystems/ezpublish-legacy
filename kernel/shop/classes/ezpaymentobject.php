@@ -55,116 +55,115 @@ define( "EZ_REDIRECT_PAYMENT_STATUS_APPROVED"       , 1 );
 class eZPaymentObject extends eZPersistentObject
 {
     /*!
-	Constructor.
+        Constructor.
     */
     function eZPaymentObject( $row )
     {
         $this->eZPersistentObject( $row );
     }
-
+    
     /*!
      \static
-	Creates new object.
+        Creates new object.
     */
     function &createNew( $workflowprocessID, $orderID, $paymentType )
     {
         $paymentObject =& new eZPaymentObject( array( 'workflowprocess_id'  => $workflowprocessID,
                                                       'order_id'            => $orderID,
-                                                      'payment_string'      => $paymentType )
-                                               );
+                                                      'payment_string'      => $paymentType ) 
+                                             );
         return $paymentObject;
     }
-
+    
     /*!
-	Approves payment.
+        Approves payment.
     */
     function approve()
     {
         $this->setAttribute( 'status', EZ_REDIRECT_PAYMENT_STATUS_APPROVED );
         $this->store();
     }
-
+    
     function approved()
     {
         return ( $this->attribute( 'status' ) == EZ_REDIRECT_PAYMENT_STATUS_APPROVED );
     }
-
-    function definition()
+    
+    function &definition()
     {
         return array( 'fields'          => array(   'id'                  => array( 'name'     => 'ID',
-                                                                                    'datatype' => 'integer',
-                                                                                    'default'  => 0,
-                                                                                    'required' => true ),
-
-                                                    'workflowprocess_id'  => array( 'name'    => 'WorkflowProcessID',
-                                                                                    'datatype'=> 'integer',
-                                                                                    'default' => 0,
-                                                                                    'required'=> true ),
-
-                                                    'order_id'            => array( 'name'    => 'OrderID',
-                                                                                    'datatype'=> 'integer',
-                                                                                    'default' => 0,
-                                                                                    'required'=> false ),
-
-                                                    'payment_string'      => array( 'name'    => 'PaymentString',
-                                                                                    'datatype'=> 'string',
-                                                                                    'default' => 'Payment',
-                                                                                    'required'=> false ),
-
-                                                    'status'              => array( 'name'    => 'Status',
-                                                                                    'datatype'=> 'integer',
-                                                                                    'default' => 0,
-                                                                                    'required'=> true )
-                                                    ),
+                                                                                   'datatype' => 'integer',
+                                                                                   'default'  => 0,
+                                                                                   'required' => true ),
+                                
+                                                   'workflowprocess_id'  => array( 'name'    => 'WorkflowProcessID',
+                                                                                   'datatype'=> 'integer',
+                                                                                   'default' => 0,
+                                                                                   'required'=> true ),
+                                                     
+                                                   'order_id'            => array( 'name'    => 'OrderID',
+                                                                                   'datatype'=> 'integer',
+                                                                                   'default' => 0,
+                                                                                   'required'=> false ),
+                                                      
+                                                   'payment_string'      => array( 'name'    => 'PaymentString',
+                                                                                   'datatype'=> 'string',
+                                                                                   'default' => 'Payment',
+                                                                                   'required'=> false ),
+                                
+                                                   'status'              => array( 'name'    => 'Status',
+                                                                                   'datatype'=> 'integer',
+                                                                                   'default' => 0,
+                                                                                   'required'=> true )
+                                                ),
 
                       'keys'            => array( 'id' ),
                       'increment_key'   => 'id',
                       'class_name'      => 'eZPaymentObject',
                       'name'            => 'ezpaymentobject'
-                      );
+                    );
 
     }
 
     /*!
      \static
-	Returns eZPaymentObject by 'id'.
+        Returns eZPaymentObject by 'id'.
     */
     function &fetchByID( $transactionID )
     {
         return eZPersistentObject::fetchObject( eZPaymentObject::definition(),
                                                 null,
                                                 array( 'id' => $transactionID )
-                                                );
+                                              );
     }
 
     /*!
      \static
-	Returns eZPaymentObject by 'id' of eZOrder.
+        Returns eZPaymentObject by 'id' of eZOrder.
     */
     function &fetchByOrderID( $orderID )
     {
-        $object =& eZPersistentObject::fetchObject( eZPaymentObject::definition(),
-                                                    null,
-                                                    array( 'order_id' => $orderID )
-                                                    );
-        return $object;
+        return eZPersistentObject::fetchObject( eZPaymentObject::definition(),
+                                        null,
+                                        array( 'order_id' => $orderID )
+                                      );
     }
-
+    
     /*!
      \static
-	Returns eZPaymentObject by 'id' of eZWorkflowProcess.
+        Returns eZPaymentObject by 'id' of eZWorkflowProcess.
     */
     function &fetchByProcessID( $workflowprocessID )
     {
         return eZPersistentObject::fetchObject( eZPaymentObject::definition(),
-                                                null,
-                                                array( 'workflowprocess_id' => $workflowprocessID )
-                                                );
+                                null,
+                                array( 'workflowprocess_id' => $workflowprocessID )
+                              );
     }
 
     /*!
      \static
-	Continues workflow after approvement.
+        Continues workflow after approvement.
     */
     function continueWorkflow( $workflowProcessID )
     {

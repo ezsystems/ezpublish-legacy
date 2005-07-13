@@ -55,7 +55,7 @@ class eZNotificationCollection extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -192,7 +192,7 @@ class eZNotificationCollection extends eZPersistentObject
                       LEFT JOIN eznotificationcollection_item ON eznotificationcollection.id=eznotificationcollection_item.collection_id
                       WHERE eznotificationcollection_item.collection_id IS NULL';
 
-        $idArray = $db->arrayQuery( $query );
+        $idArray =& $db->arrayQuery( $query );
 
         $db->begin();
         foreach ( $idArray as $id )

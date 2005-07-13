@@ -53,7 +53,7 @@ class eZVatType extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -73,7 +73,7 @@ class eZVatType extends eZPersistentObject
                       "name" => "ezvattype" );
     }
 
-    function fetch( $id, $asObject = true )
+    function &fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZVatType::definition(),
                                                 null,
@@ -82,14 +82,14 @@ class eZVatType extends eZPersistentObject
                                                 $asObject );
     }
 
-    function fetchList( $asObject = true )
+    function &fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZVatType::definition(),
                                                     null, null, array( 'id' => false ), null,
                                                     $asObject );
     }
 
-    function create()
+    function &create()
     {
         $row = array(
             "id" => null,
@@ -102,7 +102,7 @@ class eZVatType extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove ( $id )
+    function &remove ( $id )
     {
         eZPersistentObject::removeObject( eZVatType::definition(),
                                           array( "id" => $id ) );

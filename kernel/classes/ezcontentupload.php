@@ -121,8 +121,7 @@ class eZContentUpload
     {
         if ( isset( $this->Parameters[$attributeName] ) )
             return $this->Parameters[$attributeName];
-        $attribute = null;
-        return $attribute;
+        return null;
     }
 
     /*!
@@ -513,7 +512,7 @@ class eZContentUpload
         }
 
         if ( !is_object( $class ) )
-            $class = eZContentClass::fetchByIdentifier( $classIdentifier );
+            $class =& eZContentClass::fetchByIdentifier( $classIdentifier );
 
         if ( !$class )
         {

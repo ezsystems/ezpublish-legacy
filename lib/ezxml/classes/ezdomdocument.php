@@ -227,7 +227,7 @@ class eZDOMDocument
       Edge
       \endcode
     */
-    function createTextNode( $text )
+    function &createTextNode( $text )
     {
         /* We remove all control chars from the text, although they
          * should have not be there in the first place. This is
@@ -262,7 +262,7 @@ class eZDOMDocument
       <![CDATA[http://ez.no]]>
       \endcode
     */
-    function createCDATANode( $text )
+    function &createCDATANode( $text )
     {
         $node = new eZDOMNode();
         $node->setName( "#cdata-section" );
@@ -369,7 +369,7 @@ class eZDOMDocument
       <song name='Shine On You Crazy Diamond' track='1' />
       \endcode
     */
-    function createElementNode( $name, $attributes = array() )
+    function &createElementNode( $name, $attributes = array() )
     {
         $node = new eZDOMNode();
         $node->setName( $name );
@@ -385,7 +385,7 @@ class eZDOMDocument
     /*!
      Alias for libXML compatibility
     */
-    function create_element( $name, $attributes = array() )
+    function &create_element( $name, $attributes = array() )
     {
         return $this->createElementNode( $name, $attributes );
     }
@@ -413,10 +413,10 @@ class eZDOMDocument
 
       \sa createTextNode, createElementNode
     */
-    function createElementTextNode( $name, $text, $attributes = array() )
+    function &createElementTextNode( $name, $text, $attributes = array() )
     {
-        $node = eZDOMDocument::createElementNode( $name, $attributes );
-        $textNode = eZDOMDocument::createTextNode( $text );
+        $node =& eZDOMDocument::createElementNode( $name, $attributes );
+        $textNode =& eZDOMDocument::createTextNode( $text );
         $node->appendChild( $textNode );
 
         return $node;
@@ -445,10 +445,10 @@ class eZDOMDocument
 
       \sa createCDATANode, createElementNode
     */
-    function createElementCDATANode( $name, $text, $attributes = array() )
+    function &createElementCDATANode( $name, $text, $attributes = array() )
     {
-        $node = eZDOMDocument::createElementNode( $name, $attributes );
-        $cdataNode = eZDOMDocument::createCDATANode( $text );
+        $node =& eZDOMDocument::createElementNode( $name, $attributes );
+        $cdataNode =& eZDOMDocument::createCDATANode( $text );
         $node->appendChild( $cdataNode );
 
         return $node;
@@ -472,7 +472,7 @@ class eZDOMDocument
 
       \sa createElementNode
     */
-    function createElementNodeNS( $uri, $name )
+    function &createElementNodeNS( $uri, $name )
     {
         $node = new eZDOMNode();
         $node->setNamespaceURI( $uri );
@@ -500,7 +500,7 @@ class eZDOMDocument
       music-group:name="Pink Floyd"
       \endcode
     */
-    function createAttributeNode( $name, $content, $prefix = false )
+    function &createAttributeNode( $name, $content, $prefix = false )
     {
         $node = new eZDOMNode();
         $node->setName( $name );
@@ -528,7 +528,7 @@ class eZDOMDocument
       xmlns:music-group="http://music.org/groups"
       \endcode
     */
-    function createAttributeNamespaceDefNode( $prefix, $uri )
+    function &createAttributeNamespaceDefNode( $prefix, $uri )
     {
         $node = new eZDOMNode();
         $node->setName( $prefix );
@@ -557,7 +557,7 @@ class eZDOMDocument
       name="Pink Floyd"
       \endcode
     */
-    function createAttributeNodeNS( $uri, $name, $content )
+    function &createAttributeNodeNS( $uri, $name, $content )
     {
         $node = new eZDOMNode();
         $node->setName( $name );
@@ -602,7 +602,7 @@ class eZDOMDocument
         if ( $charsetConversion )
         {
             include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-            $codec = eZTextCodec::instance( false, $charset, false );
+            $codec =& eZTextCodec::instance( false, $charset, false );
             if ( $codec )
             {
                 $text =& $codec->convertString( $text );
@@ -617,8 +617,7 @@ class eZDOMDocument
     */
     function &dump_mem( $charset = true, $conversion = true )
     {
-        $toString =& $this->toString( $charset, $conversion );
-        return $toString;
+        return $this->toString( $charset, $conversion );
     }
 
     /*!

@@ -96,6 +96,7 @@ class eZNotificationEventFilter
         $baseDirectory = eZExtension::baseDirectory();
         $notificationINI =& eZINI::instance( 'notification.ini' );
         $availableHandlers = $notificationINI->variable( 'NotificationEventHandlerSettings', 'AvailableNotificationEventTypes' );
+//        $repositoryDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'RepositoryDirectories' );
         $repositoryDirectories = array();
         $extensionDirectories = $notificationINI->variable( 'NotificationEventHandlerSettings', 'ExtensionDirectories' );
         foreach ( $extensionDirectories as $extensionDirectory )
@@ -107,9 +108,9 @@ class eZNotificationEventFilter
         $handlers = array();
         foreach( $availableHandlers as $handlerString )
         {
-            $eventHandler = eZNotificationEventFilter::loadHandler( $repositoryDirectories, $handlerString );
+            $eventHandler =& eZNotificationEventFilter::loadHandler( $repositoryDirectories, $handlerString );
             if ( is_object( $eventHandler ) )
-                $handlers[$handlerString] = $eventHandler;
+                $handlers[$handlerString] =& $eventHandler;
         }
         return $handlers;
     }

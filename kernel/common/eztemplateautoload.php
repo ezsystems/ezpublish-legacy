@@ -124,8 +124,7 @@ if ( !function_exists( 'eZPHPOperatorInit' ) )
             include_once( 'lib/eztemplate/classes/eztemplatephpoperator.php' );
             $ini =& eZINI::instance( 'template.ini' );
             $operatorList = $ini->variable( 'PHP', 'PHPOperatorList' );
-            $templatePHPOperator = new eZTemplatePHPOperator( $operatorList );
-            return $templatePHPOperator;
+            return new eZTemplatePHPOperator( $operatorList );
         }
 }
 
@@ -141,7 +140,7 @@ if ( !function_exists( 'eZPHPOperatorNameInit' ) )
 
 if ( !function_exists( 'eZObjectForwardInit' ) )
 {
-    function eZObjectForwardInit()
+    function &eZObjectForwardInit()
         {
             include_once( 'kernel/common/ezobjectforwarder.php' );
             $forward_rules = array(

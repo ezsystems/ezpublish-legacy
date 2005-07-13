@@ -255,7 +255,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) )
     }
     else
     {
-        $discountRule = eZDiscountSubRule::create( $discountGroupID );
+        $discountRule =& eZDiscountSubRule::create( $discountGroupID );
         $discountRule->store();
         $discountRuleID = $discountRule->attribute( 'id' );
     }
@@ -268,7 +268,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) )
     {
         foreach( $productList as $product )
         {
-            $ruleValue = eZDiscountSubRuleValue::create( $discountRuleID, $product->attribute( 'id' ), 2 );
+            $ruleValue =& eZDiscountSubRuleValue::create( $discountRuleID, $product->attribute( 'id' ), 2 );
             $ruleValue->store();
         }
         $discountRule->setAttribute( 'limitation', false );
@@ -326,7 +326,7 @@ foreach ( $classList as $class )
     }
 }
 
-$sectionList = eZSection::fetchList();
+$sectionList =& eZSection::fetchList();
 
 $tpl =& templateInit();
 

@@ -53,8 +53,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     */
     function &outputText()
     {
-        $retVal =& $this->xhtml();
-        return $retVal;
+        return $this->xhtml();
     }
 
     /*!
@@ -475,8 +474,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             {
                 $text = htmlspecialchars( $tag->content() );
                 // Get rid of linebreak and spaces stored in xml file
-                $text = preg_replace( "#[\n]+#", "", $text );
-                $text = preg_replace( "#    #", "", $text );
+                $text =& preg_replace( "#[\n]+#", "", $text );
+                $text =& preg_replace( "#    #", "", $text );
 
                 if ( $isChildOfLinkTag )
                 {

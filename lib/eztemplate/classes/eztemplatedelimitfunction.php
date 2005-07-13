@@ -75,7 +75,7 @@ class eZTemplateDelimitFunction
     /*!
      Returns an array of the function names, required for eZTemplate::registerFunctions.
     */
-    function functionList()
+    function &functionList()
     {
         return array( $this->LName, $this->RName );
     }

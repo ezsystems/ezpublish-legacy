@@ -551,7 +551,7 @@ class eZINI
       Parses either the override ini file or the standard file and then the append
       override file if it exists.
      */
-    function parse( $inputFiles = false, $iniFile = false, $reset = true )
+    function &parse( $inputFiles = false, $iniFile = false, $reset = true )
     {
         if ( $reset )
             $this->reset();
@@ -612,7 +612,7 @@ class eZINI
         if ( $this->UseTextCodec )
         {
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
-            $codec = eZTextCodec::instance( $this->Charset, false, false );
+            $codec =& eZTextCodec::instance( $this->Charset, false, false );
         }
         foreach ( $lines as $line )
         {
@@ -1036,7 +1036,7 @@ class eZINI
       Reads a variable from the ini file and puts it in the parameter \a $variable.
       \note \a $variable is not modified if the variable does not exist
     */
-    function assign( $blockName, $varName, &$variable )
+    function &assign( $blockName, $varName, &$variable )
     {
         if ( $this->hasVariable( $blockName, $varName ) )
             $variable = $this->variable( $blockName, $varName );

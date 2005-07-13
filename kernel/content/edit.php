@@ -119,7 +119,7 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
     $versionCount = $obj->getVersionCount();
     if ( $versionCount < $versionlimit )
     {
-        $version = $obj->createNewVersion();
+        $version =& $obj->createNewVersion();
 
         if ( !$http->hasPostVariable( 'DoNotEditAfterNewDraft' ) )
         {
@@ -316,7 +316,7 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
             $versionCount = $object->getVersionCount();
             if ( $versionCount < $versionlimit )
             {
-                $version = $object->createNewVersion();
+                $version =& $object->createNewVersion();
                 $module->redirectToView( "edit", array( $objectID, $version->attribute( "version" ), $editLanguage ) );
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }

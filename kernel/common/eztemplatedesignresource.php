@@ -70,7 +70,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         $file = $resourceData['template-name'];
         $overrideKeys =& eZTemplateDesignResource::overrideKeys();
-        $matchFileArray =& $this->overrideArray( $this->OverrideSiteAccess );
+        $matchFileArray =& eZTemplateDesignResource::overrideArray( $this->OverrideSiteAccess );
         $matchList = array();
         foreach ( $matchFileArray as $matchFile )
         {
@@ -378,7 +378,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             $matchFileArray =& $GLOBALS['eZTemplateOverrideArray_' . $this->OverrideSiteAccess];
             if ( !is_array( $matchFileArray ) )
             {
-                $matchFileArray =& $this->overrideArray( $this->OverrideSiteAccess );
+                $matchFileArray =& eZTemplateDesignResource::overrideArray( $this->OverrideSiteAccess );
             }
 
             $matchFile = $matchFileArray[$template];
@@ -499,7 +499,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( !$this->OnlyStandard )
             $siteBase =& eZTemplateDesignResource::designSetting( 'site' );
 
-        $overrideKeys =& $this->overrideKeys();
+        $overrideKeys =& eZTemplateDesignResource::overrideKeys();
 
         $overrideKey = sprintf( "%u", crc32( implode( ',', $overrideKeys ) . $siteBase . $standardBase ) );
         $cacheDir = eZSys::cacheDirectory();
@@ -511,7 +511,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( !$useOverrideCache or
              !file_exists( $overrideCacheFile ) )
         {
-            $matchFileArray =& $this->overrideArray( $this->OverrideSiteAccess );
+            $matchFileArray =& eZTemplateDesignResource::overrideArray( $this->OverrideSiteAccess );
 
             // Generate PHP compiled cache file.
             include_once( 'lib/ezutils/classes/ezphpcreator.php' );

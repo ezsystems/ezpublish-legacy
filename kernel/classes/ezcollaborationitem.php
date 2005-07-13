@@ -61,7 +61,7 @@ class eZCollaborationItem extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    function &definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -362,7 +362,7 @@ class eZCollaborationItem extends eZPersistentObject
 //                        ezcollab_item_group_link.user_id=$userID";
 
 //         $db =& eZDB::instance();
-//         $itemCount = $db->arrayQuery( $sql );
+//         $itemCount =& $db->arrayQuery( $sql );
 //         return $itemCount[0]['count'];
     }
 
@@ -514,7 +514,7 @@ class eZCollaborationItem extends eZPersistentObject
                 $sqlParameters['offset'] = $offset;
                 $sqlParameters['limit'] = $limit;
             }
-            $itemListArray = $db->arrayQuery( $sql, $sqlParameters );
+            $itemListArray =& $db->arrayQuery( $sql, $sqlParameters );
 
             foreach( $itemListArray as $key => $value )
             {
@@ -531,7 +531,7 @@ class eZCollaborationItem extends eZPersistentObject
         }
         else
         {
-            $itemCount = $db->arrayQuery( $sql );
+            $itemCount =& $db->arrayQuery( $sql );
             return $itemCount[0]['count'];
         }
     }

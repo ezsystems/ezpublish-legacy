@@ -115,7 +115,7 @@ class eZCollaborationFunctionCollection
         return array( 'result' => &$children );
     }
 
-    function fetchItemList( $sortBy, $offset, $limit, $status, $isRead, $isActive, $parentGroupID )
+    function &fetchItemList( $sortBy, $offset, $limit, $status, $isRead, $isActive, $parentGroupID )
     {
         include_once( 'kernel/classes/ezcollaborationitem.php' );
         $itemParameters = array( 'offset' => $offset,
@@ -126,14 +126,14 @@ class eZCollaborationFunctionCollection
                                  'parent_group_id' => $parentGroupID );
         if ( $status !== false )
             $itemParameters['status'] = $status;
-        $children = eZCollaborationItem::fetchList( $itemParameters );
+        $children =& eZCollaborationItem::fetchList( $itemParameters );
         if ( $children === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         return array( 'result' => &$children );
     }
 
-    function fetchItemCount( $isRead, $isActive, $parentGroupID )
+    function &fetchItemCount( $isRead, $isActive, $parentGroupID )
     {
         include_once( 'kernel/classes/ezcollaborationitem.php' );
 
@@ -142,11 +142,11 @@ class eZCollaborationFunctionCollection
                                  'parent_group_id' => $parentGroupID
                                  );
 
-        $count = eZCollaborationItem::fetchListCount( $itemParameters );
+        $count =& eZCollaborationItem::fetchListCount( $itemParameters );
         return array( 'result' => $count );
     }
 
-    function fetchGroupTree( $parentGroupID, $sortBy, $offset, $limit, $depth )
+    function &fetchGroupTree( $parentGroupID, $sortBy, $offset, $limit, $depth )
     {
         include_once( 'kernel/classes/ezcollaborationgroup.php' );
         $treeParameters = array( 'parent_group_id' => $parentGroupID,

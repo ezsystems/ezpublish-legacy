@@ -104,7 +104,7 @@ class eZLDAPUser extends eZUser
                             ezcontentobject.id=contentobject_id";
         }
 
-        $users = $db->arrayQuery( $query );
+        $users =& $db->arrayQuery( $query );
         $exists = false;
         if ( count( $users ) >= 1 )
         {
@@ -125,7 +125,7 @@ class eZLDAPUser extends eZUser
                               FROM ezuser, ezcontentobject
                               WHERE ezcontentobject.status='$contentObjectStatus' AND
                                     password_hash_type=4 AND ( $loginText ) AND password_hash=PASSWORD('$password') ";
-                    $mysqlUsers = $db->arrayQuery( $queryMysqlUser );
+                    $mysqlUsers =& $db->arrayQuery( $queryMysqlUser );
                     if ( count( $mysqlUsers ) >= 1 )
                         $exists = true;
                 }
@@ -292,7 +292,7 @@ class eZLDAPUser extends eZUser
                                                 WHERE ezcontentobject.name like '$groupName'
                                                   AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
                                                   AND ezcontentobject.contentclass_id=3";
-                                $groupObject = $db->arrayQuery( $groupQuery );
+                                $groupObject =& $db->arrayQuery( $groupQuery );
                                 if ( count( $groupObject ) > 0 and $key == 0 )
                                 {
                                     $defaultUserPlacement = $groupObject[0]['node_id'];
@@ -311,7 +311,7 @@ class eZLDAPUser extends eZUser
                                             WHERE ezcontentobject.name like '$groupName'
                                               AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
                                               AND ezcontentobject.contentclass_id=3";
-                            $groupObject = $db->arrayQuery( $groupQuery );
+                            $groupObject =& $db->arrayQuery( $groupQuery );
 
                             if ( count( $groupObject ) > 0  )
                             {
@@ -331,7 +331,7 @@ class eZLDAPUser extends eZUser
                                                 WHERE ezcontentobject.id='$groupID'
                                                   AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
                                                   AND ezcontentobject.contentclass_id=3";
-                                $groupObject = $db->arrayQuery( $groupQuery );
+                                $groupObject =& $db->arrayQuery( $groupQuery );
                                 if ( count( $groupObject ) > 0 and $key == 0 )
                                 {
                                     $defaultUserPlacement = $groupObject[0]['node_id'];
@@ -350,7 +350,7 @@ class eZLDAPUser extends eZUser
                                             WHERE ezcontentobject.id='$groupID'
                                               AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
                                               AND ezcontentobject.contentclass_id=3";
-                            $groupObject = $db->arrayQuery( $groupQuery );
+                            $groupObject =& $db->arrayQuery( $groupQuery );
 
                             if ( count( $groupObject ) > 0  )
                             {
@@ -382,7 +382,7 @@ class eZLDAPUser extends eZUser
                                                 WHERE ezcontentobject.name like '$groupName'
                                                   AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
                                                   AND ezcontentobject.contentclass_id=3";
-                                $groupObject = $db->arrayQuery( $groupQuery );
+                                $groupObject =& $db->arrayQuery( $groupQuery );
 
                                 if ( count( $groupObject ) > 0 and $i == 0 )
                                 {
@@ -416,7 +416,7 @@ class eZLDAPUser extends eZUser
                                                 WHERE ezcontentobject.name like '$groupName'
                                                   AND ezcontentobject.id=ezcontentobject_tree.contentobject_id
                                                   AND ezcontentobject.contentclass_id=3";
-                                $groupObject = $db->arrayQuery( $groupQuery );
+                                $groupObject =& $db->arrayQuery( $groupQuery );
 
                                 if ( count( $groupObject ) > 0 and $i == 0 )
                                 {

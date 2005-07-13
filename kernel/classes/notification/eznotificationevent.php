@@ -60,7 +60,7 @@ class eZNotificationEvent extends eZPersistentObject
         $this->TypeString = $this->attribute( 'event_type_string' );
     }
 
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',

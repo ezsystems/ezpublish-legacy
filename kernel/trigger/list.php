@@ -68,19 +68,19 @@ foreach ( $operations as $operation )
 {
     $trigger = array();
 
-    // the operation string has either two or three underscore characters.
+    // the operation string has either two or three underscore characters. 
     // Eg: shop_checkout, before_shop_checkout, after_shop_checkout.
     // Only the strings before and after are allowed in front of the module.
     $explodedOperation = explode ('_', $operation);
     $i = 0;
 
-    if (sizeof ($explodedOperation) >= 3)
+    if (sizeof ($explodedOperation) >= 3) 
     {
         if (strcmp($explodedOperation[$i], "before") == 0 || strcmp($explodedOperation[$i], "after") == 0)
             $moduleParts = array ($explodedOperation[$i++]);
     }
     else
-    {
+    {    
         $moduleParts = array ("before", "after");
     }
 
@@ -89,7 +89,7 @@ foreach ( $operations as $operation )
         $trigger['module'] = $explodedOperation[$i]; // $i is either 0 or 1
         $trigger['operation'] = $explodedOperation[$i + 1];
         $trigger['workflow_id'] = 0;
-        $trigger['key'] = $trigger['module'] . '_' . $trigger['operation'] . '_' . $trigger['connect_type'][0];
+        $trigger['key'] = $trigger['module'] . '_' . $trigger['operation'] . '_' . $trigger['connect_type'][0]; 
         $trigger['allowed_workflows'] = eZWorkflow::fetchLimited( $trigger['module'], $trigger['operation'], $trigger['connect_type'] );
 
         foreach ( array_keys ( $triggers ) as $key )
@@ -206,7 +206,7 @@ $moduleList = array();
 if ( $moduleName == '*' )
 {
     $showModuleList = true;
-    $moduleList = eZModuleManager::availableModules();
+    $moduleList =& eZModuleManager::availableModules();
 }
 elseif( $functionName == '*' )
 {

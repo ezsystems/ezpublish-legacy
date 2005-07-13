@@ -77,8 +77,7 @@ class eZKeyword
 
             case 'keyword_string' :
             {
-                $keyWordString = $this->keywordString();
-                return $keywordString;
+                return $this->keywordString();
             }break;
 
             case 'related_objects' :
@@ -122,7 +121,7 @@ class eZKeyword
             $escapedKeywordArray[] = $keyword;
         }
         $wordsString = implode( '\',\'', $escapedKeywordArray );
-        $existingWords = $db->arrayQuery( "SELECT * FROM ezkeyword WHERE keyword IN ( '$wordsString' ) AND class_id='$classID' " );
+        $existingWords =& $db->arrayQuery( "SELECT * FROM ezkeyword WHERE keyword IN ( '$wordsString' ) AND class_id='$classID' " );
 
         $newWordArray = array();
         $existingWordArray = array();
@@ -167,7 +166,7 @@ class eZKeyword
         // Find the words which is new for this attribute
         if ( $attributeID !== null )
         {
-            $currentWordArray = $db->arrayQuery( "SELECT ezkeyword.id, ezkeyword.keyword FROM ezkeyword, ezkeyword_attribute_link
+            $currentWordArray =& $db->arrayQuery( "SELECT ezkeyword.id, ezkeyword.keyword FROM ezkeyword, ezkeyword_attribute_link
                                                    WHERE ezkeyword.id=ezkeyword_attribute_link.keyword_id
                                                    AND ezkeyword_attribute_link.objectattribute_id='$attributeID'" );
         }
@@ -239,7 +238,7 @@ class eZKeyword
                 ' ON ezkeyword.id=ezkeyword_attribute_link.keyword_id' .
                 ' WHERE ezkeyword_attribute_link.keyword_id IS NULL';
         }
-        $unusedWordsIDs = $db->arrayQuery( $query );
+        $unusedWordsIDs =& $db->arrayQuery( $query );
         foreach ( $unusedWordsIDs as $wordID )
             $db->query( 'DELETE FROM ezkeyword WHERE id=' . $wordID['id'] );
     }
@@ -253,7 +252,7 @@ class eZKeyword
             return;
 
         $db =& eZDB::instance();
-        $wordArray = $db->arrayQuery( "SELECT ezkeyword.keyword FROM ezkeyword_attribute_link, ezkeyword
+        $wordArray =& $db->arrayQuery( "SELECT ezkeyword.keyword FROM ezkeyword_attribute_link, ezkeyword
                                     WHERE ezkeyword_attribute_link.keyword_id=ezkeyword.id AND
                                     ezkeyword_attribute_link.objectattribute_id='" . $attribute->attribute( 'id' ) ."' " );
 
@@ -283,7 +282,7 @@ class eZKeyword
     /*!
      Returns the keywords as a string
     */
-    function keywordString()
+    function &keywordString()
     {
         return implode( ', ', $this->KeywordArray );
     }
@@ -299,7 +298,7 @@ class eZKeyword
             // Fetch words
             $db =& eZDB::instance();
 
-            $wordArray = $db->arrayQuery( "SELECT * FROM ezkeyword_attribute_link
+            $wordArray =& $db->arrayQuery( "SELECT * FROM ezkeyword_attribute_link
                                     WHERE objectattribute_id='" . $this->ObjectAttributeID ."' " );
 
             $keywordIDArray = array();
@@ -313,7 +312,7 @@ class eZKeyword
 
             if ( count( $keywordIDArray ) > 0 )
             {
-                $objectArray = $db->arrayQuery( "SELECT DISTINCT ezcontentobject_attribute.contentobject_id FROM ezkeyword_attribute_link, ezcontentobject_attribute
+                $objectArray =& $db->arrayQuery( "SELECT DISTINCT ezcontentobject_attribute.contentobject_id FROM ezkeyword_attribute_link, ezcontentobject_attribute
                                                   WHERE keyword_id IN ( $keywordString ) AND
                                                         ezcontentobject_attribute.id = ezkeyword_attribute_link.objectattribute_id
                                                         AND  objectattribute_id <> '" . $this->ObjectAttributeID ."' " );

@@ -85,19 +85,16 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         if ( $attr == 'settings' )
         {
             $user =& eZUser::currentUser();
-            $settings =& $this->settings( $user );
-            return $settings;
+            return $this->settings( $user );
         }
         else if ( $attr == 'all_week_days' )
         {
             $locale =& eZLocale::instance();
-            $nameList =& $locale->attribute( 'weekday_name_list' );
-            return $nameList;
+            return $locale->attribute( 'weekday_name_list' );
         }
         else if ( $attr == 'all_month_days' )
         {
-            $range = range( 1, 31 );
-            return $range;
+            return range( 1, 31 );
         }
         else if ( $attr == 'available_hours' )
         {
@@ -202,7 +199,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
                         send_date != 0 and
                         send_date < $time";
         $db =& eZDB::instance();
-        $handlerResult = $db->arrayQuery( $query );
+        $handlerResult =& $db->arrayQuery( $query );
         $handlers = array();
         $availableHandlers =& eZNotificationEventFilter::availableHandlers();
         foreach ( $handlerResult as $handlerName )
@@ -224,7 +221,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
                         handler = '$handler'
                         order by eznotificationcollection_item.event_id";
         $db =& eZDB::instance();
-        $itemResult = $db->arrayQuery( $query );
+        $itemResult =& $db->arrayQuery( $query );
         $items = array();
         foreach ( $itemResult as $itemRow )
         {

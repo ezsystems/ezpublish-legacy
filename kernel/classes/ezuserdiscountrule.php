@@ -57,7 +57,7 @@ class eZUserDiscountRule extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -139,7 +139,7 @@ class eZUserDiscountRule extends eZPersistentObject
                        ezuser_discountrule
                   WHERE ezuser_discountrule.contentobject_id = '$userID' AND
                         ezuser_discountrule.discountrule_id = ezdiscountrule.id";
-            $ruleArray = $db->arrayQuery( $query );
+            $ruleArray =& $db->arrayQuery( $query );
             $http->setSessionVariable( 'eZUserDiscountRules' . $userID, $ruleArray );
             $http->setSessionVariable( 'eZUserDiscountRulesTimestamp', mktime() );
         }
@@ -162,7 +162,7 @@ class eZUserDiscountRule extends eZPersistentObject
                        ezuser_discountrule
                   WHERE ezuser_discountrule.contentobject_id IN ( $groupString ) AND
                         ezuser_discountrule.discountrule_id = ezdiscountrule.id";
-        $ruleArray = $db->arrayQuery( $query );
+        $ruleArray =& $db->arrayQuery( $query );
 
         $rules = array();
         foreach ( $ruleArray as $ruleRow )
@@ -191,13 +191,12 @@ class eZUserDiscountRule extends eZPersistentObject
 
     function &fetchByRuleID( $discountRuleID, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZUserDiscountRule::definition(),
-                                                            null,
-                                                            array( "discountrule_id" => $discountRuleID ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZUserDiscountRule::definition(),
+                                                    null,
+                                                    array( "discountrule_id" => $discountRuleID ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
     function &create( $discountRuleID, $contentobjectID )

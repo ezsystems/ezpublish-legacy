@@ -54,7 +54,7 @@ class eZDiscountSubRuleValue extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "discountsubrule_id" => array( 'name' => "DiscountSubRuleID",
                                                                         'datatype' => 'integer',
@@ -76,15 +76,13 @@ class eZDiscountSubRuleValue extends eZPersistentObject
 
     function &fetchBySubRuleID( $discountSubRuleID, $isSection = 0, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZDiscountSubRuleValue::definition(),
-                                                            null,
-                                                            array( "discountsubrule_id" => $discountSubRuleID,
-                                                                   "issection" => $isSection ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZDiscountSubRuleValue::definition(),
+                                                    null,
+                                                    array( "discountsubrule_id" => $discountSubRuleID,
+                                                           "issection" => $isSection ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
     /*!
@@ -106,7 +104,7 @@ class eZDiscountSubRuleValue extends eZPersistentObject
                                                     $asObject );
     }
 
-    function create( $discountSubRuleID, $value, $isSection = false )
+    function &create( $discountSubRuleID, $value, $isSection = false )
     {
         $row = array(
             "discountsubrule_id" => $discountSubRuleID,

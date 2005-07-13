@@ -108,12 +108,12 @@ if ( $useTextTranslation )
 }
 else
 {
-    function ezi18n( $context, $source, $comment = null, $arguments = null )
+    function &ezi18n( $context, $source, $comment = null, $arguments = null )
     {
         return ezinsertarguments( $source, $arguments );
     }
 
-    function ezx18n( $extension, $context, $source, $comment = null, $arguments = null )
+    function &ezx18n( $extension, $context, $source, $comment = null, $arguments = null )
     {
         return ezinsertarguments( $source, $arguments );
     }
