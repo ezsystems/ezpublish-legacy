@@ -68,16 +68,22 @@ class eZDefaultShopAccountHandler
     */
     function email( $order = false )
     {
-        $user =& eZUser::currentUser();
+        if ( $order === false )
+            $user =& eZUser::currentUser();
+        else
+            $user =& $order->attribute( 'user' );
         return $user->attribute( 'email' );
     }
 
     /*!
      \return the custom name for the given order
     */
-    function accountName( $order )
+    function accountName( $order = false )
     {
-        $user =& eZUser::currentUser();
+        if ( $order === false )
+            $user =& eZUser::currentUser();
+        else
+            $user =& $order->attribute( 'user' );
         $userObject = $user->attribute( 'contentobject' );
         $accountName = $userObject->attribute( 'name' );
         return $accountName;
