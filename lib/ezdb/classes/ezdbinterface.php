@@ -129,8 +129,8 @@ class eZDBInterface
 */
         {
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
-            $this->OutputTextCodec = eZTextCodec::instance( $charset, false, false );
-            $this->InputTextCodec = eZTextCodec::instance( false, $charset, false );
+            $this->OutputTextCodec =& eZTextCodec::instance( $charset, false, false );
+            $this->InputTextCodec =& eZTextCodec::instance( false, $charset, false );
 
             if ( $this->OutputTextCodec && $this->InputTextCodec )
             {
@@ -538,7 +538,7 @@ class eZDBInterface
       /param Offset, limit or column limit.
              Ex: ->arrayQuery( 'SELECT * FROM eztable', array( 'limit' => 10, 'offset' => 5 ) )
     */
-    function arrayQuery( $sql, $params = array() )
+    function &arrayQuery( $sql, $params = array() )
     {
     }
 

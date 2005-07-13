@@ -57,7 +57,7 @@ class eZURL extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    function &definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -129,7 +129,7 @@ class eZURL extends eZPersistentObject
 
         // check if URL already exists
         $checkURLQuery = "SELECT id FROM ezurl WHERE url='$url'";
-        $urlArray = $db->arrayQuery( $checkURLQuery );
+        $urlArray =& $db->arrayQuery( $checkURLQuery );
 
         if ( count( $urlArray ) == 0 )
         {
@@ -157,7 +157,7 @@ class eZURL extends eZPersistentObject
         // Fetch the already existing URL's
         $inURLSQL = implode( '\', \'', $urlArray );
         $checkURLQuery = "SELECT id, url FROM ezurl WHERE url IN ( '$inURLSQL' )";
-        $urlRowArray = $db->arrayQuery( $checkURLQuery );
+        $urlRowArray =& $db->arrayQuery( $checkURLQuery );
 
         $registeredURLArray = array();
         foreach ( $urlRowArray as $urlRow )
@@ -239,8 +239,7 @@ class eZURL extends eZPersistentObject
     */
     function &fetchListCount( $parameters = array() )
     {
-        $handleList =& eZURL::handleList( $parameters, true );
-        return $handleList;
+        return eZURL::handleList( $parameters, true );
     }
 
     /*!
@@ -248,8 +247,7 @@ class eZURL extends eZPersistentObject
     */
     function &fetchList( $parameters = array() )
     {
-        $handleList =& eZURL::handleList( $parameters, false );
-        return $handleList;
+        return eZURL::handleList( $parameters, false );
     }
 
     /*!
@@ -330,11 +328,11 @@ class eZURL extends eZPersistentObject
 
                 if ( !$offset && !$limit )
                 {
-                    $urlArray = $db->arrayQuery( $query );
+                    $urlArray =& $db->arrayQuery( $query );
                 }
                 else
                 {
-                    $urlArray = $db->arrayQuery( $query, array( 'offset' => $offset,
+                    $urlArray =& $db->arrayQuery( $query, array( 'offset' => $offset,
                                                                  'limit'  => $limit ) );
                 }
                 if ( $asObject )
@@ -382,7 +380,7 @@ class eZURL extends eZPersistentObject
 
         $url = false;
         $checkURLQuery = "SELECT url, is_valid FROM ezurl WHERE id='$id'";
-        $urlArray = $db->arrayQuery( $checkURLQuery );
+        $urlArray =& $db->arrayQuery( $checkURLQuery );
 
         if ( count( $urlArray ) == 1 )
         {
@@ -408,7 +406,7 @@ class eZURL extends eZPersistentObject
 
         $url = false;
         $checkURLQuery = "SELECT url FROM ezurl WHERE original_url_md5='$urlMD5'";
-        $urlArray = $db->arrayQuery( $checkURLQuery );
+        $urlArray =& $db->arrayQuery( $checkURLQuery );
 
         if ( count( $urlArray ) == 1 )
         {
@@ -427,7 +425,7 @@ class eZURL extends eZPersistentObject
 
         $url = false;
         $checkURLQuery = "SELECT * FROM ezurl WHERE url='$urlText'";
-        $urlArray = $db->arrayQuery( $checkURLQuery );
+        $urlArray =& $db->arrayQuery( $checkURLQuery );
 
         if ( count( $urlArray ) == 1 )
         {

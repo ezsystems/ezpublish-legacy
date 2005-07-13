@@ -564,9 +564,7 @@ class eZSys
             $instance =& $this;
         else
             $instance =& eZSys::instance();
-
-        $indexDir = $instance->wwwDir() . $instance->indexFile( $withAccessList );
-        return $indexDir;
+        return $instance->wwwDir() . $instance->indexFile( $withAccessList );
     }
 
     /*!
@@ -648,8 +646,7 @@ class eZSys
         {
             if ( !$quiet )
                 eZDebug::writeError( "Server variable '$variableName' does not exist", 'eZSys::serverVariable' );
-            $retVal = null;
-            return $retVal;
+            return null;
         }
         return $_SERVER[$variableName];
     }
@@ -735,8 +732,7 @@ class eZSys
         }
         else if ( $attr == 'indexdir' )
         {
-            $indexDir =& $this->indexDir();
-            return $indexDir;
+            return $this->indexDir();
         }
         else
         {

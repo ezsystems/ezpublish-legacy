@@ -57,7 +57,7 @@ class eZPolicyLimitationValue extends eZPersistentObject
     }
 
 
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -121,13 +121,12 @@ class eZPolicyLimitationValue extends eZPersistentObject
 
     function &fetchList( $limitationID, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZPolicyLimitationValue::definition(),
-                                                            null,
-                                                            array( 'limitation_id' => $limitationID ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZPolicyLimitationValue::definition(),
+                                                    null,
+                                                    array( 'limitation_id' => $limitationID ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
     function removeByValue( $value, $policyID = false )

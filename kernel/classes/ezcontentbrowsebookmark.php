@@ -76,7 +76,7 @@ class eZContentBrowseBookmark extends eZPersistentObject
     /*!
      \reimp
     */
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -137,14 +137,10 @@ class eZContentBrowseBookmark extends eZPersistentObject
     {
         if ( $attributeName == 'node' )
         {
-            $node =& $this->fetchNode();
-            return $node;
+            return $this->fetchNode();
         }
         else
-        {
-            $attributeValue =& eZPersistentObject::attribute( $attributeName );
-            return $attributeValue;
-        }
+            return eZPersistentObject::attribute( $attributeName );
     }
 
 
@@ -164,13 +160,12 @@ class eZContentBrowseBookmark extends eZPersistentObject
     */
     function fetchListForUser( $userID, $offset = false, $limit = false )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZContentBrowseBookmark::definition(),
-                                                            null,
-                                                            array( 'user_id' => $userID ),
-                                                            array( 'id' => 'desc' ),
-                                                            array( 'offset' => $offset, 'length' => $limit ),
-                                                            true );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZContentBrowseBookmark::definition(),
+                                                    null,
+                                                    array( 'user_id' => $userID ), 
+                                                    array( 'id' => 'desc' ),
+                                                    array( 'offset' => $offset, 'length' => $limit ),
+                                                    true );
     }
 
     /*!
@@ -194,8 +189,7 @@ class eZContentBrowseBookmark extends eZPersistentObject
     */
     function &fetchNode()
     {
-        $node =& eZContentObjectTreeNode::fetch( $this->attribute( 'node_id' ) );
-        return $node;
+        return eZContentObjectTreeNode::fetch( $this->attribute( 'node_id' ) );
     }
 
     /*!

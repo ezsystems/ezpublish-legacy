@@ -63,7 +63,7 @@ class eZWishList extends eZPersistentObject
     /*!
      \return the persistent object definition for the eZCard class.
     */
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',

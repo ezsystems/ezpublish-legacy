@@ -52,7 +52,7 @@ class eZImageFile extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    function &definition()
     {
         return array( 'fields' => array( 'id' => array( 'name' => 'id',
                                                         'datatype' => 'integer',
@@ -71,7 +71,7 @@ class eZImageFile extends eZPersistentObject
                       'name' => 'ezimagefile' );
     }
 
-    function create( $contentObjectAttributeID, $filepath  )
+    function &create( $contentObjectAttributeID, $filepath  )
     {
         $row = array( "contentobject_attribute_id" => $contentObjectAttributeID,
                       "filepath" => $filepath );
@@ -103,12 +103,11 @@ class eZImageFile extends eZPersistentObject
 
     function &fetchByFilepath( $contentObjectAttributeID, $filepath, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZImageFile::definition(),
-                                                    null,
-                                                    array( 'contentobject_attribute_id' => $contentObjectAttributeID,
-                                                           'filepath' => $filepath ),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZImageFile::definition(),
+                                                null,
+                                                array( 'contentobject_attribute_id' => $contentObjectAttributeID,
+                                                       'filepath' => $filepath ),
+                                                $asObject );
     }
 
     function moveFilepath( $contentObjectAttributeID, $oldFilepath, $newFilepath )
@@ -124,7 +123,7 @@ class eZImageFile extends eZPersistentObject
         $fileObject =& eZImageFile::fetchByFilePath( $contentObjectAttributeID, $filepath );
         if ( $fileObject )
             return false;
-        $fileObject = eZImageFile::create( $contentObjectAttributeID, $filepath );
+        $fileObject =& eZImageFile::create( $contentObjectAttributeID, $filepath );
         $fileObject->store();
         return true;
     }

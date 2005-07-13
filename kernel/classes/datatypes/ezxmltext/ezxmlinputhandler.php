@@ -98,8 +98,7 @@ class eZXMLInputHandler
         {
             case 'input_xml':
             {
-                $inputXML =& $this->inputXML();
-                return $inputXML;
+                return $this->inputXML();
             } break;
             case 'edit_template_name':
             {
@@ -178,8 +177,7 @@ class eZXMLInputHandler
     */
     function &editTemplateSuffix( &$contentobjectAttribute )
     {
-        $editSuffix = false;
-        return $editSuffix;
+        return false;
     }
 
     /*!
@@ -188,8 +186,7 @@ class eZXMLInputHandler
     */
     function &informationTemplateSuffix( &$contentobjectAttribute )
     {
-        $templateSuffix = false;
-        return $templateSuffix;
+        return false;
     }
 
     /*!

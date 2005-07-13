@@ -55,20 +55,20 @@ class eZSectionFunctionCollection
     {
     }
 
-    function fetchSectionObject( $sectionID )
+    function &fetchSectionObject( $sectionID )
     {
         include_once( 'kernel/classes/ezsection.php' );
-        $sectionObject = eZSection::fetch( $sectionID );
+        $sectionObject =& eZSection::fetch( $sectionID );
         if ( $sectionObject === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         return array( 'result' => $sectionObject );
     }
 
-    function fetchSectionList()
+    function &fetchSectionList()
     {
         include_once( 'kernel/classes/ezsection.php' );
-        $sectionObjects = eZSection::fetchList( );
+        $sectionObjects =& eZSection::fetchList( );
         return array( 'result' => $sectionObjects );
     }
 

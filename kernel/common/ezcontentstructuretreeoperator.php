@@ -198,7 +198,7 @@ class eZContentStructureTreeOperator
         }
 
         $db =& eZDB::instance();
-        $nodeListArray = $db->arrayQuery( $query );
+        $nodeListArray =& $db->arrayQuery( $query );
 
         if ( $countChildren )
         {
@@ -331,6 +331,7 @@ class eZContentStructureTreeOperator
             if ( $depthLeft != 0 )
             {
                 $children =& $contentTree['children'];
+
                 $children_keys = array_keys( $children );
 
                 foreach( $children_keys as $key )

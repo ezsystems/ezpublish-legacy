@@ -523,10 +523,7 @@ class eZBinaryFileType extends eZDataType
         $binaryFile =& eZBinaryFile::fetch( $contentObjectAttribute->attribute( "id" ),
                                             $contentObjectAttribute->attribute( "version" ) );
         if ( !$binaryFile )
-        {
-            $attrValue = false;
-            return $attrValue;
-        }
+            return false;
         return $binaryFile;
     }
 

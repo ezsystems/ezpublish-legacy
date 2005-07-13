@@ -76,7 +76,7 @@ else if ( $http->hasPostVariable( 'BrowseActionName' ) and
           $http->postVariable( 'BrowseActionName' ) == 'AssignRole' )
 {
     $selectedObjectIDArray = $http->postVariable( 'SelectedObjectIDArray' );
-    $role = eZRole::fetch( $roleID );
+    $role =& eZRole::fetch( $roleID );
 
     foreach ( $selectedObjectIDArray as $objectID )
     {

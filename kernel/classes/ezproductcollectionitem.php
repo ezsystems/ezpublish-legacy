@@ -54,7 +54,7 @@ class eZProductCollectionItem extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -108,7 +108,7 @@ class eZProductCollectionItem extends eZPersistentObject
      Creates a new empty collection item which belongs to
      collection \a $collectionID and returns it.
     */
-    function create( $productCollectionID )
+    function &create( $productCollectionID )
     {
         $row = array( "productcollection_id" => $productCollectionID );
         return new eZProductCollectionItem( $row );
@@ -146,11 +146,11 @@ class eZProductCollectionItem extends eZPersistentObject
 
     function &fetch( $id, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZProductCollectionItem::definition(),
-                                                    null,
-                                                    array( "id" => $id ),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZProductCollectionItem::definition(),
+                                                null,
+                                                array( "id" => $id
+                                                       ),
+                                                $asObject );
     }
 
     function &attribute( $attr )
@@ -163,8 +163,7 @@ class eZProductCollectionItem extends eZPersistentObject
             }break;
             case "option_list" :
             {
-                $optionList =& $this->optionList(  );
-                return $optionList;
+                return $this->optionList(  );
             }break;
 
             default :
@@ -205,8 +204,7 @@ class eZProductCollectionItem extends eZPersistentObject
 
     function &optionList()
     {
-        $optionList =& eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
-        return $optionList;
+        return eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
     }
 
     function remove()

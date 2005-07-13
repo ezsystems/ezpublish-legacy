@@ -50,7 +50,7 @@ class eZContentClassGroup extends eZPersistentObject
        $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -139,11 +139,10 @@ class eZContentClassGroup extends eZPersistentObject
     function &fetchByName( $name, $asObject = true )
     {
         $conds = array( 'name' => $name );
-        $object =& eZPersistentObject::fetchObject( eZContentClassGroup::definition(),
-                                                    null,
-                                                    $conds,
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZContentClassGroup::definition(),
+                                                null,
+                                                $conds,
+                                                $asObject );
     }
 
     function &fetch( $id, $user_id = false, $asObject = true )
@@ -151,11 +150,10 @@ class eZContentClassGroup extends eZPersistentObject
         $conds = array( "id" => $id );
         if ( $user_id !== false and is_numeric( $user_id ) )
             $conds["creator_id"] = $user_id;
-        $object =& eZPersistentObject::fetchObject( eZContentClassGroup::definition(),
-                                                    null,
-                                                    $conds,
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZContentClassGroup::definition(),
+                                                null,
+                                                $conds,
+                                                $asObject );
     }
 
     function &fetchList( $user_id = false, $asObject = true )
@@ -163,10 +161,9 @@ class eZContentClassGroup extends eZPersistentObject
         $conds = array();
         if ( $user_id !== false and is_numeric( $user_id ) )
             $conds["creator_id"] = $user_id;
-        $objectList =& eZPersistentObject::fetchObjectList( eZContentClassGroup::definition(),
-                                                            null, $conds, null, null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZContentClassGroup::definition(),
+                                                    null, $conds, null, null,
+                                                    $asObject );
     }
 
     /*!

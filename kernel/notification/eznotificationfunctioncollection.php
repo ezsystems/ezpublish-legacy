@@ -53,40 +53,40 @@ class eZNotificationFunctionCollection
     {
     }
 
-    function handlerList()
+    function &handlerList()
     {
         include_once( 'kernel/classes/notification/eznotificationeventfilter.php' );
         $availableHandlers =& eZNotificationEventFilter::availableHandlers();
         return array( 'result' => $availableHandlers );
     }
 
-    function digestHandlerList( $time, $address )
+    function &digestHandlerList( $time, $address )
     {
         $handlers =& eZGeneralDigestHandler::fetchHandlersForUser( $time, $address );
         return array( 'result' => $handlers );
     }
 
-    function digestItems( $time, $address, $handler )
+    function &digestItems( $time, $address, $handler )
     {
         $items =& eZGeneralDigestHandler::fetchItemsForUser( $time, $address, $handler );
         return array( 'result' => $items );
     }
 
-    function eventContent( $eventID )
+    function &eventContent( $eventID )
     {
         $event =& eZNotificationEvent::fetch( $eventID );
         return array( 'result' => $event->content() );
     }
 
-    function subscribedNodesCount()
+    function &subscribedNodesCount()
     {
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreehandler.php' );
 
-        $count = eZSubTreeHandler::rulesCount();
+        $count =& eZSubTreeHandler::rulesCount();
         return array( 'result' => $count );
     }
 
-    function subscribedNodes( $offset = false, $limit = false )
+    function &subscribedNodes( $offset = false, $limit = false )
     {
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreehandler.php' );
 

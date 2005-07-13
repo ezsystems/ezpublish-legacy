@@ -69,7 +69,7 @@ class eZTemplateIncludeFunction
     /*!
      Returns an array of the function names, required for eZTemplate::registerFunctions.
     */
-    function functionList()
+    function &functionList()
     {
         return array( $this->IncludeName );
     }
@@ -112,7 +112,7 @@ class eZTemplateIncludeFunction
         $resourceName = "";
         $templateName = "";
         $resource =& $tpl->resourceFor( $uriString, $resourceName, $templateName );
-        $resourceData = $tpl->resourceData( $resource, $uriString, $resourceName, $templateName );
+        $resourceData =& $tpl->resourceData( $resource, $uriString, $resourceName, $templateName );
         $resourceData['use-comments'] = eZTemplateCompiler::isCommentsEnabled();
 
         $includeNodes = $resource->templateNodeTransformation( $functionName, $node, $tpl, $resourceData, $parameters, $namespaceValue );
@@ -150,7 +150,7 @@ class eZTemplateIncludeFunction
     /*!
      Loads the file specified in the parameter "uri" with namespace "name".
     */
-    function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
+    function &process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         $params = $functionParameters;
         if ( !isset( $params["uri"] ) )

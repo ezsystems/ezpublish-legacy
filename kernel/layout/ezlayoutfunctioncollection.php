@@ -55,7 +55,7 @@ class eZLayoutFunctionCollection
     {
     }
 
-    function fetchSitedesignList()
+    function &fetchSitedesignList()
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $contentINI =& eZINI::instance( 'content.ini' );

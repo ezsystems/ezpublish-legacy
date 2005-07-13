@@ -50,7 +50,7 @@ class eZWorkflowGroup extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -98,22 +98,20 @@ class eZWorkflowGroup extends eZPersistentObject
 
     function &fetch( $id, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZWorkflowGroup::definition(),
-                                                    null,
-                                                    array( "id" => $id ),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZWorkflowGroup::definition(),
+                                                null,
+                                                array( "id" => $id ),
+                                                $asObject );
     }
 
     function &fetchList( $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZWorkflowGroup::definition(),
-                                                            null, null, null, null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZWorkflowGroup::definition(),
+                                                    null, null, null, null,
+                                                    $asObject );
     }
 
-    function removeSelected ( $id )
+    function &removeSelected ( $id )
     {
         eZPersistentObject::removeObject( eZWorkflowGroup::definition(),
                                           array( "id" => $id ) );
@@ -147,7 +145,7 @@ WHERE ezworkflow_group_link.workflow_id=ezworkflow.id AND
       ezworkflow.is_enabled='1' AND
       ezworkflow_group_link.group_id='$id'
 ORDER BY ezworkflow.name ASC";
-        $rows = $db->arrayQuery( $query );
+        $rows =& $db->arrayQuery( $query );
         $workflows = array();
         if ( $asObject )
         {

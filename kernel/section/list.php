@@ -96,7 +96,7 @@ if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
 }
 
 $viewParameters = array( 'offset' => $offset );
-$sectionArray = eZSection::fetchByOffset( $offset, $limit );
+$sectionArray =& eZSection::fetchByOffset( $offset, $limit );
 $sectionCount = eZSection::sectionCount();
 
 $tpl->setVariable( "limit", $limit );

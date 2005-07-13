@@ -55,7 +55,7 @@ class eZPackageFunctionCollection
     {
     }
 
-    function fetchList( $filterArray = false, $offset, $limit, $repositoryID )
+    function &fetchList( $filterArray = false, $offset, $limit, $repositoryID )
     {
         $filterParams = array();
         $filterList = false;
@@ -118,8 +118,8 @@ class eZPackageFunctionCollection
             $params['repository_id'] = $repositoryID;
 
         include_once( 'kernel/classes/ezpackage.php' );
-        $packageList = eZPackage::fetchPackages( $params,
-                                                 $filterParams );
+        $packageList =& eZPackage::fetchPackages( $params,
+                                                  $filterParams );
         if ( $packageList === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
@@ -208,62 +208,62 @@ class eZPackageFunctionCollection
         return array( 'result' => $packageList );
     }
 
-    function fetchMaintainerRoleList( $packageType, $checkRoles )
+    function &fetchMaintainerRoleList( $packageType, $checkRoles )
     {
         include_once( 'kernel/classes/ezpackage.php' );
-        $list = eZPackage::fetchMaintainerRoleList( $packageType, $checkRoles );
+        $list =& eZPackage::fetchMaintainerRoleList( $packageType, $checkRoles );
         if ( $list === false )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         return array( 'result' => $list );
     }
 
-    function fetchRepositoryList()
+    function &fetchRepositoryList()
     {
         include_once( 'kernel/classes/ezpackage.php' );
-        $list = eZPackage::packageRepositories();
+        $list =& eZPackage::packageRepositories();
         if ( $list === false )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         return array( 'result' => $list );
     }
 
-    function canCreate()
+    function &canCreate()
     {
         return array( 'result' => eZPackage::canUsePolicyFunction( 'create' ) );
     }
 
-    function canEdit()
+    function &canEdit()
     {
         return array( 'result' => eZPackage::canUsePolicyFunction( 'edit' ) );
     }
 
-    function canImport()
+    function &canImport()
     {
         return array( 'result' => eZPackage::canUsePolicyFunction( 'import' ) );
     }
 
-    function canInstall()
+    function &canInstall()
     {
         return array( 'result' => eZPackage::canUsePolicyFunction( 'install' ) );
     }
 
-    function canExport()
+    function &canExport()
     {
         return array( 'result' => eZPackage::canUsePolicyFunction( 'export' ) );
     }
 
-    function canRead()
+    function &canRead()
     {
         return array( 'result' => eZPackage::canUsePolicyFunction( 'read' ) );
     }
 
-    function canList()
+    function &canList()
     {
         return array( 'result' => eZPackage::canUsePolicyFunction( 'list' ) );
     }
 
-    function canRemove()
+    function &canRemove()
     {
         return array( 'result' => eZPackage::canUsePolicyFunction( 'remove' ) );
     }

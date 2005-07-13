@@ -55,7 +55,7 @@ class eZClassFunctionCollection
     {
     }
 
-    function fetchClassList( $classFilter )
+    function &fetchClassList( $classFilter )
     {
         $contentClassList = array();
         if ( is_array( $classFilter ) and count( $classFilter ) == 0)
@@ -76,7 +76,7 @@ class eZClassFunctionCollection
         return array( 'result' => $contentClassList );
     }
 
-    function fetchLatestClassList( $offset, $limit )
+    function &fetchLatestClassList( $offset, $limit )
     {
         $contentClassList = array();
         include_once( 'kernel/classes/ezcontentclass.php' );
@@ -90,7 +90,7 @@ class eZClassFunctionCollection
         return array( 'result' => $contentClassList );
     }
 
-    function fetchClassAttributeList( $classID )
+    function &fetchClassAttributeList( $classID )
     {
         include_once( 'kernel/classes/ezcontentclass.php' );
         $contentClassAttributeList =& eZContentClass::fetchAttributes( $classID );
@@ -100,7 +100,7 @@ class eZClassFunctionCollection
         return array( 'result' => $contentClassAttributeList );
     }
 
-    function fetchOverrideTemplateList( $classID )
+    function &fetchOverrideTemplateList( $classID )
     {
         $class = eZContentClass::fetch( $classID );
         $classIdentifier = $class->attribute( 'identifier' );

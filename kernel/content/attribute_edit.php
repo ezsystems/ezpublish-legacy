@@ -469,7 +469,7 @@ if ( !$hasPath )
 $Result['path'] = $path;
 
 include_once( 'kernel/classes/ezsection.php' );
-$section = eZSection::fetch( $object->attribute( 'section_id' ) );
+$section =& eZSection::fetch( $object->attribute( 'section_id' ) );
 if ( $section )
     $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
 

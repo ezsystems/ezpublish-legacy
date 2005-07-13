@@ -84,7 +84,7 @@ class eZRole extends eZPersistentObject
             $this->UserRoleID = $row['user_role_id'];
     }
 
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -159,7 +159,7 @@ class eZRole extends eZPersistentObject
 
     function createTemporaryVersion()
     {
-        $newRole = eZRole::createNew();
+        $newRole =& eZRole::createNew();
         $this->copyPolicies( $newRole->attribute( 'id' ) );
         $newRole->setAttribute( 'name', $this->attribute( 'name' ) );
         $newRole->setAttribute( 'version', $this->attribute( 'id' ) );
@@ -244,7 +244,7 @@ class eZRole extends eZPersistentObject
 
     function revertFromTemporaryVersion()
     {
-        $temporaryVersion = eZRole::fetch( 0, $this->attribute( 'id' ) );
+        $temporaryVersion =& eZRole::fetch( 0, $this->attribute( 'id' ) );
         if ( is_null( $temporaryVersion ) )
             return 0;
         $this->removePolicies();
@@ -291,7 +291,7 @@ class eZRole extends eZPersistentObject
     {
         if ( $roleID )
         {
-            $role = eZRole::fetch( $roleID );
+            $role =& eZRole::fetch( $roleID );
         }
         else
         {
@@ -448,7 +448,7 @@ class eZRole extends eZPersistentObject
                             role_tree.node_id IN ( ' . implode( ',', $userNodeIDArray ) . ' )';
         }
 
-        $roleArray = $db->arrayQuery( $query );
+        $roleArray =& $db->arrayQuery( $query );
 
         $roles = array();
         foreach ( $roleArray as $roleRow )
@@ -626,7 +626,7 @@ class eZRole extends eZPersistentObject
                   WHERE ezuser_role.contentobject_id IN ( $groupString ) AND
                         ezuser_role.role_id = ezrole.id ORDER BY ezrole.id";
 
-        $roleArray = $db->arrayQuery( $query );
+        $roleArray =& $db->arrayQuery( $query );
         $roles = array();
 
         $keys = array_keys( $roleArray );
@@ -838,13 +838,12 @@ class eZRole extends eZPersistentObject
         else
             $igTemp = null;
 
-        $objectList =& eZPersistentObject::fetchObjectList( eZRole::definition(),
-                                                            null,
-                                                            $igTemp,
-                                                            array( 'name' => 'ASC' ),
-                                                            array( 'offset' => $offset, 'length' => $limit ),
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZRole::definition(),
+                                                    null,
+                                                    $igTemp,
+                                                    array( 'name' => 'ASC' ),
+                                                    array( 'offset' => $offset, 'length' => $limit ),
+                                                    $asObject );
     }
 
     /*!

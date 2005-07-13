@@ -72,7 +72,7 @@ class eZPrice
     function eZPrice( &$classAttribute, &$contentObjectAttribute, $storedPrice = null )
     {
         $this->ContentObjectAttribute =& $contentObjectAttribute;
-        $this->VatTypeArray = eZVatType::fetchList();
+        $this->VatTypeArray =& eZVatType::fetchList();
         $this->CurrentUser =& eZUser::currentUser();
         $this->Price = $storedPrice;
         $VATID = $classAttribute->attribute( EZ_DATATYPESTRING_VAT_ID_FIELD );
@@ -80,7 +80,7 @@ class eZPrice
             $this->IsVATIncluded = true;
         else
             $this->IsVATIncluded = false;
-        $this->VATType = eZVatType::fetch( $VATID );
+        $this->VATType =& eZVatType::fetch( $VATID );
         $this->Discount = $this->discount();
     }
 
@@ -260,7 +260,7 @@ class eZPrice
             $db =& eZDB::instance();
             $user =& $this->CurrentUser;
             $groups =& $user->groups();
-            $idArray = array_merge( $groups, $user->attribute( 'contentobject_id' ) );
+            $idArray =& array_merge( $groups, $user->attribute( 'contentobject_id' ) );
 
             // Fetch discount rules for the current user
             $rules =& eZUserDiscountRule::fetchByUserIDArray( $idArray );
@@ -278,7 +278,7 @@ class eZPrice
                 }
 
                 // Fetch the discount sub rules
-                $subRules = $db->arrayQuery( "SELECT * FROM
+                $subRules =& $db->arrayQuery( "SELECT * FROM
                                        ezdiscountsubrule
                                        WHERE discountrule_id IN ( $subRuleStr )
                                        ORDER BY discount_percent DESC" );
@@ -296,7 +296,7 @@ class eZPrice
                         else
                         {
                             // Do limitation check
-                            $limitationArray = $db->arrayQuery( "SELECT * FROM
+                            $limitationArray =& $db->arrayQuery( "SELECT * FROM
                                        ezdiscountsubrule_value
                                        WHERE discountsubrule_id='" . $subRule['id']. "'" );
 

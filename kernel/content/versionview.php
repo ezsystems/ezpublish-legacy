@@ -175,7 +175,7 @@ else if ( !$placementID && count( $nodeAssignments ) )
                     AND parent_node_id=$parentNodeID";
 
             $db =& eZDB::instance();
-            $nodeListArray = $db->arrayQuery( $query );
+            $nodeListArray =& $db->arrayQuery( $query );
             $virtualNodeID = $nodeListArray[0]['node_id'];
             break;
         }
@@ -297,7 +297,7 @@ if ( $sectionID !== false )
     include_once( 'kernel/classes/ezsection.php' );
     eZSection::setGlobalID( $sectionID );
 
-    $section = eZSection::fetch( $sectionID );
+    $section =& eZSection::fetch( $sectionID );
     if ( $section )
         $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
 }

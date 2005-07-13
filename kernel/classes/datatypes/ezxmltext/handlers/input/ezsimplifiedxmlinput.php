@@ -140,7 +140,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
      \reimp
      Validates the input and returns true if the input was valid for this datatype.
     */
-    function validateInput( &$http, $base, &$contentObjectAttribute )
+    function &validateInput( &$http, $base, &$contentObjectAttribute )
     {
         $contentObjectID = $contentObjectAttribute->attribute( "contentobject_id" );
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
@@ -208,7 +208,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                     $objectIDInSQL = implode( ', ', $relatedObjectIDArray );
                     $objectQuery = "SELECT id FROM ezcontentobject WHERE id IN ( $objectIDInSQL )";
-                    $objectRowArray = $db->arrayQuery( $objectQuery );
+                    $objectRowArray =& $db->arrayQuery( $objectQuery );
 
                     $existingObjectIDArray = array();
                     if ( count( $objectRowArray ) > 0 )
@@ -234,7 +234,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                            WHERE from_contentobject_id = $contentObjectID AND
                                                  from_contentobject_version = $editVersion";
 
-                    $relatedObjectRowArray = $db->arrayQuery( $relatedObjectQuery );
+                    $relatedObjectRowArray =& $db->arrayQuery( $relatedObjectQuery );
                     // Add existing embeded objects to object relation list if it is not already
                     $existingRelatedObjectIDArray = array();
                     foreach ( $relatedObjectRowArray as $relatedObjectRow )
@@ -394,7 +394,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                 }
 
-                $domString = eZXMLTextType::domString( $dom );
+                $domString =& eZXMLTextType::domString( $dom );
 
                 $domString = str_replace( "<paragraph> </paragraph>", "<paragraph>&nbsp;</paragraph>", $domString );
                 $domString = str_replace ( "<paragraph />" , "", $domString );
@@ -795,17 +795,17 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $message = array();
         // fix newlines
         // Convet windows newlines
-        $text = preg_replace( "#\r\n#", "\n", $text );
+        $text =& preg_replace( "#\r\n#", "\n", $text );
         // Convet mac newlines
-        $text = preg_replace( "#\r#", "\n", $text );
+        $text =& preg_replace( "#\r#", "\n", $text );
 
-        $text = preg_replace( "#\n[\n]+#", "\n\n", $text );
+        $text =& preg_replace( "#\n[\n]+#", "\n\n", $text );
 
-        $text = preg_replace( "#\n[\n]+#", "<paragraph>", $text );
-        $text = preg_replace( "#\n#", "</line>", $text );
+        $text =& preg_replace( "#\n[\n]+#", "<paragraph>", $text );
+        $text =& preg_replace( "#\n#", "</line>", $text );
 
         // Convert headers
-        $text = preg_replace( "#<header>#", "<header level='1'>", $text );
+        $text =& preg_replace( "#<header>#", "<header level='1'>", $text );
 
         // This code is currently commented out, it should not be run on the whole
         // text but only on parts of it
@@ -1086,7 +1086,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                     if ( $tagNameEnd > 0 )
                     {
-                        $attributePart = substr( $tagName, $tagNameEnd, strlen( $tagName ) );
+                        $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
                     }
                     else
                     {
@@ -1101,7 +1101,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                         if ( $tagNameEnd > 0 )
                         {
-                            $attributePart = substr( $tagName, $tagNameEnd, strlen( $tagName ) );
+                            $attributePart =& substr( $tagName, $tagNameEnd, strlen( $tagName ) );
                             // attributes
                             unset( $attr );
                             $attr =& $this->parseAttributes( $attributePart );
@@ -1402,12 +1402,12 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     // convert special chars
                   if ( $justName != 'literal' )
                   {
-                        $tagContent = str_replace("&gt;", ">", $tagContent );
-                        $tagContent = str_replace("&lt;", "<", $tagContent );
-                        $tagContent = str_replace("&apos;", "'", $tagContent );
-                        $tagContent = str_replace("&quot;", '"', $tagContent );
-                        $tagContent = str_replace("&amp;", '&', $tagContent );
-                      //  $tagContent = str_replace("&nbsp;", " ", $tagContent );
+                        $tagContent =& str_replace("&gt;", ">", $tagContent );
+                        $tagContent =& str_replace("&lt;", "<", $tagContent );
+                        $tagContent =& str_replace("&apos;", "'", $tagContent );
+                        $tagContent =& str_replace("&quot;", '"', $tagContent );
+                        $tagContent =& str_replace("&amp;", '&', $tagContent );
+                      //  $tagContent =& str_replace("&nbsp;", " ", $tagContent );
                   }
 
                     $subNode->Content = $tagContent;
@@ -1516,10 +1516,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
            return $attrbutes;
         }
         else
-        {
-            $retVal = null;
-            return $retVal;
-        }
+            return null;
     }
 
     /*!

@@ -88,7 +88,7 @@ if ( is_numeric( $ClassID ) )
         {
             $groupID = $classGroup->attribute( 'group_id' );
             $groupName = $classGroup->attribute( 'group_name' );
-            $ingroup = eZContentClassClassGroup::create( $ClassID, EZ_CLASS_VERSION_STATUS_TEMPORARY, $groupID, $groupName );
+            $ingroup =& eZContentClassClassGroup::create( $ClassID, EZ_CLASS_VERSION_STATUS_TEMPORARY, $groupID, $groupName );
             $ingroup->store();
         }
     }
@@ -550,7 +550,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
                             $version = $objectVersion->attribute( 'version' );
                             foreach ( $translations as $translation )
                             {
-                                $objectAttribute = eZContentObjectAttribute::create( $newClassAttributeID, $contentobjectID, $version );
+                                $objectAttribute =& eZContentObjectAttribute::create( $newClassAttributeID, $contentobjectID, $version );
                                 $objectAttribute->setAttribute( 'language_code', $translation );
                                 $objectAttribute->initialize();
                                 $objectAttribute->store();
@@ -577,7 +577,7 @@ if ( $canStore )
 
 if ( $http->hasPostVariable( 'NewButton' ) )
 {
-    $new_attribute = eZContentClassAttribute::create( $ClassID, $cur_datatype );
+    $new_attribute =& eZContentClassAttribute::create( $ClassID, $cur_datatype );
     $attrcnt = count( $attributes ) + 1;
     $new_attribute->setAttribute( 'name', ezi18n( 'kernel/class/edit', 'new attribute' ) . $attrcnt );
     $dataType = $new_attribute->dataType();

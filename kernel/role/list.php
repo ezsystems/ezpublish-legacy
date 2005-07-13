@@ -57,7 +57,7 @@ if( eZPreferences::value( 'admin_role_list_limit' ) )
 	default:  { $limit = 10; } break;
     }
 }
-else
+else 
 {
     $limit = 10;
 }
@@ -99,7 +99,7 @@ if ( $Module->isCurrentAction( 'AssignRole' ) )
 
 if ( $http->hasPostVariable( 'NewButton' )  )
 {
-    $role = eZRole::createNew( );
+    $role =& eZRole::createNew( );
     return $Module->redirectToView( 'edit', array( $role->attribute( 'id' ) ) );
 }
 
@@ -109,7 +109,7 @@ $tpl =& templateInit();
 //$roles =& eZRole::fetchList();
 $roles =& eZRole::fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = true );
 $roleCount =& eZRole::roleCount();
-$tempRoles = eZRole::fetchList( $temporaryVersions = true );
+$tempRoles = & eZRole::fetchList( $temporaryVersions = true );
 $tpl->setVariable( 'roles', $roles );
 $tpl->setVariable( 'role_count', $roleCount );
 $tpl->setVariable( 'temp_roles', $tempRoles );

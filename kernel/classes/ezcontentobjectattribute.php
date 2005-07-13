@@ -67,7 +67,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function definition()
+    function &definition()
     {
         return array( "fields" => array( "id" => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
@@ -211,18 +211,17 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &fetchAttributeTranslations( $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
-                                                            null,
-                                                            array( "contentclassattribute_id" => $this->ContentClassAttributeID,
-                                                                   "contentobject_id" => $this->ContentObjectID,
-                                                                   "version" => $this->Version ),
-                                                            null,
-                                                            null,
-                                                            $asObject);
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
+                                                    null,
+                                                    array( "contentclassattribute_id" => $this->ContentClassAttributeID,
+                                                           "contentobject_id" => $this->ContentObjectID,
+                                                           "version" => $this->Version ),
+                                                    null,
+                                                    null,
+                                                    $asObject);
     }
 
-    function create( $contentclassAttributeID, $contentobjectID, $version = 1 )
+    function &create( $contentclassAttributeID, $contentobjectID, $version = 1 )
     {
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
         $row = array(
@@ -282,7 +281,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
         $this->updateSortKey( false );
 
-        eZPersistentObject::store();
+        return eZPersistentObject::store();
     }
 
     /*!
@@ -300,7 +299,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         {
             $return = true;
 
-            $sortKey = $dataType->sortKey( $this );
+            $sortKey =& $dataType->sortKey( $this );
             $this->setAttribute( 'sort_key_string', "" );
             $this->setAttribute( 'sort_key_int', 0 );
             if ( $dataType->sortKeyType() == 'string' )
@@ -341,11 +340,10 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &fetchByIdentifier( $identifier, $asObject = true )
     {
-        $retVal =& eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
-                                                    null,
-                                                    array( 'sort_key_string' => $identifier, 'data_type_string' => 'ezstring' ),
-                                                    $asObject );
-        return $retVal;
+        return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
+                                                null,
+                                                array( 'sort_key_string' => $identifier, 'data_type_string' => 'ezstring' ),
+                                                $asObject );
     }
 
     function &language( $languageCode = false, $asObject = true )
@@ -841,7 +839,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Remove the attribute by using the datatype.
     */
-    function remove( $id, $currentVersion = null )
+    function &remove( $id, $currentVersion = null )
     {
         $dataType =& $this->dataType();
         if ( !is_object( $dataType ) )
@@ -1240,10 +1238,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         if ( $classAttribute->attribute( 'is_information_collector' ) )
             return $this->informationTemplate();
         else
-        {
-            $retVal =& $this->viewTemplate();
-            return $retVal;
-        }
+            return $this->viewTemplate();
     }
 
     /*!
@@ -1251,8 +1246,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &editTemplateName()
     {
-        $editTemplate =& $this->editTemplate();
-        return $editTemplate;
+        return $this->editTemplate();
     }
 
     /*!

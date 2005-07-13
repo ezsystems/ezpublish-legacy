@@ -225,14 +225,14 @@ class eZModuleOperationInfo
             if ( $runOperation )
             {
                 // start  new operation
-                $resultArray = $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
+                $resultArray =& $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
                                                     $operationKeys, $operationParameterDefinitions, $operationParameters,
                                                     $mementoData, $bodyCallCount, $operationDefinition['name'] );
 
 //                 eZDebug::writeDebug( $resultArray, 'ezmodule operation result array' );
             }
             if ( is_array( $resultArray ) and
-                 isset( $resultArray['status'] ) and
+                 isset( $resultArray['status'] ) and 
                  $resultArray['status'] == EZ_MODULE_OPERATION_HALTED )
             {
 //                 eZDebug::writeDebug( $this->Memento, 'ezmodule operation result halted' );
@@ -378,8 +378,8 @@ class eZModuleOperationInfo
                         ++$bodyCallCount['loop_run'][$bodyName];
 
                         $method = $body['method'];
-                        $resultArray = $this->executeClassMethod( $includeFile, $className, $method,
-                                                                  $operationParameterDefinitions, $operationParameters );
+                        $resultArray =& $this->executeClassMethod( $includeFile, $className, $method,
+                                                                   $operationParameterDefinitions, $operationParameters );
                         $parameters = array();
                         if ( isset( $resultArray['parameters'] ) )
                         {

@@ -60,36 +60,29 @@ class eZUserFunctionCollection
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $user =& eZUser::currentUser();
         if ( $user === null )
-        {
-            $result = array( 'error' => array( 'error_type' => 'kernel',
-                                               'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        }
-        else
-        {
-            $result = array( 'result' => $user );
-        }
-
-        return $result;
+            return array( 'error' => array( 'error_type' => 'kernel',
+                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        return array( 'result' => $user );
     }
 
-    function fetchIsLoggedIn( $userID )
+    function &fetchIsLoggedIn( $userID )
     {
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $isLoggedIn =& eZUser::isUserLoggedIn( $userID );
         return array( 'result' => $isLoggedIn );
     }
 
-    function fetchLoggedInCount()
+    function &fetchLoggedInCount()
     {
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-        $count = eZUser::fetchLoggedInCount();
+        $count =& eZUser::fetchLoggedInCount();
         return array( 'result' => $count );
     }
 
-    function fetchAnonymousCount()
+    function &fetchAnonymousCount()
     {
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-        $count = eZUser::fetchAnonymousCount();
+        $count =& eZUser::fetchAnonymousCount();
         return array( 'result' => $count );
     }
 
@@ -188,7 +181,7 @@ class eZUserFunctionCollection
         return array( 'result' => $resultArray );
     }
 
-    function fetchMemberOf( $id )
+    function &fetchMemberOf( $id )
     {
         include_once( 'kernel/classes/ezrole.php' );
         return array( 'result' => eZRole::fetchByUser( array( $id ), true ) );
