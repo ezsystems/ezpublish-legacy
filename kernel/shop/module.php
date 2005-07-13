@@ -78,34 +78,34 @@ $ViewList["wishlist"] = array(
     "params" => array(  ) );
 
 $ViewList["orderlist"] = array(
-    "functions" => array( 'adminstrate' ),
+    "functions" => array( 'administrate' ),
     "script" => "orderlist.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "unordered_params" => array( "offset" => "Offset" ),
     "params" => array(  ) );
 
 $ViewList["removeorder"] = array(
-    "functions" => array( 'adminstrate' ),
+    "functions" => array( 'administrate' ),
     "script" => "removeorder.php",
     'ui_context' => 'edit',
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array() );
 
 $ViewList["customerlist"] = array(
-    "functions" => array( 'adminstrate' ),
+    "functions" => array( 'administrate' ),
     "script" => "customerlist.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "unordered_params" => array( 'offset' => 'Offset' ),
     "params" => array(  ) );
 
 $ViewList["customerorderview"] = array(
-    "functions" => array( 'adminstrate' ),
+    "functions" => array( 'administrate' ),
     "script" => "customerorderview.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array( "CustomerID", "Email" ) );
 
 $ViewList["statistics"] = array(
-    "functions" => array( 'adminstrate' ),
+    "functions" => array( 'administrate' ),
     "script" => "orderstatistics.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array( 'Year', 'Month' ) );
@@ -156,7 +156,7 @@ $ViewList["discountgroupview"] = array(
     "params" => array( 'DiscountGroupID' ) );
 
 $FunctionList['setup'] = array( );
-$FunctionList['adminstrate'] = array( );
+$FunctionList['administrate'] = array( );
 $FunctionList['buy'] = array( );
 
 ?>
