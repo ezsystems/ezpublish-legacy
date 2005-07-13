@@ -130,7 +130,7 @@
 
     {* Remove. *}
 	<td>
-	    {section show=and( or( eq( $Versions.item.status, 0 ),eq( $Versions.item.status, 3), eq( $Versions.item.status, 4 ) ), $can_remove )}
+	    {section show=or( eq( $Versions.item.status, 0 ),eq( $Versions.item.status, 3), eq( $Versions.item.status, 4 ) )}
             <input type="checkbox" name="DeleteIDArray[]" value="{$Versions.item.id}" title="{'Select version #%version_number for removal.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
 	    {section-else}
             <input type="checkbox" name="" value="" disabled="disabled" title="{'Version #%version_number can not be removed because it is either the published version of the object or because you do not have permissions to remove it.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
@@ -202,12 +202,7 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 <div class="block">
-{section show=$can_remove}
 <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" title="{'Remove the selected versions from the object.'|i18n( 'design/admin/content/versions' )}" />
-{section-else}
-<input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You do not have permissions to remove versions from this object.'|i18n( 'design/admin/content/versions' )}" />
-{/section}
-
 <input type="hidden" name="EditLanguage" value="{$edit_language}" />
 <input type="hidden" name="DoNotEditAfterCopy" value="" />
 </div>
