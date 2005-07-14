@@ -62,7 +62,7 @@
         <td class="class">{$Nodes.item.class_name|wash}</td>
 
         {* Modifier *}
-        <td class="modifier"><a href={$node.object.current.creator.main_node.url_alias|ezurl}>{$Nodes.item.object.current.creator.name|wash}</a></td>
+        <td class="modifier"><a href={$Nodes.item.object.current.creator.main_node.url_alias|ezurl}>{$Nodes.item.object.current.creator.name|wash}</a></td>
 
         {* Modified *}
         <td class="modified">{$Nodes.item.object.modified|l10n( shortdatetime )}</td>
