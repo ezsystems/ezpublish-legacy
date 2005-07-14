@@ -759,6 +759,8 @@ class eZTemplateLogicOperator
                                            method_exists( $operand, "attribute" ) );
                     else if ( is_bool( $operand ) )
                         $operand_logic = $operand;
+                    else if ( is_string( $operand ) )
+                        $operand_logic =  strlen(trim($operand)) > 0;
                     if ( $operand_logic )
                     {
                         $value = $operand;
@@ -785,6 +787,8 @@ class eZTemplateLogicOperator
                                            method_exists( $operand, "attribute" ) );
                     else if ( is_bool( $operand ) )
                         $operand_logic = $operand;
+                    else if ( is_string( $operand ) )
+                        $operand_logic =  strlen(trim($operand)) > 0;
                     if ( !$operand_logic )
                     {
                         $value = false;
