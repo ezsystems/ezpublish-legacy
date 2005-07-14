@@ -137,6 +137,8 @@ Attributes:
   (Merged from stable/3.5 rev. 12446).
 - Fixed bug #6900: Creator and modifier display detail in the admin intarface is corrected.
   (Merged from unstable/3.6.1 rev. 12518)
+- Fixed bug #6895: Incorrect test in advanced search.
+  (Merged from stable/3.6 rev. 12521)
 
 *Library:
 
