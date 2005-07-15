@@ -207,7 +207,7 @@ class eZRSSExport extends eZPersistentObject
     function remove()
     {
         $exportItems = $this->fetchItems();
-        
+
         $db =& eZDB::instance();
         $db->begin();
         foreach ( $exportItems as $item )
@@ -392,13 +392,13 @@ class eZRSSExport extends eZPersistentObject
         {
             $this->MainNodeOnly = false;
         }
-        
+
         return array(
                     'number_of_objects' => intval($this->NumberOfObjects),
                     'main_node_only'    => $this->MainNodeOnly
                     );
     }
-    
+
     /*!
      Get a RSS xml document based on the RSS 2.0 standard based on the RSS Export settings defined by this object
 
@@ -431,24 +431,38 @@ class eZRSSExport extends eZPersistentObject
 
         $doc = new eZDOMDocument();
         $doc->setName( 'eZ publish RSS Export' );
-        $root =& $doc->createElementNode( 'rss', array( 'version' => '2.0' ) );
+        $root = $doc->createElementNode( 'rss', array( 'version' => '2.0' ) );
         $doc->setRoot( $root );
 
-        $channel =& $doc->createElementNode( 'channel' );
+        $channel = $doc->createElementNode( 'channel' );
         $root->appendChild( $channel );
 
-        $channel->appendChild( $doc->createElementTextNode( 'title', $this->attribute( 'title' ) ) );
-        $channel->appendChild( $doc->createElementTextNode( 'link', $this->attribute( 'url' ) ) );
-        $channel->appendChild( $doc->createElementTextNode( 'description', $this->attribute( 'description' ) ) );
-        $channel->appendChild( $doc->createElementTextNode( 'language', $this->attribute( 'language' ) ) );
+        $channelTitle = $doc->createElementTextNode( 'title', $this->attribute( 'title' ) );
+        $channel->appendChild( $channelTitle );
+
+        $channelLink = $doc->createElementTextNode( 'link', $this->attribute( 'url' ) );
+        $channel->appendChild( $channelLink );
+
+        $channelDescription = $doc->createElementTextNode( 'description', $this->attribute( 'description' ) );
+        $channel->appendChild( $channelDescription );
+
+        $channelLanguage = $doc->createElementTextNode( 'language', $this->attribute( 'language' ) );
+        $channel->appendChild( $channelLanguage );
 
         $imageURL = $this->fetchImageURL();
         if ( $imageURL !== false )
         {
-            $image =& $doc->createElementNode( 'image' );
-            $image->appendChild( $doc->createElementTextNode( 'url', $imageURL ) );
-            $image->appendChild( $doc->createElementTextNode( 'title', $this->attribute( 'title' ) ) );
-            $image->appendChild( $doc->createElementTextNode( 'link', $this->attribute( 'url' ) ) );
+            $image = $doc->createElementNode( 'image' );
+
+            $imageUrlNode = $doc->createElementTextNode( 'url', $imageURL );
+            $image->appendChild( $imageUrlNode );
+
+            $imageTitle = $doc->createElementTextNode( 'title', $this->attribute( 'title' ) );
+            $image->appendChild( $imageTitle );
+
+            $imageLink = $doc->createElementTextNode( 'link', $this->attribute( 'url' ) );
+            $image->appendChild( $imageLink );
+
             $channel->appendChild( $image );
         }
 
@@ -457,14 +471,14 @@ class eZRSSExport extends eZPersistentObject
                     'status'        => $this->Status
                     );
         $rssSources = eZRSSExportItem::fetchFilteredList( $cond );
-        
+
         $nodeArray =& eZRSSExportItem::fetchObjectList( $rssSources, $this->getObjectListFilter() );
-        
+
         if( is_array( $nodeArray ) && count( $nodeArray ) )
         {
             $attributeMappings = eZRSSExportItem::getAttributeMappings( $rssSources );
         }
-        
+
         foreach ( $nodeArray as $node )
         {
             $object =& $node->attribute( 'object' );
@@ -477,7 +491,7 @@ class eZRSSExport extends eZPersistentObject
             {
                 $nodeURL = $baseItemURL.'content/view/full/'.$object->attribute( 'id' );
             }
-            
+
             // keep track if there's any match
             $doesMatch = false;
             // start mapping the class attribute to the respective RSS field
@@ -495,55 +509,70 @@ class eZRSSExport extends eZPersistentObject
                     break;
                 }
             }
-            
+
             if( !$doesMatch )
             {
                 // no match
                 return eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
             }
-            
+
             // title RSS element with respective class attribute content
-            $itemTitle =& $doc->createElementNode( 'title' );
+            unset( $itemTitle );
+            $itemTitle = $doc->createElementNode( 'title' );
             $titleContent =& $title->attribute( 'content' );
             if ( get_class( $titleContent ) == 'ezxmltext' )
             {
                 $outputHandler =& $titleContent->attribute( 'output' );
-                $itemTitle->appendChild( $doc->createTextNode( $outputHandler->attribute( 'output_text' ) ) );
+                unset( $itemTitleText );
+                $itemTitleText = $doc->createTextNode( $outputHandler->attribute( 'output_text' ) );
+                $itemTitle->appendChild( $itemTitleText );
             }
             else
             {
-                $itemTitle->appendChild( $doc->createTextNode( $titleContent ) );
+                unset( $itemTitleText );
+                $itemTitleText = $doc->createTextNode( $titleContent );
+                $itemTitle->appendChild( $itemTitleText );
             }
-            
+
             // title RSS element with respective class attribute content
-            $itemDescription =& $doc->createElementNode( 'description' );
+            unset( $itemDescription );
+            $itemDescription = $doc->createElementNode( 'description' );
             $descriptionContent =& $description->attribute( 'content' );
             if ( get_class( $descriptionContent ) == 'ezxmltext' )
             {
                 $outputHandler =& $descriptionContent->attribute( 'output' );
-                $itemDescription->appendChild( $doc->createTextNode( $outputHandler->attribute( 'output_text' ) ) );
+                unset( $itemDescriptionText );
+                $itemDescriptionText = $doc->createTextNode( $outputHandler->attribute( 'output_text' ) );
+                $itemDescription->appendChild( $itemDescriptionText );
             }
             else
             {
-                $itemDescription->appendChild( $doc->createTextNode( $descriptionContent ) );
+                unset( $itemDescriptionText );
+                $itemDescriptionText = $doc->createTextNode( $descriptionContent );
+                $itemDescription->appendChild( $itemDescriptionText );
             }
 
-            $itemLink =& $doc->createElementNode( 'link' );
-            $itemLink->appendChild( $doc->createTextNode( $nodeURL ) );
+            unset( $itemLink );
+            $itemLink = $doc->createElementNode( 'link' );
 
-            $item =& $doc->createElementNode( 'item' );
+            unset( $itemLinkUrl );
+            $itemLinkUrl = $doc->createTextNode( $nodeURL );
+            $itemLink->appendChild( $itemLinkUrl );
 
-            $item->appendChild( $doc->createElementTextNode( 'pubDate',
-                                                             gmdate( 'D, d M Y H:i:s', $object->attribute( 'published' ) ) .'GMT' ) );
+            unset( $item );
+            $item = $doc->createElementNode( 'item' );
 
+            unset( $itemPubDate );
+            $itemPubDate = $doc->createElementTextNode( 'pubDate', gmdate( 'D, d M Y H:i:s', $object->attribute( 'published' ) ) .'GMT' );
+
+            $item->appendChild( $itemPubDate );
             $item->appendChild( $itemTitle );
             $item->appendChild( $itemLink );
             $item->appendChild( $itemDescription );
 
             $channel->appendChild( $item );
-
         }
-        
+
         return $doc;
     }
 
@@ -581,30 +610,44 @@ class eZRSSExport extends eZPersistentObject
 
         $doc = new eZDOMDocument();
         $doc->setName( 'eZ publish RSS Export' );
-        $root =& $doc->createElementNode( 'rdf:RDF' );
+        $root = $doc->createElementNode( 'rdf:RDF' );
         $doc->setRoot( $root );
 
-        $channel =& $doc->createElementNode( 'channel' );
+        $channel = $doc->createElementNode( 'channel' );
         $root->appendChild( $channel );
 
-        $channel->appendChild( $doc->createElementTextNode( 'title', $this->attribute( 'title' ) ) );
-        $channel->appendChild( $doc->createElementTextNode( 'link', $this->attribute( 'url' ) ) );
-        $channel->appendChild( $doc->createElementTextNode( 'description', $this->attribute( 'description' ) ) );
+        $channelTitle = $doc->createElementTextNode( 'title', $this->attribute( 'title' ) );
+        $channel->appendChild( $channelTitle );
+
+        $channelUrl = $doc->createElementTextNode( 'link', $this->attribute( 'url' ) );
+        $channel->appendChild( $channelUrl );
+
+        $channelDescription = $doc->createElementTextNode( 'description', $this->attribute( 'description' ) );
+        $channel->appendChild( $channelDescription );
 
         if ( $imageURL !== false )
         {
-            $channel->appendChild( $doc->createElementNode( 'image', array( 'rdf:resource' => $imageURL ) ) );
-            $image =& $doc->createElementNode( 'image', array( 'rdf:about' => $imageURL ) );
-            $image->appendChild( $doc->createElementTextNode( 'title', $this->attribute( 'title' ) ) );
-            $image->appendChild( $doc->createElementTextNode( 'link', $this->attribute( 'url' ) ) );
-            $image->appendChild( $doc->createElementTextNode( 'url', $imageURL ) );
+            $channelImage = $doc->createElementNode( 'image', array( 'rdf:resource' => $imageURL ) );
+            $channel->appendChild( $channelImage );
+
+            $image = $doc->createElementNode( 'image', array( 'rdf:about' => $imageURL ) );
+
+            $imageTitle = $doc->createElementTextNode( 'title', $this->attribute( 'title' ) );
+            $image->appendChild( $imageTitle );
+
+            $imageLink = $doc->createElementTextNode( 'link', $this->attribute( 'url' ) );
+            $image->appendChild( $imageLink );
+
+            $imageUrlNode = $doc->createElementTextNode( 'url', $imageURL );
+            $image->appendChild( $imageUrlNode );
+
             $root->appendChild( $image );
         }
 
-        $items =& $doc->createElementNode( 'items' );
+        $items = $doc->createElementNode( 'items' );
         $channel->appendChild( $items );
 
-        $rdfSeq =& $doc->createElementNode( 'rdf:seq' );
+        $rdfSeq = $doc->createElementNode( 'rdf:seq' );
         $items->appendChild( $rdfSeq );
 
         $cond = array(
@@ -612,14 +655,14 @@ class eZRSSExport extends eZPersistentObject
                     'status'        => $this->Status
                     );
         $rssSources = eZRSSExportItem::fetchFilteredList( $cond );
-        
+
         $nodeArray =& eZRSSExportItem::fetchObjectList( $rssSources, $this->getObjectListFilter() );
-        
+
         if( is_array( $nodeArray ) && count( $nodeArray ) )
         {
             $attributeMappings = eZRSSExportItem::getAttributeMappings( $rssSources );
         }
-        
+
         foreach ( $nodeArray as $node )
         {
             $object =& $node->attribute( 'object' );
@@ -632,9 +675,11 @@ class eZRSSExport extends eZPersistentObject
             {
                 $nodeURL = $baseItemURL.'content/view/full/'.$object->attribute( 'id' );
             }
-            
-            $rdfSeq->appendChild( $doc->createElementNode( 'rdf:li', array( 'rdf:resource' => $nodeURL ) ) );
-            
+
+            unset( $rdfSeqLi );
+            $rdfSeqLi = $doc->createElementNode( 'rdf:li', array( 'rdf:resource' => $nodeURL ) );
+            $rdfSeq->appendChild( $rdfSeqLi );
+
             // keep track if there's any match
             $doesMatch = false;
             // start mapping the class attribute to the respective RSS field
@@ -652,43 +697,60 @@ class eZRSSExport extends eZPersistentObject
                     break;
                 }
             }
-            
+
             if( !$doesMatch )
             {
                 // no match
                 return eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
             }
-            
+
             // title RSS element with respective class attribute content
-            $itemTitle =& $doc->createElementNode( 'title' );
+            unset( $itemTitle );
+            $itemTitle = $doc->createElementNode( 'title' );
             $titleContent =& $title->attribute( 'content' );
             if ( get_class( $titleContent ) == 'ezxmltext' )
             {
                 $outputHandler =& $titleContent->attribute( 'output' );
-                $itemTitle->appendChild( $doc->createTextNode( $outputHandler->attribute( 'output_text' ) ) );
+
+                unset( $itemTitleText );
+                $itemTitleText = $doc->createTextNode( $outputHandler->attribute( 'output_text' ) );
+                $itemTitle->appendChild( $itemTitleText );
             }
             else
             {
-                $itemTitle->appendChild( $doc->createTextNode( $titleContent ) );
+                unset( $itemTitleText );
+                $itemTitleText = $doc->createTextNode( $titleContent );
+                $itemTitle->appendChild( $itemTitleText );
             }
-            
+
             // description RSS element with respective class attribute content
-            $itemDescription =& $doc->createElementNode( 'description' );
+            unset( $itemDescription );
+            $itemDescription = $doc->createElementNode( 'description' );
             $descriptionContent =& $description->attribute( 'content' );
             if ( get_class( $descriptionContent ) == 'ezxmltext' )
             {
                 $outputHandler =& $descriptionContent->attribute( 'output' );
-                $itemDescription->appendChild( $doc->createTextNode( $outputHandler->attribute( 'output_text' ) ) );
+
+                unset( $itemDescriptionText );
+                $itemDescriptionText = $doc->createTextNode( $outputHandler->attribute( 'output_text' ) );
+                $itemDescription->appendChild( $itemDescriptionText );
             }
             else
             {
-                $itemDescription->appendChild( $doc->createTextNode( $descriptionContent ) );
+                unset( $itemDescriptionText );
+                $itemDescriptionText = $doc->createTextNode( $descriptionContent );
+                $itemDescription->appendChild( $itemDescriptionText );
             }
 
-            $itemLink =& $doc->createElementNode( 'link' );
-            $itemLink->appendChild( $doc->createTextNode( $nodeURL ) );
+            unset( $itemLink );
+            $itemLink = $doc->createElementNode( 'link' );
 
-            $item =& $doc->createElementNode( 'item', array ( 'rdf:about' => $nodeURL ) );
+            unset( $itemLinkText );
+            $itemLinkText = $doc->createTextNode( $nodeURL );
+            $itemLink->appendChild( $itemLinkText );
+
+            unset( $item );
+            $item = $doc->createElementNode( 'item', array ( 'rdf:about' => $nodeURL ) );
 
             $item->appendChild( $itemTitle );
             $item->appendChild( $itemLink );
@@ -696,7 +758,7 @@ class eZRSSExport extends eZPersistentObject
 
             $root->appendChild( $item );
         }
-        
+
         return $doc;
     }
 
