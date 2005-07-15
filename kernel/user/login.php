@@ -135,7 +135,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
          *    If the user object is published under several groups, main node is chosen
          *    (it its URI non-empty; otherwise first non-empty URI is chosen from the group list -- if any).
          *
-         * See doc/features/3.7/advanced_redirection_after_user_login.txt for more information.
+         * See doc/features/3.8/advanced_redirection_after_user_login.txt for more information.
          */
 
         // First, let's determine which attributes we should search redirection URI in.
