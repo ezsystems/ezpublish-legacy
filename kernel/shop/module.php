@@ -84,35 +84,35 @@ $ViewList["wishlist"] = array(
     "params" => array(  ) );
 
 $ViewList["orderlist"] = array(
-    "functions" => array( 'adminstrate' ),
+    "functions" => array( 'administrate' ),
     "script" => "orderlist.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "unordered_params" => array( "offset" => "Offset" ),
     "params" => array(  ) );
 
 $ViewList["archivelist"] = array(
-    "functions" => array( 'adminstrate' ),
+    "functions" => array( 'administrate' ),
     "script" => "archivelist.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "unordered_params" => array( "offset" => "Offset" ),
     "params" => array(  ) );
 
 $ViewList["removeorder"] = array(
-    "functions" => array( 'adminstrate' ),
+    "functions" => array( 'administrate' ),
     "script" => "removeorder.php",
     'ui_context' => 'edit',
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array() );
 
 $ViewList["archiveorder"] = array(
-    "functions" => array( 'adminstrate' ),
+    "functions" => array( 'adminsitrate' ),
     "script" => "archiveorder.php",
     'ui_context' => 'edit',
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array() );
 
 $ViewList["unarchiveorder"] = array(
-    "functions" => array( 'adminstrate' ),
+    "functions" => array( 'administrate' ),
     "script" => "unarchiveorder.php",
     'ui_context' => 'edit',
     "default_navigation_part" => 'ezshopnavigationpart',
@@ -120,20 +120,20 @@ $ViewList["unarchiveorder"] = array(
 
 
 $ViewList["customerlist"] = array(
-    "functions" => array( 'adminstrate' ),
+    "functions" => array( 'administrate' ),
     "script" => "customerlist.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "unordered_params" => array( 'offset' => 'Offset' ),
     "params" => array(  ) );
 
 $ViewList["customerorderview"] = array(
-    "functions" => array( 'adminstrate' ),
+    "functions" => array( 'administrate' ),
     "script" => "customerorderview.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array( "CustomerID", "Email" ) );
 
 $ViewList["statistics"] = array(
-    "functions" => array( 'adminstrate' ),
+    "functions" => array( 'administrate' ),
     "script" => "orderstatistics.php",
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array( 'Year', 'Month' ) );
@@ -214,7 +214,7 @@ $ToStatus = array(
     'parameter' => array( false ) );
 
 $FunctionList['setup'] = array( );
-$FunctionList['adminstrate'] = array( );
+$FunctionList['administrate'] = array( );
 $FunctionList['buy'] = array( );
 $FunctionList['edit_status'] = array( );
 $FunctionList['setstatus'] = array( 'FromStatus' => $FromStatus,

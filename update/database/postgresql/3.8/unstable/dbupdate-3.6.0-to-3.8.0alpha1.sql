@@ -13,3 +13,6 @@ CREATE INDEX ezorder_is_archived ON ezorder USING btree (is_archived);
 UPDATE ezworkflow_event set data_text3=data_int1;
 
 -- Improved Approval Workflow --  END  --
+
+UPDATE ezpolicy SET function_name='administrate' WHERE module_name='shop' AND function_name='adminstrate';
+
