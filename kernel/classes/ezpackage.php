@@ -2438,7 +2438,8 @@ class eZPackage
         $dom = new eZDOMDocument();
         $root = $dom->createElementNode( 'package', array( 'version' => EZ_PACKAGE_VERSION,
                                                            'development' => ( EZ_PACKAGE_DEVELOPMENT ? 'true' : 'false' ) ) );
-        $root->appendAttribute( $dom->createAttributeNode( 'ezpackage', 'http://ez.no/ezpackage', 'xmlns' ) );
+        $domUrlAttributeNode = $dom->createAttributeNode( 'ezpackage', 'http://ez.no/ezpackage', 'xmlns' );
+        $root->appendAttribute( $domUrlAttributeNode );
         $dom->setRoot( $root );
 
         if ( EZ_PACKAGE_DEVELOPMENT )
@@ -2511,84 +2512,163 @@ class eZPackage
         $uninstall = $this->attribute( 'uninstall' );
         $changelog = $this->attribute( 'changelog' );
 
-        $root->appendChild( $dom->createElementTextNode( 'name', $name,
-                                                         $nameAttributes ) );
+        $rootNameTextNode = $dom->createElementTextNode( 'name', $name, $nameAttributes );
+        $root->appendChild( $rootNameTextNode );
         if ( $summary )
-            $root->appendChild( $dom->createElementTextNode( 'summary', $summary,
-                                                             $summaryAttributes ) );
+        {
+            $rootSummaryTextNode = $dom->createElementTextNode( 'summary', $summary, $summaryAttributes );
+            $root->appendChild( $rootSummaryTextNode );
+        }
+
         if ( $description )
-            $root->appendChild( $dom->createElementTextNode( 'description', $description,
-                                                             $descriptionAttributes ) );
+        {
+            $rootDescriptionTextNode = $dom->createElementTextNode( 'description', $description, $descriptionAttributes );
+            $root->appendChild( $rootDescriptionTextNode );
+        }
+
         if ( $vendor )
-            $root->appendChild( $dom->createElementTextNode( 'vendor', $vendor,
-                                                             $vendorAttributes ) );
+        {
+            $rootVendorTextNode = $dom->createElementTextNode( 'vendor', $vendor, $vendorAttributes );
+            $root->appendChild( $rootVendorTextNode );
+        }
+
         if ( $priority )
-            $root->appendChild( $dom->createElementNode( 'priority', $priorityAttributes ) );
+        {
+            $rootPriorityTextNode = $dom->createElementNode( 'priority', $priorityAttributes );
+            $root->appendChild( $rootPriorityTextNode );
+        }
+
         if ( $type )
-            $root->appendChild( $dom->createElementNode( 'type', $typeAttributes ) );
+        {
+            $rootTypeTextNode = $dom->createElementNode( 'type', $typeAttributes );
+            $root->appendChild( $rootTypeTextNode );
+        }
+
         if ( $extension )
-            $root->appendChild( $dom->createElementNode( 'extension', $extensionAttributes ) );
+        {
+            $rootExtensionTextNode = $dom->createElementNode( 'extension', $extensionAttributes );
+            $root->appendChild( $rootExtensionTextNode );
+        }
+
         if ( $source )
-            $root->appendChild( $dom->createElementTextNode( 'source', $source,
-                                                             $sourceAttributes ) );
+        {
+            $rootSourceTextNode = $dom->createElementTextNode( 'source', $source, $sourceAttributes );
+            $root->appendChild( $rootSourceTextNode );
+        }
 
         if ( !$exportFormat and $isInstalled )
-            $root->appendAttribute( $dom->createAttributeNode( 'is_installed', 'true' ) );
-        if ( !$exportFormat )
-            $root->appendAttribute( $dom->createAttributeNode( 'is_active', ( $isActive ? 'true' : 'false' ) ) );
-        $root->appendAttribute( $dom->createAttributeNode( 'install_type', $installType ) );
+        {
+            $rootIsInstalledAttributeNode = $dom->createAttributeNode( 'is_installed', 'true' );
+            $root->appendAttribute( $rootIsInstalledAttributeNode );
+        }
 
-        $ezpublishNode =& $dom->createElementNode( 'ezpublish' );
-        $ezpublishNode->appendAttribute( $dom->createAttributeNode( 'ezpublish', 'http://ez.no/ezpublish', 'xmlns' ) );
-        $ezpublishNode->appendChild( $dom->createElementTextNode( 'version', $ezpublishVersion ) );
-        $ezpublishNode->appendChild( $dom->createElementTextNode( 'named-version', $ezpublishNamedVersion ) );
+        if ( !$exportFormat )
+        {
+            $rootIsActiveAttributeNode = $dom->createAttributeNode( 'is_active', ( $isActive ? 'true' : 'false' ) );
+            $root->appendAttribute( $rootIsActiveAttributeNode );
+        }
+
+        $rootInstallTypeAttributeNode = $dom->createAttributeNode( 'install_type', $installType );
+        $root->appendAttribute( $rootInstallTypeAttributeNode );
+
+        $ezpublishNode = $dom->createElementNode( 'ezpublish' );
+        $ezpublishLinkAttributeNode = $dom->createAttributeNode( 'ezpublish', 'http://ez.no/ezpublish', 'xmlns' );
+        $ezpublishNode->appendAttribute( $ezpublishLinkAttributeNode );
+
+        $ezpublishVersionTextNode = $dom->createElementTextNode( 'version', $ezpublishVersion );
+        $ezpublishNode->appendChild( $ezpublishVersionTextNode );
+
+        $ezpublishNamedVersionTextNode = $dom->createElementTextNode( 'named-version', $ezpublishNamedVersion );
+        $ezpublishNode->appendChild( $ezpublishNamedVersionTextNode );
+
         $root->appendChild( $ezpublishNode );
 
         if ( count( $maintainers ) > 0 )
         {
-            $maintainersNode =& $dom->createElementNode( 'maintainers' );
-            $maintainersNode->appendAttribute( $dom->createAttributeNode( 'ezmaintainer', 'http://ez.no/ezpackage', 'xmlns' ) );
+            $maintainersNode = $dom->createElementNode( 'maintainers' );
+            $maintainersLinkAttributeNode = $dom->createAttributeNode( 'ezmaintainer', 'http://ez.no/ezpackage', 'xmlns' );
+            $maintainersNode->appendAttribute( $maintainersLinkAttributeNode );
             $index = 0;
             foreach ( $maintainers as $maintainer )
             {
-                $maintainerNode =& $dom->createElementNode( 'maintainer' );
-                $maintainerNode->appendChild( $dom->createElementTextNode( 'name', $maintainer['name'] ) );
-                $maintainerNode->appendChild( $dom->createElementTextNode( 'email', $maintainer['email'] ) );
+                unset( $maintainerNode );
+                $maintainerNode = $dom->createElementNode( 'maintainer' );
+
+                unset( $maintainerName );
+                $maintainerName = $dom->createElementTextNode( 'name', $maintainer['name'] );
+                $maintainerNode->appendChild( $maintainerName );
+
+                unset( $maintainerEmail );
+                $maintainerEmail = $dom->createElementTextNode( 'email', $maintainer['email'] );
+                $maintainerNode->appendChild( $maintainerEmail );
                 if ( $maintainer['role'] )
-                    $maintainerNode->appendChild( $dom->createElementTextNode( 'role', $maintainer['role'] ) );
+                {
+                    unset( $maintainerRole );
+                    $maintainerRole = $dom->createElementTextNode( 'role', $maintainer['role'] );
+                    $maintainerNode->appendChild( $maintainerRole );
+                }
+
                 $maintainersNode->appendChild( $maintainerNode );
                 if ( !$exportFormat and $maintainer['modified'] )
-                    $maintainerNode->appendAttribute( $dom->createAttributeNode( 'modified', $maintainer['modified'] ) );
+                {
+                    unset( $maintainerModified );
+                    $maintainerModified = $dom->createAttributeNode( 'modified', $maintainer['modified'] );
+                    $maintainerNode->appendAttribute( $maintainerModified );
+                }
                 ++$index;
             }
             $root->appendChild( $maintainersNode );
         }
 
-        $packagingNode =& $dom->createElementNode( 'packaging' );
-        $packagingNode->appendAttribute( $dom->createAttributeNode( 'ezpackaging', 'http://ez.no/ezpackage', 'xmlns' ) );
-        $packagingNode->appendChild( $dom->createElementTextNode( 'timestamp', $packagingTimestamp ) );
-        $packagingNode->appendChild( $dom->createElementTextNode( 'host', $packagingHost ) );
+        $packagingNode = $dom->createElementNode( 'packaging' );
+        $packagingAttributeUrl = $dom->createAttributeNode( 'ezpackaging', 'http://ez.no/ezpackage', 'xmlns' );
+        $packagingNode->appendAttribute( $packagingAttributeUrl );
+
+        $packagingTimestamp = $dom->createElementTextNode( 'timestamp', $packagingTimestamp );
+        $packagingNode->appendChild( $packagingTimestamp );
+
+        $packagingHost = $dom->createElementTextNode( 'host', $packagingHost );
+        $packagingNode->appendChild( $packagingHost );
         if ( $packagingPackager )
-            $packagingNode->appendChild( $dom->createElementTextNode( 'packager', $packagingPackager ) );
+        {
+            $packagingPackager = $dom->createElementTextNode( 'packager', $packagingPackager );
+            $packagingNode->appendChild( $packagingPackager );
+        }
+
         $root->appendChild( $packagingNode );
 
 //         $root->appendChild( $dom->createElementNode( 'signature' ) );
 
         if ( count( $documents ) > 0 )
         {
-            $documentsNode =& $dom->createElementNode( 'documents' );
+            $documentsNode = $dom->createElementNode( 'documents' );
             $index = 0;
             foreach ( $documents as $document )
             {
-                $documentNode =& $dom->createElementNode( 'document',
+                unset( $documentNode );
+                $documentNode = $dom->createElementNode( 'document',
                                                           array( 'mime-type' => $document['mime-type'],
                                                                  'name' => $document['name'] ) );
                 if ( !$exportFormat and $document['modified'] )
-                    $documentNode->appendAttribute( $dom->createAttributeNode( 'modified', $document['modified'] ) );
+                {
+                    unset( $documentModified );
+                    $documentModified = $dom->createAttributeNode( 'modified', $document['modified'] );
+                    $documentNode->appendAttribute( $documentModified );
+                }
+
                 if ( $document['os'] )
-                    $documentNode->appendAttribute( $dom->createAttributeNode( 'os', $document['os'] ) );
+                {
+                    unset( $documentOS );
+                    $documentOS = $dom->createAttributeNode( 'os', $document['os'] );
+                    $documentNode->appendAttribute( $documentOS );
+                }
+
                 if ( $document['audience'] )
-                    $documentNode->appendAttribute( $dom->createAttributeNode( 'audience', $document['audience'] ) );
+                {
+                    unset( $documentAudience );
+                    $documentAudience = $dom->createAttributeNode( 'audience', $document['audience'] );
+                    $documentNode->appendAttribute(  );
+                }
                 $documentsNode->appendChild( $documentNode );
                 if ( $exportFormat )
                 {
@@ -2616,14 +2696,16 @@ class eZPackage
 
         if ( count( $groups ) > 0 )
         {
-            $groupsNode =& $dom->createElementNode( 'groups' );
+            $groupsNode = $dom->createElementNode( 'groups' );
             foreach ( $groups as $group )
             {
                 $groupAttributes = array( 'name' => $group['name'] );
                 $groupModified = $group['modified'];
                 if ( !$exportFormat and $groupModified )
                     $groupAttributes['modified'] = $groupModified;
-                $groupNode =& $dom->createElementNode( 'group', $groupAttributes );
+
+                unset( $groupNode );
+                $groupNode = $dom->createElementNode( 'group', $groupAttributes );
                 $groupsNode->appendChild( $groupNode );
             }
             $root->appendChild( $groupsNode );
@@ -2631,22 +2713,43 @@ class eZPackage
 
         if ( count( $changelog ) > 0 )
         {
-            $changelogNode =& $dom->createElementNode( 'changelog' );
-            $changelogNode->appendAttribute( $dom->createAttributeNode( 'ezchangelog', 'http://ez.no/ezpackage', 'xmlns' ) );
+            $changelogNode = $dom->createElementNode( 'changelog' );
+            $changelogUrl = $dom->createAttributeNode( 'ezchangelog', 'http://ez.no/ezpackage', 'xmlns' );
+            $changelogNode->appendAttribute( $changelogUrl );
             $index = 0;
             foreach ( $changelog as $changeEntry )
             {
-                $changeEntryNode =& $dom->createElementNode( 'entry' );
-                $changeEntryNode->appendAttribute( $dom->createAttributeNode( 'timestamp', $changeEntry['timestamp'] ) );
-                $changeEntryNode->appendAttribute( $dom->createAttributeNode( 'person', $changeEntry['person'] ) );
-                $changeEntryNode->appendAttribute( $dom->createAttributeNode( 'email', $changeEntry['email'] ) );
-                $changeEntryNode->appendAttribute( $dom->createAttributeNode( 'release', $changeEntry['release'] ) );
+                unset( $changeEntryNode );
+                $changeEntryNode = $dom->createElementNode( 'entry' );
+
+                unset( $changeEntryTimestamp );
+                $changeEntryTimestamp = $dom->createAttributeNode( 'timestamp', $changeEntry['timestamp'] );
+                $changeEntryNode->appendAttribute( $changeEntryTimestamp );
+
+                unset( $changeEntryPerson );
+                $changeEntryPerson = $dom->createAttributeNode( 'person', $changeEntry['person'] );
+                $changeEntryNode->appendAttribute( $changeEntryPerson );
+
+                unset( $changeEntryEmail );
+                $changeEntryEmail = $dom->createAttributeNode( 'email', $changeEntry['email'] );
+                $changeEntryNode->appendAttribute( $changeEntryEmail );
+
+                unset( $changeEntryRelease );
+                $changeEntryRelease = $dom->createAttributeNode( 'release', $changeEntry['release'] );
+                $changeEntryNode->appendAttribute( $changeEntryRelease );
+
                 foreach ( $changeEntry['changes'] as $change )
                 {
-                    $changeEntryNode->appendChild( $dom->createElementTextNode( 'change', $change ) );
+                    unset( $changeEntryChange );
+                    $changeEntryChange = $dom->createElementTextNode( 'change', $change );
+                    $changeEntryNode->appendChild( $changeEntryChange );
                 }
                 if ( !$exportFormat and $changeEntry['modified'] )
-                    $changeEntryNode->appendAttribute( $dom->createAttributeNode( 'modified', $changeEntry['modified'] ) );
+                {
+                    unset( $changeEntryModified );
+                    $changeEntryModified = $dom->createAttributeNode( 'modified', $changeEntry['modified'] );
+                    $changeEntryNode->appendAttribute( $changeEntryModified );
+                }
                 $changelogNode->appendChild( $changeEntryNode );
                 ++$index;
             }
@@ -2678,16 +2781,19 @@ class eZPackage
         // Avoid a PHP warning if 'simple-file-list' is not an array
         if ( is_array( $this->Parameters['simple-file-list'] ) )
         {
-            $root->appendChild( $dom->createElementNodeFromArray( 'simple-files', $this->Parameters['simple-file-list'] ) );
+            $rootSimpleFiles = $dom->createElementNodeFromArray( 'simple-files', $this->Parameters['simple-file-list'] );
+            $root->appendChild( $rootSimpleFiles );
         }
         else
         {
-            $root->appendChild( $dom->createElementNodeFromArray( 'simple-files', array() ) );
+            $rootSimpleFiles = $dom->createElementNodeFromArray( 'simple-files', array() );
+            $root->appendChild( $rootSimpleFiles );
         }
 
         // Handle files
-        $filesNode =& $dom->createElementNode( 'files' );
-        $filesNode->appendAttribute( $dom->createAttributeNode( 'ezfile', 'http://ez.no/ezpackage', 'xmlns' ) );
+        $filesNode = $dom->createElementNode( 'files' );
+        $filesUrl = $dom->createAttributeNode( 'ezfile', 'http://ez.no/ezpackage', 'xmlns' );
+        $filesNode->appendAttribute( $filesUrl );
         $hasFileItems = false;
         foreach ( $fileList as $fileCollectionName => $fileCollection )
         {
@@ -2697,7 +2803,8 @@ class eZPackage
                 $collectionAttributes = array();
                 if ( $fileCollectionName )
                     $collectionAttributes['name'] = $fileCollectionName;
-                $fileCollectionNode =& $dom->createElementNode( 'collection',
+                unset( $fileCollectionNode );
+                $fileCollectionNode = $dom->createElementNode( 'collection',
                                                                 $collectionAttributes );
                 unset( $fileLists );
                 unset( $fileDesignLists );
@@ -2727,6 +2834,7 @@ class eZPackage
                             $fileListAttributes['role-value'] = $fileItem['role-value'];
                         if ( $fileItem['variable-name'] )
                             $fileListAttributes['variable-name'] = $fileItem['variable-name'];
+                        unset( $fileListNode );
                         $fileListNode = $dom->createElementNode( 'file-list',
                                                                  $fileListAttributes );
                         $fileCollectionNode->appendChild( $fileListNode );
@@ -2742,12 +2850,18 @@ class eZPackage
                         $fileAttributes['modified'] = $fileItem['modified'];
                     if ( $fileItem['name'] )
                     {
-                        $fileListNode->appendChild( $dom->createElementNode( 'file', $fileAttributes ) );
+                        unset( $fileListFile );
+                        $fileListFile = $dom->createElementNode( 'file', $fileAttributes );
+                        $fileListNode->appendChild( $fileListFile );
                     }
                     else
                     {
                         if ( $fileItem['modified'] and !$exportFormat )
-                            $fileListNode->appendAttribute( $dom->createAttributeNode( 'modified', $fileItem['modified'] ) );
+                        {
+                            unset( $fileListModified );
+                            $fileListModified = $dom->createAttributeNode( 'modified', $fileItem['modified'] );
+                            $fileListNode->appendAttribute( $fileListModified );
+                        }
                     }
                     $copyFile = $fileItem['copy-file'];
                     if ( $export )
@@ -2805,7 +2919,10 @@ class eZPackage
                                     $copiedFileAttributes['md5sum'] = $copiedMD5Sum;
                                 if ( $copiedSubdirectory )
                                     $copiedFileAttributes['sub-directory'] = $copiedSubdirectory;
-                                $fileListNode->appendChild( $dom->createElementNode( 'file', $copiedFileAttributes ) );
+
+                                unset( $fileListCopiedFile );
+                                $fileListCopiedFile = $dom->createElementNode( 'file', $copiedFileAttributes );
+                                $fileListNode->appendChild( $fileListCopiedFile );
                             }
                         }
                         else
@@ -2846,47 +2963,58 @@ class eZPackage
         if ( $hasFileItems )
             $root->appendChild( $filesNode );
 
-        $versionNode =& $dom->createElementNode( 'version' );
-        $versionNode->appendAttribute( $dom->createAttributeNode( 'ezversion', 'http://ez.no/ezpackage', 'xmlns' ) );
+        $versionNode = $dom->createElementNode( 'version' );
+        $versionUrlAttributeNode = $dom->createAttributeNode( 'ezversion', 'http://ez.no/ezpackage', 'xmlns' );
+        $versionNode->appendAttribute( $versionUrlAttributeNode );
         $numberAttributes = array();
         if ( !$exportFormat and $this->isModified( 'version-number' ) )
             $numberAttributes['modified'] = $this->isModified( 'version-number' );
-        $versionNode->appendChild( $dom->createElementTextNode( 'number', $versionNumber,
-                                                                $numberAttributes ) );
+        $versionNumberTextNode = $dom->createElementTextNode( 'number', $versionNumber, $numberAttributes );
+        $versionNode->appendChild( $versionNumberTextNode );
         $releaseAttributes = array();
         if ( !$exportFormat and $this->isModified( 'release-number' ) )
             $releaseAttributes['modified'] = $this->isModified( 'release-number' );
-        $versionNode->appendChild( $dom->createElementTextNode( 'release', $releaseNumber,
-                                                                $releaseAttributes ) );
+        $versionReleaseNumberTextNode = $dom->createElementTextNode( 'release', $releaseNumber, $releaseAttributes );
+        $versionNode->appendChild( $versionReleaseNumberTextNode );
         $root->appendChild( $versionNode );
         if ( $releaseTimestamp )
         {
             $timestampAttributes = array();
             if ( !$exportFormat and $this->isModified( 'release-timestamp' ) )
                 $timestampAttributes['modified'] = $this->isModified( 'release-timestamp' );
-            $root->appendChild( $dom->createElementTextNode( 'timestamp', $releaseTimestamp,
-                                                             $timestampAttributes ) );
+            $rootTimestampTextNode = $dom->createElementTextNode( 'timestamp', $releaseTimestamp, $timestampAttributes );
+            $root->appendChild( $rootTimestampTextNode );
         }
         $licenceAttributes = array();
         if ( !$exportFormat and $this->isModified( 'licence' ) )
             $licenceAttributes['modified'] = $this->isModified( 'licence' );
         if ( $licence )
-            $root->appendChild( $dom->createElementTextNode( 'licence', $licence,
-                                                             $licenceAttributes ) );
+        {
+            $rootLicenceTextNode = $dom->createElementTextNode( 'licence', $licence, $licenceAttributes );
+            $root->appendChild( $rootLicenceTextNode );
+        }
+
         $stateAttributes = array();
         if ( !$exportFormat and $this->isModified( 'state' ) )
             $stateAttributes['modified'] = $this->isModified( 'state' );
         if ( $state )
-            $root->appendChild( $dom->createElementTextNode( 'state', $state,
-                                                             $stateAttributes ) );
+        {
+            $rootStateTextNode = $dom->createElementTextNode( 'state', $state, $stateAttributes );
+            $root->appendChild( $rootStateTextNode );
+        }
 
-        $dependencyNode =& $dom->createElementNode( 'dependencies' );
-        $dependencyNode->appendAttribute( $dom->createAttributeNode( 'ezdependency', 'http://ez.no/ezpackage', 'xmlns' ) );
+        $dependencyNode = $dom->createElementNode( 'dependencies' );
+        $dependencyLinkNode = $dom->createAttributeNode( 'ezdependency', 'http://ez.no/ezpackage', 'xmlns' );
+        $dependencyNode->appendAttribute( $dependencyLinkNode );
 
-        $providesNode =& $dependencyNode->appendChild( $dom->createElementNode( 'provides' ) );
-        $requiresNode =& $dependencyNode->appendChild( $dom->createElementNode( 'requires' ) );
-        $obsoletesNode =& $dependencyNode->appendChild( $dom->createElementNode( 'obsoletes' ) );
-        $conflictsNode =& $dependencyNode->appendChild( $dom->createElementNode( 'conflicts' ) );
+        $providesNode = $dom->createElementNode( 'provides' );
+        $dependencyNode->appendChild( $providesNode );
+        $requiresNode = $dom->createElementNode( 'requires' );
+        $dependencyNode->appendChild( $requiresNode );
+        $obsoletesNode = $dom->createElementNode( 'obsoletes' );
+        $dependencyNode->appendChild( $obsoletesNode );
+        $conflictsNode = $dom->createElementNode( 'conflicts' );
+        $dependencyNode->appendChild( $conflictsNode );
 
         $this->createDependencyTree( $export, $providesNode, 'provide', $dependencies['provides'] );
         $this->createDependencyTree( $export, $requiresNode, 'require', $dependencies['requires'] );
@@ -2895,10 +3023,13 @@ class eZPackage
 
         $root->appendChild( $dependencyNode );
 
-        $installNode =& $dom->createElementNode( 'install' );
-        $installNode->appendAttribute( $dom->createAttributeNode( 'ezinstall', 'http://ez.no/ezpackage', 'xmlns' ) );
-        $uninstallNode =& $dom->createElementNode( 'uninstall' );
-        $uninstallNode->appendAttribute( $dom->createAttributeNode( 'ezinstall', 'http://ez.no/ezpackage', 'xmlns' ) );
+        $installNode = $dom->createElementNode( 'install' );
+        $installLinkAttributeNode = $dom->createAttributeNode( 'ezinstall', 'http://ez.no/ezpackage', 'xmlns' );
+        $installNode->appendAttribute( $installLinkAttributeNode );
+
+        $uninstallNode = $dom->createElementNode( 'uninstall' );
+        $uninstallLinkAttributeNode = $dom->createAttributeNode( 'ezinstall', 'http://ez.no/ezpackage', 'xmlns' );
+        $uninstallNode->appendAttribute( $uninstallLinkAttributeNode );
 
         $this->createInstallTree( $export, $installNode, $dom, $install, 'install' );
         $this->createInstallTree( $export, $uninstallNode, $dom, $uninstall, 'uninstall' );
@@ -2908,34 +3039,37 @@ class eZPackage
 
         if ( count( $this->InstallData ) > 0 )
         {
-            $installDataNode =& $dom->createElementNode( 'install-data' );
-            $installDataNode->appendAttribute( $dom->createAttributeNode( 'ezinstall', 'http://ez.no/ezpackage', 'xmlns' ) );
+            $installDataNode = $dom->createElementNode( 'install-data' );
+            $installDataAttributeNode = $dom->createAttributeNode( 'ezinstall', 'http://ez.no/ezpackage', 'xmlns' );
+            $installDataNode->appendAttribute( $installDataAttributeNode );
             foreach ( $this->InstallData as $installDataType => $installData )
             {
                 if ( count( $installData ) > 0 )
                 {
-                    $dataNode =& $dom->createElementNode( 'data',
-                                                          array( 'type' => $installDataType ) );
+                    unset( $dataNode );
+                    $dataNode = $dom->createElementNode( 'data', array( 'type' => $installDataType ) );
                     $installDataNode->appendChild( $dataNode );
                     foreach ( $installData as $installDataName => $installDataValue )
                     {
                         if ( is_array( $installDataValue ) )
                         {
-                            $dataArrayNode =& $dom->createElementNode( 'array',
-                                                                       array( 'name' => $installDataName ) );
+                            unset( $dataArrayNode );
+                            $dataArrayNode = $dom->createElementNode( 'array', array( 'name' => $installDataName ) );
                             $dataNode->appendChild( $dataArrayNode );
                             foreach ( $installDataValue as $installDataValueName => $installDataValueValue )
                             {
-                                $dataArrayNode->appendChild( $dom->createElementNode( 'element',
-                                                                                      array( 'name' => $installDataValueName,
-                                                                                             'value' => $installDataValueValue ) ) );
+                                unset( $dataArrayElement );
+                                $dataArrayElement = $dom->createElementNode( 'element', array( 'name' => $installDataValueName,
+                                                                                               'value' => $installDataValueValue ) );
+                                $dataArrayNode->appendChild( $dataArrayElement );
                             }
                         }
                         else
                         {
-                            $dataNode->appendChild( $dom->createElementNode( 'element',
-                                                                             array( 'name' => $installDataName,
-                                                                                    'value' => $installDataValue ) ) );
+                            unset( $dataArrayElement );
+                            $dataArrayElement = $dom->createElementNode( 'element', array( 'name' => $installDataName,
+                                                                                           'value' => $installDataValue ) );
+                            $dataNode->appendChild( $dataArrayElement );
                         }
                     }
                 }
@@ -2961,25 +3095,45 @@ class eZPackage
 //                    $installItem['content'] ) or
 //                  $installItem['filename'] )
             {
-                $installItemNode =& $dom->createElementNode( 'item',
+                unset( $installItemNode );
+                $installItemNode = $dom->createElementNode( 'item',
                                                              array( 'type' => $type ) );
                 $installNode->appendChild( $installItemNode );
                 $content = false;
                 if ( isset( $installItem['content'] ) )
                     $content = $installItem['content'];
                 if ( $installItem['os'] )
-                    $installItemNode->appendAttribute( $dom->createAttributeNode( 'os', $installItem['os'] ) );
+                {
+                    unset( $installItemOS );
+                    $installItemOS = $dom->createAttributeNode( 'os', $installItem['os'] );
+                    $installItemNode->appendAttribute( $installItemOS );
+                }
+
                 if ( $installItem['name'] )
-                    $installItemNode->appendAttribute( $dom->createAttributeNode( 'name', $installItem['name'] ) );
+                {
+                    unset( $installItemName );
+                    $installItemName = $dom->createAttributeNode( 'name', $installItem['name'] );
+                    $installItemNode->appendAttribute( $installItemName );
+                }
+
                 $installModified = $installItem['modified'];
                 if ( !$export and $installModified )
-                    $installItemNode->appendAttribute( $dom->createAttributeNode( 'modified', $installModified ) );
+                {
+                    unset( $installItemModified );
+                    $installItemModified = $dom->createAttributeNode( 'modified', $installModified );
+                    $installItemNode->appendAttribute( $installItemModified );
+                }
+
                 if ( $installItem['filename'] )
                 {
-                    $installItemNode->appendAttribute( $dom->createAttributeNode( 'filename', $installItem['filename'] ) );
+                    unset( $installItemFilename );
+                    $installItemFilename = $dom->createAttributeNode( 'filename', $installItem['filename'] );
+                    $installItemNode->appendAttribute( $installItemFilename );
                     if ( $installItem['sub-directory'] )
                     {
-                        $installItemNode->appendAttribute( $dom->createAttributeNode( 'sub-directory', $installItem['sub-directory'] ) );
+                        unset( $installItemSubDirectory );
+                        $installItemSubDirectory = $dom->createAttributeNode( 'sub-directory', $installItem['sub-directory'] );
+                        $installItemNode->appendAttribute( $installItemSubDirectory );
                     }
                 }
                 else
