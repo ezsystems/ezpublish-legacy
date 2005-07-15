@@ -1034,6 +1034,11 @@ class eZModule
         $this->OriginalParameters = $parameters;
         $this->OriginalViewParameters = $parameterValues;
         $this->NamedParameters = $params;
+
+        $GLOBALS['eZRequestedModuleParams'] = array( 'module_name' => $this->Name,
+                                                     'function_name' => $functionName,
+                                                     'parameters' => $params );
+
         $this->UserParameters = $userParameters;
 
         if ( isset( $function['ui_context'] ) )
