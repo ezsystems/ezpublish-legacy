@@ -816,11 +816,11 @@ class eZMatrix
     function &xmlString( )
     {
         $doc = new eZDOMDocument( "Matrix" );
-        $root =& $doc->createElementNode( "ezmatrix" );
+        $root = $doc->createElementNode( "ezmatrix" );
         $doc->setRoot( $root );
 
-        $name =& $doc->createElementNode( "name" );
-        $nameValue =& $doc->createTextNode( $this->Name );
+        $name = $doc->createElementNode( "name" );
+        $nameValue = $doc->createTextNode( $this->Name );
         $name->appendChild( $nameValue );
 
         $name->setContent( $this->Name() );
@@ -828,7 +828,7 @@ class eZMatrix
         $root->appendChild( $name );
 
 
-        $columnsNode =& $doc->createElementNode( "columns" );
+        $columnsNode = $doc->createElementNode( "columns" );
 
 
         $sequentalColumns =& $this->Matrix['columns']['sequential'];
@@ -844,11 +844,13 @@ class eZMatrix
                 $column =& $sequentalColumns[$i];
                 if( $column != null && $column['identifier'] != 'col_'. $i+1 )
                 {
-                    $columnNode =& $doc->createElementNode( 'column' );
+                    unset( $columnNode );
+                    $columnNode = $doc->createElementNode( 'column' );
                     $columnNode->appendAttribute( $doc->createAttributeNode( 'num', $i ) );
                     $columnNode->appendAttribute( $doc->createAttributeNode( 'id', $column['identifier'] ) );
 
-                    $columnValueNode =& $doc->createTextNode( $column["name"] );
+                    unset( $columnValueNode );
+                    $columnValueNode = $doc->createTextNode( $column["name"] );
 
                     $columnNode->appendChild( $columnValueNode );
                     $columnsNode->appendChild( $columnNode );
@@ -858,7 +860,7 @@ class eZMatrix
         }
 //        $rows = & $dom->elementsByName( "rows" );
 
-        $rowsNode =&  $doc->createElementNode( "rows" );
+        $rowsNode =  $doc->createElementNode( "rows" );
 //        $rowAmount = count( $this->Matrix['rows'] );
         $rowAmount = $this->NumRows;
 
@@ -869,8 +871,11 @@ class eZMatrix
 
         foreach ( $this->Cells as $cell )
         {
-            $cellNode =& $doc->createElementNode( 'c' );
-            $columnValueNode =& $doc->createTextNode( $cell );
+            unset( $cellNode );
+            $cellNode = $doc->createElementNode( 'c' );
+
+            unset( $columnValueNode );
+            $columnValueNode = $doc->createTextNode( $cell );
 
             $cellNode->appendChild( $columnValueNode );
             $root->appendChild( $cellNode );
