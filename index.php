@@ -36,6 +36,13 @@
 // }
 // xdebug_start_trace( 'ezp' );
 
+if ( version_compare( phpversion(), '4.4' ) >= 0 )
+{
+    print( "<h1>Unsupported PHP version " . phpversion() . "</h1>" );
+    print( "<p>You cannot use this PHP version with eZ publish 3.4.8.<br/> You will need to upgrade to <a href=\"http://ez.no/ez_publish/download\">eZ publish version 3.7</a> or higher.</p>" );
+    exit;
+}
+
 ignore_user_abort( true );
 require 'lib/compat.php';
 
