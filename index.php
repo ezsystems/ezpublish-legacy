@@ -243,7 +243,7 @@ function &eZDisplayDebug()
             $result = "<tr><td>" . $tpl->fetch( 'design:setup/debug_toolbar.tpl' ) . "</td></tr>";
             eZDebug::appendTopReport( "Debug toolbar", $result );
         }
-        
+
         include_once( 'kernel/common/eztemplatesstatisticsreporter.php' );
         eZDebug::appendBottomReport( 'Template Usage Statistics', eZTemplatesStatisticsReporter::generateStatistics( $as_html ) );
 
@@ -715,9 +715,6 @@ while ( $moduleRunRequired )
         $GLOBALS['eZRequestedModule'] =& $module;
         $moduleResult =& $module->handleError( EZ_ERROR_KERNEL_MODULE_DISABLED, 'kernel', array( 'check' => $moduleCheck ) );
     }
-    $GLOBALS['eZRequestedModuleParams'] = array( 'module_name' => $module_name,
-                                                 'function_name' => $function_name,
-                                                 'parameters' => $module->getNamedParameters() );
     $moduleRunRequired = false;
     if ( $module->exitStatus() == EZ_MODULE_STATUS_RERUN )
     {
