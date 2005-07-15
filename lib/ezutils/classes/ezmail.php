@@ -642,6 +642,12 @@ class eZMail
                                 'content' => $this->composeEmailItems( $this->ReceiverElements ) );
             $headerNames[] = 'to';
         }
+        if ( !in_array( 'date', $excludeHeaders ) )
+        {
+            $headers[] = array( 'name' => 'Date',
+                                'content' => date( 'r' ) );
+            $headerNames[] = 'date';
+        }
         if ( $this->Subject !== false and
              !in_array( 'subject', $excludeHeaders ) )
         {
