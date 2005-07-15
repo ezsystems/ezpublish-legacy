@@ -68,8 +68,8 @@ if ( !$object->attribute( 'can_read' ) )
 if ( $object->attribute( 'can_edit' ) )
     $canEdit = true;
 
-if ( $object->attribute( 'can_remove' ) )
-    $canRemove = true;
+$canRemove = true;
+
 $http =& eZHTTPTool::instance();
 
 if ( $http->hasSessionVariable( 'ExcessVersionHistoryLimit' ) )
@@ -184,11 +184,11 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
                 if ( $Module->hasActionParameter( 'EditLanguage' ) and
                      $Module->actionParameter( 'EditLanguage' ) )
                     $EditLanguage = $Module->actionParameter( 'EditLanguage' );
-		    
-    	        if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
-		        {
+
+                if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
+                {
                     return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
-		        }
+                }
             }
         }
         $db->commit();
@@ -283,7 +283,7 @@ $tpl->setVariable( 'edit_language', $EditLanguage );
 $tpl->setVariable( 'versions', $versions );
 $tpl->setVariable( 'edit_warning', $editWarning );
 $tpl->setVariable( 'can_edit', $canEdit );
-$tpl->setVariable( 'can_remove', $canRemove );
+//$tpl->setVariable( 'can_remove', $canRemove );
 $tpl->setVariable( 'user_id', $user->attribute( 'contentobject_id' ) );
 
 $Result = array();

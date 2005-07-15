@@ -44,11 +44,7 @@
 
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
-    {section show=$can_remove}
 	<th colspan="2">
-    {section-else}
-    <th>
-    {/section}
 	{"Version"|i18n("design/standard/content/version")}:
 	</th>
 	<th>
@@ -68,13 +64,11 @@
 </tr>
 {section name=Version loop=$version_list sequence=array(bglight,bgdark)}
 <tr>
-	{section show=$can_remove}
-	    <td class="{$Version:sequence}">
-	    {section show=or(eq($Version:item.status,0),eq($Version:item.status,3),eq($Version:item.status,4))}
+    <td class="{$Version:sequence}">
+    {section show=or(eq($Version:item.status,0),eq($Version:item.status,3),eq($Version:item.status,4))}
 	    <input type="checkbox" name="DeleteIDArray[]" value="{$Version:item.id}" />
-	    {/section}
-	    </td>
-	{/section}
+    {/section}
+    </td>
 	<td class="{$Version:sequence}">
 	<a href={concat("/content/versionview/",$object.id,"/",$Version:item.version,"/",$edit_language|not|choose(array($edit_language,"/"),""))|ezurl}>{$Version:item.version}</a>
         {section show=eq($Version:item.version,$object.current_version)}*{/section}
@@ -101,13 +95,11 @@
 	{/section}
 </tr>
 {/section}
-{section show=$can_remove}
 <tr>
         <td colspan="8">
         {include uri="design:gui/trash.tpl"}
         </td>
 </tr>
-{/section}
 </table>
 
 {include name=navigator
