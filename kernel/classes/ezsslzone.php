@@ -174,7 +174,7 @@ class eZSSLZone
      *
      * \see checkNode()
      */
-    function checkNodeID( $module, $view,  $nodeID )
+    function checkNodeID( $nodeID )
     {
         if ( !eZSSLZone::enabled() )
             return;
@@ -186,14 +186,14 @@ class eZSSLZone
             return;
         }
 
-        eZSSLZone::checkNode( $module, $view, $node );
+        eZSSLZone::checkNode( $node );
     }
 
     /**
      * Check whether the given node should cause access mode change.
      * It it should, this method does not return.
      */
-    function checkNode( $module, $view, &$node, $redirect = true )
+    function checkNode( &$node, $redirect = true )
     {
         if ( !eZSSLZone::enabled() )
             return;
@@ -229,7 +229,7 @@ class eZSSLZone
      * Check whether the given object should cause access mode change.
      * It it should, this method does not return.
      */
-    function checkObject( $module, $view, &$object )
+    function checkObject( &$object )
     {
         if ( !eZSSLZone::enabled() )
             return;
@@ -261,7 +261,7 @@ class eZSSLZone
         $inSSL = false; // does the object belong to an SSL zone?
         foreach ( $nodes as $node )
         {
-            if ( eZSSLZone::checkNode( $module, $view, $node, false ) )
+            if ( eZSSLZone::checkNode( $node, false ) )
             {
                 $inSSL = true;
                 break;

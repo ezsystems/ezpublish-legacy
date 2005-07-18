@@ -48,7 +48,7 @@ if ( !$obj )
 
 // Check if we should switch access mode (http/http) for this object.
 include_once( 'kernel/classes/ezsslzone.php' );
-eZSSLZone::checkObject( 'content', 'edit', $obj );
+eZSSLZone::checkObject( $obj );
 
 //if ( !$obj->attribute( 'can_edit' ) )
 //    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );

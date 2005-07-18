@@ -56,7 +56,7 @@ $Day = $Params['Day'];
 
 // Check if we should switch access mode (http/http) for this node.
 include_once( 'kernel/classes/ezsslzone.php' );
-eZSSLZone::checkNodeID( 'content', 'view', $NodeID );
+eZSSLZone::checkNodeID( $NodeID );
 
 if ( isset( $Params['UserParameters'] ) )
 {

@@ -65,7 +65,7 @@ parameters:
 
  // Check if we should switch access mode (http/http) for this node.
  include_once( 'kernel/classes/ezsslzone.php' );
- eZSSLZone::checkNodeID( '<module_name>', '<view_name>', $NodeID );
+ eZSSLZone::checkNodeID( $NodeID );
 
 For mode details, look at public methods in ezsslzone.php.
 
