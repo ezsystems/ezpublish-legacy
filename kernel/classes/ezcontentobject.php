@@ -3378,6 +3378,7 @@ class eZContentObject extends eZPersistentObject
         foreach ( array_keys( $versions ) as $versionKey )
         {
             $version =& $versions[$versionKey];
+            unset( $versionNode );
             $versionNode =& $version->serialize( $package, $options, $contentNodeIDArray, $topNodeIDArray );
             $versionsNode->appendChild( $versionNode );
         }
