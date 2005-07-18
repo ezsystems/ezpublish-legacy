@@ -263,7 +263,8 @@ class eZDateTimeType extends eZDataType
                 foreach ( $contentList as $key => $value )
                 {
                     $postValue = $http->postVariable( $base . '_ezdatetime_' . $value . '_' . $classAttribute->attribute( 'id' ) );
-                    $elementType =& $doc->createElementNode( $key, array( 'value' => $postValue ) );
+                    unset( $elementType );
+                    $elementType = $doc->createElementNode( $key, array( 'value' => $postValue ) );
                     $root->appendChild( $elementType );
                 }
                 $doc->setRoot( $root );

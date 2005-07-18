@@ -384,14 +384,16 @@ class eZMultiOption
         $root->appendChild( $multioptions );
         foreach ( $this->Options as $multioption )
         {
-            $multioptionNode =& $doc->createElementNode( "multioption" );
+            unset( $multioptionNode );
+            $multioptionNode = $doc->createElementNode( "multioption" );
             $multioptionNode->appendAttribute( $doc->createAttributeNode( "id", $multioption['id'] ) );
             $multioptionNode->appendAttribute( $doc->createAttributeNode( "name", $multioption['name'] ) );
             $multioptionNode->appendAttribute( $doc->createAttributeNode( "priority", $multioption['priority'] ) );
             $multioptionNode->appendAttribute( $doc->createAttributeNode( 'default_option_id', $multioption['default_option_id'] ) );
             foreach ( $multioption['optionlist'] as $option )
             {
-                $optionNode =& $doc->createElementNode( "option" );
+                unset( $optionNode );
+                $optionNode = $doc->createElementNode( "option" );
                 $optionNode->appendAttribute( $doc->createAttributeNode( "id", $option['id'] ) );
                 $optionNode->appendAttribute( $doc->createAttributeNode( "option_id", $option['option_id'] ) );
                 $optionNode->appendAttribute( $doc->createAttributeNode( "value", $option['value'] ) );

@@ -218,7 +218,7 @@ class eZObjectRelationListType extends eZDataType
         for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
         {
             $relationItem =& $content['relation_list'][$i];
-            
+
             $subObjectID = $relationItem['contentobject_id'];
             $subObjectVersion = $relationItem['contentobject_version'];
 
@@ -308,7 +308,7 @@ class eZObjectRelationListType extends eZDataType
                     $content['relation_list'][$i]['node_id'] = $objectNodeID;
                 }
                 else
-                { 
+                {
                     if ( !eZNodeAssignment::fetch( $object->attribute( 'id' ), $object->attribute( 'current_version' ), $contentObject->attribute( 'main_node_id' ), false ) )
                     {
                         $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $object->attribute( 'id' ),
@@ -495,7 +495,8 @@ class eZObjectRelationListType extends eZDataType
         $constraints =& $doc->createElementNode( 'constraints' );
         foreach ( $content['class_constraint_list'] as $constraintClassIdentifier )
         {
-            $constraintElement =& $doc->createElementNode( 'allowed-class',
+            unset( $constraintElement );
+            $constraintElement = $doc->createElementNode( 'allowed-class',
                                                            array( 'contentclass-identifier' => $constraintClassIdentifier ) );
             $constraints->appendChild( $constraintElement );
         }
@@ -518,7 +519,8 @@ class eZObjectRelationListType extends eZDataType
         $relationList =& $doc->createElementNode( 'relation-list' );
         foreach ( $content['relation_list'] as $relationItem )
         {
-            $relationElement =& $doc->createElementNode( 'relation-item' );
+            unset( $relationElement );
+            $relationElement = $doc->createElementNode( 'relation-item' );
             $relationElement->appendAttributes( $relationItem,
                                                 eZObjectRelationListType::contentObjectArrayXMLMap() );
             $relationList->appendChild( $relationElement );
@@ -775,12 +777,12 @@ class eZObjectRelationListType extends eZDataType
                     // Check if the given object ID has a numeric value, if not go to the next object.
                     if ( !is_numeric( $objectID ) )
                     {
-                        eZDebug::writeError( "Related object ID (objectID): '$objectID', is not a numeric value.", 
+                        eZDebug::writeError( "Related object ID (objectID): '$objectID', is not a numeric value.",
                             "eZObjectRelationListType::customObjectAttributeHTTPAction" );
 
                         continue;
                     }
-                    
+
                     /* Here we check if current object is already in the related objects list.
                      * If so, we don't add it again.
                      * FIXME: Stupid linear search. Maybe there's some better way?
