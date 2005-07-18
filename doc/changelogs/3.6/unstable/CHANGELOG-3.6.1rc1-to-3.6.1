@@ -1,6 +1,9 @@
 Changes from 3.6.1rc1 to 3.6.1
 
 *Kernel:
+- Added check for PHP version 4.4 which gives information about that is not
+  supported for this eZ publish version. The check will deny usage of
+  eZ publish on this PHP version.
 
 *Bugfixes:
 - Fixed bug #6887: Match[url_alias] override does not work correctly when 
