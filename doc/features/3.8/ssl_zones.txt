@@ -18,7 +18,7 @@ When a user leaves an SSL zone (i.e. when  he/she is accessing a subtree
 or module view that does not belong to any SSL zone), the user is
 automatically switched back to plain HTTP (without SSL).
 
-*Configuration:
+*Sample configuration:
 
 ### site.ini.append ###
 
@@ -28,9 +28,6 @@ SSLPort=8443
 [SSLZoneSettings]
 # Enable/disable the SSL zones functionality.
 SSLZones=enabled
-
-# It's up to these views to choose the appropriate access mode (http or https).
-SmartViews=content/view;content/edit
 
 # Content subtrees we must use SSL for.
 SSLSubtrees[]
@@ -46,3 +43,36 @@ ModuleViewAccessMode[shop/add]=ssl
 ModuleViewAccessMode[shop/basket]=ssl
 ModuleViewAccessMode[content/action]=keep
 ModuleViewAccessMode[content/removeeditversion]=keep
+
+# It's up to these views to choose the appropriate access mode
+# (http or https) depending on their parameters (e.g. node/object id).
+SmartViews[]
+SmartViews[]=content/view
+SmartViews[]=content/edit
+
+*Implementation details:
+
+Check if a module view should cause access mode switch is done in index.php
+by calling eZSSLZone::checkModuleView().
+
+Checks if a given object/node belongs to a content SSL zone (SSLSubtree)
+are done in so-called "smart views" by calling
+checkNodeID/checkNode/checkObject method of class eZSSLZone.
+
+In order to make your module view "smart" (=to add content SSL zones
+support) you should add something like this just after parsing module
+parameters:
+
+ // Check if we should switch access mode (http/http) for this node.
+ include_once( 'kernel/classes/ezsslzone.php' );
+ eZSSLZone::checkNodeID( '<module_name>', '<view_name>', $NodeID );
+
+For mode details, look at public methods in ezsslzone.php.
+
+*Known limitations:
+
+It's not possible to switch acess mode for views that accept parameters
+by POST method (e.g. content/action).
+
+Moreover, such views will not work with SSLZones=enabled at all, unless
+you mark them as 'keep' in ModuleViewAccessMode setting.

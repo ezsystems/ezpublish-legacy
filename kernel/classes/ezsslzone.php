@@ -282,7 +282,7 @@ class eZSSLZone
 
 
         $ini =& eZINI::instance();
-        $smartViews  = $ini->variableArray( 'SSLZoneSettings', 'SmartViews' );
+        $smartViews  = $ini->variable( 'SSLZoneSettings', 'SmartViews' );
         $viewsModes  = $ini->variable( 'SSLZoneSettings', 'ModuleViewAccessMode' );
 
         $sslViews      = array_keys( $viewsModes, 'ssl' );
