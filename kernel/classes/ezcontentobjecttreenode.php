@@ -157,7 +157,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'data_map' => 'dataMap',
                                                       "object" => "object",
                                                       "subtree" => "subTree",
-                                                      "subtree_multi_paths" => "subTreeMultiPaths",
                                                       "children" => "children",
                                                       "children_count" => "childrenCount",
                                                       'contentobject_version_object' => 'contentObjectVersionObject',
@@ -1260,16 +1259,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             if ( $nodeID == 0 )
             {
-                $nodeID = $treeNode->attribute( 'node_id' );
-                $node   =& $treeNode;
+                if ( !is_object( $treeNode ) )
+                    return false;
+
+                $node =& $treeNode;
+                $nodeID = $node->attribute( 'node_id' );
             }
             else
             {
                 $node   = eZContentObjectTreeNode::fetch( $nodeID );
+                if ( !is_object( $node ) )
+                    return false;
             }
-
-            if ( !is_object( $node ) )
-                return false;
 
             $nodePath   = $node->attribute( 'path_string' );
             $nodeDepth  = $node->attribute( 'depth' );
@@ -1798,7 +1799,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $pathStringCond     = '';
             $notEqParentString  = '';
             // If the node(s) doesn't exist we return null.
-            if ( !eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $this, $nodeID, $depth, $depthOperator ) )
+            $noNode = null;
+            if ( !eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $noNode, $nodeID, $depth, $depthOperator ) )
             {
                 return null;
             }
