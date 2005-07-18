@@ -3159,6 +3159,7 @@ class eZPackage
     {
         foreach ( $list as $dependencyItem )
         {
+            unset( $dependencyNode );
             $dependencyNode =& eZDOMDocument::createElementNode( $dependencyType );
             $dependencyNode->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $dependencyItem['type'] ) );
             $dependencyNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $dependencyItem['name'] ) );
