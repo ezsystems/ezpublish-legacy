@@ -138,6 +138,9 @@ Attributes:
 - Fixed bug #6864: Fixed module_params() operator to work in templates
   other than pageleyout.
   (Merged from stable/3.6 (3.6.1rc1) rev. 12529)
+- Fixed bug #6908: Object name pattern problems.
+
+
 *Library:
 
 *Design:
