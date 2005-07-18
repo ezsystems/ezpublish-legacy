@@ -80,7 +80,7 @@ class eZOption
         $this->Name = $name;
     }
 
-             
+
     /*!
      Returns the name of the option set.
     */
@@ -204,10 +204,12 @@ class eZOption
         $id=0;
         foreach ( $this->Options as $option )
         {
-            $optionNode =& $doc->createElementNode( "option" );
+            unset( $optionNode );
+            $optionNode = $doc->createElementNode( "option" );
             $optionNode->appendAttribute( $doc->createAttributeNode( "id", $option['id'] ) );
             $optionNode->appendAttribute( $doc->createAttributeNode( 'additional_price', $option['additional_price'] ) );
-            $optionValueNode =& $doc->createTextNode( $option["value"] );
+            unset( $optionValueNode );
+            $optionValueNode = $doc->createTextNode( $option["value"] );
             $optionNode->appendChild( $optionValueNode );
 
             $options->appendChild( $optionNode );

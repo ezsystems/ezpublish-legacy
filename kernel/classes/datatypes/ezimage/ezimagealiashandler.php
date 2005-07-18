@@ -592,7 +592,7 @@ class eZImageAliasHandler
      of the images.
 
      After the images are removed the attribute will contained an internal structures with empty data.
-     
+
      \note Transaction unsafe.
     */
     function removeAliases()
@@ -667,7 +667,7 @@ class eZImageAliasHandler
         $aliasList =& $this->aliasList();
 //         $hasFileCopy = $this->hasFileCopy();
         $this->resetImageSerialNumber();
-        
+
         foreach ( array_keys( $aliasList ) as $aliasName )
         {
             $alias =& $aliasList[$aliasName];
@@ -1070,19 +1070,22 @@ class eZImageAliasHandler
                     }
                     if ( !$hasScalarValues )
                     {
-                        $serializedNode =& eZDOMDocument::createElementNode( 'serialized',
+                        unset( $serializedNode );
+                        $serializedNode = eZDOMDocument::createElementNode( 'serialized',
                                                                              array( 'name' => $infoItemName,
                                                                                     'data' => serialize( $infoItem ) ) );
                         $imageInfoNode->appendChild( $serializedNode );
                     }
                     else
                     {
+                        unset( $arrayNode );
                         $arrayNode = eZDOMDocument::createElementNode( 'array',
                                                                         array( 'name' => $infoItemName ) );
                         $imageInfoNode->appendChild( $arrayNode );
                         foreach ( $infoItem as $infoArrayKey => $infoArrayItem )
                         {
-                            $arrayItemNode =& eZDOMDocument::createElementNode( 'item',
+                            unset( $arrayItemNode );
+                            $arrayItemNode = eZDOMDocument::createElementNode( 'item',
                                                                                 array( 'key' => $infoArrayKey ) );
                             $arrayItemNode->appendChild( eZDOMDocument::createTextNode( $infoArrayItem ) );
                             $arrayNode->appendChild( $arrayItemNode );

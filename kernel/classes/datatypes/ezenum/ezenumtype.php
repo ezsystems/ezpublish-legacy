@@ -539,7 +539,8 @@ class eZEnumType extends eZDataType
         for ( $i = 0; $i < count( $enumList ); ++$i )
         {
             $enumElement =& $enumList[$i];
-            $elementNode =& eZDOMDocument::createElementNode( 'element',
+            unset( $elementNode );
+            $elementNode = eZDOMDocument::createElementNode( 'element',
                                                               array( 'id' => $enumElement->attribute( 'id' ),
                                                                      'name' => $enumElement->attribute( 'enumelement' ),
                                                                      'value' => $enumElement->attribute( 'enumvalue' ) ) );

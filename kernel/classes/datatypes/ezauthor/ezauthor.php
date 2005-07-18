@@ -213,7 +213,8 @@ class eZAuthor
         {
             foreach ( $this->Authors as $author )
             {
-                $authorNode =& $doc->createElementNode( "author" );
+                unset( $authorNode );
+                $authorNode = $doc->createElementNode( "author" );
                 $authorNode->appendAttribute( $doc->createAttributeNode( "id", $id++ ) );
                 $authorNode->appendAttribute( $doc->createAttributeNode( "name", $author["name"] ) );
                 $authorNode->appendAttribute( $doc->createAttributeNode( "email", $author["email"] ) );

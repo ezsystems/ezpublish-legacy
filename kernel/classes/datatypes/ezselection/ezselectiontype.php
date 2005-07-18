@@ -147,7 +147,8 @@ class eZSelectionType extends eZDataType
             $root->appendChild( $options );
             foreach ( $currentOptions as $optionArray )
             {
-                $optionNode =& $doc->createElementNode( "option" );
+                unset( $optionNode );
+                $optionNode = $doc->createElementNode( "option" );
                 $optionNode->appendAttribute( $doc->createAttributeNode( "id", $optionArray['id'] ) );
                 $optionNode->appendAttribute( $doc->createAttributeNode( 'name', $optionArray['name'] ) );
 
@@ -184,7 +185,7 @@ class eZSelectionType extends eZDataType
         if ( $http->hasPostVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $selectOptions =& $http->postVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) );
-            $idString = ( is_array( $selectOptions ) ? implode( '-', $selectOptions ) : "" ); 
+            $idString = ( is_array( $selectOptions ) ? implode( '-', $selectOptions ) : "" );
             $contentObjectAttribute->setAttribute( 'data_text', $idString );
             return true;
         }
@@ -324,11 +325,11 @@ class eZSelectionType extends eZDataType
 
         $isMultipleSelection =& $classAttribute->attribute( 'data_int1'  );
         $xmlString           =& $classAttribute->attribute( 'data_text5' );
-        
+
         $dom                 =& $xml->domTree( $xmlString );
         $domRoot             =& $dom->root();
         $options             =& $domRoot->elementByName( 'options' );
-        
+
         $attributeParametersNode->appendChild( $options );
         $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'is-multiselect', $isMultipleSelection ) );
     }
@@ -342,10 +343,10 @@ class eZSelectionType extends eZDataType
 
         $doc =& new eZDOMDocument( "selection" );
         $root =& $doc->createElementNode( "ezselection" );
-        
+
         $doc->setRoot( $root );
         $root->appendChild( $options );
-        
+
         $xml =& $doc->toString();
         $classAttribute->setAttribute( "data_text5", $xml );
 
