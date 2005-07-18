@@ -1948,7 +1948,7 @@ class eZContentObject extends eZPersistentObject
                                  "eZContentObject::addContentObjectRelation" );
             return false;
         }
-        
+
         $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id )
 		     VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID )" );
     }
@@ -3378,6 +3378,7 @@ class eZContentObject extends eZPersistentObject
         foreach ( array_keys( $versions ) as $versionKey )
         {
             $version =& $versions[$versionKey];
+            unset( $versionNode );
             $versionNode =& $version->serialize( $package, $options, $contentNodeIDArray, $topNodeIDArray );
             $versionsNode->appendChild( $versionNode );
         }

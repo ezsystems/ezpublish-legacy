@@ -222,21 +222,23 @@ class eZINIAddonPackageHandler extends eZPackageHandler
             return false;
         }
 
-        $iniNode =& eZDOMDocument::createElementNode( 'ini-addon', array( 'site-access' => $siteAccess,
+        $iniNode = eZDOMDocument::createElementNode( 'ini-addon', array( 'site-access' => $siteAccess,
                                                                           'filename' => $filename ) );
 
-        $blocksNode =& eZDOMDocument::createElementNode( 'blocks' );
+        $blocksNode = eZDOMDocument::createElementNode( 'blocks' );
         $iniNode->appendChild( $blocksNode );
         foreach( array_keys( $blockArray ) as $blockName )
         {
             $block =& $blockArray[$blockName];
-            $blockNode =& eZDOMDocument::createElementNode( 'block', array( 'name' => $blockName ) );
+            unset( $blockNode );
+            $blockNode = eZDOMDocument::createElementNode( 'block', array( 'name' => $blockName ) );
             $blocksNode->appendChild( $blockNode );
 
             foreach( array_keys( $block ) as $blockVariable )
             {
                 $variableValue =& $block[$blockVariable];
-                $variableNode =& eZDomDocument::createElementNode( 'block-variable', array( 'name' => $blockVariable ) );
+                unset( $variableNode );
+                $variableNode = eZDomDocument::createElementNode( 'block-variable', array( 'name' => $blockVariable ) );
                 $blockNode->appendChild( $variableNode );
 
                 if ( is_array( $variableValue ) )
@@ -244,7 +246,8 @@ class eZINIAddonPackageHandler extends eZPackageHandler
                     foreach( array_keys( $variableValue) as $valueName )
                     {
                         $value = $variableValue[$valueName];
-                        $valueNode =& eZDomDocument::createElementNode( 'value', array( 'name' => $valueName ) );
+                        unset( $valueNode );
+                        $valueNode = eZDomDocument::createElementNode( 'value', array( 'name' => $valueName ) );
                         $variableNode->appendChild( $valueNode );
                         $remoteID = false;
                         if ( is_int( $value ) )
@@ -303,7 +306,8 @@ class eZINIAddonPackageHandler extends eZPackageHandler
                                                   'eZINIAddonPackageHandler::iniDOMTree()' );
                         }
                     }
-                    $valueNode =& eZDomDocument::createElementNode( 'value' );
+                    unset( $valueNode );
+                    $valueNode = eZDomDocument::createElementNode( 'value' );
                     $variableNode->appendChild( $valueNode );
                     if ( $remoteID )
                     {
