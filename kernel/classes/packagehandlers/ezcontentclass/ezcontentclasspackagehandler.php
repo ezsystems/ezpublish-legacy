@@ -480,12 +480,14 @@ class eZContentClassPackageHandler extends eZPackageHandler
         for ( $i = 0; $i < count( $attributes ); ++$i )
         {
             $attribute =& $attributes[$i];
+            unset( $attributeNode );
             $attributeNode =& eZDOMDocument::createElementNode( 'attribute',
                                                                 array( 'datatype' => $attribute->attribute( 'data_type_string' ),
                                                                        'required' => $attribute->attribute( 'is_required' ) ? 'true' : 'false',
                                                                        'searchable' => $attribute->attribute( 'is_searchable' ) ? 'true' : 'false',
                                                                        'information-collector' => $attribute->attribute( 'is_information_collector' ) ? 'true' : 'false',
                                                                        'translatable' => $attribute->attribute( 'can_translate' ) ? 'true' : 'false' ) );
+            unset( $attributeRemoteNode );
             $attributeRemoteNode =& eZDOMDocument::createElementNode( 'remote' );
             $attributeNode->appendChild( $attributeRemoteNode );
             $attributeRemoteNode->appendChild( eZDOMDocument::createElementTextNode( 'id',
@@ -496,6 +498,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                                                $attribute->attribute( 'identifier' ) ) );
             $attributeNode->appendChild( eZDOMDocument::createElementTextNode( 'placement',
                                                                                $attribute->attribute( 'placement' ) ) );
+            unset( $attributeParametersNode );
             $attributeParametersNode =& eZDOMDocument::createElementNode( 'datatype-parameters' );
             $attributeNode->appendChild( $attributeParametersNode );
 

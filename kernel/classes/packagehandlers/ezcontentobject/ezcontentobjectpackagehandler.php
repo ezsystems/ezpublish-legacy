@@ -630,6 +630,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         {
             foreach( $blockMatchArray as $blockName => $iniGroup )
             {
+                unset( $blockMatchNode );
                 $blockMatchNode =& eZDOMDocument::createElementNode( 'block', array( 'name' => $blockName,
                                                                                     'site-access' => $siteAccess ) );
                 $blockMatchNode->appendChild( eZDOMDocument::createElementNodeFromArray( $blockName,  $iniGroup ) );
