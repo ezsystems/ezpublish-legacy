@@ -1164,12 +1164,38 @@ You will need to change the class of the node by using the swap functionality.' 
 
         eZDebugSetting::writeDebug( 'kernel-content-class', $dataMap, "data map" );
 
-        // get all tags to replace
+        preg_match_all( "|\([^\)]+\)|U",
+                        $contentObjectName,
+                        $subTagMatchArray );
+        $i = 0;
+        $tmpTagResultArray = array();
+        foreach ( $subTagMatchArray[0]  as $subTag )
+        {
+            $tmpTag = 'tmptag' . $i;
+
+            $contentObjectName = str_replace( $subTag, $tmpTag, $contentObjectName );
+
+            $subTag = str_replace( "(", "",  $subTag );
+            $subTag = str_replace( ")", "", $subTag );
+
+            $tmpTagResultArray[$tmpTag] = eZContentClass::buildContentObjectName( $subTag, $dataMap );
+            $i++;
+        }
+        $contentObjectName = eZContentClass::buildContentObjectName( $contentObjectName, $dataMap, $tmpTagResultArray );
+        return $contentObjectName;
+    }
+
+    /*!
+     Generates a name for the content object based on the content object name pattern
+     and data map of an object.
+    */
+    function buildContentObjectName( &$contentObjectName, $dataMap, $tmpTags = false )
+    {
+
         preg_match_all( "|<[^>]+>|U",
                         $contentObjectName,
                         $tagMatchArray );
 
-        eZDebugSetting::writeDebug( 'kernel-content-class', $tagMatchArray );
         foreach ( $tagMatchArray[0] as $tag )
         {
             $tagName = str_replace( "<", "", $tag );
@@ -1187,6 +1213,12 @@ You will need to change the class of the node by using the swap functionality.' 
                     if ( $namePart != "" )
                         break;
                 }
+                elseif ( $tmpTags && isset( $tmpTags[$name] ) && $tmpTags[$name] != '' )
+                {
+                    $namePart = $tmpTags[$name];
+                    break;
+                }
+
             }
 
             // replace tag with object name part
