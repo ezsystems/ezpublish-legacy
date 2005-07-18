@@ -7,6 +7,8 @@ Changes from 3.6.0 to 3.8.0alpha1
 - Added user groups options to approval workflow.
 - Added support for error_type and error_number override keys for the error module.
 - Added SSL zones functionality.
+- Added functionality to ezsoapclient for SSL.
+  (see doc/features/3.8/ssl_enhancement_with_ezsoapclient.txt for detail)
 
 Attributes:
 - Added: 'last_visit' attribute to eZUser

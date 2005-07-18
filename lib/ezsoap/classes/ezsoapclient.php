@@ -94,6 +94,8 @@ class eZSOAPClient
         $this->Port = $port;
         if ( is_numeric( $port ) )
             $this->Port = $port;
+        elseif( strtolower( $port ) == 'ssl' )
+            $this->Port = 443;
         else
             $this->Port = 80;
     }
@@ -103,65 +105,112 @@ class eZSOAPClient
     */
     function &send( $request )
     {
-        if ( $this->Timeout != 0 )
-        {
-            $fp = fsockopen( $this->Server,
-            $this->Port,
-            $this->errorNumber,
-            $this->errorString,
-            $this->Timeout );
-        }
-        else
-        {
-            $fp = fsockopen( $this->Server,
-            $this->Port,
-            $this->errorNumber,
-            $this->errorString );
-        }
 
-        $payload =& $request->payload();
-
-        if ( $fp != 0 )
+        if ( $this->Port != 443 || !in_array( "curl", get_loaded_extensions() ) )
         {
-            $authentification = "";
-
-            if ( ( $this->login() != "" ) )
+            if ( $this->Timeout != 0 )
             {
-                $authentification = "Authorization: Basic " . base64_encode( $this->login() . ":" . $this->password() ) . "\r\n" ;
+                $fp = fsockopen( $this->Server,
+                                 $this->Port,
+                                 $this->errorNumber,
+                                 $this->errorString,
+                                 $this->Timeout );
+            }
+            else
+            {
+                $fp = fsockopen( $this->Server,
+                                 $this->Port,
+                                 $this->errorNumber,
+                                 $this->errorString );
             }
 
-            $HTTPRequest = "POST " . $this->Path . " HTTP/1.0\r\n" .
-                 "User-Agent: eZ soap client\r\n" .
-                 "Host: " . $this->Server . "\r\n" .
-                 $authentification .
-                 "Content-Type: text/xml\r\n" .
-                 "Content-Length: " . strlen( $payload ) . "\r\n\r\n" .
-                 $payload;
+            $payload =& $request->payload();
 
-            eZDebug::writeNotice( $HTTPRequest, "Request" );
 
-            if ( !fputs( $fp, $HTTPRequest, strlen( $HTTPRequest ) ) )
+            if ( $fp != 0 )
             {
-                $this->ErrorString = "<b>Error:</b> could not send the SOAP request. Could not write to the socket.";
-                return 0;
+                $authentification = "";
+                if ( ( $this->login() != "" ) )
+                {
+                    $authentification = "Authorization: Basic " . base64_encode( $this->login() . ":" . $this->password() ) . "\r\n" ;
+                }
+
+                $HTTPRequest = "POST " . $this->Path . " HTTP/1.0\r\n" .
+                     "User-Agent: eZ soap client\r\n" .
+                     "Host: " . $this->Server . "\r\n" .
+                     $authentification .
+                     "Content-Type: text/xml\r\n" .
+                     "Content-Length: " . strlen( $payload ) . "\r\n\r\n" .
+                     $payload;
+
+                if ( !fputs( $fp, $HTTPRequest, strlen( $HTTPRequest ) ) )
+                {
+                    $this->ErrorString = "<b>Error:</b> could not send the SOAP request. Could not write to the socket.";
+                    return 0;
+                }
+            }
+
+            $rawResponse = "";
+
+            // fetch the SOAP response
+            while ( $data=&fread( $fp, 32768 ) )
+            {
+                $rawResponse .= $data;
+            }
+            // close the socket
+            fclose( $fp );
+        }
+        else //SOAP With SSL
+        {
+            if ( get_class( $request ) == "ezsoaprequest" )
+            {
+                $URL = "https://" . $this->Server . ":" . $this->Port . $this->Path;
+                $ch = curl_init ( $URL );
+                if ( $this->Timeout != 0 )
+                {
+                    curl_setopt( $ch, CURLOPT_TIMEOUT, $this->TimeOut );
+                }
+                $payload =& $request->payload();
+
+                if ( $ch != 0 )
+                {
+                    $HTTPCall = "POST " . $this->Path . " HTTP/1.0\r\n" .
+                         "User-Agent: eZ xmlrpc client\r\n" .
+                         "Host: " . $this->Server . "\r\n" .
+                         "Content-Type: text/xml\r\n" .
+                         "Content-Length: " . strlen( $payload ) . "\r\n";
+                    if ( $this->login() != '' )
+                    {
+                        $HTTPCall .= "Authorization: Basic " .  base64_encode( $this->login() . ":" . $this->Password() ) . "\r\n";
+                    }
+                    $HTTPCall .= "\r\n" . $payload;
+
+                    curl_setopt( $ch, CURLOPT_URL, "https://" . $this->Server . ":" . $this->Port . $this->Path );
+
+                    curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
+                    curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 1 );
+                    curl_setopt( $ch, CURLOPT_HEADER, 1 );
+                    curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+                    curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, $HTTPCall );  // Don't use CURLOPT_CUSTOMREQUEST without making sure your server supports the custom request method first.
+                    unset( $rawResponse );
+
+                    if ( $ch != 0 )
+                    {
+                        $rawResponse = curl_exec( $ch );
+                    }
+
+                    if ( !$rawResponse )
+                    {
+                        $this->ErrorString = "<b>Error:</b> could not send the XML-SOAP with SSL call. Could not write to the socket.";
+                        return 0;
+                    }
+                }
+
+                curl_close( $ch );
             }
         }
-
-        $rawResponse = "";
-
-        // fetch the SOAP response
-        while ( $data=&fread( $fp, 32768 ) )
-        {
-            $rawResponse .= $data;
-        }
-        eZDebug::writeNotice( $rawResponse, "Response" );
-
-        $response = new eZSOAPResponse( );
+        $response = new eZSOAPResponse();
         $response->decodeStream( $request, $rawResponse );
-
-        // close the socket
-        fclose( $fp );
-
         return $response;
     }
 
