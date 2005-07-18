@@ -133,6 +133,9 @@ eZContentObjectTreeNode:
   and node assignments for a given object.
 - Fixed fetchNode() to also fetch the name of the object, without the 'name'
   attribute would be empty.
+- Added check for PHP version 4.4 which gives information about that is not
+  supported for this eZ publish version. The check will deny usage of
+  eZ publish on this PHP version.
 
 Class:
 - Simplified creation of classes by having a 'New class' button on the group
