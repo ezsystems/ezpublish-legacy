@@ -74,15 +74,6 @@ class eZSSLZone
         return $GLOBALS['eZSSLZoneEnabled'] = ( $ini->variable( 'SSLZoneSettings', 'SSLZones' ) == 'enabled' );
     }
 
-    function saveSSLZonesCache()
-    {
-
-    }
-
-    function loadSSLZonesCache()
-    {
-    }
-
     /**
      * Load content SSL zones definitions.
      * Substitute URIs with corresponding path strings
