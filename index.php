@@ -724,6 +724,10 @@ while ( $moduleRunRequired )
                     $userParameters = false;
                 }
 
+                // Check if we should switch access mode (http/https) for this module view.
+                include_once( 'kernel/classes/ezsslzone.php' );
+                eZSSLZone::checkModuleView( $module->attribute( 'name' ), $function_name );
+
                 $moduleResult =& $module->run( $function_name, $params, false, $userParameters );
 
                 if ( $module->exitStatus() == EZ_MODULE_STATUS_FAILED and

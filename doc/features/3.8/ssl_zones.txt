@@ -1,0 +1,48 @@
+*Title: SSL Zones.
+
+*Incentive:
+
+It might be needed to force access over SSL to certain site parts.
+Such parts are called "SSL zones".
+
+*Documentation:
+
+SSL zone might be:
+1. a content subtree (content SSL zone);
+2. a module view.
+
+In the first case all the operations (viewing, editing, creating child
+nodes) on nodes belonging to the subtree are done over SSL.
+
+When a user leaves an SSL zone (i.e. when  he/she is accessing a subtree
+or module view that does not belong to any SSL zone), the user is
+automatically switched back to plain HTTP (without SSL).
+
+*Configuration:
+
+### site.ini.append ###
+
+[SiteSettings]
+SSLPort=8443
+
+[SSLZoneSettings]
+# Enable/disable the SSL zones functionality.
+SSLZones=enabled
+
+# It's up to these views to choose the appropriate access mode (http or https).
+SmartViews=content/view;content/edit
+
+# Content subtrees we must use SSL for.
+SSLSubtrees[]
+SSLSubtrees[]=/news
+SSLSubtrees[]=/polls
+
+# Default access mode is plain HTTP.
+# It's possible to override access mode for specific views.
+# If a view is defined as 'ssl' then HTTPS access mode is forced for this view.
+# if a view is defined as 'keep' then no access mode change
+# is allowed for this view, i.e. current access mode is kept.
+ModuleViewAccessMode[shop/add]=ssl
+ModuleViewAccessMode[shop/basket]=ssl
+ModuleViewAccessMode[content/action]=keep
+ModuleViewAccessMode[content/removeeditversion]=keep
