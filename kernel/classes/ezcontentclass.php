@@ -1190,21 +1190,19 @@ You will need to change the class of the node by using the swap functionality.' 
         $dataMap =& $contentObject->fetchDataMap( $version, $translation );
 
         eZDebugSetting::writeDebug( 'kernel-content-class', $dataMap, "data map" );
-
-        preg_match_all( "|\([^\)]+\)|U",
+        preg_match_all( "/[<|\|](\(.+\))[\||>]/U",
                         $contentObjectName,
                         $subTagMatchArray );
+
         $i = 0;
         $tmpTagResultArray = array();
-        foreach ( $subTagMatchArray[0]  as $subTag )
+        foreach ( $subTagMatchArray[1]  as $subTag )
         {
             $tmpTag = 'tmptag' . $i;
 
             $contentObjectName = str_replace( $subTag, $tmpTag, $contentObjectName );
 
-            $subTag = str_replace( "(", "",  $subTag );
-            $subTag = str_replace( ")", "", $subTag );
-
+            $subTag = substr( $subTag, 1,strlen($subTag) - 2 );
             $tmpTagResultArray[$tmpTag] = eZContentClass::buildContentObjectName( $subTag, $dataMap );
             $i++;
         }
