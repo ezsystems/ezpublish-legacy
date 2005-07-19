@@ -64,29 +64,52 @@
         <div class="toolbox-content">
     {*     {let log_node_id=$module_result.content_info.node_id *}
     {*          log_node=fetch( content, node, hash( node_id, $log_node_id ) ) *}
-        {let log_node=fetch( content, node, hash( node_path, $show_subtree ) )
-             show_week=false()
-             month_list=fetch( content, calendar, hash( parent_node_id, $log_node.node_id,
-                                                    class_filter_type, include,
-                                                    class_filter_array, $class_identifier_list,
-                                                    attribute_filter, array( and, array( 'published', '>=',
-                                                                                          $time_start ),
-                                                                                  array( 'published', '<=',
-                                                                                          $time_end ) ),
-                                                    group_by, array( "published", "day" ) ) )
-             month=$month_list|month_overview( 'published', $time_published,
-                                               hash( current, $time_current,
-                                                     current_class, 'selected',
-                                                     today_class, 'today',
-                                                     link, $log_node.url_alias,
-                                                     month_link, true(), year_link, true(), day_link, true(),
-                                                     next, hash( link, $log_node.url_alias ),
-                                                     previous, hash( link, $log_node.url_alias ) ) )}
-            {include name=Month uri="design:navigator/monthview.tpl" month=$month show_week=$show_week}
-         {/let}
-
-         </div>
-         </div>
+	{let foo_node=fetch( content, node, hash( node_id, $module_result.node_id ) ) }
+	{let log_node=fetch( content, node, hash( node_path, $show_subtree ) )
+		      show_week=false()
+		      month_list=null
+		      month=null}
+		{section show=and( is_set( $log_node), eq( $foo_node.url_alias, $log_node.url_alias ) ) }
+		{set month_list=fetch( content, calendar, hash( parent_node_id,$log_node.node_id,
+								class_filter_type, include,
+								class_filter_array, $class_identifier_list,
+								attribute_filter, array( and, array( 'published', '>=',
+												      $time_start ),
+										 array( 'published', '<=',
+												      $time_end ) ),
+								group_by, array( "published", "day" ) ) )
+		     month=$month_list|month_overview( 'published', $time_published,
+							  hash( current, $time_current,
+								current_class, 'selected',
+								today_class, 'today',
+								link, $log_node.url_alias,
+								month_link, true(), year_link, true(), day_link, true(),
+								next, hash( link, $log_node.url_alias ),
+								previous, hash( link, $log_node.url_alias ) ) )}
+		{include name=Month uri="design:navigator/monthview.tpl" month=$month show_week=$show_week}
+		{section-else}
+		{set month_list=fetch( content, calendar, hash( parent_node_id,2,
+								class_filter_type, include,
+								class_filter_array, $class_identifier_list,
+								attribute_filter, array( and, array( 'published', '>=',
+												      $time_start ),
+										array( 'published', '<=',
+												$time_end ) ),
+								group_by, array( "published", "day" ) ) )
+		     month=$month_list|month_overview( 'published', $time_published,
+							  hash( current, $time_current,
+							        current_class, 'selected',
+							        today_class, 'today',
+							        link, $foo_node.url_alias,
+							        month_link, true(), year_link, true(), day_link, true(),
+								next, hash( link, $foo_node.url_alias ),
+								previous, hash( link, $foo_node.url_alias ) ) )}
+		{include name=Month uri="design:navigator/monthview.tpl" month=$month show_week=$show_week}
+		{/section}
+	{/let}
+	{/let}
+        </div>
+        </div>
     </div>
 
 
