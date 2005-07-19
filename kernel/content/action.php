@@ -1074,7 +1074,22 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
             $http->setSessionVariable( 'ContentNodeID', $contentNodeID );
             $http->setSessionVariable( 'ContentObjectID', $contentObjectID );
             $http->setSessionVariable( 'DeleteIDArray', $deleteIDArray );
-            $module->redirectTo( $module->functionURI( 'removeobject' ) . '/' );
+            include_once( 'kernel/classes/ezsection.php' );
+            $object =& eZContentObject::fetch( $contentObjectID );
+            eZSection::setGlobalID( $object->attribute( 'section_id' ) );
+            $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
+            if ( $section )
+                $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
+            else
+                $navigationPartIdentifier = null;
+            if( $navigationPartIdentifier and $navigationPartIdentifier == 'ezusernavigationpart' )
+            {
+                $module->redirectTo( $module->functionURI( 'removeuserobject' ) . '/' );
+            }
+            else
+            {
+                $module->redirectTo( $module->functionURI( 'removeobject' ) . '/' );
+            }
         }
         else
         {
@@ -1242,7 +1257,22 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
             $http->setSessionVariable( 'ContentNodeID', $parentNodeID );
             $http->setSessionVariable( 'ContentObjectID', $contentObjectID );
             $http->setSessionVariable( 'DeleteIDArray', array( $contentNodeID ) );
-            $module->redirectTo( $module->functionURI( 'removeobject' ) . '/' );
+            $object =& eZContentObject::fetch( $objectID );
+            include_once( 'kernel/classes/ezsection.php' );
+            eZSection::setGlobalID( $object->attribute( 'section_id' ) );
+            $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
+            if ( $section )
+                $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
+            else
+                $navigationPartIdentifier = null;
+            if( $navigationPartIdentifier and $navigationPartIdentifier == 'ezusernavigationpart' )
+            {
+                $module->redirectTo( $module->functionURI( 'removeuserobject' ) . '/' );
+            }
+            else
+            {
+                $module->redirectTo( $module->functionURI( 'removeobject' ) . '/' );
+            }
         }
     }
     else if ( $http->hasPostVariable( "ActionCollectInformation" ) )
