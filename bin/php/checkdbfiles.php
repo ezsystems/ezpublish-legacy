@@ -141,7 +141,6 @@ $versions35 = array( 'unstable' => array( array( '3.4.2', '3.5.0alpha1' )
                                           ,array( '3.5.0rc1', '3.5.0rc2' )
                                           ,array( '3.5.0rc2', '3.5.0' )
                                           ,array( '3.5.3', '3.5.4rc1' )
-                                          ,array( '3.5.4rc1', '3.5.4' )
                                           ),
                      'unstable_subdir' => 'unstable',
                      'stable' => array( array( '3.4.4', '3.5.0' )
