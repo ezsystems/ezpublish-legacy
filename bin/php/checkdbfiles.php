@@ -154,6 +154,7 @@ $versions36 = array( 'unstable' => array( array( '3.5.2', '3.6.0beta1' )
                      'unstable_subdir' => 'unstable',
                      'stable' => array( array( '3.5.2', '3.6.0' )
                                         ,array( '3.6.0', '3.6.1' )
+                                        ,array( '3.6.1', '3.6.2' )
                                         ) );
 
 $versions['3.0'] = $versions30;
