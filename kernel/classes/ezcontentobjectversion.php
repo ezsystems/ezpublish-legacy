@@ -973,6 +973,19 @@ class eZContentObjectVersion extends eZPersistentObject
                 $contentObject->setName( $objectName, $contentObjectVersion->attribute( 'version' ), $language );
 
             $attributeArray =& $contentObjectVersion->contentObjectAttributes( $language );
+            if ( count( $attributeArray ) == 0)
+            {
+                // Create a new language
+                $originalContentAttributes =& $contentObjectVersion->contentObjectAttributes();
+                foreach ( array_keys( $originalContentAttributes ) as $contentAttributeKey )
+                {
+                    $originalContentAttribute =& $originalContentAttributes[$contentAttributeKey];
+                    $contentAttribute =& $originalContentAttribute->translateTo( $language );
+                    $contentAttribute->sync();
+                    $attributeArray[] =& $contentAttribute;
+                }
+            }
+
             $attributeNodeArray =& $languageNode->elementsByName( 'attribute' );
             foreach( array_keys( $attributeArray ) as $attributeKey )
             {
