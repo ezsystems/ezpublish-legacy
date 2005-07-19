@@ -391,3 +391,36 @@ Datatype branch:
 - Revision=12432
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.6.1rc1
 - Date 6-Jul-2005
+
+3.5.4:
+- Release branch=release/3.5.4
+- Release branch start=12600
+- Release branch end=
+- Release branch configured=12612
+- Release branch Date 19-Jul-2005
+- From revision=
+- Revision=
+- Version url=
+- Date
+
+3.6.1:
+- Release branch=release/3.6.1
+- Release branch start=12607
+- Release branch end=
+- Release branch configured=12613
+- Release branch Date 19-Jul-2005
+- From revision=
+- Revision=
+- Version url=
+- Date
+
+3.4.8:
+- Release branch=release/3.4.8
+- Release branch start=12609
+- Release branch end=
+- Release branch configured=12615
+- Release branch Date 19-Jul-2005
+- From revision=
+- Revision=
+- Version url=
+- Date
