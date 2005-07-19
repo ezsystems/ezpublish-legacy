@@ -158,6 +158,9 @@ Attributes:
 - Fixed bug #6911, #6913: The calendar tool doesn't work 
   with class limitation. Wrong links are generated in the Calendar.
   (Merged from stable/3.5 (3.5.4rc1) rev. 12586).
+- Fixed bug #6862: The content-tree will displayed proper subtree while deleting a user or content object.
+  (merged from stable/3.5.5 rev 12617)
+
 *Library:
 
 eZTemplate:

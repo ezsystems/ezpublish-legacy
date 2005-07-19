@@ -203,6 +203,12 @@ $ViewList['removeobject'] = array(
     'script' => 'removeobject.php',
     'params' => array( ) );
 
+$ViewList['removeuserobject'] = array(
+    'functions' => array( 'read' ),
+    'default_navigation_part' => 'ezusernavigationpart',
+    'script' => 'removeobject.php',
+    'params' => array( ) );
+
 $ViewList['removeeditversion'] = array(
     'functions' => array( 'read' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
