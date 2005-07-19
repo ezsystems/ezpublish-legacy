@@ -1,0 +1,47 @@
+Changes from 3.5.3 to 3.5.4
+
+*Kernel:
+- Added check for PHP version 4.4 which gives information about that is not
+  supported for this eZ publish version. The check will deny usage of
+  eZ publish on this PHP version.
+
+*Bugfixes:
+- Fixed bugs #6733 and #6737: "Date and time" and "Date" datatypes were not
+  validated properly.
+- Fixed bug #6765: Fields are cleared on relating an object with related 
+  object attribute.
+- Fixed bug #6772: Function contentClassAttributeName of
+  contentObjectAttribute always returns null
+- Fixed: Several wrong calls to eZDebug::accumulatorStart
+- Fixed bug: Illegal use of $this variable in static functions.
+  (Became visible when using PHP 4.4).
+  (Merged from stable/3.4 (3.4.8) rev. 12247)
+- Fixed bug #6796: Draft problems when copying objects with relations.
+  (Merged from trunk (3.7.0alpha) rev. 12278)
+- Added reference fixes for PHP 4.4.
+- Fixed bug #6833: Typos in standard design templates.
+- Fixed bug #6823: Publishing problem with crosslinked objects.
+- Fixed bug #6838: Contentobject receives remote_id of nodeobject
+- Fixed bug #6852: Default values for template fetch operator does not work
+  in compiled mode.
+- Fixed bug #6854: Use of 'proxy' objects in template expressions fails with
+  compilation enabled.
+- Fixed bug #6856: Wrong namespaces set when including another template.
+- Fixed bug: Wrong conditional permisssion when you use more then one "assign
+  with limitation" to one role for the same user (limitations are mixed using
+  logical AND instead of logical OR operation).
+  (Merged from trunk (3.7.0alpha1) rev. 12370)
+- Fixed bug #6887: Match[url_alias] override does not work correctly when 
+  template compile enabled.
+- Fixed bug #5603: RelatedObject Keyword function name misleading.
+- Fixed bug #6861: Two emails were sent to the user being registered.
+- Fixed bug #6884: Wrong customer name in order details.
+- Fixed bug #6757: eZMail does not set the required Date header.
+- Fixed bug #5766: Typo in shop/module.php.
+- Fixed bug #6814: The drafts of top level nodes can't be removed.
+- Fixed bug #6864: Fixed module_params() operator to work in templates
+  other than pageleyout.
+- Fixed bug #6908: Object name pattern problems.
+  (Merged from stable/3.7 (3.7.0rc1) rev. 12578 ).
+
+*Translations:
