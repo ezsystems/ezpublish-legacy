@@ -1,0 +1,156 @@
+Changes from 3.6.0 to 3.6.1
+
+*Kernel:
+- Added method eZContentObject::clearCache() that can be used to clear all
+  in-memory caches [for a given object].
+  (Merged from stable/3.5 (3.5.3) rev. 12085)
+- Added check for PHP version 4.4 which gives information about that is not
+  supported for this eZ publish version. The check will deny usage of
+  eZ publish on this PHP version.
+
+Attributes:
+- Added: 'last_visit' attribute to eZUser
+  (Merged from stable/3.5 (3.5.3) rev. 12189)
+
+*Scripts:
+- Changed makestaticcache.php script to generate cache files while running, and
+  not all at the end.
+  (Merged from trunk (3.7.0alpha1) rev. 12165)
+
+*StaticCache:
+- Added static cache cleanups to the Smart ViewCache algorithms.
+
+*Bugfixes:
+- Fixed bug #6685: Error when American English selected as primary language
+  (Merged from stable/3.4 (3.4.7) rev. 12066, also in 
+  stable/3.5 (3.5.3) rev.12067)
+- Fixed bug #6556: "403 Forbidden" when trying to access root page of a 
+  site running in non-virtualhost mode.
+  (Merged from stable/3.4 (3.4.7) rev. 12070)
+- Fixed bug# 6700: Database transaction failure when adding a new translation.
+- Fixed inability to effectively clean up object version cache for
+  a single object.  
+  (Merged from stable/3.5 (3.5.3) rev. 12085)
+- Fixed bug: object version cache is incorrectly cleared in
+  eZConentObject::store().
+  (Merged from stable/3.5 (3.5.3) rev. 12085)
+- Fixed bug #6431: eZContentObjectTreeNode::removeSubtrees() causes
+  memory exhaustion.
+  (Merged from stable/3.5 (3.5.3) rev. 12088)
+- Fixed bug #6704: Generated static cache is not stored when using the
+  cli script
+- Fixed bug #5876: Two persistent_variable problems in content templates.
+  (Merged from stable/3.4 (3.4.7) rev. 12098)
+- Fixed bug #6706: Static cache is not stored when regenerating via
+  admin interface
+- Fixed bug #6477: URL forwarding with wildcard does not work if
+  "Redirecting URL" option is disabled.
+  (Merged from stable/3.5 (3.5.3) rev. 12108)
+- Fixed bug #6459: kickstart, sendmail under Win.
+  (Manually merged from trunk (3.7.0alpha1) rev. 12111)
+- Fixed bug #6698: Linkcheck checks url from all archived content
+  (Merged from stable/3.5 (3.5.3) rev. 12119)
+- Fixed bug: si operator ignores decimal count of 0 in uncompiled state
+  (Merged from stable/3.5 (3.5.3) rev. 12118)
+- Fixed bug #6732: Content object tree is not updated after deleting a class.
+  (Manually merged from stable/3.4 (3.4.7) rev. 12133, also in 
+  stable/3.5 (3.5.3) rev.12134)
+- Fixed bug in ezxmltext datatype: <object> tag corrupts design keys.
+  (Merged from stable/3.4 (3.4.7) rev. 12141)
+- Fixed bug #6702: Template cache-blocks are not cleared after deleting object 
+  via WEBDAV.
+  (Merged from stable/3.5 (3.5.3) rev. 12145)
+- Fixed bug #6740: SWAP in 3.6.0 is BROKEN
+  (Merged from stable/3.5 (3.5.3) rev. 12159)
+- Fixed bug #6744: Search fails for roles with limited assignment.
+  (Merged from trunk (3.7alpha) rev. 12162)
+- Fixed bug with static caching that cause old content to be put into the cache
+  files.
+  (Merged from trunk (3.7.0alpha1) rev. 12165)
+- Fixed bug #6750: node_view_gui doesn't interprete url_alias correctly.
+  (Merged from stable/3.5 (3.5.3) rev. 12176)
+- Fixed bug #6755: shop/basket fetch function always creates 
+  a basket + productcollection.
+  (Merged from stable/3.5 (3.5.3) rev. 12184)
+- Fixed bug #6753: Cache is not cleared after deleting a role.
+  (Manually merged from stable/3.5 (3.5.3) rev. 12197)
+- Fixed bugs #6733 and #6737: "Date and time" and "Date" datatypes were not
+  validated properly.
+  (Merged from stable/3.5 (3.5.4) rev. 12215)
+- Fixed bug #6765: Fields are cleared on relating an object with related
+  object attribute.
+  (Merged from stable/3.5 (3.5.4) rev. 12235)
+- Fixed bug #6772: Function contentClassAttributeName of
+  contentObjectAttribute always returns null
+  (Merged from stable/3.5 (3.5.4) rev. 12244)
+- Fixed: Several wrong calls to eZDebug::accumulatorStart
+  (Merged from stable/3.5 (3.5.4) rev. 12244)
+- Fixed bug: Illegal use of $this variable in static functions.
+  (Became visible when using PHP 4.4).
+  (Merged from stable/3.5 (3.5.4) rev. 12248)
+- Fixed bug: Wrong usage of references from function return-values in template
+  parser.
+- Fixed bug #6796: Draft problems when copying objects with relations.
+  (Merged from trunk (3.7.0alpha) rev. 12278)
+- Added reference fixes for PHP 4.4.
+  ( Merged from stable/3.5 rev. 12287 )
+- Fixed bug #6833: Typos in standard design templates.
+  (Merged from stable/3.5 rev. 12335)
+- Fixed bug #6823: Publishing problem with crosslinked objects.
+  (Merged from stable/3.5 rev. 12345)
+- Fixed bug #6838: Contentobject receives remote_id of nodeobject
+  (Merged from stable/3.5 rev. 12348)
+- Fixed bug #6852: Default values for template fetch operator does not work
+  in compiled mode.
+  (Merged from stable/3.5 rev. 12376)
+- Fixed bug #6854: Use of 'proxy' objects in template expressions fails with
+  compilation enabled.
+  (Merged from stable/3.5 rev. 12380)
+- Fixed bug: Wrong conditional permisssion when you use more then one 
+  "assign with limitation" to one role for the same user (limitations are 
+  mixed using logical AND instead of logical OR operation).
+  (Merged from trunk (3.7.0alpha1) rev. 12370)
+- Fixed bug #6856: Wrong namespaces set when including another template.
+  (Merged from stable/3.5 (3.5.4) rev. 12385)
+- Fixed bug #6845: Added check for object's if it exists.
+- Fixed bug #6847: Added missing lines <?php and ?> at start and end of file.
+  (Merged from stable/3.5 (3.5.3) rev. 12416)
+- Fixed bug #6887: Match[url_alias] override does not work correctly when 
+  template compile enabled.
+  (Merged from stable/3.5 rev. 12442).
+- Fixed bug #5603: RelatedObject Keyword function name misleading.
+  (Merged from stable/3.5 rev. 12446).
+- Fixed bug #6861: Two emails were sent to the user being registered.
+  (Merged from stable/3.5 rev. 12488).
+- Fixed bug #6884: Wrong customer name in order details.
+  (Merged from stable/3.5 rev. 12493).
+- Fixed bug #6757: eZMail does not set the required Date header.
+  (Merged from stable/3.5 rev. 12495).
+- Fixed bug #5766: Typo in shop/module.php.
+  (Merged from stable/3.5 (3.5.4) rev. 12499)  
+- Fixed bug #6814: The drafts of top level nodes can't be removed.
+  (Merged from stable/3.5 rev. 12506 ).
+- Fixed bug #6900: Creator and modifier display detail in the admin intarface
+  is corrected.
+- Fixed bug #6895: Incorrect test in advanced search.
+- Fixed bug #6864: Fixed module_params() operator to work in templates
+  other than pageleyout.
+  (Manually merged from stable/3.5 (3.5.4) rev. 12541)
+- Fixed bug #6908: Object name pattern problems.
+  (Merged from stable/3.7 (3.7.0rc1) rev. 12578 ).
+- Fixed bug #6911, #6913: The calendar tool doesn't work 
+  with class limitation. Wrong links are generated in the Calendar.
+  (Merged from stable/3.5 (3.5.4rc1) rev. 12586).
+
+*Library:
+
+*Design:
+
+*Operators:
+- Improved 'shorten' operator. Now it also can trim string to specified length 
+  in the middle.
+  (Merged from stable/3.4 (3.4.7) rev. 12169, also in 
+  stable/3.5 (3.5.3) rev. 12170)
+
+*Translations:
+- Added por-BR translation by Melissa Bender Dellamea (eZ systems).
