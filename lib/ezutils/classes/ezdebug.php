@@ -209,7 +209,7 @@ class eZDebug
     {
         $impl =& $GLOBALS["eZDebugGlobalInstance"];
 
-        $class =& get_class( $impl );
+        $class = get_class( $impl );
         if ( $class != "ezdebug" )
         {
             $impl = new eZDebug();
@@ -1015,8 +1015,8 @@ class eZDebug
       \static
       Prints the debug report
     */
-    function &printReport( $newWindow = false, $as_html = true, $returnReport = false,
-                           $allowedDebugLevels = false, $useAccumulators = true, $useTiming = true, $useIncludedFiles = false )
+    function printReport( $newWindow = false, $as_html = true, $returnReport = false,
+                          $allowedDebugLevels = false, $useAccumulators = true, $useTiming = true, $useIncludedFiles = false )
     {
         if ( !eZDebug::isDebugEnabled() )
             return null;

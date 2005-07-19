@@ -36,6 +36,13 @@
 // }
 // xdebug_start_trace( 'ezp' );
 
+if ( version_compare( phpversion(), '4.4' ) >= 0 )
+{
+    print( "<h1>Unsupported PHP version " . phpversion() . "</h1>" );
+    print( "<p>You cannot use this PHP version with eZ publish 3.4.8.<br/> You will need to upgrade to <a href=\"http://ez.no/ez_publish/download\">eZ publish version 3.7</a> or higher.</p>" );
+    exit;
+}
+
 ignore_user_abort( true );
 require 'lib/compat.php';
 
@@ -202,16 +209,15 @@ eZDebug::setScriptStart( $scriptStartTime );
 
 function &eZDisplayDebug()
 {
+    $text = null;
     $ini =& eZINI::instance();
 
     $type = $ini->variable( "DebugSettings", "Debug" );
     eZDebug::setHandleType( EZ_HANDLE_NONE );
     if ( $type == "inline" or $type == "popup" )
-    {
-        $text =& eZDebug::printReport( $type == "popup", true, true );
-        return $text;
-    }
-    return null;
+        $text = eZDebug::printReport( $type == "popup", true, true );
+
+    return $text;
 }
 
 function eZDisplayResult( &$templateResult, &$debugReport )
