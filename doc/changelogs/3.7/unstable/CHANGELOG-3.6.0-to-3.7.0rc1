@@ -142,15 +142,23 @@ Attributes:
 - Fixed bug #6911, #6913: The calendar tool doesn't work 
   with class limitation. Wrong links are generated in the Calendar.
   (Merged from stable/3.5 (3.5.4rc1) rev. 12586).
-- Fixed bug #6862: The content-tree will displayed proper subtree while deleting a user or content object.
+- Fixed bug #6862: The content-tree will displayed proper subtree while 
+  deleting a user or content object.
   (merged from stable/3.5.5 rev 12617)
 - Fixed bug #6914: The Calendar tool: the class selection 
   is not saved sometimes.
   (Merged from stable/3.6 rev. 12626)
-- Fixed bug #6862: As it will also work properly whild deleting content object from left menu using mouse click.
+- Fixed bug #6862: As it will also work properly whild deleting content object
+  from left menu using mouse click.
   (Merged from stable/3.6.2 rev.12631)
+- Fixed bug: object attributes are not checked for 'is_required' flag during
+  publishing if object has an attribute of 'ezobjectrelation' datatype.
+  (Merged from release/3.5.4 rev. 12640, also in release/3.6.1 rev. 12642)
 - Fixed bug #6904: No database release or version returned by eZPublishSDK.
   (Manually merged from stable/3.6 (3.6.2) rev. 12638)
+- Fixed bug: object attributes are not checked for 'is_required' flag during
+  publishing if object has an attribute of 'ezobjectrelation' datatype.
+  (Merged from release/3.5.4 rev. 12640, also in release/3.6.1 rev. 12642)
 
 *Library:
 
