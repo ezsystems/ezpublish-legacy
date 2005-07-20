@@ -5,7 +5,8 @@ Changes from 3.6.0 to 3.8.0alpha1
   in-memory caches [for a given object].
   (Merged from stable/3.5 (3.5.3) rev. 12085)
 - Added user groups options to approval workflow.
-- Added support for error_type and error_number override keys for the error module.
+- Added support for error_type and error_number override keys for the error 
+  module.
 - Added SSL zones functionality.
 - Added functionality to ezsoapclient for SSL.
   (see doc/features/3.8/ssl_enhancement_with_ezsoapclient.txt for detail)
@@ -118,9 +119,9 @@ Attributes:
   (Merged from stable/3.5 rev. 12345, stable/3.6 rev. 12346)
 - Fixed bug #6838: Contentobject receives remote_id of nodeobject
   (Merged from stable/3.6 rev. 12349)
-- Fixed bug: Wrong conditional permisssion when you use more then one "assign with
-  limitation" to one role for the same user (limitations are mixed using logical AND
-  instead of logical OR operation).
+- Fixed bug: Wrong conditional permisssion when you use more then one 
+  "assign with limitation" to one role for the same user (limitations are 
+  mixed using logical AND instead of logical OR operation).
 - Fixed bug #6852: Default values for template fetch operator does not work
   in compiled mode.
   (Merged from stable/3.6 rev. 12377)
@@ -138,7 +139,8 @@ Attributes:
   (Merged from stable/3.5 rev. 12442).
 - Fixed bug #5603: RelatedObject Keyword function name misleading.
   (Merged from stable/3.5 rev. 12446).
-- Fixed bug #6900: Creator and modifier display detail in the admin intarface is corrected.
+- Fixed bug #6900: Creator and modifier display detail in the admin intarface 
+  is corrected.
   (Merged from unstable/3.6.1 rev. 12518)
 - Fixed bug #6895: Incorrect test in advanced search.
   (Merged from stable/3.6 rev. 12521)
@@ -158,15 +160,21 @@ Attributes:
 - Fixed bug #6911, #6913: The calendar tool doesn't work 
   with class limitation. Wrong links are generated in the Calendar.
   (Merged from stable/3.5 (3.5.4rc1) rev. 12586).
-- Fixed bug #6862: The content-tree will displayed proper subtree while deleting a user or content object.
+- Fixed bug #6862: The content-tree will displayed proper subtree while 
+  deleting a user or content object.
   (merged from stable/3.5.5 rev 12617)
 - Fixed bug #6914: The Calendar tool: the class selection 
   is not saved sometimes.
   (Merged from stable/3.6 rev. 12626)
-- Fixed bug #6862: As it will also work properly whild deleting content object from left menu using mouse click.
+- Fixed bug #6862: As it will also work properly whild deleting content object
+  from left menu using mouse click.
   (Merged from stable/3.6.2 rev. 12631)
 - Fixed bug #6904: No database release or version returned by eZPublishSDK.
   (Manually merged from stable/3.6 (3.6.2) rev. 12638)
+- Fixed bug: object attributes are not checked for 'is_required' flag during
+  publishing if object has an attribute of 'ezobjectrelation' datatype.
+  (Merged from release/3.5.4 rev. 12640, also in release/3.6.1 rev. 12642,
+  in stable/3.7 (3.7.0rc1) rev. 12645)
 
 *Library:
 
