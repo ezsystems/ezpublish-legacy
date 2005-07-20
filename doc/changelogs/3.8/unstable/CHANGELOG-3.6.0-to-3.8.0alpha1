@@ -175,6 +175,9 @@ Attributes:
   publishing if object has an attribute of 'ezobjectrelation' datatype.
   (Merged from release/3.5.4 rev. 12640, also in release/3.6.1 rev. 12642,
   in stable/3.7 (3.7.0rc1) rev. 12645)
+- Fixed bug #6903: FetchVersionList and fetchVersionCount 
+  can lead to a "Fatal Error".
+  (Merged from stable/3.6 (3.6.2) rev.12647)
 
 *Library:
 
