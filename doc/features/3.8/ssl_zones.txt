@@ -48,7 +48,6 @@ SSLSubtrees[]=/polls
 # for this view, and the previous access mode is kept.
 ModuleViewAccessMode[shop/add]=ssl
 ModuleViewAccessMode[shop/basket]=ssl
-ModuleViewAccessMode[content/action]=keep
 ModuleViewAccessMode[content/*]=keep
 #######################################################################
 
