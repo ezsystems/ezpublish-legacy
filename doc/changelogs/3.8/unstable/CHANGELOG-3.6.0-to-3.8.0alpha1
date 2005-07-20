@@ -163,6 +163,8 @@ Attributes:
 - Fixed bug #6914: The Calendar tool: the class selection 
   is not saved sometimes.
   (Merged from stable/3.6 rev. 12626)
+- Fixed bug #6862: As it will also work properly whild deleting content object from left menu using mouse click.
+  (Merged from stable/3.6.2 rev. 12631)
 
 *Library:
 
