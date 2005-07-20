@@ -475,6 +475,8 @@ class eZContentFunctionCollection
 
     function fetchVersionList( $contentObject, $offset, $limit )
     {
+        if ( !is_object( $contentObject ) )
+            return array( 'result' => 0 );
         $versionList = & eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                               null, array(  'contentobject_id' => $contentObject->attribute("id") ),
                                                                    null, array( 'length' => $limit, 'offset' => $offset ),
@@ -485,6 +487,8 @@ class eZContentFunctionCollection
 
     function fetchVersionCount( $contentObject )
     {
+        if ( !is_object( $contentObject ) )
+            return array( 'result' => 0 );
         $versionList = & eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                                    array(), array( 'contentobject_id' => $contentObject->attribute("id") ),
                                                                    array(), null,
