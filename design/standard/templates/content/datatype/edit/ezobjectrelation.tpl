@@ -26,14 +26,13 @@
 {/section}
 
 {section show=$attribute.content}
-    <input class="button" type="submit" name="RemoveObjectButton_{$attribute.id}" value="{'Remove object'|i18n( 'design/standard/content/datatype' )}" />
-    <input class="button" type="submit" name="BrowseObjectButton_{$attribute.id}" value="{'Find object'|i18n( 'design/standard/content/datatype' )}" />
+    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_remove_object]" value="{'Remove object'|i18n( 'design/standard/content/datatype' )}" />
+    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_browse_object]" value="{'Find object'|i18n( 'design/standard/content/datatype' )}" />
 {section-else}
-    <input class="button-disabled" type="submit" name="RemoveObjectButton_{$attribute.id}" value="{'Remove object'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />
-    <input class="button" type="submit" name="BrowseObjectButton_{$attribute.id}" value="{'Find object'|i18n( 'design/standard/content/datatype' )}" />
+    <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_remove_object]" value="{'Remove object'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />
+    <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_browse_object]" value="{'Find object'|i18n( 'design/standard/content/datatype' )}" />
 {/section}
 
-<input type="hidden" name="CustomActionButton[{$attribute.id}_set_object_relation]" value="{$attribute.id}" />
 <input type="hidden" name="{$attribute_base}_data_object_relation_id_{$attribute.id}" value="{$attribute.data_int}" />
 
 </div>
