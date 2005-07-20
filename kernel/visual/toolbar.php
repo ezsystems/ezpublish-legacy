@@ -291,7 +291,6 @@ foreach ( array_keys( $toolArray ) as $toolKey )
         $oldParameterValue = false;
         if ( isset( $defaultActionParameters[$key] ) )
             $oldParameterValue = $defaultActionParameters[$key];
-        $defaultParameterValue = $actionParameters[$key];
         if ( $storeList and
              $http->hasPostVariable( $toolKey . "_parameter_" . $key ) )
         {
@@ -313,9 +312,7 @@ foreach ( array_keys( $toolArray ) as $toolKey )
             }
         }
         else
-        {
-            $parameterValue = $defaultParameterValue;
-        }
+            $parameterValue = ''; // pass on empty list
 
         $toolParameterArray = array();
         $toolParameterArray['name'] = $key;
