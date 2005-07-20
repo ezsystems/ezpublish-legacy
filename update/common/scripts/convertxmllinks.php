@@ -42,6 +42,8 @@
   version 3.5.* or lower.
 */
 
+define( "QUERY_LIMIT", 100 );
+
 if( !file_exists( 'update/common/scripts' ) || !is_dir( 'update/common/scripts' ) )
 {
     echo "Please run this script from the root document directory!\n";
@@ -108,12 +110,7 @@ if ( !$db->isConnected() )
     $script->shutdown( 1 );
 }
 
-$xmlFieldsQuery = "SELECT id, version, contentobject_id, data_text
-                   FROM ezcontentobject_attribute
-                   WHERE data_type_string = 'ezxmltext'";
-
-$xmlFieldsArray =& $db->arrayQuery( $xmlFieldsQuery );
-$count = 0;
+$totalCount = 0;
 
 /*!
   Finds all link tags in text \a $text and replaces the attribute \c id with \c url_id.
@@ -149,79 +146,93 @@ function findLinkTags( &$text, &$pos, &$isTextModified )
     return false;
 }
 
-foreach ( $xmlFieldsArray as $xmlField )
+$xmlFieldsQuery = "SELECT id, version, contentobject_id, data_text
+                   FROM ezcontentobject_attribute
+                   WHERE data_type_string = 'ezxmltext'";
+
+$xmlFieldsArray = $db->arrayQuery( $xmlFieldsQuery, array( "limit" => QUERY_LIMIT ) );
+
+// We process the table by parts of QUERY_LIMIT number of records, $pass is the iteration number.
+$pass = 1;
+
+while( count( $xmlFieldsArray ) )
 {
-    $text = $xmlField['data_text'];
-    $textLen = strlen ( $text );
-
-    $isTextModified = false;
-    $pos = 1;
-
-    if ( $textLen == 0 )
+    foreach ( $xmlFieldsArray as $xmlField )
     {
-        continue;
-    }
-
-    $oldPos = false;
-    do
-    {
-        // Avoid infinite loop
-        if ( $oldPos === $pos or $oldPos > $pos )
+        $text = $xmlField['data_text'];
+        $textLen = strlen ( $text );
+    
+        $isTextModified = false;
+        $pos = 1;
+    
+        if ( $textLen == 0 )
         {
-            break;
+            continue;
         }
-        $oldPos = $pos;
-
-        $literalTagBegin = strpos( $text, "<literal", $pos );
-        if ( $literalTagBegin )
+    
+        $oldPos = false;
+        do
         {
-
-            $preLiteralText = substr( $text, $pos, $literalTagBegin - $pos );
-            $preLiteralLen = strlen( $preLiteralText );
-            $tmpPos = 0;
-            // We need to check the text before the literal tag for link tags
-            if ( findLinkTags( $preLiteralText, $tmpPos, $isTextModified ) )
-            {
-                // We found some link tags, now replace the text and adjust position
-                $diff = strlen( $preLiteralText ) - $preLiteralLen;
-                $text = substr_replace( $text, $preLiteralText, $pos, $literalTagBegin - $pos );
-
-                // Adjust begin position with the changes in text
-                $literalTagBegin += $diff;
-            }
-
-            $literalTagEnd = strpos( $text, "</literal>", $literalTagBegin );
-            if ( !$literalTagEnd )
+            // Avoid infinite loop
+            if ( $oldPos === $pos or $oldPos > $pos )
             {
                 break;
             }
-            $pos = $literalTagEnd + 9;
-        }
-        else
+            $oldPos = $pos;
+    
+            $literalTagBegin = strpos( $text, "<literal", $pos );
+            if ( $literalTagBegin )
+            {
+    
+                $preLiteralText = substr( $text, $pos, $literalTagBegin - $pos );
+                $preLiteralLen = strlen( $preLiteralText );
+                $tmpPos = 0;
+                // We need to check the text before the literal tag for link tags
+                if ( findLinkTags( $preLiteralText, $tmpPos, $isTextModified ) )
+                {
+                    // We found some link tags, now replace the text and adjust position
+                    $diff = strlen( $preLiteralText ) - $preLiteralLen;
+                    $text = substr_replace( $text, $preLiteralText, $pos, $literalTagBegin - $pos );
+    
+                    // Adjust begin position with the changes in text
+                    $literalTagBegin += $diff;
+                }
+    
+                $literalTagEnd = strpos( $text, "</literal>", $literalTagBegin );
+                if ( !$literalTagEnd )
+                {
+                    break;
+                }
+                $pos = $literalTagEnd + 9;
+            }
+            else
+            {
+                if ( !findLinkTags( $text, $pos, $isTextModified ) )
+                    break;
+            }
+    
+        } while ( $pos < $textLen );
+    
+        if ( $isTextModified )
         {
-            if ( !findLinkTags( $text, $pos, $isTextModified ) )
-                break;
+            $sql = "UPDATE ezcontentobject_attribute SET data_text='" . $text .
+               "' WHERE id=" . $xmlField['id'] . " AND version=" . $xmlField['version'];
+            $db->query( $sql );
+    
+            if ( !$isQuiet )
+                $cli->notice( "Attribute converted. Object ID: " . $xmlField['contentobject_id'] . ", version: ". $xmlField['version'] .
+                              ", attribute ID :" . $xmlField['id'] );
+            $totalCount++;
         }
-
-    } while ( $pos < $textLen );
-
-    if ( $isTextModified )
-    {
-        $sql = "UPDATE ezcontentobject_attribute SET data_text='" . $text .
-           "' WHERE id=" . $xmlField['id'] . " AND version=" . $xmlField['version'];
-        $db->query( $sql );
-
-        if ( !$isQuiet )
-            $cli->notice( "Attribute converted. Object ID: " . $xmlField['contentobject_id'] . ", version: ". $xmlField['version'] .
-                          ", attribute ID :" . $xmlField['id'] );
-        $count++;
-    }
+    }    
+    $xmlFieldsArray = $db->arrayQuery( $xmlFieldsQuery, array( "limit" => QUERY_LIMIT, "offset" => $pass * QUERY_LIMIT ) );
+    $pass++;
 }
 
 if ( !$isQuiet )
 {
-    if ( $count )
-        $cli->notice( "Total: " . $count . " attribute(s) converted." );
+    if ( $totalCount )
+        $cli->notice( "Total: " . $totalCount . " attribute(s) converted." );
     else
         $cli->notice( "No old-style <link> tags found." );
 }
