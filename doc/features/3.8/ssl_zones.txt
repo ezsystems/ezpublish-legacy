@@ -5,6 +5,7 @@
 It might be needed to force access over SSL to certain site parts.
 Such parts are called "SSL zones".
 
+
 *Documentation:
 
 SSL zone might be:
@@ -18,10 +19,16 @@ When a user leaves an SSL zone (i.e. when  he/she is accessing a subtree
 or module view that does not belong to any SSL zone), the user is
 automatically switched back to plain HTTP (without SSL).
 
-*Sample configuration:
 
-### site.ini.append ###
+*Configuration:
 
+By default, plain HTTP access mode is used.
+You can override certain access mode on per-view basis.
+Views access mode is not overriden for can choose the appropriate
+access mode on per-subtree basis.
+
+Sample configuration:
+### site.ini.append ###################################################
 [SiteSettings]
 SSLPort=8443
 
@@ -30,42 +37,56 @@ SSLPort=8443
 SSLZones=enabled
 
 # Content subtrees we must use SSL for.
+# (currently, only content/view and content/edit respect this setting)
 SSLSubtrees[]
 SSLSubtrees[]=/news
 SSLSubtrees[]=/polls
 
 # Default access mode is plain HTTP.
-# It's possible to override access mode for specific views.
-# If a view is defined as 'ssl' then HTTPS access mode is forced for this view.
-# if a view is defined as 'keep' then no access mode change
-# is allowed for this view, i.e. current access mode is kept.
+# Define a view as 'ssl' to force HTTPS access mode for this view.
+# If a view is defined as 'keep' then access mode is unknown
+# for this view, and the previous access mode is kept.
 ModuleViewAccessMode[shop/add]=ssl
 ModuleViewAccessMode[shop/basket]=ssl
 ModuleViewAccessMode[content/action]=keep
-ModuleViewAccessMode[content/removeeditversion]=keep
+ModuleViewAccessMode[content/*]=keep
+#######################################################################
 
-# It's up to these views to choose the appropriate access mode
-# (http or https) depending on their parameters (e.g. node/object id).
-SmartViews[]
-SmartViews[]=content/view
-SmartViews[]=content/edit
+"content/*" means all the views in module 'content'.
+
+*Logic:
+
+Before module run, the system looks at "ModuleViewAccessMode" setting
+to decide whether it should switch access mode.
+
+If a module/view is either not mentioned there or defined as 'ssl'
+then access mode switch occurs.
+
+Otherwise, if a module/view is defined as 'keep', the view may switch
+access mode on per-subtree basis, just like content/view and
+content/edit do.
+
+If it's not possible to determine the right access mode before module
+run (=when view is defined as 'keep'), and the view does not handle
+content SSL zones (SSL subtrees) itself, mode switch does not occur.
+
 
 *Implementation details:
 
-Check if a module view should cause access mode switch is done in index.php
-by calling eZSSLZone::checkModuleView().
+Check if a module/view should cause access mode switch is done in
+index.php by calling eZSSLZone::checkModuleView().
 
 Checks if a given object/node belongs to a content SSL zone (SSLSubtree)
-are done in so-called "smart views" by calling
-checkNodeID/checkNode/checkObject method of class eZSSLZone.
+are done by calling checkNodeID/checkNode/checkObject method of class
+eZSSLZone from a view.
 
-In order to make your module view "smart" (=to add content SSL zones
-support) you should add something like this just after parsing module
-parameters:
+In order to add support for content SSL zones to your view, you should
+define the view as 'keep' in "ModuleViewAccessMode" setting and
+add something like this just after parsing module parameters:
 
  // Check if we should switch access mode (http/http) for this node.
  include_once( 'kernel/classes/ezsslzone.php' );
- eZSSLZone::checkNodeID( $NodeID );
+ eZSSLZone::checkNodeID( '<module_name>', '<view_name>', $NodeID );
 
 For mode details, look at public methods in ezsslzone.php.
 

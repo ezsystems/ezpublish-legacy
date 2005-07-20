@@ -46,9 +46,9 @@ $obj =& eZContentObject::fetch( $ObjectID );
 if ( !$obj )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-// Check if we should switch access mode (http/http) for this object.
+// Check if we should switch access mode (http/https) for this object.
 include_once( 'kernel/classes/ezsslzone.php' );
-eZSSLZone::checkObject( $obj );
+eZSSLZone::checkObject( 'content', 'edit', $obj );
 
 //if ( !$obj->attribute( 'can_edit' ) )
 //    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );

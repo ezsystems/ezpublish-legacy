@@ -54,9 +54,9 @@ $Year = $Params['Year'];
 $Month = $Params['Month'];
 $Day = $Params['Day'];
 
-// Check if we should switch access mode (http/http) for this node.
+// Check if we should switch access mode (http/https) for this node.
 include_once( 'kernel/classes/ezsslzone.php' );
-eZSSLZone::checkNodeID( $NodeID );
+eZSSLZone::checkNodeID( 'content', 'view', $NodeID );
 
 if ( isset( $Params['UserParameters'] ) )
 {

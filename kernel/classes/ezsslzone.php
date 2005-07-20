@@ -60,6 +60,7 @@ class eZSSLZone
     /*! \privatesection */
 
     /**
+     * \static
      * Returns true if the SSL zones functionality is enabled, false otherwise.
      * The result is cached in memory to save time on multiple invocations.
      */
@@ -75,6 +76,7 @@ class eZSSLZone
     }
 
     /**
+     * \static
      * Load content SSL zones definitions.
      * Substitute URIs with corresponding path strings
      * (e.g. "/news" would be subsituted with "/1/2/50").
@@ -116,6 +118,46 @@ class eZSSLZone
     }
 
     /**
+     * \static
+     * Checks if a given module/view pair is in the given list of views.
+     * Wildcard matching on view name is done.
+     *
+     * \return 2        if wildcard match occurs on the given view
+     *         1        if exact match occurs on the given view
+     *         0        if the view is not found in the list
+     */
+    function viewIsInArray( $module, $view, $moduleViews )
+    {
+        if ( in_array( "$module/$view", $moduleViews ) )
+            return 2;
+        if ( in_array( "$module/*", $moduleViews ) )
+            return 1;
+        return 0;
+    }
+
+    /**
+     * \static
+     * \return true if the view is defined as 'keep'
+     */
+    function isKeepModeView( $module, $view )
+    {
+        $ini =& eZINI::instance();
+        $viewsModes  = $ini->variable( 'SSLZoneSettings', 'ModuleViewAccessMode' );
+        $sslViews      = array_keys( $viewsModes, 'ssl' );
+        $keepModeViews = array_keys( $viewsModes, 'keep' );
+
+        if ( eZSSLZone::viewIsInArray( $module, $view, $keepModeViews ) <
+             eZSSLZone::viewIsInArray( $module, $view, $sslViews ) )
+        {
+            eZDebugSetting::writeDebug( 'kernel-ssl-zone', 'The view cannot choose access mode itself.' );
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * \static
      * \param  $inSSL  The desired access mode.
      *
      * Change access mode (HTTP/HTTPS):
@@ -169,14 +211,22 @@ class eZSSLZone
     /*! \publicsection */
 
     /**
+     * \static
      * Check whether the given node should cause access mode change.
      * It it should, this method does not return.
      *
      * \see checkNode()
      */
-    function checkNodeID( $nodeID )
+    function checkNodeID( $module, $view, $nodeID )
     {
         if ( !eZSSLZone::enabled() )
+            return;
+
+        /* If the given module/view is not in the list of 'keep mode' views,
+         * i.e. it cannot choose access mode itself,
+         * then do nothing.
+         */
+        if ( !eZSSLZone::isKeepModeView( $module, $view ) )
             return;
 
         $node = eZContentObjectTreeNode::fetch( $nodeID );
@@ -186,16 +236,24 @@ class eZSSLZone
             return;
         }
 
-        eZSSLZone::checkNode( $node );
+        eZSSLZone::checkNode( $module, $view, $node );
     }
 
     /**
+     * \static
      * Check whether the given node should cause access mode change.
      * It it should, this method does not return.
      */
-    function checkNode( &$node, $redirect = true )
+    function checkNode( $module, $view, &$node, $redirect = true )
     {
         if ( !eZSSLZone::enabled() )
+            return;
+
+        /* If the given module/view is not in the list of 'keep mode' views,
+         * i.e. it cannot choose access mode itself,
+         * then do nothing.
+         */
+        if ( !$redirect && !eZSSLZone::isKeepModeView( $module, $view ) )
             return;
 
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
@@ -226,12 +284,20 @@ class eZSSLZone
 
 
     /**
+     * \static
      * Check whether the given object should cause access mode change.
      * It it should, this method does not return.
      */
-    function checkObject( &$object )
+    function checkObject( $module, $view, &$object )
     {
         if ( !eZSSLZone::enabled() )
+            return;
+
+        /* If the given module/view is not in the list of 'keep mode' views,
+         * i.e. it cannot choose access mode itself,
+         * then do nothing.
+         */
+        if ( !eZSSLZone::isKeepModeView( $module, $view ) )
             return;
 
         $nodes = $object->attribute( 'assigned_nodes' );
@@ -261,7 +327,7 @@ class eZSSLZone
         $inSSL = false; // does the object belong to an SSL zone?
         foreach ( $nodes as $node )
         {
-            if ( eZSSLZone::checkNode( $node, false ) )
+            if ( eZSSLZone::checkNode( $module, $view, $node, false ) )
             {
                 $inSSL = true;
                 break;
@@ -272,6 +338,7 @@ class eZSSLZone
     }
 
     /**
+     * \static
      * Decide whether we should change access mode for this module view or not.
      * Called from index.php.
      */
@@ -280,37 +347,36 @@ class eZSSLZone
         if ( !eZSSLZone::enabled() )
             return;
 
-
         $ini =& eZINI::instance();
-        $smartViews  = $ini->variable( 'SSLZoneSettings', 'SmartViews' );
         $viewsModes  = $ini->variable( 'SSLZoneSettings', 'ModuleViewAccessMode' );
 
         $sslViews      = array_keys( $viewsModes, 'ssl' );
         $keepModeViews = array_keys( $viewsModes, 'keep' );
-        $currentView   = "$module/$view";
+
+        $sslPriority      = eZSSLZone::viewIsInArray( $module, $view, $sslViews      );
+        $keepModePriority = eZSSLZone::viewIsInArray( $module, $view, $keepModeViews );
+
+        if ( $sslPriority && $keepModePriority && $sslPriority == $keepModePriority )
+        {
+            eZDebug::writeError( "Configuration error: view $module/$view is defined both as 'ssl' and 'keep'",
+                                 'eZSSLZone' );
+            return;
+        }
 
         /* If the view belongs to the list of views we should not change access mode for,
-         * then do nothing
+         * then do nothing.
+         * (however, the view may do access mode switch itself later)
          */
-        if ( in_array( $currentView, $keepModeViews ) )
+        if ( $keepModePriority > $sslPriority )
         {
             eZDebugSetting::writeDebug( 'kernel-ssl-zone', 'Keeping current access mode...' );
             return;
         }
 
-        /* If there are some SSL zones defined for the module view,
-         * it's up to the view to decide whether to change access mode.
-         *
-         * Otherwise we look if the view is in the list of SSL views,
+        /* Otherwise we look if the view is in the list of SSL views,
          * and if it is, we switch to SSL. Else, if it's not, we switch to plain HTTP.
          */
-        $isSSLView   = ( in_array( $currentView, $sslViews ) !== false );
-        $isSmartView = in_array( $currentView, $smartViews );
-
-        if ( $isSmartView )
-            $inSSL = null;
-        else
-            $inSSL = $isSSLView;
+        $inSSL = ( $sslPriority > 0 );
 
         eZDebugSetting::writeDebug( 'kernel-ssl-zone',
                                     ( isset( $inSSL ) ? ( $inSSL?'yes':'no') : 'dunno' ),
