@@ -267,39 +267,7 @@ class eZObjectRelationType extends eZDataType
         {
             case "set_object_relation" :
             {
-                if ( $http->hasPostVariable( 'RemoveObjectButton_' . $contentObjectAttribute->attribute( 'id' ) ) )
-                {
-                    $contentObjectAttribute->setAttribute( 'data_int', 0 );
-                    $contentObjectAttribute->store();
-                }
-
-                if ( $http->hasPostVariable( 'BrowseObjectButton_' . $contentObjectAttribute->attribute( 'id' ) ) )
-                {
-                    $module =& $parameters['module'];
-                    $redirectionURI = $parameters['current-redirection-uri'];
-                    $ini = eZINI::instance( 'content.ini' );
-                    $browseType = 'AddRelatedObjectToDataType';
-                    $browseTypeINIVariable = $ini->variable( 'ObjectRelationDataTypeSettings', 'ClassAttributeStartNode' );
-                    foreach( $browseTypeINIVariable as $value )
-                    {
-                        list( $classAttributeID, $type ) = explode( ';',$value );
-                        if ( $classAttributeID == $contentObjectAttribute->attribute( 'contentclassattribute_id' ) && strlen( $type ) > 0 )
-                        {
-                            $browseType = $type;
-                            eZDebug::writeDebug( $browseType, "browseType" );
-                            break;
-                        }
-                    }
-                    eZContentBrowse::browse( array( 'action_name' => 'AddRelatedObject_' . $contentObjectAttribute->attribute( 'id' ),
-                                                    'type' =>  $browseType,
-                                                    'browse_custom_action' => array( 'name' => 'CustomActionButton[' . $contentObjectAttribute->attribute( 'id' ) . '_set_object_relation]',
-                                                                                     'value' => $contentObjectAttribute->attribute( 'id' ) ),
-                                                    'persistent_data' => array( 'HasObjectInput' => 0 ),
-                                                    'from_page' => $redirectionURI ),
-                                             $module );
-
-                }
-                else if ( $http->hasPostVariable( 'BrowseActionName' ) and
+                if ( $http->hasPostVariable( 'BrowseActionName' ) and
                           $http->postVariable( 'BrowseActionName' ) == ( 'AddRelatedObject_' . $contentObjectAttribute->attribute( 'id' ) ) and
                           $http->hasPostVariable( "SelectedObjectIDArray" ) )
                 {
@@ -309,13 +277,43 @@ class eZObjectRelationType extends eZDataType
                         $selectedObjectIDArray = $http->postVariable( "SelectedObjectIDArray" );
 
                         $objectID = $selectedObjectIDArray[0];
-//                         $contentObjectAttribute->setContent( $objectID );
                         $contentObjectAttribute->setAttribute( 'data_int', $objectID );
                         $contentObjectAttribute->store();
                     }
-                    $http->removeSessionVariable( 'BrowseCustomAction' );
                 }
             } break;
+
+            case "browse_object" :
+            {
+                $module =& $parameters['module'];
+                $redirectionURI = $parameters['current-redirection-uri'];
+                $ini = eZINI::instance( 'content.ini' );
+                $browseType = 'AddRelatedObjectToDataType';
+                $browseTypeINIVariable = $ini->variable( 'ObjectRelationDataTypeSettings', 'ClassAttributeStartNode' );
+                foreach( $browseTypeINIVariable as $value )
+                {
+                    list( $classAttributeID, $type ) = explode( ';',$value );
+                    if ( $classAttributeID == $contentObjectAttribute->attribute( 'contentclassattribute_id' ) && strlen( $type ) > 0 )
+                    {
+                        $browseType = $type;
+                        break;
+                    }
+                }
+                eZContentBrowse::browse( array( 'action_name' => 'AddRelatedObject_' . $contentObjectAttribute->attribute( 'id' ),
+                                                'type' =>  $browseType,
+                                                'browse_custom_action' => array( 'name' => 'CustomActionButton[' . $contentObjectAttribute->attribute( 'id' ) . '_set_object_relation]',
+                                                                                 'value' => $contentObjectAttribute->attribute( 'id' ) ),
+                                                'persistent_data' => array( 'HasObjectInput' => 0 ),
+                                                'from_page' => $redirectionURI ),
+                                         $module );
+            } break;
+
+            case "remove_object" :
+            {
+                $contentObjectAttribute->setAttribute( 'data_int', 0 );
+                $contentObjectAttribute->store();
+            } break;
+
             default :
             {
                 eZDebug::writeError( "Unknown custom HTTP action: " . $action, "eZObjectRelationType" );
