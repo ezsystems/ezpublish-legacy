@@ -8,11 +8,10 @@ Changes from 3.6.1 to 3.6.2
 - Fixed bug #6904: No database release or version returned by eZPublishSDK.
 - Fixed bug #6903: FetchVersionList and fetchVersionCount 
   can lead to a "Fatal Error".
-- Fixed: Wrong usage of temporary tables in eZSearchEngine and
-  eZContentObjectTreeNode that might lead to problems on some of the
-  supported DBMSs when several users do concurrent searches or subtree
-  removal.
-  (Manually merged from stable/3.5 (3.5.5) rev. 12672)
+- Fixed: Wrong usage of temporary tables that might lead to problems on
+  some of the supported DBMSs when several users are concurrently
+  searching, viewing products or removing subtrees.
+  (Manually merged from stable/3.5 (3.5.5) rev. 12672, 12676)
 
 *Library:
 
