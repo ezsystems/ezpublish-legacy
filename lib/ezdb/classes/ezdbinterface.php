@@ -754,6 +754,17 @@ class eZDBInterface
     }
 
     /*!
+     Generate unique table name basing on the given pattern.
+     If the pattern contains a (%) character then the character
+     is replaced with a part providing uniqueness (e.g. random number).
+    */
+    function generateUniqueTempTableName( $pattern )
+    {
+
+        return str_replace( '%', '', $pattern );
+    }
+
+    /*!
       Get database version number
 
       \return version number
