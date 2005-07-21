@@ -406,7 +406,36 @@ class eZSearchEngine
     }
 
     /*!
-     \static
+     Saves name of a temporary that has just been created,
+     for us to know its name when it's time to drop the table.
+    */
+    function saveCreatedTempTableName( $index, $tableName )
+    {
+        if ( isset( $this->CreatedTempTablesNames[$index] ) )
+            eZDebug::writeWarning( "CreatedTempTablesNames[\$index] already exists " .
+                                   "and contains '" . $this->CreatedTempTablesNames[$index] . "'" );
+        $this->CreatedTempTablesNames[$index] = $tableName;
+    }
+
+    /*!
+     \return Given table name from the list of saved temporary tables names by its index.
+     \see saveCreatedTempTableName()
+    */
+    function getSavedTempTableName( $index )
+    {
+        return $this->CreatedTempTablesNames[$index];
+    }
+
+    /*!
+    \return List of saved temporary tables names.
+    \see saveCreatedTempTableName()
+    */
+    function getSavedTempTablesList()
+    {
+        return $this->CreatedTempTablesNames;
+    }
+
+    /*!
      Runs a query to the search engine.
     */
     function &search( $searchText, $params = array(), $searchTypes = array() )
@@ -888,8 +917,10 @@ class eZSearchEngine
                     $searchPartText =& $searchPart['sql_part'];
                     if ( $i == 0 )
                     {
-                        $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
-                        $db->query( "INSERT INTO ezsearch_tmp_0 SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                        $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%_0' );
+                        $this->saveCreatedTempTableName( 0, $table );
+                        $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
+                        $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                                          FROM ezcontentobject,
                                               ezsearch_object_word_link
                                               $subTreeTable,
@@ -912,17 +943,21 @@ class eZSearchEngine
                     }
                     else
                     {
-                        $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_$i ( contentobject_id int primary key not null, published int )" );
-                        $db->query( "INSERT INTO ezsearch_tmp_$i SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                        $table = $db->generateUniqueTempTableName( "ezsearch_tmp_%_$i" );
+                        $this->saveCreatedTempTableName( $i, $table );
+
+                        $tmpTable0 = $this->getSavedTempTableName( 0 );
+                        $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
+                        $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                                          FROM
                                              ezcontentobject,
                                              ezsearch_object_word_link
                                              $subTreeTable,
                                              ezcontentclass,
                                              ezcontentobject_tree,
-                                             ezsearch_tmp_0
+                                             $tmpTable0
                                           WHERE
-                                          ezsearch_tmp_0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
+                                          $tmpTable0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
                                           $searchDateQuery
                                           $sectionQuery
                                           $classQuery
@@ -947,8 +982,10 @@ class eZSearchEngine
 
             if ( $searchPartsArray == null )
             {
-                 $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
-                 $db->query( "INSERT INTO ezsearch_tmp_0 SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                 $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%_0' );
+                 $this->saveCreatedTempTableName( 0, $table );
+                 $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
+                 $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                                      FROM ezcontentobject,
                                           ezsearch_object_word_link
                                           $subTreeTable,
@@ -986,7 +1023,7 @@ class eZSearchEngine
             $tmpTableCount = $i;
             for ( $i = 0; $i < $tmpTableCount; $i++ )
             {
-                $tmpTablesFrom .= "ezsearch_tmp_$i ";
+                $tmpTablesFrom .= $this->getSavedTempTableName( $i );
                 if ( $i < ( $tmpTableCount - 1 ) )
                     $tmpTablesFrom .= ", ";
 
@@ -997,16 +1034,18 @@ class eZSearchEngine
                 $tmpTablesSeparator = ',';
             }
 
+            $tmpTable0 = $this->getSavedTempTableName( 0 );
             for ( $i = 1; $i < $tmpTableCount; $i++ )
             {
-                $tmpTablesWhere .= " ezsearch_tmp_0.contentobject_id=ezsearch_tmp_$i.contentobject_id  ";
+                $tmpTableI = $this->getSavedTempTableName( $i );
+                $tmpTablesWhere .= " $tmpTable0.contentobject_id=$tmpTableI.contentobject_id  ";
                 if ( $i < ( $tmpTableCount - 1 ) )
                     $tmpTablesWhere .= " AND ";
             }
             $tmpTablesWhereExtra = '';
             if ( $tmpTableCount > 0 )
             {
-                $tmpTablesWhereExtra = 'ezcontentobject.id=ezsearch_tmp_0.contentobject_id AND';
+                $tmpTablesWhereExtra = "ezcontentobject.id=$tmpTable0.contentobject_id AND";
             }
 
             $and = "";
@@ -1124,11 +1163,8 @@ class eZSearchEngine
                 $objectRes = array();
 
             // Drop tmp tables
-            for ( $i = 0; $i < $tmpTableCount; $i++ )
-            {
-                $db->dropTempTable( "DROP TABLE ezsearch_tmp_$i" );
-            }
-
+            foreach ( $this->getSavedTempTablesList() as $table )
+                $db->dropTempTable( "DROP TABLE $table" );
 
             return array( "SearchResult" => $objectRes,
                           "SearchCount" => $searchCount,
@@ -1697,8 +1733,10 @@ class eZSearchEngine
         $i = $this->TempTablesCount;
         if ( $i == 0 )
         {
-            $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
-            $db->query( "INSERT INTO ezsearch_tmp_0 SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+            $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%_0' );
+            $this->saveCreatedTempTableName( 0, $table );
+            $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
+            $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
@@ -1718,21 +1756,23 @@ class eZSearchEngine
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $sqlPermissionCheckingString" );
-
         }
         else
         {
-            $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_$i ( contentobject_id int primary key not null, published int )" );
-            $db->query( "INSERT INTO ezsearch_tmp_$i SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+            $table = $db->generateUniqueTempTableName( "ezsearch_tmp_%_$i" );
+            $this->saveCreatedTempTableName( $i, $table );
+            $tmpTable0 = $this->getSavedTempTableName( 0 );
+            $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
+            $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
                        $subTreeTable,
                        ezcontentclass,
                        ezcontentobject_tree,
-                       ezsearch_tmp_0
+                       $tmpTable0
                     WHERE
-                    ezsearch_tmp_0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
+                    $tmpTable0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
                     $searchDateQuery
                     $sectionQuery
                     $classQuery
@@ -1747,7 +1787,8 @@ class eZSearchEngine
                     $sqlPermissionCheckingString" );
         }
 
-        $insertedCountArray = $db->arrayQuery( "SELECT count(*) as count from ezsearch_tmp_$i " );
+        $tmpTableI = $this->getSavedTempTableName( $i );
+        $insertedCountArray = $db->arrayQuery( "SELECT count(*) as count from $tmpTableI " );
         $i++;
         $this->TempTablesCount++;
         if ( $insertedCountArray[0]['count'] == 0 )
@@ -1832,8 +1873,10 @@ class eZSearchEngine
                 $searchPartText =& $searchPart['sql_part'];
                 if ( $i == 0 )
                 {
-                    $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_0 ( contentobject_id int primary key not null, published int )" );
-                    $db->query( "INSERT INTO ezsearch_tmp_0 SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                    $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%_0' );
+                    $this->saveCreatedTempTableName( 0, $table );
+                    $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
+                    $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
@@ -1853,21 +1896,23 @@ class eZSearchEngine
                     ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                     ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
                     $sqlPermissionCheckingString" );
-
                 }
                 else
                 {
-                    $db->createTempTable( "CREATE TEMPORARY TABLE ezsearch_tmp_$i ( contentobject_id int primary key not null, published int )" );
-                    $db->query( "INSERT INTO ezsearch_tmp_$i SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
+                    $table = $db->generateUniqueTempTableName( "ezsearch_tmp_%_$i" );
+                    $this->saveCreatedTempTableName( $i, $table );
+                    $tmpTable0 = $this->getSavedTempTableName( 0 );
+                    $db->createTempTable( "CREATE TEMPORARY TABLE $table ( contentobject_id int primary key not null, published int )" );
+                    $db->query( "INSERT INTO $table SELECT DISTINCT ezsearch_object_word_link.contentobject_id, ezsearch_object_word_link.published
                     FROM
                        ezcontentobject,
                        ezsearch_object_word_link
                        $subTreeTable,
                        ezcontentclass,
                        ezcontentobject_tree,
-                       ezsearch_tmp_0
+                       $tmpTable0
                     WHERE
-                    ezsearch_tmp_0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
+                    $tmpTable0.contentobject_id=ezsearch_object_word_link.contentobject_id AND
                     $searchDateQuery
                     $sectionQuery
                     $classQuery
@@ -2223,6 +2268,7 @@ class eZSearchEngine
 
     var $UseOldCall = false;
     var $TempTablesCount = 0;
+    var $CreatedTempTablesNames = array();
 }
 
 ?>

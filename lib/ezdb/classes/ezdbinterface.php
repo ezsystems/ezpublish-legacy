@@ -567,7 +567,7 @@ class eZDBInterface
     }
 
     /*!
-      Begin a new transaction. If we are already in transaction then we omit 
+      Begin a new transaction. If we are already in transaction then we omit
       this new transaction and its matching commit or rollback.
     */
     function begin()
@@ -575,7 +575,7 @@ class eZDBInterface
         $ini =& eZINI::instance();
         if ($ini->variable( "DatabaseSettings", "Transactions" ) == "enabled")
         {
-            if ( $this->TransactionCounter > 0 ) 
+            if ( $this->TransactionCounter > 0 )
             {
                 ++$this->TransactionCounter;
                 return false;
@@ -590,9 +590,9 @@ class eZDBInterface
                 $this->beginQuery();
                 $this->RecordError = $oldRecordError;
 
-                // We update the transaction counter after the query, otherwise we 
+                // We update the transaction counter after the query, otherwise we
                 // mess up the debug background highlighting.
-                ++$this->TransactionCounter; 
+                ++$this->TransactionCounter;
             }
         }
         return true;
@@ -600,8 +600,8 @@ class eZDBInterface
 
     /*!
       \virtual
-      The query to start a transaction. 
-      This function must be reimplemented in the subclasses. 
+      The query to start a transaction.
+      This function must be reimplemented in the subclasses.
     */
      function beginQuery()
     {
@@ -661,8 +661,8 @@ class eZDBInterface
 
     /*!
       \virtual
-      The query to commit the transaction. 
-      This function must be reimplemented in the subclasses. 
+      The query to commit the transaction.
+      This function must be reimplemented in the subclasses.
     */
     function commitQuery()
     {
@@ -698,7 +698,7 @@ class eZDBInterface
 
     /*!
       \virtual
-      The query to cancel the transaction. 
+      The query to cancel the transaction.
       This function must be reimplemented in the subclasses.
     */
     function rollbackQuery()
@@ -991,6 +991,17 @@ class eZDBInterface
     function availableDatabases()
     {
         return false;
+    }
+
+    /*!
+     Generate unique table name basing on the given pattern.
+     If the pattern contains a (%) character then the character
+     is replaced with a part providing uniqueness (e.g. random number).
+    */
+    function generateUniqueTempTableName( $pattern )
+    {
+
+        return str_replace( '%', '', $pattern );
     }
 
     /*!
