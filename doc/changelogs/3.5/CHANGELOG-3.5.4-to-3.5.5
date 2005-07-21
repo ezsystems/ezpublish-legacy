@@ -15,5 +15,9 @@ Changes from 3.5.4 to 3.5.5
 - Fixed bug #6903: FetchVersionList and fetchVersionCount 
   can lead to a "Fatal Error".
   (Merged from stable/3.6 (3.6.2) rev.12647)
+- Fixed bug #6841: Permissions of embeded objects are ignored.
+  Embeded objects which current user does not have read access to will now use the template ;
+  design/standard/templates/content/datatype/view/ezxmltags/object_denied.tpl
+  To enable old behaviour, override this template to : content/datatype/view/ezxmltags/object.tpl
 
 *Translations:
