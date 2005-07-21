@@ -162,8 +162,18 @@ Attributes:
 - Fixed bug #6903: FetchVersionList and fetchVersionCount 
   can lead to a "Fatal Error".
   (Merged from stable/3.6 (3.6.2) rev.12647)
+- Fixed: Wrong usage of temporary tables in eZSearchEngine and
+  eZContentObjectTreeNode that might lead to problems on some of the
+  supported DBMSs when several users do concurrent searches or subtree
+  removal.
+  (Manually merged from stable/3.5 (3.5.5) rev. 12672)
 
 *Library:
+
+eZDB:
+- Added: Method eZDBInterface::generateUniqueTempTableName() that generates
+  unique temporary table name.
+  (Manually merged from stable/3.5 (3.5.5) rev. 12672)
 
 *Design:
 
