@@ -127,14 +127,15 @@ class eZShopFunctionCollection
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $db =& eZDB::instance();
-        $db->createTempTable( "CREATE TEMPORARY TABLE ezproductcollection_tmp( productcollection_id int )" );
-        $db->query( "INSERT INTO ezproductcollection_tmp SELECT ezorder.productcollection_id
+        $tmpTableName = $db->generateUniqueTempTableName( 'ezproductcoll_tmp_%' );
+        $db->createTempTable( "CREATE TEMPORARY TABLE $tmpTableName( productcollection_id int )" );
+        $db->query( "INSERT INTO $tmpTableName SELECT ezorder.productcollection_id
                                                            FROM ezorder, ezproductcollection_item
                                                           WHERE ezorder.productcollection_id=ezproductcollection_item.productcollection_id
                                                             AND ezproductcollection_item.contentobject_id=$contentObjectID" );
 
-        $query="SELECT sum(ezproductcollection_item.item_count) as count, contentobject_id FROM ezproductcollection_item, ezproductcollection_tmp
-                 WHERE ezproductcollection_item.productcollection_id=ezproductcollection_tmp.productcollection_id
+        $query="SELECT sum(ezproductcollection_item.item_count) as count, contentobject_id FROM ezproductcollection_item, $tmpTableName
+                 WHERE ezproductcollection_item.productcollection_id=$tmpTableName.productcollection_id
                    AND ezproductcollection_item.contentobject_id<>$contentObjectID
               GROUP BY ezproductcollection_item.contentobject_id
               ORDER BY count desc";
@@ -142,7 +143,7 @@ class eZShopFunctionCollection
         $db =& eZDB::instance();
         $objectList=& $db->arrayQuery( $query, array( 'limit' => $limit ) );
 
-        $db->dropTempTable( "DROP TABLE ezproductcollection_tmp" );
+        $db->dropTempTable( "DROP TABLE $tmpTableName" );
         $contentObjectList = array();
         foreach ( array_keys ( $objectList ) as $key )
         {

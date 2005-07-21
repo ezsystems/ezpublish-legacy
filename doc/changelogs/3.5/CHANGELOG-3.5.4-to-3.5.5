@@ -19,10 +19,9 @@ Changes from 3.5.4 to 3.5.5
   Embeded objects which current user does not have read access to will now use the template ;
   design/standard/templates/content/datatype/view/ezxmltags/object_denied.tpl
   To enable old behaviour, override this template to : content/datatype/view/ezxmltags/object.tpl
-- Fixed: Wrong usage of temporary tables in eZSearchEngine and
-  eZContentObjectTreeNode that might lead to problems on some of the        
-  supported DBMSs when several users do concurrent searches or subtree
-  removal.
+- Fixed: Wrong usage of temporary tables that might lead to problems on
+  some of the supported DBMSs when several users are concurrently
+  searching, viewing products or removing subtrees.
 
 *Translations:
 
