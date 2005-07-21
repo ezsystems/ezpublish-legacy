@@ -4083,8 +4083,9 @@ WHERE
                 $depthCond = ' ezcot.depth <= ' . $nodeDepth . ' and ';
         }
 
-        $db->createTempTable( "CREATE TEMPORARY TABLE eznode_count ( count int )" );
-        $query = "INSERT INTO eznode_count
+        $tmpTableName = $db->generateUniqueTempTableName( 'eznode_count_%' );
+        $db->createTempTable( "CREATE TEMPORARY TABLE $tmpTableName ( count int )" );
+        $query = "INSERT INTO $tmpTableName
                   SELECT
                           count( ezcot.main_node_id ) AS count
                     FROM
@@ -4098,10 +4099,10 @@ WHERE
 
         $db->query( $query );
         $query = "SELECT count( * ) AS count
-                  FROM eznode_count
+                  FROM $tmpTableName
                   WHERE count <= 1";
         $rows = $db->arrayQuery( $query );
-        $db->dropTempTable( "DROP TABLE eznode_count" );
+        $db->dropTempTable( "DROP TABLE $tmpTableName" );
         return $rows[0]['count'];
     }
 
