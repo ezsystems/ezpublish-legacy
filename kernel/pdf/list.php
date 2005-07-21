@@ -52,7 +52,7 @@ else if ( $Module->isCurrentAction( 'RemoveExport' ) )
     foreach ( $deleteArray as $deleteID )
     {
         // remove draft if it exists:
-        $pdfExport =& eZPDFExport::fetch( $deleteID, true, EZ_PDFEXPORT_STATUS_DRAFT );
+        $pdfExport =& eZPDFExport::fetch( $deleteID, true, EZ_PDFEXPORT_VERSION_DRAFT );
         if ( $pdfExport )
         {
             $pdfExport->remove();
