@@ -229,7 +229,7 @@ $db =& eZDB::instance();
 $db->begin();
 foreach ( array_keys( $translations ) as $translationKey )
 {
-    $translation =& $translations[$translationKey];
+    $translation = $translations[$translationKey];
     if ( $translation->attribute( 'id' ) === null )
     {
         $translation->store();
