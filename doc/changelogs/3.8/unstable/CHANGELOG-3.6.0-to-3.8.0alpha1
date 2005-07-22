@@ -200,6 +200,8 @@ Attributes:
 - Fixed bug #6925: An SQL error message is shown when a user views
   customer's order.
   (Merged from stable/3.7 (3.7.0rc1) rev. 12716)
+- Fixed bug #6921: Versionview from trash is broken
+  (Merged from release/3.6.1 rev.12715, stable/3.7 (3.7.0rc1) rev. 12718)
 
 *Library:
 
