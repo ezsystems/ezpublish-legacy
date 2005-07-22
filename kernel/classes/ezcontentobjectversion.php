@@ -931,23 +931,46 @@ class eZContentObjectVersion extends eZPersistentObject
             $languageNode =& $languageNodeArray[$languageKey];
             $language =& $languageNode->attributeValue( 'language' );
 
-            // unserialize object name in current version-translation
-            $objectName =& $languageNode->attributeValue( 'object_name' );
-            if ( $objectName )
-                $contentObject->setName( $objectName, $contentObjectVersion->attribute( 'version' ), $language );
-
             $attributeArray =& $contentObjectVersion->contentObjectAttributes( $language );
             if ( count( $attributeArray ) == 0)
             {
                 // Create a new language
-                $originalContentAttributes =& $contentObjectVersion->contentObjectAttributes();
-                foreach ( array_keys( $originalContentAttributes ) as $contentAttributeKey )
+                $hasTranslation = eZContentTranslation::hasTranslation( $language );
+                if ( !$hasTranslation )
                 {
-                    $originalContentAttribute =& $originalContentAttributes[$contentAttributeKey];
-                    $contentAttribute =& $originalContentAttribute->translateTo( $language );
-                    $contentAttribute->sync();
-                    $attributeArray[] =& $contentAttribute;
+                    // if there is no needed translation in system then add it
+                    $locale =& eZLocale::instance( $language );
+                    $translationName = $locale->internationalLanguageName();
+                    $translationLocale = $locale->localeCode();
+
+                    if ( $locale->isValid() )
+                    {
+                        $translation =& eZContentTranslation::createNew( $locale->internationalLanguageName(), $locale->localeCode() );
+                        $translation->store();
+                        $translation->updateObjectNames();
+                        $hasTranslation = true;
+                    }
+                    else
+                        $hasTranslation = false;
                 }
+
+                if ( $hasTranslation )
+                {
+                    // Add translated attributes for the translation
+                    $originalContentAttributes =& $contentObjectVersion->contentObjectAttributes();
+                    foreach ( array_keys( $originalContentAttributes ) as $contentAttributeKey )
+                    {
+                        $originalContentAttribute =& $originalContentAttributes[$contentAttributeKey];
+                        $contentAttribute =& $originalContentAttribute->translateTo( $language );
+                        $contentAttribute->sync();
+                        $attributeArray[] =& $contentAttribute;
+                    }
+                }
+
+                // unserialize object name in current version-translation
+                $objectName =& $languageNode->attributeValue( 'object_name' );
+                if ( $objectName )
+                    $contentObject->setName( $objectName, $contentObjectVersion->attribute( 'version' ), $language );
             }
 
             $attributeNodeArray =& $languageNode->elementsByName( 'attribute' );
