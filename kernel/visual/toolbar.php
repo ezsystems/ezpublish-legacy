@@ -73,6 +73,7 @@ else if ( $ini->hasVariable( "Toolbar_" . $toolbarPosition, "Tool" ) )
 
 $storeList = false;
 $removeCache = false;
+$checkCurrAction = false;   //Checks if it is needed to clear $parameterValue
 
 $currentAction = $module->currentAction();
 
@@ -99,12 +100,13 @@ elseif ( $currentAction == 'SelectToolbarNodePath' )
     $selectedNodeIDArray = eZContentBrowse::result( 'SelectToolbarNode' );
 
     $nodeID = $selectedNodeIDArray[0];
-    if ( is_numeric( $nodeID ) )
+    if  ( !$http->hasPostVariable( 'BrowseCancelButton' ) )
     {
+        if ( !is_numeric( $nodeID ) )
+           $nodeID = 2;
         $node =& eZContentObjectTreeNode::fetch( $nodeID );
         $toolIndex = $http->variable( 'tool_index' );
         $parameterName = $http->variable( 'parameter_name' );
-
         $iniAppend->setVariable( "Tool_" . $toolbarPosition . "_" . $toolArray[$toolIndex] . "_" . ( $toolIndex + 1 ), $parameterName, $node->attribute( 'path_identification_string' ) );
         $succeed = $iniAppend->save(  false, false, false, false, true, true );
     }
@@ -240,6 +242,7 @@ elseif ( $currentAction == 'Store' )
 {
     $storeList = true;
     $removeCache = true;
+    $checkCurrAction = true;
 }
 
 $toolList = array();
@@ -291,6 +294,13 @@ foreach ( array_keys( $toolArray ) as $toolKey )
         $oldParameterValue = false;
         if ( isset( $defaultActionParameters[$key] ) )
             $oldParameterValue = $defaultActionParameters[$key];
+
+        $parameterValue = $actionParameters[$key];
+
+        if ( !isset( $customInputList[$toolKey . "_parameter_" . $key] ) && $checkCurrAction )
+            $parameterValue = '';
+
+
         if ( $storeList and
              $http->hasPostVariable( $toolKey . "_parameter_" . $key ) )
         {
@@ -311,8 +321,6 @@ foreach ( array_keys( $toolArray ) as $toolKey )
                 $newActionParameters[$key] = $parameterValue;
             }
         }
-        else
-            $parameterValue = ''; // pass on empty list
 
         $toolParameterArray = array();
         $toolParameterArray['name'] = $key;
