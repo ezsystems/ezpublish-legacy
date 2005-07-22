@@ -583,7 +583,7 @@ class eZMysqlSchema extends eZDBSchemaInterface
     {
         switch ( $optionType )
         {
-            case 'mysql:delay_key_write';
+            case 'mysql:delay_key_write':
             {
                 if ( $optionValue )
                     return 'DELAY_KEY_WRITE=1';
