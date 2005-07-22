@@ -446,65 +446,68 @@ class eZPersistentObject
         }
         else
         {
-            // We include compat.php here because of the ezsprintf function call below
-            require_once( 'lib/compat.php' );
-
             $use_fields = array_diff( array_keys( $fields ), array_merge( $keys, $exclude_fields ) );
-            // If we filter out some of the fields we need to intersect it with $use_fields
-            if ( is_array( $fieldFilters ) )
-                $use_fields = array_intersect( $use_fields, $fieldFilters );
-            $use_field_names = array();
-            foreach ( $use_fields as $key )
+            if ( count( $use_fields ) > 0 )
             {
-                if ( $db->useShortNames() && is_array( $fields[$key] ) && array_key_exists( 'short_name', $fields[$key] ) && strlen( $fields[$key]['short_name'] ) > 0 )
-                    $use_field_names[$key] = $fields[$key]['short_name'];
-                else
-                    $use_field_names[$key] = $key;
+                // We include compat.php here because of the ezsprintf function call below
+                require_once( 'lib/compat.php' );
+
+                // If we filter out some of the fields we need to intersect it with $use_fields
+                if ( is_array( $fieldFilters ) )
+                    $use_fields = array_intersect( $use_fields, $fieldFilters );
+                $use_field_names = array();
+                foreach ( $use_fields as $key )
+                {
+                    if ( $db->useShortNames() && is_array( $fields[$key] ) && array_key_exists( 'short_name', $fields[$key] ) && strlen( $fields[$key]['short_name'] ) > 0 )
+                        $use_field_names[$key] = $fields[$key]['short_name'];
+                    else
+                        $use_field_names[$key] = $key;
+                }
+
+                $field_text = "";
+                $field_text_len = 0;
+                $i = 0;
+
+
+                foreach ( $use_fields as $key )
+                {
+                    $value = $obj->attribute( $key );
+
+                    if ( $fields[$key]['datatype'] == 'float' )
+                    {
+                        $value = ezsprintf( '%F', $value );
+                    }
+
+
+                    if (is_null($value) && $key == 'data_int' )
+                    {
+                        $field_text_entry = $use_field_names[$key] . '=NULL';
+                    }
+                    else if ( in_array( $use_field_names[$key], $doNotEscapeFields ) )
+                    {
+                        $field_text_entry = $use_field_names[$key] . "=" .  $changedValueFields[$key];
+                    }
+                    else
+                    {
+                        $field_text_entry = $use_field_names[$key] . "='" . $db->escapeString( $value ) . "'";
+                    }
+
+                    $field_text_len += strlen( $field_text_entry );
+                    $needNewline = false;
+                    if ( $field_text_len > 60 )
+                    {
+                        $needNewline = true;
+                        $field_text_len = 0;
+                    }
+                    if ( $i > 0 )
+                        $field_text .= "," . ($needNewline ? "\n    " : ' ');
+                    $field_text .= $field_text_entry;
+                    ++$i;
+                }
+                $cond_text = eZPersistentObject::conditionText( $key_conds );
+                $sql = "UPDATE $table\nSET $field_text$cond_text";
+                $db->query( $sql );
             }
-
-            $field_text = "";
-            $field_text_len = 0;
-            $i = 0;
-
-
-            foreach ( $use_fields as $key )
-            {
-                $value = $obj->attribute( $key );
-
-                if ( $fields[$key]['datatype'] == 'float' )
-                {
-                    $value = ezsprintf( '%F', $value );
-                }
-
-
-                if (is_null($value) && $key == 'data_int' )
-                {
-                    $field_text_entry = $use_field_names[$key] . '=NULL';
-                }
-                else if ( in_array( $use_field_names[$key], $doNotEscapeFields ) )
-                {
-                    $field_text_entry = $use_field_names[$key] . "=" .  $changedValueFields[$key];
-                }
-                else
-                {
-                    $field_text_entry = $use_field_names[$key] . "='" . $db->escapeString( $value ) . "'";
-                }
-
-                $field_text_len += strlen( $field_text_entry );
-                $needNewline = false;
-                if ( $field_text_len > 60 )
-                {
-                    $needNewline = true;
-                    $field_text_len = 0;
-                }
-                if ( $i > 0 )
-                    $field_text .= "," . ($needNewline ? "\n    " : ' ');
-                $field_text .= $field_text_entry;
-                ++$i;
-            }
-            $cond_text = eZPersistentObject::conditionText( $key_conds );
-            $sql = "UPDATE $table\nSET $field_text$cond_text";
-            $db->query( $sql );
         }
         $obj->setHasDirtyData( false );
     }
