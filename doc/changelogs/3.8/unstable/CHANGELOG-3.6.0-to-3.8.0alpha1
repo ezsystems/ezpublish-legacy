@@ -202,6 +202,9 @@ Attributes:
   (Merged from stable/3.7 (3.7.0rc1) rev. 12716)
 - Fixed bug #6921: Versionview from trash is broken
   (Merged from release/3.6.1 rev.12715, stable/3.7 (3.7.0rc1) rev. 12718)
+- Fixed bug: sql-error when updating eZURLObjectLink object.
+  (Manually merged from release/3.5.4 rev. 12724, release/3.6.1 rev.12725,
+  stable/3.7 (3.7.0rc2) rev. 12726)
 
 *Library:
 
