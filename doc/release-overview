@@ -374,12 +374,6 @@ Datatype branch:
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.4.8
 - Date 19-Jul-2005
 
-3.4.8rc1:
-- From revision=12428
-- Revision=12430
-- Version url=http://zev.ez.no/svn/nextgen/versions/3.4.8rc1
-- Date 6-Jul-2005
-
 3.5.4rc1:
 - From revision=12427
 - Revision=12431
@@ -408,17 +402,6 @@ Datatype branch:
 - Release branch start=12607
 - Release branch end=
 - Release branch configured=12613
-- Release branch Date 19-Jul-2005
-- From revision=
-- Revision=
-- Version url=
-- Date
-
-3.4.8:
-- Release branch=release/3.4.8
-- Release branch start=12609
-- Release branch end=
-- Release branch configured=12615
 - Release branch Date 19-Jul-2005
 - From revision=
 - Revision=
