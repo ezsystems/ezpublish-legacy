@@ -31,7 +31,7 @@
                 </p>
             {section-else}
                 <p>
-                    {$RelatedImageObjects.item.name|wash} - {"Access denied"|i18n( 'design/admin/content/edit' )}
+                    {$RelatedImageObjects.item.name|wash} - {"You do not have sufficient permissions to view this object"|i18n( 'design/admin/content/edit' )}
                 </p>
             {/section}
            <input class="linkbox" type="text" value="&lt;object id={$RelatedImageObjects.item.id} /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" />
@@ -72,7 +72,8 @@
                         <td class="filesize">{$RelatedFileObjects.item.data_map.file.content.filesize|si( byte )}</td>
                         <td class="code"><input class="linkbox" type="text" value="&lt;object id={$RelatedFileObjects.item.id} /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /></td>
                     {section-else}
-                        <td colspan="4">{$RelatedFileObjects.item.name|wash} - {"Access denied"|i18n( 'design/admin/content/edit' )}</td>
+                        <td class="checkbox">&nbsp;</td>
+                        <td colspan="3">{$RelatedFileObjects.item.name|wash} - {"You do not have sufficient permissions to view this object"|i18n( 'design/admin/content/edit' )}</td>
                         <td class="code"><input class="linkbox" type="text" value="&lt;object id={$RelatedFileObjects.item.id} /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /></td>
                     {/section}
                 </tr>
@@ -106,7 +107,8 @@
                         <td class="class">{$RelatedObjects.item.class_name|wash}</td>
                         <td class="code"><input class="linkbox" type="text" value="&lt;object id={$RelatedObjects.item.id} /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'i18n( 'design/admin/content/edit' )}" /></td>
                     {section-else}
-                        <td colspan="3">{$RelatedObjects.item.name|wash} - {"Access denied"|i18n( 'design/admin/content/edit' )}</td>
+                        <td class="checkbox">&nbsp;</td>
+                        <td colspan="2">{$RelatedObjects.item.name|wash} - {"You do not have sufficient permissions to view this object"|i18n( 'design/admin/content/edit' )}</td>
                         <td class="code"><input class="linkbox" type="text" value="&lt;object id={$RelatedObjects.item.id} /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'i18n( 'design/admin/content/edit' )}" /></td>
                     {/section}
                 </tr>

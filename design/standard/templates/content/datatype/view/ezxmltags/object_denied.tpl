@@ -14,7 +14,7 @@
     {/switch}
 
     <div class="object-{$object_align}{section show=ne($classification|trim,'')} {$classification|wash}{/section}">
-        {$object.name|wash} - {"Access denied"|i18n( 'design/admin/node/view/embed'  )}.
+        {$object.name|wash} - {"You do not have sufficient permissions to view this object"|i18n( 'design/admin/node/view/embed'  )}.
     </div>
 
 {/let}
