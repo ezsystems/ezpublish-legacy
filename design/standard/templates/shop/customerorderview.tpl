@@ -43,7 +43,7 @@
 </tr>
 {/section}
 </table>
-</section>
+{/section}
 
 
 <div class="maincontentheader">
@@ -83,3 +83,4 @@
 </tr>
 {/section}
 </table>
+{/section}
