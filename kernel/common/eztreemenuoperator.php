@@ -107,13 +107,15 @@ class eZTreeMenuOperator
         {
             // get node id
             $elements = explode( "/", $tmpModulePath[$i+$depthSkip]['url'] );
-            $nodeID = $elements[4];
+            $nodeID = false;
+            if ( isset( $elements[4] ) )
+                $nodeID = $elements[4];
 
             $excludeNode = false;
-            $node = eZContentObjectTreeNode::fetch( $nodeID );
 
             if ( $elements[1] == 'content' and $elements[2] == 'view' and is_numeric( $nodeID ) and $excludeNode == false and $level < $maxLevel )
             {
+                $node = eZContentObjectTreeNode::fetch( $nodeID );
                 if ( isset( $tmpModulePath[$i+$depthSkip+1] ) )
                 {
                     $nextElements = explode( "/", $tmpModulePath[$i+$depthSkip+1]['url'] );

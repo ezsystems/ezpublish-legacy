@@ -197,6 +197,9 @@ Attributes:
   design/standard/templates/content/datatype/view/ezxmltags/object_denied.tpl
   To enable old behaviour, override this template to : content/datatype/view/ezxmltags/object.tpl
   ( Merged from stable/3.5 rev. 12671, 12706, stable/3.6 rev. 12709, stable/3.7 rev. 12710 )
+- Fixed bug #6925: An SQL error message is shown when a user views
+  customer's order.
+  (Merged from stable/3.7 (3.7.0rc1) rev. 12716)
 
 *Library:
 
