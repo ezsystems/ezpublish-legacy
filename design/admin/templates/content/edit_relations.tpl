@@ -23,11 +23,17 @@
         {section var=RelatedImageObjects loop=$grouped_related_contentobjects.images}
         <td>
         <div class="image-thumbnail-item">
-            {attribute_view_gui attribute=$RelatedImageObjects.item.data_map.image image_class=small}
-            <p>
-                <input type="checkbox" id="related-object-id-{$RelatedImageObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedImageObjects.item.id}" />
-                {$RelatedImageObjects.item.name|wash}
-           </p>
+            {section show=$RelatedImageObjects.item.can_read}
+                {attribute_view_gui attribute=$RelatedImageObjects.item.data_map.image image_class=small}
+                <p>
+                    <input type="checkbox" id="related-object-id-{$RelatedImageObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedImageObjects.item.id}" />
+                    {$RelatedImageObjects.item.name|wash}
+                </p>
+            {section-else}
+                <p>
+                    {$RelatedImageObjects.item.name|wash} - {"You do not have sufficient permissions to view this object"|i18n( 'design/admin/content/edit' )}
+                </p>
+            {/section}
            <input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedImageObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" />
         </div>
         </td>
@@ -59,12 +65,19 @@
 
             {section var=RelatedFileObjects loop=$grouped_related_contentobjects.files sequence=array( bglight, bgdark )}
                 <tr class="{$RelatedFileObjects.sequence|wash}">
-                    <td class="checkbox"><input type="checkbox" id="related-object-id-{$RelatedFileObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedFileObjects.item.id}" /></td>
-                    <td class="name">{$RelatedFileObjects.item.class_name|class_icon( small, $RelatedFileObjects.class_name )}&nbsp;{$RelatedFileObjects.item.name|wash}</td>
-                    <td class="filetype">{$RelatedFileObjects.item.data_map.file.content.mime_type|wash}</td>
-                    <td class="filesize">{$RelatedFileObjects.item.data_map.file.content.filesize|si( byte )}</td>
-                    <td class="code"><input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedFileObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /></td>
+                    {section show=$RelatedFileObjects.item.can_read}
+                        <td class="checkbox"><input type="checkbox" id="related-object-id-{$RelatedFileObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedFileObjects.item.id}" /></td>
+                        <td class="name">{$RelatedFileObjects.item.class_name|class_icon( small, $RelatedFileObjects.class_name )}&nbsp;{$RelatedFileObjects.item.name|wash}</td>
+                        <td class="filetype">{$RelatedFileObjects.item.data_map.file.content.mime_type|wash}</td>
+                        <td class="filesize">{$RelatedFileObjects.item.data_map.file.content.filesize|si( byte )}</td>
+                        <td class="code"><input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedFileObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /></td>
+                    {section-else}
+                        <td class="checkbox">&nbsp;</td>
+                        <td colspan="3">{$RelatedFileObjects.item.name|wash} - {"You do not have sufficient permissions to view this object"|i18n( 'design/admin/content/edit' )}</td>
+                        <td class="code"><input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedFileObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'|i18n( 'design/admin/content/edit' )}" /></td>
+                    {/section}
                 </tr>
+
             {/section}
 
             </table>
@@ -88,10 +101,16 @@
             {section var=RelatedObjects loop=$grouped_related_contentobjects.objects sequence=array( bglight, bgdark )}
 
                 <tr class="{$RelatedObjects.sequence|wash}">
-                    <td class="checkbox"><input type="checkbox" id="related-object-id-{$RelatedObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedObjects.item.id}" /></td>
-                    <td class="name">{$RelatedObjects.item.class_name|class_icon( small, $RelatedObjects.class_name )}&nbsp;{$RelatedObjects.item.name|wash}</td>
-                    <td class="class">{$RelatedObjects.item.class_name|wash}</td>
-                    <td class="code"><input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'i18n( 'design/admin/content/edit' )}" /></td>
+                    {section show=$RelatedObjects.item.can_read}
+                        <td class="checkbox"><input type="checkbox" id="related-object-id-{$RelatedObjects.item.id}" name="DeleteRelationIDArray[]" value="{$RelatedObjects.item.id}" /></td>
+                        <td class="name">{$RelatedObjects.item.class_name|class_icon( small, $RelatedObjects.class_name )}&nbsp;{$RelatedObjects.item.name|wash}</td>
+                        <td class="class">{$RelatedObjects.item.class_name|wash}</td>
+                        <td class="code"><input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'i18n( 'design/admin/content/edit' )}" /></td>
+                    {section-else}
+                        <td class="checkbox">&nbsp;</td>
+                        <td colspan="2">{$RelatedObjects.item.name|wash} - {"You do not have sufficient permissions to view this object"|i18n( 'design/admin/content/edit' )}</td>
+                        <td class="code"><input class="linkbox" type="text" value="&lt;embed href='ezobject://{$RelatedObjects.item.id}' /&gt;" readonly="readonly" title="{'Copy this code and paste it into an XML field.'i18n( 'design/admin/content/edit' )}" /></td>
+                    {/section}
                 </tr>
 
             {/section}

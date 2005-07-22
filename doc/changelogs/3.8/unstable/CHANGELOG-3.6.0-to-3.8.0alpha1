@@ -192,6 +192,11 @@ Attributes:
   while editing the object from usersite.Also fixed flat_left.tpl file will generate
   sufficient no of start tags for sub level of menu items.
   (Merged from stable/3.6.2 rev. 12702)
+- Fixed bug #6841: Permissions of embeded objects are ignored.
+  Embeded objects which current user does not have read access to will now use the template ;
+  design/standard/templates/content/datatype/view/ezxmltags/object_denied.tpl
+  To enable old behaviour, override this template to : content/datatype/view/ezxmltags/object.tpl
+  ( Merged from stable/3.5 rev. 12671, 12706, stable/3.6 rev. 12709, stable/3.7 rev. 12710 )
 
 *Library:
 
