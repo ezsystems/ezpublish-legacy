@@ -1,0 +1,19 @@
+Changes from 3.7.0rc1 to 3.7.0rc2
+
+*Kernel:
+
+*Scripts:
+
+*StaticCache:
+
+*Bugfixes:
+- Fixed bug #6921: Versionview from trash is broken
+  (Merged from release/3.6.1 rev.12715)
+
+*Library:
+
+*Design:
+
+*Operators:
+
+*Translations:
