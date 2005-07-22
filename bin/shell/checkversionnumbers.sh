@@ -6,7 +6,7 @@
 # The last version which changelogs and db updates are related to
 # For the first development release this should be empty, in
 # wich case $LAST_STABLE is used.
-PREVIOUS_VERSION="3.6.0"
+PREVIOUS_VERSION=""
 # The last version of the newest stable branch
 LAST_STABLE="3.6.0"
 # Set this to true if the LAST_STABLE has been modified from the last release
@@ -14,10 +14,10 @@ LAST_STABLE="3.6.0"
 LAST_STABLE_CHANGED="false"
 
 MAJOR=3
-MINOR=6
-RELEASE=1
+MINOR=7
+RELEASE=0
 # Starts at 1 for the first release in a branch and increases with one
-REAL_RELEASE=4
+REAL_RELEASE=1
 STATE="rc1"
 VERSION=$MAJOR"."$MINOR"."$RELEASE""$STATE
 VERSION_ONLY=$MAJOR"."$MINOR
@@ -295,12 +295,19 @@ fi
 
 function check_dbfiles_update_prev
 {
-    if ! grep "array(  *'$PREVIOUS_VERSION',  *'$VERSION'  *)" bin/php/checkdbfiles.php &>/dev/null; then
+    local prev
+    if [ -z "$PREVIOUS_VERSION" ]; then
+        prev="$LAST_STABLE"
+    else
+        prev="$PREVIOUS_VERSION"
+    fi
+
+    if ! grep "array(  *'$prev',  *'$VERSION'  *)" bin/php/checkdbfiles.php &>/dev/null; then
        if [ -z "$1" ]; then
            echo "`$SETCOLOR_FAILURE`DB update missing`$SETCOLOR_NORMAL`"
            echo "Missing database update entry in `$SETCOLOR_EXE`bin/php/checkdbfiles.sh`$SETCOLOR_NORMAL`"
            echo "The \$versions""$MAJOR""$MINOR"" should contain:"
-           echo ",array( '$PREVIOUS_VERSION', '$VERSION' )"
+           echo ",array( '$prev', '$VERSION' )"
            echo
        fi
        MAIN_ERROR="1"
