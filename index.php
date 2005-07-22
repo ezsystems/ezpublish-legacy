@@ -83,7 +83,7 @@ $siteBasics = array();
 $siteBasics['external-css'] =& $use_external_css;
 $siteBasics['show-page-layout'] =& $show_page_layout;
 $siteBasics['module-run-required'] =& $moduleRunRequired;
-$siteBasics['policy-check-required'] =& $policyheckRequired;
+$siteBasics['policy-check-required'] =& $policyCheckRequired;
 $siteBasics['policy-check-omit-list'] =& $policyCheckOmitList;
 $siteBasics['url-translator-allowed'] =& $urlTranslatorAllowed;
 $siteBasics['validity-check-required'] =& $validityCheckRequired;
@@ -502,7 +502,7 @@ if ( !$useCronjob )
     function eZSessionBasketGarbageCollector( &$db, $time )
     {
         include_once( 'kernel/classes/ezbasket.php' );
-        eZBasket::cleanupSessionExpiry( $time );
+        eZBasket::cleanupExpired( $time );
     }
 
     function eZSessionBasketEmpty( &$db )
