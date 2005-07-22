@@ -218,7 +218,7 @@ $pathString = '';
 $pathIdentificationString = '';
 $requestedURIString = '';
 $depth = 2;
-if ( $parentNodeObject )
+if ( isset( $parentNodeObject ) && is_object( $parentNodeObject ) )
 {
     $pathString = $parentNodeObject->attribute( 'path_string' ) . $virtualNodeID . '/';
     $pathIdentificationString = $parentNodeObject->attribute( 'path_identification_string' ); //TODO add current node ident string.
@@ -226,7 +226,7 @@ if ( $parentNodeObject )
     $requestedURIString = $parentNodeObject->attribute( 'url_alias' );
 }
 
-if ( $node )
+if ( isset( $node ) && is_object( $node ) )
 {
     $requestedURIString = $node->attribute( 'url_alias' );
 }
