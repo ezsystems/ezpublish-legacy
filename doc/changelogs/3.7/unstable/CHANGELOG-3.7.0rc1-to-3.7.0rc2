@@ -9,6 +9,8 @@ Changes from 3.7.0rc1 to 3.7.0rc2
 *Bugfixes:
 - Fixed bug #6921: Versionview from trash is broken
   (Merged from release/3.6.1 rev.12715)
+- Fixed bug: sql-error when updating eZURLObjectLink object.
+  (Manually merged from release/3.5.4 rev. 12724, release/3.6.1 rev.12725)
 
 *Library:
 
