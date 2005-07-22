@@ -23,6 +23,7 @@
             {/section}
 
             {section show=and( $last_level|lt( $menu.level ), $menu.number|gt( 1 ) )}
+                {'<ul><li>'|repeat(sub($menu.level,$last_level,1))}
                 <ul>
                     <li class="menu-level-{$menu.level}">
             {section-else}
