@@ -424,3 +424,10 @@ Datatype branch:
 - Revision=
 - Version url=
 - Date
+
+3.7.0rc1:
+- From revision=12717
+- Revision=12720
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.7.0rc1
+- Date 22-Jul-2005
+
