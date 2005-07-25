@@ -205,6 +205,9 @@ Attributes:
 - Fixed bug: sql-error when updating eZURLObjectLink object.
   (Manually merged from release/3.5.4 rev. 12724, release/3.6.1 rev.12725,
   stable/3.7 (3.7.0rc2) rev. 12726)
+- Fixed bug #6736: Price datatype does not show validation error 
+  on incorrect input.
+  (Merged from stable/3.7 (3.7.0rc2) rev. 12738)
 
 *Library:
 

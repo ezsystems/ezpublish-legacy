@@ -1645,6 +1645,8 @@ class eZContentObject extends eZPersistentObject
                 $attributeName = $dataType->attribute( 'information' );
                 $attributeName = $attributeName['name'];
                 $description = $contentObjectAttribute->attribute( 'validation_error' );
+                $validationNameArray[] = $contentClassAttribute->attribute( 'name' );
+                $validationName = implode( '->', $validationNameArray );
                 $hasValidationError = $contentObjectAttribute->attribute( 'has_validation_error' );
                 if ( $hasValidationError )
                 {
@@ -1653,13 +1655,16 @@ class eZContentObject extends eZPersistentObject
                     $validationNameArray = array();
                     if ( $parameters['prefix-name'] )
                         $validationNameArray = $parameters['prefix-name'];
-                    $validationNameArray[] = $contentClassAttribute->attribute( 'name' );
-                    $validationName = implode( '->', $validationNameArray );
-                    $unvalidatedAttributes[] = array( 'id' => $contentObjectAttribute->attribute( 'id' ),
-                                                      'identifier' => $contentClassAttribute->attribute( 'identifier' ),
-                                                      'name' => $validationName,
-                                                      'description' => $description );
                 }
+                else
+                {
+                    if ( !$description )
+                        $description = 'uknown error';
+                }
+                $unvalidatedAttributes[] = array( 'id' => $contentObjectAttribute->attribute( 'id' ),
+                                                  'identifier' => $contentClassAttribute->attribute( 'identifier' ),
+                                                  'name' => $validationName,
+                                                  'description' => $description );
             }
             else if ( $status == EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
             {
