@@ -279,7 +279,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) )
         {
             foreach( $discountRuleSelectedClasses as $classID )
             {
-                $ruleValue =& eZDiscountSubRuleValue::create( $discountRuleID, $classID, 0 );
+                $ruleValue = eZDiscountSubRuleValue::create( $discountRuleID, $classID, 0 );
                 $ruleValue->store();
             }
             $discountRule->setAttribute( 'limitation', false );
@@ -288,7 +288,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) )
         {
             foreach( $discountRuleSelectedSections as $sectionID )
             {
-                $ruleValue =& eZDiscountSubRuleValue::create( $discountRuleID, $sectionID, 1 );
+                $ruleValue = eZDiscountSubRuleValue::create( $discountRuleID, $sectionID, 1 );
                 $ruleValue->store();
             }
             $discountRule->setAttribute( 'limitation', false );

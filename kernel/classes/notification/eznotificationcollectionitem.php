@@ -85,7 +85,7 @@ class eZNotificationCollectionItem extends eZPersistentObject
 
     }
 
-    function &create( $collectionID, $eventID, $address, $sendDate = 0 )
+    function create( $collectionID, $eventID, $address, $sendDate = 0 )
     {
         return new eZNotificationCollectionItem( array( 'collection_id' => $collectionID,
                                                         'event_id' => $eventID,

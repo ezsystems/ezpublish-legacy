@@ -130,7 +130,7 @@ class eZWaitUntilDateValue extends eZPersistentObject
         return new eZWaitUntilDateValue( $row );
     }
 
-    function &create( $workflowEventID, $workflowEventVersion, $contentClassAttributeID, $contentClassID )
+    function create( $workflowEventID, $workflowEventVersion, $contentClassAttributeID, $contentClassID )
     {
         $row = array( "id" => null,
                       "workflow_event_id" => $workflowEventID,
@@ -141,7 +141,7 @@ class eZWaitUntilDateValue extends eZPersistentObject
         return new eZWaitUntilDateValue( $row );
     }
 
-    function &createCopy( $id, $workflowEventID, $workflowEventVersion,  $contentClassID , $contentClassAttributeID )
+    function createCopy( $id, $workflowEventID, $workflowEventVersion,  $contentClassID , $contentClassAttributeID )
     {
         $row = array( "id" => $id,
                       "workflow_event_id" => $workflowEventID,

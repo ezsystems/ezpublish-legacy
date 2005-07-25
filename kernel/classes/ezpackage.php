@@ -210,10 +210,10 @@ class eZPackage
      \param $repositoryID The id (string) of the repository to create the package in.
                           If \c false it will use the \c local repository.
     */
-    function &create( $name, $parameters = array(), $repositoryPath = false, $repositoryID = false )
+    function create( $name, $parameters = array(), $repositoryPath = false, $repositoryID = false )
     {
         $parameters['name'] = $name;
-        $handler =& new eZPackage( $parameters, $parameters, $repositoryPath );
+        $handler = new eZPackage( $parameters, $parameters, $repositoryPath );
 
         // New packages always use local repository
         if ( $repositoryID === false )
@@ -1536,6 +1536,7 @@ class eZPackage
         $path = eZPackage::repositoryPath() . '/' . $packageName;
         $packageCachePath = $path . '/' . eZPackage::cacheDirectory() . '/package.php';
 
+        $package = false;
         $cacheExpired = false;
         if ( file_exists( $packageCachePath ) )
         {
@@ -1583,7 +1584,7 @@ class eZPackage
             else
                 $cacheExpired = true;
         }
-        return false;
+        return $package;
     }
 
 //     function handleExportList( $exportList )
@@ -2365,7 +2366,8 @@ class eZPackage
             }
         }
 
-        return true;
+        $returnValue = true;
+        return $returnValue;
     }
 
     /*!
@@ -3160,7 +3162,7 @@ class eZPackage
         foreach ( $list as $dependencyItem )
         {
             unset( $dependencyNode );
-            $dependencyNode =& eZDOMDocument::createElementNode( $dependencyType );
+            $dependencyNode = eZDOMDocument::createElementNode( $dependencyType );
             $dependencyNode->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $dependencyItem['type'] ) );
             $dependencyNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $dependencyItem['name'] ) );
             if ( $dependencyItem['value'] )

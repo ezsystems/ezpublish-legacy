@@ -43,7 +43,7 @@ $Module =& $Params["Module"];
 $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
 
-$section =& eZSection::fetch( $SectionID );
+$section = eZSection::fetch( $SectionID );
 
 if ( !$section )
 {

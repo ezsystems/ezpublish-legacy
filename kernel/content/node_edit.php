@@ -268,7 +268,7 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
     $nodeID = eZContentObjectTreeNode::findNode( $mainNodeID, $object->attribute('id') );
     eZDebugSetting::writeDebug( 'kernel-content-edit', $nodeID, 'nodeID' );
 //    $object->setAttribute( 'main_node_id', $nodeID );
-    $nodeAssignments =& eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), $version->attribute( 'version' ) ) ;
+    $nodeAssignments = eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), $version->attribute( 'version' ) ) ;
     eZDebugSetting::writeDebug( 'kernel-content-edit', $mainNodeID, "mainNodeID" );
 
 
@@ -316,7 +316,7 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
                 $version->assignToNode( $setPlacementNodeID, 0, 0, $sortField, $sortOrder, $setPlacementRemoteID );
             }
         }
-        $nodeAssignments =& eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), $version->attribute( 'version' ) );
+        $nodeAssignments = eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), $version->attribute( 'version' ) );
     }
 
     $sortOrderMap = false;

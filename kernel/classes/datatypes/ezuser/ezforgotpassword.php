@@ -81,7 +81,7 @@ class eZForgotPassword extends eZPersistentObject
                       "name" => "ezforgot_password" );
     }
 
-    function &createNew( $userID, $hashKey, $time)
+    function createNew( $userID, $hashKey, $time)
     {
         return new eZForgotPassword( array( "user_id" => $userID,
                                             "hash_key" => $hashKey,
@@ -109,7 +109,7 @@ class eZForgotPassword extends eZPersistentObject
     /*!
      Remove forgot password entries belonging to user \a $userID
     */
-    function &remove( $userID = false )
+    function remove( $userID = false )
     {
         if ( $userID === false )
         {

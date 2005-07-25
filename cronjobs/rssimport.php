@@ -247,7 +247,7 @@ function importRSSItem( &$item, &$rssImport, &$cli )
     $contentObject->store();
 
     // Create node assignment
-    $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
+    $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
                                                         'contentobject_version' => $contentObject->attribute( 'current_version' ),
                                                         'is_main' => 1,
                                                         'parent_node' => $parentContentObjectTreeNode->attribute( 'node_id' ) ) );

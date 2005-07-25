@@ -93,7 +93,7 @@ class eZGeneralDigestUserSettings extends eZPersistentObject
                       "name" => "ezgeneral_digest_user_settings" );
     }
 
-    function &create( $address, $receiveDigest = 0, $digestType = EZ_DIGEST_SETTINGS_TYPE_NONE, $day = '', $time = '' )
+    function create( $address, $receiveDigest = 0, $digestType = EZ_DIGEST_SETTINGS_TYPE_NONE, $day = '', $time = '' )
     {
         return new eZGeneralDigestUserSettings( array( 'address' => $address,
                                                        'receive_digest' => $receiveDigest,

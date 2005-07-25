@@ -175,7 +175,7 @@ class eZUserType extends eZDataType
         $user =& $contentObjectAttribute->content();
         if ( $user === null )
         {
-            $user =& eZUser::create( $contentObjectID );
+            $user = eZUser::create( $contentObjectID );
         }
 
         $ini =& eZINI::instance();
@@ -221,10 +221,10 @@ class eZUserType extends eZDataType
         if ( get_class( $user ) != "ezuser" )
         {
             // create a default user account
-            $user =& eZUser::create( $contentObjectAttribute->attribute( "contentobject_id" ) );
+            $user = eZUser::create( $contentObjectAttribute->attribute( "contentobject_id" ) );
             $userID = $contentObjectAttribute->attribute( "contentobject_id" );
             $isEnabled = 1;
-            $userSetting =& eZUserSetting::create( $userID, $isEnabled );
+            $userSetting = eZUserSetting::create( $userID, $isEnabled );
             $userSetting->store();
         }
         $user->store();
@@ -380,7 +380,7 @@ class eZUserType extends eZDataType
         $user = eZUser::fetch( $userID );
         if ( is_object( $user ) )
         {
-            $userNode =& eZDOMDocument::createElementNode( 'account' );
+            $userNode = eZDOMDocument::createElementNode( 'account' );
             $userNode->appendAttribute( eZDOMDocument::createAttributeNode( 'login', $user->attribute( 'login' ) ) );
             $userNode->appendAttribute( eZDOMDocument::createAttributeNode( 'email', $user->attribute( 'email' ) ) );
             $userNode->appendAttribute( eZDOMDocument::createAttributeNode( 'password_hash', $user->attribute( 'password_hash' ) ) );
@@ -406,7 +406,7 @@ class eZUserType extends eZDataType
             $user =& eZUser::fetch( $userID );
             if ( !is_object( $user ) )
             {
-                $user =& eZUser::create( $userID );
+                $user = eZUser::create( $userID );
             }
             $user->setAttribute( 'login', $userNode->attributeValue( 'login' ) );
             $user->setAttribute( 'email', $userNode->attributeValue( 'email' ) );

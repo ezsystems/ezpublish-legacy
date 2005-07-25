@@ -139,15 +139,15 @@ if ( $http->hasPostVariable( 'SendButton' ) )
         {
             $tpl->setVariable( 'action', 'confirm' );
 
-            $request =& eZTipafriendRequest::create( $receiversEmail );
+            $request = eZTipafriendRequest::create( $receiversEmail );
             $request->store();
-            
+
             // Increase tipafriend count for this node
             include_once( "kernel/classes/eztipafriendcounter.php" );
             $counter =& eZTipafriendCounter::fetch( $NodeID );
             if ( $counter == null )
             {
-                $counter =& eZTipafriendCounter::create( $NodeID );
+                $counter = eZTipafriendCounter::create( $NodeID );
             }
             $counter->increase();
             $counter->store(); // Not important to embrace in a transaction.

@@ -967,7 +967,7 @@ class eZContentFunctionCollection
         if (  $contentClassID !== false and !is_numeric( $contentClassID ) )
         {
             include_once( 'kernel/classes/ezcontentclass.php' );
-            $class =& eZContentClass::fetchByIdentifier( $contentClassID );
+            $class = eZContentClass::fetchByIdentifier( $contentClassID );
             if ( !$class )
                 return array( 'error' => array( 'error_type' => 'kernel',
                                                 'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );

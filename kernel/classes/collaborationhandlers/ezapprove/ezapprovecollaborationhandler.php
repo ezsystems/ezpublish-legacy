@@ -212,7 +212,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     */
     function createApproval( $contentObjectID, $contentObjectVersion, $authorID, $approverID )
     {
-        $collaborationItem =& eZCollaborationItem::create( 'ezapprove', $authorID );
+        $collaborationItem = eZCollaborationItem::create( 'ezapprove', $authorID );
         $collaborationItem->setAttribute( 'data_int1', $contentObjectID );
         $collaborationItem->setAttribute( 'data_int2', $contentObjectVersion );
         $collaborationItem->setAttribute( 'data_int3', false );
@@ -227,8 +227,8 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
         {
             $participantID = $participantItem['id'];
             $participantRole = $participantItem['role'];
-            $link =& eZCollaborationItemParticipantLink::create( $collaborationID, $participantID,
-                                                                 $participantRole, EZ_COLLABORATION_PARTICIPANT_TYPE_USER );
+            $link = eZCollaborationItemParticipantLink::create( $collaborationID, $participantID,
+                                                                $participantRole, EZ_COLLABORATION_PARTICIPANT_TYPE_USER );
             $link->store();
 
             $profile =& eZCollaborationProfile::instance( $participantID );
@@ -285,7 +285,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
             $messageText = $this->customInput( 'ApproveComment' );
             if ( trim( $messageText ) != '' )
             {
-                $message =& eZCollaborationSimpleMessage::create( 'ezapprove_comment', $messageText );
+                $message = eZCollaborationSimpleMessage::create( 'ezapprove_comment', $messageText );
                 $message->store();
 //                 eZDebug::writeDebug( $message );
                 eZCollaborationItemMessageLink::addMessage( $collaborationItem, $message, EZ_COLLABORATION_MESSAGE_TYPE_APPROVE );

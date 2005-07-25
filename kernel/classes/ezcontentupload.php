@@ -369,7 +369,7 @@ class eZContentUpload
                                                             'Permission denied' ) );
                 return false;
             }
-            $version =& $object->createNewVersion( false, true );
+            $version = $object->createNewVersion( false, true );
             unset( $dataMap );
             $dataMap =& $version->dataMap();
             $publishVersion = $version->attribute( 'version' );
@@ -595,7 +595,7 @@ class eZContentUpload
                 $db->commit();
                 return false;
             }
-            $version =& $object->createNewVersion( false, true );
+            $version = $object->createNewVersion( false, true );
             unset( $dataMap );
             $dataMap =& $version->dataMap();
             $publishVersion = $version->attribute( 'version' );

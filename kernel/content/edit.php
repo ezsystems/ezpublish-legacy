@@ -57,7 +57,7 @@ $http =& eZHTTPTool::instance();
 
 if( $http->hasPostVariable( 'CancelDraftButton' ) )
 {
-   $mainNode =& eZNodeAssignment::fetchForObject( $obj->attribute( 'id' ), $obj->attribute( 'current_version' ), true );
+   $mainNode = eZNodeAssignment::fetchForObject( $obj->attribute( 'id' ), $obj->attribute( 'current_version' ), true );
 
    if( (count( $mainNode )) == 1 )
    {
@@ -160,7 +160,7 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
             $db =& eZDB::instance();
             $db->begin();
             $removeVersion->remove();
-            $version =& $obj->createNewVersion();
+            $version = $obj->createNewVersion();
             $db->commit();
 
             if( !$http->hasPostVariable( 'DoNotEditAfterNewDraft' ) )
@@ -347,7 +347,7 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
                         }
                     }
                     $removeVersion->remove();
-                    $version =& $object->createNewVersion();
+                    $version = $object->createNewVersion();
                     $module->redirectToView( "edit", array( $objectID, $version->attribute( "version" ), $editLanguage ) );
                     return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
                 }

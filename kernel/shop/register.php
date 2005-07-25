@@ -75,26 +75,26 @@ if ( $module->isCurrentAction( 'Store' ) )
     {
         // Check for validation
         $basket =& eZBasket::currentBasket();
-        $order =& $basket->createOrder();
+        $order = $basket->createOrder();
 
         $doc = new eZDOMDocument( 'account_information' );
 
-        $root =& $doc->createElementNode( "shop_account" );
+        $root = $doc->createElementNode( "shop_account" );
         $doc->setRoot( $root );
 
-        $firstNameNode =& $doc->createElementNode( "first-name" );
+        $firstNameNode = $doc->createElementNode( "first-name" );
         $firstNameNode->appendChild( $doc->createTextNode( $firstName ) );
         $root->appendChild( $firstNameNode );
 
-        $lastNameNode =& $doc->createElementNode( "last-name" );
+        $lastNameNode = $doc->createElementNode( "last-name" );
         $lastNameNode->appendChild( $doc->createTextNode( $lastName ) );
         $root->appendChild( $lastNameNode );
 
-        $emailNode =& $doc->createElementNode( "email" );
+        $emailNode = $doc->createElementNode( "email" );
         $emailNode->appendChild( $doc->createTextNode( $email ) );
         $root->appendChild( $emailNode );
 
-        $addressNode =& $doc->createElementNode( "address" );
+        $addressNode = $doc->createElementNode( "address" );
         $addressNode->appendChild( $doc->createTextNode( $address ) );
         $root->appendChild( $addressNode );
 

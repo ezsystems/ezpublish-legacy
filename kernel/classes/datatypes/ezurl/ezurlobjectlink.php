@@ -94,19 +94,20 @@ class eZURLObjectLink extends eZPersistentObject
     */
     function &fetch( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZURLObjectLink::definition(),
-                                                null,
-                                                array( 'url_id' => $urlID,
-                                                       'contentobject_attribute_id' => $contentObjectAttributeID,
-                                                       'contentobject_attribute_version' => $contentObjectAttributeVersion ),
-                                                $asObject );
+        $object =& eZPersistentObject::fetchObject( eZURLObjectLink::definition(),
+                                                    null,
+                                                    array( 'url_id' => $urlID,
+                                                           'contentobject_attribute_id' => $contentObjectAttributeID,
+                                                           'contentobject_attribute_version' => $contentObjectAttributeVersion ),
+                                                    $asObject );
+        return $object;
     }
 
     /*!
      \static
      \return \c true if the URL \a $urlID has any object links
     */
-    function &hasObjectLinkList( $urlID )
+    function hasObjectLinkList( $urlID )
     {
         $rows =& eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
                                                       array(),

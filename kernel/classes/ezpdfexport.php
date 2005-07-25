@@ -141,7 +141,7 @@ class eZPDFExport extends eZPersistentObject
      Creates a new RSS Export with the new RSS Export
      \param User ID
     */
-    function &create( $user_id )
+    function create( $user_id )
     {
         $config =& eZINI::instance( 'site.ini' );
         $dateTime = time();

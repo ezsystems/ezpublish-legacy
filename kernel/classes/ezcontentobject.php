@@ -290,7 +290,8 @@ class eZContentObject extends eZPersistentObject
             $version = $this->attribute( 'current_version' );
         }
         $objectID = $this->attribute( 'id' );
-        return $this->versionLanguageName( $objectID, $version, $lang );
+        $name =& $this->versionLanguageName( $objectID, $version, $lang );
+        return $name;
     }
 
     function &versionLanguageName( $contentObjectID, $version, $lang = false )
@@ -1069,7 +1070,7 @@ class eZContentObject extends eZPersistentObject
         $currentVersionNumber = $version->attribute( "version" );
         $contentObjectTranslations =& $version->translations();
 
-        $clonedVersion =& $version->clone( $newVersionNumber, $userID, $contentObjectID, $status );
+        $clonedVersion = $version->clone( $newVersionNumber, $userID, $contentObjectID, $status );
         if ( $contentObjectID !== false )
         {
             if ( $clonedVersion->attribute( 'status' ) == EZ_VERSION_STATUS_PUBLISHED )
@@ -1098,7 +1099,7 @@ class eZContentObject extends eZPersistentObject
             foreach ( array_keys( $contentObjectAttributes ) as $attributeKey )
             {
                 $attribute =& $contentObjectAttributes[$attributeKey];
-                $clonedAttribute =& $attribute->clone( $newVersionNumber, $currentVersionNumber, $contentObjectID );
+                $clonedAttribute = $attribute->clone( $newVersionNumber, $currentVersionNumber, $contentObjectID );
                 $clonedAttribute->sync();
                 eZDebugSetting::writeDebug( 'kernel-content-object-copy', $clonedAttribute, 'copyVersion:cloned attribute' );
             }
@@ -1131,7 +1132,7 @@ class eZContentObject extends eZPersistentObject
      \return a new clone of the current object which has is
              ready to be stored with a new ID.
     */
-    function &clone()
+    function clone()
     {
         $contentObject = $this;
         $contentObject->setAttribute( 'id', null );
@@ -1151,7 +1152,7 @@ class eZContentObject extends eZPersistentObject
         $user =& eZUser::currentUser();
         $userID =& $user->attribute( 'contentobject_id' );
 
-        $contentObject =& $this->clone();
+        $contentObject = $this->clone();
         $contentObject->setAttribute( 'current_version', 1 );
         $contentObject->setAttribute( 'owner_id', $userID );
 
@@ -1247,7 +1248,7 @@ class eZContentObject extends eZPersistentObject
     */
     function copyRevertTo( $version )
     {
-        $versionObject =& $this->createNewVersion( $version );
+        $versionObject = $this->createNewVersion( $version );
 
         return $versionObject->attribute( 'version' );
     }
@@ -2139,11 +2140,11 @@ class eZContentObject extends eZPersistentObject
             include_once( "kernel/classes/eznodeassignment.php" );
             if( is_numeric( $version ) )
             {
-                $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $this->attribute( 'id' ), $version );
+                $nodeAssignmentList = eZNodeAssignment::fetchForObject( $this->attribute( 'id' ), $version );
             }
             else
             {
-                $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $this->attribute( 'id' ), $this->attribute( 'current_version' ) );
+                $nodeAssignmentList = eZNodeAssignment::fetchForObject( $this->attribute( 'id' ), $this->attribute( 'current_version' ) );
             }
             foreach ( array_keys( $nodeAssignmentList ) as $key )
             {
@@ -2171,7 +2172,7 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &createNodeAssignment( $nodeID, $isMain, $remoteID = false )
+    function createNodeAssignment( $nodeID, $isMain, $remoteID = false )
     {
         $data = array( 'contentobject_id' => $this->attribute( 'id' ),
                        'contentobject_version' => $this->attribute( 'current_version' ),
@@ -3181,7 +3182,7 @@ class eZContentObject extends eZPersistentObject
         $classRemoteID =& $domNode->attributeValue( 'class_remote_id' );
         $classIdentifier =& $domNode->attributeValue( 'class_identifier' );
 
-        $contentClass =& eZContentClass::fetchByRemoteID( $classRemoteID );
+        $contentClass = eZContentClass::fetchByRemoteID( $classRemoteID );
         if ( !$contentClass )
         {
             $contentClass =& eZContentClass::fetchByIdentifier( $classIdentifier );
@@ -3193,7 +3194,7 @@ class eZContentObject extends eZPersistentObject
             return false;
         }
 
-        $contentObject =& eZContentObject::fetchByRemoteID( $remoteID );
+        $contentObject = eZContentObject::fetchByRemoteID( $remoteID );
         if ( !$contentObject )
         {
             $contentObject =& $contentClass->instantiate( $ownerID, $sectionID );

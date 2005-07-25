@@ -71,7 +71,7 @@ $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'attribute_hide_list', $attributeHideList );
 $tpl->setVariable( 'error', false );
 
-$section =& eZSection::fetch( $object->attribute( 'section_id' ) );
+$section = eZSection::fetch( $object->attribute( 'section_id' ) );
 if ( $section )
     $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
 

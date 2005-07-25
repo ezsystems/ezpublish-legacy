@@ -360,7 +360,7 @@ class eZIdentifierType extends eZDataType
     /*!
     \reimp
     */
-    function &sortKeyType()
+    function sortKeyType()
     {
         return 'string';
     }

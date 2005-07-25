@@ -88,7 +88,7 @@ class eZSubtreeSubscriptionType extends eZDataType
             foreach ( $newSubscriptions as $nodeID )
             {
 
-                $rule =& eZSubtreeNotificationRule::create( $nodeID, $userID );
+                $rule = eZSubtreeNotificationRule::create( $nodeID, $userID );
                 $rule->store();
             }
         }

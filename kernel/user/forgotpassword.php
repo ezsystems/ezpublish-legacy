@@ -151,7 +151,7 @@ if ( $module->isCurrentAction( "Generate" ) )
             $user =& $users[0];
             $time = time();
             $hashKey = md5( $time );
-            $forgotPasswdObj =& eZForgotPassword::createNew( $user->id(), $hashKey, $time );
+            $forgotPasswdObj = eZForgotPassword::createNew( $user->id(), $hashKey, $time );
             $forgotPasswdObj->store();
 
             $userToSendEmail =& $user;

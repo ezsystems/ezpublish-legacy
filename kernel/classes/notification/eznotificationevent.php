@@ -133,7 +133,7 @@ class eZNotificationEvent extends eZPersistentObject
 
     }
 
-    function &create( $type, $params = array() )
+    function create( $type, $params = array() )
     {
         $row = array(
             "id" => null,

@@ -139,10 +139,10 @@ class eZSelectionType extends eZDataType
 
             // Serialize XML
             $doc = new eZDOMDocument( "selection" );
-            $root =& $doc->createElementNode( "ezselection" );
+            $root = $doc->createElementNode( "ezselection" );
             $doc->setRoot( $root );
 
-            $options =& $doc->createElementNode( "options" );
+            $options = $doc->createElementNode( "options" );
 
             $root->appendChild( $options );
             foreach ( $currentOptions as $optionArray )
@@ -295,7 +295,7 @@ class eZSelectionType extends eZDataType
     /*!
      \reimp
     */
-    function &sortKey( &$contentObjectAttribute )
+    function sortKey( &$contentObjectAttribute )
     {
         return strtolower( $contentObjectAttribute->attribute( 'data_text' ) );
     }
@@ -337,12 +337,12 @@ class eZSelectionType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $options =& $attributeParametersNode->elementByName( 'options' );
 
-        $doc =& new eZDOMDocument( "selection" );
-        $root =& $doc->createElementNode( "ezselection" );
+        $doc = new eZDOMDocument( "selection" );
+        $root = $doc->createElementNode( "ezselection" );
 
         $doc->setRoot( $root );
         $root->appendChild( $options );

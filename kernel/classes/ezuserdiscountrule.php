@@ -200,7 +200,7 @@ class eZUserDiscountRule extends eZPersistentObject
         return $objectList;
     }
 
-    function &create( $discountRuleID, $contentobjectID )
+    function create( $discountRuleID, $contentobjectID )
     {
         $row = array(
             "id" => null,
@@ -209,12 +209,12 @@ class eZUserDiscountRule extends eZPersistentObject
         return new eZUserDiscountRule( $row );
     }
 
-    function &removeUser( $userID )
+    function removeUser( $userID )
     {
         eZPersistentObject::removeObject( eZUserDiscountRule::definition(),
                                           array( "contentobject_id" => $userID ) );
     }
-    function &remove( $id )
+    function remove( $id )
     {
         eZPersistentObject::removeObject( eZUserDiscountRule::definition(),
                                           array( "id" => $id ) );

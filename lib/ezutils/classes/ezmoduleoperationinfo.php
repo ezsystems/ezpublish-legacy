@@ -649,7 +649,7 @@ class eZModuleOperationInfo
         $mementoData['loop_data'] = $currentLoopData;
         $mementoData['module_name'] = $this->ModuleName;
         $mementoData['operation_name'] = $operationName;
-        $memento =& eZOperationMemento::create( $keyArray, $mementoData, false, $this->Memento->attribute( 'memento_key' ) );
+        $memento = eZOperationMemento::create( $keyArray, $mementoData, false, $this->Memento->attribute( 'memento_key' ) );
         $memento->store();
         return $memento;
     }

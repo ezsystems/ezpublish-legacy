@@ -70,7 +70,7 @@ class eZUserAccountKey extends eZPersistentObject
                       "name" => "ezuser_accountkey" );
     }
 
-    function &createNew( $userID, $hashKey, $time)
+    function createNew( $userID, $hashKey, $time)
     {
         return new eZUserAccountKey( array( "user_id" => $userID,
                                             "hash_key" => $hashKey,
@@ -88,7 +88,7 @@ class eZUserAccountKey extends eZPersistentObject
     /*!
      Remove account keys belonging to user \a $userID
     */
-    function &remove( $userID )
+    function remove( $userID )
     {
         eZPersistentObject::removeObject( eZUserAccountKey::definition(),
                                           array( 'user_id' => $userID ) );

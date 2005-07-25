@@ -71,7 +71,7 @@ class eZUserSetting extends eZPersistentObject
                       'name' => 'ezuser_setting' );
     }
 
-    function &create( $userID, $isEnabled )
+    function create( $userID, $isEnabled )
     {
         $row = array( 'user_id' => $userID,
                       'is_enabled' => $isEnabled,
@@ -119,7 +119,7 @@ class eZUserSetting extends eZPersistentObject
     /*!
      Remove user settings with \a $userID
     */
-    function &remove( $userID )
+    function remove( $userID )
     {
         eZPersistentObject::removeObject( eZUserSetting::definition(),
                                           array( 'user_id' => $userID ) );

@@ -1511,7 +1511,7 @@ class eZImageAliasHandler
         foreach ( $imageVariationRowArray as $variationRow )
         {
             unset( $imageVariationNode );
-            $imageVariationNode =& $doc->createElementNode( "variation" );
+            $imageVariationNode = $doc->createElementNode( "variation" );
             $imageNode->appendChild( $imageVariationNode );
 
             $imageVariationNode->appendAttribute( $doc->createAttributeNode( 'name', 'medium' ) );

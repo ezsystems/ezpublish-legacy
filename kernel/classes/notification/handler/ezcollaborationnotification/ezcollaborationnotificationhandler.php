@@ -196,7 +196,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
                 eZCollaborationNotificationRule::removeByIdentifier( array( $removeRules ) );
             foreach ( $createRules as $createRule )
             {
-                $rule =& eZCollaborationNotificationRule::create( $createRule );
+                $rule = eZCollaborationNotificationRule::create( $createRule );
                 $rule->store();
             }
         }

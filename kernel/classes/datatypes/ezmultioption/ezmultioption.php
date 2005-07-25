@@ -371,16 +371,16 @@ class eZMultiOption
     function &xmlString()
     {
         $doc = new eZDOMDocument( "MultiOption" );
-        $root =& $doc->createElementNode( "ezmultioption" );
+        $root = $doc->createElementNode( "ezmultioption" );
         $doc->setRoot( $root );
-        $name =& $doc->createElementNode( "name" );
-        $nameValue =& $doc->createTextNode( $this->Name );
+        $name = $doc->createElementNode( "name" );
+        $nameValue = $doc->createTextNode( $this->Name );
         $name->appendChild( $nameValue );
         $optionCounter = $doc->createAttributeNode( 'option_counter', $this->OptionCounter );
         $root->appendAttribute( $optionCounter );
 
         $root->appendChild( $name );
-        $multioptions =& $doc->createElementNode( "multioptions" );
+        $multioptions = $doc->createElementNode( "multioptions" );
         $root->appendChild( $multioptions );
         foreach ( $this->Options as $multioption )
         {

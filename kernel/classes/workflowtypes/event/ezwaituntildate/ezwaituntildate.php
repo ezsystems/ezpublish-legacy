@@ -105,7 +105,7 @@ class eZWaitUntilDate
             $contentClassAttribute = eZContentClassAttribute::fetch( $contentClassAttributeID );
             $contentClassID = $contentClassAttribute->attribute( 'contentclass_id' );
         }
-        $waitUntilDateValue =& eZWaitUntilDateValue::create( $this->WorkflowEventID, $this->WorkflowEventVersion, $contentClassAttributeID, $contentClassID );
+        $waitUntilDateValue = eZWaitUntilDateValue::create( $this->WorkflowEventID, $this->WorkflowEventVersion, $contentClassAttributeID, $contentClassID );
         $waitUntilDateValue->store();
         $this->Entries =& eZWaitUntilDateValue::fetchAllElements( $this->WorkflowEventID, $this->WorkflowEventVersion );
     }
@@ -140,11 +140,11 @@ class eZWaitUntilDate
             $workflowEventID = $entry->attribute( "workflow_event_id" );
             $contentClassID = $entry->attribute( "contentclass_id" );
             $contentClassAttributeID = $entry->attribute( "contentclass_attribute_id" );
-            $entryCopy =& eZWaitUntilDateValue::createCopy( $id,
-                                                            $workflowEventID,
-                                                            0,
-                                                            $contentClassID,
-                                                            $contentClassAttributeID );
+            $entryCopy = eZWaitUntilDateValue::createCopy( $id,
+                                                           $workflowEventID,
+                                                           0,
+                                                           $contentClassID,
+                                                           $contentClassAttributeID );
             eZDebug::writeDebug( $entryCopy, "entryCopy" );
             $entryCopy->store();
             if ( $oldversion != $version )

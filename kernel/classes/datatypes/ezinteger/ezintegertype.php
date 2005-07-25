@@ -372,7 +372,7 @@ class eZIntegerType extends eZDataType
     /*!
      \reimp
     */
-    function &sortKey( &$contentObjectAttribute )
+    function sortKey( &$contentObjectAttribute )
     {
         return $contentObjectAttribute->attribute( 'data_int' );
     }
@@ -380,7 +380,7 @@ class eZIntegerType extends eZDataType
     /*!
      \reimp
     */
-    function &sortKeyType()
+    function sortKeyType()
     {
         return 'int';
     }
@@ -404,7 +404,7 @@ class eZIntegerType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultValue = $attributeParametersNode->elementTextContentByName( 'default-value' );
         $minValue = $attributeParametersNode->elementTextContentByName( 'min-value' );

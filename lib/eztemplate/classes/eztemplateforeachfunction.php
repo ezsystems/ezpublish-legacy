@@ -126,9 +126,9 @@ class eZTemplateForeachFunction
         $uniqid              =  md5( $nodePlacement[2] ) . "_" . $tpl->ForeachCounter;
 
         require_once( 'lib/eztemplate/classes/eztemplatecompiledloop.php' );
-        $loop =& new eZTemplateCompiledLoop( EZ_TEMPLATE_FOREACH_FUNCTION_NAME,
-                                             $newNodes, $parameters, $nodePlacement, $uniqid,
-                                             $node, $tpl, $privateData );
+        $loop = new eZTemplateCompiledLoop( EZ_TEMPLATE_FOREACH_FUNCTION_NAME,
+                                            $newNodes, $parameters, $nodePlacement, $uniqid,
+                                            $node, $tpl, $privateData );
 
 
 
@@ -150,7 +150,7 @@ class eZTemplateForeachFunction
         $lastVal         = "fe_last_val_$uniqid";
 
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['array'], $nodePlacement, array( 'text-result' => false ), $array );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$arrayKeys =& array_keys( \$$array );" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$arrayKeys = array_keys( \$$array );" );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$nItems = count( \$$arrayKeys );" );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$nItemsProcessed = 0;" );
 
@@ -261,9 +261,9 @@ class eZTemplateForeachFunction
         //eZDebug::writeDebug( $functionParameters, '$functionParameters' );
 
         require_once( 'lib/eztemplate/classes/eztemplateloop.php' );
-        $loop =& new eZTemplateLoop( EZ_TEMPLATE_FOREACH_FUNCTION_NAME,
-                                     $functionParameters, $functionChildren, $functionPlacement,
-                                     $tpl, $textElements, $rootNamespace, $currentNamespace );
+        $loop = new eZTemplateLoop( EZ_TEMPLATE_FOREACH_FUNCTION_NAME,
+                                    $functionParameters, $functionChildren, $functionPlacement,
+                                    $tpl, $textElements, $rootNamespace, $currentNamespace );
 
         if ( !$loop->initialized() )
             return;
@@ -299,9 +299,9 @@ class eZTemplateForeachFunction
             Otherwise they are not considered.
         */
 
-        $arrayKeys       =& array_keys( $array );
-        $nItems          =  count( $arrayKeys );
-        $nItemsProcessed =  0;
+        $arrayKeys       = array_keys( $array );
+        $nItems          = count( $arrayKeys );
+        $nItemsProcessed = 0;
 
         // do nothing in case of empty array
         if ( !$nItems )

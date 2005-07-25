@@ -117,7 +117,7 @@ class eZProductCollectionItem extends eZPersistentObject
     /*!
      Clones the collection item object and returns it. The ID of the clone is erased.
     */
-    function &clone()
+    function clone()
     {
         $item = $this;
         $item->setAttribute( 'id', null );
@@ -134,7 +134,7 @@ class eZProductCollectionItem extends eZPersistentObject
     */
     function &copy( $collectionID )
     {
-        $item =& $this->clone();
+        $item = $this->clone();
         $item->setAttribute( 'productcollection_id', $collectionID );
         $item->store();
         $oldItemOptionList =& $this->optionList();

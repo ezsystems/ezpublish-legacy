@@ -253,7 +253,7 @@ class eZTimeType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultNode =& $attributeParametersNode->elementByName( 'default-value' );
         $defaultValue = strtolower( $defaultNode->attributeValue( 'type' ) );

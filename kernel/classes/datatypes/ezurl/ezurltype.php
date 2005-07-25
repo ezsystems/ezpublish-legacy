@@ -220,7 +220,8 @@ class eZURLType extends eZDataType
             return $attrValue;
         }
 
-        return eZURL::url( $contentObjectAttribute->attribute( 'data_int' ) );
+        $url =& eZURL::url( $contentObjectAttribute->attribute( 'data_int' ) );
+        return $url;
     }
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
@@ -273,7 +274,7 @@ class eZURLType extends eZDataType
         if ( is_object( $url ) and
              trim( $url->attribute( 'url' ) ) != '' )
         {
-            $urlNode =& eZDOMDocument::createElementNode( 'url' );
+            $urlNode = eZDOMDocument::createElementNode( 'url' );
             $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'original-url-md5', $url->attribute( 'original_url_md5' ) ) );
             $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-valid', $url->attribute( 'is_valid' ) ) );
             $urlNode->appendAttribute( eZDOMDocument::createAttributeNode( 'last-checked', $url->attribute( 'last_checked' ) ) );

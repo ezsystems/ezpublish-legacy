@@ -55,7 +55,7 @@ class eZStepData
              step name
       \return array containing file name and class name
     */
-    function &step( $description )
+    function step( $description )
     {
         if ( is_string( $description ) )
         {

@@ -263,7 +263,7 @@ TODO: add encoding checks with schema validation.
         $doc = new eZDOMDocument();
         $doc->setName( "eZSOAP message" );
 
-        $root =& $doc->createElementNodeNS( EZ_SOAP_ENV, "Envelope" );
+        $root = $doc->createElementNodeNS( EZ_SOAP_ENV, "Envelope" );
 
         $root->appendAttribute( $doc->createAttributeNamespaceDefNode( EZ_SOAP_XSI_PREFIX, EZ_SOAP_SCHEMA_INSTANCE ) );
         $root->appendAttribute( $doc->createAttributeNamespaceDefNode( EZ_SOAP_XSD_PREFIX, EZ_SOAP_SCHEMA_DATA ) );
@@ -271,7 +271,7 @@ TODO: add encoding checks with schema validation.
         $root->setPrefix( EZ_SOAP_ENV_PREFIX );
 
         // add the body
-        $body =& $doc->createElementNode( "Body" );
+        $body = $doc->createElementNode( "Body" );
 
         $body->setPrefix( EZ_SOAP_ENV_PREFIX );
         $root->appendChild( $body );
@@ -279,15 +279,15 @@ TODO: add encoding checks with schema validation.
         // Check if it's a fault
         if ( get_class( $this->Value ) == 'ezsoapfault' )
         {
-            $fault =& $doc->createElementNode( "Fault" );
+            $fault = $doc->createElementNode( "Fault" );
             $fault->setPrefix( EZ_SOAP_ENV_PREFIX );
 
-            $faultCodeNode =& $doc->createElementNode( "faultcode" );
+            $faultCodeNode = $doc->createElementNode( "faultcode" );
             $faultCodeNode->appendChild( eZDOMDocument::createTextNode( $this->Value->faultCode() ) );
 
             $fault->appendChild( $faultCodeNode );
 
-            $faultStringNode =& $doc->createElementNode( "faultstring" );
+            $faultStringNode = $doc->createElementNode( "faultstring" );
             $faultStringNode->appendChild( eZDOMDocument::createTextNode( $this->Value->faultString() ) );
 
             $fault->appendChild( $faultStringNode );
@@ -298,11 +298,11 @@ TODO: add encoding checks with schema validation.
         {
             // add the request
             $responseName = $this->Name . "Response";
-            $response =& $doc->createElementNode( $responseName );
+            $response = $doc->createElementNode( $responseName );
             $response->setPrefix( "resp" );
             $response->appendAttribute( $doc->createAttributeNamespaceDefNode( "resp", $this->Namespace ) );
 
-            $return =& $doc->createElementNode( "return" );
+            $return = $doc->createElementNode( "return" );
             $return->setPrefix( "resp" );
 
             $value = $this->encodeValue( "return", $this->Value );
@@ -354,8 +354,8 @@ TODO: add encoding checks with schema validation.
         {
             case "string" :
             {
-                $node =& eZDOMDocument::createElementNode( $name );
-                $attr =& eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":string" );
+                $node = eZDOMDocument::createElementNode( $name );
+                $attr = eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":string" );
                 $attr->setPrefix( EZ_SOAP_XSI_PREFIX );
                 $node->appendAttribute( $attr );
                 $node->appendChild( eZDOMDocument::createTextNode( $value ) );
@@ -365,8 +365,8 @@ TODO: add encoding checks with schema validation.
 
             case "boolean" :
             {
-                $node =& eZDOMDocument::createElementNode( $name );
-                $attr =& eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":boolean" );
+                $node = eZDOMDocument::createElementNode( $name );
+                $attr = eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":boolean" );
                 $attr->setPrefix( EZ_SOAP_XSI_PREFIX );
                 $node->appendAttribute( $attr );
                 if ( $value === true )
@@ -378,8 +378,8 @@ TODO: add encoding checks with schema validation.
 
             case "integer" :
             {
-                $node =& eZDOMDocument::createElementNode( $name );
-                $attr =& eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":int" );
+                $node = eZDOMDocument::createElementNode( $name );
+                $attr = eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":int" );
                 $attr->setPrefix( EZ_SOAP_XSI_PREFIX );
                 $node->appendAttribute( $attr );
                 $node->appendChild( eZDOMDocument::createTextNode( $value ) );
@@ -389,8 +389,8 @@ TODO: add encoding checks with schema validation.
 
             case "double" :
             {
-                $node =& eZDOMDocument::createElementNode( $name );
-                $attr =& eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":float" );
+                $node = eZDOMDocument::createElementNode( $name );
+                $attr = eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":float" );
                 $attr->setPrefix( EZ_SOAP_XSI_PREFIX );
                 $node->appendAttribute( $attr );
                 $node->appendChild( eZDOMDocument::createTextNode( $value ) );
@@ -415,9 +415,9 @@ TODO: add encoding checks with schema validation.
 
                 if ( $isStruct == true )
                 {
-                    $node =& eZDOMDocument::createElementNode( $name );
+                    $node = eZDOMDocument::createElementNode( $name );
                     // Type def
-                    $typeAttr =& eZDOMDocument::createAttributeNode( "type", EZ_SOAP_ENC_PREFIX . ":SOAPStruct" );
+                    $typeAttr = eZDOMDocument::createAttributeNode( "type", EZ_SOAP_ENC_PREFIX . ":SOAPStruct" );
                     $typeAttr->setPrefix( EZ_SOAP_XSI_PREFIX );
                     $node->appendAttribute( $typeAttr );
 
@@ -431,14 +431,14 @@ TODO: add encoding checks with schema validation.
                 }
                 else
                 {
-                    $node =& eZDOMDocument::createElementNode( $name );
+                    $node = eZDOMDocument::createElementNode( $name );
                     // Type def
-                    $typeAttr =& eZDOMDocument::createAttributeNode( "type", EZ_SOAP_ENC_PREFIX . ":Array" );
+                    $typeAttr = eZDOMDocument::createAttributeNode( "type", EZ_SOAP_ENC_PREFIX . ":Array" );
                     $typeAttr->setPrefix( EZ_SOAP_XSI_PREFIX );
                     $node->appendAttribute( $typeAttr );
 
                     // Array type def
-                    $arrayTypeAttr =& eZDOMDocument::createAttributeNode( "arrayType", EZ_SOAP_XSD_PREFIX . ":string[$arrayCount]" );
+                    $arrayTypeAttr = eZDOMDocument::createAttributeNode( "arrayType", EZ_SOAP_XSD_PREFIX . ":string[$arrayCount]" );
                     $arrayTypeAttr->setPrefix( EZ_SOAP_ENC_PREFIX );
                     $node->appendAttribute( $arrayTypeAttr );
 

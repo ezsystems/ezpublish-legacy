@@ -94,12 +94,12 @@ class eZCollaborationNotificationRule extends eZPersistentObject
         return eZPersistentObject::attribute( $attr );
     }
 
-    function &create( $collaborationIdentifier, $userID = false )
+    function create( $collaborationIdentifier, $userID = false )
     {
         if ( !$userID )
             $userID =& eZUser::currentUserID();
-        $rule =& new eZCollaborationNotificationRule( array( 'user_id' => $userID,
-                                                             'collab_identifier' => $collaborationIdentifier ) );
+        $rule = new eZCollaborationNotificationRule( array( 'user_id' => $userID,
+                                                            'collab_identifier' => $collaborationIdentifier ) );
         return $rule;
     }
 

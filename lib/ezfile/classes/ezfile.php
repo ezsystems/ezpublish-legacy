@@ -64,7 +64,7 @@ class eZFile
      It will handle Unix (\n), Windows (\r\n) and Mac (\r) style newlines.
      \note The newline character(s) are not present in the line string.
     */
-    function &splitLines( $file )
+    function splitLines( $file )
     {
         $fp = @fopen( $file, "rb" );
         if ( !$fp )
@@ -190,8 +190,8 @@ class eZFile
      Prepares a file for Download and terminates the execution.
 
      \param $file Filename
-     \param $isAttached Download Determines weather to download the file as an attachment ( download popup box ) or not. 
-     
+     \param $isAttached Download Determines weather to download the file as an attachment ( download popup box ) or not.
+
      \return false if error
     */
     function download( $file, $isAttachedDownload = true, $overrideFilename = false )

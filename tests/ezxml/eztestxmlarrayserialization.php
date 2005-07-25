@@ -193,7 +193,7 @@ class eZTestXMLArraySerialization extends eZTestCase
         include_once( 'lib/ezxml/classes/ezxml.php' );
         $doc = new eZDomDocument();
         $array = $this->generateArray();
-        $node =& $doc->createElementNodeFromArray( 'test-array', $array );
+        $node = $doc->createElementNodeFromArray( 'test-array', $array );
         $nodeMatchArray = $this->generateNodeMatchArray();
         $tr->assert( $this->matchNodeArray( $node, $nodeMatchArray ) );
     }
@@ -207,7 +207,7 @@ class eZTestXMLArraySerialization extends eZTestCase
         include_once( 'lib/ezxml/classes/ezxml.php' );
         $doc = new eZDomDocument();
         $array1 = $this->generateArray();
-        $node =& $doc->createElementNodeFromArray( 'test-array', $array1 );
+        $node = $doc->createElementNodeFromArray( 'test-array', $array1 );
         $array2 = $doc->createArrayFromDOMNode( $node );
         $tr->assert( $this->arrayCompare( $array1, $array2 ) );
     }

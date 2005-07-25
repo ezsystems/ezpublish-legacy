@@ -72,7 +72,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     $userDataHandling = eZInformationCollection::userDataHandling( $object );
     if ( $userDataHandling == 'unique' or
          $userDataHandling == 'overwrite'  )
-        $collection =& eZInformationCollection::fetchByUserIdentifier( eZInformationCollection::currentUserIdentifier(), $object->attribute( 'id' ) );
+        $collection = eZInformationCollection::fetchByUserIdentifier( eZInformationCollection::currentUserIdentifier(), $object->attribute( 'id' ) );
     if ( ( !$isLoggedIn and
            !$allowAnonymous ) or
          ( $userDataHandling == 'unique' and
@@ -99,7 +99,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
         $tpl->setVariable( 'error_existing_data', ( $userDataHandling == 'unique' and $collection ) );
         $tpl->setVariable( 'error_anonymous_user', ( !$isLoggedIn and !$allowAnonymous ) );
 
-        $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
+        $section = eZSection::fetch( $object->attribute( 'section_id' ) );
         if ( $section )
             $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
 
@@ -159,7 +159,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
     }
     if ( !$collection )
     {
-        $collection =& eZInformationCollection::create( $ObjectID, eZInformationCollection::currentUserIdentifier() );
+        $collection = eZInformationCollection::create( $ObjectID, eZInformationCollection::currentUserIdentifier() );
         $collection->store();
         $newCollection = true;
     }
@@ -208,7 +208,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
     $db =& eZDB::instance();
     $db->begin();
-    
+
     foreach ( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute = $contentObjectAttributes[$key];
@@ -218,9 +218,9 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
         {
             // Collect the information for the current attribute
             if ( $newCollection )
-                $collectionAttribute =& eZInformationCollectionAttribute::create( $collection->attribute( 'id' ) );
+                $collectionAttribute = eZInformationCollectionAttribute::create( $collection->attribute( 'id' ) );
             else
-                $collectionAttribute =& eZInformationCollectionAttribute::fetchByObjectAttributeID( $collection->attribute( 'id' ), $contentObjectAttribute->attribute( 'id' ) );
+                $collectionAttribute = eZInformationCollectionAttribute::fetchByObjectAttributeID( $collection->attribute( 'id' ), $contentObjectAttribute->attribute( 'id' ) );
             if ( $collectionAttribute and $contentObjectAttribute->collectInformation( $collection, $collectionAttribute, $http, "ContentObjectAttribute" ) )
             {
                 if ( $canCollect )
@@ -252,7 +252,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
             $node =& eZContentObjectTreeNode::fetch( $NodeID );
 
-            $section =& eZSection::fetch( $object->attribute( 'section_id' ) );
+            $section = eZSection::fetch( $object->attribute( 'section_id' ) );
             if ( $section )
                 $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
 

@@ -83,7 +83,7 @@ class eZWorkflowGroup extends eZPersistentObject
                       "name" => "ezworkflow_group" );
     }
 
-    function &create( $user_id )
+    function create( $user_id )
     {
         $date_time = time();
         $row = array(

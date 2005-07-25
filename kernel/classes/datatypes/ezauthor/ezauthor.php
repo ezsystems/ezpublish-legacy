@@ -139,7 +139,8 @@ class eZAuthor
             }break;
             case "is_empty" :
             {
-                return count( $this->Authors ) == 0 ;
+                $count = count( $this->Authors ) == 0 ;
+                return $count;
             }break;
             case "author_list" :
             {
@@ -202,10 +203,10 @@ class eZAuthor
     {
         $doc = new eZDOMDocument( "Author" );
 
-        $root =& $doc->createElementNode( "ezauthor" );
+        $root = $doc->createElementNode( "ezauthor" );
         $doc->setRoot( $root );
 
-        $authors =& $doc->createElementNode( "authors" );
+        $authors = $doc->createElementNode( "authors" );
 
         $root->appendChild( $authors );
         $id=0;

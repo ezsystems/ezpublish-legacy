@@ -120,50 +120,50 @@ if ( $module->isCurrentAction( 'Store' ) )
 
         $db =& eZDB::instance();
         $db->begin();
-        $order =& $basket->createOrder();
+        $order = $basket->createOrder();
 
         $doc = new eZDOMDocument( 'account_information' );
 
-        $root =& $doc->createElementNode( "shop_account" );
+        $root = $doc->createElementNode( "shop_account" );
         $doc->setRoot( $root );
 
-        $firstNameNode =& $doc->createElementNode( "first-name" );
+        $firstNameNode = $doc->createElementNode( "first-name" );
         $firstNameNode->appendChild( $doc->createTextNode( $firstName ) );
         $root->appendChild( $firstNameNode );
 
-        $lastNameNode =& $doc->createElementNode( "last-name" );
+        $lastNameNode = $doc->createElementNode( "last-name" );
         $lastNameNode->appendChild( $doc->createTextNode( $lastName ) );
         $root->appendChild( $lastNameNode );
 
-        $emailNode =& $doc->createElementNode( "email" );
+        $emailNode = $doc->createElementNode( "email" );
         $emailNode->appendChild( $doc->createTextNode( $email ) );
         $root->appendChild( $emailNode );
 
-        $street1Node =& $doc->createElementNode( "street1" );
+        $street1Node = $doc->createElementNode( "street1" );
         $street1Node->appendChild( $doc->createTextNode( $street1 ) );
         $root->appendChild( $street1Node );
 
-        $street2Node =& $doc->createElementNode( "street2" );
+        $street2Node = $doc->createElementNode( "street2" );
         $street2Node->appendChild( $doc->createTextNode( $street2 ) );
         $root->appendChild( $street2Node );
 
-        $zipNode =& $doc->createElementNode( "zip" );
+        $zipNode = $doc->createElementNode( "zip" );
         $zipNode->appendChild( $doc->createTextNode( $zip ) );
         $root->appendChild( $zipNode );
 
-        $placeNode =& $doc->createElementNode( "place" );
+        $placeNode = $doc->createElementNode( "place" );
         $placeNode->appendChild( $doc->createTextNode( $place ) );
         $root->appendChild( $placeNode );
 
-        $stateNode =& $doc->createElementNode( "state" );
+        $stateNode = $doc->createElementNode( "state" );
         $stateNode->appendChild( $doc->createTextNode( $state ) );
         $root->appendChild( $stateNode );
 
-        $countryNode =& $doc->createElementNode( "country" );
+        $countryNode = $doc->createElementNode( "country" );
         $countryNode->appendChild( $doc->createTextNode( $country ) );
         $root->appendChild( $countryNode );
 
-        $commentNode =& $doc->createElementNode( "comment" );
+        $commentNode = $doc->createElementNode( "comment" );
         $commentNode->appendChild( $doc->createTextNode( $comment ) );
         $root->appendChild( $commentNode );
 

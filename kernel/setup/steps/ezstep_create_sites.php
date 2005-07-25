@@ -143,7 +143,7 @@ class eZStepCreateSites extends eZStepInstaller
         $allLanguages[] =& $primaryLanguage;
         foreach ( $extraLanguageCodes as $extraLanguageCode )
         {
-            $allLanguages[] =& eZLocale::create( $extraLanguageCode );
+            $allLanguages[] = eZLocale::create( $extraLanguageCode );
             $allLanguageCodes[] = $extraLanguageCode;
         }
 
@@ -221,7 +221,7 @@ class eZStepCreateSites extends eZStepInstaller
                         continue;
                     }
 
-                    $tmpINI =& eZINI::create( $iniName );
+                    $tmpINI = eZINI::create( $iniName );
                     $tmpINI->setVariables( $settings );
                     $tmpINI->save( false, '.append.php', false, true, "settings/override", $resetArray );
                 }
@@ -754,7 +754,7 @@ WHERE
                 $resetArray = false;
                 if ( isset( $extraSetting['reset_arrays'] ) )
                     $resetArray = $extraSetting['reset_arrays'];
-                $tmpINI =& eZINI::create( $iniName );
+                $tmpINI = eZINI::create( $iniName );
                 $tmpINI->setVariables( $settings );
                 if ( $iniName == 'site.ini' )
                 {
@@ -784,7 +784,7 @@ WHERE
                 $resetArray = false;
                 if ( isset( $extraSetting['reset_arrays'] ) )
                     $resetArray = $extraSetting['reset_arrays'];
-                $tmpINI =& eZINI::create( $iniName );
+                $tmpINI = eZINI::create( $iniName );
                 $tmpINI->setVariables( $settings );
                 if ( $iniName == 'site.ini' )
                 {
@@ -799,7 +799,7 @@ WHERE
 
             if ( !$siteINIAdminStored )
             {
-                $siteINI =& eZINI::create( 'site.ini' );
+                $siteINI = eZINI::create( 'site.ini' );
                 $siteINI->setVariables( $siteINIChanges );
                 $siteINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
                 $siteINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
@@ -808,7 +808,7 @@ WHERE
             }
             if ( !$siteINIStored )
             {
-                $siteINI =& eZINI::create( 'site.ini' );
+                $siteINI = eZINI::create( 'site.ini' );
                 $siteINI->setVariables( $siteINIChanges );
                 $siteINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
                 $siteINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
@@ -816,7 +816,7 @@ WHERE
             }
             if ( !$designINIStored )
             {
-                $designINI =& eZINI::create( 'design.ini' );
+                $designINI = eZINI::create( 'design.ini' );
                 if ( $siteCSS )
                     $designINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
                 if ( $classesCSS )
@@ -827,7 +827,7 @@ WHERE
             include_once( 'kernel/classes/ezrole.php' );
 
             // Try and remove user/login without limitation from the anonymous user
-            $anonRole =& eZRole::fetchByName( 'Anonymous' );
+            $anonRole = eZRole::fetchByName( 'Anonymous' );
             if ( is_object( $anonRole ) )
             {
                 $anonPolicies =& $anonRole->policyList();
@@ -849,7 +849,7 @@ WHERE
                 if ( !$extraRole )
                     continue;
                 $extraRoleName = $extraRole['name'];
-                $role =& eZRole::fetchByName( $extraRoleName );
+                $role = eZRole::fetchByName( $extraRoleName );
                 if ( !is_object( $role ) )
                 {
                     $role = eZRole::create( $extraRoleName );
@@ -941,7 +941,7 @@ WHERE
 
             if ( trim( $admin['first_name'] ) or trim( $admin['last_name'] ) )
             {
-                $newUserObject =& $userObject->createNewVersion( false, false );
+                $newUserObject = $userObject->createNewVersion( false, false );
                 if ( !is_object( $newUserObject ) )
                 {
                     $resultArray['errors'][] = array( 'code' => 'EZSW-022',

@@ -1081,7 +1081,7 @@ class eZDBSchemaInterface
 
         // load the schema transformation rules
         $schemaType = $this->schemaType();
-        $schemaTransformationRules =& eZDBSchemaInterface::loadSchemaTransformationRules( $schemaType );
+        $schemaTransformationRules = eZDBSchemaInterface::loadSchemaTransformationRules( $schemaType );
         if ( $schemaTransformationRules === false )
             return false;
 
@@ -1351,7 +1351,7 @@ class eZDBSchemaInterface
 
         // load the schema transformation rules
         $schemaType = $this->schemaType();
-        $schemaTransformationRules =& eZDBSchemaInterface::loadSchemaTransformationRules( $schemaType );
+        $schemaTransformationRules = eZDBSchemaInterface::loadSchemaTransformationRules( $schemaType );
         if ( $schemaTransformationRules === false )
             return false;
 

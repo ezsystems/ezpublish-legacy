@@ -115,7 +115,7 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
         $locale =& eZLocale::instance( $translationLocale );
         if ( $locale->isValid() )
         {
-            $translation =& eZContentTranslation::createNew( $translationName, $locale->localeCode() );
+            $translation = eZContentTranslation::createNew( $translationName, $locale->localeCode() );
 
             $db =& eZDB::instance();
             $db->begin();

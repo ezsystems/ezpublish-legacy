@@ -91,7 +91,7 @@ class eZDiscountSubRuleValue extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function &remove( $discountSubRuleID, $value, $isSection )
+    function remove( $discountSubRuleID, $value, $isSection )
     {
         eZPersistentObject::removeObject( eZDiscountSubRuleValue::definition(),
                                            array( "discountsubrule_id" =>$discountSubRuleID,
@@ -119,7 +119,7 @@ class eZDiscountSubRuleValue extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function &removeBySubRuleID ( $discountSubRuleID )
+    function removeBySubRuleID ( $discountSubRuleID )
     {
         eZPersistentObject::removeObject( eZDiscountSubRuleValue::definition(),
                                           array( "discountsubrule_id" => $discountSubRuleID ) );

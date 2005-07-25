@@ -65,7 +65,7 @@ if ( $http->hasPostVariable( "SaveOrderStatusButton" ) or
 
 if ( $http->hasPostVariable( "AddOrderStatusButton" ) )
 {
-    $orderStatus =& eZOrderStatus::create();
+    $orderStatus = eZOrderStatus::create();
     $orderStatus->storeCustom();
     $messages[] = array( 'description' => ezi18n( 'kernel/shop', 'New order status was successfully added.' ) );
 }

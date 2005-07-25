@@ -224,8 +224,8 @@ class eZModuleFunctionInfo
             $extension = false;
             if ( isset( $callMethod['extension'] ) )
                 $extension = $callMethod['extension'];
-            $resultArray =& $this->executeClassMethod( $extension, $callMethod['include_file'], $callMethod['class'], $callMethod['method'],
-                                                       $functionDefinition['parameters'], $functionParameters );
+            $resultArray = $this->executeClassMethod( $extension, $callMethod['include_file'], $callMethod['class'], $callMethod['method'],
+                                                      $functionDefinition['parameters'], $functionParameters );
         }
         else
         {

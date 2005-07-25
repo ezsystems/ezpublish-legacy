@@ -248,7 +248,7 @@ class eZImage extends eZPersistentObject
         return null;
     }
 
-    function &create( $contentObjectAttributeID, $contentObjectAttributeVersion  )
+    function create( $contentObjectAttributeID, $contentObjectAttributeVersion  )
     {
         $row = array( "contentobject_attribute_id" => $contentObjectAttributeID,
                       "version" => $contentObjectAttributeVersion,
@@ -287,7 +287,7 @@ class eZImage extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &remove( $id, $version )
+    function remove( $id, $version )
     {
         if( $version == null )
         {

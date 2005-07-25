@@ -173,7 +173,7 @@ else
     $user_id = $user->attribute( "contentobject_id" );
 
     // Create default rssImport object to use
-    $rssImport =& eZRSSImport::create( $user_id );
+    $rssImport = eZRSSImport::create( $user_id );
     $rssImport->store();
     $rssImportID = $rssImport->attribute( 'id' );
 }

@@ -353,7 +353,7 @@ class eZStringType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $maxLength = $attributeParametersNode->elementTextContentByName( 'max-length' );
         $defaultString = $attributeParametersNode->elementTextContentByName( 'default-string' );

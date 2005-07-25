@@ -572,13 +572,13 @@ class eZINI
       \private
       Will parse the INI file and store the variables in the variable $this->BlockValues
      */
-    function &parseFile( $file )
+    function parseFile( $file )
     {
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Parsing file '$file'", 'eZINI' );
 
         include_once( "lib/ezfile/classes/ezfile.php" );
-        $lines =& eZFile::splitLines( $file );
+        $lines = eZFile::splitLines( $file );
         if ( $lines === false )
         {
             eZDebug::writeError( "Failed opening file '$file' for reading", "eZINI" );
@@ -634,7 +634,7 @@ class eZINI
             if ( preg_match("#^(\w+)\\[\\]$#", $line, $valueArray ) )
             {
                 $varName = trim( $valueArray[1] );
-                
+
                 $valuesPlacement =& $this->BlockValuesPlacement[$currentBlock];
 
                 if ( isset( $valuesPlacement[$varName] ) )
@@ -713,8 +713,6 @@ class eZINI
                 }
             }
         }
-
-        return $ret;
     }
 
     /*!
@@ -733,8 +731,8 @@ class eZINI
       If \a $useOverride is true then the file will be placed in the override directory,
       if \a $useOverride is "append" it will append ".append" to the filename.
     */
-    function &save( $fileName = false, $suffix = false, $useOverride = false,
-                    $onlyModified = false, $useRootDir = true, $resetArrays = false )
+    function save( $fileName = false, $suffix = false, $useOverride = false,
+                   $onlyModified = false, $useRootDir = true, $resetArrays = false )
     {
         include_once( 'lib/ezfile/classes/ezdir.php' );
         $lineSeparator = eZSys::lineSeparator();
@@ -1283,7 +1281,7 @@ class eZINI
      \endcode
      \sa setVariables
     */
-    function &setVariable( $blockName, $variableName, $variableValue )
+    function setVariable( $blockName, $variableName, $variableValue )
     {
         $this->BlockValues[$blockName][$variableName] = $variableValue;
         $this->ModifiedBlockValues[$blockName][$variableName] = true;

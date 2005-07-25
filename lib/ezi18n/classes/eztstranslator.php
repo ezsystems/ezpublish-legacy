@@ -561,7 +561,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         $key = $man->createKey( $context, $source, $comment );
 //         if ( isset( $this->Messages[$key] ) )
 //             return $key;
-        $msg =& $man->createMessage( $context, $source, $comment, $translation );
+        $msg = $man->createMessage( $context, $source, $comment, $translation );
         $msg["key"] = $key;
         $this->Messages[$key] =& $msg;
         // Set array of messages to be cached

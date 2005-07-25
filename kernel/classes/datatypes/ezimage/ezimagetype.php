@@ -473,7 +473,7 @@ class eZImageType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $maxSize = $attributeParametersNode->elementTextContentByName( 'max-size' );
         $sizeNode = $attributeParametersNode->elementByName( 'max-size' );

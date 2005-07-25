@@ -91,7 +91,7 @@ class eZProductCollectionItemOption extends eZPersistentObject
                       "name" => "ezproductcollection_item_opt" );
     }
 
-    function &create( $productCollectionItemID, $optionItemID, $optionName, $optionValue, $optionPrice, $attributeID )
+    function create( $productCollectionItemID, $optionItemID, $optionName, $optionValue, $optionPrice, $attributeID )
     {
         $row = array( 'item_id' => $productCollectionItemID,
                       'option_item_id' => $optionItemID,
@@ -105,7 +105,7 @@ class eZProductCollectionItemOption extends eZPersistentObject
     /*!
      Clones the collection item option object and returns it. The ID of the clone is erased.
     */
-    function &clone()
+    function clone()
     {
         $item = $this;
         $item->setAttribute( 'id', null );
@@ -122,7 +122,7 @@ class eZProductCollectionItemOption extends eZPersistentObject
     */
     function &copy( $collectionItemID )
     {
-        $item =& $this->clone();
+        $item = $this->clone();
         $item->setAttribute( 'item_id', $collectionItemID );
         $item->store();
         return $item;

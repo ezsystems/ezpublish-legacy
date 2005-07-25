@@ -133,7 +133,7 @@ else if ( $http->hasPostVariable( 'eZSetup_refresh_button' ) ) // refresh select
 else if ( $http->hasPostVariable( 'eZSetup_next_button' ) || $http->hasPostVariable( 'eZSetup_current_step' ) ) // next step selected, 
 {
     // first, input from step must be processed/checked (processPostData())
-    $currentStep = &$stepData->step( $http->postVariable( 'eZSetup_current_step' ) );
+    $currentStep = $stepData->step( $http->postVariable( 'eZSetup_current_step' ) );
 
     $includeFile = $baseDir .'steps/ezstep_'.$currentStep['file'].'.php';
     $result = array();
@@ -212,7 +212,7 @@ while( !$done && $step != null )
             $stepInstaller = new $className( $tpl, $http, $ini, $persistenceList );
         }
 
-        $result =& $stepInstaller->init();
+        $result = $stepInstaller->init();
 
         if( $result === true )
         {
@@ -220,12 +220,12 @@ while( !$done && $step != null )
         }
         else if( is_int( $result ) || is_string( $result ) )
         {
-            $step =& $stepData->step( $result );
+            $step = $stepData->step( $result );
         }
         else
         {
             $tpl->setVariable( 'setup_current_step', $step['class'] ); // set current step
-            $result =& $stepInstaller->display();
+            $result = $stepInstaller->display();
             $result['help'] =& $tpl->fetch( 'design:setup/init/'.$step['file'].'_help.tpl' );
             $done = true;
         }

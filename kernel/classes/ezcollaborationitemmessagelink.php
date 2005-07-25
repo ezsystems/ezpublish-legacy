@@ -93,7 +93,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
                       'name' => 'ezcollab_item_message_link' );
     }
 
-    function &create( $collaborationID, $messageID, $messageType, $participantID )
+    function create( $collaborationID, $messageID, $messageType, $participantID )
     {
         $dateTime = time();
         $row = array(
@@ -133,7 +133,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
         $db =& eZDB::instance();
         $db->begin();
         $collaborationItem->sync();
-        $link =& eZCollaborationItemMessageLink::create( $collaborationID, $messageID, $messageType, $participantID );
+        $link = eZCollaborationItemMessageLink::create( $collaborationID, $messageID, $messageType, $participantID );
         $link->store();
         $db->commit();
 

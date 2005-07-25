@@ -66,7 +66,7 @@ class eZSetupSummary
 
     \return Summary
     */
-    function &summary()
+    function summary()
     {
         $databaseMap = eZSetupDatabaseMap();
 

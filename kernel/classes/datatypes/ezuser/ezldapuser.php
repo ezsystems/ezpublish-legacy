@@ -446,13 +446,10 @@ class eZLDAPUser extends eZUser
 
                     $contentObjectID = $contentObject->attribute( 'id' );
                     $userID = $contentObjectID;
-                    $nodeAssignment =& eZNodeAssignment::create( array(
-                                                                     'contentobject_id' => $contentObjectID,
-                                                                     'contentobject_version' => 1,
-                                                                     'parent_node' => $defaultUserPlacement,
-                                                                     'is_main' => 1
-                                                                     )
-                                                                 );
+                    $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObjectID,
+                                                                       'contentobject_version' => 1,
+                                                                       'parent_node' => $defaultUserPlacement,
+                                                                       'is_main' => 1 ) );
                     $nodeAssignment->setAttribute( 'parent_remote_id', "LDAP_" . $defaultUserPlacement );
                     $nodeAssignment->store();
 
@@ -460,13 +457,10 @@ class eZLDAPUser extends eZUser
                     {
                         foreach( $extraNodeAssignments as $extraNodeAssignment )
                         {
-                            $newNodeAssignment =& eZNodeAssignment::create( array(
-                                                                             'contentobject_id' => $contentObjectID,
-                                                                             'contentobject_version' => 1,
-                                                                             'parent_node' => $extraNodeAssignment,
-                                                                             'is_main' => 0
-                                                                             )
-                                                                         );
+                            $newNodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObjectID,
+                                                                                  'contentobject_version' => 1,
+                                                                                  'parent_node' => $extraNodeAssignment,
+                                                                                  'is_main' => 0 ) );
                             $newNodeAssignment->setAttribute( 'parent_remote_id', "LDAP_" . $extraNodeAssignment );
                             $newNodeAssignment->store();
                         }
@@ -556,7 +550,7 @@ class eZLDAPUser extends eZUser
 
                     if ( $defaultUserPlacement != $parentNodeID )
                     {
-                        $newVersion =& $contentObject->createNewVersion();
+                        $newVersion = $contentObject->createNewVersion();
                         $newVersion->assignToNode( $defaultUserPlacement, 1 );
                         $newVersion->removeAssignment( $parentNodeID );
                         $newVersionNr = $newVersion->attribute( 'version' );

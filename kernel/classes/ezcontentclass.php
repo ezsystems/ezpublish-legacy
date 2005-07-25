@@ -134,7 +134,7 @@ class eZContentClass extends eZPersistentObject
                       "name" => "ezcontentclass" );
     }
 
-    function &clone()
+    function clone()
     {
         $row = array(
             "id" => null,
@@ -151,7 +151,7 @@ class eZContentClass extends eZPersistentObject
         return $tmpClass;
     }
 
-    function &create( $userID = false, $optionalValues = array() )
+    function create( $userID = false, $optionalValues = array() )
     {
         $dateTime = time();
         if ( !$userID )
@@ -196,7 +196,7 @@ class eZContentClass extends eZPersistentObject
                                            $this->attribute( "id" ),
                                            $userID,
                                            $sectionID );
-                                            
+
         $db =& eZDB::instance();
         $db->begin();
 
@@ -210,7 +210,7 @@ class eZContentClass extends eZPersistentObject
         }
         else
         {
-            $version =& eZContentObjectVersion::create( $object->attribute( "id" ), $userID, $versionNumber );
+            $version = eZContentObjectVersion::create( $object->attribute( "id" ), $userID, $versionNumber );
         }
 
         $version->store();
@@ -591,7 +591,7 @@ class eZContentClass extends eZPersistentObject
         }
         eZPersistentObject::removeObject( eZContentClassAttribute::definition(),
                                           array( 'version' => $version ) );
-    
+
         $db->commit();
     }
 
@@ -978,7 +978,7 @@ You will need to change the class of the node by using the swap functionality.' 
         return $contentClass;
     }
 
-    function &fetchByRemoteID( $remoteID, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
+    function fetchByRemoteID( $remoteID, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
     {
         $conds = array( "remote_id" => $remoteID,
                         "version" => $version );
@@ -996,7 +996,8 @@ You will need to change the class of the node by using the swap functionality.' 
                                                       false );
         if ( count( $rows ) == 0 )
         {
-            return null;
+            $value = null;
+            return $value;
         }
         $row =& $rows[0];
         $row["version_count"] = count( $rows );
@@ -1132,7 +1133,8 @@ You will need to change the class of the node by using the swap functionality.' 
                                                                               'identifier' => $identifier ), $asObject );
         if ( count( $attributeArray ) == 0 )
         {
-            return null;
+            $value = null;
+            return $value;
         }
         return $attributeArray[0];
     }

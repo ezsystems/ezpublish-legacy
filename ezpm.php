@@ -1027,7 +1027,7 @@ foreach ( $commandList as $commandItem )
     {
         if ( $alreadyCreated )
             $cli->output();
-        $package =& eZPackage::create( $commandItem['name'],
+        $package = eZPackage::create( $commandItem['name'],
                                        array( 'summary' => $commandItem['summary'] ),
                                        $repositoryPath );
 

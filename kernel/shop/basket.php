@@ -222,7 +222,7 @@ if ( $http->hasPostVariable( "CheckoutButton" ) or ( $doCheckout === true ) )
 
         if ( $verifyResult === true )
         {
-            $order =& $basket->createOrder();
+            $order = $basket->createOrder();
             $order->setAttribute( 'account_identifier', "default" );
             $order->store();
 

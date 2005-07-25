@@ -128,7 +128,7 @@ class eZEnum
 
     function storeObjectEnumeration( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumID, $enumElement, $enumValue )
     {
-        $enumobjectvalue =& eZEnumObjectValue::create( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumID, $enumElement, $enumValue );
+        $enumobjectvalue = eZEnumObjectValue::create( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumID, $enumElement, $enumValue );
         $enumobjectvalue->store();
     }
 
@@ -176,7 +176,7 @@ class eZEnum
             $element = $enum->attribute( "enumelement" );
             $value = $enum->attribute( "enumvalue" );
             $placement = $enum->attribute( "placement" );
-            $enumCopy =& eZEnumValue::createCopy( $id,
+            $enumCopy = eZEnumValue::createCopy( $id,
                                                   $contentClassAttributeID,
                                                   0,
                                                   $element,
@@ -203,7 +203,7 @@ class eZEnum
     */
     function addEnumeration( $element )
     {
-        $enumvalue =& eZEnumValue::create( $this->ClassAttributeID, $this->ClassAttributeVersion, $element );
+        $enumvalue = eZEnumValue::create( $this->ClassAttributeID, $this->ClassAttributeVersion, $element );
         $enumvalue->store();
         $this->Enumerations =& eZEnumValue::fetchAllElements( $this->ClassAttributeID, $this->ClassAttributeVersion );
     }

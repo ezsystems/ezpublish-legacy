@@ -47,7 +47,7 @@ $vatTypeArray =& eZVatType::fetchList();
 
 if ( $http->hasPostVariable( "AddVatTypeButton" ) )
 {
-    $vatType =& eZVatType::create();
+    $vatType = eZVatType::create();
     $vatType->store();
     $module->redirectTo( $module->functionURI( "vattype" ) . "/" );
     return;

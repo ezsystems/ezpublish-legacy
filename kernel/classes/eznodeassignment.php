@@ -255,7 +255,7 @@ class eZNodeAssignment extends eZPersistentObject
         return true;
     }
 
-    function &fetchForObject( $contentObjectID, $version = 1, $main = 0, $asObject = true )
+    function fetchForObject( $contentObjectID, $version = 1, $main = 0, $asObject = true )
     {
         $cond = array( 'contentobject_id' => $contentObjectID,
                        'contentobject_version' => $version );
@@ -359,7 +359,7 @@ class eZNodeAssignment extends eZPersistentObject
     function setNewMainAssignment( $objectID, $version )
     {
 
-        $assignments =& eZNodeAssignment::fetchForObject( $objectID, $version );
+        $assignments = eZNodeAssignment::fetchForObject( $objectID, $version );
 
         if ( count( $assignments ) == 0 )
             return true;

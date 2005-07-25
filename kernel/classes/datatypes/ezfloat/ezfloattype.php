@@ -382,7 +382,7 @@ class eZFloatType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultValue = $attributeParametersNode->elementTextContentByName( 'default-value' );
         $minValue = $attributeParametersNode->elementTextContentByName( 'min-value' );

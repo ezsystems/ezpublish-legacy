@@ -187,18 +187,18 @@ class eZOption
     {
         $doc = new eZDOMDocument( "Option" );
 
-        $root =& $doc->createElementNode( "ezoption" );
+        $root = $doc->createElementNode( "ezoption" );
         $doc->setRoot( $root );
 
-        $name =& $doc->createElementNode( "name" );
-        $nameValue =& $doc->createTextNode( $this->Name );
+        $name = $doc->createElementNode( "name" );
+        $nameValue = $doc->createTextNode( $this->Name );
         $name->appendChild( $nameValue );
 
         $name->setContent( $this->Name() );
 
         $root->appendChild( $name );
 
-        $options =& $doc->createElementNode( "options" );
+        $options = $doc->createElementNode( "options" );
 
         $root->appendChild( $options );
         $id=0;

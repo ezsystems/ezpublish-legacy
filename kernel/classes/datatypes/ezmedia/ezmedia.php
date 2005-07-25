@@ -53,7 +53,7 @@ class eZMedia extends eZPersistentObject
         $this->eZPersistentObject( $row );
     }
 
-    function &definition()
+    function definition()
     {
         return array( "fields" => array( "contentobject_attribute_id" => array( 'name' => "ContentObjectAttributeID",
                                                                                 'datatype' => 'integer',
@@ -167,7 +167,7 @@ class eZMedia extends eZPersistentObject
         return null;
     }
 
-    function &create( $contentObjectAttributeID, $version )
+    function create( $contentObjectAttributeID, $version )
     {
         $row = array( "contentobject_attribute_id" => $contentObjectAttributeID,
                       "version" => $version,
@@ -190,24 +190,26 @@ class eZMedia extends eZPersistentObject
     {
         if( $version == null )
         {
-            return eZPersistentObject::fetchObjectList( eZMedia::definition(),
-                                                        null,
-                                                        array( "contentobject_attribute_id" => $id ),
-                                                        null,
-                                                        null,
-                                                        $asObject );
+            $object =& eZPersistentObject::fetchObjectList( eZMedia::definition(),
+                                                            null,
+                                                            array( "contentobject_attribute_id" => $id ),
+                                                            null,
+                                                            null,
+                                                            $asObject );
+            return $object;
         }
         else
         {
-            return eZPersistentObject::fetchObject( eZMedia::definition(),
-                                                    null,
-                                                    array( "contentobject_attribute_id" => $id,
-                                                           "version" => $version ),
-                                                    $asObject );
+            $objectList =& eZPersistentObject::fetchObject( eZMedia::definition(),
+                                                            null,
+                                                            array( "contentobject_attribute_id" => $id,
+                                                                   "version" => $version ),
+                                                            $asObject );
+            return $objectList;
         }
     }
 
-    function &remove( $id, $version )
+    function remove( $id, $version )
     {
         if( $version == null )
         {

@@ -165,7 +165,7 @@ class eZContentClassAttribute extends eZPersistentObject
                       'name' => 'ezcontentclass_attribute' );
     }
 
-    function &clone()
+    function clone()
     {
         $row = array(
             'id' => null,
@@ -230,7 +230,7 @@ class eZContentClassAttribute extends eZPersistentObject
     */
     function &instantiateTemporary( $contentobjectID = false )
     {
-        $attribute =& eZContentObjectAttribute::create( $this->attribute( 'id' ), $contentobjectID );
+        $attribute = eZContentObjectAttribute::create( $this->attribute( 'id' ), $contentobjectID );
         return $attribute;
     }
 

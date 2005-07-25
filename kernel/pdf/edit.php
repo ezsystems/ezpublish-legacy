@@ -103,7 +103,7 @@ else
     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
     $user =& eZUser::currentUser();
 
-    $pdfExport =& eZPDFExport::create( $user->attribute( 'contentobject_id' ) );
+    $pdfExport = eZPDFExport::create( $user->attribute( 'contentobject_id' ) );
     $pdfExport->store();
 }
 

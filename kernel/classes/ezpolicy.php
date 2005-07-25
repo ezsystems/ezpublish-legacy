@@ -182,7 +182,7 @@ class eZPolicy extends eZPersistentObject
      \param $function Which function to give access to or \c true to give access to all functions.
      \param $limitations An associative array with limitations and their values, use an empty array for no limitations.
     */
-    function &create( $roleID, $module, $function )
+    function create( $roleID, $module, $function )
     {
         if ( $module === true )
             $module = '*';
@@ -192,7 +192,7 @@ class eZPolicy extends eZPersistentObject
                       'role_id' => $roleID,
                       'module_name' => $module,
                       'function_name' => $function );
-        $policy =& new eZPolicy( $row );
+        $policy = new eZPolicy( $row );
         return $policy;
     }
 
@@ -208,7 +208,7 @@ class eZPolicy extends eZPersistentObject
     {
         include_once( 'kernel/classes/ezpolicylimitation.php' );
         include_once( 'kernel/classes/ezpolicylimitationvalue.php' );
-        $limitation =& eZPolicyLimitation::create( $this->ID, $identifier );
+        $limitation = eZPolicyLimitation::create( $this->ID, $identifier );
 
         $db =& eZDB::instance();
         $db->begin();
@@ -217,7 +217,7 @@ class eZPolicy extends eZPersistentObject
         $limitations = array();
         foreach ( $values as $value )
         {
-            $limitationValue =& eZPolicyLimitationValue::create( $limitationID, $value );
+            $limitationValue = eZPolicyLimitationValue::create( $limitationID, $value );
             $limitationValue->store();
             if ( isset( $limitation->Values ) )
             {

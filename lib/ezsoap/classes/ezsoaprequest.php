@@ -105,7 +105,7 @@ class eZSOAPRequest extends eZSOAPEnvelope
         $doc = new eZDOMDocument();
         $doc->setName( "eZSOAP message" );
 
-        $root =& $doc->createElementNodeNS( EZ_SOAP_ENV, "Envelope" );
+        $root = $doc->createElementNodeNS( EZ_SOAP_ENV, "Envelope" );
 
         $root->appendAttribute( $doc->createAttributeNamespaceDefNode( EZ_SOAP_XSI_PREFIX, EZ_SOAP_SCHEMA_INSTANCE ) );
         $root->appendAttribute( $doc->createAttributeNamespaceDefNode( EZ_SOAP_XSD_PREFIX, EZ_SOAP_SCHEMA_DATA ) );
@@ -114,13 +114,13 @@ class eZSOAPRequest extends eZSOAPEnvelope
         $root->setPrefix( EZ_SOAP_ENV_PREFIX );
 
         // add the body
-        $body =& $doc->createElementNode( "Body" );
+        $body = $doc->createElementNode( "Body" );
         $body->appendAttribute( $doc->createAttributeNamespaceDefNode( "req", $this->Namespace ) );
         $body->setPrefix( EZ_SOAP_ENV_PREFIX );
         $root->appendChild( $body );
 
         // add the request
-        $request =& $doc->createElementNode( $this->Name );
+        $request = $doc->createElementNode( $this->Name );
         $request->setPrefix( "req" );
 
         // add the request parameters
@@ -156,8 +156,8 @@ class eZSOAPRequest extends eZSOAPEnvelope
         {
             case "string" :
             {
-                $node =& eZDOMDocument::createElementNode( $name );
-                $attr =& eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":string" );
+                $node = eZDOMDocument::createElementNode( $name );
+                $attr = eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":string" );
                 $attr->setPrefix( EZ_SOAP_XSI_PREFIX );
                 $node->appendAttribute( $attr );
                 $node->appendChild( eZDOMDocument::createTextNode( $value ) );
@@ -167,8 +167,8 @@ class eZSOAPRequest extends eZSOAPEnvelope
 
             case "boolean" :
             {
-                $node =& eZDOMDocument::createElementNode( $name );
-                $attr =& eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":boolean" );
+                $node = eZDOMDocument::createElementNode( $name );
+                $attr = eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":boolean" );
                 $attr->setPrefix( EZ_SOAP_XSI_PREFIX );
                 $node->appendAttribute( $attr );
                 if ( $value === true )
@@ -180,8 +180,8 @@ class eZSOAPRequest extends eZSOAPEnvelope
 
             case "integer" :
             {
-                $node =& eZDOMDocument::createElementNode( $name );
-                $attr =& eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":int" );
+                $node = eZDOMDocument::createElementNode( $name );
+                $attr = eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":int" );
                 $attr->setPrefix( EZ_SOAP_XSI_PREFIX );
                 $node->appendAttribute( $attr );
                 $node->appendChild( eZDOMDocument::createTextNode( $value ) );
@@ -191,8 +191,8 @@ class eZSOAPRequest extends eZSOAPEnvelope
 
             case "double" :
             {
-                $node =& eZDOMDocument::createElementNode( $name );
-                $attr =& eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":float" );
+                $node = eZDOMDocument::createElementNode( $name );
+                $attr = eZDOMDocument::createAttributeNode( "type", EZ_SOAP_XSD_PREFIX . ":float" );
                 $attr->setPrefix( EZ_SOAP_XSI_PREFIX );
                 $node->appendAttribute( $attr );
                 $node->appendChild( eZDOMDocument::createTextNode( $value ) );
@@ -217,9 +217,9 @@ class eZSOAPRequest extends eZSOAPEnvelope
 
                 if ( $isStruct == true )
                 {
-                    $node =& eZDOMDocument::createElementNode( $name );
+                    $node = eZDOMDocument::createElementNode( $name );
                     // Type def
-                    $typeAttr =& eZDOMDocument::createAttributeNode( "type", EZ_SOAP_ENC_PREFIX . ":SOAPStruct" );
+                    $typeAttr = eZDOMDocument::createAttributeNode( "type", EZ_SOAP_ENC_PREFIX . ":SOAPStruct" );
                     $typeAttr->setPrefix( EZ_SOAP_XSI_PREFIX );
                     $node->appendAttribute( $typeAttr );
 
@@ -233,14 +233,14 @@ class eZSOAPRequest extends eZSOAPEnvelope
                 }
                 else
                 {
-                    $node =& eZDOMDocument::createElementNode( $name );
+                    $node = eZDOMDocument::createElementNode( $name );
                     // Type def
-                    $typeAttr =& eZDOMDocument::createAttributeNode( "type", EZ_SOAP_ENC_PREFIX . ":Array" );
+                    $typeAttr = eZDOMDocument::createAttributeNode( "type", EZ_SOAP_ENC_PREFIX . ":Array" );
                     $typeAttr->setPrefix( EZ_SOAP_XSI_PREFIX );
                     $node->appendAttribute( $typeAttr );
 
                     // Array type def
-                    $arrayTypeAttr =& eZDOMDocument::createAttributeNode( "arrayType", EZ_SOAP_XSD_PREFIX . ":string[$arrayCount]" );
+                    $arrayTypeAttr = eZDOMDocument::createAttributeNode( "arrayType", EZ_SOAP_XSD_PREFIX . ":string[$arrayCount]" );
                     $arrayTypeAttr->setPrefix( EZ_SOAP_ENC_PREFIX );
                     $node->appendAttribute( $arrayTypeAttr );
 

@@ -202,7 +202,7 @@ foreach ( $nodeIDArray as $nodeID )
     {
         $counter =& eZViewCounter::fetch( $nodeID );
         if ( $counter == null )
-            $counter =& eZViewCounter::create( $nodeID );
+            $counter = eZViewCounter::create( $nodeID );
         $counter->increase();
     }
 }
@@ -217,9 +217,9 @@ foreach ( $pathArray as $path )
     if ( $nodeIDList != null )
     {
         $nodeID = $nodeIDList[0]['node_id'];
-        $counter =& eZViewCounter::fetch( $nodeID );
+        $counter = eZViewCounter::fetch( $nodeID );
         if ( $counter == null )
-            $counter =& eZViewCounter::create( $nodeID );
+            $counter = eZViewCounter::create( $nodeID );
         $counter->increase();
     }
 }

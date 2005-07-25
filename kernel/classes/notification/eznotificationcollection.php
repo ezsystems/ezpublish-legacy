@@ -121,16 +121,16 @@ class eZNotificationCollection extends eZPersistentObject
     }
 
 
-    function &create( $eventID, $handler, $transport )
+    function create( $eventID, $handler, $transport )
     {
         return new eZNotificationCollection( array( 'event_id' => $eventID,
                                                     'handler' => $handler,
                                                     'transport' => $transport ) );
     }
 
-    function &addItem( $address, $sendDate = 0 )
+    function addItem( $address, $sendDate = 0 )
     {
-        $item =& eZNotificationCollectionItem::create( $this->attribute( 'id' ), $this->attribute( 'event_id' ), $address, $sendDate = 0  );
+        $item = eZNotificationCollectionItem::create( $this->attribute( 'id' ), $this->attribute( 'event_id' ), $address, $sendDate = 0  );
         $item->store();
         return $item;
     }

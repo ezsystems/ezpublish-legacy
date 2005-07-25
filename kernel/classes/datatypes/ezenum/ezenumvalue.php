@@ -103,7 +103,7 @@ class eZEnumValue extends eZPersistentObject
         return new eZEnumValue( $row );
     }
 
-    function &create( $contentClassAttributeID, $contentClassAttributeVersion, $element )
+    function create( $contentClassAttributeID, $contentClassAttributeVersion, $element )
     {
         $row = array( "id" => null,
                       "contentclass_attribute_id" => $contentClassAttributeID,
@@ -117,7 +117,7 @@ class eZEnumValue extends eZPersistentObject
         return new eZEnumValue( $row );
     }
 
-    function &createCopy( $id, $contentClassAttributeID, $contentClassAttributeVersion, $element, $value, $placement )
+    function createCopy( $id, $contentClassAttributeID, $contentClassAttributeVersion, $element, $value, $placement )
     {
         $row = array( "id" => $id,
                       "contentclass_attribute_id" => $contentClassAttributeID,
@@ -128,14 +128,14 @@ class eZEnumValue extends eZPersistentObject
         return new eZEnumValue( $row );
     }
 
-    function &removeAllElements( $contentClassAttributeID, $version )
+    function removeAllElements( $contentClassAttributeID, $version )
     {
         eZPersistentObject::removeObject( eZEnumValue::definition(),
                                           array( "contentclass_attribute_id" => $contentClassAttributeID,
                                                  "contentclass_attribute_version" => $version) );
     }
 
-    function &remove( $id , $version )
+    function remove( $id , $version )
     {
         eZPersistentObject::removeObject( eZEnumValue::definition(),
                                           array( "id" => $id,

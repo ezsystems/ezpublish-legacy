@@ -199,7 +199,7 @@ class eZRangeOptionType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultName = $attributeParametersNode->elementTextContentByName( 'default-name' );
         $classAttribute->setAttribute( 'data_text1', $defaultName );
