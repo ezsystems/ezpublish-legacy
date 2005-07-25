@@ -75,7 +75,6 @@ class eZPriceType extends eZDataType
             include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale =& eZLocale::instance();
             $data =& $locale->internalCurrency( $data );
-
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
             if( !$contentObjectAttribute->validateIsRequired() && ( $data == "" ) )
             {
@@ -84,6 +83,8 @@ class eZPriceType extends eZDataType
             if ( preg_match( "#^[0-9]+(.){0,1}[0-9]{0,2}$#", $data ) )
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
 
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                 'Invalid price.' ) );
             return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
         else
