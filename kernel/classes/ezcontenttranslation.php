@@ -78,7 +78,7 @@ class eZContentTranslation extends eZPersistentObject
 
     }
 
-    function &createNew( $translationName, $translationLocale )
+    function createNew( $translationName, $translationLocale )
     {
         return new eZContentTranslation( array( 'name' => $translationName,
                                                 'locale' => $translationLocale ) );

@@ -57,7 +57,7 @@ class eZMatrixDefinition
     }
 
 
-    function &decodeClassAttribute( $xmlString )
+    function decodeClassAttribute( $xmlString )
     {
         $xml = new eZXML();
         $dom =& $xml->domTree( $xmlString );
@@ -84,11 +84,14 @@ class eZMatrixDefinition
 
     function &hasAttribute( $attr )
     {
+        $hasAttribute = true;
         if ( $attr == 'columns' )
         {
-            return true;
+            return $hasAttribute;
         }
-        return false;
+
+        $hasAttribute = false;
+        return $hasAttribute;
     }
 
     function &attribute( $attr )
@@ -102,7 +105,7 @@ class eZMatrixDefinition
     function &xmlString( )
     {
         $doc = new eZDOMDocument( "Matrix" );
-        $root =& $doc->createElementNode( "ezmatrix" );
+        $root = $doc->createElementNode( "ezmatrix" );
         $doc->setRoot( $root );
 
         foreach ( $this->ColumnNames as $columnName )

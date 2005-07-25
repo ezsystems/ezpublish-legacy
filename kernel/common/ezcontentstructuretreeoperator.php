@@ -125,34 +125,34 @@ class eZContentStructureTreeOperator
         $nodeListArray = array();
 
         // sorting params
-        $sortingInfo =& eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
+        $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
 
         // node params
-        $notEqParentString =& eZContentObjectTreeNode::createNotEqParentSQLString( $nodeID, 1, false );
-        $pathStringCond    =& eZContentObjectTreeNode::createPathConditionSQLString( $params['NodePath'], $params['NodeDepth'], 1, false );
+        $notEqParentString = eZContentObjectTreeNode::createNotEqParentSQLString( $nodeID, 1, false );
+        $pathStringCond    = eZContentObjectTreeNode::createPathConditionSQLString( $params['NodePath'], $params['NodeDepth'], 1, false );
 
         // class filter
-        $classCondition =& eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
+        $classCondition = eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
 
         // permissions
         $limitationParams = false;
-        $limitationList =& eZContentObjectTreeNode::getLimitationList( $limitationParams );
+        $limitationList = eZContentObjectTreeNode::getLimitationList( $limitationParams );
 
         if ( $limitationList === false )
         {
             return $nodeListArray;
         }
 
-        $permissionChecking =& eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
+        $permissionChecking = eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
 
         // version
         $useVersionName = true;
-        $versionNameTables =& eZContentObjectTreeNode::createVersionNameTablesSQLString( $useVersionName );
-        $versionNameTargets =& eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
-        $versionNameJoins =& eZContentObjectTreeNode::createVersionNameJoinsSQLString( $useVersionName );
+        $versionNameTables = eZContentObjectTreeNode::createVersionNameTablesSQLString( $useVersionName );
+        $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
+        $versionNameJoins = eZContentObjectTreeNode::createVersionNameJoinsSQLString( $useVersionName );
 
         // invisible nodes.
-        $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( false, $params['FetchHidden'] );
+        $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( false, $params['FetchHidden'] );
 
         $query = '';
         if ( $countChildren )
@@ -294,9 +294,9 @@ class eZContentStructureTreeOperator
                                                                       true );
                     }
 
-                    $childNode =& eZContentStructureTreeOperator::createContentStructureNode( $child, $childrenCount );
+                    $childNode = eZContentStructureTreeOperator::createContentStructureNode( $child, $childrenCount );
 
-                    $childrenNodes[] = array( 'parent_node' => &$childNode,
+                    $childrenNodes[] = array( 'parent_node' => $childNode,
                                               'children' => array() );
 
                     --$nodesLeft;
@@ -362,7 +362,7 @@ class eZContentStructureTreeOperator
         using \a $treeNode to retrieve necessary data.
      \return new content structure tree node.
     */
-    function &createContentStructureNode( &$treeNode, $childrenCount )
+    function createContentStructureNode( &$treeNode, $childrenCount )
     {
         $node = array( 'node' => array( 'node_id' => $treeNode['node_id'],
                                         'path_identification_string' => $treeNode['path_identification_string'],

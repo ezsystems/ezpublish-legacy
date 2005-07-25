@@ -1144,7 +1144,7 @@ showDebug();
       \private
      Returns the microtime as a float value. $mtime must be in microtime() format.
     */
-    function &timeToFloat( $mtime )
+    function timeToFloat( $mtime )
     {
         $tTime = explode( " ", $mtime );
         ereg( "0\.([0-9]+)", "" . $tTime[0], $t1 );

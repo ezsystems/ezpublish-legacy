@@ -233,7 +233,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $version = false;
         }
 
-        $objectArrayNode =& eZDOMDocument::createElementNode( 'object-list' );
+        $objectArrayNode = eZDOMDocument::createElementNode( 'object-list' );
         foreach( array_keys( $this->ObjectArray ) as $objectID )
         {
             $objectArrayNode->appendChild( $this->ObjectArray[$objectID]->serialize( $this->Package, $version, $options, $this->NodeObjectArray, $this->RootNodeIDArray ) );
@@ -305,7 +305,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     $registeredAliases[$fetchAlias] = true;
 
                     unset( $fetchAliasDOMNode );
-                    $fetchAliasDOMNode =& eZDOMDocument::createElementNode( 'fetch-alias', array( 'name' => $fetchAlias,
+                    $fetchAliasDOMNode = eZDOMDocument::createElementNode( 'fetch-alias', array( 'name' => $fetchAlias,
                                                                                                   'site-access' => $siteAccess ) );
 
                     $fetchBlock = $aliasINI->group( $fetchAlias );
@@ -631,7 +631,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             foreach( $blockMatchArray as $blockName => $iniGroup )
             {
                 unset( $blockMatchNode );
-                $blockMatchNode =& eZDOMDocument::createElementNode( 'block', array( 'name' => $blockName,
+                $blockMatchNode = eZDOMDocument::createElementNode( 'block', array( 'name' => $blockName,
                                                                                     'site-access' => $siteAccess ) );
                 $blockMatchNode->appendChild( eZDOMDocument::createElementNodeFromArray( $blockName,  $iniGroup ) );
                 $overrideSettingsListDOMNode->appendChild( $blockMatchNode );

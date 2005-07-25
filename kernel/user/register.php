@@ -72,13 +72,10 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) )
 
     $userID = $objectID;
 
-    $nodeAssignment =& eZNodeAssignment::create( array(
-                                                     'contentobject_id' => $contentObject->attribute( 'id' ),
-                                                     'contentobject_version' => 1,
-                                                     'parent_node' => $defaultUserPlacement,
-                                                     'is_main' => 1
-                                                     )
-                                                 );
+    $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
+                                                       'contentobject_version' => 1,
+                                                       'parent_node' => $defaultUserPlacement,
+                                                       'is_main' => 1 ) );
     $nodeAssignment->store();
 }
 else if ( $http->hasSessionVariable( "RegisterUserID" ) )

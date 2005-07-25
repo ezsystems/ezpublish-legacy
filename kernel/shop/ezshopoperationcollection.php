@@ -147,7 +147,7 @@ class eZShopOperationCollection
         }
         else
         {
-            $item =& eZProductCollectionItem::create( $basket->attribute( "productcollection_id" ) );
+            $item = eZProductCollectionItem::create( $basket->attribute( "productcollection_id" ) );
 
             $item->setAttribute( 'name', $object->attribute( 'name' ) );
             $item->setAttribute( "contentobject_id", $objectID );
@@ -198,7 +198,7 @@ class eZShopOperationCollection
                 $optionData = $dataType->productOptionInformation( $attribute, $optionString, $item );
                 if ( $optionData )
                 {
-                    $optionItem =& eZProductCollectionItemOption::create( $item->attribute( 'id' ), $optionData['id'], $optionData['name'],
+                    $optionItem = eZProductCollectionItemOption::create( $item->attribute( 'id' ), $optionData['id'], $optionData['name'],
                                                                           $optionData['value'], $optionData['additional_price'], $attributeID );
                     $optionItem->store();
                     $price += $optionData['additional_price'];

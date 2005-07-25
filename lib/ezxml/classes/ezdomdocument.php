@@ -73,21 +73,21 @@
   $doc = new eZDOMDocument();
   $doc->setName( "FishCatalogue" );
 
-  $root =& $doc->createElementNode( "FishCatalogue" );
+  $root = $doc->createElementNode( "FishCatalogue" );
   $doc->setRoot( $root );
 
-  $freshWater =& $doc->createElementNode( "FreshWater" );
+  $freshWater = $doc->createElementNode( "FreshWater" );
   $root->appendChild( $freshWater );
 
-  $saltWater =& $doc->createElementNode( "SaltWater" );
+  $saltWater = $doc->createElementNode( "SaltWater" );
   $root->appendChild( $saltWater );
 
-  $guppy =& $doc->createElementNode( "Guppy" );
+  $guppy = $doc->createElementNode( "Guppy" );
   $guppy->appendChild( $doc->createTextNode( "Guppy is a small livebreeder." ) );
 
   $freshWater->appendChild( $guppy );
 
-  $cod =& $doc->createElementNode( "Cod" );
+  $cod = $doc->createElementNode( "Cod" );
   $saltWater->appendChild( $cod );
 
   $cod->appendChild( $doc->createCDATANode( "A big dull fish <-> !!" ) );

@@ -451,7 +451,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
             }
             if ( $republishRequired )
             {
-                $newVersion =& $contentObject->createNewVersion();
+                $newVersion = $contentObject->createNewVersion();
                 $newVersionNr = $newVersion->attribute( 'version' );
                 $nodeAssignmentList =& $newVersion->attribute( 'node_assignments' );
                 foreach ( array_keys( $nodeAssignmentList ) as $key  )

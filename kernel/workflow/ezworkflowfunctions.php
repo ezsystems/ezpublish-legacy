@@ -43,7 +43,7 @@ class eZWorkflowFunctions
         include_once( "kernel/classes/ezworkflowgrouplink.php" );
 
         list ( $groupID, $groupName ) = split( "/", $selectedGroup );
-        $ingroup =& eZWorkflowGroupLink::create( $workflowID, $workflowVersion, $groupID, $groupName );
+        $ingroup = eZWorkflowGroupLink::create( $workflowID, $workflowVersion, $groupID, $groupName );
         $ingroup->store();
         return true;
     }

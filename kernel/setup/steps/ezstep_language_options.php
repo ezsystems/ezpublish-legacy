@@ -107,7 +107,7 @@ class eZStepLanguageOptions extends eZStepInstaller
             $allLanguages[] =& $primaryLanguage;
             foreach ( $extraLanguageCodes as $extraLanguageCode )
             {
-                $allLanguages[] =& eZLocale::create( $extraLanguageCode );
+                $allLanguages[] = eZLocale::create( $extraLanguageCode );
                 $allLanguageCodes[] = $extraLanguageCode;
             }
 
@@ -167,7 +167,7 @@ class eZStepLanguageOptions extends eZStepInstaller
      */
     function display()
     {
-        $locales =& eZLocale::localeList( true );
+        $locales = eZLocale::localeList( true );
         $languages = array();
         foreach ( array_keys( $locales ) as $localeKey )
         {

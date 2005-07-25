@@ -69,7 +69,7 @@ class eZTipafriendCounter extends eZPersistentObject
                       "name" => "eztipafriend_counter" );
     }
 
-    function &create( $node_id )
+    function create( $node_id )
     {
         $row = array("node_id" => $node_id,
                      "count" => 0 );
@@ -80,7 +80,7 @@ class eZTipafriendCounter extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function &remove( $node_id )
+    function remove( $node_id )
     {
         eZPersistentObject::removeObject( eZTipafriendCounter::definition(),
                                           array("node_id" => $node_id ) );
@@ -90,7 +90,7 @@ class eZTipafriendCounter extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function &clear( $node_id )
+    function clear( $node_id )
     {
         $counter = eZTipafriendCounter::fetch( $node_id );
         if ( $counter != null )

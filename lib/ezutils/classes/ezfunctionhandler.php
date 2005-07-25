@@ -72,7 +72,7 @@ class eZFunctionHandler
      \static
      Execute alias fetch for simplified fetching of objects
     */
-    function &executeAlias( $aliasFunctionName, $functionParameters )
+    function executeAlias( $aliasFunctionName, $functionParameters )
     {
         $aliasSettings =& eZINI::instance( 'fetchalias.ini' );
         if ( $aliasSettings->hasSection( $aliasFunctionName ) )
@@ -172,7 +172,7 @@ class eZFunctionHandler
                                'eZFunctionHandler::executeAlias' );
     }
 
-    function &execute( $moduleName, $functionName, $functionParameters )
+    function execute( $moduleName, $functionName, $functionParameters )
     {
         $moduleFunctionInfo =& eZFunctionHandler::moduleFunctionInfo( $moduleName );
         if ( !$moduleFunctionInfo->isValid() )
@@ -181,6 +181,7 @@ class eZFunctionHandler
                                   'eZFunctionHandler::execute' );
             return null;
         }
+
         return $moduleFunctionInfo->execute( $functionName, $functionParameters );
     }
 }

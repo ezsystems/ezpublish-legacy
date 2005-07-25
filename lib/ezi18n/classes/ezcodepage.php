@@ -277,7 +277,7 @@ class eZCodePage
         return $utf8_codec->strlen( $str );
     }
 
-    function &charToUtf8( &$str, $pos, &$charLen )
+    function charToUtf8( &$str, $pos, &$charLen )
     {
         $code = ord( $str[$pos] );
         $charLen = 1;
@@ -291,7 +291,7 @@ class eZCodePage
         return null;
     }
 
-    function &charToUnicode( &$str, $pos, &$charLen )
+    function charToUnicode( &$str, $pos, &$charLen )
     {
         $code = ord( $str[$pos] );
         $charLen = 1;
@@ -305,17 +305,21 @@ class eZCodePage
         return null;
     }
 
-    function &codeToUtf8( &$code )
+    function codeToUtf8( &$code )
     {
         return $this->UTF8Map[$code];
     }
 
-    function &codeToUnicode( &$code )
+    function codeToUnicode( &$code )
     {
-        return $this->UnicodeMap[$code];
+        if ( isset( $this->UnicodeMap[$code] ) )
+        {
+            return $this->UnicodeMap[$code];
+        }
+        return null;
     }
 
-    function &utf8ToChar( &$ucode )
+    function utf8ToChar( &$ucode )
     {
         if ( isset( $this->UTF8CodeMap[$ucode] ) )
         {
@@ -343,14 +347,14 @@ class eZCodePage
             return chr( $this->SubstituteChar );
     }
 
-    function &utf8ToCode( &$ucode )
+    function utf8ToCode( &$ucode )
     {
         if ( isset( $this->UTF8CodeMap[$ucode] ) )
             return $this->UTF8CodeMap[$ucode];
         return null;
     }
 
-    function &unicodeToCode( &$ucode )
+    function unicodeToCode( &$ucode )
     {
         if ( isset( $this->CodeMap[$ucode] ) )
             return $this->CodeMap[$ucode];

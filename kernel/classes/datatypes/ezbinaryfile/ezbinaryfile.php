@@ -146,7 +146,7 @@ class eZBinaryFile extends eZPersistentObject
         return null;
     }
 
-    function &create( $contentObjectAttributeID, $version )
+    function create( $contentObjectAttributeID, $version )
     {
         $row = array( 'contentobject_attribute_id' => $contentObjectAttributeID,
                       'version' => $version,
@@ -161,12 +161,13 @@ class eZBinaryFile extends eZPersistentObject
     {
         if ( $version == null )
         {
-            return eZPersistentObject::fetchObjectList( eZBinaryFile::definition(),
-                                                        null,
-                                                        array( 'contentobject_attribute_id' => $id ),
-                                                        null,
-                                                        null,
-                                                        $asObject );
+            $objectList =& eZPersistentObject::fetchObjectList( eZBinaryFile::definition(),
+                                                                null,
+                                                                array( 'contentobject_attribute_id' => $id ),
+                                                                null,
+                                                                null,
+                                                                $asObject );
+            return $objectList;
         }
         else
         {
@@ -179,7 +180,7 @@ class eZBinaryFile extends eZPersistentObject
         }
     }
 
-    function &remove( $id, $version )
+    function remove( $id, $version )
     {
         if ( $version == null )
         {

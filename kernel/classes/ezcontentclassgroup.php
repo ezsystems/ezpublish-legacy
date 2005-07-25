@@ -83,7 +83,7 @@ class eZContentClassGroup extends eZPersistentObject
                       "name" => "ezcontentclassgroup" );
     }
 
-    function &create( $userID )
+    function create( $userID )
     {
         $dateTime = time();
         if ( !$userID )
@@ -188,9 +188,9 @@ class eZContentClassGroup extends eZPersistentObject
         }
         else
             $classID = $class;
-        $classGroupLink =& eZContentClassClassGroup::create( $classID, $version,
-                                                             $this->attribute( 'id' ),
-                                                             $this->attribute( 'name' ) );
+        $classGroupLink = eZContentClassClassGroup::create( $classID, $version,
+                                                            $this->attribute( 'id' ),
+                                                            $this->attribute( 'name' ) );
         $classGroupLink->store();
         return $classGroupLink;
     }

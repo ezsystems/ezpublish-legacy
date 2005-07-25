@@ -93,7 +93,7 @@ class eZURL extends eZPersistentObject
                       'name' => 'ezurl' );
     }
 
-    function &create( $url )
+    function create( $url )
     {
         $dateTime = time();
         $row = array(
@@ -134,7 +134,7 @@ class eZURL extends eZPersistentObject
         if ( count( $urlArray ) == 0 )
         {
             // store URL
-            $url =& eZURL::create( $url );
+            $url = eZURL::create( $url );
             $url->store();
             $urlID = $url->attribute( 'id' );
         }
@@ -170,7 +170,7 @@ class eZURL extends eZPersistentObject
         {
             if ( !isset( $registeredURLArray[$url] ) )
             {
-                $url =& eZURL::create( $url );
+                $url = eZURL::create( $url );
                 $url->store();
                 $urlID = $url->attribute( 'id' );
                 $urlText = $url->attribute('url' );
@@ -229,9 +229,10 @@ class eZURL extends eZPersistentObject
     */
     function &fetch( $id, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZURL::definition(),
-                                                null, array( 'id' => $id ),
-                                                $asObject );
+        $object =& eZPersistentObject::fetchObject( eZURL::definition(),
+                                                    null, array( 'id' => $id ),
+                                                    $asObject );
+        return $object;
     }
 
     /*!

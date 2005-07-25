@@ -70,10 +70,10 @@ include_once( 'lib/ezlocale/classes/eztime.php' );
 $us_locale =& eZLocale::instance( 'us' );
 
 $time1 = new eZTime();
-$time2 =& eZTime::create();
+$time2 = eZTime::create();
 $time2->setLocale( $us_locale );
 $time2->adjustTime( -8 );
-$time3 =& $time1->duplicate();
+$time3 = $time1->duplicate();
 
 print( $time1->toString() );
 print( $time2->toString( true ) );
@@ -305,7 +305,7 @@ class eZTime
      Creates a new eZTime object with the time values $hour, $min and $sec and returns a reference to it.
      Any value can be ommitted or set to -1 to use the current time value.
     */
-    function &create( $hour = -1, $minute = -1, $second = -1 )
+    function create( $hour = -1, $minute = -1, $second = -1 )
     {
         $cur_date = getdate();
 
@@ -319,9 +319,9 @@ class eZTime
     /*!
      Creates an exact copy of this object and returns a reference to it.
     */
-    function &duplicate()
+    function duplicate()
     {
-        $t =& new eZTime( $this->Time );
+        $t = new eZTime( $this->Time );
         $t->setLocale( $this->Locale );
         return $t;
     }

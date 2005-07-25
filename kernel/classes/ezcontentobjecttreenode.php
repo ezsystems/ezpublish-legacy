@@ -193,7 +193,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \param $sortOrder Which way to sort, \c true means ascending while \c false is descending.
      \note The attribute \c remote_id will get an automatic and unique value.
     */
-    function &create( $parentNodeID = null, $contentObjectID = null, $contentObjectVersion = 0,
+    function create( $parentNodeID = null, $contentObjectID = null, $contentObjectVersion = 0,
                       $sortField = 0, $sortOrder = true )
     {
         $row = array( 'node_id' => null,
@@ -212,7 +212,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       'modified_subnode' => 0,
                       'remote_id' => md5( (string)mt_rand() . (string)mktime() ),
                       'priority' => 0 );
-        $node =& new eZContentObjectTreeNode( $row );
+        $node = new eZContentObjectTreeNode( $row );
         return $node;
     }
 
@@ -616,7 +616,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function &createSortingSQLStrings( $sortList )
+    function createSortingSQLStrings( $sortList )
     {
         $sortingInfo = array( 'sortCount'           => 0,
                               'sortingFields'       => " path_string ASC",
@@ -736,11 +736,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
             }
 
-            $sortingInfo['sortCount']           =  $sortCount;
-            $sortingInfo['sortingFields']       =& $sortingFields;
-            $sortingInfo['attributeJoinCount']  =  $attributeJoinCount;
-            $sortingInfo['attributeFromSQL']    =& $attributeFromSQL;
-            $sortingInfo['attributeWhereSQL']   =& $attributeWhereSQL;
+            $sortingInfo['sortCount']           = $sortCount;
+            $sortingInfo['sortingFields']       = $sortingFields;
+            $sortingInfo['attributeJoinCount']  = $attributeJoinCount;
+            $sortingInfo['attributeFromSQL']    = $attributeFromSQL;
+            $sortingInfo['attributeWhereSQL']   = $attributeWhereSQL;
         }
 
         return $sortingInfo;
@@ -749,7 +749,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function &createClassFilteringSQLString( $classFilterType, &$classFilterArray )
+    function createClassFilteringSQLString( $classFilterType, &$classFilterArray )
     {
         // Check for class filtering
         $classCondition = '';
@@ -806,7 +806,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function &createExtendedAttributeFilterSQLStrings( &$extendedAttributeFilter )
+    function createExtendedAttributeFilterSQLStrings( &$extendedAttributeFilter )
     {
         $filter = array( 'tables'   => '',
                          'joins'    => '' );
@@ -849,7 +849,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function &createMainNodeConditionSQLString( $mainNodeOnly )
+    function createMainNodeConditionSQLString( $mainNodeOnly )
     {
         // Main node check
         $mainNodeCondition = '';
@@ -864,7 +864,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function &createAttributeFilterSQLStrings( &$attributeFilter, &$sortingInfo )
+    function createAttributeFilterSQLStrings( &$attributeFilter, &$sortingInfo )
     {
         // Check for attribute filtering
 
@@ -1187,7 +1187,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function &createNotEqParentSQLString( $nodeID, $depth, $depthOperator )
+    function createNotEqParentSQLString( $nodeID, $depth, $depthOperator )
     {
         $notEqParentString  = '';
         if( !$depth || !$depthOperator || $depthOperator != 'eq' )
@@ -1201,7 +1201,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function &createPathConditionSQLString( $nodePath, $nodeDepth, $depth, $depthOperator )
+    function createPathConditionSQLString( $nodePath, $nodeDepth, $depth, $depthOperator )
     {
         $pathCondition  = '';
         $depthCondition = '';
@@ -1317,7 +1317,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function &createVersionNameTablesSQLString( $useVersionName )
+    function createVersionNameTablesSQLString( $useVersionName )
     {
         $versionNameTables = '';
 
@@ -1332,7 +1332,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function &createVersionNameTargetsSQLString( $useVersionName )
+    function createVersionNameTargetsSQLString( $useVersionName )
     {
         $versionNameTargets = '';
 
@@ -1348,7 +1348,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function &createVersionNameJoinsSQLString( $useVersionName, $includeAnd = true, $onlyTranslated = false, $lang = false )
+    function createVersionNameJoinsSQLString( $useVersionName, $includeAnd = true, $onlyTranslated = false, $lang = false )
     {
         $versionNameJoins = '';
 
@@ -1384,7 +1384,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function &createPermissionCheckingSQLString( &$limitationList )
+    function createPermissionCheckingSQLString( &$limitationList )
     {
         $sqlPermissionCheckingString = '';
 
@@ -1463,7 +1463,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function &createNodesConditionSQLStringFromPath( $nodePath, $includingLastNodeInThePath )
+    function createNodesConditionSQLStringFromPath( $nodePath, $includingLastNodeInThePath )
     {
         $pathString = false;
         $pathArray  = explode( '/', trim($nodePath,'/') );
@@ -1492,7 +1492,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         If \a $useSettings is true \a $fetchHidden will be ignored.
         If \a $useSettings is false \a $fetchHidden will be used.
     */
-    function &createShowInvisibleSQLString( $useSettings, $fetchHidden = true )
+    function createShowInvisibleSQLString( $useSettings, $fetchHidden = true )
     {
         $showInvisibleNodesCond = '';
         $showInvisible          = $fetchHidden;
@@ -1528,7 +1528,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
         \a static
     */
-    function &getLimitationList( &$limitation )
+    function getLimitationList( &$limitation )
     {
         $limitationList = array();
 
@@ -1601,8 +1601,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( !isset( $params['ClassFilterType'] ) )
             $params['ClassFilterType'] = false;
 
-        $sortingInfo             =& eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
-        $classCondition          =& eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
+        $sortingInfo             = eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
+        $classCondition          = eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
         if ( $classCondition === false )
         {
             $retNodeList = array();
@@ -1610,14 +1610,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
             return $retNodeList;
         }
 
-        $attributeFilter         =& eZContentObjectTreeNode::createAttributeFilterSQLStrings( $params['AttributeFilter'], $sortingInfo );
+        $attributeFilter         = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $params['AttributeFilter'], $sortingInfo );
         if ( $attributeFilter === false )
         {
             $retNodeList = array();
             return $retNodeList;
         }
-        $extendedAttributeFilter =& eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $params['ExtendedAttributeFilter'] );
-        $mainNodeOnlyCond        =& eZContentObjectTreeNode::createMainNodeConditionSQLString( $mainNodeOnly );
+        $extendedAttributeFilter = eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $params['ExtendedAttributeFilter'] );
+        $mainNodeOnlyCond        = eZContentObjectTreeNode::createMainNodeConditionSQLString( $mainNodeOnly );
 
         $pathStringCond     = '';
         $notEqParentString  = '';
@@ -1633,16 +1633,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
         eZContentObjectTreeNode::createGroupBySQLStrings( $groupBySelectText, $groupByText, $groupBy );
 
         $useVersionName     = true;
-        $versionNameTables  =& eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
-        $versionNameTargets =& eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
-        $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false, $onlyTranslated, $language );
+        $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
+        $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
+        $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false, $onlyTranslated, $language );
 
         $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
-        $limitationList              =& eZContentObjectTreeNode::getLimitationList( $limitation );
-        $sqlPermissionCheckingString =& eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
+        $limitationList              = eZContentObjectTreeNode::getLimitationList( $limitation );
+        $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
 
         // Determine whether we should show invisible nodes.
-        $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
+        $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
 
         $query = "SELECT ezcontentobject.*,
                        ezcontentobject_tree.*,
@@ -1754,7 +1754,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         $sortBy = $listParams['SortBy'];
 
-        $sortingInfo             =& eZContentObjectTreeNode::createSortingSQLStrings( $sortBy );
+        $sortingInfo             = eZContentObjectTreeNode::createSortingSQLStrings( $sortBy );
 
         $queryNodes = '';
 
@@ -1791,10 +1791,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $nodeParams['ClassFilterType'] = false;
             }
 
-            $classCondition          =& eZContentObjectTreeNode::createClassFilteringSQLString( $nodeParams['ClassFilterType'], $nodeParams['ClassFilterArray'] );
-            $attributeFilter         =& eZContentObjectTreeNode::createAttributeFilterSQLStrings( $nodeParams['AttributeFilter'], $sortingInfo );
-            $extendedAttributeFilter =& eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $nodeParams['ExtendedAttributeFilter'] );
-            $mainNodeOnlyCond        =& eZContentObjectTreeNode::createMainNodeConditionSQLString( $mainNodeOnly );
+            $classCondition          = eZContentObjectTreeNode::createClassFilteringSQLString( $nodeParams['ClassFilterType'], $nodeParams['ClassFilterArray'] );
+            $attributeFilter         = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $nodeParams['AttributeFilter'], $sortingInfo );
+            $extendedAttributeFilter = eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $nodeParams['ExtendedAttributeFilter'] );
+            $mainNodeOnlyCond        = eZContentObjectTreeNode::createMainNodeConditionSQLString( $mainNodeOnly );
 
             $pathStringCond     = '';
             $notEqParentString  = '';
@@ -1806,16 +1806,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
 
             $useVersionName     = true;
-            $versionNameTables  =& eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
-            $versionNameTargets =& eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
-            $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false, $onlyTranslated, $language );
+            $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
+            $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
+            $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false, $onlyTranslated, $language );
 
             $limitation = ( isset( $nodeParams['Limitation']  ) && is_array( $nodeParams['Limitation']  ) ) ? $nodeParams['Limitation']: false;
-            $limitationList              =& eZContentObjectTreeNode::getLimitationList( $limitation );
-            $sqlPermissionCheckingString =& eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
+            $limitationList              = eZContentObjectTreeNode::getLimitationList( $limitation );
+            $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
 
             // Determine whether we should show invisible nodes.
-            $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
+            $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
 
             $queryNodes .= " (
                           $pathStringCond
@@ -2438,13 +2438,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $language         = ( isset( $params['Language'] ) ) ? $params['Language']           : false;
 
         $useVersionName     = true;
-        $versionNameTables  =& eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
-        $versionNameTargets =& eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
-        $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false, $onlyTranslated, $language );
+        $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
+        $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
+        $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false, $onlyTranslated, $language );
 
         // Determine whether we should show invisible nodes.
         $ignoreVisibility = isset( $params['IgnoreVisibility'] ) ? $params['IgnoreVisibility'] : false;
-        $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
+        $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
 
         if ( $limitationList !== false && count( $limitationList ) > 0 )
         {
@@ -2592,10 +2592,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( !isset( $params['ClassFilterType'] ) )
             $params['ClassFilterType'] = false;
 
-        $classCondition          =& eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
-        $attributeFilter         =& eZContentObjectTreeNode::createAttributeFilterSQLStrings( $params['AttributeFilter'], $sortingInfo );
-        $extendedAttributeFilter =& eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $params['ExtendedAttributeFilter'] );
-        $mainNodeOnlyCond        =& eZContentObjectTreeNode::createMainNodeConditionSQLString( $mainNodeOnly );
+        $classCondition          = eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
+        $attributeFilter         = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $params['AttributeFilter'], $sortingInfo );
+        $extendedAttributeFilter = eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $params['ExtendedAttributeFilter'] );
+        $mainNodeOnlyCond        = eZContentObjectTreeNode::createMainNodeConditionSQLString( $mainNodeOnly );
 
         $pathStringCond     = '';
         $notEqParentString  = '';
@@ -2606,11 +2606,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         eZContentObjectTreeNode::createGroupBySQLStrings( $groupBySelectText, $groupByText, $groupBy );
 
         $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
-        $limitationList              =& eZContentObjectTreeNode::getLimitationList( $limitation );
-        $sqlPermissionCheckingString =& eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
+        $limitationList              = eZContentObjectTreeNode::getLimitationList( $limitation );
+        $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
 
         // Determine whether we should show invisible nodes.
-        $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
+        $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( !$ignoreVisibility );
 
         $query = "SELECT ( ezcontentobject.published / 86400 )  as published
                               $groupBySelectText
@@ -3198,14 +3198,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &fetchNodesByPathString( $nodePath, $withLastNode = false, $asObjects = true )
     {
         $nodesListArray = array();
-        $pathString =& eZContentObjectTreeNode::createNodesConditionSQLStringFromPath( $nodePath, $withLastNode );
+        $pathString = eZContentObjectTreeNode::createNodesConditionSQLStringFromPath( $nodePath, $withLastNode );
 
         if ( $pathString  )
         {
             $useVersionName     = true;
-            $versionNameTables  =& eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
-            $versionNameTargets =& eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
-            $versionNameJoins   =& eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName );
+            $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
+            $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
+            $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName );
 
             $query = "SELECT ezcontentobject.*,
                              ezcontentobject_tree.*,
@@ -3313,7 +3313,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $nodeDepth = $parentDepth + 1 ;
 
-        $insertedNode =& eZContentObjectTreeNode::create( $parentMainNodeID, $contentobjectID );
+        $insertedNode = eZContentObjectTreeNode::create( $parentMainNodeID, $contentobjectID );
         $insertedNode->setAttribute( 'depth', $nodeDepth );
         $insertedNode->setAttribute( 'path_string', '/TEMPPATH' );
 
@@ -3518,7 +3518,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else
         {
-            $alias =& eZURLAlias::create( $newPathString, 'content/view/full/' . $this->NodeID );
+            $alias = eZURLAlias::create( $newPathString, 'content/view/full/' . $this->NodeID );
             $alias->store();
             $hasChanged++;
         }
@@ -3595,7 +3595,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else
         {
-            $alias =& eZURLAlias::create( $newPathString, 'content/view/full/' . $this->NodeID );
+            $alias = eZURLAlias::create( $newPathString, 'content/view/full/' . $this->NodeID );
             $alias->store();
         }
 
@@ -3605,7 +3605,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $subNodeCount = $this->subTreeCount( array( 'Limitation' => array() ) );
         if ( $subNodeCount > 0 )
         {
-            $wildcardAlias =& eZURLAlias::create( $oldPathString . '/*', $newPathString . '/{1}', true, false, EZ_URLALIAS_WILDCARD_TYPE_FORWARD );
+            $wildcardAlias = eZURLAlias::create( $oldPathString . '/*', $newPathString . '/{1}', true, false, EZ_URLALIAS_WILDCARD_TYPE_FORWARD );
             $wildcardAlias->store();
         }
 
@@ -4912,7 +4912,7 @@ WHERE
         $nodeInfo['priority'] = $contentNodeDOMNode->attributeValue( 'priority' );
         if( !is_object( $existNodeAssignment ) )
         {
-            $nodeAssignment =& eZNodeAssignment::create( $nodeInfo );
+            $nodeAssignment = eZNodeAssignment::create( $nodeInfo );
             $nodeList[] = $nodeInfo;
             $nodeAssignment->store();
         }

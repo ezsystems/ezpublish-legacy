@@ -56,7 +56,7 @@ if ( $http->hasPostVariable( 'RunFilterButton' ) )
 else if ( $http->hasPostVariable( 'SpawnTimeEventButton' ) )
 {
     include_once( 'kernel/classes/notification/eznotificationevent.php' );
-    $event =& eZNotificationEvent::create( 'ezcurrenttime', array() );
+    $event = eZNotificationEvent::create( 'ezcurrenttime', array() );
     $event->store();
     $tpl->setVariable( 'time_event_created', true );
 

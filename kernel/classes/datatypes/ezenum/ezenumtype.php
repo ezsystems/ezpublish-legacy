@@ -421,7 +421,7 @@ class eZEnumType extends eZDataType
      \reimp
      Sets \c grouped_input to \c true when checkboxes or radiobuttons are used.
     */
-    function &objectDisplayInformation( &$objectAttribute, $mergeInfo = false )
+    function objectDisplayInformation( &$objectAttribute, $mergeInfo = false )
     {
         $classAttribute =& $objectAttribute->contentClassAttribute();
         $isOption = $classAttribute->attribute( 'data_int2' );
@@ -534,7 +534,7 @@ class eZEnumType extends eZDataType
         $enumList =& $content->attribute( 'enum_list' );
         $attributeParametersNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-option', $isOption ? 'true' : 'false' ) );
         $attributeParametersNode->appendAttribute( eZDOMDocument::createAttributeNode( 'is-multiple', $isMultiple ? 'true' : 'false' ) );
-        $elementListNode =& eZDOMDocument::createElementNode( 'elements' );
+        $elementListNode = eZDOMDocument::createElementNode( 'elements' );
         $attributeParametersNode->appendChild( $elementListNode );
         for ( $i = 0; $i < count( $enumList ); ++$i )
         {
@@ -551,7 +551,7 @@ class eZEnumType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $isOption = strtolower( $attributeParametersNode->attributeValue( 'is-option' ) ) == 'true';
         $isMultiple = strtolower( $attributeParametersNode->attributeValue( 'is-multiple' ) ) == 'true';
@@ -567,7 +567,7 @@ class eZEnumType extends eZDataType
             $elementID = $element->attributeValue( 'id' );
             $elementName = $element->attributeValue( 'name' );
             $elementValue = $element->attributeValue( 'value' );
-            $value =& eZEnumValue::create( $classAttribute->attribute( 'id' ),
+            $value = eZEnumValue::create( $classAttribute->attribute( 'id' ),
                                            $classAttribute->attribute( 'version' ),
                                            $elementName );
             $value->setAttribute( 'enumvalue', $elementValue );

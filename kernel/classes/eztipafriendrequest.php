@@ -72,7 +72,7 @@ class eZTipafriendRequest extends eZPersistentObject
                       "name" => "eztipafriend_request" );
     }
 
-    function &create( $receiver )
+    function create( $receiver )
     {
         $row = array( "email_receiver" => $receiver,
                       "created" => time() );

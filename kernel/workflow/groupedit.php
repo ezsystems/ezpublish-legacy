@@ -58,7 +58,7 @@ else
     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
     $user =& eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
-    $workflowGroup =& eZWorkflowGroup::create( $user_id );
+    $workflowGroup = eZWorkflowGroup::create( $user_id );
     $workflowGroup->setAttribute( "name", ezi18n( 'kernel/workflow/groupedit', "New WorkflowGroup" ) );
     $WorkflowGroupID = $workflowGroup->attribute( "id" );
 }
@@ -71,14 +71,6 @@ if ( $http->hasPostVariable( "DiscardButton" ) )
 {
     $Module->redirectTo( $Module->functionURI( "grouplist" ) );
     return;
-    // $isRemoveTried = true;
-//     $workflowGroup->remove();
-//     include_once( "lib/ezutils/classes/ezexecutionstack.php" );
-//     $execStack =& eZExecutionStack::instance();
-//     $execStack->pop();
-//     $uri = $execStack->peek( "uri" );
-//     $Module->redirectTo( $uri == "" ? $Module->functionURI( "grouplist" ) : $uri );
-//     return;
 }
 
 // Validate input
@@ -115,13 +107,6 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     $workflowGroup->store();
     $Module->redirectTo( $Module->functionURI( 'grouplist' ) );
     return;
-    /*
-    include_once( "lib/ezutils/classes/ezexecutionstack.php" );
-    $execStack =& eZExecutionStack::instance();
-    $execStack->pop();
-    $uri = $execStack->peek( "uri" );
-    $Module->redirectTo( $uri == "" ? $Module->functionURI( "grouplist" ) : $uri );
-    return;*/
 }
 
 $Module->setTitle( ezi18n( 'kernel/workflow', 'Edit workflow group' ) . ' ' .
@@ -135,9 +120,7 @@ $res =& eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "workflow_group", $workflowGroup->attribute( "id" ) ) ) ); // WorkflowGroup ID
 
 $tpl->setVariable( "http", $http );
-$tpl->setVariable( "can_store", $canStore );
 $tpl->setVariable( "require_fixup", $requireFixup );
-$tpl->setVariable( "is_remove_tried", $isRemoveTried );
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "workflow_group", $workflowGroup );
 //$tpl->setVariable( "assigned_workflow_list", $assignedWorkflows );

@@ -230,7 +230,7 @@ class eZBooleanType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultValue = strtolower( $attributeParametersNode->elementTextContentByName( 'default-value' ) ) == 'true';
         $classAttribute->setAttribute( 'data_int3', $defaultValue );

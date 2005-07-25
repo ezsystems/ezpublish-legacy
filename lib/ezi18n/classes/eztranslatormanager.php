@@ -194,7 +194,7 @@ class eZTranslatorManager
      Creates a message structure out of \a $context, \a $source and \a $comment
      and returns it.
     */
-    function &createMessage( $context, $source, $comment = null, $translation = null )
+    function createMessage( $context, $source, $comment = null, $translation = null )
     {
         $msg = array( "context" => $context,
                       "source" => $source,

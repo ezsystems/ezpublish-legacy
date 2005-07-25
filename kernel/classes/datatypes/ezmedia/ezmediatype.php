@@ -214,7 +214,7 @@ class eZMediaType extends eZDataType
         $media =& eZMedia::fetch( $contentObjectAttributeID, $version );
         if ( $media == null )
         {
-           $media =& eZMedia::create( $contentObjectAttributeID, $version );
+           $media = eZMedia::create( $contentObjectAttributeID, $version );
         }
         $media->setAttribute( "contentobject_attribute_id", $contentObjectAttributeID );
         $media->setAttribute( "version", $version );
@@ -281,7 +281,7 @@ class eZMediaType extends eZDataType
             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
             $version = $contentObjectAttribute->attribute( "version" );
             $this->deleteStoredObjectAttribute( $contentObjectAttribute, $version );
-            $media =& eZMedia::create( $contentObjectAttributeID, $version );
+            $media = eZMedia::create( $contentObjectAttributeID, $version );
             $contentObjectAttribute->setContent( $media );
         }
     }
@@ -319,7 +319,7 @@ class eZMediaType extends eZDataType
 
         $media =& eZMedia::fetch( $attributeID, $objectVersion );
         if ( $media === null )
-            $media =& eZMedia::create( $attributeID, $objectVersion );
+            $media = eZMedia::create( $attributeID, $objectVersion );
 
         $httpFile->setMimeType( $mimeData['name'] );
         if ( !$httpFile->store( "original", false, false ) )
@@ -401,7 +401,7 @@ class eZMediaType extends eZDataType
 
         $media =& eZMedia::fetch( $attributeID, $objectVersion );
         if ( $media === null )
-            $media =& eZMedia::create( $attributeID, $objectVersion );
+            $media = eZMedia::create( $attributeID, $objectVersion );
 
         $fileName = basename( $filePath );
         $mimeData = eZMimeType::findByFileContents( $filePath );
@@ -568,7 +568,7 @@ class eZMediaType extends eZDataType
                                       $contentObjectAttribute->attribute( "version" ) );
         if ( !$mediaFile )
         {
-            $mediaFile =& eZMedia::create( $contentObjectAttribute->attribute( "id" ), $contentObjectAttribute->attribute( "version" ) );
+            $mediaFile = eZMedia::create( $contentObjectAttribute->attribute( "id" ), $contentObjectAttribute->attribute( "version" ) );
         }
         return $mediaFile;
     }
@@ -593,7 +593,7 @@ class eZMediaType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $maxSize = $attributeParametersNode->elementTextContentByName( 'max-size' );
         $sizeNode = $attributeParametersNode->elementByName( 'max-size' );
@@ -626,7 +626,7 @@ class eZMediaType extends eZDataType
         $fileInfo = $mediaFile->storedFileInfo();
         $package->appendSimpleFile( $fileKey, $fileInfo['filepath'] );
 
-        $mediaNode =& eZDOMDocument::createElementNode( 'media-file' );
+        $mediaNode = eZDOMDocument::createElementNode( 'media-file' );
         $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filesize', $mediaFile->attribute( 'filesize' ) ) );
         $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filename', $mediaFile->attribute( 'filename' ) ) );
         $mediaNode->appendAttribute( eZDOMDocument::createAttributeNode( 'original-filename', $mediaFile->attribute( 'original_filename' ) ) );
@@ -655,7 +655,7 @@ class eZMediaType extends eZDataType
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
         $mediaNode = $attributeNode->elementByName( 'media-file' );
-        $mediaFile =& eZMedia::create( $objectAttribute->attribute( 'id' ), $objectAttribute->attribute( 'version' ) );
+        $mediaFile = eZMedia::create( $objectAttribute->attribute( 'id' ), $objectAttribute->attribute( 'version' ) );
 
         $sourcePath = $package->simpleFilePath( $mediaNode->attributeValue( 'filekey' ) );
 

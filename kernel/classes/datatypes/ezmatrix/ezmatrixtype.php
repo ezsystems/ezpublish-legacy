@@ -427,7 +427,7 @@ class eZMatrixType extends eZDataType
             $columns = $content->attribute( 'columns' );
             $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-name', $defaultName ) );
             $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-row-count', $defaultRowCount ) );
-            $columnsNode =& eZDOMDocument::createElementNode( 'columns' );
+            $columnsNode = eZDOMDocument::createElementNode( 'columns' );
             $attributeParametersNode->appendChild( $columnsNode );
             foreach ( $columns as $column )
             {
@@ -442,7 +442,7 @@ class eZMatrixType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultName = $attributeParametersNode->elementTextContentByName( 'default-name' );
         $defaultRowCount = $attributeParametersNode->elementTextContentByName( 'default-row-count' );

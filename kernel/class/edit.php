@@ -123,12 +123,12 @@ else
     include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
     $user =& eZUser::currentUser();
     $user_id = $user->attribute( 'contentobject_id' );
-    $class =& eZContentClass::create( $user_id );
+    $class = eZContentClass::create( $user_id );
     $class->setAttribute( 'name', ezi18n( 'kernel/class/edit', 'New Class' ) );
     $class->store();
     $ClassID = $class->attribute( 'id' );
     $ClassVersion = $class->attribute( 'version' );
-    $ingroup =& eZContentClassClassGroup::create( $ClassID, $ClassVersion, $GroupID, $GroupName );
+    $ingroup = eZContentClassClassGroup::create( $ClassID, $ClassVersion, $GroupID, $GroupName );
     $ingroup->store();
     $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $ClassID );
     return;

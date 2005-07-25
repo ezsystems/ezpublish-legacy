@@ -45,7 +45,7 @@ $class =& eZContentClass::fetch( $ClassID, true, 0 );
 if ( !$class )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
 
-$classCopy =& $class->clone();
+$classCopy = $class->clone();
 $classCopy->initializeCopy( $class );
 $classCopy->setAttribute( 'version', 1 );
 $classCopy->store();
@@ -68,7 +68,7 @@ $classAttributes =& $class->fetchAttributes();
 foreach ( array_keys( $classAttributes ) as $classAttributeKey )
 {
     $classAttribute =& $classAttributes[$classAttributeKey];
-    $classAttributeCopy =& $classAttribute->clone();
+    $classAttributeCopy = $classAttribute->clone();
     $classAttributeCopy->setAttribute( 'contentclass_id', $classCopy->attribute( 'id' ) );
     $classAttributeCopy->setAttribute( 'version', 1 );
     $classAttributeCopy->store();

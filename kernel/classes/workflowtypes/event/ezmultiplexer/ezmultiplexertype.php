@@ -249,7 +249,7 @@ class eZMultiplexerType extends eZWorkflowEventType
                 $childProcess =& $childProcessArray[0];
                 if ( $childProcess == null )
                 {
-                    $childProcess =& eZWorkflowProcess::create( $childProcessKey, $childParameters );
+                    $childProcess = eZWorkflowProcess::create( $childProcessKey, $childParameters );
                     $childProcess->store();
                 }
 

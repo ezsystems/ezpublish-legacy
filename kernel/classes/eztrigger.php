@@ -257,7 +257,7 @@ class eZTrigger extends eZPersistentObject
 //                var_dump( $keyArray );
 //                print( " $workflowID, $userID, $objectID, $version, $nodeID, \n ");
             }
-            $workflowProcess =& eZWorkflowProcess::create( $processKey, $parameters );
+            $workflowProcess = eZWorkflowProcess::create( $processKey, $parameters );
 
             $workflowProcess->store();
 
@@ -370,7 +370,7 @@ class eZTrigger extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &createNew( $moduleName, $functionName, $connectType, $workflowID, $name = false )
+    function createNew( $moduleName, $functionName, $connectType, $workflowID, $name = false )
     {
         if ( !$name )
         {
@@ -384,12 +384,11 @@ class eZTrigger extends eZPersistentObject
             }
             $name .= $functionName;
         }
-        $trigger =& new eZTrigger( array( 'module_name' => $moduleName,
-                                          'function_name' => $functionName,
-                                          'connect_type' => $connectType,
-                                          'workflow_id' => $workflowID,
-                                          'name' => $name
-                                          ) );
+        $trigger = new eZTrigger( array( 'module_name' => $moduleName,
+                                         'function_name' => $functionName,
+                                         'connect_type' => $connectType,
+                                         'workflow_id' => $workflowID,
+                                         'name' => $name ) );
         $trigger->store();
         return $trigger;
     }

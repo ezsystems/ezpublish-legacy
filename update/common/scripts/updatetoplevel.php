@@ -97,7 +97,7 @@ if ( $options['class-identifier'] )
 
 $sectionID = 1;
 $userID = 14;
-$class =& eZContentClass::fetchByIdentifier( $contentClassIdentifier );
+$class = eZContentClass::fetchByIdentifier( $contentClassIdentifier );
 if ( !is_object( $class ) )
     $script->shutdown( 1, "Failed to load content class for identifier '$contentClassIdentifier'" );
 
@@ -215,7 +215,7 @@ foreach ( $checkNodes as $checkNode )
                 }
             }
 
-            $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
+            $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
                                                                 'contentobject_version' => $contentObject->attribute( 'current_version' ),
                                                                 'parent_node' => 1,
                                                                 'is_main' => 1 ) );

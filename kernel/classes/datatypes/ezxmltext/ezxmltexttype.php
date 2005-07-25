@@ -437,7 +437,7 @@ class eZXMLTextType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $textColumns = $attributeParametersNode->elementTextContentByName( 'text-column-count' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD, $textColumns );
@@ -543,15 +543,15 @@ class eZXMLTextType extends eZDataType
 
                     if ( !$urlObj )
                     {
-                        $urlObj =& eZURL::create( $href );
+                        $urlObj = eZURL::create( $href );
                         $urlObj->store();
                     }
 
                     $linkRef->remove_attribute( 'href' );
                     $linkRef->set_attribute( 'url_id', $urlObj->attribute( 'id' ) );
                     $urlObjectLink = eZURLObjectLink::create( $urlObj->attribute( 'id' ),
-                                                               $objectAttribute->attribute( 'id' ),
-                                                               $objectAttribute->attribute( 'version' ) );
+                                                              $objectAttribute->attribute( 'id' ),
+                                                              $objectAttribute->attribute( 'version' ) );
                     $urlObjectLink->store();
 
                 }

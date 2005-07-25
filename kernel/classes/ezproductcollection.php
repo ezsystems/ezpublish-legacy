@@ -80,7 +80,7 @@ class eZProductCollection extends eZPersistentObject
     /*!
      Clones the collection object and returns it. The ID of the clone is erased.
     */
-    function &clone()
+    function clone()
     {
         $collection = $this;
         $collection->setAttribute( 'id', null );
@@ -96,7 +96,7 @@ class eZProductCollection extends eZPersistentObject
     */
     function &copy()
     {
-        $collection =& $this->clone();
+        $collection = $this->clone();
 
         $db =& eZDB::instance();
         $db->begin();

@@ -490,7 +490,7 @@ class eZDataType
                 .
               - \c result
     */
-    function &objectDisplayInformation( &$objectAttribute, $mergeInfo = false )
+    function objectDisplayInformation( &$objectAttribute, $mergeInfo = false )
     {
         $datatype = $objectAttribute->attribute( 'data_type_string' );
         $ini =& eZINI::instance( 'datatype.ini' );
@@ -613,7 +613,8 @@ class eZDataType
     */
     function &classAttributeContent( &$classAttribute )
     {
-        return "";
+        $value = '';
+        return $value;
     }
 
     /*!
@@ -1029,7 +1030,7 @@ class eZDataType
      \note This function is called after the attribute has been stored and a second store is
            called after this function is done.
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
     }
 

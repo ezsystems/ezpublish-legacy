@@ -518,7 +518,7 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function &mainParentNodeID()
     {
-        $temp =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ), 1 );
+        $temp = eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ), 1 );
         if ( $temp == null )
         {
             return 1;
@@ -529,7 +529,7 @@ class eZContentObjectVersion extends eZPersistentObject
     function &parentNodes( )
     {
         $retNodes = array();
-        $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ) );
+        $nodeAssignmentList = eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ) );
         foreach ( array_keys( $nodeAssignmentList ) as $key )
         {
             $nodeAssignment =& $nodeAssignmentList[$key];
@@ -544,7 +544,7 @@ class eZContentObjectVersion extends eZPersistentObject
     function &nodeAssignments()
     {
         $nodeAssignmentList = array();
-        $nodeAssignmentList =& eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ) );
+        $nodeAssignmentList = eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ) );
 //         eZDebug::writeDebug( $nodeAssignmentList, "nodeAssignmentList" );
         return $nodeAssignmentList;
     }
@@ -565,7 +565,7 @@ class eZContentObjectVersion extends eZPersistentObject
         if ( $sortOrder !== null )
             $nodeRow['sort_order'] = ( $sortOrder ? 1 : 0 );
 
-        $nodeAssignment =& eZNodeAssignment::create( $nodeRow );
+        $nodeAssignment = eZNodeAssignment::create( $nodeRow );
         $nodeAssignment->store();
         return $nodeAssignment;
     }
@@ -766,7 +766,7 @@ class eZContentObjectVersion extends eZPersistentObject
      Clones the version with new version \a $newVersionNumber and creator \a $userID
      \note The cloned version is not stored.
     */
-    function &clone( $newVersionNumber, $userID, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT )
+    function clone( $newVersionNumber, $userID, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT )
     {
 		$time = time();
         $clonedVersion = $this;
@@ -938,7 +938,7 @@ class eZContentObjectVersion extends eZPersistentObject
         }
         else
         {
-            $contentObjectVersion =& $contentObject->createNewVersion();
+            $contentObjectVersion = $contentObject->createNewVersion();
         }
         if ( !$contentObject )
         {
@@ -981,7 +981,7 @@ class eZContentObjectVersion extends eZPersistentObject
 
                     if ( $locale->isValid() )
                     {
-                        $translation =& eZContentTranslation::createNew( $locale->internationalLanguageName(), $locale->localeCode() );
+                        $translation = eZContentTranslation::createNew( $locale->internationalLanguageName(), $locale->localeCode() );
                         $translation->store();
                         $translation->updateObjectNames();
                         $hasTranslation = true;

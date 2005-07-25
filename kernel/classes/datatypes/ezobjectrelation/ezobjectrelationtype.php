@@ -341,7 +341,7 @@ class eZObjectRelationType extends eZDataType
      Sets \c grouped_input to \c true when browse mode is active or
      a dropdown with a fuzzy match is used.
     */
-    function &objectDisplayInformation( &$objectAttribute, $mergeInfo = false )
+    function objectDisplayInformation( &$objectAttribute, $mergeInfo = false )
     {
         $classAttribute =& $objectAttribute->contentClassAttribute();
         $content =& eZObjectRelationType::classAttributeContent( $classAttribute );
@@ -487,7 +487,7 @@ class eZObjectRelationType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $content =& $classAttribute->content();
         $selectionTypeNode = $attributeParametersNode->elementByName( 'selection-type' );

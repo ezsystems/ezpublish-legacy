@@ -87,7 +87,7 @@ class eZEnumObjectValue extends eZPersistentObject
                       "name" => "ezenumobjectvalue" );
     }
 
-    function &create( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumID, $enumElement, $enumValue )
+    function create( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumID, $enumElement, $enumValue )
     {
         $row = array( "contentobject_attribute_id" => $contentObjectAttributeID,
                       "contentobject_attribute_version" => $contentObjectAttributeVersion,

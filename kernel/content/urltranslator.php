@@ -122,7 +122,7 @@ if ( $module->isCurrentAction( 'NewURLAlias' ) )
                                   'source' => $source,
                                   'destination' => $destination );
 
-        $alias =& eZURLAlias::create( $source, $destination, false );
+        $alias = eZURLAlias::create( $source, $destination, false );
         $alias->store();
     }
 }
@@ -176,7 +176,7 @@ if ( $module->isCurrentAction( 'NewWildcardURLAlias' ) )
                                'source' => $source,
                                'destination' => $destination );
 
-        $alias =& eZURLAlias::create( $source, $destination, false, false, $isForwarding ? EZ_URLALIAS_WILDCARD_TYPE_FORWARD : EZ_URLALIAS_WILDCARD_TYPE_DIRECT );
+        $alias = eZURLAlias::create( $source, $destination, false, false, $isForwarding ? EZ_URLALIAS_WILDCARD_TYPE_FORWARD : EZ_URLALIAS_WILDCARD_TYPE_DIRECT );
         $alias->store();
         eZURLAlias::expireWildcards();
     }

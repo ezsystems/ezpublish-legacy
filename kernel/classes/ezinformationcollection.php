@@ -93,14 +93,18 @@ class eZInformationCollection extends eZPersistentObject
     {
         if ( $attr == 'attributes' )
         {
-            return $this->informationCollectionAttributes();
+            $attributes =& $this->informationCollectionAttributes();
+            return $attributes;
         }
         else if ( $attr == 'object' )
         {
             return $this->object();
         }
         else
-            return eZPersistentObject::attribute( $attr );
+        {
+            $attribute =& eZPersistentObject::attribute( $attr );
+            return $attribute;
+        }
     }
 
     /*!
@@ -423,17 +427,18 @@ class eZInformationCollection extends eZPersistentObject
     */
     function &fetch( $id, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZInformationCollection::definition(),
-                                                null,
-                                                array( 'id' => $id ),
-                                                $asObject );
+        $object =& eZPersistentObject::fetchObject( eZInformationCollection::definition(),
+                                                    null,
+                                                    array( 'id' => $id ),
+                                                    $asObject );
+        return $object;
     }
 
     /*!
      \static
       Fetches the information collection by user identifier.
     */
-    function &fetchByUserIdentifier( $userIdentifier, $contentObjectID = false, $asObject = true )
+    function fetchByUserIdentifier( $userIdentifier, $contentObjectID = false, $asObject = true )
     {
         $conditions = array( 'user_identifier' => $userIdentifier );
         if ( $contentObjectID )
@@ -481,10 +486,10 @@ class eZInformationCollection extends eZPersistentObject
         {
             return false;
         }
-     
+
         $db =& eZDB::instance();
         $resultArray = $db->arrayQuery( 'SELECT COUNT( * ) as count FROM ezinfocollection WHERE contentobject_id=' . $objectID );
-        
+
         return $resultArray[0]['count'];
     }
 
@@ -575,7 +580,7 @@ class eZInformationCollection extends eZPersistentObject
             $userIdentifier = md5( $userIdentifierBase );
         }
         else
-        {   
+        {
             $userIdentifier = session_id();
             //$userIdentifierBase = 'ezuser-anonymous-' . eZSys::serverVariable( 'REMOTE_ADDR' );
         }
@@ -585,7 +590,7 @@ class eZInformationCollection extends eZPersistentObject
     /*!
      Creates a new eZInformationCollection instance.
     */
-    function &create( $contentObjectID, $userIdentifier )
+    function create( $contentObjectID, $userIdentifier )
     {
         $timestamp = time();
         $row = array(

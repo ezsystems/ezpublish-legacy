@@ -362,12 +362,12 @@ class eZTemplateExecuteOperator
         if ( $operatorName == $this->Fetch )
         {
             $moduleName = $namedParameters['module_name'];
-            $result =& eZFunctionHandler::execute( $moduleName, $functionName, $functionParameters );
+            $result = eZFunctionHandler::execute( $moduleName, $functionName, $functionParameters );
             $operatorValue = $result;
         }
         else if ( $operatorName == $this->FetchAlias )
         {
-            $result =& eZFunctionHandler::executeAlias( $functionName, $functionParameters );
+            $result = eZFunctionHandler::executeAlias( $functionName, $functionParameters );
             $operatorValue = $result;
         }
     }

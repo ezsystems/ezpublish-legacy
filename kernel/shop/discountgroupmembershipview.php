@@ -99,14 +99,14 @@ if ( $module->isCurrentAction( 'AddCustomer' ) )
 {
     $selectedObjectIDArray = eZContentBrowse::result( 'AddCustomer' );
     $userIDArray = eZUserDiscountRule::fetchUserID( $discountGroupID );
-    
+
     $db =& eZDB::instance();
     $db->begin();
     foreach ( $selectedObjectIDArray as $objectID )
     {
         if ( !in_array(  $objectID, $userIDArray ) )
         {
-            $userRule =& eZUserDiscountRule::create( $discountGroupID, $objectID );
+            $userRule = eZUserDiscountRule::create( $discountGroupID, $objectID );
             $userRule->store();
         }
     }

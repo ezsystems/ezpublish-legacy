@@ -218,7 +218,7 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
         $functions =& $mod->attribute( 'available_functions' );
         $currentFunctionLimitations = $functions[ $currentFunction ];
         eZDebugSetting::writeDebug( 'kernel-role-edit', $currentFunctionLimitations, 'currentFunctionLimitations' );
-        
+
         $db =& eZDB::instance();
         $db->begin();
         foreach ( $currentFunctionLimitations as $functionLimitation )

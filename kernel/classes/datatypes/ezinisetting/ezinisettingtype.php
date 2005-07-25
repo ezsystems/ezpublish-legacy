@@ -498,7 +498,7 @@ class eZIniSettingType extends eZDataType
 
      Use Override to do ini alterations if the specified site access does not exist
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $file = $attributeParametersNode->elementTextContentByName( 'file' );
         $section = $attributeParametersNode->elementTextContentByName( 'section' );

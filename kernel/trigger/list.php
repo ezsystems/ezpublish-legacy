@@ -134,7 +134,7 @@ if ( $http->hasPostVariable( 'StoreButton' )  )
                     {
                         $connectType = 'a';
                     }
-                    $newTrigger =& eZTrigger::createNew( $trigger['module'], $trigger['operation'], $connectType, $workflowID );
+                    $newTrigger = eZTrigger::createNew( $trigger['module'], $trigger['operation'], $connectType, $workflowID );
                 }
                 else
                 {
@@ -189,7 +189,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
 
 if ( $http->hasPostVariable( 'NewButton' )  )
 {
-    $trigger =& eZTrigger::createNew( );
+    $trigger = eZTrigger::createNew( );
 }
 
 

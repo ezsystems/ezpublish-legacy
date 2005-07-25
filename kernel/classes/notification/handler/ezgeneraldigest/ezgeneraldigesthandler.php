@@ -140,7 +140,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         $settings =& eZGeneralDigestUserSettings::fetchForUser( $address );
         if ( $settings == null )
         {
-            $settings =& eZGeneralDigestUserSettings::create( $address );
+            $settings = eZGeneralDigestUserSettings::create( $address );
             $settings->store();
         }
         return $settings;

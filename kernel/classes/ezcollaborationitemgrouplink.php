@@ -98,7 +98,7 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
                       'name' => 'ezcollab_item_group_link' );
     }
 
-    function &create( $collaborationID, $groupID, $userID )
+    function create( $collaborationID, $groupID, $userID )
     {
         $date_time = time();
         $row = array(
@@ -113,14 +113,14 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
         return new eZCollaborationItemGroupLink( $row );
     }
 
-    function &addItem( $groupID, $collaborationID, $userID )
+    function addItem( $groupID, $collaborationID, $userID )
     {
-        $groupLink =& eZCollaborationItemGroupLink::create( $collaborationID, $groupID, $userID );
+        $groupLink = eZCollaborationItemGroupLink::create( $collaborationID, $groupID, $userID );
 
         $db =& eZDB::instance();
         $db->begin();
         $groupLink->store();
-        $itemStatus =& eZCollaborationItemStatus::create( $collaborationID, $userID );
+        $itemStatus = eZCollaborationItemStatus::create( $collaborationID, $userID );
         $itemStatus->store();
         $db->commit();
 

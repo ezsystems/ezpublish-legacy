@@ -135,7 +135,7 @@ class eZCollaborationGroup extends eZPersistentObject
             $depth = $parentGroup->attribute( 'depth' ) + 1;
             $pathString = $parentGroup->attribute( 'path_string' );
         }
-        $group =& eZCollaborationGroup::create( $userID, $title, '', $depth, $parentGroupID, $isOpen );
+        $group = eZCollaborationGroup::create( $userID, $title, '', $depth, $parentGroupID, $isOpen );
 
         $db =& eZDB::instance();
         $db->begin();
@@ -152,7 +152,7 @@ class eZCollaborationGroup extends eZPersistentObject
         return $group;
     }
 
-    function &create( $userID, $title, $pathString = '', $depth = 0, $parentGroupID = 0, $isOpen = true )
+    function create( $userID, $title, $pathString = '', $depth = 0, $parentGroupID = 0, $isOpen = true )
     {
         $date_time = time();
         $row = array(

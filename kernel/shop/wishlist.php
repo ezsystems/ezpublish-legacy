@@ -119,7 +119,7 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
 
     if ( $itemID == false )
     {
-        $item =& eZProductCollectionItem::create( $wishList->attribute( "productcollection_id" ) );
+        $item = eZProductCollectionItem::create( $wishList->attribute( "productcollection_id" ) );
 
         $item->setAttribute( 'name', $object->attribute( 'name' ) );
         $item->setAttribute( "contentobject_id", $objectID );
@@ -175,7 +175,7 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
             $optionData = $dataType->productOptionInformation( $attribute, $optionString, $item );
             if ( $optionData )
             {
-                $optionItem =& eZProductCollectionItemOption::create( $item->attribute( 'id' ), $optionData['id'], $optionData['name'],
+                $optionItem = eZProductCollectionItemOption::create( $item->attribute( 'id' ), $optionData['id'], $optionData['name'],
                 //                                                      $optionData['value'], $optionData['additional_price'], $attributeID );
                                                                       $optionData['value'], 0, $attributeID );
                 $optionItem->store();

@@ -403,7 +403,7 @@ class eZStepInstaller
                 $allLanguages[] =& $primaryLanguage;
                 foreach ( $extraLanguageCodes as $extraLanguageCode )
                 {
-                    $allLanguages[] =& eZLocale::create( $extraLanguageCode );
+                    $allLanguages[] = eZLocale::create( $extraLanguageCode );
                     $allLanguageCodes[] = $extraLanguageCode;
                 }
 

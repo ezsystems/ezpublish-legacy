@@ -208,6 +208,9 @@ Attributes:
 - Fixed bug #6736: Price datatype does not show validation error 
   on incorrect input.
   (Merged from stable/3.7 (3.7.0rc2) rev. 12738)
+- Fixed bug #6929: eZ publish 3.7.0 rc1 installation still has the PHP 4.4
+  reference problem.
+  ( Merged from stable/3.7 rev. 12741 )
 
 *Library:
 

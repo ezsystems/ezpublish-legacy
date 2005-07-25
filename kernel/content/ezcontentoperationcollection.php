@@ -568,7 +568,7 @@ class eZContentOperationCollection
             $nodeAssignment =& $curentVersionNodeAssignments[$key];
             $versionParentIDList[] = $nodeAssignment->attribute( 'parent_node' );
         }
-        
+
         $db =& eZDB::instance();
         $db->begin();
         foreach ( array_keys( $assignedExistingNodes )  as $key )
@@ -624,7 +624,7 @@ class eZContentOperationCollection
     function createNotificationEvent( $objectID, $versionNum )
     {
         include_once( 'kernel/classes/notification/eznotificationevent.php' );
-        $event =& eZNotificationEvent::create( 'ezpublish', array( 'object' => $objectID,
+        $event = eZNotificationEvent::create( 'ezpublish', array( 'object' => $objectID,
                                                                    'version' => $versionNum ) );
         $event->store();
     }

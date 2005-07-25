@@ -74,7 +74,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
     else if ( $http->hasPostVariable( 'ClassIdentifier' ) )
     {
         $contentClassIdentifier = $http->postVariable( 'ClassIdentifier' );
-        $class =& eZContentClass::fetchByIdentifier( $contentClassIdentifier );
+        $class = eZContentClass::fetchByIdentifier( $contentClassIdentifier );
         if ( is_object( $class ) )
         {
             $contentClassID = $class->attribute( 'id' );
@@ -787,8 +787,8 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
 
                 if ( $canCreate )
                 {
-                    $newVersion =& $object->createNewVersion( false, true );
-    
+                    $newVersion = $object->createNewVersion( false, true );
+
                     if ( $object->attribute( 'contentclass_id' ) == $userClassID )
                     {
                         eZUser::cleanupCache();
@@ -808,7 +808,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
                     $newNode->updateSubTreePath();
                     $newNode->store();
                     eZContentObjectTreeNode::updateNodeVisibility( $newNode, $parentNode, false );
-    
+
                     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                          'version' => $newVersion->attribute( 'version' ) ) );

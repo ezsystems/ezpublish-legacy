@@ -127,7 +127,8 @@ class eZUser extends eZPersistentObject
         }
         else if ( $name == 'is_logged_in')
         {
-            return $this->isLoggedIn();
+            $isLoggedIn = $this->isLoggedIn();
+            return $isLoggedIn;
         }
         else if ( $name == 'roles')
         {
@@ -227,7 +228,7 @@ class eZUser extends eZPersistentObject
         }
     }
 
-    function &create( $contentObjectID )
+    function create( $contentObjectID )
     {
         $row = array(
             'contentobject_id' => $contentObjectID,

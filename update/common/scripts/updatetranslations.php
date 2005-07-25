@@ -178,7 +178,7 @@ while ( $index < $objectCount )
                         if ( !$classAttribute->attribute( 'can_translate' ) )
                             $orgAttribute = null;
 
-                        $objectAttribute =& eZContentObjectAttribute::create( $classAttributeID, $object->attribute( 'id' ), $versionNumber );
+                        $objectAttribute = eZContentObjectAttribute::create( $classAttributeID, $object->attribute( 'id' ), $versionNumber );
                         $objectAttribute->setAttribute( 'language_code', $languageCode );
                         $objectAttribute->initialize( $versionNumber, $orgAttribute );
                         $objectAttribute->store();

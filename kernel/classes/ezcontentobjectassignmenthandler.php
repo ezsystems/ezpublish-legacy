@@ -224,10 +224,10 @@ class eZContentObjectAssignmentHandler
                         $sectionID = $result[0]['section_id'];
                     }
 
-                    $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $this->CurrentObject->attribute( 'id' ),
-                                                                        'contentobject_version' => $this->CurrentVersion->attribute( 'version' ),
-                                                                        'parent_node' => $node->attribute( 'node_id' ),
-                                                                        'is_main' => $isMain ) );
+                    $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $this->CurrentObject->attribute( 'id' ),
+                                                                       'contentobject_version' => $this->CurrentVersion->attribute( 'version' ),
+                                                                       'parent_node' => $node->attribute( 'node_id' ),
+                                                                       'is_main' => $isMain ) );
                     $nodeAssignment->store();
                     ++$assignmentCount;
                 }
@@ -237,10 +237,10 @@ class eZContentObjectAssignmentHandler
             if ( $assignmentCount == 0 &&
                  $parameters['fallback-node-id'] )
             {
-                $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $this->CurrentObject->attribute( 'id' ),
-                                                                    'contentobject_version' => $this->CurrentVersion->attribute( 'version' ),
-                                                                    'parent_node' => $parameters['fallback-node-id'],
-                                                                    'is_main' => true ) );
+                $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $this->CurrentObject->attribute( 'id' ),
+                                                                   'contentobject_version' => $this->CurrentVersion->attribute( 'version' ),
+                                                                   'parent_node' => $parameters['fallback-node-id'],
+                                                                   'is_main' => true ) );
                 $nodeAssignment->store();
                 ++$assignmentCount;
             }

@@ -53,7 +53,7 @@ else
     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
     $user =& eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
-    $classgroup =& eZContentClassGroup::create( $user_id );
+    $classgroup = eZContentClassGroup::create( $user_id );
     $classgroup->setAttribute( "name", ezi18n( 'kernel/class/groupedit', "New Group" ) );
     $classgroup->store();
     $GroupID = $classgroup->attribute( "id" );

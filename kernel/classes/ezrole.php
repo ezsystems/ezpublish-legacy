@@ -114,25 +114,11 @@ class eZRole extends eZPersistentObject
     }
 
     /*!
-     \reimp
-    */
-    function &attribute( $attr )
-    {
-        switch( $attr )
-        {
-            default:
-            {
-                return eZPersistentObject::attribute( $attr );
-            } break;
-        }
-    }
-
-    /*!
      Returns the limit identifier if it is set.
      \note This will only be available when fetching roles for a specific user
      \sa limitValue
     */
-    function limitIdentifier()
+    function &limitIdentifier()
     {
         return $this->LimitIdentifier;
     }
@@ -142,7 +128,7 @@ class eZRole extends eZPersistentObject
      \note This will only be available when fetching roles for a specific user
      \sa limitIdentifier
     */
-    function limitValue()
+    function &limitValue()
     {
         return $this->LimitValue;
     }
@@ -152,7 +138,7 @@ class eZRole extends eZPersistentObject
     \note This will only be available when fetching roles for a specific user
     \sa userRoleID
     */
-    function userRoleID()
+    function &userRoleID()
     {
         return $this->UserRoleID;
     }
@@ -167,7 +153,7 @@ class eZRole extends eZPersistentObject
         $db =& eZDB::instance();
         $db->begin();
 
-        $newRole =& eZRole::createNew();
+        $newRole = eZRole::createNew();
         $this->copyPolicies( $newRole->attribute( 'id' ) );
         $newRole->setAttribute( 'name', ezi18n( 'kernel/role/edit', 'Copy of %rolename', null,
                                                 array( '%rolename' => $this->attribute( 'name' ) ) ) );
@@ -215,7 +201,7 @@ class eZRole extends eZPersistentObject
      Creates a new role with the name \a $roleName and version \a $version and returns it.
      \note The role is not stored.
     */
-    function &create( $roleName, $version = 0 )
+    function create( $roleName, $version = 0 )
     {
         $row = array( 'id' => null,
                       'name' => $roleName,
@@ -246,7 +232,7 @@ class eZRole extends eZPersistentObject
     function appendPolicy( $module, $function, $limitations = array() )
     {
         include_once( 'kernel/classes/ezpolicy.php' );
-        $policy =& eZPolicy::create( $this->ID, $module, $function );
+        $policy = eZPolicy::create( $this->ID, $module, $function );
 
         $db =& eZDB::instance();
         $db->begin();

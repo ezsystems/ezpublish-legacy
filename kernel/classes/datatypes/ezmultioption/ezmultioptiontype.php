@@ -362,7 +362,7 @@ class eZMultiOptionType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultValue = $attributeParametersNode->elementTextContentByName( 'default-value' );
         $classAttribute->setAttribute( 'data_text1', $defaultValue );

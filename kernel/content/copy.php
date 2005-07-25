@@ -109,7 +109,7 @@ function &copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
         $assignment->remove();
 
     // and create a new one
-    $nodeAssignment =& eZNodeAssignment::create( array(
+    $nodeAssignment = eZNodeAssignment::create( array(
                                                      'contentobject_id' => $newObject->attribute( 'id' ),
                                                      'contentobject_version' => $curVersion,
                                                      'parent_node' => $newParentNodeID,

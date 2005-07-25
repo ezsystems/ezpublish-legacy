@@ -84,7 +84,7 @@ class eZDOMNode
     /*!
      Makes a copy of the current node and returns a reference to it.
     */
-    function &clone()
+    function clone()
     {
         $tmp = new eZDOMNode();
         $tmp->Name = $this->Name;
@@ -243,7 +243,7 @@ class eZDOMNode
 
       \note This will only make sense for element nodes.
     */
-    function &hasAttributes()
+    function hasAttributes()
     {
         return count( $this->Attributes ) > 0;
     }
@@ -253,7 +253,7 @@ class eZDOMNode
 
       \note This will only make sense for element nodes.
     */
-    function &attributeCount()
+    function attributeCount()
     {
         return count( $this->Attributes );
     }
@@ -273,7 +273,7 @@ class eZDOMNode
 
       \note This will only make sense for element nodes.
     */
-    function &hasChildren()
+    function hasChildren()
     {
         return count( $this->Children ) > 0;
     }
@@ -283,7 +283,7 @@ class eZDOMNode
 
       \note This will only make sense for element nodes.
     */
-    function &childrenCount()
+    function childrenCount()
     {
         return count( $this->Children );
     }
@@ -312,7 +312,10 @@ class eZDOMNode
     {
         $element =& $this->elementByName( $name );
         if ( !$element )
-            return false;
+        {
+            $children = false;
+            return $children;
+        }
         return $element->children();
     }
 
@@ -374,10 +377,15 @@ class eZDOMNode
     */
     function &elementTextContentByName( $name )
     {
+        $text = false;
         $element =& $this->elementByName( $name );
         if ( !$element )
-            return false;
-        return $element->textContent();
+        {
+            return $text;
+        }
+
+        $text =& $element->textContent();
+        return $text;
     }
 
     /*!
@@ -396,7 +404,8 @@ class eZDOMNode
                 return $child;
             }
         }
-        return false;
+        $attribute = false;
+        return $attribute;
     }
 
     /*!
@@ -478,8 +487,12 @@ class eZDOMNode
     {
         $element =& $this->elementByName( $name );
         if ( !$element )
-            return false;
-        return $element->attributeValue( $attributeName );
+        {
+            $value = false;
+            return $value;
+        }
+        $attributeValue =& $element->attributeValue( $attributeName );
+        return $attributeValue;
     }
 
     /*!
@@ -660,7 +673,7 @@ class eZDOMNode
                 if ( isset( $attributeValues[$attributeKey] ) and
                      $attributeValues[$attributeKey] !== false )
                     $value = $attributeValues[$attributeKey];
-                $this->Attributes[] =& eZDOMDocument::createAttributeNode( $attributeXMLName, $value );
+                $this->Attributes[] = eZDOMDocument::createAttributeNode( $attributeXMLName, $value );
             }
         }
     }

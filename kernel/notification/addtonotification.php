@@ -96,7 +96,7 @@ $alreadyExists = true;
 $nodeIDList =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
 if ( !in_array( $nodeID, $nodeIDList ) )
 {
-    $rule =& eZSubtreeNotificationRule::create( $nodeID, $user->attribute( 'contentobject_id' ) );
+    $rule = eZSubtreeNotificationRule::create( $nodeID, $user->attribute( 'contentobject_id' ) );
     $rule->store();
     $alreadyExists = false;
 }

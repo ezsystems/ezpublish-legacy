@@ -1552,15 +1552,12 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $contentObject =& $class->instantiate( $userID, 1 );
 
         //
-        $nodeAssignment =& eZNodeAssignment::create( array(
-                                                         'contentobject_id' => $contentObject->attribute( 'id' ),
-                                                         'contentobject_version' => $contentObject->attribute( 'current_version' ),
-                                                         'parent_node' => $parentNodeID,
-                                                         'sort_field' => 2,
-                                                         'sort_order' => 0,
-                                                         'is_main' => 1
-                                                         )
-                                                     );
+        $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
+                                                           'contentobject_version' => $contentObject->attribute( 'current_version' ),
+                                                           'parent_node' => $parentNodeID,
+                                                           'sort_field' => 2,
+                                                           'sort_order' => 0,
+                                                           'is_main' => 1 ) );
         //
         $nodeAssignment->store();
 

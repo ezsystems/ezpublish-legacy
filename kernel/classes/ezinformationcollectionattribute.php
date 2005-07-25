@@ -99,7 +99,10 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     function &attribute( $attr )
     {
         if ( $attr == 'contentclass_attribute_name' )
-            return $this->contentClassAttributeName();
+        {
+            $classAttributeName =& $this->contentClassAttributeName();
+            return $classAttributeName;
+        }
         else if ( $attr == 'contentclass_attribute' )
             return $this->contentClassAttribute();
         else if ( $attr == 'contentobject_attribute' )
@@ -173,7 +176,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     /*!
      Creates a new eZInformationCollectionAttribute instance.
     */
-    function &create( $informationCollectionID )
+    function create( $informationCollectionID )
     {
         $row = array( 'informationcollection_id' => $informationCollectionID );
         return new eZInformationCollectionAttribute( $row );
@@ -183,7 +186,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
      \static
       Fetches the information collection by object attribute ID.
     */
-    function &fetchByObjectAttributeID( $id, $contentobjectAttributeID, $asObject = true )
+    function fetchByObjectAttributeID( $id, $contentobjectAttributeID, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZInformationCollectionAttribute::definition(),
                                                 null,

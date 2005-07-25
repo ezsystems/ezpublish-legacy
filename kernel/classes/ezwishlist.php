@@ -228,7 +228,7 @@ class eZWishList extends eZPersistentObject
         $currentWishList = false;
         if ( count( $WishListArray ) == 0 )
         {
-            $collection =& eZProductCollection::create();
+            $collection = eZProductCollection::create();
             $collection->store();
 
             $currentWishList = new eZWishList( array( "user_id" => $userID,

@@ -72,7 +72,7 @@ class eZSectionFunctionCollection
         return array( 'result' => $sectionObjects );
     }
 
-    function &fetchObjectList( $sectionID, $offset = false, $limit = false, $sortOrder = false )
+    function fetchObjectList( $sectionID, $offset = false, $limit = false, $sortOrder = false )
     {
         include_once( "kernel/classes/ezcontentobject.php" );
 
@@ -88,7 +88,7 @@ class eZSectionFunctionCollection
         return array( 'result' => $objects );
     }
 
-    function &fetchObjectListCount( $sectionID )
+    function fetchObjectListCount( $sectionID )
     {
         include_once( "kernel/classes/ezcontentobject.php" );
 
@@ -101,7 +101,7 @@ class eZSectionFunctionCollection
         return array( 'result' => $rows[0]['count'] );
     }
 
-    function &fetchRoles( $sectionID )
+    function fetchRoles( $sectionID )
     {
         include_once( 'kernel/classes/ezpolicylimitation.php' );
         include_once( 'kernel/classes/ezrole.php' );
@@ -136,7 +136,7 @@ class eZSectionFunctionCollection
         return array( 'result' => array( 'roles' => $roles, 'limited_policies' => $roleLimitations ) );
     }
 
-    function &fetchUserRoles( $sectionID )
+    function fetchUserRoles( $sectionID )
     {
         include_once( 'kernel/classes/ezrole.php' );
 

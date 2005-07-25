@@ -885,7 +885,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      Clones the attribute with new version \a $newVersionNumber and old version \a $currentVersionNumber.
      \note The cloned attribute is not stored.
     */
-    function &clone( $newVersionNumber, $currentVersionNumber, $contentObjectID = false )
+    function clone( $newVersionNumber, $currentVersionNumber, $contentObjectID = false )
     {
         $tmp = $this;
         $tmp->setAttribute( "version", $newVersionNumber );
@@ -1109,7 +1109,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         {
             $dataType =& $this->dataType();
             if ( is_object( $dataType ) )
-                $this->DisplayInfo =& $dataType->objectDisplayInformation( $this, false );
+                $this->DisplayInfo = $dataType->objectDisplayInformation( $this, false );
         }
         return $this->DisplayInfo;
     }

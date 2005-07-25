@@ -335,7 +335,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             {
                 if ( ! in_array( $nodeID, $existingNodes ) )
                 {
-                    $rule =& eZSubtreeNotificationRule::create( $nodeID, $user->attribute( 'contentobject_id' ) );
+                    $rule = eZSubtreeNotificationRule::create( $nodeID, $user->attribute( 'contentobject_id' ) );
                     $rule->store();
                 }
             }

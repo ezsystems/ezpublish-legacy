@@ -212,7 +212,7 @@ class eZPriceType extends eZDataType
             $vatTypes = $price->attribute( 'vat_type' );
             $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'vat-included',
                                                                                      array( 'is-set' => $vatIncluded ? 'true' : 'false' ) ) );
-            $vatTypeNode =& eZDOMDocument::createElementNode( 'vat-type' );
+            $vatTypeNode = eZDOMDocument::createElementNode( 'vat-type' );
             $chosenVatType = $classAttribute->attribute( 'data_float1' );
             $gotVat = false;
             foreach ( $vatTypes as $vatType )
@@ -234,7 +234,7 @@ class eZPriceType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $vatNode =& $attributeParametersNode->elementByName( 'vat-included' );
         $vatIncluded = strtolower( $vatNode->attributeValue( 'is-set' ) ) == 'true';
@@ -243,7 +243,7 @@ class eZPriceType extends eZDataType
         $vatName = $vatTypeNode->attributeValue( 'name' );
         $vatPercentage = $vatTypeNode->attributeValue( 'percentage' );
         $vatID = false;
-        $vatTypes =& eZVATType::fetchList();
+        $vatTypes = eZVATType::fetchList();
         foreach ( array_keys( $vatTypes ) as $vatTypeKey )
         {
             $vatType =& $vatTypes[$vatTypeKey];
@@ -256,7 +256,7 @@ class eZPriceType extends eZDataType
         }
         if ( !$vatID )
         {
-            $vatType =& eZVATType::create();
+            $vatType = eZVATType::create();
             $vatType->setAttribute( 'name', $vatName );
             $vatType->setAttribute( 'percentage', $vatPercentage );
             $vatType->store();

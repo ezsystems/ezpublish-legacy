@@ -258,7 +258,7 @@ class eZDateTimeType extends eZDataType
             if ( $defaultValue == EZ_DATATYPESTRING_DATETIME_DEFAULT_ADJUSTMENT )
             {
                 $doc = new eZDOMDocument( 'DateTimeAdjustments' );
-                $root =& $doc->createElementNode( 'adjustment' );
+                $root = $doc->createElementNode( 'adjustment' );
                 $contentList = eZDateTimeType::contentObjectArrayXMLMap();
                 foreach ( $contentList as $key => $value )
                 {
@@ -302,7 +302,7 @@ class eZDateTimeType extends eZDataType
     /*!
      \reimp
     */
-    function &sortKey( &$contentObjectAttribute )
+    function sortKey( &$contentObjectAttribute )
     {
         return (int)$contentObjectAttribute->attribute( 'data_int' );
     }
@@ -310,7 +310,7 @@ class eZDateTimeType extends eZDataType
         /*!
      \reimp
     */
-    function &sortKeyType()
+    function sortKeyType()
     {
         return 'int';
     }
@@ -340,7 +340,7 @@ class eZDateTimeType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultNode =& $attributeParametersNode->elementByName( 'default-value' );
         $defaultValue = strtolower( $defaultNode->attributeValue( 'type' ) );

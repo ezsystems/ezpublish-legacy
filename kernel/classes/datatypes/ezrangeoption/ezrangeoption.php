@@ -179,14 +179,14 @@ class eZRangeOption
 
         $doc = new eZDOMDocument( "Option" );
 
-        $root =& $doc->createElementNode( "ezrangeoption" );
+        $root = $doc->createElementNode( "ezrangeoption" );
         $root->appendAttribute( $doc->createAttributeNode( "start_value", $this->StartValue ) );
         $root->appendAttribute( $doc->createAttributeNode( "stop_value", $this->StopValue ) );
         $root->appendAttribute( $doc->createAttributeNode( "step_value", $this->StepValue ) );
         $doc->setRoot( $root );
 
-        $name =& $doc->createElementNode( "name" );
-        $nameValue =& $doc->createTextNode( $this->Name );
+        $name = $doc->createElementNode( "name" );
+        $nameValue = $doc->createTextNode( $this->Name );
         $name->appendChild( $nameValue );
 
         $name->setContent( $this->Name() );

@@ -101,7 +101,7 @@ if ( is_numeric( $WorkflowID ) )
         {
             $groupID = $workflowGroup->attribute( "group_id" );
             $groupName = $workflowGroup->attribute( "group_name" );
-            $ingroup =& eZWorkflowGroupLink::create( $WorkflowID, 1, $groupID, $groupName );
+            $ingroup = eZWorkflowGroupLink::create( $WorkflowID, 1, $groupID, $groupName );
             $ingroup->store();
         }
         $db->commit();
@@ -133,7 +133,7 @@ $WorkflowVersion = $workflow->attribute( "version" );
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
     $workflow->setVersion( 1 );
-    
+
     $db =& eZDB::instance();
     $db->begin();
     $workflow->remove( true );

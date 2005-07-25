@@ -892,7 +892,7 @@ class eZSearchEngine
             // Loop every word and insert result in temporary table
 
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-            $showInvisibleNodesCond =& eZContentObjectTreeNode::createShowInvisibleSQLString( true );
+            $showInvisibleNodesCond = eZContentObjectTreeNode::createShowInvisibleSQLString( true );
 
             foreach ( $searchPartsArray as $searchPart )
             {

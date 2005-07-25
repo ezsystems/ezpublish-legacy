@@ -42,7 +42,7 @@ class eZClassFunctions
     {
         include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
         list ( $groupID, $groupName ) = split( '/', $selectedGroup );
-        $ingroup =& eZContentClassClassGroup::create( $classID, $classVersion, $groupID, $groupName );
+        $ingroup = eZContentClassClassGroup::create( $classID, $classVersion, $groupID, $groupName );
         $ingroup->store();
         return true;
     }

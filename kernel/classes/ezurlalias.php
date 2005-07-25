@@ -155,7 +155,7 @@ class eZURLAlias extends eZPersistentObject
      \param $isInternal decides if the url is internal or not (user created).
      \return the URL alias object
     */
-    function &create( $sourceURL, $destinationURL, $isInternal = true, $forwardToID = false, $isWildcard = EZ_URLALIAS_WILDCARD_TYPE_NONE )
+    function create( $sourceURL, $destinationURL, $isInternal = true, $forwardToID = false, $isWildcard = EZ_URLALIAS_WILDCARD_TYPE_NONE )
     {
         if ( !$forwardToID )
             $forwardToID = 0;
@@ -180,7 +180,7 @@ class eZURLAlias extends eZPersistentObject
     */
     function &createForForwarding( $forwardURL )
     {
-        $alias =& eZURLAlias::create( $forwardURL, $this->attribute( 'destination_url' ),
+        $alias = eZURLAlias::create( $forwardURL, $this->attribute( 'destination_url' ),
                                       $this->attribute( 'is_internal' ), $this->attribute( 'id' ) );
         return $alias;
     }

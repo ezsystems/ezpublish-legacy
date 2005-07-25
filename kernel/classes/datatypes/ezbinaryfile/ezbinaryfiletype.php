@@ -303,7 +303,7 @@ class eZBinaryFileType extends eZDataType
 
             $binary =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
             if ( $binary === null )
-                $binary =& eZBinaryFile::create( $contentObjectAttributeID, $version );
+                $binary = eZBinaryFile::create( $contentObjectAttributeID, $version );
 
             $orig_dir = $binaryFile->storageDir( "original" );
 
@@ -372,7 +372,7 @@ class eZBinaryFileType extends eZDataType
 
         $binary =& eZBinaryFile::fetch( $attributeID, $objectVersion );
         if ( $binary === null )
-            $binary =& eZBinaryFile::create( $attributeID, $objectVersion );
+            $binary = eZBinaryFile::create( $attributeID, $objectVersion );
 
         $httpFile->setMimeType( $mimeData['name'] );
 
@@ -416,7 +416,7 @@ class eZBinaryFileType extends eZDataType
 
         $binary =& eZBinaryFile::fetch( $attributeID, $objectVersion );
         if ( $binary === null )
-            $binary =& eZBinaryFile::create( $attributeID, $objectVersion );
+            $binary = eZBinaryFile::create( $attributeID, $objectVersion );
 
         $fileName = basename( $filePath );
         $mimeData = eZMimeType::findByFileContents( $filePath );
@@ -569,7 +569,7 @@ class eZBinaryFileType extends eZDataType
     /*!
      \reimp
     */
-    function &unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $maxSize = $attributeParametersNode->elementTextContentByName( 'max-size' );
         $sizeNode = $attributeParametersNode->elementByName( 'max-size' );
@@ -600,7 +600,7 @@ class eZBinaryFileType extends eZDataType
             $fileKey = md5( mt_rand() );
             $package->appendSimpleFile( $fileKey, $binaryFile->attribute( 'filepath' ) );
 
-            $fileNode =& eZDOMDocument::createElementNode( 'binary-file' );
+            $fileNode = eZDOMDocument::createElementNode( 'binary-file' );
             $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filesize', $binaryFile->attribute( 'filesize' ) ) );
             $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'filename', $binaryFile->attribute( 'filename' ) ) );
             $fileNode->appendAttribute( eZDOMDocument::createAttributeNode( 'original-filename', $binaryFile->attribute( 'original_filename' ) ) );
@@ -626,7 +626,7 @@ class eZBinaryFileType extends eZDataType
             return;
         }
 
-        $binaryFile =& eZBinaryFile::create( $objectAttribute->attribute( 'id' ), $objectAttribute->attribute( 'version' ) );
+        $binaryFile = eZBinaryFile::create( $objectAttribute->attribute( 'id' ), $objectAttribute->attribute( 'version' ) );
 
         $sourcePath = $package->simpleFilePath( $fileNode->attributeValue( 'filekey' ) );
 
