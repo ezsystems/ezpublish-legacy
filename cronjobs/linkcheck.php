@@ -112,32 +112,34 @@ foreach ( array_keys( $linkList ) as $key )
     }
     else
     {
-        $url = preg_replace("/^\//e", "", $url );
-        if ( preg_match( "/content\/view\/full\//i", $url ) )
-        {
-            $nodeID = preg_replace("/content\/view\/full\//i", "", $url );
+        include_once( 'kernel/classes/ezurlalias.php' );
+        $translateResult =& eZURLAlias::translate( $url );
+        $objectHasMovedError = false;
 
-            // If it links to an anchor
-            $nodeID = preg_replace("/#(.*)/i", "", $nodeID );
-            $hasNodeID = true;
-        }
+        if ( !$translateResult )
+            $translateResult =& eZURLAlias::translateByWildcard( $url );
 
-        include_once( "lib/ezdb/classes/ezdb.php" );
-        $db =& eZDB::instance();
-        $db->setIsSQLOutputEnabled( false );
-        if ( $hasNodeID )
+        if ( !$translateResult )
         {
-            $nodeArray = $db->arrayQuery( "SELECT *
-	                                       FROM ezcontentobject_tree
-	                                       WHERE node_id = '$nodeID'" );
+              $isInternal = false;
+              // Check if it is a valid internal link.
+              foreach ( $siteURLs as $siteURL )
+              {
+                  $siteURL = preg_replace("/\/$/e", "", $siteURL );
+                  $fp = @fopen( $siteURL . "/". $url, "r" );
+                  if ( !$fp )
+                  {
+                      // do nothing
+                  }
+                  else
+                  {
+                      $isInternal = true;
+                      fclose($fp);
+                  }
+              }
+              $translateResult = $isInternal;
         }
-        else
-        {
-            $nodeArray = $db->arrayQuery( "SELECT *
-	                                       FROM ezcontentobject_tree
-	                                       WHERE path_identification_string = '$url'" );
-        }
-        if ( count( $nodeArray ) > 0 )
+        if ( $translateResult )
         {
             if ( !$isValid )
                 eZURL::setIsValid( $linkID, true );
@@ -145,35 +147,9 @@ foreach ( array_keys( $linkList ) as $key )
         }
         else
         {
-            $isInternal = false;
-            // Check if it is a valid internal link.
-            foreach ( $siteURLs as $siteURL )
-            {
-                $siteURL = preg_replace("/\/$/e", "", $siteURL );
-                $fp = @fopen( $siteURL . "/". $url, "r" );
-                if ( !$fp )
-                {
-                    // do nothing
-                }
-                else
-                {
-                    $isInternal = true;
-                    fclose($fp);
-                }
-            }
-
-            if ( $isInternal )
-            {
-                if ( !$isValid )
-                    eZURL::setIsValid( $linkID, true );
-                $cli->output( $cli->stylize( 'success', "valid" ) );
-            }
-            else
-            {
-                if ( $isValid )
-                    eZURL::setIsValid( $linkID, false );
-                $cli->output( $cli->stylize( 'warning', "invalid" ) );
-            }
+            if ( $isValid )
+                eZURL::setIsValid( $linkID, false );
+            $cli->output( $cli->stylize( 'warning', "invalid" ) );
         }
     }
     eZURL::setLastChecked( $linkID );
