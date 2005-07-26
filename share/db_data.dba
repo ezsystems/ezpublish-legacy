@@ -12600,7 +12600,7 @@ keywords=cms, publish, e-commerce, content management, development framework',
       1 => 
       array (
         0 => 'ezpublish-release',
-        1 => '10',
+        1 => '9',
       ),
     ),
   ),

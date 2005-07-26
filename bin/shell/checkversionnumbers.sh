@@ -17,7 +17,7 @@ MAJOR=3
 MINOR=5
 RELEASE=4
 # Starts at 1 for the first release in a branch and increases with one
-REAL_RELEASE=10
+REAL_RELEASE=9
 STATE=""
 VERSION=$MAJOR"."$MINOR"."$RELEASE""$STATE
 VERSION_ONLY=$MAJOR"."$MINOR
