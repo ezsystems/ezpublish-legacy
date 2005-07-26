@@ -17,6 +17,8 @@ Changes from 3.7.0rc1 to 3.7.0rc2
 - Fixed bug #6929: eZ publish 3.7.0 rc1 installation still has the PHP 4.4
   reference problem.
 - Fixed several by reference variable assignments.
+- Fixed bug #4113: Problem with url_alias in link check.
+  (Merged from stable/3.5 (3.5.5) rev. 12758)
 
 *Library:
 
