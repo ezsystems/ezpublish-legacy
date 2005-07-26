@@ -345,11 +345,21 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                     if ( strlen( $view ) == 0 )
                         $view = "embed";
+
+                    if ( $object->attribute( 'can_read' ) )
+                    {
+                        $xmlTemplate = 'object';
+                    }
+                    else
+                    {
+                        $xmlTemplate = 'object_denied';
+                    }
+
                     $tpl->setVariable( 'classification', $class, 'xmltagns' );
                     $tpl->setVariable( 'object', $object, 'xmltagns' );
                     $tpl->setVariable( 'view', $view, 'xmltagns' );
                     $tpl->setVariable( 'object_parameters', $objectParameters, 'xmltagns' );
-                    $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
+                    $uri = "design:content/datatype/view/ezxmltags/$xmlTemplate.tpl";
                     $textElements = array();
                     eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                     $tagText = implode( '', $textElements );

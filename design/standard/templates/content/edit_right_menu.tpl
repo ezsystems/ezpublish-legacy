@@ -116,7 +116,11 @@
     {section name=Object loop=$related_contentobjects sequence=array(bglight,bgdark)}
     <tr>
         <td class="{$Object:sequence}" align="left" colspan="1">
-          <p class="box">{node_view_gui view=thumb content_node=$Object:item.main_node}</p>
+          {section show=$Object:item.can_read}
+              <p class="box">{node_view_gui view=thumb content_node=$Object:item.main_node}</p>
+          {section-else}
+              <p class="box">{$Object:item.name|wash} - Access denied</p>
+          {/section}
 	  <span class="small">&lt;object id='{$Object:item.id}' /&gt;</span>
 	</td>
         <td class="{$Object:sequence}" align="right" colspan="1" width="1">
