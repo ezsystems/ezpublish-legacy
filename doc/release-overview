@@ -392,10 +392,10 @@ Datatype branch:
 - Release branch end=
 - Release branch configured=12612
 - Release branch Date 19-Jul-2005
-- From revision=
-- Revision=
-- Version url=
-- Date
+- From revision=12747
+- Revision=12751
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.5.4
+- Date 26-Jul-2005
 
 3.6.1:
 - Release branch=release/3.6.1
