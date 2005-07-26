@@ -114,8 +114,6 @@ foreach ( array_keys( $linkList ) as $key )
     {
         include_once( 'kernel/classes/ezurlalias.php' );
         $translateResult =& eZURLAlias::translate( $url );
-        $objectHasMovedError = false;
-
         if ( !$translateResult )
             $translateResult =& eZURLAlias::translateByWildcard( $url );
 
