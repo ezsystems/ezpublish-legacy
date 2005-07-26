@@ -21885,7 +21885,7 @@ INSERT INTO ezsite_data (
   value
 ) VALUES (
   'ezpublish-release',
-  '5'
+  '4'
 );
 
 INSERT INTO ezurl (
