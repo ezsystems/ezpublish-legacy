@@ -19,6 +19,9 @@ Changes from 3.7.0rc1 to 3.7.0rc2
 - Fixed several by reference variable assignments.
 - Fixed bug #4113: Problem with url_alias in link check.
   (Merged from stable/3.5 (3.5.5) rev. 12758)
+- Fixed bug: regular binary files override each other when uploading via webdav
+  (Merged from stable/3.5 (3.5.5) rev. 12772, also in stable/3.6 (3.6.2) 
+  rev.12773)
 
 *Library:
 
