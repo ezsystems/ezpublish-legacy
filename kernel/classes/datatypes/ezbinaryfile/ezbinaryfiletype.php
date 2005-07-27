@@ -430,12 +430,13 @@ class eZBinaryFileType extends eZDataType
             return false;
         }
         umask( $oldumask );
-        $destination = $destination . '/' . $fileName;
+        $destFileName = md5( basename( $fileName ) . microtime() . mt_rand() );
+        $destination = $destination . '/' . $destFileName;
         copy( $filePath, $destination );
 
         $binary->setAttribute( "contentobject_attribute_id", $attributeID );
         $binary->setAttribute( "version", $objectVersion );
-        $binary->setAttribute( "filename", $fileName );
+        $binary->setAttribute( "filename", $destFileName );
         $binary->setAttribute( "original_filename", $fileName );
         $binary->setAttribute( "mime_type", $mimeData['name'] );
 
