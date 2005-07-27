@@ -216,6 +216,8 @@ Attributes:
 - Fixed bug: regular binary files override each other when uploading via webdav
   (Merged from stable/3.5 (3.5.5) rev. 12772, also in stable/3.6 (3.6.2)
   rev.12773, in stable/3.7 (3.7.0rc2) rev. 12774)
+- Minor code correction.
+  (Merged from stable/3.5 (3.5.5) rev. 12776)
 
 *Library:
 
