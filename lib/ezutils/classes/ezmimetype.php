@@ -628,9 +628,20 @@ class eZMimeType
         array( 'sxc', 'application/vnd.sun.xml.calc' ),
         array( 'sxi', 'application/vnd.sun.xml.impress' ),
         array( 'odt', 'application/vnd.oasis.opendocument.text' ),
+        array( 'ods', 'application/vnd.oasis.opendocument.spreadsheet' ),
+        array( 'odp', 'application/vnd.oasis.opendocument.presentation' ),
+        array( 'odg', 'application/vnd.oasis.opendocument.graphics' ),
+        array( 'odc', 'application/vnd.oasis.opendocument.chart' ),
+        array( 'odf', 'application/vnd.oasis.opendocument.formula' ),
+        array( 'odb', 'application/vnd.oasis.opendocument.database' ),
+        array( 'odi', 'application/vnd.oasis.opendocument.image' ),
+        array( 'odm', 'application/vnd.oasis.opendocument.text-master' ),
+        array( 'ott', 'application/vnd.oasis.opendocument.text-template' ),
+        array( 'ots', 'application/vnd.oasis.opendocument.spreadsheet-template' ),
+        array( 'otp', 'application/vnd.oasis.opendocument.presentation-template' ),
+        array( 'otg', 'application/vnd.oasis.opendocument.graphics-template' ),
         array( 'asf', 'video/x-ms-asf' ),
         array( 'wmv', 'video/x-ms-wmv' )
         );
 }
-
 ?>
