@@ -627,6 +627,7 @@ class eZMimeType
         array( 'sxw', 'application/vnd.sun.xml.writer' ),
         array( 'sxc', 'application/vnd.sun.xml.calc' ),
         array( 'sxi', 'application/vnd.sun.xml.impress' ),
+        array( 'odt', 'application/vnd.oasis.opendocument.text' ),
         array( 'asf', 'video/x-ms-asf' ),
         array( 'wmv', 'video/x-ms-wmv' )
         );
