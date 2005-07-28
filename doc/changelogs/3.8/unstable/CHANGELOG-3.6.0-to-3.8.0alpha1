@@ -218,6 +218,8 @@ Attributes:
   rev.12773, in stable/3.7 (3.7.0rc2) rev. 12774)
 - Minor code correction.
   (Merged from stable/3.5 (3.5.5) rev. 12776)
+- Fixed bug #6906: wrong br tag in ezselection datatype template after last item.
+  (Merged from stable/3.5 (3.5.5) rev. 12784)
 
 *Library:
 
