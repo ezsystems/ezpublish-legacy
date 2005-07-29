@@ -232,7 +232,8 @@ Attributes:
 - Fixed bug: Publishing of objects with removed parent node assignments.
   ( Merged from stable/3.5 ( 3.5.5 ) rev. 12812, stable/3.6 ( 3.6.2 ) rev. 12814, 
     stable/3.7 ( rc2 ) rev. 12815 )
-
+- Fixed bug #6825: Debug toolbar and ini file problems.
+  (Merged from stable/3.7 (3.7.0rc2) rev. 12817)
 
 *Library:
 
