@@ -39,6 +39,8 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   ( Merged from stable/3.5 ( 3.5.5 ) rev. 12812, stable/3.6 ( 3.6.2 ) rev. 12814 )
 - Fixed bug #6825: Debug toolbar and ini file problems.
   (Manually merged from stable/3.6 (3.6.2) rev. 23811)
+- Fixed an SQL error that may occur when activating a user account.
+  (Merged from stable/3.5 (3.5.5) rev. 12825)
 
 *Library:
 
