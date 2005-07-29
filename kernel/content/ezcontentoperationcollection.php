@@ -463,6 +463,10 @@ class eZContentOperationCollection
             if ( $newMainAssignment->attribute( 'parent_node' ) != 1 )
             {
                 $newParentObject =& $newMainAssignment->getParentObject();
+                if ( !$newParentObject )
+                {
+                    return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
+                }
                 $parentNodeSectionID = $newParentObject->attribute( 'section_id' );
                 $object->setAttribute( 'section_id', $parentNodeSectionID );
                 $object->store();

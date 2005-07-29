@@ -94,7 +94,8 @@
 
 {* Locations window. *}
 {* section show=eq( ezini( 'EditSettings', 'EmbedNodeAssignmentHandling', 'content.ini' ), 'enabled' ) *}
-{section show=ezpreference( 'admin_edit_show_locations' )}
+{section show=or( ezpreference( 'admin_edit_show_locations' ),
+                  count( $invalid_node_assignment_list )|gt(0) )}
     {include uri='design:content/edit_locations.tpl'}
 {section-else}
     {* This disables all node assignment checking in content/edit *}
