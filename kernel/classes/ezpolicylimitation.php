@@ -296,7 +296,9 @@ class eZPolicyLimitation extends eZPersistentObject
         $limitation =& $functions[ $currentFunction ][$this->attribute( 'identifier' )];
 
 //        eZDebugSetting::writeDebug( 'kernel-policy-limitation', $limitation, "limitation" );
-        if ( count( $limitation[ 'values' ] == 0 ) && array_key_exists( 'class', $limitation ) )
+        if ( count( $limitation[ 'values' ] == 0 ) &&
+             is_array( $limitation ) &&
+             array_key_exists( 'class', $limitation ) )
         {
             include_once( 'kernel/' . $limitation['path'] . $limitation['file']  );
             $obj = new $limitation['class']( array() );
@@ -351,12 +353,15 @@ class eZPolicyLimitation extends eZPersistentObject
             $value = $valueList[$key];
 //            eZDebugSetting::writeDebug( 'kernel-policy-limitation', $value, "value" );
 
-            reset ( $limitationValueArray );
-            foreach ( array_keys( $limitationValueArray ) as $ckey )
+            if ( is_array( $limitationValueArray ) )
             {
-                if ( $value == $limitationValueArray[$ckey]['value'] )
+                reset ( $limitationValueArray );
+                foreach ( array_keys( $limitationValueArray ) as $ckey )
                 {
-                    $limitationValuesWithNames[] =& $limitationValueArray[$ckey];
+                    if ( $value == $limitationValueArray[$ckey]['value'] )
+                    {
+                        $limitationValuesWithNames[] =& $limitationValueArray[$ckey];
+                    }
                 }
             }
         }
