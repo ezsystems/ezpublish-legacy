@@ -84,6 +84,10 @@ class eZCharsetInfo
                                  'koi-8-r' => 'koi8-r',
                                  'koi8r' => 'koi8-r',
 
+                                 'koi8-u' => 'koi8-u',
+                                 'koi-8-u' => 'koi8-u',
+                                 'koi8u' => 'koi8-u',
+
                                  'cp1250' => 'windows-1250',
                                  'cp1251' => 'windows-1251',
                                  'cp1252' => 'windows-1252',
