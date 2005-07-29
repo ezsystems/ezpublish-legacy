@@ -362,7 +362,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     function cleanup( &$process, &$event )
     {
         $theGateway = $this->getCurrentGateway( $event );
-        if( $theGateway != null )
+        if( $theGateway != null and $theGateway->needCleanup() )
         {
             $theGateway->cleanup( $process, $event );
         }
