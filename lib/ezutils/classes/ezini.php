@@ -105,6 +105,7 @@ class eZINI
             $useTextCodec = eZINI::isTextCodecEnabled();
 
         $this->UseTextCodec = $useTextCodec;
+        $this->Codec = null;
         $this->FileName = $fileName;
         $this->RootDir = $rootDir;
         $this->UseCache = $useCache;
@@ -456,8 +457,10 @@ class eZINI
             }
             fwrite( $fp, "<?php\n\$eZIniCacheCodeDate = " . EZ_INI_CACHE_CODE_DATE . ";\n" );
 //             exit;
-
-            fwrite( $fp, "\$charset = \"$this->Charset\";\n" );
+            if ( $this->Codec )
+                fwrite( $fp, "\$charset = \"".$this->Codec->RequestedOutputCharsetCode."\";\n" );
+            else
+                fwrite( $fp, "\$charset = \"$this->Charset\";\n" );
             reset( $this->BlockValues );
             while ( list( $groupKey, $groupVal ) = each ( $this->BlockValues ) )
             {
@@ -607,12 +610,13 @@ class eZINI
                 }
             }
         }
+
 //         $codec =& eZTextCodec::codecForName( $this->Charset );
-        $codec = null;
+        $this->Codec = null;
         if ( $this->UseTextCodec )
         {
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
-            $codec =& eZTextCodec::instance( $this->Charset, false, false );
+            $this->Codec =& eZTextCodec::instance( $this->Charset, false, false );
         }
         foreach ( $lines as $line )
         {
@@ -634,7 +638,7 @@ class eZINI
             if ( preg_match("#^(\w+)\\[\\]$#", $line, $valueArray ) )
             {
                 $varName = trim( $valueArray[1] );
-                
+
                 $valuesPlacement =& $this->BlockValuesPlacement[$currentBlock];
 
                 if ( isset( $valuesPlacement[$varName] ) )
@@ -659,10 +663,10 @@ class eZINI
             else if ( preg_match("#^([a-zA-Z0-9_-]+)(\\[([^\\]]*)\\])?=(.*)$#", $line, $valueArray ) )
             {
                 $varName = trim( $valueArray[1] );
-                if ( $codec )
+                if ( $this->Codec )
                 {
                     eZDebug::accumulatorStart( 'ini_conversion', false, 'INI string conversion' );
-                    $varValue = $codec->convertString( $valueArray[4] );
+                    $varValue = $this->Codec->convertString( $valueArray[4] );
                     eZDebug::accumulatorStop( 'ini_conversion', false, 'INI string conversion' );
                 }
                 else
@@ -798,7 +802,11 @@ class eZINI
         }
         $writeOK = true;
         $written = 0;
-        $written = fwrite( $fp, "<?php /* #?ini charset=\"" . $this->Charset . "\"?$lineSeparator$lineSeparator" );
+
+        if ( $this->Codec )
+            $written = fwrite( $fp, "<?php /* #?ini charset=\"" . $this->Codec->RequestedOutputCharsetCode . "\"?$lineSeparator$lineSeparator" );
+        else
+            $written = fwrite( $fp, "<?php /* #?ini charset=\"" . $this->Charset . "\"?$lineSeparator$lineSeparator" );
         if ( $written === false )
             $writeOK = false;
         $i = 0;
@@ -1357,6 +1365,9 @@ class eZINI
     /// \privatesection
     /// The charset of the ini file
     var $Charset;
+
+    /// Variable to store the textcodec.
+    var $Codec;
 
     /// Variable to store the ini file values.
     var $BlockValues;
