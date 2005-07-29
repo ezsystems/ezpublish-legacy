@@ -253,13 +253,27 @@ elseif ( $storingAllowed )
     eZContentObject::recursionProtectionEnd();
 }
 
+$invalidNodeAssignmentList = array();
 if ( $Module->isCurrentAction( 'Publish' ) )
 {
     $mainFound = false;
     $assignments =& $version->attribute( 'parent_nodes' );
     foreach ( array_keys( $assignments ) as $key )
     {
-        if ( $assignments[$key]->attribute( 'is_main' ) == 1 )
+        // Check that node assignment node exists.
+        if ( !$assignments[$key]->attribute( 'parent_node_obj' ) )
+        {
+            $validation[ 'placement' ][] = array( 'text' => ezi18n( 'kernel/content', 'A node in the node assignment list has been deleted.' ) );
+            $validation[ 'processed' ] = true;
+            $inputValidated = false;
+            $invalidNodeAssignmentList[] = $assignments[$key]->attribute( 'parent_node' );
+            $assignments[$key]->remove();
+            unset( $assignments[$key] );
+            eZDebugSetting::writeDebug( 'kernel-content-edit', "placement is not validated" );
+        }
+
+        if ( isset( $assignments[$key] ) &&
+             $assignments[$key]->attribute( 'is_main' ) == 1 )
         {
             $mainFound = true;
             break;
@@ -267,17 +281,6 @@ if ( $Module->isCurrentAction( 'Publish' ) )
     }
     if ( !$mainFound and count( $assignments ) > 0 )
     {
-        /*
-        $contentINI =& eZINI::instance( 'content.ini' );
-        if ( $contentINI->variable( 'EditSettings', 'EmbedNodeAssignmentHandling' ) == 'enabled' )
-        {
-            $validation[ 'placement' ][] = array( 'text' => ezi18n( 'kernel/content', 'No main node selected, please select one.' ) );
-            $validation[ 'processed' ] = true;
-            $inputValidated = false;
-            eZDebugSetting::writeDebug( 'kernel-content-edit', "placement is not validated" );
-        }
-        */
-
         if( eZPreferences::value( 'admin_edit_show_locations' ) == '0' )
         {
             $validation[ 'placement' ][] = array( 'text' => ezi18n( 'kernel/content', 'No main node selected, please select one.' ) );
@@ -311,6 +314,7 @@ if ( !isset( $tpl ) || get_class( $tpl ) != 'eztemplate' )
 $tpl->setVariable( 'validation', $validation );
 $tpl->setVariable( 'validation_log', $validatedAttributes );
 
+$tpl->setVariable( 'invalid_node_assignment_list', $invalidNodeAssignmentList );
 
 $Module->setTitle( 'Edit ' . $class->attribute( 'name' ) . ' - ' . $object->attribute( 'name' ) );
 $res =& eZTemplateDesignResource::instance();

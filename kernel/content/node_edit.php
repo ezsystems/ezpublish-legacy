@@ -93,7 +93,6 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
                 $newNode =& eZContentObjectTreeNode::fetch( $nodeID );
                 $newNodeObject = $newNode->attribute( 'object' );
 
-//                 $canCreate = $newNodeObject->attribute( 'can_create' );
                 $canCreate = $newNodeObject->checkAccess( 'create', $class->attribute( 'id' ), $newNodeObject->attribute( 'contentclass_id' ) ) == 1;
                 eZDebug::writeDebug( array( $canCreate ), "canCreate");
                 if ( !$canCreate )
@@ -632,25 +631,6 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 
 function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )
 {
-    /*
-    // If EmbedNodeAssignmentHandling is not set to 'enabled' we do not add any node assignment template variables
-    $contentINI =& eZINI::instance( 'content.ini' );
-    if ( $contentINI->variable( 'EditSettings', 'EmbedNodeAssignmentHandling' ) != 'enabled' )
-        return;
-
-    */
-
-    $siteINI =& eZINI::instance( 'site.ini' );
-    if ( $siteINI->variable( 'BackwardCompatibilitySettings', 'UsingDesignAdmin34' ) != 'enabled' )
-    {
-        if( eZPreferences::value( 'admin_edit_show_locations' ) == '0')
-        {
-            $mainParentNodeID = $version->attribute( 'main_parent_node_id' );
-            $tpl->setVariable( 'main_node_id', $mainParentNodeID );
-            return;
-        }
-    }
-
     $assignedNodeArray =& $version->attribute( 'parent_nodes' );
     eZDebugSetting::writeDebug( 'kernel-content-edit', $assignedNodeArray, "assigned nodes array" );
     $remoteMap = array();
@@ -697,7 +677,7 @@ function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentOb
     if ( $currentVersion !== null )
         $publishedNodeArray =& $currentVersion->attribute( 'parent_nodes' );
     $mainParentNodeID = $version->attribute( 'main_parent_node_id' );
-    
+
     $tpl->setVariable( 'assigned_node_array', $assignedNodeArray );
     $tpl->setVariable( 'assigned_remote_map', $remoteMap );
     $tpl->setVariable( 'published_node_array', $publishedNodeArray );
