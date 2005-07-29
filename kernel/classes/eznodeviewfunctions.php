@@ -192,6 +192,7 @@ class eZNodeviewfunctions
         include_once( 'kernel/classes/ezuserdiscountrule.php' );
         include_once( 'kernel/classes/ezpreferences.php' );
 
+        $limitedAssignmentValueList = $user->limitValueList();
         $roleList = $user->roleIDList();
         $discountList =& eZUserDiscountRule::fetchIDListByUserID( $user->attribute( 'contentobject_id' ) );
 
@@ -199,7 +200,7 @@ class eZNodeviewfunctions
             $language = eZContentObject::defaultLanguage();
 
         $designSetting = eZTemplateDesignResource::designSetting( 'site' );
-        $cacheHashArray = array( $nodeID, $offset, $layout, implode( '.', $roleList ), implode( '.', $discountList ) );
+        $cacheHashArray = array( $nodeID, $offset, $layout, implode( '.', $roleList ), implode( '.', $limitedAssignmentValueList), implode( '.', $discountList ) );
 
         // Make the cache unique for every case of view parameters
         if ( $viewParameters )
