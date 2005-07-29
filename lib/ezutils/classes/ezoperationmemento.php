@@ -44,6 +44,8 @@
 
 */
 
+include_once( 'kernel/classes/ezpersistentobject.php' );
+
 class eZOperationMemento extends eZPersistentObject
 {
     /*!
