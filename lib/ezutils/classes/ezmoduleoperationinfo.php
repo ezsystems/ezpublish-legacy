@@ -231,6 +231,7 @@ class eZModuleOperationInfo
 
 //                 eZDebug::writeDebug( $resultArray, 'ezmodule operation result array' );
             }
+
             if ( is_array( $resultArray ) and
                  isset( $resultArray['status'] ) and
                  $resultArray['status'] == EZ_MODULE_OPERATION_HALTED )
@@ -396,7 +397,7 @@ class eZModuleOperationInfo
                             {
                                 $tmpOperationParameters[$parameterName] = $parameterValue;
                             }
-//                            ++$tmpCallValues['run_number'];
+
                             ++$count;
                             $returnValue = $this->executeBody( $includeFile, $className, $children,
                                                                $operationKeys, $tmpOperationParameterDefinitions, $tmpOperationParameters,
@@ -440,13 +441,6 @@ class eZModuleOperationInfo
                             }
 
                         }
-                        /*
-                        if ( !$bodyReturnValue['status'] )
-                        {
-                            print( "One or more loop items failed, returning<br/>" );
-                            return $bodyReturnValue;
-                        }
-                        */
                     }
                 } break;
                 case 'trigger':
@@ -481,7 +475,7 @@ class eZModuleOperationInfo
                                                           $operationParameterDefinitions, $operationParameters,
                                                           $bodyCallCount, $currentLoopData,
                                                           $triggerRestored, $operationName, $operationKeys );
-//                         eZDebug::writeDebug( $status, 'trigger execute status' );
+
                         switch( $status )
                         {
                             case EZ_MODULE_OPERATION_CONTINUE:
@@ -500,25 +494,9 @@ class eZModuleOperationInfo
                                 return $bodyReturnValue;
                             }
                         }
-/*
-                        if ( !$this->executeTrigger( $bodyReturnValue, $body,
-                                                    $operationParameterDefinitions, $operationParameters,
-                                                    $bodyCallCount, $currentLoopData,
-                                                    $triggerRestored, $operationName ) )
-                        {
-                            $this->storeBodyMemento( $triggerName, $triggerKeys,
-                                                     $operationKeys, $operationParameterDefinitions, $operationParameters,
-                                                     $bodyCallCount, $currentLoopData );
-                            $bodyReturnValue['status'] = false;
-                        }
-                    }
-                    if ( !$bodyReturnValue['status'] )
-                        return $bodyReturnValue;
-*/
                     }else
                     {
                         $bodyReturnValue['status'] = EZ_MODULE_OPERATION_CONTINUE;
-//                        return $bodyReturnValue;
                     }
                 } break;
                 case 'method':
@@ -539,7 +517,8 @@ class eZModuleOperationInfo
                             ++$bodyCallCount['loop_run'][$bodyName];
                             $result = $this->executeClassMethod( $includeFile, $className, $method,
                                                                  $tmpOperationParameterDefinitions, $operationParameters );
-                            if ( $result != null && ( !isset( $result['status'] ) || !$result['status'] ) )
+
+                            if ( $result != null && isset( $result['status'] ) )
                             {
                                 return $result;
                             }

@@ -229,6 +229,10 @@ Attributes:
 - Fixed bug #6804: Role limitation assignment is not part of viewcache hash key
   (Merged from stable/3.5 (3.5.5) rev. 12807, also in stable/3.6 (3.6.2)
   rev. 12808, in stable/3.7 (3.7.0rc2) rev. 12809)
+- Fixed bug: Publishing of objects with removed parent node assignments.
+  ( Merged from stable/3.5 ( 3.5.5 ) rev. 12812, stable/3.6 ( 3.6.2 ) rev. 12814, 
+    stable/3.7 ( rc2 ) rev. 12815 )
+
 
 *Library:
 
