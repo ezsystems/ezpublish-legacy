@@ -93,6 +93,8 @@ switch( $operationResult['status'] )
              !isset( $operationResult['result'] ) &&
              ( !isset( $operationResult['redirect_url'] ) || $operationResult['redirect_url'] == null ) )
         {
+            $order = eZOrder::fetch( $order->attribute( 'id' ) );
+            $tpl->setVariable( "order", $order );
 
             $Result = array();
             $Result['content'] =& $tpl->fetch( "design:shop/confirmorder.tpl" );
