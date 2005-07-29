@@ -109,6 +109,7 @@ class eZUser extends eZPersistentObject
                                                       'original_password_confirm' => 'originalPasswordConfirm',
                                                       'roles' => 'roles',
                                                       'role_id_list' => 'roleIDList',
+                                                      'limited_assignment_value_list' => 'limitValueList',
                                                       'is_logged_in' => 'isLoggedIn',
                                                       'is_enabled' => 'isEnabled',
                                                       'last_visit' => 'lastVisit'
@@ -1389,6 +1390,40 @@ WHERE user_id = '" . $userID . "' AND
             $http->setSessionVariable( 'eZRoleIDList_Timestamp', mktime() );
         }
         return $roleList;
+    }
+
+    /*!
+     \return an array of limited assignments
+    */
+    function &limitList()
+    {
+        $user_id = $this->attribute( 'contentobject_id' );
+        $db =& eZDB::instance();
+
+        $limitationsArray =& $db->arrayQuery( "SELECT limit_identifier, limit_value
+                                               FROM ezuser_role
+                                               WHERE contentobject_id = $user_id" );
+
+        return $limitationsArray;
+    }
+
+    /*!
+     \return an array of values of limited assignments
+    */
+    function &limitValueList()
+    {
+        $limitValueList = array();
+
+        $user_id = $this->attribute( 'contentobject_id' );
+        $db =& eZDB::instance();
+        $queryResult =& $db->arrayQuery( "SELECT limit_value
+                                          FROM ezuser_role
+                                          WHERE contentobject_id = $user_id" );
+
+        foreach ( $queryResult as $limitValue )
+            $limitValueList[] = $limitValue['limit_value'];
+
+        return $limitValueList;
     }
 
     /*!
