@@ -1386,7 +1386,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $db =& eZDB::instance();
 
-        if ( count( $limitationList ) > 0 )
+        if ( is_array( $limitationList ) && count( $limitationList ) > 0 )
         {
             $sqlParts = array();
             foreach( $limitationList as $limitationArray )
