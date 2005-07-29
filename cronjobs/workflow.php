@@ -81,6 +81,7 @@ foreach( array_keys( $workflowProcessList ) as $key )
     if ( !isset( $statusMap[$status] ) )
         $statusMap[$status] = 0;
     ++$statusMap[$status];
+
     if ( $process->attribute( 'status' ) != EZ_WORKFLOW_STATUS_DONE )
     {
         if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_CANCELLED )
