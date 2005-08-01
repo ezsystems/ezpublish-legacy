@@ -51,3 +51,6 @@ Changes from 3.7.0rc1 to 3.7.0rc2
 *Operators:
 
 *Translations:
+
+- Added support of Ukrainian language and koi8-u locale. 
+  (Merged from stable/3.5 (3.5.5) rev. 12829 and translations/stable/3.5 rev. 230)
