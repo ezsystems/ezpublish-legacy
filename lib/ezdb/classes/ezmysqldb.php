@@ -177,7 +177,8 @@ class eZMySQLDB extends eZDBInterface
                                      'windows-1256' => 'cp1256',
                                      'windows-1257' => 'cp1257',
                                      'utf-8' => 'utf8',
-                                     'koi8-r' => 'koi8r' );
+                                     'koi8-r' => 'koi8r',
+                                     'koi8-u' => 'koi8u' );
             if ( isset( $charsetMapping[$charset] ) )
                 $charset = $charsetMapping[$charset];
         }
