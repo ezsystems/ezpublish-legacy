@@ -50,7 +50,12 @@ if ( !is_object( $contentObject ) )
 {
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
 }
-$version = $contentObject->attribute( 'current_version' );
+
+if ( isset(  $Params['Version'] ) && is_numeric( $Params['Version'] ) )
+     $version = $Params['Version'];
+else
+     $version = $contentObject->attribute( 'current_version' );
+     
 $contentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeID, $version, true );
 if ( !is_object( $contentObjectAttribute ) )
 {

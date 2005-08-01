@@ -219,7 +219,8 @@ $ViewList['download'] = array(
     'functions' => array( 'read' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'script' => 'download.php',
-    'params' => array( 'ContentObjectID', 'ContentObjectAttributeID', 'FileType' ) );
+    'params' => array( 'ContentObjectID', 'ContentObjectAttributeID', 'FileType' ),
+    'unordered_params' => array( 'version' => 'Version' ) );
 
 $ViewList['action'] = array(
     'functions' => array( 'read' ),
