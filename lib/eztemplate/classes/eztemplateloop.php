@@ -140,7 +140,7 @@ class eZTemplateLoop
         if ( !$this->hasSequence() )
             return;
 
-        $this->Tpl->setVariable( $this->SequenceVarName,  $this->Sequence->val() );
+        $this->Tpl->setVariable( $this->SequenceVarName,  $this->Sequence->val(), $this->RootNamespace );
     }
 
     /*!
@@ -346,7 +346,7 @@ class eZTemplateLoop
     }
 
     /*!
-     * Checks if the given loop variable already exists. If it does, store its name for later cleanup.
+     * Checks if the given loop variable already exists. If it doesn't, store its name for later cleanup.
      * Otherwise shows a warning message.
      *
      * @see eZTemplateLoop::$loopVariablesNames
@@ -382,7 +382,7 @@ class eZTemplateLoop
     var $SequenceVarName;
     /*!
      * Before we create a new loop variable, we check if it already exists.
-     * If it does, we store its name in this array, so that we know
+     * If it doesn't, we store its name in this array, so that we know
      * which variables to destroy after the loop execution finishes.
      */
     var $LoopVariablesNames;
