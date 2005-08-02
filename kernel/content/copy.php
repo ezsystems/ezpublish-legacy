@@ -82,7 +82,7 @@ function &copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
     if( ( $newParentNode =& eZContentObjectTreeNode::fetch( $newParentNodeID ) ) === null )
         return $Module->redirectToView( 'view', array( 'full', 2 ) );
 
-    $classID = $object->ClassID;
+    $classID = $object->attribute('contentclass_id');
     if ( !$newParentNode->checkAccess( 'create', $classID ) )
     {
         $objectID =& $object->attribute( 'id' );
