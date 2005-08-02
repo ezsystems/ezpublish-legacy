@@ -184,6 +184,8 @@ Attributes:
 - Fixed bug #6925: An SQL error message is shown when a user views
   customer's order.
   (Merged from stable/3.5 (3.5.5) rev. 12712)
+- Minor code correction.
+  (Merged from stable/3.6 (3.6.2) rev. 12855 )
 
 *Library:
 
