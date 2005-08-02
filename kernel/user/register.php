@@ -55,9 +55,23 @@ $Params['TemplateObject'] =& $tpl;
 if ( !$http->hasSessionVariable( "RegisterUserID" ) )
 {
     $ini =& eZINI::instance();
+    $errMsg = '';
+    $checkErrNodeId = false;
 
     $defaultUserPlacement = $ini->variable( "UserSettings", "DefaultUserPlacement" );
 
+    $db =& eZDB::instance();
+    $sql = "SELECT count(*) as count FROM ezcontentobject_tree WHERE node_id = $defaultUserPlacement";
+    $rows = $db->arrayQuery( $sql );
+    $count = $rows[0]['count'];
+    if ( $count < 1 )
+    {
+        $errMsg = "The node ($defaultUserPlacement) specified in [UserSettings].DefaultUserPlacement setting in site.ini does not exist!";
+        $checkErrNodeId = true;
+        eZDebug::writeError( "$errMsg" );
+        $tpl->setVariable( 'errMsg', $errMsg );
+        $tpl->setVariable( 'checkErrNodeId', $checkErrNodeId );
+    }
     $userClassID = $ini->variable( "UserSettings", "UserClassID" );
     $class =& eZContentClass::fetch( $userClassID );
 
@@ -261,7 +275,8 @@ if ( $includeResult != 1 )
     return $includeResult;
 }
 $ini =& eZINI::instance();
-eZDebug::writeDebug( $includeResult );
+//eZDebug::writeDebug( $includeResult );
+
 if ( $ini->variable( 'SiteSettings', 'LoginPage' ) == 'custom' )
     $Result['pagelayout'] = 'loginpagelayout.tpl';
 $Result['path'] = array( array( 'url' => false,
