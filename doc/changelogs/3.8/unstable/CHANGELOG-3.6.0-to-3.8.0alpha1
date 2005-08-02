@@ -259,6 +259,9 @@ eZSession:
 - Added support for callback functions. They allow external code to do extra
   cleanup when a session is expired/removed.
 
+eZExtension:
+- Added 2 new functions eZExtension::isExtension( $path ) and eZExtension::nameFromPath( $path )
+
 *SOAP:
 - Added: Default for parameter path to root for eZSOAPClient.
 
