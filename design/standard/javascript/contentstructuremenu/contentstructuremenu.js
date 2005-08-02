@@ -488,14 +488,13 @@ function ezcst_setFoldUnfoldIcons( foldIcon, unfoldIcon, emptyIcon )
 function ezcst_initializeMenuState( additionalNodesList, menuNodeID, autoopenCurrentNode )
 {
     var menu          = ezjslib_getHTMLNodeById( menuNodeID );
-    var currentNodeID = additionalNodesList.pop();           // remove current node from list.
-
     if ( menu != null )
     {
         // restore unfolded nodes ids from cookies
         ezcst_cookie_restoreUnfoldedNodesList();
 
-        // add path to current node to unfolded nodes list
+        // add current node's path to unfolded nodes list
+        var currentNodeID = additionalNodesList.pop();           // remove current node from list.
         ezcst_cookie_addNodesList( additionalNodesList );
 
         var rootNode = ezjslib_getHTMLChildNodeByTag( menu, "li" );
@@ -528,6 +527,13 @@ function ezcst_initializeMenuState( additionalNodesList, menuNodeID, autoopenCur
 
             // Highlight current node
             var currentNode = ezjslib_getHTMLNodeById( currentNodeID );
+            while( !currentNode && currentNodeID )
+            {
+                // if current viewing node is not in the tree menu(is invesible)
+                // then try to find the nearest visible parent node
+                currentNodeID = additionalNodesList.pop();
+                currentNode = ezjslib_getHTMLNodeById( currentNodeID );
+            }
             ezjslib_appendHTMLNodeClassStyle( currentNode, EZCST_HIGHLIGHTED_NODE_CLASS_NAME );
 
             if( autoopenCurrentNode == "enabled" )
