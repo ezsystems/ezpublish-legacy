@@ -65,7 +65,8 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
         </div>{* id="toolbar-top" *}
     {/section}
 
-    {cache-block keys=$uri_string}
+    {default current_user=fetch('user','current_user')}
+    {cache-block keys=array($uri_string, $current_user.role_id_list|implode( ',' ), $current_user.limited_assignment_value_list|implode( ',' ))}
         <div class="break"></div>
     </div>{* id="topcontent" *}
 
@@ -82,7 +83,7 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
         </div>{* id="path-design" *}
     </div>{* id="path" *}
 
-    {cache-block keys=$uri_string}
+    {cache-block keys=array($uri_string, $current_user.role_id_list|implode( ',' ), $current_user.limited_assignment_value_list|implode( ',' ))}
     <hr class="hide" />
 
     <div id="columns">
@@ -91,6 +92,7 @@ div#maincontent-design { width: 100%; } /* This is needed to avoid width bug in 
 
         <hr class="hide" />
     {/cache-block}
+    {/default}
 
         {section show=ezini( 'Toolbar_right', 'Tool', 'toolbar.ini' )|count}
             <div id="rightmenu">

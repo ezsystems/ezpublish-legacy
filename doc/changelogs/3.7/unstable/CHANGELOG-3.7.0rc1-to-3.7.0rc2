@@ -53,6 +53,9 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   (Merged from stable/3.6 (3.6.2) rev. 12862)
 - Fixed bug #6954: Bug adding a translation to global settings. Made ezinisetting datatype non translatable.
   (Merged from stable/3.5 (3.5.5) rev. 12866)
+- Fixed bug #6962, #6963: Latest Tool bar needs user sensitive cache block.
+  Menus should be wrapped in user sensitive cache blocks
+  (Merged from stable/3.6 rev. 12870)
 
 *Library:
 
