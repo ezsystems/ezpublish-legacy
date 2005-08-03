@@ -76,7 +76,7 @@
 
     {* create menu *}
     {default current_user=fetch('user','current_user')}
-    {cache-block keys=array($:itemClickAction, $:rootNodeID,$current_user.role_id_list|implode( ',' )) subtree_expiry=$:rootNode.url_alias}
+    {cache-block keys=array($:itemClickAction, $:rootNodeID,$current_user.role_id_list|implode( ',' ), $current_user.limited_assignment_value_list|implode( ',' )) subtree_expiry=$:rootNode.url_alias}
         {* Fetch content structure. *}
         {set contentStructureTree = content_structure_tree( $:rootNodeID,
                                                             $:classFilter,
