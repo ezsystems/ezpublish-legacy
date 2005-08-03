@@ -80,6 +80,10 @@ if ( $http->hasPostVariable( 'DeleteButton' ) and
                 $workflowInGroups = $workflow->attribute( 'ingroup_list' );
                 if ( count( $workflowInGroups ) == 1 )
                 {
+                    //remove entry from eztrigger table also, if it exists there.
+                    include_once( "kernel/classes/eztrigger.php" );
+                    eZTrigger::removeTriggerForWorkflow( $workflowID );
+
                     // if there is only one group which the workflow belongs to, delete (=disable) it:
                     eZWorkflow::setIsEnabled( false, $workflowID );
                 }
