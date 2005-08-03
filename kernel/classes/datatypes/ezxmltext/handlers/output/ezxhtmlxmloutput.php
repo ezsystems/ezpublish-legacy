@@ -793,7 +793,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $res =& eZTemplateDesignResource::instance();
                 $res->setKeys( array( array( 'classification', $tableClassification ) ) );
 
-                $tpl->setVariable( 'classification', $class, 'xmltagns' );
+                $tpl->setVariable( 'classification', $tableClassification, 'xmltagns' );
                 $tpl->setVariable( 'rows', $tableRows, 'xmltagns' );
                 $tpl->setVariable( 'border', $border, 'xmltagns' );
                 $tpl->setVariable( 'width', $width, 'xmltagns' );
