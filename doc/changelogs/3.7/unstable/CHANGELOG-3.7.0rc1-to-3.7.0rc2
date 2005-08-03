@@ -22,8 +22,6 @@ Changes from 3.7.0rc1 to 3.7.0rc2
 - Fixed bug: regular binary files override each other when uploading via webdav
   (Merged from stable/3.5 (3.5.5) rev. 12772, also in stable/3.6 (3.6.2) 
   rev.12773)
-- Minor code correction.
-  (Merged from stable/3.5 (3.5.5) rev. 12776)
 - Fixed bug #6906: wrong br tag in ezselection datatype template after last item.
   (Merged from stable/3.5 (3.5.5) rev. 12784)
 - Fixed bug: code improvement.
@@ -53,6 +51,8 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   rev. 12857)
 - Fixed bug #6945: While removing workflow, remove entry from eztrigger table also if it exist there.
   (Merged from stable/3.6 (3.6.2) rev. 12862)
+- Fixed bug #6954: Bug adding a translation to global settings. Made ezinisetting datatype non translatable.
+  (Merged from stable/3.5 (3.5.5) rev. 12866)
 
 *Library:
 
