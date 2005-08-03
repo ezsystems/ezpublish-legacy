@@ -248,6 +248,8 @@ Attributes:
   rev. 12857, stable/3.7 (3.7.0rc2) rev. 12858)
 - Minor code correction.
   (Merged from stable/3.6 (3.6.2) rev. 12855)
+- Fixed bug #6945: While removing workflow, remove entry from eztrigger table also if it exist there.
+  (Merged from stable/3.6 (3.6.2) rev. 12862)
 
 *Library:
 
