@@ -72,7 +72,8 @@ class eZIniSettingType extends eZDataType
     function eZIniSettingType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_INISETTING, ezi18n( 'kernel/classes/datatypes', 'Ini Setting', 'Datatype name' ),
-                                                      array( 'serialize_supported' => true ) );
+                                                         array( 'translation_allowed' => false,
+                                                                'serialize_supported' => true ) );
     }
 
     /*!
