@@ -127,8 +127,8 @@ class eZContentCacheManager
     */
     function appendRelatingNodeIDs( &$object, &$nodeIDList )
     {
-        $normalRelated =& $object->relatedContentObjectArray(); 
-        $reversedRelated =& $object->contentObjectListRelatingThis(); 
+        $normalRelated =& $object->relatedContentObjectArray();
+        $reversedRelated =& $object->contentObjectListRelatingThis();
 
         $relatedObjects = array_merge( $normalRelated, $reversedRelated );
         foreach ( array_keys( $relatedObjects ) as $relatedObjectKey )
@@ -529,6 +529,10 @@ class eZContentCacheManager
         eZContentCacheManager::clearObjectViewCacheIfNeeded( $objectID, $versionNum, $additionalNodeList );
         eZContentCacheManager::clearTemplateBlockCacheIfNeeded( $objectID );
 
+        // Clear cached path strings of content SSL zones.
+        include_once( 'kernel/classes/ezsslzone.php' );
+        eZSSLZone::clearCacheIfNeeded();
+
         eZDebug::accumulatorStop( 'check_cache' );
         return true;
     }
@@ -544,6 +548,10 @@ class eZContentCacheManager
 
         eZContentCacheManager::clearObjectViewCache( $objectID, $versionNum, $additionalNodeList );
         eZContentCacheManager::clearTemplateBlockCache( $objectID );
+
+        // Clear cached path strings of content SSL zones.
+        include_once( 'kernel/classes/ezsslzone.php' );
+        eZSSLZone::clearCache();
 
         eZDebug::accumulatorStop( 'check_cache' );
         return true;

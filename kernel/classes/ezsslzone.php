@@ -77,42 +77,94 @@ class eZSSLZone
 
     /**
      * \static
+     */
+    function cacheFileName()
+    {
+        include_once( 'lib/ezutils/classes/ezsys.php' );
+        include_once( 'lib/ezfile/classes/ezdir.php' );
+        return eZDir::path( array( eZSys::cacheDirectory(), 'ssl_zones_cache.php' ) );
+    }
+
+    /**
+     * \static
+     */
+    function clearCacheIfNeeded()
+    {
+        if ( eZSSLZone::enabled() )
+            eZSSLZone::clearCache();
+    }
+
+    /**
+     * \static
+     */
+    function clearCache()
+    {
+        eZDebugSetting::writeDebug( 'kernel-ssl-zone', 'Clearing caches.' );
+
+        // clear in-memory cache
+        unset( $GLOBALS['eZSSLZonesCachedPathStrings'] );
+
+        // and remove cache file
+        $cacheFileName = eZSSLZone::cacheFileName();
+        if ( file_exists( $cacheFileName ) )
+            unlink( $cacheFileName );
+    }
+
+    /**
+     * \static
      * Load content SSL zones definitions.
      * Substitute URIs with corresponding path strings
      * (e.g. "/news" would be subsituted with "/1/2/50").
      * The result is cached in memory to save time on multiple invocations.
+     * It is also saved in a cache file that is usually updated by eZContentCacheManager along with content cache.
      */
     function getSSLZones()
     {
-        // If SSL zones path strings are already cached
-        if ( isset( $GLOBALS['eZSSLZonesCachedPathStrings'] ) )
+        if ( !isset( $GLOBALS['eZSSLZonesCachedPathStrings'] ) ) // if in-memory cache does not exist
         {
-            // then load them
-            $pathStringsArray = $GLOBALS['eZSSLZonesCachedPathStrings'];
-        }
-        else
-        {
-            // else generate the cache.
+            $cacheFileName = eZSSLZone::cacheFileName();
 
-            $ini =& eZINI::instance();
-            $sslSubtrees = $ini->variable( 'SSLZoneSettings', 'SSLSubtrees' );
-            if ( !isset( $sslSubtrees ) || !$sslSubtrees )
-                return array();
-
-            $pathStringsArray = array();
-            foreach ( $sslSubtrees as $uri )
+            // if file cache does not exist then create it
+            if ( !is_readable( $cacheFileName ) )
             {
-                $node = eZContentObjectTreeNode::fetchByURLPath( preg_replace( '/^\//', '', $uri ) );
-                if ( !is_object( $node ) )
+                $ini =& eZINI::instance();
+                $sslSubtrees = $ini->variable( 'SSLZoneSettings', 'SSLSubtrees' );
+
+                if ( !isset( $sslSubtrees ) || !$sslSubtrees )
+                    return array();
+
+                // if there are some content SSL zones defined in the ini settings
+                // then let's calculate path strings for them
+                $pathStringsArray = array();
+                foreach ( $sslSubtrees as $uri )
                 {
-                    eZDebug::writeError( "cannot fetch node by URI '$uri'", 'eZSSLZone::getSSLZones' );
-                    continue;
+                    $node = eZContentObjectTreeNode::fetchByURLPath( preg_replace( '/^\//', '', $uri ) );
+                    if ( !is_object( $node ) )
+                    {
+                        eZDebug::writeError( "cannot fetch node by URI '$uri'", 'eZSSLZone::getSSLZones' );
+                        continue;
+                    }
+                    $pathStringsArray[$uri] = $node->attribute( 'path_string' );
+                    unset( $node );
                 }
-                $pathStringsArray[$uri] = $node->attribute( 'path_string' );
-                unset( $node );
+
+                // write calculated path strings to the file
+                $fh = fopen( $cacheFileName, 'w' );
+                fwrite( $fh, "<?php\n\$pathStringsArray = " . var_export( $pathStringsArray, true ) . ";\n?>" );
+                fclose( $fh );
+
+                return $GLOBALS['eZSSLZonesCachedPathStrings'] = $pathStringsArray;
             }
-            $GLOBALS['eZSSLZonesCachedPathStrings'] = $pathStringsArray;
+            else // if the cache file exists
+            {
+                // let's read its contents and return them
+                include_once( $cacheFileName ); // stores array to $pathStringsArray
+                return $GLOBALS['eZSSLZonesCachedPathStrings'] = $pathStringsArray;
+            }
         }
+
+        // else if in-memory cache already exists then return its contents
+        $pathStringsArray = $GLOBALS['eZSSLZonesCachedPathStrings'];
 
         return $pathStringsArray;
     }
