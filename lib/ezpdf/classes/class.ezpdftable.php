@@ -580,6 +580,7 @@ class eZPDFTable extends Cezpdf
             $oldRowCount = -1;
 
             for ( $rowCount = 0; $rowCount < $maxRowCount; ++$rowCount )
+            foreach( $data as $rowCount => $row )
             {
                 if ( $oldRowCount != -1)
                 {
@@ -668,8 +669,6 @@ class eZPDFTable extends Cezpdf
                                 $row = $data[$rowCount];
                             }
                         }
-
-                        $row = $data[$rowCount];
 
                         $newRow=0;
                         // write the actual data

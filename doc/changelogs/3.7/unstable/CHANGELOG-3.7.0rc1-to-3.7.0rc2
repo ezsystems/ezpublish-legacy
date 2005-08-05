@@ -64,6 +64,8 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   (Merged from stable/3.5 (3.5.5) rev. 12885)
 - Fixed bug #6299: File full view override is missing closing div.
   (Merged from stable/3.5 (3.5.5) rev. 12889)
+- Fixed bug: infinite loop in pdf export.
+  (Merged from stable/3.5 (3.5.5) rev. 12894)
 
 *Library:
 
