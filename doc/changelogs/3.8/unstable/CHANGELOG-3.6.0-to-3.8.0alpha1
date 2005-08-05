@@ -283,6 +283,7 @@ eZExtension:
 - Added: Default for parameter path to root for eZSOAPClient.
 
 *Design:
+- Added: Classification is forwarded to content_view_gui for xmltag object and embed.
 
 *Translations:
 - Added support of Ukrainian language and koi8-u locale. 
