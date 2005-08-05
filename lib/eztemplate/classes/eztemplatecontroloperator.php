@@ -262,7 +262,7 @@ class eZTemplateControlOperator
                     for ( $i = 0; $i < count( $operatorParameters ); ++$i )
                     {
                         $operand =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement, true );
-                        if ( $operand != false )
+                        if ( $operand !== null )
                         {
                             $value = $operand;
                             return;
