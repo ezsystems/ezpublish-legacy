@@ -265,6 +265,8 @@ Attributes:
   (Merged from stable/3.5 (3.5.5) rev. 12894)
 - Fixed bug #7002: translation_allowed property for datatype constractor is ignored by translation system.
   (Merged from stable/3.5 (3.5.5) rev. 12898)
+- Fixed bug #6995: Sql error at keyword insert, keywords are not escaped.
+  (Manually merged from stable/3.5 (3.5.5) rev. 12903)
 
 *Library:
 
