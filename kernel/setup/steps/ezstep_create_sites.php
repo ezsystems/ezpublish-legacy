@@ -772,6 +772,20 @@ WHERE
                     $designINIStored = true;
                 }
                 $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", $resetArray );
+
+                // setting up appropriate data in look&feel object
+                $templateLookObject = eZContentObject::fetch( 54 );
+                $dataMap =& $templateLookObject->fetchDataMap();
+                $dataMap[ 'title' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteName'] );
+                $dataMap[ 'title' ]->store();
+                $dataMap[ 'siteurl' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteURL'] );
+                $dataMap[ 'siteurl' ]->store();
+                $dataMap[ 'email' ]->setAttribute( 'data_text', $siteINIChanges['MailSettings']['AdminEmail'] );
+                $dataMap[ 'email' ]->store();
+                $class =& eZContentClass::fetch( $templateLookObject->attribute( 'contentclass_id' ) );
+                $objectName = $class->contentObjectName( $templateLookObject );
+                $templateLookObject->setName( $objectName );
+                $templateLookObject->store();
             }
 
             foreach ( $extraAdminSettings as $extraSetting )
