@@ -867,7 +867,15 @@ class eZContentObjectVersion extends eZPersistentObject
             $attr = new eZContentObjectAttribute( $attribute );
 
             $attr->setContentClassAttributeIdentifier( $attribute['classattribute_identifier'] );
-            $attr->setContentClassAttributeCanTranslate( $attribute['can_translate'] );
+
+            $dataType =& $attr->dataType();
+            if ( is_object( $dataType ) &&
+                 $dataType->Attributes["properties"]["translation_allowed"] &&
+                 $attribute['can_translate'] )
+                $attr->setContentClassAttributeCanTranslate( 1 );
+            else
+                $attr->setContentClassAttributeCanTranslate( 0 );
+
             $attr->setContentClassAttributeName( $attribute['class_attributename'] );
 
             $returnAttributeArray[] = $attr;
