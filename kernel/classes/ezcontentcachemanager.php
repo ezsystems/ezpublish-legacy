@@ -127,8 +127,8 @@ class eZContentCacheManager
     */
     function appendRelatingNodeIDs( &$object, &$nodeIDList )
     {
-        $normalRelated =& $object->relatedContentObjectArray(); 
-        $reversedRelated =& $object->contentObjectListRelatingThis(); 
+        $normalRelated =& $object->relatedContentObjectArray();
+        $reversedRelated =& $object->contentObjectListRelatingThis();
 
         $relatedObjects = array_merge( $normalRelated, $reversedRelated );
         foreach ( array_keys( $relatedObjects ) as $relatedObjectKey )
@@ -174,9 +174,10 @@ class eZContentCacheManager
         // Find all nodes that have the given keywords
         if ( count( $keywordArray ) > 0 )
         {
-            $keywordString = "'" . implode( "', '", $keywordArray ) . "'";
+            $keywordString = implode( "', '", $keywordArray );
             include_once( 'lib/ezdb/classes/ezdb.php' );
             $db = eZDB::instance();
+            $keywordString = "'".$db->escapeString( $keyword )."'";
             $rows =& $db->arrayQuery( "SELECT DISTINCT ezcontentobject_tree.node_id
                                        FROM
                                          ezcontentobject_tree,
