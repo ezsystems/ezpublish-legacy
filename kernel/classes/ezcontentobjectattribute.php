@@ -493,7 +493,16 @@ class eZContentObjectAttribute extends eZPersistentObject
             eZDebug::accumulatorStart( 'class_a_can_translate', 'Sytem overhead', 'Fetch class attribute can translate value' );
 
             $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
-            $this->ContentClassAttributeCanTranslate = $classAttribute->attribute( 'can_translate' );
+
+            $dataType =& $classAttribute->dataType();
+
+            eZDebug::writeDebug( array( $dataType->Attributes["properties"]["translation_allowed"] ), "sphere" );
+            if ( is_object( $dataType ) &&
+                 $dataType->Attributes["properties"]["translation_allowed"] &&
+                 $classAttribute->attribute( 'can_translate' ) )
+                $this->ContentClassAttributeCanTranslate = 1;
+            else
+                $this->ContentClassAttributeCanTranslate = 0;
             eZDebug::accumulatorStop( 'class_a_can_translate' );
         }
 
