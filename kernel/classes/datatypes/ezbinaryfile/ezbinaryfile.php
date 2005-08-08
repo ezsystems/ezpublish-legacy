@@ -218,7 +218,10 @@ class eZBinaryFile extends eZPersistentObject
                 $parserClass = 'ez' . $handlerSettings[$this->MimeType] . 'parser';
                 $parserObject = new $parserClass();
                 $fileInfo = $this->storedFileInfo();
-                $metaData =& $parserObject->parseFile( $fileInfo['filepath'] );
+                if ( file_exists( $fileInfo['filepath'] ) )
+                {
+                    $metaData =& $parserObject->parseFile( $fileInfo['filepath'] );
+                }
             }
             else
             {

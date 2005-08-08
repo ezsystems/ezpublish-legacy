@@ -70,6 +70,9 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   (Merged from stable/3.5 (3.5.5) rev. 12898)
 - Fixed bug #6995: Sql error at keyword insert, keywords are not escaped.
   (Manually merged from stable/3.5 (3.5.5) rev. 12903)
+- Fixed indexing fatal error while indexing non existing files.
+  ( Merged from stable/3.5 rev. 12912, stable/3.6 rev. 12913 )
+
 
 *Library:
 
