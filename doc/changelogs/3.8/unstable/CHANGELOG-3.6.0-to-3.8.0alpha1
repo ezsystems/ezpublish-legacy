@@ -272,6 +272,9 @@ Attributes:
 - Fixed bug #6749:ezmedia datatype will not create unnecessary row in ezmedia table if media file is not uploaded
   also has_content will get proper boolean true if file is uploaded and false if the file is not uploaded.
   (Merged from stable/3.6 (3.6.2) rev. 12916 )
+- Fixed bug #7007: Upgrade to 3.6 causes: Undefined property: 
+  value in .../ezimagealiashandler.php on line 825.
+  (Merged from stable/3.6 (3.6.2) rev. 12920)
 
 *Library:
 
