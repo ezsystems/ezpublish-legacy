@@ -589,7 +589,7 @@ class eZImageAliasHandler
      of the images.
 
      After the images are removed the attribute will contained an internal structures with empty data.
-     
+
      \note Transaction unsafe.
     */
     function removeAliases()
@@ -664,7 +664,7 @@ class eZImageAliasHandler
         $aliasList =& $this->aliasList();
 //         $hasFileCopy = $this->hasFileCopy();
         $this->resetImageSerialNumber();
-        
+
         foreach ( array_keys( $aliasList ) as $aliasName )
         {
             $alias =& $aliasList[$aliasName];
@@ -819,7 +819,8 @@ class eZImageAliasHandler
         foreach ( $attributes as $attribute )
         {
      /* CHECK FOR EZXML */
-            $imageInformation[$attribute->name()] = $attribute->value;
+            if ( isset( $attribute->value ) )
+                $imageInformation[$attribute->name()] = $attribute->value;
         }
         $children =& $imageInfoNode->children();
         foreach ( $children as $child )
