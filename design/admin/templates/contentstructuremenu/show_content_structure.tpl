@@ -4,6 +4,7 @@
          numChildren    = count($contentStructureTree.children)
          haveChildren   = $numChildren|gt(0)
          showToolTips   = ezini( 'TreeMenu', 'ToolTips'         , 'contentstructuremenu.ini' )
+         translation    = ezini( 'URLTranslator', 'Translation', 'site.ini' )
          toolTip        = ""
          visibility     = 'Visible'
          isRootNode     = false() }
@@ -54,8 +55,17 @@
                 {* Text *}
                 {section show=or( eq($ui_context, 'browse')|not(), eq($:parentNode.object.is_container, true()))}
                     {section show=$:csm_menu_item_click_action|eq('')}
+                        {section show=eq( $:translation, 'enabled' )}
+                            {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}
+                                <a class="nodetext" href="{$:defaultItemClickAction}" title="{$:toolTip}">
+                            {/let}
+                        {section-else}
+                            {let defaultItemClickAction = concat('content/view/full/',$:parentNode.node.node_id)|ezurl(no)}
+                                <a class="nodetext" href="{$:defaultItemClickAction}" title="{$:toolTip}">
+                            {/let}
+                        {/section}
                         {* Do not indent this line; otherwise links will contain empty space at the end! *}
-                        {let defaultItemClickAction = $:parentNode.node.path_identification_string|ezurl(no)}<a class="nodetext" href="{$:defaultItemClickAction}" title="{$:toolTip}">{/let}{section-else}<a class="nodetext" href="{$:csm_menu_item_click_action}/{$:parentNode.node.node_id}" title="{$:toolTip}">{/section}{section show=$:parentNode.node.is_hidden}<span class="node-name-hidden">{$:parentNode.object.name|wash}</span>{section-else}{section show=$:parentNode.node.is_invisible}<span class="node-name-hiddenbyparent">{$:parentNode.object.name|wash}</span>{section-else}<span class="node-name-normal">{$:parentNode.object.name|wash}</span>{/section}{/section}{section show=$:parentNode.node.is_hidden}<span class="node-hidden">(Hidden)</span></a>{section-else}{section show=$:parentNode.node.is_invisible}<span class="node-hiddenbyparent">(Hidden by parent)</span></a>{section-else}</a>{/section}
+                        {section-else}<a class="nodetext" href="{$:csm_menu_item_click_action}/{$:parentNode.node.node_id}" title="{$:toolTip}">{/section}{section show=$:parentNode.node.is_hidden}<span class="node-name-hidden">{$:parentNode.object.name|wash}</span>{section-else}{section show=$:parentNode.node.is_invisible}<span class="node-name-hiddenbyparent">{$:parentNode.object.name|wash}</span>{section-else}<span class="node-name-normal">{$:parentNode.object.name|wash}</span>{/section}{/section}{section show=$:parentNode.node.is_hidden}<span class="node-hidden">(Hidden)</span></a>{section-else}{section show=$:parentNode.node.is_invisible}<span class="node-hiddenbyparent">(Hidden by parent)</span></a>{section-else}</a>{/section}
                     {/section}
                 {section-else}
                     {section show=$:parentNode.node.is_hidden}
