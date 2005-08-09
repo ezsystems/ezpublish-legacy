@@ -176,10 +176,35 @@ class eZMediaType extends eZDataType
     }
 
     /*!
+     Checks if file uploads are enabled, if not it gives a warning.
+    */
+    function checkFileUploads()
+    {
+        $isFileUploadsEnabled = ini_get( 'file_uploads' );
+        if ( !$isFileUploadsEnabled )
+        {
+            $isFileWarningAdded =& $GLOBALS['eZMediaTypeWarningAdded'];
+            if ( !isset( $isFileWarningAdded ) or
+                 !$isFileWarningAdded )
+            {
+                eZAppendWarningItem( array( 'error' => array( 'type' => 'kernel',
+                                                              'number' => EZ_ERROR_KERNEL_NOT_AVAILABLE ),
+                                            'text' => ezi18n( 'kernel/classes/datatypes',
+                                                              'File uploading is not enabled. Please contact the site administrator to enable it.' ) ) );
+                $isFileWarningAdded = true;
+            }
+        }
+    }
+
+    /*!
      Fetches input and stores it in the data instance.
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        eZMediaType::checkFileUploads();
+        if ( !eZHTTPFile::canFetch( $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" ) ) )
+            return false;
+
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
         $player = $classAttribute->attribute( "data_text1" );
         switch( $player )
@@ -559,7 +584,11 @@ class eZMediaType extends eZDataType
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
-        return true;
+        $mediaFile =& eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
+                                      $contentObjectAttribute->attribute( "version" ) );
+        if ( !$mediaFile )
+            return false;
+       return true;
     }
 
     function &objectAttributeContent( $contentObjectAttribute )
@@ -568,7 +597,7 @@ class eZMediaType extends eZDataType
                                       $contentObjectAttribute->attribute( "version" ) );
         if ( !$mediaFile )
         {
-            $mediaFile =& eZMedia::create( $contentObjectAttribute->attribute( "id" ), $contentObjectAttribute->attribute( "version" ) );
+            return false;
         }
         return $mediaFile;
     }
