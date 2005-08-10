@@ -80,6 +80,11 @@ class eZMail
                                     'disposition' => 'inline' );
         $this->UserAgent = "eZ publish, Version $version";
 
+        $ini =& eZINI::instance();
+
+        if ( $ini->hasVariable( 'MailSettings', 'ContentType' ) )
+            $this->setContentType( $ini->variable( 'MailSettings', 'ContentType' ) );
+
         if (! defined( 'EZ_MAIL_LINE_SEPARATOR' ) )
         {
             $ini =& eZINI::instance( 'site.ini' );
