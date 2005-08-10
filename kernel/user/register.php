@@ -66,7 +66,7 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) )
     $count = $rows[0]['count'];
     if ( $count < 1 )
     {
-        $errMsg = "The node ($defaultUserPlacement) specified in [UserSettings].DefaultUserPlacement setting in site.ini does not exist!";
+        $errMsg = ezi18n( 'design/standard/user', 'The node (%1) specified in [UserSettings].DefaultUserPlacement setting in site.ini does not exist!', null, array( $defaultUserPlacement ) );
         $checkErrNodeId = true;
         eZDebug::writeError( "$errMsg" );
         $tpl->setVariable( 'errMsg', $errMsg );
