@@ -999,7 +999,8 @@ class eZContentUpload
                 $parentNodes = array( $location );
             }
         }
-        if ( !$parentNodes )
+
+        if ( !$parentNodes && isset( $defaultPlacement ) && $defaultPlacement )
         {
             $parentNodes = array( $defaultPlacement );
         }
@@ -1012,14 +1013,25 @@ class eZContentUpload
         foreach ( $parentNodes as $key => $parentNode )
         {
             $parentNode = eZContentUpload::nodeAliasID( $parentNode );
-            $parentNodes[$key] = $parentNode;
+            if ( $parentNode === false )
+                unset( $parentNodes[$key] );
+            else
+                $parentNodes[$key] = $parentNode;
+
         }
+        if ( count( $parentNodes ) == 0 )
+        {
+            return false;
+        }
+
         if ( !$parentMainNode )
         {
             $parentMainNode = $parentNodes[0];
         }
-        $parentMainNode = eZContentUpload::nodeAliasID( $parentMainNode );
-
+        else
+        {
+            $parentMainNode = eZContentUpload::nodeAliasID( $parentMainNode );
+        }
         return true;
     }
 
@@ -1095,13 +1107,18 @@ class eZContentUpload
     function nodeAliasID( $nodeName )
     {
         if ( is_numeric( $nodeName ) )
-            return $nodeName;
+        {
+            $node =& eZContentObjectTreeNode::fetch( $nodeName );
+            if ( is_object( $node ) )
+                return $nodeName;
+        }
+
         $uploadINI =& eZINI::instance( 'upload.ini' );
         $aliasList = $uploadINI->variable( 'UploadSettings', 'AliasList' );
         if ( isset( $aliasList[$nodeName] ) )
             return $aliasList[$nodeName];
         $contentINI =& eZINI::instance( 'content.ini' );
-        if ( $nodeName == 'content' )
+        if ( $nodeName == 'content' or $nodeName == 'root' )
             return $contentINI->variable( 'NodeSettings', 'RootNode' );
         else if ( $nodeName == 'users' )
             return $contentINI->variable( 'NodeSettings', 'UserRootNode' );
