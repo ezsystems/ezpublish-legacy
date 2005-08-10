@@ -5,9 +5,9 @@
 <h1>{"Register user"|i18n("design/standard/user")}</h1>
 </div>
 
-{section show=$checkErrNodeId}
+{section show=and( and( is_set( $checkErrNodeId ), $checkErrNodeId ), eq( $checkErrNodeId, true ) )}
 	 <div class="message-error">
-		<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {$errMsg|i18n( 'design/standard/user' )}</h2>
+		<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {$errMsg}</h2>
 	 </div>
 {/section}
 
