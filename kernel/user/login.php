@@ -117,6 +117,10 @@ if ( $Module->isCurrentAction( 'Login' ) and
         if ( get_class( $user ) != 'ezuser' )
             $loginWarning = true;
     }
+    else
+    {
+        $loginWarning = true;
+    }
 
     $redirectionURI = $userRedirectURI;
     if ( $redirectionURI == '' )
