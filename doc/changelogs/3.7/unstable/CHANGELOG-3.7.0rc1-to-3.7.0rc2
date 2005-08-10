@@ -82,6 +82,8 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   when charset is set to koi8-u in CharacterSettings].Charset setting of i18n.ini.append.
 - Fixed bug #7004: Text in the content tree doesn't obey when you shut off URL transation.
   (Merged from stable/3.6 (3.6.2) rev. 12926)
+- Fixed bug #7003: $mail->setContentType() - ignored.
+  (Merged from stable/3.6 (3.6.2) rev. 12930)
 
 *Library:
 
