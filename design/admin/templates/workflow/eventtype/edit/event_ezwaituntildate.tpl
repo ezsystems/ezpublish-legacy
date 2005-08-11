@@ -3,7 +3,11 @@
     <label>{'Class'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
     <select name="WorkflowEvent_event_ezwaituntildate_class_{$event.id}[]">
     {section var=Classes loop=$event.workflow_type.contentclass_list}
-        <option value="{$Classes.item.id}">{$Classes.item.name|wash}</option>
+        {section show=and( and( is_set( $selectedClass ), $selectedClass ), eq( $selectedClass, $Classes.item.id ) )}
+		<option value="{$Classes.item.id}" selected=true>{$Classes.item.name|wash}</option>
+        {section-else}
+                <option value="{$Classes.item.id}">{$Classes.item.name|wash}</option>	
+	{/section}
     {/section}
     </select>
     <input class="button" type="submit" name="CustomActionButton[{$event.id}_load_class_attribute_list]" value="{'Update attributes'|i18n( 'design/admin/workflow/eventtype/edit' )}" />
