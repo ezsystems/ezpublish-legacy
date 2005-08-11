@@ -1,4 +1,4 @@
-<form name="WorkflowEdit" method="post" action={concat( $module.functions.edit.uri, '/', $workflow.id, '/', $group_id )|ezurl}> 
+<form name="WorkflowEdit" method="post" action={concat( $module.functions.edit.uri, '/', $workflow.id, '/', $group_id )|ezurl}>
 
 {* Feedback *}
 {section show=and( $validation.processed, $validation.groups )}
@@ -64,7 +64,7 @@
 <input class="halfbox" type="text" name="WorkflowEvent_description[]" value="{$Events.item.description}" />
 </div>
 
-{event_edit_gui event=$Events.item}
+{event_edit_gui event=$Events.item selectedClass=$selectedClass}
 
 <input type="hidden" name="WorkflowEvent_id[]" value="{$Events.item.id}" />
 <input type="hidden" name="WorkflowEvent_placement[]" value="{$Events.item.placement}" />
