@@ -324,7 +324,9 @@ $res =& eZTemplateDesignResource::instance();
 
 $res->setKeys( array( array( "workflow", $workflow->attribute( "id" ) ) ) );
 
-$tpl->setVariable( "selectedClass", $GLOBALS['eZWaitUntilDateSelectedClass'] );
+if ( isset( $GLOBALS['eZWaitUntilDateSelectedClass'] ) )
+    $tpl->setVariable( "selectedClass", $GLOBALS['eZWaitUntilDateSelectedClass'] );
+
 $tpl->setVariable( "http", $http );
 $tpl->setVariable( "can_store", $canStore );
 $tpl->setVariable( "require_fixup", $requireFixup );

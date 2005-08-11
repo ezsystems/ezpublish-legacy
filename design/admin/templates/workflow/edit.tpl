@@ -64,7 +64,11 @@
 <input class="halfbox" type="text" name="WorkflowEvent_description[]" value="{$Events.item.description}" />
 </div>
 
-{event_edit_gui event=$Events.item selectedClass=$selectedClass}
+{section show=and( is_set( $selectedClass ), $selectedClass )}
+        {event_edit_gui event=$Events.item selectedClass=$selectedClass}
+{section-else}	
+        {event_edit_gui event=$Events.item}
+{/section}
 
 <input type="hidden" name="WorkflowEvent_id[]" value="{$Events.item.id}" />
 <input type="hidden" name="WorkflowEvent_placement[]" value="{$Events.item.placement}" />
