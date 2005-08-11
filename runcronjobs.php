@@ -288,6 +288,13 @@ if ( $cronPart !== false )
     $scriptGroup = "CronjobPart-$cronPart";
 $scripts = $ini->variable( $scriptGroup, 'Scripts' );
 
+if ( !is_array( $scripts ) or count( $scripts ) == 0 and !$isQuiet )
+{
+    $cli->notice( 'Notice: No scripts found for execution.' );
+    $script->shutdown();
+    exit();
+}
+
 $index = 0;
 
 foreach ( $scripts as $cronScript )
