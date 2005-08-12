@@ -163,8 +163,27 @@ class eZObjectRelationListType extends eZDataType
         if ( $http->hasPostVariable( $priorityBase ) )
             $priorities = $http->postVariable( $priorityBase );
         $reorderedRelationList = array();
+        // Contains existing priorities
+        $existsPriorities = array();
+
         for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
         {
+            $priorities[$contentObjectAttributeID][$i] = (int) $priorities[$contentObjectAttributeID][$i];
+            $existsPriorities[$i] = $priorities[$contentObjectAttributeID][$i];
+
+            // Check if the priority is already in the array
+            for ( $j = 0; $j < count( $content['relation_list'] ); ++$j )
+            {
+                if ( $i == $j ) continue;
+                if ( $priorities[$contentObjectAttributeID][$i] == $priorities[$contentObjectAttributeID][$j] )
+                {
+                    // if it is
+                    $index = $priorities[$contentObjectAttributeID][$i];
+                    while ( in_array( $index, $existsPriorities ) )
+                        ++$index;
+                    $priorities[$contentObjectAttributeID][$j] = $index;
+                }
+            }
             $relationItem = $content['relation_list'][$i];
             if ( $relationItem['is_modified'] )
             {
@@ -195,9 +214,12 @@ class eZObjectRelationListType extends eZDataType
         unset( $content['relation_list'] );
         $content['relation_list'] = array();
         reset( $reorderedRelationList );
+        $i = 0;
         while ( list( $key, $relationItem ) = each( $reorderedRelationList ) )
         {
             $content['relation_list'][] = $relationItem;
+            $content['relation_list'][$i]['priority'] = $i + 1;
+            ++$i;
         }
         $contentObjectAttribute->setContent( $content );
         return true;
@@ -303,7 +325,7 @@ class eZObjectRelationListType extends eZDataType
                     $content['relation_list'][$i]['node_id'] = $objectNodeID;
                 }
                 else
-                { 
+                {
                     if ( !eZNodeAssignment::fetch( $object->attribute( 'id' ), $object->attribute( 'current_version' ), $contentObject->attribute( 'main_node_id' ), false ) )
                     {
                         $nodeAssignment =& eZNodeAssignment::create( array( 'contentobject_id' => $object->attribute( 'id' ),
@@ -770,12 +792,12 @@ class eZObjectRelationListType extends eZDataType
                     // Check if the given object ID has a numeric value, if not go to the next object.
                     if ( !is_numeric( $objectID ) )
                     {
-                        eZDebug::writeError( "Related object ID (objectID): '$objectID', is not a numeric value.", 
+                        eZDebug::writeError( "Related object ID (objectID): '$objectID', is not a numeric value.",
                             "eZObjectRelationListType::customObjectAttributeHTTPAction" );
 
                         continue;
                     }
-                    
+
                     /* Here we check if current object is already in the related objects list.
                      * If so, we don't add it again.
                      * FIXME: Stupid linear search. Maybe there's some better way?
