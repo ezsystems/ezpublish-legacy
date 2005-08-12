@@ -91,6 +91,12 @@ Changes from 3.6.1 to 3.6.2
 - Fixed bug #6150: Updating class in "Wait untill date" 
   publishing causes selected class to go to first.
   (Merged from stable/3.5 (3.5.5) rev. 12946, 12947)
+- Fixed bug #7025: Problem with Underscore in siteaccess.
+- Fixed bug: access.php, function accessType(): $uri remains unchanged even after
+  successful matching using 'element' or 'regexp' types of URIMatching.
+- Fixed bug: file access.php, function accessMatchText(): inconsistent types
+  comparson - strpos result 0 as false; in relsult no matching for pre- or post- sub-strings.
+
 
 *Library:
 
