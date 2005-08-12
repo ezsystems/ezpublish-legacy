@@ -75,6 +75,11 @@ Changes from 3.5.4 to 3.5.5
 - Fixed bug #7015: ezlupdate fails at register.tpl.
 - Fixed bug #6150: Updating class in "Wait untill date" 
   publishing causes selected class to go to first.
+- Fixed bug #7025: Problem with Underscore in siteaccess.
+- Fixed bug: access.php, function accessType(): $uri remains unchanged even after
+  successful matching using 'element' or 'regexp' types of URIMatching.
+- Fixed bug: file access.php, function accessMatchText(): inconsistent types
+  comparson - strpos result 0 as false; in relsult no matching for pre- or post- sub-strings.
 - Fixed bug #6263: Datatype: Object relation list - 
   setting objects to the same order number.
 

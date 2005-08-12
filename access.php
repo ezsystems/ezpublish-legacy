@@ -38,6 +38,7 @@ define( 'EZ_ACCESS_TYPE_HTTP_HOST', 4 );
 define( 'EZ_ACCESS_TYPE_INDEX_FILE', 5 );
 define( 'EZ_ACCESS_TYPE_STATIC', 6 );
 define( 'EZ_ACCESS_TYPE_SERVER_VAR', 7 );
+define( 'EZ_ACCESS_TYPE_URL', 8 );
 
 define( 'EZ_ACCESS_SUBTYPE_PRE', 1 );
 define( 'EZ_ACCESS_SUBTYPE_POST', 2 );
@@ -106,12 +107,40 @@ function accessType( &$uri, $host, $port, $file )
             {
                 $type = EZ_ACCESS_TYPE_URI;
                 $match_type = $ini->variable( 'SiteAccessSettings', 'URIMatchType' );
-                if ( $match_type == 'element' )
+
+                if ( $match_type == 'map' )
                 {
-                    $matcher = $ini->variable( 'SiteAccessSettings', 'URIMatchElement' );
+                    if ( $ini->hasVariable( 'SiteAccessSettings', 'URIMatchMapItems' ) )
+                    {
+                        $match_item = $uri->element( 0 );
+                        $matchMapItems = $ini->variableArray( 'SiteAccessSettings', 'URIMatchMapItems' );
+                        foreach ( $matchMapItems as $matchMapItem )
+                        {
+                            $matchMapURI = $matchMapItem[0];
+                            $matchMapAccess = $matchMapItem[1];
+                            if ( $matchMapURI == $match_item and in_array( $matchMapAccess, $siteAccessList ) )
+                            {
+                                $uri->increase( 1 );
+                                $uri->dropBase();
+                                $access['name'] = $matchMapAccess;
+                                $access['type'] = $type;
+                                return $access;
+                            }
+                        }
+                    }
+                }
+                else if ( $match_type == 'element' )
+                {
+                    $match_index = $ini->variable( 'SiteAccessSettings', 'URIMatchElement' );
                     $elements = $uri->elements( false );
-                    $elements = array_slice( $elements, 0, $matcher );
+                    $elements = array_slice( $elements, 0, $match_index );
                     $name = implode( '_', $elements );
+                }
+                else if ( $match_type == 'text' )
+                {
+                    $match_item = $uri->elements();
+                    $matcher_pre = $ini->variable( 'SiteAccessSettings', 'URIMatchSubtextPre' );
+                    $matcher_post = $ini->variable( 'SiteAccessSettings', 'URIMatchSubtextPost' );
                 }
                 else if ( $match_type == 'regexp' )
                 {
@@ -218,12 +247,22 @@ function accessType( &$uri, $host, $port, $file )
 
             if ( in_array( $name, $siteAccessList ) )
             {
-                if ( $type == EZ_ACCESS_TYPE_URI && $match_type == 'element' )
+                if ( $type == EZ_ACCESS_TYPE_URI )
                 {
-                    $uri->increase( $matcher );
-                    $uri->dropBase();
+                    if ( $match_type == 'element' )
+                    {
+                        $uri->increase( $match_index );
+                        $uri->dropBase();
+                    }
+                    else if ( $match_type == 'regexp' )
+                    {
+                        $uri->setURIString( $match_item );
+                    }
+                    else if ( $match_type == 'text' )
+                    {
+                        $uri->setURIString( $match_item );
+                    }
                 }
-
                 $access['type'] = $type;
                 $access['name'] = $name;
                 return $access;
@@ -267,28 +306,39 @@ function changeAccess( $access )
     return $access;
 }
 
-function accessMatchRegexp( $text, $reg, $num )
+function accessMatchRegexp( &$text, $reg, $num )
 {
     $reg = preg_replace( "#/#", "\\/", $reg );
-    if ( preg_match( "/$reg/", $text, $regs ) )
+    if ( preg_match( "/$reg/", $text, $regs ) and $num < count( $regs ) )
     {
+        $text = str_replace( $regs[$num], '', $text );
         return $regs[$num];
     }
     return null;
 }
 
-function accessMatchText( $text, $match_pre, $match_post )
+function accessMatchText( &$text, $match_pre, $match_post )
 {
     $ret = null;
-    $pos = strpos( $text, $match_pre );
-    if ( $pos == false )
-        return null;
-    $text = substr( $text, $pos + strlen( $match_pre ) );
-    $pos = strpos( $text, $match_post );
-    if ( $pos == false )
-        return null;
-    $text = substr( $text, 0, $pos );
-    return $text;
+    if ( $match_pre != '' )
+    {
+        $pos = strpos( $text, $match_pre );
+        if ( $pos === false )
+            return null;
+
+        $ret = substr( $text, $pos + strlen( $match_pre ) );
+        $text = substr( $text, 0, $pos );
+    }
+    if ( $match_post != '' )
+    {
+        $pos = strpos( $ret, $match_post );
+        if ( $pos === false )
+            return null;
+
+        $text .= substr( $ret, $pos + 1 );
+        $ret = substr( $ret, 0, $pos );
+    }
+    return $ret;
 }
 
 function accessAllowed( $uri )
