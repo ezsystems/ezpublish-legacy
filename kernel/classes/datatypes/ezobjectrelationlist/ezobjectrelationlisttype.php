@@ -171,13 +171,12 @@ class eZObjectRelationListType extends eZDataType
             $priorities[$contentObjectAttributeID][$i] = (int) $priorities[$contentObjectAttributeID][$i];
             $existsPriorities[$i] = $priorities[$contentObjectAttributeID][$i];
 
-            // Check if the priority is already in the array
+            // Change objects' priorities providing their uniqueness.
             for ( $j = 0; $j < count( $content['relation_list'] ); ++$j )
             {
                 if ( $i == $j ) continue;
                 if ( $priorities[$contentObjectAttributeID][$i] == $priorities[$contentObjectAttributeID][$j] )
                 {
-                    // if it is
                     $index = $priorities[$contentObjectAttributeID][$i];
                     while ( in_array( $index, $existsPriorities ) )
                         ++$index;
