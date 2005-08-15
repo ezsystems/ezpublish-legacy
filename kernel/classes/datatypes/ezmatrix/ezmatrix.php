@@ -809,6 +809,33 @@ class eZMatrix
             $this->Matrix = array();
         }
     }
+    /*!
+     \static
+     \return the XML structure in \a $domDocument as text.
+             It will take of care of the necessary charset conversions
+             for content storage.
+    */
+    function domString( &$domDocument )
+    {
+        $ini =& eZINI::instance();
+        $xmlCharset = $ini->variable( 'RegionalSettings', 'ContentXMLCharset' );
+        if ( $xmlCharset == 'enabled' )
+        {
+            include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+            $charset = eZTextCodec::internalCharset();
+        }
+        else if ( $xmlCharset == 'disabled' )
+            $charset = true;
+        else
+            $charset = $xmlCharset;
+        if ( $charset !== true )
+        {
+            include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+            $charset = eZCharsetInfo::realCharsetCode( $charset );
+        }
+        $domString = $domDocument->toString( $charset );
+        return $domString;
+    }
 
     /*!
      Will return the XML string for this matrix.
@@ -824,7 +851,6 @@ class eZMatrix
         $name->appendChild( $nameValue );
 
         $name->setContent( $this->Name() );
-
         $root->appendChild( $name );
 
 
@@ -866,7 +892,6 @@ class eZMatrix
 
         $root->appendChild( $rowsNode );
 
-
         foreach ( $this->Cells as $cell )
         {
             $cellNode =& $doc->createElementNode( 'c' );
@@ -876,7 +901,7 @@ class eZMatrix
             $root->appendChild( $cellNode );
         }
 
-        $xml =& $doc->toString();
+        $xml = eZMatrix::domString( $doc );
 
         return $xml;
     }
