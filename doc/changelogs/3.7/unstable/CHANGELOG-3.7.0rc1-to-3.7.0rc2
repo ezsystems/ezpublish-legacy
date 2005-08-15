@@ -97,6 +97,8 @@ Changes from 3.7.0rc1 to 3.7.0rc2
 - Fixed bug #6263: Datatype: Object relation list - 
   setting objects to the same order number.
   (Merged from stable/3.5 (3.5.5) rev. 12958)
+- Fixed bug copy subtree function does not handle datatype ezobjectrelationlist correctly.
+  (Merged from stable/3.6 (3.6.2 ) rev. 12967)
 
 *Library:
 
