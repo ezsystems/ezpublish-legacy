@@ -239,6 +239,7 @@ class eZPDFTable extends Cezpdf
             'xOrientation' => 'centre',
             'showHeadings' => 1,
             'textCol' => eZMath::rgbToCMYK2( 0, 0, 0 ),
+            'titleTextCMYK' => eZMath::rgbToCMYK2( 0, 0, 0 ),
             'width' => 0,
             'maxWidth' => 0,
             'cols' => array(),
@@ -563,8 +564,9 @@ class eZPDFTable extends Cezpdf
             $firstLine=1;
 
 
+            $isHelperObjectNeeded = ( !$options['test'] && ( $options['shaded'] || isset( $options['titleCellCMYK'] ) ) );
             // open an object here so that the text can be put in over the shading
-            if (!$options['test'] && $options['shaded']){
+            if ( $isHelperObjectNeeded ){
                 $this->saveState();
                 $textObjectId = $this->openObject();
                 $this->closeObject();
@@ -579,14 +581,17 @@ class eZPDFTable extends Cezpdf
             $maxRowCount = count( $data );
             $oldRowCount = -1;
 
+            $leftOvers=array();
+
             for ( $rowCount = 0; $rowCount < $maxRowCount; ++$rowCount )
-            foreach( $data as $rowCount => $row )
             {
                 if ( $oldRowCount != -1)
                 {
                     $rowCount = $oldRowCount;
                     $oldRowCount = -1;
                 }
+
+                $row = $data[$rowCount];
 
                 $cnt++;
                 // the transaction support will be used to prevent rows being split
@@ -612,6 +617,10 @@ class eZPDFTable extends Cezpdf
                     $newRow=1;
                     while(!$abortTable && ($newPage || $newRow)){
 
+                        $resetLeftOvers = true;
+                        if ( count( $leftOvers ) > 0 )
+                            $row = $leftOvers;
+
                         if ($newPage || $y<$this->ez['bottomMargin'] || (isset($options['minRowSpace']) && $y<($this->ez['bottomMargin']+$options['minRowSpace'])) ){
                             // check that enough rows are with the heading
                             if ($options['protectRows']>0 && $movedOnce==0 && $cnt<=$options['protectRows']){
@@ -626,7 +635,8 @@ class eZPDFTable extends Cezpdf
                                     $y0=$y1;
                                 }
                             }
-                            if ($options['shaded']){
+                            if ( $isHelperObjectNeeded )
+                            {
                                 $this->closeObject();
                                 $this->restoreState();
                             }
@@ -642,7 +652,8 @@ class eZPDFTable extends Cezpdf
                             $x0=$baseX0+$dm;
                             $x1=$baseX1+$dm;
 
-                            if (!$options['test'] && $options['shaded']){
+                            if ( $isHelperObjectNeeded )
+                            {
                                 $this->saveState();
                                 $textObjectId = $this->openObject();
                                 $this->closeObject();
@@ -667,6 +678,7 @@ class eZPDFTable extends Cezpdf
                                 $oldRowCount = $rowCount;
                                 $rowCount = 0;
                                 $row = $data[$rowCount];
+                                $resetLeftOvers = false;
                             }
                         }
 
@@ -675,9 +687,15 @@ class eZPDFTable extends Cezpdf
                         // if these cells need to be split over a page, then $newPage will be set, and the remaining
                         // text will be placed in $leftOvers
                         $newPage=0;
-                        $leftOvers=array();
+                        if ( $resetLeftOvers )
+                            $leftOvers=array();
 
                         $realColumnCount = 0;
+
+                        $bgTitleX = 2147483647;
+                        $bgTitleY = -2147483647;
+                        $bgTitleW = 0;
+                        $bgTitleH = 0;
 
                         for ( $columnCount = 0; $columnCount < count ( $row ); $columnCount++ )
                         {
@@ -752,10 +770,15 @@ class eZPDFTable extends Cezpdf
                                                                         $options['test'] );
 
                                         $this->y = $storeY;
-                                        $line=$textInfo['text'];
+                                        if ( isset( $textInfo['text'] ) )
+                                            $line = $textInfo['text'];
+                                        else
+                                            $line = '';
+
                                         if ( $line == '' )
                                         {
-                                            $this->y -= $textInfo['height'];
+                                            if ( isset( $textInfo['height'] ) )
+                                                $this->y -= $textInfo['height'];
                                         }
                                     }
                                 }
@@ -768,12 +791,50 @@ class eZPDFTable extends Cezpdf
                                 $maxRowHeight=$dy;
                             }
 
+                            /////////////////////////////////////////////////////////////////
+                            // calc title's background rect
+                            /////////////////////////////////////////////////////////////////
+                            if ( isset( $options['cellData'][$realColumnCount.','.$rowCount] ) &&
+                                 $options['cellData'][$realColumnCount.','.$rowCount]['title'] === true &&
+                                 isset( $options['titleCellCMYK'] ) )
+                            {
+                                $cellX = $pos[$realColumnCount] - $options['gap']/2;
+                                $cellY = $y+$decender+$height;
+                                $cellW = $maxWidth[$colSpan][$realColumnCount] + $options['gap'];
+                                $cellH = -$maxRowHeight;
+
+                                if ( $bgTitleX > $cellX )
+                                    $bgTitleX = $cellX;
+
+                                if ( $bgTitleY < $cellY )
+                                    $bgTitleY = $cellY;
+
+                                $bgTitleW += $cellW;
+
+                                if ( $bgTitleH > $cellH )
+                                    $bgTitleH = $cellH;
+                            }
+                            /////////////////////////////////////////////////////////////////
+
                             $realColumnCount += $colSpan;
 
                         } // End for ( ... count( $row ) ... )
 
                         if ( !$options['test'] )
                         {
+                            ////////////////////////////////////////////////////////////
+                            // draw title's background
+                            ////////////////////////////////////////////////////////////
+                            if( $bgTitleW != 0 && $bgTitleH != 0 )
+                            {
+                                // we have non-empty rect
+                                $this->closeObject();
+                                $this->setColor( $options['titleCellCMYK'] );
+                                $this->filledRectangle( $bgTitleX, $bgTitleY, $bgTitleW, $bgTitleH );
+                                $this->reopenObject($textObjectId);
+                            }
+                            ////////////////////////////////////////////////////////////
+
                             if ( isset( $options['cellData'][$realColumnCount.','.$rowCount] ) &&
                                  $options['cellData'][$realColumnCount.','.$rowCount]['title'] === true )
                             {
@@ -828,8 +889,6 @@ class eZPDFTable extends Cezpdf
                                 $realColumnCount += $colSpan;
                             }
 
-                            // set $row to $leftOvers so that they will be processed onto the new page
-                            $row = $leftOvers;
                             // now add the shading underneath
                             // Draw lines for each row and above
                             if ( $options['showLines'] > 0 )
@@ -927,7 +986,7 @@ class eZPDFTable extends Cezpdf
                     break;
                 }
 
-            } // end of foreach ($data as $row)
+            } // end of ( ... $rowCount < $maxRowCount ... )
 
             if ( isset ( $options['yBottom'] ) && $options['yBottom'] > 0 )
             {
@@ -956,7 +1015,7 @@ class eZPDFTable extends Cezpdf
         }
 
         // close the object for drawing the text on top
-        if ($options['shaded']){
+        if ( $isHelperObjectNeeded ){
             $this->closeObject();
             $this->restoreState();
         }

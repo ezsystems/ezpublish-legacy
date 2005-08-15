@@ -297,6 +297,8 @@ Attributes:
   (Merged from stable/3.5 (3.5.5) rev. 12958)
 - Fixed bug copy subtree function does not handle datatype ezobjectrelationlist correctly.
   (Merged from stable/3.6 (3.6.2 ) rev. 12967)
+- Fixed bug: ezpdf: impossibly to set background color of table's header.
+  (Merged from stable/3.5 (3.5.5) rev. 12970)
   
 *Library:
 
