@@ -101,6 +101,8 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   (Merged from stable/3.6 (3.6.2 ) rev. 12967)
 - Fixed bug: ezpdf: impossibly to set background color of table's header.
   (Merged from stable/3.5 (3.5.5) rev. 12970)
+- Fixed bug #7017: eZMatrix datatype handler stores data in bad encoding.
+  (Merged from stable/3.6 (3.6.2) rev. 12974)
 
 *Library:
 
