@@ -549,6 +549,63 @@ foreach ( $syncObjectIDListNew as $contentObjectID )
     } // foreach END
 }
 
+// 6. fixing datatype ezobjectrelationlist
+$conditions = array( 'contentobject_id' => '',
+                     'data_type_string' => 'ezobjectrelationlist' );
+foreach ( $syncObjectIDListNew as $contentObjectID )
+{
+    $conditions[ 'contentobject_id' ] = $contentObjectID;
+    $attributeList = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(), null, $conditions );
+    if ( count( $attributeList ) == 0 )
+    {
+        continue;
+    }
+    foreach ( array_keys( $attributeList ) as $key )
+    {
+        $relationListAttribute =& $attributeList[ $key ];
+        $relationsXmlText = $relationListAttribute->attribute( 'data_text' );
+        $relationsDom =& eZObjectRelationListType::parseXML( $relationsXmlText );
+        $relationItems =& $relationsDom->elementsByName( 'relation-item' );
+        $isRelationModified = false;
+        foreach ( $relationItems as $relationItem )
+        {
+            $allAttributes = $relationItem->attributes();
+            $relatedNodeID = $relationItem->attributeValue('node-id');
+            $relatedNode =& eZContentObjectTreeNode::fetch( $relatedNodeID );
+            $originalObjectID = $relatedNode->attribute('contentobject_id');
+            $srcKey = array_search( (int) $originalObjectID, $syncObjectIDListSrc );
+            if ( $srcKey !== false )
+            {
+                $isRelationModified = true;
+                foreach( $allAttributes as $attribute )
+                {
+                    $attrName = $attribute->Name;
+                    if( $attrName == 'contentobject-id' )
+                    {
+                        $attribute->setContent( $syncObjectIDListNew[$srcKey] );
+                    }
+                    if( $attrName == 'node-id' )
+                    {
+                        $attribute->setContent( $syncNodeIDListNew[$srcKey] );
+                    }
+                    if( $attrName == 'parent-node-id' )
+                    {
+                        $attrContent = $attribute->Content;
+                        $newNode = eZContentObjectTreeNode::fetch( $syncNodeIDListNew[$srcKey] );
+                        $attribute->setContent( $newNode->attribute( 'parent_node_id' ) );
+                    }
+                }
+            }
+        }
+        if ( $isRelationModified )
+        {
+            $attributeID = $relationListAttribute->attribute( 'id' );
+            $changedDomString = eZObjectRelationListType::domString( $relationsDom );
+            $db->query( "UPDATE ezcontentobject_attribute SET data_text='$changedDomString' WHERE id=$attributeID" );
+        }
+    }
+}
+
 $cli->output( "Done." );
 
 $script->shutdown();
