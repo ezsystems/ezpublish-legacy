@@ -109,7 +109,7 @@ class eZTemplatesStatisticsReporter
 
             if ( $as_html )
             {
-                $tdClass = ( $j % 2 == 0 ) ? 'used_templates_stats1' : 'used_templates_stats1';
+                $tdClass = ( $j % 2 == 0 ) ? 'used_templates_stats1' : 'used_templates_stats2';
 
                 $requestedTemplateViewURI = $templateViewFunction . $requestedTemplateName;
                 $actualTemplateViewURI = $templateViewFunction . $actualTemplateName;
