@@ -94,7 +94,7 @@ class eZTemplatesStatisticsReporter
             $editIconFile = $siteURI . "/design/$std_base/images/edit.gif";
             $overrideIconFile = $siteURI . "/design/$std_base/images/override-template.gif";
 
-            $tdClass = "timingpoint1";
+            $tdClass = 'used_templates_stats1';
             $j = 0;
 
             $currentSiteAccess = $GLOBALS['eZCurrentAccess']['name'];
@@ -109,7 +109,7 @@ class eZTemplatesStatisticsReporter
 
             if ( $as_html )
             {
-                $tdClass = ( $j % 2 == 0 ) ? "timingpoint1" : "timingpoint2";
+                $tdClass = ( $j % 2 == 0 ) ? 'used_templates_stats1' : 'used_templates_stats1';
 
                 $requestedTemplateViewURI = $templateViewFunction . $requestedTemplateName;
                 $actualTemplateViewURI = $templateViewFunction . $actualTemplateName;

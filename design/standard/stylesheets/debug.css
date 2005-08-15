@@ -93,3 +93,18 @@ div.debug-toolbar label
 {
     font-weight: normal;
 }
+
+/* used templates statistics */
+td.used_templates_stats1
+{
+	background-color : #ffffff;
+	border-top : 1px solid #444488;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+td.used_templates_stats2
+{
+	background-color : #eeeeee;
+	border-top : 1px solid #444488;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
