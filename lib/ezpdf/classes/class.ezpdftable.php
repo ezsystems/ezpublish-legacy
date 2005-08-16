@@ -1205,12 +1205,20 @@ class eZPDFTable extends Cezpdf
             $filename = $newFilename['url'];
         }
 
+        $drawableAreaWidth = $this->ez['pageWidth'] - $this->ez['leftMargin'] - $this->ez['rightMargin'];
+
         switch( $params['align'] )
         {
             case 'right':
             {
                 $xOffset = $this->ez['pageWidth'] - ( $this->rightMargin() + $params['width'] );
                 $rightMargin = $this->rightMargin() + $params['width'];
+                if ( $rightMargin > ( $drawableAreaWidth + $this->rightMargin() ) )
+                {
+                    // the image is equal or larger then width of the page(of the drawable area) => no point
+                    // to set $rightMargin and next object(text, image, ...) should be outputted below the image.
+                    $rightMargin = false;
+                }
             } break;
 
             case 'center':
@@ -1223,6 +1231,13 @@ class eZPDFTable extends Cezpdf
             {
                 $xOffset = $this->leftMargin();
                 $leftMargin = $this->leftMargin() + $params['width'];
+                if ( $leftMargin > ( $drawableAreaWidth + $this->leftMargin() ) )
+                {
+                    // the image is equal or larger then width of the page(of the drawable area) => no point
+                    // to set $leftMargin and next object(text, image, ...) should be outputted below the image.
+                    $leftMargin = false;
+                }
+
             } break;
         }
 
@@ -1235,10 +1250,14 @@ class eZPDFTable extends Cezpdf
 
         $yOffset = $this->yOffset();
         $whileCount = 0;
-        while ( $this->leftMargin( $yOffset ) > $xOffset &&
-                ++$whileCount < 100 )
+
+        if ( $params['width'] < $drawableAreaWidth )
         {
-            $yOffset -= 10;
+            while ( $this->leftMargin( $yOffset ) > $xOffset &&
+                    ++$whileCount < 100 )
+            {
+                $yOffset -= 10;
+            }
         }
 
         $yOffset -= $params['height'];
