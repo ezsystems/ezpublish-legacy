@@ -73,6 +73,8 @@ class eZURLType extends eZDataType
 //             $currentObjectAttribute =& eZContentObjectAttribute::fetch( $contentObjectAttributeID,
 //                                                                         $currentVersion );
             $dataText = $originalContentObjectAttribute->attribute( "data_text" );
+            $url = $originalContentObjectAttribute->attribute( "content" );
+            $contentObjectAttribute->setContent( $url );
             $contentObjectAttribute->setAttribute( "data_text", $dataText );
         }
         else
