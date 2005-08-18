@@ -968,6 +968,17 @@ foreach ( $commandList as $commandItem )
         if ( file_exists( $archiveName ) )
         {
             $package =& eZPackage::import( $archiveName, $commandItem['name'] );
+
+            if ( $package == EZ_PACKAGE_STATUS_ALREADY_EXISTS )
+            {
+                if ( $command == 'install' )
+                    $cli->notice( "Package " . $cli->stylize( 'emphasize', $archiveName ) . " is already installed " );
+                else
+                    $cli->notice( "Package " . $cli->stylize( 'emphasize', $archiveName ) . " is already imported " );
+
+                $package = false;
+            }
+
             if ( $package )
             {
                 if ( $command == 'install' )
@@ -982,9 +993,9 @@ foreach ( $commandList as $commandItem )
             else
             {
                 if ( $command == 'install' )
-                    $cli->error( "Failed importing package $archiveName" );
-                else
                     $cli->error( "Failed installing package $archiveName" );
+                else
+                    $cli->error( "Failed importing package $archiveName" );
             }
         }
         else
