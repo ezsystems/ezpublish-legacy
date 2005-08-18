@@ -90,7 +90,7 @@ class eZWorkflowType
 
     function statusName( $status )
     {
-        $statusNames =& $GLOBAL["eZWorkflowTypeStatusNames"];
+        $statusNames =& $GLOBALS["eZWorkflowTypeStatusNames"];
         if ( !is_array( $statusNames ) )
         {
             $statusNames = array( EZ_WORKFLOW_TYPE_STATUS_NONE => ezi18n( 'kernel/classes', 'No state yet' ),
