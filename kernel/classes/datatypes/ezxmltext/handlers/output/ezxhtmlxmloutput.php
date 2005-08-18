@@ -731,8 +731,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     foreach ( $tableRow->children() as $tableCell )
                     {
                         $cellContent = "";
-                        $tdSctionLevel = $currentSectionLevel;
-                        $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, $currentSectionLevel, $tdSctionLevel );
+                        $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, 0, 0);
 
                         $tpl->setVariable( 'content', $cellContent, 'xmltagns' );
                         $cellWidth = $tableCell->attributeValueNS( 'width', "http://ez.no/namespaces/ezpublish3/xhtml/" );

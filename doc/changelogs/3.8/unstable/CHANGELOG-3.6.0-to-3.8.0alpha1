@@ -315,6 +315,8 @@ Attributes:
   (Merged from stable/3.7 (3.7.0rc2) rev. 13007)
 - Fixed bug #7057: Constant wrongly defined in RAD-generated datatype code
   (Merged from stable/3.7 (3.7.0rc2) rev. 13007)
+- Fixed #7044: Problem using <header> within <table> tag.
+  (Merged from stable/3.7 (3.7.0rc2) rev. 13010)
   
 *Library:
 
