@@ -109,7 +109,7 @@ class eZWorkflow extends eZPersistentObject
 
     function statusName( $status )
     {
-        $statusNames =& $GLOBAL["eZWorkflowStatusNames"];
+        $statusNames =& $GLOBALS["eZWorkflowStatusNames"];
         if ( !is_array( $statusNames ) )
         {
             $statusNames = array( EZ_WORKFLOW_STATUS_NONE => ezi18n( 'kernel/classes', 'No state yet' ),
