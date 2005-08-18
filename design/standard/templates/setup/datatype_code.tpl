@@ -17,7 +17,7 @@
 
 include_once( "kernel/classes/ezdatatype.php" );
 
-define( {$constant_name}, "{$datatype_name}" );
+define( "{$constant_name}", "{$datatype_name}" );
 
 class {$full_class_name} extends eZDataType 
 {literal}{{/literal}
@@ -35,7 +35,7 @@ class {$full_class_name} extends eZDataType
      \return EZ_INPUT_VALIDATOR_STATE_ACCEPTED or EZ_INPUT_VALIDATOR_STATE_INVALID if
              the values are accepted or not
     */
-    function validateClassAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    function validateClassAttributeHTTPInput( &$http, $base, &$classAttribute )
     {literal}{{/literal}
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     {literal}}{/literal}

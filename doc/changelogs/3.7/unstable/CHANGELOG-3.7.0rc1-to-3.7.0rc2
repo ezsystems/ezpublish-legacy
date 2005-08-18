@@ -113,6 +113,10 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   (Merged from stable/3.5 (3.5.5) rev. 12987)
 - Fixed bug: packages: fatal error in ezpm.php when imported package is already installed.
   (patch by Katana, merged from stable/3.5 (3.5.5) rev. 12999)
+- Fixed bug #7056: Naming inconsistency in RAD-generated datatype code
+  (Merged from stable/3.6 (3.6.2) rev. 13005)
+- Fixed bug #7057: Constant wrongly defined in RAD-generated datatype code
+  (Merged from stable/3.6 (3.6.2) rev. 13005)
 
 *Library:
 
