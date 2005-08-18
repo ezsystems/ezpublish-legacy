@@ -1955,11 +1955,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 if ( count($linkIDArray) > 0 )
                 {
                     $inIDSQL = implode( ', ', $linkIDArray );
-    
+
                     $db =& eZDB::instance();
-    
+
                     $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
-    
+
                     foreach ( $linkArray as $linkRow )
                     {
                         $this->LinkArray[$linkRow['id']] = $linkRow['url'];
@@ -2320,7 +2320,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                         foreach ( $tableCell->children() as $tableCellChildNode )
                         {
-                            $cellContent .= $this->inputTdXML( $tableCellChildNode, $currentSectionLevel, $tdSectionLevel );
+                            $cellContent .= $this->inputTdXML( $tableCellChildNode, $currentSectionLevel, $tdSectionLevel - $currentSectionLevel );
                         }
 
                         $cellAttribute = "";
@@ -2511,6 +2511,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             case 'td' :
             case 'th' :
             case 'li' :
+            case 'header' :
+            case 'section' :
             case 'paragraph' :
             {
             }break;
