@@ -73,13 +73,13 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
         if ( $dom )
         {
             $domNode =& $dom->elementsByName( "section" );
-        
+
             $relatedObjectIDArray = array();
             $nodeIDArray = array();
-        
+
             // Fetch all links and cache the url's
             $links =& $dom->elementsByName( "link" );
-        
+
             if ( count( $links ) > 0 )
             {
                 $linkIDArray = array();
@@ -90,35 +90,35 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                     if ( $linkID != null )
                         if ( !in_array( $linkID, $linkIDArray ) )
                             $linkIDArray[] = $linkID;
-        
+
                     $objectID = $link->attributeValue( 'object_id' );
                     if ( $objectID != null )
                         if ( !in_array( $objectID, $relatedObjectIDArray ) )
                             $relatedObjectIDArray[] = $objectID;
-        
+
                     $nodeID = $link->attributeValue( 'node_id' );
                     if ( $nodeID != null )
                         if ( !in_array( $nodeID, $nodeIDArray ) )
                             $nodeIDArray[] = $nodeID;
                 }
-        
+
                 if ( count( $linkIDArray ) > 0 )
                 {
                     $inIDSQL = implode( ', ', $linkIDArray );
-        
+
                     $db =& eZDB::instance();
                     $linkArray = $db->arrayQuery( "SELECT * FROM ezurl WHERE id IN ( $inIDSQL ) " );
-        
+
                     foreach ( $linkArray as $linkRow )
                     {
                         $this->LinkArray[$linkRow['id']] = $linkRow['url'];
                     }
                 }
             }
-        
+
             // Fetch all embeded objects and cache by ID
             $objectArray =& $dom->elementsByName( "object" );
-        
+
             if ( count( $objectArray ) > 0 )
             {
                 foreach ( $objectArray as $object )
@@ -129,9 +129,9 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                             $relatedObjectIDArray[] = $objectID;
                 }
             }
-        
+
             $embedTagArray =& $dom->elementsByName( "embed" );
-        
+
             if ( count( $embedTagArray ) > 0 )
             {
                 foreach ( $embedTagArray as $embedTag )
@@ -140,21 +140,21 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                     if ( $objectID != null )
                         if ( !in_array( $objectID, $relatedObjectIDArray ) )
                             $relatedObjectIDArray[] = $objectID;
-        
+
                     $nodeID = $embedTag->attributeValue( 'node_id' );
                     if ( $nodeID !=null )
                         if ( !in_array( $nodeID, $nodeIDArray ) )
                             $nodeIDArray[] = $nodeID;
                 }
             }
-        
+
             if ( $relatedObjectIDArray != null )
                 $this->ObjectArray =& eZContentObject::fetchIDArray( $relatedObjectIDArray );
-        
+
             if ( $nodeIDArray != null )
             {
                 $nodes =& eZContentObjectTreeNode::fetch( $nodeIDArray );
-        
+
                 if ( is_array( $nodes ) )
                 {
                     foreach( $nodes as $node )
@@ -174,7 +174,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
               //      eZDebug::writeError( "Embedded node(s) fetching failed", "XML output handler" );
               //  }
             }
-        
+
             $sectionNode =& $domNode[0];
             $output = "";
             if ( get_class( $sectionNode ) == "ezdomnode" )
@@ -422,12 +422,12 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                 // Making valid URI
                 // include_once( 'lib/ezutils/classes/ezuri.php' );
                 // eZURI::transformURI( $href );
-    
+
                 $this->LinkParameters['href'] = $href;
-    
+
                 $this->LinkParameters['class'] = $tag->attributeValue( 'class' );
                 $this->LinkParameters['target'] = $tag->attributeValue( 'target' );
-                
+
                 $this->LinkParameters['title'] = $tag->attributeValueNS( 'title', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
                 $this->LinkParameters['id'] = $tag->attributeValueNS( 'id', 'http://ez.no/namespaces/ezpublish3/xhtml/' );
             }
@@ -458,7 +458,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
         {
             case '#text' :
             {
-                $text .= htmlspecialchars( $tag->content() );
+                $text = htmlspecialchars( $tag->content() );
                 // Get rid of linebreak and spaces stored in xml file
                 $text = preg_replace( "#[\n]+#", '', $text );
                 $text = preg_replace( "#    #", '', $text );
@@ -467,20 +467,20 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                 {
                     $res =& eZTemplateDesignResource::instance();
                     $res->setKeys( array( array( 'classification', $this->LinkParameters['class'] ) ) );
-                
+
                     $tpl->setVariable( 'content', $text, 'xmltagns' );
-                
+
                     $tpl->setVariable( 'href', $this->LinkParameters['href'], 'xmltagns' );
                     $tpl->setVariable( 'target', $this->LinkParameters['target'], 'xmltagns' );
                     $tpl->setVariable( 'classification', $this->LinkParameters['class'], 'xmltagns' );
                     $tpl->setVariable( 'title', $this->LinkParameters['title'], 'xmltagns' );
                     $tpl->setVariable( 'id', $this->LinkParameters['id'], 'xmltagns' );
-                
+
                     $uri = 'design:content/datatype/pdf/ezxmltags/link.tpl';
-                
+
                     eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                    $tagText .= str_replace( $this->WhiteSpaceArray, '', implode( '', $textElements ) );  
-                
+                    $tagText .= str_replace( $this->WhiteSpaceArray, '', implode( '', $textElements ) );
+
                     // Remove the design key, so it will not override other tags
                     $res->removeKey( 'classification' );
                  //   $tpl->unsetVariable( 'classification', 'xmltagns' );
