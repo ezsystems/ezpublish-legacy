@@ -126,6 +126,8 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   (Merged from stable/3.6 (3.6.2) rev. 13016)
 - Fixed bug: Some errors appear when user stores "PDF exoprt".
   (Merged from stable/3.6 (3.6.2) rev. 13020).
+- Fixed bug #6611: Grammatical error.
+  (Merged from stable/trunk 3.8.0alpha1 rev. 13024)
 
 *Library:
 
