@@ -322,6 +322,8 @@ Attributes:
 - Fixed bug #6940: Some error appears during the browse Source node 
   in the PDF export.
   (Merged from stable/3.6 (3.6.2) rev. 13016)
+- Fixed bug: Some errors appear when user stores "PDF exoprt".
+  (Merged from stable/3.6 (3.6.2) rev. 13020).
   
 *Library:
 
