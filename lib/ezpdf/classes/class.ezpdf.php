@@ -838,7 +838,7 @@ class Cezpdf extends Cpdf
 
                         $textInfo = $this->addText($left,$this->y,$size,substr( $line, 0, $directiveArray['directive'] ) ,$angle,$adjust);
                         $line = substr( $line, $directiveArray['directive'] );
-                        if ( $textInfo['width'] != 0 )
+                        if ( isset( $textInfo['width'] ) && $textInfo['width'] != 0 )
                         {
                             $this->setXOffset( $left + $textInfo['width'] );
                         }
