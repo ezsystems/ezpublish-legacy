@@ -129,6 +129,8 @@ Changes from 3.7.0rc1 to 3.7.0rc2
 - Fixed bug #6611: Grammatical error.
   (Merged from stable/trunk 3.8.0alpha1 rev. 13024)
 - Fixed bug #7054: Problems attaching an image object to an article.
+- Fixed bug #6989: WebDAV won't store utf-8 text as unicode when calling to an
+  upload handler.
 
 *Library:
 

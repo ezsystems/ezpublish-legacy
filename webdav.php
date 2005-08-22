@@ -60,6 +60,23 @@ function eZUpdateDebugSettings()
     eZDebug::updateSettings( $debugSettings );
 }
 
+/*!
+ Reads settings from i18n.ini and passes them to eZTextCodec.
+*/
+function eZUpdateTextCodecSettings()
+{
+    $ini =& eZINI::instance( 'i18n.ini' );
+
+    list( $i18nSettings['internal-charset'], $i18nSettings['http-charset'], $i18nSettings['mbstring-extension'] ) =
+        $ini->variableMulti( 'CharacterSettings', array( 'Charset', 'HTTPCharset', 'MBStringExtension' ), array( false, false, 'enabled' ) );
+
+    include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+    eZTextCodec::updateSettings( $i18nSettings );
+}
+
+// Initialize text codec settings
+eZUpdateTextCodecSettings();
+
 // Check for extension
 include_once( 'lib/ezutils/classes/ezextension.php' );
 include_once( 'kernel/common/ezincludefunctions.php' );
