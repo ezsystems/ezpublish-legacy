@@ -471,7 +471,7 @@ class eZModule
             }
         }
 
-        $uri = preg_replace( "#(^.*)(/+)$#", "\$1", $uri );
+        $uri = preg_replace( "#(^.*)(//+)$#", "\$1", $uri );
         if ( $anchor !== false )
             $uri .= '#' . urlencode( $anchor );
         return $uri;
