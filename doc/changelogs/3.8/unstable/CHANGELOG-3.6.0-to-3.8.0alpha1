@@ -325,6 +325,8 @@ Attributes:
 - Fixed bug: Some errors appear when user stores "PDF exoprt".
   (Merged from stable/3.6 (3.6.2) rev. 13020).
 - Fixed bug #6611: Grammatical error.
+- Fixed bug #7054: Problems attaching an image object to an article.  
+  (Merged from stable/3.7 (3.7.0rc2) rev. 13026)
   
 *Library:
 
