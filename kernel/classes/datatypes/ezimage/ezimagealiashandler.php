@@ -815,7 +815,7 @@ class eZImageAliasHandler
         foreach ( $attributes as $attribute )
         {
      /* CHECK FOR EZXML */
-            $imageInformation[$attribute->name()] = $attribute->value;
+            $imageInformation[$attribute->name()] = $attribute->content();
         }
         $children =& $imageInfoNode->children();
         foreach ( $children as $child )
