@@ -80,6 +80,7 @@ class eZInformationCollection extends eZPersistentObject
                                                               'required' => true ) ),
                       'keys' => array( 'id' ),
                       'function_attributes' => array( 'attributes' => 'informationCollectionAttributes',
+                                                      'data_map' => 'dataMap',
                                                       'object' => 'object' ),
                       'increment_key' => 'id',
                       'class_name' => 'eZInformationCollection',
@@ -541,6 +542,32 @@ class eZInformationCollection extends eZPersistentObject
         else
         {
             $retArray = $arrayRes;
+        }
+
+        return $retArray;
+    }
+
+    /*!
+      \return an array of attributes of the information collection by identifier.
+
+      Fetches information collection attributes and indexes by the
+      content class attribute identifier.
+    */
+    function &dataMap()
+    {
+        // Retreive the indexed information collection attributes
+        $informationCollectionAttributes =& $this->informationCollectionAttributes();
+
+        $retArray = array();
+
+        // Loop through each attribute hashing the array with the
+        // class attribute identifier associated with the information
+        // collection attribute
+        foreach ( $informationCollectionAttributes as $informationAttribute )
+        {
+            $contentClassAttribute =& $informationAttribute->attribute( 'contentclass_attribute' );
+            $id = $contentClassAttribute->attribute( 'identifier' );
+            $retArray[$id] = $informationAttribute;
         }
 
         return $retArray;

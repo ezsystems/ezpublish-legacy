@@ -10,6 +10,11 @@ Changes from 3.6.0 to 3.8.0alpha1
 - Added SSL zones functionality.
 - Added functionality to ezsoapclient for SSL.
   (see doc/features/3.8/ssl_enhancement_with_ezsoapclient.txt for detail)
+- Added support for 'data_map' attribute to information collection objects.
+  (Submitted by: Paul Forsyth and Vittal Aithal)
+- Added support for 'content' and 'has_content' attributes to information
+  collection attribute objects.
+  (Submitted by: Paul Forsyth and Vittal Aithal)
 
 Attributes:
 - Added: 'last_visit' attribute to eZUser

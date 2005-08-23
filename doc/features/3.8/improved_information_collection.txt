@@ -1,0 +1,24 @@
+*Title: Information Collection improvements
+
+*Documentation:
+
+Added the function 'data_map' for information collections which will
+return attributes indexed by their identifiers. This provides another
+method for templates to refer to attributes of an information collection.
+
+For example:
+
+{$collection.data_map.email}
+
+Added the functions 'content' and 'hasContent' for information
+collection attributes. These functions conform to the same interface as
+contentobject attributes.
+
+For example:
+
+{if $collection.data_map.name.has_content}
+Recorded name is: {$collection.data_map.name.content|wash(xhtml)}
+{/if}
+
+*Authors: Paul Forsyth (paul@visionwt.com), Vittal Aithal (vittal@visionwt.com)
+
