@@ -55,7 +55,7 @@ create index name_hash on file(name_hash);
 //save to disk
 //purge from disk
 //store filer
-
+//filesize
 
 class eZDBFile
 {
@@ -122,7 +122,6 @@ class eZDBFile
             $fp = fopen($localfilename, "rb");
             while (!feof($fp))
             {
-
                 // Make the data mysql insert safe
                 $binarydata = addslashes(fread($fp, 65535));
 
@@ -151,10 +150,8 @@ class eZDBFile
         $filename = mysql_real_escape_string($filename);
         clearstatcache();
         $currenttime = time();
-//        $storedate = date("Y-m-d H:i:s", $currenttime);
 
         // Insert into file table
-        //FIXME: strlen might return incorrect value
         $content_size = strlen($fileContent);
         $SQL  = "insert into file (datatype, name, name_hash, scope, size, mtime) values ('";
         $SQL .= "UNSET_FILE_TYPE" . "', '" . $filename . "', '" . md5($filename) .  "', '" . $scope .  "', " . $content_size;
@@ -167,22 +164,20 @@ class eZDBFile
 
         $fileid = mysql_insert_id($this->linkid);
 
-        // Insert into the filedata table
-        if ( $content_size > 65535 )
+        $pos = 0;
+        while ( $pos < $content_size )
         {
-            echo ("ezdbfile::storeContentToFile : datasize to big, not implemented");
-            die;
+            $chunk = substr( $fileContent, $pos, 65535 );
+            $pos += 65535;
+            echo( "X" );
+            $SQL = "insert into filedata (masterid, filedata) values (";
+            $SQL .= $fileid . ", '" . addslashes( $chunk ) . "')";
+            if (!mysql_query($SQL, $this->linkid))
+            {
+                die("Failure to insert binary inode data row!");
+            }
         }
-        // Make the data mysql insert safe
-        $binarydata = addslashes($fileContent);
 
-        $SQL = "insert into filedata (masterid, filedata) values (";
-        $SQL .= $fileid . ", '" . $binarydata . "')";
-
-        if (!mysql_query($SQL, $this->linkid)) {
-            die("Failure to insert binary inode data row!");
-
-        }
     }
 
     // check if file exist in database
