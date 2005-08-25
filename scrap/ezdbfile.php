@@ -52,6 +52,11 @@ create index name_hash on file(name_hash);
 
 */
 
+//save to disk
+//purge from disk
+//store filer
+
+
 class eZDBFile
 {
 
@@ -77,7 +82,7 @@ class eZDBFile
 
     }
 
-
+    
     function uploadHttpFile($postVariable)
     {
 // Init values - these are used incase you want to upload multiple files, you just
@@ -138,6 +143,7 @@ class eZDBFile
         }
     }
 
+    // store data in variable $fileContent do database
     function storeContentToFile( $filename, $fileContent, $scope)
     {
         if ($this->file_exists( $filename ) )
@@ -179,6 +185,7 @@ class eZDBFile
         }
     }
 
+    // check if file exist in database
     function file_exists( $filename)
     {
         $filename = mysql_real_escape_string($filename);
@@ -194,6 +201,7 @@ class eZDBFile
             return true;
     }
 
+    // get mtime of file
     function getMtime( $filename)
     {
         $filename = mysql_real_escape_string($filename);
@@ -213,6 +221,7 @@ class eZDBFile
             return 0;
     }
 
+    // delete file from database
     function delete( $filename )
     {
         $filename = mysql_real_escape_string($filename);
@@ -256,11 +265,9 @@ class eZDBFile
     }
 
 
-    /* fetch file some db */
+    /* fetch file form db, returns filecontent */
     function fetchFile ( $realfilename)
     {
-//        if (isset($_GET["id"]))
-
         $realfilename = mysql_real_escape_string($realfilename);
         $nodelist = array();
 
@@ -293,8 +300,6 @@ class eZDBFile
         }
 //        mysql_free_result($RES);
 
-        // Send down the header to the client
-        // Loop thru and stream the nodes 1 by 1
 
         $result="";
         for ($Z = 0 ; $Z < count($nodelist) ; $Z++)
@@ -315,6 +320,72 @@ class eZDBFile
         return $result;
 
     }
+
+    // save file to tmpfile on disk. caller must delete tmp file
+    // returns name of tempfile
+    function saveToTmpFile( $filename )
+    {
+        $tmpfilename = tempnam("/tmp", "tmpasd");
+        $filename = mysql_real_escape_string($filename);
+        $nodelist = array();
+
+        // Pull file meta-data
+        $SQL = "select id from file where name_hash='" . md5($filename). "'";
+
+        if (!$RES = mysql_query($SQL, $this->linkid))
+        {
+            die("Failure to retrive file metadata : $filename");
+        }
+
+        if (mysql_num_rows($RES) != 1)
+        {
+            die("Not a valid file id! : $filename");
+        }
+
+        $FileObj = mysql_fetch_object($RES);
+//        mysql_free_result($RES);
+        // Pull the list of file inodes
+        $SQL = "SELECT id FROM filedata WHERE masterid = " . $FileObj->id . " order by id"; 
+
+        if (!$RES = mysql_query($SQL, $this->linkid))
+        {
+            die("Failure to retrive list of file inodes");
+        }
+
+        while ($CUR = mysql_fetch_object($RES))
+        {
+            $nodelist[] = $CUR->id;
+        }
+//        mysql_free_result($RES);
+
+
+        $result="";
+        $fp = fopen($tmpfilename, "w");
+
+        for ($Z = 0 ; $Z < count($nodelist) ; $Z++)
+        {
+            $SQL = "select filedata from filedata where id = " . $nodelist[$Z];
+
+            if (!$RESX = mysql_query($SQL, $this->linkid))
+            {
+                die("Failure to retrive file node data");
+            }
+
+            $DataObj = mysql_fetch_object($RESX);
+            fwrite( $fp, $DataObj->filedata) ;
+
+//            unset ($DataObj);
+//            mysql_free_result($RESX); 
+        }
+
+        fclose( $fp );
+
+        return $tmpfilename;
+
+    }
+//save to disk
+//purge from disk
+
 
     var $Storage_IP;
     var $Storage_Port;
