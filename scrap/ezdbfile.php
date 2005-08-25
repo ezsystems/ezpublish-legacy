@@ -325,7 +325,15 @@ class eZDBFile
     // returns name of tempfile
     function saveToTmpFile( $filename )
     {
-        $tmpfilename = tempnam("/tmp", "tmpasd");
+          $tmpBaseDir = isset( $_ENV['TMPDIR'] ) ? $_ENV['TMPDIR'] : '';
+            // When TMPDIR is not set we have to guess the directory
+            // On Unix systems we expect /tmp to be used
+            if ( strlen( $uploadDir ) == 0 )
+            {
+                $tmpBaseDir = '/tmp';
+            }
+
+        $tmpfilename = tempnam( $tmpBaseDir, "tmpdbfile");
         $filename = mysql_real_escape_string($filename);
         $nodelist = array();
 
