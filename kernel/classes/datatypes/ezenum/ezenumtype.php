@@ -125,16 +125,20 @@ class eZEnumType extends eZDataType
     function initializeClassAttribute( &$classAttribute )
     {
         $contentClassAttributeID = $classAttribute->attribute( 'id' );
-        $enums =& eZEnumValue::fetchAllElements( $contentClassAttributeID, 0 );
+        $enums =& eZEnumValue::fetchAllElements( $contentClassAttributeID, 1 );
 
-        $db =& eZDB::instance();
-        $db->begin();
-        foreach ( $enums as $enum )
+        if ( count ( $enums ) == 0 )
         {
-            $enum->setAttribute( 'contentclass_attribute_version', 1 );
-            $enum->store();
+            $enums =& eZEnumValue::fetchAllElements( $contentClassAttributeID, 0 );
+            $db =& eZDB::instance();
+            $db->begin();
+            foreach ( $enums as $enum )
+            {
+                $enum->setAttribute( 'contentclass_attribute_version', 1 );
+                $enum->store();
+            }
+            $db->commit();
         }
-        $db->commit();
     }
 
     /*!
