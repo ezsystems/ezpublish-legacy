@@ -193,7 +193,19 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     {
         $output = "";
         eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', "level " . $section->toString( 0 ) );
-        foreach ( $section->children() as $sectionNode )
+
+        $isBlockTag = false;
+        $listChildren = & $section->children();
+        // If <paragraph> is the one and only child then don't render it as <p>.
+        if ( count( $listChildren ) == 1 )
+        {
+            if ( $listChildren[0]->name() == "paragraph" )
+            {
+                 $listChildren = $listChildren[0]->children();
+            }
+        }
+
+        foreach ( $listChildren as $sectionNode )
         {
             if ( $tdSectionLevel == null )
             {
@@ -205,6 +217,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $currentSectionLevel = $currentSectionLevel;
             }
             $tagName = $sectionNode->name();
+
+
             switch ( $tagName )
             {
                 // tags with parameters
@@ -254,6 +268,23 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $output .= $this->renderXHTMLSection( $tpl, $sectionNode, $sectionLevel );
                     else
                         $output .= $this->renderXHTMLSection( $tpl, $sectionNode, $currentSectionLevel, $sectionLevel );
+                }break;
+                // Supported tags
+                case 'emphasize' :
+                case '#text' :
+                case 'line' :
+                case 'strong' :
+                case 'ul' :
+                case 'ol' :
+                case 'literal' :
+                case 'custom' :
+                case 'link' :
+                case 'table' :
+                case 'object' :
+                case 'anchor' :
+                case 'embed' :
+                {
+                    $output .= $this->renderXHTMLTag( $tpl, $sectionNode, $currentSectionLevel, $isBlockTag );
                 }break;
 
                 default :
@@ -730,7 +761,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     foreach ( $tableRow->children() as $tableCell )
                     {
                         $cellContent = "";
-                        $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, 0, 0);
+                        $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, 0, 0 );
 
                         $tpl->setVariable( 'content', $cellContent, 'xmltagns' );
                         $cellWidth = $tableCell->attributeValueNS( 'width', "http://ez.no/namespaces/ezpublish3/xhtml/" );
@@ -823,7 +854,19 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $listItemContent = "";
 
                     $listSectionLevel = $currentSectionLevel;
-                    foreach ( $listItemNode->children() as $itemChildNode )
+
+                    $listChildren =& $listItemNode->children();
+
+                    // If <paragraph> is the one and only child then don't render it as <p>.
+                    if ( count( $listChildren ) == 1 )
+                    {
+                        if ( $listChildren[0]->name() == "paragraph" )
+                        {
+                            $listChildren = $listChildren[0]->children();
+                        }
+                    }
+
+                    foreach ( $listChildren as $itemChildNode )
                     {
                         $listSectionLevel = $currentSectionLevel;
                         if ( $itemChildNode->name() == "section" or $itemChildNode->name() == "paragraph" )
