@@ -269,7 +269,7 @@ class eZTemplateForeachFunction
             return;
 
         $loop->parseParamValue( 'array', $array );
-        if ( !$array )
+        if ( !is_array( $array ) )
         {
             $tpl->error( EZ_TEMPLATE_FOREACH_FUNCTION_NAME, "Missing/malformed array to iterate through." );
             return;
