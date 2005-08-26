@@ -814,7 +814,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $firstVal =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $firstValStartPos, $firstValEndPos, $text_len, $rootNamespace
                                                              /*, EZ_TEMPLATE_TYPE_NUMERIC_BIT | EZ_TEMPLATE_TYPE_VARIABLE_BIT*/ );
         $args['first_val'] = $firstVal;
-        eZDebug::writeDebug( $firstVal, '$firstVal' );
 
         $toStartPos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $firstValEndPos, $text_len );
 
