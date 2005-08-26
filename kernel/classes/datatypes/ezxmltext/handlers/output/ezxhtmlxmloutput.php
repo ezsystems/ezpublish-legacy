@@ -223,6 +223,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 case 'link' :
                 case 'table' :
                 case 'object' :
+                case 'anchor' :
                 {
                     $output .= $this->renderXHTMLTag( $tpl, $sectionNode, $currentSectionLevel, $isBlockTag );
                 }break;
