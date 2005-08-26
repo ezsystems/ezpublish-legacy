@@ -136,7 +136,7 @@ Changes from 3.7.0rc1 to 3.7.0rc2
 - Fixed bug #6042: Paragraph tags included in unordered list.
   (Merged from stable/3.6 (3.6.2) rev. 13049).
 - Fixed bug #7082:  Add location.
-  (Merged from stable/3.5 (3.5.5) rev. 13052)
+  (Merged from stable/3.6 (3.6.2) rev. 13059)
 - Fixed bug: {foreach} treats empty array as malformed input in processed mode.
   (Merged from stable/3.6 (3.6.2) rev. 13056)
 

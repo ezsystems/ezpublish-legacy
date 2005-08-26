@@ -798,20 +798,14 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
                         $isMain = 1;
                     //$setMainNode = false;
                     $nodeAssignment =& $newVersion->assignToNode( $selectedNodeID, $isMain );
-                    $newNode =& $parentNode->addChild( $object->attribute( 'id' ), 0, true );
-                    $newNode->setAttribute( 'sort_field', $nodeAssignment->attribute( 'sort_field' ) );
-                    $newNode->setAttribute( 'sort_order', $nodeAssignment->attribute( 'sort_order' ) );
-                    $newNode->setAttribute( 'contentobject_version', $newVersion->attribute( 'version' ) );
-                    $newNode->setAttribute( 'contentobject_is_published', 1 );
-                    $newNode->setAttribute( 'main_node_id', $mainNodeID );
-                    $newNode->setName( $objectName );
-                    $newNode->updateSubTreePath();
-                    $newNode->store();
-                    eZContentObjectTreeNode::updateNodeVisibility( $newNode, $parentNode, false );
 
                     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
                     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
                                                                                          'version' => $newVersion->attribute( 'version' ) ) );
+		    unset( $newVersion );
+		    unset( $object );
+		    $object =& eZContentObject::fetch( $objectID );
+		    
                 }
             }
         }
