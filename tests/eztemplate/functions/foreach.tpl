@@ -51,3 +51,7 @@ i={$i}
 {$i}
 
 {/foreach}
+
+{* this should produce no errors/warnings *}
+{foreach array() as $i}
+{/foreach}
