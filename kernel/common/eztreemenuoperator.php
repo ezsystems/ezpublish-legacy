@@ -116,6 +116,7 @@ class eZTreeMenuOperator
             if ( $elements[1] == 'content' and $elements[2] == 'view' and is_numeric( $nodeID ) and $excludeNode == false and $level < $maxLevel )
             {
                 $node =& eZContentObjectTreeNode::fetch( $nodeID );
+                if ( !isset( $node ) ) { $operatorValue = $pathArray; return; }
                 if ( isset( $tmpModulePath[$i+$depthSkip+1] ) )
                 {
                     $nextElements = explode( "/", $tmpModulePath[$i+$depthSkip+1]['url'] );
@@ -177,6 +178,7 @@ class eZTreeMenuOperator
                 if ( $level == 0 )
                 {
                     $node = eZContentObjectTreeNode::fetch( 2 );
+                    if ( !isset( $node ) ) { $operatorValue = $pathArray; return; }
                     $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
                                                                               'Offset' => 0,
                                                                               'SortBy' => $node->sortArray(),
