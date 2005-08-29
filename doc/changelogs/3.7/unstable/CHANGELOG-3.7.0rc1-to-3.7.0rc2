@@ -141,6 +141,7 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   (Merged from stable/3.6 (3.6.2) rev. 13056)
 - Fixed bug #7076: Removing an element in ezenum doesn't work.
   (Merged from stable/3.6 (3.6.2) rev. 13066)
+- Fixed bug #5800: ezwebdav: rename (MOVE) doesn't work.
 
 *Library:
 
