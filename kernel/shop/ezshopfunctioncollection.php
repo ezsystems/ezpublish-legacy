@@ -100,6 +100,7 @@ class eZShopFunctionCollection
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
         $node = eZContentObjectTreeNode::fetch( $topParentNodeID );
+        if ( !isset( $node ) ) return array( 'result' => null );
         $nodePath = $node->attribute( 'path_string' );
 
         $query="SELECT sum(ezproductcollection_item.item_count) as count, ezproductcollection_item.contentobject_id
