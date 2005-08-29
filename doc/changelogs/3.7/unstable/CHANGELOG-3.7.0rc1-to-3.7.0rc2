@@ -146,6 +146,8 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   (Merged from stable/3.5 (3.5.5) rev. 13074)
 - Fixed bug #4565: Database connection warnings.
   (Merged from stable/3.5 (3.5.5) rev. 13078)
+- Fixed bug 7053: Invalid "Critical Test" during installation.
+  ( Merged from stable/3.5 rev. 13082, stable/3.6 rev. 13083 )
 
 *Library:
 
