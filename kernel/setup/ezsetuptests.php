@@ -62,6 +62,7 @@ function eZSetupTestTable()
                   'imagemagick_program' => array( 'eZSetupCheckExecutable' ),
                   'memory_limit' => array( 'eZSetupTestMemLimit' ),
                   'execution_time' => array( 'eZSetupTestExecutionTime' ),
+                  'allow_url_fopen' => array( 'eZSetupTestAllowURLFOpen' ),
                   'accept_path_info' => array( 'eZSetupTestAcceptPathInfo' ) );
 }
 
@@ -328,6 +329,17 @@ function eZSetupTestPhpVersion( $type, &$arguments )
 }
 
 /*!
+  Test if allowed to open URLs using fopen
+*/
+function eZSetupTestAllowURLFOpen( $type, &$arguments )
+{
+    $allowFOpen = ini_get( 'allow_url_fopen' );
+
+    return array( 'result' => $allowFOpen,
+                  'persistent_data' => array( 'result' => array( 'value' => $allowFOpen ) ) );
+}
+
+/*!
   Test if Apache setting for AcceptPathInfo is enabled
 */
 function eZSetupTestAcceptPathInfo( $type, &$arguments )
@@ -340,7 +352,7 @@ function eZSetupTestAcceptPathInfo( $type, &$arguments )
         $protocol = 'https';
     }
     $testPath = "{$protocol}://" . str_replace( '//', '/', $testPath );
-    $fp = fopen( $testPath, 'r' );
+    $fp = @fopen( $testPath, 'r' );
 
     return array( 'result' => ( $fp !== false ),
                   'persistent_data' => array( 'result' => array( 'value' => ( $fp !== false ) ) ) );
