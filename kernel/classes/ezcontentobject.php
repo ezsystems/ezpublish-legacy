@@ -3580,6 +3580,95 @@ class eZContentObject extends eZPersistentObject
         }
     }
 
+    /*!
+     Sets the object's name to $newName: tries to find attributes that are in 'object pattern name'
+     and updates them.
+     \return \c true if object's name was changed, otherwise \c false.
+    */
+    function rename( $newName )
+    {
+        // get 'object name pattern'
+        $objectNamePattern = '';
+        $contentClass =& $this->contentClass();
+        if ( is_object( $contentClass ) )
+            $objectNamePattern = $contentClass->ContentObjectName;
+
+        if ( $objectNamePattern == '' )
+            return false;
+
+        // get parts of object's name pattern( like <attr1|attr2>, <attr3> )
+        $objectNamePatternPartsPattern = '/<([^>]+)>/U';
+        preg_match_all( $objectNamePatternPartsPattern, $objectNamePattern, $objectNamePatternParts );
+
+        if( count( $objectNamePatternParts ) === 0 || count( $objectNamePatternParts[1] ) == 0 )
+            return false;
+
+        $objectNamePatternParts = $objectNamePatternParts[1];
+
+        // replace all <...> with (.*)
+        $newNamePattern = preg_replace( $objectNamePatternPartsPattern, '(.*)', $objectNamePattern );
+        // add terminators
+        $newNamePattern = '/' . $newNamePattern . '/';
+
+        // find parts of $newName
+        preg_match_all( $newNamePattern, $newName, $newNameParts );
+
+        // looks ok, we can create new version of object
+        $contentObjectVersion = $this->createNewVersion();
+        // get contentObjectAttributes
+        $dataMap =& $contentObjectVersion->attribute( 'data_map' );
+        if ( count( $dataMap ) === 0 )
+            return false;
+
+        // assign parts of $newName to the object's attributes.
+        $pos = 0;
+        while( $pos < count( $objectNamePatternParts ) )
+        {
+            $attributes = $objectNamePatternParts[$pos];
+
+            // if we have something like <attr1|attr2> then
+            // 'attr1' will be updated only.
+            $attributes = explode( '|', $attributes );
+            $attribute = $attributes[0];
+
+            $newNamePart = $newNameParts[$pos+1];
+            if ( count( $newNamePart ) === 0 )
+            {
+                if( $pos === 0 )
+                {
+                    // whole $newName goes into the first attribute
+                    $attributeValue = $newName;
+                }
+                else
+                {
+                    // all other attibutes will be set to ''
+                    $attributeValue = '';
+                }
+            }
+            else
+            {
+                $attributeValue = $newNamePart[0];
+            }
+
+            $contentAttribute =& $dataMap[$attribute];
+            $dataType =& $contentAttribute->dataType();
+            if( is_object( $dataType ) && $dataType->isSimpleStringInsertionSupported() )
+            {
+                $result = '';
+                $dataType->insertSimpleString( $this, $contentObjectVersion, false, $contentAttribute, $attributeValue, $result );
+                $contentAttribute->store();
+            }
+
+            ++$pos;
+        }
+
+        include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+        $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $this->attribute( 'id' ),
+                                                                                     'version' => $contentObjectVersion->attribute( 'version') ) );
+        return ($operationResult != null ? true : false);
+    }
+
+
     var $ID;
     var $Name;
 
