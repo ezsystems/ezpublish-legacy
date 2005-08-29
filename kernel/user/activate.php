@@ -66,7 +66,7 @@ if ( $accountKey )
     $user->loginCurrent();
 
     // Remove key
-    $accountKey->remove();
+    $accountKey->remove( $userID );
 }
 
 
