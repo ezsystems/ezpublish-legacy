@@ -764,8 +764,10 @@ class eZWebDAVContentServer extends eZWebDAVServer
             return EZ_WEBDAV_FAILED_NOT_FOUND;
         }
 
+        // Can we move the node from $sourceNode
         if ( !$sourceNode->canMoveFrom() )
         {
+            $this->appendLogEntry( "No access to move the node '$sourceSite':'$nodePath'", 'CS:move' );
             return EZ_WEBDAV_FAILED_FORBIDDEN;
         }
 
@@ -790,19 +792,27 @@ class eZWebDAVContentServer extends eZWebDAVServer
             return EZ_WEBDAV_FAILED_NOT_FOUND;
         }
 
-        // Can we move the node from $sourceNode to $destinationNode
-        if ( !$sourceNode->canMoveFrom() )
-        {
-            $this->appendLogEntry( "No access to move '$sourceSite':'$nodePath' to '$destinationSite':'$destinationNodePath'", 'CS:move' );
-            return EZ_WEBDAV_FAILED_FORBIDDEN;
-        }
-
+        // Can we move the node to $destinationNode
         if ( !$destinationNode->canMoveTo( $classID ) )
         {
+            $this->appendLogEntry( "No access to move the node '$sourceSite':'$nodePath' to '$destinationSite':'$destinationNodePath'", 'CS:move' );
             return EZ_WEBDAV_FAILED_FORBIDDEN;
         }
 
-        $sourceNode->move( $destinationNode->attribute( 'node_id' ) );
+        $srcParentPath = $this->splitLastPathElement( $nodePath, $srcNodeName );
+        $dstParentPath = $this->splitLastPathElement( $destinationNodePath, $dstNodeName );
+        if ( $srcParentPath == $dstParentPath )
+        {
+            if( !$object->rename( $dstNodeName ) )
+            {
+                $this->appendLogEntry( "Unable to rename the node '$sourceSite':'$nodePath' to '$destinationSite':'$destinationNodePath'", 'CS:move' );
+                return EZ_WEBDAV_FAILED_FORBIDDEN;
+            }
+        }
+        else
+        {
+            $sourceNode->move( $destinationNode->attribute( 'node_id' ) );
+        }
 
         $newNode = eZContentObjectTreeNode::fetchNode( $object->attribute( 'id' ), $destinationNode->attribute( 'node_id' ) );
         if ( $newNode )
