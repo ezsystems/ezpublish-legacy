@@ -148,6 +148,8 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   (Merged from stable/3.5 (3.5.5) rev. 13078)
 - Fixed bug 7053: Invalid "Critical Test" during installation.
   ( Merged from stable/3.5 rev. 13082, stable/3.6 rev. 13083 )
+- Fixed bug #7098: Change password not backs to proper uri.
+  (Merged from stable/3.6 (3.6.2) rev. 13087)
 
 *Library:
 
