@@ -536,7 +536,7 @@ class eZRole extends eZPersistentObject
         // Expire role cache
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();
-        $handler->setTimestamp( 'user-role-cache', mktime() );
+        $handler->setTimestamp( 'user-access-cache', mktime() );
         $handler->store();
     }
 

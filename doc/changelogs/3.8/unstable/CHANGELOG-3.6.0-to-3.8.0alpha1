@@ -359,6 +359,8 @@ Attributes:
   ( Merged from stable/3.5 rev. 13093, stable/3.6 rev. 13094, stable/3.7 rev. 13095 )
 - Fixed bug #6355: Read perms not honoured for notifications.
   ( Merged from stable/3.5 rev. 13097, stable/3.6 rev. 13098, stable/3.7 rev. 13099 )
+- Fixed bug #7099: Role cache not invalidated when editing role assignments.
+  ( Merged from stable/3.5 rev. 13101, stable/3.6 rev. 13102, stable/3.7 rev. 13103 )
 
 *Library:
 
