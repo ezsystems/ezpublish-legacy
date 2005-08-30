@@ -82,52 +82,44 @@ class eZSection extends eZPersistentObject
     /*!
      \return the section object with the given id.
     */
-    function fetch( $sectionID, $asObject = true )
+    function &fetch( $sectionID, $asObject = true )
     {
-        return eZPersistentObject::fetchObject( eZSection::definition(),
-                                                null,
-                                                array( "id" => $sectionID
-                                                      ),
-                                                $asObject );
+        $section =& eZPersistentObject::fetchObject( eZSection::definition(),
+                                                     null,
+                                                     array( "id" => $sectionID
+                                                            ),
+                                                     $asObject );
+        return $section;
     }
 
-    function fetchList( $asObject = true )
+    function &fetchList( $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZSection::definition(),
-                                                    null, null, null, null,
-                                                    $asObject );
+        $sectionList =& eZPersistentObject::fetchObjectList( eZSection::definition(),
+                                                             null, null, null, null,
+                                                             $asObject );
+        return $sectionList;
     }
 
-    function fetchByOffset( $offset, $limit, $asObject = true )
+    function &fetchByOffset( $offset, $limit, $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZSection::definition(),
-                                                    null,
-                                                    null,
-                                                    array( 'name' => 'ASC' ),
-                                                    array( 'offset' => $offset, 'length' => $limit ),
-                                                    $asObject );
+        $sectionList =& eZPersistentObject::fetchObjectList( eZSection::definition(),
+                                                             null,
+                                                             null,
+                                                             array( 'name' => 'ASC' ),
+                                                             array( 'offset' => $offset, 'length' => $limit ),
+                                                             $asObject );
+        return $sectionList;
     }
 
      /*!
      \return the number of active orders
     */
-    function &sectionCount()
+    function sectionCount()
     {
         $db =& eZDB::instance();
 
         $countArray = $db->arrayQuery(  "SELECT count( * ) AS count FROM ezsection" );
         return $countArray[0]['count'];
-    }
-
-
-    function &attribute( $attr )
-    {
-        return eZPersistentObject::attribute( $attr );
-    }
-
-    function hasAttribute( $attr )
-    {
-        return eZPersistentObject::hasAttribute( $attr );
     }
 
     /*!

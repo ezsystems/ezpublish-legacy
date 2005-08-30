@@ -141,8 +141,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                       "language" => "language",
                                                       "is_a" => "isA",
                                                       'display_info' => 'displayInfo',
-                                                      'class_display_info' => 'classDisplayInfo'
-                                                      ),
+                                                      'class_display_info' => 'classDisplayInfo' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObjectAttribute",
                       "sort" => array( "id" => "asc" ),
@@ -381,11 +380,10 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &object()
     {
-        $object = null;
-
-        if( $this->ContentObjectID !== false )
+        if( isset( $this->ContentObjectID ) and $this->ContentObjectID )
             $object =& eZContentObject::fetch( $this->ContentObjectID );
-
+        else
+            $object = null;
         return $object;
     }
 
@@ -1017,9 +1015,10 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &hasHTTPValue()
     {
-        $hasValue = false;
         if ( $this->HTTPValue !== null )
             $hasValue = true;
+        else
+            $hasValue = false;
         return $hasValue;
     }
 
@@ -1278,12 +1277,10 @@ class eZContentObjectAttribute extends eZPersistentObject
 
         $classAttribute =& $this->contentClassAttribute();
         if ( $classAttribute->attribute( 'is_information_collector' ) )
-            return $this->informationTemplate();
+            $retValue =& $this->informationTemplate();
         else
-        {
-            $retVal =& $this->viewTemplate();
-            return $retVal;
-        }
+            $retValue =& $this->viewTemplate();
+        return $retValue;
     }
 
     /*!

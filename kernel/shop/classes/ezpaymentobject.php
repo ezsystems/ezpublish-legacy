@@ -68,10 +68,9 @@ class eZPaymentObject extends eZPersistentObject
     */
     function &createNew( $workflowprocessID, $orderID, $paymentType )
     {
-        $paymentObject =& new eZPaymentObject( array( 'workflowprocess_id'  => $workflowprocessID,
-                                                      'order_id'            => $orderID,
-                                                      'payment_string'      => $paymentType )
-                                               );
+        $paymentObject = new eZPaymentObject( array( 'workflowprocess_id'  => $workflowprocessID,
+                                                     'order_id'            => $orderID,
+                                                     'payment_string'      => $paymentType ) );
         return $paymentObject;
     }
 
@@ -131,10 +130,11 @@ class eZPaymentObject extends eZPersistentObject
     */
     function &fetchByID( $transactionID )
     {
-        return eZPersistentObject::fetchObject( eZPaymentObject::definition(),
-                                                null,
-                                                array( 'id' => $transactionID )
-                                                );
+        $object =& eZPersistentObject::fetchObject( eZPaymentObject::definition(),
+                                                    null,
+                                                    array( 'id' => $transactionID )
+                                                    );
+        return $object;
     }
 
     /*!
@@ -156,10 +156,11 @@ class eZPaymentObject extends eZPersistentObject
     */
     function &fetchByProcessID( $workflowprocessID )
     {
-        return eZPersistentObject::fetchObject( eZPaymentObject::definition(),
-                                                null,
-                                                array( 'workflowprocess_id' => $workflowprocessID )
-                                                );
+        $object =& eZPersistentObject::fetchObject( eZPaymentObject::definition(),
+                                                    null,
+                                                    array( 'workflowprocess_id' => $workflowprocessID )
+                                                    );
+        return $object;
     }
 
     /*!

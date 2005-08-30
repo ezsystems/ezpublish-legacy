@@ -40,6 +40,8 @@
 
 */
 
+include_once( 'kernel/classes/ezpersistentobject.php' );
+
 class eZInformationCollectionAttribute extends eZPersistentObject
 {
     function eZInformationCollectionAttribute( $row )
@@ -89,28 +91,10 @@ class eZInformationCollectionAttribute extends eZPersistentObject
                                                       'contentclass_attribute' => 'contentClassAttribute',
                                                       'contentobject_attribute' => 'contentObjectAttribute',
                                                       'contentobject' => 'contentObject',
-                                                      'result_template' => 'resultTemplateName',
-                                                      ),
+                                                      'result_template' => 'resultTemplateName' ),
                       'increment_key' => 'id',
                       'class_name' => 'eZInformationCollectionAttribute',
                       'name' => 'ezinfocollection_attribute' );
-    }
-
-    function &attribute( $attr )
-    {
-        if ( $attr == 'contentclass_attribute_name' )
-        {
-            $classAttributeName =& $this->contentClassAttributeName();
-            return $classAttributeName;
-        }
-        else if ( $attr == 'contentclass_attribute' )
-            return $this->contentClassAttribute();
-        else if ( $attr == 'contentobject_attribute' )
-            return $this->contentObjectAttribute();
-        else if ( $attr == 'result_template' )
-            return $this->resultTemplateName();
-        else
-            return eZPersistentObject::attribute( $attr );
     }
 
     /*!
@@ -122,9 +106,10 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     {
         $dataType =& $this->dataType();
         if ( $dataType )
-            return $dataType->resultTemplate( $this );
+            $retValue =& $dataType->resultTemplate( $this );
         else
-            return null;
+            $retValue = null;
+        return $retValue;
     }
 
     /*!
@@ -158,9 +143,10 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     {
         $contentClassAttribute =& $this->contentClassAttribute();
         if ( $contentClassAttribute )
-            return $contentClassAttribute->dataType();
+            $dataType =& $contentClassAttribute->dataType();
         else
-            return null;
+            $dataType = null;
+        return $dataType;
     }
 
     /*!

@@ -97,8 +97,12 @@ class eZRSSExportItem extends eZPersistentObject
                                                               'default' => 0,
                                                               'required' => true ) ),
                       "keys" => array( "id", 'status' ),
+                      'function_attributes' => array( 'class_attributes' => 'classAttributes',
+                                                      'source_node' => 'sourceNode',
+                                                      'source_path' => 'sourcePath',
+                                                      'object_list' => 'objectList' ),
                       "increment_key" => "id",
-                      "class_name" => "eZRSSExportItem",
+                      "class_name" => "eZRSSExsportItem",
                       "name" => "ezrss_export_item" );
     }
 
@@ -123,94 +127,64 @@ class eZRSSExportItem extends eZPersistentObject
         return new eZRSSExportItem( $row );
     }
 
-    /*!
-     \reimp
-    */
-    function attributes()
+    function &objectList()
     {
-        return array_merge( eZPersistentObject::attributes(),
-                            'class_attributes', 'source_node', 'source_path', 'object_list' );
+        // TODO: fetch object list...
+        return $this->fetchObjectList(); // error, function requires two parameters
     }
 
-    /*!
-     \reimp
-    */
-    function hasAttribute( $attr )
+    function &classAttributes()
     {
-        return ( $attr == 'class_attributes' or $attr == 'source_node' or $attr == 'source_path' or $attr == 'object_list' or
-                 eZPersistentObject::hasAttribute( $attr ) );
-    }
-
-    /*!
-     \reimp
-    */
-    function &attribute( $attr )
-    {
-        switch( $attr )
+        if ( isset( $this->ClassID ) and $this->ClassID )
         {
-            case 'object_list':
-            {
-                return $this->fetchObjectList();
-            } break;
-            case 'class_attributes':
-            {
-                if ( $this->ClassID == 0 )
-                    return null;
-                include_once( 'kernel/classes/ezcontentclass.php' );
-                $contentClass =& eZContentClass::fetch( $this->ClassID );
-                if ( !$contentClass )
-                {
-                    $returnValue = null;
-                    return $returnValue;
-                }
-
+            include_once( 'kernel/classes/ezcontentclass.php' );
+            $contentClass =& eZContentClass::fetch( $this->ClassID );
+            if ( $contentClass )
                 $attributes =& $contentClass->fetchAttributes();
-                return $attributes;
-            } break;
-            case 'source_path':
+            else
+                $attributes = null;
+        }
+        else
+            $attributes = null;
+        return $attributes;
+    }
+
+    function &sourcePath()
+    {
+        if ( isset( $this->SourceNodeID ) and $this->SourceNodeID )
+        {
+            include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+            $objectNode =& eZContentObjectTreeNode::fetch( $this->SourceNodeID );
+            if ( isset( $objectNode ) )
             {
-                if ( !isset( $this->SourceNodeID ) || $this->SourceNodeID  == 0 )
-                {
-                    $returnValue = null;
-                    return $returnValue;
-                }
-                include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-                $objectNode =& eZContentObjectTreeNode::fetch( $this->SourceNodeID );
-                if ( !isset( $objectNode ) )
-                {
-                    $returnValue = null;
-                    return $returnValue;
-                }
                 $path_array =& $objectNode->attribute( 'path_array' );
                 for ( $i = 0; $i < count( $path_array ); $i++ )
                 {
                     $treenode = eZContentObjectTreeNode::fetch( $path_array[$i] );
                     if( $i == 0 )
-                        $return = $treenode->attribute( 'name' );
+                        $retValue = $treenode->attribute( 'name' );
                     else
-                        $return .= '/'.$treenode->attribute( 'name' );
+                        $retValue .= '/'.$treenode->attribute( 'name' );
                 }
-                return $return;
-            } break;
-            case 'source_node':
-            {
-                if ( !isset( $this->SourceNodeID ) || $this->SourceNodeID  == 0 )
-                    return null;
-                include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-                return eZContentObjectTreeNode::fetch( $this->SourceNodeID );
-            } break;
-
-            case 'modifier_id':
-            {
-                include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-                return eZUser::fetch( $this->ModifierID );
             }
-
-            default:
-                return eZPersistentObject::attribute( $attr );
+            else
+                $retValue = null;
         }
+        else
+            $retValue = null;
+        return $retValue;
+    }
 
-        return null;
+    function &sourceNode()
+    {
+        if ( isset( $this->SourceNodeID ) and $this->SourceNodeID )
+        {
+            include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+            $sourceNode =& eZContentObjectTreeNode::fetch( $this->SourceNodeID );
+        }
+        else
+            $sourceNode = null;
+        return $sourceNode;
     }
 
     /*!
@@ -313,8 +287,11 @@ class eZRSSExportItem extends eZPersistentObject
 				);
 
             include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-            return eZContentObjectTreeNode::subTreeMultiPaths( $nodesParams, $listParams );
+            $nodeList =& eZContentObjectTreeNode::subTreeMultiPaths( $nodesParams, $listParams );
         }
+        else
+            $nodeList = null;
+        return $nodeList;
     }
 
 }

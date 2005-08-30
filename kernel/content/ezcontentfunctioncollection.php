@@ -273,10 +273,15 @@ class eZContentFunctionCollection
         }
 
         if ( $children === null )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-
-        return array( 'result' => &$children );
+        {
+            $result = array( 'error' => array( 'error_type' => 'kernel',
+                                               'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        }
+        else
+        {
+            $result = array( 'result' => &$children );
+        }
+        return $result;
     }
 
     function &fetchObjectTree( $parentNodeID, $sortBy, $onlyTranslated, $language, $offset, $limit, $depth, $depthOperator,
@@ -322,16 +327,16 @@ class eZContentFunctionCollection
 
         if ( $children === null )
         {
-            $retVal = array( 'error' => array( 'error_type' => 'kernel',
+            $result = array( 'error' => array( 'error_type' => 'kernel',
                                                'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-            return $retVal;
         }
-
-        if ( $asObject === null or $asObject )
-            eZContentObject::fillNodeListAttributes( $children );
-
-        $returnVal = array( 'result' => &$children );
-        return $returnVal;
+        else
+        {
+            if ( $asObject === null or $asObject )
+                eZContentObject::fillNodeListAttributes( $children );
+            $result = array( 'result' => &$children );
+        }
+        return $result;
     }
 
     function &fetchObjectTreeCount( $parentNodeID, $onlyTranslated, $language, $class_filter_type, $class_filter_array,
@@ -365,13 +370,14 @@ class eZContentFunctionCollection
 
         if ( $childrenCount === null )
         {
-            $retArray = array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-            return $retArray;
+            $result = array( 'error' => array( 'error_type' => 'kernel',
+                                               'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         }
-
-        $retArray = array( 'result' => &$childrenCount );
-        return $retArray;
+        else
+        {
+            $result = array( 'result' => &$childrenCount );
+        }
+        return $result;
     }
 
     function &fetchContentSearch( $searchText, $subTreeArray, $offset, $limit, $searchTimestamp, $publishDate, $sectionID, $classID, $classAttributeID, $sortArray )
@@ -398,13 +404,13 @@ class eZContentFunctionCollection
         $searchResult =& eZSearch::search( $searchText,
                                            $parameters,
                                            $searchArray );
-
-        return array( 'result' => &$searchResult );
+        $result = array( 'result' => &$searchResult );
+        return $result;
     }
 
     function fetchTrashObjectCount()
     {
-        $trashObjectList = & eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+        $trashObjectList =& eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                                   array(), array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
                                                                   array(), null,
                                                                   false,false,
@@ -653,22 +659,22 @@ class eZContentFunctionCollection
         $contentObjectAttribute =& eZContentObjectAttribute::fetchByIdentifier( $identifier );
         if ( $contentObjectAttribute === null )
         {
-            $retVal = array( 'error' => array( 'error_type' => 'kernel',
+            $result = array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         }
         else
         {
-            $retVal = array( 'result' => $contentObjectAttribute->attribute( 'object' ) );
+            $result = array( 'result' => $contentObjectAttribute->attribute( 'object' ) );
         }
-
-        return $retVal;
+        return $result;
     }
 
     function &fetchObjectCountByUserID( $classID, $userID )
     {
         include_once( 'kernel/classes/ezcontentobject.php' );
         $objectCount = eZContentObject::fetchObjectCountByUserID( $classID, $userID );
-        return array( 'result' => $objectCount );
+        $result = array( 'result' => $objectCount );
+        return $result;
     }
 
     function fetchKeywordCount( $alphabet, $classid )

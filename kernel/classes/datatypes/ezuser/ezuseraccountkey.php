@@ -45,6 +45,8 @@
 
 */
 
+include_once( "kernel/classes/ezpersistentobject.php" );
+
 class eZUserAccountKey extends eZPersistentObject
 {
     /*!
@@ -63,7 +65,6 @@ class eZUserAccountKey extends eZPersistentObject
                                          "time" => "Time"
                                          ),
                       "keys" => array( "id" ),
-                      "function_attributes" => array( ),
                       "increment_key" => "id",
                       "sort" => array( "id" => "asc" ),
                       "class_name" => "eZUserAccountKey",

@@ -101,9 +101,10 @@ class eZDiscountSubRuleValue extends eZPersistentObject
 
     function &fetchList( $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZDiscountSubRuleValue::definition(),
-                                                    null, null, null, null,
-                                                    $asObject );
+        $objectList =& eZPersistentObject::fetchObjectList( eZDiscountSubRuleValue::definition(),
+                                                            null, null, null, null,
+                                                            $asObject );
+        return $objectList;
     }
 
     function create( $discountSubRuleID, $value, $isSection = false )

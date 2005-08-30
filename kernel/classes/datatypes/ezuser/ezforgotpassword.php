@@ -45,6 +45,8 @@
 
 */
 
+include_once( 'kernel/classes/ezpersistentobject.php' );
+
 class eZForgotPassword extends eZPersistentObject
 {
     /*!
@@ -74,7 +76,6 @@ class eZForgotPassword extends eZPersistentObject
                                                           'default' => 0,
                                                           'required' => true ) ),
                       "keys" => array( "id" ),
-                      "function_attributes" => array( ),
                       "increment_key" => "id",
                       "sort" => array( "id" => "asc" ),
                       "class_name" => "eZForgotPassword",

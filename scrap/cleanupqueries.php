@@ -4,7 +4,7 @@ $sql = "SELECT ezkeyword.id as id FROM ezkeyword
         LEFT JOIN ezkeyword_attribute_link ON ezkeyword.id=ezkeyword_attribute_link.keyword_id
         WHERE ezkeyword_attribute_link.keyword_id IS NULL";
 
-$keywordArray =& $db->arrayQuery( $sql );
+$keywordArray = $db->arrayQuery( $sql );
 $keywordIDArray = array();
 foreach ( $keywordArray as $keywordItem )
 {
@@ -28,7 +28,7 @@ $sql = "SELECT eol.contentobject_attribute_id as co_id, ecz.id
 	    FROM ezurl_object_link eol LEFT JOIN ezcontentobject_attribute ecz ON (ecz.id = eol.contentobject_attribute_id)
         WHERE id IS NULL";
 
-$urlArray =& $db->arrayQuery( $sql );
+$urlArray = $db->arrayQuery( $sql );
 $urlIDArray = array();
 foreach ( $urlArray as $urlItem )
 {

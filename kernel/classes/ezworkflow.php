@@ -101,6 +101,14 @@ class eZWorkflow extends eZPersistentObject
                                                               'default' => 0,
                                                               'required' => true ) ),
                       "keys" => array( "id", "version" ),
+                      'function_attributes' => array( 'creator' => 'creator',
+                                                      'modifier' => 'modifier',
+                                                      'workflow_type' => 'workflowType',
+                                                      'event_count' => 'fetchEventCount',
+                                                      'ordered_event_list' => 'fetchEvents',
+                                                      'ingroup_list' => 'ingroupList',
+                                                      'ingroup_id_list' => 'ingroupIDList',
+                                                      'group_list' => 'groupList' ),
                       "increment_key" => "id",
                       "class_name" => "eZWorkflow",
                       "sort" => array( "name" => "asc" ),
@@ -418,7 +426,10 @@ class eZWorkflow extends eZPersistentObject
                 $version = $this->Version;
             }
             else
-                return null;
+            {
+                $retValue = null;
+                return $retValue;
+            }
         }
         $filteredList =& eZWorkflowEvent::fetchFilteredList( array( "workflow_id" => $id,
                                                                     "version" => $version ) );
@@ -452,98 +463,63 @@ class eZWorkflow extends eZPersistentObject
         return $list[0]["count"];
     }
 
-    function attributes()
+    function &creator()
     {
-        return array_merge( eZPersistentObject::attributes(),
-                            array( "workflow_type",
-                                   "version_status",
-                                   "version_count",
-                                   "event_count",
-                                   "ordered_event_list",
-                                   "creator",
-                                   "modifier",
-                                   "ingroup_list",
-                                   "ingroup_id_list",
-                                   "group_list" ) );
-    }
-
-    function hasAttribute( $attr )
-    {
-        return ( $attr == "version_status" or $attr == "version_count" or
-                 $attr == "creator" or $attr == "modifier" or $attr == "workflow_type" or
-                 $attr == "event_count" or $attr == "ordered_event_list" or
-                 $attr == "ingroup_list" or $attr == "ingroup_id_list" or  $attr == "group_list" or
-                 eZPersistentObject::hasAttribute( $attr ) );
-    }
-
-    function &attribute( $attr )
-    {
-        switch( $attr )
+        if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
-            case "event_count":
-            {
-                return $this->fetchEventCount();
-            } break;
-            case "ordered_event_list":
-            {
-                return $this->fetchEvents();
-            } break;
-            case "version_count":
-            {
-                return $this->VersionCount;
-            } break;
-            case "version_status":
-            {
-                return $this->versionStatus();
-            } break;
-            case "creator":
-            {
-                $user_id = $this->CreatorID;
-            } break;
-            case "modifier":
-            {
-                $user_id = $this->ModifierID;
-            } break;
-            case "ingroup_list":
-            {
-                $this->InGroups =& eZWorkflowGroupLink::fetchGroupList( $this->attribute("id"),
-                                                                        $this->attribute("version"),
-                                                                        true );
-                return $this->InGroups;
-            } break;
-            case "ingroup_id_list":
-            {
-                $list =& eZWorkflowGroupLink::fetchGroupList( $this->attribute("id"),
-                                                              $this->attribute("version"),
-                                                              false );
-                $this->InGroupIDs = array();
-                foreach ( $list as $item )
-                {
-                    $this->InGroupIDs[] = $item['group_id'];
-                }
-                return $this->InGroupIDs;
-            } break;
-            case "group_list":
-            {
-                $this->AllGroups =& eZWorkflowGroup::fetchList();
-                return $this->AllGroups;
-            } break;
-            case "workflow_type":
-            {
-                return $this->workflowType();
-            } break;
-            default:
-                return eZPersistentObject::attribute( $attr );
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $user =& eZUser::fetch( $this->CreatorID );
         }
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-        $user =& eZUser::fetch( $user_id );
+        else
+            $user = null;
         return $user;
+    }
+
+    function &modifier()
+    {
+        if ( isset( $this->ModifierID ) and $this->ModifierID )
+        {
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $user =& eZUser::fetch( $this->ModifierID );
+        }
+        else
+            $user = null;
+        return $user;
+    }
+
+    function &ingroupList()
+    {
+        $this->InGroups =& eZWorkflowGroupLink::fetchGroupList( $this->attribute("id"),
+                                                                $this->attribute("version"),
+                                                                true );
+        return $this->InGroups;
+    }
+
+    function &ingroupIDList()
+    {
+        $list =& eZWorkflowGroupLink::fetchGroupList( $this->attribute("id"),
+                                                      $this->attribute("version"),
+                                                      false );
+
+        $this->InGroupIDs = array();
+        foreach ( $list as $item )
+        {
+            $this->InGroupIDs[] = $item['group_id'];
+        }
+        return $this->InGroupIDs;
+    }
+
+    function &groupList()
+    {
+        $this->AllGroups =& eZWorkflowGroup::fetchList();
+        return $this->AllGroups;
     }
 
     function &workflowType()
     {
         include_once( "kernel/classes/ezworkflowtype.php" );
-        return eZWorkflowType::createType( $this->WorkflowTypeString );
+        $workflowType =& eZWorkflowType::createType( $this->WorkflowTypeString );
+        return $workflowType;
     }
 
     /*!

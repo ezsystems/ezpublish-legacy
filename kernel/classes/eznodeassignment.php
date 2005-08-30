@@ -105,39 +105,22 @@ class eZNodeAssignment extends eZPersistentObject
                                                       "parent_contentobject" => "getParentObject",
                                                       "node" => "fetchNode",
                                                       'temp_node' => 'tempNode' ),
-
                       "increment_key" => "id",
                       'class_name' => 'eZNodeAssignment',
                       'name' => 'eznode_assignment' );
     }
 
-
-    function &attribute( $attr )
-    {
-        if ( $attr == 'parent_node_obj' )
-        {
-            $parent =& $this->getParentNode();
-            return $parent;
-        }
-        else if ( $attr == 'temp_node' )
-            return $this->tempNode();
-        else
-        {
-            $attrValue =& eZPersistentObject::attribute( $attr );
-            return $attrValue;
-        }
-    }
-
     function &tempNode()
     {
-        if ( $this->TempNode !== null )
-            return $this->TempNode;
-        $this->TempNode = eZContentObjectTreeNode::create( $this->attribute( 'parent_node' ),
-                                                           $this->attribute( 'contentobject_id' ),
-                                                           $this->attribute( 'contentobject_version' ),
-                                                           $this->attribute( 'sort_field' ),
-                                                           $this->attribute( 'sort_order' ) );
-        $this->TempNode->setName( $this->Name );
+        if ( $this->TempNode == null )
+        {
+            $this->TempNode = eZContentObjectTreeNode::create( $this->attribute( 'parent_node' ),
+                                                               $this->attribute( 'contentobject_id' ),
+                                                               $this->attribute( 'contentobject_version' ),
+                                                               $this->attribute( 'sort_field' ),
+                                                               $this->attribute( 'sort_order' ) );
+            $this->TempNode->setName( $this->Name );
+        }
         return $this->TempNode;
     }
 
@@ -151,12 +134,13 @@ class eZNodeAssignment extends eZPersistentObject
         return $this->Name;
     }
 
-    function create( $parameters = array() )
+    function &create( $parameters = array() )
     {
         if ( !isset( $parameters['contentobject_id'] ) )
         {
             eZDebug::writeError( $parameters, "Cannot create node assignment without contentobject_id" );
-            return null;
+            $retValue = null;
+            return $retValue;
         }
         if ( !isset( $parameters['contentobject_version'] ) )
         {
@@ -190,7 +174,9 @@ class eZNodeAssignment extends eZPersistentObject
         {
             $parameters['parent_remote_id'] = '';
         }
-        return new eZNodeAssignment( $parameters );
+
+        $newNodeAssignment = new eZNodeAssignment( $parameters );
+        return $newNodeAssignment;
     }
 
     /*!
@@ -346,7 +332,8 @@ class eZNodeAssignment extends eZPersistentObject
     */
     function &getParentObject( )
     {
-        return eZContentObject::fetchByNodeID( $this->attribute( 'parent_node' ) );
+        $parentObject =& eZContentObject::fetchByNodeID( $this->attribute( 'parent_node' ) );
+        return $parentObject;
     }
 
     /*!

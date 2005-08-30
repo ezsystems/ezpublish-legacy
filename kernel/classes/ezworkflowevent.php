@@ -113,7 +113,8 @@ class eZWorkflowEvent extends eZPersistentObject
                                                                'default' => 0,
                                                                'required' => true ) ),
                       "keys" => array( "id", "version" ),
-                      "function_attributes" => array( "content" => "content" ),
+                      "function_attributes" => array( 'content' => 'content',
+                                                      'workflow_type' => 'eventType' ),
                       "increment_key" => "id",
                       "sort" => array( "placement" => "asc" ),
                       "class_name" => "eZWorkflowEvent",
@@ -164,7 +165,7 @@ class eZWorkflowEvent extends eZPersistentObject
      Moves the object down if $down is true, otherwise up.
      If object is at either top or bottom it is wrapped around.
     */
-    function &move( $down, $params = null )
+    function move( $down, $params = null )
     {
         if ( is_array( $params ) )
         {
@@ -178,40 +179,35 @@ class eZWorkflowEvent extends eZPersistentObject
             $wid = $this->WorkflowID;
             $version = $this->Version;
         }
-        return eZPersistentObject::reorderObject( eZWorkflowEvent::definition(),
-                                                  array( "placement" => $pos ),
-                                                  array( "workflow_id" => $wid,
-                                                         "version" => $version ),
-                                                  $down );
+        eZPersistentObject::reorderObject( eZWorkflowEvent::definition(),
+                                           array( "placement" => $pos ),
+                                           array( "workflow_id" => $wid,
+                                                  "version" => $version ),
+                                           $down );
     }
 
     function attributes()
     {
         $eventType =& $this->eventType();
-        return array_merge( eZPersistentObject::attributes(), array( "workflow_type" ), $eventType->typeFunctionalAttributes() );
+        return array_merge( eZPersistentObject::attributes(), $eventType->typeFunctionalAttributes() );
     }
 
     function hasAttribute( $attr )
     {
         $eventType =& $this->eventType();
-        return $attr == "workflow_type" or
-            $attr == 'content' or
-            eZPersistentObject::hasAttribute( $attr ) or
-            in_array( $attr, $eventType->typeFunctionalAttributes() );
+        return eZPersistentObject::hasAttribute( $attr ) or
+               in_array( $attr, $eventType->typeFunctionalAttributes() );
     }
 
     function &attribute( $attr )
     {
         $eventType =& $this->eventType();
-        if ( $attr == "workflow_type" )
-            return $this->eventType();
-        else if ( $attr == "content" )
-            return $this->content( );
-        else if ( is_object( $eventType ) and in_array( $attr, $eventType->typeFunctionalAttributes( ) ) )
+        if ( is_object( $eventType ) and in_array( $attr, $eventType->typeFunctionalAttributes( ) ) )
         {
             $attributeDecoder =& $eventType->attributeDecoder( $this, $attr );
             return $attributeDecoder;
-        }else
+        }
+        else
             return eZPersistentObject::attribute( $attr );
     }
 
@@ -226,7 +222,6 @@ class eZWorkflowEvent extends eZPersistentObject
 
     /*!
      Returns the content for this event.
-
     */
     function &content()
     {
@@ -242,7 +237,6 @@ class eZWorkflowEvent extends eZPersistentObject
     /*!
      Sets the content for the current event
     */
-
     function setContent( $content )
     {
         $this->Content =& $content;

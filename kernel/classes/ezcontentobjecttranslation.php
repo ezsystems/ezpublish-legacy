@@ -58,7 +58,10 @@ class eZContentObjectTranslation
 
     function attributes()
     {
-        return array( 'contentobject_id', 'version', 'language_code', 'locale' );
+        return array( 'contentobject_id',
+                      'version',
+                      'language_code',
+                      'locale' );
     }
 
     function hasAttribute( $attribute )
@@ -77,7 +80,11 @@ class eZContentObjectTranslation
         else if ( $attribute == 'locale' )
             return $this->locale();
         else
-            return null;
+        {
+            eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZContentObjectTranslation::attribute' );
+            $retValue = null;
+            return $retValue;
+        }
     }
 
     function &locale()

@@ -45,6 +45,9 @@
 
 */
 
+include_once( 'kernel/classes/ezpackage.php' );
+include_once( 'lib/ezutils/classes/ezextension.php' );
+
 class eZPackageCreationHandler
 {
     /*!
@@ -135,7 +138,12 @@ class eZPackageCreationHandler
     {
         if ( array_key_exists( $name, $this->Attributes ) )
             return $this->Attributes[$name];
-        return null;
+        else
+        {
+            eZDebug::writeError( "Attribute '$name' does not exist", 'eZPackageCreationHandler::attribute' );
+            $retValue = null;
+            return $retValue;
+        }
     }
 
     function initializeStepMethodMap()
@@ -321,7 +329,11 @@ class eZPackageCreationHandler
 	    $limitationList = array();
 	    $canCreate = false;
 		if ( $accessResult['accessWord'] == 'no' )
-		    return array();
+        {
+            $creators = array();
+            return $creators;
+        }
+
 		if ( $accessResult['accessWord'] == 'limited' )
 		{
 		    $limitationList =& $accessResult['policies'];

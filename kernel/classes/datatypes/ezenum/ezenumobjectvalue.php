@@ -97,7 +97,7 @@ class eZEnumObjectValue extends eZPersistentObject
         return new eZEnumObjectValue( $row );
     }
 
-    function &removeAllElements( $contentObjectAttributeID, $contentObjectAttributeVersion )
+    function removeAllElements( $contentObjectAttributeID, $contentObjectAttributeVersion )
     {
         if( $contentObjectAttributeVersion == null )
         {
@@ -112,7 +112,7 @@ class eZEnumObjectValue extends eZPersistentObject
         }
     }
 
-    function &remove( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumid )
+    function remove( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumid )
     {
         eZPersistentObject::removeObject( eZEnumObjectValue::definition(),
                                           array( "enumid" => $enumid,

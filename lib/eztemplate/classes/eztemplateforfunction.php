@@ -70,7 +70,8 @@ class eZTemplateForFunction
      */
     function &functionList()
     {
-        return array( EZ_TEMPLATE_FOR_FUNCTION_NAME );
+        $functionList = array( EZ_TEMPLATE_FOR_FUNCTION_NAME );
+        return $functionList;
     }
 
     /*!

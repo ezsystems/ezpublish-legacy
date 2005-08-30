@@ -42,6 +42,8 @@
 
 */
 
+include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+
 class eZKeyword
 {
     /*!
@@ -51,19 +53,17 @@ class eZKeyword
     {
     }
 
+    function attributes()
+    {
+        return array( 'keywords',
+                      'keyword_string',
+                      'related_objects',
+                      'related_nodes' );
+    }
+
     function hasAttribute( $name )
     {
-        if ( $name == 'keywords' or
-             $name == 'keyword_string' or
-             $name == 'related_objects' or
-             $name == 'related_nodes' )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return in_array( $name, $this->attributes() );
     }
 
     function &attribute( $name )
@@ -77,14 +77,21 @@ class eZKeyword
 
             case 'keyword_string' :
             {
-                $keyWordString = $this->keywordString();
+                $keywordString = $this->keywordString();
                 return $keywordString;
             }break;
 
             case 'related_objects' :
             case 'related_nodes' :
             {
-                return $this->relatedObjects();
+                $objectList =& $this->relatedObjects();
+                return $objectList;
+            }break;
+            default:
+            {
+                eZDebug::writeError( "Attribute '$name' does not exist", 'eZKeyword::attribute' );
+                $retValue = null;
+                return $retValue;
             }break;
         }
     }
@@ -330,7 +337,7 @@ class eZKeyword
 		    $theObject = $node->object();
 		    if ( $theObject->canRead() )
 		    {
-			$return[] = $node;
+                $return[] = $node;
 		    }
 		}
 	    }

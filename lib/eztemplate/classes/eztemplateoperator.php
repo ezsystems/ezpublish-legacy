@@ -50,7 +50,8 @@ class eZTemplateOperator
     */
     function &operatorList()
     {
-        return array();
+        $operationList = array();
+        return $operationList;
     }
 
     /*!

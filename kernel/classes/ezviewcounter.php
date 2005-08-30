@@ -112,7 +112,7 @@ class eZViewCounter extends eZPersistentObject
         $this->store();
     }
 
-    function fetch( $node_id, $asObject = true )
+    function &fetch( $node_id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZViewCounter::definition(),
                                                 null,

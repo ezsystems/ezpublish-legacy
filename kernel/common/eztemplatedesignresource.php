@@ -193,7 +193,8 @@ class eZTemplateDesignResource extends eZTemplateFileResource
              $type != 'site' )
         {
             eZDebug::writeWarning( "Cannot retrieve designsetting for type '$type'", 'eZTemplateDesignResource::designSetting' );
-            return null;
+            $retValue = null;
+            return $retValue;
         }
         $designSettings =& $GLOBALS['eZTemplateDesignSetting'];
         if ( !isset( $designSettings ) )

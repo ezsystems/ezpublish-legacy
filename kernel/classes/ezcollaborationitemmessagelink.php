@@ -88,6 +88,9 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
                                                               'default' => 0,
                                                               'required' => true ) ),
                       'keys' => array( 'id' ),
+                      'function_attributes' => array( 'collaboration_item' => 'collaborationItem',
+                                                      'participant' => 'participant',
+                                                      'simple_message' => 'simpleMessage' ),
                       'increment_key' => 'id',
                       'class_name' => 'eZCollaborationItemMessageLink',
                       'name' => 'ezcollab_item_message_link' );
@@ -118,7 +121,8 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
         if ( !$messageID )
         {
             eZDebug::writeError( 'No message ID, cannot create link', 'eZCollaborationItemMessageLink::addMessage' );
-            return null;
+            $retValue = null;
+            return $retValue;
         }
         if ( $participantID === false )
         {
@@ -197,38 +201,35 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
                                                     $asObject );
     }
 
-    function hasAttribute( $attribute )
+
+    function &collaborationItem()
     {
-        return ( $attribute == 'collaboration_item' or
-                 $attribute == 'participant' or
-                 $attribute == 'simple_message' or
-                 eZPersistentObject::hasAttribute( $attribute ) );
+        if ( isset( $this->CollaborationID ) and $this->CollaborationID )
+        {
+            include_once( 'kernel/classes/ezcollaborationitem.php' );
+            $item =& eZCollaborationItem::fetch( $this->CollaborationID );
+        }
+        else
+            $item = null;
+        return $item;
     }
 
-    function &attribute( $attribute )
+    function &participant()
     {
-        switch( $attribute )
+        $participantLink =& eZCollaborationItemParticipantLink::fetch( $this->CollaborationID, $this->ParticipantID );
+        return $participantLink;
+    }
+
+    function &simpleMessage()
+    {
+        if ( isset( $this->MessageID ) and $this->MessageID )
         {
-            case 'collaboration_item':
-            {
-                include_once( 'kernel/classes/ezcollaborationitem.php' );
-                return eZCollaborationItem::fetch( $this->CollaborationID );
-            } break;
-            case 'simple_message':
-            {
-                include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
-                $message =& eZCollaborationSimpleMessage::fetch( $this->MessageID );
-                eZDebug::writeDebug( $message );
-                return $message;
-            } break;
-            case 'participant':
-            {
-                $participantLink =& eZCollaborationItemParticipantLink::fetch( $this->CollaborationID, $this->ParticipantID );
-                return $participantLink;
-            } break;
-            default:
-                return eZPersistentObject::attribute( $attribute );
+            include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
+            $message =& eZCollaborationSimpleMessage::fetch( $this->MessageID );
         }
+        else
+            $message = null;
+        return $message;
     }
 
     /// \privatesection

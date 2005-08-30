@@ -87,27 +87,6 @@ class eZInformationCollection extends eZPersistentObject
     }
 
     /*!
-     \reimp
-    */
-    function &attribute( $attr )
-    {
-        if ( $attr == 'attributes' )
-        {
-            $attributes =& $this->informationCollectionAttributes();
-            return $attributes;
-        }
-        else if ( $attr == 'object' )
-        {
-            return $this->object();
-        }
-        else
-        {
-            $attribute =& eZPersistentObject::attribute( $attr );
-            return $attribute;
-        }
-    }
-
-    /*!
      \static
      \return an array with attribute identifiers that are not to be shown in
              information collection templates.
@@ -154,7 +133,7 @@ class eZInformationCollection extends eZPersistentObject
     /*!
      \static
 
-     Remove a specific collection 
+     Remove a specific collection
 
      \param contentobject id
     */
@@ -438,7 +417,7 @@ class eZInformationCollection extends eZPersistentObject
      \static
       Fetches the information collection by user identifier.
     */
-    function fetchByUserIdentifier( $userIdentifier, $contentObjectID = false, $asObject = true )
+    function &fetchByUserIdentifier( $userIdentifier, $contentObjectID = false, $asObject = true )
     {
         $conditions = array( 'user_identifier' => $userIdentifier );
         if ( $contentObjectID )
@@ -548,7 +527,8 @@ class eZInformationCollection extends eZPersistentObject
 
     function &object()
     {
-        return eZContentObject::fetch( $this->ContentObjectID );
+        $object =& eZContentObject::fetch( $this->ContentObjectID );
+        return $object;
     }
 
     /*!
@@ -590,15 +570,15 @@ class eZInformationCollection extends eZPersistentObject
     /*!
      Creates a new eZInformationCollection instance.
     */
-    function create( $contentObjectID, $userIdentifier )
+    function &create( $contentObjectID, $userIdentifier )
     {
         $timestamp = time();
-        $row = array(
-            'contentobject_id' => $contentObjectID,
-            'user_identifier' => $userIdentifier,
-            'created' => $timestamp,
-            'modified' => $timestamp );
-        return new eZInformationCollection( $row );
+        $row = array( 'contentobject_id' => $contentObjectID,
+                      'user_identifier' => $userIdentifier,
+                      'created' => $timestamp,
+                      'modified' => $timestamp );
+        $newInformationCollection = new eZInformationCollection( $row );
+        return $newInformationCollection;
     }
 
     /*!

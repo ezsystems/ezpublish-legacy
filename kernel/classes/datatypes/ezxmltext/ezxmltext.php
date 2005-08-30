@@ -55,20 +55,18 @@ class eZXMLText
         $this->XMLOutputHandler = null;
     }
 
+    function attributes()
+    {
+        return array( 'input',
+                      'output',
+                      'pdf_output',
+                      'xml_data',
+                      'is_empty' );
+    }
+
     function hasAttribute( $name )
     {
-        if ( $name == 'input' or
-             $name == 'output' or
-             $name == 'pdf_output' or
-             $name == 'xml_data' or
-             $name == 'is_empty' )
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return in_array( $name, $this->attributes() );
     }
 
     function &attribute( $name )
@@ -127,6 +125,13 @@ class eZXMLText
                     }
                 }
                 return $isEmpty;
+            }break;
+
+            default:
+            {
+                eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLText::attribute' );
+                $retValue = null;
+                return $retValue;
             }break;
         }
     }

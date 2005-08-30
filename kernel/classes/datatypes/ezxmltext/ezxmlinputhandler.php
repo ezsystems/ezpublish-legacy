@@ -80,13 +80,7 @@ class eZXMLInputHandler
     */
     function hasAttribute( $name )
     {
-        if ( $name == 'input_xml' or
-             $name == 'aliased_type' or
-             $name == 'aliased_handler' or
-             $name == 'edit_template_name' or
-             $name == 'information_template_name' )
-            return true;
-        return false;
+        return in_array( $name, $this->attributes() );
     }
 
     /*!
@@ -98,21 +92,20 @@ class eZXMLInputHandler
         {
             case 'input_xml':
             {
-                $inputXML =& $this->inputXML();
-                return $inputXML;
+                $retValue =& $this->inputXML();
             } break;
             case 'edit_template_name':
             {
-                return $this->editTemplateName();
-            }
+                $retValue =& $this->editTemplateName();
+            }break;
             case 'information_template_name':
             {
-                return $this->informationTemplateName();
-            }
+                $retValue =& $this->informationTemplateName();
+            }break;
             case 'aliased_type':
             {
                 return $this->AliasedType;
-            }
+            }break;
             case 'aliased_handler':
             {
                 if ( $this->AliasedType !== false and
@@ -123,10 +116,14 @@ class eZXMLInputHandler
                                                                       false );
                 }
                 return $this->AliasedHandler;
-            }
+            }break;
+            default:
+            {
+                eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLInputHandler::attribute' );
+                $retValue = null;
+            }break;
         }
-        eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLInputHandler::attribute' );
-        return null;
+        return $retValue;
     }
 
     /*!
@@ -206,7 +203,8 @@ class eZXMLInputHandler
     */
     function &validateInput( &$http, $base, &$contentObjectAttribute )
     {
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        $retValue = EZ_INPUT_VALIDATOR_STATE_INVALID;
+        return $retValue;
     }
 
     /*!
@@ -216,7 +214,8 @@ class eZXMLInputHandler
     */
     function &convertInput( &$text )
     {
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     /*!
@@ -226,7 +225,8 @@ class eZXMLInputHandler
     */
     function &inputXML()
     {
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     /// \privatesection

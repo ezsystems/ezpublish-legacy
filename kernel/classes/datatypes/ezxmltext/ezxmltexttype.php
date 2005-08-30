@@ -275,8 +275,8 @@ class eZXMLTextType extends eZDataType
     {
         $content =& $this->objectAttributeContent( $contentobjectAttribute );
         $outputHandler =& $content->attribute( 'output' );
-        $retVal = $outputHandler->viewTemplateSuffix( $contentobjectAttribute );
-        return $retVal;
+        $suffix = $outputHandler->viewTemplateSuffix( $contentobjectAttribute );
+        return $suffix;
     }
 
     /*!
@@ -286,8 +286,8 @@ class eZXMLTextType extends eZDataType
     {
         $content =& $this->objectAttributeContent( $contentobjectAttribute );
         $inputHandler =& $content->attribute( 'input' );
-        $editTemplateSuffix =& $inputHandler->editTemplateSuffix( $contentobjectAttribute );
-        return $editTemplateSuffix;
+        $suffix =& $inputHandler->editTemplateSuffix( $contentobjectAttribute );
+        return $suffix;
     }
 
     /*!
@@ -297,7 +297,8 @@ class eZXMLTextType extends eZDataType
     {
         $content =& $this->objectAttributeContent( $contentobjectAttribute );
         $inputHandler =& $content->attribute( 'input' );
-        return $inputHandler->editTemplateSuffix( $contentobjectAttribute );
+        $suffix =& $inputHandler->informationTemplateSuffix( $contentobjectAttribute );
+        return $suffix;
     }
 
     /*!
@@ -428,7 +429,7 @@ class eZXMLTextType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $textColumns = $classAttribute->attribute( EZ_DATATYPESTRING_XML_TEXT_COLS_FIELD );
         $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'text-column-count', $textColumns ) );

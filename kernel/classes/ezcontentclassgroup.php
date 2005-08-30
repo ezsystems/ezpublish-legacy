@@ -77,6 +77,8 @@ class eZContentClassGroup extends eZPersistentObject
                                                               'default' => 0,
                                                               'required' => true ) ),
                       "keys" => array( "id" ),
+                      'function_attributes' => array( 'modifier' => 'modifier',
+                                                      'creator' => 'creator' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentClassGroup",
                       "sort" => array( "id" => "asc" ),
@@ -98,29 +100,27 @@ class eZContentClassGroup extends eZPersistentObject
         return new eZContentClassGroup( $row );
     }
 
-    function hasAttribute( $attr )
+    function &modifier()
     {
-        return ( $attr == "modifier" or
-                 $attr == 'creator' or
-                 eZPersistentObject::hasAttribute( $attr ) );
-    }
-    function &attribute( $attr )
-    {
-        switch ( $attr )
+        if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
-            case "modifier":
-            {
-                $user_id = $this->ModifierID;
-            } break;
-            case "creator":
-            {
-                $user_id = $this->CreatorID;
-            } break;
-            default:
-                return eZPersistentObject::attribute( $attr );
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $user =& eZUser::fetch( $this->ModifierID );
         }
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-        $user =& eZUser::fetch( $user_id );
+        else
+            $user = null;
+        return $user;
+    }
+
+    function &creator()
+    {
+        if ( isset( $this->CreatorID ) and $this->CreatorID )
+        {
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $user =& eZUser::fetch( $this->CreatorID );
+        }
+        else
+            $user = null;
         return $user;
     }
 
@@ -128,7 +128,7 @@ class eZContentClassGroup extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function &removeSelected( $id )
+    function removeSelected( $id )
     {
         eZPersistentObject::removeObject( eZContentClassGroup::definition(),
                                           array( "id" => $id ) );

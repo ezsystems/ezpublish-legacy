@@ -43,7 +43,7 @@ $module =& $Params["Module"];
 
 $http =& eZHttpTool::instance();
 
-$vatTypeArray =& eZVatType::fetchList();
+$vatTypeArray = eZVatType::fetchList();
 
 if ( $http->hasPostVariable( "AddVatTypeButton" ) )
 {

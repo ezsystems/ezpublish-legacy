@@ -68,7 +68,8 @@ class eZNullDB extends eZDBInterface
     */
     function &query( $sql )
     {
-        return false;
+        $result = false;
+        return $result;
     }
 
     /*!

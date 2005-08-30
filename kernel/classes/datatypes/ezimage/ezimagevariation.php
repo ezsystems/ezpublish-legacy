@@ -96,6 +96,7 @@ class eZImageVariation extends eZPersistentObject
                                                             'default' => 0,
                                                             'required' => true ) ),
                       "keys" => array( "contentobject_attribute_id, version, requestedwidth, requestedheight" ),
+                      "function_attributes" => array( 'full_path' => 'fullPath' ),
                       "relations" => array( "contentobject_attribute_id" => array( "class" => "ezcontentobjectattribute",
                                                                          "field" => "id" ) ),
                       "class_name" => "eZImageVariation",
@@ -135,27 +136,6 @@ class eZImageVariation extends eZPersistentObject
         return $variation;
     }
 
-    function attributes()
-    {
-        return eZPersistentObject::attributes();
-    }
-
-    function &attribute( $attr )
-    {
-        if ( $attr == "full_path" )
-            return $this->fullPath();
-
-        return eZPersistentObject::attribute( $attr );
-    }
-
-    function hasAttribute( $attr )
-    {
-        if ( $attr == "full_path" )
-            return true;
-
-        return eZPersistentObject::hasAttribute( $attr );
-    }
-
     function fetchVariation( $contentobjectAttributeID, $version, $rwidth, $rheight )
     {
         $ret =& eZPersistentObject::fetchObjectList( eZImageVariation::definition(),
@@ -176,7 +156,7 @@ class eZImageVariation extends eZPersistentObject
         }
     }
 
-    function &removeVariation( $id, $version )
+    function removeVariation( $id, $version )
     {
         if( $version == null )
         {
@@ -270,7 +250,8 @@ class eZImageVariation extends eZPersistentObject
         if ( filesize( $imageFullPath ) == 0 || !file_exists( $imageFullPath ) )
         {
             eZDebug::writeError( "Could not create variation for $imageFullPath" );
-            return false;
+            $retValue = false;
+            return $retValue;
         }
         else
         {
@@ -297,7 +278,8 @@ class eZImageVariation extends eZPersistentObject
         else
             $variationPath = $ini->variable( "ImageSettings", "VariationsDir" );
 
-        return eZDir::path( array( $storageDir, $variationPath, $category, $additionalPath, $filename ) );
+        $retFullPath = eZDir::path( array( $storageDir, $variationPath, $category, $additionalPath, $filename ) );
+        return $retFullPath;
     }
 
     var $Version;

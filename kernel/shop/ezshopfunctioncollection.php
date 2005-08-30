@@ -169,16 +169,18 @@ class eZShopFunctionCollection
     {
         include_once( 'kernel/classes/ezwishlist.php' );
 
-        $result =& eZWishList::items( true, $production_id, $offset, $limit );
-        return array( 'result' => $result );
+        $wishList =& eZWishList::items( true, $production_id, $offset, $limit );
+        $result = array ( 'result' => &$wishList );
+        return $result;
     }
 
     function &fetchWishListCount( $production_id )
     {
         include_once( 'kernel/classes/ezwishlist.php' );
 
-        $result =& eZWishList::itemCount( $production_id );
-        return array( 'result' => $result );
+        $count =& eZWishList::itemCount( $production_id );
+        $result = array ( 'result' => $count );
+        return $result;
     }
 
     /*!

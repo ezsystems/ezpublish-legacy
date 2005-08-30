@@ -117,7 +117,7 @@ class eZOrderStatusHistory extends eZPersistentObject
       \note The field \c modified_id is used to find the user, this will contain
             the content object ID of the user.
     */
-    function modifier()
+    function &modifier()
     {
         if ( $this->Modifier === null )
         {
@@ -131,20 +131,21 @@ class eZOrderStatusHistory extends eZPersistentObject
      \return The order status object for this history entry.
      \sa fetchOrderStatusName()
     */
-    function fetchOrderStatus()
+    function &fetchOrderStatus()
     {
         include_once( 'kernel/classes/ezorderstatus.php' );
         $statusList = eZOrderStatus::fetchMap( true, true );
         if ( isset( $statusList[$this->StatusID] ) )
             return $statusList[$this->StatusID];
-        return false;
+        $retValue = false;
+        return $retValue;
     }
 
     /*!
      \return The name of the order status for this history entry.
      \sa fetchOrderStatus()
     */
-    function fetchOrderStatusName()
+    function &fetchOrderStatusName()
     {
         if ( $this->StatusName === null )
         {

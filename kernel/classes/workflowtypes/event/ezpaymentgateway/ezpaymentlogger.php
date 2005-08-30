@@ -51,13 +51,13 @@ class eZPaymentLogger
 
     function &CreateNew($fileName)
     {
-        $theLogger =& new eZPaymentLogger( $fileName, "wt" );
+        $theLogger = new eZPaymentLogger( $fileName, "wt" );
         return $theLogger;
     }
 
     function &CreateForAdd($fileName)
     {
-        $theLogger =& new eZPaymentLogger( $fileName, "a+t" );
+        $theLogger = new eZPaymentLogger( $fileName, "a+t" );
         $theLogger->writeTimedString( '----------' );
         return $theLogger;
     }
@@ -75,7 +75,7 @@ class eZPaymentLogger
                 fputs( $this->file, $label . ': ' . $string."\r\n" );
         }
     }
-    
+
     function writeTimedString( $string, $label='' )
     {
         if( $this->file )
@@ -84,7 +84,7 @@ class eZPaymentLogger
 
             if ( is_object( $string ) || is_array( $string ) )
                 $string =& eZDebug::dumpVariable( $string );
-            
+
             if( $label == '' )
                 fputs( $this->file, $time. '  '. $string. "\n" );
             else

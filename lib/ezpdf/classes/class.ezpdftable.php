@@ -1549,13 +1549,14 @@ class eZPDFTable extends Cezpdf
 
     function &fixWhitespace( &$text )
     {
-        return str_replace( array( EZ_PDF_LIB_SPACE,
-                                   EZ_PDF_LIB_TAB,
-                                   EZ_PDF_LIB_NEWLINE ),
-                            array( ' ',
-                                   "\t",
-                                   "\n" ),
-                            $text );
+        $text = str_replace( array( EZ_PDF_LIB_SPACE,
+                                    EZ_PDF_LIB_TAB,
+                                    EZ_PDF_LIB_NEWLINE ),
+                             array( ' ',
+                                    "\t",
+                                    "\n" ),
+                             $text );
+        return $text;
     }
 
     /**

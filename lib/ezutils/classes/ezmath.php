@@ -113,7 +113,7 @@ class eZMath
 
      \return CMYK return array
     */
-    function &rgbToCMYK2( $r, $g, $b )
+    function rgbToCMYK2( $r, $g, $b )
     {
         return eZMath::rgbToCMYK( array( 'r' => $r,
                                          'g' => $g,

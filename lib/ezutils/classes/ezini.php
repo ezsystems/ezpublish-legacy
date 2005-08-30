@@ -1125,7 +1125,7 @@ class eZINI
     /*!
       \return true if the variable \a $varName in group \a $blockName has been modified.
     */
-    function &isVariableModified( $blockName, $varName )
+    function isVariableModified( $blockName, $varName )
     {
         return ( isset( $this->ModifiedBlockValues[$blockName][$varName] ) and
                  $this->ModifiedBlockValues[$blockName][$varName] );
@@ -1169,7 +1169,8 @@ class eZINI
         if ( !isset( $this->BlockValues[$blockName] ) )
         {
             eZDebug::writeError( "Unknown group: '$origBlockName'", "eZINI" );
-            return null;
+            $ret = null;
+            return $ret;
         }
         $ret = $this->BlockValues[$blockName];
 

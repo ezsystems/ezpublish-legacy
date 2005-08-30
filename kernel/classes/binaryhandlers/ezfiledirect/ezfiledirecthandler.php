@@ -63,7 +63,8 @@ class eZFileDirectHandler extends eZBinaryFileHandler
     */
     function &viewTemplate( &$contentobjectAttribute )
     {
-        return 'direct';
+        $retValue = 'direct';
+        return $retValue;
     }
 
 }

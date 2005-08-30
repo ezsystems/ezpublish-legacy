@@ -346,7 +346,7 @@ class eZFloatType extends eZDataType
     */
     function &objectAttributeContent( &$contentObjectAttribute )
     {
-        return  $contentObjectAttribute->attribute( 'data_float' );
+        return $contentObjectAttribute->attribute( 'data_float' );
     }
 
     /*!
@@ -366,7 +366,7 @@ class eZFloatType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( EZ_DATATYPESTRING_DEFAULT_FLOAT_FIELD );
         $minValue = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_FLOAT_FIELD );

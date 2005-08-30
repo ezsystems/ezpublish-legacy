@@ -125,7 +125,7 @@ class eZModule
      \return the URI of the module.
      \sa functionURI
     */
-    function &uri()
+    function uri()
     {
         return "/" . $this->Name;
     }
@@ -304,7 +304,10 @@ class eZModule
         $module =& eZModule::findModule( $errorModule['module'], $this );
 
         if ( $module === null )
-            return false;
+        {
+            $retValue = false;
+            return $retValue;
+        }
 
         $result =& $module->run( $errorModule['view'], array( $errorType, $errorCode, $parameters, $userParameters ) );
         // The error module may want to redirect to another URL, see error.ini
@@ -489,7 +492,8 @@ class eZModule
         $viewData =& $this->viewData( $viewName );
         if ( isset( $viewData['params'] ) )
             return $viewData['params'];
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     /*!
@@ -504,7 +508,8 @@ class eZModule
         $viewData =& $this->viewData( $viewName );
         if ( isset( $viewData['unordered_params'] ) )
             return $viewData['unordered_params'];
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     /*!
@@ -559,7 +564,13 @@ class eZModule
     */
     function attributes()
     {
-        return array( "uri", "functions", "name", "path", "info", "aviable_functions", "available_functions" );
+        return array( "uri",
+                      "functions",
+                      "name",
+                      "path",
+                      "info",
+                      "aviable_functions",
+                      "available_functions" );
     }
 
     /*!
@@ -578,7 +589,8 @@ class eZModule
         switch( $attr )
         {
             case "uri":
-                return $this->uri();
+                $retValue = $this->uri();
+            break;
             case "functions":
                 return $this->Functions;
             case "views":
@@ -592,8 +604,14 @@ class eZModule
             case 'aviable_functions':
             case 'available_functions':
                 return $this->FunctionList;
+            default:
+            {
+                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZModule::attribute' );
+                $retValue = null;
+            }
+            break;
         }
-        return null;
+        return $retValue;
     }
 
     /*!
@@ -939,11 +957,13 @@ class eZModule
             $view = $this->currentView();
         if ( isset( $this->ViewResult[$view] ) )
             return $this->ViewResult[$view];
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     function &forward( &$module, $functionName, $parameters = false )
     {
+        $Return = null;
         if ( $module && $functionName )
         {
             $viewName = eZModule::currentView();
@@ -975,11 +995,8 @@ class eZModule
 
             $this->RedirectURI = $module->redirectURI();
             $this->setExitStatus( $module->exitStatus() );
-
-            return $Return;
         }
-
-        return null;
+        return $Return;
     }
 
     /*!
@@ -1002,7 +1019,8 @@ class eZModule
             eZDebug::writeError( "Undefined view: " . $this->Module["name"] . "::$functionName ",
                                  "eZModule" );
             $this->setExitStatus( EZ_MODULE_STATUS_FAILED );
-            return null;
+            $Return = null;
+            return $Return;
         }
         if ( $this->singleFunction() )
             $function =& $this->Module["function"];
@@ -1266,7 +1284,8 @@ class eZModule
     function &exists( $moduleName, $pathList = null )
     {
         $module = null;
-        return eZModule::findModule( $moduleName, $module, $pathList );
+        eZModule::findModule( $moduleName, $module, $pathList );
+        return $module;
     }
 
     /*!
@@ -1328,7 +1347,8 @@ class eZModule
             eZDebug::writeWarning( "Could not find module named '$moduleName'\n" .
                                    "These directories were tried none of them exists:\n" . implode( ", ", $triedDirList ) );
         }
-        return null;
+        $retValue = null;
+        return $retValue;
     }
     function &getNamedParameters()
     {

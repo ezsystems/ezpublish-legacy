@@ -150,15 +150,17 @@ class eZImageShellHandler extends eZImageHandler
     {
         if ( !$iniFilename )
             $iniFilename = 'image.ini';
+
+        $handler = false;
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance( $iniFilename );
         if ( !$ini )
         {
             eZDebug::writeError( "Failed loading ini file $iniFilename",
                                  'eZImageShellHandler::createFromINI' );
-            return false;
+            return $handler;
         }
-        $handler = false;
+
         if ( $ini->hasGroup( $iniGroup ) )
         {
             $name = $iniGroup;
@@ -206,7 +208,7 @@ class eZImageShellHandler extends eZImageHandler
             {
                 eZDebug::writeError( "No Executable setting for group $iniGroup in ini file $iniFilename",
                                      'eZImageShellHandler::createFromINI' );
-                return false;
+                return $handler;
             }
             $executable = $ini->variable( $iniGroup, 'Executable' );
             $executableWin32 = false;
@@ -268,7 +270,7 @@ class eZImageShellHandler extends eZImageHandler
             $handler->QualityParameters = $qualityParameters;
             return $handler;
         }
-        return false;
+        return $handler;
     }
 
     /// \privatesection

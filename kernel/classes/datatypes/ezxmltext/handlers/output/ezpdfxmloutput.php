@@ -54,7 +54,8 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
     */
     function &outputText()
     {
-        return $this->pdf();
+        $retValue =& $this->pdf();
+        return $retValue;
     }
 
     /*!
@@ -62,6 +63,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
     */
     function &pdf()
     {
+        $output = "";
         $tpl =& templateInit();
         $xml = new eZXML();
         $res =& eZTemplateDesignResource::instance();
@@ -69,6 +71,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
         {
             $res->setKeys( array( array( 'attribute_identifier', $this->ContentObjectAttribute->attribute( 'contentclass_attribute_identifier' ) ) ) );
         }
+
         $dom =& $xml->domTree( $this->XMLData );
         if ( $dom )
         {
@@ -176,7 +179,6 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
             }
 
             $sectionNode =& $domNode[0];
-            $output = "";
             if ( get_class( $sectionNode ) == "ezdomnode" )
             {
                 $output =& $this->renderPDFSection( $tpl, $sectionNode, 0 );

@@ -551,6 +551,8 @@ class eZLocale
         $attributeMap = eZLocale::attributeFunctionMap();
         if ( isset( $attributeMap[$attribute] ) )
             return true;
+        else
+            return false;
     }
 
     function &attribute( $attribute )
@@ -561,14 +563,20 @@ class eZLocale
             $method = $attributeMap[$attribute];
             if ( method_exists( $this, $method ) )
             {
-                $value =& $this->$method();
-                return $value;
+                $retValue =& $this->$method();
             }
             else
+            {
                 eZDebug::writeError( "Unknown method '$method' specified for attribute '$attribute'", 'eZLocale::attribute' );
+                $retValue = null;
+            }
         }
-        eZDebug::writeError( "Unknown attribute '$attribute'", 'eZLocale::attribute' );
-        return null;
+        else
+        {
+            eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZLocale::attribute' );
+            $retValue = null;
+        }
+        return $retValue;
     }
 
     function attributeFunctionMap()
@@ -1208,7 +1216,8 @@ class eZLocale
                                     $neg ? $this->CurrencyNegativeSymbol : $this->CurrencyPositiveSymbol,
                                     $num_text ),
                              $neg ? $this->CurrencyNegativeFormat : $this->CurrencyPositiveFormat );
-        return trim( $text );
+        $text = trim( $text );
+        return $text;
     }
 
     /*!

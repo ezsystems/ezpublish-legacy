@@ -154,7 +154,6 @@ class eZPriceType extends eZDataType
     */
     function &objectAttributeContent( &$contentObjectAttribute )
     {
-        // return $contentObjectAttribute->attribute( "data_float" );
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
         $storedPrice = $contentObjectAttribute->attribute( "data_float" );
         $price = new eZPrice( $classAttribute, $contentObjectAttribute, $storedPrice );
@@ -203,7 +202,7 @@ class eZPriceType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $price =& $classAttribute->content();
         if ( $price )

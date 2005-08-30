@@ -70,28 +70,17 @@ class eZCollaborationNotificationRule extends eZPersistentObject
                                                                'default' => '',
                                                                'required' => true ) ),
                       "keys" => array( "id" ),
-                      "function_attributes" => array( 'user' ),
+                      "function_attributes" => array( 'user' => 'user' ),
                       "increment_key" => "id",
                       "sort" => array( "id" => "asc" ),
                       "class_name" => "eZCollaborationNotificationRule",
                       "name" => "ezcollab_notification_rule" );
     }
 
-    function hasAttribute( $attr )
+    function &user()
     {
-        if ( $attr == 'user' )
-        {
-            return true;
-        }
-        return eZPersistentObject::hasAttribute( $attr );
-    }
-    function &attribute( $attr )
-    {
-        if ( $attr == 'user' )
-        {
-            return true;
-        }
-        return eZPersistentObject::attribute( $attr );
+        $user =& eZUser::fetch( $this->attribute( 'user_id' ) );
+        return $user;
     }
 
     function create( $collaborationIdentifier, $userID = false )
@@ -140,10 +129,11 @@ class eZCollaborationNotificationRule extends eZPersistentObject
     {
         if ( is_array( $collaborationIdentifier ) )
             $collaborationIdentifier = array( $collaborationIdentifier );
-        return eZPersistentObject::fetchObjectList( eZCollaborationNotificationRule::definition(),
+        $objectList =& eZPersistentObject::fetchObjectList( eZCollaborationNotificationRule::definition(),
                                                     null, array( 'user_id' => array( $userIDList ),
                                                                  'collab_identifier' => $collaborationIdentifier ),
                                                     null, null, $asObject );
+        return $objectList;
     }
 
 //     function &fetchUserList( $nodeIDList )

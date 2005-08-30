@@ -475,7 +475,7 @@ class eZIniSettingType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         include_once( 'lib/ezxml/classes/ezdomdocument.php' );
 

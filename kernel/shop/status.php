@@ -45,7 +45,7 @@ if ( $http->hasPostVariable( "SaveOrderStatusButton" ) or
      $http->hasPostVariable( "AddOrderStatusButton" ) or
      $http->hasPostVariable( "RemoveOrderStatusButton" ) )
 {
-    $orderStatusArray =& eZOrderStatus::fetchList( true, true );
+    $orderStatusArray = eZOrderStatus::fetchList( true, true );
     foreach ( $orderStatusArray as $orderStatus )
     {
         $id = $orderStatus->attribute( 'id' );
@@ -85,7 +85,7 @@ if ( $http->hasPostVariable( "RemoveOrderStatusButton" ) )
     $triedRemoveInternal = false;
     foreach ( $orderStatusIDList as $orderStatusID )
     {
-        $status =& eZOrderStatus::fetch( $orderStatusID );
+        $status = eZOrderStatus::fetch( $orderStatusID );
         // Internal status items must not be removed
         if ( $status->isInternal() )
         {
@@ -101,7 +101,7 @@ if ( $http->hasPostVariable( "RemoveOrderStatusButton" ) )
         $messages[] = array( 'description' => ezi18n( 'kernel/shop', 'Internal orders cannot be removed.' ) );
 }
 
-$orderStatusArray =& eZOrderStatus::fetchList( true, true );
+$orderStatusArray = eZOrderStatus::fetchList( true, true );
 
 $tpl =& templateInit();
 $tpl->setVariable( "orderstatus_array", $orderStatusArray );

@@ -131,9 +131,15 @@ class eZPackageFunctionCollection
         include_once( 'kernel/classes/ezpackage.php' );
         $package =& eZPackage::fetch( $packageName, false, $repositoryID );
         if ( $package === false )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => $package );
+        {
+            $retValue = array( 'error' => array( 'error_type' => 'kernel',
+                                                 'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        }
+        else
+        {
+            $retValue = array( 'result' => $package );
+        }
+        return $retValue;
     }
 
     function &fetchDependentPackageList( $packageName, $filterArray = false, $repositoryID )
@@ -203,9 +209,15 @@ class eZPackageFunctionCollection
         $package =& eZPackage::fetch( $packageName, false, $repositoryID );
         $packageList =& $package->fetchDependentPackages( $filterParams );
         if ( $packageList === false )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => $packageList );
+        {
+            $retValue = array( 'error' => array( 'error_type' => 'kernel',
+                                                 'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        }
+        else
+        {
+            $retValue = array( 'result' => $packageList );
+        }
+        return $retValue;
     }
 
     function fetchMaintainerRoleList( $packageType, $checkRoles )

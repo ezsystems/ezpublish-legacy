@@ -78,12 +78,7 @@ class eZXMLOutputHandler
     */
     function hasAttribute( $name )
     {
-        if ( $name == 'output_text' or
-             $name == 'aliased_type' or
-             $name == 'aliased_handler' or
-             $name == 'view_template_name' )
-            return true;
-        return false;
+        return in_array( $name, $this->attributes() );
     }
 
     /*!
@@ -95,17 +90,16 @@ class eZXMLOutputHandler
         {
             case 'output_text':
             {
-                $retVal =& $this->outputText();
-                return $retVal;
+                $retValue =& $this->outputText();
             } break;
             case 'aliased_type':
             {
                 return $this->AliasedType;
-            }
+            } break;
             case 'view_template_name':
             {
-                return $this->viewTemplateName();
-            }
+                $retValue =& $this->viewTemplateName();
+            } break;
             case 'aliased_handler':
             {
                 if ( $this->AliasedType !== false and
@@ -116,10 +110,14 @@ class eZXMLOutputHandler
                                                                       false );
                 }
                 return $this->AliasedHandler;
-            }
+            } break;
+            default:
+            {
+                eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLOutputHandler::attribute' );
+                $retValue = null;
+            } break;
         }
-        eZDebug::writeError( "Attribute '$name' does not exist", 'eZXMLOutputHandler::attribute' );
-        return null;
+        return $retValue;
     }
 
     /*!

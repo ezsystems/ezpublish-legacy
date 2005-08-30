@@ -152,34 +152,12 @@ class eZContentObject extends eZPersistentObject
                                                       "class_identifier" => "contentClassIdentifier",
                                                       'class_group_id_list' => 'contentClassGroupIDList',
                                                       "name" => "Name",
-                                                      'match_ingroup_id_list' => 'matchIngroupIDList' ),
+                                                      'match_ingroup_id_list' => 'matchIngroupIDList',
+                                                      'remote_id' => 'remoteID' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentObject",
                       "sort" => array( "id" => "asc" ),
                       "name" => "ezcontentobject" );
-    }
-
-    function &attribute( $attr )
-    {
-        if ( $attr == 'assigned_nodes' )
-        {
-            $assignedNodes =& $this->assignedNodes( true );
-            return $assignedNodes;
-        }
-        else if ( $attr == 'parent_nodes' )
-        {
-            return $this->parentNodes( true, false );
-        }
-        else if ( $attr == 'remote_id' )
-        {
-            $remoteID = $this->remoteID();
-            return $remoteID;
-        }
-        else
-        {
-            $retVal = eZPersistentObject::attribute( $attr );
-            return $retVal;
-        }
     }
 
     /*!
@@ -303,7 +281,8 @@ class eZContentObject extends eZPersistentObject
         if ( !$contentObjectID > 0 || !$version > 0 )
         {
             eZDebug::writeNotice( "There is no object name for version($version) of the content object ($contentObjectID) in language($lang)", 'eZContentObject::versionLanguageName' );
-            return '';
+            $name = false;
+            return $name;
         }
         $db =& eZDb::instance();
         $query= "select name,real_translation from ezcontentobject_name where contentobject_id = '$contentObjectID' and content_version = '$version'  and content_translation = '$lang'";
@@ -506,7 +485,8 @@ class eZContentObject extends eZPersistentObject
     */
     function &owner()
     {
-        return eZContentObject::fetch( $this->OwnerID );
+        $owner =& eZContentObject::fetch( $this->OwnerID );
+        return $owner;
     }
 
     /*!
@@ -515,7 +495,8 @@ class eZContentObject extends eZPersistentObject
     function &contentClassGroupIDList()
     {
         $contentClass =& $this->contentClass();
-        return $contentClass->attribute( 'ingroup_id_list' );
+        $groupIDList =& $contentClass->attribute( 'ingroup_id_list' );
+        return $groupIDList;
     }
 
     /*!
@@ -527,7 +508,8 @@ class eZContentObject extends eZPersistentObject
     {
         if ( !is_numeric( $this->ClassID ) )
         {
-            return null;
+            $retValue = null;
+            return $retValue;
         }
 
         if ( $this->ClassIdentifier !== false )
@@ -551,7 +533,8 @@ class eZContentObject extends eZPersistentObject
     {
         if ( !is_numeric( $this->ClassID ) )
         {
-            return null;
+            $retValue = null;
+            return $retValue;
         }
 
         $contentClass =& eZContentClass::fetch( $this->ClassID );
@@ -561,7 +544,7 @@ class eZContentObject extends eZPersistentObject
     /*!
      Get remote id of content node
     */
-    function remoteID()
+    function &remoteID()
     {
         $remoteID = eZPersistentObject::attribute( 'remote_id' );
 
@@ -589,9 +572,8 @@ class eZContentObject extends eZPersistentObject
 
     function &mainParentNodeID()
     {
-        $temp = eZContentObjectTreeNode::getParentNodeId( $this->attribute( 'main_node_id' ) );
-
-        return $temp;
+        $retParenNodeID = eZContentObjectTreeNode::getParentNodeId( $this->attribute( 'main_node_id' ) );
+        return $retParenNodeID;
     }
 
     /*!
@@ -633,7 +615,8 @@ class eZContentObject extends eZPersistentObject
             else
             {
                 eZDebug::writeError( "Object not found ($id)", 'eZContentObject::fetch()' );
-                return null;
+                $retValue = null;
+                return $retValue;
             }
 
             if ( $asObject )
@@ -752,7 +735,8 @@ class eZContentObject extends eZPersistentObject
         else
         {
             eZDebug::writeError( 'Object not found', 'eZContentObject::fetch()' );
-            return null;
+            $retValue = null;
+            return $retValue;
         }
 
         if ( $asObject )
@@ -2158,8 +2142,8 @@ class eZContentObject extends eZPersistentObject
                     $retNodes[] =& $nodeAssignment->attribute( 'parent_node' );
                 }
             }
-            return $retNodes;
         }
+        return $retNodes;
     }
 
     /*!
@@ -2190,7 +2174,7 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns the node assignments for the current object.
     */
-    function &assignedNodes( $asObject = true)
+    function &assignedNodes( $asObject = true )
     {
         $contentobjectID = $this->attribute( 'id' );
         $query = "SELECT ezcontentobject.*,
@@ -2224,10 +2208,8 @@ class eZContentObject extends eZPersistentObject
         {
             $mainNodeID = eZContentObjectTreeNode::findMainNode( $this->attribute( 'id' ) );
             $this->MainNodeID = $mainNodeID;
-            return $mainNodeID;
         }
-        else
-            return $this->MainNodeID;
+        return $this->MainNodeID;
     }
 
     function &mainNode()
@@ -2755,7 +2737,8 @@ class eZContentObject extends eZPersistentObject
         else if ( $accessWord == 'no' )
         {
             // Cannnot create any objects, return empty list.
-            return array();
+            $classList = array();
+            return $classList;
         }
         else
         {
@@ -2809,7 +2792,10 @@ class eZContentObject extends eZPersistentObject
         {
             // If the constrained class list is empty we are not allowed to create any class
             if ( count( $classIDArray ) == 0 )
-                return array();
+            {
+                $classList = array();
+                return $classList;
+            }
 
             $classList = array();
             $db =& eZDb::instance();
@@ -2991,7 +2977,8 @@ class eZContentObject extends eZPersistentObject
     {
         if ( !is_numeric( $this->ClassID ) )
         {
-            return null;
+            $retValue = null;
+            return $retValue;
         }
 
         if ( $this->ClassName !== false )
@@ -3148,7 +3135,8 @@ class eZContentObject extends eZPersistentObject
     */
     function &fetchClassAttributes( $version = 0, $asObject = true )
     {
-        return eZContentClassAttribute::fetchListByClassID( $this->attribute( 'contentclass_id' ), $version, $asObject );
+        $classAttributesList =& eZContentClassAttribute::fetchListByClassID( $this->attribute( 'contentclass_id' ), $version, $asObject );
+        return $classAttributesList;
     }
 
     /*!
@@ -3169,7 +3157,8 @@ class eZContentObject extends eZPersistentObject
     {
         if ( $domNode->name() != 'object' )
         {
-            return false;
+            $retValue = false;
+            return $retValue;
         }
 
         $sectionID =& $domNode->attributeValue( 'section_id' );
@@ -3191,7 +3180,8 @@ class eZContentObject extends eZPersistentObject
         if ( !$contentClass )
         {
             eZDebug::writeError( 'Could not fetch class ' . $classIdentifier . ', remote_id: ' . $classRemoteID, 'eZContentObject::unserialize()' );
-            return false;
+            $retValue = false;
+            return $retValue;
         }
 
         $contentObject = eZContentObject::fetchByRemoteID( $remoteID );
@@ -3228,7 +3218,8 @@ class eZContentObject extends eZPersistentObject
             if ( !$contentObjectVersion )
             {
                 eZDebug::writeError( 'Unserialize error', 'eZContentObject::unserialize' );
-                return false;
+                $retValue = false;
+                return $retValue;
             }
 
             $versionStatus = $versionDOMNode->attributeValue( 'status' ); // we're really getting value of ezremote:status here
@@ -3333,7 +3324,8 @@ class eZContentObject extends eZPersistentObject
         {
             if ( !isset( $contentNodeIDArray[$this->attribute( 'main_node_id' )] ) )
             {
-                return false;
+                $retValue = false;
+                return $retValue;
             }
         }
 

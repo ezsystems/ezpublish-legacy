@@ -130,8 +130,8 @@ class eZSearch
 
         include_once( 'kernel/search/plugins/' . strToLower( $searchEngineString ) . '/' . strToLower( $searchEngineString ) . '.php' );
         $searchEngine = new $searchEngineString;
-
-        return $searchEngine->normalizeText( $text );
+        $normalizedText =& $searchEngine->normalizeText( $text );
+        return $normalizedText;
     }
 
     /*!

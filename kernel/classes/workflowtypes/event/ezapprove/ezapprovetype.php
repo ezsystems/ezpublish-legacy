@@ -77,7 +77,8 @@ class eZApproveType extends eZWorkflowEventType
                 return $groups;
             }
         }
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     function typeFunctionalAttributes( )
@@ -85,6 +86,20 @@ class eZApproveType extends eZWorkflowEventType
         return array( 'selected_sections',
                       'selected_users',
                       'selected_usergroups' );
+    }
+
+    function attributes()
+    {
+        return array_merge( array( 'sections',
+                                   'users',
+                                   'usergroups' ),
+                            eZWorkflowEventType::attributes() );
+
+    }
+
+    function hasAttribute( $attr )
+    {
+        return in_array( $attr, $this->attributes() );
     }
 
     function &attribute( $attr )
@@ -132,12 +147,6 @@ class eZApproveType extends eZWorkflowEventType
             }
         }
         return eZWorkflowEventType::attribute( $attr );
-    }
-    function hasAttribute( $attr )
-    {
-        return in_array( $attr, array( 'sections',
-                                       'users',
-                                       'usergroups' ) ) || eZWorkflowEventType::hasAttribute( $attr );
     }
 
     function execute( &$process, &$event )

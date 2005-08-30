@@ -166,17 +166,18 @@ class eZImageTextLayer extends eZImageLayer
     function &createForText( $text, &$font, $widthAdjustment, $heightAdjustment, $angle,
                              $absoluteWidth = false, $absoluteHeight = false )
     {
+        $Return = false;
         if ( get_class( $font ) != 'ezimagefont' )
-            return false;
+            return $Return;
         if ( !function_exists( 'ImageTTFBBox' ) )
         {
             eZDebug::writeError( 'ImageTTFBBox function not in PHP, check PHP compilation', 'ezimagetextlayer.php' );
-            return false;
+            return $Return;
         }
         $bbox = ImageTTFBBox( $font->pointSize(), $angle, $font->realFile(), $text );
 
         if ( !$bbox )
-            return false;
+            return $Return;
 
         $xmin = min( $bbox[0], $bbox[2], $bbox[4], $bbox[6] );
         $xmax = max( $bbox[0], $bbox[2], $bbox[4], $bbox[6] );

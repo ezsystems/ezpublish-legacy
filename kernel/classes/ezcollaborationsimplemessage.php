@@ -115,6 +115,7 @@ class eZCollaborationSimpleMessage extends eZPersistentObject
                                                               'default' => 0,
                                                               'required' => true ) ),
                       'keys' => array( 'id' ),
+                      'function_attributes' => array( 'participant' => 'participant' ),
                       'increment_key' => 'id',
                       'class_name' => 'eZCollaborationSimpleMessage',
                       'name' => 'ezcollab_simple_message' );
@@ -129,13 +130,13 @@ class eZCollaborationSimpleMessage extends eZPersistentObject
             $user =& eZUser::currentUser();
             $creatorID =& $user->attribute( 'contentobject_id' );
         }
-        $row = array(
-            'message_type' => $type,
-            'data_text1' => $text,
-            'creator_id' => $creatorID,
-            'created' => $date_time,
-            'modified' => $date_time );
-        return new eZCollaborationSimpleMessage( $row );
+        $row = array( 'message_type' => $type,
+                      'data_text1' => $text,
+                      'creator_id' => $creatorID,
+                      'created' => $date_time,
+                      'modified' => $date_time );
+        $object = new eZCollaborationSimpleMessage( $row );
+        return $object;
     }
 
     function &fetch( $id, $asObject = true )
@@ -146,23 +147,11 @@ class eZCollaborationSimpleMessage extends eZPersistentObject
                                                 $asObject );
     }
 
-    function hasAttribute( $attr )
+    function &participant()
     {
-        return ( $attr == 'participant' or
-                 eZPersistentObject::hasAttribute( $attr ) );
-    }
-
-    function &attribute( $attr )
-    {
-        switch( $attr )
-        {
-            case 'participant':
-            {
-                // TODO: Get participant trough participant link from item
-            } break;
-            default:
-                return eZPersistentObject::attribute( $attr );
-        }
+        // TODO: Get participant trough participant link from item
+        $retValue = null;
+        return $retValue;
     }
 
     /// \privatesection

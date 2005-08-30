@@ -207,7 +207,10 @@ class eZDOMDocument
         if ( isset( $this->Namespaces[$alias] ) )
             return $this->Namespaces[$alias];
         else
-            return false;
+        {
+            $retValue = false;
+            return $retValue;
+        }
     }
 
     /*!

@@ -133,30 +133,27 @@ class eZTime
 
     function hasAttribute( $name )
     {
-        if ( $name == 'timestamp' or
-             $name == 'time_of_day' or
-             $name == 'hour' or
-             $name == 'minute' or
-             $name == 'is_valid' )
-            return true;
-        else
-            return false;
+        return in_array( $name, $this->attributes() );
     }
 
     function &attribute( $name )
     {
         if ( $name == 'timestamp' )
-            return $this->timeStamp();
+            $retValue = $this->timeStamp();
         else if ( $name == 'time_of_day' )
-            return $this->timeOfDay();
+            $retValue = $this->timeOfDay();
         else if ( $name == 'hour' )
-            return $this->hour();
+            $retValue = $this->hour();
         else if ( $name == 'minute' )
-            return $this->minute();
+            $retValue = $this->minute();
         else if ( $name == 'is_valid'  )
-            return $this->isValid();
+            $retValue = $this->isValid();
         else
-            return false;
+        {
+            eZDebug::writeError( "Attribute '$name' does not exist", 'eZTime::attribute' );
+            $retValue = false;
+        }
+        return $retValue;
     }
 
     /*!
@@ -305,7 +302,7 @@ class eZTime
      Creates a new eZTime object with the time values $hour, $min and $sec and returns a reference to it.
      Any value can be ommitted or set to -1 to use the current time value.
     */
-    function create( $hour = -1, $minute = -1, $second = -1 )
+    function &create( $hour = -1, $minute = -1, $second = -1 )
     {
         $cur_date = getdate();
 
@@ -319,7 +316,7 @@ class eZTime
     /*!
      Creates an exact copy of this object and returns a reference to it.
     */
-    function duplicate()
+    function &duplicate()
     {
         $t = new eZTime( $this->Time );
         $t->setLocale( $this->Locale );

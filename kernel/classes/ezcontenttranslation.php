@@ -44,6 +44,8 @@
 
 */
 
+include_once( 'kernel/classes/ezpersistentobject.php' );
+
 class eZContentTranslation extends eZPersistentObject
 {
     /*!
@@ -95,7 +97,7 @@ class eZContentTranslation extends eZPersistentObject
         return $locale;
     }
 
-    function fetch( $translationID )
+    function &fetch( $translationID )
     {
         return eZPersistentObject::fetchObject( eZContentTranslation::definition(),
                                                 null, array('id' => $translationID ), true);

@@ -597,7 +597,8 @@ class eZMediaType extends eZDataType
                                       $contentObjectAttribute->attribute( "version" ) );
         if ( !$mediaFile )
         {
-            return false;
+            $retValue = false;
+            return $retValue;
         }
         return $mediaFile;
     }
@@ -610,7 +611,7 @@ class eZMediaType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $maxSize = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_MEDIA_FILESIZE_FIELD );
         $type = $classAttribute->attribute( EZ_DATATYPESTRING_TYPE_FIELD );

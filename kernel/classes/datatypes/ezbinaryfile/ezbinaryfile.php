@@ -83,67 +83,41 @@ class eZBinaryFile extends eZPersistentObject
                       'keys' => array( 'contentobject_attribute_id', 'version' ),
                       'relations' => array( 'contentobject_attribute_id' => array( 'class' => 'ezcontentobjectattribute',
                                                                                    'field' => 'id' ) ),
-                      "function_attributes" => array( 'filesize' => 'filesize',
-                                                      'filepath' => 'filepath',
+                      "function_attributes" => array( 'filesize' => 'fileSize',
+                                                      'filepath' => 'filePath',
                                                       'mime_type_category' => 'mimeTypeCategory',
                                                       'mime_type_part' => 'mimeTypePart' ),
                       'class_name' => 'eZBinaryFile',
                       'name' => 'ezbinaryfile' );
     }
 
-    function attributes()
+
+    function &fileSize()
     {
-        return eZPersistentObject::attributes();
+        $fileInfo = $this->storedFileInfo();
+        if ( file_exists( $fileInfo['filepath'] ) )
+            $fileSize = filesize( $fileInfo['filepath'] );
+        else
+            $fileSize = 0;
+        return $fileSize;
     }
 
-    function hasAttribute( $attr )
+    function &filePath()
     {
-        return ( $attr == 'mime_type_category' or
-                 $attr == 'mime_type_part' or
-                 $attr == 'filepath' or
-                 $attr == 'filesize' or
-                 eZPersistentObject::hasAttribute( $attr ) );
+        $fileInfo = $this->storedFileInfo();
+        return $fileInfo['filepath'];
     }
 
-    function &attribute( $attr )
+    function &mimeTypeCategory()
     {
-        $ini =& eZINI::instance();
+        $types = explode( '/', eZPersistentObject::attribute( 'mime_type' ) );
+        return $types[0];
+    }
 
-        switch( $attr )
-        {
-            case 'filesize':
-            {
-                $fileInfo = $this->storedFileInfo();
-                if ( file_exists( $fileInfo['filepath'] ) )
-                {
-                    $filesize = filesize( $fileInfo['filepath'] );
-                    return $filesize;
-                }
-                else
-                {
-                    $filesize = 0;
-                    return $filesize;
-                }
-            } break;
-            case 'filepath':
-            {
-                $fileInfo = $this->storedFileInfo();
-                return $fileInfo['filepath'];
-            } break;
-            case 'mime_type_category':
-            {
-                $types = explode( '/', eZPersistentObject::attribute( 'mime_type' ) );
-                return $types[0];
-            } break;
-            case 'mime_type_part':
-            {
-                $types = explode( '/', eZPersistentObject::attribute( 'mime_type' ) );
-                return $types[1];
-            } break;
-            default:
-                return eZPersistentObject::attribute( $attr );
-        }
-        return null;
+    function &mimeTypePart()
+    {
+        $types = explode( '/', eZPersistentObject::attribute( 'mime_type' ) );
+        return $types[1];
     }
 
     function create( $contentObjectAttributeID, $version )
@@ -171,12 +145,12 @@ class eZBinaryFile extends eZPersistentObject
         }
         else
         {
-            $retVal =& eZPersistentObject::fetchObject( eZBinaryFile::definition(),
-                                                    null,
-                                                    array( 'contentobject_attribute_id' => $id,
-                                                           'version' => $version ),
-                                                    $asObject );
-            return $retVal;
+            $object =& eZPersistentObject::fetchObject( eZBinaryFile::definition(),
+                                                        null,
+                                                        array( 'contentobject_attribute_id' => $id,
+                                                               'version' => $version ),
+                                                        $asObject );
+            return $object;
         }
     }
 

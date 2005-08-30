@@ -74,29 +74,13 @@ class eZSubtreeNotificationRule extends eZPersistentObject
                                                              'default' => 0,
                                                              'required' => true ) ),
                       "keys" => array( "id" ),
-                      "function_attributes" => array( 'node' ),
+                      "function_attributes" => array( 'node' => 'node' ),
                       "increment_key" => "id",
                       "sort" => array( "id" => "asc" ),
                       "class_name" => "eZSubtreeNotificationRule",
                       "name" => "ezsubtree_notification_rule" );
     }
 
-    function hasAttribute( $attr )
-    {
-        if ( $attr == 'node' )
-        {
-            return true;
-        }
-        return eZPersistentObject::hasAttribute( $attr );
-    }
-    function &attribute( $attr )
-    {
-        if ( $attr == 'node' )
-        {
-            return $this->node();
-        }
-        return eZPersistentObject::attribute( $attr );
-    }
 
     function create( $nodeID, $userID, $useDigest = 0 )
     {
@@ -160,7 +144,8 @@ class eZSubtreeNotificationRule extends eZPersistentObject
     {
         if ( count( $nodeIDList ) == 0 )
         {
-            return array();
+            $retValue = array();
+            return $retValue;
         }
 
         $db =& eZDB::instance();
@@ -260,7 +245,8 @@ class eZSubtreeNotificationRule extends eZPersistentObject
 
         if ( count( $acceptedUserArray ) == 0 )
         {
-            return array();
+            $retValue = array();
+            return $retValue;
         }
 
         $nodeIDWhereString = implode( ',', $nodeIDList );

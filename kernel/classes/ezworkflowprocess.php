@@ -139,6 +139,13 @@ class eZWorkflowProcess extends eZPersistentObject
                                                                  'default' => '',
                                                                  'required' => true ) ),
                       'keys' => array( 'id' ),
+                      'function_attributes' => array( 'user' => 'user',
+                                                      'content' => 'content',
+                                                      'node' => 'node',
+                                                      'workflow' => 'workflow',
+                                                      'workflow_event' => 'workflowEvent',
+                                                      'last_workflow_event' => 'lastWorkflowEvent',
+                                                      'parameter_list' => 'parameterList' ),
                       "increment_key" => "id",
                       'class_name' => 'eZWorkflowProcess',
                       'sort' => array( 'user_id' => 'asc' ),
@@ -168,7 +175,8 @@ class eZWorkflowProcess extends eZPersistentObject
                       'created' => $dateTime,
                       'modified' => $dateTime,
                       'parameters' => serialize( $parameters ) );
-        return new eZWorkflowProcess( $row );
+        $newWorkflowProccess = new eZWorkflowProcess( $row );
+        return $newWorkflowProccess;
     }
 
     function reset()
@@ -559,14 +567,6 @@ class eZWorkflowProcess extends eZPersistentObject
     {
     }
 
-    function attributes()
-    {
-        return array_merge( eZPersistentObject::attributes(),
-                            array( 'user',
-                                   'content', 'node',
-                                   'workflow', 'workflow_event', 'last_workflow_event', 'parameter_list' ) );
-    }
-
     function &setParameters( $parameterList = null )
     {
         if ( !is_null( $parameterList ) )
@@ -575,69 +575,89 @@ class eZWorkflowProcess extends eZPersistentObject
             unset( $this->ParameterList );
         }
         $this->setAttribute( 'parameters', serialize( $this->Parameters ) );
-        return $this->attribute( 'parameter_list' );
-    }
-    function hasAttribute( $attr )
-    {
-        return ( $attr == 'user' or
-                 $attr == 'content' or $attr == 'node' or
-                 $attr == 'workflow' or $attr == 'workflow_event' or $attr =='last_workflow_event' or
-                 $attr == 'parameter_list' or
-                 eZPersistentObject::hasAttribute( $attr ) );
+        $parameterList = $this->attribute( 'parameter_list' );
+        return $parameterList;
     }
 
-    function &attribute( $attr )
+    function &user()
     {
-        switch( $attr )
+        if ( isset( $this->UserID ) and $this->UserID )
         {
-            case 'user':
-            {
-                include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-                $user =& eZUser::instance( $this->UserID );
-                return $user;
-            } break;
-            case 'content':
-            {
-                include_once( 'kernel/classes/ezcontentobject.php' );
-                $content =& eZContentObject::fetch( $this->ContentID );
-                return $content;
-            } break;
-            case 'node':
-            {
-                include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-                $node =& eZContentObjectTreeNode::fetch( $this->NodeID );
-                return $node;
-            } break;
-            case 'workflow':
-            {
-                include_once( 'kernel/classes/ezworkflow.php' );
-                $workflow =& eZWorkflow::fetch( $this->WorkflowID );
-                return $content;
-            } break;
-            case 'workflow_event':
-            {
-                include_once( 'kernel/classes/ezworkflowevent.php' );
-                $event =& eZWorkflowEvent::fetch( $this->EventID );
-                return $event;
-            } break;
-            case 'last_workflow_event':
-            {
-                include_once( 'kernel/classes/ezworkflowevent.php' );
-                $event =& eZWorkflowEvent::fetch( $this->LastEventID );
-                return $event;
-            } break;
-            case 'parameter_list':
-            {
-                if ( !isset( $this->ParameterList ) )
-                {
-                    $this->ParameterList = unserialize( $this->attribute( 'parameters' ) );
-                }
-                return $this->ParameterList;
-            }break;
-            default:
-                return eZPersistentObject::attribute( $attr );
+            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            $user =& eZUser::instance( $this->UserID );
         }
+        else
+            $user = null;
+        return $user;
+    }
 
+    function &content()
+    {
+        if ( isset( $this->ContentID ) and $this->ContentID )
+        {
+            include_once( 'kernel/classes/ezcontentobject.php' );
+            $content =& eZContentObject::fetch( $this->ContentID );
+        }
+        else
+            $content = null;
+        return $content;
+    }
+
+    function &node()
+    {
+        if ( isset( $this->NodeID ) and $this->NodeID )
+        {
+            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            $node =& eZContentObjectTreeNode::fetch( $this->NodeID );
+        }
+        else
+            $node = null;
+        return $node;
+    }
+
+    function &workflow()
+    {
+        if ( isset( $this->WorkflowID ) and $this->WorkflowID )
+        {
+            include_once( 'kernel/classes/ezworkflow.php' );
+            $workflow =& eZWorkflow::fetch( $this->WorkflowID );
+        }
+        else
+            $workflow = null;
+        return $workflow;
+    }
+
+    function &workflowEvent()
+    {
+        if ( isset( $this->EventID ) and $this->EventID )
+        {
+            include_once( 'kernel/classes/ezworkflowevent.php' );
+            $event =& eZWorkflowEvent::fetch( $this->EventID );
+        }
+        else
+            $event = null;
+        return $event;
+    }
+
+    function &lastWorkflowEvent()
+    {
+        if ( isset( $this->LastEventID ) and $this->LastEventID )
+        {
+            include_once( 'kernel/classes/ezworkflowevent.php' );
+            $lastEvent =& eZWorkflowEvent::fetch( $this->LastEventID );
+        }
+        else
+            $lastEvent = null;
+        return $lastEvent;
+    }
+
+    function &parameterList()
+    {
+        if ( !isset( $this->ParameterList ) )
+        {
+            $this->ParameterList = unserialize( $this->attribute( 'parameters' ) );
+        }
+        return $this->ParameterList;
     }
 
     /*!

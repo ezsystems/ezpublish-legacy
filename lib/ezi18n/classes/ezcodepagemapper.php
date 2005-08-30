@@ -74,14 +74,16 @@ class eZCodePageMapper
     {
         if ( isset( $this->InputOutputMap[$in_code] ) )
             return $this->InputOutputMap[$in_code];
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     function &mapOutputCode( $out_code )
     {
         if ( isset( $this->OutputInputMap[$out_code] ) )
             return $this->OutputInputMap[$out_code];
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     function mapInputChar( $in_char )

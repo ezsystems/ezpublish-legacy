@@ -223,7 +223,8 @@ class eZContentClassClassGroup extends eZPersistentObject
                                                      null,
                                                      null,
                                                      false );
-        return count( $rows ) > 0;
+        $retValue = count( $rows ) > 0;
+        return $retValue;
     }
 
     /// \privatesection

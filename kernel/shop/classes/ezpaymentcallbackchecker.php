@@ -51,7 +51,7 @@ include_once( 'kernel/classes/ezorder.php' );
 
 class eZPaymentCallbackChecker
 {
-    /*! 
+    /*!
         Constructor.
     */
     function eZPaymentCallbackChecker( $iniFile )
@@ -60,7 +60,7 @@ class eZPaymentCallbackChecker
         $this->ini      =& eZINI::instance( $iniFile );
     }
 
-    /*! 
+    /*!
         Parses 'POST' response and create array with received data.
     */
     function createDataFromPOST()
@@ -78,7 +78,7 @@ class eZPaymentCallbackChecker
         return ( count( $this->callbackData ) > 0 );
     }
 
-    /*! 
+    /*!
         Parses 'GET' response and create array with received data.
     */
     function createDataFromGET()
@@ -103,7 +103,7 @@ class eZPaymentCallbackChecker
     }
 
 
-    /*! 
+    /*!
         Sends POST request.
     */
     function sendPOSTRequest( $server, $port, $serverMethod, $request, $timeout=30)
@@ -113,7 +113,7 @@ class eZPaymentCallbackChecker
             $server = substr($server, $pos+3);
 
         $fp = fsockopen( $server, $port, $errno, $errstr, $timeout );
-      
+
         if( $fp )
         {
             $theCall    =   "POST $serverMethod HTTP/1.0\r\n"                       .
@@ -121,7 +121,7 @@ class eZPaymentCallbackChecker
                             "Content-Type: application/x-www-form-urlencoded\r\n"   .
                             "Content-Length: ".strlen( $request )."\r\n\r\n"     .
                             $request."\r\n\r\n";
-            
+
             if ( !fputs( $fp, "$theCall", strlen( $theCall ) ) )
             {
                 $this->logger->writeTimedString( "Could not write to server socket: $server:$port", 'sendPOSTRequest failed' );
@@ -130,7 +130,7 @@ class eZPaymentCallbackChecker
 
             return $this->handleResponse( $fp );
         }
-      
+
         $this->logger->writeTimedString( "Unable to open socket on $server:$port. errno = $errno, errstr = $errstr", 'sendPOSTRequest failed' );
         return null;
     }
@@ -139,11 +139,11 @@ class eZPaymentCallbackChecker
         Asks paypal's server to validate callback.
     */
     function requestValidation()
-    {  
+    {
         return false;
     }
 
-    /*! 
+    /*!
         Creates order and payment objects by orderID.
         After this 'checkAmount', 'checkCurrency' can be called.
     */
@@ -160,16 +160,16 @@ class eZPaymentCallbackChecker
                     return true;
                 }
                 $this->logger->writeTimedString( "Unable to fetch order object with orderID=$orderID", 'setupOrderAndPaymentObject failed' );
-                return false;    
+                return false;
             }
             $this->logger->writeTimedString( "Unable to fetch payment object with orderID=$orderID", 'setupOrderAndPaymentObject failed' );
-            return false;    
+            return false;
         }
         $this->logger->writeTimedString( "Invalid orderID=$orderID", 'setupOrderAndPaymentObject failed' );
         return false;
     }
-  
-    /*! 
+
+    /*!
         Approves payment and continues workflow.
     */
     function approvePayment( $continueWorkflow=true )
@@ -183,12 +183,12 @@ class eZPaymentCallbackChecker
 
             return ( $continueWorkflow ? $this->continueWorkflow() : null );
         }
-    
+
         $this->logger->writeTimedString( "payment object is not set", 'approvePayment failed' );
         return null;
     }
 
-    /*! 
+    /*!
         Continues workflow.
     */
     function continueWorkflow()
@@ -208,8 +208,8 @@ class eZPaymentCallbackChecker
         $this->logger->writeTimedString( "payment object is not set", 'continueWorkflow failed' );
         return null;
     }
-  
-    /*! 
+
+    /*!
         Returns value of specified field.
     */
     function getFieldValue( $field )
@@ -223,7 +223,7 @@ class eZPaymentCallbackChecker
         return null;
     }
 
-    /*! 
+    /*!
         Reads ip list from ini file and searches in it
         server's ip.
     */
@@ -232,12 +232,12 @@ class eZPaymentCallbackChecker
         $remoteHostIP   = eZSys::serverVariable( 'REMOTE_ADDR' );
         $serverIPList   = $this->ini->variable( 'ServerSettings', 'ServerIP');
 
-        if ($serverIPList === false) 
+        if ($serverIPList === false)
         {
             $this->logger->writeTimedString( "Skipped the IP check because ServerIP is not set in the settings. Remote host is: $remoteHostIP.", 'checkServerIP' );
             return true;
         }
-        
+
 
         if ( is_array( $serverIPList ) && in_array( $remoteHostIP, $serverIPList ) )
         {
@@ -250,7 +250,7 @@ class eZPaymentCallbackChecker
         return false;
     }
 
-    /*! 
+    /*!
         Simple amount checking.
     */
     function checkAmount( $amount )
@@ -264,8 +264,8 @@ class eZPaymentCallbackChecker
         $this->logger->writeTimedString( "Order amount ($orderAmount) and received amount ($amount) do not match.", 'checkAmount failed' );
         return false;
     }
-    
-    /*! 
+
+    /*!
         Simple currency checking.
     */
     function checkCurrency( $currency )
@@ -286,7 +286,7 @@ class eZPaymentCallbackChecker
     function checkDataField( $field, $value )
     {
         $isValid = false;
-        
+
         if( isset( $this->callbackData[$field] ) )
         {
             $isValid = ( $this->callbackData[$field] == $value );
@@ -308,22 +308,24 @@ class eZPaymentCallbackChecker
     }
 
     // you must override below
-    /*! 
+    /*!
         Postback request which will be sent to payment server.
     */
     function &buildRequestString()
     {
         $this->logger->writeTimedString( 'You must override this function.', 'buildRequestString failed' );
-        return null;
+        $retString = null;
+        return $retString;
     }
 
-    /*! 
+    /*!
         Handles server response.
     */
     function &handleResponse( &$socket )
     {
         $this->logger->writeTimedString( 'You must override this function.', 'handlePOSTResponse failed' );
-        return null;
+        $retResponse = null;
+        return $retResponse;
     }
 
     var $logger;

@@ -118,15 +118,14 @@ class eZAuthor
 
     function attributes()
     {
-        return array( 'author_list', 'name', 'is_empty' );
+        return array( 'author_list',
+                      'name',
+                      'is_empty' );
     }
 
     function hasAttribute( $name )
     {
-        if ( ( $name == "author_list" ) || ( $name == "name" ) || ( $name == "is_empty" ) )
-            return true;
-        else
-            return false;
+        return in_array( $name, $this->attributes() );
     }
 
    function &attribute( $name )
@@ -146,6 +145,13 @@ class eZAuthor
             {
                 return $this->Authors;
             }break;
+            default:
+            {
+                eZDebug::writeError( "Attribute '$name' does not exist", 'eZAuthor::attribute' );
+                $retValue = null;
+                return $retValue;
+            }
+            break;
         }
     }
 

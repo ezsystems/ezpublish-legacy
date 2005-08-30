@@ -90,7 +90,8 @@ class eZMultiplexerType extends eZWorkflowEventType
                 return $event->attribute( 'data_int1' );
             }
         }
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     function typeFunctionalAttributes()
@@ -99,6 +100,20 @@ class eZMultiplexerType extends eZWorkflowEventType
                       'selected_usergroups',
                       'selected_classes',
                       'selected_workflow' );
+    }
+
+    function attributes()
+    {
+        return array_merge( array( 'sections',
+                                   'contentclass_list',
+                                   'workflow_list',
+                                   'usergroups' ),
+                            eZWorkflowEventType::attributes() );
+    }
+
+    function hasAttribute( $attr )
+    {
+        return in_array( $attr, $this->attributes() );
     }
 
     function &attribute( $attr )
@@ -160,14 +175,6 @@ class eZMultiplexerType extends eZWorkflowEventType
             break;
         }
         return eZWorkflowEventType::attribute( $attr );
-    }
-
-    function hasAttribute( $attr )
-    {
-        return in_array( $attr, array( 'sections',
-                                       'contentclass_list',
-                                       'workflow_list',
-                                       'usergroups' ) ) || eZWorkflowEventType::hasAttribute( $attr );
     }
 
     function execute( &$process, &$event )

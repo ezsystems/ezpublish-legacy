@@ -607,17 +607,20 @@ class eZMatrix
         return $this->Name;
     }
 
-    function hasAttribute( $name )
-    {
-        if ( $name == "name" ||  $name == "rows" ||  $name == "columns" ||  $name == "matrix" || $name == "cells" || $name == "rowCount" || $name == "columnCount" )
-            return true;
-        else
-            return false;
-    }
-
     function attributes()
     {
-        return array( 'name' , 'rows', 'columns', 'matrix', 'cells', 'rowCount', 'columnCount' );
+        return array( 'name' ,
+                      'rows',
+                      'columns',
+                      'matrix',
+                      'cells',
+                      'rowCount',
+                      'columnCount' );
+    }
+
+    function hasAttribute( $name )
+    {
+        return in_array( $name, $this->attributes() );
     }
 
     function &attribute( $name )
@@ -646,13 +649,20 @@ class eZMatrix
             }break;
             case "rowCount" :
             {
-                return count( $this->Matrix['rows']['sequential'] );
+                $rowCount = count( $this->Matrix['rows']['sequential'] );
+                return $rowCount;
             }break;
             case "columnCount" :
             {
-                return count( $this->Matrix['columns']['sequential'] );
+                $columnCount = count( $this->Matrix['columns']['sequential'] );
+                return $columnCount;
             }break;
-
+            default:
+            {
+                eZDebug::writeError( "Attribute '$name' does not exist", 'eZMatrix::attribute' );
+                $retValue = null;
+                return $retValue;
+            }break;
         }
     }
 

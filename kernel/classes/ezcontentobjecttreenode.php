@@ -155,6 +155,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       "keys" => array( "node_id" ),
                       "function_attributes" => array( "name" => "getName",
                                                       'data_map' => 'dataMap',
+                                                      'remote_id' => 'remoteID', // Note: This overrides remote_id field
                                                       "object" => "object",
                                                       "subtree" => "subTree",
                                                       "children" => "children",
@@ -177,8 +178,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'class_identifier' => 'classIdentifier',
                                                       'class_name' => 'className',
                                                       'hidden_invisible_string' => 'hiddenInvisibleString',
-                                                      'hidden_status_string' => 'hiddenStatusString'
-                                                      ),
+                                                      'hidden_status_string' => 'hiddenStatusString' ),
                       "increment_key" => "node_id",
                       "class_name" => "eZContentObjectTreeNode",
                       "name" => "ezcontentobject_tree" );
@@ -214,24 +214,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       'priority' => 0 );
         $node = new eZContentObjectTreeNode( $row );
         return $node;
-    }
-
-    /*!
-     Will call the function remoteID() if \c 'remote_id' is passed as \a $attr.
-     If not it lets eZPersistentObject::attribute() do the rest.
-    */
-    function &attribute( $attr )
-    {
-        if ( $attr == 'remote_id' )
-        {
-            $remoteID =& $this->remoteID();
-            return $remoteID;
-        }
-        else
-        {
-            $retVal =& eZPersistentObject::attribute( $attr );
-            return $retVal;
-        }
     }
 
     /*!
@@ -1568,7 +1550,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         if ( !is_numeric( $nodeID ) and !is_array( $nodeID ) )
         {
-            return array();
+            $retValue = null;
+            return $retValue;
         }
 
         if ( $params === false )
@@ -1605,16 +1588,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $classCondition          = eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
         if ( $classCondition === false )
         {
-            $retNodeList = array();
             eZDebug::writeNotice( "Class filter returned false" );
-            return $retNodeList;
+            $retValue = null;
+            return $retValue;
         }
 
         $attributeFilter         = eZContentObjectTreeNode::createAttributeFilterSQLStrings( $params['AttributeFilter'], $sortingInfo );
         if ( $attributeFilter === false )
         {
-            $retNodeList = array();
-            return $retNodeList;
+            $retValue = null;
+            return $retValue;
         }
         $extendedAttributeFilter = eZContentObjectTreeNode::createExtendedAttributeFilterSQLStrings( $params['ExtendedAttributeFilter'] );
         $mainNodeOnlyCond        = eZContentObjectTreeNode::createMainNodeConditionSQLString( $mainNodeOnly );
@@ -1624,8 +1607,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         // If the node(s) doesn't exist we return null.
         if ( !eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $this, $nodeID, $depth, $depthOperator ) )
         {
-            $retVal = null;
-            return $retVal;
+            $retValue = null;
+            return $retValue;
         }
 
         $groupBySelectText  = '';
@@ -1732,7 +1715,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         if( !is_array( $nodesParams ) || !count( $nodesParams ) )
         {
-            return eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be an array with at least one key.' );
+            eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be an array with at least one key.' );
+            $retValue = null;
+            return $retValue;
         }
 
         if( is_null( $listParams ) )
@@ -1764,7 +1749,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             if ( !is_numeric( $nodeID ) && !is_array( $nodeID ) )
             {
-                return eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be numeric or an array with numeric values.' );
+                eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Nodes parameter must be numeric or an array with numeric values.' );
+                $retValue = null;
+                return $retValue;
             }
 
             if ( is_null( $nodeParams ) )
@@ -1802,7 +1789,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $noNode = null;
             if ( !eZContentObjectTreeNode::createPathConditionAndNotEqParentSQLStrings( $pathStringCond, $notEqParentString, $noNode, $nodeID, $depth, $depthOperator ) )
             {
-                return null;
+                $retValue = null;
+                return $retValue;
             }
 
             $useVersionName     = true;
@@ -1866,11 +1854,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( !$offset && !$limit )
         {
-            $nodeListArray =& $db->arrayQuery( $query );
+            $nodeListArray = $db->arrayQuery( $query );
         }
         else
         {
-            $nodeListArray =& $db->arrayQuery( $query, array( 'offset' => $offset,
+            $nodeListArray = $db->arrayQuery( $query, array( 'offset' => $offset,
                                                               'limit'  => $limit ) );
         }
 
@@ -2721,7 +2709,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                          'DepthOperator' => 'eq' );
         if ( !$checkPolicies )
             $params['Limitation'] = array();
-        $subTreeCount =& $this->subTreeCount( $params );
+        $subTreeCount = $this->subTreeCount( $params );
         return $subTreeCount;
     }
 
@@ -2899,6 +2887,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &fetchByCRC( $pathStr )
     {
         eZDebug::writeWarning( "Obsolete: use ezurlalias instead", 'eZContentObjectTreeNode::fetchByCRC' );
+        $retValue = null;
+        return $retValue;
     }
 
     function &fetchByContentObjectID( $contentObjectID, $asObject = true, $contentObjectVersion = false )
@@ -3015,8 +3005,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 return $nodeListArray;
             }
         }
-
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
 
@@ -4609,7 +4599,8 @@ WHERE
         else if ( $accessWord == 'no' )
         {
             // Cannnot create any objects, return empty list.
-            return array();
+            $retValue = array();
+            return $retValue;
         }
         else
         {
@@ -4663,7 +4654,10 @@ WHERE
         {
             // If the constrained class list is empty we are not allowed to create any class
             if ( count( $classIDArray ) == 0 )
-                return array();
+            {
+                $retValue = array();
+                return $retValue;
+            }
 
             $classList = array();
             $db =& eZDb::instance();
@@ -4690,6 +4684,7 @@ WHERE
         $retNodes = array();
         if ( !is_array( $array ) )
             return $retNodes;
+
         $ini =& eZINI::instance();
 
         foreach ( $array as $node )
@@ -5088,7 +5083,7 @@ WHERE
         $ini =& eZINI::instance();
         if ( $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
         {
-            $usr =& $this->urlAlias();
+            $url =& $this->urlAlias();
         }
         else
         {
@@ -5146,7 +5141,8 @@ WHERE
     */
     function &hiddenInvisibleString()
     {
-        return ( $this->IsHidden ? 'H' : '-' ) . '/' . ( $this->IsInvisible ? 'X' : '-' );
+        $retValue = ( $this->IsHidden ? 'H' : '-' ) . '/' . ( $this->IsInvisible ? 'X' : '-' );
+        return $retValue;
     }
 
     /*!
@@ -5189,7 +5185,7 @@ WHERE
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &hideSubTree( &$node, $modifyRootNode = true )
+    function hideSubTree( &$node, $modifyRootNode = true )
     {
         $nodeID =& $node->attribute( 'node_id' );
         $db     =& eZDB::instance();
@@ -5238,7 +5234,7 @@ WHERE
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &unhideSubTree( &$node, $modifyRootNode = true )
+    function unhideSubTree( &$node, $modifyRootNode = true )
     {
         $nodeID        =& $node->attribute( 'node_id' );
         $nodePath      =& $node->attribute( 'path_string' );

@@ -512,7 +512,7 @@ class eZMail
     */
     function &splitList( $emails )
     {
-        $emails =& preg_split( "/[,;]/", $emails );
+        $emails = preg_split( "/[,;]/", $emails );
         return $emails;
     }
 

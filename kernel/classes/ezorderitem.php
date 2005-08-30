@@ -81,6 +81,9 @@ class eZOrderItem extends eZPersistentObject
                                                                'default' => 0,
                                                                'required' => true ) ),
                       'keys' => array( 'id' ),
+                      'function_attributes' => array( 'vat_value' => 'vatValue',
+                                                      'price_inc_vat' => 'priceIncVat',
+                                                      'price_ex_vat' => 'priceExVAT' ),
                       'increment_key' => 'id',
                       'class_name' => 'eZOrderItem',
                       'name' => 'ezorder_item' );
@@ -95,30 +98,6 @@ class eZOrderItem extends eZPersistentObject
                                                             null,
                                                             $asObject );
         return $objectList;
-    }
-
-    function &attribute( $attr )
-    {
-        if ( $attr == "vat_value" )
-            return $this->vatValue();
-        else if ( $attr == "price_inc_vat" )
-            return $this->priceIncVAT();
-        else if ( $attr == "price_ex_vat" )
-            return $this->priceExVAT();
-        else
-            return eZPersistentObject::attribute( $attr );
-    }
-
-    function hasAttribute( $attr )
-    {
-        if ( $attr == "vat_value" )
-            return true;
-        else if ( $attr == "price_inc_vat" )
-            return true;
-        else if ( $attr == "price_ex_vat" )
-            return true;
-        else
-            return eZPersistentObject::hasAttribute( $attr );
     }
 
     function &vatValue()

@@ -281,23 +281,7 @@ class eZPackage
     */
     function hasAttribute( $attributeName /*, $attributeList = false*/ )
     {
-        return in_array( $attributeName,
-                         array( 'is_local',
-                                'development',
-                                'name', 'summary', 'description',
-                                'vendor', 'priority', 'type',
-                                'extension', 'source',
-                                'version-number', 'release-number', 'release-timestamp',
-                                'maintainers', 'documents', 'groups',
-                                'simple-file-list', 'file-list', 'file-count',
-                                'can_read', 'can_export', 'can_import', 'can_install',
-                                'changelog', 'dependencies',
-                                'is_installed', 'is_active', 'install_type',
-                                'thumbnail-list',
-                                'install', 'uninstall',
-                                'licence', 'state',
-                                'ezpublish-version', 'ezpublish-named-version', 'packaging-timestamp',
-                                'packaging-host', 'packaging-packager' ) );
+        return in_array( $attributeName, $this->attributes() );
     }
 
     /*!
@@ -349,9 +333,15 @@ class eZPackage
             return $canInstall;
         }
         else if ( $attributeName == 'file-count' )
-            return $this->fileCount();
+        {
+            $fileCount = $this->fileCount();
+            return $fileCount;
+        }
         else if ( $attributeName == 'thumbnail-list' )
-            return $this->thumbnailList( 'default' );
+        {
+            $thumbnailList = $this->thumbnailList( 'default' );
+            return $thumbnailList;
+        }
         else if ( $attributeName == 'is_local' )
         {
             $repositoryInformation = $this->currentRepositoryInformation();
@@ -1257,7 +1247,8 @@ class eZPackage
 //             {
 //             }
             eZDebug::writeError( "Importing from directory is not supported yet." );
-            return false;
+            $retValue = false;
+            return $retValue;
         }
         else
         {
@@ -1276,7 +1267,8 @@ class eZPackage
             if ( !$archive->extractList( $fileList, $archivePath, '' ) )
             {
                 eZDebug::writeError( "Failed extracting package definition file from $archivePath" );
-                return false;
+                $retValue = false;
+                return $retValue;
             }
 
             $package =& eZPackage::fetch( $packageName, $tempDirPath );
@@ -1288,7 +1280,8 @@ class eZPackage
                 $existingPackage =& eZPackage::fetch( $packageName );
                 if ( $existingPackage )
                 {
-                    return EZ_PACKAGE_STATUS_ALREADY_EXISTS;
+                    $retValue = EZ_PACKAGE_STATUS_ALREADY_EXISTS;
+                    return $retValue;
                 }
                 unset( $archive );
                 unset( $package );
@@ -1312,9 +1305,9 @@ class eZPackage
             {
                 eZDebug::writeError( "Failed loading temporary package $packageName from $archivePath" );
             }
-        }
 
-        return $package;
+            return $package;
+        }
     }
 
     /*!
@@ -1403,7 +1396,8 @@ class eZPackage
                 return $dom;
             }
         }
-        return false;
+        $retValue = false;
+        return $retValue;
     }
 
     /*!
@@ -1414,11 +1408,12 @@ class eZPackage
     */
     function &fetchFromFile( $filename )
     {
-
         if ( !file_exists( $filename ) )
         {
-            return false;
+            $retValue = false;
+            return $retValue;
         }
+
         $fd = fopen( $filename, 'rb' );
         if ( $fd )
         {
@@ -1432,7 +1427,10 @@ class eZPackage
             $parameters = $package->parseDOMTree( $dom );
 
             if ( !$parameters )
-                return false;
+            {
+                $retValue = false;
+                return $retValue;
+            }
 
             /*
             This has been disabled due to a previous bug which caused most
@@ -1451,14 +1449,18 @@ class eZPackage
                         $cli =& eZCLI::instance();
                         $cli->warning( "Could not load package from file " . $cli->stylize( 'emphasize', $filename ) );
                     }
-                    return false;
+                    $retValue = false;
+                    return $retValue;
                 }
             }
             */
 
             $root =& $dom->root();
             if ( !$root )
-                return false;
+            {
+                $retValue = false;
+                return $retValue;
+            }
 
             return $package;
         }
@@ -1548,7 +1550,7 @@ class eZPackage
                      $CacheCodeDate != EZ_PACKAGE_CACHE_CODEDATE )
                 {
                     $cacheExpired = true;
-                    return false;
+                    return $package;
                 }
                 if ( isset( $Parameters ) and
                      isset( $ModifiedParameters ) and
@@ -1570,7 +1572,7 @@ class eZPackage
                                 $cli =& eZCLI::instance();
                                 $cli->warning( "Could not load package from cache " . $cli->stylize( 'emphasize', $packageName ) );
                             }
-                            return false;
+                            return $package;
                         }
                     }
                     */
@@ -2105,7 +2107,10 @@ class eZPackage
     {
         $root =& $dom->root();
         if ( !$root )
-            return false;
+        {
+            $retValue = false;
+            return $retValue;
+        }
 
         /*
         This has been disabled due to a previous bug which caused most
@@ -2118,7 +2123,8 @@ class eZPackage
             if ( $root->elementByName( 'warning' ) )
             {
                 eZDebug::writeError( "Package not accepted, it has been build with a warning." );
-                return false;
+                $retValue = false;
+                return $retValue;
             }
         }
         */
@@ -2366,8 +2372,8 @@ class eZPackage
             }
         }
 
-        $returnValue = true;
-        return $returnValue;
+        $retValue = true;
+        return $retValue;
     }
 
     /*!

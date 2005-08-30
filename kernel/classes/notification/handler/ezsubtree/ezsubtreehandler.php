@@ -62,18 +62,16 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         $this->eZNotificationEventHandler( EZ_SUBTREE_NOTIFICATION_HANDLER_ID, "Subtree Handler" );
     }
 
+    function attributes()
+    {
+        return array_merge( array( 'subscribed_nodes',
+                                   'rules' ),
+                            eZNotificationEventHandler::attributes() );
+    }
 
     function hasAttribute( $attr )
     {
-        if ( $attr == 'subscribed_nodes' )
-        {
-            return true;
-        }
-        else if ( $attr == 'rules' )
-        {
-            return true;
-        }
-        return eZNotificationEventHandler::hasAttribute( $attr );
+        return in_array( $attr, $this->attributes() );
     }
 
     function &attribute( $attr )

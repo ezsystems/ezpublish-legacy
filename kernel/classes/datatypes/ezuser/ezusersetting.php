@@ -40,7 +40,6 @@
 
 */
 
-include_once( 'lib/ezdb/classes/ezdb.php' );
 include_once( 'kernel/classes/ezpersistentobject.php' );
 
 class eZUserSetting extends eZPersistentObject
@@ -101,19 +100,6 @@ class eZUserSetting extends eZPersistentObject
         }
 
         eZPersistentObject::setAttribute( $attr, $val );
-    }
-
-    /*!
-     \return true if the attribute \a $attr exists in this object.
-    */
-    function hasAttribute( $attr )
-    {
-        return eZPersistentObject::hasAttribute( $attr ) ;
-    }
-
-    function &attribute( $attr )
-    {
-        return eZPersistentObject::attribute( $attr );
     }
 
     /*!

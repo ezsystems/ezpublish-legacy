@@ -59,25 +59,18 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
 
     }
 
+    function attributes()
+    {
+        return array_merge( array( 'settings',
+                                   'all_week_days',
+                                   'all_month_days',
+                                   'available_hours' ),
+                            eZNotificationEventHandler::attributes() );
+    }
+
     function hasAttribute( $attr )
     {
-        if ( $attr == 'settings' )
-        {
-            return true;
-        }
-        else if ( $attr == 'all_week_days' )
-        {
-            return true;
-        }
-        else if ( $attr == 'all_month_days' )
-        {
-            return true;
-        }
-        else if ( $attr == 'available_hours' )
-        {
-            return true;
-        }
-        return eZNotificationEventHandler::hasAttribute( $attr );
+        return in_array( $attr, $this->attributes() );
     }
 
     function &attribute( $attr )

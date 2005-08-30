@@ -101,9 +101,10 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     */
     function &content( &$collaborationItem )
     {
-        return array( "content_object_id" => $collaborationItem->attribute( "data_int1" ),
-                      "content_object_version" => $collaborationItem->attribute( "data_int2" ),
-                      "approval_status" => $collaborationItem->attribute( "data_int3" ) );
+        $content = array( "content_object_id" => $collaborationItem->attribute( "data_int1" ),
+                          "content_object_version" => $collaborationItem->attribute( "data_int2" ),
+                          "approval_status" => $collaborationItem->attribute( "data_int3" ) );
+        return $content;
     }
 
     function notificationParticipantTemplate( $participantRole )

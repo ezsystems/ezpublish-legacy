@@ -82,7 +82,12 @@ class eZBinaryFileHandler
     {
         if ( isset( $this->Info[$attribute] ) )
             return $this->Info[$attribute];
-        return null;
+        else
+        {
+            eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZBinaryFileHandler::attribute' );
+            $retValue = null;
+            return $retValue;
+        }
     }
 
     /*!

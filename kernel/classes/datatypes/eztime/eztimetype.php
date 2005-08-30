@@ -122,14 +122,15 @@ class eZTimeType extends eZDataType
         if ( !is_null( $stamp ) )
         {
             $time = new eZTime( $stamp );
-            return $time;
+
         }
         else
-            return array( 'timestamp' => '',
-                          'time_of_day' => '',
-                          'hour' => '',
-                          'minute' => '',
-                          'is_valid' => false );
+            $time = array( 'timestamp' => '',
+                           'time_of_day' => '',
+                           'hour' => '',
+                           'minute' => '',
+                           'is_valid' => false );
+        return $time;
     }
 
     /*!
@@ -232,7 +233,7 @@ class eZTimeType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( EZ_DATATYPESTRING_TIME_DEFAULT );
         switch ( $defaultValue )

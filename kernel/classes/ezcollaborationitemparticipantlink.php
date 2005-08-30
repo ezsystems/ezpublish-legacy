@@ -102,6 +102,12 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
                                                               'default' => 0,
                                                               'required' => true ) ),
                       'keys' => array( 'collaboration_id', 'participant_id' ),
+                      'function_attributes' => array( 'collaboration_item' => 'collaborationItem',
+                                                      'participant' => 'participant',
+                                                      'participant_type_string' => 'participantTypeString',
+                                                      'participant_role_string' => 'participantRoleString',
+                                                      'is_builtin_type' => 'isBuiltinType',
+                                                      'is_builtin_role' => 'isBuiltinRole' ),
                       'class_name' => 'eZCollaborationItemParticipantLink',
                       'name' => 'ezcollab_item_participant_link' );
     }
@@ -110,14 +116,14 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
                       $participantRole = EZ_COLLABORATION_PARTICIPANT_ROLE_STANDARD, $participantType = EZ_COLLABORATION_PARTICIPANT_TYPE_USER )
     {
         $dateTime = time();
-        $row = array(
-            'collaboration_id' => $collaborationID,
-            'participant_id' => $participantID,
-            'participant_role' => $participantRole,
-            'participant_type' => $participantType,
-            'created' => $dateTime,
-            'modified' => $dateTime );
-        return new eZCollaborationItemParticipantLink( $row );
+        $row = array(   'collaboration_id' => $collaborationID,
+                        'participant_id' => $participantID,
+                        'participant_role' => $participantRole,
+                        'participant_type' => $participantType,
+                        'created' => $dateTime,
+                        'modified' => $dateTime );
+        $newCollaborationItemParticipantLink = new eZCollaborationItemParticipantLink( $row );
+        return $newCollaborationItemParticipantLink;
     }
 
     /*!
@@ -179,11 +185,11 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         $limitArray = null;
         if ( $offset and $limit )
             $limitArray = array( 'offset' => $offset, 'length' => $limit );
-        $linkList = eZPersistentObject::fetchObjectList( eZCollaborationItemParticipantLink::definition(),
-                                                         null,
-                                                         array( "collaboration_id" => $itemID ),
-                                                         null, $limitArray,
-                                                         $asObject );
+        $linkList =& eZPersistentObject::fetchObjectList( eZCollaborationItemParticipantLink::definition(),
+                                                          null,
+                                                          array( "collaboration_id" => $itemID ),
+                                                          null, $limitArray,
+                                                          $asObject );
         for ( $i = 0; $i < count( $linkList ); ++$i )
         {
             $linkItem =& $linkList[$i];
@@ -205,7 +211,11 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         $sortField = $parameters['sort_field'];
         $list =& eZCollaborationItemParticipantLink::fetchParticipantList( $originalParameters );
         if ( $list === null )
-            return null;
+        {
+            $listMap = null;
+            return $listMap;
+        }
+
         $listKeys = array_keys( $list );
         $listMap = array();
         foreach ( $listKeys as $listKey )
@@ -242,8 +252,10 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
                               EZ_COLLABORATION_PARTICIPANT_TYPE_USERGROUP => 'usergroup' );
         }
         if ( isset( $typeMap[$participantType] ) )
-            return $typeMap[$participantType];
-        return null;
+            $retString = $typeMap[$participantType];
+        else
+            $retString = null;
+        return $retString;
     }
 
     function &roleString( $participantRole )
@@ -258,8 +270,10 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
                               EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR => 'author' );
         }
         if ( isset( $roleMap[$participantRole] ) )
-            return $roleMap[$participantRole];
-        return null;
+            $retString = $roleMap[$participantRole];
+        else
+            $retString = null;
+        return $retString;
     }
 
     function &roleName( $collaborationID, $roleID )
@@ -277,93 +291,85 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
                                       EZ_COLLABORATION_PARTICIPANT_ROLE_AUTHOR => ezi18n( 'kernel/classes', 'Author' ) );
             }
             if ( isset( $roleNameMap[$roleID] ) )
-                return $roleNameMap[$roleID];
-            return null;
+                $retRoleName = $roleNameMap[$roleID];
+            else
+                $retRoleName = null;
         }
         else
         {
             $item =& eZCollaborationItem::fetch( $collaborationID );
             $itemHandler =& $item->handler();
-            return $itemHandler->roleName( $collaborationID, $roleID );
+            $retRoleName = $itemHandler->roleName( $collaborationID, $roleID );
         }
+        return $retRoleName;
     }
 
-    function hasAttribute( $attr )
+    function &collaborationItem()
     {
-        return ( $attr == 'collaboration_item' or
-                 $attr == 'participant' or
-                 $attr == 'participant_type_string' or
-                 $attr == 'participant_role_string' or
-                 $attr == 'is_builtin_type' or
-                 $attr == 'is_builtin_role' or
-                 eZPersistentObject::hasAttribute( $attr ) );
+        include_once( 'kernel/classes/ezcollaborationitem.php' );
+        $item =& eZCollaborationItem::fetch( $this->CollaborationID );
+        return $item;
     }
 
-    function &attribute( $attr )
+    function &participant()
     {
-        switch( $attr )
+        if ( $this->ParticipantType == EZ_COLLABORATION_PARTICIPANT_TYPE_USER )
         {
-            case 'collaboration_item':
-            {
-                include_once( 'kernel/classes/ezcollaborationitem.php' );
-                return eZCollaborationItem::fetch( $this->CollaborationID );
-            } break;
-            case 'is_builtin_type':
-            {
-                return $this->ParticipantType < EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM;
-            } break;
-            case 'is_builtin_role':
-            {
-                return $this->ParticipantRole < EZ_COLLABORATION_PARTICIPANT_ROLE_CUSTOM;
-            } break;
-            case 'participant':
-            {
-                if ( $this->ParticipantType == EZ_COLLABORATION_PARTICIPANT_TYPE_USER )
-                {
-                    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-                    $user =& eZUser::fetch( $this->ParticipantID );
-                    return $user;
-                }
-                else if ( $this->ParticipantType == EZ_COLLABORATION_PARTICIPANT_TYPE_USERGROUP )
-                {
-                    include_once( 'kernel/classes/ezcontentobject.php' );
-                    return eZContentObject::fetch( $this->ParticipantID );
-                }
-                return null;
-            } break;
-            case 'participant_type_string':
-            {
-                if ( $this->ParticipantType < EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM )
-                {
-                    return eZCollaborationItemParticipantLink::typeString( $this->ParticipantType );
-                }
-                else
-                {
-                    $item =& eZCollaborationItem::fetch( $this->CollaborationID );
-                    $itemHandler =& $item->handler();
-                    $typeString = $item->attribute( 'type_identifier' ) . '_' . $itemHandler->participantTypeString( $this->ParticipantType );
-                    return $typeString;
-                }
-                return null;
-            } break;
-            case 'participant_role_string':
-            {
-                if ( $this->ParticipantRole < EZ_COLLABORATION_PARTICIPANT_ROLE_CUSTOM )
-                {
-                    return eZCollaborationItemParticipantLink::roleString( $this->ParticipantRole );
-                }
-                else
-                {
-                    $item =& eZCollaborationItem::fetch( $this->CollaborationID );
-                    $itemHandler =& $item->handler();
-                    $roleString = $item->attribute( 'type_identifier' ) . '_' . $itemHandler->participantRoleString( $this->ParticipantRole );
-                    return $roleString;
-                }
-                return null;
-            } break;
-            default:
-                return eZPersistentObject::attribute( $attr );
+            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            $participant =& eZUser::fetch( $this->ParticipantID );
         }
+        else if ( $this->ParticipantType == EZ_COLLABORATION_PARTICIPANT_TYPE_USERGROUP )
+        {
+            include_once( 'kernel/classes/ezcontentobject.php' );
+            $participant =& eZContentObject::fetch( $this->ParticipantID );
+        }
+        else
+        {
+            $participant = null;
+        }
+        return $participant;
+    }
+
+    function &participantTypeString()
+    {
+        if ( $this->ParticipantType < EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM )
+        {
+            $typeString =& eZCollaborationItemParticipantLink::typeString( $this->ParticipantType );
+        }
+        else
+        {
+            $item =& eZCollaborationItem::fetch( $this->CollaborationID );
+            $itemHandler =& $item->handler();
+            $typeString = $item->attribute( 'type_identifier' ) . '_' . $itemHandler->participantTypeString( $this->ParticipantType );
+        }
+        return $typeString;
+    }
+
+    function &participantRoleString()
+    {
+        if ( $this->ParticipantRole < EZ_COLLABORATION_PARTICIPANT_ROLE_CUSTOM )
+        {
+            $roleString =& eZCollaborationItemParticipantLink::roleString( $this->ParticipantRole );
+        }
+        else
+        {
+            $item =& eZCollaborationItem::fetch( $this->CollaborationID );
+            $itemHandler =& $item->handler();
+            $roleString = $item->attribute( 'type_identifier' ) . '_' . $itemHandler->participantRoleString( $this->ParticipantRole );
+        }
+        return $roleString;
+    }
+
+    function &isBuiltinType()
+    {
+        $isBuiltinType = $this->ParticipantType < EZ_COLLABORATION_PARTICIPANT_TYPE_CUSTOM;
+        return $isBuiltinType;
+    }
+
+    function &isBuiltinRole()
+    {
+        $isBuiltinRole = $this->ParticipantRole < EZ_COLLABORATION_PARTICIPANT_ROLE_CUSTOM;
+        return $isBuiltinRole;
     }
 
     /// \privatesection

@@ -156,8 +156,8 @@ class eZURI
         $elements = array_slice( $this->URIArray, $this->Index );
         if ( $as_text )
         {
-            $retVal = implode( '/', $elements );
-            return $retVal;
+            $retValue = implode( '/', $elements );
+            return $retValue;
         }
         else
             return $elements;
@@ -231,7 +231,10 @@ class eZURI
     {
         $elements = array_slice( $this->URIArray, 0, $this->Index );
         if ( $as_text )
-            return '/' . implode( '/', $elements );
+        {
+            $baseAsText = '/' . implode( '/', $elements );
+            return $baseAsText;
+        }
         else
             return $elements;
     }
@@ -263,7 +266,12 @@ class eZURI
     */
     function attributes()
     {
-        return array( 'element', 'base', 'tail', 'index', 'uri', 'original_uri' );
+        return array( 'element',
+                      'base',
+                      'tail',
+                      'index',
+                      'uri',
+                      'original_uri' );
     }
 
     /*!
@@ -271,31 +279,41 @@ class eZURI
     */
     function hasAttribute( $attr )
     {
-        return $attr == 'element' or $attr == 'base' or $attr == 'tail' or $attr == 'index' or $attr == 'uri' or $attr == 'original_uri';
+        return in_array( $attr, $this->attributes() );
     }
 
     /*!
      \return the value for attribute $attr or null if it does not exist.
     */
-    function attribute( $attr )
+    function &attribute( $attr )
     {
         switch ( $attr )
         {
             case 'element':
-                return $this->element();
+                $retValue =& $this->element();
+                break;
             case 'tail':
-                return $this->elements();
+                $retValue =& $this->elements();
+                break;
             case 'base':
-                return $this->base();
+                $retValue =& $this->base();
+                break;
             case 'index':
-                return $this->index();
+                $retValue =& $this->index();
+                break;
             case 'uri':
-                return $this->uriString();
+                $retValue =& $this->uriString();
+                break;
             case 'original_uri':
-                return $this->originalURIString();
+                $retValue =& $this->originalURIString();
+                break;
+            default:
+            {
+                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZURI::attribute' );
+                $retValue = null;
+            } break;
         }
-
-        return null;
+        return $retValue;
     }
 
     /*!

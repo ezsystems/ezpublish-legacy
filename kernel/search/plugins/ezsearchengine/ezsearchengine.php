@@ -2131,7 +2131,11 @@ class eZSearchEngine
     function &prepareWordIDArrays( $searchText )
     {
         if ( trim( $searchText ) == "" )
-            return array();
+        {
+            $retArray = array();
+            return $retArray;
+        }
+
         $db =& eZDB::instance();
         $searchWordArray = $this->splitString( $searchText );
 

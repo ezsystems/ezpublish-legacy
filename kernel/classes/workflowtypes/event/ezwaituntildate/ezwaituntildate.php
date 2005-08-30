@@ -44,6 +44,7 @@
 
 */
 include_once( 'kernel/classes/workflowtypes/event/ezwaituntildate/ezwaituntildatevalue.php' );
+
 class eZWaitUntilDate
 {
     function eZWaitUntilDate( $eventID, $eventVersion )
@@ -53,12 +54,17 @@ class eZWaitUntilDate
         $this->Entries =& eZWaitUntilDateValue::fetchAllElements( $eventID, $eventVersion );
     }
 
+    function attributes()
+    {
+        return array( 'workflow_event_id',
+                      'workflow_event_version',
+                      'entry_list',
+                      'classattribute_id_list' );
+    }
+
     function hasAttribute( $attr )
     {
-        return $attr == 'workflow_event_id'
-            or $attr == 'workflow_event_version'
-            or $attr == 'entry_list'
-            or $attr == 'classattribute_id_list';
+        return in_array( $attr, $this->attributes() );
     }
 
     function &attribute( $attr )
@@ -83,7 +89,9 @@ class eZWaitUntilDate
             }
             default :
             {
-                eZDebug::writeError( "Unknown attribute: " . $attr );
+                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZWaitUntilDate::attribute' );
+                $retValue = null;
+                return $retValue;
             }break;
         }
     }

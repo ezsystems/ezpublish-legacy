@@ -195,8 +195,9 @@ class openFts
 
 //        eZDebugSetting::writeDebug( 'kernel-search-openfts', $objectRes, 'search result' );
 
-        return array( "SearchResult" => $objectRes,
-                      "SearchCount" => $searchCount );
+        $retArray = array( "SearchResult" => $objectRes,
+                           "SearchCount" => $searchCount );
+        return $retArray;
 
 /*
         $searchCount = 0;

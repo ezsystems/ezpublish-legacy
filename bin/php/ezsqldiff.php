@@ -129,11 +129,13 @@ $ini =& eZINI::instance();
 
 function &loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, &$cli )
 {
+    $dbSchema = false;
     if ( file_exists( $db ) and is_file( $db ) )
     {
         include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-        return eZDBSchema::instance( array( 'type' => $type,
-                                            'schema' => eZDBSchema::read( $db ) ) );
+        $dbSchema = eZDBSchema::instance( array( 'type' => $type,
+                                                 'schema' => eZDBSchema::read( $db ) ) );
+        return $dbSchema;
     }
     else
     {
@@ -154,7 +156,7 @@ function &loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, &$cl
         {
             $cli->error( 'Could not initialize database:' );
             $cli->error( '* No database handler was found for $type' );
-            return false;
+            return $dbSchema;
         }
         if ( !$dbInstance->isConnected() )
         {
@@ -186,17 +188,19 @@ function &loadDatabaseSchema( $type, $host, $user, $password, $socket, $db, &$cl
                     $msg .= '(' . $number . ')';
                 $cli->error( '* ' . $msg );
             }
-            return false;
+            return $dbSchema;
         }
 
-        return eZDBSchema::instance( $dbInstance );
+        $dbSchema = eZDBSchema::instance( $dbInstance );
+        return $dbSchema;
     }
 }
 
 function &loadLintSchema( &$dbSchema, &$cli )
 {
     include_once( 'lib/ezdbschema/classes/ezlintschema.php' );
-    return new eZLintSchema( false, $dbSchema );
+    $lintSchema = new eZLintSchema( false, $dbSchema );
+    return $lintSchema;
 }
 
 $sourceSchema = loadDatabaseSchema( $sourceType, $sourceDBHost, $sourceDBUser, $sourceDBPassword, $sourceDBSocket, $sourceDB, $cli );

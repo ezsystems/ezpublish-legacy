@@ -118,7 +118,7 @@ class eZWizardBase
         {
             case 'error_count':
             {
-                return count( $this->ErrorList );
+                $retValue = count( $this->ErrorList );
             } break;
 
             case 'error_list':
@@ -128,7 +128,7 @@ class eZWizardBase
 
             case 'warning_count':
             {
-                return count( $this->WarningList );
+                $retValue = count( $this->WarningList );
             } break;
 
             case 'warning_list':
@@ -138,21 +138,26 @@ class eZWizardBase
 
             case 'step_template':
             {
-                return $this->stepTemplate();
+                $retValue = $this->stepTemplate();
             } break;
 
             case 'variable_list':
             {
-                return $this->variableList();
+                $retValue = $this->variableList();
             } break;
 
             case 'url':
             {
                 return $this->WizardURL;
             } break;
+            default:
+            {
+                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZWizardBase::attribute' );
+                $retValue = null;
+            }
+            break;
         }
-
-        return null;
+        return $retValue;
     }
 
     /*!
@@ -304,7 +309,11 @@ class eZWizardBase
     */
     function &variable( $key )
     {
-        return isset( $this->VariableList[$key] ) ? $this->VariableList[$key] : false;
+        if ( isset( $this->VariableList[$key] ) )
+            $retValue = $this->VariableList[$key];
+        else
+            $retValue = false;
+        return $retValue;
     }
 
     /*!

@@ -514,7 +514,8 @@ class eZImageFactory
     */
     function &produceFromINI( $iniGroup, $iniFilename = false )
     {
-        return null;
+        $imageHandler = null;
+        return $imageHandler;
     }
 
     /// \privatesection

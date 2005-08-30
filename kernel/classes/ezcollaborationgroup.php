@@ -96,6 +96,10 @@ class eZCollaborationGroup extends eZPersistentObject
                                                                'default' => '0',
                                                                'required' => true ) ),
                       'keys' => array( 'id' ),
+                      "function_attributes" => array( 'user' => 'user',
+                                                      'parent_group' => 'parentGroup',
+                                                      'item_list' => 'itemList',
+                                                      'item_count' => 'itemCount' ),
                       'increment_key' => 'id',
                       'class_name' => 'eZCollaborationGroup',
                       'sort' => array( 'title' => 'asc' ),
@@ -184,8 +188,9 @@ class eZCollaborationGroup extends eZPersistentObject
     */
     function &itemList( $parameters = array() )
     {
-        return eZCollaborationItem::fetchList( array_merge( array( 'parent_group_id' => $this->ID ),
-                                                            $parameters ) );
+        $itemList = eZCollaborationItem::fetchList( array_merge( array( 'parent_group_id' => $this->ID ),
+                                                                 $parameters ) );
+        return $itemList;
     }
 
     function &subTree( $parameters = array() )
@@ -310,7 +315,7 @@ class eZCollaborationGroup extends eZPersistentObject
         return $returnGroupList;
     }
 
-    function itemCount( $parameters = array() )
+    function &itemCount( $parameters = array() )
     {
         $parameters = array_merge( array( 'as_object' => true ),
                                    $parameters );
@@ -330,45 +335,25 @@ class eZCollaborationGroup extends eZPersistentObject
         return $countArray[0]['count'];
     }
 
-    function hasAttribute( $attr )
+    function &user()
     {
-        return ( $attr == 'user' or
-                 $attr == 'parent_group' or
-                 $attr == 'item_list' or
-                 $attr == 'item_count' or
-                 eZPersistentObject::hasAttribute( $attr ) );
+        if ( isset( $this->UserID ) and $this->UserID )
+        {
+            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            $user =& eZUser::fetch( $this->UserID );
+        }
+        else
+            $user = null;
+        return $user;
     }
 
-    function &attribute( $attr )
+    function &parentGroup()
     {
-        switch( $attr )
-        {
-            case 'user':
-            {
-                $userID = $this->UserID;
-                include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-                $user =& eZUser::fetch( $userID );
-                return $user;
-            } break;
-            case 'parent_group':
-            {
-                $parentGroupID = $this->ParentGroupID;
-                $parent = null;
-                if ( $parentGroupID > 0 )
-                    $parent = eZCollaborationGroup::fetch( $parentGroupID );
-                return $parent;
-            } break;
-            case 'item_list':
-            {
-                return $this->itemList();
-            } break;
-            case 'item_count':
-            {
-                return $this->itemCount();
-            } break;
-            default:
-                return eZPersistentObject::attribute( $attr );
-        }
+        if ( isset( $this->ParentGroupID ) and $this->ParentGroupID )
+            $parentGroup =& eZCollaborationGroup::fetch( $this->ParentGroupID );
+        else
+            $parentGroup = null;
+        return $parentGroup;
     }
 
     /// \privatesection

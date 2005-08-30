@@ -79,7 +79,11 @@ class eZSysInfo
     */
     function attributes()
     {
-        return array( 'is_valid', 'cpu_type', 'cpu_unit', 'cpu_speed', 'memory_size' );
+        return array( 'is_valid',
+                      'cpu_type',
+                      'cpu_unit',
+                      'cpu_speed',
+                      'memory_size' );
     }
 
     /*!
@@ -88,7 +92,7 @@ class eZSysInfo
     */
     function hasAttribute( $name )
     {
-        return in_array( $name, array( 'is_valid', 'cpu_type', 'cpu_unit', 'cpu_speed', 'memory_size' ) );
+        return in_array( $name, $this->attributes() );
     }
 
     /*!
@@ -107,7 +111,12 @@ class eZSysInfo
             return $this->CPUSpeed;
         else if ( $name == 'memory_size' )
             return $this->MemorySize;
-        return null;
+        else
+        {
+            eZDebug::writeError( "Attribute '$name' does not exist", 'eZSysInfo::attribute' );
+            $retValue = null;
+            return $retValue;
+        }
     }
 
     /*!

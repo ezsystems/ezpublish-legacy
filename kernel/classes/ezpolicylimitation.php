@@ -78,61 +78,17 @@ class eZPolicyLimitation extends eZPersistentObject
                                                       'values' => 'valueList',
                                                       'values_as_array' => 'allValues',
                                                       'values_as_string' => 'allValuesAsString',
-                                                      'values_as_array_with_names' => 'allValuesAsArrayWithNames'
-                                                      ),
+                                                      'values_as_array_with_names' => 'allValuesAsArrayWithNames',
+                                                      'limit_value' => 'limitValue' ),
                       "increment_key" => "id",
                       "sort" => array( "id" => "asc" ),
                       "class_name" => "eZPolicyLimitation",
                       "name" => "ezpolicy_limitation" );
     }
 
-    function attributes()
+    function &limitValue()
     {
-        return eZPersistentObject::attributes();
-    }
-
-    function & attribute( $attr )
-    {
-        switch( $attr )
-        {
-            case 'policy':
-            {
-                $policy =& $this->policy();
-                return $policy;
-            }
-
-            case 'values':
-            {
-                return $this->valueList();
-            } break;
-
-            case 'values_as_string':
-            {
-                return $this->allValuesAsString();
-            } break;
-
-            case 'values_as_array':
-            {
-                $allValues =& $this->allValues();
-                return $allValues;
-            } break;
-
-            case 'values_as_array_with_names':
-            {
-                $allValuesAsArray =& $this->allValuesAsArrayWithNames();
-                return $allValuesAsArray;
-            } break;
-
-            case 'limit_value':
-            {
-                return $this->LimitValue;
-            } break;
-
-            default:
-            {
-                return eZPersistentObject::attribute( $attr );
-            } break;
-        }
+        return $this->LimitValue;
     }
 
     /*!
@@ -141,7 +97,6 @@ class eZPolicyLimitation extends eZPersistentObject
     function &policy()
     {
         include_once( 'kernel/classes/ezpolicy.php' );
-
         $policy =& eZPolicy::fetch( $this->attribute( 'policy_id' ) );
         return $policy;
     }
@@ -165,7 +120,7 @@ class eZPolicyLimitation extends eZPersistentObject
         }
     }
 
-    /*! 
+    /*!
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
@@ -197,7 +152,7 @@ class eZPolicyLimitation extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function &removeSelected( $ID )
+    function removeSelected( $ID )
     {
         eZPersistentObject::removeObject( eZPolicyLimitation::definition(),
                                           array( "id" => $ID ) );
@@ -288,7 +243,8 @@ class eZPolicyLimitation extends eZPersistentObject
         $policy =& $this->attribute( 'policy' );
         if ( !$policy )
         {
-            return null;
+            $retValue = null;
+            return $retValue;
         }
 
         $currentModule = $policy->attribute( 'module_name' );

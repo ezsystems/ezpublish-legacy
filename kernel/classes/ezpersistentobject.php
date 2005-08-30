@@ -1105,8 +1105,7 @@ function definition()
         }
         else
         {
-            eZDebug::writeError( "Undefined attribute '$attr', cannot get",
-                                  $def['class_name'] );
+            eZDebug::writeError( "Attribute '$attr' does not exist", $def['class_name'] . '::attribute' );
             $attrValue = null;
             return $attrValue;
         }

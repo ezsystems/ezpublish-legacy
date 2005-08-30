@@ -127,10 +127,9 @@ class eZContentObjectVersion extends eZPersistentObject
                                                       'contentobject' => 'contentObject',
                                                       'language_list' => 'translations',
                                                       'translation' => 'translation',
-                                                      'translation_list' => 'translationList',
+                                                      'translation_list' => 'defaultTranslationList',
                                                       'complete_translation_list' => 'translationList',
-                                                      'temp_main_node' => 'tempMainNode'
-                                                      ),
+                                                      'temp_main_node' => 'tempMainNode' ),
                       'class_name' => "eZContentObjectVersion",
                       "increment_key" => "id",
                       'sort' => array( 'version' => 'asc' ),
@@ -208,23 +207,6 @@ class eZContentObjectVersion extends eZPersistentObject
     }
 
     /*!
-     \return the attribute with the requested name.
-    */
-    function &attribute( $attr )
-    {
-        if ( $attr == 'translation_list' )
-        {
-            $translationList =& $this->translationList( eZContentObject::defaultLanguage() );
-            return $translationList;
-        }
-        else
-        {
-            $attrValue =& eZPersistentObject::attribute( $attr );
-            return $attrValue;
-        }
-    }
-
-    /*!
      \return an eZContentObjectTreeNode object which doesn't really exist in the DB,
              this can be passed to a node view template.
     */
@@ -275,14 +257,24 @@ class eZContentObjectVersion extends eZPersistentObject
     {
         if ( !$lang )
             $lang = eZContentObject::defaultLanguage();
+
         if ( isset( $this->VersionNameCache[$lang] ) )
             return $this->VersionNameCache[$lang];
+
         $object =& $this->attribute( 'contentobject' );
         if ( !$object )
-            return false;
+        {
+            $retValue = false;
+            return $retValue;
+        }
+
         $class =& $object->attribute( 'content_class' );
         if ( !$class )
-            return false;
+        {
+            $retValue = false;
+            return $retValue;
+        }
+
         $this->VersionNameCache[$lang] = $class->contentObjectName( $object,
                                                                     $this->attribute( 'version' ),
                                                                     $lang );
@@ -521,9 +513,13 @@ class eZContentObjectVersion extends eZPersistentObject
         $temp = eZNodeAssignment::fetchForObject( $this->attribute( 'contentobject_id' ), $this->attribute( 'version' ), 1 );
         if ( $temp == null )
         {
-            return 1;
+            $mainParentNodeID = 1;
         }
-        return $temp[0]->attribute( 'parent_node' );
+        else
+        {
+            $mainParentNodeID = $temp[0]->attribute( 'parent_node' );
+        }
+        return $mainParentNodeID;
     }
 
     function &parentNodes( )
@@ -688,7 +684,8 @@ class eZContentObjectVersion extends eZPersistentObject
     function &reverseRelatedObjectList()
     {
         $objectID = $this->attribute( 'contentobject_id' );
-        return eZContentObject::reverseRelatedObjectList( $this->Version, $objectID );
+        $reverseRelatedArray =& eZContentObject::reverseRelatedObjectList( $this->Version, $objectID );
+        return $reverseRelatedArray;
     }
 
     /*!
@@ -805,7 +802,7 @@ class eZContentObjectVersion extends eZPersistentObject
            a bug with PHP references.
 
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
+           the calls within a db transaction; thus within db->begin and db->commit.
     */
     function &translationList( $language = false, $asObject = true )
     {
@@ -842,6 +839,20 @@ class eZContentObjectVersion extends eZPersistentObject
         }
 
         return $translations;
+    }
+
+    /*!
+     \return An array with all translations except default language for the this version.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+           the calls within a db transaction; thus within db->begin and db->commit.
+    */
+    function &defaultTranslationList()
+    {
+        $defaultTranslationList =& $this->translationList( eZContentObject::defaultLanguage() );
+        return $defaultTranslationList;
     }
 
     /*!
@@ -947,7 +958,8 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             eZDebug::writeError( 'Could not fetch object version : ' . $oldVersion,
                                  'eZContentObjectVersion::unserialize()' );
-            return false;
+            $retValue = false;
+            return $retValue;
         }
 
         if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
@@ -1041,7 +1053,10 @@ class eZContentObjectVersion extends eZPersistentObject
                                                   $nodeList,
                                                   $options );
             if ( $result === false )
-                return false;
+            {
+                $retValue = false;
+                return $retValue;
+            }
         }
         $contentObjectVersion->store();
         $db->commit();
@@ -1142,7 +1157,14 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function &creator()
     {
-        return eZContentObject::fetch( $this->CreatorID );
+        if ( isset( $this->CreatorID ) and $this->CreatorID )
+        {
+            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            $creator = & eZContentObject::fetch( $this->CreatorID );
+        }
+        else
+            $creator = null;
+        return $creator;
     }
 
     /*!
@@ -1192,7 +1214,11 @@ class eZContentObjectVersion extends eZPersistentObject
     {
         $translationList =& eZContentObject::translationList();
         if ( $translationList === null )
-            return null;
+        {
+            $retValue = null;
+            return $retValue;
+        }
+
         $translations =& $this->translations( false );
         $nonTranslationList = array();
         foreach ( $translationList as $translationItem )

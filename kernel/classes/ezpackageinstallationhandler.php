@@ -45,6 +45,8 @@
 
 */
 
+include_once( 'lib/ezutils/classes/ezextension.php' );
+
 class eZPackageInstallationHandler
 {
     /*!
@@ -134,7 +136,11 @@ class eZPackageInstallationHandler
     {
         if ( array_key_exists( $name, $this->Attributes ) )
             return $this->Attributes[$name];
-        return null;
+        {
+            eZDebug::writeError( "Attribute '$name' does not exist", 'eZPackageInstallationHandler::attribute' );
+            $retValue = null;
+            return $retValue;
+        }
     }
 
     function initializeStepMethodMap()

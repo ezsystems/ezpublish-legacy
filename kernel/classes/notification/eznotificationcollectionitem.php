@@ -44,6 +44,8 @@
 
 */
 
+include_once( "kernel/classes/ezpersistentobject.php" );
+
 class eZNotificationCollectionItem extends eZPersistentObject
 {
     /*!
@@ -77,12 +79,10 @@ class eZNotificationCollectionItem extends eZPersistentObject
                                                                'default' => 0,
                                                                'required' => true )  ),
                       "keys" => array( "id" ),
-//                      "function_attributes" => array( ),
                       "increment_key" => "id",
                       "sort" => array( "id" => "asc" ),
                       "class_name" => "eZNotificationCollectionItem",
                       "name" => "eznotificationcollection_item" );
-
     }
 
     function create( $collectionID, $eventID, $address, $sendDate = 0 )

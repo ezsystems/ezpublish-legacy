@@ -979,10 +979,6 @@ class eZObjectRelationListType extends eZDataType
     */
     function &objectAttributeContent( &$contentObjectAttribute )
     {
-        //debug_print_backtrace();
-
-        //eZDebug::writeDebug( $contentObjectAttribute, 'rel $contentObjectAttribute' );
-
         $xmlText = $contentObjectAttribute->attribute( 'data_text' );
         if ( trim( $xmlText ) == '' )
         {
@@ -1020,10 +1016,9 @@ class eZObjectRelationListType extends eZDataType
 
     function defaultClassAttributeContent()
     {
-        $default = array( 'type' => 0,
-                          'class_constraint_list' => array(),
-                          'default_placement' => false );
-        return $default;
+        return array( 'type' => 0,
+                      'class_constraint_list' => array(),
+                      'default_placement' => false );
     }
 
     function defaultObjectAttributeContent()
@@ -1183,7 +1178,7 @@ class eZObjectRelationListType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $content =& $classAttribute->content();
         if ( $content['default_placement'] )

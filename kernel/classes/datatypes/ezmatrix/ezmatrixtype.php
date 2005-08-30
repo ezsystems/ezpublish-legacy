@@ -368,7 +368,7 @@ class eZMatrixType extends eZDataType
     */
     function &classAttributeContent( &$contentClassAttribute )
     {
-        $matrixDefinition =& new eZMatrixDefinition();
+        $matrixDefinition = new eZMatrixDefinition();
         $matrixDefinition->decodeClassAttribute( $contentClassAttribute->attribute( 'data_text5' ) );
         return $matrixDefinition;
     }
@@ -417,7 +417,7 @@ class eZMatrixType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $content =& $classAttribute->content();
         if ( $content )

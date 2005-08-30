@@ -375,7 +375,7 @@ class eZContentClass extends eZPersistentObject
         else if ( $accessWord == 'no' )
         {
             // Cannnot create any objects, return empty list.
-            return array();
+            return $classList;
         }
         else
         {
@@ -419,7 +419,6 @@ class eZContentClass extends eZPersistentObject
 
         if ( $fetchAll )
         {
-            $classList = array();
             $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
@@ -434,7 +433,9 @@ class eZContentClass extends eZPersistentObject
         {
             // If the constrained class list is empty we are not allowed to create any class
             if ( count( $classIDArray ) == 0 )
-                return array();
+            {
+                return $classList;
+            }
 
             $classList = array();
             $db =& eZDb::instance();
@@ -476,8 +477,13 @@ class eZContentClass extends eZPersistentObject
     */
     function &creator()
     {
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-        $user =& eZUser::fetch( $this->CreatorID );
+        if ( isset( $this->CreatorID ) and $this->CreatorID )
+        {
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $user =& eZUser::fetch( $this->CreatorID );
+        }
+        else
+            $user = null;
         return $user;
     }
 
@@ -488,8 +494,13 @@ class eZContentClass extends eZPersistentObject
     */
     function &modifier()
     {
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-        $user =& eZUser::fetch( $this->ModifierID );
+        if ( isset( $this->ModifierID ) and $this->ModifierID )
+        {
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $user =& eZUser::fetch( $this->ModifierID );
+        }
+        else
+            $user = null;
         return $user;
     }
 
@@ -543,13 +554,13 @@ class eZContentClass extends eZPersistentObject
         $contentINI =& eZINI::instance( 'content.ini' );
         if( $contentINI->variable( 'ContentOverrideSettings', 'EnableClassGroupOverride' ) == 'true' )
         {
-            return $this->attribute( 'ingroup_id_list' );
+            $retValue =& $this->attribute( 'ingroup_id_list' );
         }
         else
         {
-            $retVal = false;
-            return $retVal;
+            $retValue = false;
         }
+        return $retValue;
     }
 
     /*!
@@ -966,19 +977,18 @@ You will need to change the class of the node by using the swap functionality.' 
                                                              "length" => 2 ),
                                                       false );
 
-        if ( count( $rows ) == 0 )
+        if ( count( $rows ) > 0 )
         {
-            $contentClass = null;
-            return $contentClass;
+            $row =& $rows[0];
+            $row["version_count"] = count( $rows );
+            $contentClass = new eZContentClass( $row );
         }
-
-        $row =& $rows[0];
-        $row["version_count"] = count( $rows );
-        $contentClass = new eZContentClass( $row );
+        else
+            $contentClass = null;
         return $contentClass;
     }
 
-    function fetchByRemoteID( $remoteID, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
+    function &fetchByRemoteID( $remoteID, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
     {
         $conds = array( "remote_id" => $remoteID,
                         "version" => $version );
@@ -994,14 +1004,15 @@ You will need to change the class of the node by using the swap functionality.' 
                                                       array( "offset" => 0,
                                                              "length" => 2 ),
                                                       false );
-        if ( count( $rows ) == 0 )
+        if ( count( $rows ) > 0 )
         {
-            $value = null;
-            return $value;
+            $row =& $rows[0];
+            $row["version_count"] = count( $rows );
+            $contentClass = new eZContentClass( $row );
         }
-        $row =& $rows[0];
-        $row["version_count"] = count( $rows );
-        return new eZContentClass( $row );
+        else
+            $contentClass = null;
+        return $contentClass;
     }
 
     function fetchByIdentifier( $identifier, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
@@ -1024,9 +1035,11 @@ You will need to change the class of the node by using the swap functionality.' 
         {
             $row =& $rows[0];
             $row["version_count"] = count( $rows );
-            return new eZContentClass( $row );
+            $contentClass = new eZContentClass( $row );
         }
-        return null;
+        else
+            $contentClass = null;
+        return $contentClass;
     }
 
     /*!
@@ -1110,7 +1123,10 @@ You will need to change the class of the node by using the swap functionality.' 
                 $version = $this->Version;
             }
             else
-                return null;
+            {
+                $attributes = null;
+                return $attributes;
+            }
         }
 
         $filteredList =& eZContentClassAttribute::fetchFilteredList( array( "contentclass_id" => $id,
@@ -1131,12 +1147,10 @@ You will need to change the class of the node by using the swap functionality.' 
         $attributeArray =& eZContentClassAttribute::fetchFilteredList( array( 'contentclass_id' => $this->ID,
                                                                               'version' => $this->Version,
                                                                               'identifier' => $identifier ), $asObject );
-        if ( count( $attributeArray ) == 0 )
-        {
-            $value = null;
-            return $value;
-        }
-        return $attributeArray[0];
+        if ( count( $attributeArray ) > 0 )
+            return $attributeArray[0];
+        $retValue = null;
+        return $retValue;
     }
 
     function fetchSearchableAttributes( $id = false, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED )

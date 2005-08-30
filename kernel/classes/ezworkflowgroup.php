@@ -77,6 +77,8 @@ class eZWorkflowGroup extends eZPersistentObject
                                                               'default' => 0,
                                                               'required' => true ) ),
                       "keys" => array( "id" ),
+                      'function_attributes' => array( 'creator' => 'creator',
+                                                      'modifier' => 'modifier' ),
                       "increment_key" => "id",
                       "class_name" => "eZWorkflowGroup",
                       "sort" => array( "name" => "asc" ),
@@ -166,42 +168,27 @@ ORDER BY ezworkflow.name ASC";
         return $workflows;
     }*/
 
-    function attributes()
+    function &creator()
     {
-        return array_merge( eZPersistentObject::attributes(),
-                            array( "creator",
-                                   "modifier",
-                                   "workflows" ) );
-    }
-
-    function hasAttribute( $attr )
-    {
-        return ( $attr == "creator" or $attr == "modifier" or
-                 $attr == "workflows" or
-                 eZPersistentObject::hasAttribute( $attr ) );
-    }
-
-    function &attribute( $attr )
-    {
-        switch( $attr )
+        if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
-            case "creator":
-            {
-                $user_id = $this->CreatorID;
-            } break;
-            case "modifier":
-            {
-                $user_id = $this->ModifierID;
-            } break;
-            case "workflows":
-            {
-                // return $this->fetchWorkflowList( false );
-            } break;
-            default:
-                return eZPersistentObject::attribute( $attr );
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $user =& eZUser::fetch( $this->CreatorID );
         }
-        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-        $user =& eZUser::fetch( $user_id );
+        else
+            $user = null;
+        return $user;
+    }
+
+    function &modifier()
+    {
+        if ( isset( $this->ModifierID ) and $this->ModifierID )
+        {
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $user =& eZUser::fetch( $this->ModifierID );
+        }
+        else
+            $user = null;
         return $user;
     }
 

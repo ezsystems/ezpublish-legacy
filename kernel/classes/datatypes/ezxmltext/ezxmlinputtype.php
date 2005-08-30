@@ -77,6 +77,7 @@ class eZXMLInputType
             $disableExtension = true;
         }
 
+        $impl = null;
         if ( $inputHandler == "standard" )
         {
             if ( file_exists( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" ) )
@@ -134,6 +135,7 @@ class eZXMLInputType
             $disableExtension = true;
         }
 
+        $editorName = null;
         if ( $inputHandler == "standard" )
         {
             if ( file_exists( "kernel/classes/datatypes/ezxmltext/ezxmlinputhandler.php" ) )

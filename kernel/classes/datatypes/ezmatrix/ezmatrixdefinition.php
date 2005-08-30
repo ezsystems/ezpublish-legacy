@@ -82,16 +82,14 @@ class eZMatrixDefinition
 
     }
 
-    function &hasAttribute( $attr )
+    function attributes()
     {
-        $hasAttribute = true;
-        if ( $attr == 'columns' )
-        {
-            return $hasAttribute;
-        }
+        return array( 'columns' );
+    }
 
-        $hasAttribute = false;
-        return $hasAttribute;
+    function hasAttribute( $attr )
+    {
+        return in_array( $attr, $this->attributes() );
     }
 
     function &attribute( $attr )
@@ -99,6 +97,12 @@ class eZMatrixDefinition
         if ( $attr == 'columns' )
         {
             return $this->ColumnNames;
+        }
+        else
+        {
+            eZDebug::writeError( "Attribute '$attr' does not exist", 'eZMatrixDefinition::attribute' );
+            $retValue = null;
+            return $retValue;
         }
     }
 

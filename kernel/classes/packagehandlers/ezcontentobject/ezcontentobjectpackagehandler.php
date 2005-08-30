@@ -248,7 +248,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
      \param node_assignments, 'selected' or 'main'
     */
-    function &generateObjectArray( $nodeAssignment )
+    function generateObjectArray( $nodeAssignment )
     {
         foreach( array_keys( $this->NodeObjectArray ) as $key )
         {
@@ -653,8 +653,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $contentObject =& $this->NodeObjectArray[$key]->object();
             $classIDArray[] = $contentObject->attribute( 'contentclass_id' );
         }
-
-        return array_unique( $classIDArray );
+        $classIDArray = array_unique( $classIDArray );
+        return $classIDArray;
     }
 
     /*!

@@ -115,7 +115,7 @@ if( !$object )
 }
 
 $db =& eZDB::instance();
-$collections =& $db->arrayQuery( 'SELECT * FROM ezinfocollection WHERE ezinfocollection.contentobject_id=' . $objectID . ' LIMIT ' . $limit . ' OFFSET ' . $offset );
+$collections = $db->arrayQuery( 'SELECT * FROM ezinfocollection WHERE ezinfocollection.contentobject_id=' . $objectID . ' LIMIT ' . $limit . ' OFFSET ' . $offset );
 
 $viewParameters = array( 'offset' => $offset );
 $objectName = $object->attribute( 'name' );

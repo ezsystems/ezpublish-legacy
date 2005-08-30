@@ -130,6 +130,10 @@ class eZPDFExport extends eZPersistentObject
                                                              'default' => 0,
                                                              'required' => true ) ),
                       'keys' => array( 'id', 'version' ),
+                      'function_attributes' => array ( 'modifier' => 'modifier',
+                                                       'source_node' => 'sourceNode',
+                                                       'filepath' => 'filepath',
+                                                       'export_classes_array' => 'exportClassesArray' ),
                       'increment_key' => 'id',
                       'sort' => array( 'title' => 'asc' ),
                       'class_name' => 'eZPDFExport',
@@ -202,11 +206,12 @@ class eZPDFExport extends eZPersistentObject
     */
     function &fetch( $id, $asObject = true, $version = EZ_PDFEXPORT_VERSION_VALID )
     {
-        return eZPersistentObject::fetchObject( eZPDFExport::definition(),
-                                                null,
-                                                array( 'id' => $id,
-                                                       'version' => $version ),
-                                                $asObject );
+        $ret =& eZPersistentObject::fetchObject( eZPDFExport::definition(),
+                                                 null,
+                                                 array( 'id' => $id,
+                                                        'version' => $version ),
+                                                 $asObject );
+        return $ret;
     }
 
     /*!
@@ -244,60 +249,42 @@ class eZPDFExport extends eZPersistentObject
         return $objectList;
     }
 
-    /*!
-     \reimp
-    */
-    function attributes()
+    function &modifier()
     {
-        return array_merge( eZPersistentObject::attributes(), 'modifier', 'source_node', 'filepath', 'export_classes_array' );
-    }
-
-    /*!
-     \reimp
-    */
-    function hasAttribute( $attr )
-    {
-        return ( $attr == 'modifier' or $attr == 'source_node' or $attr == 'filepath' or $attr == 'export_classes_array' or
-                 eZPersistentObject::hasAttribute( $attr ) );
-    }
-
-    /*!
-     \reimp
-    */
-    function &attribute( $attr )
-    {
-        switch( $attr )
+        if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
-            case 'modifier':
-            {
-                include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-                return eZUser::fetch( $this->ModifierID );
-            } break;
-
-            case 'filepath':
-            {
-                $sys =& eZSys::instance();
-                $storage_dir = $sys->storageDirectory();
-
-                return $storage_dir . '/pdf/' . $this->attribute( 'pdf_filename' );
-            }
-
-            case 'source_node':
-            {
-                include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-                return eZContentObjectTreeNode::fetch( $this->SourceNodeID );
-            } break;
-
-            case 'export_classes_array':
-            {
-                return explode( ':',  eZPersistentObject::attribute( 'export_classes' ) );
-            } break;
-
-            default:
-            {
-                return eZPersistentObject::attribute( $attr );
-            } break;
+            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            $user =& eZUser::fetch( $this->ModifierID );
         }
+        else
+            $user = null;
+        return $user;
+    }
+
+    function &sourceNode()
+    {
+        if ( isset( $this->SourceNodeID ) and $this->SourceNodeID )
+        {
+            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            $sourceNode =& eZContentObjectTreeNode::fetch( $this->SourceNodeID );
+        }
+        else
+            $sourceNode = null;
+        return $sourceNode;
+    }
+
+    function &filepath()
+    {
+        $sys =& eZSys::instance();
+        $storage_dir = $sys->storageDirectory();
+        $filePath = $storage_dir . '/pdf/' . $this->attribute( 'pdf_filename' );
+        return $filePath;
+    }
+
+    function &exportClassesArray()
+    {
+        $exportClassesArray = explode( ':',  eZPersistentObject::attribute( 'export_classes' ) );
+        return $exportClassesArray;
     }
 
 }

@@ -78,13 +78,18 @@ class eZCollaborationItemHandler
         $this->NotificationTypes = $parameters['notification-types'];
     }
 
+    function attributes()
+    {
+        return array( 'info',
+                      'notification_types' );
+    }
+
     /*!
      \return true if the attribute \a $attribute exists.
     */
-    function hasAttribute( $attribute )
+    function hasAttribute( $attr )
     {
-        return ( $attribute == 'info' or
-                 $attribute == 'notification_types' );
+        return in_array( $attr, $this->attributes() );
     }
 
     /*!
@@ -96,7 +101,12 @@ class eZCollaborationItemHandler
             return $this->Info;
         else if ( $attribute == 'notification_types' )
             return $this->notificationTypes();
-        return null;
+        else
+        {
+            eZDebug::writeError( "Attribute '$attribute' does not exist", 'eZCollaborationItemHandler::attribute' );
+            $retValue = null;
+            return $retValue;
+        }
     }
 
     /*!
@@ -296,7 +306,8 @@ class eZCollaborationItemHandler
             if ( array_key_exists( $attribute, $content ) )
                 return $content[$attribute];
         }
-        return null;
+        $content = null;
+        return $content;
     }
 
     /*!
