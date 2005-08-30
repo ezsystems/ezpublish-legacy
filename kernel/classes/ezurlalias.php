@@ -500,8 +500,6 @@ WHERE
             $wildcardArray = $wildcard->asArray();
 
             $phpCode .= "    ";
-            if ( $counter > 0 )
-                $phpCode .= "else ";
             $phpCode .= "if ( preg_match( \"#^$matchRegexp#\", \$uri, \$matches ) )\n    {\n";
             $phpCode .= "        $replaceCode;\n";
             $phpCode .= "        \$urlAlias = " . $phpCache->variableText( $wildcardArray, 8 + 12, 0, false ) . ";\n";
