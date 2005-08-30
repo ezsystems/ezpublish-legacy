@@ -35,7 +35,9 @@
 
 include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
+include_once( 'lib/ezutils/classes/ezini.php' );
 
+$ini =& eZINI::instance();
 $currentUser =& eZUser::currentUser();
 $currentUserID = $currentUser->attribute( "contentobject_id" );
 $http =& eZHTTPTool::instance();
@@ -44,6 +46,16 @@ $message = 0;
 $oldPasswordNotValid = 0;
 $newPasswordNotMatch = 0;
 $newPasswordTooShort = 0;
+$userRedirectURI = '';
+
+$userRedirectURI = $Module->actionParameter( 'UserRedirectURI' );
+
+if ( $http->hasSessionVariable( "LastAccessesURI" ) )
+     $userRedirectURI = $http->sessionVariable( "LastAccessesURI" );
+
+$redirectionURI = $userRedirectURI;
+if ( $redirectionURI == '' )
+     $redirectionURI = $ini->variable( 'SiteSettings', 'DefaultPage' );
 
 if( !isset( $oldPassword ) )
     $oldPassword = '';
@@ -129,7 +141,7 @@ if ( $http->hasPostVariable( "CancelButton" ) )
         return $Module->redirectTo( $http->postVariable( "RedirectOnCancel" ) );
     }
     include_once( 'kernel/classes/ezredirectmanager.php' );
-    eZRedirectManager::redirectTo( $Module, '/content/view/sitemap/2/' );
+    eZRedirectManager::redirectTo( $Module, $redirectionURI );
     return;
 }
 
