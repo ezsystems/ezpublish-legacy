@@ -153,7 +153,7 @@ function delDir( $dir )
     else
     {
         // For all entires in the dir:
-        while ( $entry = readdir( $currentDir ) )
+        while ( false !== ( $entry = readdir( $currentDir ) ) )
         {
             // If entry is a directory and not . && .. :
             if ( is_dir( "$dir/$entry" ) and
@@ -472,7 +472,7 @@ class eZWebDAVFileServer extends eZWebDAVServer
         $handle = opendir( $directory );
 
         // For all the entries in the directory:
-        while ( $filename = readdir( $handle ) )
+        while ( false !== ( $filename = readdir( $handle ) ) )
         {
             // Skip current and parent dirs ('.' and '..').
             if ( $filename == '.' or $filename == '..' )
