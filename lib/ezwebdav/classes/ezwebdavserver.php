@@ -136,6 +136,7 @@ class eZWebDAVServer
      */
     function eZWebDAVServer()
     {
+        $this->setupXMLOutputCharset();
     }
 
     function setServerRoot( $rootDir )
@@ -421,7 +422,10 @@ class eZWebDAVServer
                                count( $requestedProperties ) .
                                ' properties.', 'outputCollectionContent' );
 
-        $xmlText = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" .
+        $dataCharset = eZWebDAVServer::dataCharset();
+        $xmlCharset = $this->XMLOutputCharset();
+
+        $xmlText = "<?xml version=\"1.0\" encoding=\"$xmlCharset\"?>\n" .
                    "<D:multistatus xmlns:D=\"DAV:\">\n";
 
         // Maps from WebDAV property names to internal names
@@ -451,7 +455,8 @@ class eZWebDAVServer
 
             // The following lines take care of URL encoding special characters
             // for each element (stuff between slashes) in the path.
-            $pathArray = split( '/', $entry['href'] );
+            $href = $entry['href'];
+            $pathArray = split( '/', eZWebDAVServer::recode( "$href", $dataCharset, $xmlCharset ) );
 
             $encodedPath = '/';
 
@@ -498,7 +503,7 @@ class eZWebDAVServer
                     }
                     else
                     {
-                        $xmlText .= "   <D:" . $requestedProperty . ">" . $entry[$name] . "</D:" . $requestedProperty . ">\n";
+                        $xmlText .= "   <D:" . $requestedProperty . ">" . eZWebDAVServer::recode( "$entry[$name]", $dataCharset, $xmlCharset ) . "</D:" . $requestedProperty . ">\n";
                     }
                 }
                 else if ( $requestedProperty != 'resourcetype' or !$isCollection )
@@ -534,7 +539,7 @@ class eZWebDAVServer
         $xmlText .= "</D:multistatus>\n";
         // Send the necessary headers...
         header( 'HTTP/1.1 207 Multi-Status' );
-        header( 'Content-Type: text/xml; charset="utf-8"' );
+        header( 'Content-Type: text/xml' );
 
         // Comment out the next line if you don't
         // want to use chunked transfer encoding.
@@ -961,8 +966,112 @@ class eZWebDAVServer
         return $useLogging;
     }
 
+    /*!
+     Sets charset for outputted xml by 'userAgent'
+    */
+    function setupXMLOutputCharset()
+    {
+        $charset = eZWebDAVServer::dataCharset();
+
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        $pattern = eZWebDAVServer::userAgentPattern();
+        $userAgentSettings = eZWebDAVServer::userAgentSettings();
+
+        if ( preg_match( $pattern, $userAgent, $matches ) && isset( $userAgentSettings[$matches[0]] ) )
+        {
+            $agentSettings = $userAgentSettings[$matches[0]];
+            if ( isset( $agentSettings['xmlCharset'] ) && $agentSettings['xmlCharset'] != '' )
+                $charset = $agentSettings['xmlCharset'];
+        }
+
+        $this->setXMLOutputCharset( $charset );
+    }
+
+    /*!
+     Sets charset for outputted xml.
+    */
+    function setXMLOutputCharset( $charset )
+    {
+        if ( $charset == '' )
+        {
+            $this->appendLogEntry( "Error: unable to set empty charset for outputted xml.", 'setXMLOutputCharset' );
+            return false;
+        }
+
+        $this->XMLOutputCharset = $charset;
+        return true;
+    }
+
+    /*!
+     \return charset for outputted xml
+    */
+    function XMLOutputCharset()
+    {
+        return $this->XMLOutputCharset;
+    }
+
+    /*!
+     \static
+     \return charset of data. It's used as charset for outputted xml if
+     other charset is not specified in 'userAgentSettings'.
+    */
+    function dataCharset()
+    {
+        $ini =& eZINI::instance( 'i18n.ini' );
+        $charset = $ini->variable('CharacterSettings', 'Charset' );
+        return $charset;
+    }
+
+    /*!
+     \static
+     \return pattern for 'preg_match'. The pattern is built from 'userAgentSettings'.
+    */
+    function userAgentPattern()
+    {
+        $pattern = '//';
+
+        $userAgentSettings = eZWebDAVServer::userAgentSettings();
+        if( count( $userAgentSettings ) > 0 )
+        {
+            $pattern = '/';
+
+            foreach( $userAgentSettings as $agent => $settings )
+                $pattern .= $agent . '|';
+
+            $pattern[strlen($pattern)-1] = '/';
+        }
+
+        return $pattern;
+    }
+
+    /*!
+     \static
+     \return a list of different settings for known user-agents.
+    */
+    function userAgentSettings()
+    {
+        return array( 'WebDrive' => array( 'xmlCharset' => 'utf-8' ),
+                      'Microsoft Data Access Internet Publishing Provider' => array( 'xmlCharset' => 'utf-8' )
+                    );
+    }
+
+    /*!
+     \static
+     \return recoded \a $string form \a $fromCharset to \a $toCharset
+    */
+    function recode( $string, $fromCharset, $toCharset, $stop = false )
+    {
+        include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+        $codec = eZTextCodec::instance( $fromCharset, $toCharset, false );
+        if ( $codec )
+            $string = $codec->convertString( $string );
+
+        return $string;
+    }
+
     /// \privatesection
     var $ServerRootDir = "";
     var $XMLBodyRead = false;
+    var $XMLOutputCharset = 'utf-8';
 }
 ?>
