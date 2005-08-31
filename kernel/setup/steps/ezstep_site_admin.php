@@ -115,6 +115,17 @@ class eZStepSiteAdmin extends eZStepInstaller
     */
     function init()
     {
+        $siteTypes = $this->chosenSiteTypes();
+        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
+        {
+            $siteType = $siteTypes[$siteTypeKey];
+            if ( isset( $siteType['existing_database'] ) &&
+                 $siteType['existing_database'] == EZ_SETUP_DB_DATA_KEEP ) // Keep existing data in database, no need to reset admin user.
+            {
+                return true;
+            }
+        }
+
         if ( $this->hasKickstartData() )
         {
             $data = $this->kickstartData();
@@ -147,7 +158,7 @@ class eZStepSiteAdmin extends eZStepInstaller
             $this->PersistenceList['admin'] = $adminUser;
         }
 
-        return false; // Always show site admin
+        return false;
     }
 
     /*!
