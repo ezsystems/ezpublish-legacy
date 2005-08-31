@@ -469,13 +469,19 @@ class eZWebDAVServer
                 }
             }
 
+            $isCollection = $entry['mimetype'] == 'httpd/unix-directory';
+
+            // If this is not a collection, don't leave a trailing '/'
+            // on the href. If you do, Goliath gets confused.
+            if ( !$isCollection )
+                $encodedPath = rtrim($encodedPath, '/');
+
             $xmlText .= "<D:response>\n" .
                  " <D:href>" . $encodedPath ."</D:href>\n" .
                  " <D:propstat>\n" .
                  "  <D:prop>\n";
 
             $unknownProperties = array();
-            $isCollection = $entry['mimetype'] == 'httpd/unix-directory';
 
             foreach ( $requestedProperties as $requestedProperty )
             {
