@@ -151,7 +151,6 @@ class eZHTTPFile
             $dest_name = $dir . "/" . md5( basename( $this->Filename ) . microtime() . mt_rand() ) . $suffixString;
         }
 
-//         eZDebug::writeDebug( $this->Filename );
         if ( !move_uploaded_file( $this->Filename, $dest_name ) )
         {
             eZDebug::writeError( "Failed moving uploaded file " . $this->Filename . " to destination $dest_name" );
@@ -180,8 +179,13 @@ class eZHTTPFile
     */
     function attributes()
     {
-        return array( "original_filename", "filename", "filesize", "is_temporary",
-                      "mime_type", "mime_type_category", "mime_type_part" );
+        return array( "original_filename",
+                      "filename",
+                      "filesize",
+                      "is_temporary",
+                      "mime_type",
+                      "mime_type_category",
+                      "mime_type_part" );
     }
 
     /*!
@@ -213,8 +217,13 @@ class eZHTTPFile
                 return $this->Size;
             case "is_temporary":
                 return $this->IsTemporary;
+            default:
+            {
+                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZHTTPFile::attribute' );
+                $retValue = null;
+                return $retValue;
+            } break;
         };
-        return null;
     }
 
     /*!

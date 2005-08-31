@@ -1415,9 +1415,9 @@ WHERE user_id = '" . $userID . "' AND
         $user_id = $this->attribute( 'contentobject_id' );
         $db =& eZDB::instance();
 
-        $limitationsArray =& $db->arrayQuery( "SELECT limit_identifier, limit_value
-                                               FROM ezuser_role
-                                               WHERE contentobject_id = $user_id" );
+        $limitationsArray = $db->arrayQuery( "SELECT limit_identifier, limit_value
+                                              FROM ezuser_role
+                                              WHERE contentobject_id = $user_id" );
 
         return $limitationsArray;
     }
@@ -1431,9 +1431,9 @@ WHERE user_id = '" . $userID . "' AND
 
         $user_id = $this->attribute( 'contentobject_id' );
         $db =& eZDB::instance();
-        $queryResult =& $db->arrayQuery( "SELECT limit_value
-                                          FROM ezuser_role
-                                          WHERE contentobject_id = $user_id" );
+        $queryResult = $db->arrayQuery( "SELECT limit_value
+                                         FROM ezuser_role
+                                         WHERE contentobject_id = $user_id" );
 
         foreach ( $queryResult as $limitValue )
             $limitValueList[] = $limitValue['limit_value'];

@@ -765,7 +765,8 @@ class eZImageManager
                                        'eZImageManager::factoryFor' );
             }
         }
-        return false;
+        $retValue = false;
+        return $retValue;
     }
 
     /*!

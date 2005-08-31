@@ -132,7 +132,8 @@ class eZImageInterface
             if ( isset( $this->$member ) )
                 return $this->$member;
             eZDebug::writeWarning( 'The member variable $member was not found for attribute $name', 'eZImageInterface::attribute' );
-            return null;
+            $retValue = null;
+            return $retValue;
         }
         $attributeFunctionMap = eZImageInterface::attributeFunctionMap();
         if ( isset( $attributeFunctionMap[$name] ) )
@@ -141,10 +142,12 @@ class eZImageInterface
             if ( method_exists( $this, $function ) )
                 return $this->$function();
             eZDebug::writeWarning( 'The member function $function was not found for attribute $name', 'eZImageInterface::attribute' );
-            return null;
+            $retValue = null;
+            return $retValue;
         }
-        eZDebug::writeWarning( 'Unknown attribute $name', 'eZImageInterface::attribute' );
-        return null;
+        eZDebug::writeError( "Attribute '$name' does not exist", 'eZImageInterface::attribute' );
+        $retValue = null;
+        return $retValue;
     }
 
     /*!
@@ -161,7 +164,8 @@ class eZImageInterface
     */
     function &hasSize()
     {
-        return $this->Width !== false and $this->Height !== false;
+        $hasSize = ( $this->Width !== false and $this->Height !== false );
+        return $hasSize;
     }
 
     /*!
@@ -169,7 +173,8 @@ class eZImageInterface
     */
     function &imagePath()
     {
-        return $this->StoredPath . '/' . $this->StoredFile;
+        $imagePath = $this->StoredPath . '/' . $this->StoredFile;
+        return $imagePath;
     }
 
     /*!

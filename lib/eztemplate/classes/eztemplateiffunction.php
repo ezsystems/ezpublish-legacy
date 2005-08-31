@@ -70,7 +70,8 @@ class eZTemplateIfFunction
     function &functionList()
     {
         //eZDebug::writeDebug( "if::functionList()" );
-        return array( EZ_TEMPLATE_IF_FUNCTION_NAME );
+        $functionList = array( EZ_TEMPLATE_IF_FUNCTION_NAME );
+        return $functionList;
     }
 
     /*!

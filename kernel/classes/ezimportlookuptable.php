@@ -121,13 +121,13 @@ class eZImportLookupTable
     {
         if ( $forceNewInstance === true )
         {
-            $GLOBALS['eZImportLookupTable'] =& new eZImportLookupTable();
+            $GLOBALS['eZImportLookupTable'] = new eZImportLookupTable();
         }
 
         $object =& $GLOBALS['eZImportLookupTable'];
         if ( !$object )
         {
-            $GLOBALS['eZImportLookupTable'] =& new eZImportLookupTable();
+            $GLOBALS['eZImportLookupTable'] = new eZImportLookupTable();
             $object =& $GLOBALS['eZImportLookupTable'];
         }
 

@@ -355,7 +355,7 @@ class eZContentClass extends eZPersistentObject
                 // needs to be optimized
                 $db = eZDb::instance();
                 $classString = implode( ',', $classIDArray );
-                $classList =& $db->arrayQuery( "select id, name from ezcontentclass where id in ( $classString  )  and version = " . EZ_CLASS_VERSION_STATUS_DEFINED );
+                $classList = $db->arrayQuery( "select id, name from ezcontentclass where id in ( $classString  )  and version = " . EZ_CLASS_VERSION_STATUS_DEFINED );
             }
 
         }
@@ -595,7 +595,7 @@ class eZContentClass extends eZPersistentObject
         $db      =& eZDB::instance();
 
         // Check top-level nodes
-        $rows =& $db->arrayQuery( "SELECT ezcot.node_id
+        $rows = $db->arrayQuery( "SELECT ezcot.node_id
 FROM ezcontentobject_tree ezcot, ezcontentobject ezco
 WHERE ezcot.depth = 1 AND
       ezco.contentclass_id = $this->ID AND

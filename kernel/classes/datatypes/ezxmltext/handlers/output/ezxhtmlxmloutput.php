@@ -62,6 +62,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     */
     function &xhtml()
     {
+        $output = "";
         $tpl =& templateInit();
         $xml = new eZXML();
         $res =& eZTemplateDesignResource::instance();
@@ -176,7 +177,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             }
 
             $sectionNode =& $domNode[0];
-            $output = "";
             if ( get_class( $sectionNode ) == "ezdomnode" )
             {
                 $output =& $this->renderXHTMLSection( $tpl, $sectionNode, 0 );

@@ -499,16 +499,16 @@ class eZPostgreSQLDB extends eZDBInterface
 
     /*!
      \reimp
-     The query to start the transaction. 
+     The query to start the transaction.
     */
     function beginQuery()
     {
         return $this->query("BEGIN WORK");
     }
-    
+
     /*!
      \reimp
-     The query to commit the transaction. 
+     The query to commit the transaction.
     */
     function commitQuery()
     {
@@ -517,7 +517,7 @@ class eZPostgreSQLDB extends eZDBInterface
 
     /*!
      \reimp
-     The query to cancel the transaction. 
+     The query to cancel the transaction.
     */
     function rollbackQuery()
     {
@@ -574,7 +574,8 @@ class eZPostgreSQLDB extends eZDBInterface
     function &escapeString( $str )
     {
         $str = str_replace("\0", '', $str);
-        return pg_escape_string( $str );
+        $str = pg_escape_string( $str );
+        return $strl;
     }
 
     /*!

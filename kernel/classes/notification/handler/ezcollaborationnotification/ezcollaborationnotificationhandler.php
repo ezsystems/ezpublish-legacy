@@ -64,13 +64,16 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         $this->eZNotificationEventHandler( EZ_COLLABORATION_NOTIFICATION_HANDLER_ID, "Collaboration Handler" );
     }
 
+    function attributes()
+    {
+        return array_merge( array( 'collaboration_handlers',
+                                   'collaboration_selections' ),
+                            eZNotificationEventHandler::attributes() );
+    }
 
     function hasAttribute( $attr )
     {
-        if ( $attr == 'collaboration_handlers' or
-             $attr == 'collaboration_selections' )
-            return true;
-        return eZNotificationEventHandler::hasAttribute( $attr );
+        return in_array( $attr, $this->attributes() );
     }
 
     function &attribute( $attr )
@@ -158,6 +161,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         }
     }
 
+    /*
     function &subscribedNodes( $user = false )
     {
         if ( $user === false )
@@ -169,6 +173,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         $nodeList =& eZCollaborationNotificationRule::fetchNodesForAddress( $email );
         return $nodeList;
     }
+    */
 
     function &rules( $user = false )
     {

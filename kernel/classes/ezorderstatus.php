@@ -113,8 +113,8 @@ class eZOrderStatus extends eZPersistentObject
                                                                'datatype' => 'bool',
                                                                'default' => true,
                                                                'required' => true ) ),
-                      'function_attributes' => array( 'is_internal' => 'isInternal' ),
                       "keys" => array( "id" ),
+                      'function_attributes' => array( 'is_internal' => 'isInternal' ),
                       "increment_key" => "id",
                       "class_name" => "eZOrderStatus",
                       "name" => "ezorder_status" );
@@ -123,9 +123,10 @@ class eZOrderStatus extends eZPersistentObject
     /*!
      \return \c true if the status is considered an internal status.
     */
-    function isInternal()
+    function &isInternal()
     {
-        return $this->StatusID < EZ_ORDER_STATUS_CUSTOM;
+        $isInternal = $this->StatusID < EZ_ORDER_STATUS_CUSTOM;
+        return $isInternal;
     }
 
     /*!

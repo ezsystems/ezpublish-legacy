@@ -78,26 +78,12 @@ class eZWishList extends eZPersistentObject
                                                                           'default' => 0,
                                                                           'required' => true ) ),
                       "keys" => array( "id" ),
+                      'function_attributes' => array( 'items' => 'items' ),
                       "increment_key" => "id",
                       "class_name" => "eZWishList",
                       "name" => "ezwishlist" );
     }
 
-    function &attribute( $attr )
-    {
-        if ( $attr == "items" )
-            return $this->items();
-        else
-            return eZPersistentObject::attribute( $attr );
-    }
-
-    function hasAttribute( $attr )
-    {
-        if ( $attr == "items" )
-            return true;
-        else
-            return eZPersistentObject::hasAttribute( $attr );
-    }
 
     function discountPercent()
     {
@@ -179,7 +165,7 @@ class eZWishList extends eZPersistentObject
 
                 $totalPriceExVAT = $count * $priceExVAT  * ( 100 - $discountPercent ) / 100;
                 $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
-                
+
                 $addedProduct = array( "id" => $id,
                                        "vat_value" => $vatValue,
                                        "item_count" => $count,

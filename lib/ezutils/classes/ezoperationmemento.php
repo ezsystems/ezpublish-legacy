@@ -85,26 +85,6 @@ class eZOperationMemento extends eZPersistentObject
                       'name' => 'ezoperation_memento' );
     }
 
-
-    function hasAttribute( $attr )
-    {
-        return ( $attr == 'main_memento' or
-                 eZPersistentObject::hasAttribute( $attr ) );
-    }
-
-    function &attribute( $attr )
-    {
-        switch( $attr )
-        {
-            case 'main_memento':
-            {
-                return $this->mainMemento();
-            } break;
-            default:
-                return eZPersistentObject::attribute( $attr );
-        }
-    }
-
     function &mainMemento()
     {
         if ( !isset( $this->MainMemento ) )
@@ -121,10 +101,11 @@ class eZOperationMemento extends eZPersistentObject
             $mementoKey = eZOperationMemento::createKey( $mementoKey );
         }
 
-        return eZPersistentObject::fetchObject( eZOperationMemento::definition(),
-                                                null,
-                                                array( 'memento_key' => $mementoKey ),
-                                                $asObject );
+        $object =& eZPersistentObject::fetchObject( eZOperationMemento::definition(),
+                                                    null,
+                                                    array( 'memento_key' => $mementoKey ),
+                                                    $asObject );
+        return $object;
     }
 
     function &fetchChild( $mementoKey, $asObject = true )
@@ -134,11 +115,12 @@ class eZOperationMemento extends eZPersistentObject
             $mementoKey = eZOperationMemento::createKey( $mementoKey );
         }
 
-        return eZPersistentObject::fetchObject( eZOperationMemento::definition(),
-                                                null,
-                                                array( 'memento_key' => $mementoKey,
-                                                       'main' => 0 ),
-                                                $asObject );
+        $object =& eZPersistentObject::fetchObject( eZOperationMemento::definition(),
+                                                    null,
+                                                    array( 'memento_key' => $mementoKey,
+                                                           'main' => 0 ),
+                                                    $asObject );
+        return $object;
     }
 
     function &fetchMain( $mementoKey, $asObject = true )

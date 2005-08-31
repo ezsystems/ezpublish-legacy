@@ -530,7 +530,10 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         if ( $msg !== null )
             return $msg["translation"];
         else
-            return null;
+        {
+            $translation = null;
+            return $translation;
+        }
     }
 
     /*!
@@ -542,8 +545,10 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         if ( $msg !== null )
             return $msg["translation"];
         else
-//             eZDebug::writeWarning( "abc" );
-            return null;
+        {
+            $translation = null;
+            return $translation;
+        }
     }
 
     /*!

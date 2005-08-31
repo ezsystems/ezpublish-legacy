@@ -293,12 +293,12 @@ class eZContentClassAttribute extends eZPersistentObject
     function &fetch( $id, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $field_filters = null )
     {
         $object = null;
-        if ( $field_filters === null and $asObject )
+        if ( $field_filters === null and $asObject and
+             isset( $GLOBALS['eZContentClassAttributeCache'][$id][$version] ) )
         {
             $object =& $GLOBALS['eZContentClassAttributeCache'][$id][$version];
         }
-        if ( !isset( $object ) or
-             $object === null )
+        if ( $object === null )
         {
             $object = eZPersistentObject::fetchObject( eZContentClassAttribute::definition(),
                                                        $field_filters,
@@ -379,7 +379,7 @@ class eZContentClassAttribute extends eZPersistentObject
 
     function &fetchFilteredList( $cond, $asObject = true )
     {
-        $objectList = eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
+        $objectList =& eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
                                                             null, $cond, null, null,
                                                             $asObject );
         foreach ( array_keys( $objectList ) as $objectKey )
@@ -399,7 +399,7 @@ class eZContentClassAttribute extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &move( $down, $params = null )
+    function move( $down, $params = null )
     {
         if ( is_array( $params ) )
         {
@@ -413,11 +413,11 @@ class eZContentClassAttribute extends eZPersistentObject
             $cid = $this->ContentClassID;
             $version = $this->Version;
         }
-        return eZPersistentObject::reorderObject( eZContentClassAttribute::definition(),
-                                                  array( 'placement' => $pos ),
-                                                  array( 'contentclass_id' => $cid,
-                                                         'version' => $version ),
-                                                  $down );
+        eZPersistentObject::reorderObject( eZContentClassAttribute::definition(),
+                                           array( 'placement' => $pos ),
+                                           array( 'contentclass_id' => $cid,
+                                                  'version' => $version ),
+                                           $down );
     }
 
     function &dataType()

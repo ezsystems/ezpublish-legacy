@@ -44,6 +44,8 @@
 
 */
 
+include_once( 'kernel/classes/ezpersistentobject.php' );
+
 define( 'EZ_DIGEST_SETTINGS_TYPE_NONE', 0 );
 define( 'EZ_DIGEST_SETTINGS_TYPE_WEEKLY', 1 );
 define( 'EZ_DIGEST_SETTINGS_TYPE_MONTHLY', 2 );
@@ -86,12 +88,12 @@ class eZGeneralDigestUserSettings extends eZPersistentObject
                                                           'default' => '',
                                                           'required' => true ) ),
                       "keys" => array( "id" ),
-                      "function_attributes" => array( 'node' ),
                       "increment_key" => "id",
                       "sort" => array( "id" => "asc" ),
                       "class_name" => "eZGeneralDigestUserSettings",
                       "name" => "ezgeneral_digest_user_settings" );
     }
+
 
     function create( $address, $receiveDigest = 0, $digestType = EZ_DIGEST_SETTINGS_TYPE_NONE, $day = '', $time = '' )
     {

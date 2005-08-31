@@ -220,7 +220,7 @@ class eZBooleanType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( 'data_int3' );
         $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-value',

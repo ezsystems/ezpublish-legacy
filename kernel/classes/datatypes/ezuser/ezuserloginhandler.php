@@ -150,6 +150,9 @@ class eZUserLoginHandler
                 }
             }
         }
+        // if no one appropriate instance was found
+        $impl = null;
+        return $impl;
     }
 
     /*!

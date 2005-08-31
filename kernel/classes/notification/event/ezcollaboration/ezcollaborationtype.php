@@ -45,6 +45,7 @@
 */
 define( 'EZ_NOTIFICATIONTYPESTRING_COLLABORATION', 'ezcollaboration' );
 
+include_once( 'kernel/classes/notification/eznotificationeventtype.php' );
 include_once( 'kernel/classes/ezcollaborationitem.php' );
 
 class eZCollaborationEventType extends eZNotificationEventType
@@ -64,11 +65,16 @@ class eZCollaborationEventType extends eZNotificationEventType
         $event->setAttribute( 'data_text1', $params['collaboration_identifier'] );
     }
 
+    function attributes()
+    {
+        return array_merge( array( 'collaboration_identifier',
+                                   'collaboration_id' ),
+                            eZNotificationEventType::attributes() );
+    }
+
     function hasAttribute( $attributeName )
     {
-        return ( $attributeName == 'collaboration_identifier' or
-                 $attributeName == 'collaboration_id' or
-                 eZNotificationEventType::hasAttribute( $attributeName ) );
+        return in_array( $attributeName, $this->attributes() );
     }
 
     function &attribute( $attributeName )

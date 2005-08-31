@@ -105,50 +105,6 @@ class eZContentBrowseBookmark extends eZPersistentObject
     }
 
     /*!
-     \reimp
-    */
-    function attributes()
-    {
-        return eZPersistentObject::attributes();
-    }
-
-    /*!
-     \reimp
-    */
-    function hasAttribute( $attributeName )
-    {
-        if ( $attributeName == 'node' or
-             $attributeName == 'contentobject_id' )
-        {
-            return true;
-        }
-        else if ( $attributeName == 'contentobject_id' )
-        {
-            return $this->contentObjectID();
-        }
-        else
-            return eZPersistentObject::hasAttribute( $attributeName );
-    }
-
-    /*!
-     \reimp
-    */
-    function &attribute( $attributeName )
-    {
-        if ( $attributeName == 'node' )
-        {
-            $node =& $this->fetchNode();
-            return $node;
-        }
-        else
-        {
-            $attributeValue =& eZPersistentObject::attribute( $attributeName );
-            return $attributeValue;
-        }
-    }
-
-
-    /*!
      \static
      \return the bookmark item \a $bookmarkID.
     */
@@ -209,8 +165,10 @@ class eZContentBrowseBookmark extends eZPersistentObject
     {
         $node =& $this->fetchNode();
         if ( $node )
-            return $node->attribute( 'contentobject_id' );
-        return null;
+            $retValue = $node->attribute( 'contentobject_id' );
+        else
+            $retValue = false;
+        return $retValue;
     }
 
     /*!

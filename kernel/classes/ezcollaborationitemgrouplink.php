@@ -93,6 +93,9 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
                                                               'default' => 0,
                                                               'required' => true ) ),
                       'keys' => array( 'collaboration_id', 'group_id', 'user_id' ),
+                      'function_attributes' => array( 'user' => 'user',
+                                                      'collaboration_item' => 'collaborationItem',
+                                                      'collaboration_group' => 'collaborationGroup' ),
                       'class_name' => 'eZCollaborationItemGroupLink',
                       'sort' => array( 'modified' => 'asc' ),
                       'name' => 'ezcollab_item_group_link' );
@@ -151,37 +154,42 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
                                                     $asObject );
     }
 
-    function hasAttribute( $attr )
+    function &user()
     {
-        return ( $attr == 'collaboration_item' or
-                 $attr == 'collaboration_group' or
-                 $attr == 'user' or
-                 eZPersistentObject::hasAttribute( $attr ) );
+        if ( isset( $this->UserID ) and $this->UserID )
+        {
+            include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            $user =& eZUser::fetch( $this->UserID );
+        }
+        else
+            $user = null;
+        return $user;
     }
 
-    function &attribute( $attr )
+    function &collaborationItem()
     {
-        switch( $attr )
+        if ( isset( $this->CollaborationID ) and $this->CollaborationID )
         {
-            case 'user':
-            {
-                include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-                return eZUser::fetch( $this->UserID );
-            } break;
-            case 'collaboration_item':
-            {
-                include_once( 'kernel/classes/ezcollaborationitem.php' );
-                return eZCollaborationItem::fetch( $this->CollaborationID, $this->UserID );
-            } break;
-            case 'collaboration_group':
-            {
-                include_once( 'kernel/classes/ezcollaborationitem.php' );
-                return eZCollaborationGroup::fetch( $this->GroupID, $this->UserID );
-            } break;
-            default:
-                return eZPersistentObject::attribute( $attr );
+            include_once( 'kernel/classes/ezcollaborationitem.php' );
+            $item =& eZCollaborationItem::fetch( $this->CollaborationID, $this->UserID );
         }
+        else
+            $item = null;
+        return $item;
     }
+
+    function &collaborationGroup()
+    {
+        if ( isset( $this->GroupID ) and $this->GroupID )
+        {
+            include_once( 'kernel/classes/ezcollaborationitem.php' );
+            $group =& eZCollaborationGroup::fetch( $this->GroupID, $this->UserID );
+        }
+        else
+            $group = null;
+        return $group;
+    }
+
 
     /// \privatesection
     var $CollaborationID;

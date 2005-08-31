@@ -72,21 +72,10 @@ class eZPolicyLimitationValue extends eZPersistentObject
                                                            'default' => 0,
                                                            'required' => true ) ),
                       "keys" => array( "id" ),
-                      "function_attributes" => array(),
                       "increment_key" => "id",
                       "sort" => array( "value" => "asc" ),
                       "class_name" => "eZPolicyLimitationValue",
                       "name" => "ezpolicy_limitation_value" );
-    }
-
-    function attributes()
-    {
-        return eZPersistentObject::attributes();
-    }
-
-    function &attribute( $attr )
-    {
-        return eZPersistentObject::attribute( $attr );
     }
 
 

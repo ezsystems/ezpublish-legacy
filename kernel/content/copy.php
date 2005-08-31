@@ -74,7 +74,7 @@ $contentINI =& eZINI::instance( 'content.ini' );
 /*!
  Copy the specified object to a given node
 */
-function &copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
+function copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
 {
     if ( !$newParentNodeID )
         return $Module->redirectToView( 'view', array( 'full', 2 ) );

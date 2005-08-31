@@ -334,12 +334,13 @@ TODO: add encoding checks with schema validation.
             $start = strpos( $data, "<E:Envelope" );
             $missingxml = true;
         }
-        $data =& substr( $data, $start, strlen( $data ) - $start );
+        $data = substr( $data, $start, strlen( $data ) - $start );
 
         if ( $missingxml == true )
-            return '<?xml version="1.0"?>' . $data;
-        else
-            return $data;
+        {
+            $data = '<?xml version="1.0"?>' . $data;
+        }
+        return $data;
     }
 
     /*!

@@ -111,7 +111,10 @@ class eZShuffleTranslator extends eZTranslatorHandler
         if ( $msg !== null )
             return $msg["translation"];
         else
-            return null;
+        {
+            $translation = null;
+            return $translation;
+        }
     }
 
     /// \privatesection

@@ -340,7 +340,8 @@ class eZTextCodec
     */
     function &convertNoneToUnicode( $str )
     {
-        return array();
+        $tmp = array();
+        return $tmp;
     }
 
     function &convertCodepageToUnicode( $str )

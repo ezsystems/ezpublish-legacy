@@ -126,26 +126,15 @@ class eZURLAlias extends eZPersistentObject
     }
 
     /*!
-     \reimp
-    */
-    function &attribute( $attributeName )
-    {
-        if ( $attributeName == "forward_url" )
-            return $this->forwardURL();
-        else
-            return eZPersistentObject::attribute( $attributeName );
-    }
-
-    /*!
      \return the URL alias object this URL alias points to or \c null if no such URL exists.
     */
     function &forwardURL()
     {
         $url = null;
         if ( $this->attribute( 'forward_to_id' ) != 0 )
-        {
             $url =& eZURLAlias::fetch( $this->attribute( 'forward_to_id' ) );
-        }
+        else
+            $url = null;
         return $url;
     }
 
@@ -641,7 +630,10 @@ WHERE
             }
         }
         if ( !$hasCache )
-            return false;
+        {
+            $return = false;
+            return $return;
+        }
 
         if ( get_class( $uri ) == "ezuri" )
         {

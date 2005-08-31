@@ -72,7 +72,8 @@ class eZTranslatorGroup extends eZTranslatorHandler
             $handler =& $this->Handlers[$num];
             return $handler->findKey( $key );
         }
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     /*!
@@ -91,7 +92,8 @@ class eZTranslatorGroup extends eZTranslatorHandler
             $handler =& $this->Handlers[$num];
             return $handler->findMessage( $context, $source, $comment );
         }
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     /*!
@@ -108,7 +110,8 @@ class eZTranslatorGroup extends eZTranslatorHandler
             $handler =& $this->Handlers[$num];
             return $handler->translate( $context, $source, $comment );
         }
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     /*!
@@ -125,7 +128,8 @@ class eZTranslatorGroup extends eZTranslatorHandler
             $handler =& $this->Handlers[$num];
             return $handler->keyTranslate( $key );
         }
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     /*!

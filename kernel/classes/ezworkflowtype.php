@@ -115,8 +115,9 @@ class eZWorkflowType
         {
             $result = eZWorkflowType::loadAndRegisterType( $typeString );
             if ( $result === false )
-                return null;
+                return $def;
         }
+
         if ( isset( $types[$typeString] ) )
         {
             $type_def =& $types[$typeString];
@@ -125,7 +126,6 @@ class eZWorkflowType
             $def =& $GLOBALS["eZWorkflowTypeObjects"][$typeString];
             if ( get_class( $def ) != $class_name )
             {
-//                 eZDebugSetting::writeDebug( 'workflow-type', "Created type: $typeString", "eZWorkflowType::createType" );
                 if ( class_exists( $class_name ) )
                     $def = new $class_name();
                 else
@@ -249,16 +249,16 @@ class eZWorkflowType
     }
 
 
-    function &attributes()
+    function attributes()
     {
-        return array_merge( array_keys( $this->Attributes ), "description" );
+        return array_merge( array( 'description',
+                                   'allowed_triggers' ),
+                            array_keys( $this->Attributes ) );
     }
 
     function hasAttribute( $attr )
     {
-        return ( $attr == "description" or
-                 $attr == 'allowed_triggers' or
-                 isset( $this->Attributes[$attr] ) );
+        return in_array( $attr, $this->attributes() );
     }
 
     function &attribute( $attr )
@@ -281,7 +281,9 @@ class eZWorkflowType
                     return $this->Attributes[$attr];
             } break;
         }
-        return null;
+        eZDebug::writeError( "Attribute '$attr' does not exist", 'eZWorkflowType::attribute' );
+        $retValue = null;
+        return $retValue;
     }
 
     function setAttribute( $attr, $value )

@@ -34,7 +34,8 @@ if ( !class_exists( 'NestedTestContentClass' ) )
                 return $this->Identifier;
             else if ( $name == 'id' )
                 return $this->ID;
-            return null;
+            $retValue = null;
+            return $retValue;
         }
     }
 }
@@ -85,7 +86,8 @@ if ( !class_exists( 'NestedTestContentObject' ) )
                 return $this->Class->Identifier;
             else if ( $name == 'id' )
                 return $this->ID;
-            return null;
+            $retValue = null;
+            return $retValue;
         }
     }
 }
@@ -127,7 +129,8 @@ if ( !class_exists( 'NestedTestContentObjectTreeNode' ) )
             }
             else if ( $name == 'node_id' )
                 return $this->ID;
-            return null;
+            $retValue = null;
+            return $retValue;
         }
 
         function addChild( &$node )
@@ -184,7 +187,8 @@ if ( !class_exists( 'NestedTestContentObjectAttribute' ) )
                 return $this->DataText;
             else if ( $name == 'data_int' )
                 return $this->DataInt;
-            return null;
+            $retValue = null;
+            return $retValue;
         }
     }
 }
@@ -235,6 +239,7 @@ if ( !class_exists( 'NestedTestContentClassAttribute' ) )
 //             return $this->DataText;
 //         else if ( $name == 'data_int' )
 //             return $this->DataInt;
+            $retValue = null;
             return null;
         }
     }

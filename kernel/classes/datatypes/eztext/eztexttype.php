@@ -242,7 +242,7 @@ class eZTextType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $textColumns = $classAttribute->attribute( EZ_DATATYPESTRING_TEXT_COLS_FIELD );
         $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'text-column-count', $textColumns ) );

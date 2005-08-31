@@ -560,7 +560,7 @@ class eZBinaryFileType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $maxSize = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_BINARY_FILESIZE_FIELD );
         $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'max-size', $maxSize,

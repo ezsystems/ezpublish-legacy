@@ -146,7 +146,8 @@ class eZSOAPClient
                 if ( !fputs( $fp, $HTTPRequest, strlen( $HTTPRequest ) ) )
                 {
                     $this->ErrorString = "<b>Error:</b> could not send the SOAP request. Could not write to the socket.";
-                    return 0;
+                    $response = 0;
+                    return $response;
                 }
             }
 
@@ -202,7 +203,8 @@ class eZSOAPClient
                     if ( !$rawResponse )
                     {
                         $this->ErrorString = "<b>Error:</b> could not send the XML-SOAP with SSL call. Could not write to the socket.";
-                        return 0;
+                        $response = 0;
+                        return $response;
                     }
                 }
 

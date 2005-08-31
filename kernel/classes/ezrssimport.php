@@ -126,6 +126,10 @@ class eZRSSImport extends eZPersistentObject
                                                             'default' => 1,
                                                             'required' => true ) ),
                       "keys" => array( "id", 'status' ),
+                      'function_attributes' => array( 'class_attributes' => 'classAttributes',
+                                                      'destination_path' => 'destinationPath',
+                                                      'modifier' => 'modifier',
+                                                      'object_owner' => 'objectOwner' ),
                       "increment_key" => "id",
                       "class_name" => "eZRSSImport",
                       "name" => "ezrss_import" );
@@ -221,88 +225,70 @@ class eZRSSImport extends eZPersistentObject
     }
 
 
-    /*!
-     \reimp
-    */
-    function attributes()
+    function &objectOwner()
     {
-        return array_merge( eZPersistentObject::attributes(),
-                            array( 'class_attributes', 'destination_path', 'modifier', 'object_owner' ) );
-    }
-
-    /*!
-     \reimp
-    */
-    function hasAttribute( $attr )
-    {
-        return ( $attr == 'class_attributes' or $attr == 'destination_path' or
-                 $attr == 'modifier' or $attr == 'object_owner' or
-                 eZPersistentObject::hasAttribute( $attr ) );
-    }
-
-    /*!
-     \reimp
-    */
-    function &attribute( $attr )
-    {
-        switch( $attr )
+        if ( isset( $this->ObjectOwnerID ) and $this->ObjectOwnerID )
         {
-            case 'object_owner':
-            {
-                include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-                $user = eZUser::fetch( $this->ObjectOwnerID );
-                return $user;
-            } break;
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $user =& eZUser::fetch( $this->ObjectOwnerID );
+        }
+        else
+            $user = null;
+        return $user;
+    }
 
-            case 'modifier':
-            {
-                include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-                $user = eZUser::fetch( $this->ModifierID );
-                return $user;
-            } break;
+    function &modifier()
+    {
+        if ( isset( $this->ModifierID ) and $this->ModifierID )
+        {
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $user =& eZUser::fetch( $this->ModifierID );
+        }
+        else
+            $user = null;
+        return $user;
+    }
 
-            case 'class_attributes':
-            {
-                if ( $this->ClassID == 0 )
-                    return null;
-                include_once( 'kernel/classes/ezcontentclass.php' );
-                $contentClass =& eZContentClass::fetch( $this->ClassID );
+    function &classAttributes()
+    {
+        if ( isset( $this->ClassID ) and $this->ClassID )
+        {
+            include_once( 'kernel/classes/ezcontentclass.php' );
+            $contentClass =& eZContentClass::fetch( $this->ClassID );
+            if ( $contentClass )
                 $attributes =& $contentClass->fetchAttributes();
-                return $attributes;
-            } break;
+            else
+                $attributes = null;
+        }
+        else
+            $attributes = null;
+        return $attributes;
+    }
 
-            case 'destination_path':
+    function &destinationPath()
+    {
+        if ( isset( $this->DestinationNodeID ) and $this->DestinationNodeID )
+        {
+            include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+            $objectNode =& eZContentObjectTreeNode::fetch( $this->DestinationNodeID );
+            if ( isset( $objectNode ) )
             {
-                include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-                $objectNode =& eZContentObjectTreeNode::fetch( $this->DestinationNodeID );
-                if ( !isset( $objectNode ) )
-                {
-                    $returnValue = null;
-                    return $returnValue;
-                }
                 $path_array =& $objectNode->attribute( 'path_array' );
                 for ( $i = 0; $i < count( $path_array ); $i++ )
                 {
                     $treenode = eZContentObjectTreeNode::fetch( $path_array[$i] );
                     if( $i == 0 )
-                        $return = $treenode->attribute( 'name' );
+                        $retValue = $treenode->attribute( 'name' );
                     else
-                        $return .= '/'.$treenode->attribute( 'name' );
+                        $retValue .= '/'.$treenode->attribute( 'name' );
                 }
-                return $return;
-            } break;
-
-            case 'modifier':
-            {
-                include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-                return eZUser::fetch( $this->ModifierID );
-            } break;
-
-            default:
-                return eZPersistentObject::attribute( $attr );
+            }
+            else
+                $retValue = null;
         }
-
-        return null;
+        else
+            $retValue = null;
+        return $retValue;
     }
 
 }

@@ -139,25 +139,26 @@ class eZModuleFunctionInfo
     function &preExecute( $functionName )
     {
         /* Code copied from this->execute() */
+        $Return = false;
         $moduleName = $this->ModuleName;
         if ( !isset( $this->FunctionList[$functionName] ) )
         {
             eZDebug::writeError( "No such function '$functionName' in module '$moduleName'",
                                  'eZModuleFunctionInfo::execute' );
-            return false;
+            return $Return;
         }
         $functionDefinition =& $this->FunctionList[$functionName];
         if ( !isset( $functionName['call_method'] ) )
         {
             eZDebug::writeError( "No call method defined for function '$functionName' in module '$moduleName'",
                                  'eZModuleFunctionInfo::execute' );
-            return false;
+            return $Return;
         }
         if ( !isset( $functionName['parameters'] ) )
         {
             eZDebug::writeError( "No parameters defined for function '$functionName' in module '$moduleName'",
                                  'eZModuleFunctionInfo::execute' );
-            return false;
+            return $Return;
         }
         $callMethod =& $functionDefinition['call_method'];
         if ( isset( $callMethod['include_file'] ) and
@@ -177,21 +178,21 @@ class eZModuleFunctionInfo
             include_once( $callMethod['include_file'] );
             if ( !class_exists( $callMethod['class'] ) )
             {
-                return false;
+                return $Return;
             }
             $classObject =& $this->objectForClass( $callMethod['class'] );
             if ( $classObject === null )
             {
-                return false;
+                return $Return;
             }
             if ( !method_exists( $classObject, $callMethod['method'] ) )
             {
-                return false;
+                return $Return;
             }
 
             return $functionDefinition;
         }
-        return false;
+        return $Return;
     }
 
     function execute( $functionName, $functionParameters )

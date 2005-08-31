@@ -233,7 +233,7 @@ class eZDataType
     /*!
      \return the attributes for this datatype.
     */
-    function &attributes()
+    function attributes()
     {
         return array_keys( $this->Attributes );
     }
@@ -252,12 +252,13 @@ class eZDataType
     function &attribute( $attr )
     {
         if ( isset( $this->Attributes[$attr] ) )
+            return $this->Attributes[$attr];
+        else
         {
-            $attributeData =& $this->Attributes[$attr];
+            eZDebug::writeError( "Attribute '$attr' does not exist", 'eZDataType::attribute' );
+            $attributeData = null;
             return $attributeData;
         }
-        else
-            return null;
     }
 
     /*!
@@ -597,7 +598,8 @@ class eZDataType
     */
     function &objectAttributeContent( &$objectAttribute )
     {
-        return "";
+        $retValue = '';
+        return $retValue;
     }
 
     /*!
@@ -613,8 +615,8 @@ class eZDataType
     */
     function &classAttributeContent( &$classAttribute )
     {
-        $value = '';
-        return $value;
+        $retValue = '';
+        return $retValue;
     }
 
     /*!
@@ -992,9 +994,9 @@ class eZDataType
       be returned to enable searching in specific parts of the data. E.g. array( 'first_column' => "foo",
      'second_column' => "bar" );
     */
-    function &metaData()
+    function metaData()
     {
-        return "";
+        return '';
     }
 
     /*!
@@ -1019,7 +1021,7 @@ class eZDataType
      \note The default is to add unsupported='true' to the attribute node,
            meaning that the datatype does not support serializing.
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         if ( !$this->Attributes['properties']['serialize_supported'] )
             $attributeNode->appendAttribute( eZDOMDocument::createAttributeNode( 'unsupported', 'true' ) );

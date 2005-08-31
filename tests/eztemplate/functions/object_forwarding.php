@@ -35,7 +35,8 @@ if ( !class_exists( 'TestContentClass' ) )
                 return $this->Identifier;
             else if ( $name == 'id' )
                 return $this->ID;
-            return null;
+            $retValue = null;
+            return $retValue;
         }
     }
 }
@@ -81,7 +82,8 @@ if ( !class_exists( 'TestContentObject' ) )
                 return $this->Class->Identifier;
             else if ( $name == 'id' )
                 return $this->ID;
-            return null;
+            $retValue = null;
+            return $retValue;
         }
     }
 }
@@ -123,7 +125,8 @@ if ( !class_exists( 'TestContentObjectTreeNode' ) )
             }
             else if ( $name == 'node_id' )
                 return $this->ID;
-            return null;
+            $retValue = null;
+            return $retValue;
         }
 
         function addChild( &$node )
@@ -160,7 +163,6 @@ if ( !class_exists( 'TestContentObjectAttribute' ) )
             return in_array( $name, array( 'edit_template', 'view_template',
                                            'name', 'contentclass_attribute',
                                            'data_type_string', 'is_information_collector',
-                                           'section_id', 'contentclass_id', 'class_identifier',
                                            'id', 'data_text', 'data_int' ) );
         }
 
@@ -188,7 +190,8 @@ if ( !class_exists( 'TestContentObjectAttribute' ) )
                 return $this->DataText;
             else if ( $name == 'data_int' )
                 return $this->DataInt;
-            return null;
+            $retValue = null;
+            return $retValue;
         }
     }
 }
@@ -239,7 +242,8 @@ if ( !class_exists( 'TestContentClassAttribute' ) )
 //             return $this->DataText;
 //         else if ( $name == 'data_int' )
 //             return $this->DataInt;
-            return null;
+            $retValue = null;
+            return $retValue;
         }
     }
 }

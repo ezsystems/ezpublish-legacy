@@ -67,11 +67,6 @@ class eZOption
         $this->OptionCount = 0;
     }
 
-    function attributes()
-    {
-        return array( 'name', 'option_list' );
-    }
-
     /*!
      Sets the name of the option
     */
@@ -122,15 +117,16 @@ class eZOption
         }
         $this->OptionCount -= $shiftvalue;
     }
+
+    function attributes()
+    {
+        return array( 'name',
+                      'option_list' );
+    }
+
     function hasAttribute( $name )
     {
-        if ( $name == "name" )
-            return true;
-        else
-            if ( $name == "option_list" )
-                return true;
-            else
-                return false;
+        return in_array( $name, $this->attributes() );
     }
 
     function &attribute( $name )
@@ -144,6 +140,12 @@ class eZOption
             case "option_list" :
             {
                 return $this->Options;
+            }break;
+            default:
+            {
+                eZDebug::writeError( "Attribute '$name' does not exist", 'eZOption::attribute' );
+                $retValue = null;
+                return $retValue;
             }break;
         }
     }

@@ -66,7 +66,8 @@ class eZTemplateWhileFunction
      */
     function &functionList()
     {
-        return array( EZ_TEMPLATE_WHILE_FUNCTION_NAME );
+        $functionList = array( EZ_TEMPLATE_WHILE_FUNCTION_NAME );
+        return $functionList;
     }
 
     /*!

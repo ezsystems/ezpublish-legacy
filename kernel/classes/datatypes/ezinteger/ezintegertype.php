@@ -388,7 +388,7 @@ class eZIntegerType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( EZ_DATATYPESTRING_DEFAULT_VALUE_FIELD );
         $minValue = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_VALUE_FIELD );

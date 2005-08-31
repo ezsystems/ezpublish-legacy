@@ -127,7 +127,8 @@ class eZImageAliasHandler
         $originalAlias =& $this->attribute( 'original' );
         if ( $originalAlias )
             return $originalAlias[$attributeName];
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     /*!
@@ -389,7 +390,11 @@ class eZImageAliasHandler
         include_once( 'kernel/common/image.php' );
         $imageManager =& imageInit();
         if ( !$imageManager->hasAlias( $aliasName ) )
-            return null;
+        {
+            $retValue = null;
+            return $retValue;
+        }
+
         $aliasList =& $this->aliasList();
         if ( array_key_exists( $aliasName, $aliasList ) )
         {

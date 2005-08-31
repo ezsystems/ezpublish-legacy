@@ -121,8 +121,11 @@ class eZContentUpload
     {
         if ( isset( $this->Parameters[$attributeName] ) )
             return $this->Parameters[$attributeName];
-        $attribute = null;
-        return $attribute;
+        {
+            eZDebug::writeError( "Attribute '$attributeName' does not exist", 'eZContentUpload::attribute' );
+            $attribute = null;
+            return $attribute;
+        }
     }
 
     /*!
@@ -641,7 +644,7 @@ class eZContentUpload
         else if ( !$status )
         {
             $errors = array_merge( $errors, $storeResult['errors'] );
-            $db->commit(); 
+            $db->commit();
             return false;
         }
         if ( $storeResult['require_storage'] )
@@ -655,13 +658,13 @@ class eZContentUpload
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
                                                         'The attribute %class_identifier does not support simple string storage.', null,
                                                         array( '%class_identifier' => $classIdentifier ) ) );
-            $db->commit(); 
+            $db->commit();
             return false;
         }
         else if ( !$status )
         {
             $errors = array_merge( $errors, $storeResult['errors'] );
-            $db->commit(); 
+            $db->commit();
             return false;
         }
         if ( $storeResult['require_storage'] )
@@ -670,7 +673,7 @@ class eZContentUpload
         $tmpresult =  $this->publishObject( $result, $errors, $notices,
                                      $object, $publishVersion, $class, $parentNodes, $parentMainNode );
 
-        $db->commit(); 
+        $db->commit();
         return $tmpresult;
     }
 
@@ -1252,7 +1255,8 @@ class eZContentUpload
                 if ( !is_subclass_of( $handler, 'ezcontentuploadhandler' ) )
                 {
                     eZDebug::writeError( "Content upload handler '$handlerName' is not inherited from eZContentUploadHandler. All upload handlers must do this.", 'eZContentUpload::findHandler' );
-                    return false;
+                    $retValue = false;
+                    return $retValue;
                 }
                 return $handler;
             }
@@ -1261,9 +1265,11 @@ class eZContentUpload
                                                         "Could not find content upload handler '%handler_name'",
                                                         null, array( '%handler_name' => $handlerName ) ) );
 //             eZDebug::writeError( "Could not find content upload handler '$handlerName'", 'eZContentUpload::findHandler' );
-            return false;
+            $retValue = false;
+            return $retValue;
         }
-        return true;
+        $retValue = true;
+        return $retValue;
     }
 
     /// \privatesection

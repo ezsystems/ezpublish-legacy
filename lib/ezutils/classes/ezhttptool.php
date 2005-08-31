@@ -160,23 +160,18 @@ class eZHTTPTool
         {
             return $_POST[$var];
         }
-        else
+        else if ( isset( $_GET[$var] ) )
         {
-            if ( isset( $_GET[$var] ) )
-            {
-                return $_GET[$var];
-            }
-            else
-            {
-                return false;
-            }
+            return $_GET[$var];
         }
+        $ret = false;
+        return $ret;
     }
 
     /*!
      \return the attributes for this object.
     */
-    function &attributes()
+    function attributes()
     {
         return array( "post", "get", "session" );
     }
@@ -186,7 +181,7 @@ class eZHTTPTool
     */
     function hasAttribute( $attr )
     {
-        return $attr == "post" or $attr == "get" or $attr == "session";
+        return in_array( $attr, $this->attributes() );
     }
 
     /*!
@@ -202,7 +197,8 @@ class eZHTTPTool
         {
             return $_SESSION;
         }
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     /*!
@@ -316,6 +312,7 @@ class eZHTTPTool
             fputs( $fp, $data );
         }
 
+        $buf = '';
         if ( $passtrough )
         {
             ob_end_clean();

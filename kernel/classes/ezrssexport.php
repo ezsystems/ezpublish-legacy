@@ -132,6 +132,11 @@ class eZRSSExport extends eZPersistentObject
                                                             'default' => 0,
                                                             'required' => true ) ),
                       "keys" => array( "id", 'status' ),
+                      'function_attributes' => array( 'item_list' => 'itemList',
+                                                      'modifier' => 'modifier',
+                                                      'rss-xml' => 'rssXml',
+                                                      'image_path' => 'imagePath',
+                                                      'image_node' => 'imageNode' ),
                       "increment_key" => "id",
                       "sort" => array( "title" => "asc" ),
                       "class_name" => "eZRSSExport",
@@ -263,107 +268,83 @@ class eZRSSExport extends eZPersistentObject
         return $objectList;
     }
 
-    /*!
-     \reimp
-    */
-    function attributes()
+    function &itemList()
     {
-        return array_merge( eZPersistentObject::attributes(),
-                            'item_list',
-                            'modifier',
-                            'rss-xml',
-                            'image_path',
-                            'image_node' );
+        $items =& $this->fetchItems();
+        return $items;
     }
 
-    /*!
-     \reimp
-    */
-    function hasAttribute( $attr )
+    function &imageNode()
     {
-        return ( $attr == 'item_list' or $attr == 'modifier' or $attr == 'rss-xml' or $attr == 'image_path' or $attr == 'image_node' or
-                 eZPersistentObject::hasAttribute( $attr ) );
-    }
-
-    /*!
-     \reimp
-    */
-    function &attribute( $attr )
-    {
-        switch( $attr )
+        if ( isset( $this->ImageID ) and $this->ImageID )
         {
-            case 'item_list':
-            {
-                $items = $this->fetchItems();
-                return $items;
-            } break;
+            include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+            $node =& eZContentObjectTreeNode::fetch( $this->ImageID );
+        }
+        else
+            $node = null;
+        return $node;
+    }
 
-            case 'image_node':
+    function &imagePath()
+    {
+        if ( isset( $this->ImageID ) and $this->ImageID )
+        {
+            include_once( "kernel/classes/ezcontentobjecttreenode.php" );
+            $objectNode =& eZContentObjectTreeNode::fetch( $this->ImageID );
+            if ( isset( $objectNode ) )
             {
-                if ( !$this->ImageID > 0 )
-                {
-                    $returnValue = null;
-                    return $returnValue;
-                }
-                include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-                return eZContentObjectTreeNode::fetch( $this->ImageID );
-            }
-
-            case 'image_path':
-            {
-                if ( !$this->ImageID > 0 )
-                {
-                    $returnValue = null;
-                    return $returnValue;
-                }
-                include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-                $objectNode =& eZContentObjectTreeNode::fetch( $this->ImageID );
-                if ( !isset( $objectNode ) )
-                {
-                    $returnValue = null;
-                    return $returnValue;
-                }
                 $path_array =& $objectNode->attribute( 'path_array' );
                 for ( $i = 0; $i < count( $path_array ); $i++ )
                 {
-                    $treenode = eZContentObjectTreeNode::fetch( $path_array[$i] );
+                    $treenode =& eZContentObjectTreeNode::fetch( $path_array[$i] );
                     if( $i == 0 )
-                        $return = $treenode->attribute( 'name' );
+                        $retValue = $treenode->attribute( 'name' );
                     else
-                        $return .= '/'.$treenode->attribute( 'name' );
+                        $retValue .= '/'.$treenode->attribute( 'name' );
                 }
-                return $return;
+            }
+            else
+                $retValue = null;
+        }
+        else
+            $retValue = null;
 
-            } break;
+        return $retValue;
+    }
 
-            case 'modifier':
+    function &modifier()
+    {
+        if ( isset( $this->ModifierID ) and $this->ModifierID )
+        {
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $user =& eZUser::fetch( $this->ModifierID );
+        }
+        else
+            $user = null;
+        return $user;
+    }
+
+    function &rssXml()
+    {
+        switch( $this->attribute( 'rss_version' ) )
+        {
+            case '1.0':
             {
-                include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-                $user =& eZUser::fetch( $this->ModifierID );
-                return $user;
+                $retRSSXml =& $this->fetchRSS1_0();
             } break;
 
-            case 'rss-xml':
+            case '2.0':
             {
-                switch( $this->attribute( 'rss_version' ) )
-                {
-                    case '1.0':
-                    {
-                        return $this->fetchRSS1_0();
-                    } break;
-
-                    case '2.0':
-                    {
-                        return $this->fetchRSS2_0();
-                    } break;
-                }
+                $retRSSXml =& $this->fetchRSS2_0();
             } break;
-
             default:
-                return eZPersistentObject::attribute( $attr );
+            {
+                $retRSSXml = null;
+            } break;
         }
 
-        return null;
+        return $retRSSXml;
     }
 
     /*!
@@ -373,7 +354,7 @@ class eZRSSExport extends eZPersistentObject
 
       \return RSSExportItem list. null if no RSS Export items found
     */
-    function fetchItems( $id = false, $status = EZ_RSSEXPORT_STATUS_VALID )
+    function &fetchItems( $id = false, $status = EZ_RSSEXPORT_STATUS_VALID )
     {
         if ( $id === false )
         {
@@ -384,17 +365,15 @@ class eZRSSExport extends eZPersistentObject
             }
             else
             {
-                return null;
+                $itemList = null;
+                return $itemList;
             }
         }
         if ( $id !== null )
-        {
-            return eZRSSExportItem::fetchFilteredList( array( 'rssexport_id' => $id, 'status' => $status ) );
-        }
+            $itemList =& eZRSSExportItem::fetchFilteredList( array( 'rssexport_id' => $id, 'status' => $status ) );
         else
-        {
-            return $array;
-        }
+            $itemList = null;
+        return $itemList;
     }
 
     function getObjectListFilter()
@@ -408,10 +387,9 @@ class eZRSSExport extends eZPersistentObject
             $this->MainNodeOnly = false;
         }
 
-        return array(
-                    'number_of_objects' => intval($this->NumberOfObjects),
-                    'main_node_only'    => $this->MainNodeOnly
-                    );
+        return array( 'number_of_objects' => intval($this->NumberOfObjects),
+                      'main_node_only'    => $this->MainNodeOnly
+                     );
     }
 
     /*!
@@ -426,7 +404,7 @@ class eZRSSExport extends eZPersistentObject
         if ( $id != null )
         {
             $rssExport = eZRSSExport::fetch( $id );
-            return $rssExport->fetchRSSDocument();
+            return $rssExport->fetchRSS2_0();
         }
 
         include_once( 'lib/ezxml/classes/ezdomdocument.php' );
@@ -528,7 +506,9 @@ class eZRSSExport extends eZPersistentObject
             if( !$doesMatch )
             {
                 // no match
-                return eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
+                eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
+                $retValue = null;
+                return $retValue;
             }
 
             // title RSS element with respective class attribute content
@@ -603,7 +583,7 @@ class eZRSSExport extends eZPersistentObject
         if ( $id != null )
         {
             $rssExport = eZRSSExport::fetch( $id );
-            return $rssExport->fetchRSSDocument();
+            return $rssExport->fetchRSS1_0();
         }
 
         include_once( 'lib/ezxml/classes/ezdomdocument.php' );
@@ -716,7 +696,9 @@ class eZRSSExport extends eZPersistentObject
             if( !$doesMatch )
             {
                 // no match
-                return eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
+                eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
+                $retValue = null;
+                return $retValue;
             }
 
             // title RSS element with respective class attribute content

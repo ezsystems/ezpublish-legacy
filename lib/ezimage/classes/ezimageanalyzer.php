@@ -145,7 +145,8 @@ class eZImageAnalyzer
                                        'eZImageAnalyzer::instance' );
             }
         }
-        return false;
+        $retValue = false;
+        return $retValue;
     }
 
     /*!

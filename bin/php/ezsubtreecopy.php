@@ -72,7 +72,7 @@ $keepTime    = $scriptOptions[ 'keep-time' ];
 include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 
-function &copyPublishContentObject( &$sourceObject,
+function copyPublishContentObject( &$sourceObject,
                                     &$sourceSubtreeNodeIDList,
                                     &$syncNodeIDListSrc, &$syncNodeIDListNew,
                                     &$syncObjectIDListSrc, &$syncObjectIDListNew,
@@ -414,7 +414,7 @@ if ( !$db )
 }
 
 $idListStr = implode( ',', $syncObjectIDListNew );
-$relatedRecordsList =& $db->arrayQuery( "SELECT * FROM ezcontentobject_link WHERE from_contentobject_id IN ($idListStr)" );
+$relatedRecordsList = $db->arrayQuery( "SELECT * FROM ezcontentobject_link WHERE from_contentobject_id IN ($idListStr)" );
 
 foreach ( array_keys( $relatedRecordsList ) as $key )
 {

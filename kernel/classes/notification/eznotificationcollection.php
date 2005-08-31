@@ -91,35 +91,6 @@ class eZNotificationCollection extends eZPersistentObject
                       "name" => "eznotificationcollection" );
     }
 
-    function hasAttribute( $attr )
-    {
-        if ( $attr == 'items' ||
-             $attr == 'items_to_send' ||
-             $attr == 'item_count' )
-        {
-            return true;
-        }
-        return eZPersistentObject::hasAttribute( $attr );
-    }
-
-    function &attribute( $attr )
-    {
-        if ( $attr == 'items' )
-        {
-            return $this->items();
-        }
-        if ( $attr == 'items_to_send' )
-        {
-            return $this->itemsToSend();
-        }
-        if ( $attr == 'item_count' )
-        {
-            return $this->itemCount();
-        }
-        return eZPersistentObject::attribute( $attr );
-
-    }
-
 
     function create( $eventID, $handler, $transport )
     {

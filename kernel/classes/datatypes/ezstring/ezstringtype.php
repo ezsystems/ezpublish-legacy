@@ -339,7 +339,7 @@ class eZStringType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $maxLength = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_LEN_FIELD );
         $defaultString = $classAttribute->attribute( EZ_DATATYPESTRING_DEFAULT_STRING_FIELD );

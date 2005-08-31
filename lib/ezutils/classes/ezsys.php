@@ -659,6 +659,8 @@ class eZSys
     */
     function &magickQuotes()
     {
+        $retValue = null;
+        return $retValue;
     }
 
     /*!
@@ -706,7 +708,8 @@ class eZSys
         {
             if ( !$quiet )
                 eZDebug::writeError( "Environment variable '$variableName' does not exist", 'eZSys::environmentVariable' );
-            return null;
+            $retValue = null;
+            return $retValue;
         }
         return $_ENV[$variableName];
     }
@@ -721,17 +724,23 @@ class eZSys
         $_ENV[$variableName] = $variableValue;
     }
 
+    function attributes()
+    {
+        return array_merge( array( 'wwwdir',
+                                   'sitedir',
+                                   'indexfile',
+                                   'indexdir' ),
+                            array_keys( $this->Attributes ) );
+
+    }
+
     /*!
      Return true if the attribute $attr is set. Available attributes are
      wwwdir, sitedir or indexfile
     */
     function hasAttribute( $attr )
     {
-        return ( isset( $this->Attributes[$attr] )
-                 or $attr == "wwwdir"
-                 or $attr == "sitedir"
-                 or $attr == "indexfile"
-                 or $attr == "indexdir" );
+        return in_array( $attr, $this->attributes() );
     }
 
     /*!
@@ -758,12 +767,13 @@ class eZSys
         }
         else if ( $attr == 'indexdir' )
         {
-            $indexDir =& $this->indexDir();
-            return $indexDir;
+            return $this->indexDir();
         }
         else
         {
-            return null;
+            eZDebug::writeError( "Attribute '$attr' does not exist", 'eZSys::attribute' );
+            $retValue = null;
+            return $retValue;
         }
     }
 

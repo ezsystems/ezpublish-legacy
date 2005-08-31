@@ -89,7 +89,8 @@ class eZCollaborationViewHandler
     */
     function &ini()
     {
-        return eZINI::instance( 'collaboration.ini' );
+        $iniInstance =& eZINI::instance( 'collaboration.ini' );
+        return $iniInstance;
     }
 
     /*!

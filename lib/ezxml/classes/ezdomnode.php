@@ -296,7 +296,10 @@ class eZDOMNode
     function &firstChild()
     {
         if ( count( $this->Children ) == 0 )
-            return null;
+        {
+            $child = false;
+            return $child;
+        }
         return $this->Children[0];
     }
 
@@ -331,7 +334,10 @@ class eZDOMNode
     {
         $element =& $this->elementByName( $name );
         if ( !$element )
-            return false;
+        {
+            $child = false;
+            return $child;
+        }
         return $element->firstChild();
     }
 
@@ -351,7 +357,10 @@ class eZDOMNode
             if ( $child->name() == $name )
             {
                 if ( $element )
-                    return false;
+                {
+                    $retValue = false;
+                    return $retValue;
+                }
                 $element =& $child;
             }
         }
@@ -487,11 +496,9 @@ class eZDOMNode
     {
         $element =& $this->elementByName( $name );
         if ( !$element )
-        {
-            $value = false;
-            return $value;
-        }
-        $attributeValue =& $element->attributeValue( $attributeName );
+            $attributeValue = false;
+        else
+            $attributeValue =& $element->attributeValue( $attributeName );
         return $attributeValue;
     }
 
@@ -597,7 +604,8 @@ class eZDOMNode
             $this->Children[] =& $node;
             return $node;
         }
-        return false;
+        $retValue = false;
+        return $retValue;
     }
 
     /*!
@@ -622,7 +630,8 @@ class eZDOMNode
             $this->Attributes[] =& $node;
             return $node;
         }
-        return false;
+        $retValue = false;
+        return $retValue;
     }
 
     function &set_attribute( $name, $value )
@@ -809,14 +818,10 @@ class eZDOMNode
         $children =& $this->children();
 
         if ( count( $children ) == 1 )
-        {
-            return $children[0]->content();
-        }
+            $textContent =& $children[0]->content();
         else
-        {
             $textContent = false;
-            return $textContent;
-        }
+        return $textContent;
     }
 
     /*!

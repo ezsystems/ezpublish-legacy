@@ -152,11 +152,12 @@ class mytest
         switch ( $attr )
         {
             case "name";
-            return $this->n;
+                return $this->n;
             case "size";
-            return $this->s;
+                return $this->s;
             default:
-                return null;
+                $retAttr = null;
+                return $retAttr;
         }
     }
 
@@ -637,7 +638,7 @@ class eZTemplate
         {
             $variableData = $node[2];
             $variablePlacement = $node[3];
-            $rslt =& $this->processVariable( $textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace );
+            $rslt = $this->processVariable( $textElements, $variableData, $variablePlacement, $rootNamespace, $currentNamespace );
             if ( !is_array( $textElements ) )
                 eZDebug::writeError( "Textelements is no longer array: '$textElements'",
                                      'eztemplate::processNode::variable' );
@@ -648,7 +649,7 @@ class eZTemplate
             $functionName = $node[2];
             $functionParameters = $node[3];
             $functionPlacement = $node[4];
-            $rslt =& $this->processFunction( $functionName, $textElements, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
+            $rslt = $this->processFunction( $functionName, $textElements, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace );
             if ( !is_array( $textElements ) )
                 eZDebug::writeError( "Textelements is no longer array: '$textElements'",
                                      "eztemplate::processNode::function( '$functionName' )" );
@@ -710,8 +711,12 @@ class eZTemplate
         $resourceData =& $this->loadURIRoot( $uri, true, $extraParameters );
         if ( !$resourceData or
              $resourceData['root-node'] === null )
-            return null;
-        return $resourceData['root-node'];
+        {
+            $retValue = null;
+            return $retValue;
+        }
+        else
+            return $resourceData['root-node'];
     }
 
     function parse( &$sourceText, &$rootElement, $rootNamespace, &$resourceData )
@@ -776,7 +781,8 @@ class eZTemplate
         {
             if ( $displayErrors )
                 $this->warning( "", "No resource handler for \"$res\" and no default resource handler, aborting." );
-            return null;
+            $retValue = null;
+            return $retValue;
         }
         $canCache = true;
         if ( !$resobj->servesStaticData() )
@@ -790,7 +796,10 @@ class eZTemplate
         $resourceData =& $this->loadURIData( $resobj, $uri, $res, $template, $extraParameters, $displayErrors );
 
         if ( !$resourceData )
-            return null;
+        {
+            $retValue = null;
+            return $retValue;
+        }
 
         eZTemplate::appendTemplateToStatisticsIfNeeded( $resourceData['template-name'], $resourceData['template-filename'] );
 
@@ -1410,7 +1419,11 @@ class eZTemplate
     function &variableElementValue( &$data, $def_nspace )
     {
         if ( $data["type"] != "variable" )
-            return null;
+        {
+            $retValue = null;
+            return $retValue;
+        }
+
         $nspace = $data["namespace"];
         if ( $nspace === false )
             $nspace = $def_nspace;
@@ -1424,7 +1437,8 @@ class eZTemplate
         {
             $var_name = $name;
             $this->warning( "", "Undefined variable: \"$var_name\"" . ( $nspace != "" ? " in namespace \"$nspace\"" : "" ) );
-            return null;
+            $retValue = null;
+            return $retValue;
         }
         $value =& $this->variable( $name, $nspace );
         $return_value =& $value;
@@ -1443,7 +1457,8 @@ class eZTemplate
                     {
                         $this->error( "",
                                       "Cannot use type " . gettype( $attr_value ) . " for attribute lookup" );
-                        return null;
+                        $retValue = null;
+                        return $retValue;
                     }
                     if ( is_array( $return_value ) )
                     {
@@ -1453,7 +1468,8 @@ class eZTemplate
                         {
                             $this->error( "",
                                           "No such attribute for array: $attr_value" );
-                            return null;
+                            $retValue = null;
+                            return $retValue;
                         }
                     }
                     else if ( is_object( $return_value ) )
@@ -1472,7 +1488,8 @@ class eZTemplate
                             {
                                 $this->error( "",
                                               "No such attribute for object: $attr_value" );
-                                return null;
+                                $retValue = null;
+                                return $retValue;
                             }
                         }
                         else
@@ -1480,18 +1497,23 @@ class eZTemplate
                             $this->error( "",
                                           "Cannot retrieve attribute of object(" . get_class( $return_value ) .
                                           "), no attribute functions available." );
-                            return null;
+                            $retValue = null;
+                            return $retValue;
                         }
                     }
                     else
                     {
                         $this->error( "",
                                       "Cannot retrieve attribute of a " . gettype( $return_value ) );
-                        return null;
+                        $retValue = null;
+                        return $retValue;
                     }
                 }
                 else
-                    return null;
+                {
+                    $retValue = null;
+                    return $retValue;
+                }
                 next( $attrs );
             }
         }
@@ -1599,7 +1621,8 @@ class eZTemplate
         if ( isset( $func ) and
              is_object( $func ) )
         {
-            return $func->process( $this, $name, $func_obj, $nspace, $current_nspace );
+            $Return = $func->process( $this, $name, $func_obj, $nspace, $current_nspace );
+            return $Return;
         }
         else
         {
@@ -1738,6 +1761,7 @@ class eZTemplate
     */
     function &variableAttribute( &$var, $attrs )
     {
+        $val = null;
         if ( count( $attrs ) > 0 )
         {
             $ptr =& $var;
@@ -1766,7 +1790,7 @@ class eZTemplate
             if ( isset( $ptr ) )
                 return $ptr;
         }
-        return null;
+        return $val;
     }
 
     /*!

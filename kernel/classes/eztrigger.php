@@ -93,29 +93,9 @@ class eZTrigger extends eZPersistentObject
                                                           'required' => true ) ),
                       "class_name" => "eZTrigger",
                       "keys" => array( 'id' ),
+                      'function_attributes' => array( 'allowed_workflows' => 'fetchAllowedWorkflows' ),
                       "increment_key" => "id",
                       "name" => "eztrigger" );
-    }
-
-    /*!
-     \reimp
-    */
-    function hasAttribute( $attr )
-    {
-        return ( $attr = 'allowed_workflows' ||
-                 eZPersistentObject::hasAttribute( $attr ) );
-    }
-
-    function &attribute( $attr )
-    {
-        switch( $attr )
-        {
-            case 'allowed_workflows':
-            {
-                return $this->fetchAllowedWorkflows();
-            } break;
-        }
-        return eZPersistentObject::attribute( $attr );
     }
 
     /*!
@@ -140,7 +120,7 @@ class eZTrigger extends eZPersistentObject
                                          $connectionType );
     }
 
-    function & fetch( $triggerID )
+    function &fetch( $triggerID )
     {
         return eZPersistentObject::fetchObject( eZTrigger::definition(),
                                                 null,
@@ -167,7 +147,11 @@ class eZTrigger extends eZPersistentObject
             $filterArray['name'] = $parameters['name'];
         }
         $triggers =& eZPersistentObject::fetchObjectList( eZTrigger::definition(),
-                                                          null, $filterArray, array( 'module_name' => 'asc' , 'function_name' => 'asc', 'connect_type' => 'asc' ), null,
+                                                          null,
+                                                          $filterArray, array( 'module_name' => 'asc' ,
+                                                                               'function_name' => 'asc',
+                                                                               'connect_type' => 'asc' ),
+                                                          null,
                                                           $asObject );
         return $triggers;
     }

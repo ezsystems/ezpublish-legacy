@@ -190,7 +190,7 @@ class eZRangeOptionType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultName = $classAttribute->attribute( 'data_text1' );
         $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'default-name', $defaultName ) );

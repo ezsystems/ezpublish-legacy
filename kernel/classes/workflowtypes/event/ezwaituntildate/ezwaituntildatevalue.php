@@ -44,6 +44,8 @@
 
 */
 
+include_once( "kernel/classes/ezpersistentobject.php" );
+
 class eZWaitUntilDateValue extends eZPersistentObject
 {
     /*!
@@ -80,54 +82,43 @@ class eZWaitUntilDateValue extends eZPersistentObject
                                                                                'default' => 0,
                                                                                'required' => true ) ),
                       "keys" => array( "id", "workflow_event_id", "workflow_event_version" ),
-                      "function_attributes" => array( "class_name" => "ClassName",
-                                                      "classattribute_name" => "ClassAttributeName"),
-
+                      "function_attributes" => array( "class_name" => "className",
+                                                      "classattribute_name" => "classAttributeName" ),
                       "increment_key" => "id",
                       "sort" => array( "id" => "asc" ),
                       "class_name" => "eZWaitUntilDateValue",
                       "name" => "ezwaituntildatevalue" );
     }
 
-    function hasAttribute( $attr )
+    function &className()
     {
-        return $attr == 'class_name'
-            or $attr == 'classattribute_name'
-            or eZPersistentObject::hasAttribute( $attr);
+        if ( $this->ClassName === null )
+        {
+            $contentClass =& eZContentClass::fetch( $this->attribute( 'contentclass_id' ) );
+            $this->ClassName =& $contentClass->attribute( 'name' );
+        }
+        return $this->ClassName;
     }
 
-    function &attribute( $attr )
+    function &classAttributeName()
     {
-        if( $attr == 'class_name' )
+        if ( $this->ClassAttributeName === null )
         {
-            if ( $this->ClassName === null )
-            {
-                $contentClass =& eZContentClass::fetch( $this->attribute( 'contentclass_id' ) );
-                $this->ClassName =& $contentClass->attribute( 'name' );
-            }
-            return $this->ClassName;
+            $contentClassAttribute =& eZContentClassAttribute::fetch( $this->attribute( 'contentclass_attribute_id' ) );
+            $this->ClassAttributeName =& $contentClassAttribute->attribute( 'name' );
         }
-        elseif ( $attr == 'classattribute_name' )
-        {
-            if ( $this->ClassAttributeName === null )
-            {
-                $contentClassAttribute =& eZContentClassAttribute::fetch( $this->attribute( 'contentclass_attribute_id' ) );
-                $this->ClassAttributeName =& $contentClassAttribute->attribute( 'name' );
-            }
-            return $this->ClassAttributeName;
-        }
-        else
-            return eZPersistentObject::attribute( $attr );
+        return $this->ClassAttributeName;
     }
+
     function &clone()
     {
         $row = array( "id" => null,
                       "workflow_event_id" => $this->attribute( 'workflow_event_id' ),
                       "workflow_event_version" => $this->attribute( 'workflow_event_version' ),
                       "contentclass_id" => $this->attribute( "contentclass_id" ),
-                      "contentclass_attribute_id" => $this->attribute( 'contentclass_attribute_id' ),
-                      );
-        return new eZWaitUntilDateValue( $row );
+                      "contentclass_attribute_id" => $this->attribute( 'contentclass_attribute_id' ) );
+        $newWaitUntilDateValue = new eZWaitUntilDateValue( $row );
+        return $newWaitUntilDateValue;
     }
 
     function create( $workflowEventID, $workflowEventVersion, $contentClassAttributeID, $contentClassID )

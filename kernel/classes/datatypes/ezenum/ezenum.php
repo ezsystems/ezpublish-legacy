@@ -64,22 +64,19 @@ class eZEnum
         $this->ObjectEnumerations = null;
     }
 
+    function attributes()
+    {
+        return array( 'contentclass_attributeid',
+                      'contentclass_attributeversion',
+                      'enum_list',
+                      'enumobject_list',
+                      'enum_ismultiple',
+                      'enum_isoption' );
+    }
+
     function hasAttribute( $attr )
     {
-        if ( $attr == "contentclass_attributeid" )
-            return true;
-        elseif ( $attr == "contentclass_attributeversion" )
-            return true;
-        elseif ( $attr == "enum_list" )
-            return true;
-        elseif ( $attr == "enumobject_list" )
-            return true;
-        elseif ( $attr == "enum_ismultiple" )
-            return true;
-        elseif ( $attr == "enum_isoption" )
-            return true;
-        else
-            return false;
+        return in_array( $attr, $this->attributes() );
     }
 
     function &attribute( $attr )
@@ -112,7 +109,9 @@ class eZEnum
             }break;
             default :
             {
-                eZDebug::writeError( "Unknown attribute: " . $attr );
+                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZEnum::attribute' );
+                $retValue = null;
+                return $retValue;
             }break;
         }
     }

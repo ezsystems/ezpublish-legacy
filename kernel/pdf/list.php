@@ -48,7 +48,7 @@ if ( $Module->isCurrentAction( 'NewExport' ) )
 //Remove existing PDF Export(s)
 else if ( $Module->isCurrentAction( 'RemoveExport' ) )
 {
-    $deleteArray =& $Module->actionParameter( 'DeleteIDArray' );
+    $deleteArray = $Module->actionParameter( 'DeleteIDArray' );
     foreach ( $deleteArray as $deleteID )
     {
         // remove draft if it exists:

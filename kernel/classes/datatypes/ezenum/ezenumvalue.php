@@ -100,7 +100,8 @@ class eZEnumValue extends eZPersistentObject
                       "enumvalue" => $this->attribute( 'enumvalue' ),
                       "enumelement" => $this->attribute( 'enumelement' ),
                       "placement" => $this->attribute( 'placement' ) );
-        return new eZEnumValue( $row );
+        $newEnumValue = new eZEnumValue( $row );
+        return $newEnumValue;
     }
 
     function create( $contentClassAttributeID, $contentClassAttributeVersion, $element )
@@ -154,15 +155,16 @@ class eZEnumValue extends eZPersistentObject
     function &fetchAllElements( $classAttributeID, $version, $asObject = true )
     {
         if ( is_null( $classAttributeID ) )
-            return array();
-
-        return eZPersistentObject::fetchObjectList( eZEnumValue::definition(),
-                                                    null,
-                                                    array( "contentclass_attribute_id" => $classAttributeID,
-                                                           "contentclass_attribute_version" => $version ),
-                                                    null,
-                                                    null,
-                                                    $asObject );
+            $elementList = array();
+        else
+            $elementList = eZPersistentObject::fetchObjectList( eZEnumValue::definition(),
+                                                                null,
+                                                                array( "contentclass_attribute_id" => $classAttributeID,
+                                                                       "contentclass_attribute_version" => $version ),
+                                                                null,
+                                                                null,
+                                                                $asObject );
+        return $elementList;
     }
 
     var $ID;

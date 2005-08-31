@@ -92,13 +92,13 @@ class eZCollaborationProfile extends eZPersistentObject
     function &create( $userID, $mainGroup = 0 )
     {
         $date_time = time();
-        $row = array(
-            'id' => null,
-            'user_id' => $userID,
-            'main_group' => $mainGroup,
-            'created' => $date_time,
-            'modified' => $date_time );
-        return new eZCollaborationProfile( $row );
+        $row = array( 'id' => null,
+                      'user_id' => $userID,
+                      'main_group' => $mainGroup,
+                      'created' => $date_time,
+                      'modified' => $date_time );
+        $newCollaborationProfile = new eZCollaborationProfile( $row );
+        return $newCollaborationProfile;
     }
 
     function &fetch( $id, $asObject = true )

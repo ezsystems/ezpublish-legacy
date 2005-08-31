@@ -214,7 +214,12 @@ class eZDBInterface
             $memberVariable = $this->AttributeVariableMap[$name];
             return $this->$memberVariable;
         }
-        return null;
+        else
+        {
+            eZDebug::writeError( "Attribute '$name' does not exist", 'eZDBInterface::attribute' );
+            $retValue = null;
+            return $retValue;
+        }
     }
 
     /*!
@@ -557,6 +562,8 @@ class eZDBInterface
     */
     function &query( $sql )
     {
+        $result = false;
+        return $result;
     }
 
     /*!
@@ -942,6 +949,7 @@ class eZDBInterface
     */
     function &escapeString( $str )
     {
+        return $str;
     }
 
     /*!

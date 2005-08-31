@@ -138,12 +138,24 @@ class eZPaymentGatewayType extends eZWorkflowEventType
             }
             break;
         }
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     function typeFunctionalAttributes( )
     {
         return array( 'selected_gateways_types', 'selected_gateways', 'current_gateway' );
+    }
+
+    function attributes()
+    {
+        return array_merge( array( 'available_gateways' ),
+                            eZWorkflowEventType::attributes() );
+    }
+
+    function hasAttribute( $attr )
+    {
+        return in_array( $attr, $this->attributes() );
     }
 
     function &attribute( $attr )
@@ -157,11 +169,6 @@ class eZPaymentGatewayType extends eZWorkflowEventType
             }break;
         }
         return eZWorkflowEventType::attribute( $attr );
-    }
-
-    function hasAttribute( $attr )
-    {
-        return in_array( $attr, array( 'available_gateways' ) ) || eZWorkflowEventType::hasAttribute( $attr );
     }
 
     /*!

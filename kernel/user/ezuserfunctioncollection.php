@@ -68,7 +68,6 @@ class eZUserFunctionCollection
         {
             $result = array( 'result' => $user );
         }
-
         return $result;
     }
 
@@ -194,7 +193,7 @@ class eZUserFunctionCollection
         return array( 'result' => eZRole::fetchByUser( array( $id ), true ) );
     }
 
-    function &hasAccessTo( $module, $view, $userID )
+    function hasAccessTo( $module, $view, $userID )
     {
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         if ( $userID )

@@ -275,18 +275,22 @@ class eZMultiOption
     }
 
     /*!
+     \return list of supported attributes
+    */
+    function attributes()
+    {
+        return array( 'name',
+                      'multioption_list' );
+    }
+
+    /*!
       Returns true if object have an attribute.
       The valid attributes are \c name and \c multioption_list.
       \param $name contains the name of attribute
     */
     function hasAttribute( $name )
     {
-        if ( $name == "name" )
-            return true;
-        else if ( $name == "multioption_list" )
-            return true;
-        else
-            return false;
+        return in_array( $name, $this->attributes() );
     }
 
     /*!
@@ -307,15 +311,13 @@ class eZMultiOption
             {
                 return $this->Options;
             } break;
+            default:
+            {
+                eZDebug::writeError( "Attribute '$name' does not exist", 'eZMultiOption::attribute' );
+                $retValue = null;
+                return $retValue;
+            }break;
         }
-    }
-
-    /*!
-     \return list of supported attributes
-    */
-    function attributes()
-    {
-        return array( 'name', 'multioption_list' );
     }
 
     /*!

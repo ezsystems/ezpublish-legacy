@@ -895,7 +895,7 @@ class eZTemplateSectionFunction
                 if ( is_array( $loopItem ) )
                 {
                     $array =& $loopItem;
-                    $arrayKeys =& array_keys( $array );
+                    $arrayKeys = array_keys( $array );
                     if ( $reverseLoop )
                         $arrayKeys = array_reverse( $arrayKeys );
                     if ( $iterationOffset !== false )

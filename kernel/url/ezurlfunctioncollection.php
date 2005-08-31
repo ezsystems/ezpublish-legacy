@@ -64,9 +64,11 @@ class eZURLFunctionCollection
                              'only_published' => $onlyPublished );
         $list =& eZURL::fetchList( $parameters );
         if ( $list === null )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => &$list );
+            $result = array( 'error' => array( 'error_type' => 'kernel',
+                                               'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        else
+            $result = array( 'result' => &$list );
+        return $result;
     }
 
     function &fetchListCount( $isValid, $onlyPublished )
@@ -76,9 +78,11 @@ class eZURLFunctionCollection
                              'only_published' => $onlyPublished );
         $listCount =& eZURL::fetchListCount( $parameters );
         if ( $listCount === null )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => &$listCount );
+            $result = array( 'error' => array( 'error_type' => 'kernel',
+                                               'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        else
+            $result = array( 'result' => &$listCount );
+        return $result;
     }
 
 }

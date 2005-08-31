@@ -328,12 +328,10 @@ class eZObjectRelationType extends eZDataType
     {
         $objectID = $contentObjectAttribute->attribute( "data_int" );
         if ( $objectID != 0 )
-            return eZContentObject::fetch( $objectID );
+            $object =& eZContentObject::fetch( $objectID );
         else
-        {
-            $retVal = false;
-            return $retVal;
-        }
+            $object = null;
+        return $object;
     }
 
     /*!
@@ -472,7 +470,7 @@ class eZObjectRelationType extends eZDataType
         return false;
     }
 
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $content =& $classAttribute->content();
         $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'selection-type',

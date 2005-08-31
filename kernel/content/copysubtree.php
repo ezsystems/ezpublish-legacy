@@ -67,13 +67,13 @@ if ( $Module->isCurrentAction( 'Cancel' ) )
 }
 
 ///// functions START =============================================================================
-function &copyPublishContentObject( &$sourceObject,
-                                    &$sourceSubtreeNodeIDList,
-                                    &$syncNodeIDListSrc, &$syncNodeIDListNew,
-                                    &$syncObjectIDListSrc, &$syncObjectIDListNew,
-                                    &$objectIDBlackList, &$nodeIDBlackList,
-                                    &$notifications,
-                                    $allVersions = false, $keepCreator = false, $keepTime = false )
+function copyPublishContentObject( &$sourceObject,
+                                   &$sourceSubtreeNodeIDList,
+                                   &$syncNodeIDListSrc, &$syncNodeIDListNew,
+                                   &$syncObjectIDListSrc, &$syncObjectIDListNew,
+                                   &$objectIDBlackList, &$nodeIDBlackList,
+                                   &$notifications,
+                                   $allVersions = false, $keepCreator = false, $keepTime = false )
 {
     $sourceObjectID = $sourceObject->attribute( 'id' );
 
@@ -552,7 +552,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
     }
 
     $idListStr = implode( ',', $syncObjectIDListNew );
-    $relatedRecordsList =& $db->arrayQuery( "SELECT * FROM ezcontentobject_link WHERE from_contentobject_id IN ($idListStr)" );
+    $relatedRecordsList = $db->arrayQuery( "SELECT * FROM ezcontentobject_link WHERE from_contentobject_id IN ($idListStr)" );
 
     foreach ( array_keys( $relatedRecordsList ) as $key )
     {

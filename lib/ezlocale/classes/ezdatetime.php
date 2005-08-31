@@ -141,16 +141,7 @@ class eZDateTime
 
     function hasAttribute( $name )
     {
-        if ( $name == 'timestamp' or
-             $name == 'hour' or
-             $name == 'minute' or
-             $name == 'year' or
-             $name == 'month' or
-             $name == 'day' or
-             $name == 'is_valid' )
-            return true;
-        else
-            return false;
+        return in_array( $name, $this->attributes() );
     }
 
     function &attribute( $name )
@@ -192,6 +183,7 @@ class eZDateTime
         }
         else
         {
+            eZDebug::writeError( "Attribute '$name' does not exist", 'eZDateTime::attribute' );
             $retVal = false;
             return $retVal;
         }
@@ -248,7 +240,7 @@ class eZDateTime
      \static
      Returns the current date and time as a UNIX timestamp
     */
-    function &currentTimeStamp()
+    function currentTimeStamp()
     {
         return time();
     }

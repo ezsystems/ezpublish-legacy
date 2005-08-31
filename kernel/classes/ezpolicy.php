@@ -79,41 +79,29 @@ class eZPolicy extends eZPersistentObject
                                                                    'required' => true ) ),
                       'keys' => array( 'id' ),
                       'function_attributes' => array( 'limitations' => 'limitationList',
-                                                      'role' => 'role' ),
+                                                      'role' => 'role',
+                                                      'limit_identifier' => 'limitIdentifier',
+                                                      'limit_value' => 'limitValue',
+                                                      'user_role_id' => 'userRoleID' ),
                       'increment_key' => 'id',
                       'sort' => array( 'id' => 'asc' ),
                       'class_name' => 'eZPolicy',
                       'name' => 'ezpolicy' );
     }
 
-    function attributes()
+    function &limitIdentifier()
     {
-        return eZPersistentObject::attributes();
+        return $this->LimitIdentifier;
     }
 
-    function &attribute( $attr )
+    function &limitValue()
     {
-        switch( $attr )
-        {
-            case 'limit_identifier':
-            {
-                return $this->LimitIdentifier;
-            } break;
+        return $this->LimitValue;
+    }
 
-            case 'limit_value':
-            {
-                return $this->LimitValue;
-            } break;
-            case 'user_role_id':
-            {
-                return $this->UserRoleID;
-            } break;
-
-            default:
-            {
-                return eZPersistentObject::attribute( $attr );
-            } break;
-        }
+    function &userRoleID()
+    {
+        return $this->UserRoleID;
     }
 
     /*!
@@ -406,11 +394,11 @@ class eZPolicy extends eZPersistentObject
     {
         if ( $this->ID )
         {
-            return eZPersistentObject::fetchObject( eZRole::definition(),
-                                                    null, array( 'id' => $this->RoleID ), true );
+            $role =& eZPersistentObject::fetchObject( eZRole::definition(),
+                                                      null, array( 'id' => $this->RoleID ), true );
         }
-
-        $role = false;
+        else
+            $role = false;
         return $role;
     }
 
@@ -419,7 +407,6 @@ class eZPolicy extends eZPersistentObject
         $object =& eZPersistentObject::fetchObject( eZPolicy::definition(),
                                                     null, array('id' => $policyID ), true);
         return $object;
-
     }
 
     // Used for assign based limitations.

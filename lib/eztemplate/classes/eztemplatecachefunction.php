@@ -289,7 +289,7 @@ ENDADDCODE;
                         $child =& $children[$childKey];
                         $tpl->processNode( $child, $childTextElements, $rootNamespace, $currentNamespace );
                     }
-                    $text =& implode( '', $childTextElements );
+                    $text = implode( '', $childTextElements );
                     $textElements[] = $text;
                 }
                 else
@@ -390,7 +390,7 @@ ENDADDCODE;
                             $child =& $children[$childKey];
                             $tpl->processNode( $child, $childTextElements, $rootNamespace, $currentNamespace );
                         }
-                        $text =& implode( '', $childTextElements );
+                        $text = implode( '', $childTextElements );
                         $textElements[] = $text;
 
                         include_once( 'lib/ezfile/classes/ezfile.php' );

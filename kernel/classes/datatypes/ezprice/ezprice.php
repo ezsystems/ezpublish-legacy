@@ -109,21 +109,7 @@ class eZPrice
     */
     function hasAttribute( $attr )
     {
-        if ( $attr == 'vat_type' or
-             $attr == 'current_user' or
-             $attr == 'is_vat_included' or
-             $attr == 'vat_percent' or
-             $attr == 'inc_vat_price' or
-             $attr == 'ex_vat_price' or
-             $attr == 'discount_percent' or
-             $attr == 'discount_price_inc_vat' or
-             $attr == 'discount_price_ex_vat' or
-             $attr == 'has_discount' or
-             $attr == 'price' or
-             $attr == 'selected_vat_type' )
-            return true;
-        else
-            return false;
+        return in_array( $attr, $this->attributes() );
     }
 
     /*!
@@ -170,9 +156,10 @@ class eZPrice
             case "vat_percent" :
             {
                 if ( $this->VATType != null )
-                    return $this->VATType->attribute( 'percentage' );
+                    $vatPercent = $this->VATType->attribute( 'percentage' );
                 else
-                    return 0;
+                    $vatPercent = 0;
+                return $vatPercent;
             } break;
 
             case "is_vat_included":
@@ -275,7 +262,9 @@ class eZPrice
 
             default :
             {
-                eZDebug::writeError( "Unknown attribute: " . $attr );
+                eZDebug::writeError( "Attribute '$attr' does not exist", 'eZPrice::attribute' );
+                $retValue = null;
+                return $retValue;
             } break;
         }
     }

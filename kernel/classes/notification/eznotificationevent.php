@@ -114,25 +114,6 @@ class eZNotificationEvent extends eZPersistentObject
                       "name" => "eznotificationevent" );
     }
 
-    function hasAttribute( $attr )
-    {
-        if ( $attr == 'content' )
-        {
-            return true;
-        }
-        return eZPersistentObject::hasAttribute( $attr );
-    }
-
-    function &attribute( $attr )
-    {
-        if ( $attr == 'content' )
-        {
-            return $this->content();
-        }
-        return eZPersistentObject::attribute( $attr );
-
-    }
-
     function create( $type, $params = array() )
     {
         $row = array(

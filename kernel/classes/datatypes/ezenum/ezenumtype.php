@@ -530,7 +530,7 @@ class eZEnumType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $isOption = $classAttribute->attribute( EZ_DATATYPESTRING_ENUM_ISOPTION_FIELD );
         $isMultiple = $classAttribute->attribute( EZ_DATATYPESTRING_ENUM_ISMULTIPLE_FIELD );

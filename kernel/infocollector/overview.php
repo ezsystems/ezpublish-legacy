@@ -103,12 +103,12 @@ else
 
 
 $db =& eZDB::instance();
-$objects =& $db->arrayQuery( 'SELECT DISTINCT ezinfocollection.contentobject_id, ezcontentobject.name, ezcontentobject_tree.main_node_id, ezcontentclass.name AS class_name, ezcontentclass.identifier AS class_identifier FROM ezinfocollection, ezcontentobject, ezcontentobject_tree, ezcontentclass WHERE ezinfocollection.contentobject_id=ezcontentobject.id AND ezcontentobject.contentclass_id=ezcontentclass.id AND ezinfocollection.contentobject_id=ezcontentobject_tree.contentobject_id LIMIT ' . $limit . ' OFFSET ' . $offset );
+$objects = $db->arrayQuery( 'SELECT DISTINCT ezinfocollection.contentobject_id, ezcontentobject.name, ezcontentobject_tree.main_node_id, ezcontentclass.name AS class_name, ezcontentclass.identifier AS class_identifier FROM ezinfocollection, ezcontentobject, ezcontentobject_tree, ezcontentclass WHERE ezinfocollection.contentobject_id=ezcontentobject.id AND ezcontentobject.contentclass_id=ezcontentclass.id AND ezinfocollection.contentobject_id=ezcontentobject_tree.contentobject_id LIMIT ' . $limit . ' OFFSET ' . $offset );
 
 
 for( $i=0; $i<count( $objects ); $i++ )
 {
-    $collections =& $db->arrayQuery( 'SELECT * FROM ezinfocollection WHERE contentobject_id=' . $objects[$i]['contentobject_id'] );
+    $collections = $db->arrayQuery( 'SELECT * FROM ezinfocollection WHERE contentobject_id=' . $objects[$i]['contentobject_id'] );
 
     $first = $collections[0]['created'];
     $last  = $first;

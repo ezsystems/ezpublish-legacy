@@ -696,8 +696,9 @@ class eZTemplateImageOperator
         $dirPath = eZDir::path( array( $dirs, $base, $splitMD5Path, $md5Text ) );
         $filePath = eZDir::path( array( $dirPath, $file ) );
         if ( !file_exists( $filePath ) )
-            return null;
-        $layer =& eZImageLayer::createForFile( $file, $dirPath, $this->StoreAs );
+            $layer = null;
+        else
+            $layer =& eZImageLayer::createForFile( $file, $dirPath, $this->StoreAs );
         return $layer;
     }
 

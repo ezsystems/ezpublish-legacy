@@ -129,7 +129,8 @@ class eZStepInstaller
     */
     function &display()
     {
-        return null;
+        $result = array();
+        return $result;
     }
 
     function findAppropriateCharset( &$primaryLanguage, &$allLanguages, $canUseUnicode )

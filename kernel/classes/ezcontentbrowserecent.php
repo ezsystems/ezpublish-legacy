@@ -61,6 +61,10 @@ eZContentBrowseRecent::fetchListForUser( $userID )
 
 */
 
+include_once( "lib/ezdb/classes/ezdb.php" );
+include_once( "lib/ezutils/classes/ezdebug.php" );
+include_once( "kernel/classes/ezpersistentobject.php" );
+
 class eZContentBrowseRecent extends eZPersistentObject
 {
     /*!
@@ -105,47 +109,6 @@ class eZContentBrowseRecent extends eZPersistentObject
                       "name" => "ezcontentbrowserecent" );
 
     }
-
-    /*!
-     \reimp
-    */
-    function attributes()
-    {
-        return eZPersistentObject::attributes();
-    }
-
-
-    /*!
-     \reimp
-    */
-    function hasAttribute( $attributeName )
-    {
-        if ( $attributeName == 'node' or
-             $attributeName == 'contentobject_id' )
-        {
-            return true;
-        }
-        else
-            return eZPersistentObject::hasAttribute( $attributeName );
-    }
-
-    /*!
-     \reimp
-    */
-    function &attribute( $attributeName )
-    {
-        if ( $attributeName == 'node' )
-        {
-            return $this->fetchNode();
-        }
-        else if ( $attributeName == 'contentobject_id' )
-        {
-            return $this->contentObjectID();
-        }
-        else
-            return eZPersistentObject::attribute( $attributeName );
-    }
-
 
     /*!
      \static
@@ -242,10 +205,10 @@ class eZContentBrowseRecent extends eZPersistentObject
 
         }
 
-        $recent =& new eZContentBrowseRecent( array( 'user_id' => $userID,
-                                                     'node_id' => $nodeID,
-                                                     'name' => $nodeName,
-                                                     'created' => time() ) );
+        $recent = new eZContentBrowseRecent( array( 'user_id' => $userID,
+                                                    'node_id' => $nodeID,
+                                                    'name' => $nodeName,
+                                                    'created' => time() ) );
         $recent->store();
         $db->commit();
         return $recent;
@@ -266,8 +229,10 @@ class eZContentBrowseRecent extends eZPersistentObject
     {
         $node =& $this->fetchNode();
         if ( $node )
-            return $node->attribute( 'contentobject_id' );
-        return null;
+            $objectID = $node->attribute( 'contentobject_id' );
+        else
+            $objectID = false;
+        return $objectID;
     }
 
     /*!

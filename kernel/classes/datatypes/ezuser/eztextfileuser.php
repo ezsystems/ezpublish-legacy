@@ -224,7 +224,11 @@ class eZTextFileUser extends eZUser
             if ( file_exists( $fileName ) )
                 $handle = fopen ( $fileName, "r");
             else
-                return false;
+            {
+                $user = false;
+                return $user;
+            }
+
             while ( !feof( $handle ) )
             {
                 $line = fgets( $handle, 4096 );
@@ -338,13 +342,15 @@ class eZTextFileUser extends eZUser
                     }
                     else
                     {
-                        return false;
+                        $user = false;
+                        return $user;
                     }
                 }
             }
             fclose( $handle );
         }
-        return false;
+        $user = false;
+        return $user;
     }
 }
 

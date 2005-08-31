@@ -62,11 +62,15 @@ class eZNotificationEventHandler
         $this->Name = $name;
     }
 
+    function attributes()
+    {
+        return array( 'id_string',
+                      'name' );
+    }
+
     function hasAttribute( $attr )
     {
-        if ( $attr == 'id_string' || $attr == 'name' )
-            return true;
-        return false;
+        return in_array( $attr, $this->attributes() );
     }
 
     function &attribute( $attr )
@@ -79,7 +83,12 @@ class eZNotificationEventHandler
         {
             return $this->Name;
         }
-        return false;
+        else
+        {
+            eZDebug::writeError( "Attribute '$attr' does not exist", 'eZNotificationEventHandler::attribute' );
+            $retValue = null;
+            return $retValue;
+        }
     }
 
     function handle( $event )

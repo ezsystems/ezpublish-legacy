@@ -73,15 +73,21 @@ class eZRangeOption
         return $this->Name;
     }
 
+    /*!
+     \return list of supported attributes
+    */
+    function attributes()
+    {
+        return array( 'name',
+                      'start_value',
+                      'stop_value',
+                      'step_value',
+                      'option_list' );
+    }
+
     function hasAttribute( $name )
     {
-        if ( $name == "name" || $name == "start_value" || $name == "stop_value" || $name == "step_value" )
-            return true;
-        else
-            if ( $name == "option_list" )
-                return true;
-            else
-                return false;
+        return in_array( $name, $this->attributes() );
     }
 
     function &attribute( $name )
@@ -108,15 +114,13 @@ class eZRangeOption
             {
                 return $this->Options;
             }break;
+            default:
+            {
+                eZDebug::writeError( "Attribute '$name' does not exist", 'eZRangeOption::attribute' );
+                $retValue = null;
+                return $retValue;
+            }break;
         }
-    }
-
-    /*!
-     \return list of supported attributes
-    */
-    function attributes()
-    {
-        return array( 'name', 'start_value', 'stop_value', 'step_value', 'option_list' );
     }
 
     function addOption( $valueArray )

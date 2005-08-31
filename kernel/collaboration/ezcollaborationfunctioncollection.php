@@ -66,9 +66,15 @@ class eZCollaborationFunctionCollection
         }
         $participant =& eZCollaborationItemParticipantLink::fetch( $itemID, $participantID );
         if ( $participant === null )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => &$participant );
+        {
+            $resultArray = array( 'error' => array( 'error_type' => 'kernel',
+                                                    'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        }
+        else
+        {
+            $resultArray = array( 'result' => &$participant );
+        }
+        return $resultArray;
     }
 
     function &fetchParticipantList( $itemID, $sortBy, $offset, $limit )
@@ -80,9 +86,15 @@ class eZCollaborationFunctionCollection
                                  'sort_by' => $sortBy );
         $children =& eZCollaborationItemParticipantLink::fetchParticipantList( $itemParameters );
         if ( $children === null )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => &$children );
+        {
+            $resultArray = array( 'error' => array( 'error_type' => 'kernel',
+                                                    'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        }
+        else
+        {
+            $resultArray = array( 'result' => &$children );
+        }
+        return $resultArray;
     }
 
     function &fetchParticipantMap( $itemID, $sortBy, $offset, $limit, $field )
@@ -96,9 +108,15 @@ class eZCollaborationFunctionCollection
             $itemParameters['sort_field'] = $field;
         $children =& eZCollaborationItemParticipantLink::fetchParticipantMap( $itemParameters );
         if ( $children === null )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => &$children );
+        {
+            $resultArray = array( 'error' => array( 'error_type' => 'kernel',
+                                                    'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        }
+        else
+        {
+            $resultArray = array( 'result' => &$children );
+        }
+        return $resultArray;
     }
 
     function &fetchMessageList( $itemID, $sortBy, $offset, $limit )
@@ -110,9 +128,15 @@ class eZCollaborationFunctionCollection
                                  'sort_by' => $sortBy );
         $children =& eZCollaborationItemMessageLink::fetchItemList( $itemParameters );
         if ( $children === null )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => &$children );
+        {
+            $resultArray = array( 'error' => array( 'error_type' => 'kernel',
+                                                    'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        }
+        else
+        {
+            $resultArray = array( 'result' => &$children );
+        }
+        return $resultArray;
     }
 
     function fetchItemList( $sortBy, $offset, $limit, $status, $isRead, $isActive, $parentGroupID )
@@ -170,9 +194,15 @@ class eZCollaborationFunctionCollection
                                                       'ClassFilterArray' => $class_filter_array,
                                                       'Depth' => $depth ) );
         if ( $childrenCount === null )
-            return array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
-        return array( 'result' => &$childrenCount );
+        {
+            $resultArray = array( 'error' => array( 'error_type' => 'kernel',
+                                                    'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        }
+        else
+        {
+            $resultArray = array( 'result' => &$childrenCount );
+        }
+        return $resultArray;
     }
 
 }

@@ -211,7 +211,7 @@ class eZDateTimeType extends eZDataType
         return $content;
     }
 
-    function &defaultClassAttributeContent()
+    function defaultClassAttributeContent()
     {
         return array( 'year' => '',
                       'month' => '',
@@ -318,7 +318,7 @@ class eZDateTimeType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $defaultValue = $classAttribute->attribute( EZ_DATATYPESTRING_DATETIME_DEFAULT );
         $adjustValue = $classAttribute->attribute( EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD );

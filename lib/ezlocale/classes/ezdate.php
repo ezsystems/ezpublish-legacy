@@ -95,14 +95,14 @@ class eZDate
     {
         if ( $date === false )
         {
-            $date =& mktime( 0, 0, 0 );
+            $date = mktime( 0, 0, 0 );
         }
         else
         {
-            $arr =& getdate( $date );
-            $date =& mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $arr['year'] );
+            $arr = getdate( $date );
+            $date = mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $arr['year'] );
         }
-        $this->Date =& $date;
+        $this->Date = $date;
         $this->Locale =& eZLocale::instance();
         $this->IsValid = $date > 0;
     }
@@ -118,30 +118,27 @@ class eZDate
 
     function hasAttribute( $name )
     {
-        if ( $name == 'timestamp' or
-             $name == 'is_valid' or
-             $name == 'year' or
-             $name == 'month' or
-             $name == 'day' )
-            return true;
-        else
-            return false;
+        return in_array( $name, $this->attributes() );
     }
 
     function &attribute( $name )
     {
         if ( $name == 'timestamp'  )
-            return $this->timeStamp();
+            $retValue = $this->timeStamp();
         else if ( $name == 'is_valid' )
-            return $this->isValid();
+            $retValue = $this->isValid();
         else if ( $name == 'day'  )
-            return $this->day();
+            $retValue = $this->day();
         else if ( $name == 'year'  )
-            return $this->year();
+            $retValue = $this->year();
         else if ( $name == 'month'  )
-            return $this->month();
+            $retValue = $this->month();
         else
-            return false;
+        {
+            eZDebug::writeError( "Attribute '$name' does not exist", 'eZDate::attribute' );
+            $retValue = false;
+        }
+        return $retValue;
     }
 
     /*!
@@ -189,8 +186,8 @@ class eZDate
     */
     function setYear( $year )
     {
-        $arr =& getdate( $this->Date );
-        $this->Time =& mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $year );
+        $arr = getdate( $this->Date );
+        $this->Time = mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $year );
     }
 
     /*!
@@ -198,8 +195,8 @@ class eZDate
     */
     function setMonth( $month )
     {
-        $arr =& getdate( $this->Date );
-        $this->Time =& mktime( 0, 0, 0, $month, $arr['mday'], $arr['year'] );
+        $arr = getdate( $this->Date );
+        $this->Time = mktime( 0, 0, 0, $month, $arr['mday'], $arr['year'] );
     }
 
     /*!
@@ -207,8 +204,8 @@ class eZDate
     */
     function setDay( $day )
     {
-        $arr =& getdate( $this->Date );
-        $this->Time =& mktime( 0, 0, 0, $arr['mon'], $day, $arr['year'] );
+        $arr = getdate( $this->Date );
+        $this->Time = mktime( 0, 0, 0, $arr['mon'], $day, $arr['year'] );
     }
 
     /*!
@@ -216,7 +213,8 @@ class eZDate
     */
     function &year()
     {
-        return date( 'Y', $this->Date );
+        $yearValue = date( 'Y', $this->Date );
+        return $yearValue;
     }
 
     /*!
@@ -224,7 +222,8 @@ class eZDate
     */
     function &month()
     {
-        return date( 'm', $this->Date );
+        $monthValue = date( 'm', $this->Date );
+        return $monthValue;
     }
 
     /*!
@@ -232,7 +231,8 @@ class eZDate
     */
     function &day()
     {
-        return date( 'd', $this->Date );
+        $dayValue = date( 'd', $this->Date );
+        return $dayValue;
     }
 
     /*!
@@ -242,12 +242,12 @@ class eZDate
     function setMDY( $month, $day = 0, $year = 0 )
     {
         if ( $year != 0 )
-            $date =& mktime( 0, 0, 0, $month, $day, $year );
+            $date = mktime( 0, 0, 0, $month, $day, $year );
         else if ( $day != 0 )
-            $date =& mktime( 0, 0, 0, $month, $day );
+            $date = mktime( 0, 0, 0, $month, $day );
         else
-            $date =& mktime( 0, 0, 0, $month );
-        $this->Date =& $date;
+            $date = mktime( 0, 0, 0, $month );
+        $this->Date = $date;
     }
 
     /*!
@@ -256,9 +256,9 @@ class eZDate
     */
     function adjustDate( $month, $day = 0, $year = 0 )
     {
-        $arr =& getdate( $this->Date );
-        $date =& mktime( 0, 0, 0, $month + $arr['mon'], $day + $arr['mday'], $year + $arr['year'] );
-        $this->Date =& $date;
+        $arr = getdate( $this->Date );
+        $date = mktime( 0, 0, 0, $month + $arr['mon'], $day + $arr['mday'], $year + $arr['year'] );
+        $this->Date = $date;
     }
 
     /*!
@@ -268,13 +268,13 @@ class eZDate
     */
     function isGreaterThan( &$date, $equal = false )
     {
-        $d1 =& $this->timeStamp();
+        $d1 = $this->timeStamp();
         if ( get_class( $date ) == 'ezdate' )
-            $d2 =& $date->timeStamp();
+            $d2 = $date->timeStamp();
         else
         {
-            $arr =& getdate( $date );
-            $d2 =& mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $arr['year'] );
+            $arr = getdate( $date );
+            $d2 = mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $arr['year'] );
         }
         if ( $d1 > $d2 )
             return true;
@@ -289,13 +289,13 @@ class eZDate
     */
     function isEqualTo( &$date )
     {
-        $d1 =& $this->timeStamp();
+        $d1 = $this->timeStamp();
         if ( get_class( $date ) == 'ezdate' )
-            $d2 =& $date->timeStamp();
+            $d2 = $date->timeStamp();
         else
         {
-            $arr =& getdate( $date );
-            $d2 =& mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $arr['year'] );
+            $arr = getdate( $date );
+            $d2 = mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $arr['year'] );
         }
         return $d1 == $d2;
     }
@@ -307,12 +307,13 @@ class eZDate
     function &create( $month, $day = 0, $year = 0 )
     {
         if ( $year != 0 )
-            $date =& mktime( 0, 0, 0, $month, $day, $year );
+            $date = mktime( 0, 0, 0, $month, $day, $year );
         else if ( $day != 0 )
-            $date =& mktime( 0, 0, 0, $month, $day );
+            $date = mktime( 0, 0, 0, $month, $day );
         else
-            $date =& mktime( 0, 0, 0, $month );
-        return new eZDate( $date );
+            $date = mktime( 0, 0, 0, $month );
+        $newDateObject = new eZDate( $date );
+        return $newDateObject;
     }
 
     /*!
@@ -320,7 +321,7 @@ class eZDate
     */
     function &duplicate()
     {
-        $d =& new eZDate( $this->Date );
+        $d = new eZDate( $this->Date );
         $d->setLocale( $this->Locale );
         return $d;
     }

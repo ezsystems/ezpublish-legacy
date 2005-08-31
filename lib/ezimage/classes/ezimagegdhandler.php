@@ -743,15 +743,17 @@ class eZImageGDHandler extends eZImageHandler
     {
         if ( !$iniFilename )
             $iniFilename = 'image.ini';
+
+        $handler = false;
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance( $iniFilename );
         if ( !$ini )
         {
             eZDebug::writeError( "Failed loading ini file $iniFilename",
                                  'eZImageGDHandler::createFromINI' );
-            return false;
+            return $handler;
         }
-        $handler = false;
+
         if ( $ini->hasGroup( $iniGroup ) )
         {
             $name = $iniGroup;
@@ -779,7 +781,7 @@ class eZImageGDHandler extends eZImageHandler
                                              $conversionRules );
             return $handler;
         }
-        return false;
+        return $handler;
     }
 
     /// \privatesection

@@ -59,6 +59,8 @@ eZContentBrowse::browse( array( 'action_name' => 'MyActionName' ), $module );
 
 */
 
+include_once( 'lib/ezutils/classes/ezhttptool.php' );
+
 class eZContentBrowse
 {
     /*!
@@ -101,8 +103,12 @@ class eZContentBrowse
     {
         if ( isset( $this->Parameters[$attributeName] ) )
             return $this->Parameters[$attributeName];
-        $attribute = null;
-        return $attribute;
+        else
+        {
+            eZDebug::writeError( "Attribute '$attributeName' does not exist", 'eZContentBrowse::attribute' );
+            $attribute = null;
+            return $attribute;
+        }
     }
 
     /*!

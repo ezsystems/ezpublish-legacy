@@ -152,7 +152,7 @@ class eZLDAPUser extends eZUser
         if ( $exists and $isEnabled )
         {
             eZDebugSetting::writeDebug( 'kernel-user', $userRow, 'user row' );
-            $user =& new eZUser( $userRow );
+            $user = new eZUser( $userRow );
             eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
             $userID = $user->attribute( 'contentobject_id' );
 
@@ -226,7 +226,8 @@ class eZLDAPUser extends eZUser
                 $r = ldap_bind( $ds );
                 if ( !$r )
                 {
-                    return false;
+                    $user = false;
+                    return $user;
                 }
 
                 $LDAPFilter .= "($LDAPLogin=$login)";
@@ -259,12 +260,14 @@ class eZLDAPUser extends eZUser
                 if ( $info["count"] > 1 )
                 {
                     // More than one user with same uid, not allow login.
-                    return false;
+                    $user = false;
+                    return $user;
                 }
                 else if ( $info["count"] < 1 )
                 {
                     // user DN was not found
-                    return false;
+                    $user = false;
+                    return $user;
                 }
 
                 if( !$password )
@@ -275,7 +278,8 @@ class eZLDAPUser extends eZUser
                 // authenticated user
                 if  ( !@ldap_bind( $ds, $info[0]['dn'], $password ) )
                 {
-                    return false;
+                    $user = false;
+                    return $user;
                 }
 
                 if ( $LDAPUserGroupType != null )
@@ -567,7 +571,10 @@ class eZLDAPUser extends eZUser
             }
         }
         else
-            return false;
+        {
+            $user = false;
+            return $user;
+        }
     }
 }
 

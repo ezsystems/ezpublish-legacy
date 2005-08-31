@@ -89,7 +89,8 @@ class eZXML
 
         if ( $native and function_exists( 'domxml_open_mem' ) )
         {
-            return domxml_open_mem( $xmlDoc );
+            $domDocument = domxml_open_mem( $xmlDoc );
+            return $domDocument;
         }
         $params["TrimWhiteSpace"] = true;
 

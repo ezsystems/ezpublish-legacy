@@ -72,7 +72,8 @@ class eZTemplateSequenceFunction
     */
     function &functionList()
     {
-        return array( $this->SequenceName );
+        $functionList = array( $this->SequenceName );
+        return $functionList;
     }
 
     /*!

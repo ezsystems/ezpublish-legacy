@@ -186,7 +186,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
         $objectIDInSQL = implode( ', ', $relatedObjectIDArray );
         $objectQuery = "SELECT id FROM ezcontentobject WHERE id IN ( $objectIDInSQL )";
-        $objectRowArray =& $db->arrayQuery( $objectQuery );
+        $objectRowArray = $db->arrayQuery( $objectQuery );
 
         $existingObjectIDArray = array();
         if ( count( $objectRowArray ) > 0 )
@@ -1781,7 +1781,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         }
         else
         {
-            $retVal = null;
+            $retVal = false;
             return $retVal;
         }
     }

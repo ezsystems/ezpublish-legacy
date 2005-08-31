@@ -401,7 +401,11 @@ class eZContentClassPackageHandler extends eZPackageHandler
     function &classDOMTree( &$class )
     {
         if ( !$class )
-            return false;
+        {
+            $retValue = false;
+            return $retValue;
+        }
+
         $classNode = eZDOMDocument::createElementNode( 'content-class' );
         $classNode->appendChild( eZDOMDocument::createElementTextNode( 'name',
                                                                        $class->attribute( 'name' ) ) );

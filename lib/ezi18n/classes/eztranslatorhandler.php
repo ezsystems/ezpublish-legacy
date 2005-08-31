@@ -72,6 +72,8 @@ class eZTranslatorHandler
     */
     function &findKey( $key )
     {
+        $retValue = null;
+        return $retValue;
     }
 
     /*!
@@ -84,6 +86,8 @@ class eZTranslatorHandler
     */
     function &findMessage( $context, $source, $comment = null )
     {
+        $retValue = null;
+        return $retValue;
     }
 
     /*!
@@ -94,6 +98,8 @@ class eZTranslatorHandler
     */
     function &translate( $context, $source, $comment = null )
     {
+        $retValue = null;
+        return $retValue;
     }
 
     /*!
@@ -104,6 +110,8 @@ class eZTranslatorHandler
     */
     function &keyTranslate( $key )
     {
+        $retValue = null;
+        return $retValue;
     }
 
     /// \privatesection

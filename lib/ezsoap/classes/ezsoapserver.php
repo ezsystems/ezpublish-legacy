@@ -242,8 +242,7 @@ class eZSOAPServer
     function &stripHTTPHeader( $data )
     {
         $start = strpos( $data, "<?xml version=\"1.0\"?>" );
-        $data =& substr( $data, $start, strlen( $data ) - $start );
-
+        $data = substr( $data, $start, strlen( $data ) - $start );
         return $data;
     }
 

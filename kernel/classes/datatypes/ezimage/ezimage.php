@@ -105,8 +105,11 @@ class eZImage extends eZPersistentObject
         {
             foreach ( array_keys ( $heightList ) as $key )
             {
-                if ( ( $attr != "small" and $attr != "medium" and $attr != "large" and
-                       $attr != "reference" and $attr != "original" ) and
+                if ( ( $attr != "small" and
+                       $attr != "medium" and
+                       $attr != "large" and
+                       $attr != "reference" and
+                       $attr != "original" ) and
                      $attr == $key )
                 {
                     $attr = "custom_size";
@@ -114,8 +117,14 @@ class eZImage extends eZPersistentObject
                 }
             }
         }
-        return $attr == "mime_type_category" or $attr == "mime_type_part" or eZPersistentObject::hasAttribute( $attr ) or
-            $attr == "small" or $attr == "large" or $attr == "medium" or $attr == "reference" or $attr == "original";
+        return $attr == 'mime_type_category' or
+               $attr == 'mime_type_part' or
+               eZPersistentObject::hasAttribute( $attr ) or
+               $attr == 'small' or
+               $attr == 'large' or
+               $attr == 'medium' or
+               $attr == 'reference' or
+               $attr == 'original';
     }
 
     function &attribute( $attr )
@@ -130,8 +139,11 @@ class eZImage extends eZPersistentObject
 
         foreach ( array_keys ( $heightList ) as $key )
         {
-            if ( ( $attr != "small" or $attr != "medium" or $attr != "large"
-                 or $attr != "reference" or $attr != "original" ) and
+            if ( ( $attr != "small" or
+                   $attr != "medium" or
+                   $attr != "large" or
+                   $attr != "reference" or
+                   $attr != "original" ) and
                  $attr == $key )
             {
                 $attr = "custom_size";
@@ -245,7 +257,6 @@ class eZImage extends eZPersistentObject
             default:
                 return eZPersistentObject::attribute( $attr );
         }
-        return null;
     }
 
     function create( $contentObjectAttributeID, $contentObjectAttributeVersion  )

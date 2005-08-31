@@ -130,94 +130,22 @@ class eZOrder extends eZPersistentObject
                                                                         'required' => true ) ),
                       'function_attributes' => array( 'status_name' => 'statusName',
                                                       'status' => 'statusObject',
-                                                      'status_modification_list' => 'statusModificationList' ),
+                                                      'status_modification_list' => 'statusModificationList',
+                                                      'product_items' => 'productItems',
+                                                      'order_items' => 'orderItems',
+                                                      'product_total_inc_vat' => 'productTotalIncVAT',
+                                                      'product_total_ex_vat' => 'productTotalExVAT',
+                                                      'total_inc_vat' => 'totalIncVAT',
+                                                      'total_ex_vat' => 'totalExVAT',
+                                                      'user' => 'user',
+                                                      'account_view_template' => 'accountViewTemplate',
+                                                      'account_information' => 'accountInformation',
+                                                      'account_name' => 'accountName',
+                                                      'account_email' => 'accountEmail' ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZOrder",
                       "name" => "ezorder" );
-    }
-
-    function &attribute( $attr )
-    {
-        if ( $attr == "product_items" )
-        {
-            $productItems =& $this->productItems();
-            return $productItems;
-        }
-        if ( $attr == "order_items" )
-        {
-            $orderItems =& $this->orderItems();
-            return $orderItems;
-        }
-        if ( $attr == "product_total_inc_vat" )
-        {
-            $prodIncVat = $this->productTotalIncVAT();
-            return $prodIncVat;
-        }
-        if ( $attr == "product_total_ex_vat" )
-        {
-            $prodExVat = $this->productTotalExVAT();
-            return $prodExVat;
-        }
-        if ( $attr == "total_inc_vat" )
-        {
-            $incVat = $this->totalIncVAT();
-            return $incVat;
-        }
-        if ( $attr == "total_ex_vat" )
-        {
-            $exVat = $this->totalExVAT();
-            return $exVat;
-        }
-        else if ( $attr == "user" )
-            return $this->user();
-        else if ( $attr == "account_view_template" )
-            return $this->accountViewTemplate();
-        else if ( $attr == "account_information" )
-        {
-            $accountInformation = $this->accountInformation();
-            return $accountInformation;
-        }
-        else if ( $attr == "account_name" )
-        {
-            $accountName =& $this->accountName();
-            return $accountName;
-        }
-        else if ( $attr == "account_email" )
-        {
-            $email =& $this->accountEmail();
-            return $email;
-        }
-        else
-            return eZPersistentObject::attribute( $attr );
-    }
-
-    function hasAttribute( $attr )
-    {
-        if ( $attr == "order_items" )
-            return true;
-        else if ( $attr == "product_items" )
-            return true;
-        else if ( $attr == "product_total_inc_vat" )
-            return true;
-        else if ( $attr == "product_total_ex_vat" )
-            return true;
-        else if ( $attr == "total_inc_vat" )
-            return true;
-        else if ( $attr == "total_ex_vat" )
-            return true;
-        else if ( $attr == "user" )
-            return true;
-        else if ( $attr == "account_view_template" )
-            return true;
-        else if ( $attr == "account_information" )
-            return true;
-        else if ( $attr == "account_name" )
-            return true;
-        else if ( $attr == "account_email" )
-            return true;
-        else
-            return eZPersistentObject::hasAttribute( $attr );
     }
 
 
@@ -233,15 +161,19 @@ class eZOrder extends eZPersistentObject
     {
         $collection =& $this->productCollection();
         if ( !$collection )
-            return false;
+        {
+            $retValue = false;
+            return $retValue;
+        }
 
         $db =& eZDB::instance();
         $db->begin();
         $newCollection =& $collection->copy();
-        if ( !$newCollection ) 
+        if ( !$newCollection )
         {
             $db->commit();
-            return false;
+            $retValue = false;
+            return $retValue;
         }
         $this->setAttribute( 'productcollection_id', $newCollection->attribute( 'id' ) );
         $this->store();
@@ -278,13 +210,13 @@ class eZOrder extends eZPersistentObject
 
     function &activeByUserID( $userID, $asObject = true )
     {
-        $user =& eZPersistentObject::fetchObjectList( eZOrder::definition(),
-                                                      null,
-                                                      array( "user_id" => $userID,
-                                                             'is_temporary' => 0 ),
-                                                      array( "created" => "desc" ), null,
-                                                      $asObject );
-        return $user;
+        $objectList =& eZPersistentObject::fetchObjectList( eZOrder::definition(),
+                                                            null,
+                                                            array( "user_id" => $userID,
+                                                                   'is_temporary' => 0 ),
+                                                            array( "created" => "desc" ), null,
+                                                            $asObject );
+        return $objectList;
     }
 
     function getShowOrdersQuery( $show, $table = null )
@@ -323,7 +255,7 @@ class eZOrder extends eZPersistentObject
                             ezorder.is_temporary = '0' AND
                             ezcontentobject.id = ezorder.user_id
                       ORDER BY ezcontentobject.name $sortOrder";
-            $orderArray =& $db->arrayQuery( $query, $db_params );
+            $orderArray = $db->arrayQuery( $query, $db_params );
             if ( $asObject )
             {
                 $retOrders = array();
@@ -379,19 +311,19 @@ class eZOrder extends eZPersistentObject
         if ( $year == false )
         {
             $startDate = 0;
-            $stopDate =& mktime( 0, 0, 0, 12, 31, 2037 );
+            $stopDate = mktime( 0, 0, 0, 12, 31, 2037 );
         }
         else if ( $year != false and $month == false )
         {
             $nextYear = $year + 1;
-            $startDate =& mktime( 0, 0, 0, 1, 1, $year );
-            $stopDate =& mktime( 0, 0, 0, 1, 1, $nextYear );
+            $startDate = mktime( 0, 0, 0, 1, 1, $year );
+            $stopDate = mktime( 0, 0, 0, 1, 1, $nextYear );
         }
         else if ( $year != false and $month != false )
         {
             $nextMonth = $month + 1;
-            $startDate =& mktime( 0, 0, 0, $month, 1, $year );
-            $stopDate =& mktime( 0, 0, 0, $nextMonth, 0, $year );
+            $startDate = mktime( 0, 0, 0, $month, 1, $year );
+            $stopDate = mktime( 0, 0, 0, $nextMonth, 0, $year );
         }
 
         $db =& eZDB::instance();
@@ -932,7 +864,7 @@ class eZOrder extends eZPersistentObject
         return $addedProducts;
     }
 
-    function productTotalIncVAT()
+    function &productTotalIncVAT()
     {
         $items =& $this->productItems();
 
@@ -945,7 +877,7 @@ class eZOrder extends eZPersistentObject
         return $total;
     }
 
-    function productTotalExVAT()
+    function &productTotalExVAT()
     {
         $items =& $this->productItems();
 
@@ -984,14 +916,16 @@ class eZOrder extends eZPersistentObject
         return $total;
     }
 
-    function totalIncVAT()
+    function &totalIncVAT()
     {
-        return $this->productTotalIncVAT() + $this->orderTotalIncVAT();
+        $totalIncVAT = $this->productTotalIncVAT() + $this->orderTotalIncVAT();
+        return $totalIncVAT;
     }
 
-    function totalExVAT()
+    function &totalExVAT()
     {
-        return $this->productTotalExVAT() + $this->orderTotalExVAT();
+        $totalExVAT = $this->productTotalExVAT() + $this->orderTotalExVAT();
+        return $totalExVAT;
     }
 
     /*!
@@ -1047,13 +981,13 @@ class eZOrder extends eZPersistentObject
     */
     function &totalVAT()
     {
-
+        $retValue = false;
+        return $retValue;
     }
 
     function &orderItems()
     {
         $items =& eZOrderItem::fetchList( $this->ID );
-
         return $items;
     }
 
@@ -1062,20 +996,21 @@ class eZOrder extends eZPersistentObject
     */
     function &user()
     {
-        return eZUser::fetch( $this->UserID );
+        $user =& eZUser::fetch( $this->UserID );
+        return $user;
     }
 
     /*!
      \return the account information
      The shop account handler decides what is returned here
     */
-    function accountInformation()
+    function &accountInformation()
     {
         // Fetch the shop account handler
         include_once( 'kernel/classes/ezshopaccounthandler.php' );
         $accountHandler =& eZShopAccountHandler::instance();
-
-        return $accountHandler->accountInformation( $this );
+        $accountInformation = $accountHandler->accountInformation( $this );
+        return $accountInformation;
     }
 
 
@@ -1177,7 +1112,7 @@ class eZOrder extends eZPersistentObject
      \note If the user doesn't have any access at all for this order it will
            return an empty array.
     */
-    function statusModificationList( $user = false )
+    function &statusModificationList( $user = false )
     {
         if ( $user === false )
             $user =& eZUser::currentUser();
@@ -1187,7 +1122,8 @@ class eZOrder extends eZPersistentObject
         if ( !is_object( $user ) )
         {
             eZDebug::writeError( "Cannot calculate status access list without a user", 'eZOrder::canModifyStatus' );
-            return false;
+            $retValue = false;
+            return $retValue;
         }
 
         $accessResult = $user->hasAccessTo( 'shop' , 'setstatus' );
@@ -1196,14 +1132,15 @@ class eZOrder extends eZPersistentObject
 
         $currentStatusID = $this->attribute( "status_id" );
 
+        $statusList = array();
         if ( $accessWord == 'yes' )
         {
             // We have full access so we return all of them
             include_once( 'kernel/classes/ezorderstatus.php' );
-            return eZOrderStatus::fetchOrderedList( true, false );
+            $statusList = eZOrderStatus::fetchOrderedList( true, false );
+            return $statusList;
         }
 
-        $statusList = array();
         if ( $accessWord == 'limited' )
         {
             $limitationList =& $accessResult['policies'];
@@ -1233,7 +1170,8 @@ class eZOrder extends eZPersistentObject
                     {
                         // We have full access for the current status so we return all of them
                         include_once( 'kernel/classes/ezorderstatus.php' );
-                        return eZOrderStatus::fetchOrderedList( true, false );
+                        $statusList = eZOrderStatus::fetchOrderedList( true, false );
+                        return $statusList;
                     }
                 }
             }
@@ -1327,14 +1265,15 @@ class eZOrder extends eZPersistentObject
      \note It will cache the current status object in the $Status member variable
            to make multiple calls to this function fast.
     */
-    function statusName()
+    function &statusName()
     {
         if ( $this->Status === null )
         {
             include_once( 'kernel/classes/ezorderstatus.php' );
             $this->Status = eZOrderStatus::fetchByStatus( $this->StatusID );
         }
-        return $this->Status->attribute( 'name' );
+        $name = $this->Status->attribute( 'name' );;
+        return $name;
     }
 
     /*!
@@ -1342,7 +1281,7 @@ class eZOrder extends eZPersistentObject
      \note It will cache the current status object in the $Status member variable
            to make multiple calls to this function fast.
     */
-    function statusObject()
+    function &statusObject()
     {
         if ( $this->Status === null )
         {

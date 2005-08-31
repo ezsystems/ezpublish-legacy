@@ -121,7 +121,7 @@ class eZImageLayer extends eZImageInterface
     */
     function &createForFile( $fileName, $filePath, $fileType = false )
     {
-        $layer =& new eZImageLayer();
+        $layer = new eZImageLayer();
         $layer->setStoredFile( $fileName, $filePath, $fileType );
         $layer->process();
         return $layer;

@@ -155,35 +155,6 @@ class eZProductCollectionItem extends eZPersistentObject
         return $object;
     }
 
-    function &attribute( $attr )
-    {
-        switch ( $attr )
-        {
-            case "contentobject" :
-            {
-                return $this->contentObject(  );
-            }break;
-            case "option_list" :
-            {
-                $optionList =& $this->optionList(  );
-                return $optionList;
-            }break;
-
-            default :
-            {
-                return eZPersistentObject::attribute( $attr );
-            }break;
-        }
-    }
-
-    function hasAttribute( $attr )
-    {
-        if ( $attr == "contentobject" || $attr == 'option_list' )
-            return true;
-        else
-            return eZPersistentObject::hasAttribute( $attr );
-    }
-
     /*!
      \return the discount percent for the current item
     */

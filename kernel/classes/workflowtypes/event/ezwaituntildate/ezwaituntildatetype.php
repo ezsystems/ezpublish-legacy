@@ -112,10 +112,17 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
 //        return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_DONE;
     }
 
+    function attributes()
+    {
+        return array_merge( array( 'contentclass_list',
+                                   'contentclassattribute_list',
+                                   'has_class_attributes' ),
+                            eZWorkflowEventType::attributes() );
+    }
+
     function hasAttribute( $attr )
     {
-        return in_array( $attr , array( 'contentclass_list', 'contentclassattribute_list', 'has_class_attributes' ) )
-            or eZWorkflowEventType::hasAttribute( $attr );
+        return in_array( $attr, $this->attributes() );
     }
 
     function &attribute( $attr )
@@ -236,7 +243,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
     {
         $id = $event->attribute( "id" );
         $version = $event->attribute( "version" );
-        $waitUntilDate =& new eZWaitUntilDate( $id, $version );
+        $waitUntilDate = new eZWaitUntilDate( $id, $version );
         return $waitUntilDate;
     }
 
