@@ -43,6 +43,19 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 $http =& eZHTTPTool::instance();
 $module =& $Params["Module"];
 
+if ( $module->hasActionParameter( 'LanguageCode' ) )
+{
+    $languageCode = $module->actionParameter( 'LanguageCode' );
+}
+else
+{
+    $languageCode = eZContentObject::defaultLanguage();
+}
+
+$viewMode = 'full';
+if ( $module->hasActionParameter( 'ViewMode' ) )
+    $viewMode = $module->actionParameter( 'ViewMode' );
+
 
 if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
 {
@@ -179,8 +192,7 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
     include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearContentCache( $contentObjectID );
 
-    return $module->redirectToView( 'view', array( 'full', $nodeID,
-                                                   $languageCode = $module->actionParameter( 'LanguageCode' ) ) );
+    return $module->redirectToView( 'view', array( 'full', $nodeID, $languageCode ) );
 }
 else if ( $module->isCurrentAction( 'MoveNode' ) )
 {
@@ -192,17 +204,6 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
     }
 
     $nodeID = $module->actionParameter( 'NodeID' );
-    $viewMode = 'full';
-    if ( $module->hasActionParameter( 'ViewMode' ) )
-        $viewMode = $module->actionParameter( 'ViewMode' );
-    if ( $module->hasActionParameter( 'LanguageCode' ) )
-    {
-        $languageCode = $module->actionParameter( 'LanguageCode' );
-    }
-    else
-    {
-        $languageCode = eZContentObject::defaultLanguage();
-    }
 
     $node =& eZContentObjectTreeNode::fetch( $nodeID );
     if ( !$node )
@@ -313,18 +314,6 @@ else if ( $module->isCurrentAction( 'MoveNodeRequest' ) )
     }
 
     $nodeID = $module->actionParameter( 'NodeID' );
-    $viewMode = 'full';
-    if ( $module->hasActionParameter( 'ViewMode' ) )
-        $viewMode = $module->actionParameter( 'ViewMode' );
-    if ( $module->hasActionParameter( 'LanguageCode' ) )
-    {
-        $languageCode = $module->actionParameter( 'LanguageCode' );
-    }
-    else
-    {
-        $languageCode = eZContentObject::defaultLanguage();
-    }
-
     $node =& eZContentObjectTreeNode::fetch( $nodeID );
     if ( !$node )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
@@ -389,18 +378,6 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
     }
 
     $nodeID = $module->actionParameter( 'NodeID' );
-    $viewMode = 'full';
-    if ( $module->hasActionParameter( 'ViewMode' ) )
-        $viewMode = $module->actionParameter( 'ViewMode' );
-    if ( $module->hasActionParameter( 'LanguageCode' ) )
-    {
-        $languageCode = $module->actionParameter( 'LanguageCode' );
-    }
-    else
-    {
-        $languageCode = eZContentObject::defaultLanguage();
-    }
-
     $node =& eZContentObjectTreeNode::fetch( $nodeID );
 
     if ( !$node )
@@ -529,18 +506,6 @@ else if ( $module->isCurrentAction( 'SwapNodeRequest' ) )
     }
 
     $nodeID = $module->actionParameter( 'NodeID' );
-    $viewMode = 'full';
-    if ( $module->hasActionParameter( 'ViewMode' ) )
-        $viewMode = $module->actionParameter( 'ViewMode' );
-    if ( $module->hasActionParameter( 'LanguageCode' ) )
-    {
-        $languageCode = $module->actionParameter( 'LanguageCode' );
-    }
-    else
-    {
-        $languageCode = eZContentObject::defaultLanguage();
-    }
-
     $node =& eZContentObjectTreeNode::fetch( $nodeID );
     if ( !$node )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel', array() );
@@ -601,17 +566,6 @@ else if ( $module->isCurrentAction( 'UpdateMainAssignment' ) )
 
     $objectID = $module->actionParameter( 'ObjectID' );
     $nodeID = $module->actionParameter( 'NodeID' );
-    $viewMode = 'full';
-    if ( $module->hasActionParameter( 'ViewMode' ) )
-        $viewMode = $module->actionParameter( 'ViewMode' );
-    if ( $module->hasActionParameter( 'LanguageCode' ) )
-    {
-        $languageCode = $module->actionParameter( 'LanguageCode' );
-    }
-    else
-    {
-        $languageCode = eZContentObject::defaultLanguage();
-    }
 
     if ( $module->hasActionParameter( 'MainAssignmentID' ) )
     {
@@ -680,17 +634,6 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
 
     $objectID = $module->actionParameter( 'ObjectID' );
     $nodeID = $module->actionParameter( 'NodeID' );
-    $viewMode = 'full';
-    if ( $module->hasActionParameter( 'ViewMode' ) )
-        $viewMode = $module->actionParameter( 'ViewMode' );
-    if ( $module->hasActionParameter( 'LanguageCode' ) )
-    {
-        $languageCode = $module->actionParameter( 'LanguageCode' );
-    }
-    else
-    {
-        $languageCode = eZContentObject::defaultLanguage();
-    }
 
     $object =& eZContentObject::fetch( $objectID );
     if ( !$object )
@@ -837,17 +780,6 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
 
     $objectID = $module->actionParameter( 'ObjectID' );
     $nodeID = $module->actionParameter( 'NodeID' );
-    $viewMode = 'full';
-    if ( $module->hasActionParameter( 'ViewMode' ) )
-        $viewMode = $module->actionParameter( 'ViewMode' );
-    if ( $module->hasActionParameter( 'LanguageCode' ) )
-    {
-        $languageCode = $module->actionParameter( 'LanguageCode' );
-    }
-    else
-    {
-        $languageCode = eZContentObject::defaultLanguage();
-    }
 
     $object =& eZContentObject::fetch( $objectID );
     if ( !$object )
@@ -1312,17 +1244,6 @@ else if ( $module->isCurrentAction( 'ClearViewCache' ) or
 
     $objectID = $module->actionParameter( 'ObjectID' );
     $nodeID = $module->actionParameter( 'NodeID' );
-    $viewMode = 'full';
-    if ( $module->hasActionParameter( 'ViewMode' ) )
-        $viewMode = $module->actionParameter( 'ViewMode' );
-    if ( $module->hasActionParameter( 'LanguageCode' ) )
-    {
-        $languageCode = $module->actionParameter( 'LanguageCode' );
-    }
-    else
-    {
-        $languageCode = eZContentObject::defaultLanguage();
-    }
 
     $object =& eZContentObject::fetch( $objectID );
     if ( !$object )
