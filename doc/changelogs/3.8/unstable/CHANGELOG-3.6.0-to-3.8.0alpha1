@@ -367,6 +367,8 @@ Attributes:
   ( Merged from stable/3.5 rev. 13111, stable/3.6 rev. 13112, stable/3.7 rev. 13113 )
 - Fixed bug #6896: WebDAV returns incorrect href elements.
   (Applyed patch by Vittal Aithal. Merged from stable/3.7 rev. 13119)
+- Fixed bug #7091: Sorting for children in edit view is upside-down.
+  (Merged from stable/3.5 (3.5.5) rev. 13123)
 
 *Library:
 
