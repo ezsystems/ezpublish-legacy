@@ -161,7 +161,7 @@ class eZStepSiteDetails extends eZStepInstaller
                 if ( count( $db->eZTableList() ) != 0 )
                 {
                     if ( $this->Http->hasPostVariable( 'eZSetup_site_templates_'.$counter.'_existing_database' ) &&
-                         $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_existing_database' ) != '4' )
+                         $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_existing_database' ) != EZ_SETUP_DB_DATA_CHOOSE )
                     {
                         $siteType['existing_database'] = $this->Http->postVariable( 'eZSetup_site_templates_' . $counter . '_existing_database' );
                     }
@@ -272,7 +272,7 @@ class eZStepSiteDetails extends eZStepInstaller
                 };
 
                 $siteType['database'] = $data['Database'][$identifier];
-                $action = 1;
+                $action = EZ_SETUP_DB_DATA_APPEND;
                 $map = array( 'ignore' => 1,
                               'remove' => 2,
                               'skip' => 3 );
