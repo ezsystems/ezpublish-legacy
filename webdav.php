@@ -120,7 +120,7 @@ function eZFatalError()
 }
 
 // Check and proceed only if WebDAV functionality is enabled:
-if ( $enable == true )
+if ( $enable === 'true' )
 {
     include_once( 'lib/ezutils/classes/ezexecution.php' );
     eZExecution::addCleanupHandler( 'eZDBCleanup' );
