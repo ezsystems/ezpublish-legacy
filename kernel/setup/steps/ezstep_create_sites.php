@@ -184,10 +184,9 @@ class eZStepCreateSites extends eZStepInstaller
         foreach ( array_keys( $siteTypes ) as $siteTypeKey )
         {
             $siteType =& $siteTypes[$siteTypeKey];
-//             $sitePackage = $this->PersistenceList['site_templates_'.$counter];
             $accessType = $siteType['access_type'];
-//             $package =& eZPackage::fetch( $siteType['identifier'], 'kernel/setup/packages' );
             $resultArray = array( 'errors' => array() );
+
             $result = $this->initializePackage( $siteType, $accessMap, $charset,
                                                 $allLanguageCodes, $allLanguages, $primaryLanguage, $this->PersistenceList['admin'],
                                                 $resultArray );
@@ -445,19 +444,16 @@ class eZStepCreateSites extends eZStepInstaller
         // Initialize the database by inserting schema and data
         {
             if ( !isset( $siteType['existing_database'] ) )
+            {
                 $siteType['existing_database'] = false;
-            if ( $siteType['existing_database'] == 2 )
+            }
+            if ( $siteType['existing_database'] == EZ_SETUP_DB_DATA_REMOVE )
             {
                 include_once( 'lib/ezdb/classes/ezdbtool.php' );
-//                 print( "cleaning up DB!<br/>\n" );
                 eZDBTool::cleanup( $db );
-//                 $tableArray = $db->eZTableList();
-//                 foreach ( array_keys( $tableArray ) as $table )
-//                 {
-//                     $db->removeRelation( $table, $tableArray[$table] );
-//                 }
             }
-            if ( $siteType['existing_database'] != 3 )
+
+            if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
             {
                 include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
                 $result = true;
@@ -560,18 +556,6 @@ class eZStepCreateSites extends eZStepInstaller
             $installParameters['variables']['admin_siteaccess'] = $adminSiteaccessName;
             $installParameters['variables']['design'] = $userDesignName;
 
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user = eZUser::instance( 14 );  // Must be initialized to make node assignments work correctly
-            if ( !is_object( $user ) )
-            {
-                $resultArray['errors'][] = array( 'code' => 'EZSW-020',
-                                                  'text' => "Could not fetch administrator user object" );
-                return false;
-            }
-            // Make sure Admin is the currently logged in user
-            // This makes sure all new/changed objects get this as creator
-            $user->loginCurrent();
-
             $ini =& eZINI::instance();
             $ini->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
 
@@ -581,30 +565,47 @@ class eZStepCreateSites extends eZStepInstaller
                                                array(),
                                                $typeFunctionality['required'] );
             $extraFunctionality = array_unique( $extraFunctionality );
-            foreach ( $extraFunctionality as $packageName )
+
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+
+            if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
             {
-                $package = eZPackage::fetch( $packageName, 'packages/addons' );
-                if ( is_object( $package ) )
+                $user = eZUser::instance( 14 );  // Must be initialized to make node assignments work correctly
+                if ( !is_object( $user ) )
                 {
-                    $status = $package->install( array( 'site_access_map' => array( '*' => $userSiteaccessName ),
-                                                        'top_nodes_map' => array( '*' => 2 ),
-                                                        'design_map' => array( '*' => $userDesignName ),
-                                                        'restore_dates' => true,
-                                                        'user_id' => $user->attribute( 'contentobject_id' ) ) );
-                    if ( !$status )
-                    {
-                        $resultArray['errors'][] = array( 'code' => 'EZSW-051',
-                                                          'text' => "Could not install addon package named $packageName" );
-                        return false;
-                    }
-                }
-                else
-                {
-                    $resultArray['errors'][] = array( 'code' => 'EZSW-050',
-                                                      'text' => "Could not fetch addon package named $packageName" );
+                    $resultArray['errors'][] = array( 'code' => 'EZSW-020',
+                                                      'text' => "Could not fetch administrator user object" );
                     return false;
                 }
-                unset( $package );
+                // Make sure Admin is the currently logged in user
+                // This makes sure all new/changed objects get this as creator
+                $user->loginCurrent();
+
+                foreach ( $extraFunctionality as $packageName )
+                {
+                    $package = eZPackage::fetch( $packageName, 'packages/addons' );
+                    if ( is_object( $package ) )
+                    {
+                        $status = $package->install( array( 'site_access_map' => array( '*' => $userSiteaccessName ),
+                                                            'top_nodes_map' => array( '*' => 2 ),
+                                                            'design_map' => array( '*' => $userDesignName ),
+                                                            'restore_dates' => true,
+                                                            'user_id' => $user->attribute( 'contentobject_id' ) ) );
+                        if ( !$status )
+                        {
+                            $resultArray['errors'][] = array( 'code' => 'EZSW-051',
+                                                              'text' => "Could not install addon package named $packageName" );
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        $resultArray['errors'][] = array( 'code' => 'EZSW-050',
+                                                          'text' => "Could not fetch addon package named $packageName" );
+                        return false;
+                    }
+                    unset( $package );
+                }
             }
 
             $primaryLanguageLocaleCode = $primaryLanguage->localeCode();
@@ -764,19 +765,22 @@ WHERE
                 }
                 $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", $resetArray );
 
-                // setting up appropriate data in look&feel object
-                $templateLookObject = eZContentObject::fetch( 54 );
-                $dataMap =& $templateLookObject->fetchDataMap();
-                $dataMap[ 'title' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteName'] );
-                $dataMap[ 'title' ]->store();
-                $dataMap[ 'siteurl' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteURL'] );
-                $dataMap[ 'siteurl' ]->store();
-                $dataMap[ 'email' ]->setAttribute( 'data_text', $siteINIChanges['MailSettings']['AdminEmail'] );
-                $dataMap[ 'email' ]->store();
-                $class =& eZContentClass::fetch( $templateLookObject->attribute( 'contentclass_id' ) );
-                $objectName = $class->contentObjectName( $templateLookObject );
-                $templateLookObject->setName( $objectName );
-                $templateLookObject->store();
+                if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
+                {
+                    // setting up appropriate data in look&feel object
+                    $templateLookObject = eZContentObject::fetch( 54 );
+                    $dataMap =& $templateLookObject->fetchDataMap();
+                    $dataMap[ 'title' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteName'] );
+                    $dataMap[ 'title' ]->store();
+                    $dataMap[ 'siteurl' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteURL'] );
+                    $dataMap[ 'siteurl' ]->store();
+                    $dataMap[ 'email' ]->setAttribute( 'data_text', $siteINIChanges['MailSettings']['AdminEmail'] );
+                    $dataMap[ 'email' ]->store();
+                    $class =& eZContentClass::fetch( $templateLookObject->attribute( 'contentclass_id' ) );
+                    $objectName = $class->contentObjectName( $templateLookObject );
+                    $templateLookObject->setName( $objectName );
+                    $templateLookObject->store();
+                }
             }
 
             foreach ( $extraAdminSettings as $extraSetting )
@@ -829,8 +833,19 @@ WHERE
                 $designINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
             }
 
-            include_once( 'kernel/classes/ezrole.php' );
+            eZDir::mkdir( "design/" . $userDesignName );
+            eZDir::mkdir( "design/" . $userDesignName . "/templates" );
+            eZDir::mkdir( "design/" . $userDesignName . "/stylesheets" );
+            eZDir::mkdir( "design/" . $userDesignName . "/images" );
+            eZDir::mkdir( "design/" . $userDesignName . "/override" );
+            eZDir::mkdir( "design/" . $userDesignName . "/override/templates" );
 
+            if ( $siteType['existing_database'] == EZ_SETUP_DB_DATA_KEEP )
+            {
+                return true;
+            }
+
+            include_once( 'kernel/classes/ezrole.php' );
             // Try and remove user/login without limitation from the anonymous user
             $anonRole =& eZRole::fetchByName( 'Anonymous' );
             if ( is_object( $anonRole ) )
@@ -913,13 +928,6 @@ WHERE
                     }
                 }
             }
-
-            eZDir::mkdir( "design/" . $userDesignName );
-            eZDir::mkdir( "design/" . $userDesignName . "/templates" );
-            eZDir::mkdir( "design/" . $userDesignName . "/stylesheets" );
-            eZDir::mkdir( "design/" . $userDesignName . "/images" );
-            eZDir::mkdir( "design/" . $userDesignName . "/override" );
-            eZDir::mkdir( "design/" . $userDesignName . "/override/templates" );
 
             $publishAdmin = false;
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
