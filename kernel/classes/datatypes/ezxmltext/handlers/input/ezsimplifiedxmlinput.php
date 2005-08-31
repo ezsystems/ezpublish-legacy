@@ -892,7 +892,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             // Tag is valid Check attributes
             // parse attruibet
 
-            if ( $attr !== null )
+            if ( $attr )
             {
                 foreach ( $attr as $attrbute )
                 {
