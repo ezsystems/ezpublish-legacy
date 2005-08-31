@@ -146,7 +146,7 @@ class eZSOAPClient
             if ( !fputs( $fp, $HTTPRequest, strlen( $HTTPRequest ) ) )
             {
                 $this->ErrorString = "<b>Error:</b> could not send the SOAP request. Could not write to the socket.";
-                $response = null;
+                $response = 0;
                 return $response;
             }
         }
