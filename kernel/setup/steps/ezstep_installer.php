@@ -53,6 +53,12 @@ define( 'EZ_SETUP_DB_ERROR_NO_DIGEST_PROC', 6 );
 define( 'EZ_SETUP_DB_ERROR_VERSION_INVALID', 7 );
 define( 'EZ_SETUP_DB_ERROR_CHARSET_DIFFERS', 8 );
 
+define( 'EZ_SETUP_DB_DATA_APPEND', 1 );
+define( 'EZ_SETUP_DB_DATA_REMOVE', 2 );
+define( 'EZ_SETUP_DB_DATA_KEEP', 3 );
+define( 'EZ_SETUP_DB_DATA_CHOOSE', 4 );
+
+
 class eZStepInstaller
 {
     /*!
