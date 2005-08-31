@@ -233,12 +233,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function &remoteID()
     {
-        $remoteID = eZPersistentObject::attribute( 'remote_id' );
+        $remoteID = eZPersistentObject::attribute( 'remote_id', true );
         if ( !$remoteID )
         {
             $this->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
             $this->sync( array( 'remote_id' ) );
-            $remoteID = eZPersistentObject::attribute( 'remote_id' );
+            $remoteID = eZPersistentObject::attribute( 'remote_id', true );
         }
 
         return $remoteID;
