@@ -75,7 +75,7 @@
                 {/let}
             {/case}
             {case match=4}
-                {let used_node=fetch( content, node, hash( node_path, $Parameter.value ) )}
+                {let used_node=fetch( content, node, hash( node_id, $Parameter.value ) )}
                 {section show=$used_node}
                     {$used_node.object.content_class.identifier|class_icon( small, $used_node.object.content_class.name|wash )}&nbsp;{$used_node.object.name|wash} ({$Parameter.value})
                 {section-else}

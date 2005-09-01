@@ -2,7 +2,8 @@
 <div class="toolbar-item {$placement}">
     {section show=and( is_set( $module_result.content_info ),
                        is_set( $module_result.view_parameters ),
-                       or( $module_result.content_info.url_alias|begins_with( $show_subtree ),
+                       or( fetch(content, node, hash( node_id, $module_result.node_id ) ).path_string|contains( concat( '/', $show_subtree, '/' ) ),
+                           $requested_uri_string|begins_with( $show_subtree ),
                            $show_classidentifiers|explode( ',' )|contains( $module_result.content_info.class_identifier ) ) )}
     {let today_info=false()
          class_identifier_list=$show_classidentifiers|explode( ',' )
@@ -65,7 +66,7 @@
     {*     {let log_node_id=$module_result.content_info.node_id *}
     {*          log_node=fetch( content, node, hash( node_id, $log_node_id ) ) *}
 	{let foo_node=fetch( content, node, hash( node_id, $module_result.node_id ) ) }
-	{let log_node=fetch( content, node, hash( node_path, $show_subtree ) )
+	{let log_node=fetch( content, node, hash( node_id, $show_subtree ) )
 		      show_week=false()
 		      month_list=null
 		      month=null}

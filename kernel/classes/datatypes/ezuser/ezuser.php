@@ -165,7 +165,10 @@ class eZUser extends eZPersistentObject
             return $this->isEnabled();
         }
         else
-            return eZPersistentObject::attribute( $name );
+        {
+            $returnValue =& eZPersistentObject::attribute( $name );
+            return $returnValue;
+        }
     }
 
     /*!
