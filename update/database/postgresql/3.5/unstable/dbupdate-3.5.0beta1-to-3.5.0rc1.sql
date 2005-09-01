@@ -267,8 +267,8 @@ ALTER TABLE ezrss_export_item ALTER description SET DEFAULT NULL ;
 UPDATE ezrss_export_item SET description=description_tmp;
 ALTER TABLE ezrss_export_item DROP COLUMN description_tmp;
 
---- ezpdf_export
---- Added support for versioning (class-type)
+ -- ezpdf_export
+ -- Added support for versioning (class-type)
 
 ALTER TABLE ezpdf_export
     DROP CONSTRAINT ezpdf_export_pkey;
@@ -284,8 +284,8 @@ UPDATE ezpdf_export SET version=0;
 ALTER TABLE ezpdf_export
     ADD CONSTRAINT ezpdf_export_pkey PRIMARY KEY (id,version);
 
---- ezrss_import
---- Added support for versioning (class-type) by reusing status attribute
+ -- ezrss_import
+ -- Added support for versioning (class-type) by reusing status attribute
 
 ALTER TABLE ezrss_import
     DROP CONSTRAINT ezrss_import_pkey;
@@ -298,8 +298,8 @@ ALTER TABLE ezrss_import ALTER status SET NOT NULL;
 ALTER TABLE ezrss_import
     ADD CONSTRAINT ezrss_import_pkey PRIMARY KEY (id,status);
 
---- ezrss_export
---- Added support for versioning (class-type) by reusing status attribute
+ -- ezrss_export
+ -- Added support for versioning (class-type) by reusing status attribute
 
 ALTER TABLE ezrss_export
     DROP CONSTRAINT ezrss_export_pkey;
@@ -312,8 +312,8 @@ ALTER TABLE ezrss_export ALTER status SET NOT NULL;
 ALTER TABLE ezrss_export
     ADD CONSTRAINT ezrss_export_pkey PRIMARY KEY (id,status);
 
---- ezrss_export_item
---- Added support for versioning (class-type) by introducing status attribute
+ -- ezrss_export_item
+ -- Added support for versioning (class-type) by introducing status attribute
 
 ALTER TABLE ezrss_export_item
     DROP CONSTRAINT ezrss_export_item_pkey;
@@ -329,8 +329,8 @@ ALTER TABLE ezrss_export_item ALTER status SET NOT NULL;
 ALTER TABLE ezrss_export_item
     ADD CONSTRAINT ezrss_export_item_pkey PRIMARY KEY (id,status);
 
---- ezproductcollection_item
---- Added attribute name for storing a product name
+ -- ezproductcollection_item
+ -- Added attribute name for storing a product name
 
 ALTER TABLE ezproductcollection_item ADD COLUMN name varchar(255);
 UPDATE ezproductcollection_item SET name='Unknown product';
