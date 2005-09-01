@@ -30,9 +30,9 @@ CREATE INDEX ezuser_role_role_id ON ezuser_role ( role_id );
 
 -- 3.4.0alpha1 to 3.4.0alpha2
 
----
---- Add session ID to user object
----
+ --
+ -- Add session ID to user object
+ --
 
 CREATE TABLE ezuser_session_link (
   user_id INTEGER NOT NULL,
@@ -46,10 +46,10 @@ CREATE INDEX ezpreferences_user_id_idx on ezpreferences ( user_id, name );
 
 ALTER TABLE ezorder ADD COLUMN email CHARACTER VARYING(150);
 ALTER TABLE ezorder ALTER email SET DEFAULT '';
---- 
---- Run script update/common/scripts/addorderemail.php after this change to
---- insert correct email for existing orders.
----
+ -- 
+ -- Run script update/common/scripts/addorderemail.php after this change to
+ -- insert correct email for existing orders.
+ --
 
 
 CREATE TABLE ezsubtree_expiry (

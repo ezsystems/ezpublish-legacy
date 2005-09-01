@@ -171,7 +171,7 @@ INSERT INTO ezcontentobject_version (id, contentobject_id, creator_id, version, 
 
 DROP TABLE ezcontentobject_version_tmp;
 
----- Updates from sort_key to sort_key_int and sort_key_string
+ --- Updates from sort_key to sort_key_int and sort_key_string
 -- Not needed if you don't upgrade from an svn version of 3.2
 -- update ezcontentobject_attribute set sort_key_int=sort_key;
 -- update ezcontentobject_attribute set sort_key_string=sort_key;
