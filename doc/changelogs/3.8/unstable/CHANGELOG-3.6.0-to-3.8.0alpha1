@@ -375,6 +375,8 @@ Attributes:
   ( Merged from stable/3.5 rev. 13136, stable/3.6 rev. 13137, stable/3.7 rev. 13178 )
 - Fixed bug #6293: The dashes in mysql update files causes phpMyAdmin to choke.
   ( Merged from stable/3.5 rev. 13140, stable/3.6 rev. 13141, stable/3.7 rev. 13142 )
+- Fixed bug #6113: Right toolbar isn't working as expected.
+  ( Merged from stable/3.5 rev. 13144, stable/3.6 rev. 13145, stable/3.7 rev. 13146 )
 
 *Library:
 
