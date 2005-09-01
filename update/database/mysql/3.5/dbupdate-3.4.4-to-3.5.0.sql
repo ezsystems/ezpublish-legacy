@@ -62,8 +62,8 @@ alter table ezrole add column is_new integer not null default 0;
 ALTER TABLE ezsearch_word DROP INDEX ezsearch_word;
 ALTER TABLE ezsearch_word ADD INDEX ezsearch_word_word_i ( word );
 
---- ezpdf_export
---- Added support for versioning (class-type)
+ -- ezpdf_export
+ -- Added support for versioning (class-type)
 
 CREATE TABLE tmp_ezpdf_export (
     created int(11) default NULL,
@@ -95,8 +95,8 @@ DROP TABLE ezpdf_export;
 
 ALTER TABLE tmp_ezpdf_export RENAME TO ezpdf_export;
 
---- ezrss_import
---- Added support for versioning (class-type) by reusing status attribute
+ -- ezrss_import
+ -- Added support for versioning (class-type) by reusing status attribute
 
 CREATE TABLE tmp_ezrss_import (
     active int(11) default NULL,
@@ -127,8 +127,8 @@ DROP TABLE ezrss_import;
 
 ALTER TABLE tmp_ezrss_import RENAME TO ezrss_import;
 
---- ezrss_export
---- Added support for versioning (class-type) by reusing status attribute
+ -- ezrss_export
+ -- Added support for versioning (class-type) by reusing status attribute
 
 CREATE TABLE tmp_ezrss_export (
     access_url varchar(255) default NULL,
@@ -158,8 +158,8 @@ DROP TABLE ezrss_export;
 
 ALTER TABLE tmp_ezrss_export RENAME TO ezrss_export;
 
---- ezrss_export_item
---- Added support for versioning (class-type) by introducing status attribute
+ -- ezrss_export_item
+ -- Added support for versioning (class-type) by introducing status attribute
 
 CREATE TABLE tmp_ezrss_export_item (
     class_id int(11) default NULL,
@@ -183,8 +183,8 @@ DROP TABLE ezrss_export_item;
 
 ALTER TABLE tmp_ezrss_export_item RENAME TO ezrss_export_item;
 
---- ezproductcollection_item
---- Added attribute name for storing a product name
+ -- ezproductcollection_item
+ -- Added attribute name for storing a product name
 
 ALTER TABLE ezproductcollection_item ADD COLUMN name VARCHAR(255) NOT NULL DEFAULT '';
 UPDATE ezproductcollection_item SET name='Unknown product';
