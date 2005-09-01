@@ -104,10 +104,9 @@ elseif ( $currentAction == 'SelectToolbarNodePath' )
     {
         if ( !is_numeric( $nodeID ) )
            $nodeID = 2;
-        $node =& eZContentObjectTreeNode::fetch( $nodeID );
         $toolIndex = $http->variable( 'tool_index' );
         $parameterName = $http->variable( 'parameter_name' );
-        $iniAppend->setVariable( "Tool_" . $toolbarPosition . "_" . $toolArray[$toolIndex] . "_" . ( $toolIndex + 1 ), $parameterName, $node->attribute( 'path_identification_string' ) );
+        $iniAppend->setVariable( "Tool_" . $toolbarPosition . "_" . $toolArray[$toolIndex] . "_" . ( $toolIndex + 1 ), $parameterName, $nodeID );
         $succeed = $iniAppend->save(  false, false, false, false, true, true );
     }
 }
