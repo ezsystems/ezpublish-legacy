@@ -371,6 +371,8 @@ Attributes:
   (Merged from stable/3.5 (3.5.5) rev. 13123)
 - Fixed bug #6421: webdav always enabled.
   (Merged form stable/3.7 (3.7.0rc2 rev. 13128)
+- Fixed bug #7062: Mysql info from finetune.
+  ( Merged from stable/3.5 rev. 13136, stable/3.6 rev. 13137, stable/3.7 rev. 13178 )
 
 *Library:
 
