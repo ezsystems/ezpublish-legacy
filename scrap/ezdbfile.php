@@ -97,7 +97,7 @@ class eZDBFile
     }
 
     /* store file in database. $localfilename is name of file on local filesysten to store, $realfilename is actual name of file, could be different if $localfilename is jus a tmp filename */
-    function storeFile( $realfilename, $filetype, $localfilename)
+    function storeFile( $realfilename, $filetype, $localfilename, $scope)
     {
         $realfilename = mysql_real_escape_string($realfilename);
         clearstatcache();
@@ -107,9 +107,9 @@ class eZDBFile
         if (file_exists($localfilename))
         {
             // Insert into file table
-            $SQL  = "insert into file (datatype, name, name_hash, size, mtime) values ('";
+            $SQL  = "insert into file (datatype, name, name_hash, size, mtime, scope) values ('";
             $SQL .= $filetype . "', '" . $realfilename . "', '" . md5($realfilename) .  "', " .filesize($localfilename);
-            $SQL .= ", '" . $time . "')";
+            $SQL .= ", '" . $time . "', '" . $scope . "'  )";
 
             if (!$RES = mysql_query($SQL, $this->linkid))
             {
@@ -123,7 +123,7 @@ class eZDBFile
             while (!feof($fp))
             {
                 // Make the data mysql insert safe
-                $binarydata = addslashes(fread($fp, 65535));
+                $binarydata = mysql_real_escape_string(fread($fp, 65535));
 
                 $SQL = "insert into filedata (masterid, filedata) values (";
                 $SQL .= $fileid . ", '" . $binarydata . "')";
@@ -169,15 +169,14 @@ class eZDBFile
         {
             $chunk = substr( $fileContent, $pos, 65535 );
             $pos += 65535;
-            echo( "X" );
+
             $SQL = "insert into filedata (masterid, filedata) values (";
-            $SQL .= $fileid . ", '" . addslashes( $chunk ) . "')";
+            $SQL .= $fileid . ", '" . mysql_real_escape_string( $chunk ) . "')";
             if (!mysql_query($SQL, $this->linkid))
             {
                 die("Failure to insert binary inode data row!");
             }
         }
-
     }
 
     // check if file exist in database
@@ -215,6 +214,48 @@ class eZDBFile
 // FIXME : shouldn't happend.....
             return 0;
     }
+
+    // get mtime of file
+    function getFileSize( $filename)
+    {
+        $filename = mysql_real_escape_string($filename);
+        $SQL = "select * from file where name_hash='" . md5($filename) . "'" ;
+        if (!$RES = mysql_query($SQL, $this->linkid))
+        {
+            die("Failure to retrive file metadata : $realfilename");
+        }
+
+        if (mysql_num_rows($RES) == 1)
+        {
+            $row = mysql_fetch_object($RES);
+            return $row->size;
+        }
+        else
+// FIXME : shouldn't happend.....
+            return 0;
+    }
+
+    function getFileType( $filename )
+    {
+        $filename = mysql_real_escape_string($filename);
+        $SQL = "select * from file where name_hash='" . md5($filename) . "'" ;
+        if (!$RES = mysql_query($SQL, $this->linkid))
+        {
+            die("Failure to retrive file metadata : $realfilename");
+        }
+
+        if (mysql_num_rows($RES) == 1)
+        {
+            $row = mysql_fetch_object($RES);
+            return $row->datatype;
+        }
+        else
+// FIXME : shouldn't happend.....
+            return 0;
+
+    }
+
+
 
     // delete file from database
     function delete( $filename )
@@ -254,11 +295,50 @@ class eZDBFile
         {
             die("a4Failure to retrive file metadata : $realfilename");
         }
-            
+
 //        mysql_free_result($RES);
         }
+        return true;
     }
 
+
+    // Rename file in database
+    function rename( $sourceFilename, $destinationFilename )
+    {
+        if ( $this->file_exists( $destinationFilename ) )
+        {
+            $this->delete( $destinationFilename );
+        }
+
+        $sourceFilename = mysql_real_escape_string($sourceFilename);
+        $destinationFilename = mysql_real_escape_string($destinationFilename);
+
+        $SQL = "select * from file where name_hash='" . md5($sourceFilename) . "'" ;
+        if (!$RES = mysql_query($SQL, $this->linkid))
+        {
+            die("a1b Failure to retrive file metadata : $sourceFilename");
+        }
+
+        if (mysql_num_rows($RES) == 1)
+        {
+            $FileObj = mysql_fetch_object($RES);
+//        mysql_free_result($RES);
+            // Pull the list of file inodes
+            $SQL = "Update file set name='" . $destinationFilename . "', name_hash='" . md5($destinationFilename) . "' WHERE id = " . $FileObj->id . " order by id";
+            echo ( "$SQL");
+            if (!$RES = mysql_query($SQL, $this->linkid))
+            {
+                die("Failed to rename file $sourceFilename to $destinationFilename in database");
+            }
+        } else
+        {
+            echo ("balle");
+            return false; // FIXME : Should not happend
+        }
+        return true;
+    }
+
+    
 
     /* fetch file form db, returns filecontent */
     function fetchFile ( $realfilename)
@@ -276,7 +356,7 @@ class eZDBFile
 
         if (mysql_num_rows($RES) != 1)
         {
-            die("Not a valid file id! : $realfilename");
+            die("1 Not a valid file id! : $realfilename");
         }
 
         $FileObj = mysql_fetch_object($RES);
@@ -313,7 +393,57 @@ class eZDBFile
         }
 
         return $result;
+    }
 
+    // Same as fetchFile() but outputs content instead of giving it as return value */
+    function passThru( $realfilename )
+    {
+        $realfilename = mysql_real_escape_string($realfilename);
+        $nodelist = array();
+
+
+        // Pull file meta-data
+        $SQL = "select id from file where name_hash='" . md5($realfilename). "'";
+        if (!$RES = mysql_query($SQL, $this->linkid))
+        {
+            die("Failure to retrive file metadata : $realfilename");
+        }
+
+        if (mysql_num_rows($RES) != 1)
+        {
+            die("2 Not a valid file id! : $realfilename");
+        }
+
+        $FileObj = mysql_fetch_object($RES);
+//        mysql_free_result($RES);
+        // Pull the list of file inodes
+        $SQL = "SELECT id FROM filedata WHERE masterid = " . $FileObj->id . " order by id"; 
+
+        if (!$RES = mysql_query($SQL, $this->linkid))
+        {
+            die("Failure to retrive list of file inodes");
+        }
+
+        while ($CUR = mysql_fetch_object($RES))
+        {
+            $nodelist[] = $CUR->id;
+        }
+//        mysql_free_result($RES);
+
+
+        $result="";
+        for ($Z = 0 ; $Z < count($nodelist) ; $Z++)
+        {
+            $SQL = "select filedata from filedata where id = " . $nodelist[$Z];
+
+            if (!$RESX = mysql_query($SQL, $this->linkid))
+            {
+                die("Failure to retrive file node data");
+            }
+
+            $DataObj = mysql_fetch_object($RESX);
+            echo( $DataObj->filedata );
+        }
     }
 
     // save file to tmpfile on disk. caller must delete tmp file
@@ -342,7 +472,7 @@ class eZDBFile
 
         if (mysql_num_rows($RES) != 1)
         {
-            die("Not a valid file id! : $filename");
+            die("3 Not a valid file id! : $filename");
         }
 
         $FileObj = mysql_fetch_object($RES);
@@ -386,7 +516,110 @@ class eZDBFile
         return $tmpfilename;
 
     }
-//save to disk
+
+    // save file to file on disk. caller must delete file when done with it
+    // returns false if unsuccesfull
+    function saveToFileSystem( $filename, $filenameOnFileSystem = "default" )
+    {
+        if ( $filenameOnFileSystem == "default" )
+            $filenameOnFileSystem = $filename;
+
+        // create parent directories
+            $dirElements = explode( '/', dirname ($filenameOnFileSystem) );
+            if ( count( $dirElements ) == 0 )
+                return true;
+            $currentDir = $dirElements[0];
+            $result = true;
+            if ( !file_exists( $currentDir ) and $currentDir != "" )
+                $result = mkdir( $currentDir, "0777" );
+            if ( !$result )
+                return false;
+
+            for ( $i = 1; $i < count( $dirElements ); ++$i )
+            {
+                $dirElement = $dirElements[$i];
+                if ( strlen( $dirElement ) == 0 )
+                    continue;
+                $currentDir .= '/' . $dirElement;
+                $result = true;
+                if ( !file_exists( $currentDir ) )
+                    $result = mkdir( $currentDir, 0777 );
+                if ( !$result )
+                    return false;
+            }
+
+
+/*        $dirs = implode( "/", dirname ( $filenameOnFileSystem ) );
+        for 
+        if ( ! file_exists( dirname ( $filenameOnFileSystem ) ) )
+        {
+            echo ("dirname : " . dirname ( $filenameOnFileSystem));
+            $success = mkdir ( dirname ( $filenameOnFileSystem ), 0777 );
+            if ( ! $success )
+                return false;
+        } */
+        $tmpfilename = $filenameOnFileSystem;
+        $filename = mysql_real_escape_string($filename);
+        $nodelist = array();
+
+        // Pull file meta-data
+        $SQL = "select id from file where name_hash='" . md5($filename). "'";
+
+        if (!$RES = mysql_query($SQL, $this->linkid))
+        {
+            die("Failure to retrive file metadata : $filename");
+        }
+
+        if (mysql_num_rows($RES) != 1)
+        {
+            echo $SQL;
+            return false;
+//            die("4 Not a valid file id! : $filename");
+        }
+
+        $FileObj = mysql_fetch_object($RES);
+//        mysql_free_result($RES);
+        // Pull the list of file inodes
+        $SQL = "SELECT id FROM filedata WHERE masterid = " . $FileObj->id . " order by id"; 
+
+        if (!$RES = mysql_query($SQL, $this->linkid))
+        {
+            die("Failure to retrive list of file inodes");
+        }
+
+        while ($CUR = mysql_fetch_object($RES))
+        {
+            $nodelist[] = $CUR->id;
+        }
+//        mysql_free_result($RES);
+
+
+        $result="";
+        $fp = fopen($tmpfilename, "w");
+
+        for ($Z = 0 ; $Z < count($nodelist) ; $Z++)
+        {
+            $SQL = "select filedata from filedata where id = " . $nodelist[$Z];
+
+            if (!$RESX = mysql_query($SQL, $this->linkid))
+            {
+                die("Failure to retrive file node data");
+            }
+
+            $DataObj = mysql_fetch_object($RESX);
+            fwrite( $fp, $DataObj->filedata) ;
+
+//            unset ($DataObj);
+//            mysql_free_result($RESX); 
+        }
+
+        fclose( $fp );
+
+        return true;
+
+    }
+
+
 //purge from disk
 
 
