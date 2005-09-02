@@ -815,23 +815,21 @@ class eZImageAliasHandler
     function parseInformationNode( &$imageInfoNode, &$imageInformation )
     {
         $imageInformation = array();
+
         $attributes =& $imageInfoNode->attributes();
         foreach ( $attributes as $attribute )
         {
-     /* CHECK FOR EZXML */
-            $imageInformation[$attribute->name()] = $attribute->content();
+            $imageInformation[$attribute->name()] = $attribute->value;
         }
+
         $children =& $imageInfoNode->children();
         foreach ( $children as $child )
         {
-     /* CHECK FOR EZXML */
             if ( isset ( $child->name ) )
             {
                 $childName = $child->name;
                 if ( $childName == 'array' )
                 {
-    //                $name = $child->attributeValue( 'name' );
-    //                $items = $child->elementsByName( 'item' );
                     $name = $child->get_attribute( 'name' );
                     $items = $child->get_elements_by_tagname( 'item' );
                     $array = array();
@@ -844,8 +842,6 @@ class eZImageAliasHandler
                 }
                 else if ( $childName == 'serialized' )
                 {
-    //                $name = $child->attributeValue( 'name' );
-    //                $data = $child->attributeValue( 'data' );
                     $name = $child->get_attribute( 'name' );
                     $data = $child->get_attribute( 'data' );
                     $imageInformation[$name] = unserialize( $data );
