@@ -3,7 +3,8 @@
 
     {switch name=mediaType match=$attribute.contentclass_attribute.data_text1}
     {case match=flash}
-    <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0"
+    <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+            codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0"
             {section show=$attribute.content.width|gt( 0 )}width="{$attribute.content.width}"{/section}
             {section show=$attribute.content.height|gt( 0 )}height="{$attribute.content.height}"{/section}>
         <param name="movie" value={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl} />
@@ -11,6 +12,7 @@
         <param name="play" value="{section show=$attribute.content.is_autoplay}true{/section}" />
         <param name="loop" value="{section show=$attribute.content.is_loop}true{/section}" />
         <embed src={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl}
+               type="application/x-shockwave-flash"
                quality="{$attribute.content.quality}" pluginspage="{$attribute.content.pluginspage}"
                {section show=$attribute.content.width|gt( 0 )}width="{$attribute.content.width}"{/section}
                {section show=$attribute.content.height|gt( 0 )}height="{$attribute.content.height}"{/section}
@@ -29,6 +31,7 @@
         <param name="play" value="{section show=$attribute.content.is_autoplay}true{/section}" />
         <param name="loop" value="{section show=$attribute.content.is_loop}true{/section}" />
         <embed src={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl}
+               type="video/quicktime"
                pluginspage="{$attribute.content.pluginspage}"
                {section show=$attribute.content.width|gt( 0 )}width="{$attribute.content.width}"{/section}
                {section show=$attribute.content.height|gt( 0 )}height="{$attribute.content.height}"{/section}
