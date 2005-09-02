@@ -170,6 +170,8 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   ( Merged from stable/3.5 rev. 13140, stable/3.6 rev. 13141 )
 - Fixed bug #6113: Right toolbar isn't working as expected.
   ( Merged from stable/3.5 rev. 13144, stable/3.6 rev. 13145 )
+- Fixed bug #7079: Fatal error on image.
+  ( Merged from stable/3.5 rev. 13152, stable/3.6 rev. 13153 )
 
 *Library:
 
