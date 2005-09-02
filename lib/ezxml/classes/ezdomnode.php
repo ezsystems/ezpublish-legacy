@@ -77,6 +77,7 @@ class eZDOMNode
     */
     function eZDOMNode()
     {
+        $this->content =& $this->value;
         $this->Content =& $this->content;
         $this->Type =& $this->type;
     }
@@ -925,6 +926,7 @@ class eZDOMNode
     /// Content of the node
     var $content = "";
     var $Content = "";
+    var $value = '';
 
     /// Subnodes
     var $Children = array();
