@@ -399,6 +399,8 @@ eZDB:
 - Added: Method eZDBInterface::generateUniqueTempTableName() that generates
   unique temporary table name.
   (Manually merged from stable/3.5 (3.5.5) rev. 12672)
+- Fixed bug #7106: Empty ul tag will not appear if there is no item in double top sub menu.
+  (Merged from stable/3.6 (3.6.2) rev. 13166)
 
 eZSession:
 - Added support for callback functions. They allow external code to do extra
