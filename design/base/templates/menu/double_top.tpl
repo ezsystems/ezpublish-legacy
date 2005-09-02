@@ -29,18 +29,19 @@
 </div>
 
 {section show=and( is_set( $module_result.path[1]), is_set( $module_result.node_id ) )}
-
+{let submenu_items=fetch( content, list, hash( parent_node_id, $module_result.path[1].node_id,
+                                                       class_filter_type, include,
+                                                       class_filter_array, ezini( 'MenuContentSettings', 'TopIdentifierList', 'menu.ini' ),
+                                                       sort_by, $root_node.sort_array,
+                                                       limit, 10 ) ) }
+{section show=count($submenu_items)|gt(0)}
 <div id="submenu">
     <div id="submenu-design">
 
     <h3 class="hide">{"Sub menu"|i18n("design/base")}</h3>
 
     <ul>
-    {section var=menu loop=fetch( content, list, hash( parent_node_id, $module_result.path[1].node_id,
-                                                       class_filter_type, include,
-                                                       class_filter_array, ezini( 'MenuContentSettings', 'TopIdentifierList', 'menu.ini' ),
-                                                       sort_by, $root_node.sort_array,
-                                                       limit, 10 ) )}
+    {section var=menu loop=$submenu_items}
 
             {section show=eq( $menu.object.content_class.identifier, "link" )}
                 <li {$menu.index|eq( 0 )|choose( '', 'class="first"' )}><div class="spacing"><a href={$menu.data_map.location.content}>{$menu.object.name}</a></div></li>
@@ -54,7 +55,8 @@
     </div>
 
 </div>
-
+{/section}
+{/let}
 {/section}
 
 {/let}
