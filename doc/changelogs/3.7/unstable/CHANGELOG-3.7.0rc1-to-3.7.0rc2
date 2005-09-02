@@ -178,6 +178,8 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   ( Merged from stable/3.5 rev. 13157, stable/3.6 rev. 13158 )
 - Fixed bug #5984: Security: no check for image upload.
   (Merged from stable/3.5 (3.5.5) rev. 13162)
+- Fixed bug #7106: Empty ul tag will not appear if there is no item in double top sub menu.
+  (Merged from stable/3.6 (3.6.2) rev. 13166)
 
 *Library:
 
