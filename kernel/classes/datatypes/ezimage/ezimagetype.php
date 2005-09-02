@@ -155,6 +155,39 @@ class eZImageType extends eZDataType
         }
 
         $canFetchResult = eZHTTPFile::canFetch( $httpFileName, $maxSize );
+        if ( isset( $_FILES[$httpFileName] ) and  $_FILES[$httpFileName]["tmp_name"] != "" )
+        {
+             $imagefile = $_FILES[$httpFileName]['tmp_name'];
+             if ( !$_FILES[$httpFileName]["size"] )
+             {
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                     'The image file must have non-zero size.' ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+             }
+             if ( function_exists( 'getimagesize' ) )
+             {
+                $info = getimagesize( $imagefile );
+                if ( !$info )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'A valid image file is required.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
+             }
+             else
+             {
+                 include_once( 'lib/ezutils/classes/ezmimetype.php' );
+                 $mimeType = eZMimeType::findByURL( $_FILES[$httpFileName]['name'] );
+                 $nameMimeType = $mimeType['name'];
+                 $nameMimeTypes = explode("/", $nameMimeType);
+                 if ( $nameMimeTypes[0] != 'image' )
+                 {
+                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                          'A valid image file is required.' ) );
+                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                 }
+             }
+        }
         if ( $mustUpload && $canFetchResult == EZ_UPLOADEDFILE_DOES_NOT_EXIST )
         {
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
