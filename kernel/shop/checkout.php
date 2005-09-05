@@ -75,6 +75,9 @@ if ( get_class( $order ) == 'ezorder' )
             $order->setAttribute( 'email', $email );
             $order->store();
 
+            include_once( "lib/ezutils/classes/ezhttptool.php" );
+            eZHTTPTool::setSessionVariable( "UserOrderID", $order->attribute( 'id' ) );
+
             $operationResult = eZOperationHandler::execute( 'shop', 'checkout', array( 'order_id' => $order->attribute( 'id' ) ) );
             switch( $operationResult['status'] )
             {
