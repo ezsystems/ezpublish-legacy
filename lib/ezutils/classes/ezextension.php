@@ -120,11 +120,64 @@ class eZExtension
             if ( file_exists( $extensionSettingsPath ) )
             {
                 $ini->prependOverrideDir( $extensionSettingsPath, true );
+
+                if ( isset( $GLOBALS['eZCurrentAccess'] ) )
+                {
+                    eZExtension::prependSiteAccess( $extensionSettingsPath );
+                }
                 $hasExtensions = true;
             }
         }
         if ( $hasExtensions )
             $ini->loadCache();
+    }
+
+    /*!
+     \static
+
+     Prepend extension siteaccesses
+
+     \param siteaccess name ( default false )
+    */
+    function prependExtensionSiteAccesses( $accessName = false, $ini = false, $globalDir = true, $identifier = false, $order = true )
+    {
+        $extensionList = eZExtension::activeExtensions();
+
+        if ( !$order )
+        {
+            $extensionList = array_reverse( $extensionList );
+        }
+
+        foreach( $extensionList as $extension )
+        {
+            eZExtension::prependSiteAccess( $extension, $accessName, $ini, $globalDir, $identifier );
+        }
+    }
+
+    /*!
+     \static
+
+     Prepend siteaccess for specified extension.
+
+     \param $extension name
+    */
+    function prependSiteAccess( $extension, $accessName = false, $ini = false, $globalDir = true, $identifier = false )
+    {
+        if ( !$accessName )
+        {
+            $accessName = $GLOBALS['eZCurrentAccess']['name'];
+        }
+
+        $extensionSettingsPath = eZExtension::baseDirectory() . '/' . $extension;
+
+        if ( file_exists ( $extensionSettingsPath . '/settings/siteaccess/' . $accessName ) )
+        {
+            if ( !$ini )
+            {
+                $ini =& eZINI::instance();
+            }
+            $ini->prependOverrideDir( $extensionSettingsPath . '/settings/siteaccess/' . $accessName, $globalDir );
+        }
     }
 
     /*!

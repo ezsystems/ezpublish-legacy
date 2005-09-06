@@ -1,0 +1,22 @@
+*** Experimental ***
+
+Title: Extension siteaccess settings
+
+Documentation:
+The extension siteaccess settings makes it possible to place siteaccess specific settings in the extensions.
+
+The directory structure must be as follows :
+extension/<my_extension>/settings/siteaccess/<my_siteaccess>/<file.ini.append.php>
+
+Example:
+extension/ezno/settings/siteaccess/ezno/override.ini.append.php :
+
+<?php /*
+
+[article_full_ezno]
+Source=node/view/full.tpl
+MatchFile=article/full.tpl
+Match[class_identifier]=article
+Subdir=templates
+
+*/ ?>
