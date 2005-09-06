@@ -94,7 +94,7 @@ class eZTreeMenuOperator
         {
             $classFilter = array( 1 );
         }
-        if( !$tmpModulePath[count($tmpModulePath)-1]['url'] )
+        if ( !$tmpModulePath[count($tmpModulePath)-1]['url'] and $tmpModulePath[count($tmpModulePath)-1]['node_id'] )
             $tmpModulePath[count($tmpModulePath)-1]['url'] = "/content/view/full/" . $namedParameters['node_id'];
 
         $depthSkip = $namedParameters['depth_skip'];
