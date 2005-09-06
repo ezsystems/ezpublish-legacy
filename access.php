@@ -299,11 +299,17 @@ function changeAccess( $access )
     if ( file_exists( "settings/siteaccess/$name" ) )
     {
         $ini->prependOverrideDir( "siteaccess/$name", false, 'siteaccess' );
-        $ini->loadCache();
-        eZUpdateDebugSettings();
-        if ( accessDebugEnabled() )
-            eZDebug::writeDebug( "Updated settings to use siteaccess '$name'", 'access.php' );
     }
+
+    /* Make sure extension siteaccesses are prepended */
+    eZExtension::prependExtensionSiteAccesses( $name );
+
+    $ini->loadCache();
+
+    eZUpdateDebugSettings();
+    if ( accessDebugEnabled() )
+        eZDebug::writeDebug( "Updated settings to use siteaccess '$name'", 'access.php' );
+
     return $access;
 }
 

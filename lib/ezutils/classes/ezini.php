@@ -279,6 +279,11 @@ class eZINI
         else
             $iniFile = eZDir::path( array( $this->FileName ) );
 
+        if ( $this->FileName == 'override.ini' )
+        {
+            eZExtension::prependExtensionSiteAccesses( false, $this, true, false, false );
+        }
+
         if ( file_exists( $iniFile ) )
             $inputFiles[] = $iniFile;
 
