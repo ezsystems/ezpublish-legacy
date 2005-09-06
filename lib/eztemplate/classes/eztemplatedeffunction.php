@@ -169,8 +169,8 @@ class eZTemplateDefFunction
 
             if ( $undef ) // {undef}
             {
-                if ( !$tpl->hasVariable( $varName, $rootNamespace ) )
-                    $tpl->warning( EZ_TEMPLATE_UNDEF_FUNCTION_NAME, "Variable '$varName' is not defined." );
+                if ( !$tpl->hasLocalVariable( $varName, $rootNamespace ) )
+                    $tpl->warning( EZ_TEMPLATE_UNDEF_FUNCTION_NAME, "Variable '$varName' is not defined with {def}." );
                 else
                     $tpl->unsetLocalVariable( $varName, $rootNamespace );
 

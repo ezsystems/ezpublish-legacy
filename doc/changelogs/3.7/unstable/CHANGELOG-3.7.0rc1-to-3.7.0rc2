@@ -182,6 +182,9 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   (Merged from stable/3.6 (3.6.2) rev. 13166)
 - Fixed bug #7108: Shop: After checkout access denied.
   (Merged from stable/3.5 (3.5.5) rev. 13172)
+- Fixed bug: {undef} template function was able to destroy template
+  variables created with not {def}.
+  (Merged from stable/3.6 (3.6.2) rev. 13177)
 
 *Library:
 

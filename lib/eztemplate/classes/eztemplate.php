@@ -478,6 +478,15 @@ class eZTemplate
     }
 
     /*!
+     * Check if the given local variable exists.
+     */
+    function hasLocalVariable( $varName, $rootNamespace )
+    {
+        return ( array_key_exists( $rootNamespace, $this->CurrentLocalVariablesNames ) &&
+                 array_key_exists( $varName, $this->CurrentLocalVariablesNames[$rootNamespace] ) );
+    }
+
+    /*!
      * Create a local variable.
      */
     function setLocalVariable( $varName, $varValue, $rootNamespace )
@@ -491,6 +500,9 @@ class eZTemplate
      */
     function unsetLocalVariable( $varName, $rootNamespace )
     {
+        if ( !$this->hasLocalVariable( $varName, $rootNamespace ) )
+            return;
+
         $this->unsetVariable( $varName, $rootNamespace );
         unset( $this->CurrentLocalVariablesNames[$rootNamespace][$varName] );
     }
