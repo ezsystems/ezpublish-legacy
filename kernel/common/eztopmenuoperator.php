@@ -175,12 +175,12 @@ class eZTopMenuOperator
                 $menuItem['tooltip'] = $this->DefaultNames[$tabID]['tooltip'];
             }
             $menuItem['navigationpart_identifier'] =  $ini->variable( 'Topmenu_' . $tabID , "NavigationPartIdentifier" );
-            $menuItem['possition'] = 'middle';
+            $menuItem['position'] = 'middle';
             $menu[] = $menuItem;
 
         }
-        $menu[0]['possition'] = 'first';
-        $menu[count($menu) - 1]['possition'] = 'last';
+        $menu[0]['position'] = 'first';
+        $menu[count($menu) - 1]['position'] = 'last';
 
         $operatorValue = $menu;
     }
