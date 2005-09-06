@@ -392,6 +392,8 @@ Attributes:
   (Merged from stable/3.6 (3.6.2) rev. 13177)
 - Fixed bug #7117: Strange menu bug at editing content.
   (Merged from stable/3.6 (3.6.2) rev. 13184)
+- Fixed bug #6220: Typo in admin module/template
+  (Merged from stable/3.5 (3.5.5) rev. 13181)
 
 *Library:
 

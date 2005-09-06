@@ -3,7 +3,7 @@
 {section show=eq($navigationpart_identifier,$menu_item.navigationpart_identifier ) }
     {set selected='selected selected-'}
 {/section}
-<li class="{$selected}{$menu_item.possition}"><div>
+<li class="{$selected}{$menu_item.position}"><div>
 
 {section show=$menu_item.enabled}
 <a href={$menu_item.url|ezurl} title="{$menu_item.tooltip}">{$menu_item.name|wash}</a>
