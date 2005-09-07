@@ -190,6 +190,8 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   (Merged from stable/3.6 (3.6.2) rev. 13177)
 - Fixed bug #7117: Strange menu bug at editing content.
   (Merged from stable/3.6 (3.6.2) rev. 13184)
+- Fixed bug #6828: Not possible to upload image after adding translation.
+  (Merged from stable/3.6 (3.6.2) rev. 13204)
 
 *Library:
 
