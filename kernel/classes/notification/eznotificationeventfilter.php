@@ -76,7 +76,7 @@ class eZNotificationEventFilter
                     $handler->handle( $event );
                 }
             }
-            $itemCountLeft =& eZNotificationCollectionItem::fetchCountForEvent( $event->attribute( 'id' ) );
+            $itemCountLeft = eZNotificationCollectionItem::fetchCountForEvent( $event->attribute( 'id' ) );
             if ( $itemCountLeft == 0 )
             {
                 $event->remove();
@@ -155,7 +155,7 @@ class eZNotificationEventFilter
      \static
      Goes through all event handlers and tells them to cleanup.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit. 
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
     function cleanup()
     {

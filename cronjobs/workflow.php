@@ -125,7 +125,7 @@ foreach( array_keys( $workflowProcessList ) as $key )
         $operationParameters = array();
         if ( isset( $mementoData['parameters'] ) )
             $operationParameters = $mementoData['parameters'];
-        $operationResult =& eZOperationHandler::execute( $mementoData['module_name'], $mementoData['operation_name'], $operationParameters, $mementoData );
+        $operationResult = eZOperationHandler::execute( $mementoData['module_name'], $mementoData['operation_name'], $operationParameters, $mementoData );
         ++$removedProcessCount;
         $process->remove();
     }

@@ -69,7 +69,7 @@ include_once( 'lib/ezlocale/classes/ezdate.php' );
 $us_locale =& eZLocale::instance( 'us' );
 
 $date1 = new eZDate();
-$date2 =& eZDate::create();
+$date2 = eZDate::create();
 $date2->setLocale( $us_locale );
 $date2->adjustDate( 1, 2, 3 );
 $date3 =& $date1->duplicate();
@@ -304,7 +304,7 @@ class eZDate
      Creates a new eZDate object with the date values $month, $day and $year and returns a reference to it.
      Any value can be ommitted or set to 0 to use the current date value.
     */
-    function &create( $month, $day = 0, $year = 0 )
+    function create( $month, $day = 0, $year = 0 )
     {
         if ( $year != 0 )
             $date = mktime( 0, 0, 0, $month, $day, $year );

@@ -2806,7 +2806,7 @@ else
                             $php->addCodePiece( "include_once( $hookFileText );\n", array( 'spacing' => $currentParameters['spacing'] ) );
                         }
                         else
-                            $php->addCodePiece( "\$functionObject =& \$tpl->fetchFunctionObject( $functionNameText );\n", array( 'spacing' => $currentParameters['spacing'] ) );
+                            $php->addCodePiece( "\$functionObject = \$tpl->fetchFunctionObject( $functionNameText );\n", array( 'spacing' => $currentParameters['spacing'] ) );
                         $php->addCodePiece( $codeText, array( 'spacing' => $currentParameters['spacing'] ) );
                     }
                     else
@@ -2820,7 +2820,7 @@ else
                         $functionHookName = $functionHook['name'];
                         $functionHookNameText = $php->variableText( $functionHookName, 0, 0, false );
                         $functionHookParameters = $functionHook['parameters'];
-                        $php->addCodePiece( "\$functionObject =& \$tpl->fetchFunctionObject( $functionNameText );
+                        $php->addCodePiece( "\$functionObject = \$tpl->fetchFunctionObject( $functionNameText );
 \$hookResult = \$functionObject->templateHookProcess( $functionNameText, $functionHookNameText,
                                                     $functionHookText,
                                                     \$tpl,

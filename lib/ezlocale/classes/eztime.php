@@ -332,7 +332,7 @@ class eZTime
     {
         $t1 =& $this->Time;
         if ( get_class( $time ) == 'eztime' )
-            $t2 =& $time->timeOfDay();
+            $t2 = $time->timeOfDay();
         else
             $t2 = ( $time % EZTIME_SECONDS_A_DAY );
         if ( $t1 > $t2 )
@@ -351,7 +351,7 @@ class eZTime
     {
         $t1 =& $this->Time;
         if ( get_class( $time ) == 'eztime' )
-            $t2 =& $time->timeOfDay();
+            $t2 = $time->timeOfDay();
         else
             $t2 = ( $time % EZTIME_SECONDS_A_DAY );
         return $t1 == $t2;

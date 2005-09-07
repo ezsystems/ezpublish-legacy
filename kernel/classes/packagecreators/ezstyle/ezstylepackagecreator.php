@@ -207,8 +207,8 @@ class eZStylePackageCreator extends eZPackageCreationHandler
     function validateCSSFile( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
     {
         include_once( 'lib/ezutils/classes/ezhttpfile.php' );
-        $hasSiteFile =& eZHTTPFile::canFetch( 'PackageSiteCSSFile' );
-        $hasClassesFile =& eZHTTPFile::canFetch( 'PackageClassesCSSFile' );
+        $hasSiteFile = eZHTTPFile::canFetch( 'PackageSiteCSSFile' );
+        $hasClassesFile = eZHTTPFile::canFetch( 'PackageClassesCSSFile' );
 
         $result = true;
         if ( !$hasSiteFile or !$hasClassesFile )

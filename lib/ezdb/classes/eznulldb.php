@@ -66,10 +66,9 @@ class eZNullDB extends eZDBInterface
     /*!
       Returns false.
     */
-    function &query( $sql )
+    function query( $sql )
     {
-        $result = false;
-        return $result;
+        return false;
     }
 
     /*!
@@ -126,7 +125,7 @@ class eZNullDB extends eZDBInterface
     /*!
       Returns $str.
     */
-    function &escapeString( $str )
+    function escapeString( $str )
     {
         return $str;
     }

@@ -153,7 +153,7 @@ class eZBasket extends eZPersistentObject
                             $isVATIncluded = true;
                         else
                             $isVATIncluded = false;
-                        $vatType =& eZVatType::fetch( $VATID );
+                        $vatType = eZVatType::fetch( $VATID );
                         if ( get_class( $vatType ) == 'ezvattype' )
                         {
                             $vatValue = $vatType->attribute( 'percentage' );

@@ -147,9 +147,9 @@ if ( $useTriggers == true )
     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     include_once( 'kernel/classes/eztrigger.php' );
 
-    $operationResult =& eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
-                                                                               'user_id' => $user->id(),
-                                                                               'language_code' => $LanguageCode ), null, $useTriggers );
+    $operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
+                                                                              'user_id' => $user->id(),
+                                                                              'language_code' => $LanguageCode ), null, $useTriggers );
 }
 
 if ( ( array_key_exists(  'status', $operationResult ) && $operationResult['status'] != EZ_MODULE_OPERATION_CONTINUE ) )
@@ -312,7 +312,7 @@ else
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'read' ) ) );
     }
 
-    $Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $object, $LanguageCode, $ViewMode, $Offset,
+    $Result =& eZNodeviewfunctions::generateNodeView( $tpl, $node, $object, $LanguageCode, $ViewMode, $Offset,
                                                      $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], $viewCacheEnabled, $viewParameters,
                                                      $collectionAttributes, $validation );
     return $Result;

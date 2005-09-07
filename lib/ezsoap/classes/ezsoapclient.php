@@ -154,7 +154,7 @@ class eZSOAPClient
         $rawResponse = "";
 
         // fetch the SOAP response
-        while ( $data=&fread( $fp, 32768 ) )
+        while ( $data = fread( $fp, 32768 ) )
         {
             $rawResponse .= $data;
         }

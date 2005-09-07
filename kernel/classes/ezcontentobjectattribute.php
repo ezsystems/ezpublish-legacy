@@ -1189,7 +1189,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         for ( $i = 1; $i < $numargs; ++$i )
         {
             $arg = $argList[$i];
-            $text =& str_replace( "%$i", $arg, $text );
+            $text = str_replace( "%$i", $arg, $text );
         }
         return $text;
     }

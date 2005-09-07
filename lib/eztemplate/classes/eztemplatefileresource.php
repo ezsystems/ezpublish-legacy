@@ -298,7 +298,7 @@ class eZTemplateFileResource
 
                 if ( eZTemplate::isDebugEnabled() )
                     eZDebug::writeNotice( "$path, $charset" );
-                $codec = eZTextCodec::instance( $charset, false, false );
+                $codec =& eZTextCodec::instance( $charset, false, false );
                 if ( $codec )
                 {
                     eZDebug::accumulatorStart( 'template_resource_conversion', 'template_total', 'String conversion in template resource' );

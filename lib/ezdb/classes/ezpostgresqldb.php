@@ -157,7 +157,7 @@ class eZPostgreSQLDB extends eZDBInterface
     /*!
      \reimp
     */
-    function &query( $sql )
+    function query( $sql )
     {
         if ( $this->isConnected() )
         {
@@ -187,6 +187,8 @@ class eZPostgreSQLDB extends eZDBInterface
                 $this->reportError();
             }
         }
+        else
+            $result = false;
         return $result;
     }
 
@@ -233,7 +235,7 @@ class eZPostgreSQLDB extends eZDBInterface
                     $sql .= " ";
                 $sql .= "OFFSET $offset";
             }
-            $result =& $this->query( $sql );
+            $result = $this->query( $sql );
 
             if ( $result == false )
             {
@@ -571,7 +573,7 @@ class eZPostgreSQLDB extends eZDBInterface
     /*!
      \reimp
     */
-    function &escapeString( $str )
+    function escapeString( $str )
     {
         $str = str_replace("\0", '', $str);
         $str = pg_escape_string( $str );

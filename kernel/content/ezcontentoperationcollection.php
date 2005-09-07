@@ -355,7 +355,7 @@ class eZContentOperationCollection
 
         $db =& eZDB::instance();
         $db->begin();
-        
+
         $object->setAttribute( 'modified', mktime() );
         $object->store();
 
@@ -394,7 +394,7 @@ class eZContentOperationCollection
 
         if ( strlen( $nodeAssignment->attribute( 'parent_remote_id' ) ) > 0 )
         {
-            $existingNode = eZContentObjectTreeNode::fetchByRemoteID( $nodeAssignment->attribute( 'parent_remote_id' ) );
+            $existingNode =& eZContentObjectTreeNode::fetchByRemoteID( $nodeAssignment->attribute( 'parent_remote_id' ) );
         }
         if ( !$existingNode );
         {

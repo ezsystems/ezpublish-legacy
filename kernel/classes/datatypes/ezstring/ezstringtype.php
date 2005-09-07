@@ -124,7 +124,7 @@ class eZStringType extends eZDataType
                 }
             }
             $maxLen = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_LEN_FIELD );
-            $textCodec = eZTextCodec::instance( false );
+            $textCodec =& eZTextCodec::instance( false );
             if ( ($textCodec->strlen( $data ) <= $maxLen ) || ( $maxLen == 0 ) )
                 return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',

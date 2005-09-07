@@ -196,7 +196,6 @@ class eZMultiOptionType extends eZDataType
     {
         $multioptionValue =& $http->postVariable( $base . "_data_multioption_value_" . $contentObjectAttribute->attribute( "id" ) );
         $collectionAttribute->setAttribute( 'data_int', $multioptionValue );
-        $attr =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
         return true;
     }
 

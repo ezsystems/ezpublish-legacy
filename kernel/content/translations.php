@@ -157,7 +157,7 @@ if ( $Module->isCurrentAction( 'Confirm' ) )
 
 if ( $Module->isCurrentAction( 'Remove' ) )
 {
-    $seletedIDList =& $Module->actionParameter( 'SelectedTranslationList' );
+    $seletedIDList = $Module->actionParameter( 'SelectedTranslationList' );
     $confirmTranslationList = array();
     $confirmTranslationIDList = array();
     $totalRemoveTranslation = 0;

@@ -135,10 +135,10 @@ class eZXML
         if ( $charset !== false )
         {
             include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-            $codec = eZTextCodec::instance( $charset, false, false );
+            $codec =& eZTextCodec::instance( $charset, false, false );
             if ( $codec )
             {
-                $xmlDoc =& $codec->convertString( $xmlDoc );
+                $xmlDoc = $codec->convertString( $xmlDoc );
             }
         }
 
@@ -307,7 +307,7 @@ class eZXML
                     {
                         $isCDATASection = true;
                         $endTagPos = strpos( $xmlDoc, "]]>", $cdataPos );
-                        $cdataSection =& substr( $xmlDoc, $cdataPos + 9, $endTagPos - ( $cdataPos + 9 ) );
+                        $cdataSection = substr( $xmlDoc, $cdataPos + 9, $endTagPos - ( $cdataPos + 9 ) );
 
                         // new CDATA node
                         $subNode->Name = "#cdata-section";

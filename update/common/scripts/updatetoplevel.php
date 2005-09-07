@@ -97,7 +97,7 @@ if ( $options['class-identifier'] )
 
 $sectionID = 1;
 $userID = 14;
-$class = eZContentClass::fetchByIdentifier( $contentClassIdentifier );
+$class =& eZContentClass::fetchByIdentifier( $contentClassIdentifier );
 if ( !is_object( $class ) )
     $script->shutdown( 1, "Failed to load content class for identifier '$contentClassIdentifier'" );
 

@@ -366,8 +366,8 @@ class eZPolicyLimitation extends eZPersistentObject
 
             if ( $this->LimitValue )
             {
-                $values[] =& new eZPolicyLimitationValue( array ( 'id' => -1,
-                                                                  'value' => $this->LimitValue ) );
+                $values[] = new eZPolicyLimitationValue( array ( 'id' => -1,
+                                                                 'value' => $this->LimitValue ) );
             }
 
             $this->Values =& $values;

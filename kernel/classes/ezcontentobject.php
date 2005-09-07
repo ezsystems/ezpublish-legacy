@@ -579,16 +579,15 @@ class eZContentObject extends eZPersistentObject
     /*!
      Fetches contentobject by remote ID, returns null if none exist
     */
-    function fetchByRemoteID( $remoteID, $asObject = true )
+    function &fetchByRemoteID( $remoteID, $asObject = true )
     {
         $db =& eZDB::instance();
         $resultArray = $db->arrayQuery( 'SELECT id FROM ezcontentobject WHERE remote_id=\'' . $remoteID . '\'' );
         if ( count( $resultArray ) != 1 )
-        {
-            return null;
-        }
-
-        return eZContentObject::fetch( $resultArray[0]['id'], $asObject );
+            $object = null;
+        else
+            $object =& eZContentObject::fetch( $resultArray[0]['id'], $asObject );
+        return $object;
     }
 
     /*!
@@ -1167,9 +1166,9 @@ class eZContentObject extends eZPersistentObject
         foreach ( $versionKeys as $versionNumber )
         {
             $currentContentObjectVersion =& $versionList[$versionNumber];
-            $contentObjectVersion =& $this->copyVersion( $contentObject, $currentContentObjectVersion,
-                                                                  $versionNumber, $contentObject->attribute( 'id' ),
-                                                                  false );
+            $contentObjectVersion = $this->copyVersion( $contentObject, $currentContentObjectVersion,
+                                                        $versionNumber, $contentObject->attribute( 'id' ),
+                                                        false );
 
             $contentObject->setName( $contentObjectVersion->name(), $versionNumber );
             eZDebugSetting::writeDebug( 'kernel-content-object-copy', $contentObjectVersion, 'Copied version' );
@@ -3171,7 +3170,7 @@ class eZContentObject extends eZPersistentObject
         $classRemoteID =& $domNode->attributeValue( 'class_remote_id' );
         $classIdentifier =& $domNode->attributeValue( 'class_identifier' );
 
-        $contentClass = eZContentClass::fetchByRemoteID( $classRemoteID );
+        $contentClass =& eZContentClass::fetchByRemoteID( $classRemoteID );
         if ( !$contentClass )
         {
             $contentClass =& eZContentClass::fetchByIdentifier( $classIdentifier );
@@ -3184,7 +3183,7 @@ class eZContentObject extends eZPersistentObject
             return $retValue;
         }
 
-        $contentObject = eZContentObject::fetchByRemoteID( $remoteID );
+        $contentObject =& eZContentObject::fetchByRemoteID( $remoteID );
         if ( !$contentObject )
         {
             $contentObject =& $contentClass->instantiate( $ownerID, $sectionID );

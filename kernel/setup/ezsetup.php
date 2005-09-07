@@ -103,7 +103,7 @@ $currentStep = null;
 
 if ( $http->hasPostVariable( 'eZSetup_back_button' ) ) // previous step selected
 {
-    $step = &$stepData->previousStep( $http->postVariable( 'eZSetup_current_step' ) );
+    $step =& $stepData->previousStep( $http->postVariable( 'eZSetup_current_step' ) );
     $goBack = true;
     while ( $goBack )
     {
@@ -117,7 +117,7 @@ if ( $http->hasPostVariable( 'eZSetup_back_button' ) ) // previous step selected
 
             if ( $stepObject->init() === true )
             {
-                $step = &$stepData->previousStep( $step );
+                $step =& $stepData->previousStep( $step );
                 continue;
             }
         }
@@ -128,9 +128,9 @@ if ( $http->hasPostVariable( 'eZSetup_back_button' ) ) // previous step selected
 }
 else if ( $http->hasPostVariable( 'eZSetup_refresh_button' ) ) // refresh selected step
 {
-    $step = &$stepData->step( $http->postVariable( 'eZSetup_current_step' ) );
+    $step =& $stepData->step( $http->postVariable( 'eZSetup_current_step' ) );
 }
-else if ( $http->hasPostVariable( 'eZSetup_next_button' ) || $http->hasPostVariable( 'eZSetup_current_step' ) ) // next step selected, 
+else if ( $http->hasPostVariable( 'eZSetup_next_button' ) || $http->hasPostVariable( 'eZSetup_current_step' ) ) // next step selected,
 {
     // first, input from step must be processed/checked (processPostData())
     $currentStep = $stepData->step( $http->postVariable( 'eZSetup_current_step' ) );
@@ -157,7 +157,7 @@ else if ( $http->hasPostVariable( 'eZSetup_next_button' ) || $http->hasPostVaria
         }
         else
         {
-            $step = $stepData->nextStep( $currentStep );
+            $step =& $stepData->nextStep( $currentStep );
         }
     }
 

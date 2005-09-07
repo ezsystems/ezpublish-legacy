@@ -101,7 +101,7 @@ $cli->output();
 
 // Handle objects
 
-$objectCount =& eZContentObject::fetchListCount();
+$objectCount = eZContentObject::fetchListCount();
 $script->resetIteration( $objectCount );
 $cli->output( $cli->stylize( 'header', "Generating for objects" ) );
 

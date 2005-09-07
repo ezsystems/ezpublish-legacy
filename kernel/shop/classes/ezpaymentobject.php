@@ -202,7 +202,7 @@ class eZPaymentObject extends eZPersistentObject
             if ( isset( $mementoData['parameters'] ) )
                 $operationParameters = $mementoData['parameters'];
 
-            $operationResult =& eZOperationHandler::execute( $mementoData['module_name'], $mementoData['operation_name'], $operationParameters, $mementoData );
+            $operationResult = eZOperationHandler::execute( $mementoData['module_name'], $mementoData['operation_name'], $operationParameters, $mementoData );
         }
 
         return $operationResult;

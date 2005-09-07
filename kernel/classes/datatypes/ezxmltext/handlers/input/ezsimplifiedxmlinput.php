@@ -211,7 +211,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                WHERE from_contentobject_id = $contentObjectID AND
                                      from_contentobject_version = $editVersion";
 
-        $relatedObjectRowArray =& $db->arrayQuery( $relatedObjectQuery );
+        $relatedObjectRowArray = $db->arrayQuery( $relatedObjectQuery );
         // Add existing embeded objects to object relation list if it is not already
         $existingRelatedObjectIDArray = array();
         foreach ( $relatedObjectRowArray as $relatedObjectRow )
@@ -308,7 +308,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                         if ( $href != null )
                         {
-                            $linkID =& eZURL::registerURL( $href );
+                            $linkID = eZURL::registerURL( $href );
                             $linkObjectLink =& eZURLObjectLink::fetch( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
                             if ( $linkObjectLink == null )
                             {

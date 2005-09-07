@@ -211,7 +211,7 @@ if ( $moduleName == '*' )
 elseif( $functionName == '*' )
 {
     $mod =& eZModule::exists( $moduleName );
-    $functionList =& array_keys( $mod->attribute( 'available_functions' ) );
+    $functionList = array_keys( $mod->attribute( 'available_functions' ) );
     eZDebug::writeNotice( $functionList, "functions" );
     $showFunctionList = true;
 }

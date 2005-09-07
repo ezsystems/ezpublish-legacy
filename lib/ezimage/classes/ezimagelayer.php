@@ -90,10 +90,10 @@ class eZImageLayer extends eZImageInterface
         $position = $image->calculatePosition( $layerData['parameters'], $this->width(), $this->height() );
         $x = $position['x'];
         $y = $position['y'];
-        $imageObject =& $this->imageObject();
+        $imageObject = $this->imageObject();
         if ( $lastLayerData === null )
         {
-            $destinationImageObject =& $image->imageObjectInternal( false );
+            $destinationImageObject = $image->imageObjectInternal( false );
             if ( $destinationImageObject === null )
             {
                 $image->clone( $this );
@@ -108,7 +108,7 @@ class eZImageLayer extends eZImageInterface
         }
         else
         {
-            $destinationImageObject =& $image->imageObjectInternal();
+            $destinationImageObject = $image->imageObjectInternal();
             $image->mergeImage( $destinationImageObject, $imageObject,
                                 $x, $y,
                                 $this->width(), $this->height(), 0, 0,

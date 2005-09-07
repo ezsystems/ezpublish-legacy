@@ -802,7 +802,7 @@ class eZMail
         $outputCharset = $this->outputCharset();
         if ( !$this->TextCodec )
         {
-            $this->TextCodec = eZTextCodec::instance( $charset, $outputCharset );
+            $this->TextCodec =& eZTextCodec::instance( $charset, $outputCharset );
         }
         $newText = $this->TextCodec->convertString( $text );
         return $newText;

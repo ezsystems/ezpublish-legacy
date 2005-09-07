@@ -516,7 +516,7 @@ class eZContentUpload
         }
 
         if ( !is_object( $class ) )
-            $class = eZContentClass::fetchByIdentifier( $classIdentifier );
+            $class =& eZContentClass::fetchByIdentifier( $classIdentifier );
 
         if ( !$class )
         {

@@ -903,7 +903,7 @@ class eZModule
                             if ( $parameters === null )
                                 $retVal =& $object->$function( $this );
                             else if ( $expandParameters )
-                                $retVal =& call_user_method_array( $functionName, $object, array_merge( array( &$this ), $parameters ) );
+                                $retVal = call_user_method_array( $functionName, $object, array_merge( array( &$this ), $parameters ) );
                             else
                                 $retVal =& $object->$functionName( $this, $parameters );
                         }

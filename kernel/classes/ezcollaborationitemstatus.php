@@ -84,7 +84,7 @@ class eZCollaborationItemStatus extends eZPersistentObject
                       'name' => 'ezcollab_item_status' );
     }
 
-    function &create( $collaborationID, $userID = false )
+    function create( $collaborationID, $userID = false )
     {
         if ( $userID === false )
             $userID =& eZUser::currentUserID();

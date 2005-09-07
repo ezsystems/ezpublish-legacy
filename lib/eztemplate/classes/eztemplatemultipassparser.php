@@ -207,7 +207,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                     {
                         // Unterminated tag
                         unset( $data );
-                        $data =& substr( $sourceText, $sourcePosition );
+                        $data = substr( $sourceText, $sourcePosition );
                         $this->gotoEndPosition( $data, $currentLine, $currentColumn, $endLine, $endColumn );
                         $textBefore = substr( $sourceText, $sourcePosition, $tagPos - $sourcePosition );
                         $textPortion = substr( $sourceText, $tagPos );
@@ -785,7 +785,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $cur_pos = $this->ElementParser->whitespaceEndPos( $tpl, $text, $cur_pos, $text_len );
 
         // parse sequence variable
-        $seqVar =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
+        $seqVar = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $cur_pos, $cur_pos, $text_len, $rootNamespace );
         if ( !$seqVar )
         {
             $this->showParseErrorMessage( $tpl, $text, $text_len, $cur_pos, $relatedTemplateName, $startLine, $startColumn,
@@ -811,7 +811,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $firstValStartPos = $cur_pos;
 
         // parse first value
-        $firstVal =& $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $firstValStartPos, $firstValEndPos, $text_len, $rootNamespace
+        $firstVal = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, $firstValStartPos, $firstValEndPos, $text_len, $rootNamespace
                                                              /*, EZ_TEMPLATE_TYPE_NUMERIC_BIT | EZ_TEMPLATE_TYPE_VARIABLE_BIT*/ );
         $args['first_val'] = $firstVal;
 

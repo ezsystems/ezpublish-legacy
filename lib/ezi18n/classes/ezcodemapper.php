@@ -225,7 +225,7 @@ class eZCodeMapper
 
         include_once( 'lib/ezi18n/classes/eztextcodec.php' );
         include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
-        $this->ISOUnicodeCodec = eZTextCodec::instance( 'iso-8859-1', 'unicode' );
+        $this->ISOUnicodeCodec =& eZTextCodec::instance( 'iso-8859-1', 'unicode' );
 
         $buffer = '';
         $lineNum = 1;
@@ -1432,7 +1432,7 @@ class eZCodeMapper
     {
         include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 
-        $codec = eZTextCodec::instance( 'unicode', $charset );
+        $codec =& eZTextCodec::instance( 'unicode', $charset );
         if ( !$codec )
         {
             eZDebug::writeError( "Failed to create textcodec for charset '$charset'" );
@@ -1570,9 +1570,9 @@ class eZCodeMapper
             {
                 $code .= ( '// Add spaces after chinese / japanese / korean multibyte characters' . "\n" .
                            'include_once( \'lib/ezi18n/classes/eztextcodec.php\' );' . "\n" .
-                           '$codec = eZTextCodec::instance( false, \'unicode\' );' . "\n" .
+                           '$codec =& eZTextCodec::instance( false, \'unicode\' );' . "\n" .
                            "\n" .
-                           '$unicodeValueArray =& $codec->convertString( $text );' . "\n" .
+                           '$unicodeValueArray = $codec->convertString( $text );' . "\n" .
                            "\n" .
                            '$normalizedTextArray = array();' . "\n" .
                            'foreach ( array_keys( $unicodeValueArray ) as $valueKey )' . "\n" .
@@ -1591,7 +1591,7 @@ class eZCodeMapper
                            '        $normalizedTextArray[] = $unicodeValueArray[$valueKey];' . "\n" .
                            '    }' . "\n" .
                            '}' . "\n" .
-                           '$revCodec = eZTextCodec::instance( \'unicode\', false ); // false means use internal charset' . "\n" .
+                           '$revCodec =& eZTextCodec::instance( \'unicode\', false ); // false means use internal charset' . "\n" .
                            '$text = $revCodec->convertString( $normalizedTextArray );' . "\n" );
             }
             $code .= ( '$text = preg_replace( array( "#(\.){2,}#",' . "\n" .
@@ -1648,9 +1648,9 @@ class eZCodeMapper
             {
                 // Add spaces after chinese / japanese / korean multibyte characters
                 include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-                $codec = eZTextCodec::instance( false, 'unicode' );
+                $codec =& eZTextCodec::instance( false, 'unicode' );
 
-                $unicodeValueArray =& $codec->convertString( $text );
+                $unicodeValueArray = $codec->convertString( $text );
 
                 $normalizedTextArray = array();
                 foreach ( array_keys( $unicodeValueArray ) as $valueKey )
@@ -1670,7 +1670,7 @@ class eZCodeMapper
                     }
                 }
 
-                $revCodec = eZTextCodec::instance( 'unicode', false ); // false means use internal charset
+                $revCodec =& eZTextCodec::instance( 'unicode', false ); // false means use internal charset
                 $text = $revCodec->convertString( $normalizedTextArray );
             }
 

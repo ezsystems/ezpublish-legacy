@@ -1068,7 +1068,7 @@ class eZWebDAVServer
     function recode( $string, $fromCharset, $toCharset, $stop = false )
     {
         include_once( 'lib/ezi18n/classes/eztextcodec.php' );
-        $codec = eZTextCodec::instance( $fromCharset, $toCharset, false );
+        $codec =& eZTextCodec::instance( $fromCharset, $toCharset, false );
         if ( $codec )
             $string = $codec->convertString( $string );
 

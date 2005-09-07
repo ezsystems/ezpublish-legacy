@@ -79,7 +79,7 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
     }
     if ( !eZContentTranslation::hasTranslation( $translationLocale ) )
     {
-        $translation =& eZContentTranslation::createNew( $translationName, $translationLocale );
+        $translation = eZContentTranslation::createNew( $translationName, $translationLocale );
         $translation->store();
         $translation->updateObjectNames();
     }
@@ -97,7 +97,7 @@ if ( $Module->isCurrentAction( 'Confirm' ) )
 
 if ( $Module->isCurrentAction( 'Remove' ) )
 {
-    $seletedIDList =& $Module->actionParameter( 'SelectedTranslationList' );
+    $seletedIDList = $Module->actionParameter( 'SelectedTranslationList' );
     $confirmTranslationList = array();
     $confirmTranslationIDList = array();
     $totalRemoveTranslation = 0;

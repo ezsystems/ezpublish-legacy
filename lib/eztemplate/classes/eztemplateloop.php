@@ -52,7 +52,7 @@ class eZTemplateLoopSequence
 
     function next()
     {
-        if( ( $this->CurVal =& next( $this->ArrayRef ) ) === false )
+        if( ( $this->CurVal = next( $this->ArrayRef ) ) === false )
         {
             reset( $this->ArrayRef );
             $this->CurVal = current( $this->ArrayRef );
@@ -118,8 +118,8 @@ class eZTemplateLoop
         $seqArray = $this->Tpl->elementValue( $params['sequence_array'],
                                               $this->RootNamespace, $this->CurrentNamespace, $this->FunctionPlacement );
 
-        $this->Sequence        =& new eZTemplateLoopSequence( $seqArray );
-        $this->SequenceVarName =  $seqVarName;
+        $this->Sequence        = new eZTemplateLoopSequence( $seqArray );
+        $this->SequenceVarName = $seqVarName;
 
         return true;
     }
@@ -220,7 +220,7 @@ class eZTemplateLoop
                 }
             }
 
-            $rslt =& $this->Tpl->processNode( $child, $this->TextElements, $this->RootNamespace, $this->CurrentNamespace );
+            $rslt = $this->Tpl->processNode( $child, $this->TextElements, $this->RootNamespace, $this->CurrentNamespace );
 
             // break/continue/skip might be found in a child function's (usually {if}) children
             if ( is_array( $rslt ) )

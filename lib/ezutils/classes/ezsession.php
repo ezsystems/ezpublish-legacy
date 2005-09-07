@@ -110,7 +110,7 @@ function eZSessionWrite( $key, $value )
         $value = '\'' . $db->escapeString( $value ) . '\'';
 
     }
-//    $value =& $db->escapeString( $value );
+//    $value = $db->escapeString( $value );
     $key = $db->escapeString( $key );
     // check if session already exists
 

@@ -104,8 +104,8 @@ class eZOrderItem extends eZPersistentObject
     {
         if ( $this->VATValue === false )
         {
-            $vatType =& eZVATType::fetch( $this->VATTypeID );
-            $this->VATValue = $vatType->attribute( 'percentage' );
+            $vatType = eZVATType::fetch( $this->VATTypeID );
+            $this->VATValue =& $vatType->attribute( 'percentage' );
         }
 
         return $this->VATValue;

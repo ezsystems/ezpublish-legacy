@@ -110,7 +110,7 @@ class eZCurrency
     /*!
      Returns the currency value.
     */
-    function value()
+    function &value()
     {
         return $this->Value;
     }

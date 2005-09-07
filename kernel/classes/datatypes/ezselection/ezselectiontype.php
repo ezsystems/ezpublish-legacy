@@ -321,7 +321,7 @@ class eZSelectionType extends eZDataType
     */
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        $xml                 =& new eZXML();
+        $xml                 = new eZXML();
 
         $isMultipleSelection =& $classAttribute->attribute( 'data_int1'  );
         $xmlString           =& $classAttribute->attribute( 'data_text5' );

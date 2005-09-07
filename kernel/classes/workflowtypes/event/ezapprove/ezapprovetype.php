@@ -308,8 +308,8 @@ class eZApproveType extends eZWorkflowEventType
         if ( $editor === null )
             return false;
         $authorID = $userID;
-        $collaborationItem =& eZApproveCollaborationHandler::createApproval( $contentobjectID, $contentobjectVersion,
-                                                                             $authorID, $editor );
+        $collaborationItem = eZApproveCollaborationHandler::createApproval( $contentobjectID, $contentobjectVersion,
+                                                                            $authorID, $editor );
 
         $db = & eZDb::instance();
         $db->query( 'insert into ezapprove_items( workflow_process_id,

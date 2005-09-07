@@ -478,9 +478,9 @@ class eZDateTime
         }
         else
         {
-            $dt1 =& $this->timeStamp();
+            $dt1 = $this->timeStamp();
             if ( get_class( $datetime ) == 'ezdatetime' )
-                $dt2 =& $datetime->timeStamp();
+                $dt2 = $datetime->timeStamp();
             else
                 $dt2 =& $datetime;
             return $dt1 == $dt2;

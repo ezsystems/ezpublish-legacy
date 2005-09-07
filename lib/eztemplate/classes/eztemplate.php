@@ -1830,7 +1830,7 @@ class eZTemplate
             $hasTemplateData = false;
             if ( method_exists( $item, 'templateData' ) )
             {
-                $templateData =& $item->templateData();
+                $templateData = $item->templateData();
                 if ( is_array( $templateData ) and
                      isset( $templateData['type'] ) )
                 {

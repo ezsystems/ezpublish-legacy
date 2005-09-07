@@ -501,7 +501,7 @@ class eZWorkflowProcess extends eZPersistentObject
 
 
 
-    function fetchListByKey( $searchKey, $asObject = true )
+    function &fetchListByKey( $searchKey, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
                                                     null,

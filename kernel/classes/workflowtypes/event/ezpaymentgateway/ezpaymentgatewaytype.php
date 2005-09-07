@@ -284,7 +284,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
         if( $gateway_difinition )
         {
             $class_name = $gateway_difinition[ 'class_name' ];
-            $theGateway =& new $class_name();
+            $theGateway = new $class_name();
         }
 
         return $theGateway;

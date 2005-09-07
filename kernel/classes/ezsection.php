@@ -191,8 +191,7 @@ class eZSection extends eZPersistentObject
     */
     function remove( )
     {
-        $def =& $this->definition();
-
+        $def = $this->definition();
         eZPersistentObject::removeObject( $def, array( "id" => $this->ID ) );
     }
 

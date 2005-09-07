@@ -221,7 +221,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         $items = array();
         foreach ( $itemResult as $itemRow )
         {
-            $items[] =& new eZNotificationCollectionItem( $itemRow );
+            $items[] = new eZNotificationCollectionItem( $itemRow );
         }
         return $items;
     }

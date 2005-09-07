@@ -240,7 +240,7 @@ if ( !$db or !$db->isConnected() )
 // Load in schema/data files
 
 include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-$schemaArray =& eZDBSchema::read( $filename, true );
+$schemaArray = eZDBSchema::read( $filename, true );
 if ( $includeData and !$options['schema-file'] )
 {
     $cli->error( "Cannot insert data without a schema file, please specify with --schema-file" );
@@ -254,7 +254,7 @@ if ( $options['schema-file'] )
         $cli->error( "Schema file " . $options['schema-file'] . " does not exist" );
         $script->shutdown( 1 );
     }
-    $schema =& eZDBSchema::read( $options['schema-file'], false );
+    $schema = eZDBSchema::read( $options['schema-file'], false );
     $schemaArray['schema'] = $schema;
 }
 
