@@ -1,4 +1,5 @@
 *** Experimental ***
+This new functionality is experimental and may be removed from future releases.
 
 Title: Extension siteaccess settings
 
