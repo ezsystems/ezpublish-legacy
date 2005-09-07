@@ -656,6 +656,27 @@ class eZImageAliasHandler
     */
     function updateAliasPath( $dirpath, $name )
     {
+        $contentObjectAttribute =& $this->ContentObjectAttribute;
+        $can_translate = $contentObjectAttribute->attribute( 'can_translate' );
+        // get eZContentObject for current contentObjectAttribute
+        $obj =& $contentObjectAttribute->object();
+        // get eZContentObjectVersion
+        $currVerobj =& $obj->currentVersion();
+        // get array of ezcontentobjecttranslations
+        $transList = & $currVerobj->translations();
+        $translationList = array();
+        // create translation List
+        // $translationList will contain for example eng-GB, ita-IT etc.
+        foreach ( $transList as $transListName )
+        {
+            $translationList[] = $transListName->LanguageCode;
+        }
+        // get current language_code
+        $langCode = $contentObjectAttribute->attribute( 'language_code' );
+        // get count of LanguageCode in translationList
+        $countTsl = count( $translationList );
+        // order by asc
+        sort( $translationList );
         if ( !file_exists( $dirpath ) )
         {
             eZDir::mkdir( $dirpath, eZDir::directoryPermission(), true );
@@ -683,9 +704,19 @@ class eZImageAliasHandler
                     {
                         continue;
                     }
-                    eZFileHandler::move( $oldURL, $alias['url'] );
-                    eZDir::cleanupEmptyDirectories( $oldDirpath );
-                    eZImageFile::moveFilepath( $this->ContentObjectAttribute->attribute( 'id' ), $oldURL, $alias['url'] );
+                    // if more there are more translations and the attribute is not translatable,
+                    // then it is necessary to copy the image. Otherwise the image should be removed.
+                    if ( !$can_translate and $countTsl > 1 and $translationList[$countTsl - 1] != $langCode )
+                    {
+                        eZFileHandler::copy( $oldURL, $alias['url'] );
+                    }
+                    else
+                    {
+                        eZFileHandler::move( $oldURL, $alias['url'] );
+                        eZDir::cleanupEmptyDirectories( $oldDirpath );
+                        eZImageFile::moveFilepath( $this->ContentObjectAttribute->attribute( 'id' ), $oldURL, $alias['url'] );
+                    }
+
                 }
                 else
                 {
