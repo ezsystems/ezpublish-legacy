@@ -11,27 +11,63 @@
     </select>
 </div>
 
-
 {* User who functions as approver *}
-<div class="element">
-    <label>{'User who approves content'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
-    <select name="WorkflowEvent_event_ezapprove_editor_{$event.id}[]" size="5">
-    {section var=Users loop=$event.workflow_type.users}
-    <option value="{$Users.item.value}"{section show=$event.selected_users|contains( $Users.item.value )} selected="selected"{/section}>{$Users.item.name|wash}</option>
-    {/section}
-    </select>
+<div class="block">
+<fieldset>
+<legend>{'User who approves content'|i18n( 'design/admin/workflow/eventtype/edit' )}</legend>
+{section show=$event.selected_users}
+<table class="list" cellspacing="0">
+<tr>
+<th class="tight">&nbsp;</th>
+<th>{'User'|i18n( 'design/admin/workflow/eventtype/edit' )}</th>
+</tr>
+{section var=User loop=$event.selected_users sequence=array( bglight, bgdark )}
+<tr class="{$User.sequence}">
+<td><input type="checkbox" name="DeleteUserIDArray_{$event.id}[]" value="{$User.item}" />
+    <input type="hidden" name="WorkflowEvent_event_user_id_{$event.id}[]" value="{$User.item}" /></td>
+<td>{fetch(content, object, hash( object_id, $User.item)).name|wash}</td>
+</tr>
+{/section}
+</table>
+{section-else}
+<p>{'No user selected.'|i18n( 'design/admin/workflow/eventtype/edit' )}</p>
+{/section}
+
+<input class="button" type="submit" name="CustomActionButton[{$event.id}_RemoveUser]" value="{'Remove selected'|i18n( 'design/admin/workflow/eventtype/edit' )}"
+       {section show=$event.selected_users|not}disabled="disabled"{/section} />
+<input class="button" type="submit" name="CustomActionButton[{$event.id}_AddUser]" value="{'Add user'|i18n( 'design/admin/workflow/eventtype/edit' )}"
+       {section show=$event.selected_users}disabled="disabled"{/section} />
+
+</fieldset>
 </div>
 
-
 {* Excluded users & groups *}
-<div class="element">
-    <label>{'Excluded users and groups'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
-    <select name="WorkflowEvent_event_ezapprove_groups_{$event.id}[]" size="5" multiple="multiple">
-    <option value="-1"{section show=$event.selected_usergroups|contains( -1 )} selected="selected" {/section}>{'All users and groups'|i18n( 'design/admin/workflow/eventtype/edit' )}</option>
-    {section var=Groups loop=$event.workflow_type.usergroups}
-    <option value="{$Groups.item.value}"{section show=$event.selected_usergroups|contains( $Groups.item.value )} selected="selected"{/section}>{$Groups.item.name|wash}</option>
-    {/section}
-    </select>
+<div class="block">
+<fieldset>
+<legend>{'Excluded user groups ( users in these groups do not need to have their content approved )'|i18n( 'design/admin/workflow/eventtype/edit' )}</legend>
+{section show=$event.selected_usergroups}
+<table class="list" cellspacing="0">
+<tr>
+<th class="tight">&nbsp;</th>
+<th>{'User and user groups'|i18n( 'design/admin/workflow/eventtype/edit' )}</th>
+</tr>
+{section var=User loop=$event.selected_usergroups sequence=array( bglight, bgdark )}
+<tr class="{$User.sequence}">
+<td><input type="checkbox" name="DeleteExcludeUserIDArray_{$event.id}[]" value="{$User.item}" />
+    <input type="hidden" name="WorkflowEvent_event_user_id_{$event.id}[]" value="{$User.item}" /></td>
+<td>{fetch(content, object, hash( object_id, $User.item)).name|wash}</td>
+</tr>
+{/section}
+</table>
+{section-else}
+<p>{'No groups selected.'|i18n( 'design/admin/workflow/eventtype/edit' )}</p>
+{/section}
+
+<input class="button" type="submit" name="CustomActionButton[{$event.id}_RemoveExcludeUser]" value="{'Remove selected'|i18n( 'design/admin/workflow/eventtype/edit' )}"
+       {section show=$event.selected_usergroups|not}disabled="disabled"{/section} />
+<input class="button" type="submit" name="CustomActionButton[{$event.id}_AddExcludeUser]" value="{'Add groups'|i18n( 'design/admin/workflow/eventtype/edit' )}" />
+
+</fieldset>
 </div>
 
 </div>

@@ -198,6 +198,8 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   (Merged from stable/3.6 (3.6.2) rev. 13222)
 - Fixed bug #7126: Required option for URL attribute is not working.
   (Merged from stable/3.5 (3.5.5) rev. 13225)
+- Fixed bug #7127: Edit approve workflow event with thousands of users.
+  ( Merged from stable/3.5 rev. 13233, stable/3.6 rev. 13234 )
 
 *Library:
 
