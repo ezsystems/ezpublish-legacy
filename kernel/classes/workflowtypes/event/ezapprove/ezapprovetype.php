@@ -63,19 +63,26 @@ class eZApproveType extends eZWorkflowEventType
         {
             case 'selected_sections':
             {
-                $sections = explode( ',', $event->attribute( 'data_text1' ) );
-                return $sections;
-            }break;
+                return explode( ',', $event->attribute( 'data_text1' ) );
+            } break;
+
             case 'selected_users':
             {
-                $users =  array( $event->attribute( 'data_int1' ) );
-                return $users;
-            }break;
+                if ( $event->attribute( 'data_int1' ) == '0' )
+                {
+                    return array();
+                }
+                return array( $event->attribute( 'data_int1' ) );
+            } break;
+
             case 'selected_usergroups':
             {
-                $groups = explode( ',', $event->attribute( 'data_text2' ) );
-                return $groups;
-            }
+                if ( $event->attribute( 'data_text2' ) == '' )
+                {
+                    return array();
+                }
+                return explode( ',', $event->attribute( 'data_text2' ) );
+            } break;
         }
         return null;
     }
@@ -103,41 +110,12 @@ class eZApproveType extends eZWorkflowEventType
                 }
                 return $sections;
             }break;
-            case 'users':
-            {
-                include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-                $users =& eZUser::fetchContentList();
-                $userList = array();
-                foreach ( array_keys( $users ) as $key )
-                {
-                    $user =& $users[$key];
-                    $user['Name'] = $user['name'];
-                    $user['value'] = $user['id'];
-                    $userList[] = $user;
-                }
-                return $userList;
-            }break;
-            case 'usergroups':
-            {
-                $ini =& eZINI::instance();
-                $classID = $ini->variable( 'UserSettings', 'UserGroupClassID' );
-                $groups =& eZPersistentObject::fetchObjectList( eZContentObject::definition(), array( 'id', 'name' ), array( 'contentclass_id' => $classID ), null, null, false );
-                foreach ( array_keys( $groups ) as $key )
-                {
-                    $group =& $groups[$key];
-                    $group['Name'] = $group['name'];
-                    $group['value'] = $group['id'];
-                }
-                return $groups;
-            }
         }
         return eZWorkflowEventType::attribute( $attr );
     }
     function hasAttribute( $attr )
     {
-        return in_array( $attr, array( 'sections',
-                                       'users',
-                                       'usergroups' ) ) || eZWorkflowEventType::hasAttribute( $attr );
+        return in_array( $attr, array( 'sections' ) ) || eZWorkflowEventType::hasAttribute( $attr );
     }
 
     function execute( &$process, &$event )
@@ -163,7 +141,7 @@ class eZApproveType extends eZWorkflowEventType
             $user =& eZUser::instance( $process->attribute( 'user_id' ) );
         }
 
-        $userGroups = $user->attribute( 'groups' );
+        $userGroups = array_merge( $user->attribute( 'groups' ), $user->attribute( 'contentobject_id' ) );
         $workflowSections = explode( ',', $event->attribute( 'data_text1' ) );
         $workflowGroups = explode( ',', $event->attribute( 'data_text2' ) );
         $editor = $event->attribute( 'data_int1' );
@@ -237,27 +215,6 @@ class eZApproveType extends eZWorkflowEventType
 
     function fetchHTTPInput( &$http, $base, &$event )
     {
-        $editorVar = $base . "_event_ezapprove_editor_" . $event->attribute( "id" );
-        if ( $http->hasPostVariable( $editorVar ) )
-        {
-            $editorID = $http->postVariable( $editorVar );
-            $editorID = $editorID[0];
-            $event->setAttribute( "data_int1", $editorID );
-        }
-        $userGroupsVar = $base . "_event_ezapprove_groups_" . $event->attribute( "id" );
-        if ( $http->hasPostVariable( $userGroupsVar ) )
-        {
-            $userGroupsArray = $http->postVariable( $userGroupsVar );
-            if ( in_array( '-1', $userGroupsArray ) )
-            {
-                $userGroupsArray = array( -1 );
-            }
-
-
-            $userGroupsString = implode( ',', $userGroupsArray );
-            $event->setAttribute( "data_text2", $userGroupsString );
-        }
-
         $sectionsVar = $base . "_event_ezapprove_section_" . $event->attribute( "id" );
         if ( $http->hasPostVariable( $sectionsVar ) )
         {
@@ -267,10 +224,60 @@ class eZApproveType extends eZWorkflowEventType
                 $sectionsArray = array( -1 );
             }
             $sectionsString = implode( ',', $sectionsArray );
-//            $userGroupList = explode( ',', $userGroupsString );
             $event->setAttribute( "data_text1", $sectionsString );
         }
 
+        if ( $http->hasSessionVariable( 'BrowseParameters' ) )
+        {
+            $browseParameters = $http->sessionVariable( 'BrowseParameters' );
+            if ( isset( $browseParameters['custom_action_data'] ) )
+            {
+                $customData = $browseParameters['custom_action_data'];
+                if ( isset( $customData['event_id'] ) &&
+                     $customData['event_id'] == $event->attribute( 'id' ) )
+                {
+                    switch( $customData['browse_action'] )
+                    {
+                        case 'AddUser':
+                        {
+                            if ( $http->hasPostVariable( 'SelectedObjectIDArray' ) )
+                            {
+                                $userID = '';
+                                if ( is_array( $http->postVariable( 'SelectedObjectIDArray' ) ) &&
+                                     count( $http->postVariable( 'SelectedObjectIDArray' ) ) > 0 )
+                                {
+                                    $userIDArray = $http->postVariable( 'SelectedObjectIDArray' );
+                                    $userID = $userIDArray[0];
+                                    if ( !eZUser::isUserObject( eZContentObject::fetch( $userID ) ) )
+                                    {
+                                        $userID = '';
+                                    }
+                                }
+                                $event->setAttribute( 'data_int1', $userID );
+                            }
+                        } break;
+
+                        case 'AddExcludeUser':
+                        {
+                            if ( $http->hasPostVariable( 'SelectedObjectIDArray' ) )
+                            {
+                                if ( is_array( $http->postVariable( 'SelectedObjectIDArray' ) ) &&
+                                     count( $http->postVariable( 'SelectedObjectIDArray' ) ) > 0 )
+                                {
+                                    $userIDArray = $http->postVariable( 'SelectedObjectIDArray' );
+                                    $event->setAttribute( 'data_text2', implode( ',',
+                                                                                array_unique( array_merge( $this->attributeDecoder( $event, 'selected_usergroups' ),
+                                                                                                           $userIDArray ) ) ) );
+                                }
+                            }
+                        } break;
+
+                    }
+                }
+            }
+
+            $http->removeSessionVariable( 'BrowseParameters' );
+        }
     }
 
     function createApproveCollaboration( &$process, &$event, $userID, $contentobjectID, $contentobjectVersion, $editor )
@@ -282,10 +289,61 @@ class eZApproveType extends eZWorkflowEventType
                                                                              $authorID, $editor );
 
         $db = & eZDb::instance();
-        $db->query( 'insert into ezapprove_items( workflow_process_id,
-                                                      collaboration_id )
-                                              values(' . $process->attribute( 'id' ) .','. $collaborationItem->attribute( 'id' ) .' ) '
-                    );
+        $db->query( 'INSERT INTO ezapprove_items( workflow_process_id, collaboration_id )
+                       VALUES(' . $process->attribute( 'id' ) . ',' . $collaborationItem->attribute( 'id' ) . ' ) ' );
+    }
+
+    /*
+     \reimp
+    */
+    function customWorkflowEventHTTPAction( &$http, $action, &$workflowEvent )
+    {
+        $eventID = $workflowEvent->attribute( "id" );
+        $module =& $GLOBALS['eZRequestedModule'];
+
+        switch ( $action )
+        {
+            case "AddUser" :
+            {
+                include_once( 'kernel/classes/ezcontentbrowse.php' );
+                eZContentBrowse::browse( array( 'action_name' => 'SelectSingleUser',
+                                                'from_page' => '/workflow/edit/' . $workflowEvent->attribute( 'workflow_id' ),
+                                                'custom_action_data' => array( 'event_id' => $eventID,
+                                                                               'browse_action' => $action ) ),
+                                         $module );
+            } break;
+
+            case "RemoveUser" :
+            {
+                if ( $http->hasPostVariable( 'DeleteUserIDArray_' . $eventID ) )
+                {
+                    if ( count( array_intersect( $this->attributeDecoder( $workflowEvent, 'selected_users' ), $http->postVariable( 'DeleteUserIDArray_' . $eventID ) ) ) )
+                    {
+                        $workflowEvent->setAttribute( 'data_int1', '' );
+                    }
+                }
+            } break;
+
+            case "AddExcludeUser" :
+            {
+                include_once( 'kernel/classes/ezcontentbrowse.php' );
+                eZContentBrowse::browse( array( 'action_name' => 'SelectMultipleUsers',
+                                                'from_page' => '/workflow/edit/' . $workflowEvent->attribute( 'workflow_id' ),
+                                                'custom_action_data' => array( 'event_id' => $eventID,
+                                                                               'browse_action' => $action ) ),
+                                         $module );
+            } break;
+
+            case "RemoveExcludeUser" :
+            {
+                if ( $http->hasPostVariable( 'DeleteExcludeUserIDArray_' . $eventID ) )
+                {
+                    $workflowEvent->setAttribute( 'data_text2', implode( ',', array_diff( $this->attributeDecoder( $workflowEvent, 'selected_usergroups' ),
+                                                                                          $http->postVariable( 'DeleteExcludeUserIDArray_' . $eventID ) ) ) );
+                }
+            } break;
+
+        }
     }
 
     function checkApproveCollaboration( &$process, &$event )

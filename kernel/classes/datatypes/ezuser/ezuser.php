@@ -1137,6 +1137,33 @@ WHERE user_id = '" . $userID . "' AND
     }
 
     /*!
+     Checks if the supplied content object is a user object ( contains ezuser datatype )
+
+     \param ContentObject
+
+     \return true or false
+    */
+    function isUserObject( $contentObject )
+    {
+        if ( !$contentObject )
+        {
+            return false;
+        }
+
+        eZDataType::loadAndRegisterType( 'ezuser' );
+
+        $contentClass = $contentObject->attribute( 'content_class' );
+        $classAttributeList = $contentClass->fetchAttributes();
+        foreach( $classAttributeList as $classAttribute )
+        {
+            if ( $classAttribute->attribute( 'data_type_string' ) == EZ_DATATYPESTRING_USER )
+                return true;
+        }
+
+        return false;
+    }
+
+    /*!
      \static
      Creates a password with number of characters equal to \a $passwordLength and returns it.
      If you want pass a value in \a $seed it will be used as basis for the password, if not

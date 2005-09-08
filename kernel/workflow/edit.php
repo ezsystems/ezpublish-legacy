@@ -336,7 +336,10 @@ $tpl->setVariable( "event_list", $event_list );
 $tpl->setVariable( "workflow_type_list", $type_list );
 $tpl->setVariable( "workflow_type", $cur_type );
 $tpl->setVariable( 'validation', $validation );
-$tpl->setVariable( "group_id", $GroupID );
+if ( isset( $GroupID ) )
+{
+    $tpl->setVariable( "group_id", $GroupID );
+}
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:workflow/edit.tpl" );

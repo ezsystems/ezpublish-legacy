@@ -6,7 +6,7 @@
         {section show=and( and( is_set( $selectedClass ), $selectedClass ), eq( $selectedClass, $Classes.item.id ) )}
 		<option value="{$Classes.item.id}" selected=true>{$Classes.item.name|wash}</option>
         {section-else}
-                <option value="{$Classes.item.id}">{$Classes.item.name|wash}</option>	
+                <option value="{$Classes.item.id}">{$Classes.item.name|wash}</option>
 	{/section}
     {/section}
     </select>
