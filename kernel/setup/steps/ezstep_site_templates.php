@@ -122,7 +122,7 @@ class eZStepSiteTemplates extends eZStepInstaller
 
         include_once( 'kernel/classes/ezpackage.php' );
 
-        $packages =& eZPackage::fetchPackages( array( 'path' => 'kernel/setup/packages' ) );
+        $packages = eZPackage::fetchPackages( array( 'path' => 'kernel/setup/packages' ) );
         for ( $key = 0; $key < count( $packages ); ++$key )
         {
             $package =& $packages[$key];

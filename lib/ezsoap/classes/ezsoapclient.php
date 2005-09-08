@@ -152,9 +152,8 @@ class eZSOAPClient
             }
 
             $rawResponse = "";
-
             // fetch the SOAP response
-            while ( $data=&fread( $fp, 32768 ) )
+            while ( $data = fread( $fp, 32768 ) )
             {
                 $rawResponse .= $data;
             }
@@ -187,7 +186,6 @@ class eZSOAPClient
                     $HTTPCall .= "\r\n" . $payload;
 
                     curl_setopt( $ch, CURLOPT_URL, "https://" . $this->Server . ":" . $this->Port . $this->Path );
-
                     curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
                     curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 1 );
                     curl_setopt( $ch, CURLOPT_HEADER, 1 );

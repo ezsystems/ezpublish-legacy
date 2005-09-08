@@ -126,7 +126,7 @@ if ( $http->hasVariable( 'SearchContentClassID' ) and
 {
     $searchContentClassID = $http->variable( 'SearchContentClassID' );
     $searchContentClass =& eZContentClass::fetch( $searchContentClassID );
-    $searchContentClassAttributeArray =& $searchContentClass->fetchSearchableAttributes();
+    $searchContentClassAttributeArray = $searchContentClass->fetchSearchableAttributes();
 }
 
 $searchContentClassAttributeID = -1;

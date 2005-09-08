@@ -67,7 +67,7 @@ class eZPaymentLogger
         if( $this->file )
         {
             if ( is_object( $string ) || is_array( $string ) )
-                $string =& eZDebug::dumpVariable( $string );
+                $string = eZDebug::dumpVariable( $string );
 
             if( $label == '' )
                 fputs( $this->file, $string."\r\n" );
@@ -83,7 +83,7 @@ class eZPaymentLogger
             $time = $this->getTime();
 
             if ( is_object( $string ) || is_array( $string ) )
-                $string =& eZDebug::dumpVariable( $string );
+                $string = eZDebug::dumpVariable( $string );
 
             if( $label == '' )
                 fputs( $this->file, $time. '  '. $string. "\n" );

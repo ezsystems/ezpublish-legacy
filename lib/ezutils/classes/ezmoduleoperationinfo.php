@@ -207,9 +207,9 @@ class eZModuleOperationInfo
                         $mementoData = $memento->data();
                         $memento->remove();
 
-                        $resultArray =& $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
-                                                            $operationKeys, $operationParameterDefinitions, $operationParameters,
-                                                            $mementoData, $bodyCallCount, $operationDefinition['name'] );
+                        $resultArray = $this->executeBody( $callMethod['include_file'], $callMethod['class'], $operationDefinition['body'],
+                                                           $operationKeys, $operationParameterDefinitions, $operationParameters,
+                                                           $mementoData, $bodyCallCount, $operationDefinition['name'] );
                         if ( is_array( $resultArray ) )
                         {
                             $lastResultArray = array_merge( $lastResultArray, $resultArray );
@@ -642,7 +642,7 @@ class eZModuleOperationInfo
         if ( isset( $mementoData[ 'main_memento' ] ) )
         {
             $this->Memento =& $mementoData[ 'main_memento' ];
-            $mainMementoData =& $this->Memento->data();
+            $mainMementoData = $this->Memento->data();
             if ( isset( $mainMementoData['loop_run'] ) )
             {
                 $bodyCallCount['loop_run'] = $mainMementoData['loop_run'];

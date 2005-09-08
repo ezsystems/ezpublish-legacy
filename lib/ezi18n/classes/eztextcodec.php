@@ -320,7 +320,7 @@ class eZTextCodec
         return $this->OutputCharsetCode;
     }
 
-    function &convertString( $str )
+    function convertString( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_conversion', false, 'String conversion' );
         $conversionFunction = $this->ConversionFunction;
@@ -410,7 +410,7 @@ class eZTextCodec
     function convertMBString( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_mbstring', false, 'String conversion w/ mbstring' );
-//        $tmp =& $this->MBStringMapper->convertString( $str );
+//        $tmp = $this->MBStringMapper->convertString( $str );
         // NOTE:
         // Uses the mbstring function directly instead of going trough the class
         $tmp = mb_convert_encoding( $str, $this->OutputCharsetCode, $this->InputCharsetCode );
@@ -466,7 +466,7 @@ class eZTextCodec
      \param $alwaysReturn If \c false it will only return a textcodec instance if it is required for the input and output charset.
                           In which case it returns \c null.
     */
-    function instance( $inputCharsetCode, $outputCharsetCode = false, $alwaysReturn = true )
+    function &instance( $inputCharsetCode, $outputCharsetCode = false, $alwaysReturn = true )
     {
         if ( $inputCharsetCode === false or $outputCharsetCode === false )
         {
@@ -501,7 +501,8 @@ class eZTextCodec
         $check =& $GLOBALS["eZTextCodecCharsetCheck"]["$realInputCharsetCode-$realOutputCharsetCode"];
         if ( !$alwaysReturn and isset( $check ) and !$check )
         {
-            return null;
+            $check = null;
+            return $check;
         }
         if ( isset( $check ) and is_object( $check ) )
         {
@@ -525,8 +526,8 @@ class eZTextCodec
              $inputEncoding == $outputEncoding and
              $realInputCharsetCode == $realOutputCharsetCode )
         {
-            $check = false;
-            return null;
+            $check = null;
+            return $check;
         }
         $codec =& $GLOBALS["eZTextCodec-$realInputCharsetCode-$realOutputCharsetCode"];
         if ( get_class( $codec ) != "eztextcodec" )

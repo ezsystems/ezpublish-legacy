@@ -56,33 +56,33 @@ function &referenceReadFile( $file, $htmlRoot, $base )
         $data = substr( $data, $pos + 4 );
     }
     $id = "[a-zA-Z0-9_]+";
-    $data =& preg_replace( array( "/class=\"([^\"]+)\"/",
-                                  "/<h1/",
-                                  "/<caption/",
-                                  "/<body/",
-                                  "/src=\"(class($id)\.png)\"/",
-                                  "/href=\"class($id)-members\.html(#$id)?\"/",
-                                  "/href=\"class($id)\.html(#$id)?\"/",
-                                  "/href=\"group__($id)\.html(#$id)?\"/",
-                                  "/href=\"deprecated\.html(#$id)?\"/",
-                                  "/href=\"todo\.html(#$id)?\"/",
-                                  "/href=\"($id)_8php\.html(#$id)?\"/",
-                                  "/href=\"($id)_8php-source\.html(#$id)?\"/"
-                                  ),
-                           array( "class=\"dox_$1\"",
-                                  "<h1 class=\"dox\"",
-                                  "<caption class=\"dox\"",
-                                  "<body class=\"dox\"",
-                                  "src=\"$pathPrepend/$htmlRoot/$1\"",
-                                  "href=\"$indexPathPrepend$base/members/$1$2\"",
-                                  "href=\"$indexPathPrepend$base/class/$1$2\"",
-                                  "href=\"$indexPathPrepend$base/module/$1$2\"",
-                                  "href=\"$indexPathPrepend$base/deprecated$1\"",
-                                  "href=\"$indexPathPrepend$base/todo$1\"",
-                                  "href=\"$indexPathPrepend$base/file/$1$2\"",
-                                  "href=\"$indexPathPrepend$base/source/$1$2\""
-                                  ),
-                           $data );
+    $data = preg_replace( array( "/class=\"([^\"]+)\"/",
+                                 "/<h1/",
+                                 "/<caption/",
+                                 "/<body/",
+                                 "/src=\"(class($id)\.png)\"/",
+                                 "/href=\"class($id)-members\.html(#$id)?\"/",
+                                 "/href=\"class($id)\.html(#$id)?\"/",
+                                 "/href=\"group__($id)\.html(#$id)?\"/",
+                                 "/href=\"deprecated\.html(#$id)?\"/",
+                                 "/href=\"todo\.html(#$id)?\"/",
+                                 "/href=\"($id)_8php\.html(#$id)?\"/",
+                                 "/href=\"($id)_8php-source\.html(#$id)?\"/"
+                                 ),
+                          array( "class=\"dox_$1\"",
+                                 "<h1 class=\"dox\"",
+                                 "<caption class=\"dox\"",
+                                 "<body class=\"dox\"",
+                                 "src=\"$pathPrepend/$htmlRoot/$1\"",
+                                 "href=\"$indexPathPrepend$base/members/$1$2\"",
+                                 "href=\"$indexPathPrepend$base/class/$1$2\"",
+                                 "href=\"$indexPathPrepend$base/module/$1$2\"",
+                                 "href=\"$indexPathPrepend$base/deprecated$1\"",
+                                 "href=\"$indexPathPrepend$base/todo$1\"",
+                                 "href=\"$indexPathPrepend$base/file/$1$2\"",
+                                 "href=\"$indexPathPrepend$base/source/$1$2\""
+                                 ),
+                          $data );
     return $data;
 }
 

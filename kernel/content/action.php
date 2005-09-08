@@ -83,7 +83,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
     else if ( $http->hasPostVariable( 'ClassIdentifier' ) )
     {
         $contentClassIdentifier = $http->postVariable( 'ClassIdentifier' );
-        $class = eZContentClass::fetchByIdentifier( $contentClassIdentifier );
+        $class =& eZContentClass::fetchByIdentifier( $contentClassIdentifier );
         if ( is_object( $class ) )
         {
             $contentClassID = $class->attribute( 'id' );

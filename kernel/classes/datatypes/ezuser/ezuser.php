@@ -120,57 +120,6 @@ class eZUser extends eZPersistentObject
                       'name' => 'ezuser' );
     }
 
-    function &attribute( $name )
-    {
-        if ( $name == 'groups')
-        {
-            return $this->groups();
-        }
-        else if ( $name == 'is_logged_in')
-        {
-            $isLoggedIn = $this->isLoggedIn();
-            return $isLoggedIn;
-        }
-        else if ( $name == 'roles')
-        {
-            return $this->roles();
-        }
-        else if ( $name == 'role_id_list')
-        {
-            $roleIDList =& $this->roleIDList();
-            return $roleIDList;
-        }
-        else if ( $name == 'has_stored_login')
-        {
-            $hasStoredLogin =& $this->hasStoredLogin();
-            return $hasStoredLogin;
-        }
-        else if ( $name == 'original_password' )
-        {
-            return $this->originalPassword();
-        }
-        else if ( $name == 'original_password_confirm' )
-        {
-            return $this->originalPasswordConfirm();
-        }
-        else if ( $name == 'contentobject' )
-        {
-            if ( $this->ContentObjectID == 0 )
-                return null;
-            include_once( 'kernel/classes/ezcontentobject.php' );
-            return eZContentObject::fetch( $this->ContentObjectID );
-        }
-        else if ( $name == 'is_enabled' )
-        {
-            return $this->isEnabled();
-        }
-        else
-        {
-            $returnValue =& eZPersistentObject::attribute( $name );
-            return $returnValue;
-        }
-    }
-
     /*!
      \return a textual identifier for the hash type $id
     */
@@ -816,7 +765,7 @@ WHERE user_id = '" . $userID . "' AND
         {
             $oldUserID = $contentObjectID = $http->sessionVariable( "eZUserLoggedInID" );
             eZDebugSetting::writeDebug( 'kernel-user', $userRow, 'user row' );
-            $user =& new eZUser( $userRow );
+            $user = new eZUser( $userRow );
             eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
             $userID = $user->attribute( 'contentobject_id' );
 
@@ -1053,7 +1002,7 @@ WHERE user_id = '" . $userID . "' AND
     /*!
       Returns the last visit timestamp to the current user.
     */
-    function lastVisit()
+    function &lastVisit()
     {
         $db =& eZDB::instance();
 
@@ -1064,27 +1013,29 @@ WHERE user_id = '" . $userID . "' AND
         }
         else
         {
-            return time();
+            $retValue = time();
+            return $retValue;
         }
     }
 
     /*!
      \return \c true if the user is enabled and can be used on the site.
     */
-    function isEnabled()
+    function &isEnabled()
     {
         if ( $this == eZUser::currentUser() )
         {
-            return true;
+            $retValue = true;
+            return $retValue;
         }
 
         include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
         $setting =& eZUserSetting::fetch( $this->attribute( 'contentobject_id' ) );
         if ( $setting and !$setting->attribute( 'is_enabled' ) )
-        {
-            return false;
-        }
-        return true;
+            $retValue = false;
+        else
+            $retValue = true;
+        return $retValue;
     }
 
     /*!
@@ -1442,6 +1393,18 @@ WHERE user_id = '" . $userID . "' AND
             $limitValueList[] = $limitValue['limit_value'];
 
         return $limitValueList;
+    }
+
+    function &contentObject()
+    {
+        if ( isset( $this->ContentObjectID ) and $this->ContentObjectID )
+        {
+            include_once( 'kernel/classes/ezcontentobject.php' );
+            $object =& eZContentObject::fetch( $this->ContentObjectID );
+        }
+        else
+            $object = null;
+        return $object;
     }
 
     /*!

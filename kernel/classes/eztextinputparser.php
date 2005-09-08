@@ -71,7 +71,7 @@ class eZTextInputParser
             {
                 if ( ( $tagStart - $pos ) >= 1 )
                 {
-                    $textChunk =& substr( $text, $pos, $tagStart - $pos );
+                    $textChunk = substr( $text, $pos, $tagStart - $pos );
                     $pos += $tagStart - $pos;
 
 
@@ -86,8 +86,8 @@ class eZTextInputParser
                 }
                 // get the tag
                 $tagEnd = strpos( $text, ">", $pos );
-                $tagChunk =& substr( $text, $pos, $tagEnd - $pos + 1 );
-                $tagName =& preg_replace( "#^\<(.+)?(\s.*|\>)#m", "\\1", $tagChunk );
+                $tagChunk = substr( $text, $pos, $tagEnd - $pos + 1 );
+                $tagName = preg_replace( "#^\<(.+)?(\s.*|\>)#m", "\\1", $tagChunk );
 
                 // check for end tag
                 if ( $tagName[0] == "/" )
@@ -107,7 +107,7 @@ class eZTextInputParser
             {
 
                 // just plain text in the rest
-                $textChunk =& substr( $text, $pos, strlen( $text ) );
+                $textChunk = substr( $text, $pos, strlen( $text ) );
                 eZDebug::writeNotice( $textChunk, "New text chunk in input" );
 
                 if ( strlen( trim( $textChunk ) ) != 0 )

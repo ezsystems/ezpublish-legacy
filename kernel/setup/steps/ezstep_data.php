@@ -55,7 +55,7 @@ class eZStepData
              step name
       \return array containing file name and class name
     */
-    function step( $description )
+    function &step( $description )
     {
         if ( is_string( $description ) )
         {
@@ -74,8 +74,8 @@ class eZStepData
                 return $this->StepTable[$description];
             }
         }
-
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     /*!
@@ -95,7 +95,8 @@ class eZStepData
                 return $this->StepTable[++$key];
             }
         }
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     /*!
@@ -127,7 +128,8 @@ class eZStepData
                 }
             }
         }
-        return null;
+        $retValue = null;
+        return $retValue;
     }
 
     /*!

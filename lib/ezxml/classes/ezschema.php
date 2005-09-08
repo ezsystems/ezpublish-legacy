@@ -66,7 +66,7 @@ class eZSchema
     function setSchemaFromFile( $url )
     {
         $fp = fopen( $url, "rb" );
-        $doc =& fread( $fp, filesize( $url ) );
+        $doc = fread( $fp, filesize( $url ) );
         fclose( $fp );
         $this->setSchema( $doc );
     }

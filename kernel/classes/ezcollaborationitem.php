@@ -522,7 +522,7 @@ class eZCollaborationItem extends eZPersistentObject
             foreach( $itemListArray as $key => $value )
             {
                 $itemData =& $itemListArray[$key];
-                $statusObject =& eZCollaborationItemStatus::create( $itemData['id'], $userID );
+                $statusObject = eZCollaborationItemStatus::create( $itemData['id'], $userID );
                 $statusObject->setAttribute( 'is_read', $itemData['is_read'] );
                 $statusObject->setAttribute( 'is_active', $itemData['is_active'] );
                 $statusObject->setAttribute( 'last_read', $itemData['last_read'] );

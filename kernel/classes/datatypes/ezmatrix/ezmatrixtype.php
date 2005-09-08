@@ -449,7 +449,7 @@ class eZMatrixType extends eZDataType
         $classAttribute->setAttribute( 'data_text1', $defaultName );
         $classAttribute->setAttribute( 'data_int1', $defaultRowCount );
 
-        $matrixDefinition =& new eZMatrixDefinition();
+        $matrixDefinition = new eZMatrixDefinition();
         $columnsNode =& $attributeParametersNode->elementByName( 'columns' );
         $columnsList =& $columnsNode->children();
         foreach ( array_keys( $columnsList ) as $columnKey )

@@ -71,7 +71,7 @@ class eZShopAccountHandler
         else
         {
             include_once( 'kernel/classes/shopaccounthandlers/ezdefaultshopaccounthandler.php' );
-            $accountHandler =& new eZDefaultShopAccountHandler();
+            $accountHandler = new eZDefaultShopAccountHandler();
         }
         return $accountHandler;
     }

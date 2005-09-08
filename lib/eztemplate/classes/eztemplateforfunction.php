@@ -113,9 +113,9 @@ class eZTemplateForFunction
         $uniqid        =  md5( $nodePlacement[2] ) . "_" . $tpl->ForCounter;
 
         require_once( 'lib/eztemplate/classes/eztemplatecompiledloop.php' );
-        $loop =& new eZTemplateCompiledLoop( EZ_TEMPLATE_FOR_FUNCTION_NAME,
-                                             $newNodes, $parameters, $nodePlacement, $uniqid,
-                                             $node, $tpl, $privateData );
+        $loop = new eZTemplateCompiledLoop( EZ_TEMPLATE_FOR_FUNCTION_NAME,
+                                            $newNodes, $parameters, $nodePlacement, $uniqid,
+                                            $node, $tpl, $privateData );
 
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "// for begins" );
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['first_val'], $nodePlacement, array( 'treat-value-as-non-object' => true ), "for_firstval_$uniqid" );
@@ -160,9 +160,9 @@ class eZTemplateForFunction
          */
 
         require_once( 'lib/eztemplate/classes/eztemplateloop.php' );
-        $loop =& new eZTemplateLoop( EZ_TEMPLATE_FOR_FUNCTION_NAME,
-                                     $functionParameters, $functionChildren, $functionPlacement,
-                                     $tpl, $textElements, $rootNamespace, $currentNamespace );
+        $loop = new eZTemplateLoop( EZ_TEMPLATE_FOR_FUNCTION_NAME,
+                                    $functionParameters, $functionChildren, $functionPlacement,
+                                    $tpl, $textElements, $rootNamespace, $currentNamespace );
 
         if ( !$loop->initialized() )
             return;

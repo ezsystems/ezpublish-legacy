@@ -256,9 +256,9 @@ class eZCollaborationItemHandler
                 if ( $tpl->hasVariable( 'from' ) )
                     $parameters['from'] = $tpl->variable( 'from' );
 
-                $collection =& eZNotificationCollection::create( $event->attribute( 'id' ),
-                                                                 EZ_COLLABORATION_NOTIFICATION_HANDLER_ID,
-                                                                 EZ_COLLABORATION_NOTIFICATION_HANDLER_TRANSPORT );
+                $collection = eZNotificationCollection::create( $event->attribute( 'id' ),
+                                                                EZ_COLLABORATION_NOTIFICATION_HANDLER_ID,
+                                                                EZ_COLLABORATION_NOTIFICATION_HANDLER_TRANSPORT );
 
                 $collection->setAttribute( 'data_subject', $subject );
                 $collection->setAttribute( 'data_text', $result );

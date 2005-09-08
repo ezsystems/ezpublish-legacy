@@ -268,7 +268,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $phpCache->canRestore( $expiryTime ) )
         {
-            $var =& $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
+            $var = $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
             $identifierHash =& $var['identifierHash'];
         }
         else
@@ -324,7 +324,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $phpCache->canRestore( $expiryTime ) )
         {
-            $var =& $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
+            $var = $phpCache->restore( array( 'identifierHash' => 'identifier_hash' ) );
             $identifierHash =& $var['identifierHash'];
         }
         else
@@ -515,7 +515,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $phpCache->canRestore( $expiryTime ) )
         {
-            $vars =& $phpCache->restore( array( 'datatype_array' => 'datatypeArray',
+            $vars = $phpCache->restore( array( 'datatype_array' => 'datatypeArray',
                                                 'attribute_type_array' => 'attributeTypeArray' ) );
             $dataTypeArray =& $vars['datatype_array'];
             $attributeTypeArray =& $vars['attribute_type_array'];
@@ -4151,7 +4151,7 @@ WHERE
         /// role system clean up
         // Clean up policies and limitations
 
-            $limitationsToFix =& eZPolicyLimitation::findByType( 'SubTree', $node->attribute( 'path_string' ), false );
+            $limitationsToFix = eZPolicyLimitation::findByType( 'SubTree', $node->attribute( 'path_string' ), false );
             if ( count( $limitationsToFix )  > 0 )
             {
                 include_once( "kernel/classes/ezrole.php" );
@@ -4697,7 +4697,7 @@ WHERE
                     $node['name'] = ezi18n( 'kernel/content', 'Top Level Nodes' );
             }
 
-            $object =& new eZContentObjectTreeNode( $node );
+            $object = new eZContentObjectTreeNode( $node );
             $object->setName( $node['name'] );
 
             if ( isset( $node['class_name'] ) )
@@ -4709,7 +4709,7 @@ WHERE
                 if ( array_key_exists( 'class_name', $node ) )
                 {
                     unset( $node['remote_id'] );
-                    $contentObject =& new eZContentObject( $node );
+                    $contentObject = new eZContentObject( $node );
 
                     $permissions = array();
                     $contentObject->setPermissions( $permissions );
@@ -4720,7 +4720,7 @@ WHERE
                 }
                 else
                 {
-                    $contentObject =& new eZContentObject( array());
+                    $contentObject = new eZContentObject( array());
                     if ( isset( $node['name'] ) )
                          $contentObject->setCachedName( $node['name'] );
                 }
@@ -4869,7 +4869,7 @@ WHERE
         $parentNodeRemoteID = $contentNodeDOMNode->attributeValue( 'parent-node-remote-id' );
         if ( $parentNodeRemoteID !== false )
         {
-            $parentNode = eZContentObjectTreeNode::fetchByRemoteID( $parentNodeRemoteID );
+            $parentNode =& eZContentObjectTreeNode::fetchByRemoteID( $parentNodeRemoteID );
             $parentNodeID = $parentNode->attribute( 'node_id' );
         }
         else

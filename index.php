@@ -36,6 +36,9 @@
 // }
 // xdebug_start_trace( 'ezp' );
 
+// rush: debug
+include_once( '../debug_print_backtrace.php' );
+
 ignore_user_abort( true );
 require 'lib/compat.php';
 
@@ -315,7 +318,8 @@ if ( $ini->variable( 'RegionalSettings', 'Debug' ) == 'enabled' )
 include_once( "lib/ezutils/classes/ezsys.php" );
 
 
-eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
+// rush: debug
+//eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
 
 $GLOBALS['eZGlobalRequestURI'] = eZSys::serverVariable( 'REQUEST_URI' );
 

@@ -314,7 +314,7 @@ class eZXMLTextType extends eZDataType
         {
             include_once( 'lib/ezi18n/classes/eztextcodec.php' );
             $charset = 'UTF-8';
-            $codec = eZTextCodec::instance( false, $charset );
+            $codec =& eZTextCodec::instance( false, $charset );
             $text = $codec->convertString( $text );
             $timestamp = EZ_XMLTEXT_VERSION_30_TIMESTAMP;
         }

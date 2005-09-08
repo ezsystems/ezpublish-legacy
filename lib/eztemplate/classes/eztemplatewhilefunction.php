@@ -109,9 +109,9 @@ class eZTemplateWhileFunction
         $uniqid        =  md5( $nodePlacement[2] ) . "_" . $tpl->WhileCounter;
 
         require_once( 'lib/eztemplate/classes/eztemplatecompiledloop.php' );
-        $loop =& new eZTemplateCompiledLoop( EZ_TEMPLATE_WHILE_FUNCTION_NAME,
-                                             $newNodes, $parameters, $nodePlacement, $uniqid,
-                                             $node, $tpl, $privateData );
+        $loop = new eZTemplateCompiledLoop( EZ_TEMPLATE_WHILE_FUNCTION_NAME,
+                                            $newNodes, $parameters, $nodePlacement, $uniqid,
+                                            $node, $tpl, $privateData );
 
 
         $loop->initVars();

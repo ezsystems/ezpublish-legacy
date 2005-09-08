@@ -94,7 +94,7 @@ class eZSOAPRequest extends eZSOAPEnvelope
     */
     function addParameter( $name, $value )
     {
-        $this->Parameters[] =& new eZSOAPParameter( $name, $value );
+        $this->Parameters[] = new eZSOAPParameter( $name, $value );
     }
 
     /*!

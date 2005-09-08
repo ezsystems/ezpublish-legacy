@@ -261,7 +261,7 @@ class eZOrder extends eZPersistentObject
                 $retOrders = array();
                 foreach ( $orderArray as $order )
                 {
-                    $order =& new eZOrder( $order );
+                    $order = new eZOrder( $order );
                     $retOrders[] = $order;
                 }
                 return $retOrders;
@@ -443,7 +443,7 @@ class eZOrder extends eZPersistentObject
         for( $i=0; $i < count( $orderArray ); $i++ )
         {
             $order =& $orderArray[$i];
-            $order =& new eZOrder( $order );
+            $order = new eZOrder( $order );
             $retOrders[] = $order;
         }
         return $retOrders;
@@ -712,7 +712,7 @@ class eZOrder extends eZPersistentObject
         $db =& eZDB::instance();
         $user =& eZUser::fetch( $userID );
         $groups =& $user->groups();
-        $idArray =& array_merge( $groups, $user->attribute( 'contentobject_id' ) );
+        $idArray = array_merge( $groups, $user->attribute( 'contentobject_id' ) );
 
         // Fetch discount rules for the current user
         $rules =& eZUserDiscountRule::fetchByUserIDArray( $idArray );

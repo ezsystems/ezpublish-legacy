@@ -140,7 +140,7 @@ class eZNotificationEventType
 
     function loadAndRegisterAllTypes()
     {
-        $allowedTypes =& eZNotificationEventType::allowedTypes();
+        $allowedTypes = eZNotificationEventType::allowedTypes();
         foreach( $allowedTypes as $type )
         {
             eZNotificationEventType::loadAndRegisterType( $type );

@@ -150,7 +150,7 @@ class eZContentFunctionCollection
     function &fetchLocaleList( $withVariations )
     {
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
-        $localeList =& eZLocale::localeList( true, $withVariations );
+        $localeList = eZLocale::localeList( true, $withVariations );
         if ( $localeList === null )
         {
             $result = array( 'error' => array( 'error_type' => 'kernel',
@@ -268,7 +268,7 @@ class eZContentFunctionCollection
         $children = null;
         if ( is_numeric( $parentNodeID ) )
         {
-            $children =& eZContentObjectTreeNode::calendar( $treeParameters,
+            $children = eZContentObjectTreeNode::calendar( $treeParameters,
                                                             $parentNodeID );
         }
 
@@ -401,9 +401,9 @@ class eZContentFunctionCollection
             $parameters['SearchSubTreeArray'] = $subTreeArray;
         if ( $searchTimestamp )
             $parameters['SearchTimestamp'] = $searchTimestamp;
-        $searchResult =& eZSearch::search( $searchText,
-                                           $parameters,
-                                           $searchArray );
+        $searchResult = eZSearch::search( $searchText,
+                                          $parameters,
+                                          $searchArray );
         $result = array( 'result' => &$searchResult );
         return $result;
     }
@@ -973,7 +973,7 @@ class eZContentFunctionCollection
         if (  $contentClassID !== false and !is_numeric( $contentClassID ) )
         {
             include_once( 'kernel/classes/ezcontentclass.php' );
-            $class = eZContentClass::fetchByIdentifier( $contentClassID );
+            $class =& eZContentClass::fetchByIdentifier( $contentClassID );
             if ( !$class )
                 return array( 'error' => array( 'error_type' => 'kernel',
                                                 'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );

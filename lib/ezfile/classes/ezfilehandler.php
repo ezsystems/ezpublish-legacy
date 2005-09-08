@@ -1073,7 +1073,7 @@ class eZFileHandler
         $instance = false;
         if ( !$identifier )
         {
-            $instance =& new eZFileHandler();
+            $instance = new eZFileHandler();
         }
         else if ( isset( $handlers[$identifier] ) )
         {

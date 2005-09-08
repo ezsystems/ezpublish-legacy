@@ -330,7 +330,7 @@ class eZMySQLDB extends eZDBInterface
             if ( $this->InputTextCodec )
             {
                 eZDebug::accumulatorStart( 'mysql_conversion', 'mysql_total', 'String conversion in mysql' );
-                $sql =& $this->InputTextCodec->convertString( $sql );
+                $sql = $this->InputTextCodec->convertString( $sql );
                 eZDebug::accumulatorStop( 'mysql_conversion' );
             }
 
@@ -555,7 +555,7 @@ class eZMySQLDB extends eZDBInterface
                             while( ( $key = key( $tmp_row ) ) !== null )
                             {
                                 eZDebug::accumulatorStart( 'mysql_conversion', 'mysql_total', 'String conversion in mysql' );
-                                $conv_row[$key] =& $this->OutputTextCodec->convertString( $tmp_row[$key] );
+                                $conv_row[$key] = $this->OutputTextCodec->convertString( $tmp_row[$key] );
                                 eZDebug::accumulatorStop( 'mysql_conversion' );
                                 next( $tmp_row );
                             }
@@ -576,7 +576,7 @@ class eZMySQLDB extends eZDBInterface
                         if ( $this->InputTextCodec )
                         {
                             eZDebug::accumulatorStart( 'mysql_conversion', 'mysql_total', 'String conversion in mysql' );
-                            $retArray[$i + $offset] =& $this->OutputTextCodec->convertString( $tmp_row[$column] );
+                            $retArray[$i + $offset] = $this->OutputTextCodec->convertString( $tmp_row[$column] );
                             eZDebug::accumulatorStop( 'mysql_conversion' );
                         }
                         else
@@ -777,16 +777,16 @@ class eZMySQLDB extends eZDBInterface
 
     /*!
      \reimp
-     The query to start the transaction. 
+     The query to start the transaction.
     */
     function beginQuery()
     {
         return $this->query("BEGIN WORK");
     }
-    
+
     /*!
      \reimp
-     The query to commit the transaction. 
+     The query to commit the transaction.
     */
     function commitQuery()
     {
@@ -795,7 +795,7 @@ class eZMySQLDB extends eZDBInterface
 
     /*!
      \reimp
-     The query to cancel the transaction. 
+     The query to cancel the transaction.
     */
     function rollbackQuery()
     {

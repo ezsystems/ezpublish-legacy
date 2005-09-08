@@ -188,7 +188,7 @@ class eZCollaborationFunctionCollection
     function &fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array, $depth )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-        $node =& eZCollaborationObjectTreeNode::fetch( $parentNodeID );
+        $node =& eZContentObjectTreeNode::fetch( $parentNodeID );
         $childrenCount =& $node->subTreeCount( array( 'Limitation' => null,
                                                       'ClassFilterType' => $class_filter_type,
                                                       'ClassFilterArray' => $class_filter_array,

@@ -252,7 +252,7 @@ class eZTemplateIfFunction
 
             if ( $show )
             {
-                $rslt =& $tpl->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
+                $rslt = $tpl->processNode( $child, $textElements, $rootNamespace, $currentNamespace );
 
                 // handle 'break', 'continue' and 'skip'
                 if ( is_array( $rslt ) && ( array_key_exists( 'breakFunctionFound', $rslt ) ||

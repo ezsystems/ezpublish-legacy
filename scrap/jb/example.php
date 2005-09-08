@@ -190,21 +190,21 @@ class eZContentClass extends eZPersistentObject
             $userID =& $user->attribute( 'contentobject_id' );
         }
 
-        $object =& eZContentObject::create( ezi18n( "kernel/contentclass", "New %1", null, array( $this->attribute( "name" ) ) ),
-                                            $this->attribute( "id" ),
-                                            $userID,
-                                            $sectionID );
+        $object = eZContentObject::create( ezi18n( "kernel/contentclass", "New %1", null, array( $this->attribute( "name" ) ) ),
+                                           $this->attribute( "id" ),
+                                           $userID,
+                                           $sectionID );
         $object->store();
         //  $object->setName( "New " . $this->attribute( "name" ) );
         $object->setName( ezi18n( "kernel/contentclass", "New %1", null, array( $this->attribute( "name" ) ) ) );
 
         if ( !$versionNumber )
         {
-            $version =& $object->createInitialVersion( $userID );
+            $version = $object->createInitialVersion( $userID );
         }
         else
         {
-            $version =& eZContentObjectVersion::create( $object->attribute( "id" ), $userID, $versionNumber );
+            $version = eZContentObjectVersion::create( $object->attribute( "id" ), $userID, $versionNumber );
         }
 
         $version->store();
@@ -440,13 +440,10 @@ class eZContentClass extends eZPersistentObject
         include_once( 'lib/ezutils/classes/ezini.php' );
         $contentINI =& eZINI::instance( 'content.ini' );
         if( $contentINI->variable( 'ContentOverrideSettings', 'EnableClassGroupOverride' ) == 'true' )
-        {
-            return $this->attribute( 'ingroup_id_list' );
-        }
+            $retValue =& $this->attribute( 'ingroup_id_list' );
         else
-        {
-            return false;
-        }
+            $retValue = false;
+        return $retValue;
     }
 
     /*!
@@ -831,11 +828,14 @@ You will need to change the class of the node by using the swap functionality.' 
                                                       false );
 
         if ( count( $rows ) == 0 )
-            return null;
-
-        $row =& $rows[0];
-        $row["version_count"] = count( $rows );
-        return new eZContentClass( $row );
+            $class = null;
+        else
+        {
+            $row =& $rows[0];
+            $row["version_count"] = count( $rows );
+            $class = new eZContentClass( $row );
+        }
+        return $class;
     }
 
     function &fetchByRemoteID( $remoteID, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
@@ -855,12 +855,14 @@ You will need to change the class of the node by using the swap functionality.' 
                                                              "length" => 2 ),
                                                       false );
         if ( count( $rows ) == 0 )
+            $class = null;
+        else
         {
-            return null;
+            $row =& $rows[0];
+            $row["version_count"] = count( $rows );
+            $class = new eZContentClass( $row );
         }
-        $row =& $rows[0];
-        $row["version_count"] = count( $rows );
-        return new eZContentClass( $row );
+        return $class;
     }
 
     function &fetchByIdentifier( $identifier, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
@@ -883,9 +885,11 @@ You will need to change the class of the node by using the swap functionality.' 
         {
             $row =& $rows[0];
             $row["version_count"] = count( $rows );
-            return new eZContentClass( $row );
+            $class = new eZContentClass( $row );
         }
-        return null;
+        else
+            $class = null;
+        return $class;
     }
 
     /*!
@@ -968,7 +972,10 @@ You will need to change the class of the node by using the swap functionality.' 
                 $version = $this->Version;
             }
             else
-                return null;
+            {
+                $retValue = null;
+                return $retValue;
+            }
         }
 
         return eZContentClassAttribute::fetchFilteredList( array( "contentclass_id" => $id,
@@ -990,7 +997,8 @@ You will need to change the class of the node by using the swap functionality.' 
                                                                               'identifier' => $identifier ), $asObject );
         if ( count( $attributeArray ) == 0 )
         {
-            return null;
+            $retValue = null;
+            return $retValue;
         }
         return $attributeArray[0];
     }
@@ -1006,7 +1014,10 @@ You will need to change the class of the node by using the swap functionality.' 
                 $version = $this->Version;
             }
             else
-                return null;
+            {
+                $retValue = null;
+                return $retValue;
+            }
         }
 
         return eZContentClassAttribute::fetchFilteredList( array( "contentclass_id" => $id,
@@ -1075,14 +1086,14 @@ You will need to change the class of the node by using the swap functionality.' 
                 // get the value of the attribute to use in name
                 if ( isset( $dataMap[$name] ) )
                 {
-                    $namePart =& $dataMap[$name]->title();
+                    $namePart = $dataMap[$name]->title();
                     if ( $namePart != "" )
                         break;
                 }
             }
 
             // replace tag with object name part
-            $contentObjectName =& str_replace( $tag, $namePart, $contentObjectName );
+            $contentObjectName = str_replace( $tag, $namePart, $contentObjectName );
         }
         return $contentObjectName;
     }

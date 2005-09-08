@@ -70,7 +70,7 @@ $receiversEmail = '';
 if ( $http->hasPostVariable( 'NodeID' ) )
     $NodeID = (int)$http->variable( 'NodeID' );
 
-$node =& eZFunctionHandler::execute( 'content', 'node', array( 'node_id' => $NodeID ) );
+$node = eZFunctionHandler::execute( 'content', 'node', array( 'node_id' => $NodeID ) );
 if ( $node )
     $nodename = $node->Name;
 $hostname = eZSys::hostname();

@@ -188,7 +188,7 @@ class eZINIAddonPackageHandler extends eZPackageHandler
     {
         foreach( array_keys( $iniOverrideArray ) as $siteAccess )
         {
-            $iniNode =& eZINIAddonPackageHandler::iniDOMTree( $filename, $siteAccess, $iniOverrideArray[$siteAccess], $remoteIDArray );
+            $iniNode = eZINIAddonPackageHandler::iniDOMTree( $filename, $siteAccess, $iniOverrideArray[$siteAccess], $remoteIDArray );
             if ( !$overrideNode )
             {
                 continue;

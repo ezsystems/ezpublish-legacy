@@ -875,7 +875,7 @@ class eZDebug
         else
             $instance =& eZDebug::instance();
         if ( $types === false )
-            $types =& $instance->messageTypes();
+            $types = $instance->messageTypes();
         if ( !is_array( $types ) )
             $types = array( $types );
         foreach ( $types as $type )
@@ -1107,19 +1107,19 @@ function showDebug()
     {
         //Opera
         debugWindow = window.open( '', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
-        debugWindow.location.href=\"/$debugFilePath\";  
+        debugWindow.location.href=\"/$debugFilePath\";
         debugWindow.navigate(\"/$debugFilePath\");
     }
     else
     {
         //Mozilla, Firefox, etc.
         debugWindow = window.open( '', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
-	debugWindow.document.location.href=\"/$debugFilePath\";  
+	debugWindow.document.location.href=\"/$debugFilePath\";
     };
 }
-    
+
 showDebug();
-		    
+		
 // done hiding from old browsers -->
 </SCRIPT>
 " );

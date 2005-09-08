@@ -194,7 +194,7 @@ function eZTriedDatabaseString( $database, $host, $user, $password, $socket )
 if ( file_exists( $database ) and is_file( $database ) )
 {
     include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
-    $schemaArray =& eZDBSchema::read( $database, true );
+    $schemaArray = eZDBSchema::read( $database, true );
 
     if ( $includeData and !isset( $schemaArray['data'] ) )
     {
@@ -215,7 +215,7 @@ if ( file_exists( $database ) and is_file( $database ) )
             $cli->error( "Schema file " . $options['schema-file'] . " does not exist" );
             $script->shutdown( 1 );
         }
-        $schema =& eZDBSchema::read( $options['schema-file'], false );
+        $schema = eZDBSchema::read( $options['schema-file'], false );
         $schemaArray['schema'] = $schema;
     }
 

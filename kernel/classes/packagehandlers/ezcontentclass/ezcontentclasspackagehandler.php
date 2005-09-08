@@ -158,7 +158,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $userID = $installParameters['user_id'];
 
         if ( $classRemoteID != "" )
-            $class = eZContentClass::fetchByRemoteID( $classRemoteID );
+            $class =& eZContentClass::fetchByRemoteID( $classRemoteID );
 
         // Try to create a unique class identifier
         if( !isset( $class ) || !$class )
@@ -168,7 +168,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
 
             while( !$unique )
             {
-                $classList = eZContentClass::fetchByIdentifier( $currentClassIdentifier );
+                $classList =& eZContentClass::fetchByIdentifier( $currentClassIdentifier );
                 if ( $classList )
                 {
                     // "increment" class identifier

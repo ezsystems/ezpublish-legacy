@@ -352,8 +352,10 @@ class eZWorkflowType
     {
     }
 
-    function attributeDecoder( &$event, $attr )
+    function &attributeDecoder( &$event, $attr )
     {
+        $retValue = null;
+        return $retValue;
     }
 
     function typeFunctionalAttributes( )
@@ -365,9 +367,10 @@ class eZWorkflowType
     {
     }
 
-    function workflowEventContent()
+    function &workflowEventContent()
     {
-        return "";
+        $retValue = "";
+        return $retValue;
     }
     function storeEventData( &$event, $version )
     {

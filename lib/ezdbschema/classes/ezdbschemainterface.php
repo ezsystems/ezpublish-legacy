@@ -292,7 +292,7 @@ class eZDBSchemaInterface
             }
             if ( $includeData )
             {
-                $data =& $this->data( $schema );
+                $data = $this->data( $schema );
                 $this->transformData( $data, true );
                 fputs( $fp, $this->generateDataFile( $schema, $data, $params ) );
             }

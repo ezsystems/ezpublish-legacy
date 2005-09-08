@@ -161,7 +161,7 @@ class eZTextFileUser extends eZUser
         if ( $exists and $isEnabled )
         {
             eZDebugSetting::writeDebug( 'kernel-user', $userRow, 'user row' );
-            $user =& new eZUser( $userRow );
+            $user = new eZUser( $userRow );
             eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
             $userID = $user->attribute( 'contentobject_id' );
 

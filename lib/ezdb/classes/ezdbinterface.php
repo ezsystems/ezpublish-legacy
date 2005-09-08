@@ -130,8 +130,8 @@ class eZDBInterface
 */
         {
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
-            $this->OutputTextCodec = eZTextCodec::instance( $charset, false, false );
-            $this->InputTextCodec = eZTextCodec::instance( false, $charset, false );
+            $this->OutputTextCodec =& eZTextCodec::instance( $charset, false, false );
+            $this->InputTextCodec =& eZTextCodec::instance( false, $charset, false );
 
             if ( $this->OutputTextCodec && $this->InputTextCodec )
             {
@@ -560,10 +560,8 @@ class eZDBInterface
 
       \param $sql SQL query to execute.
     */
-    function &query( $sql )
+    function query( $sql )
     {
-        $result = false;
-        return $result;
     }
 
     /*!
@@ -947,7 +945,7 @@ class eZDBInterface
       \pure
       Will escape a string so it's ready to be inserted in the database.
     */
-    function &escapeString( $str )
+    function escapeString( $str )
     {
         return $str;
     }

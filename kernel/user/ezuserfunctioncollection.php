@@ -74,7 +74,7 @@ class eZUserFunctionCollection
     function fetchIsLoggedIn( $userID )
     {
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-        $isLoggedIn =& eZUser::isUserLoggedIn( $userID );
+        $isLoggedIn = eZUser::isUserLoggedIn( $userID );
         return array( 'result' => $isLoggedIn );
     }
 
@@ -95,14 +95,14 @@ class eZUserFunctionCollection
     function fetchLoggedInList( $sortBy, $offset, $limit )
     {
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-        $list =& eZUser::fetchLoggedInList( false, $offset, $limit, $sortBy );
+        $list = eZUser::fetchLoggedInList( false, $offset, $limit, $sortBy );
         return array( 'result' => $list );
     }
 
     function fetchLoggedInUsers( $sortBy, $offset, $limit )
     {
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-        $list =& eZUser::fetchLoggedInList( true, $offset, $limit, $sortBy );
+        $list = eZUser::fetchLoggedInList( true, $offset, $limit, $sortBy );
         return array( 'result' => $list );
     }
 

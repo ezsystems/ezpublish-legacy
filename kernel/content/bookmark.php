@@ -56,11 +56,11 @@ if ( $Module->isCurrentAction( 'Remove' )  )
 {
     if ( $Module->hasActionParameter( 'DeleteIDArray' ) )
     {
-        $deleteIDArray =& $Module->actionParameter( 'DeleteIDArray' );
+        $deleteIDArray = $Module->actionParameter( 'DeleteIDArray' );
 
         foreach ( $deleteIDArray as $deleteID )
         {
-            $bookmark =& eZContentBrowseBookmark::fetch( $deleteID );
+            $bookmark = eZContentBrowseBookmark::fetch( $deleteID );
             if ( $bookmark === null )
                 continue;
             $bookmark->remove();

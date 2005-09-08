@@ -171,7 +171,7 @@ class eZKeywordType extends eZDataType
     {
         $keyword = new eZKeyword();
         $keyword->fetch( $attribute );
-        $return =& $keyword->keywordString();
+        $return = $keyword->keywordString();
 
         return $return;
     }
@@ -242,7 +242,7 @@ class eZKeywordType extends eZDataType
     {
         $keyword = new eZKeyword();
         $keyword->fetch( $attribute );
-        $return =& $keyword->keywordString();
+        $return = $keyword->keywordString();
 
         return $return;
     }
@@ -284,7 +284,7 @@ class eZKeywordType extends eZDataType
 
         $keyword = new eZKeyword();
         $keyword->fetch( $objectAttribute );
-        $keyWordString =& $keyword->keywordString();
+        $keyWordString = $keyword->keywordString();
         $node->appendChild( eZDOMDocument::createElementTextNode( 'keyword-string', $keyWordString ) );
 
         return $node;

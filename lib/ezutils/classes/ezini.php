@@ -621,7 +621,7 @@ class eZINI
         if ( $this->UseTextCodec )
         {
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
-            $this->Codec = eZTextCodec::instance( $this->Charset, false, false );
+            $this->Codec =& eZTextCodec::instance( $this->Charset, false, false );
         }
         foreach ( $lines as $line )
         {

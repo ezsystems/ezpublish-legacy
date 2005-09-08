@@ -104,7 +104,7 @@ if ( function_exists( 'apache_get_version' ) )
         $webserverInfo['modules'] = apache_get_modules();
 }
 
-$systemInfo =& new eZSysInfo();
+$systemInfo = new eZSysInfo();
 $systemInfo->scan();
 
 $tpl->setVariable( 'ezpublish_version', eZPublishSDK::version() . " (" . eZPublishSDK::alias() . ")" );

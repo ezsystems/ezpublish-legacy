@@ -161,8 +161,8 @@ class eZTemplateImageOperator
             $yadj =& $ini->variable( 'DefaultSettings', 'YAdjustment' );
             $wadj =& $ini->variable( 'DefaultSettings', 'WidthAdjustment' );
             $hadj =& $ini->variable( 'DefaultSettings', 'HeightAdjustment' );
-            $bgcol =& $this->decodeColor( $ini->variable( 'DefaultSettings', 'BackgroundColor' ) );
-            $textcol =& $this->decodeColor( $ini->variable( 'DefaultSettings', 'TextColor' ) );
+            $bgcol = $this->decodeColor( $ini->variable( 'DefaultSettings', 'BackgroundColor' ) );
+            $textcol = $this->decodeColor( $ini->variable( 'DefaultSettings', 'TextColor' ) );
 
             $absoluteWidth = false;
             $absoluteHeight = false;
@@ -182,9 +182,9 @@ class eZTemplateImageOperator
             if ( $ini->hasVariable( $class, 'HeightAdjustment' ) )
                 $hadj =& $ini->variable( $class, 'HeightAdjustment' );
             if ( $ini->hasVariable( $class, 'BackgroundColor' ) )
-                $bgcol =& $this->decodeColor( $ini->variable( $class, 'BackgroundColor' ) );
+                $bgcol = $this->decodeColor( $ini->variable( $class, 'BackgroundColor' ) );
             if ( $ini->hasVariable( $class, 'TextColor' ) )
-                $textcol =& $this->decodeColor( $ini->variable( $class, 'TextColor' ) );
+                $textcol = $this->decodeColor( $ini->variable( $class, 'TextColor' ) );
             if ( $ini->hasVariable( $class, 'AbsoluteWidth' ) )
                 $absoluteWidth =& $ini->variable( $class, 'AbsoluteWidth' );
             if ( $ini->hasVariable( $class, 'AbsoluteHeight' ) )
@@ -223,7 +223,7 @@ class eZTemplateImageOperator
             }
             if ( !$fontDir )
                 return;
-            $font =& new eZImageFont( $family, $size, $fontDir, $xadj, $yadj );
+            $font = new eZImageFont( $family, $size, $fontDir, $xadj, $yadj );
 
             if ( $bgcol === null )
                 $bgcol = $this->color( "bgcolor" );

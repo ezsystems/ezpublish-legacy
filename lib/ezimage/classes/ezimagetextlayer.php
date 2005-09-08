@@ -92,11 +92,11 @@ class eZImageTextLayer extends eZImageLayer
         $position = $image->calculatePosition( $layerData['parameters'], $this->width(), $this->height() );
         $x = $position['x'];
         $y = $position['y'];
-        $destinationImageObject =& $image->imageObjectInternal( false );
+        $destinationImageObject = $image->imageObjectInternal( false );
         if ( $lastLayerData === null and
              $destinationImageObject === null )
         {
-            $destinationImageObject =& $image->imageObjectInternal();
+            $destinationImageObject = $image->imageObjectInternal();
             $bbox = $this->textBoundingBox();
             $font = $this->font();
             $this->drawText( $font, $this->textColor(), $this->text(), $bbox[6], -$bbox[7], $this->textAngle(),
@@ -105,7 +105,7 @@ class eZImageTextLayer extends eZImageLayer
         else
         {
             $destinationImageObject = $image->imageObjectInternal();
-            $imageObject =& $this->imageObjectInternal();
+            $imageObject = $this->imageObjectInternal();
             $bbox = $this->textBoundingBox();
             $image->copyImage( $imageObject, $destinationImageObject,
                                0, 0, $this->width(), $this->height(),

@@ -98,13 +98,12 @@ class eZPolicyLimitationValue extends eZPersistentObject
      Creates a new limitation value for the limitation \a $limitationID and returns it.
      \note The value is not stored.
     */
-    function &create( $limitationID, $value )
+    function create( $limitationID, $value )
     {
         $row = array( 'id' => null,
                       'limitation_id' => $limitationID,
                       'value' => $value );
-        $limitationValue = new eZPolicyLimitationValue( $row );
-        return $limitationValue;
+        return new eZPolicyLimitationValue( $row );
     }
 
     /*!
@@ -151,29 +150,6 @@ class eZPolicyLimitationValue extends eZPersistentObject
         }
         eZPersistentObject::removeObject( eZPolicyLimitationValue::definition(),
                                           array( "value" => $value ) );
-    }
-
-    /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
-     */
-    function remove( $id = false )
-    {
-        if ( is_numeric( $id ) )
-        {
-            $delID = $id;
-            $limitationValue =& eZPolicyLimitationValue::fetch( $delID );
-        }
-        else
-        {
-            $limitationValue =& $this;
-            $delID = $this->ID;
-        }
-
-        $db =& eZDB::instance();
-
-        $db->query( "DELETE FROM ezpolicy_limitation_value
-                     WHERE ezpolicy_limitation_value.id = '$delID'" );
     }
 
 }

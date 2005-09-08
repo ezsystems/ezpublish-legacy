@@ -109,7 +109,7 @@ class eZCollaborationViewHandler
     */
     function groupExists( $viewMode )
     {
-        $list =& eZCollaborationViewHandler::fetchGroupList();
+        $list = eZCollaborationViewHandler::fetchGroupList();
         return in_array( $viewMode, $list );
     }
 
@@ -137,14 +137,17 @@ class eZCollaborationViewHandler
      \static
      \return the single instance of the viewmode \a $viewMode.
     */
-    function instance( $viewMode, $type = EZ_COLLABORATION_VIEW_TYPE_STANDARD )
+    function &instance( $viewMode, $type = EZ_COLLABORATION_VIEW_TYPE_STANDARD )
     {
         if ( $type == EZ_COLLABORATION_VIEW_TYPE_STANDARD )
             $instance =& $GLOBALS["eZCollaborationView"][$viewMode];
         else if ( $type == EZ_COLLABORATION_VIEW_TYPE_GROUP )
             $instance =& $GLOBALS["eZCollaborationGroupView"][$viewMode];
         else
-            return null;
+        {
+            $instance = null;
+            return $instance;
+        }
         if ( !isset( $instance ) )
         {
             $instance = new eZCollaborationViewHandler( $viewMode, $type );

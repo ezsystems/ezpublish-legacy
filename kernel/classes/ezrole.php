@@ -219,11 +219,11 @@ class eZRole extends eZPersistentObject
 
      \code
      // Access to content/read
-     $policy1 =& $role->appendPolicy( 'content', 'read' );
+     $policy1 = $role->appendPolicy( 'content', 'read' );
      // Access to content/read in section 1
-     $policy2 =& $role->appendPolicy( 'content', 'read', array( 'Section' => 1 ) );
+     $policy2 = $role->appendPolicy( 'content', 'read', array( 'Section' => 1 ) );
      // Access to content/read for class 2 and 5
-     $policy3 =& $role->appendPolicy( 'content', 'read', array( 'Class' => array( 2, 5 ) ) );
+     $policy3 = $role->appendPolicy( 'content', 'read', array( 'Class' => array( 2, 5 ) ) );
      \encode
 
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
@@ -397,7 +397,7 @@ class eZRole extends eZPersistentObject
                         // Clean up subtree limitations related to this object
 
 
-        $limitationsToFix =& eZPolicyLimitation::findByType( 'SubTree', $node->attribute( 'path_string' ), true, true );
+        $limitationsToFix = eZPolicyLimitation::findByType( 'SubTree', $node->attribute( 'path_string' ), true, true );
 
         foreach( $limitationsToFix as $limitation )
         {
@@ -424,7 +424,7 @@ class eZRole extends eZPersistentObject
             }
         }
 
-        $limitationsToFixNode =& eZPolicyLimitation::findByType( 'Node', $node->attribute( 'node_id' ) );
+        $limitationsToFixNode = eZPolicyLimitation::findByType( 'Node', $node->attribute( 'node_id' ) );
 
         foreach( $limitationsToFixNode as $limitation )
         {
@@ -858,7 +858,7 @@ class eZRole extends eZPersistentObject
      \param $version Which version to fetch, 0 is the published one. Temporary versions get
       the id of the role.
     */
-    function fetch( $roleID, $version = 0 )
+    function &fetch( $roleID, $version = 0 )
     {
         if ( $version != 0 )
         {
@@ -873,14 +873,14 @@ class eZRole extends eZPersistentObject
      Fetches the role identified by the role name \a $roleName and returns it.
      \param $version Which version to fetch, 0 is the published one and 1 is the temporary.
     */
-    function fetchByName( $roleName, $version = 0 )
+    function &fetchByName( $roleName, $version = 0 )
     {
         return eZPersistentObject::fetchObject( eZRole::definition(),
                                                 null, array( 'name' => $roleName,
                                                              'version' => $version ), true );
     }
 
-    function fetchList( $tempVersions = false )
+    function &fetchList( $tempVersions = false )
     {
         if ( !$tempVersions )
         {

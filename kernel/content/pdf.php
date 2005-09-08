@@ -131,8 +131,8 @@ if ( $viewCacheEnabled && ( $useTriggers == false ) )
     if ( eZContentCache::exists( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout,
                                  array( 'view_parameters' => $viewParameters ) ) )
     {
-        $cachePathInfo =& eZContentCache::cachePathInfo( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout, false,
-                                                         array( 'view_parameters' => $viewParameters ) );
+        $cachePathInfo = eZContentCache::cachePathInfo( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout, false,
+                                                        array( 'view_parameters' => $viewParameters ) );
 
         contentPDFPassthrough( $cachePathInfo['path'] );
     }
@@ -143,9 +143,9 @@ $user =& eZUser::currentUser();
 
 eZDebugSetting::addTimingPoint( 'kernel-content-pdf', 'Operation start' );
 
-$operationResult =& eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
-                                                                           'user_id' => $user->id(),
-                                                                           'language_code' => $LanguageCode ), null, $useTriggers );
+$operationResult = eZOperationHandler::execute( 'content', 'read', array( 'node_id' => $NodeID,
+                                                                          'user_id' => $user->id(),
+                                                                          'language_code' => $LanguageCode ), null, $useTriggers );
 eZDebugSetting::writeDebug( 'kernel-content-pdf', $operationResult, 'operationResult' );
 eZDebugSetting::addTimingPoint( 'kernel-content-pdf', 'Operation end' );
 
@@ -171,8 +171,8 @@ switch( $operationResult['status'] )
                 if ( eZContentCache::exists( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout,
                                              array( 'view_parameters' => $viewParameters ) ) )
                 {
-                    $cachePathInfo =& eZContentCache::cachePathInfo( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout, false,
-                                                                     array( 'view_parameters' => $viewParameters ) );
+                    $cachePathInfo = eZContentCache::cachePathInfo( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout, false,
+                                                                    array( 'view_parameters' => $viewParameters ) );
                     contentPDFPassthrough( $cachePathInfo['path'] );
                 }
             }
@@ -193,8 +193,8 @@ switch( $operationResult['status'] )
             if ( !$object->attribute( 'can_read' ) )
                 return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
-            $cachePathInfo =& eZContentCache::cachePathInfo( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout, false,
-                                                             array( 'view_parameters' => $viewParameters ) );
+            $cachePathInfo = eZContentCache::cachePathInfo( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout, false,
+                                                            array( 'view_parameters' => $viewParameters ) );
             $node =& eZContentObjectTreeNode::fetch( $NodeID );
 
             contentPDFGenerate( $cachePathInfo['path'] , $node, $object, $viewCacheEnabled );

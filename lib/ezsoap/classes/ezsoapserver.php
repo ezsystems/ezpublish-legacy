@@ -164,8 +164,8 @@ class eZSOAPServer
         {
             $requestNode =& $children[0];
             // get target namespace for request
-            $functionName =& $requestNode->name();
-            $namespaceURI =& $requestNode->namespaceURI();
+            $functionName = $requestNode->name();
+            $namespaceURI = $requestNode->namespaceURI();
 
             $params = array();
             // check parameters

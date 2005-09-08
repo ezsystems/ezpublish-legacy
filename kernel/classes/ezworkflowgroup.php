@@ -132,7 +132,7 @@ class eZWorkflowGroup extends eZPersistentObject
         $db =& eZDB::instance();
         if ( $asObject )
         {
-            $def =& eZWorkflowGroup::definition();
+            $def = eZWorkflowGroup::definition();
             $fields =& $def['fields'];
             $select_sql = '';
             $i = 0;

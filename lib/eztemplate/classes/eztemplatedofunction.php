@@ -110,9 +110,9 @@ class eZTemplateDoFunction
 
         // initialize loop
         require_once( 'lib/eztemplate/classes/eztemplatecompiledloop.php' );
-        $loop =& new eZTemplateCompiledLoop( EZ_TEMPLATE_DO_FUNCTION_NAME,
-                                             $newNodes, $parameters, $nodePlacement, $uniqid,
-                                             $node, $tpl, $privateData );
+        $loop = new eZTemplateCompiledLoop( EZ_TEMPLATE_DO_FUNCTION_NAME,
+                                            $newNodes, $parameters, $nodePlacement, $uniqid,
+                                            $node, $tpl, $privateData );
 
         $loop->initVars();
 
@@ -140,9 +140,9 @@ class eZTemplateDoFunction
     function process( &$tpl, &$textElements, $functionName, $functionChildren, $functionParameters, $functionPlacement, $rootNamespace, $currentNamespace )
     {
         require_once( 'lib/eztemplate/classes/eztemplateloop.php' );
-        $loop =& new eZTemplateLoop( EZ_TEMPLATE_DO_FUNCTION_NAME,
-                                     $functionParameters, $functionChildren, $functionPlacement,
-                                     $tpl, $textElements, $rootNamespace, $currentNamespace );
+        $loop = new eZTemplateLoop( EZ_TEMPLATE_DO_FUNCTION_NAME,
+                                    $functionParameters, $functionChildren, $functionPlacement,
+                                    $tpl, $textElements, $rootNamespace, $currentNamespace );
 
         if ( !$loop->initialized() )
             return;

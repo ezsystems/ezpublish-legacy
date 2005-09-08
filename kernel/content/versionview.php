@@ -300,7 +300,7 @@ $res->setKeys( $designKeys );
 
 include_once( 'kernel/classes/eznodeviewfunctions.php' );
 
-$Result = eZNodeviewfunctions::generateNodeView( $tpl, $node, $contentObject, $LanguageCode, 'full', 0,
+$Result =& eZNodeviewfunctions::generateNodeView( $tpl, $node, $contentObject, $LanguageCode, 'full', 0,
                                                  false, false, false );
 
 $Result['requested_uri_string'] = $requestedURIString;

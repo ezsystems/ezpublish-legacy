@@ -197,7 +197,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
 
         foreach( $userList as $subscriber )
         {
-            $item =& $collection->addItem( $subscriber['address'] );
+            $item = $collection->addItem( $subscriber['address'] );
             if ( $subscriber['use_digest'] == 0 )
             {
                 $settings =& eZGeneralDigestUserSettings::fetchForUser( $subscriber['address'] );
