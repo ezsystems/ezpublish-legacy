@@ -881,9 +881,10 @@ class eZTARArchiveHandler extends eZArchiveHandler
                 $this->_warning("Directory '$v_filename' can not be read");
                 continue;
             }
-            $p_hitem = readdir($p_hdir); // '.' directory
-            $p_hitem = readdir($p_hdir); // '..' directory
             while (false !== ($p_hitem = readdir($p_hdir))) {
+                if ( $p_hitem == '.' || $p_hitem == '..' )
+                    continue;
+
                 if ($v_filename != ".")
                     $p_temp_list[0] = $v_filename.'/'.$p_hitem;
                 else
