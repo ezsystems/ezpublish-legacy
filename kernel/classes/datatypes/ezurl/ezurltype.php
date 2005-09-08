@@ -94,6 +94,20 @@ class eZURLType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        if ( $http->hasPostVariable( $base . "_ezurl_url_" . $contentObjectAttribute->attribute( "id" ) )  and
+             $http->hasPostVariable( $base . "_ezurl_text_" . $contentObjectAttribute->attribute( "id" ) )
+           )
+        {
+            $url = $http->PostVariable( $base . "_ezurl_url_" . $contentObjectAttribute->attribute( "id" ) );
+            $text = $http->PostVariable( $base . "_ezurl_text_" . $contentObjectAttribute->attribute( "id" ) );
+            if ( $contentObjectAttribute->validateIsRequired() )
+                if ( ( $url == "" ) or ( $text == "" ) )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'Input required.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
+        }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
