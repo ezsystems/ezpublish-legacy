@@ -76,7 +76,6 @@ else
     $selectedAccessExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveAccessExtensions" );
     $selectedExtensions           = array_merge( $selectedExtensionArray, $selectedAccessExtensionArray );
     $selectedExtensions           = array_unique( $selectedExtensions );
-    eZDebug::writeDebug( $selectedExtensions,'$selectedExtensions' );
 }
 
 $tpl->setVariable( "available_extension_array", $availableExtensionArray );
