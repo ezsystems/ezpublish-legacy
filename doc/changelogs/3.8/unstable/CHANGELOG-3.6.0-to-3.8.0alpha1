@@ -400,6 +400,8 @@ Attributes:
   (Merged from stable/3.6 (3.6.2) rev. 13204)
 - Fixed bug: ezpackage: export to file sometimes causes infinite loop.
   (Merged from stable/3.5 (3.5.5) rev. 13216)
+- Fixed bug #7041: Admin setup/extensions view does not give accurate list.
+  (Merged from stable/3.6 (3.6.2) rev. 13222)
 
 *Library:
 

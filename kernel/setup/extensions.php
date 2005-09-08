@@ -72,11 +72,14 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
 }
 else
 {
-    $selectedExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
+    $selectedExtensionArray       = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
+    $selectedAccessExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveAccessExtensions" );
+    $selectedExtensions           = array_merge( $selectedExtensionArray, $selectedAccessExtensionArray );
+    $selectedExtensions           = array_unique( $selectedExtensions );
 }
 
 $tpl->setVariable( "available_extension_array", $availableExtensionArray );
-$tpl->setVariable( "selected_extension_array", $selectedExtensionArray );
+$tpl->setVariable( "selected_extension_array", $selectedExtensions );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:setup/extensions.tpl" );
