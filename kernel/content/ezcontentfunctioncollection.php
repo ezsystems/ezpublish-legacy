@@ -1001,12 +1001,18 @@ class eZContentFunctionCollection
     }
 
     // Fetches reverse related objects
-    function fetchReverseRelatedObjects( $objectID, $attributeID )
+    function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute )
     {
         if ( !$attributeID )
             $attributeID = 0;
 
-        if ( !is_numeric( $attributeID ) )
+        $allRelationsMode = false;
+        if ( $allRelations === true )
+        {
+            $allRelationsMode = $groupByAttribute ? 2 : 1;
+        }
+
+        if ( $attributeID && !is_numeric( $attributeID ) )
         {
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
@@ -1017,17 +1023,65 @@ class eZContentFunctionCollection
             }
         }
 
+        $object = eZContentObject::fetch( $objectID );
         include_once( 'kernel/classes/ezcontentobject.php' );
-        return array( 'result' => eZContentObject::reverseRelatedObjectList( false, $objectID, $attributeID ) );
+        return array( 'result' => $object->relatedContentObjectList( false, $objectID, $attributeID, $allRelationsMode ) );
+    }
+
+        // Fetches count of reverse related objects
+    function fetchRelatedObjectsCount( $objectID, $attributeID, $allRelations )
+    {
+        if ( !$attributeID )
+            $attributeID = 0;
+
+        if ( $attributeID && !is_numeric( $attributeID ) )
+        {
+            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
+            if ( !$attributeID )
+            {
+                eZDebug::writeError( "Can't get class attribute ID by identifier" );
+                return false;
+            }
+        }
+
+        $object = eZContentObject::fetch( $objectID );
+        include_once( 'kernel/classes/ezcontentobject.php' );
+        return array( 'result' => $object->relatedContentObjectCount( false, $objectID, $attributeID, $allRelations ) );
+    }
+
+    function fetchReverseRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute )
+    {
+        if ( !$attributeID )
+            $attributeID = 0;
+
+        $allRelationsMode = false;
+        if ( $allRelations === true )
+        {
+            $allRelationsMode = $groupByAttribute ? 2 : 1;
+        }
+
+        if ( !$attributeID &&  !is_numeric( $attributeID ) )
+        {
+            include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+            $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
+            if ( !$attributeID )
+            {
+                eZDebug::writeError( "Can't get class attribute ID by identifier" );
+                return false;
+            }
+        }
+        include_once( 'kernel/classes/ezcontentobject.php' );
+        return array( 'result' => eZContentObject::reverseRelatedObjectList( false, $objectID, $attributeID, $allRelationsMode ) );
     }
 
     // Fetches count of reverse related objects
-    function fetchReverseRelatedObjectsCount( $objectID, $attributeID )
+    function fetchReverseRelatedObjectsCount( $objectID, $attributeID, $allRelations )
     {
         if ( !$attributeID )
             $attributeID = 0;
 
-        if ( !is_numeric( $attributeID ) )
+        if ( !$attributeID && !is_numeric( $attributeID ) )
         {
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
@@ -1037,9 +1091,8 @@ class eZContentFunctionCollection
                 return false;
             }
         }
-
         include_once( 'kernel/classes/ezcontentobject.php' );
-        return array( 'result' => eZContentObject::reverseRelatedObjectCount( false, $objectID, $attributeID ) );
+        return array( 'result' => eZContentObject::reverseRelatedObjectCount( false, $objectID, $attributeID, $allRelations ) );
     }
 }
 
