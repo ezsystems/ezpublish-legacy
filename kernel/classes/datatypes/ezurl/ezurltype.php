@@ -236,7 +236,7 @@ class eZURLType extends eZDataType
             return $attrValue;
         }
 
-        $url =& eZURL::url( $contentObjectAttribute->attribute( 'data_int' ) );
+        $url = eZURL::url( $contentObjectAttribute->attribute( 'data_int' ) );
         return $url;
     }
 
@@ -245,7 +245,7 @@ class eZURLType extends eZDataType
         if ( $contentObjectAttribute->attribute( 'data_int' ) == 0 )
             return false;
 
-        $url =& eZURL::fetch( $contentObjectAttribute->attribute( 'data_int' ) );
+        $url = eZURL::fetch( $contentObjectAttribute->attribute( 'data_int' ) );
         if ( is_object( $url ) and
              trim( $url->attribute( 'url' ) ) != '' and
              $url->attribute( 'is_valid' ) )
@@ -286,7 +286,7 @@ class eZURLType extends eZDataType
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
 
-        $url =& eZURL::fetch( $objectAttribute->attribute( 'data_int' ) );
+        $url = eZURL::fetch( $objectAttribute->attribute( 'data_int' ) );
         if ( is_object( $url ) and
              trim( $url->attribute( 'url' ) ) != '' )
         {
@@ -324,7 +324,7 @@ class eZURLType extends eZDataType
             $urlID = eZURL::registerURL( $url );
             if ( $urlID )
             {
-                $urlObject =& eZURL::fetch( $urlID );
+                $urlObject = eZURL::fetch( $urlID );
 
                 $urlObject->setAttribute( 'original_url_md5', $urlNode->attributeValue( 'original-url-md5' ) );
                 $urlObject->setAttribute( 'is_valid', $urlNode->attributeValue( 'is-valid' ) );

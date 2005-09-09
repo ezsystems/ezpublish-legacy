@@ -62,19 +62,19 @@ class eZNotificationFunctionCollection
 
     function digestHandlerList( $time, $address )
     {
-        $handlers =& eZGeneralDigestHandler::fetchHandlersForUser( $time, $address );
+        $handlers = eZGeneralDigestHandler::fetchHandlersForUser( $time, $address );
         return array( 'result' => $handlers );
     }
 
     function digestItems( $time, $address, $handler )
     {
-        $items =& eZGeneralDigestHandler::fetchItemsForUser( $time, $address, $handler );
+        $items = eZGeneralDigestHandler::fetchItemsForUser( $time, $address, $handler );
         return array( 'result' => $items );
     }
 
     function eventContent( $eventID )
     {
-        $event =& eZNotificationEvent::fetch( $eventID );
+        $event = eZNotificationEvent::fetch( $eventID );
         return array( 'result' => $event->content() );
     }
 

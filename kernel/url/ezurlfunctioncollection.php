@@ -62,7 +62,7 @@ class eZURLFunctionCollection
                              'offset' => $offset,
                              'limit' => $limit,
                              'only_published' => $onlyPublished );
-        $list =& eZURL::fetchList( $parameters );
+        $list = eZURL::fetchList( $parameters );
         if ( $list === null )
             $result = array( 'error' => array( 'error_type' => 'kernel',
                                                'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
@@ -76,7 +76,7 @@ class eZURLFunctionCollection
         include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
         $parameters = array( 'is_valid' => $isValid,
                              'only_published' => $onlyPublished );
-        $listCount =& eZURL::fetchListCount( $parameters );
+        $listCount = eZURL::fetchListCount( $parameters );
         if ( $listCount === null )
             $result = array( 'error' => array( 'error_type' => 'kernel',
                                                'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );

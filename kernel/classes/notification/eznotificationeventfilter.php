@@ -59,7 +59,7 @@ class eZNotificationEventFilter
      */
     function process()
     {
-        $eventList =& eZNotificationEvent::fetchUnhandledList();
+        $eventList = eZNotificationEvent::fetchUnhandledList();
         $availableHandlers =& eZNotificationEventFilter::availableHandlers();
         foreach( array_keys( $eventList ) as $key )
         {

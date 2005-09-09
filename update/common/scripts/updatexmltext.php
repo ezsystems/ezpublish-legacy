@@ -48,9 +48,9 @@ set_time_limit( 0 );
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
-$fixErrors = true; 
-$fixAllAttributes = true; 
-$fixAttribute = true; 
+$fixErrors = true;
+$fixAllAttributes = true;
+$fixAttribute = true;
 $fixURL = true;
 
 $cli =& eZCLI::instance();
@@ -121,16 +121,10 @@ unset( $xmlTypeAttributeList );
 
 $urlCount = eZURL::fetchListCount();
 
-if ( $showDebug )
-    print( "URL count = '$urlCount'\n" );
-
 $attributeCount = eZContentObjectAttribute::fetchListByClassID( $classAttributeIDList, false, array( 'offset' => 0,
                                                                                                      'length' => 3 ),
                                                                 false, true );
-if ( $showDebug )
-    print( "Attribute count = '$attributeCount'\n" );
-
-$urlList =& eZURL::fetchList();
+$urlList = eZURL::fetchList();
 
 $urlRefMap = array();
 $urlIDMap = array();
@@ -191,7 +185,7 @@ function findAndReplaceLinks( &$doc, &$node )
                     if ( $showDebug )
                         print( "Found new '$href'\n" );
                     $urlID = eZURL::registerURL( $href );
-                    $url =& eZURL::fetch( $urlID );
+                    $url = eZURL::fetch( $urlID );
                     $urlRefMap[$href] =& $url;
                     $urlIDMap[$urlID] =& $url;
                 }

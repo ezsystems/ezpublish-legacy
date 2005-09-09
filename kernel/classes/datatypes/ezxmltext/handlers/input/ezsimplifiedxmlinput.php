@@ -321,7 +321,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                         if ( $urlID != null )
                         {
-                            $url =& eZURL::url( $urlID );
+                            $url = eZURL::url( $urlID );
                             if (  $url == null )
                             {
                                 $GLOBALS[$isInputValid] = false;
@@ -546,7 +546,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         if ( $link->attributeValue( 'url_id' ) != null )
                         {
                             $linkID = $link->attributeValue( 'url_id' );
-                            $url =& eZURL::url( $linkID );
+                            $url = eZURL::url( $linkID );
                             if ( $url == null )
                             {
                                 $GLOBALS[$isInputValid] = false;
@@ -2181,7 +2181,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                 if ( $linkID != null )
                 {
-                    $href =& eZURL::url( $linkID );
+                    $href = eZURL::url( $linkID );
                     $target = $tag->attributeValueNS( 'ezurl_target', "http://ez.no/namespaces/ezpublish3/image/" );
                     $hasLink = true;
                 }

@@ -138,9 +138,9 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
 
     function sendMessage( &$event, $parameters )
     {
-        $collections =& eZNotificationCollection::fetchListForHandler( EZ_COLLABORATION_NOTIFICATION_HANDLER_ID,
-                                                                       $event->attribute( 'id' ),
-                                                                       EZ_COLLABORATION_NOTIFICATION_HANDLER_TRANSPORT );
+        $collections = eZNotificationCollection::fetchListForHandler( EZ_COLLABORATION_NOTIFICATION_HANDLER_ID,
+                                                                      $event->attribute( 'id' ),
+                                                                      EZ_COLLABORATION_NOTIFICATION_HANDLER_TRANSPORT );
         foreach ( array_keys( $collections ) as $collectionKey )
         {
             $collection =& $collections[$collectionKey];

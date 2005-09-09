@@ -216,7 +216,7 @@ class eZURLObjectLink extends eZPersistentObject
             if ( $asObject )
             {
                 $linkID = $urlObjectLink->attribute( 'url_id' );
-                $link =& eZURL::fetch( $linkID );
+                $link = eZURL::fetch( $linkID );
                 $linkList[] =& $link;
             }
             else

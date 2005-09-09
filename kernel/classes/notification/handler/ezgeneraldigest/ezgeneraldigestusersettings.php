@@ -104,12 +104,11 @@ class eZGeneralDigestUserSettings extends eZPersistentObject
                                                        'time' => $time ) );
     }
 
-    function &fetchForUser( $address, $asObject = true )
+    function fetchForUser( $address, $asObject = true )
     {
-        $settingsList =& eZPersistentObject::fetchObjectList( eZGeneralDigestUserSettings::definition(),
-                                                              null, array( 'address' => $address ),
-                                                              null,null,true );
-        return $settingsList[0];
+        return eZPersistentObject::fetchObjectList( eZGeneralDigestUserSettings::definition(),
+                                                    null, array( 'address' => $address ),
+                                                    null,null,true );
     }
 
     /*!

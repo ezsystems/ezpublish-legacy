@@ -302,6 +302,7 @@ function changeAccess( $access )
     }
 
     /* Make sure extension siteaccesses are prepended */
+    include_once( 'lib/ezutils/classes/ezextension.php' );
     eZExtension::prependExtensionSiteAccesses( $name );
 
     $ini->loadCache();

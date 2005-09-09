@@ -519,7 +519,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
 
                     if ( $linkID != null )
                     {
-                        $href =& eZURL::url( $linkID );
+                        $href = eZURL::url( $linkID );
                         $target = $tag->attributeValueNS( 'ezurl_target', 'http://ez.no/namespaces/ezpublish3/image/' );
                         if ( $target == null )
                             $target = '_self';

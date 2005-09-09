@@ -189,7 +189,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         $nodeIDList[] = $contentNode->attribute( 'node_id' );
         $nodeIDList = array_unique( $nodeIDList );
 
-        $userList =& eZSubtreeNotificationRule::fetchUserList( $nodeIDList, $contentObject );
+        $userList = eZSubtreeNotificationRule::fetchUserList( $nodeIDList, $contentObject );
 
         $locale =& eZLocale::instance();
         $weekDayNames = $locale->attribute( 'weekday_name_list' );
@@ -200,7 +200,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             $item = $collection->addItem( $subscriber['address'] );
             if ( $subscriber['use_digest'] == 0 )
             {
-                $settings =& eZGeneralDigestUserSettings::fetchForUser( $subscriber['address'] );
+                $settings = eZGeneralDigestUserSettings::fetchForUser( $subscriber['address'] );
                 if ( !is_null( $settings ) && $settings->attribute( 'receive_digest' ) == 1 )
                 {
                     $time = $settings->attribute( 'time' );
@@ -235,9 +235,9 @@ class eZSubTreeHandler extends eZNotificationEventHandler
 
     function sendMessage( &$event, $parameters )
     {
-        $collection =& eZNotificationCollection::fetchForHandler( EZ_SUBTREE_NOTIFICATION_HANDLER_ID,
-                                                                  $event->attribute( 'id' ),
-                                                                  EZ_SUBTREE_NOTIFICATION_HANDLER_TRANSPORT );
+        $collection = eZNotificationCollection::fetchForHandler( EZ_SUBTREE_NOTIFICATION_HANDLER_ID,
+                                                                 $event->attribute( 'id' ),
+                                                                 EZ_SUBTREE_NOTIFICATION_HANDLER_TRANSPORT );
 
         if ( !$collection )
             return;
@@ -273,7 +273,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         }
         $userID = $user->attribute( 'contentobject_id' );
 
-        $nodeList =& eZSubtreeNotificationRule::fetchNodesForUserID( $userID );
+        $nodeList = eZSubtreeNotificationRule::fetchNodesForUserID( $userID );
         return $nodeList;
     }
 
@@ -318,7 +318,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
                 eZPersistentObject::removeObject( eZSubtreeNotificationRule::definition(), array( 'id' => $ruleID ) );
             }
             $user =& eZUser::currentUser();
-            $existingNodes =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
+            $existingNodes = eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
         }
         else if ( $http->hasPostVariable( "BrowseActionName" ) and
                   $http->postVariable( "BrowseActionName" ) == "AddSubtreeSubscribingNode" and
@@ -327,7 +327,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
             $selectedNodeIDArray = $http->postVariable( "SelectedNodeIDArray" );
             $user =& eZUser::currentUser();
 
-            $existingNodes =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
+            $existingNodes = eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
 
             foreach ( $selectedNodeIDArray as $nodeID )
             {
