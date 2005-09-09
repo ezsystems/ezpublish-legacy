@@ -829,7 +829,7 @@ class eZPDFTable extends Cezpdf
                             {
                                 // we have non-empty rect
                                 $this->closeObject();
-                                $this->setColor( $options['titleCellCMYK'] );
+                                $this->setColor( $options['titleCellCMYK'], true );
                                 $this->filledRectangle( $bgTitleX, $bgTitleY, $bgTitleW, $bgTitleH );
                                 $this->reopenObject($textObjectId);
                             }
