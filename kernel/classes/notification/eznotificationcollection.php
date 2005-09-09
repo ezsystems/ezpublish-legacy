@@ -108,9 +108,10 @@ class eZNotificationCollection extends eZPersistentObject
 
     function &items()
     {
-        return eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
-                                                    null, array( 'collection_id' => $this->attribute( 'id' ) ), null,null,
-                                                    true );
+        $items =& eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
+                                                       null, array( 'collection_id' => $this->attribute( 'id' ) ), null,null,
+                                                       true );
+        return $items;
     }
 
     function &itemCount()
@@ -124,14 +125,14 @@ class eZNotificationCollection extends eZPersistentObject
 
     function &itemsToSend()
     {
-        return eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
-                                                    null, array( 'collection_id' => $this->attribute( 'id' ),
-                                                                 'send_date' => 0 ),
-                                                    null, null, true );
-
+        $items =& eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
+                                                       null, array( 'collection_id' => $this->attribute( 'id' ),
+                                                                    'send_date' => 0 ),
+                                                       null, null, true );
+        return $items;
     }
 
-    function &fetchForHandler( $handler, $eventID, $transport )
+    function fetchForHandler( $handler, $eventID, $transport )
     {
         return eZPersistentObject::fetchObject( eZNotificationCollection::definition(), null,
                                                 array( 'event_id' => $eventID,
@@ -139,7 +140,7 @@ class eZNotificationCollection extends eZPersistentObject
                                                        'transport' => $transport ) );
     }
 
-    function &fetchListForHandler( $handler, $eventID, $transport )
+    function fetchListForHandler( $handler, $eventID, $transport )
     {
         return eZPersistentObject::fetchObjectList( eZNotificationCollection::definition(), null,
                                                     array( 'event_id' => $eventID,

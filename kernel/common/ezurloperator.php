@@ -471,7 +471,7 @@ CODEPIECE;
                     $origUrl = eZTemplateNodeTool::elementStaticValue( $parameters[0] );
 
                     include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
-                    $url =& eZURL::urlByMD5( md5( $origUrl ) );
+                    $url = eZURL::urlByMD5( md5( $origUrl ) );
                     if ( $url == false )
                         eZURL::registerURL( $origUrl );
                     else
@@ -483,7 +483,7 @@ CODEPIECE;
                 }
 
                 $code .= 'include_once( \'kernel/classes/datatypes/ezurl/ezurl.php\' );' . "\n" .
-                     '%tmp1% =& eZURL::urlByMD5( md5( %1% ) );' . "\n" .
+                     '%tmp1% = eZURL::urlByMD5( md5( %1% ) );' . "\n" .
                      'if ( %tmp1% == false )' . "\n" .
                      '  eZURL::registerURL( %1% );' . "\n" .
                      'else' . "\n" .
@@ -778,7 +778,7 @@ CODEPIECE;
             {
                 include_once( 'kernel/classes/datatypes/ezurl/ezurl.php' );
                 $urlMD5 = md5( $operatorValue );
-                $url =& eZURL::urlByMD5( $urlMD5 );
+                $url = eZURL::urlByMD5( $urlMD5 );
                 if ( $url === false )
                     eZURL::registerURL( $operatorValue );
                 else

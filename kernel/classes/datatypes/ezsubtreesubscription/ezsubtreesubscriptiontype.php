@@ -70,7 +70,7 @@ class eZSubtreeSubscriptionType extends eZDataType
         $address = $user->attribute( 'email' );
         $userID = $user->attribute( 'contentobject_id' );
 
-        $nodeIDList =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
+        $nodeIDList = eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
 
         if ( $attribute->attribute( 'data_int' ) == '1' )
         {

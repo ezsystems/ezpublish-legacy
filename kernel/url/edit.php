@@ -46,7 +46,7 @@ if ( isset( $Params["ID"] ) )
 
 if ( is_numeric( $urlID ) )
 {
-    $url =& eZURL::fetch( $urlID );
+    $url = eZURL::fetch( $urlID );
     if ( !$url )
     {
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );

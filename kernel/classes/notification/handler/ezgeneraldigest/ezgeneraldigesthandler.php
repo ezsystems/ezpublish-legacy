@@ -130,7 +130,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
             $user =& eZUser::currentUser();
         }
         $address = $user->attribute( 'email' );
-        $settings =& eZGeneralDigestUserSettings::fetchForUser( $address );
+        $settings = eZGeneralDigestUserSettings::fetchForUser( $address );
         if ( $settings == null )
         {
             $settings = eZGeneralDigestUserSettings::create( $address );
@@ -147,7 +147,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
             $date =& $event->content();
             $timestamp = $date->attribute( 'timestamp' );
 
-            $addressArray =& $this->fetchUsersForDigest( $timestamp );
+            $addressArray = $this->fetchUsersForDigest( $timestamp );
 
             include_once( 'kernel/common/template.php' );
             $tpl =& templateInit();
@@ -176,7 +176,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
     }
 
 
-    function &fetchUsersForDigest( $timestamp )
+    function fetchUsersForDigest( $timestamp )
     {
         return eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
                                                     array(), array( 'send_date' => array( '', array( 1, $timestamp ) ) ),
@@ -185,7 +185,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
 
     }
 
-    function &fetchHandlersForUser( $time, $address )
+    function fetchHandlersForUser( $time, $address )
     {
         $query = "select distinct handler
                   from eznotificationcollection,
@@ -205,7 +205,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         return $handlers;
     }
 
-    function &fetchItemsForUser( $time, $address, $handler )
+    function fetchItemsForUser( $time, $address, $handler )
     {
         $query = "select eznotificationcollection_item.*
                   from eznotificationcollection,
@@ -245,7 +245,7 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
     {
         $user =& eZUser::currentUser();
         $address = $user->attribute( 'email' );
-        $settings =& eZGeneralDigestUserSettings::fetchForUser( $address );
+        $settings = eZGeneralDigestUserSettings::fetchForUser( $address );
 
         if ( $http->hasPostVariable( 'ReceiveDigest_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) &&
              $http->hasPostVariable( 'ReceiveDigest_' . EZ_GENERALDIGEST_NOTIFICATION_HANDLER_ID ) == '1' )

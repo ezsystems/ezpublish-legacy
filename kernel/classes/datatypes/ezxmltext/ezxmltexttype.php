@@ -490,7 +490,7 @@ class eZXMLTextType extends eZDataType
                 {
                     $linkRef =& $links[$index];
                     $linkID =& $linkRef->attributeValue( 'url_id' );
-                    if ( !( $urlObj =& eZURL::fetch( $linkID ) ) ) // an error occured
+                    if ( !( $urlObj = eZURL::fetch( $linkID ) ) ) // an error occured
                         continue;
                     $url =& $urlObj->attribute( 'url' );
                     $linkRef->set_attribute( 'href', $url );
@@ -540,7 +540,7 @@ class eZXMLTextType extends eZDataType
                     $linkRef =& $links[$index];
                     $href    =  $linkRef->attributeValue( 'href' );
 
-                    $urlObj =& eZURL::urlByURL( $href );
+                    $urlObj = eZURL::urlByURL( $href );
 
                     if ( !$urlObj )
                     {

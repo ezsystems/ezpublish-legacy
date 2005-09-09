@@ -106,8 +106,8 @@ elseif( $ViewMode == 'invalid' )
                               'only_published' => true );
 }
 
-$list =& eZURL::fetchList( $listParameters );
-$listCount =& eZURL::fetchListCount( $countParameters );
+$list = eZURL::fetchList( $listParameters );
+$listCount = eZURL::fetchListCount( $countParameters );
 
 $viewParameters = array( 'offset' => $offset, 'limit'  => $limit );
 

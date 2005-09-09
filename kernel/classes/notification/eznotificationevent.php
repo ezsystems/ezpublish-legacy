@@ -158,7 +158,7 @@ class eZNotificationEvent extends eZPersistentObject
         if ( $this->Content === null )
         {
             $eventType =& $this->eventType();
-            $this->Content =& $eventType->eventContent( $this );
+            $this->Content = $eventType->eventContent( $this );
         }
         return $this->Content;
     }
@@ -171,22 +171,21 @@ class eZNotificationEvent extends eZPersistentObject
         $this->Content =& $content;
     }
 
-    function &fetchList()
+    function fetchList()
     {
         return eZPersistentObject::fetchObjectList( eZNotificationEvent::definition(),
                                                     null,  null, null,null,
                                                     true );
     }
 
-    function &fetch( $eventID )
+    function fetch( $eventID )
     {
-        $events =& eZPersistentObject::fetchObjectList( eZNotificationEvent::definition(),
+        return eZPersistentObject::fetchObjectList( eZNotificationEvent::definition(),
                                                         null,  array( 'id' => $eventID ), null,null,
                                                         true );
-        return $events[0];
     }
 
-    function &fetchUnhandledList()
+    function fetchUnhandledList()
     {
         return eZPersistentObject::fetchObjectList( eZNotificationEvent::definition(),
                                                     null, array( 'status' => EZ_NOTIFICATIONEVENT_STATUS_CREATED ), null,null,

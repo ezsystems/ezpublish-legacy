@@ -90,7 +90,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         return $rule;
     }
 
-    function &fetchNodesForUserID( $userID, $asObject = true )
+    function fetchNodesForUserID( $userID, $asObject = true )
     {
         $nodeIDList =& eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
                                                             array( 'node_id' ), array( 'user_id' => $userID ),
@@ -113,13 +113,12 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         return $nodes;
     }
 
-    function &fetchList( $userID, $asObject = true, $offset = false, $limit = false )
+    function fetchList( $userID, $asObject = true, $offset = false, $limit = false )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
+        return eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
                                                             null, array( 'user_id' => $userID ),
                                                             null, array( 'offset' => $offset,
                                                                          'length' => $limit ), $asObject );
-        return $objectList;
     }
 
     function fetchListCount( $userID )
@@ -140,7 +139,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
 
      \return array of eZSubtreeNotificationRule objects
     */
-    function &fetchUserList( $nodeIDList, $contentObject )
+    function fetchUserList( $nodeIDList, $contentObject )
     {
         if ( count( $nodeIDList ) == 0 )
         {

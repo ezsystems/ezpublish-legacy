@@ -64,7 +64,7 @@ if ( !is_numeric( $offset ) )
     $offset = 0;
 }
 
-$url =& eZURL::fetch( $urlID );
+$url = eZURL::fetch( $urlID );
 if ( !$url )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 

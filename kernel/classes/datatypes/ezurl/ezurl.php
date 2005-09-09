@@ -227,36 +227,33 @@ class eZURL extends eZPersistentObject
     /*!
      \return the url object for id \a $id.
     */
-    function &fetch( $id, $asObject = true )
+    function fetch( $id, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZURL::definition(),
-                                                    null, array( 'id' => $id ),
-                                                    $asObject );
-        return $object;
+        eZPersistentObject::fetchObject( eZURL::definition(),
+                                         null, array( 'id' => $id ),
+                                         $asObject );
     }
 
     /*!
      \return the number of registered URLs.
     */
-    function &fetchListCount( $parameters = array() )
+    function fetchListCount( $parameters = array() )
     {
-        $handleList =& eZURL::handleList( $parameters, true );
-        return $handleList;
+        return eZURL::handleList( $parameters, true );
     }
 
     /*!
      \return all registered URLs.
     */
-    function &fetchList( $parameters = array() )
+    function fetchList( $parameters = array() )
     {
-        $handleList =& eZURL::handleList( $parameters, false );
-        return $handleList;
+        return eZURL::handleList( $parameters, false );
     }
 
     /*!
      \return all registered URLs.
     */
-    function &handleList( $parameters = array(), $asCount = false )
+    function handleList( $parameters = array(), $asCount = false )
     {
         $parameters = array_merge( array( 'as_object' => true,
                                           'is_valid' => null,
@@ -377,7 +374,7 @@ class eZURL extends eZPersistentObject
      Returns the URL with the given ID. False is returned if the ID
      does not exits.
     */
-    function &url( $id, $onlyValid = false )
+    function url( $id, $onlyValid = false )
     {
         $db =& eZDB::instance();
 
@@ -393,7 +390,7 @@ class eZURL extends eZPersistentObject
                  $url = "/url/view/" . $id;
                  return $url;
             }
-            $url =& $urlArray[0]['url'];
+            $url = $urlArray[0]['url'];
         }
         return $url;
     }
@@ -403,7 +400,7 @@ class eZURL extends eZPersistentObject
      Returns the URL with the given ID. False is returned if the ID
      does not exits.
     */
-    function &urlByMD5( $urlMD5 )
+    function urlByMD5( $urlMD5 )
     {
         $db =& eZDB::instance();
 
@@ -413,7 +410,7 @@ class eZURL extends eZPersistentObject
 
         if ( count( $urlArray ) == 1 )
         {
-            $url =& $urlArray[0]['url'];
+            $url = $urlArray[0]['url'];
         }
         return $url;
     }
@@ -422,7 +419,7 @@ class eZURL extends eZPersistentObject
      \static
      Returns the URL with the given URL. Returns false if the URL does not exists.
     */
-    function &urlByURL( $urlText )
+    function urlByURL( $urlText )
     {
         $db =& eZDB::instance();
 
