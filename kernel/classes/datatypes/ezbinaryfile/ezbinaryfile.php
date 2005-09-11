@@ -131,26 +131,24 @@ class eZBinaryFile extends eZPersistentObject
         return new eZBinaryFile( $row );
     }
 
-    function &fetch( $id, $version = null, $asObject = true )
+    function fetch( $id, $version = null, $asObject = true )
     {
         if ( $version == null )
         {
-            $objectList =& eZPersistentObject::fetchObjectList( eZBinaryFile::definition(),
-                                                                null,
-                                                                array( 'contentobject_attribute_id' => $id ),
-                                                                null,
-                                                                null,
-                                                                $asObject );
-            return $objectList;
+            return eZPersistentObject::fetchObjectList( eZBinaryFile::definition(),
+                                                        null,
+                                                        array( 'contentobject_attribute_id' => $id ),
+                                                        null,
+                                                        null,
+                                                        $asObject );
         }
         else
         {
-            $object =& eZPersistentObject::fetchObject( eZBinaryFile::definition(),
-                                                        null,
-                                                        array( 'contentobject_attribute_id' => $id,
-                                                               'version' => $version ),
-                                                        $asObject );
-            return $object;
+            return eZPersistentObject::fetchObject( eZBinaryFile::definition(),
+                                                    null,
+                                                    array( 'contentobject_attribute_id' => $id,
+                                                           'version' => $version ),
+                                                    $asObject );
         }
     }
 

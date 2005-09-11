@@ -82,27 +82,24 @@ class eZSection extends eZPersistentObject
     /*!
      \return the section object with the given id.
     */
-    function &fetch( $sectionID, $asObject = true )
+    function fetch( $sectionID, $asObject = true )
     {
-        $section =& eZPersistentObject::fetchObject( eZSection::definition(),
-                                                     null,
-                                                     array( "id" => $sectionID
-                                                            ),
-                                                     $asObject );
-        return $section;
+        return eZPersistentObject::fetchObject( eZSection::definition(),
+                                                null,
+                                                array( "id" => $sectionID ),
+                                                $asObject );
     }
 
-    function &fetchList( $asObject = true )
+    function fetchList( $asObject = true )
     {
-        $sectionList =& eZPersistentObject::fetchObjectList( eZSection::definition(),
-                                                             null, null, null, null,
-                                                             $asObject );
-        return $sectionList;
+        return eZPersistentObject::fetchObjectList( eZSection::definition(),
+                                                    null, null, null, null,
+                                                    $asObject );
     }
 
     function &fetchByOffset( $offset, $limit, $asObject = true )
     {
-        $sectionList =& eZPersistentObject::fetchObjectList( eZSection::definition(),
+        $sectionList = eZPersistentObject::fetchObjectList( eZSection::definition(),
                                                              null,
                                                              null,
                                                              array( 'name' => 'ASC' ),

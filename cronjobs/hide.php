@@ -51,7 +51,7 @@ $limit = 20;
 
 foreach( $rootNodeIDList as $nodeID )
 {
-    $rootNode =& eZContentObjectTreeNode::fetch( $nodeID );
+    $rootNode = eZContentObjectTreeNode::fetch( $nodeID );
 
     while( true )
     {

@@ -194,7 +194,7 @@ class eZNodeviewfunctions
 
         $limitedAssignmentValueList = $user->limitValueList();
         $roleList = $user->roleIDList();
-        $discountList =& eZUserDiscountRule::fetchIDListByUserID( $user->attribute( 'contentobject_id' ) );
+        $discountList = eZUserDiscountRule::fetchIDListByUserID( $user->attribute( 'contentobject_id' ) );
 
         if ( $language == '' )
             $language = eZContentObject::defaultLanguage();

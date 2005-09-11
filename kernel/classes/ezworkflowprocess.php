@@ -216,7 +216,7 @@ class eZWorkflowProcess extends eZPersistentObject
 // just temporary. needs to be removed from parameters
         if ( $workflowEvent == null )
         {
-            $workflowEvent =& eZWorkflowEvent::fetch( $this->attribute( 'event_id' ) );
+            $workflowEvent = eZWorkflowEvent::fetch( $this->attribute( 'event_id' ) );
         }
 
         switch( $lastEventStatus )
@@ -431,7 +431,7 @@ class eZWorkflowProcess extends eZPersistentObject
                 {
                     eZDebugSetting::writeDebug( 'workflow-process', $event_pos , "workflow  not done");
                     $this->advance( $next_event_id, $next_event_pos, $lastEventStatus );
-                    $workflowEvent =& eZWorkflowEvent::fetch( $next_event_id );
+                    $workflowEvent = eZWorkflowEvent::fetch( $next_event_id );
                 }
                 else
                 {
@@ -462,7 +462,7 @@ class eZWorkflowProcess extends eZPersistentObject
         eZPersistentObject::store();
     }
 
-    function &fetch( $id, $asObject = true )
+    function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZWorkflowProcess::definition(),
                                                 null,
@@ -501,7 +501,7 @@ class eZWorkflowProcess extends eZPersistentObject
 
 
 
-    function &fetchListByKey( $searchKey, $asObject = true )
+    function fetchListByKey( $searchKey, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
                                                     null,
@@ -552,7 +552,7 @@ class eZWorkflowProcess extends eZPersistentObject
 //     {
 //         $custom = array( array( 'name' => 'count',
 //                                 'operation' => 'count( id )' ) );
-//         $lst =& eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
+//         $lst = eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
 //                                                      array(), array( 'version' => $version ), null, null,
 //                                                      false, null,
 //                                                      $custom );
@@ -608,7 +608,7 @@ class eZWorkflowProcess extends eZPersistentObject
         if ( isset( $this->NodeID ) and $this->NodeID )
         {
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-            $node =& eZContentObjectTreeNode::fetch( $this->NodeID );
+            $node = eZContentObjectTreeNode::fetch( $this->NodeID );
         }
         else
             $node = null;
@@ -620,7 +620,7 @@ class eZWorkflowProcess extends eZPersistentObject
         if ( isset( $this->WorkflowID ) and $this->WorkflowID )
         {
             include_once( 'kernel/classes/ezworkflow.php' );
-            $workflow =& eZWorkflow::fetch( $this->WorkflowID );
+            $workflow = eZWorkflow::fetch( $this->WorkflowID );
         }
         else
             $workflow = null;
@@ -632,7 +632,7 @@ class eZWorkflowProcess extends eZPersistentObject
         if ( isset( $this->EventID ) and $this->EventID )
         {
             include_once( 'kernel/classes/ezworkflowevent.php' );
-            $event =& eZWorkflowEvent::fetch( $this->EventID );
+            $event = eZWorkflowEvent::fetch( $this->EventID );
         }
         else
             $event = null;
@@ -644,7 +644,7 @@ class eZWorkflowProcess extends eZPersistentObject
         if ( isset( $this->LastEventID ) and $this->LastEventID )
         {
             include_once( 'kernel/classes/ezworkflowevent.php' );
-            $lastEvent =& eZWorkflowEvent::fetch( $this->LastEventID );
+            $lastEvent = eZWorkflowEvent::fetch( $this->LastEventID );
         }
         else
             $lastEvent = null;

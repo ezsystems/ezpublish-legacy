@@ -132,7 +132,7 @@ class eZURLAlias extends eZPersistentObject
     {
         $url = null;
         if ( $this->attribute( 'forward_to_id' ) != 0 )
-            $url =& eZURLAlias::fetch( $this->attribute( 'forward_to_id' ) );
+            $url = eZURLAlias::fetch( $this->attribute( 'forward_to_id' ) );
         else
             $url = null;
         return $url;
@@ -309,7 +309,7 @@ WHERE
      \static
       Fetches the URL alias by ID.
     */
-    function &fetch( $id, $asObject = true )
+    function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZURLAlias::definition(),
                                                 null,
@@ -325,7 +325,7 @@ WHERE
                           or if forward id it should be ignored.
       \return the URL alias object or \c null
     */
-    function &fetchBySourceURL( $url, $isInternal = true, $asObject = true, $noForwardID = true )
+    function fetchBySourceURL( $url, $isInternal = true, $asObject = true, $noForwardID = true )
     {
         $url = eZURLAlias::cleanURL( $url );
         $conditions = array( "source_url" => $url,
@@ -333,11 +333,10 @@ WHERE
                              'is_internal' => $isInternal );
         if ( $noForwardID )
             $conditions['forward_to_id'] = 0;
-        $object =& eZPersistentObject::fetchObject( eZURLAlias::definition(),
+        return eZPersistentObject::fetchObject( eZURLAlias::definition(),
                                                 null,
                                                 $conditions,
                                                 $asObject );
-        return $object;
     }
 
     /*!
@@ -346,7 +345,7 @@ WHERE
       \param $isInternal boolean which controls whether internal or external urls are fetched.
       \return the URL alias object or \c null
     */
-    function &fetchByDestinationURL( $url, $isInternal = true, $asObject = true )
+    function fetchByDestinationURL( $url, $isInternal = true, $asObject = true )
     {
         $url = eZURLAlias::cleanURL( $url );
         return eZPersistentObject::fetchObject( eZURLAlias::definition(),
@@ -362,30 +361,28 @@ WHERE
      \static
       Fetches non-internal URL alias by offset and limit
     */
-    function &fetchByOffset( $offset, $limit, $asObject = true )
+    function fetchByOffset( $offset, $limit, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZURLAlias::definition(),
-                                                            null,
-                                                            array( "is_internal" => 0 ),
-                                                            null,
-                                                            array( 'offset' => $offset, 'length' => $limit ),
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZURLAlias::definition(),
+                                                    null,
+                                                    array( "is_internal" => 0 ),
+                                                    null,
+                                                    array( 'offset' => $offset, 'length' => $limit ),
+                                                    $asObject );
     }
 
     /*!
      \static
       Fetches all wildcards from DB.
     */
-    function &fetchWildcards( $asObject = true )
+    function fetchWildcards( $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZURLAlias::definition(),
-                                                            null,
-                                                            array( "is_wildcard" => array( array( EZ_URLALIAS_WILDCARD_TYPE_FORWARD, EZ_URLALIAS_WILDCARD_TYPE_DIRECT ) ) ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZURLAlias::definition(),
+                                                    null,
+                                                    array( "is_wildcard" => array( array( EZ_URLALIAS_WILDCARD_TYPE_FORWARD, EZ_URLALIAS_WILDCARD_TYPE_DIRECT ) ) ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
     /*!
@@ -450,7 +447,7 @@ WHERE
 
         $phpCode = "function " . EZURLALIAS_CACHE_FUNCTION . "( &\$uri, &\$urlAlias )\n{\n";
 
-        $wildcards =& eZURLAlias::fetchWildcards();
+        $wildcards = eZURLAlias::fetchWildcards();
         $counter = 0;
         foreach ( $wildcards as $wildcard )
         {
@@ -584,7 +581,7 @@ WHERE
                 while ( $function( $uriString, $urlAlias ) )
                 {
                     $hasTranslated = true;
-                    $url =& eZURLAlias::fetchBySourceURL( $uriString, true, true, false );
+                    $url = eZURLAlias::fetchBySourceURL( $uriString, true, true, false );
                     if ( $url )
                         break;
                     ++$iteration;
@@ -596,11 +593,11 @@ WHERE
                     if ( $urlAlias['is_wildcard'] == EZ_URLALIAS_WILDCARD_TYPE_FORWARD )
                     {
                         if ( !$url )
-                            $url =& eZURLAlias::fetchBySourceURL( $uriString, true, true, false );
+                            $url = eZURLAlias::fetchBySourceURL( $uriString, true, true, false );
                         if ( $url and $url->attribute( 'forward_to_id' ) != 0 )
                         {
                             // This will set the forwarded alias as the URL to redirect to.
-                            $return =& eZURLAlias::fetch( $url->attribute( 'forward_to_id' ) );
+                            $return = eZURLAlias::fetch( $url->attribute( 'forward_to_id' ) );
                             $uriString = 'error/301';
                         }
                         else if ( $url )
@@ -613,11 +610,11 @@ WHERE
                     else if ( $urlAlias['is_wildcard'] == EZ_URLALIAS_WILDCARD_TYPE_DIRECT )
                     {
                         if ( !$url )
-                            $url =& eZURLAlias::fetchBySourceURL( $uriString, true, true, false );
+                            $url = eZURLAlias::fetchBySourceURL( $uriString, true, true, false );
                         if ( $url and $url->attribute( 'forward_to_id' ) != 0 )
                         {
                             // This will set the forwarded alias as the URL to use as system URL.
-                            $url =& eZURLAlias::fetch( $url->attribute( 'forward_to_id' ) );
+                            $url = eZURLAlias::fetch( $url->attribute( 'forward_to_id' ) );
                             $uriString = $url->attribute( 'destination_url' );
                             $return = true;
                         }

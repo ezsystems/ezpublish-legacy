@@ -69,7 +69,7 @@ class eZSimpleShippingType extends eZWorkflowEventType
         $parameters = $process->attribute( 'parameter_list' );
         $orderID = $parameters['order_id'];
 
-        $order =& eZOrder::fetch( $orderID );
+        $order = eZOrder::fetch( $orderID );
         $orderItems = $order->attribute( 'order_items' );
         $addShipping = true;
         foreach ( array_keys( $orderItems ) as $key )

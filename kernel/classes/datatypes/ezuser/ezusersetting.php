@@ -90,7 +90,7 @@ class eZUserSetting extends eZPersistentObject
             {
                 if ( !$val )
                 {
-                    $user =& eZUser::fetch( $this->UserID );
+                    $user = eZUser::fetch( $this->UserID );
                     if ( $user )
                     {
                         eZUser::removeSessionData( $this->UserID );
@@ -114,19 +114,18 @@ class eZUserSetting extends eZPersistentObject
     /*!
      Fetch message object with \a $userID
     */
-    function &fetch( $userID,  $asObject = true  )
+    function fetch( $userID,  $asObject = true  )
     {
-        $object =& eZPersistentObject::fetchObject( eZUserSetting::definition(),
+        return eZPersistentObject::fetchObject( eZUserSetting::definition(),
                                                     null,
                                                     array('user_id' => $userID ),
                                                     $asObject );
-        return $object;
     }
 
     /*!
      Fetch all settings from database
     */
-    function &fetchAll( $asObject = true )
+    function fetchAll( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZUserSetting::definition(),
                                                     null,

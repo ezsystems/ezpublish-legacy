@@ -197,10 +197,10 @@ print_r($pathArray );*/
 
 foreach ( $nodeIDArray as $nodeID )
 {
-    $nodeObject =& eZContentObjectTreeNode::fetch( $nodeID );
+    $nodeObject = eZContentObjectTreeNode::fetch( $nodeID );
     if ( $nodeObject != null )
     {
-        $counter =& eZViewCounter::fetch( $nodeID );
+        $counter = eZViewCounter::fetch( $nodeID );
         if ( $counter == null )
             $counter = eZViewCounter::create( $nodeID );
         $counter->increase();

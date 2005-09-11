@@ -202,7 +202,7 @@ function importRSSItem( &$item, &$rssImport, &$cli )
     global $isQuiet;
     $rssImportID =& $rssImport->attribute( 'id' );
     $rssOwnerID =& $rssImport->attribute( 'object_owner_id' ); // Get owner user id
-    $parentContentObjectTreeNode =& eZContentObjectTreeNode::fetch( $rssImport->attribute( 'destination_node_id' ) ); // Get parent treenode object
+    $parentContentObjectTreeNode = eZContentObjectTreeNode::fetch( $rssImport->attribute( 'destination_node_id' ) ); // Get parent treenode object
 
     if ( $parentContentObjectTreeNode == null )
     {
@@ -222,7 +222,7 @@ function importRSSItem( &$item, &$rssImport, &$cli )
     $md5Sum = md5( $link->textContent() );
 
     // Try to fetch RSSImport object with md5 sum matching link.
-    $existingObject =& eZPersistentObject::fetchObject( eZContentObject::definition(), null,
+    $existingObject = eZPersistentObject::fetchObject( eZContentObject::definition(), null,
                                                         array( 'remote_id' => 'RSSImport_'.$rssImportID.'_'.$md5Sum ) );
 
     // if object exists, continue to next import item
@@ -237,7 +237,7 @@ function importRSSItem( &$item, &$rssImport, &$cli )
     }
 
     // Fetch class, and create ezcontentobject from it.
-    $contentClass =& eZContentClass::fetch( $rssImport->attribute( 'class_id' )  );
+    $contentClass = eZContentClass::fetch( $rssImport->attribute( 'class_id' )  );
 
     // Instantiate the object with user $rssOwnerID and use section id from parent. And store it.
     $contentObject =& $contentClass->instantiate( $rssOwnerID, $parentContentObject->attribute( 'section_id' ) );

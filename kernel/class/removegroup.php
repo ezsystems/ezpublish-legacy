@@ -46,7 +46,7 @@ $deleteClassIDList = array();
 foreach ( $deleteIDArray as $deleteID )
 {
     $deletedClassName = '';
-    $group =& eZContentClassGroup::fetch( $deleteID );
+    $group = eZContentClassGroup::fetch( $deleteID );
     if ( $group != null )
     {
         $GroupName = $group->attribute( 'name' );
@@ -55,10 +55,10 @@ foreach ( $deleteIDArray as $deleteID )
         foreach ( $classList as $class )
         {
             $classID = $class->attribute( "id" );
-            $classGroups =& eZContentClassClassGroup::fetchGroupList( $classID, 0);
+            $classGroups = eZContentClassClassGroup::fetchGroupList( $classID, 0);
             if ( count( $classGroups ) == 1 )
             {
-                $classObject =& eZContentclass::fetch( $classID );
+                $classObject = eZContentclass::fetch( $classID );
                 $className = $classObject->attribute( "name" );
                 $deletedClassName .= " '" . $className . "'" ;
                 $deleteClassIDList[] = $classID;
@@ -82,10 +82,10 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
         eZContentClassClassGroup::removeGroupMembers( $deleteID );
         foreach ( $deleteClassIDList as $deleteClassID )
         {
-            $deleteClass =& eZContentClass::fetch( $deleteClassID );
+            $deleteClass = eZContentClass::fetch( $deleteClassID );
             if ( $deleteClass )
                 $deleteClass->remove( true );
-            $deleteClass =& eZContentClass::fetch( $deleteClassID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+            $deleteClass = eZContentClass::fetch( $deleteClassID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
             if ( $deleteClass )
                 $deleteClass->remove( true );
         }

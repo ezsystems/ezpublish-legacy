@@ -159,7 +159,7 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
         if ( isset( $this->UserID ) and $this->UserID )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $user =& eZUser::fetch( $this->UserID );
+            $user = eZUser::fetch( $this->UserID );
         }
         else
             $user = null;
@@ -171,7 +171,7 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
         if ( isset( $this->CollaborationID ) and $this->CollaborationID )
         {
             include_once( 'kernel/classes/ezcollaborationitem.php' );
-            $item =& eZCollaborationItem::fetch( $this->CollaborationID, $this->UserID );
+            $item = eZCollaborationItem::fetch( $this->CollaborationID, $this->UserID );
         }
         else
             $item = null;
@@ -183,7 +183,7 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
         if ( isset( $this->GroupID ) and $this->GroupID )
         {
             include_once( 'kernel/classes/ezcollaborationitem.php' );
-            $group =& eZCollaborationGroup::fetch( $this->GroupID, $this->UserID );
+            $group = eZCollaborationGroup::fetch( $this->GroupID, $this->UserID );
         }
         else
             $group = null;

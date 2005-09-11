@@ -171,7 +171,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     */
     function checkApproval( $approvalID )
     {
-        $collaborationItem =& eZCollaborationItem::fetch( $approvalID );
+        $collaborationItem = eZCollaborationItem::fetch( $approvalID );
         if ( $collaborationItem !== null )
         {
             return $collaborationItem->attribute( 'data_int3' );
@@ -185,7 +185,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     */
     function activateApproval( $approvalID )
     {
-        $collaborationItem =& eZCollaborationItem::fetch( $approvalID );
+        $collaborationItem = eZCollaborationItem::fetch( $approvalID );
         if ( $collaborationItem !== null )
         {
 //             eZDebug::writeDebug( $collaborationItem, "reactivating approval $approvalID" );

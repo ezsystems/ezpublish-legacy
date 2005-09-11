@@ -68,7 +68,7 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
 {
     $http->removeSessionVariable( 'AssignmentRemoveData' );
 
-    $assignments     =& eZnodeAssignment::fetchListByID( $removeList );
+    $assignments     = eZnodeAssignment::fetchListByID( $removeList );
     $mainNodeChanged = false;
 
     $db =& eZDB::instance();

@@ -151,10 +151,10 @@ class eZPaymentCallbackChecker
     {
         if ( isset( $orderID ) && $orderID > 0 )
         {
-            $this->paymentObject =& eZPaymentObject::fetchByOrderID( $orderID );
+            $this->paymentObject = eZPaymentObject::fetchByOrderID( $orderID );
             if ( isset( $this->paymentObject ) )
             {
-                $this->order =& eZOrder::fetch( $orderID );
+                $this->order = eZOrder::fetch( $orderID );
                 if ( isset( $this->order ) )
                 {
                     return true;

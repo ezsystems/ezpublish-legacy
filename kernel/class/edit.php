@@ -73,17 +73,17 @@ if ( $http->hasPostVariable( 'CancelConflictButton' ) )
 
 if ( is_numeric( $ClassID ) )
 {
-    $class =& eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+    $class = eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
 
     // If temporary version does not exist fetch the current and add temperory class to corresponding group
     if ( !is_object( $class ) or $class->attribute( 'id' ) == null )
     {
-        $class =& eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_DEFINED );
+        $class = eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_DEFINED );
         if( is_null( $class ) ) // Class does not exist
         {
             return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
         }
-        $classGroups=& eZContentClassClassGroup::fetchGroupList( $ClassID, EZ_CLASS_VERSION_STATUS_DEFINED );
+        $classGroups= eZContentClassClassGroup::fetchGroupList( $ClassID, EZ_CLASS_VERSION_STATUS_DEFINED );
         foreach ( $classGroups as $classGroup )
         {
             $groupID = $classGroup->attribute( 'group_id' );
@@ -497,7 +497,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
         include_once( 'kernel/classes/ezcontentobject.php' );
 
         $objects = null;
-        $objectCount =& eZContentObject::fetchSameClassListCount( $ClassID );
+        $objectCount = eZContentObject::fetchSameClassListCount( $ClassID );
         if ( $objectCount > 0 )
         {
             // Delete object attributes which have been removed.
@@ -538,7 +538,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
                 {
                     if ( $objects == null )
                     {
-                        $objects =& eZContentObject::fetchSameClassList( $ClassID );
+                        $objects = eZContentObject::fetchSameClassList( $ClassID );
                     }
                     foreach ( $objects as $object )
                     {

@@ -93,7 +93,7 @@ class eZBasket extends eZPersistentObject
 
     function &items( $asObject = true )
     {
-        $productItems =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
+        $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        null, array( "productcollection_id" => $this->ProductCollectionID
                                                                     ),
                                                        array( 'contentobject_id' => 'desc' ),
@@ -244,7 +244,7 @@ class eZBasket extends eZPersistentObject
 
     function &isEmpty()
     {
-        $items =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
+        $items = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        null,
                                                        array( "productcollection_id" => $this->ProductCollectionID ),
                                                        null,
@@ -274,7 +274,7 @@ class eZBasket extends eZPersistentObject
 
         if( $byOrderID != -1 )
         {
-            $basketList =& eZPersistentObject::fetchObjectList( eZBasket::definition(),
+            $basketList = eZPersistentObject::fetchObjectList( eZBasket::definition(),
                                                                 null, array( "order_id" => $byOrderID ),
                                                                 null, null,
                                                                 $asObject );
@@ -284,7 +284,7 @@ class eZBasket extends eZPersistentObject
             $http =& eZHTTPTool::instance();
             $sessionID = $http->sessionID();
 
-            $basketList =& eZPersistentObject::fetchObjectList( eZBasket::definition(),
+            $basketList = eZPersistentObject::fetchObjectList( eZBasket::definition(),
                                                                 null, array( "session_id" => $sessionID ),
                                                                 null, null,
                                                                 $asObject );

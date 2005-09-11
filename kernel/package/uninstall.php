@@ -42,7 +42,7 @@ $packageName =& $Params['PackageName'];
 if ( !eZPackage::canUsePolicyFunction( 'install' ) )
     return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
-$package =& eZPackage::fetch( $packageName );
+$package = eZPackage::fetch( $packageName );
 if ( !$package )
     return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 

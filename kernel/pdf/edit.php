@@ -47,7 +47,7 @@ $http =& eZHTTPTool::instance();
 
 if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == EZ_PDFEXPORT_GENERATE_STRING )
 {
-    $pdfExport =& eZPDFExport::fetch( $Params['PDFExportID'] );
+    $pdfExport = eZPDFExport::fetch( $Params['PDFExportID'] );
     if ( $pdfExport && $pdfExport->attribute( 'status' ) == 2 ) // only generate OnTheFly if status set correctly
     {
         include_once( 'lib/ezutils/classes/ezexecution.php' );
@@ -59,7 +59,7 @@ if ( isset( $Params['PDFGenerate'] ) && $Params['PDFGenerate'] == EZ_PDFEXPORT_G
 
 if ( isset( $Params['PDFExportID'] ) )
 {
-    $pdfExport =& eZPDFExport::fetch( $Params['PDFExportID'], true, EZ_PDFEXPORT_VERSION_DRAFT );
+    $pdfExport = eZPDFExport::fetch( $Params['PDFExportID'], true, EZ_PDFEXPORT_VERSION_DRAFT );
 
     if ( $pdfExport )
     {
@@ -88,7 +88,7 @@ if ( isset( $Params['PDFExportID'] ) )
     }
     if ( !$pdfExport )
     {
-        $pdfExport =& eZPDFExport::fetch( $Params['PDFExportID'] );
+        $pdfExport = eZPDFExport::fetch( $Params['PDFExportID'] );
         if( !$pdfExport ) // user requested a non existent export
         {
             return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
@@ -148,7 +148,7 @@ if ( $Module->isCurrentAction( 'BrowseSource' ) )
 else if ( $Module->isCurrentAction( 'Export' ) )
 {
     // remove the old file ( user may changed the filename )
-    $originalPdfExport =& eZPDFExport::fetch( $Params['PDFExportID'] );
+    $originalPdfExport = eZPDFExport::fetch( $Params['PDFExportID'] );
     if ( $originalPdfExport && $originalPdfExport->attribute( 'status' ) == 1 )
     {
         $filename =& $originalPdfExport->attribute( 'filepath' );
@@ -185,7 +185,7 @@ $config =& eZINI::instance( 'site.ini' );
 $siteAccess =& $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
 
 // Get Classes and class attributes
-$classArray =& eZContentClass::fetchList();
+$classArray = eZContentClass::fetchList();
 
 $tpl->setVariable( 'pdf_export', $pdfExport );
 $tpl->setVariable( 'export_type' , $pdfExport->attribute( 'status' ) );

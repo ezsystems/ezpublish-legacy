@@ -174,7 +174,7 @@ class eZContentClassClassGroup extends eZPersistentObject
         {
             $groupIDList = array( $groupIDList );
         }
-        $classGroupList =& eZPersistentObject::fetchObjectList( eZContentClassClassGroup::definition(),
+        $classGroupList = eZPersistentObject::fetchObjectList( eZContentClassClassGroup::definition(),
                                                                 array(),
                                                                 array( "group_id" => $groupIDList,
                                                                        "contentclass_version" => $contentclassVersion ),
@@ -201,16 +201,15 @@ class eZContentClassClassGroup extends eZPersistentObject
         return $classList;
     }
 
-    function &fetchGroupList( $contentclass_id, $contentclass_version, $asObject = true )
+    function fetchGroupList( $contentclass_id, $contentclass_version, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZContentClassClassGroup::definition(),
-                                                            null,
-                                                            array( "contentclass_id" => $contentclass_id,
-                                                                   "contentclass_version" => $contentclass_version ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZContentClassClassGroup::definition(),
+                                                    null,
+                                                    array( "contentclass_id" => $contentclass_id,
+                                                           "contentclass_version" => $contentclass_version ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
     function &classInGroup( $contentclassID, $contentclassVersion, $groupID )

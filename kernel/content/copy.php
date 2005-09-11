@@ -80,7 +80,7 @@ function copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
         return $Module->redirectToView( 'view', array( 'full', 2 ) );
 
     // check if we can create node under the specified parent node
-    if( ( $newParentNode =& eZContentObjectTreeNode::fetch( $newParentNodeID ) ) === null )
+    if( ( $newParentNode = eZContentObjectTreeNode::fetch( $newParentNodeID ) ) === null )
         return $Module->redirectToView( 'view', array( 'full', 2 ) );
 
     $classID = $object->attribute('contentclass_id');

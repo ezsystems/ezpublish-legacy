@@ -46,7 +46,7 @@ if ( !is_numeric( $Offset ) )
 
 include_once( 'kernel/classes/ezcollaborationgroup.php' );
 
-$collabGroup =& eZCollaborationGroup::fetch( $GroupID );
+$collabGroup = eZCollaborationGroup::fetch( $GroupID );
 if ( $collabGroup === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 

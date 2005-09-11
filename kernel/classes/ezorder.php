@@ -178,17 +178,16 @@ class eZOrder extends eZPersistentObject
     */
     function &productCollection()
     {
-        $collection =& eZProductCollection::fetch( $this->attribute( 'productcollection_id' ) );
+        $collection = eZProductCollection::fetch( $this->attribute( 'productcollection_id' ) );
         return $collection;
     }
 
-    function &fetch( $id, $asObject = true )
+    function fetch( $id, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZOrder::definition(),
-                                                    null,
-                                                    array( "id" => $id ),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZOrder::definition(),
+                                                null,
+                                                array( "id" => $id ),
+                                                $asObject );
     }
 
     function &fetchList( $asObject = true )
@@ -201,7 +200,7 @@ class eZOrder extends eZPersistentObject
 
     function &activeByUserID( $userID, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZOrder::definition(),
+        $objectList = eZPersistentObject::fetchObjectList( eZOrder::definition(),
                                                             null,
                                                             array( "user_id" => $userID,
                                                                    'is_temporary' => 0 ),
@@ -247,7 +246,7 @@ class eZOrder extends eZPersistentObject
         }
         else
         {
-            $objectList =& eZPersistentObject::fetchObjectList( eZOrder::definition(),
+            $objectList = eZPersistentObject::fetchObjectList( eZOrder::definition(),
                                                                 null, array( 'is_temporary' => 0 ),
                                                                 array( $sortField => $sortOrder ),
                                                                 array( 'offset' => $offset,
@@ -576,7 +575,7 @@ class eZOrder extends eZPersistentObject
                 $orderCount = 0;
                 $sumExVAT = 0;
                 $sumIncVAT = 0;
-                $order =& eZOrder::fetch( $orderID );
+                $order = eZOrder::fetch( $orderID );
                 $currentUserID = $userID;
                 $accountName = $order->attribute( 'account_name' );
                 $accountEmail = $order->attribute( 'account_email' );
@@ -584,12 +583,12 @@ class eZOrder extends eZPersistentObject
             }
             $currentUserID = $userID;
 
-            $order =& eZOrder::fetch( $orderID );
+            $order = eZOrder::fetch( $orderID );
             $accountName = $order->attribute( 'account_name' );
             // If the custom is anoymous user
             if ( $currentUserID == 10 )
             {
-                //$order =& eZOrder::fetch( $orderID );
+                //$order = eZOrder::fetch( $orderID );
                 $accountEmail = $order->attribute( 'email' );
                 if ( $currentUserEmail == "" )
                 {
@@ -671,12 +670,12 @@ class eZOrder extends eZPersistentObject
     {
         $bestMatch = 0.0;
         $db =& eZDB::instance();
-        $user =& eZUser::fetch( $userID );
+        $user = eZUser::fetch( $userID );
         $groups =& $user->groups();
         $idArray = array_merge( $groups, $user->attribute( 'contentobject_id' ) );
 
         // Fetch discount rules for the current user
-        $rules =& eZUserDiscountRule::fetchByUserIDArray( $idArray );
+        $rules = eZUserDiscountRule::fetchByUserIDArray( $idArray );
 
         if ( count( $rules ) > 0 )
         {
@@ -751,7 +750,7 @@ class eZOrder extends eZPersistentObject
 
     function &productItems( $asObject=true )
     {
-        $productItems =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
+        $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        null, array( "productcollection_id" => $this->ProductCollectionID
                                                                     ),
                                                        null,
@@ -911,7 +910,7 @@ class eZOrder extends eZPersistentObject
     */
     function removeCollection()
     {
-        $collection =& eZProductCollection::fetch( $this->attribute( 'productcollection_id' ) );
+        $collection = eZProductCollection::fetch( $this->attribute( 'productcollection_id' ) );
         $collection->remove();
     }
 
@@ -933,7 +932,7 @@ class eZOrder extends eZPersistentObject
     */
     function removeItem( $itemID )
     {
-        $item =& eZProductCollectionItem::fetch( $itemID );
+        $item = eZProductCollectionItem::fetch( $itemID );
         $item->remove();
     }
 
@@ -948,7 +947,7 @@ class eZOrder extends eZPersistentObject
 
     function &orderItems()
     {
-        $items =& eZOrderItem::fetchList( $this->ID );
+        $items = eZOrderItem::fetchList( $this->ID );
         return $items;
     }
 
@@ -957,7 +956,7 @@ class eZOrder extends eZPersistentObject
     */
     function &user()
     {
-        $user =& eZUser::fetch( $this->UserID );
+        $user = eZUser::fetch( $this->UserID );
         return $user;
     }
 
@@ -1022,7 +1021,7 @@ class eZOrder extends eZPersistentObject
         if ( $user === false )
             $user =& eZUser::currentUser();
         else if ( is_numeric( $user ) )
-            $user =& eZUser::fetch( $user );
+            $user = eZUser::fetch( $user );
 
         if ( !is_object( $user ) )
         {
@@ -1078,7 +1077,7 @@ class eZOrder extends eZPersistentObject
         if ( $user === false )
             $user =& eZUser::currentUser();
         else if ( is_numeric( $user ) )
-            $user =& eZUser::fetch( $user );
+            $user = eZUser::fetch( $user );
 
         if ( !is_object( $user ) )
         {

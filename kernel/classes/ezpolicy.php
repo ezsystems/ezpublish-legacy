@@ -250,7 +250,7 @@ class eZPolicy extends eZPersistentObject
         if ( is_numeric( $id ) )
         {
             $delID = $id;
-            $policy =& eZPolicy::fetch( $delID );
+            $policy = eZPolicy::fetch( $delID );
         }
         else
         {
@@ -313,7 +313,7 @@ class eZPolicy extends eZPersistentObject
         if ( !isset( $this->Limitations ) || !$useCache )
         {
 
-            $limitations =& eZPersistentObject::fetchObjectList( eZPolicyLimitation::definition(),
+            $limitations = eZPersistentObject::fetchObjectList( eZPolicyLimitation::definition(),
                                                                  null, array( 'policy_id' => $this->attribute( 'id') ), null, null,
                                                                  true );
 
@@ -394,7 +394,7 @@ class eZPolicy extends eZPersistentObject
     {
         if ( $this->ID )
         {
-            $role =& eZPersistentObject::fetchObject( eZRole::definition(),
+            $role = eZPersistentObject::fetchObject( eZRole::definition(),
                                                       null, array( 'id' => $this->RoleID ), true );
         }
         else
@@ -402,11 +402,10 @@ class eZPolicy extends eZPersistentObject
         return $role;
     }
 
-    function &fetch( $policyID )
+    function fetch( $policyID )
     {
-        $object =& eZPersistentObject::fetchObject( eZPolicy::definition(),
-                                                    null, array('id' => $policyID ), true);
-        return $object;
+        return eZPersistentObject::fetchObject( eZPolicy::definition(),
+                                                null, array('id' => $policyID ), true);
     }
 
     // Used for assign based limitations.

@@ -59,7 +59,7 @@ $currrentDate = time();
 
 foreach( $rootNodeIDList as $nodeID )
 {
-    $rootNode =& eZContentObjectTreeNode::fetch( $nodeID );
+    $rootNode = eZContentObjectTreeNode::fetch( $nodeID );
 
     $articleNodeArray =& $rootNode->subTree( array( 'ClassFilterType' => 'include',
                                                     'ClassFilterArray' => $unpublishClasses ) );

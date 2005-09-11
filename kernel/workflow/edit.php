@@ -63,7 +63,7 @@ switch ( $Params["FunctionName"] )
     case "up":
     case "down":
     {
-        $event =& eZWorkflowEvent::fetch( $Params["EventID"], true, 1,
+        $event = eZWorkflowEvent::fetch( $Params["EventID"], true, 1,
                                           array( "workflow_id", "version", "placement" ) );
         $event->move( $Params["FunctionName"] == "up" ? false : true );
         $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $WorkflowID . '/' . $GroupID );
@@ -87,13 +87,13 @@ switch ( $Params["FunctionName"] )
 
 if ( is_numeric( $WorkflowID ) )
 {
-    $workflow =& eZWorkflow::fetch( $WorkflowID, true, 1 );
+    $workflow = eZWorkflow::fetch( $WorkflowID, true, 1 );
 
     // If temporary version does not exist fetch the current
     if ( is_null( $workflow ) )
     {
-        $workflow =& eZWorkflow::fetch( $WorkflowID, true, 0 );
-        $workflowGroups=& eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
+        $workflow = eZWorkflow::fetch( $WorkflowID, true, 0 );
+        $workflowGroups= eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
 
         $db =& eZDB::instance();
         $db->begin();
@@ -140,7 +140,7 @@ if ( $http->hasPostVariable( "DiscardButton" ) )
     eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, $WorkflowVersion );
     $db->commit();
 
-    $workflowGroups=& eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
+    $workflowGroups= eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
     $groupID = false;
     if ( count( $workflowGroups ) > 0 )
         $groupID = $workflowGroups[0]->attribute( 'group_id' );
@@ -273,7 +273,7 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
     // Remove old version 0 first
     eZWorkflowGroupLink::removeWorkflowMembers( $WorkflowID, 0 );
 
-    $workflowgroups =& eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 1 );
+    $workflowgroups = eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 1 );
 	for ( $i=0;$i<count(  $workflowgroups );$i++ )
     {
         $workflowgroup =& $workflowgroups[$i];
@@ -292,7 +292,7 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
 
     $db->commit();
 
-    $workflowGroups=& eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
+    $workflowGroups= eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
     $groupID = false;
     if ( count( $workflowGroups ) > 0 )
         $groupID = $workflowGroups[0]->attribute( 'group_id' );

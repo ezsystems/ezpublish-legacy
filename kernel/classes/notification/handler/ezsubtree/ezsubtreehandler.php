@@ -285,7 +285,7 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         }
         $userID = $user->attribute( 'contentobject_id' );
 
-        $ruleList =& eZSubtreeNotificationRule::fetchList( $userID, true, $offset, $limit );
+        $ruleList = eZSubtreeNotificationRule::fetchList( $userID, true, $offset, $limit );
         return $ruleList;
     }
 

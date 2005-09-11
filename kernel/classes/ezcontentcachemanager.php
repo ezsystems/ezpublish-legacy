@@ -354,7 +354,7 @@ class eZContentCacheManager
                 {
                     if ( in_array( $item['class_identifier'], $dependentClassIdentifiers ) )
                     {
-                        $node =& eZContentObjectTreeNode::fetch( $item['node_id'] );
+                        $node = eZContentObjectTreeNode::fetch( $item['node_id'] );
                         $object =& $node->attribute( 'object' );
 
                         if ( count( $dependentClassInfo['object_filter'] ) > 0 )

@@ -205,7 +205,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
                 $sectionID = 0; /* Will be changed later */
             }
             $contentClassID = $http->postVariable( 'ClassID' );
-            $class =& eZContentClass::fetch( $contentClassID );
+            $class = eZContentClass::fetch( $contentClassID );
             $relatedContentObject =& $class->instantiate( $userID, $sectionID );
             $newObjectID = $relatedContentObject->attribute( 'id' );
             $relatedContentVersion =& $relatedContentObject->attribute( 'current' );

@@ -41,7 +41,7 @@ $Module =& $Params["Module"];
 $ClassID = null;
 if ( isset( $Params["ClassID"] ) )
     $ClassID = $Params["ClassID"];
-$class =& eZContentClass::fetch( $ClassID, true, 0 );
+$class = eZContentClass::fetch( $ClassID, true, 0 );
 if ( !$class )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE );
 
@@ -51,7 +51,7 @@ $classCopy->setAttribute( 'version', 1 );
 $classCopy->store();
 
 $mainGroupID = false;
-$classGroups =& eZContentClassClassGroup::fetchGroupList( $class->attribute( 'id' ),
+$classGroups = eZContentClassClassGroup::fetchGroupList( $class->attribute( 'id' ),
                                                           $class->attribute( 'version' ) );
 for ( $i = 0; $i < count( $classGroups ); ++$i )
 {

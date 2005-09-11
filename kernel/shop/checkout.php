@@ -50,14 +50,14 @@ if ( get_class( $order ) == 'ezorder' )
 {
     if (  $order->attribute( 'is_temporary' ) )
     {
-        $paymentObj =& eZPaymentObject::fetchByOrderID( $orderID );
+        $paymentObj = eZPaymentObject::fetchByOrderID( $orderID );
         if ( $paymentObj != null )
         {
             $startTime = time();
             while( ( time() - $startTime ) < 25 )
             {
                 eZDebug::writeDebug( "next iteration", "checkout" );
-                $order =& eZOrder::fetch( $orderID );
+                $order = eZOrder::fetch( $orderID );
                 if ( $order->attribute( 'is_temporary' ) == 0 )
                 {
                     break;
@@ -68,7 +68,7 @@ if ( get_class( $order ) == 'ezorder' )
                 }
             }
         }
-        $order =& eZOrder::fetch( $orderID );
+        $order = eZOrder::fetch( $orderID );
         if (  $order->attribute( 'is_temporary' ) == 1 && $paymentObj == null  )
         {
             $email =& $order->accountEmail();

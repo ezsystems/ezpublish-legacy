@@ -1156,7 +1156,7 @@ class eZSearchEngine
                 $objectResArray = $db->arrayQuery( $searchQuery, array( "limit" => $searchLimit, "offset" => $searchOffset ) );
                 // execute search count query
                 $objectCountRes = $db->arrayQuery( $searchCountQuery );
-                $objectRes =& eZContentObjectTreeNode::makeObjectsArray( $objectResArray );
+                $objectRes = eZContentObjectTreeNode::makeObjectsArray( $objectResArray );
                 $searchCount = $objectCountRes[0]['count'];
             }
             else

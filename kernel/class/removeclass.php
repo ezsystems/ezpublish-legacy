@@ -55,7 +55,7 @@ if ( !$http->hasPostVariable( 'ConfirmButton' ) && !$http->hasPostVariable( 'Can
     {
         $classID = $deleteIDArray[$key];
         // for each classes tagged for deleting:
-        $class =& eZContentClass::fetch( $classID );
+        $class = eZContentClass::fetch( $classID );
         if ( $class )
         {
             // find out to how many groups the class belongs:
@@ -88,7 +88,7 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
     foreach ( $deleteIDArray as $deleteID )
     {
-        $deleteClass =& eZContentClass::fetch( $deleteID );
+        $deleteClass = eZContentClass::fetch( $deleteID );
         if ( $deleteClass == null )
             continue;
 
@@ -122,7 +122,7 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
         $deleteClass->remove( true );
 
         // Fetch temp version and remove it
-        $tempDeleteClass =& eZContentClass::fetch( $deleteID, true, 1 );
+        $tempDeleteClass = eZContentClass::fetch( $deleteID, true, 1 );
         if ( $tempDeleteClass != null )
             $tempDeleteClass->remove( true, 1 );
     }
@@ -137,10 +137,10 @@ $canRemoveCount = 0;
 foreach ( $deleteIDArray as $deleteID )
 {
     $ClassObjectsCount = 0;
-    $class =& eZContentClass::fetch( $deleteID );
+    $class = eZContentClass::fetch( $deleteID );
     if ( $class != null )
     {
-        $class =& eZContentClass::fetch( $deleteID );
+        $class = eZContentClass::fetch( $deleteID );
         $ClassID = $class->attribute( 'id' );
         $ClassName = $class->attribute( 'name' );
         if ( !$class->isRemovable() )
@@ -153,7 +153,7 @@ foreach ( $deleteIDArray as $deleteID )
             continue;
         }
         ++$canRemoveCount;
-        $classObjects =& eZContentObject::fetchSameClassList( $ClassID );
+        $classObjects = eZContentObject::fetchSameClassList( $ClassID );
         $ClassObjectsCount = count( $classObjects );
         $item = array( "className" => $ClassName,
                        "is_removable" => true,

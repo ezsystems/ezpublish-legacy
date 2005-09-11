@@ -800,7 +800,7 @@ foreach ( $commandList as $commandItem )
         if ( isset( $createdPackages[$repositoryPath][$commandItem['name']] ) )
             $package =& $createdPackages[$repositoryPath][$commandItem['name']];
         else
-            $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
+            $package = eZPackage::fetch( $commandItem['name'], $repositoryPath );
         if ( $package )
         {
             $showInfo = false;
@@ -856,7 +856,7 @@ foreach ( $commandList as $commandItem )
         if ( isset( $createdPackages[$repositoryPath][$commandItem['name']] ) )
             $package =& $createdPackages[$repositoryPath][$commandItem['name']];
         else
-            $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
+            $package = eZPackage::fetch( $commandItem['name'], $repositoryPath );
         if ( $package )
         {
             $itemType = $commandItem['item'];
@@ -928,7 +928,7 @@ foreach ( $commandList as $commandItem )
             if ( isset( $createdPackages[$repositoryPath][$commandItem['name']] ) )
                 $package =& $createdPackages[$repositoryPath][$commandItem['name']];
             else
-                $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
+                $package = eZPackage::fetch( $commandItem['name'], $repositoryPath );
             if ( $package )
             {
                 switch ( $commandItem['attribute'] )
@@ -1006,7 +1006,7 @@ foreach ( $commandList as $commandItem )
         if ( isset( $createdPackages[$repositoryPath][$commandItem['name']] ) )
             $package =& $createdPackages[$repositoryPath][$commandItem['name']];
         else
-            $package =& eZPackage::fetch( $commandItem['name'], $repositoryPath );
+            $package = eZPackage::fetch( $commandItem['name'], $repositoryPath );
         if ( $package )
         {
             if ( isset( $commandItem['export-directory'] ) )

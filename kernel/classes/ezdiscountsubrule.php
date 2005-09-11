@@ -111,32 +111,30 @@ class eZDiscountSubRule extends eZPersistentObject
         }
     }
 
-    function &fetch( $id, $asObject = true )
+    function fetch( $id, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZDiscountSubRule::definition(),
-                                                    null,
-                                                    array( "id" => $id ),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZDiscountSubRule::definition(),
+                                                null,
+                                                array( "id" => $id ),
+                                                $asObject );
     }
 
     function &fetchList( $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZDiscountSubRule::definition(),
+        $objectList = eZPersistentObject::fetchObjectList( eZDiscountSubRule::definition(),
                                                             null, null, null, null,
                                                             $asObject );
         return $objectList;
     }
 
-    function &fetchByRuleID( $discountRuleID, $asObject = true )
+    function fetchByRuleID( $discountRuleID, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZDiscountSubRule::definition(),
-                                                            null,
-                                                            array( "discountrule_id" => $discountRuleID ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZDiscountSubRule::definition(),
+                                                    null,
+                                                    array( "discountrule_id" => $discountRuleID ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
     function create( $discountRuleID )

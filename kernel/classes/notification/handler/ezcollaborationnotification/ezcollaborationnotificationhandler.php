@@ -102,7 +102,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
     */
     function collaborationSelections()
     {
-        $rules =& eZCollaborationNotificationRule::fetchList();
+        $rules = eZCollaborationNotificationRule::fetchList();
         $selection = array();
         for ( $i = 0; $i < count( $rules ); ++$i )
         {
@@ -161,20 +161,6 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         }
     }
 
-    /*
-    function &subscribedNodes( $user = false )
-    {
-        if ( $user === false )
-        {
-            $user =& eZUser::currentUser();
-        }
-        $email = $user->attribute( 'email' );
-
-        $nodeList =& eZCollaborationNotificationRule::fetchNodesForAddress( $email );
-        return $nodeList;
-    }
-    */
-
     function &rules( $user = false )
     {
         if ( $user === false )
@@ -183,7 +169,7 @@ class eZCollaborationNotificationHandler extends eZNotificationEventHandler
         }
         $email = $user->attribute( 'email' );
 
-        $ruleList =& eZCollaborationNotificationRule::fetchList( $email );
+        $ruleList = eZCollaborationNotificationRule::fetchList( $email );
         return $ruleList;
     }
 

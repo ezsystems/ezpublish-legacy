@@ -88,7 +88,7 @@ foreach( $TemplateData as $tpldata )
 {
     $tplname = $tpldata["name"];
 
-    $groupInfo = & eZContentClassGroup::fetch( $GroupID );
+    $groupInfo =  eZContentClassGroup::fetch( $GroupID );
 
     if( !$groupInfo )
     {
@@ -104,7 +104,7 @@ foreach( $TemplateData as $tpldata )
     $tpl->setVariable( "group_modifier", $groupModifier );
 }
 
-$group =& eZContentClassGroup::fetch( $GroupID );
+$group = eZContentClassGroup::fetch( $GroupID );
 $groupName = $group->attribute( 'name' );
 
 

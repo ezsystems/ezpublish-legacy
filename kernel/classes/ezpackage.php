@@ -1242,7 +1242,7 @@ class eZPackage
         if ( is_dir( $archiveName ) )
         {
 //             $archivePath = $archiveName;
-//             $package =& eZPackage::fetch( $packageName, $archivePath );
+//             $package = eZPackage::fetch( $packageName, $archivePath );
 //             if ( $package )
 //             {
 //             }
@@ -1271,13 +1271,13 @@ class eZPackage
                 return $retValue;
             }
 
-            $package =& eZPackage::fetch( $packageName, $tempDirPath );
+            $package = eZPackage::fetch( $packageName, $tempDirPath );
             eZPackage::removePackageFiles( $archivePath );
             if ( $package )
             {
                 $packageName = $package->attribute( 'name' );
 
-                $existingPackage =& eZPackage::fetch( $packageName );
+                $existingPackage = eZPackage::fetch( $packageName );
                 if ( $existingPackage )
                 {
                     $retValue = EZ_PACKAGE_STATUS_ALREADY_EXISTS;
@@ -1295,7 +1295,7 @@ class eZPackage
                 $archive = eZArchiveHandler::instance( 'tar', 'gzip', $archiveName );
                 $archive->extractModify( $archivePackagePath, '' );
 
-                $package =& eZPackage::fetch( $packageName, $archivePath );
+                $package = eZPackage::fetch( $packageName, $archivePath );
                 if ( !$package )
                 {
                     eZDebug::writeError( "Failed loading imported package $packageName from $archivePath" );
@@ -1406,7 +1406,7 @@ class eZPackage
      and create a package object from it.
      \return \c false if it could be fetched.
     */
-    function &fetchFromFile( $filename )
+    function fetchFromFile( $filename )
     {
         if ( !file_exists( $filename ) )
         {
@@ -1475,7 +1475,7 @@ class eZPackage
                           look in all repositories.
      \return \c false if no package could be found.
     */
-    function &fetch( $packageName, $packagePath = false, $repositoryID = false )
+    function fetch( $packageName, $packagePath = false, $repositoryID = false )
     {
         $packageRepositories = eZPackage::packageRepositories( array( 'path' => $packagePath ) );
 
@@ -1498,14 +1498,14 @@ class eZPackage
                 $cacheExpired = false;
                 if ( eZPackage::useCache() )
                 {
-                    $package =& eZPackage::fetchFromCache( $packageName, $fileModification, $cacheExpired );
+                    $package = eZPackage::fetchFromCache( $packageName, $fileModification, $cacheExpired );
                 }
                 if ( $package )
                 {
                     $package->setCurrentRepositoryInformation( $packageRepository );
                     return $package;
                 }
-                $package =& eZPackage::fetchFromFile( $filePath );
+                $package = eZPackage::fetchFromFile( $filePath );
                 if ( $package )
                 {
                     $package->setCurrentRepositoryInformation( $packageRepository );
@@ -1520,8 +1520,7 @@ class eZPackage
                 return $package;
             }
         }
-        $retVal = false;
-        return $retVal;
+        return false;
     }
 
     function useCache()
@@ -1532,7 +1531,7 @@ class eZPackage
     /*!
      \private
     */
-    function &fetchFromCache( $packageName, $packageModification, &$cacheExpired )
+    function fetchFromCache( $packageName, $packageModification, &$cacheExpired )
     {
 //        $path = $this->currentRepositoryPath() . '/' . $packageName;
         $path = eZPackage::repositoryPath() . '/' . $packageName;
@@ -1773,7 +1772,7 @@ class eZPackage
                     if ( $requiredName != $packageName )
                         continue;
                 }
-                $package =& $this->fetch( $packageName );
+                $package = $this->fetch( $packageName );
                 if ( !$package )
                     continue;
                 $packages[] =& $package;
@@ -1911,11 +1910,11 @@ class eZPackage
                             $cacheExpired = false;
                             if ( eZPackage::useCache() )
                             {
-                                $package =& eZPackage::fetchFromCache( $file, $fileModification, $cacheExpired );
+                                $package = eZPackage::fetchFromCache( $file, $fileModification, $cacheExpired );
                             }
                             if ( !$package )
                             {
-                                $package =& eZPackage::fetchFromFile( $filePath );
+                                $package = eZPackage::fetchFromFile( $filePath );
                                 if ( $package and
                                      $cacheExpired and
                                      eZPackage::useCache() )

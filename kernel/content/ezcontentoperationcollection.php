@@ -63,11 +63,11 @@ class eZContentOperationCollection
     {
         if ( $languageCode != '' )
         {
-            $node =& eZContentObjectTreeNode::fetch( $nodeID, $languageCode );
+            $node = eZContentObjectTreeNode::fetch( $nodeID, $languageCode );
         }
         else
         {
-            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
         }
 
         if ( $node === null )
@@ -256,7 +256,7 @@ class eZContentOperationCollection
                         if ( $previewCacheUserID === 'anonymous' )
                         {
                             $previewCacheUserID = $siteini->variable( "UserSettings", "AnonymousUserID" );
-                            $previewCacheUser =& eZUser::fetch( $previewCacheUserID  );
+                            $previewCacheUser = eZUser::fetch( $previewCacheUserID  );
                         }
                         else if ( $previewCacheUserID === 'current' )
                         {
@@ -264,7 +264,7 @@ class eZContentOperationCollection
                         }
                         else
                         {
-                            $previewCacheUser =& eZUser::fetch( $previewCacheUserID  );
+                            $previewCacheUser = eZUser::fetch( $previewCacheUserID  );
                         }
                         if ( !$previewCacheUser )
                             continue;
@@ -314,7 +314,7 @@ class eZContentOperationCollection
             }
             foreach ( $nodes as $nodeID )
             {
-                $aNode =& eZContentObjectTreeNode::fetch( $nodeID );
+                $aNode = eZContentObjectTreeNode::fetch( $nodeID );
                 $staticCache->cacheURL( "/" . $aNode->urlAlias(), $nodeID );
             }
             $staticCache->generateAlwaysUpdatedCache();
@@ -345,7 +345,7 @@ class eZContentOperationCollection
     {
         $object         =& eZContentObject::fetch( $objectID );
         $version        =& $object->version( $versionNum );
-        $nodeAssignment =& eZNodeAssignment::fetch( $objectID, $versionNum, $parentNodeID );
+        $nodeAssignment = eZNodeAssignment::fetch( $objectID, $versionNum, $parentNodeID );
 
         $object->setAttribute( 'current_version', $versionNum );
         if ( $object->attribute( 'published' ) == 0 )
@@ -359,7 +359,7 @@ class eZContentOperationCollection
         $object->setAttribute( 'modified', mktime() );
         $object->store();
 
-        $class      =& eZContentClass::fetch( $object->attribute( 'contentclass_id' ) );
+        $class      = eZContentClass::fetch( $object->attribute( 'contentclass_id' ) );
         $objectName =  $class->contentObjectName( $object );
 
         /* Check if current class is the user class, and if so, clean up the
@@ -388,13 +388,13 @@ class eZContentOperationCollection
         $originalObjectID = $nodeAssignment->attribute( 'contentobject_id' );
 
         $nodeID           =  $nodeAssignment->attribute( 'parent_node' );
-        $parentNode       =& eZContentObjectTreeNode::fetch( $nodeID );
+        $parentNode       = eZContentObjectTreeNode::fetch( $nodeID );
         $parentNodeID     =  $parentNode->attribute( 'node_id' );
         $existingNode     =  null;
 
         if ( strlen( $nodeAssignment->attribute( 'parent_remote_id' ) ) > 0 )
         {
-            $existingNode =& eZContentObjectTreeNode::fetchByRemoteID( $nodeAssignment->attribute( 'parent_remote_id' ) );
+            $existingNode = eZContentObjectTreeNode::fetchByRemoteID( $nodeAssignment->attribute( 'parent_remote_id' ) );
         }
         if ( !$existingNode );
         {
@@ -405,7 +405,7 @@ class eZContentOperationCollection
         {
             if ( $fromNodeID == 0 || $fromNodeID == -1)
             {
-                $parentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+                $parentNode = eZContentObjectTreeNode::fetch( $nodeID );
 
                 include_once( 'kernel/classes/ezcontentbrowserecent.php' );
                 $user =& eZUser::currentUser();
@@ -426,13 +426,13 @@ class eZContentOperationCollection
                 include_once( 'kernel/classes/ezcontentcachemanager.php' );
                 eZContentCacheManager::clearContentCacheIfNeeded( $objectID, $versionNum, $additionalNodeIDList );
 
-                $originalNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
+                $originalNode = eZContentObjectTreeNode::fetchNode( $originalObjectID, $fromNodeID );
                 if ( $originalNode->attribute( 'main_node_id' ) == $originalNode->attribute( 'node_id' ) )
                 {
                     $updateSectionID = true;
                 }
                 $originalNode->move( $parentNodeID );
-                $existingNode =& eZContentObjectTreeNode::fetchNode( $originalObjectID, $parentNodeID );
+                $existingNode = eZContentObjectTreeNode::fetchNode( $originalObjectID, $parentNodeID );
             }
         }
 

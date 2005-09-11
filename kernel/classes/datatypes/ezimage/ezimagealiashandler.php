@@ -244,7 +244,7 @@ class eZImageAliasHandler
         //
         // if ( !$text )
         // {
-        //     $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
+        //     $contentVersion = eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
         //                                                              $contentObjectAttribute->attribute( 'contentobject_id' ),
         //                                                              true );
         //     if ( $contentVersion )
@@ -957,7 +957,7 @@ class eZImageAliasHandler
                 $mimeData = eZMimeType::findByURL( $httpFile->attribute( 'original_filename' ) );
             }
         }
-        $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
+        $contentVersion = eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
                                                                  $contentObjectAttribute->attribute( 'contentobject_id' ) );
         $objectName = $this->imageName( $contentObjectAttribute, $contentVersion );
         $objectPathString = $this->imagePath( $contentObjectAttribute, $contentVersion, true );
@@ -994,7 +994,7 @@ class eZImageAliasHandler
             $originalFilename = $filename;
         include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $originalFilename );
-        $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
+        $contentVersion = eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
                                                                  $contentObjectAttribute->attribute( 'contentobject_id' ) );
         $objectName = $this->imageName( $contentObjectAttribute, $contentVersion );
         $objectPathString = $this->imagePath( $contentObjectAttribute, $contentVersion, true );
@@ -1504,7 +1504,7 @@ class eZImageAliasHandler
 
                 $newFilePath = $filePath;
                 $newSuffix = $suffix;
-                $contentVersion =& eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
+                $contentVersion = eZContentObjectVersion::fetchVersion( $contentObjectAttribute->attribute( 'version' ),
                                                                          $contentObjectAttribute->attribute( 'contentobject_id' ) );
                 if ( $contentVersion )
                 {

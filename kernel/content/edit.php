@@ -52,7 +52,7 @@ if ( !$obj->canEdit() )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $obj->accessList( 'edit' ) ) );
 
 $classID = $obj->attribute( 'contentclass_id' );
-$class =& eZContentClass::fetch( $classID );
+$class = eZContentClass::fetch( $classID );
 $http =& eZHTTPTool::instance();
 
 if( $http->hasPostVariable( 'CancelDraftButton' ) )
@@ -585,7 +585,7 @@ if ( !function_exists( 'checkContentActions' ) )
                 if ( $updateNodeVisibility )
                 {
                     // this might be redundant
-                    $parentNode =& eZContentObjectTreeNode::fetch( $parentNodeID );
+                    $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
                     eZContentObjectTreeNode::updateNodeVisibility( $node, $parentNode, /* $recursive = */ false );
                     unset( $node, $parentNode );
                 }

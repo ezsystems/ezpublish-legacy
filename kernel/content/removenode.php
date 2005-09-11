@@ -63,7 +63,7 @@ if ( !$object->attribute( 'can_remove' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 
 $version =& $object->version( $EditVersion );
-$node =& eZContentObjectTreeNode::fetchNode( $ObjectID, $NodeID );
+$node = eZContentObjectTreeNode::fetchNode( $ObjectID, $NodeID );
 if ( $node !== null )
     $ChildObjectsCount = $node->subTreeCount();
 else

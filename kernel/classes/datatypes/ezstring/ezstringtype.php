@@ -79,7 +79,7 @@ class eZStringType extends eZDataType
         if ( $currentVersion != false )
         {
 //             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-//             $currentObjectAttribute =& eZContentObjectAttribute::fetch( $contentObjectAttributeID,
+//             $currentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeID,
 //                                                                         $currentVersion );
             $dataText = $originalContentObjectAttribute->attribute( "data_text" );
             $contentObjectAttribute->setAttribute( "data_text", $dataText );

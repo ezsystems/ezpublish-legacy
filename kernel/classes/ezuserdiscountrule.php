@@ -99,7 +99,7 @@ class eZUserDiscountRule extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &fetchByUserID( $userID, $asObject = true )
+    function fetchByUserID( $userID, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZUserDiscountRule::definition(),
                                                     null,
@@ -109,7 +109,7 @@ class eZUserDiscountRule extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &fetchIDListByUserID( $userID )
+    function fetchIDListByUserID( $userID )
     {
         $http =& eZHTTPTool::instance();
 
@@ -174,7 +174,7 @@ class eZUserDiscountRule extends eZPersistentObject
 
     function &fetchUserID( $discountRuleID )
     {
-         $userList =& eZPersistentObject::fetchObjectList( eZUserDiscountRule::definition(),
+         $userList = eZPersistentObject::fetchObjectList( eZUserDiscountRule::definition(),
                                               null,
                                               array( "discountrule_id" => $discountRuleID ),
                                               null,
@@ -191,7 +191,7 @@ class eZUserDiscountRule extends eZPersistentObject
 
     function &fetchByRuleID( $discountRuleID, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZUserDiscountRule::definition(),
+        $objectList = eZPersistentObject::fetchObjectList( eZUserDiscountRule::definition(),
                                                             null,
                                                             array( "discountrule_id" => $discountRuleID ),
                                                             null,

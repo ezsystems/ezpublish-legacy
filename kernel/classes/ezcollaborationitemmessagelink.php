@@ -164,7 +164,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
             $conditions = array();
         $conditions['collaboration_id'] = $itemID;
 
-        $objectList =& eZPersistentObject::fetchObjectList( eZCollaborationItemMessageLink::definition(),
+        $objectList = eZPersistentObject::fetchObjectList( eZCollaborationItemMessageLink::definition(),
                                                             array(),
                                                             $conditions,
                                                             null, null,
@@ -207,7 +207,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
         if ( isset( $this->CollaborationID ) and $this->CollaborationID )
         {
             include_once( 'kernel/classes/ezcollaborationitem.php' );
-            $item =& eZCollaborationItem::fetch( $this->CollaborationID );
+            $item = eZCollaborationItem::fetch( $this->CollaborationID );
         }
         else
             $item = null;
@@ -225,7 +225,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
         if ( isset( $this->MessageID ) and $this->MessageID )
         {
             include_once( 'kernel/classes/ezcollaborationsimplemessage.php' );
-            $message =& eZCollaborationSimpleMessage::fetch( $this->MessageID );
+            $message = eZCollaborationSimpleMessage::fetch( $this->MessageID );
         }
         else
             $message = null;

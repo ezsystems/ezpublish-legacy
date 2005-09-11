@@ -71,7 +71,7 @@ if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
     $sections = array();
     foreach ( $sectionIDArray as $sectionID )
     {
-        $section =& eZSection::fetch( $sectionID );
+        $section = eZSection::fetch( $sectionID );
         $sections[] =& $section;
     }
     $tpl->setVariable( 'delete_result', $sections );
@@ -91,7 +91,7 @@ if ( $http->hasPostVariable( 'ConfirmRemoveSectionButton' ) )
     $db->begin();
     foreach ( $sectionIDArray as $sectionID )
     {
-        $section =& eZSection::fetch( $sectionID );
+        $section = eZSection::fetch( $sectionID );
         if( $section === null )
             continue;
         $section->remove( );

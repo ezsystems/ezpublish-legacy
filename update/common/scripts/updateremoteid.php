@@ -63,7 +63,7 @@ $script->setIterationData( '.', '~' );
 
 // Handle classes
 
-$classList =& eZContentClass::fetchList();
+$classList = eZContentClass::fetchList();
 $script->resetIteration( count( $classList ) );
 $cli->output( $cli->stylize( 'header', "Generating for classes" ) );
 

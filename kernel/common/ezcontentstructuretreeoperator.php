@@ -390,7 +390,7 @@ class eZContentStructureTreeOperator
     function &initContentStructureTree( $rootNodeID, $fetchHidden )
     {
         // create initial subtree with root node and empty children.
-        $rootTreeNode =& eZContentObjectTreeNode::fetch( $rootNodeID );
+        $rootTreeNode = eZContentObjectTreeNode::fetch( $rootNodeID );
         if( $rootTreeNode && $rootTreeNode->canRead() )
         {
             $contentObject =& $rootTreeNode->attribute( 'object' );

@@ -129,7 +129,7 @@ class eZPackageFunctionCollection
     function &fetchPackage( $packageName, $repositoryID )
     {
         include_once( 'kernel/classes/ezpackage.php' );
-        $package =& eZPackage::fetch( $packageName, false, $repositoryID );
+        $package = eZPackage::fetch( $packageName, false, $repositoryID );
         if ( $package === false )
         {
             $retValue = array( 'error' => array( 'error_type' => 'kernel',
@@ -206,7 +206,7 @@ class eZPackageFunctionCollection
             }
         }
         include_once( 'kernel/classes/ezpackage.php' );
-        $package =& eZPackage::fetch( $packageName, false, $repositoryID );
+        $package = eZPackage::fetch( $packageName, false, $repositoryID );
         $packageList = $package->fetchDependentPackages( $filterParams );
         if ( $packageList === false )
         {

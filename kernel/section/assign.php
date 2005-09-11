@@ -52,7 +52,7 @@ if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
     }
 }
 
-$section =& eZSection::fetch( $SectionID );
+$section = eZSection::fetch( $SectionID );
 
 // Redirect to content node browse
 

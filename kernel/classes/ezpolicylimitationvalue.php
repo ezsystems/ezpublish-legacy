@@ -115,15 +115,14 @@ class eZPolicyLimitationValue extends eZPersistentObject
         $newValue = eZPolicyLimitationValue::createNew( $limitationID, $this->attribute( 'value' ) );
     }
 
-    function &fetchList( $limitationID, $asObject = true )
+    function fetchList( $limitationID, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZPolicyLimitationValue::definition(),
-                                                            null,
-                                                            array( 'limitation_id' => $limitationID ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZPolicyLimitationValue::definition(),
+                                                    null,
+                                                    array( 'limitation_id' => $limitationID ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
     /*!
@@ -135,7 +134,7 @@ class eZPolicyLimitationValue extends eZPersistentObject
         if ( $policyID )
         {
             $limitationIDList = array();
-            $limitations =& eZPolicyLimitation::fetchByPolicyID( $policyID, false );
+            $limitations = eZPolicyLimitation::fetchByPolicyID( $policyID, false );
             foreach ( $limitations as $limitationArray )
             {
                 $limitationIDList[] = $limitationArray['id'];

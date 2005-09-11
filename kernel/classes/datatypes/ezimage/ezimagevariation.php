@@ -138,7 +138,7 @@ class eZImageVariation extends eZPersistentObject
 
     function fetchVariation( $contentobjectAttributeID, $version, $rwidth, $rheight )
     {
-        $ret =& eZPersistentObject::fetchObjectList( eZImageVariation::definition(),
+        $ret = eZPersistentObject::fetchObjectList( eZImageVariation::definition(),
                                                      null, array( "contentobject_attribute_id" => $contentobjectAttributeID,
                                                                   "version" => $version,
                                                                   "requested_width" => $rwidth,

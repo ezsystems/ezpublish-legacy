@@ -270,7 +270,7 @@ class eZImage extends eZPersistentObject
         return new eZImage( $row );
     }
 
-    function &fetch( $id, $version = null, $asObject = true )
+    function fetch( $id, $version = null, $asObject = true )
     {
         if( $version == null )
         {

@@ -94,15 +94,14 @@ class eZURLObjectLink extends eZPersistentObject
      \static
      \return the url object for id \a $id.
     */
-    function &fetch( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion, $asObject = true )
+    function fetch( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZURLObjectLink::definition(),
-                                                    null,
-                                                    array( 'url_id' => $urlID,
-                                                           'contentobject_attribute_id' => $contentObjectAttributeID,
-                                                           'contentobject_attribute_version' => $contentObjectAttributeVersion ),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZURLObjectLink::definition(),
+                                                null,
+                                                array( 'url_id' => $urlID,
+                                                       'contentobject_attribute_id' => $contentObjectAttributeID,
+                                                       'contentobject_attribute_version' => $contentObjectAttributeVersion ),
+                                                $asObject );
     }
 
     /*!
@@ -111,7 +110,7 @@ class eZURLObjectLink extends eZPersistentObject
     */
     function hasObjectLinkList( $urlID )
     {
-        $rows =& eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
+        $rows = eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
                                                       array(),
                                                       array( 'url_id' => $urlID ),
                                                       array(),
@@ -130,7 +129,7 @@ class eZURLObjectLink extends eZPersistentObject
     function &fetchObjectVersionList( $urlID, $parameters = false )
     {
         $objectVersionList = array();
-        $urlObjectLinkList =& eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
+        $urlObjectLinkList = eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
                                                                    null,
                                                                    array( 'url_id' => $urlID ),
                                                                    null,
@@ -142,7 +141,7 @@ class eZURLObjectLink extends eZPersistentObject
             $urlObjectLink =& $urlObjectLinkList[$key];
             $objectAttributeID = $urlObjectLink->attribute( 'contentobject_attribute_id' );
             $objectAttributeVersion = $urlObjectLink->attribute( 'contentobject_attribute_version' );
-            $objectAttribute =& eZContentObjectAttribute::fetch( $objectAttributeID, $objectAttributeVersion );
+            $objectAttribute = eZContentObjectAttribute::fetch( $objectAttributeID, $objectAttributeVersion );
             if ( $objectAttribute ) // Object and version has been deleted
             {
                 $objectID = $objectAttribute->attribute( 'contentobject_id' );
@@ -169,13 +168,12 @@ class eZURLObjectLink extends eZPersistentObject
     */
      function fetchObjectVersionCount( $urlID )
      {
-         $urlObjectLinkList =& eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
-                                                                    null,
-                                                                    array( 'url_id' => $urlID ),
-                                                                    null,
-                                                                    null,
-                                                                    true );
-         return( count( $urlObjectLinkList ) );
+         return count( eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
+                                                            null,
+                                                            array( 'url_id' => $urlID ),
+                                                            null,
+                                                            null,
+                                                            true ) );
      }
 
     /*!
@@ -198,13 +196,13 @@ class eZURLObjectLink extends eZPersistentObject
      \return all links for the contenobject attribute ID \a $contenObjectAttributeID and version \a $contenObjectVersion.
      If \a $contentObjectVersion is \c false then all links for all versions are returned.
     */
-    function &fetchLinkList( $contentObjectAttributeID, $contentObjectAttributeVersion, $asObject = true )
+    function fetchLinkList( $contentObjectAttributeID, $contentObjectAttributeVersion, $asObject = true )
     {
         $linkList = array();
         $conditions = array( 'contentobject_attribute_id' => $contentObjectAttributeID );
         if ( $contentObjectAttributeVersion !== false )
             $conditions['contentobject_attribute_version'] = $contentObjectAttributeVersion;
-        $urlObjectLinkList =& eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
+        $urlObjectLinkList = eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
                                                                    null,
                                                                    $conditions,
                                                                    null,
@@ -235,7 +233,7 @@ class eZURLObjectLink extends eZPersistentObject
     function clearCacheForObjectLink( $urlID )
     {
         include_once( "kernel/classes/ezcontentcachemanager.php" );
-        $urlObjectLinkList =& eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
+        $urlObjectLinkList = eZPersistentObject::fetchObjectList( eZURLObjectLink::definition(),
                                                                     null,
                                                                     array( 'url_id' => $urlID ),
                                                                     null,
@@ -245,7 +243,7 @@ class eZURLObjectLink extends eZPersistentObject
         {
             $objectAttributeID = $urlObjectLink->attribute( 'contentobject_attribute_id' );
             $objectAttributeVersion = $urlObjectLink->attribute( 'contentobject_attribute_version' );
-            $objectAttribute =& eZContentObjectAttribute::fetch( $objectAttributeID, $objectAttributeVersion );
+            $objectAttribute = eZContentObjectAttribute::fetch( $objectAttributeID, $objectAttributeVersion );
             if ( $objectAttribute )
             {
                 $objectID = $objectAttribute->attribute( 'contentobject_id' );

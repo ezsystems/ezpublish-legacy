@@ -49,7 +49,7 @@ $discountGroupID = null;
 if ( isset( $Params["DiscountGroupID"] ) )
     $discountGroupID = $Params["DiscountGroupID"];
 
-$discountGroup =& eZDiscountRule::fetch( $discountGroupID );
+$discountGroup = eZDiscountRule::fetch( $discountGroupID );
 if( is_null( $discountGroup ) )
 {
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
@@ -142,7 +142,7 @@ foreach ( $membershipList as $membership )
     $customers[] = eZContentObject::fetch( $membership->attribute( 'contentobject_id' ) );
 }
 
-$ruleList =& eZDiscountSubRule::fetchByRuleID( $discountGroupID );
+$ruleList = eZDiscountSubRule::fetchByRuleID( $discountGroupID );
 
 $ruleArray = array();
 foreach ( $ruleList as $rule )
@@ -153,7 +153,7 @@ foreach ( $ruleList as $rule )
     $discountRuleID = $rule->attribute( 'id' );
     if ( $limitation != '*' )
     {
-        $ruleValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID );
+        $ruleValues = eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID );
         if ( $ruleValues != null )
         {
             $limitation = ezi18n( 'kernel/shop', 'Classes' ).' ';
@@ -161,7 +161,7 @@ foreach ( $ruleList as $rule )
             foreach ( $ruleValues as $ruleValue )
             {
                 $classID = $ruleValue->attribute( 'value' );
-                $class =& eZContentClass::fetch( $classID );
+                $class = eZContentClass::fetch( $classID );
                 if ( $class )
                 {
                     if ( !$firstLoop )
@@ -181,7 +181,7 @@ foreach ( $ruleList as $rule )
         {
             $limitation = ezi18n( 'kernel/shop', 'Any class' );
         }
-        $sectionRuleValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 1 );
+        $sectionRuleValues = eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 1 );
         if ( $sectionRuleValues != null )
         {
             $limitation .= ' '.ezi18n( 'kernel/shop', 'in sections' ).' ';
@@ -189,7 +189,7 @@ foreach ( $ruleList as $rule )
             foreach ( $sectionRuleValues as $sectionRuleValue )
             {
                 $sectionID = $sectionRuleValue->attribute( 'value' );
-                $section =& eZSection::fetch( $sectionID );
+                $section = eZSection::fetch( $sectionID );
                 if ( $section )
                 {
                     if ( !$firstLoop )
@@ -209,7 +209,7 @@ foreach ( $ruleList as $rule )
         {
             $limitation .= ' '.ezi18n( 'kernel/shop', 'in any section' );
         }
-        $productRuleValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 2 );
+        $productRuleValues = eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 2 );
 
         if ( $productRuleValues != null )
         {

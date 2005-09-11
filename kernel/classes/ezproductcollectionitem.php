@@ -146,13 +146,12 @@ class eZProductCollectionItem extends eZPersistentObject
         return $item;
     }
 
-    function &fetch( $id, $asObject = true )
+    function fetch( $id, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZProductCollectionItem::definition(),
-                                                    null,
-                                                    array( "id" => $id ),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZProductCollectionItem::definition(),
+                                                null,
+                                                array( "id" => $id ),
+                                                $asObject );
     }
 
     /*!
@@ -178,7 +177,7 @@ class eZProductCollectionItem extends eZPersistentObject
 
     function &optionList()
     {
-        $optionList =& eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
+        $optionList = eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
         return $optionList;
     }
 
@@ -188,7 +187,7 @@ class eZProductCollectionItem extends eZPersistentObject
      */
     function remove()
     {
-        $itemOptionList =& eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
+        $itemOptionList = eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
 
         $db =& eZDB::instance();
         $db->begin();
@@ -208,13 +207,13 @@ class eZProductCollectionItem extends eZPersistentObject
     */
     function calculatePriceWithOptions()
     {
-        $optionList =& eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
+        $optionList = eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
         $contentObject =& $this->contentObject();
         $contentObjectVersion =& $contentObject->attribute( 'current_version' );
         $optionsPrice = 0.0;
         foreach( $optionList as $option )
         {
-            $objectAttribute =& eZContentObjectAttribute::fetch( $option->attribute( 'object_attribute_id' ), $contentObjectVersion );
+            $objectAttribute = eZContentObjectAttribute::fetch( $option->attribute( 'object_attribute_id' ), $contentObjectVersion );
             if ( $objectAttribute == null )
             {
                 $optionsPrice += 0.0;

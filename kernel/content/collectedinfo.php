@@ -41,7 +41,7 @@ $module =& $Params['Module'];
 $nodeID = $Params['NodeID'];
 if ( !$nodeID )
     return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-$node =& eZContentObjectTreeNode::fetch( $nodeID );
+$node = eZContentObjectTreeNode::fetch( $nodeID );
 if ( !$node )
     return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 $object =& $node->attribute( 'object' );

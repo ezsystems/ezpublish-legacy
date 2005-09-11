@@ -247,7 +247,7 @@ ORDER BY $orderBy";
     $resultArray = array();
     foreach ( $rows as $row )
     {
-        $sessionUser =& eZUser::fetch( $row['user_id'], true );
+        $sessionUser = eZUser::fetch( $row['user_id'], true );
         $session['user_id'] = $row['user_id'];
         if ( !$userID )
             $session['count'] = $row['count'];

@@ -76,7 +76,7 @@ if ( $options['clear-node'] )
     {
         if ( is_numeric( $nodeID ) )
         {
-            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
             if ( !$node )
             {
                 $cli->output( "Node with ID $nodeID does not exist, skipping" );
@@ -86,7 +86,7 @@ if ( $options['clear-node'] )
         else
         {
             $nodeSubtree = trim( $nodeID, '/' );
-            $node =& eZContentObjectTreeNode::fetchByURLPath( $nodeSubtree );
+            $node = eZContentObjectTreeNode::fetchByURLPath( $nodeSubtree );
             if ( !$node )
             {
                 $cli->output( "Node with subtree " . $cli->stylize( 'emphasize', $nodeSubtree ) . " does not exist, skipping" );
@@ -114,7 +114,7 @@ else if ( $options['clear-subtree'] )
         if ( is_numeric( $nodeSubtree ) )
         {
             $nodeID = (int)$nodeSubtree;
-            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
             if ( !$node )
             {
                 $cli->output( "Node with ID " . $cli->stylize( 'emphasize', $nodeID ) . " does not exist, skipping" );
@@ -124,7 +124,7 @@ else if ( $options['clear-subtree'] )
         else
         {
             $nodeSubtree = trim( $nodeSubtree, '/' );
-            $node =& eZContentObjectTreeNode::fetchByURLPath( $nodeSubtree );
+            $node = eZContentObjectTreeNode::fetchByURLPath( $nodeSubtree );
             if ( !$node )
             {
                 $cli->output( "Node with subtree " . $cli->stylize( 'emphasize', $nodeSubtree ) . " does not exist, skipping" );

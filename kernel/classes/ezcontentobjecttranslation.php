@@ -101,7 +101,7 @@ class eZContentObjectTranslation
     */
     function &objectAttributes( $asObject = true )
     {
-        $attributeList =& eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $this->LanguageCode, $asObject );
+        $attributeList = eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $this->LanguageCode, $asObject );
         return $attributeList;
     }
 

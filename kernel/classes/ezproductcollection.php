@@ -115,13 +115,12 @@ class eZProductCollection extends eZPersistentObject
     /*!
      \return the product collection with ID \a $productCollectionID.
     */
-    function &fetch( $productCollectionID, $asObject = true )
+    function fetch( $productCollectionID, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZProductCollection::definition(),
-                                                    null,
-                                                    array( 'id' => $productCollectionID ),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZProductCollection::definition(),
+                                                null,
+                                                array( 'id' => $productCollectionID ),
+                                                $asObject );
     }
 
     /*!
@@ -129,7 +128,7 @@ class eZProductCollection extends eZPersistentObject
     */
     function &itemList( $asObject = true )
     {
-        $productItems =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
+        $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                               null, array( "productcollection_id" => $this->ID ),
                                                               null,
                                                               null,
@@ -139,7 +138,7 @@ class eZProductCollection extends eZPersistentObject
 
     function &verify( $id )
     {
-        $productItemList =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
+        $productItemList = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                                  null, array( "productcollection_id" => $id ),
                                                                  null,
                                                                  null,

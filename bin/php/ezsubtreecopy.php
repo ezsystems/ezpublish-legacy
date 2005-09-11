@@ -111,7 +111,7 @@ function copyPublishContentObject( &$sourceObject,
         else
         {
             $newParentNodeID = $syncNodeIDListNew[ $key ];
-            if ( ( $newParentNode =& eZContentObjectTreeNode::fetch( $newParentNodeID ) ) === null )
+            if ( ( $newParentNode = eZContentObjectTreeNode::fetch( $newParentNodeID ) ) === null )
             {
                 return 3; // cannot fetch one of parent nodes - must be error somewhere above.
             }
@@ -571,7 +571,7 @@ foreach ( $syncObjectIDListNew as $contentObjectID )
         {
             $allAttributes = $relationItem->attributes();
             $relatedNodeID = $relationItem->attributeValue('node-id');
-            $relatedNode =& eZContentObjectTreeNode::fetch( $relatedNodeID );
+            $relatedNode = eZContentObjectTreeNode::fetch( $relatedNodeID );
             $originalObjectID = $relatedNode->attribute('contentobject_id');
             $srcKey = array_search( (int) $originalObjectID, $syncObjectIDListSrc );
             if ( $srcKey !== false )

@@ -295,7 +295,7 @@ class eZContentUpload
         }
 
         if ( !is_object( $class ) )
-            $class =& eZContentClass::fetchByIdentifier( $classIdentifier );
+            $class = eZContentClass::fetchByIdentifier( $classIdentifier );
 
         if ( !$class )
         {
@@ -381,7 +381,7 @@ class eZContentUpload
         {
             foreach ( $parentNodes as $parentNode )
             {
-                $parentMainNodeObj =& eZContentObjectTreeNode::fetch( $parentNode );
+                $parentMainNodeObj = eZContentObjectTreeNode::fetch( $parentNode );
                 $mainParentObject =  $parentMainNodeObj->attribute( 'object' );
 
                 if ( $parentMainNodeObj->checkAccess( 'create',
@@ -516,7 +516,7 @@ class eZContentUpload
         }
 
         if ( !is_object( $class ) )
-            $class =& eZContentClass::fetchByIdentifier( $classIdentifier );
+            $class = eZContentClass::fetchByIdentifier( $classIdentifier );
 
         if ( !$class )
         {
@@ -607,7 +607,7 @@ class eZContentUpload
         {
             foreach ( $parentNodes as $parentNode )
             {
-                $parentMainNodeObj =& eZContentObjectTreeNode::fetch( $parentNode );
+                $parentMainNodeObj = eZContentObjectTreeNode::fetch( $parentNode );
                 $mainParentObject =  $parentMainNodeObj->attribute( 'object' );
 
                 if ( $parentMainNodeObj->checkAccess( 'create',
@@ -1112,7 +1112,7 @@ class eZContentUpload
     {
         if ( is_numeric( $nodeName ) )
         {
-            $node =& eZContentObjectTreeNode::fetch( $nodeName );
+            $node = eZContentObjectTreeNode::fetch( $nodeName );
             if ( is_object( $node ) )
                 return $nodeName;
         }
@@ -1135,7 +1135,7 @@ class eZContentUpload
         $pathPos = strpos( $nodeName, '/' );
         if ( $pathPos !== false )
         {
-            $node =& eZContentObjectTreeNode::fetchByURLPath( $nodeName );
+            $node = eZContentObjectTreeNode::fetchByURLPath( $nodeName );
             if ( is_object( $node ) )
             {
                 return $node->attribute( 'node_id' );

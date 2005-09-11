@@ -131,7 +131,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
         {
             case 'contentclass_list' :
             {
-                $classList =& eZPersistentObject::fetchObjectList( eZContentClass::definition(), array( 'id', 'name' ), array( 'version' => 0 ),null,null,false );
+                $classList = eZPersistentObject::fetchObjectList( eZContentClass::definition(), array( 'id', 'name' ), array( 'version' => 0 ),null,null,false );
                 return $classList;
 
             }break;
@@ -154,7 +154,7 @@ class eZWaitUntilDateType  extends eZWorkflowEventType
                 }
                 if ( $classID )
                 {
-                    $attributeList =& eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
+                    $attributeList = eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
                                                                            array( 'id', 'name', 'data_type_string' ),
                                                                            array( 'contentclass_id'=> $classID,
                                                                                   'version' => 0 ),null,null,false );

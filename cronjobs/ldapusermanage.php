@@ -239,7 +239,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
     {
         $cli->output( "Disable user " . $cli->stylize( 'emphasize', $login ) );
         // Disable the user
-        $userSetting =& eZUserSetting::fetch( $userID );
+        $userSetting = eZUserSetting::fetch( $userID );
         $userSetting->setAttribute( "is_enabled", false );
         $userSetting->store();
     }
@@ -277,7 +277,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
         $name = $contentClass->contentObjectName( $contentObject );
         $contentObject->setName( $name );
 
-        $existUser =& eZUser::fetch(  $userID );
+        $existUser = eZUser::fetch(  $userID );
         $existUser->setAttribute('email', $ldapEMail );
         $existUser->setAttribute('password_hash', "" );
         $existUser->setAttribute('password_hash_type', 0 );
@@ -299,7 +299,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
                 $parentNode =& $parentNodes[$key];
                 $parentNodeID = $parentNode->attribute( 'node_id' );
                 $parentNodeName = $parentNode->attribute( 'name' );
-                $nodeAssignment =& eZNodeAssignment::fetch( $contentObject->attribute( 'id' ), $currentVersion, $parentNodeID );
+                $nodeAssignment = eZNodeAssignment::fetch( $contentObject->attribute( 'id' ), $currentVersion, $parentNodeID );
                 $isMain = $nodeAssignment->attribute( 'is_main' );
                 $remoteID = $nodeAssignment->attribute( 'parent_remote_id' );
                 if ( preg_match( "/LDAP/i", $remoteID ) )
@@ -473,7 +473,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
                     foreach ( $newLDAPNodeArray as $newLDAPNode )
                     {
                         $newVersion->assignToNode( $newLDAPNode['parent_node_id'], $newLDAPNode['is_main'] );
-                        $assignment =& eZNodeAssignment::fetch( $contentObject->attribute( 'id' ), $newVersionNr, $newLDAPNode['parent_node_id'] );
+                        $assignment = eZNodeAssignment::fetch( $contentObject->attribute( 'id' ), $newVersionNr, $newLDAPNode['parent_node_id'] );
                         $assignment->setAttribute( 'parent_remote_id', "LDAP_" . $newLDAPNode['parent_node_id'] );
                         $assignment->store();
                     }

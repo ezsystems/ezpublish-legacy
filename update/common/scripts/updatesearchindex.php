@@ -134,7 +134,7 @@ if ( $cleanupSearch )
 }
 
 // Get top node
-$topNodeArray =& eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
+$topNodeArray = eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
                                                       null,
                                                       array( 'parent_node_id' => 1,
                                                              'depth' => 1 ) );

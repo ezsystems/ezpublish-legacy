@@ -180,7 +180,7 @@ class eZModuleOperationInfo
                 $keyArray['session_key'] = eZHTTPTool::getSessionKey();
                 $mainMemento = null;
                 if ( $this->UseTriggers )
-                    $mainMemento =& eZOperationMemento::fetchMain( $keyArray );
+                    $mainMemento = eZOperationMemento::fetchMain( $keyArray );
 
                 if ( $mainMemento !== null )
                 {

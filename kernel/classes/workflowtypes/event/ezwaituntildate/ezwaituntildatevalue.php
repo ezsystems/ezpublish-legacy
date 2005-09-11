@@ -94,7 +94,7 @@ class eZWaitUntilDateValue extends eZPersistentObject
     {
         if ( $this->ClassName === null )
         {
-            $contentClass =& eZContentClass::fetch( $this->attribute( 'contentclass_id' ) );
+            $contentClass = eZContentClass::fetch( $this->attribute( 'contentclass_id' ) );
             $this->ClassName =& $contentClass->attribute( 'name' );
         }
         return $this->ClassName;
@@ -159,7 +159,7 @@ class eZWaitUntilDateValue extends eZPersistentObject
 
     function &fetch( $id, $version, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZWaitUntilDateValue::definition(),
+        $object = eZPersistentObject::fetchObject( eZWaitUntilDateValue::definition(),
                                                     null,
                                                     array( "id" => $id,
                                                            "workflow_event_version" => $version),
@@ -169,7 +169,7 @@ class eZWaitUntilDateValue extends eZPersistentObject
 
     function &fetchAllElements( $workflowEventID, $version, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZWaitUntilDateValue::definition(),
+        $objectList = eZPersistentObject::fetchObjectList( eZWaitUntilDateValue::definition(),
                                                             null,
                                                             array( "workflow_event_id" => $workflowEventID,
                                                                    "workflow_event_version" => $version ),

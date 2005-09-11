@@ -186,26 +186,24 @@ class eZRSSImport extends eZPersistentObject
 
      \param RSS Import ID
     */
-    function &fetch( $id, $asObject = true, $status = EZ_RSSIMPORT_STATUS_VALID )
+    function fetch( $id, $asObject = true, $status = EZ_RSSIMPORT_STATUS_VALID )
     {
-        $object =& eZPersistentObject::fetchObject( eZRSSImport::definition(),
-                                                    null,
-                                                    array( "id" => $id,
-                                                           'status' => $status ),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZRSSImport::definition(),
+                                                null,
+                                                array( "id" => $id,
+                                                       'status' => $status ),
+                                                $asObject );
     }
 
     /*!
      \static
       Fetches complete list of RSS Imports.
     */
-    function &fetchList( $asObject = true )
+    function fetchList( $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZRSSImport::definition(),
-                                                            null, array( 'status' => 1 ), null, null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZRSSImport::definition(),
+                                                    null, array( 'status' => 1 ), null, null,
+                                                    $asObject );
     }
 
     /*!
@@ -214,7 +212,7 @@ class eZRSSImport extends eZPersistentObject
     */
     function &fetchActiveList( $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZRSSImport::definition(),
+        $objectList = eZPersistentObject::fetchObjectList( eZRSSImport::definition(),
                                                             null,
                                                             array( 'status' => 1,
                                                                    'active' => 1 ),
@@ -230,7 +228,7 @@ class eZRSSImport extends eZPersistentObject
         if ( isset( $this->ObjectOwnerID ) and $this->ObjectOwnerID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user =& eZUser::fetch( $this->ObjectOwnerID );
+            $user = eZUser::fetch( $this->ObjectOwnerID );
         }
         else
             $user = null;
@@ -242,7 +240,7 @@ class eZRSSImport extends eZPersistentObject
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user =& eZUser::fetch( $this->ModifierID );
+            $user = eZUser::fetch( $this->ModifierID );
         }
         else
             $user = null;
@@ -254,7 +252,7 @@ class eZRSSImport extends eZPersistentObject
         if ( isset( $this->ClassID ) and $this->ClassID )
         {
             include_once( 'kernel/classes/ezcontentclass.php' );
-            $contentClass =& eZContentClass::fetch( $this->ClassID );
+            $contentClass = eZContentClass::fetch( $this->ClassID );
             if ( $contentClass )
                 $attributes =& $contentClass->fetchAttributes();
             else
@@ -270,7 +268,7 @@ class eZRSSImport extends eZPersistentObject
         if ( isset( $this->DestinationNodeID ) and $this->DestinationNodeID )
         {
             include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-            $objectNode =& eZContentObjectTreeNode::fetch( $this->DestinationNodeID );
+            $objectNode = eZContentObjectTreeNode::fetch( $this->DestinationNodeID );
             if ( isset( $objectNode ) )
             {
                 $path_array =& $objectNode->attribute( 'path_array' );

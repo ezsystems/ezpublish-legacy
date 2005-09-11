@@ -310,7 +310,7 @@ class eZContentClass extends eZPersistentObject
         $classList = array();
         if ( $accessWord == 'yes' )
         {
-            $classList =& eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, false,false, null, array( 'id', 'name' ) );
+            $classList = eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, false,false, null, array( 'id', 'name' ) );
             eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db when access is yes" );
 
             //          return $classList;
@@ -335,7 +335,7 @@ class eZContentClass extends eZPersistentObject
 
                 if ( $classIDArrayPart == '*' )
                 {
-                    $classList =& eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, false,false, null, array( 'id', 'name' ) );
+                    $classList = eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, false,false, null, array( 'id', 'name' ) );
                     break;
                 }
                 else
@@ -375,7 +375,7 @@ class eZContentClass extends eZPersistentObject
     function &creator()
     {
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-        $user =& eZUser::fetch( $this->CreatorID );
+        $user = eZUser::fetch( $this->CreatorID );
         return $user;
     }
 
@@ -387,7 +387,7 @@ class eZContentClass extends eZPersistentObject
     function &modifier()
     {
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-        $user =& eZUser::fetch( $this->ModifierID );
+        $user = eZUser::fetch( $this->ModifierID );
         return $user;
     }
 
@@ -400,7 +400,7 @@ class eZContentClass extends eZPersistentObject
     */
     function &fetchGroupList()
     {
-        $this->InGroups =& eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
+        $this->InGroups = eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
                                                                      $this->attribute( "version" ),
                                                                      true );
         return $this->InGroups;
@@ -455,7 +455,7 @@ class eZContentClass extends eZPersistentObject
     */
     function &fetchAllGroups()
     {
-        $this->AllGroups =& eZContentClassGroup::fetchList();
+        $this->AllGroups = eZContentClassGroup::fetchList();
         return $this->AllGroups;
     }
 
@@ -476,7 +476,7 @@ class eZContentClass extends eZPersistentObject
     function removeTemporary()
     {
         $version = EZ_CLASS_VERSION_STATUS_TEMPORARY;
-        $temporaryClasses =& eZContentClass::fetchList( $version, true );
+        $temporaryClasses = eZContentClass::fetchList( $version, true );
         foreach ( $temporaryClasses as $class )
         {
             $class->remove( true, $version );
@@ -523,7 +523,7 @@ class eZContentClass extends eZPersistentObject
             {
                 if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
                 {
-                    $contentObjects =& eZContentObject::fetchSameClassList( $this->ID );
+                    $contentObjects = eZContentObject::fetchSameClassList( $this->ID );
                     foreach ( $contentObjects as $contentObject )
                     {
                         $contentObject->remove();
@@ -747,7 +747,7 @@ You will need to change the class of the node by using the swap functionality.' 
 
         // Recreate class member entries
         eZContentClassClassGroup::removeClassMembers( $this->ID, EZ_CLASS_VERSION_STATUS_DEFINED );
-        $classgroups =& eZContentClassClassGroup::fetchGroupList( $this->ID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+        $classgroups = eZContentClassClassGroup::fetchGroupList( $this->ID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
         for ( $i = 0; $i < count( $classgroups ); $i++ )
         {
             $classgroup =& $classgroups[$i];
@@ -795,7 +795,7 @@ You will need to change the class of the node by using the swap functionality.' 
         $version_sort = "desc";
         if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
             $conds['version'] = $version;
-        $rows =& eZPersistentObject::fetchObjectList( eZContentClass::definition(),
+        $rows = eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                       null,
                                                       $conds,
                                                       null,
@@ -819,7 +819,7 @@ You will need to change the class of the node by using the swap functionality.' 
         $version_sort = "desc";
         if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
             $version_sort = "asc";
-        $rows =& eZPersistentObject::fetchObjectList( eZContentClass::definition(),
+        $rows = eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                       null,
                                                       $conds,
                                                       array( "version" => $version_sort ),
@@ -847,7 +847,7 @@ You will need to change the class of the node by using the swap functionality.' 
         $version_sort = "desc";
         if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
             $version_sort = "asc";
-        $rows =& eZPersistentObject::fetchObjectList( eZContentClass::definition(),
+        $rows = eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                       null,
                                                       $conds,
                                                       array( "version" => $version_sort ),
@@ -874,7 +874,7 @@ You will need to change the class of the node by using the swap functionality.' 
         $version_sort = "desc";
         if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
             $version_sort = "asc";
-        $rows =& eZPersistentObject::fetchObjectList( eZContentClass::definition(),
+        $rows = eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                       null,
                                                       $conds,
                                                       array( "version" => $version_sort ),

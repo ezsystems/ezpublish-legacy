@@ -43,13 +43,13 @@ if ( isset( $Params["UserID"] ) )
 
 $http =& eZHTTPTool::instance();
 
-$user =& eZUser::fetch( $UserID );
+$user = eZUser::fetch( $UserID );
 if ( !$user )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 $userObject =& $user->attribute( 'contentobject' );
 if ( !$userObject )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-$userSetting =& eZUserSetting::fetch( $UserID );
+$userSetting = eZUserSetting::fetch( $UserID );
 
 if ( $http->hasPostVariable( "UpdateSettingButton" ) )
 {

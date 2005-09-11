@@ -51,7 +51,7 @@ else
 
 if ( is_numeric( $WorkflowGroupID ) )
 {
-    $workflowGroup =& eZWorkflowGroup::fetch( $WorkflowGroupID, true );
+    $workflowGroup = eZWorkflowGroup::fetch( $WorkflowGroupID, true );
 }
 else
 {

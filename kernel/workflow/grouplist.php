@@ -55,7 +55,7 @@ function removeSelectedGroups( &$http, &$groups, $base )
 
                 // Remove all workflows in current group
                 $list_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 0, $group_id, $asObject = true);
-                $workflow_list = & eZWorkflow::fetchList( );
+                $workflow_list =  eZWorkflow::fetchList( );
 
                 $list = array();
                 for ( $k=0; $k<count( $workflow_list ); $k++ )
@@ -124,7 +124,7 @@ foreach( $TemplateData as $tpldata )
     $asObject = isset( $data["as_object"] ) ? $data["as_object"] : true;
     $base = $tpldata["http_base"];
     unset( $list );
-    $list =& eZWorkflowGroup::fetchList( $asObject );
+    $list = eZWorkflowGroup::fetchList( $asObject );
     removeSelectedGroups( $http, $list, $base );
     $tpl->setVariable( $tplname, $list );
 }

@@ -149,10 +149,10 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
     if ( $http->hasSessionVariable( 'BrowsePolicyID' ) )
     {
         $hasNodeLimitation = false;
-        $policy =& eZPolicy::fetch( $http->sessionVariable( 'BrowsePolicyID' ) );
+        $policy = eZPolicy::fetch( $http->sessionVariable( 'BrowsePolicyID' ) );
         if ( $policy )
         {
-            $limitationList =& eZPolicyLimitation::fetchByPolicyID( $policy->attribute( 'id' ) );
+            $limitationList = eZPolicyLimitation::fetchByPolicyID( $policy->attribute( 'id' ) );
             foreach ( $limitationList as $limitation )
             {
                 $limitationID = $limitation->attribute( 'id' );
@@ -161,7 +161,7 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
                     eZPolicyLimitation::remove( $limitationID );
                 if ( $limitationIdentifier == 'Node' )
                 {
-                    $nodeLimitationValues =& eZPolicyLimitationValue::fetchList( $limitationID );
+                    $nodeLimitationValues = eZPolicyLimitationValue::fetchList( $limitationID );
                     if ( $nodeLimitationValues != null )
                         $hasNodeLimitation = true;
                     else
@@ -170,7 +170,7 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
 
                 if ( $limitationIdentifier == 'Subtree' )
                 {
-                    $nodeLimitationValues =& eZPolicyLimitationValue::fetchList( $limitationID );
+                    $nodeLimitationValues = eZPolicyLimitationValue::fetchList( $limitationID );
                     if ( $nodeLimitationValues == null )
                         eZPolicyLimitation::remove( $limitationID );
                 }
@@ -337,7 +337,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
 
             foreach ( $deletedIDList as $deletedID )
             {
-                $subtree =& eZContentObjectTreeNode::fetch( $deletedID );
+                $subtree = eZContentObjectTreeNode::fetch( $deletedID );
                 $path = $subtree->attribute( 'path_string' );
                 eZPolicyLimitationValue::removeByValue( $path, $http->sessionVariable( 'BrowsePolicyID' ) );
             }
@@ -370,36 +370,36 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
     {
         $policyID = $http->sessionVariable( 'BrowsePolicyID' );
         // Fetch node limitations
-        $nodeLimitation =& eZPolicyLimitation::fetchByIdentifier( $policyID, 'Node' );
+        $nodeLimitation = eZPolicyLimitation::fetchByIdentifier( $policyID, 'Node' );
         if ( $nodeLimitation != null )
         {
             $nodeLimitationID = $nodeLimitation->attribute('id');
-            $nodeLimitationValues =& eZPolicyLimitationValue::fetchList( $nodeLimitationID );
+            $nodeLimitationValues = eZPolicyLimitationValue::fetchList( $nodeLimitationID );
             foreach ( $nodeLimitationValues as $nodeLimitationValue )
             {
                 $nodeID = $nodeLimitationValue->attribute( 'value' );
                 $nodeIDList[] = $nodeID;
-                $node =& eZContentObjectTreeNode::fetch( $nodeID );
+                $node = eZContentObjectTreeNode::fetch( $nodeID );
                 $nodeList[] = $node;
             }
         }
 
         // Fetch subtree limitations
-        $subtreeLimitation =& eZPolicyLimitation::fetchByIdentifier( $policyID, 'Subtree' );
+        $subtreeLimitation = eZPolicyLimitation::fetchByIdentifier( $policyID, 'Subtree' );
         if ( $subtreeLimitation != null )
         {
             $subtreeLimitationID = $subtreeLimitation->attribute('id');
-            $subtreeLimitationValues =& eZPolicyLimitationValue::fetchList( $subtreeLimitationID );
+            $subtreeLimitationValues = eZPolicyLimitationValue::fetchList( $subtreeLimitationID );
 
             foreach ( $subtreeLimitationValues as $subtreeLimitationValue )
             {
                 $subtreePath = $subtreeLimitationValue->attribute( 'value' );
-                $subtreeObject =& eZContentObjectTreeNode::fetchByPath( $subtreePath );
+                $subtreeObject = eZContentObjectTreeNode::fetchByPath( $subtreePath );
                 if ( $subtreeObject )
                 {
                     $subtreeID = $subtreeObject->attribute( 'node_id' );
                     $subtreeIDList[] = $subtreeID;
-                    $subtree =& eZContentObjectTreeNode::fetch( $subtreeID );
+                    $subtree = eZContentObjectTreeNode::fetch( $subtreeID );
                     $subtreeList[] = $subtree;
                 }
             }
@@ -451,8 +451,8 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
         // Store other limitations
         if ( $http->hasSessionVariable( 'BrowsePolicyID' ) )
         {
-            $policy =& eZPolicy::fetch( $http->sessionVariable( 'BrowsePolicyID' ) );
-            $limitationList =& eZPolicyLimitation::fetchByPolicyID( $policy->attribute( 'id' ) );
+            $policy = eZPolicy::fetch( $http->sessionVariable( 'BrowsePolicyID' ) );
+            $limitationList = eZPolicyLimitation::fetchByPolicyID( $policy->attribute( 'id' ) );
             foreach ( $limitationList as $limitation )
             {
                 $limitationID = $limitation->attribute( 'id' );
@@ -536,8 +536,8 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
 
         if ( $http->hasSessionVariable( 'BrowsePolicyID' ) )
         {
-            $policy =& eZPolicy::fetch( $http->sessionVariable( 'BrowsePolicyID' ) );
-            $limitationList =& eZPolicyLimitation::fetchByPolicyID( $policy->attribute( 'id' ) );
+            $policy = eZPolicy::fetch( $http->sessionVariable( 'BrowsePolicyID' ) );
+            $limitationList = eZPolicyLimitation::fetchByPolicyID( $policy->attribute( 'id' ) );
 
 
 //            $currentModule = $http->postVariable( 'CurrentModule' );
@@ -581,7 +581,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
             $http->setSessionVariable( 'BrowsePolicyID', $policy->attribute('id') );
         }
 
-        $nodeLimitation =& eZPolicyLimitation::fetchByIdentifier( $policy->attribute('id'), 'Node' );
+        $nodeLimitation = eZPolicyLimitation::fetchByIdentifier( $policy->attribute('id'), 'Node' );
         if ( $nodeLimitation == null )
             $nodeLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), 'Node', $currentModule, $currentFunction);
 
@@ -590,7 +590,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
             if ( !in_array( $nodeID, $nodeIDList ) )
             {
                 $nodeLimitationValue = eZPolicyLimitationValue::createNew( $nodeLimitation->attribute( 'id' ),  $nodeID );
-                $node =& eZContentObjectTreeNode::fetch( $nodeID );
+                $node = eZContentObjectTreeNode::fetch( $nodeID );
                 $nodeList[] = $node;
             }
         }
@@ -601,7 +601,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
         $selectedSubtreeIDList = $http->postVariable( 'SelectedNodeIDArray' );
         if ( $http->hasSessionVariable( 'BrowsePolicyID' ) )
         {
-            $policy =& eZPolicy::fetch( $http->sessionVariable( 'BrowsePolicyID' ) );
+            $policy = eZPolicy::fetch( $http->sessionVariable( 'BrowsePolicyID' ) );
         }
         else
         {
@@ -611,7 +611,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
             $http->setSessionVariable( 'BrowsePolicyID', $policy->attribute('id') );
         }
 
-        $subtreeLimitation =& eZPolicyLimitation::fetchByIdentifier( $policy->attribute('id'), 'Subtree' );
+        $subtreeLimitation = eZPolicyLimitation::fetchByIdentifier( $policy->attribute('id'), 'Subtree' );
         if ( $subtreeLimitation == null )
             $subtreeLimitation = eZPolicyLimitation::createNew( $policy->attribute('id'), 'Subtree', $currentModule, $currentFunction);
 
@@ -619,7 +619,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
         {
             if ( !in_array( $nodeID, $subtreeIDList ) )
             {
-                $subtree =& eZContentObjectTreeNode::fetch( $nodeID );
+                $subtree = eZContentObjectTreeNode::fetch( $nodeID );
                 $pathString = $subtree->attribute( 'path_string' );
                 $policyLimitationValue = eZPolicyLimitationValue::createNew( $subtreeLimitation->attribute( 'id' ),  $pathString );
                 $subtreeList[] = $subtree;
@@ -647,12 +647,12 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
         }
         if ( isset( $policyID ) )
         {
-            $limitationList =& eZPolicyLimitation::fetchByPolicyID( $policyID );
+            $limitationList = eZPolicyLimitation::fetchByPolicyID( $policyID );
             foreach ( $limitationList as $limitation )
             {
                 $limitationID = $limitation->attribute( 'id' );
                 $limitationIdentifier = $limitation->attribute( 'identifier' );
-                $limitationValues =& eZPolicyLimitationValue::fetchList( $limitationID );
+                $limitationValues = eZPolicyLimitationValue::fetchList( $limitationID );
                 $valueList = array();
                 foreach ( $limitationValues as $limitationValue )
                 {

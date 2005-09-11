@@ -77,7 +77,7 @@ class eZPersistentObject
     {
         $this->PersistentDataDirty = false;
         if ( is_numeric( $row ) )
-            $row =& $this->fetch( $row, false );
+            $row = $this->fetch( $row, false );
         $this->fill( $row );
     }
 
@@ -153,7 +153,7 @@ class eZPersistentObject
 
      See fetchObjectList() for a full description of the input parameters.
     */
-    function &fetchObject( /*! The definition structure */
+    function fetchObject( /*! The definition structure */
                                &$def,
                                /*! If defined determines the fields which are extracted, if not all fields are fetched */
                                $field_filters,
@@ -168,7 +168,9 @@ class eZPersistentObject
         $rows = eZPersistentObject::fetchObjectList( $def, $field_filters, $conds,
                                                       array(), null, $asObject,
                                                       $grouping, $custom_fields );
-        return $rows[0];
+        if ( $rows )
+            return $rows[0];
+        return null;
     }
 
     /*!
@@ -376,7 +378,7 @@ class eZPersistentObject
         }
         else if ( !$insert_object )
         {
-            $rows =& eZPersistentObject::fetchObjectList( $def, $keys, $key_conds,
+            $rows = eZPersistentObject::fetchObjectList( $def, $keys, $key_conds,
                                                           array(), null, false,
                                                           null, null );
             if ( count( $rows ) == 0 )
@@ -655,14 +657,14 @@ class eZPersistentObject
      return $rows[0]['count'];
      \endcode
     */
-    function &fetchObjectList( &$def,
-                               $field_filters = null,
-                               $conds = null,
-                               $sorts = null,
-                               $limit = null,
-                               $asObject = true,
-                               $grouping = false,
-                               $custom_fields = null )
+    function fetchObjectList( &$def,
+                              $field_filters = null,
+                              $conds = null,
+                              $sorts = null,
+                              $limit = null,
+                              $asObject = true,
+                              $grouping = false,
+                              $custom_fields = null )
     {
         $db =& eZDB::instance();
         $fields =& $def["fields"];
@@ -872,7 +874,7 @@ class eZPersistentObject
             $order_add = 1;
         }
         $fields = array_merge( $keys, array( $order_id ) );
-        $rows =& eZPersistentObject::fetchObjectList( $def,
+        $rows = eZPersistentObject::fetchObjectList( $def,
                                                       $fields,
                                                       array_merge( $conditions,
                                                                    array( $order_id => array( $order_operator,
@@ -891,7 +893,7 @@ class eZPersistentObject
         }
         else
         {
-            $tmp =& eZPersistentObject::fetchObjectList( $def,
+            $tmp = eZPersistentObject::fetchObjectList( $def,
                                                          $fields,
                                                          $conditions,
                                                          array( $order_id => $order_type ),

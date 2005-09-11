@@ -82,7 +82,7 @@ class eZRedirectGateway extends eZPaymentGateway
 			$this->logger->writeTimedString("case EZ_REDIRECT_GATEWAY_OBJECT_CREATED");
 		    //___end____
 
-		    $thePayment =& eZPaymentObject::fetchByProcessID( $processID );
+		    $thePayment = eZPaymentObject::fetchByProcessID( $processID );
 		    if ( is_object( $thePayment ) && $thePayment->approved() )
 		    {
 			//__DEBUG__
@@ -149,7 +149,7 @@ class eZRedirectGateway extends eZPaymentGateway
 	    $this->logger->writeTimedString("cleanup");
 	//___end____
 
-	$paymentObj =& eZPaymentObject::fetchByProcessID( $process->attribute( 'id' ) );
+	$paymentObj = eZPaymentObject::fetchByProcessID( $process->attribute( 'id' ) );
 
 	if ( is_object( $paymentObj ) )
 	{

@@ -723,7 +723,7 @@ class eZPackageCreationHandler
         }
         else
         {
-            $existingPackage =& eZPackage::fetch( $packageName, false, true );
+            $existingPackage = eZPackage::fetch( $packageName, false, true );
             if ( $existingPackage )
             {
                 $errorList[] = array( 'field' => ezi18n( 'kernel/package', 'Package name' ),

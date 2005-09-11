@@ -73,7 +73,7 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) )
         $tpl->setVariable( 'checkErrNodeId', $checkErrNodeId );
     }
     $userClassID = $ini->variable( "UserSettings", "UserClassID" );
-    $class =& eZContentClass::fetch( $userClassID );
+    $class = eZContentClass::fetch( $userClassID );
 
     $userCreatorID = $ini->variable( "UserSettings", "UserCreatorID" );
     $defaultSectionID = $ini->variable( "UserSettings", "DefaultSectionID" );
@@ -151,7 +151,7 @@ if ( !function_exists( 'checkContentActions' ) )
             $object = eZContentObject::fetch( $object->attribute( 'id' ) );
 
             // Check if user should be enabled and logged in
-            $user =& eZUser::fetch( $object->attribute( 'id' ) );
+            $user = eZUser::fetch( $object->attribute( 'id' ) );
             $user->loginCurrent();
 
             $receiver = $user->attribute( 'email' );

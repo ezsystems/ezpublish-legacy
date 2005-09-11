@@ -74,17 +74,15 @@ class eZDiscountSubRuleValue extends eZPersistentObject
                       "name" => "ezdiscountsubrule_value" );
     }
 
-    function &fetchBySubRuleID( $discountSubRuleID, $isSection = 0, $asObject = true )
+    function fetchBySubRuleID( $discountSubRuleID, $isSection = 0, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZDiscountSubRuleValue::definition(),
-                                                            null,
-                                                            array( "discountsubrule_id" => $discountSubRuleID,
-                                                                   "issection" => $isSection ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZDiscountSubRuleValue::definition(),
+                                                    null,
+                                                    array( "discountsubrule_id" => $discountSubRuleID,
+                                                           "issection" => $isSection ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
     /*!
@@ -101,7 +99,7 @@ class eZDiscountSubRuleValue extends eZPersistentObject
 
     function &fetchList( $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZDiscountSubRuleValue::definition(),
+        $objectList = eZPersistentObject::fetchObjectList( eZDiscountSubRuleValue::definition(),
                                                             null, null, null, null,
                                                             $asObject );
         return $objectList;

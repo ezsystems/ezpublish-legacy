@@ -47,7 +47,7 @@ $GroupID = null;
 if ( isset( $Params["GroupID"] ) )
     $GroupID =& $Params["GroupID"];
 
-$class =& eZContentClass::fetch( $ClassID );
+$class = eZContentClass::fetch( $ClassID );
 $ClassName = $class->attribute( 'name' );
 $classObjects =&  eZContentObject::fetchSameClassList( $ClassID );
 $ClassObjectsCount = count( $classObjects );

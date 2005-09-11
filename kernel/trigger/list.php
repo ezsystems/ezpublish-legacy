@@ -195,7 +195,7 @@ if ( $http->hasPostVariable( 'NewButton' )  )
 
 $tpl =& templateInit();
 
-$triggers =& eZTrigger::fetchList( array(
+$triggers = eZTrigger::fetchList( array(
                                        'module' => $moduleName,
                                        'function' => $functionName
                                        ) );

@@ -71,7 +71,7 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
 
     /* Find out, if the item with the same options is not already in the wishlist: */
     $itemID = false;
-    $collection =& eZProductCollection::fetch( $wishList->attribute( 'productcollection_id' ) );
+    $collection = eZProductCollection::fetch( $wishList->attribute( 'productcollection_id' ) );
     if ( $collection )
     {
         $count = 0;
@@ -89,7 +89,7 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
             /* For all items in the wishlist which have the same object_id: */
             if ( $item['contentobject_id'] == $objectID )
             {
-                $options =& eZProductCollectionItemOption::fetchList( $item['id'], false );
+                $options = eZProductCollectionItemOption::fetchList( $item['id'], false );
                 /* If the number of option for this item is not the same as in the HTTP variable: */
                 if ( count( $options ) != $count )
                 {
@@ -170,7 +170,7 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
             $attributeID = $optionIDItem['attribute_id'];
             $optionString = $optionIDItem['option_string'];
 
-            $attribute =& eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
+            $attribute = eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
             $dataType =& $attribute->dataType();
             $optionData = $dataType->productOptionInformation( $attribute, $optionString, $item );
             if ( $optionData )

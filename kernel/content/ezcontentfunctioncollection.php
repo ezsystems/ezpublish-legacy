@@ -75,7 +75,7 @@ class eZContentFunctionCollection
     function &fetchContentVersion( $objectID, $versionID )
     {
         include_once( 'kernel/classes/ezcontentobjectversion.php' );
-        $contentVersion =& eZContentObjectVersion::fetchVersion( $versionID, $objectID );
+        $contentVersion = eZContentObjectVersion::fetchVersion( $versionID, $objectID );
         if ( $contentVersion === null )
         {
             $result = array( 'error' => array( 'error_type' => 'kernel',
@@ -95,11 +95,11 @@ class eZContentFunctionCollection
         $contentNode = null;
         if ( $nodeID )
         {
-            $contentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+            $contentNode = eZContentObjectTreeNode::fetch( $nodeID );
         }
         else if ( $nodePath )
         {
-            $contentNode =& eZContentObjectTreeNode::fetchByURLPath( $nodePath );
+            $contentNode = eZContentObjectTreeNode::fetchByURLPath( $nodePath );
         }
         if ( $contentNode === null )
         {
@@ -118,7 +118,7 @@ class eZContentFunctionCollection
     {
         include_once( 'kernel/classes/ezcontentobject.php' );
         include_once( 'kernel/classes/ezcontentobjectversion.php' );
-        $version =& eZContentObjectVersion::fetchVersion( $version, $objectID );
+        $version = eZContentObjectVersion::fetchVersion( $version, $objectID );
         if ( $version === null )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
@@ -185,9 +185,9 @@ class eZContentFunctionCollection
     {
         include_once( 'kernel/classes/ezcontentclass.php' );
         if ( !is_numeric( $classID ) )
-            $object =& eZContentClass::fetchByIdentifier( $classID );
+            $object = eZContentClass::fetchByIdentifier( $classID );
         else
-            $object =& eZContentClass::fetch( $classID );
+            $object = eZContentClass::fetch( $classID );
         if ( $object === null )
         {
             $result = array( 'error' => array( 'error_type' => 'kernel',
@@ -344,7 +344,7 @@ class eZContentFunctionCollection
                                     $ignoreVisibility, $limitation, $mainNodeOnly )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-/*        $node =& eZContentObjectTreeNode::fetch( $parentNodeID );
+/*        $node = eZContentObjectTreeNode::fetch( $parentNodeID );
         if ( $node === null )
         {
             return array( 'error' => array( 'error_type' => 'kernel',
@@ -410,7 +410,7 @@ class eZContentFunctionCollection
 
     function fetchTrashObjectCount()
     {
-        $trashObjectList =& eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+        $trashObjectList = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                                   array(), array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
                                                                   array(), null,
                                                                   false,false,
@@ -421,7 +421,7 @@ class eZContentFunctionCollection
 
     function fetchTrashObjectList( $offset, $limit )
     {
-        $trashObjectList = & eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+        $trashObjectList =  eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                                   null, array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
                                                                   null, array( 'length' => $limit, 'offset' => $offset ),
                                                                   true );
@@ -431,7 +431,7 @@ class eZContentFunctionCollection
     function fetchDraftVersionList( $offset, $limit )
     {
         $userID = eZUser::currentUserID();
-        $draftVersionList = & eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+        $draftVersionList =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                                    null, array(  'creator_id' => $userID,
                                                                                  'status' => EZ_VERSION_STATUS_DRAFT ),
                                                                    null, array( 'length' => $limit, 'offset' => $offset ),
@@ -443,7 +443,7 @@ class eZContentFunctionCollection
     function fetchDraftVersionCount()
     {
         $userID = eZUser::currentUserID();
-        $draftVersionList = & eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+        $draftVersionList =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                                    array(), array( 'creator_id' => $userID,
                                                                                    'status' => EZ_VERSION_STATUS_DRAFT ),
                                                                    array(), null,
@@ -456,7 +456,7 @@ class eZContentFunctionCollection
     function fetchPendingList( $offset, $limit )
     {
         $userID = eZUser::currentUserID();
-        $pendingList = & eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+        $pendingList =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                                    null, array(  'creator_id' => $userID,
                                                                                  'status' => EZ_VERSION_STATUS_PENDING ),
                                                                    null, array( 'length' => $limit, 'offset' => $offset ),
@@ -468,7 +468,7 @@ class eZContentFunctionCollection
     function fetchPendingCount()
     {
         $userID = eZUser::currentUserID();
-        $pendingList = & eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+        $pendingList =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                                    array(), array( 'creator_id' => $userID,
                                                                                    'status' => EZ_VERSION_STATUS_PENDING ),
                                                                    array(), null,
@@ -483,7 +483,7 @@ class eZContentFunctionCollection
     {
         if ( !is_object( $contentObject ) )
             return array( 'result' => null );
-        $versionList = & eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+        $versionList =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                               null, array(  'contentobject_id' => $contentObject->attribute("id") ),
                                                                    null, array( 'length' => $limit, 'offset' => $offset ),
                                                                    true );
@@ -495,7 +495,7 @@ class eZContentFunctionCollection
     {
         if ( !is_object( $contentObject ) )
             return array( 'result' => 0 );
-        $versionList = & eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+        $versionList =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                                    array(), array( 'contentobject_id' => $contentObject->attribute("id") ),
                                                                    array(), null,
                                                                    false,false,
@@ -581,7 +581,7 @@ class eZContentFunctionCollection
         include_once( 'kernel/classes/eztipafriendcounter.php' );
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-        $topList = & eZPersistentObject::fetchObjectList( eZTipafriendCounter::definition(),
+        $topList =  eZPersistentObject::fetchObjectList( eZTipafriendCounter::definition(),
                                                        null,
                                                        null,
                                                        null,
@@ -592,7 +592,7 @@ class eZContentFunctionCollection
         foreach ( array_keys ( $topList ) as $key )
         {
             $nodeID = $topList[$key]->attribute( 'node_id' );
-            $contentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+            $contentNode = eZContentObjectTreeNode::fetch( $nodeID );
             if ( $contentNode === null )
                 return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
@@ -606,12 +606,12 @@ class eZContentFunctionCollection
         include_once( 'kernel/classes/ezviewcounter.php' );
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-        $topList =& eZViewCounter::fetchTopList( $classID, $sectionID, $offset, $limit );
+        $topList = eZViewCounter::fetchTopList( $classID, $sectionID, $offset, $limit );
         $contentNodeList = array();
         foreach ( array_keys ( $topList ) as $key )
         {
             $nodeID = $topList[$key]['node_id'];
-            $contentNode =& eZContentObjectTreeNode::fetch( $nodeID );
+            $contentNode = eZContentObjectTreeNode::fetch( $nodeID );
             if ( $contentNode === null )
                 return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
@@ -644,11 +644,11 @@ class eZContentFunctionCollection
         include_once( 'kernel/classes/ezinformationcollection.php' );
         $collection = false;
         if ( $collectionID )
-            $collection =& eZInformationCollection::fetch( $collectionID );
+            $collection = eZInformationCollection::fetch( $collectionID );
         else if ( $contentObjectID )
         {
             $userIdentifier = eZInformationCollection::currentUserIdentifier();
-            $collection =& eZInformationCollection::fetchByUserIdentifier( $userIdentifier, $contentObjectID );
+            $collection = eZInformationCollection::fetchByUserIdentifier( $userIdentifier, $contentObjectID );
         }
         return array( 'result' => &$collection );
     }
@@ -656,7 +656,7 @@ class eZContentFunctionCollection
     function &fetchObjectByAttribute( $identifier )
     {
         include_once( 'kernel/classes/ezcontentobjectattribute.php' );
-        $contentObjectAttribute =& eZContentObjectAttribute::fetchByIdentifier( $identifier );
+        $contentObjectAttribute = eZContentObjectAttribute::fetchByIdentifier( $identifier );
         if ( $contentObjectAttribute === null )
         {
             $result = array( 'error' => array( 'error_type' => 'kernel',
@@ -910,7 +910,7 @@ class eZContentFunctionCollection
             $keyword = $keywordArray['keyword'];
             $nodeID = $keywordArray['node_id'];
 
-            $nodeObject =& eZContentObjectTreeNode::fetch( $nodeID );
+            $nodeObject = eZContentObjectTreeNode::fetch( $nodeID );
 
             if ( $nodeObject != null )
             {
@@ -973,7 +973,7 @@ class eZContentFunctionCollection
         if (  $contentClassID !== false and !is_numeric( $contentClassID ) )
         {
             include_once( 'kernel/classes/ezcontentclass.php' );
-            $class =& eZContentClass::fetchByIdentifier( $contentClassID );
+            $class = eZContentClass::fetchByIdentifier( $contentClassID );
             if ( !$class )
                 return array( 'error' => array( 'error_type' => 'kernel',
                                                 'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );

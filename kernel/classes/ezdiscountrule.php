@@ -74,19 +74,17 @@ class eZDiscountRule extends eZPersistentObject
 
     function &fetch( $id, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZDiscountRule::definition(),
-                                                    null,
-                                                    array( "id" => $id ),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZDiscountRule::definition(),
+                                                null,
+                                                array( "id" => $id ),
+                                                $asObject );
     }
 
-    function &fetchList( $asObject = true )
+    function fetchList( $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZDiscountRule::definition(),
-                                                            null, null, null, null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZDiscountRule::definition(),
+                                                    null, null, null, null,
+                                                    $asObject );
     }
 
     function create()

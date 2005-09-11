@@ -121,7 +121,7 @@ if ( $http->hasPostVariable( 'DeleteButton' ) and
     }
 }
 
-/*$workflows =& eZWorkflow::fetchList();
+/*$workflows = eZWorkflow::fetchList();
 $workflowList = array();
 foreach( array_keys( $workflows ) as $workflowID )
 {
@@ -134,7 +134,7 @@ $user =& eZUser::currentUser();
 
 $list_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 0, $WorkflowGroupID, $asObject = true);
 
-$workflow_list = & eZWorkflow::fetchList( );
+$workflow_list =  eZWorkflow::fetchList( );
 
 $list = array();
 for ( $i=0;$i<count( $workflow_list );$i++ )
@@ -151,7 +151,7 @@ for ( $i=0;$i<count( $workflow_list );$i++ )
 }
 
 $templist_in_group = & eZWorkflowGroupLink::fetchWorkflowList( 1, $WorkflowGroupID, $asObject = true);
-$tempworkflow_list = & eZWorkflow::fetchList( 1 );
+$tempworkflow_list =  eZWorkflow::fetchList( 1 );
 
 $temp_list =array();
 for ( $i=0;$i<count( $tempworkflow_list );$i++ )
@@ -169,7 +169,7 @@ for ( $i=0;$i<count( $tempworkflow_list );$i++ )
 
 $Module->setTitle( ezi18n( 'kernel/workflow', 'Workflow list of group' ) . ' ' . $WorkflowGroupID );
 
-$WorkflowgroupInfo = & eZWorkflowGroup::fetch( $WorkflowGroupID );
+$WorkflowgroupInfo =  eZWorkflowGroup::fetch( $WorkflowGroupID );
 if ( !$WorkflowgroupInfo )
 {
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );

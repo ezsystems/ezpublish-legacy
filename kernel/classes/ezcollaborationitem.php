@@ -171,7 +171,7 @@ class eZCollaborationItem extends eZPersistentObject
         return $event;
     }
 
-    function &fetch( $id, $creatorID = false, $asObject = true )
+    function fetch( $id, $creatorID = false, $asObject = true )
     {
         $conditions = array( 'id' => $id );
         if ( $creatorID !== false )
@@ -187,7 +187,7 @@ class eZCollaborationItem extends eZPersistentObject
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $user =& eZUser::fetch( $this->CreatorID );
+            $user = eZUser::fetch( $this->CreatorID );
         }
         else
             $user = null;

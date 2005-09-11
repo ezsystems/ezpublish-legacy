@@ -97,7 +97,7 @@ class eZContentTranslation extends eZPersistentObject
         return $locale;
     }
 
-    function &fetch( $translationID )
+    function fetch( $translationID )
     {
         return eZPersistentObject::fetchObject( eZContentTranslation::definition(),
                                                 null, array('id' => $translationID ), true);
@@ -105,7 +105,7 @@ class eZContentTranslation extends eZPersistentObject
 
     function hasTranslation( $translation )
     {
-        $translationList =& eZPersistentObject::fetchObjectList( eZContentTranslation::definition(),
+        $translationList = eZPersistentObject::fetchObjectList( eZContentTranslation::definition(),
                                                                  null, array( 'locale' => $translation ), null,null,
                                                                  false );
         return $translationList !== null and count( $translationList ) > 0;
@@ -113,7 +113,7 @@ class eZContentTranslation extends eZPersistentObject
 
     function &fetchList()
     {
-        $translationList =& eZPersistentObject::fetchObjectList( eZContentTranslation::definition(),
+        $translationList = eZPersistentObject::fetchObjectList( eZContentTranslation::definition(),
                                                                  null, array(), array( 'Name' => false ), null,
                                                                  true );
         include_once( 'kernel/classes/ezcontentobject.php' );
@@ -138,9 +138,9 @@ class eZContentTranslation extends eZPersistentObject
         return $translationList;
     }
 
-    function &fetchLocaleList()
+    function fetchLocaleList()
     {
-        $translationArray =&  eZPersistentObject::fetchObjectList( eZContentTranslation::definition(),
+        $translationArray = eZPersistentObject::fetchObjectList( eZContentTranslation::definition(),
                                                                    null, array(), null,null,
                                                                    false );
         include_once( 'kernel/classes/ezcontentobject.php' );

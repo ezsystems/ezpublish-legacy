@@ -195,7 +195,7 @@ switch( $operationResult['status'] )
 
             $cachePathInfo = eZContentCache::cachePathInfo( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout, false,
                                                             array( 'view_parameters' => $viewParameters ) );
-            $node =& eZContentObjectTreeNode::fetch( $NodeID );
+            $node = eZContentObjectTreeNode::fetch( $NodeID );
 
             contentPDFGenerate( $cachePathInfo['path'] , $node, $object, $viewCacheEnabled );
 

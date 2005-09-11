@@ -60,7 +60,7 @@ $Offset = $Params['Offset'];
 if ( !is_numeric( $Offset ) )
     $Offset = 0;
 
-$node =& eZContentObjectTreeNode::fetch( $NodeID );
+$node = eZContentObjectTreeNode::fetch( $NodeID );
 if ( !$node )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
@@ -111,8 +111,11 @@ $Result = array();
 // Fetch the navigation part from the section information
 include_once( 'kernel/classes/ezsection.php' );
 $section = eZSection::fetch( $contentObject->attribute( 'section_id' ) );
+$Result['navigation_part'] = false;
 if ( $section )
+{
     $Result['navigation_part'] = $section->attribute( 'navigation_part_identifier' );
+}
 
 //setting keys for override
 $res =& eZTemplateDesignResource::instance();

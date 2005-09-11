@@ -118,7 +118,7 @@ class eZUserFunctionCollection
             $userGroupArray[] = $userGroupObject->attribute( 'id' );
         }
         $userGroupArray[] = $userID;
-        $roleList =& eZRole::fetchByUser( $userGroupArray );
+        $roleList = eZRole::fetchByUser( $userGroupArray );
 
         $accessArray = array();
         foreach ( array_keys ( $roleList ) as $roleKey )
@@ -157,7 +157,7 @@ class eZUserFunctionCollection
                                 if ( $limitationKey != '*' )
                                 {
                                     $policyID = str_replace( 'p_', '', $limitationKey );
-                                    $limitationValue =& eZPolicyLimitation::fetchByPolicyID( $policyID );
+                                    $limitationValue = eZPolicyLimitation::fetchByPolicyID( $policyID );
                                     $resultArray[] = array( 'moduleName' => $moduleName, 'functionName' => $functionName, 'limitation' =>  $limitationValue );
                                 }
                                 else
@@ -198,7 +198,7 @@ class eZUserFunctionCollection
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         if ( $userID )
         {
-            $user =& eZUser::fetch( $userID );
+            $user = eZUser::fetch( $userID );
         }
         else
         {

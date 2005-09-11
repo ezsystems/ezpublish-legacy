@@ -97,7 +97,7 @@ if ( $options['class-identifier'] )
 
 $sectionID = 1;
 $userID = 14;
-$class =& eZContentClass::fetchByIdentifier( $contentClassIdentifier );
+$class = eZContentClass::fetchByIdentifier( $contentClassIdentifier );
 if ( !is_object( $class ) )
     $script->shutdown( 1, "Failed to load content class for identifier '$contentClassIdentifier'" );
 
@@ -121,7 +121,7 @@ foreach ( $checkNodes as $checkNode )
     $cli->output( "Checking node " . $cli->stylize( 'highlight', $name ) . " (" . $cli->stylize( 'emphasize', $rootNodeID ) . ")",
                   false );
 
-    $rootNode =& eZContentObjectTreeNode::fetch( $rootNodeID );
+    $rootNode = eZContentObjectTreeNode::fetch( $rootNodeID );
 
     $createNode = false;
     if ( is_object( $rootNode ) )
@@ -140,7 +140,7 @@ foreach ( $checkNodes as $checkNode )
     }
     else
     {
-        $rootNode =& eZContentObjectTreeNode::fetchByURLPath( $nodeURLName );
+        $rootNode = eZContentObjectTreeNode::fetchByURLPath( $nodeURLName );
         if ( is_object( $rootNode ) )
         {
             $cli->output( $cli->gotoColumn( 50 ) . $cli->stylize( 'success', "[   OK   ]" ) );
@@ -244,7 +244,7 @@ foreach ( $checkNodes as $checkNode )
             if ( $name == 'Design' )
             {
                 $cli->output( "Moving node /setup/ez_publish to /design", false );
-                $setupEzPublushNode =& eZContentObjectTreeNode::fetchByURLPath( 'setup/ez_publish' );
+                $setupEzPublushNode = eZContentObjectTreeNode::fetchByURLPath( 'setup/ez_publish' );
                 if ( !is_object( $setupEzPublushNode ) )
                 {
 

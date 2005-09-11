@@ -83,7 +83,7 @@ class eZEnumType extends eZDataType
             if ( $originalContentObjectAttributeID != $contentObjectAttributeID )
                 $this->deleteStoredObjectAttribute( $contentObjectAttribute, $currentVersion );
 
-            $newVersionEnumObject =& eZEnumObjectValue::fetchAllElements( $originalContentObjectAttributeID, $currentVersion );
+            $newVersionEnumObject = eZEnumObjectValue::fetchAllElements( $originalContentObjectAttributeID, $currentVersion );
 
             for ( $i = 0; $i < count( $newVersionEnumObject ); ++$i )
             {
@@ -103,7 +103,7 @@ class eZEnumType extends eZDataType
     function cloneClassAttribute( &$oldClassAttribute, &$newClassAttribute )
     {
         $oldContentClassAttributeID = $oldClassAttribute->attribute( 'id' );
-        $oldEnums =& eZEnumValue::fetchAllElements( $oldContentClassAttributeID, 0 );
+        $oldEnums = eZEnumValue::fetchAllElements( $oldContentClassAttributeID, 0 );
 
         $db =& eZDB::instance();
         $db->begin();
@@ -125,11 +125,11 @@ class eZEnumType extends eZDataType
     function initializeClassAttribute( &$classAttribute )
     {
         $contentClassAttributeID = $classAttribute->attribute( 'id' );
-        $enums =& eZEnumValue::fetchAllElements( $contentClassAttributeID, 1 );
+        $enums = eZEnumValue::fetchAllElements( $contentClassAttributeID, 1 );
 
         if ( count ( $enums ) == 0 )
         {
-            $enums =& eZEnumValue::fetchAllElements( $contentClassAttributeID, 0 );
+            $enums = eZEnumValue::fetchAllElements( $contentClassAttributeID, 0 );
             $db =& eZDB::instance();
             $db->begin();
             foreach ( $enums as $enum )
@@ -463,7 +463,7 @@ class eZEnumType extends eZDataType
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $contentObjectAttribute->contentClassAttributeName() ) );
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
 
-        $enumElements =& eZEnumObjectValue::fetchAllElements( $contentObjectAttributeID, $contentObjectAttributeVersion );
+        $enumElements = eZEnumObjectValue::fetchAllElements( $contentObjectAttributeID, $contentObjectAttributeVersion );
 
         foreach ( $enumElements as $enumElement )
         {

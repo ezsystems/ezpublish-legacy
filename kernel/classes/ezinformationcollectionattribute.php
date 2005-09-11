@@ -125,7 +125,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     function &contentObjectAttribute()
     {
         $contentObject =& $this->contentObject();
-        $contentObjectAttribute =& eZContentObjectAttribute::fetch( $this->attribute( 'contentobject_attribute_id' ), $contentObject->attribute( 'current_version' ) );
+        $contentObjectAttribute = eZContentObjectAttribute::fetch( $this->attribute( 'contentobject_attribute_id' ), $contentObject->attribute( 'current_version' ) );
         return $contentObjectAttribute;
     }
 

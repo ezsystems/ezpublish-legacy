@@ -215,7 +215,7 @@ class eZXMLTextType extends eZDataType
         if ( $objectAttributeID != $origObjectAttributeID or
              $objectAttributeVersion != $origObjectAttributeVersion )
         {
-              $origlinkList =& eZURLObjectLink::fetchLinkList( $origObjectAttributeID, $origObjectAttributeVersion, false );
+              $origlinkList = eZURLObjectLink::fetchLinkList( $origObjectAttributeID, $origObjectAttributeVersion, false );
               foreach ( $origlinkList as $origUrlID )
               {
                   $linkObjectLink = eZURLObjectLink::create( $origUrlID, $objectAttributeID, $objectAttributeVersion );

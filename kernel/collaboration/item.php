@@ -46,7 +46,7 @@ if ( !is_numeric( $Offset ) )
 
 include_once( 'kernel/classes/ezcollaborationitem.php' );
 
-$collabItem =& eZCollaborationItem::fetch( $ItemID );
+$collabItem = eZCollaborationItem::fetch( $ItemID );
 if ( $collabItem === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 

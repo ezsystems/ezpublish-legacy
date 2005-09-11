@@ -84,7 +84,7 @@ class eZContentObjectAssignmentHandler
         if ( is_numeric( $name ) )
         {
             $nodeID = false;
-            $node =& eZContentObjectTreeNode::fetch( $name );
+            $node = eZContentObjectTreeNode::fetch( $name );
             if ( $node )
                 $nodeID = $node->attribute( 'node_id' );
             return $nodeID;
@@ -193,7 +193,7 @@ class eZContentObjectAssignmentHandler
             eZDebug::writeDebug( $this->CurrentVersion->attribute( 'version' ), 'current version' );
             foreach ( $nodeList as $nodeID )
             {
-                $node =& eZContentObjectTreeNode::fetch( $nodeID );
+                $node = eZContentObjectTreeNode::fetch( $nodeID );
                 if ( !$node )
                     continue;
                 $parentContentObject =& $node->attribute( 'object' );

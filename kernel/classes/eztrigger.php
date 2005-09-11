@@ -120,14 +120,14 @@ class eZTrigger extends eZPersistentObject
                                          $connectionType );
     }
 
-    function &fetch( $triggerID )
+    function fetch( $triggerID )
     {
         return eZPersistentObject::fetchObject( eZTrigger::definition(),
                                                 null,
                                                 array( 'id' => $triggerID ),
                                                 true);
     }
-    function &fetchList( $parameters = array(), $asObject = true )
+    function fetchList( $parameters = array(), $asObject = true )
     {
         $filterArray = array();
         if ( array_key_exists('module', $parameters ) && $parameters[ 'module' ] != '*' )
@@ -146,14 +146,13 @@ class eZTrigger extends eZPersistentObject
         {
             $filterArray['name'] = $parameters['name'];
         }
-        $triggers =& eZPersistentObject::fetchObjectList( eZTrigger::definition(),
-                                                          null,
-                                                          $filterArray, array( 'module_name' => 'asc' ,
-                                                                               'function_name' => 'asc',
-                                                                               'connect_type' => 'asc' ),
-                                                          null,
-                                                          $asObject );
-        return $triggers;
+        return eZPersistentObject::fetchObjectList( eZTrigger::definition(),
+                                                    null,
+                                                    $filterArray, array( 'module_name' => 'asc' ,
+                                                                         'function_name' => 'asc',
+                                                                         'connect_type' => 'asc' ),
+                                                    null,
+                                                    $asObject );
     }
 
     /*!
@@ -171,7 +170,7 @@ class eZTrigger extends eZPersistentObject
         if ( $trigger !== NULL )
         {
             $workflowID = $trigger->attribute( 'workflow_id' );
-            $workflow =& eZWorkflow::fetch( $workflowID );
+            $workflow = eZWorkflow::fetch( $workflowID );
             if ( $keys != null )
             {
                 $keys[] = 'workflow_id';
@@ -191,7 +190,7 @@ class eZTrigger extends eZPersistentObject
 
 //            $searchKey = eZWorkflowProcess::createKey( $keyArray );
 
-            $workflowProcessList =& eZWorkflowProcess::fetchListByKey( $processKey );
+            $workflowProcessList = eZWorkflowProcess::fetchListByKey( $processKey );
 
             if ( count( $workflowProcessList ) > 0 )
             {
@@ -261,7 +260,7 @@ class eZTrigger extends eZPersistentObject
      */
     function runWorkflow( &$workflowProcess )
     {
-        $workflow =& eZWorkflow::fetch( $workflowProcess->attribute( "workflow_id" ) );
+        $workflow = eZWorkflow::fetch( $workflowProcess->attribute( "workflow_id" ) );
         $workflowEvent = null;
 
         $workflowStatus = $workflowProcess->run( $workflow, $workflowEvent, $eventLog );

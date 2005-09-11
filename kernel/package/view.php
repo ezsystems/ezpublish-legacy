@@ -43,7 +43,7 @@ $repositoryID = false;
 if ( isset( $Params['RepositoryID'] ) and $Params['RepositoryID'] )
     $repositoryID = $Params['RepositoryID'];
 
-$package =& eZPackage::fetch( $packageName, false, $repositoryID );
+$package = eZPackage::fetch( $packageName, false, $repositoryID );
 if ( !is_object( $package ) )
     return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 

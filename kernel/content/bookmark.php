@@ -88,7 +88,7 @@ else if ( $Module->isCurrentAction( 'AddBookmark' )  )
         $db->begin();
         foreach ( $nodeList as $nodeID )
         {
-            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
             if ( $node )
             {
                 $nodeName = $node->attribute( 'name' );

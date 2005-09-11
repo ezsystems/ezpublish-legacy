@@ -66,7 +66,7 @@ class eZClassFunctionCollection
              count( $classFilter ) > 0 )
         {
             include_once( 'kernel/classes/ezcontentclass.php' );
-            $contentClassList =& eZContentClass::fetchList( 0, true, false,
+            $contentClassList = eZContentClass::fetchList( 0, true, false,
                                                             null, null,
                                                             $classFilter );
         }
@@ -84,7 +84,7 @@ class eZClassFunctionCollection
         if ( $limit )
             $limitData = array( 'offset' => $offset,
                                 'length' => $limit );
-        $contentClassList =& eZContentClass::fetchList( 0, true, false,
+        $contentClassList = eZContentClass::fetchList( 0, true, false,
                                                         array( 'modified' => 'desc' ), null,
                                                         false, $limitData );
         return array( 'result' => $contentClassList );

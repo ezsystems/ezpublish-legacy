@@ -130,10 +130,9 @@ class eZPaymentObject extends eZPersistentObject
     */
     function &fetchByID( $transactionID )
     {
-        $object =& eZPersistentObject::fetchObject( eZPaymentObject::definition(),
+        $object = eZPersistentObject::fetchObject( eZPaymentObject::definition(),
                                                     null,
-                                                    array( 'id' => $transactionID )
-                                                    );
+                                                    array( 'id' => $transactionID ) );
         return $object;
     }
 
@@ -141,26 +140,22 @@ class eZPaymentObject extends eZPersistentObject
      \static
 	Returns eZPaymentObject by 'id' of eZOrder.
     */
-    function &fetchByOrderID( $orderID )
+    function fetchByOrderID( $orderID )
     {
-        $object =& eZPersistentObject::fetchObject( eZPaymentObject::definition(),
-                                                    null,
-                                                    array( 'order_id' => $orderID )
-                                                    );
-        return $object;
+        return eZPersistentObject::fetchObject( eZPaymentObject::definition(),
+                                                null,
+                                                array( 'order_id' => $orderID ) );
     }
 
     /*!
      \static
 	Returns eZPaymentObject by 'id' of eZWorkflowProcess.
     */
-    function &fetchByProcessID( $workflowprocessID )
+    function fetchByProcessID( $workflowprocessID )
     {
-        $object =& eZPersistentObject::fetchObject( eZPaymentObject::definition(),
-                                                    null,
-                                                    array( 'workflowprocess_id' => $workflowprocessID )
-                                                    );
-        return $object;
+        return eZPersistentObject::fetchObject( eZPaymentObject::definition(),
+                                                null,
+                                                array( 'workflowprocess_id' => $workflowprocessID ) );
     }
 
     /*!
@@ -174,11 +169,11 @@ class eZPaymentObject extends eZPersistentObject
         include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
         $operationResult =  null;
-        $theProcess      =& eZWorkflowProcess::fetch( $workflowProcessID );
+        $theProcess      = eZWorkflowProcess::fetch( $workflowProcessID );
         if ( $theProcess != null )
         {
             //restore memento and run it
-            $bodyMemento =& eZOperationMemento::fetchChild( $theProcess->attribute( 'memento_key' ) );
+            $bodyMemento = eZOperationMemento::fetchChild( $theProcess->attribute( 'memento_key' ) );
             if ( is_null( $bodyMemento ) )
             {
                 eZDebug::writeError( $bodyMemento, "Empty body memento in workflow.php" );

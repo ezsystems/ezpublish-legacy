@@ -1546,7 +1546,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $folderClassID = $webdavINI->variable( 'FolderSettings', 'FolderClass' );
 
         // Fetch the folder class.
-        $class =& eZContentClass::fetch( $folderClassID );
+        $class = eZContentClass::fetch( $folderClassID );
 
         $contentObject = $node->attribute( 'object' );
         $contentClassID = $contentObject->attribute( 'contentclass_id' );

@@ -83,7 +83,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
         $attributeHideList = eZInformationCollection::attributeHideList();
         $informationCollectionTemplate = eZInformationCollection::templateForObject( $object );
 
-        $node =& eZContentObjectTreeNode::fetch( $NodeID );
+        $node = eZContentObjectTreeNode::fetch( $NodeID );
 
         $collectionID = false;
         if ( $collection )
@@ -250,7 +250,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
             $attributeHideList = eZInformationCollection::attributeHideList();
             $informationCollectionTemplate = eZInformationCollection::templateForObject( $object );
 
-            $node =& eZContentObjectTreeNode::fetch( $NodeID );
+            $node = eZContentObjectTreeNode::fetch( $NodeID );
 
             $section = eZSection::fetch( $object->attribute( 'section_id' ) );
             if ( $section )

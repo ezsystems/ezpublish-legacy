@@ -52,7 +52,7 @@ $db->setIsSQLOutputEnabled( false );
 
 
 // Get top node
-$mainNode =& eZContentObjectTreeNode::fetch( 4132 );
+$mainNode = eZContentObjectTreeNode::fetch( 4132 );
 
 
 print( "Checking books\n\n" );

@@ -70,7 +70,7 @@ class eZURLType extends eZDataType
         if ( $currentVersion != false )
         {
 //             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-//             $currentObjectAttribute =& eZContentObjectAttribute::fetch( $contentObjectAttributeID,
+//             $currentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeID,
 //                                                                         $currentVersion );
             $dataText = $originalContentObjectAttribute->attribute( "data_text" );
             $url = $originalContentObjectAttribute->attribute( "content" );
@@ -120,12 +120,12 @@ class eZURLType extends eZDataType
         $urls = array();
         if ( $version == null )
         {
-            $urls =& eZURLObjectLink::fetchLinkList( $contentObjectAttributeID, false, false );
+            $urls = eZURLObjectLink::fetchLinkList( $contentObjectAttributeID, false, false );
             eZURLObjectLink::removeURLlinkList( $contentObjectAttributeID, false );
         }
         else
         {
-            $urls =& eZURLObjectLink::fetchLinkList( $contentObjectAttributeID, $version, false );
+            $urls = eZURLObjectLink::fetchLinkList( $contentObjectAttributeID, $version, false );
             eZURLObjectLink::removeURLlinkList( $contentObjectAttributeID, $version );
         }
         $urls = array_unique( $urls );

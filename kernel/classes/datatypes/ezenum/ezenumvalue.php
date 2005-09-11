@@ -143,7 +143,7 @@ class eZEnumValue extends eZPersistentObject
                                                  "contentclass_attribute_version" => $version) );
     }
 
-    function &fetch( $id, $version, $asObject = true )
+    function fetch( $id, $version, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZEnumValue::definition(),
                                                 null,
@@ -152,7 +152,7 @@ class eZEnumValue extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &fetchAllElements( $classAttributeID, $version, $asObject = true )
+    function fetchAllElements( $classAttributeID, $version, $asObject = true )
     {
         if ( is_null( $classAttributeID ) )
             $elementList = array();

@@ -52,7 +52,7 @@ class eZClassFunctions
         include_once( 'kernel/classes/ezcontentclass.php' );
         include_once( 'kernel/classes/ezcontentclassclassgroup.php' );
 
-        $class =& eZContentClass::fetch( $classID, true, EZ_CLASS_VERSION_STATUS_DEFINED );
+        $class = eZContentClass::fetch( $classID, true, EZ_CLASS_VERSION_STATUS_DEFINED );
         if ( !$class )
             return false;
         $groups = $class->attribute( 'ingroup_list' );
