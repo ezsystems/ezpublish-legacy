@@ -58,7 +58,7 @@ class eZEnum
     {
         $this->ClassAttributeID = $id;
         $this->ClassAttributeVersion = $version;
-        $this->Enumerations =& eZEnumValue::fetchAllElements( $this->ClassAttributeID, $this->ClassAttributeVersion );
+        $this->Enumerations = eZEnumValue::fetchAllElements( $this->ClassAttributeID, $this->ClassAttributeVersion );
         $this->IsmultipleEnum = null;
         $this->IsoptionEnum = null;
         $this->ObjectEnumerations = null;
@@ -117,7 +117,7 @@ class eZEnum
     }
 
     function setObjectEnumValue( $contentObjectAttributeID, $contentObjectAttributeVersion ){
-        $this->ObjectEnumerations =& eZEnumObjectValue::fetchAllElements( $contentObjectAttributeID, $contentObjectAttributeVersion );
+        $this->ObjectEnumerations = eZEnumObjectValue::fetchAllElements( $contentObjectAttributeID, $contentObjectAttributeVersion );
     }
 
     function removeObjectEnumerations( $contentObjectAttributeID, $contentObjectAttributeVersion )
@@ -148,11 +148,11 @@ class eZEnum
 
         for ($i=0;$i<count( $array_enumid );$i++ )
         {
-            $enumvalue =& eZEnumValue::fetch( $array_enumid[$i], $version );
+            $enumvalue = eZEnumValue::fetch( $array_enumid[$i], $version );
             $enumvalue->setAttribute( "enumelement", $array_enumelement[$i] );
             $enumvalue->setAttribute( "enumvalue", $array_enumvalue[$i] );
             $enumvalue->store();
-            $this->Enumerations =& eZEnumValue::fetchAllElements( $this->ClassAttributeID, $this->ClassAttributeVersion );
+            $this->Enumerations = eZEnumValue::fetchAllElements( $this->ClassAttributeID, $this->ClassAttributeVersion );
         }
         $db->commit();
     }
@@ -204,7 +204,7 @@ class eZEnum
     {
         $enumvalue = eZEnumValue::create( $this->ClassAttributeID, $this->ClassAttributeVersion, $element );
         $enumvalue->store();
-        $this->Enumerations =& eZEnumValue::fetchAllElements( $this->ClassAttributeID, $this->ClassAttributeVersion );
+        $this->Enumerations = eZEnumValue::fetchAllElements( $this->ClassAttributeID, $this->ClassAttributeVersion );
     }
 
     /*!
@@ -218,7 +218,7 @@ class eZEnum
     function removeEnumeration( $id, $enumid, $version )
     {
        eZEnumValue::remove( $enumid, $version );
-       $this->Enumerations =& eZEnumValue::fetchAllElements( $id, $version );
+       $this->Enumerations = eZEnumValue::fetchAllElements( $id, $version );
     }
 
     var $Enumerations;

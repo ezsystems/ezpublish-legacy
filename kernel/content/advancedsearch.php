@@ -125,7 +125,7 @@ if ( $http->hasVariable( 'SearchContentClassID' ) and
      $http->variable( 'SearchContentClassID' ) != -1 )
 {
     $searchContentClassID = $http->variable( 'SearchContentClassID' );
-    $searchContentClass =& eZContentClass::fetch( $searchContentClassID );
+    $searchContentClass = eZContentClass::fetch( $searchContentClassID );
     $searchContentClassAttributeArray = $searchContentClass->fetchSearchableAttributes();
 }
 
@@ -173,7 +173,7 @@ if ( $http->hasVariable( 'SubTreeArray' ) )
 
 $Module->setTitle( "Search for: $searchText" );
 
-$classArray =& eZContentClass::fetchList();
+$classArray = eZContentClass::fetchList();
 
 $sectionArray = eZSection::fetchList();
 

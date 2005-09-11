@@ -76,7 +76,7 @@ class eZFloatType extends eZDataType
         if ( $currentVersion != false )
         {
 //             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-//             $currentObjectAttribute =& eZContentObjectAttribute::fetch( $contentObjectAttributeID,
+//             $currentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeID,
 //                                                                         $currentVersion );
             $dataFloat = $originalContentObjectAttribute->attribute( "data_float" );
             $contentObjectAttribute->setAttribute( "data_float", $dataFloat );

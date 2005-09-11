@@ -284,7 +284,7 @@ class eZPrice
             $idArray = array_merge( $groups, $user->attribute( 'contentobject_id' ) );
 
             // Fetch discount rules for the current user
-            $rules =& eZUserDiscountRule::fetchByUserIDArray( $idArray );
+            $rules = eZUserDiscountRule::fetchByUserIDArray( $idArray );
 
             if ( count( $rules ) > 0 )
             {

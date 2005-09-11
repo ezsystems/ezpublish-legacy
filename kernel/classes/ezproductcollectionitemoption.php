@@ -128,15 +128,13 @@ class eZProductCollectionItemOption extends eZPersistentObject
         return $item;
     }
 
-    function &fetchList( $productCollectionItemID, $asObject = true )
+    function fetchList( $productCollectionItemID, $asObject = true )
     {
-        $productItemOptions =& eZPersistentObject::fetchObjectList( eZProductCollectionItemOption::definition(),
-                                                                    null, array( "item_id" => $productCollectionItemID,
-                                                                                 ),
-                                                                    array( "id" => "ASC"  ),
-                                                                    null,
-                                                                    $asObject );
-        return $productItemOptions;
+        return eZPersistentObject::fetchObjectList( eZProductCollectionItemOption::definition(),
+                                                    null, array( "item_id" => $productCollectionItemID ),
+                                                    array( "id" => "ASC"  ),
+                                                    null,
+                                                    $asObject );
     }
 
     /*!

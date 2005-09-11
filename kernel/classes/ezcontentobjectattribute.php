@@ -148,7 +148,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                       "name" => "ezcontentobject_attribute" );
     }
 
-    function &fetch( $id, $version, $asObject = true, $field_filters = null )
+    function fetch( $id, $version, $asObject = true, $field_filters = null )
     {
         return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
                                                 $field_filters,
@@ -176,7 +176,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             $customFields = array( array( 'operation' => 'count( id )',
                                           'name' => 'count' ) );
         }
-        $objectList =& eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
+        $objectList = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
                                                             $fieldFilters, $conditions,
                                                             null, $limit, $asObject,
                                                             null, $customFields );
@@ -211,7 +211,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &fetchAttributeTranslations( $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
+        $objectList = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
                                                             null,
                                                             array( "contentclassattribute_id" => $this->ContentClassAttributeID,
                                                                    "contentobject_id" => $this->ContentObjectID,
@@ -351,13 +351,12 @@ class eZContentObjectAttribute extends eZPersistentObject
 
      \return object attribute
     */
-    function &fetchByIdentifier( $identifier, $asObject = true )
+    function fetchByIdentifier( $identifier, $asObject = true )
     {
-        $retVal =& eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
-                                                    null,
-                                                    array( 'sort_key_string' => $identifier, 'data_type_string' => 'ezstring' ),
-                                                    $asObject );
-        return $retVal;
+        return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
+                                                null,
+                                                array( 'sort_key_string' => $identifier, 'data_type_string' => 'ezstring' ),
+                                                $asObject );
     }
 
     function &language( $languageCode = false, $asObject = true )

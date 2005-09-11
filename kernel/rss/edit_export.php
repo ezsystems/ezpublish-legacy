@@ -78,7 +78,7 @@ else if ( $Module->isCurrentAction( 'AddItem' ) )
 }
 else if ( $Module->isCurrentAction( 'Cancel' ) )
 {
-    $rssExport =& eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_DRAFT );
+    $rssExport = eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_DRAFT );
     $rssExport->remove();
     return $Module->redirectTo( '/rss/list' );
 }
@@ -134,7 +134,7 @@ if ( $http->hasPostVariable( 'Item_Count' ) )
 if ( is_numeric( $RSSExportID ) )
 {
     $rssExportID = $RSSExportID;
-    $rssExport =& eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_DRAFT );
+    $rssExport = eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_DRAFT );
 
     if ( $rssExport )
     {
@@ -166,7 +166,7 @@ if ( is_numeric( $RSSExportID ) )
     }
     if ( !$rssExport )
     {
-        $rssExport =& eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_VALID );
+        $rssExport = eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_VALID );
         if ( $rssExport )
         {
             $db =& eZDB::instance();
@@ -246,7 +246,7 @@ $numberOfObjectsArray = $config->variable( 'RSSSettings', 'NumberOfObjectsList' 
 $numberOfObjectsDefault = $config->variable( 'RSSSettings', 'NumberOfObjectsDefault' );
 
 // Get Classes and class attributes
-$classArray =& eZContentClass::fetchList();
+$classArray = eZContentClass::fetchList();
 
 $tpl->setVariable( 'rss_version_array', $rssVersionArray );
 $tpl->setVariable( 'rss_version_default', $rssDefaultVersion );

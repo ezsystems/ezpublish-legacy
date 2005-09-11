@@ -204,14 +204,13 @@ class eZPDFExport extends eZPersistentObject
 
      \param RSS Export ID
     */
-    function &fetch( $id, $asObject = true, $version = EZ_PDFEXPORT_VERSION_VALID )
+    function fetch( $id, $asObject = true, $version = EZ_PDFEXPORT_VERSION_VALID )
     {
-        $ret =& eZPersistentObject::fetchObject( eZPDFExport::definition(),
-                                                 null,
-                                                 array( 'id' => $id,
-                                                        'version' => $version ),
-                                                 $asObject );
-        return $ret;
+        return eZPersistentObject::fetchObject( eZPDFExport::definition(),
+                                                null,
+                                                array( 'id' => $id,
+                                                       'version' => $version ),
+                                                $asObject );
     }
 
     /*!
@@ -238,15 +237,14 @@ class eZPDFExport extends eZPersistentObject
      \static
       Fetches complete list of RSS Exports.
     */
-    function &fetchList( $asObject = true )
+    function fetchList( $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZPDFExport::definition(),
-                                                            null,
-                                                            array( 'version' => EZ_PDFEXPORT_VERSION_VALID ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZPDFExport::definition(),
+                                                    null,
+                                                    array( 'version' => EZ_PDFEXPORT_VERSION_VALID ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
     function &modifier()
@@ -254,7 +252,7 @@ class eZPDFExport extends eZPersistentObject
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $user =& eZUser::fetch( $this->ModifierID );
+            $user = eZUser::fetch( $this->ModifierID );
         }
         else
             $user = null;
@@ -266,7 +264,7 @@ class eZPDFExport extends eZPersistentObject
         if ( isset( $this->SourceNodeID ) and $this->SourceNodeID )
         {
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
-            $sourceNode =& eZContentObjectTreeNode::fetch( $this->SourceNodeID );
+            $sourceNode = eZContentObjectTreeNode::fetch( $this->SourceNodeID );
         }
         else
             $sourceNode = null;

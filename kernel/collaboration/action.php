@@ -44,7 +44,7 @@ if ( $Module->isCurrentAction( 'Custom' ) )
     $itemID = $Module->actionParameter( 'ItemID' );
     include_once( 'kernel/classes/ezcollaborationitem.php' );
     include_once( 'kernel/classes/ezcollaborationitemhandler.php' );
-    $collaborationItem =& eZCollaborationItem::fetch( $itemID );
+    $collaborationItem = eZCollaborationItem::fetch( $itemID );
     $handler =& eZCollaborationItemHandler::instantiate( $typeIdentifier );
     return $handler->handleCustomAction( $Module, $collaborationItem );
 }

@@ -79,7 +79,7 @@ class eZCollaborationNotificationRule extends eZPersistentObject
 
     function &user()
     {
-        $user =& eZUser::fetch( $this->attribute( 'user_id' ) );
+        $user = eZUser::fetch( $this->attribute( 'user_id' ) );
         return $user;
     }
 
@@ -92,44 +92,20 @@ class eZCollaborationNotificationRule extends eZPersistentObject
         return $rule;
     }
 
-//     function &fetchNodesForAddress( $email, $asObject = true )
-//     {
-//         $nodeIDList =& eZPersistentObject::fetchObjectList( eZCollaborationNotificationRule::definition(),
-//                                                             array( 'node_id' ), array( 'address' => $email ),
-//                                                             null,null,false );
-//         $nodes = array();
-//         if ( $asObject )
-//         {
-//             foreach ( $nodeIDList as $nodeRow )
-//             {
-//                 $nodes[] =& eZContentObjectTreeNode::fetch( $nodeRow['node_id'] );
-//             }
-//         }
-//         else
-//         {
-//             foreach ( $nodeIDList as $nodeRow )
-//             {
-//                 $nodes[] = $nodeRow['node_id'];
-//             }
-//         }
-//         return $nodes;
-//     }
-
-    function &fetchList( $userID = false, $asObject = true )
+    function fetchList( $userID = false, $asObject = true )
     {
         if ( !$userID )
             $userID =& eZUser::currentUserID();
-        $objectList =& eZPersistentObject::fetchObjectList( eZCollaborationNotificationRule::definition(),
-                                                            null, array( 'user_id' => $userID ),
-                                                            null, null, $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZCollaborationNotificationRule::definition(),
+                                                    null, array( 'user_id' => $userID ),
+                                                    null, null, $asObject );
     }
 
     function &fetchItemTypeList( $collaborationIdentifier, $userIDList, $asObject = true )
     {
         if ( is_array( $collaborationIdentifier ) )
             $collaborationIdentifier = array( $collaborationIdentifier );
-        $objectList =& eZPersistentObject::fetchObjectList( eZCollaborationNotificationRule::definition(),
+        $objectList = eZPersistentObject::fetchObjectList( eZCollaborationNotificationRule::definition(),
                                                     null, array( 'user_id' => array( $userIDList ),
                                                                  'collab_identifier' => $collaborationIdentifier ),
                                                     null, null, $asObject );
@@ -138,7 +114,7 @@ class eZCollaborationNotificationRule extends eZPersistentObject
 
 //     function &fetchUserList( $nodeIDList )
 //     {
-//         $rules =& eZPersistentObject::fetchObjectList( eZCollaborationNotificationRule::definition(),
+//         $rules = eZPersistentObject::fetchObjectList( eZCollaborationNotificationRule::definition(),
 //                                                       array(), array( 'node_id' => array( $nodeIDList ) ),
 //                                                       array( 'address' => 'asc' , 'use_digest' => 'desc'  ),null,
 //                                                       false, false, array( array( 'operation' => 'distinct address,use_digest' ) )  );
@@ -149,7 +125,7 @@ class eZCollaborationNotificationRule extends eZPersistentObject
 //     {
 //         if ( $this->Node == null )
 //         {
-//             $this->Node =& eZContentObjectTreeNode::fetch( $this->attribute( 'node_id' ) );
+//             $this->Node = eZContentObjectTreeNode::fetch( $this->attribute( 'node_id' ) );
 //         }
 //         return $this->Node;
 //     }

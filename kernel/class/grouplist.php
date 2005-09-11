@@ -73,7 +73,7 @@ if ( $http->hasPostVariable( "NewClassButton" ) )
     if ( $http->hasPostVariable( "SelectedGroupID" ) )
     {
         $groupID = $http->postVariable( "SelectedGroupID" );
-        $group =& eZContentClassGroup::fetch( $groupID );
+        $group = eZContentClassGroup::fetch( $groupID );
         $groupName = $group->attribute( 'name' );
 
         $params = array( null, $groupID, $groupName );
@@ -102,7 +102,7 @@ foreach( $TemplateData as $tpldata )
     $asObject = isset( $data["as_object"] ) ? $data["as_object"] : true;
     $base = $tpldata["http_base"];
     unset( $list );
-    $list =& eZContentClassGroup::fetchList( false, $asObject );
+    $list = eZContentClassGroup::fetchList( false, $asObject );
     $tpl->setVariable( $tplname, $list );
 }
 

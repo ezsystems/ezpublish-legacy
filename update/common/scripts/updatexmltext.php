@@ -434,7 +434,7 @@ if ( $fixURL )
                 $version = 1;
             if ( $showDebug )
                 print( "matched faulty download url: '$urlText' $attributeID @ $version\n" );
-            $contentObjectAttribute =& eZContentObjectAttribute::fetch( $attributeID, $version );
+            $contentObjectAttribute = eZContentObjectAttribute::fetch( $attributeID, $version );
             if ( $contentObjectAttribute )
             {
                 $contentObjectID = $contentObjectAttribute->attribute( 'contentobject_id' );

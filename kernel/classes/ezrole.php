@@ -313,7 +313,7 @@ class eZRole extends eZPersistentObject
     */
     function removeTemporary()
     {
-        $temporaryRoles =& eZRole::fetchList( true );
+        $temporaryRoles = eZRole::fetchList( true );
 
         $db =& eZDB::instance();
         $db->begin();
@@ -416,7 +416,7 @@ class eZRole extends eZPersistentObject
             }
             if( $valueCount == 0 )
             {
-                $policy =& eZPolicy::fetch( $limitation->attribute( 'policy_id' ) );
+                $policy = eZPolicy::fetch( $limitation->attribute( 'policy_id' ) );
                 if ( is_object ( $policy ) )
                 {
                     $policy->remove();
@@ -443,7 +443,7 @@ class eZRole extends eZPersistentObject
             }
             if( $valueCount == 0 )
             {
-                $policy =& eZPolicy::fetch( $limitation->attribute( 'policy_id' ) );
+                $policy = eZPolicy::fetch( $limitation->attribute( 'policy_id' ) );
                 if ( is_object ( $policy ) )
                 {
                     $policy->remove();
@@ -465,7 +465,7 @@ class eZRole extends eZPersistentObject
 
      \param recursive, default false
     */
-    function &fetchByUser( $idArray, $recursive = false )
+    function fetchByUser( $idArray, $recursive = false )
     {
         $db =& eZDB::instance();
 
@@ -587,7 +587,7 @@ class eZRole extends eZPersistentObject
             }
         }
 
-        $roles =& eZRole::fetchByUser( $userIDArray );
+        $roles = eZRole::fetchByUser( $userIDArray );
 
         $userLimitation = false;
         foreach ( array_keys ( $roles )  as $roleKey )
@@ -653,7 +653,7 @@ class eZRole extends eZPersistentObject
         if ( !isset( $this->Policies ) )
         {
             include_once( "kernel/classes/ezpolicy.php" );
-            $policies =& eZPersistentObject::fetchObjectList( eZPolicy::definition(),
+            $policies = eZPersistentObject::fetchObjectList( eZPolicy::definition(),
                                                               null, array( 'role_id' => $this->attribute( 'id') ), null, null,
                                                               true );
 
@@ -714,7 +714,7 @@ class eZRole extends eZPersistentObject
             {
                 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
-                $node =& eZContentObjectTreeNode::fetch( $limitValue );
+                $node = eZContentObjectTreeNode::fetch( $limitValue );
                 if ( $node )
                 {
                     $limitIdent = 'Subtree';
@@ -858,7 +858,7 @@ class eZRole extends eZPersistentObject
      \param $version Which version to fetch, 0 is the published one. Temporary versions get
       the id of the role.
     */
-    function &fetch( $roleID, $version = 0 )
+    function fetch( $roleID, $version = 0 )
     {
         if ( $version != 0 )
         {
@@ -873,14 +873,14 @@ class eZRole extends eZPersistentObject
      Fetches the role identified by the role name \a $roleName and returns it.
      \param $version Which version to fetch, 0 is the published one and 1 is the temporary.
     */
-    function &fetchByName( $roleName, $version = 0 )
+    function fetchByName( $roleName, $version = 0 )
     {
         return eZPersistentObject::fetchObject( eZRole::definition(),
                                                 null, array( 'name' => $roleName,
                                                              'version' => $version ), true );
     }
 
-    function &fetchList( $tempVersions = false )
+    function fetchList( $tempVersions = false )
     {
         if ( !$tempVersions )
         {
@@ -896,7 +896,7 @@ class eZRole extends eZPersistentObject
         }
     }
 
-    function &fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = false, $ignoreNew = true )
+    function fetchByOffset( $offset, $limit, $asObject = true, $ignoreTemp = false, $ignoreNew = true )
     {
 
         if ( $ignoreTemp && $ignoreNew )
@@ -909,20 +909,19 @@ class eZRole extends eZPersistentObject
         else
             $igTemp = null;
 
-        $objectList =& eZPersistentObject::fetchObjectList( eZRole::definition(),
-                                                            null,
-                                                            $igTemp,
-                                                            array( 'name' => 'ASC' ),
-                                                            array( 'offset' => $offset, 'length' => $limit ),
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZRole::definition(),
+                                                    null,
+                                                    $igTemp,
+                                                    array( 'name' => 'ASC' ),
+                                                    array( 'offset' => $offset, 'length' => $limit ),
+                                                    $asObject );
     }
 
     /*!
      \static
      \return the number of roles in the database.
     */
-    function &roleCount()
+    function roleCount()
     {
         $db =& eZDB::instance();
 

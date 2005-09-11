@@ -139,7 +139,7 @@ if ( ( $Module->isCurrentAction( 'RemoveLanguage' ) or
 }
 
 $classID = $object->attribute( 'contentclass_id' );
-$class =& eZContentClass::fetch( $classID );
+$class = eZContentClass::fetch( $classID );
 $originalContentAttributes =& $version->contentObjectAttributes();
 $originalLocale =& eZLocale::instance( eZContentObject::defaultLanguage() );
 

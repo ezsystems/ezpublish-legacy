@@ -94,7 +94,7 @@ $classID = $object->attribute( 'contentclass_id' );
 $attributeDataBaseName = 'ContentObjectAttribute';
 
 
-$class =& eZContentClass::fetch( $classID );
+$class = eZContentClass::fetch( $classID );
 $contentObjectAttributes =& $version->contentObjectAttributes( $EditLanguage );
 if ( $contentObjectAttributes === null or
      count( $contentObjectAttributes ) == 0 )

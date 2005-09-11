@@ -130,7 +130,7 @@ class eZEnumObjectValue extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &fetchAllElements( $contentObjectAttributeID, $contentObjectAttributeVersion, $asObject = true )
+    function fetchAllElements( $contentObjectAttributeID, $contentObjectAttributeVersion, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZEnumObjectValue::definition(),
                                                     null,

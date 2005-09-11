@@ -842,7 +842,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             }
             if ( isset( $blockArray[$blockName][$this->OverrideNodeRemoteID] ) )
             {
-                $contentNode =& eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName][$this->OverrideNodeRemoteID] );
+                $contentNode = eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName][$this->OverrideNodeRemoteID] );
                 $blockArray[$blockName]['Match']['node'] = $contentNode->attribute( 'node_id' );
                 unset( $blockArray[$blockName][$this->OverrideNodeRemoteID] );
 //                 eZDebug::writeNotice( 'Found node id: "' . $blockArray[$blockName]['Match']['node'] . '" for matchblock "[' . $blockName . '][Match][node]"',
@@ -850,7 +850,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             }
             if ( isset( $blockArray[$blockName][$this->OverrideParentNodeRemoteID] ) )
             {
-                $parentContentNode =& eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName][$this->OverrideParentNodeRemoteID] );
+                $parentContentNode = eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName][$this->OverrideParentNodeRemoteID] );
                 $blockArray[$blockName]['Match']['parent_node'] = $parentContentNode->attribute( 'node_id' );
                 unset( $blockArray[$blockName][$this->OverrideParentNodeRemoteID] );
 //                 eZDebug::writeNotice( 'Found parent node id: "' . $blockArray[$blockName]['Match']['parent_node'] . '" for matchblock "[' . $blockName . '][Match][parent_node]"',
@@ -858,7 +858,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             }
             if ( isset( $blockArray[$blockName][$this->OverrideClassRemoteID] ) )
             {
-                $contentClass =& eZContentClass::fetchByRemoteID( $blockArray[$blockName][$this->OverrideClassRemoteID] );
+                $contentClass = eZContentClass::fetchByRemoteID( $blockArray[$blockName][$this->OverrideClassRemoteID] );
                 if ( !$contentClass )
                 {
                     eZDebug::writeError( 'No content class found for RemoteID: ' . $blockArray[$blockName][$this->OverrideClassRemoteID],
@@ -926,21 +926,21 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     if ( strpos( $matchKey, 'class_' ) === 0 &&
                          is_int( $value ) )
                     {
-                        $contentClass =& eZContentClass::fetchByRemoteID( $blockArray[$blockName]['Constant']['class_remote_id'] );
+                        $contentClass = eZContentClass::fetchByRemoteID( $blockArray[$blockName]['Constant']['class_remote_id'] );
                         $blockArray[$blockName]['Constant'][$matchKey] = $contentClass->attribute( 'id' );
                         unset( $blockArray[$blockName]['Constant']['class_remote_id'] );
                     }
                     if( strpos( $matchKey, 'node_' ) === 0 &&
                         is_int( $value ) )
                     {
-                        $contentTreeNode =& eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName]['Constant']['node_remote_id'] );
+                        $contentTreeNode = eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName]['Constant']['node_remote_id'] );
                         $blockArray[$blockName]['Constant'][$matchKey] = $contentTreeNode->attribute( 'node_id' );
                         unset( $blockArray[$blockName]['Constant']['node_remote_id'] );
                     }
                     if( strpos( $matchKey, 'parent_node_' ) === 0 &&
                         is_int( $value ) )
                     {
-                        $contentTreeNode =& eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName]['Constant']['parent_node_remote_id'] );
+                        $contentTreeNode = eZContentObjectTreeNode::fetchByRemoteID( $blockArray[$blockName]['Constant']['parent_node_remote_id'] );
                         $blockArray[$blockName]['Constant'][$matchKey] = $contentTreeNode->attribute( 'node_id' );
                         unset( $blockArray[$blockName]['Constant']['parent_node_remote_id'] );
                     }
@@ -982,7 +982,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 if ( isset( $nodeIDItem['node'] ) )
                     $node =& $nodeIDItem['node'];
                 else
-                    $node =& eZContentObjectTreeNode::fetch( $nodeIDItem['id'] );
+                    $node = eZContentObjectTreeNode::fetch( $nodeIDItem['id'] );
                 $cli->notice( "Adding node /" . $node->attribute( 'path_identification_string' ) . " to package" );
             }
         }
@@ -1117,7 +1117,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 if ( is_numeric( $argument ) )
                 {
                     $nodeID = (int)$argument;
-                    $node =& eZContentObjectTreeNode::fetch( $nodeID );
+                    $node = eZContentObjectTreeNode::fetch( $nodeID );
                     if ( !is_object( $node ) )
                     {
                         $error = true;
@@ -1133,7 +1133,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                         $path = $matches[1];
                         $subtree = true;
                     }
-                    $node =& eZContentObjectTreeNode::fetchByURLPath( $path );
+                    $node = eZContentObjectTreeNode::fetchByURLPath( $path );
                     if ( is_object( $node ) )
                     {
                         $nodeID = $node->attribute( 'node_id' );

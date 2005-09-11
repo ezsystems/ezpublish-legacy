@@ -89,70 +89,66 @@ class eZOperationMemento extends eZPersistentObject
     {
         if ( !isset( $this->MainMemento ) )
         {
-            $this->MainMemento =& eZOperationMemento::fetchMain( $this->attribute( 'main_key' ) );
+            $this->MainMemento = eZOperationMemento::fetchMain( $this->attribute( 'main_key' ) );
         }
         return $this->MainMemento;
     }
 
-    function &fetch( $mementoKey, $asObject = true )
+    function fetch( $mementoKey, $asObject = true )
     {
         if ( is_array( $mementoKey ) )
         {
             $mementoKey = eZOperationMemento::createKey( $mementoKey );
         }
 
-        $object =& eZPersistentObject::fetchObject( eZOperationMemento::definition(),
-                                                    null,
-                                                    array( 'memento_key' => $mementoKey ),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZOperationMemento::definition(),
+                                                null,
+                                                array( 'memento_key' => $mementoKey ),
+                                                $asObject );
     }
 
-    function &fetchChild( $mementoKey, $asObject = true )
+    function fetchChild( $mementoKey, $asObject = true )
     {
         if ( is_array( $mementoKey ) )
         {
             $mementoKey = eZOperationMemento::createKey( $mementoKey );
         }
 
-        $object =& eZPersistentObject::fetchObject( eZOperationMemento::definition(),
+        return eZPersistentObject::fetchObject( eZOperationMemento::definition(),
+                                                null,
+                                                array( 'memento_key' => $mementoKey,
+                                                       'main' => 0 ),
+                                                $asObject );
+    }
+
+    function fetchMain( $mementoKey, $asObject = true )
+    {
+        if ( is_array( $mementoKey ) )
+        {
+            $mementoKey = eZOperationMemento::createKey( $mementoKey );
+        }
+
+        return eZPersistentObject::fetchObject( eZOperationMemento::definition(),
+                                                null,
+                                                array( 'memento_key' => $mementoKey,
+                                                       'main' => 1 ),
+                                                $asObject );
+    }
+
+    function fetchList( $mementoKey, $asObject = true )
+    {
+        if ( is_array( $mementoKey ) )
+        {
+            $mementoKey = eZOperationMemento::createKey( $mementoKey );
+        }
+
+        return eZPersistentObject::fetchObjectList( eZOperationMemento::definition(),
                                                     null,
                                                     array( 'memento_key' => $mementoKey,
                                                            'main' => 0 ),
-                                                    $asObject );
-        return $object;
-    }
-
-    function &fetchMain( $mementoKey, $asObject = true )
-    {
-        if ( is_array( $mementoKey ) )
-        {
-            $mementoKey = eZOperationMemento::createKey( $mementoKey );
-        }
-
-        $object =& eZPersistentObject::fetchObject( eZOperationMemento::definition(),
                                                     null,
-                                                    array( 'memento_key' => $mementoKey,
-                                                           'main' => 1 ),
+                                                    null,
                                                     $asObject );
-        return $object;
-    }
-
-    function &fetchList( $mementoKey, $asObject = true )
-    {
-        if ( is_array( $mementoKey ) )
-        {
-            $mementoKey = eZOperationMemento::createKey( $mementoKey );
-        }
-
-        $objectList =& eZPersistentObject::fetchObjectList( eZOperationMemento::definition(),
-                                                            null,
-                                                            array( 'memento_key' => $mementoKey,
-                                                                   'main' => 0 ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-        return $objectList;
     }
 
     function setData( $data = array() )

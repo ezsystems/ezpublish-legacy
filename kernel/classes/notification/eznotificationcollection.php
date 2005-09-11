@@ -108,7 +108,7 @@ class eZNotificationCollection extends eZPersistentObject
 
     function &items()
     {
-        $items =& eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
+        $items = eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
                                                        null, array( 'collection_id' => $this->attribute( 'id' ) ), null,null,
                                                        true );
         return $items;
@@ -116,7 +116,7 @@ class eZNotificationCollection extends eZPersistentObject
 
     function &itemCount()
     {
-        $result =& eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
+        $result = eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
                                                         array(), array( 'collection_id' => $this->attribute( 'id' ) ), array(),null,
                                                         false,false, array( array( 'operation' => 'count(*)',
                                                                                    'name' => 'count' ) ) );
@@ -125,7 +125,7 @@ class eZNotificationCollection extends eZPersistentObject
 
     function &itemsToSend()
     {
-        $items =& eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
+        $items = eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
                                                        null, array( 'collection_id' => $this->attribute( 'id' ),
                                                                     'send_date' => 0 ),
                                                        null, null, true );

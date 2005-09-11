@@ -148,7 +148,7 @@ class eZContentObjectVersion extends eZPersistentObject
      \return true if the requested attribute exists in object.
     */
 
-    function &fetch( $id, $asObject = true )
+    function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZContentObjectVersion::definition(),
                                                 null,
@@ -156,20 +156,20 @@ class eZContentObjectVersion extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &fetchVersion( $version, $contentObjectID, $asObject = true )
+    function fetchVersion( $version, $contentObjectID, $asObject = true )
     {
-        $ret =& eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
-                                                     null, array( "version" => $version,
-                                                                  "contentobject_id" => $contentObjectID
+        $ret = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                    null, array( "version" => $version,
+                                                                 "contentobject_id" => $contentObjectID
                                                                  ),
                                                     null, null,
-                                                     $asObject );
+                                                    $asObject );
         return $ret[0];
     }
 
     function fetchUserDraft( $objectID, $userID )
     {
-        $versions =& eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+        $versions = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                           null, array( 'creator_id' => $userID,
                                                                        'contentobject_id' => $objectID,
                                                                        'status' => array( array( EZ_VERSION_STATUS_DRAFT, EZ_VERSION_STATUS_DRAFT ) )
@@ -184,7 +184,7 @@ class eZContentObjectVersion extends eZPersistentObject
 
     function &fetchForUser( $userID, $status = EZ_VERSION_STATUS_DRAFT )
     {
-        $versions =& eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+        $versions = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                           null, array( 'creator_id' => $userID,
                                                                        'status' => $status
                                                                        ),
@@ -193,17 +193,16 @@ class eZContentObjectVersion extends eZPersistentObject
         return $versions;
     }
 
-    function &fetchFiltered( $filters, $offset, $limit )
+    function fetchFiltered( $filters, $offset, $limit )
     {
         $limits = null;
         if ( $offset or $limit )
             $limits = array( 'offset' => $offset,
                              'length' => $limit );
-        $versions =& eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
-                                                          null, $filters,
-                                                          null, $limits,
-                                                          true );
-        return $versions;
+        return eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                    null, $filters,
+                                                    null, $limits,
+                                                    true );
     }
 
     /*!
@@ -873,7 +872,7 @@ class eZContentObjectVersion extends eZPersistentObject
             }
         }
 
-        $attributes =& eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $language, $asObject );
+        $attributes = eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $language, $asObject );
         return $attributes;
     }
 
@@ -885,7 +884,7 @@ class eZContentObjectVersion extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &fetchAttributes( $version, $contentObjectID, $language, $asObject = true )
+    function fetchAttributes( $version, $contentObjectID, $language, $asObject = true )
     {
         $db =& eZDB::instance();
 

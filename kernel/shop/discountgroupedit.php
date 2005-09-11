@@ -46,7 +46,7 @@ if ( isset( $Params["DiscountGroupID"] ) )
 
 if ( is_numeric( $discountGroupID ) )
 {
-    $discountGroup =& eZDiscountRule::fetch( $discountGroupID );
+    $discountGroup = eZDiscountRule::fetch( $discountGroupID );
 }
 else
 {

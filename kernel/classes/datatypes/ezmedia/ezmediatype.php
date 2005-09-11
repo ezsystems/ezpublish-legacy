@@ -72,7 +72,7 @@ class eZMediaType extends eZDataType
         {
             $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
             $version = $contentObjectAttribute->attribute( "version" );
-            $oldfile =& eZMedia::fetch( $contentObjectAttributeID, $currentVersion );
+            $oldfile = eZMedia::fetch( $contentObjectAttributeID, $currentVersion );
             if( $oldfile != null )
             {
                 $oldfile->setAttribute( 'contentobject_attribute_id', $contentObjectAttribute->attribute( 'id' ) );
@@ -88,7 +88,7 @@ class eZMediaType extends eZDataType
     function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-        $mediaFiles =& eZMedia::fetch( $contentObjectAttributeID, null );
+        $mediaFiles = eZMedia::fetch( $contentObjectAttributeID, null );
         $sys =& eZSys::instance();
         $storage_dir = $sys->storageDirectory();
         if( $version == null )
@@ -107,7 +107,7 @@ class eZMediaType extends eZDataType
         else
         {
             $count = 0;
-            $currentBinaryFile =& eZMedia::fetch( $contentObjectAttributeID, $version );
+            $currentBinaryFile = eZMedia::fetch( $contentObjectAttributeID, $version );
             if ( $currentBinaryFile != null )
             {
                 $mimeType =  $currentBinaryFile->attribute( "mime_type" );
@@ -146,7 +146,7 @@ class eZMediaType extends eZDataType
         {
             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
             $version = $contentObjectAttribute->attribute( "version" );
-            $media =& eZMedia::fetch( $contentObjectAttributeID, $version );
+            $media = eZMedia::fetch( $contentObjectAttributeID, $version );
             if ( $media === null || !$media->attribute( 'filename' ) )
             {
                 $mustUpload = true;
@@ -236,7 +236,7 @@ class eZMediaType extends eZDataType
             $controls = null;
 
 
-        $media =& eZMedia::fetch( $contentObjectAttributeID, $version );
+        $media = eZMedia::fetch( $contentObjectAttributeID, $version );
         if ( $media == null )
         {
            $media = eZMedia::create( $contentObjectAttributeID, $version );
@@ -342,7 +342,7 @@ class eZMediaType extends eZDataType
         $errors =& $result['errors'];
         $attributeID = $objectAttribute->attribute( 'id' );
 
-        $media =& eZMedia::fetch( $attributeID, $objectVersion );
+        $media = eZMedia::fetch( $attributeID, $objectVersion );
         if ( $media === null )
             $media = eZMedia::create( $attributeID, $objectVersion );
 
@@ -424,7 +424,7 @@ class eZMediaType extends eZDataType
         $errors =& $result['errors'];
         $attributeID = $objectAttribute->attribute( 'id' );
 
-        $media =& eZMedia::fetch( $attributeID, $objectVersion );
+        $media = eZMedia::fetch( $attributeID, $objectVersion );
         if ( $media === null )
             $media = eZMedia::create( $attributeID, $objectVersion );
 
@@ -516,7 +516,7 @@ class eZMediaType extends eZDataType
     function storedFileInformation( &$object, $objectVersion, $objectLanguage,
                                     &$objectAttribute )
     {
-        $mediaFile =& eZMedia::fetch( $objectAttribute->attribute( "id" ),
+        $mediaFile = eZMedia::fetch( $objectAttribute->attribute( "id" ),
                                       $objectAttribute->attribute( "version" ) );
         if ( $mediaFile )
         {
@@ -572,7 +572,7 @@ class eZMediaType extends eZDataType
     */
     function title( &$contentObjectAttribute,  $name = "original_filename" )
     {
-        $mediaFile =& eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
+        $mediaFile = eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
                                       $contentObjectAttribute->attribute( "version" ) );
 
         if ( $mediaFile != null )
@@ -584,7 +584,7 @@ class eZMediaType extends eZDataType
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
-        $mediaFile =& eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
+        $mediaFile = eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
                                       $contentObjectAttribute->attribute( "version" ) );
         if ( !$mediaFile )
             return false;
@@ -593,7 +593,7 @@ class eZMediaType extends eZDataType
 
     function &objectAttributeContent( $contentObjectAttribute )
     {
-        $mediaFile =& eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
+        $mediaFile = eZMedia::fetch( $contentObjectAttribute->attribute( "id" ),
                                       $contentObjectAttribute->attribute( "version" ) );
         if ( !$mediaFile )
         {

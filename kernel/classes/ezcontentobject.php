@@ -330,7 +330,7 @@ class eZContentObject extends eZPersistentObject
 
         $ini =& eZINI::instance();
 //        $needTranslations = $ini->variableArray( "ContentSettings", "TranslationList" );
-        $needTranslations =& eZContentTranslation::fetchLocaleList();
+        $needTranslations = eZContentTranslation::fetchLocaleList();
         $default = false;
         if ( $translation == $this->defaultLanguage() )
         {
@@ -537,7 +537,7 @@ class eZContentObject extends eZPersistentObject
             return $retValue;
         }
 
-        $contentClass =& eZContentClass::fetch( $this->ClassID );
+        $contentClass = eZContentClass::fetch( $this->ClassID );
         return $contentClass;
     }
 
@@ -856,26 +856,25 @@ class eZContentObject extends eZPersistentObject
         return $rows[0]['count'];
     }
 
-    function &fetchSameClassList( $contentClassID, $asObject = true )
+    function fetchSameClassList( $contentClassID, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZContentObject::definition(),
-                                                            null,
-                                                            array( "contentclass_id" => $contentClassID ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+                                                    null,
+                                                    array( "contentclass_id" => $contentClassID ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
-    function &fetchSameClassListCount( $contentClassID )
+    function fetchSameClassListCount( $contentClassID )
     {
-        $result =& eZPersistentObject::fetchObjectList( eZContentObject::definition(),
-                                                        array(),
-                                                        array( "contentclass_id" => $contentClassID ),
-                                                         array(), null,
-                                                        false,false,
-                                                        array( array( 'operation' => 'count( * )',
-                                                                      'name' => 'count' ) ) );
+        $result = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+                                                       array(),
+                                                       array( "contentclass_id" => $contentClassID ),
+                                                       array(), null,
+                                                       false,false,
+                                                       array( array( 'operation' => 'count( * )',
+                                                                     'name' => 'count' ) ) );
         return $result[0]['count'];
     }
     /*!
@@ -883,7 +882,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &currentVersion( $asObject = true )
     {
-        $currentVersion =& eZContentObjectVersion::fetchVersion( $this->attribute( "current_version" ), $this->ID, $asObject );
+        $currentVersion = eZContentObjectVersion::fetchVersion( $this->attribute( "current_version" ), $this->ID, $asObject );
         return $currentVersion;
     }
 
@@ -929,7 +928,7 @@ class eZContentObject extends eZPersistentObject
             if ( isset( $parameters['conditions']['creator_id'] ) )
                 $conditions['creator_id'] = $parameters['conditions']['creator_id'];
         }
-        $objectList =& eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+        $objectList = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                             null, $conditions,
                                                             null, null,
                                                             $asObject );
@@ -1369,7 +1368,7 @@ class eZContentObject extends eZPersistentObject
         }
         else if ( $nodeID !== null )
         {
-            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
             if ( is_object( $node ) )
             {
                 if ( $node->attribute( 'main_node_id' )  == $nodeID )
@@ -2303,7 +2302,7 @@ class eZContentObject extends eZPersistentObject
         $nodesListArray = $db->arrayQuery( $query );
         if ( $asObject == true )
         {
-            $nodes =& eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
+            $nodes = eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
             return $nodes;
         }
         else
@@ -2573,7 +2572,7 @@ class eZContentObject extends eZPersistentObject
                                 {
                                     foreach ( $parentNodes as $parentNode )
                                     {
-                                        $parentNode =& eZContentObjectTreeNode::fetch( $parentNode );
+                                        $parentNode = eZContentObjectTreeNode::fetch( $parentNode );
                                         $path = $parentNode->attribute( 'path_string' );
 
                                         $subtreeArray = $limitationArray[$key];
@@ -2635,7 +2634,7 @@ class eZContentObject extends eZPersistentObject
                                 {
                                     foreach ( $parentNodes as $parentNode )
                                     {
-                                        $parentNode =& eZContentObjectTreeNode::fetch( $parentNode );
+                                        $parentNode = eZContentObjectTreeNode::fetch( $parentNode );
                                         $path = $parentNode->attribute( 'path_string' );
 
                                         $subtreeArray = $limitationArray[$key];
@@ -2765,7 +2764,7 @@ class eZContentObject extends eZPersistentObject
             foreach( $policy['Node'] as $nodeID )
             {
                 $mainNodeID = $this->attribute( 'main_node_id' );
-                $node =& eZContentObjectTreeNode::fetch( $nodeID );
+                $node = eZContentObjectTreeNode::fetch( $nodeID );
                 if ( $mainNodeID == $node->attribute( 'main_node_id' ) )
                 {
                     $allowed = true;
@@ -3282,10 +3281,10 @@ class eZContentObject extends eZPersistentObject
         $classRemoteID =& $domNode->attributeValue( 'class_remote_id' );
         $classIdentifier =& $domNode->attributeValue( 'class_identifier' );
 
-        $contentClass =& eZContentClass::fetchByRemoteID( $classRemoteID );
+        $contentClass = eZContentClass::fetchByRemoteID( $classRemoteID );
         if ( !$contentClass )
         {
-            $contentClass =& eZContentClass::fetchByIdentifier( $classIdentifier );
+            $contentClass = eZContentClass::fetchByIdentifier( $classIdentifier );
         }
 
         if ( !$contentClass )
@@ -3394,7 +3393,7 @@ class eZContentObject extends eZPersistentObject
         foreach ( $versionList[$versionListActiveVersion]['node_list'] as $nodeInfo )
         {
             unset( $parentNode );
-            $parentNode =& eZContentObjectTreeNode::fetchNode( $contentObject->attribute( 'id' ),
+            $parentNode = eZContentObjectTreeNode::fetchNode( $contentObject->attribute( 'id' ),
                                                                $nodeInfo['parent_node'] );
             if ( is_object( $parentNode ) )
             {
@@ -3511,7 +3510,7 @@ class eZContentObject extends eZPersistentObject
             if ( $language == '' )
                 $language = eZContentObject::defaultLanguage();
             $roleList = $user->roleIDList();
-            $discountList =& eZUserDiscountRule::fetchIDListByUserID( $user->attribute( 'contentobject_id' ) );
+            $discountList = eZUserDiscountRule::fetchIDListByUserID( $user->attribute( 'contentobject_id' ) );
             $contentCacheInfo = array( 'language' => $language,
                                        'role_list' => $roleList,
                                        'discount_list' => $discountList );
@@ -3680,7 +3679,7 @@ class eZContentObject extends eZPersistentObject
         $hasVersions = true;
         while ( $hasVersions )
         {
-            $versions =& eZContentObjectVersion::fetchFiltered( array( 'status' => array( $versionStatus ) ),
+            $versions = eZContentObjectVersion::fetchFiltered( array( 'status' => array( $versionStatus ) ),
                                                                 $offset, $max );
             $hasVersions = count( $versions ) > 0;
 

@@ -43,7 +43,7 @@ $module =& $Params["Module"];
 
 $http =& eZHttpTool::instance();
 
-$discountGroupArray =& eZDiscountRule::fetchList();
+$discountGroupArray = eZDiscountRule::fetchList();
 
 if ( $http->hasPostVariable( "AddDiscountGroupButton" ) )
 {

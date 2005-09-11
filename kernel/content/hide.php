@@ -35,7 +35,7 @@
 $Module =& $Params['Module'];
 $NodeID =& $Params['NodeID'];
 
-$curNode =& eZContentObjectTreeNode::fetch( $NodeID );
+$curNode = eZContentObjectTreeNode::fetch( $NodeID );
 if ( !$curNode )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 

@@ -1217,7 +1217,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
             foreach ( $nodeIDList as $nodeID )
             {
-                $node           =& eZContentObjectTreeNode::fetch( $nodeID );
+                $node           = eZContentObjectTreeNode::fetch( $nodeID );
                 if ( !is_object( $node ) )
                     return false;
 
@@ -1249,7 +1249,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             else
             {
-                $node =& eZContentObjectTreeNode::fetch( $nodeID );
+                $node = eZContentObjectTreeNode::fetch( $nodeID );
                 if ( !is_object( $node ) )
                     return false;
             }
@@ -1672,7 +1672,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         if ( $asObject )
-            $retNodeList =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+            $retNodeList = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
         else
             $retNodeList =& $nodeListArray;
 
@@ -1711,7 +1711,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         'SortBy' => [sorting-criteria]
         )
     */
-    function &subTreeMultiPaths( $nodesParams, $listParams = NULL )
+    function subTreeMultiPaths( $nodesParams, $listParams = NULL )
     {
         if( !is_array( $nodesParams ) || !count( $nodesParams ) )
         {
@@ -1864,7 +1864,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $asObject )
         {
-            $retNodeList =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+            $retNodeList = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
         }
         else
         {
@@ -2682,7 +2682,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $nodeListArray = $db->arrayQuery( $query );
 
-        $retNodeList =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+        $retNodeList = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
 
         return $retNodeList;
     }
@@ -2891,38 +2891,34 @@ class eZContentObjectTreeNode extends eZPersistentObject
         return $retValue;
     }
 
-    function &fetchByContentObjectID( $contentObjectID, $asObject = true, $contentObjectVersion = false )
+    function fetchByContentObjectID( $contentObjectID, $asObject = true, $contentObjectVersion = false )
     {
         $conds = array( 'contentobject_id' => $contentObjectID );
         if ( $contentObjectVersion !== false )
         {
             $conds['contentobject_version'] = $contentObjectVersion;
         }
-        $objectList =& eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
-                                                            null,
-                                                            $conds,
-                                                            null,
-                                                            null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
+                                                    null,
+                                                    $conds,
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
-    function &fetchByRemoteID( $remoteID, $asObject = true )
+    function fetchByRemoteID( $remoteID, $asObject = true )
     {
-        $node =& eZContentObjectTreeNode::fetch( false, false, $asObject, array( "remote_id" => $remoteID ) );
-        return $node;
+        return eZContentObjectTreeNode::fetch( false, false, $asObject, array( "remote_id" => $remoteID ) );
     }
 
-    function &fetchByPath( $pathString, $asObject = true )
+    function fetchByPath( $pathString, $asObject = true )
     {
-        $node =& eZContentObjectTreeNode::fetch( false, false, $asObject, array( "path_string" => $pathString ) );
-        return $node;
+        return eZContentObjectTreeNode::fetch( false, false, $asObject, array( "path_string" => $pathString ) );
     }
 
-    function &fetchByURLPath( $pathString, $asObject = true )
+    function fetchByURLPath( $pathString, $asObject = true )
     {
-        $treeNode =& eZContentObjectTreeNode::fetch( false, false, $asObject, array( "path_identification_string" => $pathString ) );
-        return $treeNode;
+        return eZContentObjectTreeNode::fetch( false, false, $asObject, array( "path_identification_string" => $pathString ) );
     }
 
     function fetchAliasesFromNodeList( $nodeList )
@@ -2959,7 +2955,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             if ( $asObject )
             {
-                $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+                $retNodeArray = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
                 $returnValue =& $retNodeArray[0];
                 return $returnValue;
             }else
@@ -2997,7 +2993,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $nodeListArray = $db->arrayQuery( $query );
             if ( $asObject )
             {
-                $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+                $retNodeArray = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
                 return $retNodeArray;
             }
             else
@@ -3014,7 +3010,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      \static
      Fetch node by $nodeID. If $nodeID is an array of ids then list of nodes will be returned.
     */
-    function &fetch( $nodeID = false, $lang = false, $asObject = true, $conditions = false )
+    function fetch( $nodeID = false, $lang = false, $asObject = true, $conditions = false )
     {
         $returnValue = null;
 
@@ -3118,7 +3114,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
      Finds the node for the object \a $contentObjectID which placed as child of node \a $parentNodeID.
      \return An eZContentObjectTreeNode object or \c null if no node was found.
     */
-    function &fetchNode( $contentObjectID, $parentNodeID )
+    function fetchNode( $contentObjectID, $parentNodeID )
     {
         $returnValue = null;
         $ini =& eZINI::instance();
@@ -3135,7 +3131,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodeListArray = $db->arrayQuery( $query );
         if ( count( $nodeListArray ) == 1 )
         {
-            $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray, false );
+            $retNodeArray = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray, false );
             $returnValue = $retNodeArray[0];
         }
         return $returnValue;
@@ -3147,7 +3143,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function &fetchParent()
     {
-        $parent =& $this->fetch( $this->attribute( 'parent_node_id' ) );
+        $parent = $this->fetch( $this->attribute( 'parent_node_id' ) );
         return $parent;
     }
 
@@ -3173,7 +3169,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         $nodePath = $this->attribute( 'path_string' );
 
-        $retNodes =& eZContentObjectTreeNode::fetchNodesByPathString( $nodePath, false, true );
+        $retNodes = eZContentObjectTreeNode::fetchNodesByPathString( $nodePath, false, true );
 
         return $retNodes;
     }
@@ -3185,7 +3181,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           The last node is the node which the path was fetched from.
      \param $asObjects If \c true then return PHP objects, if not return raw row data.
     */
-    function &fetchNodesByPathString( $nodePath, $withLastNode = false, $asObjects = true )
+    function fetchNodesByPathString( $nodePath, $withLastNode = false, $asObjects = true )
     {
         $nodesListArray = array();
         $pathString = eZContentObjectTreeNode::createNodesConditionSQLStringFromPath( $nodePath, $withLastNode );
@@ -3218,7 +3214,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         if ( $asObjects )
-            $retNodes =& eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
+            $retNodes = eZContentObjectTreeNode::makeObjectsArray( $nodesListArray );
         else
             $retNodes =& $nodesListArray;
 
@@ -3243,7 +3239,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function &fetchClassIdentifierListByPathString( $nodePath, $withLastNode )
     {
         $itemList = array();
-        $nodes =& eZContentObjectTreeNode::fetchNodesByPathString( $nodePath, $withLastNode, false );
+        $nodes = eZContentObjectTreeNode::fetchNodesByPathString( $nodePath, $withLastNode, false );
 
         foreach ( array_keys( $nodes ) as $nodeKey )
         {
@@ -3263,8 +3259,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $user =& eZUser::currentUser();
         $userID =& $user->attribute( 'contentobject_id' );
 
-        $class =& eZContentClass::fetch( $contentClassID );
-        $parentNode =& eZContentObjectTreeNode::fetch( $parentNodeID );
+        $class = eZContentClass::fetch( $contentClassID );
+        $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
         $parentContentObject =& $parentNode->attribute( 'object' );
         $sectionID = $parentContentObject->attribute( 'section_id' );
         $object =& $class->instantiate( $userID, $sectionID );
@@ -3293,7 +3289,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else
         {
-            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
         }
 
         $db =& eZDB::instance();
@@ -3336,7 +3332,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else
         {
-            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
         }
 
         $nodeList =& $node->attribute( 'path' );
@@ -3663,7 +3659,7 @@ WHERE
         }
         else
         {
-            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
         }
 
         if ( !is_object( $node ) )
@@ -3713,7 +3709,7 @@ WHERE
         }
 
         // Clean up URL alias
-        $urlObject =& eZURLAlias::fetchBySourceURL( $urlAlias );
+        $urlObject = eZURLAlias::fetchBySourceURL( $urlAlias );
         if ( $urlObject )
         {
             $urlObject->cleanup();
@@ -3816,7 +3812,7 @@ WHERE
         $db->begin();
         foreach ( $deleteIDArray as $deleteID )
         {
-            $node =& eZContentObjectTreeNode::fetch( $deleteID );
+            $node = eZContentObjectTreeNode::fetch( $deleteID );
             if ( $node === null )
                 continue;
 
@@ -4111,7 +4107,7 @@ WHERE
         }
         else
         {
-            $node =& eZContentObjectTreeNode::fetch( $nodeID );
+            $node = eZContentObjectTreeNode::fetch( $nodeID );
         }
 
         $oldPath = $node->attribute( 'path_string' ); //$marginsArray[0][2];
@@ -4119,7 +4115,7 @@ WHERE
 
         if ( $oldParentNodeID != $newParentNodeID )
         {
-            $newParentNode =& eZContentObjectTreeNode::fetch( $newParentNodeID );
+            $newParentNode = eZContentObjectTreeNode::fetch( $newParentNodeID );
             $newParentPath = $newParentNode->attribute( 'path_string' );
             $newParentDepth = $newParentNode->attribute( 'depth' );
             $newPath =  $newParentPath;// . $newParentNodeID . '/' ;
@@ -4174,7 +4170,7 @@ WHERE
             }
 
             // Update "is_invisible" node attribute.
-            $newNode =& eZContentObjectTreeNode::fetch( $nodeID );
+            $newNode = eZContentObjectTreeNode::fetch( $nodeID );
             eZContentObjectTreeNode::updateNodeVisibility( $newNode, $newParentNode );
             $db->commit();
         }
@@ -4514,7 +4510,7 @@ WHERE
             foreach( $policy['Node'] as $nodeID )
             {
                 $mainNodeID = $this->attribute( 'main_node_id' );
-                $node =& eZContentObjectTreeNode::fetch( $nodeID );
+                $node = eZContentObjectTreeNode::fetch( $nodeID );
                 if ( $mainNodeID == $node->attribute( 'main_node_id' ) )
                 {
                     $allowed = true;
@@ -4679,7 +4675,7 @@ WHERE
     // This code is automatically generated from templates/classcreatelist.ctpl
     // code-template::auto-generated:END can-instantiate-class-list
 
-    function &makeObjectsArray( &$array , $with_contentobject = true )
+    function makeObjectsArray( &$array , $with_contentobject = true )
     {
         $retNodes = array();
         if ( !is_array( $array ) )
@@ -4806,7 +4802,7 @@ WHERE
             }
 
             $nodeListArray = $db->arrayQuery( $query );
-            $retNodeArray =& eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
+            $retNodeArray = eZContentObjectTreeNode::makeObjectsArray( $nodeListArray );
 
             if ( count( $retNodeArray ) > 0 )
             {
@@ -4869,7 +4865,7 @@ WHERE
         $parentNodeRemoteID = $contentNodeDOMNode->attributeValue( 'parent-node-remote-id' );
         if ( $parentNodeRemoteID !== false )
         {
-            $parentNode =& eZContentObjectTreeNode::fetchByRemoteID( $parentNodeRemoteID );
+            $parentNode = eZContentObjectTreeNode::fetchByRemoteID( $parentNodeRemoteID );
             $parentNodeID = $parentNode->attribute( 'node_id' );
         }
         else
@@ -5035,7 +5031,7 @@ WHERE
 
     function &contentObjectVersionObject( $asObject = true )
     {
-        $version =& eZContentObjectVersion::fetchVersion( $this->ContentObjectVersion, $this->ContentObjectID, $asObject );
+        $version = eZContentObjectVersion::fetchVersion( $this->ContentObjectVersion, $this->ContentObjectID, $asObject );
         if ( $this->CurrentLanguage != false )
             $version->CurrentLanguage = $this->CurrentLanguage;
         return $version;

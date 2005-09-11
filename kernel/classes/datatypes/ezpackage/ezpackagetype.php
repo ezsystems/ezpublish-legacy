@@ -94,7 +94,7 @@ class eZPackageType extends eZDataType
             $classAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
             if ( $classAttribute->attribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD ) == 'sitestyle' )
             {
-                $package =& eZPackage::fetch( $data );
+                $package = eZPackage::fetch( $data );
                 if ( $package )
                 {
                     $fileList = $package->fileList( 'default' );
@@ -192,7 +192,7 @@ class eZPackageType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         $packageName = $contentObjectAttribute->attribute( "data_text" );
-        $package =& eZPackage::fetch( $packageName );
+        $package = eZPackage::fetch( $packageName );
         return $package;
     }
 

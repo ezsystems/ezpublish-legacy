@@ -55,10 +55,10 @@ $ini =& eZINI::instance();
 
 if ( strlen( $hashKey ) == 32 )
 {
-    $forgotPasswdObj =& eZForgotPassword::fetchByKey( $hashKey );
+    $forgotPasswdObj = eZForgotPassword::fetchByKey( $hashKey );
     if ( $forgotPasswdObj )
     {
-        $user =& eZUser::fetch( $forgotPasswdObj->attribute( 'user_id' ) );
+        $user = eZUser::fetch( $forgotPasswdObj->attribute( 'user_id' ) );
         $email = $user->attribute( 'email' );
 
         $ini =& eZINI::instance();
@@ -127,19 +127,12 @@ if ( $module->isCurrentAction( "Generate" ) )
 
 //    $http->setSessionVariable( "GeneratedPassword", $password );
 
-/*    if ( $moduile->hasActionParameter( "Login" ) )
-    {
-        $login = $module->actionParameter( "Login" );
-        $user =& eZUser::fetchByName( $login );
-        $email = $user->attribute( 'email' );
-    }
-*/
     if ( $module->hasActionParameter( "Email" ) )
     {
         $email = $module->actionParameter( "Email" );
         if ( trim( $email ) != "" )
         {
-            $users =& eZPersistentObject::fetchObjectList( eZUser::definition(),
+            $users = eZPersistentObject::fetchObjectList( eZUser::definition(),
                                                        null,
                                                        array( 'email' => $email ),
                                                        null,

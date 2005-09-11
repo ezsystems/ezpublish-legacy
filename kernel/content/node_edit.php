@@ -90,7 +90,7 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
             {
                 $isPermitted = true;
                 // Check access
-                $newNode =& eZContentObjectTreeNode::fetch( $nodeID );
+                $newNode = eZContentObjectTreeNode::fetch( $nodeID );
                 $newNodeObject = $newNode->attribute( 'object' );
 
                 $canCreate = $newNodeObject->checkAccess( 'create', $class->attribute( 'id' ), $newNodeObject->attribute( 'contentclass_id' ) ) == 1;
@@ -164,7 +164,7 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
                 {
                     $isPermitted = true;
                     // Check access
-                    $newNode =& eZContentObjectTreeNode::fetch( $nodeID );
+                    $newNode = eZContentObjectTreeNode::fetch( $nodeID );
                     $newNodeObject = $newNode->attribute( 'object' );
 
 //                     $canCreate = $newNodeObject->attribute( 'can_create' );
@@ -193,7 +193,7 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
                     }
                     else
                     {
-                        $oldAssignment =& eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
+                        $oldAssignment = eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
                                                                            null,
                                                                            array( 'contentobject_id' => $object->attribute( 'id' ),
                                                                                   'parent_node' => $oldAssignmentParentID,
@@ -201,7 +201,7 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
                                                                                   ),
                                                                            true );
 
-                        $realNode =& eZContentObjectTreeNode::fetchNode( $version->attribute( 'contentobject_id' ), $oldAssignment->attribute( 'parent_node' ) );
+                        $realNode = eZContentObjectTreeNode::fetchNode( $version->attribute( 'contentobject_id' ), $oldAssignment->attribute( 'parent_node' ) );
 
                         if ( is_null( $realNode ) )
                         {
@@ -325,7 +325,7 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
     if ( $http->hasPostVariable( 'SortFieldMap' ) )
         $sortFieldMap = $http->postVariable( 'SortFieldMap' );
 
-//     $assigedNodes =& eZContentObjectTreeNode::fetchByContentObjectID( $object->attribute('id') );
+//     $assigedNodes = eZContentObjectTreeNode::fetchByContentObjectID( $object->attribute('id') );
     foreach ( array_keys( $nodeAssignments ) as $key )
     {
         $nodeAssignment =& $nodeAssignments[$key];
@@ -460,7 +460,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 //         if ( $nodeID != $mainNodeID )
         {
             $objectID = $object->attribute( 'id' );
-            $publishedNode =& eZContentObjectTreeNode::fetchNode( $objectID, $nodeID );
+            $publishedNode = eZContentObjectTreeNode::fetchNode( $objectID, $nodeID );
             if ( $publishedNode != null )
             {
                 $publishParentNodeID = $publishedNode->attribute( 'parent_node_id' );
@@ -481,10 +481,10 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
             }
             else
             {
-                $nodeAssignment =& eZNodeAssignment::fetch( $objectID, $version->attribute( 'version' ), $nodeID );
+                $nodeAssignment = eZNodeAssignment::fetch( $objectID, $version->attribute( 'version' ), $nodeID );
                 if ( $nodeAssignment->attribute( 'from_node_id' ) != 0 )
                 {
-                    $publishedNode =& eZContentObjectTreeNode::fetchNode( $objectID, $nodeAssignment->attribute( 'from_node_id' ) );
+                    $publishedNode = eZContentObjectTreeNode::fetchNode( $objectID, $nodeAssignment->attribute( 'from_node_id' ) );
                     $childrenCount = 0;
                     if ( $publishedNode !== null )
                         $childrenCount =& $publishedNode->childrenCount();
@@ -577,7 +577,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
         {
             $fromNodeID = $http->postVariable( 'MoveNodeID' ); //$sourceNodeID[0];
             $oldAssignmentParentID = $fromNodeID;
-            $fromNodeAssignment =& eZNodeAssignment::fetch( $objectID, $version->attribute( 'version' ), $fromNodeID );
+            $fromNodeAssignment = eZNodeAssignment::fetch( $objectID, $version->attribute( 'version' ), $fromNodeID );
             $publishParentNodeID = $fromNodeAssignment->attribute( 'parent_node' );
             if ( $publishParentNodeID > 1 )
             {

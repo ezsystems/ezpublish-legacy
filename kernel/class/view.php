@@ -50,7 +50,7 @@ $ClassVersion = null;
 if ( !is_numeric( $ClassID ) )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
 
-$class =& eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_DEFINED );
+$class = eZContentClass::fetch( $ClassID, true, EZ_CLASS_VERSION_STATUS_DEFINED );
 
 if ( !$class )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );

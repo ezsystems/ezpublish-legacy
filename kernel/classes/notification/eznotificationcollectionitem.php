@@ -103,7 +103,7 @@ class eZNotificationCollectionItem extends eZPersistentObject
 
     function fetchCountForEvent( $eventID )
     {
-        $result =& eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
+        $result = eZPersistentObject::fetchObjectList( eZNotificationCollectionItem::definition(),
                                                         array(), array( 'event_id' => $eventID ), array(),null,
                                                         false,false, array( array( 'operation' => 'count(*)',
                                                                                    'name' => 'count' ) ) );

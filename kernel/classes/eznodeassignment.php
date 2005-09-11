@@ -249,7 +249,7 @@ class eZNodeAssignment extends eZPersistentObject
         {
             $cond['is_main'] = 1;
         }
-        $objectList =& eZPersistentObject::fetchObjectList( eZNodeAssignment::definition(),
+        $objectList = eZPersistentObject::fetchObjectList( eZNodeAssignment::definition(),
                                                             null,
                                                             $cond,
                                                             null,
@@ -258,16 +258,15 @@ class eZNodeAssignment extends eZPersistentObject
         return $objectList;
     }
 
-    function &fetch( $contentObjectID, $version = 1, $parentNode = 0 ,$asObject = true )
+    function fetch( $contentObjectID, $version = 1, $parentNode = 0 ,$asObject = true )
     {
         $cond = array( 'contentobject_id' => $contentObjectID,
                        'contentobject_version' => $version,
                        'parent_node' => $parentNode );
-        $object =& eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
-                                                    null,
-                                                    $cond,
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
+                                                null,
+                                                $cond,
+                                                $asObject );
     }
 
     /*!
@@ -277,7 +276,7 @@ class eZNodeAssignment extends eZPersistentObject
     */
     function &fetchNode()
     {
-        $node =& eZContentObjectTreeNode::fetchNode( $this->ContentobjectID, $this->ParentNode );
+        $node = eZContentObjectTreeNode::fetchNode( $this->ContentobjectID, $this->ParentNode );
         return $node;
     }
 
@@ -285,20 +284,19 @@ class eZNodeAssignment extends eZPersistentObject
      Fetches the node assignment which has id \a $id and returns it.
      \sa fetchListByID
     */
-    function &fetchByID( $id ,$asObject = true )
+    function fetchByID( $id ,$asObject = true )
     {
         $cond = array( 'id' => $id );
-        $object =& eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
-                                                    null, $cond,
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
+                                                null, $cond,
+                                                $asObject );
     }
 
     /*!
      Fetches all node assignments which is mentioned in array \a $ID and returns it.
      \sa fetchByID
     */
-    function &fetchListByID( $idList ,$asObject = true )
+    function fetchListByID( $idList ,$asObject = true )
     {
         $cond = array( 'id' => array( $idList ) );
         return eZPersistentObject::fetchObjectList( eZNodeAssignment::definition(),
@@ -323,7 +321,7 @@ class eZNodeAssignment extends eZPersistentObject
 
     function &getParentNode()
     {
-        $parent =& eZContentObjectTreeNode::fetch( $this->attribute( 'parent_node' ) );
+        $parent = eZContentObjectTreeNode::fetch( $this->attribute( 'parent_node' ) );
         return $parent;
     }
 

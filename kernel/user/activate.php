@@ -58,7 +58,7 @@ if ( $accountKey )
     $userSetting->store();
 
     // Log in user
-    $user =& eZUser::fetch( $userID );
+    $user = eZUser::fetch( $userID );
 
     if ( $user === null )
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );

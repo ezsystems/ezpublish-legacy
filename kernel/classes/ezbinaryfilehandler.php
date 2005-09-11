@@ -175,10 +175,10 @@ class eZBinaryFileHandler
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $version = $contentObject->attribute( 'current_version' );
-        $fileObject =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+        $fileObject = eZBinaryFile::fetch( $contentObjectAttributeID, $version );
         if ( $fileObject )
             return $fileObject;
-        $fileObject =& eZMedia::fetch( $contentObjectAttributeID, $version );
+        $fileObject = eZMedia::fetch( $contentObjectAttributeID, $version );
         return $fileObject;
     }
 
@@ -190,10 +190,10 @@ class eZBinaryFileHandler
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $version = $contentObject->attribute( 'current_version' );
-        $fileObject =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+        $fileObject = eZBinaryFile::fetch( $contentObjectAttributeID, $version );
         if ( $fileObject )
             return EZ_BINARY_FILE_TYPE_FILE;
-        $fileObject =& eZMedia::fetch( $contentObjectAttributeID, $version );
+        $fileObject = eZMedia::fetch( $contentObjectAttributeID, $version );
         if ( $fileObject )
             return EZ_BINARY_FILE_TYPE_MEDIA;
         return false;

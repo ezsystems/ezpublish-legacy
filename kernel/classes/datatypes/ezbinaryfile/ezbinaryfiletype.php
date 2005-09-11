@@ -129,7 +129,7 @@ class eZBinaryFileType extends eZDataType
         {
             $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
             $version = $contentObjectAttribute->attribute( "version" );
-            $oldfile =& eZBinaryFile::fetch( $contentObjectAttributeID, $currentVersion );
+            $oldfile = eZBinaryFile::fetch( $contentObjectAttributeID, $currentVersion );
             if ( $oldfile != null )
             {
                 $oldfile->setAttribute( 'contentobject_attribute_id', $contentObjectAttribute->attribute( 'id' ) );
@@ -145,8 +145,8 @@ class eZBinaryFileType extends eZDataType
     function deleteStoredObjectAttribute( &$contentObjectAttribute, $version = null )
     {
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-//        $binaryFiles =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
-        $binaryFiles =& eZBinaryFile::fetch( $contentObjectAttributeID );
+//        $binaryFiles = eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+        $binaryFiles = eZBinaryFile::fetch( $contentObjectAttributeID );
         $sys =& eZSys::instance();
         $storage_dir = $sys->storageDirectory();
 
@@ -167,7 +167,7 @@ class eZBinaryFileType extends eZDataType
         else
         {
             $count = 0;
-            $currentBinaryFile =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+            $currentBinaryFile = eZBinaryFile::fetch( $contentObjectAttributeID, $version );
             if ( $currentBinaryFile != null )
             {
                 $mimeType =  $currentBinaryFile->attribute( "mime_type" );
@@ -230,7 +230,7 @@ class eZBinaryFileType extends eZDataType
         {
             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
             $version = $contentObjectAttribute->attribute( "version" );
-            $binary =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+            $binary = eZBinaryFile::fetch( $contentObjectAttributeID, $version );
             if ( $binary === null )
             {
                 $mustUpload = true;
@@ -301,7 +301,7 @@ class eZBinaryFileType extends eZDataType
                 return false;
             }
 
-            $binary =& eZBinaryFile::fetch( $contentObjectAttributeID, $version );
+            $binary = eZBinaryFile::fetch( $contentObjectAttributeID, $version );
             if ( $binary === null )
                 $binary = eZBinaryFile::create( $contentObjectAttributeID, $version );
 
@@ -370,7 +370,7 @@ class eZBinaryFileType extends eZDataType
         $errors =& $result['errors'];
         $attributeID = $objectAttribute->attribute( 'id' );
 
-        $binary =& eZBinaryFile::fetch( $attributeID, $objectVersion );
+        $binary = eZBinaryFile::fetch( $attributeID, $objectVersion );
         if ( $binary === null )
             $binary = eZBinaryFile::create( $attributeID, $objectVersion );
 
@@ -414,7 +414,7 @@ class eZBinaryFileType extends eZDataType
         $errors =& $result['errors'];
         $attributeID = $objectAttribute->attribute( 'id' );
 
-        $binary =& eZBinaryFile::fetch( $attributeID, $objectVersion );
+        $binary = eZBinaryFile::fetch( $attributeID, $objectVersion );
         if ( $binary === null )
             $binary = eZBinaryFile::create( $attributeID, $objectVersion );
 
@@ -463,7 +463,7 @@ class eZBinaryFileType extends eZDataType
     function storedFileInformation( &$object, $objectVersion, $objectLanguage,
                                     &$objectAttribute )
     {
-        $binaryFile =& eZBinaryFile::fetch( $objectAttribute->attribute( "id" ),
+        $binaryFile = eZBinaryFile::fetch( $objectAttribute->attribute( "id" ),
                                             $objectAttribute->attribute( "version" ) );
         if ( $binaryFile )
         {
@@ -478,7 +478,7 @@ class eZBinaryFileType extends eZDataType
     function handleDownload( &$object, $objectVersion, $objectLanguage,
                              &$objectAttribute )
     {
-        $binaryFile =& eZBinaryFile::fetch( $objectAttribute->attribute( "id" ),
+        $binaryFile = eZBinaryFile::fetch( $objectAttribute->attribute( "id" ),
                                             $objectAttribute->attribute( "version" ) );
 
         $contentObjectAttributeID = $objectAttribute->attribute( 'id' );
@@ -509,7 +509,7 @@ class eZBinaryFileType extends eZDataType
     */
     function title( &$contentObjectAttribute,  $name = "original_filename" )
     {
-        $binaryFile =& eZBinaryFile::fetch( $contentObjectAttribute->attribute( "id" ),
+        $binaryFile = eZBinaryFile::fetch( $contentObjectAttribute->attribute( "id" ),
                                             $contentObjectAttribute->attribute( "version" ) );
         $value = $binaryFile->attribute( $name );
 
@@ -518,7 +518,7 @@ class eZBinaryFileType extends eZDataType
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
-        $binaryFile =& eZBinaryFile::fetch( $contentObjectAttribute->attribute( "id" ),
+        $binaryFile = eZBinaryFile::fetch( $contentObjectAttribute->attribute( "id" ),
                                             $contentObjectAttribute->attribute( "version" ) );
         if ( !$binaryFile )
             return false;
@@ -527,7 +527,7 @@ class eZBinaryFileType extends eZDataType
 
     function &objectAttributeContent( $contentObjectAttribute )
     {
-        $binaryFile =& eZBinaryFile::fetch( $contentObjectAttribute->attribute( "id" ),
+        $binaryFile = eZBinaryFile::fetch( $contentObjectAttribute->attribute( "id" ),
                                             $contentObjectAttribute->attribute( "version" ) );
         if ( !$binaryFile )
         {

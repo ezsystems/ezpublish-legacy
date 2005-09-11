@@ -92,7 +92,7 @@ class eZShopOperationCollection
 
         /* Check if the item with the same options is not already in the basket: */
         $itemID = false;
-        $collection =& eZProductCollection::fetch( $basket->attribute( 'productcollection_id' ) );
+        $collection = eZProductCollection::fetch( $basket->attribute( 'productcollection_id' ) );
         if ( $collection )
         {
             $count = 0;
@@ -110,7 +110,7 @@ class eZShopOperationCollection
                 /* For all items in the basket which have the same object_id: */
                 if ( $item['contentobject_id'] == $objectID )
                 {
-                    $options =& eZProductCollectionItemOption::fetchList( $item['id'], false );
+                    $options = eZProductCollectionItemOption::fetchList( $item['id'], false );
                     /* If the number of option for this item is not the same as in the HTTP variable: */
                     if ( count( $options ) != $count )
                     {
@@ -141,7 +141,7 @@ class eZShopOperationCollection
         if ( $itemID )
         {
             /* If found in the basket, just increment number of that items: */
-            $item =& eZProductCollectionItem::fetch( $itemID );
+            $item = eZProductCollectionItem::fetch( $itemID );
             $item->setAttribute( 'item_count', 1 + $item->attribute( 'item_count' ) );
             $item->store();
         }
@@ -193,7 +193,7 @@ class eZShopOperationCollection
                 $attributeID = $optionIDItem['attribute_id'];
                 $optionString = $optionIDItem['option_string'];
 
-                $attribute =& eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
+                $attribute = eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
                 $dataType =& $attribute->dataType();
                 $optionData = $dataType->productOptionInformation( $attribute, $optionString, $item );
                 if ( $optionData )
@@ -220,7 +220,7 @@ class eZShopOperationCollection
         include_once( "kernel/classes/ezbasket.php" );
         include_once( 'kernel/classes/ezorder.php' );
 
-        $order =& eZOrder::fetch( $orderID );
+        $order = eZOrder::fetch( $orderID );
 
         $db =& eZDB::instance();
         $db->begin();
@@ -239,7 +239,7 @@ class eZShopOperationCollection
     {
         include_once( "kernel/classes/ezbasket.php" );
         include_once( 'kernel/classes/ezorder.php' );
-        $order =& eZOrder::fetch( $orderID );
+        $order = eZOrder::fetch( $orderID );
 
         // Fetch the shop account handler
         include_once( 'kernel/classes/ezshopaccounthandler.php' );

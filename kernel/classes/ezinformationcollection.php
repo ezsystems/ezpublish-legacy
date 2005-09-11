@@ -405,20 +405,19 @@ class eZInformationCollection extends eZPersistentObject
      \static
       Fetches the information collection by ID.
     */
-    function &fetch( $id, $asObject = true )
+    function fetch( $id, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZInformationCollection::definition(),
-                                                    null,
-                                                    array( 'id' => $id ),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZInformationCollection::definition(),
+                                                null,
+                                                array( 'id' => $id ),
+                                                $asObject );
     }
 
     /*!
      \static
       Fetches the information collection by user identifier.
     */
-    function &fetchByUserIdentifier( $userIdentifier, $contentObjectID = false, $asObject = true )
+    function fetchByUserIdentifier( $userIdentifier, $contentObjectID = false, $asObject = true )
     {
         $conditions = array( 'user_identifier' => $userIdentifier );
         if ( $contentObjectID )

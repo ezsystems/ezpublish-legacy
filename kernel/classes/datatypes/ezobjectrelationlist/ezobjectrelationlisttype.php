@@ -255,7 +255,7 @@ class eZObjectRelationListType extends eZDataType
                     $attributeInputMap =& $content['temp'][$subObjectID]['attribute-input-map'];
                     $object->storeInput( $attributes,
                                          $attributeInputMap );
-                    $version =& eZContentObjectVersion::fetchVersion( $subObjectVersion, $subObjectID );
+                    $version = eZContentObjectVersion::fetchVersion( $subObjectVersion, $subObjectID );
                     if ( $version )
                     {
                         $version->setAttribute( 'modified', time() );
@@ -297,7 +297,7 @@ class eZObjectRelationListType extends eZDataType
                     $currentVersion->setAttribute( 'modified', $time );
                     $currentVersion->store();
 
-                    $version =& eZContentObjectVersion::fetchVersion( $subObjectVersion, $subObjectID );
+                    $version = eZContentObjectVersion::fetchVersion( $subObjectVersion, $subObjectID );
                     $version->setAttribute( 'modified', $time );
                     $version->setAttribute( 'status', EZ_VERSION_STATUS_PUBLISHED );
                     $version->store();
@@ -600,13 +600,13 @@ class eZObjectRelationListType extends eZDataType
                 {
                     $classVariable = $http->postVariable( $classVariableName );
                     $classID = $classVariable[$contentObjectAttribute->attribute( 'id' )];
-                    $class =& eZContentClass::fetch( $classID );
+                    $class = eZContentClass::fetch( $classID );
                 }
                 else
                     return false;
             }
             else
-                $class =& eZContentClass::fetch( $classID );
+                $class = eZContentClass::fetch( $classID );
             if ( $class )
             {
                 $classAttribute =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
@@ -894,7 +894,7 @@ class eZObjectRelationListType extends eZDataType
             if ( $isDeletionAllowed and
                  $version->attribute( 'version' ) != $contentObjectAttribute->attribute( 'version' ) )
             {
-                $relationAttribute =& eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
+                $relationAttribute = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
                                                                            null,
                                                                            array( 'version' => $version->attribute( 'version' ),
                                                                                   'contentobject_id' => $hostObject->attribute( 'id' ),
@@ -923,7 +923,7 @@ class eZObjectRelationListType extends eZDataType
 
         if ( $isDeletionAllowed )
         {
-            $subObjectVersion =& eZContentObjectVersion::fetchVersion( $deletionItem['contentobject_version'],
+            $subObjectVersion = eZContentObjectVersion::fetchVersion( $deletionItem['contentobject_version'],
                                                                        $deletionItem['contentobject_id'] );
             if ( get_class( $subObjectVersion ) == 'ezcontentobjectversion' )
             {

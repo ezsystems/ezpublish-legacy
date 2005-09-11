@@ -39,7 +39,7 @@ $module =& $Params['Module'];
 
 $packageName = $Params['PackageName'];
 
-$package =& eZPackage::fetch( $packageName );
+$package = eZPackage::fetch( $packageName );
 if ( !$package )
     return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 

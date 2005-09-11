@@ -107,14 +107,14 @@ else
 $viewParameters = array( 'offset' => $offset, 'limit'  => $limit );
 $http =& eZHttpTool::instance();
 $objectList =& eZURLObjectLink::fetchObjectVersionList( $urlID, $viewParameters );
-$urlViewCount=& eZURLObjectLink::fetchObjectVersionCount( $urlID );
+$urlViewCount= eZURLObjectLink::fetchObjectVersionCount( $urlID );
 
 if ( $Module->isCurrentAction( 'EditObject' ) )
 {
     if ( $http->hasPostVariable( 'ObjectList' ) )
     {
         $versionID = $http->postVariable( 'ObjectList' );
-        $version =& eZContentObjectVersion::fetch( $versionID );
+        $version = eZContentObjectVersion::fetch( $versionID );
         $contentObjectID = $version->attribute( 'contentobject_id' );
         $versionNr = $version->attribute( 'version' );
         $Module->redirect( 'content', 'edit', array( $contentObjectID, $versionNr ) );

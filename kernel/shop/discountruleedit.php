@@ -137,14 +137,14 @@ else
     if ( $discountRuleID )
     {
         // exists => read needed info from db
-        $discountRule =& eZDiscountSubRule::fetch( $discountRuleID );
+        $discountRule = eZDiscountSubRule::fetch( $discountRuleID );
         if ( !$discountRule )
         {
             return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
         }
 
         $discountRuleSelectedClasses = array();
-        $discountRuleSelectedClassesValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 0, false );
+        $discountRuleSelectedClassesValues = eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 0, false );
         foreach( $discountRuleSelectedClassesValues as $value )
         {
             $discountRuleSelectedClasses[] = $value['value'];
@@ -155,7 +155,7 @@ else
         }
 
         $discountRuleSelectedSections = array();
-        $discountRuleSelectedSectionsValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 1, false );
+        $discountRuleSelectedSectionsValues = eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 1, false );
         foreach( $discountRuleSelectedSectionsValues as $value )
         {
             $discountRuleSelectedSections[] = $value['value'];
@@ -165,7 +165,7 @@ else
             $discountRuleSelectedSections[] = -1;
         }
 
-        $discountRuleSelectedProductsValues =& eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 2, false );
+        $discountRuleSelectedProductsValues = eZDiscountSubRuleValue::fetchBySubRuleID( $discountRuleID, 2, false );
         foreach( $discountRuleSelectedProductsValues as $value )
         {
             $discountRuleSelectedProducts[] = $value['value'];
@@ -250,7 +250,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) )
     $db->begin();
     if ( $discountRuleID )
     {
-        $discountRule =& eZDiscountSubRule::fetch( $discountRuleID );
+        $discountRule = eZDiscountSubRule::fetch( $discountRuleID );
         eZDiscountSubRuleValue::removeBySubRuleID ( $discountRuleID );
     }
     else
@@ -305,7 +305,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) )
     return $module->redirectTo( $module->functionURI( 'discountgroupview' ) . '/' . $discountGroupID );
 }
 
-$classList =& eZContentClass::fetchList();
+$classList = eZContentClass::fetchList();
 $productClassList = array();
 foreach ( $classList as $class )
 {

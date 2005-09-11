@@ -141,10 +141,10 @@ if ( $module->isCurrentAction( 'NewForwardURLAlias' ) )
                               'source' => $source,
                               'destination' => $destination );
 
-        $existingAlias =& eZURLAlias::fetchBySourceURL( $destination );
+        $existingAlias = eZURLAlias::fetchBySourceURL( $destination );
         if ( !$existingAlias )
         {
-            $existingAlias =& eZURLAlias::fetchByDestinationURL( $destination );
+            $existingAlias = eZURLAlias::fetchByDestinationURL( $destination );
         }
         if ( $existingAlias )
         {
@@ -182,7 +182,7 @@ if ( $module->isCurrentAction( 'NewWildcardURLAlias' ) )
     }
 }
 
-$aliasList =& eZURLAlias::fetchByOffset( $Offset, $limit, true );
+$aliasList = eZURLAlias::fetchByOffset( $Offset, $limit, true );
 $aliasCount =& eZURLAlias::totalCount();
 
 $tpl->setVariable( 'alias_limit', $limit );

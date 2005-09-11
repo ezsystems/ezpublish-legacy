@@ -46,7 +46,7 @@ if ( isset( $Params["GroupID"] ) )
 
 if ( is_numeric( $GroupID ) )
 {
-    $classgroup =& eZContentClassGroup::fetch( $GroupID );
+    $classgroup = eZContentClassGroup::fetch( $GroupID );
 }
 else
 {

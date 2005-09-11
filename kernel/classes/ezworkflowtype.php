@@ -150,7 +150,6 @@ class eZWorkflowType
                 $def =& $definition_objects[$typeString];
                 if ( get_class( $def ) != $class_name )
                 {
-//                     eZDebugSetting::writeDebug( 'workflow-type', "Created list type: $typeString", "eZWorkflowType::fetchRegisteredTypes" );
                     if ( class_exists( $class_name ) )
                         $def = new $class_name();
                     else

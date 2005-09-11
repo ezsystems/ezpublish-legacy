@@ -136,7 +136,7 @@ class eZWorkflowEvent extends eZPersistentObject
         return new eZWorkflowEvent( $row );
     }
 
-    function &fetch( $id, $asObject = true, $version = 0, $field_filters = null )
+    function fetch( $id, $asObject = true, $version = 0, $field_filters = null )
     {
         return eZPersistentObject::fetchObject( eZWorkflowEvent::definition(),
                                                 $field_filters,
@@ -147,18 +147,17 @@ class eZWorkflowEvent extends eZPersistentObject
 
     function &fetchList( $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
+        $objectList = eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
                                                             null, null, null, null,
                                                             $asObject );
         return $objectList;
     }
 
-    function &fetchFilteredList( $cond, $asObject = true )
+    function fetchFilteredList( $cond, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
-                                                            null, $cond, null, null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZWorkflowEvent::definition(),
+                                                    null, $cond, null, null,
+                                                    $asObject );
     }
 
     /*!

@@ -88,7 +88,7 @@ class eZPreferences
             if ( $currentID != $storeUserID )
                 $isCurrentUser = false;
 
-            $user =& eZUser::fetch( $storeUserID );
+            $user = eZUser::fetch( $storeUserID );
             if ( !is_object( $user ) )
             {
                 eZDebug::writeError( "Cannot set preference for user $storeUserID, the user does not exist" );

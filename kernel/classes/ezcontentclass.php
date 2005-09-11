@@ -480,7 +480,7 @@ class eZContentClass extends eZPersistentObject
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user =& eZUser::fetch( $this->CreatorID );
+            $user = eZUser::fetch( $this->CreatorID );
         }
         else
             $user = null;
@@ -497,7 +497,7 @@ class eZContentClass extends eZPersistentObject
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user =& eZUser::fetch( $this->ModifierID );
+            $user = eZUser::fetch( $this->ModifierID );
         }
         else
             $user = null;
@@ -513,7 +513,7 @@ class eZContentClass extends eZPersistentObject
     */
     function &fetchGroupList()
     {
-        $this->InGroups =& eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
+        $this->InGroups = eZContentClassClassGroup::fetchGroupList( $this->attribute( "id" ),
                                                                      $this->attribute( "version" ),
                                                                      true );
         return $this->InGroups;
@@ -572,7 +572,7 @@ class eZContentClass extends eZPersistentObject
     */
     function &fetchAllGroups()
     {
-        $this->AllGroups =& eZContentClassGroup::fetchList();
+        $this->AllGroups = eZContentClassGroup::fetchList();
         return $this->AllGroups;
     }
 
@@ -593,7 +593,7 @@ class eZContentClass extends eZPersistentObject
     function removeTemporary()
     {
         $version = EZ_CLASS_VERSION_STATUS_TEMPORARY;
-        $temporaryClasses =& eZContentClass::fetchList( $version, true );
+        $temporaryClasses = eZContentClass::fetchList( $version, true );
         $db =& eZDb::instance();
         $db->begin();
         foreach ( $temporaryClasses as $class )
@@ -648,7 +648,7 @@ class eZContentClass extends eZPersistentObject
             {
                 if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
                 {
-                    $contentObjects =& eZContentObject::fetchSameClassList( $this->ID );
+                    $contentObjects = eZContentObject::fetchSameClassList( $this->ID );
                     foreach ( $contentObjects as $contentObject )
                     {
                         $contentObject->remove();
@@ -895,7 +895,7 @@ You will need to change the class of the node by using the swap functionality.' 
 
         // Recreate class member entries
         eZContentClassClassGroup::removeClassMembers( $this->ID, EZ_CLASS_VERSION_STATUS_DEFINED );
-        $classgroups =& eZContentClassClassGroup::fetchGroupList( $this->ID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+        $classgroups = eZContentClassClassGroup::fetchGroupList( $this->ID, EZ_CLASS_VERSION_STATUS_TEMPORARY );
         for ( $i = 0; $i < count( $classgroups ); $i++ )
         {
             $classgroup =& $classgroups[$i];
@@ -945,7 +945,7 @@ You will need to change the class of the node by using the swap functionality.' 
         $version_sort = "desc";
         if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
             $conds['version'] = $version;
-        $rows =& eZPersistentObject::fetchObjectList( eZContentClass::definition(),
+        $rows = eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                       null,
                                                       $conds,
                                                       null,
@@ -957,7 +957,7 @@ You will need to change the class of the node by using the swap functionality.' 
         return false;
     }
 
-    function &fetch( $id, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
+    function fetch( $id, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
     {
 
         $conds = array( "id" => $id,
@@ -969,7 +969,7 @@ You will need to change the class of the node by using the swap functionality.' 
         $version_sort = "desc";
         if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
             $version_sort = "asc";
-        $rows =& eZPersistentObject::fetchObjectList( eZContentClass::definition(),
+        $rows = eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                       null,
                                                       $conds,
                                                       array( "version" => $version_sort ),
@@ -988,7 +988,7 @@ You will need to change the class of the node by using the swap functionality.' 
         return $contentClass;
     }
 
-    function &fetchByRemoteID( $remoteID, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
+    function fetchByRemoteID( $remoteID, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
     {
         $conds = array( "remote_id" => $remoteID,
                         "version" => $version );
@@ -997,7 +997,7 @@ You will need to change the class of the node by using the swap functionality.' 
         $version_sort = "desc";
         if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
             $version_sort = "asc";
-        $rows =& eZPersistentObject::fetchObjectList( eZContentClass::definition(),
+        $rows = eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                       null,
                                                       $conds,
                                                       array( "version" => $version_sort ),
@@ -1015,7 +1015,7 @@ You will need to change the class of the node by using the swap functionality.' 
         return $contentClass;
     }
 
-    function &fetchByIdentifier( $identifier, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
+    function fetchByIdentifier( $identifier, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
     {
         $conds = array( "identifier" => $identifier,
                         "version" => $version );
@@ -1024,7 +1024,7 @@ You will need to change the class of the node by using the swap functionality.' 
         $version_sort = "desc";
         if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
             $version_sort = "asc";
-        $rows =& eZPersistentObject::fetchObjectList( eZContentClass::definition(),
+        $rows = eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                       null,
                                                       $conds,
                                                       array( "version" => $version_sort ),
@@ -1045,7 +1045,7 @@ You will need to change the class of the node by using the swap functionality.' 
     /*!
      \static
     */
-    function &fetchList( $version = EZ_CLASS_VERSION_STATUS_DEFINED, $asObject = true, $user_id = false,
+    function fetchList( $version = EZ_CLASS_VERSION_STATUS_DEFINED, $asObject = true, $user_id = false,
                          $sorts = null, $fields = null, $classFilter = false, $limit = null )
     {
         $conds = array();
@@ -1084,13 +1084,12 @@ You will need to change the class of the node by using the swap functionality.' 
                 $conds['identifier'] = $classIdentifierFilter[0];
         }
 
-        $objectList =& eZPersistentObject::fetchObjectList( eZContentClass::definition(),
+        return eZPersistentObject::fetchObjectList( eZContentClass::definition(),
                                                             $fields,
                                                             $conds,
                                                             $sorts,
                                                             $limit,
                                                             $asObject );
-        return $objectList;
     }
 
     /*!

@@ -73,7 +73,7 @@ if ( $Module->isCurrentAction( "Edit" ) )
     return;
 }
 
-$userAccount =& eZUser::fetch( $UserID );
+$userAccount = eZUser::fetch( $UserID );
 if ( !$userAccount )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 $userObject =& $userAccount->attribute( 'contentobject' );

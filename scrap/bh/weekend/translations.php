@@ -90,7 +90,7 @@ if ( $Module->isCurrentAction( 'Confirm' ) )
     $tranlationList = $Module->actionParameter( 'ConfirmList' );
     foreach ( $tranlationList as $translationID )
     {
-        $translation =& eZContentTranslation::fetch( $translationID );
+        $translation = eZContentTranslation::fetch( $translationID );
         $translation->remove();
     }
 }
@@ -103,7 +103,7 @@ if ( $Module->isCurrentAction( 'Remove' ) )
     $totalRemoveTranslation = 0;
     foreach ( $seletedIDList as $translationID )
     {
-        $translation =& eZContentTranslation::fetch( $translationID );
+        $translation = eZContentTranslation::fetch( $translationID );
         $translatedObjectsCount = $translation->translatedObjectsCount();
         if ( $translatedObjectsCount == 0 )
         {
@@ -135,7 +135,7 @@ if ( $Module->isCurrentAction( 'Remove' ) )
 if ( $Params['TranslationID'] )
 {
 
-$translation =& eZContentTranslation::fetch( $Params['TranslationID'] );
+$translation = eZContentTranslation::fetch( $Params['TranslationID'] );
 
  if( $translation )
  {
@@ -165,7 +165,7 @@ $availableTranslations = array();
 
 foreach( $translations as $currentTranslation )
 {
-    $translation =& eZContentTranslation::fetch( $currentTranslation->attribute( 'id' ) );
+    $translation = eZContentTranslation::fetch( $currentTranslation->attribute( 'id' ) );
     $translatedObjectsCount = $translation->translatedObjectsCount();
 
     $availableTranslations[] = array( 'translation' => $translation, 'object_count' => $translatedObjectsCount );

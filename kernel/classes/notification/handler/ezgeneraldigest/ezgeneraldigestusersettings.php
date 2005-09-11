@@ -106,9 +106,10 @@ class eZGeneralDigestUserSettings extends eZPersistentObject
 
     function fetchForUser( $address, $asObject = true )
     {
-        return eZPersistentObject::fetchObjectList( eZGeneralDigestUserSettings::definition(),
-                                                    null, array( 'address' => $address ),
-                                                    null,null,true );
+        return eZPersistentObject::fetchObject( eZGeneralDigestUserSettings::definition(),
+                                                null,
+                                                array( 'address' => $address ),
+                                                $asObject );
     }
 
     /*!

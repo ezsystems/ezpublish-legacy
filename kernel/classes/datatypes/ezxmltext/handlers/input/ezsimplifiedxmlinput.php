@@ -309,7 +309,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         if ( $href != null )
                         {
                             $linkID = eZURL::registerURL( $href );
-                            $linkObjectLink =& eZURLObjectLink::fetch( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
+                            $linkObjectLink = eZURLObjectLink::fetch( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
                             if ( $linkObjectLink == null )
                             {
                                 $linkObjectLink = eZURLObjectLink::create( $linkID, $contentObjectAttributeID, $contentObjectAttributeVersion );
@@ -332,7 +332,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             }
                             else
                             {
-                                $linkObjectLink =& eZURLObjectLink::fetch( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion );
+                                $linkObjectLink = eZURLObjectLink::fetch( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion );
                                 if ( $linkObjectLink == null )
                                 {
                                     $linkObjectLink = eZURLObjectLink::create( $urlID, $contentObjectAttributeID, $contentObjectAttributeVersion );
@@ -379,7 +379,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 if ( ereg( "^[0-9]+$", $nodePath ) )
                                 {
                                 	$nodeID = $nodePath;
-                                    $node =& eZContentObjectTreeNode::fetch( $nodeID );
+                                    $node = eZContentObjectTreeNode::fetch( $nodeID );
                                     if ( $node == null)
 	                                {
 	                                    $GLOBALS[$isInputValid] = false;
@@ -391,7 +391,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 }
                             	else
                                 {
-                                	$node =& eZContentObjectTreeNode::fetchByURLPath( $nodePath );
+                                	$node = eZContentObjectTreeNode::fetchByURLPath( $nodePath );
                                     if ( $node == null)
 	                                {
 	                                    $GLOBALS[$isInputValid] = false;
@@ -487,7 +487,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 if ( ereg( "^[0-9]+$", $nodePath ) )
                                 {
                                 	$nodeID = $nodePath;
-                                    $node =& eZContentObjectTreeNode::fetch( $nodeID );
+                                    $node = eZContentObjectTreeNode::fetch( $nodeID );
                                     if ( $node == null)
 	                                {
 	                                    $GLOBALS[$isInputValid] = false;
@@ -499,7 +499,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 }
                             	else
                                 {
-                                	$node =& eZContentObjectTreeNode::fetchByURLPath( $nodePath );
+                                	$node = eZContentObjectTreeNode::fetchByURLPath( $nodePath );
                                     if ( $node == null)
 	                                {
 	                                    $GLOBALS[$isInputValid] = false;
@@ -2236,7 +2236,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 }
                 elseif ( $showPath == 'true' )
                 {
-                	$node =& eZContentObjectTreeNode::fetch( $nodeID );
+                	$node = eZContentObjectTreeNode::fetch( $nodeID );
                     if ( $node )
                     	$href = 'eznode://' . $node->attribute('path_identification_string');
                     else
@@ -2452,7 +2452,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 {
                 	if ( $showPath == 'true' )
                     {
-                    	$node =& eZContentObjectTreeNode::fetch( $nodeID );
+                    	$node = eZContentObjectTreeNode::fetch( $nodeID );
 	                    if ( $node )
 	                        $href = 'eznode://' . $node->attribute('path_identification_string');
 	                    else

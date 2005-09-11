@@ -71,7 +71,7 @@ if ( is_numeric( $Params["UserID"] ) )
 else
     $UserID = $currentUserID;
 
-$user =& eZUser::fetch( $UserID );
+$user = eZUser::fetch( $UserID );
 if ( !$user )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 $currentUser =& eZUser::currentUser();

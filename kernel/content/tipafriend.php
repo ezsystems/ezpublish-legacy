@@ -144,7 +144,7 @@ if ( $http->hasPostVariable( 'SendButton' ) )
 
             // Increase tipafriend count for this node
             include_once( "kernel/classes/eztipafriendcounter.php" );
-            $counter =& eZTipafriendCounter::fetch( $NodeID );
+            $counter = eZTipafriendCounter::fetch( $NodeID );
             if ( $counter == null )
             {
                 $counter = eZTipafriendCounter::create( $NodeID );

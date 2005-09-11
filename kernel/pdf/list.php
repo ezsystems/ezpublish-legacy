@@ -52,13 +52,13 @@ else if ( $Module->isCurrentAction( 'RemoveExport' ) )
     foreach ( $deleteArray as $deleteID )
     {
         // remove draft if it exists:
-        $pdfExport =& eZPDFExport::fetch( $deleteID, true, EZ_PDFEXPORT_VERSION_DRAFT );
+        $pdfExport = eZPDFExport::fetch( $deleteID, true, EZ_PDFEXPORT_VERSION_DRAFT );
         if ( $pdfExport )
         {
             $pdfExport->remove();
         }
         // remove default version:
-        $pdfExport =& eZPDFExport::fetch( $deleteID );
+        $pdfExport = eZPDFExport::fetch( $deleteID );
         if ( $pdfExport )
         {
             $pdfExport->remove();
@@ -66,7 +66,7 @@ else if ( $Module->isCurrentAction( 'RemoveExport' ) )
     }
 }
 
-$exportArray =& eZPDFExport::fetchList();
+$exportArray = eZPDFExport::fetchList();
 $exportList = array();
 foreach( array_keys( $exportArray ) as $exportID )
 {

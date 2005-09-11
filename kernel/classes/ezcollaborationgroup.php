@@ -135,7 +135,7 @@ class eZCollaborationGroup extends eZPersistentObject
         $pathString = '';
         if ( $parentGroupID > 0 )
         {
-            $parentGroup =& eZCollaborationGroup::fetch( $parentGroupID, $userID );
+            $parentGroup = eZCollaborationGroup::fetch( $parentGroupID, $userID );
             $depth = $parentGroup->attribute( 'depth' ) + 1;
             $pathString = $parentGroup->attribute( 'path_string' );
         }
@@ -172,7 +172,7 @@ class eZCollaborationGroup extends eZPersistentObject
         return new eZCollaborationGroup( $row );
     }
 
-    function &fetch( $id, $userID = false, $asObject = true )
+    function fetch( $id, $userID = false, $asObject = true )
     {
         $conditions = array( "id" => $id );
         if ( $userID !== false )
@@ -210,7 +210,7 @@ class eZCollaborationGroup extends eZPersistentObject
 
         $group = null;
         if ( $parentGroupID > 0 )
-            $group =& eZCollaborationGroup::fetch( $parentGroupID );
+            $group = eZCollaborationGroup::fetch( $parentGroupID );
 
         $sortCount = 0;
         $sortList = $parameters['sort_by'];
@@ -340,7 +340,7 @@ class eZCollaborationGroup extends eZPersistentObject
         if ( isset( $this->UserID ) and $this->UserID )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $user =& eZUser::fetch( $this->UserID );
+            $user = eZUser::fetch( $this->UserID );
         }
         else
             $user = null;
@@ -350,7 +350,7 @@ class eZCollaborationGroup extends eZPersistentObject
     function &parentGroup()
     {
         if ( isset( $this->ParentGroupID ) and $this->ParentGroupID )
-            $parentGroup =& eZCollaborationGroup::fetch( $this->ParentGroupID );
+            $parentGroup = eZCollaborationGroup::fetch( $this->ParentGroupID );
         else
             $parentGroup = null;
         return $parentGroup;

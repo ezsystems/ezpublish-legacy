@@ -80,7 +80,7 @@ class eZImageFile extends eZPersistentObject
 
     function &fetchForContentObjectAttribute( $contentObjectAttributeID, $asObject = false )
     {
-        $rows =& eZPersistentObject::fetchObjectList( eZImageFile::definition(),
+        $rows = eZPersistentObject::fetchObjectList( eZImageFile::definition(),
                                                       null,
                                                       array( "contentobject_attribute_id" => $contentObjectAttributeID ),
                                                       null,
@@ -101,14 +101,13 @@ class eZImageFile extends eZPersistentObject
             return $rows;
     }
 
-    function &fetchByFilepath( $contentObjectAttributeID, $filepath, $asObject = true )
+    function fetchByFilepath( $contentObjectAttributeID, $filepath, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZImageFile::definition(),
-                                                    null,
-                                                    array( 'contentobject_attribute_id' => $contentObjectAttributeID,
-                                                           'filepath' => $filepath ),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZImageFile::definition(),
+                                                null,
+                                                array( 'contentobject_attribute_id' => $contentObjectAttributeID,
+                                                       'filepath' => $filepath ),
+                                                $asObject );
     }
 
     function moveFilepath( $contentObjectAttributeID, $oldFilepath, $newFilepath )
@@ -127,7 +126,7 @@ class eZImageFile extends eZPersistentObject
     {
         if ( empty( $filepath ) )
             return false;
-        $fileObject =& eZImageFile::fetchByFilePath( $contentObjectAttributeID, $filepath );
+        $fileObject = eZImageFile::fetchByFilePath( $contentObjectAttributeID, $filepath );
         if ( $fileObject )
             return false;
         $fileObject = eZImageFile::create( $contentObjectAttributeID, $filepath );
@@ -139,7 +138,7 @@ class eZImageFile extends eZPersistentObject
     {
         if ( empty( $filepath ) )
             return false;
-        $fileObject =& eZImageFile::fetchByFilePath( $contentObjectAttributeID, $filepath );
+        $fileObject = eZImageFile::fetchByFilePath( $contentObjectAttributeID, $filepath );
         if ( !$fileObject )
             return false;
         $fileObject->remove();

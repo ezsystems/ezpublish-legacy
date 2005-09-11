@@ -89,7 +89,7 @@ class eZForgotPassword extends eZPersistentObject
                                             "time" => $time ) );
     }
 
-    function &fetchByKey( $hashKey )
+    function fetchByKey( $hashKey )
     {
         return eZPersistentObject::fetchObject( eZForgotPassword::definition(),
                                                 null,

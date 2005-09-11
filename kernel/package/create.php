@@ -55,7 +55,7 @@ if ( $module->isCurrentAction( 'CreatePackage' ) )
         $initializeStep = true;
 	    $package = false;
     	if ( isset( $persistentData['package_name'] ) )
-        	$package =& eZPackage::fetch( $persistentData['package_name'] );
+        	$package = eZPackage::fetch( $persistentData['package_name'] );
 		$creator->generateStepMap( $package, $persistentData );
     }
 }
@@ -71,7 +71,7 @@ else if ( $module->isCurrentAction( 'PackageStep' ) )
             $persistentData = array();
 	    $package = false;
     	if ( isset( $persistentData['package_name'] ) )
-        	$package =& eZPackage::fetch( $persistentData['package_name'] );
+        	$package = eZPackage::fetch( $persistentData['package_name'] );
 		$creator->generateStepMap( $package, $persistentData );
     }
 }

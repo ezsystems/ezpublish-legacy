@@ -59,8 +59,8 @@ if ( $http->hasPostVariable( 'DeleteButton' ) and
     eZWorkflow::setIsEnabled( false, $http->postVariable( 'Workflow_id_checked' ) );
 }
 
-$groupList =& eZWorkflowGroup::fetchList();
-$workflows =& eZWorkflow::fetchList();
+$groupList = eZWorkflowGroup::fetchList();
+$workflows = eZWorkflow::fetchList();
 $workflowList = array();
 foreach( array_keys( $workflows ) as $workflowID )
 {

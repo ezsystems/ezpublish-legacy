@@ -167,26 +167,24 @@ class eZMedia extends eZPersistentObject
         return new eZMedia( $row );
     }
 
-    function &fetch( $id, $version, $asObject = true )
+    function fetch( $id, $version, $asObject = true )
     {
         if( $version == null )
         {
-            $objectList =& eZPersistentObject::fetchObjectList( eZMedia::definition(),
-                                                                null,
-                                                                array( "contentobject_attribute_id" => $id ),
-                                                                null,
-                                                                null,
-                                                                $asObject );
-            return $objectList;
+            return eZPersistentObject::fetchObjectList( eZMedia::definition(),
+                                                        null,
+                                                        array( "contentobject_attribute_id" => $id ),
+                                                        null,
+                                                        null,
+                                                        $asObject );
         }
         else
         {
-            $object =& eZPersistentObject::fetchObject( eZMedia::definition(),
-                                                        null,
-                                                        array( "contentobject_attribute_id" => $id,
-                                                               "version" => $version ),
-                                                        $asObject );
-            return $object;
+            return eZPersistentObject::fetchObject( eZMedia::definition(),
+                                                    null,
+                                                    array( "contentobject_attribute_id" => $id,
+                                                           "version" => $version ),
+                                                    $asObject );
         }
     }
 

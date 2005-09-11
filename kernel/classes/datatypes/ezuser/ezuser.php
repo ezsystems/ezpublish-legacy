@@ -264,31 +264,28 @@ class eZUser extends eZPersistentObject
         }
     }
 
-    function &fetch( $id, $asObject = true )
+    function fetch( $id, $asObject = true )
     {
-        $user =& eZPersistentObject::fetchObject( eZUser::definition(),
-                                                  null,
-                                                  array( 'contentobject_id' => $id ),
-                                                  $asObject );
-        return $user;
+        return eZPersistentObject::fetchObject( eZUser::definition(),
+                                                null,
+                                                array( 'contentobject_id' => $id ),
+                                                $asObject );
     }
 
-    function &fetchByName( $login, $asObject = true )
+    function fetchByName( $login, $asObject = true )
     {
-        $user =& eZPersistentObject::fetchObject( eZUser::definition(),
-                                                  null,
-                                                  array( 'LOWER( login )' => strtolower( $login ) ),
-                                                  $asObject );
-        return $user;
+        return eZPersistentObject::fetchObject( eZUser::definition(),
+                                                null,
+                                                array( 'LOWER( login )' => strtolower( $login ) ),
+                                                $asObject );
     }
 
-    function &fetchByEmail( $email, $asObject = true )
+    function fetchByEmail( $email, $asObject = true )
     {
-        $user =& eZPersistentObject::fetchObject( eZUser::definition(),
+        return eZPersistentObject::fetchObject( eZUser::definition(),
                                                   null,
                                                   array( 'LOWER( email )' => strtolower( $email ) ),
                                                   $asObject );
-        return $user;
     }
 
     /*!
@@ -531,7 +528,7 @@ WHERE user_id = '" . $userID . "' AND
         include_once( 'kernel/classes/datatypes/ezuser/ezuseraccountkey.php' );
         include_once( 'kernel/classes/datatypes/ezuser/ezforgotpassword.php' );
 
-        $user =& eZUser::fetch( $userID );
+        $user = eZUser::fetch( $userID );
         if ( $user )
         {
             eZUser::removeSessionData( $userID );
@@ -550,7 +547,7 @@ WHERE user_id = '" . $userID . "' AND
      \return a list of valid and enabled users, the data returned is an array
              with ezcontentobject database data.
     */
-    function &fetchContentList()
+    function fetchContentList()
     {
         $contentObjectStatus = EZ_CONTENT_OBJECT_STATUS_PUBLISHED;
         $query = "SELECT ezcontentobject.*
@@ -606,7 +603,7 @@ WHERE user_id = '" . $userID . "' AND
         if ( get_class( $builtinInstance ) != 'ezuser' )
         {
             include_once( 'lib/ezutils/classes/ezini.php' );
-            $builtinInstance =  eZUser::fetch( EZ_USER_ANONYMOUS_ID );
+            $builtinInstance = eZUser::fetch( EZ_USER_ANONYMOUS_ID );
         }
         return $builtinInstance;
     }
@@ -1030,7 +1027,7 @@ WHERE user_id = '" . $userID . "' AND
         }
 
         include_once( "kernel/classes/datatypes/ezuser/ezusersetting.php" );
-        $setting =& eZUserSetting::fetch( $this->attribute( 'contentobject_id' ) );
+        $setting = eZUserSetting::fetch( $this->attribute( 'contentobject_id' ) );
         if ( $setting and !$setting->attribute( 'is_enabled' ) )
             $retValue = false;
         else

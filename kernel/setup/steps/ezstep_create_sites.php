@@ -701,7 +701,7 @@ WHERE
             if ( isset( $typeFunctionality['theme'] ) )
             {
                 $themeName = $typeFunctionality['theme'];
-                $themePackage =& eZPackage::fetch( $themeName, false, 'styles' );
+                $themePackage = eZPackage::fetch( $themeName, false, 'styles' );
                 if ( is_object( $themePackage ) )
                 {
                     $fileList = $themePackage->fileList( 'default' );
@@ -785,7 +785,7 @@ WHERE
                     $dataMap[ 'siteurl' ]->store();
                     $dataMap[ 'email' ]->setAttribute( 'data_text', $siteINIChanges['MailSettings']['AdminEmail'] );
                     $dataMap[ 'email' ]->store();
-                    $class =& eZContentClass::fetch( $templateLookObject->attribute( 'contentclass_id' ) );
+                    $class = eZContentClass::fetch( $templateLookObject->attribute( 'contentclass_id' ) );
                     $objectName = $class->contentObjectName( $templateLookObject );
                     $templateLookObject->setName( $objectName );
                     $templateLookObject->store();
@@ -940,7 +940,7 @@ WHERE
 
             $publishAdmin = false;
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $userAccount =& eZUser::fetch( 14 );
+            $userAccount = eZUser::fetch( 14 );
             if ( !is_object( $userAccount ) )
             {
                 $resultArray['errors'][] = array( 'code' => 'EZSW-020',

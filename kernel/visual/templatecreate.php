@@ -209,7 +209,7 @@ function &generateNodeViewTemplate( &$http, $template, $fileName )
     $templateCode = "";
     $classIdentifier = $matchArray['class_identifier'];
 
-    $class =& eZContentClass::fetchByIdentifier( $classIdentifier );
+    $class = eZContentClass::fetchByIdentifier( $classIdentifier );
 
     // Check what kind of contents we should create in the template
     switch ( $http->postVariable( 'TemplateContent' ) )

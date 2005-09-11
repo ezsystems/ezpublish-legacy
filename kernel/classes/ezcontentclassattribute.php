@@ -334,7 +334,7 @@ class eZContentClassAttribute extends eZPersistentObject
                 if ( $version !== false )
                     $conditions['version'] = $version;
             }
-            $objectList =& eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
+            $objectList = eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
                                                                 null, $conditions, null, null,
                                                                 $asObject );
             foreach ( array_keys( $objectList ) as $objectKey )
@@ -361,7 +361,7 @@ class eZContentClassAttribute extends eZPersistentObject
         {
             $cond = array( 'contentclass_id' => $classID,
                            'version' => $version );
-            $objectList =& eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
+            $objectList = eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
                                                                 null, $cond, null, null,
                                                                 $asObject );
             foreach ( array_keys( $objectList ) as $objectKey )
@@ -379,9 +379,9 @@ class eZContentClassAttribute extends eZPersistentObject
 
     function &fetchFilteredList( $cond, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
-                                                            null, $cond, null, null,
-                                                            $asObject );
+        $objectList = eZPersistentObject::fetchObjectList( eZContentClassAttribute::definition(),
+                                                           null, $cond, null, null,
+                                                           $asObject );
         foreach ( array_keys( $objectList ) as $objectKey )
         {
             $objectItem =& $objectList[$objectKey];

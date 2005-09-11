@@ -147,7 +147,7 @@ if ( $Module->isCurrentAction( 'ChangeSettings' ) )
 
 $assignment = null;
 if ( is_numeric( $placementID ) )
-    $assignment =& eZNodeAssignment::fetchByID( $placementID );
+    $assignment = eZNodeAssignment::fetchByID( $placementID );
 if ( $assignment !== null )
 {
     $node =& $assignment->getParentNode();
@@ -176,9 +176,9 @@ $relatedObjectArray =& $contentObject->relatedContentObjectArray( $EditVersion )
 
 $classID = $contentObject->attribute( 'contentclass_id' );
 
-$class =& eZContentClass::fetch( $classID );
+$class = eZContentClass::fetch( $classID );
 
-$classes =& eZContentClass::fetchList( $version = 0, $asObject = true, $user_id = false,
+$classes = eZContentClass::fetchList( $version = 0, $asObject = true, $user_id = false,
                                        array( 'name' => 'name' ), $fields = null );
 
 if ( $assignment )
@@ -205,7 +205,7 @@ $contentObject->setAttribute( 'current_version', $EditVersion );
 $contentObject->CurrentLanguage = $LanguageCode;
 $contentObject->setAttribute( 'current_version', $EditVersion );
 
-$class =& eZContentClass::fetch( $contentObject->attribute( 'contentclass_id' ) );
+$class = eZContentClass::fetch( $contentObject->attribute( 'contentclass_id' ) );
 $objectName = $class->contentObjectName( $contentObject );
 $contentObject->setCachedName( $objectName );
 $contentObject->ContentObjectAttributeArray;

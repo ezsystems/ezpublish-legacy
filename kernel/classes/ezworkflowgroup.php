@@ -98,21 +98,19 @@ class eZWorkflowGroup extends eZPersistentObject
         return new eZWorkflowGroup( $row );
     }
 
-    function &fetch( $id, $asObject = true )
+    function fetch( $id, $asObject = true )
     {
-        $object =& eZPersistentObject::fetchObject( eZWorkflowGroup::definition(),
-                                                    null,
-                                                    array( "id" => $id ),
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZWorkflowGroup::definition(),
+                                                null,
+                                                array( "id" => $id ),
+                                                $asObject );
     }
 
-    function &fetchList( $asObject = true )
+    function fetchList( $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZWorkflowGroup::definition(),
-                                                            null, null, null, null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZWorkflowGroup::definition(),
+                                                    null, null, null, null,
+                                                    $asObject );
     }
 
     /*!
@@ -173,7 +171,7 @@ ORDER BY ezworkflow.name ASC";
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user =& eZUser::fetch( $this->CreatorID );
+            $user = eZUser::fetch( $this->CreatorID );
         }
         else
             $user = null;
@@ -185,7 +183,7 @@ ORDER BY ezworkflow.name ASC";
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user =& eZUser::fetch( $this->ModifierID );
+            $user = eZUser::fetch( $this->ModifierID );
         }
         else
             $user = null;

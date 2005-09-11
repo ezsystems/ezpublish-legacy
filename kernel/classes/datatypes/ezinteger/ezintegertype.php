@@ -155,7 +155,7 @@ class eZIntegerType extends eZDataType
         if ( $currentVersion != false )
         {
 //             $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
-//             $currentObjectAttribute =& eZContentObjectAttribute::fetch( $contentObjectAttributeID,
+//             $currentObjectAttribute = eZContentObjectAttribute::fetch( $contentObjectAttributeID,
 //                                                                         $currentVersion );
             $dataInt = $originalContentObjectAttribute->attribute( "data_int" );
             $contentObjectAttribute->setAttribute( "data_int", $dataInt );

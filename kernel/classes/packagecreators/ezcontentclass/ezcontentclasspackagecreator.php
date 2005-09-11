@@ -144,7 +144,7 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
 		if ( count( $classList ) == 1 )
 		{
 			$classID = $classList[0];
-			$class =& eZContentClass::fetch( $classID );
+			$class = eZContentClass::fetch( $classID );
 			if ( $class )
 			{
 				$packageInformation['name'] = $class->attribute( 'name' );
@@ -157,7 +157,7 @@ class eZContentClassPackageCreator extends eZPackageCreationHandler
 			$classNames = array();
 			foreach ( $classList as $classID )
 			{
-				$class =& eZContentClass::fetch( $classID );
+				$class = eZContentClass::fetch( $classID );
 				if ( $class )
 				{
 					$classNames[] = $class->attribute( 'name' );

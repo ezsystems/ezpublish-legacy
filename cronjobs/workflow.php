@@ -69,10 +69,10 @@ $statusMap = array();
 foreach( array_keys( $workflowProcessList ) as $key )
 {
     $process =& $workflowProcessList[ $key ];
-    $workflow =& eZWorkflow::fetch( $process->attribute( "workflow_id" ) );
+    $workflow = eZWorkflow::fetch( $process->attribute( "workflow_id" ) );
 
     if ( $process->attribute( "event_id" ) != 0 )
-        $workflowEvent =& eZWorkflowEvent::fetch( $process->attribute( "event_id" ) );
+        $workflowEvent = eZWorkflowEvent::fetch( $process->attribute( "event_id" ) );
     $process->run( $workflow, $workflowEvent, $eventLog );
 // Store changes to process
 
@@ -93,8 +93,8 @@ foreach( array_keys( $workflowProcessList ) as $key )
         $process->store();
         if ( $process->attribute( 'status' ) == EZ_WORKFLOW_STATUS_RESET )
         {
-            $bodyMemento =& eZOperationMemento::fetchMain( $process->attribute( 'memento_key' ) );
-            $mementoList =& eZOperationMemento::fetchList( $process->attribute( 'memento_key' ) );
+            $bodyMemento = eZOperationMemento::fetchMain( $process->attribute( 'memento_key' ) );
+            $mementoList = eZOperationMemento::fetchList( $process->attribute( 'memento_key' ) );
             $bodyMemento->remove();
             for ( $i = 0; $i < count( $mementoList ); ++$i )
             {
@@ -105,7 +105,7 @@ foreach( array_keys( $workflowProcessList ) as $key )
     }
     else
     {   //restore memento and run it
-        $bodyMemento =& eZOperationMemento::fetchChild( $process->attribute( 'memento_key' ) );
+        $bodyMemento = eZOperationMemento::fetchChild( $process->attribute( 'memento_key' ) );
         if ( is_null( $bodyMemento ) )
         {
             eZDebug::writeError( $bodyMemento, "Empty body memento in workflow.php" );

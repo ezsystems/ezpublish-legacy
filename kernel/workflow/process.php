@@ -46,7 +46,7 @@ $WorkflowProcessID = $Params["WorkflowProcessID"];
 
 include_once( "kernel/classes/ezworkflowprocess.php" );
 
-$process =& eZWorkflowProcess::fetch( $WorkflowProcessID );
+$process = eZWorkflowProcess::fetch( $WorkflowProcessID );
 if ( $process === null )
 {
     $Module->redirectTo( $Module->functionURI( "list" ) );
@@ -68,10 +68,10 @@ include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
 
 include_once( "kernel/classes/ezworkflow.php" );
-$workflow =& eZWorkflow::fetch( $process->attribute( "workflow_id" ) );
+$workflow = eZWorkflow::fetch( $process->attribute( "workflow_id" ) );
 $workflowEvent = false;
 if ( $process->attribute( "event_id" ) != 0 )
-    $workflowEvent =& eZWorkflowEvent::fetch( $process->attribute( "event_id" ) );
+    $workflowEvent = eZWorkflowEvent::fetch( $process->attribute( "event_id" ) );
 
 $lastEventStatus = $process->attribute( "last_event_status" );
 
@@ -90,7 +90,7 @@ if ( $http->hasPostVariable( "RunProcess" ) )
     if ( $next_event_id !== null )
     {
         $process->advance( $next_event_id, $next_event_pos, $lastEventStatus  );
-        $workflowEvent =& eZWorkflowEvent::fetch( $next_event_id );
+        $workflowEvent = eZWorkflowEvent::fetch( $next_event_id );
     }
     else
     {

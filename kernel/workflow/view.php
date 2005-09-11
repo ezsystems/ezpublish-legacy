@@ -46,7 +46,7 @@ $WorkflowID = $Params["WorkflowID"];
 if ( !is_int( $WorkflowID ) )
     $Module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
 
-$workflow =& eZWorkflow::fetch( $WorkflowID );
+$workflow = eZWorkflow::fetch( $WorkflowID );
 if ( !$workflow )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 

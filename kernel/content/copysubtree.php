@@ -162,7 +162,7 @@ function copyPublishContentObject( &$sourceObject,
         else
         {
             $newParentNodeID = $syncNodeIDListNew[ $key ];
-            $newParentNode =& eZContentObjectTreeNode::fetch( $newParentNodeID );
+            $newParentNode = eZContentObjectTreeNode::fetch( $newParentNodeID );
             if ( $newParentNode === null )
             {
                 eZDebug::writeError( "Cannot fetch one of parent nodes. Error are somewhere above",
@@ -709,7 +709,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
             {
                 $allAttributes = $relationItem->attributes();
                 $relatedNodeID = $relationItem->attributeValue('node-id');
-                $relatedNode =& eZContentObjectTreeNode::fetch( $relatedNodeID );
+                $relatedNode = eZContentObjectTreeNode::fetch( $relatedNodeID );
                 $originalObjectID = $relatedNode->attribute('contentobject_id');
                 $srcKey = array_search( (int) $originalObjectID, $syncObjectIDListSrc );
                 if ( $srcKey !== false )

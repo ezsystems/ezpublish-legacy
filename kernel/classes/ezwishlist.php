@@ -90,7 +90,7 @@ class eZWishList extends eZPersistentObject
         $discountPercent = 0;
         $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
-        $nodes =& eZContentObjectTreeNode::fetchByContentObjectID( $userID );
+        $nodes = eZContentObjectTreeNode::fetchByContentObjectID( $userID );
         $idArray = array();
         $idArray[] = $userID;
         foreach ( $nodes as $node )
@@ -98,7 +98,7 @@ class eZWishList extends eZPersistentObject
             $parentNodeID = $node->attribute( 'parent_node_id' );
             $idArray[] = $parentNodeID;
         }
-        $rules =& eZUserDiscountRule::fetchByUserIDArray( $idArray );
+        $rules = eZUserDiscountRule::fetchByUserIDArray( $idArray );
         foreach ( $rules as $rule )
         {
             $percent = $rule->attribute( 'discount_percent' );
@@ -112,7 +112,7 @@ class eZWishList extends eZPersistentObject
     {
         $custom = array( array( 'operation' => 'count( id )',
                                 'name' => 'count' ) );
-        $countRes =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
+        $countRes = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        array(),
                                                        array( "productcollection_id" => ( $alternativeProductionID === false )? $this->ProductCollectionID: $alternativeProductionID ),
                                                        null,
@@ -125,7 +125,7 @@ class eZWishList extends eZPersistentObject
 
     function &items( $asObject = true, $alternativeProductionID = false, $offset = false, $limit = false )
     {
-        $productItems =& eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
+        $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                        null,
                                                        array( 'productcollection_id' => ( $alternativeProductionID === false )? $this->ProductCollectionID: $alternativeProductionID ),
                                                        null,
@@ -205,7 +205,7 @@ class eZWishList extends eZPersistentObject
 
         $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
-        $WishListArray =& eZPersistentObject::fetchObjectList( eZWishList::definition(),
+        $WishListArray = eZPersistentObject::fetchObjectList( eZWishList::definition(),
                                                           null, array( "user_id" => $userID
                                                                        ),
                                                           null, null,

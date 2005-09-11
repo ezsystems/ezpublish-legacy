@@ -112,7 +112,7 @@ class eZTipafriendCounter extends eZPersistentObject
         $this->store();
     }
 
-    function &fetch( $node_id, $asObject = true )
+    function fetch( $node_id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZTipafriendCounter::definition(),
                                                 null,

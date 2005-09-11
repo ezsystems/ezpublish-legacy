@@ -105,7 +105,7 @@ class eZContentClassGroup extends eZPersistentObject
         if ( isset( $this->ModifierID ) and $this->ModifierID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user =& eZUser::fetch( $this->ModifierID );
+            $user = eZUser::fetch( $this->ModifierID );
         }
         else
             $user = null;
@@ -117,7 +117,7 @@ class eZContentClassGroup extends eZPersistentObject
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
             include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $user =& eZUser::fetch( $this->CreatorID );
+            $user = eZUser::fetch( $this->CreatorID );
         }
         else
             $user = null;
@@ -140,37 +140,34 @@ class eZContentClassGroup extends eZPersistentObject
      \param name
      \param asObject
     */
-    function &fetchByName( $name, $asObject = true )
+    function fetchByName( $name, $asObject = true )
     {
         $conds = array( 'name' => $name );
-        $object =& eZPersistentObject::fetchObject( eZContentClassGroup::definition(),
-                                                    null,
-                                                    $conds,
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZContentClassGroup::definition(),
+                                                null,
+                                                $conds,
+                                                $asObject );
     }
 
-    function &fetch( $id, $user_id = false, $asObject = true )
+    function fetch( $id, $user_id = false, $asObject = true )
     {
         $conds = array( "id" => $id );
         if ( $user_id !== false and is_numeric( $user_id ) )
             $conds["creator_id"] = $user_id;
-        $object =& eZPersistentObject::fetchObject( eZContentClassGroup::definition(),
-                                                    null,
-                                                    $conds,
-                                                    $asObject );
-        return $object;
+        return eZPersistentObject::fetchObject( eZContentClassGroup::definition(),
+                                                null,
+                                                $conds,
+                                                $asObject );
     }
 
-    function &fetchList( $user_id = false, $asObject = true )
+    function fetchList( $user_id = false, $asObject = true )
     {
         $conds = array();
         if ( $user_id !== false and is_numeric( $user_id ) )
             $conds["creator_id"] = $user_id;
-        $objectList =& eZPersistentObject::fetchObjectList( eZContentClassGroup::definition(),
-                                                            null, $conds, null, null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZContentClassGroup::definition(),
+                                                    null, $conds, null, null,
+                                                    $asObject );
     }
 
     /*!

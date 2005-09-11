@@ -136,7 +136,7 @@ class eZMultiplexerType extends eZWorkflowEventType
 
             case 'usergroups':
             {
-                $groups =& eZPersistentObject::fetchObjectList( eZContentObject::definition(), array( 'id', 'name' ),
+                $groups = eZPersistentObject::fetchObjectList( eZContentObject::definition(), array( 'id', 'name' ),
                                                                 array( 'contentclass_id' => 3 ), null, null, false );
                 foreach ( array_keys( $groups ) as $key )
                 {
@@ -150,7 +150,7 @@ class eZMultiplexerType extends eZWorkflowEventType
 
             case 'contentclass_list':
             {
-                $classes =& eZContentClass::fetchList();
+                $classes = eZContentClass::fetchList();
                 $classList = array();
                 for ( $i = 0; $i < count( $classes ); $i++ )
                 {
@@ -163,7 +163,7 @@ class eZMultiplexerType extends eZWorkflowEventType
 
             case 'workflow_list':
             {
-                $workflows =& eZWorkflow::fetchList();
+                $workflows = eZWorkflow::fetchList();
                 $workflowList = array();
                 for ( $i = 0; $i < count( $workflows ); $i++ )
                 {
@@ -213,7 +213,7 @@ class eZMultiplexerType extends eZWorkflowEventType
         else
         {
             $userID = $processParameters['user_id'];
-            $user =& eZUser::fetch( $userID );
+            $user = eZUser::fetch( $userID );
         }
         $userGroups = $user->attribute( 'groups' );
         $inExcludeGroups = count( array_intersect( $userGroups, $userArray ) ) != 0;
@@ -252,7 +252,7 @@ class eZMultiplexerType extends eZWorkflowEventType
 
                 $childProcessKey = eZWorkflowProcess::createKey( $childParameters );
 
-                $childProcessArray =& eZWorkflowProcess::fetchListByKey( $childProcessKey );
+                $childProcessArray = eZWorkflowProcess::fetchListByKey( $childProcessKey );
                 $childProcess =& $childProcessArray[0];
                 if ( $childProcess == null )
                 {
@@ -260,11 +260,11 @@ class eZMultiplexerType extends eZWorkflowEventType
                     $childProcess->store();
                 }
 
-                $workflow =& eZWorkflow::fetch( $childProcess->attribute( "workflow_id" ) );
+                $workflow = eZWorkflow::fetch( $childProcess->attribute( "workflow_id" ) );
                 $workflowEvent = null;
 
                 if ( $childProcess->attribute( "event_id" ) != 0 )
-                    $workflowEvent =& eZWorkflowEvent::fetch( $childProcess->attribute( "event_id" ) );
+                    $workflowEvent = eZWorkflowEvent::fetch( $childProcess->attribute( "event_id" ) );
 
                 $childStatus = $childProcess->run( $workflow, $workflowEvent, $eventLog );
                 $childProcess->store();

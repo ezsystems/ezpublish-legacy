@@ -133,7 +133,7 @@ $topLevelNodesArray = $db->arrayQuery( 'SELECT node_id FROM ezcontentobject_tree
 foreach ( array_keys( $topLevelNodesArray ) as $key )
 {
     $topLevelNodeID = $topLevelNodesArray[$key]['node_id'];
-    $rootNode =& eZContentObjectTreeNode::fetch( $topLevelNodeID );
+    $rootNode = eZContentObjectTreeNode::fetch( $topLevelNodeID );
     if ( $rootNode->updateURLAlias() )
         ++$totalChangedNodes;
     $done = false;

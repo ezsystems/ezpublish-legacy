@@ -65,7 +65,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
             foreach ( $deleteIDArray as $deleteID )
             {
 
-                $objectList =& eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+                $objectList = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                                                     null,
                                                                     array( 'id' => $deleteID ),
                                                                     null,
@@ -95,7 +95,7 @@ if ( $http->hasPostVariable( 'EmptyButton' )  )
     $access = $user->hasAccessTo( 'content', 'cleantrash' );
     if ( $access['accessWord'] == 'yes' )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZContentObject::definition(),
+        $objectList = eZPersistentObject::fetchObjectList( eZContentObject::definition(),
                                              null,
                                              array( 'status' => EZ_CONTENT_OBJECT_STATUS_ARCHIVED ),
                                              null,

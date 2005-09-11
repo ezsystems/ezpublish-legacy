@@ -185,7 +185,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         $limitArray = null;
         if ( $offset and $limit )
             $limitArray = array( 'offset' => $offset, 'length' => $limit );
-        $linkList =& eZPersistentObject::fetchObjectList( eZCollaborationItemParticipantLink::definition(),
+        $linkList = eZPersistentObject::fetchObjectList( eZCollaborationItemParticipantLink::definition(),
                                                           null,
                                                           array( "collaboration_id" => $itemID ),
                                                           null, $limitArray,
@@ -297,7 +297,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         }
         else
         {
-            $item =& eZCollaborationItem::fetch( $collaborationID );
+            $item = eZCollaborationItem::fetch( $collaborationID );
             $itemHandler =& $item->handler();
             $retRoleName = $itemHandler->roleName( $collaborationID, $roleID );
         }
@@ -307,7 +307,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
     function &collaborationItem()
     {
         include_once( 'kernel/classes/ezcollaborationitem.php' );
-        $item =& eZCollaborationItem::fetch( $this->CollaborationID );
+        $item = eZCollaborationItem::fetch( $this->CollaborationID );
         return $item;
     }
 
@@ -316,7 +316,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         if ( $this->ParticipantType == EZ_COLLABORATION_PARTICIPANT_TYPE_USER )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $participant =& eZUser::fetch( $this->ParticipantID );
+            $participant = eZUser::fetch( $this->ParticipantID );
         }
         else if ( $this->ParticipantType == EZ_COLLABORATION_PARTICIPANT_TYPE_USERGROUP )
         {
@@ -338,7 +338,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         }
         else
         {
-            $item =& eZCollaborationItem::fetch( $this->CollaborationID );
+            $item = eZCollaborationItem::fetch( $this->CollaborationID );
             $itemHandler =& $item->handler();
             $typeString = $item->attribute( 'type_identifier' ) . '_' . $itemHandler->participantTypeString( $this->ParticipantType );
         }
@@ -353,7 +353,7 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         }
         else
         {
-            $item =& eZCollaborationItem::fetch( $this->CollaborationID );
+            $item = eZCollaborationItem::fetch( $this->CollaborationID );
             $itemHandler =& $item->handler();
             $roleString = $item->attribute( 'type_identifier' ) . '_' . $itemHandler->participantRoleString( $this->ParticipantRole );
         }

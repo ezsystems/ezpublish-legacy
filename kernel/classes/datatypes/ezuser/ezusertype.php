@@ -100,7 +100,7 @@ class eZUserType extends eZDataType
             }
             else
             {
-                $existUser =& eZUser::fetchByName( $loginName );
+                $existUser = eZUser::fetchByName( $loginName );
                 if ( $existUser != null )
                 {
                     $userID = $existUser->attribute( 'contentobject_id' );
@@ -124,7 +124,7 @@ class eZUserType extends eZDataType
                 {
                     if ( eZUser::requireUniqueEmail() )
                     {
-                        $userByEmail =& eZUser::fetchByEmail( $email );
+                        $userByEmail = eZUser::fetchByEmail( $email );
                         if ( $userByEmail != null )
                         {
                             $userID = $userByEmail->attribute( 'contentobject_id' );
@@ -403,7 +403,7 @@ class eZUserType extends eZDataType
         if ( is_object( $userNode ) )
         {
             $userID = $objectAttribute->attribute( 'contentobject_id' );
-            $user =& eZUser::fetch( $userID );
+            $user = eZUser::fetch( $userID );
             if ( !is_object( $user ) )
             {
                 $user = eZUser::create( $userID );

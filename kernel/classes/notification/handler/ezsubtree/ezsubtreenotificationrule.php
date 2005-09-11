@@ -92,7 +92,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
 
     function fetchNodesForUserID( $userID, $asObject = true )
     {
-        $nodeIDList =& eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
+        $nodeIDList = eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
                                                             array( 'node_id' ), array( 'user_id' => $userID ),
                                                             null,null,false );
         $nodes = array();
@@ -100,7 +100,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         {
             foreach ( $nodeIDList as $nodeRow )
             {
-                $nodes[] =& eZContentObjectTreeNode::fetch( $nodeRow['node_id'] );
+                $nodes[] = eZContentObjectTreeNode::fetch( $nodeRow['node_id'] );
             }
         }
         else
@@ -125,7 +125,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
     {
         $custom = array( array( 'operation' => 'count( id )',
                                 'name' => 'count' ) );
-        $countRes =& eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
+        $countRes = eZPersistentObject::fetchObjectList( eZSubtreeNotificationRule::definition(),
                                                           array(), array( 'user_id' => $userID ),
                                                           false, null, false, false, $custom );
         return $countRes[0]['count'];
@@ -457,7 +457,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
     {
         if ( $this->Node == null )
         {
-            $this->Node =& eZContentObjectTreeNode::fetch( $this->attribute( 'node_id' ) );
+            $this->Node = eZContentObjectTreeNode::fetch( $this->attribute( 'node_id' ) );
         }
         return $this->Node;
     }

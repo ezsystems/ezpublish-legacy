@@ -59,7 +59,7 @@ if ( $Module->isCurrentAction( 'Store' ) )
 }
 else if ( $Module->isCurrentAction( 'Cancel' ) )
 {
-    $rssImport =& eZRSSImport::fetch( $RSSImportID, true, EZ_RSSIMPORT_STATUS_DRAFT );
+    $rssImport = eZRSSImport::fetch( $RSSImportID, true, EZ_RSSIMPORT_STATUS_DRAFT );
     if ( $rssImport )
     {
         $rssImport->remove();
@@ -93,7 +93,7 @@ else if ( $Module->isCurrentAction( 'BrowseUser' ) )
 if ( is_numeric( $RSSImportID ) )
 {
     $rssImportID = $RSSImportID;
-    $rssImport =& eZRSSImport::fetch( $RSSImportID, true, EZ_RSSIMPORT_STATUS_DRAFT );
+    $rssImport = eZRSSImport::fetch( $RSSImportID, true, EZ_RSSIMPORT_STATUS_DRAFT );
 
     if ( $rssImport )
     {
@@ -125,7 +125,7 @@ if ( is_numeric( $RSSImportID ) )
     }
     if ( !$rssImport )
     {
-        $rssImport =& eZRSSImport::fetch( $RSSImportID, true, EZ_RSSIMPORT_STATUS_VALID );
+        $rssImport = eZRSSImport::fetch( $RSSImportID, true, EZ_RSSIMPORT_STATUS_VALID );
         if ( $rssImport )
         {
             $rssImport->setAttribute( 'status', EZ_RSSIMPORT_STATUS_DRAFT );
@@ -181,7 +181,7 @@ else
 $tpl =& templateInit();
 
 // Get classes and class attributes
-$classArray =& eZContentClass::fetchList();
+$classArray = eZContentClass::fetchList();
 
 $tpl->setVariable( 'rss_class_array', $classArray );
 $tpl->setVariable( 'rss_import', $rssImport );

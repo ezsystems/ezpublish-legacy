@@ -164,7 +164,7 @@ class eZLDAPUser extends eZUser
         {
             $createNewUser = true;
             $extraNodeAssignments = array();
-            $existUser =& $this->fetchByName( $login );
+            $existUser = $this->fetchByName( $login );
             if ( $existUser != null )
             {
                 $createNewUser = false;
@@ -441,7 +441,7 @@ class eZLDAPUser extends eZUser
                     $userCreatorID = $ini->variable( "UserSettings", "UserCreatorID" );
                     $defaultSectionID = $ini->variable( "UserSettings", "DefaultSectionID" );
 
-                    $class =& eZContentClass::fetch( $userClassID );
+                    $class = eZContentClass::fetch( $userClassID );
                     $contentObject =& $class->instantiate( $userCreatorID, $defaultSectionID );
 
                     $remoteID = "LDAP_" . $login;
@@ -546,7 +546,7 @@ class eZLDAPUser extends eZUser
                     $name = $contentClass->contentObjectName( $contentObject );
                     $contentObject->setName( $name );
 
-                    $existUser =& eZUser::fetch(  $userID );
+                    $existUser = eZUser::fetch(  $userID );
                     $existUser->setAttribute('email', $ldapEMail );
                     $existUser->setAttribute('password_hash', "" );
                     $existUser->setAttribute('password_hash_type', 0 );

@@ -89,15 +89,14 @@ class eZOrderItem extends eZPersistentObject
                       'name' => 'ezorder_item' );
     }
 
-    function &fetchList( $orderID, $asObject = true )
+    function fetchList( $orderID, $asObject = true )
     {
-        $objectList =& eZPersistentObject::fetchObjectList( eZOrderItem::definition(),
-                                                            null,
-                                                            array( "order_id" => $orderID ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZOrderItem::definition(),
+                                                    null,
+                                                    array( "order_id" => $orderID ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
     function &vatValue()

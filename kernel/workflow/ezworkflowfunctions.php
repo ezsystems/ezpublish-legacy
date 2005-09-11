@@ -53,7 +53,7 @@ class eZWorkflowFunctions
         include_once( "kernel/classes/ezworkflow.php" );
         include_once( "kernel/classes/ezworkflowgrouplink.php" );
 
-        $workflow =& eZWorkflow::fetch( $workflowID );
+        $workflow = eZWorkflow::fetch( $workflowID );
         if ( !$workflow )
             return false;
         $groups = $workflow->attribute( 'ingroup_list' );

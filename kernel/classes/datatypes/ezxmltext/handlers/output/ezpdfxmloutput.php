@@ -156,7 +156,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
 
             if ( $nodeIDArray != null )
             {
-                $nodes =& eZContentObjectTreeNode::fetch( $nodeIDArray );
+                $nodes = eZContentObjectTreeNode::fetch( $nodeIDArray );
 
                 if ( is_array( $nodes ) )
                 {

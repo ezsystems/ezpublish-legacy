@@ -63,7 +63,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         foreach ( $deleteIDArray as $deleteID )
         {
             eZDebug::writeNotice( $deleteID, "deleteID" );
-            $version =& eZContentObjectVersion::fetch( $deleteID );
+            $version = eZContentObjectVersion::fetch( $deleteID );
             $version->remove();
         }
         $db->commit();

@@ -59,7 +59,7 @@ class eZShopFunctionCollection
         $http =& eZHTTPTool::instance();
         $sessionID = $http->sessionID();
 
-        $basketList =& eZPersistentObject::fetchObjectList( eZBasket::definition(),
+        $basketList = eZPersistentObject::fetchObjectList( eZBasket::definition(),
                                                             null,
                                                             array( "session_id" => $sessionID ),
                                                             null,

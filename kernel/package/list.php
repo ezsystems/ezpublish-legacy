@@ -58,7 +58,7 @@ if ( $module->isCurrentAction( 'RemovePackage' ) or
         $packageSelection = $module->actionParameter( 'PackageSelection' );
         foreach ( $packageSelection as $packageID )
         {
-            $package =& eZPackage::fetch( $packageID );
+            $package = eZPackage::fetch( $packageID );
             if ( $package )
             {
 				if ( $removeConfirmation )

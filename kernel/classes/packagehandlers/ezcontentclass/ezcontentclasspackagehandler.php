@@ -106,13 +106,13 @@ class eZContentClassPackageHandler extends eZPackageHandler
                 eZContentClassClassGroup::removeClassMembers( $classID, 0 );
                 eZContentClassClassGroup::removeClassMembers( $classID, 1 );
 
-                $class =& eZContentClass::fetch( $classID );
+                $class = eZContentClass::fetch( $classID );
                 if ( $class )
                 {
                     $class->remove( true, EZ_CLASS_VERSION_STATUS_DEFINED );
                 }
 
-                $tmpClass =& eZContentClass::fetch( $classID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+                $tmpClass = eZContentClass::fetch( $classID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
                 if ( $tmpClass )
                 {
                     $tmpClass->remove( true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
@@ -158,7 +158,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $userID = $installParameters['user_id'];
 
         if ( $classRemoteID != "" )
-            $class =& eZContentClass::fetchByRemoteID( $classRemoteID );
+            $class = eZContentClass::fetchByRemoteID( $classRemoteID );
 
         // Try to create a unique class identifier
         if( !isset( $class ) || !$class )
@@ -168,7 +168,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
 
             while( !$unique )
             {
-                $classList =& eZContentClass::fetchByIdentifier( $currentClassIdentifier );
+                $classList = eZContentClass::fetchByIdentifier( $currentClassIdentifier );
                 if ( $classList )
                 {
                     // "increment" class identifier
@@ -254,7 +254,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
         {
             $classGroupNode =& $classGroupsList[$classGroupNodeKey];
             $classGroupName = $classGroupNode->attributeValue( 'name' );
-            $classGroup =& eZContentClassGroup::fetchByName( $classGroupName );
+            $classGroup = eZContentClassGroup::fetchByName( $classGroupName );
             if ( !$classGroup )
             {
                 $classGroup = eZContentClassGroup::create();
@@ -290,7 +290,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
     {
         $class = false;
         if ( is_numeric( $classID ) )
-            $class =& eZContentClass::fetch( $classID );
+            $class = eZContentClass::fetch( $classID );
         if ( !$class )
             continue;
         $classNode =& eZContentClassPackageHandler::classDOMTree( $class );
@@ -357,7 +357,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
                             else
                             {
                                 unset( $class );
-                                $class =& eZContentClass::fetch( $classID );
+                                $class = eZContentClass::fetch( $classID );
                                 $classList[] = array( 'id' => $classID,
                                                       'identifier' => $class->attribute( 'identifier' ),
                                                       'value' => $classID );
@@ -374,7 +374,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
                             else
                             {
                                 unset( $class );
-                                $class =& eZContentClass::fetch( $realClassID );
+                                $class = eZContentClass::fetch( $realClassID );
                                 $classList[] = array( 'id' => $realClassID,
                                                       'identifier' => $class->attribute( 'identifier' ),
                                                       'value' => $classID );
@@ -435,12 +435,12 @@ class eZContentClassPackageHandler extends eZPackageHandler
 
         $classGroupsNode = eZDOMDocument::createElementNode( 'groups' );
 
-        $classGroupList =& eZContentClassClassGroup::fetchGroupList( $class->attribute( 'id' ),
+        $classGroupList = eZContentClassClassGroup::fetchGroupList( $class->attribute( 'id' ),
                                                                      $class->attribute( 'version' ) );
         foreach ( array_keys( $classGroupList ) as $classGroupKey )
         {
             $classGroupLink =& $classGroupList[$classGroupKey];
-            $classGroup =& eZContentClassGroup::fetch( $classGroupLink->attribute( 'group_id' ) );
+            $classGroup = eZContentClassGroup::fetch( $classGroupLink->attribute( 'group_id' ) );
             if ( $classGroup )
                 $classGroupsNode->appendChild( eZDOMDocument::createElementNode( 'group',
                                                                                  array( 'id' => $classGroup->attribute( 'id' ),
