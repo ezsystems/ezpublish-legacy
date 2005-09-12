@@ -419,6 +419,7 @@ class eZContentClass extends eZPersistentObject
 
         if ( $fetchAll )
         {
+            $classList = array();
             $db =& eZDb::instance();
             $classString = implode( ',', $classIDArray );
             // If $asObject is true we fetch all fields in class
@@ -434,6 +435,7 @@ class eZContentClass extends eZPersistentObject
             // If the constrained class list is empty we are not allowed to create any class
             if ( count( $classIDArray ) == 0 )
             {
+                $classList = array();
                 return $classList;
             }
 

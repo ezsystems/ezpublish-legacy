@@ -2735,7 +2735,6 @@ class eZContentObject extends eZPersistentObject
         else if ( $accessWord == 'no' )
         {
             // Cannnot create any objects, return empty list.
-            $classList = array();
             return $classList;
         }
         else
