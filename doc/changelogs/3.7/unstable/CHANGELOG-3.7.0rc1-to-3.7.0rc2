@@ -203,6 +203,10 @@ Changes from 3.7.0rc1 to 3.7.0rc2
 - Fixed bug: ezpdf: table's title background is always black when
   'titleCellCMYK' and 'titleTextCMYK' are the same.
   ( Merged from stable/3.5 (3.5.5) rev. 13238 )
+- Fixed bug #6763: Caches are not cleared when moving a node via WebDAV.
+  ( Manually merged from stable/3.5 rev. 13250 ) 
+- Fixed bug #6820: Moving content with WebDAV result placement problems.
+  ( Manually merged from stable/3.5 rev. 13250 )
 
 *Library:
 
