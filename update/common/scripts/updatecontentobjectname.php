@@ -56,11 +56,8 @@ function help()
     $argv = $_SERVER['argv'];
     $cli =& eZCLI::instance();
     $cli->output( "Usage: " . $argv[0] . " [OPTION]...\n" .
-                  "eZ publish search index updater.\n" .
-                  "Goes trough all objects and reindexes the meta data to the search engine\n" .
-                  "\n" .
-                  "Search options:\n" .
-                  "  --clean            will remove all search data before beginning indexing\n" .
+                  "eZ publish content object name update.\n" .
+                  "Goes trough all objects and updates all content object names\n" .
                   "\n" .
                   "General options:\n" .
                   "  -h,--help          display this help and exit \n" .
@@ -87,7 +84,7 @@ function changeSiteAccessSetting( &$siteaccess, $optionData )
     {
         $siteaccess = $optionData;
         if ( !$isQuiet )
-            $cli->notice( "Using siteaccess $siteaccess for search index update" );
+            $cli->notice( "Using siteaccess $siteaccess for content object name update" );
     }
     else
     {
@@ -106,7 +103,6 @@ $useColors = false;
 $isQuiet = false;
 $useLogFiles = false;
 $showSQL = false;
-$cleanupSearch = false;
 
 $dbUser = false;
 $dbPassword = false;
@@ -163,10 +159,6 @@ for ( $i = 1; $i < count( $argv ); ++$i )
             else if ( preg_match( "/^db-driver=(.*)$/", $flag, $matches ) )
             {
                 $dbImpl = $matches[1];
-            }
-            else if ( $flag == 'clean' )
-            {
-                $cleanupSearch = true;
             }
             else if ( $flag == 'debug' )
             {
@@ -325,13 +317,6 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
 }
 
 $db->setIsSQLOutputEnabled( $showSQL );
-
-if ( $cleanupSearch )
-{
-    print( "{eZSearchEngine: Cleaning up search data" );
-    eZSearch::cleanup();
-    print( "}$endl" );
-}
 
 // Get top node
 $topNodeArray =& eZPersistentObject::fetchObjectList( eZContentObjectTreeNode::definition(),
