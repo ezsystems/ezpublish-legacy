@@ -4595,8 +4595,7 @@ WHERE
         else if ( $accessWord == 'no' )
         {
             // Cannnot create any objects, return empty list.
-            $retValue = array();
-            return $retValue;
+            return $classList;
         }
         else
         {
@@ -4651,8 +4650,8 @@ WHERE
             // If the constrained class list is empty we are not allowed to create any class
             if ( count( $classIDArray ) == 0 )
             {
-                $retValue = array();
-                return $retValue;
+                $classList = array();
+                return $classList;
             }
 
             $classList = array();

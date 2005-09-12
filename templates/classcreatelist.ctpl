@@ -105,7 +105,7 @@
         else if ( $accessWord == 'no' )
         {
             // Cannnot create any objects, return empty list.
-            return array();
+            return $classList;
         }
         else
         {
@@ -179,7 +179,10 @@
         {
             // If the constrained class list is empty we are not allowed to create any class
             if ( count( $classIDArray ) == 0 )
-                return array();
+            {
+                $classList = array();
+                return $classList;
+            }
 
             $classList = array();
             $db =& eZDb::instance();
