@@ -74,6 +74,8 @@ class eZContentObjectTreeNodeOperations
     */
     function move( $nodeID, $newParentNodeID )
     {
+        $result = false;
+
         if ( !is_numeric( $nodeID ) || !is_numeric( $newParentNodeID ) )
             return false;
 
@@ -105,44 +107,52 @@ class eZContentObjectTreeNodeOperations
         include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
+        include_once( "lib/ezdb/classes/ezdb.php" );
+        $db =& eZDB::instance();
+        $db->begin();
+
         $node->move( $newParentNodeID );
 
         $newNode = eZContentObjectTreeNode::fetchNode( $objectID, $newParentNodeID );
 
-        if ( !$newNode )
-            return false;
-
-        $newNode->updateSubTreePath();
-        if ( $newNode->attribute( 'main_node_id' ) == $newNode->attribute( 'node_id' ) )
+        if ( $newNode )
         {
-            // If the main node is moved we need to check if the section ID must change
-            // If the section ID is shared with its old parent we must update with the
-            //  id taken from the new parent, if not the node is the starting point of the section.
-            if ( $object->attribute( 'section_id' ) == $oldParentObject->attribute( 'section_id' ) )
+            $newNode->updateSubTreePath();
+            if ( $newNode->attribute( 'main_node_id' ) == $newNode->attribute( 'node_id' ) )
             {
-                $newParentNode =& $newNode->fetchParent();
-                $newParentObject =& $newParentNode->object();
-                eZContentObjectTreeNode::assignSectionToSubTree( $newNode->attribute( 'main_node_id' ),
-                                                                 $newParentObject->attribute( 'section_id' ),
-                                                                 $oldParentObject->attribute( 'section_id' ) );
+                // If the main node is moved we need to check if the section ID must change
+                // If the section ID is shared with its old parent we must update with the
+                //  id taken from the new parent, if not the node is the starting point of the section.
+                if ( $object->attribute( 'section_id' ) == $oldParentObject->attribute( 'section_id' ) )
+                {
+                    $newParentNode =& $newNode->fetchParent();
+                    $newParentObject =& $newParentNode->object();
+                    eZContentObjectTreeNode::assignSectionToSubTree( $newNode->attribute( 'main_node_id' ),
+                                                                     $newParentObject->attribute( 'section_id' ),
+                                                                     $oldParentObject->attribute( 'section_id' ) );
+                }
             }
+
+            // modify assignment
+            include_once( "kernel/classes/eznodeassignment.php" );
+            $curVersion     =& $object->attribute( 'current_version' );
+            $nodeAssignment = eZNodeAssignment::fetch( $objectID, $curVersion, $oldParentNode->attribute( 'node_id' ) );
+
+            if ( $nodeAssignment )
+            {
+                $nodeAssignment->setAttribute( 'parent_node', $newParentNodeID );
+                $nodeAssignment->store();
+            }
+
+            $result = true;
         }
 
-        // modify assignment
-        include_once( "kernel/classes/eznodeassignment.php" );
-        $curVersion     =& $object->attribute( 'current_version' );
-        $nodeAssignment = eZNodeAssignment::fetch( $objectID, $curVersion, $oldParentNode->attribute( 'node_id' ) );
-
-        if ( $nodeAssignment )
-        {
-            $nodeAssignment->setAttribute( 'parent_node', $newParentNodeID );
-            $nodeAssignment->store();
-        }
+        $db->commit();
 
         // clear cache for new placement.
         eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
 
-        return true;
+        return $result;
     }
 }
 
