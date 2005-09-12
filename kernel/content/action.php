@@ -251,52 +251,8 @@ else if ( $module->isCurrentAction( 'MoveNode' ) )
         return $module->redirectToView( 'view', array( 'full', $node->attribute( 'node_id' ) ) );
     }
 
-    // clear cache for old placement.
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
-    eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
-
-    $oldParentNode = $node->fetchParent();
-    $oldParentObject = $oldParentNode->object();
-
-    $node->move( $selectedNodeID );
-
-    $newNode =& eZContentObjectTreeNode::fetchNode( $objectID, $selectedNodeID );
-    if ( $newNode )
-    {
-        $newNode->updateSubTreePath();
-        if ( $newNode->attribute( 'main_node_id' ) == $newNode->attribute( 'node_id' ) )
-        {
-            // If the main node is moved we need to check if the section ID must change
-            // If the section ID is shared with its old parent we must update with the
-            //  id taken from the new parent, if not the node is the starting point of the section.
-            if ( $object->attribute( 'section_id' ) == $oldParentObject->attribute( 'section_id' ) )
-            {
-                $newParentNode =& $newNode->fetchParent();
-                $newParentObject =& $newParentNode->object();
-                eZContentObjectTreeNode::assignSectionToSubTree( $newNode->attribute( 'main_node_id' ),
-                                                                 $newParentObject->attribute( 'section_id' ),
-                                                                 $oldParentObject->attribute( 'section_id' ) );
-            }
-        }
-
-        // modify assignment
-        $curVersion     =& $object->attribute( 'current_version' );
-        $nodeAssignment =& eZNodeAssignment::fetch( $objectID, $curVersion, $oldParentNode->attribute( 'node_id' ) );
-
-        if ( $nodeAssignment )
-        {
-            $nodeAssignment->setAttribute( 'parent_node', $selectedNodeID );
-            $nodeAssignment->store();
-        }
-        else
-        {
-            eZDebug::writeDebug( 'kernel-content-action-MoveNode', 'invalid nodeAssignment' );
-        }
-
-        // clear cache for new placement.
-        eZContentCacheManager::clearContentCacheIfNeeded( $objectID );
-    }
-    else
+    include_once( 'kernel/classes/ezcontentobjecttreenodeoperations.php' );
+    if( !eZContentObjectTreeNodeOperations::move( $nodeID, $selectedNodeID ) )
     {
         eZDebug::writeError( "Failed to move node $nodeID as child of parent node $selectedNodeID",
                              'content/action' );
