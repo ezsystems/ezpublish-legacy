@@ -131,7 +131,8 @@ class eZApproveType extends eZWorkflowEventType
                 return $sections;
             }break;
         }
-        return eZWorkflowEventType::attribute( $attr );
+        $eventValue =& eZWorkflowEventType::attribute( $attr );
+        return $eventValue;
     }
 
     function execute( &$process, &$event )
@@ -389,7 +390,7 @@ class eZApproveType extends eZWorkflowEventType
         $taskResult = $db->arrayQuery( 'select workflow_process_id, collaboration_id from ezapprove_items where workflow_process_id = ' . $process->attribute( 'id' )  );
         $collaborationID = $taskResult[0]['collaboration_id'];
         $collaborationItem = eZCollaborationItem::fetch( $collaborationID );
-        $contentObjectVersion =& eZApproveCollaborationHandler::contentObjectVersion( $collaborationItem );
+        $contentObjectVersion = eZApproveCollaborationHandler::contentObjectVersion( $collaborationItem );
         $approvalStatus = eZApproveCollaborationHandler::checkApproval( $collaborationID );
         if ( $approvalStatus == EZ_COLLABORATION_APPROVE_STATUS_WAITING )
         {

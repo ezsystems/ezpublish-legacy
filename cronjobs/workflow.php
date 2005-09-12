@@ -57,7 +57,7 @@ include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 include_once( "lib/ezutils/classes/ezdebugsetting.php" );
 
-$workflowProcessList = & eZWorkflowProcess::fetchForStatus( EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON );
+$workflowProcessList = eZWorkflowProcess::fetchForStatus( EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON );
 //var_dump( $workflowProcessList  );
 //$user =& eZUser::instance( 14 );
 eZModule::setGlobalPathList( array( "kernel" ) );

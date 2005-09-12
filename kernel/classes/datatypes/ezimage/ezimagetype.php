@@ -65,7 +65,7 @@ class eZImageType extends eZDataType
                                   $contentObjectAttribute->attribute( 'version' ) );
         if ( !is_object( $image ) )
         {
-            $list =& eZContentObjectAttribute::fetchSameClassAttributeIDList( $contentObjectAttribute->attribute( 'contentclassattribute_id' ),
+            $list = eZContentObjectAttribute::fetchSameClassAttributeIDList( $contentObjectAttribute->attribute( 'contentclassattribute_id' ),
                                                                               true,
                                                                               $contentObjectAttribute->attribute( 'version' ) );
             $language = eZContentObject::defaultLanguage();

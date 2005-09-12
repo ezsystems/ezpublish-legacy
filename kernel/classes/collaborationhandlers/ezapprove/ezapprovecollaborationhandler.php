@@ -124,7 +124,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     /*!
      \return the content object version object for the collaboration item \a $collaborationItem
     */
-    function &contentObjectVersion( &$collaborationItem )
+    function contentObjectVersion( &$collaborationItem )
     {
         $contentObjectID = $collaborationItem->contentAttribute( 'content_object_id' );
         $contentObjectVersion = $collaborationItem->contentAttribute( 'content_object_version' );
@@ -261,7 +261,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
                   $this->isCustomAction( 'Deny' ) or
                   $this->isCustomAction( 'Defer' ) )
         {
-            $contentObjectVersion =& $this->contentObjectVersion( $collaborationItem );
+            $contentObjectVersion = $this->contentObjectVersion( $collaborationItem );
             $status = EZ_COLLABORATION_APPROVE_STATUS_DENIED;
             if ( $this->isCustomAction( 'Accept' ) )
                 $status = EZ_COLLABORATION_APPROVE_STATUS_ACCEPTED;

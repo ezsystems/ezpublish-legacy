@@ -816,7 +816,7 @@ class eZContentObject extends eZPersistentObject
      \param $limit Maximum number of objects to fetch, set \c false to skip it.
      \sa fetchListCount
     */
-    function &fetchList( $asObject = true, $conditions = null, $offset = false, $limit = false )
+    function fetchList( $asObject = true, $conditions = null, $offset = false, $limit = false )
     {
         $limitation = null;
         if ( $offset !== false or
@@ -829,7 +829,7 @@ class eZContentObject extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &fetchFilteredList( $conditions = null, $offset = false, $limit = false, $asObject = true )
+    function fetchFilteredList( $conditions = null, $offset = false, $limit = false, $asObject = true )
     {
         $limits = null;
         if ( $offset or $limit )
@@ -1835,7 +1835,7 @@ class eZContentObject extends eZPersistentObject
                 $contentObjectAttribute->store();
                 if ( $updateTranslations )
                 {
-                    $translations =& $contentObjectAttribute->fetchAttributeTranslations();
+                    $translations = $contentObjectAttribute->fetchAttributeTranslations();
                     foreach ( $translations as $translationAttribute )
                     {
                         if ( $translationAttribute->attribute( 'language_code' ) != $currentLanguage )

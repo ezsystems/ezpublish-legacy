@@ -513,7 +513,7 @@ if ( $http->hasPostVariable( 'StoreButton' ) && $canStore )
                 }
                 if ( !$attributeExist )
                 {
-                    $objectAttributes =& eZContentObjectAttribute::fetchSameClassAttributeIDList( $oldClassAttributeID );
+                    $objectAttributes = eZContentObjectAttribute::fetchSameClassAttributeIDList( $oldClassAttributeID );
                     foreach ( $objectAttributes as $objectAttribute )
                     {
                         $objectAttributeID = $objectAttribute->attribute( 'id' );
