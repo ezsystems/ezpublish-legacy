@@ -117,7 +117,7 @@ $script->resetIteration( $objectCount );
 
 while ( $index < $objectCount )
 {
-    $objectList =& eZContentObject::fetchList( true, null, $index, $maxFetch );
+    $objectList = eZContentObject::fetchList( true, null, $index, $maxFetch );
     foreach ( array_keys( $objectList ) as $objectKey )
     {
         $object =& $objectList[$objectKey];

@@ -79,14 +79,14 @@ $cli->output();
 
 // Handle nodes
 
-$nodeCount =& eZContentObjectTreeNode::fetchListCount();
+$nodeCount = eZContentObjectTreeNode::fetchListCount();
 $script->resetIteration( $nodeCount );
 $cli->output( $cli->stylize( 'header', "Generating for nodes" ) );
 
 $index = 0;
 while ( $index < $nodeCount )
 {
-    $nodeList =& eZContentObjectTreeNode::fetchList( true, $index, 50 );
+    $nodeList = eZContentObjectTreeNode::fetchList( true, $index, 50 );
     foreach ( array_keys( $nodeList ) as $nodeKey )
     {
         $node =& $nodeList[$nodeKey];
@@ -108,7 +108,7 @@ $cli->output( $cli->stylize( 'header', "Generating for objects" ) );
 $index = 0;
 while ( $index < $objectCount )
 {
-    $objectList =& eZContentObject::fetchList( true, null, $index, 50 );
+    $objectList = eZContentObject::fetchList( true, null, $index, 50 );
     foreach ( array_keys( $objectList ) as $objectKey )
     {
         $object =& $objectList[$objectKey];

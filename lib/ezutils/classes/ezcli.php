@@ -254,7 +254,11 @@ class eZCLI
     */
     function terminalStyle( $name )
     {
-        return $this->TerminalStyles[$name];
+        if ( isset( $this->TerminalStyles[$name] ) )
+        {
+            return $this->TerminalStyles[$name];
+        }
+        return false;
     }
 
     /*!

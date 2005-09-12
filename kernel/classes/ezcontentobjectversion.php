@@ -164,7 +164,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                                                  ),
                                                     null, null,
                                                     $asObject );
-        return $ret[0];
+        return isset( $ret[0] ) ? $ret[0] : false;
     }
 
     function fetchUserDraft( $objectID, $userID )
@@ -182,15 +182,14 @@ class eZContentObjectVersion extends eZPersistentObject
         return $versions[0];
     }
 
-    function &fetchForUser( $userID, $status = EZ_VERSION_STATUS_DRAFT )
+    function fetchForUser( $userID, $status = EZ_VERSION_STATUS_DRAFT )
     {
-        $versions = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
-                                                          null, array( 'creator_id' => $userID,
-                                                                       'status' => $status
-                                                                       ),
-                                                          null, null,
-                                                          true );
-        return $versions;
+        return eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
+                                                    null, array( 'creator_id' => $userID,
+                                                                 'status' => $status
+                                                                 ),
+                                                    null, null,
+                                                    true );
     }
 
     function fetchFiltered( $filters, $offset, $limit )

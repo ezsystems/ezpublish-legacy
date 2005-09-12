@@ -72,7 +72,7 @@ class eZDiscountRule extends eZPersistentObject
                       "name" => "ezdiscountrule" );
     }
 
-    function &fetch( $id, $asObject = true )
+    function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZDiscountRule::definition(),
                                                 null,

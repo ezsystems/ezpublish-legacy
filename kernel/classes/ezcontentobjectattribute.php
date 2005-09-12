@@ -193,7 +193,7 @@ class eZContentObjectAttribute extends eZPersistentObject
      \param $asObject If \c true objects will be returned, otherwise associative arrays are returned.
      \param $version The version the of contentobject attributes to fetch or all version if \c false.
     */
-    function &fetchSameClassAttributeIDList( $contentClassAttributeID, $asObject = true, $version = false )
+    function fetchSameClassAttributeIDList( $contentClassAttributeID, $asObject = true, $version = false )
     {
         $conditions = array( "contentclassattribute_id" => $contentClassAttributeID );
         if ( $version !== false )
@@ -209,17 +209,16 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      \return the attributes with alternative translations for the current attribute version and class attribute id
     */
-    function &fetchAttributeTranslations( $asObject = true )
+    function fetchAttributeTranslations( $asObject = true )
     {
-        $objectList = eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
-                                                            null,
-                                                            array( "contentclassattribute_id" => $this->ContentClassAttributeID,
-                                                                   "contentobject_id" => $this->ContentObjectID,
-                                                                   "version" => $this->Version ),
-                                                            null,
-                                                            null,
-                                                            $asObject);
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
+                                                    null,
+                                                    array( "contentclassattribute_id" => $this->ContentClassAttributeID,
+                                                           "contentobject_id" => $this->ContentObjectID,
+                                                           "version" => $this->Version ),
+                                                    null,
+                                                    null,
+                                                    $asObject);
     }
 
     function create( $contentclassAttributeID, $contentobjectID, $version = 1 )

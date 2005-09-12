@@ -231,7 +231,11 @@ class eZWorkflowProcess extends eZPersistentObject
             {
                 if ( $workflowEvent !== null )
                 {
-                    $activationDate = $this->attribute( "activation_date" );
+                    $activationDate = 0;
+                    if ( $this->hasAttribute( 'activation_date' ) )
+                    {
+                        $activationDate = $this->attribute( "activation_date" );
+                    }
                     eZDebugSetting::writeDebug( 'workflow-process', "Checking activation date" );
                     if ( $activationDate == 0  )
                     {
@@ -362,8 +366,12 @@ class eZWorkflowProcess extends eZPersistentObject
                         case EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON:
                         case EZ_WORKFLOW_TYPE_STATUS_DEFERRED_TO_CRON_REPEAT:
                         {
-                            $date = $eventType->attribute( "activation_date" );
-                            $this->setAttribute( "activation_date", $date );
+                            if ( $eventType->hasAttribute( "activation_date" ) )
+                            {
+                                $date = $eventType->attribute( "activation_date" );
+                                $this->setAttribute( "activation_date", $date );
+
+                            }
                             $workflowStatus = EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON;
                             $done = true;
                         } break;
@@ -530,7 +538,7 @@ class eZWorkflowProcess extends eZPersistentObject
                                                     null, $conds, null, null,
                                                     $asObject );
     }
-    function &fetchForStatus( $status = EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON,  $asObject = true )
+    function fetchForStatus( $status = EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON,  $asObject = true )
     {
         $conds = array( 'status' => $status,
                         'memento_key' => array( '!=', '' ) );
@@ -539,7 +547,7 @@ class eZWorkflowProcess extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &fetchForSession( $sessionKey, $workflowID, $asObject = true )
+    function fetchForSession( $sessionKey, $workflowID, $asObject = true )
     {
         $conds = array( 'workflow_id' => $workflowID,
                         'session_key' => $sessionKey );

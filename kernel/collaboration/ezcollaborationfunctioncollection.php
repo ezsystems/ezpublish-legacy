@@ -126,7 +126,7 @@ class eZCollaborationFunctionCollection
                                  'offset' => $offset,
                                  'limit' => $limit,
                                  'sort_by' => $sortBy );
-        $children =& eZCollaborationItemMessageLink::fetchItemList( $itemParameters );
+        $children = eZCollaborationItemMessageLink::fetchItemList( $itemParameters );
         if ( $children === null )
         {
             $resultArray = array( 'error' => array( 'error_type' => 'kernel',

@@ -72,7 +72,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
 
 if ( $http->hasPostVariable( 'EmptyButton' )  )
 {
-    $versions =& eZContentObjectVersion::fetchForUser( $userID );
+    $versions = eZContentObjectVersion::fetchForUser( $userID );
     $db =& eZDB::instance();
     $db->begin();
     foreach ( array_keys( $versions ) as $key )
@@ -83,11 +83,8 @@ if ( $http->hasPostVariable( 'EmptyButton' )  )
     $db->commit();
 }
 
-//$versions =& eZContentObjectVersion::fetchForUser( $userID );
-
 $tpl =& templateInit();
 
-//$tpl->setVariable( 'draft_list', $versions );
 $tpl->setVariable('view_parameters', $viewParameters );
 
 $Result = array();

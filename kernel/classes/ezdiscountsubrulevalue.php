@@ -68,7 +68,7 @@ class eZDiscountSubRuleValue extends eZPersistentObject
                                                                'datatype' => 'integer',
                                                                'default' => 0,
                                                                'required' => true ) ),
-                      "keys" => array( "discountsubrule_id", "value", "isSection" ),
+                      "keys" => array( "discountsubrule_id", "value", "issection" ),
                       "increment_key" => "discountsubrule_id",
                       "class_name" => "eZDiscountSubRuleValue",
                       "name" => "ezdiscountsubrule_value" );

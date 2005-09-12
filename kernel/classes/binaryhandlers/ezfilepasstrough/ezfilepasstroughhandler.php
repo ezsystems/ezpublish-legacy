@@ -97,7 +97,7 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
             ob_end_clean();
             fpassthru( $fh );
             fclose( $fh );
-            fflush();
+            fflush( $fh );
             eZExecution::cleanExit();
         }
         return EZ_BINARY_FILE_RESULT_UNAVAILABLE;

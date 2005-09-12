@@ -258,7 +258,7 @@ class eZRSSExport extends eZPersistentObject
      \static
       Fetches complete list of RSS Exports.
     */
-    function &fetchList( $asObject = true )
+    function fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZRSSExport::definition(),
                                                     null, array( 'status' => 1 ), null, null,

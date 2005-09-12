@@ -153,7 +153,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &fetchItemCount( $parameters )
+    function fetchItemCount( $parameters )
     {
         $parameters = array_merge( array( 'item_id' => false,
                                           'conditions' => null ),
@@ -175,7 +175,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
         return $objectList[0]['count'];
     }
 
-    function &fetchItemList( $parameters )
+    function fetchItemList( $parameters )
     {
         $parameters = array_merge( array( 'as_object' => true,
                                           'item_id' => false,

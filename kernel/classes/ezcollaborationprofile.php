@@ -101,7 +101,7 @@ class eZCollaborationProfile extends eZPersistentObject
         return $newCollaborationProfile;
     }
 
-    function &fetch( $id, $asObject = true )
+    function fetch( $id, $asObject = true )
     {
         $conditions = array( "id" => $id );
         return eZPersistentObject::fetchObject( eZCollaborationProfile::definition(),
@@ -110,7 +110,7 @@ class eZCollaborationProfile extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &fetchByUser( $userID, $asObject = true )
+    function fetchByUser( $userID, $asObject = true )
     {
         $conditions = array( "user_id" => $userID );
         return eZPersistentObject::fetchObject( eZCollaborationProfile::definition(),
