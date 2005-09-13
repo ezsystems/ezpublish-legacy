@@ -199,6 +199,9 @@ Changes from 3.6.1 to 3.6.2
   ( Manually merged from stable/3.5 rev. 13250 )
 - Fixed bug #7133: Script updatecontentobjectname.php has wrong description.
   ( Merged from stable/3.5 rev. 13256 )
+- Fixed bug: Invalid using of cached instance of eZTextCodec in ezdbinterface
+  and ezini, as result reseting of global instance of eZTextCodec (errors
+  during setup-wizard).
 
 *Library:
 
