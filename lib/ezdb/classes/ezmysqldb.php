@@ -105,7 +105,7 @@ class eZMySQLDB extends eZDBInterface
      \private
      Opens a new connection to a MySQL database and returns the connection
     */
-    function &connect( $server, $db, $user, $password, $socketPath, $charset = null )
+    function connect( $server, $db, $user, $password, $socketPath, $charset = null )
     {
         $connection = false;
 
@@ -192,20 +192,6 @@ class eZMySQLDB extends eZDBInterface
             // http://dev.mysql.com/doc/mysql/en/Charset.html
             if ( version_compare( $versionInfo['string'], '4.1.1' ) >= 0 )
             {
-                /* Currently disabled, this will fail the connection if the database charset differs.
-                if ( $db != '' )
-                {
-                    if ( !$this->checkCharsetPriv( $originalCharset, $currentCharset ) )
-                    {
-                        $this->ErrorMessage = "Character sets differ, database uses $currentCharset while eZDB requested $charset";
-                        $this->ErrorCode = false;
-                        eZDebug::writeError( $this->ErrorMessage, 'eZMySQLDB::connect' );
-                        $this->IsConnected = false;
-                        return false;
-                    }
-                }
-                */
-
                 $query = "SET NAMES '" . $charset . "'";
                 $status = @mysql_query( $query, $connection );
                 $this->reportQuery( 'eZMySQLDB', $query, false, false );

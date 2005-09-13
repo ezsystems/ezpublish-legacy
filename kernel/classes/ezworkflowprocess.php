@@ -478,7 +478,7 @@ class eZWorkflowProcess extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &fetchList( $conds = null, $asObject = true )
+    function fetchList( $conds = null, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
                                                     null, $conds, null, null,
@@ -517,7 +517,7 @@ class eZWorkflowProcess extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &fetchUserList( $userID, $asObject = true )
+    function fetchUserList( $userID, $asObject = true )
     {
         $conds = array( 'user_id' => $userID );
         return eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
@@ -525,7 +525,7 @@ class eZWorkflowProcess extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &fetchForContent( $workflowID, $userID,
+    function fetchForContent( $workflowID, $userID,
                                $contentID, $content_version, $nodeID,
                                $asObject = true )
     {

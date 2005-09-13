@@ -404,7 +404,10 @@ class eZContentCacheManager
 
         $object =& eZContentObject::fetch( $objectID );
         if ( !$object )
-            return false;
+        {
+            $nodeList = false;
+            return $nodeList;
+        }
 
         eZContentCacheManager::nodeListForObject( $object, $versionNum, EZ_VCSC_CLEAR_ALL_CACHE, $nodeList );
 

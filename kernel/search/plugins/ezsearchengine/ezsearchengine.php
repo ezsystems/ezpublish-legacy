@@ -59,7 +59,7 @@ class eZSearchEngine
                                 'searchPartText' => '',
                                 'subTreeSQL' => '',
                                 'sqlPermissionCheckingString' => '' );
-        $this->GeneralFilter =& $generalFilter;
+        $this->GeneralFilter = $generalFilter;
     }
 
     /*!
@@ -132,7 +132,7 @@ class eZSearchEngine
 
         $indexArrayOnlyWords = array_unique( $indexArrayOnlyWords );
 
-        $wordIDArray =& $this->buildWordIDArray( $indexArrayOnlyWords );
+        $wordIDArray = $this->buildWordIDArray( $indexArrayOnlyWords );
 
         $db =& eZDB::instance();
         $db->begin();
@@ -152,7 +152,7 @@ class eZSearchEngine
 
       \return wordIDArray
     */
-    function &buildWordIDArray( &$indexArrayOnlyWords )
+    function buildWordIDArray( &$indexArrayOnlyWords )
     {
         $db =& eZDB::instance();
 
@@ -340,7 +340,7 @@ class eZSearchEngine
             $db->begin();
             foreach ( array_keys( $valuesStringList ) as $key )
             {
-                $valuesString =& $valuesStringList[$key];
+                $valuesString = $valuesStringList[$key];
                 $db->query("INSERT INTO
                            ezsearch_object_word_link
                            ( word_id,
@@ -457,7 +457,7 @@ class eZSearchEngine
         }
         if ( $allowSearch )
         {
-            $searchText =& $this->normalizeText( $searchText, false );
+            $searchText = $this->normalizeText( $searchText, false );
             $db =& eZDB::instance();
 
             $nonExistingWordArray = array();
@@ -554,7 +554,7 @@ class eZSearchEngine
             }
             $nonPhraseText .= $postPhraseText;
 */
-            $phrasesResult =& $this->getPhrases( $searchText );
+            $phrasesResult = $this->getPhrases( $searchText );
             $phraseTextArray = $phrasesResult['phrases'];
             $nonPhraseText = $phrasesResult['nonPhraseText'];
             $fullText = $phrasesResult['fullText'];
@@ -662,10 +662,10 @@ class eZSearchEngine
             // Get the total number of objects
             $totalObjectCount = $this->fetchTotalObjectCount();
 
-            $wordIDArrays =& $this->prepareWordIDArrays( $searchText );
-            $wordIDArray =& $wordIDArrays['wordIDArray'];
-            $wordIDHash =& $wordIDArrays['wordIDHash'];
-            $wildIDArray =& $wordIDArrays['wildIDArray'];
+            $wordIDArrays = $this->prepareWordIDArrays( $searchText );
+            $wordIDArray = $wordIDArrays['wordIDArray'];
+            $wordIDHash = $wordIDArrays['wordIDHash'];
+            $wildIDArray = $wordIDArrays['wildIDArray'];
             $wildCardCount = $wordIDArrays['wildCardCount'];
             $searchPartsArray = $this->buildSearchPartArray( $phraseTextArray, $nonPhraseText, $wordIDHash, $wildIDArray );
 
@@ -764,11 +764,11 @@ class eZSearchEngine
             $limitationList = array();
             if ( isset( $params['Limitation'] ) )
             {
-                $limitationList =& $params['Limitation'];
+                $limitationList = $params['Limitation'];
             }
             else if ( isset( $GLOBALS['ezpolicylimitation_list']['content']['read'] ) )
             {
-                $limitationList =& $GLOBALS['ezpolicylimitation_list']['content']['read'];
+                $limitationList = $GLOBALS['ezpolicylimitation_list']['content']['read'];
             }
             else
             {
@@ -777,8 +777,8 @@ class eZSearchEngine
                 $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
                 if ( $accessResult['accessWord'] == 'limited' )
                 {
-                    $limitationList =& $accessResult['policies'];
-                    $GLOBALS['ezpolicylimitation_list']['content']['read'] =& $limitationList;
+                    $limitationList = $accessResult['policies'];
+                    $GLOBALS['ezpolicylimitation_list']['content']['read'] = $limitationList;
                 }
             }
 
@@ -819,7 +819,7 @@ class eZSearchEngine
 
                             case 'Subtree':
                             {
-                                $pathArray =& $limitationArray[$ident];
+                                $pathArray = $limitationArray[$ident];
                                 foreach ( $pathArray as $limitationPathString )
                                 {
                                     $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
@@ -828,7 +828,7 @@ class eZSearchEngine
 
                             case 'User_Subtree':
                             {
-                                $pathArray =& $limitationArray[$ident];
+                                $pathArray = $limitationArray[$ident];
                                 $sqlPartUserSubtree = array();
                                 foreach ( $pathArray as $limitationPathString )
                                 {
@@ -914,7 +914,7 @@ class eZSearchEngine
                 if ( $searchPart['object_count'] < $searchThresholdValue )
                 {
                     $tmpTableCount++;
-                    $searchPartText =& $searchPart['sql_part'];
+                    $searchPartText = $searchPart['sql_part'];
                     if ( $i == 0 )
                     {
                         $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%_0' );
@@ -1304,11 +1304,9 @@ class eZSearchEngine
      \private
      \return Returns an sql query part for one word
     */
-    function &buildSqlPartForWord( $wordID )
+    function buildSqlPartForWord( $wordID )
     {
-        $fullTextSQL = "ezsearch_object_word_link.word_id='$wordID' AND ";
-
-        return $fullTextSQL;
+        return "ezsearch_object_word_link.word_id='$wordID' AND ";
     }
 
     /*!
@@ -1316,42 +1314,7 @@ class eZSearchEngine
      \return Returns an sql query part for a phrase
     */
 
-    /*  function &buildPhraseSqlQueryPart( $phraseIDArray )
-    {
-        $phraseSearchSQL = '';
-        $wordCount = count( $phraseIDArray );
-        eZDebug::writeDebug( $phraseIDArray, "888");
-        for ( $i = 0; $i < $wordCount; $i++ )
-        {
-            $wordID = $phraseIDArray[$i];
-            if ( is_numeric( $wordID ) and ( $wordID > 0 ) )
-            {
-                $phraseSearchSQL .= " ( ezsearch_object_word_link.word_id='$wordID' ";
-                if ( $i < ( $wordCount - 1 ) )
-                {
-                    $nextWordID = $phraseIDArray[$i+1];
-                    $phraseSearchSQL .= " AND ezsearch_object_word_link.next_word_id='$nextWordID' ";
-                }
-                if ( $i > 0 )
-                {
-                    $prevWordID = $phraseIDArray[$i-1];
-                    $phraseSearchSQL .= " AND ezsearch_object_word_link.prev_word_id='$prevWordID' ";
-                }
-                $phraseSearchSQL .= "  ) ";
-                if ( $i < ( $wordCount - 1 ) )
-                    $phraseSearchSQL .= " OR ";
-            }
-            else
-            {
-                $nonExistingWordArray[] = $searchWord;
-            }
-            $prevWord = $wordID;
-        }
-//        $phraseSearchSQLArray[] = $phraseSearchSQL;
-        return $phraseSearchSQL;
-    }*/
-
-    function &buildPhraseSqlQueryPart( $phraseIDArray )
+    function buildPhraseSqlQueryPart( $phraseIDArray )
     {
         $phraseSearchSQLArray = array();
         $wordCount = count( $phraseIDArray );
@@ -1419,7 +1382,7 @@ class eZSearchEngine
      \param $isMetaData If \c true then it expects the text to be meta data from objects,
                         if not it is the search text and needs special handling.
     */
-    function &normalizeText( $text, $isMetaData = false )
+    function normalizeText( $text, $isMetaData = false )
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans =& eZCharTransform::instance();
@@ -1628,7 +1591,7 @@ class eZSearchEngine
         $textValue = $searchParams['value'];
 
 //        $searchText = $this->normalizeText( $textValue );
-        $searchText =& $textValue;
+        $searchText = $textValue;
 
         $classAttributeQuery = "";
         if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
@@ -1637,10 +1600,10 @@ class eZSearchEngine
             $this->GeneralFilter['classAttributeQuery'] = $classAttributeQuery;
         }
 
-        $wordIDArrays =& $this->prepareWordIDArraysForPattern( $searchText );
-        $wordIDArray =& $wordIDArrays['wordIDArray'];
-        $wordIDHash =& $wordIDArrays['wordIDHash'];
-        $patternWordIDHash = & $wordIDArrays['patternWordIDHash'];
+        $wordIDArrays = $this->prepareWordIDArraysForPattern( $searchText );
+        $wordIDArray = $wordIDArrays['wordIDArray'];
+        $wordIDHash = $wordIDArrays['wordIDHash'];
+        $patternWordIDHash = $wordIDArrays['patternWordIDHash'];
 
         $searchWordArray = $this->splitString( $searchText );
 
@@ -1682,7 +1645,7 @@ class eZSearchEngine
 
         $searchText = $this->normalizeText( $textValue, false );
 
-        $phrasesResult =& $this->getPhrases( $searchText );
+        $phrasesResult = $this->getPhrases( $searchText );
         $phraseTextArray = $phrasesResult['phrases'];
         $nonPhraseText = $phrasesResult['nonPhraseText'];
         $fullText = $phrasesResult['fullText'];
@@ -1697,9 +1660,9 @@ class eZSearchEngine
 
         $totalObjectCount = $this->fetchTotalObjectCount();
 
-        $wordIDArrays =& $this->prepareWordIDArrays( $searchText );
-        $wordIDArray =& $wordIDArrays['wordIDArray'];
-        $wordIDHash =& $wordIDArrays['wordIDHash'];
+        $wordIDArrays = $this->prepareWordIDArrays( $searchText );
+        $wordIDArray = $wordIDArrays['wordIDArray'];
+        $wordIDHash = $wordIDArrays['wordIDHash'];
 
         $searchWordArray = $this->splitString( $searchText );
 
@@ -1804,7 +1767,7 @@ class eZSearchEngine
         $db =& eZDB::instance();
 
         $i = $this->TempTablesCount;
-        $generalFilterList =& $this->GeneralFilter;
+        $generalFilterList = $this->GeneralFilter;
 
         if ( isset(  $generalFilterList[ 'searchDateQuery'] )  )
             $searchDateQuery = $generalFilterList[ 'publish_date'];
@@ -1867,7 +1830,7 @@ class eZSearchEngine
             if ( $searchPart['object_count'] < $searchThresholdValue )
             {
 //                $tmpTableCount++;
-                $searchPartText =& $searchPart['sql_part'];
+                $searchPartText = $searchPart['sql_part'];
                 if ( $i == 0 )
                 {
                     $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%_0' );
@@ -1934,7 +1897,7 @@ class eZSearchEngine
     }
 
 
-    function &getPhrases( $searchText )
+    function getPhrases( $searchText )
     {
         $numQuotes = substr_count( $searchText, "\"" );
 
@@ -1962,10 +1925,9 @@ class eZSearchEngine
             }
         }
         $nonPhraseText .= $postPhraseText;
-        $retArray = array( 'phrases' => &$phraseTextArray,
-                           'nonPhraseText' => $nonPhraseText,
-                           'fullText' => $fullText );
-        return $retArray;
+        return array( 'phrases' => &$phraseTextArray,
+                      'nonPhraseText' => $nonPhraseText,
+                      'fullText' => $fullText );
     }
 
     function buildSearchPartArray( $phraseTextArray, $nonPhraseText, &$wordIDHash, &$wildIDArray )
@@ -2011,10 +1973,10 @@ class eZSearchEngine
             $searchPart = array();
             $searchPart['text'] = $word;
             $wordID = $wordIDHash[$word]['id'];
-            $searchPart['sql_part'] =& $this->buildSqlPartForWord( $wordID );
+            $searchPart['sql_part'] = $this->buildSqlPartForWord( $wordID );
             $searchPart['is_phrase'] = 0;
             $searchPart['object_count'] = $wordIDHash[$word]['object_count'];
-            $searchPartsArray[] =& $searchPart;
+            $searchPartsArray[] = $searchPart;
             unset ( $searchPart );
         }
         return $searchPartsArray;
@@ -2040,9 +2002,8 @@ class eZSearchEngine
         $phraseSearchSQLArray = array();
         foreach ( $phraseIDArrayArray as $phraseIDArray )
         {
-            $phraseSearchSQL =& $this->buildPhraseSqlQueryPart( $phraseIDArray );
-            $phraseSearchSQLArray[] =& $phraseSearchSQL;
-            unset( $phraseSearchSQL );
+            $phraseSearchSQL = $this->buildPhraseSqlQueryPart( $phraseIDArray );
+            $phraseSearchSQLArray[] = $phraseSearchSQL;
         }
 
         ///Build search parts array for phrases and normal words
@@ -2066,7 +2027,7 @@ class eZSearchEngine
         return $searchPartsArray;
     }
 
-    function &prepareWordIDArraysForPattern( $searchText )
+    function prepareWordIDArraysForPattern( $searchText )
     {
         $db =& eZDB::instance();
         $searchWordArray = $this->splitString( $searchText );
@@ -2128,12 +2089,11 @@ class eZSearchEngine
                       'patternWordIDHash' => &$patternWordIDHash );
     }
 
-    function &prepareWordIDArrays( $searchText )
+    function prepareWordIDArrays( $searchText )
     {
         if ( trim( $searchText ) == "" )
         {
-            $retArray = array();
-            return $retArray;
+            return array();
         }
 
         $db =& eZDB::instance();
@@ -2148,7 +2108,7 @@ class eZSearchEngine
         $wildSearchEnabled = ( $ini->variable( 'SearchSettings', 'EnableWildcard' ) == 'true' );
         if ( $wildSearchEnabled )
         {
-            $minCharacters =& $ini->variable( 'SearchSettings', 'MinCharacterWildcard' );
+            $minCharacters = $ini->variable( 'SearchSettings', 'MinCharacterWildcard' );
         }
 
         foreach ( $searchWordArray as $searchWord )
@@ -2209,11 +2169,10 @@ class eZSearchEngine
                 }
             }
         }
-        $retArray = array( 'wordIDArray' => &$wordIDArray,
-                           'wordIDHash' => &$wordIDHash,
-                           'wildIDArray' => &$wildIDArray,
-                           'wildCardCount' => $wildCardCount );
-        return $retArray;
+        return array( 'wordIDArray' => &$wordIDArray,
+                      'wordIDHash' => &$wordIDHash,
+                      'wildIDArray' => &$wildIDArray,
+                      'wildCardCount' => $wildCardCount );
     }
 
     function fetchTotalObjectCount()

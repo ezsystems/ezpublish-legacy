@@ -84,7 +84,7 @@ class eZImageAnalyzer
     /*!
      Creates an analyzer for the analyzer name \a $analyzerName and returns it.
     */
-    function &createForMIME( $mimeData )
+    function createForMIME( $mimeData )
     {
         $analyzerData =& eZImageAnalyzer::analyzerData();
         $mimeType = $mimeData['name'];
@@ -92,14 +92,13 @@ class eZImageAnalyzer
             return false;
         $analyzerName = $analyzerData['analyzer_map'][$mimeType];
         $handlerName = $analyzerData['analyzer'][$analyzerName]['handler'];
-        $analyzer =& eZImageAnalyzer::create( $handlerName );
-        return $analyzer;
+        return eZImageAnalyzer::create( $handlerName );
     }
 
     /*!
      Creates an analyzer for the analyzer name \a $analyzerName and returns it.
     */
-    function &create( $analyzerName )
+    function create( $analyzerName )
     {
         $analyzerData =& eZImageAnalyzer::analyzerData();
         if ( !isset( $analyzerData['handlers'][$analyzerName] ) )
@@ -136,8 +135,7 @@ class eZImageAnalyzer
             $className = $analyzer['classname'];
             if ( class_exists( $className ) )
             {
-                $analyzer = new $className();
-                return $analyzer;
+                return new $className();
             }
             else
             {
@@ -145,8 +143,7 @@ class eZImageAnalyzer
                                        'eZImageAnalyzer::instance' );
             }
         }
-        $retValue = false;
-        return $retValue;
+        return false;
     }
 
     /*!

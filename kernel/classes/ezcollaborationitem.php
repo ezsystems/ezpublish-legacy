@@ -217,7 +217,7 @@ class eZCollaborationItem extends eZPersistentObject
     {
         include_once( 'kernel/classes/ezcollaborationitemstatus.php' );
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-        $userID =& eZUser::currentUserID();
+        $userID = eZUser::currentUserID();
         return eZCollaborationItemStatus::fetch( $this->ID, $userID );
     }
 
@@ -480,7 +480,7 @@ class eZCollaborationItem extends eZPersistentObject
             $isActiveText = "ezcollab_item_status.is_active = '$isActiveValue' AND";
         }
 
-        $userID =& eZUser::currentUserID();
+        $userID = eZUser::currentUserID();
 
         $statusText = '';
         if ( $statusTypes === false )

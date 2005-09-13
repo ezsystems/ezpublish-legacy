@@ -1061,7 +1061,7 @@ WHERE user_id = '" . $userID . "' AND
      \static
      Returns the ID of the currently logged in user.
     */
-    function &currentUserID()
+    function currentUserID()
     {
         $user =& eZUser::instance();
         if ( !$user )

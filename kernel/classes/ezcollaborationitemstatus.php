@@ -87,7 +87,7 @@ class eZCollaborationItemStatus extends eZPersistentObject
     function create( $collaborationID, $userID = false )
     {
         if ( $userID === false )
-            $userID =& eZUser::currentUserID();
+            $userID = eZUser::currentUserID();
         $row = array(
             'collaboration_id' => $collaborationID,
             'user_id' => $userID,
@@ -116,7 +116,7 @@ class eZCollaborationItemStatus extends eZPersistentObject
     function &fetch( $collaborationID, $userID = false, $asObject = true )
     {
         if ( $userID === false )
-            $userID =& eZUser::currentUserID();
+            $userID = eZUser::currentUserID();
         $statusObject =& $GLOBALS['eZCollaborationItemStatusCache'][$collaborationID][$userID];
         if ( isset( $statusObject ) and $statusObject )
             return $statusObject;

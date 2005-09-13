@@ -110,23 +110,6 @@ class eZCodePage
         return $text;
     }
 
-    /* Original code, new code has inlined all used functions.
-    function &convertStringFromUTF8( &$str )
-    {
-        $len = strlen( $str );
-        $chars = array();
-        $utf8_codec =& eZUTF8Codec::instance();
-        for ( $i = 0; $i < $len; )
-        {
-            $charLen = 1;
-            $ucode = $utf8_codec->fromUtf8( $str, $i, $charLen );
-            $chars[] = $this->unicodeToChar( $ucode );
-            $i += $charLen;
-        }
-        return implode( '', $chars );
-    }
-    */
-
     function convertStringFromUTF8( &$multi_char )
     {
         $strlen = strlen( $multi_char );

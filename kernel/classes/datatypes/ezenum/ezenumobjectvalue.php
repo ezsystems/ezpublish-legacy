@@ -120,7 +120,7 @@ class eZEnumObjectValue extends eZPersistentObject
                                                  "contentobject_attribute_version" => $contentObjectAttributeVersion ) );
     }
 
-    function &fetch( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumid, $asObject = true )
+    function fetch( $contentObjectAttributeID, $contentObjectAttributeVersion, $enumid, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZEnumObjectValue::definition(),
                                                 null,

@@ -352,7 +352,7 @@ class eZDir
      Recurses through the directory and returns the files that matches the given suffix
      \note This function will not traverse . (hidden) folders
     */
-    function &recursiveFind( $dir, $suffix )
+    function recursiveFind( $dir, $suffix )
     {
         $returnFiles = array();
         if ( $handle = @opendir( $dir ) )
@@ -367,7 +367,7 @@ class eZDir
                 {
                     if ( $file[0] != "." )
                     {
-                        $files =& eZDir::recursiveFind( $dir . '/' . $file, $suffix );
+                        $files = eZDir::recursiveFind( $dir . '/' . $file, $suffix );
                         $returnFiles = array_merge( $files, $returnFiles );
                     }
                 }
@@ -462,7 +462,7 @@ class eZDir
      This function will store the relative path from the given base only.
      Note: this function will not traverse . (hidden) folders
     */
-    function &recursiveFindRelative( $baseDir, $subDir, $suffix )
+    function recursiveFindRelative( $baseDir, $subDir, $suffix )
     {
         $returnFiles = array();
         $dir = $baseDir;
@@ -485,7 +485,7 @@ class eZDir
                 {
                     if ( $file[0] != "." )
                     {
-                        $files =& eZDir::recursiveFindRelative( $baseDir, $subDir . '/' . $file, $suffix );
+                        $files = eZDir::recursiveFindRelative( $baseDir, $subDir . '/' . $file, $suffix );
                         $returnFiles = array_merge( $files, $returnFiles );
                     }
                 }
@@ -504,7 +504,7 @@ class eZDir
      \static
      Returns all subdirectories in a folder
     */
-    function &findSubdirs( $dir, $includeHidden = false, $excludeItems = false )
+    function findSubdirs( $dir, $includeHidden = false, $excludeItems = false )
     {
         return eZDir::findSubitems( $dir, 'd', false, $includeHidden, $excludeItems );
     }
@@ -513,7 +513,7 @@ class eZDir
      \static
      Returns all subdirectories in a folder
     */
-    function &findSubitems( $dir, $types = false, $fullPath = false, $includeHidden = false, $excludeItems = false )
+    function findSubitems( $dir, $types = false, $fullPath = false, $includeHidden = false, $excludeItems = false )
     {
         if ( !$types )
             $types = 'dfl';

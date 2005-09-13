@@ -959,7 +959,7 @@ class eZImageManager
         $file = $mimeData['url'];
         if ( !file_exists( $file ) )
             return false;
-        $analyzer =& eZImageAnalyzer::createForMIME( $mimeData );
+        $analyzer = eZImageAnalyzer::createForMIME( $mimeData );
         $status = true;
         if ( is_object( $analyzer ) )
         {
