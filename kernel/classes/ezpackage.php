@@ -2170,15 +2170,18 @@ class eZPackage
 
         // Read maintainers
         $maintainerList =& $root->elementChildrenByName( 'maintainers' );
-        foreach ( array_keys( $maintainerList ) as $maintainerKey )
+        if ( is_array( $maintainerList ) )
         {
-            $maintainerNode =& $maintainerList[$maintainerKey];
-            $maintainerModified = $maintainerNode->attributeValue( 'modified' );
-            $maintainerName = $maintainerNode->elementTextContentByName( 'name' );
-            $maintainerEmail = $maintainerNode->elementTextContentByName( 'email' );
-            $maintainerRole = $maintainerNode->elementTextContentByName( 'role' );
-            $this->appendMaintainer( $maintainerName, $maintainerEmail, $maintainerRole,
-                                     $maintainerModified );
+            foreach ( array_keys( $maintainerList ) as $maintainerKey )
+            {
+                $maintainerNode =& $maintainerList[$maintainerKey];
+                $maintainerModified = $maintainerNode->attributeValue( 'modified' );
+                $maintainerName = $maintainerNode->elementTextContentByName( 'name' );
+                $maintainerEmail = $maintainerNode->elementTextContentByName( 'email' );
+                $maintainerRole = $maintainerNode->elementTextContentByName( 'role' );
+                $this->appendMaintainer( $maintainerName, $maintainerEmail, $maintainerRole,
+                                         $maintainerModified );
+            }
         }
 
         // Read packaging info
@@ -2209,17 +2212,20 @@ class eZPackage
 
         // Read changelog
         $changelogList =& $root->elementChildrenByName( 'changelog' );
-        foreach ( array_keys( $changelogList ) as $changelogKey )
+        if ( is_array( $changelogList ) )
         {
-            $changelogEntryNode =& $changelogList[$changelogKey];
-            $changelogModified = $changelogEntryNode->attributeValue( 'modified' );
-            $changelogTimestamp = $changelogEntryNode->attributeValue( 'timestamp' );
-            $changelogPerson = $changelogEntryNode->attributeValue( 'person' );
-            $changelogEmail = $changelogEntryNode->attributeValue( 'email' );
-            $changelogRelease = $changelogEntryNode->attributeValue( 'release' );
-            $changelogChangeList = $changelogEntryNode->elementsTextContentByName( 'change' );
-            $this->appendChange( $changelogPerson, $changelogEmail, $changelogChangeList,
-                                 $changelogRelease, $changelogTimestamp, $changelogModified );
+            foreach ( array_keys( $changelogList ) as $changelogKey )
+            {
+                $changelogEntryNode =& $changelogList[$changelogKey];
+                $changelogModified = $changelogEntryNode->attributeValue( 'modified' );
+                $changelogTimestamp = $changelogEntryNode->attributeValue( 'timestamp' );
+                $changelogPerson = $changelogEntryNode->attributeValue( 'person' );
+                $changelogEmail = $changelogEntryNode->attributeValue( 'email' );
+                $changelogRelease = $changelogEntryNode->attributeValue( 'release' );
+                $changelogChangeList = $changelogEntryNode->elementsTextContentByName( 'change' );
+                $this->appendChange( $changelogPerson, $changelogEmail, $changelogChangeList,
+                                     $changelogRelease, $changelogTimestamp, $changelogModified );
+            }
         }
 
         // Read simple files
