@@ -207,7 +207,11 @@ Changes from 3.7.0rc1 to 3.7.0rc2
   ( Manually merged from stable/3.5 rev. 13250 ) 
 - Fixed bug #6820: Moving content with WebDAV result placement problems.
   ( Manually merged from stable/3.5 rev. 13250 )
-
+- Fixed bug: Invalid using of cached instance of eZTextCodec in ezdbinterface
+  and ezini, as result reseting of global instance of eZTextCodec (errors
+  during setup-wizard).
+  (Merged from stable/3.6 (3.6.2) rev 13279)
+  
 *Library:
 
 *Design:
