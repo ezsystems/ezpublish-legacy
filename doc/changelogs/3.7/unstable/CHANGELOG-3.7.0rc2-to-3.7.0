@@ -5,5 +5,7 @@ Changes from 3.7.0rc2 to 3.7.0
 *Bugfixes:
 - Fixed bug #7133: Script updatecontentobjectname.php has wrong description.
   ( Merged from stable/3.5 rev. 13256, stable/3.6 rev. 13257 )
+- Fixed bug #6127: Check database.
+  ( Merged  from stable/3.5 rev. 13293, stable/3.6 rev. 13294 )
 
 *Library:
