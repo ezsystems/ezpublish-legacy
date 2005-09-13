@@ -614,12 +614,15 @@ class eZINI
         }
 
 //         $codec =& eZTextCodec::codecForName( $this->Charset );
-        $this->Codec = null;
+        unset( $this->Codec );
         if ( $this->UseTextCodec )
         {
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
             $this->Codec =& eZTextCodec::instance( $this->Charset, false, false );
         }
+        else
+            $this->Codec = null;
+
         foreach ( $lines as $line )
         {
             if ( $line == '' or $line[0] == '#' )

@@ -129,17 +129,19 @@ class eZDBInterface
 */
         {
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
-            $this->OutputTextCodec =& eZTextCodec::instance( $charset, false, false );
-            $this->InputTextCodec =& eZTextCodec::instance( false, $charset, false );
+            $tmpOutputTextCodec =& eZTextCodec::instance( $charset, false, false );
+            $tmpInputTextCodec =& eZTextCodec::instance( false, $charset, false );
+            unset( $this->OutputTextCodec );
+            unset( $this->InputTextCodec );
+            $this->OutputTextCodec = null;
+            $this->InputTextCodec = null;
 
-            if ( $this->OutputTextCodec && $this->InputTextCodec )
+            if ( $tmpOutputTextCodec && $tmpInputTextCodec )
             {
-                if ( !$this->OutputTextCodec->conversionRequired() || !$this->InputTextCodec->conversionRequired() )
+                if ( $tmpOutputTextCodec->conversionRequired() && $tmpInputTextCodec->conversionRequired() )
                 {
-                    unset( $this->OutputTextCodec );
-                    unset( $this->InputTextCodec );
-                    $this->OutputTextCodec = null;
-                    $this->InputTextCodec = null;
+                    $this->OutputTextCodec =& $tmpOutputTextCodec;
+                    $this->InputTextCodec =& $tmpInputTextCodec;
                 }
             }
         }
@@ -796,6 +798,8 @@ class eZDBInterface
     var $ConnectRetries;
     /// Instance of a textcodec which handles text conversion, may not be set if no builtin encoding is used
     var $OutputTextCodec;
+    var $InputTextCodec;
+
     /// True if a builtin encoder is to be used, this means that all input/output text is converted
     var $UseBuiltinEncoding;
     /// Setting if SQL queries should be sent to debug output
