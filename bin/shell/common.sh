@@ -23,8 +23,7 @@ REPOSITORY_BASE_URL="http://svn.ez.no/svn/ezpublish"
 TR_REPOSITORY_BASE_URL="http://svn.ez.no/svn/translations"
 # This needs to be set correctly when a new branch is created
 # e.g. stable/3.4 stable/3.5
-#REPOSITORY_BRANCH_PATH="URL: http://svn.ez.no/svn/nextgen/stable/3.7"
-REPOSITORY_BRANCH_PATH="stable/3.7"
+REPOSITORY_BRANCH_PATH="versions/3.7.0rc2"
 REPOSITORY_STABLE_BRANCH_PATH="stable"
 
 CURRENT_URL="$REPOSITORY_BASE_URL/$REPOSITORY_BRANCH_PATH"
