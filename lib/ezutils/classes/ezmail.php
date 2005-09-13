@@ -52,6 +52,8 @@
 include_once( 'lib/ezi18n/classes/eztextcodec.php' );
 include_once( 'lib/ezutils/classes/ezini.php' );
 
+define( 'EZ_MAIL_REGEXP', '([0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@(((([0-9a-zA-Z])+([-\w]*[0-9a-zA-Z])*\.)+[a-zA-Z]{2,9})|(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)))' );
+
 class eZMail
 {
     /*!
@@ -524,13 +526,13 @@ class eZMail
     */
     function validate( $address )
     {
-        $pos = ( ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'.'@'.'[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.'.'[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+$', $address) );
+        $pos = ( ereg( '^' . EZ_MAIL_REGEXP . '$', $address) );
         return $pos;
     }
 
     function extractEmail( $text, &$email, &$name )
     {
-        if ( preg_match( "/([^<]+)<([a-zA-Z0-9_\-\.]+@([a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+)>/", $text, $matches ) )
+        if ( preg_match( "/([^<]+)<" . EZ_MAIL_REGEXP . ">/", $text, $matches ) )
         {
             $email = $matches[2];
             $name = $matches[1];
@@ -550,8 +552,7 @@ class eZMail
     */
     function stripEmail( $address )
     {
-        $res = ereg( '[/0-9A-Za-z\.\?\-\_]+' . '@' .
-                     '[/0-9A-Za-z\.\?\-\_]+', $address, $email );
+        $res = ereg( EZ_MAIL_REGEXP, $address, $email );
         if ( $res )
             return $email[0];
         else
