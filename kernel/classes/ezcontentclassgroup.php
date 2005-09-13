@@ -83,7 +83,7 @@ class eZContentClassGroup extends eZPersistentObject
                       "name" => "ezcontentclassgroup" );
     }
 
-    function &create( $userID )
+    function &create( $userID = false )
     {
         $dateTime = time();
         if ( !$userID )
