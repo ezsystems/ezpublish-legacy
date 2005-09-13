@@ -197,7 +197,12 @@ class eZMysqlSchema extends eZDBSchemaInterface
 	 */
 	function fetchTableIndexes( $table, $params )
 	{
-        $metaData = $params['meta_data'];
+        $metaData = false;
+        if ( isset( $params['meta_data'] ) )
+        {
+            $metaData = $params['meta_data'];
+        }
+
 		$indexes = array();
 
         $resultArray = $this->DBInstance->arrayQuery( "SHOW INDEX FROM $table" );

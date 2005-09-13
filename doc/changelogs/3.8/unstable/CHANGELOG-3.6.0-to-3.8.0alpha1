@@ -419,6 +419,8 @@ Attributes:
   and ezini, as result reseting of global instance of eZTextCodec (errors
   during setup-wizard).
   (Merged from stable/3.6 (3.6.2) rev. 13279)
+- Fixed bug #6127: Check database.
+  ( Merged  from stable/3.5 rev. 13293, stable/3.6 rev. 13294, stable/3.7 rev. 13295 )
 
 *Library:
 
