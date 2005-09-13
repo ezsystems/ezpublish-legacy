@@ -131,7 +131,7 @@ class eZContentClassClassGroup extends eZPersistentObject
                                                  "contentclass_version" =>$contentclass_version ) );
     }
 
-    function &fetch( $contentclass_id, $contentclass_version, $group_id, $asObject = true )
+    function fetch( $contentclass_id, $contentclass_version, $group_id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZContentClassClassGroup::definition(),
                                                 null,

@@ -910,7 +910,10 @@ class eZContentObject extends eZPersistentObject
             }
         }
         else
-            return eZContentObjectVersion::fetchVersion( $version, $this->ID, $asObject );
+        {
+            $versionArray = eZContentObjectVersion::fetchVersion( $version, $this->ID, $asObject );
+            return $versionArray;
+        }
     }
 
     /*!
@@ -1197,7 +1200,7 @@ class eZContentObject extends eZPersistentObject
         $db->begin();
 
         // Delete stored attribute from other tables
-        $contentobjectAttributes =& $this->allContentObjectAttributes( $this->ID );
+        $contentobjectAttributes = $this->allContentObjectAttributes( $this->ID );
         foreach (  $contentobjectAttributes as $contentobjectAttribute )
         {
             $contentobjectAttributeVersion = $contentobjectAttribute->attribute("version");
@@ -1285,7 +1288,7 @@ class eZContentObject extends eZPersistentObject
 
         $db->begin();
 
-        $contentobjectAttributes =& $contentobject->allContentObjectAttributes( $delID );
+        $contentobjectAttributes = $contentobject->allContentObjectAttributes( $delID );
 
         foreach ( $contentobjectAttributes as $contentobjectAttribute )
         {
@@ -1400,7 +1403,7 @@ class eZContentObject extends eZPersistentObject
     /*
      Fetch all attributes of all versions belongs to a contentObject.
     */
-    function &allContentObjectAttributes( $contentObjectID, $asObject = true )
+    function allContentObjectAttributes( $contentObjectID, $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
                                                     null,

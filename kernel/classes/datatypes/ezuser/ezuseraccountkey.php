@@ -78,7 +78,7 @@ class eZUserAccountKey extends eZPersistentObject
                                             "time" => $time ) );
     }
 
-    function &fetchByKey( $hashKey )
+    function fetchByKey( $hashKey )
     {
         return eZPersistentObject::fetchObject( eZUserAccountKey::definition(),
                                                 null,

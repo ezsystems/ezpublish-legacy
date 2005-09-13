@@ -86,7 +86,7 @@ class eZCollaborationNotificationRule extends eZPersistentObject
     function create( $collaborationIdentifier, $userID = false )
     {
         if ( !$userID )
-            $userID =& eZUser::currentUserID();
+            $userID = eZUser::currentUserID();
         $rule = new eZCollaborationNotificationRule( array( 'user_id' => $userID,
                                                             'collab_identifier' => $collaborationIdentifier ) );
         return $rule;
@@ -95,7 +95,7 @@ class eZCollaborationNotificationRule extends eZPersistentObject
     function fetchList( $userID = false, $asObject = true )
     {
         if ( !$userID )
-            $userID =& eZUser::currentUserID();
+            $userID = eZUser::currentUserID();
         return eZPersistentObject::fetchObjectList( eZCollaborationNotificationRule::definition(),
                                                     null, array( 'user_id' => $userID ),
                                                     null, null, $asObject );
@@ -133,7 +133,7 @@ class eZCollaborationNotificationRule extends eZPersistentObject
     function removeByIdentifier( $collaborationIdentifier, $userID = false )
     {
         if ( !$userID )
-            $userID =& eZUser::currentUserID();
+            $userID = eZUser::currentUserID();
         eZPersistentObject::removeObject( eZCollaborationNotificationRule::definition(),
                                           array( 'collab_identifier' => $collaborationIdentifier,
                                                  'user_id' => $userID ) );

@@ -899,7 +899,7 @@ function eZSetupPrvtAreDirAndFilesWritable( $dir )
         return FALSE;
 
    // Check if all files within a given directory are writeable
-   $files =& eZDir::findSubitems( $dir, 'f' ); // find only files, skip dirs and symlinks
+   $files = eZDir::findSubitems( $dir, 'f' ); // find only files, skip dirs and symlinks
    $fileSeparator = eZSys::fileSeparator();
 
    foreach ( $files as $file )

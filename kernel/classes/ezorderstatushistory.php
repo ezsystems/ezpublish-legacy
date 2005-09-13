@@ -159,7 +159,7 @@ class eZOrderStatusHistory extends eZPersistentObject
      \static
      \return the status history object with the given DB ID.
     */
-    function &fetch( $id, $asObject = true )
+    function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZOrderStatusHistory::definition(),
                                                 null,

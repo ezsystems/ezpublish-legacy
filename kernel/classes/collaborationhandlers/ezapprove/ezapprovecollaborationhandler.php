@@ -155,7 +155,7 @@ class eZApproveCollaborationHandler extends eZCollaborationItemHandler
     */
     function unreadMessageCount( &$collaborationItem )
     {
-//         $participantID =& eZUser::currentUserID();
+//         $participantID = eZUser::currentUserID();
 //         $participant =& eZCollaborationItemParticipantLink::fetch( $collaborationItem->attribute( 'id' ), $participantID );
         $lastRead = 0;
         $status =& $collaborationItem->attribute( 'user_status' );

@@ -190,7 +190,7 @@ class eZOrder extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &fetchList( $asObject = true )
+    function fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZOrder::definition(),
                                                     null, null,

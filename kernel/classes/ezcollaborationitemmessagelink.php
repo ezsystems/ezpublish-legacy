@@ -144,7 +144,7 @@ class eZCollaborationItemMessageLink extends eZPersistentObject
         return $link;
     }
 
-    function &fetch( $id, $asObject = true )
+    function fetch( $id, $asObject = true )
     {
         return eZPersistentObject::fetchObject( eZCollaborationItemMessageLink::definition(),
                                                 null,

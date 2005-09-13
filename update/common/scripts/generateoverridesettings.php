@@ -66,7 +66,7 @@ if ( $hasSiteAccess )
     $siteBase = $ini->variable( "DesignSettings", "SiteDesign" );
     print( "Looking for override templates in: $siteBase\n" );
 
-    $nodeOverrideFileArray =& eZDir::recursiveFindRelative( "design/" . $siteBase . "/override/templates/", "",  "tpl" );
+    $nodeOverrideFileArray = eZDir::recursiveFindRelative( "design/" . $siteBase . "/override/templates/", "",  "tpl" );
     print( "The following override templates where found:\n\n" );
     $overrideTxt = "";
     foreach ( $nodeOverrideFileArray as $overrideFile )

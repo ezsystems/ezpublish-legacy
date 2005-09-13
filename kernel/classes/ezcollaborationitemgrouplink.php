@@ -130,7 +130,7 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
         return $groupLink;
     }
 
-    function &fetch( $collaborationID, $groupID, $userID = false, $asObject = true )
+    function fetch( $collaborationID, $groupID, $userID = false, $asObject = true )
     {
         if ( $userID == false )
             $userID == eZUser::currentUserID();
@@ -142,7 +142,7 @@ class eZCollaborationItemGroupLink extends eZPersistentObject
                                                 $asObject );
     }
 
-    function &fetchList( $collaborationID, $userID = false, $asObject = true )
+    function fetchList( $collaborationID, $userID = false, $asObject = true )
     {
         if ( $userID == false )
             $userID == eZUser::currentUserID();

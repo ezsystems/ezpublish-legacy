@@ -133,7 +133,7 @@ class openFts
      \static
      Runs a query to the search engine.
     */
-    function &search( $searchText, $params = array() )
+    function search( $searchText, $params = array() )
     {
         $db =& eZDB::instance();
 
@@ -195,33 +195,15 @@ class openFts
 
 //        eZDebugSetting::writeDebug( 'kernel-search-openfts', $objectRes, 'search result' );
 
-        $retArray = array( "SearchResult" => $objectRes,
-                           "SearchCount" => $searchCount );
-        return $retArray;
-
-/*
-        $searchCount = 0;
-        if ( count( $nonExistingWordArray ) == 0 )
-        {
-            // execute search query
-            $objectRes = $db->arrayQuery( $searchQuery );
-            // execute search count query
-            $objectCountRes = $db->arrayQuery( $searchCountQuery );
-            $searchCount = $objectCountRes[0]['count'];
-        }
-        else
-            $objectRes = array();
-
-        return array( "SearchResult" => $objectRes,
-                      "SearchCount" => $searchCount );
-*/
+        return  array( "SearchResult" => $objectRes,
+                       "SearchCount" => $searchCount );
     }
 
     /*!
      \private
      \return Returns an array of words created from the input string.
     */
-    function &splitString( $text )
+    function splitString( $text )
     {
         // strip quotes
         $text = preg_replace("#'#", "", $text );
@@ -232,7 +214,7 @@ class openFts
         $text = preg_replace("(\s+)", " ", $text );
 
         // Split text on whitespace
-        $wordArray =& split( " ", $text );
+        $wordArray = split( " ", $text );
 
         $retArray = array();
         foreach ( $wordArray as $word )

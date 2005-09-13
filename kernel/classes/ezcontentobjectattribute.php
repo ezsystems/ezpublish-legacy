@@ -364,14 +364,14 @@ class eZContentObjectAttribute extends eZPersistentObject
         {
             $languageCode = eZContentObject::defaultLanguage();
         }
-        return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
-                                                null,
-                                                array( "contentclassattribute_id" => $this->ContentClassAttributeID,
-                                                       "contentobject_id" => $this->ContentObjectID,
-                                                       "version" => $this->Version,
-                                                       "language_code" => $languageCode,
-                                                       ),
-                                                $asObject );
+        $language = eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
+                                                     null,
+                                                     array( "contentclassattribute_id" => $this->ContentClassAttributeID,
+                                                            "contentobject_id" => $this->ContentObjectID,
+                                                            "version" => $this->Version,
+                                                            "language_code" => $languageCode ),
+                                                     $asObject );
+        return $language;
     }
 
     /*!
