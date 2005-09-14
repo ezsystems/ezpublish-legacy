@@ -102,7 +102,7 @@ class eZRSSExportItem extends eZPersistentObject
                                                       'source_path' => 'sourcePath',
                                                       'object_list' => 'objectList' ),
                       "increment_key" => "id",
-                      "class_name" => "eZRSSExsportItem",
+                      "class_name" => "eZRSSExportItem",
                       "name" => "ezrss_export_item" );
     }
 

@@ -9,5 +9,6 @@ Changes from 3.7.0rc2 to 3.7.0
   ( Merged  from stable/3.5 rev. 13293, stable/3.6 rev. 13294 )
 - Fixed bug #6178: Extracting email address in eZMail.
   ( Merged from stable/3.6 rev. 13297, stable/3.6 rev. 13298 )
+- Fixed bug #7141: Cannot instantiate non-existent class: ezrssexsportitem.
 
 *Library:
