@@ -35,7 +35,6 @@
 // you.
 
 //
-
 ignore_user_abort( true );
 ob_start();
 
@@ -91,8 +90,8 @@ $tplINI =& eZINI::instance( 'template.ini' );
 $tplINI->loadCache();
 
 // Grab the main WebDAV setting (enable/disable) from the WebDAV ini file.
-$ini =& eZINI::instance( 'webdav.ini' );
-$enable = $ini->variable( 'GeneralSettings', 'EnableWebDAV' );
+$webDavIni =& eZINI::instance( 'webdav.ini' );
+$enable = $webDavIni->variable( 'GeneralSettings', 'EnableWebDAV' );
 
 function eZDBCleanup()
 {
@@ -183,9 +182,33 @@ if ( $enable === 'true' )
             {
                 $loginUsername = $matches[2];
             }
+
+            $user = false;
+            if ( isset( $loginUsername ) && isset( $loginPassword ) )
+            {
+                include_once( 'kernel/classes/datatypes/ezuser/ezuserloginhandler.php' );
+
+                if ( $ini->hasVariable( 'UserSettings', 'LoginHandler' ) )
+                {
+                    $loginHandlers = $ini->variable( 'UserSettings', 'LoginHandler' );
+                }
+                else
+                {
+                    $loginHandlers = array( 'standard' );
+                }
+
+                foreach ( array_keys ( $loginHandlers ) as $key )
+                {
+                    $loginHandler = $loginHandlers[$key];
+                    $userClass =& eZUserLoginHandler::instance( $loginHandler );
+                    $user = $userClass->loginUser( $loginUsername, $loginPassword );
+                    if ( get_class( $user ) == 'ezuser' )
+                        break;
+                }
+            }
+
             // Check if username & password contain someting, attempt to login.
-            if ( ( !isset( $loginUsername ) ) || ( !isset( $loginPassword ) ) ||
-                 ( !eZUser::loginUser( $loginUsername, $loginPassword ) ) )
+            if ( get_class( $user ) != 'ezuser' )
             {
                 header( 'HTTP/1.0 401 Unauthorized' );
                 header( 'WWW-Authenticate: Basic realm="' . WEBDAV_AUTH_REALM . '"' );
@@ -196,7 +219,6 @@ if ( $enable === 'true' )
             // Else: non-empty & valid values were supplied: login successful!
             else
             {
-                $user =& eZUser::currentUser();
                 $userName = $user->attribute( 'login' );
                 eZWebDAVServer::appendLogEntry( "Logged in: '$userName'", 'webdav.php' );
 
@@ -211,8 +233,7 @@ if ( $enable === 'true' )
         }
     }
 
-    eZExecution::cleanup();
-    eZExecution::setCleanExit();
+    eZExecution::cleanExit();
 }
 // Else: WebDAV functionality is disabled, do nothing...
 else
