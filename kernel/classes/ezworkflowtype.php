@@ -249,16 +249,16 @@ class eZWorkflowType
     }
 
 
-    function &attributes()
+    function attributes()
     {
-        return array_merge( array_keys( $this->Attributes ), "description" );
+        return array_merge( array( 'allowed_triggers',
+                                   'description' ),
+                            array_keys( $this->Attributes ) );
     }
 
     function hasAttribute( $attr )
     {
-        return ( $attr == "description" or
-                 $attr == 'allowed_triggers' or
-                 isset( $this->Attributes[$attr] ) );
+        return in_array( $attr, $this->attributes() );
     }
 
     function &attribute( $attr )
