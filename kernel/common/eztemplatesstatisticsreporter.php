@@ -140,7 +140,7 @@ class eZTemplatesStatisticsReporter
                    "<td class=\"$tdClass\">&nbsp;</td>".
                    "<td class=\"$tdClass\">&nbsp;</td>".
                    "<td class=\"$tdClass\">&nbsp;</td></tr>" );
-            $stats .= "<tr><td><b>&nbsp;Total templates count: $totalTemplatesCount</b></td><tr>";
+            $stats .= "<tr><td><b>&nbsp;Total templates count: $totalTemplatesCount</b></td></tr>";
             $stats .= "</table>";
         }
         else
