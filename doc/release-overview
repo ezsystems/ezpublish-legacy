@@ -420,3 +420,8 @@ Datatype branch:
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.7.0rc2
 - Date 13-Sep-2005
 
+3.5.5:
+- Release branch=release/3.5.5
+- Release branch start=13312
+- Release branch end=
+- Release date 14-Sep-2005
