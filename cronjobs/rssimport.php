@@ -357,7 +357,24 @@ function setEZXMLAttribute( &$attribute, &$attributeValue, $link = false )
     $dumpdata = "";
     $simplifiedXMLInput = new eZSimplifiedXMLInput( $dumpdata, null, null );
     $inputData = $simplifiedXMLInput->convertInput( $inputData );
-    $description = $inputData[0]->toString();
+
+    $domString = eZXMLTextType::domString( $inputData[0] );
+
+    $domString = str_replace( "<paragraph> </paragraph>", "", $domString );
+    $domString = str_replace ( "<paragraph />" , "", $domString );
+    $domString = str_replace ( "<line />" , "", $domString );
+    $domString = str_replace ( "<paragraph></paragraph>" , "", $domString );
+    $domString = str_replace( "<paragraph>&nbsp;</paragraph>", "", $domString );
+    $domString = str_replace( "<paragraph></paragraph>", "", $domString );
+
+    $domString = preg_replace( "#[\n]+#", "", $domString );
+    $domString = preg_replace( "#&lt;/line&gt;#", "\n", $domString );
+    $domString = preg_replace( "#&lt;paragraph&gt;#", "\n\n", $domString );
+
+    $xml = new eZXML();
+    $tmpDom =& $xml->domTree( $domString, array( 'CharsetConversion' => false ) );
+    $description = eZXMLTextType::domString( $tmpDom );
+
     $attribute->setAttribute( 'data_text', $description );
     $attribute->store();
 }
