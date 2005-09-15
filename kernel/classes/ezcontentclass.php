@@ -970,7 +970,12 @@ You will need to change the class of the node by using the swap functionality.' 
 
         $row =& $rows[0];
         $row["version_count"] = count( $rows );
-        return new eZContentClass( $row );
+
+        if ( $asObject )
+            return new eZContentClass( $row );
+        else
+            return $row;
+
     }
 
     function &fetchByRemoteID( $remoteID, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
@@ -993,9 +998,14 @@ You will need to change the class of the node by using the swap functionality.' 
         {
             return null;
         }
+
         $row =& $rows[0];
         $row["version_count"] = count( $rows );
-        return new eZContentClass( $row );
+
+        if ( $asObject )
+            return new eZContentClass( $row );
+        else
+            return $row;
     }
 
     function &fetchByIdentifier( $identifier, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
@@ -1014,13 +1024,19 @@ You will need to change the class of the node by using the swap functionality.' 
                                                       array( "offset" => 0,
                                                              "length" => 2 ),
                                                       false );
-        if ( count( $rows ) > 0 )
+        if ( count( $rows ) == 0 )
         {
-            $row =& $rows[0];
-            $row["version_count"] = count( $rows );
-            return new eZContentClass( $row );
+            return null;
         }
-        return null;
+        
+        $row =& $rows[0];
+        $row["version_count"] = count( $rows );
+
+        if ( $asObject )
+            return new eZContentClass( $row );
+        else
+            return $row;
+    
     }
 
     /*!
@@ -1146,7 +1162,7 @@ You will need to change the class of the node by using the swap functionality.' 
 
         return eZContentClassAttribute::fetchFilteredList( array( "contentclass_id" => $id,
                                                                   "is_searchable" => 1,
-                                                                  "version" => $version ) );
+                                                                  "version" => $version ), $asObject );
     }
 
     /*!
