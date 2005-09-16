@@ -73,11 +73,23 @@ class eZMatrixType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-/*        if ( $http->hasPostVariable( $base . '_data_option_id_' . $contentObjectAttribute->attribute( 'id' ) ) )
+        $data = false;
+        if ( $http->hasPostVariable( $base . '_ezmatrix_cell_' . $contentObjectAttribute->attribute( 'id' ) ) )
+            $data = $http->PostVariable( $base . '_ezmatrix_cell_' . $contentObjectAttribute->attribute( 'id' ) );
+        $count = 0;
+        for ( $i = 0; $i < count( $data ); ++$i )
+             if ( trim( $data[$i] ) <> '' )
+             {
+                 ++$count;
+                 break;
+             }
+        if ( $contentObjectAttribute->validateIsRequired() and ( $count == 0 or $data === false ) )
         {
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                 'Missing matrix input.' ) );
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
         }
-*/      return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
     /*!
