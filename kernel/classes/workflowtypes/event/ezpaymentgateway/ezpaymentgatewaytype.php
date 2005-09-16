@@ -41,7 +41,7 @@
 /*!
   \class eZPaymentGatewayType ezpaymentgatewaytype.php
   \brief Interface for different types of payment gateways.
-  
+
   Allows use multiple payment gateways in workflow.
   Allows user to choose necessary gateway type 'on the fly'.
 */
@@ -90,7 +90,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
                 $process->Template = array();
                 $process->Template['templateName'] = 'design:workflow/selectgateway.tpl';
                 $process->Template['templateVars'] = array ( 'event' => $event );
-                        
+
                 return EZ_WORKFLOW_TYPE_STATUS_FETCH_TEMPLATE_REPEAT;
             }
         }
@@ -130,7 +130,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
                 $selectedGatewaysTypes  = explode( ',', $event->attribute( 'data_text1' ) );
                 return $this->getGateways( $selectedGatewaysTypes );
             }break;
-    
+
             case 'current_gateway':
             {
                 $gateway = $event->attribute( 'data_text2' );
@@ -152,7 +152,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
         {
             case 'available_gateways':
             {
-                return $this->getGateways( array( -1 ) );                
+                return $this->getGateways( array( -1 ) );
             }break;
         }
         return eZWorkflowEventType::attribute( $attr );
@@ -180,22 +180,32 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     function loadAndRegisterBuiltInGateways()
     {
         $gatewaysINI        =& eZINI::instance( 'paymentgateways.ini' );
-        $gatewaysDir        = $gatewaysINI->variable( 'GatewaysSettings', 'GatewaysDerictories' );    
-        $gatewaysTypes      = $gatewaysINI->variable( 'GatewaysSettings', 'AvailableGateways' );    
+        $gatewaysTypes      = $gatewaysINI->variable( 'GatewaysSettings', 'AvailableGateways' );
+        $gatewaysDir        = false;
 
-        foreach( $gatewaysDir as $dir )
+        // GatewaysDirectories was spelt as GatewaysDerictories, which is
+        // confusing for people writing ini files - it's a typo.
+        if ( $gatewaysINI->hasVariable( 'GatewaysSettings', 'GatewaysDerictories' ) )
+            $gatewaysDir = $gatewaysINI->variable( 'GatewaysSettings', 'GatewaysDerictories' );
+        else
+            $gatewaysDir = $gatewaysINI->variable( 'GatewaysSettings', 'GatewaysDirectories' );
+
+        if ( is_array( $gatewaysDir ) && is_array( $gatewaysTypes ) )
         {
-            foreach( $gatewaysTypes as $gateway )
+            foreach( $gatewaysDir as $dir )
             {
-                $gatewayPath = "$dir/$gateway/classes/" . $gateway . 'gateway.php';
-                if( file_exists( $gatewayPath ) )
+                foreach( $gatewaysTypes as $gateway )
                 {
-                    include_once( $gatewayPath );
+                    $gatewayPath = "$dir/$gateway/classes/" . $gateway . 'gateway.php';
+                    if( file_exists( $gatewayPath ) )
+                    {
+                        include_once( $gatewayPath );
+                    }
                 }
             }
         }
     }
-  
+
     /*!
       \static
     */
@@ -205,7 +215,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
         $siteINI            =& eZINI::instance( 'site.ini' );
         $extensionDirectory = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
         $activeExtensions   = eZExtension::activeExtensions();
-      
+
         foreach ( $activeExtensions as $extension )
         {
             $gatewayPath = "$extensionDirectory/$extension/classes/" . $extension . 'gateway.php';
@@ -237,10 +247,10 @@ class eZPaymentGatewayType extends eZWorkflowEventType
 
     /*!
         Returns an array of gateways difinitions( class_name, description ) by
-        'gatewaysTypes'( array of 'gateway' values that were passed to 
+        'gatewaysTypes'( array of 'gateway' values that were passed to
         'registerGateway' function).
     */
-    
+
     function &getGateways( $gatewaysTypes )
     {
         $gateways           = array();
@@ -254,7 +264,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
         foreach ( $gatewaysTypes as $key )
         {
               $gateway =& $availableGateways[$key];
-            
+
               $gateway['Name']    = $gateway['description'];
               $gateway['value']   = $key;
               $gateways[] = $gateway;
@@ -271,27 +281,27 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     {
         $theGateway         = null;
         $gateway_difinition =& $GLOBALS[ 'eZPaymentGateways' ][ $inGatewayType ];
-        
+
         $this->logger->writeTimedString( $gateway_difinition, "createGateway. gateway_difinition" );
 
         if( $gateway_difinition )
-        {   
+        {
             $class_name = $gateway_difinition[ 'class_name' ];
             $theGateway =& new $class_name();
         }
-        
+
         return $theGateway;
     }
 
     /*!
         Returns 'current' gateway.
     */
-    
+
     function &getCurrentGateway( &$event )
     {
         $theGateway  = null;
         $gatewayType = $this->getCurrentGatewayType( $event );
-      
+
         if( $gatewayType != null )
         {
             $theGateway = $this->createGateway( $gatewayType );
@@ -308,7 +318,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     {
         $gateway =  null;
         $http    =& eZHTTPTool::instance();
-    
+
         if ( $http->hasPostVariable( 'SelectButton' ) && $http->hasPostVariable( 'SelectedGateway' ) )
         {
             $gateway = $http->postVariable( 'SelectedGateway' );
@@ -323,7 +333,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
         {
             $gateway = $event->attribute( 'current_gateway' );
         }
-        
+
         return $gateway;
     }
 
@@ -336,7 +346,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     function selectGateway( &$event )
     {
         $selectedGatewaysTypes  = explode( ',', $event->attribute( 'data_text1' ) );
-        
+
         if ( count( $selectedGatewaysTypes ) == 1 && $selectedGatewaysTypes[0] != -1 )
         {
             $event->setAttribute( 'data_text2', $selectedGatewaysTypes[0] );
@@ -354,7 +364,7 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     {
         return true;
     }
-    
+
     /*!
         Delegate to eZPaymentGateway subclass.
     */
