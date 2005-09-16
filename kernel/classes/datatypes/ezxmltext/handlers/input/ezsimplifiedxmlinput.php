@@ -1092,6 +1092,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $lastInsertedChildTag = null;
         $lastInsertedNode = null;
         $sectionLevel = 0;
+        // Level that was used in the previous <header> tag
+        $lastHeaderLevel = null;
+
         $overrideContent = false;
         $isInsideTd = false;
         $tdSectionLevel = 0;
@@ -1224,6 +1227,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     if ( $convertedTag == 'td' or $convertedTag == 'th' or $convertedTag == 'custom' or $convertedTag == 'li' )
                     {
                         $isInsideTd = false;
+
                         // Reset table section level
                         $tdSectionLevel = 0;
                         while ( $lastInsertedNodeTag == "section" or $lastInsertedNodeTag == "paragraph" )
@@ -1445,6 +1449,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                     $message[] = "Attribute '" .  $attrName . "' in tag " . $justName . " is not supported (removed)";
                                 }
                             }
+                            unset( $tmpCurrentNode );
+                            $tmpCurrentNode =& $currentNode;
                             if ( $isInsideTd )
                             {
                                 $sectionLevel = $sectionLevel;
@@ -1523,10 +1529,21 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             $subNode->LocalName = "section";
                             $subNode->Type = EZ_NODE_TYPE_ELEMENT;
                             $domDocument->registerElement( $subNode );
-                            $currentNode->appendChild( $subNode );
+                            //$currentNode->appendChild( $subNode );
                             $childTag = $this->SectionArray;
                             $TagStack[] = array( "TagName" => "section", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag );
-                            $currentNode =& $subNode;
+
+                            if ( $lastHeaderLevel == $headerLevel )
+                            {
+                               $currentNode =& $tmpCurrentNode;
+                            }
+                            else
+                            {
+                                  $currentNode->appendChild( $subNode );
+                                  $currentNode =& $subNode;
+                            }
+                            $lastHeaderLevel = $headerLevel;
+
                             $covertedName = 'header';
                             unset( $subNode );
                             $subNode = new eZDOMNode();
@@ -1622,11 +1639,15 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         }
                         else
                         {
+                            if ( $justName == 'td' or $justName =='tr' or $justName =='th' )
+                                 $lastHeaderLevel = null;
                             $currentNode =& $this->handleStartTag( $justName, $tagName, $lastInsertedNodeTag, $currentNode, $domDocument, $TagStack, $message, $attributePart, $isInsideTd );
                         }
                     }
                     else
                     {
+                        if ( $justName == 'td' or $justName =='tr' or $justName =='th' )
+                             $lastHeaderLevel = null;
                         $currentNode =& $this->handleStartTag( $justName, $tagName, $lastInsertedNodeTag, $currentNode, $domDocument, $TagStack, $message, $attributePart, $isInsideTd );
                     }
                     if ( $justName == "literal" )
