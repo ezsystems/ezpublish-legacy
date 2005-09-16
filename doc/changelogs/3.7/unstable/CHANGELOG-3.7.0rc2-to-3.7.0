@@ -20,5 +20,7 @@ Changes from 3.7.0rc2 to 3.7.0
   (Manually merged from stable/3.5 (3.5.6) rev. 13329)
 - Fixed bug #7135: Bug Too many sections in XML text.
   (Merged from stable/trunk (3.8.0alpha1) rev. 13336)
+- Fixed bug #7139: Bug in kernel/content/upload.php
+  (Merged from stable/3.6 (3.6.3) rev. 13340)
 
 *Library:
