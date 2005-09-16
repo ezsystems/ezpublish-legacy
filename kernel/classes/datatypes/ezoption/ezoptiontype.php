@@ -64,24 +64,27 @@ class eZOptionType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        $count = 0;
+        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
         if ( $http->hasPostVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
             $idList = $http->postVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) );
             $valueList = $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
+            $dataName = $http->postVariable( $base . "_data_option_name_" . $contentObjectAttribute->attribute( "id" ) );
             $optionAdditionalPriceList =& $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) );
-
-            if ( $contentObjectAttribute->validateIsRequired() and
-                 !$classAttribute->attribute( 'is_information_collector' ) )
-            {
-                if ( trim( $valueList[0] ) == "" )
+            for ( $i = 0; $i < count( $valueList ); ++$i )
+                if ( trim( $valueList[$i] ) <> '' )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'At least one option is required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    ++$count;
+                    break;
                 }
+            if ( $contentObjectAttribute->validateIsRequired() and trim( $dataName ) == '' )
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                     'NAME is required.' ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
-            if ( trim( $valueList[0] ) != "" )
+            if ( $count != 0 )
             {
                 for ( $i=0;$i<count( $idList );$i++ )
                 {
@@ -91,7 +94,6 @@ class eZOptionType extends eZDataType
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The option value must be provided.' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
-
                     }
                     if ( strlen( $optionAdditionalPriceList[$i] ) && !preg_match( "#^[-|+]?[0-9]+(\.){0,1}[0-9]{0,2}$#", $optionAdditionalPriceList[$i] ) )
                     {
@@ -99,8 +101,17 @@ class eZOptionType extends eZDataType
                                                                              'The Additional price value is not valid.' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
-
                 }
+            }
+        }
+        if ( $contentObjectAttribute->validateIsRequired() and
+             !$classAttribute->attribute( 'is_information_collector' ) )
+        {
+            if ( $count == 0 )
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                     'At least one option is required.' ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
