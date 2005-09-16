@@ -230,21 +230,6 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
         return $items;
     }
 
-    function prepareDigestItemsForUser( $userAddress,  $itemsResult, &$i )
-    {
-        $userHandlers = array();
-        $prevHandler = '';
-        while( $userAddress == $itemsResult[$i]['address'] )
-        {
-            $prevHandler = $itemsResult[$i]['handler'];
-
-            while (  $prevHandler == $itemsResultt[$i]['handler'] && $userAddress == $itemsResult[$i]['address'] )
-            {
-
-            }
-        }
-    }
-
     function storeSettings( &$http, &$module )
     {
         $user =& eZUser::currentUser();
