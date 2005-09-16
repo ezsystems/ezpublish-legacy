@@ -979,14 +979,20 @@ You will need to change the class of the node by using the swap functionality.' 
                                                              "length" => 2 ),
                                                       false );
 
-        if ( count( $rows ) > 0 )
+        if ( count( $rows ) == 0 )
         {
-            $row =& $rows[0];
-            $row["version_count"] = count( $rows );
-            $contentClass = new eZContentClass( $row );
-        }
-        else
             $contentClass = null;
+            return $contentClass;
+        }
+
+        $row =& $rows[0];
+        $row["version_count"] = count( $rows );
+
+        if ( $asObject )
+            $contentClass = new eZContentClass( $row );
+        else
+            $contentClass = $row;
+
         return $contentClass;
     }
 
@@ -1006,15 +1012,22 @@ You will need to change the class of the node by using the swap functionality.' 
                                                       array( "offset" => 0,
                                                              "length" => 2 ),
                                                       false );
-        if ( count( $rows ) > 0 )
+        if ( count( $rows ) == 0 )
         {
-            $row =& $rows[0];
-            $row["version_count"] = count( $rows );
-            $contentClass = new eZContentClass( $row );
-        }
-        else
             $contentClass = null;
+            return $contentClass;
+        }
+
+        $row =& $rows[0];
+        $row["version_count"] = count( $rows );
+
+        if ( $asObject )
+            $contentClass = new eZContentClass( $row );
+        else
+            $contentClass = $row;
+
         return $contentClass;
+        
     }
 
     function fetchByIdentifier( $identifier, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
@@ -1033,14 +1046,20 @@ You will need to change the class of the node by using the swap functionality.' 
                                                       array( "offset" => 0,
                                                              "length" => 2 ),
                                                       false );
-        if ( count( $rows ) > 0 )
+        if ( count( $rows ) == 0 )
         {
-            $row =& $rows[0];
-            $row["version_count"] = count( $rows );
-            $contentClass = new eZContentClass( $row );
-        }
-        else
             $contentClass = null;
+            return $contentClass;
+        }
+
+        $row =& $rows[0];
+        $row["version_count"] = count( $rows );
+
+        if ( $asObject )
+            $contentClass = new eZContentClass( $row );
+        else
+            $contentClass = $row;
+
         return $contentClass;
     }
 
@@ -1170,7 +1189,7 @@ You will need to change the class of the node by using the swap functionality.' 
 
         return eZContentClassAttribute::fetchFilteredList( array( "contentclass_id" => $id,
                                                                   "is_searchable" => 1,
-                                                                  "version" => $version ) );
+                                                                  "version" => $version ), $asObject );
     }
 
     /*!
