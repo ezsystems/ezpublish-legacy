@@ -55,7 +55,7 @@ if ( $module->isCurrentAction( 'CancelUpload' ) )
     $url = false;
     if ( $upload->attribute( 'cancel_uri' ) )
     {
-        $url = $module->redirectTo( $upload->attribute( 'cancel_uri' ) );
+        $url = $upload->attribute( 'cancel_uri' );
     }
     else if ( $upload->attribute( 'result_uri' ) )
     {
