@@ -64,14 +64,14 @@ class eZOptionType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        $count = 0;
+        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
         if ( $http->hasPostVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
             $idList = $http->postVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) );
             $valueList = $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
             $dataName = $http->postVariable( $base . "_data_option_name_" . $contentObjectAttribute->attribute( "id" ) );
             $optionAdditionalPriceList =& $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) );
-            $count = 0;
             for ( $i = 0; $i < count( $valueList ); ++$i )
                 if ( trim( $valueList[$i] ) <> '' )
                 {
@@ -83,16 +83,6 @@ class eZOptionType extends eZDataType
                 $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                      'NAME is required.' ) );
                 return EZ_INPUT_VALIDATOR_STATE_INVALID;
-            }
-            if ( $contentObjectAttribute->validateIsRequired() and
-                 !$classAttribute->attribute( 'is_information_collector' ) )
-            {
-                if ( $count == 0 )
-                {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'At least one option is required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                }
             }
             if ( $count != 0 )
             {
@@ -112,6 +102,16 @@ class eZOptionType extends eZDataType
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
                 }
+            }
+        }
+        if ( $contentObjectAttribute->validateIsRequired() and
+             !$classAttribute->attribute( 'is_information_collector' ) )
+        {
+            if ( $count == 0 )
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                     'At least one option is required.' ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
             }
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
