@@ -83,6 +83,13 @@ class eZObjectRelationListType extends eZDataType
             $parameters['prefix-name'] = array( $contentClassAttribute->attribute( 'name' ) );
         $content =& $contentObjectAttribute->content();
         $status = EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        if ( $contentObjectAttribute->validateIsRequired() and count( $content['relation_list'] ) == 0 )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                 'Missing objectrelation list input.' ) );
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        }
+
         for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
         {
             $relationItem = $content['relation_list'][$i];
