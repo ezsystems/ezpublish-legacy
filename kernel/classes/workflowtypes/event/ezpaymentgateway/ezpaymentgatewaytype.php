@@ -188,17 +188,27 @@ class eZPaymentGatewayType extends eZWorkflowEventType
     function loadAndRegisterBuiltInGateways()
     {
         $gatewaysINI        =& eZINI::instance( 'paymentgateways.ini' );
-        $gatewaysDir        = $gatewaysINI->variable( 'GatewaysSettings', 'GatewaysDerictories' );
         $gatewaysTypes      = $gatewaysINI->variable( 'GatewaysSettings', 'AvailableGateways' );
+        $gatewaysDir        = false;
 
-        foreach( $gatewaysDir as $dir )
+        // GatewaysDirectories was spelt as GatewaysDerictories, which is
+        // confusing for people writing ini files - it's a typo.
+        if ( $gatewaysINI->hasVariable( 'GatewaysSettings', 'GatewaysDerictories' ) )
+            $gatewaysDir = $gatewaysINI->variable( 'GatewaysSettings', 'GatewaysDerictories' );
+        else
+            $gatewaysDir = $gatewaysINI->variable( 'GatewaysSettings', 'GatewaysDirectories' );
+
+        if ( is_array( $gatewaysDir ) && is_array( $gatewaysTypes ) )
         {
-            foreach( $gatewaysTypes as $gateway )
+            foreach( $gatewaysDir as $dir )
             {
-                $gatewayPath = "$dir/$gateway/classes/" . $gateway . 'gateway.php';
-                if( file_exists( $gatewayPath ) )
+                foreach( $gatewaysTypes as $gateway )
                 {
-                    include_once( $gatewayPath );
+                    $gatewayPath = "$dir/$gateway/classes/" . $gateway . 'gateway.php';
+                    if( file_exists( $gatewayPath ) )
+                    {
+                        include_once( $gatewayPath );
+                    }
                 }
             }
         }
