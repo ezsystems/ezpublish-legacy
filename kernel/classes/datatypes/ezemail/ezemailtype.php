@@ -55,6 +55,18 @@ class eZEmailType extends eZDataType
     }
 
     /*!
+     Sets the default value.
+    */
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    {
+        if ( $currentVersion != false )
+        {
+            $dataText = $originalContentObjectAttribute->attribute( "data_text" );
+            $contentObjectAttribute->setAttribute( "data_text", $dataText );
+        }
+    }
+
+    /*!
      Validates the input and returns true if the input was
      valid for this datatype.
     */

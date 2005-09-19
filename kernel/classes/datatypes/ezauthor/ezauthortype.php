@@ -61,24 +61,24 @@ class eZAuthorType extends eZDataType
      valid for this datatype.
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
-    { 
+    {
         $actionRemoveSelected = false;
         if ( $http->hasPostVariable( 'CustomActionButton' ) )
         {
             $customActionArray =& $http->postVariable( 'CustomActionButton' );
-                        
+
             if ( isset( $customActionArray[$contentObjectAttribute->attribute( "id" ) . '_remove_selected'] ) )
                 if ( $customActionArray[$contentObjectAttribute->attribute( "id" ) . '_remove_selected'] == 'Remove selected' )
-                    $actionRemoveSelected = true;                                
+                    $actionRemoveSelected = true;
         }
-         
+
         if ( $http->hasPostVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
             $idList = $http->postVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) );
             $nameList = $http->postVariable( $base . "_data_author_name_" . $contentObjectAttribute->attribute( "id" ) );
             $emailList = $http->postVariable( $base . "_data_author_email_" . $contentObjectAttribute->attribute( "id" ) );
-            
+
             if ( $http->hasPostVariable( $base . "_data_author_remove_" . $contentObjectAttribute->attribute( "id" ) ) )
                 $removeList = $http->postVariable( $base . "_data_author_remove_" . $contentObjectAttribute->attribute( "id" ) );
             else
@@ -97,7 +97,7 @@ class eZAuthorType extends eZDataType
             {
                 for ( $i=0;$i<count( $idList );$i++ )
                 {
-                    if ( $actionRemoveSelected ) 
+                    if ( $actionRemoveSelected )
                         if ( in_array( $idList[$i], $removeList ) )
                             continue;
 
@@ -130,6 +130,18 @@ class eZAuthorType extends eZDataType
     {
         $author =& $contentObjectAttribute->content();
         $contentObjectAttribute->setAttribute( "data_text", $author->xmlString() );
+    }
+
+    /*!
+     Sets the default value.
+    */
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    {
+        if ( $currentVersion != false )
+        {
+            $dataText = $originalContentObjectAttribute->attribute( "data_text" );
+            $contentObjectAttribute->setAttribute( "data_text", $dataText );
+        }
     }
 
     /*!

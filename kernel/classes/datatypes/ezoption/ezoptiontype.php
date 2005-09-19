@@ -302,6 +302,11 @@ class eZOptionType extends eZDataType
             $contentObjectAttribute->setAttribute( "data_text", $option->xmlString() );
             $contentObjectAttribute->setContent( $option );
         }
+        else
+        {
+            $dataText = $originalContentObjectAttribute->attribute( "data_text" );
+            $contentObjectAttribute->setAttribute( "data_text", $dataText );
+        }
     }
 
     /*!
