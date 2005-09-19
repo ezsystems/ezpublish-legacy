@@ -133,6 +133,18 @@ class eZAuthorType extends eZDataType
     }
 
     /*!
+     Sets the default value.
+    */
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    {
+        if ( $currentVersion != false )
+        {
+            $dataText = $originalContentObjectAttribute->attribute( "data_text" );
+            $contentObjectAttribute->setAttribute( "data_text", $dataText );
+        }
+    }
+
+    /*!
      Returns the content.
     */
     function &objectAttributeContent( &$contentObjectAttribute )

@@ -327,6 +327,11 @@ class eZMultiOptionType extends eZDataType
                 $contentObjectAttribute->setContent( $multioption );
             }
         }
+        else
+        {
+            $dataText = $originalContentObjectAttribute->attribute( "data_text" );
+            $contentObjectAttribute->setAttribute( "data_text", $dataText );
+        }
     }
 
     /*!
