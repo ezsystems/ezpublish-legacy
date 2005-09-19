@@ -229,9 +229,9 @@ class eZURL extends eZPersistentObject
     */
     function fetch( $id, $asObject = true )
     {
-        eZPersistentObject::fetchObject( eZURL::definition(),
-                                         null, array( 'id' => $id ),
-                                         $asObject );
+        return eZPersistentObject::fetchObject( eZURL::definition(),
+                                                null, array( 'id' => $id ),
+                                                $asObject );
     }
 
     /*!
