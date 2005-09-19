@@ -443,6 +443,11 @@ Attributes:
 - Fixed bug: Required option for eZMatrix, eZOption, eZObjectRelationList
   attributes is not working.
   (Merged from stable/3.7 (3.7.0) rev. 13362)
+- Fixed bug: When changing content of an object attribute having translation disabled, 
+  content of the attribute is not updated in its translations.
+  The bug occurs with the following datatypes: eZAuthor, eZEmail, eZMatrix,
+  eZOption, eZMultioption.
+  (Merged from stable/3.5 (3.5.6) rev. 13368)
  
 *Library:
 
