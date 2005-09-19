@@ -228,7 +228,7 @@ function eZSessionDestroy( $key )
     include_once( 'lib/ezdb/classes/ezdb.php' );
     $db =& eZDB::instance();
 
-    $escKey =& $db->escapeString( $key );
+    $escKey = $db->escapeString( $key );
     if ( isset( $GLOBALS['eZSessionFunctions']['destroy_pre'] ) )
     {
         foreach ( $GLOBALS['eZSessionFunctions']['destroy_pre'] as $func )
