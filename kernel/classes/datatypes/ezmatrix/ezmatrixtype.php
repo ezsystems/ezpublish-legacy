@@ -258,9 +258,8 @@ class eZMatrixType extends eZDataType
 
         if ( $currentVersion != false )
         {
-            $matrix =& $contentObjectAttribute->content();
+            $matrix =& $originalContentObjectAttribute->content();
             $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-
             // make sure that $matrix contains right columns
             $matrix->adjustColumnsToDefinition( $contentClassAttribute->attribute( 'content' ) );
 
