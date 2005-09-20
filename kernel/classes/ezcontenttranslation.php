@@ -169,21 +169,48 @@ class eZContentTranslation extends eZPersistentObject
         if ( $defaultLanguage != $newLanguage )
         {
             $db =& eZDB::instance();
-            $db->query( "INSERT INTO ezcontentobject_name( contentobject_id,
-                                                           name,
-                                                           content_version,
-                                                           content_translation,
-                                                           real_translation )
+            $dbName = $db->databaseName();
+            $dbVersion = $db->databaseServerVersion();
 
-                         SELECT con.contentobject_id,
-                                con.name,
-                                con.content_version,
-                                '$newLanguage',
-                                '$defaultLanguage'
-
-                         FROM   ezcontentobject_name con
-
-                         WHERE  con.content_translation = '$defaultLanguage'");
+            // Queries whose insert into tables from FROM list are not allowed in mysql prior 4.0.14 version.
+            if ( $dbName == 'postgresql' or
+                 $dbName == 'oracle' or
+                 ( $dbName == 'mysql' and version_compare( $dbVersion['string'], '4.0.14' ) >= 0 ) )
+            {
+                $db->query( "INSERT INTO ezcontentobject_name( contentobject_id,
+                                                               name,
+                                                               content_version,
+                                                               content_translation,
+                                                               real_translation )
+                             SELECT con.contentobject_id,
+                                    con.name,
+                                    con.content_version,
+                                    '$newLanguage',
+                                    '$defaultLanguage'
+                             FROM   ezcontentobject_name con
+                             WHERE  con.content_translation = '$defaultLanguage'" );
+            }
+            else
+            {
+                $existingNamesArray = $db->arrayQuery( "SELECT *
+                                                        FROM ezcontentobject_name
+                                                        WHERE content_translation = '$defaultLanguage'  " );
+                foreach( $existingNamesArray as $nameItem )
+                {
+                    if ( $nameItem['content_translation'] == $newLanguage )
+                        continue;
+                    $db->query( "INSERT INTO ezcontentobject_name( contentobject_id,
+                                                                   name,
+                                                                   content_version,
+                                                                   content_translation,
+                                                                   real_translation )
+                                                           VALUES( '" . $db->escapeString( $nameItem['contentobject_id'] ) . "',
+                                                                   '" . $db->escapeString( $nameItem['name'] ) . "',
+                                                                   '" . $db->escapeString( $nameItem['content_version'] ) . "',
+                                                                   '$newLanguage',
+                                                                   '$defaultLanguage' )" );
+                }
+            }
         }
     }
 
