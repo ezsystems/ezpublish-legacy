@@ -5051,14 +5051,10 @@ WHERE
                  $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' )
             {
                 $prepend = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );
-                if ( substr( $this->PathIdentificationString, 0, strlen( $prepend ) ) )
-                {
+                if ( strncmp( $this->PathIdentificationString, $prepend, strlen( $prepend ) ) == 0 )
                     $cleanURL = eZUrlAlias::cleanURL( substr( $this->PathIdentificationString, strlen( $prepend ) ) );
-                }
                 else
-                {
                     $cleanURL = eZUrlAlias::cleanURL( $this->PathIdentificationString );
-                }
             }
             else
             {

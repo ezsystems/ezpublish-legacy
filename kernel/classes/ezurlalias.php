@@ -733,13 +733,13 @@ WHERE
 
         $ini =& eZIni::instance();
         if ( $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
-             $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) )
+             $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' )
         {
             $prefix = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );
             // Only prepend the path prefix if it's not already the first element of the url.
             if ( !preg_match( "#^$prefix(/.*)?$#", $uriString )  )
             {
-                $internalURIString = eZUrlAlias::cleanURL( $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) ) . '/' . $uriString;
+                $internalURIString = eZUrlAlias::cleanURL( eZUrlAlias::cleanURL( $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) ) . '/' . $uriString);
             }
             else
             {
