@@ -109,7 +109,7 @@ class eZStaticCache
     /*!
      \return An array with URLs that is to be cached statically, the URLs may contain wildcards.
     */
-    function &cachedURLArray()
+    function cachedURLArray()
     {
         return $this->CachedURLArray;
     }
@@ -430,7 +430,7 @@ class eZStaticCache
         }
 
         $fileContentCache = array();
-      
+
         foreach ( $GLOBALS['eZStaticCache-ActionList'] as $action )
         {
             list( $action, $parameters ) = $action;

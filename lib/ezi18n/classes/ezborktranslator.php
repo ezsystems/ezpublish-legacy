@@ -106,7 +106,7 @@ class eZBorkTranslator extends eZTranslatorHandler
     /*!
      Translates the text into bork code.
     */
-    function &borkify( $text )
+    function borkify( $text )
     {
         $textBlocks = preg_split( "/(%[^ ]+)/", $text, -1, PREG_SPLIT_DELIM_CAPTURE );
         $newTextBlocks = array();

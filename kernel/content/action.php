@@ -300,7 +300,7 @@ else if ( $module->isCurrentAction( 'MoveNodeRequest' ) )
     $ignoreNodesSelectSubtree = array();
     $ignoreNodesClick = array();
 
-    $publishedAssigned = $object->assignedNodes( false );
+    $publishedAssigned =& $object->assignedNodes( false );
     foreach ( $publishedAssigned as $element )
     {
         $ignoreNodesSelect[] = $element['node_id'];
@@ -702,7 +702,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
         $ignoreNodesSelect = array();
         $ignoreNodesClick  = array();
         $assigned = $version->nodeAssignments();
-        $publishedAssigned = $object->assignedNodes( false );
+        $publishedAssigned =& $object->assignedNodes( false );
         $isTopLevel = false;
         foreach ( $publishedAssigned as $element )
         {

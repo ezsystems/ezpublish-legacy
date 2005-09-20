@@ -635,7 +635,7 @@ class eZRole extends eZPersistentObject
     /*!
      Fetch access array of current role
     */
-    function &accessArray( $ignoreLimitIdentifier = false )
+    function accessArray( $ignoreLimitIdentifier = false )
     {
         $accessArray = array();
 

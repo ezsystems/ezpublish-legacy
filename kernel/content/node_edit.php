@@ -376,7 +376,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
         $ignoreNodesSelect = array();
         $ignoreNodesClick  = array();
         $assigned = $version->nodeAssignments();
-        $publishedAssigned = $object->assignedNodes( false );
+        $publishedAssigned =& $object->assignedNodes( false );
         $isTopLevel = false;
         foreach ( $publishedAssigned as $element )
         {

@@ -207,15 +207,14 @@ class eZOrder extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &activeByUserID( $userID, $asObject = true )
+    function activeByUserID( $userID, $asObject = true )
     {
-        $objectList = eZPersistentObject::fetchObjectList( eZOrder::definition(),
-                                                            null,
-                                                            array( "user_id" => $userID,
-                                                                   'is_temporary' => 0 ),
-                                                            array( "created" => "desc" ), null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZOrder::definition(),
+                                                    null,
+                                                    array( "user_id" => $userID,
+                                                           'is_temporary' => 0 ),
+                                                    array( "created" => "desc" ), null,
+                                                    $asObject );
     }
 
     function getShowOrdersQuery( $show, $table = null )
@@ -226,11 +225,11 @@ class eZOrder extends eZPersistentObject
         {
             case SHOW_NORMAL_ORDERS   : return $table."is_archived = '0'"; break;
             case SHOW_ARCHIVED_ORDERS : return $table."is_archived = '1'"; break;
-            case SHOW_ALL_ORDERS      : 
+            case SHOW_ALL_ORDERS      :
             default                   : return $table."is_archived IN (0, 1)"; break;
         }
     }
-    
+
 
     /*!
      \return the active orders
@@ -289,7 +288,7 @@ class eZOrder extends eZPersistentObject
     /*!
      \return the number of active orders
     */
-    function &activeCount( $offset, $limit, $show = SHOW_NORMAL_ORDERS )
+    function activeCount( $offset, $limit, $show = SHOW_NORMAL_ORDERS )
     {
         $db =& eZDB::instance();
 
@@ -1294,21 +1293,21 @@ class eZOrder extends eZPersistentObject
      Creates a real order from the temporary state.
 
      The ezorder has an internal (id) and an external (order_nr) ID.
-     The ID will be set as soon as a customer (who buys a product), approves the account information. 
-     A row is added to the ezorder table (the ID (auto_increment) is generated). 
+     The ID will be set as soon as a customer (who buys a product), approves the account information.
+     A row is added to the ezorder table (the ID (auto_increment) is generated).
      This ID is needed for extensions, such as PaynetTerminal (The ID is given.)
 
-     The active (confirmed and paid) orders have an order_nr. 
-     This order_nr is generated as soon as the order is processed. 
-     
+     The active (confirmed and paid) orders have an order_nr.
+     This order_nr is generated as soon as the order is processed.
+
      We use order_nr instead of the id to (externally) rever to an order:
      - We don't have gaps in the order_nr's.
      - The lowest order_nr goes to the order which is accepted first. (Not started first.)
-     
 
-     Another solution would be to use an temporary_order table, instead of adding two IDs. 
+
+     Another solution would be to use an temporary_order table, instead of adding two IDs.
      I think (rb) this is a cleaner solution.
-     
+
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
@@ -1372,7 +1371,7 @@ class eZOrder extends eZPersistentObject
         $db =& eZDB::instance();
         $db->query( "UPDATE ezorder SET is_archived='1' WHERE id='$orderID' " );
     }
-    
+
     /*!
      \static
      Unarchive an order, make it 'normal' again.
@@ -1384,7 +1383,7 @@ class eZOrder extends eZPersistentObject
         $db =& eZDB::instance();
         $db->query( "UPDATE ezorder SET is_archived='0' WHERE id='$orderID' " );
     }
- 
+
     /*!
      \static
      Removes all orders from the database.
