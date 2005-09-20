@@ -19,7 +19,7 @@ function ezcurrentLanguage()
  a key looking like %n, where n is a number between 1 and 9.
  Returns the new string.
 */
-function &ezinsertarguments( $text, $arguments )
+function ezinsertarguments( $text, $arguments )
 {
     if ( is_array( $arguments ) )
     {
@@ -95,14 +95,14 @@ if ( $useTextTranslation )
         }
 
         $man =& eZTranslatorManager::instance();
-        $trans =& $man->translate( $context, $source, $comment );
+        $trans = $man->translate( $context, $source, $comment );
         if ( $trans !== null ) {
-            $text =& ezinsertarguments( $trans, $arguments );
+            $text = ezinsertarguments( $trans, $arguments );
             return $text;
         }
 
         eZDebug::writeWarning( "No translation for file(translation.ts) in context($context): '$source' with comment($comment)", "ezi18n" );
-        $text =& ezinsertarguments( $source, $arguments );
+        $text = ezinsertarguments( $source, $arguments );
         return $text;
     }
 }

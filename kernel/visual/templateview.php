@@ -165,7 +165,7 @@ if ( $module->isCurrentAction( 'RemoveOverride' ) )
     }
 }
 
-$overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
+$overrideArray = eZTemplateDesignResource::overrideArray( $siteAccess );
 
 $templateSettings = false;
 if ( isset( $overrideArray[$template] ) )

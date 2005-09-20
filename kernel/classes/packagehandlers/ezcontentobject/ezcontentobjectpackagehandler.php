@@ -359,7 +359,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         foreach( array_keys( $this->OverrideSettingsArray ) as $siteAccess )
         {
             $this->TemplateFileArray[$siteAccess] = array();
-            $overrideArray =& eZTemplateDesignResource::overrideArray( $siteAccess );
+            $overrideArray = eZTemplateDesignResource::overrideArray( $siteAccess );
 
             foreach( $this->OverrideSettingsArray[$siteAccess] as $override )
             {

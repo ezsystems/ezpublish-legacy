@@ -338,13 +338,12 @@ class eZTextCodec
     /*!
      \return an empty array since no conversion is possible.
     */
-    function &convertNoneToUnicode( $str )
+    function convertNoneToUnicode( $str )
     {
-        $tmp = array();
-        return $tmp;
+        return array();
     }
 
-    function &convertCodepageToUnicode( $str )
+    function convertCodepageToUnicode( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_codepage_unicode', false, 'String conversion w/ codepage to Unicode' );
         $tmp = $this->Codepage->convertStringToUnicode( $str );
@@ -352,7 +351,7 @@ class eZTextCodec
         return $tmp;
     }
 
-    function &convertUTF8ToUnicode( $str )
+    function convertUTF8ToUnicode( $str )
     {
         include_once ( 'lib/ezi18n/classes/ezutf8codec.php' );
         eZDebug::accumulatorStart( 'textcodec_utf8_unicode', false, 'String conversion w/ UTF-8 to Unicode' );
@@ -361,7 +360,7 @@ class eZTextCodec
         return $tmp;
     }
 
-    function &convertUnicodeToCodepage( $unicodeValues )
+    function convertUnicodeToCodepage( $unicodeValues )
     {
         eZDebug::accumulatorStart( 'textcodec_unicode_codepage', false, 'String conversion w/ Unicode to codepage' );
         $tmp = $this->Codepage->convertUnicodeToString( $unicodeValues );
@@ -369,7 +368,7 @@ class eZTextCodec
         return $tmp;
     }
 
-    function &convertUnicodeToUTF8( $unicodeValues )
+    function convertUnicodeToUTF8( $unicodeValues )
     {
         include_once ( 'lib/ezi18n/classes/ezutf8codec.php' );
         eZDebug::accumulatorStart( 'textcodec_unicode_utf8', false, 'String conversion w/ Unicode to UTF8' );
@@ -378,12 +377,12 @@ class eZTextCodec
         return $tmp;
     }
 
-    function &convertNone( $str )
+    function convertNone( $str )
     {
         return $str;
     }
 
-    function &convertCodepage( $str )
+    function convertCodepage( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_codepage', false, 'String conversion w/ codepage' );
         $tmp = $this->Codepage->convertString( $str );
@@ -391,7 +390,7 @@ class eZTextCodec
         return $tmp;
     }
 
-    function &convertCodepageRev( $str )
+    function convertCodepageRev( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_codepage_rev', false, 'String conversion w/ codepage reverse' );
         $tmp = $this->Codepage->convertStringFromUTF8( $str );
@@ -399,7 +398,7 @@ class eZTextCodec
         return $tmp;
     }
 
-    function &convertCodepageMapper( $str )
+    function convertCodepageMapper( $str )
     {
         eZDebug::accumulatorStart( 'textcodec_codepage_mapper', false, 'String conversion w/ codepage mapper' );
         $tmp = $this->CodepageMapper->convertString( $str );

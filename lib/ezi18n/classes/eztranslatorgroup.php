@@ -64,12 +64,12 @@ class eZTranslatorGroup extends eZTranslatorHandler
 
      This function must overridden if isKeyBased() is true.
     */
-    function &findKey( $key )
+    function findKey( $key )
     {
         $num = $this->keyPick( $key );
         if ( $num >=0 and $num <= count( $this->Handlers ) )
         {
-            $handler =& $this->Handlers[$num];
+            $handler = $this->Handlers[$num];
             return $handler->findKey( $key );
         }
         $retValue = null;
@@ -84,12 +84,12 @@ class eZTranslatorGroup extends eZTranslatorHandler
 
      This function must overridden if isKeyBased() is true.
     */
-    function &findMessage( $context, $source, $comment = null )
+    function findMessage( $context, $source, $comment = null )
     {
         $num = $this->pick( $context, $source, $comment );
         if ( $num >=0 and $num <= count( $this->Handlers ) )
         {
-            $handler =& $this->Handlers[$num];
+            $handler = $this->Handlers[$num];
             return $handler->findMessage( $context, $source, $comment );
         }
         $retValue = null;
@@ -102,16 +102,16 @@ class eZTranslatorGroup extends eZTranslatorHandler
 
      \sa findMessage, findKey
     */
-    function &translate( $context, $source, $comment = null )
+    function translate( $context, $source, $comment = null )
     {
         $num = $this->pick( $context, $source, $comment );
         if ( $num >=0 and $num <= count( $this->Handlers ) )
         {
-            $handler =& $this->Handlers[$num];
+            $handler = $this->Handlers[$num];
             return $handler->translate( $context, $source, $comment );
         }
-        $retValue = null;
-        return $retValue;
+
+        return null;
     }
 
     /*!
@@ -120,16 +120,16 @@ class eZTranslatorGroup extends eZTranslatorHandler
 
      \sa findMessage, findKey
     */
-    function &keyTranslate( $key )
+    function keyTranslate( $key )
     {
         $num = $this->keyPick( $key );
         if ( $num >=0 and $num <= count( $this->Handlers ) )
         {
-            $handler =& $this->Handlers[$num];
+            $handler = $this->Handlers[$num];
             return $handler->keyTranslate( $key );
         }
-        $retValue = null;
-        return $retValue;
+
+        return null;
     }
 
     /*!

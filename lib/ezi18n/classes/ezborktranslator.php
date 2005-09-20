@@ -89,20 +89,18 @@ class eZBorkTranslator extends eZTranslatorHandler
     /*!
      \reimp
     */
-    function &findMessage( $context, $source, $comment = null )
+    function findMessage( $context, $source, $comment = null )
     {
-        $man =& eZTranslatorManager::instance();
+        $man = eZTranslatorManager::instance();
         $key = $man->createKey( $context, $source, $comment );
 
         if ( !isset( $this->Messages[$key] ) )
         {
             $translation = $this->borkify( $source );
-            $msg = $man->createMessage( $context, $source, $comment, $translation );
-            $this->Messages[$key] =& $msg;
+            $this->Messages[$key] = $man->createMessage( $context, $source, $comment, $translation );
         }
-        else
-            $msg =& $this->Messages[$key];
-        return $msg;
+
+        return $this->Messages[$key];
     }
 
     /*!
@@ -152,16 +150,15 @@ class eZBorkTranslator extends eZTranslatorHandler
     /*!
      \reimp
     */
-    function &translate( $context, $source, $comment = null )
+    function translate( $context, $source, $comment = null )
     {
-        $msg =& $this->findMessage( $context, $source, $comment );
+        $msg = $this->findMessage( $context, $source, $comment );
         if ( $msg !== null )
-            return $msg["translation"];
-        else
         {
-            $translation = null;
-            return $translation;
+            return $msg["translation"];
         }
+
+        return null;
     }
 
     /*!

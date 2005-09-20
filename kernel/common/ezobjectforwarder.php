@@ -157,7 +157,7 @@ class eZObjectForwarder
         }
 
         $templateRoot = $rule["template_root"];
-        $matchFileArray =& eZTemplateDesignResource::overrideArray();
+        $matchFileArray = eZTemplateDesignResource::overrideArray();
 
         if ( is_string( $templateRoot ) )
         {

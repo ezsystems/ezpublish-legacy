@@ -50,7 +50,7 @@ $tpl =& templateInit();
 
 $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 
-$overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
+$overrideArray = eZTemplateDesignResource::overrideArray( $siteAccess );
 
 $mostUsedOverrideArray = array();
 $mostUsedMatchArray = array( 'node/view/', 'content/view/embed', 'pagelayout.tpl', 'search.tpl', 'basket' );

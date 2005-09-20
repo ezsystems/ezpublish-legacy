@@ -493,12 +493,12 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
     /*!
      \reimp
     */
-    function &findKey( $key )
+    function findKey( $key )
     {
         $msg = null;
         if ( isset( $this->Messages[$key] ) )
         {
-            $msg =& $this->Messages[$key];
+            $msg = $this->Messages[$key];
         }
         return $msg;
     }
@@ -506,10 +506,10 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
     /*!
      \reimp
     */
-    function &findMessage( $context, $source, $comment = null )
+    function findMessage( $context, $source, $comment = null )
     {
         // First try with comment,
-        $man =& eZTranslatorManager::instance();
+        $man = eZTranslatorManager::instance();
         $key = $man->createKey( $context, $source, $comment );
 
         if ( !isset( $this->Messages[$key] ) )
@@ -517,38 +517,36 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
             // then try without comment for general translation
             $key = $man->createKey( $context, $source );
         }
-        $msg =& $this->findKey( $key );
-        return $msg;
+
+        return $this->findKey( $key );
     }
 
     /*!
      \reimp
     */
-    function &keyTranslate( $key )
+    function keyTranslate( $key )
     {
-        $msg =& $this->findKey( $key );
+        $msg = $this->findKey( $key );
         if ( $msg !== null )
             return $msg["translation"];
         else
         {
-            $translation = null;
-            return $translation;
+            return null;
         }
     }
 
     /*!
      \reimp
     */
-    function &translate( $context, $source, $comment = null )
+    function translate( $context, $source, $comment = null )
     {
-        $msg =& $this->findMessage( $context, $source, $comment );
+        $msg = $this->findMessage( $context, $source, $comment );
         if ( $msg !== null )
-            return $msg["translation"];
-        else
         {
-            $translation = null;
-            return $translation;
+            return $msg["translation"];
         }
+
+        return null;
     }
 
     /*!

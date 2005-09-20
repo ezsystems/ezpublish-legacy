@@ -79,14 +79,14 @@ class eZTranslatorManager
 
      \sa findMessage, keyTranslate
     */
-    function &findKey( $key )
+    function findKey( $key )
     {
         $msg = null;
         for ( $i = 0; $i < count( $this->Handlers ) and $msg === null; ++$i )
         {
-            $handler =& $this->Handlers[$i];
+            $handler = $this->Handlers[$i];
             if ( $handler->isKeyBased() )
-                $msg =& $handler->findKey( $key );
+                $msg = $handler->findKey( $key );
         }
         return $msg;
     }
@@ -100,15 +100,15 @@ class eZTranslatorManager
 
      \sa findKey, translate
     */
-    function &findMessage( $context, $source, $comment = null )
+    function findMessage( $context, $source, $comment = null )
     {
         if ( !is_string( $context ) or $context == "" )
             $context = "default";
         $msg = null;
         for ( $i = 0; $i < count( $this->Handlers ) and $msg === null; ++$i )
         {
-            $handler =& $this->Handlers[$i];
-            $msg =& $handler->findMessage( $context, $source, $comment );
+            $handler = $this->Handlers[$i];
+            $msg = $handler->findMessage( $context, $source, $comment );
         }
         return $msg;
     }
@@ -121,14 +121,14 @@ class eZTranslatorManager
 
      \sa findKey, translate
     */
-    function &keyTranslate( $key )
+    function keyTranslate( $key )
     {
         $trans = null;
         for ( $i = 0; $i < count( $this->Handlers ) and $trans === null; ++$i )
         {
-            $handler =& $this->Handlers[$i];
+            $handler = $this->Handlers[$i];
             if ( $handler->isKeyBased() )
-                $trans =& $handler->keyTranslate( $key );
+                $trans = $handler->keyTranslate( $key );
         }
         return $trans;
     }
@@ -138,15 +138,15 @@ class eZTranslatorManager
 
      \sa findMessage, findKey
     */
-    function &translate( $context, $source, $comment = null )
+    function translate( $context, $source, $comment = null )
     {
         if ( !is_string( $context ) or $context == "" )
             $context = "default";
         $trans = null;
         for ( $i = 0; $i < count( $this->Handlers ) and $trans === null; ++$i )
         {
-            $handler =& $this->Handlers[$i];
-            $trans =& $handler->translate( $context, $source, $comment );
+            $handler = $this->Handlers[$i];
+            $trans = $handler->translate( $context, $source, $comment );
         }
         return $trans;
     }
