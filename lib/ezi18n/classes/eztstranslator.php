@@ -149,7 +149,8 @@ class eZTSTranslator extends eZTranslatorHandler
         else
         {
             $roots = $this->RootCache['roots'];
-            $tsTimeStamp = $this->RootCache['timestamp'];
+            if ( isset( $this->RootCache['timestamp'] ) )
+                $tsTimeStamp = $this->RootCache['timestamp'];
         }
 
         // Load cached translations if possible
