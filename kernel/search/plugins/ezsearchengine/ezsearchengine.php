@@ -759,6 +759,7 @@ class eZSearchEngine
             }
 
             $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( eZContentObjectTreeNode::getLimitationList( $limitationList ) );
+            $this->GeneralFilter['sqlPermissionCheckingString'] = $sqlPermissionCheckingString;
 
             $useVersionName = true;
             if ( $useVersionName )
