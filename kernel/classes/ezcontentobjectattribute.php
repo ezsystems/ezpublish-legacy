@@ -481,7 +481,6 @@ class eZContentObjectAttribute extends eZPersistentObject
 
             $dataType =& $classAttribute->dataType();
 
-            eZDebug::writeDebug( array( $dataType->Attributes["properties"]["translation_allowed"] ), "sphere" );
             if ( is_object( $dataType ) &&
                  $dataType->Attributes["properties"]["translation_allowed"] &&
                  $classAttribute->attribute( 'can_translate' ) )
