@@ -75,8 +75,15 @@ class eZModule
         if ( file_exists( $file ) )
         {
             include( $file );
-            $this->Functions =& $ViewList;
-            $this->FunctionList =& $FunctionList;
+            $this->Functions = $ViewList;
+            if ( isset( $FunctionList ) )
+            {
+                $this->FunctionList = $FunctionList;
+            }
+            else
+            {
+                $this->FunctionList = array();
+            }
             $this->Module =& $Module;
             $this->Name = $moduleName;
             $this->Path = $path;
