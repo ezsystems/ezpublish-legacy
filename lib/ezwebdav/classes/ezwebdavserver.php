@@ -509,7 +509,7 @@ class eZWebDAVServer
                     }
                     else
                     {
-                        $xmlText .= "   <D:" . $requestedProperty . ">" . eZWebDAVServer::recode( "$entry[$name]", $dataCharset, $xmlCharset ) . "</D:" . $requestedProperty . ">\n";
+                        $xmlText .= "   <D:" . $requestedProperty . ">" . htmlspecialchars( eZWebDAVServer::recode( "$entry[$name]", $dataCharset, $xmlCharset ) ) . "</D:" . $requestedProperty . ">\n";
                     }
                 }
                 else if ( $requestedProperty != 'resourcetype' or !$isCollection )
