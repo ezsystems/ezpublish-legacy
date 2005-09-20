@@ -38,5 +38,6 @@ Changes from 3.7.0rc2 to 3.7.0
 - Fixed bug #7107: Webdav doesn't display objects that contains a name with "&"
   (Merged from stable/3.5 (3.5.3) rev. 13379)
 - Fixed bug #7158: Reference issues.
+- Fixed bug #7159: Attributes lost when copying a content class.
 
 *Library:

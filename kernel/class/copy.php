@@ -75,6 +75,7 @@ foreach ( array_keys( $classAttributes ) as $classAttributeKey )
     $datatype =& $classAttributeCopy->dataType();
     $datatype->cloneClassAttribute( $classAttribute, $classAttributeCopy );
     $classAttributeCopies[] =& $classAttributeCopy;
+    unset( $classAttributeCopy );
 }
 
 $ini =& eZINI::instance( 'content.ini' );
