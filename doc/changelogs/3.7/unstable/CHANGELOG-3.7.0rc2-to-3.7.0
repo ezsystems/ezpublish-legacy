@@ -43,5 +43,7 @@ Changes from 3.7.0rc2 to 3.7.0
   (Manually merged from stable/3.5 (3.5.3) rev. 13388)
 - Fixed bug #7109: Webdav doesn't take PathPrefix into account.
   (Manually merged from stable/3.5 (3.5.3) rev. 13388)  
+- Fixed bug #7163: Search problems when using subtree limitations (policy).
+  ( Merged from stable/3.5 rev. 13394, stable/3.6 rev. 13396 )
 
 *Library:
