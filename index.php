@@ -35,7 +35,6 @@
 //     $fd = fopen( 'ezp.xt', 'w' ); fclose( $fd );
 // }
 // xdebug_start_trace( 'ezp' );
-
 ignore_user_abort( true );
 require 'lib/compat.php';
 
@@ -502,7 +501,7 @@ while ( $moduleRunRequired )
     // Check for URL translation
     if ( $urlTranslatorAllowed and
          $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' and
-         !$uri->isEmpty() )
+         ( !$uri->isEmpty() || ( $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) and $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' ) ) )
     {
         include_once( 'kernel/classes/ezurlalias.php' );
         $translateResult = eZURLAlias::translate( $uri );

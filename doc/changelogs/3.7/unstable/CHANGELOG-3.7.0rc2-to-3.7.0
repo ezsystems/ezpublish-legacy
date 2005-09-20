@@ -39,5 +39,9 @@ Changes from 3.7.0rc2 to 3.7.0
   (Merged from stable/3.5 (3.5.3) rev. 13379)
 - Fixed bug #7158: Reference issues.
 - Fixed bug #7159: Attributes lost when copying a content class.
+- Fixed bug #2044: Strange behaviour of ezurl / using pathprefix.
+  (Manually merged from stable/3.5 (3.5.3) rev. 13388)
+- Fixed bug #7109: Webdav doesn't take PathPrefix into account.
+  (Manually merged from stable/3.5 (3.5.3) rev. 13388)  
 
 *Library:
