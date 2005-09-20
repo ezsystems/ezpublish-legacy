@@ -70,7 +70,7 @@ if( $siteAccess )
 else
     $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 
-$overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
+$overrideArray = eZTemplateDesignResource::overrideArray( $siteAccess );
 
 // Check if template already exists
 $isExistingTemplate = false;

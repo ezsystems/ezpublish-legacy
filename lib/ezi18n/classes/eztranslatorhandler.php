@@ -70,10 +70,9 @@ class eZTranslatorHandler
 
      This function must overridden if isKeyBased() is true.
     */
-    function &findKey( $key )
+    function findKey( $key )
     {
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     /*!
@@ -84,10 +83,9 @@ class eZTranslatorHandler
 
      This function must overridden if isKeyBased() is true.
     */
-    function &findMessage( $context, $source, $comment = null )
+    function findMessage( $context, $source, $comment = null )
     {
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     /*!
@@ -96,10 +94,9 @@ class eZTranslatorHandler
 
      \sa findMessage, findKey
     */
-    function &translate( $context, $source, $comment = null )
+    function translate( $context, $source, $comment = null )
     {
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     /*!
@@ -108,10 +105,9 @@ class eZTranslatorHandler
 
      \sa findMessage, findKey
     */
-    function &keyTranslate( $key )
+    function keyTranslate( $key )
     {
-        $retValue = null;
-        return $retValue;
+        return null;
     }
 
     /// \privatesection

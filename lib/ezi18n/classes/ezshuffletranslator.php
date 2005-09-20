@@ -63,12 +63,11 @@ class eZShuffleTranslator extends eZTranslatorHandler
     /*!
      \reimp
     */
-    function &findMessage( $context, $source, $comment = null )
+    function findMessage( $context, $source, $comment = null )
     {
-        $man =& eZTranslatorManager::instance();
+        $man = eZTranslatorManager::instance();
         $translation = $this->shuffleText( $source );
-        $msg = $man->createMessage( $context, $source, $comment, $translation );
-        return $msg;
+        return $man->createMessage( $context, $source, $comment, $translation );
     }
 
     /*!
@@ -105,16 +104,15 @@ class eZShuffleTranslator extends eZTranslatorHandler
     /*!
      \reimp
     */
-    function &translate( $context, $source, $comment = null )
+    function translate( $context, $source, $comment = null )
     {
-        $msg =& $this->findMessage( $context, $source, $comment );
+        $msg = $this->findMessage( $context, $source, $comment );
         if ( $msg !== null )
-            return $msg["translation"];
-        else
         {
-            $translation = null;
-            return $translation;
+            return $msg["translation"];
         }
+
+        return null;
     }
 
     /// \privatesection
