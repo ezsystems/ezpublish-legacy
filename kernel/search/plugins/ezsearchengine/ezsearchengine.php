@@ -752,98 +752,13 @@ class eZSearchEngine
                 }
             }
 
-            $limitationList = array();
+            $limitationList = false;
             if ( isset( $params['Limitation'] ) )
             {
                 $limitationList =& $params['Limitation'];
             }
-            else if ( isset( $GLOBALS['ezpolicylimitation_list']['content']['read'] ) )
-            {
-                $limitationList =& $GLOBALS['ezpolicylimitation_list']['content']['read'];
-            }
-            else
-            {
-                include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-                $currentUser =& eZUser::currentUser();
-                $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
-                if ( $accessResult['accessWord'] == 'limited' )
-                {
-                    $limitationList =& $accessResult['policies'];
-                    $GLOBALS['ezpolicylimitation_list']['content']['read'] =& $limitationList;
-                }
-            }
 
-            $sqlPermissionCheckingString = '';
-
-
-            if ( count( $limitationList ) > 0 )
-            {
-                $sqlParts = array();
-                foreach( $limitationList as $limitationArray )
-                {
-                    $sqlPartPart = array();
-                    $sqlPartPartPart = array();
-
-                    foreach ( array_keys( $limitationArray ) as $ident )
-                    {
-                        switch( $ident )
-                        {
-                            case 'Class':
-                            {
-                                $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
-                            } break;
-
-                            case 'Section':
-                            {
-                                $sqlPartPart[] = 'ezcontentobject.section_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
-                            } break;
-
-                            case 'Owner':
-                            {
-                                $user =& eZUser::currentUser();
-                                $userID = $user->attribute( 'contentobject_id' );
-                                $sqlPartPart[] = "ezcontentobject.owner_id = '" . $db->escapeString( $userID ) . "'";
-                            } break;
-
-                            case 'Node':
-                            {
-                                $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
-                            } break;
-                            
-                            case 'Subtree':
-                            {
-                                $pathArray =& $limitationArray[$ident];
-                                foreach ( $pathArray as $limitationPathString )
-                                {
-                                    $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
-                                }
-                            } break;
-
-                            case 'User_Subtree':
-                            {
-                                $pathArray =& $limitationArray[$ident];
-                                $sqlPartUserSubtree = array();
-                                foreach ( $pathArray as $limitationPathString )
-                                {
-                                    $sqlPartUserSubtree[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
-                                }
-                                $sqlPartPart[] = implode( ' OR ', $sqlPartUserSubtree );
-                            } break;
-                        }
-                    }
-
-                    if ( count ( $sqlPartPartPart ) > 0 )
-                    {
-                        $sqlPartPart[] = '( ' . implode( ' ) OR ( ', $sqlPartPartPart ) . ' )';
-                    }
-                    $sqlParts[] = implode( ' AND ', $sqlPartPart );
-                }
-                if ( count( $sqlParts ) > 0 )
-                {
-                    $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
-                    $this->GeneralFilter['sqlPermissionCheckingString'] = $sqlPermissionCheckingString;
-                }
-            }
+            $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( eZContentObjectTreeNode::getLimitationList( $limitationList ) );
 
             $useVersionName = true;
             if ( $useVersionName )

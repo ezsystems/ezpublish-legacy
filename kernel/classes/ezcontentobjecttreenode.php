@@ -1312,6 +1312,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 $sqlPartPart = array();
                 $sqlPartPartPart = array();
+                $sqlPlacementPart = array();
 
                 foreach ( array_keys( $limitationArray ) as $ident )
                 {
@@ -1337,17 +1338,19 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
                         case 'Node':
                         {
-                            $sqlPartPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
+                            $sqlPlacementPart[] = 'ezcontentobject_tree.node_id in (' . implode( ', ', $limitationArray[$ident] ) . ')';
                         } break;
 
                         case 'Subtree':
                         {
                             $pathArray =& $limitationArray[$ident];
 
+                            $sqlSubtreePart = array();
                             foreach ( $pathArray as $limitationPathString )
                             {
-                                $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
+                                $sqlSubtreePart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
                             }
+                            $sqlPlacementPart[] = implode( ' OR ', $sqlSubtreePart );
                         } break;
 
                         case 'User_Subtree':
@@ -1361,6 +1364,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $sqlPartPart[] = implode( ' OR ', $sqlPartUserSubtree );
                         }
                     }
+                }
+                if ( $sqlPlacementPart )
+                {
+                    $sqlPartPart[] = '( ( ' . implode( ' ) OR ( ', $sqlPlacementPart ) . ' ) )';
                 }
                 if ( $sqlPartPartPart )
                 {
