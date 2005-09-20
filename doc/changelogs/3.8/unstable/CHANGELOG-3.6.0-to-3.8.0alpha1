@@ -23,6 +23,8 @@ Changes from 3.6.0 to 3.8.0alpha1
   (Merged from stable/3.7 (3.7.0) rev. 13390)
 - Fixed bug #7109: Webdav doesn't take PathPrefix into account.
   (Merged from stable/3.7 (3.7.0) rev. 13390)  
+- Fixed bug #7163: Search problems when using subtree limitations (policy).
+  ( Merged from stable/3.5 rev. 13394, stable/3.6 rev. 13396, stable/3.7 rev. 13397 )
 
 Attributes:
 - Added: 'last_visit' attribute to eZUser
