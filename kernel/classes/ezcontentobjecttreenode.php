@@ -5030,6 +5030,7 @@ WHERE
 
     function &urlAlias()
     {
+        $url = false;
         $useURLAlias =& $GLOBALS['eZContentObjectTreeNodeUseURLAlias'];
         $ini =& eZINI::instance();
         if ( !isset( $useURLAlias ) )
@@ -5042,22 +5043,20 @@ WHERE
                  $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' )
             {
                 $prepend = $ini->variable( 'SiteAccessSettings', 'PathPrefix' );
-                if ( substr( $this->PathIdentificationString, 0, strlen( $prepend ) ) )
-                {
-                    return eZUrlAlias::cleanURL( substr( $this->PathIdentificationString, strlen( $prepend ) ) );
-                }
+                if ( strncmp( $this->PathIdentificationString, $prepend, strlen( $prepend ) ) == 0 )
+                    $url = eZUrlAlias::cleanURL( substr( $this->PathIdentificationString, strlen( $prepend ) ) );
                 else
-                {
-                    return eZUrlAlias::cleanURL( $this->PathIdentificationString );
-                }
+                    $url = eZUrlAlias::cleanURL( $this->PathIdentificationString );
             }
             else
             {
-                return eZUrlAlias::cleanURL( $this->PathIdentificationString );
+                $url = eZUrlAlias::cleanURL( $this->PathIdentificationString );
             }
         }
         else
-            return eZUrlAlias::cleanURL( 'content/view/full/' . $this->NodeID );
+            $url = eZUrlAlias::cleanURL( 'content/view/full/' . $this->NodeID );
+
+        return $url;
     }
 
     function &url()
