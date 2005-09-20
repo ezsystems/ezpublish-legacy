@@ -35,5 +35,7 @@ Changes from 3.7.0rc2 to 3.7.0
   eZOption, eZMultioption.
   (Merged from stable/3.5 (3.5.6) rev. 13368)
 - Fixed bug #7157: eZ publish removes <p> tag when is only one in xml block.
+- Fixed bug #7107: Webdav doesn't display objects that contains a name with "&"
+  (Merged from stable/3.5 (3.5.3) rev. 13379)
 
 *Library:
