@@ -1150,7 +1150,7 @@ class eZPackage
         if ( !file_exists( $directory ) )
             eZDir::mkdir( $directory, eZDir::directoryPermission(), true );
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-        $php =& new eZPHPCreator( $directory, 'package.php' );
+        $php = new eZPHPCreator( $directory, 'package.php' );
         $php->addComment( "Automatically created cache file for the package format\n" .
                           "Do not modify this file" );
         $php->addSpace();
@@ -1423,7 +1423,7 @@ class eZPackage
             $xml = new eZXML();
             $dom =& $xml->domTree( $xmlText, array ( 'CharsetConversion' => true ) );
 
-            $package =& new eZPackage();
+            $package = new eZPackage();
             $parameters = $package->parseDOMTree( $dom );
 
             if ( !$parameters )

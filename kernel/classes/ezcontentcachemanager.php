@@ -515,7 +515,7 @@ class eZContentCacheManager
         if ( $objectID )
             $object = eZContentObject::fetch( $objectID );
         if ( $object )
-            $nodeList = $object->assignedNodes();
+            $nodeList =& $object->assignedNodes();
 
         include_once( 'kernel/classes/ezsubtreecache.php' );
         eZSubtreeCache::cleanup( $nodeList );

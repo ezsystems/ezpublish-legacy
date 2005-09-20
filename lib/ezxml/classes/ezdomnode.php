@@ -538,7 +538,7 @@ class eZDOMNode
       \note This will only make sense for element nodes.
       \sa elementAttributeValueByName, appendAttributes
     */
-    function &attributeValues( $attributeDefinitions, $defaultValue = null )
+    function attributeValues( $attributeDefinitions, $defaultValue = null )
     {
         $hash = array();
         foreach ( $this->Attributes as $attribute )

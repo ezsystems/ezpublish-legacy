@@ -190,7 +190,7 @@ class eZImageInterface
      \return the alternative text for the image.
      \sa setAlternativeText
     */
-    function &alternativeText()
+    function alternativeText()
     {
         return $this->AlternativeText;
     }

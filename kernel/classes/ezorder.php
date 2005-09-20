@@ -198,15 +198,14 @@ class eZOrder extends eZPersistentObject
                                                     $asObject );
     }
 
-    function &activeByUserID( $userID, $asObject = true )
+    function activeByUserID( $userID, $asObject = true )
     {
-        $objectList = eZPersistentObject::fetchObjectList( eZOrder::definition(),
-                                                            null,
-                                                            array( "user_id" => $userID,
-                                                                   'is_temporary' => 0 ),
-                                                            array( "created" => "desc" ), null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZOrder::definition(),
+                                                    null,
+                                                    array( "user_id" => $userID,
+                                                           'is_temporary' => 0 ),
+                                                    array( "created" => "desc" ), null,
+                                                    $asObject );
     }
 
     /*!
@@ -259,7 +258,7 @@ class eZOrder extends eZPersistentObject
     /*!
      \return the number of active orders
     */
-    function &activeCount()
+    function activeCount()
     {
         $db =& eZDB::instance();
 
