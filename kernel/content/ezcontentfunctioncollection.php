@@ -605,58 +605,7 @@ class eZContentFunctionCollection
         }
 
         $limitationList = array();
-        $sqlPermissionCheckingString = "";
-        $currentUser =& eZUser::currentUser();
-        $accessResult = $currentUser->hasAccessTo( 'content', 'read' );
-        if ( $accessResult['accessWord'] == 'limited' && $accessResult['policies'] )
-        {
-            foreach ( array_keys( $accessResult['policies'] ) as $key )
-                $limitationList[] =& $accessResult['policies'][$key];
-
-            $sqlParts = array();
-
-            foreach( $limitationList as $limitationArray )
-            {
-                $sqlPartPart = array();
-                $hasNodeLimitation = false;
-
-                foreach ( $limitationArray as $key => $val )
-                {
-                    switch ( $key )
-                    {
-                    case 'Class':
-                        $sqlPartPart[] = 'ezcontentobject.contentclass_id in (' . implode( ',', $val ) . ')';
-                        break;
-                    case 'Section':
-                        $sqlPartPart[] = 'ezcontentobject.section_id in (' . implode( ',', $val ) . ')';
-                        break;
-                    case 'Owner':
-                        eZDebug::writeWarning( $limitation, 'System is not configured to check Assigned in objects' );
-                        break;
-                    case 'Node':
-                        $sqlPartPart[] = 'ezcontentobject_tree.node_id in (' . implode( ',', $val ) . ')';
-                        $hasNodeLimitation = true;
-                        break;
-                    case 'Subtree':
-                        $pathArray =& $val;
-                        $sqlPartPartPart = array();
-                        foreach ( $pathArray as $limitationPathString )
-                        {
-                            $sqlPartPartPart[] = "ezcontentobject_tree.path_string like '$limitationPathString%'";
-                        }
-                        $sqlPartPart[] = implode( ' OR ', $sqlPartPartPart );
-
-                        break;
-                    }
-                }
-
-                if ( $hasNodeLimitation )
-                    $sqlParts[] = implode( ' OR ', $sqlPartPart );
-                else
-                    $sqlParts[] = implode( ' AND ', $sqlPartPart );
-            }
-            $sqlPermissionCheckingString = ' AND ((' . implode( ') or (', $sqlParts ) . ')) ';
-        }
+        $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( eZContentObjectTreeNode::getLimitationList( false ) );
 
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
