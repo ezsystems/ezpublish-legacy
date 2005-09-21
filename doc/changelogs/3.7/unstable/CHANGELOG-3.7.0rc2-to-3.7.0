@@ -45,5 +45,12 @@ Changes from 3.7.0rc2 to 3.7.0
   (Manually merged from stable/3.5 (3.5.3) rev. 13388)  
 - Fixed bug #7163: Search problems when using subtree limitations (policy).
   ( Merged from stable/3.5 rev. 13394, stable/3.6 rev. 13396 )
+- Fixed bug #3804: Searching followed by AdvancedSearch doesn't retain 
+  the search term.
+  ( Merged from stable/3.5 rev. 13383,13413 )
+- Fixed bug: Bug in lib/eztemlate/classes/eztemplatelogocoperator.php
+  related to processing strings in gt(),le(), etc. template 
+  operators in template compilation mode.
+  ( Merged from stable/3.5 rev. 13383,13413 )  
 
 *Library:
