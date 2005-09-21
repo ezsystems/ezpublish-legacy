@@ -23,7 +23,7 @@
 
 <table cellpadding="0" cellspacing="0" border="0" class="full">
 <tr><th class="label">{"Comments"|i18n("design/standard/setup/init")}:</th></tr>
-<tr><td class="normal"><textarea class="box full" name="eZSetupRegistrationComment" cols="60" rows="6"></textarea></td></tr>
+<tr><td class="normal"><textarea class="box full" name="eZSetupRegistrationComment" cols="60" rows="6">{$email_comments}</textarea></td></tr>
 </table>
 </div>
 
@@ -37,7 +37,7 @@
 <br/>
 
 <div align="right">
-<input type="checkbox" name="eZSetupSendRegistration" checked="checked" value="checked" id="ez_reg_me" /><label class="checkbox" for="ez_reg_me">{"Send registration"|i18n("design/standard/setup/init")}</label>
+<input type="checkbox" name="eZSetupSendRegistration" {section show=$send_registration}checked="checked"{/section}value="checked" id="ez_reg_me" /><label class="checkbox" for="ez_reg_me">{"Send registration"|i18n("design/standard/setup/init")}</label>
 </div>
 
   <div class="buttonblock" align="right">

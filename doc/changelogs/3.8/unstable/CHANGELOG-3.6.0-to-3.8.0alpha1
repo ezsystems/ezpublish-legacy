@@ -474,6 +474,7 @@ Attributes:
 - Fixed bug #7161: Missing language flag.  
 - Fixed bug #7165: CRLF in templateedit.tpl and others.
   (Merged from stable/3.5 (3.5.6) rev. 13422)
+- Fixed bug 7167: setup kickstart.ini miss some data.
 
 *Library:
 
