@@ -75,7 +75,7 @@ class eZTemplateCacheFunction
     {
         $ini =& eZINI::instance();
         $children = eZTemplateNodeTool::extractFunctionNodeChildren( $node );
-        if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'disabled' )
+        if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) != 'enabled' )
         {
             return $children;
         }
@@ -279,7 +279,7 @@ ENDADDCODE;
             {
                 // Check for disabled cache.
                 $ini =& eZINI::instance();
-                if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) == 'disabled' )
+                if ( $ini->variable( 'TemplateSettings', 'TemplateCache' ) != 'enabled' )
                 {
                     $children = $functionChildren;
 

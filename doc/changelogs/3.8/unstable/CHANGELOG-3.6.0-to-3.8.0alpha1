@@ -17,14 +17,6 @@ Changes from 3.6.0 to 3.8.0alpha1
   (Submitted by: Paul Forsyth and Vittal Aithal)
 - Added experimental support for placing siteaccess specific settings in extensions.
   ( Merged from stable/3.7 rev. 13196 )
-- Fixed bug #6338: Fetches in ezcontentclass do not support asObject = false.
-  ( Merged from stable/3.7 rev. 13332 )
-- Fixed bug #2044: Strange behaviour of ezurl / using pathprefix.
-  (Merged from stable/3.7 (3.7.0) rev. 13390)
-- Fixed bug #7109: Webdav doesn't take PathPrefix into account.
-  (Merged from stable/3.7 (3.7.0) rev. 13390)  
-- Fixed bug #7163: Search problems when using subtree limitations (policy).
-  ( Merged from stable/3.5 rev. 13394, stable/3.6 rev. 13396, stable/3.7 rev. 13397 )
 
 Attributes:
 - Added: 'last_visit' attribute to eZUser
@@ -468,6 +460,17 @@ Attributes:
   related to processing strings in gt(),le(), etc. template 
   operators in template compilation mode.
   ( Merged from stable/3.5 rev. 13383,13413 )  
+- Fixed bug: cache-blocks doesn't work properly if TemplateCache setting has
+  typo, like TemplateCache=enbl.
+  (Merged form stable/3.6 (3.6.3) rev. 13418).
+- Fixed bug #6338: Fetches in ezcontentclass do not support asObject = false.
+  ( Merged from stable/3.7 rev. 13332 )
+- Fixed bug #2044: Strange behaviour of ezurl / using pathprefix.
+  (Merged from stable/3.7 (3.7.0) rev. 13390)
+- Fixed bug #7109: Webdav doesn't take PathPrefix into account.
+  (Merged from stable/3.7 (3.7.0) rev. 13390)  
+- Fixed bug #7163: Search problems when using subtree limitations (policy).
+  ( Merged from stable/3.5 rev. 13394, stable/3.6 rev. 13396, stable/3.7 rev. 13397 )
 - Fixed bug #7161: Missing language flag.  
 
 *Library:
