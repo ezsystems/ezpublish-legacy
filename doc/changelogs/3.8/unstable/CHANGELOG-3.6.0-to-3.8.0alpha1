@@ -468,7 +468,8 @@ Attributes:
   related to processing strings in gt(),le(), etc. template 
   operators in template compilation mode.
   ( Merged from stable/3.5 rev. 13383,13413 )  
-  
+- Fixed bug #7161: Missing language flag.  
+
 *Library:
 
 eZTemplate:
