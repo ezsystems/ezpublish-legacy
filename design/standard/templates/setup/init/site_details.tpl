@@ -141,10 +141,10 @@ The setup can continue with the initialization but may damage the present data."
                         <td class="invalid">{"Action: "|i18n("design/standard/setup/init")}</td>
                         <td>
                         <select name="eZSetup_site_templates_{$site.index}_existing_database">
-                        <option value="1">{"Leave the data and add new"|i18n("design/standard/setup/init")}</option>
-                        <option value="2">{"Remove existing data"|i18n("design/standard/setup/init")}</option>
-                        <option value="3">{"Leave the data and do nothing"|i18n("design/standard/setup/init")}</option>
-                        <option value="4">{"I've chosen a new database"|i18n("design/standard/setup/init")}</option>
+                        <option value="1"{section show=eq($site.existing_database, 1)} selected="selected"{/section}>{"Leave the data and add new"|i18n("design/standard/setup/init")}</option>
+                        <option value="2"{section show=eq($site.existing_database, 2)} selected="selected"{/section}>{"Remove existing data"|i18n("design/standard/setup/init")}</option>
+                        <option value="3"{section show=eq($site.existing_database, 3)} selected="selected"{/section}>{"Leave the data and do nothing"|i18n("design/standard/setup/init")}</option>
+                        <option value="4"{section show=ge($site.existing_database, 4)} selected="selected"{/section}>{"I've chosen a new database"|i18n("design/standard/setup/init")}</option>
                         </select>
                         </td>
                    </tr>
