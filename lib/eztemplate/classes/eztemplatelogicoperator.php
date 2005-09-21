@@ -478,8 +478,6 @@ class eZTemplateLogicOperator
             $code = $prevCode.$code;
         }
         $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
-        eZDebug::writeDebug( $newElements, $code  );
-
 
         return $newElements;
     }
