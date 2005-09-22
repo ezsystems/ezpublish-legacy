@@ -208,12 +208,12 @@ class eZContentCacheManager
              - clear_cache_type - Bitfield of clear types, see nodeListForObject() for more details
              - object_filter - Array with object IDs, if there are entries only these objects should be checked.
     */
-    function dependencyInfo( $classID, $ingnoreINISettings = false )
+    function dependencyInfo( $classID, $ignoreINISettings = false )
     {
         $ini =& eZINI::instance( 'viewcache.ini' );
         $info = false;
 
-        if ( $ingnoreINISettings || $ini->variable( 'ViewCacheSettings', 'SmartCacheClear' ) == 'enabled' )
+        if ( $ignoreINISettings || $ini->variable( 'ViewCacheSettings', 'SmartCacheClear' ) == 'enabled' )
         {
             if ( $ini->hasGroup( $classID ) )
             {
@@ -554,9 +554,9 @@ class eZContentCacheManager
      \static
      Clears all content cache: view cache, template-block cache, template-block with subtree_expiry parameter cache.
     */
-    function clearAllContentCache( $ingnoreINISettings = false )
+    function clearAllContentCache( $ignoreINISettings = false )
     {
-        if ( !$ingnoreINISettings )
+        if ( !$ignoreINISettings )
         {
             $ini = eZINI::instance();
             $viewCacheEnabled = ( $ini->variable( 'ContentSettings', 'ViewCaching' ) === 'enabled' );
