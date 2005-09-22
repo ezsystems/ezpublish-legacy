@@ -54,9 +54,9 @@ $totalReverseRelationsCount = 0; // total number of reverse related objects for 
 foreach( $deleteIDArray as $nodeID )
 {
     $contentObject = eZContentObject::fetchByNodeID( $nodeID );
-    $contentObjectID = $contentObject->attribute('id');
+    $contentObject_ID = $contentObject->attribute('id');
     $reverseObjectCount = $contentObject->reverseRelatedObjectCount( false, false, false );
-    $reverselistCountArray[$contentObjectID] = $reverseObjectCount;
+    $reverselistCountArray[$contentObject_ID] = $reverseObjectCount;
     $totalReverseRelationsCount += $reverseObjectCount;
 }
 
@@ -96,7 +96,8 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
     foreach ( $deleteIDArray as $nodeID )
     {
         $contentObject = eZContentObject::fetchByNodeID( $nodeID );
-        $contentObject->removeReverseRelations( $contentObjectID );
+        $contentObject_ID = $contentObject->attribute( 'id' );
+        $contentObject->removeReverseRelations( $contentObject_ID );
     }
     eZContentObjectTreeNode::removeSubtrees( $deleteIDArray, $moveToTrash );
     return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
