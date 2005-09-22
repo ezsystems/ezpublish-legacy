@@ -1242,6 +1242,9 @@ class eZContentObject extends eZPersistentObject
     {
         $db =& eZDB::instance();
 
+        // Get list of objects referring to this one.
+        $relatingObjects = $this->reverseRelatedObjectList( false, false, false, 1 );
+
         // Finds all the attributes that store relations to the given object.
 
         $result = $db->arrayQuery( "SELECT attr.*
@@ -1252,6 +1255,7 @@ class eZContentObject extends eZPersistentObject
                                           link.contentclassattribute_id=attr.contentclassattribute_id AND
                                           link.to_contentobject_id=$objectID" );
 
+        // Remove references from XML.
         if ( count( $result ) > 0 )
         {
             include_once( "kernel/classes/ezcontentcachemanager.php" );
@@ -1263,6 +1267,15 @@ class eZContentObject extends eZPersistentObject
                 eZContentCacheManager::clearObjectViewCache( $attr->attribute( 'contentobject_id' ), true );
                 $attr->storeData();
             }
+        }
+
+        // Remove references in ezcontentobject_link.
+        foreach ( $relatingObjects as $fromObject )
+        {
+            $fromObjectID = $fromObject->attribute( 'id' );
+            $fromObjectVersion = $fromObject->attribute( 'current_version' );
+            $contentObjectID = $this->attribute( 'id' );
+            $fromObject->removeContentObjectRelation( $contentObjectID, $fromObjectVersion, $fromObjectID, false );
         }
     }
 
@@ -1947,6 +1960,11 @@ class eZContentObject extends eZPersistentObject
     /*!
      Removes a link to the given content object id.
      \param $toObjectID If \c false it will delete relations to all the objects.
+     \param $attributeID ID of class attribute.
+                         IF it is > 0 we remove relations created by a specific objectrelation[list] attribute.
+                         If it is set to 0 we remove relations created without using of objectrelation[list] attribute.
+                         If it is set to false, we remove all relations, no matter how were they created:
+                         using objectrelation[list] attribute or using "Add related objects" functionality in obect editing mode.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
@@ -1965,7 +1983,12 @@ class eZContentObject extends eZPersistentObject
         else
             $toObjectCondition = '';
 
-        $db->query( "DELETE FROM ezcontentobject_link WHERE from_contentobject_id=$fromObjectID AND from_contentobject_version=$fromObjectVersion AND contentclassattribute_id=$attributeID $toObjectCondition" );
+        if ( $attributeID !== false )
+            $classAttributeCondition = "AND contentclassattribute_id=$attributeID";
+        else
+            $classAttributeCondition = '';
+
+        $db->query( "DELETE FROM ezcontentobject_link WHERE from_contentobject_id=$fromObjectID AND from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition" );
     }
 
     /*!

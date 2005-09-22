@@ -47,6 +47,19 @@ $viewMode = $http->sessionVariable( "CurrentViewMode" );
 $deleteIDArray = $http->sessionVariable( "DeleteIDArray" );
 $contentObjectID = $http->sessionVariable( 'ContentObjectID' );
 $contentNodeID = $http->sessionVariable( 'ContentNodeID' );
+
+// Fetch number of reverse related objects for each of the items being removed.
+$reverselistCountArray = array();
+$totalReverseRelationsCount = 0; // total number of reverse related objects for all items.
+foreach( $deleteIDArray as $nodeID )
+{
+    $contentObject = eZContentObject::fetchByNodeID( $nodeID );
+    $contentObject_ID = $contentObject->attribute('id');
+    $reverseObjectCount = $contentObject->reverseRelatedObjectCount( false, false, false, 1 );
+    $reverselistCountArray[$contentObject_ID] = $reverseObjectCount;
+    $totalReverseRelationsCount += $reverseObjectCount;
+}
+
 if ( $http->hasSessionVariable( 'ContentLanguage' ) )
 {
     $contentLanguage = $http->sessionVariable( 'ContentLanguage' );
@@ -79,6 +92,13 @@ if ( $http->hasPostVariable( 'SupportsMoveToTrash' ) )
 
 if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
+    // Remove reverse relations for each item.
+    foreach ( $deleteIDArray as $nodeID )
+    {
+        $contentObject = eZContentObject::fetchByNodeID( $nodeID );
+        $contentObject_ID = $contentObject->attribute( 'id' );
+        $contentObject->removeReverseRelations( $contentObject_ID );
+    }
     eZContentObjectTreeNode::removeSubtrees( $deleteIDArray, $moveToTrash );
     return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
 }
@@ -127,6 +147,8 @@ $tpl->setVariable( 'move_to_trash_allowed', $moveToTrashAllowed );
 $tpl->setVariable( "remove_list",  $deleteResult );
 $tpl->setVariable( 'total_child_count', $totalChildCount );
 $tpl->setVariable( 'remove_info', $info );
+$tpl->setVariable( 'reverse_list_count_array', $reverselistCountArray );
+$tpl->setVariable( 'total_reverse_relations_count', $totalReverseRelationsCount );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:node/removeobject.tpl" );

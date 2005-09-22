@@ -477,6 +477,9 @@ Attributes:
 - Fixed bug 7167: setup kickstart.ini miss some data.
 - Fixed bug #7155: Bug error and fix in ezobjectrelationlist.tpl
   (Merged from stable/3.5  rev. 13435)
+- Fixed bug #7175: Bug Removal of object and objectrelation
+  (and objectrelationlist).
+  (Manually merged from stable/3.6 (3.6.3) rev. 13432, l3433).
 
 *Library:
 
