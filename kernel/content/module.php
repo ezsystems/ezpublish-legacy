@@ -434,6 +434,12 @@ $ViewList['move'] = array(
     'script' => 'move.php',
     'params' => array( 'NodeID' ) );
 
+$ViewList['viewreverseobjects'] = array(
+    'functions' => array( 'viewreverseobjects' ),
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'script' => 'viewreverseobjects.php',
+    'params' => array( 'ObjectID' ) );
+
 $ClassID = array(
     'name'=> 'Class',
     'values'=> array(),
@@ -512,6 +518,8 @@ $FunctionList['edit'] = array( 'Class' => $ClassID,
                                'Subtree' => $Subtree);
 
 $FunctionList['hide'] = array( 'Subtree' => $Subtree );
+
+$FunctionList['viewreverseobjects'] = array();
 
 $FunctionList['translate'] = array( 'Class' => $ClassID,
                                     'Section' => $SectionID,

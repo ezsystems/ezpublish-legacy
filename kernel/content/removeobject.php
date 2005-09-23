@@ -48,6 +48,16 @@ $deleteIDArray = $http->sessionVariable( "DeleteIDArray" );
 $contentObjectID = $http->sessionVariable( 'ContentObjectID' );
 $contentNodeID = $http->sessionVariable( 'ContentNodeID' );
 
+$requestedURI = '';
+$userRedirectURI = '';
+$requestedURI =& $GLOBALS['eZRequestedURI'];
+if ( get_class( $requestedURI ) == 'ezuri' )
+{
+    $userRedirectURI = $requestedURI->uriString( true );
+}
+
+$http->setSessionVariable( 'userRedirectURIReverseObjects', $userRedirectURI );
+
 // Fetch number of reverse related objects for each of the items being removed.
 $reverselistCountArray = array();
 $totalReverseRelationsCount = 0; // total number of reverse related objects for all items.
@@ -78,6 +88,7 @@ if ( $http->hasPostVariable( "CancelButton" ) )
     $http->removeSessionVariable( "DeleteIDArray" );
     $http->removeSessionVariable( 'ContentObjectID' );
     $http->removeSessionVariable( 'ContentNodeID' );
+    $http->removeSessionVariable( 'userRedirectURIReverseObjects' );
     return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
 }
 
