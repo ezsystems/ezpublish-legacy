@@ -79,7 +79,11 @@
 
 {* Objects referring to this one. *}
     <td>
-	{$reverse_list_count_array[$remove_item.object.id]}
+      {$reverse_list_count_array[$remove_item.object.id]}
+      {section show=$reverse_list_count_array[$remove_item.object.id]|gt( 0 )}
+        <input type="hidden" name="GetListObjectsReferring" value="{$remove_item.object.id}" />
+        ( <a href={concat( '/content/viewreverseobjects/', $remove_item.object.id, '/' )|ezurl}>list</a> )
+      {/section}
     </td>
 
 </tr>
