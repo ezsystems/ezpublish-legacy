@@ -371,7 +371,7 @@ class eZDOMNode
     /*!
      Alias for libxml compatibility
     */
-/*   function &get_elements_by_tagname( $name )
+/*   function get_elements_by_tagname( $name )
     {
         return $this->elementByName( $name );
     }
@@ -955,7 +955,7 @@ class eZDOMNode
     /*!
      Alias for libxml compatibility
     */
-    function &dump_mem( $format, $charset = false )
+    function dump_mem( $format, $charset = false )
     {
         return $this->toString( 0, $charset);
     }

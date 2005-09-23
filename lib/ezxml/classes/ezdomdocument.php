@@ -184,7 +184,7 @@ class eZDOMDocument
     /*!
      Alias for libxml compatibility
     */
-    function &get_elements_by_tagname( $name )
+    function get_elements_by_tagname( $name )
     {
         return $this->elementsByName( $name );
     }
@@ -618,10 +618,9 @@ class eZDOMDocument
     /*!
      Alias for libxml compatibility
     */
-    function &dump_mem( $charset = true, $conversion = true )
+    function dump_mem( $charset = true, $conversion = true )
     {
-        $toString =& $this->toString( $charset, $conversion );
-        return $toString;
+        return $this->toString( $charset, $conversion );
     }
 
     /*!
