@@ -58,7 +58,7 @@ class eZSiteAccess
     function siteAccessList()
     {
         $ini =& eZINI::instance();
-        $siteAccessArray =& $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+        $siteAccessArray = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
 
         $siteAccessList = array();
         reset( $siteAccessArray );

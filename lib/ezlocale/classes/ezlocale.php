@@ -726,7 +726,7 @@ class eZLocale
         $localeCode = '';
         if ( $ini->hasVariable( 'RegionalSettings', 'HTTPLocale' ) )
         {
-            $localeCode =& $ini->variable( 'RegionalSettings', 'HTTPLocale' );
+            $localeCode = $ini->variable( 'RegionalSettings', 'HTTPLocale' );
         }
         if ( $localeCode == '' and
              $this->HTTPLocaleCode != '' )
@@ -1545,7 +1545,7 @@ class eZLocale
             if (!isset( $localeStringDefault ) )
             {
                 $ini =& eZINI::instance();
-                $localeString =& $ini->variable( 'RegionalSettings', 'Locale' );
+                $localeString = $ini->variable( 'RegionalSettings', 'Locale' );
                 /* Cache this answer to prevent countless calls to retrieve this
                  * from the INI settings */
                 $localeStringDefault = $localeString;
@@ -1573,7 +1573,7 @@ class eZLocale
         if ( $localeString === false )
         {
             $ini =& eZINI::instance();
-            $localeString =& $ini->variable( 'RegionalSettings', 'Locale' );
+            $localeString = $ini->variable( 'RegionalSettings', 'Locale' );
         }
         $instance = new eZLocale( $localeString );
         return $instance;

@@ -127,7 +127,7 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
         }
     }
 
-    $limitList =& $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
+    $limitList = $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
     foreach ( array_keys ( $limitList ) as $key )
     {
         if ( $classID == $key )
@@ -321,7 +321,7 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
             $contentINI =& eZINI::instance( 'content.ini' );
             $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
 
-            $limitList =& $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
+            $limitList = $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
 
             $classID = $object->attribute( 'contentclass_id' );
             foreach ( array_keys ( $limitList ) as $key )

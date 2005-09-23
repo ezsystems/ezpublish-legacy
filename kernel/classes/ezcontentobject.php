@@ -975,7 +975,7 @@ class eZContentObject extends eZPersistentObject
         {
             $contentINI =& eZINI::instance( 'content.ini' );
             $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
-            $limitList =& $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
+            $limitList = $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
             $classID = $this->attribute( 'contentclass_id' );
             foreach ( array_keys ( $limitList ) as $key )
             {
@@ -2233,7 +2233,7 @@ class eZContentObject extends eZPersistentObject
 
         if ( $allRelations == false )
             $query .= " AND
-                           ezcontentobject_link. contentclassattribute_id=$attributeID";
+                           ezcontentobject_link.contentclassattribute_id=$attributeID";
 
         $rows = $db->arrayQuery( $query );
         return $rows[0]['count'];
@@ -3196,7 +3196,7 @@ class eZContentObject extends eZPersistentObject
         if ( ! isset( $GLOBALS['eZContentObjectDefaultLanguage'] ) )
         {
             $ini =& eZINI::instance();
-            $GLOBALS['eZContentObjectDefaultLanguage'] =& $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+            $GLOBALS['eZContentObjectDefaultLanguage'] = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
         }
 
         return $GLOBALS['eZContentObjectDefaultLanguage'];

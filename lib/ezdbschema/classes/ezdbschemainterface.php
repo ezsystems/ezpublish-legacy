@@ -947,11 +947,11 @@ class eZDBSchemaInterface
         $transformationRules = array();
 
         if ( $ini->hasVariable( $schemaType, 'ColumnNameTranslation' ) )
-            $transformationRules['column-name'] =& $ini->variable( $schemaType, 'ColumnNameTranslation' );
+            $transformationRules['column-name'] = $ini->variable( $schemaType, 'ColumnNameTranslation' );
 
         if ( $ini->hasVariable( $schemaType, 'ColumnTypeTranslation' ) )
         {
-            $transformationRules['column-type'] =& $ini->variable( $schemaType, 'ColumnTypeTranslation' );
+            $transformationRules['column-type'] = $ini->variable( $schemaType, 'ColumnTypeTranslation' );
 
             // substitute values like "type1;type2" with an appropriate arrays
             if ( is_array( $transformationRules['column-type'] ) )
@@ -1014,7 +1014,7 @@ class eZDBSchemaInterface
 
         if ( $ini->hasVariable( $schemaType, 'IndexNameTranslation' ) )
         {
-            $tmpIdxNameTranslations =& $ini->variable( $schemaType, 'IndexNameTranslation' );
+            $tmpIdxNameTranslations = $ini->variable( $schemaType, 'IndexNameTranslation' );
 
             if ( is_array( $tmpIdxNameTranslations ) )
             {

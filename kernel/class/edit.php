@@ -97,7 +97,7 @@ if ( is_numeric( $ClassID ) )
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $user =& eZUser::currentUser();
         $contentIni =& eZIni::instance( 'content.ini' );
-        $timeOut =& $contentIni->variable( 'ClassSettings', 'DraftTimeout' );
+        $timeOut = $contentIni->variable( 'ClassSettings', 'DraftTimeout' );
 
         if ( $class->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
              $class->attribute( 'modified' ) + $timeOut > time() )

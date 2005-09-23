@@ -96,7 +96,7 @@ class eZContentObjectTreeNodeOperations
         // clear user policy cache if this was a user object
         include_once( "lib/ezutils/classes/ezini.php" );
         $ini =& eZINI::instance();
-        $userClassID =& $ini->variable( "UserSettings", "UserClassID" );
+        $userClassID = $ini->variable( "UserSettings", "UserClassID" );
         if ( $object->attribute( 'contentclass_id' ) == $userClassID )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );

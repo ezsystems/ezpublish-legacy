@@ -74,10 +74,10 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
     $errorINI =& eZINI::instance( 'error.ini' );
 
     // Redirect if error.ini tells us to
-    $errorHandlerList =& $errorINI->variable( 'ErrorSettings-' . $errorType, 'ErrorHandler' );
-    $redirectURLList =& $errorINI->variable( 'ErrorSettings-' . $errorType, 'RedirectURL' );
-    $rerunURLList =& $errorINI->variable( 'ErrorSettings-' . $errorType, 'RerunURL' );
-    $embedURLList =& $errorINI->variable( 'ErrorSettings-' . $errorType, 'EmbedURL' );
+    $errorHandlerList = $errorINI->variable( 'ErrorSettings-' . $errorType, 'ErrorHandler' );
+    $redirectURLList = $errorINI->variable( 'ErrorSettings-' . $errorType, 'RedirectURL' );
+    $rerunURLList = $errorINI->variable( 'ErrorSettings-' . $errorType, 'RerunURL' );
+    $embedURLList = $errorINI->variable( 'ErrorSettings-' . $errorType, 'EmbedURL' );
 
     $errorHandlerType = $errorINI->variable( 'ErrorSettings', 'DefaultErrorHandler' );
     if ( isset( $errorHandlerList[$errorNumber] ) )

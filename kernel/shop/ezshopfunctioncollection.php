@@ -53,7 +53,7 @@ class eZShopFunctionCollection
     {
     }
 
-    function &fetchBasket( )
+    function fetchBasket( )
     {
         include_once( 'kernel/classes/ezbasket.php' );
         $http =& eZHTTPTool::instance();
@@ -78,7 +78,7 @@ class eZShopFunctionCollection
         }
         else
         {
-            $currentBasket =& $basketList[0];
+            $currentBasket = $basketList[0];
         }
 
         if ( $currentBasket === null )
@@ -165,22 +165,20 @@ class eZShopFunctionCollection
         return array( 'result' => $contentObjectList );
     }
 
-    function &fetchWishList( $production_id, $offset = false, $limit = false )
+    function fetchWishList( $production_id, $offset = false, $limit = false )
     {
         include_once( 'kernel/classes/ezwishlist.php' );
 
         $wishList =& eZWishList::items( true, $production_id, $offset, $limit );
-        $result = array ( 'result' => &$wishList );
-        return $result;
+        return array ( 'result' => &$wishList );
     }
 
-    function &fetchWishListCount( $production_id )
+    function fetchWishListCount( $production_id )
     {
         include_once( 'kernel/classes/ezwishlist.php' );
 
-        $count =& eZWishList::itemCount( $production_id );
-        $result = array ( 'result' => $count );
-        return $result;
+        $count = eZWishList::itemCount( $production_id );
+        return array ( 'result' => $count );
     }
 
     /*!

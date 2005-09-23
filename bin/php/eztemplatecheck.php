@@ -114,8 +114,8 @@ if ( count( $options['arguments'] ) > 0 )
 else
 {
     $ini =& eZINI::instance();
-    $standardDesign =& $ini->variable( "DesignSettings", "StandardDesign" );
-    $siteDesign =& $ini->variable( "DesignSettings", "SiteDesign" );
+    $standardDesign = $ini->variable( "DesignSettings", "StandardDesign" );
+    $siteDesign = $ini->variable( "DesignSettings", "SiteDesign" );
     $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
 
     $designList = array_merge( array( $standardDesign ), $additionalSiteDesignList, array( $siteDesign ) );

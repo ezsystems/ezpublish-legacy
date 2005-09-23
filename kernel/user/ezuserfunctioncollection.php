@@ -55,7 +55,7 @@ class eZUserFunctionCollection
     {
     }
 
-    function &fetchCurrentUser()
+    function fetchCurrentUser()
     {
         include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
         $user =& eZUser::currentUser();

@@ -484,6 +484,8 @@ Attributes:
   There is no information of which objects are affetced 
   when deleting.
   (Manually merged from stable/3.7 (3.7.0) rev. 13448)
+- Fixed bug #7168: Some more (reference errors ?) when debug is ON.
+  ( Merged from stable/3.7 rev. 13450 )
   
 *Library:
 

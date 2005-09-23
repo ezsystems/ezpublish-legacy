@@ -174,7 +174,7 @@ class eZPackage
         {
             $typeList = array();
             $ini =& eZINI::instance( 'package.ini' );
-            $types =& $ini->variable( 'PackageSettings', 'TypeList' );
+            $types = $ini->variable( 'PackageSettings', 'TypeList' );
             foreach ( $types as $typeID => $typeName )
             {
                 $typeList[] = array( 'name' => $typeName,
@@ -196,7 +196,7 @@ class eZPackage
         {
             $stateList = array();
             $ini =& eZINI::instance( 'package.ini' );
-            $states =& $ini->variable( 'PackageSettings', 'StateList' );
+            $states = $ini->variable( 'PackageSettings', 'StateList' );
             foreach ( $states as $stateID => $stateName )
             {
                 $stateList[] = array( 'name' => $stateName,

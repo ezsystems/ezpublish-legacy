@@ -154,13 +154,13 @@ class eZTemplateImageOperator
             $textcol = $this->color( "textcolor" );
 
             $ini =& eZINI::instance( 'texttoimage.ini' );
-            $family =& $ini->variable( 'DefaultSettings', 'Family' );
-            $size =& $ini->variable( 'DefaultSettings', 'PointSize' );
-            $angle =& $ini->variable( 'DefaultSettings', 'Angle' );
-            $xadj =& $ini->variable( 'DefaultSettings', 'XAdjustment' );
-            $yadj =& $ini->variable( 'DefaultSettings', 'YAdjustment' );
-            $wadj =& $ini->variable( 'DefaultSettings', 'WidthAdjustment' );
-            $hadj =& $ini->variable( 'DefaultSettings', 'HeightAdjustment' );
+            $family = $ini->variable( 'DefaultSettings', 'Family' );
+            $size = $ini->variable( 'DefaultSettings', 'PointSize' );
+            $angle = $ini->variable( 'DefaultSettings', 'Angle' );
+            $xadj = $ini->variable( 'DefaultSettings', 'XAdjustment' );
+            $yadj = $ini->variable( 'DefaultSettings', 'YAdjustment' );
+            $wadj = $ini->variable( 'DefaultSettings', 'WidthAdjustment' );
+            $hadj = $ini->variable( 'DefaultSettings', 'HeightAdjustment' );
             $bgcol = $this->decodeColor( $ini->variable( 'DefaultSettings', 'BackgroundColor' ) );
             $textcol = $this->decodeColor( $ini->variable( 'DefaultSettings', 'TextColor' ) );
 
@@ -168,27 +168,27 @@ class eZTemplateImageOperator
             $absoluteHeight = false;
 
             if ( $ini->hasVariable( $class, 'Family' ) )
-                $family =& $ini->variable( $class, 'Family' );
+                $family = $ini->variable( $class, 'Family' );
             if ( $ini->hasVariable( $class, 'PointSize' ) )
-                $size =& $ini->variable( $class, 'PointSize' );
+                $size = $ini->variable( $class, 'PointSize' );
             if ( $ini->hasVariable( $class, 'Angle' ) )
-                $angle =& $ini->variable( $class, 'Angle' );
+                $angle = $ini->variable( $class, 'Angle' );
             if ( $ini->hasVariable( $class, 'XAdjustment' ) )
-                $xadj =& $ini->variable( $class, 'XAdjustment' );
+                $xadj = $ini->variable( $class, 'XAdjustment' );
             if ( $ini->hasVariable( $class, 'YAdjustment' ) )
-                $yadj =& $ini->variable( $class, 'YAdjustment' );
+                $yadj = $ini->variable( $class, 'YAdjustment' );
             if ( $ini->hasVariable( $class, 'WidthAdjustment' ) )
-                $wadj =& $ini->variable( $class, 'WidthAdjustment' );
+                $wadj = $ini->variable( $class, 'WidthAdjustment' );
             if ( $ini->hasVariable( $class, 'HeightAdjustment' ) )
-                $hadj =& $ini->variable( $class, 'HeightAdjustment' );
+                $hadj = $ini->variable( $class, 'HeightAdjustment' );
             if ( $ini->hasVariable( $class, 'BackgroundColor' ) )
                 $bgcol = $this->decodeColor( $ini->variable( $class, 'BackgroundColor' ) );
             if ( $ini->hasVariable( $class, 'TextColor' ) )
                 $textcol = $this->decodeColor( $ini->variable( $class, 'TextColor' ) );
             if ( $ini->hasVariable( $class, 'AbsoluteWidth' ) )
-                $absoluteWidth =& $ini->variable( $class, 'AbsoluteWidth' );
+                $absoluteWidth = $ini->variable( $class, 'AbsoluteWidth' );
             if ( $ini->hasVariable( $class, 'AbsoluteHeight' ) )
-                $absoluteHeight =& $ini->variable( $class, 'AbsoluteHeight' );
+                $absoluteHeight = $ini->variable( $class, 'AbsoluteHeight' );
 
             if ( $namedParameters['family'] !== null )
                 $family = $namedParameters["family"];

@@ -221,7 +221,7 @@ class eZContentObjectPackageCreator extends eZPackageCreationHandler
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
-        $availableSiteAccesses =& $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+        $availableSiteAccesses = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
 
         include_once( 'kernel/classes/ezcontentobject.php' );
         $availableLanguages = eZContentObject::translationList();

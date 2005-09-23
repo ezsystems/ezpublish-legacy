@@ -855,7 +855,7 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                 include_once( 'lib/ezutils/classes/ezini.php' );
                 $ini =& eZINI::instance( 'content.ini' );
 
-                $isInlineTagList =& $ini->variable( 'CustomTagSettings', 'IsInline' );
+                $isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
                 foreach ( array_keys ( $isInlineTagList ) as $key )
                 {
                     $isInlineTagValue =& $isInlineTagList[$key];

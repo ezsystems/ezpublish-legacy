@@ -55,7 +55,7 @@ class eZCollaborationFunctionCollection
     {
     }
 
-    function &fetchParticipant( $itemID, $participantID )
+    function fetchParticipant( $itemID, $participantID )
     {
         include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
         if ( $participantID === false )
@@ -77,7 +77,7 @@ class eZCollaborationFunctionCollection
         return $resultArray;
     }
 
-    function &fetchParticipantList( $itemID, $sortBy, $offset, $limit )
+    function fetchParticipantList( $itemID, $sortBy, $offset, $limit )
     {
         include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
         $itemParameters = array( 'item_id' => $itemID,
@@ -97,7 +97,7 @@ class eZCollaborationFunctionCollection
         return $resultArray;
     }
 
-    function &fetchParticipantMap( $itemID, $sortBy, $offset, $limit, $field )
+    function fetchParticipantMap( $itemID, $sortBy, $offset, $limit, $field )
     {
         include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
         $itemParameters = array( 'item_id' => $itemID,
@@ -119,7 +119,7 @@ class eZCollaborationFunctionCollection
         return $resultArray;
     }
 
-    function &fetchMessageList( $itemID, $sortBy, $offset, $limit )
+    function fetchMessageList( $itemID, $sortBy, $offset, $limit )
     {
         include_once( 'kernel/classes/ezcollaborationitemmessagelink.php' );
         $itemParameters = array( 'item_id' => $itemID,
@@ -185,14 +185,14 @@ class eZCollaborationFunctionCollection
         return array( 'result' => &$children );
     }
 
-    function &fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array, $depth )
+    function fetchObjectTreeCount( $parentNodeID, $class_filter_type, $class_filter_array, $depth )
     {
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $node = eZContentObjectTreeNode::fetch( $parentNodeID );
-        $childrenCount =& $node->subTreeCount( array( 'Limitation' => null,
-                                                      'ClassFilterType' => $class_filter_type,
-                                                      'ClassFilterArray' => $class_filter_array,
-                                                      'Depth' => $depth ) );
+        $childrenCount = $node->subTreeCount( array( 'Limitation' => null,
+                                                     'ClassFilterType' => $class_filter_type,
+                                                     'ClassFilterArray' => $class_filter_array,
+                                                     'Depth' => $depth ) );
         if ( $childrenCount === null )
         {
             $resultArray = array( 'error' => array( 'error_type' => 'kernel',

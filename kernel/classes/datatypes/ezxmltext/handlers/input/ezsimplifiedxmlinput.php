@@ -1582,7 +1582,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 $supportedAttr[] = $attrbute;
                                 include_once( "lib/ezutils/classes/ezini.php" );
                                 $ini =& eZINI::instance( 'content.ini' );
-                                $availableCustomTags =& $ini->variable( 'CustomTagSettings', 'AvailableCustomTags' );
+                                $availableCustomTags = $ini->variable( 'CustomTagSettings', 'AvailableCustomTags' );
 
                                 if ( !in_array( $customTagName, $availableCustomTags ) )
                                 {
@@ -1595,7 +1595,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                     $this->IsInputValid = false;
                                 }
 
-                                $isInlineTagList =& $ini->variable( 'CustomTagSettings', 'IsInline' );
+                                $isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
                                 foreach ( array_keys ( $isInlineTagList ) as $key )
                                 {
                                     $isInlineTagValue =& $isInlineTagList[$key];
@@ -2421,7 +2421,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 include_once( "lib/ezutils/classes/ezini.php" );
                 $ini =& eZINI::instance( 'content.ini' );
 
-                $isInlineTagList =& $ini->variable( 'CustomTagSettings', 'IsInline' );
+                $isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
                 foreach ( array_keys ( $isInlineTagList ) as $key )
                 {
                     $isInlineTagValue =& $isInlineTagList[$key];

@@ -92,7 +92,7 @@ class eZUserLoginHandler
         $handlerList = array( 'standard' );
         if ( $ini->hasVariable( 'UserSettings', 'LoginHandler' ) )
         {
-            $handlerList =& $ini->variable( 'UserSettings', 'LoginHandler' );
+            $handlerList = $ini->variable( 'UserSettings', 'LoginHandler' );
         }
 
         foreach( $handlerList as $handler )
@@ -198,7 +198,7 @@ class eZUserLoginHandler
                 $handlerList = array( 'standard' );
                 if ( $ini->hasVariable( 'UserSettings', 'LoginHandler' ) )
                 {
-                    $handlerList =& $ini->variable( 'UserSettings', 'LoginHandler' );
+                    $handlerList = $ini->variable( 'UserSettings', 'LoginHandler' );
                 }
 
                 foreach( $handlerList as $handler )
@@ -239,7 +239,7 @@ class eZUserLoginHandler
 
                     default: // Use specified login handler to handle Login info input
                     {
-                        $handlerName =& $ini->variable( 'SiteSettings', 'LoginPage' );
+                        $handlerName = $ini->variable( 'SiteSettings', 'LoginPage' );
                         $handler =& eZUserLoginHandler::instance( $handlerName );
 
                         //eZDebug::writeNotice( 'Using ' . $handlerName . ' to collect user information.',

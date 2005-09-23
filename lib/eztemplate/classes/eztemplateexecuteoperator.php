@@ -141,17 +141,17 @@ class eZTemplateExecuteOperator
                     return array();
                 }
 
-                $functionName =& $aliasSettings->variable( $aliasFunctionName, 'FunctionName' );
+                $functionName = $aliasSettings->variable( $aliasFunctionName, 'FunctionName' );
 
                 $functionArray = array();
                 if ( $aliasSettings->hasVariable( $aliasFunctionName, 'Parameter' ) )
                 {
-                    $parameterTranslation =& $aliasSettings->variable( $aliasFunctionName, 'Parameter' );
+                    $parameterTranslation = $aliasSettings->variable( $aliasFunctionName, 'Parameter' );
                 }
 
                 if ( $aliasSettings->hasVariable( $aliasFunctionName, 'Constant' ) )
                 {
-                    $constantParameterArray =& $aliasSettings->variable( $aliasFunctionName, 'Constant' );
+                    $constantParameterArray = $aliasSettings->variable( $aliasFunctionName, 'Constant' );
                     if ( is_array( $constantParameterArray ) )
                     {
                         foreach ( array_keys( $constantParameterArray ) as $constKey )
