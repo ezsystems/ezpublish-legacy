@@ -463,10 +463,10 @@ class eZImageAliasHandler
         }
 
         $contentObjectAttribute->DataTypeCustom['dom_tree'] =& $domTree;
-        $imageNodeArray =& $domTree->get_elements_by_tagname( "ezimage" );
-        $imageInfoNodeArray =& $domTree->get_elements_by_tagname( "information" );
-        $imageVariationNodeArray =& $domTree->get_elements_by_tagname( "alias" );
-        $imageOriginalArray =& $domTree->get_elements_by_tagname( "original" );
+        $imageNodeArray = $domTree->get_elements_by_tagname( "ezimage" );
+        $imageInfoNodeArray = $domTree->get_elements_by_tagname( "information" );
+        $imageVariationNodeArray = $domTree->get_elements_by_tagname( "alias" );
+        $imageOriginalArray = $domTree->get_elements_by_tagname( "original" );
 
         $aliasList = array();
 
@@ -1166,7 +1166,7 @@ class eZImageAliasHandler
     */
     function addImageAliasToXML( &$domTree, $imageAlias )
     {
-        $imageVariationNodeArray =& $domTree->get_elements_by_tagname( 'alias' );
+        $imageVariationNodeArray = $domTree->get_elements_by_tagname( 'alias' );
         $imageNode = false;
         if ( is_array( $imageVariationNodeArray ) )
         {
@@ -1331,7 +1331,7 @@ class eZImageAliasHandler
         $contentObjectAttribute->DataTypeCustom['original_data'] =& $originalData;
 
         $domTree =& $this->domTree();
-        $imageOriginalArray =& $domTree->get_elements_by_tagname( "original" );
+        $imageOriginalArray = $domTree->get_elements_by_tagname( "original" );
         if ( isset( $imageOriginalArray[0] ) )
             $this->createOriginalAttributeXMLData( $imageOriginalArray[0], $originalData );
     }

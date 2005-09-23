@@ -2098,7 +2098,7 @@ class eZContentObject extends eZPersistentObject
             $query .= " AND contentclassattribute_id=$attributeID";
 
         $db =& eZDB::instance();
-        $relatedObjects =& $db->arrayQuery( $query );
+        $relatedObjects = $db->arrayQuery( $query );
 
         $return = array();
         foreach ( $relatedObjects as $object )
