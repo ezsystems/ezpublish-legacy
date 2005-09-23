@@ -41,6 +41,13 @@ $http =& eZHTTPTool::instance();
 $Module =& $Params['Module'];
 $contentObjectID =& $Params['ObjectID'];
 
+if ( $http->hasPostVariable( "BackButton" ) )
+{
+    $userRedirectURI = $http->sessionVariable( 'userRedirectURIReverseObjects' );
+    $http->removeSessionVariable( 'userRedirectURIReverseObjects' );
+    return $Module->redirectTo( $userRedirectURI );
+}
+
 $contentObject = eZContentObject::fetch( $contentObjectID );
 if ( !$contentObject )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
@@ -50,15 +57,11 @@ $contentObjectName = $contentObject->attribute( 'name' );
 $reverseRelatedObjectList = $contentObject->reverseRelatedObjectList( false, false, false );
 $reverseRelatedObjectCount = $contentObject->reverseRelatedObjectCount( false, false, false );
 
-if ( $http->hasSessionVariable( "LastAccessesURI" ) )
-     $userRedirectURI = $http->sessionVariable( "LastAccessesURI" );
-
 $tpl =& templateInit();
 
 $tpl->setVariable( 'content_object_name', $contentObjectName );
 $tpl->setVariable( 'reverse_related_object_count', $reverseRelatedObjectCount );
 $tpl->setVariable( 'reverse_related_object_list', $reverseRelatedObjectList );
-$tpl->setVariable( 'from_page', $userRedirectURI );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/view/viewreverseobjects.tpl" );
