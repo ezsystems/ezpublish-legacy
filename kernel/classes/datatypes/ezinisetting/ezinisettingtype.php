@@ -200,7 +200,7 @@ class eZIniSettingType extends eZDataType
 
                 $config =& eZINI::instance( $filename, $path, null, null, null, true );
 
-                $configValue =& $config->variable( $section, $parameter );
+                $configValue = $config->variable( $section, $parameter );
 
                 if ( is_array( $configValue ) )
                 {
@@ -437,7 +437,7 @@ class eZIniSettingType extends eZDataType
             {
                 $objectIniArray = array();
                 eZIniSettingType::parseArrayInput( $contentObjectAttribute->attribute( 'data_text' ), $objectIniArray );
-                $existingIniArray =& $config->variable( $section, $parameter );
+                $existingIniArray = $config->variable( $section, $parameter );
                 foreach ( array_keys( $existingIniArray ) as $key )
                 {
                     if ( !is_int( $key ) && $existingIniArray[$key] != $objectIniArray[$key] )

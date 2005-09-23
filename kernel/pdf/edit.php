@@ -67,7 +67,7 @@ if ( isset( $Params['PDFExportID'] ) )
 
         $user =& eZUser::currentUser();
         $contentIni =& eZIni::instance( 'content.ini' );
-        $timeOut =& $contentIni->variable( 'PDFExportSettings', 'DraftTimeout' );
+        $timeOut = $contentIni->variable( 'PDFExportSettings', 'DraftTimeout' );
         if ( $pdfExport->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
              $pdfExport->attribute( 'modified' ) + $timeOut > time() )
         {
@@ -182,7 +182,7 @@ $tpl->setVariable( 'set_warning', $setWarning );
 
 // Populate site access list
 $config =& eZINI::instance( 'site.ini' );
-$siteAccess =& $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+$siteAccess = $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
 
 // Get Classes and class attributes
 $classArray = eZContentClass::fetchList();

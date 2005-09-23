@@ -104,7 +104,7 @@ class eZTemplateFunctionElement
     */
     function process( &$tpl, &$text, $nspace, $current_nspace )
     {
-        $tmp =& $tpl->doFunction( $this->Name, $this, $nspace, $current_nspace );
+        $tmp = $tpl->doFunction( $this->Name, $this, $nspace, $current_nspace );
         if ( $tmp === false )
             return;
         $tpl->appendElement( $text, $tmp, $nspace, $current_nspace );

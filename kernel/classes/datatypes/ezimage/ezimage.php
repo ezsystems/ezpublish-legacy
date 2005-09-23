@@ -97,9 +97,9 @@ class eZImage extends eZPersistentObject
     {
         $imageIni =& eZINI::instance( 'image.ini' );
         if ( $imageIni->hasVariable( 'ImageSizes', 'Height' ) )
-            $heightList =& $imageIni->variable( 'ImageSizes', 'Height' );
+            $heightList = $imageIni->variable( 'ImageSizes', 'Height' );
         if ( $imageIni->hasVariable( 'ImageSizes', 'Width' ) )
-            $widthList =& $imageIni->variable( 'ImageSizes', 'Width' );
+            $widthList = $imageIni->variable( 'ImageSizes', 'Width' );
 
         if ( $heightList != null )
         {
@@ -133,9 +133,9 @@ class eZImage extends eZPersistentObject
 
         $imageIni =& eZINI::instance( 'image.ini' );
         if ( $imageIni->hasVariable( 'ImageSizes', 'Height' ) )
-            $heightList =& $imageIni->variable( 'ImageSizes', 'Height' );
+            $heightList = $imageIni->variable( 'ImageSizes', 'Height' );
         if ( $imageIni->hasVariable( 'ImageSizes', 'Width' ) )
-            $widthList =& $imageIni->variable( 'ImageSizes', 'Width' );
+            $widthList = $imageIni->variable( 'ImageSizes', 'Width' );
 
         foreach ( array_keys ( $heightList ) as $key )
         {

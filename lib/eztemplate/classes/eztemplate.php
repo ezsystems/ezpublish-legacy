@@ -394,7 +394,7 @@ class eZTemplate
     /*!
      Returns the left delimiter being used.
     */
-    function &leftDelimiter()
+    function leftDelimiter()
     {
         return $this->LDelim;
     }
@@ -402,7 +402,7 @@ class eZTemplate
     /*!
      Returns the right delimiter being used.
     */
-    function &rightDelimiter()
+    function rightDelimiter()
     {
         return $this->RDelim;
     }
@@ -1306,7 +1306,7 @@ class eZTemplate
                     {
                         if ( $checkForProxy )
                             $dataElements['proxy-object-found'] = true;
-                        $value =& $value->templateValue();
+                        $value = $value->templateValue();
                     }
                     $valueData = array( 'value' => $value );
                     $this->processOperator( $operatorName, $operatorParameters, $rootNamespace, $currentNamespace,
@@ -1329,7 +1329,7 @@ class eZTemplate
         {
             if ( $checkForProxy )
                 $dataElements['proxy-object-found'] = true;
-            $value =& $value->templateValue();
+            $value = $value->templateValue();
         }
         return $value;
     }
@@ -1562,7 +1562,7 @@ class eZTemplate
     /*!
      Helper function for creating a displayable text for a variable.
     */
-    function &variableText( &$var, $namespace = "", $attrs = array() )
+    function variableText( $var, $namespace = "", $attrs = array() )
     {
         $txt = "$";
         if ( $namespace != "" )
@@ -1622,7 +1622,7 @@ class eZTemplate
     /*!
      Tries to run the function object $func_obj
     */
-    function &doFunction( &$name, &$func_obj, $nspace, $current_nspace )
+    function doFunction( &$name, &$func_obj, $nspace, $current_nspace )
     {
         $func =& $this->Functions[$name];
         if ( is_array( $func ) )
@@ -1633,14 +1633,12 @@ class eZTemplate
         if ( isset( $func ) and
              is_object( $func ) )
         {
-            $Return = $func->process( $this, $name, $func_obj, $nspace, $current_nspace );
-            return $Return;
+            return $func->process( $this, $name, $func_obj, $nspace, $current_nspace );
         }
         else
         {
             $this->warning( "", "Function \"$name\" is not registered" );
-            $str = false;
-            return $str;
+            return false;
         }
     }
 
@@ -1822,7 +1820,7 @@ class eZTemplate
         if ( is_object( $item ) and
              method_exists( $item, 'templateValue' ) )
         {
-            $item =& $item->templateValue();
+            $item = $item->templateValue();
             $textElements[] = "$item";
         }
         else if ( is_object( $item ) )

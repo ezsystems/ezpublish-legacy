@@ -100,7 +100,7 @@ if ( is_numeric( $RSSImportID ) )
         include_once( 'lib/ezlocale/classes/ezdatetime.php' );
         $user =& eZUser::currentUser();
         $contentIni =& eZIni::instance( 'content.ini' );
-        $timeOut =& $contentIni->variable( 'RSSImportSettings', 'DraftTimeout' );
+        $timeOut = $contentIni->variable( 'RSSImportSettings', 'DraftTimeout' );
         if ( $rssImport->attribute( 'modifier_id' ) != $user->attribute( 'contentobject_id' ) &&
              $rssImport->attribute( 'modified' ) + $timeOut > time() )
         {

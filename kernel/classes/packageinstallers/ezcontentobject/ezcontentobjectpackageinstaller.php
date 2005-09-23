@@ -96,7 +96,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
     {
         include_once( 'lib/ezutils/classes/ezini.php' );
         $ini =& eZINI::instance();
-        $availableSiteAccessArray =& $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+        $availableSiteAccessArray = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
 
         if ( !isset( $persistentData['site_access_map'] ) )
         {

@@ -1063,7 +1063,7 @@ class eZINI
       Reads a variable from the ini file.
       false is returned if the variable was not found.
     */
-    function &variable( $blockName, $varName )
+    function variable( $blockName, $varName )
     {
         $ret = false;
         if ( !isset( $this->BlockValues[$blockName] ) )

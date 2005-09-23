@@ -108,7 +108,7 @@ class eZWishList extends eZPersistentObject
         return $discountPercent;
     }
 
-    function &itemCount( $alternativeProductionID = false )
+    function itemCount( $alternativeProductionID = false )
     {
         $custom = array( array( 'operation' => 'count( id )',
                                 'name' => 'count' ) );

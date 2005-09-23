@@ -782,7 +782,7 @@ print( $values['MyValue'] );
 
      \note The file name and path is supplied to the constructor of this class.
     */
-    function &restore( $variableDefinitions )
+    function restore( $variableDefinitions )
     {
         $returnVariables = array();
         $path = $this->PHPDir . '/' . $this->PHPFile;
@@ -801,7 +801,7 @@ print( $values['MyValue'] );
             }
             if ( isset( ${$variableName} ) )
             {
-                $returnVariables[$variableReturnName] =& ${$variableName};
+                $returnVariables[$variableReturnName] = ${$variableName};
             }
             else if ( $variableRequired )
                 eZDebug::writeError( "Variable '$variableName' is not present in cache '$path'",

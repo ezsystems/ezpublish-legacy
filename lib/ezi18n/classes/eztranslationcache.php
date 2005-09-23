@@ -174,9 +174,9 @@ class eZTranslationCache
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
         $php = new eZPHPCreator( eZTranslationCache::cacheDirectory(), $cacheFileName );
-        $variables =& $php->restore( array( 'info' => 'TranslationInfo',
-                                            'root' => 'TranslationRoot',
-                                            'cache-date' => 'eZTranslationCacheCodeDate' ) );
+        $variables = $php->restore( array( 'info' => 'TranslationInfo',
+                                           'root' => 'TranslationRoot',
+                                           'cache-date' => 'eZTranslationCacheCodeDate' ) );
         if ( $variables['cache-date'] != EZ_TRANSLATION_CACHE_CODE_DATE )
             return false;
         $cache =& $translationCache[$key];

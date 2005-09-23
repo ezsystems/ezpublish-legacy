@@ -126,7 +126,7 @@ class eZPackageFunctionCollection
         return array( 'result' => $packageList );
     }
 
-    function &fetchPackage( $packageName, $repositoryID )
+    function fetchPackage( $packageName, $repositoryID )
     {
         include_once( 'kernel/classes/ezpackage.php' );
         $package = eZPackage::fetch( $packageName, false, $repositoryID );
@@ -142,7 +142,7 @@ class eZPackageFunctionCollection
         return $retValue;
     }
 
-    function &fetchDependentPackageList( $packageName, $filterArray = false, $repositoryID )
+    function fetchDependentPackageList( $packageName, $filterArray = false, $repositoryID )
     {
         $filterParams = array();
         $filterList = false;

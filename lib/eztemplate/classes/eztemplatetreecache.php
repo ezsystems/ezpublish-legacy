@@ -84,7 +84,7 @@ class eZTemplateTreeCache
      \return the cache node tree which is stored with the cache key \a $key.
              Returns \c null if no cache data was found.
     */
-    function &cachedTree( $key, $uri, $res, $templatePath, &$extraParameters )
+    function cachedTree( $key, $uri, $res, $templatePath, &$extraParameters )
     {
         $templateCache =& eZTemplateTreeCache::cacheTable();
         $key = eZTemplateTreeCache::internalKey( $key );
@@ -234,9 +234,9 @@ class eZTemplateTreeCache
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
         $php = new eZPHPCreator( eZTemplateTreeCache::cacheDirectory(), $cacheFileName );
-        $variables =& $php->restore( array( 'info' => 'TemplateInfo',
-                                            'root' => 'TemplateRoot',
-                                            'cache-date' => 'eZTemplateTreeCacheCodeDate' ) );
+        $variables = $php->restore( array( 'info' => 'TemplateInfo',
+                                           'root' => 'TemplateRoot',
+                                           'cache-date' => 'eZTemplateTreeCacheCodeDate' ) );
         if ( $variables['cache-date'] != EZ_TEMPLATE_TREE_CACHE_CODE_DATE )
             return false;
         $cache =& $templateCache[$key];

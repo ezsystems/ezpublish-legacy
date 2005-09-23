@@ -213,9 +213,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         }
         $ini =& eZINI::instance();
         if ( $type == 'standard' )
-            $designSetting =& $ini->variable( "DesignSettings", "StandardDesign" );
+            $designSetting = $ini->variable( "DesignSettings", "StandardDesign" );
         else if ( $type == 'site' )
-            $designSetting =& $ini->variable( "DesignSettings", "SiteDesign" );
+            $designSetting = $ini->variable( "DesignSettings", "SiteDesign" );
         return $designSetting;
     }
 
@@ -665,12 +665,12 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             eZExtension::prependExtensionSiteAccesses( $siteAccess, $overrideINI, false, 'siteaccess', false );
             $overrideINI->loadCache();
 
-            $standardBase =& $ini->variable( "DesignSettings", "StandardDesign" );
+            $standardBase = $ini->variable( "DesignSettings", "StandardDesign" );
             $keys[] = "siteaccess/$siteAccess";
             $keys[] = $standardBase;
             if ( !$this->OnlyStandard )
             {
-                $siteBase =& $ini->variable( "DesignSettings", "SiteDesign" );
+                $siteBase = $ini->variable( "DesignSettings", "SiteDesign" );
                 $keys[] = $siteBase;
             }
         }
@@ -701,7 +701,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         }
 
 
-        $additionalSiteDesignList =& $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
+        $additionalSiteDesignList = $ini->variable( "DesignSettings", "AdditionalSiteDesignList" );
         $keys = array_merge( $keys, $additionalSiteDesignList );
 
         // Add extension paths
@@ -709,7 +709,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $extensionDirectory = eZExtension::baseDirectory();
 
         $designINI =& eZINI::instance( 'design.ini' );
-        $extensions =& $designINI->variable( 'ExtensionSettings', 'DesignExtensions' );
+        $extensions = $designINI->variable( 'ExtensionSettings', 'DesignExtensions' );
 
         return  array_merge( $keys, $extensions );
     }
@@ -822,7 +822,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         $designStartPath = eZTemplateDesignResource::designStartPath();
 
-        $additionalSiteDesignList =& $ini->variable( 'DesignSettings', 'AdditionalSiteDesignList' );
+        $additionalSiteDesignList = $ini->variable( 'DesignSettings', 'AdditionalSiteDesignList' );
         // Generate match cache for all templates
         include_once( 'lib/ezfile/classes/ezdir.php' );
 

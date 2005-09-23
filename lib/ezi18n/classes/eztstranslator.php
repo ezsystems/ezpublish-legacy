@@ -265,8 +265,8 @@ class eZTSTranslator extends eZTranslatorHandler
             }
             $status = true;
 
-            $treeRoot =& $tree->get_root();
-            $children =& $treeRoot->children();
+            $treeRoot = $tree->get_root();
+            $children = $treeRoot->children();
             foreach( $children as $child )
             {
                 if ( $child->type == 1 )
@@ -375,7 +375,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
     {
         $contextName = null;
         $messages = array();
-        $context_children =& $context->children();
+        $context_children = $context->children();
 
         foreach( $context_children as $context_child )
         {
@@ -436,7 +436,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         $source = null;
         $translation = null;
         $comment = null;
-        $message_children =& $message->children();
+        $message_children = $message->children();
         foreach( $message_children as $message_child )
         {
             if ( $message_child->type == 1 )
@@ -567,13 +567,13 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
 //             return $key;
         $msg = $man->createMessage( $context, $source, $comment, $translation );
         $msg["key"] = $key;
-        $this->Messages[$key] =& $msg;
+        $this->Messages[$key] = $msg;
         // Set array of messages to be cached
         if ( $this->UseCache == true && $this->BuildCache == true )
         {
             if ( !isset( $this->CachedMessages[$context] ) )
                 $this->CachedMessages[$context] = array();
-            $this->CachedMessages[$context][$key] =& $msg;
+            $this->CachedMessages[$context][$key] = $msg;
         }
         return $key;
     }
