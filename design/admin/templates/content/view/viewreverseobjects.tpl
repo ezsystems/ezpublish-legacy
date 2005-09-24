@@ -28,7 +28,7 @@
 
 {section var=reverse_item loop=$reverse_related_object_list sequence=array( bglight, bgdark )}
 
-  <tr class="{$reverse_item.main_node.sequence}">
+  <tr class="{$reverse_item.sequence}">
     {* Object icon. *}
 
     <td class="tight">{$reverse_item.main_node.class_identifier|class_icon( small, $reverse_item.main_node.class_name|wash )}
