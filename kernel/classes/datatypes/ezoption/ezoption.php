@@ -217,7 +217,7 @@ class eZOption
             $options->appendChild( $optionNode );
         }
 
-        $xml =& $doc->toString();
+        $xml = $doc->toString();
 
         return $xml;
     }

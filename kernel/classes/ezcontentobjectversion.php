@@ -941,8 +941,8 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function &unserialize( &$domNode, &$contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, &$nodeList, $options, &$package )
     {
-        $oldVersion =& $domNode->attributeValue( 'version' );
-        $status =& $domNode->attributeValue( 'status' );
+        $oldVersion = $domNode->attributeValue( 'version' );
+        $status = $domNode->attributeValue( 'status' );
 
         if ( $firstVersion )
         {
@@ -978,7 +978,7 @@ class eZContentObjectVersion extends eZPersistentObject
         foreach( array_keys( $languageNodeArray ) as $languageKey )
         {
             $languageNode =& $languageNodeArray[$languageKey];
-            $language =& $languageNode->attributeValue( 'language' );
+            $language = $languageNode->attributeValue( 'language' );
 
             $attributeArray =& $contentObjectVersion->contentObjectAttributes( $language );
             if ( count( $attributeArray ) == 0)
@@ -1017,7 +1017,7 @@ class eZContentObjectVersion extends eZPersistentObject
                 }
 
                 // unserialize object name in current version-translation
-                $objectName =& $languageNode->attributeValue( 'object_name' );
+                $objectName = $languageNode->attributeValue( 'object_name' );
                 if ( $objectName )
                     $contentObject->setName( $objectName, $contentObjectVersion->attribute( 'version' ), $language );
             }

@@ -337,17 +337,17 @@ class eZMultiOption
             $dom =& $xml->domTree( $xmlString );
             $root =& $dom->root();
             // set the name of the node
-            $this->Name =& $root->elementTextContentByName( "name" );
-            $this->OptionCounter =& $root->attributeValue("option_counter");
-            $multioptionsNode =& $root->elementByName( "multioptions" );
-            $multioptionsList =& $multioptionsNode->elementsByName( "multioption" );
+            $this->Name = $root->elementTextContentByName( "name" );
+            $this->OptionCounter = $root->attributeValue("option_counter");
+            $multioptionsNode = $root->elementByName( "multioptions" );
+            $multioptionsList = $multioptionsNode->elementsByName( "multioption" );
             //Loop for MultiOptions
             foreach ( $multioptionsList as $multioption )
             {
                 $newID = $this->addMultiOption( $multioption->attributeValue( "name" ),
                                                 $multioption->attributeValue( "priority" ),
                                                 $multioption->attributeValue( "default_option_id" ) );
-                $optionNode =& $multioption->elementsByName( "option" );
+                $optionNode = $multioption->elementsByName( "option" );
                 foreach ( $optionNode as $option )
                 {
                     $this->addOption( $newID, $option->attributeValue( "option_id" ), $option->attributeValue( "value" ), $option->attributeValue( "additional_price" ) );
@@ -404,7 +404,7 @@ class eZMultiOption
             }
             $multioptions->appendChild( $multioptionNode );
         }
-        $xml =& $doc->toString();
+        $xml = $doc->toString();
         return $xml;
     }
 

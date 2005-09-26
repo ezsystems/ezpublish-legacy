@@ -3194,15 +3194,15 @@ class eZContentObject extends eZPersistentObject
             return $retValue;
         }
 
-        $sectionID =& $domNode->attributeValue( 'section_id' );
+        $sectionID = $domNode->attributeValue( 'section_id' );
         if ( $ownerID === false )
         {
-            $ownerID =& $domNode->attributeValue( 'owner_id' );
+            $ownerID = $domNode->attributeValue( 'owner_id' );
         }
-        $remoteID =& $domNode->attributeValue( 'remote_id' );
-        $name =& $domNode->attributeValue( 'name' );
-        $classRemoteID =& $domNode->attributeValue( 'class_remote_id' );
-        $classIdentifier =& $domNode->attributeValue( 'class_identifier' );
+        $remoteID = $domNode->attributeValue( 'remote_id' );
+        $name = $domNode->attributeValue( 'name' );
+        $classRemoteID = $domNode->attributeValue( 'class_remote_id' );
+        $classIdentifier = $domNode->attributeValue( 'class_identifier' );
 
         $contentClass = eZContentClass::fetchByRemoteID( $classRemoteID );
         if ( !$contentClass )

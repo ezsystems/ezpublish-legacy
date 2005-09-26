@@ -826,7 +826,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                     $listSectionLevel = $currentSectionLevel;
 
-                    $listChildren =& $listItemNode->children();
+                    $listChildren = $listItemNode->children();
 
                     // If <paragraph> is the one and only child then don't render it as <p>.
                     if ( count( $listChildren ) == 1 )

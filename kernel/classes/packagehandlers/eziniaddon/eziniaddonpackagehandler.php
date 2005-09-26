@@ -132,8 +132,8 @@ class eZINIAddonPackageHandler extends eZPackageHandler
     */
     function &currentID( &$valueNode, &$db )
     {
-        $remoteIDType =& $valueNode->attributeValue( 'remote-id' );
-        $value =& $valueNode->textContent();
+        $remoteIDType = $valueNode->attributeValue( 'remote-id' );
+        $value = $valueNode->textContent();
 
         if ( $remoteIDType !== false )
         {

@@ -268,7 +268,7 @@ class eZDateTimeType extends eZDataType
                     $root->appendChild( $elementType );
                 }
                 $doc->setRoot( $root );
-                $docText =& $doc->toString();
+                $docText = $doc->toString();
                 $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_ADJUSTMENT_FIELD , $docText );
             }
         }

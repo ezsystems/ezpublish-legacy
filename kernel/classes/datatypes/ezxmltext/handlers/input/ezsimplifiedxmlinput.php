@@ -1988,7 +1988,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $output = "";
             if ( count( $node ) > 0 )
             {
-                $children =& $node[0]->children();
+                $children = $node[0]->children();
                 if ( count( $children ) > 0 )
                 {
                     $output .= $this->inputSectionXML( $node[0], 0 );

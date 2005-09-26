@@ -1041,8 +1041,8 @@ class eZObjectRelationListType extends eZDataType
 
         if ( $objectPlacement and $objectPlacement->hasAttributes() )
         {
-            $nodeID =& $objectPlacement->attributeValue( 'node-id' );
-            $content['default_placement'] = array( 'node_id' => &$nodeID );
+            $nodeID = $objectPlacement->attributeValue( 'node-id' );
+            $content['default_placement'] = array( 'node_id' => $nodeID );
         }
         $constraints =& $root->elementByName( 'constraints' );
         if ( $constraints )
@@ -1051,7 +1051,7 @@ class eZObjectRelationListType extends eZDataType
             for ( $i = 0; $i < count( $allowedClassList ); ++$i )
             {
                 $allowedClass =& $allowedClassList[$i];
-                $content['class_constraint_list'][] =& $allowedClass->attributeValue( 'contentclass-identifier' );
+                $content['class_constraint_list'][] = $allowedClass->attributeValue( 'contentclass-identifier' );
             }
         }
         $type =& $root->elementByName( 'type' );
@@ -1217,11 +1217,10 @@ class eZObjectRelationListType extends eZDataType
             $content['default_placement'] = $defaultPlacementNode->attributeValue( 'node-id' );
         $content['type'] = $attributeParametersNode->elementTextContentByName( 'type' );
         $classConstraintsNode =& $attributeParametersNode->elementByName( 'class-constraints' );
-        $classConstraintList =& $classConstraintsNode->children();
+        $classConstraintList = $classConstraintsNode->children();
         $content['class_constraint_list'] = array();
-        foreach ( array_keys( $classConstraintList ) as $classConstraintKey )
+        foreach ( $classConstraintList as $classConstraintNode )
         {
-            $classConstraintNode =& $classConstraintList[$classConstraintKey];
             $classIdentifier = $classConstraintNode->attributeValue( 'class-identifier' );
             $content['class_constraint_list'][] = $classIdentifier;
         }

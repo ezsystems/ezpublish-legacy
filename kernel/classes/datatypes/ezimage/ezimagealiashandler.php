@@ -861,7 +861,7 @@ class eZImageAliasHandler
             $imageInformation[$attribute->name()] = $attribute->value;
         }
 
-        $children =& $imageInfoNode->children();
+        $children = $imageInfoNode->children();
         foreach ( $children as $child )
         {
             if ( isset ( $child->name ) )

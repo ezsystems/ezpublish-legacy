@@ -230,7 +230,7 @@ class eZAuthor
             }
         }
 
-        $xml =& $doc->toString();
+        $xml = $doc->toString();
 
         return $xml;
     }

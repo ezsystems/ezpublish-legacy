@@ -273,8 +273,7 @@ class eZTSTranslator extends eZTranslatorHandler
                 {
                     if ( $child->name() == "context" )
                     {
-                        $context =& $child;
-                        $this->handleContextNode( $context );
+                        $this->handleContextNode( $child );
                     }
                     else
                         eZDebug::writeError( "Unknown element name: " . $child->name(),
@@ -371,7 +370,7 @@ xmlns="http://www.w3.org/2001/XMLSchema/default">
         return $schema->validate( $tree );*/
     }
 
-    function handleContextNode( &$context )
+    function handleContextNode( $context )
     {
         $contextName = null;
         $messages = array();

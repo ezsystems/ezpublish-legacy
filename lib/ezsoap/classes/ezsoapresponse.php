@@ -110,7 +110,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
                 with the string "Response" appended.
                 */
 
-                $responseAccessors =& $response->children();
+                $responseAccessors = $response->children();
                 if ( count($responseAccessors) > 0 )
                 {
                     $returnObject =& $responseAccessors[0];
@@ -166,17 +166,17 @@ TODO: add encoding checks with schema validation.
                 case "string" :
                 {
 
-                    $returnValue =& $node->textContent();
+                    $returnValue = $node->textContent();
                 }break;
 
                 case "int" :
                 {
-                    $returnValue =& $node->textContent();
+                    $returnValue = $node->textContent();
                 }break;
 
                 case "float" :
                 {
-                    $returnValue =& $node->textContent();
+                    $returnValue = $node->textContent();
                 }break;
 
                 case "boolean" :
@@ -189,7 +189,7 @@ TODO: add encoding checks with schema validation.
 
                 case "base64" :
                 {
-                    $returnValue =& base64_decode( $node->textContent() );
+                    $returnValue = base64_decode( $node->textContent() );
                 }break;
 
                 case "Array" :
@@ -205,7 +205,7 @@ TODO: add encoding checks with schema validation.
                     $count = $matches[2];
 
                     $returnValue = array();
-                    $children =& $node->children();
+                    $children = $node->children();
                     for ( $i=0; $i<$count; $i++ )
                     {
                         $returnValue[] =& eZSOAPResponse::decodeDataTypes( $children[$i], $type );
@@ -215,7 +215,7 @@ TODO: add encoding checks with schema validation.
                 case "SOAPStruct" :
                 {
                     $returnValue = array();
-                    $children =& $node->children();
+                    $children = $node->children();
 
                     reset( $children );
                     while ( list( $key, $child ) = each( $children ) )
@@ -313,7 +313,7 @@ TODO: add encoding checks with schema validation.
         }
 
         $doc->setRoot( $root );
-        $ret =& $doc->toString();
+        $ret = $doc->toString();
 
         return $ret;
     }

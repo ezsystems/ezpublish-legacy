@@ -2137,17 +2137,17 @@ class eZPackage
         $parameters['priority'] = $root->elementAttributeValueByName( 'priority', 'value' );
         $parameters['type'] = $root->elementAttributeValueByName( 'type', 'value' );
         $parameters['is_installed'] = false;
-        $isInstalled =& $root->attributeValue( 'is_installed' ) == 'true';
+        $isInstalled = $root->attributeValue( 'is_installed' ) == 'true';
         if ( $isInstalled )
             $parameters['is_installed'] = true;
 
         $parameters['is_active'] = true;
-        $isActive =& $root->attributeValue( 'is_active' );
+        $isActive = $root->attributeValue( 'is_active' );
         if ( $isActive )
             $parameters['is_active'] = $isActive == 'true';
 
         $parameters['install_type'] = 'install';
-        $installType =& $root->attributeValue( 'install_type' );
+        $installType = $root->attributeValue( 'install_type' );
         if ( $installType )
             $parameters['install_type'] = $installType;
         $parameters['source'] = $root->elementTextContentByName( 'source' );
@@ -2359,11 +2359,10 @@ class eZPackage
                         else if ( $installDataElement->attribute( 'name' ) == 'array' )
                         {
                             $arrayName = $installDataElement->attributeValue( 'name' );
-                            $installDataElementArray =& $installDataElement->children();
+                            $installDataElementArray = $installDataElement->children();
                             $array = array();
-                            foreach ( array_keys( $installDataElementArray ) as $installDataElementArrayKey )
+                            foreach ( $installDataElementArray as $installDataElementArrayElement )
                             {
-                                $installDataElementArrayElement =& $installDataElementArray[$installDataElementArrayKey];
                                 $name = $installDataElementArrayElement->attributeValue( 'name' );
                                 $value = $installDataElementArrayElement->attributeValue( 'value' );
                                 $array[$name] = $value;

@@ -138,7 +138,7 @@ class eZSOAPRequest extends eZSOAPEnvelope
         $body->appendChild( $request );
 
         $doc->setRoot( $root );
-        $ret =& $doc->toString();
+        $ret = $doc->toString();
 
         return $ret;
     }

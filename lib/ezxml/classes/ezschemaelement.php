@@ -173,7 +173,7 @@ class eZSchemaElement
     /*!
       Returns the children nodes for this schema element.
     */
-    function &children()
+    function children()
     {
         return $this->Children;
     }

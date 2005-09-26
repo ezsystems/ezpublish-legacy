@@ -155,7 +155,7 @@ class eZSelectionType extends eZDataType
                 $options->appendChild( $optionNode );
             }
 
-            $xml =& $doc->toString();
+            $xml = $doc->toString();
 
             $classAttribute->setAttribute( "data_text5", $xml );
 
@@ -347,7 +347,7 @@ class eZSelectionType extends eZDataType
         $doc->setRoot( $root );
         $root->appendChild( $options );
 
-        $xml =& $doc->toString();
+        $xml = $doc->toString();
         $classAttribute->setAttribute( "data_text5", $xml );
 
         if ( $attributeParametersNode->elementTextContentByName( 'is-multiselect' ) == 0 )

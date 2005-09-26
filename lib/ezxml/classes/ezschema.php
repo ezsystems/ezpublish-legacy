@@ -276,8 +276,8 @@ class eZSchema
     {
         $level = 1;
         print( "<br>Document structure for: ". $this->ValidationRoot->name() . "<br>" );
-        $children =& $this->ValidationRoot->children();
-        $childrenKeys =& array_keys( $children );
+        $children = $this->ValidationRoot->children();
+        $childrenKeys = array_keys( $children );
         foreach ( $childrenKeys as $key )
         {
             $this->printElement( $children[$key], $dom->root(), $level );

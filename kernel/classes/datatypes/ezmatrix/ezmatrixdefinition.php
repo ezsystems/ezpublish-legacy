@@ -122,7 +122,7 @@ class eZMatrixDefinition
             unset( $columnNameNode );
         }
 
-        $xml =& $doc->toString();
+        $xml = $doc->toString();
 
         return $xml;
     }
