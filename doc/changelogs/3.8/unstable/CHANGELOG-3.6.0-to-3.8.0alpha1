@@ -492,6 +492,8 @@ Attributes:
   (Merged from stable/3.5 rev. 13459)
 - Fixed bug #7063: Bug When enabled TextTranslation server hangs.
   ( Merged from stable/3.7 rev. 13463 )
+- Fixed bug #7192: Bug Extension activation in the GUI doesnt work.
+  ( Merged from stable/3.7 rev. 13475 )
 - Fixed bug: Wrong defining version of PostgreSQL.
   (Merged from stable/3.6 (3.6.3) rev. 13467)  
 - Fixed bug: Wrong parse default (double precision) value.
