@@ -39,6 +39,7 @@
 */
 
 include_once( 'kernel/classes/datatypes/ezxmltext/ezxmloutputhandler.php' );
+include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
 
 class eZXHTMLXMLOutput extends eZXMLOutputHandler
 {
