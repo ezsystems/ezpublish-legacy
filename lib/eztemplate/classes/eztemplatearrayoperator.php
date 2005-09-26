@@ -1385,7 +1385,12 @@ class eZTemplateArrayOperator
                      $operatorName == $this->ArrayMergeName )
                     $code .= '' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false ) . '';
                 else
-                    $code .= 'array( ' . eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false ) . ' )';
+                {
+                    $tmp_check = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false );
+                    // hiding "%1%", "%output%" etc. in static input string to avoid replacing it on "$var" inside compiler.
+                    $tmp_check = str_replace( "%", '"."%"."', $tmp_check );
+                    $code .= 'array( ' . $tmp_check . ' )';
+                }
                 $stringCode .= eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameters[$i] ), 0, 0, false );
             }
         }
