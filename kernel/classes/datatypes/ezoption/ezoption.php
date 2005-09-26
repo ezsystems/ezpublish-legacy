@@ -163,10 +163,10 @@ class eZOption
         if ( $xmlString != "" )
         {
             // set the name of the node
-            $nameArray =& $dom->elementsByName( "name" );
+            $nameArray = $dom->elementsByName( "name" );
             $this->setName( $nameArray[0]->textContent() );
 
-            $optionArray =& $dom->elementsByName( "option" );
+            $optionArray = $dom->elementsByName( "option" );
             $this->OptionCount = 0;
             foreach ( $optionArray as $option )
             {

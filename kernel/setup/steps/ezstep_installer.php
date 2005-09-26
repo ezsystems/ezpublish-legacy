@@ -140,7 +140,7 @@ class eZStepInstaller
         for ( $i = 0; $i < count( $allLanguages ); ++$i )
         {
             $language =& $allLanguages[$i];
-            $charsets =& $language->allowedCharsets();
+            $charsets = $language->allowedCharsets();
             foreach ( $charsets as $charset )
             {
                 $charset = eZCharsetInfo::realCharsetCode( $charset );
@@ -153,7 +153,7 @@ class eZStepInstaller
         for ( $i = 0; $i < count( $allLanguages ); ++$i )
         {
             $language =& $allLanguages[$i];
-            $charsets =& $language->allowedCharsets();
+            $charsets = $language->allowedCharsets();
             $realCharsets = array();
             foreach ( $charsets as $charset )
             {

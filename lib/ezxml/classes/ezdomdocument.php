@@ -202,14 +202,15 @@ class eZDOMDocument
       Finds all element nodes which matches the namespace alias \a $alias and returns it.
       \return An array with eZDOMNode elements.
     */
-    function &namespaceByAlias( $alias )
+    function namespaceByAlias( $alias )
     {
         if ( isset( $this->Namespaces[$alias] ) )
+        {
             return $this->Namespaces[$alias];
+        }
         else
         {
-            $retValue = false;
-            return $retValue;
+            return false;
         }
     }
 
@@ -588,7 +589,7 @@ class eZDOMDocument
       \note The charset conversion is smart enough to only do conversion when required
       \note Using charset conversion will require the ezi18n library being installed
     */
-    function &toString( $charset = true, $charsetConversion = true )
+    function toString( $charset = true, $charsetConversion = true )
     {
         $charsetText = '';
         if ( $charset === true )

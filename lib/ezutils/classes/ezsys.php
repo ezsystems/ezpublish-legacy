@@ -692,7 +692,7 @@ class eZSys
     /*!
      \return the path string for the server.
     */
-    function &path( $quiet = false )
+    function path( $quiet = false )
     {
         return eZSys::serverVariable( 'PATH', $quiet );
     }

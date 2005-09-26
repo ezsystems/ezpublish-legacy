@@ -312,7 +312,7 @@ class eZDOMNode
       \note If multiple elements with that name is found \c false is returned.
       \sa elementByName, children
     */
-    function &elementChildrenByName( $name )
+    function elementChildrenByName( $name )
     {
         $element =& $this->elementByName( $name );
         if ( !$element )
@@ -421,7 +421,7 @@ class eZDOMNode
       \note This will only make sense for element nodes.
       \sa elementByName
     */
-    function &elementsByName( $name )
+    function elementsByName( $name )
     {
         $elements = array();
         foreach ( array_keys( $this->Children ) as $key )
@@ -688,17 +688,14 @@ class eZDOMNode
     function removeNamedAttribute( $name )
     {
         $removed = false;
-        $attributeArray = array();
-        for ( $i = 0; $i < count( $this->Attributes ); ++$i )
+        foreach( array_keys( $this->Attributes ) as $key )
         {
-            $attribute =& $this->Attributes[$i];
-            if ( $attribute->name() != $name )
-                $attributeArray[] =& $attribute;
-            else
+            if ( $this->Attributes[$key]->name() == $name )
+            {
+                unset( $this->Attributes[$key] );
                 $removed = true;
+            }
         }
-        unset( $this->Attributes );
-        $this->Attributes =& $attributeArray;
         return $removed;
     }
 
@@ -729,17 +726,14 @@ class eZDOMNode
     function removeNamedChildren( $name )
     {
         $removed = false;
-        $childArray = array();
-        for ( $i = 0; $i < count( $this->Children ); ++$i )
+        foreach( array_keys( $this->Children ) as $key )
         {
-            $child =& $this->Children[$i];
-            if ( $child->name() != $name )
-                $childArray[] =& $child;
-            else
+            if ( $this->Children[$key]->name() == $name )
+            {
+                unset( $this->Children[$key] );
                 $removed = true;
+            }
         }
-        unset( $this->Children );
-        $this->Children =& $childArray;
         return $removed;
     }
 
@@ -787,16 +781,12 @@ class eZDOMNode
     function &lastChild()
     {
         $childCount = count( $this->Children );
-        if ( $childCount == 0 )
+        if ( is_array( $this->Children ) )
         {
-            $retVal = null;
-        }
-        else
-        {
-            $retVal =& $this->Children[$childCount - 1];
+            return end( $this->Children );
         }
 
-        return $retVal;
+        return false;
     }
 
     /*!

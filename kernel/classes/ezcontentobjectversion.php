@@ -971,13 +971,12 @@ class eZContentObjectVersion extends eZPersistentObject
         $contentObjectVersion->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
         $contentObjectVersion->store();
 
-        $languageNodeArray =& $domNode->elementsByName( 'object-translation' );
+        $languageNodeArray = $domNode->elementsByName( 'object-translation' );
 
         $db =& eZDB::instance();
         $db->begin();
-        foreach( array_keys( $languageNodeArray ) as $languageKey )
+        foreach( $languageNodeArray as $languageNode )
         {
-            $languageNode =& $languageNodeArray[$languageKey];
             $language = $languageNode->attributeValue( 'language' );
 
             $attributeArray =& $contentObjectVersion->contentObjectAttributes( $language );
@@ -1022,7 +1021,6 @@ class eZContentObjectVersion extends eZPersistentObject
                     $contentObject->setName( $objectName, $contentObjectVersion->attribute( 'version' ), $language );
             }
 
-            $attributeNodeArray =& $languageNode->elementsByName( 'attribute' );
             foreach( array_keys( $attributeArray ) as $attributeKey )
             {
                 $attribute =& $attributeArray[$attributeKey];

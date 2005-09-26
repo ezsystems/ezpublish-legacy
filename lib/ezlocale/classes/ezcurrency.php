@@ -110,7 +110,7 @@ class eZCurrency
     /*!
      Returns the currency value.
     */
-    function &value()
+    function value()
     {
         return $this->Value;
     }
@@ -142,7 +142,7 @@ class eZCurrency
     /*!
      Returns a text representation of the currency according to the current locale.
     */
-    function &toString()
+    function toString()
     {
         return $this->Locale->formatCurrency( $this->Value );
     }

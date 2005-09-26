@@ -145,10 +145,8 @@ function rssImport1( &$root, &$rssImport, &$cli )
     $itemArray =& $root->elementsByName( 'item' );
 
     // Loop through all items in RSS feed
-    foreach ( array_keys ( $itemArray ) as $itemKey )
+    foreach ( $itemArray as $item )
     {
-        $item =& $itemArray[$itemKey];
-
         $addCount += importRSSItem( $item, $rssImport, $cli );
     }
 
@@ -197,7 +195,7 @@ function rssImport2( &$root, &$rssImport, &$cli )
 
  \return 1 if object added, 0 if not
 */
-function importRSSItem( &$item, &$rssImport, &$cli )
+function importRSSItem( $item, &$rssImport, &$cli )
 {
     global $isQuiet;
     $rssImportID =& $rssImport->attribute( 'id' );
@@ -215,9 +213,9 @@ function importRSSItem( &$item, &$rssImport, &$cli )
 
     $parentContentObject =& $parentContentObjectTreeNode->attribute( 'object' ); // Get parent content object
 
-    $title =& $item->elementByName( 'title' );
-    $link =& $item->elementByName( 'link' );
-    $description =& $item->elementByName( 'description' );
+    $title = $item->elementByName( 'title' );
+    $link = $item->elementByName( 'link' );
+    $description = $item->elementByName( 'description' );
 
     $md5Sum = md5( $link->textContent() );
 

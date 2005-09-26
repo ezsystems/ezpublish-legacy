@@ -159,7 +159,7 @@ class eZTime
     /*!
      \return true if the date has valid data.
     */
-    function &isValid()
+    function isValid()
     {
         return $this->IsValid;
     }
@@ -302,7 +302,7 @@ class eZTime
      Creates a new eZTime object with the time values $hour, $min and $sec and returns a reference to it.
      Any value can be ommitted or set to -1 to use the current time value.
     */
-    function &create( $hour = -1, $minute = -1, $second = -1 )
+    function create( $hour = -1, $minute = -1, $second = -1 )
     {
         $cur_date = getdate();
 
@@ -361,12 +361,12 @@ class eZTime
      Creates a string representation of the time using the current locale and returns it.
      If $short is true a short representation is used.
     */
-    function &toString( $short = false )
+    function toString( $short = false )
     {
         if ( $short )
-            $str =& $this->Locale->formatShortTime( $this->timeStamp() );
+            $str = $this->Locale->formatShortTime( $this->timeStamp() );
         else
-            $str =& $this->Locale->formatTime( $this->timeStamp() );
+            $str = $this->Locale->formatTime( $this->timeStamp() );
         return $str;
     }
 

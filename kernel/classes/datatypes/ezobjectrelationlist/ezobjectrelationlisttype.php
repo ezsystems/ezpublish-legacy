@@ -1047,10 +1047,9 @@ class eZObjectRelationListType extends eZDataType
         $constraints =& $root->elementByName( 'constraints' );
         if ( $constraints )
         {
-            $allowedClassList =& $constraints->elementsByName( 'allowed-class' );
-            for ( $i = 0; $i < count( $allowedClassList ); ++$i )
+            $allowedClassList = $constraints->elementsByName( 'allowed-class' );
+            foreach( $allowedClassList as $allowedClass )
             {
-                $allowedClass =& $allowedClassList[$i];
                 $content['class_constraint_list'][] = $allowedClass->attributeValue( 'contentclass-identifier' );
             }
         }
@@ -1069,10 +1068,9 @@ class eZObjectRelationListType extends eZDataType
         $relationList =& $root->elementByName( 'relation-list' );
         if ( $relationList )
         {
-            $relationItems =& $relationList->elementsByName( 'relation-item' );
-            for ( $i = 0; $i < count( $relationItems ); ++$i )
+            $relationItems = $relationList->elementsByName( 'relation-item' );
+            foreach( $relationItems as $relationItem )
             {
-                $relationItem =& $relationItems[$i];
                 $content['relation_list'][] = $relationItem->attributeValues( eZObjectRelationListType::contentObjectArrayXMLMap(),
                                                                               false );
             }
@@ -1242,7 +1240,7 @@ class eZObjectRelationListType extends eZDataType
         $relationList =& $root->elementByName( 'relation-list' );
         if ( $relationList )
         {
-            $relationItems =& $relationList->elementsByName( 'relation-item' );
+            $relationItems = $relationList->elementsByName( 'relation-item' );
             if ( count( $relationItems ) )
             {
                 foreach( $relationItems as $relationItem )
