@@ -73,5 +73,6 @@ Changes from 3.7.0rc2 to 3.7.0
  (Merged from stable/3.5 rev. 13455)
 - Fixed bug #7190: Bug ezxhtmlxmloutput.php Fatal error: Undefined class name 'eztemplateincludefunction'.
   (Merged from stable/3.5 rev. 13459) 
+- 7063: Bug When enabled TextTranslation server hangs ( in rev. 13463 ).
 
 *Library:
