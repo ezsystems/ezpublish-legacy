@@ -78,5 +78,6 @@ Changes from 3.7.0rc2 to 3.7.0
   (Merged from stable/3.6 (3.6.3) rev. 13467)
 - Fixed bug: Wrong parse default (double precision) value.
   (Merged from stable/3.6 (3.6.3) rev. 13470)
+- Fixed bug #7192: Bug Extension activation in the GUI doesnt work.
 
 *Library:
