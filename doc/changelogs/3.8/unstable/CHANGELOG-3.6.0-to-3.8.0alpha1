@@ -486,6 +486,8 @@ Attributes:
   (Manually merged from stable/3.7 (3.7.0) rev. 13448)
 - Fixed bug #7168: Some more (reference errors ?) when debug is ON.
   ( Merged from stable/3.7 rev. 13450 )
+- Fixed bug #7166: Bug %1% get replaced in template.
+ (Merged from stable/3.5 rev. 13455)
   
 *Library:
 
