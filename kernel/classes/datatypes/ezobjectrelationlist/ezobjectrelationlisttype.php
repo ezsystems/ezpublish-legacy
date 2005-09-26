@@ -49,6 +49,7 @@ Bugs/missing features:
 */
 
 include_once( 'kernel/classes/ezdatatype.php' );
+include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'lib/ezutils/classes/ezintegervalidator.php' );
 include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
 include_once( 'lib/ezi18n/classes/eztranslatormanager.php' );
@@ -235,13 +236,25 @@ class eZObjectRelationListType extends eZDataType
     function storeObjectAttribute( &$attribute )
     {
         $content = $attribute->content();
+
+        $contentClassAttributeID = $attribute->ContentClassAttributeID;
+        $contentObjectID = $attribute->ContentObjectID;
+        $contentObjectVersion = $attribute->Version;
+
+        eZContentObject::removeContentObjectRelation( false, $contentObjectVersion, $contentObjectID, $contentClassAttributeID );
+
         for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
         {
             $relationItem =& $content['relation_list'][$i];
+
+            $subObjectID = $relationItem['contentobject_id'];
+            $subObjectVersion = $relationItem['contentobject_version'];
+
+            eZContentObject::addContentObjectRelation( $subObjectID, $contentObjectVersion, $contentObjectID, $contentClassAttributeID );
+
             if ( $relationItem['is_modified'] )
             {
-                $subObjectID = $relationItem['contentobject_id'];
-                $subObjectVersion = $relationItem['contentobject_version'];
+                // handling sub-objects
                 $object =& $content['temp'][$subObjectID]['object'];
                 if ( $object )
                 {
@@ -560,10 +573,13 @@ class eZObjectRelationListType extends eZDataType
         if ( is_array( $content ) and
              is_array( $content['relation_list'] ) )
         {
+            $db =& eZDB::instance();
+            $db->begin();
             foreach ( $content['relation_list'] as $deletionItem )
             {
                 eZObjectRelationListType::removeRelationObject( $objectAttribute, $deletionItem );
             }
+            $db->commit();
         }
     }
 
@@ -1202,6 +1218,38 @@ class eZObjectRelationListType extends eZDataType
             $content['class_constraint_list'][] = $classIdentifier;
         }
         $this->storeClassAttributeContent( $classAttribute, $content );
+    }
+
+    /*!
+     Removes objects with given ID from the relations list
+    */
+    function removeRelatedObjectItem( &$contentObjectAttribute, $objectID )
+    {
+        $xmlText = $contentObjectAttribute->attribute( 'data_text' );
+        if ( trim( $xmlText ) == '' ) return;
+
+        $doc =& eZObjectRelationListType::parseXML( $xmlText );
+
+        $return = false;
+        $root =& $doc->root();
+        $relationList =& $root->elementByName( 'relation-list' );
+        if ( $relationList )
+        {
+            $relationItems =& $relationList->elementsByName( 'relation-item' );
+            if ( count( $relationItems ) )
+            {
+                foreach( $relationItems as $relationItem )
+                {
+                     if ( $relationItem->attributeValue( 'contentobject-id' ) == $objectID )
+                     {
+                         $relationList->removeChild( $relationItem );
+                         $return = true;
+                     }
+                }
+            }
+        }
+        eZObjectRelationListType::storeObjectDOMDocument( $doc, $contentObjectAttribute );
+        return $return;
     }
 
     /// \privatesection

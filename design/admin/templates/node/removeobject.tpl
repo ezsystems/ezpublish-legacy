@@ -16,6 +16,12 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
+{section show=$total_reverse_relations_count|gt( 0 )}
+<div class="block">
+    <p>{'There are objects related to some of the items that are about to be removed.'|i18n( 'design/admin/node/removeobject' )}</p>
+    <p>{'Removing the items will destroy the relations.'|i18n( 'design/admin/node/removeobject' )}</p>
+</div>
+{/section}
 
 {section show=$total_child_count|gt( 0 )}
 <div class="block">
@@ -36,6 +42,7 @@
     <th colspan="2">{'Item'|i18n( 'design/admin/node/removeobject' )}</th>
     <th>{'Type'|i18n( 'design/admin/node/removeobject' )}</th>
     <th>{'Sub items'|i18n( 'design/admin/node/removeobject' )}</th>
+    <th>{'Objects referring to this one'|i18n( 'design/admin/node/removeobject' )}</th>
 </tr>
 {section var=remove_item loop=$remove_list sequence=array( bglight, bgdark )}
 
@@ -69,6 +76,16 @@
                 hash( '%child_count', $remove_item.child_count ) )}
      {/section}
      </td>
+
+{* Objects referring to this one. *}
+    <td>
+      {$reverse_list_count_array[$remove_item.object.id]}
+      {section show=$reverse_list_count_array[$remove_item.object.id]|gt( 0 )}
+        <input type="hidden" name="GetListObjectsReferring" value="{$remove_item.object.id}" />
+        ( <a href={concat( '/content/viewreverseobjects/', $remove_item.object.id, '/' )|ezurl}>list</a> )
+      {/section}
+    </td>
+
 </tr>
 {/section}
 </table>

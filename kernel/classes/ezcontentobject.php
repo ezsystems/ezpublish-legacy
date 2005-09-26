@@ -1168,6 +1168,48 @@ class eZContentObject extends eZPersistentObject
         return $versionObject->attribute( 'version' );
     }
 
+    function removeReverseRelations( $objectID )
+    {
+        $db =& eZDB::instance();
+
+        // Get list of objects referring to this one.
+        $relatingObjects = $this->reverseRelatedObjectList( false, false, false );
+
+        // Finds all the attributes that store relations to the given object.
+
+        $result = $db->arrayQuery( "SELECT attr.*
+                                    FROM ezcontentobject_link link,
+                                         ezcontentobject_attribute attr
+                                    WHERE link.from_contentobject_id=attr.contentobject_id AND
+                                          link.from_contentobject_version=attr.version AND
+                                          link.contentclassattribute_id=attr.contentclassattribute_id AND
+                                          link.to_contentobject_id=$objectID" );
+
+        // Remove references from XML.
+        if ( count( $result ) > 0 )
+        {
+            include_once( "kernel/classes/ezcontentcachemanager.php" );
+            foreach( $result as $row )
+            {
+                $attr = new eZContentObjectAttribute( $row );
+                $dataType =& $attr->dataType();
+                $dataType->removeRelatedObjectItem( $attr, $objectID );
+                eZContentCacheManager::clearObjectViewCache( $attr->attribute( 'contentobject_id' ), true );
+                $attr->storeData();
+            }
+        }
+
+        // Remove references in ezcontentobject_link.
+        foreach ( $relatingObjects as $fromObject )
+        {
+            $fromObjectID = $fromObject->attribute( 'id' );
+            $fromObjectVersion = $fromObject->attribute( 'current_version' );
+            $contentObjectID = $this->attribute( 'id' );
+            $fromObject->removeContentObjectRelation( $contentObjectID, $fromObjectVersion, $fromObjectID, false );
+        }
+
+    }
+
     /*!
       If nodeID is not given, this function will remove object from database. All versions and translations of this object will be lost.
       Otherwise, it will check node assignment and only delete the object from this node if it was assigned to other nodes as well.
@@ -1797,41 +1839,75 @@ class eZContentObject extends eZPersistentObject
 
     /*!
      Adds a link to the given content object id.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function addContentObjectRelation( $objectID, $version )
+    function addContentObjectRelation( $toObjectID, $fromObjectVersion = false, $fromObjectID = false, $attributeID = 0 )
     {
         $db =& eZDB::instance();
 
-         if ( !is_numeric( $objectID ) )
-         {
-             eZDebug::writeError( "Related object ID (objectID): '$objectID', is not a numeric value.",
-                                  "eZContentObject::addContentObjectRelation" );
-             return false;
-         }
+        if ( !$fromObjectVersion )
+            $fromObjectVersion = $this->CurrentVersion;
 
-        $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id )
-		     VALUES ( '$this->ID', '$version', '$objectID' )" );
+        if ( !$fromObjectID )
+            $fromObjectID = $this->ID;
+
+        if ( !is_numeric( $toObjectID ) )
+        {
+            eZDebug::writeError( "Related object ID (toObjectID): '$toObjectID', is not a numeric value.",
+                                 "eZContentObject::addContentObjectRelation" );
+            return false;
+        }
+
+        $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id )
+		     VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID )" );
     }
 
     /*!
      Removes a link to the given content object id.
+     \param $toObjectID If \c false it will delete relations to all the objects.
+     \param $attributeID ID of class attribute.
+                         IF it is > 0 we remove relations created by a specific objectrelation[list] attribute.
+                         If it is set to 0 we remove relations created without using of objectrelation[list] attribute.
+                         If it is set to false, we remove all relations, no matter how were they created:
+                         using objectrelation[list] attribute or using "Add related objects" functionality in obect editing mode.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function removeContentObjectRelation( $objectID, $version = null )
+    function removeContentObjectRelation( $toObjectID = false, $fromObjectVersion = false, $fromObjectID = false, $attributeID = 0 )
     {
         $db =& eZDB::instance();
-        $db->query( "DELETE FROM ezcontentobject_link WHERE from_contentobject_id='$this->ID' AND  from_contentobject_version='$version' AND to_contentobject_id='$objectID'" );
+
+        if ( !$fromObjectVersion )
+            $fromObjectVersion = $this->CurrentVersion;
+
+        if ( !$fromObjectID )
+            $fromObjectID = $this->ID;
+
+        if ( $toObjectID !== false )
+            $toObjectCondition = "AND to_contentobject_id=$toObjectID";
+        else
+            $toObjectCondition = '';
+
+        if ( $attributeID !== false )
+            $classAttributeCondition = "AND contentclassattribute_id=$attributeID";
+        else
+            $classAttributeCondition = '';
+
+        $db->query( "DELETE FROM ezcontentobject_link WHERE from_contentobject_id=$fromObjectID AND from_contentobject_version=$fromObjectVersion $classAttributeCondition $toObjectCondition" );
     }
 
     /*!
      \return the number of related objects
     */
-    function &relatedContentObjectCount( $version = false, $objectID = false )
+    function &relatedContentObjectCount( $fromObjectVersion = false, $fromObjectID = false, $attributeID = 0 )
     {
-        eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $objectID, "relatedContentObjectArray::objectID" );
-        if ( $version == false )
-            $version = $this->CurrentVersion;
-        if( !$objectID )
-            $objectID = $this->ID;
+        eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $fromObjectID, "relatedContentObjectArray::objectID" );
+        if ( $fromObjectVersion == false )
+            $fromObjectVersion = $this->CurrentVersion;
+        if( !$fromObjectID )
+            $fromObjectID = $this->ID;
+
         $db =& eZDB::instance();
         $relatedObjectArray =& $db->arrayQuery( "SELECT
 					       count( ezcontentobject_link.from_contentobject_id ) as count
@@ -1841,8 +1917,9 @@ class eZContentObject extends eZPersistentObject
 					     WHERE
 					       ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
 					       ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
-					       ezcontentobject_link.from_contentobject_id='$objectID' AND
-					       ezcontentobject_link.from_contentobject_version='$version'" );
+					       ezcontentobject_link.from_contentobject_id='$fromObjectID' AND
+					       ezcontentobject_link.from_contentobject_version='$fromObjectVersion' AND
+                           contentclassattribute_id=$attributeID" );
 
         return $relatedObjectArray[0]['count'];
     }
@@ -1850,17 +1927,16 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns the related objects.
     */
-    function &relatedContentObjectArray( $version = false, $objectID = false )
+    function &relatedContentObjectArray( $fromObjectVersion = false, $fromObjectID = false, $attributeID = 0 )
     {
-        eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $objectID, "objectID" );
-        if ( $version == false )
-            $version = $this->CurrentVersion;
-        if( ! $objectID )
-        {
-            $objectID = $this->ID;
-        }
-        $db =& eZDB::instance();
+        eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $fromObjectID, "objectID" );
+        if ( $fromObjectVersion == false )
+            $fromObjectVersion = $this->CurrentVersion;
 
+        if( !$fromObjectID )
+            $fromObjectID = $this->ID;
+
+        $db =& eZDB::instance();
         $language = eZContentObject::defaultLanguage();
 
         $useVersionName = true;
@@ -1875,21 +1951,22 @@ class eZContentObject extends eZPersistentObject
         }
 
         $relatedObjects =& $db->arrayQuery( "SELECT
-            ezcontentclass.name AS class_name,
-            ezcontentobject.* $versionNameTargets
-         FROM
-            ezcontentclass,
-            ezcontentobject,
-            ezcontentobject_link
-            $versionNameTables
-         WHERE
-            ezcontentclass.id=ezcontentobject.contentclass_id AND
-			ezcontentclass.version=0 AND
-            ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
-            ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
-            ezcontentobject_link.from_contentobject_id='$objectID' AND
-            ezcontentobject_link.from_contentobject_version='$version'
-            $versionNameJoins" );
+                                    ezcontentclass.name AS class_name,
+                                    ezcontentobject.* $versionNameTargets
+                                 FROM
+                                    ezcontentclass,
+                                    ezcontentobject,
+                                    ezcontentobject_link
+                                    $versionNameTables
+                                 WHERE
+                                    ezcontentclass.id=ezcontentobject.contentclass_id AND
+                                    ezcontentclass.version=0 AND
+                                    ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
+                                    ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
+                                    ezcontentobject_link.from_contentobject_id='$fromObjectID' AND
+                                    ezcontentobject_link.from_contentobject_version='$fromObjectVersion' AND
+                                    contentclassattribute_id=$attributeID
+                                    $versionNameJoins" );
         $return = array();
         foreach ( $relatedObjects as $object )
         {
@@ -1905,23 +1982,28 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns objects to which this object is related
     */
-    function &reverseRelatedObjectList( $version = false, $objectID = false )
+    function &reverseRelatedObjectList( $version = false, $toObjectID = false, $attributeID = 0 )
     {
-        if ( $version == false )
-            $version = $this->CurrentVersion;
-        if( ! $objectID )
-        {
-            $objectID = $this->ID;
-        }
+//        if ( $version == false )
+//            $version = $this->CurrentVersion;
+
+        if( !$toObjectID )
+            $toObjectID = $this->ID;
+
+        $query = "SELECT DISTINCT ezcontentobject.*
+                  FROM
+                  ezcontentobject, ezcontentobject_link
+                  WHERE
+                  ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
+                  ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
+                  ezcontentobject_link.to_contentobject_id=$toObjectID AND
+                  ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version";
+
+        if ( $attributeID !== false )
+            $query .= " AND contentclassattribute_id=$attributeID";
+
         $db =& eZDB::instance();
-        $relatedObjects =& $db->arrayQuery( "SELECT DISTINCT ezcontentobject.*
-					     FROM
-					       ezcontentobject, ezcontentobject_link
-					     WHERE
-					       ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
-					       ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
-					       ezcontentobject_link.to_contentobject_id='$objectID' AND
-					       ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version" );
+        $relatedObjects =& $db->arrayQuery( $query );
 
         $return = array();
         foreach ( $relatedObjects as $object )
@@ -1934,23 +2016,28 @@ class eZContentObject extends eZPersistentObject
     /*!
      Returns the number of objects to which this object is related.
     */
-    function &reverseRelatedObjectCount( $version = false, $objectID = false )
+    function &reverseRelatedObjectCount( $version = false, $toObjectID = false, $attributeID = 0 )
     {
-        if ( $version == false )
-            $version = $this->CurrentVersion;
-        if( ! $objectID )
-        {
-            $objectID = $this->ID;
-        }
-        $db =& eZDB::instance();
-        $rows =& $db->arrayQuery( "SELECT count( DISTINCT ezcontentobject.id ) AS count
+//        if ( $version == false )
+//            $version = $this->CurrentVersion;
+        if( !$toObjectID )
+            $toObjectID = $this->ID;
+
+        $query = "SELECT count( DISTINCT ezcontentobject.id ) AS count
 					     FROM
 					       ezcontentobject, ezcontentobject_link
 					     WHERE
 					       ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
 					       ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
-					       ezcontentobject_link.to_contentobject_id='$objectID' AND
-					       ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version" );
+					       ezcontentobject_link.to_contentobject_id=$toObjectID AND
+					       ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version";
+
+
+        if ( $attributeID !== false )
+            $query .= " AND ezcontentobject_link.contentclassattribute_id=$attributeID";
+
+        $db =& eZDB::instance();
+        $rows =& $db->arrayQuery( $query );
 
         return $rows[0]['count'];
     }

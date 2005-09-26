@@ -752,6 +752,20 @@ class eZDOMNode
     }
 
     /*!
+      Removes child by the given child object.
+    */
+    function removeChild( &$childToRemove )
+    {
+        foreach ( array_keys( $this->Children ) as $key )
+        {
+            if ( $childToRemove == $this->Children[$key] )
+            {
+                unset( $this->Children[$key] );
+            }
+        }
+    }
+
+    /*!
      \return The last child node or \c false if there are no children.
 
       \note This will only make sense for element nodes.

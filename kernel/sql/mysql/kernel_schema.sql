@@ -348,11 +348,14 @@ CREATE TABLE ezcontentobject_attribute (
 
 
 CREATE TABLE ezcontentobject_link (
+  contentclassattribute_id int(11) NOT NULL default '0',
   from_contentobject_id int(11) NOT NULL default '0',
   from_contentobject_version int(11) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
   to_contentobject_id int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezco_link_from (from_contentobject_id,from_contentobject_version,contentclassattribute_id),
+  KEY ezco_link_to_co_id (to_contentobject_id)
 ) TYPE=MyISAM;
 
 
