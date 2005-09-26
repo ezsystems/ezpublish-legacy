@@ -85,11 +85,11 @@ if ( !eZTSTranslator::validateDOMTree( $tree ) )
     $script->shutdown( 1, "XML text for file $translationFile did not validate" );
 
 
-function handleContextNode( &$context, &$cli, &$data )
+function handleContextNode( $context, &$cli, &$data )
 {
     $contextName = null;
     $messages = array();
-    $context_children =& $context->children();
+    $context_children = $context->children();
     foreach( $context_children as $context_child )
     {
         if ( $context_child->type() == 1 )
@@ -212,16 +212,15 @@ if ( $options['ignore-tr-setup'] )
                                                         'design/standard/setup/tests' ) );
 }
 
-$treeRoot =& $tree->Root;
-$children =& $treeRoot->Children;
+$treeRoot =& $tree->get_root();
+$children = $treeRoot->children();
 foreach( $children as $child )
 {
     if ( $child->type() == 1 )
     {
         if ( $child->name() == "context" )
         {
-            $context =& $child;
-            handleContextNode( $context, $cli, $data );
+            handleContextNode( $child, $cli, $data );
         }
         else
             $cli->warning( "Unknown element name: " . $child->name() );

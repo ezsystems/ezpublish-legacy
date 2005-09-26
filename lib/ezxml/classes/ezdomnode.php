@@ -264,7 +264,7 @@ class eZDOMNode
 
       \note This will only make sense for element nodes.
     */
-    function &children()
+    function children()
     {
         return $this->Children;
     }
@@ -371,11 +371,10 @@ class eZDOMNode
     /*!
      Alias for libxml compatibility
     */
-/*   function get_elements_by_tagname( $name )
+    function get_elements_by_tagname( $name )
     {
-        return $this->elementByName( $name );
+        return $this->elementsByName( $name );
     }
-*/
 
     /*!
       Finds the first element named \a $name and returns the text content of that node.
@@ -385,17 +384,15 @@ class eZDOMNode
       \note If multiple elements with that name is found \c false is returned.
       \sa elementByName, textContent
     */
-    function &elementTextContentByName( $name )
+    function elementTextContentByName( $name )
     {
-        $text = false;
-        $element =& $this->elementByName( $name );
+        $element = $this->elementByName( $name );
         if ( !$element )
         {
-            return $text;
+            return false;
         }
 
-        $text =& $element->textContent();
-        return $text;
+        return $element->textContent();
     }
 
     /*!
@@ -452,7 +449,7 @@ class eZDOMNode
             $child =& $this->Children[$key];
             if ( $child->name() == $name )
             {
-                $elements[] =& $child->textContent();
+                $elements[] = $child->textContent();
             }
         }
         return $elements;
@@ -464,7 +461,7 @@ class eZDOMNode
 
       \note This will only make sense for element nodes.
     */
-    function &attributeValue( $attributeName )
+    function attributeValue( $attributeName )
     {
         $returnValue = false;
         foreach ( $this->Attributes as $attribute )
@@ -479,10 +476,9 @@ class eZDOMNode
     /*!
       Alias for libxml compatibility
     */
-    function &get_attribute( $attributeName )
+    function get_attribute( $attributeName )
     {
-        $retVal =& $this->attributeValue( $attributeName );
-        return $retVal;
+        return $this->attributeValue( $attributeName );
     }
 
     /*!
@@ -493,14 +489,13 @@ class eZDOMNode
       \note If multiple elements with that name is found \c false is returned.
       \sa elementByName, attributeValue
     */
-    function &elementAttributeValueByName( $name, $attributeName )
+    function elementAttributeValueByName( $name, $attributeName )
     {
-        $element =& $this->elementByName( $name );
+        $element = $this->elementByName( $name );
         if ( !$element )
-            $attributeValue = false;
+            return false;
         else
-            $attributeValue =& $element->attributeValue( $attributeName );
-        return $attributeValue;
+            return $element->attributeValue( $attributeName );
     }
 
     /*!
@@ -570,17 +565,15 @@ class eZDOMNode
 
       \note This will only make sense for element nodes.
     */
-    function &attributeValueNS( $attributeName, $namespaceURI )
+    function attributeValueNS( $attributeName, $namespaceURI )
     {
         $returnValue = false;
         if ( count( $this->Attributes  ) > 0 )
         {
             foreach ( $this->Attributes as $attribute )
             {
-                if ( ( $attribute->name() == $attributeName )
-                     &&
-                     ( $attribute->namespaceURI() == $namespaceURI )
-                     )
+                if ( $attribute->name() == $attributeName &&
+                     $attribute->namespaceURI() == $namespaceURI )
                 {
 
                     $returnValue = $attribute->content();
@@ -598,21 +591,20 @@ class eZDOMNode
 
       \note This will only make sense for element nodes.
     */
-    function &appendChild( &$node )
+    function appendChild( &$node )
     {
         if ( get_class( $node ) == "ezdomnode" )
         {
             $this->Children[] =& $node;
             return $node;
         }
-        $retValue = false;
-        return $retValue;
+        return false;
     }
 
     /*!
      Alias for libXML compatibility
     */
-    function &append_child( &$node )
+    function append_child( &$node )
     {
         return $this->appendChild( $node );
     }
@@ -624,18 +616,17 @@ class eZDOMNode
 
       \note This will only make sense for element nodes.
     */
-    function &appendAttribute( &$node )
+    function appendAttribute( &$node )
     {
         if ( get_class( $node ) == "ezdomnode" )
         {
             $this->Attributes[] =& $node;
             return $node;
         }
-        $retValue = false;
-        return $retValue;
+        return false;
     }
 
-    function &set_attribute( $name, $value )
+    function set_attribute( $name, $value )
     {
         $this->removeNamedAttribute( $name );
         return $this->appendAttribute( eZDOMDocument::createAttributeNode( $name, $value ) );
@@ -814,15 +805,14 @@ class eZDOMNode
       \note This will only make sense for element nodes.
       \sa elementTextContentByName
     */
-    function &textContent( )
+    function textContent( )
     {
-        $children =& $this->children();
+        $children = $this->children();
 
         if ( count( $children ) == 1 )
-            $textContent =& $children[0]->content();
+            return $children[0]->content();
         else
-            $textContent = false;
-        return $textContent;
+            return false;
     }
 
     /*!
@@ -844,7 +834,7 @@ class eZDOMNode
 
       \note This will only make sense for element nodes.
     */
-    function &toString( $level, $charset = false )
+    function toString( $level, $charset = false )
     {
         $spacer = str_repeat( " ", $level*2 );
         $ret = "";

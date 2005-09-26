@@ -116,7 +116,7 @@ class eZXML
         if ( preg_match( "#<\?xml(.*?)\?>#", $xmlDoc, $matches ) )
         {
             $xmlAttributeText = $matches[1];
-            $xmlAttributes = eZXML::parseAttributes( $xmlAttributeText );
+            $xmlAttributes = $this->parseAttributes( $xmlAttributeText );
             for ( $i = 0; $i < count( $xmlAttributes ); ++$i )
             {
                 $xmlAttribute =& $xmlAttributes[$i];
@@ -151,7 +151,7 @@ class eZXML
         $xmlDoc = preg_replace( "#\n|\r\n|\r#", "\n", $xmlDoc );
 
         // strip comments
-        $xmlDoc =& eZXML::stripComments( $xmlDoc );
+        $xmlDoc = $this->stripComments( $xmlDoc );
 
         // libxml compatible object creation
         $domDocument = new eZDOMDocument();
@@ -270,7 +270,7 @@ class eZXML
 
                         // attributes
                         unset( $attr );
-                        $attr =& eZXML::parseAttributes( $attributePart );
+                        $attr = $this->parseAttributes( $attributePart );
 
                         if ( $attr != false )
                             $subNode->Attributes =& $attr;
@@ -393,17 +393,16 @@ class eZXML
       \static
       \private
     */
-    function &stripComments( &$str )
+    function stripComments( &$str )
     {
-        $str = preg_replace( "#<\!--.*?-->#s", "", $str );
-        return $str;
+        return preg_replace( "#<\!--.*?-->#s", "", $str );
     }
 
     /*!
       \private
       Parses the attributes. Returns false if no attributes in the supplied string is found.
     */
-    function &parseAttributes( $attributeString )
+    function parseAttributes( $attributeString )
     {
         $ret = false;
 
@@ -506,7 +505,7 @@ class eZXML
                 $attrNode->Content = $attributeValue;
 
 
-                $ret[] =& $attrNode;
+                $ret[] = $attrNode;
 
             }
         }

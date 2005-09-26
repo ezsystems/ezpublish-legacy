@@ -197,7 +197,7 @@ class eZRangeOption
 
         $root->appendChild( $name );
 
-        $xml =& $doc->toString();
+        $xml = $doc->toString();
 
         return $xml;
     }

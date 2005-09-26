@@ -489,7 +489,7 @@ class eZXMLTextType extends eZDataType
                 foreach ( array_keys( $links ) as $index )
                 {
                     $linkRef =& $links[$index];
-                    $linkID =& $linkRef->attributeValue( 'url_id' );
+                    $linkID = $linkRef->attributeValue( 'url_id' );
                     if ( !( $urlObj = eZURL::fetch( $linkID ) ) ) // an error occured
                         continue;
                     $url =& $urlObj->attribute( 'url' );

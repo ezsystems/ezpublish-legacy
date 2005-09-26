@@ -210,10 +210,9 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $installData['classid_map'][$classID] = $class->attribute( 'id' );
 
         // create class attributes
-        $classAttributeList =& $classAttributesNode->children();
-        foreach ( array_keys( $classAttributeList ) as $classAttributeKey )
+        $classAttributeList = $classAttributesNode->children();
+        foreach ( $classAttributeList as $classAttributeNode )
         {
-            $classAttributeNode =& $classAttributeList[$classAttributeKey];
             $isNotSupported = strtolower( $classAttributeNode->attributeValue( 'unsupported' ) ) == 'true';
             if ( $isNotSupported )
                 continue;
@@ -249,10 +248,9 @@ class eZContentClassPackageHandler extends eZPackageHandler
         }
 
         // add class to a class group
-        $classGroupsList =& $classGroupsNode->children();
-        foreach ( array_keys( $classGroupsList ) as $classGroupNodeKey )
+        $classGroupsList = $classGroupsNode->children();
+        foreach ( $classGroupsList as $classGroupNode )
         {
-            $classGroupNode =& $classGroupsList[$classGroupNodeKey];
             $classGroupName = $classGroupNode->attributeValue( 'name' );
             $classGroup = eZContentClassGroup::fetchByName( $classGroupName );
             if ( !$classGroup )

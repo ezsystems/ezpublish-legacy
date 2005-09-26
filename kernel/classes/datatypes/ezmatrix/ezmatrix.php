@@ -738,7 +738,7 @@ class eZMatrix
                 foreach ( array_keys( $namedColumns ) as $key )
                 {
                     $namedColumn =& $namedColumns[$key];
-                    $columnName =& $namedColumn->textContent();
+                    $columnName = $namedColumn->textContent();
                     $columnID = $namedColumn->attributeValue( 'id' );
                     $columnNumber = $namedColumn->attributeValue( 'num' );
                     $namedColumnList[$columnNumber] = array( 'name' => $columnName,
@@ -751,7 +751,7 @@ class eZMatrix
             $cellList = array();
             for ( $i = 0; $i < $cellCount; ++$i )
             {
-                $cellList[] =& $cellArray[$i]->textContent();
+                $cellList[] = $cellArray[$i]->textContent();
             }
 
             $rows = array( 'sequential' => array() );

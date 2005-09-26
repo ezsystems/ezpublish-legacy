@@ -211,7 +211,7 @@ class eZWebDAVServer
                     $propNode =& $propfindNode->elementByName( 'prop' );
                     if ( $propNode )
                     {
-                        $propList =& $propNode->children();
+                        $propList = $propNode->children();
                         foreach ( $propList as $node )
                         {
                             $name = $node->name();

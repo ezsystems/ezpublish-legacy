@@ -451,8 +451,8 @@ class eZEnumType extends eZDataType
 
     function &serializeContentObjectAttribute( &$package, &$contentObjectAttribute )
     {
-        $contentObjectAttributeID =& $contentObjectAttribute->attribute( 'id' );
-        $contentObjectAttributeVersion =& $contentObjectAttribute->attribute( 'version' );
+        $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+        $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
 
         $node = new eZDOMNode();
 
@@ -493,17 +493,17 @@ class eZEnumType extends eZDataType
     {
         if ( $attributeNode->hasChildren() )
         {
-            $contentObjectAttributeID =& $objectAttribute->attribute( 'id' );
-            $contentObjectAttributeVersion =& $objectAttribute->attribute( 'version' );
+            $contentObjectAttributeID = $objectAttribute->attribute( 'id' );
+            $contentObjectAttributeVersion = $objectAttribute->attribute( 'version' );
 
-            $enumNodes =& $attributeNode->children();
+            $enumNodes = $attributeNode->children();
             foreach ( array_keys( $enumNodes ) as $enumNodeKey )
             {
-                $enumNode =& $enumNodes[$enumNodeKey];
+                $enumNode = $enumNodes[$enumNodeKey];
 
-                $eID      =& $enumNode->attributeValue( 'id' );
-                $eValue   =& $enumNode->attributeValue( 'value' );
-                $eElement =& $enumNode->attributeValue( 'element' );
+                $eID      = $enumNode->attributeValue( 'id' );
+                $eValue   = $enumNode->attributeValue( 'value' );
+                $eElement = $enumNode->attributeValue( 'element' );
 
                 eZEnum::storeObjectEnumeration( $contentObjectAttributeID,
                                                 $contentObjectAttributeVersion,

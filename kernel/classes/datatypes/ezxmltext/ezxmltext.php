@@ -109,17 +109,16 @@ class eZXMLText
             {
                 $isEmpty = true;
                 $xml = new eZXML();
-                $dom =& $xml->domTree( $this->XMLData );
+                $dom =& $xml->domTree( $this->XMLData, array(), true );
                 if ( $dom )
                 {
-                    $node =& $dom->elementsByName( "section" );
-//                    $node = $dom->get_elements_by_tagname( "section" );
+                    $node = $dom->get_elements_by_tagname( "section" );
 
-                    $sectionNode =& $node[0];
+                    $sectionNode = $node[0];
                     if ( ( get_class( $sectionNode ) == "ezdomnode" ) or
                          ( get_class( $sectionNode ) == "domelement" ) )
                     {
-                        $children =& $sectionNode->children();
+                        $children = $sectionNode->children();
                         if ( count( $children ) > 0 )
                             $isEmpty = false;
                     }

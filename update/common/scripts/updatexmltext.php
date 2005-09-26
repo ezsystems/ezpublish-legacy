@@ -145,7 +145,7 @@ function findAndReplaceLinks( &$doc, &$node )
     unset( $children );
     if ( !$node )
         return $foundLinks;
-    $children =& $node->children();
+    $children =& $node->Children;
     for ( $i = 0; $i < count( $children ); ++$i )
     {
         unset( $child );

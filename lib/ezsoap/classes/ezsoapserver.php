@@ -158,7 +158,7 @@ class eZSOAPServer
         // get the SOAP body
         $body =& $dom->elementsByName( "Body" );
 
-        $children =& $body[0]->children();
+        $children = $body[0]->children();
 
         if ( count( $children ) == 1 )
         {

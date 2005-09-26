@@ -462,10 +462,9 @@ class eZMatrixType extends eZDataType
 
         $matrixDefinition = new eZMatrixDefinition();
         $columnsNode =& $attributeParametersNode->elementByName( 'columns' );
-        $columnsList =& $columnsNode->children();
-        foreach ( array_keys( $columnsList ) as $columnKey )
+        $columnsList = $columnsNode->children();
+        foreach ( $columnsList  as $columnNode )
         {
-            $columnNode =& $columnsList[$columnKey];
             $columnName = $columnNode->attributeValue( 'name' );
             $columnIdentifier = $columnNode->attributeValue( 'identifier' );
             $matrixDefinition->addColumn( $columnName, $columnIdentifier );
