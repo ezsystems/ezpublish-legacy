@@ -79,7 +79,7 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
     {
         $translationLocale = $localeID;
         $localeInstance =& eZLocale::instance( $translationLocale );
-        $translationName =& $localeInstance->internationalLanguageName();
+        $translationName = $localeInstance->internationalLanguageName();
     }
     else
     {

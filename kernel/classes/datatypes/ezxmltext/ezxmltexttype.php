@@ -371,7 +371,7 @@ class eZXMLTextType extends eZDataType
 
         if ( $dom )
         {
-            $textNodes =& $dom->elementsByName( "#text" );
+            $textNodes = $dom->elementsByName( "#text" );
             if ( is_array( $textNodes ) )
             {
                 foreach ( $textNodes as $node )

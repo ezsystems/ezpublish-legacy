@@ -192,7 +192,7 @@ class eZDateTime
     /*!
      \return true if the date has valid data.
     */
-    function &isValid()
+    function isValid()
     {
         return $this->IsValid;
     }
@@ -525,7 +525,7 @@ class eZDateTime
      Creates a string representation of the date using the current locale and returns it.
      If $short is true a short representation is used.
     */
-    function &toString( $short = false )
+    function toString( $short = false )
     {
         if ( $short )
             $str = $this->Locale->formatShortDate( $this->DateTime ) . ' ' .

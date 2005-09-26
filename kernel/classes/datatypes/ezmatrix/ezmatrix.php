@@ -722,22 +722,21 @@ class eZMatrix
         if ( $xmlString != "" )
         {
             // set the name of the node
-            $nameArray =& $dom->elementsByName( "name" );
+            $nameArray = $dom->elementsByName( "name" );
             $this->setName( $nameArray[0]->textContent() );
 
-            $columns = & $dom->elementsByName( "columns" );
+            $columns = $dom->elementsByName( "columns" );
             $numColumns = $columns[0]->attributeValue( 'number');
 
-            $rows = & $dom->elementsByName( "rows" );
+            $rows = $dom->elementsByName( "rows" );
             $numRows = $rows[0]->attributeValue( 'number');
 
-            $namedColumns =& $dom->elementsByName( "column" );
+            $namedColumns = $dom->elementsByName( "column" );
             $namedColumnList = array();
             if ( count( $namedColumns ) > 0 )
             {
-                foreach ( array_keys( $namedColumns ) as $key )
+                foreach ( $namedColumns as $namedColumn )
                 {
-                    $namedColumn =& $namedColumns[$key];
                     $columnName = $namedColumn->textContent();
                     $columnID = $namedColumn->attributeValue( 'id' );
                     $columnNumber = $namedColumn->attributeValue( 'num' );
@@ -746,7 +745,7 @@ class eZMatrix
                                                              'column_id' => $columnID );
                 }
             }
-            $cellArray =& $dom->elementsByName( "c" );
+            $cellArray = $dom->elementsByName( "c" );
             $cellCount = count( $cellArray );
             $cellList = array();
             for ( $i = 0; $i < $cellCount; ++$i )

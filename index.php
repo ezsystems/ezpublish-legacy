@@ -408,7 +408,7 @@ if ( $dbRequired )
 // Initialize with locale settings
 include_once( "lib/ezlocale/classes/ezlocale.php" );
 $locale =& eZLocale::instance();
-$languageCode =& $locale->httpLocaleCode();
+$languageCode = $locale->httpLocaleCode();
 $phpLocale = trim( $ini->variable( 'RegionalSettings', 'SystemLocale' ) );
 if ( $phpLocale != '' )
 {

@@ -63,9 +63,9 @@ class eZMatrixDefinition
         $dom =& $xml->domTree( $xmlString );
         if ( strlen ( $xmlString ) != 0 )
         {
-            $columns =& $dom->elementsByName( "column-name" );
+            $columns = $dom->elementsByName( "column-name" );
             $columnList = array();
-            foreach ( array_keys( $columns ) as $key )
+            foreach ( $columns as $columnElement )
             {
                 $columnElement =& $columns[$key];
                 $columnList[] = array( 'name' => $columnElement->textContent(),

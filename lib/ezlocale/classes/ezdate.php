@@ -144,7 +144,7 @@ class eZDate
     /*!
      \return true if the date has valid data.
     */
-    function &isValid()
+    function isValid()
     {
         return $this->IsValid;
     }
@@ -170,7 +170,7 @@ class eZDate
      with hours, minutes and seconds set to 0.
      \note The value is returned as a reference and should not be modified.
     */
-    function &timeStamp()
+    function timeStamp()
     {
         return $this->Date;
     }
@@ -211,28 +211,25 @@ class eZDate
     /*!
      Returns the year element.
     */
-    function &year()
+    function year()
     {
-        $yearValue = date( 'Y', $this->Date );
-        return $yearValue;
+        return date( 'Y', $this->Date );
     }
 
     /*!
      Returns the month element.
     */
-    function &month()
+    function month()
     {
-        $monthValue = date( 'm', $this->Date );
-        return $monthValue;
+        return date( 'm', $this->Date );
     }
 
     /*!
      Returns the day element.
     */
-    function &day()
+    function day()
     {
-        $dayValue = date( 'd', $this->Date );
-        return $dayValue;
+        return date( 'd', $this->Date );
     }
 
     /*!
@@ -330,12 +327,12 @@ class eZDate
      Creates a string representation of the date using the current locale and returns it.
      If $short is true a short representation is used.
     */
-    function &toString( $short = false )
+    function toString( $short = false )
     {
         if ( $short )
-            $str =& $this->Locale->formatShortDate( $this->Date );
+            $str = $this->Locale->formatShortDate( $this->Date );
         else
-            $str =& $this->Locale->formatDate( $this->Date );
+            $str = $this->Locale->formatDate( $this->Date );
         return $str;
     }
 

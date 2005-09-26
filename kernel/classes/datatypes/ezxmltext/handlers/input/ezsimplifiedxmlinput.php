@@ -827,7 +827,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $deletedNodeArray = array();
                 while( $isValidTag )
                 {
-                    $lastChild =& $currentNode->lastChild();
+                    $lastChild = $currentNode->lastChild();
                     if ( $lastChild->Name == "#text" or in_array( $lastChild->Name, $this->LineTagArray ) )
                     {
                         $deletedNodeArray[] = $lastChild;
@@ -1194,7 +1194,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         $deletedNodeArray = array();
                         while( $isValidTag )
                         {
-                            $lastChild =& $currentNode->lastChild();
+                            $lastChild = $currentNode->lastChild();
                             if ( $lastChild->Name == "#text" or in_array( $lastChild->Name, $this->LineTagArray ) )
                             {
                                 $deletedNodeArray[] = $lastChild;

@@ -2169,12 +2169,11 @@ class eZPackage
         $this->parseModification( $root, 'source' );
 
         // Read maintainers
-        $maintainerList =& $root->elementChildrenByName( 'maintainers' );
+        $maintainerList = $root->elementChildrenByName( 'maintainers' );
         if ( is_array( $maintainerList ) )
         {
-            foreach ( array_keys( $maintainerList ) as $maintainerKey )
+            foreach ( $maintainerList as $maintainerNode )
             {
-                $maintainerNode =& $maintainerList[$maintainerKey];
                 $maintainerModified = $maintainerNode->attributeValue( 'modified' );
                 $maintainerName = $maintainerNode->elementTextContentByName( 'name' );
                 $maintainerEmail = $maintainerNode->elementTextContentByName( 'email' );
@@ -2192,12 +2191,11 @@ class eZPackage
         $this->setPackager( $packagingTimestamp, $packagingHost, $packagingPackager );
 
         // Read documents
-        $documentList =& $root->elementChildrenByName( 'documents' );
+        $documentList = $root->elementChildrenByName( 'documents' );
         if ( is_array( $documentList ) )
         {
-            foreach ( array_keys( $documentList ) as $documentKey )
+            foreach ( $documentList as $documentNode )
             {
-                $documentNode =& $documentList[$documentKey];
                 $documentModified = $documentNode->attributeValue( 'modified' );
                 $documentName = $documentNode->attributeValue( 'name' );
                 $documentMimeType = $documentNode->attributeValue( 'mime-type' );
@@ -2211,12 +2209,11 @@ class eZPackage
         }
 
         // Read changelog
-        $changelogList =& $root->elementChildrenByName( 'changelog' );
+        $changelogList = $root->elementChildrenByName( 'changelog' );
         if ( is_array( $changelogList ) )
         {
-            foreach ( array_keys( $changelogList ) as $changelogKey )
+            foreach ( $changelogList as $changelogEntryNode )
             {
-                $changelogEntryNode =& $changelogList[$changelogKey];
                 $changelogModified = $changelogEntryNode->attributeValue( 'modified' );
                 $changelogTimestamp = $changelogEntryNode->attributeValue( 'timestamp' );
                 $changelogPerson = $changelogEntryNode->attributeValue( 'person' );
@@ -2237,28 +2234,25 @@ class eZPackage
         }
 
         // Read files
-        $filesList =& $root->elementChildrenByName( 'files' );
+        $filesList = $root->elementChildrenByName( 'files' );
         if ( $filesList )
         {
-            foreach ( array_keys( $filesList ) as $fileCollectionKey )
+            foreach ( $filesList as $fileCollectionNode )
             {
-                $fileCollectionNode =& $filesList[$fileCollectionKey];
                 $fileCollectionName = $fileCollectionNode->attributeValue( 'name' );
-                $fileLists =& $fileCollectionNode->elementsByName( 'file-list' );
-                foreach ( array_keys( $fileLists ) as $fileListKey )
+                $fileLists = $fileCollectionNode->elementsByName( 'file-list' );
+                foreach ( $fileLists as $fileListNode )
                 {
-                    $fileListNode =& $fileLists[$fileListKey];
                     $fileType = $fileListNode->attributeValue( 'type' );
                     $fileDesign = $fileListNode->attributeValue( 'design' );
                     $fileRole = $fileListNode->attributeValue( 'role' );
                     $fileVariableName = $fileListNode->attributeValue( 'variable-name' );
                     $fileRoleValue = $fileListNode->attributeValue( 'role-value' );
-                    $files =& $fileListNode->elementsByName( 'file' );
+                    $files = $fileListNode->elementsByName( 'file' );
                     if ( count( $files ) > 0 )
                     {
-                        foreach ( array_keys( $files ) as $fileKey )
+                        foreach ( $files as $fileNode )
                         {
-                            $fileNode =& $files[$fileKey];
                             $fileFileType = $fileNode->attributeValue( 'type' );
                             $fileName = $fileNode->attributeValue( 'name' );
                             if ( $fileNode->attributeValue( 'variable-name' ) )
@@ -2319,28 +2313,27 @@ class eZPackage
         $dependenciesNode =& $root->elementByName( 'dependencies' );
         if ( $dependenciesNode )
         {
-            $providesList =& $dependenciesNode->elementChildrenByName( 'provides' );
-            $requiresList =& $dependenciesNode->elementChildrenByName( 'requires' );
-            $obsoletesList =& $dependenciesNode->elementChildrenByName( 'obsoletes' );
-            $conflictsList =& $dependenciesNode->elementChildrenByName( 'conflicts' );
+            $providesList = $dependenciesNode->elementChildrenByName( 'provides' );
+            $requiresList = $dependenciesNode->elementChildrenByName( 'requires' );
+            $obsoletesList = $dependenciesNode->elementChildrenByName( 'obsoletes' );
+            $conflictsList = $dependenciesNode->elementChildrenByName( 'conflicts' );
             $this->parseDependencyTree( $providesList, 'provides' );
             $this->parseDependencyTree( $requiresList, 'requires' );
             $this->parseDependencyTree( $obsoletesList, 'obsoletes' );
             $this->parseDependencyTree( $conflictsList, 'conflicts' );
         }
 
-        $installList =& $root->elementChildrenByName( 'install' );
-        $uninstallList =& $root->elementChildrenByName( 'uninstall' );
+        $installList = $root->elementChildrenByName( 'install' );
+        $uninstallList = $root->elementChildrenByName( 'uninstall' );
         $this->parseInstallTree( $installList, true );
         $this->parseInstallTree( $uninstallList, false );
 
-        $installDataList =& $root->elementChildrenByName( 'install-data' );
+        $installDataList = $root->elementChildrenByName( 'install-data' );
         if ( $installDataList )
         {
             $this->InstallData = array();
-            for ( $i = 0; $i < count( $installDataList ); ++$i )
+            foreach( $installDataList as $installDataNode )
             {
-                $installDataNode =& $installDataList[$i];
                 if ( is_object( $installDataNode ) &&
                      $installDataNode->attributeValue( 'name' ) == 'data' )
                 {
@@ -2409,11 +2402,10 @@ class eZPackage
     /*!
      \private
     */
-    function parseInstallTree( &$installList, $isInstall )
+    function parseInstallTree( $installList, $isInstall )
     {
-        for ( $i = 0; $i < count( $installList ); ++$i )
+        foreach( $installList as $installNode )
         {
-            $installNode =& $installList[$i];
             $installType = $installNode->attributeValue( 'type' );
             $installName = $installNode->attributeValue( 'name' );
             $installModified = $installNode->attributeValue( 'modified' );

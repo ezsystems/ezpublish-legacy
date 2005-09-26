@@ -703,7 +703,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
             $relationListAttribute =& $attributeList[ $key ];
             $relationsXmlText = $relationListAttribute->attribute( 'data_text' );
             $relationsDom =& eZObjectRelationListType::parseXML( $relationsXmlText );
-            $relationItems =& $relationsDom->elementsByName( 'relation-item' );
+            $relationItems = $relationsDom->elementsByName( 'relation-item' );
             $isRelationModified = false;
             foreach ( $relationItems as $relationItem )
             {

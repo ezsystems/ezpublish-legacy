@@ -228,12 +228,12 @@ while( count( $result ) )
         {
             $xml = new eZXML();
             $dom =& $xml->domTree( $attr->attribute( 'data_text' ) );
-    
+
             $root =& $dom->root();
             $relationList =& $root->elementByName( 'relation-list' );
             if ( $relationList )
             {
-                $relationItems =& $relationList->elementsByName( 'relation-item' );
+                $relationItems = $relationList->elementsByName( 'relation-item' );
                 if ( count( $relationItems ) )
                 {
                     foreach( $relationItems as $relationItem )

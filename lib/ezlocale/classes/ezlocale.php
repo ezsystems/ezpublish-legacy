@@ -188,11 +188,11 @@ class eZLocale
 
         $locale = eZLocale::localeInformation( $localeString );
 
-        $this->CountryCode =& $locale['country'];
-        $this->CountryVariation =& $locale['country-variation'];
-        $this->LanguageCode =& $locale['language'];
-        $this->LocaleCode =& $locale['locale'];
-        $this->TranslationCode =& $locale['locale'];
+        $this->CountryCode = $locale['country'];
+        $this->CountryVariation = $locale['country-variation'];
+        $this->LanguageCode = $locale['language'];
+        $this->LocaleCode = $locale['locale'];
+        $this->TranslationCode = $locale['locale'];
         $this->Charset = $locale['charset'];
         $this->OverrideCharset = $locale['charset'];
 
@@ -241,12 +241,12 @@ class eZLocale
         if ( $this->countryVariation() )
         {
             $localeVariationINI =& $this->localeFile( true );
-            $countryVariationINI =& $localeVariationINI;
-            $languageVariationINI =& $localeVariationINI;
+            $countryVariationINI = $localeVariationINI;
+            $languageVariationINI = $localeVariationINI;
             if ( $localeVariationINI === null )
             {
-                $countryVariationINI =& $this->countryFile( true );
-                $languageVariationINI =& $this->languageFile( true );
+                $countryVariationINI = $this->countryFile( true );
+                $languageVariationINI = $this->languageFile( true );
             }
 
             // Load country information
@@ -339,7 +339,7 @@ class eZLocale
     /*!
      \return true if the locale is valid, ie the locale file could be loaded.
     */
-    function &isValid()
+    function isValid()
     {
         return $this->IsValid;
     }
@@ -563,7 +563,7 @@ class eZLocale
             $method = $attributeMap[$attribute];
             if ( method_exists( $this, $method ) )
             {
-                $retValue =& $this->$method();
+                $retValue = $this->$method();
             }
             else
             {
@@ -613,15 +613,14 @@ class eZLocale
                       'weekday_number_list' => 'weekDays',
                       'month_list' => 'months',
                       'month_name_list' => 'monthsNames',
-                      'is_valid' => 'isValid'
-                      );
+                      'is_valid' => 'isValid' );
     }
 
     /*!
      Returns the charset for this locale.
      \note It returns an empty string if no charset was set from the locale file.
     */
-    function &charset()
+    function charset()
     {
         return $this->Charset;
     }
@@ -629,7 +628,7 @@ class eZLocale
     /*!
      \return an array with charsets that this locale can work with.
     */
-    function &allowedCharsets()
+    function allowedCharsets()
     {
         return $this->AllowedCharsets;
     }
@@ -637,7 +636,7 @@ class eZLocale
     /*!
      Returns the name of the country in British English.
     */
-    function &countryName()
+    function countryName()
     {
         return $this->Country;
     }
@@ -645,7 +644,7 @@ class eZLocale
     /*!
      Returns the comment for the country, if any.
     */
-    function &countryComment()
+    function countryComment()
     {
         return $this->CountryComment;
     }
@@ -653,7 +652,7 @@ class eZLocale
     /*!
      Returns the code for the country. eg. 'NO'
     */
-    function &countryCode()
+    function countryCode()
     {
         return $this->CountryCode;
     }
@@ -661,7 +660,7 @@ class eZLocale
     /*!
      Returns the variation for the country. eg. 'spraakraad'
     */
-    function &countryVariation()
+    function countryVariation()
     {
         return $this->CountryVariation;
     }
@@ -669,7 +668,7 @@ class eZLocale
     /*!
      Returns the language code for this language, for instance nor for norwegian or eng for english.
     */
-    function &languageCode()
+    function languageCode()
     {
         return $this->LanguageCode;
     }
@@ -677,7 +676,7 @@ class eZLocale
     /*!
      Returns the comment for the language, if any.
     */
-    function &languageComment()
+    function languageComment()
     {
         return $this->LanguageComment;
     }
@@ -697,7 +696,7 @@ class eZLocale
      Returns the locale code for this language which is the language and the country with a dash (-) between them,
      for instance nor-NO or eng-GB.
     */
-    function &localeCode()
+    function localeCode()
     {
         return $this->LocaleCode;
     }
@@ -705,7 +704,7 @@ class eZLocale
     /*!
      Same as localeCode() but appends the country variation if it is set.
     */
-    function &localeFullCode()
+    function localeFullCode()
     {
         $locale = $this->LocaleCode;
         $variation = $this->countryVariation();
@@ -720,7 +719,7 @@ class eZLocale
              if that is empty it will use the value from localeCode().
      \sa localeCode
     */
-    function &httpLocaleCode()
+    function httpLocaleCode()
     {
         $ini =& eZINI::instance();
         $localeCode = '';
@@ -751,7 +750,7 @@ class eZLocale
     /*!
      Returns the name of the language in its own tounge.
     */
-    function &languageName()
+    function languageName()
     {
         return $this->LanguageName;
     }
@@ -759,7 +758,7 @@ class eZLocale
     /*!
      Returns the name of the language in English (eng).
     */
-    function &internationalLanguageName()
+    function internationalLanguageName()
     {
         return $this->IntlLanguageName;
     }
@@ -767,7 +766,7 @@ class eZLocale
     /*!
      Returns the currency symbol for this locale.
     */
-    function &currencySymbol()
+    function currencySymbol()
     {
         return $this->CurrencySymbol;
     }
@@ -775,7 +774,7 @@ class eZLocale
     /*!
      Returns the name of the currency.
     */
-    function &currencyName()
+    function currencyName()
     {
         return $this->CurrencyName;
     }
@@ -783,7 +782,7 @@ class eZLocale
     /*!
      Returns the short name of the currency.
     */
-    function &currencyShortName()
+    function currencyShortName()
     {
         return $this->CurrencyShortName;
     }
@@ -792,7 +791,7 @@ class eZLocale
      Returns true if the week starts with monday, false if sunday.
      \sa weekDays()
     */
-    function &isMondayFirst()
+    function isMondayFirst()
     {
         return $this->MondayFirst;
     }
@@ -800,7 +799,7 @@ class eZLocale
     /*!
      \return the decimal symbol for normal numbers.
     */
-    function &decimalSymbol()
+    function decimalSymbol()
     {
         return $this->DecimalSymbol;
     }
@@ -808,7 +807,7 @@ class eZLocale
     /*!
      \return the thousand separator for normal numbers.
     */
-    function &thousandsSeparator()
+    function thousandsSeparator()
     {
         return $this->ThousandsSeparator;
     }
@@ -816,7 +815,7 @@ class eZLocale
     /*!
      \return the number of decimals for normal numbers.
     */
-    function &decimalCount()
+    function decimalCount()
     {
         return $this->FractDigits;
     }
@@ -824,7 +823,7 @@ class eZLocale
     /*!
      \return the negative symbol for normal numbers.
     */
-    function &negativeSymbol()
+    function negativeSymbol()
     {
         return $this->NegativeSymbol;
     }
@@ -832,7 +831,7 @@ class eZLocale
     /*!
      \return the positive symbol for normal numbers.
     */
-    function &positiveSymbol()
+    function positiveSymbol()
     {
         return $this->PositiveSymbol;
     }
@@ -840,7 +839,7 @@ class eZLocale
     /*!
      \return the decimal symbol for currencies.
     */
-    function &currencyDecimalSymbol()
+    function currencyDecimalSymbol()
     {
         return $this->CurrencyDecimalSymbol;
     }
@@ -848,7 +847,7 @@ class eZLocale
     /*!
      \return the thousand separator for currencies.
     */
-    function &currencyThousandsSeparator()
+    function currencyThousandsSeparator()
     {
         return $this->CurrencyThousandsSeparator;
     }
@@ -856,7 +855,7 @@ class eZLocale
     /*!
      \return the number of decimals for currencies.
     */
-    function &currencyDecimalCount()
+    function currencyDecimalCount()
     {
         return $this->CurrencyFractDigits;
     }
@@ -864,7 +863,7 @@ class eZLocale
     /*!
      \return the negative symbol for currencies.
     */
-    function &currencyNegativeSymbol()
+    function currencyNegativeSymbol()
     {
         return $this->CurrencyNegativeSymbol;
     }
@@ -872,7 +871,7 @@ class eZLocale
     /*!
      \return the positive symbol for currencies.
     */
-    function &currencyPositiveSymbol()
+    function currencyPositiveSymbol()
     {
         return $this->CurrencyPositiveSymbol;
     }
@@ -882,7 +881,7 @@ class eZLocale
      Each entry in the array can be supplied to the shortDayName() and longDayName() functions.
      \sa isMondayFirst(), weekDayNames()
     */
-    function &weekDays()
+    function weekDays()
     {
         return $this->WeekDays;
     }
@@ -891,7 +890,7 @@ class eZLocale
      Returns the months of the year as an array. This only supplied for completeness.
      \sa weekDays(), monthsNames()
     */
-    function &months()
+    function months()
     {
         return $this->Months;
     }
@@ -900,7 +899,7 @@ class eZLocale
      Returns the names of months as an array.
      \sa months()
     */
-    function &monthsNames()
+    function monthsNames()
     {
         return $this->LongMonthNames;
     }
@@ -908,12 +907,12 @@ class eZLocale
     /*!
      Returns the same array as in weekDays() but with all days translated to text.
     */
-    function &weekDayNames( $short = false )
+    function weekDayNames( $short = false )
     {
         if ( $short )
-            $dayList =& $this->ShortWeekDayNames;
+            $dayList = $this->ShortWeekDayNames;
         else
-            $dayList =& $this->LongWeekDayNames;
+            $dayList = $this->LongWeekDayNames;
 
         $resultDayList = array();
         foreach ( $this->WeekDays as $day )
@@ -926,7 +925,7 @@ class eZLocale
     /*!
      Returns the same array as in weekDayNames() but with short version of days.
     */
-    function &weekDayShortNames()
+    function weekDayShortNames()
     {
         return $this->weekDayNames( true );
     }
@@ -950,7 +949,7 @@ class eZLocale
      Formats the time $time according to locale information and returns it. If $time
      is not specified the current time is used.
     */
-    function &formatTime( $time = false )
+    function formatTime( $time = false )
     {
         return $this->formatTimeType( $this->TimeFormat, $time );
     }
@@ -959,7 +958,7 @@ class eZLocale
      Formats the time $time according to locale information for short times and returns it. If $time
      is not specified the current time is used.
     */
-    function &formatShortTime( $time = false )
+    function formatShortTime( $time = false )
     {
         return $this->formatTimeType( $this->ShortTimeFormat, $time );
     }
@@ -969,17 +968,16 @@ class eZLocale
      directly unless you want to deviate from the locale settings.
      \sa formatTime(), formatShortTime()
     */
-    function &formatTimeType( $fmt, $time = false )
+    function formatTimeType( $fmt, $time = false )
     {
         if ( $time == false )
-            $time =& time();
+            $time = time();
 
         $text = date( eZLocale::transformToPHPFormat( $fmt, $this->TimePHPArray ), $time );
-        $text = str_replace( array( '%a', '%A' ),
+        return  str_replace( array( '%a', '%A' ),
                              array( $this->meridiemName( $time, false ),
                                     $this->meridiemName( $time, true ) ),
                              $text );
-        return $text;
     }
 
     /*!
@@ -990,10 +988,10 @@ class eZLocale
      the hours 00 and 12 does not have am/pm attached and are instead called Midnight and Noon,
      but for simplicity the am/pm is always attached (if the locale allows it).
     */
-    function &meridiemName( $time = false, $upcase = false )
+    function meridiemName( $time = false, $upcase = false )
     {
         if ( $time == false )
-            $time =& mktime();
+            $time = mktime();
         $hour = date( 'G', $time );
         $name = $hour < 12 ? $this->AM : $this->PM;
         if ( $upcase )
@@ -1005,40 +1003,36 @@ class eZLocale
      Formats the date $date according to locale information and returns it. If $date
      is not specified the current date is used.
     */
-    function &formatDate( $date = false )
+    function formatDate( $date = false )
     {
-        $formatDateType =& $this->formatDateType( $this->DateFormat, $date );
-        return $formatDateType;
+        return $this->formatDateType( $this->DateFormat, $date );
     }
 
     /*!
      Formats the date $date according to locale information for short dates and returns it. If $date
      is not specified the current date is used.
     */
-    function &formatShortDate( $date = false )
+    function formatShortDate( $date = false )
     {
-        $formatDateType =& $this->formatDateType( $this->ShortDateFormat, $date );
-        return $formatDateType;
+        return $this->formatDateType( $this->ShortDateFormat, $date );
     }
 
     /*!
      Formats the date and time $date according to locale information and returns it. If $date
      is not specified the current date is used.
     */
-    function &formatDateTime( $date = false )
+    function formatDateTime( $date = false )
     {
-        $formatDateTimeType =& $this->formatDateTimeType( $this->DateTimeFormat, $date );
-        return $formatDateTimeType;
+        return $this->formatDateTimeType( $this->DateTimeFormat, $date );
     }
 
     /*!
      Formats the date and time $date according to locale information for short dates and returns it.
      If $date is not specified the current date is used.
     */
-    function &formatShortDateTime( $date = false )
+    function formatShortDateTime( $date = false )
     {
-        $formatShortDateTime =& $this->formatDateTimeType( $this->ShortDateTimeFormat, $date );
-        return $formatShortDateTime;
+        return $this->formatDateTimeType( $this->ShortDateTimeFormat, $date );
     }
 
     /*!
@@ -1046,19 +1040,18 @@ class eZLocale
      directly unless you want to deviate from the locale settings.
      \sa formatDate(), formatShortDate()
     */
-    function &formatDateType( $fmt, $date = false )
+    function formatDateType( $fmt, $date = false )
     {
         if ( $date === false )
             $date = time();
 
         $text = date( eZLocale::transformToPHPFormat( $fmt, $this->DatePHPArray ), $date );
-        $text = str_replace( array( '%D', '%l', '%M', '%F' ),
-                             array( $this->shortDayName( date( 'w', $date ) ),
-                                    $this->longDayName( date( 'w', $date ) ),
-                                    $this->shortMonthName( date( 'n', $date ) ),
-                                    $this->longMonthName( date( 'n', $date ) ) ),
-                             $text );
-        return $text;
+        return str_replace( array( '%D', '%l', '%M', '%F' ),
+                            array( $this->shortDayName( date( 'w', $date ) ),
+                                   $this->longDayName( date( 'w', $date ) ),
+                                   $this->shortMonthName( date( 'n', $date ) ),
+                                   $this->longMonthName( date( 'n', $date ) ) ),
+                            $text );
     }
 
     /*!
@@ -1066,7 +1059,7 @@ class eZLocale
      You shouldn't call this directly unless you want to deviate from the locale settings.
      \sa formatDateTime(), formatShortDateTime()
     */
-    function &formatDateTimeType( $fmt, $datetime = false )
+    function formatDateTimeType( $fmt, $datetime = false )
     {
         if ( $datetime === false )
             $datetime = time();
@@ -1074,16 +1067,15 @@ class eZLocale
         $text = date( eZLocale::transformToPHPFormat( $fmt, $this->DateTimePHPArray ), $datetime );
         // Replace some special 'date' formats that needs to be handled
         // internally by the i18n system and not by PHP
-        $text = str_replace( array( '%D', '%l', '%M', '%F',
-                                    '%a', '%A' ),
-                             array( $this->shortDayName( date( 'w', $datetime ) ),
-                                    $this->longDayName( date( 'w', $datetime ) ),
-                                    $this->shortMonthName( date( 'n', $datetime ) ),
-                                    $this->longMonthName( date( 'n', $datetime ) ),
-                                    $this->meridiemName( $datetime, false ),
-                                    $this->meridiemName( $datetime, true ) ),
-                             $text );
-        return $text;
+        return str_replace( array( '%D', '%l', '%M', '%F',
+                                   '%a', '%A' ),
+                            array( $this->shortDayName( date( 'w', $datetime ) ),
+                                   $this->longDayName( date( 'w', $datetime ) ),
+                                   $this->shortMonthName( date( 'n', $datetime ) ),
+                                   $this->longMonthName( date( 'n', $datetime ) ),
+                                   $this->meridiemName( $datetime, false ),
+                                   $this->meridiemName( $datetime, true ) ),
+                            $text );
     }
 
     /*!
@@ -1156,19 +1148,18 @@ class eZLocale
     /*!
      Formats the number $number according to locale information and returns it.
     */
-    function &formatNumber( $number )
+    function formatNumber( $number )
     {
         $neg = $number < 0;
         $num = $neg ? -$number : $number;
         $text = number_format( $num, $this->FractDigits, $this->DecimalSymbol, $this->ThousandsSeparator );
-        $text = ( $neg ? $this->NegativeSymbol : $this->PositiveSymbol ) . $text;
-        return $text;
+        return ( $neg ? $this->NegativeSymbol : $this->PositiveSymbol ) . $text;
     }
 
     /*!
      Formats the number according locale to the representation used internally in PHP
     */
-    function &internalNumber( $number )
+    function internalNumber( $number )
     {
         if ( preg_match( '/^(['.$this->PositiveSymbol.']|['.$this->NegativeSymbol.'])?([0-9]*|[0-9]{1,3}(['.$this->ThousandsSeparator.'][0-9]{3,3})*)(['.$this->DecimalSymbol.'][0-9]+)?$/', trim( $number ) ) )
         {
@@ -1186,18 +1177,17 @@ class eZLocale
      Formats the currency $number according to locale information and returns it. If $as_html
      is true all spaces are converted to &nbsp; before being returned ( depricated ).
     */
-    function &formatCurrency( $number, $as_html = true )
+    function formatCurrency( $number, $as_html = true )
     {
         $neg = $number < 0;
         $num = $neg ? -$number : $number;
         $num_text = number_format( $num, $this->CurrencyFractDigits,
                                    $this->CurrencyDecimalSymbol, $this->CurrencyThousandsSeparator );
-        $text = str_replace( array( '%c', '%p', '%q' ),
-                             array( $this->CurrencySymbol,
-                                    $neg ? $this->CurrencyNegativeSymbol : $this->CurrencyPositiveSymbol,
-                                    $num_text ),
-                             $neg ? $this->CurrencyNegativeFormat : $this->CurrencyPositiveFormat );
-        return $text;
+        return str_replace( array( '%c', '%p', '%q' ),
+                            array( $this->CurrencySymbol,
+                                   $neg ? $this->CurrencyNegativeSymbol : $this->CurrencyPositiveSymbol,
+                                   $num_text ),
+                            $neg ? $this->CurrencyNegativeFormat : $this->CurrencyPositiveFormat );
     }
 
     /*!
@@ -1205,7 +1195,7 @@ class eZLocale
 
       \param currency input
     */
-    function &formatCleanCurrency( $number )
+    function formatCleanCurrency( $number )
     {
         $neg = $number < 0;
         $num = $neg ? -$number : $number;
@@ -1216,14 +1206,13 @@ class eZLocale
                                     $neg ? $this->CurrencyNegativeSymbol : $this->CurrencyPositiveSymbol,
                                     $num_text ),
                              $neg ? $this->CurrencyNegativeFormat : $this->CurrencyPositiveFormat );
-        $text = trim( $text );
-        return $text;
+        return trim( $text );
     }
 
     /*!
      Formats the currency according locale to the representation used internally in PHP
     */
-    function &internalCurrency( $number )
+    function internalCurrency( $number )
     {
         if ( preg_match( '/^(['.$this->CurrencyPositiveSymbol.']|['.$this->CurrencyNegativeSymbol.'])?([0-9]*|[0-9]{1,3}(['.$this->ThousandsSeparator.'][0-9]{3,3})*)(['.$this->CurrencyDecimalSymbol.'][0-9]+)?$/', trim( $number ) ) )
         {
@@ -1250,11 +1239,11 @@ class eZLocale
      This functions is usually used together with weekDays().
      \sa longDayName()
     */
-    function &shortDayName( $num )
+    function shortDayName( $num )
     {
         if ( $num >= 0 and $num <= 6 )
         {
-            $code =& $this->DayNames[$num];
+            $code = $this->DayNames[$num];
             $name = $this->ShortDayNames[$code];
         }
         else
@@ -1277,11 +1266,11 @@ class eZLocale
      This functions is usually used together with weekDays().
      \sa shortDayName()
     */
-    function &longDayName( $num )
+    function longDayName( $num )
     {
         if ( $num >= 0 and $num <= 6 )
         {
-            $code =& $this->DayNames[$num];
+            $code = $this->DayNames[$num];
             $name = $this->LongDayNames[$code];
         }
         else
@@ -1309,11 +1298,11 @@ class eZLocale
      This functions is usually used together with months().
      \sa longMonthName()
     */
-    function &shortMonthName( $num )
+    function shortMonthName( $num )
     {
         if ( $num >= 1 and $num <= 12 )
         {
-            $code =& $this->MonthNames[$num];
+            $code = $this->MonthNames[$num];
             $name = $this->ShortMonthNames[$code];
         }
         else
@@ -1341,11 +1330,11 @@ class eZLocale
      This functions is usually used together with months().
      \sa shortMonthName()
     */
-    function &longMonthName( $num )
+    function longMonthName( $num )
     {
         if ( $num >= 1 and $num <= 12 )
         {
-            $code =& $this->MonthNames[$num];
+            $code = $this->MonthNames[$num];
             $name = $this->LongMonthNames[$code];
         }
         else
@@ -1568,15 +1557,14 @@ class eZLocale
      \static
      Similar to instance() but will always create a new copy.
     */
-    function &create( $localeString = false )
+    function create( $localeString = false )
     {
         if ( $localeString === false )
         {
             $ini =& eZINI::instance();
             $localeString = $ini->variable( 'RegionalSettings', 'Locale' );
         }
-        $instance = new eZLocale( $localeString );
-        return $instance;
+        return new eZLocale( $localeString );
     }
 
     /*!
