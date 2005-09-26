@@ -69,5 +69,7 @@ Changes from 3.7.0rc2 to 3.7.0
   There is no information of which objects are affetced 
   when deleting.
   (Merged from stable/3.6 (3.6.3) rev. 13444, 13447)
+- Fixed bug #7166: Bug %1% get replaced in template.
+ (Merged from stable/3.5 rev. 13455)
 
 *Library:
