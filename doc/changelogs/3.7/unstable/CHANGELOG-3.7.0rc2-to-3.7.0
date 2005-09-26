@@ -76,5 +76,7 @@ Changes from 3.7.0rc2 to 3.7.0
 - 7063: Bug When enabled TextTranslation server hangs ( in rev. 13463 ).
 - Fixed bug: Wrong defining version of PostgreSQL.
   (Merged from stable/3.6 (3.6.3) rev. 13467)
+- Fixed bug: Wrong parse default (double precision) value.
+  (Merged from stable/3.6 (3.6.3) rev. 13470)
 
 *Library:
