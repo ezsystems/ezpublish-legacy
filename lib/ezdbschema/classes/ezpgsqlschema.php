@@ -461,7 +461,7 @@ class eZPgsqlSchema extends eZDBSchemaInterface
 			return '';
 		}
 
-		if ( preg_match( "@^(.*)::double precision@", $default, $matches ) )
+		if ( preg_match( "@^\(?([^()]*)\)?::double precision@", $default, $matches ) )
 		{
 			return $matches[1];
 		}
