@@ -313,7 +313,8 @@ class eZCollaborationItem extends eZPersistentObject
      \static
     */
     function setIsActive( $active, $userID = false )
-    {
+    {   
+        $active = intval($active); 
         eZCollaborationItemStatus::updateFields( $this->attribute( 'id' ), $userID, array( 'is_active' => $active ) );
     }
 
