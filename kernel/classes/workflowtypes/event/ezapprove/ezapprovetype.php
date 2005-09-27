@@ -294,10 +294,10 @@ class eZApproveType extends eZWorkflowEventType
                         } break;
 
                     }
+
+                    $http->removeSessionVariable( 'BrowseParameters' );
                 }
             }
-
-            $http->removeSessionVariable( 'BrowseParameters' );
         }
     }
 
