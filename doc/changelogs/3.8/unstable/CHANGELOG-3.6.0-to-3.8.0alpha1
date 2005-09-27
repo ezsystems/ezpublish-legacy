@@ -520,6 +520,7 @@ eZExtension:
 
 *Design:
 - Added: Classification is forwarded to content_view_gui for xmltag object and embed.
+- Added: Filtering of template list in admin interface.
 
 *Translations:
 - Added support of Ukrainian language and koi8-u locale. 
