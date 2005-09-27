@@ -426,59 +426,81 @@ class eZTemplateLogicOperator
         {
             $code = '%output% = (';
             $counter = 0;
-            
-            $prevCode = ''; //used to add inline phpcode that equivalent to getValueCount() function before compilated expression
+            $allStatic = true;
+            foreach ( $parameters as $parameter )
+            {
+                if ( !eZTemplateNodeTool::isStaticElement( $parameter ) )
+                    $allStatic = false;
+            }
+            if ( $allStatic )
+            {
+                switch ( $operatorName )
+                {
+                    case 'lt':
+                    {
+                        $evalStatus = ( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) <
+                                        eZTemplateNodeTool::elementStaticValue( $parameters[1] ) );
+                    } break;
+
+                    case 'le':
+                    {
+                        $evalStatus = ( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) <=
+                                        eZTemplateNodeTool::elementStaticValue( $parameters[1] ) );
+                    } break;
+
+                    case 'gt':
+                    {
+                        $evalStatus = ( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) >
+                                        eZTemplateNodeTool::elementStaticValue( $parameters[1] ) );
+                    } break;
+
+                    case 'ge':
+                    {
+                        $evalStatus = ( eZTemplateNodeTool::elementStaticValue( $parameters[0] ) >=
+                                        eZTemplateNodeTool::elementStaticValue( $parameters[1] ) );
+                    } break;
+
+                    case 'eq':
+                    {
+                        $staticParameters = array();
+                        foreach ( $parameters as $parameter )
+                        {
+                            $staticParameters[] = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameter ),
+                                                                              0, 0, false );
+                        }
+                        eval( '$evalStatus = ( ' . implode( ' == ', $staticParameters ) . ' );' );
+                    } break;
+
+                    case 'ne':
+                    {
+                        $staticParameters = array();
+                        foreach ( $parameters as $parameter )
+                        {
+                            $staticParameters[] = eZPHPCreator::variableText( eZTemplateNodeTool::elementStaticValue( $parameter ),
+                                                                              0, 0, false );
+                        }
+                        eval( '$evalStatus = ( ' . implode( ' != ', $staticParameters ) . ' );' );
+                    } break;
+                    break;
+                }
+                $newElements[] = eZTemplateNodeTool::createBooleanElement( $evalStatus );
+                return $newElements;
+            }
 
             foreach ( $parameters as $parameter )
             {
+                if ( !eZTemplateNodeTool::isStaticElement( $parameter ) )
+                    $allStatic = false;
                 if ( $counter++ )
                 {
                     $code .= " $operator";
                 }
+                $code .= " ( %$counter% )";
                 $values[] = $parameter;
-                
-                //adding getValueCount() equivalent
-                $tmpvar = '$tmpvar';
-                $val_cnt = '$val_cnt'."$counter";
-
-                $prevCode .= "$tmpvar = %$counter%;\n";
-
-                $prevCode .= "$val_cnt = false;\n".
-                "if ( is_array( $tmpvar ) )\n".
-                "{\n".
-                "    $val_cnt = count( $tmpvar );\n".
-                "}\n".
-                "else if ( is_null( $tmpvar ) )\n".
-                "{\n".
-                "    $val_cnt = 0;\n".
-                "}\n".
-                "else if ( is_bool( $tmpvar ) )\n".
-                "{\n".
-                "    $val_cnt = (int)$tmpvar;\n".
-                "}\n".
-                "else if ( is_object( $tmpvar ) and\n".
-                "          method_exists( $tmpvar, \"attributes\" ) )\n".
-                "{\n".
-                "    $val_cnt = count( {$tmpvar}->attributes() );\n".
-                "}\n".
-                "else if ( is_numeric( $tmpvar ) )\n".
-                "{\n".
-                "    $val_cnt = $tmpvar;\n".
-                "}\n".
-                "else if ( is_string( $tmpvar ) )\n".
-                "{\n".
-                "    $val_cnt = strlen( $tmpvar );\n".
-                "}\n".
-                "unset( $tmpvar );\n".    //both should
-                'unset( $tmpvar );'."\n"; //be here. notice simple and double quotes
-                $code .= " ( $val_cnt )";
             }
-
             $code .= " );\n";
-            $code = $prevCode.$code;
         }
         $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
-
         return $newElements;
     }
 
