@@ -110,7 +110,7 @@ class eZTemplateToolbarFunction
             $toolbarPosition = $nameValue;
             $toolbarName = "Toolbar_" . $toolbarPosition;
             $toolArray = $toolbarIni->variable( $toolbarName, 'Tool' );
-            if ( !is_array( $toolArray ) ) 
+            if ( !is_array( $toolArray ) )
                 $toolArray = array();
 
             $newNodes = array();
@@ -147,7 +147,7 @@ class eZTemplateToolbarFunction
                 $resourceName = "";
                 $templateName = "";
                 $resource =& $tpl->resourceFor( $uriString, $resourceName, $templateName );
-                $resourceData =& $tpl->resourceData( $resource, $uriString, $resourceName, $templateName );
+                $resourceData = $tpl->resourceData( $resource, $uriString, $resourceName, $templateName );
                 $resourceData['use-comments'] = eZTemplateCompiler::isCommentsEnabled();
 
                 $includeNodes = $resource->templateNodeTransformation( $functionName, $node, $tpl, $resourceData, $parameters, $namespaceValue );

@@ -57,12 +57,12 @@ $iniFiles = array();
 
 foreach( $allSettingsList as $index => $setting )
 {
-    $settingArray =& explode( ';', $setting );
+    $settingArray = explode( ';', $setting );
 
     if ( !array_key_exists( $settingArray[2], $iniFiles ) )
         $iniFiles[$settingArray[2]] = array();
-    
-    $iniFiles[$settingArray[2]][] = array ( $settingArray[0], $settingArray[1], in_array( $index, $selectedList ) );  
+
+    $iniFiles[$settingArray[2]][] = array ( $settingArray[0], $settingArray[1], in_array( $index, $selectedList ) );
 }
 unset( $setting );
 
@@ -88,7 +88,7 @@ foreach( $iniFiles as $fileName => $settings )
 
     if ( !$ini->save() )
         eZDebug::writeError( "Can't save ini file: $iniPath/$fileName.append" );
-    
+
     unset( $baseIni );
     unset( $ini );
 
@@ -97,7 +97,7 @@ foreach( $iniFiles as $fileName => $settings )
     {
         $ini =& eZINI::instance( $fileName . '.append', "settings/override", null, null, null, true, true );
         foreach( $settings as $setting )
-        {   
+        {
             if ( $ini->hasVariable( $setting[0], $setting[1] ) )
                 $ini->removeSetting( $setting[0], $setting[1] );
         }
