@@ -411,8 +411,8 @@ class eZDOMNode
                 return $child;
             }
         }
-        $attribute = false;
-        return $attribute;
+        $child = false;
+        return $child;
     }
 
     /*!

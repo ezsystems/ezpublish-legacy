@@ -766,7 +766,7 @@ class eZTemplate
      \note If you only have the URI you should call resourceFor() first to
            figure out the resource handler.
     */
-    function &resourceData( &$resourceObject, $uri, $resourceName, $templateName )
+    function resourceData( &$resourceObject, $uri, $resourceName, $templateName )
     {
         $resourceData = array();
         $resourceData['uri'] = $uri;
@@ -789,59 +789,56 @@ class eZTemplate
         $res = "";
         $template = "";
         $resobj =& $this->resourceFor( $uri, $res, $template );
+
         if ( !is_object( $resobj ) )
         {
             if ( $displayErrors )
                 $this->warning( "", "No resource handler for \"$res\" and no default resource handler, aborting." );
-            $retValue = null;
-            return $retValue;
+            return null;
         }
+
         $canCache = true;
         if ( !$resobj->servesStaticData() )
             $canCache = false;
         if ( !$this->isCachingAllowed() )
             $canCache = false;
 
-        $resourceData = null;
-        $root = null;
-
         $resourceData =& $this->loadURIData( $resobj, $uri, $res, $template, $extraParameters, $displayErrors );
 
-        if ( !$resourceData )
+        if ( $resourceData )
         {
-            $retValue = null;
-            return $retValue;
-        }
+            $root = null;
+            eZTemplate::appendTemplateToStatisticsIfNeeded( $resourceData['template-name'], $resourceData['template-filename'] );
 
-        eZTemplate::appendTemplateToStatisticsIfNeeded( $resourceData['template-name'], $resourceData['template-filename'] );
-
-        if ( !$resourceData['compiled-template'] and
-             $resourceData['root-node'] === null )
-        {
-            $root =& $resourceData['root-node'];
-            $root = array( EZ_TEMPLATE_NODE_ROOT, false );
-            $templateText =& $resourceData["text"];
-            $keyData = $resourceData['key-data'];
-            $this->setIncludeText( $uri, $templateText );
-            $rootNamespace = '';
-            $this->parse( $templateText, $root, $rootNamespace, $resourceData );
-
-            if ( eZTemplate::isDebugEnabled() )
+            if ( !$resourceData['compiled-template'] and
+                 $resourceData['root-node'] === null )
             {
-                $this->appendDebugNodes( $root, $resourceData );
-            }
+                $root =& $resourceData['root-node'];
+                $root = array( EZ_TEMPLATE_NODE_ROOT, false );
+                $templateText =& $resourceData["text"];
+                $keyData = $resourceData['key-data'];
+                $this->setIncludeText( $uri, $templateText );
+                $rootNamespace = '';
+                $this->parse( $templateText, $root, $rootNamespace, $resourceData );
 
-            if ( $canCache )
-                $resobj->setCachedTemplateTree( $keyData, $uri, $res, $template, $extraParameters, $root );
+                if ( eZTemplate::isDebugEnabled() )
+                {
+                    $this->appendDebugNodes( $root, $resourceData );
+                }
+
+                if ( $canCache )
+                    $resobj->setCachedTemplateTree( $keyData, $uri, $res, $template, $extraParameters, $root );
+            }
+            if ( !$resourceData['compiled-template'] and
+                 $canCache and
+                 $this->canCompileTemplate( $resourceData, $extraParameters ) )
+            {
+                $generateStatus = $this->compileTemplate( $resourceData, $extraParameters );
+                if ( $generateStatus )
+                    $resourceData['compiled-template'] = true;
+            }
         }
-        if ( !$resourceData['compiled-template'] and
-             $canCache and
-             $this->canCompileTemplate( $resourceData, $extraParameters ) )
-        {
-            $generateStatus = $this->compileTemplate( $resourceData, $extraParameters );
-            if ( $generateStatus )
-                $resourceData['compiled-template'] = true;
-        }
+
         return $resourceData;
     }
 
@@ -922,7 +919,7 @@ class eZTemplate
         $resourceHandler =& $this->resourceFor( $file, $resourceName, $templateName );
         if ( !$resourceHandler )
             return false;
-        $resourceData =& $this->resourceData( $resourceHandler, $file, $resourceName, $templateName );
+        $resourceData = $this->resourceData( $resourceHandler, $file, $resourceName, $templateName );
         $keyData =& $resourceData['key-data'];
         $keyData = "file:" . $file;
         $key = md5( $keyData );
@@ -972,7 +969,7 @@ class eZTemplate
         $resourceHandler =& $this->resourceFor( $file, $resourceName, $templateName );
         if ( !$resourceHandler )
             return false;
-        $resourceData =& $this->resourceData( $resourceHandler, $file, $resourceName, $templateName );
+        $resourceData = $this->resourceData( $resourceHandler, $file, $resourceName, $templateName );
         $keyData =& $resourceData['key-data'];
         $keyData = "file:" . $file;
         $key = md5( $keyData );

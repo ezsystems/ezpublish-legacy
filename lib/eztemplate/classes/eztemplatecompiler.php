@@ -468,12 +468,12 @@ class eZTemplateCompiler
             @set_time_limit( 30 );
         }
 
-        include_once( 'lib/eztemplate/classes/eztemplatenodetool.php' );
-        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-
         $rootNode =& $resourceData['root-node'];
         if ( !$rootNode )
             return false;
+
+        include_once( 'lib/eztemplate/classes/eztemplatenodetool.php' );
+        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
 
         $GLOBALS['eZTemplateCompilerResourceCache'][$resourceData['template-filename']] =& $resourceData;
 

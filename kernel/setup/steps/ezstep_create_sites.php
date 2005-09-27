@@ -40,7 +40,9 @@
 include_once( 'kernel/setup/steps/ezstep_installer.php');
 include_once( "kernel/common/i18n.php" );
 include_once( 'lib/ezdb/classes/ezdb.php' );
-
+include_once( 'kernel/classes/ezcontentobject.php' );
+include_once( 'lib/ezutils/classes/ezini.php' );
+include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
 /*!
   Error codes:
@@ -308,12 +310,10 @@ class eZStepCreateSites extends eZStepInstaller
 
         if ( $emailInfo['type'] == 1 )
         {
-//         eZDebug::writeDebug( 'Changing to sendmail' );
             $ini->setVariable( 'MailSettings', 'Transport', 'sendmail' );
         }
         else
         {
-//         eZDebug::writeDebug( 'Changing to SMTP' );
             $ini->setVariable( 'MailSettings', 'Transport', 'SMTP' );
             $ini->setVariable( 'MailSettings', 'TransportServer', $emailInfo['server'] );
             $ini->setVariable( 'MailSettings', 'TransportUser', $emailInfo['user'] );
