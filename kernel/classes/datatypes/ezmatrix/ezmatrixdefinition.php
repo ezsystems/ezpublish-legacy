@@ -67,7 +67,6 @@ class eZMatrixDefinition
             $columnList = array();
             foreach ( $columns as $columnElement )
             {
-                $columnElement =& $columns[$key];
                 $columnList[] = array( 'name' => $columnElement->textContent(),
                                        'identifier' => $columnElement->attributeValue( 'id' ),
                                        'index' =>  $columnElement->attributeValue( 'idx' ) );
