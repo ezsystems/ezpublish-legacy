@@ -173,7 +173,7 @@ function ez_cleanup_db
 # 	[ -n "$DB_PWD" ] && DB_PWD_OPT="--db-password=$DB_PWD"
 	echo -n "Flattening objects"
 	ezdist_db_prepare_params_from_mysql ""
-	./update/common/scripts/flatten.php --db-driver=mysql $PARAM_EZ_DB_ALL --db-database=$DBNAME all &>.mysql.log
+	./bin/php/flatten.php --db-driver=mysql $PARAM_EZ_DB_ALL --db-database=$DBNAME all &>.mysql.log
 	ez_result_file $? .mysql.log || exit 1
 	if [ $CLEAN_SEARCH ]; then
 	    echo -n "Cleaning search engine"
