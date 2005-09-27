@@ -778,9 +778,8 @@ class eZDOMNode
 
       \note This will only make sense for element nodes.
     */
-    function &lastChild()
+    function lastChild()
     {
-        $childCount = count( $this->Children );
         if ( is_array( $this->Children ) )
         {
             return end( $this->Children );
