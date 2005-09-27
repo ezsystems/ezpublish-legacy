@@ -74,5 +74,8 @@ Changes from 3.7.0rc2 to 3.7.0
 - Fixed bug #7192: Bug Extension activation in the GUI doesnt work.
 - Fixed bug #7199 Bug Possible error in eZPersistentObject::updateObjectList -unable to unset fields with defaults
   (Merged from stable/3.5  rev.  13481)
+- Fixed bug #7194: Multiple "Event / Approve" events in a workflow stop users from being added.
+  ( Merged from stable/3.5 rev. 13492, stable/3.6 rev. 13493 )
+
 
 *Library:
