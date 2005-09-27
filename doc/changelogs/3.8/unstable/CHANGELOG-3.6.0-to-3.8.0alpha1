@@ -491,6 +491,8 @@ Attributes:
   (Merged from stable/3.6 (3.6.3) rev. 13467)  
 - Fixed bug: Wrong parse default (double precision) value.
   (Merged from stable/3.6 (3.6.3) rev. 13470)
+- Fixed bug #7199 Bug Possible error in eZPersistentObject::updateObjectList -unable to unset fields with defaults
+  (Merged from stable/3.5  rev.  13481)
   
 *Library:
 
@@ -520,7 +522,6 @@ eZExtension:
 
 *Design:
 - Added: Classification is forwarded to content_view_gui for xmltag object and embed.
-- Added: Filtering of template list in admin interface.
 
 *Translations:
 - Added support of Ukrainian language and koi8-u locale. 
