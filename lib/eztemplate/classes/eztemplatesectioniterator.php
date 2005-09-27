@@ -85,6 +85,7 @@ class eZTemplateSectionIterator
     function attributes()
     {
         $attributes = array();
+        $item =& $this->InternalAttributes['item'];
         if ( is_array( $item ) )
         {
             $attributes = array_keys( $item );
