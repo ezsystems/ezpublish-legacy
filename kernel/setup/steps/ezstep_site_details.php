@@ -399,6 +399,10 @@ class eZStepSiteDetails extends eZStepInstaller
                     $siteType['database'] = '';
                 }
             }
+            if ( !isset( $siteType['existing_database'] ) )
+            {
+                $siteType['existing_database'] = EZ_SETUP_DB_DATA_APPEND;
+            }
         }
 
         $this->Tpl->setVariable( 'db_not_empty', 0 );
