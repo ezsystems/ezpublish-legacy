@@ -453,13 +453,6 @@ Attributes:
   (Merged from stable/3.5 (3.5.3) rev. 13379)
 - Fixed bug #7159: Attributes lost when copying a content class. 
   (Merged from stable/3.7 (3.7.0) rev. 13386)
-- Fixed bug #3804: Searching followed by AdvancedSearch doesn't retain 
-  the search term.
-  ( Merged from stable/3.5 rev. 13383,13413 )
-- Fixed bug: Bug in lib/eztemlate/classes/eztemplatelogocoperator.php
-  related to processing strings in gt(),le(), etc. template 
-  operators in template compilation mode.
-  ( Merged from stable/3.5 rev. 13383,13413 )  
 - Fixed bug: cache-blocks doesn't work properly if TemplateCache setting has
   typo, like TemplateCache=enbl.
   (Merged form stable/3.6 (3.6.3) rev. 13418).
