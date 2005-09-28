@@ -1160,7 +1160,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             trigger_error( 'Function must take at least one parameter', WARNING );
             return;
         }
-        $argList =& func_get_args();
+        $argList = func_get_args();
         $text = eZContentObjectAttribute::generateValidationErrorText( $numargs, $argList );
         $this->ValidationError = $text;
         $this->HasValidationError = true;
