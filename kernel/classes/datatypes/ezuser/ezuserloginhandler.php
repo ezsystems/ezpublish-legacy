@@ -134,7 +134,7 @@ class eZUserLoginHandler
             {
                 include_once( 'lib/ezutils/classes/ezextension.php' );
                 $ini =& eZINI::instance();
-                $extensionDirectory = $ini->variable( 'UserSettings', 'ExtensionDirectory' );
+                $extensionDirectories = $ini->variable( 'UserSettings', 'ExtensionDirectory' );
                 $directoryList = eZExtension::expandedPathList( $extensionDirectories, 'login_handler' );
 
                 foreach( $directoryList as $directory )
