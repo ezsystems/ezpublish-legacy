@@ -498,6 +498,8 @@ Attributes:
 - Fixed bug #7204: Bug Setting for login handler extensions has wrong name in site.ini
   ( Merged from stable/3.6 rev. 13506 )
 - Fixed bug: Fatal error when try to register new user.  
+- Fixed bug #7203: Bug Sections: checkboxes to assign multiple nodes
+  ( Merged from stable/3.5 rev. 13514 )
   
 *Library:
 
