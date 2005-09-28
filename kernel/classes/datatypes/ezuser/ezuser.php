@@ -808,6 +808,7 @@ WHERE user_id = '" . $userID . "' AND
     }
 
     /*!
+     \static
      Cleans up any cache or session variables that are set.
      This at least called on login and logout but can be used other places
      where you must ensure that the cache user values are refetched.
@@ -845,6 +846,7 @@ WHERE user_id = '" . $userID . "' AND
     }
 
     /*!
+     \static
      Logs out the current user
     */
     function logoutCurrent()

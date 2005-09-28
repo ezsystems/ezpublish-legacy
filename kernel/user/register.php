@@ -151,6 +151,7 @@ if ( !function_exists( 'checkContentActions' ) )
             $object = eZContentObject::fetch( $object->attribute( 'id' ) );
 
             // Check if user should be enabled and logged in
+            unset($user);
             $user = eZUser::fetch( $object->attribute( 'id' ) );
             $user->loginCurrent();
 
@@ -181,9 +182,9 @@ if ( !function_exists( 'checkContentActions' ) )
                 $userSetting = eZUserSetting::fetch( $user->attribute( 'contentobject_id' ) );
                 $userSetting->setAttribute( 'is_enabled', 0 );
                 $userSetting->store();
-
+		    
                 // Log out current user
-                $user->logoutCurrent();
+                eZUser::logoutCurrent();
 
                 // Create enable account hash and send it to the newly registered user
                 $hash = md5( mktime( ) . $user->attribute( 'contentobject_id' ) );

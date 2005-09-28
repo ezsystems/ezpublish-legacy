@@ -78,5 +78,7 @@ Changes from 3.7.0rc2 to 3.7.0
   ( Merged from stable/3.5 rev. 13492, stable/3.6 rev. 13493 )
 - Fixed bug #7204: Bug Setting for login handler extensions has wrong name in site.ini
   ( Merged from stable/3.6 rev. 13506 )
-
+- Fixed bug: Fatal error when try to register new user.
+  ( Merged from trunk (3.8.0alpha1) rev. 13509 )
+  
 *Library:
