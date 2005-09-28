@@ -132,7 +132,7 @@ class eZXMLInputHandler
     function &editTemplateName()
     {
         $name = 'ezxmltext';
-        $suffix = $this->editTemplateSuffix();
+        $suffix =& $this->editTemplateSuffix( $this->ContentObjectAttribute );
         if ( $suffix !== false )
             $name .= '_' . $suffix;
         return $name;
@@ -144,7 +144,7 @@ class eZXMLInputHandler
     function &informationTemplateName()
     {
         $name = 'ezxmltext';
-        $suffix = $this->informationTemplateSuffix();
+        $suffix =& $this->informationTemplateSuffix( $this->ContentObjectAttribute );
         if ( $suffix !== false )
             $name .= '_' . $suffix;
         return $name;
