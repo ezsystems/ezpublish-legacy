@@ -500,6 +500,11 @@ Attributes:
 - Fixed bug: Fatal error when try to register new user.  
 - Fixed bug #7203: Bug Sections: checkboxes to assign multiple nodes
   ( Merged from stable/3.5 rev. 13514 )
+- Fixed bug #7208: ezsoapserver.php: Fix for call to non-object error.
+  ( Merged from stable/3.5 rev. 13524, stable/3.6 rev. 13525, stable/3.7 rev. 13526 )
+- Fixed bug #7207: ezsoapclient.php: Extend if scope to avoid warnings.
+  ( Merged from stable/3.5 rev. 13524, stable/3.6 rev. 13525, stable/3.7 rev. 13526 )
+
   
 *Library:
 

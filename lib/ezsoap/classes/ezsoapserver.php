@@ -154,6 +154,15 @@ class eZSOAPServer
 
         $dom =& $xml->domTree( $xmlData );
 
+        // Check for non-parsing XML, to avoid call to non-object error.
+        if ( !is_object( $dom ) )
+        {
+            $this->showResponse( 'unknown_function_name', 'unknown_namespace_uri',
+                                 new eZSOAPFault( 'Server Error',
+                                                  'Bad XML' ) );
+            return;
+        }
+
         // add namespace fetching on body
         // get the SOAP body
         $body =& $dom->elementsByName( "Body" );
@@ -186,8 +195,8 @@ class eZSOAPServer
                 if ( !class_exists( $objectName ) )
                 {
                     $this->showResponse( $functionName, $namespaceURI,
-                                     new eZSOAPFault( 'Server Error',
-                                                      'Object not found' ) );
+                                         new eZSOAPFault( 'Server Error',
+                                                          'Object not found' ) );
                 }
                 else
                 {

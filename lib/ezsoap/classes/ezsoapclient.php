@@ -105,7 +105,6 @@ class eZSOAPClient
     */
     function &send( $request )
     {
-
         if ( $this->Port != 443 || !in_array( "curl", get_loaded_extensions() ) )
         {
             if ( $this->Timeout != 0 )
@@ -124,31 +123,33 @@ class eZSOAPClient
                                  $this->errorString );
             }
 
+            if ( $fp == 0 )
+            {
+                $this->ErrorString = '<b>Error:</b> eZSOAPClient::send() : Unable to open connection to ' . $this->Server . '.';
+                return 0;
+            }
+
             $payload =& $request->payload();
 
-
-            if ( $fp != 0 )
+            $authentification = "";
+            if ( ( $this->login() != "" ) )
             {
-                $authentification = "";
-                if ( ( $this->login() != "" ) )
-                {
-                    $authentification = "Authorization: Basic " . base64_encode( $this->login() . ":" . $this->password() ) . "\r\n" ;
-                }
+                $authentification = "Authorization: Basic " . base64_encode( $this->login() . ":" . $this->password() ) . "\r\n" ;
+            }
 
-                $HTTPRequest = "POST " . $this->Path . " HTTP/1.0\r\n" .
-                     "User-Agent: eZ soap client\r\n" .
-                     "Host: " . $this->Server . "\r\n" .
-                     $authentification .
-                     "Content-Type: text/xml\r\n" .
-                     "Content-Length: " . strlen( $payload ) . "\r\n\r\n" .
-                     $payload;
+            $HTTPRequest = "POST " . $this->Path . " HTTP/1.0\r\n" .
+                "User-Agent: eZ soap client\r\n" .
+                "Host: " . $this->Server . "\r\n" .
+                $authentification .
+                "Content-Type: text/xml\r\n" .
+                "Content-Length: " . strlen( $payload ) . "\r\n\r\n" .
+                $payload;
 
-                if ( !fputs( $fp, $HTTPRequest, strlen( $HTTPRequest ) ) )
-                {
-                    $this->ErrorString = "<b>Error:</b> could not send the SOAP request. Could not write to the socket.";
-                    $response = 0;
-                    return $response;
-                }
+            if ( !fputs( $fp, $HTTPRequest, strlen( $HTTPRequest ) ) )
+            {
+                $this->ErrorString = "<b>Error:</b> could not send the SOAP request. Could not write to the socket.";
+                $response = 0;
+                return $response;
             }
 
             $rawResponse = "";
@@ -175,10 +176,10 @@ class eZSOAPClient
                 if ( $ch != 0 )
                 {
                     $HTTPCall = "POST " . $this->Path . " HTTP/1.0\r\n" .
-                         "User-Agent: eZ xmlrpc client\r\n" .
-                         "Host: " . $this->Server . "\r\n" .
-                         "Content-Type: text/xml\r\n" .
-                         "Content-Length: " . strlen( $payload ) . "\r\n";
+                        "User-Agent: eZ xmlrpc client\r\n" .
+                        "Host: " . $this->Server . "\r\n" .
+                        "Content-Type: text/xml\r\n" .
+                        "Content-Length: " . strlen( $payload ) . "\r\n";
                     if ( $this->login() != '' )
                     {
                         $HTTPCall .= "Authorization: Basic " .  base64_encode( $this->login() . ":" . $this->Password() ) . "\r\n";
