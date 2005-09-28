@@ -78,6 +78,7 @@ if ( $Module->isCurrentAction( 'AssignSection' ) )
 else
 {
     eZContentBrowse::browse( array( 'action_name' => 'AssignSection',
+                                    'keys' => array(), 
                                     'description_template' => 'design:section/browse_assign.tpl',
                                     'content' => array( 'section_id' => $section->attribute( 'id' ) ),
                                     'from_page' => '/section/assign/' . $section->attribute( 'id' ) . "/",

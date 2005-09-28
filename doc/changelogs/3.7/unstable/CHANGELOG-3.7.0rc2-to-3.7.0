@@ -80,5 +80,7 @@ Changes from 3.7.0rc2 to 3.7.0
   ( Merged from stable/3.6 rev. 13506 )
 - Fixed bug: Fatal error when try to register new user.
   ( Merged from trunk (3.8.0alpha1) rev. 13509 )
+- Fixed bug #7203: Bug Sections: checkboxes to assign multiple nodes
+  ( Merged from stable/3.5 rev. 13514 )
   
 *Library:
