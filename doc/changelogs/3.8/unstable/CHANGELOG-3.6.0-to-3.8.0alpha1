@@ -495,7 +495,8 @@ Attributes:
   (Merged from stable/3.5  rev.  13481)
 - Fixed bug #7194: Multiple "Event / Approve" events in a workflow stop users from being added.
   ( Merged from stable/3.5 rev. 13492, stable/3.6 rev. 13493, stable/3.7 rev. 13494 )
-
+- Fixed bug #7204: Bug Setting for login handler extensions has wrong name in site.ini
+  ( Merged from stable/3.6 rev. 13506 )
   
 *Library:
 
