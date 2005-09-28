@@ -106,49 +106,49 @@ class eZSOAPClient
         if ( $this->Timeout != 0 )
         {
             $fp = fsockopen( $this->Server,
-            $this->Port,
-            $this->errorNumber,
-            $this->errorString,
-            $this->Timeout );
+                             $this->Port,
+                             $this->errorNumber,
+                             $this->errorString,
+                             $this->Timeout );
         }
         else
         {
             $fp = fsockopen( $this->Server,
-            $this->Port,
-            $this->errorNumber,
-            $this->errorString );
+                             $this->Port,
+                             $this->errorNumber,
+                             $this->errorString );
         }
 
         $payload =& $request->payload();
 
         eZDebug::writeNotice( $payload, "myload" );
 
-
-        if ( $fp != 0 )
+        if ( $fp == 0 )
         {
-            $authentification = "";
+            $this->ErrorString = '<b>Error:</b> eZSOAPClient::send() : Unable to open connection to ' . $this->Server . '.';
+            return 0;
+        }
 
-            if ( ( $this->login() != "" ) )
-            {
-                $authentification = "Authorization: Basic " . base64_encode( $this->login() . ":" . $this->password() ) . "\r\n" ;
-            }
+        $authentification = "";
 
-            $HTTPRequest = "POST " . $this->Path . " HTTP/1.0\r\n" .
-                 "User-Agent: eZ soap client\r\n" .
-                 "Host: " . $this->Server . "\r\n" .
-                 $authentification .
-                 "Content-Type: text/xml\r\n" .
-                 "Content-Length: " . strlen( $payload ) . "\r\n\r\n" .
-                 $payload;
+        if ( ( $this->login() != "" ) )
+        {
+            $authentification = "Authorization: Basic " . base64_encode( $this->login() . ":" . $this->password() ) . "\r\n" ;
+        }
 
-            eZDebug::writeNotice( $HTTPRequest, "Request" );
+        $HTTPRequest = "POST " . $this->Path . " HTTP/1.0\r\n" .
+            "User-Agent: eZ soap client\r\n" .
+            "Host: " . $this->Server . "\r\n" .
+            $authentification .
+            "Content-Type: text/xml\r\n" .
+            "Content-Length: " . strlen( $payload ) . "\r\n\r\n" .
+            $payload;
 
-            if ( !fputs( $fp, $HTTPRequest, strlen( $HTTPRequest ) ) )
-            {
-                $this->ErrorString = "<b>Error:</b> could not send the SOAP request. Could not write to the socket.";
-                $response = 0;
-                return $response;
-            }
+        if ( !fputs( $fp, $HTTPRequest, strlen( $HTTPRequest ) ) )
+        {
+            $this->ErrorString = "<b>Error:</b> could not send the SOAP request. Could not write to the socket.";
+            $response = 0;
+            return $response;
         }
 
         $rawResponse = "";
