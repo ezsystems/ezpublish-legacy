@@ -194,6 +194,7 @@ if ( is_array( $contentObjectTreeNode ) )
         {
             $path_strings .=' or ';
             $except_path_strings .=' and ';
+            $path_strings2 .=' or ';
         }
     }
 else
