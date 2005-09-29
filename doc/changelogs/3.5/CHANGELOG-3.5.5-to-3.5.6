@@ -41,6 +41,13 @@ Changes from 3.5.5 to 3.5.6
 - Fixed bug #7203: Bug Sections: checkboxes to assign multiple nodes
 - Fixed bug #7208: ezsoapserver.php: Fix for call to non-object error.
 - Fixed bug #7207: ezsoapclient.php: Extend if scope to avoid warnings.
+- Fixed bug #7175: (Additional fix)
+  The template should be placed in content/. , not in content/view/.
+  The template is missing in the standard design.
+  The list should split the result in multiple pages 
+  if it's alot off results ( solves scaling ).
+  If I try to delete ParentNode, I must also get messages of 
+  which objects are relating to Sub items. 
 
 *Translations:
 

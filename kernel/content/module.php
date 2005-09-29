@@ -196,7 +196,8 @@ $ViewList['removeobject'] = array(
     'functions' => array( 'read' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'script' => 'removeobject.php',
-    'params' => array( ) );
+    'params' => array(  ),
+    'unordered_params' => array( 'offset' => 'Offset' ) );
 
 $ViewList['removeuserobject'] = array(
     'functions' => array( 'read' ),
