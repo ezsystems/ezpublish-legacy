@@ -504,7 +504,14 @@ Attributes:
   ( Merged from stable/3.5 rev. 13524, stable/3.6 rev. 13525, stable/3.7 rev. 13526 )
 - Fixed bug #7207: ezsoapclient.php: Extend if scope to avoid warnings.
   ( Merged from stable/3.5 rev. 13524, stable/3.6 rev. 13525, stable/3.7 rev. 13526 )
-
+- Fixed bug #7175: ( Additional fix )
+  The template should be placed in content/. , not in content/view/.
+  The template is missing in the standard design.
+  The list should split the result in multiple pages 
+  if it's alot off results ( solves scaling ).
+  If I try to delete ParentNode, I must also get messages of 
+  which objects are relating to Sub items. 
+  ( Manually merged from stable/3.7 ( 3.7.0 ) rev. 13533 )
   
 *Library:
 
