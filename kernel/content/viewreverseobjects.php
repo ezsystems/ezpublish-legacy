@@ -64,7 +64,7 @@ $tpl->setVariable( 'reverse_related_object_count', $reverseRelatedObjectCount );
 $tpl->setVariable( 'reverse_related_object_list', $reverseRelatedObjectList );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:content/view/viewreverseobjects.tpl" );
+$Result['content'] =& $tpl->fetch( "design:content/viewreverseobjects.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/content', "Objects referring to $contentObjectName" ) ) );
 
