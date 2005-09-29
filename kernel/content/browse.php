@@ -80,15 +80,18 @@ if ( $cancelAction == trim( $browse->attribute( 'from_page' ) ) )
 $res =& eZTemplateDesignResource::instance();
 
 $keyArray = array();
-$attributeKeys = $browse->attribute( 'keys' );
-if ( is_array( $attributeKeys ) )
+if ( $browse->hasAttribute( 'keys' ) )
 {
-    foreach ( $attributeKeys as $attributeKey => $attributeValue )
+    $attributeKeys = $browse->attribute( 'keys' );
+    if ( is_array( $attributeKeys ) )
     {
-        $keyArray[] = array( $attributeKey, $attributeValue );
+        foreach ( $attributeKeys as $attributeKey => $attributeValue )
+        {
+            $keyArray[] = array( $attributeKey, $attributeValue );
+        }
     }
+    $res->setKeys( $keyArray );
 }
-$res->setKeys( $keyArray );
 
 $parents =& $node->attribute( 'path' );
 
