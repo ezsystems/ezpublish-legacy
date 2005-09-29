@@ -36,7 +36,13 @@
 
     {* Location. *}
     <td>
-	    <a href={$reverse_item.main_node.url_alias|ezurl}>{$reverse_item.name|wash}</a>
+	    <a href={$reverse_item.main_node.url_alias|ezurl}>
+            {section var=path_node loop=$reverse_item.main_node.path|append( $reverse_item.main_node )}
+                      {$path_node.name|wash}
+	              {delimiter} / {/delimiter}
+		
+            {/section}
+	    </a>
     </td>
 
     {* Type. *}

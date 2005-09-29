@@ -52,10 +52,20 @@
 
     {* Location. *}
     <td>
-    {section var=path_node loop=$remove_item.node.path|append( $remove_item.node )}
-        {$path_node.name|wash}
-    {delimiter} / {/delimiter}
-    {/section}
+
+    {section show=$reverse_list_count_array[$remove_item.object.id]|gt( 0 )}
+            <a href={concat( '/content/viewreverseobjects/', $remove_item.object.id, '/' )|ezurl}>
+    {/section} 	
+        {section var=path_node loop=$remove_item.node.path|append( $remove_item.node )}
+	
+              {$path_node.name|wash}
+        {delimiter} / {/delimiter}
+	
+        {/section}
+    {section show=$reverse_list_count_array[$remove_item.object.id]|gt( 0 )}
+             </a>
+    {/section} 		
+
     </td>
 
 
@@ -81,12 +91,10 @@
     <td>
       {$reverse_list_count_array[$remove_item.object.id]}
       {section show=$reverse_list_count_array[$remove_item.object.id]|gt( 0 )}
-        <input type="hidden" name="GetListObjectsReferring" value="{$remove_item.object.id}" />
         ( <a href={concat( '/content/viewreverseobjects/', $remove_item.object.id, '/' )|ezurl}>list</a> )
       {/section}
     </td>
-
-</tr>
+</tr>	
 {/section}
 </table>
 
@@ -98,6 +106,9 @@
     {/section}
 {/section}
 </div>
+{section show=and( is_set( $children_list ), $children_list )}
+	{include uri='design:content/children_list_inremove.tpl'}
+{/section}
 
 {* DESIGN: Content END *}</div></div></div>
 
