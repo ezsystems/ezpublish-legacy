@@ -14,29 +14,6 @@
     {set search_data=$search}
 {/section}
 
-<br />
-{def $myvar_0 = 0}
-{def $result = first_set( $myvar_0, 77)}
-Res 1: {$result}; {$myvar_0} <br />
-
-{undef $myvar_0 $result}
-{def $result = first_set( $myvar_0, 77)}
-Res 2: {$result}; <br />
-
-{undef $result}
-{def $result = first_set( $novar )}
-Res 3:{$result}; <br />
-
-{undef $result}
-{def $result = first_set( $novar, 0 )}
-Res 4:{$result}; <br />
-
-{undef $result}
-{def $myvar_0 = 55}
-{def $result = first_set( $novar, 0, $myvar_0 )}
-Res 5:{$result}; <br />
-
-
 <div class="content-search">
 
 <form action={"/content/search/"|ezurl} method="get">
