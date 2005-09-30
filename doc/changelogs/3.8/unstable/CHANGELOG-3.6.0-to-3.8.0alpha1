@@ -530,6 +530,8 @@ eZDB:
   (Manually merged from stable/3.5 (3.5.5) rev. 12672)
 - Fixed bug #7106: Empty ul tag will not appear if there is no item in double top sub menu.
   (Merged from stable/3.6 (3.6.2) rev. 13166)
+- Fixed bug #3804: Searching followed by AdvancedSearch doesn't retain the search term.
+  ( Merged from stable/3.5 ( 3.5.6 ) rev. 13541 )
 
 eZSession:
 - Added support for callback functions. They allow external code to do extra
