@@ -42,6 +42,9 @@ include_once( 'kernel/classes/ezpreferences.php' );
 
 $Module =& $Params["Module"];
 
+if ( !isset( $Offset ) )
+    $Offset = false;
+
 $http =& eZHTTPTool::instance();
 
 $viewMode = $http->sessionVariable( "CurrentViewMode" );
@@ -80,7 +83,6 @@ if ( get_class( $requestedURI ) == 'ezuri' )
 {
     $userRedirectURI = $requestedURI->uriString( true );
 }
-
 $http->setSessionVariable( 'userRedirectURIReverseObjects', $userRedirectURI );
 
 // Fetch number of reverse related objects for each of the items being removed.
@@ -209,8 +211,8 @@ $path_strings .= ") and ( $except_path_strings ) ";
 // Select all elements having reverse relations. And ignore those items that don't relate to objects other than being removed.
 $rows = $db->arrayQuery( "SELECT DISTINCT( tree.node_id )
                              FROM  ezcontentobject_tree tree,  ezcontentobject obj,
-                                    ezcontentobject_link link LEFT JOIN ezcontentobject_tree tree2
-                                     ON link.from_contentobject_id = tree2.contentobject_id
+                                   ezcontentobject_link link LEFT JOIN ezcontentobject_tree tree2
+                                   ON link.from_contentobject_id = tree2.contentobject_id
 
                              WHERE $path_strings
 
