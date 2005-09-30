@@ -23,7 +23,7 @@
     <input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="{$search_text|wash}" />
     <input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/standard/layout')}" />
 
-    {let adv_url=concat('/content/advancedsearch/',$search_text|gt(0)|choose('',concat('?SearchText=',$search_text|urlencode)))|ezurl}
+    {let adv_url=concat('/content/advancedsearch/',$search_text|count_chars()|gt(0)|choose('',concat('?SearchText=',$search_text|urlencode)))|ezurl}
     <label>{"For more options try the %1Advanced search%2"|i18n("design/standard/content/search","The parameters are link start and end tags.",array(concat("<a href=",$adv_url,">"),"</a>"))}</label>
     {/let}
 
