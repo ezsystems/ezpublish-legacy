@@ -361,7 +361,7 @@ class eZWordToImageOperator
 
                 $wwwDirPrefix = "";
                 if ( strlen( eZSys::wwwDir() ) > 0 )
-                    $wwwDirPrefix = eZSys::wwwDir() . "/";
+                    $wwwDirPrefix = eZSys::wwwDir();
                 $sizeText = '';
                 if ( $width !== false and $height !== false )
                 {
