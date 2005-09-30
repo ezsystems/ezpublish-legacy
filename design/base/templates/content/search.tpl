@@ -14,6 +14,29 @@
     {set search_data=$search}
 {/section}
 
+<br />
+{def $myvar_0 = 0}
+{def $result = first_set( $myvar_0, 77)}
+Res 1: {$result}; {$myvar_0} <br />
+
+{undef $myvar_0 $result}
+{def $result = first_set( $myvar_0, 77)}
+Res 2: {$result}; <br />
+
+{undef $result}
+{def $result = first_set( $novar )}
+Res 3:{$result}; <br />
+
+{undef $result}
+{def $result = first_set( $novar, 0 )}
+Res 4:{$result}; <br />
+
+{undef $result}
+{def $myvar_0 = 55}
+{def $result = first_set( $novar, 0, $myvar_0 )}
+Res 5:{$result}; <br />
+
+
 <div class="content-search">
 
 <form action={"/content/search/"|ezurl} method="get">
@@ -23,7 +46,7 @@
     <input class="halfbox" type="text" size="20" name="SearchText" id="Search" value="{$search_text|wash}" />
     <input class="button" name="SearchButton" type="submit" value="{'Search'|i18n('design/base')}" />
 
-    {let adv_url=concat('/content/advancedsearch/',$search_text|gt(0)|choose('',concat('?SearchText=',$search_text|urlencode)))|ezurl}
+    {let adv_url=concat('/content/advancedsearch/',$search_text|count_chars()|gt(0)|choose('',concat('?SearchText=',$search_text|urlencode)))|ezurl}
     <label>{"For more options try the %1Advanced search%2"|i18n("design/base","The parameters are link start and end tags.",array(concat("<a href=",$adv_url,">"),"</a>"))}</label>
     {/let}
 
