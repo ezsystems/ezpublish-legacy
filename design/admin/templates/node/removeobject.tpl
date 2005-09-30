@@ -54,7 +54,7 @@
     <td>
 
     {section show=$reverse_list_count_array[$remove_item.object.id]|gt( 0 )}
-            <a href={concat( '/content/viewreverseobjects/', $remove_item.object.id, '/' )|ezurl}>
+            <a href={concat( '/content/reverseobjects/', $remove_item.object.id, '/' )|ezurl}>
     {/section} 	
         {section var=path_node loop=$remove_item.node.path|append( $remove_item.node )}
 	
