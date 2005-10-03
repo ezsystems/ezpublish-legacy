@@ -41,19 +41,9 @@ Changes from 3.5.5 to 3.5.6
 - Fixed bug #7203: Bug Sections: checkboxes to assign multiple nodes
 - Fixed bug #7208: ezsoapserver.php: Fix for call to non-object error.
 - Fixed bug #7207: ezsoapclient.php: Extend if scope to avoid warnings.
-- Fixed bug #7175: (Additional fix)
-  The template should be placed in content/. , not in content/view/.
-  The template is missing in the standard design.
-  The list should split the result in multiple pages 
-  if it's alot off results ( solves scaling ).
-  If I try to delete ParentNode, I must also get messages of 
-  which objects are relating to Sub items. 
 - Fixed bug #7213: Email validation fails with ab_cd12@gmx.net.
 - Fixed bug #3804: Searching followed by AdvancedSearch doesn't retain the search term
 - Fixed bug #7205: Bug mimetype_icon returns to many / in url.
-- Fixed bug: ( Additional fix for bug #7175 )
-  The viewreverseobjects view should be called reverseobjects.
-  Remove a warning ( is shown if $Offset is not set ).
 - Fixed bug: Removing relations from attributes of datatypes 
   "Object relation" and "Object relation list" does not work,
   if I remove node that contains some objects having reverse relations.
