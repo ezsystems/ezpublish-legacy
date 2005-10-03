@@ -67,7 +67,7 @@
     {* Location. *}
     <td>
     {section show=$reverse_list_count_children_array[$children_item.object.id]|gt( 0 )}	
-        <a href={concat( '/content/viewreverseobjects/', $children_item.object.id, '/' )|ezurl}>
+        <a href={concat( '/content/reverseobjects/', $children_item.object.id, '/' )|ezurl}>
     {/section}
 	{section var=path_node loop=$children_item.path|append( $children_item )}
               {$path_node.name|wash}
@@ -87,7 +87,7 @@
     <td>
       {$reverse_list_count_children_array[$children_item.object.id]}
       {section show=$reverse_list_count_children_array[$children_item.object.id]|gt( 0 )}
-        ( <a href={concat( '/content/viewreverseobjects/', $children_item.object.id, '/' )|ezurl}>list</a> )
+        ( <a href={concat( '/content/reverseobjects/', $children_item.object.id, '/' )|ezurl}>list</a> )
       {/section}
     </td>
 

@@ -4,7 +4,7 @@
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
 <h2 class="context-title">
-{'Objects referring to %contentObjectName'|i18n( 'design/admin/content/view/viewreverseobjects',,
+{'Objects referring to %contentObjectName'|i18n( 'design/admin/content/reverseobjects',,
                 hash( '%contentObjectName', $content_object_name ) )}
 </h2>
 
@@ -16,7 +16,7 @@
 
 {section show=$reverse_related_object_count|eq( 0 )}
 <div class="block">
-    <p>{'There are no objects referring to this one.'|i18n( 'design/admin/content/view/viewreverseobjects' )}</p>
+    <p>{'There are no objects referring to this one.'|i18n( 'design/admin/content/reverseobjects' )}</p>
 </div>
 {/section}
 
@@ -62,9 +62,9 @@
 {* DESIGN: Control bar START *}
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
-<form name="back" method="post" action={'content/viewreverseobjects'|ezurl}>
+<form name="back" method="post" action={'content/reverseobjects'|ezurl}>
 <div class="block">
-	<input class="button" type="submit" name="BackButton" value="{'Back'|i18n( 'design/admin/content/view/viewreverseobjects' )}" />
+	<input class="button" type="submit" name="BackButton" value="{'Back'|i18n( 'design/admin/content/reverseobjects' )}" />
 </div>
 </form>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
