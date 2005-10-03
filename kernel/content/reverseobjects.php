@@ -40,7 +40,6 @@ $http =& eZHTTPTool::instance();
 
 $Module =& $Params['Module'];
 $contentObjectID =& $Params['ObjectID'];
-
 if ( $http->hasPostVariable( "BackButton" ) )
 {
     $userRedirectURI = $http->sessionVariable( 'userRedirectURIReverseObjects' );
@@ -64,7 +63,7 @@ $tpl->setVariable( 'reverse_related_object_count', $reverseRelatedObjectCount );
 $tpl->setVariable( 'reverse_related_object_list', $reverseRelatedObjectList );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:content/viewreverseobjects.tpl" );
+$Result['content'] =& $tpl->fetch( "design:content/reverseobjects.tpl" );
 $Result['path'] = array( array( 'url' => false,
                                 'text' => ezi18n( 'kernel/content', "Objects referring to $contentObjectName" ) ) );
 
