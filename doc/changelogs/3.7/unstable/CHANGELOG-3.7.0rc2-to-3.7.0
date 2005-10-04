@@ -93,5 +93,7 @@ Changes from 3.7.0rc2 to 3.7.0
 - Fixed bug: #7215: Translation Error when cleaning the cache.
   ( Merged from stable/3.5 ( 3.5.6 ) rev. 13572 )
 - Fixed bug: #7169: crash while publishing an image.
+- Fixed bug: #7227: swap node between content and media produces strange
+  behaviour.
 	      
 *Library:
