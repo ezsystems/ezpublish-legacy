@@ -513,6 +513,9 @@ Attributes:
 - Fixed bug: #7227: swap node between content and media produces strange
   behaviour.
   ( Merged from stable/3.7 ( 3.7.0 ) rev. 13599 )
+- Fixed bug #7170: advancedsearch with multiple attributes fails
+  to return results.
+  (Merged from stable/3.6 (3.6.3) rev. 13602)
 
 *Library:
 
