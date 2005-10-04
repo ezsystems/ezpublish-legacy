@@ -3834,6 +3834,7 @@ WHERE
             $newMainNodeID = false;
             $objectNodeCount = 0;
             $readableChildCount = 0;
+            $reverseChildCount = 0;
 
             if ( $canRemove )
             {
