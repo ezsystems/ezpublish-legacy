@@ -101,7 +101,6 @@ $i = 0;
 // Create WHERE section
 $path_strings .= "tree.path_string like '$contentObjectTreeNode->PathString%'";
 $path_strings2 .= "tree2.path_string like '$contentObjectTreeNode->PathString%'";
-//$except_path_strings .=  "tree.path_string <> '$contentObjectTreeNode->PathString'";
 
 $path_strings_where = $path_strings2." ) ";
 $path_strings .= " )";
