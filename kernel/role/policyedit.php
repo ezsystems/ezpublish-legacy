@@ -81,7 +81,7 @@ if ( isset( $functions[$currentFunction] ) && $functions[$currentFunction] )
     foreach ( array_keys( $functions[$currentFunction] ) as $key )
     {
         $limitation =& $functions[$currentFunction][$key];
-        if ( (count( $limitation['values']) == 0 ) && array_key_exists( 'class', $limitation ) )
+        if ( ( count( $limitation['values'] ) == 0 ) && array_key_exists( 'class', $limitation ) )
         {
             include_once( 'kernel/' . $limitation['path'] . $limitation['file'] );
             $obj = new $limitation['class']( array() );
