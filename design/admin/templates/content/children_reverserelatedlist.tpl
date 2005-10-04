@@ -1,39 +1,29 @@
-{* DESIGN: Header START *}
-<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-
-{let item_type=ezpreference( 'remove_children_list_limit' )
+{let item_type=ezpreference( 'reverse_children_list_limit' )
      number_of_items=min( $item_type, 3)|choose( 10, 10, 25, 50 ) }
 
-<h2 class="context-title">
-
-&nbsp;{'Sub items [%children_count]'|i18n( 'design/admin/node/view/full',, hash( '%children_count', $reverse_list_count_children_array_count ) )}</h2>
-
-{* DESIGN: Subline *}<div class="header-subline"></div>
-
-{* DESIGN: Header END *}</div></div></div></div></div></div>
-{* Items per page and view mode selector. *}
+{* DESIGN: Subline *}
 <div class="context-toolbar">
 <div class="block">
 <div class="left">
     <p>
     {switch match=$number_of_items}
     {case match=25}
-        <a href={'/user/preferences/set/remove_children_list_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
+        <a href={'/user/preferences/set/reverse_children_list_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
         <span class="current">25</span>
-        <a href={'/user/preferences/set/remove_children_list_limit/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
+        <a href={'/user/preferences/set/reverse_children_list_limit/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
 
         {/case}
 
         {case match=50}
-        <a href={'/user/preferences/set/remove_children_list_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
-        <a href={'/user/preferences/set/remove_children_list_limit/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
+        <a href={'/user/preferences/set/reverse_children_list_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/node/view/full' )}">10</a>
+        <a href={'/user/preferences/set/reverse_children_list_limit/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
         <span class="current">50</span>
         {/case}
 
         {case}
         <span class="current">10</span>
-        <a href={'/user/preferences/set/remove_children_list_limit/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
-        <a href={'/user/preferences/set/remove_children_list_limit/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
+        <a href={'/user/preferences/set/reverse_children_list_limit/2'|ezurl} title="{'Show 25 items per page.'|i18n( 'design/admin/node/view/full' )}">25</a>
+        <a href={'/user/preferences/set/reverse_children_list_limit/3'|ezurl} title="{'Show 50 items per page.'|i18n( 'design/admin/node/view/full' )}">50</a>
         {/case}
 
         {/switch}
@@ -51,10 +41,10 @@
     <table class="list" cellspacing="0">
     <tr>
 	{* Item column *}
-        <th colspan="2">{'Item'|i18n( 'design/admin/node/removeobject' )}</th>
+        <th colspan="2">{'Item'|i18n( 'design/admin/content/children_reverserelatedlist' )}</th>
         {* Class type column *}
         <th>{'Type'|i18n( 'design/admin/node/removeobject' )}</th>
-        <th>{'Objects referring to this one'|i18n( 'design/admin/node/removeobject' )}</th>
+        <th>{'Objects referring to this one'|i18n( 'design/admin/content/children_reverserelatedlist' )}</th>
     </tr>
 
 {section var=children_item loop=$children_list sequence=array( bglight, bgdark )}
@@ -98,12 +88,10 @@
 </div>
 	    {include name=navigator
                      uri='design:navigator/google.tpl'
-                     page_uri='/content/removeobject/'
+                     page_uri=concat( '/content/reverserelatedlist/', $node_id )
 		     item_count=$children_count
                      view_parameters=$view_parameters
                      item_limit=$number_of_items}
-		     {*$reverse_list_count_children_array_count*}
-
 
 {* DESIGN: Content END *}
 {/let}</div></div>

@@ -38,12 +38,8 @@ include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "kernel/common/template.php" );
-include_once( 'kernel/classes/ezpreferences.php' );
 
 $Module =& $Params["Module"];
-
-if ( !isset( $Offset ) )
-    $Offset = false;
 
 $http =& eZHTTPTool::instance();
 
@@ -52,30 +48,6 @@ $deleteIDArray = $http->sessionVariable( "DeleteIDArray" );
 $contentObjectID = $http->sessionVariable( 'ContentObjectID' );
 $contentNodeID = $http->sessionVariable( 'ContentNodeID' );
 
-$children_list_limit = eZPreferences::value( "remove_children_list_limit" );
-
-switch  ( $children_list_limit )
-{
-    case 0:
-        $pageLimit = 10;
-        break;
-    case 1:
-        $pageLimit = 10;
-        break;
-    case 2:
-        $pageLimit = 25;
-        break;
-    case 3:
-        $pageLimit = 50;
-        break;
-    default:
-        $pageLimit = 10;
-        break;
-}
-
-if ( $Offset < $pageLimit )
-    $Offset = 0;
-
 $requestedURI = '';
 $userRedirectURI = '';
 $requestedURI =& $GLOBALS['eZRequestedURI'];
@@ -83,19 +55,7 @@ if ( get_class( $requestedURI ) == 'ezuri' )
 {
     $userRedirectURI = $requestedURI->uriString( true );
 }
-$http->setSessionVariable( 'userRedirectURIReverseObjects', $userRedirectURI );
-
-// Fetch number of reverse related objects for each of the items being removed.
-$reverselistCountArray = array();
-$totalReverseRelationsCount = 0; // total number of reverse related objects for all items.
-foreach( $deleteIDArray as $nodeID )
-{
-    $contentObject = eZContentObject::fetchByNodeID( $nodeID );
-    $contentObject_ID = $contentObject->attribute('id');
-    $reverseObjectCount = $contentObject->reverseRelatedObjectCount( false, false, false );
-    $reverselistCountArray[$contentObject_ID] = $reverseObjectCount;
-    $totalReverseRelationsCount += $reverseObjectCount;
-}
+$http->setSessionVariable( 'userRedirectURIReverseRelatedList', $userRedirectURI );
 
 if ( $http->hasSessionVariable( 'ContentLanguage' ) )
 {
@@ -115,7 +75,7 @@ if ( $http->hasPostVariable( "CancelButton" ) )
     $http->removeSessionVariable( "DeleteIDArray" );
     $http->removeSessionVariable( 'ContentObjectID' );
     $http->removeSessionVariable( 'ContentNodeID' );
-    $http->removeSessionVariable( 'userRedirectURIReverseObjects' );
+    $http->removeSessionVariable( 'userRedirectURIReverseRelatedList' );
     return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
 }
 
@@ -174,88 +134,8 @@ if ( $totalChildCount == 0 )
         return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
     }
 }
-$childrenList = null;
-$reverselistCountChildrenArray = array();
-$totalReverseRelationsChildrenCount = 0; // Total number of reverse related objects for all items.
-
-$db =& eZDB::instance();
-$contentObjectTreeNode = eZContentObjectTreeNode::fetch( $deleteIDArray );
-$path_strings = '( ';
-$path_strings2 = '( ';
-$except_path_strings = '';
-$i = 0;
-// Create WHERE section
-if ( is_array( $contentObjectTreeNode ) )
-    foreach ( $contentObjectTreeNode as $treeNode )
-    {
-        $path_strings .= "tree.path_string like '$treeNode->PathString%'";
-        $path_strings2 .= "tree2.path_string like '$treeNode->PathString%'";
-        $except_path_strings .=  "tree.path_string <> '$treeNode->PathString'";
-        ++$i;
-        if ( $i < count( $contentObjectTreeNode )  )
-        {
-            $path_strings .=' or ';
-            $except_path_strings .=' and ';
-            $path_strings2 .=' or ';
-        }
-    }
-else
-{
-    $path_strings .= "tree.path_string like '$contentObjectTreeNode->PathString%'";
-    $path_strings2 .= "tree2.path_string like '$contentObjectTreeNode->PathString%'";
-    $except_path_strings .=  "tree.path_string <> '$contentObjectTreeNode->PathString'";
-}
-$path_strings_where = $path_strings2.") ";
-$path_strings .= ") and ( $except_path_strings ) ";
-
-// Select all elements having reverse relations. And ignore those items that don't relate to objects other than being removed.
-$rows = $db->arrayQuery( "SELECT DISTINCT( tree.node_id )
-                             FROM  ezcontentobject_tree tree,  ezcontentobject obj,
-                                   ezcontentobject_link link LEFT JOIN ezcontentobject_tree tree2
-                                   ON link.from_contentobject_id = tree2.contentobject_id
-
-                             WHERE $path_strings
-
-                                   and link.to_contentobject_id = tree.contentobject_id
-                                   and obj.id = link.from_contentobject_id
-                                   and obj.current_version = link.from_contentobject_version
-                                   and not ( $path_strings_where )
-
-                            ", array( 'limit' => $pageLimit,
-                                      'offset' => $Offset ) );
-
-// Total count of sub items
-$countOfItems = $db->arrayQuery( "SELECT COUNT( DISTINCT( tree.node_id ) ) count
-
-                                  FROM  ezcontentobject_tree tree,  ezcontentobject obj,
-                                        ezcontentobject_link link LEFT JOIN ezcontentobject_tree tree2
-                                        ON link.from_contentobject_id = tree2.contentobject_id
-                                  WHERE $path_strings
-                                        and link.to_contentobject_id = tree.contentobject_id
-                                        and obj.id = link.from_contentobject_id
-                                        and obj.current_version = link.from_contentobject_version
-                                        and not ( $path_strings_where )
-                            " );
-$rowsCount = 0;
-if ( isset( $countOfItems[0] ) )
-    $rowsCount = $countOfItems[0]['count'];
-
-$childrenList = array(); // Contains children of Nodes from $deleteIDArray
-
-// Fetch number of reverse related objects for each of the items being removed.
-foreach( $rows as $child )
-{
-    $contentObject = eZContentObject::fetchByNodeID( $child['node_id'] );
-    $contentObject_ID = $contentObject->attribute('id');
-    $reverseObjectCount = $contentObject->reverseRelatedObjectCount( false, false, false );
-    $reverselistCountChildrenArray[$contentObject_ID] = $reverseObjectCount;
-    $totalReverseRelationsChildrenCount += $reverseObjectCount;
-    $childrenList[] = eZContentObjectTreeNode::fetch( $child['node_id'] );
-}
 
 $tpl =& templateInit();
-
-$viewParameters = array( 'offset' => $Offset );
 
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( 'moveToTrashAllowed', $moveToTrashAllowed ); // Backwards compatability
@@ -265,16 +145,6 @@ $tpl->setVariable( 'move_to_trash_allowed', $moveToTrashAllowed );
 $tpl->setVariable( "remove_list",  $deleteResult );
 $tpl->setVariable( 'total_child_count', $totalChildCount );
 $tpl->setVariable( 'remove_info', $info );
-$tpl->setVariable( 'reverse_list_count_array', $reverselistCountArray );
-$tpl->setVariable( 'total_reverse_relations_count', $totalReverseRelationsCount );
-
-$tpl->setVariable( 'children_list', $childrenList );
-
-$tpl->setVariable( 'reverse_list_count_children_array',  $reverselistCountChildrenArray );
-$tpl->setVariable( 'reverse_list_count_children_array_count', count( $reverselistCountChildrenArray ) );
-
-$tpl->setVariable( 'children_count', $rowsCount );
-$tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:node/removeobject.tpl" );
