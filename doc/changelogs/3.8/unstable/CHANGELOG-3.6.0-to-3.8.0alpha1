@@ -506,6 +506,8 @@ Attributes:
   ( Merged from stable/3.5 ( 3.5.6 ) rev. 13546 )
 - Fixed bug #7228: Wrong check for the count of an array in policyedit.php.
   ( Merged from stable/3.5 ( 3.5.6 ) rev. 13568 )
+- Fixed bug: #7215: Translation Error when cleaning the cache.
+  ( Merged from stable/3.5 ( 3.5.6 ) rev. 13572 )
   
 *Library:
 
