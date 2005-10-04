@@ -16,13 +16,6 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-{section show=$total_reverse_relations_count|gt( 0 )}
-<div class="block">
-    <p>{'There are objects related to some of the items that are about to be removed.'|i18n( 'design/admin/node/removeobject' )}</p>
-    <p>{'Removing the items will destroy the relations.'|i18n( 'design/admin/node/removeobject' )}</p>
-</div>
-{/section}
-
 {section show=$total_child_count|gt( 0 )}
 <div class="block">
     <p>{'Some of the items that are about to be removed contain sub items.'|i18n( 'design/admin/node/removeobject' )}</p>
@@ -42,7 +35,7 @@
     <th colspan="2">{'Item'|i18n( 'design/admin/node/removeobject' )}</th>
     <th>{'Type'|i18n( 'design/admin/node/removeobject' )}</th>
     <th>{'Sub items'|i18n( 'design/admin/node/removeobject' )}</th>
-    <th>{'Objects referring to this one'|i18n( 'design/admin/node/removeobject' )}</th>
+    <th>{'Objects referring to this subtree'|i18n( 'design/admin/node/removeobject' )}</th>
 </tr>
 {section var=remove_item loop=$remove_list sequence=array( bglight, bgdark )}
 
@@ -52,27 +45,22 @@
 
     {* Location. *}
     <td>
-
-    {section show=$reverse_list_count_array[$remove_item.object.id]|gt( 0 )}
-            <a href={concat( '/content/reverseobjects/', $remove_item.object.id, '/' )|ezurl}>
+    {section show=$remove_item.reverse_child_count|gt( 0 )}
+        <a href={concat( '/content/reverserelatedlist/', $remove_item.node.node_id, '/' )|ezurl}>
     {/section} 	
         {section var=path_node loop=$remove_item.node.path|append( $remove_item.node )}
-	
-              {$path_node.name|wash}
+          {$path_node.name|wash}
         {delimiter} / {/delimiter}
-	
         {/section}
     {section show=$reverse_list_count_array[$remove_item.object.id]|gt( 0 )}
-             </a>
+        </a>
     {/section} 		
-
     </td>
-
 
     {* Type. *}
     <td>
-    {$remove_item.object.class_name|wash}
-     </td>
+        {$remove_item.object.class_name|wash}
+    </td>
 
 {* Sub items. *}
     <td>
@@ -87,13 +75,22 @@
      {/section}
      </td>
 
-{* Objects referring to this one. *}
+{* Objects referring to this subtree *}
     <td>
-      {$reverse_list_count_array[$remove_item.object.id]}
-      {section show=$reverse_list_count_array[$remove_item.object.id]|gt( 0 )}
-        ( <a href={concat( '/content/reverseobjects/', $remove_item.object.id, '/' )|ezurl}>list</a> )
-      {/section}
-    </td>
+    {section show=$remove_item.reverse_child_count|eq( 1 )}
+        {'%child_count item'
+         |i18n( 'design/admin/content/removeobject',,
+                hash( '%child_count', $remove_item.reverse_child_count ) )}
+     {section-else}
+        {'%child_count items'
+         |i18n( 'design/admin/content/removeobject',,
+                hash( '%child_count', $remove_item.reverse_child_count ) )}
+     {/section}
+     {section show=$remove_item.reverse_child_count|gt( 0 )}
+	( <a href={concat( '/content/reverserelatedlist/', $remove_item.node.node_id, '/' )|ezurl}>list</a> )
+     {/section}
+   </td>
+
 </tr>	
 {/section}
 </table>
@@ -106,9 +103,6 @@
     {/section}
 {/section}
 </div>
-{section show=and( is_set( $children_list ), $children_list )}
-	{include uri='design:content/children_list_inremove.tpl'}
-{/section}
 
 {* DESIGN: Content END *}</div></div></div>
 

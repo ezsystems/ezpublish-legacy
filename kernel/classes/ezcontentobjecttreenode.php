@@ -3365,6 +3365,8 @@ WHERE
         $totalChildCount = 0;
         $totalLoneNodeCount = 0;
         $canRemoveAll = true;
+        $db =& eZDB::instance();
+
         foreach ( $deleteIDArray as $deleteID )
         {
             $node =& eZContentObjectTreeNode::fetch( $deleteID );
@@ -3397,6 +3399,35 @@ WHERE
                 $readableChildCount = $node->subTreeCount( array( 'Limitation' => array() ) );
                 $childCount = $node->subTreeCount();
                 $totalChildCount += $childCount;
+
+                // Select count of all elements having reverse relations. And ignore those items that don't relate to objects other than being removed.
+                $contentObjectTreeNode = eZContentObjectTreeNode::fetch( $deleteID );
+                $path_strings = '( ';
+                $path_strings2 = '( ';
+                $except_path_strings = '';
+                $i = 0;
+
+                // Create WHERE section
+                $path_strings .= "tree.path_string like '$contentObjectTreeNode->PathString%'";
+                $path_strings2 .= "tree2.path_string like '$contentObjectTreeNode->PathString%'";
+                $path_strings_where = $path_strings2 . " ) ";
+                $path_strings .= " )";
+
+                // Total count of sub items
+                $countOfItems = $db->arrayQuery( "SELECT COUNT( DISTINCT( tree.node_id ) ) count
+
+                                                  FROM  ezcontentobject_tree tree,  ezcontentobject obj,
+                                                        ezcontentobject_link link LEFT JOIN ezcontentobject_tree tree2
+                                                        ON link.from_contentobject_id = tree2.contentobject_id
+                                                  WHERE $path_strings
+                                                        and link.to_contentobject_id = tree.contentobject_id
+                                                        and obj.id = link.from_contentobject_id
+                                                        and obj.current_version = link.from_contentobject_version
+                                                        and not ( $path_strings_where )
+                                            " );
+                $reverseChildCount = 0;
+                if ( isset( $countOfItems[0] ) )
+                    $reverseChildCount = $countOfItems[0]['count'];
 
                 $allAssignedNodes =& $object->attribute( 'assigned_nodes' );
                 $objectNodeCount = count( $allAssignedNodes );
@@ -3484,6 +3515,7 @@ WHERE
                            'class' => $class,
                            'node_name' => $nodeName,
                            'child_count' => $childCount,
+                           'reverse_child_count' => $reverseChildCount,
                            'object_node_count' => $objectNodeCount,
                            'sole_node_count' => $soleNodeCount,
                            'can_remove' => $canRemove,
