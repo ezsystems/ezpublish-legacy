@@ -95,5 +95,8 @@ Changes from 3.7.0rc2 to 3.7.0
 - Fixed bug: #7169: crash while publishing an image.
 - Fixed bug: #7227: swap node between content and media produces strange
   behaviour.
-	      
+- Fixed bug #7170: advancedsearch with multiple attributes fails
+  to return results.
+  (Merged from stable/3.6 (3.6.3) rev. 13602)
+
 *Library:
