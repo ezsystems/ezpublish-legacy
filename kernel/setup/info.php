@@ -82,7 +82,7 @@ if ( extension_loaded( "apc" ) )
     $phpAcceleratorInfo['url'] = "http://pecl.php.net/package/APC";
     $phpAcceleratorInfo['enabled'] = ini_get( 'apc.enabled' ) != 0;
     $phpAcceleratorInfo['version_integer'] = false;
-    $phpAcceleratorInfo['version_string'] = false;
+    $phpAcceleratorInfo['version_string'] = phpversion( 'apc' );
 }
 if ( extension_loaded( "Zend Performance Suite" ) )
 {
