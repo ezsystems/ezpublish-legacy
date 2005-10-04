@@ -106,12 +106,11 @@ class eZContentObjectTreeNodeOperations
         if ( $newNode->attribute( 'main_node_id' ) == $newNode->attribute( 'node_id' ) )
         {
             // If the main node is moved we need to check if the section ID must change
-            // If the section ID is shared with its old parent we must update with the
-            //  id taken from the new parent, if not the node is the starting point of the section.
-            if ( $object->attribute( 'section_id' ) == $oldParentObject->attribute( 'section_id' ) )
+            $newParentNode =& $newNode->fetchParent();
+            $newParentObject =& $newParentNode->object();
+            if ( $object->attribute( 'section_id' ) != $newParentObject->attribute( 'section_id' ) )
             {
-                $newParentNode =& $newNode->fetchParent();
-                $newParentObject =& $newParentNode->object();
+
                 eZContentObjectTreeNode::assignSectionToSubTree( $newNode->attribute( 'main_node_id' ),
                                                                  $newParentObject->attribute( 'section_id' ),
                                                                  $oldParentObject->attribute( 'section_id' ) );
