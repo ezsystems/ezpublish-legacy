@@ -561,8 +561,11 @@ class eZDebug
         // If we have var_export (PHP >= 4.2.0) we use the instead
         // provides better output, doesn't require output buffering
         // and doesn't get mangled by XDebug
-        if ( function_exists( 'var_export' ) )
-            return var_export( $var, true );
+
+        // dl: we should always use 'var_dump' since 'var_export' is
+        // unable to handle recursion properly.
+        //if ( function_exists( 'var_export' ) )
+        //    return var_export( $var, true );
 
         $variableContents = "";
         ob_start();
@@ -963,7 +966,7 @@ class eZDebug
         $binnet = str_pad( decbin( $lnet ), 32, "0", "STR_PAD_LEFT" );
         $firstpart = substr($binnet,0,$mask);
         $binip = str_pad( decbin( $lip ), 32, "0", "STR_PAD_LEFT" );
-        $firstip = substr( $binip, 0, $mask );                                                                 
+        $firstip = substr( $binip, 0, $mask );
         return( strcmp( $firstpart, $firstip ) == 0 );
     }
 
@@ -1024,7 +1027,7 @@ class eZDebug
                             	break;
                         	}
                     	}
-                    	else 
+                    	else
                     	{
                         	if ( $matches[1] == $ipAddress )
                         	{
@@ -1081,14 +1084,14 @@ function showDebug()
     {
         //Opera
         debugWindow = window.open( '', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
-        debugWindow.location.href=\"/$debugFilePath\";  
+        debugWindow.location.href=\"/$debugFilePath\";
         debugWindow.navigate(\"/$debugFilePath\");
     }
     else
     {
 	//Mozilla, Firefox, etc.
         debugWindow = window.open( '', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
-        debugWindow.document.location.href=\"/$debugFilePath\";  
+        debugWindow.document.location.href=\"/$debugFilePath\";
     };
 }
 
@@ -1348,7 +1351,7 @@ td.timingpoint2
                 $color = $outputData["color"];
                 $name = $outputData["name"];
                 $label = $debug["Label"];
-                $bgclass = $debug["BackgroundClass"]; 
+                $bgclass = $debug["BackgroundClass"];
                 $pre = ($bgclass != '' ? " class='$bgclass'" : '');
                 if ( $as_html )
                 {
