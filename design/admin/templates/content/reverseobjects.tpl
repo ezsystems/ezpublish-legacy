@@ -22,8 +22,8 @@
 
 <table class="list" cellspacing="0">
 <tr>
-    <th colspan="2">{'Item'|i18n( 'design/admin/node/removeobject' )}</th>
-    <th>{'Type'|i18n( 'design/admin/node/removeobject' )}</th>
+    <th colspan="2">{'Item'|i18n( 'design/admin/content/reverseobject' )}</th>
+    <th>{'Type'|i18n( 'design/admin/content/reverseobject' )}</th>
 </tr>
 
 {section var=reverse_item loop=$reverse_related_object_list sequence=array( bglight, bgdark )}
