@@ -565,8 +565,11 @@ class eZDebug
         // If we have var_export (PHP >= 4.2.0) we use the instead
         // provides better output, doesn't require output buffering
         // and doesn't get mangled by Xdebug
-        if ( function_exists( 'var_export' ) )
-            return var_export( $var, true );
+
+        // dl: we should always use 'var_dump' since 'var_export' is
+        // unable to handle recursion properly.
+        //if ( function_exists( 'var_export' ) )
+        //    return var_export( $var, true );
 
         ob_start();
         var_dump( $var );
