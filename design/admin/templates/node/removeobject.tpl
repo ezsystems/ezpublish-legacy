@@ -35,7 +35,7 @@
     <th colspan="2">{'Item'|i18n( 'design/admin/node/removeobject' )}</th>
     <th>{'Type'|i18n( 'design/admin/node/removeobject' )}</th>
     <th>{'Sub items'|i18n( 'design/admin/node/removeobject' )}</th>
-    <th>{'Objects referring to this subtree'|i18n( 'design/admin/node/removeobject' )}</th>
+    <th>{'Sub items that are used by other objects'|i18n( 'design/admin/node/removeobject' )}</th>
 </tr>
 {section var=remove_item loop=$remove_list sequence=array( bglight, bgdark )}
 

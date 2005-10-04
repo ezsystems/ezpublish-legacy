@@ -146,8 +146,6 @@ foreach( $rows as $child )
     $childrenList[] = eZContentObjectTreeNode::fetch( $child['node_id'] );
 }
 
-
-
 $contentObjectName = $contentObjectTreeNode->attribute('name');
 $viewParameters = array( 'offset' => $Offset );
 
@@ -164,6 +162,6 @@ $tpl->setVariable( 'node_id',  $NodeID );
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:content/reverserelatedlist.tpl" );
 $Result['path'] = array( array( 'url' => false,
-                                'text' => ezi18n( 'kernel/content', "Objects that have reverse relations in subtree $contentObjectName" ) ) );
+                                'text' => ezi18n( 'kernel/content', "\"$contentObjectName\": Sub items that are used by other objects" ) ) );
 
 ?>

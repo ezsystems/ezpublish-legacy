@@ -3,7 +3,7 @@
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
 
 <h2 class="context-title">
-{'Objects that have reverse relations in subtree "%contentObjectName" [%children_count]'|i18n( 'design/admin/content/reverserelatedlist',,
+{'"%contentObjectName" [%children_count]: Sub items that are used by other objects '|i18n( 'design/admin/content/reverserelatedlist',,
                 hash( '%contentObjectName', $content_object_name ,
                       '%children_count', $reverse_list_children_count ) )}
 </h2>
