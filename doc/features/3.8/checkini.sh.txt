@@ -1,0 +1,44 @@
+*Title: checkini.sh - Script for checking that ini files use PHP syntax.
+
+*Description:
+
+Ini files should end with .php, and have PHP syntax, meaning that the content
+should be a comment within php tags, like this:
+
+<?php  /* #?ini charset="iso-8859-1"?
+[Part]
+Setting=value
+*/ ?>
+
+The script does three basic checks for this. It is far from perfect, but will
+report the most common errors:
+- Files not ending with .php
+- Files where the content does not have valid PHP syntax (checked with PHP -l)
+- Files without <?php (probably means you forgot to add it)
+
+First, it prints OK or Bad for every file, and at the end it prints a summary
+of any errors.
+
+*Documentation:
+
+The script is based on bin/shell/phpcheck.sh, and uses the same options, except
+the new --skip-dir.
+
+Note: The strange separator in --skip-dir. This should be improved.
+
+bin/shell/checkini.sh -h
+Usage: bin/shell/checkini.sh [options]
+
+Options: -h
+         --help            This message
+         --skip-dir=DIR    Do not check this directory. This is a regexp,
+                           multiple directories separated by \\\|
+         --exit-on-error   Exit on the first error
+         --errors-only     Will only print bad files, other texts are ommited
+         -q                Quiet, do not print anything
+
+Example:
+bin/shell/checkini.sh --skip-dir=share\\\|ezpaypal
+
+*Authors:
+Gunnstein Lye <gl@ez.no>
