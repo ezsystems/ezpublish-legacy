@@ -2,23 +2,25 @@ UPDATE ezsite_data SET value='3.6.0beta1' WHERE name='ezpublish-version';
 UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
 
 ALTER TABLE ezrss_export_item ADD COLUMN subnodes integer;
+UPDATE ezrss_export_item SET subnodes='0';
 ALTER TABLE ezrss_export_item ALTER subnodes SET NOT NULL;
 ALTER TABLE ezrss_export_item ALTER subnodes SET DEFAULT 0;
 
 ALTER TABLE ezrss_export ADD COLUMN number_of_objects integer;
-ALTER TABLE ezrss_export ALTER number_of_objects SET NOT NULL;
-ALTER TABLE ezrss_export ALTER number_of_objects SET DEFAULT 0;
 -- Old behaviour of RSS was that it fed 5 items
 UPDATE ezrss_export SET number_of_objects='5';
+ALTER TABLE ezrss_export ALTER number_of_objects SET NOT NULL;
+ALTER TABLE ezrss_export ALTER number_of_objects SET DEFAULT 0;
 
 ALTER TABLE ezrss_export ADD COLUMN main_node_only integer;
-ALTER TABLE ezrss_export ALTER main_node_only SET NOT NULL;
-ALTER TABLE ezrss_export ALTER main_node_only SET DEFAULT 1;
 -- Old behaviour of RSS was that all nodes have been shown,
 -- i.e. including those besides the main node
 UPDATE ezrss_export SET main_node_only='1';
+ALTER TABLE ezrss_export ALTER main_node_only SET NOT NULL;
+ALTER TABLE ezrss_export ALTER main_node_only SET DEFAULT 1;
 
-ALTER TABLE ezcontentobject_link ADD contentclassattribute_id INT;
+ALTER TABLE ezcontentobject_link ADD COLUMN contentclassattribute_id INT;
+UPDATE ezcontentobject_link SET contentclassattribute_id='0';
 ALTER TABLE ezcontentobject_link ALTER COLUMN contentclassattribute_id SET DEFAULT 0;
 ALTER TABLE ezcontentobject_link ALTER COLUMN contentclassattribute_id SET NOT NULL;
 CREATE INDEX ezco_link_to_co_id ON ezcontentobject_link ( to_contentobject_id );
