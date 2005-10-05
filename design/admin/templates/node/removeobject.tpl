@@ -20,6 +20,9 @@
 <div class="block">
     <p>{'Some of the items that are about to be removed contain sub items.'|i18n( 'design/admin/node/removeobject' )}</p>
 
+    {section show=$reverse_related}
+        <p>{'Some of the subtrees selected for removal are used by other objects. Select the menu from the content tree, and <strong>Advanced</strong>-&gt;<strong>Reverse related for subtree</strong>.'|i18n( 'design/admin/node/removeobject' )}</p>
+    {/section}
     {section show=$remove_info.can_remove_all}
         <p>{'Removing the items will also result in the removal of their sub items.'|i18n( 'design/admin/node/removeobject' )}</p>
         <p>{'Are you sure you want to remove the items along with their contents?'|i18n( 'design/admin/node/removeobject' )}</p>
@@ -35,7 +38,6 @@
     <th colspan="2">{'Item'|i18n( 'design/admin/node/removeobject' )}</th>
     <th>{'Type'|i18n( 'design/admin/node/removeobject' )}</th>
     <th>{'Sub items'|i18n( 'design/admin/node/removeobject' )}</th>
-    <th>{'Sub items that are used by other objects'|i18n( 'design/admin/node/removeobject' )}</th>
 </tr>
 {section var=remove_item loop=$remove_list sequence=array( bglight, bgdark )}
 
@@ -45,16 +47,10 @@
 
     {* Location. *}
     <td>
-    {section show=$remove_item.reverse_child_count|gt( 0 )}
-        <a href={concat( '/content/reverserelatedlist/', $remove_item.node.node_id, '/' )|ezurl}>
-    {/section} 	
         {section var=path_node loop=$remove_item.node.path|append( $remove_item.node )}
           {$path_node.name|wash}
         {delimiter} / {/delimiter}
         {/section}
-    {section show=$reverse_list_count_array[$remove_item.object.id]|gt( 0 )}
-        </a>
-    {/section} 		
     </td>
 
     {* Type. *}
@@ -75,23 +71,7 @@
      {/section}
      </td>
 
-{* Objects referring to this subtree *}
-    <td>
-    {section show=$remove_item.reverse_child_count|eq( 1 )}
-        {'%child_count item'
-         |i18n( 'design/admin/content/removeobject',,
-                hash( '%child_count', $remove_item.reverse_child_count ) )}
-     {section-else}
-        {'%child_count items'
-         |i18n( 'design/admin/content/removeobject',,
-                hash( '%child_count', $remove_item.reverse_child_count ) )}
-     {/section}
-     {section show=$remove_item.reverse_child_count|gt( 0 )}
-	( <a href={concat( '/content/reverserelatedlist/', $remove_item.node.node_id, '/' )|ezurl}>list</a> )
-     {/section}
-   </td>
-
-</tr>	
+</tr>
 {/section}
 </table>
 

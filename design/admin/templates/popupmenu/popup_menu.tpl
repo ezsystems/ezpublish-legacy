@@ -19,7 +19,8 @@ menuArray['Advanced']['elements']['menu-hide'] = new Array();
 menuArray['Advanced']['elements']['menu-hide']['url'] = {"/content/hide/%nodeID%"|ezurl};
 menuArray['Advanced']['elements']['menu-list'] = new Array();
 menuArray['Advanced']['elements']['menu-list']['url'] = {"content/view/sitemap/%nodeID%"|ezurl};
-
+menuArray['Advanced']['elements']['reverse-related'] = new Array();
+menuArray['Advanced']['elements']['reverse-related']['url'] = {"content/reverserelatedlist/%nodeID%"|ezurl};
 
 menuArray['SubitemsContextMenu'] = new Array();
 menuArray['SubitemsContextMenu']['depth'] = 0;
@@ -62,7 +63,6 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
 <!-- Treemenu icon click popup menu -->
 <div class="popupmenu" id="ContextMenu">
     <div class="popupmenuheader"><h3 id="menu-header">XXX</h3>
-        {*<div class="window-close" onclick="ezpopmenu_hide( 'ContextMenu' )"><p>X</p></div>*}
         <div class="break"></div>
     </div>
     <a id="menu-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">{"View"|i18n("design/admin/popupmenu")}</a>
@@ -108,13 +108,11 @@ menuArray['BookmarkMenu']['elements']['bookmark-edit']['url'] = {"/content/edit/
 
 <!-- Advanced menu -->
 <div class="popupmenu" id="Advanced">
-{*    <div class="popupmenuheader"><h3 id="menu-header">{'Advanced'|i18n( 'design/admin/popupmenu' )}</h3>
-        <div class="window-close" onclick="ezpopmenu_hide( 'Advanced' )"><p>X</p></div>
-        <div class="break"></div>
-    </div> *}
     <a id="menu-swap" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )" onclick="ezpopmenu_submitForm( 'menu-form-swap' ); return false;">{'Swap with another node'|i18n( 'design/admin/popupmenu' )}</a>
     <a id="menu-hide" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Hide / unhide'|i18n( 'design/admin/popupmenu' )}</a>
+    <hr />
     <a id="menu-list" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'View index'|i18n( 'design/admin/popupmenu' )}</a>
+    <a id="reverse-related" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Reverse related for subtree'|i18n( 'design/admin/popupmenu' )}</a>
 </div>
 
 
