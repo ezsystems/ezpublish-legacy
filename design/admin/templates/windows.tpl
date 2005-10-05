@@ -1,20 +1,21 @@
 {* Details window. *}
-{section show=ezpreference( 'admin_navigation_details'  )}
+{section show=ezpreference( 'admin_navigation_details' )}
     {include uri='design:details.tpl'}
 {/section}
 
 {* Translations window. *}
-{section show=ezpreference( 'admin_navigation_translations'  )}
+{section show=ezpreference( 'admin_navigation_translations' )}
     {include uri='design:translations.tpl'}
 {/section}
 
 {* Locations window. *}
-{section show=ezpreference( 'admin_navigation_locations'  )}
+{section show=ezpreference( 'admin_navigation_locations' )}
     {include uri='design:locations.tpl'}
 {/section}
 
 {* Relations window. *}
-{section show=ezpreference( 'admin_navigation_relations'  )}
+{section show=or( ezpreference( 'admin_navigation_relations' ),
+                  $view_parameters.show_preferences)}
     {include uri='design:relations.tpl'}
 {/section}
 
