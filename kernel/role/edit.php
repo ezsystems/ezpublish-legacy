@@ -218,7 +218,7 @@ if ( $http->hasPostVariable( 'AddLimitation' ) )
         $functions =& $mod->attribute( 'available_functions' );
         $currentFunctionLimitations = $functions[ $currentFunction ];
         eZDebugSetting::writeDebug( 'kernel-role-edit', $currentFunctionLimitations, 'currentFunctionLimitations' );
-        
+
         $db =& eZDB::instance();
         $db->begin();
         foreach ( $currentFunctionLimitations as $functionLimitation )
@@ -416,8 +416,9 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
         $currentFunction = $http->postVariable( 'ModuleFunction' );
 
     $currentFunctionLimitations = array();
-    foreach( $functions[ $currentFunction ] as $limitation )
+    foreach( array_keys( $functions[ $currentFunction ] ) as $key )
     {
+        $limitation =& $functions[ $currentFunction ][ $key ];
         if( count( $limitation[ 'values' ] == 0 ) && array_key_exists( 'class', $limitation ) )
         {
             include_once( 'kernel/' . $limitation['path'] . $limitation['file']  );
@@ -433,7 +434,7 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
             }
             $limitation[ 'values' ] = $limitationValueArray;
         }
-        $currentFunctionLimitations[] = $limitation;
+        $currentFunctionLimitations[ $key ] = $limitation;
     }
 
     if ( count( $currentFunctionLimitations ) < 1 )
@@ -530,7 +531,9 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
         return;
     }
 
-    if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) and $http->postVariable( 'BrowseActionName' ) == 'FindLimitationNode' && !$http->hasPostVariable( 'BrowseCancelButton' ) )
+    if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) and
+         $http->postVariable( 'BrowseActionName' ) == 'FindLimitationNode' and
+         !$http->hasPostVariable( 'BrowseCancelButton' ) )
     {
         $selectedNodeIDList = $http->postVariable( 'SelectedNodeIDArray' );
 
@@ -539,16 +542,8 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
             $policy =& eZPolicy::fetch( $http->sessionVariable( 'BrowsePolicyID' ) );
             $limitationList =& eZPolicyLimitation::fetchByPolicyID( $policy->attribute( 'id' ) );
 
-
-//            $currentModule = $http->postVariable( 'CurrentModule' );
-//            $currentFunction = $http->postVariable( 'CurrentFunction' );
-//            $mod = & eZModule::exists( $currentModule );
-//            $functions =& $mod->attribute( 'available_functions' );
-//            $currentFunctionLimitations =& $functions[ $currentFunction ];
-
-// Remove other limitations. When the policy is applied to node, no other constraints needed.
-// Removes limitations only from a DropList if it is specified in the module.
-
+            // Remove other limitations. When the policy is applied to node, no other constraints needed.
+            // Removes limitations only from a DropList if it is specified in the module.
             if ( isset( $currentFunctionLimitations['Node']['DropList'] ) )
             {
                 $dropList = $currentFunctionLimitations['Node']['DropList'];
@@ -596,7 +591,9 @@ if ( $http->hasPostVariable( 'SelectButton' ) or
         }
     }
 
-    if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) and $http->postVariable( 'BrowseActionName' ) == 'FindLimitationSubtree' && !$http->hasPostVariable( 'BrowseCancelButton' ) )
+    if ( $http->hasPostVariable( 'SelectedNodeIDArray' ) and
+         $http->postVariable( 'BrowseActionName' ) == 'FindLimitationSubtree' and
+         !$http->hasPostVariable( 'BrowseCancelButton' ) )
     {
         $selectedSubtreeIDList = $http->postVariable( 'SelectedNodeIDArray' );
         if ( $http->hasSessionVariable( 'BrowsePolicyID' ) )
