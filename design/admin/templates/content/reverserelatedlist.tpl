@@ -25,11 +25,6 @@
 {* DESIGN: Control bar START *}
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
-<form name="back" method="post" action={'content/reverserelatedlist'|ezurl}>
-<div class="block">
-	<input class="button" type="submit" name="BackButton" value="{'Back'|i18n( 'design/admin/content/reverserelatedlist' )}" />
-</div>
-</form>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 
 </div>

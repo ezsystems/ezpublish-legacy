@@ -137,6 +137,7 @@ if ( isset( $countOfItems[0] ) )
 $childrenList = array(); // Contains children of Nodes from $deleteIDArray
 
 // Fetch number of reverse related objects for each of the items being removed.
+$reverselistCountChildrenArray = array();
 foreach( $rows as $child )
 {
     $contentObject = eZContentObject::fetchByNodeID( $child['node_id'] );
@@ -155,7 +156,7 @@ $tpl->setVariable( 'children_list', $childrenList );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'children_count', $rowsCount );
 $tpl->setVariable( 'content_object_name', $contentObjectName );
-$tpl->setVariable( 'reverse_list_count_children_array',  $reverselistCountChildrenArray );
+$tpl->setVariable( 'reverse_list_count_children_array', $reverselistCountChildrenArray );
 $tpl->setVariable( 'reverse_list_children_count', count( $reverselistCountChildrenArray ) );
 $tpl->setVariable( 'node_id',  $NodeID );
 

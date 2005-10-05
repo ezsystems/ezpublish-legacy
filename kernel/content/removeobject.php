@@ -137,6 +137,7 @@ if ( $totalChildCount == 0 )
 
 $tpl =& templateInit();
 
+$tpl->setVariable( 'reverse_related', $info['reverse_related_count'] );
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( 'moveToTrashAllowed', $moveToTrashAllowed ); // Backwards compatability
 $tpl->setVariable( "ChildObjectsCount", $totalChildCount ); // Backwards compatability

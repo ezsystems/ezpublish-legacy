@@ -2146,7 +2146,11 @@ class eZContentObject extends eZPersistentObject
      Returns objects to which this object is related
       \param $attributeID : 0 - use regular relations (not by attribute)
     */
-    function &reverseRelatedObjectList( $version = false, $toObjectID = false, $attributeID = 0, $allRelationsMode = false )
+    function &reverseRelatedObjectList( $version = false,
+                                        $toObjectID = false,
+                                        $attributeID = 0,
+                                        $offset = false,
+                                        $limit = false )
     {
 //        if ( $version == false )
 //            $version = $this->CurrentVersion;
@@ -2154,18 +2158,31 @@ class eZContentObject extends eZPersistentObject
         if( !$toObjectID )
             $toObjectID = $this->ID;
 
+        $limitArray = array();
+        if ( $offset !== false )
+        {
+            $limitArray['offset'] = $offset;
+        }
+        if ( $limit !== false )
+        {
+            $limitArray['limit'] = $limit;
+        }
+
         $db =& eZDB::instance();
         if ( !$allRelationsMode )
         {
-            $relatedObjects = $db->arrayQuery( "SELECT ezcontentobject.*
-                         FROM
-                           ezcontentobject, ezcontentobject_link
-                         WHERE
-                           ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
-                           ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
-                           ezcontentobject_link.to_contentobject_id=$toObjectID AND
-                           ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version AND
-                           contentclassattribute_id=$attributeID" );
+            $query = "SELECT DISTINCT ezcontentobject.*
+                  FROM
+                  ezcontentobject, ezcontentobject_link
+                  WHERE
+                  ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
+                  ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
+                  ezcontentobject_link.to_contentobject_id=$toObjectID AND
+                  ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version";
+
+            if ( $attributeID )
+                $query .= " AND contentclassattribute_id=$attributeID";
+            $relatedObjects = $db->arrayQuery( $query, $limitArray );
         }
         else
         {
@@ -2222,18 +2239,31 @@ class eZContentObject extends eZPersistentObject
             $toObjectID = $this->ID;
 
         $db =& eZDB::instance();
-        $query = "SELECT count( DISTINCT ezcontentobject.id ) AS count
-					     FROM
-					       ezcontentobject, ezcontentobject_link
-					     WHERE
-					       ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
-					       ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
-					       ezcontentobject_link.to_contentobject_id=$toObjectID AND
-					       ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version";
 
-        if ( $allRelations == false )
-            $query .= " AND
-                           ezcontentobject_link.contentclassattribute_id=$attributeID";
+        if ( is_array( $toObjectID ) )
+        {
+            $objectIDSQL = 'ezcontentobject_link.to_contentobject_id = \'' . implode( "', '", $toObjectID ) . '\' AND ';
+        }
+        else
+        {
+            $objectIDSQL = 'ezcontentobject_link.to_contentobject_id = ' . $db->escapeString( $toObjectID ) . ' AND ';
+        }
+
+        $query = "SELECT count( DISTINCT ezcontentobject.id ) AS count
+                  FROM
+                    ezcontentobject, ezcontentobject_link
+                  WHERE
+                    ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
+                    ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
+                    $objectIDSQL
+                    ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version";
+
+        if ( $allRelations == false ||
+             $attributeID )
+            $query .= " AND ezcontentobject_link.contentclassattribute_id=$attributeID";
+
+        if ( $attributeID )
+            $query .= " AND ezcontentobject_link.contentclassattribute_id=$attributeID";
 
         $rows = $db->arrayQuery( $query );
         return $rows[0]['count'];

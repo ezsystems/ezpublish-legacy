@@ -3838,7 +3838,6 @@ WHERE
             $newMainNodeID = false;
             $objectNodeCount = 0;
             $readableChildCount = 0;
-            $reverseChildCount = 0;
 
             if ( $canRemove )
             {
@@ -3850,35 +3849,6 @@ WHERE
                 $readableChildCount = $node->subTreeCount( array( 'Limitation' => array() ) );
                 $childCount = $node->subTreeCount();
                 $totalChildCount += $childCount;
-
-                // Select count of all elements having reverse relations. And ignore those items that don't relate to objects other than being removed.
-                $contentObjectTreeNode = eZContentObjectTreeNode::fetch( $deleteID );
-                $path_strings = '( ';
-                $path_strings2 = '( ';
-                $except_path_strings = '';
-                $i = 0;
-
-                // Create WHERE section
-                $path_strings .= "tree.path_string like '$contentObjectTreeNode->PathString%'";
-                $path_strings2 .= "tree2.path_string like '$contentObjectTreeNode->PathString%'";
-                $path_strings_where = $path_strings2 . " ) ";
-                $path_strings .= " )";
-
-                // Total count of sub items
-                $countOfItems = $db->arrayQuery( "SELECT COUNT( DISTINCT( tree.node_id ) ) count
-
-                                                  FROM  ezcontentobject_tree tree,  ezcontentobject obj,
-                                                        ezcontentobject_link link LEFT JOIN ezcontentobject_tree tree2
-                                                        ON link.from_contentobject_id = tree2.contentobject_id
-                                                  WHERE $path_strings
-                                                        and link.to_contentobject_id = tree.contentobject_id
-                                                        and obj.id = link.from_contentobject_id
-                                                        and obj.current_version = link.from_contentobject_version
-                                                        and not ( $path_strings_where )
-                                            " );
-                $reverseChildCount = 0;
-                if ( isset( $countOfItems[0] ) )
-                    $reverseChildCount = $countOfItems[0]['count'];
 
                 $allAssignedNodes =& $object->attribute( 'assigned_nodes' );
                 $objectNodeCount = count( $allAssignedNodes );
@@ -3966,7 +3936,6 @@ WHERE
                            'class' => $class,
                            'node_name' => $nodeName,
                            'child_count' => $childCount,
-                           'reverse_child_count' => $reverseChildCount,
                            'object_node_count' => $objectNodeCount,
                            'sole_node_count' => $soleNodeCount,
                            'can_remove' => $canRemove,
@@ -3987,7 +3956,49 @@ WHERE
         return array( 'move_to_trash' => $moveToTrashAllowed,
                       'total_child_count' => $totalChildCount,
                       'can_remove_all' => $canRemoveAll,
-                      'delete_list' => $deleteResult );
+                      'delete_list' => $deleteResult,
+                      'reverse_related_count' => eZContentObjectTreeNode::reverseRelatedCount( $deleteIDArray ) );
+    }
+
+    /*!
+     \private
+     \static
+     Return reverse related count for specified node
+
+     \param $nodeIDList, array of node id's
+
+     \return reverse related count.
+    */
+    function reverseRelatedCount( $nodeIDArray )
+    {
+        // Select count of all elements having reverse relations. And ignore those items that don't relate to objects other than being removed.
+        foreach( $nodeIDArray as $nodeID )
+        {
+            $contentObjectTreeNode = eZContentObjectTreeNode::fetch( $nodeID );
+
+            // Create WHERE section
+            $pathStringArray[] = "tree.path_string like '$contentObjectTreeNode->PathString%'";
+            $path2StringArray[] = "tree2.path_string like '$contentObjectTreeNode->PathString%'";
+        }
+        $path_strings = '( ' . implode( ' OR ', $pathStringArray ) . ' ) ';
+        $path_strings_where = '( ' . implode( ' OR ', $path2StringArray ) . ' ) ';
+
+        // Total count of sub items
+        $db = eZDB::instance();
+        $countOfItems = $db->arrayQuery( "SELECT COUNT( DISTINCT( tree.node_id ) ) count
+                                                  FROM  ezcontentobject_tree tree,  ezcontentobject obj,
+                                                        ezcontentobject_link link LEFT JOIN ezcontentobject_tree tree2
+                                                        ON link.from_contentobject_id = tree2.contentobject_id
+                                                  WHERE $path_strings
+                                                        and link.to_contentobject_id = tree.contentobject_id
+                                                        and obj.id = link.from_contentobject_id
+                                                        and obj.current_version = link.from_contentobject_version
+                                                        and not $path_strings_where" );
+
+        if ( $countOfItems )
+        {
+            return $countOfItems[0]['count'];
+        }
     }
 
     /*!
