@@ -275,11 +275,9 @@ ALTER TABLE ezpdf_export
 
 ALTER TABLE ezpdf_export
     ADD COLUMN version integer;
-
+UPDATE ezpdf_export SET version=0;
 ALTER TABLE ezpdf_export ALTER version SET DEFAULT 0;
 ALTER TABLE ezpdf_export ALTER version SET NOT NULL;
-
-UPDATE ezpdf_export SET version=0;
 
 ALTER TABLE ezpdf_export
     ADD CONSTRAINT ezpdf_export_pkey PRIMARY KEY (id,version);

@@ -46,6 +46,7 @@ ALTER TABLE ezbasket ALTER order_id SET NOT NULL;
 ALTER TABLE ezbasket ALTER order_id SET DEFAULT 0;
 
 ALTER TABLE ezbinaryfile ADD COLUMN download_count integer;
+UPDATE ezbinaryfile SET download_count='0';
 ALTER TABLE ezbinaryfile ALTER download_count SET NOT NULL;
 ALTER TABLE ezbinaryfile ALTER download_count SET DEFAULT 0;
 
