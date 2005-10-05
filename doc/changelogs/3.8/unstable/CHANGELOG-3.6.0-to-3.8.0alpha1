@@ -468,33 +468,33 @@ Attributes:
 - Fixed bug #7165: CRLF in templateedit.tpl and others.
   (Merged from stable/3.5 (3.5.6) rev. 13422)
 - Fixed bug 7167: setup kickstart.ini miss some data.
-- Fixed bug #7155: Bug error and fix in ezobjectrelationlist.tpl
+- Fixed bug #7155: error and fix in ezobjectrelationlist.tpl
   (Merged from stable/3.5  rev. 13435)
-- Fixed bug #7175: Bug Removal of object and objectrelation
+- Fixed bug #7175: Removal of object and objectrelation
   (and objectrelationlist).
   (Manually merged from stable/3.6 (3.6.3) rev. 13432, l3433).
 - Fixed bug #7168: Some more (reference errors ?) when debug is ON.
   ( Merged from stable/3.7 rev. 13450 )
-- Fixed bug #7166: Bug %1% get replaced in template.
+- Fixed bug #7166: %1% get replaced in template.
  (Merged from stable/3.5 rev. 13455)
-- Fixed bug #7190: Bug ezxhtmlxmloutput.php Fatal error: Undefined class name 'eztemplateincludefunction'.
+- Fixed bug #7190: ezxhtmlxmloutput.php Fatal error: Undefined class name 'eztemplateincludefunction'.
   (Merged from stable/3.5 rev. 13459)
-- Fixed bug #7063: Bug When enabled TextTranslation server hangs.
+- Fixed bug #7063: When enabled TextTranslation server hangs.
   ( Merged from stable/3.7 rev. 13463 )
-- Fixed bug #7192: Bug Extension activation in the GUI doesnt work.
+- Fixed bug #7192: Extension activation in the GUI doesnt work.
   ( Merged from stable/3.7 rev. 13475 )
 - Fixed bug: Wrong defining version of PostgreSQL.
   (Merged from stable/3.6 (3.6.3) rev. 13467)  
 - Fixed bug: Wrong parse default (double precision) value.
   (Merged from stable/3.6 (3.6.3) rev. 13470)
-- Fixed bug #7199 Bug Possible error in eZPersistentObject::updateObjectList -unable to unset fields with defaults
+- Fixed bug #7199: Possible error in eZPersistentObject::updateObjectList -unable to unset fields with defaults
   (Merged from stable/3.5  rev.  13481)
 - Fixed bug #7194: Multiple "Event / Approve" events in a workflow stop users from being added.
   ( Merged from stable/3.5 rev. 13492, stable/3.6 rev. 13493, stable/3.7 rev. 13494 )
-- Fixed bug #7204: Bug Setting for login handler extensions has wrong name in site.ini
+- Fixed bug #7204: Setting for login handler extensions has wrong name in site.ini
   ( Merged from stable/3.6 rev. 13506 )
 - Fixed bug: Fatal error when try to register new user.  
-- Fixed bug #7203: Bug Sections: checkboxes to assign multiple nodes
+- Fixed bug #7203: Sections: checkboxes to assign multiple nodes
   ( Merged from stable/3.5 rev. 13514 )
 - Fixed bug #7208: ezsoapserver.php: Fix for call to non-object error.
   ( Merged from stable/3.5 rev. 13524, stable/3.6 rev. 13525, stable/3.7 rev. 13526 )
@@ -502,20 +502,22 @@ Attributes:
   ( Merged from stable/3.5 rev. 13524, stable/3.6 rev. 13525, stable/3.7 rev. 13526 )
 - Fixed bug #7213: Email validation fails with ab_cd12@gmx.net.
   ( Merged from stable/3.5 ( 3.5.6 ) rev. 13535 )
-- Fixed bug #7205: Bug mimetype_icon returns to many / in url.
+- Fixed bug #7205: mimetype_icon returns to many / in url.
   ( Merged from stable/3.5 ( 3.5.6 ) rev. 13546 )
 - Fixed bug #7228: Wrong check for the count of an array in policyedit.php.
   ( Merged from stable/3.5 ( 3.5.6 ) rev. 13568 )
-- Fixed bug: #7215: Translation Error when cleaning the cache.
+- Fixed bug #7215: Translation Error when cleaning the cache.
   ( Merged from stable/3.5 ( 3.5.6 ) rev. 13572 )
-- Fixed bug: #7169: crash while publishing an image.  
+- Fixed bug #7169: crash while publishing an image.  
   ( Merged from stable/3.7 ( 3.7.0 ) rev. 13591 )
-- Fixed bug: #7227: swap node between content and media produces strange
+- Fixed bug #7227: swap node between content and media produces strange
   behaviour.
   ( Merged from stable/3.7 ( 3.7.0 ) rev. 13599 )
 - Fixed bug #7170: advancedsearch with multiple attributes fails
   to return results.
   (Merged from stable/3.6 (3.6.3) rev. 13602)
+- Fixed bug #6978: Postgresql update scripts errors.
+  ( Manually merged from stable/3.5 ( 3.5.6 ) rev. 13606 )
 
 *Library:
 
