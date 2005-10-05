@@ -22,15 +22,9 @@
 
     {* Location. *}
     <td>
-    {section show=$reverse_list_count_children_array[$children_item.object.id]|gt( 0 )}
-        <a href={concat( '/content/reverseobjects/', $children_item.object.id, '/' )|ezurl}>
-    {/section}
 	{section var=path_node loop=$children_item.path|append( $children_item )}
               {$path_node.name|wash}
               {delimiter} / {/delimiter}
-        {/section}
-    {section show=$reverse_list_count_array[$children_item.object.id]|gt( 0 )}
-          </a>
     {/section}
     </td>
 
