@@ -86,10 +86,9 @@ if ( isset( $functions[$currentFunction] ) && $functions[$currentFunction] )
             include_once( 'kernel/' . $limitation['path'] . $limitation['file'] );
             $obj = new $limitation['class']( array() );
             $limitationValueList = call_user_func_array( array( &$obj, $limitation['function'] ), $limitation['parameter'] );
-            $limitationValueArray =  array();
-            foreach ( array_keys( $limitationValueList ) as $key )
+            $limitationValueArray = array();
+            foreach ( $limitationValueList as $limitationValue )
             {
-                $limitationValue =& $limitationValueList[$key];
                 $limitationValuePair = array();
                 $limitationValuePair['Name'] = $limitationValue['name'];
                 $limitationValuePair['value'] = $limitationValue['id'];
@@ -97,32 +96,8 @@ if ( isset( $functions[$currentFunction] ) && $functions[$currentFunction] )
             }
             $limitation['values'] = $limitationValueArray;
         }
-        $currentFunctionLimitations[] = $limitation;
+        $currentFunctionLimitations[ $key ] = $limitation;
     }
-}
-$currentLimitationList = array();
-foreach ( array_keys( $currentFunctionLimitations ) as $key )
-{
-    $currentFunctionLimitation =& $currentFunctionLimitations[$key];
-    $limitationName = $currentFunctionLimitation['name'];
-    $currentLimitationList[$limitationName] = "-1";
-}
-
-$limitationList = eZPolicyLimitation::fetchByPolicyID( $policyID );
-foreach ( array_keys( $limitationList ) as $key )
-{
-    $limitation =& $limitationList[$key];
-    $limitationID = $limitation->attribute( 'id' );
-    $limitationIdentifier = $limitation->attribute( 'identifier' );
-    $limitationValues = eZPolicyLimitationValue::fetchList( $limitationID );
-    $valueList = array();
-    foreach ( array_keys( $limitationValues ) as $key )
-    {
-        $limitationValue = $limitationValues[$key];
-        $value = $limitationValue->attribute( 'value' );
-        $valueList[] = $value;
-    }
-    $currentLimitationList[$limitationIdentifier] = $valueList;
 }
 
 $http =& eZHttpTool::instance();
@@ -169,6 +144,7 @@ if ( $http->hasPostVariable( "DeleteSubtreeButton" ) )
 }
 
 // Fetch node limitations
+$nodeIDList = array();
 $nodeLimitation = eZPolicyLimitation::fetchByIdentifier( $policyID, "Node" );
 if ( $nodeLimitation != null )
 {
@@ -219,6 +195,7 @@ if ( $http->hasPostVariable( "UpdatePolicy" ) )
     $hasLimitation = false;
     $db =& eZDB::instance();
     $db->begin();
+    $limitationList = eZPolicyLimitation::fetchByPolicyID( $policyID );
     foreach ( array_keys( $limitationList ) as $key )
     {
         $limitation =& $limitationList[$key];
@@ -281,34 +258,13 @@ if ( $http->hasPostVariable( "UpdatePolicy" ) )
 
     $Module->redirectTo( $Module->functionURI( "edit" ) . "/" . $roleID . '/');
 }
-/*
-if ( $http->hasPostVariable( "DeleteSubtreeButton" ) )
-{
-    if ( $http->hasPostVariable( "DeleteSubtreeIDArray" ) )
-    {
-        $deletedIDList = $http->postVariable( "DeleteSubtreeIDArray" );
 
-        foreach ( $deletedIDList as $deletedID )
-        {
-            $subtree = eZContentObjectTreeNode::fetch( $deletedID );
-            $path = $subtree->attribute( 'path_string' );
-            eZPolicyLimitationValue::removeByValue( $path );
-        }
-    }
-}
-*/
 if ( $http->hasPostVariable( "BrowseLimitationNodeButton" ) )
 {
     eZContentBrowse::browse( array( 'action_name' => 'FindLimitationNode',
                                     'content' => array( 'policy_id' => $policyID ),
                                     'from_page' => '/role/policyedit/' . $policyID ),
                              $Module );
-//     $http->setSessionVariable( "BrowseFromPage", "/role/policyedit/" . $policyID );
-//     $http->setSessionVariable( "BrowseActionName", "FindLimitationNode" );
-//     $http->setSessionVariable( "BrowseReturnType", "NodeID" );
-//     $http->setSessionVariable( 'BrowseSelectionType', 'Multiple' );
-//     $nodeID = 2;
-//     $Module->redirectTo( "/content/browse/" . $nodeID );
     return;
 }
 
@@ -318,12 +274,6 @@ if ( $http->hasPostVariable( "BrowseLimitationSubtreeButton" ) )
                                     'content' => array( 'policy_id' => $policyID ),
                                     'from_page' => '/role/policyedit/' . $policyID ),
                              $Module );
-//     $http->setSessionVariable( "BrowseFromPage", "/role/policyedit/" . $policyID );
-//     $http->setSessionVariable( "BrowseActionName", "FindLimitationSubtree" );
-//     $http->setSessionVariable( "BrowseReturnType", "NodeID" );
-//     $http->setSessionVariable( 'BrowseSelectionType', 'Multiple' );
-//     $nodeID = 2;
-//     $Module->redirectTo( "/content/browse/" . $nodeID );
     return;
 }
 
@@ -331,17 +281,36 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and
      $http->postVariable( "BrowseActionName" ) == "FindLimitationNode" and
      !$http->hasPostVariable( 'BrowseCancelButton' ) )
 {
-    // Remove other limitations. When the policy is applied to node, no other constraints needed.
     $db =& eZDB::instance();
     $db->begin();
+    $limitationList = eZPolicyLimitation::fetchByPolicyID( $policyID );
 
-    foreach ( $limitationList as $limitation )
+    // Remove other limitations. When the policy is applied to node, no other constraints needed.
+    // Removes limitations only from a DropList if it is specified in the module.
+    if ( isset( $currentFunctionLimitations['Node']['DropList'] ) )
     {
-        $limitationID = $limitation->attribute( 'id' );
-        $limitationIdentifier = $limitation->attribute( 'identifier' );
-        if ( $limitationIdentifier != "Node" and $limitationIdentifier != "Subtree" )
-            eZPolicyLimitation::remove( $limitationID );
+        $dropList = $currentFunctionLimitations['Node']['DropList'];
+        foreach ( $limitationList as $limitation )
+        {
+            $limitationID = $limitation->attribute( 'id' );
+            $limitationIdentifier = $limitation->attribute( 'identifier' );
+            if ( in_array( $limitationIdentifier, $dropList ) )
+            {
+                eZPolicyLimitation::remove( $limitationID );
+            }
+        }
     }
+    else
+    {
+        foreach ( $limitationList as $limitation )
+        {
+            $limitationID = $limitation->attribute( 'id' );
+            $limitationIdentifier = $limitation->attribute( 'identifier' );
+            if ( $limitationIdentifier != 'Node' and $limitationIdentifier != 'Subtree' )
+                eZPolicyLimitation::remove( $limitationID );
+        }
+    }
+
     $db->commit();
 
     $selectedNodeIDList = $http->postVariable( "SelectedNodeIDArray" );
@@ -359,7 +328,8 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and
     }
 }
 
-if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and $http->postVariable( "BrowseActionName" ) == "FindLimitationSubtree" and
+if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and
+     $http->postVariable( "BrowseActionName" ) == "FindLimitationSubtree" and
      !$http->hasPostVariable( 'BrowseCancelButton' ) )
 {
     $selectedSubtreeIDList = $http->postVariable( "SelectedNodeIDArray" );
@@ -380,6 +350,31 @@ if ( $http->hasPostVariable( "SelectedNodeIDArray" ) and $http->postVariable( "B
         }
     }
     $db->commit();
+}
+
+$currentLimitationList = array();
+foreach ( array_keys( $currentFunctionLimitations ) as $key )
+{
+    $currentFunctionLimitation =& $currentFunctionLimitations[$key];
+    $limitationName = $currentFunctionLimitation['name'];
+    $currentLimitationList[$limitationName] = "-1";
+}
+
+$limitationList = eZPolicyLimitation::fetchByPolicyID( $policyID );
+foreach ( array_keys( $limitationList ) as $key )
+{
+    $limitation =& $limitationList[$key];
+    $limitationID = $limitation->attribute( 'id' );
+    $limitationIdentifier = $limitation->attribute( 'identifier' );
+    $limitationValues = eZPolicyLimitationValue::fetchList( $limitationID );
+    $valueList = array();
+    foreach ( array_keys( $limitationValues ) as $key )
+    {
+        $limitationValue = $limitationValues[$key];
+        $value = $limitationValue->attribute( 'value' );
+        $valueList[] = $value;
+    }
+    $currentLimitationList[$limitationIdentifier] = $valueList;
 }
 
 $Module->setTitle( "Edit policy" );
