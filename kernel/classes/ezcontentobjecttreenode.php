@@ -2697,12 +2697,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      Returns the first level children in sorted order.
     */
-    function &children( )
+    function &children()
     {
-        return $this->subTree( array( 'Depth' => 1,
-                                      'DepthOperator' => 'eq' ) );
-//                                      'Limitation' => $limitationList
-//                                      ) );
+        $children =& $this->subTree( array( 'Depth' => 1,
+                                            'DepthOperator' => 'eq' ) );
+        return $children;
     }
 
     /*!
