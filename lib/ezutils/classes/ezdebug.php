@@ -1388,9 +1388,16 @@ td.timingpoint2
                 if ( $as_html )
                 {
                     $label = htmlspecialchars( $label );
+
+                    $contents = '';
+                    if ( extension_loaded( 'xdebug' ) )
+                        $contents =& $debug['String'];
+                    else
+                        $contents = htmlspecialchars( $debug['String'] );
+
                     echo "<tr><td class='debugheader' valign='top'$identifierText><b><font color=\"$color\">$name:</font> $label</b></td>
                                     <td class='debugheader' valign='top'>$time</td></tr>
-                                    <tr><td colspan='2'><pre$pre>" .  htmlspecialchars( $debug["String"] )  . "</pre></td></tr>";
+                                    <tr><td colspan='2'><pre$pre>" .  $contents . "</pre></td></tr>";
                 }
                 else
                 {
