@@ -15,7 +15,7 @@
 
 {* Relations window. *}
 {section show=or( ezpreference( 'admin_navigation_relations' ),
-                  $view_parameters.show_preferences)}
+                  $view_parameters.show_relations)}
     {include uri='design:relations.tpl'}
 {/section}
 
