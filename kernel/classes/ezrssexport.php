@@ -462,7 +462,7 @@ class eZRSSExport extends eZPersistentObject
                     );
         $rssSources = eZRSSExportItem::fetchFilteredList( $cond );
 
-        $nodeArray = eZRSSExportItem::fetchObjectList( $rssSources, $this->getObjectListFilter() );
+        $nodeArray = eZRSSExportItem::fetchNodeList( $rssSources, $this->getObjectListFilter() );
 
         if( is_array( $nodeArray ) && count( $nodeArray ) )
         {
@@ -648,7 +648,7 @@ class eZRSSExport extends eZPersistentObject
                     );
         $rssSources = eZRSSExportItem::fetchFilteredList( $cond );
 
-        $nodeArray = eZRSSExportItem::fetchObjectList( $rssSources, $this->getObjectListFilter() );
+        $nodeArray = eZRSSExportItem::fetchNodeList( $rssSources, $this->getObjectListFilter() );
 
         if( is_array( $nodeArray ) && count( $nodeArray ) )
         {
