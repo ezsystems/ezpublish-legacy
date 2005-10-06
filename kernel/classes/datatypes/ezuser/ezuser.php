@@ -1327,7 +1327,8 @@ WHERE user_id = '" . $userID . "' AND
         include_once( 'kernel/classes/ezrole.php' );
         $groups = $this->attribute( 'groups' );
         $groups[] = $this->attribute( 'contentobject_id' );
-        return eZRole::fetchByUser( $groups );
+        $roles = eZRole::fetchByUser( $groups );
+        return $roles;
     }
 
     /*!
