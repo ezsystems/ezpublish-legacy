@@ -2084,25 +2084,13 @@ class eZContentObject extends eZPersistentObject
     */
     function &reverseRelatedObjectList( $version = false,
                                         $toObjectID = false,
-                                        $attributeID = 0,
-                                        $offset = false,
-                                        $limit = false )
+                                        $attributeID = 0 )
     {
 //        if ( $version == false )
 //            $version = $this->CurrentVersion;
 
         if( !$toObjectID )
             $toObjectID = $this->ID;
-
-        $limitArray = array();
-        if ( $offset !== false )
-        {
-            $limitArray['offset'] = $offset;
-        }
-        if ( $limit !== false )
-        {
-            $limitArray['limit'] = $limit;
-        }
 
         $query = "SELECT DISTINCT ezcontentobject.*
                   FROM
@@ -2117,7 +2105,7 @@ class eZContentObject extends eZPersistentObject
             $query .= " AND contentclassattribute_id=$attributeID";
 
         $db =& eZDB::instance();
-        $relatedObjects =& $db->arrayQuery( $query, $limitArray );
+        $relatedObjects =& $db->arrayQuery( $query );
 
         $return = array();
         foreach ( $relatedObjects as $object )
