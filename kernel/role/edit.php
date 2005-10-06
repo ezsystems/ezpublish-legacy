@@ -249,7 +249,8 @@ if ( $http->hasPostVariable( 'RemovePolicy' ) )
     eZPolicy::remove( $policyID );
 
 }
-if ( $http->hasPostVariable( 'RemovePolicies' )  )
+if ( $http->hasPostVariable( 'RemovePolicies' ) and
+     $http->hasPostVariable( 'DeleteIDArray' ) )
 {
     $db =& eZDB::instance();
     $db->begin();
@@ -271,8 +272,14 @@ if ( $http->hasPostVariable( 'CustomFunction' ) )
         $functions =& $mod->attribute( 'available_functions' );
         $functionNames = array_keys( $functions );
     }
+    else
+    {
+        $functionNames = array();
+    }
+
     $showModules = false;
     $showFunctions = true;
+
     if ( count( $functionNames ) < 1 )
     {
         $showModules = true;
