@@ -89,6 +89,23 @@ class eZContentClassClassGroup extends eZPersistentObject
         return new eZContentClassClassGroup( $row );
     }
 
+    function &update( $contentclass_version, $group_id, $group_name )
+    {
+        if( $contentclass_version == null )
+        {
+            $row = array( 'group_id' => $group_id );
+        }
+        else
+        {
+            $row = array( 'contentclass_version' => $contentclass_version,
+                          'group_id' => $group_id );
+        }
+
+        eZPersistentObject::updateObjectList( array( 'definition' => eZContentClassClassGroup::definition(), 
+                                                     'update_fields' => array( 'group_name' => $group_name ),
+                                                     'conditions' => $row ) );
+    }
+
     /*!
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
