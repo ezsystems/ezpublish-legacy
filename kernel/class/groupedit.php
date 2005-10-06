@@ -88,6 +88,9 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     $user_id = $user->attribute( "contentobject_id" );
     $classgroup->setAttribute( "modifier_id", $user_id );
     $classgroup->store();
+
+    eZContentClassClassGroup::update( null, $GroupID, $name );
+
     $Module->redirectToView( 'classlist', array( $classgroup->attribute( 'id' ) ) );
     return;
 }

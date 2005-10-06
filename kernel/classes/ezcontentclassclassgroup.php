@@ -89,6 +89,23 @@ class eZContentClassClassGroup extends eZPersistentObject
         return new eZContentClassClassGroup( $row );
     }
 
+    function &update( $contentclass_version, $group_id, $group_name )
+    {
+        if( $contentclass_version == null )
+        {
+            $row = array( 'group_id' => $group_id );
+        }
+        else
+        {
+            $row = array( 'contentclass_version' => $contentclass_version,
+                          'group_id' => $group_id );
+        }
+
+        eZPersistentObject::updateObjectList( array( 'definition' => eZContentClassClassGroup::definition(), 
+                                                     'update_fields' => array( 'group_name' => $group_name ),
+                                                     'conditions' => $row ) );
+    }
+
     function &remove( $contentclass_id, $contentclass_version, $group_id )
     {
         if ( $contentclass_version == null )
