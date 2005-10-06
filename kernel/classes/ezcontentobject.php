@@ -2149,24 +2149,13 @@ class eZContentObject extends eZPersistentObject
     function &reverseRelatedObjectList( $version = false,
                                         $toObjectID = false,
                                         $attributeID = 0,
-                                        $offset = false,
-                                        $limit = false )
+                                        $allRelationsMode = 0 )
     {
 //        if ( $version == false )
 //            $version = $this->CurrentVersion;
 
         if( !$toObjectID )
             $toObjectID = $this->ID;
-
-        $limitArray = array();
-        if ( $offset !== false )
-        {
-            $limitArray['offset'] = $offset;
-        }
-        if ( $limit !== false )
-        {
-            $limitArray['limit'] = $limit;
-        }
 
         $db =& eZDB::instance();
         if ( !$allRelationsMode )
@@ -2182,7 +2171,7 @@ class eZContentObject extends eZPersistentObject
 
             if ( $attributeID )
                 $query .= " AND contentclassattribute_id=$attributeID";
-            $relatedObjects = $db->arrayQuery( $query, $limitArray );
+            $relatedObjects = $db->arrayQuery( $query );
         }
         else
         {
