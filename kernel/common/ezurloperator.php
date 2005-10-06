@@ -244,7 +244,7 @@ class eZURLOperator
                             }
 
                             $url = $this->Sys->indexDir() . $url;
-                            $url = preg_replace( "#(//)#", "/", $url );
+                            $url = preg_replace( "#(?<!:)//#", "/", $url );
                             $url = preg_replace( "#^(.+)(/+)$#", '$1', $url );
                             $url = htmlspecialchars( $url );
                         }
