@@ -88,9 +88,6 @@ if ( $Module->isCurrentAction( 'Publish' ) and
     }
 
     return;
-    $Module->setCurrentAction( 'Publish', 'edit' );
-    return $Module->run( 'edit', array( $ObjectID, $EditVersion, $LanguageCode ) );
-//     return $Module->redirectToView( 'edit', array( $ObjectID, $EditVersion, $LanguageCode ) );
 }
 
 $ini =& eZINI::instance();
@@ -101,6 +98,8 @@ if ( $Module->hasActionParameter( 'SiteAccess' ) )
     $siteaccess = $Module->actionParameter( 'SiteAccess' );
 }
 
+$allowVersionsButton = $contentINI->variable( 'VersionView', 'AllowVersionsButton' ) == 'enabled';
+$tpl->setVariable( 'allow_versions_button', $allowVersionsButton );
 $tpl->setVariable( 'site_access_list', $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) );
 $tpl->setVariable( 'node', $node );
 $tpl->setVariable( 'object', $contentObject );
