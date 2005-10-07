@@ -19,7 +19,8 @@ Attributes:
 
 *Bugfixes:
 - Fixed bug #6685: Error when American English selected as primary language
-  (Merged from stable/3.4 (3.4.7) rev. 12066, also in stable/3.5 (3.5.3) rev.12067)
+  (Merged from stable/3.4 (3.4.7) rev. 12066, 
+  also in stable/3.5 (3.5.3) rev.12067)
 - Fixed bug #6556: "403 Forbidden" when trying to access root page of a 
   site running in non-virtualhost mode.
   (Merged from stable/3.4 (3.4.7) rev. 12070)
@@ -51,7 +52,7 @@ Attributes:
 - Fixed bug #6732: Content object tree is not updated after deleting a class.
   (Manually merged from stable/3.4 (3.4.7) rev. 12133, also in 
   stable/3.5 (3.5.3) rev.12134)
-- Fixed bug in ezxmltext datatype: <object> tag corrupts design keys.
+- Fixed bug: ezxmltext datatype with 'object' tag corrupts design keys.
   (Merged from stable/3.4 (3.4.7) rev. 12141)
 - Fixed bug #6702: Template cache-blocks are not cleared after deleting object 
   via WEBDAV.
@@ -60,17 +61,18 @@ Attributes:
   (Merged from stable/3.5 (3.5.3) rev. 12159)
 - Fixed bug #6744: Search fails for roles with limited assignment.
   (Merged from trunk (3.7alpha) rev. 12162)
-- Fixed bug with static caching that cause old content to be put into the cache
-  files.
+- Fixed bug: static cache causes old content to be put into the cache files.
   (Merged from trunk (3.7.0alpha1) rev. 12165)
 - Fixed bug #6750: node_view_gui doesn't interprete url_alias correctly.
   (Merged from stable/3.5 (3.5.3) rev. 12176)
-- Fixed bug #6755: shop/basket fetch function always creates a basket + productcollection.
+- Fixed bug #6755: shop/basket fetch function always creates a 
+  basket + productcollection.
   (Merged from stable/3.5 (3.5.3) rev. 12184)
 - Fixed bug #6753: Cache is not cleared after deleting a role.
   (Manually merged from stable/3.5 (3.5.3) rev. 12197)
-- Fixed bugs #6733 and #6737: "Date and time" and "Date" datatypes were not
-  validated properly.
+- Fixed bugs #6733: "Date and time" datatypes was not validated properly.
+  (Merged from stable/3.5 (3.5.4) rev. 12215)
+- Fixed bugs #6737: "Date" datatypes was not validated properly.
   (Merged from stable/3.5 (3.5.4) rev. 12215)
 - Fixed bug #6765: Fields are cleared on relating an object with related
   object attribute.
@@ -78,16 +80,15 @@ Attributes:
 - Fixed bug #6772: Function contentClassAttributeName of
   contentObjectAttribute always returns null
   (Merged from stable/3.5 (3.5.4) rev. 12244)
-- Fixed: Several wrong calls to eZDebug::accumulatorStart
+- Fixed bug: Several wrong calls to eZDebug::accumulatorStart
   (Merged from stable/3.5 (3.5.4) rev. 12244)
 - Fixed bug: Illegal use of $this variable in static functions.
-  (Became visible when using PHP 4.4).
   (Merged from stable/3.5 (3.5.4) rev. 12248)
 - Fixed bug: Wrong usage of references from function return-values in template
   parser.
 - Fixed bug #6796: Draft problems when copying objects with relations.
   (Merged from trunk (3.7.0alpha) rev. 12278)
-- Added reference fixes for PHP 4.4.
+- Fixed bug: added reference fixes for PHP 4.4.
   ( Merged from stable/3.5 rev. 12287 )
 - Fixed bug #6833: Typos in standard design templates.
   (Merged from stable/3.5 rev. 12335)
@@ -162,7 +163,7 @@ Attributes:
 - Fixed bug #6903: FetchVersionList and fetchVersionCount 
   can lead to a "Fatal Error".
   (Merged from stable/3.6 (3.6.2) rev.12647)
-- Fixed: Wrong usage of temporary tables that might lead to problems on
+- Fixed bug: Wrong usage of temporary tables that might lead to problems on
   some of the supported DBMSs when several users are concurrently
   searching, viewing products or removing subtrees.
   (Manually merged from stable/3.5 (3.5.5) rev. 12672, 12676)
@@ -193,10 +194,6 @@ eZDB:
 - Added: Method eZDBInterface::generateUniqueTempTableName() that generates
   unique temporary table name.
   (Manually merged from stable/3.5 (3.5.5) rev. 12672)
-
-*Design:
-
-eZTemplate:
 
 *Operators:
 - Improved 'shorten' operator. Now it also can trim string to specified length in the middle.
