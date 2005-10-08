@@ -22,7 +22,12 @@
     {set item_text="%1 awaits your approval"|i18n('design/admin/collaboration/handler/view/line/ezapprove',,array(concat("<i>",$content_version.name|wash,"</i>")))}
   {/case}
   {case match=1}
-    {set item_text="%1 was approved for publishing"|i18n('design/admin/collaboration/handler/view/line/ezapprove',,array(concat("<i>",$content_version.name|wash,"</i>")))}
+   {section show=and( is_set( $content_version.name ), $content_version.name )|not() }
+       {set item_text="%1 was approved for publishing"|i18n('design/admin/collaboration/handler/view/line/ezapprove',,array(concat("<i>",$item.content.content_object_id|wash," [deleted]</i>")))}
+   {section-else}
+       {set item_text="%1 was approved for publishing"|i18n('design/admin/collaboration/handler/view/line/ezapprove',,array(concat("<i>",$content_version.name|wash,"</i>")))}
+   {/section}
+
   {/case}
   {case in=array(2,3)}
    {set item_text="%1 was not approved for publishing"|i18n('design/admin/collaboration/handler/view/line/ezapprove',,array(concat("<i>",$content_version.name|wash,"</i>")))}
