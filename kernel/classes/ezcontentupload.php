@@ -305,7 +305,6 @@ class eZContentUpload
             return false;
         }
 
-
         $parentNodes = false;
         $parentMainNode = false;
         // If do not have an existing node we need to figure
@@ -970,7 +969,8 @@ class eZContentUpload
     function detectLocations( $classIdentifier, $location,
                               &$parentNodes, &$parentMainNode )
     {
-        if ( $this->attribute( 'parent_nodes' ) )
+        if ( $this->hasAttribute( 'parent_nodes' ) &&
+             $this->attribute( 'parent_nodes' ) )
         {
             $parentNodes = $this->attribute( 'parent_nodes' );
         }
