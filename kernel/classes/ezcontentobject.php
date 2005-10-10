@@ -144,7 +144,7 @@ class eZContentObject extends eZPersistentObject
                                                       "data_map" => "dataMap",
                                                       "main_parent_node_id" => "mainParentNodeID",
                                                       "assigned_nodes" => "assignedNodes",
-                                                      "parent_nodes" => "parentNodes",
+                                                      "parent_nodes" => "parentNodeIDArray",
                                                       "main_node_id" => "mainNodeID",
                                                       "main_node" => "mainNode",
                                                       "default_language" => "defaultLanguage",
@@ -2266,6 +2266,15 @@ class eZContentObject extends eZPersistentObject
     {
         $reverseRelatedList =& $this->reverseRelatedObjectList( $version, $objectID );
         return $reverseRelatedObjectList;
+    }
+
+    /*!
+     Get parent node IDs
+    */
+    function &parentNodeIDArray()
+    {
+        $nodeIDArray = $this->parentNodes( true, false );
+        return $nodeIDArray;
     }
 
     /*!
