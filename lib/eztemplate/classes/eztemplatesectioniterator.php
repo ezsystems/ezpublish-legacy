@@ -73,9 +73,9 @@ class eZTemplateSectionIterator
     /*!
      \return the value of the current item for the template system to use.
     */
-    function &templateValue()
+    function templateValue()
     {
-        $value =& $this->InternalAttributes['item'];
+        $value = $this->InternalAttributes['item'];
         return $value;
     }
 
