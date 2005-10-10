@@ -419,7 +419,6 @@ class eZWebDAVContentServer extends eZWebDAVServer
         $mime = $mimeInfo['name'];
 
         $webdavINI =& eZINI::instance( WEBDAV_INI_FILE );
-        $iniSettings = $webdavINI->variable( 'PutSettings', 'MIME' );
         $defaultObjectType = $webdavINI->variable( 'PutSettings', 'DefaultClass' );
 
         $existingNode = $this->fetchNodeByTranslation( $nodePath );
