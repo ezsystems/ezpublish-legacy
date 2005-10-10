@@ -1723,3 +1723,12 @@ div.oe-window
 }
 
 /* th[eZ] */
+
+span.userstatus-disabled
+{
+    font-style: italic;
+}
+span.userstatus-enabled
+{
+    font-weight: bold;
+}
