@@ -52,7 +52,7 @@ $Params['TemplateObject'] =& $tpl;
 // $http->removeSessionVariable( "RegisterUserID" );
 
 // Create new user object if user is not logged in
-if ( !$http->hasSessionVariable( "RegisterUserID" ) )
+if ( !$http->hasSessionVariable( "RegisterUserID" ) and !$http->hasPostVariable( "UserID" ) )
 {
     $ini =& eZINI::instance();
     $errMsg = '';
@@ -96,7 +96,10 @@ else if ( $http->hasSessionVariable( "RegisterUserID" ) )
 {
     $userID = $http->sessionVariable( "RegisterUserID" );
 }
-
+else if ( $http->hasPostVariable( "UserID" ) )
+{
+    $userID = $http->postVariable( "UserID" );
+}
 
 $Params['ObjectID'] = $userID;
 
