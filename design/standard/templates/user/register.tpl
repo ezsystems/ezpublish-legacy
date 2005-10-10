@@ -38,8 +38,9 @@
     {/section}
 
     <div class="buttonblock">
+         <input class="button" type="hidden" name="UserID" value="{$content_attributes[0].contentobject_id}" />
     {section show=and( is_set( $checkErrNodeId ), $checkErrNodeId )|not()}
-	<input class="button" type="submit" name="PublishButton" value="{'Register'|i18n('design/standard/user')}" />
+        <input class="button" type="submit" name="PublishButton" value="{'Register'|i18n('design/standard/user')}" />
     {section-else}	
        	<input class="button" type="submit" name="PublishButton" disabled="disabled" value="{'Register'|i18n('design/standard/user')}" />
     {/section}
