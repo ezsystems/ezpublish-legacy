@@ -207,7 +207,7 @@ class eZRSSExport extends eZPersistentObject
     function remove()
     {
         $exportItems = $this->fetchItems();
-        
+
         $db =& eZDB::instance();
         $db->begin();
         foreach ( $exportItems as $item )
@@ -392,13 +392,13 @@ class eZRSSExport extends eZPersistentObject
         {
             $this->MainNodeOnly = false;
         }
-        
+
         return array(
                     'number_of_objects' => intval($this->NumberOfObjects),
                     'main_node_only'    => $this->MainNodeOnly
                     );
     }
-    
+
     /*!
      Get a RSS xml document based on the RSS 2.0 standard based on the RSS Export settings defined by this object
 
@@ -457,14 +457,14 @@ class eZRSSExport extends eZPersistentObject
                     'status'        => $this->Status
                     );
         $rssSources = eZRSSExportItem::fetchFilteredList( $cond );
-        
-        $nodeArray =& eZRSSExportItem::fetchObjectList( $rssSources, $this->getObjectListFilter() );
-        
+
+        $nodeArray = eZRSSExportItem::fetchNodeList( $rssSources, $this->getObjectListFilter() );
+
         if( is_array( $nodeArray ) && count( $nodeArray ) )
         {
             $attributeMappings = eZRSSExportItem::getAttributeMappings( $rssSources );
         }
-        
+
         foreach ( $nodeArray as $node )
         {
             $object =& $node->attribute( 'object' );
@@ -477,7 +477,7 @@ class eZRSSExport extends eZPersistentObject
             {
                 $nodeURL = $baseItemURL.'content/view/full/'.$object->attribute( 'id' );
             }
-            
+
             // keep track if there's any match
             $doesMatch = false;
             // start mapping the class attribute to the respective RSS field
@@ -495,13 +495,13 @@ class eZRSSExport extends eZPersistentObject
                     break;
                 }
             }
-            
+
             if( !$doesMatch )
             {
                 // no match
                 return eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
             }
-            
+
             // title RSS element with respective class attribute content
             $itemTitle =& $doc->createElementNode( 'title' );
             $titleContent =& $title->attribute( 'content' );
@@ -514,7 +514,7 @@ class eZRSSExport extends eZPersistentObject
             {
                 $itemTitle->appendChild( $doc->createTextNode( $titleContent ) );
             }
-            
+
             // title RSS element with respective class attribute content
             $itemDescription =& $doc->createElementNode( 'description' );
             $descriptionContent =& $description->attribute( 'content' );
@@ -543,7 +543,7 @@ class eZRSSExport extends eZPersistentObject
             $channel->appendChild( $item );
 
         }
-        
+
         return $doc;
     }
 
@@ -612,14 +612,14 @@ class eZRSSExport extends eZPersistentObject
                     'status'        => $this->Status
                     );
         $rssSources = eZRSSExportItem::fetchFilteredList( $cond );
-        
-        $nodeArray =& eZRSSExportItem::fetchObjectList( $rssSources, $this->getObjectListFilter() );
-        
+
+        $nodeArray = eZRSSExportItem::fetchNodeList( $rssSources, $this->getObjectListFilter() );
+
         if( is_array( $nodeArray ) && count( $nodeArray ) )
         {
             $attributeMappings = eZRSSExportItem::getAttributeMappings( $rssSources );
         }
-        
+
         foreach ( $nodeArray as $node )
         {
             $object =& $node->attribute( 'object' );
@@ -632,9 +632,9 @@ class eZRSSExport extends eZPersistentObject
             {
                 $nodeURL = $baseItemURL.'content/view/full/'.$object->attribute( 'id' );
             }
-            
+
             $rdfSeq->appendChild( $doc->createElementNode( 'rdf:li', array( 'rdf:resource' => $nodeURL ) ) );
-            
+
             // keep track if there's any match
             $doesMatch = false;
             // start mapping the class attribute to the respective RSS field
@@ -652,13 +652,13 @@ class eZRSSExport extends eZPersistentObject
                     break;
                 }
             }
-            
+
             if( !$doesMatch )
             {
                 // no match
                 return eZDebug::writeWarning( __CLASS__.'::'.__FUNCTION__.': Cannot find matching RSS source node for content object in '.__FILE__.', Line '.__LINE__ );
             }
-            
+
             // title RSS element with respective class attribute content
             $itemTitle =& $doc->createElementNode( 'title' );
             $titleContent =& $title->attribute( 'content' );
@@ -671,7 +671,7 @@ class eZRSSExport extends eZPersistentObject
             {
                 $itemTitle->appendChild( $doc->createTextNode( $titleContent ) );
             }
-            
+
             // description RSS element with respective class attribute content
             $itemDescription =& $doc->createElementNode( 'description' );
             $descriptionContent =& $description->attribute( 'content' );
@@ -696,7 +696,7 @@ class eZRSSExport extends eZPersistentObject
 
             $root->appendChild( $item );
         }
-        
+
         return $doc;
     }
 

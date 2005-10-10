@@ -99,8 +99,7 @@ class eZRSSExportItem extends eZPersistentObject
                       "keys" => array( "id", 'status' ),
                       'function_attributes' => array( 'class_attributes' => 'classAttributes',
                                                       'source_node' => 'sourceNode',
-                                                      'source_path' => 'sourcePath',
-                                                      'object_list' => 'objectList' ),
+                                                      'source_path' => 'sourcePath' ),
                       "increment_key" => "id",
                       "class_name" => "eZRSSExportItem",
                       "name" => "ezrss_export_item" );
@@ -125,14 +124,6 @@ class eZRSSExportItem extends eZPersistentObject
                       'status' => 0,
                       'subnodes' => 0);
         return new eZRSSExportItem( $row );
-    }
-
-    function &objectList()
-    {
-        // TODO: fetch object list...
-        //return $this->fetchObjectList(); // error, function requires two parameters
-        $retValue = null;
-        return $retValue;
     }
 
     function &classAttributes()
@@ -247,13 +238,13 @@ class eZRSSExportItem extends eZPersistentObject
     }
 
     /*!
-     Get the N last published objects matching the specifications of this RSS Export item
+     Get the N last published nodes matching the specifications of this RSS Export item
 
      \param number of objects to fetch
 
-     \return list of Objects
+     \return list of Nodes
     */
-    function &fetchObjectList( $rssSources, $objectListFilter )
+    function fetchNodeList( $rssSources, $objectListFilter )
     {
         // compose parameters for several subtrees
         if( is_array( $rssSources ) && count( $rssSources ) )
@@ -281,7 +272,7 @@ class eZRSSExportItem extends eZPersistentObject
             }
 
             $listParams = array( 'Limit' => $objectListFilter['number_of_objects'],
-                                'SortBy' => array( 'published', false )
+                                 'SortBy' => array( 'published', false )
                                 );
 
             include_once( "kernel/classes/ezcontentobjecttreenode.php" );
