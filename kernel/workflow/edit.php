@@ -184,8 +184,7 @@ $type_list =& eZWorkflowType::fetchRegisteredTypes();
 include_once( "lib/ezutils/classes/ezinputvalidator.php" );
 $canStore = true;
 $requireFixup = false;
-reset( $event_list );
-while( ( $key = key( $event_list ) ) !== null )
+foreach( array_keys( $event_list ) as $key )
 {
     $event =& $event_list[$key];
 //    var_dump( $event  );
@@ -195,19 +194,16 @@ while( ( $key = key( $event_list ) ) !== null )
         $requireFixup = true;
     else if ( $status == EZ_INPUT_VALIDATOR_STATE_INVALID )
         $canStore = false;
-    next( $event_list );
 }
 
 // Fixup input
 if ( $requireFixup )
 {
-    reset( $event_list );
-    while( ( $key = key( $event_list ) ) !== null )
+    foreach( array_keys( $event_list ) as $key )
     {
         $event =& $event_list[$key];
         $eventType =& $event->eventType();
         $status = $eventType->fixupHTTPInput( $http, "WorkflowEvent", $event );
-        next( $event_list );
     }
 }
 
@@ -249,8 +245,7 @@ if ( $http->hasPostVariable( "CustomActionButton" ) )
 
 
 // Fetch HTTP input
-reset( $event_list );
-while( ( $key = key( $event_list ) ) !== null )
+foreach( array_keys( $event_list ) as $key )
 {
     $event =& $event_list[$key];
     $eventType =& $event->eventType();
@@ -259,7 +254,6 @@ while( ( $key = key( $event_list ) ) !== null )
     {
         $event->customHTTPAction( $http, $customAction );
     }
-    next( $event_list );
 }
 
 if ( $http->hasPostVariable( "StoreButton" ) and $canStore )

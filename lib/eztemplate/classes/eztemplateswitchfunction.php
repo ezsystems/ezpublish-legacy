@@ -254,10 +254,8 @@ class eZTemplateSwitchFunction
         $in_items = array();
         $def = null;
         $case = null;
-        reset( $children );
-        while ( ( $child_key = key( $children ) ) !== null )
+        foreach( $children as $child )
         {
-            $child =& $children[$child_key];
             $childType = $child[0];
             if ( $childType == EZ_TEMPLATE_NODE_FUNCTION )
             {
@@ -272,11 +270,11 @@ class eZTemplateSwitchFunction
                             $child_match = $tpl->elementValue( $child_match, $rootNamespace, $currentNamespace, $functionPlacement );
                             if ( !isset( $items[$child_match] ) )
                             {
-                                $items[$child_match] =& $child;
+                                $items[$child_match] = $child;
                                 if ( is_null( $case ) and
                                      $match == $child_match )
                                 {
-                                    $case =& $child;
+                                    $case = $child;
                                 }
                             }
                             else
@@ -302,32 +300,30 @@ class eZTemplateSwitchFunction
                                 {
                                     if ( in_array( $match, $child_in ) )
                                     {
-                                        $case =& $child;
+                                        $case = $child;
                                     }
                                 }
                                 else
                                 {
-                                    reset( $child_in );
-                                    while( ( $ckey = key( $child_in ) ) !== null )
+                                    foreach( $child_in as $child_in_element )
                                     {
                                         if ( !is_array( $key_name ) )
                                             $key_name_array = array( $key_name );
                                         else
                                             $key_name_array = $key_name;
-                                        $child_value = $tpl->variableAttribute( $child_in[$ckey], $key_name );
+                                        $child_value = $tpl->variableAttribute( $child_in_element, $key_name );
                                         if ( $child_value == $match )
                                         {
-                                            $case =& $child;
+                                            $case = $child;
                                             break;
                                         }
-                                        next( $child_in );
                                     }
                                 }
                             }
                         }
                         else
                         {
-                            $def =& $child;
+                            $def = $child;
                         }
                     } break;
                     default:
@@ -346,12 +342,11 @@ class eZTemplateSwitchFunction
                 $tpl->warning( $this->SwitchName, "Only functions are allowed as children, found \""
                                . $childType . "\"", $functionPlacement );
             }
-            next( $children );
         }
 
         if ( is_null( $case ) )
         {
-            $case =& $def;
+            $case = $def;
         }
 
         if ( $case !== null )
@@ -360,15 +355,12 @@ class eZTemplateSwitchFunction
                 $tpl->setVariable( $varName, $match, $name );
             else
                 $tpl->setVariable( "match", $match, $name );
-            $case_children =& $case[1];
+            $case_children = $case[1];
             if ( $case_children )
             {
-                reset( $case_children );
-                while ( ( $key = key( $case_children ) ) !== null )
+                foreach( $case_children as $case_child )
                 {
-                    $case_child =& $case_children[$key];
                     $tpl->processNode( $case_child, $textElements, $rootNamespace, $name );
-                    next( $case_children );
                 }
             }
         }
