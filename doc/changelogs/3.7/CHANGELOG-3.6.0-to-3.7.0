@@ -511,6 +511,8 @@ Attributes:
 - Fixed bug #7129:"Manage versions" button disabled in some pages of the admin 
   interface.
   ( Merged from stable/3.6 ( 3.6.3 ) rev. 13644 )
+- Fixed bug: Runcronjob works incorrectly with oracle(objects aren't published 
+  after approving).
 
 *Library:
 
