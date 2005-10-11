@@ -114,3 +114,7 @@ Changes from 3.7.0rc2 to 3.7.0
 - Fixed bug #7129:"Manage versions" button disabled in some pages of the admin 
   interface.
   ( Merged from stable/3.6 ( 3.6.3 ) rev. 13644 )
+
+*Design:
+- Added: Indication of status (enabled/disabled) for the user account in the admin interface.
+  ( Merged from trunk ( 3.8.0alpha1 ) rev. 13659, 13674 ).
