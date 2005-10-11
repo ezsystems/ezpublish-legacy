@@ -1452,13 +1452,11 @@ class eZTemplate
         }
         $value =& $this->variable( $name, $nspace );
         $return_value =& $value;
-        $attrs =& $data["attributes"];
+        $attrs = $data["attributes"];
         if ( count( $attrs ) > 0 )
         {
-            reset( $attrs );
-            while( ( $key = key( $attrs ) ) !== null )
+            foreach( $attrs as $key => $attr )
             {
-                $attr =& $attrs[$key];
                 $attr_value = $this->attributeValue( $attr, $def_nspace );
                 if ( !is_null( $attr_value ) )
                 {
@@ -1524,7 +1522,6 @@ class eZTemplate
                     $retValue = null;
                     return $retValue;
                 }
-                next( $attrs );
             }
         }
         return $return_value;

@@ -621,16 +621,10 @@ class eZContentObjectVersion extends eZPersistentObject
         if ( $this->DataMap == false )
         {
             $ret = array();
-            reset( $data );
-            while( ( $key = key( $data ) ) !== null )
+            foreach( $data as $key => $item )
             {
-                $item =& $data[$key];
-
                 $identifier = $item->contentClassAttributeIdentifier();
-
-                $ret[$identifier] =& $item;
-
-                next( $data );
+                $ret[$identifier] =& $data[$key];
             }
             $this->DataMap =& $ret;
         }

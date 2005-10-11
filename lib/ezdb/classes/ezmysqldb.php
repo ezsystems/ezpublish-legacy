@@ -366,13 +366,10 @@ class eZMySQLDB extends eZDBInterface
                             if ( $this->InputTextCodec )
                             {
                                 $tmpRow = mysql_fetch_array( $analysisResult, MYSQL_ASSOC );
-                                unset( $convRow );
                                 $convRow = array();
-                                reset( $tmpRow );
-                                while( ( $key = key( $tmpRow ) ) !== null )
+                                foreach( $tmpRow as $key => $row )
                                 {
-                                    $convRow[$key] = $this->OutputTextCodec->convertString( $tmpRow[$key] );
-                                    next( $tmpRow );
+                                    $convRow[$key] = $this->OutputTextCodec->convertString( $row );
                                 }
                                 $rows[$i] = $convRow;
                             }
@@ -534,18 +531,15 @@ class eZMySQLDB extends eZDBInterface
                     {
                         if ( $this->InputTextCodec )
                         {
-                            $tmp_row = mysql_fetch_array( $result, MYSQL_ASSOC );
-                            unset( $conv_row );
-                            $conv_row = array();
-                            reset( $tmp_row );
-                            while( ( $key = key( $tmp_row ) ) !== null )
+                            $tmpRow = mysql_fetch_array( $result, MYSQL_ASSOC );
+                            $convRow = array();
+                            foreach( $tmpRow as $key => $row )
                             {
                                 eZDebug::accumulatorStart( 'mysql_conversion', 'mysql_total', 'String conversion in mysql' );
-                                $conv_row[$key] = $this->OutputTextCodec->convertString( $tmp_row[$key] );
+                                $convRow[$key] = $this->OutputTextCodec->convertString( $row );
                                 eZDebug::accumulatorStop( 'mysql_conversion' );
-                                next( $tmp_row );
                             }
-                            $retArray[$i + $offset] =& $conv_row;
+                            $retArray[$i + $offset] = $convRow;
                         }
                         else
                             $retArray[$i + $offset] = mysql_fetch_array( $result, MYSQL_ASSOC );
