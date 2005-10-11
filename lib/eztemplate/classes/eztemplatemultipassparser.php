@@ -76,13 +76,13 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         $sourcePosition = 0;
 
         eZDebug::accumulatorStart( 'template_multi_parser_1', 'template_total', 'Template parser: create text elements' );
-        $textElements =& $this->parseIntoTextElements( $tpl, $sourceText, $sourcePosition,
-                                                       $leftDelimiter, $rightDelimiter, $sourceLength,
-                                                       $relatedTemplateName );
+        $textElements = $this->parseIntoTextElements( $tpl, $sourceText, $sourcePosition,
+                                                      $leftDelimiter, $rightDelimiter, $sourceLength,
+                                                      $relatedTemplateName );
         eZDebug::accumulatorStop( 'template_multi_parser_1' );
 
         eZDebug::accumulatorStart( 'template_multi_parser_2', 'template_total', 'Template parser: remove whitespace' );
-        $textElements =& $this->parseWhitespaceRemoval( $tpl, $textElements );
+        $textElements = $this->parseWhitespaceRemoval( $tpl, $textElements );
         eZDebug::accumulatorStop( 'template_multi_parser_2' );
 
         eZDebug::accumulatorStart( 'template_multi_parser_3', 'template_total', 'Template parser: construct tree' );
@@ -97,7 +97,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         if ( count( $lines ) > 0 )
         {
             $endLine = $line + count( $lines ) - 1;
-            $lastLine = $lines[count($lines)-1];
+            $lastLine = $lines[count( $lines ) - 1];
             if ( count( $lines ) > 1 )
                 $endColumn = strlen( $lastLine );
             else
@@ -110,7 +110,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         }
     }
 
-    function &parseIntoTextElements( &$tpl, $sourceText, $sourcePosition,
+    function parseIntoTextElements( &$tpl, $sourceText, $sourcePosition,
                                      $leftDelimiter, $rightDelimiter, $sourceLength,
                                      $relatedTemplateName )
     {
@@ -206,7 +206,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                     if ( $endPos === false )
                     {
                         // Unterminated tag
-                        unset( $data );
                         $data = substr( $sourceText, $sourcePosition );
                         $this->gotoEndPosition( $data, $currentLine, $currentColumn, $endLine, $endColumn );
                         $textBefore = substr( $sourceText, $sourcePosition, $tagPos - $sourcePosition );
@@ -238,7 +237,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                         if ( $sourcePosition < $blockStart )
                         {
                             // Add text before tag.
-                            unset( $data );
                             $data = substr( $sourceText, $sourcePosition, $blockStart - $sourcePosition );
                             $this->gotoEndPosition( $data, $currentLine, $currentColumn, $endLine, $endColumn );
                             $textElements[] = array( "text" => $data,
@@ -254,7 +252,6 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                             $currentColumn = $endColumn;
                         }
 
-                        unset( $tag );
                         $tag = substr( $sourceText, $tagPos, $len );
                         $tag = preg_replace( "/\\\\[}]/", "}", $tag );
                         $tagTrim = trim( $tag );
@@ -342,96 +339,84 @@ class eZTemplateMultiPassParser extends eZTemplateParser
         return $textElements;
     }
 
-    function &parseWhitespaceRemoval( &$tpl, &$textElements )
+    function parseWhitespaceRemoval( &$tpl, &$textElements )
     {
         if ( $tpl->ShowDetails )
             eZDebug::addTimingPoint( "Parse pass 2 (whitespace removal)" );
         $tempTextElements = array();
-        reset( $textElements );
-        while ( ( $key = key( $textElements ) ) !== null )
+        $textElements[] = null;
+
+        $element = false;
+        foreach( $textElements as $nextElement )
         {
-            unset( $element );
-            $element =& $textElements[$key];
-            next( $textElements );
-            $next_key = key( $textElements );
-            unset( $next_element );
-            $next_element = null;
-            if ( $next_key !== null )
-                $next_element =& $textElements[$next_key];
-            switch ( $element["type"] )
+            if ( $element )
             {
-                case EZ_ELEMENT_COMMENT:
+                switch ( $element["type"] )
                 {
-                    // Ignore comments
-                } break;
-                case EZ_ELEMENT_TEXT:
-                case EZ_ELEMENT_VARIABLE:
-                {
-                    if ( $next_element !== null )
+                    case EZ_ELEMENT_COMMENT:
                     {
-                        switch ( $next_element["type"] )
+                        // Ignore comments
+                    } break;
+
+                    case EZ_ELEMENT_TEXT:
+                    case EZ_ELEMENT_VARIABLE:
+                    {
+                        if ( $nextElement !== null )
                         {
-                            case EZ_ELEMENT_END_TAG:
-                            case EZ_ELEMENT_SINGLE_TAG:
-                            case EZ_ELEMENT_NORMAL_TAG:
+                            switch ( $nextElement["type"] )
                             {
-                                unset( $text );
-                                $text =& $element["text"];
-                                $text_cnt = strlen( $text );
-                                if ( $text_cnt > 0 )
+                                case EZ_ELEMENT_END_TAG:
+                                case EZ_ELEMENT_SINGLE_TAG:
+                                case EZ_ELEMENT_NORMAL_TAG:
                                 {
-                                    $char = $text[$text_cnt - 1];
-                                    if ( $char == "\n" )
+                                    $text = $element["text"];
+                                    $text_cnt = strlen( $text );
+                                    if ( $text_cnt > 0 )
                                     {
-                                        $text = substr( $text, 0, $text_cnt - 1 );
+                                        $char = $text[$text_cnt - 1];
+                                        if ( $char == "\n" )
+                                        {
+                                            $element["text"] = substr( $text, 0, $text_cnt - 1 );
+                                        }
                                     }
-                                }
-                            } break;
+                                } break;
+                            }
                         }
-                    }
-                    if ( $element["text"] !== '' )
-                    {
-                        $tempTextElements[] =& $element;
-                    }
-                } break;
-                case EZ_ELEMENT_END_TAG:
-                case EZ_ELEMENT_SINGLE_TAG:
-                case EZ_ELEMENT_NORMAL_TAG:
-                {
-                    unset( $name );
-                    $name =& $element["name"];
-                    $startLine = false;
-                    $startColumn = false;
-                    $stopLine = false;
-                    $stopColumn = false;
-                    $templateFile = false;
-                    $hasStartPlacement = false;
-                    {
-                        if ( $next_element !== null )
+                        if ( $element["text"] !== '' )
                         {
-                            switch ( $next_element["type"] )
+                            $tempTextElements[] = $element;
+                        }
+                    } break;
+
+                    case EZ_ELEMENT_END_TAG:
+                    case EZ_ELEMENT_SINGLE_TAG:
+                    case EZ_ELEMENT_NORMAL_TAG:
+                    {
+                        if ( $nextElement !== null )
+                        {
+                            switch ( $nextElement["type"] )
                             {
                                 case EZ_ELEMENT_TEXT:
                                 case EZ_ELEMENT_VARIABLE:
                                 {
-                                    unset( $text );
-                                    $text =& $next_element["text"];
+                                    $text = $nextElement["text"];
                                     $text_cnt = strlen( $text );
                                     if ( $text_cnt > 0 )
                                     {
                                         $char = $text[0];
                                         if ( $char == "\n" )
                                         {
-                                            $text = substr( $text, 1 );
+                                            $nextElement["text"] = substr( $text, 1 );
                                         }
                                     }
                                 } break;
                             }
+                            $tempTextElements[] = $element;
                         }
-                        $tempTextElements[] =& $element;
-                    }
-                } break;
+                    } break;
+                }
             }
+            $element = $nextElement;
         }
         return $tempTextElements;
     }
@@ -452,11 +437,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
         $tagStack = array();
 
-        reset( $textElements );
-        while ( ( $key = key( $textElements ) ) !== null )
+        foreach( $textElements as $element )
         {
-            unset( $element );
-            $element =& $textElements[$key];
             $elementPlacement = $element['placement'];
             $startLine = $elementPlacement['start']['line'];
             $startColumn = $elementPlacement['start']['column'];
@@ -485,7 +467,7 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                 } break;
                 case EZ_ELEMENT_VARIABLE:
                 {
-                    $text =& $element["text"];
+                    $text = $element["text"];
                     $text_len = strlen( $text );
                     $var_data = $this->ElementParser->parseVariableTag( $tpl, $relatedTemplateName, $text, 0, $var_end, $text_len, $rootNamespace );
 
@@ -512,11 +494,9 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                 case EZ_ELEMENT_NORMAL_TAG:
                 case EZ_ELEMENT_END_TAG:
                 {
-                    unset( $text );
-                    unset( $type );
-                    $text =& $element["text"];
+                    $text = $element["text"];
                     $text_len = strlen( $text );
-                    $type =& $element["type"];
+                    $type = $element["type"];
 
                     $ident_pos = $this->ElementParser->identifierEndPosition( $tpl, $text, 0, $text_len );
                     $tag = substr( $text, 0, $ident_pos - 0 );
@@ -733,9 +713,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
 
                 } break;
             }
-            next( $textElements );
         }
-        unset( $textElements );
+
         if ( $tpl->ShowDetails )
             eZDebug::addTimingPoint( "Parse pass 3 done" );
     }
