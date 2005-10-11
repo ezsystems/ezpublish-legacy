@@ -513,6 +513,7 @@ Attributes:
   ( Merged from stable/3.6 ( 3.6.3 ) rev. 13644 )
 - Fixed bug: Runcronjob works incorrectly with oracle(objects aren't published 
   after approving).
+- Fixed bug #7223: wrong customer list in webshop.
 
 *Library:
 
