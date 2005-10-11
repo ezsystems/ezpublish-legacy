@@ -435,11 +435,9 @@ function precheckAllowed( &$prechecks )
             {
                 if ( $value == 'true' )
                 {
-                    reset( $prechecks );
-                    while( ($key = key( $prechecks ) ) !== null )
+                    foreach( $prechecks as $key => $value )
                     {
                         $prechecks[$key]['allow'] = $tmp_allow;
-                        next( $prechecks );
                     }
                 }
             } break;

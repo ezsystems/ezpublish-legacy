@@ -767,7 +767,8 @@ class eZSys
         }
         else if ( $attr == 'indexdir' )
         {
-            return $this->indexDir();
+            $retVal = $this->indexDir();
+            return $retVal;
         }
         else
         {
