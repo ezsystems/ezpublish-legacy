@@ -564,6 +564,7 @@ eZExtension:
 
 *Design:
 - Added: Classification is forwarded to content_view_gui for xmltag object and embed.
+- Added: Indication of status (enabled/disabled) for the user account in the admin interface.
 
 *Translations:
 - Added support of Ukrainian language and koi8-u locale. 
