@@ -38,6 +38,21 @@
     <input type="text" name="{$attribute_base}_data_user_email_{$attribute.id}" size="28" value="{$attribute.content.email|wash( xhtml )}" />
 </div>
 
+<div class="break"></div><div class="break"></div>
+</div>
+
+{* Status *}
+<div class="block">
+<div class="element">
+    <label>{'Current account status:'|i18n( 'design/standard/content/datatype' )}
+    {section show=$attribute.content.is_enabled}
+	<span class="userstatus-enabled">{'enabled'|i18n( 'design/standard/content/datatype' )}</span>
+    {section-else}
+	<span class="userstatus-disabled"> {'disabled'|i18n( 'design/standard/content/datatype' )}</span>
+    {/section}
+    </label>
+</div>
+
 <div class="break"></div>
 </div>
 

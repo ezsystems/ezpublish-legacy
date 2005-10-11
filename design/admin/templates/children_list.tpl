@@ -35,8 +35,17 @@
         </td>
 
         {* Name *}
-        <td>{node_view_gui view=line content_node=$Nodes.item}</td>
-
+	{let userEnabled='' nodeContent=fetch( 'content', 'object', hash( 'object_id', $Nodes.item.contentobject_id ) )}
+	
+	{section show=$nodeContent.class_identifier|eq('user')}
+		{section show=not($nodeContent.data_map['user_account'].content.is_enabled)}
+		   {set userEnabled=concat( '<span class="userstatus-disabled">', '(disabled)'|i18n("design/admin/node/view/full") ,'</span>')}
+		{/section}
+	{/section}		
+	
+        <td>{node_view_gui view=line content_node=$Nodes.item} {$userEnabled}</td>
+	{/let}
+	
         {* Class type *}
         <td class="class">{$Nodes.item.class_name|wash()}</td>
 
