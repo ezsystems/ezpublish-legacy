@@ -518,14 +518,20 @@ class eZModuleOperationInfo
                             $result = $this->executeClassMethod( $includeFile, $className, $method,
                                                                  $tmpOperationParameterDefinitions, $operationParameters );
 
-                            if ( $result != null && isset( $result['status'] ) )
+                            switch( $result['status'] )
                             {
-                                return $result;
-                            }
-                            else
-                            {
-                                $result['status'] = EZ_MODULE_OPERATION_CONTINUE;
-                                $bodyReturnValue =& $result;
+                                case EZ_MODULE_OPERATION_CONTINUE:
+                                default:
+                                {
+                                    $result['status'] = EZ_MODULE_OPERATION_CONTINUE;
+                                    $bodyReturnValue = $result;
+                                } break;
+
+                                case EZ_MODULE_OPERATION_CANCELED:
+                                case EZ_MODULE_OPERATION_HALTED:
+                                {
+                                    return $result;
+                                } break;
                             }
                         }
                     }
