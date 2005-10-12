@@ -90,11 +90,9 @@ class eZShopOperationCollection
         include_once( "kernel/common/template.php" );
         $tpl =& templateInit();
         $tpl->setVariable( 'order', $order );
-//        $tpl->setVariable( 'object', $object );
         $templateResult =& $tpl->fetch( 'design:shop/orderemail.tpl' );
 
-//        $subject = "Order number " . $order->attribute( 'id' );
-        $subject =& $tpl->variable( 'subject' );
+        $subject = $tpl->variable( 'subject' );
 
         $receiver = $email;
 
