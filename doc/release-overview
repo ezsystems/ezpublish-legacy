@@ -441,3 +441,14 @@ Datatype branch:
 - Revision=13366
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.6.2
 - Date 19-Sep-2005
+
+3.7.0:
+- Release branch=release/3.7.0
+- Release branch start=13650
+- Release branch end=
+- Release date 07-Oct-2005
+- Release branch configured=13654
+- From revision=13693
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.7.0
+- Date 12-Oct-2005
+- Revision=13694
