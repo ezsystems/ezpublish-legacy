@@ -114,6 +114,7 @@ Changes from 3.7.0rc2 to 3.7.0
 - Fixed bug #7129:"Manage versions" button disabled in some pages of the admin 
   interface.
   ( Merged from stable/3.6 ( 3.6.3 ) rev. 13644 )
+- Fixed bug #7260: Bug Shop sends no confirmation mails (sendOrderEmails not called).
 
 *Design:
 - Added: Indication of status (enabled/disabled) for the user account in the admin interface.
