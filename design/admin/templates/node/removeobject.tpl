@@ -21,7 +21,7 @@
     <p>{'Some of the items that are about to be removed contain sub items.'|i18n( 'design/admin/node/removeobject' )}</p>
 
     {section show=$reverse_related}
-        <p>{'Some of the subtrees selected for removal are used by other objects. Select the menu from the content tree, and <strong>Advanced</strong>-&gt;<strong>Reverse related for subtree</strong>.'|i18n( 'design/admin/node/removeobject' )}</p>
+        <p>{'Some of the subtrees or objects selected for removal are used by other objects. Select the menu from the content tree, and <strong>Advanced</strong>-&gt;<strong>Reverse related for subtree</strong>.'|i18n( 'design/admin/node/removeobject' )}</p>
     {/section}
     {section show=$remove_info.can_remove_all}
         <p>{'Removing the items will also result in the removal of their sub items.'|i18n( 'design/admin/node/removeobject' )}</p>
@@ -31,6 +31,10 @@
         <p>{'Click the "Cancel" button and try removing only the locations that you are allowed to remove.'|i18n( 'design/admin/node/removeobject' )}</p>
     {/section}
 </div>
+{section-else show=$reverse_related}
+   <div class="block">
+        <p>{'Some of the objects selected for removal are used by other objects. Select the menu from the content tree, and <strong>Advanced</strong>-&gt;<strong>Reverse related for subtree</strong>.'|i18n( 'design/admin/node/removeobject' )}</p>
+   </div>
 {/section}
 
 <table class="list" cellspacing="0">
