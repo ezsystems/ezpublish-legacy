@@ -393,7 +393,7 @@ class eZXMLTextType extends eZDataType
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
-        $content =& $this->objectAttributeContent( $contentObjectAttribute );
+        $content = $this->objectAttributeContent( $contentObjectAttribute );
         if ( is_object( $content ) and
              !$content->attribute( 'is_empty' ) )
             return true;
