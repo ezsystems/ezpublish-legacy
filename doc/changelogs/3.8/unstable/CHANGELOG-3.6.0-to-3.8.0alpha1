@@ -538,6 +538,8 @@ Attributes:
 - Fixed bug #7257: Problems with user->selfedit permission 
   ( Edit button is disabled in admin ).
   ( Merged from stable/3.6 ( 3.6.3 ) rev. 13697 )
+- Fixed bug #6191: Image variant returns empty image tag.
+  ( Merged from stable/3.6 ( 3.6.3 ) rev. 13703 )
 
 *Library:
 
