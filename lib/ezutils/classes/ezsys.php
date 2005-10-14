@@ -971,6 +971,21 @@ class eZSys
             $requestURI = $regs[1];
         }
 
+        if ( !$isCGI )
+        {
+            $currentPath = substr( eZSys::serverVariable( 'SCRIPT_FILENAME' ), 0, -strlen( 'index.php' ) );
+            if ( strpos( $currentPath, eZSys::serverVariable( 'DOCUMENT_ROOT' )  ) === 0 )
+            {
+                $prependRequest = substr( $currentPath, strlen( eZSys::serverVariable( 'DOCUMENT_ROOT' ) ) );
+
+                if ( strpos( $requestURI, $prependRequest ) === 0 )
+                {
+                    $requestURI = substr( $requestURI, strlen( $prependRequest ) - 1 );
+                    $wwwDir = substr( $prependRequest, 0, -1 );
+                }
+            }
+        }
+
         $instance->AccessPath = array();
         $instance->SiteDir =& $siteDir;
         $instance->WWWDir =& $wwwDir;
