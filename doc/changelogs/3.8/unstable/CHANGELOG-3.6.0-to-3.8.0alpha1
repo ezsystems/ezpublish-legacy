@@ -540,6 +540,11 @@ Attributes:
   ( Merged from stable/3.6 ( 3.6.3 ) rev. 13697 )
 - Fixed bug #6191: Image variant returns empty image tag.
   ( Merged from stable/3.6 ( 3.6.3 ) rev. 13703 )
+- Fixed bug #7016: Underscore acts as space in search. 
+  Note: Search index update should be done when run on live site.
+  To update existing search indexes you should execute update/common/scripts/updatesearchindex.php.
+  Searching will continue to work even if you do not update, then only new 
+  content will be indexed to get search results in desired way.
 
 *Library:
 
