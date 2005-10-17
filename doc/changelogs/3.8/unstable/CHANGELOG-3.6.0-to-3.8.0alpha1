@@ -550,6 +550,8 @@ Attributes:
   (Merged from release/3.7.0 rev. 13678)
 - Fixed bug #7223: wrong customer list in webshop.
   (Merged from release/3.7.0 rev. 13679)
+- Fixed bug #7278: Bug reference notice.
+  ( Merged from stable/3.7 rev. 13725 )
 
 *Library:
 

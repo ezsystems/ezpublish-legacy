@@ -855,7 +855,7 @@ class eZImageAliasHandler
     {
         $imageInformation = array();
 
-        $attributes =& $imageInfoNode->attributes();
+        $attributes = $imageInfoNode->attributes();
         foreach ( $attributes as $attribute )
         {
             $imageInformation[$attribute->name()] = $attribute->value;
@@ -1183,8 +1183,15 @@ class eZImageAliasHandler
         }
         if ( !$imageNode )
         {
-            $rootNode =& $domTree->root();
-# CHECK FOR EZXML PARSER
+            if ( is_a( $domTree, 'domdocument' ) )
+            {
+                $rootNode = $domTree->root();
+            }
+            else
+            {
+                $rootNode =& $domTree->root();
+            }
+
             $imageNode = $domTree->create_element( "alias" );
             $rootNode->append_child( $imageNode );
         }
