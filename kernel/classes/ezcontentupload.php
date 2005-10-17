@@ -552,6 +552,19 @@ class eZContentUpload
         $nameAttribute = $uploadINI->variable( $iniGroup, 'NameAttribute' );
         $dataMap = $class->dataMap();
 
+        if ( $classIdentifier == 'image' )
+        {
+            $classAttribute = $dataMap['image'];
+            $maxSize = 1024 * 1024 * $classAttribute->attribute( 'data_int1' );
+            if ( $file->attribute( 'filesize' ) > $maxSize )
+            {
+                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                            'The size of the uploaded file exceeds the limit set for this site: %1 bytes.', null, array( $maxSize ) ) );
+                return false;
+            }
+        }
+
+
         $fileAttribute = $this->findHTTPFileAttribute( $dataMap, $fileAttribute );
         if ( !$fileAttribute )
         {
@@ -640,7 +653,7 @@ class eZContentUpload
         else if ( !$status )
         {
             $errors = array_merge( $errors, $storeResult['errors'] );
-            $db->commit(); 
+            $db->commit();
             return false;
         }
         if ( $storeResult['require_storage'] )
@@ -654,13 +667,13 @@ class eZContentUpload
             $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
                                                         'The attribute %class_identifier does not support simple string storage.', null,
                                                         array( '%class_identifier' => $classIdentifier ) ) );
-            $db->commit(); 
+            $db->commit();
             return false;
         }
         else if ( !$status )
         {
             $errors = array_merge( $errors, $storeResult['errors'] );
-            $db->commit(); 
+            $db->commit();
             return false;
         }
         if ( $storeResult['require_storage'] )
@@ -669,7 +682,7 @@ class eZContentUpload
         $tmpresult =  $this->publishObject( $result, $errors, $notices,
                                      $object, $publishVersion, $class, $parentNodes, $parentMainNode );
 
-        $db->commit(); 
+        $db->commit();
         return $tmpresult;
     }
 
