@@ -1326,7 +1326,8 @@ class eZTemplate
         {
             if ( $checkForProxy )
                 $dataElements['proxy-object-found'] = true;
-            $value = $value->templateValue();
+            $retVal = $value->templateValue();
+            return $retVal;
         }
         return $value;
     }

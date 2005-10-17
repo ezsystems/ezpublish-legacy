@@ -545,6 +545,11 @@ Attributes:
   To update existing search indexes you should execute update/common/scripts/updatesearchindex.php.
   Searching will continue to work even if you do not update, then only new 
   content will be indexed to get search results in desired way.
+- Fixed bug: Runcronjob works incorrectly with oracle(objects aren't published 
+  after approving).
+  (Merged from release/3.7.0 rev. 13678)
+- Fixed bug #7223: wrong customer list in webshop.
+  (Merged from release/3.7.0 rev. 13679)
 
 *Library:
 
