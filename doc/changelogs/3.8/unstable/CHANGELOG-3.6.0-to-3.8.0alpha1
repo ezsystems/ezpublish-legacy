@@ -555,6 +555,9 @@ Attributes:
 - Fixed bug #7274: Max file size for image objects is ignored 
   for related objects.
   ( Merged from stable/3.6 ( 3.6.3 ) rev. 13727 )
+- Fixed bug #7282: Bug Cache isn't recreated after changing user status.
+  ( Merged from stable/3.5 rev. 13731, stable/3.6 rev. 13732, stable/3.7 rev. 13733 )
+
 
 *Library:
 
