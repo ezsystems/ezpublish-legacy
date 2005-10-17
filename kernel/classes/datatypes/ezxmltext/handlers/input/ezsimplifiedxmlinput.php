@@ -1617,6 +1617,24 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                         if ( $isInlineCustomTag )
                         {
+                            if ( $lastInsertedNodeTag == "paragraph" )
+                            {
+                                //Add line tag
+                                unset( $subNode );
+                                $subNode = new eZDOMNode();
+                                $subNode->Name = "line";
+                                $subNode->LocalName = "line";
+                                $subNode->Type = EZ_NODE_TYPE_ELEMENT;
+                                $domDocument->registerElement( $subNode );
+                                $currentNode->appendChild( $subNode );
+                                $childTag = $this->LineTagArray;
+                                $TagStack[] = array( "TagName" => "line", "ParentNodeObject" => &$currentNode, "ChildTag" => $childTag );
+                                unset( $currentNode );
+                                $currentNode =& $subNode;
+                                $lastInsertedNodeTag = "line";
+                                $lastInsertedChildTag = $childTag;
+                            }
+
                             $covertedName = 'custom';
                             unset( $subNode );
 
