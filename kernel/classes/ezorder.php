@@ -624,7 +624,6 @@ class eZOrder extends eZPersistentObject
             $currentUserID = $userID;
 
             $order =& eZOrder::fetch( $orderID );
-            $accountName = $order->attribute( 'account_name' );
             // If the custom is anoymous user
             if ( $currentUserID == 10 )
             {
@@ -653,6 +652,8 @@ class eZOrder extends eZPersistentObject
             {
                 $currentUserEmail = 0;
             }
+
+            $accountName = $order->attribute( 'account_name' );
 
             if (  $currentOrderID != $orderID )
             {

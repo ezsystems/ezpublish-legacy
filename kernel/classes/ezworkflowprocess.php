@@ -524,8 +524,14 @@ class eZWorkflowProcess extends eZPersistentObject
     }
     function &fetchForStatus( $status = EZ_WORKFLOW_STATUS_DEFERRED_TO_CRON,  $asObject = true )
     {
-        $conds = array( 'status' => $status,
-                        'memento_key' => array( '!=', '' ) );
+        $conds = array( 'status' => $status );
+
+        $db = eZDB::instance();
+        if ( $db->databaseName() == 'oracle' )
+            $conds['LENGTH(memento_key)'] = array( '!=', 0 );
+        else
+            $conds['memento_key'] = array( '!=', '' );
+
         return eZPersistentObject::fetchObjectList( eZWorkflowProcess::definition(),
                                                     null, $conds, null, null,
                                                     $asObject );
