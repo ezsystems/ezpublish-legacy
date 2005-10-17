@@ -510,6 +510,18 @@ class eZContentUpload
         $nameAttribute = $uploadINI->variable( $iniGroup, 'NameAttribute' );
         $dataMap = $class->dataMap();
 
+        if ( $classIdentifier == 'image' )
+        {
+            $classAttribute = $dataMap['image'];
+            $maxSize = 1024 * 1024 * $classAttribute->attribute( 'data_int1' );
+            if ( $file->attribute( 'filesize' ) > $maxSize )
+            {
+                $errors[] = array( 'description' => ezi18n( 'kernel/content/upload',
+                                                            'The size of the uploaded file exceeds the limit set for this site: %1 bytes.', null, array( $maxSize ) ) );
+                return false;
+            }
+        }
+
         $fileAttribute = $this->findHTTPFileAttribute( $dataMap, $fileAttribute );
         if ( !$fileAttribute )
         {
