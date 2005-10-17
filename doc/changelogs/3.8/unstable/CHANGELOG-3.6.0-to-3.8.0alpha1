@@ -552,6 +552,9 @@ Attributes:
   (Merged from release/3.7.0 rev. 13679)
 - Fixed bug #7278: Bug reference notice.
   ( Merged from stable/3.7 rev. 13725 )
+- Fixed bug #7274: Max file size for image objects is ignored 
+  for related objects.
+  ( Merged from stable/3.6 ( 3.6.3 ) rev. 13727 )
 
 *Library:
 
