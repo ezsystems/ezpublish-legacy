@@ -190,7 +190,7 @@ class eZStepRegistration extends eZStepInstaller
         $mail->setBody( $bodyText );
         $mailResult = eZMailTransport::send( $mail );
 
-        $this->PersistenceList['email_info']['sent'] = true;
+        $this->PersistenceList['email_info']['send'] = true;
         $this->PersistenceList['email_info']['result'] = $mailResult;
 
         return true; // Always continue
@@ -205,12 +205,12 @@ class eZStepRegistration extends eZStepInstaller
         {
             $data = $this->kickstartData();
 
-            $this->PersistenceList['email_info']['sent']     = ( isset( $data['Send'] ) and $data['Send'] == 'true' ) ? true : false;
+            $this->PersistenceList['email_info']['send']     =   isset( $data['Send'] ) ? ( $data['Send'] == 'true' ) : true;
             $this->PersistenceList['email_info']['comments'] = ( isset( $data['Comments'] ) ) ? $data['Comments'] : false;
 
             if ( $this->kickstartContinueNextStep() )
             {
-                if ( $this->PersistenceList['email_info']['sent'] )
+                if ( $this->PersistenceList['email_info']['send'] )
                 {
                     include_once( 'kernel/common/template.php' );
                     $mailTpl =& templateInit( 'email' );
@@ -254,7 +254,7 @@ class eZStepRegistration extends eZStepInstaller
         $mailTpl  =& templateInit( 'email' );
 
         $bodyText = $this->generateRegistration( $mailTpl, false );
-        $send     = ( isset( $this->PersistenceList['email_info']['sent'] ) )     ? $this->PersistenceList['email_info']['sent'] : true;
+        $send     = ( isset( $this->PersistenceList['email_info']['send'] ) )     ? $this->PersistenceList['email_info']['send'] : true;
         $comments = ( isset( $this->PersistenceList['email_info']['comments'] ) ) ? $this->PersistenceList['email_info']['comments'] : false;
 
         $this->Tpl->setVariable( 'email_body', $bodyText );

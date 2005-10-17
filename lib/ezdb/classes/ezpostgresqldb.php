@@ -577,7 +577,7 @@ class eZPostgreSQLDB extends eZDBInterface
     {
         $str = str_replace("\0", '', $str);
         $str = pg_escape_string( $str );
-        return $strl;
+        return $str;
     }
 
     /*!
