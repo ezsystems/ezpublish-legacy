@@ -64,6 +64,14 @@ if ( $http->hasPostVariable( "UpdateSettingButton" ) )
     {
         $isEnabled = true;
     }
+
+    if ( $userSetting->attribute( 'is_enabled' ) != $isEnabled )
+    {
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearContentCacheIfNeeded( $UserID );
+        eZContentCacheManager::generateObjectViewCache( $UserID );
+    }
+
     $userSetting->setAttribute( "is_enabled", $isEnabled );
     $userSetting->store();
     if ( !$isEnabled )
