@@ -276,6 +276,13 @@ if ( $GLOBALS['eZCurrentAccess']['type'] == EZ_ACCESS_TYPE_URI )
     eZSys::addAccessPath( $siteAccess );
 }
 
+// Load the siteaccess extensions
+eZExtension::activateExtensions( 'access' );
+
+// Change content object default language
+$GLOBALS['eZContentObjectDefaultLanguage'] = $LanguageCode;
+eZContentObject::clearCache();
+
 $Module->setTitle( 'View ' . $class->attribute( 'name' ) . ' - ' . $contentObject->attribute( 'name' ) );
 
 $res =& eZTemplateDesignResource::instance();
