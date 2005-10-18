@@ -559,6 +559,8 @@ Attributes:
   ( Merged from stable/3.5 rev. 13731, stable/3.6 rev. 13732, stable/3.7 rev. 13733 )
 - Fixed bug #7264: Possible missing key in eZTSTranslator.
   ( Merged from stable/3.5 rev. 13735 )
+- Fixed bug #7220: Event/Approve - User who approves content.  
+  ( Merged from stable/3.6 ( 3.6.3 ) rev. 13743 )
 
 *Library:
 
