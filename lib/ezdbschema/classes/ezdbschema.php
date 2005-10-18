@@ -51,23 +51,21 @@ class eZDbSchema
     */
     function instance( $params = false )
     {
-        if ( $params === false )
+        if ( !isset( $params['instance'] ) )
         {
             include_once( 'lib/ezdb/classes/ezdb.php' );
             $db = eZDB::instance();
-            $params = array( 'type' => $db->databaseName(),
-                             'instance' => &$db,
-                             'schema' => false );
+            $params = array( 'instance' => &$db );
         }
         else if ( is_object( $params ) )
         {
             $db =& $params;
             unset( $params );
-            $params = array( 'type' => $db->databaseName(),
-                             'instance' => &$db,
-                             'schema' => false );
+            $params = array( 'instance' => &$db );
         }
 
+        if ( !isset( $params['type'] ) )
+            $params['type'] = $db->databaseName();
         if ( !isset( $params['instance'] ) )
             $params['instance'] = false;
         if ( !isset( $params['schema'] ) )
