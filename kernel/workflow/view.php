@@ -43,6 +43,7 @@ $validation = array( 'processed' => false,
                      'groups' => array() );
 
 $WorkflowID = $Params["WorkflowID"];
+$WorkflowID = (int) $WorkflowID;
 if ( !is_int( $WorkflowID ) )
     $Module->handleError( EZ_ERROR_KERNEL_NOT_FOUND, 'kernel' );
 
