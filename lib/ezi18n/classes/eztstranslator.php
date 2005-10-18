@@ -60,7 +60,7 @@ class eZTSTranslator extends eZTranslatorHandler
         if ( isset( $GLOBALS['eZSiteBasics'] ) )
         {
             $siteBasics = $GLOBALS['eZSiteBasics'];
-            if ( $siteBasics['no-cache-adviced'] )
+            if ( isset( $siteBasics['no-cache-adviced'] ) && $siteBasics['no-cache-adviced'] )
                 $this->UseCache = false;
         }
         $this->BuildCache = false;
