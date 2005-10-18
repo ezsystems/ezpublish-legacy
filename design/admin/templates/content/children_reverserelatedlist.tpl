@@ -63,7 +63,7 @@
               {$path_node.name|wash}
               {delimiter} / {/delimiter}
         {/section}
-    {section show=$reverse_list_count_array[$children_item.object.id]|gt( 0 )}
+    {section show=$reverse_list_count_children_array[$children_item.object.id]|gt( 0 )}
           </a>
     {/section}
     </td>
