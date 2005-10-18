@@ -44,12 +44,6 @@ include_once( 'lib/ezfile/classes/ezdir.php' );
 
 $tpl =& templateInit();
 
-// open site.ini for reading
-$siteINI = eZINI::instance();
-$siteINI->loadCache();
-$extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
-$availableExtensionArray = eZDir::findSubItems( $extensionDir );
-
 if ( $module->isCurrentAction( 'ActivateExtensions' ) )
 {
     if ( $http->hasPostVariable( "ActiveExtensionList" ) )
@@ -70,13 +64,16 @@ if ( $module->isCurrentAction( 'ActivateExtensions' ) )
     include_once( 'kernel/classes/ezcache.php' );
     eZCache::clearByTag( 'ini' );
 }
-else
-{
-    $selectedExtensionArray       = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
-    $selectedAccessExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveAccessExtensions" );
-    $selectedExtensions           = array_merge( $selectedExtensionArray, $selectedAccessExtensionArray );
-    $selectedExtensions           = array_unique( $selectedExtensions );
-}
+// open site.ini for reading
+$siteINI = eZINI::instance();
+$siteINI->loadCache();
+$extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
+$availableExtensionArray = eZDir::findSubItems( $extensionDir );
+
+$selectedExtensionArray       = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
+$selectedAccessExtensionArray = $siteINI->variable( 'ExtensionSettings', "ActiveAccessExtensions" );
+$selectedExtensions           = array_merge( $selectedExtensionArray, $selectedAccessExtensionArray );
+$selectedExtensions           = array_unique( $selectedExtensions );
 
 $tpl->setVariable( "available_extension_array", $availableExtensionArray );
 $tpl->setVariable( "selected_extension_array", $selectedExtensions );
