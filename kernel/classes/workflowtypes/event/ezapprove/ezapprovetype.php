@@ -330,7 +330,8 @@ class eZApproveType extends eZWorkflowEventType
                 eZContentBrowse::browse( array( 'action_name' => 'SelectSingleUser',
                                                 'from_page' => '/workflow/edit/' . $workflowEvent->attribute( 'workflow_id' ),
                                                 'custom_action_data' => array( 'event_id' => $eventID,
-                                                                               'browse_action' => $action ) ),
+                                                                               'browse_action' => $action ),
+                                                'class_array' => array ( 'user' ) ),
                                          $module );
             } break;
 
