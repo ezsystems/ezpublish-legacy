@@ -42,8 +42,8 @@
 		   {set $userEnabled=concat( '<span class="userstatus-disabled">', '(disabled)'|i18n("design/admin/node/view/full") ,'</span>')}
 		{/if}
 	{/if}		
-	
         <td>{node_view_gui view=line content_node=$Nodes.item} {$userEnabled}</td>
+	{undef $userEnabled}
 
         {* Class type *}
         <td class="class">{$Nodes.item.class_name|wash()}</td>
