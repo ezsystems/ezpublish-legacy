@@ -2101,7 +2101,7 @@ class eZContentObject extends eZPersistentObject
                   ezcontentobject_link.to_contentobject_id=$toObjectID AND
                   ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version";
 
-        if ( $attributeID )
+        if ( $attributeID !== false )
             $query .= " AND contentclassattribute_id=$attributeID";
 
         $db =& eZDB::instance();
@@ -2146,7 +2146,7 @@ class eZContentObject extends eZPersistentObject
                     ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version";
 
 
-        if ( $attributeID )
+        if ( $attributeID !== false )
             $query .= " AND ezcontentobject_link.contentclassattribute_id=$attributeID";
 
         $rows =& $db->arrayQuery( $query );
