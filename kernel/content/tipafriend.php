@@ -103,11 +103,21 @@ if ( $http->hasPostVariable( 'SendButton' ) )
     if ( !eZMail::validate( $receiversEmail ) )
         $error_strings[] = ezi18n( 'kernel/content', 'The email address of the receiver is not valid' );
 
-    $fromEmail = $yourEmail;
+    $fromEmail = null;
+
     if ( $ini->hasVariable( 'TipAFriend', 'FromEmail' ) )
     {
         $fromEmail = $ini->variable( 'TipAFriend', 'FromEmail' );
+        if ( $fromEmail != null )
+            if ( !eZMail::validate( $fromEmail ) )
+            {
+                eZDebug::writeError( "The email < $fromEmail > specified in [TipAFriend].FromEmail setting in site.ini is not valid",'tipafriend' );
+                $fromEmail = null;
+            }
     }
+    if ( $fromEmail == null )
+        $fromEmail = $yourEmail;
+
     include_once( "kernel/classes/eztipafriendrequest.php" );
     if ( !eZTipafriendRequest::checkReceiver( $receiversEmail ) )
         $error_strings[] = ezi18n( 'kernel/content', 'The receiver has already received the maximimum number of tipafriend mails the last hours' );

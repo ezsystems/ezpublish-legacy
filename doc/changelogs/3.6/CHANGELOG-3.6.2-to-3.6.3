@@ -124,6 +124,8 @@ Changes from 3.6.2 to 3.6.3
 - Fixed bug #7289: Wrong URL's created by eZTemplatesStatisticsReporter with 
   reverse proxy setup.
   (Merged from trunk(3.8.0alpha1) rev. 13768)
+- Fixed bug #6316: Improve email logic & validation in tip-a-friend.
+  ( Merged from stable/3.7 ( 3.7.1 ) rev. 13776 )
 
 *Library:
 - Added support for having eZ publish installed in a subfolder while using virtualhost setup.
@@ -135,3 +137,8 @@ Changes from 3.6.2 to 3.6.3
 *Design:
 - Added: Indication of status (enabled/disabled) for the user account in the admin interface.
   ( Merged from trunk ( 3.8.0alpha1 ) rev. 13659, 13674 ).
+
+
+*INI settings
+- Changed: [TipAFriend].FromEmail is empty by default.
+  If FromEmail ini setting is empty or does not exist then $yourEmail variable will be used instead of it.
