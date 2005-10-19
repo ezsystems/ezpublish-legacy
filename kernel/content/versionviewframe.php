@@ -105,8 +105,10 @@ $tpl->setVariable( 'node', $node );
 $tpl->setVariable( 'object', $contentObject );
 $tpl->setVariable( 'version', $versionObject );
 $tpl->setVariable( 'language', $LanguageCode );
+$tpl->setVariable( 'object_languagecode', $LanguageCode );
 $tpl->setVariable( 'siteaccess', $siteaccess );
 $tpl->setVariable( 'is_creator', $isCreator );
+$tpl->setVariable( 'from_language', $FromLanguage );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:content/view/versionview.tpl' );
