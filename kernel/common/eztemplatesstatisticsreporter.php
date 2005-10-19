@@ -85,14 +85,13 @@ class eZTemplatesStatisticsReporter
         {
             $iconSizeX = 16;
             $iconSizeY = 16;
-            $siteURI = 'http://' . eZSys::hostname();
-            $templateViewFunction = $siteURI . eZSys::indexDir() . '/visual/templateview/';
-            $templateEditFunction = $siteURI . eZSys::indexDir() . '/visual/templateedit/';
-            $templateOverrideFunction = $siteURI . eZSys::indexDir() . '/visual/templatecreate/';
+            $templateViewFunction = 'visual/templateview/';
+            $templateEditFunction = 'visual/templateedit/';
+            $templateOverrideFunction = 'visual/templatecreate/';
 
             $std_base = eZTemplateDesignResource::designSetting( 'standard' );
-            $editIconFile = $siteURI . "/design/$std_base/images/edit.gif";
-            $overrideIconFile = $siteURI . "/design/$std_base/images/override-template.gif";
+            $editIconFile = "/design/$std_base/images/edit.gif";
+            $overrideIconFile = "/design/$std_base/images/override-template.gif";
 
             $tdClass = 'used_templates_stats1';
             $j = 0;
@@ -121,7 +120,7 @@ class eZTemplatesStatisticsReporter
                        "<td class=\"$tdClass\"><a href=\"$requestedTemplateViewURI\">&nbsp;$requestedTemplateName</a></td>" .
                        "<td class=\"$tdClass\">&nbsp;$templateFileName</td>" .
                        "<td class=\"$tdClass\" align=\"center\"><a href=\"$templateEditURI/(siteAccess)/$currentSiteAccess\"><img src=\"$editIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Edit template\" title=\"Edit template\" /></a></td>".
-                       "<td class=\"$tdClass\" align=\"center\"><a href=\"$templateOverrideURI/(siteAccess)/$currentSiteAccess\"><img src=\"$overrideIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Edit template\" title=\"Edit template\" /></a></td></tr>" );
+                       "<td class=\"$tdClass\" align=\"center\"><a href=\"$templateOverrideURI/(siteAccess)/$currentSiteAccess\"><img src=\"$overrideIconFile\" width=\"$iconSizeX\" height=\"$iconSizeY\" alt=\"Override template\" title=\"Override template\" /></a></td></tr>" );
 
                 $j++;
             }
