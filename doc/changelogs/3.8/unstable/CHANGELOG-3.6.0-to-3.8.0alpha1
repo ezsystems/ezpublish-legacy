@@ -563,6 +563,8 @@ Attributes:
   ( Merged from stable/3.6 ( 3.6.3 ) rev. 13743 )
 - Fixed bug #7288: Preview functionality not showing correct flags.
   ( Merged from stable/3.6 ( 3.6.3 ) rev. 13762 )
+- Fixed bug #7289: Wrong URL's created by eZTemplatesStatisticsReporter with 
+  reverse proxy setup.
 
 *Library:
 
