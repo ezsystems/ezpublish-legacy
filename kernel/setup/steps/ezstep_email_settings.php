@@ -67,7 +67,6 @@ class eZStepEmailSettings extends eZStepInstaller
         if ( $this->Http->hasPostVariable( 'eZSetupEmailTransport' ) )
         {
             $this->PersistenceList['email_info']['type'] = $this->Http->postVariable( 'eZSetupEmailTransport' );
-            $this->PersistenceList['email_info']['sent'] = false;
             $this->PersistenceList['email_info']['result'] = false;
             if ( $this->PersistenceList['email_info']['type'] == 2 )
             {
@@ -88,7 +87,6 @@ class eZStepEmailSettings extends eZStepInstaller
         if ( $this->hasKickstartData() )
         {
             $data = $this->kickstartData();
-            $this->PersistenceList['email_info']['sent'] = false;
             $this->PersistenceList['email_info']['result'] = false;
             $this->PersistenceList['email_info']['type'] = 1;
 
@@ -117,7 +115,6 @@ class eZStepEmailSettings extends eZStepInstaller
                             'server' => false,
                             'user' => false,
                             'password' => false,
-                            'sent' => false,
                             'result' => false );
         if ( isset( $this->PersistenceList['email_info'] ) )
             $emailInfo = array_merge( $emailInfo, $this->PersistenceList['email_info'] );
