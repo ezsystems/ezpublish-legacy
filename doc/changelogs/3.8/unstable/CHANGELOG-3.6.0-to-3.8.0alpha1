@@ -17,6 +17,7 @@ Changes from 3.6.0 to 3.8.0alpha1
   (Submitted by: Paul Forsyth and Vittal Aithal)
 - Added experimental support for placing siteaccess specific settings in extensions.
   ( Merged from stable/3.7 rev. 13196 )
+- Added support for binding to LDAP server with a username and password.
 
 Attributes:
 - Added: 'last_visit' attribute to eZUser

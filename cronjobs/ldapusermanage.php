@@ -61,6 +61,8 @@ $LDAPVersion = $LDAPIni->variable( 'LDAPSettings', 'LDAPVersion' );
 $LDAPHost = $LDAPIni->variable( 'LDAPSettings', 'LDAPServer' );
 $LDAPPort = $LDAPIni->variable( 'LDAPSettings', 'LDAPPort' );
 $LDAPBaseDN = $LDAPIni->variable( 'LDAPSettings', 'LDAPBaseDn' );
+$LDAPBindUser = $LDAPIni->variable( 'LDAPSettings', 'LDAPBindUser' );
+$LDAPBindPassword = $LDAPIni->variable( 'LDAPSettings', 'LDAPBindPassword' );
 $LDAPLogin = $LDAPIni->variable( 'LDAPSettings', 'LDAPLoginAttribute' );
 $LDAPSearchScope = $LDAPIni->variable( 'LDAPSettings', 'LDAPSearchScope' );
 $LDAPFirstNameAttribute = $LDAPIni->variable( 'LDAPSettings', 'LDAPFirstNameAttribute' );
@@ -197,7 +199,14 @@ $ds = ldap_connect( $LDAPHost, $LDAPPort );
 if ( $ds )
 {
     ldap_set_option( $ds, LDAP_OPT_PROTOCOL_VERSION, $LDAPVersion );
-    $r = ldap_bind( $ds );
+    if ( $LDAPBindUser == '' )
+    {
+        $r = ldap_bind( $ds );
+    }
+    else
+    {
+        $r = ldap_bind( $ds, $LDAPBindUser, $LDAPBindPassword );
+    }
     if ( !$r )
     {
         return false;
