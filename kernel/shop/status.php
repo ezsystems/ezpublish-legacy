@@ -45,27 +45,28 @@ if ( $http->hasPostVariable( "SaveOrderStatusButton" ) or
      $http->hasPostVariable( "AddOrderStatusButton" ) or
      $http->hasPostVariable( "RemoveOrderStatusButton" ) )
 {
-    $orderStatusArray =& eZOrderStatus::fetchList( true, true );
+    $orderStatusArray = eZOrderStatus::fetchList( true, true );
     foreach ( $orderStatusArray as $orderStatus )
     {
         $id = $orderStatus->attribute( 'id' );
         if ( $http->hasPostVariable( "orderstatus_name_" . $id ) )
         {
-            $name = $http->postVariable( "orderstatus_name_" . $id );
+            $orderStatus->setAttribute( 'name', $http->postVariable( "orderstatus_name_" . $id ) );
         }
         // Only check the checkbox value if the has_input variable is set
         if ( $http->hasPostVariable( "orderstatus_active_has_input_" . $id ) )
         {
             $orderStatus->setAttribute( 'is_active', $http->hasPostVariable( "orderstatus_active_" . $id ) );
         }
-        $orderStatus->setAttribute( 'name', $name );
-        $orderStatus->store();
+        $orderStatus->sync();
     }
+
+    eZOrderStatus::flush();
 }
 
 if ( $http->hasPostVariable( "AddOrderStatusButton" ) )
 {
-    $orderStatus =& eZOrderStatus::create();
+    $orderStatus = eZOrderStatus::create();
     $orderStatus->storeCustom();
     $messages[] = array( 'description' => ezi18n( 'kernel/shop', 'New order status was successfully added.' ) );
 }
@@ -85,7 +86,7 @@ if ( $http->hasPostVariable( "RemoveOrderStatusButton" ) )
     $triedRemoveInternal = false;
     foreach ( $orderStatusIDList as $orderStatusID )
     {
-        $status =& eZOrderStatus::fetch( $orderStatusID );
+        $status = eZOrderStatus::fetch( $orderStatusID );
         // Internal status items must not be removed
         if ( $status->isInternal() )
         {
@@ -101,7 +102,7 @@ if ( $http->hasPostVariable( "RemoveOrderStatusButton" ) )
         $messages[] = array( 'description' => ezi18n( 'kernel/shop', 'Internal orders cannot be removed.' ) );
 }
 
-$orderStatusArray =& eZOrderStatus::fetchList( true, true );
+$orderStatusArray = eZOrderStatus::fetchList( true, true );
 
 $tpl =& templateInit();
 $tpl->setVariable( "orderstatus_array", $orderStatusArray );
