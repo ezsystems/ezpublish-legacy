@@ -581,9 +581,10 @@ eZTemplate:
   Example : www.example.com/ez_publish/<eZ publish>
   ( Merged from stable/3.5 rev. 13711, stable/3.6 rev. 13712, stable/3.7 rev. 13713 )
 
-*INI settings 
-- Changed: [TipAFriend].FromEmail is empty by default. 
-  If FromEmail ini setting is empty or does not exist then $yourEmail variable will be used instead of it. 
+*INI settings
+- Changed: [TipAFriend].FromEmail ini setting is now empty by default.
+  Thus, the email address specified in the tip-a-friend form is used as from address when sending the email.
+  Assign a non-empty value to FromEmail for it to be used as from address.
 
 eZDB:
 - Added: New function hasRequiredServerVersion() to make it easier to check for
