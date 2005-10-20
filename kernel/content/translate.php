@@ -106,7 +106,7 @@ if ( !$object->attribute( 'can_translate' ) )
 
 $version =& $object->version( $EditVersion );
 
-if ( $version === null  )
+if ( !$version )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
 $isRemoveActive = false;
