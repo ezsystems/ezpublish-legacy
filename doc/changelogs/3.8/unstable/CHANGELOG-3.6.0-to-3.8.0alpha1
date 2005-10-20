@@ -567,6 +567,8 @@ Attributes:
   reverse proxy setup.
 - Fixed bug #6316: Improve email logic & validation in tip-a-friend.
   ( Merged from stable/3.7 ( 3.7.1 ) rev. 13776 )
+- Fixed bug #7253: CSS issue in /shop/orderlist.
+  ( Merged from stable/3.6 ( 3.6.3 ) rev. 13780 )
 
 *Library:
 
