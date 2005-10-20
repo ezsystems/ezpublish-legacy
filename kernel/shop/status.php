@@ -51,16 +51,17 @@ if ( $http->hasPostVariable( "SaveOrderStatusButton" ) or
         $id = $orderStatus->attribute( 'id' );
         if ( $http->hasPostVariable( "orderstatus_name_" . $id ) )
         {
-            $name = $http->postVariable( "orderstatus_name_" . $id );
+            $orderStatus->setAttribute( 'name', $http->postVariable( "orderstatus_name_" . $id ) );
         }
         // Only check the checkbox value if the has_input variable is set
         if ( $http->hasPostVariable( "orderstatus_active_has_input_" . $id ) )
         {
             $orderStatus->setAttribute( 'is_active', $http->hasPostVariable( "orderstatus_active_" . $id ) );
         }
-        $orderStatus->setAttribute( 'name', $name );
-        $orderStatus->store();
+        $orderStatus->sync();
     }
+
+    eZOrderStatus::flush();
 }
 
 if ( $http->hasPostVariable( "AddOrderStatusButton" ) )
