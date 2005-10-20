@@ -570,6 +570,8 @@ Attributes:
   ( Merged from stable/3.7 ( 3.7.1 ) rev. 13776 )
 - Fixed bug #7253: CSS issue in /shop/orderlist.
   ( Merged from stable/3.6 ( 3.6.3 ) rev. 13780 )
+- Fixed bug #7299: Bug Shop order descriptions: strange behavior.
+  ( Merged from stable/3.6 rev 13788, stable/3.7 rev. 13789 )
 
 *Library:
 
