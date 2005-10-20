@@ -49,8 +49,9 @@ Changes from 3.7.0 to 3.7.1
   ( Merged from stable/3.5 rev. 13711, stable/3.6 rev. 13712 )
 
 *INI settings
-- Changed: [TipAFriend].FromEmail is empty by default.
-  If FromEmail ini setting is empty or does not exist then $yourEmail variable will be used instead of it.
+- Changed: [TipAFriend].FromEmail ini setting is now empty by default.
+  Thus, the email address specified in the tip-a-friend form is used as from address when sending the email.
+  Assign a non-empty value to FromEmail for it to be used as from address.
 
 eZDB:
 
