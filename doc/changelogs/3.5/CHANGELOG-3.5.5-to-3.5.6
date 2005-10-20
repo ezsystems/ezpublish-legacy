@@ -104,8 +104,9 @@ Changes from 3.5.5 to 3.5.6
   Example : www.example.com/ez_publish/<eZ publish>
 
 *INI settings
-- Changed: [TipAFriend].FromEmail is empty by default.
-  If FromEmail ini setting is empty or does not exist then $yourEmail variable will be used instead of it.
+- Changed: [TipAFriend].FromEmail ini setting is now empty by default.
+  Thus, the email address specified in the tip-a-friend form is used as from address when sending the email.
+  Assign a non-empty value to FromEmail for it to be used as from address.
 
 *Design:
 - Added: Indication of status (enabled/disabled) for the user account in the admin interface.
