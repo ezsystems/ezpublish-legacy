@@ -188,7 +188,7 @@ $ini =& eZINI::instance();
 if ( is_numeric( $EditVersion ) )
 {
     $version =& $obj->version( $EditVersion );
-    if ( $version === null )
+    if ( !$version )
     {
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     }
@@ -246,7 +246,7 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
         if ( is_numeric( $editVersion ) )
         {
             $version =& $object->version( $editVersion );
-            if ( $version === null )
+            if ( !$version )
             {
                 $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
@@ -258,7 +258,7 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
             $version = eZContentObjectVersion::fetchUserDraft( $objectID, $userID );
         }
 
-        if ( $version !== null )
+        if ( $version )
         {
             $currentVersion = $object->currentVersion();
             /*

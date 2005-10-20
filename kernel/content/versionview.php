@@ -57,7 +57,7 @@ if ( $contentObject === null )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
 $versionObject =& $contentObject->version( $EditVersion );
-if ( $versionObject === null )
+if ( !$versionObject )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
 if ( !$versionObject->attribute( 'can_read' ) )

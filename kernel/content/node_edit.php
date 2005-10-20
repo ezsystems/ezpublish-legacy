@@ -674,7 +674,7 @@ function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentOb
 
     $currentVersion =& $object->version( $editVersion );
     $publishedNodeArray = array();
-    if ( $currentVersion !== null )
+    if ( $currentVersion )
         $publishedNodeArray =& $currentVersion->attribute( 'parent_nodes' );
     $mainParentNodeID = $version->attribute( 'main_parent_node_id' );
 

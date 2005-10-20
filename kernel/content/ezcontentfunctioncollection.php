@@ -76,10 +76,10 @@ class eZContentFunctionCollection
     {
         include_once( 'kernel/classes/ezcontentobjectversion.php' );
         $contentVersion = eZContentObjectVersion::fetchVersion( $versionID, $objectID );
-        if ( $contentVersion === null )
+        if ( !$contentVersion )
         {
             $result = array( 'error' => array( 'error_type' => 'kernel',
-                                            'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+                                               'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
         }
         else
         {
@@ -119,7 +119,7 @@ class eZContentFunctionCollection
         include_once( 'kernel/classes/ezcontentobject.php' );
         include_once( 'kernel/classes/ezcontentobjectversion.php' );
         $version = eZContentObjectVersion::fetchVersion( $version, $objectID );
-        if ( $version === null )
+        if ( !$version )
             return array( 'error' => array( 'error_type' => 'kernel',
                                             'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
 

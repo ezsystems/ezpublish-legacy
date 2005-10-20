@@ -120,7 +120,7 @@ if ( $Module->isCurrentAction( 'Edit' )  )
          $Module->actionParameter( 'EditLanguage' ) )
         $EditLanguage = $Module->actionParameter( 'EditLanguage' );
     $version =& $object->version( $versionID );
-    if ( $version === null )
+    if ( !$version )
         $versionID = false;
 
     if ( $versionID !== false and
