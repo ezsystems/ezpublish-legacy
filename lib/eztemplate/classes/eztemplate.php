@@ -364,8 +364,7 @@ class eZTemplate
 
         $this->IsCachingAllowed = true;
 
-        $this->ErrorCount = 0;
-        $this->WarningCount = 0;
+        $this->resetErrorLog();
 
         $this->AutoloadPathList = array( 'lib/eztemplate/classes/' );
         $this->Variables = array();
@@ -538,8 +537,7 @@ class eZTemplate
     */
     function &fetch( $template = false, $extraParameters = false, $returnResourceData = false )
     {
-        $this->ErrorCount = 0;
-        $this->WarningCount = 0;
+        $this->resetErrorLog();
 
         eZDebug::accumulatorStart( 'template_total' );
         eZDebug::accumulatorStart( 'template_load', 'template_total', 'Template load' );
@@ -911,8 +909,7 @@ class eZTemplate
     */
     function validateTemplateFile( $file, $returnResourceData = false )
     {
-        $this->ErrorCount = 0;
-        $this->WarningCount = 0;
+        $this->resetErrorLog();
 
         if ( !file_exists( $file ) )
             return false;
@@ -945,7 +942,7 @@ class eZTemplate
             $this->appendDebugNodes( $root, $resourceData );
         }
 
-        $result = $this->ErrorCount == 0 and $this->WarningCount == 0;
+        $result = !$this->hasErrors() and !$this->hasWarnings();
         if ( $returnResourceData )
         {
             $resourceData['result'] = $result;
@@ -961,8 +958,7 @@ class eZTemplate
     */
     function compileTemplateFile( $file, $returnResourceData = false )
     {
-        $this->ErrorCount = 0;
-        $this->WarningCount = 0;
+        $this->resetErrorLog();
 
         if ( !file_exists( $file ) )
             return false;
@@ -2238,7 +2234,9 @@ class eZTemplate
     */
     function warning( $name, $txt, $placement = false )
     {
-        $this->WarningCount += 1;
+        $this->WarningLog[] = array( 'name' => $name,
+                                     'text' => $txt,
+                                     'placement' => $placement );
 
         if ( !is_string( $placement ) )
             $placementText = $this->placementText( $placement );
@@ -2256,7 +2254,9 @@ class eZTemplate
     */
     function error( $name, $txt, $placement = false )
     {
-        $this->ErrorCount += 1;
+        $this->ErrorLog[] = array( 'name' => $name,
+                                   'text' => $txt,
+                                   'placement' => $placement );
 
         if ( !is_string( $placement ) )
             $placementText = $this->placementText( $placement );
@@ -2401,8 +2401,7 @@ class eZTemplate
         $this->resetElements();
         $this->IsCachingAllowed = true;
 
-        $this->ErrorCount = 0;
-        $this->WarningCount = 0;
+        $this->resetErrorLog();
 
         $this->TemplatesUsageStatistics = array();
     }
@@ -2413,7 +2412,7 @@ class eZTemplate
     */
     function errorCount()
     {
-        return $this->ErrorCount;
+        return count( $this->ErrorLog );
     }
 
     /*!
@@ -2422,7 +2421,16 @@ class eZTemplate
     */
     function hasErrors()
     {
-        return $this->ErrorCount > 0;
+        return $this->errorCount() > 0;
+    }
+
+    /*!
+     \return error log.
+     \sa errorCount()
+    */
+    function errorLog()
+    {
+        return $this->ErrorLog;
     }
 
     /*!
@@ -2431,7 +2439,7 @@ class eZTemplate
     */
     function warningCount()
     {
-        return $this->WarningCount;
+        return count( $this->WarningLog );
     }
 
     /*!
@@ -2440,7 +2448,16 @@ class eZTemplate
     */
     function hasWarnings()
     {
-        return $this->WarningCount > 0;
+        return $this->warningCount() > 0;
+    }
+
+    /*!
+     \return waring log.
+     \sa warningCount()
+    */
+    function warningLog()
+    {
+        return $this->WarningLog;
     }
 
     /*!
@@ -2616,6 +2633,15 @@ class eZTemplate
     }
 
     /*!
+     Reset error and warning logs
+    */
+    function resetErrorLog()
+    {
+        $this->ErrorLog = array();
+        $this->WarningLog = array();
+    }
+
+    /*!
      \static
      Returns template usage statistics
     */
@@ -2668,10 +2694,10 @@ class eZTemplate
     /// \c true if caching is allowed
     var $IsCachingAllowed;
 
-    /// The number of errors that occured for a fetch
-    var $ErrorCount;
-    /// The number of warnings that occured for a fetch
-    var $WarningCount;
+    /// Array containing all errors occured during a fetch
+    var $ErrorLog;
+    /// Array containing all warnings occured during a fetch
+    var $WarningLog;
 
     var $AutoloadPathList;
     /// include level
