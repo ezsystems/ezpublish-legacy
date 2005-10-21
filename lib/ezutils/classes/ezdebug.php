@@ -106,6 +106,8 @@ define( "EZ_OUTPUT_MESSAGE_STORE", 2 );
 define( "EZ_DEBUG_MAX_LOGFILE_SIZE", 200*1024 );
 define( "EZ_DEBUG_MAX_LOGROTATE_FILES", 3 );
 
+define( "EZ_DEBUG_XDEBUG_SIGNATURE", '--XDEBUG--' );
+
 class eZDebug
 {
     /*!
@@ -567,9 +569,11 @@ class eZDebug
         //if ( function_exists( 'var_export' ) )
         //    return var_export( $var, true );
 
-        $variableContents = "";
         ob_start();
         var_dump( $var );
+        $variableContents = '';
+        if ( extension_loaded( 'xdebug' ) )
+           $variableContents = EZ_DEBUG_XDEBUG_SIGNATURE;
         $variableContents .= ob_get_contents();
         ob_end_clean();
         return $variableContents;
@@ -1356,12 +1360,12 @@ td.timingpoint2
                 if ( $as_html )
                 {
                     $label = htmlspecialchars( $label );
- 
-                    $contents = ''; 
-                    if ( extension_loaded( 'xdebug' ) ) 
-                        $contents =& $debug['String']; 
-                    else 
-                        $contents = htmlspecialchars( $debug['String'] ); 
+
+                    $contents = '';
+                    if ( extension_loaded( 'xdebug' ) && ( strncmp( EZ_DEBUG_XDEBUG_SIGNATURE, $debug['String'], strlen( EZ_DEBUG_XDEBUG_SIGNATURE ) ) === 0 ) )
+                        $contents = substr( $debug['String'], strlen( EZ_DEBUG_XDEBUG_SIGNATURE ) );
+                    else
+                        $contents = htmlspecialchars( $debug['String'] );
 
                     $returnText .= "<tr><td class='debugheader' valign='top'$identifierText><b><font color=\"$color\">$name:</font> $label</b></td>
                                     <td class='debugheader' valign='top'>$time</td></tr>
