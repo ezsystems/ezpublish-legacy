@@ -905,7 +905,11 @@ $FunctionList['related_objects'] = array( 'name' => 'object',
                                                         array( 'name' => 'group_by_attribute',
                                                                'type' => 'boolean',
                                                                'required' => false,
-                                                               'default' => false ) ) );
+                                                               'default' => false ),
+                                                        array( 'name' => 'sort_by',
+                                                               'type' => 'array',
+                                                               'required' => false,
+                                                               'default' => array() ) ) );
 
 $FunctionList['related_objects_count'] = array( 'name' => 'object',
                                  'operation_types' => array( 'read' ),
@@ -944,7 +948,11 @@ $FunctionList['reverse_related_objects'] = array( 'name' => 'object',
                                                         array( 'name' => 'group_by_attribute',
                                                                'type' => 'boolean',
                                                                'required' => false,
-                                                               'default' => false ) ) );
+                                                               'default' => false ),
+                                                        array( 'name' => 'sort_by',
+                                                               'type' => 'array',
+                                                               'required' => false,
+                                                               'default' => array() ) ) );
 
 $FunctionList['reverse_related_objects_count'] = array( 'name' => 'object',
                                  'operation_types' => array( 'read' ),

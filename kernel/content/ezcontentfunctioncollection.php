@@ -942,16 +942,19 @@ class eZContentFunctionCollection
     }
 
     // Fetches reverse related objects
-    function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute )
+    function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy )
     {
+        $params = array();
+        if ( $sortBy )
+        {
+            $params['SortBy'] = $sortBy;
+        }
+
         if ( !$attributeID )
             $attributeID = 0;
 
-        $allRelationsMode = false;
-        if ( $allRelations === true )
-        {
-            $allRelationsMode = $groupByAttribute ? 2 : 1;
-        }
+        if ( $allRelations )
+            $attributeID = false;
 
         if ( $attributeID && !is_numeric( $attributeID ) )
         {
@@ -966,7 +969,7 @@ class eZContentFunctionCollection
 
         $object = eZContentObject::fetch( $objectID );
         include_once( 'kernel/classes/ezcontentobject.php' );
-        return array( 'result' => $object->relatedContentObjectList( false, $objectID, $attributeID, $allRelationsMode ) );
+        return array( 'result' => $object->relatedContentObjectList( false, $objectID, $attributeID, $groupByAttribute, $params ) );
     }
 
         // Fetches count of reverse related objects
@@ -975,6 +978,9 @@ class eZContentFunctionCollection
         if ( !$attributeID )
             $attributeID = 0;
 
+        if ( $allRelations )
+            $attributeID = false;
+
         if ( $attributeID && !is_numeric( $attributeID ) )
         {
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
@@ -988,21 +994,24 @@ class eZContentFunctionCollection
 
         $object = eZContentObject::fetch( $objectID );
         include_once( 'kernel/classes/ezcontentobject.php' );
-        return array( 'result' => $object->relatedContentObjectCount( false, $objectID, $attributeID, $allRelations ) );
+        return array( 'result' => $object->relatedContentObjectCount( false, $objectID, $attributeID ) );
     }
 
-    function fetchReverseRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute )
+    function fetchReverseRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy )
     {
+        $params = array();
+        if ( $sortBy )
+        {
+            $params['SortBy'] = $sortBy;
+        }
+
         if ( !$attributeID )
             $attributeID = 0;
 
-        $allRelationsMode = false;
-        if ( $allRelations === true )
-        {
-            $allRelationsMode = $groupByAttribute ? 2 : 1;
-        }
+        if ( $allRelations )
+            $attributeID = false;
 
-        if ( !$attributeID &&  !is_numeric( $attributeID ) )
+        if ( $attributeID && !is_numeric( $attributeID ) )
         {
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
@@ -1013,7 +1022,7 @@ class eZContentFunctionCollection
             }
         }
         include_once( 'kernel/classes/ezcontentobject.php' );
-        return array( 'result' => eZContentObject::reverseRelatedObjectList( false, $objectID, $attributeID, $allRelationsMode ) );
+        return array( 'result' => eZContentObject::reverseRelatedObjectList( false, $objectID, $attributeID, $groupByAttribute, $params ) );
     }
 
     // Fetches count of reverse related objects
@@ -1022,7 +1031,10 @@ class eZContentFunctionCollection
         if ( !$attributeID )
             $attributeID = 0;
 
-        if ( !$attributeID && !is_numeric( $attributeID ) )
+        if ( $allRelations )
+            $attributeID = false;
+
+        if ( $attributeID && !is_numeric( $attributeID ) )
         {
             include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
             $attributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $attributeID );
@@ -1033,7 +1045,7 @@ class eZContentFunctionCollection
             }
         }
         include_once( 'kernel/classes/ezcontentobject.php' );
-        return array( 'result' => eZContentObject::reverseRelatedObjectCount( false, $objectID, $attributeID, $allRelations ) );
+        return array( 'result' => eZContentObject::reverseRelatedObjectCount( false, $objectID, $attributeID ) );
     }
 }
 

@@ -25,7 +25,7 @@
     {/if}
 </tr>
 {if $related_objects_count}
-    {def $related_objects_grouped = fetch( 'content', 'related_objects', hash( 'object_id', $node.object.id, 'all_relations', true(), 'group_by_attribute', true() ) )}
+    {def $related_objects_grouped = fetch( 'content', 'related_objects', hash( 'object_id', $node.object.id, 'all_relations', true(), 'group_by_attribute', true(), 'sort_by', array( array( 'class_name', true() ), array( 'name', true() ) ) ) )}
 
     {def $tr_class='bglight'}
     {def $attr = 0}
@@ -64,7 +64,7 @@
     {/if}
 </tr>
 {if $reverse_related_objects_count}
-    {def $reverse_related_objects_grouped = fetch( 'content', 'reverse_related_objects', hash( 'object_id', $node.object.id, 'all_relations', true(), 'group_by_attribute', true() ) )}
+    {def $reverse_related_objects_grouped = fetch( 'content', 'reverse_related_objects', hash( 'object_id', $node.object.id, 'all_relations', true(), 'group_by_attribute', true(), 'sort_by', array( array( 'class_name', true() ), array( 'name', true() ) ) ) )}
 
     {def $tr_class='bglight'}
     {def $attr = 0}
