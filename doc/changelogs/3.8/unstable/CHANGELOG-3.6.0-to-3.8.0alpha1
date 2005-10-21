@@ -578,6 +578,8 @@ Attributes:
   (Merged from stable/3.6 ( 3.6.3 ) rev. 13793)
 - Fixed bug: 'postgresql' + 'reverseRelatedCount' cause sql-error.
   (Merged from stable/3.6 ( 3.6.3 ) rev. 13793)
+- Fixed bug: 'ezdebug' + 'xdebug' - special characters are not converted to HTML entities.  
+  (Merged from stable/3.6 ( 3.6.3 ) rev. 13797)
 
 *Library:
 
