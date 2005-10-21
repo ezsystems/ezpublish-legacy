@@ -3996,7 +3996,7 @@ WHERE
 
         // Total count of sub items
         $db = eZDB::instance();
-        $countOfItems = $db->arrayQuery( "SELECT COUNT( DISTINCT( tree.node_id ) ) count
+        $countOfItems = $db->arrayQuery( "SELECT COUNT( DISTINCT( tree.node_id ) ) as count
                                                   FROM  ezcontentobject_tree tree,  ezcontentobject obj,
                                                         ezcontentobject_link link LEFT JOIN ezcontentobject_tree tree2
                                                         ON link.from_contentobject_id = tree2.contentobject_id
@@ -4135,18 +4135,20 @@ WHERE
                   SELECT
                           count( ezcot.main_node_id ) AS count
                     FROM
-                          ezcontentobject_tree ezcot RIGHT JOIN
-                          ezcontentobject_tree ezcot_all ON ezcot.main_node_id = ezcot_all.main_node_id
+                          ezcontentobject_tree ezcot,
+                          ezcontentobject_tree ezcot_all
                     WHERE
                            $pathString
                            $depthCond
                            $notEqParentString
-                    GROUP BY ezcot_all.main_node_id";
+                           and ezcot.contentobject_id = ezcot_all.contentobject_id
+                    GROUP BY ezcot_all.main_node_id
+                    HAVING count( ezcot.main_node_id ) <= 1";
 
         $db->query( $query );
         $query = "SELECT count( * ) AS count
-                  FROM $tmpTableName
-                  WHERE count <= 1";
+                  FROM $tmpTableName";
+
         $rows = $db->arrayQuery( $query );
         $db->dropTempTable( "DROP TABLE $tmpTableName" );
         return $rows[0]['count'];

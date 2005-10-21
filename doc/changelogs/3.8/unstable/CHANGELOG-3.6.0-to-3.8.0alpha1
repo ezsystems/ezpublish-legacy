@@ -574,6 +574,10 @@ Attributes:
   ( Merged from stable/3.6 rev 13788, stable/3.7 rev. 13789 )
 - Fixed bug #7301: Bug Double discard gives fatal error.
   ( Merged from stable/3.7 rev. 13791 )
+- Fixed bug #7256: subtreeSoleNodeCount - RIGHT JOIN terribly slow with a lot of nodes.
+  (Merged from stable/3.6 ( 3.6.3 ) rev. 13793)
+- Fixed bug: 'postgresql' + 'reverseRelatedCount' cause sql-error.
+  (Merged from stable/3.6 ( 3.6.3 ) rev. 13793)
 
 *Library:
 
