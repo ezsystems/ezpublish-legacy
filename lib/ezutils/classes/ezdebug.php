@@ -106,6 +106,8 @@ define( "EZ_OUTPUT_MESSAGE_STORE", 2 );
 define( "EZ_DEBUG_MAX_LOGFILE_SIZE", 200*1024 );
 define( "EZ_DEBUG_MAX_LOGROTATE_FILES", 3 );
 
+define( "EZ_DEBUG_XDEBUG_SIGNATURE", '--XDEBUG--' );
+
 class eZDebug
 {
     /*!
@@ -573,7 +575,10 @@ class eZDebug
 
         ob_start();
         var_dump( $var );
-        $variableContents = ob_get_contents();
+        $variableContents = '';
+        if ( extension_loaded( 'xdebug' ) )
+           $variableContents = EZ_DEBUG_XDEBUG_SIGNATURE;
+        $variableContents .= ob_get_contents();
         ob_end_clean();
         return $variableContents;
     }
@@ -1110,19 +1115,19 @@ function showDebug()
     {
         //Opera
         debugWindow = window.open( '', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
-        debugWindow.location.href=\"/$debugFilePath\";  
+        debugWindow.location.href=\"/$debugFilePath\";
         debugWindow.navigate(\"/$debugFilePath\");
     }
     else
     {
         //Mozilla, Firefox, etc.
         debugWindow = window.open( '', 'ezdebug', 'width=500,height=550,status,scrollbars,resizable,screenX=0,screenY=20,left=20,top=40');
-	debugWindow.document.location.href=\"/$debugFilePath\";  
+	debugWindow.document.location.href=\"/$debugFilePath\";
     };
 }
-    
+
 showDebug();
-		    
+		
 // done hiding from old browsers -->
 </SCRIPT>
 " );
@@ -1390,8 +1395,8 @@ td.timingpoint2
                     $label = htmlspecialchars( $label );
 
                     $contents = '';
-                    if ( extension_loaded( 'xdebug' ) )
-                        $contents =& $debug['String'];
+                    if ( extension_loaded( 'xdebug' ) && ( strncmp( EZ_DEBUG_XDEBUG_SIGNATURE, $debug['String'], strlen( EZ_DEBUG_XDEBUG_SIGNATURE ) ) === 0 ) )
+                        $contents = substr( $debug['String'], strlen( EZ_DEBUG_XDEBUG_SIGNATURE ) );
                     else
                         $contents = htmlspecialchars( $debug['String'] );
 
