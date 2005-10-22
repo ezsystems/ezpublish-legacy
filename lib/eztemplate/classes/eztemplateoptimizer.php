@@ -163,7 +163,8 @@ class eZTemplateOptimizer
         }
 
         /* node.object.data_map optimization through function */
-        if ( $data[0][0] == 101 )
+        if ( isset( $data[0] ) and
+             $data[0][0] == 101 )
         {
             $functionRet = eZTemplateOptimizer::optimizeFunction( $useComments, $php, $tpl, $data[0], $resourceData );
             // Merge settings

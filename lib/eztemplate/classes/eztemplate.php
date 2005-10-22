@@ -373,6 +373,8 @@ class eZTemplate
         $this->Functions = array();
         $this->FunctionAttributes = array();
 
+        $this->TestCompile = false;
+
         $ini = eZINI::instance( 'template.ini' );
         if ( $ini->hasVariable( 'ControlSettings', 'MaxLevel' ) )
              $this->MaxLevel = $ini->variable( 'ControlSettings', 'MaxLevel' );
@@ -772,6 +774,7 @@ class eZTemplate
         $resourceData['template-name'] = $templateName;
         $resourceData['template-filename'] = $templateName;
         $resourceData['handler'] =& $resourceObject;
+        $resourceData['test-compile'] = $this->TestCompile;
         return $resourceData;
     }
 
@@ -2651,6 +2654,25 @@ class eZTemplate
         return $tpl->TemplatesUsageStatistics;
     }
 
+    /*!
+     Set template compilation test mode.
+
+     \param true, will set template compilation in test mode ( no disc writes ).
+            false, will compile templates to disc
+    */
+    function setCompileTest( $val )
+    {
+        $this->TestCompile = $val;
+    }
+
+    /*!
+     Get if template session is test compile
+    */
+    function testCompile()
+    {
+        return $this->TestCompile;
+    }
+
     /// \privatesection
     /// Associative array of resource objects
     var $Resources;
@@ -2713,6 +2735,9 @@ class eZTemplate
     var $WhileCounter;
     var $DoCounter;
     var $ElseifCounter;
+
+    // Flag for setting compilation in test mode
+    var $TestCompile;
 
 //     var $CurrentRelatedResource;
 //     var $CurrentRelatedTemplateName;

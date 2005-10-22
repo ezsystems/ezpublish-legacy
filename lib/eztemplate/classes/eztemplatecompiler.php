@@ -480,7 +480,10 @@ class eZTemplateCompiler
 
         $useComments = eZTemplateCompiler::isCommentsEnabled();
 
-        eZTemplateCompiler::createCommonCompileTemplate();
+        if ( !$resourceData['test-compile'] )
+        {
+            eZTemplateCompiler::createCommonCompileTemplate();
+        }
 
         /* Check if we need to disable the generation of spacing for the compiled templates */
         $ini =& eZINI::instance();
@@ -618,7 +621,10 @@ class eZTemplateCompiler
         $php->addCodePiece( 'echo "</pre><hr/>\n";' );
         */
 
-        $php->store( true );
+        if ( !$resourceData['test-compile'] )
+        {
+            $php->store( true );
+        }
 
         return true;
     }
@@ -700,6 +706,10 @@ class eZTemplateCompiler
                     {
                         $functionObject->functionTemplateStatistics( $functionName, $node, $tpl, $resourceData, $namespace, $stats );
                     }
+                }
+                else if ( $resourceData['test-compile'] )
+                {
+                    $tpl->warning( '', "Operator '$operatorName' is not registered.", $functionPlacement );
                 }
             }
         }
@@ -822,6 +832,10 @@ class eZTemplateCompiler
                         }
                         $hasStats = true;
                     }
+                }
+                else if ( $resourceData['test-compile'] )
+                {
+                    $tpl->warning( '', "Operator '$operatorName' is not registered." );
                 }
             }
             else if ( $variableItemType == EZ_TEMPLATE_TYPE_VOID )
@@ -1381,6 +1395,11 @@ class eZTemplateCompiler
                     return $newNodes;
                 }
             }
+            else if ( $resourceData['test-compile'] )
+            {
+                $tpl->warning( '', "Function '$functionName' is not registered.", $functionPlacement );
+            }
+
             return false;
         }
         else if ( $nodeType == EZ_TEMPLATE_NODE_VARIABLE )
@@ -1551,6 +1570,10 @@ class eZTemplateCompiler
                     {
                         $newElementList[] = $element;
                     }
+                }
+                else if ( $resourceData['test-compile'] )
+                {
+                    $tpl->warning( '', "Operator '$operatorName' is not registered." );
                 }
             }
             else
@@ -1768,6 +1791,11 @@ class eZTemplateCompiler
                 }
             }
         }
+        else if ( $tpl->testCompile() )
+        {
+            $tpl->warning( '', "Operator '$operatorName' is not registered." );
+        }
+
         return $operatorHint;
     }
 
@@ -1792,6 +1820,11 @@ class eZTemplateCompiler
                 $operatorData = $operatorObject->operatorCompiledStaticData( $operatorName );
             }
         }
+        else if ( $tpl->testCompile() )
+        {
+            $tpl->warning( '', "Operator '$operatorName' is not registered." );
+        }
+
         return $operatorData;
     }
 
@@ -2228,7 +2261,7 @@ $rbracket
                         if ( $resource )
                             $uri = $resource . ':' . $uri;
                         unset( $tmpResourceData );
-                        $tmpResourceData = eZTemplate::resourceData( $resourceObject, $uri, $node[1], $originalURI );
+                        $tmpResourceData = $tpl->resourceData( $resourceObject, $uri, $node[1], $originalURI );
                         $uriText = $php->variableText( $uri, 0, 0, false );
 
                         $resourceCanCache = true;
@@ -2945,6 +2978,8 @@ else
         // This ensures that we don't work on existing variables
         $php->addCodePiece( "unset( \$$variableAssignmentName );\n", array( 'spacing' => $spacing ) );
 
+        if ( is_array( $variableData ) )
+        {
         foreach ( $variableData as $variableDataItem )
         {
             $variableDataType = $variableDataItem[0];
@@ -3259,6 +3294,7 @@ unset( \$" . $variableAssignmentName . "Data );\n",
                 $php->addCodePiece( $code, array( 'spacing' => $spacing ) );
                 $php->addVariableUnsetList( $unsetList, array( 'spacing' => $spacing ) );
             }
+        }
         }
         // After the entire expression line is done we try to extract the actual value if proxies are used
         $php->addCodePiece( "while " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( is_object( \$$variableAssignmentName ) and method_exists( \$$variableAssignmentName, 'templateValue' ) )\n" .
