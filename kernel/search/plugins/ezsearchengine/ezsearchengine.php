@@ -461,21 +461,13 @@ class eZSearchEngine
             $db =& eZDB::instance();
 
             $nonExistingWordArray = array();
+            $searchTypeMap = array( 'class' => 'SearchContentClassID',
+                                    'publishdate' => 'SearchDate',
+                                    'subtree' => 'SearchSubTreeArray' );
 
             foreach ( $searchTypes['general'] as $searchType )
             {
-                if ( $searchType['subtype'] = 'class' )
-                {
-                    $params['SearchContentClassID'] = $searchType['value'];
-                }
-                else if ( $searchType['subtype'] = 'publishdate' )
-                {
-                    $params['SearchDate'] = $searchType['value'];
-                }
-                else if ( $searchType['subtype'] = 'subtree' )
-                {
-                    $params['SearchSubTreeArray'] = $searchType['value'];
-                }
+                $params[$searchTypeMap[$searchType['subtype']]] = $searchType['value'];
             }
 
             if ( isset( $params['SearchOffset'] ) )
