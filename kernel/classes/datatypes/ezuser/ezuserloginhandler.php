@@ -232,7 +232,7 @@ class eZUserLoginHandler
                         $redirect = $http->sessionVariable( EZ_LOGIN_HANDLER_LAST_CHECK_REDIRECT );
                         if ( !$redirect )
                         {
-                            $redirect = array( 'user', 'login' );
+                            $redirect = array( 'module' => 'user', 'function' => 'login' );
                         }
                         return $redirect;
                     } break;
