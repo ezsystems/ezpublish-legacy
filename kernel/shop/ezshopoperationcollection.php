@@ -88,6 +88,24 @@ class eZShopOperationCollection
             eZDebug::writeError( 'Attempted to add object without price to basket.' );
             return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
         }
+
+        // Check for 'option sets' in option list.
+        // If found each 'option set' will be added as a separate product purchase.
+        $hasOptionSet = false;
+        foreach ( array_keys( $optionList ) as $optionKey )
+        {
+            if ( substr( $optionKey, 0, 4 ) == 'set_' )
+            {
+                $returnStatus = eZShopOperationCollection::addToBasket( $objectID, $optionList[$optionKey] );
+                // If adding one 'option set' fails we should stop immediately
+                if ( $returnStatus['status'] == EZ_MODULE_OPERATION_CANCELED )
+                    return $returnStatus;
+                $hasOptionSet = true;
+            }
+        }
+        if ( $hasOptionSet )
+            return $returnStatus;
+
         $basket =& eZBasket::currentBasket();
 
         /* Check if the item with the same options is not already in the basket: */

@@ -1,0 +1,32 @@
+*Title: Option sets for products
+
+*Incentive:
+
+Make it easier to supporting products where you buy the same products multiple
+times but with different options (e.g. contact lenses, one for each eye).
+Currently the user must manually buy the product with the different options.
+
+*Documentation:
+
+When listing the options for a product it is now possible to add
+sets by  inserting another key entry in the eZOption array with the
+name of the set. The set must start with 'set_' and then a name, if
+you have multiple options with the same set name they will all be part
+of the same set.
+
+For instance instead of using:
+
+<select name="eZOption[<attributeID>]">...</select>
+
+One can now use:
+
+<select name="eZOption[set_one][<attributeID>]">...</select>
+<select name="eZOption[set_two][<attributeID>]">...</select>
+
+This will add the same product to the basket twice but with different
+options, one with the options from 'set_one' and the other from
+'set_two'.
+
+
+Note: There is no user interface for defining these sets so it must be
+      manually added to a template.
