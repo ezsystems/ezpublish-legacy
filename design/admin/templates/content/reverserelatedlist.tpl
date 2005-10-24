@@ -16,6 +16,8 @@
 
 {section show=and( is_set( $children_list ), $children_list )}
 	{include uri='design:content/children_reverserelatedlist.tpl'}
+{section-else}
+     <p>{'There are no items that are used by other objects.'|i18n( 'design/admin/content/reverserelatedlist' )}</p>
 {/section}
 
 {* DESIGN: Content END *}</div></div></div>
