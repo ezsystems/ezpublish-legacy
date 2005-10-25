@@ -1,0 +1,105 @@
+*Title: Template functions for fetching related objects.
+
+*Description:
+
+New functions for fetching related objects have been added to provide handy
+and fast-working method of fetching related objects of any type (made by
+attributes of "Related object" or "Related objects list" type or on object
+level).
+
+*Documentation:
+
+Fetching of related objects:
+
+fetch( 'content', 'related_objects',
+        hash( 'object_id',            object_id,
+            [ 'attribute_identifier', attribute_identifier, ]
+            [ 'all_relations',        boolean,              ]
+            [ 'group_by_attribute',   boolean,              ],
+       	    [ 'sort_by',              sort_by               ] ) )
+
+Returns:
+An array of related objects, or 2-dimesnsional array if 'group_by_attribute' is
+true().
+
+Parameters:
+
+'object_id' - ID of an object we fetch relations for.
+
+'attribute_identifier' - You can use either string attribute identifier or a
+numeric attribute ID. This parameter is not required and it's default vaule is
+zero, which means it returns objects that are related on an object level, not by
+attribute. This is similar to 'related_contentobject_array' functional attribute
+of a content object.
+
+'all_relations' - true() value means that ALL relations will be fetched no matter
+of their type (content object level or specific attribute).  (false by default)
+
+'group_by_attribute' - true() value have sense only with 'all_relations' set to
+true and means that output will be not just an array of objects (as usually),
+but the next structure:
+
+$related_objects_grouped = array(         0 => array( $object1, $object2 ... ),
+                                   /* objects related on content object level */
+
+                                  attr_id_1 => array( $object1, $object2 ... ),
+                                  attr_id_2 => array( $object1, $object2 ... ),
+                                   ...
+                                     /* objects related by attributes */
+                                );
+i.e. objects grouped by attribute ID (or '0' for content object level).
+
+'sort_by' - sorts the result in different ways. This parameter must be provided
+as an array of arrays that define sorting methods. The first element of each
+array must be the desired sorting method. The second element of the array must
+be the sorting direction, it can be either true() or false() - ascending or
+descending.
+
+It acts the same was as 'sort_by' parameter of 'list' fetch function,
+that is described here:
+http://ez.no/doc/ez_publish/technical_manual/3_6/reference/modules/content/fetch_functions/list
+but currently supports only next sorting methods:
+ class_identifier,
+ class_name,
+ modified,
+ name,
+ published,
+ section.
+Using of other sort methods will lead to a error.
+
+Example:
+
+{def $related_objects_grouped = fetch( 'content', 'related_objects',
+	hash( 'object_id', $node.object.id,
+	      'all_relations', true(),
+	      'group_by_attribute', true(),
+	      'sort_by', array( array( 'class_name', true() ),
+				array( 'name', true() ) ) ) )}
+
+Returns all relations grouped in arrays by attribute ID, and then sorted by
+class name and by object's name in ascending order.
+
+                                                                  
+Fetching related objects count:
+
+fetch( 'content', 'related_objects_count',
+       hash( 'object_id',            object_id,
+       [ 'attribute_identifier',     attribute_identifier,  ]
+       [ 'all_relations',            boolean,               ] ) )
+
+
+Fetching of reverse-related objects (having this object as related):
+
+(All parameters are the same)
+
+fetch( 'content', 'reverse_related_objects',
+       hash( 'object_id',            object_id,
+           [ 'attribute_identifier', attribute_identifier, ]
+           [ 'all_relations',        boolean,              ]
+           [ 'group_by_attribute',   boolean,              ]
+           [ 'sort_by',              sort_by               ] ) )
+
+fetch( 'content', 'reverse_related_objects_count',
+       hash( 'object_id',            object_id,
+           [ 'attribute_identifier', attribute_identifier,  ]
+           [ 'all_relations',        boolean,               ] ) ) 
