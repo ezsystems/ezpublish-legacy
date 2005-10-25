@@ -14,29 +14,10 @@ given objectID from the relations list stored in the attribute.
 For now it is implemented for 'ezobjectrelationlist' and 'ezobjectrelation'
 datatypes.
 
-Reverse related objects:
-You can get an array of reverse related objects made with attributes using
-new template content fetch function 'reverse_related_objects' and get their
-quantity with 'reverse_related_objects_count' function.
-These function have two parameters:
-- 'object_id'
-- 'attribute_identifier'.
-You can use either string attribute identifier or a numeric attribute ID.
-This parameter is not required and it's default vaule is zero, which is similar
-to 'reverse_related_contentobject_array' functional attribute of a content
-object.
+Documentation on new template fetch functions can be found in this file:
 
-*Examples of using template functions:
+related_objects_fetch_functions.txt
 
-// Fetching array of objects which have relations to the current object made with
-// an attribute 'my_class/new_attribute5':
-
-{def $objects=fetch( content, reverse_related_objects, hash( object_id, $node.contentobject_id, attribute_identifier, 'my_class/new_attribute5' ) )}
-
-// Count objects which have relations to the current object made using an
-// attribute with id = 233:
-
-{def $objects_count=fetch( content, reverse_related_objects_count, hash( object_id, $node.contentobject_id, attribute_identifier, 233 ) )}
 
 *Upgrade database:
 If you are using database created with the previous version of eZ publish (3.5 or
