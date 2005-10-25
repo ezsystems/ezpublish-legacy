@@ -41,7 +41,7 @@
 
     <div class="block">
     <label>{'Image'|i18n( 'design/admin/rss/edit_export' )}:</label>
-    <input type="text" readonly="readonly" size="45" value="{$rss_export.image_path|wash}" maxlength="50" />
+    <input type="text" readonly="readonly" size="45" value="{$rss_export.image_path|wash}" />
     <input class="button" type="submit" name="BrowseImageButton" value="{'Browse'|i18n( 'design/admin/rss/edit_export' )}" title="{'Click this button to select an image for the RSS export. Note that images only work with RSS version 2.0'|i18n('design/admin/rss/edit_export')}" />
     </div>
 
@@ -93,7 +93,7 @@
        <input type="hidden" name="Item_ID_{$Source:index}" value="{$Source:item.id}" />
        <div class="block">
        <label>{'Source path'|i18n( 'design/admin/rss/edit_export' )}:</label>
-       <input type="text" readonly="readonly" size="45" value="{$Source:item.source_path|wash}" maxlength="60" />
+       <input type="text" readonly="readonly" size="45" value="{$Source:item.source_path|wash}" />
        <input class="button" type="submit" name="{concat( 'SourceBrowse_', $Source:index )}" value="{'Browse'|i18n( 'design/admin/rss/edit_export' )}" title="{'Click this button to select the source node for RSS export source. Objects of the type selected in the drop down below published as sub-items of the selected node will be included in the RSS export.'|i18n('design/admin/rss/edit_export')}" />
        </div>
 
