@@ -5,7 +5,7 @@
 <h1>{"User setting"|i18n("design/standard/user")}</h1>
 </div>
 
-<h2>{$user.contentobject.name}</h2>
+<h2>{$user.contentobject.name|wash}</h2>
 
 <div class="block">
 <label>{"Maximum login"|i18n("design/standard/user")}</label><div class="labelbreak"></div>

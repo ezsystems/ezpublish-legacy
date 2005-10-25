@@ -44,9 +44,9 @@
     {section var=menu loop=$submenu_items}
 
             {section show=eq( $menu.object.content_class.identifier, "link" )}
-                <li {$menu.index|eq( 0 )|choose( '', 'class="first"' )}><div class="spacing"><a href={$menu.data_map.location.content}>{$menu.object.name}</a></div></li>
+                <li {$menu.index|eq( 0 )|choose( '', 'class="first"' )}><div class="spacing"><a href={$menu.data_map.location.content}>{$menu.object.name|wash}</a></div></li>
             {section-else}
-                <li {$menu.index|eq( 0 )|choose( '', 'class="first"' )}><div class="spacing"><a href={$menu.url_alias|ezurl}>{$menu.name}</a></div></li>
+                <li {$menu.index|eq( 0 )|choose( '', 'class="first"' )}><div class="spacing"><a href={$menu.url_alias|ezurl}>{$menu.name|wash}</a></div></li>
             {/section}
         {/section}
     </ul>

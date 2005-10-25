@@ -3,7 +3,7 @@
 <div class="content-view-line">
     <div class="class-comment">
 
-    <h3>{$node.name}</h3>
+    <h3>{$node.name|wash}</h3>
 
     <div class="attribute-byline">
         <p class="author">{$node.object.data_map.author.content|wash}</p>

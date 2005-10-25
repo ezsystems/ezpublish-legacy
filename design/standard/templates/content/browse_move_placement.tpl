@@ -16,8 +16,8 @@
       Using the recent and bookmark items for quick placement is also possible.
       Click on placement names to change the browse listing."
     |i18n('design/standard/content/view',,
-          hash('%name',$version.version_name,
-               '%placementname',$placement_node.name,
+          hash('%name',$version.version_name|wash,
+               '%placementname',$placement_node.name|wash,
                '%buttonname','Select'|i18n('design/standard/content/view')))
     |nl2br}
 </p>

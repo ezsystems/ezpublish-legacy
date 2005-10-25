@@ -23,7 +23,7 @@
 <div class="content-view-full">
     <div class="class-image">
 
-        <h1>{$node.name}</h1>
+        <h1>{$node.name|wash}</h1>
 
         {section show=is_unset( $versionview_mode )}
         <div class="content-navigator">

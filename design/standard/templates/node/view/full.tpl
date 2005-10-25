@@ -11,9 +11,9 @@ function checkAll()
 {/literal}
         document.fullview.selectall.value = "{'Deselect all'|i18n('design/standard/node/view')}";
 {literal}
-        with (document.fullview) 
+        with (document.fullview)
 	{
-            for (var i=0; i < elements.length; i++) 
+            for (var i=0; i < elements.length; i++)
 	    {
                 if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]')
                      elements[i].checked = true;
@@ -25,9 +25,9 @@ function checkAll()
 {/literal}
          document.fullview.selectall.value = "{'Select all'|i18n('design/standard/node/view')}";
 {literal}
-         with (document.fullview) 
+         with (document.fullview)
 	 {
-            for (var i=0; i < elements.length; i++) 
+            for (var i=0; i < elements.length; i++)
 	    {
                 if (elements[i].type == 'checkbox' && elements[i].name == 'DeleteIDArray[]')
                      elements[i].checked = false;
@@ -47,7 +47,7 @@ function checkAll()
      list_count=and($with_children,fetch('content','list_count',hash(parent_node_id,$node.node_id,depth_operator,eq)))}
 {default content_object=$node.object
          content_version=$node.contentobject_version_object
-         node_name=$node.name}
+         node_name=$node.name|wash}
 
 {section show=$is_standalone}
 <form name="fullview" method="post" action={"content/action"|ezurl}>
@@ -59,7 +59,7 @@ function checkAll()
 </div>
 
 <div class="object">
-<h1>{$node_name|wash}</h1>
+<h1>{$node_name}</h1>
 <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
     {default validation=false()}
@@ -144,13 +144,13 @@ function checkAll()
 {section loop=$:children}
   {section show=$:item.object.can_remove}
     {set can_remove=true()}
-  {/section} 
+  {/section}
   {section show=$:item.object.can_edit}
     {set can_edit=true()}
-  {/section} 
+  {/section}
   {section show=$:item.object.can_create}
     {set can_create=true()}
-  {/section} 
+  {/section}
 {/section}
 
 {set can_copy=$content_object.can_create}
@@ -195,9 +195,9 @@ function checkAll()
 	<td align="right" width="1">
 	{section show=$:item.object.can_remove}
              <input type="checkbox" name="DeleteIDArray[]" value="{$Child:item.node_id}" />
-        {/section} 
+        {/section}
 	</td>
-        {/section} 
+        {/section}
 	<td>
         <a href={$:item.url_alias|ezurl}>{node_view_gui view=line content_node=$:item}</a>
 

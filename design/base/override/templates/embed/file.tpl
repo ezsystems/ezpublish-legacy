@@ -1,7 +1,7 @@
 {* Flder - List embed view *}
 <div class="content-view-embed">
     <div class="class-folder">
-    <h2>{$object.name}</h2>
+    <h2>{$object.name|wash}</h2>
 
     <div class="content-body">
 {let attribute=$object.data_map.file}
