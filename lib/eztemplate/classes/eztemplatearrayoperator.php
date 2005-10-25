@@ -1967,7 +1967,7 @@ class eZTemplateArrayOperator
                 // Check if the string contains a specified sequence of chars/string.
                 case $this->ContainsName:
                 {
-                    $operatorValue = strstr( $operatorValue, $namedParameters['match'] );
+                    $operatorValue = (bool)strstr( $operatorValue, $namedParameters['match'] );
                 }
                 break;
 
