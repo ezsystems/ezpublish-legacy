@@ -113,7 +113,7 @@
                       {let owner_id=$node.object.owner_id}
                           {section var=author loop=$node.object.author_array}
                               {section show=eq($owner_id,$author.contentobject_id)|not()}
-                                  {"Moderated by"|i18n( "design/base" )}: {$author.contentobject.name}
+                                  {"Moderated by"|i18n( "design/base" )}: {$author.contentobject.name|wash}
                               {/section}
                           {/section}
                       {/let}
@@ -163,7 +163,7 @@
                        {section var=author loop=$reply.object.author_array}
                            {section show=ne( $reply.object.owner_id, $author.contentobject_id )}
                                <p>
-                                   {'Moderated by'|i18n( 'design/base' )}: {$author.contentobject.name}
+                                   {'Moderated by'|i18n( 'design/base' )}: {$author.contentobject.name|wash}
                                </p>
                            {/section}
                        {/section}

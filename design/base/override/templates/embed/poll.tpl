@@ -1,7 +1,7 @@
 {* Poll - Embed view *}
 <div class="content-view-embed">
     <div class="class-poll">
-        <h2>{$object.name}</h2>
+        <h2>{$object.name|wash}</h2>
 
        <div class="content-body">
         <form method="post" action={"content/action"|ezurl}>

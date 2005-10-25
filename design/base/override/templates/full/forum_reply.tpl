@@ -30,7 +30,7 @@
         {let owner_id=$node.object.owner.id}
             {section name=Author loop=$node.object.author_array}
                 {section  show=eq($owner_id,$Author:item.contentobject_id)|not()}
-                    {"Moderated by:"|i18n("design/base")} {$Author:item.contentobject.name}
+                    {"Moderated by:"|i18n("design/base")} {$Author:item.contentobject.name|wash}
                  {/section}
              {/section}
         {/let}

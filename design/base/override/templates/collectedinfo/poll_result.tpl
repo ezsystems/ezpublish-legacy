@@ -1,4 +1,4 @@
-{set-block scope=global variable=title}{'Poll %pollname'|i18n('design/standard/content/poll',,hash('%pollname',$node.name))}{/set-block}
+{set-block scope=global variable=title}{'Poll %pollname'|i18n('design/standard/content/poll',,hash('%pollname',$node.name|wash))}{/set-block}
 <div class="content-view-full">
     <div class="class-poll">
         <div class="poll-result">

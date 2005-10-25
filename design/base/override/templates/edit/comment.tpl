@@ -22,7 +22,7 @@
     <div class="block">
         {section show=$user.is_logged_in}
 
-        <input type="hidden" name="ContentObjectAttribute_ezstring_data_text_{$attribute.id}" value="{$user.contentobject.name}" />
+        <input type="hidden" name="ContentObjectAttribute_ezstring_data_text_{$attribute.id}" value="{$user.contentobject.name|wash}" />
         {section-else}
             <label>{$attribute.contentclass_attribute.name}</label><div class="labelbreak"></div>
 	    <input type="hidden" name="ContentObjectAttribute_id[]" value="{$attribute.id}" />

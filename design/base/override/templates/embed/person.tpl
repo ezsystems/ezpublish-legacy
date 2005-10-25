@@ -1,7 +1,7 @@
 {* Person - List embed view *}
 <div class="content-view-embed">
     <div class="class-person">
-        <h2><a href={$object.main_node.url_alias|ezurl}>{$object.name}</a> ( {attribute_view_gui attribute=$object.data_map.job_title} )</h2>
+        <h2><a href={$object.main_node.url_alias|ezurl}>{$object.name|wash}</a> ( {attribute_view_gui attribute=$object.data_map.job_title} )</h2>
 
         <div class="content-body">
 

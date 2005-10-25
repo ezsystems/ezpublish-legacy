@@ -2,17 +2,17 @@
 
 <div class="block">
   <label>{'Ini file'|i18n( 'design/standard/class/datatype' )}:</label>
-  <input class="box" type="text" name="ContentClass_ezinisetting_file_{$class_attribute.id}" value="{$class_attribute.data_text1}" size="30" maxlength="50">
+  <input class="box" type="text" name="ContentClass_ezinisetting_file_{$class_attribute.id}" value="{$class_attribute.data_text1|wash}" size="30" maxlength="50">
 </div>
 
 <div class="block">
   <label>{'Ini Section'|i18n( 'design/standard/class/datatype' )}:</label>
-  <input class="box" type="text" name="ContentClass_ezinisetting_section_{$class_attribute.id}" value="{$class_attribute.data_text2}" size="30" maxlength="50">
+  <input class="box" type="text" name="ContentClass_ezinisetting_section_{$class_attribute.id}" value="{$class_attribute.data_text2|wash}" size="30" maxlength="50">
 </div>
 
 <div class="block">
   <label>{'Ini Parameter'|i18n( 'design/standard/class/datatype' )}:</label>
-  <input class="box" type="text" name="ContentClass_ezinisetting_parameter_{$class_attribute.id}" value="{$class_attribute.data_text3}" size="30" maxlength="50">
+  <input class="box" type="text" name="ContentClass_ezinisetting_parameter_{$class_attribute.id}" value="{$class_attribute.data_text3|wash}" size="30" maxlength="50">
 </div>
 
 <div class="block">

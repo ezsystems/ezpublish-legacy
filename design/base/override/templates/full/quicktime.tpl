@@ -3,7 +3,7 @@
 <div class="content-view-full">
     <div class="class-quicktime">
 
-    <h2>{$node.name}</h2>
+    <h2>{$node.name|wash}</h2>
 
     <div class="attribute-short">
         {attribute_view_gui attribute=$node.object.data_map.description}
