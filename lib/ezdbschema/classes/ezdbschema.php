@@ -51,29 +51,28 @@ class eZDbSchema
     */
     function instance( $params = false )
     {
-        if ( !isset( $params['instance'] ) )
-        {
-            include_once( 'lib/ezdb/classes/ezdb.php' );
-            $db = eZDB::instance();
-            $params = array( 'instance' => &$db );
-        }
-        else if ( is_object( $params ) )
+        if ( is_object( $params ) )
         {
             $db =& $params;
             unset( $params );
             $params = array( 'instance' => &$db );
         }
 
-        if ( !isset( $params['type'] ) )
-            $params['type'] = $db->databaseName();
         if ( !isset( $params['instance'] ) )
-            $params['instance'] = false;
-        if ( !isset( $params['schema'] ) )
-            $params['schema'] = false;
+        {
+            include_once( 'lib/ezdb/classes/ezdb.php' );
+            $db = eZDB::instance();
+            $params['instance'] = &$db;
+        }
 
         unset( $db );
         $db =& $params['instance'];
-        $dbname = $params['type'];
+        $dbname = $db->databaseName();
+
+        if ( !isset( $params['type'] ) )
+            $params['type'] = $dbname;
+        if ( !isset( $params['schema'] ) )
+            $params['schema'] = false;
 
         /* Load the database schema handler INI stuff */
         require_once( 'lib/ezutils/classes/ezini.php' );
