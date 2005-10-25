@@ -28,7 +28,7 @@
     {* Destination path. *}
     <div class="block">
     <label>{"Destination path"|i18n( 'design/admin/rss/edit_import' )}:</label>
-    <input type="text" readonly="readonly" size="45" value="{$rss_import.destination_path|wash}" maxlength="60" />
+    <input type="text" readonly="readonly" size="45" value="{$rss_import.destination_path|wash}" />
     <input class="button" type="submit" name="DestinationBrowse" value="{'Browse'|i18n( 'design/admin/rss/edit_import' )}" title="{'Click this button to select the destination node where objects created by the import are located.'|i18n('design/admin/rss/edit_import')}" />
     </div>
 
