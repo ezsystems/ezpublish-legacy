@@ -196,7 +196,7 @@ $ViewList['removeobject'] = array(
     'functions' => array( 'read' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
     'script' => 'removeobject.php',
-    'params' => array(  ) );
+    'params' => array( ) );
 
 $ViewList['removeuserobject'] = array(
     'functions' => array( 'read' ),
@@ -415,13 +415,6 @@ $ViewList['move'] = array(
     'script' => 'move.php',
     'params' => array( 'NodeID' ) );
 
-$ViewList['reverserelatedlist'] = array(
-    'functions' => array( 'reverserelatedlist' ),
-    'default_navigation_part' => 'ezcontentnavigationpart',
-    'script' => 'reverserelatedlist.php',
-    'params' => array( 'NodeID' ),
-    'unordered_params' => array( 'offset' => 'Offset' ) );
-
 $ClassID = array(
     'name'=> 'Class',
     'values'=> array(),
@@ -500,8 +493,6 @@ $FunctionList['edit'] = array( 'Class' => $ClassID,
                                'Subtree' => $Subtree);
 
 $FunctionList['hide'] = array( 'Subtree' => $Subtree );
-
-$FunctionList['reverserelatedlist'] = array();
 
 $FunctionList['translate'] = array( 'Class' => $ClassID,
                                     'Section' => $SectionID,

@@ -3516,50 +3516,9 @@ WHERE
         return array( 'move_to_trash' => $moveToTrashAllowed,
                       'total_child_count' => $totalChildCount,
                       'can_remove_all' => $canRemoveAll,
-                      'delete_list' => $deleteResult,
-                      'reverse_related_count' => eZContentObjectTreeNode::reverseRelatedCount( $deleteIDArray ) );
+                      'delete_list' => $deleteResult );
     }
 
-    /*!
-     \private
-     \static
-     Return reverse related count for specified node
-
-     \param $nodeIDList, array of node id's
-
-     \return reverse related count.
-    */
-    function reverseRelatedCount( $nodeIDArray )
-    {
-        // Select count of all elements having reverse relations. And ignore those items that don't relate to objects other than being removed.
-        foreach( $nodeIDArray as $nodeID )
-        {
-            $contentObjectTreeNode = eZContentObjectTreeNode::fetch( $nodeID );
-
-            // Create WHERE section
-            $pathStringArray[] = "tree.path_string like '$contentObjectTreeNode->PathString%'";
-            $path2StringArray[] = "tree2.path_string like '$contentObjectTreeNode->PathString%'";
-        }
-        $path_strings = '( ' . implode( ' OR ', $pathStringArray ) . ' ) ';
-        $path_strings_where = '( ' . implode( ' OR ', $path2StringArray ) . ' ) ';
-
-        // Total count of sub items
-        $db = eZDB::instance();
-        $countOfItems = $db->arrayQuery( "SELECT COUNT( DISTINCT( tree.node_id ) ) as count
-                                                  FROM  ezcontentobject_tree tree,  ezcontentobject obj,
-                                                        ezcontentobject_link link LEFT JOIN ezcontentobject_tree tree2
-                                                        ON link.from_contentobject_id = tree2.contentobject_id
-                                                  WHERE $path_strings
-                                                        and link.to_contentobject_id = tree.contentobject_id
-                                                        and obj.id = link.from_contentobject_id
-                                                        and obj.current_version = link.from_contentobject_version
-                                                        and not $path_strings_where" );
-
-        if ( $countOfItems )
-        {
-            return $countOfItems[0]['count'];
-        }
-    }
 
     /*!
      Will check if you are  removing the main node in which case it relocates

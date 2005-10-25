@@ -16,13 +16,11 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
+
 {section show=$total_child_count|gt( 0 )}
 <div class="block">
     <p>{'Some of the items that are about to be removed contain sub items.'|i18n( 'design/admin/node/removeobject' )}</p>
 
-    {section show=$reverse_related}
-        <p>{'Some of the subtrees selected for removal are used by other objects. Select the menu from the content tree, and <strong>Advanced</strong>-&gt;<strong>Reverse related for subtree</strong>.'|i18n( 'design/admin/node/removeobject' )}</p>
-    {/section}
     {section show=$remove_info.can_remove_all}
         <p>{'Removing the items will also result in the removal of their sub items.'|i18n( 'design/admin/node/removeobject' )}</p>
         <p>{'Are you sure you want to remove the items along with their contents?'|i18n( 'design/admin/node/removeobject' )}</p>
@@ -47,16 +45,17 @@
 
     {* Location. *}
     <td>
-        {section var=path_node loop=$remove_item.node.path|append( $remove_item.node )}
-          {$path_node.name|wash}
-        {delimiter} / {/delimiter}
-        {/section}
+    {section var=path_node loop=$remove_item.node.path|append( $remove_item.node )}
+        {$path_node.name|wash}
+    {delimiter} / {/delimiter}
+    {/section}
     </td>
+
 
     {* Type. *}
     <td>
-        {$remove_item.object.class_name|wash}
-    </td>
+    {$remove_item.object.class_name|wash}
+     </td>
 
 {* Sub items. *}
     <td>
@@ -70,7 +69,6 @@
                 hash( '%child_count', $remove_item.child_count ) )}
      {/section}
      </td>
-
 </tr>
 {/section}
 </table>

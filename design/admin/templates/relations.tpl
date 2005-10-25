@@ -1,5 +1,4 @@
 {* Relations windows. *}
-<a name="relations"></a>
 <div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">

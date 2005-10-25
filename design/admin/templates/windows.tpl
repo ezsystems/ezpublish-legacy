@@ -1,21 +1,20 @@
 {* Details window. *}
-{section show=ezpreference( 'admin_navigation_details' )}
+{section show=ezpreference( 'admin_navigation_details'  )}
     {include uri='design:details.tpl'}
 {/section}
 
 {* Translations window. *}
-{section show=ezpreference( 'admin_navigation_translations' )}
+{section show=ezpreference( 'admin_navigation_translations'  )}
     {include uri='design:translations.tpl'}
 {/section}
 
 {* Locations window. *}
-{section show=ezpreference( 'admin_navigation_locations' )}
+{section show=ezpreference( 'admin_navigation_locations'  )}
     {include uri='design:locations.tpl'}
 {/section}
 
 {* Relations window. *}
-{section show=or( ezpreference( 'admin_navigation_relations' ),
-                  and( is_set( $view_parameters.show_relations ), eq( $view_parameters.show_relations, 1 ) ) )}
+{section show=ezpreference( 'admin_navigation_relations'  )}
     {include uri='design:relations.tpl'}
 {/section}
 

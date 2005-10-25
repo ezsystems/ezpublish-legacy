@@ -1594,13 +1594,6 @@ $schema = array (
     'name' => 'ezcontentobject_link',
     'fields' => 
     array (
-      'contentclassattribute_id' => 
-      array (
-        'length' => 11,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
       'from_contentobject_id' => 
       array (
         'length' => 11,
@@ -1636,24 +1629,6 @@ $schema = array (
         'fields' => 
         array (
           0 => 'id',
-        ),
-      ),
-      'ezco_link_from' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'from_contentobject_id',
-          1 => 'from_contentobject_version',
-          2 => 'contentclassattribute_id',
-        ),
-      ),
-      'ezco_link_to_co_id' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'to_contentobject_id',
         ),
       ),
     ),

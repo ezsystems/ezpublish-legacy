@@ -47,16 +47,6 @@ $viewMode = $http->sessionVariable( "CurrentViewMode" );
 $deleteIDArray = $http->sessionVariable( "DeleteIDArray" );
 $contentObjectID = $http->sessionVariable( 'ContentObjectID' );
 $contentNodeID = $http->sessionVariable( 'ContentNodeID' );
-
-$requestedURI = '';
-$userRedirectURI = '';
-$requestedURI =& $GLOBALS['eZRequestedURI'];
-if ( get_class( $requestedURI ) == 'ezuri' )
-{
-    $userRedirectURI = $requestedURI->uriString( true );
-}
-$http->setSessionVariable( 'userRedirectURIReverseRelatedList', $userRedirectURI );
-
 if ( $http->hasSessionVariable( 'ContentLanguage' ) )
 {
     $contentLanguage = $http->sessionVariable( 'ContentLanguage' );
@@ -75,7 +65,6 @@ if ( $http->hasPostVariable( "CancelButton" ) )
     $http->removeSessionVariable( "DeleteIDArray" );
     $http->removeSessionVariable( 'ContentObjectID' );
     $http->removeSessionVariable( 'ContentNodeID' );
-    $http->removeSessionVariable( 'userRedirectURIReverseRelatedList' );
     return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
 }
 
@@ -90,13 +79,6 @@ if ( $http->hasPostVariable( 'SupportsMoveToTrash' ) )
 
 if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
-    // Remove reverse relations for each item.
-    foreach ( $deleteIDArray as $nodeID )
-    {
-        $contentObject = eZContentObject::fetchByNodeID( $nodeID );
-        $contentObject_ID = $contentObject->attribute( 'id' );
-        $contentObject->removeReverseRelations( $contentObject_ID );
-    }
     eZContentObjectTreeNode::removeSubtrees( $deleteIDArray, $moveToTrash );
     return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
 }
@@ -137,7 +119,6 @@ if ( $totalChildCount == 0 )
 
 $tpl =& templateInit();
 
-$tpl->setVariable( 'reverse_related', $info['reverse_related_count'] );
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( 'moveToTrashAllowed', $moveToTrashAllowed ); // Backwards compatability
 $tpl->setVariable( "ChildObjectsCount", $totalChildCount ); // Backwards compatability

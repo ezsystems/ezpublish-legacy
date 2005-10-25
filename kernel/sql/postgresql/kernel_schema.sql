@@ -1292,7 +1292,6 @@ CREATE TABLE ezcontentobject_attribute (
 
 
 CREATE TABLE ezcontentobject_link (
-    contentclassattribute_id integer DEFAULT 0 NOT NULL,
     from_contentobject_id integer DEFAULT 0 NOT NULL,
     from_contentobject_version integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezcontentobject_link_s'::text) NOT NULL,
@@ -2456,22 +2455,6 @@ CREATE INDEX sort_key_int ON ezcontentobject_attribute USING btree (sort_key_int
 
 
 CREATE INDEX sort_key_string ON ezcontentobject_attribute USING btree (sort_key_string);
-
-
-
-
-
-
-
-CREATE INDEX ezco_link_from ON ezcontentobject_link USING btree (from_contentobject_id, from_contentobject_version, contentclassattribute_id);
-
-
-
-
-
-
-
-CREATE INDEX ezco_link_to_co_id ON ezcontentobject_link USING btree (to_contentobject_id);
 
 
 
