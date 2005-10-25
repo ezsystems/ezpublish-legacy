@@ -3,7 +3,7 @@
 <div class="content-view-line">
     <div class="class-link">
 
-    <h2>{$node.name}</h2>
+    <h2>{$node.name|wash}</h2>
 
     {section show=$node.object.data_map.description.has_content}
         <div class="attribute-long">

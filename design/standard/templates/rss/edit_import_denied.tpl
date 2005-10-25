@@ -5,7 +5,7 @@
 
 <p>{'The RSS import %name is currently locked by %user and was last modified on %datetime.'|i18n( 'design/standard/rss',,
     hash( '%name', $rss_import.name|wash,
-          '%user', concat( '<a href=', $rss_import.modifier.contentobject.main_node.url_alias|ezurl, '>', $rss_import.modifier.contentobject.name,'</a>' ),
+          '%user', concat( '<a href=', $rss_import.modifier.contentobject.main_node.url_alias|ezurl, '>', $rss_import.modifier.contentobject.name|wash,'</a>' ),
           '%datetime', $rss_import.modified|l10n( shortdatetime ) ) )}</p>
 
 <p>{'The RSS import will be available for editing once it is stored by the modifier or when it is automatically unlocked on %datetime.'|i18n( 'design/standard/rss',,

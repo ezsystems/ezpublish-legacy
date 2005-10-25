@@ -8,7 +8,7 @@
     </div>
 
     <div class="attribute-caption">
-        <p>{$node.name}</p>
+        <p>{$node.name|wash}</p>
     </div>
 
     </div>

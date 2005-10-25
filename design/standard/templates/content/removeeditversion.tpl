@@ -6,7 +6,7 @@
 <div class="warning">
 <h2>{"Are you sure you want to discard the draft %versionname?"
      |i18n( 'design/standard/content/edit',,
-            hash( '%versionname', concat( '<i>', $version.version_name, '</i>' ) ) )}</h2>
+            hash( '%versionname', concat( '<i>', $version.version_name|wash, '</i>' ) ) )}</h2>
 </div>
 
 <div class="buttonblock">

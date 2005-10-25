@@ -12,7 +12,7 @@
 {$KeywordList:item.keyword}
 </td>
 <td>
-<a href={concat("content/view/full/",$KeywordList:item.link_object.node_id)|ezurl}>{$KeywordList:item.link_object.name}</a>
+<a href={concat("content/view/full/",$KeywordList:item.link_object.node_id)|ezurl}>{$KeywordList:item.link_object.name|wash}</a>
 </td>
 </tr>
 {/section}

@@ -3,7 +3,7 @@
 <div class="maincontentheader">
 <h1>
     {'Choose new location for copy of subtree of node %node_name'
-     |i18n( 'design/standard/content/view',, hash( '%node_name', $root_node.name ) )}
+     |i18n( 'design/standard/content/view',, hash( '%node_name', $root_node.name|wash ) )}
 </h1>
 </div>
 
@@ -14,7 +14,7 @@
     Using the recent and bookmark items for quick placement is also possible.
     Click on placement names to change the browse listing."
     |i18n( 'design/standard/content/view',,
-           hash( '%node_name', $root_node.name,
+           hash( '%node_name', $root_node.name|wash,
                  '%buttonname','Select'|i18n('design/standard/content/view' ) ) )
     |nl2br}
 </p>

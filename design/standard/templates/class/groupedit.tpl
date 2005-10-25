@@ -6,7 +6,7 @@
 <div>
 
 <div class="byline">
-<p class="modified">{"Modified by %username on %time"|i18n("design/standard/class/edit",,hash('%username',$classgroup.modifier.contentobject.name,'%time',$classgroup.modified|l10n(shortdatetime)))}</p>
+<p class="modified">{"Modified by %username on %time"|i18n("design/standard/class/edit",,hash('%username',$classgroup.modifier.contentobject.name|wash,'%time',$classgroup.modified|l10n(shortdatetime)))}</p>
 </div>
 
 <div class="block">
