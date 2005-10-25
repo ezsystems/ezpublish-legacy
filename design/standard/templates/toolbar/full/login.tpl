@@ -12,7 +12,7 @@
         {section show=$current_user.is_logged_in}
         <div class="info-text">
             <p>
-            {'Logged in as: %username'|i18n( 'design/standard/toolbar',, hash( '%username', $current_user.contentobject.name ) )}
+            {'Logged in as: %username'|i18n( 'design/standard/toolbar',, hash( '%username', $current_user.contentobject.name|wash ) )}
             </p>
         </div>
         <div class="content-link">

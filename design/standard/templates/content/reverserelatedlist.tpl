@@ -50,4 +50,3 @@
                      item_limit=$number_of_items}
 
 {* DESIGN: Content END *}
-{/let}

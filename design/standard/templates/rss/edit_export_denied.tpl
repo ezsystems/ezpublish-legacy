@@ -5,7 +5,7 @@
 
 <p>{'The RSS export %name is currently locked by %user and was last modified on %datetime.'|i18n( 'design/standard/rss',,
     hash( '%name', $rss_export.name|wash,
-          '%user', concat( '<a href=', $rss_export.modifier.contentobject.main_node.url_alias|ezurl, '>', $rss_export.modifier.contentobject.name,'</a>' ),
+          '%user', concat( '<a href=', $rss_export.modifier.contentobject.main_node.url_alias|ezurl, '>', $rss_export.modifier.contentobject.name|wash,'</a>' ),
           '%datetime', $rss_export.modified|l10n( shortdatetime ) ) )}</p>
 
 <p>{'The RSS export will be available for editing once it is stored by the modifier or when it is automatically unlocked on %datetime.'|i18n( 'design/standard/rss',,

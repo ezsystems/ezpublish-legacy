@@ -2,9 +2,9 @@
 {default collection=cond( $collection_id, fetch( content, collected_info_collection, hash( collection_id, $collection_id ) ),
                           fetch( content, collected_info_collection, hash( contentobject_id, $node.contentobject_id ) ) )}
 
-{set-block scope=global variable=title}{'Feedback for %feedbackname'|i18n('design/standard/content/feedback',,hash('%feedbackname',$node.name))}{/set-block}
+{set-block scope=global variable=title}{'Feedback for %feedbackname'|i18n('design/standard/content/feedback',,hash('%feedbackname',$node.name|wash))}{/set-block}
 
-<h1>{$object.name}</h1>
+<h1>{$object.name|wash}</h1>
 
 {section show=$error}
 
@@ -21,7 +21,7 @@
 <div class="block">
 {section loop=$collection.attributes}
 
-<h3>{$:item.contentclass_attribute_name}</h3>
+<h3>{$:item.contentclass_attribute_name|wash}</h3>
 
 {attribute_result_gui view=info attribute=$:item}
 

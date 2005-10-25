@@ -1,7 +1,7 @@
 {* Product - List embed view *}
 <div class="content-view-embed">
     <div class="class-product">
-        <a href={$object.main_node.url_alias|ezurl}><h2>{$object.name}</h2></a>
+        <a href={$object.main_node.url_alias|ezurl}><h2>{$object.name|wash}</h2></a>
 
         <div class="content-body">
 

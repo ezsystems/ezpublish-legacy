@@ -32,7 +32,7 @@
 <div class="block">
 {section loop=$collection.attributes}
 
-<h3>{$:item.contentclass_attribute_name}</h3>
+<h3>{$:item.contentclass_attribute_name|wash}</h3>
 
 {attribute_result_gui view=info attribute=$:item}
 

@@ -2,11 +2,11 @@
 {default collection=cond( $collection_id, fetch( content, collected_info_collection, hash( collection_id, $collection_id ) ),
                           fetch( content, collected_info_collection, hash( contentobject_id, $node.contentobject_id ) ) )}
 
-{set-block scope=global variable=title}{'Form %formname'|i18n('design/standard/content/form',,hash('%formname',$node.name))}{/set-block}
+{set-block scope=global variable=title}{'Form %formname'|i18n('design/standard/content/form',,hash('%formname',$node.name|wash))}{/set-block}
 
 <h1>{'Collected information'|i18n('design/standard/content/form')}</h1>
 
-<h2>{$object.name}</h2>
+<h2>{$object.name|wash}</h2>
 
 {section show=$error}
 
@@ -18,7 +18,7 @@
 
 {section loop=$collection.attributes}
 
-<h3>{$:item.contentclass_attribute_name}</h3>
+<h3>{$:item.contentclass_attribute_name|wash}</h3>
 
 {attribute_result_gui view=info attribute=$:item}
 

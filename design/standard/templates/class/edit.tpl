@@ -8,7 +8,7 @@
 
 <div class="byline">
 <p class="date">{"Last modified by %username on %time"|i18n("design/standard/class/edit",,
-                                                            hash('%username',$class.modifier.contentobject.name,
+                                                            hash('%username',$class.modifier.contentobject.name|wash,
                                                                  '%time',$class.modified|l10n(shortdatetime)))}</p>
 </div>
 

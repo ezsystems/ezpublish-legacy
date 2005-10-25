@@ -3,14 +3,14 @@
    Displays object content only with no buttons or children *}
 {default content_object=$node.object
          content_version=$node.contentobject_version_object
-         node_name=$node.name}
+         node_name=$node.name|wash}
 
 <div class="objectheader">
 <h2>Default object view. <a class="menuheadlink" href={"/setup/templateview/node/view/plain.tpl"|ezurl}>Click to create a custom template</a></h2>
 </div>
 
 <div class="object">
-    <h1>{$node_name|wash}</h1>
+    <h1>{$node_name}</h1>
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
     {section name=ContentObjectAttribute loop=$content_version.contentobject_attributes}
