@@ -59,7 +59,7 @@ if($cacheTime <= 0)
 }
 else
 {
-    $cacheDir = $config->variable( 'FileSettings', 'VarDir' ).'/'.$config->variable( 'FileSettings', 'CacheDir' );
+    $cacheDir = eZSys::cacheDirectory();
     $cacheFile = $cacheDir . '/rss/' . md5( $feedName ) . '.xml';
     
     // If cache directory does not exist, create it. Get permissions settings from site.ini
