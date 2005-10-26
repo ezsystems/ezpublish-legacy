@@ -123,7 +123,7 @@ class eZExtension
 
                 if ( isset( $GLOBALS['eZCurrentAccess'] ) )
                 {
-                    eZExtension::prependSiteAccess( $extensionSettingsPath );
+                    eZExtension::prependSiteAccess( $activeExtension );
                 }
                 $hasExtensions = true;
             }
