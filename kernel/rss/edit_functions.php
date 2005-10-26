@@ -42,7 +42,7 @@ function storeRSSExport( &$Module, &$http, $publish = false )
 {
     /* Kill the RSS cache */
     $config =& eZINI::instance( 'site.ini' );
-    $cacheDir = $config->variable( 'FileSettings', 'VarDir' ).'/'.$config->variable( 'FileSettings', 'CacheDir' );
+    $cacheDir = eZSys::cacheDirectory();
     $cacheFile = $cacheDir . '/rss/' . md5( $http->postVariable( 'Access_URL' ) ) . '.xml';
     if ( file_exists( $cacheFile ) )
         unlink( $cacheFile );
