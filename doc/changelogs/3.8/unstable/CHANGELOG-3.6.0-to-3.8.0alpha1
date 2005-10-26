@@ -596,6 +596,8 @@ Attributes:
 - Fixed bug: 'ezinteger' - wrong min/max validation.
   (Applyed patch by Hans Melis)
   (Merged from release/3.5.6 rev. 13857)
+- Fixed bug #7212: RSS export fails if CacheDir is absolute.
+  ( Merged from stable/3.6 ( 3.6.4 ) rev. 13865 )
 
 *Library:
 
