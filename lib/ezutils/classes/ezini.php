@@ -74,6 +74,7 @@
 */
 
 include_once 'lib/ezutils/classes/ezdebug.php';
+include_once( 'lib/ezfile/classes/ezdir.php' );
 
 /*!
  Has the date of the current cache code implementation as a timestamp,
@@ -289,12 +290,12 @@ class eZINI
     */
     function findInputFiles( &$inputFiles, &$iniFile )
     {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
-        $inputFiles = array();
         if ( $this->RootDir !== false )
             $iniFile = eZDir::path( array( $this->RootDir, $this->FileName ) );
         else
             $iniFile = eZDir::path( array( $this->FileName ) );
+
+        $inputFiles = array();
 
         if ( $this->FileName == 'override.ini' )
         {
@@ -433,10 +434,9 @@ class eZINI
                 eZDebug::writeNotice( "Loading cache '$cachedFile' for file '" . $this->FileName . "'", "eZINI" );
             $charset = null;
             $blockValues = array();
-            eZDebug::accumulatorStart( $this->FileName, 'ini_load', 'Include Cache file : ' . $this->FileName . ', ' . $cachedFile );
             include( $cachedFile );
-            eZDebug::accumulatorStop( $this->FileName );
-            if ( !isset( $eZIniCacheCodeDate ) or
+            if ( !isset( $val ) or
+                 !isset( $eZIniCacheCodeDate ) or
                  $eZIniCacheCodeDate != EZ_INI_CACHE_CODE_DATE )
             {
                 if ( eZINI::isDebugEnabled() )
@@ -450,28 +450,13 @@ class eZINI
                 $this->ModifiedBlockValues = array();
                 if ( $placement )
                 {
-                    if ( isset( $bVP ) )
-                    {
-                        $useCache = false;
-                    }
-                    else
-                    {
-                        $this->BlockValuesPlacement = $bVP;
-                        unset( $bVP );
-                    }
+                    $this->BlockValuesPlacement = $val;
                 }
                 else
                 {
-                    if ( !isset( $bV ) )
-                    {
-                        $useCache = false;
-                    }
-                    else
-                    {
-                        $this->BlockValues = $bV;
-                        unset( $bV );
-                    }
+                    $this->BlockValues = $val;
                 }
+                unset( $val );
             }
         }
         if ( !$useCache )
@@ -480,7 +465,7 @@ class eZINI
             $this->parse( $inputFiles, $iniFile, false, $placement );
             eZDebug::accumulatorStop( 'ini_files_1' );
             eZDebug::accumulatorStart( 'ini_files_2', 'ini_load', 'Save Cache' );
-            $this->saveCache( $cachedDir, $cachedFile, $placement );
+            $this->saveCache( $cachedDir, $cachedFile, $placement ? $this->BlockValuesPlacement : $this->BlockValues );
             eZDebug::accumulatorStop( 'ini_files_2' );
 
             // Write log message to storage.log
@@ -495,7 +480,7 @@ class eZINI
      \private
      Stores the content of the INI object to the cache file \a $cachedFile.
     */
-    function saveCache( $cachedDir, $cachedFile, $placement = false )
+    function saveCache( $cachedDir, $cachedFile, $data )
     {
         if ( !file_exists( $cachedDir ) )
         {
@@ -506,40 +491,24 @@ class eZINI
             }
         }
         // save the data to a cached file
-        $buffer = "";
-        if ( ( $placement && is_array( $this->BlockValuesPlacement ) ) ||
-             ( !$placement && is_array( $this->BlockValues ) ) )
+        $fp = @fopen( $cachedFile, "w+" );
+        if ( $fp === false )
         {
-            $fp = @fopen( $cachedFile, "w+" );
-            if ( $fp === false )
-            {
-                eZDebug::writeError( "Couldn't create cache file '$cachedFile', perhaps wrong permissions", "eZINI" );
-                return;
-            }
-            fwrite( $fp, "<?php\n\$eZIniCacheCodeDate = " . EZ_INI_CACHE_CODE_DATE . ";\n" );
-
-            if ( $this->Codec )
-                fwrite( $fp, "\$charset = \"".$this->Codec->RequestedOutputCharsetCode."\";\n" );
-            else
-                fwrite( $fp, "\$charset = \"$this->Charset\";\n" );
-
-
-            $stripArrayReg = "@\n[\s]+@";
-
-            if ( !$placement )
-            {
-                fwrite( $fp, "\$bV = " . preg_replace( $stripArrayReg, '', var_export( $this->BlockValues, true ) ) . ";" );
-            }
-            else
-            {
-                fwrite( $fp, "\$bVP = " . preg_replace( $stripArrayReg, '', var_export( $this->BlockValuesPlacement, true ) ) . ";" );
-            }
-            fwrite( $fp, "\n?>" );
-            fclose( $fp );
-            if ( eZINI::isDebugEnabled() )
-                eZDebug::writeNotice( "Wrote cache file '$cachedFile'", "eZINI" );
+            eZDebug::writeError( "Couldn't create cache file '$cachedFile', perhaps wrong permissions", "eZINI" );
+            return;
         }
-//         exit;
+        fwrite( $fp, "<?php\n\$eZIniCacheCodeDate = " . EZ_INI_CACHE_CODE_DATE . ";\n" );
+
+        if ( $this->Codec )
+            fwrite( $fp, "\$charset = \"".$this->Codec->RequestedOutputCharsetCode."\";\n" );
+        else
+            fwrite( $fp, "\$charset = \"$this->Charset\";\n" );
+
+        fwrite( $fp, "\$val = " . preg_replace( "@\n[\s]+@", '', var_export( $data, true ) ) . ";" );
+        fwrite( $fp, "\n?>" );
+        fclose( $fp );
+        if ( eZINI::isDebugEnabled() )
+            eZDebug::writeNotice( "Wrote cache file '$cachedFile'", "eZINI" );
     }
 
     /*!
