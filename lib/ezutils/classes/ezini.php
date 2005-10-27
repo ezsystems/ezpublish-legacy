@@ -74,6 +74,7 @@
 */
 
 include_once 'lib/ezutils/classes/ezdebug.php';
+include_once( 'lib/ezfile/classes/ezdir.php' );
 
 /*!
  Has the date of the current cache code implementation as a timestamp,
@@ -265,6 +266,23 @@ class eZINI
     }
 
     /*!
+     Tries to load the ini file placement specified in the constructor or instance() function.
+     If cache files should be used and a cache file is found it loads that instead.
+     Set \a $reset to false if you don't want to reset internal data.
+    */
+    function loadPlacement( $reset = true )
+    {
+        if ( $this->UseCache )
+        {
+            $this->loadCache( $reset, true );
+        }
+        else
+        {
+            $this->parse( false, false, $reset, true );
+        }
+    }
+
+    /*!
      \private
      Looks trough all known settings and override folders to find relevant INI files.
      The result is a list with expanded paths to the files.
@@ -272,12 +290,12 @@ class eZINI
     */
     function findInputFiles( &$inputFiles, &$iniFile )
     {
-        include_once( 'lib/ezfile/classes/ezdir.php' );
-        $inputFiles = array();
         if ( $this->RootDir !== false )
             $iniFile = eZDir::path( array( $this->RootDir, $this->FileName ) );
         else
             $iniFile = eZDir::path( array( $this->FileName ) );
+
+        $inputFiles = array();
 
         if ( $this->FileName == 'override.ini' )
         {
@@ -339,20 +357,26 @@ class eZINI
       Will load a cached version of the ini file if it exists,
       if not it will parse the original file and create the cache file.
     */
-    function loadCache( $reset = true )
+    function loadCache( $reset = true, $placement = false )
     {
         eZDebug::accumulatorStart( 'ini', 'ini_load', 'Load cache' );
         if ( $reset )
             $this->reset();
         $cachedDir = "var/cache/ini/";
 
+        eZDebug::accumulatorStart( 'ini_find_files', 'ini_load', 'FindInputFiles' );
         $this->findInputFiles( $inputFiles, $iniFile );
+        eZDebug::accumulatorStop( 'ini_find_files' );
         if ( count( $inputFiles ) == 0 )
         {
             eZDebug::accumulatorStop( 'ini' );
             return false;
         }
 
+/*        if ( strstr( end( $inputFiles ), 'settings/override/' ) )
+        {
+            $overrideINIFile = array_pop( $inputFiles );
+        }*/
 
         $md5_input = '';
         foreach ( $inputFiles as $inputFile )
@@ -364,9 +388,20 @@ class eZINI
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
             $md5_input .= '-' . eZTextCodec::internalCharset();
         }
+        if ( $placement )
+        {
+            $md5_input .= '-placement';
+        }
         $fileName = md5( $md5_input ) . ".php";
         $cachedFile = $cachedDir . $fileName;
-        $this->CacheFile = $cachedFile;
+        if ( $placement )
+        {
+            $this->PlacementCacheFile = $cachedFile;
+        }
+        else
+        {
+            $this->CacheFile = $cachedFile;
+        }
 
         $inputTime = false;
         // check for modifications
@@ -400,7 +435,8 @@ class eZINI
             $charset = null;
             $blockValues = array();
             include( $cachedFile );
-            if ( !isset( $eZIniCacheCodeDate ) or
+            if ( !isset( $val ) or
+                 !isset( $eZIniCacheCodeDate ) or
                  $eZIniCacheCodeDate != EZ_INI_CACHE_CODE_DATE )
             {
                 if ( eZINI::isDebugEnabled() )
@@ -411,20 +447,26 @@ class eZINI
             else
             {
                 $this->Charset = $charset;
-                $this->BlockValues = $blockValues;
-                //$this->BlockValuesPlacement = array ( 'ClassSettings' => array ( 'Formats' => array ( 0 => "settings/datetime.ini" ) ) );
-                if ( isset( $blockValuesPlacement ) )
-                    $this->BlockValuesPlacement = $blockValuesPlacement;
-                else
-                    $this->BlockValuesPlacement = array();
                 $this->ModifiedBlockValues = array();
-                unset( $blockValues );
+                if ( $placement )
+                {
+                    $this->BlockValuesPlacement = $val;
+                }
+                else
+                {
+                    $this->BlockValues = $val;
+                }
+                unset( $val );
             }
         }
         if ( !$useCache )
         {
-            $this->parse( $inputFiles, $iniFile, false );
-            $this->saveCache( $cachedDir, $cachedFile );
+            eZDebug::accumulatorStart( 'ini_files_1', 'ini_load', 'Parse' );
+            $this->parse( $inputFiles, $iniFile, false, $placement );
+            eZDebug::accumulatorStop( 'ini_files_1' );
+            eZDebug::accumulatorStart( 'ini_files_2', 'ini_load', 'Save Cache' );
+            $this->saveCache( $cachedDir, $cachedFile, $placement ? $this->BlockValuesPlacement : $this->BlockValues );
+            eZDebug::accumulatorStop( 'ini_files_2' );
 
             // Write log message to storage.log
             include_once( 'lib/ezutils/classes/ezlog.php' );
@@ -434,12 +476,11 @@ class eZINI
         eZDebug::accumulatorStop( 'ini' );
     }
 
-
     /*!
      \private
      Stores the content of the INI object to the cache file \a $cachedFile.
     */
-    function saveCache( $cachedDir, $cachedFile )
+    function saveCache( $cachedDir, $cachedFile, $data )
     {
         if ( !file_exists( $cachedDir ) )
         {
@@ -450,108 +491,24 @@ class eZINI
             }
         }
         // save the data to a cached file
-        $buffer = "";
-        $i = 0;
-        if ( is_array( $this->BlockValues )  )
+        $fp = @fopen( $cachedFile, "w+" );
+        if ( $fp === false )
         {
-            $fp = @fopen( $cachedFile, "w+" );
-            if ( $fp === false )
-            {
-                eZDebug::writeError( "Couldn't create cache file '$cachedFile', perhaps wrong permissions", "eZINI" );
-                return;
-            }
-            fwrite( $fp, "<?php\n\$eZIniCacheCodeDate = " . EZ_INI_CACHE_CODE_DATE . ";\n" );
-//             exit;
-            if ( $this->Codec )
-                fwrite( $fp, "\$charset = \"".$this->Codec->RequestedOutputCharsetCode."\";\n" );
-            else
-                fwrite( $fp, "\$charset = \"$this->Charset\";\n" );
-            reset( $this->BlockValues );
-            while ( list( $groupKey, $groupVal ) = each ( $this->BlockValues ) )
-            {
-                reset( $groupVal );
-                while ( list( $key, $val ) = each ( $groupVal ) )
-                {
-                    if ( is_array( $val ) )
-                    {
-                        fwrite( $fp, "\$groupArray[\"$key\"] = array();\n" );
-                        foreach ( $val as $arrayKey => $arrayValue )
-                        {
-                            if ( is_string( $arrayKey ) )
-                                $tmpArrayKey = "\"" . str_replace( "\"", "\\\"", $arrayKey ) . "\"";
-                            else
-                                $tmpArrayKey = $arrayKey;
-                            // Escape ", \ and $
-                            $tmpVal = str_replace( "\\", "\\\\", $arrayValue );
-                            $tmpVal = str_replace( "$", "\\$", $tmpVal );
-                            $tmpVal = str_replace( "\"", "\\\"", $tmpVal );
-                            fwrite( $fp, "\$groupArray[\"$key\"][$tmpArrayKey] = \"$tmpVal\";\n" );
-                        }
-                    }
-                    else
-                    {
-                        // Escape ", \ and $
-                        $tmpVal = str_replace( "\\", "\\\\", $val );
-                        $tmpVal = str_replace( "$", "\\$", $tmpVal );
-                        $tmpVal = str_replace( "\"", "\\\"", $tmpVal );
-
-                        fwrite( $fp, "\$groupArray[\"$key\"] = \"$tmpVal\";\n" );
-                    }
-                }
-
-                fwrite( $fp, "\$blockValues[\"$groupKey\"] =& \$groupArray;\n" );
-                //  fwrite( $fp, "\$blockValuesPlacement[\"$groupKey\"] = datatime.ini" );
-                fwrite( $fp, "unset( \$groupArray );\n" );
-                $i++;
-            }
-
-            if ( is_array( $this->BlockValuesPlacement )  )
-            {
-                reset( $this->BlockValuesPlacement );
-                while ( list( $groupKey, $groupVal ) = each ( $this->BlockValuesPlacement ) )
-                {
-                    reset( $groupVal );
-                    while ( list( $key, $val ) = each ( $groupVal ) )
-                    {
-                        if ( is_array( $val ) )
-                        {
-                            fwrite( $fp, "\$groupPlacementArray[\"$key\"] = array();\n" );
-                            foreach ( $val as $arrayKey => $arrayValue )
-                            {
-                                if ( is_string( $arrayKey ) )
-                                    $tmpArrayKey = "\"" . str_replace( "\"", "\\\"", $arrayKey ) . "\"";
-                                else
-                                    $tmpArrayKey = $arrayKey;
-                                // Escape ", \ and $
-                                $tmpVal = str_replace( "\\", "\\\\", $arrayValue );
-                                $tmpVal = str_replace( "$", "\\$", $tmpVal );
-                                $tmpVal = str_replace( "\"", "\\\"", $tmpVal );
-                                fwrite( $fp, "\$groupPlacementArray[\"$key\"][$tmpArrayKey] = \"$tmpVal\";\n" );
-                            }
-                        }
-                        else
-                        {
-                            // Escape ", \ and $
-                            $tmpVal = str_replace( "\\", "\\\\", $val );
-                            $tmpVal = str_replace( "$", "\\$", $tmpVal );
-                            $tmpVal = str_replace( "\"", "\\\"", $tmpVal );
-
-                            fwrite( $fp, "\$groupPlacementArray[\"$key\"] = \"$tmpVal\";\n" );
-                        }
-                    }
-
-                    fwrite( $fp, "\$blockValuesPlacement[\"$groupKey\"] =& \$groupPlacementArray;\n" );
-                    //  fwrite( $fp, "\$blockValuesPlacement[\"$groupKey\"] = datatime.ini" );
-                    fwrite( $fp, "unset( \$groupPlacementArray );\n" );
-                    $i++;
-                }
-            }
-            fwrite( $fp, "\n?>" );
-            fclose( $fp );
-            if ( eZINI::isDebugEnabled() )
-                eZDebug::writeNotice( "Wrote cache file '$cachedFile'", "eZINI" );
+            eZDebug::writeError( "Couldn't create cache file '$cachedFile', perhaps wrong permissions", "eZINI" );
+            return;
         }
-//         exit;
+        fwrite( $fp, "<?php\n\$eZIniCacheCodeDate = " . EZ_INI_CACHE_CODE_DATE . ";\n" );
+
+        if ( $this->Codec )
+            fwrite( $fp, "\$charset = \"".$this->Codec->RequestedOutputCharsetCode."\";\n" );
+        else
+            fwrite( $fp, "\$charset = \"$this->Charset\";\n" );
+
+        fwrite( $fp, "\$val = " . preg_replace( "@\n[\s]+@", '', var_export( $data, true ) ) . ";" );
+        fwrite( $fp, "\n?>" );
+        fclose( $fp );
+        if ( eZINI::isDebugEnabled() )
+            eZDebug::writeNotice( "Wrote cache file '$cachedFile'", "eZINI" );
     }
 
     /*!
@@ -559,7 +516,7 @@ class eZINI
       Parses either the override ini file or the standard file and then the append
       override file if it exists.
      */
-    function parse( $inputFiles = false, $iniFile = false, $reset = true )
+    function parse( $inputFiles = false, $iniFile = false, $reset = true, $placement = false )
     {
         if ( $reset )
             $this->reset();
@@ -571,7 +528,7 @@ class eZINI
         {
             if ( file_exists( $inputFile ) )
             {
-                $this->parseFile( $inputFile );
+                $this->parseFile( $inputFile, $placement );
             }
         }
     }
@@ -580,24 +537,28 @@ class eZINI
       \private
       Will parse the INI file and store the variables in the variable $this->BlockValues
      */
-    function parseFile( $file )
+    function parseFile( $file, $placement = false )
     {
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Parsing file '$file'", 'eZINI' );
 
         include_once( "lib/ezfile/classes/ezfile.php" );
-        $lines = eZFile::splitLines( $file );
-        if ( $lines === false )
+        $contents = eZFile::getContents( $file );
+        if ( $contents === false )
         {
             eZDebug::writeError( "Failed opening file '$file' for reading", "eZINI" );
             return false;
         }
 
+        $contents = str_replace( "\r", '', $contents );
+        $endOfLine = strpos( $contents, "\n" );
+        $line = substr( $contents, 0, $endOfLine );
+
         $currentBlock = "";
-        if ( count( $lines ) > 0 )
+        if ( $line )
         {
             // check for charset
-            if ( preg_match( "/#\?ini(.+)\?/", $lines[0], $ini_arr ) )
+            if ( preg_match( "/#\?ini(.+)\?/", $line, $ini_arr ) )
             {
                 $args = explode( " ", trim( $ini_arr[1] ) );
                 foreach ( $args as $arg )
@@ -616,17 +577,23 @@ class eZINI
             }
         }
 
-//         $codec =& eZTextCodec::codecForName( $this->Charset );
         unset( $this->Codec );
         if ( $this->UseTextCodec )
         {
             include_once( "lib/ezi18n/classes/eztextcodec.php" );
             $this->Codec =& eZTextCodec::instance( $this->Charset, false, false );
+
+            if ( $this->Codec )
+            {
+                eZDebug::accumulatorStart( 'ini_conversion', false, 'INI string conversion' );
+                $contents = $this->Codec->convertString( $contents );
+                eZDebug::accumulatorStop( 'ini_conversion', false, 'INI string conversion' );
+            }
         }
         else
             $this->Codec = null;
 
-        foreach ( $lines as $line )
+        foreach ( explode( "\n", $contents ) as $line )
         {
             if ( $line == '' or $line[0] == '#' )
                 continue;
@@ -647,81 +614,71 @@ class eZINI
             {
                 $varName = trim( $valueArray[1] );
 
-                $valuesPlacement =& $this->BlockValuesPlacement[$currentBlock];
-
-                if ( isset( $valuesPlacement[$varName] ) )
-                    if ( !is_array( $valuesPlacement[$varName] ) )
+                if ( $placement )
+                {
+                    if ( isset( $this->BlockValuesPlacement[$currentBlock][$varName] ) &&
+                         !is_array( $this->BlockValuesPlacement[$currentBlock][$varName] ) )
                     {
                         eZDebug::writeError( "Wrong operation on the ini setting array '$varName'", 'eZINI' );
                         continue;
                     }
 
-                $this->BlockValues[$currentBlock][$varName] = array();
-                $valuesPlacement[$varName][] = $file;
-
-                // In direct access mode we create empty elements at the beginning of an array
-                // in case it is redefined in this ini file. So when we will save it, definition
-                // will be created as well.
-                if ( $this->AddArrayDefinition )
-                {
-                    $this->BlockValues[$currentBlock][$varName][] = "";
+                    $this->BlockValuesPlacement[$currentBlock][$varName][] = $file;
                 }
+                else
+                {
+                    $this->BlockValues[$currentBlock][$varName] = array();
 
+                    // In direct access mode we create empty elements at the beginning of an array
+                    // in case it is redefined in this ini file. So when we will save it, definition
+                    // will be created as well.
+                    if ( $this->AddArrayDefinition )
+                    {
+                        $this->BlockValues[$currentBlock][$varName][] = "";
+                    }
+                }
             }
             else if ( preg_match("#^([a-zA-Z0-9_-]+)(\\[([^\\]]*)\\])?=(.*)$#", $line, $valueArray ) )
             {
                 $varName = trim( $valueArray[1] );
-                if ( $this->Codec )
-                {
-                    eZDebug::accumulatorStart( 'ini_conversion', false, 'INI string conversion' );
-                    $varValue = $this->Codec->convertString( $valueArray[4] );
-                    eZDebug::accumulatorStop( 'ini_conversion', false, 'INI string conversion' );
-                }
-                else
-                {
-                    $varValue = $valueArray[4];
-                }
-//                 $varValue = $codec->toUnicode( $varValue );
+                $varValue = $valueArray[4];
 
                 if ( $valueArray[2] )
                 {
                     if ( $valueArray[3] )
                     {
                         $keyName = $valueArray[3];
-                        if ( isset( $this->BlockValues[$currentBlock][$varName] ) and
-                             is_array( $this->BlockValues[$currentBlock][$varName] ) )
+                        if ( $placement )
                         {
-                            $this->BlockValues[$currentBlock][$varName][$keyName] = $varValue;
                             $this->BlockValuesPlacement[$currentBlock][$varName][$keyName] = $file;
                         }
                         else
                         {
-                            $this->BlockValues[$currentBlock][$varName] = array( $keyName => $varValue );
-                            $this->BlockValuesPlacement[$currentBlock][$varName] = array( $keyName => $file );
+                            $this->BlockValues[$currentBlock][$varName][$keyName] = $varValue;
                         }
                     }
                     else
                     {
-
-                        if ( isset( $this->BlockValues[$currentBlock][$varName] ) and
-                             is_array( $this->BlockValues[$currentBlock][$varName] ) )
+                        if ( $placement )
                         {
-                            $this->BlockValues[$currentBlock][$varName][] = $varValue;
-                            $arrayCount = 0;
-                            $arrayCount = count( $this->BlockValues[$currentBlock][$varName] );
-                            $this->BlockValuesPlacement[$currentBlock][$varName][$arrayCount -1] = $file;
+                            $this->BlockValuesPlacement[$currentBlock][$varName][] = $file;
                         }
                         else
                         {
-                            $this->BlockValues[$currentBlock][$varName] = array( $varValue );
-                            $this->BlockValuesPlacement[$currentBlock][$varName] = array( $file );
+                            $this->BlockValues[$currentBlock][$varName][] = $varValue;
                         }
                     }
                 }
                 else
                 {
-                    $this->BlockValues[$currentBlock][$varName] = $varValue;
-                    $this->BlockValuesPlacement[$currentBlock][$varName] = $file;
+                    if ( $placement )
+                    {
+                        $this->BlockValuesPlacement[$currentBlock][$varName] = $file;
+                    }
+                    else
+                    {
+                        $this->BlockValues[$currentBlock][$varName] = $varValue;
+                    }
                 }
             }
         }
@@ -734,6 +691,8 @@ class eZINI
     {
         if ( file_exists( $this->CacheFile ) )
             unlink( $this->CacheFile );
+        if ( file_exists( $this->PlacementCacheFile ) )
+            unlink( $this->PlacementCacheFile );
     }
 
 
@@ -1215,6 +1174,10 @@ class eZINI
     */
     function &groupPlacements()
     {
+        if ( !$this->BlockValuesPlacement )
+        {
+            $this->loadPlacements();
+        }
         return $this->BlockValuesPlacement;
     }
 
@@ -1394,8 +1357,11 @@ class eZINI
     /// Whether to use the text codec when reading the ini file or not
     var $UseTextCodec;
 
-    /// Stores the path and filename of the cache file
+    /// Stores the path and filename of the value cache file
     var $CacheFile;
+
+    /// Stores the path and filename of the placement cache file
+    var $PlacementCacheFile;
 
     /// true if cache should be used
     var $UseCache;
