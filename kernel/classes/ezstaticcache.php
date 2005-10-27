@@ -152,6 +152,18 @@ class eZStaticCache
         foreach ( $nodeList as $uri )
         {
             $this->storeCache( '/' . $uri['path_identification_string'], $hostname, $staticStorageDir, array(), false, true );
+
+            /* Fetch all url aliases with the same node */
+            /* 1. request content/view/full/* style url */
+            $db =& eZDB::instance();
+            $destURL = $db->arrayQuery( "SELECT destination_url FROM ezurlalias WHERE source_url = '{$uri['path_identification_string']}'" );
+            /* 2. get all other elements linked to the same destination URL */
+            $aliases = $db->arrayQuery( "SELECT source_url FROM ezurlalias WHERE destination_url = '{$destURL[0]['destination_url']}' AND destination_url <> '$uri'" );
+            /* Loop over this result and store the cache for this */
+            foreach ( $aliases as $alias )
+            {
+                $this->storeCache( '/' . $alias['source_url'], $hostname, $staticStorageDir, array(), false, true );
+            }
         }
     }
 

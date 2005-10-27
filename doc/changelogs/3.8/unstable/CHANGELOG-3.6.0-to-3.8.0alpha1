@@ -42,6 +42,8 @@ Attributes:
 *StaticCache:
 - Added static cache cleanups to the Smart ViewCache algorithms.
   (Merged from stable/3.6 (3.6.1) rev. 12224)
+- Fixed a bug where the static cache would not regenerate its cache when url
+  translations where used.
 
 *DataType:
 
