@@ -605,6 +605,14 @@ class eZSys
             $instance =& eZSys::instance();
         $text = $instance->IndexFile;
 
+        $ini =& eZINI::instance();
+        if ( $ini->variable( 'SiteAccessSettings', 'RemoveSiteAccessIfDefaultAccess' ) == 'enabled' )
+        {
+            $defaultAccess = $ini->variable( 'SiteSettings', 'DefaultAccess' );
+            if ( count( $this->AccessPath ) > 0 and $this->AccessPath[0] == $defaultAccess )
+                $withAccessList = false;
+        }
+
         if ( $withAccessList and count( $instance->AccessPath ) > 0 )
         {
                 $text .= '/' . implode( '/', $instance->AccessPath );
