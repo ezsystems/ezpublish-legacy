@@ -372,6 +372,11 @@ class eZINI
             return false;
         }
 
+/*        if ( strstr( end( $inputFiles ), 'settings/override/' ) )
+        {
+            $overrideINIFile = array_pop( $inputFiles );
+        }*/
+
         $md5_input = '';
         foreach ( $inputFiles as $inputFile )
         {
@@ -445,13 +450,27 @@ class eZINI
                 $this->ModifiedBlockValues = array();
                 if ( $placement )
                 {
-                    $this->BlockValuesPlacement = $blockValuesPlacement;
-                    unset( $blockValuesPlacement );
+                    if ( isset( $bVP ) )
+                    {
+                        $useCache = false;
+                    }
+                    else
+                    {
+                        $this->BlockValuesPlacement = $bVP;
+                        unset( $bVP );
+                    }
                 }
                 else
                 {
-                    $this->BlockValues = $blockValues;
-                    unset( $blockValues );
+                    if ( !isset( $bV ) )
+                    {
+                        $useCache = false;
+                    }
+                    else
+                    {
+                        $this->BlockValues = $bV;
+                        unset( $bV );
+                    }
                 }
             }
         }
@@ -472,7 +491,6 @@ class eZINI
         eZDebug::accumulatorStop( 'ini' );
     }
 
-
     /*!
      \private
      Stores the content of the INI object to the cache file \a $cachedFile.
@@ -489,9 +507,8 @@ class eZINI
         }
         // save the data to a cached file
         $buffer = "";
-        $i = 0;
         if ( ( $placement && is_array( $this->BlockValuesPlacement ) ) ||
-             ( !$placement && is_array( $this->BlockValues ) )  )
+             ( !$placement && is_array( $this->BlockValues ) ) )
         {
             $fp = @fopen( $cachedFile, "w+" );
             if ( $fp === false )
@@ -506,89 +523,16 @@ class eZINI
             else
                 fwrite( $fp, "\$charset = \"$this->Charset\";\n" );
 
+
+            $stripArrayReg = "@\n[\s]+@";
+
             if ( !$placement )
             {
-                foreach( $this->BlockValues as $groupKey => $groupVal ) //while ( list( $groupKey, $groupVal ) = each ( $this->BlockValues ) )
-                {
-                    fwrite( $fp, "\$groupArray = array();\n" );
-                    // reset( $groupVal );
-                    foreach ( $groupVal as $key => $val ) //list( $key, $val ) = each ( $groupVal ) )
-                    {
-                        if ( is_array( $val ) )
-                        {
-                            fwrite( $fp, "\$groupArray[\"$key\"] = array();\n" );
-                            foreach ( $val as $arrayKey => $arrayValue )
-                            {
-                                if ( is_string( $arrayKey ) )
-                                    $tmpArrayKey = "\"" . str_replace( "\"", "\\\"", $arrayKey ) . "\"";
-                                else
-                                    $tmpArrayKey = $arrayKey;
-                                // Escape ", \ and $
-                                $tmpVal = str_replace( "\\", "\\\\", $arrayValue );
-                                $tmpVal = str_replace( "$", "\\$", $tmpVal );
-                                $tmpVal = str_replace( "\"", "\\\"", $tmpVal );
-                                fwrite( $fp, "\$groupArray[\"$key\"][$tmpArrayKey] = \"$tmpVal\";\n" );
-                            }
-                        }
-                        else
-                        {
-                            // Escape ", \ and $
-                            $tmpVal = str_replace( "\\", "\\\\", $val );
-                            $tmpVal = str_replace( "$", "\\$", $tmpVal );
-                            $tmpVal = str_replace( "\"", "\\\"", $tmpVal );
-
-                            fwrite( $fp, "\$groupArray[\"$key\"] = \"$tmpVal\";\n" );
-                        }
-                    }
-
-                    fwrite( $fp, "\$blockValues[\"$groupKey\"] = \$groupArray;\n" );
-                    //  fwrite( $fp, "\$blockValuesPlacement[\"$groupKey\"] = datatime.ini" );
-                    $i++;
-                }
+                fwrite( $fp, "\$bV = " . preg_replace( $stripArrayReg, '', var_export( $this->BlockValues, true ) ) . ";" );
             }
             else
             {
-                if ( is_array( $this->BlockValuesPlacement )  )
-                {
-//                reset( $this->BlockValuesPlacement );
-                    foreach( $this->BlockValuesPlacement as $groupKey => $groupVal ) //while ( list( $groupKey, $groupVal ) = each ( $this->BlockValuesPlacement ) )
-                    {
-                        fwrite( $fp, "\$groupPlacementArray = array();\n" );
-                        //                  reset( $groupVal );
-                        foreach( $groupVal as $key => $val ) //while ( list( $key, $val ) = each ( $groupVal ) )
-                        {
-                            if ( is_array( $val ) )
-                            {
-                                fwrite( $fp, "\$groupPlacementArray[\"$key\"] = array();\n" );
-                                foreach ( $val as $arrayKey => $arrayValue )
-                                {
-                                    if ( is_string( $arrayKey ) )
-                                        $tmpArrayKey = "\"" . str_replace( "\"", "\\\"", $arrayKey ) . "\"";
-                                    else
-                                        $tmpArrayKey = $arrayKey;
-                                    // Escape ", \ and $
-                                    $tmpVal = str_replace( "\\", "\\\\", $arrayValue );
-                                    $tmpVal = str_replace( "$", "\\$", $tmpVal );
-                                    $tmpVal = str_replace( "\"", "\\\"", $tmpVal );
-                                    fwrite( $fp, "\$groupPlacementArray[\"$key\"][$tmpArrayKey] = \"$tmpVal\";\n" );
-                                }
-                            }
-                            else
-                            {
-                                // Escape ", \ and $
-                                $tmpVal = str_replace( "\\", "\\\\", $val );
-                                $tmpVal = str_replace( "$", "\\$", $tmpVal );
-                                $tmpVal = str_replace( "\"", "\\\"", $tmpVal );
-
-                                fwrite( $fp, "\$groupPlacementArray[\"$key\"] = \"$tmpVal\";\n" );
-                            }
-                        }
-
-                        fwrite( $fp, "\$blockValuesPlacement[\"$groupKey\"] = \$groupPlacementArray;\n" );
-                        //  fwrite( $fp, "\$blockValuesPlacement[\"$groupKey\"] = datatime.ini" );
-                        $i++;
-                    }
-                }
+                fwrite( $fp, "\$bVP = " . preg_replace( $stripArrayReg, '', var_export( $this->BlockValuesPlacement, true ) ) . ";" );
             }
             fwrite( $fp, "\n?>" );
             fclose( $fp );
@@ -778,6 +722,8 @@ class eZINI
     {
         if ( file_exists( $this->CacheFile ) )
             unlink( $this->CacheFile );
+        if ( file_exists( $this->PlacementCacheFile ) )
+            unlink( $this->PlacementCacheFile );
     }
 
 
