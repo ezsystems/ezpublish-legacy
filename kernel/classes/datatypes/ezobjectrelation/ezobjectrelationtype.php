@@ -187,9 +187,9 @@ class eZObjectRelationType extends eZDataType
 
         $obj = $contentObjectAttribute->object();
         //get eZContentObjectVersion
-        $currVerobj = $obj->currentVersion();
+        $currVerobj = $obj->version( $contentObjectVersion );
         // get array of ezcontentobjecttranslations
-        $transList =  $currVerobj->translations();
+        $transList = $currVerobj->translationList();
         // get count of LanguageCode in translationList
         $countTsl = count( $transList );
 
