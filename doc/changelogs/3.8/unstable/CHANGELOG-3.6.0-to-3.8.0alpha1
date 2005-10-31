@@ -608,6 +608,9 @@ Attributes:
   If referring object has translations > 1. 
   ( Wrong adding relations to ezcontentobject_link ).
   ( Merged from stable/3.6 ( 3.6.4 ) rev. 13886, 13887 )
+- Fixed bug #7327: CSS issues in admin/templates/content/reverserelatedlist.tpl
+  ( Applyed patch by Serwatka )
+  ( Merged from stable/3.6 ( 3.6.4 ) rev. 13896 )
 
 *Library:
 
