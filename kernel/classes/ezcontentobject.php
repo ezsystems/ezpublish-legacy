@@ -1947,9 +1947,17 @@ class eZContentObject extends eZPersistentObject
                                  "eZContentObject::addContentObjectRelation" );
             return false;
         }
-
-        $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id )
-		     VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID )" );
+        $query = "SELECT count(*) count
+                  FROM   ezcontentobject_link
+                  WHERE  from_contentobject_id=$fromObjectID AND
+                         from_contentobject_version=$fromObjectVersion AND
+                         to_contentobject_id=$toObjectID AND
+                         contentclassattribute_id=$attributeID";
+        $count = $db->arrayQuery( $query );
+        // if current relation does not exists
+        if ( ( $count[0]['count'] == '0' ) or ( !isset( $count[0]['count'] ) ) )
+            $db->query( "INSERT INTO ezcontentobject_link ( from_contentobject_id, from_contentobject_version, to_contentobject_id, contentclassattribute_id )
+		                 VALUES ( $fromObjectID, $fromObjectVersion, $toObjectID, $attributeID )" );
     }
 
     /*!
@@ -1994,7 +2002,7 @@ class eZContentObject extends eZPersistentObject
      \param $groupByAttribute : false - return all relations as an array of content objects
                                 true  - return all relations groupped by attribute ID
                                 This parameter makes sense only when $attributeID == false
-     \param $params : other parameters from template fetch function.                                
+     \param $params : other parameters from template fetch function.
     */
     function &relatedContentObjectList( $fromObjectVersion = false,
                                         $fromObjectID = false,
@@ -2158,7 +2166,7 @@ class eZContentObject extends eZPersistentObject
      \param $groupByAttribute : false - return all relations as an array of content objects
                                 true  - return all relations groupped by attribute ID
                                 This parameter makes sense only when $attributeID == false
-     \param $params : other parameters from template fetch function.                                
+     \param $params : other parameters from template fetch function.
     */
     function &reverseRelatedObjectList( $version = false,
                                         $toObjectID = false,

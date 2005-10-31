@@ -241,7 +241,29 @@ class eZObjectRelationListType extends eZDataType
         $contentObjectID = $attribute->ContentObjectID;
         $contentObjectVersion = $attribute->Version;
 
-        eZContentObject::removeContentObjectRelation( false, $contentObjectVersion, $contentObjectID, $contentClassAttributeID );
+        $obj = $attribute->object();
+        //get eZContentObjectVersion
+        $currVerobj = $obj->currentVersion();
+        // get array of ezcontentobjecttranslations
+        $transList =  $currVerobj->translations();
+        $translationList = array();
+        // create translation List
+        // $translationList will contain for example eng-GB, ita-IT etc.
+        foreach ( $transList as $transListName )
+        {
+            $translationList[] = $transListName->LanguageCode;
+        }
+        // get current language_code
+        $langCode = $attribute->attribute( 'language_code' );
+        // get count of LanguageCode in translationList
+        $countTsl = count( $translationList );
+        // order by asc
+        sort( $translationList );
+
+        if ( ( $countTsl == 1 ) or ( $countTsl > 1 and $translationList[0] == $langCode ) )
+        {
+             eZContentObject::removeContentObjectRelation( false, $contentObjectVersion, $contentObjectID, $contentClassAttributeID );
+        }
 
         for ( $i = 0; $i < count( $content['relation_list'] ); ++$i )
         {
