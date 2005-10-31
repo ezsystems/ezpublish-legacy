@@ -185,7 +185,16 @@ class eZObjectRelationType extends eZDataType
         $contentObjectID = $contentObjectAttribute->ContentObjectID;
         $contentObjectVersion = $contentObjectAttribute->Version;
 
-        eZContentObject::removeContentObjectRelation( false, $contentObjectVersion, $contentObjectID, $contentClassAttributeID );
+        $obj = $contentObjectAttribute->object();
+        //get eZContentObjectVersion
+        $currVerobj = $obj->version( $contentObjectVersion );
+        // get array of ezcontentobjecttranslations
+        $transList = $currVerobj->translationList();
+        // get count of LanguageCode in translationList
+        $countTsl = count( $transList );
+
+        if ( ( $countTsl == 1 ) )
+             eZContentObject::removeContentObjectRelation( false, $contentObjectVersion, $contentObjectID, $contentClassAttributeID );
 
         $objectID = $contentObjectAttribute->attribute( "data_int" );
         if ( $objectID )
@@ -260,6 +269,39 @@ class eZObjectRelationType extends eZDataType
     }
 
     /*!
+     \private
+     Delete the old version from ezcontentobject_link if count of translations > 1
+    */
+    function removeContentObjectRelation( &$contentObjectAttribute )
+    {
+        $obj = $contentObjectAttribute->object();
+        $atrributeTrans = $contentObjectAttribute->fetchAttributeTranslations( );
+        // Check if current relation exists in ezcontentobject_link
+        foreach ( $atrributeTrans as $attrTarns )
+        {
+            if ( $attrTarns->attribute( 'id' ) != $contentObjectAttribute->attribute( 'id' ) )
+                if ( $attrTarns->attribute( 'data_int' ) == $contentObjectAttribute->attribute( 'data_int' ) )
+                     return;
+        }
+
+        //get eZContentObjectVersion
+        $currVerobj = $obj->currentVersion();
+        // get array of ezcontentobjecttranslations
+        $transList =  $currVerobj->translations();
+        // get count of LanguageCode in transList
+        $countTsl = count( $transList );
+        // Delete the old version from ezcontentobject_link if count of translations > 1
+        if ( $countTsl > 1 )
+        {
+            $objectID = $contentObjectAttribute->attribute( "data_int" );
+            $contentClassAttributeID = $contentObjectAttribute->ContentClassAttributeID;
+            $contentObjectID = $contentObjectAttribute->ContentObjectID;
+            $contentObjectVersion = $contentObjectAttribute->Version;
+            eZContentObject::removeContentObjectRelation( $objectID, $contentObjectVersion, $contentObjectID, $contentClassAttributeID );
+        }
+    }
+
+    /*!
     */
     function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute, $parameters )
     {
@@ -275,6 +317,9 @@ class eZObjectRelationType extends eZDataType
                     {
                         $selectedObjectArray = $http->hasPostVariable( "SelectedObjectIDArray" );
                         $selectedObjectIDArray = $http->postVariable( "SelectedObjectIDArray" );
+
+                        // Delete the old version from ezcontentobject_link if count of translations > 1
+                        $this->removeContentObjectRelation( $contentObjectAttribute );
 
                         $objectID = $selectedObjectIDArray[0];
                         $contentObjectAttribute->setAttribute( 'data_int', $objectID );
@@ -310,6 +355,9 @@ class eZObjectRelationType extends eZDataType
 
             case "remove_object" :
             {
+                // Delete the old version from ezcontentobject_link if count of translations > 1
+                $this->removeContentObjectRelation( $contentObjectAttribute );
+
                 $contentObjectAttribute->setAttribute( 'data_int', 0 );
                 $contentObjectAttribute->store();
             } break;
