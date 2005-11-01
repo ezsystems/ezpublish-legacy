@@ -193,6 +193,15 @@ foreach ( $complexTypes as $complexTypeString => $complexTypeList )
     unset( $objectAttributeList );
 }
 
+$dbName = $db->DB;
+$cacheDir = eZSys::cacheDirectory();
+$cacheFile = "$cacheDir/sortkey_$dbName.php";
+if ( file_exists( $cacheFile ) )
+{
+    @unlink( $cacheFile );
+    $cli->output( 'Removed cache file : ' . $cacheFile );
+}
+
 
 // $attributeCount = eZContentObjectAttribute::fetchListByClassID( $classAttributeIDList, false, array( 'offset' => 0,
 //                                                                                                      'length' => 3 ),
