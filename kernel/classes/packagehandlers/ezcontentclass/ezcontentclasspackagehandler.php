@@ -292,10 +292,10 @@ class eZContentClassPackageHandler extends eZPackageHandler
         if ( is_numeric( $classID ) )
             $class =& eZContentClass::fetch( $classID );
         if ( !$class )
-            continue;
+            return;
         $classNode =& eZContentClassPackageHandler::classDOMTree( $class );
         if ( !$classNode )
-            continue;
+            return;
         if ( !$classIdentifier )
             $classIdentifier = $class->attribute( 'identifier' );
         $package->appendInstall( 'ezcontentclass', false, false, true,
