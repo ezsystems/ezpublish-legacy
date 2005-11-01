@@ -376,6 +376,9 @@ class eZXML
                         $tagContent = str_replace("&amp;", "&", $tagContent );
                     }
 
+                    // Keep the whitespace consistent, parsing back and forward shouldn't change data
+                    $tagContent = preg_replace( "#\n[\s]+$#", "", $tagContent, 1 );
+
                     $subNode->Content = $tagContent;
 //                    $subNode->Content = trim( $tagContent );
 
