@@ -1,0 +1,17 @@
+*Title: New object attribute function "view_count" for eZContentObjectTreeNode.
+
+*Description:
+
+This new function fetches the amount of the recorded views of a node.
+
+*Documentation:
+
+Fetching of related objects:
+
+{def $node = fetch( 'content', 'node',
+        hash( 'node_id', 2 ) }
+Views: {$node.view_count}
+
+
+Returns:
+An integer representing the maount of views of this node.

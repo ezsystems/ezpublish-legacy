@@ -160,6 +160,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       "subtree" => "subTree",
                                                       "children" => "children",
                                                       "children_count" => "childrenCount",
+                                                      'view_count' => 'viewCount',
                                                       'contentobject_version_object' => 'contentObjectVersionObject',
                                                       'sort_array' => 'sortArray',
                                                       'can_read' => 'canRead',
@@ -2729,6 +2730,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $params['Limitation'] = array();
         $subTreeCount = $this->subTreeCount( $params );
         return $subTreeCount;
+    }
+
+    /*!
+     Get amount views of content node.
+    */
+    function &viewCount()
+    {
+        include_once( 'kernel/classes/ezviewcounter.php' );
+        $count = eZViewCounter::fetch( $this->attribute( 'node_id' ), false );
+        $count = (int) $count['count'];
+        return $count;
     }
 
     /*!
