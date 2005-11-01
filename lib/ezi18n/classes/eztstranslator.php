@@ -241,6 +241,17 @@ class eZTSTranslator extends eZTranslatorHandler
             if ( !file_exists( $path ) )
             {
                 $path = eZDir::path( array( $root, $locale, $filename ) );
+
+                $ini =& eZINI::instance( "i18n.ini" );
+                $fallbacks = $ini->variable( 'TranslationSettings', 'FallbackLanguages' );
+
+                if ( array_key_exists( $locale,  $fallbacks ) and $fallbacks[$locale] )
+                {
+                    $fallbackpath = eZDir::path( array( $root, $fallbacks[$locale], $filename ) );
+                    if ( !file_exists( $path ) and file_exists( $fallbackpath ) )
+                        $path = $fallbackpath;
+                }
+
                 if ( !file_exists( $path ) )
                 {
                     eZDebug::writeError( "Could not load translation file: $path", "eZTSTranslator::loadTranslationFile" );

@@ -79,10 +79,19 @@ function ezinsertarguments( $text, $arguments )
 */
 $ini =& eZINI::instance();
 $useTextTranslation = false;
+$hasFallback = false;
 if ( $ini->variable( 'RegionalSettings', 'TextTranslation' ) != 'disabled' )
 {
     $language = ezcurrentLanguage();
-    if ( file_exists( 'share/translations/' . $language . '/translation.ts' ) )
+    $iniI18N =& eZINI::instance( "i18n.ini" );
+    $fallbacks = $iniI18N->variable( 'TranslationSettings', 'FallbackLanguages' );
+                
+    if ( array_key_exists( $language,  $fallbacks ) and $fallbacks[$language] )
+    {
+        if ( file_exists( 'share/translations/' . $fallbacks[$language] . '/translation.ts' ) )
+            $hasFallback = true;
+    }
+    if ( file_exists( 'share/translations/' . $language . '/translation.ts' ) or $hasFallback )
     {
         $useTextTranslation = true;
     }

@@ -660,3 +660,4 @@ eZExtension:
   (Merged from stable/3.5 (3.5.5) rev. 12829 and translations/stable/3.5 rev. 230)
 - Added locale and translation file for hebrew ( heb-IL ) and spanish ( esl-ES ).
 - Added locale jpn-JP.
+- Added: Implementation of fallback language for QT translation files.
