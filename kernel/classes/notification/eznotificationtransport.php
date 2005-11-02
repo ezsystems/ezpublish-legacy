@@ -74,7 +74,7 @@ class eZNotificationTransport
 
         if ( $fetchInstance )
         {
-            $extraPluginPathArray = $ini->variableArray( 'TransportSettings', 'TransportPluginPath' );
+            $extraPluginPathArray = $ini->variable( 'TransportSettings', 'TransportPluginPath' );
             $pluginPathArray = array_merge( array( 'kernel/classes/notification/' ),
                                             $extraPluginPathArray );
             foreach( $pluginPathArray as $pluginPath )
