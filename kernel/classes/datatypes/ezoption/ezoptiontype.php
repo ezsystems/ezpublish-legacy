@@ -71,7 +71,12 @@ class eZOptionType extends eZDataType
             $idList = $http->postVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) );
             $valueList = $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
             $dataName = $http->postVariable( $base . "_data_option_name_" . $contentObjectAttribute->attribute( "id" ) );
-            $optionAdditionalPriceList =& $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) );
+
+            if ( $http->hasPostVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) ) )
+                $optionAdditionalPriceList =& $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) );
+            else
+                $optionAdditionalPriceList = array();
+
             for ( $i = 0; $i < count( $valueList ); ++$i )
                 if ( trim( $valueList[$i] ) <> '' )
                 {
@@ -95,7 +100,9 @@ class eZOptionType extends eZDataType
                                                                              'The option value must be provided.' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
-                    if ( strlen( $optionAdditionalPriceList[$i] ) && !preg_match( "#^[-|+]?[0-9]+(\.){0,1}[0-9]{0,2}$#", $optionAdditionalPriceList[$i] ) )
+                    if ( isset( $optionAdditionalPriceList[$i] ) &&
+                         strlen( $optionAdditionalPriceList[$i] ) &&
+                         !preg_match( "#^[-|+]?[0-9]+(\.){0,1}[0-9]{0,2}$#", $optionAdditionalPriceList[$i] ) )
                     {
                         $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                              'The Additional price value is not valid.' ) );
@@ -172,7 +179,7 @@ class eZOptionType extends eZDataType
         foreach ( $optionIDArray as $id )
         {
             $option->addOption( array( 'value' => $optionValueArray[$i],
-                                       'additional_price' => $optionAdditionalPriceArray[$i] ) );
+                                       'additional_price' => ( isset( $optionAdditionalPriceArray[$i] ) ? $optionAdditionalPriceArray[$i] : 0 ) ) );
             $i++;
         }
         $contentObjectAttribute->setContent( $option );
