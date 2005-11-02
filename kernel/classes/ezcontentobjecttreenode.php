@@ -2735,7 +2735,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      Get amount views of content node.
     */
-    function viewCount()
+    function &viewCount()
     {
         include_once( 'kernel/classes/ezviewcounter.php' );
         $count = eZViewCounter::fetch( $this->attribute( 'node_id' ), false );
