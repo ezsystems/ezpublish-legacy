@@ -128,7 +128,7 @@ class eZURL extends eZPersistentObject
         $db =& eZDB::instance();
 
         // check if URL already exists
-        $checkURLQuery = "SELECT id FROM ezurl WHERE url='$url'";
+        $checkURLQuery = "SELECT id FROM ezurl WHERE url='" . $db->escapeString( $url ) . "'";
         $urlArray = $db->arrayQuery( $checkURLQuery );
 
         if ( count( $urlArray ) == 0 )
@@ -154,6 +154,10 @@ class eZURL extends eZPersistentObject
     {
         $db =& eZDB::instance();
 
+        foreach( $urlArray as $key => $url )
+        {
+            $urlArray[$key] = $db->escapeString( $url );
+        }
         // Fetch the already existing URL's
         $inURLSQL = implode( '\', \'', $urlArray );
         $checkURLQuery = "SELECT id, url FROM ezurl WHERE url IN ( '$inURLSQL' )";
@@ -424,7 +428,7 @@ class eZURL extends eZPersistentObject
         $db =& eZDB::instance();
 
         $url = false;
-        $checkURLQuery = "SELECT * FROM ezurl WHERE url='$urlText'";
+        $checkURLQuery = "SELECT * FROM ezurl WHERE url='" . $db->escapeString( $urlText ) . "'";
         $urlArray = $db->arrayQuery( $checkURLQuery );
 
         if ( count( $urlArray ) == 1 )
