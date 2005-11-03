@@ -615,6 +615,8 @@ Attributes:
   ( Applyed patch by Serwatka )
   ( Merged from stable/3.6 ( 3.6.4 ) rev. 13896 )
 - Fixed bug #7333: TransportPluginPath[] - not working properly
+- Fixed bug #7342: Anchor in ezurl view template might not have content.
+  ( Merged from stable/3.5 rev. 13920 )
 
 *Library:
 
