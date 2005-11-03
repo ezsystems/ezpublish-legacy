@@ -166,11 +166,13 @@ class eZOption
 
             $optionArray =& $dom->elementsByName( "option" );
             $this->OptionCount = 0;
-            foreach ( $optionArray as $option )
+            if ( is_array( $optionArray ) )
             {
-//                 eZDebug::writeDebug( $option->attributeValue( 'additional_price' ), "attributeValue" );
-                $this->addOption( array( 'value' => $option->textContent(),
-                                         'additional_price' => $option->attributeValue( 'additional_price' ) ) );
+                foreach ( $optionArray as $option )
+                {
+                    $this->addOption( array( 'value' => $option->textContent(),
+                                             'additional_price' => $option->attributeValue( 'additional_price' ) ) );
+                }
             }
         }
         else
