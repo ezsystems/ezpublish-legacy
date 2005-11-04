@@ -61,7 +61,7 @@ else
 {
     $cacheDir = eZSys::cacheDirectory();
     $cacheFile = $cacheDir . '/rss/' . md5( $feedName ) . '.xml';
-    
+
     // If cache directory does not exist, create it. Get permissions settings from site.ini
     if ( !is_dir( $cacheDir.'/rss' ) )
     {
@@ -74,13 +74,13 @@ else
         mkdir( $cacheDir.'/rss' );
         chmod( $cacheDir.'/rss', octdec( $mode ) );
     }
-    
+
     if ( !file_exists( $cacheFile ) or ( time() - filemtime( $cacheFile ) > $cacheTime ) )
     {
         $xmlDoc =& $RSSExport->attribute( 'rss-xml' );
-    
+
         $fid = @fopen( $cacheFile, 'w' );
-    
+
         // If opening file for write access fails, write debug error
         if ( $fid === false )
         {
@@ -95,7 +95,7 @@ else
             fflush( $fid );
             fclose( $fid );
             chmod( $cacheFile, octdec( $mode ) );
-    
+
             if ( $length === false )
             {
                 eZDebug::writeError( 'Failed to write to cache file for RSS export: '.$cacheFile );
@@ -109,7 +109,8 @@ else
 }
 
 // Set header settings
-header( 'Content-Type: text/xml' );
+$httpCharset = eZTextCodec::httpCharset();
+header( 'Content-Type: text/xml; charset=' . $httpCharset );
 header( 'Content-Length: '.strlen($rssContent) );
 header( 'X-Powered-By: eZ publish' );
 
