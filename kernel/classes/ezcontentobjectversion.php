@@ -689,16 +689,6 @@ class eZContentObjectVersion extends eZPersistentObject
         $contentobjectID = $this->attribute( 'contentobject_id' );
         $versionNum = $this->attribute( 'version' );
 
-        $db =& eZDB::instance();
-        $db->begin();
-        $db->query( "DELETE FROM ezcontentobject_link
-                         WHERE from_contentobject_id=$contentobjectID AND from_contentobject_version=$versionNum" );
-        $db->query( "DELETE FROM eznode_assignment
-                         WHERE contentobject_id=$contentobjectID AND contentobject_version=$versionNum" );
-
-        $db->query( 'DELETE FROM ezcontentobject_version
-                         WHERE id=' . $this->attribute( 'id' ) );
-
         $contentObjectTranslations =& $this->translations();
 
         foreach ( array_keys( $contentObjectTranslations ) as $contentObjectTranslationKey )
@@ -711,6 +701,16 @@ class eZContentObjectVersion extends eZPersistentObject
                 $attribute->remove( $attribute->attribute( 'id' ), $versionNum );
             }
         }
+        $db =& eZDB::instance();
+        $db->begin();
+        $db->query( "DELETE FROM ezcontentobject_link
+                         WHERE from_contentobject_id=$contentobjectID AND from_contentobject_version=$versionNum" );
+        $db->query( "DELETE FROM eznode_assignment
+                         WHERE contentobject_id=$contentobjectID AND contentobject_version=$versionNum" );
+
+        $db->query( 'DELETE FROM ezcontentobject_version
+                         WHERE id=' . $this->attribute( 'id' ) );
+
         $contentobject = $this->attribute( 'contentobject' );
         if ( is_object( $contentobject ) )
         {
