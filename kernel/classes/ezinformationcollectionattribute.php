@@ -140,7 +140,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     */
     function &resultTemplateName()
     {
-        $dataType =& $this->dataType();
+        $dataType = $this->dataType();
         if ( $dataType )
             $retValue =& $dataType->resultTemplate( $this );
         else
@@ -175,14 +175,12 @@ class eZInformationCollectionAttribute extends eZPersistentObject
 
     /*!
     */
-    function &dataType()
+    function dataType()
     {
         $contentClassAttribute =& $this->contentClassAttribute();
         if ( $contentClassAttribute )
-            $dataType =& $contentClassAttribute->dataType();
-        else
-            $dataType = null;
-        return $dataType;
+            return  $contentClassAttribute->dataType();
+        return null;
     }
 
     /*!

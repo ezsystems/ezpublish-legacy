@@ -194,7 +194,7 @@ $attributes =& $class->fetchAttributes();
 
 include_once( 'kernel/classes/ezdatatype.php' );
 eZDataType::loadAndRegisterAllTypes();
-$datatypes =& eZDataType::registeredDataTypes();
+$datatypes = eZDataType::registeredDataTypes();
 
 $customAction = false;
 $customActionAttributeID = null;
@@ -238,7 +238,7 @@ if ( $contentClassHasInput )
         foreach ( array_keys( $attributes ) as $key )
         {
             $attribute =& $attributes[$key];
-            $dataType =& $attribute->dataType();
+            $dataType = $attribute->dataType();
             $status = $dataType->validateClassAttributeHTTPInput( $http, 'ContentClass', $attribute );
             if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
                 $requireFixup = true;
@@ -290,7 +290,7 @@ if ( $requireFixup )
     foreach( array_keys( $attributes ) as $key )
     {
         $attribute =& $attributes[$key];
-        $dataType =& $attribute->dataType();
+        $dataType = $attribute->dataType();
         $status = $dataType->fixupClassAttributeHTTPInput( $http, 'ContentClass', $attribute );
     }
 }
@@ -335,7 +335,7 @@ foreach( array_keys( $attributes ) as $key )
     $identifier = $trans->transformByGroup( $identifier, 'identifier' );
 
     $attribute->setAttribute( 'identifier', $identifier );
-    $dataType =& $attribute->dataType();
+    $dataType = $attribute->dataType();
     $dataType->initializeClassAttribute( $attribute );
 }
 
@@ -377,7 +377,7 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
         $attributes = $keepers;
         foreach ( $rejects as $reject )
         {
-            $dataType =& $reject->dataType();
+            $dataType = $reject->dataType();
             if ( $dataType->isClassAttributeRemovable( $reject ) )
             {
                 $reject->remove();
@@ -402,7 +402,7 @@ if ( $contentClassHasInput )
     foreach( array_keys( $attributes ) as $key )
     {
         $attribute =& $attributes[$key];
-        $dataType =& $attribute->dataType();
+        $dataType = $attribute->dataType();
         $dataType->fetchClassAttributeHTTPInput( $http, 'ContentClass', $attribute );
     }
 }

@@ -220,7 +220,7 @@ class eZProductCollectionItem extends eZPersistentObject
                 continue;
             }
 
-            $dataType =& $objectAttribute->dataType();
+            $dataType = $objectAttribute->dataType();
             $optionData = $dataType->productOptionInformation( $objectAttribute, $option->attribute( 'option_item_id' ), $this, $option );
 
             if ( $optionData )
@@ -247,7 +247,7 @@ class eZProductCollectionItem extends eZPersistentObject
             } */
             foreach ( $attributes as $attribute )
             {
-                $dataType =& $attribute->dataType();
+                $dataType = $attribute->dataType();
                 if ( $dataType->isA() == "ezprice" )
                 {
                     $priceObj =& $attribute->content();

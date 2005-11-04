@@ -457,7 +457,7 @@ class eZXMLTextType extends eZDataType
      \reimp
      \return a DOM representation of the content object attribute
     */
-    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( &$package, &$objectAttribute )
     {
         include_once( 'lib/ezxml/classes/ezxml.php' );
 

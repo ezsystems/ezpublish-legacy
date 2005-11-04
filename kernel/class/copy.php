@@ -72,7 +72,7 @@ foreach ( array_keys( $classAttributes ) as $classAttributeKey )
     $classAttributeCopy->setAttribute( 'contentclass_id', $classCopy->attribute( 'id' ) );
     $classAttributeCopy->setAttribute( 'version', 1 );
     $classAttributeCopy->store();
-    $datatype =& $classAttributeCopy->dataType();
+    $datatype = $classAttributeCopy->dataType();
     $datatype->cloneClassAttribute( $classAttribute, $classAttributeCopy );
     $classAttributeCopies[] =& $classAttributeCopy;
     unset( $classAttributeCopy );

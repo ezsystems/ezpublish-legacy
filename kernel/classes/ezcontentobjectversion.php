@@ -902,7 +902,7 @@ class eZContentObjectVersion extends eZPersistentObject
 
             $attr->setContentClassAttributeIdentifier( $attribute['classattribute_identifier'] );
 
-            $dataType =& $attr->dataType();
+            $dataType = $attr->dataType();
             if ( is_object( $dataType ) &&
                  $dataType->Attributes["properties"]["translation_allowed"] &&
                  $attribute['can_translate'] )
@@ -1064,7 +1064,7 @@ class eZContentObjectVersion extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &serialize( &$package, $options = false, $contentNodeIDArray = false, $topNodeIDArray = false )
+    function serialize( &$package, $options = false, $contentNodeIDArray = false, $topNodeIDArray = false )
     {
         include_once( 'lib/ezxml/classes/ezdomdocument.php' );
         include_once( 'lib/ezxml/classes/ezdomnode.php' );
@@ -1098,7 +1098,7 @@ class eZContentObjectVersion extends eZPersistentObject
             $translationNode->appendAttribute( eZDOMDocument::createAttributeNode( 'language', $language ) );
 
             // serialize object name in current version-translation
-            $objectName =& $contentObject->name( $this->Version, $language );
+            $objectName = $contentObject->name( $this->Version, $language );
             if ( $objectName )
             {
                 $translationNode->appendAttribute( eZDOMDocument::createAttributeNode( 'object_name', $objectName ) );
@@ -1112,7 +1112,7 @@ class eZContentObjectVersion extends eZPersistentObject
             }
 
             eZDebug::writeDebug( "Attribute fetch start", 'eZContentObjectVersion::serialize' );
-            $attributes =& $this->contentObjectAttributes( $language );
+            $attributes = $this->contentObjectAttributes( $language );
             eZDebug::writeDebug( "Attribute fetch end", 'eZContentObjectVersion::serialize' );
             foreach ( $attributes as $attribute )
             {

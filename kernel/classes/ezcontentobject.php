@@ -1201,7 +1201,7 @@ class eZContentObject extends eZPersistentObject
             if( $contentobjectAttributeVersion > $version )
             {
                 $classAttribute =& $contentobjectAttribute->contentClassAttribute();
-                $dataType =& $classAttribute->dataType();
+                $dataType = $classAttribute->dataType();
                 $dataType->deleteStoredObjectAttribute( $contentobjectAttribute, $contentobjectAttributeVersion );
             }
         }
@@ -1256,7 +1256,7 @@ class eZContentObject extends eZPersistentObject
             foreach( $result as $row )
             {
                 $attr = new eZContentObjectAttribute( $row );
-                $dataType =& $attr->dataType();
+                $dataType = $attr->dataType();
                 $dataType->removeRelatedObjectItem( $attr, $objectID );
                 eZContentCacheManager::clearObjectViewCache( $attr->attribute( 'contentobject_id' ), true );
                 $attr->storeData();
@@ -1302,7 +1302,7 @@ class eZContentObject extends eZPersistentObject
             $classAttribute =& $contentobjectAttribute->contentClassAttribute();
             if ( !$classAttribute )
                 continue;
-            $dataType =& $classAttribute->dataType();
+            $dataType = $classAttribute->dataType();
             if ( !$dataType )
                 continue;
             $dataType->deleteStoredObjectAttribute( $contentobjectAttribute );
@@ -1634,7 +1634,7 @@ class eZContentObject extends eZPersistentObject
             else if ( $status == EZ_INPUT_VALIDATOR_STATE_INVALID )
             {
                 $inputValidated = false;
-                $dataType =& $contentObjectAttribute->dataType();
+                $dataType = $contentObjectAttribute->dataType();
                 $attributeName = $dataType->attribute( 'information' );
                 $attributeName = $attributeName['name'];
                 $description = $contentObjectAttribute->attribute( 'validation_error' );
@@ -1661,7 +1661,7 @@ class eZContentObject extends eZPersistentObject
             }
             else if ( $status == EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
             {
-                $dataType =& $contentObjectAttribute->dataType();
+                $dataType = $contentObjectAttribute->dataType();
                 $attributeName = $dataType->attribute( 'information' );
                 $attributeName = $attributeName['name'];
                 if ( $contentObjectAttribute->attribute( 'validation_log' ) != null )
@@ -3241,14 +3241,16 @@ class eZContentObject extends eZPersistentObject
                 $contentActions =& $attribute->contentActionList();
                 if ( count( $contentActions ) > 0 )
                 {
-                    $contentActionList =& $attribute->contentActionList();
+                    $contentActionList = $attribute->contentActionList();
 
-
-                    foreach ( $contentActionList as $action )
+                    if ( is_array( $contentActionList ) )
                     {
-                        if ( !$this->hasContentAction( $action['action'] ) )
+                        foreach ( $contentActionList as $action )
                         {
-                            $this->ContentActionList[] = $action;
+                            if ( !$this->hasContentAction( $action['action'] ) )
+                            {
+                                $this->ContentActionList[] = $action;
+                            }
                         }
                     }
                 }
@@ -3537,15 +3539,14 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &serialize( &$package, $specificVersion = false, $options = false, $contentNodeIDArray = false, $topNodeIDArray = false )
+    function serialize( &$package, $specificVersion = false, $options = false, $contentNodeIDArray = false, $topNodeIDArray = false )
     {
         if ( $options &&
              $options['node_assignment'] == 'main' )
         {
             if ( !isset( $contentNodeIDArray[$this->attribute( 'main_node_id' )] ) )
             {
-                $retValue = false;
-                return $retValue;
+                return false;
             }
         }
 
@@ -3593,11 +3594,13 @@ class eZContentObject extends eZPersistentObject
         $versionsNode->setName( 'version-list' );
         $versionsNode->appendAttribute( eZDOMDocument::createAttributeNode( 'active_version', $this->CurrentVersion ) );
         $versionsNode->appendAttribute( eZDOMDocument::createAttributeNamespaceDefNode( "ezobject", "http://ez.no/object/" ) );
-        foreach ( array_keys( $versions ) as $versionKey )
+        foreach ( $versions as $version )
         {
-            $version =& $versions[$versionKey];
-            unset( $versionNode );
-            $versionNode =& $version->serialize( $package, $options, $contentNodeIDArray, $topNodeIDArray );
+            if ( !$version )
+            {
+                continue;
+            }
+            $versionNode = $version->serialize( $package, $options, $contentNodeIDArray, $topNodeIDArray );
             $versionsNode->appendChild( $versionNode );
         }
         $objectNode->appendChild( $versionsNode );
@@ -3876,7 +3879,7 @@ class eZContentObject extends eZPersistentObject
             }
 
             $contentAttribute =& $dataMap[$attribute];
-            $dataType =& $contentAttribute->dataType();
+            $dataType = $contentAttribute->dataType();
             if( is_object( $dataType ) && $dataType->isSimpleStringInsertionSupported() )
             {
                 $result = '';

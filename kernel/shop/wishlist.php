@@ -57,7 +57,7 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
     //$attributes = $object->contentObjectAttributes();
     //foreach ( $attributes as $attribute )
     //{
-    //    $dataType =& $attribute->dataType();
+    //    $dataType = $attribute->dataType();
     //
     //    if ( $dataType->isA() == "ezprice" )
     //    {
@@ -171,7 +171,7 @@ if ( $http->hasPostVariable( "ActionAddToWishList" ) )
             $optionString = $optionIDItem['option_string'];
 
             $attribute = eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
-            $dataType =& $attribute->dataType();
+            $dataType = $attribute->dataType();
             $optionData = $dataType->productOptionInformation( $attribute, $optionString, $item );
             if ( $optionData )
             {

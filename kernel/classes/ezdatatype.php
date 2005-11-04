@@ -162,26 +162,27 @@ class eZDataType
      Crates a datatype instance of the datatype string id \a $dataTypeString.
      \note It only creates one instance for each datatype.
     */
-    function &create( $dataTypeString )
+    function create( $dataTypeString )
     {
-        $types =& $GLOBALS["eZDataTypes"];
         $def = null;
-        if ( !isset( $types[$dataTypeString] ) )
+        if ( !isset( $GLOBALS["eZDataTypes"][$dataTypeString] ) )
         {
             eZDataType::loadAndRegisterType( $dataTypeString );
         }
 
-        if ( isset( $types[$dataTypeString] ) )
+        if ( isset( $GLOBALS['eZDataTypes'][$dataTypeString] ) )
         {
-            $className = $types[$dataTypeString];
-            $def =& $GLOBALS["eZDataTypeObjects"][$dataTypeString];
+            $className = $GLOBALS['eZDataTypes'][$dataTypeString];
 
-            if ( get_class( $def ) != $className )
+            if ( !isset( $GLOBALS["eZDataTypeObjects"][$dataTypeString] ) ||
+                 get_class( $GLOBALS["eZDataTypeObjects"][$dataTypeString] ) != $className )
             {
-                $def = new $className();
+                $GLOBALS["eZDataTypeObjects"][$dataTypeString] = new $className();
             }
+            return $GLOBALS["eZDataTypeObjects"][$dataTypeString];
         }
-        return $def;
+
+        return null;
     }
 
     /*!
@@ -1042,7 +1043,7 @@ class eZDataType
 
      \return a DOM representation of the content object attribute
     */
-    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( &$package, &$objectAttribute )
     {
         $node = new eZDOMNode();
 

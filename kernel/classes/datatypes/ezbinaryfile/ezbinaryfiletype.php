@@ -584,7 +584,7 @@ class eZBinaryFileType extends eZDataType
 
      \return a DOM representation of the content object attribute
     */
-    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( &$package, &$objectAttribute )
     {
         $node = new eZDOMNode();
 
@@ -595,7 +595,7 @@ class eZBinaryFileType extends eZDataType
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
 
-        $binaryFile =& $objectAttribute->attribute( 'content' );
+        $binaryFile = $objectAttribute->attribute( 'content' );
         if ( is_object( $binaryFile ) )
         {
             $fileKey = md5( mt_rand() );
