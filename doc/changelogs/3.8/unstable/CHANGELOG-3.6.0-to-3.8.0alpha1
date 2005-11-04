@@ -614,6 +614,8 @@ Attributes:
 - Fixed bug #7327: CSS issues in admin/templates/content/reverserelatedlist.tpl
   ( Applyed patch by Serwatka )
   ( Merged from stable/3.6 ( 3.6.4 ) rev. 13896 )
+- Fixed bug #7329: Bug fatal error on 3.7.1 install.
+  ( Merged from stable/3.5 rev. 13905, stable/3.6 rev. 13906, stable/3.7 rev. 13907 )
 - Fixed bug #7333: TransportPluginPath[] - not working properly
 - Fixed bug #7342: Anchor in ezurl view template might not have content.
   ( Merged from stable/3.5 rev. 13920 )
