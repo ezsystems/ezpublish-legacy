@@ -1,4 +1,4 @@
-<?php
+ <?php
 //
 // Created on: <19-Sep-2002 16:45:08 kk>
 //
@@ -99,7 +99,8 @@ $length = filesize( $cacheFile );
 $fid = fopen( $cacheFile, 'r' );
 
 // Set header settings
-header( 'Content-Type: text/xml' );
+$httpCharset = eZTextCodec::httpCharset();
+header( 'Content-Type: text/xml; charset=' . $httpCharset );
 header( 'Content-Length: '.$length );
 header( 'X-Powered-By: eZ publish' );
 
