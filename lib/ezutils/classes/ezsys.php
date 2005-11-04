@@ -890,15 +890,13 @@ class eZSys
         // Setting the right include_path
         $includePath = ini_get( "include_path" );
         if ( trim( $includePath ) != "" )
-
-            // Old line:
-            //$includePath .= $instance->envSeparator() . $siteDir;
-
-            // New line:
-            $includePath = $siteDir . $instance->envSeparator() . $includePath;
-
+        {
+            $includePath = $includePath . $instance->envSeparator() . $siteDir;
+        }
         else
+        {
             $includePath = $siteDir;
+        }
         ini_set( "include_path", $includePath );
 
         $scriptName = eZSys::serverVariable( 'SCRIPT_NAME' );
