@@ -254,7 +254,7 @@ if ( $activeTranslation )
 
             if ( $doNotValidate == false )
             {
-                $dataType =& $contentClassAttribute->dataType();
+                $dataType = $contentClassAttribute->dataType();
                 $dataProperties = $dataType->attribute( 'properties' );
                 if ( $dataProperties['translation_allowed'] )
                 {
@@ -304,7 +304,7 @@ if ( $activeTranslation )
 
                 if ( $doNotStore == false )
                 {
-                    $dataType =& $contentClassAttribute->dataType();
+                    $dataType = $contentClassAttribute->dataType();
                     $dataProperties = $dataType->attribute( 'properties' );
                     if ( $dataProperties['translation_allowed'] )
                     {

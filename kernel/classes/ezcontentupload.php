@@ -848,14 +848,13 @@ class eZContentUpload
     {
         $fileDatatype = false;
         if ( isset( $dataMap[$fileAttribute] ) )
-            $fileDatatype =& $dataMap[$fileAttribute]->dataType();
+            $fileDatatype = $dataMap[$fileAttribute]->dataType();
         if ( !$fileDatatype or
              !$fileDatatype->isHTTPFileInsertionSupported() )
         {
             $fileAttribute = false;
             foreach ( $dataMap as $identifier => $attribute )
             {
-                $attribute =& $dataMap[$identifier];
                 $datatype = $attribute->dataType();
                 if ( $datatype->isHTTPFileInsertionSupported() )
                 {
@@ -882,14 +881,13 @@ class eZContentUpload
     {
         $fileDatatype = false;
         if ( isset( $dataMap[$fileAttribute] ) )
-            $fileDatatype =& $dataMap[$fileAttribute]->dataType();
+            $fileDatatype = $dataMap[$fileAttribute]->dataType();
         if ( !$fileDatatype or
              !$fileDatatype->isRegularFileInsertionSupported() )
         {
             $fileAttribute = false;
             foreach ( $dataMap as $identifier => $attribute )
             {
-                $attribute =& $dataMap[$identifier];
                 $datatype = $attribute->dataType();
                 if ( $datatype->isRegularFileInsertionSupported() )
                 {
@@ -916,15 +914,14 @@ class eZContentUpload
     {
         $nameDatatype = false;
         if ( isset( $dataMap[$nameAttribute] ) )
-            $nameDatatype =& $dataMap[$nameAttribute]->dataType();
+            $nameDatatype = $dataMap[$nameAttribute]->dataType();
         if ( !$nameDatatype or
              !$nameDatatype->isSimpleStringInsertionSupported() )
         {
             $nameAttribute = false;
             foreach ( $dataMap as $identifier => $attribute )
             {
-                $attribute =& $dataMap[$identifier];
-                $datatype =& $attribute->dataType();
+                $datatype = $attribute->dataType();
                 if ( $datatype->isSimpleStringInsertionSupported() )
                 {
                     $nameAttribute = $identifier;

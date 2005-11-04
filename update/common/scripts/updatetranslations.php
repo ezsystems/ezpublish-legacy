@@ -188,7 +188,7 @@ while ( $index < $objectCount )
                 foreach ( array_keys( $attributes ) as $attributeKey )
                 {
                     $attribute =& $attributes[$attributeKey];
-                    $dataType =& $attribute->dataType();
+                    $dataType = $attribute->dataType();
                     $status = $dataType->repairContentObjectAttribute( $attribute );
                     if ( $status === true )
                     {

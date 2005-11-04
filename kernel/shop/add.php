@@ -59,7 +59,7 @@ $attributes = $object->contentObjectAttributes();
 $priceFound = false;
 foreach ( $attributes as $attribute )
 {
-    $dataType =& $attribute->dataType();
+    $dataType = $attribute->dataType();
     if ( $dataType->isA() == "ezprice" )
     {
         $priceFound = true;

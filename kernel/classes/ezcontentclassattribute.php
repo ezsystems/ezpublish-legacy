@@ -236,7 +236,7 @@ class eZContentClassAttribute extends eZPersistentObject
 
     function store()
     {
-        $dataType =& $this->dataType();
+        $dataType = $this->dataType();
         $dataType->preStoreClassAttribute( $this, $this->attribute( 'version' ) );
         $stored = eZPersistentObject::store();
 
@@ -253,7 +253,7 @@ class eZContentClassAttribute extends eZPersistentObject
      */
     function storeDefined()
     {
-        $dataType =& $this->dataType();
+        $dataType = $this->dataType();
 
         $db =& eZDB::instance();
         $db->begin();
@@ -274,7 +274,7 @@ class eZContentClassAttribute extends eZPersistentObject
      */
     function remove()
     {
-        $dataType =& $this->dataType();
+        $dataType = $this->dataType();
         $version = $this->Version;
         if ( $dataType->isClassAttributeRemovable( $this ) )
         {
@@ -423,7 +423,7 @@ class eZContentClassAttribute extends eZPersistentObject
     function &dataType()
     {
         include_once( 'kernel/classes/ezdatatype.php' );
-        $datatype =& eZDataType::create( $this->DataTypeString );
+        $datatype = eZDataType::create( $this->DataTypeString );
         return $datatype;
     }
 
@@ -436,7 +436,7 @@ class eZContentClassAttribute extends eZPersistentObject
     {
         if ( $this->Content === null )
         {
-            $dataType =& $this->dataType();
+            $dataType = $this->dataType();
             $this->Content =& $dataType->classAttributeContent( $this );
         }
 
@@ -459,7 +459,7 @@ class eZContentClassAttribute extends eZPersistentObject
     {
         if ( !$this->DisplayInfo )
         {
-            $dataType =& $this->dataType();
+            $dataType = $this->dataType();
             if ( is_object( $dataType ) )
             {
                 $this->DisplayInfo =& $dataType->classDisplayInformation( $this, false );
@@ -473,7 +473,7 @@ class eZContentClassAttribute extends eZPersistentObject
     */
     function customHTTPAction( &$module, &$http, $action )
     {
-        $dataType =& $this->dataType();
+        $dataType = $this->dataType();
         $this->Module =& $module;
         $dataType->customClassAttributeHTTPAction( $http, $action, $this );
         unset( $this->Module );

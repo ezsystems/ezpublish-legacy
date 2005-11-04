@@ -256,7 +256,7 @@ if ( $fixAttribute )
 //                  $objectAttribute->attribute( 'id' ) == $lastID)
 //                 print( "Found duplicate " . $objectAttribute->attribute( 'id' ) . "\n" );
             $lastID = $objectAttribute->attribute( 'id' );
-            $dataType =& $objectAttribute->dataType();
+            $dataType = $objectAttribute->dataType();
             $handleAttribute = true;
             $badDataType = false;
             if ( !$dataType or get_class( $dataType ) != 'ezxmltexttype' )

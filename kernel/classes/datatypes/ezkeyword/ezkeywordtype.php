@@ -271,7 +271,7 @@ class eZKeywordType extends eZDataType
 
      \return a DOM representation of the content object attribute
     */
-    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( &$package, &$objectAttribute )
     {
         $node = new eZDOMNode();
 

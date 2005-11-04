@@ -240,7 +240,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
                                                                           'is_information_collector' => $attributeIsInformationCollector,
                                                                           'can_translate' => $attributeIsTranslatable,
                                                                           'placement' => $attributePlacement ) );
-                $dataType =& $classAttribute->dataType();
+                $dataType = $classAttribute->dataType();
                 $classAttribute->store();
                 $dataType->unserializeContentClassAttribute( $classAttribute, $classAttributeNode, $attributeDatatypeParameterNode );
                 $classAttribute->sync();
@@ -504,7 +504,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
             $attributeParametersNode = eZDOMDocument::createElementNode( 'datatype-parameters' );
             $attributeNode->appendChild( $attributeParametersNode );
 
-            $dataType =& $attribute->dataType();
+            $dataType = $attribute->dataType();
             if ( is_object( $dataType ) )
             {
                 $dataType->serializeContentClassAttribute( $attribute, $attributeNode, $attributeParametersNode );

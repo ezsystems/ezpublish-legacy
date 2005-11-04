@@ -137,7 +137,7 @@ class eZBasket extends eZPersistentObject
                 $attributes = $contentObject->contentObjectAttributes();
                 foreach ( $attributes as $attribute )
                 {
-                    $dataType =& $attribute->dataType();
+                    $dataType = $attribute->dataType();
                     if ( $dataType->isA() == "ezprice" )
                     {
                         $priceObj =& $attribute->content();
@@ -367,7 +367,7 @@ class eZBasket extends eZPersistentObject
             $attributes =&  $productContentObject->contentObjectAttributes();
             foreach ( $attributes as $attribute )
             {
-                $dataType =& $attribute->dataType();
+                $dataType = $attribute->dataType();
                 if ( $dataType->isA() == "ezprice" )
                 {
                     $priceObj =& $attribute->content();

@@ -661,7 +661,7 @@ class eZContentClass extends eZPersistentObject
 
                     foreach ( $classAttributes as $classAttribute )
                     {
-                        $dataType =& $classAttribute->dataType();
+                        $dataType = $classAttribute->dataType();
                         $dataType->deleteStoredClassAttribute( $classAttribute, $version );
                     }
                     eZPersistentObject::removeObject( eZContentClassAttribute::definition(),
@@ -676,7 +676,7 @@ class eZContentClass extends eZPersistentObject
 
                     foreach ( $classAttributes as $classAttribute )
                     {
-                        $dataType =& $classAttribute->dataType();
+                        $dataType = $classAttribute->dataType();
                         $dataType->deleteStoredClassAttribute( $classAttribute, $version );
                     }
                     eZPersistentObject::removeObject( eZContentClassAttribute::definition(),

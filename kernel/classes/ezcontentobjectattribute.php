@@ -250,8 +250,8 @@ class eZContentObjectAttribute extends eZPersistentObject
         unset( $eZContentObjectDataMapCache[$this->ContentObjectID] );
 
         $classAttribute =& $this->contentClassAttribute();
-        $dataType =& $classAttribute->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $classAttribute->dataType();
+        if ( $dataType )
         {
             $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
             $this->updateSortKey( false );
@@ -285,7 +285,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         unset( $eZContentObjectDataMapCache[$this->ContentObjectID] );
 
         $classAttribute =& $this->contentClassAttribute();
-        $dataType =& $classAttribute->dataType();
+        $dataType = $classAttribute->dataType();
         $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
         $this->updateSortKey( false );
 
@@ -301,11 +301,11 @@ class eZContentObjectAttribute extends eZPersistentObject
     function updateSortKey( $storeData = true )
     {
         $classAttribute =& $this->contentClassAttribute();
-        $dataType =& $classAttribute->dataType();
+        $dataType = $classAttribute->dataType();
 
         $return = false;
 
-        if ( is_object( $dataType ) )
+        if ( $dataType )
         {
             $return = true;
 
@@ -490,9 +490,9 @@ class eZContentObjectAttribute extends eZPersistentObject
 
             $classAttribute =& eZContentClassAttribute::fetch( $this->ContentClassAttributeID );
 
-            $dataType =& $classAttribute->dataType();
+            $dataType = $classAttribute->dataType();
 
-            if ( is_object( $dataType ) &&
+            if ( $dataType &&
                  $dataType->Attributes["properties"]["translation_allowed"] &&
                  $classAttribute->attribute( 'can_translate' ) )
                 $this->ContentClassAttributeCanTranslate = 1;
@@ -530,8 +530,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     function validateInput( &$http, $base,
                             &$inputParameters, $validationParameters = array() )
     {
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( $dataType )
         {
             $this->setInputParameters( $inputParameters );
             $this->setValidationParameters( $validationParameters );
@@ -622,8 +622,8 @@ class eZContentObjectAttribute extends eZPersistentObject
      */
     function fixupInput( &$http, $base )
     {
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( $dataType )
             $dataType->fixupObjectAttributeHTTPInput( $http, $base, $this );
     }
 
@@ -632,8 +632,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function fetchInput( &$http, $base )
     {
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( $dataType )
             return $dataType->fetchObjectAttributeHTTPInput( $http, $base, $this );
 
         return false;
@@ -645,8 +645,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     function validateInformation( &$http, $base,
                                   &$inputParameters, $validationParameters = array() )
     {
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( $dataType )
         {
             $this->setInputParameters( $inputParameters );
             $this->setValidationParameters( $validationParameters );
@@ -662,8 +662,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function collectInformation( &$collection, &$collectionAttribute, &$http, $base )
     {
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( $dataType )
         {
             $collectionAttribute->setAttribute( 'contentclass_attribute_id', $this->attribute( 'contentclassattribute_id' ) );
             $collectionAttribute->setAttribute( 'contentobject_attribute_id', $this->attribute( 'id' ) );
@@ -679,8 +679,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function customHTTPAction( &$http, $action, $parameters = array() )
     {
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( $dataType )
             $dataType->customObjectAttributeHTTPAction( $http, $action, $this, $parameters );
     }
 
@@ -690,8 +690,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     function handleCustomHTTPActions( &$http, $attributeDataBaseName,
                                       $customActionAttributeArray, $customActionParameters )
     {
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( $dataType )
         {
             $customActionParameters['contentobject_attribute'] =& $this;
             $dataType->handleCustomObjectHTTPActions( $http, $attributeDataBaseName,
@@ -705,8 +705,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function onPublish( &$object, &$nodes  )
     {
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( $dataType )
             $dataType->onPublish( $this, $object, $nodes );
     }
 
@@ -729,7 +729,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             $objectVersion = $object->attribute( 'current_version' );
         if ( $objectLanguage === false )
             $objectLanguage = $object->attribute( 'default_language' );
-        $dataType =& $this->dataType();
+        $dataType = $this->dataType();
         return $dataType->insertHTTPFile( $object, $objectVersion, $objectLanguage,
                                           $this, $httpFile, $mimeData,
                                           $result );
@@ -754,7 +754,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             $objectVersion = $object->attribute( 'current_version' );
         if ( $objectLanguage === false )
             $objectLanguage = $object->attribute( 'default_language' );
-        $dataType =& $this->dataType();
+        $dataType = $this->dataType();
         return $dataType->insertRegularFile( $object, $objectVersion, $objectLanguage,
                                              $this, $filePath,
                                              $result );
@@ -779,7 +779,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             $objectVersion = $object->attribute( 'current_version' );
         if ( $objectLanguage === false )
             $objectLanguage = $object->attribute( 'default_language' );
-        $dataType =& $this->dataType();
+        $dataType = $this->dataType();
         return $dataType->insertSimpleString( $object, $objectVersion, $objectLanguage,
                                               $this, $string,
                                               $result );
@@ -796,7 +796,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             $objectVersion = $object->attribute( 'current_version' );
         if ( $objectLanguage === false )
             $objectLanguage = $object->attribute( 'default_language' );
-        $dataType =& $this->dataType();
+        $dataType = $this->dataType();
         return $dataType->hasStoredFileInformation( $object, $objectVersion, $objectLanguage,
                                                     $this );
     }
@@ -812,7 +812,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             $objectVersion = $object->attribute( 'current_version' );
         if ( $objectLanguage === false )
             $objectLanguage = $object->attribute( 'default_language' );
-        $dataType =& $this->dataType();
+        $dataType = $this->dataType();
         return $dataType->storedFileInformation( $object, $objectVersion, $objectLanguage,
                                                  $this );
     }
@@ -828,7 +828,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             $objectVersion = $object->attribute( 'current_version' );
         if ( $objectLanguage === false )
             $objectLanguage = $object->attribute( 'default_language' );
-        $dataType =& $this->dataType();
+        $dataType = $this->dataType();
         return $dataType->handleDownload( $object, $objectVersion, $objectLanguage,
                                           $this );
     }
@@ -843,8 +843,8 @@ class eZContentObjectAttribute extends eZPersistentObject
         if ( $originalContentObjectAttribute === null )
             $originalContentObjectAttribute = $this;
         $classAttribute =& $this->contentClassAttribute();
-        $dataType =& $classAttribute->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $classAttribute->dataType();
+        if ( $dataType )
             $dataType->initializeObjectAttribute( $this, $currentVersion, $originalContentObjectAttribute );
     }
 
@@ -856,8 +856,8 @@ class eZContentObjectAttribute extends eZPersistentObject
         if ( $originalContentObjectAttribute === null )
             $originalContentObjectAttribute = $this;
         $classAttribute =& $this->contentClassAttribute();
-        $dataType =& $classAttribute->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $classAttribute->dataType();
+        if ( $dataType )
             $dataType->postInitializeObjectAttribute( $this, $currentVersion, $originalContentObjectAttribute );
     }
 
@@ -868,8 +868,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function remove( $id, $currentVersion = null )
     {
-        $dataType =& $this->dataType();
-        if ( !is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( !$dataType )
             return false;
         $dataType->deleteStoredObjectAttribute( $this, $currentVersion );
         if( $currentVersion == null )
@@ -954,11 +954,11 @@ class eZContentObjectAttribute extends eZPersistentObject
     /*!
      Returns the data type class for the current attribute.
     */
-    function &dataType()
+    function dataType()
     {
         $dataType = null;
         if( !is_null( $this->DataTypeString ) )
-            $dataType =& eZDataType::create( $this->DataTypeString );
+            $dataType = eZDataType::create( $this->DataTypeString );
 
         return $dataType;
     }
@@ -968,8 +968,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function title()
     {
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( $dataType )
             return $dataType->title( $this );
 
         return '';
@@ -1026,8 +1026,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( $this->Content === null )
         {
-            $dataType =& $this->dataType();
-            if ( is_object( $dataType ) )
+            $dataType = $this->dataType();
+            if ( $dataType )
                 $this->Content =& $dataType->objectAttributeContent( $this );
         }
         return $this->Content;
@@ -1043,8 +1043,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     function &hasContent()
     {
         $hasContent = false;
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( $dataType )
         {
             $hasContent = $dataType->hasObjectAttributeContent( $this );
         }
@@ -1057,8 +1057,8 @@ class eZContentObjectAttribute extends eZPersistentObject
      */
     function metaData()
     {
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( $dataType )
             return $dataType->metaData( $this );
         else
             return false;
@@ -1112,8 +1112,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( !$this->DisplayInfo )
         {
-            $dataType =& $this->dataType();
-            if ( is_object( $dataType ) )
+            $dataType = $this->dataType();
+            if ( $dataType )
                 $this->DisplayInfo = $dataType->objectDisplayInformation( $this, false );
         }
         return $this->DisplayInfo;
@@ -1129,8 +1129,8 @@ class eZContentObjectAttribute extends eZPersistentObject
         $classAttribute =& $this->contentClassAttribute();
         if ( !$classAttribute->DisplayInfo )
         {
-            $dataType =& $this->dataType();
-            if ( is_object( $dataType ) )
+            $dataType = $this->dataType();
+            if ( $dataType )
             {
                 $classAttribute->DisplayInfo =& $dataType->classDisplayInformation( $classAttribute, false );
             }
@@ -1143,10 +1143,10 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function &contentActionList()
     {
-        $dataType =& $this->dataType();
+        $dataType = $this->dataType();
         $result = false;
 
-        if ( is_object( $dataType ) )
+        if ( $dataType )
             $result = $dataType->contentActionList( $this->contentClassAttribute() );
 
         return $result;
@@ -1229,20 +1229,20 @@ class eZContentObjectAttribute extends eZPersistentObject
 
     /*!
     */
-    function &serialize( &$package )
+    function serialize( &$package )
     {
         $result = false;
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
-            $result =& $dataType->serializeContentObjectAttribute( $package, $this );
+        $dataType = $this->dataType();
+        if ( $dataType )
+            $result = $dataType->serializeContentObjectAttribute( $package, $this );
 
         return $result;
     }
 
     function unserialize( &$package, $attributeDOMNode )
     {
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( $dataType )
             $dataType->unserializeContentObjectAttribute( $package, $this, $attributeDOMNode );
     }
 
@@ -1251,8 +1251,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     function &isA()
     {
         $result = false;
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( $dataType )
             $result = $dataType->isA();
 
         return $result;
@@ -1302,9 +1302,9 @@ class eZContentObjectAttribute extends eZPersistentObject
         */
 
         $result = false;
-        $dataType =& $this->dataType();
+        $dataType = $this->dataType();
 
-        if ( is_object( $dataType ) )
+        if ( $dataType )
             $result =& $dataType->viewTemplate( $this );
 
         return $result;
@@ -1318,8 +1318,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     function &editTemplate()
     {
         $result = false;
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( $dataType )
             $result =& $dataType->editTemplate( $this );
 
         return $result;
@@ -1338,8 +1338,8 @@ class eZContentObjectAttribute extends eZPersistentObject
         */
 
         $result = false;
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( $dataType )
             $result =& $dataType->informationTemplate( $this );
 
         return $result;
@@ -1357,8 +1357,8 @@ class eZContentObjectAttribute extends eZPersistentObject
         */
 
         $result = false;
-        $dataType =& $this->dataType();
-        if ( is_object( $dataType ) )
+        $dataType = $this->dataType();
+        if ( $dataType )
             $result = $dataType->resultTemplate( $this );
 
         return $result;

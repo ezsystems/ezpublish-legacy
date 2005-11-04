@@ -639,7 +639,7 @@ class eZMediaType extends eZDataType
 
      \return a DOM representation of the content object attribute
     */
-    function &serializeContentObjectAttribute( &$package, &$objectAttribute )
+    function serializeContentObjectAttribute( &$package, &$objectAttribute )
     {
         $node = new eZDOMNode();
 
@@ -650,7 +650,7 @@ class eZMediaType extends eZDataType
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
         $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
 
-        $mediaFile =& $objectAttribute->attribute( 'content' );
+        $mediaFile = $objectAttribute->attribute( 'content' );
         $fileKey = md5( mt_rand() );
 
         $fileInfo = $mediaFile->storedFileInfo();
