@@ -72,14 +72,16 @@ class eZDateUtils
     {
         if ( $timestamp === false )
             $timestamp = mktime();
-        $info = getdate( $timestamp );
+        $wday = (int) gmdate( 'w', $timestamp );
         $days = array( 1 => 'Mon', 2 => 'Tue', 3 => 'Wed',
                        4 => 'Thu', 5 => 'Fri', 6 => 'Sat', 0 => 'Sun' );
-        $wkday = $days[$info['wday']];
+        $wkday = $days[$wday];
+        $month = (int) gmdate( 'n', $timestamp );
         $months = array( 1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
                          5 => 'May', 6 => 'Jun', 7 => 'Jul', 8 => 'Aug',
                          9 => 'Sep', 10 => 'Oct', 11 => 'Nov', 12 => 'Dec' );
-        $mon = $months[$info['mon']];
+
+        $mon = $months[$month];
         return gmstrftime( $wkday . ", %d " . $mon . " %Y %H:%M:%S" . " GMT", $timestamp );
     }
 
@@ -104,14 +106,15 @@ class eZDateUtils
     {
         if ( $timestamp === false )
             $timestamp = mktime();
-        $info = getdate( $timestamp );
+        $wday = (int) gmdate( 'w', $timestamp );
         $days = array( 1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday',
                        4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday', 0 => 'Sunday' );
-        $weekday = $days[$info['wday']];
+        $weekday = $days[$wday];
+        $month = (int) gmdate( 'n', $timestamp );
         $months = array( 1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
                          5 => 'May', 6 => 'Jun', 7 => 'Jul', 8 => 'Aug',
                          9 => 'Sep', 10 => 'Oct', 11 => 'Nov', 12 => 'Dec' );
-        $mon = $months[$info['mon']];
+        $mon = $months[$month];
         return gmstrftime( $weekday . ", %d-" . $mon . "-%Y %H:%M:%S" . " GMT", $timestamp );
     }
 
