@@ -624,6 +624,9 @@ Attributes:
 - Fixed bug #7311: Missing <?php ?> in output file 
   from tpl operator wizard.
   ( Merged from stable/3.7 ( 3.7.3 ) rev. 13947 )
+- Fixed bug #7356: eZDateUtils::rfc1123Date() and eZDateUtils::rfc850Date()
+  delivering wrong date.
+  ( Merged from stable/3.5 rev. 13964 )
 
 *Library:
 
