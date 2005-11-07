@@ -631,6 +631,10 @@ Attributes:
   ( If user delete object's versions with ezImage datatype
     => image files aren't removed from disk )
   ( Merged from stable/3.7 ( 3.7.3 ) rev. 13960 )
+- Fixed bug #7350: User Delete bug
+  ( After removing users their last_visit times
+    are still in the ezuservisit table )
+  ( Merged from stable/3.7 ( 3.7.3 ) rev. 13975 )
 
 *Library:
 
