@@ -1349,6 +1349,9 @@ class eZContentObject extends eZPersistentObject
         $db->query( "DELETE FROM ezcontentobject_link
              WHERE from_contentobject_id = '$delID' OR to_contentobject_id = '$delID'" );
 
+        $db->query( "DELETE FROM ezuservisit
+             WHERE user_id = '$delID'" );
+
         $db->commit();
     }
 
