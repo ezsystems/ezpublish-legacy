@@ -105,7 +105,7 @@ $ViewList["removeorder"] = array(
     "params" => array() );
 
 $ViewList["archiveorder"] = array(
-    "functions" => array( 'adminisitrate' ),
+    "functions" => array( 'administrate' ),
     "script" => "archiveorder.php",
     'ui_context' => 'edit',
     "default_navigation_part" => 'ezshopnavigationpart',
