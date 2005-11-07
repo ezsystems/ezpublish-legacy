@@ -627,6 +627,10 @@ Attributes:
 - Fixed bug #7356: eZDateUtils::rfc1123Date() and eZDateUtils::rfc850Date()
   delivering wrong date.
   ( Merged from stable/3.5 rev. 13964 )
+- Fixed bug #7318: Remove images from storage.
+  ( If user delete object's versions with ezImage datatype
+    => image files aren't removed from disk )
+  ( Merged from stable/3.7 ( 3.7.3 ) rev. 13960 )
 
 *Library:
 
