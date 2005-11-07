@@ -595,11 +595,19 @@ class eZImageAliasHandler
         $alternativeText = false;
 //         $copyOfFilename = $this->copyOfFilename();
         $contentObjectAttribute =& $this->ContentObjectAttribute;
-        if ( $this->isImageOwner() )
+        $contentObjectVersion = $contentObjectAttribute->Version;
+
+        $contentObjectID = $contentObjectAttribute->ContentObjectID;
+        $obj = $contentObjectAttribute->object();
+        $currVer = $obj->version( $contentObjectVersion );
+
+        if ( $this->isImageOwner() or $currVer->attribute( 'status' ) != EZ_VERSION_STATUS_DRAFT  )
         {
             foreach ( array_keys( $aliasList ) as $aliasName )
             {
                 $alias =& $aliasList[$aliasName];
+                $dirpath = $alias['dirpath'];
+
                 if ( $aliasName == 'original' )
                     $alternativeText = $alias['alternative_text'];
                 if ( $alias['is_valid'] )
@@ -616,6 +624,16 @@ class eZImageAliasHandler
                                              'eZImageAliasHandler::removeAliases' );
                     }
                 }
+            }
+            // Cleanup garbage
+            if ( isset( $dirpath )  )
+            {
+                include_once( "lib/ezdb/classes/ezdb.php" );
+                $db =& eZDB::instance();
+                $db->query( 'DELETE
+                             FROM   ezimagefile
+                             WHERE  filepath like "'.$dirpath.'/%"' );
+                eZDir::recursiveDelete( $dirpath );
             }
         }
         unset( $aliasList );
