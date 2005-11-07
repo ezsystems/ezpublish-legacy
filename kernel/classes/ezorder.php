@@ -1239,7 +1239,7 @@ class eZOrder extends eZPersistentObject
     function setStatus( $status )
     {
         if ( get_class( $status ) == "ezorderstatus" )
-            $this->StatusID = $staus->attribute( 'id' );
+            $this->StatusID = $status->attribute( 'id' );
         else
             $this->StatusID = $status;
         $this->setStatusModified( mktime() );
