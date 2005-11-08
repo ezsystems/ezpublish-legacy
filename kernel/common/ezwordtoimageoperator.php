@@ -146,29 +146,33 @@ class eZWordToImageOperator
 
                 $sizePathList = array();
                 $sizeInfoList = array();
-                foreach ( $sizes as $key => $size )
-                {
-                    $pathDivider = strpos( $size, ';' );
-                    if ( $pathDivider !== false )
-                    {
-                        $sizePath = substr( $size, $pathDivider + 1 );
-                        $size = substr( $size, 0, $pathDivider );
-                    }
-                    else
-                    {
-                        $sizePath = $size;
-                    }
 
-                    $width = false;
-                    $height = false;
-                    $xDivider = strpos( $size, 'x' );
-                    if ( $xDivider !== false )
+                if ( is_array( $sizes ) )
+                {
+                    foreach ( $sizes as $key => $size )
                     {
-                        $width = (int)substr( $size, 0, $xDivider );
-                        $height = (int)substr( $size, $xDivider + 1 );
+                        $pathDivider = strpos( $size, ';' );
+                        if ( $pathDivider !== false )
+                        {
+                            $sizePath = substr( $size, $pathDivider + 1 );
+                            $size = substr( $size, 0, $pathDivider );
+                        }
+                        else
+                        {
+                            $sizePath = $size;
+                        }
+
+                        $width = false;
+                        $height = false;
+                        $xDivider = strpos( $size, 'x' );
+                        if ( $xDivider !== false )
+                        {
+                            $width = (int)substr( $size, 0, $xDivider );
+                            $height = (int)substr( $size, $xDivider + 1 );
+                        }
+                        $sizePathList[$key] = $sizePath;
+                        $sizeInfoList[$key] = array( $width, $height );
                     }
-                    $sizePathList[$key] = $sizePath;
-                    $sizeInfoList[$key] = array( $width, $height );
                 }
 
                 $map = array();
