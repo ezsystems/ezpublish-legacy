@@ -153,7 +153,9 @@ class eZTemplateIfFunction
                 elseif ( $childFunctionName == 'skip' )
                     $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$skipDelimiter = true;\ncontinue;\n" );
 
-                continue;
+                // let other functions (ones not listed in the conditions above) be transformed
+                if ( in_array( $childFunctionName, array( 'if', 'else', 'break', 'continue', 'skip' ) ) )
+                     continue;
             }
             $newNodes[] = $child;
         }
