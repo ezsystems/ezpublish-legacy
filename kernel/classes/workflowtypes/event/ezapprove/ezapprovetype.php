@@ -143,6 +143,12 @@ class eZApproveType extends eZWorkflowEventType
         $versionID =& $parameters['version'];
         $object =& eZContentObject::fetch( $parameters['object_id'] );
 
+        if ( !$object )
+        {
+            eZDebugSetting::writeError( 'kernel-workflow-approve', $parameters['object_id'], 'eZApproveType::execute' );
+            return EZ_WORKFLOW_TYPE_STATUS_WORKFLOW_CANCELLED;
+        }
+
         /*
           If we run event first time ( when we click publish in admin ) we do not have user_id set in workflow process,
           so we take current user and store it in workflow process, so next time when we run event from cronjob we fetch
