@@ -142,6 +142,7 @@ class eZSOAPClient
                 "Host: " . $this->Server . "\r\n" .
                 $authentification .
                 "Content-Type: text/xml\r\n" .
+                "SOAPAction: " . $this->Path . "\r\n" .
                 "Content-Length: " . strlen( $payload ) . "\r\n\r\n" .
                 $payload;
 
@@ -179,6 +180,7 @@ class eZSOAPClient
                         "User-Agent: eZ xmlrpc client\r\n" .
                         "Host: " . $this->Server . "\r\n" .
                         "Content-Type: text/xml\r\n" .
+                        "SOAPAction: \"" . $this->Path . "\"\r\n" .
                         "Content-Length: " . strlen( $payload ) . "\r\n";
                     if ( $this->login() != '' )
                     {
@@ -213,6 +215,16 @@ class eZSOAPClient
         $response = new eZSOAPResponse();
         $response->decodeStream( $request, $rawResponse );
         return $response;
+    }
+
+    /*!
+     Set timeout value
+
+     \param timeout value in seconds. Set to 0 for unlimited.
+    */
+    function setTimeout( $timeout )
+    {
+        $this->Timeout = $timeout;
     }
 
     /*!

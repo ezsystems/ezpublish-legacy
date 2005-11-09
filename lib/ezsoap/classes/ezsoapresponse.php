@@ -114,7 +114,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
                 if ( count($responseAccessors) > 0 )
                 {
                     $returnObject =& $responseAccessors[0];
-                    $this->Value  =& $this->decodeDataTypes( $returnObject );
+                    $this->Value  = $this->decodeDataTypes( $returnObject );
                 }
             }
             else
@@ -132,7 +132,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
       \static
 	  Decodes a DOM node and returns the PHP datatype instance of it.
     */
-    function &decodeDataTypes( &$node, $type="" )
+    function decodeDataTypes( $node, $type="" )
     {
         $returnValue = false;
 
@@ -159,97 +159,75 @@ class eZSOAPResponse extends eZSOAPEnvelope
                      )
 TODO: add encoding checks with schema validation.
 */
-        if ( 1 )
+
+        switch ( $dataType )
         {
-            switch ( $dataType )
+            case "string" :
+            case "int" :
+            case "float" :
+            case 'double' :
             {
-                case "string" :
+                $returnValue = $node->textContent();
+            } break;
+
+            case "boolean" :
+            {
+                if ( $node->textContent() == "true" )
+                    $returnValue = true;
+                else
+                    $returnValue = false;
+            } break;
+
+            case "base64" :
+            {
+                $returnValue = base64_decode( $node->textContent() );
+            } break;
+
+            case "Array" :
+            {
+                // Get array type
+                $arrayType = $node->attributeValueNS( "arrayType", EZ_SOAP_ENC );
+
+                $arrayTypeParts = explode( ":", $arrayType );
+
+                preg_match( "#(.*)\[(.*)\]#",  $arrayTypeParts[1], $matches );
+
+                $type = $matches[1];
+                $count = $matches[2];
+
+                $returnValue = array();
+                foreach( $node->children() as $child )
                 {
+                    $returnValue[] = eZSOAPResponse::decodeDataTypes( $child, $type );
+                }
+            }break;
 
-                    $returnValue = $node->textContent();
-                }break;
+            case "SOAPStruct" :
+            {
+                $returnValue = array();
 
-                case "int" :
+                foreach( $node->children() as $child )
                 {
-                    $returnValue = $node->textContent();
-                }break;
+                    $returnValue[$child->name()] = eZSOAPResponse::decodeDataTypes( $child );
+                }
+            }break;
 
-                case "float" :
+            default:
+            {
+                foreach ( $node->children() as $childNode )
                 {
-                    $returnValue = $node->textContent();
-                }break;
+                    // check data type for child
+                    $attr = $childNode->attributeValueNS( "type", EZ_SOAP_SCHEMA_INSTANCE );
 
-                case "boolean" :
-                {
-                    if ( $node->textContent() == "true" )
-                        $returnValue = true;
-                    else
-                        $returnValue = false;
-                }break;
-
-                case "base64" :
-                {
-                    $returnValue = base64_decode( $node->textContent() );
-                }break;
-
-                case "Array" :
-                {
-                    // Get array type
-                    $arrayType = $node->attributeValueNS( "arrayType", EZ_SOAP_ENC );
-
-                    $arrayTypeParts = explode( ":", $arrayType );
-
-                    preg_match( "#(.*)\[(.*)\]#",  $arrayTypeParts[1], $matches );
-
-                    $type = $matches[1];
-                    $count = $matches[2];
-
-                    $returnValue = array();
-                    $children = $node->children();
-                    for ( $i=0; $i<$count; $i++ )
-                    {
-                        $returnValue[] =& eZSOAPResponse::decodeDataTypes( $children[$i], $type );
-                    }
-                }break;
-
-                case "SOAPStruct" :
-                {
-                    $returnValue = array();
-                    $children = $node->children();
-
-                    reset( $children );
-                    while ( list( $key, $child ) = each( $children ) )
-                    {
-                        $returnValue[$child->name()] =& eZSOAPResponse::decodeDataTypes( $child );
-                    }
-                }break;
-
-                default:
-                {
-                    foreach ( $node->children() as $childNode )
-                    {
-                        // check data type for child
-                        $attr = $childNode->attributeValueNS( "type", EZ_SOAP_SCHEMA_INSTANCE );
-
-                        $dataType = false;
-                        $attrParts = explode( ":", $attr );
-                        $dataType = $attrParts[1];
+                    $dataType = false;
+                    $attrParts = explode( ":", $attr );
+                    $dataType = $attrParts[1];
 
 
-                        $returnValue[$childNode->name()] =& eZSOAPResponse::decodeDataTypes( $childNode );
-                    }
+                    $returnValue[$childNode->name()] = eZSOAPResponse::decodeDataTypes( $childNode );
+                }
 
-                } break;
-
-/*                        default:
-                        {
-                            eZDebug::writeError( "Unkown datatype in result: $dataType", "eZSOAPResponse::decodeDataTypes()" );
-                        } break;*/
-            }
-        }
-        else
-        {
-            eZDebug::writeError( "Unknown data encoding, could not decode stream", "eZSOAPResponse::decodeDataTypes()" );
+            } break;
         }
 
         return $returnValue;
