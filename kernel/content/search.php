@@ -91,6 +91,7 @@ $maximumSearchLimit = $ini->variable( 'SearchSettings', 'MaximumSearchLimit' );
 if ( $pageLimit > $maximumSearchLimit )
     $pageLimit = $maximumSearchLimit;
 
+$searchText = '';
 if ( $http->hasVariable( "SearchText" ) )
 {
     $searchText = $http->variable( "SearchText" );
