@@ -187,6 +187,16 @@ class eZSOAPClient
     }
 
     /*!
+     Set timeout value
+
+     \param timeout value in seconds. Set to 0 for unlimited.
+    */
+    function setTimeout( $timeout )
+    {
+        $this->Timeout = $timeout;
+    }
+
+    /*!
      Sets the HTTP password
     */
     function setPassword( $password  )
