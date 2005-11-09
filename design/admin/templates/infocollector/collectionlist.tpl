@@ -74,12 +74,11 @@
 <div class="context-toolbar">
 {include name=navigator
          uri='design:navigator/google.tpl'
-         page_uri='/infocollector/list'
+         page_uri=concat( '/infocollector/collectionlist/', $object.id )
          item_count=$collection_count
          view_parameters=$view_parameters
          item_limit=$limit}
 </div>
-
 {* DESIGN: Content END *}</div></div></div>
 
 {* Buttons. *}

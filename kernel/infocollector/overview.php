@@ -105,6 +105,13 @@ else
 $db =& eZDB::instance();
 $objects = $db->arrayQuery( 'SELECT DISTINCT ezinfocollection.contentobject_id, ezcontentobject.name, ezcontentobject_tree.main_node_id, ezcontentclass.name AS class_name, ezcontentclass.identifier AS class_identifier FROM ezinfocollection, ezcontentobject, ezcontentobject_tree, ezcontentclass WHERE ezinfocollection.contentobject_id=ezcontentobject.id AND ezcontentobject.contentclass_id=ezcontentclass.id AND ezinfocollection.contentobject_id=ezcontentobject_tree.contentobject_id LIMIT ' . $limit . ' OFFSET ' . $offset );
 
+$infoCollectorObjectsQuery =& $db->arrayQuery( 'SELECT COUNT( DISTINCT contentobject_id ) as count FROM ezinfocollection' );
+$numberOfInfoCollectorObjects = 0;
+
+if ( $infoCollectorObjectsQuery )
+{
+    $numberOfInfoCollectorObjects = $infoCollectorObjectsQuery[0]['count'];
+}
 
 for( $i=0; $i<count( $objects ); $i++ )
 {
@@ -136,7 +143,7 @@ $tpl->setVariable( 'module', $module );
 $tpl->setVariable( 'limit', $limit );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'object_array', $objects );
-$tpl->setVariable( 'object_count', count( $objects ) );
+$tpl->setVariable( 'object_count', $numberOfInfoCollectorObjects );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:infocollector/overview.tpl' );
