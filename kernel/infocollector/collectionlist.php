@@ -116,6 +116,13 @@ if( !$object )
 
 $db =& eZDB::instance();
 $collections =& $db->arrayQuery( 'SELECT * FROM ezinfocollection WHERE ezinfocollection.contentobject_id=' . $objectID . ' LIMIT ' . $limit . ' OFFSET ' . $offset );
+$collectionCountQuery =& $db->arrayQuery( 'SELECT COUNT(*) AS count FROM ezinfocollection WHERE ezinfocollection.contentobject_id=' . $objectID );
+$numberOfCollections = 0;
+
+if ( $collectionCountQuery )
+{
+    $numberOfCollections = $collectionCountQuery[0]['count'];
+}
 
 $viewParameters = array( 'offset' => $offset );
 $objectName = $object->attribute( 'name' );
@@ -126,11 +133,11 @@ $tpl->setVariable( 'limit', $limit );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'collection_array', $collections );
-$tpl->setVariable( 'collection_count', count( $collections ) );
+$tpl->setVariable( 'collection_count', $numberOfCollections );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:infocollector/collectionlist.tpl' );
-$Result['path'] = array( array( 'url' => '/infocollector/overview',
+$Result['path'] = array( array( 'url' => '/infocollector/collectionlist',
                                 'text' => ezi18n( 'kernel/infocollector', 'Collected information' ) ),
                          array( 'url' => false,
                                 'text' => $objectName ) );
