@@ -766,46 +766,9 @@ WHERE user_id = '" . $userID . "' AND
             eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
             $userID = $user->attribute( 'contentobject_id' );
 
-            $uri =& eZURI::instance( eZSys::requestURI() );
-            $access = accessType( $uri,
-                                  eZSys::hostname(),
-                                  eZSys::serverPort(),
-                                  eZSys::indexFile() );
-            $siteAccessResult = $user->hasAccessTo( 'user', 'login' );
-            $hasAccessToSite = false;
-            if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
-            {
-                $policyChecked = false;
-                foreach ( array_keys( $siteAccessResult['policies'] ) as $key )
-                {
-                    $policy =& $siteAccessResult['policies'][$key];
-                    if ( isset( $policy['SiteAccess'] ) )
-                    {
-                        $policyChecked = true;
-                        if ( in_array( crc32( $access[ 'name' ] ), $policy['SiteAccess'] ) )
-                        {
-                            $hasAccessToSite = true;
-                            break;
-                        }
-                    }
-                    if ( $hasAccessToSite )
-                        break;
-                }
-                if ( !$policyChecked )
-                    $hasAccessToSite = true;
-            }
-            else if ( $siteAccessResult[ 'accessWord' ] == 'yes' )
-            {
-                $hasAccessToSite = true;
-            }
-            if ( $hasAccessToSite )
-            {
-                eZUser::updateLastVisit( $userID );
-                eZUser::setCurrentlyLoggedInUser( $user, $userID );
-                return $user;
-            }
-            $user->logoutCurrent();
-            return false;
+            eZUser::updateLastVisit( $userID );
+            eZUser::setCurrentlyLoggedInUser( $user, $userID );
+            return $user;
         }
         else
         {
