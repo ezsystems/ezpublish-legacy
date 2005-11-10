@@ -661,7 +661,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     else
                     {
                         // attr is not allowed
-                        $message[] = "Attribute '" .  $attrName . "' in tag " . $currentTag . " is not supported (removed)";
+                        $message[] = ezi18n( 'kernel/classes/datatypes',
+                                             'Attribute \'%attrName\' in tag %currentTag is not supported (removed)',
+                                             false,
+                                             array( '%attrName' => $attrName, '%currentTag' => $currentTag ) );
                     }
                 }
             }
@@ -681,7 +684,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         {
                             //Set input invalid
                             $this->IsInputValid = false;
-                            $message[] = "Attribute '" . $key . "' in tag " . $currentTag . " not found (need fix)";
+                            $message[] = ezi18n( 'kernel/classes/datatypes',
+                                                 'Attribute \'%key\' in tag %currentTag not found (need fix)',
+                                                 false,
+                                                 array( '%key' => $key, '%currentTag' => $currentTag ) );
                         }
                     }
 
@@ -706,7 +712,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                     }
                                     //Set input invalid
                                     $this->IsInputValid = false;
-                                    $message[] = "Attribute '" . $key . "' in tag " . $currentTag . " has invalid value ( choose " . $validValue . " )";
+                                    $message[] = ezi18n( 'kernel/classes/datatypes',
+                                                         'Attribute \'%key\' in tag %currentTag has invalid value ( choose \'%validValue\' )',
+                                                         false,
+                                                         array( '%key' => $key, '%currentTag' => $currentTag, '%validValue' => $validValue ) );
                                 }
                             }
                         }
@@ -725,7 +734,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 {
                     //Set input invalid
                     $this->IsInputValid = false;
-                    $message[] = "Tag 'link' must have attribute 'href' or valid 'id' (need fix)";
+                    $message[] = ezi18n( 'kernel/classes/datatypes',
+                                         'Tag \'link\' must have attribute \'href\' or valid \'id\' (need fix)' );
                 }
                 else
                 {
@@ -737,7 +747,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                             if ( strlen( trim( $content ) ) == 0 )
                             {
                                 $this->IsInputValid = false;
-                                $message[] = "Attribute 'href' in tag 'link' cannot be empty";
+                                $message[] = ezi18n( 'kernel/classes/datatypes',
+                                                     'Attribute \'href\' in tag \'link\' cannot be empty' );
                             }
                         }
                     }
@@ -781,7 +792,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             if ( $currentTag != "paragraph" and $currentTag != "line"  )
             {
                 // Tag does not exist in the array
-                $message[] = "Tag '" . $currentTag . "' is not allowed to be the child of '" . $parentNodeTag ."' (removed)";
+                $message[] = ezi18n( 'kernel/classes/datatypes',
+                                     'Tag \'%currentTag\' is not allowed to be the child of \'%parentNodeTag\' (removed)',
+                                     false,
+                                     array( '%currentTag' => $currentTag, '%parentNodeTag' => $parentNodeTag ) );
             }
         }
         return $currentNode;
@@ -1005,7 +1019,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         if ( in_array( $lastInsertedNodeTag, $this->SupportedInputTagArray ) and in_array( $convertedTag, $this->SupportedInputTagArray ) )
                         {
                             if ( $this->IsInputValid == true )
-                                $message[] = "Unmatched tag " . $lastInsertedNodeTag;
+                                $message[] = ezi18n( 'kernel/classes/datatypes',
+                                                 'Unmatched tag %lastInsertedNodeTag',
+                                                 false,
+                                                 array( '%lastInsertedNodeTag' => $lastInsertedNodeTag ) );
                             //Set input invalid
                             $this->IsInputValid = false;
                         }
@@ -1129,7 +1146,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     elseif ( !in_array( $justName, $this->SupportedTagArray ) )
                     {
 //                        $isUnsupportedTag = true;
-                        $message[] = "Unsupported tag " . $justName .  "(removed)";
+                        $message[] = ezi18n( 'kernel/classes/datatypes',
+                                         'Unsupported tag \'%justName\' (removed)',
+                                         false,
+                                         array( '%justName' => $justName ) );
                     }
                     elseif ( $justName == "header" )
                     {
@@ -1179,7 +1199,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 }
                                 else
                                 {
-                                    $message[] = "Attribute '" .  $attrName . "' in tag " . $justName . " is not supported (removed)";
+                                    $message[] = ezi18n( 'kernel/classes/datatypes',
+                                                     'Attribute \'%attrName\' in tag %justName is not supported (removed)',
+                                                     false,
+                                                     array( '%attrName' => $attrName, '%justName' => $justName ) );
                                 }
                             }
                             unset( $tmpCurrentNode );
@@ -1297,7 +1320,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         }
                         else
                         {
-                            $message[] = "Tag '" . $justName . "' is not allowed to be the child of '" . $lastInsertedNodeTag ."' (removed)";
+                            $message[] = ezi18n( 'kernel/classes/datatypes',
+                                             'Tag \'%justName\' is not allowed to be the child of \'%lastInsertedNodeTag\' (removed)',
+                                             false,
+                                             array( '%justName' => $justName, '%lastInsertedNodeTag' => $lastInsertedNodeTag ) );
                         }
                     }
                     elseif ( $justName == "custom" )
@@ -1326,7 +1352,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                     {
                                         $availableTagList .= " '" . $availableCustomTags[$key] . "'";
                                     }
-                                    $message[] = "Custom tag '" . $customTagName . "' is not available, use one of the following:" . $availableTagList;
+                                    $message[] = ezi18n( 'kernel/classes/datatypes',
+                                                     'Custom tag \'%customTagName\' is not available, use one of the following: %availableTagList',
+                                                     false,
+                                                     array( '%customTagName' => $customTagName, '%availableTagList' => $availableTagList ) );
                                     $this->IsInputValid = false;
                                 }
 
