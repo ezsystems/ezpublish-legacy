@@ -141,7 +141,7 @@ class eZSOAPClient
             "Host: " . $this->Server . "\r\n" .
             $authentification .
             "Content-Type: text/xml\r\n" .
-            "SOAPAction: " . $this->Path . "\r\n" .
+            "SOAPAction: \"" . $request->namespace() . '/' . $request->name() . "\"\r\n" .
             "Content-Length: " . strlen( $payload ) . "\r\n\r\n" .
             $payload;
 
