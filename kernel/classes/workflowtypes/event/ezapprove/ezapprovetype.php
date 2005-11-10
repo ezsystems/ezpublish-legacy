@@ -236,16 +236,20 @@ class eZApproveType extends eZWorkflowEventType
             $approveUserIDArray = array();
             foreach( $approveGroups as $approveUserGroupID )
             {
-                $approveUserGroup =& eZContentObject::fetch( $approveUserGroupID );
-                foreach( $approveUserGroup->attribute( 'assigned_nodes' ) as $assignedNode )
+                if (  $approveUserGroupID != false )
                 {
-                    $userNodeArray =& $assignedNode->subTree( array( 'ClassFilterType' => 'include',
-                                                                     'ClassFilterArray' => $userClassIDArray,
-                                                                     'Limitation' => array() ) );
-                    foreach( $userNodeArray as $userNode )
-                    {
-                        $approveUserIDArray[] = $userNode->attribute( 'contentobject_id' );
-                    }
+                    $approveUserGroup =& eZContentObject::fetch( $approveUserGroupID );
+                    if ( isset( $approveUserGroup ) )
+                        foreach( $approveUserGroup->attribute( 'assigned_nodes' ) as $assignedNode )
+                        {
+                            $userNodeArray =& $assignedNode->subTree( array( 'ClassFilterType' => 'include',
+                                                                             'ClassFilterArray' => $userClassIDArray,
+                                                                             'Limitation' => array() ) );
+                            foreach( $userNodeArray as $userNode )
+                            {
+                                $approveUserIDArray[] = $userNode->attribute( 'contentobject_id' );
+                            }
+                        }
                 }
             }
             $approveUserIDArray = array_merge( $approveUserIDArray, $editors );
@@ -324,7 +328,7 @@ class eZApproveType extends eZWorkflowEventType
                     {
                         case 'AddApproveUsers':
                         {
-                            if ( $http->hasPostVariable( 'SelectedObjectIDArray' ) )
+                            if ( $http->hasPostVariable( 'SelectedObjectIDArray' ) and !$http->hasPostVariable( 'BrowseCancelButton' ) )
                             {
                                 $userIDArray = $http->postVariable( 'SelectedObjectIDArray' );
                                 foreach( $userIDArray as $key => $userID )
@@ -353,7 +357,7 @@ class eZApproveType extends eZWorkflowEventType
 
                         case 'AddExcludeUser':
                         {
-                            if ( $http->hasPostVariable( 'SelectedObjectIDArray' ) )
+                            if ( $http->hasPostVariable( 'SelectedObjectIDArray' ) and !$http->hasPostVariable( 'BrowseCancelButton' ) )
                             {
                                 $userIDArray = $http->postVariable( 'SelectedObjectIDArray' );
                                 $event->setAttribute( 'data_text2', implode( ',',
@@ -418,7 +422,8 @@ class eZApproveType extends eZWorkflowEventType
                 eZContentBrowse::browse( array( 'action_name' => 'SelectMultipleUsers',
                                                 'from_page' => '/workflow/edit/' . $workflowEvent->attribute( 'workflow_id' ),
                                                 'custom_action_data' => array( 'event_id' => $eventID,
-                                                                               'browse_action' => $action ) ),
+                                                                               'browse_action' => $action ),
+                                                'class_array' => array ( 'user_group' ) ),
                                          $module );
             } break;
 
@@ -437,7 +442,8 @@ class eZApproveType extends eZWorkflowEventType
                 eZContentBrowse::browse( array( 'action_name' => 'SelectMultipleUsers',
                                                 'from_page' => '/workflow/edit/' . $workflowEvent->attribute( 'workflow_id' ),
                                                 'custom_action_data' => array( 'event_id' => $eventID,
-                                                                               'browse_action' => $action ) ),
+                                                                               'browse_action' => $action ),
+                                                'class_array' => array ( 'user_group' ) ),
                                          $module );
             } break;
 
