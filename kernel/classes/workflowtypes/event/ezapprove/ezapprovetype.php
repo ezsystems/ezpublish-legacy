@@ -284,7 +284,7 @@ class eZApproveType extends eZWorkflowEventType
                     {
                         case 'AddUser':
                         {
-                            if ( $http->hasPostVariable( 'SelectedObjectIDArray' ) )
+                            if ( $http->hasPostVariable( 'SelectedObjectIDArray' ) and !$http->hasPostVariable( 'BrowseCancelButton' ) )
                             {
                                 $userID = '';
                                 if ( is_array( $http->postVariable( 'SelectedObjectIDArray' ) ) &&
@@ -303,7 +303,7 @@ class eZApproveType extends eZWorkflowEventType
 
                         case 'AddExcludeUser':
                         {
-                            if ( $http->hasPostVariable( 'SelectedObjectIDArray' ) )
+                            if ( $http->hasPostVariable( 'SelectedObjectIDArray' ) and !$http->hasPostVariable( 'BrowseCancelButton' ) )
                             {
                                 if ( is_array( $http->postVariable( 'SelectedObjectIDArray' ) ) &&
                                      count( $http->postVariable( 'SelectedObjectIDArray' ) ) > 0 )
@@ -375,7 +375,8 @@ class eZApproveType extends eZWorkflowEventType
                 eZContentBrowse::browse( array( 'action_name' => 'SelectMultipleUsers',
                                                 'from_page' => '/workflow/edit/' . $workflowEvent->attribute( 'workflow_id' ),
                                                 'custom_action_data' => array( 'event_id' => $eventID,
-                                                                               'browse_action' => $action ) ),
+                                                                               'browse_action' => $action ),
+                                                'class_array' => array ( 'user_group' ) ),
                                          $module );
             } break;
 
