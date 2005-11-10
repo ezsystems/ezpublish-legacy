@@ -99,15 +99,59 @@ if ( $Module->isCurrentAction( 'Login' ) and
         {
             $loginHandlers = array( 'standard' );
         }
+        $hasAccessToSite = true;
         foreach ( array_keys ( $loginHandlers ) as $key )
         {
             $loginHandler = $loginHandlers[$key];
             $userClass =& eZUserLoginHandler::instance( $loginHandler );
             $user = $userClass->loginUser( $userLogin, $userPassword );
             if ( get_class( $user ) == 'ezuser' )
+            {
+                $uri =& eZURI::instance( eZSys::requestURI() );
+                $access = accessType( $uri,
+                                      eZSys::hostname(),
+                                      eZSys::serverPort(),
+                                      eZSys::indexFile() );
+                $siteAccessResult = $user->hasAccessTo( 'user', 'login' );
+                $hasAccessToSite = false;
+                // A check that the user has rights to access current siteaccess.
+                if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
+                {
+                    $policyChecked = false;
+                    foreach ( array_keys( $siteAccessResult['policies'] ) as $key )
+                    {
+                        $policy =& $siteAccessResult['policies'][$key];
+                        if ( isset( $policy['SiteAccess'] ) )
+                        {
+                            $policyChecked = true;
+                            if ( in_array( crc32( $access[ 'name' ] ), $policy['SiteAccess'] ) )
+                            {
+                                $hasAccessToSite = true;
+                                break;
+                            }
+                        }
+                        if ( $hasAccessToSite )
+                            break;
+                    }
+                    if ( !$policyChecked )
+                        $hasAccessToSite = true;
+                }
+                else if ( $siteAccessResult[ 'accessWord' ] == 'yes' )
+                {
+                    $hasAccessToSite = true;
+                }
+                // If the user doesn't have the rights.
+                if ( !$hasAccessToSite )
+                {
+                    $user->logoutCurrent();
+                    $user = null;
+                    $siteAccessName = $access['name'];
+                    $siteAccessAllowed = false;
+                }
                 break;
+            }
         }
-        if ( get_class( $user ) != 'ezuser' )
+        if ( ( get_class( $user ) != 'ezuser' ) and $hasAccessToSite )
             $loginWarning = true;
     }
     else
