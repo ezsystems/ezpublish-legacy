@@ -5,6 +5,7 @@
 <ul>
     <li>{'Make sure that the username and password is correct.'|i18n( 'design/admin/user/login' )}</li>
     <li>{'All letters must be typed in using the correct case.'|i18n( 'design/admin/user/login' )}</li>
+    <li>{'Make sure that the user you are trying to login has rights to access current siteaccess.'|i18n( 'design/admin/user/login' )}</li>
     <li>{'Please try again or contact the site administrator.'|i18n( 'design/admin/user/login' )}</li>
 </ul>
 </div>
