@@ -91,7 +91,9 @@ class eZInformationCollectionAttribute extends eZPersistentObject
                                                       'contentclass_attribute' => 'contentClassAttribute',
                                                       'contentobject_attribute' => 'contentObjectAttribute',
                                                       'contentobject' => 'contentObject',
-                                                      'result_template' => 'resultTemplateName' ),
+                                                      'result_template' => 'resultTemplateName',
+                                                      'content' => 'content',
+                                                      'class_content' => 'classContent' ),
                       'increment_key' => 'id',
                       'class_name' => 'eZInformationCollectionAttribute',
                       'name' => 'ezinfocollection_attribute' );
@@ -155,6 +157,37 @@ class eZInformationCollectionAttribute extends eZPersistentObject
         $nameArray = $db->arrayQuery( "SELECT name FROM ezcontentclass_attribute WHERE id='$this->ContentClassAttributeID'" );
 
         return $nameArray[0]['name'];
+    }
+
+    /*
+        Takes data from this information collection attribute and returns it as
+        content of appropriate object attribute. To use this method, ensure
+        first that method objectAttributeContent() of appropriate datatype will
+        work correct with $this eZCollectionAttribute instance instead of real
+        eZContentObjectAttribute instance.
+    */
+    function &content()
+    {
+        $contentObjectAttribute =& $this->contentObjectAttribute();
+        $dataType = $contentObjectAttribute->dataType();
+        if ( $dataType )
+            $content =& $dataType->objectAttributeContent( $this );
+        else
+            $content = null;
+        return $content;
+    }
+
+    /*!
+     \return the content for the contentclass attribute which defines this information collection attribute.
+    */
+    function &classContent()
+    {
+        $classAttribute =& $this->contentClassAttribute();
+        if ( is_object( $classAttribute ) )
+            $content =& $classAttribute->content();
+        else
+            $content = null;
+        return $content;
     }
 
     /*!
