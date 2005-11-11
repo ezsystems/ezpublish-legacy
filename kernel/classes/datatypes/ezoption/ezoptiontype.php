@@ -122,7 +122,6 @@ class eZOptionType extends eZDataType
             }
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-//         eZDebug::writeNotice( "Validating option $data" );
     }
 
     /*!
@@ -192,12 +191,16 @@ class eZOptionType extends eZDataType
     */
     function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
     {
-        $optionValue =& $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
+        if ( $http->hasPostVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
+            $optionValue =& $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
 
-        $collectionAttribute->setAttribute( 'data_int', $optionValue );
-        $attr =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
+            $collectionAttribute->setAttribute( 'data_int', $optionValue );
+            $attr =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
 
-        return true;
+            return true;
+        }
+        return false;
     }
 
     /*!
@@ -353,7 +356,6 @@ class eZOptionType extends eZDataType
         $defaultValue = $attributeParametersNode->elementTextContentByName( 'default-value' );
         $classAttribute->setAttribute( 'data_text1', $defaultValue );
     }
-
 
     /*!
      \reimp
