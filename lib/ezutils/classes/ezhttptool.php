@@ -232,7 +232,9 @@ class eZHTTPTool
      \param user agent, default will be eZ publish
      \param passtrough, will send result directly to client, default false
 
-     \return result if http request, if pipetrough, program will end here.
+     \return result if http request, or return false if an error occurs.
+             If pipetrough, program will end here.
+
     */
     function &sendHTTPRequest( $uri, $port = 80, $postParameters = false, $userAgent = 'eZ publish', $passtrough = true )
     {
@@ -300,6 +302,13 @@ class eZHTTPTool
         }
 
         $fp = fsockopen( $filename, $port );
+
+        // make sure we have a valid stream resource or calls to other file
+        // functions will fail
+        if ( !$fp )
+        {
+            return false;
+        }
 
         $request = $method . ' ' . $path . ' ' . 'HTTP/1.1' . "\r\n" .
              "Host: $host\r\n" .
