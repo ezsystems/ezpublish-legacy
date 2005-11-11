@@ -1340,6 +1340,15 @@ class eZContentObject extends eZPersistentObject
         $db->query( "DELETE FROM ezuservisit
              WHERE user_id = '$delID'" );
 
+        include_once( "kernel/classes/ezworkflowtype.php" );
+        $registeredTypes = eZWorkFlowType::fetchRegisteredTypes();
+        // Cleanup ezworkflow_evet etc...
+        foreach ( array_keys( $registeredTypes ) as $registeredTypeKey )
+        {
+            $registeredType = $registeredTypes[$registeredTypeKey];
+            $registeredType->cleanupAfterRemoving( array( 'DeleteContentObject' => $delID ) );
+        }
+
         $db->commit();
     }
 
