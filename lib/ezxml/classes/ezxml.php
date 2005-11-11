@@ -304,6 +304,11 @@ class eZXML
                     {
                         $isCDATASection = true;
                         $endTagPos = strpos( $xmlDoc, "]]>", $cdataPos );
+                        if ( $endTagPos == false ) 
+                        {
+                            eZDebug::writeError( "XML parser error: Closing tag \']]>\' for <![CDATA[ not found" , "eZ xml" );
+                            $endTagPos = strlen($xmlDoc);
+                        }
                         $cdataSection =& substr( $xmlDoc, $cdataPos + 9, $endTagPos - ( $cdataPos + 9 ) );
 
                         // new CDATA node
