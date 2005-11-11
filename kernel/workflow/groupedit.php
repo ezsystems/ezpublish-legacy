@@ -135,9 +135,7 @@ $res =& eZTemplateDesignResource::instance();
 $res->setKeys( array( array( "workflow_group", $workflowGroup->attribute( "id" ) ) ) ); // WorkflowGroup ID
 
 $tpl->setVariable( "http", $http );
-$tpl->setVariable( "can_store", $canStore );
 $tpl->setVariable( "require_fixup", $requireFixup );
-$tpl->setVariable( "is_remove_tried", $isRemoveTried );
 $tpl->setVariable( "module", $Module );
 $tpl->setVariable( "workflow_group", $workflowGroup );
 //$tpl->setVariable( "assigned_workflow_list", $assignedWorkflows );
