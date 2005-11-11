@@ -346,6 +346,10 @@ class eZWorkflowType
         return false;
     }
 
+    function cleanupAfterRemoving( $attr = array() )
+    {
+    }
+
     function cleanup( &$process, &$event )
     {
     }

@@ -1,5 +1,8 @@
-<form name="WorkflowEdit" method="post" action={concat( $module.functions.edit.uri, '/', $workflow.id, '/', $group_id )|ezurl}>
-
+{section show=and( is_set( $group_id ), $group_id )}
+       <form name="WorkflowEdit" method="post" action={concat( $module.functions.edit.uri, '/', $workflow.id, '/', $group_id )|ezurl}>
+{section-else}
+      <form name="WorkflowEdit" method="post" action={concat( $module.functions.edit.uri, '/', $workflow.id, '/' )|ezurl}>
+{/section}
 {* Feedback *}
 {section show=and( $validation.processed, $validation.groups )}
 <div class="message-warning">
