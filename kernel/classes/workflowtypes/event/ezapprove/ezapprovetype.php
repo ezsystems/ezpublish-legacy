@@ -392,6 +392,46 @@ class eZApproveType extends eZWorkflowEventType
         }
     }
 
+    /*
+     \reimp
+    */
+    function cleanupAfterRemoving( $attr = array() )
+    {
+        foreach ( array_keys( $attr ) as $attrKey )
+        {
+          switch ( $attrKey )
+          {
+              case 'DeleteContentObject':
+              {
+                     $contentObjectID = $attr[ $attrKey ];
+                     $db = & eZDb::instance();
+                     // Cleanup "User who approves content"
+                     $db->query( 'UPDATE ezworkflow_event
+                                  SET    data_int1 = \'0\'
+                                  WHERE  data_int1 = \'' . $contentObjectID . '\''  );
+                     // Cleanup "Excluded user groups"
+                     $excludedGroupsID = $db->arrayQuery( 'SELECT data_text2, id
+                                                           FROM   ezworkflow_event
+                                                           WHERE  data_text2 like \'%' . $contentObjectID . '%\'' );
+                     if ( count( $excludedGroupsID ) > 0 )
+                     {
+                         foreach ( $excludedGroupsID as $groupID )
+                         {
+                             // $IDArray will contain IDs of "Excluded user groups"
+                             $IDArray = split( ',', $groupID[ 'data_text2' ] );
+                             // $newIDArray will contain  array without $contentObjectID
+                             $newIDArray = array_filter( $IDArray, create_function( '$v', 'return ( $v != ' . $contentObjectID .' );' ) );
+                             $newValues = implode( ',', $newIDArray );
+                             $db->query( 'UPDATE ezworkflow_event
+                                          SET    data_text2 = \''. $newValues .'\'
+                                          WHERE  id = ' . $groupID[ 'id' ] );
+                         }
+                     }
+              } break;
+          }
+        }
+    }
+
     function checkApproveCollaboration( &$process, &$event )
     {
         $db = & eZDb::instance();
