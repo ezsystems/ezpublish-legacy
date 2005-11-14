@@ -207,6 +207,13 @@ class eZMultiplexerType extends eZWorkflowEventType
         {
             $userID = $processParameters['user_id'];
             $user =& eZUser::fetch( $userID );
+            if ( get_class( $user ) != 'ezuser' )
+            {
+                $user =& eZUser::currentUser();
+                $userID = $user->id();
+                $processParameters['user_id'] = $userID;
+                $storeProcessParameters = true;
+            }
         }
         $userGroups = $user->attribute( 'groups' );
         $inExcludeGroups = count( array_intersect( $userGroups, $userArray ) ) != 0;
