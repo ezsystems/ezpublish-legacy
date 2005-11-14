@@ -797,6 +797,19 @@ class eZSearchEngine
                 }
             }
 
+            // Do not execute search if site.ini:[SearchSettings]->AllowEmptySearch is enabled, but no conditions are set.
+            if ( !$searchDateQuery &&
+                 !$sectionQuery &&
+                 !$classQuery &&
+                 !$classAttributeQuery &&
+                 !$searchPartText &&
+                 !$subTreeSQL )
+            {
+                return array( "SearchResult" => array(),
+                              "SearchCount" => 0,
+                              "StopWordArray" => array() );
+            }
+
             $i = $this->TempTablesCount;
 
             // Loop every word and insert result in temporary table
