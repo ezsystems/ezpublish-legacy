@@ -94,13 +94,27 @@ class eZInformationCollectionAttribute extends eZPersistentObject
                                                       'contentobject' => 'contentObject',
                                                       'result_template' => 'resultTemplateName',
                                                       'has_content' => 'hasContent',
-                                                      'content' => 'content' ),
+                                                      'content' => 'content',
+                                                      'class_content' => 'classContent' ),
                       'increment_key' => 'id',
                       'class_name' => 'eZInformationCollectionAttribute',
                       'name' => 'ezinfocollection_attribute' );
     }
 
     /*!
+     \return the content for the contentclass attribute which defines this information collection attribute.
+    */
+    function &classContent()
+    {
+        $classAttribute =& $this->contentClassAttribute();
+        if ( is_object( $classAttribute ) )
+            $content =& $classAttribute->content();
+        else
+            $content = null;
+        return $content;
+    }
+    
+	/*!
      \return the content for this attribute.
     */
     function &content()
@@ -131,7 +145,6 @@ class eZInformationCollectionAttribute extends eZPersistentObject
         }
         return $hasContent;
     }
-
 
     /*!
      \return the template name to use for viewing the attribute
