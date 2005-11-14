@@ -46,6 +46,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
 {
     function eZInformationCollectionAttribute( $row )
     {
+	    $this->Content = null;
         $this->eZPersistentObject( $row );
     }
 
@@ -92,11 +93,57 @@ class eZInformationCollectionAttribute extends eZPersistentObject
                                                       'contentobject_attribute' => 'contentObjectAttribute',
                                                       'contentobject' => 'contentObject',
                                                       'result_template' => 'resultTemplateName',
+                                                      'has_content' => 'hasContent',
                                                       'content' => 'content',
                                                       'class_content' => 'classContent' ),
                       'increment_key' => 'id',
                       'class_name' => 'eZInformationCollectionAttribute',
                       'name' => 'ezinfocollection_attribute' );
+    }
+
+    /*!
+     \return the content for the contentclass attribute which defines this information collection attribute.
+    */
+    function &classContent()
+    {
+        $classAttribute =& $this->contentClassAttribute();
+        if ( is_object( $classAttribute ) )
+            $content =& $classAttribute->content();
+        else
+            $content = null;
+        return $content;
+    }
+    
+	/*!
+     \return the content for this attribute.
+    */
+    function &content()
+    {
+        if ( $this->Content === null )
+        {
+            $dataType =& $this->dataType();
+            if ( is_object( $dataType ) )
+            {
+                $this->Content =& $dataType->objectAttributeContent( $this );
+            }
+        }
+        return $this->Content;
+    }
+
+    /*!
+     \return \c true if the attribute is considered to have any content at all (ie. non-empty).
+
+     It will call the hasObjectAttributeContent() for the current datatype to figure this out.
+    */
+    function &hasContent()
+    {
+        $hasContent = false;
+        $dataType =& $this->dataType();
+        if ( is_object( $dataType ) )
+        {
+            $hasContent = $dataType->hasObjectAttributeContent( $this );
+        }
+        return $hasContent;
     }
 
     /*!
@@ -159,37 +206,6 @@ class eZInformationCollectionAttribute extends eZPersistentObject
         return $nameArray[0]['name'];
     }
 
-    /*
-        Takes data from this information collection attribute and returns it as
-        content of appropriate object attribute. To use this method, ensure
-        first that method objectAttributeContent() of appropriate datatype will
-        work correct with $this eZCollectionAttribute instance instead of real
-        eZContentObjectAttribute instance.
-    */
-    function &content()
-    {
-        $contentObjectAttribute =& $this->contentObjectAttribute();
-        $dataType = $contentObjectAttribute->dataType();
-        if ( $dataType )
-            $content =& $dataType->objectAttributeContent( $this );
-        else
-            $content = null;
-        return $content;
-    }
-
-    /*!
-     \return the content for the contentclass attribute which defines this information collection attribute.
-    */
-    function &classContent()
-    {
-        $classAttribute =& $this->contentClassAttribute();
-        if ( is_object( $classAttribute ) )
-            $content =& $classAttribute->content();
-        else
-            $content = null;
-        return $content;
-    }
-
     /*!
      Creates a new eZInformationCollectionAttribute instance.
     */
@@ -223,6 +239,9 @@ class eZInformationCollectionAttribute extends eZPersistentObject
         $db =& eZDB::instance();
         $db->query( "DELETE FROM ezinfocollection_attribute" );
     }
+
+    // Contains the content for this attribute
+    var $Content;
 }
 
 ?>
