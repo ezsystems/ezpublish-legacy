@@ -793,7 +793,7 @@ class eZSearchEngine
                  !$sectionQuery &&
                  !$classQuery &&
                  !$classAttributeQuery &&
-                 !$searchPartText &&
+                 !$searchPartsArray &&
                  !$subTreeSQL )
             {
                 return array( "SearchResult" => array(),
