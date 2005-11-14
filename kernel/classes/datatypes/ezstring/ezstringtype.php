@@ -165,7 +165,7 @@ class eZStringType extends eZDataType
             }
             else
             {
-                return $this->validateStringHTTPInput( $data, &$contentObjectAttribute, &$classAttribute );
+                return $this->validateStringHTTPInput( $data, $contentObjectAttribute, $classAttribute );
             }
         }
         else
