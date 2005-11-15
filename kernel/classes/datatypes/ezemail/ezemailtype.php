@@ -89,7 +89,7 @@ class eZEmailType extends eZDataType
     {
         if ( $http->hasPostVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
-            $email =& $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
+            $email = $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
 
             $trimedEmail = trim( $email );
@@ -121,7 +121,7 @@ class eZEmailType extends eZDataType
     {
         if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
+            $data = $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
             $contentObjectAttribute->setAttribute( "data_text", $data );
             return true;
         }
@@ -135,7 +135,7 @@ class eZEmailType extends eZDataType
     {
         if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $email =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
+            $email = $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
 
             $trimedEmail = trim( $email );
@@ -169,7 +169,7 @@ class eZEmailType extends eZDataType
     {
         if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $dataText =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
+            $dataText = $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
             $collectionAttribute->setAttribute( 'data_text', $dataText );
             return true;
         }

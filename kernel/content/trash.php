@@ -58,7 +58,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         $access = $user->hasAccessTo( 'content', 'cleantrash' );
         if ( $access['accessWord'] == 'yes' )
         {
-            $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+            $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
 
             $db =& eZDB::instance();
             $db->begin();

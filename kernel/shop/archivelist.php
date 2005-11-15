@@ -73,7 +73,7 @@ if ( $http->hasPostVariable( 'UnarchiveButton' ) )
 {
     if ( $http->hasPostVariable( 'OrderIDArray' ) )
     {
-        $orderIDArray =& $http->postVariable( 'OrderIDArray' );
+        $orderIDArray = $http->postVariable( 'OrderIDArray' );
         if ( $orderIDArray !== null )
         {
             $http->setSessionVariable( 'OrderIDArray', $orderIDArray );

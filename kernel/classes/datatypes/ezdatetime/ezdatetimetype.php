@@ -97,11 +97,11 @@ class eZDateTimeType extends eZDataType
              $http->hasPostVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
-            $year   =& $http->postVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) );
-            $month  =& $http->postVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) );
-            $day    =& $http->postVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) );
-            $hour   =& $http->postVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) );
-            $minute =& $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
+            $year   = $http->postVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) );
+            $month  = $http->postVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) );
+            $day    = $http->postVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) );
+            $hour   = $http->postVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) );
+            $minute = $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
 
             if ( $year == '' or
@@ -145,11 +145,11 @@ class eZDateTimeType extends eZDataType
              $http->hasPostVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
-            $year   =& $http->postVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) );
-            $month  =& $http->postVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) );
-            $day    =& $http->postVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) );
-            $hour   =& $http->postVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) );
-            $minute =& $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
+            $year   = $http->postVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) );
+            $month  = $http->postVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) );
+            $day    = $http->postVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) );
+            $hour   = $http->postVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) );
+            $minute = $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
 
             $dateTime = new eZDateTime();
             $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
@@ -181,11 +181,11 @@ class eZDateTimeType extends eZDataType
              $http->hasPostVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
-            $year   =& $http->postVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) );
-            $month  =& $http->postVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) );
-            $day    =& $http->postVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) );
-            $hour   =& $http->postVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) );
-            $minute =& $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
+            $year   = $http->postVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) );
+            $month  = $http->postVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) );
+            $day    = $http->postVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) );
+            $hour   = $http->postVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) );
+            $minute = $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
 
             if ( $year == '' or
@@ -229,11 +229,11 @@ class eZDateTimeType extends eZDataType
              $http->hasPostVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
-            $year   =& $http->postVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) );
-            $month  =& $http->postVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) );
-            $day    =& $http->postVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) );
-            $hour   =& $http->postVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) );
-            $minute =& $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
+            $year   = $http->postVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) );
+            $month  = $http->postVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) );
+            $day    = $http->postVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) );
+            $hour   = $http->postVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) );
+            $minute = $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
 
             $dateTime = new eZDateTime();
             $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();

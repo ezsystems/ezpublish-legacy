@@ -128,8 +128,8 @@ class eZIniSettingType extends eZDataType
              $http->hasPostVariable( $typeParam ) &&
              $http->hasPostVariable( $iniInstanceParam ) )
         {
-            $iniFile =& $http->postVariable( $fileParam );
-            $iniSection =& $http->postVariable( $sectionParam );
+            $iniFile = $http->postVariable( $fileParam );
+            $iniSection = $http->postVariable( $sectionParam );
 
             $config =& eZIni::instance( $iniFile );
             if ( $config == null )
@@ -254,12 +254,12 @@ class eZIniSettingType extends eZDataType
              $http->hasPostVariable( $typeParam ) &&
              $http->hasPostVariable( $iniInstanceParam ) )
         {
-            $file =& $http->postVariable( $fileParam );
-            $section =& $http->postVariable( $sectionParam );
-            $parameter =& $http->postVariable( $paramParam );
-            $type =& $http->postVariable( $typeParam );
+            $file = $http->postVariable( $fileParam );
+            $section = $http->postVariable( $sectionParam );
+            $parameter = $http->postVariable( $paramParam );
+            $type = $http->postVariable( $typeParam );
 
-            $iniInstanceArray =& $http->postVariable( $iniInstanceParam );
+            $iniInstanceArray = $http->postVariable( $iniInstanceParam );
             if ( is_array( $iniInstanceArray ) )
             {
                 $iniInstance = '';
@@ -294,7 +294,7 @@ class eZIniSettingType extends eZDataType
     {
         if ( $http->hasPostVariable( $base . '_ini_setting_' . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $data =& $http->postVariable( $base . '_ini_setting_' . $contentObjectAttribute->attribute( "id" ) );
+            $data = $http->postVariable( $base . '_ini_setting_' . $contentObjectAttribute->attribute( "id" ) );
             $contentObjectAttribute->setAttribute( 'data_text', trim( $data ) );
             if ( $http->hasPostVariable( $base . '_ini_setting_make_empty_array_' . $contentObjectAttribute->attribute( "id" ) ) )
             {

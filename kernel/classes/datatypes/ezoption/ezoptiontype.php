@@ -73,7 +73,7 @@ class eZOptionType extends eZDataType
             $dataName = $http->postVariable( $base . "_data_option_name_" . $contentObjectAttribute->attribute( "id" ) );
 
             if ( $http->hasPostVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) ) )
-                $optionAdditionalPriceList =& $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) );
+                $optionAdditionalPriceList = $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) );
             else
                 $optionAdditionalPriceList = array();
 
@@ -158,17 +158,17 @@ class eZOptionType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $optionName =& $http->postVariable( $base . "_data_option_name_" . $contentObjectAttribute->attribute( "id" ) );
+        $optionName = $http->postVariable( $base . "_data_option_name_" . $contentObjectAttribute->attribute( "id" ) );
         if ( $http->hasPostVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) ) )
-            $optionIDArray =& $http->postVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) );
+            $optionIDArray = $http->postVariable( $base . "_data_option_id_" . $contentObjectAttribute->attribute( "id" ) );
         else
             $optionIDArray = array();
         if ( $http->hasPostVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) ) )
-            $optionValueArray =& $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
+            $optionValueArray = $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
         else
             $optionValueArray = array();
         if ( $http->hasPostVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) ) )
-            $optionAdditionalPriceArray =& $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) );
+            $optionAdditionalPriceArray = $http->postVariable( $base . "_data_option_additional_price_" . $contentObjectAttribute->attribute( "id" ) );
         else
             $optionAdditionalPriceArray = array();
 
@@ -193,7 +193,7 @@ class eZOptionType extends eZDataType
     {
         if ( $http->hasPostVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $optionValue =& $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
+            $optionValue = $http->postVariable( $base . "_data_option_value_" . $contentObjectAttribute->attribute( "id" ) );
 
             $collectionAttribute->setAttribute( 'data_int', $optionValue );
             $attr =& $contentObjectAttribute->attribute( 'contentclass_attribute' );

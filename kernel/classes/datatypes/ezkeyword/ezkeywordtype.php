@@ -99,7 +99,7 @@ class eZKeywordType extends eZDataType
     {
         if ( $http->hasPostVariable( $base . '_ezkeyword_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
-            $data =& $http->postVariable( $base . '_ezkeyword_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
+            $data = $http->postVariable( $base . '_ezkeyword_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $keyword = new eZKeyword();
             $keyword->initializeKeyword( $data );
             $contentObjectAttribute->setContent( $keyword );

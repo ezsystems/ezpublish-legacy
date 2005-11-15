@@ -81,9 +81,9 @@ class eZDateType extends eZDataType
              $http->hasPostVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
-            $year  =& $http->postVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) );
-            $month =& $http->postVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) );
-            $day   =& $http->postVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) );
+            $year  = $http->postVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) );
+            $month = $http->postVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) );
+            $day   = $http->postVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
 
             if ( $year == '' or $month == '' or $day == '' )
@@ -118,9 +118,9 @@ class eZDateType extends eZDataType
              $http->hasPostVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
 
-            $year  =& $http->postVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) );
-            $month =& $http->postVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) );
-            $day   =& $http->postVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) );
+            $year  = $http->postVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) );
+            $month = $http->postVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) );
+            $day   = $http->postVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) );
             $date = new eZDate();
             $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
 
@@ -150,9 +150,9 @@ class eZDateType extends eZDataType
              $http->hasPostVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) ) and
              $http->hasPostVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
-            $year  =& $http->postVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) );
-            $month =& $http->postVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) );
-            $day   =& $http->postVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) );
+            $year  = $http->postVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) );
+            $month = $http->postVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) );
+            $day   = $http->postVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
 
             if ( $year == '' or $month == '' or $day == '' )
@@ -186,9 +186,9 @@ class eZDateType extends eZDataType
              $http->hasPostVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
 
-            $year  =& $http->postVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) );
-            $month =& $http->postVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) );
-            $day   =& $http->postVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) );
+            $year  = $http->postVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) );
+            $month = $http->postVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) );
+            $day   = $http->postVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) );
             $date = new eZDate();
             $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
 

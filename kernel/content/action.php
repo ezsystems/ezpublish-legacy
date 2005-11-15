@@ -960,7 +960,7 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
 
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
-        $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+        $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
         if ( is_array( $deleteIDArray ) && count( $deleteIDArray ) > 0 )
         {
             $http->setSessionVariable( 'CurrentViewMode', $viewMode );
@@ -1025,8 +1025,8 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
             $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $contentNodeID . '/' );
             return;
         }
-        $priorityArray =& $http->postVariable( 'Priority' );
-        $priorityIDArray =& $http->postVariable( 'PriorityID' );
+        $priorityArray = $http->postVariable( 'Priority' );
+        $priorityIDArray = $http->postVariable( 'PriorityID' );
 
         $db =& eZDB::instance();
         $db->begin();

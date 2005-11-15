@@ -74,7 +74,7 @@ class eZPriceType extends eZDataType
 
             include_once( 'lib/ezlocale/classes/ezlocale.php' );
             $locale =& eZLocale::instance();
-            $data =& $locale->internalCurrency( $data );
+            $data = $locale->internalCurrency( $data );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
             if( !$contentObjectAttribute->validateIsRequired() && ( $data == "" ) )
             {
@@ -139,7 +139,7 @@ class eZPriceType extends eZDataType
 
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
         $locale =& eZLocale::instance();
-        $data =& $locale->internalCurrency( $data );
+        $data = $locale->internalCurrency( $data );
 
         $data_text = $vatType . ',' . $vatExInc;
 

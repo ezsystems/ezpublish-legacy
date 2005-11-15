@@ -70,7 +70,7 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
     $placements = $ini->groupPlacements();
     if ( $http->hasPostVariable( 'RemoveSettingsArray' ) )
     {
-        $deletedSettingArray =& $http->postVariable( 'RemoveSettingsArray' );
+        $deletedSettingArray = $http->postVariable( 'RemoveSettingsArray' );
         foreach ( $deletedSettingArray as $deletedSetting )
         {
             list( $block, $setting ) = split( ':', $deletedSetting );

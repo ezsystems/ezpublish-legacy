@@ -153,8 +153,8 @@ class eZURLType extends eZDataType
              $http->hasPostVariable( $base . '_ezurl_text_' . $contentObjectAttribute->attribute( 'id' ) )
              )
         {
-            $url =& $http->postVariable( $base . '_ezurl_url_' . $contentObjectAttribute->attribute( 'id' ) );
-            $text =& $http->postVariable( $base . '_ezurl_text_' . $contentObjectAttribute->attribute( 'id' ) );
+            $url = $http->postVariable( $base . '_ezurl_url_' . $contentObjectAttribute->attribute( 'id' ) );
+            $text = $http->postVariable( $base . '_ezurl_text_' . $contentObjectAttribute->attribute( 'id' ) );
 
             $contentObjectAttribute->setAttribute( 'data_text', $text );
 

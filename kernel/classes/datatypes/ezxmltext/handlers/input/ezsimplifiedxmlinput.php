@@ -243,7 +243,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $contentObjectAttributeVersion = $contentObjectAttribute->attribute('version');
         if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttributeID ) )
         {
-            $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttributeID );
+            $data = $http->postVariable( $base . "_data_text_" . $contentObjectAttributeID );
 
             // Set original input to a global variable
             $originalInput = "originalInput_" . $contentObjectAttributeID;

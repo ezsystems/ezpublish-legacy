@@ -66,7 +66,7 @@ if ( $http->hasPostVariable( 'CreateSectionButton' ) )
 
 if ( $http->hasPostVariable( 'RemoveSectionButton' ) )
 {
-    $sectionIDArray =& $http->postVariable( 'SectionIDArray' );
+    $sectionIDArray = $http->postVariable( 'SectionIDArray' );
     $http->setSessionVariable( 'SectionIDArray', $sectionIDArray );
     $sections = array();
     foreach ( $sectionIDArray as $sectionID )

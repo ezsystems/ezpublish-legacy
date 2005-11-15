@@ -71,14 +71,14 @@ class eZRangeOptionType extends eZDataType
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
 
-        $optionName =& $http->postVariable( $base . "_data_rangeoption_name_" . $contentObjectAttribute->attribute( "id" ) );
+        $optionName = $http->postVariable( $base . "_data_rangeoption_name_" . $contentObjectAttribute->attribute( "id" ) );
         if ( $http->hasPostVariable( $base . "_data_rangeoption_id_" . $contentObjectAttribute->attribute( "id" ) ) )
-            $optionIDArray =& $http->postVariable( $base . "_data_rangeoption_id_" . $contentObjectAttribute->attribute( "id" ) );
+            $optionIDArray = $http->postVariable( $base . "_data_rangeoption_id_" . $contentObjectAttribute->attribute( "id" ) );
         else
             $optionIDArray = array();
-        $optionStartValue =& $http->postVariable( $base . "_data_rangeoption_start_value_" . $contentObjectAttribute->attribute( "id" ) );
-        $optionStopValue =& $http->postVariable( $base . "_data_rangeoption_stop_value_" . $contentObjectAttribute->attribute( "id" ) );
-        $optionStepValue =& $http->postVariable( $base . "_data_rangeoption_step_value_" . $contentObjectAttribute->attribute( "id" ) );
+        $optionStartValue = $http->postVariable( $base . "_data_rangeoption_start_value_" . $contentObjectAttribute->attribute( "id" ) );
+        $optionStopValue = $http->postVariable( $base . "_data_rangeoption_stop_value_" . $contentObjectAttribute->attribute( "id" ) );
+        $optionStepValue = $http->postVariable( $base . "_data_rangeoption_step_value_" . $contentObjectAttribute->attribute( "id" ) );
 
         $option = new eZRangeOption( $optionName );
 

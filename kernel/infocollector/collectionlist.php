@@ -51,7 +51,7 @@ if( !is_numeric( $offset ) )
 
 if( $module->isCurrentAction( 'RemoveCollections' ) && $http->hasPostVariable( 'CollectionIDArray' ) )
 {
-    $collectionIDArray =& $http->postVariable( 'CollectionIDArray' );
+    $collectionIDArray = $http->postVariable( 'CollectionIDArray' );
     $http->setSessionVariable( 'CollectionIDArray', $collectionIDArray );
     $http->setSessionVariable( 'ObjectID', $objectID );
 

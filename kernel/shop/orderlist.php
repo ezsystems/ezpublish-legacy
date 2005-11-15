@@ -78,7 +78,7 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
 {
     if ( $http->hasPostVariable( 'OrderIDArray' ) )
     {
-        $orderIDArray =& $http->postVariable( 'OrderIDArray' );
+        $orderIDArray = $http->postVariable( 'OrderIDArray' );
         if ( $orderIDArray !== null )
         {
             $http->setSessionVariable( 'DeleteOrderIDArray', $orderIDArray );
@@ -92,7 +92,7 @@ if ( $http->hasPostVariable( 'ArchiveButton' ) )
 {
     if ( $http->hasPostVariable( 'OrderIDArray' ) )
     {
-        $orderIDArray =& $http->postVariable( 'OrderIDArray' );
+        $orderIDArray = $http->postVariable( 'OrderIDArray' );
         if ( $orderIDArray !== null )
         {
             $http->setSessionVariable( 'OrderIDArray', $orderIDArray );
