@@ -16,7 +16,7 @@
 {attribute_view_gui attribute=$content_version.data_map.intro}
 {attribute_view_gui attribute=$content_version.data_map.body}
 
-{switch match=$node.object.data_map.enable_comments.data_int}
+{switch match=$node.data_map.enable_comments.data_int}
 {case match=1}
     {let message_list=fetch( content, list, hash(
                                                 parent_node_id, $node.object.main_node_id,

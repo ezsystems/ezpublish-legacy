@@ -72,10 +72,10 @@
         </div>
 
         <div class="attribute-message">
-           {attribute_view_gui attribute=$node.object.data_map.message}
+           {attribute_view_gui attribute=$node.data_map.message}
         </div>
 
-        {section show=$node.object.data_map.enable_comments.content}
+        {section show=$node.data_map.enable_comments.content}
             <h2>{"Comments"|i18n("design/base")}</h2>
 
             <div class="content-view-children">

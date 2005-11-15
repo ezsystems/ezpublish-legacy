@@ -32,7 +32,7 @@
         </div>
 
         <div class="attribute-message">
-           {attribute_view_gui attribute=$node.object.data_map.message}
+           {attribute_view_gui attribute=$node.data_map.message}
         </div>
 
    </div>

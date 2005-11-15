@@ -6,11 +6,11 @@
     <h1>{$node.name|wash}</h1>
 
     <div class="attribute-short">
-        {attribute_view_gui attribute=$node.object.data_map.description}
+        {attribute_view_gui attribute=$node.data_map.description}
     </div>
 
     <div class="content-media">
-    {let attribute=$node.object.data_map.file}
+    {let attribute=$node.data_map.file}
         <object codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=5,0,0,0"
                 {section show=$attribute.content.width|gt( 0 )}width="{$attribute.content.width}"{/section} {section show=$attribute.content.height|gt( 0 )}height="{$attribute.content.height}"{/section} id="objectid{$node.object.id}">
 

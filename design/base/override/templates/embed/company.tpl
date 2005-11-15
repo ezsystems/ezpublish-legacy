@@ -18,12 +18,12 @@
 
         <div class="attribute-matrix">
             <h3>{"Address"|i18n("design/base")}</h3>
-            {attribute_view_gui attribute=$node.object.data_map.company_address}
+            {attribute_view_gui attribute=$node.data_map.company_address}
         </div>
 
         <div class="attribute-long">
             <h2>{"Additional information"|i18n("design/base")}</h2>
-            {attribute_view_gui attribute=$node.object.data_map.additional_information}
+            {attribute_view_gui attribute=$node.data_map.additional_information}
         </div>
 
         </div>
