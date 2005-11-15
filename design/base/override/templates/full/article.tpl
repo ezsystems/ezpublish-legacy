@@ -3,12 +3,12 @@
 <div class="content-view-full">
     <div class="class-article">
 
-        <h1>{$node.object.data_map.title.content|wash()}</h1>
+        <h1>{$node.data_map.title.content|wash()}</h1>
 
-        {section show=$node.object.data_map.author.content.is_empty|not()}
+        {section show=$node.data_map.author.content.is_empty|not()}
         <div class="attribute-byline">
         <p class="author">
-             {attribute_view_gui attribute=$node.object.data_map.author}
+             {attribute_view_gui attribute=$node.data_map.author}
         </p>
         <p class="date">
              {$node.object.published|l10n(date)}
@@ -16,21 +16,21 @@
         </div>
         {/section}
 
-        {section show=$node.object.data_map.image.content}
+        {section show=$node.data_map.image.content}
             <div class="attribute-image">
-                {attribute_view_gui attribute=$node.object.data_map.image align=right}
+                {attribute_view_gui attribute=$node.data_map.image align=right}
             </div>
         {/section}
 
-        {section show=$node.object.data_map.intro.content.is_empty|not}
+        {section show=$node.data_map.intro.content.is_empty|not}
             <div class="attribute-short">
-                {attribute_view_gui attribute=$node.object.data_map.intro}
+                {attribute_view_gui attribute=$node.data_map.intro}
             </div>
         {/section}
 
-        {section show=$node.object.data_map.body.content.is_empty|not}
+        {section show=$node.data_map.body.content.is_empty|not}
             <div class="attribute-long">
-                {attribute_view_gui attribute=$node.object.data_map.body}
+                {attribute_view_gui attribute=$node.data_map.body}
             </div>
         {/section}
 
@@ -48,7 +48,7 @@
 
         {* Should we allow comments? *}
         {section show=is_unset( $versionview_mode )}
-        {section show=$node.object.data_map.enable_comments.content}
+        {section show=$node.data_map.enable_comments.content}
             <h2>{"Comments"|i18n("design/base")}</h2>
                 <div class="content-view-children">
                     {section name=Child loop=fetch_alias( comments, hash( parent_node_id, $node.node_id ) )}

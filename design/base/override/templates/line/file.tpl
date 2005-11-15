@@ -5,11 +5,11 @@
     <h2>{$node.name|wash}</h2>
 
     <div class="attribute-short">
-        {attribute_view_gui attribute=$node.object.data_map.description}
+        {attribute_view_gui attribute=$node.data_map.description}
     </div>
     <div class="break"></div>
     <div class="attribute-file">
-        <p>{attribute_view_gui attribute=$node.object.data_map.file icon_size='small' icon_title=$node.name}</p>
+        <p>{attribute_view_gui attribute=$node.data_map.file icon_size='small' icon_title=$node.name}</p>
     </div>
 
     <div class="attribute-link">

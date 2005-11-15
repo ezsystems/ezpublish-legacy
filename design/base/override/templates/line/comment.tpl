@@ -6,13 +6,13 @@
     <h3>{$node.name|wash}</h3>
 
     <div class="attribute-byline">
-        <p class="author">{$node.object.data_map.author.content|wash}</p>
+        <p class="author">{$node.data_map.author.content|wash}</p>
         <p class="date">{$node.object.published|l10n(date)}</p>
         <div class="break"></div>
     </div>
 
     <div class="attribute-message">
-        {$node.object.data_map.message.content|wash(xhtml)|break}
+        {$node.data_map.message.content|wash(xhtml)|break}
     </div>
 
     </div>

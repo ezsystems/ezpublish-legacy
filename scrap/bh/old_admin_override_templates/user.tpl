@@ -5,7 +5,7 @@
          content_version=$node.contentobject_version_object
          node_name=$node.name
          parent_nodes=$content_object.parent_nodes}
-{let data_map=$node.object.data_map
+{let data_map=$node.data_map
      user_attribute=$data_map.user_account
      has_extra_groups=false()
      policies=fetch( 'user', 'user_role', hash( user_id, $node.object.id ) ) }

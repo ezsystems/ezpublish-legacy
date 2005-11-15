@@ -6,11 +6,11 @@
     <h2>{$node.name|wash}</h2>
 
     <div class="content-image">
-        <p>{attribute_view_gui attribute=$node.object.data_map.image image_class=small href=$node.url_alias|ezurl()}</p>
+        <p>{attribute_view_gui attribute=$node.data_map.image image_class=small href=$node.url_alias|ezurl()}</p>
     </div>
 
     <div class="attribute-caption">
-        {attribute_view_gui attribute=$node.object.data_map.caption}
+        {attribute_view_gui attribute=$node.data_map.caption}
     </div>
 
     </div>

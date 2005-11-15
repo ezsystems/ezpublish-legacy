@@ -6,31 +6,31 @@
 
         {* Description. *}
         <div class="attribute-short">
-            {attribute_view_gui attribute=$node.object.data_map.description}
+            {attribute_view_gui attribute=$node.data_map.description}
         </div>
 
         {* Email address (information collector). *}
         <div class="attribute-email">
             <label>{'Your E-mail address'|i18n( 'design/admin/preview/feedbackform' )}:</label>
-            {attribute_view_gui attribute=$node.object.data_map.email}
+            {attribute_view_gui attribute=$node.data_map.email}
         </div>
 
         {* Subject (information collector). *}
         <div class="attribute-subject">
             <label>{'Subject'|i18n( 'design/admin/preview/feedbackform' )}:</label>
-            {attribute_view_gui attribute=$node.object.data_map.subject}
+            {attribute_view_gui attribute=$node.data_map.subject}
         </div>
 
         {* Message (information collector). *}
         <div class="attribute-message">
             <label>{'Message'|i18n( 'design/admin/preview/feedbackform' )}:</label>
-            {attribute_view_gui attribute=$node.object.data_map.message}
+            {attribute_view_gui attribute=$node.data_map.message}
         </div>
 
         {* Recipient. *}
         <div class="content-control">
             <label>{'Recipient'|i18n( 'design/admin/preview/feedbackform' )}:</label>
-            {attribute_view_gui attribute=$node.object.data_map.recipient}
+            {attribute_view_gui attribute=$node.data_map.recipient}
         </div>
 
     </div>

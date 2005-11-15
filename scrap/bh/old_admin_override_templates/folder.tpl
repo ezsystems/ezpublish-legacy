@@ -13,9 +13,9 @@
 </div>
 
 <div class="object">
-    <p>{attribute_view_gui attribute=$node.object.data_map.short_description}</p>
+    <p>{attribute_view_gui attribute=$node.data_map.short_description}</p>
 
-    <p>{attribute_view_gui attribute=$node.object.data_map.description}</p>
+    <p>{attribute_view_gui attribute=$node.data_map.description}</p>
 </div>
 
 {section show=$is_standalone}

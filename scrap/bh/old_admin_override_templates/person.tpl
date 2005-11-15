@@ -22,19 +22,19 @@
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
     <h3>{"Job title"|i18n("design/admin/node/view")}</h3>
-    <p>{attribute_view_gui attribute=$node.object.data_map.job_title}</p>
+    <p>{attribute_view_gui attribute=$node.data_map.job_title}</p>
 
-    {section show=$node.object.data_map.picture.content}
+    {section show=$node.data_map.picture.content}
         <div class="imageright">
-        {attribute_view_gui attribute=$node.object.data_map.picture.content.data_map.image image_class=small}
+        {attribute_view_gui attribute=$node.data_map.picture.content.data_map.image image_class=small}
         </div>
     {/section}
 
     <h3>{"Contact information"|i18n("design/admin/node/view")}</h3>
-    <p>{attribute_view_gui attribute=$node.object.data_map.contact_information}</p>
+    <p>{attribute_view_gui attribute=$node.data_map.contact_information}</p>
 
     <h3>{"Comment"|i18n("design/admin/node/view")}</h3>
-    <p>{attribute_view_gui attribute=$node.object.data_map.comment}</p>
+    <p>{attribute_view_gui attribute=$node.data_map.comment}</p>
 
     <div class="buttonblock">
     <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />
