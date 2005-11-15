@@ -73,6 +73,66 @@ class eZIntegerType extends eZDataType
     }
 
     /*!
+     Private method, only for using inside this class.
+    */
+    function validateIntegerHTTPInput( $data, &$contentObjectAttribute, &$classAttribute )
+    {
+        $min = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_VALUE_FIELD );
+        $max = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_VALUE_FIELD );
+        $input_state = $classAttribute->attribute( EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD );
+
+        switch( $input_state )
+        {
+            case EZ_INTEGER_NO_MIN_MAX_VALUE:
+            {
+                $this->IntegerValidator->setRange( false, false );
+                $state = $this->IntegerValidator->validate( $data );
+                if( $state === EZ_INPUT_VALIDATOR_STATE_INVALID || $state === EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'The input is not a valid integer.' ) );
+                else
+                    return $state;
+            } break;
+            case EZ_INTEGER_HAS_MIN_VALUE:
+            {
+                $this->IntegerValidator->setRange( $min, false );
+                $state = $this->IntegerValidator->validate( $data );
+                if( $state === EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
+                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                else
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'The number must be greater than %1' ),
+                                                                 $min );
+            } break;
+            case EZ_INTEGER_HAS_MAX_VALUE:
+            {
+                $this->IntegerValidator->setRange( false, $max );
+                $state = $this->IntegerValidator->validate( $data );
+                if( $state===1 )
+                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                else
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'The number must be less than %1' ),
+                                                                 $max );
+            } break;
+            case EZ_INTEGER_HAS_MIN_MAX_VALUE:
+            {
+                $this->IntegerValidator->setRange( $min, $max );
+                $state = $this->IntegerValidator->validate( $data );
+                if( $state===1 )
+                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                else
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'The number is not within the required range %1 - %2' ),
+                                                                 $min, $max );
+            } break;
+        }
+
+        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+
+    }
+
+    /*!
      Validates the input and returns true if the input was
      valid for this datatype.
     */
@@ -83,65 +143,26 @@ class eZIntegerType extends eZDataType
             $data =& $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
             $data = str_replace(" ", "", $data );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-            $min = $classAttribute->attribute( EZ_DATATYPESTRING_MIN_VALUE_FIELD );
-            $max = $classAttribute->attribute( EZ_DATATYPESTRING_MAX_VALUE_FIELD );
-            $input_state = $classAttribute->attribute( EZ_DATATYPESTRING_INTEGER_INPUT_STATE_FIELD );
-            if( !$contentObjectAttribute->validateIsRequired() && ( $data == "" ) )
+
+            if ( $data == "" )
             {
-                return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+                if ( !$classAttribute->attribute( 'is_information_collector' ) and
+                     $contentObjectAttribute->validateIsRequired() )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'Input required.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
+                else
+                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             }
-            switch( $input_state )
+            else
             {
-                case EZ_INTEGER_NO_MIN_MAX_VALUE:
-                {
-                    $this->IntegerValidator->setRange( false, false );
-                    $state = $this->IntegerValidator->validate( $data );
-                    if( $state === EZ_INPUT_VALIDATOR_STATE_INVALID || $state === EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
-                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'The input is not a valid integer.' ) );
-                    else
-                        return $state;
-                } break;
-                case EZ_INTEGER_HAS_MIN_VALUE:
-                {
-                    $this->IntegerValidator->setRange( $min, false );
-                    $state = $this->IntegerValidator->validate( $data );
-                    if( $state === EZ_INPUT_VALIDATOR_STATE_ACCEPTED )
-                        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-                    else
-                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'The number must be greater than %1' ),
-                                                                     $min );
-                } break;
-                case EZ_INTEGER_HAS_MAX_VALUE:
-                {
-                    $this->IntegerValidator->setRange( false, $max );
-                    $state = $this->IntegerValidator->validate( $data );
-                    if( $state===1 )
-                        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-                    else
-                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'The number must be less than %1' ),
-                                                                     $max );
-                } break;
-                case EZ_INTEGER_HAS_MIN_MAX_VALUE:
-                {
-                    $this->IntegerValidator->setRange( $min, $max );
-                    $state = $this->IntegerValidator->validate( $data );
-                    if( $state===1 )
-                        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-                    else
-                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'The number is not within the required range %1 - %2' ),
-                                                                     $min, $max );
-                } break;
+                return $this->validateIntegerHTTPInput( $data, $contentObjectAttribute, $classAttribute );
             }
         }
         else
-        {
             return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-        }
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
     function fixupObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
@@ -180,7 +201,53 @@ class eZIntegerType extends eZDataType
         if ( $http->hasPostVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $data =& $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
+            eZDebug::writeDebug( $data, 'rush: $data' );
             $contentObjectAttribute->setAttribute( "data_int", $data );
+            return true;
+        }
+        return false;
+    }
+
+    /*!
+     \reimp
+    */
+    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    {
+        if ( $http->hasPostVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
+            $data =& $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
+            $data = str_replace(" ", "", $data );
+            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+
+            if ( $data == "" )
+            {
+                if ( $contentObjectAttribute->validateIsRequired() )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'Input required.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
+                else
+                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            }
+            else
+            {
+                return $this->validateIntegerHTTPInput( $data, $contentObjectAttribute, $classAttribute );
+            }
+        }
+        else
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+    }
+
+    /*!
+     Fetches the http post variables for collected information
+    */
+    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
+    {
+        if ( $http->hasPostVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
+            $data =& $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
+            $collectionAttribute->setAttribute( "data_int", $data );
             return true;
         }
         return false;
@@ -358,6 +425,14 @@ class eZIntegerType extends eZDataType
     }
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
+    {
+        return true;
+    }
+
+    /*!
+     \reimp
+    */
+    function isInformationCollector()
     {
         return true;
     }
