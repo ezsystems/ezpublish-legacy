@@ -82,7 +82,7 @@ class eZBooleanType extends eZDataType
     }
 
     /*!
-      Validates the http post var integer input.
+      Validates the http post var boolean input.
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
@@ -105,7 +105,7 @@ class eZBooleanType extends eZDataType
     }
 
     /*!
-     Fetches the http post var integer input and stores it in the data instance.
+     Fetches the http post var boolean input and stores it in the data instance.
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
@@ -113,9 +113,9 @@ class eZBooleanType extends eZDataType
         {
             $data = $http->postVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) );
             if ( isset( $data ) && $data !== '0' && $data !== 'false' )
-              $data = 1;
+                $data = 1;
             else
-              $data = 0;
+                $data = 0;
         }
         else
         {
@@ -131,13 +131,20 @@ class eZBooleanType extends eZDataType
    */
     function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
     {
-        if ( $http->hasPostVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) ) )
+        if ( $http->hasPostVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) ))
         {
-            $collectionAttribute->setAttribute( 'data_int', 1 );
-            $attr =& $contentObjectAttribute->attribute( 'contentclass_attribute' );
-            return true;
+            $data = $http->postVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) );
+            if ( isset( $data ) && $data !== '0' && $data !== 'false' )
+                $data = 1;
+            else
+                $data = 0;
         }
-        return false;
+        else
+        {
+            $data = 0;
+        }
+        $collectionAttribute->setAttribute( 'data_int', $data );
+        return true;
     }
 
     function fetchClassAttributeHTTPInput( &$http, $base, &$classAttribute )

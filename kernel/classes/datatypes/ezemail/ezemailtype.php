@@ -66,43 +66,51 @@ class eZEmailType extends eZDataType
         }
     }
 
+    /*
+     Private method, only for using inside this class.
+    */
+    function validateEMailHTTPInput( $email, &$contentObjectAttribute )
+    {
+        include_once( "lib/ezutils/classes/ezmail.php" );
+        if ( !eZMail::validate( $email ) )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                 'The email address is not valid.' ) );
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        }
+        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+    }
+
     /*!
      Validates the input and returns true if the input was
      valid for this datatype.
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-
         if ( $http->hasPostVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $email =& $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
 
-            // we require user to enter an address only if the attribute is not an informationcollector
-            if ( $contentObjectAttribute->validateIsRequired() && !$classAttribute->attribute( 'is_information_collector' ) )
+            $trimedEmail = trim( $email );
+
+            if ( $trimedEmail == "" )
             {
-                if ( trim( $email ) == "" )
+                // we require user to enter an address only if the attribute is not an informationcollector
+                if ( !$classAttribute->attribute( 'is_information_collector' ) and
+                     $contentObjectAttribute->validateIsRequired() )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'The email address is empty.' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
-
-            // if the entered address is not empty, we should validate it
-            if ( trim( $email ) != "" )
+            else
             {
-                include_once( "lib/ezutils/classes/ezmail.php" );
-                $isValidated = eZMail::validate( trim( $email ) );
-                if ( !$isValidated )
-                {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'The email address is not valid.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                }
+                // if the entered address is not empty then we should validate it in any case
+                return $this->validateEMailHTTPInput( $trimedEmail, $contentObjectAttribute );
             }
         }
-
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
@@ -129,29 +137,29 @@ class eZEmailType extends eZDataType
         {
             $email =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-            if ( $classAttribute->attribute( "is_required" ) )
+
+            $trimedEmail = trim( $email );
+
+            if ( $trimedEmail == "" )
             {
-                if ( strlen( trim( $email ) ) == 0 )
+                // if entered email is empty and required then return state invalid
+                if ( $contentObjectAttribute->validateIsRequired() )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'The email address is empty.' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
+                else
+                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
             }
-
-            if ( strlen( trim( $email ) ) != 0 )
+            else
             {
-                include_once( "lib/ezutils/classes/ezmail.php" );
-                if ( !eZMail::validate( trim( $email ) ) )
-                {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'The email address is not valid.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                }
+                // if entered email is not empty then we should validate it in any case
+                return $this->validateEMailHTTPInput( $trimedEmail, $contentObjectAttribute );
             }
-            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
-        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        else
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
     /*!
@@ -163,10 +171,8 @@ class eZEmailType extends eZDataType
         {
             $dataText =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
             $collectionAttribute->setAttribute( 'data_text', $dataText );
-
             return true;
         }
-
         return false;
     }
 
