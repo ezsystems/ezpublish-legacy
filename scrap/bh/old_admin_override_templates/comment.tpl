@@ -19,8 +19,8 @@
 <div class="object">
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
     <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-    <p class="small">{attribute_view_gui attribute=$node.object.data_map.author}</p>
-    <p>{attribute_view_gui attribute=$node.object.data_map.message}</p>
+    <p class="small">{attribute_view_gui attribute=$node.data_map.author}</p>
+    <p>{attribute_view_gui attribute=$node.data_map.message}</p>
 
     <div class="buttonblock">
     {section show=and($is_editable,$content_object.can_edit)}

@@ -10,17 +10,17 @@
 
 <div class="object">
     <h1>{$node_name|wash}</h1>
-    <p class="small">{$node.object.data_map.product_nr.contentclass_attribute.name} {attribute_view_gui attribute=$node.object.data_map.product_nr}</p>
+    <p class="small">{$node.data_map.product_nr.contentclass_attribute.name} {attribute_view_gui attribute=$node.data_map.product_nr}</p>
     
     <div class="imageright">
-    {attribute_view_gui attribute=$node.object.data_map.photo image_class=medium}
+    {attribute_view_gui attribute=$node.data_map.photo image_class=medium}
     </div>
 
-    {attribute_view_gui attribute=$node.object.data_map.intro}
+    {attribute_view_gui attribute=$node.data_map.intro}
 
-    {attribute_view_gui attribute=$node.object.data_map.description}
+    {attribute_view_gui attribute=$node.data_map.description}
 
-    <p class="price">{attribute_view_gui attribute=$node.object.data_map.price}</p>
+    <p class="price">{attribute_view_gui attribute=$node.data_map.price}</p>
 
     <h3>{'Placed in'|i18n('design/admin/node/view')}</h3>
     {section name=Parent loop=$content_object.parent_nodes}

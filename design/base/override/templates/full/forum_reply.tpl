@@ -54,7 +54,7 @@
         <h3>{$node.name|wash}</h3>
 
         <p>
-            {$node.object.data_map.message.content|simpletags|wordtoimage|autolink}
+            {$node.data_map.message.content|simpletags|wordtoimage|autolink}
         </p>
         {section show=$owner_map.signature.has_content}
             <p class="author-signature">{$owner_map.signature.content|simpletags|autolink}</p>

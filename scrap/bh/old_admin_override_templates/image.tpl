@@ -19,9 +19,9 @@
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
     <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 
-    {attribute_view_gui attribute=$node.object.data_map.image}
+    {attribute_view_gui attribute=$node.data_map.image}
 
-    {attribute_view_gui attribute=$node.object.data_map.caption}
+    {attribute_view_gui attribute=$node.data_map.caption}
 
     <div class="buttonblock">
         {section show=and($is_editable,$content_object.can_edit)}

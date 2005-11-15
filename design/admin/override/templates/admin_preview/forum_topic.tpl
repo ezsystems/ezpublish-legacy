@@ -6,12 +6,12 @@
     <h1>{$node.name|wash}</h1>
 
     <div class="attribute-long">
-    {attribute_view_gui attribute=$node.object.data_map.message}
+    {attribute_view_gui attribute=$node.data_map.message}
     </div>
 
     <div class="content-control">
         <label>Sticky:</label>
-        {attribute_view_gui attribute=$node.object.data_map.sticky}
+        {attribute_view_gui attribute=$node.data_map.sticky}
         </div>
     </div>
 

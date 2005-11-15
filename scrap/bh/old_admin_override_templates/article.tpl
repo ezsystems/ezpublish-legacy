@@ -19,16 +19,16 @@
 
 <div class="object">
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
-    <h3>{'Author'|i18n('design/admin/node/view')}: {attribute_view_gui attribute=$node.object.data_map.author}</h3>
+    <h3>{'Author'|i18n('design/admin/node/view')}: {attribute_view_gui attribute=$node.data_map.author}</h3>
 
-    {section show=$node.object.data_map.image.content}
+    {section show=$node.data_map.image.content}
         <div class="imageright">
-            {attribute_view_gui attribute=$node.object.data_map.image.content.data_map.image}
+            {attribute_view_gui attribute=$node.data_map.image.content.data_map.image}
         </div>
     {/section}
 
-    {attribute_view_gui attribute=$node.object.data_map.intro}
-    {attribute_view_gui attribute=$node.object.data_map.body}
+    {attribute_view_gui attribute=$node.data_map.intro}
+    {attribute_view_gui attribute=$node.data_map.body}
 
     <div class="buttonblock">
     {section show=and($is_editable,$content_object.can_edit)}

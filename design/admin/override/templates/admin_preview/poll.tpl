@@ -6,11 +6,11 @@
         <h1>{$node.name|wash()}</h1>
 
         <div class="attribute-short">
-        {attribute_view_gui attribute=$node.object.data_map.description}
+        {attribute_view_gui attribute=$node.data_map.description}
         </div>
 
         <div class="content-question">
-        {attribute_view_gui attribute=$node.object.data_map.question}
+        {attribute_view_gui attribute=$node.data_map.question}
         </div>
 
         <div class="attribute-link">

@@ -12,11 +12,11 @@
     <h1>{$node_name|wash}</h1>
 
     <div class="imageright">
-        {attribute_view_gui attribute=$node.object.data_map.thumbnail image_class=medium}
+        {attribute_view_gui attribute=$node.data_map.thumbnail image_class=medium}
     </div>
 
-    {attribute_view_gui attribute=$node.object.data_map.intro}
-    {attribute_view_gui attribute=$node.object.data_map.body}
+    {attribute_view_gui attribute=$node.data_map.intro}
+    {attribute_view_gui attribute=$node.data_map.body}
 
     <h3>{'Placed in'|i18n('design/admin/node/view')}</h3>
     {section name=Parent loop=$content_object.parent_nodes}

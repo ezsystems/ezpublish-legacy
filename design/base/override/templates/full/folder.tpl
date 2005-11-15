@@ -2,22 +2,22 @@
 <div class="content-view-full">
     <div class="class-folder">
 
-        <h1>{$node.object.data_map.name.content|wash()}</h1>
+        <h1>{$node.data_map.name.content|wash()}</h1>
 
-        {section show=$node.object.data_map.short_description.content.is_empty|not}
+        {section show=$node.data_map.short_description.content.is_empty|not}
             <div class="attribute-short">
-                {attribute_view_gui attribute=$node.object.data_map.short_description}
+                {attribute_view_gui attribute=$node.data_map.short_description}
             </div>
         {/section}
 
-        {section show=$node.object.data_map.description.content.is_empty|not}
+        {section show=$node.data_map.description.content.is_empty|not}
             <div class="attribute-long">
-                {attribute_view_gui attribute=$node.object.data_map.description}
+                {attribute_view_gui attribute=$node.data_map.description}
             </div>
         {/section}
 
         {section show=is_unset( $versionview_mode )}
-        {section show=$node.object.data_map.show_children.content}
+        {section show=$node.data_map.show_children.content}
             {let page_limit=10
                  list_items=array()
                  list_count=0}

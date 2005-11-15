@@ -6,11 +6,11 @@
     <h2>{$node.name|wash}</h2>
 
     <div class="attribute-short">
-        {attribute_view_gui attribute=$node.object.data_map.description}
+        {attribute_view_gui attribute=$node.data_map.description}
     </div>
 
     <div class="content-media">
-    {let attribute=$node.object.data_map.file}
+    {let attribute=$node.data_map.file}
         <object ID="MediaPlayer"  CLASSID="CLSID:22D6f312-B0F6-11D0-94AB-0080C74C7E95" STANDBY="Loading Windows Media Player components..." type="application/x-oleobject"
                 {section show=$attribute.content.width|gt( 0 )}width="{$attribute.content.width}"{/section} {section show=$attribute.content.width|gt( 0 )}height="{$attribute.content.height}"{/section}>
         <param name="filename" value={concat("content/download/",$attribute.contentobject_id,"/",$attribute.content.contentobject_attribute_id,"/",$attribute.content.original_filename)|ezurl} />
