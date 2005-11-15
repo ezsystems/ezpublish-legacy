@@ -630,9 +630,9 @@ class eZImageAliasHandler
             {
                 include_once( "lib/ezdb/classes/ezdb.php" );
                 $db =& eZDB::instance();
-                $db->query( 'DELETE
+                $db->query( "DELETE
                              FROM   ezimagefile
-                             WHERE  filepath like "'.$dirpath.'/%"' );
+                             WHERE  filepath like '".$dirpath."/%'" );
                 eZDir::recursiveDelete( $dirpath );
             }
         }
