@@ -1342,7 +1342,15 @@ class eZContentObject extends eZPersistentObject
              WHERE user_id = '$delID'" );
 
         include_once( "kernel/classes/ezworkflowtype.php" );
-        $registeredTypes = eZWorkFlowType::fetchRegisteredTypes();
+        if ( isset( $GLOBALS["eZWorkflowTypeObjects"] ) and is_array( $GLOBALS["eZWorkflowTypeObjects"] ) )
+        {
+            $registeredTypes =& $GLOBALS["eZWorkflowTypeObjects"];
+        }
+        else
+        {
+            $registeredTypes = eZWorkFlowType::fetchRegisteredTypes();
+        }
+
         // Cleanup ezworkflow_evet etc...
         foreach ( array_keys( $registeredTypes ) as $registeredTypeKey )
         {
