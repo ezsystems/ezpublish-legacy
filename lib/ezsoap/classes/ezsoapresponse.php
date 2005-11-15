@@ -66,33 +66,33 @@ class eZSOAPResponse extends eZSOAPEnvelope
     */
     function decodeStream( $request, $stream )
     {
-        $stream =& $this->stripHTTPHeader( $stream );
+        $stream = $this->stripHTTPHeader( $stream );
 
         $xml = new eZXML();
 
-        $dom =& $xml->domTree( $stream );
-        $this->DOMDocument =& $dom;
+        $dom = $xml->domTree( $stream );
+        $this->DOMDocument = $dom;
 
         if ( get_class( $dom ) == "ezdomdocument" )
         {
             // check for fault
-            $response =& $dom->elementsByNameNS( 'Fault', EZ_SOAP_ENV );
+            $response = $dom->elementsByNameNS( 'Fault', EZ_SOAP_ENV );
 
             if ( count( $response ) == 1 )
             {
                 $this->IsFault = 1;
-                $faultStringArray =& $dom->elementsByName( "faultstring" );
+                $faultStringArray = $dom->elementsByName( "faultstring" );
                 $this->FaultString = $faultStringArray[0]->textContent();
 
-                $faultCodeArray =& $dom->elementsByName( "faultcode" );
+                $faultCodeArray = $dom->elementsByName( "faultcode" );
                 $this->FaultCode = $faultCodeArray[0]->textContent();
                 return;
             }
 
             // get the response
-            $response =& $dom->elementsByNameNS( $request->name() . "Response", $request->namespace() );
+            $response = $dom->elementsByNameNS( $request->name() . "Response", $request->namespace() );
 
-            $response =& $response[0];
+            $response = $response[0];
 
             if ( get_class( $response ) == "ezdomnode" )
             {
@@ -113,7 +113,7 @@ class eZSOAPResponse extends eZSOAPEnvelope
                 $responseAccessors = $response->children();
                 if ( count($responseAccessors) > 0 )
                 {
-                    $returnObject =& $responseAccessors[0];
+                    $returnObject = $responseAccessors[0];
                     $this->Value  = $this->decodeDataTypes( $returnObject );
                 }
             }
@@ -236,7 +236,7 @@ TODO: add encoding checks with schema validation.
     /*!
       Returns the XML payload for the response.
     */
-    function &payload( )
+    function payload( )
     {
         $doc = new eZDOMDocument();
         $doc->setName( "eZSOAP message" );
@@ -291,9 +291,8 @@ TODO: add encoding checks with schema validation.
         }
 
         $doc->setRoot( $root );
-        $ret = $doc->toString();
 
-        return $ret;
+        return $doc->toString();
     }
 
     /*!
@@ -301,7 +300,7 @@ TODO: add encoding checks with schema validation.
       \private
       Strips the header information from the HTTP raw response.
     */
-    function &stripHTTPHeader( $data )
+    function stripHTTPHeader( $data )
     {
         $missingxml = false;
         $start = strpos( $data, "<?xml" );
@@ -318,6 +317,7 @@ TODO: add encoding checks with schema validation.
         {
             $data = '<?xml version="1.0"?>' . $data;
         }
+
         return $data;
     }
 
@@ -326,9 +326,8 @@ TODO: add encoding checks with schema validation.
       TODO: encodeValue(...) in ezsoapresponse.php and ezsoaprequest.php should be moved to a common place,
       e.g. ezsoapcodec.php
     */
-    function &encodeValue( $name, $value )
+    function encodeValue( $name, $value )
     {
-        $returnValue = false;
         switch ( gettype( $value ) )
         {
             case "string" :
@@ -339,7 +338,7 @@ TODO: add encoding checks with schema validation.
                 $node->appendAttribute( $attr );
                 $node->appendChild( eZDOMDocument::createTextNode( $value ) );
 
-                $returnValue =& $node;
+                return $node;
             } break;
 
             case "boolean" :
@@ -352,7 +351,8 @@ TODO: add encoding checks with schema validation.
                     $node->appendChild( eZDOMDocument::createTextNode( "true" ) );
                 else
                     $node->appendChild( eZDOMDocument::createTextNode( "false" ) );
-                $returnValue =& $node;
+
+                return $node;
             } break;
 
             case "integer" :
@@ -363,7 +363,7 @@ TODO: add encoding checks with schema validation.
                 $node->appendAttribute( $attr );
                 $node->appendChild( eZDOMDocument::createTextNode( $value ) );
 
-                $returnValue =& $node;
+                return $node;
             } break;
 
             case "double" :
@@ -374,7 +374,7 @@ TODO: add encoding checks with schema validation.
                 $node->appendAttribute( $attr );
                 $node->appendChild( eZDOMDocument::createTextNode( $value ) );
 
-                $returnValue =& $node;
+                return $node;
             } break;
 
             case "array" :
@@ -403,10 +403,10 @@ TODO: add encoding checks with schema validation.
                     reset( $value );
                     while ( list( $key, $val ) = each ( $value ) )
                     {
-                        $subNode =& $this->encodeValue( $key, $val );
+                        $subNode = $this->encodeValue( $key, $val );
                         $node->appendChild( $subNode );
                     }
-                    $returnValue =& $node;
+                    return $node;
                 }
                 else
                 {
@@ -423,21 +423,22 @@ TODO: add encoding checks with schema validation.
 
                     foreach ( $value as $arrayItem )
                     {
-                        $subNode =& $this->encodeValue( "item", $arrayItem );
+                        $subNode = $this->encodeValue( "item", $arrayItem );
                         $node->appendChild( $subNode );
                     }
-                    $returnValue =& $node;
+
+                    return  $node;
                 }
             } break;
         }
 
-        return $returnValue;
+        return false;
     }
 
     /*!
       Returns the response value.
     */
-    function &value()
+    function value()
     {
         return $this->Value;
     }
@@ -447,7 +448,7 @@ TODO: add encoding checks with schema validation.
     */
     function setValue( $value )
     {
-        $this->Value =& $value;
+        $this->Value = $value;
     }
 
     /*!

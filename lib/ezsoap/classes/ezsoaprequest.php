@@ -100,7 +100,7 @@ class eZSOAPRequest extends eZSOAPEnvelope
     /*!
       Returns the request payload
     */
-    function &payload()
+    function payload()
     {
         $doc = new eZDOMDocument();
         $doc->setName( "eZSOAP message" );
@@ -127,8 +127,7 @@ class eZSOAPRequest extends eZSOAPEnvelope
         foreach ( $this->Parameters as $parameter )
         {
             unset( $param );
-            $param =& $this->encodeValue( $parameter->name(), $parameter->value() );
-//            $param->setPrefix( "req" );
+            $param = $this->encodeValue( $parameter->name(), $parameter->value() );
 
             if ( $param == false )
                 eZDebug::writeError( "Error enconding data for payload", "eZSOAPRequest::payload()" );
@@ -138,9 +137,7 @@ class eZSOAPRequest extends eZSOAPEnvelope
         $body->appendChild( $request );
 
         $doc->setRoot( $root );
-        $ret = $doc->toString();
-
-        return $ret;
+        return $doc->toString();
     }
 
     /*!
@@ -149,9 +146,8 @@ class eZSOAPRequest extends eZSOAPEnvelope
       TODO: encodeValue(...) in ezsoapresponse.php and ezsoaprequest.php should be moved to a common place,
       e.g. ezsoapcodec.php
     */
-    function &encodeValue( $name, $value )
+    function encodeValue( $name, $value )
     {
-        $returnValue = false;
         switch ( gettype( $value ) )
         {
             case "string" :
@@ -162,7 +158,7 @@ class eZSOAPRequest extends eZSOAPEnvelope
                 $node->appendAttribute( $attr );
                 $node->appendChild( eZDOMDocument::createTextNode( $value ) );
 
-                $returnValue =& $node;
+                return $node;
             } break;
 
             case "boolean" :
@@ -175,7 +171,8 @@ class eZSOAPRequest extends eZSOAPEnvelope
                     $node->appendChild( eZDOMDocument::createTextNode( "true" ) );
                 else
                     $node->appendChild( eZDOMDocument::createTextNode( "false" ) );
-                $returnValue =& $node;
+
+                return $node;
             } break;
 
             case "integer" :
@@ -186,7 +183,7 @@ class eZSOAPRequest extends eZSOAPEnvelope
                 $node->appendAttribute( $attr );
                 $node->appendChild( eZDOMDocument::createTextNode( $value ) );
 
-                $returnValue =& $node;
+                return $node;
             } break;
 
             case "double" :
@@ -197,7 +194,7 @@ class eZSOAPRequest extends eZSOAPEnvelope
                 $node->appendAttribute( $attr );
                 $node->appendChild( eZDOMDocument::createTextNode( $value ) );
 
-                $returnValue =& $node;
+                return $node;
             } break;
 
             case "array" :
@@ -226,10 +223,10 @@ class eZSOAPRequest extends eZSOAPEnvelope
                     reset( $value );
                     while ( list( $key, $val ) = each ( $value ) )
                     {
-                        $subNode =& $this->encodeValue( $key, $val );
+                        $subNode = $this->encodeValue( $key, $val );
                         $node->appendChild( $subNode );
                     }
-                    $returnValue =& $node;
+                    return $node;
                 }
                 else
                 {
@@ -246,15 +243,15 @@ class eZSOAPRequest extends eZSOAPEnvelope
 
                     foreach ( $value as $arrayItem )
                     {
-                        $subNode =& $this->encodeValue( "item", $arrayItem );
+                        $subNode = $this->encodeValue( "item", $arrayItem );
                         $node->appendChild( $subNode );
                     }
-                    $returnValue =& $node;
+                    return $node;
                 }
             } break;
         }
 
-        return $returnValue;
+        return false;
     }
 
 
