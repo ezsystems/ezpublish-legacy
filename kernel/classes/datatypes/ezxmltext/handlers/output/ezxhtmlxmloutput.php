@@ -369,9 +369,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         $childTagText = "";
         $tagName = $tag->name();
 
-        if ( !$isChildOfLinkTag && count( $this->LinkParameters ) )
-            $this->LinkParameters = array();
-
         // Set link parameters for rendering children of link tag
         if ( $tagName=="link" )
         {
@@ -461,9 +458,55 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 }break;
                 case "link" :
                 {
-                    // we use no template for link tag, all link parameters are used
+                    $isChildrenInline = true;
+
+                    //check if al children of link are inline tags
+                    $linkChildren = $tag->children();
+                    foreach( $linkChildren as $linkChild )
+                    {
+                        $isInline = false;
+
+                        if ( $linkChild->name()=='custom' )
+                        {
+                            // check inline setting for custom tag from ini
+                            $name = $linkChild->attributeValue( 'name' );
+                            include_once( "lib/ezutils/classes/ezini.php" );
+                            $ini =& eZINI::instance( 'content.ini' );
+            
+                            $isInlineTagList =& $ini->variable( 'CustomTagSettings', 'IsInline' );
+
+                            foreach ( array_keys ( $isInlineTagList ) as $key )
+                            {
+                                $isInlineTagValue =& $isInlineTagList[$key];
+
+                                if ( $isInlineTagValue )
+                                {
+                                    if ( $name == $key )
+                                        $isInline = true;
+                                }
+                            }
+                        }
+                        else
+                        { 
+                            $isInline = in_array( $linkChild->name(), $this->InLineTagArray ); 
+                        }
+
+                        if ( !$isInline ) break; // at least one child tag have't inline type, so cancel
+                    }
+                    //true if all $linkChild are inline
+                    $isChildrenInline = $isInline;
+
+                    // if not all children tags are inline, we use no template for link tag, all link parameters are used
                     // inside the templates of it's children, so we update tagText directly
-                    $tagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, $href != '' );
+                    // else we process link as other tags
+                    if ( !$isChildrenInline )
+                    {
+                        $tagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, $href != '' );
+                    }
+                    else
+                    {
+                        $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel  );
+                    }
                 }break;
                 default :
                     $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, $isChildOfLinkTag );
@@ -472,6 +515,36 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         switch ( $tagName )
         {
+            case 'link' :
+            {
+               //process link tag if all children are inline, using link template
+               //else do noting as each not inline child will care of inserting link in it's own template.
+                if ( $isChildrenInline )
+                {
+                    $text = $childTagText;
+    
+                    $res =& eZTemplateDesignResource::instance();
+                    $res->setKeys( array( array( 'classification', $this->LinkParameters['class'] ) ) );
+
+                    $tpl->setVariable( 'content', $text, 'xmltagns' );
+
+                    $tpl->setVariable( 'href', $this->LinkParameters['href'], 'xmltagns' );
+                    $tpl->setVariable( 'target', $this->LinkParameters['target'], 'xmltagns' );
+                    $tpl->setVariable( 'classification', $this->LinkParameters['class'], 'xmltagns' );
+                    $tpl->setVariable( 'title', $this->LinkParameters['title'], 'xmltagns' );
+                    $tpl->setVariable( 'id', $this->LinkParameters['id'], 'xmltagns' );
+
+                    $uri = "design:content/datatype/view/ezxmltags/link.tpl";
+
+                    eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+
+                    $tagText .= implode( '', $textElements );
+
+                    // Remove the design key, so it will not override other tags
+                    $res->removeKey( 'classification' );
+                    $tpl->unsetVariable( 'classification', 'xmltagns' );
+                }
+            }break;
             case '#text' :
             {
                 $text = htmlspecialchars( $tag->content() );
@@ -995,6 +1068,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     /// Contains the Objects hashed by ID
     var $ObjectArray = array();
+
+    var $InLineTagArray = array( 'emphasize', 'strong', 'link', 'anchor' );
 
     /// Contains the Nodes hashed by ID
     var $NodeArray = array();
