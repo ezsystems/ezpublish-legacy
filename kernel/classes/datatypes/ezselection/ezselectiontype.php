@@ -192,6 +192,30 @@ class eZSelectionType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    {
+        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+    }
+
+   /*!
+    \reimp
+    Fetches the http post variables for collected information
+   */
+    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
+    {
+        if ( $http->hasPostVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) ) )
+        {
+            $selectOptions =& $http->postVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) );
+            $idString = ( is_array( $selectOptions ) ? implode( '-', $selectOptions ) : "" );
+            $collectionAttribute->setAttribute( 'data_text', $idString );
+            return true;
+        }
+        return false;
+    }
+
+    /*!
      Returns the selected options by id.
     */
     function &objectAttributeContent( &$contentObjectAttribute )
@@ -318,7 +342,15 @@ class eZSelectionType extends eZDataType
     /*!
      \reimp
     */
-    function &serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    function isInformationCollector()
+    {
+        return true;
+    }
+
+    /*!
+     \reimp
+    */
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $xml                 =& new eZXML();
 
