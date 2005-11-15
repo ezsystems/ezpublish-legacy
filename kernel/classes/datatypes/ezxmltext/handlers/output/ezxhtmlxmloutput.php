@@ -1069,7 +1069,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     /// Contains the Objects hashed by ID
     var $ObjectArray = array();
 
-    var $InLineTagArray = array( 'emphasize', 'strong', 'link', 'anchor' );
+    var $InLineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', '#text' );
 
     /// Contains the Nodes hashed by ID
     var $NodeArray = array();

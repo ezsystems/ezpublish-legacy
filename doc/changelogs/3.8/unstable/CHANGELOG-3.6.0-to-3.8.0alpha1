@@ -660,6 +660,8 @@ Attributes:
   ( Merged from stable/3.6 ( 3.6.5 ) rev. 14048 )
 - Fixed bug #7337: Incorrect nesting of tags (link & custom) in XML fields.  
   ( Merged from stable/3.6 ( 3.6.5 ) rev. 14069 )  
+- Fixed bug #7399: Bug XML Output handler issue.
+  ( Merged from stable/3.7 ( 3.7.3 ) rev. 14074 )
   
 *Library:
 
