@@ -667,6 +667,9 @@ Attributes:
 - Fixed bug #7382: verifyfiles.sh issue with path.
   ( Merged from stable/3.5 ( 3.5.7 ) rev. 14083 )
 - Fixed bug #7018: Empty 'id' attribute in 'embed' XML tag's template.
+- Added possibility to add custom attributes to body in SOAP requests.
+  ( Merged from stable/3.5 rev. 14101, stable/3.6 rev. 14102, stable/3.7 rev. 14103 )
+
   
 *Library:
 
