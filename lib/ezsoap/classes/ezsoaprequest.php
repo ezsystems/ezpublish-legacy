@@ -87,6 +87,17 @@ class eZSOAPRequest extends eZSOAPEnvelope
         return $this->Namespace;
     }
 
+    /*!
+     Adds a new attribute to the body element.
+
+     \param attribute name
+     \param attribute value
+     \param prefix
+    */
+    function addBodyAttribute( $name, $value, $prefix = false )
+    {
+        $this->BodyAttributes[] = eZDOMDocument::createAttributeNode( $name, $value, $prefix );
+    }
 
     /*!
       Adds a new parameter to the request. You have to provide a prameter name
@@ -116,6 +127,12 @@ class eZSOAPRequest extends eZSOAPEnvelope
         // add the body
         $body =& $doc->createElementNode( "Body" );
         $body->appendAttribute( $doc->createAttributeNamespaceDefNode( "req", $this->Namespace ) );
+
+        foreach( $this->BodyAttributes as $attribute )
+        {
+            $body->appendAttribute( $attribute );
+        }
+
         $body->setPrefix( EZ_SOAP_ENV_PREFIX );
         $root->appendChild( $body );
 
@@ -263,6 +280,9 @@ class eZSOAPRequest extends eZSOAPEnvelope
 
     /// The request target namespace
     var $Namespace;
+
+    /// Additional body element attributes.
+    var $BodyAttributes = array();
 
     /// Contains the request parameters
     var $Parameters = array();
