@@ -22,25 +22,25 @@
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
 
     <h3>{"Company number"|i18n("design/admin/node/view")}</h3>
-    <p>{attribute_view_gui attribute=$node.object.data_map.company_number}</p>
+    <p>{attribute_view_gui attribute=$node.data_map.company_number}</p>
 
-    {section show=$node.object.data_map.logo.content}
+    {section show=$node.data_map.logo.content}
         <div class="imageright">
-        {attribute_view_gui attribute=$node.object.data_map.logo.content.data_map.image image_class=medium}
+        {attribute_view_gui attribute=$node.data_map.logo.content.data_map.image image_class=medium}
         </div>
     {/section}
 
     <h3>{"Contact information"|i18n("design/admin/node/view")}</h3>
-    <p>{attribute_view_gui attribute=$node.object.data_map.contact_information}</p>
+    <p>{attribute_view_gui attribute=$node.data_map.contact_information}</p>
 
     <h3>{"Company address"|i18n("design/admin/node/view")}</h3>
-    <p>{attribute_view_gui attribute=$node.object.data_map.company_address}</p>
+    <p>{attribute_view_gui attribute=$node.data_map.company_address}</p>
 
     <h3>{"Additional information"|i18n("design/admin/node/view")}</h3>
-    <p>{attribute_view_gui attribute=$node.object.data_map.additional_information}</p>
+    <p>{attribute_view_gui attribute=$node.data_map.additional_information}</p>
 
     <h3>{"Contacts"|i18n("design/admin/node/view")}</h3>
-    <p>{attribute_view_gui attribute=$node.object.data_map.contacts}</p>
+    <p>{attribute_view_gui attribute=$node.data_map.contacts}</p>
 
     <div class="buttonblock">
     <input type="hidden" name="ContentObjectID" value="{$content_object.id}" />

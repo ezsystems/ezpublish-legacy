@@ -2,7 +2,7 @@
          content_version=$node.contentobject_version_object
          node_name=$node.name
          parent_nodes=$content_object.parent_nodes}
-{let user_attribute=$node.object.data_map.user_account
+{let user_attribute=$node.data_map.user_account
      has_extra_groups=false()}
 
 <div class="objectheader">

@@ -20,8 +20,8 @@
 
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
     <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
-    {attribute_view_gui attribute=$node.object.data_map.description}
-    <p>{attribute_view_gui attribute=$node.object.data_map.file}</p>
+    {attribute_view_gui attribute=$node.data_map.description}
+    <p>{attribute_view_gui attribute=$node.data_map.file}</p>
 
     <div class="buttonblock">
         {section show=and($is_editable,$content_object.can_edit)}

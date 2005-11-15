@@ -669,6 +669,8 @@ Attributes:
 - Fixed bug #7018: Empty 'id' attribute in 'embed' XML tag's template.
 - Added possibility to add custom attributes to body in SOAP requests.
   ( Merged from stable/3.5 rev. 14101, stable/3.6 rev. 14102, stable/3.7 rev. 14103 )
+- Fixed bug #7395: Bug Template optimisation errors.
+  ( Merged from stable/3.5 rev. 14109, stable/3.6 rev. 14110, stable/3.7 rev. 14111 )
 
   
 *Library:

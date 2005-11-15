@@ -11,8 +11,8 @@
 <div class="object">
     <h1>{$node_name|wash}</h1>
 
-    {attribute_view_gui attribute=$node.object.data_map.description}
-    <p>{attribute_view_gui attribute=$node.object.data_map.file}</p>
+    {attribute_view_gui attribute=$node.data_map.description}
+    <p>{attribute_view_gui attribute=$node.data_map.file}</p>
 
     <h3>{'Placed in'|i18n('design/admin/node/view')}</h3>
     {section name=Parent loop=$content_object.parent_nodes}

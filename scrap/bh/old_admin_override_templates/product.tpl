@@ -19,19 +19,19 @@
 
 <div class="object">
     <input type="hidden" name="TopLevelNode" value="{$content_object.main_node_id}" />
-    <p class="small">{$node.object.data_map.product_number.contentclass_attribute.name} {attribute_view_gui attribute=$node.object.data_map.product_number}</p>
+    <p class="small">{$node.data_map.product_number.contentclass_attribute.name} {attribute_view_gui attribute=$node.data_map.product_number}</p>
 
-    {section show=$node.object.data_map.image.content}
+    {section show=$node.data_map.image.content}
         <div class="imageright">
-        {attribute_view_gui attribute=$node.object.data_map.image.content.data_map.image image_class=medium}
+        {attribute_view_gui attribute=$node.data_map.image.content.data_map.image image_class=medium}
         </div>
     {/section}
 
-    {attribute_view_gui attribute=$node.object.data_map.short_description}
+    {attribute_view_gui attribute=$node.data_map.short_description}
 
-    {attribute_view_gui attribute=$node.object.data_map.description}
+    {attribute_view_gui attribute=$node.data_map.description}
 
-    <p class="price">{attribute_view_gui attribute=$node.object.data_map.price}</p>
+    <p class="price">{attribute_view_gui attribute=$node.data_map.price}</p>
 
     {section show=$is_standalone}
         <div class="buttonblock">
