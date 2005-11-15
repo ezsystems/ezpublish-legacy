@@ -148,11 +148,11 @@ class eZSOAPServer
             exit();
         }
 
-        $xmlData =& $this->stripHTTPHeader( $this->RawPostData );
+        $xmlData = $this->stripHTTPHeader( $this->RawPostData );
 
         $xml = new eZXML();
 
-        $dom =& $xml->domTree( $xmlData );
+        $dom = $xml->domTree( $xmlData );
 
         // Check for non-parsing XML, to avoid call to non-object error.
         if ( !is_object( $dom ) )
@@ -165,13 +165,13 @@ class eZSOAPServer
 
         // add namespace fetching on body
         // get the SOAP body
-        $body =& $dom->elementsByName( "Body" );
+        $body = $dom->elementsByName( "Body" );
 
         $children = $body[0]->children();
 
         if ( count( $children ) == 1 )
         {
-            $requestNode =& $children[0];
+            $requestNode = $children[0];
             // get target namespace for request
             $functionName = $requestNode->name();
             $namespaceURI = $requestNode->namespaceURI();
@@ -180,7 +180,7 @@ class eZSOAPServer
             // check parameters
             foreach ( $requestNode->children() as $parameterNode )
             {
-                $params[] =& eZSOAPResponse::decodeDataTypes( $parameterNode );
+                $params[] = eZSOAPResponse::decodeDataTypes( $parameterNode );
             }
 
             list( $objectName, $objectFunctionName ) = preg_split('/::/', $functionName, 2, PREG_SPLIT_NO_EMPTY);
@@ -248,11 +248,10 @@ class eZSOAPServer
       \private
       Strips the header information from the HTTP raw response.
     */
-    function &stripHTTPHeader( $data )
+    function stripHTTPHeader( $data )
     {
         $start = strpos( $data, "<?xml version=\"1.0\"?>" );
-        $data = substr( $data, $start, strlen( $data ) - $start );
-        return $data;
+        return substr( $data, $start, strlen( $data ) - $start );
     }
 
     /// Contains a list over registered functions

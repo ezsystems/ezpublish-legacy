@@ -52,9 +52,9 @@ class eZSOAPParameter
     function eZSOAPParameter( $name, $value)
     {
         $this->Name = $name;
-        $this->Value = $value;    
+        $this->Value = $value;
     }
-    
+
     /*!
       Sets the parameter name.
     */
@@ -66,7 +66,7 @@ class eZSOAPParameter
     /*!
       Returns the parameter name.
     */
-    function &name()
+    function name()
     {
         return $this->Name;
     }
@@ -82,11 +82,11 @@ class eZSOAPParameter
     /*!
       Returns the parameter value.
     */
-    function &value()
+    function value()
     {
         return $this->Value;
     }
-  
+
     /// The name of the parameter
     var $Name;
 

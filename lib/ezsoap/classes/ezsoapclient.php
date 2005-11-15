@@ -62,7 +62,7 @@ $request->addParameter( "valueA", 42 );
 $request->addParameter( "valueB", 17 );
 
 // send the request to the server and fetch the response
-$response =& $client->send( $request );
+$response = $client->send( $request );
 
 // check if the server returned a fault, if not print out the result
 if ( $response->isFault() )
@@ -103,7 +103,7 @@ class eZSOAPClient
     /*!
       Sends a SOAP message and returns the response object.
     */
-    function &send( $request )
+    function send( $request )
     {
         if ( $this->Port != 443 || !in_array( "curl", get_loaded_extensions() ) )
         {
@@ -129,7 +129,7 @@ class eZSOAPClient
                 return 0;
             }
 
-            $payload =& $request->payload();
+            $payload = $request->payload();
 
             $authentification = "";
             if ( ( $this->login() != "" ) )
