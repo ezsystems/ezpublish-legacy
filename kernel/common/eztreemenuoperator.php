@@ -138,13 +138,12 @@ class eZTreeMenuOperator
                 else
                     $nextNodeID = false;
 
-                $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
-                                                                          'Offset' => 0,
-                                                                          'SortBy' => $node->sortArray(),
-                                                                          'ClassFilterType' => 'include',
-                                                                          'ClassFilterArray' => $classFilter
-                                                                          ),
-                                                                   $nodeID );
+                $menuChildren = eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
+                                                                         'Offset' => 0,
+                                                                         'SortBy' => $node->sortArray(),
+                                                                         'ClassFilterType' => 'include',
+                                                                         'ClassFilterArray' => $classFilter ),
+                                                                  $nodeID );
 
                 /// Fill objects with attributes, speed boost
                 eZContentObject::fillNodeListAttributes( $menuChildren );
@@ -169,7 +168,8 @@ class eZTreeMenuOperator
                                              'url_alias' => $urlAlias,
                                              'url' => $url,
                                              'text' => $name,
-											 'is_selected' => $isSelected );
+											 'is_selected' => $isSelected,
+                                             'node' => $child );
                 }
 
                 // find insert pos
@@ -192,13 +192,12 @@ class eZTreeMenuOperator
                 {
                     $node = eZContentObjectTreeNode::fetch( 2 );
                     if ( !isset( $node ) ) { $operatorValue = $pathArray; return; }
-                    $menuChildren =& eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
-                                                                              'Offset' => 0,
-                                                                              'SortBy' => $node->sortArray(),
-                                                                              'ClassFilterType' => 'include',
-                                                                              'ClassFilterArray' => $classFilter
-                                                                              ),
-                                                                       2 );
+                    $menuChildren = eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
+                                                                             'Offset' => 0,
+                                                                             'SortBy' => $node->sortArray(),
+                                                                             'ClassFilterType' => 'include',
+                                                                             'ClassFilterArray' => $classFilter ),
+                                                                      2 );
 
                     /// Fill objects with attributes, speed boost
                     eZContentObject::fillNodeListAttributes( $menuChildren );
@@ -217,7 +216,8 @@ class eZTreeMenuOperator
                                               'url_alias' => $urlAlias,
                                               'url' => $url,
                                               'text' => $name,
-                                              'is_selected' => false );
+                                              'is_selected' => false,
+                                              'node' => $child );
                     }
                 }
                 $done = true;
