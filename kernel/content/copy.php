@@ -52,7 +52,7 @@ if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
 if ( $ObjectID === null )
 {
     // ObjectID is returned after browsing
-    $ObjectID =& $http->postVariable( 'ObjectID' );
+    $ObjectID = $http->postVariable( 'ObjectID' );
 }
 
 $object =& eZContentObject::fetch( $ObjectID );
@@ -224,7 +224,7 @@ else
 if ( $Module->isCurrentAction( 'Copy' ) )
 {
     // actually do copying after a user has selected object versions to copy
-    $newParentNodeID =& $http->postVariable( 'SelectedNodeID' );
+    $newParentNodeID = $http->postVariable( 'SelectedNodeID' );
     return copyObject( $Module, $object, $allVersions, $newParentNodeID );
 }
 else if ( $Module->isCurrentAction( 'CopyNode' ) )

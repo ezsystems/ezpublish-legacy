@@ -80,11 +80,11 @@ class eZHTTPTool
      \return a reference to the HTTP post variable $var, or null if it does not exist.
      \sa variable
     */
-    function &postVariable( $var )
+    function postVariable( $var )
     {
         $ret = null;
         if ( isset( $_POST[$var] ) )
-            $ret =& $_POST[$var];
+            $ret = $_POST[$var];
         else
             eZDebug::writeWarning( "Undefined post variable: $var",
                                    "eZHTTPTool" );
@@ -113,11 +113,11 @@ class eZHTTPTool
      \return a reference to the HTTP get variable $var, or null if it does not exist.
      \sa variable
     */
-    function &getVariable( $var )
+    function getVariable( $var )
     {
         $ret = null;
         if ( isset( $_GET[$var] ) )
-            $ret =& $_GET[$var];
+            $ret = $_GET[$var];
         else
             eZDebug::writeWarning( "Undefined get variable: $var",
                                    "eZHTTPTool" );
@@ -154,7 +154,7 @@ class eZHTTPTool
      \return a reference to the HTTP post/get variable $var, or null if it does not exist.
      \sa postVariable
     */
-    function &variable( $var )
+    function variable( $var )
     {
         if ( isset( $_POST[$var] ) )
         {

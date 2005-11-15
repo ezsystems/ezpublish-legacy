@@ -175,7 +175,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
 {
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
-        $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+        $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
 
         $db =& eZDB::instance();
         $db->begin();

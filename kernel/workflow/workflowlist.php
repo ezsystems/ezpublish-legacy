@@ -69,8 +69,8 @@ if ( $http->hasPostVariable( 'DeleteButton' ) and
     if ( $http->hasPostVariable( 'CurrentGroupID' ) )
     {
         // If CurrentGroupID variable exist, delete in that group only:
-        $groupID =& $http->postVariable( 'CurrentGroupID' );
-        $workflowIDs =& $http->postVariable( 'Workflow_id_checked' );
+        $groupID = $http->postVariable( 'CurrentGroupID' );
+        $workflowIDs = $http->postVariable( 'Workflow_id_checked' );
         foreach ( $workflowIDs as $workflowID )
         {
             // for all workflows which are tagged for deleting:

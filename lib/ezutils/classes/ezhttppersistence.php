@@ -100,7 +100,7 @@ class eZHTTPPersistence
                 $post_var = $base_name . "_" . $field_name;
                 if ( $http->hasPostVariable( $post_var ) )
                 {
-                    $post_value =& $http->postVariable( $post_var );
+                    $post_value = $http->postVariable( $post_var );
                     if ( $index === false )
                         $object->setAttribute( $field_name, $post_value );
                     else
@@ -189,7 +189,7 @@ class eZHTTPPersistence
         $post_var = $base_name . "_" . $cond . "_checked";
         if ( $http->hasPostVariable( $post_var ) )
         {
-            $checks =& $http->postVariable( $post_var );
+            $checks = $http->postVariable( $post_var );
         }
         else
             return false;

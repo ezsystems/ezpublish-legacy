@@ -89,7 +89,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
         $db =& eZDB::instance();
         $db->begin();
         
-        $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+        $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
         foreach ( $deleteIDArray as $deleteID )
         {
             $version = eZContentObjectVersion::fetch( $deleteID );

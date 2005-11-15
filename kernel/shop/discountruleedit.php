@@ -94,13 +94,13 @@ if ( $http->hasPostVariable( 'discountrule_name' ) )
     include_once( 'lib/ezlocale/classes/ezlocale.php' );
     $locale =& eZLocale::instance();
 
-    $discountRuleName =& $http->postVariable( 'discountrule_name' );
+    $discountRuleName = $http->postVariable( 'discountrule_name' );
     $discountRulePercent = $locale->internalNumber( $http->postVariable( 'discountrule_percent' ) );
 
     $discountRuleSelectedClasses = array();
     if ( $http->hasPostVariable( 'Contentclasses' ) && $http->postVariable( 'Contentclasses' ) )
     {
-        $discountRuleSelectedClasses =& $http->postVariable( 'Contentclasses' );
+        $discountRuleSelectedClasses = $http->postVariable( 'Contentclasses' );
         if ( !is_array( $discountRuleSelectedClasses ) )
         {
             $discountRuleSelectedClasses = unserialize( $discountRuleSelectedClasses );
@@ -110,7 +110,7 @@ if ( $http->hasPostVariable( 'discountrule_name' ) )
     $discountRuleSelectedSections = array();
     if ( $http->hasPostVariable( 'Sections' ) && $http->postVariable( 'Sections' ) )
     {
-        $discountRuleSelectedSections =& $http->postVariable( 'Sections' );
+        $discountRuleSelectedSections = $http->postVariable( 'Sections' );
         if ( !is_array( $discountRuleSelectedSections ) )
         {
             $discountRuleSelectedSections = unserialize( $discountRuleSelectedSections );
@@ -120,7 +120,7 @@ if ( $http->hasPostVariable( 'discountrule_name' ) )
     $discountRuleSelectedProducts = array();
     if ( $http->hasPostVariable( 'Products' ) && $http->postVariable( 'Products' ) )
     {
-        $discountRuleSelectedProducts =& $http->postVariable( 'Products' );
+        $discountRuleSelectedProducts = $http->postVariable( 'Products' );
         if ( !is_array( $discountRuleSelectedProducts ) )
         {
             $discountRuleSelectedProducts = unserialize( $discountRuleSelectedProducts );
@@ -202,7 +202,7 @@ if ( $http->hasPostVariable( 'DeleteProductButton' ) )
     // remove products from list:
     if ( $http->hasPostVariable( 'DeleteProductIDArray' ) )
     {
-        $deletedIDList =& $http->postVariable( 'DeleteProductIDArray' );
+        $deletedIDList = $http->postVariable( 'DeleteProductIDArray' );
         $arrayKeys = array_keys( $discountRuleSelectedProducts );
 
         foreach( $arrayKeys as $key )

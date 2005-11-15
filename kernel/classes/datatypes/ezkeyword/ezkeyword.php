@@ -102,7 +102,7 @@ class eZKeyword
     function initializeKeyword( $keywordString )
     {
         if ( !is_array( $keywordString ) )
-            $keywordArray =& explode( ",", $keywordString );
+            $keywordArray = explode( ",", $keywordString );
         foreach ( array_keys( $keywordArray ) as $key )
         {
             if ( trim( $keywordArray[$key] ) != "" )
@@ -331,7 +331,7 @@ class eZKeyword
                     $objectIDArray[] = $object['contentobject_id'];
                 }
 
-                $aNodes =& eZContentObjectTreeNode::findMainNodeArray( $objectIDArray );		
+                $aNodes =& eZContentObjectTreeNode::findMainNodeArray( $objectIDArray );
                 foreach ( $aNodes as $key => $node )
                 {
                     $theObject = $node->object();

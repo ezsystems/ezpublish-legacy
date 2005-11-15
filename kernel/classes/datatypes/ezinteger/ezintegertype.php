@@ -140,7 +140,7 @@ class eZIntegerType extends eZDataType
     {
         if ( $http->hasPostVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $data =& $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
+            $data = $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
             $data = str_replace(" ", "", $data );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
 
@@ -200,7 +200,7 @@ class eZIntegerType extends eZDataType
     {
         if ( $http->hasPostVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $data =& $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
+            $data = $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
             eZDebug::writeDebug( $data, 'rush: $data' );
             $contentObjectAttribute->setAttribute( "data_int", $data );
             return true;
@@ -215,7 +215,7 @@ class eZIntegerType extends eZDataType
     {
         if ( $http->hasPostVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $data =& $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
+            $data = $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
             $data = str_replace(" ", "", $data );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
 
@@ -246,7 +246,7 @@ class eZIntegerType extends eZDataType
     {
         if ( $http->hasPostVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $data =& $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
+            $data = $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
             $collectionAttribute->setAttribute( "data_int", $data );
             return true;
         }

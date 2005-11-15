@@ -464,7 +464,7 @@ if ( !function_exists( 'checkContentActions' ) )
             }
             if ( $http->hasPostVariable( 'RedirectURIAfterPublish' )  && !$hasRedirected )
             {
-                $uri =& $http->postVariable( 'RedirectURIAfterPublish' );
+                $uri = $http->postVariable( 'RedirectURIAfterPublish' );
                 $module->redirectTo( $uri );
                 $hasRedirected = true;
             }
@@ -571,7 +571,7 @@ if ( !function_exists( 'checkContentActions' ) )
                     $updateNodeVisibility = true;
                 else
                 {
-                    $futureNodeHiddenState =& $http->postVariable( $postVarName );
+                    $futureNodeHiddenState = $http->postVariable( $postVarName );
                     if ( $futureNodeHiddenState == 'hidden' )
                         eZContentObjectTreeNode::hideSubTree( $node );
                     else if ( $futureNodeHiddenState == 'visible' )

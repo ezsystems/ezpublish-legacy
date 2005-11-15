@@ -49,7 +49,7 @@ if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
 
 if ( $NodeID === null ) // NodeID is returned after browsing
 {
-    $NodeID =& $http->postVariable( 'NodeID' );
+    $NodeID = $http->postVariable( 'NodeID' );
 }
 
 $srcNode = eZContentObjectTreeNode::fetch( $NodeID );
@@ -926,7 +926,7 @@ $keepTime = false;
 if ( $Module->isCurrentAction( 'Copy' ) )
 {
     // actually do copying after a user has selected object versions to copy
-    $newParentNodeID =& $http->postVariable( 'SelectedNodeID' );
+    $newParentNodeID = $http->postVariable( 'SelectedNodeID' );
     copySubtree( $NodeID, $newParentNodeID, $notifications, $allVersions, $keepCreator, $keepTime );
 
     if ( $showNotification )

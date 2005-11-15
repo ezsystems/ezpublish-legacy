@@ -65,7 +65,7 @@ class eZAuthorType extends eZDataType
         $actionRemoveSelected = false;
         if ( $http->hasPostVariable( 'CustomActionButton' ) )
         {
-            $customActionArray =& $http->postVariable( 'CustomActionButton' );
+            $customActionArray = $http->postVariable( 'CustomActionButton' );
 
             if ( isset( $customActionArray[$contentObjectAttribute->attribute( "id" ) . '_remove_selected'] ) )
                 if ( $customActionArray[$contentObjectAttribute->attribute( "id" ) . '_remove_selected'] == 'Remove selected' )
@@ -192,9 +192,9 @@ class eZAuthorType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $authorIDArray =& $http->postVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) );
-        $authorNameArray =& $http->postVariable( $base . "_data_author_name_" . $contentObjectAttribute->attribute( "id" ) );
-        $authorEmailArray =& $http->postVariable( $base . "_data_author_email_" . $contentObjectAttribute->attribute( "id" ) );
+        $authorIDArray = $http->postVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) );
+        $authorNameArray = $http->postVariable( $base . "_data_author_name_" . $contentObjectAttribute->attribute( "id" ) );
+        $authorEmailArray = $http->postVariable( $base . "_data_author_email_" . $contentObjectAttribute->attribute( "id" ) );
 
         $author = new eZAuthor( );
 

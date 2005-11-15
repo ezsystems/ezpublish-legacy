@@ -72,7 +72,7 @@ if ( $http->hasPostVariable( 'RemoveButton' ) )
 {
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
-        $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+        $deleteIDArray = $http->postVariable( 'DeleteIDArray' );
         if ( $deleteIDArray !== null )
         {
             $http->setSessionVariable( 'DeleteOrderIDArray', $deleteIDArray );
