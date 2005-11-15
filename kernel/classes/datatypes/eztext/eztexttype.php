@@ -91,39 +91,47 @@ class eZTextType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        return $this->validateAttributeHTTPInput( $http, $base, $contentObjectAttribute, false );
+        if ( $http->hasPostVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
+        {
+            $data =& $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
+            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+
+            if ( $data == "" )
+            {
+                if ( !$classAttribute->attribute( 'is_information_collector' ) and
+                     $contentObjectAttribute->validateIsRequired() )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'Input required.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
+            }
+        }
+        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
     /*!
     */
     function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        return $this->validateAttributeHTTPInput( $http, $base, $contentObjectAttribute, true );
-    }
-
-    /*!
-    */
-    function validateAttributeHTTPInput( &$http, $base, &$contentObjectAttribute, $isInformationCollector )
-    {
         if ( $http->hasPostVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data =& $http->postVariable( $base . '_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
 
-            if ( $isInformationCollector == $classAttribute->attribute( 'is_information_collector' ) )
+            if ( $data == "" )
             {
                 if ( $contentObjectAttribute->validateIsRequired() )
                 {
-                    if ( $data == "" )
-                    {
-                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                             'Input required.' ) );
-                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                    }
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'Input required.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
             }
+            return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
         }
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+        else
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
     }
 
     /*!
@@ -135,6 +143,20 @@ class eZTextType extends eZDataType
         {
             $data =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
             $contentObjectAttribute->setAttribute( "data_text", $data );
+            return true;
+        }
+        return false;
+    }
+
+    /*!
+     Fetches the http post variables for collected information
+    */
+    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
+    {
+        if ( $http->hasPostVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) ) )
+        {
+            $dataText =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
+            $collectionAttribute->setAttribute( 'data_text', $dataText );
             return true;
         }
         return false;
@@ -168,17 +190,6 @@ class eZTextType extends eZDataType
                          'require_storage' => true );
         $objectAttribute->setContent( $string );
         $objectAttribute->setAttribute( 'data_text', $string );
-        return true;
-    }
-
-    /*!
-     Fetches the http post variables for collected information
-    */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
-    {
-        $dataText =& $http->postVariable( $base . "_data_text_" . $contentObjectAttribute->attribute( "id" ) );
-        $collectionAttribute->setAttribute( 'data_text', $dataText );
-
         return true;
     }
 
