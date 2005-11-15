@@ -809,17 +809,17 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $message = array();
         // fix newlines
         // Convet windows newlines
-        $text =& preg_replace( "#\r\n#", "\n", $text );
+        $text = preg_replace( "#\r\n#", "\n", $text );
         // Convet mac newlines
-        $text =& preg_replace( "#\r#", "\n", $text );
+        $text = preg_replace( "#\r#", "\n", $text );
 
-        $text =& preg_replace( "#\n[\n]+#", "\n\n", $text );
+        $text = preg_replace( "#\n[\n]+#", "\n\n", $text );
 
-        $text =& preg_replace( "#\n[\n]+#", "<paragraph>", $text );
-        $text =& preg_replace( "#\n#", "</line>", $text );
+        $text = preg_replace( "#\n[\n]+#", "<paragraph>", $text );
+        $text = preg_replace( "#\n#", "</line>", $text );
 
         // Convert headers
-        $text =& preg_replace( "#<header>#", "<header level='1'>", $text );
+        $text = preg_replace( "#<header>#", "<header level='1'>", $text );
 
         // This code is currently commented out, it should not be run on the whole
         // text but only on parts of it
@@ -1470,11 +1470,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     // convert special chars
                   if ( $justName != 'literal' )
                   {
-                        $tagContent =& str_replace("&gt;", ">", $tagContent );
-                        $tagContent =& str_replace("&lt;", "<", $tagContent );
-                        $tagContent =& str_replace("&apos;", "'", $tagContent );
-                        $tagContent =& str_replace("&quot;", '"', $tagContent );
-                        $tagContent =& str_replace("&amp;", '&', $tagContent );
+                        $tagContent = str_replace("&gt;", ">", $tagContent );
+                        $tagContent = str_replace("&lt;", "<", $tagContent );
+                        $tagContent = str_replace("&apos;", "'", $tagContent );
+                        $tagContent = str_replace("&quot;", '"', $tagContent );
+                        $tagContent = str_replace("&amp;", '&', $tagContent );
                       //  $tagContent =& str_replace("&nbsp;", " ", $tagContent );
                   }
 
