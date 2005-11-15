@@ -463,7 +463,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                     //check if al children of link are inline tags
                     $linkChildren = $tag->children();
-
                     foreach( $linkChildren as $linkChild )
                     {
                         $isInline = false;
@@ -496,9 +495,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         if ( !$isInline ) break; // at least one child tag have't inline type, so cancel
                     }
                     //true if all $linkChild are inline
-
-eZDebug::writeDebug($isInline,'isInline');
-
                     $isChildrenInline = $isInline;
 
                     // if not all children tags are inline, we use no template for link tag, all link parameters are used
@@ -1065,9 +1061,6 @@ eZDebug::writeDebug($isInline,'isInline');
                 // unsupported tag
             }break;
         }
-
-        eZDebug::writeDebug($tagText,'tagTxtCreated');
-
         return $tagText;
     }
 
