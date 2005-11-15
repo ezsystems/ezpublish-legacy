@@ -43,7 +43,7 @@
 
 */
 
-include_once( 'lib/utils/classes/ezinputvalidator.php' );
+include_once( 'lib/ezutils/classes/ezinputvalidator.php' );
 
 class eZDateTimeValidator extends eZInputValidator
 {
