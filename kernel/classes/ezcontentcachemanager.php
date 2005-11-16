@@ -649,7 +649,8 @@ class eZContentCacheManager
             foreach ( $nodes as $nodeID )
             {
                 $aNode = eZContentObjectTreeNode::fetch( $nodeID );
-                $staticCache->cacheURL( "/" . $aNode->urlAlias(), $nodeID );
+                if ( is_object( $aNode ) )
+                    $staticCache->cacheURL( "/" . $aNode->urlAlias(), $nodeID );
             }
             $staticCache->generateAlwaysUpdatedCache();
         }
