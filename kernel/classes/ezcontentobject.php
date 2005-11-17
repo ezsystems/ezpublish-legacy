@@ -1237,7 +1237,7 @@ class eZContentObject extends eZPersistentObject
         $db =& eZDB::instance();
 
         // Get list of objects referring to this one.
-        $relatingObjects = $this->reverseRelatedObjectList( false, false, false, 1 );
+        $relatingObjects = $this->reverseRelatedObjectList( false, false, false, false );
 
         // Finds all the attributes that store relations to the given object.
 
