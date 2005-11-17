@@ -677,7 +677,9 @@ Attributes:
   ( Merged from stable/3.6 ( 3.6.5 ) rev. 14119 )
 - Fixed bug #7353: Unwanted <p> tags added in XML text.
   ( Merged from stable/3.7 ( 3.7.3 ) rev. 14123 )
-  
+- Fixed Bug #7423: SOAP interface doesn't initialize internal charset.
+  ( Merged from stable/3.5 rev. 14128 )
+
 *Library:
 
 eZTemplate:
