@@ -258,6 +258,24 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $output .= $this->renderXHTMLSection( $tpl, $sectionNode, $currentSectionLevel, $sectionLevel );
                 }break;
 
+                // Supported tags
+                case 'emphasize' :
+                case '#text' :
+                case 'line' :
+                case 'strong' :
+                case 'ul' :
+                case 'ol' :
+                case 'literal' :
+                case 'custom' :
+                case 'link' :
+                case 'table' :
+                case 'object' :
+                case 'anchor' :
+                case 'embed' :
+                {
+                    $output .= $this->renderXHTMLTag( $tpl, $sectionNode, $currentSectionLevel, $isBlockTag );
+                }break;
+
                 default :
                 {
                     eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZXMLTextType::inputSectionXML()" );
@@ -472,7 +490,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                             $name = $linkChild->attributeValue( 'name' );
                             include_once( "lib/ezutils/classes/ezini.php" );
                             $ini =& eZINI::instance( 'content.ini' );
-            
+
                             $isInlineTagList =& $ini->variable( 'CustomTagSettings', 'IsInline' );
 
                             foreach ( array_keys ( $isInlineTagList ) as $key )
@@ -487,8 +505,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                             }
                         }
                         else
-                        { 
-                            $isInline = in_array( $linkChild->name(), $this->InLineTagArray ); 
+                        {
+                            $isInline = in_array( $linkChild->name(), $this->InLineTagArray );
                         }
 
                         if ( !$isInline ) break; // at least one child tag have't inline type, so cancel
@@ -522,7 +540,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 if ( $isChildrenInline )
                 {
                     $text = $childTagText;
-    
+
                     $res =& eZTemplateDesignResource::instance();
                     $res->setKeys( array( array( 'classification', $this->LinkParameters['class'] ) ) );
 
@@ -805,7 +823,19 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     foreach ( $tableRow->children() as $tableCell )
                     {
                         $cellContent = "";
-                        $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, 0, 0 );
+                        $tableCellChildren = $tableCell->children();
+                        // If <paragraph> is the one and only child then don't render it as <p>.
+                        if ( ( count( $tableCellChildren ) == 1 ) and ( count( $tableCellChildren[0]->children() ) == 1  ) )
+                        {
+                            if ( $tableCellChildren[0]->name() == "paragraph" )
+                            {
+                                $cellContent .= $this->renderXHTMLSection( $tpl, $tableCellChildren[0], 0, 0 );
+                            }
+                            else
+                                $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, 0, 0 );
+                        }
+                        else
+                            $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, 0, 0 );
 
                         $tpl->setVariable( 'content', $cellContent, 'xmltagns' );
                         $cellWidth = $tableCell->attributeValueNS( 'width', "http://ez.no/namespaces/ezpublish3/xhtml/" );
