@@ -112,8 +112,8 @@ selected="selected"
 <label>{"Published"|i18n( 'design/admin/content/search' )}:</label>
 <select name="SearchDate">
 <option value="-1" {section show=eq( $search_date, -1 )}selected="selected"{/section}>{'Any time'|i18n( 'design/admin/content/search' )}</option>
-<option value="1 " {section show=eq( $search_date,  1 )}selected="selected"{/section}>{'Last day'|i18n( 'design/admin/content/search' )}</option>
-<option value="2 " {section show=eq( $search_date,  2 )}selected="selected"{/section}>{'Last week'|i18n( 'design/admin/content/search' )}</option>
+<option value="1"  {section show=eq( $search_date,  1 )}selected="selected"{/section}>{'Last day'|i18n( 'design/admin/content/search' )}</option>
+<option value="2"  {section show=eq( $search_date,  2 )}selected="selected"{/section}>{'Last week'|i18n( 'design/admin/content/search' )}</option>
 <option value="3"  {section show=eq( $search_date,  3 )}selected="selected"{/section}>{'Last month'|i18n( 'design/admin/content/search' )}</option>
 <option value="4"  {section show=eq( $search_date,  4 )}selected="selected"{/section}>{'Last three months'|i18n( 'design/admin/content/search' )}</option>
 <option value="5"  {section show=eq( $search_date,  5 )}selected="selected"{/section}>{'Last year'|i18n( 'design/admin/content/search' )}</option>
