@@ -124,11 +124,39 @@ $validation = array( 'processed' => false,
 if ( $Module->runHooks( 'post_fetch', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage, &$validation ) ) )
     return;
 
+// Checking if user chose placement of object from browse page (when restoring from the TRASH),
+// if yes object must be published without returning to edit mode.
+if ( ( $http->hasSessionVariable( 'LastCurrentAction' ) ) and
+     ( $http->sessionVariable( 'LastCurrentAction' ) == 'Publish' ) and
+     ( $Module->isCurrentAction( 'AddNodeAssignment' ) )
+   )
+{
+    $http->removeSessionVariable( 'LastCurrentAction' );
+    // Publish object
+    $Module->setCurrentAction( 'Publish' );
+    if ( $http->hasSessionVariable( 'BrowseForNodes_POST' ) )
+    {
+        // Restore post vars
+        $_POST = array_merge( $_POST, $http->sessionVariable( 'BrowseForNodes_POST' ) );
+        $http->removeSessionVariable( 'BrowseForNodes_POST' );
+    }
+}
+else
+{
+    // Clean up session vars
+    $http->removeSessionVariable( 'LastCurrentAction' );
+    $http->removeSessionVariable( 'BrowseForNodes_POST' );
+}
+
 // Checking if object has at least one placement, if not user needs to choose it from browse page
 $assignments =& $version->attribute( 'parent_nodes' );
 if ( count( $assignments ) < 1 && $Module->isCurrentAction( 'Publish' ) )
 {
     $Module->setCurrentAction( 'BrowseForNodes' );
+    // Store currentAction
+    $http->setSessionVariable( 'LastCurrentAction', 'Publish' );
+    // Store post vars
+    $http->setSessionVariable( 'BrowseForNodes_POST', $_POST );
 }
 
 
