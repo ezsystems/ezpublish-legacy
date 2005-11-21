@@ -466,7 +466,7 @@ class eZTemplateArrayOperator
                     {
                         if ( $isString )
                         {
-                            $result = (bool)strstr( $inParam, $matchParam );
+                            $result = ( strpos( $inParam, $matchParam ) !== false );
                         }
                         else if( $isArray )
                         {
@@ -485,7 +485,7 @@ class eZTemplateArrayOperator
 
                 if ( $isString )
                 {
-                    $code = '%output% = (bool)strstr( ' . $inParamCode . ', ' . $matchParamCode . ' );';
+                    $code = '%output% = ( strpos( ' . $inParamCode . ', ' . $matchParamCode . ' ) !== false );';
                 }
                 else if ( $isArray )
                 {
@@ -495,7 +495,7 @@ class eZTemplateArrayOperator
                 {
                     $code = 'if( is_string( ' . $inParamCode . ' ) )' . "\n" .
                          '{' . "\n" .
-                         '  %output% = (bool)strstr( ' . $inParamCode . ', ' . $matchParamCode . ' );' . "\n" .
+                         '  %output% = ( strpos( ' . $inParamCode . ', ' . $matchParamCode . ' ) !== false );' . "\n" .
                          '}' . "\n" .
                          'else if ( is_array( ' . $inParamCode . ' ) )' . "\n" .
                          '{' . "\n" .
@@ -1967,7 +1967,7 @@ class eZTemplateArrayOperator
                 // Check if the string contains a specified sequence of chars/string.
                 case $this->ContainsName:
                 {
-                    $operatorValue = (bool)strstr( $operatorValue, $namedParameters['match'] );
+                    $operatorValue = ( strpos( $operatorValue, $namedParameters['match'] ) !== false );
                 }
                 break;
 
