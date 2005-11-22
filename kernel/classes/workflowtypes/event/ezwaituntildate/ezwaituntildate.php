@@ -105,6 +105,13 @@ class eZWaitUntilDate
             $contentClassAttribute = eZContentClassAttribute::fetch( $contentClassAttributeID );
             $contentClassID = $contentClassAttribute->attribute( 'contentclass_id' );
         }
+        // Checking if $contentClassAttributeID and $contentClassID already exist (in Entries)
+        foreach ( $this->Entries as $entrie )
+        {
+            if ( $entrie->attribute( 'contentclass_attribute_id' ) == $contentClassAttributeID and
+                 $entrie->attribute( 'contentclass_id' ) == $contentClassID )
+                return;
+        }
         $waitUntilDateValue =& eZWaitUntilDateValue::create( $this->WorkflowEventID, $this->WorkflowEventVersion, $contentClassAttributeID, $contentClassID );
         $waitUntilDateValue->store();
         $this->Entries =& eZWaitUntilDateValue::fetchAllElements( $this->WorkflowEventID, $this->WorkflowEventVersion );
