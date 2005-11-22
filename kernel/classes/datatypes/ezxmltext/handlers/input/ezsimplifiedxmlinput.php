@@ -259,6 +259,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                         // If there are any image object with links.
                         $href = $object->attributeValueNS( 'ezurl_href', "http://ez.no/namespaces/ezpublish3/image/" );
+                        //washing href. single and double quotes inside url replaced with their urlencoded form
+                        $href = str_replace( array('\'','"'), array('%27','%22'), $href );
+
                         $urlID = $object->attributeValueNS( 'ezurl_id', "http://ez.no/namespaces/ezpublish3/image/" );
 
                         if ( $href != null )
@@ -311,6 +314,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         if ( $link->attributeValue( 'href' ) != null )
                         {
                             $url = $link->attributeValue( 'href' );
+                            //washing href. single and double quotes inside url replaced with their urlencoded form
+                            $url = str_replace( array('\'','"'), array('%27','%22'), $url );
 
                             if ( !in_array( $url, $urlArray ) )
                                 $urlArray[] = $url;
@@ -386,6 +391,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     {
                         $link =& $links[$linkKey];
                         $url = $link->attributeValue( 'href' );
+                        //washing href. single and double quotes inside url replaced with their urlencoded form
+                        $url = str_replace( array('\'','"'), array('%27','%22'), $url );
+
                         $linkID = $linkIDArray[$url];
 
                         if ( $link->attributeValue( 'id' ) == null )
