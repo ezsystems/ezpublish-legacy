@@ -1176,7 +1176,7 @@ class eZINI
     {
         if ( !$this->BlockValuesPlacement )
         {
-            $this->loadPlacements();
+            $this->loadPlacement();
         }
         return $this->BlockValuesPlacement;
     }
