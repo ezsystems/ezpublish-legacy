@@ -24,8 +24,6 @@ Changes from 3.6.0 to 3.8.0alpha1
 - Added support for removing the default siteaccess from the generated URIs.
   Controlled by a switch in site.ini.
 - Added new MIME types ( XML media ) as defined in RFC3023.
-- Fixed bug #7174: Parsing back and forward with eZXML changes data.
-  ( Merged from stable/3.5 rev. 13909 )
 
 Attributes:
 - Added: 'last_visit' attribute to eZUser
@@ -684,6 +682,8 @@ Attributes:
   ( Merged from stable/3.5 rev. 14132 )
 - Fixed bug #7426: 2x editing when restoring something from the trash.
   ( Merged from stable/3.7 ( 3.7.3 ) rev. 14139 )  
+- Fixed bug #7174: Parsing back and forward with eZXML changes data.
+  ( Merged from stable/3.5 rev. 13909 )
 
 *Library:
 
