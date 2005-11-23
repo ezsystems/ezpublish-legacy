@@ -304,6 +304,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
                         // If there are any image object with links.
                         $href = $object->attributeValueNS( 'ezurl_href', "http://ez.no/namespaces/ezpublish3/image/" );
+                        //washing href. single and double quotes inside url replaced with their urlencoded form
+                        $href = str_replace( array('\'','"'), array('%27','%22'), $href );
+
                         $urlID = $object->attributeValueNS( 'ezurl_id', "http://ez.no/namespaces/ezpublish3/image/" );
 
                         if ( $href != null )
@@ -352,6 +355,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         $embedTag =& $embedTags[$embedTagKey];
 
                         $href = $embedTag->attributeValue( 'href' );
+                        //washing href. single and double quotes replaced with their urlencoded form
+                        $href = str_replace( array('\'','"'), array('%27','%22'), $href );
+
                         if ( $href != null )
                         {
                             if ( ereg( "^ezobject://[0-9]+$" , $href ) )
@@ -460,6 +466,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                    */
 
                         $href = $link->attributeValue( 'href' );
+                        //washing href. single and double quotes replaced with their urlencoded form
+                        $href = str_replace( array('\'','"'), array('%27','%22'), $href );
 
                         if ( $href != null )
                         {
@@ -622,6 +630,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                         if ( $link->attributeValue( 'node_id' ) == null && $link->attributeValue( 'object_id' ) == null && $link->attributeValue( 'anchor_name' ) == null )
                         {
                             $url = strtok( $link->attributeValue( 'href' ), '#' );
+                            //washing href. single and double quotes inside url replaced with their urlencoded form
+                            $url = str_replace( array('\'','"'), array('%27','%22'), $url );
+
                             if ( $url != null )
                             {
                                 $linkID = $linkIDArray[$url];

@@ -156,10 +156,10 @@ class eZURL extends eZPersistentObject
 
         foreach( $urlArray as $key => $url )
         {
-            $urlArray[$key] = $db->escapeString( $url );
+            $urlArrayTmp[$key] = $db->escapeString( $url );
         }
         // Fetch the already existing URL's
-        $inURLSQL = implode( '\', \'', $urlArray );
+        $inURLSQL = implode( '\', \'', $urlArrayTmp );
         $checkURLQuery = "SELECT id, url FROM ezurl WHERE url IN ( '$inURLSQL' )";
         $urlRowArray = $db->arrayQuery( $checkURLQuery );
 
