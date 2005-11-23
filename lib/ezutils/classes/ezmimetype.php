@@ -548,8 +548,19 @@ class eZMimeType
         array( 'tif', 'image/tiff' ),
         array( 'tiff', 'image/tiff' ),
         array( 'pcx', 'image/x-pcx' ),
+
+        // XML media types as defined in RFC 3023
+        array( 'xml', 'text/xml' ),
         array( 'svg', 'image/svg+xml' ),
         array( 'svgz', 'image/svg+xml' ),
+        array( 'ent', 'application/xml-external-parsed-entity' ),
+        array( 'dtd', 'application/xml-dtd' ),
+        array( 'mod', 'application/xml-dtd' ),
+        array( 'xsl', 'application/xslt+xml' ),
+        array( 'xslt', 'application/xslt+xml' ),
+        array( 'rdf', 'application/rdf+xml' ),
+        array( 'mml', 'application/mathml+xml' ),
+        
         array( 'wbmp', 'image/vnd.wap.wbmp' ),
         array( 'ras', 'image/x-cmu-raster' ),
         array( 'pnm', 'image/x-portable-anymap' ),
@@ -586,7 +597,6 @@ class eZMimeType
         array( 'wml', 'text/vnd.wap.wml' ),
         array( 'wmls', 'text/vnd.wap.wmlscript' ),
         array( 'etx', 'text/x-setext' ),
-        array( 'xml', 'text/xml' ),
         array( 'mpeg', 'video/mpeg' ),
         array( 'mpg', 'video/mpeg' ),
         array( 'mpe', 'video/mpeg' ),
