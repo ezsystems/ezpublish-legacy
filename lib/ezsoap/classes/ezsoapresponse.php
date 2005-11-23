@@ -384,12 +384,14 @@ TODO: add encoding checks with schema validation.
 
                 $isStruct = false;
                 // Check for struct
-                $i=0;
-                reset( $value );
-                while ( list( $key, $val ) = each ( $value ) )
+                $i = 0;
+                foreach( $value as $key => $val )
                 {
-                    if ( $i != $key )
+                    if ( $i !== $key )
+                    {
                         $isStruct = true;
+                        break;
+                    }
                     $i++;
                 }
 
@@ -401,8 +403,7 @@ TODO: add encoding checks with schema validation.
                     $typeAttr->setPrefix( EZ_SOAP_XSI_PREFIX );
                     $node->appendAttribute( $typeAttr );
 
-                    reset( $value );
-                    while ( list( $key, $val ) = each ( $value ) )
+                    foreach( $value as $key => $val )
                     {
                         $subNode =& $this->encodeValue( $key, $val );
                         $node->appendChild( $subNode );
