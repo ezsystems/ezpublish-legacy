@@ -265,7 +265,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
         $nodeIDWhereString = implode( ',', $nodeIDList );
         $userIDWhereString = implode( ',', $acceptedUserArray );
         $rules =& $db->arrayQuery( "SELECT rule.user_id, rule.use_digest, ezuser.email as address
-                                      FROM ezsubtree_notification_rule as rule, ezuser
+                                      FROM ezsubtree_notification_rule rule, ezuser
                                       WHERE rule.user_id=ezuser.contentobject_id AND
                                             rule.node_id IN ( $nodeIDWhereString ) AND
                                             rule.user_id IN ( $userIDWhereString )" );
