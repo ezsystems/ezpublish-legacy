@@ -184,32 +184,8 @@ class eZSelectionType extends eZDataType
         if ( $http->hasPostVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $selectOptions =& $http->postVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) );
-            $idString = ( is_array( $selectOptions ) ? implode( '-', $selectOptions ) : "" ); 
-            $contentObjectAttribute->setAttribute( 'data_text', $idString );
-            return true;
-        }
-        return false;
-    }
-
-    /*!
-     \reimp
-    */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
-    {
-        return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-    }
-
-   /*!
-    \reimp
-    Fetches the http post variables for collected information
-   */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
-    {
-        if ( $http->hasPostVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) ) )
-        {
-            $selectOptions =& $http->postVariable( $base . '_ezselect_selected_array_' . $contentObjectAttribute->attribute( 'id' ) );
             $idString = ( is_array( $selectOptions ) ? implode( '-', $selectOptions ) : "" );
-            $collectionAttribute->setAttribute( 'data_text', $idString );
+            $contentObjectAttribute->setAttribute( 'data_text', $idString );
             return true;
         }
         return false;
@@ -342,25 +318,17 @@ class eZSelectionType extends eZDataType
     /*!
      \reimp
     */
-    function isInformationCollector()
-    {
-        return true;
-    }
-
-    /*!
-     \reimp
-    */
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
         $xml                 =& new eZXML();
 
         $isMultipleSelection =& $classAttribute->attribute( 'data_int1'  );
         $xmlString           =& $classAttribute->attribute( 'data_text5' );
-        
+
         $dom                 =& $xml->domTree( $xmlString );
         $domRoot             =& $dom->root();
         $options             =& $domRoot->elementByName( 'options' );
-        
+
         $attributeParametersNode->appendChild( $options );
         $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'is-multiselect', $isMultipleSelection ) );
     }
@@ -374,10 +342,10 @@ class eZSelectionType extends eZDataType
 
         $doc =& new eZDOMDocument( "selection" );
         $root =& $doc->createElementNode( "ezselection" );
-        
+
         $doc->setRoot( $root );
         $root->appendChild( $options );
-        
+
         $xml =& $doc->toString();
         $classAttribute->setAttribute( "data_text5", $xml );
 
