@@ -115,8 +115,7 @@ class eZDateTimeType extends eZDataType
                         $day == '' and
                         $hour == '' and
                         $minute == '') or
-                     ( !$classAttribute->attribute( 'is_information_collector' ) and
-                       $contentObjectAttribute->validateIsRequired() ) )
+                     $contentObjectAttribute->validateIsRequired() )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Missing datetime input.' ) );
@@ -171,90 +170,6 @@ class eZDateTimeType extends eZDataType
     }
 
     /*!
-     \reimp
-    */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
-    {
-        if ( $http->hasPostVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) ) )
-        {
-            $year   = $http->postVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) );
-            $month  = $http->postVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) );
-            $day    = $http->postVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) );
-            $hour   = $http->postVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) );
-            $minute = $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-
-            if ( $year == '' or
-                 $month == '' or
-                 $day == '' or
-                 $hour == '' or
-                 $minute == '' )
-            {
-                if ( !( $year == '' and
-                        $month == '' and
-                        $day == '' and
-                        $hour == '' and
-                        $minute == '') or
-                     $contentObjectAttribute->validateIsRequired() )
-                {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'Missing datetime input.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                }
-                else
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-            }
-            else
-            {
-                return $this->validateDateTimeHTTPInput( $day, $month, $year, $hour, $minute, $contentObjectAttribute );
-            }
-        }
-        else
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
-    }
-
-   /*!
-    \reimp
-    Fetches the http post variables for collected information
-   */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
-    {
-        if ( $http->hasPostVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) ) )
-        {
-            $year   = $http->postVariable( $base . '_datetime_year_' . $contentObjectAttribute->attribute( 'id' ) );
-            $month  = $http->postVariable( $base . '_datetime_month_' . $contentObjectAttribute->attribute( 'id' ) );
-            $day    = $http->postVariable( $base . '_datetime_day_' . $contentObjectAttribute->attribute( 'id' ) );
-            $hour   = $http->postVariable( $base . '_datetime_hour_' . $contentObjectAttribute->attribute( 'id' ) );
-            $minute = $http->postVariable( $base . '_datetime_minute_' . $contentObjectAttribute->attribute( 'id' ) );
-
-            $dateTime = new eZDateTime();
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-            if ( ( $year == '' and $month == ''and $day == '' and
-                   $hour == '' and $minute == '' ) or
-                 !checkdate( $month, $day, $year ) or $year < 1970 )
-            {
-                    $dateTime->setTimeStamp( 0 );
-            }
-            else
-            {
-                $dateTime->setMDYHMS( $month, $day, $year, $hour, $minute, 0 );
-            }
-
-            $collectionAttribute->setAttribute( 'data_int', $dateTime->timeStamp() );
-            return true;
-        }
-        return false;
-    }
-
-    /*!
      Returns the content.
     */
     function &objectAttributeContent( &$contentObjectAttribute )
@@ -269,14 +184,6 @@ class eZDateTimeType extends eZDataType
      \reimp
     */
     function isIndexable()
-    {
-        return true;
-    }
-
-    /*!
-     \reimp
-    */
-    function isInformationCollector()
     {
         return true;
     }

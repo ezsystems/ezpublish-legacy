@@ -89,8 +89,7 @@ class eZTimeType extends eZDataType
             if ( $hours == '' or $minute == '' )
             {
                 if ( !( $hours == '' and $minute == '' ) or
-                     ( !$classAttribute->attribute( 'is_information_collector' ) and
-                       $contentObjectAttribute->validateIsRequired() ) )
+                     $contentObjectAttribute->validateIsRequired() )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Time input required.' ) );
@@ -127,64 +126,6 @@ class eZTimeType extends eZDataType
             }
             else
                 $contentObjectAttribute->setAttribute( 'data_int', null );
-            return true;
-        }
-        return false;
-    }
-
-    /*!
-     \reimp
-    */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
-    {
-        if ( $http->hasPostVariable( $base . '_time_hour_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_time_minute_' . $contentObjectAttribute->attribute( 'id' ) ) )
-        {
-            $hours  = $http->postVariable( $base . '_time_hour_' . $contentObjectAttribute->attribute( 'id' ) );
-            $minute = $http->postVariable( $base . '_time_minute_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-
-            if ( $hours == '' or $minute == '' )
-            {
-                if ( !( $hours == '' and $minute == '' ) or
-                     $contentObjectAttribute->validateIsRequired() )
-                {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'Time input required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                }
-                else
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-            }
-            else
-            {
-                return $this->validateTimeHTTPInput( $hours, $minute, $contentObjectAttribute );
-            }
-        }
-        else
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
-    }
-
-   /*!
-    \reimp
-    Fetches the http post variables for collected information
-   */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
-    {
-        if ( $http->hasPostVariable( $base . '_time_hour_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_time_minute_' . $contentObjectAttribute->attribute( 'id' ) ) )
-        {
-            $hours  = $http->postVariable( $base . '_time_hour_' . $contentObjectAttribute->attribute( 'id' ) );
-            $minute = $http->postVariable( $base . '_time_minute_' . $contentObjectAttribute->attribute( 'id' ) );
-
-            if ( $hours != '' or $minute != '')
-            {
-                $time = new eZTime();
-                $time->setHMS( $hours, $minute );
-                $collectionAttribute->setAttribute( 'data_int', $time->timeOfDay() );
-            }
-            else
-                $collectionAttribute->setAttribute( 'data_int', null );
             return true;
         }
         return false;
@@ -232,14 +173,6 @@ class eZTimeType extends eZDataType
     function sortKeyType()
     {
         return 'int';
-    }
-
-    /*!
-     \reimp
-    */
-    function isInformationCollector()
-    {
-        return true;
     }
 
     /*!

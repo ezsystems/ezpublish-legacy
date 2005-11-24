@@ -146,8 +146,7 @@ class eZIntegerType extends eZDataType
 
             if ( $data == "" )
             {
-                if ( !$classAttribute->attribute( 'is_information_collector' ) and
-                     $contentObjectAttribute->validateIsRequired() )
+                if ( $contentObjectAttribute->validateIsRequired() )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Input required.' ) );
@@ -203,51 +202,6 @@ class eZIntegerType extends eZDataType
             $data = $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
             eZDebug::writeDebug( $data, 'rush: $data' );
             $contentObjectAttribute->setAttribute( "data_int", $data );
-            return true;
-        }
-        return false;
-    }
-
-    /*!
-     \reimp
-    */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
-    {
-        if ( $http->hasPostVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) ) )
-        {
-            $data = $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
-            $data = str_replace(" ", "", $data );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-
-            if ( $data == "" )
-            {
-                if ( $contentObjectAttribute->validateIsRequired() )
-                {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'Input required.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                }
-                else
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-            }
-            else
-            {
-                return $this->validateIntegerHTTPInput( $data, $contentObjectAttribute, $classAttribute );
-            }
-        }
-        else
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
-    }
-
-    /*!
-     Fetches the http post variables for collected information
-    */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
-    {
-        if ( $http->hasPostVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) ) )
-        {
-            $data = $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
-            $collectionAttribute->setAttribute( "data_int", $data );
             return true;
         }
         return false;
@@ -425,14 +379,6 @@ class eZIntegerType extends eZDataType
     }
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
-    {
-        return true;
-    }
-
-    /*!
-     \reimp
-    */
-    function isInformationCollector()
     {
         return true;
     }
