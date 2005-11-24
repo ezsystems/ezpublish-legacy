@@ -89,8 +89,7 @@ class eZDateType extends eZDataType
             if ( $year == '' or $month == '' or $day == '' )
             {
                 if ( !( $year == '' and $month == '' and $day == '' ) or
-                     ( !$classAttribute->attribute( 'is_information_collector' ) and
-                       $contentObjectAttribute->validateIsRequired() ) )
+                     $contentObjectAttribute->validateIsRequired() )
                 {
                     $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
                                                                          'Missing date input.' ) );
@@ -136,74 +135,6 @@ class eZDateType extends eZDataType
             }
 
             $contentObjectAttribute->setAttribute( 'data_int', $date->timeStamp() );
-            return true;
-        }
-        return false;
-    }
-
-    /*!
-     \reimp
-    */
-    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
-    {
-        if ( $http->hasPostVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) ) )
-        {
-            $year  =& $http->postVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) );
-            $month =& $http->postVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) );
-            $day   =& $http->postVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) );
-            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-
-            if ( $year == '' or $month == '' or $day == '' )
-            {
-                if ( !( $year == '' and $month == '' and $day == '' ) or
-                     $contentObjectAttribute->validateIsRequired() )
-                {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                         'Missing date input.' ) );
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                }
-                else
-                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
-            }
-            else
-            {
-                return $this->validateDateTimeHTTPInput( $day, $month, $year, $contentObjectAttribute );
-            }
-        }
-        else
-            return EZ_INPUT_VALIDATOR_STATE_INVALID;
-    }
-
-    /*!
-     Fetches the http post variables for collected information
-    */
-    function fetchCollectionAttributeHTTPInput( &$collection, &$collectionAttribute, &$http, $base, &$contentObjectAttribute )
-    {
-        if ( $http->hasPostVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) ) and
-             $http->hasPostVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) ) )
-        {
-
-            $year  =& $http->postVariable( $base . '_date_year_' . $contentObjectAttribute->attribute( 'id' ) );
-            $month =& $http->postVariable( $base . '_date_month_' . $contentObjectAttribute->attribute( 'id' ) );
-            $day   =& $http->postVariable( $base . '_date_day_' . $contentObjectAttribute->attribute( 'id' ) );
-            $date = new eZDate();
-            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
-
-            if ( ( $year == '' and $month == '' and $day == '' ) or
-                 !checkdate( $month, $day, $year ) or
-                 $year < 1970 )
-            {
-                $date->setTimeStamp( 0 );
-            }
-            else
-            {
-                $date->setMDY( $month, $day, $year );
-            }
-
-            $collectionAttribute->setAttribute( 'data_int', $date->timeStamp() );
             return true;
         }
         return false;
@@ -264,14 +195,6 @@ class eZDateType extends eZDataType
      \reimp
     */
     function isIndexable()
-    {
-        return true;
-    }
-
-    /*!
-     \reimp
-    */
-    function isInformationCollector()
     {
         return true;
     }
