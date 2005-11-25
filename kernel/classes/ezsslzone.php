@@ -370,7 +370,7 @@ class eZSSLZone
      * Check whether the given object should cause access mode change.
      * It it should, this method does not return.
      */
-    function checkObject( $module, $view, &$object )
+    function checkObject( $module, $view, $object )
     {
         if ( !eZSSLZone::enabled() )
             return;
@@ -382,14 +382,24 @@ class eZSSLZone
         if ( !eZSSLZone::isKeepModeView( $module, $view ) )
             return;
 
-        $nodes = $object->attribute( 'assigned_nodes' );
+        $pathStringList = eZPersistentObject::fetchObjectList(
+            eZContentObjectTreeNode::definition(),                     // def
+            array( 'path_string' ),                                    // field_filters
+            array( 'contentobject_id' => $object->attribute( 'id' ) ), // conds
+            null,                                                      // sorts
+            null,                                                      // limit
+            false                                                      // asObject
+        );
 
-        if ( is_array( $nodes ) && count( $nodes ) )
+        if ( is_array( $pathStringList ) && count( $pathStringList ) )
         {
             /* The object has some assigned nodes.
              * If at least one of those nodes belongs to an SSL zone,
              * we switch to SSL.
              */
+
+            // "flatten" the array
+            array_walk( $pathStringList, create_function( '&$a', '$a = $a[\'path_string\'];' ) );
         }
         else
         {
@@ -398,18 +408,26 @@ class eZSSLZone
              * If at least one of the parent nodes belongs to an SSL zone,
              * we switch to SSL.
              */
+            $pathStringList = array();
             $nodes = $object->parentNodes( $object->attribute( 'current' ) );
             if ( !is_array( $nodes ) )
             {
                 eZDebug::writeError( 'Object ' . $object->attribute( 'is' ) .
                                      'does not have neither assigned nor parent nodes.' );
             }
+            else
+            {
+                foreach( $nodes as $node )
+                {
+                    $pathStringList[] = $node->attribute( 'path_string' );
+                }
+            }
         }
 
         $inSSL = false; // does the object belong to an SSL zone?
-        foreach ( $nodes as $node )
+        foreach ( $pathStringList as $pathString )
         {
-            if ( eZSSLZone::checkNodePath( $module, $view, $node->attribute( 'path_string' ), false ) )
+            if ( eZSSLZone::checkNodePath( $module, $view, $pathString, false ) )
             {
                 $inSSL = true;
                 break;
