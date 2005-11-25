@@ -151,17 +151,20 @@ $dotMax = 70;
 $dotCount = 0;
 $limit = 50;
 
-foreach ( array_keys ( $topNodeArray ) as $key  )
+foreach ( $topNodeArray as $node  )
 {
-    $node =& $topNodeArray[$key];
     $offset = 0;
-    $subTree =& $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit,
-                                       'Limitation' => array() ) );
+    $subTree = $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit,
+                                      'Limitation' => array() ) );
     while ( $subTree != null )
     {
         foreach ( $subTree as $innerNode )
         {
-            $object =& $innerNode->attribute( 'object' );
+            $object = $innerNode->attribute( 'object' );
+            if ( !$object )
+            {
+                continue;
+            }
             eZSearch::removeObject( $object );
             eZSearch::addObject( $object );
             ++$i;
@@ -175,8 +178,8 @@ foreach ( array_keys ( $topNodeArray ) as $key  )
             }
         }
         $offset += $limit;
-        $subTree =& $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit,
-                                           'Limitation' => array() ) );
+        $subTree = $node->subTree( array( 'Offset' => $offset, 'Limit' => $limit,
+                                          'Limitation' => array() ) );
     }
 }
 
