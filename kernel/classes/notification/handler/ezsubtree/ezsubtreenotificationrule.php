@@ -272,7 +272,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
     */
     function checkObjectAccess( $contentObject, $policyID, $userIDArray, $userLimits = false )
     {
-        $policy =& eZPolicy::fetch( $policyID );
+        $policy = eZPolicy::fetch( $policyID );
         if ( $userLimits )
         {
             reset( $userLimits );
