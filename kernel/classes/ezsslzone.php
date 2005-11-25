@@ -69,10 +69,12 @@ class eZSSLZone
         if ( isset( $GLOBALS['eZSSLZoneEnabled'] ) )
             return $GLOBALS['eZSSLZoneEnabled'];
 
+        $enabled = false;
         $ini =& eZINI::instance();
-        if ( !$ini->hasVariable( 'SSLZoneSettings', 'SSLZones' ) )
-            return false;
-        return $GLOBALS['eZSSLZoneEnabled'] = ( $ini->variable( 'SSLZoneSettings', 'SSLZones' ) == 'enabled' );
+        if ( $ini->hasVariable( 'SSLZoneSettings', 'SSLZones' ) )
+            $enabled = ( $ini->variable( 'SSLZoneSettings', 'SSLZones' ) == 'enabled' );
+
+        return $GLOBALS['eZSSLZoneEnabled'] = $enabled;
     }
 
     /**
@@ -281,14 +283,23 @@ class eZSSLZone
         if ( !eZSSLZone::isKeepModeView( $module, $view ) )
             return;
 
-        $node = eZContentObjectTreeNode::fetch( $nodeID );
-        if ( !is_object( $node ) )
+        // Fetch path string for the given node.
+        $pathStrings = eZPersistentObject::fetchObjectList(
+            eZContentObjectTreeNode::definition(), // def
+            array( 'path_string' ),                // field_filters
+            array( 'node_id' => $nodeID ),         // conds
+            null,                                  // sorts
+            null,                                  // limit
+            false                                  // asObject
+        );
+
+        if ( !$pathStrings )
         {
             eZDebug::writeError( "Node #$nodeID not found", "eZSSLZone::checkNodeID" );
             return;
         }
 
-        eZSSLZone::checkNode( $module, $view, $node );
+        eZSSLZone::checkNodePath( $module, $view, $pathStrings[0]['path_string'] );
     }
 
     /**
@@ -311,6 +322,26 @@ class eZSSLZone
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
         $pathString = $node->attribute( 'path_string' );
 
+        return eZSSLZone::checkNodePath( $module, $view, $pathString, $redirect );
+    }
+
+    /**
+     * \static
+     * Check whether the given node should cause access mode change.
+     * It it should, this method does not return.
+     */
+    function checkNodePath( $module, $view, $pathString, $redirect = true )
+    {
+        if ( !eZSSLZone::enabled() )
+            return;
+
+        /* If the given module/view is not in the list of 'keep mode' views,
+         * i.e. it cannot choose access mode itself,
+         * then do nothing.
+         */
+        if ( !$redirect && !eZSSLZone::isKeepModeView( $module, $view ) )
+            return;
+
         // Decide whether the node belongs to an SSL zone or not.
         $sslZones  = eZSSLZone::getSSLZones();
 
@@ -326,14 +357,13 @@ class eZSSLZone
 
         eZDebugSetting::writeDebug( 'kernel-ssl-zone',
                                     ( $inSSLZone ? 'yes' : 'no' ),
-                                    'Does node ' . $node->attribute( 'node_id' ) . ' belong to an SSL zone?' );
+                                    "Does the node having path $pathString belong to an SSL zone?" );
 
         if ( $redirect )
             eZSSLZone::switchIfNeeded( $inSSLZone );
 
         return $inSSLZone;
     }
-
 
     /**
      * \static
@@ -379,7 +409,7 @@ class eZSSLZone
         $inSSL = false; // does the object belong to an SSL zone?
         foreach ( $nodes as $node )
         {
-            if ( eZSSLZone::checkNode( $module, $view, $node, false ) )
+            if ( eZSSLZone::checkNodePath( $module, $view, $node->attribute( 'path_string' ), false ) )
             {
                 $inSSL = true;
                 break;
