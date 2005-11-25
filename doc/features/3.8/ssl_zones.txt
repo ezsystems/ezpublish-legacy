@@ -76,8 +76,8 @@ Check if a module/view should cause access mode switch is done in
 index.php by calling eZSSLZone::checkModuleView().
 
 Checks if a given object/node belongs to a content SSL zone (SSLSubtree)
-are done by calling checkNodeID/checkNode/checkObject method of class
-eZSSLZone from a view.
+are done by calling checkNode/checkNodeID/checkNodePath/checkObject
+method of class eZSSLZone from a view.
 
 In order to add support for content SSL zones to your view, you should
 define the view as 'keep' in "ModuleViewAccessMode" setting and
