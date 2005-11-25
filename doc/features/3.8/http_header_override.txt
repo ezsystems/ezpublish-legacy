@@ -1,0 +1,22 @@
+*Title : Custom HTTP header override
+
+*Documentation:
+This feature enables custom HTTP headers to be set at specified subtrees and 
+mondule/views. The custom HTTP headers must be specified in an override for the
+site.ini settings.
+
+When specifying path as /, only the module an view "content/view" will be affected.
+
+Example:
+# Will set Pragma to "no-cache" for whole content/view.
+[HTTPHeaderSettings]
+HeaderList[]
+HeaderList[]=Pragma
+
+Pragma[]
+Pragma[/]=no-cache
+
+
+Note:
+Using URLs like : content/view/... will generate 1 extra SQL. Use url alias to
+avoid this.

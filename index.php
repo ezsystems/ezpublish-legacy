@@ -416,14 +416,23 @@ if ( $phpLocale != '' )
 }
 
 // send header information
-header( 'Expires: Mon, 26 Jul 1997 05:00:00 GMT' );
-header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
-header( 'Cache-Control: no-cache, must-revalidate' );
-header( 'Pragma: no-cache' );
-header( 'X-Powered-By: eZ publish' );
+$headerList = array( 'Expires' => 'Mon, 26 Jul 1997 05:00:00 GMT',
+                     'Last-Modified' => gmdate( 'D, d M Y H:i:s' ) . ' GMT',
+                     'Cache-Control' => 'no-cache, must-revalidate',
+                     'Pragma' => 'no-cache',
+                     'X-Powered-By' => 'eZ publish',
+                     'Content-Type' => 'text/html; charset=' . $httpCharset,
+                     'Content-language' => $languageCode );
 
-header( 'Content-Type: text/html; charset=' . $httpCharset );
-header( 'Content-language: ' . $languageCode );
+include_once( 'kernel/classes/ezhttpheader.php' );
+$headerOverrideArray = eZHTTPHeader::headerOverrideArray( $uri );
+
+$headerList = array_merge( $headerList, $headerOverrideArray );
+
+foreach( $headerList as $key => $value )
+{
+    header( $key . ': ' . $value );
+}
 
 include_once( 'kernel/classes/ezsection.php' );
 eZSection::initGlobalID();

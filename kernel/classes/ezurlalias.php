@@ -731,6 +731,14 @@ WHERE
         }
         $uriString = eZURLAlias::cleanURL( $uriString );
 
+        if ( isset( $GLOBALS['eZURLAliasTranslate'][$uriString] ) )
+        {
+            $uri = $GLOBALS['eZURLAliasTranslate'][$uriString]['uri'];
+            return $GLOBALS['eZURLAliasTranslate'][$uriString]['return'];
+        }
+
+        $originalURIString = $uriString;
+
         $ini =& eZIni::instance();
         if ( $ini->hasVariable( 'SiteAccessSettings', 'PathPrefix' ) &&
              $ini->variable( 'SiteAccessSettings', 'PathPrefix' ) != '' )
@@ -802,6 +810,10 @@ ORDER BY forward_to_id ASC, is_internal ASC";
         {
             $uri = $uriString;
         }
+
+        $GLOBALS['eZURLAliasTranslate'][$originalURIString] = array( 'return' => $return,
+                                                                     'uri' => $uri );
+
         return $return;
     }
 
