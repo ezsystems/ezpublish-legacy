@@ -693,6 +693,9 @@ Attributes:
   (Manually merged from stable/3.5 (3.5.7) rev. 14163)
 - Fixed bug #7430: ezsimplifiedxmlinput.php link title bug.
   ( Merged from stable/3.6 (3.6.5) rev. 14181 )
+- Fixed bug #7441: Hardcoded item for anonymous access list in
+  eZUser::checkUser.
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14184 )
 
 *Library:
 

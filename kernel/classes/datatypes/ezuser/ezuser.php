@@ -1633,7 +1633,6 @@ WHERE user_id = '" . $userID . "' AND
         $moduleName = $uri->element();
         $viewName = $uri->element( 1 );
         $anonymousAccessList = $ini->variable( "SiteAccessSettings", "AnonymousAccessList" );
-        $anonymousAccessList[] = 'ezinfo';
         foreach ( $anonymousAccessList as $anonymousAccess )
         {
             $elements = explode( '/', $anonymousAccess );
