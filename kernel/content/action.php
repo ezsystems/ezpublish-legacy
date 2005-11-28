@@ -774,6 +774,9 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
+    if ( !$module->hasActionParameter( 'AssignmentIDSelection' ) )
+        return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
+
     $assignmentIDSelection = $module->actionParameter( 'AssignmentIDSelection' );
 
     $hasChildren = false;
