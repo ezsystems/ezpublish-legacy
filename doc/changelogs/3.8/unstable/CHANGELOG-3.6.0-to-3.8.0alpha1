@@ -701,6 +701,9 @@ Attributes:
 - Fixed bug #7456: setYear, setMonth, setDay methods in class 
   eZdate (lib/classes) not working.
   ( Merged from stable/3.5 ( 3.5.7 ) rev. 14192 )
+- Fixed bug #7459: Passing empty "SearchContentClassID" input 
+  to search page results in Apache segmentation fault.
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14196 )
 
 *Library:
 

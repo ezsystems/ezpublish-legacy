@@ -122,11 +122,13 @@ $searchContentClassID = -1;
 $searchContentClassAttributes = 0;
 $searchContentClassAttributeArray = array();
 if ( $http->hasVariable( 'SearchContentClassID' ) and
-     $http->variable( 'SearchContentClassID' ) != -1 )
+     $http->variable( 'SearchContentClassID' ) != -1 and
+     (int)$http->variable( 'SearchContentClassID' ) > 0 )
 {
-    $searchContentClassID = $http->variable( 'SearchContentClassID' );
+    $searchContentClassID = (int)$http->variable( 'SearchContentClassID' );
     $searchContentClass = eZContentClass::fetch( $searchContentClassID );
-    $searchContentClassAttributeArray = $searchContentClass->fetchSearchableAttributes();
+    if ( is_object( $searchContentClass ) )
+        $searchContentClassAttributeArray = $searchContentClass->fetchSearchableAttributes();
 }
 
 $searchContentClassAttributeID = -1;
