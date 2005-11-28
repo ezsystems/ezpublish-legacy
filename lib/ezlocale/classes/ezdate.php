@@ -187,7 +187,7 @@ class eZDate
     function setYear( $year )
     {
         $arr = getdate( $this->Date );
-        $this->Time = mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $year );
+        $this->Day = mktime( 0, 0, 0, $arr['mon'], $arr['mday'], $year );
     }
 
     /*!
@@ -196,7 +196,7 @@ class eZDate
     function setMonth( $month )
     {
         $arr = getdate( $this->Date );
-        $this->Time = mktime( 0, 0, 0, $month, $arr['mday'], $arr['year'] );
+        $this->Day = mktime( 0, 0, 0, $month, $arr['mday'], $arr['year'] );
     }
 
     /*!
@@ -205,7 +205,7 @@ class eZDate
     function setDay( $day )
     {
         $arr = getdate( $this->Date );
-        $this->Time = mktime( 0, 0, 0, $arr['mon'], $day, $arr['year'] );
+        $this->Day = mktime( 0, 0, 0, $arr['mon'], $day, $arr['year'] );
     }
 
     /*!
