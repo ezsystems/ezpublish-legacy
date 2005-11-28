@@ -696,6 +696,8 @@ Attributes:
 - Fixed bug #7441: Hardcoded item for anonymous access list in
   eZUser::checkUser.
   ( Merged from stable/3.6 ( 3.6.5 ) rev. 14184 )
+- Fixed bug #7454: SQL error when removing a location 
+  without checking any nodes.
 
 *Library:
 
