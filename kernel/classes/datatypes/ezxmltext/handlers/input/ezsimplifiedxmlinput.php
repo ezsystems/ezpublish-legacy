@@ -874,32 +874,38 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $existAttrNameArray = array();
             unset( $attr );
 
+            // Using additional array to set arrtibute's namespace in some cases.
+            // if we have attrName=>"Namespace" than Namespace added to correspondent attribute DOM node
+            // if we have attrName=>"Namespace:newAttrName" than in additon attrName will be changed to newAttrName
+            $attrNamespacesArray = array(); 
+
             if ( $currentTag == "td" or $currentTag == "th" )
             {
-                $attrPart = str_replace( " width", "xhtml:width", $attrPart );
-                $attrPart = str_replace( " colspan", "xhtml:colspan", $attrPart );
-                $attrPart = str_replace( " rowspan", "xhtml:rowspan", $attrPart );
+                $attrNamespacesArray['width'] = 'xhtml';
+                $attrNamespacesArray['colspan'] = 'xhtml';
+                $attrNamespacesArray['rowspan'] = 'xhtml';
             }
 
             if ( $currentTag == "object" )
             {
-                $attrPart = str_replace( " href", "image:ezurl_href", $attrPart );
-                $attrPart = str_replace( " ezurl_id", "image:ezurl_id", $attrPart );
-                $attrPart = str_replace( " target", "image:ezurl_target", $attrPart );
+                $attrNamespacesArray['href'] = 'image:ezurl_href';
+                $attrNamespacesArray['ezurl_id'] = 'image';
+                $attrNamespacesArray['target'] = 'image:ezurl_target';
             }
 
             if ( $currentTag == "embed" )
             {
-                $attrPart = str_replace( " id", "xhtml:id", $attrPart );
+                $attrNamespacesArray['id'] = 'xhtml';
             }
 
             if ( $currentTag == "link" )
             {
-                $attrPart = str_replace( " id", "xhtml:id", $attrPart );
-                $attrPart = str_replace( " title", "xhtml:title", $attrPart );
+                $attrNamespacesArray['id'] = 'xhtml';
+                $attrNamespacesArray['title'] = 'xhtml';
             }
 
-            $attr =& $this->parseAttributes( $attrPart );
+            $attr =& $this->parseAttributes( $attrPart, $attrNamespacesArray );
+
             // Tag is valid Check attributes
             // parse attruibet
 
@@ -1826,13 +1832,13 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
       \private
       Parses the attributes. Returns false if no attributes in the supplied string is found.
     */
-    function &parseAttributes( $attributeString )
+    function &parseAttributes( $attributeString, $attrNamespacesArray = array() )
     {
         if ( $attributeString != null )
         {
            $attrbutes = false;
            // Register attributes which with double or single quotes
-           $attrbutesNodeWithQuote = $this->registerAttributes( $attributeString );
+           $attrbutesNodeWithQuote = $this->registerAttributes( $attributeString, $attrNamespacesArray );
 
            // Remove registed attributes
            $attributeString = preg_replace( "/([0-9A-Za-z]+)\s*\=\"(.*?)\"/e", "", $attributeString );
@@ -1840,7 +1846,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
            // Change attributes which without quotes with double quote.
            $attributeString = preg_replace( "/([a-zA-Z0-9:-_#\-]+)\s*\=([a-zA-Z0-9:-_#\-]+)/e", "'\\1'.'=\"'.'\\2'.'\"'", $attributeString );
-           $attrbutesNodeWithoutQuote = $this->registerAttributes( $attributeString );
+           $attrbutesNodeWithoutQuote = $this->registerAttributes( $attributeString, $attrNamespacesArray );
 
            if ( $attrbutesNodeWithQuote[0] !== null )
            {
@@ -1868,7 +1874,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     /*!
       \private
     */
-    function &registerAttributes( $partialAttributeString )
+    function &registerAttributes( $partialAttributeString, $attrNamespacesArray )
     {
         $ret = false;
         $partialAttributeString = trim( $partialAttributeString );
@@ -1890,6 +1896,13 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 {
                     $attributePrefix = substr( $attributeName, 0, $colonPos );
                     $attributeName = substr( $attributeName, $colonPos + 1, strlen( $attributeName ) );
+                }
+                else if ( isset($attrNamespacesArray[$attributeName]) ) //process namespaces array if provided by caller for this attribute name.
+                                                                        //value could be "nameSpace" or "nameSpace:newAttrName"
+                {
+                    $nameArray = explode( ':', $attrNamespacesArray[$attributeName]);
+                    $attributePrefix = $nameArray[0];
+                    if ( isset( $nameArray[1]) ) $attributeName = $nameArray[1]; //modify attribute name when have "namespace:newAttrName" format.
                 }
                 else
                 {
