@@ -246,6 +246,7 @@ class eZSOAPRequest extends eZSOAPEnvelope
                     {
                         $subNode =& $this->encodeValue( $key, $val );
                         $node->appendChild( $subNode );
+                        unset( $subNode );
                     }
                     $returnValue =& $node;
                 }
@@ -266,6 +267,7 @@ class eZSOAPRequest extends eZSOAPEnvelope
                     {
                         $subNode =& $this->encodeValue( "item", $arrayItem );
                         $node->appendChild( $subNode );
+                        unset( $subNode );
                     }
                     $returnValue =& $node;
                 }
