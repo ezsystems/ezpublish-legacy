@@ -92,7 +92,7 @@
 <div class="block">
 {section show=$draft_list}
     <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/draft')}" title="{'Remove selected drafts.'|i18n( 'design/admin/content/draft' )}" />
-    <input class="button" type="submit" name="EmptyButton"  value="{'Remove all'|i18n( 'design/admin/content/draft')}" title="{'Remove all drafts that belong to you.'|i18n( 'design/admin/content/draft' )}" />
+    <input class="button" type="submit" name="EmptyButton"  value="{'Remove all'|i18n( 'design/admin/content/draft')}" onclick="return confirmDiscard( '{'Are you sure you want to remove all drafts?'|i18n( 'design/admin/content/draft' )}' );" title="{'Remove all drafts that belong to you.'|i18n( 'design/admin/content/draft' )}" />
 {section-else}
     <input class="button-disabled" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/draft')}" disabled="disabled" />
     <input class="button-disabled" type="submit" name="EmptyButton"  value="{'Remove all'|i18n( 'design/admin/content/draft')}" disabled="disabled" />
@@ -106,3 +106,15 @@
 </form>
 
 {/let}
+{literal}
+<script language="JavaScript" type="text/javascript">
+<!--
+    function confirmDiscard( question )
+    {
+        // Ask user if she really wants do it, return this to the handler.
+        return confirm( question );
+    }
+-->
+</script>
+{/literal}
+
