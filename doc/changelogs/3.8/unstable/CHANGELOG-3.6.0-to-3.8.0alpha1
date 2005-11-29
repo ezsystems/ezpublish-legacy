@@ -704,6 +704,8 @@ Attributes:
 - Fixed bug #7459: Passing empty "SearchContentClassID" input 
   to search page results in Apache segmentation fault.
   ( Merged from stable/3.6 ( 3.6.5 ) rev. 14196 )
+- Fixed bug #7451: Approval event and sections.
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14202 )
 
 *Library:
 

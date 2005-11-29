@@ -4,7 +4,13 @@
 <div class="element">
     <label>{'Affected sections'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
     <select name="WorkflowEvent_event_ezapprove_section_{$event.id}[]" size="5" multiple="multiple">
-    <option value="-1"{section show=$event.selected_sections|contains( -1 )} selected="selected"{/section}>{'All sections'|i18n( 'design/admin/workflow/eventtype/edit' )}</option>
+    <option value="-1"
+         {section show=and( $event.selected_sections|count()|eq( 1 ), $event.selected_sections[0]|eq( '' ) )}
+             selected="selected"
+         {section-else}
+             {section show=$event.selected_sections|contains( -1 )} selected="selected"{/section}
+         {/section}>
+    {'All sections'|i18n( 'design/admin/workflow/eventtype/edit' )}</option>
     {section var=Sections loop=$event.workflow_type.sections}
     <option value="{$Sections.item.value}"{section show=$event.selected_sections|contains( $Sections.item.value )} selected="selected"{/section}>{$Sections.item.name|wash}</option>
     {/section}
