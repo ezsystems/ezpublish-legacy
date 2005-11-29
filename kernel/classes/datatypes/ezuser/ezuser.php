@@ -872,6 +872,8 @@ WHERE user_id = '" . $userID . "' AND
         $http->removeSessionVariable( 'ClassesCachedForUser' );
         $http->removeSessionVariable( 'eZRoleIDList' );
         $http->setSessionVariable( 'eZRoleIDList_Timestamp', 0 );
+        $http->removeSessionVariable( 'eZRoleLimitationValueList' );
+        $http->setSessionVariable( 'eZRoleLimitationValueList_Timestamp', 0 );
 
         // Note: This must be done more generic with an internal
         //       callback system.
@@ -1386,13 +1388,12 @@ WHERE user_id = '" . $userID . "' AND
             include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
             $handler =& eZExpiryHandler::instance();
             $expiredTimeStamp = 0;
-            $userGroupTimestamp =& $http->sessionVariable( 'eZRoleIDList_Timestamp' );
+            $roleIDListTimestamp =& $http->sessionVariable( 'eZRoleIDList_Timestamp' );
             if ( $handler->hasTimestamp( 'user-info-cache' ) )
                 $expiredTimeStamp = $handler->timestamp( 'user-info-cache' );
 
-            if ( $userGroupTimestamp > $expiredTimeStamp )
+            if ( $roleIDListTimestamp > $expiredTimeStamp )
             {
-                $userGroupsInfo = array();
                 if ( $http->hasSessionVariable( 'eZRoleIDList' ) )
                 {
                     return $http->sessionVariable( 'eZRoleIDList' );
@@ -1435,14 +1436,35 @@ WHERE user_id = '" . $userID . "' AND
     {
         $limitValueList = array();
 
-        $user_id = $this->attribute( 'contentobject_id' );
-        $db =& eZDB::instance();
-        $queryResult =& $db->arrayQuery( "SELECT limit_value
-                                          FROM ezuser_role
-                                          WHERE contentobject_id = $user_id" );
+        $http =& eZHTTPTool::instance();
 
-        foreach ( $queryResult as $limitValue )
-            $limitValueList[] = $limitValue['limit_value'];
+        // If the user object is not the currently logged in user we cannot use the session cache
+        $useCache = ( $this->ContentObjectID == $http->sessionVariable( 'eZUserLoggedInID' ) );
+
+        if ( $useCache )
+        {
+            include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+            $handler =& eZExpiryHandler::instance();
+            $expiredTimeStamp = 0;
+            $roleLimitationValueListTimeStamp =& $http->sessionVariable( 'eZRoleLimitationValueList_Timestamp' );
+            if ( $handler->hasTimestamp( 'user-info-cache' ) )
+                $expiredTimeStamp = $handler->timestamp( 'user-info-cache' );
+
+            if ( $roleLimitationValueListTimeStamp > $expiredTimeStamp && $http->hasSessionVariable( 'eZRoleLimitationValueList' ) )
+            {
+                return $http->sessionVariable( 'eZRoleLimitationValueList' );
+            }
+        }
+
+        $limitList =& $this->limitList();
+        foreach ( $limitList as $limit )
+            $limitValueList[] = $limit['limit_value'];
+
+        if ( $useCache )
+        {
+            $http->setSessionVariable( 'eZRoleLimitationValueList', $limitValueList );
+            $http->setSessionVariable( 'eZRoleLimitationValueList_Timestamp', mktime() );
+        }
 
         return $limitValueList;
     }
