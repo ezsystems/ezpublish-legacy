@@ -118,7 +118,7 @@ class eZCollaborationItemStatus extends eZPersistentObject
         if ( $userID === false )
             $userID =& eZUser::currentUserID();
         $statusObject =& $GLOBALS['eZCollaborationItemStatusCache'][$collaborationID][$userID];
-        if ( isset( $statusObject ) )
+        if ( isset( $statusObject ) and $statusObject )
             return $statusObject;
         $conditions = array( 'collaboration_id' => $id,
                              'user_id' => $userID );
