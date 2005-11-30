@@ -103,6 +103,13 @@ class eZImageFile extends eZPersistentObject
 
     function &fetchByFilepath( $contentObjectAttributeID, $filepath, $asObject = true )
     {
+        // Fetch by file path without $contentObjectAttributeID
+        if ( $contentObjectAttributeID === false )
+            return eZPersistentObject::fetchObject( eZImageFile::definition(),
+                                                    null,
+                                                    array( 'filepath' => $filepath ),
+                                                    $asObject );
+
         return eZPersistentObject::fetchObject( eZImageFile::definition(),
                                                 null,
                                                 array( 'contentobject_attribute_id' => $contentObjectAttributeID,
@@ -120,6 +127,12 @@ class eZImageFile extends eZPersistentObject
     {
         if ( empty( $filepath ) )
             return false;
+        // Fetch ezimagefile objects having the $filepath
+        $imageFiles = eZImageFile::fetchByFilePath( false, $filepath, false );
+        // Checking If the filePath already exists in ezimagefile table
+        if ( isset( $imageFiles[ 'contentobject_attribute_id' ] ) )
+            return false;
+
         $fileObject =& eZImageFile::fetchByFilePath( $contentObjectAttributeID, $filepath );
         if ( $fileObject )
             return false;
