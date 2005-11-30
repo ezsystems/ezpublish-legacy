@@ -57,7 +57,7 @@ function storeRSSExport( &$Module, &$http, $publish = false )
         {
             continue;
         }
-        
+
         // RSS is supposed to feed certain objects from the subnodes
         if ( $http->hasPostVariable( 'Item_Subnodes_'.$itemCount ) )
         {
@@ -67,7 +67,7 @@ function storeRSSExport( &$Module, &$http, $publish = false )
         {
             $rssExportItem->setAttribute( 'subnodes', 0 );
         }
-        
+
         $rssExportItem->setAttribute( 'class_id', $http->postVariable( 'Item_Class_'.$itemCount ) );
         $rssExportItem->setAttribute( 'title', $http->postVariable( 'Item_Class_Attribute_Title_'.$itemCount ) );
         $rssExportItem->setAttribute( 'description', $http->postVariable( 'Item_Class_Attribute_Description_'.$itemCount ) );
@@ -141,7 +141,6 @@ function storeRSSImport( &$Module, &$http, $publish = false )
 
     if ( $publish )
     {
-
         $db =& eZDB::instance();
         $db->begin();
         $rssImport->setAttribute( 'status', EZ_RSSIMPORT_STATUS_VALID );

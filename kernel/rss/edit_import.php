@@ -45,10 +45,8 @@ include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 $http =& eZHTTPTool::instance();
 
 //Get RSSImport id if it is accessable
-if ( isset( $Params['RSSImportID'] ) )
-    $RSSImportID = $Params['RSSImportID'];
-else
-    $RSSImportID = false;
+$RSSImportID = isset( $Params['RSSImportID'] ) ? $Params['RSSImportID'] : false;
+
 if ( $http->hasPostVariable( 'RSSImport_ID' ) )
     $RSSImportID = $http->postVariable( 'RSSImport_ID' );
 
@@ -57,6 +55,7 @@ if ( $Module->isCurrentAction( 'Store' ) )
 {
     return storeRSSImport( $Module, $http, true );
 }
+
 else if ( $Module->isCurrentAction( 'Cancel' ) )
 {
     $rssImport = eZRSSImport::fetch( $RSSImportID, true, EZ_RSSIMPORT_STATUS_DRAFT );
