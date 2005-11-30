@@ -267,7 +267,7 @@ class eZRSSExport extends eZPersistentObject
 
     function &itemList()
     {
-        $items =& $this->fetchItems();
+        $items = $this->fetchItems();
         return $items;
     }
 
@@ -291,7 +291,7 @@ class eZRSSExport extends eZPersistentObject
             $objectNode = eZContentObjectTreeNode::fetch( $this->ImageID );
             if ( isset( $objectNode ) )
             {
-                $path_array =& $objectNode->attribute( 'path_array' );
+                $path_array = $objectNode->attribute( 'path_array' );
                 for ( $i = 0; $i < count( $path_array ); $i++ )
                 {
                     $treenode = eZContentObjectTreeNode::fetch( $path_array[$i] );
@@ -328,12 +328,12 @@ class eZRSSExport extends eZPersistentObject
         {
             case '1.0':
             {
-                $retRSSXml =& $this->fetchRSS1_0();
+                $retRSSXml = $this->fetchRSS1_0();
             } break;
 
             case '2.0':
             {
-                $retRSSXml =& $this->fetchRSS2_0();
+                $retRSSXml = $this->fetchRSS2_0();
             } break;
             default:
             {
@@ -351,7 +351,7 @@ class eZRSSExport extends eZPersistentObject
 
       \return RSSExportItem list. null if no RSS Export items found
     */
-    function &fetchItems( $id = false, $status = EZ_RSSEXPORT_STATUS_VALID )
+    function fetchItems( $id = false, $status = EZ_RSSEXPORT_STATUS_VALID )
     {
         if ( $id === false )
         {
@@ -396,7 +396,7 @@ class eZRSSExport extends eZPersistentObject
 
      \return RSS 2.0 XML document
     */
-    function &fetchRSS2_0( $id = null )
+    function fetchRSS2_0( $id = null )
     {
         if ( $id != null )
         {
@@ -471,15 +471,15 @@ class eZRSSExport extends eZPersistentObject
 
         foreach ( $nodeArray as $node )
         {
-            $object =& $node->attribute( 'object' );
-            $dataMap =& $object->dataMap();
+            $object = $node->attribute( 'object' );
+            $dataMap = $object->dataMap();
             if ( $useURLAlias === true )
             {
-                $nodeURL = $baseItemURL.$node->urlAlias();
+                $nodeURL = $baseItemURL . $node->urlAlias();
             }
             else
             {
-                $nodeURL = $baseItemURL.'content/view/full/'.$object->attribute( 'id' );
+                $nodeURL = $baseItemURL . 'content/view/full/'.$object->attribute( 'id' );
             }
 
             // keep track if there's any match
@@ -494,8 +494,8 @@ class eZRSSExport extends eZPersistentObject
                     // found it
                     $doesMatch = true;
                     // now fetch the attributes
-                    $title =& $dataMap[$attributeMapping[0]->attribute( 'title' )];
-                    $description =& $dataMap[$attributeMapping[0]->attribute( 'description' )];
+                    $title =  $dataMap[$attributeMapping[0]->attribute( 'title' )];
+                    $description =  $dataMap[$attributeMapping[0]->attribute( 'description' )];
                     break;
                 }
             }
@@ -511,10 +511,10 @@ class eZRSSExport extends eZPersistentObject
             // title RSS element with respective class attribute content
             unset( $itemTitle );
             $itemTitle = $doc->createElementNode( 'title' );
-            $titleContent =& $title->attribute( 'content' );
+            $titleContent =  $title->attribute( 'content' );
             if ( get_class( $titleContent ) == 'ezxmltext' )
             {
-                $outputHandler =& $titleContent->attribute( 'output' );
+                $outputHandler =  $titleContent->attribute( 'output' );
                 unset( $itemTitleText );
                 $itemTitleText = $doc->createTextNode( $outputHandler->attribute( 'output_text' ) );
                 $itemTitle->appendChild( $itemTitleText );
@@ -529,10 +529,10 @@ class eZRSSExport extends eZPersistentObject
             // title RSS element with respective class attribute content
             unset( $itemDescription );
             $itemDescription = $doc->createElementNode( 'description' );
-            $descriptionContent =& $description->attribute( 'content' );
+            $descriptionContent =  $description->attribute( 'content' );
             if ( get_class( $descriptionContent ) == 'ezxmltext' )
             {
-                $outputHandler =& $descriptionContent->attribute( 'output' );
+                $outputHandler =  $descriptionContent->attribute( 'output' );
                 unset( $itemDescriptionText );
                 $itemDescriptionText = $doc->createTextNode( $outputHandler->attribute( 'output_text' ) );
                 $itemDescription->appendChild( $itemDescriptionText );
@@ -575,7 +575,7 @@ class eZRSSExport extends eZPersistentObject
 
      \return RSS 1.0 XML document
     */
-    function &fetchRSS1_0( $id = null )
+    function fetchRSS1_0( $id = null )
     {
         if ( $id != null )
         {
@@ -657,8 +657,8 @@ class eZRSSExport extends eZPersistentObject
 
         foreach ( $nodeArray as $node )
         {
-            $object =& $node->attribute( 'object' );
-            $dataMap =& $object->dataMap();
+            $object =  $node->attribute( 'object' );
+            $dataMap =  $object->dataMap();
             if ( $useURLAlias === true )
             {
                 $nodeURL = $baseItemURL.$node->urlAlias();
@@ -684,8 +684,8 @@ class eZRSSExport extends eZPersistentObject
                     // found it
                     $doesMatch = true;
                     // now fetch the attributes
-                    $title =& $dataMap[$attributeMapping[0]->attribute( 'title' )];
-                    $description =& $dataMap[$attributeMapping[0]->attribute( 'description' )];
+                    $title =  $dataMap[$attributeMapping[0]->attribute( 'title' )];
+                    $description =  $dataMap[$attributeMapping[0]->attribute( 'description' )];
                     break;
                 }
             }
@@ -701,10 +701,10 @@ class eZRSSExport extends eZPersistentObject
             // title RSS element with respective class attribute content
             unset( $itemTitle );
             $itemTitle = $doc->createElementNode( 'title' );
-            $titleContent =& $title->attribute( 'content' );
+            $titleContent =  $title->attribute( 'content' );
             if ( get_class( $titleContent ) == 'ezxmltext' )
             {
-                $outputHandler =& $titleContent->attribute( 'output' );
+                $outputHandler =  $titleContent->attribute( 'output' );
 
                 unset( $itemTitleText );
                 $itemTitleText = $doc->createTextNode( $outputHandler->attribute( 'output_text' ) );
@@ -720,10 +720,10 @@ class eZRSSExport extends eZPersistentObject
             // description RSS element with respective class attribute content
             unset( $itemDescription );
             $itemDescription = $doc->createElementNode( 'description' );
-            $descriptionContent =& $description->attribute( 'content' );
+            $descriptionContent =  $description->attribute( 'content' );
             if ( get_class( $descriptionContent ) == 'ezxmltext' )
             {
-                $outputHandler =& $descriptionContent->attribute( 'output' );
+                $outputHandler =  $descriptionContent->attribute( 'output' );
 
                 unset( $itemDescriptionText );
                 $itemDescriptionText = $doc->createTextNode( $outputHandler->attribute( 'output_text' ) );
@@ -766,27 +766,27 @@ class eZRSSExport extends eZPersistentObject
     function fetchImageURL()
     {
 
-        $imageNode =& $this->attribute( 'image_node' );
+        $imageNode =  $this->attribute( 'image_node' );
         if ( !$imageNode )
             return false;
 
-        $imageObject =& $imageNode->attribute( 'object' );
+        $imageObject =  $imageNode->attribute( 'object' );
         if ( !$imageObject )
             return false;
 
-        $dataMap =& $imageObject->attribute( 'data_map' );
+        $dataMap =  $imageObject->attribute( 'data_map' );
         if ( !$dataMap )
             return false;
 
-        $imageAttribute =& $dataMap['image'];
+        $imageAttribute =  $dataMap['image'];
         if ( !$imageAttribute )
             return false;
 
-        $imageHandler =& $imageAttribute->attribute( 'content' );
+        $imageHandler =  $imageAttribute->attribute( 'content' );
         if ( !$imageHandler )
             return false;
 
-        $imageAlias =& $imageHandler->imageAlias( 'rss' );
+        $imageAlias =  $imageHandler->imageAlias( 'rss' );
         if( !$imageAlias )
             return false;
 
