@@ -1750,7 +1750,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $subNode->Type = EZ_NODE_TYPE_TEXT;
 
                     // convert special chars
-                    if ( $justName != 'literal' )
+                    if ( !isset( $justName ) ||
+                         $justName != 'literal' )
                     {
                         $tagContent = str_replace("&gt;", ">", $tagContent );
                         $tagContent = str_replace("&lt;", "<", $tagContent );

@@ -142,7 +142,7 @@ function rssImport1( &$root, &$rssImport, &$cli )
     $addCount = 0;
 
     // Get all items in rss feed
-    $itemArray =& $root->elementsByName( 'item' );
+    $itemArray = $root->elementsByName( 'item' );
 
     // Loop through all items in RSS feed
     foreach ( $itemArray as $item )
@@ -221,16 +221,16 @@ function importRSSItem( $item, &$rssImport, &$cli )
 
     // Try to fetch RSSImport object with md5 sum matching link.
     $existingObject = eZPersistentObject::fetchObject( eZContentObject::definition(), null,
-                                                        array( 'remote_id' => 'RSSImport_'.$rssImportID.'_'.$md5Sum ) );
+                                                       array( 'remote_id' => 'RSSImport_'.$rssImportID.'_'.$md5Sum ) );
 
     // if object exists, continue to next import item
     if ( $existingObject != null )
     {
-        unset( $existingObject ); // delete object to preserve memory
         if ( !$isQuiet )
         {
-            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Object with URL: '.$link->textContent().' already exists' );
+            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Object ( ' . $existingObject->attribute( 'id' ) . ' ) with URL: '.$link->textContent().' already exists' );
         }
+        unset( $existingObject ); // delete object to preserve memory
         return 0;
     }
 
