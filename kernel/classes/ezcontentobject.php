@@ -1486,7 +1486,8 @@ class eZContentObject extends eZPersistentObject
                     ezcontentobject_attribute.contentobject_id = '$this->ID' $versionText $languageText $attributeIDText
                   $distinctText
                   ORDER BY
-                    ezcontentclass_attribute.placement ASC";
+                    ezcontentclass_attribute.placement ASC,
+                    ezcontentobject_attribute.language_code ASC";
 
             $attributeArray = $db->arrayQuery( $query );
 
