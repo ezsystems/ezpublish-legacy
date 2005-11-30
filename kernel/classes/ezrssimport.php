@@ -210,16 +210,15 @@ class eZRSSImport extends eZPersistentObject
      \static
       Fetches complete list of active RSS Imports.
     */
-    function &fetchActiveList( $asObject = true )
+    function fetchActiveList( $asObject = true )
     {
-        $objectList = eZPersistentObject::fetchObjectList( eZRSSImport::definition(),
-                                                            null,
-                                                            array( 'status' => 1,
-                                                                   'active' => 1 ),
-                                                            null,
-                                                            null,
-                                                            $asObject );
-        return $objectList;
+        return eZPersistentObject::fetchObjectList( eZRSSImport::definition(),
+                                                    null,
+                                                    array( 'status' => 1,
+                                                           'active' => 1 ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
     }
 
 

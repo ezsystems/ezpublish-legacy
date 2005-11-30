@@ -150,7 +150,7 @@ class eZRSSExportItem extends eZPersistentObject
             $objectNode = eZContentObjectTreeNode::fetch( $this->SourceNodeID );
             if ( isset( $objectNode ) )
             {
-                $path_array =& $objectNode->attribute( 'path_array' );
+                $path_array = $objectNode->attribute( 'path_array' );
                 for ( $i = 0; $i < count( $path_array ); $i++ )
                 {
                     $treenode = eZContentObjectTreeNode::fetch( $path_array[$i] );
