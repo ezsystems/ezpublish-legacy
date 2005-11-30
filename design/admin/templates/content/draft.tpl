@@ -111,7 +111,7 @@
 <!--
     function confirmDiscard( question )
     {
-        // Ask user if she really wants do it, return this to the handler.
+        // Ask user if he really wants to do it.
         return confirm( question );
     }
 -->
