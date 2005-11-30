@@ -219,7 +219,7 @@ class eZImageType extends eZDataType
         $hasImageAltText = false;
         if ( $http->hasPostVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $imageAltText =& eZHTTPTool::postVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) );
+            $imageAltText = eZHTTPTool::postVariable( $base . "_data_imagealttext_" . $contentObjectAttribute->attribute( "id" ) );
             $hasImageAltText = true;
         }
 
