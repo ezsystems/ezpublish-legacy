@@ -122,8 +122,8 @@ if ( $Module->isCurrentAction( 'BrowseSource' ) || // Store PDF export objects
     $pdfExport->setAttribute( 'intro_text', $Module->actionParameter( 'IntroText' ) );
     $pdfExport->setAttribute( 'sub_text', $Module->actionParameter( 'SubText' ) );
     $pdfExport->setAttribute( 'export_structure', $Module->actionParameter( 'ExportType' ) );
-    if ( $Module->isCurrentAction( 'BrowseSource' ) && $Module->hasActionParameter( 'ClassList' )  )
-         $pdfExport->setAttribute( 'export_classes', implode( ':', $Module->actionParameter( 'ClassList' ) ) );
+    if ( $Module->actionParameter( 'ExportType' ) == 'tree' && $Module->hasActionParameter( 'ClassList' ) )
+        $pdfExport->setAttribute( 'export_classes', implode( ':', $Module->actionParameter( 'ClassList' ) ) );
     $pdfExport->setAttribute( 'pdf_filename', basename( $Module->actionParameter( 'DestinationFile' ) ) );
     $pdfExport->setAttribute( 'status', ( basename( $Module->actionParameter( 'DestinationType' ) ) != 'download' )? 1: 2 );
 

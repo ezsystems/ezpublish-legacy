@@ -715,6 +715,8 @@ Attributes:
   ( Merged from stable/3.6 ( 3.6.5 ) rev. 14232 )
 - Fixed bug #7391: Incorrect parameter in eZCollaborationItem::participantList.
   ( Merged from stable/3.7 ( 3.7.3 ) rev. 14238 )
+- Fixed bug #7338: Disfunction using "PDF export" utility in admin interface.
+  ( Merged from stable/3.7 ( 3.7.3 ) rev. 14240 )
 
 *Library:
 
