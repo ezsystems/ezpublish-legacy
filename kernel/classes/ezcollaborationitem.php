@@ -207,7 +207,7 @@ class eZCollaborationItem extends eZPersistentObject
             case 'participant_list':
             {
                 include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
-                return eZCollaborationItemParticipantLink::fetchParticipantList( $this->ID );
+                return eZCollaborationItemParticipantLink::fetchParticipantList( array('item_id' => $this->ID ) );
             } break;
             case 'user_status':
             {
