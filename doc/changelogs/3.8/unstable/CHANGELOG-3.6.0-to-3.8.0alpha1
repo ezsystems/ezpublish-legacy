@@ -711,6 +711,8 @@ Attributes:
 - Fixed bug #7455: Client requests with arrays deliver false data.
 - Fixed bug #7463: Images are not shown after adding translations.
   ( Merged from stable/3.6 ( 3.6.5 ) rev. 14187 )
+- Fixed bug #7479: Fatal error with {$attribute.object.main_parent_node_id}.
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14232 )
   
 *Library:
 
