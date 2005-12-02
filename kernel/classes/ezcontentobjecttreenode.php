@@ -4796,6 +4796,8 @@ WHERE
 
     function getParentNodeId( $nodeID )
     {
+        if ( !isset( $nodeID ) )
+            return null;
         $db =& eZDB::instance();
         $parentArr = $db->arrayQuery( "SELECT
                                               parent_node_id
