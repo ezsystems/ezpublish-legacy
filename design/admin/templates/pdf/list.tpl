@@ -29,7 +29,13 @@
     {* Name. *}
     <td>{'pdfexport'|icon( 'small', 'PDF Export'|i18n( 'design/admin/pdf/list' ) )}&nbsp;
     {section show=$PDFExports.item.status|eq(1)}
-      <a href={$PDFExports.item.filepath|ezroot}>{$PDFExports.item.title|wash}</a>
+      {section show=and( is_set( $PDFExports.item.source_node ), $PDFExports.item.source_node )}
+           <a href={$PDFExports.item.filepath|ezroot}>
+      {/section}
+      {$PDFExports.item.title|wash}
+      {section show=and( is_set( $PDFExports.item.source_node ), $PDFExports.item.source_node )}
+          </a>
+      {/section}
     {section-else show=$PDFExports.item.status|eq(2)}
       <a href={concat('pdf/edit/', $PDFExports.item.id, '/generate')|ezurl}>{$PDFExports.item.title|wash}</a>
     {/section}
