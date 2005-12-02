@@ -209,7 +209,7 @@ class eZCollaborationItem extends eZPersistentObject
     function &participantList()
     {
         include_once( 'kernel/classes/ezcollaborationitemparticipantlink.php' );
-        $list =& eZCollaborationItemParticipantLink::fetchParticipantList( $this->ID );
+        $list =& eZCollaborationItemParticipantLink::fetchParticipantList( array('item_id' => $this->ID ) );
         return $list;
     }
 

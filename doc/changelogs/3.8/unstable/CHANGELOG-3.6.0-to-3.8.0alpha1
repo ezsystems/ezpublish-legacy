@@ -713,7 +713,9 @@ Attributes:
   ( Merged from stable/3.6 ( 3.6.5 ) rev. 14187 )
 - Fixed bug #7479: Fatal error with {$attribute.object.main_parent_node_id}.
   ( Merged from stable/3.6 ( 3.6.5 ) rev. 14232 )
-  
+- Fixed bug #7391: Incorrect parameter in eZCollaborationItem::participantList.
+  ( Merged from stable/3.7 ( 3.7.3 ) rev. 14238 )
+
 *Library:
 
 eZTemplate:
