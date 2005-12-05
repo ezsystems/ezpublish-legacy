@@ -400,7 +400,8 @@ class eZCache
 
         foreach ( $files as $file )
         {
-            if ( strpos( $file, 'classidentifiers_' ) === 0 )
+            if ( ( strpos( $file, 'classidentifiers_' ) === 0 ) or
+                 ( strpos( $file, 'classattributeidentifiers_' ) === 0 ) )
                 unlink( "$cachePath/$file" );
         }
     }
