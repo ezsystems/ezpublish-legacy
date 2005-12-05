@@ -208,7 +208,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
     $db =& eZDB::instance();
     $db->begin();
-    
+
     foreach ( array_keys( $contentObjectAttributes ) as $key )
     {
         $contentObjectAttribute = $contentObjectAttributes[$key];
@@ -231,7 +231,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
             else
             {
             }
-            $collectionAttributes[$contentObjectAttribute->attribute( 'id' )] =& $collectionAttribute;
+            $collectionAttributes[$contentObjectAttribute->attribute( 'id' )] = $collectionAttribute;
         }
     }
     $db->commit();
