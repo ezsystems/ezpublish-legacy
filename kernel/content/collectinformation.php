@@ -226,7 +226,7 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
             else
             {
             }
-            $collectionAttributes[$contentObjectAttribute->attribute( 'id' )] =& $collectionAttribute;
+            $collectionAttributes[$contentObjectAttribute->attribute( 'id' )] = $collectionAttribute;
         }
     }
 
