@@ -79,7 +79,8 @@ class eZTemplateArithmeticOperator
                                   'abs', 'ceil', 'floor', 'round',
                                   'int', 'float',
                                   'count',
-                                  'roman' );
+                                  'roman',
+                                  'rand' );
         foreach ( $this->Operators as $operator )
         {
             $name = $operator . 'Name';
@@ -219,7 +220,15 @@ class eZTemplateArithmeticOperator
 
                       $this->CountName => array( 'input' => true,
                                                  'output' => true,
-                                                 'parameters' => 1 ) );
+                                                 'parameters' => 1 ),
+
+                      $this->RandName => array( 'input' => true,
+                                                'output' => true,
+                                                'parameters' => true,
+                                                'element-transformation' => true,
+                                                'transform-parameters' => true,
+                                                'input-as-parameter' => true,
+                                                'element-transformation-func' => 'randTransformation') );
     }
 
     function basicTransformation( $operatorName, &$node, &$tpl, &$resourceData,
@@ -494,6 +503,33 @@ class eZTemplateArithmeticOperator
             $code = "%output% = ($operatorName)%1%;\n";
             $values[] = $parameters[0];
         }
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
+        return $newElements;
+    }
+
+    function randTransformation( $operatorName, &$node, &$tpl, &$resourceData,
+                                 &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
+    {
+        $paramCount = count( $parameters );
+        if ( $paramCount != 0 ||
+             $paramCount != 2 )
+        {
+            return false;
+        }
+        $values = array();
+        $newElements = array();
+
+        if ( $paramCount == 2 )
+        {
+            $code = "%output% = mt_rand( %1%, %2% );\n";
+            $values[] = $parameters[0];
+            $values[] = $parameters[1];
+        }
+        else
+        {
+            $code = "%output% = mt_rand();\n";
+        }
+
         $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
         return $newElements;
     }
@@ -787,6 +823,18 @@ class eZTemplateArithmeticOperator
                     $value = $operatorValue;
                 $operatorValue = (float)$value;
             } break;
+            case $this->RandName:
+            {
+                if ( count( $operatorParameters ) == 2 )
+                {
+                    $operatorValue = mt_rand( $tpl->elementValue( $operatorParameters[0], $rootNamespace, $currentNamespace, $placement ),
+                                              $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace, $placement ) );
+                }
+                else
+                {
+                    $operatorValue = mt_rand();
+                }
+            } break;
         }
     }
 
@@ -873,6 +921,8 @@ class eZTemplateArithmeticOperator
     var $CountName;
 
     var $RomanName;
+
+    var $RandName;
 }
 
 ?>

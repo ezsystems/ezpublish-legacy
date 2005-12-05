@@ -1,0 +1,33 @@
+*Title: Template random operator.
+
+*Description:
+New template operator for generating random numbers. Will return an integer,
+or value from/to specified input parameters.
+
+*Documentation:
+
+Generating random value. Optional input parameters.
+
+rand( [min_val, max_val] )
+
+Returns:
+Random integer value. If imput parameters are used, it'll be from min_val to max_val.
+
+Parameters:
+'min_val' - minimum integer value
+'max_val' - maximum integer value
+
+Example:
+Fetch a random articles under '/news', node 102.
+
+{def $news_count = fetch( content, list_count, hash( 'parent_node_id', 102,
+                                                     'class_filter_type',  'include',
+                                                     'class_filter_array', array( 'article' ) ) )
+     $news_article = fetch( 'content','list',
+                            hash( 'parent_node_id', 102,
+                                  'class_filter_type', 'include',
+                                  'class_filter_array', array( 'article' ),
+                                  'limit', 1,
+                                  'offset', rand(1, $news_count )|sub(1) ) )}
+
+

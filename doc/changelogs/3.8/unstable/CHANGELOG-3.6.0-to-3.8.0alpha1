@@ -729,6 +729,8 @@ eZTemplate:
   ( Merged from stable/3.5 rev. 13711, stable/3.6 rev. 13712, stable/3.7 rev. 13713 )
 - Improved treemenuoperator as described here in enhancement report.
   # 6787: Enhancement treemenu operator should return more information
+- Added rand template operator.
+  ( See doc/features/3.8/template_rand_function.txt )
 
 *INI settings
 - Changed: [TipAFriend].FromEmail ini setting is now empty by default.
