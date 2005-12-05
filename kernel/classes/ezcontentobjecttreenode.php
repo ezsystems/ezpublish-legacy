@@ -552,7 +552,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             foreach ( array_keys( $dataTypeArray ) as $key )
             {
                 unset( $dataType );
-                $dataType =& eZDataType::create( $key );
+                $dataType = eZDataType::create( $key );
                 if( is_object( $dataType ) )
                     $dataTypeArray[$key] = $dataType->sortKeyType();
             }
