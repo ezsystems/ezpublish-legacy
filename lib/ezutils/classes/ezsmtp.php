@@ -75,7 +75,7 @@
         ** the HELO command.
         ***************************************/
 
-        function &connect($params = array()){
+        function connect($params = array()){
 
             if(!isset($this->status)){
                 $obj = new smtp($params);
