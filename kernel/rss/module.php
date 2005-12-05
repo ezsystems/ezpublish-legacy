@@ -62,6 +62,7 @@ $ViewList['edit_import'] = array(
     'default_navigation_part' => 'ezsetupnavigationpart',
     'single_post_actions' => array( 'StoreButton' => 'Store',
                                     'RemoveButton' => 'Cancel',
+                                    'AnalyzeFeedButton' => 'AnalyzeFeed',
                                     'Update_Class' => 'UpdateClass',
                                     'DestinationBrowse' => 'BrowseDestination',
                                     'UserBrowse' => 'BrowseUser' ),

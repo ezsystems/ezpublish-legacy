@@ -74,33 +74,33 @@ class eZRSSImport extends eZPersistentObject
                                                               'default' => 0,
                                                               'required' => true ),
                                          'modifier_id' => array( 'name' => 'ModifierID',
-                                                              'datatype' => 'integer',
-                                                              'default' => 0,
-                                                              'required' => true ),
-                                         'created' => array( 'name' => 'Created',
-                                                              'datatype' => 'integer',
-                                                              'default' => 0,
-                                                              'required' => true ),
-                                         'creator_id' => array( 'name' => 'CreatorID',
-                                                              'datatype' => 'integer',
-                                                              'default' => 0,
-                                                              'required' => true ),
-                                         'object_owner_id' => array( 'name' => 'ObjectOwnerID',
                                                                  'datatype' => 'integer',
                                                                  'default' => 0,
                                                                  'required' => true ),
+                                         'created' => array( 'name' => 'Created',
+                                                             'datatype' => 'integer',
+                                                             'default' => 0,
+                                                             'required' => true ),
+                                         'creator_id' => array( 'name' => 'CreatorID',
+                                                                'datatype' => 'integer',
+                                                                'default' => 0,
+                                                                'required' => true ),
+                                         'object_owner_id' => array( 'name' => 'ObjectOwnerID',
+                                                                     'datatype' => 'integer',
+                                                                     'default' => 0,
+                                                                     'required' => true ),
                                          'status' => array( 'name' => 'Status',
-                                                              'datatype' => 'integer',
-                                                              'default' => 0,
-                                                              'required' => true ),
+                                                            'datatype' => 'integer',
+                                                            'default' => 0,
+                                                            'required' => true ),
                                          'name' => array( 'name' => 'Name',
-                                                           'datatype' => 'string',
-                                                           'default' => '',
-                                                           'required' => true ),
+                                                          'datatype' => 'string',
+                                                          'default' => '',
+                                                          'required' => true ),
                                          'url' => array( 'name' => 'URL',
-                                                           'datatype' => 'string',
-                                                           'default' => '',
-                                                           'required' => true ),
+                                                         'datatype' => 'string',
+                                                         'default' => '',
+                                                         'required' => true ),
                                          'destination_node_id' => array( 'name' => 'DestinationNodeID',
                                                                          'datatype' => 'int',
                                                                          'default' => '',
@@ -109,27 +109,34 @@ class eZRSSImport extends eZPersistentObject
                                                               'datatype' => 'integer',
                                                               'default' => 0,
                                                               'required' => true ),
-                                         'class_title' => array( 'name' => 'ClassTitle',
+                                         'class_title' => array( 'name' => 'ClassTitle', // depricated
                                                                  'datatype' => 'string',
                                                                  'default' => '',
                                                                  'required' => false ),
-                                         'class_url' => array( 'name' => 'ClassURL',
-                                                           'datatype' => 'string',
-                                                           'default' => '',
-                                                           'required' => false ),
-                                         'class_description' => array( 'name' => 'ClassDescription',
-                                                           'datatype' => 'string',
-                                                           'default' => '',
-                                                           'required' => false ),
+                                         'class_url' => array( 'name' => 'ClassURL', // depricated
+                                                               'datatype' => 'string',
+                                                               'default' => '',
+                                                               'required' => false ),
+                                         'class_description' => array( 'name' => 'ClassDescription', // depricated
+                                                                       'datatype' => 'string',
+                                                                       'default' => '',
+                                                                       'required' => false ),
                                          'active' => array( 'name' => 'Active',
                                                             'datatype' => 'integer',
                                                             'default' => 1,
-                                                            'required' => true ) ),
+                                                            'required' => true ),
+                                         'import_description' => array( 'name' => 'ImportDescriptionValue',
+                                                                        'datatype' => 'string',
+                                                                        'default' => '',
+                                                                        'required' => true ) ),
                       "keys" => array( "id", 'status' ),
                       'function_attributes' => array( 'class_attributes' => 'classAttributes',
                                                       'destination_path' => 'destinationPath',
                                                       'modifier' => 'modifier',
-                                                      'object_owner' => 'objectOwner' ),
+                                                      'object_owner' => 'objectOwner',
+                                                      'import_description_array' => 'importDescription',
+                                                      'field_map' => 'fieldMap',
+                                                      'object_attribute_list' => 'objectAttributeList' ),
                       "increment_key" => "id",
                       "class_name" => "eZRSSImport",
                       "name" => "ezrss_import" );
@@ -142,20 +149,27 @@ class eZRSSImport extends eZPersistentObject
 
      \return the new RSS Import object
     */
-    function create( $user_id )
+    function create( $userID = false )
     {
+        if ( $userID === false )
+        {
+            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+            $user = eZUser::currentUser();
+            $userID = $user->attribute( "contentobject_id" );
+        }
+
         $dateTime = time();
         $row = array( 'id' => null,
                       'name' => ezi18n( 'kernel/rss', 'New RSS Import' ),
-                      'modifier_id' => $user_id,
+                      'modifier_id' => $userID,
                       'modified' => $dateTime,
-                      'creator_id' => $user_id,
+                      'creator_id' => $userID,
                       'created' => $dateTime,
-                      'object_owner_id' => $user_id,
+                      'object_owner_id' => $userID,
                       'url' => '',
                       'status' => 0,
                       'destination_node_id' => 0,
-                      'class_id' => 1,
+                      'class_id' => 0,
                       'class_title' => '',
                       'class_url' => '',
                       'class_description' => '',
@@ -199,10 +213,15 @@ class eZRSSImport extends eZPersistentObject
      \static
       Fetches complete list of RSS Imports.
     */
-    function fetchList( $asObject = true )
+    function fetchList( $asObject = true, $status = EZ_RSSIMPORT_STATUS_VALID )
     {
+        $cond = null;
+        if ( $status !== false )
+        {
+            $cond = array( 'status' => $status );
+        }
         return eZPersistentObject::fetchObjectList( eZRSSImport::definition(),
-                                                    null, array( 'status' => 1 ), null, null,
+                                                    null, $cond, null, null,
                                                     $asObject );
     }
 
@@ -288,6 +307,228 @@ class eZRSSImport extends eZPersistentObject
         return $retValue;
     }
 
+    /*!
+     \static
+     Analize RSS import, and get RSS version number
+
+     \param URL
+
+     \return RSS version number, false if invalid URL
+    */
+    function getRSSVersion( $url )
+    {
+        $fid = @fopen( $url, 'r' );
+        if ( $fid === false )
+        {
+            return false;
+        }
+
+        $xmlData = "";
+        do {
+            $data = fread($fid, 8192);
+            if (strlen($data) == 0) {
+                break;
+            }
+            $xmlData .= $data;
+        } while(true);
+
+        fclose( $fid );
+
+        include_once( 'lib/ezxml/classes/ezxml.php' );
+        // Create DomDocumnt from http data
+        $xmlObject = new eZXML();
+        $domDocument = $xmlObject->domTree( $xmlData );
+
+        if ( $domDocument == null or $domDocument === false )
+        {
+            return false;
+        }
+
+        $root = $domDocument->root();
+
+        if ( $root == null )
+        {
+            return false;
+        }
+
+        switch( $root->attributeValue( 'version' ) )
+        {
+            default:
+            case '1.0':
+            {
+                return '1.0';
+            } break;
+
+            case '0.91':
+            case '0.92':
+            case '2.0':
+            {
+                return $root->attributeValue( 'version' );
+            } break;
+        }
+    }
+
+    /*!
+     \static
+     Object attribute list
+    */
+    function &objectAttributeList()
+    {
+        $objectAttributeList = array( 'published' => 'Published',
+                                      'modified' => 'Modified' );
+        return $objectAttributeList;
+    }
+
+    /*!
+     \static
+
+     Return default RSS field definition
+
+     \param RSS version
+
+     \return RSS field definition array.
+    */
+    function rssFieldDefinition( $version = '2.0' )
+    {
+        switch ( $version )
+        {
+            case '1.0':
+            {
+                return array( 'item' => array( 'attributes' => array( 'about' ),
+                                               'elements' => array( 'title',
+                                                                    'link',
+                                                                    'description' ) ),
+                              'channel' => array( 'attributes' => array( 'about' ),
+                                                  'elements' => array( 'title',
+                                                                       'link',
+                                                                       'description'.
+                                                                       'image' => array( 'attributes' => array( 'resource' ) ) ) ) );
+            } break;
+
+            case '2.0':
+            case '0.91':
+            case '0.92':
+            {
+                return array( 'item' => array( 'elements' => array( 'title',
+                                                                    'link',
+                                                                    'description',
+                                                                    'author',
+                                                                    'category',
+                                                                    'comments',
+                                                                    'guid',
+                                                                    'pubDate' ) ),
+                              'channel' => array( 'elements' => array( 'title',
+                                                                       'link',
+                                                                       'description',
+                                                                       'copyright',
+                                                                       'managingEditor',
+                                                                       'webMaster',
+                                                                       'pubDate',
+                                                                       'lastBuildDate',
+                                                                       'category',
+                                                                       'generator',
+                                                                       'docs',
+                                                                       'cloud',
+                                                                       'ttl' ) ) );
+            }
+        }
+    }
+
+    /*!
+     \static
+
+     \param RSS version
+
+     \return Ordered array of field definitions
+    */
+    function &fieldMap( $version = '2.0' )
+    {
+        $fieldDefinition = eZRSSImport::rssFieldDefinition();
+
+        $ini = eZINI::instance();
+        foreach( $ini->variable( 'RSSSettings', 'ActiveExtensions' ) as $activeExtension )
+        {
+            if ( file_exists( eZExtension::baseDirectory() . '/' . $activeExtension . '/rss/ezrssimport.php' ) )
+            {
+                include_once( eZExtension::baseDirectory() . '/' . $activeExtension . '/rss/ez' . $activeExtension . 'rssimport.php' );
+                $fieldDefinition = eZRSSImport::arrayMergeRecursive( $fieldDefinition, call_user_func( array( 'ez' . $activeExtension . 'rssimport', 'rssFieldDefinition' ), array() ) );
+            }
+        }
+
+        $returnArray = array();
+        eZRSSImport::recursiveFieldMap( $fieldDefinition, '', '', $returnArray, 0 );
+
+        return $returnArray;
+    }
+
+    /*!
+     \static
+
+     Recursivly build field map
+
+     \param array
+    */
+    function recursiveFieldMap( $definitionArray, $globalKey, $value, &$returnArray, $count )
+    {
+        foreach( $definitionArray as $key => $definition )
+        {
+            if ( is_string( $definition ) )
+            {
+                $returnArray[$globalKey . ' - ' . $definition ] = $value . ' - ' . ucfirst( $definition );
+            }
+            else
+            {
+                eZRSSImport::recursiveFieldMap( $definition,
+                                                $globalKey . ( strlen( $globalKey ) ? ' - ' : '' ) . $key ,
+                                                $value . ( strlen( $value ) && ( $count % 2 == 0 ) ? ' - ' : '' ) . ( $count % 2 == 0 ? ucfirst( $key ) : '' ),
+                                                $returnArray, $count + 1 );
+            }
+        }
+    }
+
+    /*!
+     Set import description
+
+     Import definition must be set as an multidimentional array.
+
+     Example : array( 'rss_version' => <version>,
+                      'object_attributes' => array( ... ),
+                      'class_attributes' => array( <content class attribute id> => <RSS import field>,  ... ) )
+    */
+    function setImportDescription( $definition = array() )
+    {
+        $this->setAttribute( 'import_description', serialize( $definition ) );
+    }
+
+    /*!
+     Get import description
+
+     \return import description
+    */
+    function &importDescription()
+    {
+        $description = @unserialize( $this->attribute( 'import_description' ) );
+        if ( !$description )
+        {
+            $description = array();
+        }
+        return $description;
+    }
+
+    function arrayMergeRecursive( $arr1, $arr2 )
+    {
+        if ( !is_array( $arr1 ) ||
+             !is_array( $arr2 ) )
+        {
+            return $arr2;
+        }
+        foreach ($arr2 AS $key => $value )
+        {
+            $arr1[$key] = eZRSSImport::arrayMergeRecursive( @$arr1[$key], $value);
+        }
+
+        return $arr1;
+    }
 }
 
 ?>

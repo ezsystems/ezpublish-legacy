@@ -115,6 +115,32 @@ foreach ( array_keys( $rssImportArray ) as $rssImportKey )
         default:
         case '1.0':
         {
+            $version = '1.0';
+        } break;
+
+        case '0.91':
+        case '0.92':
+        case '2.0':
+        {
+            $version = $root->attributeValue( 'version' );
+        } break;
+    }
+
+    $importDescription = $rssImport->importDescription();
+    if ( $version != $importDescription['rss_version'] )
+    {
+        if ( !$isQuiet )
+        {
+            $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Invalid RSS version missmatch. Please reconfigure import.' );
+        }
+        continue;
+    }
+
+    switch( $root->attributeValue( 'version' ) )
+    {
+        default:
+        case '1.0':
+        {
             rssImport1( $root, $rssImport, $cli );
         } break;
 
@@ -143,11 +169,12 @@ function rssImport1( &$root, &$rssImport, &$cli )
 
     // Get all items in rss feed
     $itemArray = $root->elementsByName( 'item' );
+    $channel = $root->elementByName( 'channel' );
 
     // Loop through all items in RSS feed
     foreach ( $itemArray as $item )
     {
-        $addCount += importRSSItem( $item, $rssImport, $cli );
+        $addCount += importRSSItem( $item, $rssImport, $cli, $channel );
     }
 
     if ( !$isQuiet )
@@ -176,7 +203,7 @@ function rssImport2( &$root, &$rssImport, &$cli )
     // Loop through all items in RSS feed
     foreach ( $channel->elementsByName( 'item' ) as $item )
     {
-        $addCount += importRSSItem( $item, $rssImport, $cli );
+        $addCount += importRSSItem( $item, $rssImport, $cli, $channel );
     }
 
     if ( !$isQuiet )
@@ -192,14 +219,15 @@ function rssImport2( &$root, &$rssImport, &$cli )
  \param RSS item xml element
  \param $rssImport Object
  \param cli
+ \param channel
 
  \return 1 if object added, 0 if not
 */
-function importRSSItem( $item, &$rssImport, &$cli )
+function importRSSItem( $item, &$rssImport, &$cli, $channel )
 {
     global $isQuiet;
-    $rssImportID =& $rssImport->attribute( 'id' );
-    $rssOwnerID =& $rssImport->attribute( 'object_owner_id' ); // Get owner user id
+    $rssImportID = $rssImport->attribute( 'id' );
+    $rssOwnerID = $rssImport->attribute( 'object_owner_id' ); // Get owner user id
     $parentContentObjectTreeNode = eZContentObjectTreeNode::fetch( $rssImport->attribute( 'destination_node_id' ) ); // Get parent treenode object
 
     if ( $parentContentObjectTreeNode == null )
@@ -213,10 +241,8 @@ function importRSSItem( $item, &$rssImport, &$cli )
 
     $parentContentObject =& $parentContentObjectTreeNode->attribute( 'object' ); // Get parent content object
 
-    $title = $item->elementByName( 'title' );
+    $title = $item->elementTextContentByName( 'title' );
     $link = $item->elementByName( 'link' );
-    $description = $item->elementByName( 'description' );
-
     $md5Sum = md5( $link->textContent() );
 
     // Try to fetch RSSImport object with md5 sum matching link.
@@ -243,12 +269,13 @@ function importRSSItem( $item, &$rssImport, &$cli )
     $db =& eZDB::instance();
     $db->begin();
     $contentObject->store();
+    $contentObjectID = $contentObject->attribute( 'id' );
 
     // Create node assignment
-    $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
-                                                        'contentobject_version' => $contentObject->attribute( 'current_version' ),
-                                                        'is_main' => 1,
-                                                        'parent_node' => $parentContentObjectTreeNode->attribute( 'node_id' ) ) );
+    $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObjectID,
+                                                       'contentobject_version' => $contentObject->attribute( 'current_version' ),
+                                                       'is_main' => 1,
+                                                       'parent_node' => $parentContentObjectTreeNode->attribute( 'node_id' ) ) );
     $nodeAssignment->store();
 
     $version =& $contentObject->version( 1 );
@@ -257,69 +284,46 @@ function importRSSItem( $item, &$rssImport, &$cli )
 
     // Get object attributes, and set their values and store them.
     $dataMap =& $contentObject->dataMap();
+    $importDescription = $rssImport->importDescription();
 
-    // set title
-    $attributeTitle =& $dataMap[$rssImport->attribute( 'class_title' )];
-    if ( $attributeTitle != null && $title != null )
+    // Set content object attribute values.
+    $classAttributeList = $contentClass->fetchAttributes();
+    foreach( $classAttributeList as $classAttribute )
     {
-        if ( $attributeTitle->attribute( 'data_type_string' ) == 'ezxmltext' )
+        $classAttributeID = $classAttribute->attribute( 'id' );
+        if ( isset( $importDescription['class_attributes'][$classAttributeID] ) )
         {
-            setEZXMLAttribute( $attributeTitle, $title->textContent() );
-        }
-        else
-        {
-            $attributeTitle->setAttribute( 'data_text', $title->textContent() );
-        }
-        $attributeTitle->store();
-    }
-    else if ( !$isQuiet )
-    {
-        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Could not find title map for : '.$rssImport->attribute( 'class_title' ) );
-    }
+            if ( $importDescription['class_attributes'][$classAttributeID] == '-1' )
+            {
+                continue;
+            }
 
-    // set url
-    $attributeLink =& $dataMap[$rssImport->attribute( 'class_url' )];
-    if ( $attributeLink != null && $link != null )
-    {
-        $dataType = $attributeLink->attribute( 'data_type_string' );
-        if ( $dataType == 'ezxmltext' )
-        {
-            setEZXMLAttribute( $attributeLink, $link->textContent() );
-        }
-        elseif ( $dataType == 'ezurl' )
-        {
-            $attributeLink->setContent( $link->textContent() );
-        }
-        else
-        {
-            $attributeLink->setAttribute( 'data_text', $link->textContent() );
-        }
+            $importDescriptionArray = explode( ' - ', $importDescription['class_attributes'][$classAttributeID] );
+            if ( count( $importDescriptionArray ) < 1 )
+            {
+                $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Invalid import definition. Please redit.' );
+                break;
+            }
 
-        $attributeLink->store();
-        unset( $dataType );
-    }
-    else if ( !$isQuiet )
-    {
-        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Could not find link map for : '.$rssImport->attribute( 'class_link' ) );
-    }
+            $elementType = $importDescriptionArray[0];
+            array_shift( $importDescriptionArray );
+            switch( $elementType )
+            {
+                case 'item':
+                {
+                    setObjectAttributeValue( $dataMap[$classAttribute->attribute( 'identifier' )],
+                                             recursiveFindRSSElementValue( $importDescriptionArray,
+                                                                           $item ) );
+                } break;
 
-    // set description
-    $attributeDescription =& $dataMap[$rssImport->attribute( 'class_description' )];
-    if ( $attributeDescription != null && $description != null )
-    {
-        if ( $attributeDescription->attribute( 'data_type_string' ) == 'ezxmltext' )
-        {
-            setEZXMLAttribute( $attributeDescription, $description->textContent() );
+                case 'channel':
+                {
+                    setObjectAttributeValue( $dataMap[$classAttribute->attribute( 'identifier' )],
+                                             recursiveFindRSSElementValue( $importDescriptionArray,
+                                                                           $channel ) );
+                } break;
+            }
         }
-        else
-        {
-            $attributeDescription->setAttribute( 'data_text', $description->textContent() );
-        }
-        $attributeDescription->store();
-    }
-    else if ( !$isQuiet )
-    {
-        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Could not find description map for : '.$rssImport->attribute( 'class_descriptione' ) );
     }
 
     $contentObject->setAttribute( 'remote_id', 'RSSImport_'.$rssImportID.'_'.md5( $link->textContent() ) );
@@ -329,6 +333,7 @@ function importRSSItem( $item, &$rssImport, &$cli )
     //publish new object
     $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $contentObject->attribute( 'id' ),
                                                                                  'version' => 1 ) );
+
     if ( !isset( $operationResult['status'] ) || $operationResult['status'] != EZ_MODULE_OPERATION_CONTINUE )
     {
         if ( isset( $operationResult['result'] ) && isset( $operationResult['result']['content'] ) )
@@ -339,12 +344,131 @@ function importRSSItem( $item, &$rssImport, &$cli )
         unset( $failReason );
     }
 
+    $db->begin();
+    unset( $contentObject );
+    unset( $version );
+    $contentObject = eZContentObject::fetch( $contentObjectID );
+    $version = $contentObject->attribute( 'current' );
+    // Set object Attributes like modified and published timestamps
+    $objectAttributeDescription = $importDescription['object_attributes'];
+    foreach( $objectAttributeDescription as $identifier => $objectAttributeDefinition )
+    {
+        if ( $objectAttributeDefinition == '-1' )
+        {
+            continue;
+        }
+
+        $importDescriptionArray = explode( ' - ', $objectAttributeDefinition );
+
+        $elementType = $importDescriptionArray[0];
+        array_shift( $importDescriptionArray );
+        switch( $elementType )
+        {
+            default:
+            case 'item':
+            {
+                $domNode = $item;
+            } break;
+
+            case 'channel':
+            {
+                $domNode = $channel;
+            } break;
+        }
+
+        switch( $identifier )
+        {
+            case 'modified':
+            {
+                $dateTime = recursiveFindRSSElementValue( $importDescriptionArray,
+                                                          $domNode );
+                if ( !$dateTime )
+                {
+                    break;
+                }
+                $contentObject->setAttribute( $identifier, strtotime( $dateTime ) );
+                $version->setAttribute( $identifier, strtotime( $dateTime ) );
+            } break;
+
+            case 'published':
+            {
+                $dateTime = recursiveFindRSSElementValue( $importDescriptionArray,
+                                                          $domNode );
+                if ( !$dateTime )
+                {
+                    break;
+                }
+                $contentObject->setAttribute( $identifier, strtotime( $dateTime ) );
+                $version->setAttribute( 'created', strtotime( $dateTime ) );
+            } break;
+        }
+    }
+    $version->store();
+    $contentObject->store();
+    $db->commit();
+
     if ( !$isQuiet )
     {
-        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Object created; '.$title->textContent() );
+        $cli->output( 'RSSImport '.$rssImport->attribute( 'name' ).': Object created; ' . $title );
     }
 
     return 1;
+}
+
+function recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode )
+{
+    if ( !is_array( $importDescriptionArray ) )
+    {
+        return false;
+    }
+
+    $valueType = $importDescriptionArray[0];
+    array_shift( $importDescriptionArray );
+    switch( $valueType )
+    {
+        case 'elements':
+        {
+            if ( count( $importDescriptionArray ) == 1 )
+            {
+                return $xmlDomNode->elementTextContentByName( $importDescriptionArray[0] );
+            }
+            else
+            {
+                $elementName = $importDescriptionArray[0];
+                array_shift( $importDescriptionArray );
+                return recursiveFindRSSElementValue( $importDescriptionArray, $xmlDomNode->elementByName( $elementName ) );
+            }
+        }
+
+        case 'attributes':
+        {
+            return $xmlDomNode->attributeValue( $importDescriptionArray[0] );
+        } break;
+    }
+}
+
+function setObjectAttributeValue( &$objectAttribute, $value )
+{
+    if ( $value === false )
+    {
+        return;
+    }
+
+    $dataType = $objectAttribute->attribute( 'data_type_string' );
+    if ( $dataType == 'ezxmltext' )
+    {
+        setEZXMLAttribute( $objectAttribute, $value );
+    }
+    elseif ( $dataType == 'ezurl' )
+    {
+        $objectAttribute->setContent( $value );
+    }
+    else
+    {
+        $objectAttribute->setAttribute( 'data_text', $value );
+    }
+
+    $objectAttribute->store();
 }
 
 function setEZXMLAttribute( &$attribute, &$attributeValue, $link = false )

@@ -1,0 +1,16 @@
+*Title: More generic RSS import
+
+*Documentation:
+
+This improvement adds support for custom RSS import definitions, and supports more fields than the earlier version.
+Custom import maps can be placed in extensions.
+
+To still use old RSS import definitions, the update script update/common/scripts/updaterssimport.php must be run.
+
+Custom import maps must be placed in :
+
+<extension directory>/<extension name>/rss/ez<extension name>rssimport.php
+This file must contain a class of the same name, and a function called 'rssFieldDefinition'.
+The function returns an RSS definition in the form of a multidimentional array.
+
+See kernel/classes/ezrssimport.php ::rssFieldDefinition() for default RSS definition.
