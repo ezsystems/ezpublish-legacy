@@ -717,6 +717,9 @@ Attributes:
   ( Merged from stable/3.7 ( 3.7.3 ) rev. 14238 )
 - Fixed bug #7338: Disfunction using "PDF export" utility in admin interface.
   ( Merged from stable/3.7 ( 3.7.3 ) rev. 14240 )
+- Fixed bug #7425: classattributeidentifiers cache file is not deleted 
+  when clearing all caches.
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14253 )
 
 *Library:
 
