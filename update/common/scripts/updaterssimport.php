@@ -164,4 +164,8 @@ foreach( eZRSSImport::fetchList( true, false ) as $rssImport )
     $rssImport->store();
 }
 
+print( $endl . "done" . $endl );
+
+$script->shutdown();
+
 ?>
