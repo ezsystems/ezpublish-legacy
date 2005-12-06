@@ -406,8 +406,10 @@ class eZRSSExport extends eZPersistentObject
 
         include_once( 'lib/ezxml/classes/ezdomdocument.php' );
 
+        $locale = eZLocale::instance();
+
         // Get URL Translation settings.
-        $config =& eZINI::instance( 'site.ini' );
+        $config =& eZINI::instance();
         if ( $config->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
         {
             $useURLAlias = true;
@@ -436,7 +438,7 @@ class eZRSSExport extends eZPersistentObject
         $channelDescription = $doc->createElementTextNode( 'description', $this->attribute( 'description' ) );
         $channel->appendChild( $channelDescription );
 
-        $channelLanguage = $doc->createElementTextNode( 'language', $this->attribute( 'language' ) );
+        $channel->appendChild( $doc->createElementTextNode( 'language', $locale->httpLocaleCode() ) );
         $channel->appendChild( $channelLanguage );
 
         $imageURL = $this->fetchImageURL();
