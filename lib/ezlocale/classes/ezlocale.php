@@ -463,6 +463,8 @@ class eZLocale
             if ( isset( $tmpLongDayNames[$key] ) )
                 $this->LongWeekDayNames[$day] = $tmpLongDayNames[$key];
         }
+
+        $this->HTTPLocaleCode = $languageINI->variable( 'HTTP', 'ContentLanguage' );
     }
 
     /*!

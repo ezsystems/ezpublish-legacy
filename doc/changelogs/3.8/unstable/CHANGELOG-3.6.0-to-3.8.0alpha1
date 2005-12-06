@@ -722,6 +722,10 @@ Attributes:
 - Fixed bug #7425: classattributeidentifiers cache file is not deleted 
   when clearing all caches.
   ( Merged from stable/3.6 ( 3.6.5 ) rev. 14253 )
+- Fixed bug #7429: Rss 2.0 export fail on validation.
+  ( Merged from stable/3.5 rev. 14267, stable/3.6 rev. 14268, stable/3.7 rev. 14269 )
+- Fixed bug #7510: Incorrect HTTP locale code returned from eZLocale::httpLocaleCode().
+  ( Merged from stable/3.5 rev. 14267, stable/3.6 rev. 14268, stable/3.7 rev. 14269 )
 
 *Library:
 
