@@ -114,7 +114,7 @@ header( 'Content-Type: text/xml; charset=' . $httpCharset );
 header( 'Content-Length: '.strlen($rssContent) );
 header( 'X-Powered-By: eZ publish' );
 
-while ( @ob_end_flush() );
+while ( @ob_end_clean() );
 
 echo $rssContent;
 

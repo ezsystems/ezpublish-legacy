@@ -416,8 +416,10 @@ class eZRSSExport extends eZPersistentObject
 
         include_once( 'lib/ezxml/classes/ezdomdocument.php' );
 
+        $locale = eZLocale::instance();
+
         // Get URL Translation settings.
-        $config =& eZINI::instance( 'site.ini' );
+        $config =& eZINI::instance();
         if ( $config->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
         {
             $useURLAlias = true;
@@ -440,7 +442,7 @@ class eZRSSExport extends eZPersistentObject
         $channel->appendChild( $doc->createElementTextNode( 'title', $this->attribute( 'title' ) ) );
         $channel->appendChild( $doc->createElementTextNode( 'link', $this->attribute( 'url' ) ) );
         $channel->appendChild( $doc->createElementTextNode( 'description', $this->attribute( 'description' ) ) );
-        $channel->appendChild( $doc->createElementTextNode( 'language', $this->attribute( 'language' ) ) );
+        $channel->appendChild( $doc->createElementTextNode( 'language', $locale->httpLocaleCode() ) );
 
         $imageURL = $this->fetchImageURL();
         if ( $imageURL !== false )
@@ -534,7 +536,7 @@ class eZRSSExport extends eZPersistentObject
             $item =& $doc->createElementNode( 'item' );
 
             $item->appendChild( $doc->createElementTextNode( 'pubDate',
-                                                             gmdate( 'D, d M Y H:i:s', $object->attribute( 'published' ) ) .'GMT' ) );
+                                                             gmdate( 'D, d M Y H:i:s', $object->attribute( 'published' ) ) . ' GMT' ) );
 
             $item->appendChild( $itemTitle );
             $item->appendChild( $itemLink );
