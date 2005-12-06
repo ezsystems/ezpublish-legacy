@@ -83,7 +83,7 @@ if ( !file_exists( $cacheFile ) or ( time() - filemtime( $cacheFile ) > 20*60 ) 
     {
         // write, flush, close and change file access mode
         $mode = $config->variable( 'FileSettings', 'TemporaryPermissions' );
-        $length = fwrite( $fid, $xmlDoc->toString() );
+        $length = fwrite( $fid, trim( $xmlDoc->toString() ) );
         fflush( $fid );
         fclose( $fid );
         chmod( $cacheFile, octdec( $mode ) );
@@ -104,7 +104,7 @@ header( 'Content-Type: text/xml; charset=' . $httpCharset );
 header( 'Content-Length: '.$length );
 header( 'X-Powered-By: eZ publish' );
 
-while ( @ob_end_flush() );
+while ( @ob_end_clean() );
 
 fpassthru( $fid );
 
