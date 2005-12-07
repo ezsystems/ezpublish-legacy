@@ -848,7 +848,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $filter['tables']   = $sqlResult['tables'];
             $filter['joins']    = $sqlResult['joins'];
 
-            eZDebug::writeDebug( $filter['joins'], 'extendedAttributeFilterJoins' );
         }
 
         return $filter;
