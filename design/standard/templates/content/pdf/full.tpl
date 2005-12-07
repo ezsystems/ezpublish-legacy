@@ -7,7 +7,7 @@
 {default version_attributes=$object.current.contentobject_attributes
          related_contentobject_array=$object.current.related_contentobject_array}
 {section name=ContentObjectAttribute loop=$version_attributes}
-  {attribute_pdf_gui attribute=$ContentObjectAttribute:item}
+  {attribute_pdf_gui attribute=$ContentObjectAttribute:item attribute_parameters=$attribute_parameters}
 {/section}
 
 
