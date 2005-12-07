@@ -156,6 +156,7 @@ class eZLDAPUser extends eZUser
             eZDebugSetting::writeDebug( 'kernel-user', $user, 'user' );
             $userID = $user->attribute( 'contentobject_id' );
 
+            eZUser::updateLastVisit( $userID );
             eZUser::setCurrentlyLoggedInUser( $user, $userID );
 
             return $user;
@@ -513,6 +514,7 @@ class eZLDAPUser extends eZUser
                     $user->setAttribute('password_hash_type', 0 );
                     $user->store();
 
+                    eZUser::updateLastVisit( $userID );
                     eZUser::setCurrentlyLoggedInUser( $user, $userID );
 
                     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
@@ -572,6 +574,7 @@ class eZLDAPUser extends eZUser
                                                                                                      'version' => $newVersionNr ) );
                     }
 
+                    eZUser::updateLastVisit( $userID );
                     eZUser::setCurrentlyLoggedInUser( $existUser, $userID );
 
                     return $existUser;
