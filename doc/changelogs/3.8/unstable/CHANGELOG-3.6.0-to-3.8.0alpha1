@@ -28,6 +28,8 @@ Changes from 3.6.0 to 3.8.0alpha1
   ( See doc/features/3.8/http_header_override.txt )
 - Improved RSS import. Added support for defining RSS definitions in extensions.
   ( See doc/features/3.8/generic_rss_import.txt )
+- Fixed bug #7516: Bug Unwanted debug output in createExtendedAttributeFilterSQLStrings.
+  ( Merged from stable/3.5 rev. 14292 )
 
 Attributes:
 - Added: 'last_visit' attribute to eZUser
