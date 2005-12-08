@@ -93,5 +93,9 @@ Changes from 3.5.6 to 3.5.7
 *Library:
 
 *INI settings
+- Added content.ini:[RuleSettings].LimitDeleteElements setting:
+  Maximum number of notification digest elements removed in one query.
+  This is needed to prevent exceeding DBMS limits 
+  (maximum query length, maximum number of elements in IN() clause).
 
 *Design:

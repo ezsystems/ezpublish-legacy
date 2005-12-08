@@ -172,7 +172,17 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
 
             if ( is_array( $collectionItemIDList ) && count( $collectionItemIDList ) > 0 )
             {
-                eZPersistentObject::removeObject( eZNotificationCollectionItem::definition(), array( 'id' => array( $collectionItemIDList, '' ) ) );
+                $ini =& eZINI::instance( 'notification.ini' );
+                $countElements = $ini->variable( 'RuleSettings', 'LimitDeleteElements' );
+                if ( !$countElements )
+                {
+                    $countElements = 50;
+                }
+                $splited = array_chunk( $collectionItemIDList, $countElements );
+                foreach ( $splited as $key => $value )
+                {
+                    eZPersistentObject::removeObject( eZNotificationCollectionItem::definition(), array( 'id' => array( $value, '' ) ) );
+                }
             }
 
         }
