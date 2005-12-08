@@ -753,7 +753,11 @@ eZTemplate:
 - Changed: [TipAFriend].FromEmail ini setting is now empty by default.
   Thus, the email address specified in the tip-a-friend form is used as from address when sending the email.
   Assign a non-empty value to FromEmail for it to be used as from address.
-
+- Added notification.ini:[RuleSettings].LimitDeleteElements setting:
+  Maximum number of notification digest elements removed in one query.
+  This is needed to prevent exceeding DBMS limits 
+  (maximum query length, maximum number of elements in IN() clause).
+ 
 eZDB:
 - Added: New function hasRequiredServerVersion() to make it easier to check for
   required version and type.
