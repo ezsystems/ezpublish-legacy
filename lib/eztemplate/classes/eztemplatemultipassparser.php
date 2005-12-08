@@ -411,8 +411,8 @@ class eZTemplateMultiPassParser extends eZTemplateParser
                                     }
                                 } break;
                             }
-                            $tempTextElements[] = $element;
                         }
+                        $tempTextElements[] = $element;
                     } break;
                 }
             }
