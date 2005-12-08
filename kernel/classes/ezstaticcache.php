@@ -310,23 +310,12 @@ class eZStaticCache
             {
                 $cacheFiles[] = $this->buildCacheFilename( $staticStorageDir, $dir . $location );
             }
-            /* Get rid of cache files */
-            if ( !$skipUnlink )
-            {
-                foreach ( $cacheFiles as $file )
-                {
-                    if ( file_exists ( $file ) )
-                    {
-                        unlink( $file );
-                    }
-                }
-            }
 
             /* Store new content */
             $content = false;
             foreach ( $cacheFiles as $file )
             {
-                if ( !file_exists( $file ) )
+                if ( !$skipUnlink || !file_exists( $file ) )
                 {
                     $fileName = "http://$hostname$dir$url";
                     if ( $delay )
@@ -388,7 +377,6 @@ class eZStaticCache
 
         /* Remove files, this might be necessary for Windows */
         @unlink( $tmpFileName );
-        @unlink( $file);
 
         /* Write the new cache file with the data attached */
         $fp = fopen( $tmpFileName, 'w' );
@@ -396,6 +384,11 @@ class eZStaticCache
         {
             fwrite( $fp, $content . '<!-- Generated: '. date( 'Y-m-d H:i:s' ). " -->\n\n" );
             fclose( $fp );
+            if ( strtolower( substr( PHP_OS, 3 ) ) == 'win' )
+            {
+                /* We have to remove the target file before renaming in Windows */
+                @unlink( $file );
+            }
             rename( $tmpFileName, $file );
         }
 
@@ -410,9 +403,13 @@ class eZStaticCache
     function removeURL( $url )
     {
         if ( $url == "/" )
+        {
             $dir = $this->StaticStorageDir . $url;
+        }
         else
+        {
             $dir = $this->StaticStorageDir . $url . "/";
+        }
 
         @unlink( $dir . "/index.html" );
         @rmdir( $dir );
