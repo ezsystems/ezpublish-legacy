@@ -464,7 +464,8 @@ class eZLocale
                 $this->LongWeekDayNames[$day] = $tmpLongDayNames[$key];
         }
 
-        $this->HTTPLocaleCode = $languageINI->variable( 'HTTP', 'ContentLanguage' );
+        if ( $languageINI->hasGroup( 'HTTP' ) )
+            $this->HTTPLocaleCode = $languageINI->variable( 'HTTP', 'ContentLanguage' );
     }
 
     /*!
