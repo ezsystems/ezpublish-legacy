@@ -1967,7 +1967,7 @@ class eZContentObject extends eZPersistentObject
                                  "eZContentObject::addContentObjectRelation" );
             return false;
         }
-        $query = "SELECT count(*) count
+        $query = "SELECT count(*) AS count
                   FROM   ezcontentobject_link
                   WHERE  from_contentobject_id=$fromObjectID AND
                          from_contentobject_version=$fromObjectVersion AND

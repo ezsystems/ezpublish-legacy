@@ -732,6 +732,8 @@ Attributes:
   ( Merged from stable/3.6 rev. 14271, stable/3.7 rev. 14272, stable/3.7 rev. 14273 )
 - Fixed bug #7496: LDAP & textfile login handlers don't update last visit.
   ( Merged from stable/3.6 ( 3.6.5 ) rev. 14283 )
+- Fixed bug #7357: Sintax error in eZContentObject::addContentObjectRelation query.
+  (Merged from stable/3.6 (3.6.5) rev. 14299)
 
 *Library:
 
