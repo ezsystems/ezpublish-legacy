@@ -46,7 +46,7 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish database cl
                                                          "Will cleanup various data from the currently used database in eZ publish\n" .
                                                          "\n" .
                                                          "Possible values for NAME is:\n" .
-                                                         "session, preferences, browse, tipafriend, shop, forgotpassword, workflow,\n" .
+                                                         "session, expired_session, preferences, browse, tipafriend, shop, forgotpassword, workflow,\n" .
                                                          "collaboration, collectedinformation, notification, searchstats or all (for all items)\n" .
                                                          "cleanup.php -s admin session"),
                                       'use-session' => false,
@@ -69,7 +69,7 @@ $script->initialize();
 
 if ( count( $options['arguments'] ) < 1 )
 {
-    $cli->error( "Missing NAME value ( could be session, preferences, browse, tipafriend, shop, forgotpassword, workflow,\n" .
+    $cli->error( "Missing NAME value ( could be session, expired_session, preferences, browse, tipafriend, shop, forgotpassword, workflow,\n" .
                  "collaboration, collectedinformation, notification, searchstats or all )" );
     $script->shutdown( 1 );
 }
@@ -177,7 +177,8 @@ if ( $clean['session'] )
     $cli->output( "Removing all sessions" );
     eZSessionEmpty();
 }
-else
+
+if ( $clean['expired_session'] )
 {
     $cli->output( "Removing expired sessions,", false );
     eZSessionGarbageCollector();
