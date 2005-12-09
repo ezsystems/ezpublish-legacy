@@ -154,6 +154,12 @@ class eZUserType extends eZDataType
                                                                              'The password must be at least 3 characters long.' ) );
                         return EZ_INPUT_VALIDATOR_STATE_INVALID;
                     }
+                    if ( strtolower( $password ) == 'password' )
+                    {
+                        $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                             'The password mustn\'t be "password".' ) );
+                        return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                    }
                 }
             }
         }
@@ -200,15 +206,9 @@ class eZUserType extends eZDataType
         eZDebugSetting::writeDebug( 'kernel-user', $login, "login" );
         eZDebugSetting::writeDebug( 'kernel-user', $email, "email" );
         eZDebugSetting::writeDebug( 'kernel-user', $contentObjectID, "contentObjectID" );
-        if ( $password == "password" )
-        {
-            $password = false;
-            $passwordConfirm = false;
-        }
-        else
-        {
-            $http->setSessionVariable( "GeneratedPassword", $password );
-        }
+
+        $http->setSessionVariable( "GeneratedPassword", $password );
+
         eZDebugSetting::writeDebug( 'kernel-user', "setInformation run", "ezusertype" );
         $user->setInformation( $contentObjectID, $login, $email, $password, $passwordConfirm );
         $contentObjectAttribute->setContent( $user );
