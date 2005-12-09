@@ -1,0 +1,101 @@
+Changes from 3.5.7 to 3.5.8
+
+*Kernel:
+
+*Bugfixes:
+- Fixed bug #6394: String Contains operator return inappropriate values.
+- Fixed missing wash operators.
+  ( Merged from stable/3.7 rev. 13840 )
+- Fixed bug #7212: RSS export fails if CacheDir is absolute.
+- Fixed bug #7322: Design bugs.
+- Fixed bug #7174: Parsing back and forward with eZXML changes data.
+- Fixed bug #7333: TransportPluginPath[] - not working properly.
+  (Merged from trunk rev. 13914)
+- Fixed bug #7342: Anchor in ezurl view template might not have content.
+- Fixed bug #7311: Missing <?php ?> in output file from tpl operator wizard.
+  ( Merged from stable/3.7 ( 3.7.3 ) rev. 13947 )
+- Fixed bug #7356: eZDateUtils::rfc1123Date() and eZDateUtils::rfc850Date()
+  delivering wrong date.
+- Fixed bug #7318: Remove images from storage.
+  ( If user delete object's versions with ezImage datatype
+    => image files aren't removed from disk )
+  ( Merged from stable/3.7 ( 3.7.3 ) rev. 13960 )
+- Fixed bug #7350: User Delete bug
+  ( After removing users their last_visit times
+    are still in the ezuservisit table )
+  ( Merged from stable/3.7 ( 3.7.3 ) rev. 13975 )
+- Fixed bug #7341: Inconsistent object causes fatal error at cronjob workflow.
+- Fixed bug #7368: Missing check of array in kernel/common/ezwordtoimageoperator.php.
+- Fixed bug #3312: SOAP library issues.
+- Fixed bug #7363: content/search: $searchText not set.
+- Fixed bug #6703: Security issue with error templates on admin interface.
+- Fixed bug #7110: Not all text is translatable in admin.
+- Fixed bug: XML parser crashes when <![CDATA[ section is not properly closed.
+- Fixed bug #7374: eZHTTPTool::sendHTTPRequest() loops infinitely.
+  ( Applyed patch by Brian Gerspacher )
+  ( Merged from stable/3.7 ( 3.7.3 ) rev. 14040 ) 
+- Fixed bug #7377: eZMultiplexer crashing.  
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14048 )
+- Fixed bug #7407: Problem with " aganist ' in file ezimagealiashandler.php.  
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14076 )
+- Fixed bug #7382: verifyfiles.sh issue with path.
+- Added possibility to add custom attributes to body in SOAP requests.
+- Fixed bug #7395: Bug Template optimisation errors.
+- Fixed bug #7331: Debug ip list does not save in ini settings.
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14119 )
+- Fixed bug #7353: Unwanted <p> tags added in XML text.
+  ( Merged from stable/3.7 ( 3.7.3 ) rev. 14123 )
+- Fixed Bug #7423: SOAP interface doesn't initialize internal charset.
+- Fixed Bug #7386: Error in advancedsearch.tpl.
+- Fixed bug #7426: 2x editing when restoring something from the trash.
+  ( Merged from stable/3.7 ( 3.7.3 ) rev. 14139 )  
+- Fixed bug: Incorrect processing quote, double quote and backslash signs 
+  inside href in XML input.
+- Fixed SQL error when occuring when running subtree notification cronjob.
+- Fixed bug #7454: SQL error when removing a location 
+  without checking any nodes.
+  ( Merged from stable/trunk ( 3.8.0alpha1 ) rev. 14188 )
+- Fixed bug #7456: setYear, setMonth, setDay methods in class 
+  eZdate (lib/classes) not working.
+- Fixed bug #7459: Passing empty "SearchContentClassID" input 
+  to search page results in Apache segmentation fault.
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14196 )
+- Fixed bug #7451: Approval event and sections.
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14202 )
+- Fixed bug #7418: eZCollaborationItemStatus::fetch doesn't return 
+  anything if item is not in cache.
+- Fixed bug #7443: Ask to confirm "remove all"
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14212 )
+- Fixed bug #7455: Client requests with arrays deliver false data.
+  (Merged from stable/3.7 (3.7.3) rev. 14200)
+- Fixed bug #7463: Images are not shown after adding translations.
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14187 )
+- Fixed bug #7391: Incorrect parameter in eZCollaborationItem::participantList.
+- Fixed bug #7479: Fatal error with {$attribute.object.main_parent_node_id}.
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14232 )
+- Fixed bug #7338: Disfunction using "PDF export" utility in admin interface.
+  ( Merged from stable/3.7 ( 3.7.3 ) rev. 14240 )
+- Fixed bug #7425: classattributeidentifiers cache file is not deleted 
+  when clearing all caches.
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14253 )
+- Fixed bug #7429: Rss 2.0 export fail on validation.
+- Fixed bug #7510: Incorrect HTTP locale code returned from eZLocale::httpLocaleCode().
+- Fixed bug #7503: Hardwired "no" language on print_pagelayout.
+- Fixed bug #7496: LDAP & textfile login handlers don't update last visit.
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14283 )
+- Fixed bug #7516: Bug Unwanted debug output in createExtendedAttributeFilterSQLStrings.
+- Fixed bug #7529: Post to url convertion does not work for arrays.
+- Fixed bug #5358: PDF: No images in tables.
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14315 )
+
+*Translations:
+
+*Library:
+
+*INI settings
+- Added notification.ini:[RuleSettings].LimitDeleteElements setting:
+  Maximum number of notification digest elements removed in one query.
+  This is needed to prevent exceeding DBMS limits 
+  (maximum query length, maximum number of elements in IN() clause).
+
+*Design:
