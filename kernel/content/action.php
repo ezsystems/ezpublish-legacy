@@ -1197,6 +1197,10 @@ else if ( $http->hasPostVariable( 'DestinationURL' ) )
 
     foreach( $postVariables as $key => $value )
     {
+        if ( is_array( $value ) )
+        {
+            $value = implode( ',', $value );
+        }
         if ( strpos( $key, 'Param' ) === 0 )
         {
             $destinationURL .= '/' . $value;
