@@ -737,6 +737,16 @@ function eZSetupAdminOverrideINISettings( $siteType, $parameters )
                     'class_identifier' => 'image',
                     ),
                 ),
+            'thumbnail_image_browse' =>
+            array (
+                'Source' => 'node/view/browse_thumbnail.tpl',
+                'MatchFile' => 'thumbnail/image_browse.tpl',
+                'Subdir' => 'templates',
+                'Match' =>
+                array (
+                    'class_identifier' => 'image',
+                    ),
+                )
             )
         );
 }
