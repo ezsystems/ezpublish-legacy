@@ -893,9 +893,17 @@ class eZDOMNode
                     $oneLinerEnd = "";
 
                 $ret = '';
-                if ( $level > 0 )
-                    $ret .= "\n";
-                $ret .= "$spacer<" . $prefix . $this->Name . $attrStr . $oneLinerEnd . ">";
+
+                if ( $this->Name =='link' )  //don't insert enything before <link> tag
+                {
+                    $ret .= "<" . $prefix . $this->Name . $attrStr . $oneLinerEnd . ">";
+                }
+                else //make alignment
+                {
+                    if ( $level > 0 )
+                        $ret .= "\n";
+                    $ret .= "$spacer<" . $prefix . $this->Name . $attrStr . $oneLinerEnd . ">";
+                }
 
                 $lastChildType = false;
                 if ( count( $this->Children ) > 0 )
