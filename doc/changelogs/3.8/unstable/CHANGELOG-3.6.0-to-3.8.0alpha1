@@ -742,6 +742,8 @@ Attributes:
   ( Merged from stable/3.7 ( 3.7.3 ) rev. 14327 )
 - Fixed bug #7528: Change password to "password".
   ( Merged from stable/3.6 ( 3.6.5 ) rev. 14333 )
+- Fixed bug #7493: Whitespace is added in the beggining of the 'link' tag.
+  ( Merged from stable/3.6 (3.6.5)  rev. 14338 )
 
 *Library:
 
