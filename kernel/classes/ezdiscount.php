@@ -1,0 +1,156 @@
+<?php
+//
+// Definition of eZDiscount class
+//
+// Created on: <04-Nov-2005 12:26:52 dl>
+//
+// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+//
+// This source file is part of the eZ publish (tm) Open Source Content
+// Management System.
+//
+// This file may be distributed and/or modified under the terms of the
+// "GNU General Public License" version 2 as published by the Free
+// Software Foundation and appearing in the file LICENSE included in
+// the packaging of this file.
+//
+// Licencees holding a valid "eZ publish professional licence" version 2
+// may use this file in accordance with the "eZ publish professional licence"
+// version 2 Agreement provided with the Software.
+//
+// This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING
+// THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+// PURPOSE.
+//
+// The "eZ publish professional licence" version 2 is available at
+// http://ez.no/ez_publish/licences/professional/ and in the file
+// PROFESSIONAL_LICENCE included in the packaging of this file.
+// For pricing of this licence please contact us via e-mail to licence@ez.no.
+// Further contact information is available at http://ez.no/company/contact/.
+//
+// The "GNU General Public License" (GPL) is available at
+// http://www.gnu.org/copyleft/gpl.html.
+//
+// Contact licence@ez.no if any conditions of this licencing isn't clear to
+// you.
+//
+
+/*! \file ezdiscount.php
+*/
+
+class eZDiscount
+{
+    function eZDiscount()
+    {
+    }
+
+    /*!
+     \static
+     params = array( 'contentclass_id' => classID,
+                     'contentobject_id' => objectID,
+                     'section_id' => sectionID );
+
+    */
+    function discountPercent( $user, $params )
+    {
+        include_once( 'lib/ezdb/classes/ezdb.php' );
+        include_once( 'kernel/classes/ezuserdiscountrule.php' );
+        include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+
+        $bestMatch = 0.0;
+
+        if ( is_object( $user ) )
+        {
+            $groups =& $user->groups();
+            $idArray = array_merge( $groups, $user->attribute( 'contentobject_id' ) );
+
+            // Fetch discount rules for the current user
+            $rules = eZUserDiscountRule::fetchByUserIDArray( $idArray );
+
+            if ( count( $rules ) > 0 )
+            {
+                $db =& eZDB::instance();
+
+                $i = 1;
+                $subRuleStr = '';
+                foreach ( $rules as $rule )
+                {
+                    $subRuleStr .= $rule->attribute( 'id' );
+                    if ( $i < count( $rules ) )
+                        $subRuleStr .= ', ';
+                    $i++;
+                }
+
+                // Fetch the discount sub rules
+                $subRules = $db->arrayQuery( "SELECT * FROM
+                                       ezdiscountsubrule
+                                       WHERE discountrule_id IN ( $subRuleStr )
+                                       ORDER BY discount_percent DESC" );
+
+                // Find the best matching discount rule
+                foreach ( $subRules as $subRule )
+                {
+                    if ( $subRule['discount_percent'] > $bestMatch )
+                    {
+                        // Rule has better discount, see if it matches
+                        if ( $subRule['limitation'] == '*' )
+                            $bestMatch = $subRule['discount_percent'];
+                        else
+                        {
+                            // Do limitation check
+                            $limitationArray = $db->arrayQuery( "SELECT * FROM
+                                       ezdiscountsubrule_value
+                                       WHERE discountsubrule_id='" . $subRule['id']. "'" );
+
+                            $hasSectionLimitation = false;
+                            $hasClassLimitation = false;
+                            $hasObjectLimitation = false;
+                            $objectMatch = false;
+                            $sectionMatch = false;
+                            $classMatch = false;
+                            foreach ( $limitationArray as $limitation )
+                            {
+                                if ( $limitation['issection'] == '1' )
+                                {
+                                    $hasSectionLimitation = true;
+
+                                    if ( isset( $params['section_id'] ) && $params['section_id'] == $limitation['value'] )
+                                        $sectionMatch = true;
+                                }
+                                elseif ( $limitation['issection'] == '2' )
+                                {
+                                    $hasObjectLimitation = true;
+
+                                    if ( isset( $params['contentobject_id'] ) && $params['contentobject_id'] == $limitation['value'] )
+                                        $objectMatch = true;
+                                }
+                                else
+                                {
+                                    $hasClassLimitation = true;
+                                    if ( isset( $params['contentclass_id'] ) && $params['contentclass_id'] == $limitation['value'] )
+                                        $classMatch = true;
+                                }
+                            }
+
+                            $match = true;
+                            if ( ( $hasClassLimitation == true ) and ( $classMatch == false ) )
+                                $match = false;
+
+                            if ( ( $hasSectionLimitation == true ) and ( $sectionMatch == false ) )
+                                $match = false;
+
+                            if ( ( $hasObjectLimitation == true ) and ( $objectMatch == false ) )
+                                $match = false;
+
+                            if ( $match == true  )
+                                $bestMatch = $subRule['discount_percent'];
+                        }
+                    }
+                }
+            }
+        }
+        return $bestMatch;
+    }
+}
+
+?>

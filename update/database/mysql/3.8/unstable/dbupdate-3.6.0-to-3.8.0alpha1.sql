@@ -14,3 +14,33 @@ UPDATE ezpolicy SET function_name='administrate' WHERE module_name='shop' AND fu
 -- Improved RSS import. -- START --
 ALTER TABLE ezrss_import ADD COLUMN import_description longtext NOT NULL DEFAULT '';
 -- Improved RSS import. -- END --
+
+-- Multicurrency -- START --
+CREATE TABLE ezcurrencydata (
+  code char(3) NOT NULL default '',
+  symbol varchar(255) NOT NULL default '',
+  status int(11) NOT NULL default '1',
+  PRIMARY KEY (code)
+);
+
+CREATE TABLE ezcurrencyrate (
+  code char(3) NOT NULL default '',
+  auto_value numeric(10,5) NOT NULL default '0.00000',
+  custom_value numeric(10,5) NOT NULL default '0.00000',
+  factor numeric(10,5) NOT NULL default '1.00000',
+  PRIMARY KEY (code)
+);
+
+CREATE TABLE ezmultipricedata (
+  id int(11) NOT NULL auto_increment,
+  contentobject_attribute_id int(11) NOT NULL default '0',
+  contentobject_attribute_version int(11) NOT NULL default '0',
+  currency_code char(3) NOT NULL default '',
+  value numeric(15,2) NOT NULL default '0.00',
+  type int(11) NOT NULL default '0',
+  PRIMARY KEY (id),
+  KEY (contentobject_attribute_id),
+  KEY (contentobject_attribute_version),
+  KEY (currency_code)
+);
+-- Multicurrency -- END --

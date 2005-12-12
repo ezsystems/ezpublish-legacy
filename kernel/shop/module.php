@@ -195,6 +195,52 @@ $ViewList['setstatus'] = array(
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array(  ) );
 
+$ViewList['currencylist'] = array(
+    'script' => 'currencylist.php',
+    'default_navigation_part' => 'ezshopnavigationpart',
+    'unordered_params' => array( 'offset' => 'Offset' ),
+    'single_post_actions' => array( 'AddCurrencyButton' => 'AddCurrency',
+                                    'RemoveCurrencyButton' => 'RemoveCurrency',
+                                    'SetRatesButton' => 'SetRates',
+                                    'UpdateStatusButton' => 'UpdateStatus' ),
+    'post_action_parameters' => array( 'RemoveCurrency' => array( 'DeleteCurrencyList' => 'DeleteCurrencyList' ),
+                                       'SetRates' => array( 'RateList' => 'RateList',
+                                                            'Offset' => 'Offset' ),
+                                       'UpdateStatus' => array( 'CurrencyList' => 'CurrencyList',
+                                                                'Offset' => 'Offset' ) ),
+    'params' => array(  ) );
+
+$ViewList['editcurrency'] = array(
+    'script' => 'editcurrency.php',
+    'default_navigation_part' => 'ezshopnavigationpart',
+    'single_post_actions' => array( 'CancelButton' => 'Cancel',
+                                    'CreateButton' => 'Create',
+                                    'StoreChangesButton' => 'StoreChanges' ),
+    'post_action_parameters' => array( 'Create' => array( 'CurrencyCode' => 'CurrencyCode',
+                                                          'CurrencySymbol' => 'CurrencySymbol',
+                                                          'CustomRate' => 'CustomRate',
+                                                          'RateFactor' => 'RateFactor' ),
+                                       'StoreChanges' => array( 'OriginalCurrencyCode' => 'OriginalCurrencyCode',
+                                                                'CurrencyCode' => 'CurrencyCode',
+                                                                'CurrencySymbol' => 'CurrencySymbol',
+                                                                'CustomRate' => 'CustomRate',
+                                                                'RateFactor' => 'RateFactor' ) ),
+    'params' => array(),
+    'unordered_params' => array( 'currency' => 'Currency' ) );
+
+$ViewList['preferredcurrency'] = array(
+    'script' => 'preferredcurrency.php',
+    'default_navigation_part' => 'ezshopnavigationpart',
+    'params' => array(  ) );
+
+$ViewList['setpreferredcurrency'] = array(
+    'script' => 'setpreferredcurrency.php',
+    'default_navigation_part' => 'ezshopnavigationpart',
+    'single_post_actions' => array( 'SetButton' => 'Set' ),
+    'post_action_parameters' => array( 'Set' => array( 'Currency' => 'Currency' ) ),
+    'unordered_params' => array( 'currency' => 'Currency' ),
+    'params' => array(  ) );
+
 $FromStatus = array(
     'name' => 'FromStatus',
     'values' => array(),

@@ -64,6 +64,8 @@ class eZShopOperationCollection
     */
     function addToBasket( $objectID, $optionList )
     {
+        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+
         $object = eZContentObject::fetch( $objectID );
         $nodeID = $object->attribute( 'main_node_id' );
         $price = 0.0;
@@ -75,7 +77,7 @@ class eZShopOperationCollection
         foreach ( $attributes as $attribute )
         {
             $dataType = $attribute->dataType();
-            if ( $dataType->isA() == "ezprice" )
+            if ( eZShopFunctions::isProductDatatype( $dataType->isA() ) )
             {
                 $priceObj =& $attribute->content();
                 $price += $priceObj->attribute( 'price' );

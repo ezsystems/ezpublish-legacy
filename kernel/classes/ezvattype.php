@@ -91,10 +91,16 @@ class eZVatType extends eZPersistentObject
 
     function create()
     {
+        /*
         $row = array(
             "id" => null,
             "name" => ezi18n( 'kernel/shop', 'VAT type' ),
             "percentage" => null );
+            */
+        $row = array(
+            "id" => 0,
+            "name" => ezi18n( 'kernel/shop', 'VAT type' ),
+            "percentage" => 0.0 );
         return new eZVatType( $row );
     }
 
@@ -102,11 +108,25 @@ class eZVatType extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
      */
-    function remove ( $id )
+    function remove( $id )
     {
         eZPersistentObject::removeObject( eZVatType::definition(),
                                           array( "id" => $id ) );
     }
+
+    function &VATTypeList()
+    {
+        if ( !isset( $this->VatTypeList ) )
+        {
+            $this->VatTypeList = eZVatType::fetchList();
+            if ( !isset( $this->VatTypeList ) )
+                $this->VatTypeList = array();
+        }
+
+        return $this->VatTypeList;
+    }
+
+    var $VatTypeList;
 }
 
 ?>

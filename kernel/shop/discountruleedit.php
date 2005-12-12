@@ -43,6 +43,7 @@ include_once( 'kernel/classes/ezdiscountsubrule.php' );
 include_once( 'kernel/classes/ezdiscountsubrulevalue.php' );
 include_once( 'kernel/classes/ezcontentbrowse.php' );
 include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
+include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
 $module =& $Params['Module'];
 
@@ -219,28 +220,8 @@ $productList = array();
 foreach ( $discountRuleSelectedProducts as $productID )
 {
     $object =& eZContentObject::fetch( $productID );
-    if ( $object )
-    {
-        $class =& $object->attribute( 'content_class' );
-        $classAttributes =& $class->fetchAttributes();
-        if ( $classAttributes )
-        {
-            $include = false;
-            foreach ( $classAttributes as $classAttribute )
-            {
-                $dataType = $classAttribute->attribute( 'data_type_string' );
-                if ( $dataType == 'ezprice' )
-                {
-                    $include = true;
-                    break;
-                }
-            }
-            if ( $include )
-            {
-                $productList[] = $object;
-            }
-        }
-    }
+    if ( eZShopFunctions::isProductObject( $object ) )
+        $productList[] = $object;
 }
 
 if ( $http->hasPostVariable( 'StoreButton' ) )
@@ -309,21 +290,8 @@ $classList = eZContentClass::fetchList();
 $productClassList = array();
 foreach ( $classList as $class )
 {
-    $include = false;
-    $classAttributes =& $class->fetchAttributes();
-    foreach ( $classAttributes as  $classAttribute )
-    {
-        $dataType = $classAttribute->attribute( 'data_type_string' );
-        if ( $dataType == 'ezprice' )
-        {
-            $include = true;
-            break;
-        }
-    }
-    if ( $include )
-    {
+    if ( eZShopFunctions::isProductClass( $class ) )
         $productClassList[] = $class;
-    }
 }
 
 $sectionList = eZSection::fetchList();

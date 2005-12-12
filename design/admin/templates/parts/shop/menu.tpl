@@ -16,6 +16,8 @@
     <li><div><span class="disabled">{'Order status'|i18n( 'design/admin/parts/shop/menu' )}</span></div></li>
     <li><div><span class="disabled">{'Product statistics'|i18n( 'design/admin/parts/shop/menu' )}</span></div></li>
     <li><div><span class="disabled">{'VAT types'|i18n( 'design/admin/parts/shop/menu' )}</span></div></li>
+    <li><div><span class="disabled">{'Currencies'|i18n( 'design/admin/parts/shop/menu' )}</span></div></li>
+    <li><div><span class="disabled">{'Preferred currency'|i18n( 'design/admin/parts/shop/menu' )}</span></div></li>
 </ul>
 
 {section-else}
@@ -28,6 +30,8 @@
     <li><div><a href={'/shop/status/'|ezurl}>{'Order status'|i18n( 'design/admin/parts/shop/menu' )}</a></div></li>
     <li><div><a href={'/shop/statistics/'|ezurl}>{'Product statistics'|i18n( 'design/admin/parts/shop/menu' )}</a></div></li>
     <li><div><a href={'/shop/vattype/'|ezurl}>{'VAT types'|i18n( 'design/admin/parts/shop/menu' )}</a></div></li>
+    <li><div><a href={'/shop/currencylist/'|ezurl}>{'Currencies'|i18n( 'design/admin/parts/shop/menu' )}</a></div></li>
+    <li><div><a href={'/shop/preferredcurrency/'|ezurl}>{'Preferred currency'|i18n( 'design/admin/parts/shop/menu' )}</a></div></li>
 </ul>
 
 {/section}

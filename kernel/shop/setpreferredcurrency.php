@@ -1,8 +1,6 @@
 <?php
 //
-// Definition of eZPrice class
-//
-// Created on: <26-Nov-2002 12:26:52 wy>
+// Created on: <08-Nov-2005 13:06:15 dl>
 //
 // Copyright (C) 1999-2005 eZ systems as. All rights reserved.
 //
@@ -35,34 +33,25 @@
 // you.
 //
 
-/*! \file ezprice.php
+/*! \file setpreferredcurrency.php
 */
 
-/*!
-  \class eZPrice ezprice.php
-  \ingroup eZDatatype
-*/
+include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
+$module =& $Params['Module'];
 
+$preferredCurrency = $Params['Currency'];
 
-include_once( 'kernel/shop/classes/ezsimpleprice.php' );
-
-class eZPrice extends eZSimplePrice
+if ( $module->isCurrentAction( 'Set' ) )
 {
-    /*!
-     Constructor
-    */
-    function eZPrice( &$classAttribute, &$contentObjectAttribute, $storedPrice = null )
+    if ( $module->hasActionParameter( 'Currency' ) )
     {
-        eZSimplePrice::eZSimplePrice( $classAttribute, $contentObjectAttribute, $storedPrice );
-
-        $isVatIncluded = ( $classAttribute->attribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD ) == 1 );
-        $VATID =& $classAttribute->attribute( EZ_DATATYPESTRING_VAT_ID_FIELD );
-        $this->setVatIncluded( $isVatIncluded );
-        $this->setVatType( $VATID );
+        $preferredCurrency = $module->actionParameter( 'Currency' );
+        eZShopFunctions::setPreferredCurrency( $preferredCurrency );
     }
-
-    /// \privatesection
 }
+
+include_once( 'kernel/classes/ezredirectmanager.php' );
+eZRedirectManager::redirectTo( $module, false );
 
 ?>

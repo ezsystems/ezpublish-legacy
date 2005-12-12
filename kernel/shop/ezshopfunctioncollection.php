@@ -202,6 +202,36 @@ class eZShopFunctionCollection
         $list = eZOrderStatusHistory::fetchListByOrder( $orderID );
         return array( 'result' => $list );
     }
+
+    /*!
+     Returns a list of available currencies.
+    */
+    function fetchCurrencyList( $status = false )
+    {
+        $conditions = null;
+        $status = eZCurrencyData::statusStringToNumeric( $status );
+        if ( $status !== false )
+        {
+            $conditions = array( 'status' => $status );
+        }
+
+        include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+        $currencyList = eZCurrencyData::fetchList( $conditions );
+
+        $result = array( 'result' => $currencyList );
+
+        return $result;
+    }
+
+    function fetchPreferredCurrency()
+    {
+        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+        $currency = eZShopFunctions::preferredCurrency();
+
+        $result = array( 'result' => $currency );
+
+        return $result;
+    }
 }
 
 ?>

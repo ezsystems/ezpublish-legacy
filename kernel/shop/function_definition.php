@@ -116,5 +116,21 @@ $FunctionList['order_status_history'] = array( 'name' => 'order_status_history',
                                                'parameters' => array( array( 'name' => 'order_id',
                                                                              'type' => 'integer',
                                                                              'required' => true ) ) );
+$FunctionList['currency_list'] = array( 'name' => 'currency_list',
+                                        'operation_types' => array( 'read' ),
+                                        'call_method' => array( 'include_file' => 'kernel/shop/ezshopfunctioncollection.php',
+                                                                'class' => 'eZShopFunctionCollection',
+                                                                'method' => 'fetchCurrencyList' ),
+                                        'parameter_type' => 'standard',
+                                        'parameters' => array( array( 'name' => 'status',
+                                                                      'type' => 'integer,string',
+                                                                      'required' => false ) ) );
 
+$FunctionList['preferred_currency'] = array( 'name' => 'preferred_currency',
+                                        'operation_types' => array( 'read' ),
+                                        'call_method' => array( 'include_file' => 'kernel/shop/ezshopfunctioncollection.php',
+                                                                'class' => 'eZShopFunctionCollection',
+                                                                'method' => 'fetchPreferredCurrency' ),
+                                        'parameter_type' => 'standard',
+                                        'parameters' => array( ) );
 ?>

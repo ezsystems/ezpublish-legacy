@@ -54,16 +54,15 @@ if ( !$object->canRead() )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'read' ) ) );
 
 // Check if the object has a price datatype, if not it cannot be used in the basket
+include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+
 $attributes = $object->contentObjectAttributes();
 
 $priceFound = false;
 foreach ( $attributes as $attribute )
 {
     $dataType = $attribute->dataType();
-    if ( $dataType->isA() == "ezprice" )
-    {
-        $priceFound = true;
-    }
+    $priceFound = eZShopFunctions::isProductDatatype( $dataType->isA() );
 }
 
 if ( !$priceFound )
