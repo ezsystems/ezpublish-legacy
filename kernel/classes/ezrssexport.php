@@ -557,7 +557,7 @@ class eZRSSExport extends eZPersistentObject
             $item = $doc->createElementNode( 'item' );
 
             unset( $itemPubDate );
-            $itemPubDate = $doc->createElementTextNode( 'pubDate', gmdate( 'D, d M Y H:i:s', $object->attribute( 'published' ) ) .'GMT' );
+            $itemPubDate = $doc->createElementTextNode( 'pubDate', gmdate( 'D, d M Y H:i:s', $object->attribute( 'published' ) ) .' GMT' );
 
             $item->appendChild( $itemPubDate );
             $item->appendChild( $itemTitle );
