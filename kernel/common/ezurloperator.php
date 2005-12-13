@@ -411,6 +411,7 @@ CODEPIECE;
                     {
                         $code .= '        %output% = %2% . \'/\' . %tmp1% . \'/images/\' . %1%;' . "\n";
                     }
+                    $code .= '        break;' . "\n";
                     $code .= "    }\n}\n" . '%output% = htmlspecialchars( %output% );' . "\n";
 
                     $quote = $this->applyQuotes( '', $parameters[1], true );
