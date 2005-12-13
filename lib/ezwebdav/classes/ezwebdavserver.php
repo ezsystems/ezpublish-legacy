@@ -687,7 +687,13 @@ class eZWebDAVServer
             eZDir::mkdir( $dir, false, true );
         }
 
-        if ( copy( "php://input", $filePath ) )
+        $result = copy( "php://input", $filePath );
+        if ( !$result )
+        {
+            $result = file_exists( $filePath );
+        }
+
+        if ( $result )
         {
             header( "HTTP/1.1 201 Created" );
             return $filePath;
