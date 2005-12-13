@@ -746,6 +746,8 @@ Attributes:
   ( Merged from stable/3.6 (3.6.5)  rev. 14338 )
 - Fixed bug #7467: WebDAV: Uploading 0 byte large files fails.
   ( Merged from stable/3.5 rev. 14344, stable/3.6 rev. 14345, stable/3.7 rev. 14346 )
+- Fixed bug #7545: Bug CS: unwanted print output.
+  ( Merged from stable/3.5 rev. 14348 )
 
 *Library:
 
