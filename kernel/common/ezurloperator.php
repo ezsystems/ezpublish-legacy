@@ -145,7 +145,7 @@ class eZURLOperator
             {
                 $iniName = eZTemplateNodeTool::elementStaticValue( $parameters[2] );
             }
-            
+
             if ( count( $parameters ) > 3 )
                 $iniPath = eZTemplateNodeTool::elementStaticValue( $parameters[3] );
 
@@ -176,7 +176,7 @@ class eZURLOperator
                         '    %output% = %tmp1%->variable( %1%, %2% );' . "\n" .
                         "else\n" .
                         "    %output% = '';\n";
-                        
+
                     return array( eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 1 ) );
                 }
 
@@ -450,6 +450,7 @@ CODEPIECE;
                     {
                         $code .= '        %output% = %2% . \'/\' . %tmp1% . \'/images/\' . %1%;' . "\n";
                     }
+                    $code .= '        break;'."\n";
                     $code .= "    }\n}\n" . '%output% = htmlspecialchars( %output% );' . "\n";
 
                     $quote = $this->applyQuotes( '', $parameters[1], true );
@@ -613,14 +614,14 @@ CODEPIECE;
                         }
 
                         include_once( 'lib/ezutils/classes/ezini.php' );
-            
+
                         if ( $iniPath !== false )
                             $ini =& eZINI::instance( $iniName, $iniPath, null, null, null, true );
                         elseif ( $iniName !== false )
                             $ini =& eZINI::instance( $iniName );
                         else
                             $ini =& eZINI::instance();
-            
+
                         if ( $ini->hasVariable( $iniGroup, $iniVariable ) )
                         {
                             $operatorValue = $ini->variable( $iniGroup, $iniVariable );
