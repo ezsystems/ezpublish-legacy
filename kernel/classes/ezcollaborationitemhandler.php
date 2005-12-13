@@ -200,7 +200,6 @@ class eZCollaborationItemHandler
         }
         else if ( $collectionHandling == EZ_COLLABORATION_NOTIFICATION_COLLECTION_PER_PARTICIPATION_ROLE )
         {
-            print( "Handling notification per participation role\n" );
             $userCollection = array();
             foreach( $userList as $subscriber )
             {
@@ -219,11 +218,9 @@ class eZCollaborationItemHandler
             $tpl->resetVariables();
             foreach( $userCollection as $participantRole => $collectionItems )
             {
-                print( "part. role id: $participantRole\n" );
                 $templateName = $itemHandler->notificationParticipantTemplate( $participantRole );
                 if ( !$templateName )
                     $templateName = eZCollaborationItemHandler::notificationParticipantTemplate( $participantRole );
-                print( "part. role template name: $templateName\n" );
 
                 $itemInfo = $itemHandler->attribute( 'info' );
                 $typeIdentifier = $itemInfo['type-identifier'];
