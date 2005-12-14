@@ -135,37 +135,37 @@ class eZStepInstaller
 
     function findAppropriateCharset( &$primaryLanguage, &$allLanguages, $canUseUnicode )
     {
+
         include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
-        $allCharsets = array();
-        for ( $i = 0; $i < count( $allLanguages ); ++$i )
+        $commonCharsets = array();
+
+        if ( is_array( $allLanguages ) and count( $allLanguages ) > 0 )
         {
-            $language =& $allLanguages[$i];
+
+            $language =& $allLanguages[ 0 ];
             $charsets = $language->allowedCharsets();
             foreach ( $charsets as $charset )
             {
-                $charset = eZCharsetInfo::realCharsetCode( $charset );
-                $allCharsets[] = $charset;
+                $commonCharsets[] = eZCharsetInfo::realCharsetCode( $charset );
             }
-        }
-        $allCharsets = array_unique( $allCharsets );
-//         eZDebug::writeDebug( $allCharsets, 'allCharsets' );
-        $commonCharsets = $allCharsets;
-        for ( $i = 0; $i < count( $allLanguages ); ++$i )
-        {
-            $language =& $allLanguages[$i];
-            $charsets = $language->allowedCharsets();
-            $realCharsets = array();
-            foreach ( $charsets as $charset )
+            $commonCharsets = array_unique( $commonCharsets );
+
+            for ( $i = 1; $i < count( $allLanguages ); ++$i )
             {
-                $charset = eZCharsetInfo::realCharsetCode( $charset );
-                $realCharsets[] = $charset;
+                $language =& $allLanguages[$i];
+                $charsets = $language->allowedCharsets();
+                $realCharsets = array();
+                foreach ( $charsets as $charset )
+                {
+                    $realCharsets[] = eZCharsetInfo::realCharsetCode( $charset );
+                }
+                $realCharsets = array_unique( $realCharsets );
+                $commonCharsets = array_intersect( $commonCharsets, $realCharsets );
             }
-            $realCharsets = array_unique( $realCharsets );
-            $commonCharsets = array_intersect( $commonCharsets, $realCharsets );
         }
         $usableCharsets = array_values( $commonCharsets );
-//         eZDebug::writeDebug( $usableCharsets, 'usableCharsets' );
         $charset = false;
+
         if ( count( $usableCharsets ) > 0 )
         {
             if ( in_array( $primaryLanguage->charset(), $usableCharsets ) )
@@ -179,14 +179,62 @@ class eZStepInstaller
             {
                 $charset = eZCharsetInfo::realCharsetCode( 'utf-8' );
             }
-//             else
-//             {
-//                 // Pick preferred primary language
-//                 $charset = $primaryLanguage->charset();
-//             }
+//          else
+//          {
+//              // Pick preferred primary language
+//              $charset = $primaryLanguage->charset();
+//          }
         }
-//         eZDebug::writeDebug( $charset, 'charset' );
         return $charset;
+    }
+
+    function findAppropriateCharsetsList( &$primaryLanguage, &$allLanguages, $canUseUnicode )
+    {
+        include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
+        $commonCharsets = array();
+
+        if ( is_array( $allLanguages ) and count( $allLanguages ) > 0 )
+        {
+
+            $language =& $allLanguages[ 0 ];
+            $charsets = $language->allowedCharsets();
+            foreach ( $charsets as $charset )
+            {
+                $commonCharsets[] = eZCharsetInfo::realCharsetCode( $charset );
+            }
+            $commonCharsets = array_unique( $commonCharsets );
+
+            for ( $i = 1; $i < count( $allLanguages ); ++$i )
+            {
+                $language =& $allLanguages[$i];
+                $charsets = $language->allowedCharsets();
+                $realCharsets = array();
+                foreach ( $charsets as $charset )
+                {
+                    $realCharsets[] = eZCharsetInfo::realCharsetCode( $charset );
+                }
+                $realCharsets = array_unique( $realCharsets );
+                $commonCharsets = array_intersect( $commonCharsets, $realCharsets );
+            }
+        }
+        $usableCharsets = array_values( $commonCharsets );
+        if ( count( $usableCharsets ) > 0 )
+        {
+            if ( in_array( $primaryLanguage->charset(), $usableCharsets ) )
+            {
+                $usableCharsets = array_unshift( $usableCharsets, $primaryLanguage->charset() );
+                $usableCharsets = array_unique( $usableCharsets );
+            }
+        }
+        else
+        {
+            if ( $canUseUnicode )
+            {
+                $usableCharsets[] = eZCharsetInfo::realCharsetCode( 'utf-8' );
+            }
+        }
+
+        return $usableCharsets;
     }
 
     function availableSiteTypes()
@@ -376,21 +424,21 @@ class eZStepInstaller
             if ( isset( $this->PersistenceList['regional_info']['site_charset'] ) and
                  strlen( $this->PersistenceList['regional_info']['site_charset'] ) > 0 )
             {
-                $charset = $this->PersistenceList['regional_info']['site_charset'];
+                $charsetsList = array( $this->PersistenceList['regional_info']['site_charset'] );
             }
             else
             {
                 // Figure out charset automatically if it is not set yet
                 include_once( 'lib/ezlocale/classes/ezlocale.php' );
-                $primaryLanguage = null;
-                $allLanguages = array();
-                $allLanguageCodes = array();
-                $extraLanguages = array();
+                $primaryLanguage     = null;
+                $allLanguages        = array();
+                $allLanguageCodes    = array();
+                $variationsLanguages = array();
                 $primaryLanguageCode = $this->PersistenceList['regional_info']['primary_language'];
-                $extraLanguageCodes = array();
-                if ( isset( $this->PersistenceList['regional_info']['languages'] ) )
-                    $extraLanguageCodes = $this->PersistenceList['regional_info']['languages'];
-                $extraLanguageCodes = array_diff( $extraLanguageCodes, array( $primaryLanguageCode ) );
+                $extraLanguageCodes  = isset( $this->PersistenceList['regional_info']['languages'] ) ? $this->PersistenceList['regional_info']['languages'] : array();
+                $extraLanguageCodes  = array_diff( $extraLanguageCodes, array( $primaryLanguageCode ) );
+
+                /*
                 if ( isset( $this->PersistenceList['regional_info']['variations'] ) )
                 {
                     $variations = $this->PersistenceList['regional_info']['variations'];
@@ -403,24 +451,28 @@ class eZStepInstaller
                         }
                         else
                         {
-                            $extraLanguages[] = $locale;
+                            $variationsLanguages[] = $locale;
                         }
                     }
                 }
+                */
+
+                if ( $primaryLanguage === null )
+                    $primaryLanguage = eZLocale::create( $primaryLanguageCode );
+
                 $allLanguages[] =& $primaryLanguage;
+
                 foreach ( $extraLanguageCodes as $extraLanguageCode )
                 {
                     $allLanguages[] = eZLocale::create( $extraLanguageCode );
                     $allLanguageCodes[] = $extraLanguageCode;
                 }
 
-                if ( $primaryLanguage === null )
-                    $primaryLanguage = eZLocale::create( $this->PersistenceList['regional_info']['primary_language'] );
-                $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, $result['use_unicode'] );
-                $result['site_charset'] = $charset;
+                $charsetsList = $this->findAppropriateCharsetsList( $primaryLanguage, $allLanguages, $result['use_unicode'] );
             }
 
-            if ( !$db->checkCharset( $charset, $currentCharset ) )
+            $checkedCharset = $db->checkCharset( $charsetsList, $currentCharset );
+            if ( $checkedCharset === false )
             {
                 // If the current charset is utf-8 we use that instead
                 // since it can represent any character possible in the chosen languages
@@ -432,11 +484,19 @@ class eZStepInstaller
                 else
                 {
                     $result['connected'] = false;
-                    $this->PersistenceList['database_info']['requested_charset'] = $charset;
+                    $this->PersistenceList['database_info']['requested_charset'] = implode( ", ", $charsetsList );
                     $this->PersistenceList['database_info']['current_charset'] = $currentCharset;
                     $result['error_code'] = EZ_SETUP_DB_ERROR_CHARSET_DIFFERS;
                     return $result;
                 }
+            }
+            else if ( $checkedCharset === true )
+            {
+                $result['site_charset'] = $charsetsList[ 0 ];
+            }
+            else
+            {
+                $result['site_charset'] = $checkedCharset;
             }
         }
 

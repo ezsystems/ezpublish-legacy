@@ -57,6 +57,20 @@ class eZMySQLDB extends eZDBInterface
     {
         $this->eZDBInterface( $parameters );
 
+        $this->CharsetMapping = array( 'iso-8859-1' => 'latin1',
+                                       'iso-8859-2' => 'latin2',
+                                       'iso-8859-8' => 'hebrew',
+                                       'iso-8859-7' => 'greek',
+                                       'iso-8859-9' => 'latin5',
+                                       'iso-8859-13' => 'latin7',
+                                       'windows-1250' => 'cp1250',
+                                       'windows-1251' => 'cp1251',
+                                       'windows-1256' => 'cp1256',
+                                       'windows-1257' => 'cp1257',
+                                       'utf-8' => 'utf8',
+                                       'koi8-r' => 'koi8r',
+                                       'koi8-u' => 'koi8u' );
+
         if ( !extension_loaded( 'mysql' ) )
         {
             if ( function_exists( 'eZAppendWarningItem' ) )
@@ -166,21 +180,8 @@ class eZMySQLDB extends eZDBInterface
             include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
             $charset = eZCharsetInfo::realCharsetCode( $charset );
             // Convert charset names into something MySQL will understand
-            $charsetMapping = array( 'iso-8859-1' => 'latin1',
-                                     'iso-8859-2' => 'latin2',
-                                     'iso-8859-8' => 'hebrew',
-                                     'iso-8859-7' => 'greek',
-                                     'iso-8859-9' => 'latin5',
-                                     'iso-8859-13' => 'latin7',
-                                     'windows-1250' => 'cp1250',
-                                     'windows-1251' => 'cp1251',
-                                     'windows-1256' => 'cp1256',
-                                     'windows-1257' => 'cp1257',
-                                     'utf-8' => 'utf8',
-                                     'koi8-r' => 'koi8r',
-                                     'koi8-u' => 'koi8u' );
-            if ( isset( $charsetMapping[$charset] ) )
-                $charset = $charsetMapping[$charset];
+            if ( isset( $this->CharsetMapping[ $charset ] ) )
+                $charset = $this->CharsetMapping[ $charset ];
         }
 
         if ( $this->IsConnected and $charset !== null and $this->isCharsetSupported( $charset ) )
@@ -257,9 +258,16 @@ class eZMySQLDB extends eZDBInterface
             return true;
 
         include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
-        $charset = eZCharsetInfo::realCharsetCode( $charset );
 
-        return $this->checkCharsetPriv( $charset, $currentCharset );
+        if ( is_array( $charset ) )
+        {
+            foreach ( $charset as $charsetItem )
+                $realCharset[] = eZCharsetInfo::realCharsetCode( $charsetItem );
+        }
+        else
+            $realCharset = eZCharsetInfo::realCharsetCode( $charset );
+
+        return $this->checkCharsetPriv( $realCharset, $currentCharset );
     }
 
     /*!
@@ -292,10 +300,23 @@ class eZMySQLDB extends eZDBInterface
                     $currentCharset = $matches[1];
                     include_once( 'lib/ezi18n/classes/ezcharsetinfo.php' );
                     $currentCharset = eZCharsetInfo::realCharsetCode( $currentCharset );
-                    if ( $currentCharset != $charset )
+                    // Convert charset names into something MySQL will understand
+
+                    $key = array_search( $currentCharset, $this->CharsetMapping );
+                    $unmappedCurrentCharset = ( $key === false ) ? $currentCharset : $key;
+
+                    if ( is_array( $charset ) )
                     {
-                        return false;
+                        if ( in_array( $unmappedCurrentCharset, $charset ) )
+                        {
+                            return $unmappedCurrentCharset;
+                        }
                     }
+                    else if ( $unmappedCurrentCharset == $charset )
+                    {
+                        return true;
+                    }
+                    return false;
                 }
                 break;
             }
@@ -921,6 +942,8 @@ class eZMySQLDB extends eZDBInterface
             return true;
         }
     }
+
+    var $CharsetMapping;
 
     /// \privatesection
 }
