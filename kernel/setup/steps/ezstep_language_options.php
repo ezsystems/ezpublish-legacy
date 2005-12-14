@@ -64,14 +64,14 @@ class eZStepLanguageOptions extends eZStepInstaller
      */
     function processPostData()
     {
-        $regionalInfo = array();
-        $regionalInfo['language_type'] = 1 ;
         $primaryLanguage = $this->Http->postVariable( 'eZSetupDefaultLanguage' );
-        $languages = array();
-        if ( $this->Http->hasPostVariable( 'eZSetupLanguages' ) )
-            $languages = $this->Http->postVariable( 'eZSetupLanguages' );
+        $languages       = $this->Http->hasPostVariable( 'eZSetupLanguages' ) ? $this->Http->postVariable( 'eZSetupLanguages' ): array();
+
         if ( !in_array( $primaryLanguage, $languages ) )
             $languages[] = $primaryLanguage;
+
+        $regionalInfo = array();
+        $regionalInfo['language_type'] = 1 ;
         $regionalInfo['primary_language'] = $primaryLanguage;
         $regionalInfo['languages'] = $languages;
         $this->PersistenceList['regional_info'] = $regionalInfo;
@@ -79,60 +79,62 @@ class eZStepLanguageOptions extends eZStepInstaller
         if ( !isset( $this->PersistenceList['database_info']['use_unicode'] ) ||
              $this->PersistenceList['database_info']['use_unicode'] == false )
         {
-            $primaryLanguage = null;
-            $allLanguages = array();
-            $allLanguageCodes = array();
-            $extraLanguages = array();
-            $primaryLanguageCode = $this->PersistenceList['regional_info']['primary_language'];
-            $extraLanguageCodes = array();
-            if ( isset( $this->PersistenceList['regional_info']['languages'] ) )
-                $extraLanguageCodes = $this->PersistenceList['regional_info']['languages'];
-            $extraLanguageCodes = array_diff( $extraLanguageCodes, array( $primaryLanguageCode ) );
-            if ( isset( $this->PersistenceList['regional_info']['variations'] ) )
-            {
-                $variations = $this->PersistenceList['regional_info']['variations'];
-                foreach ( $variations as $variation )
-                {
-                    $locale = eZLocale::create( $variation );
-                    if ( $locale->localeCode() == $primaryLanguageCode )
-                    {
-                        $primaryLanguage = $locale;
-                    }
-                    else
-                    {
-                        $extraLanguages[] = $locale;
-                    }
-                }
-            }
-            $allLanguages[] =& $primaryLanguage;
-            foreach ( $extraLanguageCodes as $extraLanguageCode )
-            {
-                $allLanguages[] = eZLocale::create( $extraLanguageCode );
-                $allLanguageCodes[] = $extraLanguageCode;
-            }
-
-            if ( $primaryLanguage === null )
-                $primaryLanguage = eZLocale::create( $this->PersistenceList['regional_info']['primary_language'] );
-
             // If we have already figured out charset and it is utf-8
             // we don't have to check the new languages
             if ( isset( $this->PersistenceList['regional_info']['site_charset'] ) and
-                 strlen( $this->PersistenceList['regional_info']['site_charset'] ) > 0 and
                  $this->PersistenceList['regional_info']['site_charset'] == 'utf-8' )
             {
                 $charset = 'utf-8';
             }
             else
             {
+                include_once( 'lib/ezlocale/classes/ezlocale.php' );
+                $primaryLanguage     = null;
+                $allLanguages        = array();
+                $allLanguageCodes    = array();
+                $variationsLanguages = array();
+                $primaryLanguageCode = $this->PersistenceList['regional_info']['primary_language'];
+                $extraLanguageCodes  = isset( $this->PersistenceList['regional_info']['languages'] ) ? $this->PersistenceList['regional_info']['languages'] : array();
+                $extraLanguageCodes  = array_diff( $extraLanguageCodes, array( $primaryLanguageCode ) );
+
+                /*
+                if ( isset( $this->PersistenceList['regional_info']['variations'] ) )
+                {
+                    $variations = $this->PersistenceList['regional_info']['variations'];
+                    foreach ( $variations as $variation )
+                    {
+                        $locale = eZLocale::create( $variation );
+                        if ( $locale->localeCode() == $primaryLanguageCode )
+                        {
+                            $primaryLanguage = $locale;
+                        }
+                        else
+                        {
+                            $variationsLanguages[] = $locale;
+                        }
+                    }
+                }
+                */
+
+                if ( $primaryLanguage === null )
+                    $primaryLanguage = eZLocale::create( $primaryLanguageCode );
+
+                $allLanguages[] =& $primaryLanguage;
+
+                foreach ( $extraLanguageCodes as $extraLanguageCode )
+                {
+                    $allLanguages[] =& eZLocale::create( $extraLanguageCode );
+                    $allLanguageCodes[] = $extraLanguageCode;
+                }
+
                 $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, false );
-            }
 
-            if ( !$charset )
-            {
-                $this->Error = 1;
-                return false;
+                if ( !$charset )
+                {
+                    $this->Error = 1;
+                    return false;
+                }
             }
-
             // Store the charset for later handling
             $this->PersistenceList['regional_info']['site_charset'] = $charset;
         }
