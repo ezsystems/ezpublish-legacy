@@ -116,45 +116,6 @@ class eZStepCreateSites extends eZStepInstaller
                             'port' => array(),
                             'accesses' => array() );
 
-        include_once( 'lib/ezlocale/classes/ezlocale.php' );
-
-        $primaryLanguage = null;
-        $allLanguages = array();
-        $allLanguageCodes = array();
-        $extraLanguages = array();
-        $primaryLanguageCode = $this->PersistenceList['regional_info']['primary_language'];
-        $extraLanguageCodes = array();
-        if ( isset( $this->PersistenceList['regional_info']['languages'] ) )
-            $extraLanguageCodes = $this->PersistenceList['regional_info']['languages'];
-        $extraLanguageCodes = array_diff( $extraLanguageCodes, array( $primaryLanguageCode ) );
-        if ( isset( $this->PersistenceList['regional_info']['variations'] ) )
-        {
-            $variations = $this->PersistenceList['regional_info']['variations'];
-            foreach ( $variations as $variation )
-            {
-                $locale = eZLocale::create( $variation );
-                if ( $locale->localeCode() == $primaryLanguageCode )
-                {
-                    $primaryLanguage = $locale;
-                }
-                else
-                {
-                    $extraLanguages[] = $locale;
-                }
-            }
-        }
-        $allLanguages[] =& $primaryLanguage;
-        foreach ( $extraLanguageCodes as $extraLanguageCode )
-        {
-            $allLanguages[] =& eZLocale::create( $extraLanguageCode );
-            $allLanguageCodes[] = $extraLanguageCode;
-        }
-
-        if ( $primaryLanguage === null )
-            $primaryLanguage = eZLocale::create( $this->PersistenceList['regional_info']['primary_language'] );
-
-        $canUseUnicode = $this->PersistenceList['database_info']['use_unicode'];
-
         // If we have already figured out charset we used that
         if ( isset( $this->PersistenceList['regional_info']['site_charset'] ) and
              strlen( $this->PersistenceList['regional_info']['site_charset'] ) > 0 )
@@ -163,6 +124,48 @@ class eZStepCreateSites extends eZStepInstaller
         }
         else
         {
+            // Figure out charset automatically if it is not set yet
+            include_once( 'lib/ezlocale/classes/ezlocale.php' );
+            $primaryLanguage     = null;
+            $allLanguages        = array();
+            $allLanguageCodes    = array();
+            $variationsLanguages = array();
+            $primaryLanguageCode = $this->PersistenceList['regional_info']['primary_language'];
+            $extraLanguageCodes  = isset( $this->PersistenceList['regional_info']['languages'] ) ? $this->PersistenceList['regional_info']['languages'] : array();
+            $extraLanguageCodes  = array_diff( $extraLanguageCodes, array( $primaryLanguageCode ) );
+
+            /*
+            if ( isset( $this->PersistenceList['regional_info']['variations'] ) )
+            {
+                $variations = $this->PersistenceList['regional_info']['variations'];
+                foreach ( $variations as $variation )
+                {
+                    $locale = eZLocale::create( $variation );
+                    if ( $locale->localeCode() == $primaryLanguageCode )
+                    {
+                        $primaryLanguage = $locale;
+                    }
+                    else
+                    {
+                        $variationsLanguages[] = $locale;
+                    }
+                }
+            }
+            */
+
+            if ( $primaryLanguage === null )
+                $primaryLanguage = eZLocale::create( $primaryLanguageCode );
+
+            $allLanguages[] =& $primaryLanguage;
+
+            foreach ( $extraLanguageCodes as $extraLanguageCode )
+            {
+                $allLanguages[] =& eZLocale::create( $extraLanguageCode );
+                $allLanguageCodes[] = $extraLanguageCode;
+            }
+
+            $canUseUnicode = $this->PersistenceList['database_info']['use_unicode'];
+
             $charset = $this->findAppropriateCharset( $primaryLanguage, $allLanguages, $canUseUnicode );
         }
 
@@ -311,12 +314,10 @@ class eZStepCreateSites extends eZStepInstaller
 
         if ( $emailInfo['type'] == 1 )
         {
-//         eZDebug::writeDebug( 'Changing to sendmail' );
             $ini->setVariable( 'MailSettings', 'Transport', 'sendmail' );
         }
         else
         {
-//         eZDebug::writeDebug( 'Changing to SMTP' );
             $ini->setVariable( 'MailSettings', 'Transport', 'SMTP' );
             $ini->setVariable( 'MailSettings', 'TransportServer', $emailInfo['server'] );
             $ini->setVariable( 'MailSettings', 'TransportUser', $emailInfo['user'] );
