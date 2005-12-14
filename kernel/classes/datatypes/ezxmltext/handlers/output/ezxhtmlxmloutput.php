@@ -525,9 +525,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     {
                         $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel  );
                     }
-                    //cleanup unnecessary link info
-                    if ( count( $this->LinkParameters ) ) $this->LinkParameters = array();
-
                 }break;
                 default :
                     $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, $isChildOfLinkTag );
@@ -564,6 +561,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     // Remove the design key, so it will not override other tags
                     $res->removeKey( 'classification' );
                     $tpl->unsetVariable( 'classification', 'xmltagns' );
+                }
+                else
+                {
+                    //cleanup unnecessary link info
+                    if ( count( $this->LinkParameters ) )
+                        $this->LinkParameters = array();
                 }
             }break;
             case '#text' :
