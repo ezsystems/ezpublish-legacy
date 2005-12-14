@@ -526,6 +526,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     {
                         $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel  );
                     }
+                    //cleanup unnecessary link info
+                    if ( count( $this->LinkParameters ) ) $this->LinkParameters = array();
+
                 }break;
                 default :
                     $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, $isChildOfLinkTag );
