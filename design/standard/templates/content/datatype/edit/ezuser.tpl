@@ -23,13 +23,13 @@
 {* Password #1. *}
 <div class="element">
     <label>{'Password'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="password" name="{$attribute_base}_data_user_password_{$attribute.id}" size="16" value="{section show=$attribute.content.original_password}{$attribute.content.original_password}{section-else}{section show=$attribute.content.has_stored_login}password{/section}{/section}" />
+    <input type="password" name="{$attribute_base}_data_user_password_{$attribute.id}" size="16" value="{section show=$attribute.content.original_password}{$attribute.content.original_password}{section-else}{section show=$attribute.content.has_stored_login}_ezpassword{/section}{/section}" />
 </div>
 
 {* Password #2. *}
 <div class="element">
     <label>{'Confirm password'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="password" name="{$attribute_base}_data_user_password_confirm_{$attribute.id}" size="16" value="{section show=$attribute.content.original_password_confirm}{$attribute.content.original_password_confirm}{section-else}{section show=$attribute.content.has_stored_login}password{/section}{/section}" />
+    <input type="password" name="{$attribute_base}_data_user_password_confirm_{$attribute.id}" size="16" value="{section show=$attribute.content.original_password_confirm}{$attribute.content.original_password_confirm}{section-else}{section show=$attribute.content.has_stored_login}_ezpassword{/section}{/section}" />
 </div>
 
 {* E-mail. *}
