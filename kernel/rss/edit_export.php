@@ -91,6 +91,12 @@ else if ( $Module->isCurrentAction( 'BrowseImage' ) )
                                     'from_page' => '/rss/edit_export/'. $RSSExportID .'/0/ImageSource' ),
                              $Module );
 }
+else if ( $Module->isCurrentAction( 'RemoveImage' ) )
+{
+    $rssExport =& eZRSSExport::fetch( $RSSExportID, true, EZ_RSSEXPORT_STATUS_DRAFT );
+    $rssExport->setAttribute( 'image_id', 0 );
+    $rssExport->store();
+}
 
 
 if ( $http->hasPostVariable( 'Item_Count' ) )
