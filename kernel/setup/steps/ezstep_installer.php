@@ -218,11 +218,12 @@ class eZStepInstaller
             }
         }
         $usableCharsets = array_values( $commonCharsets );
+
         if ( count( $usableCharsets ) > 0 )
         {
             if ( in_array( $primaryLanguage->charset(), $usableCharsets ) )
             {
-                $usableCharsets = array_unshift( $usableCharsets, $primaryLanguage->charset() );
+                array_unshift( $usableCharsets, $primaryLanguage->charset() );
                 $usableCharsets = array_unique( $usableCharsets );
             }
         }
