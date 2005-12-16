@@ -52,7 +52,8 @@ $ViewList['edit_export'] = array(
                                     'Update_Item_Class' => 'UpdateItem',
                                     'AddSourceButton' => 'AddItem',
                                     'RemoveButton' => 'Cancel',
-                                    'BrowseImageButton' => 'BrowseImage' ),
+                                    'BrowseImageButton' => 'BrowseImage',
+                                    'RemoveImageButton' => 'RemoveImage' ),                                    
     'params' => array( 'RSSExportID', 'RSSExportItemID', 'BrowseType' ) );
 
 $ViewList['edit_import'] = array(

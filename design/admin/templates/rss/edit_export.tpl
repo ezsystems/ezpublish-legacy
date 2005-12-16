@@ -47,6 +47,11 @@
     <input type="text" readonly="readonly" size="45" value="{$rss_export.image_path|wash}" />
     <input class="button" type="submit" name="BrowseImageButton" value="{'Browse'|i18n( 'design/admin/rss/edit_export' )}" title="{'Click this button to select an image for the RSS export. Note that images only work with RSS version 2.0'|i18n('design/admin/rss/edit_export')}" />
     </div>
+    {section name=RemoveImage show=eq( $rss_export.image_id, 0 )|not }
+      <div class="block">
+        <input class="button" type="submit" name="RemoveImageButton" value="{'Remove image'|i18n( 'design/admin/rss/edit_export' )}" title="{'Click to remove image from RSS export.'|i18n('design/admin/rss/edit_export')}" />
+      </div>
+    {/section}
 
     <div class="block">
     <label>{'RSS version'|i18n( 'design/admin/rss/edit_export' )}:</label>
