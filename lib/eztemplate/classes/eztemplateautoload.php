@@ -181,6 +181,7 @@ $eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztempla
 $eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatedebugfunction.php',
                                     'class' => 'eZTemplateDebugFunction',
                                     'function_names' => array( 'debug-timing-point', 'debug-accumulator',
+                                                               'debug-log',
                                                                'debug-trace' ) );
 
 $eZTemplateFunctionArray[] = array( 'script' => 'lib/eztemplate/classes/eztemplatecachefunction.php',

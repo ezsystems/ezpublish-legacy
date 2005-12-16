@@ -62,6 +62,18 @@
   {/debug-accumulator}
   \endcode
 
+  debug-log
+  Does exactly the same as eZDebug::writeDebug() method.
+  Has two parameters:
+  - var: variable to dump
+  - msg: text message
+
+  \code
+  {debug-log var=$object msg='object contents'}
+  {debug-log msg='hello world'}
+  {debug-log var=array(1,2,3)}
+  \endcode
+
   debug-trace
   Executes the body while tracing the result using XDebug.
   The result will a trace file made by XDebug which can be analyzed.
@@ -81,10 +93,12 @@ class eZTemplateDebugFunction
     */
     function eZTemplateDebugFunction( $timingPoint = 'debug-timing-point',
                                       $accumulator = 'debug-accumulator',
+                                      $log = 'debug-log',
                                       $trace = 'debug-trace' )
     {
         $this->TimingPointName = $timingPoint;
         $this->AccumulatorName = $accumulator;
+        $this->LogName = $log;
         $this->TraceName = $trace;
     }
 
@@ -93,7 +107,22 @@ class eZTemplateDebugFunction
     */
     function functionList()
     {
-        return array( $this->TimingPointName, $this->AccumulatorName, $this->TraceName );
+        return array( $this->TimingPointName, $this->AccumulatorName, $this->LogName, $this->TraceName );
+    }
+
+    /*!
+     * Returns the attribute list.
+     * key:   parameter name
+     * value: can have children
+     */
+    function attributeList()
+    {
+        return array(
+            $this->TimingPointName => true,
+            $this->AccumulatorName => true,
+            $this->LogName => false,
+            $this->TraceName => true
+        );
     }
 
     function functionTemplateHints()
@@ -108,6 +137,11 @@ class eZTemplateDebugFunction
                                                        'transform-children' => true,
                                                        'tree-transformation' => true,
                                                        'transform-parameters' => true ),
+                      $this->LogName => array( 'parameters' => true,
+                                               'static' => false,
+                                               'transform-children' => true,
+                                               'tree-transformation' => true,
+                                               'transform-parameters' => true ),
                       $this->TraceName => array( 'parameters' => true,
                                                  'static' => false,
                                                  'transform-children' => true,
@@ -174,6 +208,46 @@ class eZTemplateDebugFunction
             $newNodes = array_merge( $newNodes, $children );
 
             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "eZDebug::accumulatorStop( " . var_export( $id, true ) . " );" );
+
+            return $newNodes;
+        }
+        else if ( $functionName == $this->LogName )
+        {
+            $nodePlacement  = eZTemplateNodeTool::extractFunctionNodePlacement( $node );
+            $newNodes = array();
+
+            $varIsSet = $msgIsSet = false;
+            if ( isset( $parameters['var'] ) )
+            {
+                $varIsSet = true;
+                $var = $parameters['var'];
+            }
+            if ( isset( $parameters['msg'] ) )
+            {
+                $msgIsSet = true;
+                $msg = $parameters['msg'];
+            }
+
+            $newNodes[]= eZTemplateNodeTool::createCodePieceNode( "// debug-log starts\n" );
+
+            if ( $varIsSet )
+                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $var, $nodePlacement, array( 'treat-value-as-non-object' => true ), 'debug_log_var' );
+            if ( $msgIsSet )
+                $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $msg, $nodePlacement, array( 'treat-value-as-non-object' => true ), 'debug_log_msg' );
+
+            if ( $varIsSet && $msgIsSet )
+                 $newNodes[]= eZTemplateNodeTool::createCodePieceNode( "eZDebug::writeDebug( \$debug_log_var, \$debug_log_msg );\n" );
+            elseif ( $msgIsSet )
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "eZDebug::writeDebug( \$debug_log_msg );\n" );
+            elseif ( $varIsSet )
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "eZDebug::writeDebug( \$debug_log_var );\n" );
+
+            if ( $varIsSet )
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "unset( \$debug_log_var );" );
+            if ( $msgIsSet )
+                $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "unset( \$debug_log_msg );" );
+
+            $newNodes[]= eZTemplateNodeTool::createCodePieceNode( "// debug-log ends\n" );
 
             return $newNodes;
         }
@@ -276,6 +350,23 @@ class eZTemplateDebugFunction
 
             } break;
 
+            case $this->LogName:
+            {
+                $parameters = $functionParameters;
+
+                if ( isset( $parameters['var'] ) )
+                    $var = $tpl->elementValue( $parameters['var'], $rootNamespace, $currentNamespace, $functionPlacement );
+                if ( isset( $parameters['msg'] ) )
+                    $msg = $tpl->elementValue( $parameters['msg'], $rootNamespace, $currentNamespace, $functionPlacement );
+
+                if ( isset( $var ) && isset( $msg ) )
+                    eZDebug::writeDebug( $var, $msg );
+                elseif ( isset( $msg ) )
+                    eZDebug::writeDebug( $msg );
+                elseif ( isset( $var ) )
+                    eZDebug::writeDebug( $var );
+            } break;
+
             case $this->TraceName:
             {
                 $children = $functionChildren;
@@ -327,7 +418,7 @@ class eZTemplateDebugFunction
     */
     function hasChildren()
     {
-        return true;
+        return $this->attributeList();
     }
 
     /// \privatesection

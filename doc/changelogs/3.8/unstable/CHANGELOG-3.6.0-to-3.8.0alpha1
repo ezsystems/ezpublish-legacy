@@ -766,6 +766,8 @@ eZTemplate:
   # 6787: Enhancement treemenu operator should return more information
 - Added rand template operator.
   ( See doc/features/3.8/template_rand_function.txt )
+- Added new template function {debug-log} that allows calling
+  eZDebug::writeDebug() from a template.
 
 *INI settings
 - Changed: [TipAFriend].FromEmail ini setting is now empty by default.
