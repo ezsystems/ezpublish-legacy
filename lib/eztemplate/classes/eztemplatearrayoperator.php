@@ -760,6 +760,9 @@ class eZTemplateArrayOperator
                     }
                     else if ( $isArray )
                     {
+                        if ( $length === false )
+                            $length = 1;
+
                         $array_one = array_slice( $inputArray, 0, $offset );
                         $array_two = array_slice( $inputArray, $offset + $length );
 
