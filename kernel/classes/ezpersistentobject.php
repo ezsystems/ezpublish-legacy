@@ -757,6 +757,10 @@ class eZPersistentObject
         $rows =& $db->arrayQuery( $sqlText,
                                   $db_params );
 
+        // Indicate that a DB error occured.
+        if ( $rows === false )
+            return null;
+
         return eZPersistentObject::handleRows( $rows, $class_name, $asObject );
     }
 
