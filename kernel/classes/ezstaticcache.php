@@ -158,7 +158,7 @@ class eZStaticCache
             $db =& eZDB::instance();
             $destURL = $db->arrayQuery( "SELECT destination_url FROM ezurlalias WHERE source_url = '{$uri['path_identification_string']}'" );
             /* 2. get all other elements linked to the same destination URL */
-            $aliases = $db->arrayQuery( "SELECT source_url FROM ezurlalias WHERE destination_url = '{$destURL[0]['destination_url']}' AND destination_url <> '$uri'" );
+            $aliases = $db->arrayQuery( "SELECT source_url FROM ezurlalias WHERE destination_url = '{$destURL[0]['destination_url']}' AND destination_url <> '{$uri['path_identification_string']}'" );
             /* Loop over this result and store the cache for this */
             foreach ( $aliases as $alias )
             {
@@ -428,7 +428,7 @@ class eZStaticCache
         }
 
         $fileContentCache = array();
-      
+
         foreach ( $GLOBALS['eZStaticCache-ActionList'] as $action )
         {
             list( $action, $parameters ) = $action;
