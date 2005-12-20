@@ -58,7 +58,6 @@ class eZPaymentLogger
     function &CreateForAdd($fileName)
     {
         $theLogger = new eZPaymentLogger( $fileName, "a+t" );
-        $theLogger->writeTimedString( '----------' );
         return $theLogger;
     }
 

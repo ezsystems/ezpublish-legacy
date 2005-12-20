@@ -755,6 +755,8 @@ Attributes:
 - Fixed bug #7563: Template compiler inconsistency...
   ( tpl operator remove() works incorrectly ).
   ( Merged from stable/3.7 ( 3.7.3  ) rev. 14383 )
+- Fixed bug #7475: Unnecessary log output.  
+  ( Merged from stable/3.5 rev. 14394 )
 
 *Library:
 
