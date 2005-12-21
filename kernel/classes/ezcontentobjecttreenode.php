@@ -2846,6 +2846,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                   $pathString
                                                   ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                                                   ezcontentobject_tree.main_node_id=ezcontentobject_tree.node_id" );
+        if ( count( $objectIDArray ) == 0 )
+            return;
+
         $inSQL = "";
         $i = 0;
         foreach ( $objectIDArray as $objectID )
