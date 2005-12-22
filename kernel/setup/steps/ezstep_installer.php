@@ -425,8 +425,6 @@ class eZStepInstaller
                  strlen( $this->PersistenceList['regional_info']['site_charset'] ) > 0 )
             {
                 $charsetsList = array( $this->PersistenceList['regional_info']['site_charset'] );
-                // rush: debug
-                eZDebug::writeDebug( $charset, 'rush: if true' );
             }
             else
             {
@@ -471,9 +469,6 @@ class eZStepInstaller
                 }
 
                 $charsetsList = $this->findAppropriateCharsetsList( $primaryLanguage, $allLanguages, $result['use_unicode'] );
-
-                // rush: debug
-                eZDebug::writeDebug( $charset, 'rush: if false' );
             }
 
             $checkedCharset = $db->checkCharset( $charsetsList, $currentCharset );
