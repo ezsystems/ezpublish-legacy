@@ -107,6 +107,8 @@ class eZURLType extends eZDataType
                                                                          'Input required.' ) );
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }
+            // Remove all url-object links to this attribute.
+            eZURLObjectLink::removeURLlinkList( $contentObjectAttribute->attribute( "id" ), $contentObjectAttribute->attribute('version') );
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
