@@ -200,7 +200,6 @@ class eZIntegerType extends eZDataType
         if ( $http->hasPostVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $data = $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
-            eZDebug::writeDebug( $data, 'rush: $data' );
             $contentObjectAttribute->setAttribute( "data_int", $data );
             return true;
         }
