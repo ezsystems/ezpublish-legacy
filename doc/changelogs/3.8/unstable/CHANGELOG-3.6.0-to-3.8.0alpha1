@@ -764,6 +764,8 @@ Attributes:
   ( Merged from stable/3.6 ( 3.6.5 ) rev. 14402 ) 
 - Fixed bug #7549: URLs are never removed from ezurl table?
   ( Merged from stable/3.6 ( 3.6.5 ) rev. 14406 )
+- Fixed bug #7568: Using anchor_name on external link in XML fields fails
+  ( Merged from stable/3.6 ( 3.6.5 ) rev. 14414, stable/3.7 ( 3.7.3 ) rev. 14415
 
 *Library:
 
