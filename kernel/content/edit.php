@@ -383,6 +383,13 @@ if ( !function_exists( 'checkContentActions' ) )
 
         if ( $module->isCurrentAction( 'VersionEdit' ) )
         {
+            if ( isset( $GLOBALS['eZRequestedURI'] ) and is_object( $GLOBALS['eZRequestedURI'] ) )
+            {
+                $uri = $GLOBALS['eZRequestedURI'];
+                $uri = $uri->originalURIString();
+                $http =& eZHTTPTool::instance();
+                $http->setSessionVariable( 'LastAccessesVersionURI', $uri );
+            }
             $module->redirectToView( 'versions', array( $object->attribute( 'id' ), $EditVersion, $EditLanguage ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }

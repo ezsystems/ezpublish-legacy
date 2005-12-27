@@ -45,6 +45,7 @@ include_once( "lib/ezutils/classes/ezini.php" );
 include_once( "lib/ezdb/classes/ezdb.php" );
 
 $tpl =& templateInit();
+$http =& eZHTTPTool::instance();
 
 $ObjectID = $Params['ObjectID'];
 $EditVersion = $Params['EditVersion'];
@@ -52,6 +53,20 @@ $EditLanguage = $Params['EditLanguage'];
 
 $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
+
+if ( $http->hasPostVariable( 'BackButton' )  )
+{
+    $userRedirectURI = '';
+    if ( $http->hasPostVariable( 'RedirectURI' ) )
+    {
+        $redurectURI = $http->postVariable( 'RedirectURI' );
+        $http->removeSessionVariable( 'LastAccessesVersionURI' );
+        return $Module->redirectTo( $redurectURI );
+    }
+    if ( $http->hasSessionVariable( "LastAccessesURI" ) )
+        $userRedirectURI = $http->sessionVariable( "LastAccessesURI" );
+    return $Module->redirectTo( $userRedirectURI );
+}
 
 $object =& eZContentObject::fetch( $ObjectID );
 $editWarning = false;
@@ -88,7 +103,7 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     {
         $db =& eZDB::instance();
         $db->begin();
-        
+
         $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
         foreach ( $deleteIDArray as $deleteID )
         {
@@ -275,6 +290,8 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
 
 include_once( 'kernel/classes/ezsection.php' );
 eZSection::setGlobalID( $object->attribute( 'section_id' ) );
+if ( $http->hasSessionVariable( 'LastAccessesVersionURI' ) )
+  $tpl->setVariable( 'redirect_uri', $http->sessionVariable( 'LastAccessesVersionURI' ) );
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'object', $object );

@@ -202,9 +202,20 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 <div class="block">
+
+<div class="left">
 <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" title="{'Remove the selected versions from the object.'|i18n( 'design/admin/content/versions' )}" />
 <input type="hidden" name="EditLanguage" value="{$edit_language}" />
 <input type="hidden" name="DoNotEditAfterCopy" value="" />
+</div>
+
+<div class="right">
+{section show=is_set( $redirect_uri )}
+<input class="text" type="hidden" name="RedirectURI" value="{$redirect_uri}" />
+{/section}
+<input class="button" type="submit" name="BackButton" value="Back" />
+</div>
+<div class="break"></div>
 </div>
 
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
