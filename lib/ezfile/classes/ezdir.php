@@ -349,6 +349,34 @@ class eZDir
 
     /*!
      \static
+     Creates a list of all files and dirs in the directory.
+    */
+    function recursiveList( $dir, $path, &$fileList )
+    {
+        if ( $handle = @opendir( $dir ) )
+        {
+            while ( ( $file = readdir( $handle ) ) !== false )
+            {
+                if ( ( $file == "." ) || ( $file == ".." ) )
+                {
+                    continue;
+                }
+                if ( is_dir( $dir . '/' . $file ) )
+                {
+                    $fileList[] = array( 'path' => $path, 'name' => $file, 'type' => 'dir' );
+                    eZDir::recursiveList( $dir . '/' . $file, $path . '/' . $file, $fileList );
+                }
+                else
+                {
+                    $fileList[] = array( 'path' => $path, 'name' => $file, 'type' => 'file'  );
+                }
+            }
+            @closedir( $handle );
+        }
+    }
+
+    /*!
+     \static
      Recurses through the directory and returns the files that matches the given suffix
      \note This function will not traverse . (hidden) folders
     */
