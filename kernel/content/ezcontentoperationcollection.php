@@ -133,6 +133,12 @@ class eZContentOperationCollection
         return array( 'parameters' => $parameters );
     }
 
+    function publishObjectExtensionHandler( $contentObjectID, $contentObjectVersion )
+    {
+        include_once( 'kernel/classes/ezcontentobjectedithandler.php' );
+        eZContentObjectEditHandler::executePublish( $contentObjectID, $contentObjectVersion );
+    }
+
     function setVersionStatus( $objectID, $versionNum, $status )
     {
         $object =& eZContentObject::fetch( $objectID );

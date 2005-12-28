@@ -14,4 +14,4 @@ Views: {$node.view_count}
 
 
 Returns:
-An integer representing the maount of views of this node.
+An integer representing the number of views of this node.

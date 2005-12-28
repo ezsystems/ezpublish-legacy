@@ -28,8 +28,7 @@ Changes from 3.6.0 to 3.8.0alpha1
   ( See doc/features/3.8/http_header_override.txt )
 - Improved RSS import. Added support for defining RSS definitions in extensions.
   ( See doc/features/3.8/generic_rss_import.txt )
-- Fixed bug #7516: Bug Unwanted debug output in createExtendedAttributeFilterSQLStrings.
-  ( Merged from stable/3.5 rev. 14292 )
+- Added custom content object edit HTTP post parameter handling.
 
 Attributes:
 - Added: 'last_visit' attribute to eZUser
@@ -772,6 +771,8 @@ Attributes:
   ( Merged from stable/3.5 rev. 14421 )
 - Fixed bug #7606: Attribute template operator cause infinite loop.
   ( Merged from stable/3.7 rev. 14425 )
+- Fixed bug #7516: Bug Unwanted debug output in createExtendedAttributeFilterSQLStrings.
+  ( Merged from stable/3.5 rev. 14292 )
 - Fixed bug #7603: 'Login' tool doesnt work correctly.
   ( Merged from stable/3.6 ( 3.6.5 ) rev. 14427 )
 

@@ -1,0 +1,10 @@
+*Title: Content object edit extension handler.
+
+*Description:
+
+Extension handler for content edit, which makes it possible to fetch and process custom HTTP postvariables 
+when editing a content object. The custom HTTP handling classes must be placed in extensions.
+
+*Documentation:
+
+See settings/content.ini how to set it up.

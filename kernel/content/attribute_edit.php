@@ -182,6 +182,9 @@ if ( $http->hasPostVariable( "CustomActionButton" ) )
     }
 }
 
+include_once( 'kernel/classes/ezcontentobjectedithandler.php' );
+eZContentObjectEditHandler::initialize();
+
 $storeActions = array( 'Preview',
                        'Translate',
                        'VersionEdit',
@@ -200,7 +203,8 @@ $storeActions = array( 'Preview',
                        'DeleteRelation',
                        'DeleteNode',
                        'MoveNode' );
-$storingAllowed = in_array( $Module->currentAction(), $storeActions );
+$storingAllowed = ( in_array( $Module->currentAction(), $storeActions ) ||
+                    eZContentObjectEditHandler::isStoreAction() );
 if ( $http->hasPostVariable( 'CustomActionButton' ) )
     $storingAllowed = true;
 
@@ -233,6 +237,9 @@ if ( $storingAllowed && $hasObjectInput)
     // Fixup input
     if ( $validationResult['require-fixup'] )
         $object->fixupInput( $contentObjectAttributes, $attributeDataBaseName );
+
+    // Check extension input handlers
+    eZContentObjectEditHandler::executeInputHandlers( $Module, $class, $object, $version, $contentObjectAttributes, $EditVersion, $EditLanguage, $FromLanguage );
 
     // If no redirection uri we assume it's content/edit
     if ( !isset( $currentRedirectionURI ) )
