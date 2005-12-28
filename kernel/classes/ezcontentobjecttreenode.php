@@ -3228,7 +3228,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( include_once( 'kernel/classes/datatypes/ezurl/ezurltype.php' ) )
             $url =& eZURL::urlByURL( "/" . $oldPathString );
 
-        if ( $url )
+        if ( $url && $oldPathString != "") // oldPathString=="" when url refers to site root, don't need to update url.
         {
             $url->setAttribute( 'url', '/' . $newPathString );
             $url->store();
