@@ -138,10 +138,8 @@ class eZTemplateAttributeOperator
             return;
         if ( is_array( $value ) )
         {
-            reset( $value );
-            while ( ( $key = key( $value ) ) !== null )
+            foreach( $value as $key => $item )
             {
-                $item =& $value[$key];
                 $type = gettype( $item );
                 if ( is_object( $item ) )
                     $type .= "[" . get_class( $item ) . "]";
@@ -171,7 +169,6 @@ class eZTemplateAttributeOperator
                         $txt .= "$spacing$key ($type)\n";
                 }
                 $this->displayVariable( $item, $as_html, $show_values, $max, $cur_level + 1, $txt );
-                next( $value );
             }
         }
         else if ( is_object( $value ) )
