@@ -652,6 +652,47 @@ class eZDOMDocument
         $this->Namespaces[$alias] =& $namespace;
     }
 
+
+    /*
+       W3C DOM compatibility functions
+    
+    */
+
+    function createElement( $name )
+    {
+        $node = new eZDOMNode();
+        $node->setName( $name );
+        $node->setType( 1 );
+
+        $this->registerElement( $node );
+
+        return $node;
+    }
+
+    // \note W3C DOM function
+
+    function createAttributeNS( $namespaceURI, $qualifiedName )
+    {
+        list( $prefix, $name ) = explode( ':', $qualifiedName );
+
+        $attr = new eZDOMNode();
+        $attr->setName( $name );
+        $attr->setPrefix( $prefix );
+        $attr->setNamespaceURI( $namespaceURI );
+        $attr->setType( 2 );
+        return $attr;
+    }
+
+    // \note W3C DOM function
+
+    function createAttribute( $name )
+    {
+        $attr = new eZDOMNode();
+        $attr->setName( $name );
+        $attr->setType( 2 );
+        return $attr;
+    }
+
     /// \privatesection
 
     /// Document name

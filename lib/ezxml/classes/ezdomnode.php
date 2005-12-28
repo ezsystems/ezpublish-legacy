@@ -290,21 +290,6 @@ class eZDOMNode
     }
 
     /*!
-      \return The first child of the node or \c null if there are no children.
-
-      \note This will only make sense for element nodes.
-    */
-    function &firstChild()
-    {
-        if ( count( $this->Children ) == 0 )
-        {
-            $child = false;
-            return $child;
-        }
-        return $this->Children[0];
-    }
-
-    /*!
       Finds the first element named \a $name and returns the children of that node.
       If no element node is found it returns \c false.
 
@@ -774,21 +759,6 @@ class eZDOMNode
     }
 
     /*!
-     \return The last child node or \c false if there are no children.
-
-      \note This will only make sense for element nodes.
-    */
-    function lastChild()
-    {
-        if ( is_array( $this->Children ) )
-        {
-            return end( $this->Children );
-        }
-
-        return false;
-    }
-
-    /*!
       \return The content() of the first child node or \c false if there are no children.
 
       \note This will only make sense for element nodes.
@@ -946,6 +916,148 @@ class eZDOMNode
     {
         return $this->toString( 0, $charset);
     }
+
+
+    /*
+        W3C DOM compatibility functions
+        
+    */
+
+        // \note W3C DOM function
+
+    function setAttribute( $name, $value )
+    {
+        foreach ( $this->Attributes as $attribute )
+        {
+            if ( $attribute->name() == $name )
+            {
+                $attribute->setContent( $value );
+                return $attribute;
+            }
+        }
+
+        $attr = eZDOMDocument::createAttribute( $name );
+        $attr->setContent( $value );
+        return $this->appendAttribute( $attr );
+    }
+
+    // \note W3C DOM function
+
+    function setAttributeNS( $namespaceURI, $qualifiedName, $value )
+    {
+        foreach ( $this->Attributes as $attribute )
+        {   
+            if ( !$attribute->Prefix )
+                continue;
+
+            $fullName = $attribute->Prefix . ':' . $attribute->LocalName;
+            if ( $fullName == $qualifiedName )
+            {
+                $attribute->setContent( $value );
+                return $attribute;
+            }
+        }
+        $attr = eZDOMDocument::createAttributeNS( $namespaceURI, $qualifiedName );
+        $attr->setContent( $value );
+        return $this->appendAttribute( $attr );
+    }
+
+    // \note W3C DOM function
+    function getAttribute( $attributeName )
+    {
+        $returnValue = '';
+        foreach ( $this->Attributes as $attribute )
+        {
+            if ( $attribute->name() == $attributeName && !$attribute->Prefix )
+                $returnValue = $attribute->Content;
+        }
+    
+        return $returnValue;
+    }
+
+    // \note W3C DOM function
+    function getAttributeNS( $namespaceURI, $localName )
+    {
+        $returnValue = '';
+        foreach ( $this->Attributes as $attribute )
+        {
+            if ( $attribute->LocalName == $localName &&
+                 $attribute->NamespaceURI == $namespaceURI )
+                $returnValue = $attribute->Content;
+        }
+    
+        return $returnValue;
+    }
+
+    // \note W3C DOM function
+    function removeAttribute( $name )
+    {
+        $removed = false;
+        foreach( array_keys( $this->Attributes ) as $key )
+        {
+            if ( $this->Attributes[$key]->name() == $name && !$this->Attributes[$key]->Prefix )
+            {
+                unset( $this->Attributes[$key] );
+                $removed = true;
+            }
+        }
+        return $removed;
+    }
+
+    // \note W3C DOM function
+    function removeAttributeNS( $namespaceURI, $localName )
+    {
+        $removed = false;
+        foreach( array_keys( $this->Attributes ) as $key )
+        {
+            if ( $this->Attributes[$key]->LocalName == $localName &&
+                 $this->Attributes[$key]->NamespaceURI == $namespaceURI )
+            {
+                unset( $this->Attributes[$key] );
+                $removed = true;
+            }
+        }
+        return $removed;
+    }
+
+    // \note W3C DOM function
+
+    /*!
+      \return The first child of the node or \c false if there are no children.
+
+      \note This will only make sense for element nodes.
+    */
+
+    function &firstChild()
+    {
+        if ( count( $this->Children ) == 0 )
+        {
+            $child = false;
+            return $child;
+        }
+        $keys = array_keys( $this->Children );
+        $child =& $this->Children[$keys[0]];
+        return $child;
+    }
+
+    /*!
+     \return The last child node or \c false if there are no children.
+
+      \note This will only make sense for element nodes.
+    */
+
+    function &lastChild()
+    {
+        if ( count( $this->Children ) == 0 )
+        {
+            $child = false;
+            return $child;
+        }
+        $keys = array_keys( $this->Children );
+        $child =& $this->Children[$keys[count( $keys ) - 1]];
+        return $child;
+    }
+
 
     /// \privatesection
 
