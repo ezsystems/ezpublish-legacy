@@ -663,7 +663,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     */
     function uninstall( &$package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      $installParameters,
+                      &$content, $installParameters,
                       &$installData )
     {
         //TODO

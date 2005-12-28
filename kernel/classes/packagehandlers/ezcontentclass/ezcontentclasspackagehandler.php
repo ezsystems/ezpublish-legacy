@@ -95,7 +95,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
     */
     function uninstall( &$package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      $installParameters,
+                      &$content, $installParameters,
                       &$installData )
     {
         if ( isset( $installData['classid_list'] ) )

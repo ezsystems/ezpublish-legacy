@@ -2076,9 +2076,30 @@ class eZPackage
             $content = false;
             if ( isset( $parameters['content'] ) )
                 $content = $parameters['content'];
+
             $handler =& $this->packageHandler( $type );
             if ( $handler )
             {
+                if ( $handler->extractInstallContent() )
+                {
+                    if ( !$content and
+                         $filename )
+                    {
+                        if ( $subdirectory )
+                            $filepath = $subdirectory . '/' . $filename . '.xml';
+                        else
+                            $filepath = $filename . '.xml';
+                
+                        $filepath = $this->path() . '/' . $filepath;
+                
+                        $dom =& $this->fetchDOMFromFile( $filepath );
+                        if ( $dom )
+                            $content =& $dom->root();
+                        else
+                            eZDebug::writeError( "Failed fetching dom from file $filepath" );
+                    }
+                }
+
                 if ( isset( $this->InstallData[$type] ) )
                 {
                     $installData =& $this->InstallData[$type];
@@ -2090,7 +2111,7 @@ class eZPackage
                 }
                 $installResult = $handler->uninstall( $this, $type, $parameters,
                                                       $name, $os, $filename, $subdirectory,
-                                                      $installParameters,
+                                                      $content, $installParameters,
                                                       $installData );
             }
         }
@@ -2817,6 +2838,7 @@ class eZPackage
                 $fileDesignList = array();
                 $fileINIList = array();
                 $fileThumbnailList = array();
+                $fileListNode = null;
                 foreach ( $fileCollection as $fileItem )
                 {
                     if ( $fileItem['type'] == 'design' )
@@ -2827,7 +2849,12 @@ class eZPackage
                         $fileListNode =& $fileThumbnailLists[$fileItem['role']];
                     else
                         $fileListNode =& $fileLists[$fileItem['type']][$fileItem['role']][$fileItem['role-value']][$fileItem['variable-name']];
-                    if ( !isset( $fileListNode ) )
+
+                    if ( !$fileListNode ||
+                         $fileListNode->attributeValue( 'type' ) != $fileItem['type'] ||
+                         $fileListNode->attributeValue( 'role' ) != $fileItem['role'] ||
+                         $fileListNode->attributeValue( 'role-value' ) != $fileItem['role-value'] ||
+                         $fileListNode->attributeValue( 'variable-name' ) != $fileItem['variable-name'] )
                     {
                         $fileListAttributes = array( 'type' => $fileItem['type'] );
                         if ( $fileItem['type'] == 'design' )
@@ -2841,6 +2868,7 @@ class eZPackage
                         unset( $fileListNode );
                         $fileListNode = $dom->createElementNode( 'file-list',
                                                                  $fileListAttributes );
+
                         $fileCollectionNode->appendChild( $fileListNode );
                     }
                     $fileAttributes = array( 'name' => $fileItem['name'] );
@@ -2890,10 +2918,12 @@ class eZPackage
                             $path .= '/' . $fileItem['name'];
                         if ( !file_exists( $destinationPath ) )
                             eZDir::mkdir( $destinationPath, eZDir::directoryPermission(), true );
+
                         if ( is_dir( $path ) )
                         {
                             $copiedFiles = eZDir::copy( $path, $destinationPath,
                                                         $fileItem['name'] != false, true, false, eZDir::temporaryFileRegexp() );
+
                             foreach ( $copiedFiles as $copiedFile )
                             {
                                 $copiedFileName = $copiedFile;
@@ -2950,6 +2980,7 @@ class eZPackage
                             $path .= '/' . $fileItem['subdirectory'];
                         if ( !file_exists( $path ) )
                             eZDir::mkdir( $path, eZDir::directoryPermission(), true );
+
                         if ( is_dir( $fileItem['path'] ) )
                         {
                             eZDir::copy( $fileItem['path'], $path,
