@@ -2938,6 +2938,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function fetchByURLPath( $pathString, $asObject = true )
     {
+        if ( $pathString == "" ) 
+        {
+            eZDebug::writeWarning( 'Can not fetch, given URLPath is empty', 'eZContentObjectTreeNode::fetchByURLPath' );
+            return null;
+        }
+
         return eZContentObjectTreeNode::fetch( false, false, $asObject, array( "path_identification_string" => $pathString ) );
     }
 
