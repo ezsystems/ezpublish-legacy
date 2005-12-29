@@ -208,6 +208,8 @@ class eZShopFunctionCollection
     */
     function fetchCurrencyList( $status = false )
     {
+        include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+
         $conditions = null;
         $status = eZCurrencyData::statusStringToNumeric( $status );
         if ( $status !== false )
@@ -215,7 +217,6 @@ class eZShopFunctionCollection
             $conditions = array( 'status' => $status );
         }
 
-        include_once( 'kernel/shop/classes/ezcurrencydata.php' );
         $currencyList = eZCurrencyData::fetchList( $conditions );
 
         $result = array( 'result' => $currencyList );

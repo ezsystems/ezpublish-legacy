@@ -75,14 +75,6 @@
 
 <div class="block">
 <label>{'VAT'|i18n( 'design/standard/content/datatype' )}:</label>
-{section show=$attribute.class_content.is_vat_included}
-{* Entered price already includes VAT. *}
-{section-else}
-&nbsp;(+ {$attribute.content.selected_vat_type.name}, {$attribute.content.selected_vat_type.percentage}%)
-{/section}
-
-<div class="block">
-<label>{'VAT'|i18n( 'design/standard/content/datatype' )}:</label>
 <select name="{$attribute_base}_ezmultiprice_inc_ex_vat_{$attribute.id}">
 <option value="1" {section show=eq( $attribute.content.is_vat_included, true() )}selected="selected"{/section}>{'Price inc. VAT'|i18n( 'design/standard/content/datatype' )}</option>
 <option value="2" {section show=eq( $attribute.content.is_vat_included, false() )}selected="selected"{/section}>{'Price ex. VAT'|i18n( 'design/standard/content/datatype' )}</option>

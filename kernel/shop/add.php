@@ -56,16 +56,7 @@ if ( !$object->canRead() )
 // Check if the object has a price datatype, if not it cannot be used in the basket
 include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
-$attributes = $object->contentObjectAttributes();
-
-$priceFound = false;
-foreach ( $attributes as $attribute )
-{
-    $dataType = $attribute->dataType();
-    $priceFound = eZShopFunctions::isProductDatatype( $dataType->isA() );
-}
-
-if ( !$priceFound )
+if ( !eZShopFunctions::isProductObject( $object ) )
 {
     include_once( 'kernel/shop/errors.php' );
     return $Module->handleError( EZ_ERROR_SHOP_NOT_A_PRODUCT, 'shop' );

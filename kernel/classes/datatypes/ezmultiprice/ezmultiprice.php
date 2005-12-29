@@ -68,7 +68,7 @@ include_once( "kernel/classes/ezcontentobjecttreenode.php" );
 */
 
 include_once( "kernel/shop/classes/ezsimpleprice.php" );
-include_once( 'kernel/classes/datatypes/ezmultiprice/ezmultipricedata.php' );
+include_once( 'kernel/shop/classes/ezmultipricedata.php' );
 
 define( 'EZ_MULTIPRICE_INCLUDE_VAT_CALCULATION_TYPE', 1 );
 define( 'EZ_MULTIPRICE_EXCLUDE_VAT_CALCULATION_TYPE', 2 );

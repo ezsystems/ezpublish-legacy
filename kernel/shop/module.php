@@ -204,7 +204,7 @@ $ViewList['currencylist'] = array(
                                     'SetRatesButton' => 'SetRates',
                                     'UpdateStatusButton' => 'UpdateStatus' ),
     'post_action_parameters' => array( 'RemoveCurrency' => array( 'DeleteCurrencyList' => 'DeleteCurrencyList' ),
-                                       'SetRates' => array( 'RateList' => 'RateList',
+                                       'SetRates' => array( 'CurrencyList' => 'CurrencyList',
                                                             'Offset' => 'Offset' ),
                                        'UpdateStatus' => array( 'CurrencyList' => 'CurrencyList',
                                                                 'Offset' => 'Offset' ) ),
@@ -216,15 +216,9 @@ $ViewList['editcurrency'] = array(
     'single_post_actions' => array( 'CancelButton' => 'Cancel',
                                     'CreateButton' => 'Create',
                                     'StoreChangesButton' => 'StoreChanges' ),
-    'post_action_parameters' => array( 'Create' => array( 'CurrencyCode' => 'CurrencyCode',
-                                                          'CurrencySymbol' => 'CurrencySymbol',
-                                                          'CustomRate' => 'CustomRate',
-                                                          'RateFactor' => 'RateFactor' ),
-                                       'StoreChanges' => array( 'OriginalCurrencyCode' => 'OriginalCurrencyCode',
-                                                                'CurrencyCode' => 'CurrencyCode',
-                                                                'CurrencySymbol' => 'CurrencySymbol',
-                                                                'CustomRate' => 'CustomRate',
-                                                                'RateFactor' => 'RateFactor' ) ),
+    'post_action_parameters' => array( 'Create' => array( 'CurrencyData' => 'CurrencyData' ),
+                                       'StoreChanges' => array( 'CurrencyData' => 'CurrencyData',
+                                                                'OriginalCurrencyCode' => 'OriginalCurrencyCode' ) ),
     'params' => array(),
     'unordered_params' => array( 'currency' => 'Currency' ) );
 
@@ -232,6 +226,16 @@ $ViewList['preferredcurrency'] = array(
     'script' => 'preferredcurrency.php',
     'default_navigation_part' => 'ezshopnavigationpart',
     'params' => array(  ) );
+
+$ViewList['productsoverview'] = array(
+    'script' => 'productsoverview.php',
+    'default_navigation_part' => 'ezshopnavigationpart',
+    'single_post_actions' => array( 'ShowProductsButton' => 'ShowProducts' ),
+    'post_action_parameters' => array( 'ShowProducts' => array( 'ProductClass' => 'ProductClass' ) ),
+    'params' => array(),
+    'unordered_params' => array( 'product_class' => 'ProductClass',
+                                 'offset' => 'Offset' ) );
+
 
 $ViewList['setpreferredcurrency'] = array(
     'script' => 'setpreferredcurrency.php',

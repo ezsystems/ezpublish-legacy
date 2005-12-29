@@ -193,6 +193,9 @@ class eZMultiPriceType extends eZDataType
 
         $vatType = $http->postVariable( $base . '_ezmultiprice_vat_id_' . $contentObjectAttribute->attribute( 'id' ) );
         $vatExInc = $http->postVariable( $base . '_ezmultiprice_inc_ex_vat_' . $contentObjectAttribute->attribute( 'id' ) );
+        $multiprice->setAttribute( 'selected_vat_type', $vatType );
+        $multiprice->setAttribute( 'is_vat_included', $vatExInc );
+
         $data_text = $vatType . ',' . $vatExInc;
         $contentObjectAttribute->setAttribute( 'data_text', $data_text );
 
@@ -205,17 +208,17 @@ class eZMultiPriceType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
-        $price = new eZMultiPrice( $classAttribute, $contentObjectAttribute );
+        $multiprice = new eZMultiPrice( $classAttribute, $contentObjectAttribute );
 
         if ( $contentObjectAttribute->attribute( 'data_text' ) != '' )
         {
             list( $vatType, $vatExInc ) = explode( ',', $contentObjectAttribute->attribute( 'data_text' ), 2 );
 
-            $price->setAttribute( 'selected_vat_type', $vatType );
-            $price->setAttribute( 'is_vat_included', $vatExInc );
+            $multiprice->setAttribute( 'selected_vat_type', $vatType );
+            $multiprice->setAttribute( 'is_vat_included', $vatExInc );
         }
 
-        return $price;
+        return $multiprice;
     }
 
     /*!
@@ -224,8 +227,8 @@ class eZMultiPriceType extends eZDataType
     function &classAttributeContent( &$classAttribute )
     {
         $contentObjectAttribute = false;
-        $price = new eZMultiPrice( $classAttribute, $contentObjectAttribute );
-        return $price;
+        $multiprice = new eZMultiPrice( $classAttribute, $contentObjectAttribute );
+        return $multiprice;
     }
 
     function customObjectAttributeHTTPAction( $http, $action, &$contentObjectAttribute )

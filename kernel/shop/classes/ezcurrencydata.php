@@ -38,9 +38,14 @@
 /*! \file ezcurrencydata.php
 */
 
+define( 'EZ_CURRENCYDATA_DEFAULT_AUTO_RATE_VALUE', '0.0000' );
+define( 'EZ_CURRENCYDATA_DEFAULT_CUSTOM_RATE_VALUE', '0.0000' );
+define( 'EZ_CURRENCYDATA_DEFAULT_RATE_FACTOR_VALUE', '1.0000' );
+
 define( 'EZ_CURRENCYDATA_ERROR_OK', 0 );
-define( 'EZ_CURRENCYDATA_ERROR_INVALID_CURRENCY_CODE', 1 );
-define( 'EZ_CURRENCYDATA_ERROR_CURRENCY_EXISTS', 2 );
+define( 'EZ_CURRENCYDATA_ERROR_UNKNOWN', 1 );
+define( 'EZ_CURRENCYDATA_ERROR_INVALID_CURRENCY_CODE', 2 );
+define( 'EZ_CURRENCYDATA_ERROR_CURRENCY_EXISTS', 3 );
 
 define( 'EZ_CURRENCYDATA_STATUS_ACTIVE', '1' );
 define( 'EZ_CURRENCYDATA_STATUS_INACTIVE', '2' );
@@ -56,11 +61,10 @@ class eZCurrencyData extends eZPersistentObject
 
     function definition()
     {
-        return array( 'fields' => array( /*'id' => array( 'name' => 'ID',
+        return array( 'fields' => array( 'id' => array( 'name' => 'ID',
                                                         'datatype' => 'integer',
                                                         'default' => 0,
                                                         'required' => true ),
-                                                        */
                                          'code' => array( 'name' => 'Code',
                                                           'datatype' => 'string',
                                                           'default' => '',
@@ -72,12 +76,24 @@ class eZCurrencyData extends eZPersistentObject
                                          'status' => array( 'name' => 'Status',
                                                             'datatype' => 'integer',
                                                             'default' => 0,
-                                                            'required' => true ) ),
-                      //'keys' => array( 'id' ),
-                      //'increment_key' => 'id',
+                                                            'required' => true ),
+                                         'auto_rate_value' => array( 'name' => 'AutoRateValue',
+                                                                'datatype' => 'string',
+                                                                'default' => EZ_CURRENCYDATA_DEFAULT_AUTO_RATE_VALUE,
+                                                                'required' => false ),
+                                         'custom_rate_value' => array( 'name' => 'CustomRateValue',
+                                                                  'datatype' => 'string',
+                                                                  'default' => EZ_CURRENCYDATA_DEFAULT_CUSTOM_RATE_VALUE,
+                                                                  'required' => false ),
+                                         'rate_factor' => array( 'name' => 'RateFactor',
+                                                                 'datatype' => 'string',
+                                                                 'default' => EZ_CURRENCYDATA_DEFAULT_RATE_FACTOR_VALUE,
+                                                                 'required' => false ) ),
+                      'keys' => array( 'id' ),
+                      'increment_key' => 'id',
                       //'sort' => array( 'id' => 'asc' ),
-                      'keys' => array( 'code' ),
-                      'function_attributes' => array(),
+                      //'keys' => array( 'code' ),
+                      'function_attributes' => array( 'rate_value' => 'rateValue' ),
                       'class_name' => "eZCurrencyData",
                       'sort' => array( 'code' => 'asc' ),
                       'name' => "ezcurrencydata" );
@@ -88,19 +104,9 @@ class eZCurrencyData extends eZPersistentObject
      \params codeList can be a single code like 'USD' or an array like array( 'USD', 'NOK' )
      or 'false' (means all currencies).
     */
-    function fetchList( $conditions = null, $asObjects = true, $offset = false, $limit = false )
+    function fetchList( $conditions = null, $asObjects = true, $offset = false, $limit = false, $asHash = true )
     {
         $currencyList = null;
-
-        /*
-        if ( $currencyCode == false )
-            $conds = null;
-        else if ( is_array( $currencyCode ) )
-            $conds = array( 'code' => array( $currencyCode ) );
-        else
-            $conds = array( 'code' => $currencyCode );
-            */
-
         $sort = null;
         $limitation = null;
         if ( $offset !== false or $limit !== false )
@@ -115,13 +121,20 @@ class eZCurrencyData extends eZPersistentObject
 
         if ( count( $rows ) > 0 )
         {
-            $keys = array_keys( $rows );
-            foreach ( $keys as $key )
+            if ( $asHash )
             {
-                if ( $asObjects )
-                    $currencyList[$rows[$key]->attribute( 'code' )] =& $rows[$key];
-                else
-                    $currencyList[$rows[$key]['code']] =& $rows[$key];
+                $keys = array_keys( $rows );
+                foreach ( $keys as $key )
+                {
+                    if ( $asObjects )
+                        $currencyList[$rows[$key]->attribute( 'code' )] =& $rows[$key];
+                    else
+                        $currencyList[$rows[$key]['code']] =& $rows[$key];
+                }
+            }
+            else
+            {
+                $currencyList =& $rows;
             }
         }
 
@@ -156,9 +169,28 @@ class eZCurrencyData extends eZPersistentObject
     }
 
     /*!
+     functional attribute
+    */
+    function rateValue()
+    {
+        $rateValue = '0.0000';
+        if ( $this->attribute( 'custom_rate_value' ) > 0 )
+        {
+            $rateValue = $this->attribute( 'custom_rate_value' );
+        }
+        else
+        {
+            $rateValue = $this->attribute( 'auto_rate_value' );
+            $rateValue = $rateValue * $this->attribute( 'rate_factor' );
+        }
+
+        return $rateValue;
+    }
+
+    /*!
      \static
     */
-    function create( $code, $symbol, $status = EZ_CURRENCYDATA_STATUS_ACTIVE )
+    function create( $code, $symbol, $autoRateValue, $customRateValue, $rateFactor, $status = EZ_CURRENCYDATA_STATUS_ACTIVE )
     {
         $code = strtoupper( $code );
         $errCode = eZCurrencyData::canCreate( $code );
@@ -166,7 +198,11 @@ class eZCurrencyData extends eZPersistentObject
         {
             $currency = new eZCurrencyData( array( 'code' => $code,
                                                    'symbol' => $symbol,
-                                                   'status' => $status ) );
+                                                   'status' => $status,
+                                                   'auto_rate_value' => $autoRateValue,
+                                                   'custom_rate_value' => $customRateValue,
+                                                   'rate_factor' => $rateFactor ) );
+            $currency->setHasDirtyData( true );
             return $currency;
         }
 
@@ -178,16 +214,34 @@ class eZCurrencyData extends eZPersistentObject
    */
     function canCreate( $code )
     {
+        $errCode = eZCurrencyData::validateCurrencyCode( $code );
+        if ( $errCode === EZ_CURRENCYDATA_ERROR_OK && eZCurrencyData::currencyExists( $code ) )
+            $errCode = EZ_CURRENCYDATA_ERROR_CURRENCY_EXISTS;
+
+        return $errCode;
+    }
+
+    /*!
+     \static
+    */
+    function validateCurrencyCode( $code )
+    {
         if ( !preg_match( "/^[A-Z]{3}$/", $code ) )
             return EZ_CURRENCYDATA_ERROR_INVALID_CURRENCY_CODE;
-
-        if ( eZCurrencyData::fetch( $code ) )
-            return EZ_CURRENCYDATA_ERROR_CURRENCY_EXISTS;
 
         return EZ_CURRENCYDATA_ERROR_OK;
     }
 
-    /*!static
+    /*!
+     \static
+    */
+    function currencyExists( $code )
+    {
+        return ( eZCurrencyData::fetch( $code ) !== null );
+    }
+
+    /*!
+     \static
     */
     function removeCurrencyList( $currencyCodeList )
     {
@@ -201,29 +255,13 @@ class eZCurrencyData extends eZPersistentObject
         }
     }
 
-    function setStatusList( $currencyStatusList )
-    {
-        $currencyList = eZCurrencyData::fetchList();
-        $db =& eZDB::instance();
-        $db->begin();
-        foreach ( $currencyList as $currency )
-        {
-            if ( isset( $currencyStatusList[$currency->attribute( 'code' )] ) )
-            {
-                $currency->setStatus( $currencyStatusList[$currency->attribute( 'code' )]['status'] );
-                $currency->sync();
-            }
-        }
-        $db->commit();
-    }
-
     function setStatus( $status )
     {
         $statusNumeric = eZCurrencyData::statusStringToNumeric( $status );
         if ( $statusNumeric !== false )
             $this->setAttribute( 'status', $statusNumeric );
         else
-            eZDebug::writeError( "Unknow currency's status $status", 'eZCurrencyData::setStatus' );
+            eZDebug::writeError( "Unknow currency's status '$status'", 'eZCurrencyData::setStatus' );
     }
 
     function statusStringToNumeric( $statusString )
@@ -256,6 +294,7 @@ class eZCurrencyData extends eZPersistentObject
             case EZ_CURRENCYDATA_ERROR_CURRENCY_EXISTS:
                 return ezi18n( 'kernel/shop/classes/ezcurrencydata', 'Currency already exists.' );
 
+            case EZ_CURRENCYDATA_ERROR_UNKNOWN:
             default:
                 return ezi18n( 'kernel/shop/classes/ezcurrencydata', 'Unknown error.' );
         }

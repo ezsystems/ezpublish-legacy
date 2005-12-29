@@ -10,15 +10,16 @@
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
-{section show=$currency_list}
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
+{if $currency_list}
 {* Items per page selector. *}
 <div class="context-toolbar">
 <div class="block">
 <div class="left">
     <p>
     {switch match=$limit}
+
         {case match=25}
         <a href={'/user/preferences/set/currencies_list_limit/1'|ezurl} title="{'Show 10 items per page.'|i18n( 'design/admin/shop/currencylist' )}">10</a>
         <span class="current">25</span>
@@ -58,29 +59,12 @@
     <th class="tight">{'Rate'|i18n( 'design/admin/shop/currencylist' )}</th>
 </tr>
 
-{def $custom_rate = ''
-     $auto_rate = ''
-     $rate = ''
-     $factor = ''}
-
 {if is_set( $currency_names )|not}
     {def $currency_names = hash()}
 {/if}
 {include uri='design:shop/currencynames.tpl'}
 
 {foreach $currency_list as $currency sequence array( bglight, bgdark ) as $bg_class_style}
-    {if is_set( $currency_rates[$currency.code] )}
-        {set custom_rate = $currency_rates[$currency.code].custom_value
-             auto_rate = $currency_rates[$currency.code].auto_value
-             factor = $currency_rates[$currency.code].factor
-             rate = $currency_rates[$currency.code].rate_value}
-    {else}
-        {set custom_rate = 'N/A'|i18n( 'design/admin/shop/currencylist' )
-             auto_rate = 'N/A'|i18n( 'design/admin/shop/currencylist' )
-             factor = 'N/A'|i18n( 'design/admin/shop/currencylist' )
-             rate = 'N/A'|i18n( 'design/admin/shop/currencylist' )}
-    {/if}
-
     {if eq( $currency.status, 2 ) }
         {set $bg_class_style = "object-cannot-remove"}
     {/if}
@@ -103,11 +87,10 @@
                 <option value="inactive" {if eq($currency.status, 2)}selected = "selected"{/if}>Inactive</option>
             </select>
         </td>
-        <td class="number">{$auto_rate}</td>
-        <td class="number"><input type="text" size="10" name="RateList[{$currency.code}][custom_value]" value="{$custom_rate}" /></td>
-        <td class="number"><input type="text" size="10" name="RateList[{$currency.code}][factor]" value="{$factor}" /></td>
-        <td class="number">{$rate}</td>
-    	
+        <td class="number">{$currency.auto_rate_value}</td>
+        <td class="number"><input type="text" size="10" name="CurrencyList[{$currency.code}][custom_rate_value]" value="{$currency.custom_rate_value}" /></td>
+        <td class="number"><input type="text" size="10" name="CurrencyList[{$currency.code}][rate_factor]" value="{$currency.rate_factor}" /></td>
+        <td class="number">{$currency.rate_value}</td>
     </tr>
 
 {/foreach}
@@ -122,6 +105,11 @@
          item_limit=$limit}
 </div>
 
+{else}
+    <div class="block">
+    <p>{'The available currency list is empty'|i18n( 'design/admin/shop/currencylist' )}</p>
+    </div>
+{/if}
 {* DESIGN: Content END *}</div></div></div>
 
 {* Button bar for remove and add currency. *}
@@ -130,33 +118,31 @@
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
 
 <div class="block">
-    <div class="left">
-        {* Remove button *}
-        <input class="button" type="submit" name="RemoveCurrencyButton" value="{'Remove selected'|i18n( 'design/admin/shop/currencylist' )}" title="{'Remove selected currencies from the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
-        {* Add button *}
-        <input class="button" type="submit" name="AddCurrencyButton" value="{'Add new'|i18n( 'design/admin/shop/currencylist' )}" title="{'Add new currnecy to the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
-    </div>
-    <div class="right">
-        {* Update status button *}
-        <input class="button" type="submit" name="UpdateStatusButton" value="{'Update status'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update status.'|i18n( 'design/admin/shop/currencylist' )}" />
-        {* Set currency rate button *}
-        <input class="button" type="submit" name="SetRatesButton" value="{'Set rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Set rates.'|i18n( 'design/admin/shop/currencylist' )}" />
-    </div>
+    {if $currency_list}
+        <div class="left">
+            {* Remove button *}
+            <input class="button" type="submit" name="RemoveCurrencyButton" value="{'Remove selected'|i18n( 'design/admin/shop/currencylist' )}" title="{'Remove selected currencies from the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
+            {* Add button *}
+            <input class="button" type="submit" name="AddCurrencyButton" value="{'Add new'|i18n( 'design/admin/shop/currencylist' )}" title="{'Add new currnecy to the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
+        </div>
+        <div class="right">
+            {* Update status button *}
+            <input class="button" type="submit" name="UpdateStatusButton" value="{'Update status'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update status.'|i18n( 'design/admin/shop/currencylist' )}" />
+            {* Set currency rate button *}
+            <input class="button" type="submit" name="SetRatesButton" value="{'Set rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Set rates.'|i18n( 'design/admin/shop/currencylist' )}" />
+        </div>
+    {else}
+        <div class="left">
+            {* Add button *}
+            <input class="button" type="submit" name="AddCurrencyButton" value="{'Add new'|i18n( 'design/admin/shop/currencylist' )}" title="{'Add new currnecy to the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
+        </div>
+    {/if}
+
     <div class="break"></div>
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 
 </div>
-
-{section-else}
-{* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
-
-<div class="block">
-<p>{'The available currency list is empty'|i18n( 'design/admin/shop/currencylist' )}</p>
-</div>
-{* DESIGN: Content END *}</div></div></div></div></div></div>
-{/section}
-
 </div>
 
 <input type="hidden" name="Offset" value="{$view_parameters.offset}" />

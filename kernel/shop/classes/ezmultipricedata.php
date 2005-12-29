@@ -42,6 +42,7 @@ include_once( 'kernel/classes/ezpersistentobject.php' );
 
 define( 'EZ_MULTIPRICEDATA_VALUE_TYPE_CUSTOM', 1 );
 define( 'EZ_MULTIPRICEDATA_VALUE_TYPE_AUTO', 2 );
+define( 'EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT', 5000 );
 
 class eZMultiPriceData extends eZPersistentObject
 {
@@ -135,91 +136,7 @@ class eZMultiPriceData extends eZPersistentObject
         }
 
         return $priceList;
-
-        /*
-        $whereString = '';
-        if ( is_array( $contentAttributeID ) && is_array( $contentObjectVersion ) && ( count( $contentAttributeID ) === count( $contentObjectVersion ) ) )
-        {
-            $orString = '';
-            for( $i = 0; $i < count( $contentAttributeID ); ++$i )
-            {
-                $attributeID = $contentAttributeID[$i];
-                $version = $contentObjectVersion[$i];
-                $whereString .= $orString . " ( contentobject_attribute_id = '$attributeID' AND contentobject_attribute_version = '$version' ) ";
-                $orString = 'OR';
-            }
-        }
-        else if ( is_numeric( $contentAttributeID ) && is_numeric( $contentObjectVersion ) )
-        {
-            $whereString .= "( contentobject_attribute_id = '$contentAttributeID' AND contentobject_attribute_version = '$contentObjectVersion' ) ";
-        }
-        else
-        {
-            // something wrong with input parameters.
-            // return null;
-            return $priceList;
-        }
-
-        if ( $currencyCode != false )
-        {
-            if ( is_array( $currencyCode ) )
-                $whereString .= 'AND code IN (' . implode( ',', $currencyCode ) . ')';
-            else
-                $whereString .= "AND code = '$currencyCode'";
-        }
-
-        $db =& eZDB::instance();
-        $db->begin();
-
-        $sql = ( "SELECT contentobject_attribute_id, contentobject_attribute_version, currency_code, value, type
-            FROM ezmultipricedata
-            WHERE $whereString
-            ORDER BY contentobject_attribute_id ASC" );
-
-        $rows = $db->arrayQuery( $sql );
-
-        $db->commit();
-
-        if ( count( $rows ) > 0 )
-        {
-            if ( $asObjects )
-            {
-                foreach( $rows as $row )
-                    $priceList[] = new eZMultiPriceData( $row );
-            }
-            else
-            {
-                $priceList =& $rows;
-            }
-        }
-
-        return $priceList;
-        */
     }
-
-    /*!
-     \static
-    */
-    /*
-    function fetchListCount()
-    {
-        $rows = eZPersistentObject::fetchObjectList( eZMultiPriceData::definition(),
-                                                     array(), null, null, null,
-                                                     false, false,
-                                                     array( array( 'operation' => 'count( * )',
-                                                                   'name' => 'count' ) ) );
-        return $rows[0]['count'];
-    }
-    */
-    /*!
-     \static
-    */
-    /*
-    function fetch( $code, $asObject = true )
-    {
-        return eZMultiPriceData::fetchList( $code, $asObject );
-    }
-    */
 
     /*!
         removes single record from 'ezmultipricedata' table
@@ -263,13 +180,167 @@ class eZMultiPriceData extends eZPersistentObject
     /*!
      \static
     */
-    /*
-    function typeList()
+    function createPriceListForCurrency( $currencyCode, $currentVersionOnly = true )
     {
-        return array( EZ_MULTIPRICEDATA_VALUE_TYPE_CUSTOM,
-                      EZ_MULTIPRICEDATA_VALUE_TYPE_AUTO );
+        $db =& eZDB::instance();
+
+        $dataList = false;
+        $insertSql = 'INSERT INTO ezmultipricedata(contentobject_attribute_id, contentobject_attribute_version, currency_code, type)';
+
+        $limit = EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT;
+        while( $limit === EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT  )
+        {
+            $dataList = eZMultiPriceData::fetchDataListWithoutPriceInCurrency( $currencyCode, $currentVersionOnly, $limit );
+            $limit = count( $dataList );
+
+            $currencyCode = $db->escapeString( $currencyCode );
+            foreach ( $dataList as $data )
+            {
+                $sql = $insertSql . "
+                               VALUES( {$data['contentobject_attribute_id']}, {$data['contentobject_attribute_version']}, '$currencyCode', " . EZ_MULTIPRICEDATA_VALUE_TYPE_AUTO . " )";
+                $db->query( $sql );
+            }
+        }
     }
+
+    /*!
+     \static
     */
+    function fetchDataListWithoutPriceInCurrency( $currencyCode, $currentVersionOnly = true, $limit )
+    {
+        $db =& eZDB::instance();
+        $currencyCode = $db->escapeString( $currencyCode );
+
+        $fetchSql = '';
+        if ( $currentVersionOnly )
+        {
+            $fetchSql = "SELECT DISTINCT m1.contentobject_attribute_id,
+                                    m1.contentobject_attribute_version
+                    FROM ezmultipricedata m1 LEFT JOIN ezmultipricedata m2
+                    ON ( m2.contentobject_attribute_id = m1.contentobject_attribute_id
+                         AND m2.contentobject_attribute_version = m1.contentobject_attribute_version
+                         AND m2.currency_code = '$currencyCode' ),
+                        ezcontentobject,
+                        ezcontentobject_attribute
+
+                    WHERE m1.currency_code <> '$currencyCode'
+                          AND m2.contentobject_attribute_id is null
+                          AND ezcontentobject_attribute.version = ezcontentobject.current_version
+                          AND ezcontentobject_attribute.contentobject_id = ezcontentobject.id
+                          AND m1.contentobject_attribute_version = ezcontentobject_attribute.version
+                          AND m1.contentobject_attribute_id = ezcontentobject_attribute.id";
+        }
+        else
+        {
+            $fetchSql = "SELECT DISTINCT contentobject_attribute_id, contentobject_attribute_version
+                    FROM            ezmultipricedata
+                    WHERE           ezmultipricedata.currency_code <> '$currencyCode'";
+        }
+
+
+        $dataList = $db->arrayQuery( $fetchSql, array( 'limit' => $limit ) );
+
+        return $dataList;
+    }
+
+    function removePriceListForCurrency( $currencyCodeList, $currentVersionOnly = true )
+    {
+        $db =& eZDB::instance();
+
+        if ( !is_array( $currencyCodeList ) || count( $currencyCodeList ) === 0 )
+            return;
+
+        $currencyListStr = '';
+        foreach ( $currencyCodeList as $currencyCode )
+        {
+            $currencyListStr .= "'" . $db->escapeString( $currencyCode ) . "'" . ',';
+        }
+
+        $currencyListStr = rtrim( $currencyListStr, ',' );
+
+        $sql = '';
+        if ( $currentVersionOnly === true )
+        {
+            $fetchSql = "SELECT ezmultipricedata.id
+                         FROM   ezmultipricedata, ezcontentobject, ezcontentobject_attribute
+                         WHERE  ezmultipricedata.currency_code IN ( $currencyListStr )
+                                AND ezcontentobject_attribute.version = ezcontentobject.current_version
+                                AND ezcontentobject_attribute.contentobject_id = ezcontentobject.id
+                                AND ezmultipricedata.contentobject_attribute_version = ezcontentobject_attribute.version
+                                AND ezmultipricedata.contentobject_attribute_id = ezcontentobject_attribute.id";
+
+            $limit = EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT;
+            while( $limit === EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT  )
+            {
+                $dataList = $db->arrayQuery( $fetchSql, array( 'limit' => $limit ) );
+                $limit = count( $dataList );
+
+                if ( $limit > 0 )
+                {
+                    $idListStr = '';
+                    foreach ( $dataList as $data )
+                    {
+                        $idListStr .= $db->escapeString( $data['id'] ). ',';
+                    }
+
+                    $idListStr = rtrim( $idListStr, ',' );
+
+                    $sql = "DELETE FROM ezmultipricedata where id IN ( $idListStr )";
+                    $db->query( $sql );
+                }
+            }
+        }
+        else
+        {
+            $sql = "DELETE FROM ezmultipricedata where currency_code IN ( $currencyListStr )";
+            $db->query( $sql );
+        }
+    }
+
+    function changeCurrency( $oldCurrencyCode, $newCurrencyCode, $currentVersionOnly = true )
+    {
+        $db =& eZDB::instance();
+
+        $oldCurrencyCode = $db->escapeString( $oldCurrencyCode );
+        $newCurrencyCode = $db->escapeString( $newCurrencyCode );
+
+        if ( $currentVersionOnly === true )
+        {
+            $fetchSql = "SELECT ezmultipricedata.id
+                         FROM   ezmultipricedata, ezcontentobject, ezcontentobject_attribute
+                         WHERE  ezmultipricedata.currency_code = '$oldCurrencyCode'
+                                AND ezcontentobject_attribute.version = ezcontentobject.current_version
+                                AND ezcontentobject_attribute.contentobject_id = ezcontentobject.id
+                                AND ezmultipricedata.contentobject_attribute_version = ezcontentobject_attribute.version
+                                AND ezmultipricedata.contentobject_attribute_id = ezcontentobject_attribute.id";
+
+            $limit = EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT;
+            while( $limit === EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT  )
+            {
+                $dataList = $db->arrayQuery( $fetchSql, array( 'limit' => $limit ) );
+                $limit = count( $dataList );
+
+                if ( $limit > 0 )
+                {
+                    $idListStr = '';
+                    foreach ( $dataList as $data )
+                    {
+                        $idListStr .= $db->escapeString( $data['id'] ). ',';
+                    }
+
+                    $idListStr = rtrim( $idListStr, ',' );
+
+                    $sql = "UPDATE ezmultipricedata SET currency_code = '$newCurrencyCode' WHERE id IN ( $idListStr )";
+                    $db->query( $sql );
+                }
+            }
+        }
+        else
+        {
+            $sql = "UPDATE ezmultipricedata SET currency_code = '$newCurrencyCode' WHERE currency_code = '$oldCurrencyCode'";
+            $db->query( $sql );
+        }
+    }
 }
 
 ?>

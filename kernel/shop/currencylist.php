@@ -39,8 +39,7 @@
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezpreferences.php' );
 include_once( 'kernel/shop/classes/ezcurrencydata.php' );
-include_once( 'kernel/shop/classes/ezcurrencyrate.php' );
-include_once( 'kernel/classes/datatypes/ezmultiprice/ezmultipricedata.php' );
+include_once( 'kernel/shop/classes/ezmultipricedata.php' );
 
 function reloadWithOffset( &$module )
 {
@@ -59,20 +58,49 @@ if ( $module->isCurrentAction( 'AddCurrency' ) )
 else if ( $module->isCurrentAction( 'RemoveCurrency' ) )
 {
     $currencyList = $module->hasActionParameter( 'DeleteCurrencyList' ) ? $module->actionParameter( 'DeleteCurrencyList' ) : array();
-    eZCurrencyData::removeCurrencyList( $currencyList );
+
+    include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+    eZShopFunctions::removeCurrency( $currencyList );
+
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
 }
-else if ( $module->isCurrentAction( 'SetRates' ) )
+else if ( $module->isCurrentAction( 'SetRates' ) ||
+          $module->isCurrentAction( 'UpdateStatus' ) )
 {
-    $rateList = $module->hasActionParameter( 'RateList' ) ? $module->actionParameter( 'RateList' ) : array();
-    eZCurrencyRate::setRates( $rateList );
+    $updateDataList = $module->hasActionParameter( 'CurrencyList' ) ? $module->actionParameter( 'CurrencyList' ) : array();
+
+    $currencyList = eZCurrencyData::fetchList();
+    $db =& eZDB::instance();
+    $db->begin();
+    foreach ( $currencyList as $currency )
+    {
+        $currencyCode = $currency->attribute( 'code' );
+        if ( isset( $updateDataList[$currencyCode] ) )
+        {
+            $updateData = $updateDataList[$currencyCode];
+
+            if ( $module->isCurrentAction( 'UpdateStatus' ) )
+            {
+                if ( isset( $updateData['status'] ) )
+                    $currency->setStatus( $updateData['status'] );
+            }
+            if ( $module->isCurrentAction( 'SetRates' ) )
+            {
+                if ( is_numeric( $updateData['custom_rate_value'] ) )
+                    $currency->setAttribute( 'custom_rate_value', $updateData['custom_rate_value'] );
+                if ( is_numeric( $updateData['rate_factor'] ) )
+                    $currency->setAttribute( 'rate_factor', $updateData['rate_factor'] );
+            }
+
+            $currency->sync();
+        }
+    }
+    $db->commit();
+
     reloadWithOffset( $module );
 }
-else if ( $module->isCurrentAction( 'UpdateStatus' ) )
-{
-    $currencyList = $module->hasActionParameter( 'CurrencyList' ) ? $module->actionParameter( 'CurrencyList' ) : array();
-    eZCurrencyData::setStatusList( $currencyList );
-    reloadWithOffset( $module );
-}
+
 
 switch ( eZPreferences::value( 'currencies_list_limit' ) )
 {
@@ -85,22 +113,6 @@ switch ( eZPreferences::value( 'currencies_list_limit' ) )
 $currencyList = eZCurrencyData::fetchList( null, true, $offset, $limit );
 $currencyCount = eZCurrencyData::fetchListCount();
 
-// fetch rates
-$codeList = array();
-$currencyRates = array();
-if ( is_array( $currencyList ) && count( $currencyList ) > 0 )
-{
-    foreach ( $currencyList as $currency )
-        $codeList[] = $currency->attribute( 'code' );
-
-    $rates = eZCurrencyRate::fetchList( array( 'code' => array( $codeList ) ), true );
-    if ( is_array( $rates ) )
-    {
-        foreach( $rates as $rate )
-            $currencyRates[$rate->attribute( 'code' )] = $rate;
-    }
-}
-
 $viewParameters = array( 'offset' => $offset );
 
 $tpl =& templateInit();
@@ -108,7 +120,6 @@ $tpl =& templateInit();
 $tpl->setVariable( 'currency_list', $currencyList );
 $tpl->setVariable( 'currency_list_count', $currencyCount );
 $tpl->setVariable( 'limit', $limit );
-$tpl->setVariable( 'currency_rates', $currencyRates );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $Result = array();
