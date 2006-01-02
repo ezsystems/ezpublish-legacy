@@ -40,6 +40,13 @@ include_once( 'lib/ezutils/classes/ezhttppersistence.php' );
 
 class eZRSSEditFunction
 {
+    /*!
+     Store RSSExport
+
+     \param Module
+     \param HTTP
+     \param publish ( true/false )
+    */
     function storeRSSExport( &$Module, &$http, $publish = false )
     {
         /* Kill the RSS cache */
@@ -102,7 +109,7 @@ class eZRSSEditFunction
         {
             $rssExport->setAttribute( 'active', 0 );
         }
-        $rssExport->setAttribute( 'access_url', $http->postVariable( 'Access_URL' ) );
+        $rssExport->setAttribute( 'access_url', str_replace( array( '/', '?', '&', '>', '<' ), '',  $http->postVariable( 'Access_URL' ) ) );
         if ( $http->hasPostVariable( 'MainNodeOnly' ) )
         {
             $rssExport->setAttribute( 'main_node_only', 1 );
