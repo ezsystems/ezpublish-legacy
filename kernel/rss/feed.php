@@ -36,7 +36,10 @@
 $Module =& $Params["Module"];
 
 if ( !isset ( $Params['RSSFeed'] ) )
-    return $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
+{
+    eZDebug::writeError( 'No RSS feed specified' );
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+}
 
 include_once( 'kernel/classes/ezrssexport.php' );
 
@@ -44,8 +47,11 @@ $feedName = $Params['RSSFeed'];
 $RSSExport = eZRSSExport::fetchByName( $feedName );
 
 // Get and check if RSS Feed exists
-if ( $RSSExport == null )
-    return $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
+if ( !$RSSExport )
+{
+    eZDebug::writeError( 'Could not find RSSExport : ' . $Params['RSSFeed'] );
+    return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+}
 
 include_once( 'kernel/classes/ezrssexportitem.php' );
 
