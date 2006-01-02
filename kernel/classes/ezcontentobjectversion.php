@@ -439,11 +439,10 @@ class eZContentObjectVersion extends eZPersistentObject
                         elseif ( $key == 'Subtree' )
                         {
                             $accessSubtree = false;
-                            $contentObject = $this->attribute( 'contentobject' );
-                            $assignedNodes = $contentObject->attribute( 'assigned_nodes' );
-                            foreach ( $assignedNodes as  $assignedNode )
+                            foreach( $this->attribute( 'node_assignments' ) as $nodeAssignment )
                             {
-                                $path =  $assignedNode->attribute( 'path_string' );
+                                $parentNode = $nodeAssignment->attribute( 'parent_node_obj' );
+                                $path = $parentNode->attribute( 'path_string' );
                                 $subtreeArray =& $limitation;
                                 foreach ( $subtreeArray as $subtreeString )
                                 {
@@ -453,6 +452,10 @@ class eZContentObjectVersion extends eZPersistentObject
                                         $accessSubtree = true;
                                         break;
                                     }
+                                }
+                                if ( $access == 'allowed' )
+                                {
+                                    break;
                                 }
                             }
                             if ( $access == 'denied' && $checkedNode && !$accessNode )
@@ -467,18 +470,22 @@ class eZContentObjectVersion extends eZPersistentObject
                         }
                         elseif ( $key == 'User_Subtree' )
                         {
-                            $contentObject = $this->attribute( 'contentobject' );
-                            $assignedNodes = $contentObject->attribute( 'assigned_nodes' );
-                            foreach ( $assignedNodes as  $assignedNode )
+                            foreach( $this->attribute( 'node_assignments' ) as $nodeAssignment )
                             {
-                                $path = $assignedNode->attribute( 'path_string' );
+                                $parentNode = $nodeAssignment->attribute( 'parent_node_obj' );
+                                $path = $parentNode->attribute( 'path_string' );
                                 $subtreeArray =& $limitation;
                                 foreach ( $subtreeArray as $subtreeString )
                                 {
                                     if ( strstr( $path, $subtreeString ) )
                                     {
                                         $access = 'allowed';
+                                        break;
                                     }
+                                }
+                                if ( $access == 'allowed' )
+                                {
+                                    break;
                                 }
                             }
                             if ( $access == 'denied' )
