@@ -166,11 +166,11 @@ class eZDateOperatorCollection
                 $monthLinkParameter = false;
                 $dayLinkParameter = false;
                 if ( isset( $optional['year_link'] ) )
-                     $yearLinkParameter = $optional['year_link'];
+                    $yearLinkParameter = $optional['year_link'];
                 if ( isset( $optional['month_link'] ) )
-                     $monthLinkParameter = $optional['month_link'];
+                    $monthLinkParameter = $optional['month_link'];
                 if ( isset( $optional['day_link'] ) )
-                     $dayLinkParameter = $optional['day_link'];
+                    $dayLinkParameter = $optional['day_link'];
                 $weeks = array();
                 $lastWeek = 0;
                 for ( $day = 1; $day <= $lastDay; ++$day )
@@ -178,18 +178,19 @@ class eZDateOperatorCollection
                     $timestamp = mktime( 0, 0, 0, $dateInfo['mon'], $day, $dateInfo['year'] );
                     $info = getdate( $timestamp );
                     $weekDay = $weekDaysMap[$info['wday']];
+
                     /*
                      * Attention: date('W') returns the week number according to
                      * ISO, which states that the week with the first Thursday
                      * in the new year is week 1.
                      */
                     $week = date( 'W', $timestamp );
-                    
-                    if ($weekDay == 0)
+
+                    if ( $weekDay == 0 && $weekDaysMap[0] == 0 )
                     {
                         ++$week;
                     }
-                                                            
+
                     /*
                      * This checks for a year switch within a week. Routine
                      * takes care that first days in January might still belong
@@ -219,9 +220,9 @@ class eZDateOperatorCollection
                             ++$week;
                         }
                     }
-                    
+
                     $lastWeek = $week;
-                    
+
                     if ( !isset( $weeks[$week] ) )
                     {
                         for ( $i = 0; $i < 7; ++$i )
@@ -253,18 +254,15 @@ class eZDateOperatorCollection
                         $dayLink = $link;
                         if ( $dayLink )
                         {
-//                             if ( $yearLinkParameter )
-                                $dayLink .= '/(year)/' . $info['year'];
-//                             if ( $monthLinkParameter )
-                                $dayLink .= '/(month)/' . $info['mon'];
-//                             if ( $dayLinkParameter )
-                                $dayLink .= '/(day)/' . $info['mday'];
+                            $dayLink .= '/(year)/' . $info['year'];
+                            $dayLink .= '/(month)/' . $info['mon'];
+                            $dayLink .= '/(day)/' . $info['mday'];
                         }
                         $dayData['link'] = $dayLink;
                     }
                     $weeks[$week][$weekDay] = $dayData;
                 }
-//                print( "<pre>" ); var_dump( $weeks[15] ); print( "</pre>" );
+
                 $next = false;
                 if ( isset( $optional['next'] ) )
                     $next = $optional['next'];
@@ -275,12 +273,8 @@ class eZDateOperatorCollection
                     $month['next'] = array( 'month' => $locale->longMonthName( $nextInfo['mon'] ),
                                             'year' => $nextInfo['year'] );
                     $nextLink = $next['link'];
-//                     if ( $yearLinkParameter )
-                        $nextLink .= '/(year)/' . $nextInfo['year'];
-//                     if ( $monthLinkParameter )
-                        $nextLink .= '/(month)/' . $nextInfo['mon'];
-//                     if ( $dayLinkParameter )
-//                         $nextLink .= '/(day)/' . $nextInfo['mday'];
+                    $nextLink .= '/(year)/' . $nextInfo['year'];
+                    $nextLink .= '/(month)/' . $nextInfo['mon'];
                     $month['next']['link'] = $nextLink;
                 }
                 else
@@ -295,7 +289,9 @@ class eZDateOperatorCollection
 
                 $previous = false;
                 if ( isset( $optional['previous'] ) )
+                {
                     $previous = $optional['previous'];
+                }
                 if ( $previous )
                 {
                     $previousTimestamp = mktime( 0, 0, 0, $dateInfo['mon'] - 1, 1, $dateInfo['year'] );
@@ -303,16 +299,14 @@ class eZDateOperatorCollection
                     $month['previous'] = array( 'month' => $locale->longMonthName( $previousInfo['mon'] ),
                                                 'year' => $previousInfo['year'] );
                     $previousLink = $previous['link'];
-//                     if ( $yearLinkParameter )
-                        $previousLink .= '/(year)/' . $previousInfo['year'];
-//                     if ( $monthLinkParameter )
-                        $previousLink .= '/(month)/' . $previousInfo['mon'];
-//                     if ( $dayLinkParameter )
-//                         $previousLink .= '/(day)/' . $previousInfo['mday'];
+                    $previousLink .= '/(year)/' . $previousInfo['year'];
+                    $previousLink .= '/(month)/' . $previousInfo['mon'];
                     $month['previous']['link'] = $previousLink;
                 }
                 else
+                {
                     $month['previous'] = false;
+                }
                 $month['weeks'] = $weeks;
                 $operatorValue = $month;
             }
