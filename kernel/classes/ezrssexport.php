@@ -604,10 +604,13 @@ class eZRSSExport extends eZPersistentObject
 
         $doc = new eZDOMDocument();
         $doc->setName( 'eZ publish RSS Export' );
-        $root = $doc->createElementNode( 'rdf:RDF' );
+        $root = $doc->createElementNode( 'rdf:RDF', array( 'xmlns:rdf' => 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+                                                           'xmlns:rdfs' => 'http://www.w3.org/2000/01/rdf-schema#',
+                                                           'xmlns:dc' => 'http://purl.org/dc/elements/1.1/',
+                                                           'xmlns' => 'http://purl.org/rss/1.0/' ) );
         $doc->setRoot( $root );
 
-        $channel = $doc->createElementNode( 'channel' );
+        $channel = $doc->createElementNode( 'channel', array( 'rdf:about' => $this->attribute( 'url' ) ) );
         $root->appendChild( $channel );
 
         $channelTitle = $doc->createElementTextNode( 'title', $this->attribute( 'title' ) );
@@ -641,7 +644,7 @@ class eZRSSExport extends eZPersistentObject
         $items = $doc->createElementNode( 'items' );
         $channel->appendChild( $items );
 
-        $rdfSeq = $doc->createElementNode( 'rdf:seq' );
+        $rdfSeq = $doc->createElementNode( 'rdf:Seq' );
         $items->appendChild( $rdfSeq );
 
         $cond = array(
