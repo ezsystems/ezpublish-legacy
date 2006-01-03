@@ -380,9 +380,14 @@ class eZURL extends eZPersistentObject
     */
     function url( $id, $onlyValid = false )
     {
-        $db =& eZDB::instance();
-
         $url = false;
+
+        if ( !is_numeric( $id ) )
+        {
+            return $url;
+        }
+
+        $db =& eZDB::instance();
         $checkURLQuery = "SELECT url, is_valid FROM ezurl WHERE id='$id'";
         $urlArray = $db->arrayQuery( $checkURLQuery );
 
