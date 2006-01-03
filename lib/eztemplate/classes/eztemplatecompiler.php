@@ -2934,6 +2934,7 @@ else
         $variableAssignmentName = $parameters['variable'];
         $variableAssignmentCounter = $parameters['counter'];
         $spacing = 0;
+        $optimizeNode = false;
         if ( isset( $parameters['spacing'] ) )
             $spacing = $parameters['spacing'];
         if ( $variableAssignmentCounter > 0 )
@@ -2943,7 +2944,7 @@ else
         // This ensures that we don't work on existing variables
         $php->addCodePiece( "unset( \$$variableAssignmentName );\n", array( 'spacing' => $spacing ) );
 
-        foreach ( $variableData as $variableDataItem )
+        foreach ( $variableData as $index => $variableDataItem )
         {
             $variableDataType = $variableDataItem[0];
             if ( $variableDataType == EZ_TEMPLATE_TYPE_STRING or
@@ -2959,9 +2960,13 @@ else
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPTIMIZED_NODE )
             {
+                $optimizeNode = true;
                 if ( !isset( $resourceData['node-object-cached'] ) )
                     $tpl->error( "Attribute node-object-cached of variable \$resourceData was not found but variable node EZ_TEMPLATE_TYPE_OPTIMIZED_NODE is still present. This should not happen" );
                 $php->addCodePiece("\$$variableAssignmentName = \$nod_{$resourceData['uniqid']};\n");
+
+                // If optimized node is not set, use unoptimized code.
+                $php->addCodePiece( "if ( !\$$variableAssignmentName )\n{\n" );
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPTIMIZED_ARRAY_LOOKUP )
             {
@@ -3069,12 +3074,17 @@ END;
                         $newVariableAssignmentName .= $newVariableAssignmentCounter;
                     $attributeText = "\$$newVariableAssignmentName";
                 }
-//                 $php->addCodePiece( "\$$variableAssignmentName = compiledFetchAttribute( \$$variableAssignmentName, $attributeText );\n",
-//                                     array( 'spacing' => $spacing ) );
                 $php->addCodePiece( "\$$tmpVariableAssignmentName = compiledFetchAttribute( \$$variableAssignmentName, $attributeText );\n" .
                                     "unset( \$$variableAssignmentName );\n" .
                                     "\$$variableAssignmentName = \$$tmpVariableAssignmentName;\n",
                                     array( 'spacing' => $spacing ) );
+
+                // End if optimized node object is null/false. See also eZTemplateOptimizer::optimizeVariable()
+                if ( $optimizeNode &&
+                     $index == 3 )
+                {
+                    $php->addCodePiece( "}\n" );
+                }
             }
             else if ( $variableDataType == EZ_TEMPLATE_TYPE_OPERATOR )
             {
