@@ -137,15 +137,10 @@ class eZTemplateOptimizer
              ( $data[2][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
              ( $data[2][1][0][1] == 'data_map' ) )
         {
-            /* Remove the nodes there are optimized-away */
-            unset($data[1], $data[2]);
-            /* Create a new node representing the optimization */
-            $data[0] = array( EZ_TEMPLATE_TYPE_OPTIMIZED_NODE, null, 2 );
-
             /* Modify the next two nodes in the array too as we know for sure
              * what type it is. This fixes the dependency on
              * compiledFetchAttribute */
-            if ( ( count( $data ) >= 3 ) and
+            if ( ( count( $data ) >= 5 ) and
                  ( $data[3][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) and
                  ( $data[4][0] == EZ_TEMPLATE_TYPE_ATTRIBUTE ) )
             {
@@ -159,12 +154,15 @@ class eZTemplateOptimizer
                     $data[4][0] = EZ_TEMPLATE_TYPE_OPTIMIZED_ATTRIBUTE_LOOKUP;
                 }
             }
+
+            /* Create a new node representing the optimization */
+            array_unshift( $data, array( EZ_TEMPLATE_TYPE_OPTIMIZED_NODE, null, 2 ) );
             $ret = 1;
         }
 
         /* node.object.data_map optimization through function */
         if ( isset( $data[0] ) and
-             $data[0][0] == 101 )
+             $data[0][0] == EZ_TEMPLATE_NODE_INTERNAL_CODE_PIECE )
         {
             $functionRet = eZTemplateOptimizer::optimizeFunction( $useComments, $php, $tpl, $data[0], $resourceData );
             // Merge settings
@@ -197,7 +195,7 @@ class eZTemplateOptimizer
                     break;
                 case 3: /* Variable */
                     if ( isset( $tree[1][$key + 1] ) and
-                         ( $tree[1][$key + 1][0] == 140 ) and
+                         ( $tree[1][$key + 1][0] == EZ_TEMPLATE_NODE_INTERNAL_RESOURCE_ACQUISITION ) and
                          isset( $resourceData['class-info'] ) )
                     {
                         $ret = eZTemplateOptimizer::optimizeResourceAcquisition(

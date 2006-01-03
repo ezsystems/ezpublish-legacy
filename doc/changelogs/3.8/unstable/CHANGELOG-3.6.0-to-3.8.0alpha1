@@ -788,6 +788,8 @@ Attributes:
   ( Merged from stable/3.5 rev. 14451, stable/3.6 rev. 14452, stable/3.7 rev. 14453 )
 - Fixed bug #7622: EZSOAP: Server response with arrays deliver false data.
   ( Merged from stable/3.7 rev. 14459 )
+- Fixed bug #6199: TemplateOptimization causes problems.
+  ( Merged from stable/3.7 rev. 14462 )
 
 *Library:
 
