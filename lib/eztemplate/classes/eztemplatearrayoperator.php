@@ -494,13 +494,17 @@ class eZTemplateArrayOperator
                 else
                 {
                     $code = 'if( is_string( ' . $inParamCode . ' ) )' . "\n" .
-                         '{' . "\n" .
-                         '  %output% = ( strpos( ' . $inParamCode . ', ' . $matchParamCode . ' ) !== false );' . "\n" .
-                         '}' . "\n" .
-                         'else if ( is_array( ' . $inParamCode . ' ) )' . "\n" .
-                         '{' . "\n" .
-                         '  %output% = in_array( ' . $matchParamCode . ', ' . $inParamCode . ' );' . "\n" .
-                         '}';
+                        '{' . "\n" .
+                        '  %output% = ( strpos( ' . $inParamCode . ', ' . $matchParamCode . ' ) !== false );' . "\n" .
+                        '}' . "\n" .
+                        'else if ( is_array( ' . $inParamCode . ' ) )' . "\n" .
+                        '{' . "\n" .
+                        '  %output% = in_array( ' . $matchParamCode . ', ' . $inParamCode . ' );' . "\n" .
+                        '}' . "\n" .
+                        'else' ."\n" .
+                        '{' . "\n" .
+                           '%output% = false;' . "\n" .
+                        '}';
                 }
 
                 return array( eZTemplateNodeTool::createCodePieceElement( $code, $values ) );
