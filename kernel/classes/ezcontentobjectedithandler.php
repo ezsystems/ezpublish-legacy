@@ -121,6 +121,7 @@ class eZContentObjectEditHandler
             $fileName = eZExtension::baseDirectory() . '/' . $extensionDirectory . '/content/' . $extensionDirectory . 'handler.php';
             if ( file_exists( $fileName ) )
             {
+                include_once( $fileName );
                 $className = $extensionDirectory . 'Handler';
                 $inputHandler = new $className();
                 call_user_func_array( array( $inputHandler, 'fetchInput' ),
@@ -141,6 +142,7 @@ class eZContentObjectEditHandler
             $fileName = eZExtension::baseDirectory() . '/' . $extensionDirectory . '/content/' . $extensionDirectory . 'handler.php';
             if ( file_exists( $fileName ) )
             {
+                include_once( $fileName );
                 $className = $extensionDirectory . 'Handler';
                 $inputHandler = new $className();
                 call_user_func_array( array( $inputHandler, 'publish' ),
