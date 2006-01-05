@@ -310,7 +310,7 @@ class eZCollaborationGroup extends eZPersistentObject
             $sqlParameters['limit'] = $limit;
         }
         $groupListArray = $db->arrayQuery( $sql, $sqlParameters );
-        $returnGroupList =& eZPersistentObject::handleRows( $groupListArray, 'eZCollaborationGroup', $asObject );
+        $returnGroupList = eZPersistentObject::handleRows( $groupListArray, 'eZCollaborationGroup', $asObject );
         eZDebugSetting::writeDebug( 'collaboration-group-tree', $returnGroupList );
         return $returnGroupList;
     }

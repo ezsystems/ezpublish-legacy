@@ -3028,7 +3028,7 @@ class eZContentObject extends eZPersistentObject
                                      "FROM ezcontentclass cc$filterTableSQL\n" .
                                      "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
                                      "ORDER BY cc.name ASC" );
-            $classList =& eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
+            $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
         else
         {
@@ -3049,7 +3049,7 @@ class eZContentObject extends eZPersistentObject
                                      "WHERE cc.id IN ( $classString  ) AND\n" .
                                      "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
                                      "ORDER BY cc.name ASC" );
-            $classList =& eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
+            $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
 
         eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db" );

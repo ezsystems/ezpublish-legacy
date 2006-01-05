@@ -529,7 +529,7 @@ class eZCollaborationItem extends eZPersistentObject
                 $statusObject->setAttribute( 'last_read', $itemData['last_read'] );
                 $statusObject->updateCache();
             }
-            $returnItemList =& eZPersistentObject::handleRows( $itemListArray, 'eZCollaborationItem', $asObject );
+            $returnItemList = eZPersistentObject::handleRows( $itemListArray, 'eZCollaborationItem', $asObject );
             eZDebugSetting::writeDebug( 'collaboration-item-list', $returnItemList );
             return $returnItemList;
         }
