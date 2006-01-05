@@ -772,7 +772,7 @@ class eZPersistentObject
         if ( $rows === false )
             return null;
 
-        $objectList =& eZPersistentObject::handleRows( $rows, $class_name, $asObject );
+        $objectList = eZPersistentObject::handleRows( $rows, $class_name, $asObject );
         return $objectList;
     }
 
@@ -784,7 +784,7 @@ class eZPersistentObject
      \param $asObject If \c true then objects will be created,
                       if not it just returns \a $rows as it is.
     */
-    function &handleRows( &$rows, $class_name, $asObject )
+    function handleRows( &$rows, $class_name, $asObject )
     {
         if ( $asObject )
         {
