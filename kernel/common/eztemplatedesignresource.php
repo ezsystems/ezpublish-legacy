@@ -261,83 +261,36 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         $designStartPath = eZTemplateDesignResource::designStartPath();
 
-        // Normal
-        if ( !$onlyStandard )
-        {
-            $matches[] = array( 'file' => "$designStartPath/$siteBase/$elementText$path",
-                                'type' => 'normal' );
-            foreach ( $additionalSiteDesignList as $additionalSiteDesign )
-            {
-                $matches[] = array( "file" => "$designStartPath/$additionalSiteDesign/$elementText$path",
-                                    'type' => 'normal' );
-            }
-        }
+        $designList = $additionalSiteDesignList;
+        array_unshift( $designList, $siteBase );
+        $designList[] = $standardBase;
 
-        // Normal/override
-        if ( !$onlyStandard )
+        if ( $onlyStandard )
+            $designList = array( $standardBase );
+
+
+        foreach ( $designList as $design )
         {
-            $matches[] = array( 'file' => "$designStartPath/$siteBase/override/$elementText$path",
-                                'type' => 'override' );
-            foreach ( $additionalSiteDesignList as $additionalSiteDesign )
+            foreach ( $extensions as $extension )
             {
-                $matches[] = array( 'file' => "$designStartPath/$additionalSiteDesign/override/$elementText$path",
+                $matches[] = array( 'file' => "$extensionDirectory/$extension/$designStartPath/$design/override/$elementText$path",
                                     'type' => 'override' );
             }
-        }
-
-        // Extensions/Normal
-        foreach ( $extensions as $extension )
-        {
-            if ( !$onlyStandard )
-                $matches[] = array( 'file' => "$extensionDirectory/$extension/$designStartPath/$siteBase/$elementText$path",
-                                    'type' => 'normal' );
-        }
-
-        // Extensions/Additional
-        if ( !$onlyStandard )
-        {
-            foreach ( $additionalSiteDesignList as $additionalSiteDesign )
-            {
-                foreach ( $extensions as $extension )
-                {
-                    $matches[] = array( 'file' => "$extensionDirectory/$extension/$designStartPath/$additionalSiteDesign/$elementText$path",
-                                        'type' => 'normal' );
-                }
-            }
-        }
-
-        // Extensions/Normal/Override
-        foreach ( $extensions as $extension )
-        {
-            if ( !$onlyStandard )
-            {
-                $matches[] = array( 'file' => "$extensionDirectory/$extension/$designStartPath/$siteBase/override/$elementText$path",
-                                    'type' => 'override' );
-                foreach ( $additionalSiteDesignList as $additionalSiteDesign )
-                {
-                    $matches[] = array( 'file' => "$extensionDirectory/$extension/$designStartPath/$additionalSiteDesign/override/$elementText$path",
-                                        'type' => 'override' );
-                }
-            }
-        }
-
-        // Extensions/Standard && Override
-        foreach ( $extensions as $extension )
-        {
-            $matches[] = array( 'file' => "$extensionDirectory/$extension/$designStartPath/$standardBase/$elementText$path",
-                                'type' => 'normal' );
-            $matches[] = array( 'file' => "$extensionDirectory/$extension/$designStartPath/$standardBase/override/$elementText$path",
+            $matches[] = array( 'file' => "$designStartPath/$design/override/$elementText$path",
                                 'type' => 'override' );
         }
 
-        $matches[] = array( 'file' => "$designStartPath/$standardBase/override/$elementText$path",
-                            'type' => 'override' );
-
-        $matches[] = array( 'file' => "$designStartPath/$standardBase/$elementText$path",
-                            'type' => 'normal' );
-
+        foreach ( $designList as $design )
+        {
+            foreach ( $extensions as $extension )
+            {
+                $matches[] = array( 'file' => "$extensionDirectory/$extension/$designStartPath/$design/$elementText$path",
+                                    'type' => 'normal' );
+            }
+            $matches[] = array( 'file' => "$designStartPath/$design/$elementText$path",
+                                'type' => 'normal' );
+        }
         eZDebug::accumulatorStop( 'matching_rules' );
-
         return $matches;
     }
 
@@ -749,35 +702,18 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         $std_base = eZTemplateDesignResource::designSetting( 'standard' );
         $site_base = eZTemplateDesignResource::designSetting( 'site' );
-        $additionalSiteDesignList = $ini->variable( 'DesignSettings', 'AdditionalSiteDesignList' );
-        $SiteDesignList = $additionalSiteDesignList;
+        $SiteDesignList = $ini->variable( 'DesignSettings', 'AdditionalSiteDesignList' );
         array_unshift( $SiteDesignList, $site_base );
-
+        $SiteDesignList[] = $std_base;
         $designStartPath = eZTemplateDesignResource::designStartPath();
-
-        // Normal
-        $bases[] = "$designStartPath/$site_base";
-        // Additional
-        foreach ( $additionalSiteDesignList as $additionalSiteDesign )
-        {
-            $bases[] = "$designStartPath/$additionalSiteDesign";
-        }
-        // Extensions
         foreach ( $SiteDesignList as $design )
         {
+            $bases[] = "$designStartPath/$design";
             foreach( $extensions as $extension )
             {
                $bases[] = "$extensionDirectory/$extension/$designStartPath/$design";
             }
         }
-        // Standard extensions
-        foreach( $extensions as $extension )
-        {
-           $bases[] = "$extensionDirectory/$extension/$designStartPath/$std_base";
-        }
-        // Standard
-        $bases[] = "$designStartPath/$std_base";
-
         return $bases;
     }
 
