@@ -172,8 +172,7 @@ class eZContentObjectVersion extends eZPersistentObject
         $versions = eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                           null, array( 'creator_id' => $userID,
                                                                        'contentobject_id' => $objectID,
-                                                                       'status' => array( array( EZ_VERSION_STATUS_DRAFT, EZ_VERSION_STATUS_DRAFT ) )
-                                                                       ),
+                                                                       'status' => EZ_VERSION_STATUS_DRAFT ),
                                                           array( 'version' => 'asc' ), null,
                                                           true );
         if ( $versions === null or
