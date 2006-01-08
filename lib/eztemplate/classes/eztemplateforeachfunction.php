@@ -151,7 +151,7 @@ class eZTemplateForeachFunction
         $lastVal         = "fe_last_val_$uniqid";
 
         $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameters['array'], $nodePlacement, array( 'text-result' => false ), $array );
-        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$arrayKeys = array_keys( \$$array );" );
+        $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$arrayKeys = is_array( \$$array ) ? array_keys( \$$array ) : array();" );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$nItems = count( \$$arrayKeys );" );
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$$nItemsProcessed = 0;" );
 
