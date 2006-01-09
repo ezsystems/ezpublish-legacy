@@ -792,6 +792,9 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         $designStartPath = eZTemplateDesignResource::designStartPath();
 
         $additionalSiteDesignList = $ini->variable( 'DesignSettings', 'AdditionalSiteDesignList' );
+        // Reverse additionalSiteDesignList so that most prefered design is last
+        $additionalSiteDesignList = array_reverse( $additionalSiteDesignList );
+
         // Generate match cache for all templates
         include_once( 'lib/ezfile/classes/ezdir.php' );
 
