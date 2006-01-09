@@ -172,6 +172,8 @@ class eZContentObjectEditHandler
     */
     function isStoreAction()
     {
+        if ( !isset( $GLOBALS['eZContentObjectEditHandler_StoreAction'] ) )
+            return 0;
         return count( array_intersect( array_keys( $_POST ), $GLOBALS['eZContentObjectEditHandler_StoreAction'] ) ) > 0;
     }
 }
