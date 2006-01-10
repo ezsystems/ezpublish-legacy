@@ -805,6 +805,8 @@ Attributes:
 - Fixed bug #7647: "Mandatory" for Keyword Attribute not enforced.
   ( Merged from stable/3.7 ( 3.7.2 ) rev. 14498 )
 - Fixed bug #7075: Untranslated string in line/forum_reply.tpl
+- Fixed bug #5647: Call to undefined function: storedata().
+  ( Merged from stable/3.7 ( 3.7.3 ) rev. 14507 )
 
 *Library:
 
