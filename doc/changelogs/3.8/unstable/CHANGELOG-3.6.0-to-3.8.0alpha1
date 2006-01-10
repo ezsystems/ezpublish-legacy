@@ -807,6 +807,8 @@ Attributes:
 - Fixed bug #7075: Untranslated string in line/forum_reply.tpl
 - Fixed bug #5647: Call to undefined function: storedata().
   ( Merged from stable/3.7 ( 3.7.3 ) rev. 14507 )
+- Fixed bug #7629: Removing users leave some spurious user data in objects.
+  ( Manually merged from stable/3.6 ( 3.6.5 ) rev. 14511 )
 
 *Library:
 

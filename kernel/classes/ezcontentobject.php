@@ -479,7 +479,10 @@ class eZContentObject extends eZPersistentObject
     */
     function &owner()
     {
-        $owner =& eZContentObject::fetch( $this->OwnerID );
+        if ( $this->OwnerID != 0 )
+            $owner =& eZContentObject::fetch( $this->OwnerID );
+        else
+            $owner = null;
         return $owner;
     }
 
@@ -1337,8 +1340,17 @@ class eZContentObject extends eZPersistentObject
         $db->query( "DELETE FROM ezcontentobject_link
              WHERE from_contentobject_id = '$delID' OR to_contentobject_id = '$delID'" );
 
+        // Cleanup properties: LastVisit, Creator, Owner
         $db->query( "DELETE FROM ezuservisit
              WHERE user_id = '$delID'" );
+
+        $db->query( "UPDATE ezcontentobject_version
+             SET creator_id = 0
+             WHERE creator_id = '$delID'" );
+
+        $db->query( "UPDATE ezcontentobject
+             SET owner_id = 0
+             WHERE owner_id = '$delID'" );
 
         include_once( "kernel/classes/ezworkflowtype.php" );
         if ( isset( $GLOBALS["eZWorkflowTypeObjects"] ) and is_array( $GLOBALS["eZWorkflowTypeObjects"] ) )
