@@ -89,6 +89,22 @@ class eZKeywordType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        if ( $http->hasPostVariable( $base . '_ezkeyword_data_text_' . $contentObjectAttribute->attribute( 'id' ) ) )
+        {
+            $data = $http->postVariable( $base . '_ezkeyword_data_text_' . $contentObjectAttribute->attribute( 'id' ) );
+            $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+
+            if ( $data == "" )
+            {
+                if ( !$classAttribute->attribute( 'is_information_collector' ) and
+                     $contentObjectAttribute->validateIsRequired() )
+                {
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                         'Input required.' ) );
+                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
+                }
+            }
+        }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
