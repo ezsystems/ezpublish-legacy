@@ -3055,10 +3055,13 @@ END;
                            "    $phpVar = null;\n" .
                            "}\n" .
                            "else\n" .
-                           "    " );
+                           "{\n" );
 
                 // Add the actual code
-                $code .= "$phpVar = {$phpVar}->content();\n";
+                $code .= "     {$phpVar}Tmp = {$phpVar}->content();\n" .
+                         "     unset( $phpVar );\n" .
+                         "     $phpVar = {$phpVar}Tmp;\n" .
+                         "     unset( {$phpVar}Tmp );\n}\n";
 
                 $php->addCodePiece( $code );
             }
