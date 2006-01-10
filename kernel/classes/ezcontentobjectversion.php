@@ -1187,7 +1187,7 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function &creator()
     {
-        return eZContentObject::fetch( $this->CreatorID );
+        return $this->CreatorID != 0 ? eZContentObject::fetch( $this->CreatorID ) : null ;
     }
 
     /*!
