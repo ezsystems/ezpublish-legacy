@@ -1200,7 +1200,10 @@ class eZContentObjectVersion extends eZPersistentObject
         if ( isset( $this->CreatorID ) and $this->CreatorID )
         {
             include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $creator = & eZContentObject::fetch( $this->CreatorID );
+            if ( $this->CreatorID != 0 )
+                $creator = & eZContentObject::fetch( $this->CreatorID );
+            else
+                $creator = null;
         }
         else
             $creator = null;
