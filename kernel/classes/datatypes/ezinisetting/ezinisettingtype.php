@@ -73,7 +73,9 @@ class eZIniSettingType extends eZDataType
     {
         $this->eZDataType( EZ_DATATYPESTRING_INISETTING, ezi18n( 'kernel/classes/datatypes', 'Ini Setting', 'Datatype name' ),
                                                          array( 'translation_allowed' => false,
-                                                                'serialize_supported' => true ) );
+                                                                'serialize_supported' => true,
+                                                                'object_serialize_map' => array( 'data_int' => 'make_empty_array',
+                                                                                                 'data_text' => 'value' ) ) );
     }
 
     /*!
@@ -102,7 +104,7 @@ class eZIniSettingType extends eZDataType
    //             if ( eZIniSettingType::parseArrayInput( $contentObjectAttribute->attribute( 'data_text' ), $iniArray ) === false )
                 if ( eZIniSettingType::parseArrayInput( $http->postVariable( $base . '_ini_setting_' . $contentObjectAttribute->attribute( 'id' ) ), $iniArray ) === false )
                 {
-                    $contentObjectAttribute->setValidationError( ezi18n( 'Wrong text field value.' ) );
+                    $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes', 'Wrong text field value.' ) );
 
                     return EZ_INPUT_VALIDATOR_STATE_INVALID;
                 }

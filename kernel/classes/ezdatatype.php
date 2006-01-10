@@ -1203,6 +1203,28 @@ class eZDataType
     {
     }
 
+    /**
+     * Create empty content object attribute DOM node.
+     *
+     * The result is intended to be used in a datatype's
+     * serializeContentObjectAttribute() method.
+     *
+     * \return "Empty" DOM node
+     */
+    function createContentObjectAttributeDOMNode( $objectAttribute )
+    {
+        $node = new eZDOMNode();
+
+        $node->setPrefix( 'ezobject' );
+        $node->setName( 'attribute' );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $objectAttribute->attribute( 'id' ), 'ezremote' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $objectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $objectAttribute->contentClassAttributeName() ) );
+        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
+
+        return $node;
+    }
+
     /// \privatesection
     /// The datatype string ID, used for uniquely identifying a datatype
     var $DataTypeString;

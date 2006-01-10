@@ -479,12 +479,46 @@ class eZDateTimeType extends eZDataType
         {
             case 'empty':
             {
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT, EZ_DATATYPESTRING_DATE_DEFAULT_EMTPY );
+                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT, EZ_DATATYPESTRING_DATETIME_DEFAULT_EMTPY );
             } break;
             case 'current-date':
             {
-                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATE_DEFAULT, EZ_DATATYPESTRING_DATE_DEFAULT_CURRENT_DATE );
+                $classAttribute->setAttribute( EZ_DATATYPESTRING_DATETIME_DEFAULT, EZ_DATATYPESTRING_DATETIME_DEFAULT_CURRENT_DATE );
             } break;
+        }
+    }
+
+    /*!
+     \reimp
+     \return a DOM representation of the content object attribute
+    */
+    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        $node  = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+        $stamp = $objectAttribute->attribute( 'data_int' );
+
+        if ( !is_null( $stamp ) )
+        {
+            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+            $node->appendChild( eZDOMDocument::createElementTextNode( 'date_time', eZDateUtils::rfc1123Date( $stamp ) ) );
+        }
+
+        return $node;
+    }
+
+    /*!
+     \reimp
+    */
+    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    {
+        $dateTimeNode = $attributeNode->elementByName( 'date_time' );
+        if ( is_object( $dateTimeNode ) )
+            $timestampNode = $dateTimeNode->firstChild();
+        if ( is_object( $timestampNode ) )
+        {
+            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+            $timestamp = eZDateUtils::textToDate( $timestampNode->content() );
+            $objectAttribute->setAttribute( 'data_int', $timestamp );
         }
     }
 }

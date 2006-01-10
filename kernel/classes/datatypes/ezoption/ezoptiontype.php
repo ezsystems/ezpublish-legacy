@@ -360,6 +360,29 @@ class eZOptionType extends eZDataType
     /*!
      \reimp
     */
+    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+
+        $xml = new eZXML();
+        $domDocument = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
+        $node->appendChild( $domDocument->root() );
+
+        return $node;
+    }
+
+    /*!
+     \reimp
+    */
+    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    {
+        $rootNode = $attributeNode->firstChild();
+        $objectAttribute->setAttribute( 'data_text', $rootNode->toString( 0 ) );
+    }
+
+    /*!
+     \reimp
+    */
     function isInformationCollector()
     {
         return true;

@@ -404,6 +404,51 @@ class eZIdentifierType extends eZDataType
     {
     }
 
+    /*!
+     \reimp
+    */
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $digits     = $classAttribute->attribute( EZ_DATATYPESTRING_DIGITS_FIELD );
+        $preText    = $classAttribute->attribute( EZ_DATATYPESTRING_PRETEXT_FIELD );
+        $postText   = $classAttribute->attribute( EZ_DATATYPESTRING_POSTTEXT_FIELD );
+        $startValue = $classAttribute->attribute( EZ_DATATYPESTRING_START_VALUE_FIELD );
+        $identifier = $classAttribute->attribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD );
+
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'digits', $digits ) );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'pre-text', $preText ) );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'post-text', $postText ) );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'start-value', $startValue ) );
+        $attributeParametersNode->appendChild( eZDOMDocument::createElementTextNode( 'identifier', $identifier ) );
+    }
+
+    /*!
+     \reimp
+    */
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $digits     = $attributeParametersNode->elementTextContentByName( 'digits' );
+        $preText    = $attributeParametersNode->elementTextContentByName( 'pre-text' );
+        $postText   = $attributeParametersNode->elementTextContentByName( 'post-text' );
+        $startValue = $attributeParametersNode->elementTextContentByName( 'start-value' );
+        $identifier = $attributeParametersNode->elementTextContentByName( 'identifier' );
+
+        if ( $digits !== false )
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_DIGITS_FIELD,      $digits );
+
+        if ( $preText !== false )
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_PRETEXT_FIELD,     $preText );
+
+        if ( $postText !== false )
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_POSTTEXT_FIELD,    $postText );
+
+        if ( $startValue !== false )
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_START_VALUE_FIELD, $startValue );
+
+        if ( $identifier !== false )
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_IDENTIFIER_FIELD,  $identifier );
+    }
+
     var $IntegerValidator;
 }
 

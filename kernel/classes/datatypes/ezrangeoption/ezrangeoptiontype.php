@@ -204,6 +204,29 @@ class eZRangeOptionType extends eZDataType
         $defaultName = $attributeParametersNode->elementTextContentByName( 'default-name' );
         $classAttribute->setAttribute( 'data_text1', $defaultName );
     }
+
+    /*!
+     \reimp
+    */
+    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+
+        $xml = new eZXML();
+        $domDocument = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
+        $node->appendChild( $domDocument->root() );
+
+        return $node;
+    }
+
+    /*!
+     \reimp
+    */
+    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    {
+        $rootNode = $attributeNode->firstChild();
+        $objectAttribute->setAttribute( 'data_text', $rootNode->toString( 0 ) );
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_RANGEOPTION, "ezrangeoptiontype" );

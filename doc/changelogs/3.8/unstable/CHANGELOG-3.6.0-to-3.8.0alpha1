@@ -55,6 +55,7 @@ Attributes:
   translations where used.
 
 *DataType:
+- Added serialization support to all datatypes.
 
 *Bugfixes:
 - Fixed bug #6683: node_id not set in flat_left.tpl in every context.

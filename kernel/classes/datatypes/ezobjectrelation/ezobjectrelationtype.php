@@ -556,6 +556,38 @@ class eZObjectRelationType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+        $relatedObjectID = $objectAttribute->attribute( 'data_int' );
+
+        if ( !is_null( $relatedObjectID ) )
+        {
+            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+            $node->appendChild( eZDOMDocument::createElementTextNode( 'related-object-id', $relatedObjectID ) );
+        }
+
+        return $node;
+    }
+
+    /*!
+     \reimp
+    */
+    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    {
+        $relatedObjectID = $attributeNode->elementTextContentByName( 'related-object-id' );
+
+        if ( $relatedObjectID === false )
+            $relatedObjectID = null;
+        else
+            $relatedObjectID = (int) $relatedObjectID;
+
+        $objectAttribute->setAttribute( 'data_int', $relatedObjectID );
+    }
+
+    /*!
      Removes objects with given ID from the relations list
     */
     function removeRelatedObjectItem( &$contentObjectAttribute, $objectID )

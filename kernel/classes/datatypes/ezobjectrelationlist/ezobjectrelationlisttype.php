@@ -1253,6 +1253,29 @@ class eZObjectRelationListType extends eZDataType
     }
 
     /*!
+     \reimp
+    */
+    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+
+        $xml = new eZXML();
+        $domDocument = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
+        $node->appendChild( $domDocument->root() );
+
+        return $node;
+    }
+
+    /*!
+     \reimp
+    */
+    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    {
+        $rootNode = $attributeNode->firstChild();
+        $objectAttribute->setAttribute( 'data_text', $rootNode->toString( 0 ) );
+    }
+
+    /*!
      Removes objects with given ID from the relations list
     */
     function removeRelatedObjectItem( &$contentObjectAttribute, $objectID )

@@ -471,6 +471,29 @@ class eZMatrixType extends eZDataType
         }
         $classAttribute->setAttribute( 'data_text5', $matrixDefinition->xmlString() );
     }
+
+    /*!
+     \reimp
+    */
+    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+
+        $xml = new eZXML();
+        $domDocument = $xml->domTree( $objectAttribute->attribute( 'data_text' ) );
+        $node->appendChild( $domDocument->root() );
+
+        return $node;
+    }
+
+    /*!
+     \reimp
+    */
+    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    {
+        $rootNode = $attributeNode->firstChild();
+        $objectAttribute->setAttribute( 'data_text', $rootNode->toString( 0 ) );
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_MATRIX, 'ezmatrixtype' );

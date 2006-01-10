@@ -454,14 +454,7 @@ class eZEnumType extends eZDataType
         $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
         $contentObjectAttributeVersion = $contentObjectAttribute->attribute( 'version' );
 
-        $node = new eZDOMNode();
-
-        $node->setPrefix( 'ezobject' );
-        $node->setName( 'attribute' );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'id', $contentObjectAttributeID, 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'identifier', $contentObjectAttribute->contentClassAttributeIdentifier(), 'ezremote' ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $contentObjectAttribute->contentClassAttributeName() ) );
-        $node->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $this->isA() ) );
+        $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
         $enumElements = eZEnumObjectValue::fetchAllElements( $contentObjectAttributeID, $contentObjectAttributeVersion );
 
