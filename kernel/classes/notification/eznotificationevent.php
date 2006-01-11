@@ -180,9 +180,9 @@ class eZNotificationEvent extends eZPersistentObject
 
     function fetch( $eventID )
     {
-        return eZPersistentObject::fetchObjectList( eZNotificationEvent::definition(),
-                                                        null,  array( 'id' => $eventID ), null,null,
-                                                        true );
+        $events = eZPersistentObject::fetchObjectList( eZNotificationEvent::definition(),
+                                                        null,  array( 'id' => $eventID ), null, null, true );
+        return $events[0];
     }
 
     function fetchUnhandledList()
