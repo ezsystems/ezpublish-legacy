@@ -1323,6 +1323,9 @@ class eZContentObject extends eZPersistentObject
         include_once( 'kernel/classes/ezinformationcollection.php' );
         eZInformationCollection::removeContentObject( $delID );
 
+        $db->query( "DELETE FROM ezcontentobject_tree
+		     WHERE contentobject_id='$delID'" );
+
         $db->query( "DELETE FROM ezcontentobject_attribute
 		     WHERE contentobject_id='$delID'" );
 
@@ -1344,7 +1347,7 @@ class eZContentObject extends eZPersistentObject
         $db->query( "DELETE FROM ezuser_discountrule
              WHERE contentobject_id = '$delID'" );
 
-        $this->removeReverseRelations( $this->ID );
+        eZContentObject::removeReverseRelations( $delID );
 
         $db->query( "DELETE FROM ezcontentobject_link
              WHERE from_contentobject_id = '$delID' OR to_contentobject_id = '$delID'" );
