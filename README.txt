@@ -58,26 +58,15 @@ eZ publish features
 
 Installation
 ------------
-Read doc/INSTALL or go to http://ez.no/manual
+Read doc/INSTALL or go to http://ez.no/doc
 
 
 Where to get more help
 ----------------------
-Online:
-User and installation documentation: http://ez.no/manual
-Developer documentation: http://ez.no/ez_publish/documentation
-eZ publish forums: http://ez.no/community/forums/
-
-Offline:
-(This requires that eZ publish is installed on your system.)
-http://localhost/index.php/manual
-http://localhost/index.php/sdk
+eZ publish documentation: http://ez.no/doc
+eZ publish forums: http://ez.no/community/forum/
 
 
 Live demo of eZ publish 3
 -------------------------
-http://demo.ezpublish.no
-http://demo.ezpublish.no/news_admin
-Login with 'admin' as username and 'publish' as password
-
-Demo information: http://ez.no/ez_publish/cms
+http://ez.no/products/ez_publish_cms/demo
