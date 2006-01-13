@@ -158,6 +158,7 @@ $versions36 = array( 'unstable' => array( array( '3.5.2', '3.6.0beta1' )
                                         ,array( '3.6.2', '3.6.3' )
                                         ,array( '3.6.3', '3.6.4' )
                                         ,array( '3.6.4', '3.6.5' )
+                                        ,array( '3.6.5', '3.6.6' )
                                         ) );
 
 $versions['3.0'] = $versions30;
