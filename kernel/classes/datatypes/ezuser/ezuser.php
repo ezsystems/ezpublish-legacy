@@ -306,9 +306,9 @@ class eZUser extends eZPersistentObject
 
         $parameters = array();
         if ( $offset )
-            $parameters['offset'] = $offset;
+            $parameters['offset'] =(int) $offset;
         if ( $limit )
-            $parameters['limit'] = $limit;
+            $parameters['limit'] =(int) $limit;
         $sortText = '';
         if ( $asObject )
         {
@@ -985,7 +985,7 @@ WHERE user_id = '" . $userID . "' AND
         if ( isset( $GLOBALS['eZUserUpdatedLastVisit'] ) )
             return;
         $db =& eZDB::instance();
-
+        $userID = (int) $userID;
         $userVisitArray = $db->arrayQuery( "SELECT 1 FROM ezuservisit WHERE user_id=$userID" );
         $time = time();
 
@@ -1473,7 +1473,7 @@ WHERE user_id = '" . $userID . "' AND
 
                 if ( $userID )
                 {
-                    $contentobjectID = $userID;
+                    $contentobjectID = (int) $userID;
                 }
                 else
                 {

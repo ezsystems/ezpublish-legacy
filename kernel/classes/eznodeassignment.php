@@ -200,6 +200,8 @@ class eZNodeAssignment extends eZPersistentObject
         }
         else
         {
+            $parentNodeID =(int) $parentNodeID;
+            $contentObjectID =(int) $contentObjectID;
             $sqlQuery = "DELETE FROM eznode_assignment WHERE parent_node='$parentNodeID' AND contentobject_id='$contentObjectID'";
             $db->query( $sqlQuery );
         }

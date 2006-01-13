@@ -142,6 +142,8 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         }
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
+        $userID = (int) $userID;
+        $timestamp = (int) $timestamp;
         $sql = "UPDATE ezcollab_item_participant_link set last_read='$timestamp'
                 WHERE  collaboration_id='$collaborationID' AND participant_id='$userID'";
         $db->query( $sql );

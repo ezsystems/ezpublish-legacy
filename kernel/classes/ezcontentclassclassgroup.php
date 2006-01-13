@@ -101,7 +101,7 @@ class eZContentClassClassGroup extends eZPersistentObject
                           'group_id' => $group_id );
         }
 
-        eZPersistentObject::updateObjectList( array( 'definition' => eZContentClassClassGroup::definition(), 
+        eZPersistentObject::updateObjectList( array( 'definition' => eZContentClassClassGroup::definition(),
                                                      'update_fields' => array( 'group_name' => $group_name ),
                                                      'conditions' => $row ) );
     }
@@ -164,9 +164,11 @@ class eZContentClassClassGroup extends eZPersistentObject
         $classIDList = eZContentClassClassGroup::fetchClassListByGroups( 0, array( 1,3 ) );
         $versionCond = '';
         $orderByClause = '';
+        $group_id =(int) $group_id;
 
         if ( $contentclass_version !== null )
         {
+            $contentclass_version =(int) $contentclass_version;
             $versionCond = "AND class_group.contentclass_version='$contentclass_version'
                             AND contentclass.version='$contentclass_version'\n";
         }

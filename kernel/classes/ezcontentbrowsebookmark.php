@@ -140,6 +140,9 @@ class eZContentBrowseBookmark extends eZPersistentObject
     {
         $db =& eZDB::instance();
         $db->begin();
+        $userID =(int) $userID;
+        $nodeID =(int) $nodeID;
+        $nodeName = $db->escapeString( $nodeName );
         $db->query( "DELETE FROM ezcontentbrowsebookmark WHERE node_id=$nodeID and user_id=$userID" );
         $bookmark = new eZContentBrowseBookmark( array( 'user_id' => $userID,
                                                         'node_id' => $nodeID,
@@ -192,6 +195,7 @@ class eZContentBrowseBookmark extends eZPersistentObject
     function removeByNodeID( $nodeID )
     {
         $db =& eZDB::instance();
+        $nodeID =(int) $nodeID;
         $db->query( "DELETE FROM ezcontentbrowsebookmark WHERE node_id=$nodeID" );
     }
 }

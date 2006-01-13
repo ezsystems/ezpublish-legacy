@@ -377,6 +377,9 @@ class eZPolicyLimitation extends eZPersistentObject
     function findByType( $type, $value, $asObject = true, $useLike = true )
     {
         $cond = '';
+        $db = eZDB::instance();
+        $value = $db->escapeString( $value );
+        $type = $db->escapeString( $type );
         if ( $useLike === true )
         {
             $cond = "ezpolicy_limitation_value.value like '$value%' ";
@@ -393,7 +396,7 @@ class eZPolicyLimitation extends eZPersistentObject
                        ezpolicy_limitation.identifier = '$type' AND
                        $cond AND
                        ezpolicy_limitation_value.limitation_id =  ezpolicy_limitation.id";
-        $db = eZDB::instance();
+
         $dbResult = $db->arrayQuery( $query );
         $resultArray = array();
         $resultCount = count( $dbResult );

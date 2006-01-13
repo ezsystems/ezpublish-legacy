@@ -218,8 +218,9 @@ class eZOrder extends eZPersistentObject
             $db =& eZDB::instance();
 
             $db_params = array();
-            $db_params["offset"] = $offset;
-            $db_params["limit"] = $limit;
+            $db_params["offset"] =(int) $offset;
+            $db_params["limit"] =(int) $limit;
+            $sortOrder = $db->escapeString( $sortOrder );
 
             $query = "SELECT ezorder.*
                       FROM
@@ -385,6 +386,8 @@ class eZOrder extends eZPersistentObject
     function &orderList( $CustomID, $Email )
     {
         $db =& eZDB::instance();
+        $CustomID =(int) $CustomID;
+        $Email = $db->escapeString( $Email );
         if ( $Email == false )
         {
             $orderArray = $db->arrayQuery( "SELECT ezorder.* FROM ezorder
@@ -416,6 +419,8 @@ class eZOrder extends eZPersistentObject
     function &productList( $CustomID, $Email )
     {
         $db =& eZDB::instance();
+        $CustomID =(int) $CustomID;
+        $Email = $db->escapeString( $Email );
         if ( $Email == false )
         {
             $productArray = $db->arrayQuery(  "SELECT ezproductcollection_item.*, ignore_vat FROM ezorder, ezproductcollection_item
@@ -527,8 +532,8 @@ class eZOrder extends eZPersistentObject
         $db =& eZDB::instance();
 
         $db_params = array();
-        $db_params["offset"] = $offset;
-        $db_params["limit"] = $limit;
+        $db_params["offset"] =(int) $offset;
+        $db_params["limit"] =(int) $limit;
 
         $customEmailResult = $db->arrayQuery( "SELECT DISTINCT email FROM ezorder WHERE is_temporary='0' ORDER BY email", $db_params );
         $customEmailArray = array();
@@ -1290,6 +1295,7 @@ class eZOrder extends eZPersistentObject
     function cleanupOrder( $orderID )
     {
         $db =& eZDB::instance();
+        $orderID =(int) $orderID;
         $rows = $db->arrayQuery( "SELECT productcollection_id, order_nr FROM ezorder WHERE id='$orderID'" );
         if ( count( $rows ) > 0 )
         {
