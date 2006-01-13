@@ -67,12 +67,13 @@ class eZDbSchema
 
         unset( $db );
         $db =& $params['instance'];
-        $dbname = $db->databaseName();
 
         if ( !isset( $params['type'] ) )
-            $params['type'] = $dbname;
+            $params['type'] = $db->databaseName();
         if ( !isset( $params['schema'] ) )
             $params['schema'] = false;
+
+        $dbname = $params['type'];
 
         /* Load the database schema handler INI stuff */
         require_once( 'lib/ezutils/classes/ezini.php' );
