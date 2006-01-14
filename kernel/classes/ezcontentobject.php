@@ -1478,9 +1478,11 @@ class eZContentObject extends eZPersistentObject
                 $language = eZContentObject::defaultLanguage();
             }
         }
-        $language = $db->escapeString( $language );
-        $version = (int) $version;
-        if ( $contentObjectAttributeID )
+        if ( is_string( $language ) )
+            $language = $db->escapeString( $language );
+        if ( $version !== null )
+            $version = (int) $version;
+        if ( $contentObjectAttributeID !== false )
             $contentObjectAttributeID =(int) $contentObjectAttributeID;
 //         print( "Attributes fetch $this->ID, $version" );
 
