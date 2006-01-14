@@ -156,7 +156,8 @@ class eZStaticCache
             /* Fetch all url aliases with the same node */
             /* 1. request content/view/full/* style url */
             $db =& eZDB::instance();
-            $destURL = $db->arrayQuery( "SELECT destination_url FROM ezurlalias WHERE source_url = '{$uri['path_identification_string']}'" );
+            $srcURL = $db->escapeString( $uri['path_identification_string'] );
+            $destURL = $db->arrayQuery( "SELECT destination_url FROM ezurlalias WHERE source_url = '$srcURL'" );
             /* 2. get all other elements linked to the same destination URL */
             $aliases = $db->arrayQuery( "SELECT source_url FROM ezurlalias WHERE destination_url = '{$destURL[0]['destination_url']}' AND destination_url <> '{$uri['path_identification_string']}'" );
             /* Loop over this result and store the cache for this */
@@ -193,7 +194,7 @@ class eZStaticCache
                 if ( !$quiet and $cli )
                     $cli->output( "wildcard cache: $url" );
                 $queryURL = ltrim( str_replace( '*', '%', $url ), '/' );
-
+                $queryURL = $db->escapeString( $queryURL );
                 $aliasArray = $db->arrayQuery( "SELECT source_url, destination_url FROM ezurlalias WHERE source_url LIKE '$queryURL' AND source_url NOT LIKE '%*' ORDER BY source_url" );
                 foreach ( $aliasArray as $urlAlias )
                 {

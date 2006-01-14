@@ -316,7 +316,7 @@ class eZProductCollectionItem extends eZPersistentObject
     {
         $db =& eZDB::instance();
         $db->begin();
-        $idText = implode( ', ', $productCollectionIDList );
+        $idText = $db->implodeWithTypeCast( ', ', $productCollectionIDList, 'int' );
         $rows = $db->arrayQuery( "SELECT id FROM ezproductcollection_item WHERE productcollection_id IN ( $idText )" );
         if ( count( $rows ) > 0 )
         {

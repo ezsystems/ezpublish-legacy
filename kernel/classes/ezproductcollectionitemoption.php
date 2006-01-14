@@ -148,7 +148,7 @@ class eZProductCollectionItemOption extends eZPersistentObject
     function cleanupList( $itemIDList )
     {
         $db =& eZDB::instance();
-        $idText = implode( ', ', $itemIDList );
+        $idText = $db->implodeWithTypeCast( ', ', $itemIDList, 'int' );
         $db->query( "DELETE FROM ezproductcollection_item_opt WHERE item_id IN ( $idText )" );
     }
 

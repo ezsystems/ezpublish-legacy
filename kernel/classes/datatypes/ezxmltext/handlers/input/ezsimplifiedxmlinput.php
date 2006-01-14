@@ -184,7 +184,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         // Check that all embeded objects exists in database
         $db =& eZDB::instance();
 
-        $objectIDInSQL = implode( ', ', $relatedObjectIDArray );
+        // $relatedObjectIDArray[] should be casted to (int)
+        $objectIDInSQL = $db->implodeWithTypeCast( ', ', $relatedObjectIDArray, 'int' );
         $objectQuery = "SELECT id FROM ezcontentobject WHERE id IN ( $objectIDInSQL )";
         $objectRowArray =& $db->arrayQuery( $objectQuery );
 

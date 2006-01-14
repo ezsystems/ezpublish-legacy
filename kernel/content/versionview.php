@@ -106,6 +106,7 @@ else if ( !$placementID && count( $nodeAssignments ) )
         {
             $placementID = $nodeAssignment->attribute( 'id' );
             $parentNodeID = $nodeAssignment->attribute( 'parent_node' );
+            $ObjectID = (int) $ObjectID;
             $query="SELECT node_id
                     FROM ezcontentobject_tree
                     WHERE contentobject_id=$ObjectID

@@ -126,6 +126,7 @@ class eZShopFunctionCollection
         include_once( 'kernel/classes/ezcontentobject.php' );
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
+        $contentObjectID = (int)$contentObjectID;
         $db =& eZDB::instance();
         $tmpTableName = $db->generateUniqueTempTableName( 'ezproductcoll_tmp_%' );
         $db->createTempTable( "CREATE TEMPORARY TABLE $tmpTableName( productcollection_id int )" );

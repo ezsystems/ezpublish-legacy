@@ -133,11 +133,12 @@ class eZUserDiscountRule extends eZPersistentObject
 
         if ( !is_array( $ruleArray ) )
         {
+            $userID = (int)$userID;
             $db =& eZDB::instance();
             $query = "SELECT DISTINCT ezdiscountrule.id
                   FROM ezdiscountrule,
                        ezuser_discountrule
-                  WHERE ezuser_discountrule.contentobject_id = '$userID' AND
+                  WHERE ezuser_discountrule.contentobject_id = $userID AND
                         ezuser_discountrule.discountrule_id = ezdiscountrule.id";
             $ruleArray =& $db->arrayQuery( $query );
             $http->setSessionVariable( 'eZUserDiscountRules' . $userID, $ruleArray );
@@ -155,7 +156,7 @@ class eZUserDiscountRule extends eZPersistentObject
     function &fetchByUserIDArray( $idArray )
     {
         $db =& eZDB::instance();
-        $groupString = implode( ',', $idArray );
+        $groupString = $db->implodeWithTypeCast( ',', $idArray, 'int' );
         $query = "SELECT DISTINCT ezdiscountrule.id,
                                   ezdiscountrule.name
                   FROM ezdiscountrule,

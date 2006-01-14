@@ -213,7 +213,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             if ( $relatedContentObject->attribute( 'can_edit' ) )
             {
                 $assignmentHandler = new eZContentObjectAssignmentHandler( $relatedContentObject, $relatedContentVersion );
-                $sectionID = $assignmentHandler->setupAssignments( array( 'group-name' => 'RelationAssignmentSettings',
+                $sectionID = (int) $assignmentHandler->setupAssignments( array( 'group-name' => 'RelationAssignmentSettings',
                                                                    'default-variable-name' => 'DefaultAssignment',
                                                                    'specific-variable-name' => 'ClassSpecificAssignment',
                                                                    'section-id-wanted' => true,
