@@ -41,8 +41,8 @@ include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 include_once( "lib/ezdb/classes/ezdb.php" );
 $Module =& $Params["Module"];
 $http =& eZHTTPTool::instance();
-$objectID = $http->sessionVariable( "DiscardObjectID" );
-$version = $http->sessionVariable( "DiscardObjectVersion" );
+$objectID = (int) $http->sessionVariable( "DiscardObjectID" );
+$version = (int) $http->sessionVariable( "DiscardObjectVersion" );
 $editLanguage = $http->sessionVariable( "DiscardObjectLanguage" );
 
 $isConfirmed = false;

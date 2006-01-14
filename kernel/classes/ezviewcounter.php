@@ -124,12 +124,14 @@ class eZViewCounter extends eZPersistentObject
         $queryPart = "";
         if ( $classID != false )
         {
-            $queryPart .= "ezcontentobject.contentclass_id='$classID' AND ";
+            $classID = (int)$classID;
+            $queryPart .= "ezcontentobject.contentclass_id=$classID AND ";
         }
 
         if ( $sectionID != false )
         {
-            $queryPart .= "ezcontentobject.section_id='$sectionID' AND ";
+            $sectionID = (int)$sectionID;
+            $queryPart .= "ezcontentobject.section_id=$sectionID AND ";
         }
 
         $db =& eZDB::instance();

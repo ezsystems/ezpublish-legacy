@@ -303,7 +303,7 @@ class eZProductCollectionItem extends eZPersistentObject
     function cleanupList( $productCollectionIDList )
     {
         $db =& eZDB::instance();
-        $idText = implode( ', ', $productCollectionIDList );
+        $idText = $db->implodeWithTypeCast( ', ', $productCollectionIDList, 'int' );
         $rows = $db->arrayQuery( "SELECT id FROM ezproductcollection_item WHERE productcollection_id IN ( $idText )" );
         if ( count( $rows ) > 0 )
         {

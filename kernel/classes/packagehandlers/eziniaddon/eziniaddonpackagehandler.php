@@ -141,17 +141,17 @@ class eZINIAddonPackageHandler extends eZPackageHandler
             {
                 case 'class':
                 {
-                    $result = $db->arrayQuery( 'SELECT id FROM ezcontentclass WHERE remote_id=\'' . $value . '\'' );
+                    $result = $db->arrayQuery( 'SELECT id FROM ezcontentclass WHERE remote_id=\'' . $db->escapeString( $value ) . '\'' );
                 } break;
 
                 case 'node':
                 {
-                    $result = $db->arrayQuery( 'SELECT node_id FROM ezcontentobject_tree WHERE remote_id=\'' . $value . '\'' );
+                    $result = $db->arrayQuery( 'SELECT node_id FROM ezcontentobject_tree WHERE remote_id=\'' . $db->escapeString( $value ) . '\'' );
                 } break;
 
                 case 'object':
                 {
-                    $result = $db->arrayQuery( 'SELECT id FROM ezcontentobject WHERE remote_id=\'' . $value . '\'' );
+                    $result = $db->arrayQuery( 'SELECT id FROM ezcontentobject WHERE remote_id=\'' . $db->escapeString( $value ) . '\'' );
                 } break;
 
                 default:

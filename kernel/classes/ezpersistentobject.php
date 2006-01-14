@@ -563,13 +563,33 @@ class eZPersistentObject
                         else if ( is_array( $cond[1] ) )
                         {
                             $range = $cond[1];
-                            $where_text .= "$id BETWEEN '" . $range[0] . "' AND '" . $range[1] . "'";
+                            $where_text .= "$id BETWEEN '" . $db->escapeString( $range[0] ) . "' AND '" . $db->escapeString( $range[1] ) . "'";
                         }
                         else
-                            $where_text .= $id . $cond[0] . "'" . $db->escapeString( $cond[1] ) . "'";
+                        {
+                          switch ( $cond[0] )
+                          {
+                              case '>=':
+                              case '<=':
+                              case '<':
+                              case '>':
+                              case '=':
+                              case '<>':
+                              case '!=':
+                              case 'like':
+                                  {
+                                      $where_text .= $db->escapeString( $id ) . $cond[0] . "'" . $db->escapeString( $cond[1] ) . "'";
+                                  } break;
+                              default:
+                                  {
+                                    eZDebug::writeError( "Conditional operator '$cond[0]' is not supported.",'eZPersistentObject::conditionTextByRow()' );
+                                  } break;
+                          }
+
+                        }
                     }
                     else
-                        $where_text .= $id . "='" . $db->escapeString( $cond ) . "'";
+                        $where_text .= $db->escapeString( $id ) . "='" . $db->escapeString( $cond ) . "'";
                 }
                 ++$i;
             }

@@ -58,7 +58,7 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) and !$http->hasPostVariable(
     $errMsg = '';
     $checkErrNodeId = false;
 
-    $defaultUserPlacement = $ini->variable( "UserSettings", "DefaultUserPlacement" );
+    $defaultUserPlacement = (int)$ini->variable( "UserSettings", "DefaultUserPlacement" );
 
     $db =& eZDB::instance();
     $sql = "SELECT count(*) as count FROM ezcontentobject_tree WHERE node_id = $defaultUserPlacement";
@@ -117,6 +117,7 @@ if ( !function_exists( 'checkContentActions' ) )
             include_once( 'kernel/classes/ezredirectmanager.php' );
             eZRedirectManager::redirectTo( $module, '/' );
 
+            $EditVersion = (int)$EditVersion;
             $objectID = $object->attribute( 'id' );
             $versionCount= $object->getVersionCount();
             $db =& eZDB::instance();

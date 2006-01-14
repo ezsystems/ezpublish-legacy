@@ -201,6 +201,11 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
 
     function &fetchHandlersForUser( $time, $address )
     {
+        $db =& eZDB::instance();
+
+        $time = (int)$time;
+        $address = $db->escapeString( $address );
+
         $query = "select distinct handler
                   from eznotificationcollection,
                        eznotificationcollection_item
@@ -221,6 +226,12 @@ class eZGeneralDigestHandler extends eZNotificationEventHandler
 
     function &fetchItemsForUser( $time, $address, $handler )
     {
+        $db =& eZDB::instance();
+
+        $time = (int)$time;
+        $address = $db->escapeString( $address );
+        $handler = $db->escapeString( $handler );
+
         $query = "select eznotificationcollection_item.*
                   from eznotificationcollection,
                        eznotificationcollection_item

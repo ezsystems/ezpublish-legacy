@@ -210,6 +210,7 @@ class eZSearchEngine
             foreach ( $indexArrayOnlyWords as $indexWord )
             {
                 $indexWord = $trans->transformByGroup( $indexWord, 'lowercase' );
+                $indexWord = $db->escapeString( $indexWord );
 
                 // Store word if it does not exist.
                 $wordRes = array();

@@ -379,6 +379,7 @@ class eZTrigger extends eZPersistentObject
     function removeTriggerForWorkflow( $workFlowID )
     {
         $db =& eZDB::instance();
+        $workFlowID = (int)$workFlowID;
         $db->query( "DELETE FROM eztrigger WHERE workflow_id=$workFlowID" );
     }
 }

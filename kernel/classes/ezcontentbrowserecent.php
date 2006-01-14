@@ -267,12 +267,15 @@ class eZContentBrowseRecent extends eZPersistentObject
     function removeRecentByNodeID( $nodeID )
     {
         $db =& eZDB::instance();
+        $nodeID =(int) $nodeID;
         $db->query( "DELETE FROM ezcontentbrowserecent WHERE node_id=$nodeID" );
     }
 
     function updateNodeID( $oldNodeID, $newNodeID )
     {
         $db =& eZDB::instance();
+        $oldNodeID =(int) $oldNodeID;
+        $newNodeID =(int) $newNodeID;
         $db->query( "UPDATE ezcontentbrowserecent SET node_id=$newNodeID WHERE node_id=$oldNodeID" );
     }
 

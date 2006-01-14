@@ -412,7 +412,7 @@ class eZRole extends eZPersistentObject
 
         if ( !$recursive )
         {
-            $groupString = implode( ',', $idArray );
+            $groupString = $db->implodeWithTypeCast( ',', $idArray, 'int' );
             $query = "SELECT DISTINCT ezrole.id,
                                       ezrole.name,
                                       ezuser_role.limit_identifier,
@@ -619,7 +619,7 @@ class eZRole extends eZPersistentObject
     {
         $db =& eZDB::instance();
 
-        $groupString = implode( ',', $idArray );
+        $groupString = $db->implodeWithTypeCast( ',', $idArray, 'int' );
         $query = "SELECT DISTINCT ezrole.id
                   FROM ezrole,
                        ezuser_role
@@ -645,7 +645,9 @@ class eZRole extends eZPersistentObject
     function assignToUser( $userID, $limitIdent = '', $limitValue = '' )
     {
         $db =& eZDB::instance();
-
+        $limitIdent = $db->escapeString( $limitIdent );
+        $limitValue = $db->escapeString( $limitValue );
+        $userID =(int) $userID;
         switch( $limitIdent )
         {
             case 'subtree':
@@ -708,6 +710,7 @@ class eZRole extends eZPersistentObject
     function removeUserAssignment( $userID )
     {
         $db =& eZDB::instance();
+        $userID =(int) $userID;
         $query = "DELETE FROM ezuser_role WHERE role_id='$this->ID' AND contentobject_id='$userID'";
         $db->query( $query );
     }
@@ -721,6 +724,7 @@ class eZRole extends eZPersistentObject
     {
         // Remove the assignment.
         $db =& eZDB::instance();
+        $id =(int) $id;
         $query = "DELETE FROM ezuser_role WHERE id='$id'";
         $db->query( $query );
     }
@@ -760,7 +764,8 @@ class eZRole extends eZPersistentObject
     function &fetchRolesByLimitation( $limit_identifier, $limit_value )
     {
         $db =& eZDB::instance();
-
+        $limit_identifier = $db->escapeString( $limit_identifier );
+        $limit_value = $db->escapeString( $limit_value );
         $query = "SELECT DISTINCT
                      ezuser_role.role_id as role_id,
                      ezuser_role.contentobject_id as user_id
