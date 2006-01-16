@@ -324,7 +324,6 @@ class eZContentObject extends eZPersistentObject
 
         $db =& eZDB::instance();
         $objectName = $db->escapeString( $objectName );
-        $translation = $db->escapeString( $translation );
         if ( !$versionNum )
         {
             $versionNum = $this->attribute( 'current_version' );
@@ -334,7 +333,7 @@ class eZContentObject extends eZPersistentObject
         {
             $translation = $this->defaultLanguage();
         }
-
+        $translation = $db->escapeString( $translation );
         $ini =& eZINI::instance();
 //        $needTranslations = $ini->variableArray( "ContentSettings", "TranslationList" );
         $needTranslations =& eZContentTranslation::fetchLocaleList();
