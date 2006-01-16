@@ -121,7 +121,7 @@ class eZCollaborationItemStatus extends eZPersistentObject
         if ( isset( $statusObject ) and $statusObject )
             return $statusObject;
 
-        $conditions = array( 'collaboration_id' => $id,
+        $conditions = array( 'collaboration_id' => $collaborationID,
                              'user_id' => $userID );
         $statusObject = eZPersistentObject::fetchObject( eZCollaborationItemStatus::definition(),
                                                          null,
