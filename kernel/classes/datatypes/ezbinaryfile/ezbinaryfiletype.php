@@ -509,9 +509,11 @@ class eZBinaryFileType extends eZDataType
     */
     function title( &$contentObjectAttribute,  $name = "original_filename" )
     {
-        $binaryFile =& eZBinaryFile::fetch( $contentObjectAttribute->attribute( "id" ),
-                                            $contentObjectAttribute->attribute( "version" ) );
-        $value = $binaryFile->attribute( $name );
+        $value = false;
+        $binaryFile =& eZBinaryFile::fetch( $contentObjectAttribute->attribute( 'id' ),
+                                            $contentObjectAttribute->attribute( 'version' ) );
+        if ( is_object( $binaryFile ) )
+            $value = $binaryFile->attribute( $name );
 
         return $value;
     }
