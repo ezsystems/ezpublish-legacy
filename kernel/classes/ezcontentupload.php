@@ -347,7 +347,7 @@ class eZContentUpload
             return false;
         }
 
-        $variables = array( 'original_filename' => $filePath,
+        $variables = array( 'original_filename' => $mimeData['filename'],
                             'mime_type' => $mime );
         $variables['original_filename_base'] = $mimeData['basename'];
         $variables['original_filename_suffix'] = $mimeData['suffix'];
