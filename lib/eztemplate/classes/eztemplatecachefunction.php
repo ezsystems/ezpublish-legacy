@@ -330,7 +330,7 @@ ENDADDCODE;
                     $keyString .= $accessName;
 
                     include_once( 'lib/ezutils/classes/ezsys.php' );
-                    $hashedKey = eZSys::crc32( $keyString );
+                    $hashedKey = eZSys::ezcrc32( $keyString );
 
                     $cacheFilename = $hashedKey . ".cache";
 
