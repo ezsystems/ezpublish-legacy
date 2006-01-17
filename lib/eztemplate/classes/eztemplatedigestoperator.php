@@ -123,17 +123,36 @@ class eZTemplateDigestOperator
     function hashTransformation( $operatorName, &$node, &$tpl, &$resourceData,
                                  &$element, &$lastElement, &$elementList, &$elementTree, &$parameters )
     {
-        $values = array();
-        $function = $operatorName != 'rot13' ? $operatorName : 'str_rot13';
-
         if ( ( count( $parameters ) != 1) )
         {
             return false;
         }
-        $newElements = array();
 
-        $values[] = $parameters[0];
-        $code = "%output% = $function( %1% );\n";
+        $code = '';
+        $function = '';
+        $newElements = array();
+        $values = array( $parameters[0] );
+
+        switch ( $operatorName )
+        {
+            case 'crc32':
+                {
+                    $code = "include_once( 'lib/ezutils/classes/ezsys.php' );\n";
+                    $function = "eZSys::ezcrc32";
+                } break;
+        
+            case 'rot13':
+                {
+                    $function = 'str_rot13';
+                } break;
+
+            default:
+                {
+                    $function = $operatorName;
+                } break;
+        }
+
+        $code .= "%output% = $function( %1% );\n";
 
         $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values );
         return $newElements;
@@ -151,7 +170,8 @@ class eZTemplateDigestOperator
             // Calculate and return crc32 polynomial.
             case $this->Crc32Name:
             {
-                $operatorValue = crc32( $digestData );
+                include_once( 'lib/ezutils/classes/ezsys.php' );
+                $operatorValue = eZSys::ezcrc32( $digestData );
             }break;
 
             // Calculate the MD5 hash.

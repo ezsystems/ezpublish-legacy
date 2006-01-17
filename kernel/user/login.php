@@ -117,6 +117,8 @@ if ( $Module->isCurrentAction( 'Login' ) and
                 // A check that the user has rights to access current siteaccess.
                 if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
                 {
+                    include_once( 'lib/ezutils/classes/ezsys.php' );
+
                     $policyChecked = false;
                     foreach ( array_keys( $siteAccessResult['policies'] ) as $key )
                     {
@@ -124,7 +126,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
                         if ( isset( $policy['SiteAccess'] ) )
                         {
                             $policyChecked = true;
-                            if ( in_array( crc32( $access[ 'name' ] ), $policy['SiteAccess'] ) )
+                            if ( in_array( eZSys::ezcrc32( $access[ 'name' ] ), $policy['SiteAccess'] ) )
                             {
                                 $hasAccessToSite = true;
                                 break;

@@ -328,7 +328,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
         if ( $overrideCacheFile )
         {
             include_once( $overrideCacheFile );
-            $cacheMap =& $GLOBALS['eZOverrideTemplateCacheMap'][sprintf( "%u", crc32( '/' . $path ) )];
+            $cacheMap =& $GLOBALS['eZOverrideTemplateCacheMap'][eZSys::ezcrc32( '/' . $path )];
             if ( !is_string( $cacheMap ) and trim( $cacheMap['code'] ) )
             {
                 eval( "\$matchFile = " . $cacheMap['code'] . ";" );
@@ -470,7 +470,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
 
         $overrideKeys =& eZTemplateDesignResource::overrideKeys();
 
-        $overrideKey = sprintf( "%u", crc32( implode( ',', $overrideKeys ) . $siteBase . $standardBase ) );
+        $overrideKey = eZSys::ezcrc32( implode( ',', $overrideKeys ) . $siteBase . $standardBase );
         $cacheDir = eZSys::cacheDirectory();
 
         $overrideCacheFile = $cacheDir.'/override/override_'.$overrideKey.'.php';
@@ -493,7 +493,7 @@ class eZTemplateDesignResource extends eZTemplateFileResource
             foreach ( array_keys( $matchFileArray ) as $matchKey )
             {
                 $countMatchFiles++;
-                $phpCode .= '\'' . sprintf( "%u", crc32( $matchKey ) ) . '\' => ';
+                $phpCode .= '\'' . eZSys::ezcrc32( $matchKey ) . '\' => ';
                 if ( isset( $matchFileArray[$matchKey]['custom_match'] ) )
                 {
                     $baseDir = isset( $matchFileArray[$matchKey]['base_dir'] ) ? $matchFileArray[$matchKey]['base_dir'] : '';
