@@ -1051,6 +1051,23 @@ class eZSys
         return $instance;
     }
 
+    /*!
+     A wrapper for php's crc32 function.
+     \return the crc32 polynomial as unsigned int
+    */
+    function ezcrc32( $string )
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+
+        if ( $ini->variable( 'SiteSettings', '64bitCompatibilityMode' ) === 'enabled' )
+            $checksum = sprintf( '%u', crc32( $string ) );
+        else
+            $checksum = crc32( $string );
+
+        return $checksum;
+    }
+
     /// The line separator used in files
     var $LineSeparator;
     /// The directory separator used for files

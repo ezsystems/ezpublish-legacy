@@ -268,7 +268,10 @@ class eZImageManager
                 $filterData .= '=' . implode( ',', $filter['data'] );
             $keyData[] = $filterData;
         }
-        $key = crc32( implode( "\n", $keyData ) );
+
+        include_once( 'lib/ezutils/classes/ezsys.php' );
+        $key = eZSys::ezcrc32( implode( "\n", $keyData ) );
+
         return $key;
     }
 
