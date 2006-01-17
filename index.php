@@ -594,8 +594,9 @@ while ( $moduleRunRequired )
                         if ( isset( $policy['SiteAccess'] ) )
                         {
                             $policyChecked = true;
-                            eZDebugSetting::writeDebug( 'kernel-siteaccess', $policy['SiteAccess'], crc32( $access[ 'name' ] ));
-                            if ( in_array( crc32( $access[ 'name' ] ), $policy['SiteAccess'] ) )
+                            $crc32AccessName = eZSys::ezcrc32( $access[ 'name' ] );
+                            eZDebugSetting::writeDebug( 'kernel-siteaccess', $policy['SiteAccess'], $crc32AccessName );
+                            if ( in_array( $crc32AccessName, $policy['SiteAccess'] ) )
                             {
                                 $hasAccessToSite = true;
                                 break;

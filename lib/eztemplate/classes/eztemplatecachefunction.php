@@ -163,7 +163,8 @@ class eZTemplateCacheFunction
             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( is_array( \$cacheKeys ) )\n    \$cacheKeys = implode( '_', \$cacheKeys ) . '_';\nelse\n    \$cacheKeys .= '_';" );
             $cacheDir = eZTemplateCacheFunction::templateBlockCacheDir();
             $cachePathText = eZPHPCreator::variableText( "$cacheDir", 0, 0, false );
-            $code = ( "\$keyString = sprintf( '%u', crc32( \$cacheKeys . $extraKeyText ) );\n" .
+            $code = ( "include_once( 'lib/ezutils/classes/ezsys.php' );\n" .
+                      "\$keyString = eZSys::ezcrc32( \$cacheKeys . $extraKeyText );\n" .
                       "\$cacheFilename = \$keyString . '.cache';\n" .
                       "if ( isset( \$subtreeExpiry ) && \$subtreeExpiry !== false )\n" .
                       "{\n" .
@@ -181,7 +182,9 @@ class eZTemplateCacheFunction
             $accessName = false;
             if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
                 $accessName = $GLOBALS['eZCurrentAccess']['name'];
-            $keyString = sprintf( '%u', crc32( $keyValueText . $placementKeyString . $accessName ) );
+
+            include_once( 'lib/ezutils/classes/ezsys.php' );
+            $keyString = eZSys::ezcrc32( $keyValueText . $placementKeyString . $accessName );
             $cacheFilename = $keyString . '.cache';
             $cacheDir = eZTemplateCacheFunction::templateBlockCacheDir();
             if ( isset( $subtreeValue ) )
@@ -325,7 +328,10 @@ ENDADDCODE;
                     if ( isset( $GLOBALS['eZCurrentAccess']['name'] ) )
                         $accessName = $GLOBALS['eZCurrentAccess']['name'];
                     $keyString .= $accessName;
-                    $hashedKey = sprintf( '%u', crc32( $keyString ) );
+
+                    include_once( 'lib/ezutils/classes/ezsys.php' );
+                    $hashedKey = eZSys::ezcrc32( $keyString );
+
                     $cacheFilename = $hashedKey . ".cache";
 
                     $phpDir = eZTemplateCacheFunction::templateBlockCacheDir();
