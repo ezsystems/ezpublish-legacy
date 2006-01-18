@@ -2,7 +2,7 @@
 //
 // Created on: <15-Apr-2004 11:25:31 bh>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -108,7 +108,8 @@ else if ( $module->isCurrentAction( 'RemoveSelectedSessions' ) )
             {
                 include_once( 'lib/ezdb/classes/ezdb.php' );
                 $db =& eZDB::instance();
-                $rows = $db->arrayQuery( "SELECT session_key FROM ezsession WHERE user_id IN ( " . implode( ', ', $userIDArray ) . " )" );
+                $userIDArrayString = $db->implodeWithTypeCast( ',', $userIDArray, 'int' );
+                $rows = $db->arrayQuery( "SELECT session_key FROM ezsession WHERE user_id IN ( " . $userIDArrayString . " )" );
                 foreach ( $rows as $row )
                 {
                     eZSessionDestroy( $row['session_key'] );

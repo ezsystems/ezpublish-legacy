@@ -1,7 +1,9 @@
 #!/usr/bin/env php
 <?php
 //
-// Created on: <27-Feb-2004 13:12:40 wy>
+// Definition of updatecrc32
+//
+// Created on: <17-Jan-2006 16:05:43 dl>
 //
 // Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
@@ -34,75 +36,47 @@
 // you.
 //
 
-set_time_limit( 0 );
+/*! \file updatecrc32.php
+*/
+
+set_time_limit ( 0 );
 
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 
 $cli =& eZCLI::instance();
-$endl = $cli->endlineString();
-
-$script =& eZScript::instance( array( 'description' => ( "eZ publish add order email.\n\n" .
-                                                         "Fetch email value from eZShopAccountHandler and insert into table ezorder\n" .
-                                                         "This script only need to be run when updating from eZ publish 3.3 to eZ publish 3.4\n" .
+$script =& eZScript::instance( array( 'description' => ( "eZ publish crc32 polynomial update script.\n\n" .
+                                                         "Will go trough and update crc32 polynomial form signed int\n".
+                                                         "to unsigned int.\n" .
                                                          "\n" .
-                                                         "addorderemail.php"),
-                                      'use-session' => true,
-                                      'use-modules' => true,
+                                                         "updatecrc32.php" ),
+                                      'use-session' => false,
+                                      'use-modules' => false,
                                       'use-extensions' => true ) );
 
 $script->startup();
 
-$options = $script->getOptions( "[db-user:][db-password:][db-database:][db-driver:][sql]",
+$options = $script->getOptions( "[db-user:][db-password:][db-database:][db-type:|db-driver:][sql]",
                                 "",
                                 array( 'db-host' => "Database host",
                                        'db-user' => "Database user",
                                        'db-password' => "Database password",
                                        'db-database' => "Database name",
                                        'db-driver' => "Database driver",
+                                       'db-type' => "Database driver, alias for --db-driver",
                                        'sql' => "Display sql queries"
                                        ) );
 $script->initialize();
 
 $dbUser = $options['db-user'] ? $options['db-user'] : false;
 $dbPassword = $options['db-password'] ? $options['db-password'] : false;
-$dbHost = $options['db-host'] ? $options['db-host'] : false;
+$dbHost = isset( $options['db-host'] ) && $options['db-host'] ? $options['db-host'] : false;
 $dbName = $options['db-database'] ? $options['db-database'] : false;
 $dbImpl = $options['db-driver'] ? $options['db-driver'] : false;
 $showSQL = $options['sql'] ? true : false;
-$siteAccess = $options['siteaccess'] ? $options['siteaccess'] : false;
 
-if ( $siteAccess )
-{
-    changeSiteAccessSetting( $siteaccess, $siteAccess );
-}
-
-function changeSiteAccessSetting( &$siteaccess, $optionData )
-{
-    global $isQuiet;
-    $cli =& eZCLI::instance();
-    if ( file_exists( 'settings/siteaccess/' . $optionData ) )
-    {
-        $siteaccess = $optionData;
-        if ( !$isQuiet )
-            $cli->notice( "Using siteaccess $siteaccess for adding order email" );
-    }
-    else
-    {
-        if ( !$isQuiet )
-            $cli->notice( "Siteaccess $optionData does not exist, using default siteaccess" );
-    }
-}
-
-print( "Starting add email into table ezorder\n" );
-
-//eZDebug::setHandleType( EZ_HANDLE_FROM_PHP );
-
-include_once( "lib/ezutils/classes/ezmodule.php" );
-// eZModule::setGlobalPathList( array( "kernel" ) );
-include_once( 'lib/ezutils/classes/ezexecution.php' );
-include_once( "lib/ezutils/classes/ezdebug.php" );
-include_once( 'kernel/classes/ezorder.php' );
+include_once( 'lib/ezdb/classes/ezdb.php' );
+include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
 $db =& eZDB::instance();
 
@@ -126,37 +100,22 @@ if ( $dbHost or $dbName or $dbUser or $dbImpl )
 
 $db->setIsSQLOutputEnabled( $showSQL );
 
-$orderArray = eZOrder::fetchList();
-$orderCount = count( $orderArray );
 
-print( $endl . $orderCount . " order email will be updated" . $endl );
-// Fetch the shop account handler
-include_once( 'kernel/classes/ezshopaccounthandler.php' );
-$accountHandler =& eZShopAccountHandler::instance();
+// Update ezpolicy_limitation_value.value for 'SiteAccess' limitation.
+$query = "SELECT ezpolicy_limitation_value.id, ezpolicy_limitation_value.value
+          FROM ezpolicy_limitation_value, ezpolicy_limitation
+          WHERE ezpolicy_limitation.id = ezpolicy_limitation_value.limitation_id AND
+                ezpolicy_limitation.identifier = 'SiteAccess' AND
+                ezpolicy_limitation_value.value < 0";
 
-$i = 0;
-$dotMax = 70;
-$dotCount = 0;
-$limit = 50;
+$limitationValues = $db->arrayQuery( $query );
 
-foreach ( array_keys ( $orderArray ) as $key  )
+foreach( $limitationValues as $limitationValue )
 {
-    $order =& $orderArray[$key];
-
-    $email = $accountHandler->email( $order );
-    $order->setAttribute( 'email', $email );
-    $order->store();
-    ++$i;
-    ++$dotCount;
-    if ( $dotCount >= $dotMax or $i >= $orderCount )
-    {
-        $dotCount = 0;
-        $percent = (float)( ($i*100.0) / $orderCount );
-        print( " " . $percent . "%" . $endl );
-    }
+    $value = $limitationValue['value'];
+    $value = sprintf( '%u', $value );
+    $db->query( "UPDATE ezpolicy_limitation_value SET value='$value' WHERE id={$limitationValue['id']}" );
 }
-
-print( $endl . "done" . $endl );
 
 $script->shutdown();
 

@@ -4,7 +4,7 @@
 //
 // Created on: <18-Apr-2002 10:05:34 bf>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -838,6 +838,7 @@ class eZContentObjectVersion extends eZPersistentObject
         $languageSQL = '';
         if ( $language !== false )
         {
+            $language = $db->escapeString( $language );
             $languageSQL = "AND language_code!='$language'";
         }
 
@@ -898,7 +899,9 @@ class eZContentObjectVersion extends eZPersistentObject
     function &fetchAttributes( $version, $contentObjectID, $language, $asObject = true )
     {
         $db =& eZDB::instance();
-
+        $language = $db->escapeString( $language );
+        $contentObjectID = (int) $contentObjectID;
+        $version =(int) $version;
         $query = "SELECT ezcontentobject_attribute.*, ezcontentclass_attribute.identifier as classattribute_identifier,
                         ezcontentclass_attribute.can_translate, ezcontentclass_attribute.name as class_attributename
                   FROM  ezcontentobject_attribute, ezcontentclass_attribute

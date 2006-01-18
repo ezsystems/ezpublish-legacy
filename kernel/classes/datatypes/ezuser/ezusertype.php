@@ -4,7 +4,7 @@
 //
 // Created on: <30-Apr-2002 13:06:21 bf>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -171,53 +171,57 @@ class eZUserType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $login = $http->postVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) );
-        $email = $http->postVariable( $base . "_data_user_email_" . $contentObjectAttribute->attribute( "id" ) );
-        $password = $http->postVariable( $base . "_data_user_password_" . $contentObjectAttribute->attribute( "id" ) );
-        $passwordConfirm = $http->postVariable( $base . "_data_user_password_confirm_" . $contentObjectAttribute->attribute( "id" ) );
-
-        $contentObjectID = $contentObjectAttribute->attribute( "contentobject_id" );
-
-        $user =& $contentObjectAttribute->content();
-        if ( $user === null )
+        if ( $http->hasPostVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $user =& eZUser::create( $contentObjectID );
-        }
+            $login = $http->postVariable( $base . "_data_user_login_" . $contentObjectAttribute->attribute( "id" ) );
+            $email = $http->postVariable( $base . "_data_user_email_" . $contentObjectAttribute->attribute( "id" ) );
+            $password = $http->postVariable( $base . "_data_user_password_" . $contentObjectAttribute->attribute( "id" ) );
+            $passwordConfirm = $http->postVariable( $base . "_data_user_password_confirm_" . $contentObjectAttribute->attribute( "id" ) );
 
-        $ini =& eZINI::instance();
-        $generatePasswordIfEmpty = $ini->variable( "UserSettings", "GeneratePasswordIfEmpty" );
-        if (  $password == "" )
-        {
-            if ( $generatePasswordIfEmpty == 'true' )
+            $contentObjectID = $contentObjectAttribute->attribute( "contentobject_id" );
+
+            $user =& $contentObjectAttribute->content();
+            if ( $user === null )
             {
-                $passwordLength = $ini->variable( "UserSettings", "GeneratePasswordLength" );
-                $password = $user->createPassword( $passwordLength );
-                $passwordConfirm = $password;
-                $http->setSessionVariable( "GeneratedPassword", $password );
+                $user =& eZUser::create( $contentObjectID );
+            }
+
+            $ini =& eZINI::instance();
+            $generatePasswordIfEmpty = $ini->variable( "UserSettings", "GeneratePasswordIfEmpty" );
+            if (  $password == "" )
+            {
+                if ( $generatePasswordIfEmpty == 'true' )
+                {
+                    $passwordLength = $ini->variable( "UserSettings", "GeneratePasswordLength" );
+                    $password = $user->createPassword( $passwordLength );
+                    $passwordConfirm = $password;
+                    $http->setSessionVariable( "GeneratedPassword", $password );
+                }
+                else
+                {
+                    $password = null;
+                }
+            }
+
+            eZDebugSetting::writeDebug( 'kernel-user', $password, "password" );
+            eZDebugSetting::writeDebug( 'kernel-user', $passwordConfirm, "passwordConfirm" );
+            eZDebugSetting::writeDebug( 'kernel-user', $login, "login" );
+            eZDebugSetting::writeDebug( 'kernel-user', $email, "email" );
+            eZDebugSetting::writeDebug( 'kernel-user', $contentObjectID, "contentObjectID" );
+            if ( $password == "_ezpassword" )
+            {
+                $password = false;
+                $passwordConfirm = false;
             }
             else
-            {
-                $password = null;
-            }
-        }
+                $http->setSessionVariable( "GeneratedPassword", $password );
 
-        eZDebugSetting::writeDebug( 'kernel-user', $password, "password" );
-        eZDebugSetting::writeDebug( 'kernel-user', $passwordConfirm, "passwordConfirm" );
-        eZDebugSetting::writeDebug( 'kernel-user', $login, "login" );
-        eZDebugSetting::writeDebug( 'kernel-user', $email, "email" );
-        eZDebugSetting::writeDebug( 'kernel-user', $contentObjectID, "contentObjectID" );
-        if ( $password == "_ezpassword" )
-        {
-            $password = false;
-            $passwordConfirm = false;
+            eZDebugSetting::writeDebug( 'kernel-user', "setInformation run", "ezusertype" );
+            $user->setInformation( $contentObjectID, $login, $email, $password, $passwordConfirm );
+            $contentObjectAttribute->setContent( $user );
+            return true;
         }
-        else
-            $http->setSessionVariable( "GeneratedPassword", $password );
-
-        eZDebugSetting::writeDebug( 'kernel-user', "setInformation run", "ezusertype" );
-        $user->setInformation( $contentObjectID, $login, $email, $password, $passwordConfirm );
-        $contentObjectAttribute->setContent( $user );
-        return true;
+        return false;
     }
 
     function storeObjectAttribute( &$contentObjectAttribute )

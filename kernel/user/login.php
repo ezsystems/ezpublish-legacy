@@ -2,7 +2,7 @@
 //
 // Created on: <02-May-2002 16:24:15 bf>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -117,6 +117,8 @@ if ( $Module->isCurrentAction( 'Login' ) and
                 // A check that the user has rights to access current siteaccess.
                 if ( $siteAccessResult[ 'accessWord' ] == 'limited' )
                 {
+                    include_once( 'lib/ezutils/classes/ezsys.php' );
+
                     $policyChecked = false;
                     foreach ( array_keys( $siteAccessResult['policies'] ) as $key )
                     {
@@ -124,7 +126,7 @@ if ( $Module->isCurrentAction( 'Login' ) and
                         if ( isset( $policy['SiteAccess'] ) )
                         {
                             $policyChecked = true;
-                            if ( in_array( crc32( $access[ 'name' ] ), $policy['SiteAccess'] ) )
+                            if ( in_array( eZSys::ezcrc32( $access[ 'name' ] ), $policy['SiteAccess'] ) )
                             {
                                 $hasAccessToSite = true;
                                 break;

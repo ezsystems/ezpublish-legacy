@@ -4,7 +4,7 @@
 //
 // Created on: <15-Aug-2003 15:15:15 bh>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -869,6 +869,8 @@ class eZWebDAVContentServer extends eZWebDAVServer
 
         if ( $accessWord == 'limited' )
         {
+            include_once( 'lib/ezutils/classes/ezsys.php' );
+
             $hasAccess = false;
             $policyChecked = false;
             foreach ( array_keys( $result['policies'] ) as $key )
@@ -877,7 +879,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
                 if ( isset( $policy['SiteAccess'] ) )
                 {
                     $policyChecked = true;
-                    if ( in_array( crc32( $site ), $policy['SiteAccess'] ) )
+                    if ( in_array( eZSys::ezcrc32( $site ), $policy['SiteAccess'] ) )
                     {
                         $hasAccess = true;
                         break;

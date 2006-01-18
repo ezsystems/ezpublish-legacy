@@ -2,7 +2,7 @@
 //
 // Created on: <16-Apr-2004 10:04:58 amos>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -1714,10 +1714,11 @@ function eZSetupCommonRoles( &$roles, $siteType, $parameters )
                                               array( 'user_id' => $anonAccountsID ) ) );
 
     // Make sure anonymous can only login to use side
+    include_once( 'lib/ezutils/classes/ezsys.php' );
     $roles[] = array( 'name' => 'Anonymous',
                       'policies' => array( array( 'module' => 'user',
                                                   'function' => 'login',
-                                                  'limitation' => array( 'SiteAccess' => array( crc32( $parameters['user_siteaccess'] ) ) ) ) ) );
+                                                  'limitation' => array( 'SiteAccess' => array( eZSys::ezcrc32( $parameters['user_siteaccess'] ) ) ) ) ) );
 }
 
 function eZSetupForumRoles( &$roles, $siteType, $parameters )

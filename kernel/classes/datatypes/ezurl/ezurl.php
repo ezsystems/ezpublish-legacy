@@ -4,7 +4,7 @@
 //
 // Created on: <08-Oct-2002 19:44:48 bf>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -288,6 +288,7 @@ class eZURL extends eZPersistentObject
             $conditionQuery = "";
             if ( $isValid !== null )
             {
+                $isValid = (int) $isValid;
                 $conditionQuery = " AND ezurl.is_valid=$isValid ";
             }
             include_once( "lib/ezdb/classes/ezdb.php" );
@@ -387,6 +388,8 @@ class eZURL extends eZPersistentObject
             return $url;
         }
 
+        $id = (int) $id;
+
         $db =& eZDB::instance();
         $checkURLQuery = "SELECT url, is_valid FROM ezurl WHERE id='$id'";
         $urlArray =& $db->arrayQuery( $checkURLQuery );
@@ -414,6 +417,7 @@ class eZURL extends eZPersistentObject
         $db =& eZDB::instance();
 
         $url = false;
+        $urlMD5 = $db->escapeString( $urlMD5 );
         $checkURLQuery = "SELECT url FROM ezurl WHERE original_url_md5='$urlMD5'";
         $urlArray =& $db->arrayQuery( $checkURLQuery );
 

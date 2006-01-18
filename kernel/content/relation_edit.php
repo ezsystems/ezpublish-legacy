@@ -2,7 +2,7 @@
 //
 // Created on: <17-Apr-2002 10:34:48 bf>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -208,7 +208,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             if ( $relatedContentObject->attribute( 'can_edit' ) )
             {
                 $assignmentHandler = new eZContentObjectAssignmentHandler( $relatedContentObject, $relatedContentVersion );
-                $sectionID = $assignmentHandler->setupAssignments( array( 'group-name' => 'RelationAssignmentSettings',
+                $sectionID = (int) $assignmentHandler->setupAssignments( array( 'group-name' => 'RelationAssignmentSettings',
                                                                    'default-variable-name' => 'DefaultAssignment',
                                                                    'specific-variable-name' => 'ClassSpecificAssignment',
                                                                    'section-id-wanted' => true,

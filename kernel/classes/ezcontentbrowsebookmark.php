@@ -4,7 +4,7 @@
 //
 // Created on: <29-Apr-2003 15:32:53 sp>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -162,7 +162,7 @@ class eZContentBrowseBookmark extends eZPersistentObject
     {
         return eZPersistentObject::fetchObjectList( eZContentBrowseBookmark::definition(),
                                                     null,
-                                                    array( 'user_id' => $userID ), 
+                                                    array( 'user_id' => $userID ),
                                                     array( 'id' => 'desc' ),
                                                     array( 'offset' => $offset, 'length' => $limit ),
                                                     true );
@@ -176,6 +176,9 @@ class eZContentBrowseBookmark extends eZPersistentObject
     function &createNew( $userID, $nodeID, $nodeName )
     {
         $db =& eZDB::instance();
+        $userID =(int) $userID;
+        $nodeID =(int) $nodeID;
+        $nodeName = $db->escapeString( $nodeName );
         $db->query( "DELETE FROM ezcontentbrowsebookmark WHERE node_id=$nodeID and user_id=$userID" );
         $bookmark = new eZContentBrowseBookmark( array( 'user_id' => $userID,
                                                         'node_id' => $nodeID,
@@ -220,6 +223,7 @@ class eZContentBrowseBookmark extends eZPersistentObject
     function removeByNodeID( $nodeID )
     {
         $db =& eZDB::instance();
+        $nodeID =(int) $nodeID;
         $db->query( "DELETE FROM ezcontentbrowsebookmark WHERE node_id=$nodeID" );
     }
 }

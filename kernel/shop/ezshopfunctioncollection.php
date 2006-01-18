@@ -4,7 +4,7 @@
 //
 // Created on: <06-æÅ×-2003 10:34:21 sp>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -127,6 +127,7 @@ class eZShopFunctionCollection
         include_once( 'kernel/classes/ezcontentobject.php' );
         include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
 
+        $contentObjectID = (int)$contentObjectID;
         $db =& eZDB::instance();
         $tmpTableName = $db->generateUniqueTempTableName( 'ezproductcoll_tmp_%' );
         $db->createTempTable( "CREATE TEMPORARY TABLE $tmpTableName( productcollection_id int )" );
