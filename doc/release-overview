@@ -518,3 +518,37 @@ Datatype branch:
 - Revision=13957
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.7.2
 - Date 4-Nov-2005
+
+3.5.8:
+- Release branch=release/3.5.8
+- Release branch start=14535
+- Release branch end=
+- Release date 13-Jan-2006
+- Release branch configured=14544
+- From revision=14539
+- Revision=14581
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.5.8
+- Date 17-Jan-2006
+
+3.6.5:
+- Release branch=release/3.6.5
+- Release branch start=14534
+- Release branch end=
+- Release date 13-Jan-2006
+- Release branch configured=14543
+- From revision=14571
+- Revision=14582
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.6.5
+- Date 17-Jan-2006
+
+3.7.3:
+- Release branch=release/3.7.3
+- Release branch start=14532
+- Release branch end=
+- Release date 13-Jan-2006
+- Release branch configured=14541
+- From revision=14540
+- Revision=14583
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.7.3
+- Date 17-Jan-2006
+
