@@ -3,7 +3,7 @@
 // Definition of eZViewCounter class
 //
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -136,12 +136,14 @@ class eZViewCounter extends eZPersistentObject
         $queryPart = "";
         if ( $classID != false )
         {
-            $queryPart .= "ezcontentobject.contentclass_id='$classID' AND ";
+            $classID = (int)$classID;
+            $queryPart .= "ezcontentobject.contentclass_id=$classID AND ";
         }
 
         if ( $sectionID != false )
         {
-            $queryPart .= "ezcontentobject.section_id='$sectionID' AND ";
+            $sectionID = (int)$sectionID;
+            $queryPart .= "ezcontentobject.section_id=$sectionID AND ";
         }
 
         $db =& eZDB::instance();

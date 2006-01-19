@@ -4,7 +4,7 @@
 //
 // Created on: <01-Mar-2002 13:48:53 amos>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -1034,6 +1034,23 @@ class eZSys
             $instance = new eZSys();
         }
         return $instance;
+    }
+
+    /*!
+     A wrapper for php's crc32 function.
+     \return the crc32 polynomial as unsigned int
+    */
+    function ezcrc32( $string )
+    {
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+
+        if ( $ini->variable( 'SiteSettings', '64bitCompatibilityMode' ) === 'enabled' )
+            $checksum = sprintf( '%u', crc32( $string ) );
+        else
+            $checksum = crc32( $string );
+
+        return $checksum;
     }
 
     /// The line separator used in files

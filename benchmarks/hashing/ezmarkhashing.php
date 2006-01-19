@@ -4,7 +4,7 @@
 //
 // Created on: <18-Feb-2004 11:54:17 >
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -68,7 +68,8 @@ class eZMarkHashing extends eZBenchmarkCase
 
     function markCRC32( &$tr )
     {
-        crc32( $this->Text );
+        include_once( 'lib/ezutils/classes/ezsys.php' );
+        eZSys::ezcrc32( $this->Text );
     }
 
     var $Text;

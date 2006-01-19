@@ -903,6 +903,34 @@ class eZDBInterface
     }
 
     /*!
+      Casts elements of \a $pieces to type \a $type and returns them as string separated by \a $glue.
+
+      \param $glue The separator.
+             $pieces The array containing the elements.
+             $type The type to cast to.
+
+      Example:
+      \code
+      implodeWithTypeCast( ',', $myArray, 'int' )
+      \endcode
+
+    */
+    function implodeWithTypeCast( $glue, &$pieces, $type )
+    {
+        $str = '';
+        if ( !is_array( $pieces ) )
+            return $str;
+
+        foreach( $pieces as $piece )
+        {
+            settype( $piece, $type );
+            $str .= $piece.$glue;
+        }
+        $str = rtrim( $str, $glue );
+        return $str;
+    }
+
+    /*!
       \pure
       Returns the last serial ID generated with an auto increment field.
     */

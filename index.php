@@ -1,5 +1,5 @@
 <?php
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -616,8 +616,9 @@ while ( $moduleRunRequired )
                         if ( isset( $policy['SiteAccess'] ) )
                         {
                             $policyChecked = true;
-                            eZDebugSetting::writeDebug( 'kernel-siteaccess', $policy['SiteAccess'], crc32( $access[ 'name' ] ));
-                            if ( in_array( crc32( $access[ 'name' ] ), $policy['SiteAccess'] ) )
+                            $crc32AccessName = eZSys::ezcrc32( $access[ 'name' ] );
+                            eZDebugSetting::writeDebug( 'kernel-siteaccess', $policy['SiteAccess'], $crc32AccessName );
+                            if ( in_array( $crc32AccessName, $policy['SiteAccess'] ) )
                             {
                                 $hasAccessToSite = true;
                                 break;

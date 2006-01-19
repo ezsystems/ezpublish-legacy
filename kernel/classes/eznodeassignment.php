@@ -4,7 +4,7 @@
 //
 // Created on: <02-ïËÔ-2002 15:58:10 sp>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -208,6 +208,8 @@ class eZNodeAssignment extends eZPersistentObject
         }
         else
         {
+            $parentNodeID =(int) $parentNodeID;
+            $contentObjectID =(int) $contentObjectID;
             $sqlQuery = "DELETE FROM eznode_assignment WHERE parent_node='$parentNodeID' AND contentobject_id='$contentObjectID'";
             $db->query( $sqlQuery );
         }

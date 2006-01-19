@@ -4,7 +4,7 @@
 //
 // Created on: <06-Oct-2002 16:19:31 amos>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -605,14 +605,18 @@ class eZContentFunctionCollection
         }
 
         $limitationList = array();
-        $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( eZContentObjectTreeNode::getLimitationList( false ) );
+        include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
+        $false = false;
+        $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( eZContentObjectTreeNode::getLimitationList( $false ) );
 
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
 
+        $alphabet = $db->escapeString( $alphabet );
+
         if ( $classid != null )
         {
-            $classIDString = '(' . implode( ',', $classIDArray ) . ')';
+            $classIDString = '(' . $db->implodeWithTypeCast( ',', $classIDArray, 'int' ) . ')';
             $query = "SELECT count(*) AS count
                       FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
                       WHERE ezkeyword.keyword LIKE '$alphabet%'
@@ -728,9 +732,11 @@ class eZContentFunctionCollection
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
 
+        $alphabet = $db->escapeString( $alphabet );
+
         if ( $classIDArray != null )
         {
-            $classIDString = '(' . implode( ',', $classIDArray ) . ')';
+            $classIDString = '(' . $db->implodeWithTypeCast( ',', $classIDArray, 'int' ) . ')';
             $query = "SELECT ezkeyword.keyword,ezcontentobject_tree.node_id
                       FROM ezkeyword, ezkeyword_attribute_link,ezcontentobject_tree,ezcontentobject,ezcontentclass, ezcontentobject_attribute
                       WHERE ezkeyword.keyword LIKE '$alphabet%'
@@ -809,6 +815,10 @@ class eZContentFunctionCollection
         }
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
+        $contentclassattributeID =(int) $contentclassattributeID;
+        $value = $db->escapeString( $value );
+        if ( $datatype != "text" )
+            settype( $value, $datatype );
         $resultNodeArray = array();
         $nodeList =& $db->arrayQuery( "SELECT ezcontentobject_tree.node_id, ezcontentobject.name, ezcontentobject_tree.parent_node_id
                                             FROM ezcontentobject_tree, ezcontentobject, ezcontentobject_attribute

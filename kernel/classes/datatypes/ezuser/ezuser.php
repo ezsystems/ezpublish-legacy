@@ -4,7 +4,7 @@
 //
 // Created on: <10-Jun-2002 17:03:15 bf>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -354,9 +354,9 @@ class eZUser extends eZPersistentObject
 
         $parameters = array();
         if ( $offset )
-            $parameters['offset'] = $offset;
+            $parameters['offset'] =(int) $offset;
         if ( $limit )
-            $parameters['limit'] = $limit;
+            $parameters['limit'] =(int) $limit;
         $sortText = '';
         if ( $asObject )
         {
@@ -1028,7 +1028,7 @@ WHERE user_id = '" . $userID . "' AND
         if ( isset( $GLOBALS['eZUserUpdatedLastVisit'] ) )
             return;
         $db =& eZDB::instance();
-
+        $userID = (int) $userID;
         $userVisitArray = $db->arrayQuery( "SELECT 1 FROM ezuservisit WHERE user_id=$userID" );
         $time = time();
 
@@ -1501,7 +1501,7 @@ WHERE user_id = '" . $userID . "' AND
 
                 if ( $userID )
                 {
-                    $contentobjectID = $userID;
+                    $contentobjectID = (int) $userID;
                 }
                 else
                 {

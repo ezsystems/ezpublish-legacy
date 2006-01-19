@@ -2,7 +2,7 @@
 //
 // Created on: <13-Feb-2005 03:13:00 bh>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -115,8 +115,8 @@ if( !$object )
 }
 
 $db =& eZDB::instance();
-$collections =& $db->arrayQuery( 'SELECT * FROM ezinfocollection WHERE ezinfocollection.contentobject_id=' . $objectID . ' LIMIT ' . $limit . ' OFFSET ' . $offset );
-$collectionCountQuery =& $db->arrayQuery( 'SELECT COUNT(*) AS count FROM ezinfocollection WHERE ezinfocollection.contentobject_id=' . $objectID );
+$collections =& $db->arrayQuery( 'SELECT * FROM ezinfocollection WHERE ezinfocollection.contentobject_id=' . (int)$objectID . ' LIMIT ' . (int)$limit . ' OFFSET ' . (int)$offset );
+$collectionCountQuery =& $db->arrayQuery( 'SELECT COUNT(*) AS count FROM ezinfocollection WHERE ezinfocollection.contentobject_id=' . (int)$objectID );
 $numberOfCollections = 0;
 
 if ( $collectionCountQuery )

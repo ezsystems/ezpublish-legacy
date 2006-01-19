@@ -4,7 +4,7 @@
 //
 // Created on: <30-Apr-2003 13:04:11 sp>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -277,6 +277,7 @@ class eZContentBrowseRecent extends eZPersistentObject
     function removeRecentByNodeID( $nodeID )
     {
         $db =& eZDB::instance();
+        $nodeID =(int) $nodeID;
         $db->query( "DELETE FROM ezcontentbrowserecent WHERE node_id=$nodeID" );
     }
 
@@ -287,6 +288,8 @@ class eZContentBrowseRecent extends eZPersistentObject
     function updateNodeID( $oldNodeID, $newNodeID )
     {
         $db =& eZDB::instance();
+        $oldNodeID =(int) $oldNodeID;
+        $newNodeID =(int) $newNodeID;
         $db->query( "UPDATE ezcontentbrowserecent SET node_id=$newNodeID WHERE node_id=$oldNodeID" );
     }
 

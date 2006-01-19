@@ -4,7 +4,7 @@
 //
 // Created on: <31-Jul-2002 14:00:03 bf>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -260,8 +260,9 @@ class eZOrder extends eZPersistentObject
             $db =& eZDB::instance();
 
             $db_params = array();
-            $db_params["offset"] = $offset;
-            $db_params["limit"] = $limit;
+            $db_params["offset"] =(int) $offset;
+            $db_params["limit"] =(int) $limit;
+            $sortOrder = $db->escapeString( $sortOrder );
 
             $query = "SELECT ezorder.*
                       FROM
@@ -426,6 +427,8 @@ class eZOrder extends eZPersistentObject
     function &orderList( $CustomID, $Email )
     {
         $db =& eZDB::instance();
+        $CustomID =(int) $CustomID;
+        $Email = $db->escapeString( $Email );
         if ( $Email == false )
         {
             $orderArray = $db->arrayQuery( "SELECT ezorder.* FROM ezorder
@@ -457,6 +460,8 @@ class eZOrder extends eZPersistentObject
     function &productList( $CustomID, $Email )
     {
         $db =& eZDB::instance();
+        $CustomID =(int) $CustomID;
+        $Email = $db->escapeString( $Email );
         if ( $Email == false )
         {
             $productArray = $db->arrayQuery(  "SELECT ezproductcollection_item.*, ignore_vat FROM ezorder, ezproductcollection_item
@@ -568,8 +573,8 @@ class eZOrder extends eZPersistentObject
         $db =& eZDB::instance();
 
         $db_params = array();
-        $db_params["offset"] = $offset;
-        $db_params["limit"] = $limit;
+        $db_params["offset"] =(int) $offset;
+        $db_params["limit"] =(int) $limit;
 
         $customEmailResult =& $db->arrayQuery( "SELECT DISTINCT email FROM ezorder WHERE is_temporary='0' ORDER BY email", $db_params );
         $customEmailArray = array();
@@ -1322,6 +1327,7 @@ class eZOrder extends eZPersistentObject
     function cleanupOrder( $orderID )
     {
         $db =& eZDB::instance();
+        $orderID =(int) $orderID;
         $rows = $db->arrayQuery( "SELECT productcollection_id, order_nr FROM ezorder WHERE id='$orderID'" );
         if ( count( $rows ) > 0 )
         {

@@ -2,7 +2,7 @@
 //
 // Created on: <23-Mar-2005 23:23:23 rl>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -551,7 +551,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
         return $notifications;
     }
 
-    $idListStr = implode( ',', $syncObjectIDListNew );
+    $idListStr = $db->implodeWithTypeCast( ',', $syncObjectIDListNew, 'int' );
     $relatedRecordsList =& $db->arrayQuery( "SELECT * FROM ezcontentobject_link WHERE from_contentobject_id IN ($idListStr)" );
 
     foreach ( array_keys( $relatedRecordsList ) as $key )
@@ -560,8 +560,8 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
         $kindex = array_search( $relatedEntry[ 'to_contentobject_id' ], $syncObjectIDListSrc );
         if ( $kindex !== false )
         {
-            $newToContentObjectID = $syncObjectIDListNew[ $kindex ];
-            $linkID = $relatedEntry[ 'id' ];
+            $newToContentObjectID = (int) $syncObjectIDListNew[ $kindex ];
+            $linkID = (int) $relatedEntry[ 'id' ];
             $db->query( "UPDATE ezcontentobject_link SET  to_contentobject_id=$newToContentObjectID WHERE id=$linkID" );
         }
     }
@@ -738,7 +738,7 @@ function copySubtree( $srcNodeID, $dstNodeID, &$notifications, $allVersions, $ke
             if ( $isRelationModified )
             {
                 $attributeID = $relationListAttribute->attribute( 'id' );
-                $changedDomString = eZObjectRelationListType::domString( $relationsDom );
+                $changedDomString =$db->escapeString( eZObjectRelationListType::domString( $relationsDom ) );
                 $db->query( "UPDATE ezcontentobject_attribute SET data_text='$changedDomString' WHERE id=$attributeID" );
             }
         }

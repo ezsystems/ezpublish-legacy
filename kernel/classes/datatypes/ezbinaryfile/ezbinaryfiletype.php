@@ -4,7 +4,7 @@
 //
 // Created on: <30-Apr-2002 13:06:21 bf>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -509,9 +509,11 @@ class eZBinaryFileType extends eZDataType
     */
     function title( &$contentObjectAttribute,  $name = "original_filename" )
     {
-        $binaryFile =& eZBinaryFile::fetch( $contentObjectAttribute->attribute( "id" ),
-                                            $contentObjectAttribute->attribute( "version" ) );
-        $value = $binaryFile->attribute( $name );
+        $value = false;
+        $binaryFile =& eZBinaryFile::fetch( $contentObjectAttribute->attribute( 'id' ),
+                                            $contentObjectAttribute->attribute( 'version' ) );
+        if ( is_object( $binaryFile ) )
+            $value = $binaryFile->attribute( $name );
 
         return $value;
     }
