@@ -187,7 +187,6 @@ elseif ( $currentAction == 'NewTool' ||
     {
         $addedToolName = $http->postVariable( 'toolName' );
         array_push( $updatedToolArray, $addedToolName );
-        $updatedToolArray = array_unique( $updatedToolArray );
     }
 
     foreach ( $updatedBlockArray as $updatedBlock )
