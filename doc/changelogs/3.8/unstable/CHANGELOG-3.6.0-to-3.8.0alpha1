@@ -828,7 +828,8 @@ Attributes:
 - Fixed bug #7618: eZ publish can't be migrated from a 32bit to a 64bit 
   architecture.
   (Merged from release/3.7.3 rev. 14568)
-
+- Fixed bug #7675: Bug /content/action without POST-data renders blank page.
+  ( Merged from stable/3.5 ( 3.5.9 ) rev. 14597 )
 
 *Library:
 
