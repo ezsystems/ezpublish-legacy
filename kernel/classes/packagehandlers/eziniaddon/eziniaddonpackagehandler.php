@@ -4,7 +4,7 @@
 //
 // Created on: <23-Jul-2003 16:11:42 amos>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -141,17 +141,17 @@ class eZINIAddonPackageHandler extends eZPackageHandler
             {
                 case 'class':
                 {
-                    $result = $db->arrayQuery( 'SELECT id FROM ezcontentclass WHERE remote_id=\'' . $value . '\'' );
+                    $result = $db->arrayQuery( 'SELECT id FROM ezcontentclass WHERE remote_id=\'' . $db->escapeString( $value ) . '\'' );
                 } break;
 
                 case 'node':
                 {
-                    $result = $db->arrayQuery( 'SELECT node_id FROM ezcontentobject_tree WHERE remote_id=\'' . $value . '\'' );
+                    $result = $db->arrayQuery( 'SELECT node_id FROM ezcontentobject_tree WHERE remote_id=\'' . $db->escapeString( $value ) . '\'' );
                 } break;
 
                 case 'object':
                 {
-                    $result = $db->arrayQuery( 'SELECT id FROM ezcontentobject WHERE remote_id=\'' . $value . '\'' );
+                    $result = $db->arrayQuery( 'SELECT id FROM ezcontentobject WHERE remote_id=\'' . $db->escapeString( $value ) . '\'' );
                 } break;
 
                 default:

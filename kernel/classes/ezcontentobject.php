@@ -4,7 +4,7 @@
 //
 // Created on: <17-Apr-2002 09:15:27 bf>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -285,6 +285,9 @@ class eZContentObject extends eZPersistentObject
             return $name;
         }
         $db =& eZDb::instance();
+        $lang = $db->escapeString( $lang );
+        $version = (int) $version;
+        $contentObjectID =(int) $contentObjectID;
         $query= "select name,real_translation from ezcontentobject_name where contentobject_id = '$contentObjectID' and content_version = '$version'  and content_translation = '$lang'";
         $result = $db->arrayQuery( $query );
         if ( count( $result ) < 1 )
@@ -317,16 +320,16 @@ class eZContentObject extends eZPersistentObject
 
         $db =& eZDB::instance();
         $objectName = $db->escapeString( $objectName );
-
         if ( !$versionNum )
         {
             $versionNum = $this->attribute( 'current_version' );
         }
-
+        $versionNum =(int) $versionNum;
         if ( !$translation )
         {
             $translation = $this->defaultLanguage();
         }
+        $translation = $db->escapeString( $translation );
 
         $ini =& eZINI::instance();
 //        $needTranslations = $ini->variableArray( "ContentSettings", "TranslationList" );
@@ -579,6 +582,7 @@ class eZContentObject extends eZPersistentObject
     function &fetchByRemoteID( $remoteID, $asObject = true )
     {
         $db =& eZDB::instance();
+        $remoteID =$db->escapeString( $remoteID );
         $resultArray = $db->arrayQuery( 'SELECT id FROM ezcontentobject WHERE remote_id=\'' . $remoteID . '\'' );
         if ( count( $resultArray ) != 1 )
             $object = null;
@@ -669,7 +673,7 @@ class eZContentObject extends eZPersistentObject
     function createFetchSQLString( $id )
     {
         $language = eZContentObject::defaultLanguage();
-
+        $id = (int) $id;
         $versionNameTables  = ', ezcontentobject_name ';
         $versionNameTargets = ', ezcontentobject_name.name AS name,  ezcontentobject_name.real_translation ';
         $versionNameJoins   = " AND  ezcontentobject.id = ezcontentobject_name.contentobject_id AND\n" .
@@ -770,9 +774,8 @@ class eZContentObject extends eZPersistentObject
         }
 
         $db =& eZDB::instance();
-
-        $objectInSQL = implode( ', ', $uniqueIDArray );
-
+        // All elements from $uniqueIDArray should be casted to (int)
+        $objectInSQL = $db->implodeWithTypeCast( ', ', $uniqueIDArray, 'int' );
         $query = "SELECT ezcontentclass.name as class_name, ezcontentobject.* $versionNameTargets
                       FROM
                          ezcontentclass,
@@ -1208,7 +1211,7 @@ class eZContentObject extends eZPersistentObject
                 $dataType->deleteStoredObjectAttribute( $contentobjectAttribute, $contentobjectAttributeVersion );
             }
         }
-
+        $version =(int) $version;
         $db->query( "DELETE FROM ezcontentobject_attribute
 					      WHERE contentobject_id='$this->ID' AND version>'$version'" );
 
@@ -1238,7 +1241,7 @@ class eZContentObject extends eZPersistentObject
     function removeReverseRelations( $objectID )
     {
         $db =& eZDB::instance();
-
+        $objectID = (int) $objectID;
         // Get list of objects referring to this one.
         $relatingObjects = $this->reverseRelatedObjectList( false, false, false );
 
@@ -1475,7 +1478,12 @@ class eZContentObject extends eZPersistentObject
                 $language = eZContentObject::defaultLanguage();
             }
         }
-
+        if ( is_string( $language ) )
+            $language = $db->escapeString( $language );
+        if ( $version !== null )
+            $version = (int) $version;
+        if ( $contentObjectAttributeID !== false )
+            $contentObjectAttributeID =(int) $contentObjectAttributeID;
 //         print( "Attributes fetch $this->ID, $version" );
 
         if ( !isset( $this->ContentObjectAttributes[$version][$language] ) )
@@ -1983,6 +1991,9 @@ class eZContentObject extends eZPersistentObject
                                  "eZContentObject::addContentObjectRelation" );
             return false;
         }
+        $fromObjectID =(int) $fromObjectID;
+        $attributeID =(int) $attributeID;
+        $fromObjectVersion =(int) $fromObjectVersion;
         $query = "SELECT count(*) AS count
                   FROM   ezcontentobject_link
                   WHERE  from_contentobject_id=$fromObjectID AND
@@ -2013,17 +2024,24 @@ class eZContentObject extends eZPersistentObject
 
         if ( !$fromObjectVersion )
             $fromObjectVersion = $this->CurrentVersion;
-
+        $fromObjectVersion = (int) $fromObjectVersion;
         if ( !$fromObjectID )
             $fromObjectID = $this->ID;
+        $fromObjectID =(int) $fromObjectID;
 
         if ( $toObjectID !== false )
+        {
+            $toObjectID =(int) $toObjectID;
             $toObjectCondition = "AND to_contentobject_id=$toObjectID";
+        }
         else
             $toObjectCondition = '';
 
         if ( $attributeID !== false )
+        {
+            $attributeID =(int) $attributeID;
             $classAttributeCondition = "AND contentclassattribute_id=$attributeID";
+        }
         else
             $classAttributeCondition = '';
 
@@ -2049,9 +2067,11 @@ class eZContentObject extends eZPersistentObject
         eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $fromObjectID, "objectID" );
         if ( $fromObjectVersion == false )
             $fromObjectVersion = $this->CurrentVersion;
+        $fromObjectVersion =(int) $fromObjectVersion;
 
         if( !$fromObjectID )
             $fromObjectID = $this->ID;
+        $fromObjectID =(int) $fromObjectID;
 
         $db =& eZDB::instance();
         $language = eZContentObject::defaultLanguage();
@@ -2077,6 +2097,7 @@ class eZContentObject extends eZPersistentObject
 
         if ( $attributeID !== false )
         {
+            $attributeID =(int) $attributeID;
             $query = "SELECT
                         ezcontentclass.name AS class_name,
                         ezcontentobject.* $versionNameTargets
@@ -2169,8 +2190,11 @@ class eZContentObject extends eZPersistentObject
 
         if ( $fromObjectVersion == false )
             $fromObjectVersion = $this->CurrentVersion;
+        $fromObjectVersion =(int) $fromObjectVersion;
+
         if( !$fromObjectID )
             $fromObjectID = $this->ID;
+        $fromObjectID =(int) $fromObjectID;
 
         $db =& eZDB::instance();
 
@@ -2186,8 +2210,11 @@ class eZContentObject extends eZPersistentObject
                    ezcontentobject_link.from_contentobject_version='$fromObjectVersion'";
 
         if ( $attributeID !== false )
+        {
+            $attributeID =(int) $attributeID;
             $query .= " AND
                    contentclassattribute_id=$attributeID";
+        }
 
         $rows = $db->arrayQuery( $query );
 
@@ -2212,6 +2239,7 @@ class eZContentObject extends eZPersistentObject
     {
         if( !$toObjectID )
             $toObjectID = $this->ID;
+        $toObjectID =(int) $toObjectID;
 
         $db =& eZDB::instance();
         $language = eZContentObject::defaultLanguage();
@@ -2237,6 +2265,7 @@ class eZContentObject extends eZPersistentObject
 
         if ( $attributeID !== false )
         {
+            $attributeID = (int) $attributeID;
             $query = "SELECT
                         ezcontentclass.name AS class_name,
                         ezcontentobject.* $versionNameTargets
@@ -2325,11 +2354,12 @@ class eZContentObject extends eZPersistentObject
 
         if ( is_array( $toObjectID ) )
         {
-            $objectIDSQL = 'ezcontentobject_link.to_contentobject_id = \'' . implode( "', '", $toObjectID ) . '\' AND ';
+            $objectIDSQL = 'ezcontentobject_link.to_contentobject_id = \'' . $db->implodeWithTypeCast( ', ', $toObjectID, 'int' ) . '\' AND ';
         }
         else
         {
-            $objectIDSQL = 'ezcontentobject_link.to_contentobject_id = ' . $db->escapeString( $toObjectID ) . ' AND ';
+            $toObjectID = (int) $toObjectID;
+            $objectIDSQL = 'ezcontentobject_link.to_contentobject_id = ' .  $toObjectID  . ' AND ';
         }
 
         $query = "SELECT count( DISTINCT ezcontentobject.id ) AS count
@@ -3803,6 +3833,8 @@ class eZContentObject extends eZPersistentObject
         if ( is_numeric( $classID ) and is_numeric( $userID ) )
         {
             $db =& eZDB::instance();
+            $classID =(int) $classID;
+            $userID =(int) $userID;
             $countArray = $db->arrayQuery( "SELECT count(*) AS count FROM ezcontentobject WHERE contentclass_id=$classID AND owner_id=$userID" );
             $count = $countArray[0]['count'];
         }

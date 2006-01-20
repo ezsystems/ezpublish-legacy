@@ -4,7 +4,7 @@
 //
 // Created on: <16-Jul-2004 15:54:21 amos>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -76,7 +76,8 @@ class eZCharTransform
         if ( $useCache )
         {
             // CRC32 is used for speed, MD5 would be more unique but is slower
-            $key = crc32( 'Rule: ' . ( is_array( $rule ) ? implode( ',', $rule ) : $rule ) . '-' . $charset );
+            include_once( 'lib/ezutils/classes/ezsys.php' );
+            $key = eZSys::ezcrc32( 'Rule: ' . ( is_array( $rule ) ? implode( ',', $rule ) : $rule ) . '-' . $charset );
 
             $charsetName = ( $charset === false ? eZTextCodec::internalCharset() : eZCharsetInfo::realCharsetCode( $charset ) );
 
@@ -134,8 +135,10 @@ class eZCharTransform
         if ( $useCache )
         {
             // CRC32 is used for speed, MD5 would be more unique but is slower
+            include_once( 'lib/ezutils/classes/ezsys.php' );
+
             $keyText = 'Group:' . $group;
-            $key = crc32( $keyText . '-' . $charset );
+            $key = eZSys::ezcrc32( $keyText . '-' . $charset );
 
             // Try to execute code in the cache file, if it succeeds
             // \a $text will/ transformated

@@ -4,7 +4,7 @@
 //
 // Created on: <28-Jan-2003 13:28:39 bf>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -184,7 +184,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         // Check that all embeded objects exists in database
         $db =& eZDB::instance();
 
-        $objectIDInSQL = implode( ', ', $relatedObjectIDArray );
+        // $relatedObjectIDArray[] should be casted to (int)
+        $objectIDInSQL = $db->implodeWithTypeCast( ', ', $relatedObjectIDArray, 'int' );
         $objectQuery = "SELECT id FROM ezcontentobject WHERE id IN ( $objectIDInSQL )";
         $objectRowArray = $db->arrayQuery( $objectQuery );
 
@@ -878,7 +879,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             // Using additional array to set arrtibute's namespace in some cases.
             // if we have attrName=>"Namespace" than Namespace added to correspondent attribute DOM node
             // if we have attrName=>"Namespace:newAttrName" than in additon attrName will be changed to newAttrName
-            $attrNamespacesArray = array(); 
+            $attrNamespacesArray = array();
 
             if ( $currentTag == "td" or $currentTag == "th" )
             {

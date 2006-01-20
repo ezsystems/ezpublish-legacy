@@ -4,7 +4,7 @@
 //
 // Created on: <10-Jul-2002 19:28:22 sp>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -2684,6 +2684,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $ini =& eZINI::instance();
         $db =& eZDB::instance();
 
+        $name = $db->escapeString( $name );
         $query = "SELECT ezcontentobject.*,
                              ezcontentobject_tree.*,
                              ezcontentclass.name as class_name
@@ -2833,6 +2834,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $node = eZContentObjectTreeNode::fetch( $nodeID );
         $nodePath =  $node->attribute( 'path_string' );
 
+        $sectionID =(int) $sectionID;
 //        $subStringString = $db->subString( 'path_string', 1, strlen( $nodePath ) );
 
         $pathString = " path_string like '$nodePath%' AND ";
@@ -2862,6 +2864,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $filterPart = '';
         if ( $oldSectionID !== false )
         {
+            $oldSectionID =(int) $oldSectionID;
             $filterPart = " section_id = '$oldSectionID' and ";
         }
 
@@ -2951,15 +2954,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         if ( !is_array( $nodeList ) || count( $nodeList ) < 1 )
             return array();
-        $nodeIDs = implode( ', ', $nodeList );
-        $query = "SELECT path_identification_string FROM ezcontentobject_tree WHERE node_id IN ( $nodeIDs )";
+
         $db =& eZDB::instance();
+        $nodeIDs = $db->implodeWithTypeCast( ', ', $nodeList, 'int' );
+        $query = "SELECT path_identification_string FROM ezcontentobject_tree WHERE node_id IN ( $nodeIDs )";
         $pathListArray = $db->arrayQuery( $query );
         return $pathListArray;
     }
 
     function &findMainNode( $objectID, $asObject = false )
     {
+        $objectID=(int) $objectID;
         $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.name as class_name
@@ -3002,7 +3007,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
     {
         if ( count( $objectIDArray ) )
         {
-            $objectIDString = implode( ',', $objectIDArray );
+            $db =& eZDB::instance();
+            $objectIDString = $db->implodeWithTypeCast( ',', $objectIDArray, 'int' );
             $query="SELECT ezcontentobject.*,
                            ezcontentobject_tree.*,
                            ezcontentclass.name as class_name
@@ -3015,7 +3021,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           ezcontentclass.version=0  AND
                           ezcontentclass.id = ezcontentobject.contentclass_id";
 
-            $db =& eZDB::instance();
             $nodeListArray = $db->arrayQuery( $query );
             if ( $asObject )
             {
@@ -3039,7 +3044,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     function fetch( $nodeID = false, $lang = false, $asObject = true, $conditions = false )
     {
         $returnValue = null;
-
+        $db = eZDB::instance();
         if ( ( is_numeric( $nodeID ) && $nodeID == 1 ) ||
              ( is_array( $nodeID ) && count( $nodeID ) === 1 && $nodeID[0] == 1 ) )
         {
@@ -3057,6 +3062,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 $lang = eZContentObject::defaultLanguage();
             }
+            $lang = $db->escapeString( $lang );
 
             $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
                                   ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
@@ -3069,13 +3075,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 if ( is_array( $nodeID ) )
                 {
                     if( count( $nodeID ) === 1 )
-                        $sqlCondition = 'node_id IN ( ' . $nodeID[0] . ' ) AND';
+                        $sqlCondition = 'node_id IN ( ' . (int) $nodeID[0] . ' ) AND';
                     else
-                        $sqlCondition = 'node_id IN ( ' . implode( ',', $nodeID ) . ' ) AND';
+                    {
+                        // All elements from $nodeID should be casted to (int)
+                        $impStr = $db->implodeWithTypeCast( ',', $nodeID, 'int' );
+                        $sqlCondition = 'node_id IN ( ' . $impStr . ' ) AND';
+                    }
                 }
                 else
                 {
-                    $sqlCondition = 'node_id IN ( ' . $nodeID . ' ) AND';
+                    $sqlCondition = 'node_id IN ( ' . (int) $nodeID . ' ) AND';
                 }
             }
 
@@ -3084,9 +3094,12 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 foreach( $conditions as $key => $condition )
                 {
                     if ( is_string( $condition ) )
+                    {
+                        $condition = $db->escapeString( $condition );
                         $condition = "'$condition'";
+                    }
 
-                    $sqlCondition .= "ezcontentobject_tree.$key=$condition AND ";
+                    $sqlCondition .= "ezcontentobject_tree." . $db->escapeString( $key ) . "=$condition AND ";
                 }
             }
 
@@ -3112,7 +3125,6 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $versionNameJoins";
         }
 
-        $db = eZDB::instance();
         $nodeListArray = $db->arrayQuery( $query );
 
         if ( count( $nodeListArray ) > 0 )
@@ -3145,6 +3157,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $returnValue = null;
         $ini =& eZINI::instance();
         $db =& eZDB::instance();
+        $contentObjectID =(int) $contentObjectID;
+        $parentNodeID =(int) $parentNodeID;
         $lang = eZContentObject::defaultLanguage();
         $query = "SELECT ezcontentobject_tree.*, ezcontentobject_name.name as name, ezcontentobject_name.real_translation
                   FROM ezcontentobject_tree, ezcontentobject_name
@@ -4182,7 +4196,7 @@ WHERE
 
         $oldPath = $node->attribute( 'path_string' ); //$marginsArray[0][2];
         $oldParentNodeID = $node->attribute( 'parent_node_id' ); //$marginsArray[0][3];
-
+        $newParentNodeID =(int) $newParentNodeID;
         if ( $oldParentNodeID != $newParentNodeID )
         {
             $newParentNode = eZContentObjectTreeNode::fetch( $newParentNodeID );
@@ -4814,6 +4828,7 @@ WHERE
         if ( !isset( $nodeID ) )
             return null;
         $db =& eZDB::instance();
+        $nodeID =(int) $nodeID;
         $parentArr = $db->arrayQuery( "SELECT
                                               parent_node_id
                                        FROM
@@ -4839,7 +4854,8 @@ WHERE
         {
             $parentNode = 2;
         }
-
+        $parentNode =(int) $parentNode;
+        $id =(int) $id;
         $db =& eZDB::instance();
         if( $asObject )
         {

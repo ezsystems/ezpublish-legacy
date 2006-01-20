@@ -2,7 +2,7 @@
 //
 // Created on: <04-Jul-2002 13:06:30 bf>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -1037,7 +1037,7 @@ else if ( $http->hasPostVariable( 'UpdatePriorityButton' ) )
         for ( $i=0; $i<count( $priorityArray );$i++ )
         {
             $priority = (int) $priorityArray[$i];
-            $nodeID = $priorityIDArray[$i];
+            $nodeID = (int) $priorityIDArray[$i];
             $db->query( "UPDATE ezcontentobject_tree SET priority=$priority WHERE node_id=$nodeID" );
         }
         $db->commit();

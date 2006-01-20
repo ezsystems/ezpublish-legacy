@@ -4,7 +4,7 @@
 //
 // Created on: <10-æÅ×-2003 16:04:18 sp>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -146,7 +146,7 @@ class eZProductCollectionItemOption extends eZPersistentObject
     function cleanupList( $itemIDList )
     {
         $db =& eZDB::instance();
-        $idText = implode( ', ', $itemIDList );
+        $idText = $db->implodeWithTypeCast( ', ', $itemIDList, 'int' );
         $db->query( "DELETE FROM ezproductcollection_item_opt WHERE item_id IN ( $idText )" );
     }
 

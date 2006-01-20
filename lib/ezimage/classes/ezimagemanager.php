@@ -4,7 +4,7 @@
 //
 // Created on: <01-Mar-2002 14:23:49 amos>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -268,7 +268,10 @@ class eZImageManager
                 $filterData .= '=' . implode( ',', $filter['data'] );
             $keyData[] = $filterData;
         }
-        $key = crc32( implode( "\n", $keyData ) );
+
+        include_once( 'lib/ezutils/classes/ezsys.php' );
+        $key = eZSys::ezcrc32( implode( "\n", $keyData ) );
+
         return $key;
     }
 

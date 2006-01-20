@@ -4,7 +4,7 @@
 //
 // Created on: <22-ñÎ×-2003 16:23:14 sp>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -57,6 +57,8 @@ class eZSiteAccess
 
     function siteAccessList()
     {
+        include_once( 'lib/ezutils/classes/ezsys.php' );
+
         $ini =& eZINI::instance();
         $siteAccessArray = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
 
@@ -66,14 +68,14 @@ class eZSiteAccess
         {
             $siteAccessItem = array();
             $siteAccessItem['name'] =& $siteAccessArray[$key];
-            $siteAccessItem['id'] = crc32( $siteAccessArray[$key] );
+            $siteAccessItem['id'] = eZSys::ezcrc32( $siteAccessArray[$key] );
             $siteAccessList[] = $siteAccessItem;
         }
         if ( $serversiteaccess = eZSys::serverVariable( $ini->variable( 'SiteAccessSettings', 'ServerVariableName' ), true ) )
         {
             $siteAccessItem = array();
             $siteAccessItem['name'] =& $serversiteaccess;
-            $siteAccessItem['id'] = crc32( $serversiteaccess );
+            $siteAccessItem['id'] = eZSys::ezcrc32( $serversiteaccess );
             $siteAccessList[] = $siteAccessItem;
         }
         return $siteAccessList;

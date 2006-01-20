@@ -4,7 +4,7 @@
 //
 // Created on: <19-Aug-2002 10:57:01 sp>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -377,6 +377,9 @@ class eZPolicyLimitation extends eZPersistentObject
     function findByType( $type, $value, $asObject = true, $useLike = true )
     {
         $cond = '';
+        $db = eZDB::instance();
+        $value = $db->escapeString( $value );
+        $type = $db->escapeString( $type );
         if ( $useLike === true )
         {
             $cond = "ezpolicy_limitation_value.value like '$value%' ";
@@ -393,7 +396,7 @@ class eZPolicyLimitation extends eZPersistentObject
                        ezpolicy_limitation.identifier = '$type' AND
                        $cond AND
                        ezpolicy_limitation_value.limitation_id =  ezpolicy_limitation.id";
-        $db = eZDB::instance();
+
         $dbResult = $db->arrayQuery( $query );
         $resultArray = array();
         $resultCount = count( $dbResult );
