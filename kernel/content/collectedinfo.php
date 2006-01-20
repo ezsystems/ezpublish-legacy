@@ -82,7 +82,8 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ),
                       array( 'class', $object->attribute( 'contentclass_id' ) ),
                       array( 'navigation_part_identifier', $navigationPartIdentifier ),
                       array( 'depth', $node->attribute( 'depth' ) ),
-                      array( 'url_alias', $node->attribute( 'url_alias' ) )
+                      array( 'url_alias', $node->attribute( 'url_alias' ) ),
+                      array( 'class_identifier', $node->attribute( 'class_identifier' ) )
                       ) );
 
 
