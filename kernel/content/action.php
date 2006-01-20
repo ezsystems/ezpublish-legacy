@@ -1382,6 +1382,10 @@ else if ( $module->isCurrentAction( 'UploadFile' ) )
     $module->redirectTo( $module->functionURI( 'view' ) . '/' . $viewMode . '/' . $topLevelNode . '/' );
     return;
 }*/
+else if ( !isset( $result ) )
+{
+    return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+}
 
 
 // return module contents
