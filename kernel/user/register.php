@@ -2,7 +2,7 @@
 //
 // Created on: <01-Aug-2002 09:58:09 bf>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -58,7 +58,7 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) and !$http->hasPostVariable(
     $errMsg = '';
     $checkErrNodeId = false;
 
-    $defaultUserPlacement = $ini->variable( "UserSettings", "DefaultUserPlacement" );
+    $defaultUserPlacement = (int)$ini->variable( "UserSettings", "DefaultUserPlacement" );
 
     $db =& eZDB::instance();
     $sql = "SELECT count(*) as count FROM ezcontentobject_tree WHERE node_id = $defaultUserPlacement";
@@ -114,6 +114,7 @@ if ( !function_exists( 'checkContentActions' ) )
             include_once( 'kernel/classes/ezredirectmanager.php' );
             eZRedirectManager::redirectTo( $module, '/' );
 
+            $EditVersion = (int)$EditVersion;
             $objectID = $object->attribute( 'id' );
             $versionCount= $object->getVersionCount();
             $db =& eZDB::instance();
@@ -185,7 +186,7 @@ if ( !function_exists( 'checkContentActions' ) )
                 $userSetting = eZUserSetting::fetch( $user->attribute( 'contentobject_id' ) );
                 $userSetting->setAttribute( 'is_enabled', 0 );
                 $userSetting->store();
-		    
+		
                 // Log out current user
                 eZUser::logoutCurrent();
 

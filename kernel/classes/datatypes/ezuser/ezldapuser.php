@@ -4,7 +4,7 @@
 //
 // Created on: <24-Jul-2003 15:48:06 wy>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -71,6 +71,7 @@ class eZLDAPUser extends eZUser
             $authenticationMatch = eZUser::authenticationMatch();
 
         $loginEscaped = $db->escapeString( $login );
+        $passwordEscaped = $db->escapeString( $password );
 
         $loginArray = array();
         if ( $authenticationMatch & EZ_USER_AUTHENTICATE_LOGIN )
@@ -93,7 +94,7 @@ class eZLDAPUser extends eZUser
                       FROM ezuser, ezcontentobject
                       WHERE ( $loginText ) AND
                         ezcontentobject.status='$contentObjectStatus' AND
-                        ( ezcontentobject.id=contentobject_id OR ( password_hash_type=4 AND ( $loginText ) AND password_hash=PASSWORD('$password') ) )";
+                        ( ezcontentobject.id=contentobject_id OR ( password_hash_type=4 AND ( $loginText ) AND password_hash=PASSWORD('$passwordEscaped') ) )";
         }
         else
         {
@@ -124,7 +125,7 @@ class eZLDAPUser extends eZUser
                     $queryMysqlUser = "SELECT contentobject_id, password_hash, password_hash_type, email, login
                               FROM ezuser, ezcontentobject
                               WHERE ezcontentobject.status='$contentObjectStatus' AND
-                                    password_hash_type=4 AND ( $loginText ) AND password_hash=PASSWORD('$password') ";
+                                    password_hash_type=4 AND ( $loginText ) AND password_hash=PASSWORD('$passwordEscaped') ";
                     $mysqlUsers = $db->arrayQuery( $queryMysqlUser );
                     if ( count( $mysqlUsers ) >= 1 )
                         $exists = true;

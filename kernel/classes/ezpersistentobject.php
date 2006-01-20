@@ -4,7 +4,7 @@
 //
 // Created on: <16-Apr-2002 11:08:14 amos>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -574,13 +574,33 @@ class eZPersistentObject
                         else if ( is_array( $cond[1] ) )
                         {
                             $range = $cond[1];
-                            $where_text .= "$id BETWEEN '" . $range[0] . "' AND '" . $range[1] . "'";
+                            $where_text .= "$id BETWEEN '" . $db->escapeString( $range[0] ) . "' AND '" . $db->escapeString( $range[1] ) . "'";
                         }
                         else
-                            $where_text .= $id . $cond[0] . "'" . $db->escapeString( $cond[1] ) . "'";
+                        {
+                          switch ( $cond[0] )
+                          {
+                              case '>=':
+                              case '<=':
+                              case '<':
+                              case '>':
+                              case '=':
+                              case '<>':
+                              case '!=':
+                              case 'like':
+                                  {
+                                      $where_text .= $db->escapeString( $id ) . $cond[0] . "'" . $db->escapeString( $cond[1] ) . "'";
+                                  } break;
+                              default:
+                                  {
+                                    eZDebug::writeError( "Conditional operator '$cond[0]' is not supported.",'eZPersistentObject::conditionTextByRow()' );
+                                  } break;
+                          }
+
+                        }
                     }
                     else
-                        $where_text .= $id . "='" . $db->escapeString( $cond ) . "'";
+                        $where_text .= $db->escapeString( $id ) . "='" . $db->escapeString( $cond ) . "'";
                 }
                 ++$i;
             }

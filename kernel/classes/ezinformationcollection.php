@@ -2,7 +2,7 @@
 //
 // Created on: <02-Dec-2002 13:15:49 bf>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -440,10 +440,10 @@ class eZInformationCollection extends eZPersistentObject
                 $valueSQL = " AND data_int='" . $db->escapeString( $value ) . "'";
             }
         }
-
+        $objectAttributeID =(int) $objectAttributeID;
         $resArray = $db->arrayQuery( "SELECT count( ezinfocollection_attribute.id ) as count FROM ezinfocollection_attribute, ezinfocollection
                                        WHERE ezinfocollection_attribute.informationcollection_id = ezinfocollection.id
-                                       AND ezinfocollection_attribute.contentobject_attribute_id = '" . $db->escapeString( $objectAttributeID ) . "' " .  $valueSQL );
+                                       AND ezinfocollection_attribute.contentobject_attribute_id = '" . $objectAttributeID . "' " .  $valueSQL );
 
         return $resArray[0]['count'];
     }
@@ -452,9 +452,9 @@ class eZInformationCollection extends eZPersistentObject
     {
         $db =& eZDB::instance();
         // Do a count on the value of collected integer info. Useful for e.g. polls
-
+        $objectID =(int) $objectID;
         $resArray = $db->arrayQuery( "SELECT count( ezinfocollection.id ) as count FROM ezinfocollection
-                                       WHERE ezinfocollection.contentobject_id = '" . $db->escapeString( $objectID ) . "' " );
+                                       WHERE ezinfocollection.contentobject_id = '" . $objectID . "' " );
 
         return $resArray[0]['count'];
     }
@@ -484,10 +484,10 @@ class eZInformationCollection extends eZPersistentObject
 //                 $valueSQL = " AND data_int='" . $db->escapeString( $value ) . "'";
 //             }
 //         }
-
+        $objectAttributeID =(int) $objectAttributeID;
         $resArray = $db->arrayQuery( "SELECT data_int, count( ezinfocollection_attribute.id ) as count FROM ezinfocollection_attribute, ezinfocollection
                                        WHERE ezinfocollection_attribute.informationcollection_id = ezinfocollection.id
-                                       AND ezinfocollection_attribute.contentobject_attribute_id = '" . $db->escapeString( $objectAttributeID ) . "' " .  $valueSQL . "
+                                       AND ezinfocollection_attribute.contentobject_attribute_id = '" . $objectAttributeID . "' " .  $valueSQL . "
                                        GROUP BY data_int" );
 
         $result = array();

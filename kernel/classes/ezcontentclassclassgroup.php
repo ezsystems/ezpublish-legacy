@@ -3,7 +3,7 @@
 // Definition of eZContentClass class
 //
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -101,7 +101,7 @@ class eZContentClassClassGroup extends eZPersistentObject
                           'group_id' => $group_id );
         }
 
-        eZPersistentObject::updateObjectList( array( 'definition' => eZContentClassClassGroup::definition(), 
+        eZPersistentObject::updateObjectList( array( 'definition' => eZContentClassClassGroup::definition(),
                                                      'update_fields' => array( 'group_name' => $group_name ),
                                                      'conditions' => $row ) );
     }
@@ -164,9 +164,11 @@ class eZContentClassClassGroup extends eZPersistentObject
         $classIDList = eZContentClassClassGroup::fetchClassListByGroups( 0, array( 1,3 ) );
         $versionCond = '';
         $orderByClause = '';
+        $group_id =(int) $group_id;
 
         if ( $contentclass_version !== null )
         {
+            $contentclass_version =(int) $contentclass_version;
             $versionCond = "AND class_group.contentclass_version='$contentclass_version'
                             AND contentclass.version='$contentclass_version'\n";
         }

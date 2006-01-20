@@ -822,14 +822,23 @@ Attributes:
 - Fixed bug #7615: Bug Specific override does not work with 
   Match[class_identifier].
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 14592 )
+- Fixed bug #7664: Fatal error when an attribute of type ezbinaryfile is in
+  naming pattern but has no content.
+  (Merged from release/3.7.3 rev. 14565)
+- Fixed bug #7618: eZ publish can't be migrated from a 32bit to a 64bit 
+  architecture.
+  (Merged from release/3.7.3 rev. 14568)
+
 
 *Library:
 
 eZTemplate:
-- Improved 'shorten' operator. Now it also can trim string to specified length in the middle.
+- Improved 'shorten' operator. Now it also can trim string to specified length 
+  in the middle.
   (Merged from stable/3.4 (3.4.7) rev. 12169, also in stable/3.5 (3.5.3) rev. 12170,
   in stable/3.6 (3.6.1) rev. 12171)
-- Added support for having eZ publish installed in a subfolder while using virtualhost setup.
+- Added support for having eZ publish installed in a subfolder while using 
+  virtualhost setup.
   Example : www.example.com/ez_publish/<eZ publish>
   ( Merged from stable/3.5 rev. 13711, stable/3.6 rev. 13712, stable/3.7 rev. 13713 )
 - Improved treemenuoperator as described here in enhancement report.
@@ -841,22 +850,27 @@ eZTemplate:
 
 *INI settings
 - Changed: [TipAFriend].FromEmail ini setting is now empty by default.
-  Thus, the email address specified in the tip-a-friend form is used as from address when sending the email.
+  Thus, the email address specified in the tip-a-friend form is used as from 
+  address when sending the email.
   Assign a non-empty value to FromEmail for it to be used as from address.
 - Added notification.ini:[RuleSettings].LimitDeleteElements setting:
   Maximum number of notification digest elements removed in one query.
   This is needed to prevent exceeding DBMS limits 
   (maximum query length, maximum number of elements in IN() clause).
- 
+- Added site.ini:[SiteSettings].64bitCompatibilityMode setting: affects some 
+  php's functions like crc32. 
+
 eZDB:
 - Added: New function hasRequiredServerVersion() to make it easier to check for
   required version and type.
 - Added: Method eZDBInterface::generateUniqueTempTableName() that generates
   unique temporary table name.
   (Manually merged from stable/3.5 (3.5.5) rev. 12672)
-- Fixed bug #7106: Empty ul tag will not appear if there is no item in double top sub menu.
+- Fixed bug #7106: Empty ul tag will not appear if there is no item in double
+  top sub menu.
   (Merged from stable/3.6 (3.6.2) rev. 13166)
-- Fixed bug #3804: Searching followed by AdvancedSearch doesn't retain the search term.
+- Fixed bug #3804: Searching followed by AdvancedSearch doesn't retain the
+  search term.
   ( Merged from stable/3.5 ( 3.5.6 ) rev. 13541 )
 
 eZSession:
@@ -864,7 +878,8 @@ eZSession:
   cleanup when a session is expired/removed.
 
 eZExtension:
-- Added 2 new functions eZExtension::isExtension( $path ) and eZExtension::nameFromPath( $path )
+- Added 2 new functions eZExtension::isExtension( $path ) and 
+  eZExtension::nameFromPath( $path )
 
 *SOAP:
 - Added: Default for parameter path to root for eZSOAPClient.

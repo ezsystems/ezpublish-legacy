@@ -4,7 +4,7 @@
 //
 // Created on: <22-Jan-2003 16:08:22 amos>
 //
-// Copyright (C) 1999-2005 eZ systems as. All rights reserved.
+// Copyright (C) 1999-2006 eZ systems as. All rights reserved.
 //
 // This source file is part of the eZ publish (tm) Open Source Content
 // Management System.
@@ -142,6 +142,8 @@ class eZCollaborationItemParticipantLink extends eZPersistentObject
         }
         include_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
+        $userID = (int) $userID;
+        $timestamp = (int) $timestamp;
         $sql = "UPDATE ezcollab_item_participant_link set last_read='$timestamp'
                 WHERE  collaboration_id='$collaborationID' AND participant_id='$userID'";
         $db->query( $sql );

@@ -172,7 +172,7 @@
                                      "FROM ezcontentclass cc$filterTableSQL\n" .
                                      "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
                                      "ORDER BY cc.name ASC" );
-            $classList =& eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
+            $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
 /*END:code-template::object-creation*/
         }
         else
@@ -204,7 +204,7 @@
                                      "WHERE cc.id IN ( $classString  ) AND\n" .
                                      "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
                                      "ORDER BY cc.name ASC" );
-            $classList =& eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
+            $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
 /*END:code-template::object-creation*/
         }
 
