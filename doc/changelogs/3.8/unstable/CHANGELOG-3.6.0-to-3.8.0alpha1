@@ -832,6 +832,8 @@ Attributes:
   ( Merged from stable/3.5 ( 3.5.9 ) rev. 14597 )
 - Fixed bug #6898: Redirect after login loses POST variables.
   ( Merged from stable/3.6 ( 3.6.6 ) rev. 14602, 14603 )
+- Fixed bug #7715: Missing conditional processing in standard table.tpl.
+  ( Merged from stable/3.5 ( 3.5.9 ) rev. 14607 )
 
 *Library:
 
