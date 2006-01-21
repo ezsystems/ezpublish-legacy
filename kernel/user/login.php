@@ -60,6 +60,13 @@ if ( isset( $Params['SiteAccessAllowed'] ) )
 if ( isset( $Params['SiteAccessName'] ) )
     $siteAccessName = $Params['SiteAccessName'];
 
+$postData = ''; // Will contain post data from previous page.
+if ( $http->hasSessionVariable( '$_POST_BeforeLogin' ) )
+{
+    $postData = $http->sessionVariable( '$_POST_BeforeLogin' );
+    $http->removeSessionVariable( '$_POST_BeforeLogin' );
+}
+
 if ( $Module->isCurrentAction( 'Login' ) and
      $Module->hasActionParameter( 'UserLogin' ) and
      $Module->hasActionParameter( 'UserPassword' )
@@ -83,6 +90,19 @@ if ( $Module->isCurrentAction( 'Login' ) and
         {
             $userRedirectURI = $http->sessionVariable( "RedirectAfterLogin" );
         }
+    }
+    // Save array of previous post variables in session variable
+    $post = $http->attribute( 'post' );
+    $lastPostVars = array();
+    foreach ( array_keys( $post ) as $postKey )
+    {
+        if ( substr( $postKey, 0, 5 ) == 'Last_' )
+            $lastPostVars[ substr( $postKey, 5, strlen( $postKey ) )] = $post[ $postKey ];
+    }
+    if ( count( $lastPostVars ) > 0 )
+    {
+        $postData = $lastPostVars;
+        $http->setSessionVariable( 'LastPostVars', $lastPostVars );
     }
 
     $user = false;
@@ -196,6 +216,7 @@ if( $http->hasPostVariable( "RegisterButton" ) )
 $tpl =& templateInit();
 
 $tpl->setVariable( 'login', $userLogin, 'User' );
+$tpl->setVariable( 'post_data', $postData, 'User' );
 $tpl->setVariable( 'password', $userPassword, 'User' );
 $tpl->setVariable( 'redirect_uri', $userRedirectURI, 'User' );
 $tpl->setVariable( 'warning', array( 'bad_login' => $loginWarning ), 'User' );
