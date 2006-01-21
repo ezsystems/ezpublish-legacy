@@ -45,4 +45,9 @@
 
 <input type="hidden" name="RedirectURI" value="{$User:redirect_uri|wash}" />
 
+{section show=and( is_set( $User:post_data ), is_array( $User:post_data ) )}
+  {section name=postData loop=$User:post_data }
+     <input name="Last_{$postData:key}" value="{$postData:item}" type="hidden" /><br/>
+  {/section}
+{/section}
 </form>
