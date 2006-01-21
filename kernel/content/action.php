@@ -67,6 +67,14 @@ if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
         return $module->redirectTo( $http->postVariable( 'BrowseCancelURI' ) );
     }
 }
+// Merge post variables and variables that were used before login
+if ( $http->hasSessionVariable( 'LastPostVars' ) )
+{
+    $post =& $http->attribute( 'post' );
+    $post = array_merge( $post, $http->sessionVariable( 'LastPostVars' ) );
+    unset( $post );
+    $http->removeSessionVariable( 'LastPostVars' );
+}
 
 if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObjectAddNodeAssignment' )  )
 {
@@ -149,6 +157,8 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
             }
             else
             {
+                // If ACCESS DENIED save current post variables for using after login
+                $http->setSessionVariable( '$_POST_BeforeLogin', $http->attribute( 'post' ) );
                 return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
             }
         }
