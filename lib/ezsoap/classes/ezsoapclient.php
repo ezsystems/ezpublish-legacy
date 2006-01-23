@@ -159,6 +159,7 @@ class eZSOAPClient
             {
                 $rawResponse .= $data;
             }
+
             // close the socket
             fclose( $fp );
         }
@@ -188,7 +189,7 @@ class eZSOAPClient
                     }
                     $HTTPCall .= "\r\n" . $payload;
 
-                    curl_setopt( $ch, CURLOPT_URL, "https://" . $this->Server . ":" . $this->Port . $this->Path );
+                    curl_setopt( $ch, CURLOPT_URL, $URL );
                     curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
                     curl_setopt( $ch, CURLOPT_SSL_VERIFYHOST, 1 );
                     curl_setopt( $ch, CURLOPT_HEADER, 1 );
@@ -200,7 +201,6 @@ class eZSOAPClient
                     {
                         $rawResponse = curl_exec( $ch );
                     }
-
                     if ( !$rawResponse )
                     {
                         $this->ErrorString = "<b>Error:</b> could not send the XML-SOAP with SSL call. Could not write to the socket.";
