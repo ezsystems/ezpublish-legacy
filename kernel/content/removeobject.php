@@ -90,13 +90,6 @@ if ( $http->hasPostVariable( 'SupportsMoveToTrash' ) )
 
 if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
-    // Remove reverse relations for each item.
-    foreach ( $deleteIDArray as $nodeID )
-    {
-        $contentObject = eZContentObject::fetchByNodeID( $nodeID );
-        $contentObject_ID = $contentObject->attribute( 'id' );
-        $contentObject->removeReverseRelations( $contentObject_ID );
-    }
     eZContentObjectTreeNode::removeSubtrees( $deleteIDArray, $moveToTrash );
     return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );
 }
