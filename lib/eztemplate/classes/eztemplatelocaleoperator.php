@@ -300,7 +300,8 @@ class eZTemplateLocaleOperator
               'day' => %tmp2%['mday'],
               'month' => %tmp2%['mon'],
               'year' => %tmp2%['year'],
-              'weekday' => %tmp3%,
+              'weeknumber' => %tmp3%,
+              'weekday' => %tmp2%['wday'],
               'yearday' => %tmp2%['yday'],
               'epoch' => %tmp2%[0] );\n", $values, false, 3);
         return $newElements;
@@ -355,7 +356,8 @@ class eZTemplateLocaleOperator
                                     'day' => $info['mday'],
                                     'month' => $info['mon'],
                                     'year' => $info['year'],
-                                    'weekday' => $week,
+                                    'weeknumber' => $week,
+                                    'weekday' => $info['wday'],
                                     'yearday' => $info['yday'],
                                     'epoch' => $info[0] );
         }
