@@ -201,8 +201,11 @@ class eZTemplateCompiledLoop
                                                                          "else\n" .
                                                                          "{ // delimiter begins" );
             $delimiterNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
-            foreach ( $delimiter[1] as $delimiterChild )
-                $delimiterNodes[] = $delimiterChild;
+            if ( is_array( $delimiter[1] ) ) // if delimiter has children
+            {
+                foreach ( $delimiter[1] as $delimiterChild )
+                    $delimiterNodes[] = $delimiterChild;
+            }
             $delimiterNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
             $delimiterNodes[] = eZTemplateNodeTool::createCodePieceNode( "} // delimiter ends\n" );
 
