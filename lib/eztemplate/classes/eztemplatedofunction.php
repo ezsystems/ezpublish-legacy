@@ -154,15 +154,11 @@ class eZTemplateDoFunction
 
         do
         {
+            $loop->setSequenceVar(); // set sequence variable (if specified)
+            $loop->processDelimiter();
             $loop->resetIteration();
-            $loop->setSequenceVar();
 
             if ( $loop->processChildren() )
-                break;
-
-            // evaluate the loop condition again
-            $loopCond = $tpl->elementValue( $functionParameters['condition'], $rootNamespace, $currentNamespace, $functionPlacement );
-            if ( $loop->processDelimiter( $loopCond ) )
                 break;
 
             $loop->incrementSequence();

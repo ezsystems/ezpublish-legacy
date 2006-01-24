@@ -352,10 +352,9 @@ class eZTemplateForeachFunction
                 $tpl->setVariable( $keyVarName, $key, $rootNamespace );
             $tpl->setVariable( $itemVarName, $val, $rootNamespace );
 
+            $loop->setSequenceVar(); // set sequence variable (if specified)
+            $loop->processDelimiter();
             $loop->resetIteration();
-
-            // set sequence variable (if specified)
-            $loop->setSequenceVar();
 
             // process loop body
             if ( $loop->processChildren() )
@@ -363,11 +362,6 @@ class eZTemplateForeachFunction
 
             // increment loop counter here for delimiter to be processed correctly
             $reverse ? $i-- : $i++;
-
-            // evaluate the loop condition again
-            $loopCond = $nItemsProcessed < $max && ( $reverse ? $i >= $lastVal : $i <= $lastVal );
-            if ( $loop->processDelimiter( $loopCond ) )
-                break;
 
             $loop->incrementSequence();
             $nItemsProcessed++;

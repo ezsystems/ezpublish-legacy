@@ -73,8 +73,8 @@ class eZTemplateLoop
     function eZTemplateLoop( $functionName, &$functionParameters, &$functionChildren, &$functionPlacement,
                              &$tpl, &$textElements, &$rootNamespace, &$currentNamespace )
     {
-        $this->SkipDelimiter         = false;
-        $this->SkipSequenceIncrement = true;
+        $this->SkipDelimiter         = true;
+        $this->SkipSequenceIncrement = false;
         $this->Delimiter             = null;
         $this->Initialized           = true;
         $this->SequenceVarName       = null;
@@ -193,7 +193,6 @@ class eZTemplateLoop
         foreach ( array_keys( $this->FunctionChildren ) as $childKey )
         {
             $child =& $this->FunctionChildren[$childKey];
-            $this->SkipDelimiter = false;
 
             if ( $child[0] == EZ_TEMPLATE_NODE_FUNCTION ) // check child type
             {
@@ -250,14 +249,10 @@ class eZTemplateLoop
      *
      * \return true if the caller loop should break, false otherwise
      */
-    function processDelimiter( $loopCondition )
+    function processDelimiter()
     {
-        if ( !( !is_null( $this->Delimiter ) && !$this->SkipDelimiter ) )
+        if ( is_null( $this->Delimiter ) || $this->SkipDelimiter )
             return false;
-
-        // Check the 'while' condition again
-        if ( !$loopCondition )
-            return true;
 
         $delimiterChildren =& $this->Delimiter[1];
         foreach ( array_keys( $delimiterChildren ) as $key )

@@ -154,17 +154,11 @@ class eZTemplateWhileFunction
 
         while ( $tpl->elementValue( $functionParameters['condition'], $rootNamespace, $currentNamespace, $functionPlacement ) )
         {
+            $loop->setSequenceVar(); // set sequence variable (if specified)
+            $loop->processDelimiter();
             $loop->resetIteration();
 
-            // set sequence variable (if specified)
-            $loop->setSequenceVar();
-
             if ( $loop->processChildren() )
-                break;
-
-            // evaluate the loop condition again
-            $loopCond = $tpl->elementValue( $functionParameters['condition'], $rootNamespace, $currentNamespace, $functionPlacement );
-            if ( $loop->processDelimiter( $loopCond ) )
                 break;
 
             $loop->incrementSequence();

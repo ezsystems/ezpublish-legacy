@@ -199,22 +199,18 @@ class eZTemplateForFunction
          */
         for ( $i = $firstVal; $firstVal < $lastVal ? $i <= $lastVal : $i >= $lastVal; )
         {
-            $loop->resetIteration();
-            $loop->setSequenceVar();
-
             // set loop variable
             $tpl->setVariable( $loopVarName, $i, $rootNamespace );
+
+            $loop->setSequenceVar(); // set sequence variable (if specified)
+            $loop->processDelimiter();
+            $loop->resetIteration();
 
             if ( $loop->processChildren() )
                 break;
 
             // increment loop variable here for delimiter to be processed correctly
             $firstVal < $lastVal ? $i++ : $i--;
-
-            // evaluate the loop condition again
-            $loopCond = ( $firstVal < $lastVal ? $i <= $lastVal : $i >= $lastVal );
-            if ( $loop->processDelimiter( $loopCond ) )
-                break;
 
             $loop->incrementSequence();
         } // for
