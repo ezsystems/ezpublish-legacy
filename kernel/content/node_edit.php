@@ -93,7 +93,6 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
                 $newNodeObject = $newNode->attribute( 'object' );
 
                 $canCreate = $newNodeObject->checkAccess( 'create', $class->attribute( 'id' ), $newNodeObject->attribute( 'contentclass_id' ) ) == 1;
-                eZDebug::writeDebug( array( $canCreate ), "canCreate");
                 if ( !$canCreate )
                     $isPermitted = false;
                 else
