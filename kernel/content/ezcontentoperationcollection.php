@@ -232,7 +232,7 @@ class eZContentOperationCollection
 
         $db =& eZDB::instance();
         $db->begin();
-        
+
         $object->setAttribute( 'modified', mktime() );
         $object->store();
 
@@ -350,7 +350,6 @@ class eZContentOperationCollection
 
         if ( $updateSectionID )
         {
-            eZDebug::writeDebug( "will  update section ID " );
             eZContentOperationCollection::updateSectionID( $objectID, $versionNum );
         }
         $db->commit();
@@ -393,7 +392,8 @@ class eZContentOperationCollection
         list( $newMainAssignment ) = eZNodeAssignment::fetchForObject( $objectID, $versionNum, 1 );
 
         $currentVersion =& $object->attribute( 'current' );
-        list( $oldMainAssignment ) = eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 1 );
+        $nodeAssigmentTmpArray = eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 1 );
+        list( $oldMainAssignment ) = isset( $nodeAssigmentTmpArray[0] ) ? $nodeAssigmentTmpArray : null;
 
         if ( $newMainAssignment && $oldMainAssignment
              &&  $newMainAssignment->attribute( 'parent_node' ) != $oldMainAssignment->attribute( 'parent_node' ) )
@@ -449,7 +449,7 @@ class eZContentOperationCollection
             $nodeAssignment =& $curentVersionNodeAssignments[$key];
             $versionParentIDList[] = $nodeAssignment->attribute( 'parent_node' );
         }
-        
+
         $db =& eZDB::instance();
         $db->begin();
         foreach ( array_keys( $assignedExistingNodes )  as $key )
