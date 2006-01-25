@@ -500,7 +500,7 @@ label.message-error, legend.message-error
 
 hr /* General formatting for all hr's */
 {
-    color: transparent; /* Color must be set to the same as the background color to hide default formatting in IE */
+    color: #FFFFFF; /* Color must be set to the same as the background color to hide default formatting in IE */
     border: none; /* All borders must be removed as they are default for Opera */
     border-top: 1px solid #e7e8e0;
     height: 1px;

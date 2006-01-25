@@ -1359,7 +1359,7 @@ td.timingpoint2
 -->
 </STYLE>";
             }
-            echo "<table style='border: 1px light gray;' cellspacing='0'>";
+            echo "<table style='border: 1px lightgray;' cellspacing='0'>";
         }
 
         $this->printTopReportsList();
