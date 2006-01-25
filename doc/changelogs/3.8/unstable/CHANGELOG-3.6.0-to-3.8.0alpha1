@@ -845,6 +845,8 @@ Attributes:
 - Fixed bug #7461: Function loginUser of each login handler 
   gets called with empty login and password.
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 14642 )
+- Fixed bug #6428: Wrong css in debug output.
+  (Merged from stable/3.7 (3.7.4) rev.14645)
 
 *Library:
 
