@@ -842,6 +842,9 @@ Attributes:
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 14634 )
 - Fixed bug #7736: Nesting level too deep.
   (Merged from stable/3.7 (3.7.4) rev. 14638)
+- Fixed bug #7461: Function loginUser of each login handler 
+  gets called with empty login and password.
+  ( Merged from stable/3.7 ( 3.7.4 ) rev. 14642 )
 
 *Library:
 
