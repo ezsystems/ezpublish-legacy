@@ -296,10 +296,12 @@ class eZUserLoginHandler
                     $http->removeSessionVariable( EZ_LOGIN_HANDLER_FORCE_LOGIN );
                 }
 
+                $user = null;
                 foreach( $handlerList as $handler )
                 {
                     $userObject =& eZUserLoginHandler::instance( $handler );
-                    $user =& $userObject->loginUser( $userInfoArray['login'], $userInfoArray['password'] );
+                    if ( is_array( $userInfoArray ) and $userInfoArray['login'] and $userInfoArray['password'] )
+                        $user =& $userObject->loginUser( $userInfoArray['login'], $userInfoArray['password'] );
                     if ( is_subclass_of( $user, 'eZUser' ) )
                     {
                         eZUserLoginHandler::sessionCleanup();
