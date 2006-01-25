@@ -851,7 +851,11 @@ class eZTemplate
         if ( !$resourceData or
              ( !$resourceData['compiled-template'] and
                $resourceData['root-node'] === null ) )
+        {
+            $this->Level--;
             return;
+        }
+
         $templateCompilationUsed = false;
 
         if ( $resourceData['locales'] && count( $resourceData['locales'] ) )
