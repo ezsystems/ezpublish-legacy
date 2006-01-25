@@ -1328,7 +1328,7 @@ td.timingpoint2
 -->
 </STYLE>";
             }
-            $returnText .= "<table style='border: 1px light gray;' cellspacing='0'>";
+            $returnText .= "<table style='border: 1px lightgray;' cellspacing='0'>";
         }
 
         $hasLevel = array( EZ_LEVEL_NOTICE => false,
