@@ -373,7 +373,7 @@ class eZIniSettingType extends eZDataType
 
      \return true if parsed successfully, false if illegal syntax
     */
-    function parseArrayInput( &$inputText, &$outputArray, $makeEmptyArray = false )
+    function parseArrayInput( $inputText, &$outputArray, $makeEmptyArray = false )
     {
         $lineArray = explode( "\n", $inputText );
 
