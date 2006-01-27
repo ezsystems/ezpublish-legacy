@@ -297,20 +297,22 @@ class eZUserLoginHandler
                 }
 
                 $user = null;
-                foreach( $handlerList as $handler )
+                if ( is_array( $userInfoArray ) and $userInfoArray['login'] and $userInfoArray['password'] )
                 {
-                    $userObject =& eZUserLoginHandler::instance( $handler );
-                    if ( is_array( $userInfoArray ) and $userInfoArray['login'] and $userInfoArray['password'] )
+                    foreach( $handlerList as $handler )
+                    {
+                        $userObject =& eZUserLoginHandler::instance( $handler );
                         $user =& $userObject->loginUser( $userInfoArray['login'], $userInfoArray['password'] );
-                    if ( is_subclass_of( $user, 'eZUser' ) )
-                    {
-                        eZUserLoginHandler::sessionCleanup();
-                        return null;
-                    }
-                    else if ( is_array( $user ) )
-                    {
-                        eZUserLoginHandler::sessionCleanup();
-                        return $user;
+                        if ( is_subclass_of( $user, 'eZUser' ) )
+                        {
+                            eZUserLoginHandler::sessionCleanup();
+                            return null;
+                        }
+                        else if ( is_array( $user ) )
+                        {
+                            eZUserLoginHandler::sessionCleanup();
+                            return $user;
+                        }
                     }
                 }
 
