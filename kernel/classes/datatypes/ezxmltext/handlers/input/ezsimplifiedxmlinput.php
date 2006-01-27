@@ -1718,8 +1718,12 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     {
                         // Find the end tag and create override contents
                         $preEndTagPos = strpos( strtolower( $data ), "</literal>", $pos );
-                        $overrideContent = substr( $data, $pos + 5, $preEndTagPos - ( $pos + 5 ) );
-                        $pos = $preEndTagPos - 1;
+                        $posData = strlen( $data );
+                        if ( $preEndTagPos and $preEndTagPos < $posData )
+                        {
+                            $overrideContent = substr( $data, $pos + 5, $preEndTagPos - ( $pos + 5 ) );
+                            $pos = $preEndTagPos - 1;
+                        }
                     }
                 }
             }
