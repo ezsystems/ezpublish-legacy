@@ -158,10 +158,11 @@ class eZTreeMenuOperator
                     $urlAlias = "/" . $child->attribute( 'url_alias' );
 
 					$isSelected = false;
-					if ( $nextNodeID === $tmpNodeID )
-					{
-						$isSelected = true;
-  					}
+                    $nextNextElements = explode( "/", $tmpModulePath[$i+$depthSkip+2]['url'] );
+                    if ( $nextNodeID === $tmpNodeID and !isset( $nextNextElements[4] ) )
+                    {
+                        $isSelected = true;
+                    }
 
                     $tmpPathArray[] = array( 'id' => $tmpNodeID,
                                              'level' => $i,
