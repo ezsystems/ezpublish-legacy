@@ -172,7 +172,7 @@ class eZTopMenuOperator
             }
             else
             {
-                $menuItem['tooltip'] = $this->DefaultNames[$tabID]['tooltip'];
+                $menuItem['tooltip'] = isset( $this->DefaultNames[$tabID]['tooltip'] ) ? $this->DefaultNames[$tabID]['tooltip'] : '';
             }
             $menuItem['navigationpart_identifier'] =  $ini->variable( 'Topmenu_' . $tabID , "NavigationPartIdentifier" );
             $menuItem['position'] = 'middle';
