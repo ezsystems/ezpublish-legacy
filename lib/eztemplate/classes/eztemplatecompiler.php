@@ -344,7 +344,7 @@ class eZTemplateCompiler
         $pageLayoutVariable = "";
         if ( isset( $GLOBALS['eZCustomPageLayout'] ) )
             $pageLayoutVariable = $GLOBALS['eZCustomPageLayout'];
-        $cacheFileKey = $key . '-' . $internalCharset . '-' . $language . '-' . $useFullUrlText . $accessText . "-" . $pageLayoutVariable;
+        $cacheFileKey = $key . '-' . $internalCharset . '-' . $language . '-' . $useFullUrlText . $accessText . "-" . $pageLayoutVariable . '-' . eZSys::indexFile();
         $cacheFileName = $extraName . md5( $cacheFileKey ) . '.php';
         return $cacheFileName;
     }

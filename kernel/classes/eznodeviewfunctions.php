@@ -200,7 +200,13 @@ class eZNodeviewfunctions
             $language = eZContentObject::defaultLanguage();
 
         $designSetting = eZTemplateDesignResource::designSetting( 'site' );
-        $cacheHashArray = array( $nodeID, $offset, $layout, implode( '.', $roleList ), implode( '.', $limitedAssignmentValueList), implode( '.', $discountList ) );
+        $cacheHashArray = array( $nodeID,
+                                 $offset,
+                                 $layout,
+                                 implode( '.', $roleList ),
+                                 implode( '.', $limitedAssignmentValueList),
+                                 implode( '.', $discountList ),
+                                 eZSys::indexFile() );
 
         // Make the cache unique for every case of view parameters
         if ( $viewParameters )
