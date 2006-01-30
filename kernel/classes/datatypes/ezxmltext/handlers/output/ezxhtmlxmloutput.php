@@ -562,12 +562,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     $res->removeKey( 'classification' );
                     $tpl->unsetVariable( 'classification', 'xmltagns' );
                 }
-                else
-                {
-                    //cleanup unnecessary link info
-                    if ( count( $this->LinkParameters ) )
-                        $this->LinkParameters = array();
-                }
+                //cleanup unnecessary link info
+                if ( count( $this->LinkParameters ) )
+                    $this->LinkParameters = array();
             }break;
             case '#text' :
             {
