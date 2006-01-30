@@ -225,7 +225,10 @@ class eZContentObjectVersion extends eZPersistentObject
         if ( $mainNodeAssignment === null and
              count( $nodeAssignments ) > 0 )
             $mainNodeAssignment =& $nodeAssignments[0];
-        $this->TempNode =& $mainNodeAssignment->tempNode();
+        if ( $mainNodeAssignment )
+        {
+            $this->TempNode =& $mainNodeAssignment->tempNode();
+        }
         return $this->TempNode;
     }
 
