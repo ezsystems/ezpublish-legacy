@@ -37,10 +37,12 @@
     {let name=Node exclude_remote_assignments=$:exclude_remote_assignments
                    sort_fields=hash(2,"Published"|i18n("design/standard/content/edit"),3,"Modified"|i18n("design/standard/content/edit"),4,"Section"|i18n("design/standard/content/edit"),5,"Depth"|i18n("design/standard/content/edit"),9,"Name"|i18n("design/standard/content/edit"),6,"Class Identifier"|i18n("design/standard/content/edit"),7,"Class Name"|i18n("design/standard/content/edit"),8,"Priority"|i18n("design/standard/content/edit"))
                    has_top_levels=false()}
+    {section show=is_set( $assigned_node_array )}
     {section loop=$assigned_node_array}
          {section show=$Node:item.parent_node|le( 1 )}
              {set has_top_levels=true()}
          {/section}
+    {/section}
     {/section}
 
     <table class="list" width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -55,6 +57,7 @@
     {/section}
     </tr>
     {let existingParentNodes=$object.parent_nodes}
+    {section show=is_set( $assigned_node_array )}
     {section loop=$assigned_node_array sequence=array(bglight,bgdark)}
     {section-exclude match=$:item.parent_node|le(0)}
     {section-exclude match=and($:exclude_remote_assignments,$:item.remote_id|gt(0))}
@@ -116,6 +119,7 @@
 
     </tr>
     {/let}
+    {/section}
     {/section}
     {/let}
  </table>
