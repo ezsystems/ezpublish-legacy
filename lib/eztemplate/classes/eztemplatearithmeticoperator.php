@@ -236,6 +236,7 @@ class eZTemplateArithmeticOperator
     {
         $values = array();
         $function = $operatorName;
+        $divOperation = false;
         if ( $function == $this->SumName )
         {
             $operator = '+';
@@ -250,6 +251,7 @@ class eZTemplateArithmeticOperator
         }
         else
         {
+            $divOperation = true;
             $operator = '/';
         }
 
@@ -329,7 +331,11 @@ class eZTemplateArithmeticOperator
             }
             $newParameters = array_merge( $newParameters, $endParameters );
 
-            $code = '%output% =';
+            if ( $divOperation )
+            {
+                $code = '@';
+            }
+            $code .= '%output% =';
             $counter = 1;
             $index = 0;
 
@@ -695,7 +701,7 @@ class eZTemplateArithmeticOperator
                 for ( ; $i < count( $operatorParameters ); ++$i )
                 {
                     $tmpValue =& $tpl->elementValue( $operatorParameters[$i], $rootNamespace, $currentNamespace, $placement );
-                    $value /= $tmpValue;
+                    @$value /= $tmpValue;
                 }
                 $operatorValue = $value;
             } break;
