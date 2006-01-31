@@ -322,9 +322,10 @@ class eZTemplateArithmeticOperator
             }
             $newParameters = array_merge( $newParameters, $endParameters );
 
+            $code = '';
             if ( $divOperation )
             {
-                $code = '@';
+                $code .= '@';
             }
             $code .= '%output% =';
             $counter = 1;
