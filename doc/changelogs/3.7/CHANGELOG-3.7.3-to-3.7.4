@@ -1,6 +1,11 @@
 Changes from 3.7.3 to 3.7.4
 
 *Kernel:
+- Added: New parameter to treemenuoperator:
+  "is_selected_method" ( 'tree'(by default), 'node' ) -
+  The whole tree down to current node will have status "is_selected"( 'tree' ) or
+  Only current node will have status "is_selected" ( 'node' ).
+  ( Merged from stable/3.6 ( 3.6.6 ) rev. 14698 )
 
 *Bugfixes:
 - Fixed bug #7678: Wrong variable name in eZCollaborationItemStatus::fetch().
