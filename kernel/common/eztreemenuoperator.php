@@ -71,7 +71,10 @@ class eZTreeMenuOperator
                                              'default' => false ),
                       'max_level' => array( 'type' => 'int',
                                             'required' => false,
-                                            'default' => false ) );
+                                            'default' => false ),
+                      'is_selected_method' => array( 'type' => 'string',
+                                                     'required' => false,
+                                                     'default' => 'tree' ) );
     }
 
     /*!
@@ -100,6 +103,7 @@ class eZTreeMenuOperator
         $depthSkip = $namedParameters['depth_skip'];
 
         $maxLevel = $namedParameters['max_level'];
+        $isSelectedMethod = $namedParameters['is_selected_method'];
         if ( $maxLevel === false )
             $maxLevel = 2;
 
@@ -158,7 +162,7 @@ class eZTreeMenuOperator
                     $urlAlias = "/" . $child->attribute( 'url_alias' );
 
 					$isSelected = false;
-                    $nextNextElements = isset( $tmpModulePath[$i+$depthSkip+2]['url'] ) ? explode( "/", $tmpModulePath[$i+$depthSkip+2]['url'] ) : null;
+                    $nextNextElements = ( $isSelectedMethod == 'node' and isset( $tmpModulePath[$i+$depthSkip+2]['url'] ) ) ? explode( "/", $tmpModulePath[$i+$depthSkip+2]['url'] ) : null;
                     if ( $nextNodeID === $tmpNodeID and !isset( $nextNextElements[4] ) )
                     {
                         $isSelected = true;

@@ -31,6 +31,11 @@ Changes from 3.6.0 to 3.8.0alpha1
 - Added custom content object edit HTTP post parameter handling.
 - Fixed bug #7448:Fixed For notification digest in eznotificationevent.php, fetch function will return object now.
   ( Merged from stable/3.7 rev. 14519 )
+- Added: New parameter to treemenuoperator:
+  "is_selected_method" ( 'tree'(by default), 'node' ) -
+  The whole tree down to current node will have status "is_selected"( 'tree' ) or
+  Only current node will have status "is_selected" ( 'node' ).
+  ( Merged from stable/3.6 ( 3.6.6 ) rev. 14698 )
 
 Attributes:
 - Added: 'last_visit' attribute to eZUser
