@@ -806,6 +806,7 @@ class eZMatrix
         }
         else
         {
+            $this->Cells = array();
             $this->Matrix = array();
         }
     }
