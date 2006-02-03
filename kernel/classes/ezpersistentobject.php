@@ -1090,7 +1090,16 @@ function definition()
         if ( $noFunction === false and isset( $attrFunctions[$attr] ) )
         {
             $functionName = $attrFunctions[$attr];
-            return $this->$functionName();
+            if ( method_exists( $this, $functionName ) )
+            {
+                return $this->$functionName();
+            }
+            else
+            {
+                eZDebug::writeError( 'Could not find function : "' . get_class( $this ) . '::' . $functionName . '()".',
+                                     'eZPersistentObject::attribute()' );
+                return null;
+            }
         }
         else if ( isset( $fields[$attr] ) )
         {
