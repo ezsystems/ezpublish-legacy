@@ -60,12 +60,17 @@ $functionName= & $Params['FunctionName1'];
 
 $wfINI =& eZINI::instance( 'workflow.ini' );
 $operations = $wfINI->variableArray( 'OperationSettings', 'AvailableOperations' );
+$operations = array_unique( array_merge( $operations, $wfINI->variable( 'OperationSettings', 'AvailableOperationList' ) ) );
 $possibleTriggers = array();
 
 $triggers =& makeTriggerArray( eZTrigger::fetchList() );
 
 foreach ( $operations as $operation )
 {
+    if ( $operation == '' )
+    {
+        continue;
+    }
     $trigger = array();
 
     // the operation string has either two or three underscore characters.
