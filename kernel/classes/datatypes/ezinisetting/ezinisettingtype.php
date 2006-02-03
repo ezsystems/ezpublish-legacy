@@ -514,8 +514,8 @@ class eZIniSettingType extends eZDataType
         /* Get and check if site access settings exist in this setup */
         $remoteIniInstanceList = $attributeParametersNode->elementTextContentByName( 'ini_instance' );
         $remoteSiteAccessList = $attributeParametersNode->elementTextContentByName( 'site_access_list' );
-        $remoteIniInstanceArray = explode( ';', $iniInstanceList );
-        $remoteSiteAccessArray = explode( ';', $siteAccessList );
+        $remoteIniInstanceArray = explode( ';', $remoteIniInstanceList );
+        $remoteSiteAccessArray = explode( ';', $remoteSiteAccessList );
 
         $config =& eZINI::instance( 'site.ini' );
         $localSiteAccessArray = array_merge( array( 'override' ), $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) );
