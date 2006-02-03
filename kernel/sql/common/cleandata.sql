@@ -2882,7 +2882,7 @@ INSERT INTO ezcontentclass_classgroup (
   4,
   0,
   2,
-  'Content'
+  'Users'
 );
 INSERT INTO ezcontentclass_classgroup (
   contentclass_id,
@@ -2904,7 +2904,7 @@ INSERT INTO ezcontentclass_classgroup (
   3,
   0,
   2,
-  ''
+  'Users'
 );
 INSERT INTO ezcontentclass_classgroup (
   contentclass_id,

@@ -876,7 +876,9 @@ Attributes:
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 14714 )
 - Fixed bug #7794: Impossible to add AvailableOperations trigger in extensions.
   ( Merged from stable/3.5 rev. 14718, stable/3.6 rev. 14720, stable/3.7 rev. 14721 )
-
+- Fixed bug #7761: class.ingroup_list does not return, 
+  or return wrong group_name for user and user group.
+  ( Merged from stable/3.7 ( 3.7.4 ) rev. 14717 )
 
 *Library:
 
