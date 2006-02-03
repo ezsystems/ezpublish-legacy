@@ -392,7 +392,8 @@ class eZMultiOptionType extends eZDataType
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
         $rootNode = $attributeNode->firstChild();
-        $objectAttribute->setAttribute( 'data_text', $rootNode->toString( 0 ) );
+        $xmlString = $rootNode->attributeValue( 'local_name' ) == 'data-text' ? $rootNode->toString( 0 ) : '';
+        $objectAttribute->setAttribute( 'data_text', $xmlString );
     }
 }
 

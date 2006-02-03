@@ -57,8 +57,7 @@ class eZSelectionType extends eZDataType
     function eZSelectionType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_EZ_SELECTION, ezi18n( 'kernel/classes/datatypes', "Selection", 'Datatype name' ),
-                           array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( 'data_text' => 'idstring' ) ) );
+                           array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -389,6 +388,30 @@ class eZSelectionType extends eZDataType
             $classAttribute->setAttribute( "data_int1", 1 );
     }
 }
+    /*!
+     \reimp
+    */
+    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+       $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+       $idString = $objectAttribute->attribute( 'data_text' );
+
+       $node->appendChild( eZDOMDocument::createElementTextNode( 'idstring', $idString ) );
+       return $node;
+    }
+
+    /*!
+     \reimp
+    */
+    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    {
+        $idString = $attributeNode->elementTextContentByName( 'idstring' );
+
+        if ( $idString === false )
+            $idString = '';
+
+        $objectAttribute->setAttribute( 'data_text', $idString );
+    }
 
 eZDataType::register( EZ_DATATYPESTRING_EZ_SELECTION, "ezselectiontype" );
 ?>

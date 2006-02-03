@@ -131,6 +131,30 @@ class eZSubtreeSubscriptionType extends eZDataType
         return true;
     }
 
+    /*!
+     \reimp
+    */
+    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+        $value = $objectAttribute->attribute( 'data_int' );
+        $node->appendChild( eZDOMDocument::createElementTextNode( 'value', $value ) );
+
+        return $node;
+    }
+
+    /*!
+     \reimp
+    */
+    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    {
+        $value = $attributeNode->elementTextContentByName( 'value' );
+
+        if ( $value === false )
+            $value = 0;
+
+        $objectAttribute->setAttribute( 'data_int', $value );
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_SUBTREESUBSCRIPTION, "ezsubtreesubscriptiontype" );

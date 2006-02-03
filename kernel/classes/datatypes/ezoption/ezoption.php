@@ -89,9 +89,11 @@ class eZOption
     */
     function addOption( $valueArray )
     {
+        $value = isset( $valueArray['value'] ) ? $valueArray['value'] : '';
+        $additional_price = isset( $valueArray['additional_price'] ) ? $valueArray['additional_price'] : '';
         $this->Options[] = array( "id" => $this->OptionCount,
-                                  "value" => $valueArray['value'],
-                                  'additional_price' => $valueArray['additional_price'],
+                                  "value" => $value,
+                                  'additional_price' => $additional_price,
                                   "is_default" => false );
 
         $this->OptionCount += 1;

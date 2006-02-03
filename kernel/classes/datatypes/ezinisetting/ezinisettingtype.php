@@ -73,9 +73,7 @@ class eZIniSettingType extends eZDataType
     {
         $this->eZDataType( EZ_DATATYPESTRING_INISETTING, ezi18n( 'kernel/classes/datatypes', 'Ini Setting', 'Datatype name' ),
                                                          array( 'translation_allowed' => false,
-                                                                'serialize_supported' => true,
-                                                                'object_serialize_map' => array( 'data_int' => 'make_empty_array',
-                                                                                                 'data_text' => 'value' ) ) );
+                                                                'serialize_supported' => true ) );
     }
 
     /*!
@@ -517,8 +515,8 @@ class eZIniSettingType extends eZDataType
         /* Get and check if site access settings exist in this setup */
         $remoteIniInstanceList = $attributeParametersNode->elementTextContentByName( 'ini_instance' );
         $remoteSiteAccessList = $attributeParametersNode->elementTextContentByName( 'site_access_list' );
-        $remoteIniInstanceArray = explode( ';', $iniInstanceList );
-        $remoteSiteAccessArray = explode( ';', $siteAccessList );
+        $remoteIniInstanceArray = explode( ';', $remoteIniInstanceList );
+        $remoteSiteAccessArray = explode( ';', $remoteSiteAccessList );
 
         $config =& eZINI::instance( 'site.ini' );
         $localSiteAccessArray = array_merge( array( 'override' ), $config->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) );
@@ -611,6 +609,38 @@ class eZIniSettingType extends eZDataType
         $contentClassAttribute->setAttribute( EZ_DATATYPEINISETTING_CLASS_SITE_ACCESS_LIST_FIELD, $siteAccessList );
     }
 
+    /*!
+     \reimp
+    */
+    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+        $makeEmptyArray = $objectAttribute->attribute( 'data_int' );
+        $value = $objectAttribute->attribute( 'data_text' );
+
+        $node->appendChild( eZDOMDocument::createElementTextNode( 'make_empty_array', $makeEmptyArray ) );
+        $node->appendChild( eZDOMDocument::createElementTextNode( 'value', $value ) );
+
+        return $node;
+    }
+
+    /*!
+     \reimp
+    */
+    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    {
+        $makeEmptyArray = $attributeNode->elementTextContentByName( 'make_empty_array' );
+        $value = $attributeNode->elementTextContentByName( 'value' );
+
+        if ( $makeEmptyArray === false )
+            $makeEmptyArray = 0;
+
+        if ( $value === false )
+            $value = '';
+
+        $objectAttribute->setAttribute( 'data_int', $makeEmptyArray );
+        $objectAttribute->setAttribute( 'data_text', $value );
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_INISETTING, 'ezinisettingtype' );

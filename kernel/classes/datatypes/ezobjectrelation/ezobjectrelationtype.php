@@ -564,10 +564,7 @@ class eZObjectRelationType extends eZDataType
         $relatedObjectID = $objectAttribute->attribute( 'data_int' );
 
         if ( !is_null( $relatedObjectID ) )
-        {
-            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
             $node->appendChild( eZDOMDocument::createElementTextNode( 'related-object-id', $relatedObjectID ) );
-        }
 
         return $node;
     }
