@@ -243,7 +243,7 @@ class eZObjectRelationListType extends eZDataType
 
         $obj = $attribute->object();
         //get eZContentObjectVersion
-        $currVerobj = $obj->currentVersion();
+        $currVerobj = $obj->version( $contentObjectVersion );
         // get array of ezcontentobjecttranslations
         $transList =  $currVerobj->translations();
         $translationList = array();
