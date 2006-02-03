@@ -868,6 +868,9 @@ Attributes:
 - Fixed bug #7791: Missing method exists check in eZPersistent object.
   ( Merged from stable/3.5 rev. 14702, stable/3.6 rev. 14703, stable/3.7 rev. 14704 )
 - Fixed bug #7782: The setup wizard is broken.
+- Fixed bug #7775: Cannot set 'is_loop' attribute on flash movie (and other 
+  issues in ezmedia.tpl).
+  ( Merged from stable/3.5 rev. 14708 )
 
 *Library:
 

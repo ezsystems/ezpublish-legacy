@@ -126,12 +126,12 @@
 
 <div class="element">
     <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="{$attribute.content.is_autoplay}" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
+    <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="1" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
 </div>
 
 <div class="element">
     <label>{'Loop'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="checkbox" name="{$attribute_base}_data_media_is_loop_{$attribute.id}" value="{$attribute.content.is_loop}" {section show=$attribute.content.is_loop}checked="checked"{/section} />
+    <input type="checkbox" name="{$attribute_base}_data_media_is_loop_{$attribute.id}" value="1" {section show=$attribute.content.is_loop}checked="checked"{/section} />
 </div>
 
 <div class="break"></div>
@@ -164,17 +164,17 @@
 
 <div class="element">
     <label>{'Controller'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="checkbox" name="{$attribute_base}_data_media_has_controller_{$attribute.id}" value="{$attribute.content.has_controller}" {section show=$attribute.content.has_controller}checked="checked"{/section} />
+    <input type="checkbox" name="{$attribute_base}_data_media_has_controller_{$attribute.id}" value="1" {section show=$attribute.content.has_controller}checked="checked"{/section} />
 </div>
 
 <div class="element">
     <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="{$attribute.content.is_autoplay}" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
+    <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="1" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
 </div>
 
 <div class="element">
     <label>{'Loop'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="checkbox" name="{$attribute_base}_data_media_is_loop_{$attribute.id}" value="{$attribute.content.is_loop}" {section show=$attribute.content.is_loop}checked="checked"{/section} />
+    <input type="checkbox" name="{$attribute_base}_data_media_is_loop_{$attribute.id}" value="1" {section show=$attribute.content.is_loop}checked="checked"{/section} />
 </div>
 
 <div class="break"></div>
@@ -262,7 +262,7 @@
 
 <div class="element">
     <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="{$attribute.content.is_autoplay}" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
+    <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="1" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
 </div>
 
 <div class="break"></div>
@@ -298,12 +298,12 @@
 
 <div class="element">
     <label>{'Controller'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="checkbox" name="{$attribute_base}_data_media_has_controller_{$attribute.id}" value="{$attribute.content.has_controller}" {section show=$attribute.content.has_controller}checked="checked"{/section} />
+    <input type="checkbox" name="{$attribute_base}_data_media_has_controller_{$attribute.id}" value="1" {section show=$attribute.content.has_controller}checked="checked"{/section} />
 </div>
 
 <div class="element">
     <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="{$attribute.content.is_autoplay}" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
+    <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="1" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
 </div>
 
 <div class="break"></div>
