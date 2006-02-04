@@ -67,7 +67,7 @@ if ( $module->isCurrentAction( 'RemovePackage' ) or
 				}
 				else
 				{
-					$removeList[] =& $package;
+					$removeList[] = $package;
 				}
             }
         }
