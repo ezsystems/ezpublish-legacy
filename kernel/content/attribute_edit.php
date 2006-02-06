@@ -187,6 +187,7 @@ eZContentObjectEditHandler::initialize();
 
 $storeActions = array( 'Preview',
                        'Translate',
+					   'TranslateLanguage',
                        'VersionEdit',
                        'Apply',
                        'Publish',
