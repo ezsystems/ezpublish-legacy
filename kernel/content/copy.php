@@ -98,6 +98,11 @@ function &copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
     $db->begin();
     $newObject =& $object->copy( $allVersions );
 
+    // Set new unique remote_id
+    $newRemoteID = md5( (string)mt_rand() . (string)mktime() );
+    $newObject->setAttribute( 'remote_id', $newRemoteID );
+    $newObject->store();
+
     $curVersion        =& $newObject->attribute( 'current_version' );
     $curVersionObject  =& $newObject->attribute( 'current' );
     $newObjAssignments =& $curVersionObject->attribute( 'node_assignments' );
