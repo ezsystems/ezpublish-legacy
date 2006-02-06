@@ -184,6 +184,7 @@ if ( $http->hasPostVariable( "CustomActionButton" ) )
 
 $storeActions = array( 'Preview',
                        'Translate',
+					   'TranslateLanguage',
                        'VersionEdit',
                        'Apply',
                        'Publish',
