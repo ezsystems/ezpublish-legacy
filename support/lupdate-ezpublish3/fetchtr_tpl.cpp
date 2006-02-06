@@ -204,9 +204,9 @@ void fetchtr_tpl( QFileInfo *fi, MetaTranslator *tor, bool mustExist, bool assum
         file.close();
         if ( file.open( IO_ReadOnly ) )
         {
-            if ( ( testContent.startsWith( "{*?template charset=", false ) &&
-                   ( testContent.startsWith( "{*?template charset=utf8?*}", false ) ||
-                     testContent.startsWith( "{*?template charset=utf-8?*}", false ) ) ) ||
+            if ( ( testContent.startsWith( "{*?template charset=" ) &&
+                   ( testContent.startsWith( "{*?template charset=utf8?*}" ) ||
+                     testContent.startsWith( "{*?template charset=utf-8?*}" ) ) ) ||
                  assumeUTF8 )
             {
                 stream.setEncoding( QTextStream::UnicodeUTF8 );

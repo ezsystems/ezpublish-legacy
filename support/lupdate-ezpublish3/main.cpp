@@ -352,13 +352,13 @@ void traverse( const QDir &dir, MetaTranslator &fetchedTor, bool assumeUTF8 )
         }
         else
         {
-            if ( fi->fileName().endsWith( ".php", false ) )
+            if ( fi->fileName().endsWith( ".php" ) )
             {
                 if ( verbose > 1 )
                     qWarning( "      Checking '%s'", fi->fileName().latin1() );
                 fetchtr_php( fi, &fetchedTor, true );
             }
-            else if ( fi->fileName().endsWith( ".tpl", false ) )
+            else if ( fi->fileName().endsWith( ".tpl" ) )
             {
                 if ( verbose > 1 )
                     qWarning( "      Checking '%s'", fi->fileName().latin1() );
