@@ -193,6 +193,19 @@ class eZSelectionType extends eZDataType
     }
 
     /*!
+     Sets the default value.
+    */
+    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    {
+        if ( $currentVersion != false )
+        {
+            $idString = $originalContentObjectAttribute->attribute( "data_text" );
+            $contentObjectAttribute->setAttribute( "data_text", $idString );
+            $contentObjectAttribute->store();
+        }
+    }
+
+    /*!
      Returns the selected options by id.
     */
     function &objectAttributeContent( &$contentObjectAttribute )
