@@ -881,6 +881,8 @@ Attributes:
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 14717 )
 - Fixed bug #7800: Selection-datatype, translation off works incorrectly.
   ( Merged from stable/3.6 ( 3.6.6 ) rev. 14743 )
+- Fixed bug #7540: Packages - Remove only one at a time, when more selected
+  ( Merged from stable/3.7 ( 3.7.4 ) rev. 14725 )
 
 *Library:
 
