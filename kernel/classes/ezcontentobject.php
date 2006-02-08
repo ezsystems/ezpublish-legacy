@@ -556,7 +556,8 @@ class eZContentObject extends eZPersistentObject
         if ( !$remoteID )
         {
             $this->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
-            $this->sync( array( 'remote_id' ) );
+            if ( $this->attribute( 'id' ) !== null )
+                $this->sync( array( 'remote_id' ) );
             $remoteID = eZPersistentObject::attribute( 'remote_id', true );
         }
 
