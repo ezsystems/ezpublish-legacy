@@ -1160,9 +1160,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                                 $language ) );
             }
 
-            eZDebug::writeDebug( "Attribute fetch start", 'eZContentObjectVersion::serialize' );
             $attributes = $this->contentObjectAttributes( $language );
-            eZDebug::writeDebug( "Attribute fetch end", 'eZContentObjectVersion::serialize' );
             foreach ( $attributes as $attribute )
             {
                 $translationNode->appendChild( $attribute->serialize( $package ) );
