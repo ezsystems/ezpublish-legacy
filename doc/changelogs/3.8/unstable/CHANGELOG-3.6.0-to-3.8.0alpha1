@@ -890,6 +890,8 @@ Attributes:
 - Fixed bug #7726: setup: fatal error at pressing back button
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 14765 )
 - Fixed bug: Broken table border in order archive list.
+- Fixed bug #7766: notices in 3.7.3 installation wizard.
+  ( Merged stable/3.7 ( 3.7.4 ) rev. 14768 )
 
 *Library:
 
