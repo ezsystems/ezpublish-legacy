@@ -892,6 +892,9 @@ Attributes:
 - Fixed bug: Broken table border in order archive list.
 - Fixed bug #7766: notices in 3.7.3 installation wizard.
   ( Merged stable/3.7 ( 3.7.4 ) rev. 14768 )
+- Fixed bug #7680: datetime %M does not output monthname 
+  with only 3 letters in norwegian.
+  ( Merged from translations/stable/3.7 ( 3.7.4 ) rev. 326 ).
 
 *Library:
 
