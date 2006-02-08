@@ -96,7 +96,8 @@ $currentStep = null;
 
 if ( $http->hasPostVariable( 'eZSetup_back_button' ) ) // previous step selected
 {
-    $step =& $stepData->previousStep( $http->postVariable( 'eZSetup_current_step' ) );
+    $previousStep = $http->postVariable( 'eZSetup_current_step' );
+    $step =& $stepData->previousStep( $previousStep );
     $goBack = true;
     while ( $goBack )
     {
