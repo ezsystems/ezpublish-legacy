@@ -441,7 +441,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $href .= '#' . $tag->attributeValue( 'anchor_name' );
             }
 
-            if ( $href != '' )
+            if ( $href !== false )
             {
 
                // Making valid URI  (commented cause decided to use ezurl in template)
