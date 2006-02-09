@@ -21,6 +21,10 @@ CACHE=".ezp.cache"
 
 SVN_EXPORT="undef"
 
+LICENSE_TYPE="GPL"
+LICENSES_DIR="$DEST_ROOT/licenses"
+LICENSES_SVN_SERVER="http://svn.ez.no/svn/commercial/core/licenses"
+
 # Read in cache file if it exists
 if [ -f $CACHE ]; then
     . $CACHE
@@ -125,33 +129,40 @@ function scan_dir
 #	if ! echo $file | grep "/\*" &>/dev/null; then
 	if [ -e "$file" -a ! "$file" = "$DIR/.svn" -a ! "$file" = "$DIR/.." -a ! "$file" = "$DIR/." ]; then
 	    DIST_PROP_TYPE=`svn propget $DIST_PROP $file 2>/dev/null`
-	    if [ $? -eq 0 ] && [ ! -z "$DIST_PROP_TYPE" ]; then
-		if echo $DIST_PROP_TYPE | grep $DIST_TYPE &>/dev/null; then
-		    DIST_DIR=`svn propget $DIST_DIR_PROP $file 2>/dev/null`
-		    DIST_DIR_RECURSIVE=""
-		    if [ $? -eq 0 ] && [ ! -z "$DIST_DIR" ]; then
-			if echo $DIST_DIR | grep $DIST_TYPE &>/dev/null; then
-#			    echo "Found include all marker for $file"
-			    DIST_DIR_RECURSIVE=$DIST_TYPE
-			fi
-		    fi
-		    if [ -d "$file" ]; then
-			echo -n " "`$SETCOLOR_DIR`"$file"`$SETCOLOR_NORMAL`"/"
-			make_dir "$file"
-			if [ -z $DIST_DIR_RECURSIVE ]; then
-			    scan_dir "$file"
-			else
-			    echo -n "*"
-			    scan_dir_normal "$file"
-			fi
-		    else
-			echo -n " "`$SETCOLOR_FILE`"$file"`$SETCOLOR_NORMAL`
-			copy_file "$file"
-		    fi
-		fi
+#	    if [ $? -eq 0 && ! -z "$DIST_PROP_TYPE" ]; then
+	    if  [[ $? -eq 0 && ! -z "$DIST_PROP_TYPE" ]] || [[ $file = "./licenses" ]] || [[ $file = "./licenses/PROPRIETARY_USE_LICENSE_v1.0" ]] || [[ $file = "./licenses/license-notice-ezpul.yaml" ]]; then
+#    		if echo $DIST_PROP_TYPE | grep $DIST_TYPE &>/dev/null; then
+    		    DIST_DIR=`svn propget $DIST_DIR_PROP $file 2>/dev/null`
+    		    DIST_DIR_RECURSIVE=""
+	    	    if [ $? -eq 0 ] && [ ! -z "$DIST_DIR" ]; then
+        			if echo $DIST_DIR | grep $DIST_TYPE &>/dev/null; then
+#		        	    echo "Found include all marker for $file"
+			            DIST_DIR_RECURSIVE=$DIST_TYPE
+        			fi
+		        fi
+    		    if [ -d "$file" ]; then
+	    		    echo -n " "`$SETCOLOR_DIR`"$file"`$SETCOLOR_NORMAL`"/"
+    	    		make_dir "$file"
+	    	    	if [ -z $DIST_DIR_RECURSIVE ]; then
+        			    scan_dir "$file"
+	        		else
+		        	    echo -n "*"
+        			    scan_dir_normal "$file"
+	        		fi
+    		    else
+        			echo -n " "`$SETCOLOR_FILE`"$file"`$SETCOLOR_NORMAL`
+        			copy_file "$file"
+    		    fi
+#    		fi
 	    fi
 	fi
     done
+}
+
+function update_license
+{
+    REV=`svn info | grep 'Revision:' | sed 's/Revision: //'`
+    . ./bin/shell/updatelicense.sh --licenses-dir="$LICENSES_DIR" --target-dir="$DEST" --license-type="$LICENSE_TYPE" --version="$VERSION" --revision="$REV"
 }
 
 SVN_SERVER=""
@@ -162,179 +173,194 @@ TMP_DB_NAME="ez_tmp_makedist"
 # Check parameters
 for arg in $*; do
     case $arg in
-	--help|-h)
-	    echo "Usage: $0 [options]"
-	    echo
-	    echo "Options: -h"
-	    echo "         --help                     This message"
-	    echo "         --final                    Makes the release a final release"
-	    echo "         --build-root=DIR           Set build root, default is /tmp"
-# 	    echo "         --build-rc                 Make a release candidate, this will add a build number to the name"
-	    echo "         --build-snapshot           Make a snapshot, this will add a build number to the name"
-	    echo "         --with-svn-server[=SERVER] Checkout fresh repository"
-	    echo "         --with-release=NAME        Checkout a previous release, default is trunk"
-#	    echo "         --skip-site-creation       Do not build sites*"
-	    echo "         --skip-version-check       Do not check version numbers*"
-	    echo "         --skip-php-check           Do not check PHP for syntax correctnes*"
-	    echo "         --skip-code-template-check Do not check code templates*"
-	    echo "         --skip-unit-tests          Do not run unit tests*"
-	    echo "         --skip-db-schema           Do not create db schema (requires mysql and postgresql)*"
-	    echo "         --skip-db-update           Do not run db update check*"
-	    echo "         --skip-db-check            Do not run db schema check*"
-	    echo "         --skip-translation         Do not run translation check*"
-	    echo "         --skip-styles              Do not create style packages*"
-	    echo "         --skip-addons              Do not create addon packages*"
-	    echo "         --skip-test-framework      Do not copy test framework*"
-	    echo "         --skip-core-files          Do not copy kernel/lib files*"
-	    echo "         --skip-changelogs          Do not changelogs from earlier versions*"
-	    echo "         --skip-sql-generation      Do not generate SQL files*"
-	    echo "         --skip-extensions          Do not package extensions*"
+        --help|-h)
+            echo "Usage: $0 [options]"
+            echo
+            echo "Options: -h"
+            echo "         --help                     This message"
+            echo "         --final                    Makes the release a final release"
+            echo "         --build-root=DIR           Set build root, default is /tmp"
+    #       echo "         --build-rc                 Make a release candidate, this will add a build number to the name"
+            echo "         --build-snapshot           Make a snapshot, this will add a build number to the name"
+            echo "         --with-svn-server[=SERVER] Checkout fresh repository"
+            echo "         --with-release=NAME        Checkout a previous release, default is trunk"
+            echo "         --license-type=TYPE        What license to use: gpl(default), pul_v1, pl_v2"
+            echo "         --skip-license-update      Do not update license and php-headers."
+    #       echo "         --skip-site-creation       Do not build sites*"
+            echo "         --skip-version-check       Do not check version numbers*"
+            echo "         --skip-php-check           Do not check PHP for syntax correctnes*"
+            echo "         --skip-code-template-check Do not check code templates*"
+            echo "         --skip-unit-tests          Do not run unit tests*"
+            echo "         --skip-db-schema           Do not create db schema (requires mysql and postgresql)*"
+            echo "         --skip-db-update           Do not run db update check*"
+            echo "         --skip-db-check            Do not run db schema check*"
+            echo "         --skip-translation         Do not run translation check*"
+            echo "         --skip-styles              Do not create style packages*"
+            echo "         --skip-addons              Do not create addon packages*"
+            echo "         --skip-test-framework      Do not copy test framework*"
+            echo "         --skip-core-files          Do not copy kernel/lib files*"
+            echo "         --skip-changelogs          Do not changelogs from earlier versions*"
+            echo "         --skip-sql-generation      Do not generate SQL files*"
+            echo "         --skip-extensions          Do not package extensions*"
             echo "         --db-name=databasename     MySQL DB name ( default: ez_tmp_makedist )"
             echo
 
-	    # Show options for database
-	    ezdist_db_show_options
+            # Show options for database
+            ezdist_db_show_options
 
-	    echo "SVN options:"
+            echo "SVN options:"
             echo "         --use-svn-server           Do all operation using SVN server"
             echo "         --use-working-copy         Do all operations on working copy, SVN server is not contacted"
-	    echo
-	    echo "* Warning: Using these options will not make a valid distribution"
+            echo
+            echo "* Warning: Using these options will not make a valid distribution"
             echo
             echo "Example:"
             echo "$0 --release-sdk --with-svn-server"
-	    exit 1
-	    ;;
-	--build-root=*)
-	    if echo $arg | grep -e "--build-root=" >/dev/null; then
-		DEST_ROOT=`echo $arg | sed 's/--build-root=//'`
-	    fi
-	    ;;
-#	--build-rc)
-#	    BUILD_RC="1"
-#	    ;;
-	--build-snapshot)
-	    BUILD_SNAPSHOT="1"
-	    ;;
-	--final)
-	    FINAL="1"
-	    ;;
-	--with-svn-server*)
-	    if echo $arg | grep -e "--with-svn-server=" >/dev/null; then
-		SVN_SERVER=`echo $arg | sed 's/--with-svn-server=//'`
-	    else
-		SVN_SERVER=$DEFAULT_SVN_SERVER
-	    fi
-	    ;;
-	--with-release*)
-	    if echo $arg | grep -e "--with-release=" >/dev/null; then
-		REPOS_RELEASE=`echo $arg | sed 's/--with-release=//'`
-	    else
-		REPOS_RELEASE="trunk"
-	    fi
-	    ;;
-	--use-svn-server)
-	    SVN_EXPORT="svn"
-	    ;;
-	--use-working-copy)
-	    SVN_EXPORT="wc"
-	    ;;
-	--db-name=*)
-	    if echo $arg | grep -e "--mysql-db=" >/dev/null; then
-		TMP_DB_NAME=`echo $arg | sed 's/--mysql-db=//'`
-	    fi
-	    ;;
+            exit 1
+            ;;
+        --build-root=*)
+            if echo $arg | grep -e "--build-root=" >/dev/null; then
+                    DEST_ROOT=`echo $arg | sed 's/--build-root=//'`
+            fi
+            ;;
+#       --build-rc)
+#           BUILD_RC="1"
+#           ;;
+        --build-snapshot)
+            BUILD_SNAPSHOT="1"
+            ;;
+        --final)
+            FINAL="1"
+            ;;
+        --with-svn-server*)
+            if echo $arg | grep -e "--with-svn-server=" >/dev/null; then
+                SVN_SERVER=`echo $arg | sed 's/--with-svn-server=//'`
+            else
+                SVN_SERVER=$DEFAULT_SVN_SERVER
+            fi
+            ;;
+        --license-type*)
+            if echo $arg | grep -e "--license-type=" >/dev/null; then
+                LICENSE_TYPE=`echo $arg | sed 's/--license-type=//'`
+            fi
+            ;;
+        --with-release*)
+            if echo $arg | grep -e "--with-release=" >/dev/null; then
+                REPOS_RELEASE=`echo $arg | sed 's/--with-release=//'`
+            else
+                REPOS_RELEASE="trunk"
+            fi
+            ;;
+        --use-svn-server)
+            SVN_EXPORT="svn"
+            ;;
+        --use-working-copy)
+            SVN_EXPORT="wc"
+            ;;
+        --db-name=*)
+            if echo $arg | grep -e "--mysql-db=" >/dev/null; then
+                TMP_DB_NAME=`echo $arg | sed 's/--mysql-db=//'`
+            fi
+            ;;
 
-#	--skip-site-creation)
-#	    SKIPSITECREATION="1"
-#	    ;;
-	--skip-all-checks)
-	    SKIPCHECKVERSION="1"
-	    SKIPCHECKPHP="1"
-	    SKIPDBSCHEMA="1"
-	    SKIPDBCHECK="1"
-	    SKIPDBUPDATE="1"
-	    SKIPUNITTESTS="1"
-	    SKIPTRANSLATION="1"
-	    ;;
-	--skip-styles)
-	    SKIPSTYLECREATION="1"
-	    ;;
-	--skip-addons)
-	    SKIPADDONCREATION="1"
-	    ;;
-	--skip-version-check)
-	    SKIPCHECKVERSION="1"
-	    ;;
-	--skip-php-check)
-	    SKIPCHECKPHP="1"
-	    ;;
-	--skip-code-template-check)
-	    SKIPCODETEMPLATECHECK="1"
-	    ;;
-	--skip-db-schema)
-	    SKIPDBSCHEMA="1"
-	    ;;
-	--skip-db-check)
-	    SKIPDBCHECK="1"
-	    ;;
-	--skip-db-update)
-	    SKIPDBUPDATE="1"
-	    ;;
-	--skip-unit-tests)
-	    SKIPUNITTESTS="1"
-	    ;;
-	--skip-translation)
-	    SKIPTRANSLATION="1"
-	    ;;
-	--skip-test-framework)
-	    SKIP_TEST_FRAMEWORK="1"
-	    ;;
-	--skip-core-files)
-	    SKIP_CORE_FILES="1"
-	    ;;
-	--skip-changelogs)
-	    SKIP_CHANGELOGS="1"
-	    ;;
-	--skip-sql-generation)
-	    SKIP_SQL_GENERATION="1"
-	    ;;
-	--skip-extensions)
-	    SKIP_EXTENSIONS="1"
-	    ;;
+        --skip-site-creation)
+            SKIPSITECREATION="1"
+            ;;
+
+#       --skip-site-creation)
+#           SKIPSITECREATION="1"
+#           ;;
+        --skip-all-checks)
+            SKIPCHECKVERSION="1"
+            SKIPCHECKPHP="1"
+            SKIPDBSCHEMA="1"
+            SKIPDBCHECK="1"
+            SKIPDBUPDATE="1"
+            SKIPUNITTESTS="1"
+            SKIPTRANSLATION="1"
+            SKIP_LICENSE_UPDATE="1"
+            ;;
+        --skip-styles)
+            SKIPSTYLECREATION="1"
+            ;;
+        --skip-addons)
+            SKIPADDONCREATION="1"
+            ;;
+        --skip-version-check)
+            SKIPCHECKVERSION="1"
+            ;;
+        --skip-php-check)
+            SKIPCHECKPHP="1"
+            ;;
+        --skip-code-template-check)
+            SKIPCODETEMPLATECHECK="1"
+            ;;
+        --skip-db-schema)
+            SKIPDBSCHEMA="1"
+            ;;
+        --skip-db-check)
+            SKIPDBCHECK="1"
+            ;;
+        --skip-db-update)
+            SKIPDBUPDATE="1"
+            ;;
+        --skip-unit-tests)
+            SKIPUNITTESTS="1"
+            ;;
+        --skip-translation)
+            SKIPTRANSLATION="1"
+            ;;
+        --skip-test-framework)
+            SKIP_TEST_FRAMEWORK="1"
+            ;;
+        --skip-core-files)
+            SKIP_CORE_FILES="1"
+            ;;
+        --skip-changelogs)
+            SKIP_CHANGELOGS="1"
+            ;;
+        --skip-sql-generation)
+            SKIP_SQL_GENERATION="1"
+            ;;
+        --skip-extensions)
+            SKIP_EXTENSIONS="1"
+            ;;
+        --skip-license-update)
+            SKIP_LICENSE_UPDATE="1"
+            ;;
 
 
-	--*)
-	    # Check for DB options
-	    ezdist_db_check_options "$arg"
 
-	    if [ $? -ne 0 ]; then
-		echo "$arg: unknown long option specified"
-		echo
-		echo "Type '$0 --help\` for a list of options to use."
-		exit 1
-	    fi
-	    ;;
-	-*)
-	    # Check for DB options
-	    ezdist_db_check_short_options "$arg"
+        --*)
+            # Check for DB options
+            ezdist_db_check_options "$arg"
 
-	    if [ $? -ne 0 ]; then
-		echo "$arg: unknown option specified"
-		echo
-		echo "Type '$0 --help\` for a list of options to use."
-		exit 1
-	    fi
-	    ;;
-	*)
-	    echo "$arg: unknown argument specified"
-	    echo
+            if [ $? -ne 0 ]; then
+                echo "$arg: unknown long option specified"
+                echo
+                echo "Type '$0 --help\` for a list of options to use."
+                exit 1
+            fi
+            ;;
+        -*)
+            # Check for DB options
+            ezdist_db_check_short_options "$arg"
+
+            if [ $? -ne 0 ]; then
+                echo "$arg: unknown option specified"
+                echo
+                echo "Type '$0 --help\` for a list of options to use."
+                exit 1
+            fi
+            ;;
+        *)
+            echo "$arg: unknown argument specified"
+            echo
             echo "Type '$0 --help\` for a list of options to use."
-	    exit 1
-	    ;;
+            exit 1
+            ;;
     esac;
 done
-
 BASE="$NAME-$DIST_TYPE-$VERSION"
 
 # Read in MySQL data if they are missing
@@ -347,25 +373,25 @@ function ezdist_svn_read_info
     local type
 
     while ezdist_is_undef "$SVN_EXPORT"; do
-	echo -n "SVN: Do you wish to use the live SVN server or the working copy (wc) [Svn|wc]: "
-	read type
-	type=`echo $type | tr A-Z a-z`
-	[ -z "$type" ] && type="svn"
-	case $type in
-	    wc)
-		SVN_EXPORT="wc"
-		;;
+        echo -n "SVN: Do you wish to use the live SVN server or the working copy (wc) [Svn|wc]: "
+        read type
+        type=`echo $type | tr A-Z a-z`
+        [ -z "$type" ] && type="svn"
+        case $type in
+            wc)
+                SVN_EXPORT="wc"
+                ;;
 
-	    svn)
-		SVN_EXPORT="svn"
-		;;
-	    q)
-		exit 1
-		;;
-	    *)
-		echo "Unknown type $type"
-		;;
-	esac
+            svn)
+                SVN_EXPORT="svn"
+                ;;
+            q)
+                exit 1
+                ;;
+            *)
+                echo "Unknown type $type"
+                ;;
+        esac
     done
 }
 
@@ -374,13 +400,13 @@ function ezdist_dbname_read_info
     local name
 
     while ezdist_is_undef "$DIST_DB_NAME"; do
-	echo -n "DB: Which database should be used for creating addon packages: "
-	read name
-	if [ -z "$name" ]; then
-	    DIST_DB_NAME="none"
-	else
-	    DIST_DB_NAME="$name"
-	fi
+        echo -n "DB: Which database should be used for creating addon packages: "
+        read name
+        if [ -z "$name" ]; then
+            DIST_DB_NAME="none"
+        else
+            DIST_DB_NAME="$name"
+        fi
     done
 }
 
@@ -472,34 +498,34 @@ if [ -z $SKIPCHECKVERSION ]; then
     echo -n "Checking db update version numbers"
     ./bin/php/checkdbfiles.php &>/dev/null
     if [ $? -ne 0 ]; then
-	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
-	echo
-	echo "`$SETCOLOR_FAILURE`************** WARNING **************`$SETCOLOR_NORMAL`"
-	echo
-	echo "There are problems with the db update files"
-	echo "Run the following command to see what must be fixed"
-	echo "`$SETCOLOR_EXE`./bin/php/checkdbfiles.php`$SETCOLOR_EXE`"
-	echo
-	echo "`$SETCOLOR_FAILURE`************** WARNING **************`$SETCOLOR_NORMAL`"
-	echo
-	exit 1
+        echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+        echo
+        echo "`$SETCOLOR_FAILURE`************** WARNING **************`$SETCOLOR_NORMAL`"
+        echo
+        echo "There are problems with the db update files"
+        echo "Run the following command to see what must be fixed"
+        echo "`$SETCOLOR_EXE`./bin/php/checkdbfiles.php`$SETCOLOR_EXE`"
+        echo
+        echo "`$SETCOLOR_FAILURE`************** WARNING **************`$SETCOLOR_NORMAL`"
+        echo
+        exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 
     echo -n "Checking version numbers"
     ./bin/shell/checkversionnumbers.sh --exit-at-once &>/dev/null
     if [ $? -ne 0 ]; then
-	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
-	echo
-	echo "`$SETCOLOR_FAILURE`************** WARNING **************`$SETCOLOR_NORMAL`"
-	echo
-	echo "There are problems with the version numbers"
-	echo "Run the following command to see what must be fixed"
-	echo "`$SETCOLOR_EXE`./bin/shell/checkversionnumbers.sh`$SETCOLOR_EXE`"
-	echo
-	echo "`$SETCOLOR_FAILURE`************** WARNING **************`$SETCOLOR_NORMAL`"
-	echo
-	exit 1
+        echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+        echo
+        echo "`$SETCOLOR_FAILURE`************** WARNING **************`$SETCOLOR_NORMAL`"
+        echo
+        echo "There are problems with the version numbers"
+        echo "Run the following command to see what must be fixed"
+        echo "`$SETCOLOR_EXE`./bin/shell/checkversionnumbers.sh`$SETCOLOR_EXE`"
+        echo
+        echo "`$SETCOLOR_FAILURE`************** WARNING **************`$SETCOLOR_NORMAL`"
+        echo
+        exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 fi
@@ -508,11 +534,11 @@ if [ -z $SKIPCODETEMPLATECHECK ]; then
     echo -n "Checking code templates"
     ./bin/php/ezapplytemplate.php --all --check-only -q
     if [ $? -ne 0 ]; then
-	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
-	echo "Some PHP files were updated by code templates"
-	echo "Run the following command to find the files"
-	echo "./bin/php/ezapplytemplate.php --all"
-	exit 1
+        echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+        echo "Some PHP files were updated by code templates"
+        echo "Run the following command to find the files"
+        echo "./bin/php/ezapplytemplate.php --all"
+        exit 1
     fi
 
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
@@ -522,20 +548,20 @@ if [ -z $SKIPCHECKPHP ]; then
     echo -n "Checking syntax of PHP files"
     ./bin/shell/phpcheck.sh --exit-on-error -q cronjobs kernel lib support update tests/classes benchmarks/classes
     if [ $? -ne 0 ]; then
-	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
-	echo "Some PHP files have syntax errors"
-	echo "Run the following command to find the files"
-	echo "./bin/shell/phpcheck.sh --errors-only bin/php cronjobs kernel lib support update tests/classes benchmarks/classes"
-	exit 1
+        echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+        echo "Some PHP files have syntax errors"
+        echo "Run the following command to find the files"
+        echo "./bin/shell/phpcheck.sh --errors-only bin/php cronjobs kernel lib support update tests/classes benchmarks/classes"
+        exit 1
     fi
 
     ./bin/php/ezcheckphptag.php -q --no-print cronjobs kernel lib support update tests/classes benchmarks/classes
     if [ $? -ne 0 ]; then
-	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
-	echo "Some PHP files have bad PHP starting and ending tag usage"
-	echo "Run the following command to find the files"
-	echo "./bin/php/ezcheckphptag.php cronjobs bin/php kernel lib support update tests/classes benchmarks/classes"
-	exit 1
+        echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+        echo "Some PHP files have bad PHP starting and ending tag usage"
+        echo "Run the following command to find the files"
+        echo "./bin/php/ezcheckphptag.php cronjobs bin/php kernel lib support update tests/classes benchmarks/classes"
+        exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 fi
@@ -544,11 +570,11 @@ if [ -z $SKIPUNITTESTS ]; then
     echo -n "Running unit tests"
     ./tests/testunits.php -q eztemplate ezxml ezi18n
     if [ $? -ne 0 ]; then
-	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
-	echo "Some unit tests failed"
-	echo "Run the following command to find out which one failed"
-	echo "./tests/testunits.php eztemplate ezxml ezi18n"
-	exit 1
+        echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+        echo "Some unit tests failed"
+        echo "Run the following command to find out which one failed"
+        echo "./tests/testunits.php eztemplate ezxml ezi18n"
+        exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 fi
@@ -557,11 +583,11 @@ if [ -z $SKIPDBCHECK ]; then
     echo -n "Checking database schemas"
     ./bin/shell/checkdbschema.sh $PARAM_EZ_MYSQL_ALL $PARAM_EZ_POSTGRESQL_ALL "$TMP_DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
-	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
-	echo "The database schema check failed"
-	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbschema.sh $PARAM_EZ_MYSQL_ALL $PARAM_EZ_POSTGRESQL_ALL $TMP_DB_NAME"
-	exit 1
+        echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+        echo "The database schema check failed"
+        echo "Run the following command to find out what is wrong"
+        echo "./bin/shell/checkdbschema.sh $PARAM_EZ_MYSQL_ALL $PARAM_EZ_POSTGRESQL_ALL $TMP_DB_NAME"
+        exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 fi
@@ -570,44 +596,44 @@ if [ -z $SKIPDBUPDATE ]; then
     echo -n "Checking MySQL database updates"
     # Only check stable->current update when it's a final release
     if [ "$VERSION_FINAL" == "true" ]; then
-	./bin/shell/checkdbupdate.sh --check-stable --mysql $PARAM_EZ_MYSQL_ALL "$TMP_DB_NAME" &>/dev/null
-	if [ $? -ne 0 ]; then
-	    echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
-	    echo "The database update check for MySQL failed"
-	    echo "Run the following command to find out what is wrong"
-	    echo "./bin/shell/checkdbupdate.sh --check-stable --mysql $PARAM_EZ_MYSQL_ALL $TMP_DB_NAME"
-	    exit 1
-	fi
+        ./bin/shell/checkdbupdate.sh --check-stable --mysql $PARAM_EZ_MYSQL_ALL "$TMP_DB_NAME" &>/dev/null
+        if [ $? -ne 0 ]; then
+            echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+            echo "The database update check for MySQL failed"
+            echo "Run the following command to find out what is wrong"
+            echo "./bin/shell/checkdbupdate.sh --check-stable --mysql $PARAM_EZ_MYSQL_ALL $TMP_DB_NAME"
+            exit 1
+        fi
     fi
     ./bin/shell/checkdbupdate.sh --check-previous --mysql $PARAM_EZ_MYSQL_ALL "$TMP_DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
-	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
-	echo "The database update check for MySQL failed"
-	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbupdate.sh --check-previous --mysql $PARAM_EZ_MYSQL_ALL $TMP_DB_NAME"
-	exit 1
+        echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+        echo "The database update check for MySQL failed"
+        echo "Run the following command to find out what is wrong"
+        echo "./bin/shell/checkdbupdate.sh --check-previous --mysql $PARAM_EZ_MYSQL_ALL $TMP_DB_NAME"
+        exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 
     echo -n "Checking PostgreSQL database updates"
     # Only check stable->current update when it's a final release
     if [ "$VERSION_FINAL" == "true" ]; then
-	./bin/shell/checkdbupdate.sh --check-stable --postgresql $PARAM_EZ_POSTGRESQL_ALL "$TMP_DB_NAME" &>/dev/null
-	if [ $? -ne 0 ]; then
-	    echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
-	    echo "The database update check for Postgresql failed"
-	    echo "Run the following command to find out what is wrong"
-	    echo "./bin/shell/checkdbupdate.sh --check-stable --postgresql $PARAM_EZ_POSTGRESQL_ALL $TMP_DB_NAME"
-	    exit 1
+        ./bin/shell/checkdbupdate.sh --check-stable --postgresql $PARAM_EZ_POSTGRESQL_ALL "$TMP_DB_NAME" &>/dev/null
+        if [ $? -ne 0 ]; then
+            echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+            echo "The database update check for Postgresql failed"
+            echo "Run the following command to find out what is wrong"
+            echo "./bin/shell/checkdbupdate.sh --check-stable --postgresql $PARAM_EZ_POSTGRESQL_ALL $TMP_DB_NAME"
+            exit 1
 	fi
     fi
      ./bin/shell/checkdbupdate.sh --check-previous --postgresql $PARAM_EZ_POSTGRESQL_ALL "$TMP_DB_NAME" &>/dev/null
     if [ $? -ne 0 ]; then
-	echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
-	echo "The database update check for Postgresql failed"
-	echo "Run the following command to find out what is wrong"
-	echo "./bin/shell/checkdbupdate.sh --check-previous --postgresql $PARAM_EZ_POSTGRESQL_ALL $TMP_DB_NAME"
-	exit 1
+        echo "`$MOVE_TO_COL``$SETCOLOR_FAILURE`[ Failure ]`$SETCOLOR_NORMAL`"
+        echo "The database update check for Postgresql failed"
+        echo "Run the following command to find out what is wrong"
+        echo "./bin/shell/checkdbupdate.sh --check-previous --postgresql $PARAM_EZ_POSTGRESQL_ALL $TMP_DB_NAME"
+        exit 1
     fi
     echo "`$MOVE_TO_COL``$SETCOLOR_SUCCESS`[ Success ]`$SETCOLOR_NORMAL`"
 fi
@@ -634,6 +660,8 @@ else
     mkdir -p "$DEST_EXTENSION_ARCHIVE"
 fi
 
+echo -n "Licenses dir: `ez_color_dir $LICENSES_DIR`"
+
 #
 # *****   Copy the distribution files (using SVN property)   *****
 #
@@ -654,14 +682,14 @@ fi
 
 if [ -z "$SKIP_TEST_FRAMEWORK" ]; then
     if [ "$DEVELOPMENT" == "true" ]; then
-	echo -n "Copying `ez_color_em UnitTest` framework"
-	if [ "$SVN_EXPORT" == "svn" ]; then
-	    svn export "$CURRENT_URL/tests" "$DEST/tests" &>.export.log
-	else
-	    svn export "tests" "$DEST/tests" &>.export.log
-	fi
-	ez_result_file $? .export.log || exit 1
-	rm .export.log
+        echo -n "Copying `ez_color_em UnitTest` framework"
+        if [ "$SVN_EXPORT" == "svn" ]; then
+            svn export "$CURRENT_URL/tests" "$DEST/tests" &>.export.log
+        else
+            svn export "tests" "$DEST/tests" &>.export.log
+        fi
+        ez_result_file $? .export.log || exit 1
+        rm .export.log
     fi
 fi
 
@@ -671,17 +699,17 @@ fi
 
 if [ -z "$SKIP_TEST_FRAMEWORK" ]; then
     if [ "$DEVELOPMENT" == "true" ]; then
-	if [ -d "doc/features/$VERSION_ONLY" ]; then
-	    echo -n "Copying `ez_color_em feature docs` framework"
-	    mkdir -p "$DEST/doc/features"
-	    if [ "$SVN_EXPORT" == "svn" ]; then
-		svn export "$CURRENT_URL/doc/features/$VERSION_ONLY" "$DEST/doc/features/$VERSION_ONLY" &>.export.log
-	    else
-		svn export "doc/features/$VERSION_ONLY" "$DEST/doc/features/$VERSION_ONLY" &>.export.log
-	    fi
-	    ez_result_file $? .export.log || exit 1
-	    rm .export.log
-	fi
+        if [ -d "doc/features/$VERSION_ONLY" ]; then
+            echo -n "Copying `ez_color_em feature docs` framework"
+            mkdir -p "$DEST/doc/features"
+            if [ "$SVN_EXPORT" == "svn" ]; then
+                svn export "$CURRENT_URL/doc/features/$VERSION_ONLY" "$DEST/doc/features/$VERSION_ONLY" &>.export.log
+            else
+                svn export "doc/features/$VERSION_ONLY" "$DEST/doc/features/$VERSION_ONLY" &>.export.log
+            fi
+            ez_result_file $? .export.log || exit 1
+            rm .export.log
+        fi
     fi
 fi
 
@@ -692,28 +720,28 @@ fi
 if [ -z "$SKIP_CORE_FILES" ]; then
     echo -n "Examining `ez_color_dir settings` directory"
     for settingsfile in settings/*; do
-	if [ -d "$settingsfile" ]; then
-	    continue
-	fi
-	if echo $settingsfile | grep -E "^.*~$" &>/dev/null; then
-	    continue
-	fi
-	file=`echo $settingsfile | sed 's#^settings/##'`
-	if [ ! -f "$DEST/$settingsfile" ]; then
-	    MISSING_FILES="$MISSING_FILES $settingsfile"
-	fi
+        if [ -d "$settingsfile" ]; then
+            continue
+        fi
+        if echo $settingsfile | grep -E "^.*~$" &>/dev/null; then
+            continue
+        fi
+        file=`echo $settingsfile | sed 's#^settings/##'`
+        if [ ! -f "$DEST/$settingsfile" ]; then
+            MISSING_FILES="$MISSING_FILES $settingsfile"
+        fi
     done
 
     if [ -n "$MISSING_FILES" ]; then
-	ez_result_output 1 ""
-	echo "Some files are missing in the created distribution"
-	echo "You should make sure the files have proper distribution properties set"
-	echo
-	echo "The files are:"
-	for file in $MISSING_FILES; do
-	    echo "`$SETCOLOR_FILE`$file`$SETCOLOR_NORMAL`"
-	done
-	exit 1
+        ez_result_output 1 ""
+        echo "Some files are missing in the created distribution"
+        echo "You should make sure the files have proper distribution properties set"
+        echo
+        echo "The files are:"
+        for file in $MISSING_FILES; do
+            echo "`$SETCOLOR_FILE`$file`$SETCOLOR_NORMAL`"
+        done
+        exit 1
     fi
     ez_result_output 0 ""
 fi
@@ -730,25 +758,25 @@ mkdir -p "$DEST/share"
 
 echo -n "Exporting translations"
 rm -rf "$DEST/share/translations"
-if [ "$SVN_EXPORT" == "svn" ]; then
-    svn export "$TRANSLATION_URL" "$DEST/share/translations" &>/dev/null
-    ez_result_output $? "
-svn export $TRANSLATION_URL $DEST/share/translations &>/dev/null
-Failed to check out translations from trunk" || exit 1
-else
+#if [ "$SVN_EXPORT" == "svn" ]; then
+#    svn export "$TRANSLATION_URL" "$DEST/share/translations" &>/dev/null
+#    ez_result_output $? "
+#svn export $TRANSLATION_URL $DEST/share/translations &>/dev/null
+#Failed to check out translations from svn" || exit 1
+#else
     svn export "share/translations" "$DEST/share/translations" &>/dev/null
     ez_result_output $? "
 svn export share/translations $DEST/share/translations &>/dev/null
 Failed to check out translations from WC" || exit 1
-fi
+#fi
 
 dir=`pwd`
 # We do not validate the translations if SKIPTRANSLATION is set
 if [ -z "$SKIPTRANSLATION" ]; then
     cp -R -f $DEST/share/translations $DEST/share/translations.org &>/dev/null
     if [ $? -ne 0 ]; then
-	echo "Failed to make copy of translations"
-	exit 1
+        echo "Failed to make copy of translations"
+        exit 1
     fi
     TR_COUNTER=0
     TR_TOTAL=0
@@ -758,47 +786,47 @@ if [ -z "$SKIPTRANSLATION" ]; then
     echo -n "`ez_store_pos`"
     translations=""
     for translation in *; do
-	if echo "$translation" | grep -E '^([a-zA-Z][a-zA-Z][a-zA-Z]-[a-zA-Z][a-zA-Z]|untranslated)$' &>/dev/null; then
-	    translations="$translations $translation"
-	    TR_TOTAL=`expr $TR_TOTAL + 1`
-	fi
+        if echo "$translation" | grep -E '^([a-zA-Z][a-zA-Z][a-zA-Z]-[a-zA-Z][a-zA-Z]|untranslated)$' &>/dev/null; then
+            translations="$translations $translation"
+            TR_TOTAL=`expr $TR_TOTAL + 1`
+        fi
     done
     for translation in $translations; do
-	TR_COUNTER=`expr $TR_COUNTER + 1`
-	current_len=${#translation}
-	if [ $last_len -eq 0 ]; then
-	    last_len=$current_len
-	fi
-	text="$translation"
-	iterator=$current_len
-	while [ $iterator -lt $last_len ]; do
-	    text="$text "
-	    iterator=`expr $iterator + 1`
-	done
-	echo -n "`ez_restore_pos``ez_store_pos`[$TR_COUNTER/$TR_TOTAL] `$SETCOLOR_EMPHASIZE`$text`$SETCOLOR_NORMAL`"
+        TR_COUNTER=`expr $TR_COUNTER + 1`
+        current_len=${#translation}
+        if [ $last_len -eq 0 ]; then
+            last_len=$current_len
+        fi
+        text="$translation"
+        iterator=$current_len
+        while [ $iterator -lt $last_len ]; do
+            text="$text "
+            iterator=`expr $iterator + 1`
+        done
+        echo -n "`ez_restore_pos``ez_store_pos`[$TR_COUNTER/$TR_TOTAL] `$SETCOLOR_EMPHASIZE`$text`$SETCOLOR_NORMAL`"
 
-	if [ -z $SKIPTRANSLATION ]; then
-	    if [ "$translation" == "untranslated" ]; then
-		(cd  $DEST && $dir/bin/linux/ezlupdate -u -d "$dir/design" &>/dev/null )
-		if [ $? -ne 0 ]; then
-		    ez_result_output 1 "Error updating translations for untranslated" || exit 1
-		fi
-	    else
-		(cd  $DEST && $dir/bin/linux/ezlupdate "$translation" -d "$dir/design" &>/dev/null )
-		if [ $? -ne 0 ]; then
-		    ez_result_output 1 "Error updating translations for $translation" || exit 1
-		fi
-	    fi
-	fi
-	echo -n "`ez_restore_pos``ez_store_pos`[$TR_COUNTER/$TR_TOTAL] `$SETCOLOR_COMMENT`$text`$SETCOLOR_NORMAL`"
-	last_len=$current_len
+        if [ -z $SKIPTRANSLATION ]; then
+            if [ "$translation" == "untranslated" ]; then
+                (cd  $DEST && $dir/bin/linux/ezlupdate -u -d "$dir/design" &>/dev/null )
+                if [ $? -ne 0 ]; then
+                    ez_result_output 1 "Error updating translations for untranslated" || exit 1
+                fi
+            else
+                (cd  $DEST && $dir/bin/linux/ezlupdate "$translation" -d "$dir/design" &>/dev/null )
+                if [ $? -ne 0 ]; then
+                    ez_result_output 1 "Error updating translations for $translation" || exit 1
+                fi
+            fi
+        fi
+        echo -n "`ez_restore_pos``ez_store_pos`[$TR_COUNTER/$TR_TOTAL] `$SETCOLOR_COMMENT`$text`$SETCOLOR_NORMAL`"
+        last_len=$current_len
     done
     cd $dir
     text=""
     iterator=0
     while [ $iterator -lt $last_len ]; do
-	text="$text "
-	iterator=`expr $iterator + 1`
+        text="$text "
+        iterator=`expr $iterator + 1`
     done
     echo -n "`ez_restore_pos``ez_store_pos`$text"
     echo -n "`ez_restore_pos`[$TR_TOTAL/$TR_TOTAL] translations"
@@ -817,45 +845,39 @@ You must update the translations in the repository using the ezlupdate program" 
     last_len=0
     echo -n "`ez_store_pos`"
     for translation in $translations; do
-	TR_COUNTER=`expr $TR_COUNTER + 1`
-	current_len=${#translation}
-	if [ $last_len -eq 0 ]; then
-	    last_len=$current_len
-	fi
-	text="$translation"
-	iterator=$current_len
-	while [ $iterator -lt $last_len ]; do
-	    text="$text "
-	    iterator=`expr $iterator + 1`
-	done
-	echo -n "`ez_restore_pos``ez_store_pos`[$TR_COUNTER/$TR_TOTAL] `$SETCOLOR_EMPHASIZE`$text`$SETCOLOR_NORMAL`"
-	if [ "$translation" == "untranslated" ]; then
-	    (cd  $DEST && $dir/bin/linux/ezlupdate -no -u -d "$dir/design" &>/dev/null)
-	    if [ $? -ne 0 ]; then
-		ez_result_output 1 "Error removing obsolete entries for untranslated" || exit 1
-#	        echo
-#		echo "Error removing obsolete entries for untranslated"
-#		exit 1
-	    fi
-	else
-	    (cd  $DEST && $dir/bin/linux/ezlupdate -no "$translation" -d "$dir/design" &>/dev/null)
-	    if [ $? -ne 0 ]; then
-		ez_result_output 1 "Error removing obsolete entries for $translation" || exit 1
-#	        echo
-#		echo "Error removing obsolete entries for $translation"
-#		exit 1
-	    fi
-	fi
-	echo -n "`ez_restore_pos``ez_store_pos`[$TR_COUNTER/$TR_TOTAL] `$SETCOLOR_COMMENT`$text`$SETCOLOR_NORMAL`"
-	last_len=$current_len
+        TR_COUNTER=`expr $TR_COUNTER + 1`
+        current_len=${#translation}
+        if [ $last_len -eq 0 ]; then
+            last_len=$current_len
+        fi
+        text="$translation"
+        iterator=$current_len
+        while [ $iterator -lt $last_len ]; do
+            text="$text "
+            iterator=`expr $iterator + 1`
+        done
+        echo -n "`ez_restore_pos``ez_store_pos`[$TR_COUNTER/$TR_TOTAL] `$SETCOLOR_EMPHASIZE`$text`$SETCOLOR_NORMAL`"
+        if [ "$translation" == "untranslated" ]; then
+            (cd  $DEST && $dir/bin/linux/ezlupdate -no -u -d "$dir/design" &>/dev/null)
+            if [ $? -ne 0 ]; then
+                ez_result_output 1 "Error removing obsolete entries for untranslated" || exit 1
+            fi
+        else
+            (cd  $DEST && $dir/bin/linux/ezlupdate -no "$translation" -d "$dir/design" &>/dev/null)
+            if [ $? -ne 0 ]; then
+                ez_result_output 1 "Error removing obsolete entries for $translation" || exit 1
+            fi
+        fi
+        echo -n "`ez_restore_pos``ez_store_pos`[$TR_COUNTER/$TR_TOTAL] `$SETCOLOR_COMMENT`$text`$SETCOLOR_NORMAL`"
+        last_len=$current_len
     done
     cd $dir
 
     text=""
     iterator=0
     while [ $iterator -lt $last_len ]; do
-	text="$text "
-	iterator=`expr $iterator + 1`
+        text="$text "
+        iterator=`expr $iterator + 1`
     done
     echo -n "`ez_restore_pos`[$TR_COUNTER/$TR_TOTAL] $text"
     ez_result_output 0 "" || exit 1
@@ -863,17 +885,17 @@ fi
 
 echo -n "Exporting locales"
 rm -rf "$DEST/share/locale"
-if [ "$SVN_EXPORT" == "svn" ]; then
-    svn export "$LOCALE_URL" "$DEST/share/locale" &>/dev/null
-    ez_result_output $? "
-svn export $LOCALE_URL $DEST/share/locale &>/dev/null
-Failed to check out locale from trunk" || exit 1
-else
+#if [ "$SVN_EXPORT" == "svn" ]; then
+#    svn export "$LOCALE_URL" "$DEST/share/locale" &>/dev/null
+#    ez_result_output $? "
+#svn export $LOCALE_URL $DEST/share/locale &>/dev/null
+#Failed to check out locale from trunk" || exit 1
+#else
     svn export "share/locale" "$DEST/share/locale" &>/dev/null
     ez_result_output $? "
 svn export share/locale $DEST/share/locale &>/dev/null
 Failed to check out locale from WC" || exit 1
-fi
+#fi
 
 #
 # *****   Handle changelogs from earlier versions   *****
@@ -882,15 +904,15 @@ fi
 if [ -z "$SKIP_CHANGELOGS" -a "$SVN_EXPORT" == "svn" ]; then
     echo -n "Changelogs:"
     for version in $STABLE_VERSIONS; do
-	changelog_url="$REPOSITORY_BASE_URL/$REPOSITORY_STABLE_BRANCH_PATH/$version/doc/changelogs/$version"
-	rm -rf "$DEST/doc/changelogs/$version"
-	echo -n " `ez_store_pos`$version"
+        changelog_url="$REPOSITORY_BASE_URL/$REPOSITORY_STABLE_BRANCH_PATH/$version/doc/changelogs/$version"
+        rm -rf "$DEST/doc/changelogs/$version"
+        echo -n " `ez_store_pos`$version"
         svn export "$changelog_url" "$DEST/doc/changelogs/$version" &>/dev/null
-	if [ $? -ne 0 ]; then
-	    ez_result_output 1 "Failed to check out changelogs for version `$SETCOLOR_EMPHASIZE`$version`$SETCOLOR_NORMAL`"
-	    exit 1
-	fi
-	echo -n "`ez_restore_pos``$SETCOLOR_EMPHASIZE`$version`$SETCOLOR_NORMAL`"
+        if [ $? -ne 0 ]; then
+            ez_result_output 1 "Failed to check out changelogs for version `$SETCOLOR_EMPHASIZE`$version`$SETCOLOR_NORMAL`"
+            exit 1
+        fi
+        echo -n "`ez_restore_pos``$SETCOLOR_EMPHASIZE`$version`$SETCOLOR_NORMAL`"
     done
     ez_result_output 0 ""
 elif [ "$SVN_EXPORT" != "svn" ]; then
@@ -940,8 +962,8 @@ fi
 for file in $EXTRA_DIRS; do
     mkdir -p "$DEST/$file"
     if [ $? -ne 0 ]; then
-	ez_result_file 1 "Failed to create directory $DEST/$file"
-	exit 1
+        ez_result_file 1 "Failed to create directory $DEST/$file"
+        exit 1
     fi
 done
 ez_result_file 0 ""
@@ -957,17 +979,17 @@ ez_result_file 0 ""
 #    mkdir -p "$DEST/kernel/setup/packages" || exit 1
 #    echo -n "Site:"
 #    for site in $ALL_PACKAGES; do
-#	echo -n " `ez_store_pos`$site"
-#	./bin/shell/makesitepackages.sh -q --export-path="$DEST/kernel/setup/packages" --site=$site
-#	if [ $? -ne 0 ]; then
-#	    echo
-#	    echo "The package creation of $site failed"
-#	    echo "Run the following command to see what went wrong"
-#	    echo "./bin/shell/makesitepackages.sh --site=$site"
-#	    exit 1
-#	else
-#	    echo -n "`ez_restore_pos``$SETCOLOR_EMPHASIZE`$site`$SETCOLOR_NORMAL`"
-#	fi
+#       echo -n " `ez_store_pos`$site"
+#       ./bin/shell/makesitepackages.sh -q --export-path="$DEST/kernel/setup/packages" --site=$site
+#       if [ $? -ne 0 ]; then
+#           echo
+#           echo "The package creation of $site failed"
+#           echo "Run the following command to see what went wrong"
+#           echo "./bin/shell/makesitepackages.sh --site=$site"
+#           exit 1
+#       else
+#           echo -n "`ez_restore_pos``$SETCOLOR_EMPHASIZE`$site`$SETCOLOR_NORMAL`"
+#       fi
 #    done
 #fi
 #echo
@@ -1003,19 +1025,19 @@ fi
 if [ -z "$SKIP_CORE_FILES" ]; then
     echo -n "Applying filters"
     for filter in $FILTER_FILES; do
-	cat "$DEST/$filter" | sed 's,^#!\(.*\)$,\1,' | grep -v '^..*##!' > "$DEST/$filter.tmp" && mv -f "$DEST/$filter.tmp" "$DEST/$filter"
-	if [ $? -ne 0 ]; then
-	    ez_result_output 1 "Failed to filter $DEST/$filter"
-	    exit 1
-	fi
+        cat "$DEST/$filter" | sed 's,^#!\(.*\)$,\1,' | grep -v '^..*##!' > "$DEST/$filter.tmp" && mv -f "$DEST/$filter.tmp" "$DEST/$filter"
+        if [ $? -ne 0 ]; then
+            ez_result_output 1 "Failed to filter $DEST/$filter"
+            exit 1
+        fi
     done
 
     for filter in $FILTER_FILES2; do
-	cat "$DEST/$filter" | sed 's,^##!\(.*\)$,\1,' | grep -v '^..*##!' > "$DEST/$filter.tmp" && mv -f "$DEST/$filter.tmp" "$DEST/$filter"
-	if [ $? -ne 0 ]; then
-	    ez_result_output 1 "Failed to filter $DEST/$filter"
-	    exit 1
-	fi
+        cat "$DEST/$filter" | sed 's,^##!\(.*\)$,\1,' | grep -v '^..*##!' > "$DEST/$filter.tmp" && mv -f "$DEST/$filter.tmp" "$DEST/$filter"
+        if [ $? -ne 0 ]; then
+            ez_result_output 1 "Failed to filter $DEST/$filter"
+            exit 1
+        fi
     done
     ez_result_output 0 ""
 
@@ -1023,19 +1045,19 @@ if [ -z "$SKIP_CORE_FILES" ]; then
 
     function scan_sql_file()
     {
-	sqlfile=$1
-	grep -n -H -i -E -q '(^--.*$)|(^#.*$)|(^/\*.*\*/$)' $sqlfile
-	if [ $? -eq 0 ]; then
-	    return 1
-	else
-	    return 0
-	fi
+        sqlfile=$1
+        grep -n -H -i -E -q '(^--.*$)|(^#.*$)|(^/\*.*\*/$)' $sqlfile
+        if [ $? -eq 0 ]; then
+            return 1
+        else
+            return 0
+        fi
     }
 
     function cleanup_sql_file()
     {
-	sqlfile=$1
-	perl -pi -e "s%(^--.*$)|(^#.*$)|(^/\*.*\*/$)%%g" $sqlfile
+        sqlfile=$1
+        perl -pi -e "s%(^--.*$)|(^#.*$)|(^/\*.*\*/$)%%g" $sqlfile
     }
 
     MAJOR_VERSIONS="3.0"
@@ -1045,51 +1067,51 @@ if [ -z "$SKIP_CORE_FILES" ]; then
     DATABASES="mysql postgresql"
 
     for database in $DATABASES; do
-	for major_version in $MAJOR_VERSIONS; do
-	    SQL_DIRS="$SQL_DIRS $UPDATE_SQL_DIR/$database/$major_version"
-	done
+        for major_version in $MAJOR_VERSIONS; do
+            SQL_DIRS="$SQL_DIRS $UPDATE_SQL_DIR/$database/$major_version"
+        done
     done
 
 
     for database in $DATABASES; do
-	SQL_DIRS="$SQL_DIRS $KERNEL_SQL_DIR/$database"
+        SQL_DIRS="$SQL_DIRS $KERNEL_SQL_DIR/$database"
     done
 
     BAD_SQL_FILES=""
 
     for sql_dir in $SQL_DIRS; do
-	if [ -d "$DEST/$sql_dir" ]; then
-	    for sql_file in `(cd $DEST && ls $sql_dir/*.sql)`; do
-		scan_sql_file $DEST/$sql_file
-		if [ $? -ne 0 ]; then
-		    BAD_SQL_FILES="$BAD_SQL_FILES $sql_file"
-		fi
-	    done
-	fi
+        if [ -d "$DEST/$sql_dir" ]; then
+            for sql_file in `(cd $DEST && ls $sql_dir/*.sql)`; do
+                scan_sql_file $DEST/$sql_file
+                if [ $? -ne 0 ]; then
+                    BAD_SQL_FILES="$BAD_SQL_FILES $sql_file"
+                fi
+            done
+        fi
     done
 
     if [ "$BAD_SQL_FILES" != "" ]; then
-	ez_result_output 1 "`$SETCOLOR_EMPHASIZE`The following sql files has comments in them and should be fixed.`$SETCOLOR_NORMAL`
+        ez_result_output 1 "`$SETCOLOR_EMPHASIZE`The following sql files has comments in them and should be fixed.`$SETCOLOR_NORMAL`
 `$SETCOLOR_DIR`$BAD_SQL_FILES`$SETCOLOR_NORMAL`"
-	read -p "`$SETCOLOR_EMPHASIZE`Do want to fix this for the release?`$SETCOLOR_NORMAL` Yes/No [N]" FIX_SQL
-	if [ "$FIX_SQL" == "" ]; then
-	    FIX_SQL="N"
-	fi
-	case "$FIX_SQL" in
-	    Y|y|Yes|yes|YES)
-		for bad_sql_file in $BAD_SQL_FILES; do
-		    echo -n "Fixing `$SETCOLOR_FILE`$DEST/$bad_sql_file`$SETCOLOR_NORMAL`"
-		    cleanup_sql_file "$DEST/$bad_sql_file"
-		    ez_result_output $? "Failed to fix comments in $DEST/$bad_sql_file" || exit 1
-		done
-		;;
-	    *)
-		echo "You will have to fix the sql files manually before creating the distribution."
-		exit 1
-		;;
-	esac
+        read -p "`$SETCOLOR_EMPHASIZE`Do want to fix this for the release?`$SETCOLOR_NORMAL` Yes/No [N]" FIX_SQL
+        if [ "$FIX_SQL" == "" ]; then
+            FIX_SQL="N"
+        fi
+        case "$FIX_SQL" in
+            Y|y|Yes|yes|YES)
+                for bad_sql_file in $BAD_SQL_FILES; do
+                    echo -n "Fixing `$SETCOLOR_FILE`$DEST/$bad_sql_file`$SETCOLOR_NORMAL`"
+                    cleanup_sql_file "$DEST/$bad_sql_file"
+                    ez_result_output $? "Failed to fix comments in $DEST/$bad_sql_file" || exit 1
+                done
+                ;;
+            *)
+                echo "You will have to fix the sql files manually before creating the distribution."
+                exit 1
+                ;;
+        esac
     else
-	ez_result_output 0 ""
+        ez_result_output 0 ""
     fi
 fi
 
@@ -1101,10 +1123,10 @@ echo -n "Looking for `$SETCOLOR_DIR`.svn`$SETCOLOR_NORMAL` directories"
 (cd $DEST
     find . -name .svn -print &> .find.log
     if [ $? -ne 0 ]; then
-	ez_result_output 1 "The following .svn directories was found"
-	cat .find.log
-	rm .find.log
-	exit 1
+        ez_result_output 1 "The following .svn directories was found"
+        cat .find.log
+        rm .find.log
+        exit 1
     fi
     ez_result_output 0 ""
     rm .find.log ) || exit 1
@@ -1114,21 +1136,21 @@ echo -n "Looking for `$SETCOLOR_COMMENT`temp`$SETCOLOR_NORMAL` files"
     TEMPFILES=`find . -name '*[~#]' -print`
     echo $TEMPFILES | grep -e '[~#]' -q
     if [ $? -eq 0 ]; then
-	ez_result_output 1 "Cannot create distribution, the following temporary files were found:"
-	for tempfile in $TEMPFILES; do
-	    echo "`$SETCOLOR_FAILURE`$tempfile`$SETCOLOR_NORMAL`"
-	done
-	echo "The files must be removed before the distribution can be made"
-	exit 1
+        ez_result_output 1 "Cannot create distribution, the following temporary files were found:"
+        for tempfile in $TEMPFILES; do
+            echo "`$SETCOLOR_FAILURE`$tempfile`$SETCOLOR_NORMAL`"
+        done
+        echo "The files must be removed before the distribution can be made"
+        exit 1
     fi
     ez_result_output 0 "" ) || exit 1
 
 if [ -z "$SKIP_CORE_FILES" ]; then
     if [ -f $DEST/bin/modfix.sh ]; then
-	echo -n "Applying `$SETCOLOR_EXE`executable`$SETCOLOR_NORMAL` properties"
-	(cd $DEST/bin
-	    chmod a+x modfix.sh
-	    ez_result_output $? "Failed to apply executable property to modifix.sh" || exit 1 ) || exit 1
+        echo -n "Applying `$SETCOLOR_EXE`executable`$SETCOLOR_NORMAL` properties"
+        (cd $DEST/bin
+            chmod a+x modfix.sh
+            ez_result_output $? "Failed to apply executable property to modifix.sh" || exit 1 ) || exit 1
     fi
 fi
 
@@ -1144,37 +1166,38 @@ echo -n "Removing non-distribution files"
 if [ -d $DEST/kernel/sql/oracle ]; then
     rm -rf "$DEST/kernel/sql/oracle"
     if [ $? -ne 0 ]; then
-	ez_result_output 1 "Failed to remove `ez_color_dir $DEST/kernel/sql/oracle`"
-	exit 1
+        ez_result_output 1 "Failed to remove `ez_color_dir $DEST/kernel/sql/oracle`"
+        exit 1
     fi
 fi
 
 if [ -f $DEST/kernel/sql/mysql/doc.sql ]; then
     rm -f "$DEST/kernel/sql/mysql/doc.sql"
     if [ $? -ne 0 ]; then
-	ez_result_output 1 "Failed to remove `ez_color_file $DEST/kernel/sql/mysql/doc.sql`"
-	exit 1
+        ez_result_output 1 "Failed to remove `ez_color_file $DEST/kernel/sql/mysql/doc.sql`"
+        exit 1
     fi
 fi
 
 if [ -f $DEST/kernel/sql/postgresql/doc.sql ]; then
     rm -f "$DEST/kernel/sql/postgresql/doc.sql"
     if [ $? -ne 0 ]; then
-	ez_result_output 1 "Failed to remove `ez_color_file $DEST/kernel/sql/postgresql/doc.sql`"
-	exit 1
+        ez_result_output 1 "Failed to remove `ez_color_file $DEST/kernel/sql/postgresql/doc.sql`"
+        exit 1
     fi
 fi
 
 if [ -f $DEST/support/lupdate-ezpublish3/Makefile ]; then
     (cd "$DEST/support/lupdate-ezpublish3" && \
-	qmake &>/dev/null && \
-	make clean &>/dev/null && \
-	rm -rf Makefile moc obj)
+        qmake &>/dev/null && \
+        make clean &>/dev/null && \
+        rm -rf Makefile moc obj)
     if [ $? -ne 0 ]; then
-	ez_result_output 1 "Failed to cleanup ezlupdate temporary files in `ez_color_dir $DEST/support/lupdate-ezpublish3`"
-	exit 1
+        ez_result_output 1 "Failed to cleanup ezlupdate temporary files in `ez_color_dir $DEST/support/lupdate-ezpublish3`"
+        exit 1
     fi
 fi
+
 
 ez_result_output 0 ""
 
@@ -1191,28 +1214,6 @@ if [ -f "$DEST_ROOT/$BASE.zip" ]; then
     rm -f "$DEST_ROOT/$BASE.zip";
 fi
 
-# Create MD5 check sums
-if [ -z "$SKIP_CORE_FILES" ]; then
-    echo -n "Creating MD5 checksums"
-    (cd $DEST
-	MD5_FILES=`find * -name "*.php" -or -name "*.ini" -or -name "*.sh" -or -name "*.sql"`
-	
-	for MD5_FILE in $MD5_FILES; do
-	    md5sum $MD5_FILE >> share/filelist.md5
-	done
-
-	MD5_FILES=`find design/* -name "*.tpl"`
-
-	for MD5_FILE in $MD5_FILES; do
-	    md5sum $MD5_FILE >> share/filelist.md5
-
-	done
-    )
-    ez_result_output $? "Failed to create MD5 checksums"|| exit 1
-fi
-
-
-
 #
 # *****   Build package files for extensions *****
 #
@@ -1228,19 +1229,19 @@ if [ -z "$SKIP_EXTENSIONS" -a "$SVN_EXPORT" == "svn" ]; then
         [ "$BUILD_SNAPSHOT" = 1 ] && build_number_opt="--build-number=$CURRENT_BUILD_NUMBER"
         [ "$SVN_EXPORT" == "svn" ] && use_svn_opt='--svn'
         bin/shell/packext.sh $use_svn_opt --dist-type=$DIST_TYPE --output-dir=$DEST_EXTENSION_ARCHIVE $build_number_opt $extension
-	if [ $? -ne 0 ]; then
-	    echo "Failed to build extension $extension"
-	    exit 1
-	fi
+        if [ $? -ne 0 ]; then
+            echo "Failed to build extension $extension"
+            exit 1
+        fi
 
-	# Store paypal archive name
-	EXTENSION_IDENTIFIER=""
-	EXTENSION_TGZFILE=""
+        # Store paypal archive name
+        EXTENSION_IDENTIFIER=""
+        EXTENSION_TGZFILE=""
         [ -s .ez.extension-id ] && EXTENSION_IDENTIFIER=`cat .ez.extension-id`
         [ -s .ez.extension-name ] && EXTENSION_TGZFILE=`cat .ez.extension-name`
-	if [ "$EXTENSION_IDENTIFIER" = "ezpaypal" ]; then
-	    EXTENSION_PAYPAL_ARCHIVE="$DEST_EXTENSION_ARCHIVE/$EXTENSION_TGZFILE"
-	fi
+        if [ "$EXTENSION_IDENTIFIER" = "ezpaypal" ]; then
+            EXTENSION_PAYPAL_ARCHIVE="$DEST_EXTENSION_ARCHIVE/$EXTENSION_TGZFILE"
+        fi
 
         [ -s .ez.extension-name ] && EXTENSION_FILES="$EXTENSION_FILES `cat .ez.extension-name`"
         rm -f .ez.extension-name .ez.extension-id
@@ -1261,34 +1262,75 @@ if [ -f "$EXTENSION_PAYPAL_ARCHIVE" ]; then
     ez_result_output $? "Failed to unpack $EXTENSION_PAYPAL_ARCHIVE" || exit 1
 fi
 
+#
+# *****   Update license file and php's headers   *****
+#
+
+if [ -z $SKIP_LICENSE_UPDATE ];then
+    echo -n "Applying '$LICENSE_TYPE' license"
+
+    if [ "$SVN_EXPORT" == "svn" ]; then
+        rm -rf "$LICENSES_DIR"
+        svn export "$LICENSES_SVN_SERVER" "$LICENSES_DIR" &>.export.log
+        ez_result_file $? .export.log || exit 1
+        rm .export.log
+    fi
+
+    update_license
+
+    ez_result_output $? "Failed to update license"|| exit 1
+fi
+
+#
+# *****   Create MD5 check sums   *****
+#
+
+if [ -z "$SKIP_CORE_FILES" ]; then
+    echo -n "Creating MD5 checksums"
+    (cd $DEST
+       MD5_FILES=`find * -name "*.php" -or -name "*.ini" -or -name "*.sh" -or -name "*.sql"`
+
+       for MD5_FILE in $MD5_FILES; do
+           md5sum $MD5_FILE >> share/filelist.md5
+       done
+
+       MD5_FILES=`find design/* -name "*.tpl"`
+
+       for MD5_FILE in $MD5_FILES; do
+           md5sum $MD5_FILE >> share/filelist.md5
+
+       done
+    )
+    ez_result_output $? "Failed to create MD5 checksums"|| exit 1
+fi
 
 #
 # *****   Create archives   *****
 #
 
-TGZFILE="$BASE.tar.gz"
-TBZFILE="$BASE.tar.bz2"
-ZIPFILE="$BASE.zip"
+TGZFILE="$BASE-$LICENSE_TYPE.tar.gz"
+TBZFILE="$BASE-$LICENSE_TYPE.tar.bz2"
+ZIPFILE="$BASE-$LICENSE_TYPE.zip"
 
 echo -n "Creating `$SETCOLOR_FILE`tar.gz`$SETCOLOR_NORMAL` file"
 (cd $DEST_ROOT
     tar cfz $TGZFILE $BASE
-    echo ",  `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.tar.gz`$SETCOLOR_NORMAL`")
+    echo ",  `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$TGZFILE`$SETCOLOR_NORMAL`")
 
 echo -n "Creating `$SETCOLOR_FILE`tar.bz2`$SETCOLOR_NORMAL` file"
 (cd $DEST_ROOT
-    tar cf $BASE.tar $BASE
+    tar cf $BASE-$LICENSE_TYPE.tar $BASE
     if [ -f $TBZFILE ]; then
 	rm -f $TBZFILE
     fi
-    bzip2 $BASE.tar
-    echo ", `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.tar.bz2`$SETCOLOR_NORMAL`")
+    bzip2 $BASE-$LICENSE_TYPE.tar
+    echo ", `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$TBZFILE`$SETCOLOR_NORMAL`")
 
 if [ "which zip &>/dev/null" ]; then
     echo -n "Creating `$SETCOLOR_FILE`zip`$SETCOLOR_NORMAL` file"
     (cd $DEST_ROOT
-	zip -9 -r -q $ZIPFILE $BASE
-	echo ",     `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$BASE.zip`$SETCOLOR_NORMAL`")
+        zip -9 -r -q $ZIPFILE $BASE
+        echo ",     `$SETCOLOR_EMPHASIZE`$DEST_ROOT/$ZIPFILE`$SETCOLOR_NORMAL`")
 else
     echo "`SETCOLOR_WARNING`Could not create `$SETCOLOR_FILE`zip`$SETCOLOR_WARNING` file, `$SETCOLOR_EXE`zip`$SETCOLOR_NORMAL` program not found.`SETCOLOR_NORMAL`"
 fi
@@ -1317,18 +1359,18 @@ if [ "$BUILD_SNAPSHOT" == "1" ]; then
     (cd "$VERSIONROOT/"; md5sum -b "$TGZFILE" >> filelist.md5)
 
     if [ -z "$SKIP_EXTENSIONS" ]; then
-	EXTENSION_VERSIONROOT="$VERSIONROOT/extensions"
-	if [ ! -d "$EXTENSION_VERSIONROOT" ]; then
-	    mkdir -p "$EXTENSION_VERSIONROOT"
-	fi
-	for extension_file in $EXTENSION_FILES; do
-	    echo "Copying `ez_color_file $extension_file` to `ez_color_dir $EXTENSION_VERSIONROOT`"
-	    cp "$DEST_EXTENSION_ARCHIVE/$extension_file" "$EXTENSION_VERSIONROOT/"
-	    if [ ! -f "$VERSIONROOT/filelist.md5" ]; then
-		touch "$VERSIONROOT/filelist.md5"
-	    fi
-	    (cd "$VERSIONROOT/"; md5sum -b "extensions/$extension_file" >> filelist.md5)
-	done
+        EXTENSION_VERSIONROOT="$VERSIONROOT/extensions"
+        if [ ! -d "$EXTENSION_VERSIONROOT" ]; then
+            mkdir -p "$EXTENSION_VERSIONROOT"
+        fi
+        for extension_file in $EXTENSION_FILES; do
+            echo "Copying `ez_color_file $extension_file` to `ez_color_dir $EXTENSION_VERSIONROOT`"
+            cp "$DEST_EXTENSION_ARCHIVE/$extension_file" "$EXTENSION_VERSIONROOT/"
+            if [ ! -f "$VERSIONROOT/filelist.md5" ]; then
+                touch "$VERSIONROOT/filelist.md5"
+            fi
+            (cd "$VERSIONROOT/"; md5sum -b "extensions/$extension_file" >> filelist.md5)
+        done
     fi
 
     echo
@@ -1336,12 +1378,12 @@ if [ "$BUILD_SNAPSHOT" == "1" ]; then
     read add_comment
     add_comment=`echo $add_comment | tr 'A-Z' 'a-z'`
     if [ "$add_comment" == "" ]; then
-	add_comment="n"
+        add_comment="n"
     fi
     case "$add_comment" in
-	y|yes)
-	    $EDITOR "$VERSIONROOT/$TGZFILE"".summary"
-	    ;;
+        y|yes)
+            $EDITOR "$VERSIONROOT/$TGZFILE"".summary"
+            ;;
     esac
 
 fi
@@ -1364,18 +1406,18 @@ if [ -n "$FINAL" ]; then
     echo "Copied `$SETCOLOR_FILE`$ZIPFILE`$SETCOLOR_NORMAL`"
 
     if [ -z "$SKIP_EXTENSIONS" ]; then
-	EXTENSION_VERSIONROOT="$VERSIONROOT/extensions"
-	if [ ! -d "$EXTENSION_VERSIONROOT" ]; then
-	    mkdir -p "$EXTENSION_VERSIONROOT"
-	fi
-	for extension_file in $EXTENSION_FILES; do
-	    echo "Copying `ez_color_file $extension_file` to `ez_color_dir $EXTENSION_VERSIONROOT`"
-	    cp "$DEST_EXTENSION_ARCHIVE/$extension_file" "$EXTENSION_VERSIONROOT/"
-	    if [ ! -f "$VERSIONROOT/filelist.md5" ]; then
-		touch "$VERSIONROOT/filelist.md5"
-	    fi
-	    (cd "$VERSIONROOT/"; md5sum -b "extensions/$extension_file" >> filelist.md5)
-	done
+        EXTENSION_VERSIONROOT="$VERSIONROOT/extensions"
+        if [ ! -d "$EXTENSION_VERSIONROOT" ]; then
+            mkdir -p "$EXTENSION_VERSIONROOT"
+        fi
+        for extension_file in $EXTENSION_FILES; do
+            echo "Copying `ez_color_file $extension_file` to `ez_color_dir $EXTENSION_VERSIONROOT`"
+            cp "$DEST_EXTENSION_ARCHIVE/$extension_file" "$EXTENSION_VERSIONROOT/"
+            if [ ! -f "$VERSIONROOT/filelist.md5" ]; then
+                touch "$VERSIONROOT/filelist.md5"
+            fi
+            (cd "$VERSIONROOT/"; md5sum -b "extensions/$extension_file" >> filelist.md5)
+        done
     fi
 
     CURRENT_SVN_PATH=`svn info | grep 'URL:' | sed 's/URL: //'`
