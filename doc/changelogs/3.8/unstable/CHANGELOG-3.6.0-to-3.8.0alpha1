@@ -892,6 +892,8 @@ Attributes:
 - Fixed bug: Broken table border in order archive list.
 - Fixed bug #7766: notices in 3.7.3 installation wizard.
   ( Merged stable/3.7 ( 3.7.4 ) rev. 14768 )
+- Fixed bug #7811: Warnings in ezxhtmlxmloutput handler.
+  ( Merged from stable/3.6 ( 3.6.6 ) rev. 14778 )
 
 *Library:
 
