@@ -35,7 +35,6 @@ You may also remove the package without uninstalling it from the package list.'|
         <input class="button" type="submit" name="SkipPackageButton" value="{'Skip uninstallation'|i18n('design/admin/package')}" />
     </div>
 
-</form>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
 
