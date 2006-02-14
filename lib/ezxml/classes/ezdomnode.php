@@ -72,6 +72,7 @@ class eZDOMNode
     {
         $this->content =& $this->value;
         $this->Content =& $this->content;
+        $this->Name =& $this->tagname;
         $this->Type =& $this->type;
     }
 
@@ -280,6 +281,26 @@ class eZDOMNode
     function childrenCount()
     {
         return count( $this->Children );
+    }
+
+    /*!
+     \return first child of current dom node.
+
+     \note added for compatibility with DOM XML library
+    */
+    function first_child()
+    {
+        return isset( $this->Children[0] ) ? $this->Children[0] : null;
+    }
+
+    /*!
+     \return node value of current dom node.
+
+     \note added for compatibility with DOM XML library
+    */
+    function node_value()
+    {
+        return $this->Content;
     }
 
     /*!
@@ -913,10 +934,8 @@ class eZDOMNode
 
     /*
         W3C DOM compatibility functions
-        
     */
-
-        // \note W3C DOM function
+    // \note W3C DOM function
 
     function setAttribute( $name, $value )
     {
@@ -939,7 +958,7 @@ class eZDOMNode
     function setAttributeNS( $namespaceURI, $qualifiedName, $value )
     {
         foreach ( $this->Attributes as $attribute )
-        {   
+        {
             if ( !$attribute->Prefix )
                 continue;
 
@@ -964,7 +983,7 @@ class eZDOMNode
             if ( $attribute->name() == $attributeName && !$attribute->Prefix )
                 $returnValue = $attribute->Content;
         }
-    
+
         return $returnValue;
     }
 
@@ -978,7 +997,7 @@ class eZDOMNode
                  $attribute->NamespaceURI == $namespaceURI )
                 $returnValue = $attribute->Content;
         }
-    
+
         return $returnValue;
     }
 
@@ -1056,6 +1075,9 @@ class eZDOMNode
 
     /// Name of the node
     var $Name = false;
+
+    /// tagname, added for DOM XML compatibility.
+    var $tagname = false;
 
     /// Type of the DOM node. ElementNode=1, AttributeNode=2, TextNode=3, CDATASectionNode=4
     var $type;
