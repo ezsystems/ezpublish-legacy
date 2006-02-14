@@ -55,11 +55,14 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
         foreach (  $relatedObjects as  $relatedObject )
             $relatedObjectIDArray[] = $relatedObject->attribute( 'id' );
 
+        $db =& eZDB::instance();
+        $db->begin();
         foreach ( $selectedObjectIDArray as $selectedObjectID )
         {
             if ( $selectedObjectID != $objectID && !in_array( $selectedObjectID, $relatedObjectIDArray ) )
                 $object->addContentObjectRelation( $selectedObjectID, $editVersion );
         }
+        $db->commit();
         $module->redirectToView( 'edit', array( $object->attribute( 'id' ), $editVersion, $editLanguage, $fromLanguage ),
                                  null, false, 'content-relation-items' );
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
@@ -70,7 +73,10 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
         $relatedObjectID = eZContentUpload::result( 'RelatedObjectUpload' );
         if ( $relatedObjectID )
         {
+            $db =& eZDB::instance();
+            $db->begin();
             $object->addContentObjectRelation( $relatedObjectID, $editVersion );
+            $db->commit();
         }
         // We redirect to the edit page to get the correct url,
         // also we use the anchor 'content-relation-items' to make sure the
@@ -141,7 +147,10 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
                 $relatedObjectID = $result['contentobject_id'];
                 if ( $relatedObjectID )
                 {
+                    $db =& eZDB::instance();
+                    $db->begin();
                     $object->addContentObjectRelation( $relatedObjectID, $editVersion );
+                    $db->commit();
                 }
             }
         }
@@ -199,12 +208,17 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             }
             $contentClassID = $http->postVariable( 'ClassID' );
             $class = eZContentClass::fetch( $contentClassID );
+            $db =& eZDB::instance();
+            $db->begin();
             $relatedContentObject =& $class->instantiate( $userID, $sectionID );
+            $db->commit();
             $newObjectID = $relatedContentObject->attribute( 'id' );
             $relatedContentVersion =& $relatedContentObject->attribute( 'current' );
 
             if ( $relatedContentObject->attribute( 'can_edit' ) )
             {
+                $db =& eZDB::instance();
+                $db->begin();
                 $assignmentHandler = new eZContentObjectAssignmentHandler( $relatedContentObject, $relatedContentVersion );
                 $sectionID = (int) $assignmentHandler->setupAssignments( array( 'group-name' => 'RelationAssignmentSettings',
                                                                    'default-variable-name' => 'DefaultAssignment',
@@ -216,16 +230,18 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
                 $http->setSessionVariable( 'NewObjectID', $newObjectID );
 
                 /* Change section ID to the same one as the main node placement */
-                $db =& eZDB::instance();
                 $db->query("UPDATE ezcontentobject SET section_id = {$sectionID} WHERE id = {$newObjectID}");
-
+                $db->commit();
                 $module->redirectToView( 'edit', array( $relatedContentObject->attribute( 'id' ),
                                                         $relatedContentObject->attribute( 'current_version' ),
                                                         false ) );
             }
             else
             {
+                $db =& eZDB::instance();
+                $db->begin();
                 $relatedContentObject->purge();
+                $db->commit();
             }
 
             return;

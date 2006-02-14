@@ -176,7 +176,7 @@ if ( $http->hasPostVariable( "CustomActionButton" ) )
 }
 
 $storeActions = array( 'Preview',
-                       'Translate', 
+                       'Translate',
                        'TranslateLanguage',
                        'VersionEdit',
                        'Apply',
@@ -246,17 +246,24 @@ if ( $storingAllowed && $hasObjectInput)
             return;
         $version->setAttribute( 'modified', time() );
         $version->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
+
+        $db =& eZDB::instance();
+        $db->begin();
         $version->store();
 //         print( "storing<br/>" );
         // Tell attributes to store themselves if necessary
         $object->storeInput( $contentObjectAttributes,
                              $attributeInputMap );
+        $db->commit();
     }
 
     $validation['processed'] = true;
     $validation['attributes'] = $unvalidatedAttributes;
 
+    $db =& eZDB::instance();
+    $db->begin();
     $object->setName( $class->contentObjectName( $object ), $version->attribute( 'version' ), $EditLanguage );
+    $db->commit();
 }
 elseif ( $storingAllowed )
 {
@@ -280,6 +287,8 @@ if ( $Module->isCurrentAction( 'Publish' ) )
 {
     $mainFound = false;
     $assignments =& $version->attribute( 'parent_nodes' );
+    $db =& eZDB::instance();
+    $db->begin();
     foreach ( array_keys( $assignments ) as $key )
     {
         // Check that node assignment node exists.
@@ -301,6 +310,7 @@ if ( $Module->isCurrentAction( 'Publish' ) )
             break;
         }
     }
+    $db->commit();
     if ( !$mainFound and count( $assignments ) > 0 )
     {
         if( eZPreferences::value( 'admin_edit_show_locations' ) == '0' )
