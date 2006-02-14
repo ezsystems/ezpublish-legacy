@@ -121,6 +121,9 @@ foreach ( array_keys( $rssImportArray ) as $rssImportKey )
 
 }
 
+include_once( 'kernel/classes/ezstaticcache.php' );
+eZStaticCache::executeActions();
+
 /*!
   Parse RSS 1.0 feed
 
