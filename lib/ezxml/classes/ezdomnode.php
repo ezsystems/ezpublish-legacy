@@ -72,6 +72,7 @@ class eZDOMNode
     {
         $this->content =& $this->value;
         $this->Content =& $this->content;
+        $this->Name =& $this->tagname;
         $this->Type =& $this->type;
     }
 
@@ -292,6 +293,26 @@ class eZDOMNode
         if ( count( $this->Children ) == 0 )
             return null;
         return $this->Children[0];
+    }
+
+    /*!
+     \return first child of current dom node.
+
+     \note added for compatibility with DOM XML library
+    */
+    function first_child()
+    {
+        return isset( $this->Children[0] ) ? $this->Children[0] : null;
+    }
+
+    /*!
+     \return node value of current dom node.
+
+     \note added for compatibility with DOM XML library
+    */
+    function node_value()
+    {
+        return $this->Content;
     }
 
     /*!
@@ -919,6 +940,9 @@ class eZDOMNode
 
     /// Name of the node
     var $Name = false;
+
+    /// tagname, added for DOM XML compatibility.
+    var $tagname = false;
 
     /// Type of the DOM node. ElementNode=1, AttributeNode=2, TextNode=3, CDATASectionNode=4
     var $type;
