@@ -94,9 +94,11 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
     if ( $http->hasPostVariable( 'DeleteIDArray' ) )
     {
         $deleteIDArray =& $http->postVariable( 'DeleteIDArray' );
+        $versionArray = array();
         foreach ( $deleteIDArray as $deleteID )
         {
             $version =& eZContentObjectVersion::fetch( $deleteID );
+            $versionArray[] = $version->attribute( 'version' );
             if ( $version != null )
                 $version->remove();
         }
@@ -265,7 +267,10 @@ $res->setKeys( array( array( 'object', $object->attribute( 'id' ) ), // Object I
 
 include_once( 'kernel/classes/ezsection.php' );
 eZSection::setGlobalID( $object->attribute( 'section_id' ) );
-if ( $http->hasSessionVariable( 'LastAccessesVersionURI' ) )
+$versionArray =( isset( $versionArray ) and is_array( $versionArray ) ) ? array_unique( $versionArray ) : array();
+$LastAccessesVersionURI = $http->hasSessionVariable( 'LastAccessesVersionURI' ) ? $http->sessionVariable( 'LastAccessesVersionURI' ) : null;
+$explodedURI = $LastAccessesVersionURI ? explode ( '/', $LastAccessesVersionURI ) : null;
+if ( $LastAccessesVersionURI and is_array( $versionArray ) and !in_array( $explodedURI[3], $versionArray ) )
   $tpl->setVariable( 'redirect_uri', $http->sessionVariable( 'LastAccessesVersionURI' ) );
 
 $tpl->setVariable( 'view_parameters', $viewParameters );
