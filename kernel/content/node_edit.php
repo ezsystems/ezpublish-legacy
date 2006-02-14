@@ -114,7 +114,10 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
                     if ( $setMainNode )
                         $isMain = 1;
                     $setMainNode = false;
+                    $db =& eZDB::instance();
+                    $db->begin();
                     $version->assignToNode( $nodeID, $isMain );
+                    $db->commit();
                 }
             }
         }
@@ -195,6 +198,8 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
 
                         $realNode = eZContentObjectTreeNode::fetchNode( $version->attribute( 'contentobject_id' ), $oldAssignment->attribute( 'parent_node' ) );
 
+                        $db =& eZDB::instance();
+                        $db->begin();
                         if ( is_null( $realNode ) )
                         {
                             $fromNodeID = 0;
@@ -208,6 +213,7 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
                             $version->assignToNode( $nodeID, 0, $fromNodeID, $oldAssignment->attribute( 'sort_field' ), $oldAssignment->attribute( 'sort_order' ) );
                         }
                         $version->removeAssignment( $oldAssignmentParentID );
+                        $db->commit();
                     }
                 }
             }
@@ -434,9 +440,11 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 
     if ( $module->isCurrentAction( 'ConfirmAssignmentDelete' ) && $http->hasPostVariable( 'RemoveNodeID' ) )
     {
-
         $nodeID = $http->postVariable( 'RemoveNodeID' );
+        $db =& eZDB::instance();
+        $db->begin();
         $version->removeAssignment( $nodeID );
+        $db->commit();
     }
 
     if ( $module->isCurrentAction( 'DeleteNode' ) )
@@ -466,8 +474,10 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                     }
                     else
                     {
+                        $db =& eZDB::instance();
+                        $db->begin();
                         $version->removeAssignment( $nodeID );
-
+                        $db->commit();
                     }
                 }
             }
@@ -486,7 +496,10 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
                     }
                 }
+                $db =& eZDB::instance();
+                $db->begin();
                 $version->removeAssignment( $nodeID );
+                $db->commit();
             }
         }
     }
@@ -544,6 +557,8 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
             {
                 // Just remove all the selected locations.
                 $mainNodeChanged = false;
+                $db =& eZDB::instance();
+                $db->begin();
                 foreach ( $assignments as $assignment )
                 {
                     $assignmentID = $assignment->attribute( 'id' );
@@ -553,6 +568,7 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
                 }
                 if ( $mainNodeChanged )
                     eZNodeAssignment::setNewMainAssignment( $objectID, $versionInt );
+                $db->commit();
                 unset( $mainNodeChanged );
             }
             unset( $assignmentsIDs, $assignments );

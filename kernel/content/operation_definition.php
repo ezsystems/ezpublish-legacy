@@ -87,6 +87,13 @@ $OperationList['publish'] = array( 'name' => 'publish',
                                                            'keys' => array( 'object_id',
                                                                             'version'
                                                                              ) ),
+
+                                                    array( 'type' => 'method',
+                                                           'name' => 'begin-publish',
+                                                           'frequency' => 'once',
+                                                           'method' => 'beginPublish',
+                                                           ),
+
                                                     array( 'type' => 'method',
                                                            'name' => 'set-version-archived',
                                                            'frequency' => 'once',
@@ -201,6 +208,13 @@ $OperationList['publish'] = array( 'name' => 'publish',
                                                            'frequency' => 'once',
                                                            'method' => 'createNotificationEvent',
                                                            ),
+
+                                                    array( 'type' => 'method',
+                                                           'name' => 'end-publish',
+                                                           'frequency' => 'once',
+                                                           'method' => 'endPublish',
+                                                           ),
+
                                                     array( 'type' => 'trigger',
                                                            'name' => 'post_publish',
                                                            'keys' => array( 'object_id',

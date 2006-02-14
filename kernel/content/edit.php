@@ -131,8 +131,10 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
     $versionCount = $obj->getVersionCount();
     if ( $versionCount < $versionlimit )
     {
+        $db =& eZDB::instance();
+        $db->begin();
         $version = $obj->createNewVersion();
-
+        $db->commit();
         if ( !$http->hasPostVariable( 'DoNotEditAfterNewDraft' ) )
         {
             return $Module->redirectToView( 'edit', array( $ObjectID, $version->attribute( 'version' ), $EditLanguage ) );
@@ -328,7 +330,10 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
             $versionCount = $object->getVersionCount();
             if ( $versionCount < $versionlimit )
             {
+                $db =& eZDB::instance();
+                $db->begin();
                 $version = $object->createNewVersion();
+                $db->commit();
                 $module->redirectToView( "edit", array( $objectID, $version->attribute( "version" ), $editLanguage ) );
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }
@@ -358,8 +363,11 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
                             $removeVersion = $version;
                         }
                     }
+                    $db =& eZDB::instance();
+                    $db->begin();
                     $removeVersion->remove();
                     $version = $object->createNewVersion();
+                    $db->commit();
                     $module->redirectToView( "edit", array( $objectID, $version->attribute( "version" ), $editLanguage ) );
                     return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
                 }
@@ -468,7 +476,10 @@ if ( !function_exists( 'checkContentActions' ) )
                 $parentArray = $http->sessionVariable( 'ParentObject' );
                 $parentURL = $module->redirectionURI( 'content', 'edit', $parentArray );
                 $parentObject = eZContentObject::fetch( $parentArray[0] );
+                $db =& eZDB::instance();
+                $db->begin();
                 $parentObject->addContentObjectRelation( $object->attribute( 'id' ), $parentArray[1] );
+                $db->commit();
                 $http->removeSessionVariable( 'ParentObject' );
                 $http->removeSessionVariable( 'NewObjectID' );
                 $module->redirectTo( $parentURL );
@@ -591,6 +602,8 @@ if ( !function_exists( 'checkContentActions' ) )
                 else
                 {
                     $futureNodeHiddenState = $http->postVariable( $postVarName );
+                    $db =& eZDB::instance();
+                    $db->begin();
                     if ( $futureNodeHiddenState == 'hidden' )
                         eZContentObjectTreeNode::hideSubTree( $node );
                     else if ( $futureNodeHiddenState == 'visible' )
@@ -599,13 +612,17 @@ if ( !function_exists( 'checkContentActions' ) )
                         $updateNodeVisibility = true;
                     else
                         eZDebug::writeWarning( "Unknown value for the future node hidden state: '$futureNodeHiddenState'" );
+                    $db->commit();
                 }
 
                 if ( $updateNodeVisibility )
                 {
                     // this might be redundant
+                    $db =& eZDB::instance();
+                    $db->begin();
                     $parentNode = eZContentObjectTreeNode::fetch( $parentNodeID );
                     eZContentObjectTreeNode::updateNodeVisibility( $node, $parentNode, /* $recursive = */ false );
+                    $db->commit();
                     unset( $node, $parentNode );
                 }
             }
@@ -624,10 +641,8 @@ if ( !function_exists( 'checkContentActions' ) )
     }
 }
 $Module->addHook( 'action_check', 'checkContentActions' );
-$db =& eZDB::instance();
-$db->begin();
+
 $includeResult = include( 'kernel/content/attribute_edit.php' );
-$db->commit();
 
 if ( $includeResult != 1 )
     return $includeResult;

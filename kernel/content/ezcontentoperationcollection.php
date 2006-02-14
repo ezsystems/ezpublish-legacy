@@ -508,6 +508,25 @@ class eZContentOperationCollection
                                                                    'version' => $versionNum ) );
         $event->store();
     }
+
+    /*!
+      Start global transaction.
+     */
+    function beginPublish()
+    {
+        $db =& eZDB::instance();
+        $db->begin();
+    }
+
+    /*!
+     Stop (commit) global transaction.
+     */
+    function endPublish()
+    {
+        $db =& eZDB::instance();
+        $db->commit();
+    }
+
 }
 
 ?>
