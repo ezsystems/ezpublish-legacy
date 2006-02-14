@@ -853,14 +853,12 @@ class eZImageAliasHandler
         $imageNode->appendAttribute( $doc->createAttributeNode( 'alias_key', $imageManager->createImageAliasKey( $imageManager->alias( $aliasName ) ) ) );
         $imageNode->appendAttribute( $doc->createAttributeNode( 'timestamp', $aliasList[$aliasName]['timestamp'] ) );
 
-        $filename = $aliasList[$aliasName]['filename'];
+        $filename = $aliasList[$aliasName]['url'];
         if ( $filename )
         {
             include_once( 'lib/ezutils/classes/ezmimetype.php' );
             $mimeData =& eZMimeType::findByFileContents( $filename );
-
             $imageManager->analyzeImage( $mimeData );
-
             $this->createImageInformationNode( $imageNode, $mimeData );
         }
 
@@ -925,27 +923,38 @@ class eZImageAliasHandler
         $children =& $imageInfoNode->children();
         foreach ( $children as $child )
         {
-            if ( isset ( $child->name ) )
+            $childName = false;
+            if ( isset ( $child->tagname ) )
             {
-                $childName = $child->name;
-                if ( $childName == 'array' )
+                $childName = $child->tagname;
+            }
+
+            if ( $childName == 'array' )
+            {
+                $name = $child->get_attribute( 'name' );
+                $items = $child->get_elements_by_tagname( 'item' );
+                $array = array();
+                foreach ( $items as $item )
                 {
-                    $name = $child->get_attribute( 'name' );
-                    $items = $child->get_elements_by_tagname( 'item' );
-                    $array = array();
-                    foreach ( $items as $item )
+                    $itemValueNode = $item->first_child();
+                    $itemValue = $itemValueNode->node_value();
+                    if (  $item->get_attribute( 'base64' ) == '1' )
                     {
-                        $array[$item->attributeValue( 'key' )] = $item->textContent();
+                        $array[$item->get_attribute( 'key' )] = base64_decode( $itemValue );
                     }
-                    ksort( $array );
-                    $imageInformation[$name] = $array;
+                    else
+                    {
+                        $array[$item->get_attribute( 'key' )] = $itemValue;
+                    }
                 }
-                else if ( $childName == 'serialized' )
-                {
-                    $name = $child->get_attribute( 'name' );
-                    $data = $child->get_attribute( 'data' );
-                    $imageInformation[$name] = unserialize( $data );
-                }
+                ksort( $array );
+                $imageInformation[$name] = $array;
+            }
+            else if ( $childName == 'serialized' )
+            {
+                $name = $child->get_attribute( 'name' );
+                $data = $child->get_attribute( 'data' );
+                $imageInformation[$name] = unserialize( $data );
             }
         }
     }
@@ -1174,8 +1183,9 @@ class eZImageAliasHandler
                         foreach ( $infoItem as $infoArrayKey => $infoArrayItem )
                         {
                             $arrayItemNode =& eZDOMDocument::createElementNode( 'item',
-                                                                                array( 'key' => $infoArrayKey ) );
-                            $arrayItemNode->appendChild( eZDOMDocument::createTextNode( $infoArrayItem ) );
+                                                                                array( 'key' => $infoArrayKey,
+                                                                                       'base64' => 1 ) );
+                            $arrayItemNode->appendChild( eZDOMDocument::createTextNode( base64_encode( $infoArrayItem ) ) );
                             $arrayNode->appendChild( $arrayItemNode );
                         }
                     }
