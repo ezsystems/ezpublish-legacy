@@ -3351,7 +3351,7 @@ $schema = array (
       ),
       'is_archived' => 
       array (
-        'length' => 4,
+        'length' => 11,
         'type' => 'int',
         'not_null' => '1',
         'default' => 0,
