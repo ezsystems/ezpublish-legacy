@@ -811,6 +811,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                 $tableClassification = $tag->attributeValue( 'class' );
 
+                $renderParagraphInTableCells = true;
+                $ini =& eZINI::instance('ezxml.ini');
+                if ( $ini->variable( 'ezxhtml', 'RenderParagraphInTableCells' ) == 'disabled' )
+                    $renderParagraphInTableCells = false;
+
                 $rowCount = 0;
                 // find all table rows
                 foreach ( $tag->children() as $tableRow )
@@ -821,15 +826,14 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     {
                         $cellContent = "";
                         $tableCellChildren = $tableCell->children();
-                        // If <paragraph> is the one and only child then don't render it as <p>.
-                        if ( ( count( $tableCellChildren ) == 1 ) and ( count( $tableCellChildren[0]->children() ) == 1  ) )
+                        // If <paragraph> is the one and only child then rendering <p> depends of
+                        // RenderParagraphInTableCells option setting.
+                        if ( ( count( $tableCellChildren ) == 1 ) and ( $tableCellChildren[0]->name() == "paragraph" )) 
                         {
-                            if ( $tableCellChildren[0]->name() == "paragraph" )
-                            {
-                                $cellContent .= $this->renderXHTMLSection( $tpl, $tableCellChildren[0], 0, 0 );
-                            }
-                            else
+                            if ( $renderParagraphInTableCells ) 
                                 $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, 0, 0 );
+                            else
+                                $cellContent .= $this->renderXHTMLSection( $tpl, $tableCellChildren[0], 0, 0 );
                         }
                         else
                             $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, 0, 0 );
