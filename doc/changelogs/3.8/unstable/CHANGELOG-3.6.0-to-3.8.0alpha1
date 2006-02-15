@@ -899,6 +899,8 @@ Attributes:
 - Fixed bug #7835: Incorrect handling of Exif data.
 - Fixed bug #7815: ezxml parsing: paragraphs and text in tables.
   ( Merged from stable/3.6 rev. 14812 )
+- Fixed bug #7834: Bug wrong meta tag after edit.
+  ( Merged from stable/3.7 ( 3.7.4 ) rev. 14814 )
 
 *Library:
 
