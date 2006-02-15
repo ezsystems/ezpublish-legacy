@@ -901,6 +901,8 @@ Attributes:
   ( Merged from stable/3.6 rev. 14812 )
 - Fixed bug #7834: Bug wrong meta tag after edit.
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 14814 )
+- Fixed bug #7846: Datatype file from wizard with syntax and code error.
+  ( Merged from stable/3.7 ( 3.7.4 ) rev. 14821 )
 
 *Library:
 
