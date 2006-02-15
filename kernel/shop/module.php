@@ -223,8 +223,12 @@ $ViewList['preferredcurrency'] = array(
 $ViewList['productsoverview'] = array(
     'script' => 'productsoverview.php',
     'default_navigation_part' => 'ezshopnavigationpart',
-    'single_post_actions' => array( 'ShowProductsButton' => 'ShowProducts' ),
-    'post_action_parameters' => array( 'ShowProducts' => array( 'ProductClass' => 'ProductClass' ) ),
+    'single_post_actions' => array( 'ShowProductsButton' => 'ShowProducts',
+                                    'SortButton' => 'Sort' ),
+    'post_action_parameters' => array( 'ShowProducts' => array( 'ProductClass' => 'ProductClass' ),
+                                       'Sort' => array( 'ProductClass' => 'ProductClass',
+                                                        'SortingField' => 'SortingField',
+                                                        'SortingOrder' => 'SortingOrder' ) ),
     'params' => array(),
     'unordered_params' => array( 'product_class' => 'ProductClass',
                                  'offset' => 'Offset' ) );

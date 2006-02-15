@@ -107,7 +107,7 @@ class eZTemplateLocaleOperator
             $this->GetTimeName     => array( 'input' => true, 'output' => true, 'parameters' => 1,
                                              'transform-parameters' => true, 'input-as-parameter' => 'always',
                                              'element-transformation' => true,
-                                             'element-transformation-func' => 'getTimeTransformation' ),
+                                             'element-transformation-func' => 'getTimeTransformation' )
         );
         return $hints;
     }
@@ -125,7 +125,9 @@ class eZTemplateLocaleOperator
     */
     function namedParameterList()
     {
-        return array( 'l10n' =>     array( 'type' =>      array( 'type' => 'string',  'required' => true,  'default' => false ) ),
+        return array( 'l10n' =>     array( 'type' =>      array( 'type' => 'string',  'required' => true,  'default' => false ),
+                                           'locale' =>    array( 'type' => 'string',  'required' => false, 'default' => false ),
+                                           'param' =>     array( 'type' => 'string',  'required' => false, 'default' => false ) ),
                       'datetime' => array( 'class' =>     array( 'type' => 'string',  'required' => true,  'default' => false ),
                                            'data' =>      array( 'type' => 'mixed',   'required' => false, 'default' => false ) ),
                       'gettime' =>  array( 'timestamp' => array( 'type' => 'integer', 'required' => false, 'default' => false ) ),
@@ -151,31 +153,90 @@ class eZTemplateLocaleOperator
         $values = array();
         $newElements = array();
 
+        $newElements[] = eZTemplateNodeTool::createCodePieceElement( '// l10nTransformation begin' . "\n" );
         $newElements[] = eZTemplateNodeTool::createCodePieceElement( 'include_once("lib/ezlocale/classes/ezlocale.php");' . "\n" );
-        $newElements[] = eZTemplateNodeTool::createCodePieceElement( '$locale =& eZLocale::instance();' . "\n" );
         $values[] = $parameters[0];
+
+        if ( count( $parameters ) > 2 )
+        {
+            $values[] = $parameters[2];
+            $newElements[] = eZTemplateNodeTool::createCodePieceElement( "\$locale =& eZLocale::instance( %2% );\n", $values );
+        }
+        else
+        {
+            $values[] = false;
+            $newElements[] = eZTemplateNodeTool::createCodePieceElement( "\$locale =& eZLocale::instance();\n" );
+        }
 
         if ( !eZTemplateNodeTool::isStaticElement( $parameters[1] ) )
         {
+            $newElements[] = eZTemplateNodeTool::createCodePieceElement( '// l10nTransformation: not static' . "\n" );
             $values[] = $parameters[1];
-            $newElements[] = eZTemplateNodeTool::createCodePieceElement( "%tmp1% = \$locale->getFormattingFunction( %2% );\n%output% = \$locale->%tmp1%( %1% );\n", $values, false, 1 );
 
+            $code = "%tmp1% = \$locale->getFormattingFunction( %3% );\n";
+            $code .= "if ( %tmp1% )\n";
+            $code .= "{\n";
+            $code .= "    if ( %3% === 'currency' )\n";
+            if ( count( $parameters ) > 3 )
+            {
+                $values[] = $parameters[3];
+                $code .= "        if( %4% === false )\n";
+                $code .= "            %output% = \$locale->%tmp1%( %1%, \$locale->attribute( 'currency_symbol' ) );\n";
+                $code .= "        else\n";
+                $code .= "            %output% = \$locale->%tmp1%( %1%, %4% );\n";
+
+            }
+            else
+            {
+                $code .= "        %output% = \$locale->%tmp1%( %1%, \$locale->attribute( 'currency_symbol' ) );\n";
+            }
+            $code .= "    else\n";
+            $code .= "        %output% = \$locale->%tmp1%( %1% );\n";
+            $code .= "}\n";
+            $code .= "else\n";
+            $code .= "    %output% = %1%;\n";
+
+            $newElements[] = eZTemplateNodeTool::createCodePieceElement( $code, $values, false, 1 );
+
+
+            $newElements[] = eZTemplateNodeTool::createCodePieceElement( '// l10nTransformation end' . "\n" );
             return $newElements;
         }
         else
         {
+            $values[] = false;
+            $newElements[] = eZTemplateNodeTool::createCodePieceElement( '// l10nTransformation: static' . "\n" );
             if ( ( $function = eZTemplateNodeTool::elementStaticValue( $parameters[1] ) ) !== false )
             {
                 $locale =& eZLocale::instance();
                 $method = $locale->getFormattingFunction( $function );
+
                 if ( $method )
                 {
-                    $newElements[] = eZTemplateNodeTool::createCodePieceElement( "%output% = \$locale->$method( %1% );\n", $values, false, 1 );
+                    switch( $function )
+                    {
+                        case 'currency':
+                            {
+                                if ( count( $parameters ) > 3 )
+                                {
+                                    $values[] = $parameters[3];
+                                    $newElements[] = eZTemplateNodeTool::createCodePieceElement( "if( %4% === false)\n%output% = \$locale->$method( %1%, \$locale->attribute( 'currency_symbol' ) );\nelse\n%output% = \$locale->$method( %1%, %4% );\n", $values );
+                                }
+                                else
+                                {
+                                    $newElements[] = eZTemplateNodeTool::createCodePieceElement( "%output% = \$locale->$method( %1%, \$locale->attribute( 'currency_symbol' ) );\n", $values );
+                                }
+
+                            } break;
+                        default:
+                            {
+                                $newElements[] = eZTemplateNodeTool::createCodePieceElement( "\n%output% = \$locale->$method( %1% );\n", $values );
+                            } break;
+                    }
                     return $newElements;
                 }
             }
         }
-        return false;
     }
 
     function dateTimeTransformation( $operatorName, &$node, &$tpl, &$resourceData,
@@ -429,10 +490,32 @@ class eZTemplateLocaleOperator
             $type = $namedParameters['type'];
             if ( $type === null )
                 return;
+
+            $localeString = $namedParameters['locale'];
+            $param = $namedParameters['param'];
+
+            // change locale if need
+            if ( $localeString )
+                $locale =& eZLocale::instance( $localeString );
+
             $method = $locale->getFormattingFunction( $type );
             if ( $method )
             {
-                $operatorValue = $locale->$method( $operatorValue );
+                switch ( $type )
+                {
+                    case 'currency':
+                        {
+                            if ( $param === false )
+                                $param = $locale->attribute( 'currency_symbol' );
+
+                            $operatorValue = $locale->$method( $operatorValue, $param );
+                        } break;
+
+                    default:
+                        {
+                            $operatorValue = $locale->$method( $operatorValue );
+                        } break;
+                }
             }
             else
             {

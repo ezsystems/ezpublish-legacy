@@ -256,6 +256,19 @@ CREATE SEQUENCE ezcontentobject_version_s
 
 
 
+CREATE SEQUENCE ezcurrencydata_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
 CREATE SEQUENCE ezdiscountrule_s
     START 1
     INCREMENT 1
@@ -400,6 +413,19 @@ CREATE SEQUENCE ezmessage_s
 
 
 CREATE SEQUENCE ezmodule_run_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
+CREATE SEQUENCE ezmultipricedata_s
     START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
@@ -1388,6 +1414,23 @@ CREATE TABLE ezcontentobject_version (
 
 
 
+CREATE TABLE ezcurrencydata (
+    auto_rate_value numeric DEFAULT '0.00000' NOT NULL,
+    code character varying(3) DEFAULT ''::bpchar NOT NULL,
+    custom_rate_value numeric DEFAULT '0.00000' NOT NULL,
+    id integer DEFAULT nextval('ezcurrencydata_s'::text) NOT NULL,
+    locale character varying(255) DEFAULT ''::character varying NOT NULL,
+    rate_factor numeric DEFAULT '1.00000' NOT NULL,
+    status integer DEFAULT 1 NOT NULL,
+    symbol character varying(255) DEFAULT ''::character varying NOT NULL
+);
+
+
+
+
+
+
+
 CREATE TABLE ezdiscountrule (
     id integer DEFAULT nextval('ezdiscountrule_s'::text) NOT NULL,
     name character varying(255) DEFAULT ''::character varying NOT NULL
@@ -1634,6 +1677,21 @@ CREATE TABLE ezmodule_run (
 
 
 
+CREATE TABLE ezmultipricedata (
+    contentobject_attr_id integer DEFAULT 0 NOT NULL,
+    contentobject_attr_version integer DEFAULT 0 NOT NULL,
+    currency_code character varying(3) DEFAULT ''::bpchar NOT NULL,
+    id integer DEFAULT nextval('ezmultipricedata_s'::text) NOT NULL,
+    "type" integer DEFAULT 0 NOT NULL,
+    value numeric DEFAULT '0.00' NOT NULL
+);
+
+
+
+
+
+
+
 CREATE TABLE eznode_assignment (
     contentobject_id integer,
     contentobject_version integer,
@@ -1724,14 +1782,14 @@ CREATE TABLE ezorder (
     email character varying(150) DEFAULT ''::character varying,
     id integer DEFAULT nextval('ezorder_s'::text) NOT NULL,
     ignore_vat integer DEFAULT 0 NOT NULL,
+    is_archived integer DEFAULT 0 NOT NULL,
     is_temporary integer DEFAULT 1 NOT NULL,
     order_nr integer DEFAULT 0 NOT NULL,
     productcollection_id integer DEFAULT 0 NOT NULL,
     status_id integer DEFAULT 0,
     status_modified integer DEFAULT 0,
     status_modifier_id integer DEFAULT 0,
-    user_id integer DEFAULT 0 NOT NULL,
-    is_archived integer DEFAULT 0 NOT NULL
+    user_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1883,6 +1941,7 @@ CREATE TABLE ezpreferences (
 
 CREATE TABLE ezproductcollection (
     created integer,
+    currency_code character varying(3) DEFAULT ''::bpchar NOT NULL,
     id integer DEFAULT nextval('ezproductcollection_s'::text) NOT NULL
 );
 
@@ -2595,6 +2654,14 @@ CREATE INDEX idx_object_version_objver ON ezcontentobject_version USING btree (c
 
 
 
+CREATE INDEX ezcurrencydata_code ON ezcurrencydata USING btree (code);
+
+
+
+
+
+
+
 CREATE INDEX ezenumobjectvalue_co_attr_id_co_attr_ver ON ezenumobjectvalue USING btree (contentobject_attribute_id, contentobject_attribute_version);
 
 
@@ -2635,6 +2702,30 @@ CREATE UNIQUE INDEX ezmodule_run_workflow_process_id_s ON ezmodule_run USING btr
 
 
 
+CREATE INDEX ezmultipricedata_coa_id ON ezmultipricedata USING btree (contentobject_attr_id);
+
+
+
+
+
+
+
+CREATE INDEX ezmultipricedata_coa_version ON ezmultipricedata USING btree (contentobject_attr_version);
+
+
+
+
+
+
+
+CREATE INDEX ezmultipricedata_currency_code ON ezmultipricedata USING btree (currency_code);
+
+
+
+
+
+
+
 CREATE INDEX ezoperation_memento_memento_key_main ON ezoperation_memento USING btree (memento_key, main);
 
 
@@ -2643,15 +2734,15 @@ CREATE INDEX ezoperation_memento_memento_key_main ON ezoperation_memento USING b
 
 
 
-CREATE INDEX ezorder_is_tmp ON ezorder USING btree (is_temporary);
-
-
-
-
-
-
-
 CREATE INDEX ezorder_is_archived ON ezorder USING btree (is_archived);
+
+
+
+
+
+
+
+CREATE INDEX ezorder_is_tmp ON ezorder USING btree (is_temporary);
 
 
 
@@ -3181,6 +3272,15 @@ ALTER TABLE ONLY ezcontentobject_version
 
 
 
+ALTER TABLE ONLY ezcurrencydata
+    ADD CONSTRAINT ezcurrencydata_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
 ALTER TABLE ONLY ezdiscountrule
     ADD CONSTRAINT ezdiscountrule_pkey PRIMARY KEY (id);
 
@@ -3327,6 +3427,15 @@ ALTER TABLE ONLY ezmessage
 
 ALTER TABLE ONLY ezmodule_run
     ADD CONSTRAINT ezmodule_run_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezmultipricedata
+    ADD CONSTRAINT ezmultipricedata_pkey PRIMARY KEY (id);
 
 
 

@@ -24,6 +24,8 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
+{def $locale_list = fetch( 'content', 'locale_list' )}
+
 <div class="block">
 {if $can_edit}
     <table class="list" cellspacing="0">
@@ -34,6 +36,15 @@
         <tr>
             <td class="class">{'Currency symbol'|i18n( 'design/admin/shop/editcurrency' )}</td>
             <td><input type="text" name="CurrencyData[symbol]" value="{$currency_data['symbol']}" /></td>
+        </tr>
+        <tr>
+            <td class="class">{'Formatting locale'|i18n( 'design/admin/shop/editcurrency' )}</td>
+            <td><select name="CurrencyData[locale]" title="{'Select locale for formatting price values.'|i18n( 'design/admin/shop/editcurrency' )}">
+                {foreach $locale_list as $locale}
+                    <option value="{$locale.locale_full_code}" {if $locale.locale_full_code|compare( $currency_data['locale'] )}selected="selected"{/if}>{$locale.locale_full_code}</option>
+                {/foreach}
+                </select>
+            </td>
         </tr>
         <tr>
             <td class="class">{'Custom rate'|i18n( 'design/admin/shop/editcurrency' )}</td>

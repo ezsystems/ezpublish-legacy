@@ -49,12 +49,19 @@ if ( !$object->canRead() )
 // Check if the object has a price datatype, if not it cannot be used in the basket
 include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
-if ( !eZShopFunctions::isProductObject( $object ) )
+$productType = eZShopFunctions::productType( $object );
+if ( $productType === false )
 {
     include_once( 'kernel/shop/errors.php' );
     return $Module->handleError( EZ_ERROR_SHOP_NOT_A_PRODUCT, 'shop' );
 }
 
+$basketType = $basket->type();
+if ( $basketType !== false && $basketType !== $productType )
+{
+    include_once( 'kernel/shop/errors.php' );
+    return $Module->handleError( EZ_ERROR_SHOP_BASKET_INCOMPATIBLE_PRODUCT_TYPE, 'shop' );
+}
 
 $OptionList = $http->sessionVariable( "AddToBasket_OptionList_" . $ObjectID );
 

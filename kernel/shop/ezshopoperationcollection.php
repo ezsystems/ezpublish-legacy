@@ -84,6 +84,8 @@ class eZShopOperationCollection
             return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
         }
 
+        $currency = $priceObj->attribute( 'currency' );
+
         // Check for 'option sets' in option list.
         // If found each 'option set' will be added as a separate product purchase.
         $hasOptionSet = false;
@@ -105,9 +107,17 @@ class eZShopOperationCollection
 
         /* Check if the item with the same options is not already in the basket: */
         $itemID = false;
-        $collection = eZProductCollection::fetch( $basket->attribute( 'productcollection_id' ) );
-        if ( $collection )
+        $collection =& $basket->attribute( 'productcollection' );
+        if ( !$collection )
         {
+            eZDebug::writeError( 'Unable to find product collection.' );
+            return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
+        }
+        else
+        {
+            $collection->setAttribute( 'currency_code', $currency );
+            $collection->store();
+
             $count = 0;
             /* Calculate number of options passed via the HTTP variable: */
             foreach ( array_keys( $optionList ) as $key )
@@ -149,82 +159,84 @@ class eZShopOperationCollection
                     }
                 }
             }
-        }
 
-        if ( $itemID )
-        {
-            /* If found in the basket, just increment number of that items: */
-            $item = eZProductCollectionItem::fetch( $itemID );
-            $item->setAttribute( 'item_count', 1 + $item->attribute( 'item_count' ) );
-            $item->store();
-        }
-        else
-        {
-            $item = eZProductCollectionItem::create( $basket->attribute( "productcollection_id" ) );
-
-            $item->setAttribute( 'name', $object->attribute( 'name' ) );
-            $item->setAttribute( "contentobject_id", $objectID );
-            $item->setAttribute( "item_count", 1 );
-            $item->setAttribute( "price", $price );
-            if ( $priceObj->attribute( 'is_vat_included' ) )
+            if ( $itemID )
             {
-                $item->setAttribute( "is_vat_inc", '1' );
+                /* If found in the basket, just increment number of that items: */
+                $item = eZProductCollectionItem::fetch( $itemID );
+                $item->setAttribute( 'item_count', 1 + $item->attribute( 'item_count' ) );
+                $item->store();
             }
             else
             {
-                $item->setAttribute( "is_vat_inc", '0' );
-            }
-            $item->setAttribute( "vat_value", $priceObj->attribute( 'vat_percent' ) );
-            $item->setAttribute( "discount", $priceObj->attribute( 'discount_percent' ) );
-            $item->store();
-            $priceWithoutOptions = $price;
+                $item = eZProductCollectionItem::create( $basket->attribute( "productcollection_id" ) );
 
-            $optionIDList = array();
-            foreach ( array_keys( $optionList ) as $key )
-            {
-                $attributeID = $key;
-                $optionString = $optionList[$key];
-                if ( is_array( $optionString ) )
+                $item->setAttribute( 'name', $object->attribute( 'name' ) );
+                $item->setAttribute( "contentobject_id", $objectID );
+                $item->setAttribute( "item_count", 1 );
+                $item->setAttribute( "price", $price );
+                if ( $priceObj->attribute( 'is_vat_included' ) )
                 {
-                    foreach ( $optionString as $optionID )
-                    {
-                        $optionIDList[] = array( 'attribute_id' => $attributeID,
-                                                 'option_string' => $optionID );
-                    }
+                    $item->setAttribute( "is_vat_inc", '1' );
                 }
                 else
                 {
-                    $optionIDList[] = array( 'attribute_id' => $attributeID,
-                                             'option_string' => $optionString );
+                    $item->setAttribute( "is_vat_inc", '0' );
                 }
-            }
-
-            $db =& eZDB::instance();
-            $db->begin();
-            foreach ( $optionIDList as $optionIDItem )
-            {
-                $attributeID = $optionIDItem['attribute_id'];
-                $optionString = $optionIDItem['option_string'];
-
-                $attribute = eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
-                $dataType = $attribute->dataType();
-                $optionData = $dataType->productOptionInformation( $attribute, $optionString, $item );
-                if ( $optionData )
-                {
-                    $optionItem = eZProductCollectionItemOption::create( $item->attribute( 'id' ), $optionData['id'], $optionData['name'],
-                                                                          $optionData['value'], $optionData['additional_price'], $attributeID );
-                    $optionItem->store();
-                    $price += $optionData['additional_price'];
-                }
-            }
-
-            if ( $price != $priceWithoutOptions )
-            {
-                $item->setAttribute( "price", $price );
+                $item->setAttribute( "vat_value", $priceObj->attribute( 'vat_percent' ) );
+                $item->setAttribute( "discount", $priceObj->attribute( 'discount_percent' ) );
                 $item->store();
+                $priceWithoutOptions = $price;
+
+                $optionIDList = array();
+                foreach ( array_keys( $optionList ) as $key )
+                {
+                    $attributeID = $key;
+                    $optionString = $optionList[$key];
+                    if ( is_array( $optionString ) )
+                    {
+                        foreach ( $optionString as $optionID )
+                        {
+                            $optionIDList[] = array( 'attribute_id' => $attributeID,
+                                                     'option_string' => $optionID );
+                        }
+                    }
+                    else
+                    {
+                        $optionIDList[] = array( 'attribute_id' => $attributeID,
+                                                 'option_string' => $optionString );
+                    }
+                }
+
+                $db =& eZDB::instance();
+                $db->begin();
+                foreach ( $optionIDList as $optionIDItem )
+                {
+                    $attributeID = $optionIDItem['attribute_id'];
+                    $optionString = $optionIDItem['option_string'];
+
+                    $attribute = eZContentObjectAttribute::fetch( $attributeID, $object->attribute( 'current_version' ) );
+                    $dataType = $attribute->dataType();
+                    $optionData = $dataType->productOptionInformation( $attribute, $optionString, $item );
+                    if ( $optionData )
+                    {
+                        $optionData['additional_price'] = eZShopFunctions::convertAdditionalPrice( $currency, $optionData['additional_price'] );
+                        $optionItem = eZProductCollectionItemOption::create( $item->attribute( 'id' ), $optionData['id'], $optionData['name'],
+                                                                             $optionData['value'], $optionData['additional_price'], $attributeID );
+                        $optionItem->store();
+                        $price += $optionData['additional_price'];
+                    }
+                }
+
+                if ( $price != $priceWithoutOptions )
+                {
+                    $item->setAttribute( "price", $price );
+                    $item->store();
+                }
+                $db->commit();
             }
-            $db->commit();
         }
+
         return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
     }
 

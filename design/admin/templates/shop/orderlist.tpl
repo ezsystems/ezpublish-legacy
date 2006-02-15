@@ -44,6 +44,10 @@
 </div>
 </div>
 
+{def $currency = false()
+     $locale = false()
+     $symbol = false()}
+
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/orderlist' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/orderlist' )}" onclick="ezjs_toggleCheckboxes( document.orderlist, 'OrderIDArray[]' ); return false;" /></th>
@@ -55,6 +59,16 @@
 	<th class="wide">{'Status'|i18n( 'design/admin/shop/orderlist' )}</th>
 </tr>
 {section var=Orders loop=$order_list sequence=array( bglight, bgdark )}
+
+{set $currency = fetch( 'shop', 'currency', hash( 'code', $Orders.item.productcollection.currency_code ) )}
+{if $currency}
+    {set locale = $currency.locale
+         symbol = $currency.symbol}
+{else}
+    {set locale = false()
+         symbol = false()}
+{/if}
+
 <tr class="{$Orders.sequence}">
     <td><input type="checkbox" name="OrderIDArray[]" value="{$Orders.item.id}" title="{'Select order for removal.'|i18n( 'design/admin/shop/orderlist' )}" /></td>
 	<td><a href={concat( '/shop/orderview/', $Orders.item.id, '/' )|ezurl}>{$Orders.item.order_nr}</a></td>
@@ -62,8 +76,8 @@
 
     {* NOTE: These two attribute calls are slow, they cause the system to generate lots of SQLs.
              The reason is that their values are not cached in the order tables *}
-	<td class="number" align="right">{$Orders.item.total_ex_vat|l10n( currency )}</td>
-	<td class="number" align="right">{$Orders.item.total_inc_vat|l10n( currency )}</td>
+	<td class="number" align="right">{$Orders.item.total_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
+	<td class="number" align="right">{$Orders.item.total_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
 
 	<td>{$Orders.item.created|l10n( shortdatetime )}</td>
 	<td>
@@ -88,6 +102,7 @@
 </tr>
 {/section}
 </table>
+{undef $currency $locale $symbol}
 {section-else}
 <div class="block">
 <p>{'The order list is empty.'|i18n( 'design/admin/shop/orderlist' )}</p>

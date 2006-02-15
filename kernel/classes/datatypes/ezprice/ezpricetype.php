@@ -187,6 +187,23 @@ class eZPriceType extends eZDataType
         return $contentObjectAttribute->attribute( "data_float" );
     }
 
+    /*!
+     \reimp
+    */
+    function sortKey( &$contentObjectAttribute )
+    {
+        $intPrice = (int)($contentObjectAttribute->attribute( 'data_float' ) * 100.00);
+        return $intPrice;
+    }
+
+    /*!
+     \reimp
+    */
+    function sortKeyType()
+    {
+        return 'int';
+    }
+
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
         return true;

@@ -134,7 +134,8 @@ class eZOrder extends eZPersistentObject
                                                       'account_view_template' => 'accountViewTemplate',
                                                       'account_information' => 'accountInformation',
                                                       'account_name' => 'accountName',
-                                                      'account_email' => 'accountEmail' ),
+                                                      'account_email' => 'accountEmail',
+                                                      'productcollection' => 'productCollection' ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZOrder",
@@ -319,23 +320,23 @@ class eZOrder extends eZPersistentObject
         }
 
         $db =& eZDB::instance();
-        $productArray = $db->arrayQuery(  "SELECT ezproductcollection_item.*,  ignore_vat, created FROM ezorder, ezproductcollection_item
-                                                WHERE ezproductcollection_item.productcollection_id=ezorder.productcollection_id
+        $productArray = $db->arrayQuery(  "SELECT ezproductcollection_item.*,  ignore_vat, ezorder.created, currency_code FROM ezorder, ezproductcollection_item, ezproductcollection
+                                                WHERE ezproductcollection.id=ezproductcollection_item.productcollection_id
+                                                  AND ezproductcollection_item.productcollection_id=ezorder.productcollection_id
                                                   AND is_temporary='0'
-                                                  AND created >= '$startDate' AND created < '$stopDate'
-                                             ORDER BY contentobject_id" );
+                                                  AND ezorder.created >= '$startDate' AND ezorder.created < '$stopDate'
+                                             ORDER BY contentobject_id, currency_code" );
         $currentContentObjectID = 0;
         $productItemArray = array();
         $statisticArray = array();
         $productObject = null;
-        $sumExVAT = 0;
-        $sumIncVAT = 0;
         $itemCount = 0;
-        $totalSumIncVAT = 0;
-        $totalSumExVAT = 0;
-        $sumCount = 0;
+        $totalSumIncVAT = array();
+        $totalSumExVAT = array();
         $name = false;
         $productCount = count( $productArray );
+        $productInfo = array();
+        $totalSumInfo = array();
         foreach( $productArray as $productItem )
         {
             $itemCount++;
@@ -346,17 +347,37 @@ class eZOrder extends eZPersistentObject
                 $productObject =& eZContentObject::fetch( $contentObjectID );
                 $currentContentObjectID = $contentObjectID;
             }
-            if ( $currentContentObjectID != $contentObjectID and $itemCount != 1 )
+
+            if ( $currentContentObjectID != $contentObjectID && $itemCount != 1 )
             {
-                $productItemArray[] = array( "name" => $name, "product" => $productObject, "sum_count" => $sumCount, "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT );
+                $productItemArray[] = array( 'name' => $name,
+                                             'product' => $productObject,
+                                             'product_info' => $productInfo );
+                $productInfo = array();
                 unset( $productObject );
-                $sumExVAT = 0;
-                $sumIncVAT = 0;
-                $sumCount = 0;
                 $name = $productItem['name'];
                 $currentContentObjectID = $contentObjectID;
                 $productObject =& eZContentObject::fetch( $currentContentObjectID );
             }
+
+            $currencyCode = $productItem['currency_code'];
+            if ( !isset( $productInfo[$currencyCode] ) )
+            {
+                $productInfo[$currencyCode] = array( 'sum_count' => 0,
+                                                     'sum_ex_vat' => 0,
+                                                     'sum_inc_vat' => 0 );
+            }
+            if ( !isset( $totalSumInfo[$currencyCode] ) )
+            {
+                $totalSumInfo[$currencyCode] = array( 'sum_ex_vat' => 0,
+                                                      'sum_inc_vat' => 0 );
+            }
+
+            if ( !isset( $totalSumIncVAT[$currencyCode] ) )
+                $totalSumIncVAT[$currencyCode] = 0;
+
+            if ( !isset( $totalSumExVAT[$currencyCode] ) )
+                $totalSumExVAT[$currencyCode] = 0;
 
             if ( $productItem['ignore_vat']== true )
             {
@@ -381,8 +402,8 @@ class eZOrder extends eZPersistentObject
                 $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
                 $totalPriceExVAT = round( $totalPriceExVAT, 2 );
                 $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
-                $totalSumExVAT += $totalPriceExVAT;
-                $totalSumIncVAT += $totalPriceIncVAT;
+                $totalSumInfo[$currencyCode]['sum_ex_vat'] += $totalPriceExVAT;
+                $totalSumInfo[$currencyCode]['sum_inc_vat'] += $totalPriceIncVAT;
             }
             else
             {
@@ -392,19 +413,23 @@ class eZOrder extends eZPersistentObject
                 $totalPriceIncVAT = $count * $priceIncVAT * ( 100 - $discountPercent ) / 100 ;
                 $totalPriceExVAT = round( $totalPriceExVAT, 2 );
                 $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
-                $totalSumExVAT += $totalPriceExVAT;
-                $totalSumIncVAT += $totalPriceIncVAT;
+                $totalSumInfo[$currencyCode]['sum_ex_vat'] += $totalPriceExVAT;
+                $totalSumInfo[$currencyCode]['sum_inc_vat'] += $totalPriceIncVAT;
             }
 
-            $sumCount += $count;
-            $sumExVAT += $totalPriceExVAT;
-            $sumIncVAT += $totalPriceIncVAT;
+            $productInfo[$currencyCode]['sum_count'] += $count;
+            $productInfo[$currencyCode]['sum_ex_vat'] += $totalPriceExVAT;
+            $productInfo[$currencyCode]['sum_inc_vat'] += $totalPriceIncVAT;
         }
-        $productItemArrayCount = count( $productItemArray );
-        if ( $productItemArrayCount != 0 or ( $productCount != 0 and  $productItemArrayCount == 0 ) )
-            $productItemArray[] = array( "name" => $name, "product" => $productObject, "sum_count" => $sumCount, "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT );
 
-        $statisticArray[] = array( "product_list" => $productItemArray, "total_sum_ex_vat" => $totalSumExVAT, "total_sum_inc_vat" => $totalSumIncVAT );
+        // add last product info
+        if ( $productCount != 0 )
+            $productItemArray[] = array( 'name' => $name,
+                                         'product' => $productObject,
+                                         'product_info' => $productInfo );
+
+        $statisticArray[] = array( 'product_list' => $productItemArray,
+                                   'total_sum_info' => $totalSumInfo );
         return $statisticArray;
     }
 
@@ -453,31 +478,32 @@ class eZOrder extends eZPersistentObject
         $Email = $db->escapeString( $Email );
         if ( $Email == false )
         {
-            $productArray = $db->arrayQuery(  "SELECT ezproductcollection_item.*, ignore_vat FROM ezorder, ezproductcollection_item
-                                                WHERE ezproductcollection_item.productcollection_id=ezorder.productcollection_id
+            $productArray = $db->arrayQuery(  "SELECT ezproductcollection_item.*, ignore_vat, currency_code FROM ezorder, ezproductcollection_item, ezproductcollection
+                                                WHERE ezproductcollection.id=ezproductcollection_item.productcollection_id
+                                                  AND ezproductcollection_item.productcollection_id=ezorder.productcollection_id
                                                   AND user_id='$CustomID'
                                                   AND is_archived='0'
                                                   AND is_temporary='0'
-                                             ORDER BY contentobject_id" );
+                                             ORDER BY contentobject_id, currency_code" );
         }
         else
         {
-            $productArray = $db->arrayQuery(  "SELECT ezproductcollection_item.*, ignore_vat FROM ezorder, ezproductcollection_item
-                                                WHERE ezproductcollection_item.productcollection_id=ezorder.productcollection_id
+            $productArray = $db->arrayQuery(  "SELECT ezproductcollection_item.*, ignore_vat, currency_code FROM ezorder, ezproductcollection_item, ezproductcollection
+                                                WHERE ezproductcollection.id=ezproductcollection_item.productcollection_id
+                                                  AND ezproductcollection_item.productcollection_id=ezorder.productcollection_id
                                                   AND user_id='$CustomID'
                                                   AND is_archived='0'
                                                   AND is_temporary='0'
                                                   AND email='$Email'
-                                             ORDER BY contentobject_id" );
+                                             ORDER BY contentobject_id, currency_code" );
         }
         $currentContentObjectID = 0;
         $productItemArray = array();
         $productObject = null;
-        $sumExVAT = 0;
-        $sumIncVAT = 0;
         $itemCount = 0;
-        $sumCount = 0;
         $name = false;
+        $productInfo = array();
+
         for( $i=0; $i < count( $productArray ); $i++ )
         {
             $productItem =& $productArray[$i];
@@ -490,14 +516,22 @@ class eZOrder extends eZPersistentObject
             }
             if ( $currentContentObjectID != $contentObjectID && $itemCount != 1 )
             {
-                $productItemArray[] = array( "name" => $name, "product" => $productObject, "sum_count" => $sumCount, "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT );
+                $productItemArray[] = array( 'name' => $name,
+                                             'product' => $productObject,
+                                             'product_info' => $productInfo );
                 unset( $productObject );
-                $sumExVAT = 0;
-                $sumIncVAT = 0;
-                $sumCount = 0;
+                $productInfo = array();
                 $name = $productItem['name'];
                 $currentContentObjectID = $contentObjectID;
                 $productObject =& eZContentObject::fetch( $currentContentObjectID );
+            }
+
+            $currencyCode = $productItem['currency_code'];
+            if ( !isset( $productInfo[$currencyCode] ) )
+            {
+                $productInfo[$currencyCode] = array( 'sum_count' => 0,
+                                                     'sum_ex_vat' => 0,
+                                                     'sum_inc_vat' => 0 );
             }
 
             if ( $productItem['ignore_vat'] == true )
@@ -534,13 +568,15 @@ class eZOrder extends eZPersistentObject
                 $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
             }
 
-            $sumCount += $count;
-            $sumExVAT += $totalPriceExVAT;
-            $sumIncVAT += $totalPriceIncVAT;
+            $productInfo[$currencyCode]['sum_count'] += $count;
+            $productInfo[$currencyCode]['sum_ex_vat'] += $totalPriceExVAT;
+            $productInfo[$currencyCode]['sum_inc_vat'] += $totalPriceIncVAT;
         }
         if ( count( $productArray ) != 0 )
         {
-            $productItemArray[] = array( "name" => $name, "product" => $productObject, "sum_count" => $sumCount, "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT );
+            $productItemArray[] = array( 'name' => $name,
+                                         'product' => $productObject,
+                                         'product_info' => $productInfo );
         }
         return $productItemArray;
     }
@@ -582,48 +618,53 @@ class eZOrder extends eZPersistentObject
             $emailString = "''";
         }
 
-        $productItemArray = $db->arrayQuery(  "SELECT ezorder.id as order_id, user_id, email, ignore_vat, ezproductcollection_item.*
-                                                 FROM ezorder, ezproductcollection_item
-                                                WHERE ezproductcollection_item.productcollection_id=ezorder.productcollection_id AND is_temporary='0'
+        $productItemArray = $db->arrayQuery(  "SELECT ezorder.id as order_id, user_id, email, ignore_vat, currency_code, ezproductcollection_item.*
+                                                 FROM ezorder, ezproductcollection_item, ezproductcollection
+                                                WHERE ezproductcollection_item.productcollection_id=ezorder.productcollection_id
+                                                  AND is_temporary='0'
+                                                  AND ezproductcollection_item.productcollection_id=ezproductcollection.id
                                                   AND email in ( $emailString )
                                              ORDER BY user_id, email, order_id" );
+
+
+        $siteIni =& eZINI::instance();
+        $anonymousUserID = $siteIni->variable( 'UserSettings', 'AnonymousUserID' );
 
         $currentUserID = 0;
         $currentOrderID = 0;
         $currentUserEmail = "";
-        $orderCount = 0;
         $customArray = array();
         $accountName = null;
-        $sumExVAT = 0;
-        $sumIncVAT = 0;
         $itemCount = 0;
         $hash = 0;
+        $currencyCode = '';
+        $ordersInfo = array();
+
         foreach( $productItemArray as $productItem )
         {
             $itemCount++;
+            $currencyCode = $productItem['currency_code'];
             $userID = $productItem['user_id'];
             $orderID = $productItem['order_id'];
+            $order = eZOrder::fetch( $orderID );
 
             if ( $currentUserID != $userID && $itemCount != 1 )
             {
-                $customArray[] = array( "account_name" => $accountName, "order_count" => $orderCount,
-                                        "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT, "user_id" => $currentUserID, "email" => urlencode( $currentUserEmail ) );
-                $orderCount = 0;
-                $sumExVAT = 0;
-                $sumIncVAT = 0;
-                $order = eZOrder::fetch( $orderID );
-                $currentUserID = $userID;
+                $customArray[] = array( 'account_name' => $accountName,
+                                        'orders_info' => $ordersInfo,
+                                        'user_id' => $currentUserID,
+                                        'email' => urlencode( $currentUserEmail ) );
+
+                $ordersInfo = array();
                 $accountName = $order->attribute( 'account_name' );
                 $accountEmail = $order->attribute( 'account_email' );
-                $currentUserID = $userID;
             }
+
             $currentUserID = $userID;
 
-            $order = eZOrder::fetch( $orderID );
             // If the custom is anoymous user
-            if ( $currentUserID == 10 )
+            if ( $currentUserID == $anonymousUserID )
             {
-                //$order = eZOrder::fetch( $orderID );
                 $accountEmail = $order->attribute( 'email' );
                 if ( $currentUserEmail == "" )
                 {
@@ -633,11 +674,12 @@ class eZOrder extends eZPersistentObject
 
                 if ( $currentUserEmail != $accountEmail )
                 {
-                    $customArray[] = array( "account_name" => $accountName, "order_count" => $orderCount,
-                                            "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT, "user_id" => $currentUserID, "email" => urlencode( $currentUserEmail ) );
-                    $orderCount = 0;
-                    $sumExVAT = 0;
-                    $sumIncVAT = 0;
+                    $customArray[] = array( 'account_name' => $accountName,
+                                            'orders_info' => $ordersInfo,
+                                            'user_id' => $currentUserID,
+                                            'email' => urlencode( $currentUserEmail ) );
+
+                    $ordersInfo = array();
                     $accountName = $order->attribute( 'account_name' );
                     $accountEmail = $order->attribute( 'account_email' );
                     $currentUserEmail = $accountEmail;
@@ -651,13 +693,20 @@ class eZOrder extends eZPersistentObject
 
             $accountName = $order->attribute( 'account_name' );
 
+            if ( !isset( $ordersInfo[$currencyCode] ) )
+            {
+                $ordersInfo[$currencyCode] = array( 'order_count' => 0,
+                                                    'sum_ex_vat' => 0,
+                                                    'sum_inc_vat' => 0 );
+            }
+
             if (  $currentOrderID != $orderID )
             {
-                $orderCount++;
+                $ordersInfo[$currencyCode]['order_count']++;
             }
             $currentOrderID = $orderID;
 
-            if ( $productItem['ignore_vat']== true )
+            if ( $productItem['ignore_vat'] == true )
             {
                 $vatValue = 0;
             }
@@ -691,12 +740,14 @@ class eZOrder extends eZPersistentObject
                 $totalPriceIncVAT = round( $totalPriceIncVAT, 2 );
             }
 
-            $sumExVAT += $totalPriceExVAT;
-            $sumIncVAT += $totalPriceIncVAT;
+            $ordersInfo[$currencyCode]['sum_ex_vat'] += $totalPriceExVAT;
+            $ordersInfo[$currencyCode]['sum_inc_vat'] += $totalPriceIncVAT;
         }
         if ( count( $productItemArray ) != 0 )
-            $customArray[] = array( "account_name" => $accountName, "order_count" => $orderCount,
-                                    "sum_ex_vat" => $sumExVAT, "sum_inc_vat" => $sumIncVAT, "user_id" => $currentUserID, "email" => urlencode( $currentUserEmail ) );
+            $customArray[] = array( 'account_name' => $accountName,
+                                    'orders_info' => $ordersInfo,
+                                    'user_id' => $currentUserID,
+                                    'email' => urlencode( $currentUserEmail ) );
         return $customArray;
     }
 

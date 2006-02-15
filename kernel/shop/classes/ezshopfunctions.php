@@ -75,6 +75,10 @@ class eZShopFunctions
     */
     function isProductObject( &$contentObject )
     {
+        $type = eZShopFunctions::productType( $contentObject );
+        return ( $type !== false );
+
+        /*
         $isProduct = false;
 
         if ( is_object( $contentObject ) )
@@ -94,6 +98,33 @@ class eZShopFunctions
         }
 
         return $isProduct;
+        */
+    }
+
+    /*!
+     \static
+    */
+    function productType( &$contentObject )
+    {
+        $type = false;
+
+        if ( is_object( $contentObject ) )
+        {
+            $attributes =& $contentObject->contentObjectAttributes();
+            $keys = array_keys( $attributes );
+            foreach ( $keys as $key )
+            {
+                $attribute =& $attributes[$key];
+                $dataType = $attribute->dataType();
+                if ( eZShopFunctions::isProductDatatype( $dataType->isA() ) )
+                {
+                    $type = $dataType->isA();
+                    break;
+                }
+            }
+        }
+
+        return $type;
     }
 
     /*!
@@ -251,6 +282,19 @@ class eZShopFunctions
         return $errCode;
     }
 
+    function convertAdditionalPrice( $toCurrency, $value )
+    {
+        if ( $toCurrency == false )
+            return $value;
+
+        include_once( 'kernel/shop/classes/ezcurrencyconverter.php' );
+        $converter =& eZCurrencyConverter::instance();
+        $converter->setRoundingType( EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_ROUND );
+        $converter->setRoundingPrecision( 2 );
+        $converter->setRoundingTarget( false );
+
+        return $converter->convertFromLocaleCurrency( $toCurrency, $value, true );
+    }
 }
 
 ?>

@@ -499,70 +499,25 @@ class eZContentObjectTreeNode extends eZPersistentObject
     }
 
     /*!
+     \static
      \returns the sort key for the given classAttributeID.
       int|string is returend. False is returned if unsuccessful.
     */
     function sortKeyByClassAttributeID( $classAttributeID )
     {
-        $db =& eZDB::instance();
-        $dbName = $db->DB;
-
-        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-        $cacheDir = eZSys::cacheDirectory();
-        $phpCache = new eZPHPCreator( "$cacheDir", "sortkey_$dbName.php" );
-
-        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
-        $handler =& eZExpiryHandler::instance();
-        $expiryTime = 0;
-        if ( $handler->hasTimestamp( 'content-view-cache' ) )
-        {
-            $expiryTime = $handler->timestamp( 'content-view-cache' );
-        }
-
-        if ( $phpCache->canRestore( $expiryTime ) )
-        {
-            $vars = $phpCache->restore( array( 'datatype_array' => 'datatypeArray',
-                                                'attribute_type_array' => 'attributeTypeArray' ) );
-            $dataTypeArray =& $vars['datatype_array'];
-            $attributeTypeArray =& $vars['attribute_type_array'];
-        }
-        else
-        {
-            // Fetch all datatypes and id's used
-            $query = "SELECT id, data_type_string FROM ezcontentclass_attribute";
-            $attributeArray = $db->arrayQuery( $query );
-
-            $attributeTypeArray = array();
-            $dataTypeArray = array();
-            foreach ( $attributeArray as $attribute )
-            {
-                $attributeTypeArray[$attribute['id']] = $attribute['data_type_string'];
-                $dataTypeArray[$attribute['data_type_string']] = 0;
-            }
-
-            include_once( 'kernel/classes/ezdatatype.php' );
-
-            // Fetch datatype for every unique datatype
-            foreach ( array_keys( $dataTypeArray ) as $key )
-            {
-                unset( $dataType );
-                $dataType = eZDataType::create( $key );
-                if( is_object( $dataType ) )
-                    $dataTypeArray[$key] = $dataType->sortKeyType();
-            }
-            unset( $dataType );
-
-            // Store identifier list to cache file
-            $phpCache->addVariable( 'datatypeArray', $dataTypeArray );
-            $phpCache->addVariable( 'attributeTypeArray', $attributeTypeArray );
-            $phpCache->store();
-        }
-
-        if ( !isset( $attributeTypeArray[$classAttributeID] ) )
-            return false;
-
-        return $dataTypeArray[$attributeTypeArray[$classAttributeID]];
+        include_once( 'kernel/classes/ezcontentclassattribute.php' );
+        return eZContentClassAttribute::sortKeyTypeByID( $classAttributeID );
     }
+
+    /*!
+     \static
+    */
+    function dataTypeByClassAttributeID( $classAttributeID )
+    {
+        include_once( 'kernel/classes/ezcontentclassattribute.php' );
+        return eZContentClassAttribute::dataTypeByID( $classAttributeID );
+    }
+
 
     /*!
      Fetches the number of nodes which exists in the system.
@@ -683,29 +638,60 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         } break;
                         case 'attribute':
                         {
-                            $sortClassID = $sortBy[2];
-                            if ( !is_numeric( $sortClassID ) )
-                                $sortClassID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $sortClassID );
+                            include_once( 'kernel/classes/ezdatatype.php' );
 
-                            // Look up datatype for sorting
-                            $sortDataType = eZContentObjectTreeNode::sortKeyByClassAttributeID( $sortClassID );
+                            $classAttributeID = $sortBy[2];
+                            if ( !is_numeric( $classAttributeID ) )
+                                $classAttributeID = eZContentObjectTreeNode::classAttributeIDByIdentifier( $classAttributeID );
 
-                            $sortKey = false;
-                            if ( $sortDataType == 'string' )
+
+                            $contentAttributeTableAlias = "a$attributeJoinCount";
+                            $datatypeFromSQL = "ezcontentobject_attribute $contentAttributeTableAlias";
+                            $datatypeWhereSQL = "
+                                   $contentAttributeTableAlias.contentobject_id = ezcontentobject.id AND
+                                   $contentAttributeTableAlias.contentclassattribute_id = $classAttributeID AND
+                                   $contentAttributeTableAlias.version = ezcontentobject_name.content_version AND
+                                   $contentAttributeTableAlias.language_code = ezcontentobject_name.real_translation";
+
+
+                            $dataType = eZDataType::create( eZContentObjectTreeNode::dataTypeByClassAttributeID( $classAttributeID ) );
+                            if( is_object( $dataType ) && $dataType->customSorting() )
                             {
-                                $sortKey = 'sort_key_string';
+                                $params = array();
+                                $params['contentobject_attribute_id'] = "$contentAttributeTableAlias.id";
+                                $params['contentobject_attribute_version'] = "$contentAttributeTableAlias.version";
+                                $params['table_alias_suffix'] = "$attributeJoinCount";
+
+                                $sql = $dataType->customSortingSQL( $params );
+
+                                $datatypeFromSQL .= ", {$sql['from']}";
+                                $datatypeWhereSQL .= " AND {$sql['where']}";
+                                $datatypeSortingFieldSQL = $sql['sorting_field'];
                             }
                             else
                             {
-                                $sortKey = 'sort_key_int';
+                                // Look up datatype for standard sorting
+                                $sortKeyType = eZContentObjectTreeNode::sortKeyByClassAttributeID( $classAttributeID );
+                                switch ( $sortKeyType )
+                                {
+                                    case 'string':
+                                        {
+                                            $sortKey = 'sort_key_string';
+                                        } break;
+
+                                    case 'int':
+                                    default:
+                                        {
+                                            $sortKey = 'sort_key_int';
+                                        } break;
+                                }
+
+                                $datatypeSortingFieldSQL = "a$attributeJoinCount.$sortKey";
                             }
-                            $sortingFields .= "a$attributeJoinCount.$sortKey";
-                            $attributeFromSQL .= ", ezcontentobject_attribute a$attributeJoinCount";
-                            $attributeWhereSQL .= "
-                                   a$attributeJoinCount.contentobject_id = ezcontentobject.id AND
-                                   a$attributeJoinCount.contentclassattribute_id = $sortClassID AND
-                                   a$attributeJoinCount.version = ezcontentobject_name.content_version AND
-                                   a$attributeJoinCount.language_code = ezcontentobject_name.real_translation AND ";
+
+                            $sortingFields .= "$datatypeSortingFieldSQL";
+                            $attributeFromSQL .= ", $datatypeFromSQL";
+                            $attributeWhereSQL .= "$datatypeWhereSQL AND ";
 
                             $attributeJoinCount++;
                         }break;
@@ -2946,7 +2932,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     function fetchByURLPath( $pathString, $asObject = true )
     {
-        if ( $pathString == "" ) 
+        if ( $pathString == "" )
         {
             eZDebug::writeWarning( 'Can not fetch, given URLPath is empty', 'eZContentObjectTreeNode::fetchByURLPath' );
             return null;

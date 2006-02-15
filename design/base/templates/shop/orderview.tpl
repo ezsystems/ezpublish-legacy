@@ -5,6 +5,15 @@
 
     {shop_account_view_gui view=html order=$order}
 
+    {def $currency = fetch( 'shop', 'currency', hash( 'code', $order.productcollection.currency_code ) )
+         $locale = false()
+         $symbol = false()}
+
+    {if $currency}
+        {set locale = $currency.locale
+             symbol = $currency.symbol}
+    {/if}
+
     <div class="content-basket">
     <table cellspacing="0">
     <tr>
@@ -38,13 +47,13 @@
         {$product_item.vat_value} %
     	</td>
         <td class="{$product_item.sequence} product-details">
-        {$product_item.price_inc_vat|l10n(currency)}
+        {$product_item.price_inc_vat|l10n( 'currency', $locale, $symbol )}
     	</td>
 	    <td class="{$product_item.sequence} product-details">
         {$product_item.discount_percent}%
         </td>
 	    <td class="{$product_item.sequence} product-details product-price">
-        {$product_item.total_price_inc_vat|l10n(currency)}
+        {$product_item.total_price_inc_vat|l10n( 'currency', $locale, $symbol )}
 	    </td>
      </tr>
      {section show=$product_item.item.item_object.option_list}
@@ -57,7 +66,7 @@
          <tr>
              <td class="shop-option_name">{$option_item.name}<br/>
              <td class="shop-option_value">{$option_item.value}</td>
-             <td class="shop-option_price">{section show=$option_item.price|ne( 0 )}{$option_item.price|l10n( currency )}{/section}</td>
+             <td class="shop-option_price">{section show=$option_item.price|ne( 0 )}{$option_item.price|l10n( 'currency', $locale, $symbol )}{/section}</td>
          </tr>
          {/section}
          </table>
@@ -68,7 +77,7 @@
      <tr>
          <td class="product-subtotal" colspan='5'>
          {"Subtotal Inc. VAT"|i18n("design/base/shop")}:
-         <strong>{$order.product_total_inc_vat|l10n(currency)}</strong>
+         <strong>{$order.product_total_inc_vat|l10n( 'currency', $locale, $symbol )}</strong>
          </td>
          <td class="product-subtotal">
          &nbsp;
@@ -87,7 +96,7 @@
         {"Subtotal of items"|i18n("design/base/shop")}:
         </td>
         <td class="bgdark">
-        {$order.product_total_inc_vat|l10n(currency)}
+        {$order.product_total_inc_vat|l10n( 'currency', $locale, $symbol )}
         </td>
     </tr>
     {section name=OrderItem loop=$order.order_items show=$order.order_items sequence=array(bglight,bgdark)}
@@ -96,7 +105,7 @@
         {$OrderItem:item.description}:
     	</td>
         <td class="{$OrderItem:sequence}">
-        {$OrderItem:item.price_inc_vat|l10n(currency)}
+        {$OrderItem:item.price_inc_vat|l10n( 'currency', $locale, $symbol )}
     	</td>
     </tr>
     {/section}
@@ -105,10 +114,10 @@
         <b>{"Order total"|i18n("design/base/shop")}</b>
         </td>
         <td class="bgdark">
-        <b>{$order.total_ex_vat|l10n(currency)}</b>
+        <b>{$order.total_ex_vat|l10n( 'currency', $locale, $symbol )}</b>
         </td>
         <td class="bgdark">
-        <b>{$order.total_inc_vat|l10n(currency)}</b>
+        <b>{$order.total_inc_vat|l10n( 'currency', $locale, $symbol )}</b>
         </td>
     </tr>
     </table>

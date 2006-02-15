@@ -1964,6 +1964,83 @@ $schema = array (
       ),
     ),
   ),
+  'ezcurrencydata' => 
+  array (
+    'name' => 'ezcurrencydata',
+    'fields' => 
+    array (
+      'auto_rate_value' => 
+      array (
+        'type' => 'decimal',
+        'not_null' => '1',
+        'default' => '0.00000',
+      ),
+      'code' => 
+      array (
+        'length' => 3,
+        'type' => 'char',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'custom_rate_value' => 
+      array (
+        'type' => 'decimal',
+        'not_null' => '1',
+        'default' => '0.00000',
+      ),
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'locale' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'rate_factor' => 
+      array (
+        'type' => 'decimal',
+        'not_null' => '1',
+        'default' => '1.00000',
+      ),
+      'status' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 1,
+      ),
+      'symbol' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+      'ezcurrencydata_code' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'code',
+        ),
+      ),
+    ),
+  ),
   'ezdiscountrule' => 
   array (
     'name' => 'ezdiscountrule',
@@ -2920,6 +2997,87 @@ $schema = array (
       ),
     ),
   ),
+  'ezmultipricedata' => 
+  array (
+    'name' => 'ezmultipricedata',
+    'fields' => 
+    array (
+      'contentobject_attr_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'contentobject_attr_version' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'currency_code' => 
+      array (
+        'length' => 3,
+        'type' => 'char',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'type' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'value' => 
+      array (
+        'type' => 'decimal',
+        'not_null' => '1',
+        'default' => '0.00',
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+      'ezmultipricedata_coa_id' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'contentobject_attr_id',
+        ),
+      ),
+      'ezmultipricedata_coa_version' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'contentobject_attr_version',
+        ),
+      ),
+      'ezmultipricedata_currency_code' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'currency_code',
+        ),
+      ),
+    ),
+  ),
   'eznode_assignment' => 
   array (
     'name' => 'eznode_assignment',
@@ -3303,6 +3461,13 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
+      'is_archived' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
       'is_temporary' => 
       array (
         'length' => 11,
@@ -3349,13 +3514,6 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
-      'is_archived' => 
-      array (
-        'length' => 11,
-        'type' => 'int',
-        'not_null' => '1',
-        'default' => 0,
-      ),
     ),
     'indexes' => 
     array (
@@ -3367,20 +3525,20 @@ $schema = array (
           0 => 'id',
         ),
       ),
-      'ezorder_is_tmp' => 
-      array (
-        'type' => 'non-unique',
-        'fields' => 
-        array (
-          0 => 'is_temporary',
-        ),
-      ),
       'ezorder_is_archived' => 
       array (
         'type' => 'non-unique',
         'fields' => 
         array (
           0 => 'is_archived',
+        ),
+      ),
+      'ezorder_is_tmp' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'is_temporary',
         ),
       ),
     ),
@@ -3959,6 +4117,13 @@ $schema = array (
         'length' => 11,
         'type' => 'int',
         'default' => NULL,
+      ),
+      'currency_code' => 
+      array (
+        'length' => 3,
+        'type' => 'char',
+        'not_null' => '1',
+        'default' => '',
       ),
       'id' => 
       array (

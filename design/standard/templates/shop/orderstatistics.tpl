@@ -22,7 +22,12 @@
 
 <input class="button" type="submit" name="View" value="{'View'|i18n('design/standard/shop')}" />
 
-{section show=$statistic_result}
+{if $statistic_result}
+{def $currency = false()
+     $locale = false()
+     $symbol = false()
+     $product_info_count = false()}
+
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
@@ -38,34 +43,80 @@
 	{"Total inc. VAT"|i18n("design/standard/shop")}
 	</th>
 </tr>
-{section var="Product" loop=$statistic_result[0].product_list sequence=array(bglight,bgdark)}
+
+{section var=Product loop=$statistic_result[0].product_list sequence=array(bglight,bgdark)}
+
+{set product_info_count = $Product.product_info|count()}
+{foreach $Product.product_info as $currency_code => $info}
+{if $currency_code}
+    {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) )}
+{else}
+    {set currency = false()}
+{/if}
+
+{if $currency}
+    {set locale = $currency.locale
+         symbol = $currency.symbol}
+{else}
+    {set locale = false()
+         symbol = false()}
+{/if}
+
 <tr>
-	<td class="{$Product.sequence}">
-    {content_view_gui view=text_linked content_object=$Product.product}
-	</td>
+    {if $product_info_count}
+    	<td class="{$Product.sequence}" rowspan="{$product_info_count}">
+        {content_view_gui view=text_linked content_object=$Product.product}
+    	</td>
+        {set product_info_count = false()}
+    {/if}
     <td class="{$Product.sequence}">
-	{$Product.sum_count}
+	{$info.sum_count}
 	</td>
 	<td class="{$Product.sequence}">
-	{$Product.sum_ex_vat|l10n(currency)}
+	{$info.sum_ex_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
 	<td class="{$Product.sequence}">
-	{$Product.sum_inc_vat|l10n(currency)}
+	{$info.sum_inc_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
 </tr>
+{/foreach}
 {/section}
+
+{def $total_sum_info_count = $statistic_result[0].total_sum_info|count()}
+{foreach $statistic_result[0].total_sum_info as $currency_code => $info}
+
+{if $currency_code}
+    {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) )}
+{else}
+    {set currency = false()}
+{/if}
+
+{if $currency}
+    {set locale = $currency.locale
+         symbol = $currency.symbol}
+{else}
+    {set locale = false()
+         symbol = false()}
+{/if}
+
 <tr>
-	<td class="bgdark">
-    <h2>{"SUM"|i18n("design/standard/shop")}</h2>:
-	</td>
+    {if $total_sum_info_count}
+    	<td class="bgdark" rowspan="{$total_sum_info_count}">
+        <h2>{"SUM:"|i18n("design/standard/shop")}</h2>
+    	</td>
+        {set total_sum_info_count = false()}
+    {/if}
     <td class="bgdark">
 	</td>
 	<td class="bgdark">
-    <b>{$statistic_result[0].total_sum_ex_vat|l10n(currency)}</b>
+    <b>{$info.sum_ex_vat|l10n( 'currency', $locale, $symbol )}</b>
 	</td>
 	<td class="bgdark">
-	<b>{$statistic_result[0].total_sum_inc_vat|l10n(currency)}</b>
+	<b>{$info.sum_inc_vat|l10n( 'currency', $locale, $symbol )}</b>
 	</td>
 </tr>
+{/foreach}
 </table>
+{undef $currency $locale $symbol $product_info_count $total_sum_info_count}
+{/if}
 </form>

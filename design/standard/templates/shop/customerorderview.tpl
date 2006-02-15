@@ -5,6 +5,12 @@
 
 
 <h2>{"Order list"|i18n("design/standard/shop")}</h2>
+
+{def $currency = false()
+     $locale = false()
+     $symbol = false()
+     $product_info_count = false()}
+
 {section show=$order_list}
 <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
@@ -23,22 +29,31 @@
     <th>
 	</th>
 </tr>
-{section name="Order" loop=$order_list sequence=array(bglight,bgdark)}
+{section var=Order loop=$order_list sequence=array(bglight,bgdark)}
+{set currency = fetch( 'shop', 'currency', hash( 'code', $Order.item.productcollection.currency_code ) ) }
+{if $currency}
+    {set locale = $currency.locale
+         symbol = $currency.symbol}
+{else}
+    {set locale = false()
+         symbol = false()}
+{/if}
+
 <tr>
-	<td class="{$Order:sequence}">
-	{$Order:item.order_nr}
+	<td class="{$Order.sequence}">
+	{$Order.item.order_nr}
 	</td>
-	<td class="{$Order:sequence}">
-	{$Order:item.created|l10n(shortdatetime)}
+	<td class="{$Order.sequence}">
+	{$Order.item.created|l10n(shortdatetime)}
 	</td>
-	<td class="{$Order:sequence}">
-	{$Order:item.total_ex_vat|l10n(currency)}
+	<td class="{$Order.sequence}">
+	{$Order.item.total_ex_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
-	<td class="{$Order:sequence}">
-	{$Order:item.total_inc_vat|l10n(currency)}
+	<td class="{$Order.sequence}">
+	{$Order.item.total_inc_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
-	<td class="{$Order:sequence}">
-	<a href={concat("/shop/orderview/",$Order:item.id,"/")|ezurl}>[ view ]</a>
+	<td class="{$Order.sequence}">
+	<a href={concat("/shop/orderview/",$Order.item.id,"/")|ezurl}>[ view ]</a>
 	</td>
 </tr>
 {/section}
@@ -68,19 +83,41 @@
 </tr>
 
 {section var="Product" loop=$product_list sequence=array(bglight,bgdark)}
+
+{set product_info_count = $Product.product_info|count()}
+
+{foreach $Product.product_info as $currency_code => $info}
+{if $currency_code}
+    {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) ) }
+{else}
+    {set currency = false()}
+{/if}
+{if $currency}
+    {set locale = $currency.locale
+         symbol = $currency.symbol}
+{else}
+    {set locale = false()
+         symbol = false()}
+{/if}
+
 <tr>
-	<td class="{$Product.sequence}">
-    {content_view_gui view=text_linked content_object=$Product.product}
-	</td>
+    {if $product_info_count}
+    	<td class="{$Product.sequence}" rowspan="{$product_info_count}">
+        {content_view_gui view=text_linked content_object=$Product.product}
+    	</td>
+        {set product_info_count = false()}
+    {/if}
     <td class="{$Product.sequence}">
-    {$Product.sum_count}
+    {$info.sum_count}
 	<td class="{$Product.sequence}">
-	{$Product.sum_ex_vat|l10n(currency)}
+	{$info.sum_ex_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
 	<td class="{$Product.sequence}">
-	{$Product.sum_inc_vat|l10n(currency)}
+	{$info.sum_inc_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
 </tr>
+{/foreach}
 {/section}
 </table>
 {/section}
+{undef $currency $locale $symbol $product_info_count}

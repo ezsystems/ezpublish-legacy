@@ -96,6 +96,7 @@ class eZSimplePrice
     function attributes()
     {
         return array( 'price',
+                      'currency',
                       'selected_vat_type',
                       'vat_type',
                       'vat_percent',
@@ -146,6 +147,11 @@ class eZSimplePrice
             case 'price' :
             {
                 return $this->price();
+            } break;
+
+            case 'currency' :
+            {
+                return $this->currency();
             } break;
 
             case 'selected_vat_type':
@@ -270,7 +276,7 @@ class eZSimplePrice
 
     function &discountPercent()
     {
-        return $this->discountPercent;
+        return $this->DiscountPercent;
     }
 
     function setDiscountPercent( $percent )
@@ -282,7 +288,6 @@ class eZSimplePrice
     {
         $hasDiscount = false;
         $discountPercent = $this->discountPercent();
-
         if ( $discountPercent != 0 )
             $hasDiscount = true;
 
@@ -347,6 +352,11 @@ class eZSimplePrice
         return $exVATPrice;
     }
 
+    function &currency()
+    {
+        $currencyCode = '';
+        return $currencyCode;
+    }
 
     /// \privatesection
     var $Price;

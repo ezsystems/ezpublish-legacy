@@ -983,6 +983,16 @@ class eZDataType
         return false;
     }
 
+    function customSorting()
+    {
+        return false;
+    }
+
+    function customSortingSQL( $params )
+    {
+        return false;
+    }
+
     /*!
      \return the text which should be indexed in the search engine. An associative array can
       be returned to enable searching in specific parts of the data. E.g. array( 'first_column' => "foo",

@@ -164,7 +164,7 @@ class eZLocale
             'shortdate' => 'formatShortDate',
             'datetime' => 'formatDateTime',
             'shortdatetime' => 'formatShortDateTime',
-            'currency' => 'formatCurrency',
+            'currency' => 'formatCurrencyWithSymbol',
             'clean_currency' => 'formatCleanCurrency',
             'number' => 'formatNumber',
         );
@@ -1175,15 +1175,7 @@ class eZLocale
     */
     function formatCurrency( $number, $as_html = true )
     {
-        $neg = $number < 0;
-        $num = $neg ? -$number : $number;
-        $num_text = number_format( $num, $this->CurrencyFractDigits,
-                                   $this->CurrencyDecimalSymbol, $this->CurrencyThousandsSeparator );
-        return str_replace( array( '%c', '%p', '%q' ),
-                            array( $this->CurrencySymbol,
-                                   $neg ? $this->CurrencyNegativeSymbol : $this->CurrencyPositiveSymbol,
-                                   $num_text ),
-                            $neg ? $this->CurrencyNegativeFormat : $this->CurrencyPositiveFormat );
+        return $this->formatCurrencyWithSymbol( $number, $this->CurrencySymbol );
     }
 
     /*!
@@ -1193,16 +1185,21 @@ class eZLocale
     */
     function formatCleanCurrency( $number )
     {
+        $text = $this->formatCurrencyWithSymbol( $number, '', true );
+        return trim( $text );
+    }
+
+    function formatCurrencyWithSymbol( $number, $symbol )
+    {
         $neg = $number < 0;
         $num = $neg ? -$number : $number;
         $num_text = number_format( $num, $this->CurrencyFractDigits,
                                    $this->CurrencyDecimalSymbol, $this->CurrencyThousandsSeparator );
-        $text = str_replace( array( '%c', '%p', '%q' ),
-                             array( '',
-                                    $neg ? $this->CurrencyNegativeSymbol : $this->CurrencyPositiveSymbol,
-                                    $num_text ),
-                             $neg ? $this->CurrencyNegativeFormat : $this->CurrencyPositiveFormat );
-        return trim( $text );
+        return str_replace( array( '%c', '%p', '%q' ),
+                            array( $symbol,
+                                   $neg ? $this->CurrencyNegativeSymbol : $this->CurrencyPositiveSymbol,
+                                   $num_text ),
+                            $neg ? $this->CurrencyNegativeFormat : $this->CurrencyPositiveFormat );
     }
 
     /*!

@@ -52,6 +52,7 @@
 	<th class="name">{'Name'|i18n( 'design/admin/shop/currencylist' )}</th>
     <th class="class">{'Code'|i18n( 'design/admin/shop/currencylist' )}</th>
     <th class="class">{'Symbol'|i18n( 'design/admin/shop/currencylist' )}</th>
+    <th class="class">{'Locale'|i18n( 'design/admin/shop/currencylist' )}</th>
     <th class="class">{'Status'|i18n( 'design/admin/shop/currencylist' )}</th>
     <th class="tight">{'Auto rate'|i18n( 'design/admin/shop/currencylist' )}</th>
     <th class="tight">{'Custom rate'|i18n( 'design/admin/shop/currencylist' )}</th>
@@ -82,6 +83,7 @@
         </td>
         <td>{$currency.code}</td>
         <td>{$currency.symbol}</td>
+        <td>{$currency.locale}</td>
         <td><select name="CurrencyList[{$currency.code}][status]" title="{'Select status'|i18n( 'design/admin/shop/currencylist' )}">
                 <option value="active" {if eq($currency.status, 1)}selected = "selected"{/if} >Active</option>
                 <option value="inactive" {if eq($currency.status, 2)}selected = "selected"{/if}>Inactive</option>

@@ -1,9 +1,20 @@
-{def $currency_list = $attribute.content.currency_list}
-    {section show=$attribute.content.has_discount}
-        {"Price"|i18n("design/base")}: <span class="oldprice">{$attribute.content.inc_vat_price|l10n(currency)}</span><br/>
-        {"Your price"|i18n("design/base")}: <span class="currentprice">{$attribute.content.discount_price_inc_vat|l10n(currency)}</span><br />
-        {"You save"|i18n("design/base")}: <span class="pricesave">{sub($attribute.content.inc_vat_price,$attribute.content.discount_price_inc_vat)|l10n(currency)} ( {$attribute.content.discount_percent} % )</span>
-    {section-else}
-        <span class="currentprice">{$currency_list[$attribute.content.preferred_currency].symbol} {$attribute.content.inc_vat_price|l10n(clean_currency)}</span>
-    {/section}
+{def $multiprice = $attribute.content
+     $currency_code = $multiprice.currency
+     $currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) )
+     $locale = false()
+     $symbol = false()}
+
+{if $currency}
+    {set $symbol = $currency.symbol
+         $locale = $currency.locale}
+{/if}
+
+    {if $multiprice.has_discount}
+        {"Price"|i18n("design/base")}: <span class="oldprice">{$multiprice.inc_vat_price|l10n( 'currency', $locale, $symbol )}</span><br/>
+        {"Your price"|i18n("design/base")}: <span class="currentprice">{$multiprice.discount_price_inc_vat|l10n( 'currency', $locale, $symbol )}</span><br />
+        {"You save"|i18n("design/base")}: <span class="pricesave">{sub($multiprice.inc_vat_price,$multiprice.discount_price_inc_vat)|l10n( 'currency', $locale, $symbol )} ( {$multiprice.discount_percent} % )</span>
+    {else}
+        <span class="currentprice">{$multiprice.inc_vat_price|l10n('currency', $locale, $symbol )}</span>
+    {/if}
+
 {undef}

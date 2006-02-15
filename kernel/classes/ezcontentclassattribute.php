@@ -482,6 +482,99 @@ class eZContentClassAttribute extends eZPersistentObject
         return $this->Module;
     }
 
+    function cachedInfo()
+    {
+        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+        include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
+
+        $info = array();
+        $db =& eZDB::instance();
+        $dbName = $db->DB;
+
+        $cacheDir = eZSys::cacheDirectory();
+        $phpCache = new eZPHPCreator( "$cacheDir", "sortkey_$dbName.php" );
+        $handler =& eZExpiryHandler::instance();
+        $expiryTime = 0;
+
+        if ( $handler->hasTimestamp( 'content-view-cache' ) )
+        {
+            $expiryTime = $handler->timestamp( 'content-view-cache' );
+        }
+
+        if ( $phpCache->canRestore( $expiryTime ) )
+        {
+            $info = $phpCache->restore( array( 'sortkey_type_array' => 'sortKeyTypeArray',
+                                               'attribute_type_array' => 'attributeTypeArray' ) );
+        }
+        else
+        {
+            // Fetch all datatypes and id's used
+            $query = "SELECT id, data_type_string FROM ezcontentclass_attribute";
+            $attributeArray = $db->arrayQuery( $query );
+
+            $attributeTypeArray = array();
+            $sortKeyTypeArray = array();
+            foreach ( $attributeArray as $attribute )
+            {
+                $attributeTypeArray[$attribute['id']] = $attribute['data_type_string'];
+                $sortKeyTypeArray[$attribute['data_type_string']] = 0;
+            }
+
+            include_once( 'kernel/classes/ezdatatype.php' );
+
+            // Fetch datatype for every unique datatype
+            foreach ( array_keys( $sortKeyTypeArray ) as $key )
+            {
+                unset( $dataType );
+                $dataType = eZDataType::create( $key );
+                if( is_object( $dataType ) )
+                    $sortKeyTypeArray[$key] = $dataType->sortKeyType();
+            }
+            unset( $dataType );
+
+            // Store identifier list to cache file
+            $phpCache->addVariable( 'sortKeyTypeArray', $sortKeyTypeArray );
+            $phpCache->addVariable( 'attributeTypeArray', $attributeTypeArray );
+            $phpCache->store();
+
+            $info['sortkey_type_array'] =& $sortKeyTypeArray;
+            $info['attribute_type_array'] =& $attributeTypeArray;
+        }
+
+        return $info;
+    }
+
+    /*!
+     \static
+    */
+    function sortKeyTypeByID( $classAttributeID )
+    {
+        $sortKeyType = false;
+
+        $info = eZContentClassAttribute::cachedInfo();
+        if ( isset( $info['attribute_type_array'][$classAttributeID] ) )
+        {
+            $classAttributeType = $info['attribute_type_array'][$classAttributeID];
+            $sortKeyType = $info['sortkey_type_array'][$classAttributeType];
+        }
+
+        return $sortKeyType;
+    }
+
+    /*!
+     \static
+    */
+    function dataTypeByID( $classAttributeID )
+    {
+        $dataTypeString = false;
+        $info = eZContentClassAttribute::cachedInfo();
+
+        if ( isset( $info['attribute_type_array'][$classAttributeID] ) )
+            $dataTypeString = $info['attribute_type_array'][$classAttributeID];
+
+        return $dataTypeString;
+    }
+
     /// \privatesection
     /// Contains the content for this attribute
     var $Content;

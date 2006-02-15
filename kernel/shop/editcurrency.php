@@ -37,13 +37,17 @@
 */
 
 include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+include_once( 'lib/ezutils/classes/ezini.php' );
 
 $module =& $Params['Module'];
+
+$ini =& eZINI::instance( 'site.ini' );
 
 $error = false;
 $originalCurrencyCode =& $Params['Currency'];
 $currencyParams = array( 'code' => false,
                          'symbol' => false,
+                         'locale' => $ini->variable( 'RegionalSettings', 'Locale' ),
                          'custom_rate_value' => '0.0000',
                          'rate_factor' => '1.0000' );
 
@@ -86,6 +90,7 @@ else if ( $module->isCurrentAction( 'StoreChanges' ) )
         if ( is_object( $currency ) )
         {
             $currency->setAttribute( 'symbol', $currencyParams['symbol'] );
+            $currency->setAttribute( 'locale', $currencyParams['locale'] );
             $currency->setAttribute( 'custom_rate_value', $currencyParams['custom_rate_value'] );
             $currency->setAttribute( 'rate_factor', $currencyParams['rate_factor'] );
 
@@ -128,6 +133,7 @@ if ( strlen( $originalCurrencyCode ) > 0 )
         {
             $currencyParams['code'] = $currency->attribute( 'code' );
             $currencyParams['symbol'] = $currency->attribute( 'symbol' );
+            $currencyParams['locale'] = $currency->attribute( 'locale' );
             $currencyParams['custom_rate_value'] = $currency->attribute( 'custom_rate_value' );
             $currencyParams['rate_factor'] = $currency->attribute( 'rate_factor' );
         }

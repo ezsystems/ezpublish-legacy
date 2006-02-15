@@ -97,8 +97,8 @@ class eZMultiPriceData extends eZPersistentObject
         $priceList = null;
         $conds = array();
 
-        $conds['contentobject_attribute_id'] = $contentAttributeID;
-        $conds['contentobject_attribute_version'] = $contentObjectVersion;
+        $conds['contentobject_attr_id'] = $contentAttributeID;
+        $conds['contentobject_attr_version'] = $contentObjectVersion;
 
         if ( is_array( $currencyCode ) )
             $conds['currency_code'] = array( $currencyCode );
@@ -164,13 +164,13 @@ class eZMultiPriceData extends eZPersistentObject
         if ( $objectAttributeVersion == null )
         {
             eZPersistentObject::removeObject( eZMultiPriceData::definition(),
-                                              array( 'contentobject_attribute_id' => $objectAttributeID ) );
+                                              array( 'contentobject_attr_id' => $objectAttributeID ) );
         }
         else
         {
             eZPersistentObject::removeObject( eZMultiPriceData::definition(),
-                                              array( 'contentobject_attribute_id' => $objectAttributeID,
-                                                     'contentobject_attribute_version' => $objectAttributeVersion ) );
+                                              array( 'contentobject_attr_id' => $objectAttributeID,
+                                                     'contentobject_attr_version' => $objectAttributeVersion ) );
         }
 
         $db->commit();
@@ -185,7 +185,7 @@ class eZMultiPriceData extends eZPersistentObject
         $db =& eZDB::instance();
 
         $dataList = false;
-        $insertSql = 'INSERT INTO ezmultipricedata(contentobject_attribute_id, contentobject_attribute_version, currency_code, type)';
+        $insertSql = 'INSERT INTO ezmultipricedata(contentobject_attr_id, contentobject_attr_version, currency_code, type)';
 
         $limit = EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT;
         while( $limit === EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT  )
@@ -197,7 +197,7 @@ class eZMultiPriceData extends eZPersistentObject
             foreach ( $dataList as $data )
             {
                 $sql = $insertSql . "
-                               VALUES( {$data['contentobject_attribute_id']}, {$data['contentobject_attribute_version']}, '$currencyCode', " . EZ_MULTIPRICEDATA_VALUE_TYPE_AUTO . " )";
+                               VALUES( {$data['contentobject_attr_id']}, {$data['contentobject_attr_version']}, '$currencyCode', " . EZ_MULTIPRICEDATA_VALUE_TYPE_AUTO . " )";
                 $db->query( $sql );
             }
         }
@@ -214,25 +214,25 @@ class eZMultiPriceData extends eZPersistentObject
         $fetchSql = '';
         if ( $currentVersionOnly )
         {
-            $fetchSql = "SELECT DISTINCT m1.contentobject_attribute_id,
-                                    m1.contentobject_attribute_version
+            $fetchSql = "SELECT DISTINCT m1.contentobject_attr_id,
+                                    m1.contentobject_attr_version
                     FROM ezmultipricedata m1 LEFT JOIN ezmultipricedata m2
-                    ON ( m2.contentobject_attribute_id = m1.contentobject_attribute_id
-                         AND m2.contentobject_attribute_version = m1.contentobject_attribute_version
+                    ON ( m2.contentobject_attr_id = m1.contentobject_attr_id
+                         AND m2.contentobject_attr_version = m1.contentobject_attr_version
                          AND m2.currency_code = '$currencyCode' ),
                         ezcontentobject,
                         ezcontentobject_attribute
 
                     WHERE m1.currency_code <> '$currencyCode'
-                          AND m2.contentobject_attribute_id is null
+                          AND m2.contentobject_attr_id is null
                           AND ezcontentobject_attribute.version = ezcontentobject.current_version
                           AND ezcontentobject_attribute.contentobject_id = ezcontentobject.id
-                          AND m1.contentobject_attribute_version = ezcontentobject_attribute.version
-                          AND m1.contentobject_attribute_id = ezcontentobject_attribute.id";
+                          AND m1.contentobject_attr_version = ezcontentobject_attribute.version
+                          AND m1.contentobject_attr_id = ezcontentobject_attribute.id";
         }
         else
         {
-            $fetchSql = "SELECT DISTINCT contentobject_attribute_id, contentobject_attribute_version
+            $fetchSql = "SELECT DISTINCT contentobject_attr_id, contentobject_attr_version
                     FROM            ezmultipricedata
                     WHERE           ezmultipricedata.currency_code <> '$currencyCode'";
         }
@@ -266,8 +266,8 @@ class eZMultiPriceData extends eZPersistentObject
                          WHERE  ezmultipricedata.currency_code IN ( $currencyListStr )
                                 AND ezcontentobject_attribute.version = ezcontentobject.current_version
                                 AND ezcontentobject_attribute.contentobject_id = ezcontentobject.id
-                                AND ezmultipricedata.contentobject_attribute_version = ezcontentobject_attribute.version
-                                AND ezmultipricedata.contentobject_attribute_id = ezcontentobject_attribute.id";
+                                AND ezmultipricedata.contentobject_attr_version = ezcontentobject_attribute.version
+                                AND ezmultipricedata.contentobject_attr_id = ezcontentobject_attribute.id";
 
             $limit = EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT;
             while( $limit === EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT  )
@@ -311,8 +311,8 @@ class eZMultiPriceData extends eZPersistentObject
                          WHERE  ezmultipricedata.currency_code = '$oldCurrencyCode'
                                 AND ezcontentobject_attribute.version = ezcontentobject.current_version
                                 AND ezcontentobject_attribute.contentobject_id = ezcontentobject.id
-                                AND ezmultipricedata.contentobject_attribute_version = ezcontentobject_attribute.version
-                                AND ezmultipricedata.contentobject_attribute_id = ezcontentobject_attribute.id";
+                                AND ezmultipricedata.contentobject_attr_version = ezcontentobject_attribute.version
+                                AND ezmultipricedata.contentobject_attr_id = ezcontentobject_attribute.id";
 
             $limit = EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT;
             while( $limit === EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT  )

@@ -29,6 +29,10 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
+{def $currency = false()
+     $locale = false()
+     $symbol = false()}
+
 {section show=$order_list}
 <table class="list" cellspacing="0">
 <tr>
@@ -39,10 +43,19 @@
 	<th>{'Status'|i18n( 'design/admin/shop/customerorderview' )}</th>
 </tr>
 {section var=Orders loop=$order_list sequence=array( bglight, bgdark )}
+{set currency = fetch( 'shop', 'currency', hash( 'code', $Orders.item.productcollection.currency_code ) ) }
+{if $currency}
+    {set locale = $currency.locale
+         symbol = $currency.symbol}
+{else}
+    {set locale = false()
+         symbol = false()}
+{/if}
+
 <tr class="{$Orders.sequence}">
 	<td><a href={concat( '/shop/orderview/', $Orders.item.id, '/' )|ezurl}>{$Orders.item.order_nr}</a></td>
-	<td class="number" align="right">{$Orders.item.total_ex_vat|l10n( currency )}</td>
-	<td class="number" align="right">{$Orders.item.total_inc_vat|l10n( currency )}</td>
+	<td class="number" align="right">{$Orders.item.total_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
+	<td class="number" align="right">{$Orders.item.total_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
 	<td>{$Orders.item.created|l10n( shortdatetime )}</td>
 	<td>{$Orders.item.status_name|wash}</td>
 </tr>
@@ -75,21 +88,47 @@
 	<th>{'Total (inc. VAT)'|i18n( 'design/admin/shop/customerorderview' )}</th>
 </tr>
 
+{def $product_info_count = false()}
+
 {section var=Products loop=$product_list sequence=array( bglight, bgdark )}
+
+{set product_info_count = $Products.product_info|count()}
+
+{foreach $Products.product_info as $currency_code => $info}
+{if $currency_code}
+    {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) ) }
+{else}
+    {set currency = false()}
+{/if}
+{if $currency}
+    {set locale = $currency.locale
+         symbol = $currency.symbol}
+{else}
+    {set locale = false()
+         symbol = false()}
+{/if}
+
 <tr class="{$Products.sequence}">
-    {section show=and( $Products.product, $Products.product.main_node )}
-    {let node_url=$Products.product.main_node.url_alias}
-    <td>{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{section show=$node_url}<a href={$node_url|ezurl}>{/section}{$Products.product.name|wash}{section show=$node_url}</a>{/section}</td>
-    {/let}
-    {section-else}
-    <td>{false()|class_icon( small )}&nbsp;{$Products.name|wash}</td>
-    {/section}
-    <td class="number" align="right">{$Products.sum_count}</td>
-	<td class="number" align="right">{$Products.sum_ex_vat|l10n( currency )}</td>
-	<td class="number" align="right">{$Products.sum_inc_vat|l10n( currency )}</td>
+    {if $product_info_count}
+        {if and( $Products.product, $Products.product.main_node )}
+            {let node_url=$Products.product.main_node.url_alias}
+                <td rowspan="{$product_info_count}">{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{section show=$node_url}<a href={$node_url|ezurl}>{/section}{$Products.product.name|wash}{section show=$node_url}</a>{/section}</td>
+            {/let}
+        {else}
+            <td rowspan="{$product_info_count}">{false()|class_icon( small )}&nbsp;{$Products.name|wash}</td>
+        {/if}
+        {set product_info_count = false()}
+    {/if}
+    <td class="number" align="right">{$info.sum_count}</td>
+	<td class="number" align="right">{$info.sum_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
+	<td class="number" align="right">{$info.sum_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
 </tr>
+{/foreach}
 {/section}
 </table>
+{/section}
+{undef $currency $locale $symbol}
+
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 

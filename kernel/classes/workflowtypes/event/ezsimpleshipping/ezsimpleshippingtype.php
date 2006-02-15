@@ -76,6 +76,12 @@ class eZSimpleShippingType extends eZWorkflowEventType
         }
         if ( $addShipping )
         {
+            $productCollection =& $order->attribute( 'productcollection' );
+            $orderCurrency =& $productCollection->attribute( 'currency_code' );
+
+            include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+            $cost = eZShopFunctions::convertAdditionalPrice( $orderCurrency, $cost );
+
             $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
                                                  'description' => $description,
                                                  'price' => $cost,

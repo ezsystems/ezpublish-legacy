@@ -82,7 +82,8 @@ class eZBasket extends eZPersistentObject
                       'function_attributes' => array( 'items' => 'items',
                                                       'total_ex_vat' => 'totalExVAT',
                                                       'total_inc_vat' => 'totalIncVAT',
-                                                      'is_empty' => 'isEmpty' ),
+                                                      'is_empty' => 'isEmpty',
+                                                      'productcollection' => 'productCollection' ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZBasket",
@@ -92,11 +93,11 @@ class eZBasket extends eZPersistentObject
     function &items( $asObject = true )
     {
         $productItems = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
-                                                       null, array( "productcollection_id" => $this->ProductCollectionID
-                                                                    ),
-                                                       array( 'contentobject_id' => 'desc' ),
-                                                       null,
-                                                       $asObject );
+                                                             null,
+                                                             array( 'productcollection_id' => $this->ProductCollectionID ),
+                                                             array( 'contentobject_id' => 'desc' ),
+                                                             null,
+                                                             $asObject );
         $addedProducts = array();
         foreach ( $productItems as  $productItem )
         {
@@ -364,47 +365,61 @@ class eZBasket extends eZPersistentObject
      */
     function updatePrices()
     {
-        $items =& $this->items();
-
-        $db =& eZDB::instance();
-        $db->begin();
-        foreach( array_keys( $items ) as $key )
+        $productCollection =& $this->attribute( 'productcollection' );
+        if ( $productCollection )
         {
-            $itemArray =& $items[ $key ];
-            $item =& $itemArray['item_object'];
-            $productContentObject =& $item->attribute( 'contentobject' );
-            $priceObj = null;
-            $price = 0.0;
-            $attributes =&  $productContentObject->contentObjectAttributes();
-            foreach ( $attributes as $attribute )
-            {
-                $dataType = $attribute->dataType();
-                if ( $dataType->isA() == "ezprice" )
-                {
-                    $priceObj =& $attribute->content();
-                    $price += $priceObj->attribute( 'price' );
-                    break;
-                }
-            }
-            if ( $priceObj == null )
-                break;
-            $optionsPrice = $item->calculatePriceWithOptions();
+            include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
-            $price += $optionsPrice;
-            $item->setAttribute( "price", $price );
-            if ( $priceObj->attribute( 'is_vat_included' ) )
+            $currencyCode = '';
+            $items =& $this->items();
+
+            $db =& eZDB::instance();
+            $db->begin();
+            foreach( array_keys( $items ) as $key )
             {
-                $item->setAttribute( "is_vat_inc", '1' );
+                $itemArray =& $items[ $key ];
+                $item =& $itemArray['item_object'];
+                $productContentObject =& $item->attribute( 'contentobject' );
+                $priceObj = null;
+                $price = 0.0;
+                $attributes =&  $productContentObject->contentObjectAttributes();
+                foreach ( $attributes as $attribute )
+                {
+                    $dataType = $attribute->dataType();
+                    if ( eZShopFunctions::isProductDatatype( $dataType->isA() ) )
+                    {
+                        $priceObj =& $attribute->content();
+                        $price += $priceObj->attribute( 'price' );
+                        break;
+                    }
+                }
+                if ( !is_object( $priceObj ) )
+                    break;
+
+                $currency =& $priceObj->attribute( 'currency' );
+                $optionsPrice = $item->calculatePriceWithOptions( $currency );
+
+                $price += $optionsPrice;
+                $item->setAttribute( "price", $price );
+                if ( $priceObj->attribute( 'is_vat_included' ) )
+                {
+                    $item->setAttribute( "is_vat_inc", '1' );
+                }
+                else
+                {
+                    $item->setAttribute( "is_vat_inc", '0' );
+                }
+                $item->setAttribute( "vat_value", $priceObj->attribute( 'vat_percent' ) );
+                $item->setAttribute( "discount", $priceObj->attribute( 'discount_percent' ) );
+                $item->store();
+
+                $currencyCode = $priceObj->attribute( 'currency' );
             }
-            else
-            {
-                $item->setAttribute( "is_vat_inc", '0' );
-            }
-            $item->setAttribute( "vat_value", $priceObj->attribute( 'vat_percent' ) );
-            $item->setAttribute( "discount", $priceObj->attribute( 'discount_percent' ) );
-            $item->store();
+
+            $productCollection->setAttribute( 'currency_code', $currencyCode );
+            $productCollection->store();
+            $db->commit();
         }
-        $db->commit();
     }
 
     /*!
@@ -496,6 +511,38 @@ WHERE ezbasket.session_id = ezsession.session_key AND
         }
         while ( true );
         $db->commit();
+    }
+
+    /*!
+     \returns the type of basket. In other words: what type of products the basket contains.
+    */
+    function type()
+    {
+        $type = false;
+
+        // get first product
+        $productCollectionItemList = eZProductCollectionItem::fetchList( array( 'productcollection_id' => $this->attribute( 'productcollection_id' ) ),
+                                                                         true,
+                                                                         0,
+                                                                         1 );
+
+        if ( is_array( $productCollectionItemList ) && count( $productCollectionItemList ) === 1 )
+        {
+            $product =& $productCollectionItemList[0]->attribute( 'contentobject' );
+            if ( is_object( $product ) )
+            {
+                include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+                $type = eZShopFunctions::productType( $product );
+            }
+        }
+
+        return $type;
+    }
+
+    function &productCollection()
+    {
+        $productCollection = eZProductCollection::fetch( $this->attribute( 'productcollection_id' ) );
+        return $productCollection;
     }
 }
 

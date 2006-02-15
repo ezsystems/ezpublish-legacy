@@ -423,6 +423,23 @@ CREATE TABLE ezcontentobject_version (
 
 
 
+CREATE TABLE ezcurrencydata (
+  auto_rate_value decimal NOT NULL default '0.00000',
+  code char(3) NOT NULL default '',
+  custom_rate_value decimal NOT NULL default '0.00000',
+  id int(11) NOT NULL auto_increment,
+  locale varchar(255) NOT NULL default '',
+  rate_factor decimal NOT NULL default '1.00000',
+  status int(11) NOT NULL default '1',
+  symbol varchar(255) NOT NULL default '',
+  PRIMARY KEY  (id),
+  KEY ezcurrencydata_code (code)
+) TYPE=MyISAM;
+
+
+
+
+
 CREATE TABLE ezdiscountrule (
   id int(11) NOT NULL auto_increment,
   name varchar(255) NOT NULL default '',
@@ -657,6 +674,23 @@ CREATE TABLE ezmodule_run (
 
 
 
+CREATE TABLE ezmultipricedata (
+  contentobject_attr_id int(11) NOT NULL default '0',
+  contentobject_attr_version int(11) NOT NULL default '0',
+  currency_code char(3) NOT NULL default '',
+  id int(11) NOT NULL auto_increment,
+  type int(11) NOT NULL default '0',
+  value decimal NOT NULL default '0.00',
+  PRIMARY KEY  (id),
+  KEY ezmultipricedata_coa_id (contentobject_attr_id),
+  KEY ezmultipricedata_coa_version (contentobject_attr_version),
+  KEY ezmultipricedata_currency_code (currency_code)
+) TYPE=MyISAM;
+
+
+
+
+
 CREATE TABLE eznode_assignment (
   contentobject_id int(11) default NULL,
   contentobject_version int(11) default NULL,
@@ -743,6 +777,7 @@ CREATE TABLE ezorder (
   email varchar(150) default '',
   id int(11) NOT NULL auto_increment,
   ignore_vat int(11) NOT NULL default '0',
+  is_archived int(11) NOT NULL default '0',
   is_temporary int(11) NOT NULL default '1',
   order_nr int(11) NOT NULL default '0',
   productcollection_id int(11) NOT NULL default '0',
@@ -750,8 +785,8 @@ CREATE TABLE ezorder (
   status_modified int(11) default '0',
   status_modifier_id int(11) default '0',
   user_id int(11) NOT NULL default '0',
-  is_archived int(4) NOT NULL default '0',
   PRIMARY KEY  (id),
+  KEY ezorder_is_archived (is_archived),
   KEY ezorder_is_tmp (is_temporary)
 ) TYPE=MyISAM;
 
@@ -901,6 +936,7 @@ CREATE TABLE ezpreferences (
 
 CREATE TABLE ezproductcollection (
   created int(11) default NULL,
+  currency_code char(3) NOT NULL default '',
   id int(11) NOT NULL auto_increment,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;

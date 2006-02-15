@@ -54,7 +54,11 @@ class eZProductCollection extends eZPersistentObject
                                          "created" => array( 'name' => "Created",
                                                              'datatype' => 'integer',
                                                              'default' => 0,
-                                                             'required' => true ) ),
+                                                             'required' => true ),
+                                         'currency_code' => array( 'name' => 'CurrencyCode',
+                                                                   'datatype' => 'string',
+                                                                   'default' => '',
+                                                                   'required' => true ) ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZProductCollection",
@@ -131,18 +135,24 @@ class eZProductCollection extends eZPersistentObject
 
     function &verify( $id )
     {
+        $invalidItemArray = array();
+        $collection = eZProductCollection::fetch( $id );
+        if ( !is_object( $collection ) )
+             return $invalidItemArray;
+
+        $currency =& $collection->attribute( 'currency_code' );
         $productItemList = eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
                                                                  null, array( "productcollection_id" => $id ),
                                                                  null,
                                                                  null,
                                                                  true );
         $isValid = true;
-        $invalidItemArray = array();
+
         foreach ( array_keys( $productItemList ) as $key )
         {
             $productItem =& $productItemList[$key];
 
-            if ( !$productItem->verify() )
+            if ( !$productItem->verify( $currency ) )
             {
                 $invalidItemArray[] =& $productItem;
                 //  eZDebug::writeDebug( $productItem , "invalid item" );

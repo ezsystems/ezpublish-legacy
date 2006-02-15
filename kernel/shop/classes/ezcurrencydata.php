@@ -57,6 +57,7 @@ class eZCurrencyData extends eZPersistentObject
     function eZCurrencyData( $row )
     {
         $this->eZPersistentObject( $row );
+        $this->RateValue = false;
     }
 
     function definition()
@@ -70,6 +71,10 @@ class eZCurrencyData extends eZPersistentObject
                                                           'default' => '',
                                                           'required' => true ),
                                          'symbol' => array( 'name' => 'Symbol',
+                                                            'datatype' => 'string',
+                                                            'default' => '',
+                                                            'required' => false ),
+                                         'locale' => array( 'name' => 'Locale',
                                                             'datatype' => 'string',
                                                             'default' => '',
                                                             'required' => false ),
@@ -163,9 +168,14 @@ class eZCurrencyData extends eZPersistentObject
     */
     function fetch( $currencyCode, $asObject = true )
     {
-        $currency = eZCurrencyData::fetchList( array( 'code' => $currencyCode ), $asObject );
-        if ( is_array( $currency ) && count( $currency ) > 0 )
-            return $currency[$currencyCode];
+        if ( $currencyCode )
+        {
+            $currency = eZCurrencyData::fetchList( array( 'code' => $currencyCode ), $asObject );
+            if ( is_array( $currency ) && count( $currency ) > 0 )
+                return $currency[$currencyCode];
+        }
+
+        return null;
     }
 
     /*!
@@ -173,24 +183,34 @@ class eZCurrencyData extends eZPersistentObject
     */
     function rateValue()
     {
-        $rateValue = '0.0000';
-        if ( $this->attribute( 'custom_rate_value' ) > 0 )
+        if ( $this->RateValue === false )
         {
-            $rateValue = $this->attribute( 'custom_rate_value' );
-        }
-        else
-        {
-            $rateValue = $this->attribute( 'auto_rate_value' );
-            $rateValue = $rateValue * $this->attribute( 'rate_factor' );
+            $rateValue = '0.0000';
+            if ( $this->attribute( 'custom_rate_value' ) > 0 )
+            {
+                $rateValue = $this->attribute( 'custom_rate_value' );
+            }
+            else
+            {
+                $rateValue = $this->attribute( 'auto_rate_value' );
+                $rateValue = $rateValue * $this->attribute( 'rate_factor' );
+            }
+
+            $this->RateValue = $rateValue;
         }
 
-        return $rateValue;
+        return $this->RateValue;
+    }
+
+    function invalidateRateValue()
+    {
+        $this->RateValue = false;
     }
 
     /*!
      \static
     */
-    function create( $code, $symbol, $autoRateValue, $customRateValue, $rateFactor, $status = EZ_CURRENCYDATA_STATUS_ACTIVE )
+    function create( $code, $symbol, $locale, $autoRateValue, $customRateValue, $rateFactor, $status = EZ_CURRENCYDATA_STATUS_ACTIVE )
     {
         $code = strtoupper( $code );
         $errCode = eZCurrencyData::canCreate( $code );
@@ -198,6 +218,7 @@ class eZCurrencyData extends eZPersistentObject
         {
             $currency = new eZCurrencyData( array( 'code' => $code,
                                                    'symbol' => $symbol,
+                                                   'locale' => $locale,
                                                    'status' => $status,
                                                    'auto_rate_value' => $autoRateValue,
                                                    'custom_rate_value' => $customRateValue,
@@ -299,6 +320,15 @@ class eZCurrencyData extends eZPersistentObject
                 return ezi18n( 'kernel/shop/classes/ezcurrencydata', 'Unknown error.' );
         }
     }
+
+    function store( $fieldFilters = null )
+    {
+        // data changed => reset RateValue
+        $this->invalidateRateValue();
+        eZPersistentObject::store( $fieldFilters );
+    }
+
+    var $RateValue;
 }
 
 ?>

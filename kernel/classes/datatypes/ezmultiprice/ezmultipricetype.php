@@ -297,10 +297,7 @@ class eZMultiPriceType extends eZDataType
 
     function title( &$contentObjectAttribute )
     {
-        return eZPriceType::title( $contentObjectAttribute );
-        /*
-        return $contentObjectAttribute->attribute( "data_float" );
-        */
+        return '';
     }
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
@@ -375,6 +372,57 @@ class eZMultiPriceType extends eZDataType
         }
         $classAttribute->setAttribute( EZ_DATATYPESTRING_MULTIPRICE_VAT_ID_FIELD, $vatID );
         */
+    }
+
+    function customSorting()
+    {
+        return true;
+    }
+
+    function customSortingSQL( $params )
+    {
+        $multipriceTableAlias = "mp";
+
+        if ( isset( $params['table_alias_suffix'] ) )
+            $multipriceTableAlias .= $params['table_alias_suffix'];
+
+        $sql = array( 'from' => '',
+                      'where' => '',
+                      'sorting_field' => '' );
+
+        $sql['from'] =  "ezmultipricedata $multipriceTableAlias";
+
+        $and = '';
+        if ( isset( $params['contentobject_attribute_id'] ) )
+        {
+            $sql['where'] = "
+                     $multipriceTableAlias.contentobject_attr_id = {$params['contentobject_attribute_id']}";
+            $and = ' AND';
+        }
+
+        if ( isset( $params['contentobject_attribute_version'] ) )
+        {
+            $sql['where'] .= "
+                    $and $multipriceTableAlias.contentobject_attr_version = {$params['contentobject_attribute_version']}";
+            $and = ' AND';
+        }
+
+        if ( !isset( $params['currency_code'] ) )
+        {
+            include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+            $params['currency_code'] = eZShopFunctions::preferredCurrency();
+        }
+
+        if ( $params['currency_code'] !== false )
+        {
+            $sql['where'] .= "
+                    $and $multipriceTableAlias.currency_code = '{$params['currency_code']}'";
+            $and = ' AND';
+        }
+
+        $sql['sorting_field'] = "$multipriceTableAlias.value";
+
+        return $sql;
     }
 }
 

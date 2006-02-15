@@ -21,20 +21,46 @@
 	</th>
 </tr>
 
+{def $orders_info_count = false()
+     $currency = false()
+     $locale = false()
+     $symbol = false()}
+
 {section var="Customer" loop=$customer_list sequence=array(bglight,bgdark)}
+{set orders_info_count = $Customer.orders_info|count()}
+{foreach $Customer.orders_info as $currency_code => $order_info }
+
+{if $currency_code}
+    {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) ) }
+{else}
+    {set currency = false()}
+{/if}
+
+{if $currency}
+    {set locale = $currency.locale
+         symbol = $currency.symbol}
+{else}
+    {set locale = false()
+         symbol = false()}
+{/if}
+
 <tr>
+    {if $orders_info_count }
+    	<td class="{$Customer.sequence}" rowspan="{$orders_info_count}">
+        <a href={concat("/shop/customerorderview/",$Customer.user_id,"/", $Customer.email)|ezurl}>{$Customer.account_name}</a>
+    	</td>
+        {set orders_info_count = false()}
+    {/if}
 	<td class="{$Customer.sequence}">
-    <a href={concat("/shop/customerorderview/",$Customer.user_id,"/", $Customer.email)|ezurl}>{$Customer.account_name}</a>
+    {$order_info.order_count}
 	</td>
 	<td class="{$Customer.sequence}">
-    {$Customer.order_count}
+	{$order_info.sum_ex_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
 	<td class="{$Customer.sequence}">
-	{$Customer.sum_ex_vat|l10n(currency)}
-	</td>
-	<td class="{$Customer.sequence}">
-	{$Customer.sum_inc_vat|l10n(currency)}
+	{$order_info.sum_inc_vat|l10n( 'currency', $locale, $symbol )}
 </tr>
+{/foreach}
 {/section}
 </table>
 {section-else}
@@ -44,6 +70,7 @@
 </div>
 
 {/section}
+{undef $orders_info_count $currency $locale $symbol}
 
 {include name=navigator
          uri='design:navigator/google.tpl'

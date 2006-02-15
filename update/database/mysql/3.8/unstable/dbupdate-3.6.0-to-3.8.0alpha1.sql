@@ -20,24 +20,30 @@ CREATE TABLE ezcurrencydata (
   id int(11) NOT NULL auto_increment,
   code char(3) NOT NULL default '',
   symbol varchar(255) NOT NULL default '',
+  locale varchar(255) NOT NULL default '',
   status int(11) NOT NULL default '1',
   auto_rate_value numeric(10,5) NOT NULL default '0.00000',
   custom_rate_value numeric(10,5) NOT NULL default '0.00000',
   rate_factor numeric(10,5) NOT NULL default '1.00000',
-  PRIMARY KEY (id),
-  KEY (code)
+  PRIMARY KEY (id)
 );
+
+ALTER TABLE ezcurrencydata ADD INDEX ezcurrencydata_code (code);
+
 
 CREATE TABLE ezmultipricedata (
   id int(11) NOT NULL auto_increment,
-  contentobject_attribute_id int(11) NOT NULL default '0',
-  contentobject_attribute_version int(11) NOT NULL default '0',
+  contentobject_attr_id int(11) NOT NULL default '0',
+  contentobject_attr_version int(11) NOT NULL default '0',
   currency_code char(3) NOT NULL default '',
   value numeric(15,2) NOT NULL default '0.00',
   type int(11) NOT NULL default '0',
-  PRIMARY KEY (id),
-  KEY (contentobject_attribute_id),
-  KEY (contentobject_attribute_version),
-  KEY (currency_code)
+  PRIMARY KEY (id)
 );
+
+ALTER TABLE ezmultipricedata ADD INDEX ezmultipricedata_coa_id (contentobject_attr_id);
+ALTER TABLE ezmultipricedata ADD INDEX ezmultipricedata_coa_version (contentobject_attr_version);
+ALTER TABLE ezmultipricedata ADD INDEX ezmultipricedata_currency_code (currency_code);
+
+ALTER TABLE ezproductcollection ADD COLUMN currency_code char(3) NOT NULL default '';
 -- Multicurrency. -- END --

@@ -9,6 +9,15 @@
 <br />
 {shop_account_view_gui view=html order=$order}
 
+{def $currency = fetch( 'shop', 'currency', hash( 'code', $order.productcollection.currency_code ) )
+         $locale = false()
+         $symbol = false()}
+
+{if $currency}
+    {set locale = $currency.locale
+         symbol = $currency.symbol}
+{/if}
+
 <br />
 
 <b>{"Product items"|i18n("design/standard/shop")}</b>
@@ -54,19 +63,19 @@
 	{$ProductItem:item.vat_value} %
 	</td>
 	<td class="{$ProductItem:sequence}">
-	{$ProductItem:item.price_ex_vat|l10n(currency)}
+	{$ProductItem:item.price_ex_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
 	<td class="{$ProductItem:sequence}">
-	{$ProductItem:item.price_inc_vat|l10n(currency)}
+	{$ProductItem:item.price_inc_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
 	<td class="{$ProductItem:sequence}">
 	{$ProductItem:item.discount_percent}%
 	</td>
 	<td class="{$ProductItem:sequence}">
-	{$ProductItem:item.total_price_ex_vat|l10n(currency)}
+	{$ProductItem:item.total_price_ex_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
 	<td class="{$ProductItem:sequence}">
-	{$ProductItem:item.total_price_inc_vat|l10n(currency)}
+	{$ProductItem:item.total_price_inc_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
 </tr>
 {/section}
@@ -81,10 +90,10 @@
     {"Subtotal of items"|i18n("design/standard/shop")}:
     </td>
     <td class="bgdark">
-    {$order.product_total_ex_vat|l10n(currency)}
+    {$order.product_total_ex_vat|l10n( 'currency', $locale, $symbol )}
     </td>
     <td class="bgdark">
-    {$order.product_total_inc_vat|l10n(currency)}
+    {$order.product_total_inc_vat|l10n( 'currency', $locale, $symbol )}
     </td>
 </tr>
 
@@ -94,10 +103,10 @@
 	{$OrderItem:item.description}:
 	</td>
 	<td class="{$OrderItem:sequence}">
-	{$OrderItem:item.price_ex_vat|l10n(currency)}
+	{$OrderItem:item.price_ex_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
 	<td class="{$OrderItem:sequence}">
-	{$OrderItem:item.price_inc_vat|l10n(currency)}
+	{$OrderItem:item.price_inc_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
 </tr>
 {/section}
@@ -106,10 +115,10 @@
     <b>{"Order total"|i18n("design/standard/shop")}</b>
     </td>
     <td class="bgdark">
-    <b>{$order.total_ex_vat|l10n(currency)}</b>
+    <b>{$order.total_ex_vat|l10n( 'currency', $locale, $symbol )}</b>
     </td>
     <td class="bgdark">
-    <b>{$order.total_inc_vat|l10n(currency)}</b>
+    <b>{$order.total_inc_vat|l10n( 'currency', $locale, $symbol )}</b>
     </td>
 </tr>
 </table>

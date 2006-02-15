@@ -34,5 +34,5 @@
  The object is not a product.
 */
 define( 'EZ_ERROR_SHOP_NOT_A_PRODUCT', 1 );
-
+define( 'EZ_ERROR_SHOP_BASKET_INCOMPATIBLE_PRODUCT_TYPE', 2 );
 ?>

@@ -12,6 +12,12 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 {section show=$statistic_result[0].product_list}
+
+{def $currency = false()
+     $locale = false()
+     $symbol = false()
+     $product_info_count = false()}
+
 <table class="list" cellspacing="0">
 <tr>
 	<th class="wide">{'Product'|i18n( 'design/admin/shop/orderstatistics' )}</th>
@@ -20,26 +26,74 @@
 	<th class="tight">{'Total (inc. VAT)'|i18n( 'design/admin/shop/orderstatistics' )}</th>
 </tr>
 {section var=Products loop=$statistic_result[0].product_list sequence=array( bglight, bgdark )}
+
+{set product_info_count = $Products.product_info|count()}
+{foreach $Products.product_info as $currency_code => $info}
+{if $currency_code}
+    {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) )}
+{else}
+    {set currency = false()}
+{/if}
+
+{if $currency}
+    {set locale = $currency.locale
+         symbol = $currency.symbol}
+{else}
+    {set locale = false()
+         symbol = false()}
+{/if}
+
 <tr class="{$Products.sequence}">
-    {section show=and( $Products.product, $Products.product.main_node )}
-    {let node_url=$Products.product.main_node.url_alias}
-    <td>{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{section show=$node_url}<a href={$node_url|ezurl}>{/section}{$Products.product.name|wash}{section show=$node_url}</a>{/section}</td>
-    {/let}
-    {section-else}
-    <td>{false()|class_icon( small )}&nbsp;{$Products.name|wash}</td>
-    {/section}
-    <td class="number" align="right">{$Products.sum_count}</td>
-	<td class="number" align="right">{$Products.sum_ex_vat|l10n(currency)}</td>
-	<td class="number" align="right">{$Products.sum_inc_vat|l10n(currency)}</td>
+    {if $product_info_count}
+        {if and( $Products.product, $Products.product.main_node )}
+            {let node_url=$Products.product.main_node.url_alias}
+                <td rowspan="{$product_info_count}">{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{section show=$node_url}<a href={$node_url|ezurl}>{/section}{$Products.product.name|wash}{section show=$node_url}</a>{/section}</td>
+            {/let}
+        {else}
+            <td rowspan="{$product_info_count}">{false()|class_icon( small )}&nbsp;{$Products.name|wash}</td>
+        {/if}
+        {set product_info_count = false()}
+    {/if}
+    <td class="number" align="right">{$info.sum_count}</td>
+	<td class="number" align="right">{$info.sum_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
+	<td class="number" align="right">{$info.sum_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
 </tr>
+{/foreach}
 {/section}
+{def $total_sum_info_count = $statistic_result[0].total_sum_info|count()}
+
+{foreach $statistic_result[0].total_sum_info as $currency_code => $info}
+
+{if $currency_code}
+    {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) )}
+{else}
+    {set currency = false()}
+{/if}
+
+{if $currency}
+    {set locale = $currency.locale
+         symbol = $currency.symbol}
+{else}
+    {set locale = false()
+         symbol = false()}
+{/if}
+
 <tr>
-	<td><strong>{'SUM'|i18n( 'design/admin/shop/orderstatistics' )}</strong>:</td>
+    {if $total_sum_info_count}
+	    <td rowspan="{$total_sum_info_count}">{concat( '<strong>', 'SUM'|i18n( 'design/admin/shop/orderstatistics' ), '</strong>:' )}</td>
+        {set total_sum_info_count = false()}
+    {/if}
     <td>&nbsp;</td>
-	<td class="number" align="right"><strong>{$statistic_result[0].total_sum_ex_vat|l10n(currency)}</strong></td>
-	<td class="number" align="right"><strong>{$statistic_result[0].total_sum_inc_vat|l10n(currency)}</strong></td>
+	<td class="number" align="right"><strong>{$info.sum_ex_vat|l10n( 'currency', $locale, $symbol )}</strong></td>
+	<td class="number" align="right"><strong>{$info.sum_inc_vat|l10n( 'currency', $locale, $symbol )}</strong></td>
 </tr>
+
+{/foreach}
+
 </table>
+
+{undef $currency $locale $symbol $product_info_count $total_sum_info_count}
+
 {section-else}
 <div class="block">
 <p>{'The list is empty.'|i18n( 'design/admin/shop/orderstatistics' )}

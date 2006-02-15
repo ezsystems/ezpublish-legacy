@@ -394,6 +394,10 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             {
                 return 'double precision';
             } break;
+            case 'decimal':
+            {
+                return 'numeric';
+            } break;
 		default:
 			die ( "ERROR UNHANDLED TYPE: $type\n" );
 		}
@@ -440,6 +444,10 @@ class eZPgsqlSchema extends eZDBSchemaInterface
             {
                 $lenght = 1;
                 return 'char';
+            } break;
+            case 'numeric':
+            {
+                return 'decimal';
             } break;
 		default:
 			die ( "ERROR UNHANDLED TYPE: $type\n" );

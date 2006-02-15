@@ -35,6 +35,14 @@ teessst
 
     {section name=Basket show=$basket.items}
 
+    {def $currency = fetch( 'shop', 'currency', hash( 'code', $basket.productcollection.currency_code ) )
+         $locale = false()
+         $symbol = false()}
+    {if $currency}
+        {set locale = $currency.locale
+             symbol = $currency.symbol}
+    {/if}
+
 <table class="list"  width="100%" cellspacing="0" cellpadding="0" border="0">
 <tr>
 	<th>
@@ -80,19 +88,19 @@ teessst
 	{$Basket:ProductItem:item.vat_value} %
 	</td>
 	<td class="{$Basket:ProductItem:sequence}">
-	{$Basket:ProductItem:item.price_ex_vat|l10n(currency)}
+	{$Basket:ProductItem:item.price_ex_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
 	<td class="{$Basket:ProductItem:sequence}">
-	{$Basket:ProductItem:item.price_inc_vat|l10n(currency)}
+	{$Basket:ProductItem:item.price_inc_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
 	<td class="{$Basket:ProductItem:sequence}">
 	{$Basket:ProductItem:item.discount_percent}%
 	</td>
 	<td class="{$Basket:ProductItem:sequence}">
-	{$Basket:ProductItem:item.total_price_ex_vat|l10n(currency)}
+	{$Basket:ProductItem:item.total_price_ex_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
 	<td class="{$Basket:ProductItem:sequence}">
-	{$Basket:ProductItem:item.total_price_inc_vat|l10n(currency)}
+	{$Basket:ProductItem:item.total_price_inc_vat|l10n( 'currency', $locale, $symbol )}
 	</td>
 	<td class="{$Basket:ProductItem:sequence}">
 	<input type="checkbox" name="RemoveProductItemDeleteList[]" value="{$Basket:ProductItem:item.id}" />
@@ -111,7 +119,7 @@ teessst
       <tr>
         <td width="33%">{$Basket:ProductItem:Options:item.name}</td>
         <td width="33%">{$Basket:ProductItem:Options:item.value}</td>
-        <td width="33%">{$Basket:ProductItem:Options:item.price|l10n(currency)}</td>
+        <td width="33%">{$Basket:ProductItem:Options:item.price|l10n( 'currency', $locale, $symbol )}</td>
       </tr>
     {/section}
      </table>
@@ -144,10 +152,10 @@ teessst
 <td colspan='6'>
 </td>
 <td>
-{$basket.total_ex_vat|l10n(currency)}
+{$basket.total_ex_vat|l10n( 'currency', $locale, $symbol )}
 </td>
 <td>
-{$basket.total_inc_vat|l10n(currency)}
+{$basket.total_inc_vat|l10n( 'currency', $locale, $symbol )}
 </td>
 <td>
 </td>
@@ -155,13 +163,15 @@ teessst
 </table>
 <div class="buttonblock">
 <input class="button" type="submit" name="RemoveProductItemButton" value="{'Remove'|i18n('design/standard/shop')}" /> &nbsp;
-<input class="button" type="submit" name="StoreChangesButton" value="{'Store'|i18n('design/standard/shop')}" /> 
+<input class="button" type="submit" name="StoreChangesButton" value="{'Store'|i18n('design/standard/shop')}" />
 </div>
 
 <div class="buttonblock">
 <input class="button" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n('design/standard/shop')}" />
 <input class="button" type="submit" name="CheckoutButton" value="{'Checkout'|i18n('design/standard/shop')}" /> &nbsp;
 </div>
+
+{undef $currency $locale $symbol}
 
 {section-else}
 

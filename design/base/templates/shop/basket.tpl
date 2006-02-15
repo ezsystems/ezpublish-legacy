@@ -34,6 +34,14 @@
 
     {section show=$basket.items}
 
+    {def $currency = fetch( 'shop', 'currency', hash( 'code', $basket.productcollection.currency_code ) )
+         $locale = false()
+         $symbol = false()}
+    {if $currency}
+        {set locale = $currency.locale
+             symbol = $currency.symbol}
+    {/if}
+
     <div class="content-basket">
     <table cellspacing="0">
     <tr>
@@ -72,13 +80,13 @@
         {$product_item.vat_value} %
     	</td>
         <td class="{$product_item.sequence} product-details">
-        {$product_item.price_inc_vat|l10n(currency)}
+        {$product_item.price_inc_vat|l10n( 'currency', $locale, $symbol )}
     	</td>
 	    <td class="{$product_item.sequence} product-details">
         {$product_item.discount_percent}%
         </td>
 	    <td class="{$product_item.sequence} product-details product-price">
-        {$product_item.total_price_inc_vat|l10n(currency)}
+        {$product_item.total_price_inc_vat|l10n( 'currency', $locale, $symbol )}
 	    </td>
      	<td class="{$product_item.sequence} product-details">
 	    <input type="checkbox" name="RemoveProductItemDeleteList[]" value="{$product_item.item.id}" />
@@ -94,7 +102,7 @@
          <tr>
              <td class="shop-option_name">{$option_item.name|wash}</td>
              <td class="shop-option_value">{$option_item.value}</td>
-             <td class="shop-option_price">{section show=$option_item.price|ne( 0 )}{$option_item.price|l10n( currency )}{/section}</td>
+             <td class="shop-option_price">{section show=$option_item.price|ne( 0 )}{$option_item.price|l10n( 'currency', $locale, $symbol )}{/section}</td>
          </tr>
          {/section}
          </table>
@@ -105,7 +113,7 @@
      <tr>
          <td class="product-subtotal" colspan='5'>
          {"Subtotal Inc. VAT"|i18n("design/base/shop")}:
-         <strong>{$basket.total_inc_vat|l10n(currency)}</strong>
+         <strong>{$basket.total_inc_vat|l10n( 'currency', $locale, $symbol )}</strong>
          </td>
          <td class="product-subtotal">
          &nbsp;
@@ -123,6 +131,8 @@
          <input class="shopbutton" type="submit" name="ContinueShoppingButton" value="{'Continue shopping'|i18n('design/base/shop')}" />
          <input class="shopbutton" type="submit" name="StoreChangesButton" value="{'Store quantities'|i18n('design/base/shop')}" />
      </div>
+
+    {undef $currency $locale $symbol}
 
     {section-else}
 

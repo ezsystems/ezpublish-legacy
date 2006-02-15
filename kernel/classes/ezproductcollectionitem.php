@@ -147,6 +147,20 @@ class eZProductCollectionItem extends eZPersistentObject
                                                 $asObject );
     }
 
+    function fetchList( $conditions = null, $asObjects = true, $offset = false, $limit = false )
+    {
+        $limitation = null;
+        if ( $offset !== false or $limit !== false )
+            $limitation = array( 'offset' => $offset, 'length' => $limit );
+
+        return eZPersistentObject::fetchObjectList( eZProductCollectionItem::definition(),
+                                                    null,
+                                                    $conditions,
+                                                    null,
+                                                    $limitation,
+                                                    $asObjects );
+    }
+
     /*!
      \return the discount percent for the current item
     */
@@ -198,40 +212,54 @@ class eZProductCollectionItem extends eZPersistentObject
      to fetch the option data.
      \return The total price of all options.
     */
-    function calculatePriceWithOptions()
+    function calculatePriceWithOptions( $currency = false )
     {
+        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+
         $optionList = eZProductCollectionItemOption::fetchList( $this->attribute( 'id' ) );
         $contentObject =& $this->contentObject();
         $contentObjectVersion =& $contentObject->attribute( 'current_version' );
         $optionsPrice = 0.0;
-        foreach( $optionList as $option )
+        if ( count( $optionList ) > 0 )
         {
-            $objectAttribute = eZContentObjectAttribute::fetch( $option->attribute( 'object_attribute_id' ), $contentObjectVersion );
-            if ( $objectAttribute == null )
+            $db =& eZDB::instance();
+            $db->begin();
+            foreach( $optionList as $option )
             {
-                $optionsPrice += 0.0;
-                continue;
+                $objectAttribute = eZContentObjectAttribute::fetch( $option->attribute( 'object_attribute_id' ), $contentObjectVersion );
+                if ( $objectAttribute == null )
+                {
+                    $optionsPrice += 0.0;
+                    continue;
+                }
+
+                $dataType = $objectAttribute->dataType();
+                $optionData = $dataType->productOptionInformation( $objectAttribute, $option->attribute( 'option_item_id' ), $this, $option );
+
+                if ( $optionData )
+                {
+                    $optionData['additional_price'] = eZShopFunctions::convertAdditionalPrice( $currency, $optionData['additional_price'] );
+                    $option->setAttribute( 'price', $optionData['additional_price'] );
+                    $option->store();
+
+                    $optionsPrice += $optionData['additional_price'];
+                }
+
             }
-
-            $dataType = $objectAttribute->dataType();
-            $optionData = $dataType->productOptionInformation( $objectAttribute, $option->attribute( 'option_item_id' ), $this, $option );
-
-            if ( $optionData )
-            {
-                $optionsPrice += $optionData['additional_price'];
-            }
-
+            $db->commit();
         }
         return $optionsPrice;
     }
 
-    function verify()
+    function verify( $currency = false )
     {
         $contentObject =& $this->attribute( 'contentobject' );
         if ( $contentObject != null && $contentObject->attribute( 'main_node_id' ) > 0 )
         {
+            include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+
             $attributes = $contentObject->contentObjectAttributes();
-            $optionsPrice = $this->calculatePriceWithOptions();
+            $optionsPrice = $this->calculatePriceWithOptions( $currency );
 /*            if (  $optionsPrice === false )
             {
                 eZDebug::writeDebug( $optionPrice , "Option price is not the same" );
@@ -241,7 +269,7 @@ class eZProductCollectionItem extends eZPersistentObject
             foreach ( $attributes as $attribute )
             {
                 $dataType = $attribute->dataType();
-                if ( $dataType->isA() == "ezprice" )
+                if ( eZShopFunctions::isProductDatatype( $dataType->isA() ) )
                 {
                     $priceObj =& $attribute->content();
 

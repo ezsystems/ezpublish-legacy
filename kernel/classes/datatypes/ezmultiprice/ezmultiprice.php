@@ -58,22 +58,13 @@
   - price
 */
 
-/*
-include_once( "lib/ezdb/classes/ezdb.php" );
-include_once( "kernel/classes/ezvattype.php" );
-include_once( "lib/ezutils/classes/ezhttppersistence.php" );
-include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-include_once( "kernel/classes/ezuserdiscountrule.php" );
-include_once( "kernel/classes/ezcontentobjecttreenode.php" );
-*/
-
 include_once( "kernel/shop/classes/ezsimpleprice.php" );
 include_once( 'kernel/shop/classes/ezmultipricedata.php' );
 
-define( 'EZ_MULTIPRICE_INCLUDE_VAT_CALCULATION_TYPE', 1 );
-define( 'EZ_MULTIPRICE_EXCLUDE_VAT_CALCULATION_TYPE', 2 );
-define( 'EZ_MULTIPRICE_DISCOUNT_INCLUDE_VAT_CALCULATION_TYPE', 3 );
-define( 'EZ_MULTIPRICE_DISCOUNT_EXCLUDE_VAT_CALCULATION_TYPE', 4 );
+define( 'EZ_MULTIPRICE_CALCULATION_TYPE_VAT_INCLUDE', 1 );
+define( 'EZ_MULTIPRICE_CALCULATION_TYPE_VAT_EXCLUDE', 2 );
+define( 'EZ_MULTIPRICE_CALCULATION_TYPE_DISCOUNT_INCLUDE', 3 );
+define( 'EZ_MULTIPRICE_CALCULATION_TYPE_DISCOUNT_EXCLUDE', 4 );
 
 class eZMultiPrice extends eZSimplePrice
 {
@@ -99,16 +90,15 @@ class eZMultiPrice extends eZSimplePrice
     */
     function attributes()
     {
-        return array( 'preferred_currency',
-                      'currency_list',
+        return array( 'currency_list',
                       'auto_currency_list',
                       'price_list',
+                      'auto_price_list',
+                      'custom_price_list',
                       'inc_vat_price_list',
                       'ex_vat_price_list',
                       'discount_inc_vat_price_list',
-                      'discount_ex_vat_price_list',
-                      'auto_price_list',
-                      'custom_price_list' );
+                      'discount_ex_vat_price_list' );
     }
 
     /*!
@@ -164,11 +154,6 @@ class eZMultiPrice extends eZSimplePrice
     {
         switch ( $attr )
         {
-            case 'preferred_currency' :
-            {
-                return $this->preferredCurrency();
-            } break;
-
             case 'currency_list':
             {
                 return $this->currencyList();
@@ -312,22 +297,22 @@ class eZMultiPrice extends eZSimplePrice
 
     function &incVATPriceList( $type = false )
     {
-        return $this->calcPriceList( EZ_MULTIPRICE_INCLUDE_VAT_CALCULATION_TYPE, $type );
+        return $this->calcPriceList( EZ_MULTIPRICE_CALCULATION_TYPE_VAT_INCLUDE, $type );
     }
 
     function &exVATPriceList( $type = false )
     {
-        return $this->calcPriceList( EZ_MULTIPRICE_EXCLUDE_VAT_CALCULATION_TYPE, $type );
+        return $this->calcPriceList( EZ_MULTIPRICE_CALCULATION_TYPE_VAT_EXCLUDE, $type );
     }
 
     function &discountIncVATPriceList( $type = false )
     {
-        return $this->calcPriceList( EZ_MULTIPRICE_DISCOUNT_INCLUDE_VAT_CALCULATION_TYPE, $type );
+        return $this->calcPriceList( EZ_MULTIPRICE_CALCULATION_TYPE_DISCOUNT_INCLUDE, $type );
     }
 
     function &discountExVATPriceList( $type = false )
     {
-        return $this->calcPriceList( EZ_MULTIPRICE_DISCOUNT_EXCLUDE_VAT_CALCULATION_TYPE, $type );
+        return $this->calcPriceList( EZ_MULTIPRICE_CALCULATION_TYPE_DISCOUNT_EXCLUDE, $type );
     }
 
     function &calcPriceList( $calculationType, $priceType )
@@ -340,22 +325,22 @@ class eZMultiPrice extends eZSimplePrice
             $price =& $priceList[$currencyCode];
             switch ( $calculationType )
             {
-                case EZ_MULTIPRICE_INCLUDE_VAT_CALCULATION_TYPE :
+                case EZ_MULTIPRICE_CALCULATION_TYPE_VAT_INCLUDE :
                 {
                     $value = $this->calcIncVATPrice( $price->attribute( 'value' ) );
                 } break;
 
-                case EZ_MULTIPRICE_EXCLUDE_VAT_CALCULATION_TYPE :
+                case EZ_MULTIPRICE_CALCULATION_TYPE_VAT_EXCLUDE :
                 {
                     $value = $this->calcExVATPrice( $price->attribute( 'value' ) );
                 } break;
 
-                case EZ_MULTIPRICE_DISCOUNT_INCLUDE_VAT_CALCULATION_TYPE :
+                case EZ_MULTIPRICE_CALCULATION_TYPE_DISCOUNT_INCLUDE :
                 {
                     $value = $this->calcDiscountIncVATPrice( $price->attribute( 'value' ) );
                 } break;
 
-                case EZ_MULTIPRICE_DISCOUNT_EXCLUDE_VAT_CALCULATION_TYPE :
+                case EZ_MULTIPRICE_CALCULATION_TYPE_DISCOUNT_EXCLUDE :
                 {
                     $value = $this->calcDiscountIncVATPrice( $price->attribute( 'value' ) );
                 } break;
@@ -416,20 +401,25 @@ class eZMultiPrice extends eZSimplePrice
 
     function updateAutoPriceList()
     {
+        include_once( 'kernel/shop/classes/ezcurrencyconverter.php' );
+        $converter =& eZCurrencyConverter::instance();
+
+        $basePrice =& $this->basePrice();
+        $basePriceValue = $basePrice ? $basePrice->attribute( 'value' ) : 0;
+        $baseCurrencyCode = $basePrice ? $basePrice->attribute( 'currency_code' ) : false;
+
         $autoCurrencyList =& $this->autoCurrencyList();
         foreach( $autoCurrencyList as $currencyCode => $currency )
         {
-            $value = "1.99";
-            $this->setAutoPrice( $currencyCode, $value );
+            $autoValue = $converter->convert( $baseCurrencyCode, $currencyCode, $basePriceValue );
+            $this->setAutoPrice( $currencyCode, $autoValue );
         }
-
-        $priceList =& $this->priceList();
     }
 
     function &createPrice( $currencyCode, $value, $type )
     {
         $price = false;
-        if ( is_object( $this->ContentObjectAttribute ) && $this->currency( $currencyCode ) )
+        if ( is_object( $this->ContentObjectAttribute ) && $this->currencyByCode( $currencyCode ) )
         {
             $price = new eZMultiPriceData( array( 'contentobject_attribute_id' => $this->ContentObjectAttribute->attribute( 'id' ),
                                                   'contentobject_attribute_version' => $this->ContentObjectAttribute->attribute( 'version' ),
@@ -514,7 +504,7 @@ class eZMultiPrice extends eZSimplePrice
         return $value;
     }
 
-    function &currency( $currencyCode )
+    function &currencyByCode( $currencyCode )
     {
         $currnecy = false;
         $currencyList =& $this->currencyList();
@@ -553,6 +543,31 @@ class eZMultiPrice extends eZSimplePrice
         $this->HasDataDirty = $hasDirtyData;
     }
 
+    /*!
+     Returns a currency code of the first custom price.
+    */
+    function baseCurrency()
+    {
+        $baseCurrency = false;
+        $customPriceList =& $this->customPriceList();
+        $currencies = array_keys( $customPriceList );
+        if ( count( $currencies ) > 0 )
+            $baseCurrency = $currencies[0];
+
+        return $baseCurrency;
+    }
+
+    function basePrice()
+    {
+        $baseCurrencyCode = $this->baseCurrency();
+        $basePrice =& $this->priceByCurrency( $baseCurrencyCode );
+        return $basePrice;
+    }
+
+    function &currency()
+    {
+        return $this->preferredCurrency();
+    }
     /// \privatesection
     var $PriceList;
     var $CurrencyList;

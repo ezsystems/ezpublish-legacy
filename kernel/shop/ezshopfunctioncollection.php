@@ -218,11 +218,27 @@ class eZShopFunctionCollection
         return $result;
     }
 
+    /*!
+     Returns currency by code.
+    */
+    function fetchCurrency( $code )
+    {
+        include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+
+        $currency = eZCurrencyData::fetch( $code );
+        if ( is_object( $currency ) )
+            $result = array( 'result' => $currency );
+        else
+            $result = array( 'result' => false );
+
+        return $result;
+    }
+
     function fetchPreferredCurrency()
     {
         include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-        $currency = eZShopFunctions::preferredCurrency();
 
+        $currency = eZShopFunctions::preferredCurrency();
         $result = array( 'result' => $currency );
 
         return $result;
