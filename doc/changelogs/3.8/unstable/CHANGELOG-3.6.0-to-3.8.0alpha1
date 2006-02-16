@@ -906,6 +906,8 @@ Attributes:
 - Fixed bug: ezIniSettingType:parseArrayInput() doesn't work correctly.
   ( if inputText is like "=Ez Systems" )
   ( Merged from stable/3.6 ( 3.6.6 ) rev. 14828 )
+- Fixed bug #7849: Hide cronjob hides hidden nodes.
+  ( Merged from stable/3.6 ( 3.6.6 ) rev. 14834 )
 
 *Library:
 
