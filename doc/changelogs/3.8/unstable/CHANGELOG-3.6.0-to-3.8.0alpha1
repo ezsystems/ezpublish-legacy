@@ -908,6 +908,8 @@ Attributes:
   ( Merged from stable/3.6 ( 3.6.6 ) rev. 14828 )
 - Fixed bug #7849: Hide cronjob hides hidden nodes.
   ( Merged from stable/3.6 ( 3.6.6 ) rev. 14834 )
+- Fixed bug #7847: content/translations fails on fresh DB installation.
+  ( Merged from stable/3.7 ( 3.7.4 ) rev. 14838 )
 
 *Library:
 
