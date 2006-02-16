@@ -81,7 +81,7 @@ foreach( $rootNodeIDList as $nodeID )
 
             $date = $dateAttribute->content();
             $retractDate = $date->attribute( 'timestamp' );
-            if ( $retractDate > 0 && $retractDate < $currrentDate )
+            if ( $retractDate > 0 && $retractDate < $currrentDate && !$node->attribute( 'is_hidden' ) )
             {
                 eZContentObjectTreeNode::hideSubTree( $node );
                 if ( !$isQuiet )
