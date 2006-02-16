@@ -392,7 +392,12 @@ class eZIniSettingType extends eZDataType
             }
             else
             {
-                $outputArray[ $lineElements[0] ] = implode( '=', array_slice( $lineElements, 1 ) );
+                if ( $lineElements[0] != '' )
+                {
+                    $outputArray[ $lineElements[0] ] = implode( '=', array_slice( $lineElements, 1 ) );
+                }
+                else
+                    $outputArray[] = implode( '=', array_slice( $lineElements, 1 ) );
             }
         }
         return true;
