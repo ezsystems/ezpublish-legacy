@@ -12,7 +12,7 @@
     </div>
 {section-else}
     <div class="block">
-        <input class="button" type="submit" name="NextStepButton" value="{'Finish'|i18n( 'design/admin/package' )}" />
+        <input class="button" type="submit" name="NextStepButton" value="{'Continue'|i18n( 'design/admin/package' )}" />
     </div>
 {/section}
 

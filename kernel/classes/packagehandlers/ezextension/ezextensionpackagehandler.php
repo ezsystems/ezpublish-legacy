@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZContentClassPackageHandler class
+// Definition of eZExtensionPackageHandler class
 //
 // Created on: <15-Dec-2005 11:15:42 ks>
 //
@@ -35,18 +35,24 @@
 // you.
 //
 
-/*! \file ezcontentobjectpackagehandler.php
+/*! \file ezextensionpackagehandler.php
 */
 
 /*!
-  \class eZContentObjectPackageHandler ezcontentobjectpackagehandler.php
-  \brief Handles content objects in the package system
+  \class eZExtensionPackageHandler ezextensionpackagehandler.php
+  \brief Handles extenstions in the package system
 
 */
 
 include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezpackagehandler.php' );
+
+define( "EZ_PACKAGE_EXTENSION_ERROR_EXISTS", 1 );
+
+define( "EZ_PACKAGE_EXTENSION_REPLACE", 1 );
+define( "EZ_PACKAGE_EXTENSION_SKIP", 2 );
+
 
 class eZExtensionPackageHandler extends eZPackageHandler
 {
@@ -58,58 +64,6 @@ class eZExtensionPackageHandler extends eZPackageHandler
         $this->eZPackageHandler( 'ezextension',
                                  array( 'extract-install-content' => true ) );
     }
-
-    function generatePackage( &$package, $persistentData )
-    {
-        $this->Package =& $package;
-
-        $siteINI = eZINI::instance();
-        $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
-        
-        $fileList = array();
-        $sourceDir = $extensionDir . '/' . $persistentData['extensionname'];
-        $targetDir = $package->path() . '/ezextension';
-
-        eZDir::mkdir( $targetDir, false, true );
-        eZDir::copy( $sourceDir, $targetDir );
-
-        $dirName = $targetDir;
-        eZDir::recursiveList( $dirName, '', $fileList );
-        
-        $doc = new eZDOMDocument;
-
-        $packageRoot = $doc->createElement( 'extension' );
-        $packageRoot->setAttribute( 'name', $persistentData['extensionname'] );
-
-        foreach( $fileList as $file )
-        {
-            $fileNode = $doc->createElement( 'file' );
-            $fileNode->setAttribute( 'name', $file['name'] );
-
-            if ( $file['path'] )
-                $fileNode->setAttribute( 'path', $file['path'] );
-
-            $fullPath = $dirName . $file['path'] . '/' . $file['name'];
-            //$fileNode->setAttribute( 'full-path', $fullPath );
-            $fileNode->setAttribute( 'md5sum', $package->md5sum( $fullPath ) );
-
-            if ( $file['type'] == 'dir' )
-                 $fileNode->setAttribute( 'type', 'dir' );
-
-            $packageRoot->appendChild( $fileNode );
-            unset( $fileNode );
-        }
-
-        $filename = 'extension-' . $persistentData['extensionname'];
-
-        $this->Package->appendInstall( 'ezextension', false, false, true,
-                                       $filename, 'ezextension',
-                                       array( 'content' => $packageRoot ) );
-        $this->Package->appendInstall( 'ezextension', false, false, false,
-                                       $filename, 'ezextension',
-                                       array( 'content' => false ) );
-    }
-
 
     /*!
      \reimp
@@ -139,15 +93,13 @@ class eZExtensionPackageHandler extends eZPackageHandler
         }
     }
 
-
-
     /*!
      \reimp
      Uninstalls extensions.
     */
     function uninstall( &$package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, $installParameters,
+                      &$content, &$installParameters,
                       &$installData )
     {
         $extensionName = $content->getAttribute( 'name' );
@@ -155,19 +107,21 @@ class eZExtensionPackageHandler extends eZPackageHandler
         $siteINI = eZINI::instance();
         $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' ) . '/' . $extensionName;
 
-        // TODO: check md5 and don't delete modified files.
+        // TODO: don't delete modified files?
 
         if ( file_exists( $extensionDir ) )
             eZDir::recursiveDelete( $extensionDir );
+
+        return true;
     }
 
     /*!
      \reimp
-     Copy extension from the package to an extension repository.
+     Copy extension from the package to extension repository.
     */
     function install( &$package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, $installParameters,
+                      &$content, &$installParameters,
                       &$installData )
     {
         //$this->Package =& $package;
@@ -181,8 +135,27 @@ class eZExtensionPackageHandler extends eZPackageHandler
         // Error: extension already exists.
         if ( file_exists( $extensionDir ) )
         {
-            eZDebug::writeError( 'Extension already exists' );
-            return false;
+            $description = "Extension '$extensionName' already exists.";
+            $choosenAction = $this->errorChoosenAction( EZ_PACKAGE_EXTENSION_ERROR_EXISTS,
+                                                        $installParameters, $description );
+            switch( $choosenAction )
+            {
+            case EZ_PACKAGE_EXTENSION_SKIP:
+                return true;
+        
+            case EZ_PACKAGE_NON_INTERACTIVE:
+            case EZ_PACKAGE_EXTENSION_REPLACE:
+                eZDir::recursiveDelete( $extensionDir );
+                break;
+
+            default:
+                $installParameters['error'] = array( 'error_code' => EZ_PACKAGE_EXTENSION_ERROR_EXISTS,
+                                                     'element_id' => $extensionName,
+                                                     'description' => $description,
+                                                     'actions' => array( EZ_PACKAGE_EXTENSION_REPLACE => "Replace extension",
+                                                                         EZ_PACKAGE_EXTENSION_SKIP => 'Skip' ) );
+                return false;
+            }
         }
 
         eZDir::mkdir( $extensionDir, eZDir::directoryPermission(), true );

@@ -29,8 +29,26 @@
 include_once( "kernel/common/template.php" );
 include_once( "kernel/classes/ezpackage.php" );
 
+$http =& eZHTTPTool::instance();
+
 $module =& $Params['Module'];
 $packageName =& $Params['PackageName'];
+$currentItem = 0;
+$doItemInstall = false;
+
+if ( $http->hasSessionVariable( 'eZPackageInstallerData' ) )
+{
+    $persistentData = $http->sessionVariable( 'eZPackageInstallerData' );
+    if ( isset( $persistentData['currentItem'] ) )
+        $currentItem = $persistentData['currentItem'];
+}
+else
+{
+    $persistentData = array();
+    $persistentData['currentItem'] = $currentItem;
+    $persistentData['error'] = array();
+    $persistentData['error_default_actions'] = array();
+}
 
 if ( !eZPackage::canUsePolicyFunction( 'install' ) )
     return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
@@ -39,37 +57,95 @@ $package = eZPackage::fetch( $packageName );
 if ( !$package )
     return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-
-$uninstallItems = $package->installItems( false, eZSys::osType(), false, false );
-$uninstallElements = array();
-foreach ( $uninstallItems as $uninstallItem )
+if ( $module->isCurrentAction( 'SkipPackage' ) )
 {
-    $handler =& eZPackage::packageHandler( $uninstallItem['type'] );
-    if ( $handler )
-    {
-        $uninstallElement = $handler->explainInstallItem( $package, $uninstallItem, true );
-        if ( $uninstallElement )
-            $uninstallElements[] = $uninstallElement;
-    }
-}
-
-if ( $module->isCurrentAction( 'UninstallPackage' ) )
-{
-    $package->uninstall();
-    return $module->redirectToView( 'view', array( 'full', $package->attribute( 'name' ) ) );
-}
-else if ( $module->isCurrentAction( 'SkipPackage' ) )
-{
+    $http->removeSessionVariable( 'eZPackageInstallerData' );
     return $module->redirectToView( 'view', array( 'full', $package->attribute( 'name' ) ) );
 }
 
 $tpl =& templateInit();
 
+// Get all uninstall items and reverse array
+$uninstallItems = array_reverse( $package->installItemsList( false, false, false, false ) );
+
+if ( $module->isCurrentAction( 'HandleError' ) )
+{
+    if ( $module->hasActionParameter( 'ActionID' ) )
+    {
+        $choosenAction = $module->actionParameter( 'ActionID' );
+        $persistentData['error']['choosen_action'] = $choosenAction;
+        if ( $module->hasActionParameter( 'RememberAction' ) )
+        {
+            $errorCode = $persistentData['error']['error_code'];
+            $itemType = $uninstallItems[$currentItem]['type'];
+            if ( !isset( $persistentData['error_default_actions'][$itemType] ) )
+                $persistentData['error_default_actions'][$itemType] = array();
+            $persistentData['error_default_actions'][$itemType][$errorCode] = $choosenAction;
+        }
+    }
+    $doItemInstall = true;
+}
+elseif ( $module->isCurrentAction( 'UninstallPackage' ) )
+{
+    $doItemInstall = true;
+}
+else
+{
+    $uninstallElements = array();
+    foreach ( $uninstallItems as $uninstallItem )
+    {
+        $handler =& eZPackage::packageHandler( $uninstallItem['type'] );
+        if ( $handler )
+        {
+            $uninstallElement = $handler->explainInstallItem( $package, $uninstallItem, true );
+            if ( $uninstallElement )
+            {
+                if ( isset( $installElement[0] ) )
+                    $uninstallElements = array_merge( $uninstallElements, $uninstallElement );
+                else
+                    $uninstallElements[] = $uninstallElement;
+            }
+        }
+    }
+
+    $templateName = "design:package/uninstall.tpl";
+    $tpl->setVariable( 'uninstall_elements', $uninstallElements );
+}
+
+if ( $doItemInstall )
+{
+    while( $currentItem < count( $uninstallItems ) )
+    {
+        $uninstallItem = $uninstallItems[$currentItem];
+        $result = $package->uninstallItem( $uninstallItem, $persistentData );
+    
+        if ( !$result )
+        {
+            $templateName = "design:package/uninstall_error.tpl";
+            break;
+        }
+        else
+        {
+            $persistentData['error'] = array();
+            $currentItem++;
+        }
+    }
+}
+
+if ( $currentItem >= count( $uninstallItems ) )
+{
+    $package->setInstalled( false );
+    $http->removeSessionVariable( 'eZPackageInstallerData' );
+    return $module->redirectToView( 'view', array( 'full', $package->attribute( 'name' ) ) );
+}
+
+$persistentData['currentItem'] = $currentItem;
+$http->setSessionVariable( 'eZPackageInstallerData', $persistentData );
+$tpl->setVariable( 'persistent_data', $persistentData );
 $tpl->setVariable( 'package', $package );
-$tpl->setVariable( 'uninstall_elements', $uninstallElements );
 
 $Result = array();
-$Result['content'] =& $tpl->fetch( "design:package/uninstall.tpl" );
+$Result['content'] =& $tpl->fetch( $templateName );
 $Result['path'] = array( array( 'url' => 'package/list',
                                 'text' => ezi18n( 'kernel/package', 'Packages' ) ),
                          array( 'url' => false,

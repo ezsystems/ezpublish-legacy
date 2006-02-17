@@ -72,12 +72,9 @@ class eZStepFinal extends eZStepInstaller
     */
     function &display()
     {
-        $siteTypes = $this->chosenSiteTypes();
+        $siteType = $this->chosenSiteType();
 //         for ( $counter = 0; $counter < $this->PersistenceList['site_templates']['count']; $counter++ )
-        $counter = 0;
-        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
-        {
-            $siteType =& $siteTypes[$siteTypeKey];
+        //$counter = 0;
 //             $templates[$counter] = $this->PersistenceList['site_templates_'.$counter];
 //             eZDebug::writeDebug( $templates[$counter], '$templates[$counter]' );
 //             $url = $templates[$counter]['url'];
@@ -122,10 +119,10 @@ class eZStepFinal extends eZStepInstaller
 //             $templates[$counter]['admin_url'] = $adminURL;
             $siteType['url'] = $url;
             $siteType['admin_url'] = $adminURL;
-            ++$counter;
-        }
+          //  ++$counter;
+        //}
 
-        $this->Tpl->setVariable( 'site_templates', $siteTypes );
+        $this->Tpl->setVariable( 'site_type', $siteType );
 
         $this->Tpl->setVariable( 'setup_previous_step', 'Final' );
         $this->Tpl->setVariable( 'setup_next_step', 'Final' );
@@ -139,8 +136,6 @@ class eZStepFinal extends eZStepInstaller
         return $result;
 
     }
-
-
 }
 
 ?>

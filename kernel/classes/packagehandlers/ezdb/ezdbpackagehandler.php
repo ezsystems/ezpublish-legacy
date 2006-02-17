@@ -103,7 +103,10 @@ class eZDBPackageHandler extends eZPackageHandler
                                                 'database-type' => $fileItem['database_type'],
                                                 'copy-file' => true ) );
                 if ( $fileItem['database_type'] )
-                    $package->appendDependency( 'requires', 'ezdb', $fileItem['database_type'], false );
+                    $package->appendDependency( 'requires',
+                                                array( 'type' => 'ezdb',
+                                                       'name' => $fileItem['database_type'],
+                                                       'value' => false ) );
                 $noticeText = "Adding " . $cli->stylize( 'mark', "sql" ) . " file " . $cli->stylize( 'file', $fileItem['path'] );
                 if ( $fileItem['database_type'] )
                     $noticeText .= " for database " . $cli->stylize( 'emphasize',  $fileItem['database_type']  );

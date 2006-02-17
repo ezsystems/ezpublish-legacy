@@ -88,14 +88,17 @@ $ViewList['install'] = array(
     'script' => 'install.php',
     'ui_context' => 'edit',
     'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'InstallPackageButton' => 'InstallPackage',
+    'single_post_actions' => array( 'HandleError' => 'HandleError',
+                                    'InstallPackageButton' => 'InstallPackage',
                                     'PackageStep' => 'PackageStep',
                                     'SkipPackageButton' => 'SkipPackage' ),
-    'post_action_parameters' => array( 'InstallPackage' => array( 'InstallItemID' => 'InstallItemID' ),
-                                       'PackageStep' => array( 'InstallItemID' => 'InstallItemID',
+    'post_action_parameters' => array( 'InstallPackage' => array( 'InstallerType' => 'InstallerType' ),
+                                       'PackageStep' => array( 'InstallerType' => 'InstallerType',
                                                                'InstallStepID' => 'InstallStepID',
                                                                'PreviousStep' => 'PreviousStepButton',
-                                                               'NextStep' => 'NextStepButton' ) ),
+                                                               'NextStep' => 'NextStepButton' ),
+                                       'HandleError' => array( 'ActionID' => 'ActionID',
+                                                               'RememberAction' => 'RememberAction' ) ),
 
     'params' => array( 'PackageName' ) );
 
@@ -104,8 +107,11 @@ $ViewList['uninstall'] = array(
     'script' => 'uninstall.php',
     'ui_context' => 'edit',
     'default_navigation_part' => 'ezsetupnavigationpart',
-    'single_post_actions' => array( 'UninstallPackageButton' => 'UninstallPackage',
+    'single_post_actions' => array( 'HandleError' => 'HandleError',
+                                    'UninstallPackageButton' => 'UninstallPackage',
                                     'SkipPackageButton' => 'SkipPackage' ),
+    'post_action_parameters' => array( 'HandleError' => array( 'ActionID' => 'ActionID',
+                                                               'RememberAction' => 'RememberAction' ) ),
     'params' => array( 'PackageName' ) );
 
 $TypeID = array(

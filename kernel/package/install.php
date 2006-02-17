@@ -35,13 +35,25 @@ $http =& eZHTTPTool::instance();
 
 $module =& $Params['Module'];
 $packageName =& $Params['PackageName'];
-if ( !$packageName )
+$installer = false;
+$currentItem = 0;
+$displayStep = false;
+
+if ( $http->hasSessionVariable( 'eZPackageInstallerData' ) )
 {
-    $packageName = $http->sessionVariable( 'eZPackageInstallationName' );
+    $persistentData = $http->sessionVariable( 'eZPackageInstallerData' );
+    if ( isset( $persistentData['currentItem'] ) )
+        $currentItem = $persistentData['currentItem'];
+    $packageName = $persistentData['package_name'];
 }
 else
 {
-    $http->setSessionVariable( 'eZPackageInstallationName', $packageName );
+    $persistentData = array();
+    $persistentData['package_name'] = $packageName;
+    $persistentData['currentItem'] = $currentItem;
+    $persistentData['doItemInstall'] = false;
+    $persistentData['error'] = array();
+    $persistentData['error_default_actions'] = array();
 }
 
 if ( !eZPackage::canUsePolicyFunction( 'install' ) )
@@ -51,79 +63,48 @@ $package = eZPackage::fetch( $packageName );
 if ( !$package )
     return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-$installer = false;
-$installItemArray = $package->installItems( false, eZSys::osType() );
+$installItemArray = $package->installItemsList( false, eZSys::osType() );
 
-$initializeStep = false;
+$tpl =& templateInit();
 
-if ( $module->isCurrentAction( 'PackageStep' ) )
+if ( $module->isCurrentAction( 'SkipPackage' ) )
 {
-    eZDebug::writeDebug( 'PackageStep' );
-
-    if ( $module->hasActionParameter( 'InstallItemID' ) )
-    {
-        $installItemCount = $http->sessionVariable( 'eZPackageInstallationCounter' );
-        $installItem = $installItemArray[$installItemCount];
-        $installerID = $module->actionParameter( 'InstallItemID' );
-        $installer = eZPackageInstallationHandler::instance( $package, $installerID, $installItem );
-        $persistentData = $http->sessionVariable( 'eZPackageInstallerData' );
-        $installer->generateStepMap( $package, $persistentData );
-    }
-}
-else if ( $module->isCurrentAction( 'InstallPackage' ) || $http->hasSessionVariable( 'eZPackageInstallationCounter' ) )
-{
-    eZDebug::writeDebug( 'InstallPackage' );
-
-    if ( $http->hasSessionVariable( 'eZPackageInstallationCounter' ) )
-    {
-        $installItemCount = $http->sessionVariable( 'eZPackageInstallationCounter' );
-    }
-    else
-    {
-        $installItemCount = 0;
-        $http->setSessionVariable( 'eZPackageInstallationCounter', $installItemCount );
-    }
-
-    eZDebug::writeDebug( $installItemCount, '$installItemCount' );
-    eZDebug::writeDebug( $installItemArray, '$installItemArray' );
-
-    if ( count( $installItemArray ) <= $installItemCount )
-    {
-        $package->Parameters['is_installed'] = true;
-        $package->store();
-        $http->removeSessionVariable( 'eZPackageInstallationCounter' );
-        $http->removeSessionVariable( 'eZPackageInstallationName' );
-        return $module->redirectToView( 'view', array( 'full', $package->attribute( 'name' ) ) );
-    }
-
-    $installItem = $installItemArray[$installItemCount];
-    $installer = eZPackageInstallationHandler::instance( $package, $installItem['type'], $installItem );
-    if ( !$installer )
-    {
-        eZDebug::writeDebug( '!$installer' );
-
-        // weak try to process errors
-        if( !$package->installItem( $installItem ) )
-        {
-            eZDebug::writeError( "Error installing the package" );
-            return $module->redirectToView( 'view', array( 'full', $package->attribute( 'name' ) ) );
-        }
-        $http->setSessionVariable( 'eZPackageInstallationCounter', $installItemCount + 1 );
-        return $module->redirectToView( 'install', array( $packageName ) );
-    }
-
-    $persistentData = array();
-    $http->setSessionVariable( 'eZPackageInstallerData', $persistentData );
-    $installer->generateStepMap( $package, $persistentData );
-}
-else if ( $module->isCurrentAction( 'SkipPackage' ) )
-{
+    $http->removeSessionVariable( 'eZPackageInstallerData' );
     return $module->redirectToView( 'view', array( 'full', $package->attribute( 'name' ) ) );
 }
-else
+elseif ( $module->isCurrentAction( 'InstallPackage' ) )
 {
-    eZDebug::writeDebug( 'action else' );
+    $persistentData['doItemInstall'] = true;
+}
+elseif ( $module->isCurrentAction( 'HandleError' ) )
+{
+    $persistentData['doItemInstall'] = true;
+    if ( $module->hasActionParameter( 'ActionID' ) )
+    {
+        $choosenAction = $module->actionParameter( 'ActionID' );
 
+        $persistentData['error']['choosen_action'] = $choosenAction;
+        if ( $module->hasActionParameter( 'RememberAction' ) )
+        {
+            $errorCode = $persistentData['error']['error_code'];
+            $itemType = $installItemArray[$currentItem]['type'];
+            if ( !isset( $persistentData['error_default_actions'][$itemType] ) )
+                $persistentData['error_default_actions'][$itemType] = array();
+            $persistentData['error_default_actions'][$itemType][$errorCode] = $choosenAction;
+        }
+    }
+}
+elseif ( $module->isCurrentAction( 'PackageStep' ) && !$persistentData['doItemInstall'] )
+{
+    $installItem = $installItemArray[$currentItem];
+    $installerType = $module->actionParameter( 'InstallerType' );
+    $installer = eZPackageInstallationHandler::instance( $package, $installerType, $installItem );
+    $installer->generateStepMap( $package, $persistentData );
+    $displayStep = true;
+}
+elseif ( !$persistentData['doItemInstall'] )
+{
+    // Displaying a list of items to install
     $installElements = array();
     foreach ( $installItemArray as $installItem )
     {
@@ -132,18 +113,54 @@ else
         {
             $installElement = $handler->explainInstallItem( $package, $installItem );
             if ( $installElement )
-                $installElements[] = $installElement;
+            {
+                if ( isset( $installElement[0] ) )
+                    $installElements = array_merge( $installElements, $installElement );
+                else
+                    $installElements[] = $installElement;
+            }
+        }
+    }
+    $tpl->setVariable( 'install_elements', $installElements );
+
+    $templateName = 'design:package/install.tpl';
+}
+
+if ( $persistentData['doItemInstall'] )
+{
+    while( $currentItem < count( $installItemArray ) )
+    {
+        $installItem = $installItemArray[$currentItem];
+        $installer = eZPackageInstallationHandler::instance( $package, $installItem['type'], $installItem );
+
+        if ( !$installer || isset( $persistentData['error']['choosen_action'] ) )
+        {
+            $result = $package->installItem( $installItem, $persistentData );
+
+            if ( !$result )
+            {
+                $templateName = "design:package/install_error.tpl";
+                break;
+            }
+            else
+            {
+                $persistentData['error'] = array();
+                $currentItem++;
+            }
+        }
+        else
+        {
+            $persistentData['doItemInstall'] = false;
+            $installer->generateStepMap( $package, $persistentData );
+            $displayStep = true;
+            break;
         }
     }
 }
 
-$tpl =& templateInit();
-
-$templateName = 'design:package/install.tpl';
-if ( $installer )
+//$templateName = 'design:package/install.tpl';
+if ( $displayStep )
 {
-    eZDebug::writeDebug( 'installer' );
-
     $currentStepID = false;
     if ( $module->hasActionParameter( 'InstallStepID' ) )
         $currentStepID = $module->actionParameter( 'InstallStepID' );
@@ -156,8 +173,6 @@ if ( $installer )
     $lastStepID = $currentStepID;
     if ( $module->hasActionParameter( 'NextStep' ) )
     {
-        eZDebug::writeDebug( 'next step' );
-
         $hasAdvanced = true;
         $currentStepID = $installer->validateStep( $package, $http, $currentStepID, $steps, $persistentData, $errorList );
         if ( $currentStepID != $lastStepID )
@@ -169,55 +184,57 @@ if ( $installer )
 
     if ( $currentStepID )
     {
-        eZDebug::writeDebug( 'current step id' );
-
         $currentStep =& $steps['map'][$currentStepID];
 
-        $stepTemplate = $installer->stepTemplate( $currentStep );
+        $stepTemplate = $installer->stepTemplate( $package, $installItem, $currentStep );
         $stepTemplateName = $stepTemplate['name'];
-        $stepTemplateDir = $stepTemplate['dir'];
+        $stepTemplatePath = $stepTemplate['path'];
 
         $installer->initializeStep( $package, $http, $currentStep, $persistentData, $tpl, $module );
 
-        if ( $package )
-            $persistentData['package_name'] = $package->attribute( 'name' );
+        //if ( $package )
+        //    $persistentData['package_name'] = $package->attribute( 'name' );
 
-        $http->setSessionVariable( 'eZPackageInstallerData', $persistentData );
+        //$http->setSessionVariable( 'eZPackageInstallerData', $persistentData );
 
         $tpl->setVariable( 'installer', $installer );
         $tpl->setVariable( 'current_step', $currentStep );
-        $tpl->setVariable( 'persistent_data', $persistentData );
+        //$tpl->setVariable( 'persistent_data', $persistentData );
         $tpl->setVariable( 'error_list', $errorList );
         $tpl->setVariable( 'package', $package );
 
-        $templateName = "design:package/$stepTemplateDir/$stepTemplateName";
+        $templateName = "$stepTemplatePath/$stepTemplateName";
     }
     else
     {
-        eZDebug::writeDebug( 'current step id - else' );
-
-        $db =& eZDB::instance();
-        $db->begin();
-        $installer->finalize( $package, $http, $persistentData );
-        $http->setSessionVariable( 'eZPackageInstallationCounter', $installItemCount + 1 );
-        $package->setAttribute( 'is_active', true );
-        $http->removeSessionVariable( 'eZPackageInstallerData' );
-        $db->commit();
-        return $module->redirectToView( 'install', array( $packageName ) );
+        $persistentData['doItemInstall'] = true;
+        $installItem = $installItemArray[$currentItem];
+        $result = $package->installItem( $installItem, $persistentData );
+        if ( !$result )
+        {
+            $templateName = "design:package/install_error.tpl";
+        }
+        else
+        {
+            $persistentData['error'] = array();
+            $currentItem++;
+            //return $module->redirectToView( 'install', array( $packageName ) );
+        }
     }
 }
-else
+
+// Installation complete (all items are installed)
+if ( $currentItem >= count( $installItemArray ) )
 {
-    eZDebug::writeDebug( 'installer - else' );
-
-    eZDebug::writeDebug( $package, '$package' );
-    eZDebug::writeDebug( $installElements, '$installElements' );
-
-    $tpl->setVariable( 'package', $package );
-    $tpl->setVariable( 'install_elements', $installElements );
+    $package->setInstalled();
+    $http->removeSessionVariable( 'eZPackageInstallerData' );
+    return $module->redirectToView( 'view', array( 'full', $package->attribute( 'name' ) ) );
 }
 
-eZDebug::writeDebug( $persistentData, '$persistentData - install.php' );
+$persistentData['currentItem'] = $currentItem;
+$http->setSessionVariable( 'eZPackageInstallerData', $persistentData );
+$tpl->setVariable( 'persistent_data', $persistentData );
+$tpl->setVariable( 'package', $package );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( $templateName );

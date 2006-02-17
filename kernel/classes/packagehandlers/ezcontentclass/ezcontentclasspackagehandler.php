@@ -41,6 +41,14 @@ include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( 'kernel/classes/ezpackagehandler.php' );
 
+define( "EZ_PACKAGE_CONTENTCLASS_ERROR_EXISTS", 1 );
+define( "EZ_PACKAGE_CONTENTCLASS_ERROR_HAS_OBJECTS", 101 );
+
+define( "EZ_PACKAGE_CONTENTCLASS_REPLACE", 1 );
+define( "EZ_PACKAGE_CONTENTCLASS_SKIP", 2 );
+define( "EZ_PACKAGE_CONTENTCLASS_NEW", 3 );
+define( "EZ_PACKAGE_CONTENTCLASS_DELETE", 4 );
+
 class eZContentClassPackageHandler extends eZPackageHandler
 {
     /*!
@@ -88,31 +96,49 @@ class eZContentClassPackageHandler extends eZPackageHandler
     */
     function uninstall( &$package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, $installParameters,
+                      &$content, &$installParameters,
                       &$installData )
     {
-        if ( isset( $installData['classid_list'] ) )
+        $classRemoteID = $content->elementTextContentByName( 'remote-id' );
+
+        $class = eZContentClass::fetchByRemoteID( $classRemoteID );
+
+        if ( $class == null )
         {
-            $classIDList = $installData['classid_list'];
-            foreach ( $classIDList as $classID )
+            eZDebug::writeNotice( "Class having remote id '$classRemoteID' not found.", 'eZContentClassPackageHandler::uninstall()' );
+            return true;
+        }
+
+        if ( $class->isRemovable() )
+        {
+            $choosenAction = $this->errorChoosenAction( EZ_PACKAGE_CONTENTCLASS_ERROR_HAS_OBJECTS,
+                                                        $installParameters );
+            if ( $choosenAction == EZ_PACKAGE_CONTENTCLASS_SKIP )
             {
-                eZContentClassClassGroup::removeClassMembers( $classID, 0 );
-                eZContentClassClassGroup::removeClassMembers( $classID, 1 );
-
-                $class = eZContentClass::fetch( $classID );
-                if ( $class )
+                return true;
+            }
+            if ( $choosenAction != EZ_PACKAGE_CONTENTCLASS_DELETE )
+            {
+                $objectsCount = eZContentObject::fetchSameClassListCount( $class->attribute( 'id' ) );
+                $name = $class->attribute( 'name' );
+                if ( $objectsCount )
                 {
-                    $class->remove( true, EZ_CLASS_VERSION_STATUS_DEFINED );
-                }
-
-                $tmpClass = eZContentClass::fetch( $classID, true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
-                if ( $tmpClass )
-                {
-                    $tmpClass->remove( true, EZ_CLASS_VERSION_STATUS_TEMPORARY );
+                    $installParameters['error'] = array( 'error_code' => EZ_PACKAGE_CONTENTCLASS_ERROR_HAS_OBJECTS,
+                                                         'element_id' => $classRemoteID,
+                                                         'description' => "There are $objectsCount content object(s) of class '$name'. If you uninstall this class, all it's objects and their subitems will be deleted. Are you sure you want to uninstall it ?",
+                                                         'actions' => array( EZ_PACKAGE_CONTENTCLASS_DELETE => "Uninstall class and object(s)",
+                                                                             EZ_PACKAGE_CONTENTCLASS_SKIP => 'Skip' ) );
+                    return false;
                 }
             }
-            unset( $installData['classid_list'] );
+
+            eZDebug::writeNotice( sprintf( "Removing class '%s' (%d)", $class->attribute( 'name' ), $class->attribute( 'id' ) ) );
+
+            include_once( 'kernel/classes/ezcontentclassoperations.php' );
+            eZContentClassOperations::remove( $class->attribute( 'id' ) );
         }
+
+        return true;
     }
 
     /*!
@@ -121,7 +147,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
     */
     function install( &$package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, $installParameters,
+                      &$content, &$installParameters,
                       &$installData )
     {
         $className = $content->elementTextContentByName( 'name' );
@@ -131,7 +157,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $classIsContainer = $content->attributeValue( 'is-container' );
         if ( $classIsContainer !== false )
             $classIsContainer = $classIsContainer == 'true' ? 1 : 0;
-
+    
         $classRemoteNode = $content->elementByName( 'remote' );
         $classID = $classRemoteNode->elementTextContentByName( 'id' );
         $classGroupsNode = $classRemoteNode->elementByName( 'groups' );
@@ -139,62 +165,98 @@ class eZContentClassPackageHandler extends eZPackageHandler
         $classModified = $classRemoteNode->elementTextContentByName( 'modified' );
         $classCreatorNode = $classRemoteNode->elementByName( 'creator' );
         $classModifierNode = $classRemoteNode->elementByName( 'modifier' );
-
+    
         $classAttributesNode = $content->elementByName( 'attributes' );
-
+    
         $dateTime = time();
         $classCreated = $dateTime;
         $classModified = $dateTime;
-
+    
         $userID = false;
         if ( isset( $installParameters['user_id'] ) )
             $userID = $installParameters['user_id'];
-
-        if ( $classRemoteID != "" )
-            $class = eZContentClass::fetchByRemoteID( $classRemoteID );
-
-        // Try to create a unique class identifier
-        if( !isset( $class ) || !$class )
+    
+        $class = eZContentClass::fetchByRemoteID( $classRemoteID );
+    
+        if( $class )
         {
-            $currentClassIdentifier = $classIdentifier;
-            $unique = false;
-
-            while( !$unique )
+            $description = "Class '$className' already exists.";
+            $choosenAction = $this->errorChoosenAction( EZ_PACKAGE_CONTENTCLASS_ERROR_EXISTS,
+                                                        $installParameters, $description );
+            switch( $choosenAction )
             {
-                $classList = eZContentClass::fetchByIdentifier( $currentClassIdentifier );
-                if ( $classList )
+            case EZ_PACKAGE_NON_INTERACTIVE:
+            case EZ_PACKAGE_CONTENTCLASS_REPLACE:
+                include_once( 'kernel/classes/ezcontentclassoperations.php' );
+                eZContentClassOperations::remove( $class->attribute( 'id' ) );
+                break;
+
+            case EZ_PACKAGE_CONTENTCLASS_SKIP:
+                return true;
+
+            case EZ_PACKAGE_CONTENTCLASS_NEW:
+                $class->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
+                $class->store();
+                $className .= " (imported)";
+                break;
+
+            default:
+                $installParameters['error'] = array( 'error_code' => EZ_PACKAGE_CONTENTCLASS_ERROR_EXISTS,
+                                                     'element_id' => $classRemoteID,
+                                                     'description' => $description,
+                                                     'actions' => array() );
+                if ( $class->isRemovable() )
                 {
-                    // "increment" class identifier
-                    if ( preg_match( '/^(.*)_(\d+)$/', $currentClassIdentifier, $matches ) )
-                        $currentClassIdentifier = $matches[1] . '_' . ( $matches[2] + 1 );
-                    else
-                        $currentClassIdentifier = $currentClassIdentifier . '_1';
+                    $errorMsg = "Replace existing class";
+                    $objectsCount = eZContentObject::fetchSameClassListCount( $class->attribute( 'id' ) );
+                    if ( $objectsCount )
+                        $errorMsg .= " (Warning! $objectsCount content object(s) of the existing class will be removed along with their nodes and subtrees!)";
+                    $installParameters['error']['actions'][EZ_PACKAGE_CONTENTCLASS_REPLACE] = $errorMsg;
                 }
-                else
-                    $unique = true;
-
-                unset( $classList );
+                $installParameters['error']['actions'][EZ_PACKAGE_CONTENTCLASS_SKIP] = 'Skip installing this class';
+                $installParameters['error']['actions'][EZ_PACKAGE_CONTENTCLASS_NEW] = 'Keep existing and create a new one';
+                return false;
             }
-
-            $classIdentifier = $currentClassIdentifier;
-        }
-
-        // create class
-        if ( !isset( $class ) || !$class )
+        }    
+    
+        unset( $class );
+    
+        // Try to create a unique class identifier
+        $currentClassIdentifier = $classIdentifier;
+        $unique = false;
+    
+        while( !$unique )
         {
-            $class = eZContentClass::create( $userID,
-                                             array( 'version' => 0,
-                                                    'name' => $className,
-                                                    'identifier' => $classIdentifier,
-                                                    'remote_id' => $classRemoteID,
-                                                    'contentobject_name' => $classObjectNamePattern,
-                                                    'is_container' => $classIsContainer,
-                                                    'created' => $classCreated,
-                                                    'modified' => $classModified ) );
-            $class->store();
-            $classID = $class->attribute( 'id' );
+            $classList = eZContentClass::fetchByIdentifier( $currentClassIdentifier );
+            if ( $classList )
+            {
+                // "increment" class identifier
+                if ( preg_match( '/^(.*)_(\d+)$/', $currentClassIdentifier, $matches ) )
+                    $currentClassIdentifier = $matches[1] . '_' . ( $matches[2] + 1 );
+                else
+                    $currentClassIdentifier = $currentClassIdentifier . '_1';
+            }
+            else
+                $unique = true;
+    
+            unset( $classList );
         }
-
+    
+        $classIdentifier = $currentClassIdentifier;
+    
+        // create class
+        $class = eZContentClass::create( $userID,
+                                         array( 'version' => 0,
+                                                'name' => $className,
+                                                'identifier' => $classIdentifier,
+                                                'remote_id' => $classRemoteID,
+                                                'contentobject_name' => $classObjectNamePattern,
+                                                'is_container' => $classIsContainer,
+                                                'created' => $classCreated,
+                                                'modified' => $classModified ) );
+        $class->store();
+        $classID = $class->attribute( 'id' );
+    
         if ( !isset( $installData['classid_list'] ) )
             $installData['classid_list'] = array();
         if ( !isset( $installData['classid_map'] ) )
@@ -516,7 +578,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function createInstallNode( &$package, $export, &$installNode, $installItem, $installType )
+    /*function createInstallNode( &$package, $export, &$installNode, $installItem, $installType )
     {
         if ( $installNode->attributeValue( 'type' ) == 'ezcontentclass' )
         {
@@ -534,6 +596,7 @@ class eZContentClassPackageHandler extends eZPackageHandler
             }
         }
     }
+    */
 }
 
 ?>

@@ -75,8 +75,50 @@ class eZExtensionPackageCreator extends eZPackageCreationHandler
     {
 		$this->createPackage( $package, $http, $persistentData, $cleanupFiles, false );
 
-        $extensionHandler = eZPackage::packageHandler( 'ezextension' );
-        $extensionHandler->generatePackage( $package, $persistentData );
+        $siteINI = eZINI::instance();
+        $extensionDir = $siteINI->variable( 'ExtensionSettings', 'ExtensionDirectory' );
+        
+        $fileList = array();
+        $sourceDir = $extensionDir . '/' . $persistentData['extensionname'];
+        $targetDir = $package->path() . '/ezextension';
+
+        eZDir::mkdir( $targetDir, false, true );
+        eZDir::copy( $sourceDir, $targetDir );
+
+        eZDir::recursiveList( $targetDir, '', $fileList );
+        
+        $doc = new eZDOMDocument;
+
+        $packageRoot = $doc->createElement( 'extension' );
+        $packageRoot->setAttribute( 'name', $persistentData['extensionname'] );
+
+        foreach( $fileList as $file )
+        {
+            $fileNode = $doc->createElement( 'file' );
+            $fileNode->setAttribute( 'name', $file['name'] );
+
+            if ( $file['path'] )
+                $fileNode->setAttribute( 'path', $file['path'] );
+
+            $fullPath = $targetDir . $file['path'] . '/' . $file['name'];
+            //$fileNode->setAttribute( 'full-path', $fullPath );
+            $fileNode->setAttribute( 'md5sum', $package->md5sum( $fullPath ) );
+
+            if ( $file['type'] == 'dir' )
+                 $fileNode->setAttribute( 'type', 'dir' );
+
+            $packageRoot->appendChild( $fileNode );
+            unset( $fileNode );
+        }
+
+        $filename = 'extension-' . $persistentData['extensionname'];
+
+        $package->appendInstall( 'ezextension', false, false, true,
+                                       $filename, 'ezextension',
+                                       array( 'content' => $packageRoot ) );
+        $package->appendInstall( 'ezextension', false, false, false,
+                                       $filename, 'ezextension',
+                                       array( 'content' => false ) );
 
         $package->setAttribute( 'is_active', true );
         $package->store();

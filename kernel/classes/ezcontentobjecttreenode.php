@@ -3787,7 +3787,7 @@ WHERE
      is removed. The returned structure is:
      - move_to_trash     - \c true if removed objects can be moved to trash,
                            some objects are not allowed to be in trash (e.g user).
-     - total_child_count - The total number of childs for all delete items
+     - total_child_count - The total number of children for all delete items
      - can_remove_all    - Will be set to \c true if all selected items can be removed, \c false otherwise
      - delete_list - A list of all subtrees that should be removed, structure:
      -- node               - The content node
@@ -4929,15 +4929,47 @@ WHERE
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function unserialize( $contentNodeDOMNode, $contentObject, $version, $isMain, &$nodeList, $options )
+    function unserialize( $contentNodeDOMNode, $contentObject, $version, $isMain, &$nodeList, &$options, $handlerType = 'ezcontentobject' )
     {
         $parentNodeID = -1;
 
         $remoteID = $contentNodeDOMNode->attributeValue( 'remote-id' );
-        if ( eZContentObjectTreeNode::fetchByRemoteID( $remoteID ) )
+        $node = eZContentObjectTreeNode::fetchByRemoteID( $remoteID );
+        if ( is_object( $node ) )
         {
-            eZDebug::writeError( "Node with remote ID = $remoteID already exists, can't import", "eZContentObjectTreeNode::unserialize" );
-            return false;
+            $description = "Node with remote ID $remoteID already exists.";
+
+            include_once( 'kernel/classes/ezpackagehandler.php' );
+            $choosenAction = eZPackageHandler::errorChoosenAction( EZ_PACKAGE_CONTENTOBJECT_ERROR_EXISTS,
+                                                                   $options, $description, $handlerType, false );
+
+            // In case user have choosen "Keep existing object and create new"
+            if ( $choosenAction == EZ_PACKAGE_CONTENTOBJECT_NEW )
+            {
+                $newRemoteID = md5( (string)mt_rand() . (string)mktime() );
+                $node->setAttribute( 'remote_id', $newRemoteID );
+                $node->store();
+                $nodeInfo = array( 'contentobject_id' =>  $node->attribute( 'contentobject_id' ),
+                                   'contentobject_version' => $node->attribute( 'contentobject_version' ),
+                                   'parent_remote_id' => $remoteID );
+                $nodeAssignment = eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
+                                                                   null,
+                                                                   $nodeInfo );
+                if( is_object( $nodeAssignment ) )
+                {
+                    //eZDebug::writeDebug( $nodeAssignment, '$nodeAssignment' );
+                    $nodeAssignment->setAttribute( 'parent_remote_id', $newRemoteID );
+                    $nodeAssignment->store();
+                }
+            }
+            else
+            {
+                // This error may occur only if data integrity is broken
+                $options['error'] = array( 'error_code' => EZ_PACKAGE_CONTENTOBJECT_ERROR_NODE_EXISTS,
+                                           'element_id' => $remoteID,
+                                           'description' => $description );
+                return false;
+            }
         }
 
         $parentNodeRemoteID = $contentNodeDOMNode->attributeValue( 'parent-node-remote-id' );
@@ -4972,7 +5004,7 @@ WHERE
                            'contentobject_version' => $version,
                            'is_main' => $isMain,
                            'parent_node' => $parentNodeID,
-                           'parent_remote_id' => $contentNodeDOMNode->attributeValue( 'remote-id' ),
+                           'parent_remote_id' => $remoteID,
                            'sort_field' => eZContentObjectTreeNode::sortFieldID( $contentNodeDOMNode->attributeValue( 'sort-field' ) ),
                            'sort_order' => $contentNodeDOMNode->attributeValue( 'sort-order' ) );
         $existNodeAssignment = eZPersistentObject::fetchObject( eZNodeAssignment::definition(),

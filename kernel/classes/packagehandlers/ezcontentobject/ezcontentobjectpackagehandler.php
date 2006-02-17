@@ -37,6 +37,8 @@
 
 */
 
+define( 'EZCONTENTOBJECT_PACKAGE_HANDLER__MAX_READABLE_OBJECTS_NUMBER', 50 );
+
 include_once( 'lib/ezxml/classes/ezxml.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezpackagehandler.php' );
@@ -55,6 +57,17 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     /*!
      \reimp
      Returns an explanation for the content object install item.
+
+     The explanaition is actually a list having the following structure:
+          array( array( 'description' => 'Content object Foo' ),
+                 array( 'description' => 'Content object Bar' ),
+                 array( 'description' => 'Content object Baz' ) );
+
+     When number of items in the above list is too high,
+     the following array is returned instead:
+         array( 'description' => 'NNN content objects' );
+
+
     */
     function explainInstallItem( &$package, $installItem )
     {
@@ -70,13 +83,32 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             $filepath = $package->path() . '/' . $filepath;
 
             $dom =& $package->fetchDOMFromFile( $filepath );
-            if ( $dom )
+
+            if ( !$dom )
+                return null;
+
+            $content =& $dom->root();
+            $objectListNode = $content->elementByName( 'object-list' );
+
+            // create descriptions array
+            $objectNames = array();
+            foreach( $objectListNode->elementsByName( 'object' ) as $objectNode )
             {
-                $content =& $dom->root();
-                $objectName = $content->elementTextContentByName( 'name' );
-                return array( 'description' => ezi18n( 'kernel/package', 'Content object %objectname', false,
-                                                       array( '%objectname' => $objectName ) ) );
+                // We use attributeValue() method to get value of 'ezremote:class_identifier' attribute
+                // since getAttribute() does not support specifying prefixes.
+                $objectName =
+                    $objectNode->getAttribute( 'name' ) .
+                    ' (' . $objectNode->attributeValue( 'class_identifier' ) .')';
+                $objectNames[] = array( 'description' =>
+                                         ezi18n( 'kernel/package', 'Content object %objectname', false,
+                                                 array( '%objectname' => $objectName ) ) );
             }
+
+            if ( count( $objectNames ) <= EZCONTENTOBJECT_PACKAGE_HANDLER__MAX_READABLE_OBJECTS_NUMBER )
+                return $objectNames;
+
+            return array( 'description' => ezi18n( 'kernel/package', '%number content objects', false,
+                                                   array( '%number' => count( $objectNames ) ) ) );
         }
     }
 
@@ -356,14 +388,14 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
             foreach( $this->OverrideSettingsArray[$siteAccess] as $override )
             {
-                $customMatcheArray = $overrideArray['/' . $override['Source']]['custom_match'];
+                $customMatchArray = $overrideArray['/' . $override['Source']]['custom_match'];
 
-                foreach( $customMatcheArray as $customMatch )
+                foreach( $customMatchArray as $customMatch )
                 {
                     if ( $customMatch['conditions'] == null )
                     {
-                        $templateListDOMNode->appendChild( $this->createDOMNodeFromFile( $customMatch['match_file'], $siteAccess, 'design' ) );
-                        $this->TemplateFileArray[$siteAccess][] = $customMatch['match_file'];
+                        //$templateListDOMNode->appendChild( $this->createDOMNodeFromFile( $customMatch['match_file'], $siteAccess, 'design' ) );
+                        //$this->TemplateFileArray[$siteAccess][] = $customMatch['match_file'];
                     }
                     else if ( count( array_diff( $customMatch['conditions'], $override['Match'] ) ) == 0 &&
                               count( array_diff( $override['Match'], $customMatch['conditions'] ) ) == 0 )
@@ -444,7 +476,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     if ( !isset( $datatypeHash[$attribute['data_type_string']] ) )
                     {
                         include_once( 'kernel/classes/ezdatatype.php' );
-                        $datatype =& eZDataType::create( $attribute['data_type_string'] );
+                        $datatype = eZDataType::create( $attribute['data_type_string'] );
                         $datatypeHash[$attribute['data_type_string']] =& $datatype;
                         if ( !method_exists( $datatype, 'templateList' ) )
                             continue;
@@ -578,7 +610,12 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                             }
                         }
                     }
-                    if ( !$hasMatchType and $validMatch )
+                    else
+                    {
+                        $validMatch = false;
+                    }
+
+                    if ( !$hasMatchType )
                     {
                         // Datatype match, we include overrides for datatype templates
                         if ( preg_match( "#^content/datatype/[a-zA-Z]+/(" . $datatypeText . ")\\.tpl$#", $sourceName ) )
@@ -652,36 +689,137 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
     /*!
      \reimp
-     Uninstalls all previously installed content classes.
+     Uninstalls all previously installed content objects.
     */
     function uninstall( &$package, $installType, $parameters,
-                      $name, $os, $filename, $subdirectory,
-                      &$content, $installParameters,
-                      &$installData )
+                        $name, $os, $filename, $subdirectory,
+                        &$content, &$installParameters,
+                        &$installData )
     {
-        //TODO
+        $objectListNode = $content->elementByName( 'object-list' );
+
+        if ( isset( $installParameters['error']['error_code'] ) )
+            $errorCode = $installParameters['error']['error_code'];
+        else
+            $errorCode = false;
+
+        // Error codes >100 and <200 are reserverd for content object uninstallation
+        if ( !$errorCode || ( $errorCode > 100 && $errorCode < 200 ) )
+        {
+            $objectNodesArray = array_reverse( $objectListNode->elementsByName( 'object' ) );
+            foreach( $objectNodesArray as $objectNode )
+            {
+                $objectRemoteID = $objectNode->getAttribute( 'remote_id' );
+                $name = $objectNode->attributeValue( 'name' );
+                
+                eZDebug::writeNotice( "Uninstalling object '$name'" ) ;
+
+                if ( isset( $installParameters['error']['error_code'] ) && 
+                     !$this->isErrorElement( $objectRemoteID, $installParameters ) )
+                    continue;
+
+                $object = eZContentObject::fetchByRemoteID( $objectRemoteID );
+    
+                if ( $object !== null )
+                {
+                    $modified = $object->attribute( 'modified' );
+                    $published = $object->attribute( 'published' );
+                    if ( $modified > $published )
+                    {
+                        $choosenAction = $this->errorChoosenAction( EZ_PACKAGE_CONTENTOBJECT_ERROR_MODIFIED,
+                                                                    $installParameters );
+
+                        if ( $choosenAction == EZ_PACKAGE_CONTENTOBJECT_KEEP )
+                        {
+                            continue;
+                        }
+                        if ( $choosenAction != EZ_PACKAGE_CONTENTOBJECT_DELETE )
+                        {
+                            $installParameters['error'] = array( 'error_code' => EZ_PACKAGE_CONTENTOBJECT_ERROR_MODIFIED,
+                                                                 'element_id' => $objectRemoteID,
+                                                                 'description' => "Object '$name' has been modified since installation.\n Are you sure you want to delete it ?",
+                                                                 'actions' => array( EZ_PACKAGE_CONTENTOBJECT_DELETE => 'Delete',
+                                                                                     EZ_PACKAGE_CONTENTOBJECT_KEEP => 'Keep object' ) );
+                            return false;
+                        }
+                    }
+
+                    $assignedNodes = $object->attribute( 'assigned_nodes' );
+                    $assignedNodeIDArray = array();
+                    foreach( $assignedNodes as $node )
+                    {
+                        $assignedNodeIDArray[] = $node->attribute( 'node_id' );
+                    }
+                    $info = eZContentObjectTreeNode::subtreeRemovalInformation( $assignedNodeIDArray );
+                    $childrenCount = $info['total_child_count'];
+
+                    if ( $childrenCount > 0 )
+                    {
+                        $choosenAction = $this->errorChoosenAction( EZ_PACKAGE_CONTENTOBJECT_ERROR_HAS_CHILDREN,
+                                                                    $installParameters );
+
+                        if ( $choosenAction == EZ_PACKAGE_CONTENTOBJECT_KEEP )
+                        {
+                                continue;
+                        }
+                        if ( $choosenAction != EZ_PACKAGE_CONTENTOBJECT_DELETE )
+                        {
+                            $installParameters['error'] = array( 'error_code' => EZ_PACKAGE_CONTENTOBJECT_ERROR_HAS_CHILDREN,
+                                                                 'element_id' => $objectRemoteID,
+                                                                 'description' => "Node(s) containing object '$name' has(have) $childrenCount child nodes.\n Deleting this object will result in deleting of all child items. Are sure you want to delete it ?",
+                                                                 'actions' => array( EZ_PACKAGE_CONTENTOBJECT_DELETE => "Delete object and all child items including $childrenCount nodes",
+                                                                                     EZ_PACKAGE_CONTENTOBJECT_KEEP => 'Keep object' ) );
+                            return false;
+                        }
+                    }
+                    
+                    eZContentObjectTreeNode::removeSubtrees( $assignedNodeIDArray, false );
+                    
+                    //include_once( 'kernel/classes/ezcontentobjectoperations.php' );
+                    
+                    //eZContentObjectOperations::remove( $object->attribute( 'id' ) );
+                }
+                else
+                {
+                    eZDebug::writeNotice( "Can't uninstall object '$name': object not found", 'eZContentObjectPackageHandler::uninstall' );
+                }
+            }
+        }
+        return true;
     }
 
     /*!
      \reimp
-     Creates a new contentclass as defined in the xml structure.
+     Creates a new contentobject as defined in the xml structure.
     */
     function install( &$package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, $installParameters,
+                      &$content, &$installParameters,
                       &$installData )
     {
         $this->Package =& $package;
-        if ( !$this->installContentObjects( $content->elementByName( 'object-list' ),
-                                            $content->elementByName( 'top-node-list' ),
-                                            $installParameters ) )
-            return false;
+
+        if ( isset( $installParameters['error']['error_code'] ) )
+            $errorCode = $installParameters['error']['error_code'];
+        else
+            $errorCode = false;
+
+        // Error codes <100 are reserverd for content object installation
+        if ( !$errorCode || $errorCode < 100 )
+        {
+            if ( !$this->installContentObjects( $content->elementByName( 'object-list' ),
+                                                $content->elementByName( 'top-node-list' ),
+                                                $installParameters ) )
+                return false;
+            $errorCode = false;
+        }
 
         if ( !$this->installTemplates( $content->elementByName( 'template-list' ),
                                        $package,
                                        $subdirectory,
                                        $installParameters ) )
             return false;
+
 
         if ( !$this->installOverrides( $content->elementByName( 'override-list' ),
                                        $installParameters ) )
@@ -702,18 +840,32 @@ class eZContentObjectPackageHandler extends eZPackageHandler
      \param object-list DOMNode
      \param install parameters
     */
-    function installContentObjects( $objectListNode, $topNodeListNode, $installParameters )
+    function installContentObjects( $objectListNode, $topNodeListNode, &$installParameters )
     {
         include_once( 'kernel/classes/ezcontentobject.php' );
-        $userID = eZUser::currentUserID();
         if ( isset( $installParameters['user_id'] ) )
             $userID = $installParameters['user_id'];
+        else
+            $userID = eZUser::currentUserID();
+
+        $handlerType = $this->handlerType();
+        //$contentObjectNodes = $objectListNode->elementsByName( 'object' )
         foreach( $objectListNode->elementsByName( 'object' ) as $objectNode )
         {
-            $result = eZContentobject::unserialize( $this->Package, $objectNode, $installParameters, $userID );
+            // Cycle until we reach an element where error occured.
+            // If action has been choosen, try install this item again, else skip it.
+            if ( isset( $installParameters['error']['error_code'] ) && 
+                 !$this->isErrorElement( $objectNode->attributeValue( 'remote_id' ), $installParameters ) )
+                continue;
+
+            $result = eZContentObject::unserialize( $this->Package, $objectNode, $installParameters, $userID, $handlerType );
             if ( !$result )
                 return false;
+
+            if ( isset( $installParameters['error'] ) && count( $installParameters['error'] ) )
+                $installParameters['error'] = array();
         }
+
         return true;
     }
 
@@ -727,7 +879,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
      \param subdirectory
      \param install parameters.
     */
-    function installTemplates( $templateList, &$package, $subdirectory, $installParameters )
+    function installTemplates( $templateList, &$package, $subdirectory, &$installParameters )
     {
         if ( !$templateList )
         {
@@ -790,7 +942,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
      \param override list
      \param install parameters
     */
-    function installOverrides( $overrideListNode, $parameters )
+    function installOverrides( $overrideListNode, &$parameters )
     {
         if ( !$overrideListNode )
         {
@@ -883,7 +1035,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
      \param fetch alias  list
      \param install parameters
     */
-    function installFetchAliases( $fetchAliasListNode, $parameters )
+    function installFetchAliases( $fetchAliasListNode, &$parameters )
     {
         if ( !$fetchAliasListNode )
         {
@@ -1186,7 +1338,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
     /*!
      \reimp
     */
-    function createInstallNode( &$package, $export, &$installNode, $installItem, $installType )
+    /*function createInstallNode( &$package, &$installNode, $installItem, $installType )
     {
         if ( $installNode->attributeValue( 'type' ) == 'ezcontentobject' )
         {
@@ -1219,9 +1371,9 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 }
                 eZFileHandler::copy( $originalPath, $installDirectory . '/' . $installItem['filename'] . '.xml' );
             }
-
         }
     }
+    */
 
     var $NodeIDArray = array();
     var $RootNodeIDArray = array();

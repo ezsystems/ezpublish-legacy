@@ -532,11 +532,17 @@ class eZDOMNode
       \note This will only make sense for element nodes.
       \sa elementAttributeValueByName, appendAttributes
     */
-    function attributeValues( $attributeDefinitions, $defaultValue = null )
+    function attributeValues( $attributeDefinitions = false, $defaultValue = null )
     {
         $hash = array();
         foreach ( $this->Attributes as $attribute )
         {
+            if ( $attributeDefinitions === false )
+            {
+                $hash[$attribute->name()] = $attribute->content();
+                continue;
+            }
+
             foreach ( $attributeDefinitions as $attributeName => $keyName )
             {
                 if ( $attribute->name() == $attributeName )

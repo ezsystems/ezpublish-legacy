@@ -81,43 +81,15 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
     foreach ( $deleteIDArray as $deleteID )
     {
+        $db = eZDB::instance();
+        $deleteID = $db->escapeString( $deleteID ); //security thing
         $deleteClass = eZContentClass::fetch( $deleteID );
+
         if ( $deleteClass == null )
             continue;
 
-        if ( !$deleteClass->isRemovable() )
-            continue;
-
-        //Remove all object
-        $db =& eZDB::instance();
-        $deleteID = $db->escapeString( $deleteID ); //security thing
-        while ( true )
-        {
-            $resArray = $db->arrayQuery( "SELECT ezcontentobject.id FROM ezcontentobject WHERE ezcontentobject.contentclass_id='$deleteID'", array( 'length' => 50 ) );
-            if( !$resArray || count( $resArray ) == 0 )
-            {
-                break;
-            }
-            foreach( $resArray as $row )
-            {
-                include_once( 'kernel/classes/ezcontentcachemanager.php' );
-                eZContentCacheManager::clearContentCacheIfNeeded( $row['id'] );
-
-                $object =& eZContentObject::fetch( $row['id'] );
-                $object->purge();
-            }
-        }
-
-        eZContentClassClassGroup::removeClassMembers( $deleteID, 0 );
-        eZContentClassClassGroup::removeClassMembers( $deleteID, 1 );
-
-        // Fetch real version and remove it
-        $deleteClass->remove( true );
-
-        // Fetch temp version and remove it
-        $tempDeleteClass = eZContentClass::fetch( $deleteID, true, 1 );
-        if ( $tempDeleteClass != null )
-            $tempDeleteClass->remove( true, 1 );
+        include_once( 'kernel/classes/ezcontentclassoperations.php' );
+        eZContentClassOperations::remove( $deleteID );
     }
     return $Module->redirectTo( '/class/classlist/' . $GroupID );
 }

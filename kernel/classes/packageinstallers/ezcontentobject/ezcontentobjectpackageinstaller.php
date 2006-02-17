@@ -42,10 +42,10 @@ include_once( 'kernel/classes/ezpackageinstallationhandler.php' );
 class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
 {
 
-        /*!
+    /*!
      \reimp
     */
-    function eZContentObjectPackageInstaller( &$package, $id, $installItem )
+    function eZContentObjectPackageInstaller( &$package, $type, $installItem )
     {
         $steps = array();
         $steps[] = array( 'id' => 'site_access',
@@ -59,10 +59,10 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
 						                      'validate' => 'validateTopNodes' ),
                           'template' => 'top_nodes.tpl' );
         $this->eZPackageInstallationHandler( $package,
-                                             $id,
+                                             $type,
+                                             $installItem,
                                              ezi18n( 'kernel/package', 'Content object import' ),
-                                             $steps,
-                                             $installItem );
+                                             $steps );
     }
 
     /*!

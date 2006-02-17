@@ -95,7 +95,7 @@
 
   <tr>
     <td valign="top">
-    {section show=$site_types|count|gt( 0 )}
+    {section show=$site_package}
       <div class="setup_summary_ok">
     {section-else}
       <div class="setup_summary_empty">
@@ -104,12 +104,9 @@
     {"Site"|i18n("design/standard/setup")}:</div></td>
 
     <td>
-    {section show=$site_types|count|gt( 0 )}
+    {section show=$site_package}
       <div class="setup_summary_ok">
-      {section var=site loop=$site_types}
-          {$site.name|wash}
-      {delimiter}<br/>{/delimiter}
-      {/section}
+      {$site_package|wash}
       </div>
     {/section}
     </td>

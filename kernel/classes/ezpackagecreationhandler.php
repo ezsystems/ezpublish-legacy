@@ -606,15 +606,21 @@ class eZPackageCreationHandler
 
         foreach ( $collections as $collection )
         {
-            $installItems = $package->installItems( 'ezfile', false, $collection, true );
+            $installItems = $package->installItemsList( 'ezfile', false, $collection, true );
             if ( count( $installItems ) == 0 )
                 $package->appendInstall( 'ezfile', false, false, true,
                                          false, false,
                                          array( 'collection' => $collection ) );
-            $dependencyItems = $package->dependencyItems( 'provides', 'ezfile', 'collection', $collection );
+            $dependencyItems = $package->dependencyItems( 'provides',
+	                                                   array( 'type'   => 'ezfile',
+	                                                          'name'   => 'collection',
+								  'valiue' => $collection ) );
             if ( count( $dependencyItems ) == 0 )
-                $package->appendDependency( 'provides', 'ezfile', 'collection', $collection );
-            $installItems = $package->installItems( 'ezfile', false, $collection, false );
+                $package->appendDependency( 'provides',
+                                            array( 'type'  => 'ezfile',
+                                                   'name'  => 'collection',
+                                                   'value' => $collection ) );
+            $installItems = $package->installItemsList( 'ezfile', false, $collection, false );
             if ( count( $installItems ) == 0 )
                 $package->appendInstall( 'ezfile', false, false, false,
                                          false, false,

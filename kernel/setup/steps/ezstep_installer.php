@@ -83,17 +83,11 @@ class eZStepInstaller
             $this->PersistenceList['use_kickstart'][$identifier] = false;
         }
 
-        eZDebug::writeDebug( $this->Identifier, '$this->Identifier' );
-
         if ( $this->INI->hasGroup( $this->Identifier ) )
         {
             $this->KickstartData = $this->INI->group( $this->Identifier );
             $this->PersistenceList['kickstart'][$identifier] = true;
-
-            eZDebug::writeDebug( $this->KickstartData, '$this->KickstartData' );
         }
-
-        eZDebug::writeDebug( $this->PersistenceList['use_kickstart'][$identifier], 'use_kickstart' );
     }
 
     /*!
@@ -238,9 +232,6 @@ class eZStepInstaller
 
     function availableSitePackages()
     {
-        //include_once( 'kernel/setup/ezsetuptypes.php' );
-        //$siteTypes = eZSetupTypes();
-
         include_once( 'kernel/classes/ezpackage.php' );
         $packageList = eZPackage::fetchPackages( array(), array( 'type' => 'site' ) );
 
@@ -253,36 +244,6 @@ class eZStepInstaller
                       'access_type', 'access_type_value', 'admin_access_type_value',
                       'existing_database' );
     }
-
-    //TODO: Remove as obsolete
-    /*
-    function chosenSiteTypes()
-    {
-        include_once( 'kernel/setup/ezsetuptypes.php' );
-        $siteTypes = eZSetupTypes();
-        $chosenSiteTypes = array();
-        $extraList = $this->extraDataList();
-        if ( isset( $this->PersistenceList['chosen_site_types'] ) )
-        {
-            foreach ( $this->PersistenceList['chosen_site_types'] as $siteTypeIdentifier )
-            {
-                if ( isset( $siteTypes[$siteTypeIdentifier] ) )
-                {
-                    $chosenSiteType = $siteTypes[$siteTypeIdentifier];
-                    foreach ( $extraList as $extraItem )
-                    {
-                        if ( isset( $this->PersistenceList['site_extra_data_' . $extraItem][$siteTypeIdentifier] ) )
-                        {
-                            $chosenSiteType[$extraItem] = $this->PersistenceList['site_extra_data_' . $extraItem][$siteTypeIdentifier];
-                        }
-                    }
-                    $chosenSiteTypes[] = $chosenSiteType;
-                }
-            }
-        }
-        return $chosenSiteTypes;
-    }
-    */
 
     function chosenSitePackage()
     {
@@ -312,35 +273,7 @@ class eZStepInstaller
         }
         return $chosenSiteType;
     }
-    //TODO: Remove as obsolete
-    /*
-    function selectSiteTypes( $chosenSiteTypes )
-    {
-        include_once( 'kernel/setup/ezsetuptypes.php' );
-        $siteTypes = eZSetupTypes();
-        $siteIdentifiers = array();
-        $chosenList = array();
-        foreach ( $siteTypes as $siteTypeItem )
-        {
-            $siteIdentifier = $siteTypeItem['identifier'];
-            if ( in_array( $siteIdentifier, $chosenSiteTypes ) )
-                $chosenList[] = $siteIdentifier;
-        }
-        if ( count( $chosenList ) == 0 )
-        {
-            return false;
-        }
-
-        // Temporary hack which makes sure we only have one
-        // chosen site.
-        // This can be removed as soon as the setup wizard
-        // support multiple sites again
-        $chosenList = array_splice( $chosenList, 0, 1 );
-
-        $this->PersistenceList['chosen_site_types'] = $chosenList;
-        return true;
-    }
-    */
+    
     function selectSiteType( $sitePackageName )
     {
         include_once( 'kernel/classes/ezpackage.php' );
@@ -354,27 +287,6 @@ class eZStepInstaller
         $this->PersistenceList['site_extra_data_title'][$sitePackageName] = $package->attribute('summary');
         return true;
     }
-
-    /*
-    function storeSiteTypes( $siteTypes )
-    {
-        $extraList = $this->extraDataList();
-        $siteList = array();
-        foreach ( $siteTypes as $siteTypeItem )
-        {
-            $siteIdentifier = $siteTypeItem['identifier'];
-            foreach ( $extraList as $extraItem )
-            {
-                if ( isset( $siteTypeItem[$extraItem] ) )
-                {
-                    $this->PersistenceList['site_extra_data_' . $extraItem][$siteIdentifier] = $siteTypeItem[$extraItem];
-                }
-            }
-            $siteList[] = $siteIdentifier;
-        }
-        $this->PersistenceList['chosen_site_types'] = $siteList;
-    }
-    */
 
     function storeSiteType( $siteType )
     {

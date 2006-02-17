@@ -54,6 +54,7 @@ include_once( 'lib/ezlocale/classes/ezlocale.php' );
   EZSW-025: Failed to publish administrator object
 
   EZSW-040: Failed to initialize the site package <package>
+  EZSW-041: Could not fetch site package <package>
 
   EZSW-050: Could not fetch addon package <package>
   EZSW-051: Could not install addon package <package>
@@ -167,17 +168,10 @@ class eZStepCreateSites extends eZStepInstaller
             return 'LanguageOptions';
         }
 
-        include_once( 'kernel/setup/ezsetuptypes.php' );
-        //$siteTypes = eZSetupTypes();
-
         $siteType = $this->chosenSiteType();
 
-        eZDebug::writeDebug( $siteType, '$siteTypes' );
-
         $siteINISettings = array();
-
         $result = true;
-
 
             $accessType = $siteType['access_type'];
             $resultArray = array( 'errors' => array() );
@@ -190,8 +184,8 @@ class eZStepCreateSites extends eZStepInstaller
                 $this->Error['errors'] = array_merge( $this->Error['errors'], $resultArray['errors'] );
                 $this->Error['errors'][] = array( 'code' => 'EZSW-040',
                                                   'text' => "Failed to initialize site package '" . $siteType['identifier'] . "'" );
-                $result = false;
-                break;
+                //$result = false;
+                return false;
             }
 
             if ( $resultArray['common_settings'] )
@@ -220,7 +214,6 @@ class eZStepCreateSites extends eZStepInstaller
                     $tmpINI->save( false, '.append.php', false, true, "settings/override", $resetArray );
                 }
             }
-
 
         if ( !$result )
         {
@@ -432,9 +425,9 @@ class eZStepCreateSites extends eZStepInstaller
         eZDB::setInstance( $db );
 
         $result = true;
-//         if ( $package )
+
         // Initialize the database by inserting schema and data
-        //{
+        
         if ( !isset( $siteType['existing_database'] ) )
         {
             $siteType['existing_database'] = false;
@@ -512,6 +505,7 @@ class eZStepCreateSites extends eZStepInstaller
         {
             return false;
         }
+        
         // Database initialization done
 
         $installParameters = array( 'path' => '.' );
@@ -557,18 +551,31 @@ class eZStepCreateSites extends eZStepInstaller
         $installParameters['variables']['admin_siteaccess'] = $adminSiteaccessName;
         $installParameters['variables']['design'] = $userDesignName;
 
-        $ini =& eZINI::instance();
-        $ini->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
 
-
+        /*
         $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
         $extraFunctionality = array_merge( isset( $this->PersistenceList['additional_packages'] ) ?
                                            $this->PersistenceList['additional_packages'] :
                                            array(),
                                            $typeFunctionality['required'] );
         $extraFunctionality = array_unique( $extraFunctionality );
-        
+        */
 
+        $sitePackageName = $this->chosenSitePackage();
+        $sitePackage = eZPackage::fetch( $sitePackageName );
+        if ( !is_object( $sitePackage ) )
+        {
+            $resultArray['errors'][] = array( 'code' => 'EZSW-041',
+                                              'text' => " Could not fetch site package: '$sitePackageName'" );
+            return false;
+        }
+
+        $ini =& eZINI::instance();
+        //$ini->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
+
+        $dependecies = $sitePackage->attribute('dependencies');
+        $requires = $dependecies['requires'];
+        $requiredPackages = array();
 
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
@@ -585,27 +592,42 @@ class eZStepCreateSites extends eZStepInstaller
             // This makes sure all new/changed objects get this as creator
             $user->loginCurrent();
 
-            foreach ( $extraFunctionality as $packageName )
+            foreach ( $requires as $require )
             {
-                $package = eZPackage::fetch( $packageName, 'packages/addons' );
+                if ( $require['type'] != 'ezpackage' )
+                    continue;
+                
+                $packageName = $require['name'];
+                $package = eZPackage::fetch( $packageName );
+
                 if ( is_object( $package ) )
                 {
-                    $status = $package->install( array( 'site_access_map' => array( '*' => $userSiteaccessName ),
-                                                        'top_nodes_map' => array( '*' => 2 ),
-                                                        'design_map' => array( '*' => $userDesignName ),
-                                                        'restore_dates' => true,
-                                                        'user_id' => $user->attribute( 'contentobject_id' ) ) );
-                    if ( !$status )
+                    $requiredPackages[] = $package;
+                    if ( $package->attribute( 'install_type' ) == 'install' )
                     {
-                        $resultArray['errors'][] = array( 'code' => 'EZSW-051',
-                                                          'text' => "Could not install addon package named $packageName" );
-                        return false;
+                        $installParameters = array( 'site_access_map' => array( '*' => $userSiteaccessName ),
+                                                    'top_nodes_map' => array( '*' => 2 ),
+                                                    'design_map' => array( '*' => $userDesignName ),
+                                                    'restore_dates' => true,
+                                                    'user_id' => $user->attribute( 'contentobject_id' ),
+                                                    'non-interactive' => true );
+                        $status = $package->install( $installParameters );
+                        if ( !$status )
+                        {
+                            $errorText = "Unable to install package '$packageName'";
+                            if ( isset( $installParameters['error']['description'] ) )
+                                $errorText .= ": " . $installParameters['error']['description'];
+
+                            $resultArray['errors'][] = array( 'code' => 'EZSW-051',
+                                                              'text' => $errorText );
+                            return false;
+                        }
                     }
                 }
                 else
                 {
                     $resultArray['errors'][] = array( 'code' => 'EZSW-050',
-                                                      'text' => "Could not fetch addon package named $packageName" );
+                                                      'text' => "Could not fetch required package: '$packageName'" );
                     return false;
                 }
                 unset( $package );
@@ -692,40 +714,31 @@ language_code='eng-GB'";
         $siteCSS = false;
         $classesCSS = false;
 
-        $themePackage = false;
-        if ( isset( $typeFunctionality['theme'] ) )
+        foreach( $requiredPackages as $package )
         {
-            $themeName = $typeFunctionality['theme'];
-            $themePackage = eZPackage::fetch( $themeName, false, 'styles' );
-            if ( is_object( $themePackage ) )
+            if ( $package->attribute( 'type' ) == 'sitestyle' )
             {
-                $fileList = $themePackage->fileList( 'default' );
+                $fileList = $package->fileList( 'default' );
                 foreach ( array_keys( $fileList ) as $key )
                 {
                     $file =& $fileList[$key];
                     $fileIdentifier = $file["variable-name"];
                     if ( $fileIdentifier == 'sitecssfile' )
                     {
-                        $siteCSS = $themePackage->fileItemPath( $file, 'default' );
+                        $siteCSS = $package->fileItemPath( $file, 'default' );
                     }
                     else if ( $fileIdentifier == 'classescssfile' )
                     {
-                        $classesCSS = $themePackage->fileItemPath( $file, 'default' );
+                        $classesCSS = $package->fileItemPath( $file, 'default' );
                     }
                 }
-            }
-            else
-            {
-                $resultArray['errors'][] = array( 'code' => 'EZSW-060',
-                                                  'text' => "Could not fetch style package named $themeName" );
-                return false;
             }
         }
 
         $parameters = array( 'node_remote_map' => $nodeRemoteMap,
                              'object_remote_map' => $objectRemoteMap,
                              'class_remote_map' => $classRemoteMap,
-                             'extra_functionality' => $extraFunctionality,
+                             //'extra_functionality' => $extraFunctionality,
                              'preview_design' => $userDesignName,
                              'design_list' => array( $userDesignName, 'admin' ),
                              'user_siteaccess' => $userSiteaccessName,
@@ -735,9 +748,17 @@ language_code='eng-GB'";
         $siteINIAdminStored = false;
         $designINIStored = false;
 
-        $extraSettings = eZSetupINISettings( $siteType['identifier'], $parameters );
-        $extraAdminSettings = eZSetupAdminINISettings( $siteType['identifier'], $parameters );
-        $extraCommonSettings = eZSetupCommonINISettings( $siteType['identifier'], $parameters );
+        // Include setting files
+        $settingsFiles = $sitePackage->attribute( 'settings-files' );
+        foreach( $settingsFiles as $settingsFileName )
+        {
+            include_once( $sitePackage->path() . '/settings/' . $settingsFileName );
+        }
+
+        $extraSettings = eZSiteINISettings( $parameters );
+        $extraAdminSettings = eZSiteAdminINISettings( $parameters );
+        $extraCommonSettings = eZSiteCommonINISettings( $parameters );
+
         $resultArray['common_settings'] = $extraCommonSettings;
 
         foreach ( $extraSettings as $extraSetting )
@@ -867,7 +888,8 @@ language_code='eng-GB'";
         }
 
         // Setup all roles according to site chosen and addons
-        $extraRoles = eZSetupRoles( $siteType['identifier'], $parameters );
+        $extraRoles = eZSiteRoles( $parameters );
+
         foreach ( $extraRoles as $extraRole )
         {
             if ( !$extraRole )
@@ -914,7 +936,7 @@ language_code='eng-GB'";
 
         // Setup user preferences based on the site chosen and addons
         include_once( 'kernel/classes/ezpreferences.php' );
-        $prefs = eZSetupPreferences( $siteType['identifier'], $parameters );
+        $prefs = eZSitePreferences( $parameters );
         foreach ( $prefs as $prefEntry )
         {
             if ( !$prefEntry )

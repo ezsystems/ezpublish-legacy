@@ -18,23 +18,23 @@
 
 <p>
   <table border="0" cellspacing="3" cellpadding="0">
-
     <tr>
-    {section name=SiteTemplate loop=$site_templates}
 
       <td class="setup_site_templates">
         <div align="top">
-          <a href="{$:item.url|wash}" target="_other">{section show=$:item.thumbnail}<img class="site-type" src={concat( "design/standard/images/setup/thumbnails/", $:item.thumbnail )|ezroot} alt="{$:item.name|wash}" />{section-else}<img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$:item.name|wash}" />{/section}</a>
+          <a href="{$site_type.url|wash}" target="_other">
+            <img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$site_type.title|wash}" />
+          </a>
         </div>
         <div align="bottom">
 	  <table border="0" cellspacing="0" cellpadding="0">
-            <tr>
+        <tr>
 	      <td>{"Title"|i18n("design/standard/setup/init")}:&nbsp;</td>
-	      <td>{$:item.name|wash}</td>
+	      <td>{$site_type.title|wash}</td>
 	    </tr>
 	    <tr>
 	      <td>{"URL"|i18n("design/standard/setup/init")}:&nbsp;</td>
-	      <td><a href="{$:item.url|wash}" target="_blank" class="setup_final">{"User site"|i18n('design/standard/setup/init')}</a>, <a href="{$:item.admin_url|wash}" target="_blank" class="setup_final">{"Admin site"|i18n('design/standard/setup/init')}</a></td>
+	      <td><a href="{$site_type.url|wash}" target="_blank" class="setup_final">{"User site"|i18n('design/standard/setup/init')}</a>, <a href="{$site_type.admin_url|wash}" target="_blank" class="setup_final">{"Admin site"|i18n('design/standard/setup/init')}</a></td>
 	    </tr>
 	    <tr>
 	      <td>{"Username"|i18n("design/standard/setup/init")}:&nbsp;</td>
@@ -45,12 +45,6 @@
         </div>
       </td>
 
-      {delimiter modulo=2}
-        </tr>
-        <tr>
-      {/delimiter}
-
-    {/section}
     </tr>
 
   </table>

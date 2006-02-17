@@ -66,7 +66,7 @@ class eZPackageHandler
     */
     function install( &$package, $installType, $parameters,
                       $name, $os, $filename, $subdirectory,
-                      &$content, $installParameters, &$installData )
+                      &$content, &$installParameters, &$installData )
     {
     }
 
@@ -146,7 +146,7 @@ class eZPackageHandler
      \param $dependencyItem Contains all variables for the dependency
      \param $dependencySection The section for the dependency, can be \c 'provide', \c 'require', \c 'obsolete' or \c 'conflict'
     */
-    function createDependencyNode( &$package, $export, &$dependencyNode, $dependencyItem, $dependencySection )
+    function createDependencyNode( &$package, &$dependencyNode, $dependencyItem, $dependencySection )
     {
     }
 
@@ -182,7 +182,7 @@ class eZPackageHandler
      \param $installItem Contains all variables for the install
      \param $installType The type of install, can be \c 'install' or \c 'uninstall'
     */
-    function createInstallNode( &$package, $export, &$installNode, $installItem, $installType )
+    function createInstallNode( &$package, &$installNode, $installItem, $installType )
     {
     }
 
@@ -197,6 +197,70 @@ class eZPackageHandler
     function parseInstallNode( &$package, &$installNode, &$installParameters, $isInstall )
     {
     }
+
+    /*!
+        Helper function to process install errors.
+        Decides to skip current element or not when cycling thru elements
+        Also skips element where error has occured if action is not choosen
+    */
+
+    function isErrorElement( $elementID, &$installParameters )
+    {
+        if ( $elementID == $installParameters['error']['element_id'] )
+        {
+            // If action not set - skip this element
+            if ( !isset( $installParameters['error']['choosen_action'] ) )
+            {
+                 $installParameters['error'] = array();
+                 return false;
+            }
+            return true;
+        }
+        return false;
+
+    }
+
+    /*!
+        Helper function to process install errors.
+        Returns choosen action code.
+        If $resetError is false, array should be manually reset in handler.
+    */
+
+    function errorChoosenAction( $errorCode, &$installParameters, $description = false, $handlerType = false, $resetError = true )
+    {
+        if ( isset( $installParameters['non-interactive'] ) && $installParameters['non-interactive'] )
+        {
+            if ( $description )
+            {
+                eZDebug::writeNotice( $description, 'Package installation conflict' );
+            }
+            return EZ_PACKAGE_NON_INTERACTIVE;
+        }
+
+        if ( !$handlerType )
+            $handlerType = $this->HandlerType;
+
+        if ( isset( $installParameters['error_default_actions'][$handlerType][$errorCode] ) )
+        {
+            if ( $resetError && count( $installParameters['error'] ) )
+                $installParameters['error'] = array();
+            return $installParameters['error_default_actions'][$handlerType][$errorCode];
+        }
+
+        if ( isset( $installParameters['error']['error_code'] ) &&
+             $installParameters['error']['error_code'] == $errorCode )
+        {
+            if ( isset( $installParameters['error']['choosen_action'] ) )
+            {
+                $choosenAction = $installParameters['error']['choosen_action'];
+                if ( $resetError )
+                    $installParameters['error'] = array();
+                return $choosenAction;
+            }
+        }
+        return false;
+    }
+
 }
 
 ?>

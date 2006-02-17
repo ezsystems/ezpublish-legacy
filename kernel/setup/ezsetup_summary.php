@@ -136,20 +136,13 @@ class eZSetupSummary
         }
 
         // Templates chosen
-        $chosenSiteTypes = false;
-        if ( isset( $this->PersistenceList['chosen_site_types'] ) )
+        $chosenSitePackage = false;
+        if ( isset( $this->PersistenceList['chosen_site_package']['0'] ) )
         {
-            $chosenTypes = $this->PersistenceList['chosen_site_types'];
-            include_once( 'kernel/setup/ezsetuptypes.php' );
-            $siteTypes = eZSetupTypes();
-            foreach ( $chosenTypes as $chosenType )
-            {
-                if ( isset( $siteTypes[$chosenType] ) )
-                    $chosenSiteTypes[] = $siteTypes[$chosenType];
-            }
+            $chosenSitePackage = $this->PersistenceList['chosen_site_package']['0'];
         }
 
-        $this->Tpl->setVariable( 'site_types', $chosenSiteTypes );
+        $this->Tpl->setVariable( 'site_package', $chosenSitePackage );
 
         return $this->Tpl->fetch( 'design:setup/summary.tpl' );
     }

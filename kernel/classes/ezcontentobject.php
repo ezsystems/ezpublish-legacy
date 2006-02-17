@@ -53,6 +53,18 @@ define( "EZ_CONTENT_OBJECT_STATUS_DRAFT", 0 );
 define( "EZ_CONTENT_OBJECT_STATUS_PUBLISHED", 1 );
 define( "EZ_CONTENT_OBJECT_STATUS_ARCHIVED", 2 );
 
+define( "EZ_PACKAGE_CONTENTOBJECT_ERROR_NO_CLASS", 1 );
+define( "EZ_PACKAGE_CONTENTOBJECT_ERROR_EXISTS", 2 );
+define( "EZ_PACKAGE_CONTENTOBJECT_ERROR_NODE_EXISTS", 3 );
+define( "EZ_PACKAGE_CONTENTOBJECT_ERROR_MODIFIED", 101 );
+define( "EZ_PACKAGE_CONTENTOBJECT_ERROR_HAS_CHILDREN", 102 );
+
+define( "EZ_PACKAGE_CONTENTOBJECT_REPLACE", 1 );
+define( "EZ_PACKAGE_CONTENTOBJECT_SKIP", 2 );
+define( "EZ_PACKAGE_CONTENTOBJECT_NEW", 3 );
+define( "EZ_PACKAGE_CONTENTOBJECT_DELETE", 4 );
+define( "EZ_PACKAGE_CONTENTOBJECT_KEEP", 5 );
+
 
 class eZContentObject extends eZPersistentObject
 {
@@ -1364,7 +1376,7 @@ class eZContentObject extends eZPersistentObject
             $registeredTypes = eZWorkFlowType::fetchRegisteredTypes();
         }
 
-        // Cleanup ezworkflow_evet etc...
+        // Cleanup ezworkflow_event etc...
         foreach ( array_keys( $registeredTypes ) as $registeredTypeKey )
         {
             $registeredType = $registeredTypes[$registeredTypeKey];
@@ -3437,7 +3449,7 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &unserialize( &$package, &$domNode, $options, $ownerID = false )
+    function &unserialize( &$package, &$domNode, &$options, $ownerID = false, $handlerType = 'ezcontentobject' )
     {
         if ( $domNode->name() != 'object' )
         {
@@ -3456,22 +3468,67 @@ class eZContentObject extends eZPersistentObject
         $classIdentifier = $domNode->attributeValue( 'class_identifier' );
 
         $contentClass = eZContentClass::fetchByRemoteID( $classRemoteID );
-        if ( !$contentClass )
+        /*if ( !$contentClass )
         {
             $contentClass = eZContentClass::fetchByIdentifier( $classIdentifier );
-        }
+        }*/
 
         if ( !$contentClass )
         {
-            eZDebug::writeError( 'Could not fetch class ' . $classIdentifier . ', remote_id: ' . $classRemoteID, 'eZContentObject::unserialize()' );
+            $options['error'] = array( 'error_code' => EZ_PACKAGE_CONTENTOBJECT_ERROR_NO_CLASS,
+                                       'element_id' => $remoteID,
+                                       'description' => "Can't install object '$name': Unable to fetch class with remoteID: $classRemoteID." );
             $retValue = false;
             return $retValue;
         }
+
+        // If object exists we return a error.
+        // Minimum instal element is an object now.
 
         $contentObject =& eZContentObject::fetchByRemoteID( $remoteID );
         if ( !$contentObject )
         {
             $contentObject =& $contentClass->instantiate( $ownerID, $sectionID );
+        }
+        else
+        {
+            $description = "Object '$name' already exists.";
+
+            include_once( 'kernel/classes/ezpackagehandler.php' );
+            $choosenAction = eZPackageHandler::errorChoosenAction( EZ_PACKAGE_CONTENTOBJECT_ERROR_EXISTS,
+                                                                   $options, $description, $handlerType, false );
+
+            switch( $choosenAction )
+            {
+            case EZ_PACKAGE_NON_INTERACTIVE:
+            case EZ_PACKAGE_CONTENTOBJECT_REPLACE:
+                include_once( 'kernel/classes/ezcontentobjectoperations.php' );
+                eZContentObjectOperations::remove( $contentObject->attribute( 'id' ) );
+                
+                unset( $contentObject );
+                $contentObject =& $contentClass->instantiate( $ownerID, $sectionID );
+                break;
+
+            case EZ_PACKAGE_CONTENTOBJECT_SKIP:
+                $retValue = true;
+                return $retValue;
+
+            case EZ_PACKAGE_CONTENTOBJECT_NEW:
+                $contentObject->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
+                $contentObject->store();
+                unset( $contentObject );
+                $contentObject =& $contentClass->instantiate( $ownerID, $sectionID );
+                break;
+            default:
+                $options['error'] = array( 'error_code' => EZ_PACKAGE_CONTENTOBJECT_ERROR_EXISTS,
+                                           'element_id' => $remoteID,
+                                           'description' => $description,
+                                           'actions' => array( EZ_PACKAGE_CONTENTOBJECT_REPLACE => 'Replace existing object',
+                                                               EZ_PACKAGE_CONTENTOBJECT_SKIP => 'Skip object',
+                                                               EZ_PACKAGE_CONTENTOBJECT_NEW => 'Keep existing and create a new one' ) );
+                $retValue = false;
+                return $retValue;
+            }
         }
 
         $versionListNode =& $domNode->elementByName( 'version-list' );
@@ -3501,7 +3558,8 @@ class eZContentObject extends eZPersistentObject
 
             if ( !$contentObjectVersion )
             {
-                eZDebug::writeError( 'Unserialize error', 'eZContentObject::unserialize' );
+                $db->commit();
+                //eZDebug::writeError( 'Unserialize error', 'eZContentObject::unserialize' );
                 $retValue = false;
                 return $retValue;
             }
@@ -3518,12 +3576,6 @@ class eZContentObject extends eZPersistentObject
             }
         }
 
-        if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
-        {
-            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
-            $modified = eZDateUtils::textToDate( $domNode->attributeValue( 'modified' ) );
-            $contentObject->setAttribute( 'modified', $modified );
-        }
         $contentObject->setAttribute( 'remote_id', $remoteID );
         $contentObject->setAttribute( 'current_version', $activeVersion );
         $contentObject->setAttribute( 'contentclass_id', $contentClass->attribute( 'id' ) );
@@ -3575,15 +3627,25 @@ class eZContentObject extends eZPersistentObject
                 $parentNode->store( array( 'priority' ) );
             }
         }
-
-        if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
+        /*if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
         {
             include_once( 'lib/ezlocale/classes/ezdateutils.php' );
             $published = eZDateUtils::textToDate( $domNode->attributeValue( 'published' ) );
             $contentObject =& eZContentObject::fetch( $contentObject->attribute( 'id' ) );
             $contentObject->setAttribute( 'published', $published );
             $contentObject->store( array( 'published' ) );
-        }
+        }*/
+
+        /*if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
+        {
+            include_once( 'lib/ezlocale/classes/ezdateutils.php' );
+            $modified = eZDateUtils::textToDate( $domNode->attributeValue( 'modified' ) );
+        
+            unset( $contentObject );
+            $contentObject = eZContentObject::fetch( $objectID );
+            $contentObject->setAttribute( 'modified', $modified );
+        }*/
+
         $db->commit();
 
         return $contentObject;

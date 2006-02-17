@@ -982,7 +982,7 @@ class eZContentObjectVersion extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &unserialize( &$domNode, &$contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, &$nodeList, $options, &$package )
+    function &unserialize( &$domNode, &$contentObject, $ownerID, $sectionID, $activeVersion, $firstVersion, &$nodeList, &$options, &$package, $handlerType = 'ezcontentobject' )
     {
         $oldVersion = $domNode->attributeValue( 'version' );
         $status = $domNode->attributeValue( 'status' );
@@ -995,22 +995,15 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             $contentObjectVersion = $contentObject->createNewVersion();
         }
-        if ( !$contentObject )
-        {
-            eZDebug::writeError( 'Could not fetch object version : ' . $oldVersion,
-                                 'eZContentObjectVersion::unserialize()' );
-            $retValue = false;
-            return $retValue;
-        }
 
-        if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
-        {
+        //if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )
+        //{
             include_once( 'lib/ezlocale/classes/ezdateutils.php' );
             $created = eZDateUtils::textToDate( $domNode->attributeValue( 'created' ) );
             $modified = eZDateUtils::textToDate( $domNode->attributeValue( 'modified' ) );
             $contentObjectVersion->setAttribute( 'created', $created );
             $contentObjectVersion->setAttribute( 'modified', $modified );
-        }
+        //}
         $contentObjectVersion->setAttribute( 'status', EZ_VERSION_STATUS_DRAFT );
         $contentObjectVersion->store();
 
@@ -1090,9 +1083,11 @@ class eZContentObjectVersion extends eZPersistentObject
                                                   $contentObjectVersion->attribute( 'version' ),
                                                   ( $oldVersion == $activeVersion ? 1 : 0 ),
                                                   $nodeList,
-                                                  $options );
+                                                  $options,
+                                                  $handlerType );
             if ( $result === false )
             {
+                $db->commit();
                 $retValue = false;
                 return $retValue;
             }

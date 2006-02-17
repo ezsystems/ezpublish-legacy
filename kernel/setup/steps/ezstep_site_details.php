@@ -200,14 +200,19 @@ class eZStepSiteDetails extends eZStepInstaller
 
             $siteType = $this->chosenSiteType();
 
-            eZDebug::writeDebug( $siteType, '$siteType site_details_init' );
-
             $portCounter = 8080;
 
             $identifier = $siteType['identifier'];
-            $siteType['title'] = isset( $data['Title'][$identifier] ) ? $data['Title'][$identifier] : false;
+            if ( isset( $data['Title'][$identifier] ) )
+                $siteType['title'] = $data['Title'][$identifier];
+
+            eZDebug::writeDebug( $siteType, '$siteType' );
+
+            eZDebug::writeDebug( $data, '$data' );
+
             if ( !$siteType['title'] )
                 $siteType['title'] = $siteType['name'];
+
             $siteType['url'] = isset( $data['URL'][$identifier] ) ? $data['URL'][$identifier] : false;
             if ( strlen( $siteType['url'] ) == 0 )
                 $siteType['url'] = 'http://' . eZSys::hostName() . eZSys::indexDir( false );
@@ -260,9 +265,6 @@ class eZStepSiteDetails extends eZStepInstaller
                 }
                 break;
             };
-
-            eZDebug::writeDebug( $data, '$data site_details_init' );
-            eZDebug::writeDebug( $identifier, '$identifier site_details_init' );
 
             $siteType['database'] = $data['Database'][$identifier];
             $action = EZ_SETUP_DB_DATA_APPEND;

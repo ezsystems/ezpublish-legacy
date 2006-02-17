@@ -38,17 +38,15 @@
 
 */
 
-include_once( 'lib/ezutils/classes/ezextension.php' );
-
 class eZPackageInstallationHandler
 {
     /*!
      Constructor
     */
-    function eZPackageInstallationHandler( &$package, $id, $name, $steps, $installItem )
+    function eZPackageInstallationHandler( &$package, $type, $installItem, $name = null, $steps = null )
     {
         $this->Package = $package;
-        $this->Attributes = array( 'id' => $id,
+        $this->Attributes = array( 'type' => $type,
                                    'name' => $name,
                                    'steps' => $steps,
                                    'step_map' => false,
@@ -163,16 +161,17 @@ class eZPackageInstallationHandler
     /*!
      \virtual
     */
-    function stepTemplate( $step )
+    function stepTemplate( $package, $installItem, $step )
     {
+        $stepTemplatePath = 'design:package/';
         $stepTemplateName = $step['template'];
         if ( isset( $step['use_standard_template'] ) and
              $step['use_standard_template'] )
-            $stepTemplateDir = "create";
+            $stepTemplatePath .= "create";
         else
-            $stepTemplateDir = "installers/" . $this->attribute( 'id' );
+            $stepTemplatePath .= "installers/" . $this->attribute( 'type' );
         return array( 'name' => $stepTemplateName,
-                      'dir' => $stepTemplateDir );
+                      'path' => $stepTemplatePath );
     }
 
     /*!
@@ -275,10 +274,20 @@ class eZPackageInstallationHandler
     */
     function &instance( &$package, $handlerName, $installItem )
     {
+        // if no installItem is given, then this is the whole package installer
+        /*if ( $installItem == null )
+        {
+            include_once( $package->path() . '/' . $package->installerDirectory() . '/' . $package->installerFileName() );
+            $handlerClassName = $package->installerFileName();
+            $handler =& new $handlerClassName( $package, null, null );
+            return $handler;
+        }*/
+
         $handlers =& $GLOBALS['eZPackageCreationInstallers'];
         if ( !isset( $handlers ) )
             $handlers = array();
         $handler = false;
+        include_once( 'lib/ezutils/classes/ezextension.php' );
         if ( eZExtension::findExtensionType( array( 'ini-name' => 'package.ini',
                                                     'repository-group' => 'PackageSettings',
                                                     'repository-variable' => 'RepositoryDirectories',
@@ -298,6 +307,7 @@ class eZPackageInstallationHandler
             {
                 include_once( $handlerFile );
                 $handlerClassName = $result['type'] . 'PackageInstaller';
+
                 if ( isset( $handlers[$result['type']] ) )
                 {
                     $handler =& $handlers[$result['type']];
@@ -307,6 +317,18 @@ class eZPackageInstallationHandler
                 {
                     $handler =& new $handlerClassName( $package, $handlerName, $installItem );
                     $handlers[$result['type']] =& $handler;
+                }
+
+                // if custom install handler is available in the package, we use it
+                $customInstallHandler = $handler->customInstallHandlerInfo( $package, $installItem );
+                if ( $customInstallHandler )
+                {
+                    unset( $handler );
+                    $handlerClassName = $customInstallHandler['classname'];
+                    $handlerFile = $customInstallHandler['file-path'];
+
+                    include_once( $handlerFile );
+                    $handler =& new $handlerClassName( $package, $handlerName, $installItem );
                 }
             }
         }
@@ -333,7 +355,7 @@ class eZPackageInstallationHandler
 
     /*!
      \private
-     Get root doom node of current install item.
+     Get root dom node of current install item.
     */
     function rootDOMNode()
     {
@@ -362,6 +384,15 @@ class eZPackageInstallationHandler
         }
 
         return $this->InstallItem['content'];
+    }
+
+    /*!
+     \private
+     Support for custom installers (stored within the package)
+    */
+    function customInstallHandlerInfo( $package, $installItem )
+    {
+        return false;
     }
 
 }

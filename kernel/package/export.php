@@ -43,7 +43,9 @@ if ( !$package->attribute( 'can_export' ) )
 $exportDirectory = eZPackage::temporaryExportPath();
 $exportName = $package->exportName();
 $exportPath = $exportDirectory . '/' . $exportName;
-$exportPath = $package->archive( $exportPath );
+$exportPath = $package->exportToArchive( $exportPath );
+
+//return $module->redirectToView( 'view', array( 'full', $package->attribute( 'name' ) ) );
 
 $fileName = $exportPath;
 if ( $fileName != "" and file_exists( $fileName ) )
