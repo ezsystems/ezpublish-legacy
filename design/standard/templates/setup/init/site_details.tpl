@@ -51,118 +51,98 @@ The setup can continue with the initialization but may damage the present data."
     </blockquote>
 {/section}
 
-{section var=site loop=$site_types}
-    {section var=site_error show=$site.errors|count|gt( 0 ) loop=$site.errors}
-        <blockquote class="error">
-            <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
-            <p>
-                {$site_error.text}
-            </p>
-            {section show=$site_error.url}
-                <a href="{$site_error.url.href}" target="_other">{$site_error.url.text|wash}</a>
-            {/section}
-        </blockquote>
-    {/section}
+{section var=site_error show=$site_type.errors|count|gt( 0 ) loop=$site_type.errors}
+    <blockquote class="error">
+        <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
+        <p>
+            {$site_error.text}
+        </p>
+        {section show=$site_error.url}
+            <a href="{$site_error.url.href}" target="_other">{$site_error.url.text|wash}</a>
+        {/section}
+    </blockquote>
 {/section}
 
-<p>
-    <table border="0" cellspacing="0" cellpadding="0">
-
-    <tr>
-        {section var=site loop=$site_types}
-
-            <td class="setup_site_templates">
-            <div align="top" class="site-thumbnail">
-                {section show=eq( $site.site_access_illegal, 1 )}<div style="color: #ff7f00;">*</div>{/section}
-                {section show=$site.thumbnail}
-                    <img class="site-type" src={concat( "design/standard/images/setup/thumbnails/", $site.thumbnail )|ezroot}>
-                    {section-else}
-                    <img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot}>
-                {/section}
-            </div>
-
-            <div align="bottom">
-                <table border="0" cellspacing="2" cellpadding="0">
-                <tr>
-                    <td><label class="textfield">{"Title"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
-                    <td><input type="text" size="30" name="eZSetup_site_templates_{$site.index}_title" value="{$site.title|wash}" /></td>
-                </tr>
-                <tr>
-                    <td><label class="textfield">{"Site url"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
-                    <td><input type="text" size="30" name="eZSetup_site_templates_{$site.index}_url" value="{$site.url|wash}" /></td>
-                </tr>
-                <tr>
-                    {switch match=$site.access_type}
-                    {case match='url'}
-                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}><label class="textfield">{"User path"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
-                    {/case}
-                    {case match='port'}
-                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}><label class="textfield">{"User port"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
-                    {/case}
-                    {case match='hostname'}
-                        <td{section show=or( eq( $site_access_illegal, 1 ), eq( $site_access_illegal_name, 1) )} class="invalid"{/section}><label class="textfield">{"User hostname"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
-                    {/case}
-                    {case/}
-                    {/switch}
-                    <td><input type="text" size="30" name="eZSetup_site_templates_{$site.index}_value" value="{$site.access_type_value|wash}" /></td>
-                </tr>
-                <tr>
-                    {switch match=$site.access_type}
-                    {case match='url'}
-                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}><label class="textfield">{"Admin path"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
-                    {/case}
-                    {case match='port'}
-                        <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}><label class="textfield">{"Admin port"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
-                    {/case}
-                    {case match='hostname'}
-                        <td{section show=or( eq( $site_access_illegal, 1 ), eq( $site_access_illegal_name, 1) )} class="invalid"{/section}><label class="textfield">{"Admin hostname"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
-                    {/case}
-                    {case/}
-                    {/switch}
-                    <td><input type="text" size="30" name="eZSetup_site_templates_{$site.index}_admin_value" value="{$site.admin_access_type_value|wash}" /></td>
-                </tr>
-
-                <tr>
-                    <td{section show=or( eq( $db_not_empty, 1 ), eq( $db_charset_differs, 1 ) )} class="invalid"{/section}><label class="textfield">{"Database"|i18n("design/standard/setup/init")}</label>{section show=eq( $site.db_already_chosen, 1 )}<div style="color: #ff7f00;">*</div>{/section}: </td>
-                    <td>
-                    {section show=$database_available|count|gt( 0 )}
-                        <select name="eZSetup_site_templates_{$site.index}_database">
-                        {section var=db loop=$database_available}
-                            <option value="{$db.item}" {section show=$db.item|eq( $site.database )}selected="selected"{/section}>{$db.item|wash}</option>
-                        {/section}
-                        </select>
-                    {section-else}
-                        <input type="text" size="30" name="eZSetup_site_templates_{$site.index}_database" value="{section show=count( $site.database )}{$site.database}{section-else}{$database_default}{/section}" />
-                    {/section}
-                    </td>
-                </tr>
-                {section show=eq( $site.db_not_empty, 1 )}
-                    <tr>
-                        <td class="invalid"><label class="textfield">{"Action: "|i18n("design/standard/setup/init")}</label></td>
-                        <td>
-                        <select name="eZSetup_site_templates_{$site.index}_existing_database">
-                        <option value="1"{section show=eq($site.existing_database, 1)} selected="selected"{/section}>{"Leave the data and add new"|i18n("design/standard/setup/init")}</option>
-                        <option value="2"{section show=eq($site.existing_database, 2)} selected="selected"{/section}>{"Remove existing data"|i18n("design/standard/setup/init")}</option>
-                        <option value="3"{section show=eq($site.existing_database, 3)} selected="selected"{/section}>{"Leave the data and do nothing"|i18n("design/standard/setup/init")}</option>
-                        <option value="4"{section show=ge($site.existing_database, 4)} selected="selected"{/section}>{"I've chosen a new database"|i18n("design/standard/setup/init")}</option>
-                        </select>
-                        </td>
-                   </tr>
-               {/section}
-               </table>
-           </div>
-        </td>
-
-        {delimiter modulo=1}
-    </tr>
-    <tr>
-      {/delimiter}
-
+<div align="top" class="site-thumbnail">
+    {section show=eq( $site_type.site_access_illegal, 1 )}<div style="color: #ff7f00;">*</div>{/section}
+    {section show=is_set( $site_type.thumbnail )}
+        <img class="site-type" src={concat( "design/standard/images/setup/thumbnails/", $site_type.thumbnail )|ezroot}>
+        {section-else}
+        <img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot}>
     {/section}
+</div>
+
+<div align="bottom">
+    <table border="0" cellspacing="2" cellpadding="0">
+    <tr>
+        <td><label class="textfield">{"Title"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
+        <td><input type="text" size="30" name="eZSetup_site_templates_title" value="{$site_type.title|wash}" /></td>
+    </tr>
+    <tr>
+        <td><label class="textfield">{"Site url"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
+        <td><input type="text" size="30" name="eZSetup_site_templates_url" value="{$site_type.url|wash}" /></td>
+    </tr>
+    <tr>
+        {switch match=$site_type.access_type}
+        {case match='url'}
+            <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}><label class="textfield">{"User path"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
+        {/case}
+        {case match='port'}
+            <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}><label class="textfield">{"User port"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
+        {/case}
+        {case match='hostname'}
+            <td{section show=or( eq( $site_access_illegal, 1 ), eq( $site_access_illegal_name, 1) )} class="invalid"{/section}><label class="textfield">{"User hostname"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
+        {/case}
+        {case/}
+        {/switch}
+        <td><input type="text" size="30" name="eZSetup_site_templates_value" value="{$site_type.access_type_value|wash}" /></td>
+    </tr>
+    <tr>
+        {switch match=$site_type.access_type}
+        {case match='url'}
+            <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}><label class="textfield">{"Admin path"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
+        {/case}
+        {case match='port'}
+            <td{section show=eq( $site_access_illegal, 1 )} class="invalid"{/section}><label class="textfield">{"Admin port"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
+        {/case}
+        {case match='hostname'}
+            <td{section show=or( eq( $site_access_illegal, 1 ), eq( $site_access_illegal_name, 1) )} class="invalid"{/section}><label class="textfield">{"Admin hostname"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
+        {/case}
+        {case/}
+        {/switch}
+        <td><input type="text" size="30" name="eZSetup_site_templates_admin_value" value="{$site_type.admin_access_type_value|wash}" /></td>
     </tr>
 
-    </table>
-</p>
+    <tr>
+        <td{section show=or( eq( $db_not_empty, 1 ), eq( $db_charset_differs, 1 ) )} class="invalid"{/section}><label class="textfield">{"Database"|i18n("design/standard/setup/init")}</label>{section show=eq( $site_type.db_already_chosen, 1 )}<div style="color: #ff7f00;">*</div>{/section}: </td>
+        <td>
+        {section show=$database_available|count|gt( 0 )}
+            <select name="eZSetup_site_templates_database">
+            {section var=db loop=$database_available}
+                <option value="{$db.item}" {section show=$db.item|eq( $site_type.database )}selected="selected"{/section}>{$db.item|wash}</option>
+            {/section}
+            </select>
+        {section-else}
+            <input type="text" size="30" name="eZSetup_site_templates_database" value="{section show=count( $site_type.database )}{$site_type.database}{section-else}{$database_default}{/section}" />
+        {/section}
+        </td>
+    </tr>
+    {section show=eq( $site_type.db_not_empty, 1 )}
+        <tr>
+            <td class="invalid"><label class="textfield">{"Action: "|i18n("design/standard/setup/init")}</label></td>
+            <td>
+            <select name="eZSetup_site_templates_existing_database">
+            <option value="1"{section show=eq($site_type.existing_database, 1)} selected="selected"{/section}>{"Leave the data and add new"|i18n("design/standard/setup/init")}</option>
+            <option value="2"{section show=eq($site_type.existing_database, 2)} selected="selected"{/section}>{"Remove existing data"|i18n("design/standard/setup/init")}</option>
+            <option value="3"{section show=eq($site_type.existing_database, 3)} selected="selected"{/section}>{"Leave the data and do nothing"|i18n("design/standard/setup/init")}</option>
+            <option value="4"{section show=ge($site_type.existing_database, 4)} selected="selected"{/section}>{"I've chosen a new database"|i18n("design/standard/setup/init")}</option>
+            </select>
+            </td>
+       </tr>
+   {/section}
+   </table>
+</div>
+
 
 {include uri="design:setup/persistence.tpl" refresh=1}
 {include uri='design:setup/init/navigation.tpl'}

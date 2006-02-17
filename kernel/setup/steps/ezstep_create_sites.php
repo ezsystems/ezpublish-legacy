@@ -168,19 +168,17 @@ class eZStepCreateSites extends eZStepInstaller
         }
 
         include_once( 'kernel/setup/ezsetuptypes.php' );
-        $siteTypes = eZSetupTypes();
+        //$siteTypes = eZSetupTypes();
 
-//         $siteCount = $this->PersistenceList['site_templates']['count'];
-//         $siteCount = 1;
-        $siteTypes = $this->chosenSiteTypes();
-//         for ( $counter = 0; $counter < $siteCount; ++$counter )
+        $siteType = $this->chosenSiteType();
+
+        eZDebug::writeDebug( $siteType, '$siteTypes' );
 
         $siteINISettings = array();
 
         $result = true;
-        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
-        {
-            $siteType =& $siteTypes[$siteTypeKey];
+
+
             $accessType = $siteType['access_type'];
             $resultArray = array( 'errors' => array() );
 
@@ -191,7 +189,7 @@ class eZStepCreateSites extends eZStepInstaller
             {
                 $this->Error['errors'] = array_merge( $this->Error['errors'], $resultArray['errors'] );
                 $this->Error['errors'][] = array( 'code' => 'EZSW-040',
-                                                  'text' => "Failed to initialize site package " . $siteType['identifier'] );
+                                                  'text' => "Failed to initialize site package '" . $siteType['identifier'] . "'" );
                 $result = false;
                 break;
             }
@@ -221,9 +219,8 @@ class eZStepCreateSites extends eZStepInstaller
                     $tmpINI->setVariables( $settings );
                     $tmpINI->save( false, '.append.php', false, true, "settings/override", $resetArray );
                 }
-
             }
-        }
+
 
         if ( !$result )
         {
@@ -437,579 +434,577 @@ class eZStepCreateSites extends eZStepInstaller
         $result = true;
 //         if ( $package )
         // Initialize the database by inserting schema and data
+        //{
+        if ( !isset( $siteType['existing_database'] ) )
         {
-            if ( !isset( $siteType['existing_database'] ) )
+            $siteType['existing_database'] = false;
+        }
+        if ( $siteType['existing_database'] == EZ_SETUP_DB_DATA_REMOVE )
+        {
+            include_once( 'lib/ezdb/classes/ezdbtool.php' );
+            eZDBTool::cleanup( $db );
+        }
+
+        if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
+        {
+            include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
+            $result = true;
+            $schemaArray = eZDBSchema::read( 'share/db_schema.dba', true );
+            if ( !$schemaArray )
             {
-                $siteType['existing_database'] = false;
-            }
-            if ( $siteType['existing_database'] == EZ_SETUP_DB_DATA_REMOVE )
-            {
-                include_once( 'lib/ezdb/classes/ezdbtool.php' );
-                eZDBTool::cleanup( $db );
+                $resultArray['errors'][] = array( 'code' => 'EZSW-001',
+                                                  'message' => "Failed loading database schema file share/db_schema.dba" );
+                $result = false;
             }
 
-            if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
+            if ( $result )
             {
-                include_once( 'lib/ezdbschema/classes/ezdbschema.php' );
                 $result = true;
-                $schemaArray = eZDBSchema::read( 'share/db_schema.dba', true );
-                if ( !$schemaArray )
+                $dataArray = eZDBSchema::read( 'share/db_data.dba', true );
+                if ( !$dataArray )
                 {
-                    $resultArray['errors'][] = array( 'code' => 'EZSW-001',
-                                                      'message' => "Failed loading database schema file share/db_schema.dba" );
+                    $resultArray['errors'][] = array( 'code' => 'EZSW-002',
+                                                      'text' => "Failed loading database data file share/db_data.dba" );
                     $result = false;
                 }
 
                 if ( $result )
                 {
+                    $schemaArray = array_merge( $schemaArray, $dataArray );
+                    $schemaArray['type'] = strtolower( $db->databaseName() );
+                    $schemaArray['instance'] =& $db;
                     $result = true;
-                    $dataArray = eZDBSchema::read( 'share/db_data.dba', true );
-                    if ( !$dataArray )
+                    $dbSchema = eZDBSchema::instance( $schemaArray );
+                    if ( !$dbSchema )
                     {
-                        $resultArray['errors'][] = array( 'code' => 'EZSW-002',
-                                                          'text' => "Failed loading database data file share/db_data.dba" );
+                        $resultArray['errors'][] = array( 'code' => 'EZSW-003',
+                                                          'text' => "Failed loading " . $db->databaseName() . " schema handler" );
                         $result = false;
                     }
 
                     if ( $result )
                     {
-                        $schemaArray = array_merge( $schemaArray, $dataArray );
-                        $schemaArray['type'] = strtolower( $db->databaseName() );
-                        $schemaArray['instance'] =& $db;
                         $result = true;
-                        $dbSchema = eZDBSchema::instance( $schemaArray );
-                        if ( !$dbSchema )
+                        // This will insert the schema, then the data and
+                        // run any sequence value correction SQL if required
+                        $params = array( 'schema' => true,
+                                         'data' => true );
+                        // If we use MySQL 4.0+ we try to create the tables with the InnoDB type.
+                        // MySQL versions without this type will just use the default table type.
+                        $dbVersion = $db->databaseServerVersion();
+                        if ( $db->databaseName() == 'mysql' and
+                             version_compare( $dbVersion['string'], '4.0' ) >= 0 )
                         {
-                            $resultArray['errors'][] = array( 'code' => 'EZSW-003',
-                                                              'text' => "Failed loading " . $db->databaseName() . " schema handler" );
+                            $params['table_type'] = 'innodb';
+                        }
+                        if ( !$dbSchema->insertSchema( $params ) )
+                        {
+                            $resultArray['errors'][] = array( 'code' => 'EZSW-004',
+                                                              'text' => ( "Failed inserting data to " . $db->databaseName() . "\n" .
+                                                                          $db->errorMessage() ) );
                             $result = false;
                         }
-
-                        if ( $result )
-                        {
-                            $result = true;
-                            // This will insert the schema, then the data and
-                            // run any sequence value correction SQL if required
-                            $params = array( 'schema' => true,
-                                             'data' => true );
-                            // If we use MySQL 4.0+ we try to create the tables with the InnoDB type.
-                            // MySQL versions without this type will just use the default table type.
-                            $dbVersion = $db->databaseServerVersion();
-                            if ( $db->databaseName() == 'mysql' and
-                                 version_compare( $dbVersion['string'], '4.0' ) >= 0 )
-                            {
-                                $params['table_type'] = 'innodb';
-                            }
-                            if ( !$dbSchema->insertSchema( $params ) )
-                            {
-                                $resultArray['errors'][] = array( 'code' => 'EZSW-004',
-                                                                  'text' => ( "Failed inserting data to " . $db->databaseName() . "\n" .
-                                                                              $db->errorMessage() ) );
-                                $result = false;
-                            }
-                        }
                     }
                 }
             }
-            if ( !$result )
-            {
-                return false;
-            }
-            // Database initialization done
+        }
+        if ( !$result )
+        {
+            return false;
+        }
+        // Database initialization done
 
-            $installParameters = array( 'path' => '.' );
-            $installParameters['ini'] = array();
-            $siteINIChanges = array();
-            $url = $siteType['url'];
-            if ( preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url, $matches ) )
-            {
-                $url = $matches[1];
-            }
-            $siteINIChanges['ContentSettings'] = array( 'TranslationList' => implode( ';', $languages ) );
-            $siteINIChanges['SiteSettings'] = array( 'SiteName' => $siteType['title'],
-                                                     'SiteURL' => $url );
-            $siteINIChanges['DatabaseSettings'] = array( 'DatabaseImplementation' => $dbDriver,
-                                                         'Server' => $dbServer,
-                                                         'Database' => $dbName,
-                                                         'User' => $dbUser,
-                                                         'Password' => $dbPwd,
-                                                         'Charset' => false );
-            $siteINIChanges['FileSettings'] = array( 'VarDir' => 'var/' . $siteType['identifier'] );
-            if ( trim( $dbSocket ) != '' )
-                $siteINIChanges['DatabaseSettings']['Socket'] = $dbSocket;
-            else
-                $siteINIChanges['DatabaseSettings']['Socket'] = 'disabled';
-            if ( $admin['email'] )
-            {
-                $siteINIChanges['InformationCollectionSettings'] = array( 'EmailReceiver' => false );
-                $siteINIChanges['UserSettings'] = array( 'RegistrationEmail' => false );
-                $siteINIChanges['MailSettings'] = array( 'AdminEmail' =>  $admin['email'],
-                                                         'EmailSender' => false );
-            }
-            $siteINIChanges['RegionalSettings'] = array( 'Locale' => $primaryLanguage->localeFullCode(),
-                                                         'ContentObjectLocale' => $primaryLanguage->localeCode() );
-            if ( $primaryLanguage->localeCode() == 'eng-GB' )
-                $siteINIChanges['RegionalSettings']['TextTranslation'] = 'disabled';
-            else
-                $siteINIChanges['RegionalSettings']['TextTranslation'] = 'enabled';
+        $installParameters = array( 'path' => '.' );
+        $installParameters['ini'] = array();
+        $siteINIChanges = array();
+        $url = $siteType['url'];
+        if ( preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url, $matches ) )
+        {
+            $url = $matches[1];
+        }
+        $siteINIChanges['ContentSettings'] = array( 'TranslationList' => implode( ';', $languages ) );
+        $siteINIChanges['SiteSettings'] = array( 'SiteName' => $siteType['title'],
+                                                 'SiteURL' => $url );
+        $siteINIChanges['DatabaseSettings'] = array( 'DatabaseImplementation' => $dbDriver,
+                                                     'Server' => $dbServer,
+                                                     'Database' => $dbName,
+                                                     'User' => $dbUser,
+                                                     'Password' => $dbPwd,
+                                                     'Charset' => false );
+        $siteINIChanges['FileSettings'] = array( 'VarDir' => 'var/' . $siteType['identifier'] );
+        if ( trim( $dbSocket ) != '' )
+            $siteINIChanges['DatabaseSettings']['Socket'] = $dbSocket;
+        else
+            $siteINIChanges['DatabaseSettings']['Socket'] = 'disabled';
+        if ( $admin['email'] )
+        {
+            $siteINIChanges['InformationCollectionSettings'] = array( 'EmailReceiver' => false );
+            $siteINIChanges['UserSettings'] = array( 'RegistrationEmail' => false );
+            $siteINIChanges['MailSettings'] = array( 'AdminEmail' =>  $admin['email'],
+                                                     'EmailSender' => false );
+        }
+        $siteINIChanges['RegionalSettings'] = array( 'Locale' => $primaryLanguage->localeFullCode(),
+                                                     'ContentObjectLocale' => $primaryLanguage->localeCode() );
+        if ( $primaryLanguage->localeCode() == 'eng-GB' )
+            $siteINIChanges['RegionalSettings']['TextTranslation'] = 'disabled';
+        else
+            $siteINIChanges['RegionalSettings']['TextTranslation'] = 'enabled';
 
-            $installParameters['ini']['siteaccess'][$adminSiteaccessName]['site.ini.append'] = $siteINIChanges;
-            $installParameters['ini']['siteaccess'][$userSiteaccessName]['site.ini.append'] = $siteINIChanges;
-            $installParameters['ini']['siteaccess'][$userSiteaccessName]['site.ini']['DesignSettings'] = array( 'SiteDesign' => $userDesignName );
-            $installParameters['variables']['user_siteaccess'] = $userSiteaccessName;
-            $installParameters['variables']['admin_siteaccess'] = $adminSiteaccessName;
-            $installParameters['variables']['design'] = $userDesignName;
+        $installParameters['ini']['siteaccess'][$adminSiteaccessName]['site.ini.append'] = $siteINIChanges;
+        $installParameters['ini']['siteaccess'][$userSiteaccessName]['site.ini.append'] = $siteINIChanges;
+        $installParameters['ini']['siteaccess'][$userSiteaccessName]['site.ini']['DesignSettings'] = array( 'SiteDesign' => $userDesignName );
+        $installParameters['variables']['user_siteaccess'] = $userSiteaccessName;
+        $installParameters['variables']['admin_siteaccess'] = $adminSiteaccessName;
+        $installParameters['variables']['design'] = $userDesignName;
 
-            $ini =& eZINI::instance();
-            $ini->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
+        $ini =& eZINI::instance();
+        $ini->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
 
-            $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
-            $extraFunctionality = array_merge( isset( $this->PersistenceList['additional_packages'] ) ?
-                                               $this->PersistenceList['additional_packages'] :
-                                               array(),
-                                               $typeFunctionality['required'] );
-            $extraFunctionality = array_unique( $extraFunctionality );
 
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
+        $extraFunctionality = array_merge( isset( $this->PersistenceList['additional_packages'] ) ?
+                                           $this->PersistenceList['additional_packages'] :
+                                           array(),
+                                           $typeFunctionality['required'] );
+        $extraFunctionality = array_unique( $extraFunctionality );
+        
 
-            if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
-            {
-                $user = eZUser::instance( 14 );  // Must be initialized to make node assignments work correctly
-                if ( !is_object( $user ) )
-                {
-                    $resultArray['errors'][] = array( 'code' => 'EZSW-020',
-                                                      'text' => "Could not fetch administrator user object" );
-                    return false;
-                }
-                // Make sure Admin is the currently logged in user
-                // This makes sure all new/changed objects get this as creator
-                $user->loginCurrent();
 
-                foreach ( $extraFunctionality as $packageName )
-                {
-                    $package = eZPackage::fetch( $packageName, 'packages/addons' );
-                    if ( is_object( $package ) )
-                    {
-                        $status = $package->install( array( 'site_access_map' => array( '*' => $userSiteaccessName ),
-                                                            'top_nodes_map' => array( '*' => 2 ),
-                                                            'design_map' => array( '*' => $userDesignName ),
-                                                            'restore_dates' => true,
-                                                            'user_id' => $user->attribute( 'contentobject_id' ) ) );
-                        if ( !$status )
-                        {
-                            $resultArray['errors'][] = array( 'code' => 'EZSW-051',
-                                                              'text' => "Could not install addon package named $packageName" );
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        $resultArray['errors'][] = array( 'code' => 'EZSW-050',
-                                                          'text' => "Could not fetch addon package named $packageName" );
-                        return false;
-                    }
-                    unset( $package );
-                }
-            }
+        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
-            $primaryLanguageLocaleCode = $primaryLanguage->localeCode();
-
-            // Change the current translation variables, before other parts start using them
-            $ini->setVariable( 'RegionalSettings', 'Locale', $primaryLanguage->localeFullCode() );
-            $ini->setVariable( 'RegionalSettings', 'ContentObjectLocale', $primaryLanguage->localeCode() );
-            $ini->setVariable( 'RegionalSettings', 'TextTranslation', $primaryLanguage->localeCode() == 'eng-GB' ? 'disabled' : 'enabled' );
-
-            // Make sure objects use the selected main language instead of eng-GB
-            if ( $primaryLanguageLocaleCode != 'eng-GB' )
-            {
-                // Updates databases that have eng-GB data to the new locale.
-                $updateSql = "UPDATE ezcontentobject_name
-SET
-  content_translation='$primaryLanguageLocaleCode',
-  real_translation='$primaryLanguageLocaleCode'
-WHERE
-  content_translation='eng-GB' OR
-  real_translation='eng-GB'";
-                $db->query( $updateSql );
-
-                $updateSql = "UPDATE ezcontentobject_attribute
-SET
-  language_code='$primaryLanguageLocaleCode'
-WHERE
-  language_code='eng-GB'";
-                $db->query( $updateSql );
-//                 }
-            }
-            $GLOBALS['eZContentObjectDefaultLanguage'] = $primaryLanguageLocaleCode;
-
-            // Make sure we have all the translation available
-            // before we work with objects
-            include_once( 'kernel/classes/ezcontenttranslation.php' );
-            foreach ( array_keys( $languageObjects ) as $languageObjectKey )
-            {
-                $languageObject = $languageObjects[$languageObjectKey];
-                $languageLocale = $languageObject->localeCode();
-
-                if ( !eZContentTranslation::hasTranslation( $languageLocale ) )
-                {
-                    $translation = eZContentTranslation::createNew( $languageObject->languageName(), $languageLocale );
-                    $translation->store();
-                    if ( $languageLocale != $primaryLanguageLocaleCode )
-                    {
-                        $translation->updateObjectNames();
-                    }
-                }
-            }
-
-            $nodeRemoteMap = array();
-            $rows = $db->arrayQuery( "SELECT node_id, remote_id FROM ezcontentobject_tree" );
-            foreach ( $rows as $row )
-            {
-                $remoteID = $row['remote_id'];
-                if ( strlen( trim( $remoteID ) ) > 0 )
-                    $nodeRemoteMap[$remoteID] = $row['node_id'];
-            }
-
-            $objectRemoteMap = array();
-            $rows = $db->arrayQuery( "SELECT id, remote_id FROM ezcontentobject" );
-            foreach ( $rows as $row )
-            {
-                $remoteID = $row['remote_id'];
-                if ( strlen( trim( $remoteID ) ) > 0 )
-                    $objectRemoteMap[$remoteID] = $row['id'];
-            }
-
-            $classRemoteMap = array();
-            $rows = $db->arrayQuery( "SELECT id, identifier, remote_id FROM ezcontentclass" );
-            foreach ( $rows as $row )
-            {
-                $remoteID = $row['remote_id'];
-                if ( strlen( trim( $remoteID ) ) > 0 )
-                    $classRemoteMap[$remoteID] = array( 'id' => $row['id'],
-                                                        'identifier' => $row['identifier'] );
-            }
-
-            $siteCSS = false;
-            $classesCSS = false;
-
-            $themePackage = false;
-            if ( isset( $typeFunctionality['theme'] ) )
-            {
-                $themeName = $typeFunctionality['theme'];
-                $themePackage = eZPackage::fetch( $themeName, false, 'styles' );
-                if ( is_object( $themePackage ) )
-                {
-                    $fileList = $themePackage->fileList( 'default' );
-                    foreach ( array_keys( $fileList ) as $key )
-                    {
-                        $file =& $fileList[$key];
-                        $fileIdentifier = $file["variable-name"];
-                        if ( $fileIdentifier == 'sitecssfile' )
-                        {
-                            $siteCSS = $themePackage->fileItemPath( $file, 'default' );
-                        }
-                        else if ( $fileIdentifier == 'classescssfile' )
-                        {
-                            $classesCSS = $themePackage->fileItemPath( $file, 'default' );
-                        }
-                    }
-                }
-                else
-                {
-                    $resultArray['errors'][] = array( 'code' => 'EZSW-060',
-                                                      'text' => "Could not fetch style package named $themeName" );
-                    return false;
-                }
-            }
-
-            $parameters = array( 'node_remote_map' => $nodeRemoteMap,
-                                 'object_remote_map' => $objectRemoteMap,
-                                 'class_remote_map' => $classRemoteMap,
-                                 'extra_functionality' => $extraFunctionality,
-                                 'preview_design' => $userDesignName,
-                                 'design_list' => array( $userDesignName, 'admin' ),
-                                 'user_siteaccess' => $userSiteaccessName,
-                                 'admin_siteaccess' => $adminSiteaccessName );
-
-            $siteINIStored = false;
-            $siteINIAdminStored = false;
-            $designINIStored = false;
-
-            $extraSettings = eZSetupINISettings( $siteType['identifier'], $parameters );
-            $extraAdminSettings = eZSetupAdminINISettings( $siteType['identifier'], $parameters );
-            $extraCommonSettings = eZSetupCommonINISettings( $siteType['identifier'], $parameters );
-            $resultArray['common_settings'] = $extraCommonSettings;
-
-            foreach ( $extraSettings as $extraSetting )
-            {
-                if ( $extraSetting === false )
-                    continue;
-
-                $iniName = $extraSetting['name'];
-                $settings = $extraSetting['settings'];
-                $resetArray = false;
-                if ( isset( $extraSetting['reset_arrays'] ) )
-                    $resetArray = $extraSetting['reset_arrays'];
-                $tmpINI = eZINI::create( $iniName );
-                $tmpINI->setVariables( $settings );
-                if ( $iniName == 'site.ini' )
-                {
-                    $siteINIStored = true;
-                    $tmpINI->setVariables( $siteINIChanges );
-                    $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
-                    $tmpINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
-                }
-                else if ( $iniName == 'design.ini' )
-                {
-                    if ( $siteCSS )
-                        $tmpINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
-                    if ( $classesCSS )
-                        $tmpINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
-                    $designINIStored = true;
-                }
-                $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", $resetArray );
-
-                if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
-                {
-                    // setting up appropriate data in look&feel object
-                    $templateLookObject = eZContentObject::fetch( 54 );
-                    $dataMap =& $templateLookObject->fetchDataMap();
-                    $dataMap[ 'title' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteName'] );
-                    $dataMap[ 'title' ]->store();
-                    $dataMap[ 'siteurl' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteURL'] );
-                    $dataMap[ 'siteurl' ]->store();
-                    $dataMap[ 'email' ]->setAttribute( 'data_text', $siteINIChanges['MailSettings']['AdminEmail'] );
-                    $dataMap[ 'email' ]->store();
-                    $class = eZContentClass::fetch( $templateLookObject->attribute( 'contentclass_id' ) );
-                    $objectName = $class->contentObjectName( $templateLookObject );
-                    $templateLookObject->setName( $objectName );
-                    $templateLookObject->store();
-                }
-            }
-
-            foreach ( $extraAdminSettings as $extraSetting )
-            {
-                if ( $extraSetting === false )
-                    continue;
-
-                $iniName = $extraSetting['name'];
-                $settings = $extraSetting['settings'];
-                $resetArray = false;
-                if ( isset( $extraSetting['reset_arrays'] ) )
-                    $resetArray = $extraSetting['reset_arrays'];
-                $tmpINI = eZINI::create( $iniName );
-                $tmpINI->setVariables( $settings );
-                if ( $iniName == 'site.ini' )
-                {
-                    $siteINIAdminStored = true;
-                    $tmpINI->setVariables( $siteINIChanges );
-                    $tmpINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
-                    $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
-                    $tmpINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
-                }
-                $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName", $resetArray );
-            }
-
-            if ( !$siteINIAdminStored )
-            {
-                $siteINI = eZINI::create( 'site.ini' );
-                $siteINI->setVariables( $siteINIChanges );
-                $siteINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
-                $siteINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
-                $siteINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
-                $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName", true );
-            }
-            if ( !$siteINIStored )
-            {
-                $siteINI = eZINI::create( 'site.ini' );
-                $siteINI->setVariables( $siteINIChanges );
-                $siteINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
-                $siteINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
-                $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", true );
-            }
-            if ( !$designINIStored )
-            {
-                $designINI = eZINI::create( 'design.ini' );
-                if ( $siteCSS )
-                    $designINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
-                if ( $classesCSS )
-                    $designINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
-                $designINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
-            }
-
-            eZDir::mkdir( "design/" . $userDesignName );
-            eZDir::mkdir( "design/" . $userDesignName . "/templates" );
-            eZDir::mkdir( "design/" . $userDesignName . "/stylesheets" );
-            eZDir::mkdir( "design/" . $userDesignName . "/images" );
-            eZDir::mkdir( "design/" . $userDesignName . "/override" );
-            eZDir::mkdir( "design/" . $userDesignName . "/override/templates" );
-
-            if ( $siteType['existing_database'] == EZ_SETUP_DB_DATA_KEEP )
-            {
-                return true;
-            }
-
-            include_once( 'kernel/classes/ezrole.php' );
-            // Try and remove user/login without limitation from the anonymous user
-            $anonRole = eZRole::fetchByName( 'Anonymous' );
-            if ( is_object( $anonRole ) )
-            {
-                $anonPolicies =& $anonRole->policyList();
-                foreach ( $anonPolicies as $anonPolicy )
-                {
-                    if ( $anonPolicy->attribute( 'module_name' ) == 'user' and
-                         $anonPolicy->attribute( 'function_name' ) == 'login' )
-                    {
-                        $anonPolicy->remove();
-                        break;
-                    }
-                }
-            }
-
-            // Setup all roles according to site chosen and addons
-            $extraRoles = eZSetupRoles( $siteType['identifier'], $parameters );
-            foreach ( $extraRoles as $extraRole )
-            {
-                if ( !$extraRole )
-                    continue;
-                $extraRoleName = $extraRole['name'];
-                $role = eZRole::fetchByName( $extraRoleName );
-                if ( !is_object( $role ) )
-                {
-                    $role = eZRole::create( $extraRoleName );
-                    $role->store();
-                }
-                $roleID = $role->attribute( 'id' );
-                if ( isset( $extraRole['policies'] ) )
-                {
-                    $extraPolicies = $extraRole['policies'];
-                    foreach ( $extraPolicies as $extraPolicy )
-                    {
-                        if ( isset( $extraPolicy['limitation'] ) )
-                        {
-                            $role->appendPolicy( $extraPolicy['module'], $extraPolicy['function'], $extraPolicy['limitation'] );
-                        }
-                        else
-                        {
-                            $role->appendPolicy( $extraPolicy['module'], $extraPolicy['function'] );
-                        }
-                    }
-                }
-                if ( isset( $extraRole['assignments'] ) )
-                {
-                    $roleAssignments = $extraRole['assignments'];
-                    foreach ( $roleAssignments as $roleAssignment )
-                    {
-                        $assignmentIdentifier = false;
-                        $assignmentValue = false;
-                        if ( isset( $roleAssignment['limitation'] ) )
-                        {
-                            $assignmentIdentifier = $roleAssignment['limitation']['identifier'];
-                            $assignmentValue = $roleAssignment['limitation']['value'];
-                        }
-                        $role->assignToUser( $roleAssignment['user_id'], $assignmentIdentifier, $assignmentValue );
-                    }
-                }
-            }
-
-            // Setup user preferences based on the site chosen and addons
-            include_once( 'kernel/classes/ezpreferences.php' );
-            $prefs = eZSetupPreferences( $siteType['identifier'], $parameters );
-            foreach ( $prefs as $prefEntry )
-            {
-                if ( !$prefEntry )
-                    continue;
-                $prefUserID = $prefEntry['user_id'];
-                foreach ( $prefEntry['preferences'] as $pref )
-                {
-                    $prefName = $pref['name'];
-                    $prefValue = $pref['value'];
-                    if ( !eZPreferences::setValue( $prefName, $prefValue, $prefUserID ) )
-                    {
-                        $resultArray['errors'][] = array( 'code' => 'EZSW-070',
-                                                          'text' => "Could not create ezpreference '$prefValue' for $prefUserID" );
-                        return false;
-                    }
-                }
-            }
-
-            $publishAdmin = false;
-            include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
-            $userAccount = eZUser::fetch( 14 );
-            if ( !is_object( $userAccount ) )
+        if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
+        {
+            $user = eZUser::instance( 14 );  // Must be initialized to make node assignments work correctly
+            if ( !is_object( $user ) )
             {
                 $resultArray['errors'][] = array( 'code' => 'EZSW-020',
                                                   'text' => "Could not fetch administrator user object" );
                 return false;
             }
+            // Make sure Admin is the currently logged in user
+            // This makes sure all new/changed objects get this as creator
+            $user->loginCurrent();
 
-            $userObject =& $userAccount->attribute( 'contentobject' );
-            if ( !is_object( $userObject ) )
+            foreach ( $extraFunctionality as $packageName )
             {
-                $resultArray['errors'][] = array( 'code' => 'EZSW-021',
-                                                  'text' => "Could not fetch administrator content object" );
+                $package = eZPackage::fetch( $packageName, 'packages/addons' );
+                if ( is_object( $package ) )
+                {
+                    $status = $package->install( array( 'site_access_map' => array( '*' => $userSiteaccessName ),
+                                                        'top_nodes_map' => array( '*' => 2 ),
+                                                        'design_map' => array( '*' => $userDesignName ),
+                                                        'restore_dates' => true,
+                                                        'user_id' => $user->attribute( 'contentobject_id' ) ) );
+                    if ( !$status )
+                    {
+                        $resultArray['errors'][] = array( 'code' => 'EZSW-051',
+                                                          'text' => "Could not install addon package named $packageName" );
+                        return false;
+                    }
+                }
+                else
+                {
+                    $resultArray['errors'][] = array( 'code' => 'EZSW-050',
+                                                      'text' => "Could not fetch addon package named $packageName" );
+                    return false;
+                }
+                unset( $package );
+            }
+        }
+
+        $primaryLanguageLocaleCode = $primaryLanguage->localeCode();
+
+        // Change the current translation variables, before other parts start using them
+        $ini->setVariable( 'RegionalSettings', 'Locale', $primaryLanguage->localeFullCode() );
+        $ini->setVariable( 'RegionalSettings', 'ContentObjectLocale', $primaryLanguage->localeCode() );
+        $ini->setVariable( 'RegionalSettings', 'TextTranslation', $primaryLanguage->localeCode() == 'eng-GB' ? 'disabled' : 'enabled' );
+
+        // Make sure objects use the selected main language instead of eng-GB
+        if ( $primaryLanguageLocaleCode != 'eng-GB' )
+        {
+            // Updates databases that have eng-GB data to the new locale.
+            $updateSql = "UPDATE ezcontentobject_name
+SET
+content_translation='$primaryLanguageLocaleCode',
+real_translation='$primaryLanguageLocaleCode'
+WHERE
+content_translation='eng-GB' OR
+real_translation='eng-GB'";
+            $db->query( $updateSql );
+
+            $updateSql = "UPDATE ezcontentobject_attribute
+SET
+language_code='$primaryLanguageLocaleCode'
+WHERE
+language_code='eng-GB'";
+            $db->query( $updateSql );
+//                 }
+        }
+        $GLOBALS['eZContentObjectDefaultLanguage'] = $primaryLanguageLocaleCode;
+
+        // Make sure we have all the translation available
+        // before we work with objects
+        include_once( 'kernel/classes/ezcontenttranslation.php' );
+        foreach ( array_keys( $languageObjects ) as $languageObjectKey )
+        {
+            $languageObject = $languageObjects[$languageObjectKey];
+            $languageLocale = $languageObject->localeCode();
+
+            if ( !eZContentTranslation::hasTranslation( $languageLocale ) )
+            {
+                $translation = eZContentTranslation::createNew( $languageObject->languageName(), $languageLocale );
+                $translation->store();
+                if ( $languageLocale != $primaryLanguageLocaleCode )
+                {
+                    $translation->updateObjectNames();
+                }
+            }
+        }
+
+        $nodeRemoteMap = array();
+        $rows = $db->arrayQuery( "SELECT node_id, remote_id FROM ezcontentobject_tree" );
+        foreach ( $rows as $row )
+        {
+            $remoteID = $row['remote_id'];
+            if ( strlen( trim( $remoteID ) ) > 0 )
+                $nodeRemoteMap[$remoteID] = $row['node_id'];
+        }
+
+        $objectRemoteMap = array();
+        $rows = $db->arrayQuery( "SELECT id, remote_id FROM ezcontentobject" );
+        foreach ( $rows as $row )
+        {
+            $remoteID = $row['remote_id'];
+            if ( strlen( trim( $remoteID ) ) > 0 )
+                $objectRemoteMap[$remoteID] = $row['id'];
+        }
+
+        $classRemoteMap = array();
+        $rows = $db->arrayQuery( "SELECT id, identifier, remote_id FROM ezcontentclass" );
+        foreach ( $rows as $row )
+        {
+            $remoteID = $row['remote_id'];
+            if ( strlen( trim( $remoteID ) ) > 0 )
+                $classRemoteMap[$remoteID] = array( 'id' => $row['id'],
+                                                    'identifier' => $row['identifier'] );
+        }
+
+        $siteCSS = false;
+        $classesCSS = false;
+
+        $themePackage = false;
+        if ( isset( $typeFunctionality['theme'] ) )
+        {
+            $themeName = $typeFunctionality['theme'];
+            $themePackage = eZPackage::fetch( $themeName, false, 'styles' );
+            if ( is_object( $themePackage ) )
+            {
+                $fileList = $themePackage->fileList( 'default' );
+                foreach ( array_keys( $fileList ) as $key )
+                {
+                    $file =& $fileList[$key];
+                    $fileIdentifier = $file["variable-name"];
+                    if ( $fileIdentifier == 'sitecssfile' )
+                    {
+                        $siteCSS = $themePackage->fileItemPath( $file, 'default' );
+                    }
+                    else if ( $fileIdentifier == 'classescssfile' )
+                    {
+                        $classesCSS = $themePackage->fileItemPath( $file, 'default' );
+                    }
+                }
+            }
+            else
+            {
+                $resultArray['errors'][] = array( 'code' => 'EZSW-060',
+                                                  'text' => "Could not fetch style package named $themeName" );
                 return false;
             }
+        }
 
-            if ( trim( $admin['email'] ) )
+        $parameters = array( 'node_remote_map' => $nodeRemoteMap,
+                             'object_remote_map' => $objectRemoteMap,
+                             'class_remote_map' => $classRemoteMap,
+                             'extra_functionality' => $extraFunctionality,
+                             'preview_design' => $userDesignName,
+                             'design_list' => array( $userDesignName, 'admin' ),
+                             'user_siteaccess' => $userSiteaccessName,
+                             'admin_siteaccess' => $adminSiteaccessName );
+
+        $siteINIStored = false;
+        $siteINIAdminStored = false;
+        $designINIStored = false;
+
+        $extraSettings = eZSetupINISettings( $siteType['identifier'], $parameters );
+        $extraAdminSettings = eZSetupAdminINISettings( $siteType['identifier'], $parameters );
+        $extraCommonSettings = eZSetupCommonINISettings( $siteType['identifier'], $parameters );
+        $resultArray['common_settings'] = $extraCommonSettings;
+
+        foreach ( $extraSettings as $extraSetting )
+        {
+            if ( $extraSetting === false )
+                continue;
+
+            $iniName = $extraSetting['name'];
+            $settings = $extraSetting['settings'];
+            $resetArray = false;
+            if ( isset( $extraSetting['reset_arrays'] ) )
+                $resetArray = $extraSetting['reset_arrays'];
+            $tmpINI = eZINI::create( $iniName );
+            $tmpINI->setVariables( $settings );
+            if ( $iniName == 'site.ini' )
             {
-                $userAccount->setInformation( 14, 'admin', $admin['email'], $admin['password'], $admin['password'] );
+                $siteINIStored = true;
+                $tmpINI->setVariables( $siteINIChanges );
+                $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
+                $tmpINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
             }
-
-            if ( trim( $admin['first_name'] ) or trim( $admin['last_name'] ) )
+            else if ( $iniName == 'design.ini' )
             {
-                $newUserObject = $userObject->createNewVersion( false, false );
-                if ( !is_object( $newUserObject ) )
-                {
-                    $resultArray['errors'][] = array( 'code' => 'EZSW-022',
-                                                      'text' => "Could not create new version of administrator content object" );
-                    return false;
-                }
-                $dataMap =& $newUserObject->attribute( 'data_map' );
-                $error = false;
-                if ( !isset( $dataMap['first_name'] ) )
-                {
-                    $resultArray['errors'][] = array( 'code' => 'EZSW-023',
-                                                      'text' => "Administrator content object does not have a 'first_name' field" );
-                    $error = true;
-                }
-                if ( !isset( $dataMap['last_name'] ) )
-                {
-                    $resultArray['errors'][] = array( 'code' => 'EZSW-024',
-                                                      'text' => "Administrator content object does not have a 'last_name' field" );
-                    $error = true;
-                }
-
-                if ( $error )
-                    return false;
-
-                $dataMap['first_name']->setAttribute( 'data_text', $admin['first_name'] );
-                $dataMap['first_name']->store();
-                $dataMap['last_name']->setAttribute( 'data_text', $admin['last_name'] );
-                $dataMap['last_name']->store();
-                $newUserObject->store();
-                $publishAdmin = true;
+                if ( $siteCSS )
+                    $tmpINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
+                if ( $classesCSS )
+                    $tmpINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
+                $designINIStored = true;
             }
-            $userAccount->store();
+            $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", $resetArray );
 
-            if ( $publishAdmin )
+            if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
             {
-                include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-                $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newUserObject->attribute( 'contentobject_id' ),
-                                                                                             'version' => $newUserObject->attribute( 'version' ) ) );
-                if ( $operationResult['status'] != EZ_MODULE_OPERATION_CONTINUE )
+                // setting up appropriate data in look&feel object
+                $templateLookObject = eZContentObject::fetch( 54 );
+                $dataMap =& $templateLookObject->fetchDataMap();
+                $dataMap[ 'title' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteName'] );
+                $dataMap[ 'title' ]->store();
+                $dataMap[ 'siteurl' ]->setAttribute( 'data_text', $siteINIChanges['SiteSettings']['SiteURL'] );
+                $dataMap[ 'siteurl' ]->store();
+                $dataMap[ 'email' ]->setAttribute( 'data_text', $siteINIChanges['MailSettings']['AdminEmail'] );
+                $dataMap[ 'email' ]->store();
+                $class = eZContentClass::fetch( $templateLookObject->attribute( 'contentclass_id' ) );
+                $objectName = $class->contentObjectName( $templateLookObject );
+                $templateLookObject->setName( $objectName );
+                $templateLookObject->store();
+            }
+        }
+
+        foreach ( $extraAdminSettings as $extraSetting )
+        {
+            if ( $extraSetting === false )
+                continue;
+
+            $iniName = $extraSetting['name'];
+            $settings = $extraSetting['settings'];
+            $resetArray = false;
+            if ( isset( $extraSetting['reset_arrays'] ) )
+                $resetArray = $extraSetting['reset_arrays'];
+            $tmpINI = eZINI::create( $iniName );
+            $tmpINI->setVariables( $settings );
+            if ( $iniName == 'site.ini' )
+            {
+                $siteINIAdminStored = true;
+                $tmpINI->setVariables( $siteINIChanges );
+                $tmpINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
+                $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
+                $tmpINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
+            }
+            $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName", $resetArray );
+        }
+
+        if ( !$siteINIAdminStored )
+        {
+            $siteINI = eZINI::create( 'site.ini' );
+            $siteINI->setVariables( $siteINIChanges );
+            $siteINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
+            $siteINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
+            $siteINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
+            $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName", true );
+        }
+        if ( !$siteINIStored )
+        {
+            $siteINI = eZINI::create( 'site.ini' );
+            $siteINI->setVariables( $siteINIChanges );
+            $siteINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
+            $siteINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
+            $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", true );
+        }
+        if ( !$designINIStored )
+        {
+            $designINI = eZINI::create( 'design.ini' );
+            if ( $siteCSS )
+                $designINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
+            if ( $classesCSS )
+                $designINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
+            $designINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName" );
+        }
+
+        eZDir::mkdir( "design/" . $userDesignName );
+        eZDir::mkdir( "design/" . $userDesignName . "/templates" );
+        eZDir::mkdir( "design/" . $userDesignName . "/stylesheets" );
+        eZDir::mkdir( "design/" . $userDesignName . "/images" );
+        eZDir::mkdir( "design/" . $userDesignName . "/override" );
+        eZDir::mkdir( "design/" . $userDesignName . "/override/templates" );
+
+        if ( $siteType['existing_database'] == EZ_SETUP_DB_DATA_KEEP )
+        {
+            return true;
+        }
+
+        include_once( 'kernel/classes/ezrole.php' );
+        // Try and remove user/login without limitation from the anonymous user
+        $anonRole = eZRole::fetchByName( 'Anonymous' );
+        if ( is_object( $anonRole ) )
+        {
+            $anonPolicies =& $anonRole->policyList();
+            foreach ( $anonPolicies as $anonPolicy )
+            {
+                if ( $anonPolicy->attribute( 'module_name' ) == 'user' and
+                     $anonPolicy->attribute( 'function_name' ) == 'login' )
                 {
-                    $resultArray['errors'][] = array( 'code' => 'EZSW-025',
-                                                      'text' => "Failed to properly publish the administrator object" );
+                    $anonPolicy->remove();
+                    break;
+                }
+            }
+        }
+
+        // Setup all roles according to site chosen and addons
+        $extraRoles = eZSetupRoles( $siteType['identifier'], $parameters );
+        foreach ( $extraRoles as $extraRole )
+        {
+            if ( !$extraRole )
+                continue;
+            $extraRoleName = $extraRole['name'];
+            $role = eZRole::fetchByName( $extraRoleName );
+            if ( !is_object( $role ) )
+            {
+                $role = eZRole::create( $extraRoleName );
+                $role->store();
+            }
+            $roleID = $role->attribute( 'id' );
+            if ( isset( $extraRole['policies'] ) )
+            {
+                $extraPolicies = $extraRole['policies'];
+                foreach ( $extraPolicies as $extraPolicy )
+                {
+                    if ( isset( $extraPolicy['limitation'] ) )
+                    {
+                        $role->appendPolicy( $extraPolicy['module'], $extraPolicy['function'], $extraPolicy['limitation'] );
+                    }
+                    else
+                    {
+                        $role->appendPolicy( $extraPolicy['module'], $extraPolicy['function'] );
+                    }
+                }
+            }
+            if ( isset( $extraRole['assignments'] ) )
+            {
+                $roleAssignments = $extraRole['assignments'];
+                foreach ( $roleAssignments as $roleAssignment )
+                {
+                    $assignmentIdentifier = false;
+                    $assignmentValue = false;
+                    if ( isset( $roleAssignment['limitation'] ) )
+                    {
+                        $assignmentIdentifier = $roleAssignment['limitation']['identifier'];
+                        $assignmentValue = $roleAssignment['limitation']['value'];
+                    }
+                    $role->assignToUser( $roleAssignment['user_id'], $assignmentIdentifier, $assignmentValue );
+                }
+            }
+        }
+
+        // Setup user preferences based on the site chosen and addons
+        include_once( 'kernel/classes/ezpreferences.php' );
+        $prefs = eZSetupPreferences( $siteType['identifier'], $parameters );
+        foreach ( $prefs as $prefEntry )
+        {
+            if ( !$prefEntry )
+                continue;
+            $prefUserID = $prefEntry['user_id'];
+            foreach ( $prefEntry['preferences'] as $pref )
+            {
+                $prefName = $pref['name'];
+                $prefValue = $pref['value'];
+                if ( !eZPreferences::setValue( $prefName, $prefValue, $prefUserID ) )
+                {
+                    $resultArray['errors'][] = array( 'code' => 'EZSW-070',
+                                                      'text' => "Could not create ezpreference '$prefValue' for $prefUserID" );
                     return false;
                 }
             }
         }
-//         else
-//             eZDebug::writeError( "Failed fetching package " . $siteType['identifier'] );
 
-        // This the end, my friend
-        // Well, almost
+        $publishAdmin = false;
+        include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
+        $userAccount = eZUser::fetch( 14 );
+        if ( !is_object( $userAccount ) )
+        {
+            $resultArray['errors'][] = array( 'code' => 'EZSW-020',
+                                              'text' => "Could not fetch administrator user object" );
+            return false;
+        }
+
+        $userObject =& $userAccount->attribute( 'contentobject' );
+        if ( !is_object( $userObject ) )
+        {
+            $resultArray['errors'][] = array( 'code' => 'EZSW-021',
+                                              'text' => "Could not fetch administrator content object" );
+            return false;
+        }
+
+        if ( trim( $admin['email'] ) )
+        {
+            $userAccount->setInformation( 14, 'admin', $admin['email'], $admin['password'], $admin['password'] );
+        }
+
+        if ( trim( $admin['first_name'] ) or trim( $admin['last_name'] ) )
+        {
+            $newUserObject = $userObject->createNewVersion( false, false );
+            if ( !is_object( $newUserObject ) )
+            {
+                $resultArray['errors'][] = array( 'code' => 'EZSW-022',
+                                                  'text' => "Could not create new version of administrator content object" );
+                return false;
+            }
+            $dataMap =& $newUserObject->attribute( 'data_map' );
+            $error = false;
+            if ( !isset( $dataMap['first_name'] ) )
+            {
+                $resultArray['errors'][] = array( 'code' => 'EZSW-023',
+                                                  'text' => "Administrator content object does not have a 'first_name' field" );
+                $error = true;
+            }
+            if ( !isset( $dataMap['last_name'] ) )
+            {
+                $resultArray['errors'][] = array( 'code' => 'EZSW-024',
+                                                  'text' => "Administrator content object does not have a 'last_name' field" );
+                $error = true;
+            }
+
+            if ( $error )
+                return false;
+
+            $dataMap['first_name']->setAttribute( 'data_text', $admin['first_name'] );
+            $dataMap['first_name']->store();
+            $dataMap['last_name']->setAttribute( 'data_text', $admin['last_name'] );
+            $dataMap['last_name']->store();
+            $newUserObject->store();
+            $publishAdmin = true;
+        }
+        $userAccount->store();
+
+        if ( $publishAdmin )
+        {
+            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newUserObject->attribute( 'contentobject_id' ),
+                                                                                         'version' => $newUserObject->attribute( 'version' ) ) );
+            if ( $operationResult['status'] != EZ_MODULE_OPERATION_CONTINUE )
+            {
+                $resultArray['errors'][] = array( 'code' => 'EZSW-025',
+                                                  'text' => "Failed to properly publish the administrator object" );
+                return false;
+            }
+        }
+
         return true;
     }
 

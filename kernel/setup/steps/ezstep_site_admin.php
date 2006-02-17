@@ -108,15 +108,11 @@ class eZStepSiteAdmin extends eZStepInstaller
     */
     function init()
     {
-        $siteTypes = $this->chosenSiteTypes();
-        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
+        $siteType = $this->chosenSiteType();
+        if ( isset( $siteType['existing_database'] ) &&
+             $siteType['existing_database'] == EZ_SETUP_DB_DATA_KEEP ) // Keep existing data in database, no need to reset admin user.
         {
-            $siteType = $siteTypes[$siteTypeKey];
-            if ( isset( $siteType['existing_database'] ) &&
-                 $siteType['existing_database'] == EZ_SETUP_DB_DATA_KEEP ) // Keep existing data in database, no need to reset admin user.
-            {
-                return true;
-            }
+            return true;
         }
 
         if ( $this->hasKickstartData() )
@@ -165,41 +161,43 @@ class eZStepSiteAdmin extends eZStepInstaller
         $this->Tpl->setVariable( 'email_invalid', 0 );
         $this->Tpl->setVariable( 'password_missmatch', 0 );
         $this->Tpl->setVariable( 'password_missing', 0 );
-        foreach ( $this->Error as $key => $error )
+
+        if ( isset( $this->Error[0] ) )
         {
-            switch ( $error )
+            switch ( $this->Error[0] )
             {
                 case EZ_SETUP_SITE_ADMIN_FIRST_NAME_MISSING:
                 {
                     $this->Tpl->setVariable( 'first_name_missing', 1 );
                 } break;
-
+    
                 case EZ_SETUP_SITE_ADMIN_LAST_NAME_MISSING:
                 {
                     $this->Tpl->setVariable( 'last_name_missing', 1 );
                 } break;
-
+    
                 case EZ_SETUP_SITE_ADMIN_EMAIL_MISSING:
                 {
                     $this->Tpl->setVariable( 'email_missing', 1 );
                 } break;
-
+    
                 case EZ_SETUP_SITE_ADMIN_EMAIL_INVALID:
                 {
                     $this->Tpl->setVariable( 'email_invalid', 1 );
                 } break;
-
+    
                 case EZ_SETUP_SITE_ADMIN_PASSWORD_MISSMATCH:
                 {
                     $this->Tpl->setVariable( 'password_missmatch', 1 );
                 } break;
-
+    
                 case EZ_SETUP_SITE_ADMIN_PASSWORD_MISSING:
                 {
                     $this->Tpl->setVariable( 'password_missing', 1 );
                 } break;
             }
         }
+
         $this->Tpl->setVariable( 'has_errors', count( $this->Error ) > 0 );
 
         $adminUser = array( 'first_name' => false,

@@ -83,11 +83,17 @@ class eZStepInstaller
             $this->PersistenceList['use_kickstart'][$identifier] = false;
         }
 
+        eZDebug::writeDebug( $this->Identifier, '$this->Identifier' );
+
         if ( $this->INI->hasGroup( $this->Identifier ) )
         {
             $this->KickstartData = $this->INI->group( $this->Identifier );
             $this->PersistenceList['kickstart'][$identifier] = true;
+
+            eZDebug::writeDebug( $this->KickstartData, '$this->KickstartData' );
         }
+
+        eZDebug::writeDebug( $this->PersistenceList['use_kickstart'][$identifier], 'use_kickstart' );
     }
 
     /*!
@@ -230,11 +236,15 @@ class eZStepInstaller
         return $usableCharsets;
     }
 
-    function availableSiteTypes()
+    function availableSitePackages()
     {
-        include_once( 'kernel/setup/ezsetuptypes.php' );
-        $siteTypes = eZSetupTypes();
-        return $siteTypes;
+        //include_once( 'kernel/setup/ezsetuptypes.php' );
+        //$siteTypes = eZSetupTypes();
+
+        include_once( 'kernel/classes/ezpackage.php' );
+        $packageList = eZPackage::fetchPackages( array(), array( 'type' => 'site' ) );
+
+        return $packageList;
     }
 
     function extraDataList()
@@ -244,6 +254,8 @@ class eZStepInstaller
                       'existing_database' );
     }
 
+    //TODO: Remove as obsolete
+    /*
     function chosenSiteTypes()
     {
         include_once( 'kernel/setup/ezsetuptypes.php' );
@@ -270,7 +282,38 @@ class eZStepInstaller
         }
         return $chosenSiteTypes;
     }
+    */
 
+    function chosenSitePackage()
+    {
+        if ( isset( $this->PersistenceList['chosen_site_package']['0'] ) )
+        {
+            return $this->PersistenceList['chosen_site_package']['0'];
+        }
+        else
+            return false;
+    }
+
+    function chosenSiteType()
+    {
+        if ( isset( $this->PersistenceList['chosen_site_package']['0'] ) )
+        {
+            $siteTypeIdentifier = $this->PersistenceList['chosen_site_package']['0'];
+            $chosenSiteType['identifier'] = $siteTypeIdentifier;
+            $extraList = $this->extraDataList();
+
+            foreach ( $extraList as $extraItem )
+            {
+                if ( isset( $this->PersistenceList['site_extra_data_' . $extraItem][$siteTypeIdentifier] ) )
+                {
+                    $chosenSiteType[$extraItem] = $this->PersistenceList['site_extra_data_' . $extraItem][$siteTypeIdentifier];
+                }
+            }
+        }
+        return $chosenSiteType;
+    }
+    //TODO: Remove as obsolete
+    /*
     function selectSiteTypes( $chosenSiteTypes )
     {
         include_once( 'kernel/setup/ezsetuptypes.php' );
@@ -297,7 +340,22 @@ class eZStepInstaller
         $this->PersistenceList['chosen_site_types'] = $chosenList;
         return true;
     }
+    */
+    function selectSiteType( $sitePackageName )
+    {
+        include_once( 'kernel/classes/ezpackage.php' );
 
+        $package = eZPackage::fetch( $sitePackageName );
+        if ( !$package )
+            return false;
+
+        $this->PersistenceList['chosen_site_package']['0'] = $sitePackageName;
+
+        $this->PersistenceList['site_extra_data_title'][$sitePackageName] = $package->attribute('summary');
+        return true;
+    }
+
+    /*
     function storeSiteTypes( $siteTypes )
     {
         $extraList = $this->extraDataList();
@@ -315,6 +373,21 @@ class eZStepInstaller
             $siteList[] = $siteIdentifier;
         }
         $this->PersistenceList['chosen_site_types'] = $siteList;
+    }
+    */
+
+    function storeSiteType( $siteType )
+    {
+        $extraList = $this->extraDataList();
+        $siteIdentifier = $siteType['identifier'];
+        foreach ( $extraList as $extraItem )
+        {
+            if ( isset( $siteType[$extraItem] ) )
+            {
+                $this->PersistenceList['site_extra_data_' . $extraItem][$siteIdentifier] = $siteType[$extraItem];
+            }
+        }
+        $this->PersistenceList['chosen_site_package']['0'] = $siteIdentifier;
     }
 
     function storeExtraSiteData( $siteIdentifier, $dataIdentifier, $value )

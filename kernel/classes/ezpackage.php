@@ -44,7 +44,7 @@ include_once( 'lib/ezfile/classes/ezfile.php' );
 include_once( 'lib/ezfile/classes/ezdir.php' );
 include_once( 'lib/ezfile/classes/ezfilehandler.php' );
 
-define( 'EZ_PACKAGE_VERSION', '3.5.2' );
+define( 'EZ_PACKAGE_VERSION', '3.8.0' );
 define( 'EZ_PACKAGE_DEVELOPMENT', false );
 define( 'EZ_PACKAGE_USE_CACHE', true );
 define( 'EZ_PACKAGE_CACHE_CODEDATE', 1069339607 );
@@ -1732,43 +1732,30 @@ class eZPackage
 
     /*!
      Locates all dependent packages in the repository and returns an array with eZPackage objects.
-     \warning This function is not in use and change in the future
+     \param $dependencyType is the name of a dependency sub-node. (ie. 'provides', 'requires' etc...)
     */
-    function fetchDependentPackages( $parameters = array() )
+    function fetchDependentPackages( $dependencyType, &$failedList )
     {
         $packages = array();
-        $requiredType = null;
-        $requiredName = null;
-        if ( isset( $parameters['type'] ) )
-            $requiredType = $parameters['type'];
-        if ( isset( $parameters['name'] ) )
-            $requiredName = $parameters['name'];
+        $provides = $this->Parameters['dependencies'][$dependencyType];
 
-        $privides = $this->Parameters['dependencies']["provides"];
-
-        if ( $privides != null )
+        if ( $provides != null )
         {
-            foreach ( $privides as $privide )
+            foreach ( $provides as $provide )
             {
-                $packageName = $privide['name'];
-                if ( $requiredType !== null )
+                // fetch only dependent packages, not package items.
+                if ( $provide['type'] == 'ezpackage' )
                 {
-                    $type = $privide['type'];
-                    if ( $requiredType != $type )
+                    // TODO: Add fetching from URL (not here ?)
+                    $package = $this->fetch( $provide['name'] );
+
+                    if ( !$package )
                     {
+                        $failedList[] = $provide['name'];
                         continue;
                     }
+                    $packages[] =& $package;
                 }
-
-                if ( $requiredName !== null )
-                {
-                    if ( $requiredName != $packageName )
-                        continue;
-                }
-                $package = $this->fetch( $packageName );
-                if ( !$package )
-                    continue;
-                $packages[] =& $package;
             }
         }
         return $packages;
@@ -1786,22 +1773,32 @@ class eZPackage
     */
     function packageRepositories( $parameters = array() )
     {
-        $path = eZPackage::repositoryPath();
-
         if ( isset( $parameters['path'] ) and $parameters['path'] )
+        {
             $path = $parameters['path'];
-        $packageRepositories = array( array( 'path' => $path,
+            $packageRepositories = array( array( 'path' => $path,
                                              'id' => 'local',
                                              'name' => ezi18n( 'kernel/package', 'Local' ),
-                                             'type' => 'local' ),
-                                      array( 'path' => eZPackage::globalRepositoryPath( 'styles' ),
-                                             'id' => 'styles',
-                                             'name' => ezi18n( 'kernel/package', 'Styles' ),
-                                             'type' => 'global' ),
-                                      array( 'path' => eZPackage::globalRepositoryPath( 'addons' ),
-                                             'id' => 'addons',
-                                             'name' => ezi18n( 'kernel/package', 'Addons' ),
-                                             'type' => 'global' ) );
+                                             'type' => 'local' ) );
+        }
+        else
+        {
+            $packageRepositories = array( array( 'path' => eZPackage::repositoryPath(),
+                                                 'id' => 'local',
+                                                 'name' => ezi18n( 'kernel/package', 'Local' ),
+                                                 'type' => 'local' ) );
+        
+            $globalPath = eZPackage::globalRepositoryPath( false );
+            $subdirs = eZDir::findSubitems( $globalPath, 'd' );
+        
+            foreach( $subdirs as $dir )
+            {
+                $packageRepositories[] = array( 'path' => $globalPath . '/' . $dir,
+                                                'id' => $dir,
+                                                'name' => $dir,
+                                                'type' => 'global' );
+            }
+        }
         return $packageRepositories;
     }
 
@@ -2456,8 +2453,8 @@ class eZPackage
         $dom = new eZDOMDocument();
         $root = $dom->createElementNode( 'package', array( 'version' => EZ_PACKAGE_VERSION,
                                                            'development' => ( EZ_PACKAGE_DEVELOPMENT ? 'true' : 'false' ) ) );
-        $domUrlAttributeNode = $dom->createAttributeNode( 'ezpackage', 'http://ez.no/ezpackage', 'xmlns' );
-        $root->appendAttribute( $domUrlAttributeNode );
+        //$domUrlAttributeNode = $dom->createAttributeNode( 'ezpackage', 'http://ez.no/ezpackage', 'xmlns' );
+        //$root->appendAttribute( $domUrlAttributeNode );
         $dom->setRoot( $root );
 
         if ( EZ_PACKAGE_DEVELOPMENT )
@@ -2590,8 +2587,8 @@ class eZPackage
         $root->appendAttribute( $rootInstallTypeAttributeNode );
 
         $ezpublishNode = $dom->createElementNode( 'ezpublish' );
-        $ezpublishLinkAttributeNode = $dom->createAttributeNode( 'ezpublish', 'http://ez.no/ezpublish', 'xmlns' );
-        $ezpublishNode->appendAttribute( $ezpublishLinkAttributeNode );
+        //$ezpublishLinkAttributeNode = $dom->createAttributeNode( 'ezpublish', 'http://ez.no/ezpublish', 'xmlns' );
+        //$ezpublishNode->appendAttribute( $ezpublishLinkAttributeNode );
 
         $ezpublishVersionTextNode = $dom->createElementTextNode( 'version', $ezpublishVersion );
         $ezpublishNode->appendChild( $ezpublishVersionTextNode );
@@ -2604,8 +2601,8 @@ class eZPackage
         if ( count( $maintainers ) > 0 )
         {
             $maintainersNode = $dom->createElementNode( 'maintainers' );
-            $maintainersLinkAttributeNode = $dom->createAttributeNode( 'ezmaintainer', 'http://ez.no/ezpackage', 'xmlns' );
-            $maintainersNode->appendAttribute( $maintainersLinkAttributeNode );
+            //$maintainersLinkAttributeNode = $dom->createAttributeNode( 'ezmaintainer', 'http://ez.no/ezpackage', 'xmlns' );
+            //$maintainersNode->appendAttribute( $maintainersLinkAttributeNode );
             $index = 0;
             foreach ( $maintainers as $maintainer )
             {
@@ -2639,8 +2636,8 @@ class eZPackage
         }
 
         $packagingNode = $dom->createElementNode( 'packaging' );
-        $packagingAttributeUrl = $dom->createAttributeNode( 'ezpackaging', 'http://ez.no/ezpackage', 'xmlns' );
-        $packagingNode->appendAttribute( $packagingAttributeUrl );
+        //$packagingAttributeUrl = $dom->createAttributeNode( 'ezpackaging', 'http://ez.no/ezpackage', 'xmlns' );
+        //$packagingNode->appendAttribute( $packagingAttributeUrl );
 
         $packagingTimestamp = $dom->createElementTextNode( 'timestamp', $packagingTimestamp );
         $packagingNode->appendChild( $packagingTimestamp );
@@ -2732,8 +2729,8 @@ class eZPackage
         if ( count( $changelog ) > 0 )
         {
             $changelogNode = $dom->createElementNode( 'changelog' );
-            $changelogUrl = $dom->createAttributeNode( 'ezchangelog', 'http://ez.no/ezpackage', 'xmlns' );
-            $changelogNode->appendAttribute( $changelogUrl );
+            //$changelogUrl = $dom->createAttributeNode( 'ezchangelog', 'http://ez.no/ezpackage', 'xmlns' );
+            //$changelogNode->appendAttribute( $changelogUrl );
             $index = 0;
             foreach ( $changelog as $changeEntry )
             {
@@ -2810,8 +2807,8 @@ class eZPackage
 
         // Handle files
         $filesNode = $dom->createElementNode( 'files' );
-        $filesUrl = $dom->createAttributeNode( 'ezfile', 'http://ez.no/ezpackage', 'xmlns' );
-        $filesNode->appendAttribute( $filesUrl );
+        //$filesUrl = $dom->createAttributeNode( 'ezfile', 'http://ez.no/ezpackage', 'xmlns' );
+        //$filesNode->appendAttribute( $filesUrl );
         $hasFileItems = false;
         foreach ( $fileList as $fileCollectionName => $fileCollection )
         {
@@ -2992,8 +2989,8 @@ class eZPackage
             $root->appendChild( $filesNode );
 
         $versionNode = $dom->createElementNode( 'version' );
-        $versionUrlAttributeNode = $dom->createAttributeNode( 'ezversion', 'http://ez.no/ezpackage', 'xmlns' );
-        $versionNode->appendAttribute( $versionUrlAttributeNode );
+        //$versionUrlAttributeNode = $dom->createAttributeNode( 'ezversion', 'http://ez.no/ezpackage', 'xmlns' );
+        //$versionNode->appendAttribute( $versionUrlAttributeNode );
         $numberAttributes = array();
         if ( !$exportFormat and $this->isModified( 'version-number' ) )
             $numberAttributes['modified'] = $this->isModified( 'version-number' );
@@ -3032,8 +3029,8 @@ class eZPackage
         }
 
         $dependencyNode = $dom->createElementNode( 'dependencies' );
-        $dependencyLinkNode = $dom->createAttributeNode( 'ezdependency', 'http://ez.no/ezpackage', 'xmlns' );
-        $dependencyNode->appendAttribute( $dependencyLinkNode );
+        //$dependencyLinkNode = $dom->createAttributeNode( 'ezdependency', 'http://ez.no/ezpackage', 'xmlns' );
+        //$dependencyNode->appendAttribute( $dependencyLinkNode );
 
         $providesNode = $dom->createElementNode( 'provides' );
         $dependencyNode->appendChild( $providesNode );
@@ -3052,12 +3049,12 @@ class eZPackage
         $root->appendChild( $dependencyNode );
 
         $installNode = $dom->createElementNode( 'install' );
-        $installLinkAttributeNode = $dom->createAttributeNode( 'ezinstall', 'http://ez.no/ezpackage', 'xmlns' );
-        $installNode->appendAttribute( $installLinkAttributeNode );
+        //$installLinkAttributeNode = $dom->createAttributeNode( 'ezinstall', 'http://ez.no/ezpackage', 'xmlns' );
+        //$installNode->appendAttribute( $installLinkAttributeNode );
 
         $uninstallNode = $dom->createElementNode( 'uninstall' );
-        $uninstallLinkAttributeNode = $dom->createAttributeNode( 'ezinstall', 'http://ez.no/ezpackage', 'xmlns' );
-        $uninstallNode->appendAttribute( $uninstallLinkAttributeNode );
+        //$uninstallLinkAttributeNode = $dom->createAttributeNode( 'ezinstall', 'http://ez.no/ezpackage', 'xmlns' );
+        //$uninstallNode->appendAttribute( $uninstallLinkAttributeNode );
 
         $this->createInstallTree( $export, $installNode, $dom, $install, 'install' );
         $this->createInstallTree( $export, $uninstallNode, $dom, $uninstall, 'uninstall' );
@@ -3068,8 +3065,8 @@ class eZPackage
         if ( count( $this->InstallData ) > 0 )
         {
             $installDataNode = $dom->createElementNode( 'install-data' );
-            $installDataAttributeNode = $dom->createAttributeNode( 'ezinstall', 'http://ez.no/ezpackage', 'xmlns' );
-            $installDataNode->appendAttribute( $installDataAttributeNode );
+            //$installDataAttributeNode = $dom->createAttributeNode( 'ezinstall', 'http://ez.no/ezpackage', 'xmlns' );
+            //$installDataNode->appendAttribute( $installDataAttributeNode );
             foreach ( $this->InstallData as $installDataType => $installData )
             {
                 if ( count( $installData ) > 0 )

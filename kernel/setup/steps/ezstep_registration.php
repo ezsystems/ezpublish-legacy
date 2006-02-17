@@ -63,47 +63,42 @@ class eZStepRegistration extends eZStepInstaller
         $emailInfo = $this->PersistenceList['email_info'];
 
         $siteTemplates = array();
-        $siteTypes = $this->chosenSiteTypes();
-        $counter = 0;
-        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
-        {
-            $siteType =& $siteTypes[$siteTypeKey];
-            $siteTemplates[$counter] = $siteType;
+        $siteType = $this->chosenSiteType();
 
-            $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
-            $additionalPackages = array();
-            if ( isset( $this->PersistenceList['additional_packages'] ) )
-                $additionalPackages = $this->PersistenceList['additional_packages'];
-            $extraFunctionality = array_merge( $additionalPackages,
-                                               $typeFunctionality['required'] );
-            $extraFunctionality = array_unique( $extraFunctionality );
-            $url = $siteTemplates[$counter]['url'];
-            if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
-            {
-                $url = 'http://' . $url;
-            }
-            $currentURL = $url;
-            $adminURL = $url;
-            if ( $siteTemplates[$counter]['access_type'] == 'url' )
-            {
-                $url .= '/' . $siteTemplates[$counter]['access_type_value'];
-                $adminURL .= '/' . $siteTemplates[$counter]['admin_access_type_value'];
-            }
-            else if ( $siteTemplates[$counter]['access_type'] == 'hostname' )
-            {
-                $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'host' => $siteTemplates[$counter]['access_type_value'] ) );
-                $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'host' => $siteTemplates[$counter]['admin_access_type_value'] ) );
-            }
-            else if ( $siteTemplates[$counter]['access_type'] == 'port' )
-            {
-                $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'port' => $siteTemplates[$counter]['access_type_value'] ) );
-                $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'port' => $siteTemplates[$counter]['admin_access_type_value'] ) );
-            }
-            $siteTemplates[$counter]['url'] = $url;
-            $siteTemplates[$counter]['admin_url'] = $adminURL;
-            $siteTemplates[$counter]['extra_functionality'] = $extraFunctionality;
-            ++$counter;
+
+       /* $typeFunctionality = eZSetupFunctionality( $siteType['identifier'] );
+        $additionalPackages = array();
+        if ( isset( $this->PersistenceList['additional_packages'] ) )
+            $additionalPackages = $this->PersistenceList['additional_packages'];
+        $extraFunctionality = array_merge( $additionalPackages,
+                                           $typeFunctionality['required'] );
+        $extraFunctionality = array_unique( $extraFunctionality );*/
+        $url = $siteType['url'];
+        if ( !preg_match( "#^[a-zA-Z0-9]+://(.*)$#", $url ) )
+        {
+            $url = 'http://' . $url;
         }
+        $currentURL = $url;
+        $adminURL = $url;
+        if ( $siteType['access_type'] == 'url' )
+        {
+            $url .= '/' . $siteType['access_type_value'];
+            $adminURL .= '/' . $siteType['admin_access_type_value'];
+        }
+        else if ( $siteType['access_type'] == 'hostname' )
+        {
+            $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'host' => $siteType['access_type_value'] ) );
+            $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'host' => $siteType['admin_access_type_value'] ) );
+        }
+        else if ( $siteType['access_type'] == 'port' )
+        {
+            $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'port' => $siteType['access_type_value'] ) );
+            $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'port' => $siteType['admin_access_type_value'] ) );
+        }
+        $siteType['url'] = $url;
+        $siteType['admin_url'] = $adminURL;
+        //$siteType['extra_functionality'] = $extraFunctionality;
+
 
         $testsRun = $this->PersistenceList['tests_run'];
         $imageMagickProgram = $this->PersistenceList['imagemagick_program'];
@@ -135,7 +130,7 @@ class eZStepRegistration extends eZStepInstaller
         $mailTpl->setVariable( 'regional_info', $regionalInfo );
 //        $mailTpl->setVariable( 'demo_data', $demoData );
         $mailTpl->setVariable( 'email_info', $emailInfo );
-        $mailTpl->setVariable( 'site_templates', $siteTemplates );
+        $mailTpl->setVariable( 'site_type', $siteType );
         $mailTpl->setVariable( 'tests_run', $testsRun );
         $mailTpl->setVariable( 'imagemagick_program', $imageMagickProgram );
         $mailTpl->setVariable( 'imagegd_extension', $imageGDExtension );

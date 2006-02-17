@@ -64,7 +64,6 @@ class eZStepSiteDetails extends eZStepInstaller
     */
     function processPostData()
     {
-
         include_once( 'lib/ezdb/classes/ezdbtool.php' );
         $databaseMap = eZSetupDatabaseMap();
 
@@ -84,108 +83,108 @@ class eZStepSiteDetails extends eZStepInstaller
         $siteAccessValues['admin'] = 1; // Add user and admin as illegal site access values
         $siteAccessValues['user'] = 1;
 
-        $siteTypes = $this->chosenSiteTypes();
+        $siteType = $this->chosenSiteType();
         unset( $this->PersistenceList['regional_info']['site_charset'] );
 
-        $counter = 0;
-        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
+
+        $siteType['title'] = $this->Http->postVariable( 'eZSetup_site_templates_title' );
+        $siteType['url'] = $this->Http->postVariable( 'eZSetup_site_templates_url' );
+
+        $error = false;
+        if ( isset( $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_value' )] ) ) // check for equal site access values
         {
-            $siteType =& $siteTypes[$siteTypeKey];
-            $siteType['title'] = $this->Http->postVariable( 'eZSetup_site_templates_' . $counter.'_title' );
-            $siteType['url'] = $this->Http->postVariable( 'eZSetup_site_templates_' . $counter.'_url' );
-
-            $error = false;
-            if ( isset( $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_value' )] ) ) // check for equal site access values
-            {
-                $this->Error[$counter] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
-                $error = true;
-            }
-
-            $siteType['access_type_value'] = $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_value' );
-            $siteAccessValues[$siteType['access_type_value']] = 1;
-
-            if ( isset( $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_admin_value' )] ) ) // check for equal site access values
-            {
-                $this->Error[$counter] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
-                $error = true;
-            }
-
-            $siteType['admin_access_type_value'] = $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_admin_value' );
-            $siteAccessValues[$siteType['admin_access_type_value']] = 1;
-
-            $siteType['database'] = $this->Http->postVariable( 'eZSetup_site_templates_' . $counter . '_database' );
-
-            if ( isset( $chosenDatabases[$siteType['database']] ) )
-            {
-                $this->Error[$counter] = EZ_SETUP_DB_ERROR_ALREADY_CHOSEN;
-                $error = true;
-            }
-
-            $chosenDatabases[$siteType['database']] = 1;
-
-            if ( $error )
-                continue;
-
-            // Check database connection
-            $result = $this->checkDatabaseRequirements( false,
-                                                        array( 'database' => $siteType['database'] ) );
-
-            if ( !$result['status'] )
-            {
-                $this->Error[$counter] = array( 'type' => 'db',
-                                                'error_code' => $result['error_code'] );
-                continue;
-            }
-            // Store charset if found
-            if ( $result['site_charset'] )
-            {
-                $this->PersistenceList['regional_info']['site_charset'] = $result['site_charset'];
-            }
-
-            $db =& $result['db_instance'];
-
-            $dbStatus['connected'] = $result['connected'];
-
-            $dbError = false;
-            $demoDataResult = true;
-            if ( $dbStatus['connected'] )
-            {
-
-                if ( count( $db->eZTableList() ) != 0 )
-                {
-                    if ( $this->Http->hasPostVariable( 'eZSetup_site_templates_'.$counter.'_existing_database' ) &&
-                         $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_existing_database' ) != EZ_SETUP_DB_DATA_CHOOSE )
-                    {
-                        $siteType['existing_database'] = $this->Http->postVariable( 'eZSetup_site_templates_' . $counter . '_existing_database' );
-                    }
-                    else
-                    {
-                        $this->Error[$counter] = EZ_SETUP_DB_ERROR_NOT_EMPTY ;
-                    }
-                }
-            }
-            else
-            {
-                return 'DatabaseInit';
-            }
-
-            /* Check for valid host names */
-            if ( $siteType['access_type'] == 'hostname' )
-            {
-                if ( strpos( $siteType['access_type_value'], '_' ) !== false )
-                {
-                    $siteType['access_type_value'] = strtr ( $siteType['access_type_value'], '_', '-' ) ;
-                    $this->Error[$counter] = EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME;
-                }
-                if ( strpos( $siteType['admin_access_type_value'], '_' ) !== false )
-                {
-                    $siteType['admin_access_type_value'] = strtr ( $siteType['admin_access_type_value'], '_', '-' ) ;
-                    $this->Error[$counter] = EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME;
-                }
-            }
-            ++$counter;
+            $this->Error[0] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
+            $error = true;
         }
-        $this->storeSiteTypes( $siteTypes );
+
+        $siteType['access_type_value'] = $this->Http->postVariable( 'eZSetup_site_templates_value' );
+        $siteAccessValues[$siteType['access_type_value']] = 1;
+
+        if ( isset( $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_admin_value' )] ) ) // check for equal site access values
+        {
+            $this->Error[0] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
+            $error = true;
+        }
+
+        $siteType['admin_access_type_value'] = $this->Http->postVariable( 'eZSetup_site_templates_admin_value' );
+        $siteAccessValues[$siteType['admin_access_type_value']] = 1;
+
+        $siteType['database'] = $this->Http->postVariable( 'eZSetup_site_templates_database' );
+
+        if ( isset( $chosenDatabases[$siteType['database']] ) )
+        {
+            $this->Error[0] = EZ_SETUP_DB_ERROR_ALREADY_CHOSEN;
+            $error = true;
+        }
+
+        $chosenDatabases[$siteType['database']] = 1;
+
+        if ( $error )
+        {
+            $this->storeSiteType( $siteType );
+            return false;
+        }
+
+        // Check database connection
+        $result = $this->checkDatabaseRequirements( false,
+                                                    array( 'database' => $siteType['database'] ) );
+
+        if ( !$result['status'] )
+        {
+            $this->Error[0] = array( 'type' => 'db',
+                                            'error_code' => $result['error_code'] );
+            continue;
+        }
+        // Store charset if found
+        if ( $result['site_charset'] )
+        {
+            $this->PersistenceList['regional_info']['site_charset'] = $result['site_charset'];
+        }
+
+        $db =& $result['db_instance'];
+
+        $dbStatus['connected'] = $result['connected'];
+
+        $dbError = false;
+        $demoDataResult = true;
+        if ( $dbStatus['connected'] )
+        {
+
+            if ( count( $db->eZTableList() ) != 0 )
+            {
+                if ( $this->Http->hasPostVariable( 'eZSetup_site_templates_existing_database' ) &&
+                     $this->Http->postVariable( 'eZSetup_site_templates_existing_database' ) != EZ_SETUP_DB_DATA_CHOOSE )
+                {
+                    $siteType['existing_database'] = $this->Http->postVariable( 'eZSetup_site_templates_existing_database' );
+                }
+                else
+                {
+                    $this->Error[0] = EZ_SETUP_DB_ERROR_NOT_EMPTY ;
+                }
+            }
+        }
+        else
+        {
+            return 'DatabaseInit';
+        }
+
+        /* Check for valid host names */
+        if ( $siteType['access_type'] == 'hostname' )
+        {
+            if ( strpos( $siteType['access_type_value'], '_' ) !== false )
+            {
+                $siteType['access_type_value'] = strtr ( $siteType['access_type_value'], '_', '-' ) ;
+                $this->Error[0] = EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME;
+            }
+            if ( strpos( $siteType['admin_access_type_value'], '_' ) !== false )
+            {
+                $siteType['admin_access_type_value'] = strtr ( $siteType['admin_access_type_value'], '_', '-' ) ;
+                $this->Error[0] = EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME;
+            }
+        }
+
+
+        $this->storeSiteType( $siteType );
 
         return ( count( $this->Error ) == 0 );
     }
@@ -199,102 +198,101 @@ class eZStepSiteDetails extends eZStepInstaller
         {
             $data = $this->kickstartData();
 
-            $siteTypes = $this->chosenSiteTypes();
+            $siteType = $this->chosenSiteType();
 
-            $counter = 0;
+            eZDebug::writeDebug( $siteType, '$siteType site_details_init' );
+
             $portCounter = 8080;
 
-            foreach ( array_keys( $siteTypes ) as $siteTypeKey )
+            $identifier = $siteType['identifier'];
+            $siteType['title'] = isset( $data['Title'][$identifier] ) ? $data['Title'][$identifier] : false;
+            if ( !$siteType['title'] )
+                $siteType['title'] = $siteType['name'];
+            $siteType['url'] = isset( $data['URL'][$identifier] ) ? $data['URL'][$identifier] : false;
+            if ( strlen( $siteType['url'] ) == 0 )
+                $siteType['url'] = 'http://' . eZSys::hostName() . eZSys::indexDir( false );
+
+            switch ( $siteType['access_type'] )
             {
-                $siteType =& $siteTypes[$siteTypeKey];
-                $identifier = $siteType['identifier'];
-                $siteType['title'] = isset( $data['Title'][$identifier] ) ? $data['Title'][$identifier] : false;
-                if ( !$siteType['title'] )
-                    $siteType['title'] = $siteType['name'];
-                $siteType['url'] = isset( $data['URL'][$identifier] ) ? $data['URL'][$identifier] : false;
-                if ( strlen( $siteType['url'] ) == 0 )
-                    $siteType['url'] = 'http://' . eZSys::hostName() . eZSys::indexDir( false );
-
-                switch ( $siteType['access_type'] )
+                case 'port':
                 {
-                    case 'port':
-                        {
-                            // Change access port for user site, if not use default which is the current value of $portCoutner
-                            if ( isset( $data['AccessPort'][$identifier] ) )
-                                $siteType['access_type_value'] = $data['AccessPort'][$identifier];
-                            else
-                                $siteType['access_type_value'] = $portCounter++;
+                    // Change access port for user site, if not use default which is the current value of $portCoutner
+                    if ( isset( $data['AccessPort'][$identifier] ) )
+                        $siteType['access_type_value'] = $data['AccessPort'][$identifier];
+                    else
+                        $siteType['access_type_value'] = $portCounter++;
 
-                            // Change access port for admin site, if not use default which is the current value of $portCoutner
-                            if ( isset( $data['AdminAccessPort'][$identifier] ) )
-                                $siteType['admin_access_type_value'] = $data['AdminAccessPort'][$identifier];
-                            else
-                                $siteType['admin_access_type_value'] = $portCounter++;
-                        }
-                        break;
-
-                    case 'hostname':
-                        {
-                            if ( isset( $data['AccessHostname'][$identifier] ) )
-                                $siteType['access_type_value'] = $data['AccessHostname'][$identifier];
-                            else
-                                $siteType['access_type_value'] = $siteType['identifier'] . '.' . eZSys::hostName();
-
-                            if ( isset( $data['AdminAccessHostname'][$identifier] ) )
-                                $siteType['admin_access_type_value'] = $data['AdminAccessHostname'][$identifier];
-                            else
-                                $siteType['admin_access_type_value'] = $siteType['identifier'] . '-admin.' . eZSys::hostName();
-                        }
-                        break;
-
-                    default:
-                        {
-                            // Change access name for user site, if not use default which is the identifier
-                            if ( isset( $data['Access'][$identifier] ) )
-                                $siteType['access_type_value'] = $data['Access'][$identifier];
-                            else
-                                $siteType['access_type_value'] = $siteType['identifier'];
-
-                            // Change access name for admin site, if not use default which is the identifier + _admin
-                            if ( isset( $data['AdminAccess'][$identifier] ) )
-                                $siteType['admin_access_type_value'] = $data['AdminAccess'][$identifier];
-                            else
-                                $siteType['admin_access_type_value'] = $siteType['identifier'] . '_admin';
-                        }
-                        break;
-                };
-
-                $siteType['database'] = $data['Database'][$identifier];
-                $action = EZ_SETUP_DB_DATA_APPEND;
-                $map = array( 'ignore' => 1,
-                              'remove' => 2,
-                              'skip' => 3 );
-                // Figure out what to do with database, do we need cleanup etc?
-                if ( isset( $map[$data['DatabaseAction'][$identifier]] ) )
-                    $action = $map[$data['DatabaseAction'][$identifier]];
-                $siteType['existing_database'] = $action;
-
-                $chosenDatabases[$siteType['database']] = 1;
-
-                $result = $this->checkDatabaseRequirements( false,
-                                                            array( 'database' => $siteType['database'] ) );
-
-                if ( !$result['status'] )
-                {
-                    $this->Error[$counter] = array( 'type' => 'db',
-                                                    'error_code' => $result['error_code'] );
-                    continue;
+                    // Change access port for admin site, if not use default which is the current value of $portCoutner
+                    if ( isset( $data['AdminAccessPort'][$identifier] ) )
+                        $siteType['admin_access_type_value'] = $data['AdminAccessPort'][$identifier];
+                    else
+                        $siteType['admin_access_type_value'] = $portCounter++;
                 }
+                break;
 
-                // Store charset if found
-                if ( $result['site_charset'] )
+                case 'hostname':
                 {
-                    $this->PersistenceList['regional_info']['site_charset'] = $result['site_charset'];
-                }
+                    if ( isset( $data['AccessHostname'][$identifier] ) )
+                        $siteType['access_type_value'] = $data['AccessHostname'][$identifier];
+                    else
+                        $siteType['access_type_value'] = $siteType['identifier'] . '.' . eZSys::hostName();
 
-                ++$counter;
+                    if ( isset( $data['AdminAccessHostname'][$identifier] ) )
+                        $siteType['admin_access_type_value'] = $data['AdminAccessHostname'][$identifier];
+                    else
+                        $siteType['admin_access_type_value'] = $siteType['identifier'] . '-admin.' . eZSys::hostName();
+                }
+                break;
+
+                default:
+                {
+                    // Change access name for user site, if not use default which is the identifier
+                    if ( isset( $data['Access'][$identifier] ) )
+                        $siteType['access_type_value'] = $data['Access'][$identifier];
+                    else
+                        $siteType['access_type_value'] = $siteType['identifier'];
+
+                    // Change access name for admin site, if not use default which is the identifier + _admin
+                    if ( isset( $data['AdminAccess'][$identifier] ) )
+                        $siteType['admin_access_type_value'] = $data['AdminAccess'][$identifier];
+                    else
+                        $siteType['admin_access_type_value'] = $siteType['identifier'] . '_admin';
+                }
+                break;
+            };
+
+            eZDebug::writeDebug( $data, '$data site_details_init' );
+            eZDebug::writeDebug( $identifier, '$identifier site_details_init' );
+
+            $siteType['database'] = $data['Database'][$identifier];
+            $action = EZ_SETUP_DB_DATA_APPEND;
+            $map = array( 'ignore' => 1,
+                          'remove' => 2,
+                          'skip' => 3 );
+            // Figure out what to do with database, do we need cleanup etc?
+            if ( isset( $map[$data['DatabaseAction'][$identifier]] ) )
+                $action = $map[$data['DatabaseAction'][$identifier]];
+            $siteType['existing_database'] = $action;
+
+            $chosenDatabases[$siteType['database']] = 1;
+
+            $result = $this->checkDatabaseRequirements( false,
+                                                        array( 'database' => $siteType['database'] ) );
+
+            if ( !$result['status'] )
+            {
+                $this->Error[0] = array( 'type' => 'db',
+                                                'error_code' => $result['error_code'] );
+                continue;
             }
-            $this->storeSiteTypes( $siteTypes );
+
+            // Store charset if found
+            if ( $result['site_charset'] )
+            {
+                $this->PersistenceList['regional_info']['site_charset'] = $result['site_charset'];
+            }
+
+            $this->storeSiteType( $siteType );
 
             return $this->kickstartContinueNextStep();
         }
@@ -343,7 +341,7 @@ class eZStepSiteDetails extends eZStepInstaller
     {
         $config =& eZINI::instance( 'setup.ini' );
 
-        $siteTypes = $this->chosenSiteTypes();
+        $siteType = $this->chosenSiteType();
 
         $availableDatabaseList = false;
         if ( isset( $this->PersistenceList['database_info_available'] ) )
@@ -352,50 +350,47 @@ class eZStepSiteDetails extends eZStepInstaller
         }
         $databaseList = $availableDatabaseList;
         $databaseCounter = 0;
-        foreach ( array_keys( $siteTypes ) as $siteTypeKey )
+
+        if ( !isset( $siteType['title'] ) )
+            $siteType['title'] = $siteType['name'];
+        $siteType['errors'] = array();
+        if ( !isset( $siteType['url'] ) )
+            $siteType['url'] = 'http://' . eZSys::hostName() . eZSys::indexDir( false );
+        if ( !isset( $siteType['site_access_illegal'] ) )
+            $siteType['site_access_illegal'] = false;
+        if ( !isset( $siteType['db_already_chosen'] ) )
+            $siteType['db_already_chosen'] = false;
+        if ( !isset( $siteType['db_not_empty'] ) )
+            $siteType['db_not_empty'] = 0;
+        if ( !isset( $siteType['database'] ) )
         {
-            $siteType =& $siteTypes[$siteTypeKey];
-            if ( !isset( $siteType['title'] ) )
-                $siteType['title'] = $siteType['name'];
-            $siteType['errors'] = array();
-            if ( !isset( $siteType['url'] ) )
-                $siteType['url'] = 'http://' . eZSys::hostName() . eZSys::indexDir( false );
-            if ( !isset( $siteType['site_access_illegal'] ) )
-                $siteType['site_access_illegal'] = false;
-            if ( !isset( $siteType['db_already_chosen'] ) )
-                $siteType['db_already_chosen'] = false;
-            if ( !isset( $siteType['db_not_empty'] ) )
-                $siteType['db_not_empty'] = 0;
-            if ( !isset( $siteType['database'] ) )
+            if ( is_array( $databaseList ) )
             {
-                if ( is_array( $databaseList ) )
+                $matchedDBName = false;
+                // First try database name match
+                foreach ( $databaseList as $databaseName )
                 {
-                    $matchedDBName = false;
-                    // First try database name match
-                    foreach ( $databaseList as $databaseName )
+                    $dbName = trim( strtolower( $databaseName ) );
+                    $identifier = trim( strtolower( $siteType['identifier'] ) );
+                    if ( $dbName == $identifier )
                     {
-                        $dbName = trim( strtolower( $databaseName ) );
-                        $identifier = trim( strtolower( $siteType['identifier'] ) );
-                        if ( $dbName == $identifier )
-                        {
-                            $matchedDBName = $databaseName;
-                            break;
-                        }
+                        $matchedDBName = $databaseName;
+                        break;
                     }
-                    if ( !$matchedDBName )
-                        $matchedDBName = $databaseList[$databaseCounter++];
-                    $databaseList = array_values( array_diff( $databaseList, array( $matchedDBName ) ) );
-                    $siteType['database'] = $matchedDBName;
                 }
-                else
-                {
-                    $siteType['database'] = '';
-                }
+                if ( !$matchedDBName )
+                    $matchedDBName = $databaseList[$databaseCounter++];
+                $databaseList = array_values( array_diff( $databaseList, array( $matchedDBName ) ) );
+                $siteType['database'] = $matchedDBName;
             }
-            if ( !isset( $siteType['existing_database'] ) )
+            else
             {
-                $siteType['existing_database'] = EZ_SETUP_DB_DATA_APPEND;
+                $siteType['database'] = '';
             }
+        }
+        if ( !isset( $siteType['existing_database'] ) )
+        {
+            $siteType['existing_database'] = EZ_SETUP_DB_DATA_APPEND;
         }
 
         $this->Tpl->setVariable( 'db_not_empty', 0 );
@@ -403,8 +398,13 @@ class eZStepSiteDetails extends eZStepInstaller
         $this->Tpl->setVariable( 'db_charset_differs', 0 );
         $this->Tpl->setVariable( 'site_access_illegal', 0 );
         $this->Tpl->setVariable( 'site_access_illegal_name', 0 );
-        foreach ( $this->Error as $key => $error )
+
+        // TODO: remove sites error array
+
+        if ( isset( $this->Error[0] ) )
         {
+            $error = $this->Error[0];
+        
             $type = 'site';
             if ( is_array( $error ) )
             {
@@ -418,25 +418,25 @@ class eZStepSiteDetails extends eZStepInstaller
                     case EZ_SETUP_DB_ERROR_NOT_EMPTY:
                     {
                         $this->Tpl->setVariable( 'db_not_empty', 1 );
-                        $siteTypes[$key]['db_not_empty'] = 1;
+                        $siteType['db_not_empty'] = 1;
                     } break;
-
+        
                     case EZ_SETUP_DB_ERROR_ALREADY_CHOSEN:
                     {
                         $this->Tpl->setVariable( 'db_already_chosen', 1 );
-                        $siteTypes[$key]['db_already_chosen'] = 1;
+                        $siteType['db_already_chosen'] = 1;
                     } break;
-
+        
                     case EZ_SETUP_SITE_ACCESS_ILLEGAL:
                     {
                         $this->Tpl->setVariable( 'site_access_illegal', 1 );
-                        $siteTypes[$key]['site_access_illegal'] = 1;
+                        $siteType['site_access_illegal'] = 1;
                     } break;
-
+        
                     case EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME:
                     {
                         $this->Tpl->setVariable( 'site_access_illegal_name', 1 );
-                        $siteTypes[$key]['site_access_illegal_name'] = 1;
+                        $siteType['site_access_illegal_name'] = 1;
                     } break;
                 }
             }
@@ -444,15 +444,15 @@ class eZStepSiteDetails extends eZStepInstaller
             {
                 if ( $error == EZ_SETUP_DB_ERROR_CHARSET_DIFFERS )
                     $this->Tpl->setVariable( 'db_charset_differs', 1 );
-                $siteTypes[$key]['errors'][] = $this->databaseErrorInfo( array( 'error_code' => $error,
-                                                                                'database_info' => $this->PersistenceList['database_info'] ) );
+                $siteType['errors'][] = $this->databaseErrorInfo( array( 'error_code' => $error,
+                                                                         'database_info' => $this->PersistenceList['database_info'] ) );
             }
         }
-        $this->storeSiteTypes( $siteTypes );
+        $this->storeSiteType( $siteType );
 
         $this->Tpl->setVariable( 'database_default', $config->variable( 'DatabaseSettings', 'DefaultName' ) );
         $this->Tpl->setVariable( 'database_available', $availableDatabaseList );
-        $this->Tpl->setVariable( 'site_types', $siteTypes );
+        $this->Tpl->setVariable( 'site_type', $siteType );
 
         // Return template and data to be shown
         $result = array();

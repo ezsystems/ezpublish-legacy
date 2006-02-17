@@ -4,7 +4,7 @@
 <form method="post" action="{$script}">
 
   <div align="center">
-    <h1>{"Site type"|i18n("design/standard/setup/init")}</h1>
+    <h1>{"Site package"|i18n("design/standard/setup/init")}</h1>
   </div>
 
   <p>
@@ -18,67 +18,42 @@
 </p>
 </div>
 {/section}
-
+  <h2>Site packages available from ez.no:</h2>
   <table border="0" cellspacing="0" cellpadding="0">
+    {section var=package_info loop=$remote_packages_list.0.packages}
+    <tr><td>
+        {*<label class="radio" for="{$site.name|wash}">*}
 
-    <tr>
-
-    {section var=site loop=$site_types}
-
-      <td class="setup_site_templates">
-            <label for="{$site.identifier|wash}">
-            {section show=$site.thumbnail}
-              <img class="site-type" src={concat( "design/standard/images/setup/thumbnails/", $site.thumbnail )|ezroot} alt="{$site.name|wash}" title="{$site.summary|wash}" />
-            {section-else}
-              <img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$site.name|wash}" title="{$site.summary|wash}"  />
-            {/section}
-            </label>
-      </td>
-      {delimiter modulo=4}
-      </tr>
-      <tr>
-      {section var=site2 loop=$site_types max=4}
-	  <td align="bottom" class="normal">
-	    <input id="{$site2.identifier|wash}" type="radio" name="eZSetup_site_type" value="{$site2.identifier}" {section show=first_set( $chosen_types[0].identifier, false() )|eq( $site2.identifier )}checked="checked"{/section} /><label class="radio" for="{$site2.identifier|wash}">{$site2.name}</label>
-{*             <input type="hidden" name="eZSetup_site_templates[{$site2.index}][identifier]" value="{$site2.identifier}" /> *}
-{*             <input type="hidden" name="eZSetup_site_templates[{$site2.index}][name]" value="{$site2.name}" /> *}
-	  </td>
-      {/section}
-      </tr>
-      <tr>
-	  <td colspan="4">
-	    &nbsp;
-	  </td>
-      </tr>
-      <tr>
-      {/delimiter}
-    {/section}
-    </tr>
-
-    {section show=count( $site_types )|gt( 4 )}
-    <tr>
-        {section var=site loop=$site_types offset=4 max=4}
-	  <td align="bottom" class="normal">
-	    <input id="{$site.identifier|wash}" type="radio" name="eZSetup_site_type" value="{$site.identifier|wash}" {section show=first_set( $chosen_types[0].identifier, false() )|eq( $site.identifier )}checked="checked"{/section} /><label class="radio" for="{$site.identifier|wash}">{$site.name|wash}</label>
-{*             <input type="hidden" name="eZSetup_site_templates[{sum(4, $site.index)}][identifier]" value="{$:item.identifier}" /> *}
-{*             <input type="hidden" name="eZSetup_site_templates[{sum(4, $site.index)}][name]" value="{$site.name}" /> *}
-	  </td>
+        {section show=$package_info.thumbnail_url}
+          <img class="site-type" src="{$package_info.thumbnail_url}" alt="{$package_info.summary|wash}" title="{$package_info.summary|wash}"/>
         {/section}
-    </tr>
-    {/section}
 
-    {section show=count( $site_types )|le( 4 )}
-    <tr>
-        {section var=site loop=$site_types max=4}
-	  <td align="bottom" class="normal">
-	    <input id="{$site.identifier|wash}" type="radio" name="eZSetup_site_type" value="{$site.identifier}" {section show=first_set( $chosen_types[0].identifier, false() )|eq( $site.identifier )}checked="checked"{/section} /><label class="radio" for="{$site.identifier|wash}">{$site.name}</label>
-{*             <input type="hidden" name="eZSetup_site_templates[{$site.index}][identifier]" value="{$site.identifier}" /> *}
-{*             <input type="hidden" name="eZSetup_site_templates[{$site.index}][name]" value="{$site.name}" /> *}
-	  </td>
-        {/section}
-    </tr>
+        <input id="{$package_info.name|wash}" type="radio" name="eZSetup_site_type" value="{$package_info.name}" {section show=first_set( $chosen_package, false() )|eq( $package_info.name )}checked="checked"{/section} />
+        {$package_info.summary} v. {$package_info.version} : {$package_info.description}{*</label>*}
+        <br/>Dependecies: ...
+        
+    </td></tr>
     {/section}
+  </table>
 
+  {section show=$site_packages}
+  <h2>Imported site packages:</h2>
+  <table border="0" cellspacing="0" cellpadding="0">
+    {section var=site loop=$site_packages}
+    <tr><td>
+        {*<label class="radio" for="{$site.name|wash}">*}
+
+        {* TODO: Add displaying icon from the package here *}
+        {*section show=$site.thumbnail}
+          <img class="site-type" src={concat( "design/standard/images/setup/thumbnails/", $site.thumbnail )|ezroot} alt="{$site.name|wash}" title="{$site.summary|wash}" />
+        {section-else*}
+          <img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$site.name|wash}" title="{$site.summary|wash}"  />
+        {*/section*}
+
+        <input id="{$site.name|wash}" type="radio" name="eZSetup_site_type" value="{$site.name}" {section show=first_set( $chosen_package, false() )|eq( $site.name )}checked="checked"{/section} />
+        {$site.summary} v. {$site.version-number} : {$site.description}{*</label>*}
+    </td></tr>
+    {/section}
   </table>
 
   {include uri="design:setup/persistence.tpl"}

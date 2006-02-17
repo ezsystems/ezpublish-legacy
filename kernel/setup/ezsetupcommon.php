@@ -73,6 +73,7 @@ function eZSetupFetchPersistenceList()
     include_once( 'lib/ezutils/classes/ezhttptool.php' );
     $http =& eZHTTPTool::instance();
     $postVariables = $http->attribute( 'post' );
+
     foreach ( $postVariables as $name => $value )
     {
         if ( preg_match( '/^P_([a-zA-Z0-9_]+)-([a-zA-Z0-9_]+)$/', $name, $matches ) )
@@ -82,6 +83,7 @@ function eZSetupFetchPersistenceList()
             $persistenceList[$persistenceGroup][$persistenceName] = $value;
         }
     }
+
     return $persistenceList;
 }
 

@@ -55,18 +55,23 @@ class eZStepSiteTypes extends eZStepInstaller
     {
         if ( $this->Http->hasPostVariable( 'eZSetup_site_type' ) )
         {
-            $siteTypes = array( $this->Http->postVariable( 'eZSetup_site_type' ) );
-            if ( !$this->selectSiteTypes( $siteTypes ) )
+            $sitePackage = $this->Http->postVariable( 'eZSetup_site_type' );
+
+            // TODO: Download site package and it's related packages
+            //       in case of remote package has been choosen.
+
+
+            if ( !$this->selectSiteType( $sitePackage ) )
             {
                 $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
-                                          'No site choosen.' );
+                                          'No site package choosen.' );
                 return false;
             }
         }
         else
         {
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
-                                      'No site choosen.' );
+                                      'No site package choosen.' );
             return false;
         }
         return true;
@@ -81,8 +86,13 @@ class eZStepSiteTypes extends eZStepInstaller
         {
             $data = $this->kickstartData();
 
-            $chosenSiteTypes = $data['Sites'];
-            if ( $this->selectSiteTypes( $chosenSiteTypes ) )
+            $chosenSitePackage = $data['Sites'][0];
+
+            // TODO: Download site package and it's related packages
+            //       in case of remote package has been choosen.
+
+
+            if ( $this->selectSiteType( $chosenSitePackage ) )
             {
                 return $this->kickstartContinueNextStep();
             }
@@ -97,11 +107,16 @@ class eZStepSiteTypes extends eZStepInstaller
     */
     function &display()
     {
-        $siteTypes = $this->availableSiteTypes();
-        $chosenSiteTypes = $this->chosenSiteTypes();
+        $remotePackagesList = $this->remotePackagesList();
+        $sitePackages = $this->availableSitePackages();
 
-        $this->Tpl->setVariable( 'site_types', $siteTypes );
-        $this->Tpl->setVariable( 'chosen_types', $chosenSiteTypes );
+        // TODO: Exclude already downloaded packages from remote site packages list
+
+        $chosenSitePackage = $this->chosenSitePackage();
+
+        $this->Tpl->setVariable( 'remote_packages_list', $remotePackagesList);
+        $this->Tpl->setVariable( 'site_packages', $sitePackages );
+        $this->Tpl->setVariable( 'chosen_package', $chosenSitePackage );
         $this->Tpl->setVariable( 'error', $this->ErrorMsg );
 
         // Return template and data to be shown
@@ -112,10 +127,47 @@ class eZStepSiteTypes extends eZStepInstaller
                                                           'Site selection' ),
                                         'url' => false ) );
         return $result;
+    }
 
+    function availableSitePackages()
+    {
+        include_once( 'kernel/classes/ezpackage.php' );
+        $packageList = eZPackage::fetchPackages( array(), array( 'type' => 'site' ) );
+    
+        return $packageList;
+    }
+
+    /* Fetches remote site packages list (with URLs) in XML format from some URL (given in ini)
+       Possilbe format:
+       
+       <packages vendor='eZ systems'
+                 vendor-dir='ezsystems'>
+         <package name='news_site'
+                  version='1.0'
+                  summary='News site'
+                  description='blah-blah-blah...'
+                  url='http://ez.no/packages380/sites/news_site.ezpkg' />
+         <package name='forum_site'
+                  version='1.0'
+                  summary='News site'
+                  description='blah-blah-blah...'
+                  url='http://ez.no/packages380/sites/forum_site.ezpkg' />
+       </packages>
+
+       Returns this list in array
+       Possible example:    0 => array( 'vendor' => 'eZ systems',
+                                        'vendor-dir' => 'ezsystems',
+                                        'packages' => array( 0 => array( "name" =>... , "version" =>... , "summary" => ... "url" =>... ),
+                                                             1 => array( "name" =>... , "version" =>... , "summary" => ... "url" =>... ), ) ),
+                            1 => ...
+    */
+    function remotePackagesList()
+    {
+        // TODO
     }
 
     var $Error = 0;
+    var $ErrorMsg = false;
 }
 
 ?>

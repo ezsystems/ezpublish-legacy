@@ -58,6 +58,8 @@ $initializeStep = false;
 
 if ( $module->isCurrentAction( 'PackageStep' ) )
 {
+    eZDebug::writeDebug( 'PackageStep' );
+
     if ( $module->hasActionParameter( 'InstallItemID' ) )
     {
         $installItemCount = $http->sessionVariable( 'eZPackageInstallationCounter' );
@@ -70,6 +72,8 @@ if ( $module->isCurrentAction( 'PackageStep' ) )
 }
 else if ( $module->isCurrentAction( 'InstallPackage' ) || $http->hasSessionVariable( 'eZPackageInstallationCounter' ) )
 {
+    eZDebug::writeDebug( 'InstallPackage' );
+
     if ( $http->hasSessionVariable( 'eZPackageInstallationCounter' ) )
     {
         $installItemCount = $http->sessionVariable( 'eZPackageInstallationCounter' );
@@ -79,6 +83,9 @@ else if ( $module->isCurrentAction( 'InstallPackage' ) || $http->hasSessionVaria
         $installItemCount = 0;
         $http->setSessionVariable( 'eZPackageInstallationCounter', $installItemCount );
     }
+
+    eZDebug::writeDebug( $installItemCount, '$installItemCount' );
+    eZDebug::writeDebug( $installItemArray, '$installItemArray' );
 
     if ( count( $installItemArray ) <= $installItemCount )
     {
@@ -93,6 +100,8 @@ else if ( $module->isCurrentAction( 'InstallPackage' ) || $http->hasSessionVaria
     $installer = eZPackageInstallationHandler::instance( $package, $installItem['type'], $installItem );
     if ( !$installer )
     {
+        eZDebug::writeDebug( '!$installer' );
+
         // weak try to process errors
         if( !$package->installItem( $installItem ) )
         {
@@ -113,6 +122,8 @@ else if ( $module->isCurrentAction( 'SkipPackage' ) )
 }
 else
 {
+    eZDebug::writeDebug( 'action else' );
+
     $installElements = array();
     foreach ( $installItemArray as $installItem )
     {
@@ -131,6 +142,8 @@ $tpl =& templateInit();
 $templateName = 'design:package/install.tpl';
 if ( $installer )
 {
+    eZDebug::writeDebug( 'installer' );
+
     $currentStepID = false;
     if ( $module->hasActionParameter( 'InstallStepID' ) )
         $currentStepID = $module->actionParameter( 'InstallStepID' );
@@ -143,6 +156,8 @@ if ( $installer )
     $lastStepID = $currentStepID;
     if ( $module->hasActionParameter( 'NextStep' ) )
     {
+        eZDebug::writeDebug( 'next step' );
+
         $hasAdvanced = true;
         $currentStepID = $installer->validateStep( $package, $http, $currentStepID, $steps, $persistentData, $errorList );
         if ( $currentStepID != $lastStepID )
@@ -154,6 +169,8 @@ if ( $installer )
 
     if ( $currentStepID )
     {
+        eZDebug::writeDebug( 'current step id' );
+
         $currentStep =& $steps['map'][$currentStepID];
 
         $stepTemplate = $installer->stepTemplate( $currentStep );
@@ -177,6 +194,8 @@ if ( $installer )
     }
     else
     {
+        eZDebug::writeDebug( 'current step id - else' );
+
         $db =& eZDB::instance();
         $db->begin();
         $installer->finalize( $package, $http, $persistentData );
@@ -189,9 +208,16 @@ if ( $installer )
 }
 else
 {
+    eZDebug::writeDebug( 'installer - else' );
+
+    eZDebug::writeDebug( $package, '$package' );
+    eZDebug::writeDebug( $installElements, '$installElements' );
+
     $tpl->setVariable( 'package', $package );
     $tpl->setVariable( 'install_elements', $installElements );
 }
+
+eZDebug::writeDebug( $persistentData, '$persistentData - install.php' );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( $templateName );
