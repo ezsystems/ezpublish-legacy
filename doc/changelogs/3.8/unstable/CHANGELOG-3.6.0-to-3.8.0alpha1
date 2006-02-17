@@ -910,6 +910,9 @@ Attributes:
   ( Merged from stable/3.6 ( 3.6.6 ) rev. 14834 )
 - Fixed bug #7847: content/translations fails on fresh DB installation.
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 14838 )
+- Fixed bugs #7854: Flash Datatype: Changed size isn't saved.
+             #7775: Cannot set 'is_loop' attribute on flash movie.
+  ( Merged from stable/3.7 ( 3.7.4 ) rev. 14850 )
 
 *Library:
 
