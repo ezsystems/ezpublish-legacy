@@ -223,8 +223,6 @@ class eZMultiPrice extends eZSimplePrice
         {
             include_once( 'kernel/shop/classes/ezcurrencydata.php' );
             $this->CurrencyList = eZCurrencyData::fetchList();
-            if ( !$this->CurrencyList )
-                $this->CurrencyList = array();
         }
 
         return $this->CurrencyList;
@@ -548,6 +546,9 @@ class eZMultiPrice extends eZSimplePrice
     */
     function baseCurrency()
     {
+        // use value of the first custom price as
+        // base price and base currency.
+
         $baseCurrency = false;
         $customPriceList =& $this->customPriceList();
         $currencies = array_keys( $customPriceList );
@@ -568,6 +569,7 @@ class eZMultiPrice extends eZSimplePrice
     {
         return $this->preferredCurrency();
     }
+
     /// \privatesection
     var $PriceList;
     var $CurrencyList;

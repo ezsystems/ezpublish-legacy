@@ -39,7 +39,6 @@
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezpreferences.php' );
 include_once( 'kernel/shop/classes/ezcurrencydata.php' );
-include_once( 'kernel/shop/classes/ezmultipricedata.php' );
 
 function reloadWithOffset( &$module )
 {
@@ -98,6 +97,12 @@ else if ( $module->isCurrentAction( 'SetRates' ) ||
     }
     $db->commit();
 
+    reloadWithOffset( $module );
+}
+else if ( $module->isCurrentAction( 'UpdateAutoprices' ) )
+{
+    include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+    eZShopFunctions::updateAutoprices();
     reloadWithOffset( $module );
 }
 

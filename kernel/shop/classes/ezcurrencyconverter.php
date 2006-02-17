@@ -5,11 +5,12 @@ define( 'EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_ROUND', 2 );
 define( 'EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_CEIL', 3 );
 define( 'EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_FLOOR', 4 );
 
+include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+
 class eZCurrencyConverter
 {
     function eZCurrencyConverter()
     {
-        $this->CurrencyList = array();
         $this->setMathHandler( null );
         $this->setRoundingType( null );
         $this->setRoundingPrecision( null );
@@ -82,14 +83,10 @@ class eZCurrencyConverter
 
     function rateValue( $currencyCode )
     {
-        include_once( 'kernel/shop/classes/ezcurrencydata.php' );
-
         $rateValue = 0;
 
         $currencyList =& $this->currencyList();
         $currency =& $currencyList[$currencyCode];
-        if ( !is_object( $currency ) )
-            $currency = eZCurrencyData::fetch( $currencyCode );
 
         if ( is_object( $currency ) )
             $rateValue = $currency->rateValue();
@@ -139,6 +136,9 @@ class eZCurrencyConverter
 
     function &currencyList()
     {
+        if ( !isset( $this->CurrencyList ) )
+            $this->CurrencyList = eZCurrencyData::fetchList();
+
         return $this->CurrencyList;
     }
 

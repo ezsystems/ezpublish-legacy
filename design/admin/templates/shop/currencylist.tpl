@@ -132,6 +132,8 @@
             <input class="button" type="submit" name="UpdateStatusButton" value="{'Update status'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update status.'|i18n( 'design/admin/shop/currencylist' )}" />
             {* Set currency rate button *}
             <input class="button" type="submit" name="SetRatesButton" value="{'Set rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Set rates.'|i18n( 'design/admin/shop/currencylist' )}" />
+            {* Update autoprices button *}
+            <input class="button" type="submit" name="UpdateAutopricesButton" value="{'Update autoprices'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update autoprices.'|i18n( 'design/admin/shop/currencylist' )}" />
         </div>
     {else}
         <div class="left">

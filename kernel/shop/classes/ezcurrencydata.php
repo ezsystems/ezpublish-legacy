@@ -111,7 +111,7 @@ class eZCurrencyData extends eZPersistentObject
     */
     function fetchList( $conditions = null, $asObjects = true, $offset = false, $limit = false, $asHash = true )
     {
-        $currencyList = null;
+        $currencyList = array();
         $sort = null;
         $limitation = null;
         if ( $offset !== false or $limit !== false )

@@ -77,28 +77,6 @@ class eZShopFunctions
     {
         $type = eZShopFunctions::productType( $contentObject );
         return ( $type !== false );
-
-        /*
-        $isProduct = false;
-
-        if ( is_object( $contentObject ) )
-        {
-            $attributes =& $contentObject->contentObjectAttributes();
-            $keys = array_keys( $attributes );
-            foreach ( $keys as $key )
-            {
-                $attribute =& $attributes[$key];
-                $dataType = $attribute->dataType();
-                if ( eZShopFunctions::isProductDatatype( $dataType->isA() ) )
-                {
-                    $isProduct = true;
-                    break;
-                }
-            }
-        }
-
-        return $isProduct;
-        */
     }
 
     /*!
@@ -218,6 +196,7 @@ class eZShopFunctions
 
         $currency = eZCurrencyData::create( $currencyParams['code'],
                                             $currencyParams['symbol'],
+                                            $currencyParams['locale'],
                                             '0.0000',
                                             $currencyParams['custom_rate_value'],
                                             $currencyParams['rate_factor'] );
@@ -280,6 +259,12 @@ class eZShopFunctions
         }
 
         return $errCode;
+    }
+
+    function updateAutoprices()
+    {
+        include_once( 'kernel/shop/classes/ezmultipricedata.php' );
+        eZMultiPriceData::updateAutoprices();
     }
 
     function convertAdditionalPrice( $toCurrency, $value )
