@@ -195,8 +195,6 @@ class eZMediaType extends eZDataType
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
         eZMediaType::checkFileUploads();
-        if ( !eZHTTPFile::canFetch( $base . "_data_mediafilename_" . $contentObjectAttribute->attribute( "id" ) ) )
-            return false;
 
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
         $player = $classAttribute->attribute( "data_text1" );
