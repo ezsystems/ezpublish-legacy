@@ -107,9 +107,9 @@ class eZPHPMath
             $fractPart += 1;
 
         // create resulting value
-        $fractPart = $fractPart / pow( 10, $precision );
+        $fractPart = $this->div( $fractPart, $this->pow( 10, $precision ) );
 
-        $result = (int)$this->intval( $value ) + $fractPart;
+        $result = $this->add( $this->intval( $value ), $fractPart );
         $result = $this->adjustFractPart( $result, $precision, $target );
 
         return $result;
@@ -117,10 +117,10 @@ class eZPHPMath
 
     function floor( $value, $precision, $target )
     {
-        $fractPart = (int)$this->fractval( $value, $precision );
-        $fractPart = $fractPart / pow( 10, $precision );
+        $fractPart = $this->fractval( $value, $precision );
+        $fractPart = $this->div( $fractPart, $this->pow( 10, $precision ) );
 
-        $result = (int)$this->intval( $value ) + $fractPart;
+        $result = $this->add( $this->intval( $value ), $fractPart );
         $result = $this->adjustFractPart( $result, $precision, $target );
 
         return $result;
@@ -133,14 +133,14 @@ class eZPHPMath
         {
             $target = substr( $target, 0, $precision );
             $targetPrecision = strlen( $target );
-            $target = $target / pow( 10, $precision );
+            $target = $this->div( $target, $this->pow( 10, $precision ) );
 
             $intPart = $this->intval( $number );
             $fractPart = $this->fractval( $number, $precision - $targetPrecision );
-            $fractPart = $fractPart / pow( 10, $precision - $targetPrecision );
-            $fractPart = $fractPart + $target;
+            $fractPart = $this->div( $fractPart, $this->pow( 10, $this->sub( $precision, $targetPrecision ) ) );
+            $fractPart = $this->add( $fractPart, $target );
 
-            $number = $intPart + $fractPart;
+            $number = $this->add( $intPart, $fractPart );
         }
 
         return $number;

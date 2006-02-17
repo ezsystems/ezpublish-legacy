@@ -59,12 +59,6 @@ class eZMultiPriceType extends eZDataType
 {
     function eZMultiPriceType()
     {
-        /*
-        $this->eZDataType( EZ_DATATYPESTRING_MULTIPRICE, ezi18n( 'kernel/classes/datatypes', 'Multi-price', 'Datatype name' ),
-                           array( 'serialize_supported' => true,
-                                  'object_serialize_map' => array( 'data_float' => 'price' ) ) );
-        */
-
         $this->eZDataType( EZ_DATATYPESTRING_MULTIPRICE, ezi18n( 'kernel/classes/datatypes', 'Multi-price', 'Datatype name' ),
                            array() );
     }
@@ -235,7 +229,7 @@ class eZMultiPriceType extends eZDataType
     {
         switch ( $action )
         {
-            case 'add_price' :
+            case 'set_custom_price' :
             {
                 $selectedCurrencyName = 'ContentObjectAttribute' . '_selected_currency_' . $contentObjectAttribute->attribute( 'id' );
                 if ( $http->hasPostVariable( $selectedCurrencyName ) )
@@ -393,17 +387,17 @@ class eZMultiPriceType extends eZDataType
         $sql['from'] =  "ezmultipricedata $multipriceTableAlias";
 
         $and = '';
-        if ( isset( $params['contentobject_attribute_id'] ) )
+        if ( isset( $params['contentobject_attr_id'] ) )
         {
             $sql['where'] = "
-                     $multipriceTableAlias.contentobject_attr_id = {$params['contentobject_attribute_id']}";
+                     $multipriceTableAlias.contentobject_attr_id = {$params['contentobject_attr_id']}";
             $and = ' AND';
         }
 
-        if ( isset( $params['contentobject_attribute_version'] ) )
+        if ( isset( $params['contentobject_attr_version'] ) )
         {
             $sql['where'] .= "
-                    $and $multipriceTableAlias.contentobject_attr_version = {$params['contentobject_attribute_version']}";
+                    $and $multipriceTableAlias.contentobject_attr_version = {$params['contentobject_attr_version']}";
             $and = ' AND';
         }
 

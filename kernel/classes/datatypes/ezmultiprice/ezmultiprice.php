@@ -419,8 +419,8 @@ class eZMultiPrice extends eZSimplePrice
         $price = false;
         if ( is_object( $this->ContentObjectAttribute ) && $this->currencyByCode( $currencyCode ) )
         {
-            $price = new eZMultiPriceData( array( 'contentobject_attribute_id' => $this->ContentObjectAttribute->attribute( 'id' ),
-                                                  'contentobject_attribute_version' => $this->ContentObjectAttribute->attribute( 'version' ),
+            $price = new eZMultiPriceData( array( 'contentobject_attr_id' => $this->ContentObjectAttribute->attribute( 'id' ),
+                                                  'contentobject_attr_version' => $this->ContentObjectAttribute->attribute( 'version' ),
                                                   'currency_code' => $currencyCode,
                                                   'value' => $value,
                                                   'type' => $type ) );

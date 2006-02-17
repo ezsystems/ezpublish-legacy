@@ -61,12 +61,12 @@
             *}
         </select>
 
-        {* 'Add' button *}
-        <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_add_price]" value="{'Add price'|i18n( 'design/standard/content/datatype' )}" title="{'Add a new custom price.'|i18n( 'design/standard/content/datatype' )}" />
+        {* 'Set price' button *}
+        <input class="button" type="submit" name="CustomActionButton[{$attribute.id}_set_custom_price]" value="{'Set custom price'|i18n( 'design/standard/content/datatype' )}" title="{'Set custom price.'|i18n( 'design/standard/content/datatype' )}" />
         <input name="ContentObjectAttribute_id[]" value="{$attribute.id}" type="hidden">
     {else}
-        {* Disabled 'Add' button *}
-        <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_add_price]" value="{'Add price'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />
+        {* Disabled 'Set price' button *}
+        <input class="button-disabled" type="submit" name="CustomActionButton[{$attribute.id}_set_custom_price]" value="{'Set custom price'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" />
         {'There are no available currencies.'|i18n( 'design/standard/content/datatype' )}
     {/if}
 {undef}
