@@ -143,6 +143,24 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 }
             }
 
+            $embedInlineTagArray =& $dom->elementsByName( "embed-inline" );
+
+            if ( count( $embedInlineTagArray ) > 0 )
+            {
+                foreach ( $embedInlineTagArray as $embedTag )
+                {
+                    $objectID = $embedTag->attributeValue( 'object_id' );
+                    if ( $objectID != null )
+                        if ( !in_array( $objectID, $relatedObjectIDArray ) )
+                            $relatedObjectIDArray[] = $objectID;
+
+                    $nodeID = $embedTag->attributeValue( 'node_id' );
+                    if ( $nodeID !=null )
+                        if ( !in_array( $nodeID, $nodeIDArray ) )
+                            $nodeIDArray[] = $nodeID;
+                }
+            }
+
             if ( $relatedObjectIDArray != null )
                 $this->ObjectArray =& eZContentObject::fetchIDArray( $relatedObjectIDArray );
 
@@ -265,6 +283,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 case 'object' :
                 case 'anchor' :
                 case 'embed' :
+                case 'embed-inline' :
                 {
                     $output .= $this->renderXHTMLTag( $tpl, $sectionNode, $currentSectionLevel, $isBlockTag );
                 }break;
@@ -703,6 +722,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             }break;
 
         case 'embed' :
+        case 'embed-inline' :
         {
             //$isBlockTag = true;
 
@@ -758,11 +778,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
                 if ( $object->attribute( 'can_read' ) )
                 {
-                    $xmlTemplate = 'embed';
+                    $xmlTemplate = $tagName;
                 }
                 else
                 {
-                    $xmlTemplate = 'embed_denied';
+                    $xmlTemplate = $tagName.'_denied';
                 }
 
                 $tpl->setVariable( 'classification', $class, 'xmltagns' );

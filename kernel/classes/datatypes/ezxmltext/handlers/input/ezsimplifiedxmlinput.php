@@ -62,6 +62,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         $this->SubTagArray['custom'] = $this->SectionArray;
         $this->SubTagArray['object'] = array( );
         $this->SubTagArray['embed'] = array( );
+        $this->SubTagArray['embed-inline'] = array( );
         $this->SubTagArray['li'] = array( 'paragraph' );
         $this->SubTagArray['strong'] = $this->InLineTagArray;
         $this->SubTagArray['emphasize'] = $this->InLineTagArray;
@@ -96,6 +97,16 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                                     'ezurl_target' => array( 'required' => false ) );
 
         $this->TagAttributeArray['embed'] = array( 'href' => array( 'required' => false ),
+                                            'object_id' => array( 'required' => false ),
+                                            'node_id' => array( 'required' => false ),
+                                            'show_path' => array( 'required' => false ),
+                                            'size' => array( 'required' => false, 'value' => $sizeArray),
+                                            'align' => array( 'required' => false ),
+                                            'view' => array( 'required' => false ),
+                                            'id' => array( 'required' => false ),
+                                            'class' => array( 'required' => false ) );
+
+        $this->TagAttributeArray['embed-inline'] = array( 'href' => array( 'required' => false ),
                                             'object_id' => array( 'required' => false ),
                                             'node_id' => array( 'required' => false ),
                                             'show_path' => array( 'required' => false ),
@@ -340,7 +351,9 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     }
                 }
 
+                $embedInlineTags =& $dom->elementsByName( 'embed-inline' );
                 $embedTags =& $dom->elementsByName( 'embed' );
+                $embedTags = array_merge( $embedTags, $embedInlineTags );
 
                 if ( $embedTags !== null )
                 {
@@ -888,7 +901,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $attrNamespacesArray['target'] = 'image:ezurl_target';
             }
 
-            if ( $currentTag == "embed" )
+            if ( $currentTag == "embed" or $currentTag == "embed-inline")
             {
                 $attrNamespacesArray['id'] = 'xhtml';
             }
@@ -911,7 +924,10 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                     $attrName = $attrbute->Name;
                     $existAttrNameArray[] = $attrName;
 
-                    if ( isset( $this->TagAttributeArray[$currentTag][$attrName] ) or $currentTag == "object" or $currentTag == "custom" or $currentTag == "embed" )
+                    if ( isset( $this->TagAttributeArray[$currentTag][$attrName] ) or 
+                         $currentTag == "object" or $currentTag == "custom" or 
+                         $currentTag == "embed" or $currentTag == "embed-inline" 
+                       )
                     {
                         if ( $currentTag == "object" )
                         {
@@ -921,7 +937,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                                 $attrbute->setPrefix( "custom" );
                         }
 
-                        if ( $currentTag == "embed" )
+                        if ( $currentTag == "embed" or $currentTag == "embed-inline" )
                         {
                             if ( $attrName != "href" and $attrName != "class" and $attrName != "align" and $attrName != "show_path"
                                  and $attrName != "view" and $attrName != "size" and $attrName != "target" and $attrName != "id" )
@@ -2294,6 +2310,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             }break;
 
             case 'embed' :
+            case 'embed-inline' :
             {
                 $view = $tag->attributeValue( 'view' );
                 $size = $tag->attributeValue( 'size' );
@@ -2599,17 +2616,17 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
     var $BlockTagArray = array( 'table', 'ul', 'ol', 'literal', 'custom' );
 
-    var $InLineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'line', 'object', 'embed' );
+    var $InLineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'line', 'object', 'embed', 'embed-inline' );
 
-    var $LineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'li', 'object', 'embed' );
+    var $LineTagArray = array( 'emphasize', 'strong', 'link', 'anchor', 'li', 'object', 'embed', 'embed-inline' );
 
     var $TagAliasArray = array( 'strong' => array( 'b', 'bold', 'strong' ), 'emphasize' => array( 'em', 'i', 'emphasize' ), 'link' => array( 'link', 'a' ) , 'header' => array( 'header', 'h' ), 'paragraph' => array( 'p' ) );
 
     /// Contains all supported tag for xml parse
-    var $SupportedTagArray = array( 'paragraph', 'section', 'header', 'table', 'ul', 'ol', 'literal', 'custom', 'object', 'embed', 'emphasize', 'strong', 'link', 'anchor', 'tr', 'td', 'th', 'li', 'line' );
+    var $SupportedTagArray = array( 'paragraph', 'section', 'header', 'table', 'ul', 'ol', 'literal', 'custom', 'object', 'embed', 'embed-inline', 'emphasize', 'strong', 'link', 'anchor', 'tr', 'td', 'th', 'li', 'line' );
 
     /// Contains all supported input tag
-    var $SupportedInputTagArray = array( 'header', 'table', 'ul', 'ol', 'literal', 'custom', 'object', 'embed', 'emphasize', 'strong', 'link', 'anchor', 'tr', 'td', 'th', 'li' );
+    var $SupportedInputTagArray = array( 'header', 'table', 'ul', 'ol', 'literal', 'custom', 'object', 'embed', 'embed-inline', 'emphasize', 'strong', 'link', 'anchor', 'tr', 'td', 'th', 'li' );
 
     var $ContentObjectAttribute;
 

@@ -64,6 +64,9 @@ Attributes:
 *DataType:
 - Added serialization support to all datatypes.
 
+eZXMLText:
+- Added support for "embed-inline" tag.
+
 *Bugfixes:
 - Fixed bug #6683: node_id not set in flat_left.tpl in every context.
 - Fixed bug #6685: Error when American English selected as primary language
@@ -931,6 +934,7 @@ eZTemplate:
   ( See doc/features/3.8/template_rand_function.txt )
 - Added new template function {debug-log} that allows calling
   eZDebug::writeDebug() from a template.
+- Added support for "embed-inline" tag.
 
 *INI settings
 - Changed: [TipAFriend].FromEmail ini setting is now empty by default.
