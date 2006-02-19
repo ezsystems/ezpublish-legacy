@@ -3,10 +3,3 @@
 <div class="object-{$object_parameters.align}{section show=ne($classification|trim,'')} {$classification|wash}{/section}"{section show=is_set($id)} id="{$id}"{/section}>
 {$object.name|wash} - {"You do not have sufficient permissions to view this object"|i18n( 'design/admin/node/view/embed'  )}.
 </div>
-
-{*
-Set variable to true if the object should be rendered as a block
-tag. If it should be rendered as inline use false.
-{set-block scope=root variable=is_block}true{/set-block}
-
-*}

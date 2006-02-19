@@ -797,21 +797,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, "foo", "xmltagns" );
                 $tagText = implode( '', $textElements );
 
-                // Set to true if tag breaks paragraph flow as default
-                $isBlockTag = true;
-
-                // Check if the template overrides the block flow setting
-                $isBlockTagOverride = 'true';
-                if ( $tpl->hasVariable( 'is_block', 'xmltagns:ContentView' ) )
-                {
-                    $isBlockTagOverride = $tpl->variable( 'is_block', 'xmltagns:ContentView' );
-                }
-                else if ( $tpl->hasVariable( 'is_block', 'xmltagns' ) )
-                {
-                    $isBlockTagOverride = $tpl->variable( 'is_block', 'xmltagns' );
-                }
-
-                if ( $isBlockTagOverride == 'true' )
+                if ( $tagName == 'embed' )
                     $isBlockTag = true;
                 else
                     $isBlockTag = false;
