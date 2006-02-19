@@ -31,7 +31,7 @@
     <table class="list" cellspacing="0">
         <tr>
             <td class="class">{'Currency code'|i18n( 'design/admin/shop/editcurrency' )}</td>
-            <td><input type="text" name="CurrencyData[code]" value="{$currency_data['code']}" /></td>
+            <td><input type="text" name="CurrencyData[code]" value="{$currency_data['code']}" />{'(Use three capital letters)'|i18n( 'design/admin/shop/editcurrency' )}</td>
         </tr>
         <tr>
             <td class="class">{'Currency symbol'|i18n( 'design/admin/shop/editcurrency' )}</td>

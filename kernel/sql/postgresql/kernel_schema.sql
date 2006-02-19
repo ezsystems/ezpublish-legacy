@@ -555,6 +555,19 @@ CREATE SEQUENCE ezorder_status_history_s
 
 
 
+CREATE SEQUENCE ezpackage_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
 CREATE SEQUENCE ezpaymentobject_s
     START 1
     INCREMENT 1
@@ -1415,12 +1428,12 @@ CREATE TABLE ezcontentobject_version (
 
 
 CREATE TABLE ezcurrencydata (
-    auto_rate_value numeric DEFAULT '0.00000' NOT NULL,
+    auto_rate_value numeric(10,5) DEFAULT '0.00000' NOT NULL,
     code character varying(3) DEFAULT ''::bpchar NOT NULL,
-    custom_rate_value numeric DEFAULT '0.00000' NOT NULL,
+    custom_rate_value numeric(10,5) DEFAULT '0.00000' NOT NULL,
     id integer DEFAULT nextval('ezcurrencydata_s'::text) NOT NULL,
     locale character varying(255) DEFAULT ''::character varying NOT NULL,
-    rate_factor numeric DEFAULT '1.00000' NOT NULL,
+    rate_factor numeric(10,5) DEFAULT '1.00000' NOT NULL,
     status integer DEFAULT 1 NOT NULL,
     symbol character varying(255) DEFAULT ''::character varying NOT NULL
 );
@@ -1683,7 +1696,7 @@ CREATE TABLE ezmultipricedata (
     currency_code character varying(3) DEFAULT ''::bpchar NOT NULL,
     id integer DEFAULT nextval('ezmultipricedata_s'::text) NOT NULL,
     "type" integer DEFAULT 0 NOT NULL,
-    value numeric DEFAULT '0.00' NOT NULL
+    value numeric(15,2) DEFAULT '0.00' NOT NULL
 );
 
 
@@ -1831,6 +1844,19 @@ CREATE TABLE ezorder_status_history (
     modifier_id integer DEFAULT 0 NOT NULL,
     order_id integer DEFAULT 0 NOT NULL,
     status_id integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezpackage (
+    id integer DEFAULT nextval('ezpackage_s'::text) NOT NULL,
+    install_date integer DEFAULT 0 NOT NULL,
+    name character varying(100) DEFAULT ''::character varying NOT NULL,
+    "version" character varying(30) DEFAULT '0'::character varying NOT NULL
 );
 
 
@@ -3517,6 +3543,15 @@ ALTER TABLE ONLY ezorder_status
 
 ALTER TABLE ONLY ezorder_status_history
     ADD CONSTRAINT ezorder_status_history_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezpackage
+    ADD CONSTRAINT ezpackage_pkey PRIMARY KEY (id);
 
 
 

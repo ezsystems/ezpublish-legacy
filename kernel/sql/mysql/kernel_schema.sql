@@ -424,12 +424,12 @@ CREATE TABLE ezcontentobject_version (
 
 
 CREATE TABLE ezcurrencydata (
-  auto_rate_value decimal NOT NULL default '0.00000',
+  auto_rate_value decimal(10,5) NOT NULL default '0.00000',
   code char(3) NOT NULL default '',
-  custom_rate_value decimal NOT NULL default '0.00000',
+  custom_rate_value decimal(10,5) NOT NULL default '0.00000',
   id int(11) NOT NULL auto_increment,
   locale varchar(255) NOT NULL default '',
-  rate_factor decimal NOT NULL default '1.00000',
+  rate_factor decimal(10,5) NOT NULL default '1.00000',
   status int(11) NOT NULL default '1',
   symbol varchar(255) NOT NULL default '',
   PRIMARY KEY  (id),
@@ -680,7 +680,7 @@ CREATE TABLE ezmultipricedata (
   currency_code char(3) NOT NULL default '',
   id int(11) NOT NULL auto_increment,
   type int(11) NOT NULL default '0',
-  value decimal NOT NULL default '0.00',
+  value decimal(15,2) NOT NULL default '0.00',
   PRIMARY KEY  (id),
   KEY ezmultipricedata_coa_id (contentobject_attr_id),
   KEY ezmultipricedata_coa_version (contentobject_attr_version),
@@ -833,6 +833,18 @@ CREATE TABLE ezorder_status_history (
   KEY ezorder_status_history_mod (modified),
   KEY ezorder_status_history_oid (order_id),
   KEY ezorder_status_history_sid (status_id)
+) TYPE=MyISAM;
+
+
+
+
+
+CREATE TABLE ezpackage (
+  id int(11) NOT NULL auto_increment,
+  install_date int(11) NOT NULL default '0',
+  name varchar(100) NOT NULL default '',
+  version varchar(30) NOT NULL default '0',
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 

@@ -38,6 +38,8 @@
 
 include_once( 'kernel/shop/classes/ezcurrencydata.php' );
 include_once( 'lib/ezutils/classes/ezini.php' );
+include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+include_once( 'kernel/classes/ezcontentcachemanager.php' );
 
 $module =& $Params['Module'];
 
@@ -66,10 +68,7 @@ else if ( $module->isCurrentAction( 'Create' ) )
     }
     else
     {
-        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
         eZShopFunctions::createCurrency( $currencyParams );
-
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
 
         return $module->redirectTo( $module->functionURI( 'currencylist' ) );
@@ -81,9 +80,7 @@ else if ( $module->isCurrentAction( 'StoreChanges' ) )
     if ( $module->hasActionParameter( 'CurrencyData' ) )
         $currencyParams = $module->actionParameter( 'CurrencyData' );
 
-    include_once( 'kernel/shop/classes/ezshopfunctions.php' );
     $errCode = eZShopFunctions::changeCurrency( $originalCurrencyCode, $currencyParams['code'] );
-
     if ( $errCode === EZ_CURRENCYDATA_ERROR_OK )
     {
         $currency = eZCurrencyData::fetch( $currencyParams['code'] );
@@ -99,7 +96,6 @@ else if ( $module->isCurrentAction( 'StoreChanges' ) )
             $currency->sync();
             $db->commit();
 
-            include_once( 'kernel/classes/ezcontentcachemanager.php' );
             eZContentCacheManager::clearAllContentCache();
 
             return $module->redirectTo( $module->functionURI( 'currencylist' ) );

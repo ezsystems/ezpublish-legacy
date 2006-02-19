@@ -39,6 +39,7 @@
 include_once( 'kernel/common/template.php' );
 include_once( 'kernel/classes/ezpreferences.php' );
 include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
 function reloadWithOffset( &$module )
 {
@@ -58,7 +59,6 @@ else if ( $module->isCurrentAction( 'RemoveCurrency' ) )
 {
     $currencyList = $module->hasActionParameter( 'DeleteCurrencyList' ) ? $module->actionParameter( 'DeleteCurrencyList' ) : array();
 
-    include_once( 'kernel/shop/classes/ezshopfunctions.php' );
     eZShopFunctions::removeCurrency( $currencyList );
 
     include_once( 'kernel/classes/ezcontentcachemanager.php' );
@@ -101,8 +101,11 @@ else if ( $module->isCurrentAction( 'SetRates' ) ||
 }
 else if ( $module->isCurrentAction( 'UpdateAutoprices' ) )
 {
-    include_once( 'kernel/shop/classes/ezshopfunctions.php' );
     eZShopFunctions::updateAutoprices();
+
+    include_once( 'kernel/classes/ezcontentcachemanager.php' );
+    eZContentCacheManager::clearAllContentCache();
+
     reloadWithOffset( $module );
 }
 

@@ -1971,6 +1971,7 @@ $schema = array (
     array (
       'auto_rate_value' => 
       array (
+        'length' => '10,5',
         'type' => 'decimal',
         'not_null' => '1',
         'default' => '0.00000',
@@ -1984,6 +1985,7 @@ $schema = array (
       ),
       'custom_rate_value' => 
       array (
+        'length' => '10,5',
         'type' => 'decimal',
         'not_null' => '1',
         'default' => '0.00000',
@@ -2002,6 +2004,7 @@ $schema = array (
       ),
       'rate_factor' => 
       array (
+        'length' => '10,5',
         'type' => 'decimal',
         'not_null' => '1',
         'default' => '1.00000',
@@ -3037,6 +3040,7 @@ $schema = array (
       ),
       'value' => 
       array (
+        'length' => '15,2',
         'type' => 'decimal',
         'not_null' => '1',
         'default' => '0.00',
