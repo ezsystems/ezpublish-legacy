@@ -1,0 +1,259 @@
+*Title: multi-currency support for the shop module.
+
+*Incentive:
+
+Current implementation doesn't allow to set several prices in different
+currencies for the products.
+
+*Documentation:
+
+1. Currencies
+
+1.1 Backgound
+
+'Currency' objects keep information about available currencies and have
+following attributes:
++-------------------+----------------------------------------------------------+
+| Name              | Description                                              |
+|-------------------+----------------------------------------------------------|
+| code              | a currency's code which consists of 3 capital letters    |
+|                   | example: 'USD', 'NOK', 'UAH', ...                        |
+| symbol            | a string which is displayed near value of the price      |
+|                   | example: '$', 'nok', 'grn', ...                          |
+| locale            | a locale which is used to format price.                  |
+|                   | example: 'eng-US' produces '$5.99'                       |
+|                   |          'urk-UA' produces '5.99 grn'                    |
+| status            | the status of the currency can be either 'active' or     |
+|                   | 'inactive'. Setting status to 'inactive' allow merchant  |
+|                   | to hide that currency from customers. In other words     |
+|                   | customers can't do shopping in 'inactive' currencies.    |
+| auto_rate_value   | a rate which was retrieved via automatic update of the   |
+|                   | rates from the Internet                                  |
+| custom_rate_value | a rate typed by merchant manually                        |
+| rate_factor       | allows to support a kind of virtual rate. It applys for  |
+|                   | 'auto' rates only. So the real rate is culculated as:    |
+|                   | rate = auto_rate_value * rate_factor                     |
+| rate_value        | a functional attribute.                                  |
+|                   | It returns either 'custom_rate_value' if it set of       |
+|                   | 'auto_rate_value * rate_factor'                          |
++-------------------+----------------------------------------------------------+
+
+1.2 Usage
+
+'currencylist' view is used to manage the currencies.
+
+It's accessible through '<your_site>/shop/currencylist' in the browser's
+address-bar or 'Webshop->Currncies' in admin interface.
+
+It has following actions:
++-------------------+----------------------------------------------------------+
+| Name              | Description                                              |
+|-------------------+----------------------------------------------------------|
+| Add               | Click on this button to add new currency :) And you'll be|
+|                   | redirected to 'editcurrency' view to fill necessary      |
+|                   | attributes.                                              |
+|                   | As the result new currency and 'auto' prices with value  |
+|                   | of 0.00 for all products will be created.                |
+| Remove            | Use this button to remove unneeded currencies.           |
+|                   | NOTE: removing curreny will lead to removing prices in   |
+|                   | that currency for all products.                          |
+| Update status     | You can change 'status' for several currencies and apply |
+|                   | changes by clicking on this button.                      |
+| Set rates         | Applyes changes for 'custom rate' and 'rate factor'.     |
+| Update autoprices | When you've finished managing currencies(set rates, add  |
+|                   | new, ...) you can update autoprices for all products.    |
++-------------------+----------------------------------------------------------+
+
+1.3 Preferred currency.
+
+One currency can be selected as 'preferred'. It means that the price in that
+currency will be displayed when viewing a product. Also all payments are
+possible in that currency only.
+
+A value for the 'preferred' currency is taken from(sorted by priority ascending)
+    - shop.ini;
+    - user's preferences;
+    - session variable;
+
+A preferred currency can be changed via:
+    - 'Webshop'->'Preferred currency' in admin interface;
+    - 'shop/preferredcurrency' in the browser's address-bar;
+    - 'Preferred currency' toolbar on user's site;
+
+2. Multi-prices
+
+2.1 Background
+
+To support multicurrency a new datatype called 'ezmultiprice' was introduced.
+It holds info about prices and currenies for each product.
+
+There are two kind of prices stored in 'ezmultiprice' datatype:
+   - 'custom': a value was typed by merchant manually;
+   - 'auto': a value retrieved by converting 'base' price using appropriate
+             rate. The 'base' price for the product is the first 'cutstom'
+             price.
+
+Attributes:
+common with usual 'ezprice' attribute:
++------------------------+-----------------------------------------------------+
+| Name                   | ezprice                       |       ezmultiprice  |
+|------------------------+-----------------------------------------------------|
+| price                  | value of the price            | value of the        |
+|                        |                               | price in preferred  |
+|                        |                               | currency            |
+| currency               | empty string                  | a code of the       |
+|                        |                               | preferred currency  |
+| selected_vat_type      | eZVATType object              | the same            |
+| vat_type               | a list of available vat types | the same            |
+|                        |( a list of eZVATType objects) |                     |
+| vat_percent            | a percent value of selected   | the same            |
+|                        | vat type                      |                     |
+| is_vat_included        | whether vat included in price | the same            |
+| inc_vat_price          | returns a value of the price  | the same            |
+|                        | with included vat             |                     |
+| ex_vat_price           | returns a value of the price  | the same            |
+|                        | with excluded vat             |                     |
+| discount_percent       | a percent of discount         | the same            |
+| discount_price_inc_vat | returns a value of the price  | the same            |
+|                        | with included vat and discount|                     |
+| discount_price_ex_vat  | returns a value of the price  | the same            |
+|                        | with excluded vat and discount|                     |
+| has_discount           |                               |                     |
++------------------------+-----------------------------------------------------+
+
+
+own attributes:
++-----------------------------+------------------------------------------------+
+| Name                        | Description                                    |
+|-----------------------------+------------------------------------------------|
+| currency_list               | a list of avilable currencies                  |
+| auto_currency_list          | a list of currencies for which prices are      |
+|                             | 'auto'                                         |
+| price_list                  | a list of prices('custom' and 'auto')          |
+| auto_price_list             | a list of 'autoprices'                         |
+| custom_price_list           | a list of 'customprices'                       |
+| inc_vat_price_list          | a list of prices with included vat             |
+| ex_vat_price_list           | a list of prices with excluded vat             |
+| discount_inc_vat_price_list | a list of prices with included vat and discount|
+| discount_ex_vat_price_list  | a list of prices with excluded vat and discount|
++-----------------------------+------------------------------------------------+
+
+2.2 Usage
+
+To start using multicurrency features you have to:
+- create some currencies;
+- create a class with 'ezmultiprice' datatype. While createing a class it's
+  possible to select default vat type and default currency. Default currency
+  means that when you create an object of that class it will have one 'custom'
+  price in that currency and all other prices will be 'auto';
+- create some objects of that class;
+
+
+Example:
+Let's say we've created some currencies with rates against 'EUR'.
++----------------+-------------+-----------+--------+------------+
+| Currency code  | custom rate | auto rate | factor | real rate  |
+|----------------+-----------------------------------------------|
+| EUR            | 1.0000      | 0.0000    | 0.0000 | 1.0000     |
+|----------------|-------------|-----------|--------|------------|
+| USD            | 1.2000      | 0.0000    | 0.0000 | 1.2000     |
+|----------------|-------------|-----------|--------|------------|
+| UAH            | 6.2000      | 0.0000    | 0.0000 | 6.2000     |
+|----------------|-------------|-----------|--------|------------|
+| NOK            | 0.0000      | 6.0000    | 1.2000 | 7.2000     |
++----------------+-------------+-----------+--------+------------+
+
+Then a multiprice for a product will look like:
++----------------+----------+--------------+----------------------------------+
+| Product name   | Currency | price type   | value  | remarks                 |
+|----------------+----------------------------------|-------------------------|
+| product1       | USD      | custom(base) | 10.00  | it's a base price for   |
+|                |          |              |        | this product since it's |
+|                |          |              |        | the first 'custom'      |
+|                |          |              |        | price                   |
+|                | UAH      | custom       | 100.00 | we don't use conversion |
+|                |          |              |        | since price is typed    |
+|                |          |              |        | manually.               |
+|                | NOK      | auto         | 60.00  | since price in 'NOK' is |
+|                |          |              |        | autp we need to convert |
+|                |          |              |        | 'base' price(in USD) to |
+|                |          |              |        | 'NOK':                  |
+|                |          |              |        | NOK/USD(cross-rate) =   |
+|                |          |              |        | = (NOK/EUR) / (USD/EUR)=|
+|                |          |              |        | = 7.2 / 1.2 = 6.0       |
+|                |          |              |        | then price in 'NOK' =   |
+|                |          |              |        | ='USD price' *(NOK/USD)=|
+|                |          |              |        | = 10.00 * 6.0 = 60.00   |
+|                | EUR      | auto         | 8.33   | the same as for 'NOK'   |
++----------------+----------+--------------+--------+-------------------------+
+
+
+3. Products overview
+
+Product overview is accessible via:
+- 'Webshop'->'Products overview' in admin interface;
+- '<your_site>/shop/productsoverview' in the browser's address-bar;
+
+This view allows to view products grouped by class identifier and sorted
+either by price or name.
+
+4. Template operators
+
+fetch( 'shop',
+       'currency',
+       hash( 'code', <currency_code> ) )    - returns a currency object;
+
+fetch( 'shop',
+       'currency_list'
+       [, hash( 'status', <status> )] )     - returns a list of available
+                                              currencies;
+
+fetch( 'shop', 'preferred_currency' )       - returns a preferred currency;
+
+l10n( 'currency'[, locale[, [symbol]] )     - format a number as price using
+                                              specified or default 'locale'
+                                              and 'symbol';
+
+5. INI ettings
+
++------------------+-------------------+---------------------------------------+
+| Section          | Setting name      | Description                           |
+|------------------+-------------------+---------------------------------------+
+| CurrencySettings | PreferredCurrency | Default currency for shopping         |
+|------------------+-------------------+---------------------------------------+
+| MathSettings     | MathHandler       | eZPHPMath - using php floating point  |
+|                  |                   |             calculations              |
+|                  |                   | eZBCMath  - using bcmath extension.   |
+|                  | MathScale         | Defines significant digits after the  |
+|                  |                   | decimal point.                        |
+|                  |                   | Note: applyes for eZBCMath handler    |
+|                  |                   |       only.                           |
+|                  | RoundingType      | Defines rounding method for           |
+|                  |                   | autoconversions.                      |
+|                  |                   | Possible values: none, round, ceil,   |
+|                  |                   | floor.                                |
+|                  | RoundingPrecision | Defines significant digits after the  |
+|                  |                   | decimal point which should be kept    |
+|                  |                   | while rounding.                       |
+|                  |                   | Possible values: 0, 1, 2, ...         |
+|                  | RoundingTarget    | Forces rounding to specified target   |
+|                  |                   | Possible values: false, 0, 1, 2, ...  |
+|                  |                   | Example:                              |
+|                  |                   | input number = 89.468543              |
+|                  |                   | precision = 2                         |
+|                  |                   | target_1 = 5                          |
+|                  |                   | target_2 = 99                         |
+|                  |                   | usual rounding:                       |
+|                  |                   | round( number, precision ) = 89.47    |
+|                  |                   | apply target_1:                       |
+|                  |                   | round(number,precision,target )=89.45 |
+|                  |                   | apply target_2:                       |
+|                  |                   | round(number,precision,target)=89.99  |
+|------------------+-------------------+---------------------------------------+
+
+
+6. Restrictions
+
+It's not possible to have products with 'simple' and 'multi' prices in the
+basket as the same time.
+
