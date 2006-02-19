@@ -1,0 +1,213 @@
+*Title: Packages system and site setup wizard changes
+
+*Incentive:
+
+Currently, the user can choose one of the built-in site types and select
+additional functionality features if needed on the 'Site type' and 'Site
+functionality' steps of the setup wizard. Both steps use the standard
+packages (News, Forum, Gallery and others). The package system allows
+users to create new, remove existing, install and uninstall packages.
+The following problems are known:
+- It is impossible to install eZ publish without standard packages
+(without choosing one of the site types).
+- Design packages are connected with functionality packages.
+- Improper installing/uninstalling of the packages.
+- It is impossible to install the 'contentobject' package if one of
+the included objects already exists in the database (the same remote_id).
+- Some actions related to the standard packages are hardcoded in
+eZ publish, so the packages can not be used separately.
+- It is impossible to store additional data like settings, users, roles
+inside packages.
+- Information about installed packages is stored in package.xml files,
+it should belong to the site data instead.
+- Not all of the datatypes are compatible with the package system.
+- It is impossible to import/export extensions.
+- A number of bugs make the package system hard to use.
+
+*Documentation:
+
+1. Packages
+
+Standard packages can be downloaded from ez.no (they are no longer
+included into the eZ publish installation file).
+
+There are two new package types: 'site' and 'extension'.
+
+The 'site' packages contain no real objects, but dependencies to other
+packages plus specific settings and scripts. The setup wizard allows user
+to choose the desired site package. The selected 'site' package will be
+then marked as 'imported' in the administration inteface.
+It is impossible to create, install and uninstall these packages from
+the administration interface. The 'site' packages should be created
+by hand (there is no creation handler).
+The additional items like settings, roles, users etc. are now stored
+inside 'site' packages.
+
+The 'extension' packages store extension files.
+It is possible to create, install and uninstall these packages from
+the administration interface.
+
+2. Package repositories
+
+Formerly there were two main repositories: 'local' (in the 'var' directory)
+and 'packages' (specified in the 'package.ini' configuration file).
+In the 'packages' repository there were subdirectories named by package
+type ('styles', 'addons'). These subdirectories were listed as repositories
+in the administration interface so the packages were sorted by type.
+
+Now these directories are removed and packages can be downloaded separately
+from eZ publish. The packages will be sorted by their vendor. For example,
+the packages fetched from ez.no will be stored under
+'var/storage/packages/ezsystems' directory not depending on their type.
+
+Packages that has no vendor and packages created locally will reside under
+the 'local' repository ('var/storage/packages/local').
+
+3. The setup wizard
+
+On the 'Site type' step the setup wizard will suggest to select one of
+the available 'site' packages. The list of available site packages will be
+fetched from the URL given by the ini setting from 'package.ini':
+[RepositorySettings]
+RemotePackagesIndexURL=http://ez.no/packages/index.xml
+
+If there are any local 'site' packages, they will be listed here as well.
+The selected package will be automatically imported and all the dependent
+packages it requires will be installed without any questions to a user.
+
+The 'Site functionality' step formerly used to select addons is now removed.
+
+4. Installation/uninstallation support
+
+The administration interface allows user to install/uninstall all
+the packages except for the 'site' and 'style' packages. The 'site' packages can
+be thought of as "meta packages" that can be used only in the setup wizard.
+
+4.1. Install information storing
+
+Information about installed packages is now stored in the database.
+A new table called 'ezpackage' is used.
+
+4.2. Conflicts handling
+
+Handling installation/uninstallation conflicts is implemented. For example,
+when the object that is being installed already exists, a user will be
+proposed the following options:
+
+( ) Replace existing object
+( ) Skip installing this object
+( ) Keep existing and create new one
+[ ] Use this choice for all the elements of the same type.
+
+Also when objects and classes are being uninstalled, system checks and display
+warnings if they have been modified since installation or they have some child/related
+items that have to be deleted but are not included inside the package.
+
+5. Datatypes
+
+All the datatypes are now compatible with the package system. Both object
+and class serialization are supported. The system will display warnings
+when packaging items with missing serialization function. This touches
+'ezcontentobject' and 'ezcontentclass' package item types.
+
+6. Custom install scripts
+
+Packages may include specific custom install scripts. These scripts can be
+user-interactive and display extra wizard steps.
+
+
+*Example of implementing package post-install interactive script:
+
+- Open package.xml file, find <install> node, and add a new subitem there:
+      <item type="ezinstallscript"
+          filename="myinstallscript"
+          sub-directory="post-install" />
+          
+  "type" attribute is a special item type used to implement custom script.
+  "filename" is an item's xml file name. You can use any file name here.
+  "sub-directory" is a custom name for a directory where your script and all
+  related file will reside.
+  
+- Create a new directory "post-install" in the package's directory. Create file
+  "myinstallscript.xml" in this directory. Add the following lines to this
+  file:
+
+  <?xml version="1.0" encoding="UTF-8"?>
+<install-script filename="myinstallscript.php"
+                classname="myInstallScript" />
+
+  This is the description of your install script:
+  "filename" is the name of the file where your class will reside.
+  "classname" is the name of the class where all your steps are implemented.
+
+- Create "templates" sub-directory inside "post-install" directory.
+  Create a template for your install step there. We will call it "myownstep.tpl":
+
+    <form method="post" action={'package/install'|ezurl}>
+
+    {include uri="design:package/install/error.tpl"}
+    {include uri="design:package/install_header.tpl"}
+
+    <p>This is my very custom step</p>
+
+    <label>You may even click the checkbox if you want</label>
+
+    <div class="block">
+      <input class="button" type="checkbox" name="MyCheckBox" />
+    </div>
+
+    {include uri="design:package/navigator.tpl"}
+    </form>
+  
+  
+- Create file "myinstallscript.php". Here is an example of this file:
+
+<?php
+class myInstallScript extends eZInstallScriptPackageInstaller
+{
+    function myInstallScript( &$package, $type, $installItem )
+    {
+        eZDebug::writeDebug( $installItem, "Hello from myInstallScript" );
+
+        $steps = array();
+        $steps[] = array( 'id' => 'my_own_step',
+                          'name' => 'My own step',
+						  'methods' => array( 'initialize' => 'initializeMyOwnStep',
+						                      'validate' => 'validateMyOwnStep',
+                                              'commit' => 'commitMyOwnStep' ),
+                          'template' => 'myownstep.tpl' );
+        $this->eZPackageInstallationHandler( $package,
+                                             $type,
+                                             $installItem,
+                                             'My own custom step',
+                                             $steps );
+    }
+
+    // Function that is called before the step is displayed. You can use it to set variables
+    // for your template.
+
+    function initializeMyOwnStep( &$package, &$http, $step, &$persistentData, &$tpl, &$module )
+    {
+        eZDebug::writeDebug( "Hello from initializeMyOwnStep()" );
+        return true;
+    }
+
+    // This function is called after user has submitted the form. If this function returns "false",
+    // the step will be displayed again.
+
+    function validateMyOwnStep( &$package, &$http, $currentStepID, &$stepMap, &$persistentData, &$errorList )
+    {
+        eZDebug::writeDebug( "Hello from validateMyOwnStep()" );
+        return true;
+    }
+
+    // This function is called after the form is submitted and validated.
+
+    function commitMyOwnStep( &$package, &$http, $step, &$persistentData, &$tpl )
+    {
+        eZDebug::writeDebug( "Hello from commitMyOwnStep()" );
+        return true;
+    }
+}
+?>
+
