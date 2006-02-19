@@ -47,3 +47,13 @@ ALTER TABLE ezmultipricedata ADD INDEX ezmultipricedata_currency_code (currency_
 
 ALTER TABLE ezproductcollection ADD COLUMN currency_code char(3) NOT NULL default '';
 -- Multicurrency. -- END --
+
+-- Improved packages system -- START --
+CREATE TABLE `ezpackage` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL default '',
+  `version` varchar(30) NOT NULL default '0',
+  `install_date` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+);
+-- Improved packages system -- END --

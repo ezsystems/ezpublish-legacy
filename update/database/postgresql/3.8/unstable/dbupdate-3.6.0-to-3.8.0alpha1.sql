@@ -74,3 +74,20 @@ ALTER TABLE ezproductcollection ADD currency_code char(3);
 ALTER TABLE ezproductcollection ALTER currency_code SET NOT NULL;
 ALTER TABLE ezproductcollection ALTER currency_code SET DEFAULT '';
 -- Multicurrency. -- END --
+
+-- Improved packages system -- START --
+CREATE SEQUENCE ezpackage_s
+       START 1
+       INCREMENT 1
+       MAXVALUE 9223372036854775807
+       MINVALUE 1
+       CACHE 1;
+
+CREATE TABLE ezpackage (
+  id integer NOT NULL DEFAULT nextval('ezpackage_s'::text),
+  name varchar(100) NOT NULL default '',
+  version varchar(30) NOT NULL default '0',
+  install_date integer NOT NULL,
+  PRIMARY KEY  (id)
+);
+-- Improved packages system -- END --
