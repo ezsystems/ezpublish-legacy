@@ -763,8 +763,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                  $object->attribute( 'status' ) == EZ_CONTENT_OBJECT_STATUS_PUBLISHED )
             {
                 $view = $tag->attributeValue( 'view' );
+                // By default we use views "embed" and "embed-inline"
                 if ( $view == null )
-                    $view = 'embed';
+                    $view = $tagName;
                 $class = $tag->attributeValue( 'class' );
 
                 $objectParameters = array();
