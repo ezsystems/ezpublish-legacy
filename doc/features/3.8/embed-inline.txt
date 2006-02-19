@@ -1,0 +1,23 @@
+*Title: New eZXML tag <embed-inline/>.
+
+*Description:
+
+"embed-inline" tag is an analog of the "embed" tag. Differences are described
+below:
+
+- "embed" tag is block tag, but "embed-inline" is inline. This means that
+  templates for "embed-inline" can't contain block tags, but only tags
+  that can be placed within paragraphs. "embed" tags are rendered
+  outside paragraphs in the output, so they can contain block tags.
+  
+- By default "embed" tag renders objects using "embed" view of the content module.
+  "embed-inline" tag renders objects using "embed-inline" view. You should have
+  this in mind while making template overrides.
+  
+- Use "embed-inline" if you want to insert an image inside the text line, but use
+  "embed" if you want to insert it between text paragraphs.
+
+
+*Documentation:
+
+All parameters of "embed-inline" tag are equivalent to those of "embed" tag.
