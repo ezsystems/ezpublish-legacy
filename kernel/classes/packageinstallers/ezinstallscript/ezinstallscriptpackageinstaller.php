@@ -76,7 +76,7 @@ class eZInstallScriptPackageInstaller extends eZPackageInstallationHandler
     function stepTemplate( $package, $installItem, $step )
     {
         $itemPath = $package->path() . '/' . $installItem['sub-directory'];
-        $stepTemplatePath = $itemPath . '/step-templates';
+        $stepTemplatePath = $itemPath . '/templates';
 
         return array( 'name' => $step['template'],
                       'path' => $stepTemplatePath );
