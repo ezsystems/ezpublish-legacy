@@ -57,7 +57,8 @@ if ( $http->hasPostVariable( "StoreButton" ) )
     }
     $section->setAttribute( 'name', $http->postVariable( 'Name' ) );
     $section->setAttribute( 'navigation_part_identifier', $http->postVariable( 'NavigationPartIdentifier' ) );
-    $section->setAttribute( 'locale', $http->postVariable( 'Locale' ) );
+    if ( $http->hasPostVariable( 'Locale' ) )
+        $section->setAttribute( 'locale', $http->postVariable( 'Locale' ) );
     $section->store();
     $Module->redirectTo( $Module->functionURI( 'list' ) );
     return;
