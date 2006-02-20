@@ -1,4 +1,43 @@
 <?php
+//
+// Definition of eZCurrencyConverter class
+//
+// Created on: <28-Nov-2005 12:26:52 dl>
+//
+// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
+// SOFTWARE NAME: eZ publish
+// SOFTWARE RELEASE: 3.8.x
+// COPYRIGHT NOTICE: Copyright (C) 1999-2006 eZ systems AS
+// SOFTWARE LICENSE: GNU General Public License v2.0
+// NOTICE: >
+//   This program is free software; you can redistribute it and/or
+//   modify it under the terms of version 2.0  of the GNU General
+//   Public License as published by the Free Software Foundation.
+//
+//   This program is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details.
+//
+//   You should have received a copy of version 2.0 of the GNU General
+//   Public License along with this program; if not, write to the Free
+//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+//   MA 02110-1301, USA.
+//
+//
+// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
+//
+
+/*! \file ezcurrencyconverter.php
+*/
+
+/*!
+  \class eZCurrencyConverter ezcurrencyconverter.php
+  \brief Handles conversions from one curreny into another, applying
+  rounding if it's needed.
+
+
+*/
 
 define( 'EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_NONE', 1 );
 define( 'EZ_CURRENCY_CONVERTER_ROUNDING_TYPE_ROUND', 2 );
