@@ -107,7 +107,7 @@ Note: The packages will not be uninstalled.'|i18n('design/admin/package/list')|b
 {section name=Package loop=$package_list sequence=array(bglight,bgdark)}
 <tr class="{$:sequence}">
     {section show=$can_remove}
-    <td width="1"><input type="checkbox" name="PackageSelection[]" value="{$:item.name|wash}"{section show=$:item.is_local|not}disabled="disabled"{/section} /></td>
+    <td width="1"><input type="checkbox" name="PackageSelection[]" value="{$:item.name|wash}"/></td>
     {section-else}
       <input type="checkbox" disabled="disabled">
     {/section}
