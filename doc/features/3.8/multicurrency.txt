@@ -43,7 +43,7 @@ following attributes:
 'currencylist' view is used to manage the currencies.
 
 It's accessible through '<your_site>/shop/currencylist' in the browser's
-address-bar or 'Webshop->Currncies' in admin interface.
+address-bar or 'Webshop->Currencies' in admin interface.
 
 It has following actions:
 +-------------------+----------------------------------------------------------+

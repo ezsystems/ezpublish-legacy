@@ -247,6 +247,11 @@ class eZPriceType extends eZDataType
     {
         $vatNode =& $attributeParametersNode->elementByName( 'vat-included' );
         $vatIncluded = strtolower( $vatNode->attributeValue( 'is-set' ) ) == 'true';
+        if ( $vatIncluded )
+            $vatIncluded = EZ_PRICE_INCLUDED_VAT;
+        else
+            $vatIncluded = EZ_PRICE_EXCLUDED_VAT;
+
         $classAttribute->setAttribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, $vatIncluded );
         $vatTypeNode =& $attributeParametersNode->elementByName( 'vat-type' );
         $vatName = $vatTypeNode->attributeValue( 'name' );

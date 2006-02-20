@@ -39,7 +39,7 @@ include_once( 'kernel/classes/ezdatatype.php' );
 include_once( 'kernel/classes/datatypes/ezmultiprice/ezmultiprice.php' );
 
 define( 'EZ_DATATYPESTRING_MULTIPRICE', 'ezmultiprice' );
-define( 'EZ_DATATYPESTRING_CURRENCY_CODE_FIELD', 'data_text1' );
+define( 'EZ_DATATYPESTRING_DEFAULT_CURRENCY_CODE_FIELD', 'data_text1' );
 define( 'EZ_DATATYPESTRING_CURRENCY_CODE_VARIABLE', '_ezmultiprice_currency_code_' );
 define( 'EZ_DATATYPESTRING_MULTIPRICE_INCLUDE_VAT_FIELD', 'data_int1' );
 define( 'EZ_DATATYPESTRING_MULTIPRICE_INCLUDE_VAT_VARIABLE', '_ezmultiprice_include_vat_' );
@@ -118,7 +118,7 @@ class eZMultiPriceType extends eZDataType
 
         if ( $currentVersion == false )
         {
-            $defaultCurrency = $contentClassAttribute->attribute( EZ_DATATYPESTRING_CURRENCY_CODE_FIELD );
+            $defaultCurrency = $contentClassAttribute->attribute( EZ_DATATYPESTRING_DEFAULT_CURRENCY_CODE_FIELD );
             $multiprice->setCustomPrice( $defaultCurrency, '0.00' );
             $multiprice->updateAutoPriceList();
             $multiprice->store();
@@ -142,7 +142,7 @@ class eZMultiPriceType extends eZDataType
         if ( $http->hasPostVariable( $currencyCodeVariable ) )
         {
             $currencyCode = $http->postVariable( $currencyCodeVariable );
-            $classAttribute->setAttribute( EZ_DATATYPESTRING_CURRENCY_CODE_FIELD, $currencyCode );
+            $classAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_CURRENCY_CODE_FIELD, $currencyCode );
         }
 
         $isVatIncludedVariable = $base . EZ_DATATYPESTRING_MULTIPRICE_INCLUDE_VAT_VARIABLE . $classAttribute->attribute( 'id' );
@@ -297,7 +297,6 @@ class eZMultiPriceType extends eZDataType
     */
     function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        /*
         $price =& $classAttribute->content();
         if ( $price )
         {
@@ -306,7 +305,7 @@ class eZMultiPriceType extends eZDataType
             $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'vat-included',
                                                                                      array( 'is-set' => $vatIncluded ? 'true' : 'false' ) ) );
             $vatTypeNode = eZDOMDocument::createElementNode( 'vat-type' );
-            $chosenVatType = $classAttribute->attribute( 'data_float1' );
+            $chosenVatType = $classAttribute->attribute( EZ_DATATYPESTRING_MULTIPRICE_VAT_ID_FIELD );
             $gotVat = false;
             foreach ( $vatTypes as $vatType )
             {
@@ -321,8 +320,10 @@ class eZMultiPriceType extends eZDataType
             }
             if ( $gotVat )
                 $attributeParametersNode->appendChild( $vatTypeNode );
+
+            $defualtCurrency = $classAttribute->attribute( EZ_DATATYPESTRING_DEFAULT_CURRENCY_CODE_FIELD );
+            $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'default-currency', array( 'code' => $defualtCurrency ) ) );
         }
-        */
     }
 
     /*!
@@ -330,10 +331,14 @@ class eZMultiPriceType extends eZDataType
     */
     function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
     {
-        /*
         $vatNode =& $attributeParametersNode->elementByName( 'vat-included' );
         $vatIncluded = strtolower( $vatNode->attributeValue( 'is-set' ) ) == 'true';
-        $classAttribute->setAttribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, $vatIncluded );
+        if ( $vatIncluded )
+            $vatIncluded = EZ_MULTIPRICE_INCLUDED_VAT;
+        else
+            $vatIncluded = EZ_MULTIPRICE_EXCLUDED_VAT;
+
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_MULTIPRICE_INCLUDE_VAT_FIELD, $vatIncluded );
         $vatTypeNode =& $attributeParametersNode->elementByName( 'vat-type' );
         $vatName = $vatTypeNode->attributeValue( 'name' );
         $vatPercentage = $vatTypeNode->attributeValue( 'percentage' );
@@ -358,7 +363,10 @@ class eZMultiPriceType extends eZDataType
             $vatID = $vatType->attribute( 'id' );
         }
         $classAttribute->setAttribute( EZ_DATATYPESTRING_MULTIPRICE_VAT_ID_FIELD, $vatID );
-        */
+
+        $defaultCurrency =& $attributeParametersNode->elementByName( 'default-currency' );
+        $currencyCode = $defaultCurrency->attributeValue( 'code' );
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_CURRENCY_CODE_FIELD, $currencyCode );
     }
 
     function customSorting()

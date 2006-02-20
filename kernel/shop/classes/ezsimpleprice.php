@@ -351,6 +351,71 @@ class eZSimplePrice
         return $currencyCode;
     }
 
+    /*!
+     \reimp
+    */
+    function serializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $price =& $classAttribute->content();
+        if ( $price )
+        {
+            $vatIncluded = $price->attribute( 'is_vat_included' );
+            $vatTypes = $price->attribute( 'vat_type' );
+            $attributeParametersNode->appendChild( eZDOMDocument::createElementNode( 'vat-included',
+                                                                                     array( 'is-set' => $vatIncluded ? 'true' : 'false' ) ) );
+            $vatTypeNode = eZDOMDocument::createElementNode( 'vat-type' );
+            $chosenVatType = $classAttribute->attribute( 'data_float1' );
+            $gotVat = false;
+            foreach ( $vatTypes as $vatType )
+            {
+                $id = $vatType->attribute( 'id' );
+                if ( $id == $chosenVatType )
+                {
+                    $vatTypeNode->appendAttribute( eZDOMDocument::createAttributeNode( 'name', $vatType->attribute( 'name' ) ) );
+                    $vatTypeNode->appendAttribute( eZDOMDocument::createAttributeNode( 'percentage', $vatType->attribute( 'percentage' ) ) );
+                    $gotVat = true;
+                    break;
+                }
+            }
+            if ( $gotVat )
+                $attributeParametersNode->appendChild( $vatTypeNode );
+        }
+    }
+
+    /*!
+     \reimp
+    */
+    function unserializeContentClassAttribute( &$classAttribute, &$attributeNode, &$attributeParametersNode )
+    {
+        $vatNode =& $attributeParametersNode->elementByName( 'vat-included' );
+        $vatIncluded = strtolower( $vatNode->attributeValue( 'is-set' ) ) == 'true';
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_INCLUDE_VAT_FIELD, $vatIncluded );
+        $vatTypeNode =& $attributeParametersNode->elementByName( 'vat-type' );
+        $vatName = $vatTypeNode->attributeValue( 'name' );
+        $vatPercentage = $vatTypeNode->attributeValue( 'percentage' );
+        $vatID = false;
+        $vatTypes = eZVATType::fetchList();
+        foreach ( array_keys( $vatTypes ) as $vatTypeKey )
+        {
+            $vatType =& $vatTypes[$vatTypeKey];
+            if ( $vatType->attribute( 'name' ) == $vatName and
+                 $vatType->attribute( 'percentage' ) == $vatPercentage )
+            {
+                $vatID = $vatType->attribute( 'id' );
+                break;
+            }
+        }
+        if ( !$vatID )
+        {
+            $vatType = eZVATType::create();
+            $vatType->setAttribute( 'name', $vatName );
+            $vatType->setAttribute( 'percentage', $vatPercentage );
+            $vatType->store();
+            $vatID = $vatType->attribute( 'id' );
+        }
+        $classAttribute->setAttribute( EZ_DATATYPESTRING_VAT_ID_FIELD, $vatID );
+    }
+
     /// \privatesection
     var $Price;
     var $VATType;
