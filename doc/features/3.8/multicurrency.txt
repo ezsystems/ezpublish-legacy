@@ -163,6 +163,32 @@ To start using multicurrency features you have to:
   Subdir=templates
   Match[class_identifier]=<identifier_of_your_multiprice_product_class>
 
+  [multiprice_product_embed]
+  Source=content/view/embed.tpl
+  MatchFile=embed/multiprice_product.tpl
+  Subdir=templates
+  Match[class_identifier]=<identifier_of_your_multiprice_product_class>
+ 
+  [multiprice_product_listitem]
+  Source=node/view/listitem.tpl
+  MatchFile=listitem/multiprice_product.tpl
+  Subdir=templates
+  Match[class_identifier]=<identifier_of_your_multiprice_product_class>
+
+  [multiprice]
+  Source=content/datatype/view/ezmultiprice.tpl
+  MatchFile=datatype/multiprice.tpl
+  Subdir=templates
+
+- add 'user_preferred_currency' to the 'CachedViewPreferences':
+  'settings/override/site.ini.append.php':
+  [ContentSettings]
+  CachedViewPreferences[full]=user_preferred_currency='';
+
+- add to the 'settings/siteaccess/<user_site_access>/toolbar.ini.append.php'
+  [Toolbar_right]
+  Tool[]=preferredcurrency
+
 - create some objects of that class;
 
 
