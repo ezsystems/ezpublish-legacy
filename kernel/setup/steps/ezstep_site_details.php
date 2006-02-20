@@ -114,7 +114,7 @@ class eZStepSiteDetails extends eZStepInstaller
 
         // Admin siteaccess
         $siteType['admin_access_type_value'] = $this->Http->postVariable( 'eZSetup_site_templates_admin_value' );
-        if ( $siteType['access_access_type_value'] == '' )
+        if ( $siteType['admin_access_type_value'] == '' )
         {
             $this->Error[0] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
             return false;
