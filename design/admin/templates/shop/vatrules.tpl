@@ -51,13 +51,6 @@
     {/if}
     <input class="button" type="submit" name="AddRuleButton" value="{'New rule'|i18n( 'design/admin/shop/vatrules' )}" title="{'Create a new VAT charging rule.'|i18n( 'design/admin/shop/vatrules' )}" />
 </div>
-<div class="button-right">
-    {if $rules}
-    <input class="button" type="submit" name="SaveRulesButton" value="{'Apply changes'|i18n( 'design/admin/shop/vatrules' )}" title="{'Click this button to store changes if you have modified any of the fields above.'|i18n( 'design/admin/shop/vatrules' )}" />
-    {else}
-    <input class="button-disabled" type="submit" name="SaveRulesButton" value="{'Apply changes'|i18n( 'design/admin/shop/vatrules' )}" disabled="disabled" />
-    {/if}
-</div>
 <div class="break"></div>
 </div>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
