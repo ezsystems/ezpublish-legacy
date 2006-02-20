@@ -97,16 +97,29 @@ class eZStepSiteDetails extends eZStepInstaller
             $error = true;
         }
 
+        // User siteaccess
         $siteType['access_type_value'] = $this->Http->postVariable( 'eZSetup_site_templates_value' );
-        $siteAccessValues[$siteType['access_type_value']] = 1;
+        if ( $siteType['access_type_value'] == '' )
+        {
+            $this->Error[0] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
+            return false;
+        }
 
+        $siteAccessValues[$siteType['access_type_value']] = 1;
         if ( isset( $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_admin_value' )] ) ) // check for equal site access values
         {
             $this->Error[0] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
             $error = true;
         }
 
+        // Admin siteaccess
         $siteType['admin_access_type_value'] = $this->Http->postVariable( 'eZSetup_site_templates_admin_value' );
+        if ( $siteType['access_access_type_value'] == '' )
+        {
+            $this->Error[0] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
+            return false;
+        }
+
         $siteAccessValues[$siteType['admin_access_type_value']] = 1;
 
         $siteType['database'] = $this->Http->postVariable( 'eZSetup_site_templates_database' );
