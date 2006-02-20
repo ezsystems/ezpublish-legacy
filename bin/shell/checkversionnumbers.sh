@@ -14,7 +14,7 @@ LAST_STABLE="3.6.0"
 LAST_STABLE_CHANGED="false"
 
 MAJOR=3
-MINOR=7
+MINOR=8
 RELEASE=0
 # Starts at 1 for the first release in a branch and increases with one
 REAL_RELEASE=1

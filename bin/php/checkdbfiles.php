@@ -150,6 +150,10 @@ $versions37 = array( 'unstable' => array( array( '3.6.0', '3.7.0alpha1' )
                                           ),
                      'unstable_subdir' => 'unstable',
                      'stable' => array( ) );
+$versions38 = array( 'unstable' => array( array( '3.6.0', '3.8.0alpha1' )
+                                          ),
+                     'unstable_subdir' => 'unstable',
+                     'stable' => array( ) );
 
 $versions['3.0'] = $versions30;
 $versions['3.1'] = $versions31;
@@ -159,6 +163,7 @@ $versions['3.4'] = $versions34;
 $versions['3.5'] = $versions35;
 $versions['3.6'] = $versions36;
 $versions['3.7'] = $versions37;
+$versions['3.8'] = $versions38;
 
 $fileList = array();
 $missingFileList = array();

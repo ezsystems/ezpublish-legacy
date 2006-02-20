@@ -1429,7 +1429,7 @@ CREATE TABLE ezcontentobject_version (
 
 CREATE TABLE ezcurrencydata (
     auto_rate_value numeric(10,5) DEFAULT '0.00000' NOT NULL,
-    code character varying(3) DEFAULT ''::bpchar NOT NULL,
+    code character varying(4) DEFAULT ''::character varying NOT NULL,
     custom_rate_value numeric(10,5) DEFAULT '0.00000' NOT NULL,
     id integer DEFAULT nextval('ezcurrencydata_s'::text) NOT NULL,
     locale character varying(255) DEFAULT ''::character varying NOT NULL,
@@ -1693,7 +1693,7 @@ CREATE TABLE ezmodule_run (
 CREATE TABLE ezmultipricedata (
     contentobject_attr_id integer DEFAULT 0 NOT NULL,
     contentobject_attr_version integer DEFAULT 0 NOT NULL,
-    currency_code character varying(3) DEFAULT ''::bpchar NOT NULL,
+    currency_code character varying(4) DEFAULT ''::character varying NOT NULL,
     id integer DEFAULT nextval('ezmultipricedata_s'::text) NOT NULL,
     "type" integer DEFAULT 0 NOT NULL,
     value numeric(15,2) DEFAULT '0.00' NOT NULL
@@ -1967,7 +1967,7 @@ CREATE TABLE ezpreferences (
 
 CREATE TABLE ezproductcollection (
     created integer,
-    currency_code character varying(3) DEFAULT ''::bpchar NOT NULL,
+    currency_code character varying(4) DEFAULT ''::character varying NOT NULL,
     id integer DEFAULT nextval('ezproductcollection_s'::text) NOT NULL
 );
 
@@ -2077,6 +2077,7 @@ CREATE TABLE ezrss_import (
     creator_id integer,
     destination_node_id integer,
     id integer DEFAULT nextval('ezrss_import_s'::text) NOT NULL,
+    import_description text NOT NULL,
     modified integer,
     modifier_id integer,
     name character varying(255),

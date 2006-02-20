@@ -1978,8 +1978,8 @@ $schema = array (
       ),
       'code' => 
       array (
-        'length' => 3,
-        'type' => 'char',
+        'length' => 4,
+        'type' => 'varchar',
         'not_null' => '1',
         'default' => '',
       ),
@@ -3021,8 +3021,8 @@ $schema = array (
       ),
       'currency_code' => 
       array (
-        'length' => 3,
-        'type' => 'char',
+        'length' => 4,
+        'type' => 'varchar',
         'not_null' => '1',
         'default' => '',
       ),
@@ -4168,8 +4168,8 @@ $schema = array (
       ),
       'currency_code' => 
       array (
-        'length' => 3,
-        'type' => 'char',
+        'length' => 4,
+        'type' => 'varchar',
         'not_null' => '1',
         'default' => '',
       ),
@@ -4647,6 +4647,12 @@ $schema = array (
       'id' => 
       array (
         'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'import_description' => 
+      array (
+        'type' => 'longtext',
+        'not_null' => '1',
         'default' => false,
       ),
       'modified' => 

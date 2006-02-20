@@ -1,8 +1,8 @@
 UPDATE ezsite_data SET value='3.8.0alpha1' WHERE name='ezpublish-version';
 UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
 
-ALTER TABLE ezorder ADD is_archived INT DEFAULT '0' NOT NULL ;
-ALTER TABLE ezorder ADD INDEX ( is_archived ) ;
+ALTER TABLE ezorder ADD is_archived INT DEFAULT '0' NOT NULL;
+ALTER TABLE ezorder ADD INDEX ezorder_is_archived (is_archived);
 
 
 -- Improved Approval Workflow -- START --
@@ -18,7 +18,7 @@ ALTER TABLE ezrss_import ADD COLUMN import_description longtext NOT NULL DEFAULT
 -- Multicurrency. -- START --
 CREATE TABLE ezcurrencydata (
   id int(11) NOT NULL auto_increment,
-  code char(3) NOT NULL default '',
+  code varchar(4) NOT NULL default '',
   symbol varchar(255) NOT NULL default '',
   locale varchar(255) NOT NULL default '',
   status int(11) NOT NULL default '1',
@@ -35,7 +35,7 @@ CREATE TABLE ezmultipricedata (
   id int(11) NOT NULL auto_increment,
   contentobject_attr_id int(11) NOT NULL default '0',
   contentobject_attr_version int(11) NOT NULL default '0',
-  currency_code char(3) NOT NULL default '',
+  currency_code varchar(4) NOT NULL default '',
   value numeric(15,2) NOT NULL default '0.00',
   type int(11) NOT NULL default '0',
   PRIMARY KEY (id)
@@ -45,7 +45,7 @@ ALTER TABLE ezmultipricedata ADD INDEX ezmultipricedata_coa_id (contentobject_at
 ALTER TABLE ezmultipricedata ADD INDEX ezmultipricedata_coa_version (contentobject_attr_version);
 ALTER TABLE ezmultipricedata ADD INDEX ezmultipricedata_currency_code (currency_code);
 
-ALTER TABLE ezproductcollection ADD COLUMN currency_code char(3) NOT NULL default '';
+ALTER TABLE ezproductcollection ADD COLUMN currency_code varchar(4) NOT NULL default '';
 -- Multicurrency. -- END --
 
 -- Improved packages system -- START --

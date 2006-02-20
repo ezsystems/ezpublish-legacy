@@ -17,7 +17,9 @@ UPDATE ezpolicy SET function_name='administrate' WHERE module_name='shop' AND fu
 
 
 -- Improved RSS import. -- START --
-ALTER TABLE ezrss_import ADD COLUMN import_description text NOT NULL DEFAULT '';
+ALTER TABLE ezrss_import ADD COLUMN import_description text;
+ALTER TABLE ezrss_import ALTER import_description SET NOT NULL;
+ALTER TABLE ezrss_import ALTER import_description SET DEFAULT '';
 -- Improved RSS import. -- END --
 
 -- Multicurrency. -- START --
@@ -31,7 +33,7 @@ CREATE SEQUENCE ezcurrencydata_s
 
 CREATE TABLE ezcurrencydata (
   id integer NOT NULL DEFAULT nextval('ezcurrencydata_s'::text),
-  code char(3) NOT NULL default '',
+  code varchar(4) NOT NULL default '',
   symbol varchar(255) NOT NULL default '',
   locale varchar(255) NOT NULL default '',
   status integer NOT NULL default 1,
@@ -57,7 +59,7 @@ CREATE TABLE ezmultipricedata (
   id integer NOT NULL DEFAULT nextval('ezmultipricedata_s'::text),
   contentobject_attr_id integer NOT NULL default 0,
   contentobject_attr_version integer NOT NULL default 0,
-  currency_code char(3) NOT NULL default '',
+  currency_code varchar(4) NOT NULL default '',
   value numeric(15,2) NOT NULL default '0.00',
   type integer NOT NULL default 0
 );
@@ -70,7 +72,7 @@ CREATE INDEX ezmultipricedata_coa_version ON ezmultipricedata USING btree (conte
 CREATE INDEX ezmultipricedata_currency_code ON ezmultipricedata USING btree (currency_code);
 
 
-ALTER TABLE ezproductcollection ADD currency_code char(3);
+ALTER TABLE ezproductcollection ADD currency_code varchar(4);
 ALTER TABLE ezproductcollection ALTER currency_code SET NOT NULL;
 ALTER TABLE ezproductcollection ALTER currency_code SET DEFAULT '';
 -- Multicurrency. -- END --

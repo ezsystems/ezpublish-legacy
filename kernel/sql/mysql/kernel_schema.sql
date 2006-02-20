@@ -425,7 +425,7 @@ CREATE TABLE ezcontentobject_version (
 
 CREATE TABLE ezcurrencydata (
   auto_rate_value decimal(10,5) NOT NULL default '0.00000',
-  code char(3) NOT NULL default '',
+  code varchar(4) NOT NULL default '',
   custom_rate_value decimal(10,5) NOT NULL default '0.00000',
   id int(11) NOT NULL auto_increment,
   locale varchar(255) NOT NULL default '',
@@ -677,7 +677,7 @@ CREATE TABLE ezmodule_run (
 CREATE TABLE ezmultipricedata (
   contentobject_attr_id int(11) NOT NULL default '0',
   contentobject_attr_version int(11) NOT NULL default '0',
-  currency_code char(3) NOT NULL default '',
+  currency_code varchar(4) NOT NULL default '',
   id int(11) NOT NULL auto_increment,
   type int(11) NOT NULL default '0',
   value decimal(15,2) NOT NULL default '0.00',
@@ -948,7 +948,7 @@ CREATE TABLE ezpreferences (
 
 CREATE TABLE ezproductcollection (
   created int(11) default NULL,
-  currency_code char(3) NOT NULL default '',
+  currency_code varchar(4) NOT NULL default '',
   id int(11) NOT NULL auto_increment,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
@@ -1056,6 +1056,7 @@ CREATE TABLE ezrss_import (
   creator_id int(11) default NULL,
   destination_node_id int(11) default NULL,
   id int(11) NOT NULL auto_increment,
+  import_description longtext NOT NULL,
   modified int(11) default NULL,
   modifier_id int(11) default NULL,
   name varchar(255) default NULL,
