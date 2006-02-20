@@ -3,6 +3,8 @@ UPDATE ezsite_data SET value='1' WHERE name='ezpublish-release';
 
 ALTER TABLE ezorder ADD is_archived INT DEFAULT '0' NOT NULL;
 ALTER TABLE ezorder ADD INDEX ezorder_is_archived (is_archived);
+ALTER TABLE ezorder_item ADD type VARCHAR(30);
+ALTER TABLE ezorder_item ADD INDEX ezorder_item_type ( type ) ;
 
 
 -- Improved Approval Workflow -- START --
@@ -57,3 +59,25 @@ CREATE TABLE `ezpackage` (
   PRIMARY KEY  (`id`)
 );
 -- Improved packages system -- END --
+
+-- VAT charging rules -- START --
+CREATE TABLE ezproductcategory (
+  id int(11) NOT NULL auto_increment,
+  name varchar(255) NOT NULL default '',
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE ezvatrule (
+  id int(11) NOT NULL auto_increment,
+  country varchar(255) NOT NULL default '',
+  vat_type int(11) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE ezvatrule_product_category (
+  vatrule_id int(11) NOT NULL,
+  product_category_id int(11) NOT NULL,
+  PRIMARY KEY (vatrule_id, product_category_id)
+);
+-- VAT charging rules -- END --
+

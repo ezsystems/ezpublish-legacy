@@ -409,7 +409,7 @@ class eZBasket extends eZPersistentObject
                 {
                     $item->setAttribute( "is_vat_inc", '0' );
                 }
-                $item->setAttribute( "vat_value", $priceObj->attribute( 'vat_percent' ) );
+                $item->setAttribute( "vat_value", $priceObj->VATPercent( $productContentObject ) );
                 $item->setAttribute( "discount", $priceObj->attribute( 'discount_percent' ) );
                 $item->store();
 

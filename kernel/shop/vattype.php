@@ -36,7 +36,7 @@ $module =& $Params["Module"];
 
 $http =& eZHttpTool::instance();
 
-$vatTypeArray = eZVatType::fetchList();
+$vatTypeArray = eZVatType::fetchList( true, true );
 
 if ( $http->hasPostVariable( "AddVatTypeButton" ) )
 {
@@ -54,6 +54,10 @@ if ( $http->hasPostVariable( "SaveVatTypeButton" ) )
     foreach ( $vatTypeArray as $vatType )
     {
         $id = $vatType->attribute( 'id' );
+
+        if ( $id == -1 ) // avoid storing changes to the "fake" dynamic VAT type
+            continue;
+
         if ( $http->hasPostVariable( "vattype_name_" . $id ) )
         {
             $name = $http->postVariable( "vattype_name_" . $id );

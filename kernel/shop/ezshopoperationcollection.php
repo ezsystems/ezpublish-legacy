@@ -53,6 +53,52 @@ class eZShopOperationCollection
     }
 
     /*!
+     Operation entry: Adds order item: shipping.
+     */
+    function handleShipping( $orderID )
+    {
+        do // we prevent high nesting levels by using breaks
+        {
+            $order = eZOrder::fetch( $orderID );
+            if ( !$order )
+                break;
+
+            require_once( 'kernel/classes/ezshippingmanager.php' );
+            $shippingInfo = eZShippingManager::getShippingInfo( $order->attribute( 'productcollection_id' ) );
+            if ( !isset( $shippingInfo ) )
+                break;
+
+            // check if the order item has been added before.
+            $orderItems = $order->orderItemsByType( 'ezcustomshipping' );
+
+            // if it has then do nothing.
+            if ( $orderItems )
+                break;
+
+            // create order item: shipping
+            $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
+                                                 'description' => 'Shipping (' . $shippingInfo['description'] . ')',
+                                                 'price' => $shippingInfo['cost'],
+                                                 'type' => 'ezcustomshipping' ) );
+            $orderItem->store();
+
+        } while ( false );
+
+        return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+    }
+
+    /*!
+     Operation entry: Updates shipping info for items in the current basket.
+    */
+    function updateShippingInfo( $objectID, $optionList )
+    {
+        $basket =& eZBasket::currentBasket();
+        require_once( 'kernel/classes/ezshippingmanager.php' );
+        $shippingInfo = eZShippingManager::updateShippingInfo( $basket->attribute( 'productcollection_id' ) );
+        return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+    }
+
+    /*!
      Operation entry: Adds the object \a $objectID with options \a $optionList to the current basket.
     */
     function addToBasket( $objectID, $optionList )

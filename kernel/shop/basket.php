@@ -93,13 +93,21 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
     }
     else
     {
-        $itemList = $http->postVariable( "RemoveProductItemDeleteList" );
+        if ( $http->hasPostVariable( "RemoveProductItemDeleteList" ) )
+            $itemList = $http->postVariable( "RemoveProductItemDeleteList" );
+        else
+            $itemList = array();
 
         foreach ( $itemList as $item )
         {
             $basket->removeItem( $item );
         }
     }
+
+    // Update shipping info after removing an item from the basket.
+    require_once( 'kernel/classes/ezshippingmanager.php' );
+    eZShippingManager::updateShippingInfo( $basket->attribute( 'productcollection_id' ) );
+
     $db->commit();
     $module->redirectTo( $module->functionURI( "basket" ) . "/" );
     return;
@@ -130,6 +138,11 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
 
         $i++;
     }
+
+    // Update shipping info after storing changes to the basket items.
+    require_once( 'kernel/classes/ezshippingmanager.php' );
+    eZShippingManager::updateShippingInfo( $basket->attribute( 'productcollection_id' ) );
+
     $db->commit();
     $module->redirectTo( $module->functionURI( "basket" ) . "/" );
     return;
@@ -248,6 +261,21 @@ if ( isset( $Params['Error'] ) )
 $tpl->setVariable( "removed_items", $removedItems);
 $tpl->setVariable( "basket", $basket );
 $tpl->setVariable( "module_name", 'shop' );
+
+
+// Add shipping cost to the total items price and store the sum to corresponding template vars.
+require_once( 'kernel/classes/ezshippingmanager.php' );
+$shippingInfo = eZShippingManager::getShippingInfo( $basket->attribute( 'productcollection_id' ) );
+if ( $shippingInfo !== null )
+{
+    $totalIncShippingExVat  = $basket->attribute( 'total_ex_vat'  ) + $shippingInfo['cost'];
+    $totalIncShippingIncVat = $basket->attribute( 'total_inc_vat' ) + $shippingInfo['cost'];
+
+    $tpl->setVariable( 'shipping_info', $shippingInfo );
+    $tpl->setVariable( 'total_inc_shipping_ex_vat', $totalIncShippingExVat );
+    $tpl->setVariable( 'total_inc_shipping_inc_vat', $totalIncShippingIncVat );
+}
+
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:shop/basket.tpl" );
 $Result['path'] = array( array( 'url' => false,

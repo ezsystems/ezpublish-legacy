@@ -906,16 +906,24 @@ class eZOrder extends eZPersistentObject
     }
 
     /*!
-     Removes the order and the product collection it uses.
+     Removes the order.
+
+     shop/confirmorder calls this method passing $removeCollection set to \c false
+     to purge the order if the user doesn't confirm it.
+     Removing the product collection in this case would cause fatal error.
+
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
+     \param $removeCollection (bool) specifies if we should remove product collection the order uses.
     */
-    function purge()
+    function purge( $removeCollection = true )
     {
         $db =& eZDB::instance();
         $db->begin();
-        $this->removeCollection();
+        if ( $removeCollection )
+            $this->removeCollection();
         $this->removeHistory();
+        $this->removeOrderItems();
         $this->remove();
         $db->commit();
     }
@@ -942,6 +950,13 @@ class eZOrder extends eZPersistentObject
         $db->query( "DELETE FROM ezorder_status_history WHERE order_id=$orderID" );
     }
 
+    function removeOrderItems()
+    {
+        $db =& eZDB::instance();
+        $orderID = (int) $this->ID;
+        $db->query( "DELETE FROM ezorder_item WHERE order_id=$orderID" );
+    }
+
     /*!
      Removes the product collection item \a $itemID.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
@@ -965,6 +980,15 @@ class eZOrder extends eZPersistentObject
     function &orderItems()
     {
         $items = eZOrderItem::fetchList( $this->ID );
+        return $items;
+    }
+
+    /*!
+    \param $type Order item type
+    */
+    function &orderItemsByType( $itemType )
+    {
+        $items = eZOrderItem::fetchListByType( $this->ID, $itemType );
         return $items;
     }
 

@@ -68,7 +68,7 @@ class eZSimpleShippingType extends eZWorkflowEventType
         foreach ( array_keys( $orderItems ) as $key )
         {
             $orderItem =& $orderItems[$key];
-            if ( $orderItem->attribute( 'description' ) == $description )
+            if ( $orderItem->attribute( 'type' ) == 'ezsimpleshipping' )
             {
                 $addShipping = false;
                 break;
@@ -85,8 +85,7 @@ class eZSimpleShippingType extends eZWorkflowEventType
             $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
                                                  'description' => $description,
                                                  'price' => $cost,
-                                                 'vat_is_included' => true,
-                                                 'vat_type_id' => 1 )
+                                                 'type' => 'ezsimpleshipping' )
                                           );
             $orderItem->store();
         }

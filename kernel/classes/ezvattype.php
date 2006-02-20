@@ -66,20 +66,65 @@ class eZVatType extends eZPersistentObject
                       "name" => "ezvattype" );
     }
 
+    function getPercentage( $object, $country )
+    {
+        if ( $this->ID == -1 )
+        {
+            require_once( 'kernel/classes/ezvatmanager.php' );
+            $rc =  eZVATManager::getVAT( $object, $country );
+        }
+        else
+            $rc = $this->Percentage;
+
+        return $rc;
+    }
+
+    function dynamicVatType( $asObject = true )
+    {
+        $row = array( 'id' => -1,
+                      'name' => ezi18n( 'kernel/shop', 'Dynamic' ),
+                      'percentage' => 0.0 );
+
+        if ( !$asObject )
+            return $row;
+
+        return new eZVatType( $row );
+    }
+
     function fetch( $id, $asObject = true )
     {
+        require_once( 'kernel/classes/ezvatmanager.php' );
+
+        if ( $id == -1 && eZVATManager::isDynamicVatChargingEnabled() )
+            return eZVatType::dynamicVatType( $asObject );
+
         return eZPersistentObject::fetchObject( eZVatType::definition(),
                                                 null,
-                                                array( "id" => $id
-                                                      ),
+                                                array( "id" => $id ),
                                                 $asObject );
     }
 
-    function fetchList( $asObject = true )
+    /**
+     * \param $skipDynamic if false, include dynamic VAT type to the list being returned.
+     */
+    function fetchList( $asObject = true, $skipDynamic = false )
     {
-        return eZPersistentObject::fetchObjectList( eZVatType::definition(),
-                                                    null, null, array( 'id' => false ), null,
-                                                    $asObject );
+        // Fetch "real" VAT types, stored in DB.
+        $VATTypes = eZPersistentObject::fetchObjectList( eZVatType::definition(),
+                                                         null, null, array( 'id' => false ), null,
+                                                         $asObject );
+        if ( !$VATTypes )
+            $VATTypes = array();
+
+        // Add "fake" VAT type: dynamic.
+        if ( !$skipDynamic )
+        {
+            require_once( 'kernel/classes/ezvatmanager.php' );
+            if ( eZVATManager::isDynamicVatChargingEnabled() )
+                $VATTypes[] = eZVatType::dynamicVatType( $asObject );
+        }
+
+        return $VATTypes;
     }
 
     function create()

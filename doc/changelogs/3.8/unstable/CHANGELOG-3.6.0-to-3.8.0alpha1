@@ -42,6 +42,13 @@ Attributes:
   (Merged from stable/3.6 (3.6.1) rev. 12190)
 - Added new object attribute function "view_count" for eZContentObjectTreeNode.
 
+Shop:
+- Added ability to define custom VAT charging logic  
+  (with custom VAT handlers).                        
+- Implemented default VAT handler that uses VAT charging rules
+  (adjustable from the admin. interdace).  
+- Added ability to define custom shipping options (with shipping handlers).
+
 *INI settings
 
 *WebDAV:

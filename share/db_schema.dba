@@ -3575,6 +3575,12 @@ $schema = array (
         'type' => 'float',
         'default' => NULL,
       ),
+      'type' => 
+      array (
+        'length' => 30,
+        'type' => 'varchar',
+        'default' => NULL,
+      ),
       'vat_value' => 
       array (
         'length' => 11,
@@ -3599,6 +3605,14 @@ $schema = array (
         'fields' => 
         array (
           0 => 'order_id',
+        ),
+      ),
+      'ezorder_item_type' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'type',
         ),
       ),
     ),
@@ -4151,6 +4165,36 @@ $schema = array (
         array (
           0 => 'user_id',
           1 => 'name',
+        ),
+      ),
+    ),
+  ),
+  'ezproductcategory' => 
+  array (
+    'name' => 'ezproductcategory',
+    'fields' => 
+    array (
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'name' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
         ),
       ),
     ),
@@ -5779,6 +5823,76 @@ $schema = array (
         'fields' => 
         array (
           0 => 'user_id',
+        ),
+      ),
+    ),
+  ),
+  'ezvatrule' => 
+  array (
+    'name' => 'ezvatrule',
+    'fields' => 
+    array (
+      'country' => 
+      array (
+        'length' => 255,
+        'type' => 'varchar',
+        'not_null' => '1',
+        'default' => '',
+      ),
+      'id' => 
+      array (
+        'type' => 'auto_increment',
+        'default' => false,
+      ),
+      'vat_type' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'id',
+        ),
+      ),
+    ),
+  ),
+  'ezvatrule_product_category' => 
+  array (
+    'name' => 'ezvatrule_product_category',
+    'fields' => 
+    array (
+      'product_category_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'vatrule_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+    ),
+    'indexes' => 
+    array (
+      'PRIMARY' => 
+      array (
+        'type' => 'primary',
+        'fields' => 
+        array (
+          0 => 'vatrule_id',
+          1 => 'product_category_id',
         ),
       ),
     ),

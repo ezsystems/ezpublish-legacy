@@ -72,7 +72,10 @@ class eZOrderItem extends eZPersistentObject
                                          'vat_value' => array( 'name' => 'VATValue',
                                                                'datatype' => 'integer',
                                                                'default' => 0,
-                                                               'required' => true ) ),
+                                                               'required' => true ),
+                                         'type' => array( 'name' => 'Type',
+                                                          'datatype' => 'string',
+                                                          'required' => false ) ),
                       'keys' => array( 'id' ),
                       'function_attributes' => array( 'vat_value' => 'vatValue',
                                                       'price_inc_vat' => 'priceIncVat',
@@ -87,6 +90,16 @@ class eZOrderItem extends eZPersistentObject
         return eZPersistentObject::fetchObjectList( eZOrderItem::definition(),
                                                     null,
                                                     array( "order_id" => $orderID ),
+                                                    null,
+                                                    null,
+                                                    $asObject );
+    }
+
+    function fetchListByType( $orderID, $itemType, $asObject = true )
+    {
+        return eZPersistentObject::fetchObjectList( eZOrderItem::definition(),
+                                                    null,
+                                                    array( 'order_id' => $orderID, 'type' => $itemType ),
                                                     null,
                                                     null,
                                                     $asObject );

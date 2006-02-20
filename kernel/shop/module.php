@@ -149,6 +149,36 @@ $ViewList["vattype"] = array(
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array(  ) );
 
+$ViewList["vatrules"] = array(
+    "functions" => array( 'setup' ),
+    "script" => "vatrules.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
+    "params" => array() );
+
+$ViewList["editvatrule"] = array(
+    "functions" => array( 'setup' ),
+    "script" => "editvatrule.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
+    'single_post_actions' => array( 'CancelButton' => 'Cancel',
+                                    'CreateButton' => 'Create',
+                                    'StoreChangesButton' => 'StoreChanges' ),
+    'post_action_parameters' => array( 'Create' => array( 'Country' => 'Country',
+                                                          'Categories' => 'Categories',
+                                                          'VatType' => 'VatType' ),
+                                       'StoreChanges' => array( 'RuleID' => 'RuleID',
+                                                                'Country' => 'Country',
+                                                                'Categories' => 'Categories',
+                                                                'VatType' => 'VatType' ) ),
+    'params' => array( 'ruleID' ),
+    'unordered_params' => array( 'currency' => 'Currency' ) );
+
+
+$ViewList["productcategories"] = array(
+    "functions" => array( 'setup' ),
+    "script" => "productcategories.php",
+    "default_navigation_part" => 'ezshopnavigationpart',
+    "params" => array(  ) );
+
 $ViewList["discountgroup"] = array(
     "functions" => array( 'setup' ),
     "script" => "discountgroup.php",

@@ -231,9 +231,16 @@ class eZSimplePrice
         }
     }
 
-    function &VATPercent()
+    /**
+     * Can return dynamic percentage depending on product and country the user is from.
+     */
+    function VATPercent( $object = false, $country = false )
     {
         $VATType =& $this->VATType();
+
+        if ( $object !== false )
+            return $VATType->getPercentage( $object, $country );
+
         return $VATType->attribute( 'percentage' );
     }
 

@@ -136,4 +136,23 @@ $FunctionList['preferred_currency'] = array( 'name' => 'preferred_currency',
                                                                 'method' => 'fetchPreferredCurrency' ),
                                         'parameter_type' => 'standard',
                                         'parameters' => array( ) );
+
+$FunctionList['product_category_list'] = array( 'name' => 'product_category_list',
+                                                'operation_types' => array( 'read' ),
+                                                'call_method' => array( 'include_file' => 'kernel/shop/ezshopfunctioncollection.php',
+                                                                        'class' => 'eZShopFunctionCollection',
+                                                                        'method' => 'fetchProductCategoryList' ),
+                                                'parameter_type' => 'standard',
+                                                'parameters' => array( ) );
+
+
+$FunctionList['product_category'] = array( 'name' => 'product_category',
+                                                'operation_types' => array( 'read' ),
+                                                'call_method' => array( 'include_file' => 'kernel/shop/ezshopfunctioncollection.php',
+                                                                        'class' => 'eZShopFunctionCollection',
+                                                                        'method' => 'fetchProductCategory' ),
+                                                'parameter_type' => 'standard',
+                                                'parameters' => array( array( 'name' => 'category_id',
+                                                                              'type' => 'integer,string',
+                                                                              'required' => true ) ) );
 ?>

@@ -75,17 +75,34 @@
 <tr>
 <td colspan="9"><hr /></td>
 </tr>
-<tr>
-<td colspan="7">&nbsp;</td>
-<td><b>{'Subtotal (ex. VAT)'|i18n( 'design/admin/shop/basket' )}</b></td>
-<td><b>{'Subtotal (inc. VAT)'|i18n( 'design/admin/shop/basket' )}</b></td>
-</tr>
-<tr>
 <td colspan="7">
 </td>
+<tr>
+<td colspan="1">&nbsp;</td>
+<td colspan="6">{'Subtotal of items'|i18n( 'design/admin/shop/basket' )}:</td>
 <td class="number" align="right">{$basket.total_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
 <td class="number" align="right">{$basket.total_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
 </tr>
+{if is_set( $shipping_info )}
+{* Show shipping type/cost. *}
+<tr>
+<td colspan="1">&nbsp;</td>
+<td colspan="6">{'Shipping'|i18n( 'design/admin/shop/basket' )} (<a href={$shipping_info.management_link|ezurl}>{$shipping_info.description}</a>):</td>
+<td class="number" align="right">{$shipping_info.cost|l10n( 'currency', $locale, $symbol )}</td>
+<td class="number" align="right">{$shipping_info.cost|l10n( 'currency', $locale, $symbol )}</td>
+</tr>
+{* Show order total *}
+<tr>
+<td colspan="7"><b>{'Order total'|i18n( 'design/admin/shop/basket' )}</b>:</td>
+<td class="number" align="right">{$total_inc_shipping_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
+<td class="number" align="right">{$total_inc_shipping_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
+</tr>
+
+<tr>
+<td colspan="9"><hr /></td>
+</tr>
+
+{/if}
 </table>
 
 {section-else}

@@ -799,9 +799,11 @@ CREATE TABLE ezorder_item (
   id int(11) NOT NULL auto_increment,
   order_id int(11) NOT NULL default '0',
   price float default NULL,
+  type varchar(30) default NULL,
   vat_value int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
-  KEY ezorder_item_order_id (order_id)
+  KEY ezorder_item_order_id (order_id),
+  KEY ezorder_item_type (type)
 ) TYPE=MyISAM;
 
 
@@ -940,6 +942,16 @@ CREATE TABLE ezpreferences (
   PRIMARY KEY  (id),
   KEY ezpreferences_name (name),
   KEY ezpreferences_user_id_idx (user_id,name)
+) TYPE=MyISAM;
+
+
+
+
+
+CREATE TABLE ezproductcategory (
+  id int(11) NOT NULL auto_increment,
+  name varchar(255) NOT NULL default '',
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 
@@ -1330,6 +1342,27 @@ CREATE TABLE ezuservisit (
   last_visit_timestamp int(11) NOT NULL default '0',
   user_id int(11) NOT NULL default '0',
   PRIMARY KEY  (user_id)
+) TYPE=MyISAM;
+
+
+
+
+
+CREATE TABLE ezvatrule (
+  country varchar(255) NOT NULL default '',
+  id int(11) NOT NULL auto_increment,
+  vat_type int(11) NOT NULL default '0',
+  PRIMARY KEY  (id)
+) TYPE=MyISAM;
+
+
+
+
+
+CREATE TABLE ezvatrule_product_category (
+  product_category_id int(11) NOT NULL default '0',
+  vatrule_id int(11) NOT NULL default '0',
+  PRIMARY KEY  (vatrule_id,product_category_id)
 ) TYPE=MyISAM;
 
 

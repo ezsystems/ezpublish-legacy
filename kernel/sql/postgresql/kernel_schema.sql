@@ -646,6 +646,19 @@ CREATE SEQUENCE ezpreferences_s
 
 
 
+CREATE SEQUENCE ezproductcategory_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
 CREATE SEQUENCE ezproductcollection_s
     START 1
     INCREMENT 1
@@ -881,6 +894,19 @@ CREATE SEQUENCE ezuser_discountrule_s
 
 
 CREATE SEQUENCE ezuser_role_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
+CREATE SEQUENCE ezvatrule_s
     START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
@@ -1816,6 +1842,7 @@ CREATE TABLE ezorder_item (
     id integer DEFAULT nextval('ezorder_item_s'::text) NOT NULL,
     order_id integer DEFAULT 0 NOT NULL,
     price double precision,
+    "type" character varying(30),
     vat_value integer DEFAULT 0 NOT NULL
 );
 
@@ -1957,6 +1984,17 @@ CREATE TABLE ezpreferences (
     name character varying(100),
     user_id integer DEFAULT 0 NOT NULL,
     value character varying(100)
+);
+
+
+
+
+
+
+
+CREATE TABLE ezproductcategory (
+    id integer DEFAULT nextval('ezproductcategory_s'::text) NOT NULL,
+    name character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
 
@@ -2351,6 +2389,29 @@ CREATE TABLE ezuservisit (
     current_visit_timestamp integer DEFAULT 0 NOT NULL,
     last_visit_timestamp integer DEFAULT 0 NOT NULL,
     user_id integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezvatrule (
+    country character varying(255) DEFAULT ''::character varying NOT NULL,
+    id integer DEFAULT nextval('ezvatrule_s'::text) NOT NULL,
+    vat_type integer DEFAULT 0 NOT NULL
+);
+
+
+
+
+
+
+
+CREATE TABLE ezvatrule_product_category (
+    product_category_id integer DEFAULT 0 NOT NULL,
+    vatrule_id integer DEFAULT 0 NOT NULL
 );
 
 
@@ -2778,6 +2839,14 @@ CREATE INDEX ezorder_is_tmp ON ezorder USING btree (is_temporary);
 
 
 CREATE INDEX ezorder_item_order_id ON ezorder_item USING btree (order_id);
+
+
+
+
+
+
+
+CREATE INDEX ezorder_item_type ON ezorder_item USING btree ("type");
 
 
 
@@ -3614,6 +3683,15 @@ ALTER TABLE ONLY ezpreferences
 
 
 
+ALTER TABLE ONLY ezproductcategory
+    ADD CONSTRAINT ezproductcategory_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
 ALTER TABLE ONLY ezproductcollection
     ADD CONSTRAINT ezproductcollection_pkey PRIMARY KEY (id);
 
@@ -3832,6 +3910,24 @@ ALTER TABLE ONLY ezuser_setting
 
 ALTER TABLE ONLY ezuservisit
     ADD CONSTRAINT ezuservisit_pkey PRIMARY KEY (user_id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezvatrule
+    ADD CONSTRAINT ezvatrule_pkey PRIMARY KEY (id);
+
+
+
+
+
+
+
+ALTER TABLE ONLY ezvatrule_product_category
+    ADD CONSTRAINT ezvatrule_product_category_pkey PRIMARY KEY (vatrule_id, product_category_id);
 
 
 

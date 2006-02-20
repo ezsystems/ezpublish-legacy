@@ -5,8 +5,10 @@ ALTER TABLE ezorder ADD is_archived INT;
 UPDATE ezorder SET is_archived='0';
 ALTER TABLE ezorder ALTER COLUMN is_archived SET DEFAULT 0;
 ALTER TABLE ezorder ALTER COLUMN is_archived SET NOT NULL;
+ALTER TABLE ezorder_item ADD type VARCHAR(30);
 
 CREATE INDEX ezorder_is_archived ON ezorder USING btree (is_archived);
+CREATE INDEX ezorder_item_type ON ezorder_item USING btree (type);
 
 
 -- Improved Approval Workflow -- START --
@@ -93,3 +95,29 @@ CREATE TABLE ezpackage (
   PRIMARY KEY  (id)
 );
 -- Improved packages system -- END --
+
+-- VAT charging rules -- START --
+CREATE SEQUENCE ezproductcategory_s;
+CREATE TABLE ezproductcategory (
+  id INTEGER NOT NULL DEFAULT nextval('ezproductcategory_s'),
+  name VARCHAR(255) NOT NULL default '',
+  PRIMARY KEY (id)
+);
+
+CREATE SEQUENCE ezvatrule_s;
+CREATE TABLE ezvatrule (
+  id INTEGER NOT NULL DEFAULT nextval('ezvatrule_s'),
+  country VARCHAR(255) NOT NULL default '',
+  vat_type INTEGER NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE ezvatrule_product_category (
+  vatrule_id INTEGER NOT NULL,
+  product_category_id INTEGER NOT NULL
+);
+
+ALTER TABLE ONLY ezvatrule_product_category
+    ADD CONSTRAINT ezvatrule_product_category_pkey PRIMARY KEY (vatrule_id, product_category_id);
+-- VAT charging rules -- END --
+

@@ -50,7 +50,6 @@ $basket->updatePrices();
 
 if ( get_class( $order ) == 'ezorder' )
 {
-
     if ( $http->hasPostVariable( "ConfirmOrderButton" ) )
     {
         $order->detachProductCollection();
@@ -67,13 +66,13 @@ if ( get_class( $order ) == 'ezorder' )
 
     if ( $http->hasPostVariable( "CancelButton" ) )
     {
+        $order->purge( /*$removeCollection = */ false );
         $module->redirectTo( '/shop/basket/' );
         return;
     }
 
     $tpl->setVariable( "order", $order );
 }
-
 
 
 $operationResult = eZOperationHandler::execute( 'shop', 'confirmorder', array( 'order_id' => $order->attribute( 'id' ) ) );
