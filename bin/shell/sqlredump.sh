@@ -347,7 +347,8 @@ else
     }
 
     psql --version | grep 'psql (PostgreSQL) 7.3' &>/dev/null || \
-    psql --version | grep 'psql (PostgreSQL) 7.4' &>/dev/null
+    psql --version | grep 'psql (PostgreSQL) 7.4' &>/dev/null || \
+    psql --version | grep 'psql (PostgreSQL) 8.0' &>/dev/null
     if [ $? -ne 0 ]; then
 	echo "You cannot run this command on your PostgreSQL version, requires 7.3"
 	exit 1
