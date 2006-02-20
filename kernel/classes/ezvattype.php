@@ -82,7 +82,7 @@ class eZVatType extends eZPersistentObject
     function dynamicVatType( $asObject = true )
     {
         $row = array( 'id' => -1,
-                      'name' => ezi18n( 'kernel/shop', 'Dynamic' ),
+                      'name' => ezi18n( 'kernel/shop', 'Determined by VAT charging rules' ),
                       'percentage' => 0.0 );
 
         if ( !$asObject )
