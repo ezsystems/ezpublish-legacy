@@ -92,12 +92,16 @@ class eZPHPMath
     function ceil( $value, $precision, $target )
     {
         $fractStr = $this->fractval( $value );
-
         $fractPart = (int)substr( $fractStr, 0, $precision );
 
+        $fractLen = strlen( $fractStr );
         // actual ceiling
-        if ( strlen( $fractStr ) > $precision )
+        if ( $fractLen > $precision )
             $fractPart += 1;
+
+        // adjust precision
+        if ( $fractLen < $precision )
+            $precision = $fractLen;
 
         // create resulting value
         $fractPart = $this->div( $fractPart, $this->pow( 10, $precision ) );
@@ -111,6 +115,12 @@ class eZPHPMath
     function floor( $value, $precision, $target )
     {
         $fractPart = $this->fractval( $value, $precision );
+
+        // adjust precision
+        $fractLen = strlen( $fractPart );
+        if ( $fractLen < $precision )
+            $precision = $fractLen;
+
         $fractPart = $this->div( $fractPart, $this->pow( 10, $precision ) );
 
         $result = $this->add( $this->intval( $value ), $fractPart );

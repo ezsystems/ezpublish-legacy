@@ -85,6 +85,22 @@ class eZBCMath extends eZPHPMath
         return ( bcpow( $base, $exp, $this->Scale ) );
     }
 
+    function ceil( $value, $precision, $target )
+    {
+        $result = eZPHPMath::ceil( $value, $precision, $target );
+        $result = rtrim( $result, '0' );
+        $result = rtrim( $result, '.' );
+        return $result;
+    }
+
+    function floor( $value, $precision, $target )
+    {
+        $result = eZPHPMath::floor( $value, $precision, $target );
+        $result = rtrim( $result, '0' );
+        $result = rtrim( $result, '.' );
+        return $result;
+    }
+
     function round( $value, $precision, $target )
     {
         $result = $value;
@@ -100,6 +116,9 @@ class eZBCMath extends eZPHPMath
 
             $result = $this->add( $this->intval( $value ), $fractPart );
             $result = $this->adjustFractPart( $result, $precision, $target );
+
+            $result = rtrim( $result, '0' );
+            $result = rtrim( $result, '.' );
         }
 
         return $result;
