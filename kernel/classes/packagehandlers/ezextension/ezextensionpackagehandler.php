@@ -105,6 +105,21 @@ class eZExtensionPackageHandler extends eZPackageHandler
         if ( file_exists( $extensionDir ) )
             eZDir::recursiveDelete( $extensionDir );
 
+        // Deactivate extension
+        $siteINI = eZINI::instance( 'site.ini', 'settings/override', null, null, false, true );
+        $selectedExtensions = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
+
+        if ( in_array( $extensionName, $selectedExtensions ) )
+        {
+            $extensionsFlipped = array_flip( $selectedExtensions );
+
+            $extKey = $extensionsFlipped[$extensionName];
+            unset( $selectedExtensions[$extKey] );
+
+            $siteINI->setVariable( "ExtensionSettings", "ActiveExtensions", $selectedExtensions );
+            $siteINI->save( 'site.ini.append', '.php', false, false );
+        }
+
         return true;
     }
 
@@ -170,6 +185,17 @@ class eZExtensionPackageHandler extends eZPackageHandler
                 $sourcePath = $packageExtensionDir . $path . '/' . $file->getAttribute( 'name' );
                 eZFileHandler::copy( $sourcePath, $destPath );
             }
+        }
+
+        // Activate extension
+        $siteINI = eZINI::instance( 'site.ini', 'settings/override', null, null, false, true );
+        $selectedExtensions = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
+
+        if ( !in_array( $extensionName, $selectedExtensions ) )
+        {
+            $selectedExtensions[] = $extensionName;
+            $siteINI->setVariable( "ExtensionSettings", "ActiveExtensions", $selectedExtensions );
+            $siteINI->save( 'site.ini.append', '.php', false, false );
         }
         return true;
     }

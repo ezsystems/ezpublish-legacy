@@ -1,4 +1,6 @@
 *Title: Packages system and site setup wizard changes
+(Implementation of the spec located at:
+http://ez.no/community/developer/specs/packages_system_and_setup_wizard )
 
 *Incentive:
 

@@ -98,9 +98,10 @@ else
         if ( $handler )
         {
             $uninstallElement = $handler->explainInstallItem( $package, $uninstallItem, true );
+
             if ( $uninstallElement )
             {
-                if ( isset( $installElement[0] ) )
+                if ( isset( $uninstallElement[0] ) )
                     $uninstallElements = array_merge( $uninstallElements, $uninstallElement );
                 else
                     $uninstallElements[] = $uninstallElement;
