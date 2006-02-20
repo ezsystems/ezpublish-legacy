@@ -145,7 +145,24 @@ To start using multicurrency features you have to:
 - create a class with 'ezmultiprice' datatype. While createing a class it's
   possible to select default vat type and default currency. Default currency
   means that when you create an object of that class it will have one 'custom'
-  price in that currency and all other prices will be 'auto';
+  price in that currency and all other prices will be 'auto'.
+
+  If you want to use at user site templates like for simple price you have to
+  set 'price' as identifier for your 'ezmultiprice' attribute and add next
+  lines to the settings/siteaccess/<user_site_access>/override.ini.append.php:
+
+  [multiprice_product_full]
+  Source=node/view/full.tpl
+  MatchFile=full/multiprice_product.tpl
+  Subdir=templates
+  Match[class_identifier]=<identifier_of_your_multiprice_product_class>
+
+  [multiprice_product_line]
+  Source=node/view/line.tpl
+  MatchFile=line/multiprice_product.tpl
+  Subdir=templates
+  Match[class_identifier]=<identifier_of_your_multiprice_product_class>
+
 - create some objects of that class;
 
 
