@@ -98,7 +98,8 @@ if ( $Module->hasActionParameter( 'SiteAccess' ) )
     $siteaccess = $Module->actionParameter( 'SiteAccess' );
 }
 
-$allowVersionsButton = $contentINI->variable( 'VersionView', 'AllowVersionsButton' ) == 'enabled';
+$allowVersionsButton = $contentINI->hasVariable( 'VersionView', 'AllowVersionsButton' ) &&
+                       $contentINI->variable( 'VersionView', 'AllowVersionsButton' ) == 'enabled';
 $tpl->setVariable( 'allow_versions_button', $allowVersionsButton );
 $tpl->setVariable( 'site_access_list', $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) );
 $tpl->setVariable( 'node', $node );
