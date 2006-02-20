@@ -74,8 +74,6 @@ if ( $http->hasPostVariable( "SaveCategoriesButton" ) )
 
 $vatRules = eZVatRule::fetchList();
 
-eZDebug::writeDebug( $vatRules, '$vatRules' );
-
 $tpl->setVariable( 'rules', $vatRules );
 
 $path = array();
