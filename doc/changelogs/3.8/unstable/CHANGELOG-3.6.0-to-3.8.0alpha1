@@ -48,6 +48,7 @@ Shop:
 - Implemented default VAT handler that uses VAT charging rules
   (adjustable from the admin. interdace).  
 - Added ability to define custom shipping options (with shipping handlers).
+- Added multi-currency support.
 
 *INI settings
 
