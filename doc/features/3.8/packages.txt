@@ -71,7 +71,7 @@ On the 'Site type' step the setup wizard will suggest to select one of
 the available 'site' packages. The list of available site packages will be
 fetched from the URL given by the ini setting from 'package.ini':
 [RepositorySettings]
-RemotePackagesIndexURL=http://ez.no/packages/index.xml
+RemotePackagesIndexURL=http://packages.ezpublish.no/index.xml
 
 If there are any local 'site' packages, they will be listed here as well.
 The selected package will be automatically imported and all the dependent
