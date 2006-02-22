@@ -77,6 +77,7 @@ class eZPackage
         {
             eZDir::recursiveDelete( $path );
         }
+        $this->setInstalled( false );
     }
 
     /*!
@@ -1196,7 +1197,7 @@ class eZPackage
             }
             else
             {
-                eZDebug::writeError( "Failed loading temporary package $packageName from $vendorRepositoryPath" );
+                eZDebug::writeError( "Failed loading temporary package $packageName" );
             }
 
             return $package;
