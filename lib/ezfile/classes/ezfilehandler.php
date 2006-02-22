@@ -606,13 +606,7 @@ class eZFileHandler
                 $this->close();
             $filename = $this->FileName;
         }
-        $result = $this->doUnlink( $filename );
-        if ( $result )
-        {
-//             eZDebugSetting::writeNotice( 'lib-ezfile-openclose',
-//                                          "Unlinked file $filename",
-//                                          'eZFileHandler::unlink' );
-        }
+        $result = eZFileHandler::doUnlink( $filename );
         if ( !$result )
             eZDebug::writeError( "Failed unlinking file " . $filename,
                                  'eZFileHandler::unlink' );

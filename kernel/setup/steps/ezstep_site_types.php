@@ -63,13 +63,13 @@ class eZStepSiteTypes extends eZStepInstaller
     {
         $fileName = $outDir . "/" . ( $forcedFileName ? $forcedFileName : basename( $url ) );
 
-        // Do nothing if the file already exists (no need to download).
+        /* Do nothing if the file already exists (no need to download).
         if ( file_exists( $fileName ) )
         {
             eZDebug::writeNotice( "Skipping download to '$fileName': file already exists." );
             return $fileName;
         }
-
+        */
         eZDebug::writeNotice( "Downloading file '$fileName' from $url" );
 
         // Create the out directory if not exists.
@@ -114,8 +114,6 @@ class eZStepSiteTypes extends eZStepInstaller
      */
     function downloadAndImportPackage( $packageName, $packageUrl )
     {
-        // FIXME: remove downloaded package
-
         include_once( 'kernel/classes/ezpackage.php' );
         $package = eZPackage::fetch( $packageName );
 
@@ -135,8 +133,11 @@ class eZStepSiteTypes extends eZStepInstaller
             return false;
         }
 
-        include_once( 'kernel/classes/ezpackage.php' );
         $package = eZPackage::import( $archiveName, $packageName );
+
+        // Remove downloaded ezpkg file
+        include_once( 'lib/ezfile/classes/ezfilehandler.php' );
+        eZFileHandler::unlink( $archiveName );
 
         if ( !is_object( $package ) )
         {
