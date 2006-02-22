@@ -549,6 +549,7 @@ class eZObjectRelationType extends eZDataType
     }
 
     /*!
+     Export related object's remote_id.
      \reimp
     */
     function serializeContentObjectAttribute( &$package, &$objectAttribute )
@@ -557,7 +558,12 @@ class eZObjectRelationType extends eZDataType
         $relatedObjectID = $objectAttribute->attribute( 'data_int' );
 
         if ( !is_null( $relatedObjectID ) )
-            $node->appendChild( eZDOMDocument::createElementTextNode( 'related-object-id', $relatedObjectID ) );
+        {
+            require_once( 'kernel/classes/ezcontentobject.php' );
+            $relatedObject = eZContentObject::fetch( $relatedObjectID );
+            $relatedObjectRemoteID = $relatedObject->attribute( 'remote_id' );
+            $node->appendChild( eZDOMDocument::createElementTextNode( 'related-object-remote-id', $relatedObjectRemoteID ) );
+        }
 
         return $node;
     }
@@ -567,12 +573,15 @@ class eZObjectRelationType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
-        $relatedObjectID = $attributeNode->elementTextContentByName( 'related-object-id' );
+        $relatedObjectRemoteID = $attributeNode->elementTextContentByName( 'related-object-remote-id' );
 
-        if ( $relatedObjectID === false )
+        if ( $relatedObjectRemoteID === false ) // old package (that was created when the datatype did not support proper serialization)
             $relatedObjectID = null;
         else
-            $relatedObjectID = (int) $relatedObjectID;
+        {
+            $object = eZContentObject::fetchByRemoteID( $relatedObjectRemoteID );
+            $relatedObjectID = ( $object !== null ) ? $object->attribute( 'id' ) : null;
+        }
 
         $objectAttribute->setAttribute( 'data_int', $relatedObjectID );
     }
