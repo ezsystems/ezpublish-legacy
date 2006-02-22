@@ -3504,7 +3504,7 @@ class eZContentObject extends eZPersistentObject
             case EZ_PACKAGE_CONTENTOBJECT_REPLACE:
                 include_once( 'kernel/classes/ezcontentobjectoperations.php' );
                 eZContentObjectOperations::remove( $contentObject->attribute( 'id' ) );
-                
+
                 unset( $contentObject );
                 $contentObject =& $contentClass->instantiate( $ownerID, $sectionID );
                 break;
@@ -3640,7 +3640,7 @@ class eZContentObject extends eZPersistentObject
         {
             include_once( 'lib/ezlocale/classes/ezdateutils.php' );
             $modified = eZDateUtils::textToDate( $domNode->attributeValue( 'modified' ) );
-        
+
             unset( $contentObject );
             $contentObject = eZContentObject::fetch( $objectID );
             $contentObject->setAttribute( 'modified', $modified );
@@ -3726,6 +3726,7 @@ class eZContentObject extends eZPersistentObject
             }
             $versionNode = $version->serialize( $package, $options, $contentNodeIDArray, $topNodeIDArray );
             $versionsNode->appendChild( $versionNode );
+            unset( $versionNode );
         }
         $objectNode->appendChild( $versionsNode );
         return $objectNode;
