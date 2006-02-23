@@ -189,7 +189,15 @@ class eZExtensionPackageHandler extends eZPackageHandler
 
         // Activate extension
         $siteINI = eZINI::instance( 'site.ini', 'settings/override', null, null, false, true );
-        $selectedExtensions = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
+
+        if ( $siteINI->hasVariable( 'ExtensionSettings', "ActiveExtensions" ) )
+        {
+            $selectedExtensions = $siteINI->variable( 'ExtensionSettings', "ActiveExtensions" );
+        }
+        else
+        {
+            $selectedExtensions = array();
+        }
 
         if ( !in_array( $extensionName, $selectedExtensions ) )
         {
