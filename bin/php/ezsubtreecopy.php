@@ -181,6 +181,7 @@ function copyPublishContentObject( &$sourceObject,
         return 5;
     }
 
+    $objAssignments = $curVersionObject->attribute( 'node_assignments' );
     foreach ( $newNodeList as $newNode )
     {
         $newParentNodeID = $newNode->attribute( 'parent_node_id' );
@@ -211,6 +212,19 @@ function copyPublishContentObject( &$sourceObject,
         if ( $bSrcParentFound == false )
         {
             die( "Copy Subtree Error: Algoritm ERROR! Cannot find source parent node ID in source parent node ID's list of contentobject being copied." );
+        }
+        // Create unique remote_id
+        $newRemoteID = md5( (string)mt_rand() . (string)mktime() );
+        $oldRemoteID = $newNode->attribute( 'remote_id' );
+        $newNode->setAttribute( 'remote_id', $newRemoteID );
+        // Change parent_remote_id for object assignments
+        foreach ( $objAssignments as $assignment )
+        {
+            if ( $assignment->attribute( 'parent_remote_id' ) == $oldRemoteID )
+            {
+                 $assignment->setAttribute( 'parent_remote_id', $newRemoteID );
+                 $assignment->store();
+            }
         }
         $newNode->store();
     }
