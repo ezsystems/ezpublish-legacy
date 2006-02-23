@@ -2018,7 +2018,10 @@ class eZSearchEngine
     function &prepareWordIDArrays( $searchText )
     {
         if ( trim( $searchText ) == "" )
-            return array();
+            $ini =& eZINI::instance();
+            if ( $ini->hasVariable( 'SearchSettings', 'AllowEmptySearch' ) and
+                 $ini->variable( 'SearchSettings', 'AllowEmptySearch' ) != 'enabled' )
+                return array();
         $db =& eZDB::instance();
         $searchWordArray = $this->splitString( $searchText );
 
