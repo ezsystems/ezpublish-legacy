@@ -1181,6 +1181,10 @@ class eZContentObject extends eZPersistentObject
         if ( $allVersions )
             $contentObject->setAttribute( 'current_version', $this->attribute( 'current_version' ) );
 
+        // Set new unique remote_id
+        $newRemoteID = md5( (string)mt_rand() . (string)mktime() );
+        $contentObject->setAttribute( 'remote_id', $newRemoteID );
+
         $contentObject->store();
 
         $db->commit();
