@@ -444,7 +444,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                     if ( !isset( $datatypeHash[$attribute['data_type_string']] ) )
                     {
                         include_once( 'kernel/classes/ezdatatype.php' );
-                        $datatype =& eZDataType::create( $attribute['data_type_string'] );
+                        $datatype = eZDataType::create( $attribute['data_type_string'] );
                         $datatypeHash[$attribute['data_type_string']] =& $datatype;
                         if ( !method_exists( $datatype, 'templateList' ) )
                             continue;

@@ -3669,6 +3669,7 @@ class eZContentObject extends eZPersistentObject
             }
             $versionNode = $version->serialize( $package, $options, $contentNodeIDArray, $topNodeIDArray );
             $versionsNode->appendChild( $versionNode );
+            unset( $versionNode );
         }
         $objectNode->appendChild( $versionsNode );
         return $objectNode;
