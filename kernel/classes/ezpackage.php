@@ -1134,7 +1134,7 @@ class eZPackage
         return $archivePath;
     }
 
-    function &import( $archiveName, &$packageName )
+    function &import( $archiveName, &$packageName, $dbAvailable = true )
     {
         $tempDirPath = eZPackage::temporaryImportPath();
         if ( is_dir( $archiveName ) )
@@ -1163,7 +1163,7 @@ class eZPackage
                 return $retValue;
             }
 
-            $package = eZPackage::fetch( $packageName, $tempDirPath );
+            $package = eZPackage::fetch( $packageName, $tempDirPath, false, $dbAvailable );
             eZPackage::removeFiles( $archivePath );
 
             if ( $package )
@@ -1171,7 +1171,7 @@ class eZPackage
                 $packageName = $package->attribute( 'name' );
                 $vendorDir = $package->attribute( 'vendor-dir' );
 
-                $existingPackage = eZPackage::fetch( $packageName );
+                $existingPackage = eZPackage::fetch( $packageName, false, false, $dbAvailable );
                 if ( $existingPackage )
                 {
                     $retValue = EZ_PACKAGE_STATUS_ALREADY_EXISTS;
@@ -1189,7 +1189,7 @@ class eZPackage
                 $archive = eZArchiveHandler::instance( 'tar', 'gzip', $archiveName );
                 $archive->extractModify( $packagePath, '' );
 
-                $package = eZPackage::fetch( $packageName, $vendorRepositoryPath );
+                $package = eZPackage::fetch( $packageName, $vendorRepositoryPath, false, $dbAvailable );
                 if ( !$package )
                 {
                     eZDebug::writeError( "Failed loading imported package $packageName from $vendorRepositoryPath" );
@@ -1352,8 +1352,6 @@ class eZPackage
                 return $retValue;
             }
 
-            $package->getInstallState();
-
             return $package;
         }
     }
@@ -1365,9 +1363,11 @@ class eZPackage
      \param $repositoryID Determines in which repositories the package should be searched for,
                           if set to \c true it means only look in local packages, \c false means
                           look in all repositories.
+     \param $dbAvailable  Do we have a database to fetch additional package info, like installed state.
+                          (false in setup wizard)
      \return \c false if no package could be found.
     */
-    function fetch( $packageName, $packagePath = false, $repositoryID = false )
+    function fetch( $packageName, $packagePath = false, $repositoryID = false, $dbAvailable = true )
     {
         $packageRepositories = eZPackage::packageRepositories( array( 'path' => $packagePath ) );
 
@@ -1397,22 +1397,27 @@ class eZPackage
 
                 if ( $package )
                 {
-                    $package->setCurrentRepositoryInformation( $packageRepository );
-                    return $package;
+                    $package->setCurrentRepositoryInformation( $packageRepository );                    
                 }
-                $package = eZPackage::fetchFromFile( $filePath );
-
-                if ( $package )
+                else 
                 {
-                    $package->setCurrentRepositoryInformation( $packageRepository );
-                    if ( $packagePath )
-                        $package->RepositoryPath = $packagePath;
-                    if ( $cacheExpired and
-                         eZPackage::useCache() )
+                    $package = eZPackage::fetchFromFile( $filePath );
+    
+                    if ( $package )
                     {
-                        $package->storeCache( $path . '/' . eZPackage::cacheDirectory() );
+                        $package->setCurrentRepositoryInformation( $packageRepository );
+                        if ( $packagePath )
+                            $package->RepositoryPath = $packagePath;
+                        if ( $cacheExpired and
+                             eZPackage::useCache() )
+                        {
+                            $package->storeCache( $path . '/' . eZPackage::cacheDirectory() );
+                        }
                     }
                 }
+                if ( $dbAvailable )
+                    $package->getInstallState();
+
                 return $package;
             }
         }
@@ -1449,7 +1454,6 @@ class eZPackage
                     $cacheExpired = false;
                     $package = new eZPackage( $Parameters, $RepositoryPath );
                     $package->InstallData = $InstallData;
-                    $package->getInstallState();
                     return $package;
                 }
             }
@@ -1734,6 +1738,9 @@ class eZPackage
         $repositoryID = false;
         if ( isset( $parameters['repository_id'] ) )
             $repositoryID = $parameters['repository_id'];
+        $dbAvailable = false;
+        if ( isset( $parameters['db_available'] ) )
+            $dbAvailable = $parameters['db_available'];
 
         foreach ( $packageRepositories as $packageRepository )
         {
@@ -1784,8 +1791,9 @@ class eZPackage
                             }
                             if ( !$package )
                                 continue;
-                            //if ( !$package->attribute( 'is_active' ) )
-                            //    continue;
+
+                            if ( $dbAvailable )
+                                $package->getInstallState();
 
                             if ( $requiredType !== null )
                             {

@@ -101,7 +101,7 @@ class eZStepCreateSites extends eZStepInstaller
         set_time_limit( 10*60 );
         $saveData = true; // set to true to save data
 
-        $ini =& eZINI::create();
+        //$ini =& eZINI::create();
 
         include_once( 'kernel/classes/ezpackage.php' );
         $accessMap = array( 'url' => array(),
@@ -209,7 +209,17 @@ class eZStepCreateSites extends eZStepInstaller
                         continue;
                     }
 
-                    $tmpINI = eZINI::create( $iniName );
+                    if ( file_exists( 'settings/override/' . $iniName . '.append' ) ||
+                         file_exists( 'settings/override/' . $iniName . '.append.php' ) )
+                    {
+                        eZDebug::writeDebug( "site.ini instance" );
+                        $tmpINI = eZINI::instance( $iniName, 'settings/override', null, null, false, true );
+                    }
+                    else
+                    {
+                        eZDebug::writeDebug( "site.ini created" );
+                        $tmpINI = eZINI::create( $iniName );
+                    }
                     $tmpINI->setVariables( $settings );
                     $tmpINI->save( false, '.append.php', false, true, "settings/override", $resetArray );
                 }
@@ -220,6 +230,8 @@ class eZStepCreateSites extends eZStepInstaller
             // Display errors
             return false;
         }
+
+        $ini =& eZINI::instance();
 
         $regionalInfo = $this->PersistenceList['regional_info'];
         $emailInfo = $this->PersistenceList['email_info'];
@@ -561,6 +573,8 @@ class eZStepCreateSites extends eZStepInstaller
         $extraFunctionality = array_unique( $extraFunctionality );
         */
 
+        $ini =& eZINI::instance();
+
         $sitePackageName = $this->chosenSitePackage();
         $sitePackage = eZPackage::fetch( $sitePackageName );
         if ( !is_object( $sitePackage ) )
@@ -569,9 +583,6 @@ class eZStepCreateSites extends eZStepInstaller
                                               'text' => " Could not fetch site package: '$sitePackageName'" );
             return false;
         }
-
-        $ini =& eZINI::instance();
-        //$ini->setVariable( 'FileSettings', 'VarDir', $siteINIChanges['FileSettings']['VarDir'] );
 
         $dependecies = $sitePackage->attribute('dependencies');
         $requires = $dependecies['requires'];
@@ -598,7 +609,7 @@ class eZStepCreateSites extends eZStepInstaller
                     continue;
                 
                 $packageName = $require['name'];
-                $package = eZPackage::fetch( $packageName );
+                $package = eZPackage::fetch( $packageName, false, false, false );
 
                 if ( is_object( $package ) )
                 {
@@ -743,6 +754,8 @@ language_code='eng-GB'";
                              'design_list' => array( $userDesignName, 'admin' ),
                              'user_siteaccess' => $userSiteaccessName,
                              'admin_siteaccess' => $adminSiteaccessName );
+
+        eZDebug::writeDebug( $parameters, '$parameters' );
 
         $siteINIStored = false;
         $siteINIAdminStored = false;
@@ -917,6 +930,7 @@ language_code='eng-GB'";
                     }
                 }
             }
+
             if ( isset( $extraRole['assignments'] ) )
             {
                 $roleAssignments = $extraRole['assignments'];

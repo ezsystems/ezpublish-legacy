@@ -115,7 +115,7 @@ class eZStepSiteTypes extends eZStepInstaller
     function downloadAndImportPackage( $packageName, $packageUrl )
     {
         include_once( 'kernel/classes/ezpackage.php' );
-        $package = eZPackage::fetch( $packageName );
+        $package = eZPackage::fetch( $packageName, false, false, false );
 
         if ( is_object( $package ) )
         {
@@ -133,7 +133,7 @@ class eZStepSiteTypes extends eZStepInstaller
             return false;
         }
 
-        $package = eZPackage::import( $archiveName, $packageName );
+        $package = eZPackage::import( $archiveName, $packageName, false );
 
         // Remove downloaded ezpkg file
         include_once( 'lib/ezfile/classes/ezfilehandler.php' );
@@ -182,7 +182,7 @@ class eZStepSiteTypes extends eZStepInstaller
             $removeCurrentPackage = false;
 
             // try to fetch the required package
-            $package = eZPackage::fetch( $requiredPackageName );
+            $package = eZPackage::fetch( $requiredPackageName, false, false, false );
 
             // if it already exists
             if ( is_object( $package ) )
@@ -313,7 +313,7 @@ class eZStepSiteTypes extends eZStepInstaller
             $sitePackageName = $sitePackageInfo;
 
             include_once( 'kernel/classes/ezpackage.php' );
-            $package = eZPackage::fetch( $sitePackageName );
+            $package = eZPackage::fetch( $sitePackageName, false, false, false );
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init', 'Invalid package' ) . '.';
         }
 
@@ -435,7 +435,7 @@ class eZStepSiteTypes extends eZStepInstaller
                 $requiredPackageVersion = $req['min-version'];
                 $packageOK = false;
 
-                $package = eZPackage::fetch( $requiredPackageName );
+                $package = eZPackage::fetch( $requiredPackageName, false, false, false );
                 if ( is_object( $package ) )
                 {
                     $currentPackageVersion = $package->getVersion();
@@ -475,7 +475,7 @@ class eZStepSiteTypes extends eZStepInstaller
     function fetchAvailableSitePackages()
     {
         include_once( 'kernel/classes/ezpackage.php' );
-        $packageList = eZPackage::fetchPackages( array(), array( 'type' => 'site' ) );
+        $packageList = eZPackage::fetchPackages( array( 'db_available' => false ), array( 'type' => 'site' ) );
 
         return $packageList;
     }
@@ -492,7 +492,7 @@ class eZStepSiteTypes extends eZStepInstaller
             $typeArray['type'] = $type;
 
         include_once( 'kernel/classes/ezpackage.php' );
-        $packageList = eZPackage::fetchPackages( array(), $typeArray );
+        $packageList = eZPackage::fetchPackages( array( 'db_available' => false ), $typeArray );
 
         return $packageList;
     }
