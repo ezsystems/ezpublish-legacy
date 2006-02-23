@@ -188,7 +188,8 @@ class eZContentClassPackageHandler extends eZPackageHandler
             case EZ_PACKAGE_NON_INTERACTIVE:
             case EZ_PACKAGE_CONTENTCLASS_REPLACE:
                 include_once( 'kernel/classes/ezcontentclassoperations.php' );
-                eZContentClassOperations::remove( $class->attribute( 'id' ) );
+                if ( eZContentClassOperations::remove( $class->attribute( 'id' ) ) == false )
+                    return true;
                 break;
 
             case EZ_PACKAGE_CONTENTCLASS_SKIP:

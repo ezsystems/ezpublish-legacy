@@ -54,7 +54,7 @@ class eZContentObjectOperations
 
         $object =& eZContentObject::fetch( $objectID );
         if ( !is_object( $object ) )
-            return;
+            return false;
 
         // TODO: Is content cache cleared for all objects in subtree ??
 
@@ -70,6 +70,8 @@ class eZContentObjectOperations
         }
         else
             $object->purge();
+
+        return true;
     }
 }
 

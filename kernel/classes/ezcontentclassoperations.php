@@ -52,7 +52,7 @@ class eZContentClassOperations
         $contentClass = eZContentClass::fetch( $classID );
 
         if ( !$contentClass->isRemovable() )
-            return;
+            return false;
 
         // Remove all objects of this class, fething them partially to avoid memory exhaustion.
         $db =& eZDB::instance();
@@ -82,6 +82,7 @@ class eZContentClassOperations
         if ( $tempDeleteClass != null )
             $tempDeleteClass->remove( true, 1 );
 
+        return true;
     }
 }
 
