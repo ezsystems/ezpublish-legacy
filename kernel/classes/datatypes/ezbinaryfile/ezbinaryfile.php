@@ -145,6 +145,27 @@ class eZBinaryFile extends eZPersistentObject
         }
     }
 
+    function fetchByFileName( $filename, $version = null, $asObject = true )
+    {
+        if ( $version == null )
+        {
+            return eZPersistentObject::fetchObjectList( eZBinaryFile::definition(),
+                                                        null,
+                                                        array( 'filename' => $filename ),
+                                                        null,
+                                                        null,
+                                                        $asObject );
+        }
+        else
+        {
+            return eZPersistentObject::fetchObject( eZBinaryFile::definition(),
+                                                    null,
+                                                    array( 'filename' => $filename,
+                                                           'version' => $version ),
+                                                    $asObject );
+        }
+    }
+
     function remove( $id, $version )
     {
         if ( $version == null )
