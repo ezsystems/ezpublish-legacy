@@ -184,7 +184,7 @@ class eZBinaryFileType extends eZDataType
                 if ( $count == 1 )
                 {
                     // Check if there are any other records in ezbinaryfile that point to that fileName.
-                    $binaryObjectsWithSameFileName = & eZBinaryFile::fetchByFileName( $fileName );
+                    $binaryObjectsWithSameFileName = & eZBinaryFile::fetchByFileName( $currentFileName );
 
                     if ( file_exists( $orig_dir . "/" . $currentFileName ) and count( $binaryObjectsWithSameFileName ) <= 1 )
                         unlink( $orig_dir . "/" .  $currentFileName );
