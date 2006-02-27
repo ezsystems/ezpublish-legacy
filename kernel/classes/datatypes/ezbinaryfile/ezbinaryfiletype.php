@@ -153,8 +153,13 @@ class eZBinaryFileType extends eZDataType
                 $orig_dir = $storage_dir . '/original/' . $prefix;
 //              $orig_dir = "var/storage/original/" . $prefix;
                 $fileName = $binaryFile->attribute( "filename" );
-                if ( file_exists( $orig_dir . "/" .$fileName ) )
+                // Check if there are any other records in ezbinaryfile that point to that fileName.
+                $binaryObjectsWithSameFileName = & eZBinaryFile::fetchByFileName( $fileName );
+
+                if ( file_exists( $orig_dir . "/" .$fileName ) and count( $binaryObjectsWithSameFileName ) <= 1 )
                     unlink( $orig_dir . "/" . $fileName );
+
+                unset( $binaryObjectsWithSameFileName );
             }
         }
         else
@@ -178,8 +183,13 @@ class eZBinaryFileType extends eZDataType
                 }
                 if ( $count == 1 )
                 {
-                    if ( file_exists( $orig_dir . "/" . $currentFileName ) )
+                    // Check if there are any other records in ezbinaryfile that point to that fileName.
+                    $binaryObjectsWithSameFileName = & eZBinaryFile::fetchByFileName( $currentFileName );
+
+                    if ( file_exists( $orig_dir . "/" . $currentFileName ) and count( $binaryObjectsWithSameFileName ) <= 1 )
                         unlink( $orig_dir . "/" .  $currentFileName );
+
+                    unset( $binaryObjectsWithSameFileName );
                 }
             }
         }
