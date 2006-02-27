@@ -13,3 +13,5 @@ Changes from 3.8.0alpha1 to 3.8.0alpha2
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 14924 )
 - Fixed bug #7877: Some small bugs in ezsubtreecopy.php.
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 14935 )
+- Fixed bug #7879: ezsubtreecopy does not really copy binaryfiles.
+  ( Merged from stable/3.6 ( 3.6.6 ) rev. 14937 )
