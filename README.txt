@@ -63,15 +63,11 @@ Read doc/INSTALL or go to http://ez.no/manual
 
 Where to get more help
 ----------------------
-Online:
 User and installation documentation: http://ez.no/manual
 Developer documentation: http://ez.no/ez_publish/documentation
 eZ publish forums: http://ez.no/community/forums/
 
+
 Live demo of eZ publish 3
 -------------------------
-http://demo.ezpublish.no
-http://demo.ezpublish.no/news_admin
-Login with 'admin' as username and 'publish' as password
-
-Demo information: http://ez.no/ez_publish/cms
+http://ez.no/products/ez_publish/demo
