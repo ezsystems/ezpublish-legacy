@@ -68,12 +68,6 @@ User and installation documentation: http://ez.no/manual
 Developer documentation: http://ez.no/ez_publish/documentation
 eZ publish forums: http://ez.no/community/forums/
 
-Offline:
-(This requires that eZ publish is installed on your system.)
-http://localhost/index.php/manual
-http://localhost/index.php/sdk
-
-
 Live demo of eZ publish 3
 -------------------------
 http://demo.ezpublish.no
