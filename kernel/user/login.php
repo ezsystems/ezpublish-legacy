@@ -62,7 +62,8 @@ if ( $http->hasSessionVariable( '$_POST_BeforeLogin' ) )
 
 if ( $Module->isCurrentAction( 'Login' ) and
      $Module->hasActionParameter( 'UserLogin' ) and
-     $Module->hasActionParameter( 'UserPassword' )
+     $Module->hasActionParameter( 'UserPassword' ) and
+     !$http->hasPostVariable( "RegisterButton" )
      )
 {
     $userLogin = $Module->actionParameter( 'UserLogin' );
