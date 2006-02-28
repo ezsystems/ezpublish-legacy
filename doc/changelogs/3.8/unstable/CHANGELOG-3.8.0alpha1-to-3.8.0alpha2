@@ -17,3 +17,5 @@ Changes from 3.8.0alpha1 to 3.8.0alpha2
   ( Merged from stable/3.6 ( 3.6.6 ) rev. 14937 )
 - Fixed bug #7351: 'no input file" error when using FCGI.
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 14942 )
+- Fixed bug #7836: Sign up forgot some values and sometimes act as login.
+  ( Merged from stable/3.7 ( 3.7.4 ) rev. 14947 )
