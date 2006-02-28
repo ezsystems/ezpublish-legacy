@@ -792,7 +792,7 @@ class eZSys
     */
     function init( $def_index = "index.php", $force_VirtualHost = false )
     {
-        $isCGI = ( php_sapi_name() == 'cgi' );
+        $isCGI = ( substr( php_sapi_name(), 0, 3 ) == 'cgi' );
 
         if ( isset( $this ) and get_class( $this ) == "ezsys" )
             $instance =& $this;
