@@ -9,7 +9,7 @@ currencies for the products.
 
 1. Currencies
 
-1.1 Backgound
+1.1 Background
 
 'Currency' objects keep information about available currencies and have
 following attributes:
@@ -30,8 +30,8 @@ following attributes:
 | auto_rate_value   | a rate which was retrieved via automatic update of the   |
 |                   | rates from the Internet                                  |
 | custom_rate_value | a rate typed by merchant manually                        |
-| rate_factor       | allows to support a kind of virtual rate. It applys for  |
-|                   | 'auto' rates only. So the real rate is culculated as:    |
+| rate_factor       | allows to support a kind of virtual rate. It applies for |
+|                   | 'auto' rates only. So the real rate is calculated as:    |
 |                   | rate = auto_rate_value * rate_factor                     |
 | rate_value        | a functional attribute.                                  |
 |                   | It returns either 'custom_rate_value' if it set of       |
@@ -55,11 +55,11 @@ It has following actions:
 |                   | As the result new currency and 'auto' prices with value  |
 |                   | of 0.00 for all products will be created.                |
 | Remove            | Use this button to remove unneeded currencies.           |
-|                   | NOTE: removing curreny will lead to removing prices in   |
+|                   | NOTE: removing currency will lead to removing prices in  |
 |                   | that currency for all products.                          |
 | Update status     | You can change 'status' for several currencies and apply |
 |                   | changes by clicking on this button.                      |
-| Set rates         | Applyes changes for 'custom rate' and 'rate factor'.     |
+| Set rates         | Applies changes for 'custom rate' and 'rate factor'.     |
 | Update autoprices | When you've finished managing currencies(set rates, add  |
 |                   | new, ...) you can update autoprices for all products.    |
 +-------------------+----------------------------------------------------------+
@@ -85,12 +85,12 @@ A preferred currency can be changed via:
 2.1 Background
 
 To support multicurrency a new datatype called 'ezmultiprice' was introduced.
-It holds info about prices and currenies for each product.
+It holds info about prices and currencies for each product.
 
 There are two kind of prices stored in 'ezmultiprice' datatype:
    - 'custom': a value was typed by merchant manually;
    - 'auto': a value retrieved by converting 'base' price using appropriate
-             rate. The 'base' price for the product is the first 'cutstom'
+             rate. The 'base' price for the product is the first 'custom'
              price.
 
 Attributes:
@@ -126,7 +126,7 @@ own attributes:
 +-----------------------------+------------------------------------------------+
 | Name                        | Description                                    |
 |-----------------------------+------------------------------------------------|
-| currency_list               | a list of avilable currencies                  |
+| currency_list               | a list of available currencies                 |
 | auto_currency_list          | a list of currencies for which prices are      |
 |                             | 'auto'                                         |
 | price_list                  | a list of prices('custom' and 'auto')          |
@@ -142,7 +142,7 @@ own attributes:
 
 To start using multicurrency features you have to:
 - create some currencies;
-- create a class with 'ezmultiprice' datatype. While createing a class it's
+- create a class with 'ezmultiprice' datatype. While creating a class it's
   possible to select default vat type and default currency. Default currency
   means that when you create an object of that class it will have one 'custom'
   price in that currency and all other prices will be 'auto'.
@@ -218,7 +218,7 @@ Then a multiprice for a product will look like:
 |                |          |              |        | since price is typed    |
 |                |          |              |        | manually.               |
 |                | NOK      | auto         | 60.00  | since price in 'NOK' is |
-|                |          |              |        | autp we need to convert |
+|                |          |              |        | auto we need to convert |
 |                |          |              |        | 'base' price(in USD) to |
 |                |          |              |        | 'NOK':                  |
 |                |          |              |        | NOK/USD(cross-rate) =   |
@@ -257,7 +257,7 @@ l10n( 'currency'[, locale[, [symbol]] )     - format a number as price using
                                               specified or default 'locale'
                                               and 'symbol';
 
-5. INI ettings
+5. INI settings
 
 +------------------+-------------------+---------------------------------------+
 | Section          | Setting name      | Description                           |
@@ -269,7 +269,7 @@ l10n( 'currency'[, locale[, [symbol]] )     - format a number as price using
 |                  |                   | eZBCMath  - using bcmath extension.   |
 |                  | MathScale         | Defines significant digits after the  |
 |                  |                   | decimal point.                        |
-|                  |                   | Note: applyes for eZBCMath handler    |
+|                  |                   | Note: applies for eZBCMath handler    |
 |                  |                   |       only.                           |
 |                  | RoundingType      | Defines rounding method for           |
 |                  |                   | autoconversions.                      |
