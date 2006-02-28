@@ -19,3 +19,5 @@ Changes from 3.8.0alpha1 to 3.8.0alpha2
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 14942 )
 - Fixed bug #7836: Sign up forgot some values and sometimes act as login.
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 14947 )
+- Fixed bug #7686: It is impossible to assign user from custom user class to approve workflow.
+  ( Merged from stable/3.7 ( 3.7.4 ) rev. 14951 )

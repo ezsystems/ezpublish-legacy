@@ -386,17 +386,32 @@ class eZApproveType extends eZWorkflowEventType
     {
         $eventID = $workflowEvent->attribute( "id" );
         $module =& $GLOBALS['eZRequestedModule'];
+        $ini =& eZINI::instance();
+        include_once( 'kernel/classes/ezcontentclass.php' );
 
         switch ( $action )
         {
             case "AddApproveUsers" :
             {
+                $userClassName[] = 'user';
+                $userClassID = $ini->hasVariable( 'UserSettings', 'UserClassID' ) ? $ini->variable( 'UserSettings', 'UserClassID' ) : false;
+                // Get name of custom userClass
+                if ( $userClassID !== false )
+                {
+                    $userClass = eZContentClass::fetch( $userClassID );
+                    if ( is_object( $userClass ) )
+                    {
+                        $userClassName[] = $userClass->attribute( 'identifier' );
+                        $userClassName = array_unique( $userClassName );
+                    }
+                }
+
                 include_once( 'kernel/classes/ezcontentbrowse.php' );
                 eZContentBrowse::browse( array( 'action_name' => 'SelectMultipleUsers',
                                                 'from_page' => '/workflow/edit/' . $workflowEvent->attribute( 'workflow_id' ),
                                                 'custom_action_data' => array( 'event_id' => $eventID,
                                                                                'browse_action' => $action ),
-                                                'class_array' => array ( 'user' ) ),
+                                                'class_array' => $userClassName ),
                                          $module );
             } break;
 
@@ -431,12 +446,35 @@ class eZApproveType extends eZWorkflowEventType
 
             case "AddExcludeUser" :
             {
+                $excludedClassNames = array( 'user', 'user_group' );
+                $userClassID = $ini->hasVariable( 'UserSettings', 'UserClassID' ) ? $ini->variable( 'UserSettings', 'UserClassID' ) : false;
+                $userGroupClassID = $ini->hasVariable( 'UserSettings', 'UserGroupClassID' ) ? $ini->variable( 'UserSettings', 'UserGroupClassID' ) : false;
+                // Get name of custom userGroupClass
+                if ( $userGroupClassID !== false )
+                {
+                    $userClassGroup = eZContentClass::fetch( $userGroupClassID );
+                    if ( is_object( $userClassGroup ) )
+                    {
+                        $excludedClassNames[] = $userClassGroup->attribute( 'identifier' );
+                    }
+                }
+                // Get name of custom userClass
+                if ( $userClassID !== false )
+                {
+                    $userClass = eZContentClass::fetch( $userClassID );
+                    if ( is_object( $userClass ) )
+                    {
+                        $excludedClassNames[] = $userClass->attribute( 'identifier' );
+                    }
+                }
+                $excludedClassNames = array_unique( $excludedClassNames );
+
                 include_once( 'kernel/classes/ezcontentbrowse.php' );
                 eZContentBrowse::browse( array( 'action_name' => 'SelectMultipleUsers',
                                                 'from_page' => '/workflow/edit/' . $workflowEvent->attribute( 'workflow_id' ),
                                                 'custom_action_data' => array( 'event_id' => $eventID,
                                                                                'browse_action' => $action ),
-                                                'class_array' => array ( 'user_group' ) ),
+                                                'class_array' => $excludedClassNames ),
                                          $module );
             } break;
 
