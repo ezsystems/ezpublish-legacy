@@ -24,7 +24,7 @@
     <blockquote class="error">
         <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
         <p>
-            {"The access values must not be named 'admin' or 'user' and each value must be unique. Please change invalid values on site indicated by *"|i18n("design/standard/setup/init")}
+            {"User path' and 'Admin path' should only contain letters ('a-zA-Z'), digits ('0-9') and underscores ('_'). These values must not be named 'admin' or 'user' and each value must be unique and non-empty. Please change invalid values for site indicated by *"|i18n("design/standard/setup/init")}
         </p>
     </blockquote>
 {/section}
