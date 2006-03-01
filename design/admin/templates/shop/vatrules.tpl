@@ -28,7 +28,7 @@
     <td><a href={concat( 'shop/editvatrule/', $rule.id)|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/shop/vatrules' )}" title="{"Edit rule."|i18n( 'design/admin/shop/vatrules')|wash}" /></a>
     <td>{cond( $rule.country|wash|eq('*'), 'Any'|i18n( 'design/admin/shop/vatrules' ), true, $rule.country|wash )}</td>
     <td>{$rule.product_categories_string|wash}</td>
-    <td>{$rule.vat_type_name|wash}</td>
+    <td>{$rule.vat_type_name|wash} ({$rule.vat_type_object.percentage}%)</td>
 </tr>
 {/foreach}
 </table>

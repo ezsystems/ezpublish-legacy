@@ -65,6 +65,7 @@ class eZVatRule extends eZPersistentObject
                       "function_attributes" => array( 'product_categories' => 'productCategories',
                                                       'product_categories_string' => 'productCategoriesString',
                                                       'product_categories_ids' => 'productCategoriesIDs',
+                                                      'vat_type_object' => 'vatTypeObject',
                                                       'vat_type_name' => 'vatTypeName' ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
@@ -230,6 +231,14 @@ class eZVatRule extends eZPersistentObject
         return $vatType->attribute( 'name' );
     }
 
+    /**
+     * Return VAT type object.
+     */
+    function vatTypeObject()
+    {
+        require_once( 'kernel/classes/ezvattype.php' );
+        return eZVatType::fetch( $this->attribute( 'vat_type' ) );
+    }
 
     /**
      * Remove product categories with the rule from DB.
