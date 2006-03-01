@@ -68,6 +68,17 @@ class eZShippingManager
     }
 
     /*!
+     Purge shipping information for a stale product collection that is about to be removed.
+     \public
+     \static
+     */
+    function purgeShippingInfo( $productCollectionID )
+    {
+        if ( is_object( $handler = eZShippingManager::loadShippingHandler() ) )
+            return $handler->purgeShippingInfo( $productCollectionID );
+    }
+
+    /*!
      Load shipping handler (if specified).
 
      \private
