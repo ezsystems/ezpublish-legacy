@@ -1,0 +1,304 @@
+*Title: Improved handling of VAT charging.
+
+*Incentive:
+
+Currently, VAT charging functionality in eZ publish is quite primitive.
+We can only assign fixed VAT to a product content class. However, VAT
+charging rules may be much more complex, and we should provide support
+for such rules.
+
+*Basics:
+
+What we need is ability to charge different VAT percentage depending on
+a specific product and country a buyer is from. We should not enforce
+any specific charging logic. Instead, it should be up to developer to
+implement the logic a webshop needs. Thus, we provide an interface for
+so-called "VAT handlers". We ship a default VAT handler implementing
+some basic logic that can be overriden with custom VAT handlers, if
+needed.
+
+*Implementation details:
+
+1. Handler interface
+
+A VAT handler is a file that contains a class implementing the following
+method:
+
+ /**
+  *
+  * \public
+  * \static
+  * \param $object   The product content object.
+  * \param $country  Country the buyer is from, or false if not specified.
+  * \return          VAT percent (integer), or null in case of an error.
+  */
+ mixed function getVatPercent( eZContentObject $object, mixed $country );
+
+A handler is not called directly, but via eZVATManager class.
+Method getVAT() of that class returns VAT percentage that should be
+charged for a given product:
+
+ $vatPercent = eZVATManager::getVAT( $object, $country );
+
+All that getVAT() method does is invoking getVatPercent() method of the
+handler specified in ini settings.
+
+2. Default VAT handler
+
+The default VAT handler shipped with eZ publish uses special rules to
+determine the appropriate VAT for a product. Each rule determines what VAT
+to charge for a given product category and country the customer is from.
+Ther is a view to manage those rules (stored in an external DB table)
+via the admin. interface.
+
+Example:
+.---------+---------------------------+-----------------------.
+| Country | Category                  |      VAT              |
++=========+===========================+=======================+
+| Norway  | food, drinks              | Norwegian / Reduced   |
++---------+---------------------------+-----------------------+
+| Norway  | *                         | Norwegian / Standard  |
++---------+---------------------------+-----------------------+
+| Germany | food, books, newspapers   | German / Reduced      |
++---------+---------------------------+-----------------------+
+| Germany | *                         | German / Standard     |
++---------+---------------------------+-----------------------+
+| Ukraine | *                         | Ukrainian / Standard  |
++---------+---------------------------+-----------------------+
+| *       | *                         | None                  |
+`---------+---------------------------+-----------------------'
+
+The rightmost table column refers to VAT types defined in Shop tab of
+the admin. interface. Asterisk (*) means "any category (country)",
+depending on which column it is specified in.]
+
+The rules in the table above assign reduced VAT to some
+products in Germany and Norway; for all other products in
+Norway, Ukraine and Germany the standard VAT is used. For the rest of
+countries no VAT is charged.
+
+_Category_ of a product is a special content attribute of a
+product class, used by the default VAT handler when determining VAT for
+the object. The datatype of this attribute uses an external table to
+store categories list. There will be GUI for categories management in
+the admin. interface.
+
+User _country_  is a content attribute of type ezcountry added to a user
+class. The list of countries is loaded from an .ini file.
+
+The more exact match a rule provides for given country/category pair,
+the higher priority it has. That means that the handler tries to always
+choose the best matching VAT.
+
+Exact match is when category or country is specified literally, not as '*'.
+
+VAT choosing algorithm: possible match cases and their priorities:
+4. exact match on country, exact match on category (e.g.: Norway =>  Food, Drinks)
+3. exact match on country, weak match on category: (e.g.: Norway => *)
+2. weak match on counry, exact match on category:  (e.g.: * => Food, Drinks)
+1. weak match on country, weak match on category:  (e.g.: * => *)
+0. no match on country and/or no match on category.
+
+
+*Setup
+
+1. Updating database schema
+
+First, if you are upgrading to 3.8, you should run the apropriate DB
+update script, e.g. dbupdate-3.6.0-to-3.8.0.sql.
+
+2. Specifying a handler to use
+
+VAT Handler to use is defined by the following settings in shop.ini:
+
+###############################################################################
+[VATSettings]
+
+# Specifies VAT handler class/file name. For example, if the value is  
+# "ezdefault", then the handler class should be named
+# eZDefaultVATHandler (case does not matter) and placed to file
+# ezdefaultvathandler.php residing in a directory specified by
+# "RepositoryDirectories" and "ExtensionDirectories" settings.
+Handler=ezdefault
+
+# Directories where VAT handlers should be searched.
+RepositoryDirectories[]=kernel/classes/vathandlers
+
+# If you are going to implement your VAT handler in an extension
+# then you should add the extension name to the list below.
+# In that case VAT handlers will be searched for in the following directory:
+# extension/<your_extension>/vathandlers
+ExtensionDirectories[]
+
+# Identifier of the product category content attribute.
+ProductCategoryAttribute=category
+
+# Identifier of the user country content attribute.
+UserCountryAttribute=country
+
+# If set to false, no errors will be displayed in case if user country
+# is not specified. One might want this when using a custom VAT handler.
+RequireUserCountry=true
+###############################################################################
+
+3. Setting up the default VAT handler
+
+If you want to use the default VAT handler shipped with eZ publish
+then you perform the steps described in this section.
+
+ 3.1. Creating product categories.
+
+Fist, go to "Webshop" -> "Product categories" and create as many product
+categories as you need. Then will be used to determine appropriate VAT
+type for products being bought.
+
+ 3.2. Assigning categories to products and countries to users.
+
+All your products should be assigned a category. Just add an
+attribute of ezproductcategory datatype to your product class and then
+go through your products assigning them categories. Then specify the
+attribute identifier in shop.ini.[VATSettings].ProductCategoryAttribute
+ini setting.
+
+All users should be assigned a country. You don't have to do that
+manually: if a user that doesn't have a country assigned tries to buy
+something he will be asked to specify his/her country. All you need to
+do is to add an attribute of ezcountry datatype to your user class. Then
+specify the attribute identifier in
+shop.ini.[VATSettings].UserCountryAttribute ini setting.
+
+ 3.2. Creating VAT charging rules.
+
+VAT rules is something that builds up VAT charging logic for your shop.
+Go to "Webshop" -> "VAT rules" and create the VAT charging rules you
+need. Every rule consists of a country, a set of product category and a
+VAT type. A rule defines VAT type to use in case when user is from
+specified country and the product belongs to one of specified
+categories.
+
+
+4. Setting up custom VAT handler
+
+If the default VAT handler doesn't fit your needs you can implement your
+own one. This section describes how to do that.
+
+For example, we implement a simple VAT handler that determines VAT
+percentage depending on the section a product belongs to. We place the
+handler to an extension since it's not recommended to modify eZ publish
+kernel.
+
+ 4.1. Creating extension
+
+Start by creating a new extension called "myshop" (create a new folder
+called myshop in the extension/ directory).
+
+ 4.2 Creating the necessary directory structure.
+
+Create a subdirectory called settings in the myshop/ directory.
+This directory will contain all the settings that belong to the extension.
+
+Create a subdirectory called vathandlers in the myshop/ directory.
+This directory will contain your VAT handler.
+
+ 4.3 Creating your own VAT handler
+
+Go to extension/myshop/vathandlers and create file called
+mysectionbasedvathandler.php. Paste the following text into it:
+
+#############################################################################
+<?php
+class MySectionBasedVATHandler
+{
+    /**
+     * \public
+     * \static
+     */
+    function getVatPercent( $object, $country )
+    {
+        $section = $object->attribute( 'section_id' );
+        
+        if ( $section == 1 )
+            $percentage = 10;
+        else
+            $percentage = 20;
+
+        return $percentage;
+    }
+}
+?>
+#############################################################################
+
+ 4.4 Editing ini settings
+
+Go to extension/myshop/settings and create file called
+shop.ini.append. Paste the following text into it:
+
+###################################
+[VATSettings]
+ExtensionDirectories[]=myshop
+Handler=mysectionbased
+RequireUserCountry=false
+###################################
+
+This will tell eZ publish to search for file
+mysectionbasedvathandler.php in extension/myshop/vathandlers directory.
+We set RequireUserCountry to false to disable error messages about
+missing user country,
+
+ 4.5 Activating the extension.
+
+Go to "Setup" -> "Extensions" in the admin interface and activate your
+extension there by marking "myshop" extension and pressing "Apply changes".
+
+
+*New views:
+
+/shop/vatrules         -- The list of VAT charging rules.
+/shop/editvatrule      -- Add/edit a VAT charging rule.
+/shop/productcategoris -- The list of product categories.
+
+
+*New settings:
+
+shop.ini:
+ 
+ [VATSettings]
+  Handler=
+  RepositoryDirectories[]
+  ExtensionDirectories[]
+  ProductCategoryAttribute=
+  UserCountryAttribute=
+
+*New fetch functions:
+
+Fetch the list of all product categories:
+ fetch( shop, product_category_list )
+
+Fetch given product category:
+fetch( product_category, hash( category_id, $catID ) )
+
+*Database schema changes:
+
+Three new tables have been added to store VAT rules and product categories:
+
+CREATE TABLE ezproductcategory (
+  id int(11) NOT NULL auto_increment,
+  name varchar(255) NOT NULL default '',
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE ezvatrule (
+  id int(11) NOT NULL auto_increment,
+  country varchar(255) NOT NULL default '',
+  vat_type int(11) NOT NULL,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE ezvatrule_product_category (
+  vatrule_id int(11) NOT NULL,
+  product_category_id int(11) NOT NULL,
+  PRIMARY KEY (vatrule_id, product_category_id)
+
+*References:
+
+http://ez.no/community/developer/specs/improved_handling_of_vat_charging_and_shipping
