@@ -21,3 +21,6 @@ Changes from 3.8.0alpha1 to 3.8.0alpha2
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 14947 )
 - Fixed bug #7686: It is impossible to assign user from custom user class to approve workflow.
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 14951 )
+- Fixed bug #7668: hyphen isn't allowed at site access name.
+  ( User path and Admin path should only contain [a-zA-Z0-9_]).
+  ( Merged from stable/3.6 ( 3.6.6 ) rev. 14959 )

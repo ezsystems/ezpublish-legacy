@@ -41,6 +41,8 @@ if ( !defined( 'EZ_SETUP_SITE_ACCESS_ILLEGAL' ) )
     define( 'EZ_SETUP_SITE_ACCESS_ILLEGAL', 11 );
 if ( !defined( 'EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME' ) )
     define( 'EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME', 12 );
+if ( !defined( 'EZ_SETUP_SITE_ACCESS_REGEXP' ) )
+    define( 'EZ_SETUP_SITE_ACCESS_REGEXP', '/^(\w+)$/' );
 
 /*!
   \class eZStepSiteDetails ezstep_site_details.php
@@ -91,14 +93,17 @@ class eZStepSiteDetails extends eZStepInstaller
         $siteType['url'] = $this->Http->postVariable( 'eZSetup_site_templates_url' );
 
         $error = false;
-        if ( isset( $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_value' )] ) ) // check for equal site access values
+        $userPath = $this->Http->postVariable( 'eZSetup_site_templates_value' );
+        $validateUserPath = preg_match( EZ_SETUP_SITE_ACCESS_REGEXP, $userPath );
+
+        if ( isset( $siteAccessValues[$userPath] ) or !$validateUserPath ) // check for equal site access values
         {
             $this->Error[0] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
             $error = true;
         }
 
         // User siteaccess
-        $siteType['access_type_value'] = $this->Http->postVariable( 'eZSetup_site_templates_value' );
+        $siteType['access_type_value'] = $userPath;
         if ( $siteType['access_type_value'] == '' )
         {
             $this->Error[0] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
@@ -106,14 +111,17 @@ class eZStepSiteDetails extends eZStepInstaller
         }
 
         $siteAccessValues[$siteType['access_type_value']] = 1;
-        if ( isset( $siteAccessValues[$this->Http->postVariable( 'eZSetup_site_templates_admin_value' )] ) ) // check for equal site access values
+        $adminPath = $this->Http->postVariable( 'eZSetup_site_templates_admin_value' );
+        $validateAdminPath = preg_match( EZ_SETUP_SITE_ACCESS_REGEXP, $adminPath );
+
+        if ( isset( $siteAccessValues[$adminPath] ) or !$validateAdminPath ) // check for equal site access values
         {
             $this->Error[0] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
             $error = true;
         }
 
         // Admin siteaccess
-        $siteType['admin_access_type_value'] = $this->Http->postVariable( 'eZSetup_site_templates_admin_value' );
+        $siteType['admin_access_type_value'] = $adminPath;
         if ( $siteType['admin_access_type_value'] == '' )
         {
             $this->Error[0] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
@@ -146,7 +154,7 @@ class eZStepSiteDetails extends eZStepInstaller
         {
             $this->Error[0] = array( 'type' => 'db',
                                             'error_code' => $result['error_code'] );
-            continue;
+            return false;
         }
         // Store charset if found
         if ( $result['site_charset'] )
@@ -419,7 +427,7 @@ class eZStepSiteDetails extends eZStepInstaller
         if ( isset( $this->Error[0] ) )
         {
             $error = $this->Error[0];
-        
+
             $type = 'site';
             if ( is_array( $error ) )
             {
@@ -435,19 +443,19 @@ class eZStepSiteDetails extends eZStepInstaller
                         $this->Tpl->setVariable( 'db_not_empty', 1 );
                         $siteType['db_not_empty'] = 1;
                     } break;
-        
+
                     case EZ_SETUP_DB_ERROR_ALREADY_CHOSEN:
                     {
                         $this->Tpl->setVariable( 'db_already_chosen', 1 );
                         $siteType['db_already_chosen'] = 1;
                     } break;
-        
+
                     case EZ_SETUP_SITE_ACCESS_ILLEGAL:
                     {
                         $this->Tpl->setVariable( 'site_access_illegal', 1 );
                         $siteType['site_access_illegal'] = 1;
                     } break;
-        
+
                     case EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME:
                     {
                         $this->Tpl->setVariable( 'site_access_illegal_name', 1 );
