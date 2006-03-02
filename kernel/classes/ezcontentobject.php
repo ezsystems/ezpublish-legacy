@@ -1704,7 +1704,7 @@ class eZContentObject extends eZPersistentObject
                 else
                 {
                     if ( !$description )
-                        $description = 'uknown error';
+                        $description = 'unknown error';
                 }
                 $unvalidatedAttributes[] = array( 'id' => $contentObjectAttribute->attribute( 'id' ),
                                                   'identifier' => $contentClassAttribute->attribute( 'identifier' ),
