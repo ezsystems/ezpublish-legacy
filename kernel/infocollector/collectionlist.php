@@ -108,7 +108,7 @@ if( !$object )
 }
 
 $db =& eZDB::instance();
-$collections =& $db->arrayQuery( 'SELECT * FROM ezinfocollection WHERE ezinfocollection.contentobject_id=' . (int)$objectID . ' LIMIT ' . (int)$limit . ' OFFSET ' . (int)$offset );
+$collections =& $db->arrayQuery( 'SELECT * FROM ezinfocollection WHERE ezinfocollection.contentobject_id=' . (int)$objectID . ' LIMIT ' . (int)$offset . ',' . (int)$limit );
 $collectionCountQuery =& $db->arrayQuery( 'SELECT COUNT(*) AS count FROM ezinfocollection WHERE ezinfocollection.contentobject_id=' . (int)$objectID );
 $numberOfCollections = 0;
 
