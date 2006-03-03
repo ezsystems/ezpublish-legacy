@@ -961,7 +961,7 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             $contentObjectVersion =& $contentObject->createNewVersion();
         }
-        if ( !$contentObject )
+        if ( !$contentObjectVersion )
         {
             eZDebug::writeError( 'Could not fetch object version : ' . $oldVersion,
                                  'eZContentObjectVersion::unserialize()' );
