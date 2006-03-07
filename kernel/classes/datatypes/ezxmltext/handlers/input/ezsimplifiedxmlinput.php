@@ -1651,7 +1651,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 }
 
                 // check for namespace definition
-                if ( $attributeContentPrefix == "javascript" )
+                if ( $attributeContentPrefix == "javascript" || $attributeContentPrefix == "vbscript" )
                 {
                     return $ret;
                 }
