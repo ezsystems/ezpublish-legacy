@@ -947,8 +947,8 @@ class eZObjectRelationListType extends eZDataType
             else
             {
                 eZDebug::writeError( 'Cleanup of subobject-version failed. Could not fetch object from relation list.\n' .
-                                     'Requested subobject id: ' . $relationItem['contentobject_id'] . '\n' .
-                                     'Requested Subobject version: ' . $relationItem['contentobject_version'],
+                                     'Requested subobject id: ' . $deletionItem['contentobject_id'] . '\n' .
+                                     'Requested Subobject version: ' . $deletionItem['contentobject_version'],
                                      'eZObjectRelationListType::removeRelationObject' );
             }
         }

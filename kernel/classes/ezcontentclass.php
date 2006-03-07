@@ -189,7 +189,7 @@ class eZContentClass extends eZPersistentObject
                                             $this->attribute( "id" ),
                                             $userID,
                                             $sectionID );
-                                            
+
         $db =& eZDB::instance();
         $db->begin();
 
@@ -583,7 +583,7 @@ class eZContentClass extends eZPersistentObject
         }
         eZPersistentObject::removeObject( eZContentClassAttribute::definition(),
                                           array( 'version' => $version ) );
-    
+
         $db->commit();
     }
 
@@ -629,10 +629,19 @@ class eZContentClass extends eZPersistentObject
             {
                 if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
                 {
+                    // Remove all object
                     $contentObjects =& eZContentObject::fetchSameClassList( $this->ID );
+                    include_once( 'kernel/classes/ezcontentcachemanager.php' );
                     foreach ( $contentObjects as $contentObject )
                     {
-                        $contentObject->remove();
+                        eZContentCacheManager::clearContentCacheIfNeeded( $contentObject->attribute( 'id' ) );
+                        $assignedNodes = $contentObject->attribute( 'assigned_nodes' );
+                        $assignedNodeIDArray = array();
+                        foreach( $assignedNodes as $node )
+                        {
+                            $assignedNodeIDArray[] = $node->attribute( 'node_id' );
+                        }
+                        eZContentObjectTreeNode::removeSubtrees( $assignedNodeIDArray, false );
                     }
                     $contentClassID = $this->ID;
                     $version = $this->Version;
@@ -1021,7 +1030,7 @@ You will need to change the class of the node by using the swap functionality.' 
         {
             return null;
         }
-        
+
         $row =& $rows[0];
         $row["version_count"] = count( $rows );
 
@@ -1029,7 +1038,7 @@ You will need to change the class of the node by using the swap functionality.' 
             return new eZContentClass( $row );
         else
             return $row;
-    
+
     }
 
     /*!
