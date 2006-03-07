@@ -105,19 +105,22 @@ class eZStepSiteTypes extends eZStepInstaller
     /**
      * Downloads and imports package.
      *
-     * If the package already exists, does nothing.
-     *
      * Sets $this->ErrorMsg in case of an error.
      *
+     * \param $forceDownload  download even if this package already exists.
      * \private
      * \return false on error, package object otherwise.
      */
-    function downloadAndImportPackage( $packageName, $packageUrl )
+    function downloadAndImportPackage( $packageName, $packageUrl, $forceDownload = false )
     {
         include_once( 'kernel/classes/ezpackage.php' );
         $package = eZPackage::fetch( $packageName, false, false, false );
 
-        if ( is_object( $package ) )
+        if ( is_object( $package ) && $forceDownload )
+        {
+            $package->remove();
+        }
+        else
         {
             eZDebug::writeNotice( "Skipping download of package '$packageName': package already exists." );
             return $package;
@@ -304,8 +307,10 @@ class eZStepSiteTypes extends eZStepInstaller
             // remote site package chosen: download it.
             $sitePackageName = $matches[1];
             $sitePackageURL  = $matches[2];
-
-            $package = $this->downloadAndImportPackage( $sitePackageName, $sitePackageURL );
+            
+            // we already know that we should download the package anyway as it has newer version
+            // so use force download mode
+            $package = $this->downloadAndImportPackage( $sitePackageName, $sitePackageURL, true );
         }
         else
         {
