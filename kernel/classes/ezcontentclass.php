@@ -604,6 +604,10 @@ class eZContentClass extends eZPersistentObject
         return $remoteID;
     }
 
+    /*!
+     \note If you want to remove a class with all data associated with it (objects/classMembers)
+           you should use eZContentClassOperations::remove()
+    */
     function remove( $remove_childs = false, $version = EZ_CLASS_VERSION_STATUS_DEFINED )
     {
         // If we are not allowed to remove just return false
@@ -629,20 +633,6 @@ class eZContentClass extends eZPersistentObject
             {
                 if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
                 {
-                    // Remove all object
-                    $contentObjects =& eZContentObject::fetchSameClassList( $this->ID );
-                    include_once( 'kernel/classes/ezcontentcachemanager.php' );
-                    foreach ( $contentObjects as $contentObject )
-                    {
-                        eZContentCacheManager::clearContentCacheIfNeeded( $contentObject->attribute( 'id' ) );
-                        $assignedNodes = $contentObject->attribute( 'assigned_nodes' );
-                        $assignedNodeIDArray = array();
-                        foreach( $assignedNodes as $node )
-                        {
-                            $assignedNodeIDArray[] = $node->attribute( 'node_id' );
-                        }
-                        eZContentObjectTreeNode::removeSubtrees( $assignedNodeIDArray, false );
-                    }
                     $contentClassID = $this->ID;
                     $version = $this->Version;
                     $classAttributes =& $this->fetchAttributes( );
