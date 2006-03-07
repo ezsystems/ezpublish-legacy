@@ -88,26 +88,6 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
         if ( !$deleteClass->isRemovable() )
             continue;
 
-        //Remove all object
-        $db =& eZDB::instance();
-        $deleteID = $db->escapeString( $deleteID ); //security thing
-        while ( true )
-        {
-            $resArray = $db->arrayQuery( "SELECT ezcontentobject.id FROM ezcontentobject WHERE ezcontentobject.contentclass_id='$deleteID'", array( 'length' => 50 ) );
-            if( !$resArray || count( $resArray ) == 0 )
-            {
-                break;
-            }
-            foreach( $resArray as $row )
-            {
-                include_once( 'kernel/classes/ezcontentcachemanager.php' );
-                eZContentCacheManager::clearContentCacheIfNeeded( $row['id'] );
-
-                $object =& eZContentObject::fetch( $row['id'] );
-                $object->purge();
-            }
-        }
-
         eZContentClassClassGroup::removeClassMembers( $deleteID, 0 );
         eZContentClassClassGroup::removeClassMembers( $deleteID, 1 );
 

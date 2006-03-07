@@ -643,10 +643,19 @@ class eZContentClass extends eZPersistentObject
             {
                 if ( $version == EZ_CLASS_VERSION_STATUS_DEFINED )
                 {
+                    //Remove all object
                     $contentObjects = eZContentObject::fetchSameClassList( $this->ID );
+                    include_once( 'kernel/classes/ezcontentcachemanager.php' );
                     foreach ( $contentObjects as $contentObject )
                     {
-                        $contentObject->remove();
+                        eZContentCacheManager::clearContentCacheIfNeeded( $contentObject->attribute( 'id' ) );
+                        $assignedNodes = $contentObject->attribute( 'assigned_nodes' );
+                        $assignedNodeIDArray = array();
+                        foreach( $assignedNodes as $node )
+                        {
+                            $assignedNodeIDArray[] = $node->attribute( 'node_id' );
+                        }
+                        eZContentObjectTreeNode::removeSubtrees( $assignedNodeIDArray, false );
                     }
                     $contentClassID = $this->ID;
                     $version = $this->Version;
@@ -1020,7 +1029,7 @@ You will need to change the class of the node by using the swap functionality.' 
             $contentClass = $row;
 
         return $contentClass;
-        
+
     }
 
     function fetchByIdentifier( $identifier, $asObject = true, $version = EZ_CLASS_VERSION_STATUS_DEFINED, $user_id = false ,$parent_id = null )
