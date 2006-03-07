@@ -51,9 +51,16 @@ class eZContentClassOperations
     {
         $contentClass = eZContentClass::fetch( $classID );
 
-        if ( !$contentClass->isRemovable() )
+        if ( $contentClass == null or !$contentClass->isRemovable() )
             return false;
 
+        // Remove all objects
+        $contentObjects = eZContentObject::fetchSameClassList( $classID );
+        include_once( 'kernel/classes/ezcontentobjectoperations.php' );
+        foreach ( $contentObjects as $contentObject )
+        {
+            eZContentObjectOperations::remove( $contentObject->attribute( 'id' ) );
+        }
         eZContentClassClassGroup::removeClassMembers( $classID, 0 );
         eZContentClassClassGroup::removeClassMembers( $classID, 1 );
 

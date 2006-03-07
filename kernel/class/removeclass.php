@@ -81,13 +81,6 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
     foreach ( $deleteIDArray as $deleteID )
     {
-        $db = eZDB::instance();
-        $deleteID = $db->escapeString( $deleteID ); //security thing
-        $deleteClass = eZContentClass::fetch( $deleteID );
-
-        if ( $deleteClass == null )
-            continue;
-
         include_once( 'kernel/classes/ezcontentclassoperations.php' );
         eZContentClassOperations::remove( $deleteID );
     }
