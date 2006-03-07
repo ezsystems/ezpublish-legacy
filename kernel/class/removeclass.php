@@ -81,23 +81,8 @@ if ( $http->hasPostVariable( "ConfirmButton" ) )
 {
     foreach ( $deleteIDArray as $deleteID )
     {
-        $deleteClass =& eZContentClass::fetch( $deleteID );
-        if ( $deleteClass == null )
-            continue;
-
-        if ( !$deleteClass->isRemovable() )
-            continue;
-
-        eZContentClassClassGroup::removeClassMembers( $deleteID, 0 );
-        eZContentClassClassGroup::removeClassMembers( $deleteID, 1 );
-
-        // Fetch real version and remove it
-        $deleteClass->remove( true );
-
-        // Fetch temp version and remove it
-        $tempDeleteClass =& eZContentClass::fetch( $deleteID, true, 1 );
-        if ( $tempDeleteClass != null )
-            $tempDeleteClass->remove( true, 1 );
+        include_once( 'kernel/classes/ezcontentclassoperations.php' );
+        eZContentClassOperations::remove( $deleteID );
     }
     return $Module->redirectTo( '/class/classlist/' . $GroupID );
 }
