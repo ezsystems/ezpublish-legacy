@@ -54,23 +54,6 @@ class eZContentClassOperations
         if ( !$contentClass->isRemovable() )
             return false;
 
-        // Remove all objects of this class, fething them partially to avoid memory exhaustion.
-        $db =& eZDB::instance();
-        $classID = $contentClass->attribute( 'id' );
-        while ( true )
-        {
-            $resArray = $db->arrayQuery( "SELECT ezcontentobject.id FROM ezcontentobject WHERE ezcontentobject.contentclass_id='$classID'", array( 'length' => 50 ) );
-            if( !$resArray )
-                break;
-
-            foreach( $resArray as $row )
-            {
-                $objectID = $row['id'];
-                include_once( 'kernel/classes/ezcontentobjectoperations.php' );
-                eZContentObjectOperations::remove( $objectID );
-            }
-        }
-
         eZContentClassClassGroup::removeClassMembers( $classID, 0 );
         eZContentClassClassGroup::removeClassMembers( $classID, 1 );
 
