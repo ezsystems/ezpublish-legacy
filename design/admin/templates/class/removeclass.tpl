@@ -40,9 +40,9 @@
     <ul>
     {section show=$Classes.item.objectCount|gt( 0 )}
         {section show=$Classes.item.objectCount|eq( 1 )}
-            <li>{'Removing class <%1> will result in the removal of %2 object.'|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )|wash}</li>
+            <li>{"Removing class <%1> will result in the removal of %2 object and all it's sub-items."|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )|wash}</li>
         {section-else}
-            <li>{'Removing class <%1> will result in the removal of %2 objects.'|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )|wash}</li>
+            <li>{'Removing class <%1> will result in the removal of %2 objects and all their sub-items.'|i18n( 'design/admin/class/removeclass',, array( $Classes.item.className|wash, $Classes.item.objectCount ) )|wash}</li>
         {/section}
     {/section}
 
