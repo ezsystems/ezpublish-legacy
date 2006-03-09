@@ -305,15 +305,21 @@ class eZSubTreeHandler extends eZNotificationEventHandler
                                      $module );
 
         }
-        else if ( $http->hasPostVariable( 'RemoveRule_' . EZ_SUBTREE_NOTIFICATION_HANDLER_ID  ) )
+        else if ( $http->hasPostVariable( 'RemoveRule_' . EZ_SUBTREE_NOTIFICATION_HANDLER_ID  ) and
+                  $http->hasPostVariable( 'SelectedRuleIDArray_' . EZ_SUBTREE_NOTIFICATION_HANDLER_ID ) )
         {
+            $user =& eZUser::currentUser();
+            $userList = eZSubtreeNotificationRule::fetchList( $user->attribute( 'contentobject_id' ), false );
+            foreach ( $userList as $userRow )
+            {
+                $listID[] = $userRow['id'];
+            }
             $ruleIDList = $http->postVariable( 'SelectedRuleIDArray_' . EZ_SUBTREE_NOTIFICATION_HANDLER_ID  );
             foreach ( $ruleIDList as $ruleID )
             {
-                eZPersistentObject::removeObject( eZSubtreeNotificationRule::definition(), array( 'id' => $ruleID ) );
+                if ( in_array( $ruleID, $listID ) )
+                    eZPersistentObject::removeObject( eZSubtreeNotificationRule::definition(), array( 'id' => $ruleID ) );
             }
-            $user =& eZUser::currentUser();
-            $existingNodes =& eZSubtreeNotificationRule::fetchNodesForUserID( $user->attribute( 'contentobject_id' ), false );
         }
         else if ( $http->hasPostVariable( "BrowseActionName" ) and
                   $http->postVariable( "BrowseActionName" ) == "AddSubtreeSubscribingNode" and
