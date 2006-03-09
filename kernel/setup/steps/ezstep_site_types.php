@@ -116,14 +116,17 @@ class eZStepSiteTypes extends eZStepInstaller
         include_once( 'kernel/classes/ezpackage.php' );
         $package = eZPackage::fetch( $packageName, false, false, false );
 
-        if ( is_object( $package ) && $forceDownload )
+        if ( is_object( $package ) )
         {
-            $package->remove();
-        }
-        else
-        {
-            eZDebug::writeNotice( "Skipping download of package '$packageName': package already exists." );
-            return $package;
+            if ( $forceDownload )
+            {
+                $package->remove();
+            }
+            else
+            {
+                eZDebug::writeNotice( "Skipping download of package '$packageName': package already exists." );
+                return $package;
+            }
         }
 
         $archiveName = $this->downloadFile( $packageUrl, /* $outDir = */ eZStepSiteTypes::tempDir() );
