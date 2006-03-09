@@ -222,7 +222,7 @@ class eZPackageHandler
 
     /*!
         Helper function to process install errors.
-        Returns choosen action code.
+        \return choosen action code.
         If $resetError is false, array should be manually reset in handler.
     */
 

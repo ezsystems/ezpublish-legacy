@@ -1738,7 +1738,7 @@ class eZPackage
         $repositoryID = false;
         if ( isset( $parameters['repository_id'] ) )
             $repositoryID = $parameters['repository_id'];
-        $dbAvailable = false;
+        $dbAvailable = true;
         if ( isset( $parameters['db_available'] ) )
             $dbAvailable = $parameters['db_available'];
 

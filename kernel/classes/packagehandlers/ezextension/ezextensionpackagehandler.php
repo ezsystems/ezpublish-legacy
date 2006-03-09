@@ -143,7 +143,8 @@ class eZExtensionPackageHandler extends eZPackageHandler
         // Error: extension already exists.
         if ( file_exists( $extensionDir ) )
         {
-            $description = "Extension '$extensionName' already exists.";
+            $description = ezi18n( 'kernel/package', "Extension '%extensionname' already exists.",
+                                   false, array( '%extensionname' => $extensionName ) );
             $choosenAction = $this->errorChoosenAction( EZ_PACKAGE_EXTENSION_ERROR_EXISTS,
                                                         $installParameters, $description );
             switch( $choosenAction )
@@ -160,8 +161,8 @@ class eZExtensionPackageHandler extends eZPackageHandler
                 $installParameters['error'] = array( 'error_code' => EZ_PACKAGE_EXTENSION_ERROR_EXISTS,
                                                      'element_id' => $extensionName,
                                                      'description' => $description,
-                                                     'actions' => array( EZ_PACKAGE_EXTENSION_REPLACE => "Replace extension",
-                                                                         EZ_PACKAGE_EXTENSION_SKIP => 'Skip' ) );
+                                                     'actions' => array( EZ_PACKAGE_EXTENSION_REPLACE => ezi18n( 'kernel/package', "Replace extension" ),
+                                                                         EZ_PACKAGE_EXTENSION_SKIP => ezi18n( 'kernel/package', 'Skip' ) ) );
                 return false;
             }
         }

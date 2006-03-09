@@ -712,8 +712,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 $objectRemoteID = $objectNode->getAttribute( 'remote_id' );
                 $name = $objectNode->attributeValue( 'name' );
                 
-                eZDebug::writeNotice( "Uninstalling object '$name'" ) ;
-
                 if ( isset( $installParameters['error']['error_code'] ) && 
                      !$this->isErrorElement( $objectRemoteID, $installParameters ) )
                     continue;
@@ -737,9 +735,11 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                         {
                             $installParameters['error'] = array( 'error_code' => EZ_PACKAGE_CONTENTOBJECT_ERROR_MODIFIED,
                                                                  'element_id' => $objectRemoteID,
-                                                                 'description' => "Object '$name' has been modified since installation.\n Are you sure you want to delete it ?",
-                                                                 'actions' => array( EZ_PACKAGE_CONTENTOBJECT_DELETE => 'Delete',
-                                                                                     EZ_PACKAGE_CONTENTOBJECT_KEEP => 'Keep object' ) );
+                                                                 'description' => ezi18n( 'kernel/package',
+                                                                                          "Object '%objectname' has been modified since installation. Are you sure you want to remove it?",
+                                                                                          false, array( '%objectname' => $name ) ),
+                                                                 'actions' => array( EZ_PACKAGE_CONTENTOBJECT_DELETE => ezi18n( 'kernel/package', 'Remove' ),
+                                                                                     EZ_PACKAGE_CONTENTOBJECT_KEEP => ezi18n( 'kernel/package', 'Keep object' ) ) );
                             return false;
                         }
                     }
@@ -766,9 +766,12 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                         {
                             $installParameters['error'] = array( 'error_code' => EZ_PACKAGE_CONTENTOBJECT_ERROR_HAS_CHILDREN,
                                                                  'element_id' => $objectRemoteID,
-                                                                 'description' => "Node(s) containing object '$name' has(have) $childrenCount child nodes.\n Deleting this object will result in deleting of all child items. Are sure you want to delete it ?",
-                                                                 'actions' => array( EZ_PACKAGE_CONTENTOBJECT_DELETE => "Delete object and all child items including $childrenCount nodes",
-                                                                                     EZ_PACKAGE_CONTENTOBJECT_KEEP => 'Keep object' ) );
+                                                                 'description' => ezi18n( 'kernel/package',
+                                                                                          "Object '%objectname' has %childrencount sub-item(s) that will be removed.",
+                                                                                          false, array( '%objectname' => $name,
+                                                                                                        '%childrencount' => $childrenCount ) ),
+                                                                 'actions' => array( EZ_PACKAGE_CONTENTOBJECT_DELETE => ezi18n( 'kernel/package', "Remove object and it's sub-item(s)" ),
+                                                                                     EZ_PACKAGE_CONTENTOBJECT_KEEP => ezi18n( 'kernel/package', 'Keep object' ) ) );
                             return false;
                         }
                     }
