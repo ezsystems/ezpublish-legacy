@@ -10,3 +10,7 @@ Override site.ini, and add :
 [TimeZoneSettings]
 TimeZone=America/Antigua
 </code>
+
+*Notice: 
+This will not work on threaded web servers or on Windows.
+Use only with Apache 1.3 or 2.0 prefork on *nix.
