@@ -171,6 +171,30 @@ class eZTemplateCompiler
 
     /*!
      \static
+     \return true if template compilation should run in development mode.
+
+     When in development mode the system will perform additional checks, e.g. for
+     modification time of compiled file vs original source file.
+     This mode is quite useful for development since it requires less
+     clear-cache calls but has additional file checks and should be turned off
+     for live sites.
+    */
+    function isDevelopmentModeEnabled()
+    {
+        if ( isset( $GLOBALS['eZTemplateCompilerSettings']['development_mode'] ) and
+             $GLOBALS['eZTemplateCompilerSettings']['development_mode'] !== null )
+        {
+            return $GLOBALS['eZTemplateCompilerSettings']['development_mode'];
+        }
+
+        include_once( 'lib/ezutils/classes/ezini.php' );
+        $ini =& eZINI::instance();
+        $developmentModeEnabled = $ini->variable( 'TemplateSettings', 'DevelopmentMode' ) == 'enabled';
+        return $developmentModeEnabled;
+    }
+
+    /*!
+     \static
      \return true if template compilation should include debug accumulators.
     */
     function isAccumulatorsEnabled()
@@ -2380,7 +2404,13 @@ $rbracket
                                 $php->addVariable( "phpScript", $phpScriptArray[$node[10]], EZ_PHPCREATOR_VARIABLE_ASSIGNMENT, array('spacing' => $spacing ) );
                             }
 
-                            $php->addCodePiece( "\$resourceFound = false;\nif " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( $phpScriptText !== false and file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
+                            // The default is to only check if it exists
+                            $modificationCheckText = "file_exists( $phpScriptText )";
+                            if  ( eZTemplateCompiler::isDevelopmentModeEnabled() )
+                            {
+                                $modificationCheckText = "@filemtime( $phpScriptText ) > filemtime( $uriText )";
+                            }
+                            $php->addCodePiece( "\$resourceFound = false;\nif " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( $phpScriptText !== false and $modificationCheckText )\n{\n", array( 'spacing' => $spacing ) );
                         }
                         else
                         {
@@ -2390,7 +2420,13 @@ $rbracket
                             // Not sure where this should come from
 //                         if ( $resourceIndex > 0 )
 //                             $php->addCodePiece( "else " );
-                            $php->addCodePiece( "if " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( file_exists( $phpScriptText ) )\n{\n", array( 'spacing' => $spacing ) );
+                            // The default is to only check if it exists
+                            $modificationCheckText = "file_exists( $phpScriptText )";
+                            if  ( eZTemplateCompiler::isDevelopmentModeEnabled() )
+                            {
+                                $modificationCheckText = "@filemtime( $phpScriptText ) > filemtime( $uriText )";
+                            }
+                            $php->addCodePiece( "if " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( $modificationCheckText )\n{\n", array( 'spacing' => $spacing ) );
 
                         }
 
