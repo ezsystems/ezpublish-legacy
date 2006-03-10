@@ -4,5 +4,6 @@ hours = 16
 day = 23
 month = 2
 year = 2004
-weekday = 9
+weeknumber = 9
+weekday = 1
 yearday = 53
