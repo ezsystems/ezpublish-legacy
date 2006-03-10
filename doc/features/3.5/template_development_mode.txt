@@ -1,0 +1,20 @@
+*Title: Development mode for template engine
+
+*Incentive:
+Currently the developer must remove all compiled template files when a source
+file has been modified for it to be used in the web page. When all templates
+are cleared the system will need to compile them again which takes quite some
+time.
+
+*Documentation:
+A new INI setting in site.ini has been added, it can be found under the
+TemplateSettings group and is called DevelopmentMode. It is disabled by
+default and can be enabled by setting.
+
+DevelopmentMode=enabled
+
+After the setting is changed all compiled templates must be cleared, when
+they are recreated the code will contain the extra modification checks.
+
+Remember that this setting should not be used on live sites since it performs
+extra checking and can make the site slower.
