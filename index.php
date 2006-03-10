@@ -152,6 +152,14 @@ eZUpdateDebugSettings();
 // Set the different permissions/settings.
 $ini =& eZINI::instance();
 
+// Set correct site timezone
+$timezone = $ini->variable( "TimeZoneSettings", "TimeZone");
+if ( $timezone )
+{
+    putenv( "TZ=$timezone" );
+}
+
+
 list( $iniFilePermission, $iniDirPermission ) =
     $ini->variableMulti( 'FileSettings', array( 'StorageFilePermissions', 'StorageDirPermissions' ) );
 

@@ -1,0 +1,12 @@
+*Title: Timezone setting
+
+*Documentation:
+In order to run multiple installations of eZ publish on one server, using 
+different timezones, it's now possible to override the OS default timezone.
+
+*Example:
+Override site.ini, and add :
+<code>
+[TimeZoneSettings]
+TimeZone=America/Antigua
+</code>
