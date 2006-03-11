@@ -48,8 +48,7 @@
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/currencylist' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/currencylist' )}" onclick="ezjs_toggleCheckboxes( document.currencylist, 'DeleteCurrencyList[]' ); return false;" /></th>
-    <th class="tight">&nbsp;</th>
-	<th class="name">{'Name'|i18n( 'design/admin/shop/currencylist' )}</th>
+    <th class="name">{'Name'|i18n( 'design/admin/shop/currencylist' )}</th>
     <th class="class">{'Code'|i18n( 'design/admin/shop/currencylist' )}</th>
     <th class="class">{'Symbol'|i18n( 'design/admin/shop/currencylist' )}</th>
     <th class="class">{'Locale'|i18n( 'design/admin/shop/currencylist' )}</th>
@@ -58,6 +57,7 @@
     <th class="tight">{'Custom rate'|i18n( 'design/admin/shop/currencylist' )}</th>
     <th class="tight">{'Factor'|i18n( 'design/admin/shop/currencylist' )}</th>
     <th class="tight">{'Rate'|i18n( 'design/admin/shop/currencylist' )}</th>
+    <th class="tight">&nbsp;</th>
 </tr>
 
 {if is_set( $currency_names )|not}
@@ -72,8 +72,6 @@
 
     <tr class="{$bg_class_style}">
         <td><input type="checkbox" name="DeleteCurrencyList[]" value="{$currency.code}" title="{'Use these checkboxes to select items for removal. Click the "Remove selected" button to actually remove the selected items.'|i18n( 'design/admin/shop/currencylist' )|wash()}" /></td>
-        <td><a href={concat( 'shop/editcurrency/(currency)/', $currency.code)|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/shop/currencylist' )}" title="{"Edit '%currency_code' currency."|i18n( 'design/admin/shop/currencylist',, hash( '%currency_code', $currency.code ) )|wash}" /></a>
-        </td>
         <td>
             {if is_set( $currency_names[$currency.code] )}
     	        {$currency_names[$currency.code]}
@@ -93,6 +91,7 @@
         <td class="number"><input type="text" size="10" name="CurrencyList[{$currency.code}][custom_rate_value]" value="{$currency.custom_rate_value}" /></td>
         <td class="number"><input type="text" size="10" name="CurrencyList[{$currency.code}][rate_factor]" value="{$currency.rate_factor}" /></td>
         <td class="number">{$currency.rate_value}</td>
+        <td><a href={concat( 'shop/editcurrency/(currency)/', $currency.code)|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/shop/currencylist' )}" title="{"Edit '%currency_code' currency."|i18n( 'design/admin/shop/currencylist',, hash( '%currency_code', $currency.code ) )|wash}" /></a></td>
     </tr>
 
 {/foreach}

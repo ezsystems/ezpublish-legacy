@@ -44,6 +44,20 @@
 {* show list of products *}
 {if and( is_array( $product_list ), count( $product_list ) )}
 
+{def $preferred_currency_code = fetch( 'shop', 'preferred_currency' )
+     $currency = false()
+     $locale = false()
+     $symbol = false()}
+
+{if $preferred_currency_code}
+    {set $currency = fetch( 'shop', 'currency', hash( 'code', $preferred_currency_code ) )}
+{/if}
+
+{if $currency}
+    {set $symbol = $currency.symbol
+         $locale = $currency.locale}
+{/if}
+
 {* Items per page selector. *}
 <div class="context-toolbar">
 <div class="block">
@@ -85,7 +99,7 @@
 {foreach $product_list as $product sequence array( bglight, bgdark ) as $bg_class_style}
     <tr class="{$bg_class_style}">
         <td class="name"><a href={$product.path_identification_string|ezurl}>{$product.object.name|wash()}</a></td>
-        <td class="class">{if $price_attribute_identifier}{$product.data_map[$price_attribute_identifier].content.price}{else}0.00{/if}</td>
+        <td class="class">{if $price_attribute_identifier}{$product.data_map[$price_attribute_identifier].content.inc_vat_price|l10n('currency', $locale, $symbol )}{else}0.00{/if}</td>
     </tr>
 {/foreach}
 
@@ -107,7 +121,7 @@
 {/if}
 {* DESIGN: Content END *}</div></div></div>
 
-{* Button bar for remove and add currency. *}
+{* Button bar for filter and sorting. *}
 <div class="controlbar">
 
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">

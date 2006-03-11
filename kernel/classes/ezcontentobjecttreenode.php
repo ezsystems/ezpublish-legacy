@@ -658,8 +658,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             if( is_object( $dataType ) && $dataType->customSorting() )
                             {
                                 $params = array();
-                                $params['contentobject_attribute_id'] = "$contentAttributeTableAlias.id";
-                                $params['contentobject_attribute_version'] = "$contentAttributeTableAlias.version";
+                                $params['contentobject_attr_id'] = "$contentAttributeTableAlias.id";
+                                $params['contentobject_attr_version'] = "$contentAttributeTableAlias.version";
                                 $params['table_alias_suffix'] = "$attributeJoinCount";
 
                                 $sql = $dataType->customSortingSQL( $params );

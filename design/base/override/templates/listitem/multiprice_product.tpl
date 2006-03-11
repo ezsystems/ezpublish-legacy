@@ -1,5 +1,4 @@
 {* Multiprice Product - List item view *}
-<h2>Multiprice Product - List item view</h2>
 <div class="content-view-listitem">
     <div class="class-product">
 
