@@ -3,3 +3,5 @@ Changes from 3.5.9 to 3.5.10
 *Kernel:
 
 *Bugfixes:
+- Fixed bug #7954: Match[section] does not work with /node/view/pdf.tpl 
+  and /content/pdf/<node_id>.
