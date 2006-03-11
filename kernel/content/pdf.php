@@ -268,6 +268,7 @@ function contentPDFGenerate( $cacheFile, &$node, $object = false, $viewCacheEnab
 
     $res =& eZTemplateDesignResource::instance();
     $res->setKeys( array( array( 'object', $node->attribute( 'contentobject_id' ) ),
+                          array( 'section', $object->attribute( 'section_id' ) ),
                           array( 'node', $node->attribute( 'node_id' ) ),
                           array( 'parent_node', $node->attribute( 'parent_node_id' ) ),
                           array( 'class', $object->attribute( 'contentclass_id' ) ),
