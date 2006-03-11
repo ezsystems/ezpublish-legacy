@@ -43,6 +43,9 @@ Changes from 3.8.0alpha1 to 3.8.0alpha2
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 15021 )
 - Fixed bug #7908: /shop/statistics error in Norwegian translation.
   ( Merged from stable/3.5 ( 3.5.9 ) rev. 337)
+- Fixed bug #7954: Match[section] does not work with /node/view/pdf.tpl 
+  and /content/pdf/<node_id>.
+  ( Merged from stable/3.5 rev. 15077, stable/3.6 rev. 15078, stable/3.7 rev. 15079 )
     
 eZTemplate:
 - Added a 'development' mode for the compiler. When enabled there is no need
