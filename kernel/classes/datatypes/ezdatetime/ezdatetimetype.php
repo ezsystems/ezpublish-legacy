@@ -321,7 +321,8 @@ class eZDateTimeType extends eZDataType
     function title( &$contentObjectAttribute )
     {
         $locale =& eZLocale::instance();
-        return $locale->formatDateTime( $contentObjectAttribute->attribute( "data_int" ) );
+        $retVal = $contentObjectAttribute->attribute( "data_int" ) == 0 ? '' : $locale->formatDateTime( $contentObjectAttribute->attribute( "data_int" ) );
+        return $retVal;
     }
 
     function hasObjectAttributeContent( &$contentObjectAttribute )

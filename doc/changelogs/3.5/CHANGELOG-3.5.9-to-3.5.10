@@ -5,3 +5,6 @@ Changes from 3.5.9 to 3.5.10
 *Bugfixes:
 - Fixed bug #7954: Match[section] does not work with /node/view/pdf.tpl 
   and /content/pdf/<node_id>.
+- Fixed bug #7939: Empty date as object name pattern for a class
+  -> Thursday 01 January 1970
+  ( Merged from stable/3.7 ( 3.7.5 ) rev. 15081 )
