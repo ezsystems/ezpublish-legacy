@@ -53,7 +53,7 @@ class eZMultiPriceType extends eZDataType
     function eZMultiPriceType()
     {
         $this->eZDataType( EZ_DATATYPESTRING_MULTIPRICE, ezi18n( 'kernel/classes/datatypes', 'Multi-price', 'Datatype name' ),
-                           array() );
+                            array( 'serialize_supported' => true ) );
     }
 
     /*!
@@ -367,6 +367,33 @@ class eZMultiPriceType extends eZDataType
         $defaultCurrency =& $attributeParametersNode->elementByName( 'default-currency' );
         $currencyCode = $defaultCurrency->attributeValue( 'code' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_CURRENCY_CODE_FIELD, $currencyCode );
+    }
+
+
+    /*!
+     \reimp
+    */
+    function serializeContentObjectAttribute( &$package, &$objectAttribute )
+    {
+        $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
+
+        $multiprice =& $objectAttribute->content();
+        $domDocument = $multiprice->DOMDocument();
+
+        $node->appendChild( $domDocument->root() );
+
+        return $node;
+    }
+
+    /*!
+     \reimp
+    */
+    function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
+    {
+        $rootNode = $attributeNode->firstChild();
+
+        $multiprice =& $objectAttribute->content();
+        $multiprice->decodeDOMTree( $rootNode );
     }
 
     function customSorting()

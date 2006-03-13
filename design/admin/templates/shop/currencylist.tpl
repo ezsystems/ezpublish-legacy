@@ -127,10 +127,17 @@
             <input class="button" type="submit" name="AddCurrencyButton" value="{'Add new'|i18n( 'design/admin/shop/currencylist' )}" title="{'Add new currnecy to the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
         </div>
         <div class="right">
+            {* Update auto rates button *}
+            {def $exchangeRatesUpdateHandler = ezini( 'ExchangeRatesSettings', 'ExchangeRatesUpdateHandler', 'shop.ini' )}
+            {if $exchangeRatesUpdateHandler}
+                <input class="button" type="submit" name="UpdateAutoRatesButton" value="{'Update auto rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update auto rates.'|i18n( 'design/admin/shop/currencylist' )}" />
+            {else}
+                <input class="button-disabled" type="submit" disabled="disabled" name="UpdateAutoRatesButton" value="{'Update auto rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update auto rates.'|i18n( 'design/admin/shop/currencylist' )}" />
+            {/if}
+            {* Set currency rate button *}
+            <input class="button" type="submit" name="SetRatesButton" value="{'Set custom rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Set custom rates.'|i18n( 'design/admin/shop/currencylist' )}" />
             {* Update status button *}
             <input class="button" type="submit" name="UpdateStatusButton" value="{'Update status'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update status.'|i18n( 'design/admin/shop/currencylist' )}" />
-            {* Set currency rate button *}
-            <input class="button" type="submit" name="SetRatesButton" value="{'Set rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Set rates.'|i18n( 'design/admin/shop/currencylist' )}" />
             {* Update autoprices button *}
             <input class="button" type="submit" name="UpdateAutopricesButton" value="{'Update autoprices'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update autoprices.'|i18n( 'design/admin/shop/currencylist' )}" />
         </div>

@@ -368,6 +368,41 @@ class eZHTTPTool
 
     /*!
      \static
+    */
+    function parseHTTPResponse( &$response, &$header, &$body )
+    {
+        if ( $response )
+        {
+            $crlf = "\r\n";
+
+            // split header and body
+            $pos = strpos( $response, $crlf . $crlf );
+            if ( $pos !== false )
+            {
+                $headerBuf = substr( $response, 0, $pos );
+                $body = substr( $response, $pos + 2 * strlen( $crlf ) );
+
+                // parse headers
+                $header = array();
+                $lines = explode( $crlf, $headerBuf );
+                foreach ( $lines as $line )
+                {
+                    if ( ( $pos = strpos( $line, ':') ) !== false )
+                    {
+                        $header[strtolower( trim( substr( $line, 0, $pos ) ) )] = trim( substr( $line, $pos+1 ) );
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    /*!
+     \static
      Sends a redirect path to the browser telling it to
      load the new path.
      By default only \a $path is required, other parameters

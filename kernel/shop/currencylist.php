@@ -101,6 +101,11 @@ else if ( $module->isCurrentAction( 'UpdateAutoprices' ) )
 
     reloadWithOffset( $module );
 }
+else if ( $module->isCurrentAction( 'UpdateAutoRates' ) )
+{
+    eZShopFunctions::updateAutoRates();
+    reloadWithOffset( $module );
+}
 
 
 switch ( eZPreferences::value( 'currencies_list_limit' ) )

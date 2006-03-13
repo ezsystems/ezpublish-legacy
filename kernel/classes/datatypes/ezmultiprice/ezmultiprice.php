@@ -563,6 +563,52 @@ class eZMultiPrice extends eZSimplePrice
         return $this->preferredCurrency();
     }
 
+    function DOMDocument()
+    {
+        $doc = new eZDOMDocument( 'Multiprice' );
+        $root = $doc->createElementNode( 'ezmultiprice' );
+        $doc->setRoot( $root );
+
+        $priceListNode = $doc->createElementNode( 'price-list' );
+
+        $priceList =& $this->attribute( 'price_list' );
+        foreach ( $priceList as $price )
+        {
+            $currencyCode =& $price->attribute( 'currency_code' );
+            $value =& $price->attribute( 'value' );
+            $type =& $price->attribute( 'type' );
+
+            $priceNode = $doc->createElementNode( 'price' );
+
+            $priceNode->appendAttribute( eZDOMDocument::createAttributeNode( 'currency-code', $currencyCode ) );
+            $priceNode->appendAttribute( eZDOMDocument::createAttributeNode( 'value', $value ) );
+            $priceNode->appendAttribute( eZDOMDocument::createAttributeNode( 'type', $type ) );
+
+            $priceListNode->appendChild( $priceNode );
+            unset( $priceNode );
+        }
+
+        $root->appendChild( $priceListNode );
+
+        return $doc;
+    }
+
+    function decodeDOMTree( $rootNode )
+    {
+        $priceNodes = $rootNode->elementChildrenByName( 'price-list' );
+        if ( $priceNodes )
+        {
+            foreach( $priceNodes as $priceNode )
+            {
+                $currencyCode = $priceNode->attributeValue( 'currency-code');
+                $value = $priceNode->attributeValue( 'value');
+                $type = $priceNode->attributeValue( 'type');
+
+                $this->setPriceByCurrency( $currencyCode, $value, $type );
+            }
+        }
+    }
+
     /// \privatesection
     var $PriceList;
     var $CurrencyList;

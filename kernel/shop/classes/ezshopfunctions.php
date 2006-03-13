@@ -273,6 +273,62 @@ class eZShopFunctions
 
         return $converter->convertFromLocaleCurrency( $toCurrency, $value, true );
     }
+
+    function updateAutoRates()
+    {
+        include_once( 'kernel/shop/classes/exchangeratesupdatehandlers/ezexchangeratesupdatehandler.php' );
+        $handler = eZExchangeRatesUpdateHandler::create();
+        if ( $handler )
+        {
+            $error = false;
+            if ( $handler->requestRates( $error ) )
+            {
+                $rateList = $handler->rateList();
+                if ( is_array( $rateList ) && count( $rateList ) > 0 )
+                {
+                    // update rates for existing currencies
+                    $baseCurrencyCode = $handler->baseCurrency();
+
+                    include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+
+                    $currencyList = eZCurrencyData::fetchList();
+                    if ( is_array( $currencyList ) && count( $currencyList ) > 0 )
+                    {
+                        foreach ( $currencyList as $currency )
+                        {
+                            $currencyCode = $currency->attribute( 'code' );
+                            if ( isset( $rateList[$currencyCode] ) )
+                                $rateValue = $rateList[$currencyCode];
+                            else if ( $currencyCode === $baseCurrencyCode )
+                                $rateValue = '1.0000';
+                            else
+                                $rateValue = false;
+
+                            if ( $rateValue !== false )
+                            {
+                                $currency->setAttribute( 'auto_rate_value', $rateValue );
+                                $currency->store();
+                            }
+                        }
+
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                eZDebug::writeError( "$error",
+                                     'eZShopFunctions::updateAutoRates' );
+            }
+        }
+        else
+        {
+            eZDebug::writeError( 'Unable to create handler to update auto rates',
+                                 'eZShopFunctions::updateAutoRates' );
+        }
+
+        return false;
+    }
 }
 
 ?>
