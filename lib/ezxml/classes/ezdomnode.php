@@ -74,6 +74,7 @@ class eZDOMNode
         $this->Content =& $this->content;
         $this->Name =& $this->tagname;
         $this->Type =& $this->type;
+        $this->nodeName =& $this->tagname;
     }
 
     /*!
@@ -1083,7 +1084,10 @@ class eZDOMNode
     var $Name = false;
 
     /// tagname, added for DOM XML compatibility.
-    var $tagname = false;
+    var $tagname = null;
+    
+    /// DOM W3C compatibility
+    var $nodeName = null;
 
     /// Type of the DOM node. ElementNode=1, AttributeNode=2, TextNode=3, CDATASectionNode=4
     var $type;
