@@ -3,7 +3,7 @@
 <div id="package">
 
 {*PD: {$persistent_data|attribute(show)*}
-<h2>{'Installing package'|i18n('design/standard/package')} {$package.name}.</h2>
+<h2>{'Installing package'|i18n('design/standard/package')} '{$package.name}'.</h2>
 
 {def $path=concat( 'package/install/', $package.name )}
 <form method="post" action={$path|ezurl}>
@@ -20,7 +20,7 @@
             {set $i=inc($i)}
         {/foreach}
         </ul>
-        <input class="checkbox" id="RememberAction" type="checkbox" name="RememberAction"/><label for="RememberAction">Use this choice for all elements of the same type</label>
+        <label for="RememberAction"><input class="checkbox" id="RememberAction" type="checkbox" name="RememberAction"/>Use this choice for all the items</label>
         </div>
     {else}
         <p>Element with ID '{$error.element_id}' will not be installed.</p>
