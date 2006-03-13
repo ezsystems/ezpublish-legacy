@@ -196,13 +196,23 @@ class eZBinaryFile extends eZPersistentObject
         if ( isset( $handlerSettings[$this->MimeType] ) )
         {
             // Check if plugin exists
-
-            if ( file_exists( 'kernel/classes/datatypes/ezbinaryfile/plugins/ez' .  $handlerSettings[$this->MimeType] . 'parser.php' ) )
+            if ( eZExtension::findExtensionType( array( 'ini-name' => 'binaryfile.ini',
+                                                    'repository-group' => 'HandlerSettings',
+                                                    'repository-variable' => 'Repositories',
+                                                    'extension-group' => 'HandlerSettings',
+                                                    'extension-variable' => 'ExtensionRepositories',
+                                                    'type-directory' => false,
+                                                    'type' => $handlerSettings[$this->MimeType],
+                                                    'subdir' => 'plugins',
+                                                    'extension-subdir' => 'plugins',
+                                                    'suffix-name' => 'parser.php' ),
+                                             $out ) )
             {
-                include_once( 'kernel/classes/datatypes/ezbinaryfile/plugins/ez' .  $handlerSettings[$this->MimeType] . 'parser.php' );
+                $filePath = $out['found-file-path'];
+                include_once( $filePath );
+                $class = $handlerSettings[$this->MimeType] . 'Parser';
 
-                $parserClass = 'ez' . $handlerSettings[$this->MimeType] . 'parser';
-                $parserObject = new $parserClass();
+                $parserObject = new $class( );
                 $fileInfo = $this->storedFileInfo();
                 if ( file_exists( $fileInfo['filepath'] ) )
                 {

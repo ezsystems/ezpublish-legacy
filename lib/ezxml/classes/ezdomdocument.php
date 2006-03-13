@@ -567,6 +567,37 @@ class eZDOMDocument
     }
 
     /*!
+      Adds the URL to a XSLT stylesheet to the document.
+
+      \param $url A vaild URL or array of URLs
+    */
+    function setStylesheet( $url )
+    {
+        if ( is_array( $url ) )
+            $this->stylesheet = $url;
+        if ( $url )
+            $this->stylesheet = array( $url );
+    }
+
+    /*!
+      Adds the URL to a DTD to the document.
+
+      \param $url A vaild URL
+      \param $alias An alias representing the document, for example
+      \param "-//My Company//DTD XMLEXPORT V 1.0//EN"
+      \param $explict Declare if DTD must be used.
+    */
+    function setDocTypeDefinition( $url = false, $alias = false, $explict = false )
+    {
+        if ( $url or $alias )
+        {
+            $this->dtd['url'] = $url;
+            $this->dtd['alias'] = $alias;
+            $this->dtd['explict'] = $explict;
+        }
+    }
+
+    /*!
       Returns a XML string representation of the DOM document.
 
       \param $charset The name of the output charset or \c false to use UTF-8 (default in XML)
@@ -593,6 +624,23 @@ class eZDOMDocument
 
         if ( get_class( $this->Root ) == "ezdomnode" )
         {
+            if ( isset( $this->dtd ) )
+            {
+                $text .= '<!DOCTYPE ' . $this->Root->name();
+                if ( $explict )
+                    $text .= ' SYSTEM ';
+                else
+                    $text .= ' PUBLIC ';
+                if ( $this->dtd['alias'] )
+                    $text .= '"' . $this->dtd['alias'] . '" "' . $this->dtd['url'] . '"';
+                else
+                    $text .= '"' . $this->dtd['url'] . '"';
+                $text .=  ">\n";
+            }
+            foreach ( $this->stylesheet as $stylesheet )
+            {
+                $text .= '<?xml-stylesheet type="text/xsl" href="' . $stylesheet . '"?>' . "\n";
+            }
             $text .= $this->Root->toString( 0, $charset );
         }
 

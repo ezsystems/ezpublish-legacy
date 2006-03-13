@@ -270,20 +270,24 @@ class eZBinaryFileHandler
         {
             $handlerDirectory = $identifier;
             $handlerFilename = $identifier . "handler.php";
-            $repositories = eZBinaryFileHandler::repositories();
-            foreach ( $repositories as $repository )
+            if ( eZExtension::findExtensionType( array( 'ini-name' => 'file.ini',
+                                                    'repository-group' => 'BinaryFileSettings',
+                                                    'repository-variable' => 'Repositories',
+                                                    'extension-group' => 'BinaryFileSettings',
+                                                    'extension-variable' => 'ExtensionRepositories',
+                                                    'type-directory' => true,
+                                                    'type' => $identifier,
+                                                    'subdir' => 'binaryhandlers',
+                                                    'extension-subdir' => 'binaryhandlers',
+                                                    'suffix-name' => 'handler.php' ),
+                                             $out ) )
             {
-                $file = eZDir::path( array( $repository, $handlerDirectory, $handlerFilename ) );
-                if ( file_exists( $file ) )
-                {
-                    include_once( $file );
-                    $classname = $identifier . "handler";
-                    $instance = new $classname();
-                    break;
-                }
-                else
-                    eZDebug::writeError( "Could not find binary file handler '$identifier'", 'eZBinaryFileHandler::instance' );
+                include_once( $out['found-file-path'] );
+                $classname = $identifier . "handler";
+                $instance = new $classname();
             }
+            else
+                eZDebug::writeError( "Could not find binary file handler '$identifier'", 'eZBinaryFileHandler::instance' );
         }
         return $instance;
     }

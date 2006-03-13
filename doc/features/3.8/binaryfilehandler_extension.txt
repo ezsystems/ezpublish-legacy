@@ -1,0 +1,12 @@
+*Title: Metadata Extension
+
+*Documentation:
+A list of extensions which have binaryhandlers
+It's common to create a settings/file.ini.append.php file
+in your extension and add the extension name to automatically
+get handlers from the extension when it's turned on.
+Handlers need to be placed in the extension subdir "binaryhandlers".
+
+*Examples
+A working example can be found under
+http://pubsvn.ez.no/community/trunk/extension/antivirus/

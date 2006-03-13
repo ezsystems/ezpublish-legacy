@@ -49,7 +49,14 @@ Changes from 3.8.0alpha1 to 3.8.0alpha2
 - Fixed bug #7939: Empty date as object name pattern for a class
   -> Thursday 01 January 1970
   ( Merged from stable/3.7 ( 3.7.5 ) rev. 15081 )
-    
+
+Kernel:
+- Added Binaryfilehandler extension support.
+- Added Metadataparser extension support.
+
+eZXML:
+- Added XSLT and DTD definition support.
+
 eZTemplate:
 - Added a 'development' mode for the compiler. When enabled there is no need
   to clear the compiled templates when template code is modified.
