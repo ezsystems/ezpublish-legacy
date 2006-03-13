@@ -167,7 +167,7 @@ class eZContentObjectPackageInstaller extends eZPackageInstallationHandler
                                                 'description_template' => 'design:package/installers/ezcontentobject/browse_topnode.tpl',
                                                 'from_page' => '/package/install',
                                                 'persistent_data' => array( 'PackageStep' => $http->postVariable( 'PackageStep' ),
-                                                                            'InstallItemID' => $http->postVariable( 'InstallItemID' ),
+                                                                            'InstallerType' => $http->postVariable( 'InstallerType' ),
                                                                             'InstallStepID' => $http->postVariable( 'InstallStepID' ),
                                                                             'ReturnBrowse_' . $topNodeArrayKey => 1 ) ),
                                          $module );
