@@ -4976,6 +4976,11 @@ WHERE
         if ( $parentNodeRemoteID !== false )
         {
             $parentNode = eZContentObjectTreeNode::fetchByRemoteID( $parentNodeRemoteID );
+            if ( !$parentNode )
+            {
+                eZDebug::writeError( "Can't fetch parent node with remote ID = $parentNodeRemoteID", 'eZContentObjectTreeNode::unserialize()' );
+                return false;
+            }
             $parentNodeID = $parentNode->attribute( 'node_id' );
         }
         else

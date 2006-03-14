@@ -79,6 +79,8 @@ elseif ( $module->isCurrentAction( 'InstallPackage' ) )
 elseif ( $module->isCurrentAction( 'HandleError' ) )
 {
     $persistentData['doItemInstall'] = true;
+
+    // Choosing error action
     if ( $module->hasActionParameter( 'ActionID' ) )
     {
         $choosenAction = $module->actionParameter( 'ActionID' );
@@ -92,6 +94,11 @@ elseif ( $module->isCurrentAction( 'HandleError' ) )
                 $persistentData['error_default_actions'][$itemType] = array();
             $persistentData['error_default_actions'][$itemType][$errorCode] = $choosenAction;
         }
+    }
+    elseif ( !isset( $persistentData['error']['error_code'] ) )
+    {
+        // If this is an unhandled error, we are skipping this item
+        $currentItem++;
     }
 }
 elseif ( $module->isCurrentAction( 'PackageStep' ) && !$persistentData['doItemInstall'] )

@@ -40,9 +40,9 @@
 define( 'EZ_PACKAGE_CONTENTOBJECT__MAX_LISTED_OBJECTS_NUMBER', 30 );
 
 // If number of objects in the package is bigger than this constant,
-// they are stored in separate files to prevent lack of memory problems.
+// they are stored in separate files to prevent memory overflow.
 // 'null' means always use separate files
-define( 'EZ_PACKAGE_CONTENTOBJECT__STORE_OBJECTS_TO_SEPARATE_FILES_THRESHOLD', null );
+define( 'EZ_PACKAGE_CONTENTOBJECT__STORE_OBJECTS_TO_SEPARATE_FILES_THRESHOLD', 100 );
 
 define( 'EZ_PACKAGE_CONTENTOBJECT__INSTALL_OBJECTS_ERROR_RANGE_FROM', 1 );
 define( 'EZ_PACKAGE_CONTENTOBJECT__INSTALL_OBJECTS_ERROR_RANGE_TO', 100 );
@@ -362,7 +362,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
             {
                 $objectListNode->appendChild( $objectNode );
             }
-            unset( $objectList );
+            unset( $objectNode );
         }
 
         return $objectListNode;
@@ -825,6 +825,11 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                      !$this->isErrorElement( $objectRemoteID, $installParameters ) )
                     continue;
 
+                if ( isset( $object ) )
+                {
+                    eZContentObject::clearCache( $object->attribute( 'id' ) );
+                    unset( $object );
+                }
                 $object = eZContentObject::fetchByRemoteID( $objectRemoteID );
     
                 if ( $object !== null )
@@ -869,7 +874,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
                         if ( $choosenAction == EZ_PACKAGE_CONTENTOBJECT_KEEP )
                         {
-                                continue;
+                            continue;
                         }
                         if ( $choosenAction != EZ_PACKAGE_CONTENTOBJECT_DELETE )
                         {
@@ -895,6 +900,8 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                 {
                     eZDebug::writeNotice( "Can't uninstall object '$name': object not found", 'eZContentObjectPackageHandler::uninstall' );
                 }
+
+                unset( $realObjectNode );
             }
         }
         return true;
@@ -980,14 +987,16 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                  !$this->isErrorElement( $realObjectNode->attributeValue( 'remote_id' ), $installParameters ) )
                 continue;
 
-            $result = eZContentObject::unserialize( $this->Package, $realObjectNode, $installParameters, $userID, $handlerType );
-            if ( !$result )
+            $newObject = eZContentObject::unserialize( $this->Package, $realObjectNode, $installParameters, $userID, $handlerType );
+            if ( !$newObject )
                 return false;
+
+            eZContentObject::clearCache( $newObject->attribute( 'id' ) );
+            unset( $newObject );
+            unset( $realObjectNode );
 
             if ( isset( $installParameters['error'] ) && count( $installParameters['error'] ) )
                 $installParameters['error'] = array();
-
-            unset( $realObjectNode );
         }
 
         return true;

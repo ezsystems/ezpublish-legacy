@@ -20,13 +20,13 @@
             {set $i=inc($i)}
         {/foreach}
         </ul>
-        <label for="RememberAction"><input class="checkbox" id="RememberAction" type="checkbox" name="RememberAction"/>Use this choice for all the items</label>
+        <label for="RememberAction"><input class="checkbox" id="RememberAction" type="checkbox" name="RememberAction"/>{'Use this choice for all items'|i18n('design/standard/package')}</label>
         </div>
     {else}
         <p>Element with ID '{$error.element_id}' will not be installed.</p>
     {/if}
 {else}
-    <h3>{'Unhandled installation error occured.'|i18n('design/standard/package')}</h3>
+    <h3>{'Unhandled installation error has occured.'|i18n('design/standard/package')}</h3>
 {/if}
     <div class="buttonblock">
         <input class="button" type="submit" name="HandleError" value="{'Continue'|i18n('design/standard/package')}" />
