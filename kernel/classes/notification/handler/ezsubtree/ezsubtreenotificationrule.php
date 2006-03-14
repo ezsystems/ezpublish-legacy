@@ -166,7 +166,7 @@ class eZSubtreeNotificationRule extends eZPersistentObject
                        ezcontentobject_tree user_tree,
                        ezcontentobject_tree user_node,
                        ezpolicy policy
-                  WHERE subtree_rule.node_id IN ( ' . implode( ', ', $nodeIDList ) . ' ) AND
+                  WHERE subtree_rule.node_id IN ( ' . $db->implodeWithTypeCast( ', ', $nodeIDList, 'int' ) . ' ) AND
                         user_node.contentobject_id=subtree_rule.user_id AND
                         user_node.path_string like ' . $concatString . " AND
                         user_role.contentobject_id=user_tree.contentobject_id AND
@@ -255,8 +255,8 @@ class eZSubtreeNotificationRule extends eZPersistentObject
             return array();
         }
 
-        $nodeIDWhereString = implode( ',', $nodeIDList );
-        $userIDWhereString = implode( ',', $acceptedUserArray );
+        $nodeIDWhereString = $db->implodeWithTypeCast( ', ', $nodeIDList, 'int' );
+        $userIDWhereString = $db->implodeWithTypeCast( ', ', $acceptedUserArray, 'int' );
         $rules =& $db->arrayQuery( "SELECT rule.user_id, rule.use_digest, ezuser.email as address
                                       FROM ezsubtree_notification_rule rule, ezuser
                                       WHERE rule.user_id=ezuser.contentobject_id AND
