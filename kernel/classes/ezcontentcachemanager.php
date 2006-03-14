@@ -49,7 +49,10 @@ define( 'EZ_VCSC_CLEAR_NODE_CACHE'      , 1 );
 define( 'EZ_VCSC_CLEAR_PARENT_CACHE'    , 2 );
 define( 'EZ_VCSC_CLEAR_RELATING_CACHE'  , 4 );
 define( 'EZ_VCSC_CLEAR_KEYWORD_CACHE'   , 8 );
-define( 'EZ_VCSC_CLEAR_ALL_CACHE'       , 15 );
+define( 'EZ_VCSC_CLEAR_SIBLINGS_CACHE'  , 16 );
+define( 'EZ_VCSC_CLEAR_ALL_CACHE'       , 31 );
+define( 'EZ_VCSC_CLEAR_DEFAULT'         , 15   ); // EZ_VCSC_CLEAR_NODE_CACHE and EZ_VCSC_CLEAR_PARENT_CACHE and EZ_VCSC_CLEAR_RELATING_CACHE and EZ_VCSC_CLEAR_KEYWORD_CACHE
+
 
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'lib/ezutils/classes/ezini.php' );
@@ -192,6 +195,29 @@ class eZContentCacheManager
 
     /*
      \static
+     For each node in \a $nodeList finds its sibling nodes and adds its ids to
+     the \a $nodeIDList
+    */
+    function appendSiblingsNodeIDs( &$nodeList, &$nodeIDList )
+    {
+        $params = array( 'Depth' => 1,
+                         'AsObject' => false );
+        foreach ( array_keys( $nodeList ) as $nodeKey )
+        {
+            $node =& $nodeList[$nodeKey];
+            $siblingNodeList =& eZContentObjectTreeNode::subTree( $params, $node->attribute( 'parent_node_id' ) );
+            if ( count( $siblingNodeList ) > 0 )
+            {
+                foreach ( array_keys( $siblingNodeList ) as $siblingKey )
+                {
+                    $nodeIDList[] = $siblingNodeList[$siblingKey]['node_id'];
+                }
+            }
+        }
+    }
+
+    /*
+     \static
      Reads 'viewcache.ini' file and determines relation between
      \a $classID and another class.
 
@@ -223,42 +249,70 @@ class eZContentCacheManager
                 {
                     $type = $ini->variable( $classID, 'ClearCacheMethod' );
 
-                    if ( $type == 'clear_all_caches' )
+                    if ( is_array( $type ) )
                     {
-                        $info['clear_cache_type'] = EZ_VCSC_CLEAR_ALL_CACHE;
+                        if ( in_array( 'all', $type ) )
+                        {
+                            $info['clear_cache_type'] = EZ_VCSC_CLEAR_ALL_CACHE;
+                        }
+                        else
+                        {
+                            if ( in_array( 'object', $type ) )
+                                $info['clear_cache_type'] |= EZ_VCSC_CLEAR_NODE_CACHE;
+
+                            if ( in_array( 'parent', $type ) )
+                                $info['clear_cache_type'] |= EZ_VCSC_CLEAR_PARENT_CACHE;
+
+                            if ( in_array( 'relating', $type ) )
+                                $info['clear_cache_type'] |= EZ_VCSC_CLEAR_RELATING_CACHE;
+
+                            if ( in_array( 'keyword', $type ) )
+                                $info['clear_cache_type'] |= EZ_VCSC_CLEAR_KEYWORD_CACHE;
+
+                            if ( in_array( 'siblings', $type ) )
+                                $info['clear_cache_type'] |= EZ_VCSC_CLEAR_SIBLINGS_CACHE;
+                        }
                     }
                     else
                     {
-                        if ( $type == 'clear_object_caches_only' ||
-                             $type == 'clear_object_and_parent_nodes_caches' ||
-                             $type == 'clear_object_and_relating_objects_caches' )
+                        // depricated
+                        if ( $type == 'clear_all_caches' )
                         {
-                            $info['clear_cache_type'] |= EZ_VCSC_CLEAR_NODE_CACHE;
+                            $info['clear_cache_type'] = EZ_VCSC_CLEAR_ALL_CACHE;
                         }
-
-                        if ( $type == 'clear_object_and_parent_nodes_caches' ||
-                             $type == 'clear_parent_nodes_caches_only' ||
-                             $type == 'clear_parent_nodes_and_relating_caches' )
+                        else
                         {
-                            $info['clear_cache_type'] |= EZ_VCSC_CLEAR_PARENT_CACHE;
-                        }
+                            if ( $type == 'clear_object_caches_only' ||
+                                 $type == 'clear_object_and_parent_nodes_caches' ||
+                                 $type == 'clear_object_and_relating_objects_caches' )
+                            {
+                                $info['clear_cache_type'] |= EZ_VCSC_CLEAR_NODE_CACHE;
+                            }
 
-                        if ( $type == 'clear_object_and_relating_objects_caches' ||
-                             $type == 'clear_parent_nodes_and_relating_caches' ||
-                             $type == 'clear_relating_caches_only' )
-                        {
-                            $info['clear_cache_type'] |= EZ_VCSC_CLEAR_RELATING_CACHE;
-                        }
+                            if ( $type == 'clear_object_and_parent_nodes_caches' ||
+                                 $type == 'clear_parent_nodes_caches_only' ||
+                                 $type == 'clear_parent_nodes_and_relating_caches' )
+                            {
+                                $info['clear_cache_type'] |= EZ_VCSC_CLEAR_PARENT_CACHE;
+                            }
 
-                        if ( $type == 'clear_keyword_caches_only' )
-                        {
-                            $info['clear_cache_type'] |= EZ_VCSC_CLEAR_KEYWORD_CACHE;
+                            if ( $type == 'clear_object_and_relating_objects_caches' ||
+                                 $type == 'clear_parent_nodes_and_relating_caches' ||
+                                 $type == 'clear_relating_caches_only' )
+                            {
+                                $info['clear_cache_type'] |= EZ_VCSC_CLEAR_RELATING_CACHE;
+                            }
+
+                            if ( $type == 'clear_keyword_caches_only' )
+                            {
+                                $info['clear_cache_type'] |= EZ_VCSC_CLEAR_KEYWORD_CACHE;
+                            }
                         }
                     }
                 }
                 else
                 {
-                    $info['clear_cache_type'] = EZ_VCSC_CLEAR_ALL_CACHE;
+                    $info['clear_cache_type'] = EZ_VCSC_CLEAR_DEFAULT;
                 }
 
                 $info['object_filter'] = array();
@@ -268,6 +322,7 @@ class eZContentCacheManager
                 }
             }
         }
+
         return $info;
     }
 
@@ -284,6 +339,7 @@ class eZContentCacheManager
                             - EZ_VCSC_CLEAR_PARENT_CACHE - Clear the parent nodes of the object
                             - EZ_VCSC_CLEAR_RELATING_CACHE - Clear nodes of objects that relate this object
                             - EZ_VCSC_CLEAR_KEYWORD_CACHE - Clear nodes of objects that have the same keyword as this object
+                            - EZ_VCSC_CLEAR_SIBLINGS_CACHE - Clear caches for siblings of the node.
                             - EZ_VCSC_CLEAR_ALL_CACHE - Enables all of the above
      \param[out] $nodeList An array with node IDs that are affected by the current object change.
 
@@ -313,30 +369,45 @@ class eZContentCacheManager
             eZContentCacheManager::appendKeywordNodeIDs( $contentObject, $versionNum, $nodeList );
         }
 
+        if ( $clearCacheType & EZ_VCSC_CLEAR_SIBLINGS_CACHE )
+        {
+            eZContentCacheManager::appendSiblingsNodeIDs( $assignedNodes, $nodeList );
+        }
+
         // determine if $contentObject has dependent objects for which cache should be cleared too.
         $objectClassIdentifier =  $contentObject->attribute( 'class_identifier' );
         $dependentClassInfo = eZContentCacheManager::dependencyInfo( $objectClassIdentifier );
 
+        if ( $dependentClassInfo['clear_cache_type'] & EZ_VCSC_CLEAR_SIBLINGS_CACHE )
+        {
+            eZContentCacheManager::appendSiblingsNodeIDs( $assignedNodes, $nodeList );
+
+            // drop 'siblings' bit and process parent nodes.
+            // since 'sibling' mode is affected to the current object
+            $dependentClassInfo['clear_cache_type'] &= ~EZ_VCSC_CLEAR_SIBLINGS_CACHE;
+        }
+
         if ( isset( $dependentClassInfo['dependent_class_identifier'] ) )
         {
+            $maxParents = $dependentClassInfo['max_parents'];
+            $dependentClassIdentifiers = $dependentClassInfo['dependent_class_identifier'];
+            $smartClearType = $dependentClassInfo['clear_cache_type'];
+
             // getting 'path_string's for all locations.
             $nodePathList =& eZContentCacheManager::fetchNodePathString( $assignedNodes );
 
             foreach ( $nodePathList as $nodePath )
             {
+                $step = 0;
+
                 // getting class identifier and node ID for each node in the $nodePath.
                 $nodeInfoList =& eZContentObjectTreeNode::fetchClassIdentifierListByPathString( $nodePath, false );
-
-                $step = 0;
-                $maxParents = $dependentClassInfo['max_parents'];
-                $dependentClassIdentifiers = $dependentClassInfo['dependent_class_identifier'];
-                $smartClearType = $dependentClassInfo['clear_cache_type'];
 
                 if ( $maxParents > 0 )
                 {
                     // need to reverse $nodeInfoList if $maxParents is used.
                     // if offset is zero then we will loop through all elements in $nodeInfoList. So,
-                    // array_reverse don't need.
+                    // array_reverse is not needed.
 
                     $nodeInfoList = array_reverse( $nodeInfoList );
                 }
@@ -402,7 +473,7 @@ class eZContentCacheManager
             return $nodeList;
         }
 
-        eZContentCacheManager::nodeListForObject( $object, $versionNum, EZ_VCSC_CLEAR_ALL_CACHE, $nodeList );
+        eZContentCacheManager::nodeListForObject( $object, $versionNum, EZ_VCSC_CLEAR_DEFAULT, $nodeList );
 
         return $nodeList;
     }
@@ -630,15 +701,8 @@ class eZContentCacheManager
             include_once( 'kernel/classes/ezcontentcachemanager.php' );
             $staticCache = new eZStaticCache();
 
-            $viewCacheINI =& eZINI::instance( 'viewcache.ini' );
-            if ( $viewCacheINI->variable( 'ViewCacheSettings', 'SmartCacheClear' ) == 'enabled' )
-            {
-                eZContentCacheManager::nodeListForObject( $object, true, EZ_VCSC_CLEAR_ALL_CACHE, $nodes);
-            }
-            else
-            {
-                eZContentCacheManager::nodeListForObject( $object, true, EZ_VCSC_CLEAR_NODE_CACHE | EZ_VCSC_CLEAR_PARENT_CACHE, $nodes);
-            }
+            eZContentCacheManager::nodeListForObject( $object, true, EZ_VCSC_CLEAR_DEFAULT, $nodes);
+
             foreach ( $nodes as $nodeID )
             {
                 $aNode = eZContentObjectTreeNode::fetch( $nodeID );
