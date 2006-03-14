@@ -8,3 +8,6 @@ Changes from 3.5.9 to 3.5.10
 - Fixed bug #7939: Empty date as object name pattern for a class
   -> Thursday 01 January 1970
   ( Merged from stable/3.7 ( 3.7.5 ) rev. 15081 )
+- Fixed bug #7958: The removed class isn't disappeared from list 
+  of availabled classes in the content structure.
+  ( Merged from stable/3.7 ( 3.7.5 ) rev. 15099 )
