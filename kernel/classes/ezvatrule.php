@@ -167,7 +167,7 @@ class eZVatRule extends eZPersistentObject
     /**
      * \private
      */
-    function productCategories()
+    function &productCategories()
     {
         // If product categories for this rule have not been fetched yet
         if ( $this->ProductCategories === null )
@@ -188,7 +188,7 @@ class eZVatRule extends eZPersistentObject
      *
      * \private
      */
-    function productCategoriesString()
+    function &productCategoriesString()
     {
         $categories = $this->attribute( 'product_categories' );
         if ( !$categories )
@@ -198,7 +198,8 @@ class eZVatRule extends eZPersistentObject
         foreach ( $categories as $cat )
             $categoriesNames[] = $cat['name'];
 
-        return join( ', ', $categoriesNames );
+        $result = join( ', ', $categoriesNames );
+        return $result;
     }
 
     /**
@@ -206,7 +207,7 @@ class eZVatRule extends eZPersistentObject
      *
      * \private
      */
-    function productCategoriesIDs()
+    function &productCategoriesIDs()
     {
         $catIDs = array();
         $categories = $this->attribute( 'product_categories' );
@@ -224,11 +225,12 @@ class eZVatRule extends eZPersistentObject
     /**
      * Return VAT type name.
      */
-    function vatTypeName()
+    function &vatTypeName()
     {
         require_once( 'kernel/classes/ezvattype.php' );
         $vatType = eZVatType::fetch( $this->attribute( 'vat_type' ) );
-        return $vatType->attribute( 'name' );
+        $name = $vatType->attribute( 'name' );
+        return $name;
     }
 
     /**
@@ -237,7 +239,8 @@ class eZVatRule extends eZPersistentObject
     function vatTypeObject()
     {
         require_once( 'kernel/classes/ezvattype.php' );
-        return eZVatType::fetch( $this->attribute( 'vat_type' ) );
+        $retObject = eZVatType::fetch( $this->attribute( 'vat_type' ) );
+        return $retObject;
     }
 
     /**
