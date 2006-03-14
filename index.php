@@ -426,6 +426,12 @@ $headerList = array( 'Expires' => 'Mon, 26 Jul 1997 05:00:00 GMT',
                      'Content-Type' => 'text/html; charset=' . $httpCharset,
                      'Content-language' => $languageCode );
 
+$site = array( 'title' => $ini->variable( 'SiteSettings', 'SiteName' ),
+               'design' => $ini->variable( 'DesignSettings', 'SiteDesign' ),
+               'http_equiv' => array( 'Content-Type' => 'text/html; charset=' . $httpCharset,
+                                      'Content-language' => $languageCode ) );
+
+
 include_once( 'kernel/classes/ezhttpheader.php' );
 $headerOverrideArray = eZHTTPHeader::headerOverrideArray( $uri );
 
@@ -936,6 +942,7 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
         $tpl =& templateInit();
         if ( count( $warningList ) == 0 )
             $warningList = false;
+        $tpl->setVariable( 'site', $site );
         $tpl->setVariable( 'warning_list', $warningList );
         $tpl->setVariable( 'redirect_uri', $redirectURI );
         $templateResult =& $tpl->fetch( 'design:redirect.tpl' );
@@ -1031,19 +1038,13 @@ if ( $show_page_layout )
         $meta['description'] = $metaDescription;
     }
 
-    $http_equiv = array( 'Content-Type' => 'text/html; charset=' . $httpCharset,
-                         'Content-language' => $languageCode );
-
     include_once( 'lib/version.php' );
-    $site = array(
-        "title" => $ini->variable( 'SiteSettings', 'SiteName' ),
-        "page_title" => $module->title(),
-        "uri" => $oldURI,
-        "redirect" => false,
-        "design" => $ini->variable( 'DesignSettings', 'SiteDesign' ),
-        "http_equiv" => $http_equiv,
-        "meta" => $meta,
-        "version" => eZPublishSDK::version());
+    $site['uri'] = $oldURI;
+    $site['redirect'] = false;
+    $site['meta'] = $meta;
+    $site['version'] = eZPublishSDK::version();
+    $site['page_title'] = $module->title();
+
     $tpl->setVariable( "site", $site );
 
     include_once( 'lib/version.php' );
