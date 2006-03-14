@@ -168,7 +168,7 @@ To start using multicurrency features you have to:
   MatchFile=embed/multiprice_product.tpl
   Subdir=templates
   Match[class_identifier]=<identifier_of_your_multiprice_product_class>
- 
+
   [multiprice_product_listitem]
   Source=node/view/listitem.tpl
   MatchFile=listitem/multiprice_product.tpl
@@ -257,45 +257,76 @@ l10n( 'currency'[, locale[, [symbol]] )     - format a number as price using
                                               specified or default 'locale'
                                               and 'symbol';
 
-5. INI settings
+5. Exchange rates update handlers.
+With an 'Exchange rates update handlers' it's possible to retrieve exchange
+rate from the external source, like a website, etc.
+Use 'ExchangeRatesUpdateHandler' to specify what handler should be used.
 
-+------------------+-------------------+---------------------------------------+
-| Section          | Setting name      | Description                           |
-|------------------+-------------------+---------------------------------------+
-| CurrencySettings | PreferredCurrency | Default currency for shopping         |
-|------------------+-------------------+---------------------------------------+
-| MathSettings     | MathHandler       | eZPHPMath - using php floating point  |
-|                  |                   |             calculations              |
-|                  |                   | eZBCMath  - using bcmath extension.   |
-|                  | MathScale         | Defines significant digits after the  |
-|                  |                   | decimal point.                        |
-|                  |                   | Note: applies for eZBCMath handler    |
-|                  |                   |       only.                           |
-|                  | RoundingType      | Defines rounding method for           |
-|                  |                   | autoconversions.                      |
-|                  |                   | Possible values: none, round, ceil,   |
-|                  |                   | floor.                                |
-|                  | RoundingPrecision | Defines significant digits after the  |
-|                  |                   | decimal point which should be kept    |
-|                  |                   | while rounding.                       |
-|                  |                   | Possible values: 0, 1, 2, ...         |
-|                  | RoundingTarget    | Forces rounding to specified target   |
-|                  |                   | Possible values: false, 0, 1, 2, ...  |
-|                  |                   | Example:                              |
-|                  |                   | input number = 89.468543              |
-|                  |                   | precision = 2                         |
-|                  |                   | target_1 = 5                          |
-|                  |                   | target_2 = 99                         |
-|                  |                   | usual rounding:                       |
-|                  |                   | round( number, precision ) = 89.47    |
-|                  |                   | apply target_1:                       |
-|                  |                   | round(number,precision,target )=89.45 |
-|                  |                   | apply target_2:                       |
-|                  |                   | round(number,precision,target)=89.99  |
-|------------------+-------------------+---------------------------------------+
+As an example eZ publish has a handler called 'eZECB'. It allows to get rates
+from the website of the European Central Bank.
+
+For developers.
+You can implement your own handler to retrieve exchange rates.
+To achive this you should:
+ - create a php class for your handler;
+ - extend it from 'eZExchangeRatesUpdateHandler';
+ - reimplement functions 'initialize' and 'requestRates';
+   'initialize' function will be called while creating an handler-object.
+   It allows to initialize your handler with some values(for example from
+   ini-file);
+   'requestRates' is called to get reates. As the result this function should
+   fill '$RateList' member-variable with values for rates in the format:
+   $RateList = array( 'currencyCode1' => 'rateValue1',
+                      .....
+                      'currencyCodeN' => 'rateValueN' );
+
+ - set '[ExchangeRatesSettings].ExchangeRatesUpdateHandler=<your_handler>
+
+6. INI settings
+
++-----------------------+----------------------------+---------------------------------------+
+| Section               | Setting name               | Description                           |
+|-----------------------+----------------------------+---------------------------------------+
+| CurrencySettings      | PreferredCurrency          | Default currency for shopping         |
+|-----------------------+----------------------------+---------------------------------------+
+| MathSettings          | MathHandler                | eZPHPMath - using php floating point  |
+|                       |                            |             calculations              |
+|                       |                            | eZBCMath  - using bcmath extension.   |
+|                       | MathScale                  | Defines significant digits after the  |
+|                       |                            | decimal point.                        |
+|                       |                            | Note: applies for eZBCMath handler    |
+|                       |                            |       only.                           |
+|                       | RoundingType               | Defines rounding method for           |
+|                       |                            | autoconversions.                      |
+|                       |                            | Possible values: none, round, ceil,   |
+|                       |                            | floor.                                |
+|                       | RoundingPrecision          | Defines significant digits after the  |
+|                       |                            | decimal point which should be kept    |
+|                       |                            | while rounding.                       |
+|                       |                            | Possible values: 0, 1, 2, ...         |
+|                       | RoundingTarget             | Forces rounding to specified target   |
+|                       |                            | Possible values: false, 0, 1, 2, ...  |
+|                       |                            | Example:                              |
+|                       |                            | input number = 89.468543              |
+|                       |                            | precision = 2                         |
+|                       |                            | target_1 = 5                          |
+|                       |                            | target_2 = 99                         |
+|                       |                            | usual rounding:                       |
+|                       |                            | round( number, precision ) = 89.47    |
+|                       |                            | apply target_1:                       |
+|                       |                            | round(number,precision,target )=89.45 |
+|                       |                            | apply target_2:                       |
+|                       |                            | round(number,precision,target)=89.99  |
+|-----------------------+----------------------------+---------------------------------------+
+| ExchangeRatesSettings | ExchangeRatesUpdateHandler | Specifies what handler to use         |
+|                       | RepositoryDirectories      | Where to look for handlers withing    |
+|                       |                            | eZ publish installatio                |
+|                       | ExtensionDirectories       | Where to look for handlers withing    |
+|                       |                            | extensions                            |
+|-----------------------+----------------------------+---------------------------------------+
 
 
-6. Restrictions
+7. Restrictions
 
 It's not possible to have products with 'simple' and 'multi' prices in the
 basket as the same time.
