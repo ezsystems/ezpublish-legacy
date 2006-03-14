@@ -70,6 +70,7 @@ $uninstallItems = array_reverse( $package->installItemsList( false, false, false
 
 if ( $module->isCurrentAction( 'HandleError' ) )
 {
+    // Choosing error action
     if ( $module->hasActionParameter( 'ActionID' ) )
     {
         $choosenAction = $module->actionParameter( 'ActionID' );
@@ -82,6 +83,11 @@ if ( $module->isCurrentAction( 'HandleError' ) )
                 $persistentData['error_default_actions'][$itemType] = array();
             $persistentData['error_default_actions'][$itemType][$errorCode] = $choosenAction;
         }
+    }
+    elseif ( !isset( $persistentData['error']['error_code'] ) )
+    {
+        // If this is an unhandled error, we are skipping this item
+        $currentItem++;
     }
     $doItemInstall = true;
 }
