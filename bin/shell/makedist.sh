@@ -904,7 +904,8 @@ Failed to check out locale from WC" || exit 1
 if [ -z "$SKIP_CHANGELOGS" -a "$SVN_EXPORT" == "svn" ]; then
     echo -n "Changelogs:"
     for version in $STABLE_VERSIONS; do
-        changelog_url="$REPOSITORY_BASE_URL/$REPOSITORY_STABLE_BRANCH_PATH/$version/doc/changelogs/$version"
+#        changelog_url="$REPOSITORY_BASE_URL/$REPOSITORY_STABLE_BRANCH_PATH/$version/doc/changelogs/$version"
+        changelog_url="doc/changelogs/$version"
         rm -rf "$DEST/doc/changelogs/$version"
         echo -n " `ez_store_pos`$version"
         svn export "$changelog_url" "$DEST/doc/changelogs/$version" &>/dev/null
@@ -994,27 +995,27 @@ ez_result_file 0 ""
 #fi
 #echo
 
-if [ -z $SKIPADDONCREATION ]; then
-   echo -n "Creating and exporting addons"
-   rm -rf "$DEST/packages/addons"
-   mkdir -p "$DEST/packages/addons" || exit 1
-   ezdist_db_prepare_params_from_mysql
-   ezdist_is_nonempty "$DIST_DB_NAME" && PARAM_EZ_DB_NAME="--db-name=$DIST_DB_NAME"
-   ./bin/shell/makeaddonpackages.sh -q --export-path="$DEST/packages/addons" --db-type=mysql $PARAM_EZ_DB_NAME $PARAM_EZ_DB_ALL
-   ez_result_output $? "The creation of addon packages failed
-Run the following command to see what went wrong
-./bin/shell/makeaddonpackages.sh --export-path=\"$DEST/packages/addons\" --db-type=mysql $PARAM_EZ_DB_NAME $PARAM_EZ_DB_ALL" || exit 1
-fi
+#if [ -z $SKIPADDONCREATION ]; then
+#   echo -n "Creating and exporting addons"
+#   rm -rf "$DEST/packages/addons"
+#   mkdir -p "$DEST/packages/addons" || exit 1
+#   ezdist_db_prepare_params_from_mysql
+#   ezdist_is_nonempty "$DIST_DB_NAME" && PARAM_EZ_DB_NAME="--db-name=$DIST_DB_NAME"
+#   ./bin/shell/makeaddonpackages.sh -q --export-path="$DEST/packages/addons" --db-type=mysql $PARAM_EZ_DB_NAME $PARAM_EZ_DB_ALL
+#   ez_result_output $? "The creation of addon packages failed
+#Run the following command to see what went wrong
+#./bin/shell/makeaddonpackages.sh --export-path=\"$DEST/packages/addons\" --db-type=mysql $PARAM_EZ_DB_NAME $PARAM_EZ_DB_ALL" || exit 1
+#fi
 
-if [ -z $SKIPSTYLECREATION ]; then
-   echo -n "Creating and exporting styles"
-   rm -rf "$DEST/packages/styles"
-   mkdir -p "$DEST/packages/styles" || exit 1
-   ./bin/shell/makestylepackages.sh -q --export-path="$DEST/packages/styles"
-   ez_result_output $? "The creation of the style packages failed
-Run the following command to see what went wrong
-./bin/shell/makestylepackages.sh --export-path=\"$DEST/packages/styles\"" || exit 1
-fi
+#if [ -z $SKIPSTYLECREATION ]; then
+#   echo -n "Creating and exporting styles"
+#   rm -rf "$DEST/packages/styles"
+#   mkdir -p "$DEST/packages/styles" || exit 1
+#   ./bin/shell/makestylepackages.sh -q --export-path="$DEST/packages/styles"
+#   ez_result_output $? "The creation of the style packages failed
+#Run the following command to see what went wrong
+#./bin/shell/makestylepackages.sh --export-path=\"$DEST/packages/styles\"" || exit 1
+#fi
 
 
 #
