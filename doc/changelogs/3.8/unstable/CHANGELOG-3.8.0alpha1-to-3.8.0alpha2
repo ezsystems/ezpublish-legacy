@@ -57,6 +57,7 @@ Kernel:
 - Added Binaryfilehandler extension support.
 - Added Metadataparser extension support.
 - Added clustering functionality.
+- Added exchange rates update handlers support.
 
 eZXML:
 - Added XSLT and DTD definition support.
