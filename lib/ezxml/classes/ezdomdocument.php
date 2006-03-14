@@ -637,9 +637,13 @@ class eZDOMDocument
                     $text .= '"' . $this->dtd['url'] . '"';
                 $text .=  ">\n";
             }
-            foreach ( $this->stylesheet as $stylesheet )
+
+            if ( isset( $this->stylesheet ) && count( $this->stylesheet ) )
             {
-                $text .= '<?xml-stylesheet type="text/xsl" href="' . $stylesheet . '"?>' . "\n";
+                foreach ( $this->stylesheet as $stylesheet )
+                {
+                    $text .= '<?xml-stylesheet type="text/xsl" href="' . $stylesheet . '"?>' . "\n";
+                }
             }
             $text .= $this->Root->toString( 0, $charset );
         }
