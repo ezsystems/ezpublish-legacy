@@ -174,7 +174,7 @@ class eZCurrencyData extends eZPersistentObject
     /*!
      functional attribute
     */
-    function rateValue()
+    function &rateValue()
     {
         if ( $this->RateValue === false )
         {
