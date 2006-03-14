@@ -236,7 +236,7 @@ class eZVatRule extends eZPersistentObject
     /**
      * Return VAT type object.
      */
-    function vatTypeObject()
+    function &vatTypeObject()
     {
         require_once( 'kernel/classes/ezvattype.php' );
         $retObject = eZVatType::fetch( $this->attribute( 'vat_type' ) );
