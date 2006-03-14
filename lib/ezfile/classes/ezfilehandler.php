@@ -314,6 +314,8 @@ class eZFileHandler
     */
     function move( $sourceFilename, $destinationFilename )
     {
+        // VS-DBFILE : TODO
+
         if ( !file_exists( $sourceFilename ) and
              !is_link( $sourceFilename ) )
         {

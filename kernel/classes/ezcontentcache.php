@@ -92,6 +92,8 @@ class eZContentCache
     {
         $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList,
                                                         $layout, false, $parameters );
+        // VS-DBFILE : TODO
+	
         $cacheInfo = @stat( $cachePathInfo['path'] );
 
         if ( $cacheInfo )
@@ -125,6 +127,8 @@ class eZContentCache
         $cachePath = $cachePathInfo['path'];
         $timestamp = false;
 
+        // VS-DBFILE : TODO
+
         $fileInfo = @stat( $cachePath );
         if ( $fileInfo )
         {
@@ -150,6 +154,8 @@ class eZContentCache
         }
 
         eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache used #2' );
+
+        // VS-DBFILE : TODO
 
         $fileName = $cacheDir . "/" . $cacheFile;
         $fp = fopen( $fileName, 'r' );
@@ -207,6 +213,8 @@ class eZContentCache
                     $result, $cacheTTL = -1,
                     $parameters = array() )
     {
+        // VS-DBFILE : TODO
+
         $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList,
                                                         $layout, false, $parameters );
         $cacheDir = $cachePathInfo['dir'];
@@ -357,31 +365,16 @@ class eZContentCache
                 {
                     foreach ( $nodeList as $nodeID )
                     {
+                        // VS-DBFILE
+
                         $extraPath = eZDir::filenamePath( "$nodeID" );
                         $cacheDir = eZDir::path( array( $cacheBaseDir, $siteDesign, $viewMode, $language, $extraPath ) );
+
 //                     eZDebug::writeDebug( $cacheDir, 'cacheDir' );
-                        if ( !file_exists( $cacheDir ) )
-                            continue;
-//                     eZDebug::writeDebug( "$cacheDir exists", 'cacheDir' );
-                        $dir = opendir( $cacheDir );
-                        if ( !$dir )
-                            continue;
-                        while ( ( $file = readdir( $dir ) ) !== false )
-                        {
-                            if ( $file == '.' or
-                                 $file == '..' )
-                                continue;
-                            if ( preg_match( "/^$nodeID" . "-.*\\.cache$/", $file ) )
-                            {
-                                $cacheFile = eZDir::path( array( $cacheDir, $file ) );
-                                eZDebugSetting::writeDebug( 'kernel-content-view-cache', "Removing cache file '$cacheFile'", 'eZContentCache::cleanup' );
-                                unlink( $cacheFile );
-                                // Write log message to storage.log
-                                include_once( 'lib/ezutils/classes/ezlog.php' );
-                                eZLog::writeStorageLog( $cacheFile );
-                            }
-                        }
-                        closedir( $dir );
+
+                        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+                        $fileHandler = eZClusterFileHandler::instance();
+                        $fileHandler->fileDeleteByRegex( $cacheDir, "$nodeID" . "-.*\\.cache$" );
                     }
                 }
             }

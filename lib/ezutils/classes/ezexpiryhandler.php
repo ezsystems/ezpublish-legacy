@@ -56,12 +56,20 @@ class eZExpiryHandler
     */
     function restore()
     {
+        // VS-DBFILE
+
         $cacheDirectory = eZSys::cacheDirectory();
-        if ( file_exists( $cacheDirectory . "/" . 'expiry.php' ) )
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $expiryFile = eZClusterFileHandler::instance( $cacheDirectory . '/' . 'expiry.php' );
+        if ( $expiryFile->exists() )
         {
+            $expiryFile->fetch();
+
             include( $cacheDirectory . "/" . 'expiry.php' );
             $this->Timestamps = $Timestamps;
             $this->IsModified = false;
+
+            $expiryFile->deleteFetched();
         }
     }
 
@@ -70,6 +78,8 @@ class eZExpiryHandler
     */
     function store()
     {
+        // VS-DBFILE
+
         $cacheDirectory = eZSys::cacheDirectory();
 
         $uniqid = md5( uniqid( "ezp". getmypid(), true ) );
@@ -91,6 +101,10 @@ class eZExpiryHandler
             fclose( $fp );
             include "lib/ezutils/classes/ezfile.php";
             eZFile::rename( "$cacheDirectory/.expiry.php.$uniqid.tmp", "$cacheDirectory/expiry.php" );
+
+            require_once( 'kernel/classes/ezclusterfilehandler.php' );
+            $fileHandler = eZClusterFileHandler::instance();
+            $fileHandler->fileStore(  "$cacheDirectory/expiry.php", 'expirycache', true );
 
             $this->IsModified = false;
         }

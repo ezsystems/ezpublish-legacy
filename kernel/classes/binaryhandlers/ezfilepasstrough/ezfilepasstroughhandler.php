@@ -49,9 +49,16 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
                                  $fileInfo )
     {
         $fileName = $fileInfo['filepath'];
-        if ( $fileName != "" and file_exists( $fileName ) )
+
+        // VS-DBFILE
+
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $file = eZClusterFileHandler::instance( $fileName );
+
+        if ( $fileName != "" and $file->exists() )
         {
-            $fileSize = filesize( $fileName );
+            $file->fetch();
+            $fileSize = $file->size();
             $mimeType =  $fileInfo['mime_type'];
             $originalFileName = $fileInfo['original_filename'];
             $contentLength = $fileSize;
@@ -91,6 +98,12 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
             fpassthru( $fh );
             fclose( $fh );
             fflush( $fh );
+
+            // VS-DBFILE : NOTE: We don't remove fetched file here to avoid refetching on each download.
+            // We may need a way to purge obsolete files though.
+
+            //$file->deleteFetched();
+
             eZExecution::cleanExit();
         }
         return EZ_BINARY_FILE_RESULT_UNAVAILABLE;

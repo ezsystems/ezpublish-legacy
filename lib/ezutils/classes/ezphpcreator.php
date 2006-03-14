@@ -677,6 +677,8 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
     */
     function open( $atomic = false )
     {
+        // VS-DBFILE : TODO
+
         if ( !$this->FileResource )
         {
             if ( !file_exists( $this->PHPDir ) )
@@ -715,6 +717,8 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
     */
     function close()
     {
+        // VS-DBFILE : TODO
+
         if ( $this->FileResource )
         {
             fclose( $this->FileResource );
@@ -734,6 +738,8 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
     */
     function exists()
     {
+        // VS-DBFILE : TODO
+
         $path = $this->PHPDir . '/' . $this->PHPFile;
         return file_exists( $path );
     }
@@ -747,6 +753,8 @@ include_once( 'lib/ezutils/classes/ezphpcreator.php' );
     */
     function canRestore( $timestamp = false )
     {
+        // VS-DBFILE : TODO
+
         $path = $this->PHPDir . '/' . $this->PHPFile;
         $canRestore = file_exists( $path );
         if ( $timestamp !== false and
@@ -777,6 +785,8 @@ print( $values['MyValue'] );
     */
     function restore( $variableDefinitions )
     {
+        // VS-DBFILE : TODO
+
         $returnVariables = array();
         $path = $this->PHPDir . '/' . $this->PHPFile;
         include( $path );
@@ -810,6 +820,8 @@ print( $values['MyValue'] );
     */
     function store( $atomic = false )
     {
+        // VS-DBFILE : TODO
+
         if ( $this->open( $atomic ) )
         {
             $this->write( "<?php\n" );
@@ -861,6 +873,8 @@ print( $values['MyValue'] );
     */
     function writeChunks()
     {
+        // VS-DBFILE : TODO
+
         $count = count( $this->TextChunks );
         for ( $i = 0; $i < $count; ++$i )
         {

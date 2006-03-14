@@ -124,7 +124,10 @@ class eZSubtreeCache
             include_once( 'lib/ezutils/classes/ezini.php' );
             $ini =& eZINI::instance();
             if ( $ini->variable( 'TemplateSettings', 'DelayedCacheBlockCleanup' ) === 'enabled' )
+            {
+                // VS-DBFILE : FIXME: this will not work if clustering enabled
                 eZSubtreeCache::renameDir( $cacheDir );
+            }
             else
                 eZSubtreeCache::removeExpiryCacheFromDisk( $cacheDir );
         }
@@ -141,6 +144,8 @@ class eZSubtreeCache
 
         if ( $dir )
         {
+            // VS-DBFILE : FIXME: this will not work if clustering enabled
+
             include_once( 'lib/ezfile/classes/ezfile.php' );
             $expiryCacheDir = eZTemplateCacheFunction::expiryTemplateBlockCacheDir();
 
@@ -176,11 +181,9 @@ class eZSubtreeCache
     */
     function removeExpiryCacheFromDisk( $expiryCachePath )
     {
-        if ( is_dir( $expiryCachePath ) )
-        {
-            include_once( 'lib/ezfile/classes/ezdir.php' );
-            eZDir::recursiveDelete( $expiryCachePath );
-        }
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $fileHandler = eZClusterFileHandler::instance();
+        $fileHandler->fileDelete( $expiryCachePath );
     }
 }
 

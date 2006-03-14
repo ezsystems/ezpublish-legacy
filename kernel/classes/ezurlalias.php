@@ -432,6 +432,8 @@ WHERE
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         $phpCache = new eZPHPCreator( $wildcardCacheDir, $wildcardCacheFile );
 
+        // VS-DBFILE
+
         foreach ( $wildcardKeys as $wildcardKey => $wildcardKeyValue )
         {
             $phpCache->addComment( "$wildcardKey = $wildcardKeyValue" );
@@ -545,6 +547,9 @@ WHERE
         $hasCache = false;
         $isExpired = true;
         $return = false;
+
+        // VS-DBFILE
+
         if ( file_exists( $info['path'] ) )
         {
             $timestamp = filemtime( $info['path'] );
@@ -558,6 +563,8 @@ WHERE
         }
         if ( $hasCache )
         {
+            // VS-DBFILE
+
             include_once( $info['path'] );
             $hasCache = false;
             if ( function_exists( EZURLALIAS_CACHE_FUNCTION ) )

@@ -211,19 +211,22 @@ if ( \$handler->hasTimestamp( 'template-block-cache' ) )
 ENDADDCODE;
         }
 
-        $code .= "if ( file_exists( $filepathText )";
+        // VS-DBFILE
+
+        $code .=
+            "require_once( 'kernel/classes/ezclusterfilehandler.php' );\n" .
+            "\$cacheFile = eZClusterFileHandler::instance( $filepathText );\n" .
+            "if ( \$cacheFile->exists()";
+
         if ( !$ignoreExpiry ) {
-            $code .= "\n    and filemtime( $filepathText ) >= ( time() - $expiryText )";
+            $code .= "\n    and \$cacheFile->mtime() >= ( time() - $expiryText )";
         }
         if ( !$ignoreContentExpiry ) {
-            $code .= "\n    and ( ( filemtime( $filepathText ) > \$globalExpiryTime ) or ( \$globalExpiryTime == -1 ) )";
+            $code .= "\n    and ( ( \$cacheFile->mtime() > \$globalExpiryTime ) or ( \$globalExpiryTime == -1 ) )";
         }
         $code .= " )\n" .
                  "{\n" .
-                 "    \$fp = fopen( $filepathText, 'r' );\n" .
-                 "    \$size = filesize( $filepathText );\n" .
-                 "    \$contentData = \$size ? fread( \$fp, \$size ) : '';\n" .
-                 "    fclose( \$fp );\n";
+                 "    \$contentData = \$cacheFile->size() ? \$cacheFile->fetchContents() : '';\n";
 
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => 0 ) );
         $newNodes[] = eZTemplateNodeTool::createWriteToOutputVariableNode( 'contentData', array( 'spacing' => 4 ) );
@@ -257,6 +260,14 @@ ENDADDCODE;
             $code .= "@unlink( $filepathText );\n";
         }
         $code .= "rename( $filedirText. '/'. \$uniqid, $filepathText );\n";
+
+        // VS-DBFILE
+
+        $code .=
+            "require_once( 'kernel/classes/ezclusterfilehandler.php' );\n" .
+            "\$fileHandler = eZClusterFileHandler::instance();\n" .
+            "\$fileHandler->fileStore( $filepathText, 'template-block', true );\n";
+
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( $code, array( 'spacing' => 4 ) );
         $newNodes[] = eZTemplateNodeTool::createOutputVariableDecreaseNode( array( 'spacing' => 4 ) );
         $newNodes[] = eZTemplateNodeTool::createWriteToOutputVariableNode( 'cachedText', array( 'spacing' => 4 ) );
@@ -370,13 +381,14 @@ ENDADDCODE;
                         }
                     }
 
+                    // VS-DBFILE
+
                     // Check if we can restore
-                    if ( file_exists( $phpPath ) and
-                         filemtime( $phpPath ) >= $expiryTime )
+                    require_once( 'kernel/classes/ezclusterfilehandler.php' );
+                    $cacheFile = eZClusterFileHandler::instance( $phpPath );
+                    if ( $cacheFile->exists() && $cacheFile->mtime() >= $expiryTime )
                     {
-                        $fp = fopen( $phpPath, 'r' );
-                        $textElements[] = fread( $fp, filesize( $phpPath ) );;
-                        fclose( $fp );
+                        $textElements[] = $cacheFile->fetchContents();
                     }
                     else
                     {
@@ -401,6 +413,11 @@ ENDADDCODE;
                         fwrite( $fd, $text );
                         fclose( $fd );
                         eZFile::rename( "$phpDir/$uniqid", $phpPath );
+
+                        // VS-DBFILE
+                        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+                        $fileHandler = eZClusterFileHandler::instance();
+                        $fileHandler->fileStore( $phpPath, 'template-block', true );
                     }
                 }
             } break;

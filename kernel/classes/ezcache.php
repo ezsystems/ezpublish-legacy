@@ -326,7 +326,32 @@ class eZCache
         }
         else
         {
+            // VS-DBFILE
+
             $cachePath = eZSys::cacheDirectory() . "/" . $cacheItem['path'];
+
+            switch ( $cacheItem['id'] )
+            {
+                case 'template-block':
+                case 'expiry':
+                case 'content':
+                case 'urlalias': // wildcard cache
+                case 'rss_cache':
+                case 'user_info_cache':
+                    $isContentRelated = true;
+                    break;
+                default:
+                    $isContentRelated = false;
+            }
+
+            if ( $isContentRelated )
+            {
+                require_once( 'kernel/classes/ezclusterfilehandler.php' );
+                $fileHandler = eZClusterFileHandler::instance();
+                $fileHandler->fileDelete( $cachePath );
+                return;
+            }
+
             if ( is_file( $cachePath ) )
             {
                 $handler =& eZFileHandler::instance( false );
@@ -360,15 +385,12 @@ class eZCache
     {
         // remove existing cache
         $cachePath = eZSys::cacheDirectory() . "/" . $cacheItem['path'];
-        if ( is_file( $cachePath ) )
-        {
-            $handler =& eZFileHandler::instance( false );
-            $handler->unlink( $cachePath );
-        }
-        else
-        {
-            eZDir::recursiveDelete( $cachePath );
-        }
+
+        // VS-DBFILE
+
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $fileHandler = eZClusterFileHandler::instance();
+        $fileHandler->fileDelete( $cachePath );
 
         // remove expiried 'subtree' cache
         include_once( 'kernel/classes/ezsubtreecache.php' );

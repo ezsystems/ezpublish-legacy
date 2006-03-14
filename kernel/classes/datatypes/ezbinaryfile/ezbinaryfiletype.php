@@ -143,6 +143,10 @@ class eZBinaryFileType extends eZDataType
         $sys =& eZSys::instance();
         $storage_dir = $sys->storageDirectory();
 
+        // VS-DBFILE
+
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+
         if ( $version == null )
         {
             foreach ( array_keys( $binaryFiles ) as $key )
@@ -156,8 +160,14 @@ class eZBinaryFileType extends eZDataType
                 // Check if there are any other records in ezbinaryfile that point to that fileName.
                 $binaryObjectsWithSameFileName =  eZBinaryFile::fetchByFileName( $fileName );
 
-                if ( file_exists( $orig_dir . "/" .$fileName ) and count( $binaryObjectsWithSameFileName ) <= 1 )
-                    unlink( $orig_dir . "/" . $fileName );
+                // VS-DBFILE
+
+                $filePath = $orig_dir . "/" . $fileName;
+                $file = eZClusterFileHandler::instance( $filePath );
+
+                // FIXME: optimize not to do recursive delete
+                if ( $file->exists() and count( $binaryObjectsWithSameFileName ) <= 1 )
+                    $file->delete();
             }
         }
         else
@@ -184,8 +194,13 @@ class eZBinaryFileType extends eZDataType
                     // Check if there are any other records in ezbinaryfile that point to that fileName.
                     $binaryObjectsWithSameFileName = eZBinaryFile::fetchByFileName( $currentFileName );
 
-                    if ( file_exists( $orig_dir . "/" . $currentFileName ) and count( $binaryObjectsWithSameFileName ) <= 1 )
-                        unlink( $orig_dir . "/" .  $currentFileName );
+                    // VS-DBFILE
+
+                    $filePath = $orig_dir . "/" . $currentFileName;
+                    $file = eZClusterFileHandler::instance( $filePath );
+
+                    if ( $file->exists() and count( $binaryObjectsWithSameFileName ) <= 1 )
+                        $file->delete();
                 }
             }
         }
@@ -314,6 +329,12 @@ class eZBinaryFileType extends eZDataType
 
             $binary->store();
 
+            // VS-DBFILE
+
+            require_once( 'kernel/classes/ezclusterfilehandler.php' );
+            $filePath = $binaryFile->attribute( 'filename' );
+            $fileHandler = eZClusterFileHandler::instance();
+            $fileHandler->fileStore( $filePath, 'binaryfile', true );
 
             $contentObjectAttribute->setContent( $binary );
         }
@@ -386,6 +407,9 @@ class eZBinaryFileType extends eZDataType
             return false;
         }
 
+        // VS-DBFILE : TODO
+        $filePath = $binary->attribute( 'filename' );
+
         $binary->setAttribute( "contentobject_attribute_id", $attributeID );
         $binary->setAttribute( "version", $objectVersion );
         $binary->setAttribute( "filename", basename( $httpFile->attribute( "filename" ) ) );
@@ -432,6 +456,8 @@ class eZBinaryFileType extends eZDataType
         $destFileName = md5( basename( $fileName ) . microtime() . mt_rand() );
         $destination = $destination . '/' . $destFileName;
         copy( $filePath, $destination );
+
+        // VS-DBFILE : TODO
 
         $binary->setAttribute( "contentobject_attribute_id", $attributeID );
         $binary->setAttribute( "version", $objectVersion );
@@ -658,6 +684,13 @@ class eZBinaryFileType extends eZDataType
         $binaryFile->setAttribute( 'mime_type', $fileNode->attributeValue( 'mime-type' ) );
 
         $binaryFile->store();
+
+        // VS-DBFILE
+
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $filePath = $fileNode->attributeValue( 'original-filename' );
+        $fileHandler = eZClusterFileHandler::instance();
+        $fileHandler->fileStore( $filePath, 'binaryfile', true );
     }
 
 }

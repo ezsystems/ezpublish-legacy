@@ -88,8 +88,16 @@ class eZBinaryFile extends eZPersistentObject
     function &fileSize()
     {
         $fileInfo = $this->storedFileInfo();
-        if ( file_exists( $fileInfo['filepath'] ) )
-            $fileSize = filesize( $fileInfo['filepath'] );
+
+        // VS-DBFILE
+
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $file = eZClusterFileHandler::instance( $fileInfo['filepath'] );
+        if ( $file->exists() )
+        {
+            $stat = $file->stat();
+            $fileSize = $stat['size'];
+        }
         else
             $fileSize = 0;
         return $fileSize;
@@ -214,9 +222,16 @@ class eZBinaryFile extends eZPersistentObject
 
                 $parserObject = new $class( );
                 $fileInfo = $this->storedFileInfo();
-                if ( file_exists( $fileInfo['filepath'] ) )
+
+                // VS-DBFILE
+
+                require_once( 'kernel/classes/ezclusterfilehandler.php' );
+                $file = eZClusterFileHandler::instance( $fileInfo['filepath'] );
+                if ( $file->exists() )
                 {
+                    $file->fetch();
                     $metaData =& $parserObject->parseFile( $fileInfo['filepath'] );
+                    $file->deleteFetched();
                 }
             }
             else

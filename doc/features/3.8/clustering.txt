@@ -1,0 +1,80 @@
+*Title: Clustering.
+
+*Incentive:
+
+It is now hard to build clasters on eZ publish, since the problem of synchronizing
+caches, images and binary files between cluster nodes.
+
+*Basics:
+
+The clustering feature makes eZ publish store images, binary files, and
+all content-related caches to database.
+Templates, compiled templates, override cache and other caches not
+related to content are still stored on disc.
+
+*Setup
+
+ 1. Create tables in database
+
+CREATE TABLE `ezdbfile` (
+  `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `datatype` varchar(60) NOT NULL default 'application/octet-stream',
+  `name` varchar(255) NOT NULL default '',
+  `name_hash` varchar(34) NOT NULL default '',
+  `scope` varchar(20) NOT NULL default '',
+  `size` bigint(20) unsigned NOT NULL default '1024',
+  `mtime` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `ezdbfile_name` (`name`),
+  KEY `ezdbfile_name_hash` (`name_hash`)
+) ENGINE=InnoDB;
+
+CREATE TABLE `ezdbfile_data` (
+  `id` mediumint(8) unsigned NOT NULL auto_increment,
+  `masterid` mediumint(8) unsigned NOT NULL default '0',
+  `filedata` blob NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `master_idx` (`masterid`)
+) ENGINE=InnoDB;
+
+
+ 2. Copy your files stored in var dir into database.
+
+<THIS WILL BE DESCRIBED LATER ON>
+
+Here, "en" is a siteaccess with correct database and VarDir information.
+
+ 3. Clear the cache, using the clearcache.sh script.
+
+$ cd <ezp dir>
+$ bin/shell/clearcache.sh --clear-all
+$ bin/shell/clearcache.sh --clear-all --var-subdir=mdk
+
+This is the last time you will use the clearcache.sh script. This is because
+clearcacch.sh scrip will not be able to clear any cache in the database. It
+only works on cache stored on the filesystem. To clear the cache from now on,
+use the clearcache functions in the admin interface, or the
+bin/php/ezcache.php script.
+
+ 4. Compile the templates.
+
+Since all caches now are empty, we should compile the templates again. You
+might skip this step. If you skip this step, the templates will be compiled
+on demand when browsing the site.
+
+$ cd <ezp dir>
+$ /usr/local/php/bin/php bin/php/eztc.php -s en
+
+This step should be done for each siteaccess
+
+ 5. Update apache virtualhost configuration.
+
+Since images are no longer stored on disk but in the database, they need to
+ be served by php. Therefore you will need to apply two more RewriteRules.
+
+Apply the following RewriteRules before your rules:
+  Rewriterule ^/var/[^/]+/storage/images-versioned/.*  /index_image.php [L]
+  Rewriterule ^/var/[^/]+/storage/images/.*            /index_image.php [L]
+
+
+ 6. Restart apache and this should work.

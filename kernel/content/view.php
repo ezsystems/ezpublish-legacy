@@ -195,18 +195,18 @@ else
 
         $cacheFileArray = eZNodeviewfunctions::generateViewCacheFile( $user, $NodeID, $Offset, $layout, $LanguageCode, $ViewMode, $viewParameters );
 
-        // Read Cache file
-        $fp = @fopen( $cacheFileArray['cache_path'], 'r' );
-        if ( $fp )
-        {
-            $stat = fstat( $fp );
-        }
-        if ( $fp and !eZContentObject::isCacheExpired( $stat['mtime'] ) )
-        {
-            $contents = fread( $fp, filesize( $cacheFileArray['cache_path'] ) );
+        // VS-DBFILE
 
+        $cacheFilePath = $cacheFileArray['cache_path'];
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
+        $stat = $cacheFile->stat();
+
+        // Read Cache file
+        if ( isset( $stat['mtime'] ) && !eZContentObject::isCacheExpired( $stat['mtime'] ) )
+        {
+            $contents = $cacheFile->fetchContents();
             $Result = unserialize( $contents );
-            fclose( $fp );
 
             // Check if cache has expired when cache_ttl is set
             $cacheTTL = isset( $Result['cache_ttl'] ) ? $Result['cache_ttl'] : -1;

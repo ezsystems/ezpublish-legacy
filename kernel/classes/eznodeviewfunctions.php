@@ -175,6 +175,12 @@ class eZNodeviewfunctions
                 fwrite( $fp, $serializeString );
                 fclose( $fp );
             }
+
+            // VS-DBFILE
+
+            require_once( 'kernel/classes/ezclusterfilehandler.php' );
+            $fileHandler = eZClusterFileHandler::instance();
+            $fileHandler->fileStore( $cachePath, 'viewcache', true );
         }
 
         return $Result;

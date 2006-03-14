@@ -106,11 +106,19 @@ class eZImageVariation extends eZPersistentObject
         $variation = new eZImageVariation( $row );
         $variation->IsOriginal = true;
         $fullPath = $variation->attribute( 'full_path' );
-        if ( file_exists( $fullPath ) )
+
+        // VS-DBFILE
+
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $file = eZClusterFileHandler::instance( $fullPath );
+
+        if ( $file->exists() )
         {
             if ( function_exists( 'getimagesize' ) )
             {
+                $file->fetch();
                 $info = getimagesize( $fullPath );
+                $file->deleteFetched();
                 if ( $info )
                 {
                     $width = $info[0];
@@ -216,6 +224,8 @@ class eZImageVariation extends eZPersistentObject
             }
         }
 
+        // VS-DBFILE
+
         $refImagename = $img->convert( $referencePath . '/' . $convertedName,
                                        $variationPath . '/' . $additionalPath . '/' . $destFilename,
                                        array( "width" => $rwidth, "height" => $rheight ),
@@ -239,8 +249,12 @@ class eZImageVariation extends eZPersistentObject
 
         $imageFullPath = $variationPath . '/' . $additionalPath . '/' . $refImageFilename[1];
 
+        // VS-DBFILE
 
-        if ( filesize( $imageFullPath ) == 0 || !file_exists( $imageFullPath ) )
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $file = eZClusterFileHandler::instance( $imageFullPath );
+
+        if ( !$file->exists() || $file->size() == 0 )
         {
             eZDebug::writeError( "Could not create variation for $imageFullPath" );
             $retValue = false;
