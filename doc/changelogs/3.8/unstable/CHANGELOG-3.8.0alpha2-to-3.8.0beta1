@@ -7,4 +7,4 @@ Changes from 3.8.0alpha2 to 3.8.0beta1
 - Fixed bug #7975: Assigning a role with limitation on section 
   is not working correctly.
   ( Merged from stable/3.7 ( 3.7.5 ) rev. 15149 )
-  
+- Fixed fatal error on editing an RSS export.

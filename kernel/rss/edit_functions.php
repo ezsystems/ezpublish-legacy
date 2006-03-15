@@ -36,6 +36,7 @@ class eZRSSEditFunction
     /*!
      Store RSSExport
 
+     \static
      \param Module
      \param HTTP
      \param publish ( true/false )

@@ -51,23 +51,23 @@ if ( $Module->isCurrentAction( 'Store' ) )
 {
     if( $_POST['active'] == "on" and strlen( trim( $_POST['Access_URL'] ) ) == 0 )
     {
-         storeRSSExport( $Module, $http );
+         eZRSSEditFunction::storeRSSExport( $Module, $http );
          $validated = true;
     }
     else
     {
-        return storeRSSExport( $Module, $http, true );
+        return eZRSSEditFunction::storeRSSExport( $Module, $http, true );
     }
 }
 else if ( $Module->isCurrentAction( 'UpdateItem' ) )
 {
-    storeRSSExport( $Module, $http );
+    eZRSSEditFunction::storeRSSExport( $Module, $http );
 }
 else if ( $Module->isCurrentAction( 'AddItem' ) )
 {
     $rssExportItem = eZRSSExportItem::create( $RSSExportID );
     $rssExportItem->store();
-    storeRSSExport( $Module, $http );
+    eZRSSEditFunction::storeRSSExport( $Module, $http );
 }
 else if ( $Module->isCurrentAction( 'Cancel' ) )
 {
@@ -77,7 +77,7 @@ else if ( $Module->isCurrentAction( 'Cancel' ) )
 }
 else if ( $Module->isCurrentAction( 'BrowseImage' ) )
 {
-    storeRSSExport( $Module, $http );
+    eZRSSEditFunction::storeRSSExport( $Module, $http );
     include_once( 'kernel/classes/ezcontentbrowse.php' );
     eZContentBrowse::browse( array( 'action_name' => 'RSSExportImageBrowse',
                                     'description_template' => 'design:rss/browse_image.tpl',
@@ -101,7 +101,7 @@ if ( $http->hasPostVariable( 'Item_Count' ) )
     {
         if ( $http->hasPostVariable( 'SourceBrowse_'.$itemCount ) )
         {
-            storeRSSExport( $Module, $http );
+            eZRSSEditFunction::storeRSSExport( $Module, $http );
             include_once( 'kernel/classes/ezcontentbrowse.php' );
             eZContentBrowse::browse( array( 'action_name' => 'RSSObjectBrowse',
                                             'description_template' => 'design:rss/browse_source.tpl',
@@ -121,7 +121,7 @@ if ( $http->hasPostVariable( 'Item_Count' ) )
                 // remove the published version
                 $rssExportItem->setAttribute( 'status', EZ_RSSEXPORT_STATUS_VALID );
                 $rssExportItem->remove();
-                storeRSSExport( $Module, $http );
+                eZRSSEditFunction::storeRSSExport( $Module, $http );
             }
 
             break;
