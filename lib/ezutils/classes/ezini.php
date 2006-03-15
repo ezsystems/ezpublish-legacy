@@ -1168,7 +1168,7 @@ class eZINI
     {
         if ( !isset( $this->BlockValues[$blockName] ) )
         {
-            eZDebug::writeError( "Unknown group: '$origBlockName'", "eZINI" );
+            eZDebug::writeError( "Unknown group: '$blockName'", "eZINI" );
             return null;
         }
         $ret = $this->BlockValues[$blockName];
