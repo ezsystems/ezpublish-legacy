@@ -193,6 +193,7 @@ class eZIntegerType extends eZDataType
         if ( $http->hasPostVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $data =& $http->postVariable( $base . "_data_integer_" . $contentObjectAttribute->attribute( "id" ) );
+            $data = trim( $data ) != '' ? $data : null;
             $contentObjectAttribute->setAttribute( "data_int", $data );
             return true;
         }
