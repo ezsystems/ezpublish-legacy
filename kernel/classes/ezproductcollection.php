@@ -179,7 +179,7 @@ class eZProductCollection extends eZPersistentObject
         $db =& eZDB::instance();
         $db->begin();
         eZProductCollectionItem::cleanupList( $productCollectionIDList );
-        $idText = implode( ', ', $productCollectionIDList );
+        $idText = $db->implodeWithTypeCast( ', ', $productCollectionIDList, 'int' );
         $db->query( "DELETE FROM ezproductcollection WHERE id IN ( $idText )" );
         $db->commit();
     }

@@ -1344,6 +1344,9 @@ class eZContentObject extends eZPersistentObject
         include_once( "kernel/classes/ezsearch.php" );
         eZSearch::removeObject( $contentobject );
 
+        $db->query( "DELETE FROM ezproductcollection_item
+                     WHERE contentobject_id = '$delID'" );
+
         $db->query( "DELETE FROM ezcontentobject_link
              WHERE from_contentobject_id = '$delID' OR to_contentobject_id = '$delID'" );
 
