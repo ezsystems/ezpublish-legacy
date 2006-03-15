@@ -4369,7 +4369,7 @@ WHERE
                         } break;
 
                         case 'Section':
-                        case 'UserSection':
+                        case 'User_Section':
                         {
                             if ( in_array( $contentObject->attribute( 'section_id' ), $limitationArray[$key] ) )
                             {
@@ -4518,7 +4518,7 @@ WHERE
         {
             if ( $object === false )
                 $object =& $this->attribute( 'object' );
-            if ( !in_array( $object->attribute( 'section_id' ), $policy['Section']  ) )
+            if ( !in_array( $object->attribute( 'section_id' ), $policy['User_Section']  ) )
             {
                 return array();
             }
