@@ -56,7 +56,7 @@ class eZDBFile
         $this->StoragePort = 3306;
         $this->StorageUser = "root";
         $this->StoragePasswd = "";
-        $this->StorageDB = "trunk_clustering";
+        $this->StorageDB = "trunk";
 
         $connectto = $this->StorageIP . ":" . $this->StoragePort;
 
