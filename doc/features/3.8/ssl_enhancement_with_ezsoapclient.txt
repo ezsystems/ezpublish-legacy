@@ -1,4 +1,4 @@
-*Title:Transfer data on Secure Socate layer(SSL port 443) with eZSOAPClient.
+*Title: Transfer data on the Secure Sockets Layer(SSL port 443) with eZSOAPClient.
 
 *Incentive: 
 Currently eZSOAPClient is transmitting data using soap without SSL.
