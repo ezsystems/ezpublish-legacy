@@ -15,3 +15,6 @@ Changes from 3.5.9 to 3.5.10
 - Fixed bug #7975: Assigning a role with limitation on section 
   is not working correctly.
   ( Merged from stable/3.7 ( 3.7.5 ) rev. 15149 )
+- Fixed bug #7980: Installation wizard fails to accept correct hosts 
+  with host-based siteaccess.
+  ( Merged from stable/3.7 ( 3.7.5 ) rev. 15158 )
