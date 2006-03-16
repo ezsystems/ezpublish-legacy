@@ -11,20 +11,25 @@
       {"This page lets you modify information about the site you've chosen to install. In addition, it also lets you choose a database for the site."|i18n("design/standard/setup/init")}
   </p>
 
-{section show=eq( $site_access_illegal_name, 1 )}
-    <blockquote class="error">
-        <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
-        <p>
-            {"Host names should not include underscores ('_'), as this violates the DNS RFC and will cause problems with Internet Explorer. They have been converted to dashes ('-')."|i18n("design/standard/setup/init")}
-        </p>
-    </blockquote>
-{/section}
 
 {section show=eq( $site_access_illegal, 1 )}
     <blockquote class="error">
         <h2>{"Warning"|i18n("design/standard/setup/init")}</h2>
         <p>
-            {"'User path' and 'Admin path' should only contain letters ('a-zA-Z'), digits ('0-9') and underscores ('_'). These values must not be named 'admin' or 'user' and each value must be unique and non-empty. Please change invalid values for site indicated by *"|i18n("design/standard/setup/init")}
+	{section var=site loop=$site_types}
+	    {switch match=$site.access_type}
+	    {case match='url'}
+		{"'User path' and 'Admin path' should only contain letters ('a-zA-Z'), digits ('0-9') and underscores ('_'). The access values must not be named 'admin' or 'user' and each value must be unique. Please change invalid values on site indicated by *"|i18n("design/standard/setup/init")}
+	    {/case}
+	    {case match='port'}
+		{"'User port' and 'Admin port' should only contain digits ('0-9'). Please change invalid values on site indicated by *"|i18n("design/standard/setup/init")}
+	    {/case}
+	    {case match='hostname'}
+		<p>{"'User hostname' and 'Admin hostname' should only contain letters ('a-zA-Z'), digits ('0-9'), dashes ('-'), dots ('.') and colons (':'). Please change invalid values on site indicated by *"|i18n("design/standard/setup/init")}</p>
+	    {/case}
+	    {case/}
+	    {/switch}
+	{/section}
         </p>
     </blockquote>
 {/section}
