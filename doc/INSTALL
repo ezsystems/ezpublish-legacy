@@ -1,3 +1,6 @@
+eZ publish 3 INSTALL
+
+
 Requirements
 ------------
 
@@ -29,7 +32,7 @@ o  Database server:
 
 
 Installation guide
--------------------------------
+------------------
 
 You will find the installation guide at:
 http://ez.no/products/ez_publish/documentation/installation
