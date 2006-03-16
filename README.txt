@@ -18,20 +18,20 @@ browser based it can be used and updated from anywhere as long as you have
 access to the Internet.
 
 
-Licence
+License
 -------
 eZ publish is dual licensed. You can choose between the GNU GPL and the
-eZ publish Professional Licence. The GNU GPL gives you the right to use, modify
-and redistribute eZ publish under certain conditions. The GNU GPL licence is
-distributed with the software, see the file LICENCE. It is also available at
+eZ publish Professional License. The GNU GPL gives you the right to use, modify
+and redistribute eZ publish under certain conditions. The GNU GPL license is
+distributed with the software, see the file LICENSE. It is also available at
 http://www.gnu.org/licenses/gpl.txt
 Using eZ publish under the terms of the GNU GPL is free of charge.
 
-The eZ publish Professional Licence gives you the right to use the source code
+The eZ publish Professional License gives you the right to use the source code
 for making your own commercial software. It allows you full protection of your
 work made with eZ publish. You may re-brand, license and close your source
 code. eZ publish is not free of charge when used under the terms of the
-Professional Licence. For pricing and ordering, please contact us at
+Professional License. For pricing and ordering, please contact us at
 info@ez.no.
 
 
@@ -58,14 +58,13 @@ eZ publish features
 
 Installation
 ------------
-Read doc/INSTALL or go to http://ez.no/manual
+Read doc/INSTALL or go to http://ez.no/products/ez_publish/documentation
 
 
 Where to get more help
 ----------------------
-User and installation documentation: http://ez.no/manual
-Developer documentation: http://ez.no/ez_publish/documentation
-eZ publish forums: http://ez.no/community/forums/
+Documentation: http://ez.no/products/ez_publish/documentation
+eZ publish forums: http://ez.no/community/forum/
 
 
 Live demo of eZ publish 3
