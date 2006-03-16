@@ -69,4 +69,4 @@ eZ publish forums: http://ez.no/community/forum/
 
 Live demo of eZ publish 3
 -------------------------
-http://ez.no/products/ez_publish_cms/demo
+http://ez.no/products/ez_publish/demo
