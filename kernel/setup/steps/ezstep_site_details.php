@@ -39,10 +39,14 @@ if ( !defined( 'EZ_SETUP_DB_ERROR_ALREADY_CHOSEN' ) )
     define( 'EZ_SETUP_DB_ERROR_ALREADY_CHOSEN', 10 );
 if ( !defined( 'EZ_SETUP_SITE_ACCESS_ILLEGAL' ) )
     define( 'EZ_SETUP_SITE_ACCESS_ILLEGAL', 11 );
-if ( !defined( 'EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME' ) )
-    define( 'EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME', 12 );
-if ( !defined( 'EZ_SETUP_SITE_ACCESS_REGEXP' ) )
-    define( 'EZ_SETUP_SITE_ACCESS_REGEXP', '/^(\w+)$/' );
+
+if ( !defined( 'EZ_SETUP_SITE_ACCESS_DEFAULT_REGEXP' ) )
+    define( 'EZ_SETUP_SITE_ACCESS_DEFAULT_REGEXP', '/^([a-zA-Z0-9_]*)$/' );
+if ( !defined( 'EZ_SETUP_SITE_ACCESS_HOSTNAME_REGEXP' ) )
+    define( 'EZ_SETUP_SITE_ACCESS_HOSTNAME_REGEXP', '/^([a-zA-Z0-9.\-:]*)$/' );
+if ( !defined( 'EZ_SETUP_SITE_ACCESS_PORT_REGEXP' ) )
+    define( 'EZ_SETUP_SITE_ACCESS_PORT_REGEXP', '/^([0-9]*)$/' );
+
 /*!
   \class eZStepSiteDetails ezstep_site_details.php
   \brief The class eZStepSiteDetails does
@@ -97,21 +101,35 @@ class eZStepSiteDetails extends eZStepInstaller
 
             $error = false;
             $userPath = $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_value' );
-            $validateUserPath = preg_match( EZ_SETUP_SITE_ACCESS_REGEXP, $userPath );
+
+            $regexp = EZ_SETUP_SITE_ACCESS_DEFAULT_REGEXP;
+            if ( $siteType['access_type'] == 'port' )
+            {
+                $regexp = EZ_SETUP_SITE_ACCESS_PORT_REGEXP;
+            }
+            elseif ( $siteType['access_type'] == 'hostname' )
+            {
+                $regexp =  EZ_SETUP_SITE_ACCESS_HOSTNAME_REGEXP;
+            }
+            $validateUserPath = preg_match( $regexp, $userPath );
 
             if ( isset( $siteAccessValues[$userPath] ) or !$validateUserPath ) // check for equal and correct site access values
             {
                 $this->Error[$counter] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
+                /* Check for valid host name */
+                $userPath = ( ( $siteType['access_type'] == 'hostname' ) and ( strpos( $userPath, '_' ) !== false ) ) ? strtr( $userPath, '_', '-' ) : $userPath;
                 $error = true;
             }
             $siteType['access_type_value'] = $userPath;
             $siteAccessValues[$siteType['access_type_value']] = 1;
             $adminPath = $this->Http->postVariable( 'eZSetup_site_templates_'.$counter.'_admin_value' );
-            $validateAdminPath = preg_match( EZ_SETUP_SITE_ACCESS_REGEXP, $adminPath );
+            $validateAdminPath = preg_match( $regexp, $adminPath );
 
-            if ( isset( $siteAccessValues[$adminPath] ) or !$validateAdminPath ) // check for equal adn correct site access values
+            if ( isset( $siteAccessValues[$adminPath] ) or !$validateAdminPath ) // check for equal and correct site access values
             {
                 $this->Error[$counter] = EZ_SETUP_SITE_ACCESS_ILLEGAL;
+                /* Check for valid host name */
+                $adminPath = ( ( $siteType['access_type'] == 'hostname' ) and ( strpos( $adminPath, '_' ) !== false ) ) ? strtr( $adminPath, '_', '-' ) : $adminPath;
                 $error = true;
             }
 
@@ -174,20 +192,6 @@ class eZStepSiteDetails extends eZStepInstaller
                 return 'DatabaseInit';
             }
 
-            /* Check for valid host names */
-            if ( $siteType['access_type'] == 'hostname' )
-            {
-                if ( strpos( $siteType['access_type_value'], '_' ) !== false )
-                {
-                    $siteType['access_type_value'] = strtr ( $siteType['access_type_value'], '_', '-' ) ;
-                    $this->Error[$counter] = EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME;
-                }
-                if ( strpos( $siteType['admin_access_type_value'], '_' ) !== false )
-                {
-                    $siteType['admin_access_type_value'] = strtr ( $siteType['admin_access_type_value'], '_', '-' ) ;
-                    $this->Error[$counter] = EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME;
-                }
-            }
             ++$counter;
         }
         $this->storeSiteTypes( $siteTypes );
@@ -436,12 +440,6 @@ class eZStepSiteDetails extends eZStepInstaller
                     {
                         $this->Tpl->setVariable( 'site_access_illegal', 1 );
                         $siteTypes[$key]['site_access_illegal'] = 1;
-                    } break;
-
-                    case EZ_SETUP_SITE_ACCESS_ILLEGAL_NAME:
-                    {
-                        $this->Tpl->setVariable( 'site_access_illegal_name', 1 );
-                        $siteTypes[$key]['site_access_illegal_name'] = 1;
                     } break;
                 }
             }
