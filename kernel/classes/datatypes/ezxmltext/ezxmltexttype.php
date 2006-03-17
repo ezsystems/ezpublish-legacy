@@ -529,7 +529,8 @@ class eZXMLTextType extends eZDataType
                 {
                     $linkRef =& $links[$index];
                     $href    =  $linkRef->attributeValue( 'href' );
-
+                    if ( $href === false )
+                        continue;
                     $urlObj =& eZURL::urlByURL( $href );
 
                     if ( !$urlObj )
