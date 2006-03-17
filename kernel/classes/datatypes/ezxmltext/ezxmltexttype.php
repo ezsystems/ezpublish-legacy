@@ -534,7 +534,8 @@ class eZXMLTextType extends eZDataType
                     $href    =  $linkRef->attributeValue( 'href' );
 
                     $urlObj = eZURL::urlByURL( $href );
-
+                    if ( $href === false )
+                        continue;
                     if ( !$urlObj )
                     {
                         $urlObj = eZURL::create( $href );
