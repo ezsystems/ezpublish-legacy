@@ -28,7 +28,7 @@
         </div>
     {else}
         <div class="block">
-        <p>{'The available currency list is empty'|i18n( 'design/admin/shop/preferredcurrnecy' )}</p>
+        <p>{'The available currency list is empty'|i18n( 'design/admin/shop/preferredcurrency' )}</p>
         </div>
     {/if}
 {undef}
