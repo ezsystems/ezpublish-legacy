@@ -7,7 +7,7 @@
     <h2>{'Available wizards'|i18n('design/standard/package')}</h2>
     <p>{'Choose one of the following wizards for creating a package'|i18n('design/standard/package')}</p>
 
-    <div class="creatorlist">
+    <div class="optionslist">
     <ul>
     {section var=creator loop=$creator_list}
         <li><input class="radiobutton" id="{$creator.item.id|wash}" type="radio" name="CreatorItemID" value="{$creator.item.id|wash}" {section show=$creator.index|eq( 0 )}checked="checked"{/section} />{$creator.item.name|wash}</li>

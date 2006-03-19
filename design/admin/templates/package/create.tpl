@@ -16,12 +16,10 @@
 
 <div class="context-attributes">
 
-
-
     <h2>{'Available wizards'|i18n('design/admin/package')}</h2>
     <p>{'Choose one of the following wizards for creating a package'|i18n('design/admin/package')}</p>
 
-    <div class="creatorlist">
+    <div class="optionslist">
     {section var=creator loop=$creator_list}
         <input class="radiobutton" id="{$creator.item.id|wash}" type="radio" name="CreatorItemID" value="{$creator.item.id|wash}" {section show=$creator.index|eq( 0 )}checked="checked"{/section} />{$creator.item.name|wash}<br />
     {/section}

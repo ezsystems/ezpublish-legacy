@@ -2,18 +2,14 @@
 <form method="post" action={concat( 'package/install/', $package.name )|ezurl}>
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-
 <h1 class="context-title">{'Install package'|i18n('design/admin/package')}</h1>
 
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
-
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-attributes">
-
-
 
     <p>{'The package can be installed on your system, installing the package will copy files, create content classes etc. all depending on the package.
 If you do not wish to install the package at this time you can do so later on the view page for the package.'|i18n('design/admin/package')|break}</p>
@@ -34,8 +30,7 @@ If you do not wish to install the package at this time you can do so later on th
         <input class="button" type="submit" name="InstallPackageButton" value="{'Install package'|i18n('design/admin/package')}" />
         <input class="button" type="submit" name="SkipPackageButton" value="{'Skip installation'|i18n('design/admin/package')}" />
     </div>
-</form>
 {* DESIGN: Control bar END *}</div></div></div></div></div></div>
 </div>
-
 </form>
+
