@@ -709,8 +709,9 @@ class eZDOMDocument
         $node->setName( $name );
         $node->setType( 1 );
 
-        $this->registerElement( $node );
-
+        if ( isset( $this ) && is_object( $this ) )
+            $this->registerElement( $node );
+        
         return $node;
     }
 

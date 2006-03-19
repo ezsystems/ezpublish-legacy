@@ -2112,7 +2112,21 @@ class eZPackage
         $simpleFilesNode =& $root->elementByName( 'simple-files' );
         if ( $simpleFilesNode )
         {
-            $this->Parameters['simple-file-list'] = eZDOMDocument::createArrayFromDOMNode( $simpleFilesNode );
+            $child = $simpleFilesNode->firstChild();
+            if ( $child->nodeName == 'simple-file' )
+            {
+                $simpleFiles = $simpleFilesNode->Children;
+                foreach( $simpleFiles as $simpleFile )
+                {
+                    $key = $simpleFile->getAttribute( 'key' );
+                    $originalPath = $simpleFile->getAttribute( 'original-path' );
+                    $packagePath = $simpleFile->getAttribute( 'package-path' );
+                    $this->Parameters['simple-file-list'][$key] = array( 'original-path' => $originalPath,
+                                                                         'package-path' => $packagePath );
+                }
+            }
+            else
+                $this->Parameters['simple-file-list'] = eZDOMDocument::createArrayFromDOMNode( $simpleFilesNode );
         }
 
         // Read files
@@ -2569,7 +2583,20 @@ class eZPackage
         // Avoid a PHP warning if 'simple-file-list' is not an array
         if ( is_array( $this->Parameters['simple-file-list'] ) )
         {
-            $rootSimpleFiles = $dom->createElementNodeFromArray( 'simple-files', $this->Parameters['simple-file-list'] );
+            // Old format commented out
+            // May be used for back-compatiblity.
+            //$rootSimpleFiles = $dom->createElementNodeFromArray( 'simple-files', $this->Parameters['simple-file-list'] );
+
+            $rootSimpleFiles = $dom->createElement( 'simple-files' );
+            foreach( $this->Parameters['simple-file-list'] as $key => $value )
+            {
+                $simpleFileNode = $dom->createElement( 'simple-file' );
+                $simpleFileNode->setAttribute( 'key', $key );
+                $simpleFileNode->setAttribute( 'original-path', $value['original-path'] );
+                $simpleFileNode->setAttribute( 'package-path', $value['package-path'] );
+                $rootSimpleFiles->appendChild( $simpleFileNode );
+                unset( $simpleFileNode );
+            }
             $root->appendChild( $rootSimpleFiles );
         }
         else
