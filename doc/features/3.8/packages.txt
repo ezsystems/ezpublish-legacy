@@ -30,8 +30,7 @@ it should belong to the site data instead.
 
 1. Packages
 
-Standard packages can be downloaded from ez.no (they are no longer
-included into the eZ publish installation file).
+1.1 New package types.
 
 There are two new package types: 'site' and 'extension'.
 
@@ -48,6 +47,18 @@ inside 'site' packages.
 The 'extension' packages store extension files.
 It is possible to create, install and uninstall these packages from
 the administration interface.
+
+1.2 Package format changes.
+
+In order to create valid XML, next modifications have been done to
+the 'package.xml' file format:
+- Invalid namespaces definitions removed.
+- <simple-files> subtree structure changed. Now it contains nodes
+in the following format:
+
+<simple-file key="f30cfdbcfe49e40b432599715014472d"
+             original-path="var/shop_site/storage/images/galleries/misc_flowers/yellow_flower/369-1-eng-GB/yellow_flower.jpg"
+             package-path="simplefiles/f8456c3c.jpg" />
 
 2. Package repositories
 
