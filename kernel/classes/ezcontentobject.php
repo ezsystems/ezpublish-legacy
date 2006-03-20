@@ -2468,6 +2468,11 @@ class eZContentObject extends eZPersistentObject
     function &assignedNodes( $asObject = true )
     {
         $contentobjectID = $this->attribute( 'id' );
+        if ( !$contentobjectID )
+        {
+            $retValue = array();
+            return $retValue;
+        }
         $query = "SELECT ezcontentobject.*,
 			 ezcontentobject_tree.*,
 			 ezcontentclass.name as class_name
