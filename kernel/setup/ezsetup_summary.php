@@ -88,13 +88,13 @@ class eZSetupSummary
         }
 
         // Image settings
-        if ( isset( $persistenceList['imagegd_extension'] ) && $persistenceList['imagegd_extension']['result'] )
-        {
-            $this->Tpl->setVariable( 'image_processor', 'ImageGD' );
-        }
-        else if ( isset( $persistenceList['imagemagick_program'] ) && $persistenceList['imagemagick_program']['result'] )
+        if ( isset( $persistenceList['imagemagick_program'] ) && $persistenceList['imagemagick_program']['result'] )
         {
             $this->Tpl->setVariable( 'image_processor', 'ImageMagick' );
+        }
+        else if ( isset( $persistenceList['imagegd_extension'] ) && $persistenceList['imagegd_extension']['result'] )
+        {
+            $this->Tpl->setVariable( 'image_processor', 'ImageGD' );
         }
         else
         {

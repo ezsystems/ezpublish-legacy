@@ -14,3 +14,6 @@ Changes from 3.8.0alpha2 to 3.8.0beta1
 - Fixed bug #7993: Links disappear when unserialzing ezxml.
   ( Merged from stable/3.6 rev. 15179 )
 - Fixed bug #6642: Invalid xml key name in package.xml.
+- Fixed bug #7856: Setup assumes ImageMagick by default, 
+  even if ImageGD is avaiable/installed.
+  ( Merged from stable/3.7 ( 3.7.5 ) rev. 15189 )
