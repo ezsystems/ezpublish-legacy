@@ -373,11 +373,10 @@ class eZDOMNode
     /*!
      Alias for libxml compatibility
     */
-/*   function &get_elements_by_tagname( $name )
-    {
-        return $this->elementByName( $name );
-    }
-*/
+   function &get_elements_by_tagname( $name )
+   {
+       return $this->elementByName( $name );
+   }
 
     /*!
       Finds the first element named \a $name and returns the text content of that node.
