@@ -2468,7 +2468,7 @@ class eZContentObject extends eZPersistentObject
     function &assignedNodes( $asObject = true )
     {
         $contentobjectID = $this->attribute( 'id' );
-        if ( !$contentobjectID )
+        if ( $contentobjectID == null )
         {
             $retValue = array();
             return $retValue;
