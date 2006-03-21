@@ -5,7 +5,7 @@
     </div>
   {section-else}
     <div class="message-warning">
-    {section show=$failure_reason}
+    {section show=and( is_set( $failure_reason ), $failure_reason )}
     <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {$failure_reason}</h2>
     {section-else}
     <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {"Warning, it is not safe to upgrade without checking the modifications done to the following files"|i18n("design/admin/setup")}:</h2>

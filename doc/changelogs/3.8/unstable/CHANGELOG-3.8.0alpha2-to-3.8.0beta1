@@ -17,3 +17,6 @@ Changes from 3.8.0alpha2 to 3.8.0beta1
 - Fixed bug #7856: Setup assumes ImageMagick by default, 
   even if ImageGD is avaiable/installed.
   ( Merged from stable/3.7 ( 3.7.5 ) rev. 15189 )
+- Fixed bug #7967: Warning in debug output after running file 
+  consistency check.
+  ( Merged from stable/3.7 ( 3.7.5 ) rev. 15207 )
