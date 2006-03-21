@@ -41,13 +41,20 @@ CREATE TABLE `ezdbfile_data` (
 
 Edit database settings in the begging of 'lib/ezutils/classes/ezdbfile.php'.
 
- 3. Copy your files stored in var dir into database.
+ 3. Switch to database storage.
+
+Add this to your file.ini.append.php:
+    [ClusteringSettings]
+    FileHandler=ezdb
+ 
+This will force eZ publish to use database for storing images, binary files
+and content-related caches.
+
+ 4. Copy your files stored in var dir into database.
 
 <THIS WILL BE DESCRIBED LATER ON>
 
-Here, "en" is a siteaccess with correct database and VarDir information.
-
- 4. Clear the cache, using the clearcache.sh script.
+ 5. Clear the cache, using the clearcache.sh script.
 
 $ cd <ezp dir>
 $ bin/shell/clearcache.sh --clear-all
@@ -59,7 +66,7 @@ only works on cache stored on the filesystem. To clear the cache from now on,
 use the clearcache functions in the admin interface, or the
 bin/php/ezcache.php script.
 
- 5. Compile the templates.
+ 6. Compile the templates.
 
 Since all caches now are empty, we should compile the templates again. You
 might skip this step. If you skip this step, the templates will be compiled
@@ -70,14 +77,14 @@ $ /usr/local/php/bin/php bin/php/eztc.php -s en
 
 This step should be done for each siteaccess
 
- 6. Update apache virtualhost configuration.
+ 7. Update apache virtualhost configuration.
 
 Since images are no longer stored on disk but in the database, they need to
  be served by php. Therefore you will need to apply two more RewriteRules.
 
 Apply the following RewriteRules before your rules:
-  Rewriterule ^/var/[^/]+/storage/images-versioned/.*  /index_image.php [L]
-  Rewriterule ^/var/[^/]+/storage/images/.*            /index_image.php [L]
+  Rewriterule ^/var/([^/]+/)?storage/images-versioned/.*  /index_image.php [L]
+  Rewriterule ^/var/([^/]+/)?storage/images/.*            /index_image.php [L]
 
 
- 7. Restart apache and this should work.
+ 8. Restart apache and this should work.
