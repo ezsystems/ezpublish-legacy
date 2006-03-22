@@ -192,6 +192,11 @@ class eZProductCollectionItem extends eZPersistentObject
     {
         if ( $this->ContentObject === null )
         {
+            if ( $this->ContentObjectID == 0 )
+            {
+                $retValue = null;
+                return $retValue;
+            }
             $this->ContentObject =& eZContentObject::fetch( $this->ContentObjectID );
         }
         return $this->ContentObject;

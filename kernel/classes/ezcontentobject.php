@@ -1351,8 +1351,34 @@ class eZContentObject extends eZPersistentObject
         include_once( "kernel/classes/ezsearch.php" );
         eZSearch::removeObject( $contentobject );
 
-        $db->query( "DELETE FROM ezproductcollection_item
-                     WHERE contentobject_id = '$delID'" );
+        // Check if deleted object is in basket
+        $sql = 'SELECT ezproductcollection_item.productcollection_id
+                FROM   ezbasket,ezproductcollection_item
+                WHERE  ezproductcollection_item.productcollection_id=ezbasket.productcollection_id AND
+                       ezproductcollection_item.contentobject_id=' . $delID;
+        $rows = $db->arrayQuery( $sql );
+        if ( count( $rows ) > 0 )
+        {
+            $countElements = 50;
+            $deletedArray = array();
+            // Create array of productCollectionID will be removed
+            foreach ( $rows as $row )
+            {
+                $deletedArray[] = $row['productcollection_id'];
+            }
+            // Split $deletedArray into several arrays with $countElements values
+            $splitted = array_chunk( $deletedArray, $countElements );
+            include_once( "kernel/classes/ezproductcollectionitem.php" );
+            // Remove eZProductCollectionItem
+            foreach ( $splitted as $value )
+            {
+                eZPersistentObject::removeObject( eZProductCollectionItem::definition(), array( 'productcollection_id' => array( $value, '' ) ) );
+            }
+
+        }
+        $db->query( 'UPDATE ezproductcollection_item
+                     SET contentobject_id = 0
+                     WHERE  contentobject_id = ' . $delID );
 
         $db->query( "DELETE FROM ezcontentobject_link
              WHERE from_contentobject_id = '$delID' OR to_contentobject_id = '$delID'" );
