@@ -498,7 +498,9 @@ class eZInformationCollection extends eZPersistentObject
         $arrayRes = $db->arrayQuery( "SELECT ica.id, ica.informationcollection_id, ica.contentclass_attribute_id, ica.contentobject_attribute_id, ica.contentobject_id, ica.data_text, ica.data_int,
                                           ica.data_float
                                       FROM   ezinfocollection_attribute ica, ezcontentclass_attribute
-                                      WHERE  ezcontentclass_attribute.id=ica.contentclass_attribute_id AND informationcollection_id='" . $this->ID . "'
+                                      WHERE  ezcontentclass_attribute.id=ica.contentclass_attribute_id
+                                             AND informationcollection_id='" . $this->ID . "'
+                                             AND ezcontentclass_attribute.version=0
                                       ORDER BY ezcontentclass_attribute.placement" );
 
         if ( $asObject )
