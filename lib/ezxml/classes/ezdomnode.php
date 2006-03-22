@@ -74,7 +74,7 @@ class eZDOMNode
         $this->Content =& $this->content;
         $this->Name =& $this->tagname;
         $this->Type =& $this->type;
-        $this->nodeName =& $this->tagname;
+        $this->nodeName =& $this->Name;
     }
 
     /*!
@@ -601,6 +601,7 @@ class eZDOMNode
     {
         if ( get_class( $node ) == "ezdomnode" )
         {
+            $node->parentNode =& $this;
             $this->Children[] =& $node;
             return $node;
         }
@@ -750,6 +751,10 @@ class eZDOMNode
     */
     function removeChildren()
     {
+        foreach( array_keys( $this->Children ) as $key )
+        {
+           $this->Children[$key]->parentNode = null;
+        }
         $this->Children = array();
     }
 
@@ -767,12 +772,18 @@ class eZDOMNode
 
     /*!
       Removes child by the given child object.
+      
+      \note W3C DOM function
     */
     function removeChild( &$childToRemove )
     {
+        unset( $childToRemove->parentNode );
+        $childToRemove->parentNode = null;
+        $child = $childToRemove;
+
         foreach ( array_keys( $this->Children ) as $key )
         {
-            if ( $childToRemove == $this->Children[$key] )
+            if ( $this->Children[$key]->parentNode === null )
             {
                 unset( $this->Children[$key] );
             }
@@ -1039,12 +1050,19 @@ class eZDOMNode
         return $removed;
     }
 
-    // \note W3C DOM function
+    /*
+      \note W3C DOM function
+    */
+    function hasChildNodes()
+    {
+        return count( $this->Children ) > 0;
+    }
 
     /*!
       \return The first child of the node or \c false if there are no children.
 
       \note This will only make sense for element nodes.
+      \note W3C DOM function
     */
 
     function &firstChild()
@@ -1077,6 +1095,182 @@ class eZDOMNode
         return $child;
     }
 
+        /*!
+      Replaces child by the new one given.
+
+      \note W3C DOM function
+    */
+    function replaceChild( &$newChild, &$oldChild )
+    {
+        unset( $oldChild->parentNode );
+        $oldChild->parentNode = null;
+
+        $newChildren = array();
+
+        foreach ( array_keys( $this->Children ) as $key )
+        {
+            if ( $this->Children[$key]->parentNode === null )
+            {
+                $newChild->parentNode =& $this;
+                $newChildren[$key] =& $newChild;
+            }
+            else
+            {
+                $newChildren[$key] =& $this->Children[$key];
+            }
+        }
+        $this->Children =& $newChildren;
+        return $oldChild;
+    }
+
+    /*!
+      Replaces child by the new one given.
+
+      \note W3C DOM function
+    */
+    function insertBefore( &$newNode, &$refNode )
+    {
+        unset( $refNode->parentNode );
+        $refNode->parentNode = null;
+
+        $newChildren = array();
+
+        foreach ( array_keys( $this->Children ) as $key )
+        {
+            if ( $this->Children[$key]->parentNode === null )
+            {
+                $newChildren[] =& $newNode;
+                $newNode->parentNode =& $this;
+                $refNode->parentNode =& $this;
+            }
+            $newChildren[] =& $this->Children[$key];
+        }
+        $this->Children =& $newChildren;
+        return $newNode;
+    }
+
+    /*!
+      \note emulation of W3C DOM property
+    */
+
+    function &nextSibling()
+    {
+        $ret = null;
+        if ( !$this->parentNode )
+            return $ret;
+
+        $parent =& $this->parentNode;
+        unset( $this->parentNode );
+        $this->parentNode = null;
+
+        $next = false;
+        $children =& $parent->Children;
+
+        foreach( array_keys( $children ) as $child_key )
+        {
+            if ( $next )
+            {
+                $ret =& $children[$child_key];
+                break;
+            }
+            elseif ( $children[$child_key]->parentNode === null )
+            {
+                $this->parentNode =& $parent;
+                $next = true;
+            }
+        }
+
+        return $ret;
+    }
+
+   /*!
+      \note emulation of W3C DOM property
+    */
+
+    function &previousSibling()
+    {
+        $ret = null;
+        if ( !$this->parentNode )
+            return $ret;
+
+        $parent =& $this->parentNode;
+        unset( $this->parentNode );
+        $this->parentNode = null;
+
+        $prev = false;
+        $children =& $parent->Children;
+        foreach( array_keys( $children ) as $child_key )
+        {
+            if ( $prev !== false && $children[$child_key]->parentNode === null )
+            {
+                $this->parentNode =& $parent;
+                $ret =& $children[$prev];
+                break;
+            }
+            $prev = $child_key;
+        }
+
+        return $ret;
+    }
+
+    /*!
+      Outputs DOM subtree to the debug output in the easy readable form.
+      
+      \param node  subtree root node
+    */
+
+    function writeDebug( &$node, $text, $showAttributes = false, $showParent = false )
+    {
+        if ( !$node )
+            $node =& $this;
+
+        if ( $node )
+        {
+            if ( get_class( $node ) == 'ezdomnode' )
+            {
+                $d = eZDOMNode::debugNode( $node, $showAttributes, $showParent );
+                eZDebug::writeDebug( $d, $text );
+            }
+            else
+                eZDebug::writeDebug( $node, $text );
+        }
+        else
+        {
+            eZDebug::writeDebug( array( $node ), $text );
+        }
+    }
+
+    function debugNode( &$node, $showAttributes, $showParent )
+    {
+        $d = array();
+        $d['name'] = $node->nodeName;
+        if ( $node->nodeName == '#text' )
+            $d['text'] = $node->content;
+        else
+            $d['text'] = '';
+
+        if ( $showParent )
+           $d['parent'] = $node->parentNode->nodeName;
+
+        if ( count( $node->Children ) )
+        {
+            $d['children'] = array();
+            foreach( array_keys($node->Children) as $child_key )
+            {
+                $d['children'][] = eZDOMNode::debugNode( $node->Children[$child_key] );
+            }
+        }
+
+        if ( $showAttributes && count( $node->Attributes ) )
+        {
+            $d['attributes'] = array();
+            foreach( array_keys($node->Attributes) as $attr_key )
+            {
+                $d['attributes'][] = eZDOMNode::debugNode( $node->Attributes[$attr_key] );
+            }
+        }
+        return $d;
+    }
 
     /// \privatesection
 
@@ -1112,6 +1306,9 @@ class eZDOMNode
 
     /// contains the namespace prefix. E.g: book:title, book is the prefix
     var $Prefix = false;
+
+    /// Parent node reference
+    var $parentNode = null;
 }
 
 ?>
