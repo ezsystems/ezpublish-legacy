@@ -461,7 +461,15 @@ class eZOrder extends eZPersistentObject
             $contentObjectID = $productItem['contentobject_id'];
             if ( $productObject == null )
             {
-                $productObject =& eZContentObject::fetch( $contentObjectID );
+                if ( $contentObjectID != 0 )
+                {
+                    $productObject =& eZContentObject::fetch( $contentObjectID );
+                }
+                else
+                {
+                    $productObject = null;
+                    $name = $productItem['name'];
+                }
                 $currentContentObjectID = $contentObjectID;
             }
             if ( $currentContentObjectID != $contentObjectID && $itemCount != 1 )
@@ -473,7 +481,14 @@ class eZOrder extends eZPersistentObject
                 $sumCount = 0;
                 $name = $productItem['name'];
                 $currentContentObjectID = $contentObjectID;
-                $productObject =& eZContentObject::fetch( $currentContentObjectID );
+                if ( $contentObjectID != 0 )
+                {
+                    $productObject =& eZContentObject::fetch( $currentContentObjectID );
+                }
+                else
+                {
+                    $productObject = null;
+                }
             }
 
             if ( $productItem['ignore_vat'] == true )
