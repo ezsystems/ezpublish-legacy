@@ -16,25 +16,25 @@ related to content are still stored on disc.
 
  1. Create tables in database
 
-CREATE TABLE `ezdbfile` (
-  `id` mediumint(8) unsigned NOT NULL auto_increment,
-  `datatype` varchar(60) NOT NULL default 'application/octet-stream',
-  `name` varchar(255) NOT NULL default '',
-  `name_hash` varchar(34) NOT NULL default '',
-  `scope` varchar(20) NOT NULL default '',
-  `size` bigint(20) unsigned NOT NULL default '1024',
-  `mtime` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `ezdbfile_name` (`name`),
-  KEY `ezdbfile_name_hash` (`name_hash`)
+CREATE TABLE ezdbfile (
+  id        MEDIUMINT(8) UNSIGNED NOT NULL auto_increment,
+  datatype  VARCHAR(60)  NOT NULL DEFAULT 'application/octet-stream',
+  name      VARCHAR(255) NOT NULL DEFAULT '',
+  name_hash VARCHAR(34)  NOT NULL DEFAULT '',
+  scope     VARCHAR(20)  NOT NULL DEFAULT '',
+  size      BIGINT(20)   UNSIGNED NOT NULL,
+  mtime     INT(11)      NOT NULL DEFAULT '0',
+  PRIMARY KEY (id),
+  UNIQUE INDEX ezdbfile_name (name),
+  UNIQUE INDEX ezdbfile_name_hash (name_hash)
 ) ENGINE=InnoDB;
 
-CREATE TABLE `ezdbfile_data` (
-  `id` mediumint(8) unsigned NOT NULL auto_increment,
-  `masterid` mediumint(8) unsigned NOT NULL default '0',
-  `filedata` blob NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `master_idx` (`masterid`)
+CREATE TABLE ezdbfile_data (
+  id       MEDIUMINT(8) unsigned NOT NULL auto_increment,
+  masterid MEDIUMINT(8) unsigned NOT NULL default '0',
+  filedata BLOB NOT NULL,
+  PRIMARY KEY (id),
+  KEY master_idx (masterid)
 ) ENGINE=InnoDB;
 
  2. Specify db to connect to.
