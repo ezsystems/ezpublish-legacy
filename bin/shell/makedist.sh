@@ -878,7 +878,8 @@ Failed to check out locale from WC" || exit 1
 if [ -z "$SKIP_CHANGELOGS" -a "$SVN_EXPORT" == "svn" ]; then
     echo -n "Changelogs:"
     for version in $STABLE_VERSIONS; do
-        changelog_url="$REPOSITORY_BASE_URL/$REPOSITORY_STABLE_BRANCH_PATH/$version/doc/changelogs/$version"
+       # changelog_url="$REPOSITORY_BASE_URL/$REPOSITORY_STABLE_BRANCH_PATH/$version/doc/changelogs/$version"
+        changelog_url="doc/changelogs/$version"
         rm -rf "$DEST/doc/changelogs/$version"
         echo -n " `ez_store_pos`$version"
 	svn export "$changelog_url" "$DEST/doc/changelogs/$version" &>/dev/null
