@@ -22,3 +22,4 @@ Changes from 3.8.0alpha2 to 3.8.0beta1
   ( Merged from stable/3.7 ( 3.7.5 ) rev. 15207 )
 - Fixed bug #6056: Duplicate entries in collectedinfo output.
   ( Merged from stable/3.7 ( 3.7.5 ) rev. 15220 )
+- Fixed bug #7927: fatal error when CURL missing.

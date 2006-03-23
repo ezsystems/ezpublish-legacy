@@ -76,6 +76,9 @@ class eZStepSiteTypes extends eZStepInstaller
         if ( !file_exists( $outDir ) )
             eZDir::mkdir( $outDir, eZDir::directoryPermission(), true );
 
+        // First try CURL
+        if ( extension_loaded( 'curl' ) )
+        {
         $ch = curl_init( $url );
         $fp = eZStepSiteTypes::fopen( $fileName, 'wb' );
 
@@ -98,6 +101,19 @@ class eZStepSiteTypes extends eZStepInstaller
 
         curl_close( $ch );
         fclose( $fp );
+        }
+        else
+        {
+            // If we don't have CURL installed we used standard fopen urlwrappers
+            // Note: Could be blocked by not allowing remote calls.
+            if ( !copy( $url, $fileName ) )
+            {
+                $this->ErrorMsg = ezi18n( 'design/standard/setup/init', 'Failed to copy %url to local file %filename', null,
+                                          array( "%url" => $url,
+                                                 "%filename" => $fileName ) );
+                return false;
+            }
+        }
 
         return $fileName;
     }
