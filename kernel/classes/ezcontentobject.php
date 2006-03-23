@@ -1351,17 +1351,18 @@ class eZContentObject extends eZPersistentObject
         include_once( "kernel/classes/ezsearch.php" );
         eZSearch::removeObject( $contentobject );
 
-        // Check if deleted object is in basket
-        $sql = 'SELECT ezproductcollection_item.productcollection_id
-                FROM   ezbasket,ezproductcollection_item
-                WHERE  ezproductcollection_item.productcollection_id=ezbasket.productcollection_id AND
+        // Check if deleted object is in basket/wishlist
+        $sql = 'SELECT DISTINCT ezproductcollection_item.productcollection_id
+                FROM   ezbasket, ezwishlist, ezproductcollection_item
+                WHERE  ( ezproductcollection_item.productcollection_id=ezbasket.productcollection_id OR
+                         ezproductcollection_item.productcollection_id=ezwishlist.productcollection_id ) AND
                        ezproductcollection_item.contentobject_id=' . $delID;
         $rows = $db->arrayQuery( $sql );
         if ( count( $rows ) > 0 )
         {
             $countElements = 50;
             $deletedArray = array();
-            // Create array of productCollectionID will be removed
+            // Create array of productCollectionID will be removed from ezwishlist and ezproductcollection_item
             foreach ( $rows as $row )
             {
                 $deletedArray[] = $row['productcollection_id'];
@@ -1369,12 +1370,13 @@ class eZContentObject extends eZPersistentObject
             // Split $deletedArray into several arrays with $countElements values
             $splitted = array_chunk( $deletedArray, $countElements );
             include_once( "kernel/classes/ezproductcollectionitem.php" );
-            // Remove eZProductCollectionItem
+            include_once( "kernel/classes/ezwishlist.php" );
+            // Remove eZProductCollectionItem and eZWishList
             foreach ( $splitted as $value )
             {
                 eZPersistentObject::removeObject( eZProductCollectionItem::definition(), array( 'productcollection_id' => array( $value, '' ) ) );
+                eZPersistentObject::removeObject( eZWishList::definition(), array( 'productcollection_id' => array( $value, '' ) ) );
             }
-
         }
         $db->query( 'UPDATE ezproductcollection_item
                      SET contentobject_id = 0
