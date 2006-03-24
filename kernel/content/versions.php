@@ -197,11 +197,17 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
 
                 if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
                 {
-                    return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
+                    break;
                 }
+
             }
         }
         $db->commit();
+
+        if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
+        {
+            return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
+        }
     }
     else
     {
