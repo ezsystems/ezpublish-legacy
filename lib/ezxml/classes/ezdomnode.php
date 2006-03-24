@@ -387,7 +387,15 @@ class eZDOMNode
     */
     function get_elements_by_tagname( $name )
     {
-        return $this->elementsByName( $name );
+        $elements = array();
+        foreach ( array_keys( $this->Children ) as $key )
+        {
+            $child =& $this->Children[$key];
+            if ( $child->name() == $name )
+                $elements[] =& $child;
+        }
+
+        return $elements;
     }
 
     /*!
