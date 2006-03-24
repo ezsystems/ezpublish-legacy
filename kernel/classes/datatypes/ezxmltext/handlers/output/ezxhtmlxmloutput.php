@@ -322,8 +322,20 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
         $sectionLevel = $currentSectionLevel;
         $class = $paragraph->attributeValue( 'class' );
+        $curChildIndex = 0;
+        $totalChildren = count( $paragraph->children() );
         foreach ( $paragraph->children() as $paragraphNode )
         {
+            $curChildIndex++;
+
+            if ( $curChildIndex == $totalChildren ) 
+            {
+              $this->LastParagraphChild = true;
+            }
+            else
+            {
+                $this->LastParagraphChild = false;
+            }
             $isBlockTag = false;
             $content =& $this->renderXHTMLTag( $tpl, $paragraphNode, $sectionLevel, $isBlockTag, $tdSectionLevel );
             if ( $isBlockTag === true )
@@ -1013,6 +1025,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
+                //force rendering last line without <br> i.e. as plain text
+                if ( $tagName == 'line' && $this->LastParagraphChild ) 
+                {
+                    $uri = "design:content/datatype/view/ezxmltags/text.tpl";
+                }
+
                 $textElements = array();
                 include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
@@ -1103,6 +1121,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     /// Contains the Nodes hashed by ID
     var $NodeArray = array();
+    
+    /// Contains boolean flag if current child is last among paragraph children
+    /// used when rendering last <line> tag.
+    var $LastParagraphChild = false;
 
     /// Array of parameters for rendering tags that are children of 'link' tag
     var $LinkParameters = array();
