@@ -195,13 +195,19 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
                      $Module->actionParameter( 'EditLanguage' ) )
                     $EditLanguage = $Module->actionParameter( 'EditLanguage' );
 
-    	        if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
+                if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
                 {
-                    return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
+                    break;
                 }
+
             }
         }
         $db->commit();
+
+        if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
+        {
+            return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
+        }
     }
     else
     {
