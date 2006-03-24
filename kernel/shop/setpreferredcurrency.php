@@ -38,11 +38,11 @@ $preferredCurrency = $Params['Currency'];
 if ( $module->isCurrentAction( 'Set' ) )
 {
     if ( $module->hasActionParameter( 'Currency' ) )
-    {
         $preferredCurrency = $module->actionParameter( 'Currency' );
-        eZShopFunctions::setPreferredCurrency( $preferredCurrency );
-    }
 }
+
+if ( $preferredCurrency )
+    eZShopFunctions::setPreferredCurrency( $preferredCurrency );
 
 include_once( 'kernel/classes/ezredirectmanager.php' );
 eZRedirectManager::redirectTo( $module, false );

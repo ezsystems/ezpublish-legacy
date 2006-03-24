@@ -42,25 +42,8 @@ class eZShopFunctions
     */
     function isProductClass( &$contentClass )
     {
-        $isProduct = false;
-
-        if ( is_object( $contentClass ) )
-        {
-            $classAttributes =& $contentClass->fetchAttributes();
-            $keys = array_keys( $classAttributes );
-            foreach ( $keys as  $key )
-            {
-                $classAttribute =& $classAttributes[$key];
-                $dataType = $classAttribute->attribute( 'data_type_string' );
-                if ( eZShopFunctions::isProductDatatype( $dataType ) )
-                {
-                    $isProduct = true;
-                    break;
-                }
-            }
-        }
-
-        return $isProduct;
+        $type = eZShopFunctions::productTypeByClass( $contentClass );
+        return ( $type !== false );
     }
 
     /*!
@@ -68,14 +51,52 @@ class eZShopFunctions
     */
     function isProductObject( &$contentObject )
     {
-        $type = eZShopFunctions::productType( $contentObject );
+        $type = eZShopFunctions::productTypeByObject( $contentObject );
         return ( $type !== false );
+    }
+
+    function isSimplePriceClass( &$contentClass )
+    {
+        $type = eZShopFunctions::productTypeByClass( $contentClass );
+        return ( $type === 'ezprice' );
+    }
+
+    function isMultiPriceClass( &$contentClass )
+    {
+        $type = eZShopFunctions::productTypeByClass( $contentClass );
+        return ( $type === 'ezmultiprice' );
     }
 
     /*!
      \static
     */
-    function productType( &$contentObject )
+    function productTypeByClass( &$contentClass )
+    {
+        $type = false;
+
+        if ( is_object( $contentClass ) )
+        {
+            $classAttributes =& $contentClass->fetchAttributes();
+            $keys = array_keys( $classAttributes );
+            foreach ( $keys as $key )
+            {
+                $classAttribute =& $classAttributes[$key];
+                $dataType = $classAttribute->attribute( 'data_type_string' );
+                if ( eZShopFunctions::isProductDatatype( $dataType ) )
+                {
+                    $type = $dataType;
+                    break;
+                }
+            }
+        }
+
+        return $type;
+    }
+
+    /*!
+     \static
+    */
+    function productTypeByObject( &$contentObject )
     {
         $type = false;
 
@@ -175,8 +196,24 @@ class eZShopFunctions
     */
     function setPreferredCurrency( $currencyCode )
     {
-        include_once( 'kernel/classes/ezpreferences.php' );
-        eZPreferences::setValue( 'user_preferred_currency', $currencyCode );
+        include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+        $currency = eZCurrencyData::fetch( $currencyCode );
+        if ( $currency )
+        {
+            if ( $currency->isActive() )
+            {
+                include_once( 'kernel/classes/ezpreferences.php' );
+                eZPreferences::setValue( 'user_preferred_currency', $currencyCode );
+            }
+            else
+            {
+                eZDebug::writeWarning( "Unable to '$currencyCode' as preferred currency since it's inactive.", 'eZShopFunctions::setPreferredCurrency' );
+            }
+        }
+        else
+        {
+            eZDebug::writeWarning( "Currency '$currencyCode' doesn't exist", 'eZShopFunctions::setPreferredCurrency' );
+        }
     }
 
     /*!

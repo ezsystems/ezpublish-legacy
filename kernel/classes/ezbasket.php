@@ -532,7 +532,7 @@ WHERE ezbasket.session_id = ezsession.session_key AND
             if ( is_object( $product ) )
             {
                 include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-                $type = eZShopFunctions::productType( $product );
+                $type = eZShopFunctions::productTypeByObject( $product );
             }
         }
 

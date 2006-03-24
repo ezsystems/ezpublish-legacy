@@ -49,7 +49,7 @@ if ( !$object->canRead() )
 // Check if the object has a price datatype, if not it cannot be used in the basket
 include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
-$productType = eZShopFunctions::productType( $object );
+$productType = eZShopFunctions::productTypeByObject( $object );
 if ( $productType === false )
 {
     include_once( 'kernel/shop/errors.php' );

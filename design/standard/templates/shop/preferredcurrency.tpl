@@ -9,7 +9,7 @@
 
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-{def $currency_list = fetch( 'shop', 'currency_list' )
+{def $currency_list = fetch( 'shop', 'currency_list', hash( 'status', 'active' ) )
      $preferred_currency = fetch( 'shop', 'preferred_currency' )}
     {if gt( count($currency_list),0 )}
         <div class="block">

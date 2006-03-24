@@ -322,6 +322,11 @@ class eZCurrencyData extends eZPersistentObject
         eZPersistentObject::store( $fieldFilters );
     }
 
+    function isActive()
+    {
+        return ( $this->attribute( 'status' ) == EZ_CURRENCYDATA_STATUS_ACTIVE );
+    }
+
     var $RateValue;
 }
 
