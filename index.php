@@ -908,6 +908,12 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     include_once( 'kernel/classes/ezstaticcache.php' );
     eZStaticCache::executeActions();
 
+    $db =& eZDB::instance();
+    while ( $db->TransactionCounter > 0 )
+    {
+        eZDebug::writeError( "Internal transaction counter mismatch : " . $db->TransactionCounter . ". Should be zero." );
+        $db->commit();
+    }
     if ( $automatic_redir )
     {
         eZHTTPTool::redirect( $redirectURI );
