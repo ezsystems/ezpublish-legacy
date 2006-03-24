@@ -29,3 +29,5 @@ Changes from 3.8.0alpha2 to 3.8.0beta1
   ( Merged from stable/3.7 ( 3.7.6 ) rev. 15274 )
 - Fixed bug #8027: Fatal error: ezimagealiashandler.php
   ( Merged from release/3.5.10 rev. 15280 )
+- Fixed bug #8028: Bug Extra <br /> tag while using linebreaks with paragraph.
+  ( Merged from stable/3.6 ( 3.6.8 ) rev. 15277 )
