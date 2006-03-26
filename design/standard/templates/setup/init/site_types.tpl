@@ -11,6 +11,15 @@
     {"Please choose one site type you would like to test or base your sites on. Use Plain if you wish to start from scratch."i18n("design/standard/setup/init")}
   </p>
 
+{if $message}
+    <blockquote class="message">
+        <p>
+        <ul>
+            <li>{$message|wash}</li>
+        </ul>
+        </p>
+    </blockquote>
+{/if}
 {section show=$error}
 <div class="error">
 
@@ -34,12 +43,17 @@
 <tr><td colspan="4"><h2>{'Site packages'|i18n('design/standard/setup/init')}:</h2></td></tr>
 {if is_set( $site_packages )}
     {foreach $site_packages as $package_info}
+    {if and( is_set( $message ), $message )}
+       {if not( and( $chosen_package, eq( $package_info.name, $chosen_package ) ))}
+       	 {continue}
+       {/if}
+    {/if}
     <tr>
     <td>
         {if is_set( $package_info.url )}
-      <input id="{$package_info.name|wash}" type="radio" name="eZSetup_site_type" value="{$package_info.name}|{$package_info.url}"/>
+      <input id="{$package_info.name|wash}" type="radio" name="eZSetup_site_type" value="{$package_info.name}|{$package_info.url}" {if eq($package_info.name,$chosen_package)} checked="checked"{/if}/>
         {else}
-      <input id="{$package_info.name|wash}" type="radio" name="eZSetup_site_type" value="{$package_info.name}"/>
+      <input id="{$package_info.name|wash}" type="radio" name="eZSetup_site_type" value="{$package_info.name}" {if eq($package_info.name,$chosen_package)} checked="checked"{/if}/>
 	{/if}
     </td>
     <td>

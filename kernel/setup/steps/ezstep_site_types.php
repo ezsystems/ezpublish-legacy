@@ -320,16 +320,21 @@ class eZStepSiteTypes extends eZStepInstaller
         }
 
         $sitePackageInfo = $this->Http->postVariable( 'eZSetup_site_type' );
-
+        $downloaded = false; // true - if $sitePackageName package has been downloaded.
         if ( preg_match( '/^(\w+)\|(.+)$/', $sitePackageInfo, $matches ) )
         {
             // remote site package chosen: download it.
             $sitePackageName = $matches[1];
             $sitePackageURL  = $matches[2];
-            
+
             // we already know that we should download the package anyway as it has newer version
             // so use force download mode
             $package = $this->downloadAndImportPackage( $sitePackageName, $sitePackageURL, true );
+            if ( is_object( $package ) )
+            {
+                $downloaded = true;
+                $this->Message = ezi18n( 'design/standard/setup/init', 'Package %packageName and Dependencies have been downloaded. Press NEXT for continue.', false, array( '%packageName' => $sitePackageName ) );
+            }
         }
         else
         {
@@ -346,7 +351,8 @@ class eZStepSiteTypes extends eZStepInstaller
             return false;
 
         // Download packages that the site package requires.
-        return $this->downloadDependantPackages( $package );
+        $donloadDependandPackagesResult = $this->downloadDependantPackages( $package );
+        return !$downloaded;
     }
 
     /*!
@@ -480,6 +486,7 @@ class eZStepSiteTypes extends eZStepInstaller
         $this->Tpl->setVariable( 'dependencies_status', $dependenciesStatus );
         $this->Tpl->setVariable( 'chosen_package', $chosenSitePackage );
         $this->Tpl->setVariable( 'error', $this->ErrorMsg );
+        $this->Tpl->setVariable( 'message', $this->Message );
 
         // Return template and data to be shown
         $result = array();
@@ -631,6 +638,7 @@ class eZStepSiteTypes extends eZStepInstaller
     var $Error = 0;
     var $ErrorMsg = false;
     var $FileOpenErrorMsg = false;
+    var $Message = false;
 }
 
 ?>
