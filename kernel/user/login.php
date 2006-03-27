@@ -176,13 +176,17 @@ if ( $Module->isCurrentAction( 'Login' ) and
     }
 
     $redirectionURI = $userRedirectURI;
-    if ( $redirectionURI == '' )
+
+    // Determine if we already know redirection URI.
+    $haveRedirectionURI = ( $redirectionURI != '' && $redirectionURI != '/' );
+
+    if ( !$haveRedirectionURI )
         $redirectionURI = $ini->variable( 'SiteSettings', 'DefaultPage' );
 
     /* If the user has successfully passed authorization
      * and we don't know redirection URI yet.
      */
-    if ( is_object( $user ) && ( !$redirectionURI || $redirectionURI == '/' ) )
+    if ( is_object( $user ) && !$haveRedirectionURI )
     {
         /*
          * Choose where to redirect the user to after successful login.
@@ -210,7 +214,6 @@ if ( $Module->isCurrentAction( 'Login' ) and
                 if ( isset( $uriAttrNames['group'] ) )
                     $groupUriAttrName = $uriAttrNames['group'];
             }
-
         }
 
         $userObject = $user->attribute( 'contentobject' );
