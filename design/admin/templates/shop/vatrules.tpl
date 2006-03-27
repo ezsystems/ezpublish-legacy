@@ -16,19 +16,19 @@
 <table class="list" cellspacing="0">
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/vatrules' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/vatrules' )}" onclick="ezjs_toggleCheckboxes( document.VatRules, 'RuleIDList[]' ); return false;" /></th>
-    <th class="tight">&nbsp;</th>
     <th class="tight">{'Country'|i18n( 'design/admin/shop/vatrules' )}</th>
     <th class="wide">{'Product categories'|i18n( 'design/admin/shop/vatrules' )}</th>
     <th>{'VAT type'|i18n( 'design/admin/shop/vatrules' )}</th>
+    <th class="tight">&nbsp;</th>
 </tr>
 
 {foreach $rules as $rule sequence array( bglight, bgdark ) as $seq_color}
 <tr class="{$seq_color}">
     <td><input type="checkbox" name="RuleIDList[]" value="{$rule.id}" title="{'Select rule for removal.'|i18n( 'design/admin/shop/vatrules' )}" /></td>
-    <td><a href={concat( 'shop/editvatrule/', $rule.id)|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/shop/vatrules' )}" title="{"Edit rule."|i18n( 'design/admin/shop/vatrules')|wash}" /></a>
     <td>{cond( $rule.country|wash|eq('*'), 'Any'|i18n( 'design/admin/shop/vatrules' ), true, $rule.country|wash )}</td>
     <td>{$rule.product_categories_string|wash}</td>
     <td>{$rule.vat_type_name|wash} ({$rule.vat_type_object.percentage}%)</td>
+    <td><a href={concat( 'shop/editvatrule/', $rule.id)|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/shop/vatrules' )}" title="{"Edit rule."|i18n( 'design/admin/shop/vatrules')|wash}" /></a>
 </tr>
 {/foreach}
 </table>
