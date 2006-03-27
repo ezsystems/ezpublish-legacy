@@ -104,7 +104,7 @@ class eZVatRule extends eZPersistentObject
     {
         return eZPersistentObject::fetchObjectList( eZVatRule::definition(),
                                                     null, null,
-                                                    array( 'id' => false ),
+                                                    array( 'id' => 'asc' ),
                                                     null, true );
     }
 

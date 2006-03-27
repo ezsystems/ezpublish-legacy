@@ -30,6 +30,54 @@ include_once( "kernel/common/template.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 include_once( "kernel/classes/ezvatrule.php" );
 
+/**
+ * Auxiliary function used to sort VAT rules.
+ *
+ * Rules are sorted by country and categories.
+ * Any specific categories list or country is considered less than '*' (Any).
+ */
+function compareVatRules($a, $b)
+{
+    // Compare countries.
+
+    $aCountry = $a->attribute( 'country' );
+    $bCountry = $b->attribute( 'country' );
+
+    if ( $aCountry != $bCountry )
+    {
+        if ( $aCountry == '*' )
+            return 1;
+        if ( $bCountry == '*' )
+            return -1;
+
+        return ( $aCountry < $bCountry ? -1 : 1 );
+    }
+
+    // Ok, countries are equal. Let's compare categories then.
+
+    if ( $a->attribute( 'product_categories' ) )
+        $aCategory = $a->attribute( 'product_categories_string' );
+    else
+        $aCategory = '*';
+
+    if ( $b->attribute( 'product_categories' ) )
+        $bCategory = $b->attribute( 'product_categories_string' );
+    else
+        $bCategory = '*';
+
+    if ( $aCategory != $bCategory )
+    {
+        if ( $aCategory == '*' )
+            return 1;
+        if ( $bCategory == '*' )
+            return -1;
+
+        return ( $aCategory < $bCategory ? -1 : 1 );
+    }
+
+    return 0;
+}
+
 $module =& $Params["Module"];
 $http   =& eZHttpTool::instance();
 $tpl =& templateInit();
@@ -73,6 +121,7 @@ if ( $http->hasPostVariable( "SaveCategoriesButton" ) )
 }
 
 $vatRules = eZVatRule::fetchList();
+usort( $vatRules, 'compareVatRules' );
 
 $tpl->setVariable( 'rules', $vatRules );
 
