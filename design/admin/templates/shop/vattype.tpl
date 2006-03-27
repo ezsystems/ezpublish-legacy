@@ -15,7 +15,7 @@
 <tr>
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="{'Invert selection.'|i18n( 'design/admin/shop/vattype' )}" title="{'Invert selection.'|i18n( 'design/admin/shop/vattype' )}" onclick="ezjs_toggleCheckboxes( document.VatType, 'vatTypeIDList[]' ); return false;" /></th>
     <th>{'Name'|i18n( 'design/admin/shop/vattype' )}</th>
-    <th>{'Percentage'|i18n( 'design/admin/shop/vattype' )}</th>
+    <th class="tight">{'Percentage'|i18n( 'design/admin/shop/vattype' )}</th>
 </tr>
 
 {section var=Vattypes loop=$vattype_array sequence=array( bglight, bgdark )}
