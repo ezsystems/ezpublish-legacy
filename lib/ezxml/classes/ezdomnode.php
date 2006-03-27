@@ -1265,7 +1265,7 @@ class eZDOMNode
             $d['children'] = array();
             foreach( array_keys($node->Children) as $child_key )
             {
-                $d['children'][] = eZDOMNode::debugNode( $node->Children[$child_key] );
+                $d['children'][] = eZDOMNode::debugNode( $node->Children[$child_key], $showAttributes, $showParent );
             }
         }
 
@@ -1274,7 +1274,7 @@ class eZDOMNode
             $d['attributes'] = array();
             foreach( array_keys($node->Attributes) as $attr_key )
             {
-                $d['attributes'][] = eZDOMNode::debugNode( $node->Attributes[$attr_key] );
+                $d['attributes'][] = eZDOMNode::debugNode( $node->Attributes[$attr_key], $showAttributes, $showParent );
             }
         }
         return $d;

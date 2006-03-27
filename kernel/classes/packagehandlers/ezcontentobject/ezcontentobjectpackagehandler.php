@@ -987,8 +987,6 @@ class eZContentObjectPackageHandler extends eZPackageHandler
                  !$this->isErrorElement( $realObjectNode->attributeValue( 'remote_id' ), $installParameters ) )
                 continue;
 
-            eZDebug::writeDebug( $realObjectNode, '$realObjectNode' );
-
             $newObject = eZContentObject::unserialize( $this->Package, $realObjectNode, $installParameters, $userID, $handlerType );
             if ( !$newObject )
                 return false;
