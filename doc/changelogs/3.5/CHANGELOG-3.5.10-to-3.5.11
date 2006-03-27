@@ -3,5 +3,3 @@ Changes from 3.5.10 to 3.5.11
 *Kernel:
 
 *Bugfixes:
-- Fixed bug #8015: Basket isn't cleared when user logs out.
-  ( Merged from stable/3.7 ( 3.7.6 ) rev. 15301 )
