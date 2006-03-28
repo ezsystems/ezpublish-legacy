@@ -698,7 +698,7 @@ class eZContentOperationCollection
         $nonTranslatableAttributes = $version->nonTranslatableAttributesToUpdate();
         if ( $nonTranslatableAttributes )
         {
-            $attributes = $version->contentObjectAttributes();
+            $attributes = $version->contentObjectAttributes( $version->initialLanguageCode() );
             $attributeByClassAttrID = array();
             foreach ( $attributes as $attribute )
             {

@@ -943,13 +943,16 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function &contentObjectAttributes( $languageCode = false, $asObject = true )
     {
-        if ( $this->CurrentLanguage )
+        if ( $languageCode == false )
         {
-            $languageCode = $this->CurrentLanguage;
-        }
-        else if ( $languageCode == false && ( $this->Status == EZ_VERSION_STATUS_DRAFT || $this->Status == EZ_VERSION_STATUS_INTERNAL_DRAFT || $this->Status == EZ_VERSION_STATUS_PENDING ) )
-        {
-            $languageCode = $this->initialLanguageCode();
+            if ( $this->Status == EZ_VERSION_STATUS_DRAFT || $this->Status == EZ_VERSION_STATUS_INTERNAL_DRAFT || $this->Status == EZ_VERSION_STATUS_PENDING )
+            {
+                $languageCode = $this->initialLanguageCode();
+            }
+            else if ( $this->CurrentLanguage )
+            {
+                $languageCode = $this->CurrentLanguage;
+            }
         }
 
         $attributes = eZContentObjectVersion::fetchAttributes( $this->Version, $this->ContentObjectID, $languageCode, $asObject );
