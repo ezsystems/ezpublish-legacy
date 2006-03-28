@@ -34,7 +34,7 @@
 
 {* New image file for upload. *}
 <div class="block">
-    <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
+    <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1|mul( 1024, 1024 )}" />
     <label>{'New image file for upload'|i18n( 'design/standard/content/datatype' )}:</label>
     <input class="box" name="{$attribute_base}_data_imagename_{$attribute.id}" type="file" />
 </div>
