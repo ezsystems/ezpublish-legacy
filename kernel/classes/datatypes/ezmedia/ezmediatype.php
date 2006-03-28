@@ -220,7 +220,7 @@ class eZMediaType extends eZDataType
         $version = $contentObjectAttribute->attribute( "version" );
         $width = $http->postVariable( $base . "_data_media_width_" . $contentObjectAttribute->attribute( "id" ) );
         $height = $http->postVariable( $base . "_data_media_height_" . $contentObjectAttribute->attribute( "id" ) );
-        $quality = $http->postVariable( $base . "_data_media_quality_" . $contentObjectAttribute->attribute( "id" ) );
+        $quality = $http->hasPostVariable( $base . "_data_media_quality_" . $contentObjectAttribute->attribute( "id" ) ) ? $http->postVariable( $base . "_data_media_quality_" . $contentObjectAttribute->attribute( "id" ) ) : false;
         if ( $http->hasPostVariable( $base . "_data_media_controls_" . $contentObjectAttribute->attribute( "id" ) ) )
             $controls = $http->postVariable( $base . "_data_media_controls_" . $contentObjectAttribute->attribute( "id" ) );
         else

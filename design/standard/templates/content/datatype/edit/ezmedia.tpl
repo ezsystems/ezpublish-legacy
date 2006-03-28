@@ -51,9 +51,9 @@
 {* Flash. *}
 {case match=flash}
 <div class="block">
+    <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1|mul( 1024, 1024 )}" />
     <label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}:</label>
     <input class="box" name="{$attribute_base}_data_mediafilename_{$attribute.id}" type="file" />
-    <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 </div>
 
 <div class="block">
@@ -142,9 +142,9 @@
 {* Quicktime. *}
 {case match=quick_time}
 <div class="block">
+    <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1|mul( 1024, 1024 )}" />
     <label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}:</label>
     <input class="box" name="{$attribute_base}_data_mediafilename_{$attribute.id}" type="file" />
-    <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 </div>
 
 <div class="block">
@@ -188,8 +188,8 @@
 <div class="block">
 
 <label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}:</label>
+    <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1|mul( 1024, 1024 )}" />
     <input class="box" name="{$attribute_base}_data_mediafilename_{$attribute.id}" type="file" />
-    <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 </div>
 
 <div class="block">
@@ -277,8 +277,8 @@
 <div class="block">
 
 <label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}:</label>
+    <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1|mul( 1024, 1024 )}" />
     <input class="box" name="{$attribute_base}_data_mediafilename_{$attribute.id}" type="file" />
-    <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000" />
 </div>
 
 <div class="block">
