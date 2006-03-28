@@ -61,6 +61,12 @@ class eZContentObjectOperations
         if ( $removeSubtrees )
         {
             $assignedNodes = $object->attribute( 'assigned_nodes' );
+            if ( count( $assignedNodes ) == 0 )
+            {
+                $object->purge();
+                eZContentObject::expireAllViewCache();
+                return true;
+            }
             $assignedNodeIDArray = array();
             foreach( $assignedNodes as $node )
             {
