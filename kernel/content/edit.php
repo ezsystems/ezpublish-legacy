@@ -215,6 +215,10 @@ if ( $http->hasPostVariable( 'LanguageSelection' ) )
 {
     $editLanguage = $http->postVariable( 'EditLanguage' );
     $fromLanguage = $http->postVariable( 'FromLanguage' );
+    if ( in_array( $editLanguage, $obj->availableLanguages() ) )
+    {
+        $fromLanguage = false;
+    }
     $user =& eZUser::currentUser();
     $parameters = array( 'conditions' =>
                          array( 'status' => array( array( EZ_VERSION_STATUS_DRAFT,
@@ -236,11 +240,7 @@ if ( $http->hasPostVariable( 'LanguageSelection' ) )
     {
         return $Module->redirectToView( 'edit', array( $ObjectID, 'f', $editLanguage, $fromLanguage ) );
     }
-/*	if ( in_array( $editLanguage, $obj->availableLanguages() ) )
-	{
-		return $Module->redirectToView( 'edit', array( $ObjectID, 'f', $editLanguage ) );
-	}*/
-    $version = $obj->createNewVersionIn( $fromLanguage, $editLanguage );
+    $version = $obj->createNewVersionIn( $editLanguage, $fromLanguage );
     $version->setAttribute( 'status', EZ_VERSION_STATUS_INTERNAL_DRAFT );
     $version->store();
     return $Module->redirectToView( 'edit', array( $ObjectID, $version->attribute( 'version' ), $editLanguage, $fromLanguage ) );

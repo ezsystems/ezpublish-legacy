@@ -956,7 +956,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             $tmp->setAttribute( 'language_id', $tmp->attribute( 'language_id' ) & ~1 );
         }
 
-        if ( $newLanguageCode != false )
+        if ( $newLanguageCode != false && $tmp->attribute( 'language_code' ) != $newLanguageCode )
         {
         	$exAttr = eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
                                                        null,

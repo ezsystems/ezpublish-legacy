@@ -1079,7 +1079,7 @@ class eZContentObjectVersion extends eZPersistentObject
         else
         {
             // Create new version in specific language but with empty data.
-            $contentObjectVersion = $contentObject->createNewVersionIn( false, $initialLanguage );
+            $contentObjectVersion = $contentObject->createNewVersionIn( $initialLanguage );
         }
 
         //if ( !isset( $options['restore_dates'] ) or $options['restore_dates'] )

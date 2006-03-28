@@ -987,9 +987,9 @@ class eZContentObject extends eZPersistentObject
         return eZContentObjectVersion::create( $this->attribute( "id" ), $userID, 1, $initialLanguageCode );
     }
 
-    function &createNewVersionIn( $languageCode, $newLanguageCode = false, $copyFromVersion = false, $versionCheck = false )
+    function &createNewVersionIn( $languageCode, $copyFromLanguageCode = false, $copyFromVersion = false, $versionCheck = false )
     {
-        $newVersion = $this->createNewVersion( $copyFromVersion, $versionCheck, $languageCode, $newLanguageCode );
+        $newVersion = $this->createNewVersion( $copyFromVersion, $versionCheck, $languageCode, $copyFromLanguageCode );
         return $newVersion;
     }
 
@@ -1002,7 +1002,7 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function createNewVersion( $copyFromVersion = false, $versionCheck = false, $languageCode = false, $newLanguageCode = false )
+    function createNewVersion( $copyFromVersion = false, $versionCheck = false, $languageCode = false, $copyFromLanguageCode = false )
     {
         $db =& eZDB::instance();
         $db->begin();
@@ -1053,7 +1053,7 @@ class eZContentObject extends eZPersistentObject
         else
             $version =& $this->version( $copyFromVersion );
 
-        if ( !$languageCode && !$newLanguageCode )
+        if ( !$languageCode )
         {
         	$initialLanguage = $version->initialLanguage();
         	if ( !$initialLanguage )
@@ -1067,7 +1067,7 @@ class eZContentObject extends eZPersistentObject
             }
         }
         
-        $copiedVersion = $this->copyVersion( $this, $version, $nextVersionNumber, false, EZ_VERSION_STATUS_DRAFT, $languageCode, $newLanguageCode );
+        $copiedVersion = $this->copyVersion( $this, $version, $nextVersionNumber, false, EZ_VERSION_STATUS_DRAFT, $languageCode, $copyFromLanguageCode );
 
         // JB start
         // We need to make sure the copied version contains node-assignment for the existing nodes.
@@ -1075,7 +1075,7 @@ class eZContentObject extends eZPersistentObject
         // some of them for removal.
         $parentMap = array();
         $copiedNodeAssignmentList =& $copiedVersion->attribute( 'node_assignments' );
-        foreach ( $copiedNodeAssignmentList as $$copiedNodeAssignment )
+        foreach ( $copiedNodeAssignmentList as $copiedNodeAssignment )
         {
             $parentMap[$copiedNodeAssignment->attribute( 'parent_node' )] = $copiedNodeAssignment;
         }
@@ -1112,7 +1112,7 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function copyVersion( &$newObject, &$version, $newVersionNumber, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT, $languageCode = false, $newLanguageCode = false )
+    function copyVersion( &$newObject, &$version, $newVersionNumber, $contentObjectID = false, $status = EZ_VERSION_STATUS_DRAFT, $languageCode = false, $copyFromLanguageCode = false )
     {
         $user =& eZUser::currentUser();
         $userID =& $user->attribute( 'contentobject_id' );
@@ -1159,15 +1159,24 @@ class eZContentObject extends eZPersistentObject
         // are available once the datatype code is run.
         $this->copyContentObjectRelations( $currentVersionNumber, $newVersionNumber );
 
-        if ( $languageCode )
+        $languageCodeToCopy = false;
+        if ( $languageCode && in_array( $languageCode, $this->availableLanguages() ) )
         {
-            $haveCopied = false;
+            $languageCodeToCopy = $languageCode;
+        }
+        if ( $copyFromLanguageCode && in_array( $copyFromLanguageCode, $this->availableLanguages() ) )
+        {
+            $languageCodeToCopy = $copyFromLanguageCode;
+        }
 
+        $haveCopied = false;
+        if ( !$languageCode || $languageCodeToCopy )
+        {
             foreach ( array_keys( $contentObjectTranslations ) as $contentObjectTranslationKey )
             {
                 $contentObjectTranslation =& $contentObjectTranslations[$contentObjectTranslationKey];
 
-                if ( $languageCode != false && $contentObjectTranslation->attribute( 'language_code' ) != $languageCode )
+                if ( $languageCode != false && $contentObjectTranslation->attribute( 'language_code' ) != $languageCodeToCopy )
                 {
                     continue;
                 }
@@ -1177,23 +1186,16 @@ class eZContentObject extends eZPersistentObject
                 foreach ( array_keys( $contentObjectAttributes ) as $attributeKey )
                 {
                     $attribute =& $contentObjectAttributes[$attributeKey];
-                    $clonedAttribute = $attribute->clone( $newVersionNumber, $currentVersionNumber, $contentObjectID, $newLanguageCode );
+                    $clonedAttribute = $attribute->clone( $newVersionNumber, $currentVersionNumber, $contentObjectID, $languageCode );
                     $clonedAttribute->sync();
                     eZDebugSetting::writeDebug( 'kernel-content-object-copy', $clonedAttribute, 'copyVersion:cloned attribute' );
                 }
                 
                 $haveCopied = true;
             }
-
-            // we haven't copied any translation, we will set $languageCode to false and we will instantiate version in this language
-            if ( !$haveCopied )
-            {
-                $newLanguageCode = $languageCode;
-                $languageCode = false;
-            }
         }
 
-        if ( $languageCode == false && $newLanguageCode != false )
+        if ( !$haveCopied && $languageCode )
         {
         	$class =& $this->contentClass();
         	$classAttributes =& $class->fetchAttributes();
@@ -1202,7 +1204,7 @@ class eZContentObject extends eZPersistentObject
             	$classAttribute =& $classAttributes[$attributeKey];
             	if ( $classAttribute->attribute( 'can_translate' ) == 1 )
             	{
-            	    $classAttribute->instantiate( $contentObjectID? $contentObjectID: $this->attribute( 'id' ), $newLanguageCode, $newVersionNumber );
+            	    $classAttribute->instantiate( $contentObjectID? $contentObjectID: $this->attribute( 'id' ), $languageCode, $newVersionNumber );
             	}
             	else
             	{
@@ -1212,24 +1214,26 @@ class eZContentObject extends eZPersistentObject
                                                                                            $this->attribute( 'initial_language_id' ) );
             	    if ( $contentAttribute )
             	    {
-            	        $newAttribute = $contentAttribute->clone( $newVersionNumber, $currentVersionNumber, $contentObjectID, $newLanguageCode );
+            	        $newAttribute = $contentAttribute->clone( $newVersionNumber, $currentVersionNumber, $contentObjectID, $languageCode );
             	        $newAttribute->sync();
             	    }
             	    else
             	    {
-            	        $classAttribute->instantiate( $contentObjectID? $contentObjectID: $this->attribute( 'id' ), $newLanguageCode, $newVersionNumber );
+            	        $classAttribute->instantiate( $contentObjectID? $contentObjectID: $this->attribute( 'id' ), $languageCode, $newVersionNumber );
             	    }
             	}
         	}
         }
 
-        $clonedVersion->setAttribute( 'initial_language_id', eZContentLanguage::idByLocale( $newLanguageCode? $newLanguageCode: $languageCode ) );
-        $clonedVersion->updateLanguageMask();
+        if ( $languageCode )
+        {
+            $clonedVersion->setAttribute( 'initial_language_id', eZContentLanguage::idByLocale( $languageCode ) );
+            $clonedVersion->updateLanguageMask();
+        }
 
         $db->commit();
 
 		return $clonedVersion;
-
     }
 
     /*!
