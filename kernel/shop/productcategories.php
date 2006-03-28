@@ -30,6 +30,25 @@ include_once( "kernel/common/template.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 include_once( "kernel/classes/ezproductcategory.php" );
 
+function applyChanges( $module, $http, $productCategories )
+{
+    $db =& eZDB::instance();
+    $db->begin();
+    foreach ( $productCategories as $cat )
+    {
+        $id = $cat->attribute( 'id' );
+
+        if ( !$http->hasPostVariable( "category_name_" . $id ) )
+            continue;
+
+        $name = $http->postVariable( "category_name_" . $id );
+        $cat->setAttribute( 'name', $name );
+        $cat->store();
+    }
+    $db->commit();
+    $module->redirectTo( $module->functionURI( "productcategories" ) );
+}
+
 $module =& $Params["Module"];
 $http   =& eZHttpTool::instance();
 
@@ -37,6 +56,8 @@ $productCategories = eZProductCategory::fetchList( true );
 
 if ( $http->hasPostVariable( "AddCategoryButton" ) )
 {
+    applyChanges( $module, $http, $productCategories );
+
     $category = eZProductCategory::create();
     $category->store();
     $module->redirectTo( $module->functionURI( "productcategories" ) );
@@ -45,6 +66,8 @@ if ( $http->hasPostVariable( "AddCategoryButton" ) )
 
 if ( $http->hasPostVariable( "RemoveCategoryButton" ) )
 {
+    applyChanges( $module, $http, $productCategories );
+
     if ( !$http->hasPostVariable( "CategoryIDList" ) )
         $catIDList = array();
     else
@@ -62,21 +85,7 @@ if ( $http->hasPostVariable( "RemoveCategoryButton" ) )
 
 if ( $http->hasPostVariable( "SaveCategoriesButton" ) )
 {
-    $db =& eZDB::instance();
-    $db->begin();
-    foreach ( $productCategories as $cat )
-    {
-        $id = $cat->attribute( 'id' );
-
-        if ( !$http->hasPostVariable( "category_name_" . $id ) )
-            continue;
-
-        $name = $http->postVariable( "category_name_" . $id );
-        $cat->setAttribute( 'name', $name );
-        $cat->store();
-    }
-    $db->commit();
-    $module->redirectTo( $module->functionURI( "productcategories" ) );
+    applyChanges( $module, $http, $productCategories );
     return;
 }
 
