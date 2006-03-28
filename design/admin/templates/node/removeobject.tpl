@@ -31,10 +31,12 @@
         <p>{'Click the "Cancel" button and try removing only the locations that you are allowed to remove.'|i18n( 'design/admin/node/removeobject' )}</p>
     {/section}
 </div>
-{section-else show=$reverse_related}
+{section-else}
+   {section show=$reverse_related}
    <div class="block">
         <p>{'Some of the objects selected for removal are used by other objects. Select the menu from the content tree, and <strong>Advanced</strong>-&gt;<strong>Reverse related for subtree</strong>.'|i18n( 'design/admin/node/removeobject' )}</p>
    </div>
+   {/section}
 {/section}
 
 <table class="list" cellspacing="0">
