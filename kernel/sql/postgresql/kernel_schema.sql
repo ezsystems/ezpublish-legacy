@@ -113,19 +113,6 @@ CREATE SEQUENCE ezcollab_simple_message_s
 
 
 
-CREATE SEQUENCE ezcontent_translation_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
-
-
-
-
-
 CREATE SEQUENCE ezcontentbrowsebookmark_s
     START 1
     INCREMENT 1
@@ -244,6 +231,19 @@ CREATE SEQUENCE ezcontentobject_tree_s
 
 
 CREATE SEQUENCE ezcontentobject_version_s
+    START 1
+    INCREMENT 1
+    MAXVALUE 9223372036854775807
+    MINVALUE 1
+    CACHE 1;
+
+
+
+
+
+
+
+CREATE SEQUENCE ezcurrencydata_s
     START 1
     INCREMENT 1
     MAXVALUE 9223372036854775807
@@ -1221,9 +1221,10 @@ CREATE TABLE ezcollab_simple_message (
 
 
 
-CREATE TABLE ezcontent_translation (
-    id integer DEFAULT nextval('ezcontent_translation_s'::text) NOT NULL,
-    locale character varying(255) DEFAULT ''::character varying NOT NULL,
+CREATE TABLE ezcontent_language (
+    disabled integer DEFAULT 0 NOT NULL,
+    id integer DEFAULT 0 NOT NULL,
+    locale character varying(20) DEFAULT ''::character varying NOT NULL,
     name character varying(255) DEFAULT ''::character varying NOT NULL
 );
 
@@ -1261,6 +1262,7 @@ CREATE TABLE ezcontentbrowserecent (
 
 
 CREATE TABLE ezcontentclass (
+    always_available integer DEFAULT 0 NOT NULL,
     contentobject_name character varying(255),
     created integer DEFAULT 0 NOT NULL,
     creator_id integer DEFAULT 0 NOT NULL,
@@ -1345,7 +1347,9 @@ CREATE TABLE ezcontentobject (
     contentclass_id integer DEFAULT 0 NOT NULL,
     current_version integer,
     id integer DEFAULT nextval('ezcontentobject_s'::text) NOT NULL,
+    initial_language_id integer DEFAULT 0 NOT NULL,
     is_published integer,
+    language_mask integer DEFAULT 0 NOT NULL,
     modified integer DEFAULT 0 NOT NULL,
     name character varying(255),
     owner_id integer DEFAULT 0 NOT NULL,
@@ -1371,6 +1375,7 @@ CREATE TABLE ezcontentobject_attribute (
     data_type_string character varying(50) DEFAULT ''::character varying,
     id integer DEFAULT nextval('ezcontentobject_attribute_s'::text) NOT NULL,
     language_code character varying(20) DEFAULT ''::character varying NOT NULL,
+    language_id integer DEFAULT 0 NOT NULL,
     sort_key_int integer DEFAULT 0 NOT NULL,
     sort_key_string character varying(255) DEFAULT ''::character varying NOT NULL,
     "version" integer DEFAULT 0 NOT NULL
@@ -1387,6 +1392,7 @@ CREATE TABLE ezcontentobject_link (
     from_contentobject_id integer DEFAULT 0 NOT NULL,
     from_contentobject_version integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezcontentobject_link_s'::text) NOT NULL,
+    op_code integer DEFAULT 0 NOT NULL,
     to_contentobject_id integer DEFAULT 0 NOT NULL
 );
 
@@ -1400,6 +1406,7 @@ CREATE TABLE ezcontentobject_name (
     content_translation character varying(20) DEFAULT ''::character varying NOT NULL,
     content_version integer DEFAULT 0 NOT NULL,
     contentobject_id integer DEFAULT 0 NOT NULL,
+    language_id integer DEFAULT 0 NOT NULL,
     name character varying(255),
     real_translation character varying(20)
 );
@@ -1440,6 +1447,8 @@ CREATE TABLE ezcontentobject_version (
     created integer DEFAULT 0 NOT NULL,
     creator_id integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezcontentobject_version_s'::text) NOT NULL,
+    initial_language_id integer DEFAULT 0 NOT NULL,
+    language_mask integer DEFAULT 0 NOT NULL,
     modified integer DEFAULT 0 NOT NULL,
     status integer DEFAULT 0 NOT NULL,
     user_id integer DEFAULT 0 NOT NULL,
@@ -1737,6 +1746,7 @@ CREATE TABLE eznode_assignment (
     from_node_id integer DEFAULT 0,
     id integer DEFAULT nextval('eznode_assignment_s'::text) NOT NULL,
     is_main integer DEFAULT 0 NOT NULL,
+    op_code integer DEFAULT 0 NOT NULL,
     parent_node integer,
     parent_remote_id character varying(100) DEFAULT ''::character varying NOT NULL,
     remote_id integer DEFAULT 0 NOT NULL,
@@ -3251,8 +3261,8 @@ ALTER TABLE ONLY ezcollab_simple_message
 
 
 
-ALTER TABLE ONLY ezcontent_translation
-    ADD CONSTRAINT ezcontent_translation_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY ezcontent_language
+    ADD CONSTRAINT ezcontent_language_pkey PRIMARY KEY (id);
 
 
 

@@ -65,6 +65,12 @@ class eZNodeviewfunctions
         $res =& eZTemplateDesignResource::instance();
         $res->setKeys( $keyArray );
 
+        if ( $languageCode )
+        {
+            $oldLanguageCode = $node->currentLanguage();
+            $node->setCurrentLanguage( $languageCode );
+        }
+
         $tpl->setVariable( 'node', $node );
         $tpl->setVariable( 'viewmode', $viewMode );
         $tpl->setVariable( 'language_code', $languageCode );
@@ -183,6 +189,11 @@ class eZNodeviewfunctions
             $fileHandler->fileStore( $cachePath, 'viewcache', true );
         }
 
+        if ( $languageCode )
+        {
+            $node->setCurrentLanguage( $oldLanguageCode );
+        }
+
         return $Result;
     }
 
@@ -195,11 +206,15 @@ class eZNodeviewfunctions
         $roleList = $user->roleIDList();
         $discountList = eZUserDiscountRule::fetchIDListByUserID( $user->attribute( 'contentobject_id' ) );
 
-        if ( $language == '' )
-            $language = eZContentObject::defaultLanguage();
+        if ( !$language )
+        {
+            $language = false;
+        }
+        $currentSiteAccess = $GLOBALS['eZCurrentAccess']['name'];
 
-        $designSetting = eZTemplateDesignResource::designSetting( 'site' );
         $cacheHashArray = array( $nodeID,
+                                 $viewMode,
+                                 $language,
                                  $offset,
                                  $layout,
                                  implode( '.', $roleList ),
@@ -255,7 +270,7 @@ class eZNodeviewfunctions
 
         $cacheFile = $nodeID . '-' . md5( implode( '-', $cacheHashArray ) ) . '.cache';
         $extraPath = eZDir::filenamePath( $nodeID );
-        $cacheDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ), $designSetting, $viewMode, $language, $extraPath ) );
+        $cacheDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ), $currentSiteAccess, $extraPath ) );
         $cachePath = eZDir::path( array( $cacheDir, $cacheFile ) );
 
         return array( 'cache_path' => $cachePath,

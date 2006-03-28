@@ -36,6 +36,7 @@
                                  data_text2 - selected_usergroups
                                  data_text3 - approve_users
                                  data_text4 - approve_groups
+                                 data_int2  - language_list
 
 
 */
@@ -98,6 +99,23 @@ class eZApproveType extends eZWorkflowEventType
                 $returnValue = explode( ',', $event->attribute( 'data_text2' ) );
                 return $returnValue;
             } break;
+
+            case 'language_list':
+            {
+                if ( $event->attribute( 'data_int2' ) == 0 )
+                {
+                    $returnValue = array();
+                    return $returnValue;
+                }
+                include_once( 'kernel/classes/ezcontentlanguage.php' );
+                $languages = eZContentLanguage::languagesByMask( $event->attribute( 'data_int2' ) );
+                $returnValue = array();
+                foreach ( $languages as $language )
+                {
+                    $returnValue[$language->attribute( 'id' )] = $language->attribute( 'name' );
+                }
+                return $returnValue;
+            } break;
         }
         $retValue = null;
         return $retValue;
@@ -108,12 +126,14 @@ class eZApproveType extends eZWorkflowEventType
         return array( 'selected_sections',
                       'approve_users',
                       'approve_groups',
-                      'selected_usergroups' );
+                      'selected_usergroups',
+                      'language_list' );
     }
 
     function attributes()
     {
         return array_merge( array( 'sections',
+                                   'languages',
                                    'users',
                                    'usergroups' ),
                             eZWorkflowEventType::attributes() );
@@ -140,6 +160,12 @@ class eZApproveType extends eZWorkflowEventType
                     $section['value'] = $section['id'];
                 }
                 return $sections;
+            }break;
+            case 'languages':
+            {
+                include_once( 'kernel/classes/ezcontentlanguage.php' );
+                $languages = eZContentLanguage::fetchList();
+                return $languages;
             }break;
         }
         $eventValue =& eZWorkflowEventType::attribute( $attr );
@@ -180,12 +206,14 @@ class eZApproveType extends eZWorkflowEventType
         $workflowGroups = explode( ',', $event->attribute( 'data_text2' ) );
         $editors = explode( ',', $event->attribute( 'data_text3' ) ); //$event->attribute( 'data_int1' );
         $approveGroups = explode( ',', $event->attribute( 'data_text4' ) );
+        $languageMask = $event->attribute( 'data_int2' );
 
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $user, 'eZApproveType::execute::user' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $userGroups, 'eZApproveType::execute::userGroups' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $editors, 'eZApproveType::execute::editor' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $workflowSections, 'eZApproveType::execute::workflowSections' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $workflowGroups, 'eZApproveType::execute::workflowGroups' );
+        eZDebugSetting::writeDebug( 'kernel-workflow-approve', $languageMask, 'eZApproveType::execute::languageMask' );
         eZDebugSetting::writeDebug( 'kernel-workflow-approve', $object->attribute( 'section_id'), 'eZApproveType::execute::section_id' );
 
         $section = $object->attribute( 'section_id');
@@ -218,7 +246,20 @@ class eZApproveType extends eZWorkflowEventType
         $userIsEditor = ( in_array( $user->id(), $editors ) ||
                           count( array_intersect( $userGroups, $approveGroups ) ) != 0 );
 
-        if ( !$userIsEditor and
+        // All languages match by default
+        $hasLanguageMatch = true;
+        if ( $languageMask != 0 )
+        {
+            // Examine if the published version contains one of the languages we
+            // match for.
+            $version =& $object->version( $versionID );
+            // If the language ID is part of the mask the result is non-zero.
+            $languageID = (int)$version->attribute( 'initial_language_id' );
+            $hasLanguageMatch = (bool)( $languageMask & $languageID );
+        }
+
+        if ( $hasLanguageMatch and
+             !$userIsEditor and
              !$inExcludeGroups and
              $correctSection )
         {
@@ -306,6 +347,22 @@ class eZApproveType extends eZWorkflowEventType
             }
             $sectionsString = implode( ',', $sectionsArray );
             $event->setAttribute( "data_text1", $sectionsString );
+        }
+
+        $languageVar = $base . "_event_ezapprove_languages_" . $event->attribute( "id" );
+        if ( $http->hasPostVariable( $languageVar ) )
+        {
+            $languageArray = $http->postVariable( $languageVar );
+            if ( in_array( '-1', $languageArray ) )
+            {
+                $languageArray = array();
+            }
+            $languageMask = 0;
+            foreach ( $languageArray as $languageID )
+            {
+                $languageMask |= $languageID;
+            }
+            $event->setAttribute( "data_int2", $languageMask );
         }
 
         if ( $http->hasSessionVariable( 'BrowseParameters' ) )

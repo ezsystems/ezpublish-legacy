@@ -42,6 +42,12 @@
         <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" />
     {/section}
     </div>
+
+    <div class="block">
+    <label>{"Objects always available (default value)"|i18n("design/standard/class/edit")}</label><div class="labelbreak"></div>
+    <input type="hidden" name="ContentClass_always_available_exists" value="1" />
+    <input type="checkbox" name="ContentClass_always_available"{if $class.always_available|eq(1)} checked="checked"{/if} />
+    </div>
   </td>
 
   <td valign="top">

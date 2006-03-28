@@ -32,9 +32,9 @@
 */
 
 include_once( 'kernel/common/template.php' );
-include_once( 'kernel/classes/ezcontenttranslation.php' );
+include_once( 'kernel/classes/ezcontentlanguage.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
-include_once( "lib/ezdb/classes/ezdb.php" );
+include_once( 'lib/ezdb/classes/ezdb.php' );
 
 function translations_clearCache()
 {
@@ -103,20 +103,12 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
         }
     }
 
-    if ( !eZContentTranslation::hasTranslation( $translationLocale ) )
+    if ( !eZContentLanguage::fetchByLocale( $translationLocale ) )
     {
         $locale =& eZLocale::instance( $translationLocale );
         if ( $locale->isValid() )
         {
-            $translation = eZContentTranslation::createNew( $translationName, $locale->localeCode() );
-
-            $db =& eZDB::instance();
-            $db->begin();
-            $translation->store();
-            $translation->updateObjectNames();
-
-            translations_clearCache();
-            $db->commit();
+            $translation = eZContentLanguage::addLanguage( $locale->localeCode(), $translationName );
         }
         else
         {
@@ -140,8 +132,7 @@ if ( $Module->isCurrentAction( 'Confirm' ) )
     $db->begin();
     foreach ( $tranlationList as $translationID )
     {
-        $translation = eZContentTranslation::fetch( $translationID );
-        $translation->remove();
+        eZContentLanguage::removeLanguage( $translationID );
     }
 
     translations_clearCache();
@@ -159,11 +150,13 @@ if ( $Module->isCurrentAction( 'Remove' ) )
     $db->begin();
     foreach ( $seletedIDList as $translationID )
     {
-        $translation = eZContentTranslation::fetch( $translationID );
-        if ( $translation === null )
+        $translation = eZContentLanguage::fetch( $translationID );
+        if ( !$translation )
+        {
             continue;
-        $translatedObjectsCount = $translation->translatedObjectsCount();
-        if ( $translatedObjectsCount == 0 )
+        }
+        $translatedObjectCount = $translation->objectCount();
+        if ( $translatedObjectCount == 0 )
         {
             $translation->remove();
         }
@@ -171,7 +164,7 @@ if ( $Module->isCurrentAction( 'Remove' ) )
         {
             $item = array();
             $item['translation'] = $translation;
-            $item['count'] = $translatedObjectsCount;
+            $item['count'] = $translatedObjectCount;
             $confirmTranslationList[] = $item;
         }
     }
@@ -194,18 +187,14 @@ if ( $Module->isCurrentAction( 'Remove' ) )
 
 if ( $Params['TranslationID'] )
 {
-
-    $translation = eZContentTranslation::fetch( $Params['TranslationID'] );
+    $translation = eZContentLanguage::fetch( $Params['TranslationID'] );
 
     if( !$translation )
     {
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
-    $translatedObjectsCount = $translation->translatedObjectsCount();
-
     $tpl->setVariable( 'translation',  $translation );
-    $tpl->setVariable( 'object_count', $translatedObjectsCount );
 
     $Result['content'] =& $tpl->fetch( 'design:content/translationview.tpl' );
     $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Content translations' ),
@@ -215,44 +204,14 @@ if ( $Params['TranslationID'] )
     return;
 }
 
+$availableTranslations = eZContentLanguage::fetchList();
 
-$translations = eZContentTranslation::fetchList();
-
-$db =& eZDB::instance();
-$db->begin();
-foreach ( array_keys( $translations ) as $translationKey )
-{
-    $translation =& $translations[$translationKey];
-    if ( $translation->attribute( 'id' ) === null )
-    {
-        $translation->store();
-        $translation->updateObjectNames();
-    }
-}
-$db->commit();
-unset( $translation );
-$availableTranslations = array();
-
-unset( $translation );
-foreach( $translations as $currentTranslation )
-{
-    $translation = eZContentTranslation::fetch( $currentTranslation->attribute( 'id' ) );
-    $translatedObjectsCount = $translation->translatedObjectsCount();
-
-    $availableTranslations[] = array( 'translation' => $translation, 'object_count' => $translatedObjectsCount );
-}
-
-$defaultLanguage =& eZContentObject::defaultLanguage();
-
-$tpl->setVariable( 'existing_translations', $translations );
 $tpl->setVariable( 'available_translations', $availableTranslations );
-$tpl->setVariable( 'default_language', $defaultLanguage );
 
 //$tpl->setVariable( 'workflow_list', $workflowList );
 
 $Result['content'] =& $tpl->fetch( 'design:content/translations.tpl' );
-$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Content translations' ),
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Languages' ),
                                 'url' => false ) );
-
 
 ?>

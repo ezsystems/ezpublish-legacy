@@ -36,6 +36,8 @@
   \brief
 */
 
+require_once( 'kernel/classes/ezcontentlanguage.php' );
+
 class eZContentStructureTreeOperator
 {
     function eZContentStructureTreeOperator( $name = 'content_structure_tree' )
@@ -371,7 +373,8 @@ class eZContentStructureTreeOperator
                                           'class_identifier' => $treeNode['class_identifier'],
                                           'class_name' => $treeNode['class_name'],
                                           'published' => $treeNode['published'],
-                                          'is_container' => ( $treeNode['is_container'] == '1' ) ) );
+                                          'is_container' => ( $treeNode['is_container'] == '1' ),
+                                          'language_js_array' => eZContentLanguage::jsArrayByMask( $treeNode['language_mask'] ) ) );
         return $node;
     }
 
@@ -408,7 +411,8 @@ class eZContentStructureTreeOperator
                                                       'class_identifier' => $contentObject->attribute( 'class_identifier' ),
                                                       'class_name' => $contentObject->attribute('class_name'),
                                                       'published' => $contentObject->attribute( 'published' ),
-                                                      'is_container' => true ) );
+                                                      'is_container' => true,
+                                                      'language_js_array' => eZContentLanguage::jsArrayByMask( $contentObject->attribute( 'language_mask' ) ) ) );
 
                 $nodes = array( 'parent_node' => &$rootNode,
                                 'children' => array() );

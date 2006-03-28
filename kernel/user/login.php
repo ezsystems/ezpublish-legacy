@@ -290,6 +290,10 @@ if ( $Module->isCurrentAction( 'Login' ) and
     {
         $http->removeSessionVariable( 'eZUserLoggedInID' );
         $http->setSessionVariable( 'eZUserLoggedInID', $userID );
+
+        // Remove all temporary drafts
+        include_once( 'kernel/classes/ezcontentobject.php' );
+        eZContentObject::cleanupAllInternalDrafts( $userID );
 //        eZDebug::writeDebug( $http->sessionVariable( 'eZUserLoggedInID' ), 'userid' );
         return $Module->redirectTo( $redirectionURI );
     }

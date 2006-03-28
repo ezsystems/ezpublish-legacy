@@ -22,14 +22,10 @@
 {section var=Translations loop=$available_translations sequence=array( bglight, bgdark )}
 <tr class="{$Translations.sequence}">
     {* Remove. *}
-
 	<td>
-
-    {section show=eq( $default_language, $Translations.item.translation.locale_object.locale_code )}
-    <input type="checkbox" name="DeleteIDArray[]" value="{$Translations.item.translation.id}" title="{'The default language can not be removed.'|i18n( 'design/admin/content/translations' )}" disabled="disabled" /></td>
-    {section-else}
-    <input type="checkbox" name="DeleteIDArray[]" value="{$Translations.item.translation.id}" title="{'Select language for removal.'|i18n( 'design/admin/content/translations' )}" /></td>
-    {/section}
+    {* ... title="{'The language can not be removed.'|i18n( 'design/admin/content/translations' )}" disabled="disabled" /> *}
+    <input type="checkbox" name="DeleteIDArray[]" value="{$Translations.item.translation.id}" title="{'Select language for removal.'|i18n( 'design/admin/content/translations' )}" />
+    </td>
 
     {* Language. *}
 	<td>

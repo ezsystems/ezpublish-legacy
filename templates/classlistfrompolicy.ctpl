@@ -1,4 +1,4 @@
-    function classListFromPolicy( &$policy )
+    function classListFromPolicy( &$policy, $allowedLanguageCodes = false )
     {
         $canCreateClassIDListPart = array();
         $hasClassIDLimitation = false;
@@ -150,9 +150,21 @@
             }
         }
 
+        if ( isset( $policy['Language'] ) )
+        {
+            if ( $allowedLanguageCodes )
+            {
+                $allowedLanguageCodes = array_intersect( $allowedLanguageCodes, $policy['Language'] );
+            }
+            else
+            {
+                $allowedLanguageCodes = $policy['Language'];
+            }
+        }
+
         if ( $hasClassIDLimitation )
         {
-            return $canCreateClassIDListPart;
+            return array( 'classes' => $canCreateClassIDListPart, 'language_codes' => $allowedLanguageCodes );
         }
-        return '*';
+        return array( 'classes' => '*', 'language_codes' => $allowedLanguageCodes );
     }

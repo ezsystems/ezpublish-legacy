@@ -111,7 +111,7 @@
 
 
 
-<form method="post" action={concat( '/content/edit/', $object.id )|ezurl}>
+<form method="post" action={concat( '/content/edit/', $object.id, '/f/', $edit_language, '/', $from_language )|ezurl}>
 
 <div class="context-block">
 
@@ -154,7 +154,7 @@
     </td>
 
     {* Version/view. *}
-    <td><a href={concat( '/content/versionview/', $object.id, '/', $Drafts.item.version )|ezurl} title="{'View the contents of version #%version. Default translation: %default_translation.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $Drafts.item.version, '%default_translation', $object.default_language|locale().intl_language_name ) )}">{$Drafts.item.version}</a></td>
+    <td><a href={concat( '/content/versionview/', $object.id, '/', $Drafts.item.version, '/', $Drafts.item.language_list[0].language_code )|ezurl} title="{'View the contents of version #%version. Translation: %translation.'|i18n( 'design/admin/content/edit_draft',, hash( '%version', $Drafts.item.version, '%translation', $Drafts.item.language_list[0].locale.intl_language_name ) )}">{$Drafts.item.version}</a></td>
 
     {* Translation. *}
     <td>
@@ -180,7 +180,6 @@
 {* DESIGN: Content END *}</div></div></div>
 <div class="controlbar">
 {* DESIGN: Control bar START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-tc"><div class="box-bl"><div class="box-br">
-<input type="hidden" name="ContentObjectLanguageCode" value="{$edit_language}" />
 <div class="block">
 {section show=$has_own_drafts}
 <input class="button" type="submit" name="EditButton" value="{'Edit selected'|i18n( 'design/admin/content/edit_draft' )}" title="{'Edit the selected draft.'|i18n( 'design/admin/content/edit_draft' )}" />

@@ -25,6 +25,7 @@
 //
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
+
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'kernel/classes/ezcontentclass.php' );
 include_once( 'kernel/classes/ezcontentobjecttreenode.php' );
@@ -68,15 +69,6 @@ if ( $Month )
     $Month = (int) $Month;
 if ( $Day )
     $Day = (int) $Day;
-
-if ( trim( $LanguageCode ) != '' )
-{
-    eZContentObject::setDefaultLanguage( $LanguageCode );
-}
-else
-{
-    $LanguageCode = eZContentObject::defaultLanguage();
-}
 
 if ( $NodeID < 2 )
     $NodeID = 2;
@@ -271,27 +263,15 @@ else
         $cacheFileArray = array( 'cache_dir' => false, 'cache_path' => false );
     }
 
-    if ( $LanguageCode != '' )
-    {
-        $node = eZContentObjectTreeNode::fetch( $NodeID, $LanguageCode );
-    }
-    else
-    {
-        $node = eZContentObjectTreeNode::fetch( $NodeID );
-    }
+    $node = eZContentObjectTreeNode::fetch( $NodeID );
 
     if ( !is_object( $node ) )
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
-    $object = $node->attribute( 'object' );
+    $object =& $node->attribute( 'object' );
 
     if ( !is_object( $object ) )
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
-
-    if ( $LanguageCode != '' )
-    {
-        $object->setCurrentLanguage( $LanguageCode );
-    }
 
     if ( !get_class( $object ) == 'ezcontentobject' )
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
@@ -314,6 +294,7 @@ else
     $Result =& eZNodeviewfunctions::generateNodeView( $tpl, $node, $object, $LanguageCode, $ViewMode, $Offset,
                                                      $cacheFileArray['cache_dir'], $cacheFileArray['cache_path'], $viewCacheEnabled, $viewParameters,
                                                      $collectionAttributes, $validation );
+
     return $Result;
 }
 

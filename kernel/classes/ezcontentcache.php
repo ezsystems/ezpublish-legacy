@@ -56,7 +56,7 @@ class eZContentCache
     function cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout, $cacheTTL = false,
                             $parameters = array() )
     {
-        $md5Input = array( $nodeID );
+        $md5Input = array( $nodeID, $viewMode, $language );
         $md5Input[] = $offset;
         $md5Input = array_merge( $md5Input, $layout );
         sort( $roleList );
@@ -80,7 +80,8 @@ class eZContentCache
         $cacheFile = $nodeID . '-' . $md5Text . '.cache';
         $extraPath = eZDir::filenamePath( "$nodeID" );
         $ini =& eZINI::instance();
-        $cacheDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ), $siteDesign, $viewMode, $language, $extraPath ) );
+        $currentSiteAccess = $GLOBALS['eZCurrentAccess']['name'];
+        $cacheDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ), $currentSiteAccess, $extraPath ) );
         $cachePath = eZDir::path( array( $cacheDir, $cacheFile ) );
         return array( 'dir' => $cacheDir,
                       'file' => $cacheFile,
@@ -303,23 +304,7 @@ class eZContentCache
 
     function calculateCleanupValue( $nodeCount )
     {
-        $ini =& eZINI::instance();
-        $viewModes = $ini->variableArray( 'ContentSettings', 'CachedViewModes' );
-        $languages = eZContentTranslation::fetchLocaleList();
-        $contentINI =& eZINI::instance( "content.ini" );
-
-
-        if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesigns' ) )
-        {
-            $sitedesignList = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
-        }
-        else if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesignList' ) )
-        {
-            $sitedesignList = $contentINI->variable( 'VersionView', 'AvailableSiteDesignList' );
-        }
-
-        $value = $nodeCount * count( $viewModes ) * count( $languages ) * count( $sitedesignList );
-        return $value;
+        return $nodeCount;
     }
 
     function inCleanupThresholdRange( $value )
@@ -331,53 +316,44 @@ class eZContentCache
 
     function cleanup( $nodeList )
     {
+        // JB start
+        // The view-cache has a different storage structure than before:
+        // var/cache/content/<siteaccess>/<extra-path>/<nodeID>-<hash>.cache
+        // Also it uses the cluster file handler to delete files using a wildcard (glob style).
         $ini =& eZINI::instance();
         $cacheBaseDir = eZDir::path( array( eZSys::cacheDirectory(), $ini->variable( 'ContentSettings', 'CacheDir' ) ) );
-        $viewModes = $ini->variableArray( 'ContentSettings', 'CachedViewModes' );
-        $languages = eZContentTranslation::fetchLocaleList();
 
-        $contentINI =& eZINI::instance( "content.ini" );
-        if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesigns' ) )
-        {
-            $siteDesigns = $contentINI->variableArray( 'VersionView', 'AvailableSiteDesigns' );
-        }
-        else if ( $contentINI->hasVariable( 'VersionView', 'AvailableSiteDesignList' ) )
-        {
-            $siteDesigns = $contentINI->variable( 'VersionView', 'AvailableSiteDesignList' );
-        }
-        // Additional designs from the currently used ones
-        // this helps reduce errors when the AvailableSiteDesignList does not
-        // contain a new design, e.g. by forgetting the setting.
-        $standardDesign = $ini->variable( 'DesignSettings', 'StandardDesign' );
-        $siteDesign = $ini->variable( 'DesignSettings', 'SiteDesign' );
-        $additionalSiteDesign = $ini->variable( 'DesignSettings', 'AdditionalSiteDesignList' );
-        $siteDesigns = array_merge( $siteDesigns,
-                                    array( $standardDesign, $siteDesign ),
-                                    $additionalSiteDesign );
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $fileHandler = eZClusterFileHandler::instance();
 
-        $siteDesigns = array_unique( $siteDesigns );
-
-        foreach ( $siteDesigns as $siteDesign )
+        // Figure out the siteaccess which are related, first using the new
+        // INI setting RelatedSiteAccessList then the old existing one
+        // AvailableSiteAccessList
+        if ( $ini->hasVariable( 'SiteAccessSettings', 'RelatedSiteAccessList' ) )
         {
-            foreach ( $viewModes as $viewMode )
+            $relatedSiteAccessList = $ini->variable( 'SiteAccessSettings', 'RelatedSiteAccessList' );
+            if ( !is_array( $relatedSiteAccessList ) )
             {
-                foreach ( $languages as $language )
-                {
-                    foreach ( $nodeList as $nodeID )
-                    {
-                        // VS-DBFILE
-
-                        $extraPath = eZDir::filenamePath( "$nodeID" );
-                        $cacheDir = eZDir::path( array( $cacheBaseDir, $siteDesign, $viewMode, $language, $extraPath ) );
-
-//                     eZDebug::writeDebug( $cacheDir, 'cacheDir' );
-
-                        require_once( 'kernel/classes/ezclusterfilehandler.php' );
-                        $fileHandler = eZClusterFileHandler::instance();
-                        $fileHandler->fileDeleteByRegex( $cacheDir, "$nodeID" . "-.*\\.cache$" );
-                    }
-                }
+                $relatedSiteAccessList = array( $relatedSiteAccessList );
             }
+            $relatedSiteAccessList[] = $GLOBALS['eZCurrentAccess']['name'];
+            $siteAccesses = array_unique( $relatedSiteAccessList );
+        }
+        else
+        {
+            $siteAccesses = $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' );
+        }
+        if ( !$siteAccesses )
+        {
+            return;
+        }
+
+        $siteAccessesDirs = implode( ',', $siteAccesses );
+        $commonPath = "$cacheBaseDir/\{$siteAccessesDirs}";
+        foreach ( $nodeList as $nodeID )
+        {
+            $extraPath = eZDir::filenamePath( $nodeID );
+            $fileHandler->fileDeleteByWildcard( "$commonPath/$extraPath/$nodeID-*.cache" );
         }
     }
 }

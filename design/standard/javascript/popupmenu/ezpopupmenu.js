@@ -251,14 +251,55 @@ function ezpopmenu_doItemSubstitution( menuID, menuHeader )
     {
         var hrefElement = document.getElementById( i );
 
+        if ( !hrefElement )
+        {
+            continue;
+        }
+
         // href replacement
         var replaceString = menuArray[menuID]['elements'][i]['url'];
-	    // loop though substitute values and substitute for each of them
-	    for ( var substItem in CurrentSubstituteValues )
+
+        if ( replaceString )
         {
-		    replaceString = replaceString.replace( substItem, CurrentSubstituteValues[substItem] );
+            // loop though substitute values and substitute for each of them
+	       for ( var substItem in CurrentSubstituteValues )
+            {
+                if ( typeof CurrentSubstituteValues[substItem] != 'object' )
+                {
+                    replaceString = replaceString.replace( substItem, CurrentSubstituteValues[substItem] );  
+                }
+            }
+
+	       hrefElement.setAttribute( "href", replaceString );
         }
-	    hrefElement.setAttribute( "href", replaceString );
+
+        // dynamic generation
+        var loopingVariable = menuArray[menuID]['elements'][i]['variable'];
+
+        if ( loopingVariable )
+        {
+            var content = '';
+          
+            for ( var localVariableIndex in CurrentSubstituteValues[loopingVariable] )
+            {
+                var localVariable = CurrentSubstituteValues[loopingVariable][localVariableIndex];
+                var partialContent = menuArray[menuID]['elements'][i]['content'];
+                for ( var substItem in CurrentSubstituteValues )
+                {
+                    if ( typeof CurrentSubstituteValues[substItem] != 'object' )
+                    {
+                        partialContent = partialContent.replace( substItem, CurrentSubstituteValues[substItem] );
+                    }
+                }
+                for ( var localItem in localVariable )
+                {
+                    partialContent = partialContent.replace( '%' + localItem + '%', localVariable[localItem] );
+                }
+                content += partialContent;
+            }
+            
+            hrefElement.innerHTML = content;
+        }
 
         // enabled/disabled
         if( typeof( menuArray[menuID]['elements'][i]['disabled_class'] ) != 'undefined' &&

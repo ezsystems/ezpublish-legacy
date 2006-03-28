@@ -55,6 +55,7 @@
     <th>{'Name'|i18n( 'design/admin/content/draft' )}</th>
     <th>{'Type'|i18n( 'design/admin/content/draft' )}</th>
     <th>{'Section'|i18n( 'design/admin/content/draft' )}</th>
+    <th>{'Language'|i18n( 'design/admin/content/draft' )}</th>
     <th>{'Modified'|i18n( 'design/admin/content/draft' )}</th>
     <th class="tight">&nbsp;</th>
 </tr>
@@ -62,9 +63,10 @@
 {section var=Drafts loop=$draft_list sequence=array( bglight, bgdark )}
 <tr class="{$Drafts.sequence}">
     <td><input type="checkbox" name="DeleteIDArray[]" value="{$Drafts.item.id}" title="{'Select draft for removal.'|i18n( 'design/admin/content/draft' )}" /></td>
-    <td>{$Drafts.item.contentobject.content_class.identifier|class_icon( small, $Drafts.item.contentobject.content_class.name|wash )}&nbsp;<a href={concat( '/content/versionview/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/' )|ezurl}>{$Drafts.item.contentobject.name|wash}</a></td>
+    <td>{$Drafts.item.contentobject.content_class.identifier|class_icon( small, $Drafts.item.contentobject.content_class.name|wash )}&nbsp;<a href={concat( '/content/versionview/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/', $Drafts.item.initial_language.locale, '/' )|ezurl}>{$Drafts.item.version_name|wash}</a></td>
     <td>{$Drafts.item.contentobject.content_class.name|wash}</td>
     <td>{let section_object=fetch( section, object, hash( section_id, $Drafts.item.contentobject.section_id ) )}{section show=$section_object}{$section_object.name|wash}{section-else}<i>{'Unknown'|i18n( 'design/admin/content/draft' )}</i>{/section}{/let}</td>
+    <td><img src="{$Drafts.item.initial_language.locale|flag_icon}" alt="{$Drafts.item.initial_language.locale|wash}" style="vertical-align: middle;" />&nbsp;{$Drafts.item.initial_language.name|wash}</td>
     <td>{$Drafts.item.modified|l10n( shortdatetime )}</td>
     <td><a href={concat( '/content/edit/', $Drafts.item.contentobject.id, '/', $Drafts.item.version, '/' )|ezurl} title="{'Edit <%draft_name>.'|i18n( 'design/admin/content/draft',, hash( '%draft_name', $Drafts.item.name ) )|wash}" ><img src={'edit.gif'|ezimage} border="0" alt="{'Edit'|i18n( 'design/admin/content/draft' )}" /></a></td>
 </tr>

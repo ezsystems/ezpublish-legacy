@@ -154,7 +154,7 @@
 
 {section show=or(or(eq($view_filter_type,''),eq($view_filter_type,'all')),and(eq($view_filter_type,'published'),eq($object_version_status,1),eq($Objects.item.contentobject.status,1)))}
 <tr class="{$Objects.sequence}">
-    <td>{$Objects.item.contentobject.class_identifier|class_icon( 'small', $Objects.item.contentobject.class_identifier )}&nbsp;<a href={concat( '/content/versionview/', $Objects.item.contentobject.id, '/', $Objects.item.version )|ezurl} title="{'View the contents of version #%version_number. Default translation: %default_translation.'|i18n( 'design/admin/url/view',, hash( '%version_number', $Objects.item.version, '%default_translation', $Objects.item.contentobject.default_language|locale().intl_language_name ) )}">{$Objects.item.name|wash}</a></td>
+    <td>{$Objects.item.contentobject.class_identifier|class_icon( 'small', $Objects.item.contentobject.class_identifier )}&nbsp;<a href={concat( '/content/versionview/', $Objects.item.contentobject.id, '/', $Objects.item.version )|ezurl} title="{'View the contents of version #%version_number.'|i18n( 'design/admin/url/view',, hash( '%version_number', $Objects.item.version, ) )}">{$Objects.item.name|wash}</a></td>
     {switch match=$Objects.item.contentobject.status}
     {case match=0}
         <td>{$object_version_status|choose( $status_draft, $status_published, $status_pending, $status_archived, $status_rejected )}</td>

@@ -12,6 +12,21 @@
 </div>
 
 
+{* Languages *}
+<div class="element">
+    <label>{'Affected languages'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
+    <select name="WorkflowEvent_event_ezmultiplexer_languages_{$event.id}[]" size="5" multiple="multiple">
+    <option value="-1"
+         {section show=eq( count( $event.language_list ), 0 )}
+             selected="selected"
+         {/section}>
+    {'All languages'|i18n( 'design/admin/workflow/eventtype/edit' )}</option>
+    {section var=Language loop=$event.workflow_type.languages}
+    <option value="{$Language.item.id}"{section show=is_set( $event.language_list[$Language.item.id] )} selected="selected"{/section}>{$Language.item.name|wash}</option>
+    {/section}
+    </select>
+</div>
+
 {* Classes *}
 <div class="element">
     <label>{'Classes to run workflow'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
@@ -23,6 +38,9 @@
     </select>
 </div>
 
+</div>
+
+<div class="block">
 
 {* Users without workflow IDs *}
 <div class="element">
@@ -38,11 +56,15 @@
 {* Workflow to run *}
 <div class="element">
     <label>{'Workflow to run'|i18n( 'design/admin/workflow/eventtype/edit' )}:</label>
+    {section show=$event.workflow_type.workflow_list}
     <select name="WorkflowEvent_event_ezmultiplexer_workflow_id_{$event.id}">
     {section var=Workflows loop=$event.workflow_type.workflow_list}
     <option value="{$Workflows.item.value}"{section show=eq( $Workflows.item.value, $event.selected_workflow )} selected="selected"{/section}>{$Workflows.item.Name|wash}</option>
     {/section}
     </select>
+    {section-else}
+    {'You have to create a workflow before using this event.'|i18n( 'design/admin/workflow/eventtype/edit' )}
+    {/section}
 </div>
 
 </div>

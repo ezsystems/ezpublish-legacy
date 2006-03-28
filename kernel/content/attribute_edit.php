@@ -69,10 +69,6 @@ if ( !isset( $FromLanguage ) or
      strlen( $FromLanguage ) == 0 )
     $FromLanguage = false;
 
-if ( $FromLanguage == $EditLanguage )
-    $FromLanguage = false;
-
-
 if ( $Module->runHooks( 'pre_fetch', array( $ObjectID, &$EditVersion, &$EditLanguage, &$FromLanguage ) ) )
     return;
 
@@ -91,14 +87,17 @@ $class = eZContentClass::fetch( $classID );
 $contentObjectAttributes =& $version->contentObjectAttributes( $EditLanguage );
 if ( $contentObjectAttributes === null or
      count( $contentObjectAttributes ) == 0 )
+{
     $contentObjectAttributes =& $version->contentObjectAttributes();
+    $EditLanguage = $version->initialLanguageCode();
+}
 
 $fromContentObjectAttributes = false;
 $isTranslatingContent = false;
 if ( $FromLanguage !== false )
 {
     $isTranslatingContent = true;
-    $fromContentObjectAttributes =& $version->contentObjectAttributes( $FromLanguage );
+    $fromContentObjectAttributes =& $object->contentObjectAttributes( true, false, $FromLanguage );
     if ( $fromContentObjectAttributes === null or
          count( $fromContentObjectAttributes ) == 0 )
     {
@@ -121,7 +120,8 @@ if ( $Module->runHooks( 'post_fetch', array( &$class, &$object, &$version, &$con
 // if yes object must be published without returning to edit mode.
 if ( ( $http->hasSessionVariable( 'LastCurrentAction' ) ) and
      ( $http->sessionVariable( 'LastCurrentAction' ) == 'Publish' ) and
-     ( $Module->isCurrentAction( 'AddNodeAssignment' ) )
+     ( $Module->isCurrentAction( 'AddNodeAssignment' ) ||
+       $Module->isCurrentAction( 'AddPrimaryNodeAssignment' ) )
    )
 {
     $http->removeSessionVariable( 'LastCurrentAction' );
@@ -142,14 +142,42 @@ else
 }
 
 // Checking if object has at least one placement, if not user needs to choose it from browse page
-$assignments =& $version->attribute( 'parent_nodes' );
-if ( count( $assignments ) < 1 && $Module->isCurrentAction( 'Publish' ) )
+$assignments =& $version->attribute( 'parent_nodes' ); // JB valid
+$assignedNodes =& $object->attribute( 'assigned_nodes' ); // JB valid
+
+// JB start
+// Figure out how many locations it has (or will get)
+$locationIDList = array();
+foreach ( $assignedNodes as $node )
 {
-    $Module->setCurrentAction( 'BrowseForNodes' );
-    // Store currentAction
-    $http->setSessionVariable( 'LastCurrentAction', 'Publish' );
-    // Store post vars
-    $http->setSessionVariable( 'BrowseForNodes_POST', $_POST );
+    $locationIDList[$node->attribute( 'parent_node_id' )] = true;
+}
+foreach ( $assignments as $assignment )
+{
+    if ( $assignment->attribute( 'op_code' ) == EZ_NODE_ASSIGNMENT_OP_CODE_CREATE ||
+         $assignment->attribute( 'op_code' ) == EZ_NODE_ASSIGNMENT_OP_CODE_SET )
+    {
+        $locationIDList[$assignment->attribute( 'parent_node' )] = true;
+    }
+    elseif ( $assignment->attribute( 'op_code' ) == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE )
+    {
+        unset( $locationIDList[$assignment->attribute( 'parent_node' )] );
+    }
+}
+$locationCount = count( $locationIDList );
+// JB end
+
+// If there are no locations we need to browse for one.
+if ( $locationCount < 1 && $Module->isCurrentAction( 'Publish' ) )
+{
+//    if ( $object->attribute( 'status' ) == EZ_CONTENT_OBJECT_STATUS_DRAFT )
+    {
+        $Module->setCurrentAction( 'BrowseForPrimaryNodes' );
+        // Store currentAction
+        $http->setSessionVariable( 'LastCurrentAction', 'Publish' );
+        // Store post vars
+        $http->setSessionVariable( 'BrowseForNodes_POST', $_POST );
+    }
 }
 
 
@@ -189,10 +217,12 @@ $storeActions = array( 'Preview',
 //                      'Discard',
 //                      'CustomAction',
                        'EditLanguage',
+                       'FromLanguage',
                        'BrowseForObjects',
                        'UploadFileRelation',
                        'NewObject',
                        'BrowseForNodes',
+                       'BrowseForPrimaryNodes',
                        'RemoveAssignments',
                        'DeleteRelation',
                        'DeleteNode',
@@ -409,6 +439,8 @@ foreach ( array_keys( $contentObjectAttributes ) as $contentObjectAttributeKey )
     $contentObjectDataMap[$contentObjectAttributeIdentifier] =& $contentObjectAttribute;
 }
 
+$object->setCurrentLanguage( $EditLanguage );
+
 $tpl->setVariable( 'edit_version', $EditVersion );
 $tpl->setVariable( 'edit_language', $EditLanguage );
 $tpl->setVariable( 'from_language', $FromLanguage );
@@ -421,6 +453,17 @@ $tpl->setVariable( 'content_attributes_data_map', $contentObjectDataMap );
 $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'attribute_base', $attributeDataBaseName );
+
+// JB
+$locationUIEnabled = true;
+// If the object has been published we disable the location UI
+if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
+{
+    $locationUIEnabled = false;
+}
+$tpl->setVariable( "location_ui_enabled", $locationUIEnabled );
+// JB
+
 
 if ( $Module->runHooks( 'pre_template', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, &$tpl, $FromLanguage ) ) )
     return;

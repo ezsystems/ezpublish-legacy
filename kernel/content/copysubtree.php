@@ -233,20 +233,31 @@ function copyPublishContentObject( &$sourceObject,
         $assignment->store();
     }
     // remove assigments which are outside of subtree being copied:
-    eZNodeAssignment::removeByID( $assignmentsForRemoving );
+    eZNodeAssignment::purgeByID( $assignmentsForRemoving );
 
     // if main nodeassigment was not copied then set as main first nodeassigment
     if ( $foundMainAssignment == false )
     {
         $newObjAssignments = $curVersionObject->attribute( 'node_assignments' );
-        $newObjAssignments[0]->setAttribute( 'is_main', 1 );
-        $newObjAssignments[0]->store();
+        // JB start
+        // We need to check if it has any assignments before changing the data.
+        if ( isset( $newObjAssignments[0] ) )
+        {
+            $newObjAssignments[0]->setAttribute( 'is_main', 1 );
+            $newObjAssignments[0]->store();
+        }
+        // JB end
     }
 
     // publish the newly created object
     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $result = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newObject->attribute( 'id' ),
                                                                         'version'   => $curVersion ) );
+    // JB start
+    // Refetch the object data since it might change in the database.
+    $newObjectID = $newObject->attribute( 'id' );
+    $newObject =& eZContentObject::fetch( $newObjectID );
+    // JB end
     $newNodeList =& $newObject->attribute( 'assigned_nodes' );
     if ( count($newNodeList) == 0 )
     {
@@ -767,7 +778,9 @@ function browse( &$Module, &$srcNode )
     if ( $Module->hasActionParameter( 'LanguageCode' ) )
         $languageCode = $Module->actionParameter( 'LanguageCode' );
     else
-        $languageCode = eZContentObject::defaultLanguage();
+    {
+        $languageCode = false;
+    }
 
     $nodeID          = $srcNode->attribute( 'node_id' );
     $object          = $srcNode->attribute( 'object' );
@@ -851,7 +864,9 @@ function showNotificationAfterCopying( &$http, &$Module, &$Result, &$Notificatio
         if ( $Module->hasActionParameter( 'LanguageCode' ) )
             $languageCode = $Module->actionParameter( 'LanguageCode' );
         else
-            $languageCode = eZContentObject::defaultLanguage();
+        {
+            $languageCode = false;
+        }
 
         if ( $Module->hasActionParameter( 'ViewMode' ) )
             $viewMode = $module->actionParameter( 'ViewMode' );

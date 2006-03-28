@@ -37,6 +37,7 @@ include_once( "lib/ezdb/classes/ezdb.php" );
 include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "lib/ezlocale/classes/ezdatetime.php" );
 include_once( "kernel/classes/ezcontentobject.php" );
+include_once( 'kernel/classes/ezcontentlanguage.php' );
 
 class eZSearchEngine
 {
@@ -762,11 +763,9 @@ class eZSearchEngine
                 $versionNameTables = ', ezcontentobject_name ';
                 $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
-                $lang = eZContentObject::defaultLanguage();
-
                 $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
-                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
-                                  ezcontentobject_name.content_translation = '$lang' ";
+                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and ";
+                $versionNameJoins .= eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
             }
 
             /// Only support AND search at this time

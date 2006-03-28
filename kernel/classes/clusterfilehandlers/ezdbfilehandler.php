@@ -195,6 +195,22 @@ class eZDBFileHandler // used in eZFileHandler1
     /**
      * \public
      * \static
+     * \sa fileDeleteByRegex()
+     */
+    function fileDeleteByWildcard( $wildcard )
+    {
+        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteByWildcard( '$wildcard' )" );
+
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
+        $dbfile = new eZDBFile();
+        $dbfile->_deleteByWildcard( $wildcard );
+        eZDebug::accumulatorStop( 'dbfile' );
+    }
+
+
+    /**
+     * \public
+     * \static
      */
     function fileDeleteByRegex( $dir, $fileRegex )
     {

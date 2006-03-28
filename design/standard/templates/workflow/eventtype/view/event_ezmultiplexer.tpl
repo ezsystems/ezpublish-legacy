@@ -81,3 +81,19 @@
 
 {/let}
 </div>
+
+
+
+
+<div class="element">
+{"Language"|i18n("design/standard/workflow/eventtype/view")}:
+
+{if eq( count( $event.language_list ), 0 )}
+    {"Any"|i18n( "design/standard/workflow/eventtype/view" )}
+{else}
+    {section var=language loop=$event.language_list}
+        {delimiter}, {/delimiter}
+    {$language|wash}
+    {/section}
+{/if}
+</div>

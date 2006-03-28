@@ -111,6 +111,7 @@ class eZDBInterface
         $this->DBWriteConnection = false;
         $this->TransactionCounter = 0;
         $this->TransactionIsValid = false;
+        $this->TransactionStackTree = false;
 
         $this->OutputTextCodec = null;
         $this->InputTextCodec = null;
@@ -151,6 +152,11 @@ class eZDBInterface
             $this->OutputSQL = true;
 
             $this->SlowSQLTimeout = (int) $ini->variable( "DatabaseSettings", "SlowQueriesOutput" );
+        }
+        if ( $ini->variable( "DatabaseSettings", "DebugTransactions" ) == "enabled" )
+        {
+            // Setting it to an array turns on the debugging
+            $this->TransactionStackTree = array();
         }
 
         $this->QueryAnalysisOutput = false;
@@ -607,8 +613,33 @@ class eZDBInterface
         {
             if ( $this->TransactionCounter > 0 )
             {
+                if ( is_array( $this->TransactionStackTree ) )
+                {
+                    // Make a new sub-level for debugging
+                    $bt = debug_backtrace();
+                    $subLevels =& $this->TransactionStackTree['sub_levels'];
+                    for ( $i = 1; $i < $this->TransactionCounter; ++$i )
+                    {
+                        $subLevels =& $subLevels[count( $subLevels ) - 1]['sub_levels'];
+                    }
+                    // Next entry will be at the end
+                    $subLevels[count( $subLevels )] = array( 'level' => $this->TransactionCounter,
+                                                             'trace' => $bt,
+                                                             'sub_levels' => array() );
+                }
                 ++$this->TransactionCounter;
                 return false;
+            }
+            else
+            {
+                if ( is_array( $this->TransactionStackTree ) )
+                {
+                    // Start new stack tree for debugging
+                    $bt = debug_backtrace();
+                    $this->TransactionStackTree = array( 'level' => $this->TransactionCounter,
+                                                         'trace' => $bt,
+                                                         'sub_levels' => array() );
+                }
             }
             $this->TransactionIsValid = true;
 
@@ -662,6 +693,11 @@ class eZDBInterface
             --$this->TransactionCounter;
             if ( $this->TransactionCounter == 0 )
             {
+                if ( is_array( $this->TransactionStackTree ) )
+                {
+                    // Reset the stack debug tree since the top commit was done
+                    $this->TransactionStackTree = array();
+                }
                 if ( $this->isConnected() )
                 {
                     // Check if we have encountered any problems, if so we have to rollback
@@ -685,6 +721,22 @@ class eZDBInterface
                     }
                 }
             }
+            else
+            {
+                if ( is_array( $this->TransactionStackTree ) )
+                {
+                    // Close the last open nested transaction
+                    $bt = debug_backtrace();
+                    // Store commit trace
+                    $subLevels =& $this->TransactionStackTree['sub_levels'];
+                    for ( $i = 1; $i < $this->TransactionCounter; ++$i )
+                    {
+                        $subLevels =& $subLevels[count( $subLevels ) - 1]['sub_levels'];
+                    }
+                    // Find last entry and add the commit trace
+                    $subLevels[count( $subLevels ) - 1]['commit_trace'] = $bt;
+                }
+            }
         }
         return true;
     }
@@ -704,6 +756,11 @@ class eZDBInterface
     */
     function rollback()
     {
+        if ( is_array( $this->TransactionStackTree ) )
+        {
+            // All transactions were rollbacked, reset the tree.
+            $this->TransactionStackTree = array();
+        }
         $ini =& eZINI::instance();
         if ($ini->variable( "DatabaseSettings", "Transactions" ) == "enabled")
         {
@@ -724,6 +781,112 @@ class eZDBInterface
             }
         }
         return true;
+    }
+
+    /*!
+      Goes through the transaction stack tree $this->TransactionStackTree and
+      generates the text output for it and returns it.
+      \returns The generated string or false if it is disabled.
+    */
+    function generateFailedTransactionStack()
+    {
+        if ( !$this->TransactionStackTree )
+        {
+            return false;
+        }
+        return $this->generateFailedTransactionStackEntry( $this->TransactionStackTree, 0 );
+    }
+
+    /*!
+     \private
+     Recursive helper function for generating stack tree output.
+     \returns The generated string
+     */
+    function generateFailedTransactionStackEntry( $stack, $indentCount )
+    {
+        $stackText = '';
+        $indent = '';
+        if ( $indentCount > 0 )
+        {
+            $indent = str_repeat( " ", $indentCount*4 );
+        }
+        $stackText .= $indent . "Level " . $stack['level'] . "\n" . $indent . "{" . $indent . "\n";
+        $stackText .= $indent . "  Began at:\n";
+        for ( $i = 0; $i < 2 && $i < count( $stack['trace'] ); ++$i )
+        {
+            $indent2 = str_repeat( "  ", $i + 1 );
+            if ( $i > 0 )
+            {
+                $indent2 .= "->";
+            }
+            $stackText .= $indent . $indent2 . $this->generateTraceEntry( $stack['trace'][$i] );
+            $stackText .= "\n";
+        }
+        foreach ( $stack['sub_levels'] as $subStack )
+        {
+            $stackText .= $this->generateFailedTransactionStackEntry( $subStack, $indentCount + 1 );
+        }
+        if ( isset( $stack['commit_trace'] ) )
+        {
+            $stackText .= $indent . "  And commited at:\n";
+            for ( $i = 0; $i < 2 && $i < count( $stack['commit_trace'] ); ++$i )
+            {
+                $indent2 = str_repeat( "  ", $i + 1 );
+                if ( $i > 0 )
+                {
+                    $indent2 .= "->";
+                }
+                $stackText .= $indent . $indent2 . $this->generateTraceEntry( $stack['commit_trace'][$i] );
+                $stackText .= "\n";
+            }
+        }
+        $stackText .= $indent . "}" . "\n";
+        return $stackText;
+    }
+
+    /*!
+     \private
+     Helper function for generating output for one stack-trace entry.
+     \returns The generated string
+     */
+    function generateTraceEntry( $entry )
+    {
+        if ( isset( $entry['file'] ) )
+        {
+            $stackText = $entry['file'];
+        }
+        else
+        {
+            $stackText = "???";
+        }
+        $stackText .= ":";
+        if ( isset( $entry['line'] ) )
+        {
+            $stackText .= $entry['line'];
+        }
+        else
+        {
+            $stackText .= "???";
+        }
+        $stackText .= " ";
+        if ( isset( $entry['class'] ) )
+        {
+            $stackText .= $entry['class'];
+        }
+        else
+        {
+            $stackText .= "???";
+        }
+        $stackText .= "::";
+        if ( isset( $entry['function'] ) )
+        {
+            $stackText .= $entry['function'];
+        }
+        else
+        {
+            $stackText .= "???";
+        }
+        return $stackText;
     }
 
     /*!

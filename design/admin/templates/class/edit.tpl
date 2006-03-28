@@ -90,6 +90,13 @@
     <input type="checkbox" name="ContentClass_is_container_checked" value="{$class.is_container}" {section show=$class.is_container|eq( 1 )}checked="checked"{/section} title="{'Use this checkbox to allow instances of the class to have sub items. If checked, it will be possible to create new sub-items. If not checked, the sub items will not be displayed.'|i18n( 'design/admin/class/edit' )}" />
     </div>
 
+    {* Object availablility. *}
+    <div class="block">
+    <label>{'Default object availability'|i18n( 'design/standard/class/edit' )}:</label>
+    <input type="hidden" name="ContentClass_always_available_exists" value="1" />
+    <input type="checkbox" name="ContentClass_always_available"{if $class.always_available|eq(1)} checked="checked"{/if} title="{'Use this checkbox to set the default availability for the objects of this class. The availablility controls wether an object should be shown even if it does not exist in one of the languages specified by the "SiteLanguageList" setting. If this is the case, the system will use the main language of the object.'|i18n( 'design/admin/class/edit' )|wash}" />
+    </div>
+
 {section show=$attributes}
 
 <table class="list" cellspacing="0">

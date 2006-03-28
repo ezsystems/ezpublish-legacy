@@ -108,7 +108,11 @@ class eZContentClass extends eZPersistentObject
                                          "is_container" => array( 'name' => "IsContainer",
                                                                   'datatype' => 'integer',
                                                                   'default' => 0,
-                                                                  'required' => true )),
+                                                                  'required' => true ),
+                                         'always_available' => array( 'name' => "AlwaysAvailable",
+                                                                      'datatype' => 'integer',
+                                                                      'default' => 0,
+                                                                      'required' => true ) ),
                       "keys" => array( "id", "version" ),
                       "function_attributes" => array( "data_map" => "dataMap",
                                                       'object_count' => 'objectCount',
@@ -120,7 +124,8 @@ class eZContentClass extends eZPersistentObject
                                                       'match_ingroup_id_list' => 'fetchMatchGroupIDList',
                                                       'group_list' => 'fetchAllGroups',
                                                       'creator' => 'creator',
-                                                      'modifier' => 'modifier' ),
+                                                      'modifier' => 'modifier',
+                                                      'can_instantiate_languages' => 'canInstantiateLanguages' ),
                       "increment_key" => "id",
                       "class_name" => "eZContentClass",
                       "sort" => array( "id" => "asc" ),
@@ -166,6 +171,11 @@ class eZContentClass extends eZPersistentObject
         return $contentClass;
     }
 
+    function &instantiateIn( $lang, $userID = false, $sectionID = 0, $versionNumber = false, $versionStatus = false )
+    {
+    	return eZContentClass::instantiate( $userID, $sectionID, $versionNumber, $lang, $versionStatus );
+    }
+    
     /*!
      Creates a new content object instance and stores it.
 
@@ -175,7 +185,7 @@ class eZContentClass extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &instantiate( $userID = false, $sectionID = 0, $versionNumber = false )
+    function &instantiate( $userID = false, $sectionID = 0, $versionNumber = false, $languageCode = false, $versionStatus = false )
     {
         $attributes = $this->fetchAttributes();
 
@@ -185,25 +195,41 @@ class eZContentClass extends eZPersistentObject
             $userID =& $user->attribute( 'contentobject_id' );
         }
 
+        if ( $languageCode == false )
+        {
+        	$languageCode = eZContentObject::defaultLanguage();
+        }
+
         $object = eZContentObject::create( ezi18n( "kernel/contentclass", "New %1", null, array( $this->attribute( "name" ) ) ),
                                            $this->attribute( "id" ),
                                            $userID,
-                                           $sectionID );
+                                           $sectionID,
+                                           1,
+                                           $languageCode );
 
+        if ( $this->attribute( 'always_available' ) )
+        {
+            $object->setAttribute( 'language_mask', $object->attribute( 'language_mask') | 1 );
+        }
+                                           
         $db =& eZDB::instance();
         $db->begin();
 
         $object->store();
         //  $object->setName( "New " . $this->attribute( "name" ) );
-        $object->setName( ezi18n( "kernel/contentclass", "New %1", null, array( $this->attribute( "name" ) ) ) );
+        $object->setName( ezi18n( "kernel/contentclass", "New %1", null, array( $this->attribute( "name" ) ) ), false, $languageCode );
 
         if ( !$versionNumber )
         {
-            $version = $object->createInitialVersion( $userID );
+            $version = $object->createInitialVersion( $userID, $languageCode );
         }
         else
         {
-            $version = eZContentObjectVersion::create( $object->attribute( "id" ), $userID, $versionNumber );
+            $version = eZContentObjectVersion::create( $object->attribute( "id" ), $userID, $versionNumber, $languageCode );
+        }
+        if ( $versionStatus !== false )
+        {
+            $version->setAttribute( 'status', $versionStatus );
         }
 
         $version->store();
@@ -211,7 +237,7 @@ class eZContentClass extends eZPersistentObject
         foreach ( array_keys( $attributes ) as $attributeKey )
         {
             $attribute =& $attributes[$attributeKey];
-            $attribute->instantiate( $object->attribute( 'id' ) );
+            $attribute->instantiate( $object->attribute( 'id' ), $languageCode );
         }
 
         $db->commit();
@@ -354,6 +380,9 @@ class eZContentClass extends eZPersistentObject
             }
         }
 
+        $languageCodeList = eZContentLanguage::fetchLocaleList();
+        $allowedLanguages = array( '*' => array() );
+
         $user =& eZUser::currentUser();
         $accessResult = $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];
@@ -364,6 +393,7 @@ class eZContentClass extends eZPersistentObject
         if ( $accessWord == 'yes' )
         {
             $fetchAll = true;
+            $allowedLanguages['*'] = $languageCodeList;
         }
         else if ( $accessWord == 'no' )
         {
@@ -378,18 +408,33 @@ class eZContentClass extends eZPersistentObject
                 $classIDArrayPart = '*';
                 if ( isset( $policy['Class'] ) )
                 {
-                    $classIDArrayPart =& $policy['Class'];
+                    $classIDArrayPart = $policy['Class'];
+                }
+                $languageCodeArrayPart = $languageCodeList;
+                if ( isset( $policy['Language'] ) )
+                {
+                    $languageCodeArrayPart = array_intersect( $policy['Language'], $languageCodeList );
                 }
 
                 if ( $classIDArrayPart == '*' )
                 {
                     $fetchAll = true;
-                    break;
+                    $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ) );
                 }
                 else
                 {
+                    foreach( $classIDArrayPart as $class )
+                    {
+                        if ( isset( $allowedLanguages[$class] ) )
+                        {
+                            $allowedLanguages[$class] = array_unique( array_merge( $allowedLanguages[$class], $languageCodeArrayPart ) );
+                        }
+                        else
+                        {
+                            $allowedLanguages[$class] = $languageCodeArrayPart;
+                        }
+                    }
                     $classIDArray = array_merge( $classIDArray, array_diff( $classIDArrayPart, $classIDArray ) );
-                    unset( $classIDArrayPart );
                 }
             }
         }
@@ -443,6 +488,20 @@ class eZContentClass extends eZPersistentObject
                                      "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
                                      "ORDER BY cc.name ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
+        }
+
+        foreach ( $classList as $key => $class )
+        {
+            $id = $class->attribute( 'id' );
+            if ( isset( $allowedLanguages[$id] ) )
+            {
+                $languageCodes = array_unique( array_merge( $allowedLanguages['*'], $allowedLanguages[$id] ) );
+            }
+            else
+            {
+                $languageCodes = $allowedLanguages['*'];
+            }
+            $classList[$key]->setCanInstantiateLanguages( $languageCodes );
         }
 
         eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db" );
@@ -1302,6 +1361,22 @@ You will need to change the class of the node by using the swap functionality.' 
         return $countRow[0]['count'];
     }
 
+    /*!
+     \return Sets the languages which are allowed to be instantiated for the class.
+     Used only for the content/ fetch function.
+    */
+    function setCanInstantiateLanguages( $languageCodes )
+    {
+        $this->CanInstantiateLanguages = $languageCodes;
+    }
+
+    function &canInstantiateLanguages()
+    {
+        $languageCodes = array_intersect( eZContentLanguage::prioritizedLanguageCodes(), $this->CanInstantiateLanguages );
+
+        return $languageCodes;
+    }
+
     /// \privatesection
     var $ID;
     var $Name;
@@ -1316,6 +1391,7 @@ You will need to change the class of the node by using the swap functionality.' 
     var $InGroups;
     var $AllGroups;
     var $IsContainer;
+    var $CanInstantiateLanguages;
 }
 
 ?>

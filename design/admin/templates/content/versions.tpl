@@ -117,7 +117,7 @@
     <th class="tight"><img src={'toggle-button-16x16.gif'|ezimage} alt="Toggle selection" onclick="ezjs_toggleCheckboxes( document.versionsform, 'DeleteIDArray[]' ); return false;" /></th>
     <th>{'Version'|i18n( 'design/admin/content/versions' )}</th>
 	<th>{'Status'|i18n( 'design/admin/content/versions' )}</th>
-	<th>{'Translations'|i18n( 'design/admin/content/versions' )}</th>
+	<th>{'Edited language'i18n( 'design/admin/content/versions' )}</th>
 	<th>{'Creator'|i18n( 'design/admin/content/versions' )}</th>
 	<th>{'Created'|i18n( 'design/admin/content/versions' )}</th>
 	<th>{'Modified'|i18n( 'design/admin/content/versions' )}</th>
@@ -126,6 +126,7 @@
 </tr>
 
 {section var=Versions loop=$version_list sequence=array( bglight, bgdark )}
+{def $initial_language = $Versions.item.initial_language}
 <tr class="{$Versions.sequence}">
 
     {* Remove. *}
@@ -138,17 +139,14 @@
     </td>
 
     {* Version/view. *}
-	<td><a href={concat( '/content/versionview/', $object.id, '/', $Versions.item.version )|ezurl} title="{'View the contents of version #%version_number. Default translation: %default_translation.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version, '%default_translation', $object.default_language|locale().intl_language_name ) )}">{$Versions.item.version}</a></td>
+	<td><a href={concat( '/content/versionview/', $object.id, '/', $Versions.item.version, '/', $initial_language.locale )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version, '%translation', $initial_language.name ) )}">{$Versions.item.version}</a></td>
 
     {* Status. *}
-	<td>{$Versions.item.status|choose( 'Draft'|i18n( 'design/admin/content/versions' ), 'Published'|i18n( 'design/admin/content/versions' ), 'Pending'|i18n( 'design/admin/content/versions' ), 'Archived'|i18n( 'design/admin/content/versions' ), 'Rejected'|i18n( 'design/admin/content/versions' ) )}</td>
+	<td>{$Versions.item.status|choose( 'Draft'|i18n( 'design/admin/content/versions' ), 'Published'|i18n( 'design/admin/content/versions' ), 'Pending'|i18n( 'design/admin/content/versions' ), 'Archived'|i18n( 'design/admin/content/versions' ), 'Rejected'|i18n( 'design/admin/content/versions' ), 'Untouched draft'|i18n( 'design/admin/content/versions' ) )}</td>
 
-    {* Translations. *}
+    {* Edited language. *}
 	<td>
-	    {section var=Languages loop=$Versions.item.language_list}
-        {delimiter}<br />{/delimiter}
-	    <img src="{$Languages.item.language_code|flag_icon}" alt="{$Languages.item.language_code}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Versions.item.version, '/', $Languages.item.language_code, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/versions',, hash( '%translation', $Languages.item.locale.intl_language_name, '%version_number', $Versions.item.version ) )}" >{$Languages.item.locale.intl_language_name}</a>
-        {/section}
+        <img src="{$initial_language.locale|flag_icon}" alt="{$initial_language.locale}" />&nbsp;<a href={concat('/content/versionview/', $object.id, '/', $Versions.item.version, '/', $initial_language.locale, '/' )|ezurl} title="{'View the contents of version #%version_number. Translation: %translation.'|i18n( 'design/admin/content/versions',, hash( '%translation', $initial_language.name, '%version_number', $Versions.item.version ) )}" >{$initial_language.name|wash}</a>
 	</td>
 
     {* Creator. *}
@@ -163,7 +161,11 @@
     {* Copy button. *}
     <td>
         {section show=$can_edit}
-        <input class="button" type="submit" name="CopyVersionButton[{$Versions.item.version}]" value="{'Copy'|i18n( 'design/admin/content/versions' )}" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
+        <select name="CopyVersionLanguage[{$Versions.item.version}]">
+    	    {section var=Languages loop=$Versions.item.language_list}
+	            <option value="{$Languages.item.language_code}"{if $Languages.item.language_code|eq($Versions.item.initial_language.locale)} selected="selected"{/if}>{$Languages.item.locale.intl_language_name|wash}</option>
+            {/section}
+        </select>&nbsp;<input class="button" type="submit" name="CopyVersionButton[{$Versions.item.version}]" value="{'Copy'|i18n( 'design/admin/content/versions' )}" title="{'Create a copy of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {section-else}
         <input class="button-disabled" type="submit" name="" value="{'Copy'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You can not make copies of versions because you do not have permissions to edit the object.'|i18n( 'design/admin/content/versions' )}" />
         {/section}
@@ -171,7 +173,7 @@
 
     {* Edit button. *}
     <td>
-        {section show=and( $Versions.item.status|eq( 0 ), $Versions.item.creator_id|eq( $user_id ), $can_edit ) }
+        {section show=and( array(0, 5)|contains($Versions.item.status), $Versions.item.creator_id|eq( $user_id ), $can_edit ) }
         <input class="button" type="submit" name="EditButton[{$Versions.item.version}]" value="{'Edit'|i18n( 'design/admin/content/versions' )}" title="{'Edit the contents of version #%version_number.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
         {section-else}
         <input class="button-disabled" type="submit" name="" value="{'Edit'|i18n( 'design/admin/content/versions' )}" disabled="disabled" title="{'You can not edit the contents of version #%version_number either because it is not a draft or because you do not have permissions to edit the object.'|i18n( 'design/admin/content/versions',, hash( '%version_number', $Versions.item.version ) )}" />
@@ -179,6 +181,7 @@
     </td>
 
 </tr>
+{undef $initial_language}
 {/section}
 </table>
 {section-else}
@@ -205,7 +208,6 @@
 
 <div class="left">
 <input class="button" type="submit" name="RemoveButton" value="{'Remove selected'|i18n( 'design/admin/content/versions' )}" title="{'Remove the selected versions from the object.'|i18n( 'design/admin/content/versions' )}" />
-<input type="hidden" name="EditLanguage" value="{$edit_language}" />
 <input type="hidden" name="DoNotEditAfterCopy" value="" />
 </div>
 

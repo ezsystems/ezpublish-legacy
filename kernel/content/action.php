@@ -47,7 +47,9 @@ $userClassID = $ini->variable( "UserSettings", "UserClassID" );
 if ( $module->hasActionParameter( 'LanguageCode' ) )
     $languageCode = $module->actionParameter( 'LanguageCode' );
 else
-    $languageCode = eZContentObject::defaultLanguage();
+{
+    $languageCode = false;
+}
 
 $viewMode = 'full';
 if ( $module->hasActionParameter( 'ViewMode' ) )
@@ -74,7 +76,9 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
     $hasClassInformation = false;
     $contentClassID = false;
     $contentClassIdentifier = false;
+    $languageCode = false;
     $class = false;
+   
     if ( $http->hasPostVariable( 'ClassID' ) )
     {
         $contentClassID = $http->postVariable( 'ClassID' );
@@ -92,6 +96,19 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
                 $hasClassInformation = true;
         }
     }
+
+    if ( $http->hasPostVariable( 'ContentLanguageCode' ) )
+    {
+        include_once( 'kernel/classes/ezcontentlanguage.php' );
+        $languageCode = $http->postVariable( 'ContentLanguageCode' );
+        $languageID = eZContentLanguage::idByLocale( $languageCode );
+        if ( $languageID === false )
+        {
+            eZDebug::writeError( "The language code [$languageCode] specified in ContentLanguageCode does not exist in the system." );
+            return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        }
+    }
+
     if ( ( $hasClassInformation && $http->hasPostVariable( 'NodeID' ) ) || $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )
     {
         if (  $module->isCurrentAction( 'NewObjectAddNodeAssignment' ) )
@@ -109,7 +126,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
         if ( is_object( $node ) )
         {
             $parentContentObject =& $node->attribute( 'object' );
-            if ( $parentContentObject->checkAccess( 'create', $contentClassID,  $parentContentObject->attribute( 'contentclass_id' ) ) == '1' )
+            if ( $parentContentObject->checkAccess( 'create', $contentClassID,  $parentContentObject->attribute( 'contentclass_id' ), false, $languageCode ) == '1' )
             {
                 $user =& eZUser::currentUser();
                 $userID =& $user->attribute( 'contentobject_id' );
@@ -121,7 +138,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
                 {
                     $db =& eZDB::instance();
                     $db->begin();
-                    $contentObject =& $class->instantiate( $userID, $sectionID );
+                    $contentObject =& $class->instantiateIn( $languageCode, $userID, $sectionID, false, EZ_VERSION_STATUS_INTERNAL_DRAFT );
                     $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
                                                                        'contentobject_version' => $contentObject->attribute( 'current_version' ),
                                                                        'parent_node' => $node->attribute( 'node_id' ),
@@ -165,7 +182,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
                                         'description_template' => 'design:content/browse_first_placement.tpl',
                                         'keys' => array( 'class' => $class->attribute( 'id' ),
                                                          'classgroup' => $class->attribute( 'ingroup_id_list' ) ),
-                                        'persistent_data' => array( 'ClassID' => $class->attribute( 'id' ) ),
+                                        'persistent_data' => array( 'ClassID' => $class->attribute( 'id' ), 'ContentLanguageCode' => $languageCode ),
                                         'content' => array( 'class_id' => $class->attribute( 'id' ) ),
                                         'cancel_page' => $module->redirectionURIForModule( $module, 'view', array( 'full', 2 ) ),
                                         'from_page' => "/content/action" ),
@@ -176,27 +193,21 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
           $http->hasPostVariable( 'ContentObjectID' ) && $http->hasPostVariable( 'ContentNodeID' ) &&
           $http->hasPostVariable( 'SortingField' )    && $http->hasPostVariable( 'SortingOrder' ) )
 {
+    // JB start
     $nodeID          = $http->postVariable( 'ContentNodeID' );
     $contentObjectID = $http->postVariable( 'ContentObjectID' );
     $sortingField    = $http->postVariable( 'SortingField' );
     $sortingOrder    = $http->postVariable( 'SortingOrder' );
     $node = eZContentObjectTreeNode::fetch( $nodeID );
-    $parentNode = $node->attribute( 'parent_node_id' );
     $contentObject =& eZContentObject::fetch( $contentObjectID );
-    $contentObjectVersion =& $contentObject->attribute( 'current_version' );
-    $nodeAssignment = eZNodeAssignment::fetch( $contentObjectID, $contentObjectVersion, $parentNode );
-
-    // store new sorting info
-    $nodeAssignment->setAttribute( 'sort_field', $sortingField );
-    $nodeAssignment->setAttribute( 'sort_order', $sortingOrder );
 
     $db =& eZDB::instance();
     $db->begin();
-    $nodeAssignment->store();
     $node->setAttribute( 'sort_field', $sortingField );
     $node->setAttribute( 'sort_order', $sortingOrder );
     $node->store();
     $db->commit();
+    // JB end
 
     // invalidate node view cache
     include_once( 'kernel/classes/ezcontentcachemanager.php' );
@@ -449,23 +460,6 @@ else if ( $module->isCurrentAction( 'SwapNode' ) )
         eZUser::cleanupCache();
     }
 
-    // modify assignment
-    $sourceNodeAssignment = eZNodeAssignment::fetch( $objectID, $objectVersion, $nodeParentNodeID );
-    if ( $sourceNodeAssignment )
-    {
-        $sourceNodeAssignment->setAttribute( 'contentobject_id', $selectedObjectID );
-        $sourceNodeAssignment->setAttribute( 'contentobject_version', $selectedObjectVersion );
-        $sourceNodeAssignment->store();
-    }
-
-    $targetNodeAssignment = eZNodeAssignment::fetch( $selectedObjectID, $selectedObjectVersion, $selectedNodeParentNodeID );
-    if ( $targetNodeAssignment )
-    {
-        $targetNodeAssignment->setAttribute( 'contentobject_id', $objectID );
-        $targetNodeAssignment->setAttribute( 'contentobject_version', $objectVersion );
-        $targetNodeAssignment->store();
-    }
-
     // modify path string
     $changedOriginalNode = eZContentObjectTreeNode::fetch( $nodeID );
     $changedOriginalNode->updateSubTreePath();
@@ -671,13 +665,14 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
     if ( $module->isCurrentAction( 'AddAssignment' ) )
     {
         $selectedNodeIDArray = eZContentBrowse::result( 'AddNodeAssignment' );
-        $assignedNodes =& $version->nodeAssignments();
+        // JB
+        $assignedNodes =& $object->assignedNodes();
         $assignedIDArray = array();
         $setMainNode = false;
         $hasMainNode = false;
         foreach ( $assignedNodes as $assignedNode )
         {
-            $assignedNodeID = $assignedNode->attribute( 'parent_node' );
+            $assignedNodeID = $assignedNode->attribute( 'node_id' );
             if ( $assignedNode->attribute( 'is_main' ) )
                 $hasMainNode = true;
             $assignedIDArray[] = $assignedNodeID;
@@ -690,6 +685,8 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
 
         $db =& eZDB::instance();
         $db->begin();
+        $locationAdded = false;
+        $node =& eZContentObjectTreeNode::fetch( $nodeID );
         foreach ( $selectedNodeIDArray as $selectedNodeID )
         {
             if ( !in_array( $selectedNodeID, $assignedIDArray ) )
@@ -701,25 +698,28 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
 
                 if ( $canCreate )
                 {
-                    $newVersion = $object->createNewVersion( false, true );
-
-                    if ( $object->attribute( 'contentclass_id' ) == $userClassID )
-                    {
-                        eZUser::cleanupCache();
-                    }
-                    $isMain = 0;
-                    if ( $setMainNode )
-                        $isMain = 1;
                     //$setMainNode = false;
-                    $nodeAssignment =& $newVersion->assignToNode( $selectedNodeID, $isMain );
-                    include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-                    $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $object->attribute( 'id' ),
-                                                                                         'version' => $newVersion->attribute( 'version' ) ) );
-		    unset( $newVersion );
-		    unset( $object );
-		    $object =& eZContentObject::fetch( $objectID );
-		
+                    // JB
+                    $insertedNodeID =& $object->addLocation( $selectedNodeID );
+
+                    // Now set is as published and fix main_node_id
+                    $insertedNode =& eZContentObjectTreeNode::fetch( $insertedNodeID );
+                    $insertedNode->setAttribute( 'contentobject_is_published', 1 );
+                    $insertedNode->setAttribute( 'main_node_id', $node->attribute( 'main_node_id' ) );
+                    $insertedNode->setAttribute( 'contentobject_version', $node->attribute( 'contentobject_version' ) );
+                    // Make sure the path_identification_string is set correctly.
+                    $insertedNode->updateSubTreePath();
+                    $insertedNode->sync();
+
+                    $locationAdded = true;
                 }
+            }
+        }
+        if ( $locationAdded )
+        {
+            if ( $object->attribute( 'contentclass_id' ) == $userClassID )
+            {
+                eZUser::cleanupCache();
             }
         }
         $db->commit();
@@ -814,21 +814,29 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
-    if ( !$module->hasActionParameter( 'AssignmentIDSelection' ) )
+    // JB
+    if ( $module->hasActionParameter( 'AssignmentIDSelection' ) )
+    {
+        eZDebug::writeError( "Use of POST variable 'AssignmentIDSelection' is deprecated, use the node ID and put it in 'LocationIDSelection' instead" );
+        return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+    }
+
+    if ( !$module->hasActionParameter( 'LocationIDSelection' ) )
         return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
 
-    $assignmentIDSelection = $module->actionParameter( 'AssignmentIDSelection' );
+    $locationIDSelection = $module->actionParameter( 'LocationIDSelection' );
 
     $hasChildren = false;
 
-    $nodeAssignments = eZNodeAssignment::fetchListByID( $assignmentIDSelection );
+    $nodes = array();
+    foreach ( $locationIDSelection as $locationID )
+    {
+        $nodes[] = eZContentObjectTreeNode::fetch( $locationID );
+    }
     $removeList = array();
     $nodeRemoveList = array();
-    foreach ( $nodeAssignments as $key => $nodeAssignment )
+    foreach ( $nodes as $key => $node )
     {
-        $nodeAssignment =& $nodeAssignments[$key];
-        $node =& $nodeAssignment->fetchNode();
-
         if ( $node )
         {
             // Security checks, removal of current node is not allowed
@@ -845,7 +853,6 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
             {
                 $hasChildren = true;
             }
-            unset( $node );
         }
     }
 
@@ -908,8 +915,17 @@ else if ( $http->hasPostVariable( 'EditButton' )  )
         {
             if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
             {
-                $parameters[] = 'f'; // this will be treatead as not entering the version number
-                $parameters[]= $http->postVariable( 'ContentObjectLanguageCode' );
+                $languageCode = $http->postVariable( 'ContentObjectLanguageCode' );
+                if ( $languageCode == '' )
+                {
+                    $parameters[] = 'a'; // this will be treatead as not entering the version number and offering
+                                         // list with new languages
+                }
+                else
+                {
+                    $parameters[] = 'f'; // this will be treatead as not entering the version number
+                    $parameters[]= $languageCode;
+                }
             }
         }
 

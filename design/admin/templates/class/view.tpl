@@ -53,6 +53,15 @@
 </div>
 
 <div class="block">
+    <label>{'Default object availability'|i18n( 'design/admin/class/view' )}:</label>
+    {section show=$class.always_available|eq(0)}
+        {'Not available'|i18n( 'design/admin/class/view' )}
+    {section-else}
+        {'Available'|i18n( 'design/admin/class/view' )}
+    {/section}
+</div>
+
+<div class="block">
     <label>{'Object count'|i18n( 'design/admin/class/view' )}:</label>
     {$class.object_count}
 </div>

@@ -110,73 +110,34 @@
 
 
 
-{section show=fetch( content, translation_list )|count|gt( 1 )}
-
 <!-- Translation box start-->
 <div class="translations">
-{let name=Translation
-     language_index=0
-     default_translation=$content_version.translation
-     language=$Translation:default_translation.language_code
-     translation_list=$content_version.complete_translation_list}
 
-{section show=$Translation:translation_list}
 <div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr">
-<h4>{'Translations [%translation_count]'|i18n( 'design/admin/content/edit',, hash( '%translation_count', $Translation:translation_list|count ) )}</h4>
+<h4>{'Translate from'|i18n( 'design/admin/content/edit' )}</h4>
 </div></div></div></div>
 
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-{section show=$edit_language}
-{set language=$edit_language}
-{/section}
-
-{section loop=$Translation:translation_list}
-  {section show=eq($Translation:language,$Translation:item.language_code)}
-    {set language_index=$Translation:index}
-  {/section}
-{/section}
-
-{section show=$Translation:translation_list|count|gt( 1 )}
-{section loop=$Translation:translation_list}
-<p>
 <label>
-<input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
-{section show=$Translation:item.locale.is_valid}
-<img src="{$Translation:item.language_code|flag_icon}" alt="{$Translation:item.language_code}" style="vertical-align: middle;" /> {section show=eq($Translation:default_translation.language_code,$Translation:item.language_code)}<span class="defaulttranslation">{/section}{$Translation:item.locale.intl_language_name|shorten( 15 )}{section show=eq($Translation:default_translation.language_code,$Translation:item.language_code)}</span>{/section}
-{section-else}
-{'%1 (No locale information available)'|i18n( 'design/admin/content/edit',, array($Translation:item.language_code))}
-{/section}
+<input type="radio" name="FromLanguage" value=""{if $from_language|not} checked="checked"{/if}{if $object.status|eq(0)} disabled="disabled"{/if} /> {'No translation'|i18n( 'design/admin/content/edit' )}
 </label>
-</p>
-{/section}
-{section-else}
-<p>
+
+{if $object.status}
+{foreach $object.languages as $language}
 <label>
-<input type="radio" name="" value="" checked="checked" disabled="disabled" />
-<img src="{$content_version.translation.language_code|flag_icon}" alt="{$content_version.translation.language_code}" style="vertical-align: middle;" /> {$content_version.translation.locale.intl_language_name|shorten( 16 )}
+<input type="radio" name="FromLanguage" value="{$language.locale}"{if $language.locale|eq($from_language)} checked="checked"{/if} />
+<img src="{$language.locale|flag_icon}" alt="{$language.locale}" style="vertical-align: middle;" /> 
+{$language.name|wash}
 </label>
-</p>
-{/section}
+{/foreach}
+{/if}
 
 <div class="block">
-{section show=$Translation:translation_list|count|gt( 1 )}
-<input class="button" type="submit" name="EditLanguageButton" value="{'Edit'|i18n( 'design/admin/content/edit' )}" title="{'Edit the selected translation of the draft that is being edited.'|i18n( 'design/admin/content/edit' )}" />
-<input class="button" type="submit" name="TranslateLanguageButton" value="{'Translate'|i18n( 'design/admin/content/edit' )}" title="{'Edit the selected translation of the draft using the content being edited as a reference.'|i18n( 'design/admin/content/edit' )}" />
-{section-else}
-<input class="button-disabled" type="submit" name="EditLanguageButton" value="{'Edit'|i18n( 'design/admin/content/edit' )}" disabled="disabled" title="{'The draft that is being edited only exists in one language; thus this button is disabled.'|i18n( 'design/admin/content/edit' )}" />
-<input class="button-disabled" type="submit" name="TranslateLanguageButton" value="{'Translate'|i18n( 'design/admin/content/edit' )}" disabled="disabled" title="{'The draft that is being edited only exists in one language; thus this button is disabled.'|i18n( 'design/admin/content/edit' )}" />
-{/section}
+<input {if $object.status|eq(0)}class="button-disabled" disabled="disabled"{else} class="button"{/if} type="submit" name="FromLanguageButton" value="{'Translate'|i18n( 'design/admin/content/edit' )}" title="{'Edit the current object showing the selected language as a reference.'|i18n( 'design/admin/content/edit' )}" />
 </div>
-<div class="block">
-<input class="button" type="submit" name="TranslateButton" value="{'Manage translations'|i18n( 'design/admin/content/edit' )}" title="{'View and manage (add/remove) translations for the draft that is being edited.'|i18n( 'design/admin/content/edit' )}" />
-</div>
-{/section}
 
-{/let}
 </div></div></div></div></div></div>
 </div>
 
 <!-- Translation box end-->
-
-{/section}

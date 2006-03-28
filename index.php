@@ -352,10 +352,6 @@ print( "HTTP_HOST=" . eZSys::serverVariable( 'HTTP_HOST' ) . "<br/" );
 include_once( "lib/ezutils/classes/ezsession.php" );
 
 
-include( "lib/ezutils/classes/ezweb.php" );
-
-eZWeb::init();
-
 // Check for extension
 include_once( 'lib/ezutils/classes/ezextension.php' );
 include_once( 'kernel/common/ezincludefunctions.php' );
@@ -909,10 +905,28 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     eZStaticCache::executeActions();
 
     $db =& eZDB::instance();
-    while ( $db->TransactionCounter > 0 )
+    if ( $db->TransactionCounter > 0 )
     {
         eZDebug::writeError( "Internal transaction counter mismatch : " . $db->TransactionCounter . ". Should be zero." );
-        $db->commit();
+        $stack = $db->generateFailedTransactionStack();
+        if ( $stack !== false )
+        {
+            eZDebug::writeError( $stack, 'Transaction stack' );
+        }
+        // In debug mode the transaction will be invalidated causing the top-level commit
+        // to issue an error.
+        if ( $ini->variable( "DatabaseSettings", "DebugTransactions" ) == "enabled" )
+        {
+            $db->invalidateTransaction();
+            $db->reportError();
+        }
+        else
+        {
+            while ( $db->TransactionCounter > 0 )
+            {
+                $db->commit();
+            }
+        }
     }
     if ( $automatic_redir )
     {
@@ -1171,10 +1185,28 @@ eZDebug::addTimingPoint( "End" );
 ob_end_flush();
 
 $db =& eZDB::instance();
-while ( $db->TransactionCounter > 0 )
+if ( $db->TransactionCounter > 0 )
 {
     eZDebug::writeError( "Internal transaction counter mismatch : " . $db->TransactionCounter . ". Should be zero." );
-    $db->commit();
+    $stack = $db->generateFailedTransactionStack();
+    if ( $stack !== false )
+    {
+        eZDebug::writeError( $stack, 'Transaction stack' );
+    }
+    // In debug mode the transaction will be invalidated causing the top-level commit
+    // to issue an error.
+    if ( $ini->variable( "DatabaseSettings", "DebugTransactions" ) == "enabled" )
+    {
+        $db->invalidateTransaction();
+        $db->reportError();
+    }
+    else
+    {
+        while ( $db->TransactionCounter > 0 )
+        {
+            $db->commit();
+        }
+    }
 }
 
 eZDisplayResult( $templateResult );

@@ -1503,6 +1503,12 @@ div.inline label
     display: inline;
 }
 
+/* Labels used for radiobuttons */
+label.radio
+{
+    display: inline;
+}
+
 div.date label, div.time label
 {
     font-size: 0.85em;
@@ -1644,6 +1650,11 @@ div.popupmenu
     visibility: hidden;
 }
 
+div.popupmenu#EditSubmenu
+{
+    z-index: +2;
+}
+
 div.popupmenu div.popupmenuheader
 {
     margin: -2px -2px 0.5em -2px;
@@ -1731,4 +1742,9 @@ span.userstatus-disabled
 span.userstatus-enabled
 {
     font-weight: bold;
+}
+
+div.indent
+{
+    margin-left: 1em;
 }

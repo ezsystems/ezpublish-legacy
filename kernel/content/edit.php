@@ -39,13 +39,18 @@ $obj =& eZContentObject::fetch( $ObjectID );
 if ( !$obj )
     return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 
+// If the object has status Archived (trash) we redirect to content/restore
+// which can handle this status properly.
+if ( $obj->attribute( 'status' ) == EZ_CONTENT_OBJECT_STATUS_ARCHIVED )
+{
+    return $Module->redirectToView( 'restore', array( $ObjectID ) );
+}
+
 // Check if we should switch access mode (http/https) for this object.
 include_once( 'kernel/classes/ezsslzone.php' );
 eZSSLZone::checkObject( 'content', 'edit', $obj );
 
-//if ( !$obj->attribute( 'can_edit' ) )
-//    return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
-if ( !$obj->attribute( 'can_edit' ) )
+if ( !$obj->checkAccess( 'edit', false, false, false, $EditLanguage ) )
 {
     // Check if it is a first created version of an object.
     // If so, then edit is allowed if we have an access to the 'create' function.
@@ -54,7 +59,7 @@ if ( !$obj->attribute( 'can_edit' ) )
     {
         $mainNode = eZNodeAssignment::fetchForObject( $obj->attribute( 'id' ), 1 );
         $parentObj = $mainNode[0]->attribute( 'parent_contentobject' );
-        $allowEdit = $parentObj->checkAccess( 'create', $obj->attribute( 'contentclass_id' ), $parentObj->attribute( 'contentclass_id' ) );
+        $allowEdit = $parentObj->checkAccess( 'create', $obj->attribute( 'contentclass_id' ), $parentObj->attribute( 'contentclass_id' ), false, $EditLanguage );
     }
     else
         $allowEdit = false;
@@ -70,19 +75,37 @@ $http =& eZHTTPTool::instance();
 if( $http->hasPostVariable( 'CancelDraftButton' ) )
 {
    $mainNode = eZNodeAssignment::fetchForObject( $obj->attribute( 'id' ), $obj->attribute( 'current_version' ), true );
-
-   if( (count( $mainNode )) == 1 )
+   if ( count( $mainNode ) == 1 )
    {
-        $node = $mainNode[0]->attribute( 'node' );
-        return $Module->redirectToView( 'view', array( 'full', $node->attribute( 'node_id' ) ) );
+       $node = $mainNode[0]->attribute( 'node' );
+       return $Module->redirectToView( 'view', array( 'full', $node->attribute( 'node_id' ) ) );
    }
    else
    {
-        $contentINI =& eZINI::instance( 'content.ini' );
-        $rootNodeID = $contentINI->variable( 'NodeSettings', 'RootNode' );
-    return $Module->redirectToView( 'view', array( 'full', $rootNodeID ) );
-}
-
+       $nodes = $obj->assignedNodes();
+       $chosenNode = null;
+       foreach ( $nodes as $node )
+       {
+           if ( $node->attribute( 'is_main' ) )
+           {
+               $chosenNode = $node;
+           }
+           else if ( $chosenNode === null )
+           {
+               $chosenNode = $node;
+           }
+       }
+       if ( $chosenNode )
+       {
+           return $Module->redirectToView( 'view', array( 'full', $chosenNode->attribute( 'node_id' ) ) );
+       }
+       else
+       {
+           $contentINI =& eZINI::instance( 'content.ini' );
+           $rootNodeID = $contentINI->variable( 'NodeSettings', 'RootNode' );
+           return $Module->redirectToView( 'view', array( 'full', $rootNodeID ) );
+       }
+   }
 }
 
 if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
@@ -95,13 +118,10 @@ if ( $http->hasPostVariable( 'EditButton' ) )
 if ( $http->hasPostVariable( 'SelectedVersion' ) )
 {
     $selectedVersion = $http->postVariable( 'SelectedVersion' );
+    // Kept for backwards compatability
     if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
     {
         $EditLanguage = $http->postVariable( 'ContentObjectLanguageCode' );
-        if ( $EditLanguage == eZContentObject::defaultLanguage() )
-        {
-            $EditLanguage = false;
-        }
     }
 
     return $Module->redirectToView( "edit", array( $ObjectID, $selectedVersion, $EditLanguage ) );
@@ -111,13 +131,10 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
 {
     $contentINI =& eZINI::instance( 'content.ini' );
     $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
+    // Kept for backwards compatability
     if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
     {
         $EditLanguage = $http->postVariable( 'ContentObjectLanguageCode' );
-        if ( $EditLanguage == eZContentObject::defaultLanguage() )
-        {
-            $EditLanguage = false;
-        }
     }
 
     $limitList = $contentINI->variable( 'VersionManagement', 'VersionHistoryClass' );
@@ -133,7 +150,9 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
     {
         $db =& eZDB::instance();
         $db->begin();
-        $version = $obj->createNewVersion();
+        $version = $obj->createNewVersionIn( $EditLanguage, $FromLanguage );
+        $version->setAttribute( 'status', EZ_VERSION_STATUS_INTERNAL_DRAFT );
+        $version->store();
         $db->commit();
         if ( !$http->hasPostVariable( 'DoNotEditAfterNewDraft' ) )
         {
@@ -141,20 +160,12 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
         }
         else
         {
-            return $Module->redirectToView( 'edit', array( $ObjectID ) );
+            return $Module->redirectToView( 'edit', array( $ObjectID, 'f', $EditLanguage ) );
         }
     }
     else
     {
-        // Remove oldest archived version first
-        if ( $contentINI->variable( 'VersionManagement', 'DeleteDrafts' ) == 'enabled' )
-        {
-            $params = array( 'conditions' => array( 'status' => array( array( 0, 3 ) ) ) );
-        }
-        else
-        {
-            $params = array( 'conditions'=> array( 'status' => 3 ) );
-        }
+        $params = array( 'conditions'=> array( 'status' => 3 ) );
         $versions =& $obj->versions( true, $params );
         if ( count( $versions ) > 0 )
         {
@@ -174,7 +185,9 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
             $db =& eZDB::instance();
             $db->begin();
             $removeVersion->remove();
-            $version = $obj->createNewVersion();
+            $version = $obj->createNewVersionIn( $EditLanguage );
+            $version->setAttribute( 'status', EZ_VERSION_STATUS_INTERNAL_DRAFT );
+            $version->store();
             $db->commit();
 
             if( !$http->hasPostVariable( 'DoNotEditAfterNewDraft' ) )
@@ -183,7 +196,7 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
             }
             else
             {
-                return $Module->redirectToView( 'edit', array( $ObjectID ) );
+                return $Module->redirectToView( 'edit', array( $ObjectID, 'f', $EditLanguage ) );
             }
 
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
@@ -198,7 +211,41 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
     }
 }
 
-$ini =& eZINI::instance();
+if ( $http->hasPostVariable( 'LanguageSelection' ) )
+{
+    $editLanguage = $http->postVariable( 'EditLanguage' );
+    $fromLanguage = $http->postVariable( 'FromLanguage' );
+    $user =& eZUser::currentUser();
+    $parameters = array( 'conditions' =>
+                         array( 'status' => array( array( EZ_VERSION_STATUS_DRAFT,
+                                                          EZ_VERSION_STATUS_INTERNAL_DRAFT ) ),
+                                'creator_id' => $user->attribute( 'contentobject_id' ) ) );
+    $chosenVersion = null;
+    foreach ( $obj->versions( true, $parameters ) as $possibleVersion )
+    {
+        if ( $possibleVersion->initialLanguageCode() == $editLanguage )
+        {
+            if ( !$chosenVersion ||
+                 $chosenVersion->attribute( 'modified' ) < $possibleVersion->attribute( 'modified' ) )
+            {
+                $chosenVersion = $possibleVersion;
+            }
+        }
+    }
+    if ( $chosenVersion )
+    {
+        return $Module->redirectToView( 'edit', array( $ObjectID, 'f', $editLanguage, $fromLanguage ) );
+    }
+/*	if ( in_array( $editLanguage, $obj->availableLanguages() ) )
+	{
+		return $Module->redirectToView( 'edit', array( $ObjectID, 'f', $editLanguage ) );
+	}*/
+    $version = $obj->createNewVersionIn( $fromLanguage, $editLanguage );
+    $version->setAttribute( 'status', EZ_VERSION_STATUS_INTERNAL_DRAFT );
+    $version->store();
+    return $Module->redirectToView( 'edit', array( $ObjectID, $version->attribute( 'version' ), $editLanguage, $fromLanguage ) );
+}
+
 if ( is_numeric( $EditVersion ) )
 {
     $version =& $obj->version( $EditVersion );
@@ -207,42 +254,124 @@ if ( is_numeric( $EditVersion ) )
         return $Module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 }
-else if ( $ini->variable( 'ContentSettings', 'EditDirtyObjectAction' ) == 'usecurrent' )
+
+if ( $EditLanguage == false )
 {
-    $version =& $obj->currentVersion( true );
-}
-else
-{
-    $draftVersions =& $obj->versions( true, array( 'conditions' => array( 'status' => EZ_VERSION_STATUS_DRAFT ) ) );
-    if ( count( $draftVersions ) > 0 )
-    {
-        $mostRecentDraft =& $draftVersions[0];
-        foreach( $draftVersions as $currentDraft )
+	if ( isset( $version ) && $version )
+	{
+        // JB start
+        $obj->cleanupInternalDrafts();
+        // JB end
+    	$translationList = $version->translationList( false, false );
+    	if ( $translationList )
+    	{
+        	$EditLanguage = $translationList[0];
+    	}
+	}
+	else
+	{
+        $obj->cleanupInternalDrafts();
+
+        // Check number of languages
+        include_once( 'kernel/classes/ezcontentlanguage.php' );
+        $languages = eZContentLanguage::fetchList();
+        // If there is only one language we choose it for the user and goes to version choice screen.
+        if ( count( $languages ) == 1 )
         {
-            if( $currentDraft->attribute( 'modified' ) > $mostRecentDraft->attribute( 'modified' ) )
-            {
-                $mostRecentDraft =& $currentDraft;
-            }
+            $firstLanguage = array_shift( $languages );
+            return $Module->redirectToView( 'edit', array( $ObjectID, 'f', $firstLanguage->attribute( 'locale' ) ) );
         }
 
-        include_once( 'kernel/common/template.php' );
-        $tpl =& templateInit();
+        // No version found, ask the user.
+		include_once( 'kernel/common/template.php' );
+
+		$tpl =& templateInit();
 
         $res =& eZTemplateDesignResource::instance();
-        $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
-                              array( 'class', $class->attribute( 'id' ) ),
-                              array( 'class_identifier', $class->attribute( 'identifier' ) ),
-                              array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ) ) );
+        $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ) ) );
 
-        $tpl->setVariable( 'edit_language', $EditLanguage );
         $tpl->setVariable( 'object', $obj );
-        $tpl->setVariable( 'class', $class );
-        $tpl->setVariable( 'draft_versions', $draftVersions );
-        $tpl->setVariable( 'most_recent_draft', $mostRecentDraft );
-
+        $tpl->setVariable( 'show_existing_languages', ( $EditVersion == 'a' )? false: true );
+        
         $Result = array();
-        $Result['content'] =& $tpl->fetch( 'design:content/edit_draft.tpl' );
+        $Result['content'] =& $tpl->fetch( 'design:content/edit_languages.tpl' );
+        $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Content' ),
+                                 'url' => false ),
+                          array( 'text' => ezi18n( 'kernel/content', 'Edit' ),
+                                 'url' => false ) );
+
         return $Result;
+	}
+}
+
+$ini =& eZINI::instance();
+
+if ( !is_numeric( $EditVersion ) )
+{
+    if ( $ini->variable( 'ContentSettings', 'EditDirtyObjectAction' ) == 'usecurrent' )
+    {
+        // JB start
+        $obj->cleanupInternalDrafts();
+        // JB end
+        $version = $obj->createNewVersionIn( $EditLanguage );
+        $version->setAttribute( 'status', EZ_VERSION_STATUS_INTERNAL_DRAFT );
+        $version->store();
+    }
+    else
+    {
+        // JB start
+        $obj->cleanupInternalDrafts();
+        // JB end
+        $draftVersions =& $obj->versions( true, array( 'conditions' => array( 'status' => array( array( EZ_VERSION_STATUS_DRAFT, EZ_VERSION_STATUS_INTERNAL_DRAFT ) ),
+                                                                              'language_code' => $EditLanguage ) ) );
+        if ( count( $draftVersions ) > 1 )
+        {
+            $mostRecentDraft =& $draftVersions[0];
+            foreach( $draftVersions as $currentDraft )
+            {
+                if( $currentDraft->attribute( 'modified' ) > $mostRecentDraft->attribute( 'modified' ) )
+                {
+                    $mostRecentDraft =& $currentDraft;
+                }
+            }
+
+            include_once( 'kernel/common/template.php' );
+            $tpl =& templateInit();
+
+            $res =& eZTemplateDesignResource::instance();
+            $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ),
+                                array( 'class', $class->attribute( 'id' ) ),
+                                array( 'class_identifier', $class->attribute( 'identifier' ) ),
+                                array( 'class_group', $class->attribute( 'match_ingroup_id_list' ) ) ) );
+
+            $tpl->setVariable( 'edit_language', $EditLanguage );
+            $tpl->setVariable( 'from_language', $FromLanguage );
+            $tpl->setVariable( 'object', $obj );
+            $tpl->setVariable( 'class', $class );
+            $tpl->setVariable( 'draft_versions', $draftVersions );
+            $tpl->setVariable( 'most_recent_draft', $mostRecentDraft );
+
+            $Result = array();
+            $Result['content'] =& $tpl->fetch( 'design:content/edit_draft.tpl' );
+            return $Result;
+        }
+        elseif ( count( $draftVersions ) == 1 )
+        {
+            // If there is only one draft by you edit it immediately
+            $parameters = array( $ObjectID, $draftVersions[0]->attribute( 'version' ), $EditLanguage );
+            if ( strlen( $FromLanguage ) != 0 )
+            {
+                $parameters[] = $FromLanguage;
+            }
+            return $Module->redirectToView( 'edit', $parameters );
+        }
+        else
+        {
+            $version = $obj->createNewVersionIn( $EditLanguage );
+            $version->setAttribute( 'status', EZ_VERSION_STATUS_INTERNAL_DRAFT );
+            $version->store();
+            return $Module->redirectToView( "edit", array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );
+        }
     }
 }
 
@@ -290,6 +419,7 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
             print( $currentVersion->attribute( 'modified' ) . "<br>" );
             */
             if ( ( $version->attribute( 'status' ) != EZ_VERSION_STATUS_DRAFT and
+                   $version->attribute( 'status' ) != EZ_VERSION_STATUS_INTERNAL_DRAFT and
                    $version->attribute( 'status' ) != EZ_VERSION_STATUS_PENDING ) or
                    $version->attribute( 'creator_id' ) != $user->id() )
             {
@@ -307,7 +437,7 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
         if ( $requireNewVersion )
         {
             // Fetch and create new version
-            if ( !$object->attribute( 'can_edit' ) )
+            if ( !$object->checkAccess( 'edit', false, false, false, $editLanguage ) )
             {
                 $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
@@ -332,7 +462,9 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
             {
                 $db =& eZDB::instance();
                 $db->begin();
-                $version = $object->createNewVersion();
+                $version = $object->createNewVersionIn( $editLanguage );
+                $version->setAttribute( 'status', EZ_VERSION_STATUS_INTERNAL_DRAFT );
+                $version->store();
                 $db->commit();
                 $module->redirectToView( "edit", array( $objectID, $version->attribute( "version" ), $editLanguage ) );
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
@@ -340,14 +472,7 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
             else
             {
                 // Remove oldest archived version first
-                if ( $contentINI->variable( 'VersionManagement', 'DeleteDrafts' ) == 'enabled' )
-                {
-                    $params = array( 'conditions' => array( 'status' => array( array( 0, 3 ) ) ) );
-                }
-                else
-                {
-                    $params = array( 'conditions'=> array( 'status' => 3 ) );
-                }
+                $params = array( 'conditions'=> array( 'status' => 3 ) );
                 $versions =& $object->versions( true, $params );
                 if ( count( $versions ) > 0 )
                 {
@@ -366,7 +491,10 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
                     $db =& eZDB::instance();
                     $db->begin();
                     $removeVersion->remove();
-                    $version = $object->createNewVersion();
+                    $version = $object->createNewVersionIn( $editLanguage );
+                    $version->setAttribute( 'status', EZ_VERSION_STATUS_INTERNAL_DRAFT );
+                    $version->store();
+                    $db->commit();
                     $db->commit();
                     $module->redirectToView( "edit", array( $objectID, $version->attribute( "version" ), $editLanguage ) );
                     return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
@@ -419,10 +547,6 @@ if ( !function_exists( 'checkContentActions' ) )
             if ( $module->hasActionParameter( 'SelectedLanguage' ) )
             {
                 $EditLanguage = $module->actionParameter( 'SelectedLanguage' );
-//                 if ( $EditLanguage == eZContentObject::defaultLanguage() )
-//                     $EditLanguage = false;
-                if ( strlen( $EditLanguage ) == 0 )
-                    $EditLanguage = eZContentObject::defaultLanguage();
                 // We reset the from language to disable the translation look
                 $FromLanguage = false;
                 $module->redirectToView( 'edit', array( $object->attribute('id'), $EditVersion, $EditLanguage, $FromLanguage ) );
@@ -435,16 +559,19 @@ if ( !function_exists( 'checkContentActions' ) )
             if ( $module->hasActionParameter( 'SelectedLanguage' ) )
             {
                 $FromLanguage = $EditLanguage;
-                if ( strlen( $FromLanguage ) == 0 )
-                    $FromLanguage = eZContentObject::defaultLanguage();
                 $EditLanguage = $module->actionParameter( 'SelectedLanguage' );
-//                 if ( $FromLanguage == $EditLanguage )
-//                     $FromLanguage = false;
                 $module->redirectToView( 'edit', array( $object->attribute('id'), $EditVersion, $EditLanguage, $FromLanguage ) );
                 return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
             }
         }
 
+        if ( $module->isCurrentAction( 'FromLanguage' ) )
+        {
+        	$FromLanguage = $module->actionParameter( 'FromLanguage' );
+        	$module->redirectToView( 'edit', array( $object->attribute('id'), $EditVersion, $EditLanguage, $FromLanguage ) );
+            return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
+        }
+        
         if ( $module->isCurrentAction( 'Discard' ) )
         {
             $http =& eZHTTPTool::instance();

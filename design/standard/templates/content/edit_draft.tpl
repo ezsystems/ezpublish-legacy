@@ -9,7 +9,7 @@
         {set has_other_drafts=true()}
     {/section}
 {/section}
-<form method="post" action={concat('content/edit/',$object.id)|ezurl}>
+<form method="post" action={concat('content/edit/',$object.id,'/',$edit_language,'/',$from_language)|ezurl}>
 
 <div class="objectheader">
 <h2>{$object.name|wash}</h2>

@@ -71,7 +71,7 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
         $assignmentID = $assignment->attribute( 'id' );
         if ( $assignment->attribute( 'is_main' ) )
             $mainNodeChanged = true;
-        eZNodeAssignment::removeByID( $assignmentID );
+        eZNodeAssignment::purgeByID( $assignmentID );
     }
     if ( $mainNodeChanged )
         eZNodeAssignment::setNewMainAssignment( $objectID, $editVersion );

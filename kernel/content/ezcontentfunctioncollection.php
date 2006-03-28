@@ -140,6 +140,40 @@ class eZContentFunctionCollection
         return $result;
     }
 
+    function fetchPrioritizedLanguages()
+    {
+        include_once( 'kernel/classes/ezcontentlanguage.php' );
+        $languages =& eZContentLanguage::prioritizedLanguages();
+        if ( $languages === null )
+        {
+            $result =  array( 'error' => array( 'error_type' => 'kernel',
+                                                'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        }
+        else
+        {
+            $result = array( 'result' => $languages );
+        }
+
+        return $result;
+    }
+
+    function fetchPrioritizedLanguageCodes()
+    {
+        include_once( 'kernel/classes/ezcontentlanguage.php' );
+        $languageCodes =& eZContentLanguage::prioritizedLanguageCodes();
+        if ( $languageCodes === null )
+        {
+            $result =  array( 'error' => array( 'error_type' => 'kernel',
+                                                'error_code' => EZ_ERROR_KERNEL_NOT_FOUND ) );
+        }
+        else
+        {
+            $result = array( 'result' => $languageCodes );
+        }
+
+        return $result;
+    }
+
     function fetchLocaleList( $withVariations )
     {
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
@@ -420,7 +454,9 @@ class eZContentFunctionCollection
         $draftVersionList =  eZPersistentObject::fetchObjectList( eZContentObjectVersion::definition(),
                                                                    null, array(  'creator_id' => $userID,
                                                                                  'status' => EZ_VERSION_STATUS_DRAFT ),
-                                                                   null, array( 'length' => $limit, 'offset' => $offset ),
+                                                                   array( 'modified' => true,
+                                                                          'initial_language_id' => true ),
+                                                                   array( 'length' => $limit, 'offset' => $offset ),
                                                                    true );
         return array( 'result' => &$draftVersionList );
 
@@ -910,7 +946,7 @@ class eZContentFunctionCollection
         return array( 'result' => $resultNodeArray );
     }
 
-    function checkAccess( $access, &$contentObject, $contentClassID, $parentContentClassID )
+    function checkAccess( $access, &$contentObject, $contentClassID, $parentContentClassID, $languageCode = false )
     {
         if ( get_class( $contentObject ) == 'ezcontentobjecttreenode' )
             $contentObject =& $contentObject->attribute( 'object' );
@@ -925,7 +961,7 @@ class eZContentFunctionCollection
         }
         if ( $access and get_class( $contentObject ) == 'ezcontentobject' )
         {
-            $result = $contentObject->checkAccess( $access, $contentClassID, $parentContentClassID );
+            $result = $contentObject->checkAccess( $access, $contentClassID, $parentContentClassID, false, $languageCode );
             return array( 'result' => $result );
         }
     }

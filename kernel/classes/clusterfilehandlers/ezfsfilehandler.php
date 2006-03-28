@@ -167,6 +167,24 @@ class eZFSFileHandler // used in eZFileHandler1
     }
 
     /**
+     * Delete files matching given wildcard.
+     *
+     * Note that this method is faster than fileDeleteByRegex().
+     *
+     * \public
+     * \static
+     * \sa fileDeleteByRegex()
+     */
+    function fileDeleteByWildcard( $wildcard )
+    {
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByWildcard( '$wildcard' )" );
+
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
+        array_map( 'unlink', glob( $wildcard, GLOB_BRACE ) );
+        eZDebug::accumulatorStop( 'dbfile' );
+    }
+
+    /**
      * Delete files matching regex $fileRegex under directory $dir.
      *
      * \public
@@ -418,3 +436,4 @@ class eZFSFileHandler // used in eZFileHandler1
 }
 
 ?>
+

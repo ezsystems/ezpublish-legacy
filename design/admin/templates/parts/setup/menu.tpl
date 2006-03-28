@@ -25,7 +25,7 @@
     <li><div><span class="disabled">{'Sessions'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'System information'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'Upgrade check'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
-    <li><div><span class="disabled">{'Translations'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
+    <li><div><span class="disabled">{'Languages'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'Triggers'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'URL management'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
     <li><div><span class="disabled">{'URL translator'|i18n( 'design/admin/parts/setup/menu' )}</span></div></li>
@@ -52,7 +52,7 @@
     <li><div><a href={'/setup/session'|ezurl}>{'Sessions'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/setup/info/'|ezurl}>{'System information'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/setup/systemupgrade'|ezurl}>{'Upgrade check'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
-    <li><div><a href={'/content/translations/'|ezurl}>{'Translations'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
+    <li><div><a href={'/content/translations/'|ezurl}>{'Languages'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/trigger/list/'|ezurl}>{'Triggers'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/url/list/'|ezurl}>{'URL management'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>
     <li><div><a href={'/content/urltranslator/'|ezurl}>{'URL translator'|i18n( 'design/admin/parts/setup/menu' )}</a></div></li>

@@ -126,11 +126,21 @@
 
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 
+<div class="box-ml"><div class="box-mr">
+
+<div class="context-information">
+    <p class="modified">{'Published at'|i18n( 'design/admin/node/view/full' )}: {$content_version.modified|l10n(shortdatetime)}, <a href={$content_version.creator.main_node.url_alias|ezurl}>{$content_version.creator.name|wash}</a></p>
+    <p class="translation">{$content_version.initial_language.locale_object.intl_language_name}&nbsp;<img src="{$content_version.initial_language.locale|flag_icon}" alt="{$content_version.initial_language.locale_object.intl_language_name}" style="vertical-align: middle;" /></p>
+    <div class="break"></div>
+</div>
+
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
-<div class="mainobject-window">
-  {content_version_view_gui view=plain content_version=$content_version}
+<div class="mainobject-window" title="{$content_version.contentobject.name|wash} {'Node ID'|i18n( 'design/admin/node/view/full' )}: {$content_version.contentobject.main_node_id}, {'Object ID'|i18n( 'design/admin/node/view/full' )}: {$content_version.contentobject_id}">
+    {content_version_view_gui view=plain content_version=$content_version}
 </div>
+
+</div></div>
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 

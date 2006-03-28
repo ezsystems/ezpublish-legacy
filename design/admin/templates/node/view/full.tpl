@@ -26,7 +26,7 @@
 
 <div class="context-information">
 <p class="modified">{'Last modified'|i18n( 'design/admin/node/view/full' )}: {$node.object.modified|l10n(shortdatetime)}, <a href={$node.object.current.creator.main_node.url_alias|ezurl}>{$node.object.current.creator.name|wash}</a></p>
-<p class="translation">{$language_code|locale().intl_language_name}&nbsp;<img src="{$language_code|flag_icon}" alt="{$language_code}" style="vertical-align: middle;" /></p>
+<p class="translation">{$node.object.current_language_object.locale_object.intl_language_name}&nbsp;<img src="{$node.object.current_language|flag_icon}" alt="{$language_code}" style="vertical-align: middle;" /></p>
 <div class="break"></div>
 </div>
 
@@ -52,15 +52,35 @@
 <input type="hidden" name="TopLevelNode" value="{$node.object.main_node_id}" />
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
 <input type="hidden" name="ContentObjectID" value="{$node.object.id}" />
-<input type="hidden" name="ContentObjectLanguageCode" value="{$language_code}" />
 
 <div class="block">
 
 <div class="left">
 {* Edit button. *}
 {section show=$node.can_edit}
+    <select name="ContentObjectLanguageCode">
+    {def $can_create_translation=false()}
+    {foreach fetch('content','prioritized_languages') as $language}
+        {if fetch('content', 'access', hash( 'access', 'edit',
+                                             'contentobject', $node.object,
+                                             'language', $language.locale ) )}
+            {if $node.object.language_codes|contains($language.locale)}
+                <option value="{$language.locale}"{if $language.locale|eq($node.object.current_language)} selected="selected"{/if}>{$language.name|wash}</option>
+            {else}
+                {set $can_create_translation=true()}
+            {/if}
+        {/if}
+    {/foreach}
+    {if $can_create_translation}
+        <option value="">{'Another language'|i18n( 'design/admin/node/view/full')}</option>
+    {/if}
+    {undef $can_create_translation}
+    </select>
     <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'Edit the contents of this item.'|i18n( 'design/admin/node/view/full' )}" />
 {section-else}
+    <select name="ContentObjectLanguageCode" disabled="disabled">
+        <option value="">{'Not available'|i18n( 'design/admin/node/view/full')}</option>
+    </select>
     <input class="button-disabled" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permissions to edit this item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
 {/section}
 

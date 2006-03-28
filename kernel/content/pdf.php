@@ -61,11 +61,6 @@ if ( $Month )
 if ( $Day )
     $Day = (int) $Day;
 
-if ( trim( $LanguageCode ) != '' )
-{
-    eZContentObject::setDefaultLanguage( $LanguageCode );
-}
-
 if ( $NodeID < 2 )
     $NodeID = 2;
 
@@ -191,8 +186,8 @@ switch( $operationResult['status'] )
             $cachePathInfo = eZContentCache::cachePathInfo( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout, false,
                                                             array( 'view_parameters' => $viewParameters ) );
             $node = eZContentObjectTreeNode::fetch( $NodeID );
-
-            contentPDFGenerate( $cachePathInfo['path'] , $node, $object, $viewCacheEnabled );
+            
+            contentPDFGenerate( $cachePathInfo['path'] , $node, false, $viewCacheEnabled, $LanguageCode );
 
             if ( $viewCacheEnabled  )
             {
@@ -259,11 +254,17 @@ function contentPDFPassthrough( $cacheFile )
 /*!
   generate PDF, and output stream.
 */
-function contentPDFGenerate( $cacheFile, &$node, $object = false, $viewCacheEnabled = true )
+function contentPDFGenerate( $cacheFile, &$node, $object = false, $viewCacheEnabled = true, $languageCode = false )
 {
-    if( $object === false )
+    if( $object == false )
     {
-        $object =& $node->attribute( 'object' );
+        unset( $object );
+        $object =& $node->attribute( 'object' ); // do not remove &
+    }
+
+    if ( $languageCode )
+    {
+        $object->setCurrentLanguage( $languageCode );
     }
 
     $res =& eZTemplateDesignResource::instance();

@@ -41,6 +41,15 @@
 </div>
 
 <div class="block">
+    <label>{"Objects always available (default value)"|i18n("design/standard/class/view")}:</label><div class="labelbreak"></div>
+    {section show=$class.always_available|eq(0)}
+        {"No"|i18n("design/standard/class/view")}
+    {section-else}
+        {"Yes"|i18n("design/standard/class/view")}
+    {/section}
+</div>
+
+<div class="block">
     <label>{"Object count"|i18n("design/standard/class/view")}</label><div class="labelbreak"></div>
     <p>{$class.object_count}</p>
 </div>

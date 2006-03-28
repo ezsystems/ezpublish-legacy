@@ -43,6 +43,7 @@ $ViewList['edit'] = array(
                                     'BrowseNodeButton' => 'BrowseForNodes',
                                     'RemoveAssignmentButton' => 'RemoveAssignments',
                                     'EditLanguageButton' => 'EditLanguage',
+                                    'FromLanguageButton' => 'FromLanguage',
                                     'TranslateLanguageButton' => 'TranslateLanguage',
                                     'BrowseObjectButton' => 'BrowseForObjects',
                                     'UploadFileRelationButton' => 'UploadFileRelation',
@@ -55,6 +56,7 @@ $ViewList['edit'] = array(
                                     'ConfirmButton' => 'ConfirmAssignmentDelete'
                                     ),
     'post_action_parameters' => array( 'EditLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ),
+                                       'FromLanguage' => array( 'FromLanguage' => 'FromLanguage' ),
                                        'TranslateLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ),
                                        'UploadFileRelation' => array( 'UploadRelationLocation' => 'UploadRelationLocationChoice' ) ),
     'post_actions' => array( 'BrowseActionName' ),
@@ -160,6 +162,17 @@ $ViewList['versionview'] = array(
                                  'offset' => 'Offset',
                                  'site_access' => 'SiteAccess' ) );
 
+$ViewList['restore'] = array(
+    'functions' => array( 'restore' ),
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'ui_context' => 'administration',
+    'script' => 'restore.php',
+    'single_post_actions' => array( 'ConfirmButton' => 'Confirm',
+                                    'CancelButton' => 'Cancel',
+                                    'AddLocationAction' => 'AddLocation' ),
+    'post_action_parameters' => array( 'Confirm' => array( 'RestoreType' => 'RestoreType' ) ),
+    'params' => array( 'ObjectID' ) );
+
 $ViewList['search'] = array(
     'functions' => array( 'read' ),
     'default_navigation_part' => 'ezcontentnavigationpart',
@@ -256,7 +269,8 @@ $ViewList['action'] = array(
                                                                  'ObjectID' => 'ContentObjectID',
                                                                  'ViewMode' => 'ViewMode',
                                                                  'LanguageCode' => 'ContentObjectLanguageCode' ),
-                                       'RemoveAssignment' => array( 'AssignmentIDSelection' => 'AssignmentIDSelection',
+                                       'RemoveAssignment' => array( 'AssignmentIDSelection' => 'AssignmentIDSelection', // Note: AssignmentIDSelection is deprecated, use LocationIDSelection
+                                                                    'LocationIDSelection' => 'LocationIDSelection',
                                                                     'NodeID' => 'ContentNodeID',
                                                                     'ObjectID' => 'ContentObjectID',
                                                                     'ViewMode' => 'ViewMode',
@@ -314,33 +328,12 @@ $ViewList['versions'] = array(
     'single_post_actions' => array( 'CopyVersionButton' => 'CopyVersion',
                                     'EditButton' => 'Edit' ),
     'post_action_parameters' => array( 'CopyVersion' => array( 'VersionID' => 'RevertToVersionID',
-                                                               'EditLanguage' => 'EditLanguage',
-                                                               'VersionKeyArray' => 'CopyVersionButton' ),
+                                                               'VersionKeyArray' => 'CopyVersionButton',
+                                                               'LanguageArray' => 'CopyVersionLanguage' ),
                                        'Edit' => array( 'VersionID' => 'RevertToVersionID',
-                                                        'EditLanguage' => 'EditLanguage',
                                                         'VersionKeyArray' => 'EditButton' ) ),
-    'params' => array( 'ObjectID' ,'EditVersion', 'EditLanguage' ),
+    'params' => array( 'ObjectID' ,'EditVersion' ),
     'unordered_params' => array( 'offset' => 'Offset' ) );
-
-$ViewList['translate'] = array(
-    'functions' => array( 'translate' ),
-    'default_navigation_part' => 'ezcontentnavigationpart',
-    'ui_context' => 'edit',
-    'script' => 'translate.php',
-    'single_post_actions' => array( 'EditObjectButton' => 'EditObject',
-                                    'PreviewButton' => 'Preview',
-                                    'StoreButton' => 'Store',
-                                    'AddLanguageButton' => 'AddLanguage',
-                                    'DeleteButton' => 'RemoveLanguage',
-                                    'RemoveLanguageConfirmationButton' => 'RemoveLanguageConfirmation',
-                                    'RemoveLanguageCancelButton' => 'RemoveLanguageCancel',
-                                    'EditLanguageButton' => 'EditLanguage' ),
-    'post_action_parameters' => array( 'AddLanguage' => array( 'SelectedLanguage' => 'SelectedLanguage' ) ,
-                                       'RemoveLanguage' => array( 'SelectedLanguageList' => 'RemoveLanguageArray' ),
-                                       'RemoveLanguageConfirmation' => array( 'SelectedLanguageList' => 'RemoveLanguageArray' ),
-                                       'EditLanguage' => array( 'SelectedLanguage' => 'EditSelectedLanguage' ) ),
-    'action_parameters' => array( 'CancelTask' => array( 'SelectedLanguage' ) ),
-    'params' => array( 'ObjectID', 'EditVersion', 'EditLanguage', 'FromLanguage' ) );
 
 $ViewList['draft'] = array(
     'functions' => array( 'create' ),
@@ -434,6 +427,35 @@ $ViewList['reverserelatedlist'] = array(
     'params' => array( 'NodeID' ),
     'unordered_params' => array( 'offset' => 'Offset' ) );
 
+$ViewList['translation'] = array(
+    'functions' => array( 'read' ),
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'script' => 'translation.php',
+    'params' => array(  ),
+    'single_post_actions' => array( 'CancelButton' => 'Cancel',
+                                    'UpdateInitialLanguageButton' => 'UpdateInitialLanguage',
+                                    'UpdateAlwaysAvailableButton' => 'UpdateAlwaysAvailable',
+                                    'RemoveTranslationButton' => 'RemoveTranslation' ),
+    'post_action_parameters' => array( 'Cancel' => array( 'NodeID' => 'ContentNodeID',
+                                                          'ViewMode' => 'ViewMode',
+                                                          'LanguageCode' => 'ContentObjectLanguageCode' ),
+                                       'UpdateInitialLanguage' => array( 'InitialLanguageID' => 'InitialLanguageID',
+                                                                         'NodeID' => 'ContentNodeID',
+                                                                         'ObjectID' => 'ContentObjectID',
+                                                                         'ViewMode' => 'ViewMode',
+                                                                         'LanguageCode' => 'ContentObjectLanguageCode' ),
+                                       'UpdateAlwaysAvailable' => array( 'AlwaysAvailable' => 'AlwaysAvailable',
+                                                                         'NodeID' => 'ContentNodeID',
+                                                                         'ObjectID' => 'ContentObjectID',
+                                                                         'ViewMode' => 'ViewMode',
+                                                                         'LanguageCode' => 'ContentObjectLanguageCode' ),
+                                       'RemoveTranslation' => array( 'LanguageID' => 'LanguageID',
+                                                                     'ConfirmRemoval' => 'ConfirmRemoval',
+                                                                     'NodeID' => 'ContentNodeID',
+                                                                     'ObjectID' => 'ContentObjectID',
+                                                                     'ViewMode' => 'ViewMode',
+                                                                     'LanguageCode' => 'ContentObjectLanguageCode' ) ) );
+
 $ClassID = array(
     'name'=> 'Class',
     'values'=> array(),
@@ -472,6 +494,15 @@ $Status = array(
     'function' => 'statusList',
     'parameter' => array(  false )
     );
+$Language = array(
+    'name'=> 'Language',
+    'values'=> array(),
+    'path' => 'classes/',
+    'file' => 'ezcontentlanguage.php',
+    'class' => 'eZContentLanguage',
+    'function' => 'fetchLimitationList',
+    'parameter' => array( false )
+    );
 $Assigned = array(
     'name'=> 'Owner',
     'values'=> array(
@@ -503,13 +534,15 @@ $FunctionList['create'] = array( 'Class' => $ClassID,
                                  'Section' => $SectionID,
                                  'ParentClass' => $ParentClassID,
                                  'Node' => array_merge(  $Node, array( 'DropList' => array( 'ParentClass', 'Section' ) ) ),
-                                 'Subtree' => $Subtree
+                                 'Subtree' => $Subtree,
+                                 'Language' => $Language
                                  );
 $FunctionList['edit'] = array( 'Class' => $ClassID,
                                'Section' => $SectionID,
                                'Owner' => $Assigned,
                                'Node' => $Node,
-                               'Subtree' => $Subtree);
+                               'Subtree' => $Subtree,
+                               'Language' => $Language);
 
 $FunctionList['hide'] = array( 'Subtree' => $Subtree );
 
@@ -519,7 +552,8 @@ $FunctionList['translate'] = array( 'Class' => $ClassID,
                                     'Section' => $SectionID,
                                     'Owner' => $Assigned,
                                     'Node' => $Node,
-                                    'Subtree' => $Subtree );
+                                    'Subtree' => $Subtree,
+                                    'Language' => $Language);
 $FunctionList['remove'] = array( 'Class' => $ClassID,
                                  'Section' => $SectionID,
                                  'Owner' => $Assigned,

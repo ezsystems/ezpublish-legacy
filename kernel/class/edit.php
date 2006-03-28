@@ -307,6 +307,19 @@ if ( $contentClassHasInput )
             $class->setAttribute( "is_container", 0 );
         }
     }
+
+    if ( $http->hasVariable( 'ContentClass_always_available_exists' ) )
+    {
+        if ( $http->hasVariable( 'ContentClass_always_available' ) )
+        {
+            $class->setAttribute( 'always_available', 1 );
+        }
+        else
+        {
+            $class->setAttribute( 'always_available', 0 );
+        }
+    }
+
     if ( $http->hasPostVariable( 'DataTypeString' ) )
         $cur_datatype = $http->postVariable( 'DataTypeString' );
 }

@@ -29,6 +29,17 @@
 </select>
 </div>
 
+{* Languages *}
+<div class="element">
+    <label>{'Affected languages'|i18n( 'design/standard/workflow/eventtype/edit' )}:</label>
+    <select name="WorkflowEvent_event_ezapprove_language_{$event.id}[]" size="5" multiple="multiple">
+    <option value="-1"{section show=eq( count( $event.language_list ), 0 )} selected="selected"{/section}>{'All languages'|i18n( 'design/standard/workflow/eventtype/edit' )}</option>
+    {section var=Language loop=$event.workflow_type.languages}
+    <option value="{$Language.item.id}"{section show=is_set( $event.language_list[$Language.item.id] )} selected="selected"{/section}>{$Language.item.name|wash}</option>
+    {/section}
+    </select>
+</div>
+
 <div class="element">
 {let selectedClasses=$event.selected_classes}
 <label>{"Classes to run workflow"|i18n("design/standard/workflow/eventtype/edit")}</label><div class="labelbreak"></div>

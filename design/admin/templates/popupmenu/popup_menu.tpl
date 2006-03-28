@@ -1,4 +1,7 @@
+{def $multilingual_site=fetch( content, translation_list )|count|gt( 1 )}
+
 <script language="JavaScript1.2" type="text/javascript">
+<!--
 var menuArray = new Array();
 menuArray['ContextMenu'] = new Array();
 menuArray['ContextMenu']['depth'] = 0;
@@ -12,6 +15,16 @@ menuArray['ContextMenu']['elements']['menu-copy'] = new Array();
 menuArray['ContextMenu']['elements']['menu-copy']['url'] = {"/content/copy/%objectID%"|ezurl};
 menuArray['ContextMenu']['elements']['menu-copy-subtree']= new Array();
 menuArray['ContextMenu']['elements']['menu-copy-subtree']['url'] = {"/content/copysubtree/%nodeID%"|ezurl};
+
+{* Edit menu *}
+menuArray['EditSubmenu'] = new Array();
+menuArray['EditSubmenu']['depth'] = 1;
+menuArray['EditSubmenu']['elements'] = new Array();
+menuArray['EditSubmenu']['elements']['edit-languages'] = new Array();
+menuArray['EditSubmenu']['elements']['edit-languages']['variable'] = '%languages%';
+menuArray['EditSubmenu']['elements']['edit-languages']['content'] = '<a href={"/content/edit/%objectID%/f/%locale%"|ezurl} onmouseover="ezpopmenu_mouseOver( \'EditSubmenu\' )">%name%</a>';
+menuArray['EditSubmenu']['elements']['edit-languages-another'] = new Array();
+menuArray['EditSubmenu']['elements']['edit-languages-another']['url'] = {"/content/edit/%objectID%/a"|ezurl};
 
 {* Advanced menu *}
 menuArray['Advanced'] = new Array();
@@ -71,6 +84,7 @@ menuArray['OverrideByClassSiteAccess']['depth'] = 1;
 menuArray['OverrideByNodeSiteAccess'] = new Array();
 menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 
+// -->
 </script>
 <script language="JavaScript" type="text/javascript" src={'javascript/lib/ezjslibdomsupport.js'|ezdesign}></script>
 <script language="JavaScript" type="text/javascript" src={'javascript/lib/ezjslibmousetracker.js'|ezdesign}></script>
@@ -82,13 +96,17 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
         <div class="break"></div>
     </div>
     <a id="menu-view" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">{"View"|i18n("design/admin/popupmenu")}</a>
+{if $multilingual_site}
+    <a id="menu-edit-in" class="more" href="#" onmouseover="ezpopmenu_showSubLevel( event, 'EditSubmenu', 'menu-edit-in' ); return false;">{'Edit in'|i18n( 'design/admin/popupmenu' )}</a>
+{else}
     <a id="menu-edit" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">{"Edit"|i18n("design/admin/popupmenu")}</a>
+{/if}
     <hr />
     <a id="menu-copy" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">{"Copy"|i18n("design/admin/popupmenu")}</a>
     <a id="menu-copy-subtree" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )">{"Copy Subtree"|i18n("design/admin/popupmenu")}</a>
     <a id="menu-move" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )" onclick="ezpopmenu_submitForm( 'menu-form-move' ); return false;">{"Move"|i18n("design/admin/popupmenu")}</a>
     <a id="menu-remove" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )" onclick="ezpopmenu_submitForm( 'menu-form-remove' ); return false;">{"Remove"|i18n("design/admin/popupmenu")}</a>
-    <a id="menu-advanced" class="more" href="#" onmouseover="ezpopmenu_showSubLevel( event, 'Advanced', 'menu-advanced' ); return false;" onclick="ezpopmenu_showSubLevel( event, 'Advanced', 'menu-advanced' ); return false;">{'Advanced'|i18n( 'design/admin/popupmenu' )}</a>
+    <a id="menu-advanced" class="more" href="#" onmouseover="ezpopmenu_showSubLevel( event, 'Advanced', 'menu-advanced' ); return false;">{'Advanced'|i18n( 'design/admin/popupmenu' )}</a>
     <hr />
     <a id="menu-expand" href="#" onmouseover="ezpopmenu_mouseOver( 'ContextMenu' )"
        onclick="ezcst_expandSubtree( CurrentSubstituteValues['%nodeID%'] ); ezpopmenu_hideAll(); return false;">{"Expand"|i18n("design/admin/popupmenu")}</a>
@@ -113,7 +131,11 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
         <div class="break"></div>
     </div>
     <a id="child-menu-view" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"View"|i18n("design/admin/popupmenu")}</a>
+{if $multilingual_site}
+    <a id="child-menu-edit-in" class="more" href="#" onmouseover="ezpopmenu_showSubLevel( event, 'EditSubmenu', 'child-menu-edit-in' ); return false;">{'Edit in'|i18n( 'design/admin/popupmenu' )}</a>
+{else}
     <a id="child-menu-edit" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"Edit"|i18n("design/admin/popupmenu")}</a>
+{/if}
     <hr />
     <a id="child-menu-copy" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"Copy"|i18n("design/admin/popupmenu")}</a>
     <a id="child-menu-copy-subtree" href="#" onmouseover="ezpopmenu_mouseOver( 'SubitemsContextMenu' )">{"Copy Subtree"|i18n("design/admin/popupmenu")}</a>
@@ -138,6 +160,13 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
 {section var=template loop=ezini( 'AdditionalMenuSettings', 'SubMenuTemplateArray', 'admininterface.ini' )}
    {include uri=concat('design:', $template )}
 {/section}
+
+<!-- Edit menu -->
+<div class="popupmenu" id="EditSubmenu">
+    <div id="edit-languages"></div>
+    <hr />
+    <a id="edit-languages-another" href="#" onmouseover="ezpopmenu_mouseOver( 'EditSubmenu' )">{'Another language'|i18n( 'design/admin/popupmenu' )}</a>
+</div>
 
 <!-- Advanced menu -->
 <div class="popupmenu" id="Advanced">
@@ -178,7 +207,11 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
         <div class="break"></div>
     </div>
     <a id="bookmark-view" href="#" onmouseover="ezpopmenu_mouseOver( 'BookmarkMenu' )">{"View"|i18n("design/admin/popupmenu")}</a>
+{if $multilingual_site}
+    <a id="bookmark-edit-in" class="more" href="#" onmouseover="ezpopmenu_showSubLevel( event, 'EditSubmenu', 'bookmark-edit-in' ); return false;">{'Edit in'|i18n( 'design/admin/popupmenu' )}</a>
+{else}
     <a id="bookmark-edit" href="#" onmouseover="ezpopmenu_mouseOver( 'BookmarkMenu' )">{"Edit"|i18n("design/admin/popupmenu")}</a>
+{/if}
     <hr />
     <a id="bookmark-remove" href="#" onmouseover="ezpopmenu_mouseOver( 'BookmarkMenu' )"
         onclick="ezpopmenu_submitForm( 'menu-form-removebookmark' ); return false;">{"Remove bookmark"|i18n("design/admin/popupmenu")}</a>

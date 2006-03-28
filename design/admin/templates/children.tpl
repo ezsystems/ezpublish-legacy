@@ -184,10 +184,99 @@
           {set can_create_classes=fetch( content, can_instantiate_class_list, hash( group_id, ezini( 'ClassGroupIDs', 'Users', 'content.ini' ), parent_node, $node ) )}
    {/section}
 
-    <select name="ClassID" title="{'Use this menu to select the type of item you wish to create and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
+    <script type="text/javascript">
+    <!--
+        {literal}
+        function updateLanguageSelector( classSelector )
+        {
+            languageSelector = classSelector.form.ContentLanguageCode;
+            if ( !languageSelector )
+            {
+                return;
+            }            
+
+            classID = classSelector.value;
+            languages = languagesByClassID[classID];
+            candidateIndex = -1;
+
+            for ( var index = 0; index < languageSelector.options.length; index++ )
+            {
+                var value = languageSelector.options[index].value;
+                var disabled = true;
+
+                for ( var indexj = 0; indexj < languages.length; indexj ++ )
+                {
+                    if ( languages[indexj] == value )
+                    {
+                        disabled = false;
+                        break;
+                    }
+                }
+
+                if ( !disabled && candidateIndex == -1 )
+                {
+                    candidateIndex = index;
+                }
+
+                languageSelector.options[index].disabled = disabled;
+                if ( disabled )
+                {
+                    languageSelector.options[index].style.color = '#888888';
+                    if ( languageSelector.options[index].text.substring( 0, 1 ) != '(' )
+                    {
+                        languageSelector.options[index].text = '(' + languageSelector.options[index].text + ')';
+                    }
+                }
+                else
+                {
+                    languageSelector.options[index].style.color = '#000000';
+                    if ( languageSelector.options[index].text.substring( 0, 1 ) == '(' )
+                    {
+                        languageSelector.options[index].text = languageSelector.options[index].text.substring( 1, languageSelector.options[index].text.length - 1 );
+                    }
+                }
+            }
+
+            if ( languageSelector.options[languageSelector.selectedIndex].disabled )
+            {
+                window.languageSelectorIndex = candidateIndex;
+                languageSelector.selectedIndex = candidateIndex;
+            }
+        }
+
+        function checkLanguageSelector( languageSelector )
+        {
+            if ( languageSelector.options[languageSelector.selectedIndex].disabled )
+            {
+                languageSelector.selectedIndex = window.languageSelectorIndex;
+                return;
+            }
+            window.languageSelectorIndex = languageSelector.selectedIndex;
+        }
+
+        window.onload = function() { updateLanguageSelector( document.forms['children'].ClassID ); }
+        {/literal}
+    
+        languagesByClassID = new Array();
+        {foreach $can_create_classes as $class}
+        languagesByClassID[{$class.id}] = [ {foreach $class.can_instantiate_languages as $language}'{$language}'{delimiter}, {/delimiter} {/foreach} ];
+    {/foreach}
+    // -->
+    </script>
+
+    <select name="ClassID" onchange="updateLanguageSelector(this)" title="{'Use this menu to select the type of item you wish to create and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
         {section var=CanCreateClasses loop=$can_create_classes}
-        <option value="{$CanCreateClasses.item.id}">{$CanCreateClasses.item.name|wash()}</option>
+        {if $CanCreateClasses.item.can_instantiate_languages}
+            <option value="{$CanCreateClasses.item.id}">{$CanCreateClasses.item.name|wash()}</option>
+        {/if}
         {/section}
+    </select>
+
+
+    <select name="ContentLanguageCode" onchange="checkLanguageSelector(this)" title="{'Use this menu to select the language you wish use for the creation and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
+        {foreach fetch( content, prioritized_languages ) as $language}
+        <option value="{$language.locale|wash()}">{$language.name|wash()}</option>
+        {/foreach}
     </select>
 
     {/let}

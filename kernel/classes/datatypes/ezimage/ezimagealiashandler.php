@@ -731,7 +731,7 @@ class eZImageAliasHandler
         // get current language_code
         $langCode = $contentObjectAttribute->attribute( 'language_code' );
         // get default language_code
-        $defaultLang = eZContentObject::defaultLanguage();
+        $defaultLang = $currVerobj->initialLanguageCode();
         // get count of LanguageCode in translationList
         $countTsl = count( $translationList );
         // order by asc

@@ -41,6 +41,7 @@ include_once( "kernel/classes/ezpersistentobject.php" );
 include_once( "kernel/classes/ezcontentobject.php" );
 include_once( "kernel/classes/ezcontentclassattribute.php" );
 include_once( 'kernel/classes/ezdatatype.php' );
+include_once( 'kernel/classes/ezcontentlanguage.php' );
 
 class eZContentObjectAttribute extends eZPersistentObject
 {
@@ -79,6 +80,10 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                                    'datatype' => 'string',
                                                                    'default' => '',
                                                                    'required' => true ),
+                                         'language_id' => array( 'name' => "LanguageID",
+                                                                 'datatype' => 'integer',
+                                                                 'default' => '0',
+                                                                 'required' => true ),
                                          "contentclassattribute_id" => array( 'name' => "ContentClassAttributeID",
                                                                               'datatype' => 'integer',
                                                                               'default' => 0,
@@ -125,6 +130,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                       'has_content' => 'hasContent',
                                                       "class_content" => "classContent",
                                                       "object" => "object",
+                                                      'object_version' => 'objectVersion',
                                                       'view_template' => 'viewTemplateName',
                                                       'edit_template' => 'editTemplateName',
                                                       'result_template' => 'resultTemplate',
@@ -179,6 +185,17 @@ class eZContentObjectAttribute extends eZPersistentObject
             return $objectList;
     }
 
+    function fetchByClassAttributeID( $classAttributeID, $objectID, $version, $languageID, $asObject = true )
+    {
+        return eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
+                                                null,
+                                                array( 'contentclassattribute_id' => $classAttributeID,
+                                                       'contentobject_id' => $objectID,
+                                                       'version' => $version,
+                                                       'language_id' => $languageID ),
+                                                $asObject );
+    }
+
     /*!
      Fetches all contentobject attributes which relates to the contentclass attribute \a $contentClassAttributeID.
      \return An array with contentobject attributes.
@@ -214,21 +231,31 @@ class eZContentObjectAttribute extends eZPersistentObject
                                                     $asObject);
     }
 
-    function create( $contentclassAttributeID, $contentobjectID, $version = 1 )
+    function create( $contentclassAttributeID, $contentobjectID, $version = 1, $languageCode = false )
     {
+        include_once( 'kernel/classes/ezcontentlanguage.php' );
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
+        
+        if ( $languageCode == false )
+        {
+        	$languageCode = eZContentObject::defaultLanguage();
+        }
+
+        $languageID = eZContentLanguage::idByLocale( $languageCode );
+
         $row = array(
             "id" => null,
             "contentobject_id" => $contentobjectID,
             "version" => $version,
-            "language_code" => eZContentObject::defaultLanguage(),
+            "language_code" => $languageCode,
+            'language_id' => $languageID,
             "contentclassattribute_id" => $contentclassAttributeID,
             'data_text' => '',
             'data_int' => null,
             'data_float' => 0.0 );
         return new eZContentObjectAttribute( $row );
     }
-
+ 
     /*!
      \reimp
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
@@ -236,13 +263,16 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function store()
     {
-        // Unset the cache
+		require_once( 'kernel/classes/ezcontentlanguage.php' );
+
+    	// Unset the cache
         global $eZContentObjectContentObjectCache;
         unset( $eZContentObjectContentObjectCache[$this->ContentObjectID] );
         global $eZContentObjectDataMapCache;
         unset( $eZContentObjectDataMapCache[$this->ContentObjectID] );
-
+      
         $classAttribute =& $this->contentClassAttribute();
+       
         $dataType = $classAttribute->dataType();
         if ( $dataType )
         {
@@ -271,12 +301,14 @@ class eZContentObjectAttribute extends eZPersistentObject
     */
     function storeData()
     {
+    	require_once( 'kernel/classes/ezcontentlanguage.php' );
+
         // Unset the cache
         global $eZContentObjectContentObjectCache;
         unset( $eZContentObjectContentObjectCache[$this->ContentObjectID] );
         global $eZContentObjectDataMapCache;
         unset( $eZContentObjectDataMapCache[$this->ContentObjectID] );
-
+       
         $classAttribute =& $this->contentClassAttribute();
         $dataType = $classAttribute->dataType();
         $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
@@ -355,7 +387,8 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         if ( !$languageCode )
         {
-            $languageCode = eZContentObject::defaultLanguage();
+            $object =& $this->object();
+            $languageCode = $object->initialLanguageCode();
         }
         $language = eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
                                                      null,
@@ -376,6 +409,13 @@ class eZContentObjectAttribute extends eZPersistentObject
         else
             $object = null;
         return $object;
+    }
+
+    function &objectVersion()
+    {
+    	$version = eZContentObjectVersion::fetchVersion( $this->Version, $this->ContentObjectID );
+
+        return $version;
     }
 
     /*!
@@ -882,16 +922,16 @@ class eZContentObjectAttribute extends eZPersistentObject
      Clones the attribute with new version \a $newVersionNumber and old version \a $currentVersionNumber.
      \note The cloned attribute is not stored.
     */
-    function clone( $newVersionNumber, $currentVersionNumber, $contentObjectID = false )
+    function clone( $newVersionNumber, $currentVersionNumber, $contentObjectID = false, $newLanguageCode = false )
     {
         $tmp = $this;
         $tmp->setAttribute( "version", $newVersionNumber );
-        if ( $contentObjectID !== false )
+        if ( $contentObjectID != false )
         {
             // if copying the whole object
             if ( $contentObjectID != $tmp->attribute( 'contentobject_id' ) )
             {
-                $exAttr =  eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
+            	$exAttr =  eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
                                                             null,
                                                             array( 'contentobject_id'         => $contentObjectID,
                                                                    'contentclassattribute_id' => $tmp->attribute( 'contentclassattribute_id' ),
@@ -910,6 +950,34 @@ class eZContentObjectAttribute extends eZPersistentObject
             }
             $tmp->setAttribute( 'contentobject_id', $contentObjectID );
         }
+        else
+        {
+            // if not copying, we will remove the information on which language has to be always shown
+            $tmp->setAttribute( 'language_id', $tmp->attribute( 'language_id' ) & ~1 );
+        }
+
+        if ( $newLanguageCode != false )
+        {
+        	$exAttr = eZPersistentObject::fetchObject( eZContentObjectAttribute::definition(),
+                                                       null,
+                                                       array( 'contentobject_id'         => $contentObjectID? $contentObjectID: $tmp->attribute( 'contentobject_id' ),
+                                                              'contentclassattribute_id' => $tmp->attribute( 'contentclassattribute_id' ),
+                                                              'language_code'            => $newLanguageCode ),
+                                                       true );
+            // if the new object already contains the same attribute with another version
+            if ( is_object( $exAttr ) )
+            {
+            	$id = $exAttr->attribute( 'id' );
+            }
+            else
+            {
+            	$id = null;
+            }
+            $tmp->setAttribute( 'id', $id );
+            $tmp->setAttribute( 'language_code', $newLanguageCode );
+            $tmp->setAttribute( 'language_id', eZContentLanguage::idByLocale( $newLanguageCode ) );
+        }
+
         $db =& eZDB::instance();
         $db->begin();
         $tmp->sync();
@@ -926,12 +994,16 @@ class eZContentObjectAttribute extends eZPersistentObject
      \note The cloned attribute is not stored.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
+     \note Deprecated.
     */
-    function &translateTo( $languageCode )
+    function &translateTo( $languageCode, $updateLanguageMask = true )
     {
-        $tmp = $this;
+    	$languageID = eZContentLanguage::idByLocale( $languageCode );
+        
+    	$tmp = $this;
         $tmp->setAttribute( 'id', null );
         $tmp->setAttribute( 'language_code', $languageCode );
+        $tmp->setAttribute( 'language_id', $languageID );
 
         $db =& eZDB::instance();
         $db->begin();
@@ -940,6 +1012,11 @@ class eZContentObjectAttribute extends eZPersistentObject
         $tmp->initialize( $currentVersionNumber, $this );
         $tmp->sync();
         $tmp->postInitialize( $currentVersionNumber, $this );
+        if ( $updateLanguageMask )
+        {
+        	$version = $tmp->objectVersion();
+        	$version->updateLanguageMask( (int) $version->languageMask() | (int) $languageID, false );
+        }
         $db->commit();
         return $tmp;
     }

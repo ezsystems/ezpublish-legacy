@@ -42,7 +42,6 @@ $http =& eZHTTPTool::instance();
 
 $ObjectID = $Params['ObjectID'];
 $EditVersion = $Params['EditVersion'];
-$EditLanguage = $Params['EditLanguage'];
 
 $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
@@ -126,15 +125,12 @@ if ( $Module->isCurrentAction( 'Edit' )  )
     }
     else if ( $Module->hasActionParameter( 'VersionID' ) )
         $versionID = $Module->actionParameter( 'VersionID' );
-    if ( $Module->hasActionParameter( 'EditLanguage' ) and
-         $Module->actionParameter( 'EditLanguage' ) )
-        $EditLanguage = $Module->actionParameter( 'EditLanguage' );
     $version =& $object->version( $versionID );
     if ( !$version )
         $versionID = false;
 
     if ( $versionID !== false and
-         $version->attribute( 'status' ) != EZ_VERSION_STATUS_DRAFT )
+         !in_array( $version->attribute( 'status' ), array( EZ_VERSION_STATUS_DRAFT, EZ_VERSION_STATUS_INTERNAL_DRAFT ) ) )
     {
         $editWarning = 1;
         $EditVersion = $versionID;
@@ -147,7 +143,7 @@ if ( $Module->isCurrentAction( 'Edit' )  )
     }
     else
     {
-        return $Module->redirectToView( 'edit', array( $ObjectID, $versionID, $EditLanguage ) );
+        return $Module->redirectToView( 'edit', array( $ObjectID, $versionID, $version->initialLanguageCode() ) );
     }
 }
 
@@ -190,10 +186,16 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
             $version =& $versions[$versionKey];
             if ( $version->attribute( 'version' ) == $versionID )
             {
-                $newVersionID = $object->copyRevertTo( $versionID );
-                if ( $Module->hasActionParameter( 'EditLanguage' ) and
-                     $Module->actionParameter( 'EditLanguage' ) )
-                    $EditLanguage = $Module->actionParameter( 'EditLanguage' );
+                $languages = $Module->actionParameter( 'LanguageArray' );
+                if ( $languages )
+                {
+                    $language = $languages[$versionID];
+                }
+                else
+                {
+                    $language = false;
+                }
+                $newVersionID = $object->copyRevertTo( $versionID, $language );
 
                 if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
                 {
@@ -206,20 +208,12 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
 
         if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
         {
-            return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
+            return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $language ) );
         }
     }
     else
     {
-        // Remove oldest archived version first
-        if ( $contentINI->variable( 'VersionManagement', 'DeleteDrafts' ) == 'enabled' )
-        {
-            $params = array( 'conditions' => array( 'status' => array( array( 0, 3 ) ) ) );
-        }
-        else
-        {
-            $params = array( 'conditions'=> array( 'status' => 3 ) );
-        }
+        $params = array( 'conditions'=> array( 'status' => 3 ) );
         $versions =& $object->versions( true, $params );
         if ( count( $versions ) > 0 )
         {
@@ -255,9 +249,6 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
                 if ( $version->attribute( 'version' ) == $versionID )
                 {
                     $newVersionID = $object->copyRevertTo( $versionID );
-                    if ( $Module->hasActionParameter( 'EditLanguage' ) and
-                         $Module->actionParameter( 'EditLanguage' ) )
-                        $EditLanguage = $Module->actionParameter( 'EditLanguage' );
 
                     if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
                     {
@@ -269,14 +260,14 @@ if ( $Module->isCurrentAction( 'CopyVersion' )  )
 
             if ( !$http->hasPostVariable( 'DoNotEditAfterCopy' ) )
             {
-                return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $EditLanguage ) );
+                return $Module->redirectToView( 'edit', array( $ObjectID, $newVersionID, $version->initialLanguageCode() ) );
             }
         }
         else
         {
             $http->setSessionVariable( 'ExcessVersionHistoryLimit', true );
             $currentVersion = $object->attribute( 'current_version' );
-            $Module->redirectToView( 'versions', array( $ObjectID, $currentVersion, $editLanguage ) );
+            $Module->redirectToView( 'versions', array( $ObjectID, $currentVersion ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
     }
@@ -300,7 +291,6 @@ if ( $LastAccessesVersionURI and is_array( $versionArray ) and !in_array( $explo
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'edit_version', $EditVersion );
-$tpl->setVariable( 'edit_language', $EditLanguage );
 $tpl->setVariable( 'versions', $versions );
 $tpl->setVariable( 'edit_warning', $editWarning );
 $tpl->setVariable( 'can_edit', $canEdit );

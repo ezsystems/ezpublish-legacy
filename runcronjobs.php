@@ -32,6 +32,9 @@ include_once( "lib/ezutils/classes/ezextension.php" );
 include_once( "lib/ezutils/classes/ezmodule.php" );
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
+include_once( 'kernel/classes/ezcontentlanguage.php' );
+
+eZContentLanguage::setCronjobMode();
 
 $cli =& eZCLI::instance();
 $script =& eZScript::instance( array( 'debug-message' => '',

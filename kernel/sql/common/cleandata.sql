@@ -1,4 +1,17 @@
+INSERT INTO ezcontent_language (
+  disabled,
+  id,
+  locale,
+  name
+) VALUES (
+  0,
+  2,
+  'eng-GB',
+  'English (United Kingdom)'
+);
+
 INSERT INTO ezcontentclass (
+  always_available,
   contentobject_name,
   created,
   creator_id,
@@ -11,6 +24,7 @@ INSERT INTO ezcontentclass (
   remote_id,
   version
 ) VALUES (
+  1,
   '<short_name|name>',
   1024392098,
   14,
@@ -24,6 +38,7 @@ INSERT INTO ezcontentclass (
   0
 );
 INSERT INTO ezcontentclass (
+  always_available,
   contentobject_name,
   created,
   creator_id,
@@ -36,6 +51,7 @@ INSERT INTO ezcontentclass (
   remote_id,
   version
 ) VALUES (
+  0,
   '<short_title|title>',
   1024392098,
   14,
@@ -49,6 +65,7 @@ INSERT INTO ezcontentclass (
   0
 );
 INSERT INTO ezcontentclass (
+  always_available,
   contentobject_name,
   created,
   creator_id,
@@ -61,6 +78,7 @@ INSERT INTO ezcontentclass (
   remote_id,
   version
 ) VALUES (
+  1,
   '<name>',
   1024392098,
   14,
@@ -74,6 +92,7 @@ INSERT INTO ezcontentclass (
   0
 );
 INSERT INTO ezcontentclass (
+  always_available,
   contentobject_name,
   created,
   creator_id,
@@ -86,6 +105,7 @@ INSERT INTO ezcontentclass (
   remote_id,
   version
 ) VALUES (
+  1,
   '<first_name> <last_name>',
   1024392098,
   14,
@@ -99,6 +119,7 @@ INSERT INTO ezcontentclass (
   0
 );
 INSERT INTO ezcontentclass (
+  always_available,
   contentobject_name,
   created,
   creator_id,
@@ -111,6 +132,7 @@ INSERT INTO ezcontentclass (
   remote_id,
   version
 ) VALUES (
+  1,
   '<name>',
   1031484992,
   8,
@@ -124,6 +146,7 @@ INSERT INTO ezcontentclass (
   0
 );
 INSERT INTO ezcontentclass (
+  always_available,
   contentobject_name,
   created,
   creator_id,
@@ -136,6 +159,7 @@ INSERT INTO ezcontentclass (
   remote_id,
   version
 ) VALUES (
+  0,
   '<name>',
   1052385361,
   14,
@@ -149,6 +173,7 @@ INSERT INTO ezcontentclass (
   0
 );
 INSERT INTO ezcontentclass (
+  always_available,
   contentobject_name,
   created,
   creator_id,
@@ -161,6 +186,7 @@ INSERT INTO ezcontentclass (
   remote_id,
   version
 ) VALUES (
+  1,
   '<name>',
   1052385472,
   14,
@@ -174,6 +200,7 @@ INSERT INTO ezcontentclass (
   0
 );
 INSERT INTO ezcontentclass (
+  always_available,
   contentobject_name,
   created,
   creator_id,
@@ -186,6 +213,7 @@ INSERT INTO ezcontentclass (
   remote_id,
   version
 ) VALUES (
+  0,
   '<subject>',
   1052385685,
   14,
@@ -199,6 +227,7 @@ INSERT INTO ezcontentclass (
   0
 );
 INSERT INTO ezcontentclass (
+  always_available,
   contentobject_name,
   created,
   creator_id,
@@ -211,6 +240,7 @@ INSERT INTO ezcontentclass (
   remote_id,
   version
 ) VALUES (
+  1,
   '<name>',
   1081858024,
   14,
@@ -224,6 +254,7 @@ INSERT INTO ezcontentclass (
   0
 );
 INSERT INTO ezcontentclass (
+  always_available,
   contentobject_name,
   created,
   creator_id,
@@ -236,6 +267,7 @@ INSERT INTO ezcontentclass (
   remote_id,
   version
 ) VALUES (
+  1,
   '<title>',
   1081858045,
   14,
@@ -3071,7 +3103,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3083,7 +3117,9 @@ INSERT INTO ezcontentobject (
   1,
   3,
   1,
+  2,
   0,
+  3,
   1101387881,
   'eZ publish',
   14,
@@ -3096,7 +3132,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3108,7 +3146,9 @@ INSERT INTO ezcontentobject (
   3,
   1,
   4,
+  2,
   0,
+  3,
   1033917596,
   'Users',
   14,
@@ -3121,7 +3161,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3133,7 +3175,9 @@ INSERT INTO ezcontentobject (
   4,
   2,
   10,
+  2,
   0,
+  3,
   1072180405,
   'Anonymous User',
   14,
@@ -3146,7 +3190,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3158,7 +3204,9 @@ INSERT INTO ezcontentobject (
   3,
   1,
   11,
+  2,
   0,
+  3,
   1033920746,
   'Guest accounts',
   14,
@@ -3171,7 +3219,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3183,7 +3233,9 @@ INSERT INTO ezcontentobject (
   3,
   1,
   12,
+  2,
   0,
+  3,
   1033920775,
   'Administrator users',
   14,
@@ -3196,7 +3248,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3208,7 +3262,9 @@ INSERT INTO ezcontentobject (
   3,
   1,
   13,
+  2,
   0,
+  3,
   1033920794,
   'Editors',
   14,
@@ -3221,7 +3277,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3233,7 +3291,9 @@ INSERT INTO ezcontentobject (
   4,
   1,
   14,
+  2,
   0,
+  3,
   1033920830,
   'Administrator User',
   14,
@@ -3246,7 +3306,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3258,7 +3320,9 @@ INSERT INTO ezcontentobject (
   1,
   1,
   41,
+  2,
   0,
+  3,
   1060695457,
   'Media',
   14,
@@ -3271,7 +3335,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3283,7 +3349,9 @@ INSERT INTO ezcontentobject (
   3,
   1,
   42,
+  2,
   0,
+  3,
   1072180330,
   'Anonymous Users',
   14,
@@ -3296,7 +3364,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3308,7 +3378,9 @@ INSERT INTO ezcontentobject (
   1,
   1,
   45,
+  2,
   0,
+  3,
   1079684190,
   'Setup',
   14,
@@ -3321,7 +3393,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3333,7 +3407,9 @@ INSERT INTO ezcontentobject (
   1,
   1,
   49,
+  2,
   0,
+  3,
   1080220197,
   'Images',
   14,
@@ -3346,7 +3422,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3358,7 +3436,9 @@ INSERT INTO ezcontentobject (
   1,
   1,
   50,
+  2,
   0,
+  3,
   1080220220,
   'Files',
   14,
@@ -3371,7 +3451,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3383,7 +3465,9 @@ INSERT INTO ezcontentobject (
   1,
   1,
   51,
+  2,
   0,
+  3,
   1080220233,
   'Multimedia',
   14,
@@ -3396,7 +3480,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3408,7 +3494,9 @@ INSERT INTO ezcontentobject (
   14,
   1,
   52,
+  2,
   0,
+  2,
   1082016591,
   'Common INI settings',
   14,
@@ -3421,7 +3509,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3433,7 +3523,9 @@ INSERT INTO ezcontentobject (
   14,
   1,
   53,
+  2,
   0,
+  3,
   0,
   'New Common ini settings',
   14,
@@ -3446,7 +3538,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3458,7 +3552,9 @@ INSERT INTO ezcontentobject (
   15,
   1,
   54,
+  2,
   0,
+  2,
   1082016652,
   'eZ publish',
   14,
@@ -3471,7 +3567,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3483,7 +3581,9 @@ INSERT INTO ezcontentobject (
   15,
   1,
   55,
+  2,
   0,
+  3,
   0,
   'New Template look',
   14,
@@ -3496,7 +3596,9 @@ INSERT INTO ezcontentobject (
   contentclass_id,
   current_version,
   id,
+  initial_language_id,
   is_published,
+  language_mask,
   modified,
   name,
   owner_id,
@@ -3508,7 +3610,9 @@ INSERT INTO ezcontentobject (
   1,
   1,
   56,
+  2,
   0,
+  3,
   1103023132,
   'Design',
   14,
@@ -3528,6 +3632,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3541,6 +3646,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   7,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -3555,6 +3661,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3568,6 +3675,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   8,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -3582,6 +3690,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3595,6 +3704,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   22,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -3609,6 +3719,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3622,6 +3733,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   23,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -3636,6 +3748,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3649,6 +3762,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   24,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -3663,6 +3777,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3676,6 +3791,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   25,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -3690,6 +3806,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3703,6 +3820,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   26,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -3717,6 +3835,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3730,6 +3849,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   27,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -3744,6 +3864,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3757,6 +3878,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   28,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -3771,6 +3893,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3784,6 +3907,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   29,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -3798,6 +3922,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3811,6 +3936,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezuser',
   30,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -3825,6 +3951,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3838,6 +3965,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   98,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -3852,6 +3980,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3865,6 +3994,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezxmltext',
   99,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -3879,6 +4009,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3892,6 +4023,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   100,
   'eng-GB',
+  3,
   0,
   'anonymous users',
   1
@@ -3906,6 +4038,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3919,6 +4052,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   101,
   'eng-GB',
+  3,
   0,
   'user group for the anonymous user',
   1
@@ -3933,6 +4067,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3946,6 +4081,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   19,
   'eng-GB',
+  3,
   0,
   'anonymous',
   2
@@ -3960,6 +4096,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -3973,6 +4110,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   20,
   'eng-GB',
+  3,
   0,
   'user',
   2
@@ -3987,6 +4125,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4000,6 +4139,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezuser',
   21,
   'eng-GB',
+  3,
   0,
   '',
   2
@@ -4014,6 +4154,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4027,6 +4168,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   103,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -4041,6 +4183,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4054,6 +4197,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezxmltext',
   105,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -4068,6 +4212,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4081,6 +4226,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezboolean',
   109,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -4095,6 +4241,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4108,6 +4255,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   123,
   'eng-GB',
+  3,
   0,
   'setup',
   1
@@ -4122,6 +4270,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4135,6 +4284,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   124,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -4149,6 +4299,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4162,6 +4313,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezxmltext',
   125,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -4176,6 +4328,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4189,6 +4342,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezxmltext',
   126,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -4203,6 +4357,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4216,6 +4371,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezboolean',
   128,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -4230,6 +4386,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4243,6 +4400,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   142,
   'eng-GB',
+  3,
   0,
   'images',
   1
@@ -4257,6 +4415,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4270,6 +4429,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   143,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -4284,6 +4444,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4297,6 +4458,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezxmltext',
   144,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -4311,6 +4473,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4324,6 +4487,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezxmltext',
   145,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -4338,6 +4502,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4351,6 +4516,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezboolean',
   146,
   'eng-GB',
+  3,
   1,
   '',
   1
@@ -4365,6 +4531,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4378,6 +4545,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   147,
   'eng-GB',
+  3,
   0,
   'files',
   1
@@ -4392,6 +4560,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4405,6 +4574,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   148,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -4419,6 +4589,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4432,6 +4603,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezxmltext',
   149,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -4446,6 +4618,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4459,6 +4632,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezxmltext',
   150,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -4473,6 +4647,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4486,6 +4661,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezboolean',
   151,
   'eng-GB',
+  3,
   1,
   '',
   1
@@ -4500,6 +4676,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4513,6 +4690,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   152,
   'eng-GB',
+  3,
   0,
   'multimedia',
   1
@@ -4527,6 +4705,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4540,6 +4719,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   153,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -4554,6 +4734,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4567,6 +4748,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezxmltext',
   154,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -4581,6 +4763,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4594,6 +4777,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezxmltext',
   155,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -4608,6 +4792,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4621,6 +4806,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezboolean',
   156,
   'eng-GB',
+  3,
   1,
   '',
   1
@@ -4635,6 +4821,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4648,6 +4835,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   157,
   'eng-GB',
+  2,
   0,
   'common ini settings',
   1
@@ -4662,6 +4850,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4675,6 +4864,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezinisetting',
   158,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -4689,6 +4879,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4702,6 +4893,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezinisetting',
   159,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -4716,6 +4908,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4729,6 +4922,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezinisetting',
   160,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -4743,6 +4937,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4756,6 +4951,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezinisetting',
   161,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -4770,6 +4966,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4783,6 +4980,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezinisetting',
   162,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -4797,6 +4995,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4810,6 +5009,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezinisetting',
   163,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -4824,6 +5024,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4837,6 +5038,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezinisetting',
   164,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -4851,6 +5053,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4864,6 +5067,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezinisetting',
   165,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -4878,6 +5082,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4891,6 +5096,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezinisetting',
   166,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -4905,6 +5111,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4918,6 +5125,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezinisetting',
   167,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -4932,6 +5140,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4945,6 +5154,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezinisetting',
   168,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -4959,6 +5169,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4972,6 +5183,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezinisetting',
   169,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -4986,6 +5198,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -4999,6 +5212,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezinisetting',
   170,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -5013,6 +5227,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5026,6 +5241,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezinisetting',
   171,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -5040,6 +5256,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5053,6 +5270,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezimage',
   172,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -5067,6 +5285,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5080,6 +5299,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezpackage',
   173,
   'eng-GB',
+  2,
   0,
   '0',
   1
@@ -5094,6 +5314,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5107,6 +5328,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   174,
   'eng-GB',
+  2,
   0,
   'sitestyle_identifier',
   1
@@ -5121,6 +5343,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5134,6 +5357,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezinisetting',
   175,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -5148,6 +5372,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5161,6 +5386,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezinisetting',
   176,
   'eng-GB',
+  2,
   0,
   '',
   1
@@ -5175,6 +5401,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5188,6 +5415,7 @@ INSERT INTO ezcontentobject_attribute (
   'eztext',
   177,
   'eng-GB',
+  3,
   0,
   '',
   2
@@ -5202,6 +5430,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5215,6 +5444,7 @@ INSERT INTO ezcontentobject_attribute (
   'eztext',
   178,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -5229,6 +5459,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5242,6 +5473,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezimage',
   179,
   'eng-GB',
+  3,
   0,
   '',
   2
@@ -5256,6 +5488,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5269,6 +5502,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezimage',
   180,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -5283,6 +5517,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5296,6 +5531,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   1,
   'eng-GB',
+  3,
   0,
   'welcome to ez publish',
   3
@@ -5310,6 +5546,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5323,6 +5560,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   102,
   'eng-GB',
+  3,
   0,
   'ez publish',
   3
@@ -5337,6 +5575,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5350,6 +5589,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezxmltext',
   2,
   'eng-GB',
+  3,
   0,
   '',
   3
@@ -5364,6 +5604,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5377,6 +5618,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezxmltext',
   104,
   'eng-GB',
+  3,
   0,
   '',
   3
@@ -5391,6 +5633,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5404,6 +5647,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezboolean',
   108,
   'eng-GB',
+  3,
   1,
   '',
   3
@@ -5418,6 +5662,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5431,6 +5676,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   181,
   'eng-GB',
+  3,
   0,
   'design',
   1
@@ -5445,6 +5691,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5458,6 +5705,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezstring',
   182,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -5472,6 +5720,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5485,6 +5734,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezxmltext',
   183,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -5499,6 +5749,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5512,6 +5763,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezxmltext',
   184,
   'eng-GB',
+  3,
   0,
   '',
   1
@@ -5526,6 +5778,7 @@ INSERT INTO ezcontentobject_attribute (
   data_type_string,
   id,
   language_code,
+  language_id,
   sort_key_int,
   sort_key_string,
   version
@@ -5539,6 +5792,7 @@ INSERT INTO ezcontentobject_attribute (
   'ezboolean',
   185,
   'eng-GB',
+  3,
   1,
   '',
   1
@@ -5548,12 +5802,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   1,
   1,
+  2,
   'Root folder',
   'eng-GB'
 );
@@ -5561,12 +5817,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   1,
   4,
+  3,
   'Users',
   'eng-GB'
 );
@@ -5574,12 +5832,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   1,
   10,
+  2,
   'Anonymous User',
   'eng-GB'
 );
@@ -5587,12 +5847,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   1,
   11,
+  3,
   'Guest accounts',
   'eng-GB'
 );
@@ -5600,12 +5862,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   1,
   12,
+  3,
   'Administrator users',
   'eng-GB'
 );
@@ -5613,12 +5877,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   1,
   13,
+  3,
   'Editors',
   'eng-GB'
 );
@@ -5626,12 +5892,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   1,
   14,
+  3,
   'Administrator User',
   'eng-GB'
 );
@@ -5639,12 +5907,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   1,
   41,
+  3,
   'Media',
   'eng-GB'
 );
@@ -5652,12 +5922,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   1,
   42,
+  3,
   'Anonymous Users',
   'eng-GB'
 );
@@ -5665,12 +5937,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   2,
   10,
+  3,
   'Anonymous User',
   'eng-GB'
 );
@@ -5678,12 +5952,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   1,
   45,
+  3,
   'Setup',
   'eng-GB'
 );
@@ -5691,12 +5967,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   1,
   49,
+  3,
   'Images',
   'eng-GB'
 );
@@ -5704,12 +5982,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   1,
   50,
+  3,
   'Files',
   'eng-GB'
 );
@@ -5717,12 +5997,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   1,
   51,
+  3,
   'Multimedia',
   'eng-GB'
 );
@@ -5730,12 +6012,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   1,
   52,
+  2,
   'Common INI settings',
   'eng-GB'
 );
@@ -5743,12 +6027,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   1,
   54,
+  2,
   'eZ publish',
   'eng-GB'
 );
@@ -5756,12 +6042,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   2,
   1,
+  2,
   'eZ publish',
   'eng-GB'
 );
@@ -5769,12 +6057,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   3,
   1,
+  3,
   'eZ publish',
   'eng-GB'
 );
@@ -5782,12 +6072,14 @@ INSERT INTO ezcontentobject_name (
   content_translation,
   content_version,
   contentobject_id,
+  language_id,
   name,
   real_translation
 ) VALUES (
   'eng-GB',
   1,
   56,
+  3,
   'Design',
   'eng-GB'
 );
@@ -6463,6 +6755,8 @@ INSERT INTO ezcontentobject_version (
   created,
   creator_id,
   id,
+  initial_language_id,
+  language_mask,
   modified,
   status,
   user_id,
@@ -6473,6 +6767,8 @@ INSERT INTO ezcontentobject_version (
   0,
   14,
   4,
+  2,
+  3,
   0,
   1,
   0,
@@ -6484,6 +6780,8 @@ INSERT INTO ezcontentobject_version (
   created,
   creator_id,
   id,
+  initial_language_id,
+  language_mask,
   modified,
   status,
   user_id,
@@ -6494,6 +6792,8 @@ INSERT INTO ezcontentobject_version (
   1033920737,
   14,
   439,
+  2,
+  3,
   1033920746,
   1,
   0,
@@ -6505,6 +6805,8 @@ INSERT INTO ezcontentobject_version (
   created,
   creator_id,
   id,
+  initial_language_id,
+  language_mask,
   modified,
   status,
   user_id,
@@ -6515,6 +6817,8 @@ INSERT INTO ezcontentobject_version (
   1033920760,
   14,
   440,
+  2,
+  3,
   1033920775,
   1,
   0,
@@ -6526,6 +6830,8 @@ INSERT INTO ezcontentobject_version (
   created,
   creator_id,
   id,
+  initial_language_id,
+  language_mask,
   modified,
   status,
   user_id,
@@ -6536,6 +6842,8 @@ INSERT INTO ezcontentobject_version (
   1033920786,
   14,
   441,
+  2,
+  3,
   1033920794,
   1,
   0,
@@ -6547,6 +6855,8 @@ INSERT INTO ezcontentobject_version (
   created,
   creator_id,
   id,
+  initial_language_id,
+  language_mask,
   modified,
   status,
   user_id,
@@ -6557,6 +6867,8 @@ INSERT INTO ezcontentobject_version (
   1033920808,
   14,
   442,
+  2,
+  3,
   1033920830,
   1,
   0,
@@ -6568,6 +6880,8 @@ INSERT INTO ezcontentobject_version (
   created,
   creator_id,
   id,
+  initial_language_id,
+  language_mask,
   modified,
   status,
   user_id,
@@ -6578,6 +6892,8 @@ INSERT INTO ezcontentobject_version (
   1060695450,
   14,
   472,
+  2,
+  3,
   1060695457,
   1,
   0,
@@ -6589,6 +6905,8 @@ INSERT INTO ezcontentobject_version (
   created,
   creator_id,
   id,
+  initial_language_id,
+  language_mask,
   modified,
   status,
   user_id,
@@ -6599,6 +6917,8 @@ INSERT INTO ezcontentobject_version (
   1072180278,
   14,
   473,
+  2,
+  3,
   1072180330,
   1,
   0,
@@ -6610,6 +6930,8 @@ INSERT INTO ezcontentobject_version (
   created,
   creator_id,
   id,
+  initial_language_id,
+  language_mask,
   modified,
   status,
   user_id,
@@ -6620,6 +6942,8 @@ INSERT INTO ezcontentobject_version (
   1072180337,
   14,
   474,
+  2,
+  3,
   1072180405,
   1,
   0,
@@ -6631,6 +6955,8 @@ INSERT INTO ezcontentobject_version (
   created,
   creator_id,
   id,
+  initial_language_id,
+  language_mask,
   modified,
   status,
   user_id,
@@ -6641,6 +6967,8 @@ INSERT INTO ezcontentobject_version (
   1079684084,
   14,
   477,
+  2,
+  3,
   1079684190,
   1,
   0,
@@ -6652,6 +6980,8 @@ INSERT INTO ezcontentobject_version (
   created,
   creator_id,
   id,
+  initial_language_id,
+  language_mask,
   modified,
   status,
   user_id,
@@ -6662,6 +6992,8 @@ INSERT INTO ezcontentobject_version (
   1080220181,
   14,
   488,
+  2,
+  3,
   1080220197,
   1,
   0,
@@ -6673,6 +7005,8 @@ INSERT INTO ezcontentobject_version (
   created,
   creator_id,
   id,
+  initial_language_id,
+  language_mask,
   modified,
   status,
   user_id,
@@ -6683,6 +7017,8 @@ INSERT INTO ezcontentobject_version (
   1080220211,
   14,
   489,
+  2,
+  3,
   1080220220,
   1,
   0,
@@ -6694,6 +7030,8 @@ INSERT INTO ezcontentobject_version (
   created,
   creator_id,
   id,
+  initial_language_id,
+  language_mask,
   modified,
   status,
   user_id,
@@ -6704,6 +7042,8 @@ INSERT INTO ezcontentobject_version (
   1080220225,
   14,
   490,
+  2,
+  3,
   1080220233,
   1,
   0,
@@ -6715,6 +7055,8 @@ INSERT INTO ezcontentobject_version (
   created,
   creator_id,
   id,
+  initial_language_id,
+  language_mask,
   modified,
   status,
   user_id,
@@ -6725,6 +7067,8 @@ INSERT INTO ezcontentobject_version (
   1082016497,
   14,
   491,
+  2,
+  3,
   1082016591,
   1,
   0,
@@ -6736,6 +7080,8 @@ INSERT INTO ezcontentobject_version (
   created,
   creator_id,
   id,
+  initial_language_id,
+  language_mask,
   modified,
   status,
   user_id,
@@ -6746,6 +7092,8 @@ INSERT INTO ezcontentobject_version (
   1082016628,
   14,
   492,
+  2,
+  3,
   1082016652,
   1,
   0,
@@ -6757,6 +7105,8 @@ INSERT INTO ezcontentobject_version (
   created,
   creator_id,
   id,
+  initial_language_id,
+  language_mask,
   modified,
   status,
   user_id,
@@ -6767,6 +7117,8 @@ INSERT INTO ezcontentobject_version (
   1101387859,
   14,
   494,
+  2,
+  3,
   1101387859,
   1,
   0,
@@ -6778,6 +7130,8 @@ INSERT INTO ezcontentobject_version (
   created,
   creator_id,
   id,
+  initial_language_id,
+  language_mask,
   modified,
   status,
   user_id,
@@ -6788,6 +7142,8 @@ INSERT INTO ezcontentobject_version (
   1103023120,
   14,
   495,
+  2,
+  3,
   1103023120,
   1,
   0,
@@ -6811,6 +7167,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -6822,6 +7179,7 @@ INSERT INTO eznode_assignment (
   0,
   4,
   1,
+  2,
   5,
   '',
   0,
@@ -6834,6 +7192,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -6845,6 +7204,7 @@ INSERT INTO eznode_assignment (
   0,
   5,
   1,
+  2,
   5,
   '',
   0,
@@ -6857,6 +7217,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -6868,6 +7229,7 @@ INSERT INTO eznode_assignment (
   -1,
   6,
   1,
+  2,
   44,
   '',
   0,
@@ -6880,6 +7242,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -6891,6 +7254,7 @@ INSERT INTO eznode_assignment (
   0,
   7,
   1,
+  2,
   1,
   '',
   0,
@@ -6903,6 +7267,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -6914,6 +7279,7 @@ INSERT INTO eznode_assignment (
   0,
   8,
   1,
+  2,
   5,
   '',
   0,
@@ -6926,6 +7292,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -6937,6 +7304,7 @@ INSERT INTO eznode_assignment (
   0,
   9,
   1,
+  2,
   5,
   '',
   0,
@@ -6949,6 +7317,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -6960,6 +7329,7 @@ INSERT INTO eznode_assignment (
   0,
   10,
   1,
+  2,
   13,
   '',
   0,
@@ -6972,6 +7342,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -6983,6 +7354,7 @@ INSERT INTO eznode_assignment (
   0,
   11,
   1,
+  2,
   1,
   '',
   0,
@@ -6995,6 +7367,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -7006,6 +7379,7 @@ INSERT INTO eznode_assignment (
   0,
   12,
   1,
+  2,
   5,
   '',
   0,
@@ -7018,6 +7392,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -7029,6 +7404,7 @@ INSERT INTO eznode_assignment (
   -1,
   16,
   1,
+  2,
   1,
   '',
   0,
@@ -7041,6 +7417,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -7052,6 +7429,7 @@ INSERT INTO eznode_assignment (
   0,
   27,
   1,
+  2,
   43,
   '',
   0,
@@ -7064,6 +7442,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -7075,6 +7454,7 @@ INSERT INTO eznode_assignment (
   0,
   28,
   1,
+  2,
   43,
   '',
   0,
@@ -7087,6 +7467,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -7098,6 +7479,7 @@ INSERT INTO eznode_assignment (
   0,
   29,
   1,
+  2,
   43,
   '',
   0,
@@ -7110,6 +7492,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -7121,6 +7504,7 @@ INSERT INTO eznode_assignment (
   0,
   30,
   1,
+  2,
   48,
   '',
   0,
@@ -7133,6 +7517,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -7144,6 +7529,7 @@ INSERT INTO eznode_assignment (
   0,
   31,
   1,
+  2,
   58,
   '',
   0,
@@ -7156,6 +7542,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -7167,6 +7554,7 @@ INSERT INTO eznode_assignment (
   0,
   33,
   1,
+  2,
   1,
   '',
   0,
@@ -7179,6 +7567,7 @@ INSERT INTO eznode_assignment (
   from_node_id,
   id,
   is_main,
+  op_code,
   parent_node,
   parent_remote_id,
   remote_id,
@@ -7190,6 +7579,7 @@ INSERT INTO eznode_assignment (
   0,
   34,
   1,
+  2,
   1,
   '',
   0,

@@ -70,7 +70,7 @@
     {/section}
     </td>
 	<td class="{$Version:sequence}">
-	<a href={concat("/content/versionview/",$object.id,"/",$Version:item.version,"/",$edit_language|not|choose(array($edit_language,"/"),""))|ezurl}>{$Version:item.version}</a>
+	<a href={concat("/content/versionview/",$object.id,"/",$Version:item.version,"/",$Version:item.initial_language.locale)|ezurl}>{$Version:item.version}</a>
         {section show=eq($Version:item.version,$object.current_version)}*{/section}
 
 	</td>
@@ -80,7 +80,7 @@
 	<td class="{$Version:sequence}">
 	{section name=Language loop=$Version:item.language_list}
         {delimiter},{/delimiter}
-	<a href={concat("/content/versionview/",$object.id,"/",$Version:item.version,"/",$Version:Language:item.language_code,"/")|ezurl}>{$Version:Language:item.locale.intl_language_name}</a>{/section}
+	<a href={concat("/content/versionview/",$object.id,"/",$Version:item.version,"/",$Version:Language:item.language_code)|ezurl}>{$Version:Language:item.locale.intl_language_name}</a>{/section}
 	</td>
 	<td class="{$Version:sequence}">
 	<a href={concat("/content/view/full/",$Version:item.creator.main_node_id,"/")|ezurl}>{$Version:item.creator.name|wash}</a>
@@ -115,8 +115,6 @@
 <input class="button" type="submit" name="CopyVersionButton" value="{'Copy and edit'|i18n('design/standard/content/version')}" />
 </div>
 {/section}
-
-<input type="hidden" name="EditLanguage" value="{$edit_language}" />
 
 </form>
 

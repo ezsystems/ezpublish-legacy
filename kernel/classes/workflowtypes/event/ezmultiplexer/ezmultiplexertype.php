@@ -35,6 +35,11 @@
   \class eZMultiplexerType ezmultiplexertype.php
   \brief The class eZMultiplexerType does
 
+  WorkflowEvent storage fields : data_text1 - selected_sections
+                                 data_text2 - selected_usergroups
+                                 data_text3 - selected_classes
+                                 data_int1  - selected_workflow
+                                 data_int2  - language_list
 */
 define( "EZ_WORKFLOW_TYPE_MULTIPLEXER_ID", "ezmultiplexer" );
 
@@ -82,7 +87,24 @@ class eZMultiplexerType extends eZWorkflowEventType
             {
                 return $event->attribute( 'data_int1' );
             }
-        }
+
+                    case 'language_list':
+            {
+                if ( $event->attribute( 'data_int2' ) == 0 )
+                {
+                    $returnValue = array();
+                    return $returnValue;
+                }
+                include_once( 'kernel/classes/ezcontentlanguage.php' );
+                $languages = eZContentLanguage::languagesByMask( $event->attribute( 'data_int2' ) );
+                $returnValue = array();
+                foreach ( $languages as $language )
+                {
+                    $returnValue[$language->attribute( 'id' )] = $language->attribute( 'name' );
+                }
+                return $returnValue;
+            } break;
+}
         $retValue = null;
         return $retValue;
     }
@@ -92,12 +114,14 @@ class eZMultiplexerType extends eZWorkflowEventType
         return array( 'selected_sections',
                       'selected_usergroups',
                       'selected_classes',
-                      'selected_workflow' );
+                      'selected_workflow',
+                      'language_list' );
     }
 
     function attributes()
     {
         return array_merge( array( 'sections',
+                                   'languages',
                                    'contentclass_list',
                                    'workflow_list',
                                    'usergroups' ),
@@ -126,6 +150,13 @@ class eZMultiplexerType extends eZWorkflowEventType
                 return $sections;
             }
             break;
+
+            case 'languages':
+            {
+                include_once( 'kernel/classes/ezcontentlanguage.php' );
+                $languages = eZContentLanguage::fetchList();
+                return $languages;
+            }break;
 
             case 'usergroups':
             {
@@ -177,6 +208,7 @@ class eZMultiplexerType extends eZWorkflowEventType
         $classID = false;
         $objectID = false;
         $sectionID = false;
+        $languageID = 0;
 
         if ( isset( $processParameters['object_id'] ) )
         {
@@ -184,6 +216,15 @@ class eZMultiplexerType extends eZWorkflowEventType
             $object =& eZContentObject::fetch( $objectID );
             if ( $object )
             {
+                // Examine if the published version contains one of the languages we
+                // match for.
+                if ( isset( $processParameters['version'] ) )
+                {
+                    $versionID = $processParameters['version'];
+                    $version =& $object->version( $versionID );
+                    // If the language ID is part of the mask the result is non-zero.
+                    $languageID = (int)$version->attribute( 'initial_language_id' );
+                }
                 $sectionID = $object->attribute( 'section_id' );
                 $class =& $object->attribute( 'content_class' );
                 if ( $class )
@@ -195,6 +236,7 @@ class eZMultiplexerType extends eZWorkflowEventType
 
         $userArray = explode( ',', $event->attribute( 'data_text2' ) );
         $classArray = explode( ',', $event->attribute( 'data_text3' ) );
+        $languageMask = $event->attribute( 'data_int2' );
 
         if ( !isset( $processParameters['user_id'] ) )
         {
@@ -224,7 +266,16 @@ class eZMultiplexerType extends eZWorkflowEventType
             $process->store();
         }
 
-        if ( ( !$inExcludeGroups ) &&
+        // All languages match by default
+        $hasLanguageMatch = true;
+        if ( $languageMask != 0 )
+        {
+            // Match ID with mask.
+            $hasLanguageMatch = (bool)( $languageMask & $languageID );
+        }
+
+        if ( $hasLanguageMatch &&
+             ( !$inExcludeGroups ) &&
              ( in_array( -1, $classArray ) ||
                in_array( $classID, $classArray ) ) )
         {
@@ -316,6 +367,22 @@ class eZMultiplexerType extends eZWorkflowEventType
             }
             $sectionsString = implode( ',', $sectionsArray );
             $event->setAttribute( "data_text1", $sectionsString );
+        }
+
+        $languageVar = $base . "_event_ezmultiplexer_languages_" . $event->attribute( "id" );
+        if ( $http->hasPostVariable( $languageVar ) )
+        {
+            $languageArray = $http->postVariable( $languageVar );
+            if ( in_array( '-1', $languageArray ) )
+            {
+                $languageArray = array();
+            }
+            $languageMask = 0;
+            foreach ( $languageArray as $languageID )
+            {
+                $languageMask |= $languageID;
+            }
+            $event->setAttribute( "data_int2", $languageMask );
         }
 
         $usersVar = $base . "_event_ezmultiplexer_not_run_ids_" . $event->attribute( "id" );

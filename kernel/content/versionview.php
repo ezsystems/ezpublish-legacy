@@ -58,6 +58,11 @@ if ( !$versionObject->attribute( 'can_read' ) )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
 }
 
+if ( !$LanguageCode )
+{
+    $LanguageCode = $versionObject->initialLanguageCode();
+}
+
 $user =& eZUser::currentUser();
 
 $isCreator = ( $versionObject->attribute( 'creator_id' ) == $user->id() );
@@ -160,8 +165,8 @@ $versionAttributes = $versionObject->contentObjectAttributes( $LanguageCode );
 if ( $versionAttributes === null or
      count( $versionAttributes ) == 0 )
 {
-    $versionAttributes = $versionObject->contentObjectAttributes();
-    $LanguageCode = eZContentObject::defaultLanguage();
+    $LanguageCode = $versionObject->initialLanguageCode();
+    $versionAttributes = $versionObject->contentObjectAttributes( $LanguageCode );
 }
 
 $ini =& eZINI::instance();
@@ -193,10 +198,6 @@ if ( $sectionID !== false )
 }
 $designKeys[] = array( 'navigation_part_identifier', $navigationPartIdentifier );
 
-$contentObject->setAttribute( 'current_version', $EditVersion );
-
-// Set variables to be compatible with normal design templates
-$contentObject->CurrentLanguage = $LanguageCode;
 $contentObject->setAttribute( 'current_version', $EditVersion );
 
 $class = eZContentClass::fetch( $contentObject->attribute( 'contentclass_id' ) );
@@ -277,6 +278,8 @@ eZExtension::activateExtensions( 'access' );
 $GLOBALS['eZContentObjectDefaultLanguage'] = $LanguageCode;
 eZContentObject::clearCache();
 
+eZContentLanguage::expireCache();
+
 $Module->setTitle( 'View ' . $class->attribute( 'name' ) . ' - ' . $contentObject->attribute( 'name' ) );
 
 $res =& eZTemplateDesignResource::instance();
@@ -300,6 +303,9 @@ if ( $assignment )
 $res->setKeys( $designKeys );
 
 include_once( 'kernel/classes/eznodeviewfunctions.php' );
+
+unset( $contentObject );
+$contentObject =& $node->attribute( 'object' ); // do not remove &
 
 $Result =& eZNodeviewfunctions::generateNodeView( $tpl, $node, $contentObject, $LanguageCode, 'full', 0,
                                                  false, false, false );

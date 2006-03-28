@@ -273,6 +273,41 @@ class eZDBFile
 
     }
 
+    // JB temporary function until the clustering code is imported
+    function _deleteByWildcard( $wildcard )
+    {
+        // Convert wildcard to regexp.
+        $regex = '^' . mysql_real_escape_string( $wildcard ) . '$';
+
+        $regex = str_replace( array( '.'  ),
+                              array( '\.' ),
+                              $regex );
+
+        $regex = str_replace( array( '?', '*',  '{', '}', ',' ),
+                              array( '.', '.*', '(', ')', '|' ),
+                              $regex );
+
+        $sql = "SELECT name FROM " . TABLE_METADATA . " WHERE name REGEXP '$regex'" ;
+        if ( !$res = mysql_query( $sql, $this->db ) )
+        {
+            eZDebug::writeError( "Failed to delete files by wildcard: '$wildcard'" );
+            return false;
+        }
+
+        if ( !mysql_num_rows( $res ) )
+            return true;
+
+        if ( !mysql_num_rows( $res ) )
+            return true;
+
+        while ( $row = mysql_fetch_row( $res ) )
+        {
+            $deleteFilename = $row[0];
+            $this->_delete( $deleteFilename );
+        }
+
+        return true;
+    }
 
     /*!
       Deletes the files matching the given wildcard. * Is used as wildcard character.

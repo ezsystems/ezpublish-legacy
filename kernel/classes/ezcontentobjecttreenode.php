@@ -163,6 +163,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'can_remove' => 'canRemove',
                                                       'can_move' => 'canMoveFrom',
                                                       'can_move_from' => 'canMoveFrom',
+                                                      'is_main' => 'isMain',
                                                       'creator' => 'creator',
                                                       "path" => "fetchPath",
                                                       'path_array' => 'pathArray',
@@ -236,6 +237,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         return $remoteID;
+    }
+
+    /*!
+     \return true if this node is the main node.
+     */
+    function isMain()
+    {
+        return $this->NodeID == $this->MainNodeID;
     }
 
     /*!
@@ -650,9 +659,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             $datatypeWhereSQL = "
                                    $contentAttributeTableAlias.contentobject_id = ezcontentobject.id AND
                                    $contentAttributeTableAlias.contentclassattribute_id = $classAttributeID AND
-                                   $contentAttributeTableAlias.version = ezcontentobject_name.content_version AND
-                                   $contentAttributeTableAlias.language_code = ezcontentobject_name.real_translation";
-
+                                   $contentAttributeTableAlias.version = ezcontentobject_name.content_version AND";
+                            $datatypeWhereSQL .= eZContentLanguage::sqlFilter( $contentAttributeTableAlias, 'ezcontentobject' );
 
                             $dataType = eZDataType::create( eZContentObjectTreeNode::dataTypeByClassAttributeID( $classAttributeID ) );
                             if( is_object( $dataType ) && $dataType->customSorting() )
@@ -995,17 +1003,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                     $filterSQL['where'] .= "
                                        a$filterCount.contentobject_id = ezcontentobject.id AND
                                        a$filterCount.contentclassattribute_id = $filterAttributeID AND
-                                       a$filterCount.version = ezcontentobject_name.content_version AND
-                                       a$filterCount.language_code = ezcontentobject_name.real_translation AND ";
-
+                                       a$filterCount.version = ezcontentobject_name.content_version AND ";
+                                    $filterSQL['where'] .= eZContentLanguage::sqlFilter( "a$filterCount", 'ezcontentobject' ).' AND ';
                                 }
                                 else
                                 {
                                     $filterSQL['where'] .= "
                                       a$filterCount.contentobject_id = ezcontentobject.id AND
                                       a$filterCount.contentclassattribute_id = $filterAttributeID AND
-                                      a$filterCount.version = ezcontentobject_name.content_version AND
-                                      a$filterCount.language_code = ezcontentobject_name.real_translation AND ";
+                                      a$filterCount.version = ezcontentobject_name.content_version AND ";
+                                    $filterSQL['where'] .= eZContentLanguage::sqlFilter( "a$filterCount", 'ezcontentobject' ). ' AND ';
                                 }
                             }
                         }
@@ -1323,35 +1330,18 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function createVersionNameJoinsSQLString( $useVersionName, $includeAnd = true, $onlyTranslated = false, $lang = false )
     {
-        $versionNameJoins = '';
-
-        if ( $useVersionName )
-        {
-            if ( $lang )
-            {
-                // Escape the language string
-                $db =& eZDB::instance();
-                $lang = $db->escapeString($lang);
-            }
-            else // Set the language to the default if the parameter is not set.
-            {
-                $lang = eZContentObject::defaultLanguage();
-            }
-
-            if ( $includeAnd )
-                $versionNameJoins = ' and';
-            $versionNameJoins .= " ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
-                                   ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
-                                   ezcontentobject_name.content_translation = '$lang' ";
-
-            // Add SQL to force the return of only translated objects
-            if ( $onlyTranslated )
-            {
-                $versionNameJoins .= "and ezcontentobject_name.real_translation = '$lang' ";
-            }
-        }
-
-        return $versionNameJoins;
+		$versionNameJoins = '';
+		if ( $useVersionName )
+		{
+			if ( $includeAnd )
+			{
+				$versionNameJoins .= ' AND ';
+			}
+			$versionNameJoins .= " ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
+                                   ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and ";
+			$versionNameJoins .= eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
+		}
+    	return $versionNameJoins;   	
     }
 
     /*!
@@ -1556,7 +1546,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $params = array( 'Depth'                    => false,
                              'Offset'                   => false,
-                             'OnlyTranslated'           => false,
+                             //'OnlyTranslated'           => false,
                              'Language'                 => false,
                              'Limit'                    => false,
                              'SortBy'                   => false,
@@ -1568,7 +1558,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
 
         $offset           = ( isset( $params['Offset'] ) && is_numeric( $params['Offset'] ) ) ? $params['Offset']             : false;
-        $onlyTranslated   = ( isset( $params['OnlyTranslated']      ) )                       ? $params['OnlyTranslated']     : false;
+        //$onlyTranslated   = ( isset( $params['OnlyTranslated']      ) )                       ? $params['OnlyTranslated']     : false;
         $language         = ( isset( $params['Language']      ) )                             ? $params['Language']           : false;
         $limit            = ( isset( $params['Limit']  ) && is_numeric( $params['Limit']  ) ) ? $params['Limit']              : false;
         $depth            = ( isset( $params['Depth']  ) && is_numeric( $params['Depth']  ) ) ? $params['Depth']              : false;
@@ -1614,10 +1604,27 @@ class eZContentObjectTreeNode extends eZPersistentObject
         eZContentObjectTreeNode::createGroupBySQLStrings( $groupBySelectText, $groupByText, $groupBy );
 
         $useVersionName     = true;
+
+        if ( $language )
+        {
+            if ( !is_array( $language ) )
+            {
+                $language = array( $language );
+            }
+            eZContentLanguage::setPrioritizedLanguages( $language );
+        }
+
         $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
         $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
-        $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false, $onlyTranslated, $language );
+        $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false );
+		
+        $languageFilter = ' AND ' . eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
 
+        if ( $language )
+        {
+            eZContentLanguage::clearPrioritizedLanguages();
+        }
+        
         $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
         $limitationList              = eZContentObjectTreeNode::getLimitationList( $limitation );
         $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
@@ -1652,9 +1659,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       $versionNameJoins
                       $showInvisibleNodesCond
                       $sqlPermissionCheckingString
+                      $languageFilter
                 $groupByText";
 
-        if ( $sortingInfo['sortingFields'] )
+	if ( $sortingInfo['sortingFields'] )
             $query .= " ORDER BY $sortingInfo[sortingFields]";
 
         $db =& eZDB::instance();
@@ -1756,7 +1764,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 $nodeParams = array(
                                  'Depth'                    => false,
-                                 'OnlyTranslated'           => false,
+                                 //'OnlyTranslated'           => false,
                                  'Language'                 => false,
                                  'AttributeFilter'          => false,
                                  'ExtendedAttributeFilter'  => false,
@@ -1764,7 +1772,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                  'ClassFilterArray'         => false );
             }
 
-            $onlyTranslated   = ( isset( $nodeParams['OnlyTranslated']    ) )                       ? $nodeParams['OnlyTranslated']     : false;
+            //$onlyTranslated   = ( isset( $nodeParams['OnlyTranslated']    ) )                       ? $nodeParams['OnlyTranslated']     : false;
             $language         = ( isset( $nodeParams['Language']          ) )                             ? $nodeParams['Language']           : false;
             $depth            = ( isset( $nodeParams['Depth']  ) && is_numeric( $nodeParams['Depth']  ) ) ? $nodeParams['Depth']              : false;
             $depthOperator    = ( isset( $nodeParams['DepthOperator']     ) )                         ? $nodeParams['DepthOperator']      : false;
@@ -1791,11 +1799,27 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 return $retValue;
             }
 
+            if ( $language )
+            {
+                if ( !is_array( $language ) )
+                {
+                    $language = array( $language );
+                }
+                eZContentLanguage::setPrioritizedLanguages( $language );
+            }
+            
             $useVersionName     = true;
             $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
             $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
-            $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false, $onlyTranslated, $language );
+            $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false );
 
+            $languageFilter = ' AND ' . eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
+
+            if ( $language )
+            {
+                eZContentLanguage::clearPrioritizedLanguages();
+            }
+            
             $limitation = ( isset( $nodeParams['Limitation']  ) && is_array( $nodeParams['Limitation']  ) ) ? $nodeParams['Limitation']: false;
             $limitationList              = eZContentObjectTreeNode::getLimitationList( $limitation );
             $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
@@ -1817,6 +1841,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                           $versionNameJoins
                           $showInvisibleNodesCond
                           $sqlPermissionCheckingString
+                          $languageFilter
                       )
                       OR";
         }
@@ -2267,8 +2292,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                 $attributeFilterWhereSQL .= "
                                     a$filterCount.contentobject_id = ezcontentobject.id AND
                                        a$filterCount.version = ezcontentobject.current_version AND
-                                       a$filterCount.contentclassattribute_id = $filterAttributeID AND
-                                       a$filterCount.language_code = ezcontentobject_name.real_translation AND ";
+                                       a$filterCount.contentclassattribute_id = $filterAttributeID AND ";
+                                $attributeFilterWhereSQL .= eZContentLanguage::sqlFilter( "a$filterCount", 'ezcontentobject' );
+                                $attributeFilterWhereSQL .= ' AND ';
                             }
 
                         }
@@ -2420,13 +2446,30 @@ class eZContentObjectTreeNode extends eZPersistentObject
             } // end of 'if ( is_array( $filterArray ) )'
         }
 
-        $onlyTranslated   = ( isset( $params['OnlyTranslated'] ) ) ? $params['OnlyTranslated']     : false;
+        //$onlyTranslated   = ( isset( $params['OnlyTranslated'] ) ) ? $params['OnlyTranslated']     : false;
         $language         = ( isset( $params['Language'] ) ) ? $params['Language']           : false;
-
+        
+        if ( $language )
+        {
+            if ( !is_array( $language ) )
+            {
+                $language = array( $language );
+            }
+            eZContentLanguage::setPrioritizedLanguages( $language );
+        }
+        
         $useVersionName     = true;
+        
         $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
         $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
-        $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false, $onlyTranslated, $language );
+        $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false );
+
+        $languageFilter = ' AND '.eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
+
+        if ( $language )
+        {
+            eZContentLanguage::clearPrioritizedLanguages();
+        }
 
         // Determine whether we should show invisible nodes.
         $ignoreVisibility = isset( $params['IgnoreVisibility'] ) ? $params['IgnoreVisibility'] : false;
@@ -2515,7 +2558,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                             ezcontentclass.id = ezcontentobject.contentclass_id AND
                             $versionNameJoins
                             $showInvisibleNodesCond
-                            $sqlPermissionCheckingString ";
+                            $sqlPermissionCheckingString
+                            $languageFilter ";
 
         }
         else
@@ -2539,7 +2583,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            ezcontentobject_tree.contentobject_id = ezcontentobject.id AND
                            ezcontentclass.id = ezcontentobject.contentclass_id AND
                            $versionNameJoins
-                           $showInvisibleNodesCond ";
+                           $showInvisibleNodesCond 
+                           $languageFilter ";
         }
 
         $nodeListArray = $db->arrayQuery( $query );
@@ -3045,19 +3090,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else
         {
-
             $versionNameTables = ', ezcontentobject_name ';
             $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
-
-            if ( $lang === false )
-            {
-                $lang = eZContentObject::defaultLanguage();
-            }
-            $lang = $db->escapeString( $lang );
-
             $versionNameJoins = " and  ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id and
-                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and
-                                  ezcontentobject_name.content_translation = '$lang' ";
+                                  ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version and ";
+            if ( $lang )
+            {
+                $lang = $db->escapeString( $lang );
+                $versionNameJoins .= " ezcontentobject_name.content_translation = '$lang' ";
+            }
+            else
+            {
+                $versionNameJoins .= eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
+            }
+
+            $languageFilter = ' AND '.eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
 
             $sqlCondition = '';
 
@@ -3113,6 +3160,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                       ezcontentobject_tree.contentobject_id=ezcontentobject.id AND
                       ezcontentclass.version=0  AND
                       ezcontentclass.id = ezcontentobject.contentclass_id
+                      $languageFilter
                       $versionNameJoins";
         }
 
@@ -3150,15 +3198,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db =& eZDB::instance();
         $contentObjectID =(int) $contentObjectID;
         $parentNodeID =(int) $parentNodeID;
-        $lang = eZContentObject::defaultLanguage();
-        $query = "SELECT ezcontentobject_tree.*, ezcontentobject_name.name as name, ezcontentobject_name.real_translation
-                  FROM ezcontentobject_tree, ezcontentobject_name
-                  WHERE ezcontentobject_tree.contentobject_id = $contentObjectID AND
-                        ezcontentobject_tree.parent_node_id = $parentNodeID  AND
-                        ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id AND
-                        ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version AND
-                        ezcontentobject_name.content_translation = '$lang'";
-
+		$query = "SELECT ezcontentobject_tree.*
+                  FROM ezcontentobject_tree, ezcontentobject
+                  WHERE ezcontentobject_tree.contentobject_id = '$contentObjectID' AND
+                        ezcontentobject.id = '$contentObjectID' AND
+                        ezcontentobject_tree.parent_node_id = '$parentNodeID' AND ".
+                        eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
+        
         $nodeListArray = $db->arrayQuery( $query );
         if ( count( $nodeListArray ) == 1 )
         {
@@ -3331,6 +3377,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodeDepth = $parentDepth + 1 ;
 
         $insertedNode = eZContentObjectTreeNode::create( $parentMainNodeID, $contentobjectID );
+        // JB start
+        // Fix correct sorting
+        $insertedNode->setAttribute( 'sort_field', 2 );
+        $insertedNode->setAttribute( 'sort_order', false );
+        // JB end
         $insertedNode->setAttribute( 'depth', $nodeDepth );
         $insertedNode->setAttribute( 'path_string', '/TEMPPATH' );
 
@@ -3701,8 +3752,12 @@ WHERE
         $db =& eZDB::instance();
         $db->begin();
 
-        eZNodeAssignment::remove( $node->attribute( 'parent_node_id' ),
-                                  $node->attribute( 'contentobject_id' ) );
+        // JB start
+        // There is no need to remove the assignments anymore, the op_code makes
+        // sure the location is not recreated when being edited again.
+//        eZNodeAssignment::purge( $node->attribute( 'parent_node_id' ), // JB valid
+//                                 $node->attribute( 'contentobject_id' ) );
+        // JB end
 
         $nodePath = $node->attribute( 'path_string' );
         $childrensPath = $nodePath ;
@@ -4251,11 +4306,23 @@ WHERE
         }
     }
 
-    function checkAccess( $functionName, $originalClassID = false, $parentClassID = false )
+    function checkAccess( $functionName, $originalClassID = false, $parentClassID = false, $returnAccessList = false, $language = false )
     {
         $classID = $originalClassID;
         $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
+
+        include_once( 'kernel/classes/ezcontentlanguage.php' );
+        // Fetch the ID of the language if we get a string with a language code
+        // e.g. 'eng-GB'
+        if ( $language !== false && !is_numeric( $language ) )
+        {
+            $language = eZContentLanguage::idByLocale( $language );
+        }
+
+        // This will be filled in with the available languages of the object
+        // if a Language check is performed.
+        $languageList = false;
 
         $origFunctionName = $functionName;
         // The 'move' function simply reuses 'edit' for generic access
@@ -4290,6 +4357,18 @@ WHERE
         }
         else if ( $accessWord == 'no' )
         {
+            // If we are checking 'translate' and we are denied we
+            // need to check if read & edit are allowed because this
+            // constitutes as translatable.
+            if ( $functionName == 'translate' )
+            {
+                if ( $this->checkTranslateAccess( $originalClassID, $parentClassID,
+                                                  $returnAccessList, $language ) )
+                {
+                    return 1;
+                }
+            }
+
             return 0;
         }
         else
@@ -4372,6 +4451,51 @@ WHERE
                         case 'User_Section':
                         {
                             if ( in_array( $contentObject->attribute( 'section_id' ), $limitationArray[$key] ) )
+                            {
+                                $access = 'allowed';
+                            }
+                            else
+                            {
+                                $access = 'denied';
+                                $limitationList = array( 'Limitation' => $key,
+                                                         'Required' => $limitationArray[$key] );
+                            }
+                        } break;
+
+                        case 'Language':
+                        {
+                            $languageMask = 0;
+                            // If we don't have a language list yet we need to fetch it
+                            // and optionally filter out based on $language.
+                            if ( $functionName == 'create' )
+                            {
+                                if ( $language !== false )
+                                {
+                                    $languageMask = $language;
+                                }
+                                else
+                                {
+                                    // If the create is used and no language specified then
+                                    // we need to match against all possible languages (which
+                                    // is all bits set, ie. -1).
+                                    $languageMask = -1;
+                                }
+                            }
+                            else
+                            {
+                                if ( $languageList === false )
+                                {
+                                    $languageMask = $contentObject->attribute( 'language_mask' );
+                                    // We are restricting language check to just one language
+                                    if ( $language !== false )
+                                    {
+                                        $languageMask &= $language;
+                                    }
+                                }
+                            }
+                            // Fetch limit mask for limitation list
+                            $limitMask = eZContentLanguage::maskByLocale( $limitationArray[$key] );
+                            if ( ( $languageMask & $limitMask ) != 0 )
                             {
                                 $access = 'allowed';
                             }
@@ -4482,6 +4606,20 @@ WHERE
                 $policyList[] = array( 'PolicyID' => $pkey,
                                        'LimitationList' => $limitationList );
             }
+
+            // If we are checking 'translate' and we are denied we
+            // need to check if read & edit are allowed because this
+            // constitutes as translatable.
+            if ( $functionName == 'translate' &&
+                 $access == 'denied' )
+            {
+                if ( $this->checkTranslateAccess( $originalClassID, $parentClassID,
+                                                  $returnAccessList, $language ) )
+                {
+                    $access = 'allowed';
+                }
+            }
+
             if ( $access == 'denied' )
             {
                 $accessList = array( 'FunctionRequired' => array ( 'Module' => 'content',
@@ -4498,12 +4636,34 @@ WHERE
         }
     }
 
+    /*!
+     \private
+     Common function for checking extra 'translate' access.
+     */
+    function checkTranslateAccess( $originalClassID = false, $parentClassID = false,
+                                   $returnAccessList = false, $language = false )
+    {
+        // If we are checking 'translate' and we are denied we
+        // need to check if read & edit are allowed because this
+        // consitutes as translatable.
+        $ok = $this->checkAccess( 'read', $originalClassID, $parentClassID, false, $language );
+        if ( $ok === 1 )
+        {
+            $ok = $this->checkAccess( 'edit', $originalClassID, $parentClassID, false, $language );
+            if ( $ok === 1 )
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // code-template::create-block: class-list-from-policy, is-node
     // code-template::auto-generated:START class-list-from-policy
     // This code is automatically generated from templates/classlistfrompolicy.ctpl
     // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD
 
-    function classListFromPolicy( &$policy )
+    function classListFromPolicy( &$policy, $allowedLanguageCodes = false )
     {
         $canCreateClassIDListPart = array();
         $hasClassIDLimitation = false;
@@ -4623,11 +4783,23 @@ WHERE
             }
         }
 
+        if ( isset( $policy['Language'] ) )
+        {
+            if ( $allowedLanguageCodes )
+            {
+                $allowedLanguageCodes = array_intersect( $allowedLanguageCodes, $policy['Language'] );
+            }
+            else
+            {
+                $allowedLanguageCodes = $policy['Language'];
+            }
+        }
+
         if ( $hasClassIDLimitation )
         {
-            return $canCreateClassIDListPart;
+            return array( 'classes' => $canCreateClassIDListPart, 'language_codes' => $allowedLanguageCodes );
         }
-        return '*';
+        return array( 'classes' => '*', 'language_codes' => $allowedLanguageCodes );
     }
 
     // This code is automatically generated from templates/classlistfrompolicy.ctpl
@@ -4656,6 +4828,9 @@ WHERE
     {
         $ini =& eZINI::instance();
         $groupArray = array();
+        $languageCodeList = eZContentLanguage::fetchLocaleList();
+        $allowedLanguages = array( '*' => array() );
+
         $user =& eZUser::currentUser();
         $accessResult = $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];
@@ -4666,6 +4841,7 @@ WHERE
         if ( $accessWord == 'yes' )
         {
             $fetchAll = true;
+            $allowedLanguages['*'] = $languageCodeList;
         }
         else if ( $accessWord == 'no' )
         {
@@ -4677,16 +4853,28 @@ WHERE
             $policies  =& $accessResult['policies'];
             foreach ( $policies as $policyKey => $policy )
             {
-                $classIDArrayPart = $this->classListFromPolicy( $policy );
+                $policyArray = $this->classListFromPolicy( $policy, $languageCodeList );
+                $classIDArrayPart = $policyArray['classes'];
+                $languageCodeArrayPart = $policyArray['language_codes'];
                 if ( $classIDArrayPart == '*' )
                 {
                     $fetchAll = true;
-                    break;
+                    $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ) );
                 }
                 else
                 {
+                    foreach( $classIDArrayPart as $class )
+                    {
+                        if ( isset( $allowedLanguages[$class] ) )
+                        {
+                            $allowedLanguages[$class] = array_unique( array_merge( $allowedLanguages[$class], $languageCodeArrayPart ) );
+                        }
+                        else
+                        {
+                            $allowedLanguages[$class] = $languageCodeArrayPart;
+                        }
+                    }
                     $classIDArray = array_merge( $classIDArray, array_diff( $classIDArrayPart, $classIDArray ) );
-                    unset( $classIDArrayPart );
                 }
             }
         }
@@ -4742,6 +4930,20 @@ WHERE
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
 
+        foreach ( $classList as $key => $class )
+        {
+            $id = $class->attribute( 'id' );
+            if ( isset( $allowedLanguages[$id] ) )
+            {
+                $languageCodes = array_unique( array_merge( $allowedLanguages['*'], $allowedLanguages[$id] ) );
+            }
+            else
+            {
+                $languageCodes = $allowedLanguages['*'];
+            }
+            $classList[$key]->setCanInstantiateLanguages( $languageCodes );
+        }
+
         eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db" );
         return $classList;
     }
@@ -4768,7 +4970,14 @@ WHERE
             }
 
             $object = new eZContentObjectTreeNode( $node );
-            $object->setName( $node['name'] );
+            // JB
+            // If the name is not set it will be fetched later on when
+            // getName()/attribute( 'name' ) is accessed.
+            if ( isset( $node['name'] ) )
+            {
+                $object->setName( $node['name'] );
+            }
+            // JB
 
             if ( isset( $node['class_name'] ) )
                 $object->ClassName = $node['class_name'];
@@ -4908,6 +5117,30 @@ WHERE
 
     function &getName()
     {
+        // JB
+        // If the name is not set yet we fetch it from the object table
+        if ( $this->Name === null )
+        {
+            if ( $this->CurrentLanguage )
+            {
+                $sql = "SELECT name FROM ezcontentobject_name WHERE contentobject_id=" . (int) $this->ContentObjectID . " AND real_translation='" . $this->CurrentLanguage . "'";
+            }
+            else
+            {
+                $sql = "SELECT name FROM ezcontentobject WHERE id=" . (int) $this->ContentObjectID;
+            }
+            $db =& eZDB::instance();
+            $rows = $db->arrayQuery( $sql );
+            if ( count( $rows ) > 0 )
+            {
+                $this->Name = $rows[0]['name'];
+            }
+            else
+            {
+                $this->Name = false;
+            }
+        }
+        // JB
         return $this->Name;
     }
 
@@ -5106,6 +5339,7 @@ WHERE
         }
         $contentobject_id = $this->attribute( 'contentobject_id' );
         $obj =& eZContentObject::fetch( $contentobject_id );
+        $obj->setCurrentLanguage( $this->CurrentLanguage );
         $this->ContentObject =& $obj;
         return $obj;
     }
@@ -5148,7 +5382,9 @@ WHERE
     {
         $version = eZContentObjectVersion::fetchVersion( $this->ContentObjectVersion, $this->ContentObjectID, $asObject );
         if ( $this->CurrentLanguage != false )
+        {
             $version->CurrentLanguage = $this->CurrentLanguage;
+        }
         return $version;
     }
 
@@ -5472,6 +5708,27 @@ WHERE
         return true;
     }
 
+    function setVersionByObjectID( $objectID, $newVersion )
+    {
+        $db =& eZDB::instance();
+        $db->query( "UPDATE ezcontentobject_tree SET contentobject_version='$newVersion' WHERE contentobject_id='$objectID'" );
+    }
+
+    function currentLanguage()
+    {
+        return $this->CurrentLanguage;
+    }
+
+    function setCurrentLanguage( $languageCode )
+    {
+        $this->CurrentLanguage = $languageCode;
+        if ( $this->hasContentObject() )
+        {
+            $this->ContentObject->setCurrentLanguage( $languageCode );
+        }
+        $this->Name = null;
+    }
+    
     /// The current language for the node
     var $CurrentLanguage = false;
 

@@ -56,7 +56,7 @@ if ( $http->hasSessionVariable( 'ContentLanguage' ) )
 }
 else
 {
-    $contentLanguage = eZContentObject::defaultLanguage();
+    $contentLanguage = false;
 }
 if ( count( $deleteIDArray ) <= 0 )
     return $Module->redirectToView( 'view', array( $viewMode, $contentNodeID, $contentLanguage ) );

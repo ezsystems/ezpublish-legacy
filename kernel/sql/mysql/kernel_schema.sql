@@ -187,9 +187,10 @@ CREATE TABLE ezcollab_simple_message (
 
 
 
-CREATE TABLE ezcontent_translation (
-  id int(11) NOT NULL auto_increment,
-  locale varchar(255) NOT NULL default '',
+CREATE TABLE ezcontent_language (
+  disabled int(11) NOT NULL default '0',
+  id int(11) NOT NULL default '0',
+  locale varchar(20) NOT NULL default '',
   name varchar(255) NOT NULL default '',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
@@ -226,6 +227,7 @@ CREATE TABLE ezcontentbrowserecent (
 
 
 CREATE TABLE ezcontentclass (
+  always_available int(11) NOT NULL default '0',
   contentobject_name varchar(255) default NULL,
   created int(11) NOT NULL default '0',
   creator_id int(11) NOT NULL default '0',
@@ -307,7 +309,9 @@ CREATE TABLE ezcontentobject (
   contentclass_id int(11) NOT NULL default '0',
   current_version int(11) default NULL,
   id int(11) NOT NULL auto_increment,
+  initial_language_id int(11) NOT NULL default '0',
   is_published int(11) default NULL,
+  language_mask int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   name varchar(255) default NULL,
   owner_id int(11) NOT NULL default '0',
@@ -332,6 +336,7 @@ CREATE TABLE ezcontentobject_attribute (
   data_type_string varchar(50) default '',
   id int(11) NOT NULL auto_increment,
   language_code varchar(20) NOT NULL default '',
+  language_id int(11) NOT NULL default '0',
   sort_key_int int(11) NOT NULL default '0',
   sort_key_string varchar(255) NOT NULL default '',
   version int(11) NOT NULL default '0',
@@ -352,6 +357,7 @@ CREATE TABLE ezcontentobject_link (
   from_contentobject_id int(11) NOT NULL default '0',
   from_contentobject_version int(11) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
+  op_code int(11) NOT NULL default '0',
   to_contentobject_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY ezco_link_from (from_contentobject_id,from_contentobject_version,contentclassattribute_id),
@@ -366,6 +372,7 @@ CREATE TABLE ezcontentobject_name (
   content_translation varchar(20) NOT NULL default '',
   content_version int(11) NOT NULL default '0',
   contentobject_id int(11) NOT NULL default '0',
+  language_id int(11) NOT NULL default '0',
   name varchar(255) default NULL,
   real_translation varchar(20) default NULL,
   PRIMARY KEY  (contentobject_id,content_version,content_translation)
@@ -410,6 +417,8 @@ CREATE TABLE ezcontentobject_version (
   created int(11) NOT NULL default '0',
   creator_id int(11) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
+  initial_language_id int(11) NOT NULL default '0',
+  language_mask int(11) NOT NULL default '0',
   modified int(11) NOT NULL default '0',
   status int(11) NOT NULL default '0',
   user_id int(11) NOT NULL default '0',
@@ -697,6 +706,7 @@ CREATE TABLE eznode_assignment (
   from_node_id int(11) default '0',
   id int(11) NOT NULL auto_increment,
   is_main int(11) NOT NULL default '0',
+  op_code int(11) NOT NULL default '0',
   parent_node int(11) default NULL,
   parent_remote_id varchar(100) NOT NULL default '',
   remote_id int(11) NOT NULL default '0',

@@ -847,19 +847,28 @@ $schema = array (
       ),
     ),
   ),
-  'ezcontent_translation' => 
+  'ezcontent_language' => 
   array (
-    'name' => 'ezcontent_translation',
+    'name' => 'ezcontent_language',
     'fields' => 
     array (
+      'disabled' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
       'id' => 
       array (
-        'type' => 'auto_increment',
-        'default' => false,
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
       ),
       'locale' => 
       array (
-        'length' => 255,
+        'length' => 20,
         'type' => 'varchar',
         'not_null' => '1',
         'default' => '',
@@ -1000,6 +1009,13 @@ $schema = array (
     'name' => 'ezcontentclass',
     'fields' => 
     array (
+      'always_available' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
       'contentobject_name' => 
       array (
         'length' => 255,
@@ -1388,11 +1404,25 @@ $schema = array (
         'type' => 'auto_increment',
         'default' => false,
       ),
+      'initial_language_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
       'is_published' => 
       array (
         'length' => 11,
         'type' => 'int',
         'default' => NULL,
+      ),
+      'language_mask' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
       ),
       'modified' => 
       array (
@@ -1512,6 +1542,13 @@ $schema = array (
         'not_null' => '1',
         'default' => '',
       ),
+      'language_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
       'sort_key_int' => 
       array (
         'length' => 11,
@@ -1620,6 +1657,13 @@ $schema = array (
         'type' => 'auto_increment',
         'default' => false,
       ),
+      'op_code' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
       'to_contentobject_id' => 
       array (
         'length' => 11,
@@ -1678,6 +1722,13 @@ $schema = array (
         'default' => 0,
       ),
       'contentobject_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'language_id' => 
       array (
         'length' => 11,
         'type' => 'int',
@@ -1907,6 +1958,20 @@ $schema = array (
       array (
         'type' => 'auto_increment',
         'default' => false,
+      ),
+      'initial_language_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'language_mask' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
       ),
       'modified' => 
       array (
@@ -3111,6 +3176,13 @@ $schema = array (
         'default' => false,
       ),
       'is_main' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
+      'op_code' => 
       array (
         'length' => 11,
         'type' => 'int',

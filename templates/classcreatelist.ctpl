@@ -91,6 +91,9 @@
         }
 
 /*END:code-template::role-caching*/
+        $languageCodeList = eZContentLanguage::fetchLocaleList();
+        $allowedLanguages = array( '*' => array() );
+
         $user =& eZUser::currentUser();
         $accessResult = $user->hasAccessTo( 'content' , 'create' );
         $accessWord = $accessResult['accessWord'];
@@ -101,6 +104,7 @@
         if ( $accessWord == 'yes' )
         {
             $fetchAll = true;
+            $allowedLanguages['*'] = $languageCodeList;
         }
         else if ( $accessWord == 'no' )
         {
@@ -116,22 +120,39 @@
                 $classIDArrayPart = '*';
                 if ( isset( $policy['Class'] ) )
                 {
-                    $classIDArrayPart =& $policy['Class'];
+                    $classIDArrayPart = $policy['Class'];
+                }
+                $languageCodeArrayPart = $languageCodeList;
+                if ( isset( $policy['Language'] ) )
+                {
+                    $languageCodeArrayPart = array_intersect( $policy['Language'], $languageCodeList );
                 }
 
 /*END:code-template::class-policy-list*/
 /*START:code-template::object-policy-list*/
-                $classIDArrayPart = $this->classListFromPolicy( $policy );
+                $policyArray = $this->classListFromPolicy( $policy, $languageCodeList );
+                $classIDArrayPart = $policyArray['classes'];
+                $languageCodeArrayPart = $policyArray['language_codes'];
 /*END:code-template::object-policy-list*/
                 if ( $classIDArrayPart == '*' )
                 {
                     $fetchAll = true;
-                    break;
+                    $allowedLanguages['*'] = array_unique( array_merge( $allowedLanguages['*'], $languageCodeArrayPart ) );
                 }
                 else
                 {
+                    foreach( $classIDArrayPart as $class )
+                    {
+                        if ( isset( $allowedLanguages[$class] ) )
+                        {
+                            $allowedLanguages[$class] = array_unique( array_merge( $allowedLanguages[$class], $languageCodeArrayPart ) );
+                        }
+                        else
+                        {
+                            $allowedLanguages[$class] = $languageCodeArrayPart;
+                        }
+                    }
                     $classIDArray = array_merge( $classIDArray, array_diff( $classIDArrayPart, $classIDArray ) );
-                    unset( $classIDArrayPart );
                 }
             }
         }
@@ -206,6 +227,20 @@
                                      "ORDER BY cc.name ASC" );
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
 /*END:code-template::object-creation*/
+        }
+
+        foreach ( $classList as $key => $class )
+        {
+            $id = $class->attribute( 'id' );
+            if ( isset( $allowedLanguages[$id] ) )
+            {
+                $languageCodes = array_unique( array_merge( $allowedLanguages['*'], $allowedLanguages[$id] ) );
+            }
+            else
+            {
+                $languageCodes = $allowedLanguages['*'];
+            }
+            $classList[$key]->setCanInstantiateLanguages( $languageCodes );
         }
 
         eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db" );

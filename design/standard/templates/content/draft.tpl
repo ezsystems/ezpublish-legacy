@@ -67,6 +67,7 @@ function checkAll()
     <th>{"Class"|i18n("design/standard/content/view")}</th>
     <th>{"Section"|i18n("design/standard/content/view")}</th>
     <th>{"Version"|i18n("design/standard/content/view")}</th>
+    <th>{"Language"|i18n("design/standard/content/view")}</th>
     <th>{"Last modified"|i18n("design/standard/content/view")}</th>
     <th>{"Edit"|i18n("design/standard/content/view")}</th>
 </tr>
@@ -77,7 +78,7 @@ function checkAll()
         <input type="checkbox" name="DeleteIDArray[]" value="{$Draft:item.id}" />
     </td>
     <td>
-        <a href={concat("/content/versionview/",$Draft:item.contentobject.id,"/",$Draft:item.version,"/")|ezurl}>{$Draft:item.contentobject.content_class.identifier|class_icon( small, $Draft:item.contentobject.content_class.name )}&nbsp;{$Draft:item.contentobject.name|wash}</a>
+        <a href={concat("/content/versionview/",$Draft:item.contentobject.id,"/",$Draft:item.version,"/")|ezurl}>{$Draft:item.contentobject.content_class.identifier|class_icon( small, $Draft:item.contentobject.content_class.name )}&nbsp;{$Draft:item.version_name|wash}</a>
     </td>
     <td>
         {$Draft:item.contentobject.content_class.name|wash}
@@ -87,6 +88,9 @@ function checkAll()
     </td>
     <td>
         {$Draft:item.version}
+    </td>
+    <td>
+        <img src="{$Draft:item.initial_language.locale|flag_icon}" alt="{$Draft:item.initial_language.locale|wash}" />&nbsp;{$Draft:item.initial_language.name|wash}
     </td>
     <td>
         {$:item.modified|l10n(datetime)}

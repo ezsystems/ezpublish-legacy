@@ -39,6 +39,23 @@
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "kernel/classes/ezpersistentobject.php" );
 
+// Bit 0 is used to mark if the action is to be performed or not
+// A value of 0 means ignore and 1 means execute
+define( "EZ_NODE_ASSIGNMENT_OP_CODE_NOP",         0 );
+define( "EZ_NODE_ASSIGNMENT_OP_CODE_EXECUTE",     1 );
+// Create the node at specified location
+define( "EZ_NODE_ASSIGNMENT_OP_CODE_CREATE_NOP",  2 );
+define( "EZ_NODE_ASSIGNMENT_OP_CODE_CREATE",      3 );
+// Move the node to new location
+define( "EZ_NODE_ASSIGNMENT_OP_CODE_MOVE_NOP",    4 );
+define( "EZ_NODE_ASSIGNMENT_OP_CODE_MOVE",        5 );
+// Remove existing node
+define( "EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE_NOP",  6 );
+define( "EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE",      7 );
+// Set (update/create) values for node
+define( "EZ_NODE_ASSIGNMENT_OP_CODE_SET_NOP",     8 );
+define( "EZ_NODE_ASSIGNMENT_OP_CODE_SET",         9 );
+
 class eZNodeAssignment extends eZPersistentObject
 {
     /*!
@@ -90,14 +107,23 @@ class eZNodeAssignment extends eZPersistentObject
                                                                   'default' => 0,
                                                                   'required' => true ),
                                          'parent_remote_id' => array( 'name' => 'ParentRemoteID',
-                                                                    'datatype' => 'string',
-                                                                    'default' => '',
-                                                                    'required' => false ) ),
+                                                                      'datatype' => 'string',
+                                                                      'default' => '',
+                                                                      'required' => false ),
+                                         'op_code' => array( 'name' => 'OpCode',
+                                                             'datatype' => 'int',
+                                                             'default' => 0, // EZ_NODE_ASSIGNMENT_OP_CODE_NOP
+                                                             'required' => true ) ),
                       'keys' => array( 'id' ),
-                      "function_attributes" => array( "parent_node_obj" => "getParentNode",
+                      "function_attributes" => array( "parent_node_obj"      => "getParentNode",
                                                       "parent_contentobject" => "getParentObject",
-                                                      "node" => "fetchNode",
-                                                      'temp_node' => 'tempNode' ),
+                                                      "node"                 => "fetchNode",
+                                                      'is_nop_operation'     => 'isNopOperation',
+                                                      'is_create_operation'  => 'isCreateOperation',
+                                                      'is_move_operation'    => 'isMoveOperation',
+                                                      'is_remove_operation'  => 'isRemoveOperation',
+                                                      'is_set_operation'     => 'isSetOperation',
+                                                      'temp_node'            => 'tempNode' ),
                       "increment_key" => "id",
                       'class_name' => 'eZNodeAssignment',
                       'name' => 'eznode_assignment' );
@@ -125,6 +151,51 @@ class eZNodeAssignment extends eZPersistentObject
     function name()
     {
         return $this->Name;
+    }
+
+    /*!
+     * Returns true if the assignment is a nop (no operation) operation.
+     * \return bool
+     */
+    function isNopOperation()
+    {
+        return ( $this->OpCode & 1 ) == EZ_NODE_ASSIGNMENT_OP_CODE_NOP;
+    }
+
+    /*!
+     * Returns true if the assignment is a create operation.
+     * \return bool
+     */
+    function isCreateOperation()
+    {
+        return $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_CREATE;
+    }
+
+    /*!
+     * Returns true if the assignment is a move operation.
+     * \return bool
+     */
+    function isMoveOperation()
+    {
+        return $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_MOVE;
+    }
+
+    /*!
+     * Returns true if the assignment is a remove operation.
+     * \return bool
+     */
+    function isRemoveOperation()
+    {
+        return $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE;
+    }
+
+    /*!
+     * Returns true if the assignment is a set (update/create) operation.
+     * \return bool
+     */
+    function isSetOperation()
+    {
+        return $this->OpCode == EZ_NODE_ASSIGNMENT_OP_CODE_SET;
     }
 
     function &create( $parameters = array() )
@@ -167,14 +238,20 @@ class eZNodeAssignment extends eZPersistentObject
         {
             $parameters['parent_remote_id'] = '';
         }
+        if ( !isset( $parameters['op_code'] ) )
+        {
+            // The default value for new node-assigments is to create nodes from them.
+            $parameters['op_code'] = EZ_NODE_ASSIGNMENT_OP_CODE_CREATE;
+        }
 
         $newNodeAssignment = new eZNodeAssignment( $parameters );
         return $newNodeAssignment;
     }
 
     /*!
-     Remove specified nodeassignment if \a parentNodeID and \a contentObjectID are given,
-     if they are \c false it will remove the current node assignment.
+     Marks the specified nodeassignment to remove its node. It uses
+     \a parentNodeID and \a contentObjectID if they are given,
+     if they are \c false it will mark the current node assignment.
 
      \param $parentNodeID The ID of the parent node
      \param $contentObjectID The ID of the object
@@ -182,6 +259,73 @@ class eZNodeAssignment extends eZPersistentObject
      the calls within a db transaction; thus within db->begin and db->commit.
      */
     function remove( $parentNodeID = false, $contentObjectID = false )
+    {
+        $db =& eZDB::instance();
+        if ( $parentNodeID == false and $contentObjectID == false )
+        {
+            $nodeAssignment =& $this;
+        }
+        else
+        {
+            $parentNodeID =(int) $parentNodeID;
+            $contentObjectID =(int) $contentObjectID;
+            $cond = array( 'parent_node' => $parentNodeID,
+                           'contentobject_id' => $contentObjectID );
+            $nodeAssignment =& eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
+                                                                null,
+                                                                $cond,
+                                                                true );
+        }
+        $nodeAssignment->setAttribute( "op_code", EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE );
+        $nodeAssignment->store();
+    }
+
+    /*!
+     \static
+     Marks the node assignment with the ID \a $assignmentID to remove its node.
+
+     \param $assignmentID Either an ID or an array with IDs.
+     \return \c true if it were able to remove the assignments, \c false if something failed.
+     \note If \a $assignmentID is an empty array it immediately returns \c false.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
+    */
+    function removeByID( $assignmentID )
+    {
+        $db =& eZDB::instance();
+        if ( is_array( $assignmentID ) )
+        {
+            if ( count( $assignmentID ) == 0 )
+                return false;
+            $sql = "UPDATE eznode_assignment SET op_code = " . EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE . " WHERE id IN ( ";
+            $i = 0;
+            foreach ( $assignmentID as $id )
+            {
+                if ( $i > 0 )
+                    $sql .= ", ";
+                $sql .= (int)$id;
+                ++$i;
+            }
+            $sql .= ' )';
+        }
+        else
+        {
+            $sql = "UPDATE eznode_assignment SET op_code = " . EZ_NODE_ASSIGNMENT_OP_CODE_REMOVE . " WHERE id=" . (int)$assignmentID;
+        }
+        $db->query( $sql );
+        return true;
+    }
+
+    /*!
+     Delete specified nodeassignment if \a parentNodeID and \a contentObjectID are given,
+     if they are \c false it will remove the current node assignment.
+
+     \param $parentNodeID The ID of the parent node
+     \param $contentObjectID The ID of the object
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
+     */
+    function purge( $parentNodeID = false, $contentObjectID = false )
     {
         $db =& eZDB::instance();
         if ( $parentNodeID == false and $contentObjectID == false )
@@ -202,7 +346,7 @@ class eZNodeAssignment extends eZPersistentObject
 
     /*!
      \static
-     Removes the node assignment with the ID \a $assignmentID.
+     Delelet the node assignment with the ID \a $assignmentID.
 
      \param $assignmentID Either an ID or an array with IDs.
      \return \c true if it were able to remove the assignments, \c false if something failed.
@@ -210,7 +354,7 @@ class eZNodeAssignment extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function removeByID( $assignmentID )
+    function purgeByID( $assignmentID )
     {
         $db =& eZDB::instance();
         if ( is_array( $assignmentID ) )

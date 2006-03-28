@@ -295,6 +295,10 @@ class eZStepCreateSites extends eZStepInstaller
         }
         $ini->setVariable( 'SiteSettings', 'SiteList', $accessMap['sites'] );
         $ini->setVariable( 'SiteAccessSettings', 'AvailableSiteAccessList', $accessMap['accesses'] );
+        // JB start
+        // Make sure related siteaccess are setup properly
+        $ini->setVariable( 'SiteAccessSettings', 'RelatedSiteAccessList', $accessMap['accesses'] );
+        // JB end
         $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
         $ini->setVariable( 'Session', 'SessionNameHandler', 'custom' );
         $ini->setVariable( 'MailSettings', 'AdminEmail', $this->PersistenceList['admin']['email'] );
@@ -520,6 +524,13 @@ class eZStepCreateSites extends eZStepInstaller
         
         // Database initialization done
 
+        // JB start
+        // Prepare languages
+        $primaryLanguageLocaleCode = $primaryLanguage->localeCode();
+        $primaryLanguageName = $primaryLanguage->languageName();
+        $prioritizedLanguages = array_merge( array( $primaryLanguageLocaleCode ), $languages );
+        // JB end
+
         $installParameters = array( 'path' => '.' );
         $installParameters['ini'] = array();
         $siteINIChanges = array();
@@ -550,7 +561,8 @@ class eZStepCreateSites extends eZStepInstaller
                                                      'EmailSender' => false );
         }
         $siteINIChanges['RegionalSettings'] = array( 'Locale' => $primaryLanguage->localeFullCode(),
-                                                     'ContentObjectLocale' => $primaryLanguage->localeCode() );
+                                                     'ContentObjectLocale' => $primaryLanguage->localeCode(),
+                                                     'SiteLanguageList' => $prioritizedLanguages );
         if ( $primaryLanguage->localeCode() == 'eng-GB' )
             $siteINIChanges['RegionalSettings']['TextTranslation'] = 'disabled';
         else
@@ -590,6 +602,126 @@ class eZStepCreateSites extends eZStepInstaller
 
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
+        // JB start
+        // Make sure objects use the selected main language instead of eng-GB
+        if ( $primaryLanguageLocaleCode != 'eng-GB' )
+        {
+            $engLanguageObj = eZContentLanguage::fetchByLocale( 'eng-GB' );
+            $engLanguageID = (int)$engLanguageObj->attribute( 'id' );
+            $updateSql = "UPDATE ezcontent_language
+SET
+locale='$primaryLanguageLocaleCode',
+name='$primaryLanguageName'
+WHERE
+id=$engLanguageID";
+            $db->query( $updateSql );
+            eZContentLanguage::expireCache();
+            $primaryLanguageObj = eZContentLanguage::fetchByLocale( $primaryLanguageLocaleCode );
+            /*
+            // Add it if it is missing (most likely)
+            if ( !$primaryLanguageObj )
+            {
+                $primaryLanguageObj = eZContentLanguage::addLanguage( $primaryLanguageLocaleCode, $primaryLanguageName );
+            }
+            */
+            $primaryLanguageID = (int)$primaryLanguageObj->attribute( 'id' );
+
+            // Find objects which are always available
+            if ( $db->databaseName() == 'oracle' )
+            {
+                $sql = "SELECT id
+FROM
+ezcontentobject
+WHERE
+bitand( language_mask, 1 ) = 1";
+            }
+            else
+            {
+                $sql = "SELECT id
+FROM
+ezcontentobject
+WHERE
+language_mask & 1 = 1";
+            }
+            $objectList = array();
+            $list = $db->arrayQuery( $sql );
+            foreach ( $list as $row )
+            {
+                $objectList[] = (int)$row['id'];
+            }
+            $inSql = 'IN ( ' . implode( ', ', $objectList ) . ')';
+
+            // Updates databases that have eng-GB data to the new locale.
+            $updateSql = "UPDATE ezcontentobject_name
+SET
+content_translation='$primaryLanguageLocaleCode',
+real_translation='$primaryLanguageLocaleCode',
+language_id=$primaryLanguageID
+WHERE
+content_translation='eng-GB' OR
+real_translation='eng-GB'";
+            $db->query( $updateSql );
+            // Fix always available
+            $updateSql = "UPDATE ezcontentobject_name
+SET
+language_id=language_id+1
+WHERE
+contentobject_id $inSql";
+            $db->query( $updateSql );
+
+            // attributes
+            $updateSql = "UPDATE ezcontentobject_attribute
+SET
+language_code='$primaryLanguageLocaleCode',
+language_id=$primaryLanguageID
+WHERE
+language_code='eng-GB'";
+            $db->query( $updateSql );
+            // Fix always available
+            $updateSql = "UPDATE ezcontentobject_attribute
+SET
+language_id=language_id+1
+WHERE
+contentobject_id $inSql";
+            $db->query( $updateSql );
+
+            // version
+            $updateSql = "UPDATE ezcontentobject_version
+SET
+initial_language_id=$primaryLanguageID,
+language_mask=$primaryLanguageID
+WHERE
+initial_language_id=$engLanguageID";
+            $db->query( $updateSql );
+            // Fix always available
+            $updateSql = "UPDATE ezcontentobject_version
+SET
+language_mask=language_mask+1
+WHERE
+contentobject_id $inSql";
+            $db->query( $updateSql );
+
+            // object
+            $updateSql = "UPDATE ezcontentobject
+SET
+initial_language_id=$primaryLanguageID,
+language_mask=$primaryLanguageID
+WHERE
+initial_language_id=$engLanguageID";
+            $db->query( $updateSql );
+            // Fix always available
+            $updateSql = "UPDATE ezcontentobject
+SET
+language_mask=language_mask+1
+WHERE
+id $inSql";
+            $db->query( $updateSql );
+//                 }
+        }
+        // Make sure priority list is changed to the new chosen languages
+        eZContentLanguage::setPrioritizedLanguages( $prioritizedLanguages );
+        // JB end
+
         if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
         {
             $user = eZUser::instance( 14 );  // Must be initialized to make node assignments work correctly
@@ -619,6 +751,8 @@ class eZStepCreateSites extends eZStepInstaller
                         $installParameters = array( 'site_access_map' => array( '*' => $userSiteaccessName ),
                                                     'top_nodes_map' => array( '*' => 2 ),
                                                     'design_map' => array( '*' => $userDesignName ),
+                                                    // JB TODO now english is always mapped, is this always desirable?
+                                                    'language_map' => array( 'eng-GB' => $primaryLanguageLocaleCode ), // Map english languages to chosen language
                                                     'restore_dates' => true,
                                                     'user_id' => $user->attribute( 'contentobject_id' ),
                                                     'non-interactive' => true );
@@ -645,54 +779,12 @@ class eZStepCreateSites extends eZStepInstaller
             }
         }
 
-        $primaryLanguageLocaleCode = $primaryLanguage->localeCode();
-
         // Change the current translation variables, before other parts start using them
         $ini->setVariable( 'RegionalSettings', 'Locale', $primaryLanguage->localeFullCode() );
         $ini->setVariable( 'RegionalSettings', 'ContentObjectLocale', $primaryLanguage->localeCode() );
         $ini->setVariable( 'RegionalSettings', 'TextTranslation', $primaryLanguage->localeCode() == 'eng-GB' ? 'disabled' : 'enabled' );
 
-        // Make sure objects use the selected main language instead of eng-GB
-        if ( $primaryLanguageLocaleCode != 'eng-GB' )
-        {
-            // Updates databases that have eng-GB data to the new locale.
-            $updateSql = "UPDATE ezcontentobject_name
-SET
-content_translation='$primaryLanguageLocaleCode',
-real_translation='$primaryLanguageLocaleCode'
-WHERE
-content_translation='eng-GB' OR
-real_translation='eng-GB'";
-            $db->query( $updateSql );
-
-            $updateSql = "UPDATE ezcontentobject_attribute
-SET
-language_code='$primaryLanguageLocaleCode'
-WHERE
-language_code='eng-GB'";
-            $db->query( $updateSql );
-//                 }
-        }
         $GLOBALS['eZContentObjectDefaultLanguage'] = $primaryLanguageLocaleCode;
-
-        // Make sure we have all the translation available
-        // before we work with objects
-        include_once( 'kernel/classes/ezcontenttranslation.php' );
-        foreach ( array_keys( $languageObjects ) as $languageObjectKey )
-        {
-            $languageObject = $languageObjects[$languageObjectKey];
-            $languageLocale = $languageObject->localeCode();
-
-            if ( !eZContentTranslation::hasTranslation( $languageLocale ) )
-            {
-                $translation = eZContentTranslation::createNew( $languageObject->languageName(), $languageLocale );
-                $translation->store();
-                if ( $languageLocale != $primaryLanguageLocaleCode )
-                {
-                    $translation->updateObjectNames();
-                }
-            }
-        }
 
         $nodeRemoteMap = array();
         $rows = $db->arrayQuery( "SELECT node_id, remote_id FROM ezcontentobject_tree" );
@@ -771,6 +863,21 @@ language_code='eng-GB'";
         $extraSettings = eZSiteINISettings( $parameters );
         $extraAdminSettings = eZSiteAdminINISettings( $parameters );
         $extraCommonSettings = eZSiteCommonINISettings( $parameters );
+        $isUntranslatedSettingAdded = false;
+        foreach ( $extraAdminSettings as $key => $extraAdminSetting )
+        {
+            if ( $extraAdminSetting['name'] == 'site.ini' )
+            {
+                $extraAdminSettings[$key]['settings']['RegionalSettings']['ShowUntranslatedObjects'] = 'enabled';
+                $isUntranslatedSettingAdded = true;
+                break;
+            }
+        }
+        if ( !$isUntranslatedSettingAdded )
+        {
+            $extraAdminSettings[] = array( 'name' => 'site.ini',
+                                           'settings' => array( 'RegionalSettings' => array( 'ShowUntranslatedObjects' => 'enabled' ) ) );
+        }
 
         $resultArray['common_settings'] = $extraCommonSettings;
 
