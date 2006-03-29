@@ -20,7 +20,9 @@ The requested URL <?=$filename?> was not found on this server.<P>
 <?php
 }
 
+/*
 $fp = fopen( '/tmp/index_image.log', 'a+' );
 fwrite( $fp, "$filename\n" );
 fclose( $fp );
+*/
 ?>
