@@ -1254,8 +1254,8 @@ class eZDOMNode
         $d['name'] = $node->nodeName;
         if ( $node->nodeName == '#text' )
             $d['text'] = $node->content;
-        else
-            $d['text'] = '';
+        else if ( $node->Type == 2 )
+            $d['value'] = $node->value;
 
         if ( $showParent )
            $d['parent'] = $node->parentNode->nodeName;
@@ -1278,6 +1278,14 @@ class eZDOMNode
             }
         }
         return $d;
+    }
+
+    function writeDebug2( &$node, $text )
+    {
+        if ( is_object( $node ) )
+            eZDebug::writeDebug( $node->toString( 0 ), $text );
+        else
+            eZDebug::writeDebug( $node, $text );
     }
 
     /// \privatesection
