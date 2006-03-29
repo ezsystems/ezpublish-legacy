@@ -45,9 +45,6 @@ if ( !is_object( $order ) )
 
 include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
 
-$basket =& eZBasket::currentBasket();
-$basket->updatePrices();
-
 if ( get_class( $order ) == 'ezorder' )
 {
     if ( $http->hasPostVariable( "ConfirmOrderButton" ) )
@@ -74,6 +71,8 @@ if ( get_class( $order ) == 'ezorder' )
     $tpl->setVariable( "order", $order );
 }
 
+$basket =& eZBasket::currentBasket();
+$basket->updatePrices();
 
 $operationResult = eZOperationHandler::execute( 'shop', 'confirmorder', array( 'order_id' => $order->attribute( 'id' ) ) );
 
@@ -120,7 +119,13 @@ switch( $operationResult['status'] )
     case EZ_MODULE_OPERATION_CANCELED:
     {
         $Result = array();
-        $Result['content'] = ezi18n( 'kernel/shop', "The confirm order operation was canceled. Try to checkout again." );
+        if ( isset( $operationResult['result']['content'] ) )
+            $Result['content'] = $operationResult['result']['content'];
+        else
+            $Result['content'] = ezi18n( 'kernel/shop', "The confirm order operation was canceled. Try to checkout again." );
+
+        $Result['path'] = array( array( 'url' => false,
+                                        'text' => ezi18n( 'kernel/shop', 'Confirm order' ) ) );
     }
 
 }
