@@ -119,6 +119,8 @@
     {if $object_language_codes|contains($language.locale)|not}
         {if fetch('content', 'access', hash( 'access', 'edit',
                                              'contentobject', $object,
+                                             'contentclass_id', $object.contentclass_id,
+                                             'parent_contentclass_id', $object.main_node.parent.object.contentclass_id,
                                              'language', $language.locale ) )}
             <label>
                <input name="EditLanguage" type="radio" value="{$language.locale}"{run-once} checked="checked"{/run-once} /> {$language.name|wash}

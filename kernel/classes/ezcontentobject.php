@@ -2947,6 +2947,65 @@ class eZContentObject extends eZPersistentObject
         return $this->Permissions;
     }
 
+    function checkEditAccess( $language = false )
+    {
+//        echo "obj::checkEditAccess( objid: [", $this->ID, "], language:[", var_export( $language, true ), "] )<br/>\n";
+        if ( !is_string( $language ) ||
+             strlen( $language ) == 0 )
+        {
+            $language = false;
+        }
+
+        if ( !$this->checkAccess( 'edit', false, false, false, $language ) )
+        {
+/*            echo "obj::checkEditAccess() failed 'edit' check, checking create<br/>\n";
+            // Check if it is a first created version of an object.
+            // If so, then edit is allowed if we have an access to the 'create' function.
+
+            echo "if ( [",$this->attribute( 'current_version' ), "] == 1 && ![", $this->attribute( 'status' ), "] )<br/>\n";
+            if ( $this->attribute( 'current_version' ) == 1 && !$this->attribute( 'status' ) )
+            {
+                $mainNode = eZNodeAssignment::fetchForObject( $this->attribute( 'id' ), 1 );
+                $parentObj = $mainNode[0]->attribute( 'parent_contentobject' );
+                $result = $parentObj->checkAccess( 'create', $this->attribute( 'contentclass_id' ),
+                                                   $parentObj->attribute( 'contentclass_id' ), false, $language );
+                echo "obj::checkEditAccess() =&gt; ", ( $result ? "access granted" : "no access" ), "<br/>\n";
+                return $result;
+            }
+            else
+            {*/
+//                echo "obj::checkEditAccess() =&gt; no access<br/>\n";
+                return false;
+/*            }*/
+        }
+//        echo "obj::checkEditAccess() =&gt; access granted<br/>\n";
+        return true;
+    }
+
+    function checkCreationAccess( $language = false )
+    {
+//        echo "obj::checkCreationAccess( objid: [", $this->ID, "], language:[", var_export( $language, true ), "] )<br/>\n";
+        if ( !is_string( $language ) ||
+             strlen( $language ) == 0 )
+        {
+            $language = false;
+        }
+
+        // Check if we are allowed to create this object at all its current locations.
+        $nodes = eZNodeAssignment::fetchForObject( $this->attribute( 'id' ), $this->attribute( 'current_version' ) );
+        foreach ( $nodes as $node )
+        {
+            $parentObj = $node->attribute( 'parent_contentobject' );
+            if ( !$parentObj->checkAccess( 'create', $this->attribute( 'contentclass_id' ),
+                                           $parentObj->attribute( 'contentclass_id' ), false, $language ) )
+            {
+//                echo "obj::checkCreationAccess() =&gt; no access<br/>\n";
+            }
+        }
+//        echo "obj::checkCreationAccess() =&gt; access granted<br/>\n";
+        return true;
+    }
+
     /*!
      Check access for the current object
 
@@ -2960,6 +3019,7 @@ class eZContentObject extends eZPersistentObject
     */
     function checkAccess( $functionName, $originalClassID = false, $parentClassID = false, $returnAccessList = false, $language = false )
     {
+//        echo "obj:checkAccess( [$functionName], [$originalClassID], [$parentClassID], [$returnAccessList], [$language] )<br/>\n";
         $classID = $originalClassID;
         $user =& eZUser::currentUser();
         $userID = $user->attribute( 'contentobject_id' );
@@ -2968,10 +3028,13 @@ class eZContentObject extends eZPersistentObject
         include_once( 'kernel/classes/ezcontentlanguage.php' );
         // Fetch the ID of the language if we get a string with a language code
         // e.g. 'eng-GB'
+//        echo "language was [", var_export( $language, true ), "]<br/>\n";
+        $originalLanguage = $language;
         if ( $language !== false && !is_numeric( $language ) )
         {
             $language = eZContentLanguage::idByLocale( $language );
         }
+//        echo "language is [", var_export( $language, true ), "]<br/>\n";
 
         // This will be filled in with the available languages of the object
         // if a Language check is performed.
@@ -3012,12 +3075,31 @@ class eZContentObject extends eZPersistentObject
             // If we are checking 'translate' and we are denied we
             // need to check if read & edit are allowed because this
             // constitutes as translatable.
-            if ( $functionName == 'translate' )
+/*            if ( $functionName == 'translate' )
             {
                 if ( $this->checkTranslateAccess( $originalClassID, $parentClassID,
-                                                  $returnAccessList, $language ) )
+                                                  $returnAccessList, $originalLanguage ) )
                 {
                     return 1;
+                }
+            }
+            else*/ if ( $functionName == 'edit' )
+            {
+                // Check if we have 'create' access under the main parent
+                if ( $this->attribute( 'current_version' ) == 1 && !$this->attribute( 'status' ) )
+                {
+//                    echo "obj::checkAccess#1('edit') checking 'create' for main parent<br/>\n";
+                    $mainNode = eZNodeAssignment::fetchForObject( $this->attribute( 'id' ), $this->attribute( 'current_version' ) );
+                    $parentObj = $mainNode[0]->attribute( 'parent_contentobject' );
+                    $result = $parentObj->checkAccess( 'create', $this->attribute( 'contentclass_id' ),
+                                                       $parentObj->attribute( 'contentclass_id' ), false, $originalLanguage );
+//                    echo "obj::checkAccess#1('edit') =&gt; ", ( $result ? "access granted" : "no access" ), "<br/>\n";
+                    return $result;
+                }
+                else
+                {
+//                    echo "obj::checkEditAccess#1('edit') =&gt; no access<br/>\n";
+                    return false;
                 }
             }
 
@@ -3126,11 +3208,13 @@ class eZContentObject extends eZPersistentObject
                             $languageMask = 0;
                             // If we don't have a language list yet we need to fetch it
                             // and optionally filter out based on $language.
-                            if ( $functionName == 'create' )
+                            if ( $functionName == 'create' /*||
+                                 $functionName == 'translate'*/ )
                             {
                                 if ( $language !== false )
                                 {
                                     $languageMask = $language;
+//                                    echo "create:languageMask:[", var_export( $languageMask, true ),  "]<br/>\n";
                                 }
                                 else
                                 {
@@ -3138,6 +3222,7 @@ class eZContentObject extends eZPersistentObject
                                     // we need to match against all possible languages (which
                                     // is all bits set, ie. -1).
                                     $languageMask = -1;
+//                                    echo "create:languageMask:[", var_export( $languageMask, true ),  "]<br/>\n";
                                 }
                             }
                             else
@@ -3145,15 +3230,19 @@ class eZContentObject extends eZPersistentObject
                                 if ( $languageList === false )
                                 {
                                     $languageMask = $this->attribute( 'language_mask' );
+//                                    echo "languageMask#1:[", var_export( $languageMask, true ),  "]<br/>\n";
                                     // We are restricting language check to just one language
                                     if ( $language !== false )
                                     {
+//                                        echo "language#1:[", var_export( $language, true ),  "]<br/>\n";
                                         $languageMask &= $language;
                                     }
                                 }
+//                                echo "languageMask:[", var_export( $languageMask, true ),  "]<br/>\n";
                             }
                             // Fetch limit mask for limitation list
                             $limitMask = eZContentLanguage::maskByLocale( $limitationArray[$key] );
+//                            echo "limitMask:[", var_export( $limitMask, true ),  "]<br/>\n";
                             if ( ( $languageMask & $limitMask ) != 0 )
                             {
                                 $access = 'allowed';
@@ -3342,13 +3431,40 @@ class eZContentObject extends eZPersistentObject
             // If we are checking 'translate' and we are denied we
             // need to check if read & edit are allowed because this
             // constitutes as translatable.
-            if ( $functionName == 'translate' &&
-                 $access == 'denied' )
+//            echo "access:[$access]<br/>\n";
+            if ( $access == 'denied' )
             {
-                if ( $this->checkTranslateAccess( $originalClassID, $parentClassID,
-                                                  $returnAccessList, $language ) )
+                /*if ( $functionName == 'translate' )
                 {
-                    $access = 'allowed';
+                    if ( $this->checkTranslateAccess( $originalClassID, $parentClassID,
+                                                      $returnAccessList, $originalLanguage ) )
+                    {
+                        $access = 'allowed';
+                    }
+                }
+                else*/ if ( $functionName == 'edit' )
+                {
+//                    echo "check edit<br/>\n";
+                    // Check if we have 'create' access under the main parent
+                    if ( $this->attribute( 'current_version' ) == 1 && !$this->attribute( 'status' ) )
+                    {
+//                        echo "obj::checkAccess#2('edit') checking 'create' for main parent<br/>\n";
+                        $mainNode = eZNodeAssignment::fetchForObject( $this->attribute( 'id' ), $this->attribute( 'current_version' ) );
+                        $parentObj = $mainNode[0]->attribute( 'parent_contentobject' );
+                        $result = $parentObj->checkAccess( 'create', $this->attribute( 'contentclass_id' ),
+                                                           $parentObj->attribute( 'contentclass_id' ), false, $originalLanguage );
+//                        echo "obj::checkAccess#2('edit') =&gt; ", ( $result ? "access granted" : "no access" ), "<br/>\n";
+                        if ( $result )
+                        {
+                            $access = 'allowed';
+                        }
+                        return $result;
+                    }
+                    else
+                    {
+//                        echo "obj::checkEditAccess#2('edit') =&gt; no access<br/>\n";
+//                        return false;
+                    }
                 }
             }
 
@@ -3381,6 +3497,7 @@ class eZContentObject extends eZPersistentObject
     function checkTranslateAccess( $originalClassID = false, $parentClassID = false,
                                    $returnAccessList = false, $language = false )
     {
+//        echo "checkTranslateAccess( [$originalClassID], [$parentClassID], [$returnAccessList], [$language] )<br/>\n";
         // If we are checking 'translate' and we are denied we
         // need to check if read & edit are allowed because this
         // consitutes as translatable.

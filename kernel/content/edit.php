@@ -50,6 +50,11 @@ if ( $obj->attribute( 'status' ) == EZ_CONTENT_OBJECT_STATUS_ARCHIVED )
 include_once( 'kernel/classes/ezsslzone.php' );
 eZSSLZone::checkObject( 'content', 'edit', $obj );
 
+// This controls if the final access check is done.
+// Some code will turn it off since they do the checking themselves.
+$isAccessChecked = false;
+
+/*
 // Check permission for object and version.
 if ( !$obj->checkAccess( 'edit', false, false, false, $EditLanguage ) )
 {
@@ -68,6 +73,7 @@ if ( !$obj->checkAccess( 'edit', false, false, false, $EditLanguage ) )
     if ( !$allowEdit )
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $obj->accessList( 'edit' ) ) );
 }
+*/
 
 $classID = $obj->attribute( 'contentclass_id' );
 $class = eZContentClass::fetch( $classID );
@@ -140,6 +146,15 @@ if ( $http->hasPostVariable( 'EditButton' ) )
 // This will create a new draft of the object which the user can edit.
 if ( $http->hasPostVariable( 'NewDraftButton' ) )
 {
+    // Check permission for object in specified language
+//    echo "checkEditAccess:", __LINE__, "<br/>\n";
+    if ( !$obj->checkEditAccess( $EditLanguage ) )
+    {
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
+                                     array( 'AccessList' => $obj->accessList( 'edit' ) ) );
+    }
+    $isAccessChecked = true;
+
     $contentINI =& eZINI::instance( 'content.ini' );
     $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
     // Kept for backwards compatability
@@ -232,6 +247,7 @@ if ( $http->hasPostVariable( 'LanguageSelection' ) )
     {
         $selectedFromLanguage = false;
     }
+
     $user =& eZUser::currentUser();
     $parameters = array( 'conditions' =>
                          array( 'status' => array( array( EZ_VERSION_STATUS_DRAFT,
@@ -253,8 +269,24 @@ if ( $http->hasPostVariable( 'LanguageSelection' ) )
     // immediately redirect to edit page for that version.
     if ( $chosenVersion )
     {
+        // Check permission for object edit in specified language
+//        echo "checkEditAccess:", __LINE__, "<br/>\n";
+        if ( !$obj->checkEditAccess( $selectedEditLanguage ) )
+        {
+            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
+                                         array( 'AccessList' => $obj->accessList( 'edit' ) ) );
+        }
+        $isAccessChecked = true;
         return $Module->redirectToView( 'edit', array( $ObjectID, 'f', $selectedEditLanguage, $selectedFromLanguage ) );
     }
+    // Check permission for object creation in specified language
+//    echo "checkEditAccess:", __LINE__, "<br/>\n";
+    if ( !$obj->checkEditAccess( $selectedEditLanguage ) )
+    {
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
+                                     array( 'AccessList' => $obj->accessList( 'edit' ) ) );
+    }
+    $isAccessChecked = true;
 
     $version = $obj->createNewVersionIn( $selectedEditLanguage, $selectedFromLanguage );
     $version->setAttribute( 'status', EZ_VERSION_STATUS_INTERNAL_DRAFT );
@@ -277,23 +309,42 @@ if ( is_numeric( $EditVersion ) )
 // the language to use.
 if ( $EditLanguage == false )
 {
+    // Check permission for object
+//    echo "checkEditAccess:", __LINE__, "<br/>\n";
+    if ( !$obj->checkEditAccess() )
+    {
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
+                                     array( 'AccessList' => $obj->accessList( 'edit' ) ) );
+    }
+    $isAccessChecked = true;
+
     // We check the $version variable which might be set above
     if ( isset( $version ) && $version )
     {
         // We have a version so we then know the language directly.
-
-        // JB start
-        $obj->cleanupInternalDrafts();
-        // JB end
         $translationList = $version->translationList( false, false );
         if ( $translationList )
         {
             $EditLanguage = $translationList[0];
+            // Check permission for version in specified language.
+//            echo "checkEditAccess(version):", __LINE__, "<br/>\n";
+            // The $object parameter is not needed since the access is checked above.
+            if ( !$version->checkEditAccess( $EditLanguage, null ) )
+            {
+                return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+            }
         }
+        else
+        {
+            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
+        }
+        // JB start
+        $obj->cleanupInternalDrafts();
+        // JB end
     }
     else
     {
-        // No version so we investigage further.
+        // No version so we investigate further.
         $obj->cleanupInternalDrafts();
 
         // Check number of languages
@@ -337,6 +388,15 @@ if ( !is_numeric( $EditVersion ) )
 {
     if ( $ini->variable( 'ContentSettings', 'EditDirtyObjectAction' ) == 'usecurrent' )
     {
+        // Check permission for object in specified language
+//        echo "checkEditAccess:", __LINE__, "<br/>\n";
+        if ( !$obj->checkEditAccess( $EditLanguage ) )
+        {
+            return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
+                                         array( 'AccessList' => $obj->accessList( 'edit' ) ) );
+        }
+        $isAccessChecked = true;
+
         // JB start
         $obj->cleanupInternalDrafts();
         // JB end
@@ -353,6 +413,8 @@ if ( !is_numeric( $EditVersion ) )
                                                                               'language_code' => $EditLanguage ) ) );
         if ( count( $draftVersions ) > 1 )
         {
+            // No permission checking required since it will ask the user what to do.
+
             // There are already drafts for the specified language so we need to ask the user what to do.
             $mostRecentDraft =& $draftVersions[0];
             foreach( $draftVersions as $currentDraft )
@@ -387,6 +449,16 @@ if ( !is_numeric( $EditVersion ) )
         {
             // If there is only one draft by you, edit it immediately.
             $parameters = array( $ObjectID, $draftVersions[0]->attribute( 'version' ), $EditLanguage );
+
+            // Check permission for version in specified language
+//            echo "checkEditAccess(version):", __LINE__, "<br/>\n";
+            if ( !$draftVersions[0]->checkEditAccess( $EditLanguage, $obj ) )
+            {
+                return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
+                                             array( 'AccessList' => $obj->accessList( 'edit' ) ) );
+            }
+            $isAccessChecked = true;
+
             if ( strlen( $FromLanguage ) != 0 )
             {
                 $parameters[] = $FromLanguage;
@@ -395,11 +467,32 @@ if ( !is_numeric( $EditVersion ) )
         }
         else
         {
+            // Check permission for object in specified language
+//            echo "checkEditAccess:", __LINE__, "<br/>\n";
+            if ( !$obj->checkEditAccess( $EditLanguage ) )
+            {
+                return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
+                                             array( 'AccessList' => $obj->accessList( 'edit' ) ) );
+            }
+            $isAccessChecked = true;
+
             $version = $obj->createNewVersionIn( $EditLanguage );
             $version->setAttribute( 'status', EZ_VERSION_STATUS_INTERNAL_DRAFT );
             $version->store();
             return $Module->redirectToView( "edit", array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );
         }
+    }
+}
+
+// If $isAccessChecked is still false we need to check access ourselves.
+if ( !$isAccessChecked )
+{
+    // Check permission for object and version in specified language.
+//    echo "checkEditAccess:", __LINE__, "<br/>\n";
+    if ( !$obj->checkEditAccess( $EditLanguage ) )
+    {
+        return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
+                                     array( 'AccessList' => $obj->accessList( 'edit' ) ) );
     }
 }
 

@@ -88,6 +88,7 @@ $contentObjectAttributes =& $version->contentObjectAttributes( $EditLanguage );
 if ( $contentObjectAttributes === null or
      count( $contentObjectAttributes ) == 0 )
 {
+    // JB todo: should we just redirect to correct language here?
     $contentObjectAttributes =& $version->contentObjectAttributes();
     $EditLanguage = $version->initialLanguageCode();
 }

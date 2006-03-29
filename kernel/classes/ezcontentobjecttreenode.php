@@ -4360,14 +4360,14 @@ WHERE
             // If we are checking 'translate' and we are denied we
             // need to check if read & edit are allowed because this
             // constitutes as translatable.
-            if ( $functionName == 'translate' )
+/*            if ( $functionName == 'translate' )
             {
                 if ( $this->checkTranslateAccess( $originalClassID, $parentClassID,
                                                   $returnAccessList, $language ) )
                 {
                     return 1;
                 }
-            }
+            }*/
 
             return 0;
         }
@@ -4610,7 +4610,7 @@ WHERE
             // If we are checking 'translate' and we are denied we
             // need to check if read & edit are allowed because this
             // constitutes as translatable.
-            if ( $functionName == 'translate' &&
+/*            if ( $functionName == 'translate' &&
                  $access == 'denied' )
             {
                 if ( $this->checkTranslateAccess( $originalClassID, $parentClassID,
@@ -4618,7 +4618,7 @@ WHERE
                 {
                     $access = 'allowed';
                 }
-            }
+            }*/
 
             if ( $access == 'denied' )
             {

@@ -318,6 +318,40 @@ class eZContentObjectVersion extends eZPersistentObject
         return $p;
     }
 
+    function checkEditAccess( $language = false, $object = null )
+    {
+        echo "ver::checkEditAccess( objid: [", $this->ContentObjectID, "], version: [", $this->Version, "], language:[", var_export( $language, true ), "] )<br/>\n";
+        if ( !is_string( $language ) ||
+             strlen( $language ) == 0 )
+        {
+            $language = false;
+        }
+
+        // If object is specified we check edit permission for it
+        if ( $object !== null )
+        {
+            if ( !$object->checkEditAccess( $language ) )
+            {
+                echo "ver::checkEditAccess() =&gt; no access<br/>\n";
+                return false;
+            }
+        }
+        include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+        $userID = eZUser::currentUserID();
+        // Extra checking for status and ownership
+        if ( !in_array( $this->attribute( 'status' ),
+                        array( EZ_VERSION_STATUS_DRAFT,
+                               EZ_VERSION_STATUS_INTERNAL_DRAFT,
+                               EZ_VERSION_STATUS_PENDING ) ) ||
+             $this->attribute( 'creator_id' ) != $userID )
+        {
+            echo "ver::checkEditAccess() =&gt; no access status:[", $this->attribute( 'status' ), "], creator_id:[", $this->attribute( 'creator_id' ), "]<br/>\n";
+            return false;
+        }
+        echo "ver::checkEditAccess() =&gt; access granted<br/>\n";
+        return true;
+    }
+
     function checkAccess( $functionName, $originalClassID = false, $parentClassID = false )
     {
         $classID = $originalClassID;
