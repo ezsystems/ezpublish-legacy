@@ -226,7 +226,7 @@ class eZDefaultVATHandler
         $bestVatType = eZVatType::fetch( $bestVatTypeID );
 
         eZDebug::writeDebug(
-            sprintf( "Best match for '%s'/'%s' is VAT '%s' (%d%%)",
+            sprintf( "Best matching VAT for '%s'/'%s' is '%s' (%d%%)",
                      $country,
                      $productCategory->attribute( 'name' ),
                      $bestVatType->attribute( 'name' ),
