@@ -50,6 +50,7 @@ if ( $obj->attribute( 'status' ) == EZ_CONTENT_OBJECT_STATUS_ARCHIVED )
 include_once( 'kernel/classes/ezsslzone.php' );
 eZSSLZone::checkObject( 'content', 'edit', $obj );
 
+// Check permission for object and version.
 if ( !$obj->checkAccess( 'edit', false, false, false, $EditLanguage ) )
 {
     // Check if it is a first created version of an object.
@@ -72,6 +73,8 @@ $classID = $obj->attribute( 'contentclass_id' );
 $class = eZContentClass::fetch( $classID );
 $http =& eZHTTPTool::instance();
 
+// Action for the edit_draft.tpl/edit_languages.tpl page.
+// CancelDraftButton is set for the Cancel button.
 if( $http->hasPostVariable( 'CancelDraftButton' ) )
 {
    $mainNode = eZNodeAssignment::fetchForObject( $obj->attribute( 'id' ), $obj->attribute( 'current_version' ), true );
@@ -108,25 +111,30 @@ if( $http->hasPostVariable( 'CancelDraftButton' ) )
    }
 }
 
+// Remember redirection URI in session for later use.
 if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
 {
-$http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
+    $http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
 }
 
+// Action for edit_draft.tpl page,
+// EditButton is the button for editing the selected version.
 if ( $http->hasPostVariable( 'EditButton' ) )
 {
-if ( $http->hasPostVariable( 'SelectedVersion' ) )
-{
-    $selectedVersion = $http->postVariable( 'SelectedVersion' );
-    // Kept for backwards compatability
-    if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
+    if ( $http->hasPostVariable( 'SelectedVersion' ) )
     {
-        $EditLanguage = $http->postVariable( 'ContentObjectLanguageCode' );
-    }
+        $selectedVersion = $http->postVariable( 'SelectedVersion' );
+        // Kept for backwards compatability, EditLanguage may also be set in URL
+        if ( $http->hasPostVariable( 'ContentObjectLanguageCode' ) )
+        {
+            $EditLanguage = $http->postVariable( 'ContentObjectLanguageCode' );
+        }
 
-    return $Module->redirectToView( "edit", array( $ObjectID, $selectedVersion, $EditLanguage ) );
+        return $Module->redirectToView( "edit", array( $ObjectID, $selectedVersion, $EditLanguage ) );
     }
 }
+// Action for edit_draft.tpl page,
+// This will create a new draft of the object which the user can edit.
 else if ( $http->hasPostVariable( 'NewDraftButton' ) )
 {
     $contentINI =& eZINI::instance( 'content.ini' );
@@ -211,6 +219,8 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
     }
 }
 
+// Action for the edit_language.tpl page.
+// LanguageSelection is used to choose a language to edit the object in.
 if ( $http->hasPostVariable( 'LanguageSelection' ) )
 {
     $editLanguage = $http->postVariable( 'EditLanguage' );
@@ -236,16 +246,21 @@ if ( $http->hasPostVariable( 'LanguageSelection' ) )
             }
         }
     }
+    // We already found a draft by the current user,
+    // immediately redirect to edit page for that version.
     if ( $chosenVersion )
     {
         return $Module->redirectToView( 'edit', array( $ObjectID, 'f', $editLanguage, $fromLanguage ) );
     }
+
     $version = $obj->createNewVersionIn( $editLanguage, $fromLanguage );
     $version->setAttribute( 'status', EZ_VERSION_STATUS_INTERNAL_DRAFT );
+
     $version->store();
     return $Module->redirectToView( 'edit', array( $ObjectID, $version->attribute( 'version' ), $editLanguage, $fromLanguage ) );
 }
 
+// If we have a version number we check if it exists.
 if ( is_numeric( $EditVersion ) )
 {
     $version =& $obj->version( $EditVersion );
@@ -255,21 +270,27 @@ if ( is_numeric( $EditVersion ) )
     }
 }
 
+// No language was specified in the URL, we need to figure out
+// the language to use.
 if ( $EditLanguage == false )
 {
-	if ( isset( $version ) && $version )
-	{
+    // We check the $version variable which might be set above
+    if ( isset( $version ) && $version )
+    {
+        // We have a version so we then know the language directly.
+
         // JB start
         $obj->cleanupInternalDrafts();
         // JB end
-    	$translationList = $version->translationList( false, false );
-    	if ( $translationList )
-    	{
-        	$EditLanguage = $translationList[0];
-    	}
-	}
-	else
-	{
+        $translationList = $version->translationList( false, false );
+        if ( $translationList )
+        {
+            $EditLanguage = $translationList[0];
+        }
+    }
+    else
+    {
+        // No version so we investigage further.
         $obj->cleanupInternalDrafts();
 
         // Check number of languages
@@ -283,16 +304,16 @@ if ( $EditLanguage == false )
         }
 
         // No version found, ask the user.
-		include_once( 'kernel/common/template.php' );
+        include_once( 'kernel/common/template.php' );
 
-		$tpl =& templateInit();
+        $tpl =& templateInit();
 
         $res =& eZTemplateDesignResource::instance();
         $res->setKeys( array( array( 'object', $obj->attribute( 'id' ) ) ) );
 
         $tpl->setVariable( 'object', $obj );
         $tpl->setVariable( 'show_existing_languages', ( $EditVersion == 'a' )? false: true );
-        
+
         $Result = array();
         $Result['content'] =& $tpl->fetch( 'design:content/edit_languages.tpl' );
         $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Content' ),
@@ -301,11 +322,14 @@ if ( $EditLanguage == false )
                                  'url' => false ) );
 
         return $Result;
-	}
+    }
 }
 
 $ini =& eZINI::instance();
 
+// There version is not set but we do have a language.
+// This means we need to create a new draft for the user, or reuse
+// an existing one.
 if ( !is_numeric( $EditVersion ) )
 {
     if ( $ini->variable( 'ContentSettings', 'EditDirtyObjectAction' ) == 'usecurrent' )
@@ -326,6 +350,7 @@ if ( !is_numeric( $EditVersion ) )
                                                                               'language_code' => $EditLanguage ) ) );
         if ( count( $draftVersions ) > 1 )
         {
+            // There are already drafts for the specified language so we need to ask the user what to do.
             $mostRecentDraft =& $draftVersions[0];
             foreach( $draftVersions as $currentDraft )
             {
@@ -357,7 +382,7 @@ if ( !is_numeric( $EditVersion ) )
         }
         elseif ( count( $draftVersions ) == 1 )
         {
-            // If there is only one draft by you edit it immediately
+            // If there is only one draft by you, edit it immediately.
             $parameters = array( $ObjectID, $draftVersions[0]->attribute( 'version' ), $EditLanguage );
             if ( strlen( $FromLanguage ) != 0 )
             {
@@ -567,8 +592,8 @@ if ( !function_exists( 'checkContentActions' ) )
 
         if ( $module->isCurrentAction( 'FromLanguage' ) )
         {
-        	$FromLanguage = $module->actionParameter( 'FromLanguage' );
-        	$module->redirectToView( 'edit', array( $object->attribute('id'), $EditVersion, $EditLanguage, $FromLanguage ) );
+            $FromLanguage = $module->actionParameter( 'FromLanguage' );
+            $module->redirectToView( 'edit', array( $object->attribute('id'), $EditVersion, $EditLanguage, $FromLanguage ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
         
