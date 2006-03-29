@@ -400,6 +400,11 @@ if ( !is_numeric( $EditVersion ) )
     }
 }
 
+// JB start
+// This method performs duplicate checking of what is done above it,
+// it should not be required anymore.
+// Disabling it while testing, remove it when 100% sure.
+/*
 if ( !function_exists( 'checkForExistingVersion'  ) )
 {
     function checkForExistingVersion( &$module, $objectID, &$editVersion, &$editLanguage )
@@ -429,20 +434,6 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
         if ( $version )
         {
             $currentVersion = $object->currentVersion();
-            /*
-            print( "have draft" );
-            // Check if the published version is newer than the draft
-            if ( $version->attribute( 'modified' ) < $currentVersion->attribute( 'modified' ) )
-            {
-                print( "Draft is older than currentversion" );
-            }
-            else
-            {
-                print( "Draft is newer than currentversion" );
-            }
-            print( $version->attribute( 'modified' ) . "<br>" );
-            print( $currentVersion->attribute( 'modified' ) . "<br>" );
-            */
             if ( ( $version->attribute( 'status' ) != EZ_VERSION_STATUS_DRAFT and
                    $version->attribute( 'status' ) != EZ_VERSION_STATUS_INTERNAL_DRAFT and
                    $version->attribute( 'status' ) != EZ_VERSION_STATUS_PENDING ) or
@@ -537,6 +528,8 @@ if ( !function_exists( 'checkForExistingVersion'  ) )
     }
 }
 $Module->addHook( 'pre_fetch', 'checkForExistingVersion' );
+*/
+// JB end
 
 if ( !function_exists( 'checkContentActions' ) )
 {
