@@ -28,13 +28,13 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/* 
+/*
 
 INI settings
 
 [RegionalSettings]
 SiteLanguageList[]=eng-GB
-... 
+...
 
 instead of
 
@@ -78,13 +78,13 @@ class eZContentLanguage extends eZPersistentObject
     function definition()
     {
 	    return array( 'fields' => array( 'id' => array( 'name' => 'ID',
-	                                                    'datatype' => 'integer',
-					                                    'required' => true ),
+                                                        'datatype' => 'integer',
+                                                        'required' => true ),
                                          'name' => array( 'name' => 'Name',
                                                           'datatype' => 'string',
                                                           'required' => true ),
                                          'locale' => array( 'name' => 'Locale',
-												            'datatype' => 'string',
+                                                            'datatype' => 'string',
                                                             'required' => true ),
                                          'disabled' => array( 'name' => 'Disabled',
                                                               'datatype' => 'integer',
@@ -117,7 +117,7 @@ class eZContentLanguage extends eZPersistentObject
         $db =& eZDB::instance();
 
         $languages = eZContentLanguage::fetchList( true );
-      
+
         if ( ( $existingLanguage = eZContentLanguage::fetchByLocale( $locale ) ) )
         {
             eZDebug::writeWarning( "Language '$locale' already exists!", 'eZContentLanguage::addLanguage' );
@@ -146,10 +146,10 @@ class eZContentLanguage extends eZPersistentObject
         }
 
         $newLanguage = new eZContentLanguage( array(
-            'id' => $candidateId,
-            'locale' => $locale,
-            'name' => $name,
-            'disabled' => 0 ) );
+                                                  'id' => $candidateId,
+                                                  'locale' => $locale,
+                                                  'name' => $name,
+                                                  'disabled' => 0 ) );
         $newLanguage->store();
 
         $db->unlock();
@@ -159,7 +159,7 @@ class eZContentLanguage extends eZPersistentObject
         // clear the cache
         include_once( 'kernel/classes/ezcontentcachemanager.php' );
         eZContentCacheManager::clearAllContentCache();
-        
+
         return $newLanguage;
     }
 
@@ -167,16 +167,15 @@ class eZContentLanguage extends eZPersistentObject
     function removeLanguage( $id )
     {
         // find out if there is such language
-        
+
         // find out if there are objects of the lang.
-        
+
         // if not or if so but $force is set, remove all versions of that lang. and remove the item from lang. ID
 
 
-// TODO:        
-// what if removed all languages of the object? what if removed the lang. used as "for other languages"
-        
-        
+        // TODO:
+        // what if removed all languages of the object? what if removed the lang. used as "for other languages"
+
         $language = eZContentLanguage::fetch( $id );
         if ( $language )
         {
@@ -205,7 +204,7 @@ class eZContentLanguage extends eZPersistentObject
         if ( !isset( $GLOBALS['eZContentLanguageList'] ) || $forceReloading )
         {
             $languages = eZPersistentObject::fetchObjectList( eZContentLanguage::definition() );
-            
+
             unset( $GLOBALS['eZContentLanguageList'] );
             $GLOBALS['eZContentLanguageList'] = array();
             foreach ( $languages as $language )
@@ -213,7 +212,7 @@ class eZContentLanguage extends eZPersistentObject
                 $GLOBALS['eZContentLanguageList'][$language->attribute( 'id' )] = $language;
             }
         }
-        
+
         return $GLOBALS['eZContentLanguageList'];
     }
 
@@ -235,7 +234,7 @@ class eZContentLanguage extends eZPersistentObject
     {
         $languages = eZContentLanguage::fetchList();
         $localeList = array();
-        
+
         foreach ( $languages as $language )
         {
             $localeList[] = $language->attribute( 'locale' );
@@ -271,24 +270,24 @@ class eZContentLanguage extends eZPersistentObject
     // static
     function prioritizedLanguages( $additionalLanguage = false, $languageList = false )
     {
-    	// from INI settings 
+        // from INI settings
 	    // cached in global variable
         // returns prioritizedlist
 
         //TODO: if INI setting does not exist, take the DefaultLang...
-        
+
         if ( !isset( $GLOBALS['eZContentLanguagePrioritizedLanguages'] ) )
         {
             $GLOBALS['eZContentLanguagePrioritizedLanguages'] = array();
 
             $ini =& eZINI::instance();
-            
+
             $languageListAsParameter = false;
             if ( $languageList )
             {
                 $languageListAsParameter = true;
             }
-            
+
             if ( !$languageList && $ini->hasVariable( 'RegionalSettings', 'SiteLanguageList' ) )
             {
                 $languageList = $ini->variable( 'RegionalSettings', 'SiteLanguageList' );
@@ -296,16 +295,16 @@ class eZContentLanguage extends eZPersistentObject
 
             if ( !$languageList )
             {
-             	$languageList = array( $ini->variable( 'RegionalSettings', 'ContentObjectLocale' ) );
+                $languageList = array( $ini->variable( 'RegionalSettings', 'ContentObjectLocale' ) );
             }
 
             if ( $additionalLanguage )
             {
-            	if ( ( $position = array_search( $additionalLanguage, $languageList ) ) !== false )
-            	{
-            		unset( $languageList[$position] );
-            	}
-            	array_unshift( $languageList, $additionalLanguage );
+                if ( ( $position = array_search( $additionalLanguage, $languageList ) ) !== false )
+                {
+                    unset( $languageList[$position] );
+                }
+                array_unshift( $languageList, $additionalLanguage );
             }
 
             foreach ( $languageList as $localeCode )
@@ -321,18 +320,18 @@ class eZContentLanguage extends eZPersistentObject
                 }
             }
 
-        	if ( ( !$languageListAsParameter && $ini->variable( 'RegionalSettings', 'ShowUntranslatedObjects' ) == 'enabled' ) || 
-        	     ( isset( $GLOBALS['eZContentLanguageCronjobMode'] ) && $GLOBALS['eZContentLanguageCronjobMode'] ) )
-        	{
-        		$completeList = eZContentLanguage::fetchList();
-        		foreach ( $completeList as $language )
-        		{
-        			if ( !in_array( $language->attribute( 'locale' ), $languageList ) )
-        			{
-        				$GLOBALS['eZContentLanguagePrioritizedLanguages'][] = $language;
-        			}
-        		}
-        	}
+            if ( ( !$languageListAsParameter && $ini->variable( 'RegionalSettings', 'ShowUntranslatedObjects' ) == 'enabled' ) ||
+                 ( isset( $GLOBALS['eZContentLanguageCronjobMode'] ) && $GLOBALS['eZContentLanguageCronjobMode'] ) )
+            {
+                $completeList = eZContentLanguage::fetchList();
+                foreach ( $completeList as $language )
+                {
+                    if ( !in_array( $language->attribute( 'locale' ), $languageList ) )
+                    {
+                        $GLOBALS['eZContentLanguagePrioritizedLanguages'][] = $language;
+                    }
+                }
+            }
         }
 
         return $GLOBALS['eZContentLanguagePrioritizedLanguages'];
@@ -342,7 +341,7 @@ class eZContentLanguage extends eZPersistentObject
     {
         $languages = eZContentLanguage::prioritizedLanguages();
         $localeList = array();
-        
+
         foreach ( $languages as $language )
         {
             $localeList[] = $language->attribute( 'locale' );
@@ -353,8 +352,8 @@ class eZContentLanguage extends eZPersistentObject
 
     function setPrioritizedLanguages( $languages )
     {
-    	unset( $GLOBALS['eZContentLanguagePrioritizedLanguages'] );
-    	eZContentLanguage::prioritizedLanguages( false, $languages );
+        unset( $GLOBALS['eZContentLanguagePrioritizedLanguages'] );
+        eZContentLanguage::prioritizedLanguages( false, $languages );
     }
 
     function clearPrioritizedLanguages()
@@ -383,7 +382,7 @@ class eZContentLanguage extends eZPersistentObject
         $topPriorityLanguage = eZContentLanguage::topPriorityLanguage();
         $localeCode = $topPriorityLanguage->attribute( 'locale' );
         $locale =& eZLocale::instance( $localeCode );
-        return $locale;               
+        return $locale;
     }
 
     function &localeObject()
@@ -395,7 +394,7 @@ class eZContentLanguage extends eZPersistentObject
     }
 
     function languagesByMask( $mask )
-    {      
+    {
         // returns array of language objects which are allowed by $mask mask
         $result = array();
 
@@ -425,50 +424,50 @@ class eZContentLanguage extends eZPersistentObject
             }
         }
 
-        return $result;     
+        return $result;
     }
 
     function topPriorityLanguageByMask( $mask )
     {
-    	$languages = eZContentLanguage::prioritizedLanguages();
+        $languages = eZContentLanguage::prioritizedLanguages();
         foreach ( $languages as $language )
         {
 			if ( ( (int) $language->attribute( 'id' ) & (int) $mask ) > 0 )
             {
-            	return $language;
+                return $language;
             }
         }
 		return false;
     }
-    
+
     function maskByLocale( $locales, $setZerothBit = false )
     {
-    	if ( !$locales )
-    	{
-    		return 0;
-    	}
-    	
-    	if ( !is_array( $locales ) )
-    	{
-    		$locales = array( $locales );
-    	}
-    
-    	$mask = 0;
-    	if ( $setZerothBit )
-    	{
-    	    $mask = 1;
-    	}
+        if ( !$locales )
+        {
+            return 0;
+        }
 
-    	foreach( $locales as $locale )
-    	{
-    		$language = eZContentLanguage::fetchByLocale( $locale );
-    		if ( $language )
-    		{
-    			$mask += $language->attribute( 'id' );
-    		}
-    	}
-    	
-    	return (int) $mask;
+        if ( !is_array( $locales ) )
+        {
+            $locales = array( $locales );
+        }
+
+        $mask = 0;
+        if ( $setZerothBit )
+        {
+            $mask = 1;
+        }
+
+        foreach( $locales as $locale )
+        {
+            $language = eZContentLanguage::fetchByLocale( $locale );
+            if ( $language )
+            {
+                $mask += $language->attribute( 'id' );
+            }
+        }
+
+        return (int) $mask;
     }
 
     function idByLocale( $locale )
@@ -478,30 +477,30 @@ class eZContentLanguage extends eZPersistentObject
         {
             $id = -1;
         }
-    	return $id;
+        return $id;
     }
-    
+
     //static
     function languagesSQLFilter( $languageListTable, $languageListAttributeName = 'language_mask' )
     {
-    	$prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
-    	$mask = 1; // 1 - always available objects
-    	foreach( $prioritizedLanguages as $language )
-    	{
-    		$mask += $language->attribute( 'id' );
-    	}
-    	
-    	$db =& eZDB::instance();
-    	if ( $db->databaseName() == 'oracle' )
-    	{
-    		return " bitand( $languageListTable.$languageListAttributeName, $mask ) > 0 ";
-    	}
-    	else
-    	{
-    		return " $languageListTable.$languageListAttributeName & $mask > 0 ";
-    	}
+        $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
+        $mask = 1; // 1 - always available objects
+        foreach( $prioritizedLanguages as $language )
+        {
+            $mask += $language->attribute( 'id' );
+        }
+
+        $db =& eZDB::instance();
+        if ( $db->databaseName() == 'oracle' )
+        {
+            return " bitand( $languageListTable.$languageListAttributeName, $mask ) > 0 ";
+        }
+        else
+        {
+            return " $languageListTable.$languageListAttributeName & $mask > 0 ";
+        }
     }
-       
+
     // static
     function sqlFilter( $languageTable, $languageListTable = null, $languageAttributeName = 'language_id', $languageListAttributeName = 'language_mask' )
     {
@@ -538,7 +537,7 @@ class eZContentLanguage extends eZPersistentObject
                 $leftSide .= " + ( ( ( $languageListTable.$languageListAttributeName - ( $languageListTable.$languageListAttributeName & $languageTable.$languageAttributeName ) ) & $id ) ";
                 $rightSide .= " + ( ( $languageTable.$languageAttributeName & $id ) ";
             }
-            
+
             if ( $multiplier > $id )
             {
                 $factor = " * " . ( $multiplier / $id );
@@ -553,8 +552,8 @@ class eZContentLanguage extends eZPersistentObject
             }
             if ( $db->databaseName() != 'oracle' )
             {
-            	$leftSide .= ' )';
-            	$rightSide .= ' )';
+                $leftSide .= ' )';
+                $rightSide .= ' )';
             }
         }
 
@@ -564,7 +563,7 @@ class eZContentLanguage extends eZPersistentObject
     function &objectCount()
     {
         $db =& eZDB::instance();
-        
+
         $languageID = $this->ID;
         if ( $db->databaseName() == 'oracle' )
         {
@@ -577,21 +576,21 @@ class eZContentLanguage extends eZPersistentObject
 
         $count = $db->arrayQuery( "SELECT COUNT( * ) AS count FROM ezcontentobject WHERE $whereSQL" );
         $count = $count[0]['count'];
-        
+
         return $count;
     }
 
-    function &objectInitialCount()
+    function objectInitialCount()
     {
         $db =& eZDB::instance();
-        
+
         $languageID = $this->ID;
         $count = $db->arrayQuery( "SELECT COUNT( id ) AS count FROM ezcontentobject WHERE initial_language_id = '$languageID'" );
         $count = $count[0]['count'];
-        
+
         return $count;
     }
-    
+
     /* BCKWRD COMPAT */
     function &translation()
     {
@@ -600,7 +599,7 @@ class eZContentLanguage extends eZPersistentObject
 
     function updateObjectNames()
     {
-    	// JK: TODO:!!! we don't need this function anymore, do we?
+        // JK: TODO:!!! we don't need this function anymore, do we?
     }
 
     function setCronjobMode( $enable = true )
@@ -621,9 +620,9 @@ class eZContentLanguage extends eZPersistentObject
         foreach ( $languages as $key => $language )
         {
             $jsArray[] = "{ locale: '".$language->attribute( 'locale' ).
-                         "', name: '".$language->attribute( 'name' )."' }";
+                "', name: '".$language->attribute( 'name' )."' }";
         }
-        
+
         if ( $jsArray )
         {
             return '[ '.implode( ', ', $jsArray ).' ]';
@@ -642,7 +641,7 @@ class eZContentLanguage extends eZPersistentObject
     /*!
      \static
      Removes all memory cache forcing it to read from database again for next method calls.
-     */
+    */
     function expireCache()
     {
         unset( $GLOBALS['eZContentLanguageList'],

@@ -2724,7 +2724,7 @@ class eZContentObject extends eZPersistentObject
     {
         $objectID = $this->ID;
         $currentVersion = $this->CurrentVersion;
-        
+
         $db = eZDB::instance();
         $db->begin();
 
@@ -2740,14 +2740,14 @@ class eZContentObject extends eZPersistentObject
             $toContentObjectIDs[] = $relation['to_contentobject_id'];
         }
         $toContentObjectIDs = array_unique( $toContentObjectIDs );
-        
+
         $addedOrRemovedRelations = $db->arrayQuery( "SELECT to_contentobject_id, op_code FROM ezcontentobject_link
                                                      WHERE contentclassattribute_id='0'
                                                        AND from_contentobject_id='$objectID'
                                                        AND from_contentobject_version='$version'
                                                        AND op_code!='0'
                                                      ORDER BY id ASC" );
-        
+
         foreach ( $addedOrRemovedRelations as $relation )
         {
             if ( $relation['op_code'] == 1 )
@@ -2762,15 +2762,15 @@ class eZContentObject extends eZPersistentObject
                 $toContentObjectIDs = array_diff( $toContentObjectIDs, array( $relation['to_contentobject_id'] ) );
             }
         }
-        
-        $db->query( "DELETE FROM ezcontentobject_link 
+
+        $db->query( "DELETE FROM ezcontentobject_link
                      WHERE contentclassattribute_id='0'
                        AND from_contentobject_id='$objectID'
                        AND from_contentobject_version='$version'" );
-        
+
         foreach( $toContentObjectIDs as $toContentObjectID )
         {
-            $db->query( "INSERT INTO ezcontentobject_link( contentclassattribute_id, 
+            $db->query( "INSERT INTO ezcontentobject_link( contentclassattribute_id,
                                                            from_contentobject_id,
                                                            from_contentobject_version,
                                                            to_contentobject_id,
@@ -2780,7 +2780,7 @@ class eZContentObject extends eZPersistentObject
 
         $db->commit();
     }
-    
+
     /*!
      Get parent node IDs
     */
@@ -4041,7 +4041,7 @@ class eZContentObject extends eZPersistentObject
 
      It uses the attribute \c avail_lang as the source for the language list.
      */
-    function availableLanguages()
+    function &availableLanguages()
     {
         $languages = array();
         $languageObjects = $this->languages();
@@ -4128,7 +4128,7 @@ class eZContentObject extends eZPersistentObject
      \note the setting ContentSettings/TranslationList in site.ini determines the array.
      \sa translationStringList
     */
-    function &translationList()
+    function translationList()
     {
     	$translationList = array();
     	$languageList = eZContentLanguage::fetchList();

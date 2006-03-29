@@ -53,7 +53,7 @@ $tpl =& templateInit();
 
 $siteAccess = $http->sessionVariable( 'eZTemplateAdminCurrentSiteAccess' );
 
-$overrideArray =& eZTemplatedesignresource::overrideArray( $siteAccess );
+$overrideArray = eZTemplatedesignresource::overrideArray( $siteAccess );
 
 $mostUsedOverrideArray = array();
 $filteredOverrideArray = array();
@@ -64,13 +64,13 @@ foreach ( array_keys( $overrideArray ) as $overrideKey )
     {
         if ( strpos( $overrideArray[$overrideKey]['template'], $mostUsedMatch ) !== false )
         {
-            $mostUsedOverrideArray[$overrideKey] =& $overrideArray[$overrideKey];
+            $mostUsedOverrideArray[$overrideKey] = $overrideArray[$overrideKey];
         }
     }
     if ( $doFiltration ) {
         if ( strpos( $overrideArray[$overrideKey]['template'], $filterString ) !== false )
         {
-            $filteredOverrideArray[$overrideKey] =& $overrideArray[$overrideKey];
+            $filteredOverrideArray[$overrideKey] = $overrideArray[$overrideKey];
         }
     }
 }

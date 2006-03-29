@@ -126,7 +126,7 @@ class eZContentFunctionCollection
     function fetchTranslationList()
     {
         include_once( 'kernel/classes/ezcontentobject.php' );
-        $translationList =& eZContentObject::translationList();
+        $translationList = eZContentObject::translationList();
         if ( $translationList === null )
         {
             $result =  array( 'error' => array( 'error_type' => 'kernel',
@@ -143,7 +143,7 @@ class eZContentFunctionCollection
     function fetchPrioritizedLanguages()
     {
         include_once( 'kernel/classes/ezcontentlanguage.php' );
-        $languages =& eZContentLanguage::prioritizedLanguages();
+        $languages = eZContentLanguage::prioritizedLanguages();
         if ( $languages === null )
         {
             $result =  array( 'error' => array( 'error_type' => 'kernel',

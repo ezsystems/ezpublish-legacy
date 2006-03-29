@@ -685,7 +685,7 @@ if ( !function_exists( 'checkContentActions' ) )
             $module->redirectToView( 'edit', array( $object->attribute('id'), $EditVersion, $EditLanguage, $FromLanguage ) );
             return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
         }
-        
+
         if ( $module->isCurrentAction( 'Discard' ) )
         {
             $http =& eZHTTPTool::instance();
