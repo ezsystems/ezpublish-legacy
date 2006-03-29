@@ -154,26 +154,34 @@ class eZShopFunctions
         return $productClassList;
     }
 
-    function priceAttributeIdentifier( $productClass )
+    function priceAttributeIdentifier( &$productClass )
     {
         $identifier = '';
+        $classAttribute = eZShopFunctions::priceAttribute( $productClass );
+        if ( is_object( $classAttribute ) )
+            $identifier = $classAttribute->attribute( 'identifier' );
+
+        return $identifier;
+    }
+
+    function priceAttribute( &$productClass )
+    {
         if ( is_object( $productClass ) )
         {
             $classAttributes =& $productClass->fetchAttributes();
             $keys = array_keys( $classAttributes );
-            foreach ( $keys as  $key )
+            foreach ( $keys as $key )
             {
                 $classAttribute =& $classAttributes[$key];
                 $dataType = $classAttribute->attribute( 'data_type_string' );
                 if ( eZShopFunctions::isProductDatatype( $dataType ) )
                 {
-                    $identifier = $classAttribute->attribute( 'identifier' );
-                    break;
+                    return $classAttribute;
                 }
             }
         }
 
-        return $identifier;
+        return false;
     }
 
     /*!

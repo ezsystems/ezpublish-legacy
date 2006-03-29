@@ -202,12 +202,15 @@ class eZContentObjectAttribute extends eZPersistentObject
      \param $contentClassAttributeID The ID of the contentclass attribute
      \param $asObject If \c true objects will be returned, otherwise associative arrays are returned.
      \param $version The version the of contentobject attributes to fetch or all version if \c false.
+     \param $contentObjectID The ID the of contentobject to fetch or all objects if \c false.
     */
-    function fetchSameClassAttributeIDList( $contentClassAttributeID, $asObject = true, $version = false )
+    function fetchSameClassAttributeIDList( $contentClassAttributeID, $asObject = true, $version = false, $contentObjectID = false )
     {
         $conditions = array( "contentclassattribute_id" => $contentClassAttributeID );
         if ( $version !== false )
             $conditions['version'] = $version;
+        if ( $contentObjectID !== false )
+            $conditions['contentobject_id'] = $contentObjectID;
         return eZPersistentObject::fetchObjectList( eZContentObjectAttribute::definition(),
                                                     null,
                                                     $conditions,

@@ -331,3 +331,28 @@ To achive this you should:
 It's not possible to have products with 'simple' and 'multi' prices in the
 basket as the same time.
 
+8. Scripts
+
+filename   : bin/php/convertprice2multiprice.php
+description: the script will go through all classes and objects with 'ezprice'
+             datatype changing it to the 'ezmultiprice' datatype. 
+             Note: the IDs and indentifiers of the classes, class attributes, 
+                   objects, object attributes will not be changed. 
+             Resulting 'ezmultiprice' will have 1 'custom' price(with value of 
+             'ezprice') in currency of the current locale(the 'currency' object
+             will be created if it doesn't exist).
+usage      : - if you already have some 'currencies' don't have locale's currency
+               and your rate values are agains other currency then locale's currency
+               then you have to create locale's currency manully and set appropriate
+               rate value. Otherwise locale's currency will be created automatically
+               with rate value '1.0000'. This can lead to incorrect values for
+               'auto' prices.
+               Example: if you already have 'NOK' currency with rate against 'EUR'
+               and locale's currency is 'USD'( site.ini.RegionalSettings.Locale=eng-US,
+               eng-US.ini.Currency.ShortName=USD ) then you have to create currency
+               'USD' manually and set rate to, for example, '1.2'. Otherwise the
+               script will create 'USD' currency with rate value '1.0' and you'll
+               get incorrect values for 'auto' prices.
+             - the script will not change IDs and indentifiers of the classes, class 
+               attributes, objects, object attributes. It means that all you overrides
+               will work with converted objects.

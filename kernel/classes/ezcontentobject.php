@@ -875,14 +875,10 @@ class eZContentObject extends eZPersistentObject
         return $rows[0]['count'];
     }
 
-    function fetchSameClassList( $contentClassID, $asObject = true )
+    function fetchSameClassList( $contentClassID, $asObject = true, $offset = false, $limit = false )
     {
-        return eZPersistentObject::fetchObjectList( eZContentObject::definition(),
-                                                    null,
-                                                    array( "contentclass_id" => $contentClassID ),
-                                                    null,
-                                                    null,
-                                                    $asObject );
+        $conditions = array( 'contentclass_id' => $contentClassID );
+        return eZContentObject::fetchFilteredList( $conditions, $offset, $limit, $asObject );
     }
 
     function fetchSameClassListCount( $contentClassID )
