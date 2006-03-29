@@ -483,16 +483,25 @@ $SectionID = array(
     'file' => 'ezsection.php',
     'class' => 'eZSection',
     'function' => 'fetchList',
-    'parameter' => array(  false )
+    'parameter' => array( false )
     );
-$Status = array(
+$VersionStatusRead = array(
     'name'=> 'Status',
     'values'=> array(),
     'path' => 'classes/',
     'file' => 'ezcontentobjectversion.php',
     'class' => 'eZContentObjectVersion',
     'function' => 'statusList',
-    'parameter' => array(  false )
+    'parameter' => array( 'read' )
+    );
+$VersionStatusRemove = array(
+    'name'=> 'Status',
+    'values'=> array(),
+    'path' => 'classes/',
+    'file' => 'ezcontentobjectversion.php',
+    'class' => 'eZContentObjectVersion',
+    'function' => 'statusList',
+    'parameter' => array( 'remove' )
     );
 $Language = array(
     'name'=> 'Language',
@@ -564,9 +573,16 @@ $FunctionList['remove'] = array( 'Class' => $ClassID,
 $FunctionList['versionread'] = array( 'Class' => $ClassID,
                                       'Section' => $SectionID,
                                       'Owner' => $Assigned,
-                                      'Status' => $Status,
+                                      'Status' => $VersionStatusRead,
                                       'Node' => $Node,
                                       'Subtree' => $Subtree);
+
+$FunctionList['versionremove'] = array( 'Class' => $ClassID,
+                                        'Section' => $SectionID,
+                                        'Owner' => $Assigned,
+                                        'Status' => $VersionStatusRemove,
+                                        'Node' => $Node,
+                                        'Subtree' => $Subtree);
 
 $FunctionList['pdf'] = array( 'Class' => $ClassID,
                               'Section' => $SectionID,

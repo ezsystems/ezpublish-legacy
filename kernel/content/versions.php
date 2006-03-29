@@ -103,7 +103,12 @@ if ( $http->hasPostVariable( 'RemoveButton' )  )
             $version = eZContentObjectVersion::fetch( $deleteID );
             $versionArray[] = $version->attribute( 'version' );
             if ( $version != null )
-                $version->remove();
+            {
+                if ( $version->attribute( 'can_remove' ) )
+                {
+                    $version->remove();
+                }
+            }
         }
         $db->commit();
     }

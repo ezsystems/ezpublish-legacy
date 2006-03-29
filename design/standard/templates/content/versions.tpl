@@ -65,7 +65,7 @@
 {section name=Version loop=$version_list sequence=array(bglight,bgdark)}
 <tr>
     <td class="{$Version:sequence}">
-    {section show=or(eq($Version:item.status,0),eq($Version:item.status,3),eq($Version:item.status,4))}
+    {section show=and($Version:item.can_remove,or(eq($Version:item.status,0),eq($Version:item.status,3),eq($Version:item.status,4)))}
 	    <input type="checkbox" name="DeleteIDArray[]" value="{$Version:item.id}" />
     {/section}
     </td>

@@ -124,6 +124,7 @@ class eZContentObjectVersion extends eZPersistentObject
                                                       'reverse_related_object_list' => "reverseRelatedObjectList",
                                                       'parent_nodes' => 'parentNodes',
                                                       "can_read" => "canVersionRead",
+                                                      'can_remove' => 'canVersionRemove',
                                                       "data_map" => "dataMap",
                                                       'node_assignments' => 'nodeAssignments',
                                                       'contentobject' => 'contentObject',
@@ -139,13 +140,24 @@ class eZContentObjectVersion extends eZPersistentObject
                       'name' => 'ezcontentobject_version' );
     }
 
-    function statusList()
+    function statusList( $limit = false )
     {
-        return array( array( 'name' => "Draft", 'id' =>  EZ_VERSION_STATUS_DRAFT ),
-                      array( 'name' => "Published", 'id' =>  EZ_VERSION_STATUS_PUBLISHED ),
-                      array( 'name' => "Pending", 'id' =>  EZ_VERSION_STATUS_PENDING ),
-                      array( 'name' => "Archived", 'id' =>  EZ_VERSION_STATUS_ARCHIVED ),
-                      array( 'name' => "Rejected", 'id' =>  EZ_VERSION_STATUS_REJECTED ) );
+        if ( $limit == 'remove' )
+        {
+            $versions = array( array( 'name' => 'Draft', 'id' =>  EZ_VERSION_STATUS_DRAFT ),
+                               array( 'name' => 'Pending', 'id' =>  EZ_VERSION_STATUS_PENDING ),
+                               array( 'name' => 'Archived', 'id' =>  EZ_VERSION_STATUS_ARCHIVED ),
+                               array( 'name' => 'Rejected', 'id' =>  EZ_VERSION_STATUS_REJECTED ) );
+        }
+        else
+        {
+            $versions = array( array( 'name' => 'Draft', 'id' =>  EZ_VERSION_STATUS_DRAFT ),
+                               array( 'name' => 'Published', 'id' =>  EZ_VERSION_STATUS_PUBLISHED ),
+                               array( 'name' => 'Pending', 'id' =>  EZ_VERSION_STATUS_PENDING ),
+                               array( 'name' => 'Archived', 'id' =>  EZ_VERSION_STATUS_ARCHIVED ),
+                               array( 'name' => 'Rejected', 'id' =>  EZ_VERSION_STATUS_REJECTED ) );
+        }
+        return $versions;
     }
     /*!
      \return true if the requested attribute exists in object.
@@ -318,6 +330,21 @@ class eZContentObjectVersion extends eZPersistentObject
         return $p;
     }
 
+    /*!
+     \return \c true if the current user can remove this version of the object.
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &canVersionRemove( )
+    {
+        if ( !isset( $this->Permissions['can_versionremove'] ) )
+        {
+            $this->Permissions['can_versionremove'] = $this->checkAccess( 'versionremove' );
+        }
+        $p = ( $this->Permissions['can_versionremove'] == 1 );
+        return $p;
+    }
+
     function checkEditAccess( $language = false, $object = null )
     {
         echo "ver::checkEditAccess( objid: [", $this->ContentObjectID, "], version: [", $this->Version, "], language:[", var_export( $language, true ), "] )<br/>\n";
@@ -364,6 +391,10 @@ class eZContentObjectVersion extends eZPersistentObject
         if ( ! $classID )
         {
             $classID = $objectClassID;
+        }
+        if ( $functionName == 'versionremove' and $this->attribute( 'status' ) == EZ_VERSION_STATUS_PUBLISHED )
+        {
+            return 0;
         }
 //         eZDebug::writeDebug( $accessWord, 'accessword' );
         if ( $accessWord == 'yes' )
@@ -1014,7 +1045,7 @@ class eZContentObjectVersion extends eZPersistentObject
                     ezcontentclass_attribute.version = '0' AND
                     ezcontentclass_attribute.id = ezcontentobject_attribute.contentclassattribute_id AND
                     ezcontentobject_attribute.version = '$version' AND
-                    ezcontentobject_attribute.contentobject_id = '$contentObjectID' AND 
+                    ezcontentobject_attribute.contentobject_id = '$contentObjectID' AND
                     ezcontentobject_version.contentobject_id = '$contentObjectID' AND
                     ezcontentobject_version.version = '$version' AND ".
                     ( ( $language )? "ezcontentobject_attribute.language_code = '$language'": eZContentLanguage::sqlFilter( 'ezcontentobject_attribute', 'ezcontentobject_version' ) ).
@@ -1416,7 +1447,7 @@ class eZContentObjectVersion extends eZPersistentObject
     {
     	return $this->attribute( 'language_mask' );
     }
-    
+
     function updateLanguageMask( $mask = false, $forceStore = true )
     {
     	if ( $mask == false )
@@ -1453,14 +1484,14 @@ class eZContentObjectVersion extends eZPersistentObject
         $objectID = $object->attribute( 'id' );
         $initialLanguageID = $object->attribute( 'initial_language_id' );
         $db =& eZDB::instance();
-    
+
         $attributeRows = $db->arrayQuery( "SELECT ezcontentobject_attribute.id, ezcontentobject_attribute.version
             FROM ezcontentobject_version,
                  ezcontentobject_attribute,
                 ezcontentclass_attribute
             WHERE
                     ezcontentobject_version.contentobject_id='$objectID'
-                AND ( ezcontentobject_version.status in ( " . 
+                AND ( ezcontentobject_version.status in ( " .
                       EZ_VERSION_STATUS_DRAFT . ", " . EZ_VERSION_STATUS_PENDING . ", " . EZ_VERSION_STATUS_INTERNAL_DRAFT .
                       " ) OR ( ezcontentobject_version.status = '1' AND ezcontentobject_version.version = '$version' ) )
                 AND ezcontentobject_attribute.contentobject_id=ezcontentobject_version.contentobject_id
@@ -1503,8 +1534,8 @@ class eZContentObjectVersion extends eZPersistentObject
     	{
             $newLanguageID = $languageID | 1;
 
-    	    $sql = "UPDATE ezcontentobject_attribute 
-    	            SET language_id='$newLanguageID' 
+    	    $sql = "UPDATE ezcontentobject_attribute
+    	            SET language_id='$newLanguageID'
     	            WHERE language_id='$languageID' AND contentobject_id = '$objectID' AND version = '$version'";
     	    $db->query( $sql );
     	}
