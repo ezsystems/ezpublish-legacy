@@ -16,6 +16,14 @@ teessst
 </div>
 {/section}
 
+{if not( $vat_is_known )}
+<div class="message-warning">
+<h2>{'VAT is unknown'|i18n( 'design/standard/shop' )}</h2>
+{'VAT percentage is not yet known for some of the items being purchased.'|i18n( 'design/standard/shop' )}<br/>
+{'This probably means that some information about you is not yet available and will be obtained during checkout.'|i18n( 'design/standard/shop' )}
+</div>
+{/if}
+
 {section show=$error}
 <div class="error">
 {section show=$error|eq(1)}
@@ -85,7 +93,11 @@ teessst
 
 	</td>
 	<td class="{$Basket:ProductItem:sequence}">
-	{$Basket:ProductItem:item.vat_value} %
+	{if ne( $Basket:ProductItem:item.vat_value, -1 )}
+		{$Basket:ProductItem:item.vat_value} %
+	{else}
+		{'unknown'|i18n( 'design/standard/shop' )}
+	{/if}
 	</td>
 	<td class="{$Basket:ProductItem:sequence}">
 	{$Basket:ProductItem:item.price_ex_vat|l10n( 'currency', $locale, $symbol )}

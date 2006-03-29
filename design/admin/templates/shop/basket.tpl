@@ -11,6 +11,14 @@
 </div>
 {/section}
 
+{if not( $vat_is_known )}
+<div class="message-warning">
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'VAT is unknown'|i18n( 'design/admin/shop/basket' )}</h2>
+{'VAT percentage is not yet known for some of the items being purchased.'|i18n( 'design/admin/shop/basket' )}<br/>
+{'This probably means that some information about you is not yet available and will be obtained during checkout.'|i18n( 'design/admin/shop/basket' )}
+</div>
+{/if}
+
 <form name="basket" method="post" action={'/shop/basket/'|ezurl}>
 
 <div class="context-block">
@@ -52,7 +60,13 @@
 	<td><input type="checkbox" name="RemoveProductItemDeleteList[]" value="{$Products.item.id}" title="{'Select item for removal.'|i18n( 'design/admin/shop/basket' )}" /></td>
 	<td><input type="hidden" name="ProductItemIDList[]" value="{$Products.item.id}" /><a href={concat( '/content/view/full/', $Products.item.node_id, '/' )|ezurl}>{$Products.item.object_name}</a></td>
 	<td><input type="text" name="ProductItemCountList[]" value="{$Products.item.item_count}" size="3" /></td>
-	<td class="number" align="right">{$Products.item.vat_value} %</td>
+	<td class="number" align="right">
+    {if ne( $Products.item.vat_value, -1 )}
+        {$Products.item.vat_value} %
+    {else}
+        {'unknown'|i18n( 'design/admin/shop/basket' )}
+    {/if}
+    </td>
 	<td class="number" align="right">{$Products.item.price_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
 	<td class="number" align="right">{$Products.item.price_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
 	<td class="number" align="right">{$Products.item.discount_percent}%</td>

@@ -85,7 +85,6 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
     $basket =& eZBasket::currentBasket();
 
     $item = $http->postVariable( "RemoveProductItemButton" );
-    eZDebug::writeDebug( $item, "basket item" );
     if ( is_numeric( $http->postVariable( "RemoveProductItemButton" ) )  )
     {
         $item = $http->postVariable( "RemoveProductItemButton" );
@@ -261,6 +260,7 @@ if ( isset( $Params['Error'] ) )
 $tpl->setVariable( "removed_items", $removedItems);
 $tpl->setVariable( "basket", $basket );
 $tpl->setVariable( "module_name", 'shop' );
+$tpl->setVariable( "vat_is_known", $basket->isVATKnown() );
 
 
 // Add shipping cost to the total items price and store the sum to corresponding template vars.

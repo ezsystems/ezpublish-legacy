@@ -71,7 +71,9 @@ class eZVatType extends eZPersistentObject
         if ( $this->ID == -1 )
         {
             require_once( 'kernel/classes/ezvatmanager.php' );
-            $rc =  eZVATManager::getVAT( $object, $country );
+            $rc = eZVATManager::getVAT( $object, $country );
+            if ( $rc === null )
+                $rc = -1;
         }
         else
             $rc = $this->Percentage;

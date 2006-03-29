@@ -109,6 +109,12 @@ class eZBasket extends eZPersistentObject
             if ( $contentObject !== null )
             {
                 $vatValue = $productItem->attribute( 'vat_value' );
+
+                // If VAT is unknown yet then we use zero VAT percentage for our price calculations.
+                $realVatValue = $vatValue;
+                if ( $vatValue == -1 )
+                    $vatValue = 0;
+
                 $count = $productItem->attribute( 'item_count' );
                 $discountPercent = $productItem->attribute( 'discount' );
                 $nodeID = $contentObject->attribute( 'main_node_id' );
@@ -188,7 +194,7 @@ class eZBasket extends eZPersistentObject
 
 */
                 $addedProduct = array( "id" => $id,
-                                       "vat_value" => $vatValue,
+                                       "vat_value" => $realVatValue,
                                        "item_count" => $count,
                                        "node_id" => $nodeID,
                                        "object_name" => $objectName,
@@ -202,6 +208,23 @@ class eZBasket extends eZPersistentObject
             }
         }
         return $addedProducts;
+    }
+
+    /*!
+     Returns true if VAT percentage is known for all basket items.
+
+     \public
+     */
+    function isVATKnown()
+    {
+        $result = true;
+        foreach ( $this->items() as $item )
+        {
+            if ( $item['vat_value'] == -1 )
+                return false;
+        }
+
+        return true;
     }
 
     function &totalIncVAT()

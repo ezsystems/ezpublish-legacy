@@ -15,6 +15,14 @@
     </div>
     {/section}
 
+    {if not( $vat_is_known )}
+    <div class="message-warning">
+    <h2>{'VAT is unknown'|i18n( 'design/base/shop' )}</h2>
+    {'VAT percentage is not yet known for some of the items being purchased.'|i18n( 'design/base/shop' )}<br/>
+    {'This probably means that some information about you is not yet available and will be obtained during checkout.'|i18n( 'design/base/shop' )}
+    </div>
+    {/if}
+
     {section show=$error}
     <div class="error">
     {section show=$error|eq(1)}
@@ -77,7 +85,11 @@
             <input type="text" name="ProductItemCountList[]" value="{$product_item.item_count}" size="5" />
     	</td>
 	    <td class="{$product_item.sequence} product-details">
-        {$product_item.vat_value} %
+        {if ne( $product_item.vat_value, -1 )}
+            {$product_item.vat_value} %
+        {else}
+            {'unknown'|i18n( 'design/base/shop' )}
+        {/if}
     	</td>
         <td class="{$product_item.sequence} product-details">
         {$product_item.price_inc_vat|l10n( 'currency', $locale, $symbol )}

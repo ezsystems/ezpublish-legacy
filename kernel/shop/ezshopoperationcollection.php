@@ -49,7 +49,93 @@ class eZShopOperationCollection
     function fetchOrder( $orderID )
     {
         return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+    }
 
+    /*!
+     Operation entry: Extracts user country from order account info and recalculates VAT with country given.
+     */
+    function handleUserCountry( $orderID )
+    {
+        // If user country is not required to calculate VATthen do nothing.
+        require_once( 'kernel/classes/ezvatmanager.php' );
+        if ( !eZVATManager::isUserCountryRequired() )
+            return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+
+        $user =& eZUser::currentUser();
+
+        // Get order's account information and extract user country from it.
+        $order = eZOrder::fetch( $orderID );
+
+        if ( !$order )
+        {
+            eZDebug::writeError( "No such order: $orderID" );
+            return array( 'status' => EZ_MODULE_OPERATION_CANCELED );
+        }
+
+        $acctInfo = $order->attribute( 'account_information' );
+        if ( !isset( $acctInfo['country'] ) )
+        {
+            //eZDebug::writeError( $acctInfo, "User country was not found in the following account information" );
+
+            $header = ezi18n( 'kernel/shop', 'Error checking out' );
+            $msg = ezi18n( 'kernel/shop',
+                           'Unable to calculate VAT percentage because your country is unknown. ' .
+                           'You can either fill country manually in your account information (if you are a registered user) ' .
+                           'or contact site administrator.' );
+
+            include_once( "kernel/common/template.php" );
+            $tpl =& templateInit();
+            $tpl->setVariable( "error_header",  $header );
+            $tpl->setVariable( "error_list", array( $msg ) );
+
+            $operationResult = array(
+                'status' => EZ_MODULE_OPERATION_CANCELED,
+                'result' => array( 'content' => $tpl->fetch( "design:shop/cancelconfirmorder.tpl" ) )
+                );
+            return $operationResult;
+        }
+
+        $country = $acctInfo['country'];
+
+        // If user is registered and logged in
+        // and country is not yet specified for the user
+        // then save entered country to the user information.
+        if ( $user->attribute( 'is_logged_in' ) )
+        {
+            $userCountry = eZVATManager::getUserCountry( $user );
+            if ( !$userCountry )
+                eZVATManager::setUserCountry( $user, $country );
+        }
+
+        // Recalculate VAT for order's product collection items
+        // according to the specified user country.
+
+        $productCollection =& $order->attribute( 'productcollection' );
+        if ( !$productCollection )
+        {
+            eZDebug::writeError( "Cannot find product collection for order " . $order->attribute( 'id' ),
+                                   "ezshopoperationcollection::handleUserCountry" );
+            return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
+        }
+
+        require_once( 'kernel/classes/ezproductcollectionitem.php' );
+        $items = eZProductCollectionItem::fetchList( array( 'productcollection_id' => $productCollection->attribute( 'id' ) ) );
+        $vatIsKnown = true;
+        $db =& eZDB::instance();
+        $db->begin();
+        foreach( array_keys( $items ) as $key )
+        {
+            $item =& $items[$key];
+            $productContentObject =& $item->attribute( 'contentobject' );
+            $vatValue = eZVATManager::getVAT( $productContentObject, $country );
+            //eZDebug::writeDebug( array( $vatValue ), 'vatValue' );
+            eZDebug::writeNotice( "Updating product collection setting VAT $vatValue% according to order's country '$country'." );
+            $item->setAttribute( "vat_value", $vatValue );
+            $item->store();
+        }
+        $db->commit();
+
+        return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
     }
 
     /*!
