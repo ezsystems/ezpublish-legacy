@@ -242,9 +242,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
     /*!
      \return true if this node is the main node.
      */
-    function isMain()
+    function &isMain()
     {
-        return $this->NodeID == $this->MainNodeID;
+        $retVal = $this->NodeID == $this->MainNodeID;
+        return $retVal;
     }
 
     /*!
