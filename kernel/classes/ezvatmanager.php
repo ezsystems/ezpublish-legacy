@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZShippingManager class
+// Definition of eZVATManager class
 //
 // Created on: <16-Feb-2006 23:02:53 vs>
 //
