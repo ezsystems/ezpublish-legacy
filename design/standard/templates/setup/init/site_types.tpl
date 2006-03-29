@@ -8,7 +8,7 @@
   </div>
 
   <p>
-    {"Please choose one site type you would like to test or base your sites on. Use Plain if you wish to start from scratch."i18n("design/standard/setup/init")}
+    {"Please choose a site package you would like to test or base your site on."i18n("design/standard/setup/init")}
   </p>
 
 {if $message}
@@ -39,8 +39,8 @@
 </div>
 {/section}
 
-<table border="1" cellspacing="1" cellpadding="0">
-<tr><td colspan="4"><h2>{'Site packages'|i18n('design/standard/setup/init')}:</h2></td></tr>
+<table border="1" cellspacing="2" cellpadding="2">
+{*<tr><td colspan="4"><h2>{'Site packages'|i18n('design/standard/setup/init')}:</h2></td></tr>*}
 {if is_set( $site_packages )}
     {foreach $site_packages as $package_info}
     {if and( is_set( $message ), $message )}
