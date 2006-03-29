@@ -75,6 +75,7 @@ $http =& eZHTTPTool::instance();
 
 // Action for the edit_draft.tpl/edit_languages.tpl page.
 // CancelDraftButton is set for the Cancel button.
+// Note: This code is safe to place before permission checking.
 if( $http->hasPostVariable( 'CancelDraftButton' ) )
 {
    $mainNode = eZNodeAssignment::fetchForObject( $obj->attribute( 'id' ), $obj->attribute( 'current_version' ), true );
@@ -112,6 +113,7 @@ if( $http->hasPostVariable( 'CancelDraftButton' ) )
 }
 
 // Remember redirection URI in session for later use.
+// Note: This code is safe to place before permission checking.
 if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
 {
     $http->setSessionVariable( 'RedirectURIAfterPublish', $http->postVariable( 'RedirectURIAfterPublish' ) );
@@ -119,6 +121,7 @@ if ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )
 
 // Action for edit_draft.tpl page,
 // EditButton is the button for editing the selected version.
+// Note: This code is safe to place before permission checking.
 if ( $http->hasPostVariable( 'EditButton' ) )
 {
     if ( $http->hasPostVariable( 'SelectedVersion' ) )
@@ -135,7 +138,7 @@ if ( $http->hasPostVariable( 'EditButton' ) )
 }
 // Action for edit_draft.tpl page,
 // This will create a new draft of the object which the user can edit.
-else if ( $http->hasPostVariable( 'NewDraftButton' ) )
+if ( $http->hasPostVariable( 'NewDraftButton' ) )
 {
     $contentINI =& eZINI::instance( 'content.ini' );
     $versionlimit = $contentINI->variable( 'VersionManagement', 'DefaultVersionHistoryLimit' );
@@ -223,11 +226,11 @@ else if ( $http->hasPostVariable( 'NewDraftButton' ) )
 // LanguageSelection is used to choose a language to edit the object in.
 if ( $http->hasPostVariable( 'LanguageSelection' ) )
 {
-    $editLanguage = $http->postVariable( 'EditLanguage' );
-    $fromLanguage = $http->postVariable( 'FromLanguage' );
-    if ( in_array( $editLanguage, $obj->availableLanguages() ) )
+    $selectedEditLanguage = $http->postVariable( 'EditLanguage' );
+    $selectedFromLanguage = $http->postVariable( 'FromLanguage' );
+    if ( in_array( $selectedEditLanguage, $obj->availableLanguages() ) )
     {
-        $fromLanguage = false;
+        $selectedFromLanguage = false;
     }
     $user =& eZUser::currentUser();
     $parameters = array( 'conditions' =>
@@ -237,7 +240,7 @@ if ( $http->hasPostVariable( 'LanguageSelection' ) )
     $chosenVersion = null;
     foreach ( $obj->versions( true, $parameters ) as $possibleVersion )
     {
-        if ( $possibleVersion->initialLanguageCode() == $editLanguage )
+        if ( $possibleVersion->initialLanguageCode() == $selectedEditLanguage )
         {
             if ( !$chosenVersion ||
                  $chosenVersion->attribute( 'modified' ) < $possibleVersion->attribute( 'modified' ) )
@@ -250,14 +253,14 @@ if ( $http->hasPostVariable( 'LanguageSelection' ) )
     // immediately redirect to edit page for that version.
     if ( $chosenVersion )
     {
-        return $Module->redirectToView( 'edit', array( $ObjectID, 'f', $editLanguage, $fromLanguage ) );
+        return $Module->redirectToView( 'edit', array( $ObjectID, 'f', $selectedEditLanguage, $selectedFromLanguage ) );
     }
 
-    $version = $obj->createNewVersionIn( $editLanguage, $fromLanguage );
+    $version = $obj->createNewVersionIn( $selectedEditLanguage, $selectedFromLanguage );
     $version->setAttribute( 'status', EZ_VERSION_STATUS_INTERNAL_DRAFT );
 
     $version->store();
-    return $Module->redirectToView( 'edit', array( $ObjectID, $version->attribute( 'version' ), $editLanguage, $fromLanguage ) );
+    return $Module->redirectToView( 'edit', array( $ObjectID, $version->attribute( 'version' ), $selectedEditLanguage, $selectedFromLanguage ) );
 }
 
 // If we have a version number we check if it exists.
