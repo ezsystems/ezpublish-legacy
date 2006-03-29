@@ -30,8 +30,10 @@ include_once( "kernel/common/template.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 include_once( "kernel/classes/ezproductcategory.php" );
 
-function applyChanges( $module, $http, $productCategories )
+function applyChanges( $module, $http )
 {
+    $productCategories = eZProductCategory::fetchList( true );
+
     $db =& eZDB::instance();
     $db->begin();
     foreach ( $productCategories as $cat )
@@ -52,11 +54,9 @@ function applyChanges( $module, $http, $productCategories )
 $module =& $Params["Module"];
 $http   =& eZHttpTool::instance();
 
-$productCategories = eZProductCategory::fetchList( true );
-
 if ( $http->hasPostVariable( "AddCategoryButton" ) )
 {
-    applyChanges( $module, $http, $productCategories );
+    applyChanges( $module, $http );
 
     $category = eZProductCategory::create();
     $category->store();
@@ -66,7 +66,7 @@ if ( $http->hasPostVariable( "AddCategoryButton" ) )
 
 if ( $http->hasPostVariable( "RemoveCategoryButton" ) )
 {
-    applyChanges( $module, $http, $productCategories );
+    applyChanges( $module, $http );
 
     if ( !$http->hasPostVariable( "CategoryIDList" ) )
         $catIDList = array();
@@ -85,9 +85,10 @@ if ( $http->hasPostVariable( "RemoveCategoryButton" ) )
 
 if ( $http->hasPostVariable( "SaveCategoriesButton" ) )
 {
-    applyChanges( $module, $http, $productCategories );
-    return;
+    applyChanges( $module, $http );
 }
+
+$productCategories = eZProductCategory::fetchList( true );
 
 $tpl =& templateInit();
 $tpl->setVariable( 'categories', $productCategories );
