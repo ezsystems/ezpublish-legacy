@@ -37,3 +37,8 @@ Changes from 3.8.0alpha2 to 3.8.0beta1
   ( Merged from stable/3.6 ( 3.6.8 ) rev. 15351 )
 - Fixed bug #7949: Shop wishlist is broken.
   ( Merged from stable/3.7 ( 3.7.6 ) rev. 15382 )
+
+*DataTypes:
+
+eZXMLText:
+- Implementation of the new eZXML input parser. (ported from OE)
