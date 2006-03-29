@@ -129,6 +129,13 @@ class eZShippingManager
 
         require_once( $includeFile );
         $className = $handlerName . 'ShippingHandler';
+        if ( !class_exists ( $className ) )
+        {
+            eZDebug::writeError( "Cannot instantiate non-existent class: '$className'",
+                                 'eZShippingManager::loadShippingHandler' );
+            return null;
+        }
+
         return new $className;
     }
 }
