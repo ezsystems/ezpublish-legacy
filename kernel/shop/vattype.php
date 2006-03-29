@@ -36,18 +36,9 @@ $module =& $Params["Module"];
 
 $http =& eZHttpTool::instance();
 
-$vatTypeArray = eZVatType::fetchList( true, true );
-
-if ( $http->hasPostVariable( "AddVatTypeButton" ) )
+function applyChanges( $module, $http )
 {
-    $vatType = eZVatType::create();
-    $vatType->store();
-    $module->redirectTo( $module->functionURI( "vattype" ) . "/" );
-    return;
-}
-
-if ( $http->hasPostVariable( "SaveVatTypeButton" ) )
-{
+    $vatTypeArray = eZVatType::fetchList( true, true );
 
     $db =& eZDB::instance();
     $db->begin();
@@ -71,12 +62,23 @@ if ( $http->hasPostVariable( "SaveVatTypeButton" ) )
         $vatType->store();
     }
     $db->commit();
-    $module->redirectTo( $module->functionURI( "vattype" ) . "/" );
-    return;
 }
 
-if ( $http->hasPostVariable( "RemoveVatTypeButton" ) )
+if ( $http->hasPostVariable( "AddVatTypeButton" ) )
 {
+    applyChanges( $module, $http );
+
+    $vatType = eZVatType::create();
+    $vatType->store();
+}
+elseif ( $http->hasPostVariable( "SaveVatTypeButton" ) )
+{
+    applyChanges( $module, $http );
+}
+elseif ( $http->hasPostVariable( "RemoveVatTypeButton" ) )
+{
+    applyChanges( $module, $http );
+
     $vatTypeIDList = $http->postVariable( "vatTypeIDList" );
 
     $db =& eZDB::instance();
@@ -86,9 +88,9 @@ if ( $http->hasPostVariable( "RemoveVatTypeButton" ) )
         eZVatType::remove( $vatTypeID );
     }
     $db->commit();
-    $module->redirectTo( $module->functionURI( "vattype" ) . "/" );
-    return;
 }
+
+$vatTypeArray = eZVatType::fetchList( true, true );
 
 $tpl =& templateInit();
 $tpl->setVariable( "vattype_array", $vatTypeArray );
