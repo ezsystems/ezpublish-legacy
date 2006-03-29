@@ -74,7 +74,7 @@
 
 {if $can_edit}
 
-<a href={concat( 'content/edit/', $node.object.id, '/f/', $Translations.item.locale )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit in <%language_name>.'|i18n( 'design/admin/node/view/full',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )}" title="{'Edit in <%language_name>.'|i18n( 'design/admin/node/view/full',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" /></a>
+<a href={concat( 'content/edit/', $node.object.id, '/f/', $Translations.item.locale )|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit in <%language_name>.'|i18n( 'design/admin/node/view/full',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" title="{'Edit in <%language_name>.'|i18n( 'design/admin/node/view/full',, hash( '%language_name', $Translations.item.locale_object.intl_language_name ) )|wash}" /></a>
 
 {/if}
 
@@ -112,7 +112,7 @@
 </div>
 
 <div class="break"></div>
-
+</div>
 </fieldset>
 
 </div>
