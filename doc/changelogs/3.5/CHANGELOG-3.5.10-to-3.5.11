@@ -5,3 +5,5 @@ Changes from 3.5.10 to 3.5.11
 *Bugfixes:
 - Fixed bug #8026: Multiple MAX_FILE_SIZE <input> tags.
   ( Merged from stable/3.6 ( 3.6.8 ) rev. 15351 )
+- Fixed bug #7949: Shop wishlist is broken.
+  ( Merged from stable/3.7 ( 3.7.6 ) rev. 15382 )

@@ -197,6 +197,43 @@ if ( $http->hasPostVariable( "RemoveProductItemButton" ) )
     return;
 }
 
+if ( $http->hasPostVariable( "StoreChangesButton" ) )
+{
+    $wishList = eZWishList::currentWishList();
+    $collection = eZProductCollection::fetch( $wishList->attribute( 'productcollection_id' ) );
+    if ( $collection and $http->hasPostVariable( "ProductItemIDList" ) )
+    {
+        $collectionItems =& $collection->itemList();
+        $productItemIDlist = $http->postVariable( "ProductItemIDList" );
+        $productItemCountList = $http->hasPostVariable( "ProductItemCountList" ) ? $http->postVariable( "ProductItemCountList" ) : false;
+        if ( $productItemCountList == false )
+        {
+           $module->redirectTo( $module->functionURI( "wishlist" ) . "/" );
+           return;
+        }
+        $productItemsCount = array();
+        // Create array of productItemID (as index) and productItemCount (as value)
+        foreach ( $productItemIDlist as $key => $productItemID )
+        {
+            if ( isset( $productItemCountList[$key] ) )
+                $productItemsCount[$productItemID] = $productItemCountList[$key];
+        }
+        $db =& eZDB::instance();
+        $db->begin();
+        foreach ( $collectionItems as $item )
+        {
+            $itemID = $item->attribute( 'id' );
+            if ( isset( $productItemsCount[$itemID] ) )
+            {
+                $item->setAttribute( 'item_count', $productItemsCount[$itemID] );
+                $item->store();
+            }
+        }
+        $db->commit();
+        $module->redirectTo( $module->functionURI( "wishlist" ) . "/" );
+        return;
+    }
+}
 include_once( "kernel/common/template.php" );
 
 $tpl =& templateInit();
