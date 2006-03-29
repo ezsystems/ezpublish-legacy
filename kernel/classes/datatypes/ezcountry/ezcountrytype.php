@@ -59,13 +59,13 @@ class eZCountryType extends eZDataType
     {
         if ( $currentVersion != false )
         {
-            $dataText = $originalContentObjectAttribute->attribute( "data_text" );
-            $contentObjectAttribute->setAttribute( "data_text", $dataText );
+            $dataText = $originalContentObjectAttribute->content();
+            $contentObjectAttribute->setContent( $dataText );
         }
         else
         {
             $default = '';
-            $contentObjectAttribute->setAttribute( "data_text", $default );
+            $contentObjectAttribute->setContent( $default );
         }
     }
 
@@ -119,7 +119,7 @@ class eZCountryType extends eZDataType
         if ( $http->hasPostVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) );
-            $contentObjectAttribute->setAttribute( 'data_text', $data );
+            $contentObjectAttribute->setContent( $data );
             return true;
         }
         return false;
@@ -133,10 +133,19 @@ class eZCountryType extends eZDataType
         if ( $http->hasPostVariable( $base . "_country_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $dataText = $http->postVariable( $base . "_country_" . $contentObjectAttribute->attribute( "id" ) );
-            $collectionAttribute->setAttribute( 'data_text', $dataText );
+            $collectionAttribute->setContent( $dataText );
             return true;
         }
         return false;
+    }
+
+    /*!
+     \reimp
+    */
+    function storeObjectAttribute( &$contentObjectAttribute )
+    {
+        $content = $contentObjectAttribute->content();
+        $contentObjectAttribute->setAttribute( "data_text", $content );
     }
 
     /*!
@@ -150,7 +159,6 @@ class eZCountryType extends eZDataType
 
     /*!
      \reimp
-     Inserts the string \a $string in the \c 'data_text' database field.
     */
     function insertSimpleString( &$object, $objectVersion, $objectLanguage,
                                  &$objectAttribute, $string,
@@ -159,7 +167,6 @@ class eZCountryType extends eZDataType
         $result = array( 'errors' => array(),
                          'require_storage' => true );
         $objectAttribute->setContent( $string );
-        $objectAttribute->setAttribute( 'data_text', $string );
         return true;
     }
 
@@ -176,7 +183,7 @@ class eZCountryType extends eZDataType
     */
     function metaData( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( 'data_text' );
+        return $contentObjectAttribute->content();
     }
 
     /*!
@@ -184,12 +191,12 @@ class eZCountryType extends eZDataType
     */
     function title( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( 'data_text' );
+        return $contentObjectAttribute->content();
     }
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
-        return trim( $contentObjectAttribute->attribute( 'data_text' ) ) != '';
+        return trim( $contentObjectAttribute->content() ) != '';
     }
 
     /*!
@@ -215,7 +222,7 @@ class eZCountryType extends eZDataType
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans =& eZCharTransform::instance();
-        return $trans->transformByGroup( $contentObjectAttribute->attribute( 'data_text' ), 'lowercase' );
+        return $trans->transformByGroup( $contentObjectAttribute->content(), 'lowercase' );
     }
 
     /*!
