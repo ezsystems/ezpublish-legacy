@@ -35,3 +35,5 @@ Changes from 3.8.0alpha2 to 3.8.0beta1
   if user logs out and then logs in.
 - Fixed bug #8026: Multiple MAX_FILE_SIZE <input> tags.
   ( Merged from stable/3.6 ( 3.6.8 ) rev. 15351 )
+- Fixed bug #7949: Shop wishlist is broken.
+  ( Merged from stable/3.7 ( 3.7.6 ) rev. 15382 )
