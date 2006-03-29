@@ -188,6 +188,12 @@ class eZProductCollection extends eZPersistentObject
     {
         $db =& eZDB::instance();
         $db->begin();
+
+        // Purge shipping information associated with product collections being removed.
+        require_once( 'kernel/classes/ezshippingmanager.php' );
+        foreach ( $productCollectionIDList as $productCollectionID )
+            eZShippingManager::purgeShippingInfo( $productCollectionID );
+
         include_once( 'kernel/classes/ezproductcollectionitem.php' );
         eZProductCollectionItem::cleanupList( $productCollectionIDList );
         $idText = $db->implodeWithTypeCast( ', ', $productCollectionIDList, 'int' );
