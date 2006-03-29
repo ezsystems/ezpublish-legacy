@@ -48,7 +48,6 @@ function applyChanges( $module, $http )
         $cat->store();
     }
     $db->commit();
-    $module->redirectTo( $module->functionURI( "productcategories" ) );
 }
 
 $module =& $Params["Module"];
@@ -60,11 +59,8 @@ if ( $http->hasPostVariable( "AddCategoryButton" ) )
 
     $category = eZProductCategory::create();
     $category->store();
-    $module->redirectTo( $module->functionURI( "productcategories" ) );
-    return;
 }
-
-if ( $http->hasPostVariable( "RemoveCategoryButton" ) )
+elseif ( $http->hasPostVariable( "RemoveCategoryButton" ) )
 {
     applyChanges( $module, $http );
 
@@ -78,12 +74,8 @@ if ( $http->hasPostVariable( "RemoveCategoryButton" ) )
     foreach ( $catIDList as $catID )
         eZProductCategory::remove( $catID );
     $db->commit();
-
-    $module->redirectTo( $module->functionURI( "productcategories" ) );
-    return;
 }
-
-if ( $http->hasPostVariable( "SaveCategoriesButton" ) )
+elseif ( $http->hasPostVariable( "SaveCategoriesButton" ) )
 {
     applyChanges( $module, $http );
 }
