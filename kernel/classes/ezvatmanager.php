@@ -39,13 +39,6 @@
 
 class eZVATManager
 {
-    /*!
-     Constructor
-    */
-    function eZVATManager()
-    {
-    }
-
     /**
      * Get percentage of VAT type corresponding to the given product and country the user is from.
      *
@@ -65,36 +58,45 @@ class eZVATManager
         }
 
         // Check if user country must be specified.
-        $requireUserCountry = true;
-        $shopINI =& eZINI::instance( 'shop.ini' );
-        if ( $shopINI->hasVariable( 'VATSettings', 'RequireUserCountry' ) )
-            $requireUserCountry = ( $shopINI->variable( 'VATSettings', 'RequireUserCountry' ) == 'true' );
+        $requireUserCountry = eZVATManager::isUserCountryRequired();
 
-        // Determine user country if it's not spefified
+        // Determine user country if it's not specified
         if ( $country === false )
-            $country = eZVATManager::getUserCountry( $requireUserCountry );
+            $country = eZVATManager::getUserCountry();
 
         if ( !$country && $requireUserCountry )
+        {
+            eZDebug::writeNotice( "User country is not specified, cannot determine VAT type to use.", 'eZVATManager::getVaT()' );
             return null;
+        }
 
         return $handler->getVatPercent( $object, $country );
     }
 
     /**
-     * Determine user's country.
+     * Check if users must have country specified.
+     *
+     * \public
+     * \static
+     */
+    function isUserCountryRequired()
+    {
+        // Check if user country must be specified.
+        $requireUserCountry = true;
+        $shopINI =& eZINI::instance( 'shop.ini' );
+        if ( $shopINI->hasVariable( 'VATSettings', 'RequireUserCountry' ) )
+            $requireUserCountry = ( $shopINI->variable( 'VATSettings', 'RequireUserCountry' ) == 'true' );
+        return $requireUserCountry;
+    }
+
+    /**
+     * Determine name of content attribute that contains user's country.
      *
      * \private
      * \static
      */
-    function getUserCountry( $requireUserCountry, $userObject = false )
+    function getUserCountryAttributeName( $requireUserCountry )
     {
-        if ( $userObject === false )
-        {
-            require_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
-            $user = eZUser::currentUser();
-            $userObject = $user->attribute( 'contentobject' );
-        }
-
         $ini =& eZINI::instance( 'shop.ini' );
         if ( !$ini->hasVariable( 'VATSettings', 'UserCountryAttribute' ) )
         {
@@ -102,7 +104,7 @@ class eZVATManager
             {
                 eZDebug::writeError( "Cannot find user country: please specify its attribute identifier " .
                                      "in the following setting: shop.ini.[VATSettings].UserCountryAttribute",
-                                     'eZVATManager::getUserCountry' );
+                                     'getUserCountryAttributeName' );
             }
             return null;
         }
@@ -114,11 +116,36 @@ class eZVATManager
             {
                 eZDebug::writeError( "Cannot find user country: empty attribute name specified " .
                                      "in the following setting: shop.ini.[VATSettings].UserCountryAttribute",
-                                     'eZVATManager::getUserCountry' );
+                                     'getUserCountryAttributeName' );
             }
 
             return null;
         }
+
+        return $countryAttributeName;
+    }
+
+    /**
+     * Determine user's country.
+     *
+     * \public
+     * \static
+     */
+    function getUserCountry( $user = false )
+    {
+        $requireUserCountry = eZVATManager::isUserCountryRequired();
+
+        if ( $user === false )
+        {
+            require_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+            $user = eZUser::currentUser();
+        }
+
+        $userObject = $user->attribute( 'contentobject' );
+        $countryAttributeName = eZVATManager::getUserCountryAttributeName( $requireUserCountry );
+
+        if ( $countryAttributeName === null )
+            return null;
 
         $userDataMap = $userObject->attribute( 'data_map' );
         if ( !isset( $userDataMap[$countryAttributeName] ) )
@@ -142,15 +169,55 @@ class eZVATManager
             if ( $requireUserCountry )
             {
                 eZDebug::writeError( "User country is not specified in object '" .
-                                       $object->attribute( 'name' ) .
+                                       $userObject->attribute( 'name' ) .
                                        "' of class '" .
-                                       $object->attribute( 'class_name' ) . "'." ,
+                                       $userObject->attribute( 'class_name' ) . "'." ,
                                      'eZVATManager::getUserCountry' );
             }
             return null;
         }
 
         return $country;
+    }
+
+    /**
+     * Set user's country.
+     *
+     * \public
+     * \static
+     */
+    function setUserCountry( $user, $country )
+    {
+        $userObject = $user->attribute( 'contentobject' );
+        $requireUserCountry = eZVATManager::isUserCountryRequired();
+        require_once( 'kernel/classes/ezvatmanager.php' );
+        $countryAttributeName = eZVATManager::getUserCountryAttributeName( $requireUserCountry );
+        if ( $countryAttributeName === null )
+            return false;
+
+        $userDataMap = $userObject->attribute( 'data_map' );
+        if ( !isset( $userDataMap[$countryAttributeName] ) )
+        {
+            if ( $requireUserCountry )
+            {
+                eZDebug::writeError( "Cannot set user country: there is no attribute '$countryAttributeName' in object '" .
+                                       $userObject->attribute( 'name' ) .
+                                       "' of class '" .
+                                       $userObject->attribute( 'class_name' ) . "'.",
+                                     'eZVATManager::getUserCountry' );
+            }
+
+            return false;
+        }
+
+        eZDebug::writeNotice( sprintf( "Saving country '%s' for user '%s'",
+                                       $country, $user->attribute( 'login' )  ) );
+
+        $countryAttribute = $userDataMap[$countryAttributeName];
+        $countryAttribute->setContent( $country );
+        $countryAttribute->store();
+
+        return true;
     }
 
 
