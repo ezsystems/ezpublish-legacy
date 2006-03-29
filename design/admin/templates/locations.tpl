@@ -125,8 +125,8 @@
     {/section}
 
 {section-else}
-    <input class="button-disabled" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title={'You can not remove any locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )} />
-    <input class="button-disabled" type="submit" name="" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title={'You can not add new locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )} />
+    <input class="button-disabled" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You can not remove any locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
+    <input class="button-disabled" type="submit" name="" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You can not add new locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
 {/section}
 </div>
 

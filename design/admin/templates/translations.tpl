@@ -95,7 +95,7 @@
     <input class="button-disabled" type="submit" name="RemoveTranslationButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'There is no removable language.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
     {/if}
 {else}
-    <input class="button-disabled" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title={'You can not remove any language because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )} />
+    <input class="button-disabled" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You can not remove any language because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
 {/if}
 </div>
 
