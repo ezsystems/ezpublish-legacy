@@ -48,8 +48,8 @@ handler specified in ini settings.
 The default VAT handler shipped with eZ publish uses special rules to
 determine the appropriate VAT for a product. Each rule determines what VAT
 to charge for a given product category and country the customer is from.
-Ther is a view to manage those rules (stored in an external DB table)
-via the admin. interface.
+Those rules (stored in an external DB table) can be managed via the
+admin. interface.
 
 Example:
 .---------+---------------------------+-----------------------.
@@ -70,18 +70,18 @@ Example:
 
 The rightmost table column refers to VAT types defined in Shop tab of
 the admin. interface. Asterisk (*) means "any category (country)",
-depending on which column it is specified in.]
+depending on which column it is specified in.
 
 The rules in the table above assign reduced VAT to some
 products in Germany and Norway; for all other products in
 Norway, Ukraine and Germany the standard VAT is used. For the rest of
 countries no VAT is charged.
 
-_Category_ of a product is a special content attribute of a
-product class, used by the default VAT handler when determining VAT for
-the object. The datatype of this attribute uses an external table to
-store categories list. There will be GUI for categories management in
-the admin. interface.
+_Category_ of a product is a special content attribute of a product
+class, used by the default VAT handler when determining VAT for the
+object. The datatype of this attribute uses database table to store
+categories list. There is GUI for categories management in the admin.
+interface.
 
 User _country_  is a content attribute of type ezcountry added to a user
 class. The list of countries is loaded from an .ini file.
