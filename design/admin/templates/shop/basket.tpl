@@ -101,7 +101,7 @@
 {* Show shipping type/cost. *}
 <tr>
 <td colspan="1">&nbsp;</td>
-<td colspan="6">{'Shipping'|i18n( 'design/admin/shop/basket' )} (<a href={$shipping_info.management_link|ezurl}>{$shipping_info.description}</a>):</td>
+<td colspan="6"><a href={$shipping_info.management_link|ezurl}>{'Shipping'|i18n( 'design/admin/shop/basket' )}{if $shipping_info.description} ({$shipping_info.description}){/if}</a>:</td>
 <td class="number" align="right">{$shipping_info.cost|l10n( 'currency', $locale, $symbol )}</td>
 <td class="number" align="right">{$shipping_info.cost|l10n( 'currency', $locale, $symbol )}</td>
 </tr>

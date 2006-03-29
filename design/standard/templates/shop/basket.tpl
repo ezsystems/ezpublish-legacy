@@ -169,6 +169,38 @@ teessst
 <td>
 {$basket.total_inc_vat|l10n( 'currency', $locale, $symbol )}
 </td>
+
+{if is_set( $shipping_info )}
+{* Show shipping type/cost. *}
+<tr>
+     <td colspan='6'>
+     <a href={$shipping_info.management_link|ezurl}>{'Shipping'|i18n( 'design/admin/shop/basket' )}{if $shipping_info.description} ({$shipping_info.description}){/if}</a>:
+     </td>
+     <td>
+     {$shipping_info.cost|l10n( 'currency', $locale, $symbol )}:
+     </td>
+     <td>
+     {$shipping_info.cost|l10n( 'currency', $locale, $symbol )}:
+     </td>
+     <td>
+     </td>
+</tr>
+{* Show order total *}
+<tr>
+     <td colspan='6'>
+     <b>{'Order total'|i18n( 'design/admin/shop/basket' )}<b>:
+     </td>
+     <td>
+     <b>{$total_inc_shipping_ex_vat|l10n( 'currency', $locale, $symbol )}</b>
+     </td>
+     <td>
+     <b>{$total_inc_shipping_inc_vat|l10n( 'currency', $locale, $symbol )}</b>
+     </td>
+     <td>
+     </td>
+</tr>
+{/if}
+
 <td>
 </td>
 </tr>

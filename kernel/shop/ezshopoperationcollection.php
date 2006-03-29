@@ -161,9 +161,13 @@ class eZShopOperationCollection
             if ( $orderItems )
                 break;
 
+            $shippingDescription = ezi18n( 'kernel/shop', 'Shipping' );
+            if ( $shippingInfo['description'] )
+                $shippingDescription += ' (' . $shippingInfo['description'] . ')';
             // create order item: shipping
+
             $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
-                                                 'description' => 'Shipping (' . $shippingInfo['description'] . ')',
+                                                 'description' => $shippingDescription,
                                                  'price' => $shippingInfo['cost'],
                                                  'type' => 'ezcustomshipping' ) );
             $orderItem->store();

@@ -132,6 +132,28 @@
          </td>
 
      </tr>
+
+    {if is_set( $shipping_info )}
+    {* Show shipping type/cost. *}
+    <tr>
+    <td class="product-subtotal" colspan="5"><a href={$shipping_info.management_link|ezurl}>{'Shipping'|i18n( 'design/admin/shop/basket' )}{if $shipping_info.description} ({$shipping_info.description}){/if}</a>:
+    {$shipping_info.cost|l10n( 'currency', $locale, $symbol )}
+    </td>
+    <td class="product-subtotal">
+    &nbsp;
+    </td>
+    </tr>
+    {* Show order total *}
+    <tr>
+    <td class="product-subtotal" colspan="5"><b>{'Order total'|i18n( 'design/admin/shop/basket' )}</b>:
+    {$total_inc_shipping_inc_vat|l10n( 'currency', $locale, $symbol )}
+    </td>
+    <td class="product-subtotal">
+    &nbsp;
+    </td>
+    </tr>
+    {/if}
+
      </table>
       </div>
 
