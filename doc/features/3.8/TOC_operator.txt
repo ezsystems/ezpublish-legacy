@@ -1,0 +1,32 @@
+*Title: TOC operator
+
+*Original author: Bard Farstad
+
+*Documentation:
+'eztoc' is a template operator which generates a template table of contents
+using the headers in an XML field.
+
+The usage of the operator is as follows:
+
+In the object template:
+
+{* body is ezxml datatype*}
+{eztoc( $node.object.data_map.body )}
+
+This will produce the HTML output on the page:
+
+<ul>
+    <ul>
+        <li><a href="#1">1. Quisque aliquet</a></li>
+        <ul>
+            <li><a href="#1_1">1.1 Cum sociis</a></li>
+        </ul>
+    </ul>
+        <ul>
+            <li><a href="#2">2. Quisque aliquet</a></li>
+        <ul>
+            <li><a href="#2_2">2.1 Cum sociis</a></li>
+        </ul>
+    </ul>
+</ul>
+

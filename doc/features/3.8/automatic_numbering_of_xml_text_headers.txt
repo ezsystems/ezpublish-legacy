@@ -1,0 +1,15 @@
+*Title: Automatic numbering of XML text headers
+
+*Original author: Bard Farstad
+
+*Documentation:
+A template variable {$header_number} is available in the 'header.tpl' file. It
+can be used to automatically generate a link or a prefix to a specific header
+item.
+Very useful if you want to generate a TOC and have it link to the correct
+place in the text.
+
+It does not change the template but makes the template variable available.
+For the first header it will have the value 1, the second will have 2. A sub
+header under the second header will have 2_1 and so on.
+

@@ -87,6 +87,10 @@ $eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/ezpackageoperator
                                     'class' => 'eZPackageOperator',
                                     'operator_names' => array( 'ezpackage' ) );
 
+$eZTemplateOperatorArray[] = array( 'script' => 'kernel/common/eztocoperator.php',
+                                    'class' => 'eZTOCOperator',
+                                    'operator_names' => array( 'eztoc' ) );
+
 // Function autoloading
 
 $eZTemplateFunctionArray = array();

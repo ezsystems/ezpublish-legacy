@@ -223,6 +223,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 // tags with parameters
                 case 'header' :
                 {
+                   unset( $textElements );
+
                    // Add the anchor tag before the header.
                    $name = $sectionNode->attributeValue( 'anchor_name' );
                    $class = $sectionNode->attributeValue( 'class' );
@@ -241,6 +243,39 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                    }
 
                    $level = $sectionLevel;
+
+                   if ( !isset( $GLOBALS['eZXMLHeaderCounter'][$level] ) )
+                   {
+                       $GLOBALS['eZXMLHeaderCounter'][$level] = 0;
+                   }
+
+                   $GLOBALS['eZXMLHeaderCounter'][$level] += 1;
+
+                   $i = 1;
+                   $headerAutoName = "";
+                   while ( $i <= $level )
+                   {
+                      if ( $i > 1 )
+                          $headerAutoName .= "_";
+
+                      $headerAutoName .= $GLOBALS['eZXMLHeaderCounter'][$i];
+                      $i++;
+                   }
+
+                   if ( $headerAutoName )
+                   {
+                       $tpl->setVariable( 'name', $headerAutoName, 'xmltagns' );
+
+                       $uri = "design:content/datatype/view/ezxmltags/anchor.tpl";
+                       eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+
+                       $output .= implode( '', $textElements );
+
+                       // Set a template variable for automatic generated header levels
+                       $levelNumber = str_replace( "_", ".", $headerAutoName );
+                       $tpl->setVariable( 'header_number', $levelNumber, 'xmltagns' );
+                   }
+
                    $tpl->setVariable( 'content', $sectionNode->textContent(), 'xmltagns' );
                    $tpl->setVariable( 'level', $level, 'xmltagns' );
                    $tpl->setVariable( 'classification', $class, 'xmltagns' );
@@ -347,7 +382,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         {
             $curChildIndex++;
 
-            if ( $curChildIndex == $totalChildren ) 
+            if ( $curChildIndex == $totalChildren )
             {
               $this->LastParagraphChild = true;
             }
@@ -846,9 +881,9 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $tableCellChildren = $tableCell->children();
                         // If <paragraph> is the one and only child then rendering <p> depends of
                         // RenderParagraphInTableCells option setting.
-                        if ( ( count( $tableCellChildren ) == 1 ) and ( $tableCellChildren[0]->name() == "paragraph" )) 
+                        if ( ( count( $tableCellChildren ) == 1 ) and ( $tableCellChildren[0]->name() == "paragraph" ))
                         {
-                            if ( $renderParagraphInTableCells ) 
+                            if ( $renderParagraphInTableCells )
                                 $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, 0, 0 );
                             else
                                 $cellContent .= $this->renderXHTMLSection( $tpl, $tableCellChildren[0], 0, 0 );
@@ -1033,7 +1068,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $uri = "design:content/datatype/view/ezxmltags/$tagName.tpl";
 
                 //force rendering last line without <br> i.e. as plain text
-                if ( $tagName == 'line' && $this->LastParagraphChild ) 
+                if ( $tagName == 'line' && $this->LastParagraphChild )
                 {
                     $uri = "design:content/datatype/view/ezxmltags/text.tpl";
                 }
@@ -1128,7 +1163,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     /// Contains the Nodes hashed by ID
     var $NodeArray = array();
-    
+
     /// Contains boolean flag if current child is last among paragraph children
     /// used when rendering last <line> tag.
     var $LastParagraphChild = false;
