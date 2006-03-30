@@ -120,7 +120,7 @@ table.list th, table.list td, table.special th, table.special td
     vertical-align: top;
 }
 
-table.list td.number, table.special td.number
+table.list td.number, table.special td.number, table.list td.right
 {
     text-align: right;
 }

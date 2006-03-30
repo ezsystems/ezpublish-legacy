@@ -159,7 +159,7 @@
     <td>{$Versions.item.modified|l10n( shortdatetime )}</td>
 
     {* Copy button. *}
-    <td>
+    <td align="right" class="right">
         {section show=$can_edit}
         <select name="CopyVersionLanguage[{$Versions.item.version}]">
     	    {section var=Languages loop=$Versions.item.language_list}
