@@ -3386,6 +3386,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $insertedNode->setAttribute( 'depth', $nodeDepth );
         $insertedNode->setAttribute( 'path_string', '/TEMPPATH' );
 
+        // Fix bug #8066
+        $insertedNode->setAttribute( 'contentobject_version', $node->attribute( 'contentobject_version' ) );
+
         $db->begin();
         $insertedNode->store();
         $insertedID = $insertedNode->attribute( 'node_id' );
