@@ -6,9 +6,6 @@ Changes from 3.8.0alpha1 to 3.8.0alpha2
   (un)serialization to export related object remote_id instead of id.
 - Fixed bug: When exporting all contentobject versions
   only the last version was actually exported (multiple times).
-- Fixed bug #7870: reverseRelatedObjectList $attributeID = 0.
-  ( reverse related objects do not show up )
-  ( Merged from stable/3.6 ( 3.6.6 ) rev. 14920 )
 - Fixed bug #7861: php warnings with AllowEmptySearch and advanced search.
   ( Merged from stable/3.7 ( 3.7.4 ) rev. 14924 )
 - Fixed bug #7877: Some small bugs in ezsubtreecopy.php.
