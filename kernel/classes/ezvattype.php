@@ -106,6 +106,11 @@ class eZVatType extends eZPersistentObject
                                                 $asObject );
     }
 
+    function isDynamic()
+    {
+        return ( $this->ID == -1 );
+    }
+
     /**
      * \param $skipDynamic if false, include dynamic VAT type to the list being returned.
      */

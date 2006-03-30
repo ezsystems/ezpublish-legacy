@@ -56,9 +56,9 @@ class eZShopOperationCollection
      */
     function handleUserCountry( $orderID )
     {
-        // If user country is not required to calculate VATthen do nothing.
+        // If user country is not required to calculate VAT then do nothing.
         require_once( 'kernel/classes/ezvatmanager.php' );
-        if ( !eZVATManager::isUserCountryRequired() )
+        if ( !eZVATManager::isDynamicVatChargingEnabled() || !eZVATManager::isUserCountryRequired() )
             return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
 
         $user =& eZUser::currentUser();
@@ -123,14 +123,39 @@ class eZShopOperationCollection
         $vatIsKnown = true;
         $db =& eZDB::instance();
         $db->begin();
+        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
         foreach( array_keys( $items ) as $key )
         {
             $item =& $items[$key];
             $productContentObject =& $item->attribute( 'contentobject' );
-            $vatValue = eZVATManager::getVAT( $productContentObject, $country );
-            //eZDebug::writeDebug( array( $vatValue ), 'vatValue' );
-            eZDebug::writeNotice( "Updating product collection setting VAT $vatValue% according to order's country '$country'." );
+
+            // Look up price object.
+            $priceObj = null;
+            $attributes =&  $productContentObject->contentObjectAttributes();
+            foreach ( $attributes as $attribute )
+            {
+                $dataType = $attribute->dataType();
+                if ( eZShopFunctions::isProductDatatype( $dataType->isA() ) )
+                {
+                    $priceObj =& $attribute->content();
+                    break;
+                }
+            }
+            if ( !is_object( $priceObj ) )
+                continue;
+
+            // If the product is assigned a fixed VAT type then skip the product.
+            $vatType = $priceObj->VATType();
+            if ( !$vatType->isDynamic() )
+                continue;
+
+            // Update item's VAT percentage.
+            $vatValue = $priceObj->VATPercent( $productContentObject, $country );
+            eZDebug::writeNotice( "Updating product item collection item ('" .
+                                  $productContentObject->attribute( 'name' ) . "'): " .
+                                  "setting VAT $vatValue% according to order's country '$country'." );
             $item->setAttribute( "vat_value", $vatValue );
+
             $item->store();
         }
         $db->commit();
@@ -163,7 +188,8 @@ class eZShopOperationCollection
 
             $shippingDescription = ezi18n( 'kernel/shop', 'Shipping' );
             if ( $shippingInfo['description'] )
-                $shippingDescription += ' (' . $shippingInfo['description'] . ')';
+                $shippingDescription .= ' (' . $shippingInfo['description'] . ')';
+
             // create order item: shipping
 
             $orderItem = new eZOrderItem( array( 'order_id' => $orderID,
