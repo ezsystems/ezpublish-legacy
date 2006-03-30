@@ -208,75 +208,85 @@ class eZSearch
                         // Remove incomplete search parts from the search.
                         // An incomplete search part is for instance an empty text field,
                         // or a select box with no selected values.
-                        $removePart = false;
-                        switch ( $part['subtype'] )
+
+                        // This functionality has been moved to the search engine.
+                        // Checking if it is defined in the search engine
+                        if ( method_exists( $searchEngine, 'isSearchPartIncomplete' ) )
                         {
-                            case 'fulltext':
+                            $removePart = $searchEngine->isSearchPartIncomplete( $part );
+                        }
+                        else // for backwards compatibility
+                        {
+                            $removePart = false;
+                            switch ( $part['subtype'] )
                             {
-                                if ( !isSet( $part['value'] ) || $part['value'] == '' )
-                                    $removePart = true;
-                            }
-                            break;
-
-                            case 'patterntext':
-                            {
-                                if ( !isSet( $part['value'] ) || $part['value'] == '' )
-                                    $removePart = true;
-                            }
-                            break;
-
-                            case 'integer':
-                            {
-                                if ( !isSet( $part['value'] ) || $part['value'] == '' )
-                                    $removePart = true;
-                            }
-                            break;
-
-                            case 'integers':
-                            {
-                                if ( !isSet( $part['values'] ) || count( $part['values'] ) == 0 )
-                                    $removePart = true;
-                            }
-                            break;
-
-                            case 'byrange':
-                            {
-                                if ( !isSet( $part['from'] ) || $part['from'] == '' ||
-                                     !isSet( $part['to'] ) || $part['to'] == '' )
-                                    $removePart = true;
-                            }
-                            break;
-
-                            case 'byidentifier':
-                            {
-                                if ( !isSet( $part['value'] ) || $part['value'] == '' )
-                                    $removePart = true;
-                            }
-                            break;
-
-                            case 'byidentifierrange':
-                            {
-                                if ( !isSet( $part['from'] ) || $part['from'] == '' ||
-                                     !isSet( $part['to'] ) || $part['to'] == '' )
-                                    $removePart = true;
-                            }
-                            break;
-
-                            case 'integersbyidentifier':
-                            {
-                                if ( !isSet( $part['values'] ) || count( $part['values'] ) == 0 )
-                                    $removePart = true;
-                            }
-                            break;
-
-                            case 'byarea':
-                            {
-                                if ( !isSet( $part['from'] ) || $part['from'] == '' ||
-                                     !isSet( $part['to'] ) || $part['to'] == '' ||
-                                     !isSet( $part['minvalue'] ) || $part['minvalue'] == '' ||
-                                     !isSet( $part['maxvalue'] ) || $part['maxvalue'] == '' )
+                                case 'fulltext':
                                 {
-                                    $removePart = true;
+                                    if ( !isset( $part['value'] ) || $part['value'] == '' )
+                                        $removePart = true;
+                                }
+                                break;
+
+                                case 'patterntext':
+                                {
+                                    if ( !isset( $part['value'] ) || $part['value'] == '' )
+                                        $removePart = true;
+                                }
+                                break;
+
+                                case 'integer':
+                                {
+                                    if ( !isset( $part['value'] ) || $part['value'] == '' )
+                                        $removePart = true;
+                                }
+                                break;
+
+                                case 'integers':
+                                {
+                                    if ( !isset( $part['values'] ) || count( $part['values'] ) == 0 )
+                                        $removePart = true;
+                                }
+                                break;
+
+                                case 'byrange':
+                                {
+                                    if ( !isset( $part['from'] ) || $part['from'] == '' ||
+                                         !isset( $part['to'] ) || $part['to'] == '' )
+                                        $removePart = true;
+                                }
+                                break;
+
+                                case 'byidentifier':
+                                {
+                                    if ( !isset( $part['value'] ) || $part['value'] == '' )
+                                        $removePart = true;
+                                }
+                                break;
+
+                                case 'byidentifierrange':
+                                {
+                                    if ( !isset( $part['from'] ) || $part['from'] == '' ||
+                                         !isset( $part['to'] ) || $part['to'] == '' )
+                                        $removePart = true;
+                                }
+                                break;
+
+                                case 'integersbyidentifier':
+                                {
+                                    if ( !isset( $part['values'] ) || count( $part['values'] ) == 0 )
+                                        $removePart = true;
+                                }
+                                break;
+
+                                case 'byarea':
+                                {
+                                    if ( !isset( $part['from'] ) || $part['from'] == '' ||
+                                         !isset( $part['to'] ) || $part['to'] == '' ||
+                                         !isset( $part['minvalue'] ) || $part['minvalue'] == '' ||
+                                         !isset( $part['maxvalue'] ) || $part['maxvalue'] == '' )
+                                    {
+                                        $removePart = true;
+                                    }
                                 }
                             }
                         }
@@ -358,7 +368,7 @@ class eZSearch
                     {
                         case 'class':
                         {
-                            if ( !isSet( $part['value'] ) ||
+                            if ( !isset( $part['value'] ) ||
                                  ( is_array( $part['value'] ) && count( $part['value'] ) == 0 ) ||
                                  ( !is_array( $part['value'] ) && $part['value'] == '' ) )
                                 $removePart = true;
@@ -366,7 +376,7 @@ class eZSearch
                         break;
                         case 'publishdate':
                         {
-                            if ( !isSet( $part['value'] ) ||
+                            if ( !isset( $part['value'] ) ||
                                  ( is_array( $part['value'] ) && count( $part['value'] ) == 0 ) ||
                                  ( !is_array( $part['value'] ) && $part['value'] == '' ) )
                                 $removePart = true;
@@ -374,7 +384,7 @@ class eZSearch
                         break;
                         case 'subtree':
                         {
-                            if ( !isSet( $part['value'] ) ||
+                            if ( !isset( $part['value'] ) ||
                                  ( is_array( $part['value'] ) && count( $part['value'] ) == 0 ) ||
                                  ( !is_array( $part['value'] ) && $part['value'] == '' ) )
 

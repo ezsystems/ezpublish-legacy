@@ -86,7 +86,7 @@ class eZSearchEngine
                     $tmpMetaData = $translation->metaData();
                     if( ! is_array( $tmpMetaData ) )
                     {
-                        $tmpMetaData = array( array( 'id' => '',
+                        $tmpMetaData = array( array( 'identifier' => $attribute->attribute( 'contentclass_attribute_identifier' ),
                                                      'text' => $tmpMetaData ) );
                     }
                     $metaData = array_merge( $metaData, $tmpMetaData );
@@ -113,7 +113,7 @@ class eZSearchEngine
                         {
                             $indexArray[] = array( 'Word' => $word,
                                                    'ContentClassAttributeID' => $attribute->attribute( 'contentclassattribute_id' ),
-                                                   'id' => $metaDataPart['id'],
+                                                   'identifier' => $metaDataPart['identifier'],
                                                    'integer_value' => $integerValue );
                             $indexArrayOnlyWords[] = $word;
                             $wordCount++;
@@ -284,7 +284,7 @@ class eZSearchEngine
         {
             $indexWord = $indexArray[$i]['Word'];
             $contentClassAttributeID = $indexArray[$i]['ContentClassAttributeID'];
-            $identifier = $indexArray[$i]['id'];
+            $identifier = $indexArray[$i]['identifier'];
             $integerValue = $indexArray[$i]['integer_value'];
             $indexWord = $trans->transformByGroup( $indexWord, 'lowercase' );
             $wordID = $wordIDArray[$indexWord];
@@ -440,6 +440,10 @@ class eZSearchEngine
             $searchTypes['general'] = array();
             $searchTypes['subtype'] = array();
             $searchTypes['and'] = array();
+        }
+        else if ( !isset( $searchTypes['general'] ) )
+        {
+            $searchTypes['general'] = array();
         }
         $allowSearch = true;
         if ( trim( $searchText ) == '' )
@@ -649,12 +653,18 @@ class eZSearchEngine
             // Get the total number of objects
             $totalObjectCount = $this->fetchTotalObjectCount();
 
-            $wordIDArrays = $this->prepareWordIDArrays( $searchText );
-            $wordIDArray = $wordIDArrays['wordIDArray'];
-            $wordIDHash = $wordIDArrays['wordIDHash'];
-            $wildIDArray = $wordIDArrays['wildIDArray'];
-            $wildCardCount = $wordIDArrays['wildCardCount'];
-            $searchPartsArray = $this->buildSearchPartArray( $phraseTextArray, $nonPhraseText, $wordIDHash, $wildIDArray );
+            $searchPartsArray = array();
+            $wordIDHash = array();
+            $wildCardCount = 0;
+            if ( trim( $searchText ) != '' )
+            {
+                $wordIDArrays =& $this->prepareWordIDArrays( $searchText );
+                $wordIDArray =& $wordIDArrays['wordIDArray'];
+                $wordIDHash =& $wordIDArrays['wordIDHash'];
+                $wildIDArray =& $wordIDArrays['wildIDArray'];
+                $wildCardCount = $wordIDArrays['wildCardCount'];
+                $searchPartsArray =& $this->buildSearchPartArray( $phraseTextArray, $nonPhraseText, $wordIDHash, $wildIDArray );
+            }
 
             /// OR search, not used in this version
             $doOrSearch = false;
@@ -896,7 +906,7 @@ class eZSearchEngine
                 }
             }
 
-            if ( $searchPartsArray == null && $this->TempTablesCount == 0 )
+            if ( $searchPartsArray === null && $this->TempTablesCount == 0 )
             {
                  $table = $db->generateUniqueTempTableName( 'ezsearch_tmp_%_0' );
                  $this->saveCreatedTempTableName( 0, $table );
@@ -1220,9 +1230,15 @@ class eZSearchEngine
      \private
      \return Returns an sql query part for one word
     */
-    function buildSqlPartForWord( $wordID )
+    function buildSqlPartForWord( $wordID, $identifier = false )
     {
-        return "ezsearch_object_word_link.word_id='$wordID' AND ";
+        $fullTextSQL = "ezsearch_object_word_link.word_id='$wordID' AND ";
+        if ( $identifier )
+        {
+            $fullTextSQL .= "ezsearch_object_word_link.identifier='$identifier' AND ";
+        }
+
+        return $fullTextSQL;
     }
 
     /*!
@@ -1230,7 +1246,7 @@ class eZSearchEngine
      \return Returns an sql query part for a phrase
     */
 
-    function buildPhraseSqlQueryPart( $phraseIDArray )
+    function buildPhraseSqlQueryPart( $phraseIDArray, $identifier = false )
     {
         $phraseSearchSQLArray = array();
         $wordCount = count( $phraseIDArray );
@@ -1250,6 +1266,10 @@ class eZSearchEngine
                 {
                     $prevWordID = $phraseIDArray[$i-1];
                     $phraseSearchSQL .= " AND ezsearch_object_word_link.prev_word_id='$prevWordID' ";
+                }
+                if ( $identifier )
+                {
+                    $phraseSearchSQL .= " AND ezsearch_object_word_link.identifier='$identifier' ";
                 }
                 $phraseSearchSQL .= "  ) ";
             }
@@ -1321,20 +1341,20 @@ class eZSearchEngine
     function supportedSearchTypes()
     {
         $searchTypes = array( array( 'type' => 'attribute',
-                                     'subtype' =>  'fulltext',
+                                     'subtype' => 'fulltext',
                                      'params' => array( 'classattribute_id', 'value' ) ),
                               array( 'type' => 'attribute',
-                                     'subtype' =>  'patterntext',
+                                     'subtype' => 'patterntext',
                                      'params' => array( 'classattribute_id', 'value' ) ),
                               array( 'type' => 'attribute',
-                                     'subtype' =>  'integer',
+                                     'subtype' => 'integer',
                                      'params' => array( 'classattribute_id', 'value' ) ),
                               array( 'type' => 'attribute',
-                                     'subtype' =>  'integers',
+                                     'subtype' => 'integers',
                                      'params' => array( 'classattribute_id', 'values' ) ),
                               array( 'type' => 'attribute',
-                                     'subtype' =>  'byrange',
-                                     'params' => array( 'classattribute_id' , 'from' , 'to'  ) ),
+                                     'subtype' => 'byrange',
+                                     'params' => array( 'classattribute_id', 'from' , 'to' ) ),
                               array( 'type' => 'attribute',
                                      'subtype' => 'byidentifier',
                                      'params' => array( 'classattribute_id', 'identifier', 'value' ) ),
@@ -1429,7 +1449,7 @@ class eZSearchEngine
             $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
         }
 
-        $searchPartSql = " ezsearch_object_word_link.integer_value between $fromValue AND $toValue AND";
+        $searchPartSql = " ezsearch_object_word_link.integer_value BETWEEN $fromValue AND $toValue AND";
         $searchPartText =  $classAttributeQuery . $searchPartSql;
         $tableResult = $this->createTemporaryTable( $searchPartText );
 
@@ -1444,25 +1464,46 @@ class eZSearchEngine
 
     }
 
+    function searchAttributeByIdentifier( $searchParams )
+    {
+        $identifier = $searchParams['identifier'];
+        $textValue = $searchParams['value'];
+
+        $searchText = $this->normalizeText( $textValue, false );
+
+        $phrasesResult = $this->getPhrases( $searchText );
+        $phraseTextArray = $phrasesResult['phrases'];
+        $nonPhraseText = $phrasesResult['nonPhraseText'];
+        $fullText = $phrasesResult['fullText'];
+
+        $totalObjectCount = $this->fetchTotalObjectCount();
+
+        $wordIDArrays = $this->prepareWordIDArrays( $searchText );
+        $wordIDArray = $wordIDArrays['wordIDArray'];
+        $wordIDHash = $wordIDArrays['wordIDHash'];
+        $wildIDArray = $wordIDArrays['wildIDArray'];
+
+        $searchWordArray = $this->splitString( $searchText );
+
+        $nonExistingWordCount = count( $searchWordArray ) - count( $wordIDHash );
+        if ( $nonExistingWordCount > 0 )
+            return false;
+
+        $searchPartsArray = $this->buildSearchPartArray( $phraseTextArray, $nonPhraseText, $wordIDHash,
+                                                         $wildIDArray, $identifier );
+        $this->buildTempTablesForFullTextSearch( $searchPartsArray, array() );
+        $this->GeneralFilter['classAttributeQuery'] = '';
+        return true;
+    }
+
     function searchAttributeByIdentifierRange( $searchParams )
     {
-//        $textValue = $searchParams['value'];
-//        if( ! is_numeric( $textValue ) )
-//            return false;
-        $classAttributeID = $searchParams['classattribute_id'];
         $identifier = $searchParams['identifier'];
         $fromValue = $searchParams['from'];
         $toValue = $searchParams['to'];
 
-        $classAttributeQuery = "";
-        if ( is_numeric( $classAttributeID ) and  $classAttributeID > 0 )
-        {
-            $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
-        }
-
-        $searchPartSql = " ezsearch_object_word_link.integer_value between $fromValue AND $toValue AND ezsearch_object_word_link.identifier = '$identifier'  AND";
-        $searchPartText =  $classAttributeQuery . $searchPartSql;
-        $tableResult = $this->createTemporaryTable( $searchPartText );
+        $searchPartSql = " ezsearch_object_word_link.integer_value BETWEEN $fromValue AND $toValue AND ezsearch_object_word_link.identifier = '$identifier' AND";
+        $tableResult = $this->createTemporaryTable( $searchPartSql );
 
         if ( $tableResult === false )
         {
@@ -1476,20 +1517,12 @@ class eZSearchEngine
 
     function searchAttributeIntegersByIdentifier( $searchParams )
     {
-        $classAttributeID = $searchParams['classattribute_id'];
         $identifier = $searchParams['identifier'];
         $values = $searchParams['values'];
 
-        $classAttributeQuery = "";
-        if ( is_numeric( $classAttributeID ) and $classAttributeID > 0 )
-        {
-            $classAttributeQuery = "ezsearch_object_word_link.contentclass_attribute_id = '$classAttributeID' AND ";
-        }
-
         $integerValuesSql = implode( ', ', $values );
         $searchPartSql = " ezsearch_object_word_link.integer_value IN ( $integerValuesSql ) AND ezsearch_object_word_link.identifier = '$identifier' AND";
-        $searchPartText = $classAttributeQuery . $searchPartSql;
-        $tableResult = $this->createTemporaryTable( $searchPartText );
+        $tableResult = $this->createTemporaryTable( $searchPartSql );
 
         if ( $tableResult === false )
         {
@@ -1519,6 +1552,7 @@ class eZSearchEngine
         $wordIDArrays = $this->prepareWordIDArraysForPattern( $searchText );
         $wordIDArray = $wordIDArrays['wordIDArray'];
         $wordIDHash = $wordIDArrays['wordIDHash'];
+        $wildIDArray = $wordIDArrays['wildIDArray'];
         $patternWordIDHash = $wordIDArrays['patternWordIDHash'];
 
         $searchWordArray = $this->splitString( $searchText );
@@ -1530,7 +1564,7 @@ class eZSearchEngine
         preg_replace( "/(\w+\*\s)/", " ", $searchText );
         $nonPhraseText = $this->normalizeText( $searchText, false );
 
-        $searchPartsArray = $this->buildSearchPartArrayForWords( $nonPhraseText, $wordIDHash );
+        $searchPartsArray = $this->buildSearchPartArrayForWords( $nonPhraseText, $wordIDHash, $wildIDArray );
 
         foreach ( $patternWordIDHash as $patternWord )
         {
@@ -1579,19 +1613,19 @@ class eZSearchEngine
         $wordIDArrays = $this->prepareWordIDArrays( $searchText );
         $wordIDArray = $wordIDArrays['wordIDArray'];
         $wordIDHash = $wordIDArrays['wordIDHash'];
+        $wildIDArray = $wordIDArrays['wildIDArray'];
 
         $searchWordArray = $this->splitString( $searchText );
 
         $nonExistingWordCount = count( $searchWordArray ) - count( $wordIDHash );
         if ( $nonExistingWordCount > 0 )
             return false;
-        $searchPartsArray = $this->buildSearchPartArray( $phraseTextArray, $nonPhraseText, $wordIDHash );
-
+        $searchPartsArray = $this->buildSearchPartArray( $phraseTextArray, $nonPhraseText,
+                                                         $wordIDHash, $wildIDArray );
 
         $this->buildTempTablesForFullTextSearch( $searchPartsArray, array() );
         $this->GeneralFilter['classAttributeQuery'] = '';
         return true;
-
     }
 
     function createTemporaryTable( $searchPartText  )
@@ -1685,32 +1719,33 @@ class eZSearchEngine
         $i = $this->TempTablesCount;
         $generalFilterList = $this->GeneralFilter;
 
-        if ( isset(  $generalFilterList[ 'searchDateQuery'] )  )
-            $searchDateQuery = $generalFilterList[ 'publish_date'];
+        if ( isset( $generalFilterList['searchDateQuery'] ) and
+             isset( $generalFilterList['publish_date'] ) )
+            $searchDateQuery = $generalFilterList['publish_date'];
         else
             $searchDateQuery = '';
 
-        if ( isset(  $generalFilterList['sectionQuery'] )  )
+        if ( isset( $generalFilterList['sectionQuery'] ) )
             $sectionQuery = $generalFilterList['sectionQuery'];
         else
             $sectionQuery = '';
 
-        if ( isset(  $generalFilterList['classQuery'] )  )
+        if ( isset( $generalFilterList['classQuery'] ) )
             $classQuery = $generalFilterList['classQuery'];
         else
             $classQuery = '';
 
-        if ( isset(  $generalFilterList['classAttributeQuery'] )  )
+        if ( isset( $generalFilterList['classAttributeQuery'] ) )
             $classAttributeQuery = $generalFilterList[ 'classAttributeQuery'];
         else
             $classAttributeQuery = '';
 
-        if ( isset(  $generalFilterList['sqlPermissionCheckingString'] )  )
+        if ( isset( $generalFilterList['sqlPermissionCheckingString'] ) )
             $sqlPermissionCheckingString = $generalFilterList['sqlPermissionCheckingString'];
         else
             $sqlPermissionCheckingString = '';
 
-        if ( isset(  $generalFilterList['subTreeSQL'] )  )
+        if ( isset( $generalFilterList['subTreeSQL'] ) )
         {
             $subTreeTable = $generalFilterList['subTreeTable'];
             $subTreeSQL = $generalFilterList['subTreeSQL'];
@@ -1846,15 +1881,18 @@ class eZSearchEngine
                       'fullText' => $fullText );
     }
 
-    function buildSearchPartArray( $phraseTextArray, $nonPhraseText, &$wordIDHash, &$wildIDArray )
+    function buildSearchPartArray( $phraseTextArray, $nonPhraseText, &$wordIDHash, &$wildIDArray,
+                                   $identifier = false )
     {
-        $searchPartsArrayForPhrases = $this->buildSearchPartArrayForPhrases( $phraseTextArray, $wordIDHash );
-        $searchPartsArrayForWords = $this->buildSearchPartArrayForWords( $nonPhraseText, $wordIDHash, $wildIDArray );
+        $searchPartsArrayForPhrases =& $this->buildSearchPartArrayForPhrases( $phraseTextArray, $wordIDHash,
+                                                                              $identifier );
+        $searchPartsArrayForWords =& $this->buildSearchPartArrayForWords( $nonPhraseText, $wordIDHash,
+                                                                          $wildIDArray, $identifier );
         $searchPartsArray = array_merge( $searchPartsArrayForPhrases, $searchPartsArrayForWords );
         return $searchPartsArray;
     }
 
-    function buildSearchPartArrayForWords( $nonPhraseText, &$wordIDHash, &$wildIDArray )
+    function buildSearchPartArrayForWords( $nonPhraseText, &$wordIDHash, &$wildIDArray, $identifier = false )
     {
         $searchPartsArray = array();
         $nonPhraseWordArray = $this->splitString( $nonPhraseText );
@@ -1889,7 +1927,7 @@ class eZSearchEngine
             $searchPart = array();
             $searchPart['text'] = $word;
             $wordID = $wordIDHash[$word]['id'];
-            $searchPart['sql_part'] = $this->buildSqlPartForWord( $wordID );
+            $searchPart['sql_part'] = $this->buildSqlPartForWord( $wordID, $identifier );
             $searchPart['is_phrase'] = 0;
             $searchPart['object_count'] = $wordIDHash[$word]['object_count'];
             $searchPartsArray[] = $searchPart;
@@ -1898,7 +1936,7 @@ class eZSearchEngine
         return $searchPartsArray;
     }
 
-    function buildSearchPartArrayForPhrases( $phraseTextArray, &$wordIDHash )
+    function buildSearchPartArrayForPhrases( $phraseTextArray, &$wordIDHash, $identifier = false )
     {
         // build an array of the word id's for each phrase
         $phraseIDArrayArray = array();
@@ -1918,7 +1956,7 @@ class eZSearchEngine
         $phraseSearchSQLArray = array();
         foreach ( $phraseIDArrayArray as $phraseIDArray )
         {
-            $phraseSearchSQL = $this->buildPhraseSqlQueryPart( $phraseIDArray );
+            $phraseSearchSQL = $this->buildPhraseSqlQueryPart( $phraseIDArray, $identifier );
             $phraseSearchSQLArray[] = $phraseSearchSQL;
         }
 
@@ -2140,6 +2178,85 @@ class eZSearchEngine
         $db->query( "DELETE FROM ezsearch_word" );
         $db->query( "DELETE FROM ezsearch_object_word_link" );
         $db->commit();
+    }
+
+    /*!
+     \return true if the search part is incomplete.
+    */
+    function isSearchPartIncomplete( $part )
+    {
+        switch ( $part['subtype'] )
+        {
+            case 'fulltext':
+            {
+                if ( !isset( $part['value'] ) || $part['value'] == '' )
+                    return true;
+            }
+            break;
+
+            case 'patterntext':
+            {
+                if ( !isset( $part['value'] ) || $part['value'] == '' )
+                    return true;
+            }
+            break;
+
+            case 'integer':
+            {
+                if ( !isset( $part['value'] ) || $part['value'] == '' )
+                    return true;
+            }
+            break;
+
+            case 'integers':
+            {
+                if ( !isset( $part['values'] ) || count( $part['values'] ) == 0 )
+                    return true;
+            }
+            break;
+
+            case 'byrange':
+            {
+                if ( !isset( $part['from'] ) || $part['from'] == '' ||
+                     !isset( $part['to'] ) || $part['to'] == '' )
+                    return true;
+            }
+            break;
+
+            case 'byidentifier':
+            {
+                if ( !isset( $part['value'] ) || $part['value'] == '' )
+                    return true;
+            }
+            break;
+
+            case 'byidentifierrange':
+            {
+                if ( !isset( $part['from'] ) || $part['from'] == '' ||
+                     !isset( $part['to'] ) || $part['to'] == '' )
+                    return true;
+            }
+            break;
+
+            case 'integersbyidentifier':
+            {
+                if ( !isset( $part['values'] ) || count( $part['values'] ) == 0 )
+                    return true;
+            }
+            break;
+
+            case 'byarea':
+            {
+                if ( !isset( $part['from'] ) || $part['from'] == '' ||
+                     !isset( $part['to'] ) || $part['to'] == '' ||
+                     !isset( $part['minvalue'] ) || $part['minvalue'] == '' ||
+                     !isset( $part['maxvalue'] ) || $part['maxvalue'] == '' )
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 

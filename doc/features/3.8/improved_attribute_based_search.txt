@@ -1,0 +1,10 @@
+*Title: Improved attribute based search
+
+*Original author: Gunnstein Lye
+
+*Documentation:
+The patch fixes several bugs and shortcomings in this system. Several of the
+search subtypes did not work before this patch.
+For more info about attributes base search see:
+http://ez.no/ez_publish/documentation/customization/components/search/custom_search_box
+
