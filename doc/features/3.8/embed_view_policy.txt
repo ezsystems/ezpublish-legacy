@@ -1,0 +1,4 @@
+*Title: Embed view policy.
+
+*Documentation:
+Added possibility to add policy to allow user to view objects only as embed object of another object.

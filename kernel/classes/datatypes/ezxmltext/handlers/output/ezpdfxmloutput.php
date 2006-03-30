@@ -535,7 +535,8 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                     if ( strlen( $view ) == 0 )
                         $view = 'embed';
 
-                    if ( $object->attribute( 'can_read' ) )
+                    if ( $object->attribute( 'can_read' ) ||
+                         $object->attribute( 'can_view_embed' ) )
                     {
                         $xmlTemplate = 'object';
                     }
@@ -625,7 +626,8 @@ class eZPDFXMLOutput extends eZXMLOutputHandler
                        $objectParameters[$attribute->name()] = $attribute->content();
                 }
 
-                if ( $object->attribute( 'can_read' ) )
+                if ( $object->attribute( 'can_read' ) ||
+                     $object->attribute( 'can_view_embed' ) )
                 {
                     $xmlTemplate = 'embed';
                 }

@@ -163,6 +163,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'can_remove' => 'canRemove',
                                                       'can_move' => 'canMoveFrom',
                                                       'can_move_from' => 'canMoveFrom',
+                                                      'can_view_embed' => 'canViewEmbed',
                                                       'is_main' => 'isMain',
                                                       'creator' => 'creator',
                                                       "path" => "fetchPath",
@@ -369,6 +370,22 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $this->Permissions["can_read"] = $this->checkAccess( 'read' );
         }
         $p = ( $this->Permissions["can_read"] == 1 );
+        return $p;
+    }
+
+    /*!
+     \return \c true if the node can be viewed as embeded object by the current user.
+     \sa checkAccess().
+     \note The reference for the return value is required to workaround
+           a bug with PHP references.
+    */
+    function &canViewEmbed( )
+    {
+        if ( !isset( $this->Permissions["can_view_embed"] ) )
+        {
+            $this->Permissions["can_view_embed"] = $this->checkAccess( 'view_embed' );
+        }
+        $p = ( $this->Permissions["can_view_embed"] == 1 );
         return $p;
     }
 
