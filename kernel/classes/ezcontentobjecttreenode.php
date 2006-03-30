@@ -4335,9 +4335,14 @@ WHERE
         include_once( 'kernel/classes/ezcontentlanguage.php' );
         // Fetch the ID of the language if we get a string with a language code
         // e.g. 'eng-GB'
-        if ( $language !== false && !is_numeric( $language ) )
+        $originalLanguage = $language;
+        if ( is_string( $language ) && strlen( $language ) > 0 )
         {
             $language = eZContentLanguage::idByLocale( $language );
+        }
+        else
+        {
+            $language = false;
         }
 
         // This will be filled in with the available languages of the object
@@ -4354,6 +4359,31 @@ WHERE
         $accessResult = $user->hasAccessTo( 'content' , $functionName );
         $accessWord = $accessResult['accessWord'];
         $contentObject =& $this->attribute( 'object' );
+
+        /*
+        // Uncomment this part if 'create' permissions should become implied 'edit'.
+        // Merges in 'create' policies with 'edit'
+        if ( $functionName == 'edit' &&
+             !in_array( $accessWord, array( 'yes', 'no' ) ) )
+        {
+            // Add in create policies.
+            $accessExtraResult = $user->hasAccessTo( 'content', 'create' );
+            if ( $accessExtraResult['accessWord'] != 'no' )
+            {
+                $accessWord = $accessExtraResult['accessWord'];
+                if ( isset( $accessExtraResult['policies'] ) )
+                {
+                    $accessResult['policies'] = array_merge( $accessResult['policies'],
+                                                             $accessExtraResult['policies'] );
+                }
+                if ( isset( $accessExtraResult['accessList'] ) )
+                {
+                    $accessResult['accessList'] = array_merge( $accessResult['accessList'],
+                                                               $accessExtraResult['accessList'] );
+                }
+            }
+        }
+        */
 
         if ( $origFunctionName == 'remove' or
              $origFunctionName == 'move' )
@@ -4377,17 +4407,23 @@ WHERE
         }
         else if ( $accessWord == 'no' )
         {
-            // If we are checking 'translate' and we are denied we
-            // need to check if read & edit are allowed because this
-            // constitutes as translatable.
-/*            if ( $functionName == 'translate' )
+            if ( $functionName == 'edit' )
             {
-                if ( $this->checkTranslateAccess( $originalClassID, $parentClassID,
-                                                  $returnAccessList, $language ) )
+                // Check if we have 'create' access under the main parent
+                $object =& $this->object();
+                if ( $object && $object->attribute( 'current_version' ) == 1 && !$object->attribute( 'status' ) )
                 {
-                    return 1;
+                    $mainNode = eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), $object->attribute( 'current_version' ) );
+                    $parentObj = $mainNode[0]->attribute( 'parent_contentobject' );
+                    $result = $parentObj->checkAccess( 'create', $object->attribute( 'contentclass_id' ),
+                                                       $parentObj->attribute( 'contentclass_id' ), false, $originalLanguage );
+                    return $result;
                 }
-            }*/
+                else
+                {
+                    return 0;
+                }
+            }
 
             return 0;
         }
@@ -4489,6 +4525,7 @@ WHERE
                             // and optionally filter out based on $language.
                             if ( $functionName == 'create' )
                             {
+                                // If the function is 'create' we do not use the language_mask for matching.
                                 if ( $language !== false )
                                 {
                                     $languageMask = $language;
@@ -4510,6 +4547,13 @@ WHERE
                                     if ( $language !== false )
                                     {
                                         $languageMask &= $language;
+                                        // If the resulting mask is 0 it means that the user is trying to
+                                        // edit a language which does not exist, ie. translating.
+                                        // The mask will then become the language trying to edit.
+                                        if ( $languageMask == 0 )
+                                        {
+                                            $languageMask = $language;
+                                        }
                                     }
                                 }
                             }
@@ -4674,7 +4718,7 @@ WHERE
      \private
      Common function for checking extra 'translate' access.
      */
-    function checkTranslateAccess( $originalClassID = false, $parentClassID = false,
+/*    function checkTranslateAccess( $originalClassID = false, $parentClassID = false,
                                    $returnAccessList = false, $language = false )
     {
         // If we are checking 'translate' and we are denied we
@@ -4690,7 +4734,7 @@ WHERE
             }
         }
         return false;
-    }
+    }*/
 
     // code-template::create-block: class-list-from-policy, is-node
     // code-template::auto-generated:START class-list-from-policy

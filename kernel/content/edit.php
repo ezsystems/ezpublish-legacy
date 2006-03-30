@@ -147,8 +147,7 @@ if ( $http->hasPostVariable( 'EditButton' ) )
 if ( $http->hasPostVariable( 'NewDraftButton' ) )
 {
     // Check permission for object in specified language
-//    echo "checkEditAccess:", __LINE__, "<br/>\n";
-    if ( !$obj->checkEditAccess( $EditLanguage ) )
+    if ( !$obj->checkAccess( 'edit', false, false, false, $EditLanguage ) )
     {
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
                                      array( 'AccessList' => $obj->accessList( 'edit' ) ) );
@@ -270,8 +269,7 @@ if ( $http->hasPostVariable( 'LanguageSelection' ) )
     if ( $chosenVersion )
     {
         // Check permission for object edit in specified language
-//        echo "checkEditAccess:", __LINE__, "<br/>\n";
-        if ( !$obj->checkEditAccess( $selectedEditLanguage ) )
+        if ( !$obj->checkAccess( 'edit', false, false, false, $selectedEditLanguage ) )
         {
             return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
                                          array( 'AccessList' => $obj->accessList( 'edit' ) ) );
@@ -280,8 +278,7 @@ if ( $http->hasPostVariable( 'LanguageSelection' ) )
         return $Module->redirectToView( 'edit', array( $ObjectID, 'f', $selectedEditLanguage, $selectedFromLanguage ) );
     }
     // Check permission for object creation in specified language
-//    echo "checkEditAccess:", __LINE__, "<br/>\n";
-    if ( !$obj->checkEditAccess( $selectedEditLanguage ) )
+    if ( !$obj->checkAccess( 'edit', false, false, false, $selectedEditLanguage ) )
     {
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
                                      array( 'AccessList' => $obj->accessList( 'edit' ) ) );
@@ -310,8 +307,7 @@ if ( is_numeric( $EditVersion ) )
 if ( $EditLanguage == false )
 {
     // Check permission for object
-//    echo "checkEditAccess:", __LINE__, "<br/>\n";
-    if ( !$obj->checkEditAccess() )
+    if ( !$obj->checkAccess( 'edit' ) )
     {
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
                                      array( 'AccessList' => $obj->accessList( 'edit' ) ) );
@@ -327,9 +323,7 @@ if ( $EditLanguage == false )
         {
             $EditLanguage = $translationList[0];
             // Check permission for version in specified language.
-//            echo "checkEditAccess(version):", __LINE__, "<br/>\n";
-            // The $object parameter is not needed since the access is checked above.
-            if ( !$version->checkEditAccess( $EditLanguage, null ) )
+            if ( !$version->checkAccess( 'edit', false, false, false, $EditLanguage ) )
             {
                 return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
             }
@@ -389,8 +383,7 @@ if ( !is_numeric( $EditVersion ) )
     if ( $ini->variable( 'ContentSettings', 'EditDirtyObjectAction' ) == 'usecurrent' )
     {
         // Check permission for object in specified language
-//        echo "checkEditAccess:", __LINE__, "<br/>\n";
-        if ( !$obj->checkEditAccess( $EditLanguage ) )
+        if ( !$obj->checkAccess( 'edit', false, false, false, $EditLanguage ) )
         {
             return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
                                          array( 'AccessList' => $obj->accessList( 'edit' ) ) );
@@ -451,8 +444,8 @@ if ( !is_numeric( $EditVersion ) )
             $parameters = array( $ObjectID, $draftVersions[0]->attribute( 'version' ), $EditLanguage );
 
             // Check permission for version in specified language
-//            echo "checkEditAccess(version):", __LINE__, "<br/>\n";
-            if ( !$draftVersions[0]->checkEditAccess( $EditLanguage, $obj ) )
+            if ( !$obj->checkAccess( 'edit', false, false, false, $EditLanguage ) ||
+                 !$draftVersions[0]->checkAccess( 'edit', false, false, false, $EditLanguage ) )
             {
                 return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
                                              array( 'AccessList' => $obj->accessList( 'edit' ) ) );
@@ -468,8 +461,7 @@ if ( !is_numeric( $EditVersion ) )
         else
         {
             // Check permission for object in specified language
-//            echo "checkEditAccess:", __LINE__, "<br/>\n";
-            if ( !$obj->checkEditAccess( $EditLanguage ) )
+            if ( !$obj->checkAccess( 'edit', false, false, false, $EditLanguage ) )
             {
                 return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
                                              array( 'AccessList' => $obj->accessList( 'edit' ) ) );
@@ -488,8 +480,7 @@ if ( !is_numeric( $EditVersion ) )
 if ( !$isAccessChecked )
 {
     // Check permission for object and version in specified language.
-//    echo "checkEditAccess:", __LINE__, "<br/>\n";
-    if ( !$obj->checkEditAccess( $EditLanguage ) )
+    if ( !$obj->checkAccess( 'edit', false, false, false, $EditLanguage ) )
     {
         return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel',
                                      array( 'AccessList' => $obj->accessList( 'edit' ) ) );

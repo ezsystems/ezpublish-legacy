@@ -1,6 +1,8 @@
-{def $languages=fetch('content', 'prioritized_languages')
-     $object_language_codes=$object.language_codes
-     $can_edit=true()}
+{def $languages               = fetch('content', 'prioritized_languages')
+     $object_language_codes   = $object.language_codes
+     $object_edit_languages   = $object.can_edit_languages
+     $object_create_languages = $object.can_create_languages
+     $can_edit                = true()}
 
 <div id="leftmenu">
 <div id="leftmenu-design">
@@ -85,17 +87,11 @@
 {if $show_existing_languages}
     {* Translation a user is able to edit *}
     {set-block variable=$existing_languages_output}
-    {foreach $languages as $language}
-        {if $object_language_codes|contains($language.locale)}
-            {if fetch('content', 'access', hash( 'access', 'edit',
-                                                 'contentobject', $object,
-                                                 'language', $language.locale ) )}
-                <label>
-                    <input name="EditLanguage" type="radio" value="{$language.locale}"{run-once} checked="checked"{/run-once} /> {$language.name|wash}
-                </label>
-                <div class="labelbreak"></div>
-            {/if}
-        {/if}
+    {foreach $object_edit_languages as $language}
+        <label>
+            <input name="EditLanguage" type="radio" value="{$language.locale}"{run-once} checked="checked"{/run-once} /> {$language.name|wash}
+        </label>
+        <div class="labelbreak"></div>
     {/foreach}
     {/set-block}
 
@@ -115,19 +111,12 @@
 
 {* Translation a user is able to create *}
 {set-block variable=$nonexisting_languages_output}
-{foreach $languages as $language}
-    {if $object_language_codes|contains($language.locale)|not}
-        {if fetch('content', 'access', hash( 'access', 'edit',
-                                             'contentobject', $object,
-                                             'contentclass_id', $object.contentclass_id,
-                                             'parent_contentclass_id', $object.main_node.parent.object.contentclass_id,
-                                             'language', $language.locale ) )}
-            <label>
-               <input name="EditLanguage" type="radio" value="{$language.locale}"{run-once} checked="checked"{/run-once} /> {$language.name|wash}
-            </label>
-            <div class="labelbreak"></div>
-        {/if}
-    {/if}
+{foreach $object_create_languages as $language}
+
+    <label>
+       <input name="EditLanguage" type="radio" value="{$language.locale}"{run-once} checked="checked"{/run-once} /> {$language.name|wash}
+    </label>
+    <div class="labelbreak"></div>
 {/foreach}
 {/set-block}
 
@@ -166,17 +155,11 @@
 
         {* Translation a user is able to edit *}
         {set-block variable=$existing_languages_output}
-        {foreach $languages as $language}
-            {if $object_language_codes|contains($language.locale)}
-                {if fetch('content', 'access', hash( 'access', 'edit',
-                                                     'contentobject', $object,
-                                                     'language', $language.locale ) )}
-                    <label>
-                        <input name="EditLanguage" type="radio" value="{$language.locale}"{run-once} checked="checked"{/run-once} /> {$language.name|wash}
-                    </label>
-                    <div class="labelbreak"></div>
-                {/if}
-            {/if}
+        {foreach $object_edit_languages as $language}
+            <label>
+                <input name="EditLanguage" type="radio" value="{$language.locale}"{run-once} checked="checked"{/run-once} /> {$language.name|wash}
+            </label>
+            <div class="labelbreak"></div>
         {/foreach}
         {/set-block}
 
