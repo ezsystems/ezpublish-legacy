@@ -118,32 +118,10 @@ if ( $http->hasPostVariable( "StoreChangesButton" ) )
     $itemCountList = $http->postVariable( "ProductItemCountList" );
     $itemIDList = $http->postVariable( "ProductItemIDList" );
 
-    $i = 0;
+    $http->setSessionVariable( 'ProductItemCountList', $itemCountList ); 
+    $http->setSessionVariable( 'ProductItemIDList', $itemIDList );
 
-    $db =& eZDB::instance();
-    $db->begin();
-    foreach ( $itemIDList as $id )
-    {
-        $item = eZProductCollectionItem::fetch( $id );
-        if ( $itemCountList[$i] == 0 )
-        {
-            $item->remove();
-        }
-        else
-        {
-            $item->setAttribute( "item_count", $itemCountList[$i] );
-            $item->store();
-        }
-
-        $i++;
-    }
-
-    // Update shipping info after storing changes to the basket items.
-    require_once( 'kernel/classes/ezshippingmanager.php' );
-    eZShippingManager::updateShippingInfo( $basket->attribute( 'productcollection_id' ) );
-
-    $db->commit();
-    $module->redirectTo( $module->functionURI( "basket" ) . "/" );
+    $module->redirectTo( '/shop/updatebasket/' );
     return;
 }
 

@@ -214,6 +214,25 @@ class eZShopOperationCollection
         return array( 'status' => EZ_MODULE_OPERATION_CONTINUE );
     }
 
+    function updateBasket( $itemCountList, $itemIDList )
+    {
+        $i = 0;
+        foreach ( $itemIDList as $id )
+        {
+            $item = eZProductCollectionItem::fetch( $id );
+            if ( $itemCountList[$i] == 0 )
+            {
+                $item->remove();
+            }
+            else
+            {
+                $item->setAttribute( 'item_count', $itemCountList[$i] );
+                $item->store();
+            }
+            ++$i;
+        }
+    }
+
     /*!
      Operation entry: Adds the object \a $objectID with options \a $optionList to the current basket.
     */

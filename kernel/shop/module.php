@@ -42,6 +42,12 @@ $ViewList["orderview"] = array(
     "default_navigation_part" => 'ezshopnavigationpart',
     "params" => array( "OrderID" ) );
 
+$ViewList['updatebasket'] = array(
+    'functions' => array( 'buy' ),
+    'script' => 'updatebasket.php',
+    'default_navigation_part' => 'ezshopnavigationpart',
+    'params' => array(  ) );
+
 $ViewList["basket"] = array(
     "functions" => array( 'buy' ),
     "script" => "basket.php",

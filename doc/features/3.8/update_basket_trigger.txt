@@ -1,0 +1,9 @@
+*Title: 'Update basket' trigger.
+
+*Original author: Jo Henrik Endrerud
+
+*Documentation:
+It's possible now to run a workflow on 'updatebasket' operation to do more
+checks on the product (some products should be bought in pairs, cheaper
+price when purchasing multiple products and so on)
+
