@@ -1259,7 +1259,7 @@ WHERE user_id = '" . $userID . "' AND
                 {
                     $cacheFile->fetch();
                     $accessArray = include( $cacheFilePath );
-                    $cacheFile->deleteFetched();
+                    $cacheFile->deleteLocal();
                 }
             }
         }

@@ -292,7 +292,7 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
      * \public
      * \static
      */
-    function fileDeleteFetched( $path )
+    function fileDeleteLocal( $path )
     {
         @unlink( $path );
     }
@@ -302,7 +302,7 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
      *
      * \public
      */
-    function deleteFetched()
+    function deleteLocal()
     {
         $path = $this->metaData['name'];
         @unlink( $path );

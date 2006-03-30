@@ -570,7 +570,7 @@ WHERE
 
             $cacheFile->fetch();
             include_once( $info['path'] );
-            $cacheFile->deleteFetched();
+            $cacheFile->deleteLocal();
 
             $hasCache = false;
             if ( function_exists( EZURLALIAS_CACHE_FUNCTION ) )

@@ -335,9 +335,9 @@ class eZDBFileHandler // used in eZFileHandler1
      * \public
      * \static
      */
-    function fileDeleteFetched( $path )
+    function fileDeleteLocal( $path )
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteFetched( '$path' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "db::fileDeleteLocal( '$path' )" );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         @unlink( $path );
@@ -349,10 +349,10 @@ class eZDBFileHandler // used in eZFileHandler1
      *
      * \public
      */
-    function deleteFetched()
+    function deleteLocal()
     {
         $path = $this->metaData['name'];
-        eZDebugSetting::writeDebug( 'kernel-clustering', "db::deleteFetched( '$path' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "db::deleteLocal( '$path' )" );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
         @unlink( $path );

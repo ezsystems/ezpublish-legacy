@@ -907,7 +907,7 @@ class eZImageManager
                     eZDebug::writeError( "Failed converting $sourceFile to alias $referenceAlias in directory $destinationDir",
                                          'eZImageManager::createImageAlias' );
                     // VS-DBFILE
-                    $aliasFile->deleteFetched();
+                    $aliasFile->deleteLocal();
                     return false;
                 }
                 $currentAliasData = array( 'url' => $destinationMimeData['url'],
@@ -964,7 +964,7 @@ class eZImageManager
                     eZDebug::writeError( "Unknown function 'getimagesize' cannot get image size", 'eZImageManager::createImageAlias' );
                 $existingAliasList[$aliasName] = $currentAliasData;
                 // VS-DBFILE
-                $aliasFile->deleteFetched();
+                $aliasFile->deleteLocal();
                 return true;
             }
         }
@@ -1101,7 +1101,7 @@ class eZImageManager
                 if ( !$hasDestination )
                 {
                     // VS-DBFILE
-                    $sourceFile->deleteFetched();
+                    $sourceFile->deleteLocal();
                     return false;
                 }
             }
@@ -1152,7 +1152,7 @@ class eZImageManager
                     eZDebug::writeError( "None of the handlers can convert MIME-Type " . $currentMimeData['name'],
                                          'eZImageManager::convert' );
                     // VS-DBFILE
-                    $sourceFile->deleteFetched();
+                    $sourceFile->deleteLocal();
                     return false;
                 }
                 $handlerFilters = array();
@@ -1264,7 +1264,7 @@ class eZImageManager
                 $fileHandler->fileStore( $destinationFilePath, 'image', true, $destinationMimeData['name'] );
             }
 
-            $sourceFile->deleteFetched();
+            $sourceFile->deleteLocal();
         }
 
         return $result;

@@ -934,7 +934,7 @@ class eZImageAliasHandler
             $imageManager->analyzeImage( $mimeData );
             $this->createImageInformationNode( $imageNode, $mimeData );
 
-            $imageFile->deleteFetched();
+            $imageFile->deleteLocal();
         }
 
         foreach ( array_keys( $aliasList ) as $aliasName )
@@ -1241,7 +1241,7 @@ class eZImageAliasHandler
         eZImageFile::appendFilepath( $this->ContentObjectAttribute->attribute( 'id' ), $mimeData['url'] );
 
         // VS-DBFILE
-        $fileHandler->fileDeleteFetched( $filePath );
+        $fileHandler->fileDeleteLocal( $filePath );
 
         return true;
     }

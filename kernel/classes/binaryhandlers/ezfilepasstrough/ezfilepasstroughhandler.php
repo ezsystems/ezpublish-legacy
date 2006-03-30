@@ -102,7 +102,7 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
             // VS-DBFILE : NOTE: We don't remove fetched file here to avoid refetching on each download.
             // We may need a way to purge obsolete files though.
 
-            //$file->deleteFetched();
+            //$file->deleteLocal();
 
             eZExecution::cleanExit();
         }

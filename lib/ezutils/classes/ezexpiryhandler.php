@@ -69,7 +69,7 @@ class eZExpiryHandler
             $this->Timestamps = $Timestamps;
             $this->IsModified = false;
 
-            $expiryFile->deleteFetched();
+            $expiryFile->deleteLocal();
         }
     }
 

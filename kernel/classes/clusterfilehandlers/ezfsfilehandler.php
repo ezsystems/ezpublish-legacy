@@ -375,9 +375,9 @@ class eZFSFileHandler // used in eZFileHandler1
      * \public
      * \static
      */
-    function fileDeleteFetched( $path )
+    function fileDeleteLocal( $path )
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteFetched( '$path' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteLocal( '$path' )" );
     }
 
     /**
@@ -387,10 +387,10 @@ class eZFSFileHandler // used in eZFileHandler1
      *
      * \public
      */
-    function deleteFetched()
+    function deleteLocal()
     {
         $path = $this->metaData['name'];
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::deleteFetched( '$path' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::deleteLocal( '$path' )" );
     }
 
     /**

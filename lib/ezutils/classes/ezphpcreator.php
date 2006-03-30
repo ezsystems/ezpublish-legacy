@@ -838,7 +838,7 @@ print( $values['MyValue'] );
             {
                 $file->fetch();
                 include( $path );
-                $file->deleteFetched();
+                $file->deleteLocal();
             }
         }
 
