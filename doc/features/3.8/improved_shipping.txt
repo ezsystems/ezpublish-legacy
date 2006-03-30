@@ -1,0 +1,152 @@
+*Title: Shipping.
+
+*Incentive:
+
+eZ publish does not contain any shipping functionality, though many
+webshops need it.
+
+*Basics:
+
+There must be an ability to define custom shipping options; shipping
+cost may depend on properties of a specific product. We provide an
+interface for so-called "shipping handlers" that are used to keep
+shipping options for a product collection (basket or order) and
+calculate shipping cost for it. We don't ship any shipping handlers with
+eZ publish.
+
+*Implementation details:
+
+When eZ publish asks the handler to return shipping info, the following
+is returned:
+
+- (text)   Shipping options summary.
+- (number) Shipping cost.
+- (text)   Link to the shipping management page, where user can change
+           shipping options.
+
+Shipping handler is a file that contains a class implementing the following
+methods:
+
+    /**
+     * Invoked to get shipping information for given product collection.
+     * \public
+     * \static
+     */
+    function getShippingInfo( $productCollectionID );
+    
+    /*
+     * Invoked when the associated product collection is removed
+     * to clean up shipping information.
+     * \public
+     * \static
+     */
+    function updateShippingInfo( $productCollectionID );
+
+    /**
+     * Invoked when shopping basket contents are changed
+     * to update shipping info/cost appropriately.
+     * \public
+     * \static
+     */
+    function purgeShippingInfo( $productCollectionID );
+
+A handler is called via eZShippingManager class that has the same methods.
+
+Shipping information returned by getShippingInfo() is an array having
+the following obligatory keys: 'cost', 'description', 'management_link'
+(see examples below).
+
+This information is [partially] displayed in the following places:
+
+.-----------------+-------------------------------------------------.
+| Page            | What is shown                                   |
++=================+=================================================+
+| Shopping basket | Shipping description (options summary),         |
+|                 | shipping cost, link to the page where the user  |
+|                 | can change shipping options.                    |
++-------------------------------------------------------------------+
+| Confirm order   | Order summary: Shipping description, cost;      |
+|                 | Order total includes shipping cost.             |
++-----------------+-------------------------------------------------+
+| Order view      | <same as above>                                 |
+`-----------------+-------------------------------------------------'
+
+*New settings:
+
+###############################################################################
+[ShippingSettings]
+# Specifies shipping handler class/file name. For example, if the value is
+# "ezcustom", then the handler class should be named
+# eZCustomShippingHandler (case does not matter) and placed to file
+# ezcustomvathandler.php residing in a directory specified by
+# "RepositoryDirectories" and "ExtensionDirectories" settings.
+Handler=ezcustom
+
+# Directories where shippping handlers should be searched for.
+RepositoryDirectories[]=kernel/classes/shippinghandlers
+
+# If you are going to implement your shipping handler in an extension
+# then you should add the extension name to the list below.
+# In that case shipping handlers will be searched for
+# in the following (hardcoded) directory:
+# extension/<your_extension>/vathandlers
+# beside directories specified in 'RepositoryDirectories' setting.
+ExtensionDirectories[]
+###############################################################################
+
+
+*Examples:
+
+Let's implement a trivial shipping handler to just see how the whole
+feature works.
+
+1. Go to your eZ publish directory.
+2. Create directory "extension/ezvoidshipping" and go there.
+3. Create directories "settings" and "shippinghandlers".
+4. Under "shippinghandlers" directory, create file "ezvoidshippinghandler.php" 
+   having the following contents:
+
+==============================================================
+<?php
+class eZVoidShippingHandler
+{
+    function getShippingInfo( $productCollectionID )
+    {
+        return array(
+                'description'     => 'Manual',
+                'cost'            => 10,
+                'management_link' => '/shop/basket/' // dummy
+                );
+    }
+
+    function purgeShippingInfo( $productCollectionID )
+    {
+        // nothing to purge
+    }
+
+    function updateShippingInfo( $productCollectionID )
+    {
+        // nothing to update
+    }
+}
+?>
+==============================================================
+
+5. Under "settings" directory, create file "shop.ini.append" 
+   having the following contents:
+
+========================================================
+[ShippingSettings]
+Handler=ezvoid
+ExtensionDirectories[]=ezvoidshipping
+========================================================
+
+6. Go to "Setup -> Extensions" in the admin. interface
+   and activate extension "ezvoidshipping".
+
+Now you can see fixed shipping cost added to products being purchased
+from your site.
+
+
+You can find a more advanced example here:
+http://ez.no/community/contribs/examples/sample_shipping_handler
