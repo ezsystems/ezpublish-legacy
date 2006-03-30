@@ -1,0 +1,9 @@
+*Title: 'ParentDepth' policy limitation
+
+*Original author: Coomans Kristof
+
+*Documentation:
+It's possible now to limit 'content/create' policy by depth of the 'parent'
+node.
+The max depth value can be configured via
+[site.ini].RoleSettings.MaxParentDepthLimitation setting.

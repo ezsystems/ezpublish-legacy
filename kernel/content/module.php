@@ -520,6 +520,15 @@ $Assigned = array(
             'value' => '1')
         )
     );
+$ParentDepth = array(
+    'name' => 'ParentDepth',
+    'values' => array(),
+    'path' => 'classes/',
+    'file' => 'ezcontentobjecttreenode.php',
+    'class' => 'eZContentObjectTreeNode',
+    'function' => 'parentDepthLimitationList',
+    'parameter' => array( false )
+    );
 $Node = array(
     'name'=> 'Node',
     'values'=> array()
@@ -542,6 +551,7 @@ $FunctionList['read'] = array( 'Class' => $ClassID,
 $FunctionList['create'] = array( 'Class' => $ClassID,
                                  'Section' => $SectionID,
                                  'ParentClass' => $ParentClassID,
+                                 'ParentDepth' => $ParentDepth,
                                  'Node' => array_merge(  $Node, array( 'DropList' => array( 'ParentClass', 'Section' ) ) ),
                                  'Subtree' => $Subtree,
                                  'Language' => $Language

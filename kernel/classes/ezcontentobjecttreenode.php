@@ -1627,7 +1627,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             eZContentLanguage::clearPrioritizedLanguages();
         }
-        
+
         $limitation = ( isset( $params['Limitation']  ) && is_array( $params['Limitation']  ) ) ? $params['Limitation']: false;
         $limitationList              = eZContentObjectTreeNode::getLimitationList( $limitation );
         $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
@@ -1810,7 +1810,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 }
                 eZContentLanguage::setPrioritizedLanguages( $language );
             }
-            
+
             $useVersionName     = true;
             $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
             $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
@@ -1822,7 +1822,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
             {
                 eZContentLanguage::clearPrioritizedLanguages();
             }
-            
+
             $limitation = ( isset( $nodeParams['Limitation']  ) && is_array( $nodeParams['Limitation']  ) ) ? $nodeParams['Limitation']: false;
             $limitationList              = eZContentObjectTreeNode::getLimitationList( $limitation );
             $sqlPermissionCheckingString = eZContentObjectTreeNode::createPermissionCheckingSQLString( $limitationList );
@@ -2451,7 +2451,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         //$onlyTranslated   = ( isset( $params['OnlyTranslated'] ) ) ? $params['OnlyTranslated']     : false;
         $language         = ( isset( $params['Language'] ) ) ? $params['Language']           : false;
-        
+
         if ( $language )
         {
             if ( !is_array( $language ) )
@@ -2460,9 +2460,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
             }
             eZContentLanguage::setPrioritizedLanguages( $language );
         }
-        
+
         $useVersionName     = true;
-        
+
         $versionNameTables  = eZContentObjectTreeNode::createVersionNameTablesSQLString ( $useVersionName );
         $versionNameTargets = eZContentObjectTreeNode::createVersionNameTargetsSQLString( $useVersionName );
         $versionNameJoins   = eZContentObjectTreeNode::createVersionNameJoinsSQLString  ( $useVersionName, false );
@@ -2586,7 +2586,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                            ezcontentobject_tree.contentobject_id = ezcontentobject.id AND
                            ezcontentclass.id = ezcontentobject.contentclass_id AND
                            $versionNameJoins
-                           $showInvisibleNodesCond 
+                           $showInvisibleNodesCond
                            $languageFilter ";
         }
 
@@ -3207,7 +3207,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                         ezcontentobject.id = '$contentObjectID' AND
                         ezcontentobject_tree.parent_node_id = '$parentNodeID' AND ".
                         eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
-        
+
         $nodeListArray = $db->arrayQuery( $query );
         if ( count( $nodeListArray ) == 1 )
         {
@@ -4540,6 +4540,20 @@ WHERE
                             }
                         } break;
 
+                        case 'ParentDepth':
+                        {
+                            if ( in_array( $this->attribute( 'depth' ), $limitationArray[$key] ) )
+                            {
+                                $access = 'allowed';
+                            }
+                            else
+                            {
+                                $access = 'denied';
+                                $limitationList = array( 'Limitation' => $key,
+                                                         'Required' => $limitationArray[$key] );
+                            }
+                        } break;
+
                         case 'Node':
                         {
                             $accessNode = false;
@@ -5751,7 +5765,26 @@ WHERE
         }
         $this->Name = null;
     }
-    
+
+    /*!
+     \static
+    */
+    function parentDepthLimitationList()
+    {
+        $maxLevel = 0;
+        $ini =& eZINI::instance();
+        if ( $ini->hasVariable( 'RoleSettings', 'MaxParentDepthLimitation' ) )
+            $maxLevel = $ini->variable( 'RoleSettings', 'MaxParentDepthLimitation' );
+
+        $depthArray = array();
+        for ( $i = 1; $i <= $maxLevel; $i++ )
+        {
+            $depthArray[] = array( 'name' => $i, 'id' => $i );
+        }
+
+        return $depthArray;
+    }
+
     /// The current language for the node
     var $CurrentLanguage = false;
 
