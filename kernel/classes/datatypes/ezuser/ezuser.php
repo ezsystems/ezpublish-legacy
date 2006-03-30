@@ -1176,7 +1176,7 @@ WHERE user_id = '" . $userID . "' AND
         while ( $chars < $passwordLength )
         {
             if ( $seed == false )
-                $seed = mktime();
+                $seed = mktime() . ":" . mt_rand();
             $text = md5( $seed );
             $characterTable = eZUser::passwordCharacterTable();
             $tableCount = count( $characterTable );
