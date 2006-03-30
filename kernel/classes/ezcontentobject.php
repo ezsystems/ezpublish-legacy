@@ -2271,7 +2271,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &reverseRelatedObjectList( $version = false,
                                         $toObjectID = false,
-                                        $attributeID = false,
+                                        $attributeID = 0,
                                         $groupByAttribute = false,
                                         $params = false )
     {
