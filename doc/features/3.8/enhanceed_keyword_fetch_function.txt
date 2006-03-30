@@ -1,0 +1,15 @@
+*Title: Enhanced 'keyword' fetch function.
+
+*Original author: Lukasz Serwatka
+
+*Documentation:
+Using enhanced Keyword function you can fetch keywords by owner
+(object author) and sort the result using following method:
+- keyword name(default)
+- class_identifier
+- class_name
+- modified
+- name
+- published
+- section
+
