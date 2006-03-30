@@ -3358,10 +3358,15 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
     /*!
      Add a child to the object tree.
+     \param $contentobjectID      The ID of the contentobject the child-node should point to.
+     \param $nodeID               The ID of the parent-node to add child-node to, if 0 it uses $this.
+     \param $asObject             If true it will return the new child-node as an object, if not it returns the ID.
+     \param $contentObjectVersion The version to use on the newly created child-node, if
+                                  false it uses the current_version of the specified object.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &addChild( $contentobjectID, $nodeID = 0, $asObject = false )
+    function &addChild( $contentobjectID, $nodeID = 0, $asObject = false, $contentObjectVersion = false )
     {
         if ( $nodeID == 0 )
         {
@@ -3370,6 +3375,16 @@ class eZContentObjectTreeNode extends eZPersistentObject
         else
         {
             $node = eZContentObjectTreeNode::fetch( $nodeID );
+        }
+
+        if ( !$contentObjectVersion )
+        {
+            $contentObject =& eZContentObject::fetch( $contentobjectID );
+            if ( !$contentObject )
+            {
+                return false;
+            }
+            $contentObjectVersion = $contentObject->attribute( 'current_version' );
         }
 
         $db =& eZDB::instance();
@@ -3388,8 +3403,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $insertedNode->setAttribute( 'depth', $nodeDepth );
         $insertedNode->setAttribute( 'path_string', '/TEMPPATH' );
 
-        // Fix bug #8066
-        $insertedNode->setAttribute( 'contentobject_version', $node->attribute( 'contentobject_version' ) );
+        $insertedNode->setAttribute( 'contentobject_version', $contentObjectVersion );
 
         $db->begin();
         $insertedNode->store();

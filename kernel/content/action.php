@@ -700,10 +700,9 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
                 {
                     //$setMainNode = false;
                     // JB
-                    $insertedNodeID =& $object->addLocation( $selectedNodeID );
+                    $insertedNode =& $object->addLocation( $selectedNodeID, true );
 
                     // Now set is as published and fix main_node_id
-                    $insertedNode =& eZContentObjectTreeNode::fetch( $insertedNodeID );
                     $insertedNode->setAttribute( 'contentobject_is_published', 1 );
                     $insertedNode->setAttribute( 'main_node_id', $node->attribute( 'main_node_id' ) );
                     $insertedNode->setAttribute( 'contentobject_version', $node->attribute( 'contentobject_version' ) );

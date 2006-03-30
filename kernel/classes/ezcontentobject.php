@@ -2238,13 +2238,21 @@ class eZContentObject extends eZPersistentObject
     /*!
      Adds a new location (node) to the current object.
      \param $parenNodeID The id of the node to use as parent.
+     \param $asObject    If true it will return the new child-node as an object, if not it returns the ID.
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
       the calls within a db transaction; thus within db->begin and db->commit.
       */
-    function &addLocation( $parentNodeID )
+    function &addLocation( $parentNodeID, $asObject = false )
     {
-        $node =& eZContentObjectTreeNode::addChild( $this->ID, $parentNodeID );
-        return $node;
+        $node =& eZContentObjectTreeNode::addChild( $this->ID, $parentNodeID, true, $this->CurrentVersion );
+        if ( $asObject )
+        {
+            return $node;
+        }
+        else
+        {
+            return $node->attribute( 'node_id' );
+        }
     }
 
     /*!
