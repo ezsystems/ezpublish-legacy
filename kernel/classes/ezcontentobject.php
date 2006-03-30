@@ -2376,7 +2376,7 @@ class eZContentObject extends eZPersistentObject
                            0  - count regular relations (not by attribute)
                            false - count all relations
     */
-    function &reverseRelatedObjectCount( $version = false, $toObjectID = false, $attributeID = false )
+    function &reverseRelatedObjectCount( $version = false, $toObjectID = false, $attributeID = 0 )
     {
         if( !$toObjectID )
             $toObjectID = $this->ID;
