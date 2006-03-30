@@ -4540,12 +4540,12 @@ WHERE
                             }
                             else
                             {
-                                if ( $languageList === false )
+                                if ( $language !== false )
                                 {
-                                    $languageMask = $contentObject->attribute( 'language_mask' );
-                                    // We are restricting language check to just one language
-                                    if ( $language !== false )
+                                    if ( $languageList === false )
                                     {
+                                        $languageMask = $contentObject->attribute( 'language_mask' );
+                                        // We are restricting language check to just one language
                                         $languageMask &= $language;
                                         // If the resulting mask is 0 it means that the user is trying to
                                         // edit a language which does not exist, ie. translating.
@@ -4555,6 +4555,10 @@ WHERE
                                             $languageMask = $language;
                                         }
                                     }
+                                }
+                                else
+                                {
+                                    $languageMask = -1;
                                 }
                             }
                             // Fetch limit mask for limitation list

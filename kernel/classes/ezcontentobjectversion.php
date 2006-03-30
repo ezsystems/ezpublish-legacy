@@ -525,16 +525,20 @@ class eZContentObjectVersion extends eZPersistentObject
                             }
                             else
                             {
-                                if ( $languageList === false )
+                                if ( $language !== false )
                                 {
-                                    $languageMask = $this->attribute( 'initial_language_id' );
-                                    // We are restricting language check to just one language
-                                    if ( $language !== false )
+                                    if ( $languageList === false )
                                     {
+                                        $languageMask = $this->attribute( 'initial_language_id' );
+                                        // We are restricting language check to just one language
                                         // If the specified language is not the one in the version
                                         // it will become 0.
                                         $languageMask &= $language;
                                     }
+                                }
+                                else
+                                {
+                                    $languageMask = $this->attribute( 'initial_language_id' );
                                 }
                             }
                             // Fetch limit mask for limitation list
