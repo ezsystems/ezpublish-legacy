@@ -36,7 +36,7 @@ define( 'STORAGE_HOST',       'localhost' );
 define( 'STORAGE_PORT',       3306 );
 define( 'STORAGE_USER',       'root' );
 define( 'STORAGE_PASS',       '' );
-define( 'STORAGE_DB',         'trunk_clustering' );
+define( 'STORAGE_DB',         'trunk' );
 define( 'STORAGE_CHUNK_SIZE', 65535 );
 
 define( 'TABLE_METADATA',     'ezdbfile' );
@@ -511,14 +511,14 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
             $fileID = (int) $row[0];
             if ( !mysql_query( "DELETE FROM " . TABLE_DATA . " WHERE masterid=$fileID", $this->db ) )
             {
-                eZDebug::writeError( "Failed to delete file data: $filePath: " . mysql_error() );
+                eZDebug::writeError( "Failed to delete file data: $filePath: " . mysql_error( $this->db ) );
                 $result = false;
                 break;
             }
 
             if ( !mysql_query( "DELETE FROM " . TABLE_METADATA . " WHERE id=$fileID", $this->db ) )
             {
-                eZDebug::writeError( "Failed to delete file metadata: $filePath: " . mysql_error() );
+                eZDebug::writeError( "Failed to delete file metadata: $filePath: " . mysql_error( $this->db ) );
                 $result = false;
                 break;
             }
@@ -596,6 +596,11 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
     {
         $filePath = mysql_real_escape_string( $filePath );
         $rslt = mysql_query( "SELECT COUNT(*) FROM " . TABLE_METADATA . " WHERE name='$filePath' ", $this->db );
+        if ( !$rslt )
+        {
+            eZDebug::writeError( "Failed to check file '$filePath' existance: " . mysql_error( $this->db ) );
+            return false;
+        }
         $row = mysql_fetch_row( $rslt );
         mysql_free_result( $rslt );
         $rc = (int) $row[0];
