@@ -53,7 +53,9 @@ and content-related caches.
 
  4. Copy your files stored in var dir into database.
 
-<THIS WILL BE DESCRIBED LATER ON>
+$ bin/php/clusterize.php -s shop_site
+
+where 'shop_site' is your siteaccess.
 
  5. Clear the cache, using the clearcache.sh script.
 
@@ -62,7 +64,7 @@ $ bin/shell/clearcache.sh --clear-all
 $ bin/shell/clearcache.sh --clear-all --var-subdir=mdk
 
 This is the last time you will use the clearcache.sh script. This is because
-clearcacch.sh scrip will not be able to clear any cache in the database. It
+clearcache.sh script will not be able to clear any cache in the database. It
 only works on cache stored on the filesystem. To clear the cache from now on,
 use the clearcache functions in the admin interface, or the
 bin/php/ezcache.php script.
