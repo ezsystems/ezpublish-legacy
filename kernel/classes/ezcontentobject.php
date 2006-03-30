@@ -3780,6 +3780,8 @@ class eZContentObject extends eZPersistentObject
             $classList = eZPersistentObject::handleRows( $rows, 'ezcontentclass', $asObject );
         }
 
+        if ( $asObject )
+        {
         foreach ( $classList as $key => $class )
         {
             $id = $class->attribute( 'id' );
@@ -3792,6 +3794,7 @@ class eZContentObject extends eZPersistentObject
                 $languageCodes = $allowedLanguages['*'];
             }
             $classList[$key]->setCanInstantiateLanguages( $languageCodes );
+        }
         }
 
         eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db" );

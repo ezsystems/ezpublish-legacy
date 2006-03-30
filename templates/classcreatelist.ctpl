@@ -229,6 +229,9 @@
 /*END:code-template::object-creation*/
         }
 
+/*START:code-template::object-creation*/
+        if ( $asObject )
+        {
         foreach ( $classList as $key => $class )
         {
             $id = $class->attribute( 'id' );
@@ -242,6 +245,8 @@
             }
             $classList[$key]->setCanInstantiateLanguages( $languageCodes );
         }
+        }
+/*END:code-template::object-creation*/
 
         eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db" );
 /*START:code-template::role-caching*/
