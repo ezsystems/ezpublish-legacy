@@ -253,9 +253,9 @@ extension there by marking "myshop" extension and pressing "Apply changes".
 
 *New views:
 
-/shop/vatrules         -- The list of VAT charging rules.
-/shop/editvatrule      -- Add/edit a VAT charging rule.
-/shop/productcategoris -- The list of product categories.
+/shop/vatrules          -- The list of VAT charging rules.
+/shop/editvatrule       -- Add/edit a VAT charging rule.
+/shop/productcategories -- The list of product categories.
 
 
 *New settings:
