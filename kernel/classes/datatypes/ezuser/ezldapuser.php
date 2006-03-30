@@ -557,15 +557,24 @@ class eZLDAPUser extends eZUser
                     $existUser->setAttribute('password_hash_type', 0 );
                     $existUser->store();
 
-                    if ( $defaultUserPlacement != $parentNodeID )
+                    $keepGroupAssignment = false;
+                    if ( $LDAPIni->hasVariable( 'LDAPSettings', 'KeepGroupAssignment' ) )
                     {
-                        $newVersion = $contentObject->createNewVersion();
-                        $newVersion->assignToNode( $defaultUserPlacement, 1 );
-                        $newVersion->removeAssignment( $parentNodeID );
-                        $newVersionNr = $newVersion->attribute( 'version' );
-                        include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
-                        $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID,
-                                                                                                     'version' => $newVersionNr ) );
+                        $keepGroupAssignment = $LDAPIni->variable( 'LDAPSettings', 'KeepGroupAssignment' ) == "enabled";
+                    }
+
+                    if ( $keepGroupAssignment == true )
+                    {
+                        if ( $defaultUserPlacement != $parentNodeID )
+                        {
+                            $newVersion = $contentObject->createNewVersion();
+                            $newVersion->assignToNode( $defaultUserPlacement, 1 );
+                            $newVersion->removeAssignment( $parentNodeID );
+                            $newVersionNr = $newVersion->attribute( 'version' );
+                            include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
+                            $operationResult = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $userID,
+                                                                                                         'version' => $newVersionNr ) );
+                        }
                     }
 
                     eZUser::updateLastVisit( $userID );
