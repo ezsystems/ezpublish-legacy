@@ -188,10 +188,16 @@ foreach ( $complexTypes as $complexTypeString => $complexTypeList )
 
 $dbName = $db->DB;
 $cacheDir = eZSys::cacheDirectory();
-$cacheFile = "$cacheDir/sortkey_$dbName.php";
-if ( file_exists( $cacheFile ) )
+
+// VS-DBFILE
+
+require_once( 'kernel/classes/ezclusterfilehandler.php' );
+$cacgeFilePath = "$cacheDir/sortkey_$dbName.php";
+$cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
+if ( $cacheFile->exists() )
 {
-    @unlink( $cacheFile );
+    // VS-DBFILE : FIXME: optimize not to use recursive delete.
+    $cacheFile->delete();
     $cli->output( 'Removed cache file : ' . $cacheFile );
 }
 

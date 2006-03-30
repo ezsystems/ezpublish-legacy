@@ -405,25 +405,11 @@ class eZCache
     {
         $cachePath = eZSys::cacheDirectory();
 
-        $files = array();
-        if ( $dh = opendir( $cachePath ) )
-        {
-            while ( false !== ( $file = readdir( $dh ) ) )
-            {
-                if ( $file != "." && $file != ".." )
-                {
-                    $files[] = $file;
-                }
-            }
-            closedir( $dh );
-        }
+        // VS-DBFILE
 
-        foreach ( $files as $file )
-        {
-            if ( ( strpos( $file, 'classidentifiers_' ) === 0 ) or
-                 ( strpos( $file, 'classattributeidentifiers_' ) === 0 ) )
-                unlink( "$cachePath/$file" );
-        }
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $fileHandler = eZClusterFileHandler::instance();
+        $fileHandler->fileDeleteByRegex( $cachePath, 'class(attribute)?identifiers_.+$' );
     }
 
     /*!
@@ -434,24 +420,11 @@ class eZCache
     {
         $cachePath = eZSys::cacheDirectory();
 
-        $files = array();
-        if ( $dh = opendir( $cachePath ) )
-        {
-            while ( false !== ( $file = readdir( $dh ) ) )
-            {
-                if ( $file != "." && $file != ".." )
-                {
-                    $files[] = $file;
-                }
-            }
-            closedir( $dh );
-        }
+        // VS-DBFILE
 
-        foreach ( $files as $file )
-        {
-            if ( strpos( $file, 'sortkey_' ) === 0 )
-                unlink( "$cachePath/$file" );
-        }
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $fileHandler = eZClusterFileHandler::instance();
+        $fileHandler->fileDeleteByRegex( $cachePath, 'sortkey_.+$' );
     }
 
     /*!

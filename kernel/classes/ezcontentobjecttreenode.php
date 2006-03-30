@@ -314,9 +314,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $db =& eZDB::instance();
         $dbName = $db->DB;
 
+        // VS-DBFILE
+
         include_once( 'lib/ezutils/classes/ezphpcreator.php' );
         $cacheDir = eZSys::cacheDirectory();
-        $phpCache = new eZPHPCreator( "$cacheDir", "classidentifiers_$dbName.php" );
+        $phpCache = new eZPHPCreator( "$cacheDir", "classidentifiers_$dbName.php", '', array( 'clustering' => 'classidentifiers' ) );
 
         include_once( 'lib/ezutils/classes/ezexpiryhandler.php' );
         $handler =& eZExpiryHandler::instance();

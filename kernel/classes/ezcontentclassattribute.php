@@ -492,7 +492,7 @@ class eZContentClassAttribute extends eZPersistentObject
         $dbName = $db->DB;
 
         $cacheDir = eZSys::cacheDirectory();
-        $phpCache = new eZPHPCreator( "$cacheDir", "sortkey_$dbName.php" );
+        $phpCache = new eZPHPCreator( "$cacheDir", "sortkey_$dbName.php", '', array( 'clustering' => 'sortkey' ) );
         $handler =& eZExpiryHandler::instance();
         $expiryTime = 0;
 

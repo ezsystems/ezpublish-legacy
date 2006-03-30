@@ -90,10 +90,70 @@ class eZFSFileHandler // used in eZFileHandler1
      * \param $scope    Means something like "file category". May be used to clean caches of a certain type.
      * \param $delete   true if the file should be deleted after storing.
      */
-    function fileStore( $filePath, $scope = false, $delete = false )
+    function fileStore( $filePath, $scope = false, $delete = false, $datatype = false )
     {
         $delete = (int) $delete;
         eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileStore( '$filePath' )" );
+    }
+
+    /**
+     * Store file contents.
+     *
+     * \public
+     * \static
+     */
+    function fileStoreContents( $filePath, $contents, $scope = false, $datatype = false )
+    {
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileStoreContents( '$filePath' )" );
+
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
+
+        if ( !( $fh = fopen( $filePath, 'w' ) ) )
+        {
+            eZDebug::writeError( "Cannot open file '$filePath'", 'ezfsfilehandler::fileStoreContents()' );
+            return false;
+        }
+
+        if ( fwrite( $fh, $contents ) === false )
+        {
+            eZDebug::writeError( "Cannot write to '$filePath'", 'ezfsfilehandler::fileStoreContents()' );
+            return false;
+        }
+
+        fclose( $fh );
+
+        eZDebug::accumulatorStop( 'dbfile' );
+    }
+
+    /**
+     * Store file contents.
+     *
+     * \public
+     * \static
+     */
+    function storeContents( $contents, $scope = false, $datatype = false )
+    {
+        $filePath = $this->metaData['name'];
+
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::storeContents( '$filePath' )" );
+
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
+
+        if ( !( $fh = fopen( $filePath, 'w' ) ) )
+        {
+            eZDebug::writeError( "Cannot open file '$filePath'", 'ezfsfilehandler::storeContents()' );
+            return false;
+        }
+
+        if ( fwrite( $fh, $contents ) === false )
+        {
+            eZDebug::writeError( "Cannot write to '$filePath'", 'ezfsfilehandler::storeContents()' );
+            return false;
+        }
+
+        fclose( $fh );
+
+        eZDebug::accumulatorStop( 'dbfile' );
     }
 
     /**
@@ -167,21 +227,14 @@ class eZFSFileHandler // used in eZFileHandler1
     }
 
     /**
-     * Delete files matching given wildcard.
-     *
-     * Note that this method is faster than fileDeleteByRegex().
+     * Returns file name.
      *
      * \public
-     * \static
-     * \sa fileDeleteByRegex()
      */
-    function fileDeleteByWildcard( $wildcard )
+    function name()
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByWildcard( '$wildcard' )" );
-
-        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
-        array_map( 'unlink', glob( $wildcard, GLOB_BRACE ) );
-        eZDebug::accumulatorStop( 'dbfile' );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::name()" );
+        return isset( $this->metaData['name'] ) ? $this->metaData['name'] : null;
     }
 
     /**
@@ -189,10 +242,11 @@ class eZFSFileHandler // used in eZFileHandler1
      *
      * \public
      * \static
+     * \sa fileDeleteByWildcard()
      */
     function fileDeleteByRegex( $dir, $fileRegex )
     {
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::deleteByRegex( '$dir', '$fileRegex' )" );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByRegex( '$dir', '$fileRegex' )" );
 
         eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
 
@@ -230,6 +284,24 @@ class eZFSFileHandler // used in eZFileHandler1
         }
         closedir( $dirHandle );
 
+        eZDebug::accumulatorStop( 'dbfile' );
+    }
+
+    /**
+     * Delete files matching given wildcard.
+     *
+     * Note that this method is faster than fileDeleteByRegex().
+     *
+     * \public
+     * \static
+     * \sa fileDeleteByRegex()
+     */
+    function fileDeleteByWildcard( $wildcard )
+    {
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::fileDeleteByWildcard( '$wildcard' )" );
+
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
+        array_map( 'unlink', glob( $wildcard, GLOB_BRACE ) );
         eZDebug::accumulatorStop( 'dbfile' );
     }
 
@@ -341,17 +413,16 @@ class eZFSFileHandler // used in eZFileHandler1
     /**
      * Check if given file/dir exists.
      *
+     * NOTE: this function does not interact with filesystem.
+     * Instead, it just returns existance status determined in the constructor.
+     *
      * \public
      */
     function exists()
     {
         $path = $this->metaData['name'];
-
-        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
-        $rc = file_exists( $path );
-        eZDebug::accumulatorStop( 'dbfile' );
-
-        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::exists(): " . ( $rc ? 'true' :'false' ) );
+        $rc = isset( $this->metaData['mtime'] );
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::exists( '$path' ): " . ( $rc ? 'true' :'false' ) );
 
         return $rc;
     }
@@ -372,8 +443,7 @@ class eZFSFileHandler // used in eZFileHandler1
         include_once( 'lib/ezutils/classes/ezmimetype.php' );
         $mimeData = eZMimeType::findByFileContents( $path );
         $mimeType = $mimeData['name'];
-        //$mimeType = 'image/jpeg';
-
+        $contentLength = filesize( $path );
 
         header( "Content-Length: $contentLength" );
         header( "Content-Type: $mimeType" );
@@ -432,8 +502,24 @@ class eZFSFileHandler // used in eZFileHandler1
         eZDebug::accumulatorStop( 'dbfile' );
     }
 
+    /**
+     * Move file.
+     *
+     * \public
+     */
+    function move( $dstPath )
+    {
+        $srcPath = $this->metaData['name'];
+
+        eZDebugSetting::writeDebug( 'kernel-clustering', "fs::move( '$srcPath', '$dstPath' )" );
+
+        eZDebug::accumulatorStart( 'dbfile', false, 'dbfile' );
+        require_once( 'lib/ezfile/classes/ezfilehandler.php' );
+        eZFileHandler::move( $srcPath, $dstPath );
+        eZDebug::accumulatorStop( 'dbfile' );
+    }
+
     var $metaData = null;
 }
 
 ?>
-

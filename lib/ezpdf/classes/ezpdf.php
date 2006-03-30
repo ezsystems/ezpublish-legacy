@@ -285,13 +285,16 @@ class eZPDF
 
             case 'close':
             {
-                include_once( 'lib/ezfile/classes/ezfile.php' );
                 include_once( 'lib/ezfile/classes/ezdir.php' );
                 $filename = $tpl->elementValue( $operatorParameters[1], $rootNamespace, $currentNamespace );
 
                 eZDir::mkdir( eZDir::dirpath( $filename ), false, true );
 
-                eZFile::create( $filename, false, $this->PDF->ezOutput() );
+                // VS-DBFILE
+
+                require_once( 'kernel/classes/ezclusterfilehandler.php' );
+                $file = eZClusterFileHandler::instance( $filename );
+                $file->storeContents( $this->PDF->ezOutput(), 'viewcache', 'pdf' );
 
                 eZDebug::writeNotice( 'PDF file closed and saved to '. $filename, 'eZPDF::modify' );
             } break;

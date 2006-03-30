@@ -93,13 +93,14 @@ class eZContentCache
     {
         $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList,
                                                         $layout, false, $parameters );
-        // VS-DBFILE : TODO
-	
-        $cacheInfo = @stat( $cachePathInfo['path'] );
+        // VS-DBFILE
 
-        if ( $cacheInfo )
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $cacheFile = eZClusterFileHandler::instance( $cachePathInfo['path'] );
+
+        if ( $cacheFile->exists() )
         {
-            $timestamp = $cacheInfo['mtime'];
+            $timestamp = $cacheFile->mtime();
             include_once( 'kernel/classes/ezcontentobject.php' );
             if ( eZContentObject::isCacheExpired( $timestamp ) )
             {
@@ -112,9 +113,12 @@ class eZContentCache
                 eZDebugSetting::writeDebug( 'kernel-content-view-cache', "viewmode '$viewMode' cache expired #1" );
                 return false;
             }
+
+            return true;
         }
+
         eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache used #1' );
-        return (bool) $cacheInfo;
+        return false;
     }
 
     function restore( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList, $layout,
@@ -128,12 +132,14 @@ class eZContentCache
         $cachePath = $cachePathInfo['path'];
         $timestamp = false;
 
-        // VS-DBFILE : TODO
+        // VS-DBFILE
 
-        $fileInfo = @stat( $cachePath );
-        if ( $fileInfo )
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $cacheFile = eZClusterFileHandler::instance( $cachePath );
+
+        if ( $cacheFile->exists() )
         {
-            $timestamp = $fileInfo['mtime'];
+            $timestamp = $cacheFile->mtime();
             include_once( 'kernel/classes/ezcontentobject.php' );
             if ( eZContentObject::isCacheExpired( $timestamp ) )
             {
@@ -156,14 +162,14 @@ class eZContentCache
 
         eZDebugSetting::writeDebug( 'kernel-content-view-cache', 'cache used #2' );
 
-        // VS-DBFILE : TODO
-
         $fileName = $cacheDir . "/" . $cacheFile;
-        $fp = fopen( $fileName, 'r' );
 
-        $contents = fread( $fp, filesize( $fileName ) );
+        // VS-DBFILE : FIXME: We may need to cache PDF files locally.
+
+        $cacheFile = eZClusterFileHandler::instance( $fileName );
+        $contents = $cacheFile->fetchContents();
+
         $cachedArray = unserialize( $contents );
-        fclose( $fp );
 
         $cacheTTL = $cachedArray['cache_ttl'];
 
@@ -214,8 +220,6 @@ class eZContentCache
                     $result, $cacheTTL = -1,
                     $parameters = array() )
     {
-        // VS-DBFILE : TODO
-
         $cachePathInfo = eZContentCache::cachePathInfo( $siteDesign, $nodeID, $viewMode, $language, $offset, $roleList, $discountList,
                                                         $layout, false, $parameters );
         $cacheDir = $cachePathInfo['dir'];
@@ -273,33 +277,20 @@ class eZContentCache
             $perm = octdec( $ini->variable( 'FileSettings', 'StorageDirPermissions' ) );
             eZDir::mkdir( $cacheDir, $perm, true );
         }
+
         $path = $cacheDir . '/' . $cacheFile;
-        $oldumask = umask( 0 );
-        $pathExisted = file_exists( $path );
-        $ini =& eZINI::instance();
-        $perm = octdec( $ini->variable( 'FileSettings', 'StorageFilePermissions' ) );
         $uniqid = md5( uniqid( 'ezpcache'. getmypid(), true ) );
-        $fp = @fopen( "$cacheDir/$uniqid", "w" );
-        if ( !$fp )
-        {
-            eZDebug::writeError( "Could not open file '$path' for writing, perhaps wrong permissions" );
-        }
-        if ( $fp and !$pathExisted )
-        {
-            chmod( $path, $perm );
-        }
-        umask( $oldumask );
 
-        if ( $fp )
-        {
-            include_once( 'lib/ezfile/classes/ezfile.php' );
+        // VS-DBFILE : FIXME: Use some kind of one-shot atomic storing here.
+        //             FIXME: use permissions provided in FileSettings:StorageFilePermissions.
 
-            fwrite( $fp, $serializeString );
-            fclose( $fp );
-            eZFile::rename( "$cacheDir/$uniqid", $path );
-        }
 
-        return $fp;
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $file = eZClusterFileHandler::instance( "$cacheDir/$uniqid" );
+        $file->storeContents( $serializeString, 'viewcache', 'pdf' );
+        $file->move( $path );
+
+        return true;
     }
 
     function calculateCleanupValue( $nodeCount )

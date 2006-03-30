@@ -43,12 +43,19 @@ class eZRSSEditFunction
     */
     function storeRSSExport( &$Module, &$http, $publish = false )
     {
+        // VS-DBFILE
+
         /* Kill the RSS cache */
         $config =& eZINI::instance( 'site.ini' );
         $cacheDir = eZSys::cacheDirectory();
-        $cacheFile = $cacheDir . '/rss/' . md5( $http->postVariable( 'Access_URL' ) ) . '.xml';
-        if ( file_exists( $cacheFile ) )
-            unlink( $cacheFile );
+        $cacheFilePath = $cacheDir . '/rss/' . md5( $http->postVariable( 'Access_URL' ) ) . '.xml';
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
+        if ( $cacheFile->exists() )
+        {
+            // VS-DBFILE : FIXME: optimize not to use recursive delete.
+            $cacheFile->delete();
+        }
 
         $db =& eZDB::instance();
         $db->begin();

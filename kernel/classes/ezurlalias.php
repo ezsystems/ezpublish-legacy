@@ -429,10 +429,10 @@ WHERE
             eZDir::mkdir( $wildcardCacheDir, eZDir::directoryPermission(), true );
         }
 
-        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
-        $phpCache = new eZPHPCreator( $wildcardCacheDir, $wildcardCacheFile );
-
         // VS-DBFILE
+
+        include_once( 'lib/ezutils/classes/ezphpcreator.php' );
+        $phpCache = new eZPHPCreator( $wildcardCacheDir, $wildcardCacheFile, '', array( 'clustering' => 'wirldcard-cache' ) );
 
         foreach ( $wildcardKeys as $wildcardKey => $wildcardKeyValue )
         {
@@ -550,9 +550,12 @@ WHERE
 
         // VS-DBFILE
 
-        if ( file_exists( $info['path'] ) )
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $cacheFile = eZClusterFileHandler::instance( $info['path'] );
+
+        if ( $cacheFile->exists() )
         {
-            $timestamp = filemtime( $info['path'] );
+            $timestamp = $cacheFile->mtime();
             $isExpired = eZURLAlias::isWildcardExpired( $timestamp );
             $hasCache = true;
         }
@@ -565,7 +568,10 @@ WHERE
         {
             // VS-DBFILE
 
+            $cacheFile->fetch();
             include_once( $info['path'] );
+            $cacheFile->deleteFetched();
+
             $hasCache = false;
             if ( function_exists( EZURLALIAS_CACHE_FUNCTION ) )
             {

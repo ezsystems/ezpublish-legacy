@@ -59,7 +59,7 @@ if($cacheTime <= 0)
 else
 {
     $cacheDir = eZSys::cacheDirectory();
-    $cacheFile = $cacheDir . '/rss/' . md5( $feedName ) . '.xml';
+    $cacheFilePath = $cacheDir . '/rss/' . md5( $feedName ) . '.xml';
 
     // If cache directory does not exist, create it. Get permissions settings from site.ini
     if ( !is_dir( $cacheDir.'/rss' ) )
@@ -74,36 +74,20 @@ else
         chmod( $cacheDir.'/rss', octdec( $mode ) );
     }
 
-    if ( !file_exists( $cacheFile ) or ( time() - filemtime( $cacheFile ) > $cacheTime ) )
+    // VS-DBFILE
+
+    require_once( 'kernel/classes/ezclusterfilehandler.php' );
+    $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
+
+    if ( !$cacheFile->exists() or ( time() - $cacheFile->mtime() > $cacheTime ) )
     {
         $xmlDoc =& $RSSExport->attribute( 'rss-xml' );
-
-        $fid = @fopen( $cacheFile, 'w' );
-
-        // If opening file for write access fails, write debug error
-        if ( $fid === false )
-        {
-            eZDebug::writeError( 'Failed to open cache file for RSS export: '.$cacheFile );
-        }
-        else
-        {
-            // write, flush, close and change file access mode
-            $mode = $config->variable( 'FileSettings', 'TemporaryPermissions' );
-            $rssContent = $xmlDoc->toString();
-            $length = fwrite( $fid, $rssContent );
-            fflush( $fid );
-            fclose( $fid );
-            chmod( $cacheFile, octdec( $mode ) );
-
-            if ( $length === false )
-            {
-                eZDebug::writeError( 'Failed to write to cache file for RSS export: '.$cacheFile );
-            }
-        }
+        $rssContent = $xmlDoc->toString();
+        $cacheFile->storeContents( $rssContent, 'rsscache', 'xml' );
     }
     else
     {
-        $rssContent = file_get_contents( $cacheFile );
+        $rssContent = $cacheFile->fetchContents();
     }
 }
 

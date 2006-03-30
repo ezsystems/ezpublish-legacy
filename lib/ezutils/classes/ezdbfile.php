@@ -130,7 +130,7 @@ class eZDBFile
     /*!
       Save data in variable $fileContent do database
     */
-    function storeContentToFile( $filename, $fileContent, $scope )
+    function storeContentToFile( $filename, $fileContent, $scope, $datatype = false )
     {
         if ( $this->fileExists( $filename ) )
             $this->delete( $filename );
@@ -138,10 +138,13 @@ class eZDBFile
         $currenttime = time();
         clearstatcache();
 
+        if ( $datatype === false )
+            $datatype = 'UNSET_FILE_TYPE';
+
         // Insert into file table
         $content_size = strlen($fileContent);
         $sql  = "insert into ezdbfile (datatype, name, name_hash, scope, size, mtime) values ('";
-        $sql .= "UNSET_FILE_TYPE" . "', '" . $filename . "', '" . md5($filename) .  "', '" . $scope .  "', " . $content_size;
+        $sql .= $datatype . "', '" . $filename . "', '" . md5($filename) .  "', '" . $scope .  "', " . $content_size;
         $sql .= ", '" . $currenttime . "')";
 
         if (!$res = mysql_query($sql, $this->LinkID))

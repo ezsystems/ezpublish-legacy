@@ -1246,11 +1246,21 @@ WHERE user_id = '" . $userID . "' AND
                 $expiredTimestamp = $handler->timestamp( 'user-access-cache' );
             }
 
-            $cacheFile = eZUser::getCacheFilename( $userID );
-            if ( $cacheFile !== false && file_exists( $cacheFile ) && filemtime( $cacheFile ) > $expiredTimestamp )
+            $cacheFilePath = eZUser::getCacheFilename( $userID );
+
+            // VS-DBFILE
+
+            if ( $cacheFilePath !== false )
             {
-                // var_dump("CACHEFILE DOES EXIST FOR USER $userID");
-                $accessArray = include( $cacheFile );
+                require_once( 'kernel/classes/ezclusterfilehandler.php' );
+                $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
+
+                if( $cacheFile->exists() && $cacheFile->mtime() > $expiredTimestamp )
+                {
+                    $cacheFile->fetch();
+                    $accessArray = include( $cacheFilePath );
+                    $cacheFile->deleteFetched();
+                }
             }
         }
 
@@ -1259,13 +1269,21 @@ WHERE user_id = '" . $userID . "' AND
             include_once( 'kernel/classes/ezrole.php' );
             $accessArray =& eZRole::accessArrayByUserID( array_merge( $this->groups(), array( $userID ) ) );
 
-            $cacheFile = eZUser::getCacheFilename( $userID );
-            if ( $cacheFile )
+            if ( !isset( $cacheFilePath ) )
+                $cacheFilePath = eZUser::getCacheFilename( $userID );
+
+            if ( $cacheFilePath )
             {
-                // var_dump("WRITE USER INFO TO $cacheFile");
-                $f = fopen( $cacheFile, 'w' );
-                fwrite( $f, "<?php\n\treturn ". var_export( $accessArray, true ) . ";\n?>\n" );
-                fclose( $f );
+                // VS-DBFILE
+
+                if ( !isset( $cacheFile ) )
+                {
+                    require_once( 'kernel/classes/ezclusterfilehandler.php' );
+                    $cacheFile = eZClusterFileHandler::instance( $cacheFilePath );
+                }
+
+                $fileContents = "<?php\n\treturn ". var_export( $accessArray, true ) . ";\n?>\n";
+                $cacheFile->storeContents( $fileContents, 'user-info-cache', 'php' );
             }
         }
 
