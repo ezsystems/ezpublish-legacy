@@ -1,5 +1,10 @@
 Changes from 3.8.0alpha2 to 3.8.0beta1
 
+*Kernel:
+- Enhanced treemenu operator with new parameters and menu values.
+  See doc/features/3.8/enhanced_treemenu.txt for details.
+  ( Patch by Jonny Bergkvist )
+
 *Bugfixes:
 
 - Fixed bug #7956: Wishlist is called "basket".

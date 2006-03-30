@@ -67,7 +67,13 @@ class eZTreeMenuOperator
                                             'default' => false ),
                       'is_selected_method' => array( 'type' => 'string',
                                                      'required' => false,
-                                                     'default' => 'tree' ) );
+                                                     'default' => 'tree' ),
+                      'indentation_level' => array( 'type' => 'int',
+                                                    'required' => false,
+                                                    'default' => 15 ),
+                      'language' => array( 'type' => 'string|array',
+                                           'required' => false,
+                                           'default' => false ) );
     }
 
     /*!
@@ -81,6 +87,7 @@ class eZTreeMenuOperator
         $pathArray = array();
         $tmpModulePath = $namedParameters['path'];
         $classFilter = $namedParameters['class_filter'];
+        $language = $namedParameters['language'];
 
         if( $classFilter == 'false' )
         {
@@ -94,6 +101,7 @@ class eZTreeMenuOperator
             $tmpModulePath[count($tmpModulePath)-1]['url'] = "/content/view/full/" . $namedParameters['node_id'];
 
         $depthSkip = $namedParameters['depth_skip'];
+        $indentationLevel = $namedParameters['indentation_level'];
 
         $maxLevel = $namedParameters['max_level'];
         $isSelectedMethod = $namedParameters['is_selected_method'];
@@ -138,6 +146,7 @@ class eZTreeMenuOperator
                 $menuChildren = eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
                                                                          'Offset' => 0,
                                                                          'SortBy' => $node->sortArray(),
+                                                                         'Language' => $language,
                                                                          'ClassFilterType' => 'include',
                                                                          'ClassFilterArray' => $classFilter ),
                                                                   $nodeID );
@@ -154,6 +163,20 @@ class eZTreeMenuOperator
                     $url = "/content/view/full/$tmpNodeID/";
                     $urlAlias = "/" . $child->attribute( 'url_alias' );
 
+                    $mainNode = $child->attribute( 'main_node_id' );
+                    $dataMap = $child->attribute( 'data_map' );
+                    $childrenCount = $child->attribute( 'children_count' );
+                    $contentObject = $child->attribute( 'object' );
+                    $isMain = false;
+                    if ( $mainNode == $tmpNodeID )
+                        $isMain = true;
+
+                    $hasChildren = false;
+                    if ( $childrenCount > 0 )
+                        $hasChildren = true;
+
+                    $indent = ($i - 1) * $indentationLevel;
+
 					$isSelected = false;
                     $nextNextElements = ( $isSelectedMethod == 'node' and isset( $tmpModulePath[$i+$depthSkip+2]['url'] ) ) ? explode( "/", $tmpModulePath[$i+$depthSkip+2]['url'] ) : null;
                     if ( $nextNodeID === $tmpNodeID and !isset( $nextNextElements[4] ) )
@@ -163,6 +186,11 @@ class eZTreeMenuOperator
 
                     $tmpPathArray[] = array( 'id' => $tmpNodeID,
                                              'level' => $i,
+                                             'data_map' => $dataMap,
+                                             'class_name' => $contentObject->classname(),
+                                             'is_main_node' => $isMain,
+                                             'has_children' => $hasChildren,
+                                             'indent' => $indent,
                                              'url_alias' => $urlAlias,
                                              'url' => $url,
                                              'text' => $name,
@@ -193,6 +221,7 @@ class eZTreeMenuOperator
                     $menuChildren = eZContentObjectTreeNode::subTree( array( 'Depth' => 1,
                                                                              'Offset' => 0,
                                                                              'SortBy' => $node->sortArray(),
+                                                                             'Language' => $language,
                                                                              'ClassFilterType' => 'include',
                                                                              'ClassFilterArray' => $classFilter ),
                                                                       2 );

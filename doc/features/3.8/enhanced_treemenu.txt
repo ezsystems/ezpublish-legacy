@@ -1,0 +1,29 @@
+Enhanced treemenu operator
+==========================
+Original author: Jonny Bergkvist
+
+The treemenu operator in eZ publish has been enhanced for 3.8.
+It now has extra values for each menu entry and has two new parameters.
+
+The new parameters are:
+
+- indentation_level: int          - The indentation level for the menu entries.
+                                    (see indent)
+- language         : string|array - The languages to use when fetching the nodes,
+                                    this overrides the default in the siteaccess.
+                                    Use either a string, e.g. nor-NO, or an array
+                                    of strings, e.g. array( 'nor-NO', 'eng-GB' ).
+                                    The languages are prioritized according to
+                                    the array.
+
+The new values are:
+
+- is_main_node: bool   - is set to true when the node is a main_node.
+- has_children: bool   - is set to true when the node has children
+- indent      : int    - the current indentation (see indentation_level) of the
+                         menu entry, this saves you calculating the value each
+                         time.
+- data_map    : array  - The data_map from the node.
+- class_name  : string - The name of the content class for the menu entry,
+                         e.g. 'Folder'.
+
