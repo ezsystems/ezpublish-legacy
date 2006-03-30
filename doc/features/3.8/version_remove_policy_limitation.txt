@@ -1,5 +1,7 @@
 *Title: Version-remove policy limitation
 
+*Original author: Daniel Beyer
+
 *Documentation:
 It's possible now to specify version's status(es) which is allowed to remove
 (module: content, function: versionremove).
