@@ -26,9 +26,7 @@
 
 <div class="block">
 
-{*if or($class|not,$class.can_instantiate_languages|not)*}
-
-{if true()}
+{if or($class|not,$class.can_instantiate_languages|not)}
 
 <p>{'You do not have permissions to create an object of the requested class in any language.'|i18n( 'design/admin/content/create_languages' )}</p>
 
