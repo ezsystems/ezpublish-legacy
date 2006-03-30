@@ -2640,6 +2640,14 @@ CREATE INDEX ezcontentclass_version ON ezcontentclass USING btree ("version");
 
 
 
+CREATE INDEX ezcontentobject_lmask ON ezcontentobject USING btree (language_mask);
+
+
+
+
+
+
+
 CREATE INDEX ezcontentobject_attribute_co_id_ver_lang_code ON ezcontentobject_attribute USING btree (contentobject_id, "version", language_code);
 
 

@@ -1481,6 +1481,14 @@ $schema = array (
           0 => 'id',
         ),
       ),
+      'ezcontentobject_lmask' => 
+      array (
+        'type' => 'non-unique',
+        'fields' => 
+        array (
+          0 => 'language_mask',
+        ),
+      ),
     ),
   ),
   'ezcontentobject_attribute' => 

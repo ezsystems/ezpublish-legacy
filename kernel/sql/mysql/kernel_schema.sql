@@ -319,7 +319,8 @@ CREATE TABLE ezcontentobject (
   remote_id varchar(100) default NULL,
   section_id int(11) NOT NULL default '0',
   status int(11) default '0',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  KEY ezcontentobject_lmask (language_mask)
 ) TYPE=MyISAM;
 
 

@@ -39,4 +39,6 @@ update eznode_assignment set op_code=2 where from_node_id <= 0 and op_code=0;
 -- mark as being set
 update eznode_assignment set op_code=2 where remote_id != 0 and op_code=0;
 
+ALTER TABLE ezcontentobject ADD INDEX ezcontentobject_lmask ( language_mask ) ;
+
 -- Now remember to run ./update/common/scripts/updatemultilingual.php before using the site
