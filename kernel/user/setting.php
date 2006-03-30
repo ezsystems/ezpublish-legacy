@@ -93,5 +93,9 @@ $tpl->setVariable( "userSetting", $userSetting );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( "design:user/setting.tpl" );
+$Result['path'] = array( array( 'text' => ezi18n( 'kernel/user', 'User' ),
+                                'url' => false ),
+                         array( 'text' => ezi18n( 'kernel/user', 'Setting' ),
+                                'url' => false ) );
 
 ?>
