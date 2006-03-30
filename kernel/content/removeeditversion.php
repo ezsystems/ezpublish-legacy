@@ -73,10 +73,6 @@ if ( $isConfirmed )
 
     $db =& eZDB::instance();
     $db->begin();
-    $db->query( "DELETE FROM ezcontentobject_link
-		         WHERE from_contentobject_id=$objectID AND from_contentobject_version=$version" );
-    $db->query( "DELETE FROM eznode_assignment
-	             WHERE contentobject_id=$objectID AND contentobject_version=$version" );
 
     $versionObject =& $object->version( $version );
     $contentObjectAttributes =& $versionObject->contentObjectAttributes( $editLanguage );
@@ -86,15 +82,22 @@ if ( $isConfirmed )
         $contentObjectAttribute->remove( $objectAttributeID, $version );
     }
     $versionCount= $object->getVersionCount();
-    $nodeID = $object->attribute( 'main_node_id' );
     if ( $versionCount == 1 )
     {
+        $nodeID = $versionObject->attribute( 'main_parent_node_id' );
         $object->purge();
     }
     else
     {
+        $nodeID = $object->attribute( 'main_node_id' );
         $versionObject->remove();
     }
+
+    $db->query( "DELETE FROM ezcontentobject_link
+                 WHERE from_contentobject_id=$objectID AND from_contentobject_version=$version" );
+    $db->query( "DELETE FROM eznode_assignment
+                 WHERE contentobject_id=$objectID AND contentobject_version=$version" );
+
     $db->commit();
 
     $hasRedirected = false;
