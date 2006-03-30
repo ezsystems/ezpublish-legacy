@@ -272,12 +272,15 @@
         {/section}
     </select>
 
-
-    <select name="ContentLanguageCode" onchange="checkLanguageSelector(this)" title="{'Use this menu to select the language you wish use for the creation and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">
+    <script type="text/javascript">
+    <!--
+        document.writeln( '<select name="ContentLanguageCode" onchange="checkLanguageSelector(this)" title="{'Use this menu to select the language you wish use for the creation and click the "Create here" button. The item will be created within the current location.'|i18n( 'design/admin/node/view/full' )|wash()}">' );
         {foreach fetch( content, prioritized_languages ) as $language}
-        <option value="{$language.locale|wash()}">{$language.name|wash()}</option>
+            document.writeln( '<option value="{$language.locale|wash()}">{$language.name|wash()}</option>' );
         {/foreach}
-    </select>
+        document.writeln( '</select>' );
+    -->
+    </script>
 
     {/let}
 

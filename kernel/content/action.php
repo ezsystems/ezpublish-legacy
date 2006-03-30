@@ -55,11 +55,15 @@ $viewMode = 'full';
 if ( $module->hasActionParameter( 'ViewMode' ) )
     $viewMode = $module->actionParameter( 'ViewMode' );
 
-if ( $http->hasPostVariable( 'BrowseCancelButton' ) )
+if ( $http->hasPostVariable( 'BrowseCancelButton' ) || $http->hasPostVariable( 'CancelButton' ) )
 {
     if ( $http->hasPostVariable( 'BrowseCancelURI' ) )
     {
         return $module->redirectTo( $http->postVariable( 'BrowseCancelURI' ) );
+    }
+    else if ( $http->hasPostVariable( 'CancelURI' ) )
+    {
+        return $module->redirectTo( $http->postVariable( 'CancelURI' ) );
     }
 }
 // Merge post variables and variables that were used before login
@@ -106,6 +110,23 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
         {
             eZDebug::writeError( "The language code [$languageCode] specified in ContentLanguageCode does not exist in the system." );
             return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
+        }
+    }
+    else
+    {
+        if ( $hasClassInformation )
+        {
+            include_once( 'kernel/common/template.php' );
+            $tpl =& templateInit();
+
+            $tpl->setVariable( 'node_id', $http->postVariable( 'NodeID' ) );
+            $tpl->setVariable( 'class_id', $contentClassID );
+            $tpl->setVariable( 'assignment_remote_id', ( $http->hasPostVariable( 'AssignmentRemoteID' ) )? $http->postVariable( 'AssignmentRemoteID' ): false );
+            $tpl->setVariable( 'redirect_uri_after_publish', ( $http->hasPostVariable( 'RedirectURIAfterPublish' ) )? $http->postVariable( 'RedirectURIAfterPublish' ): false );
+
+            $Result = array();
+            $Result['content'] =& $tpl->fetch( 'design:content/create_languages.tpl' );
+            return $Result;
         }
     }
 
