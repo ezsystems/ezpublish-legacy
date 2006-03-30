@@ -116,8 +116,13 @@ class eZMedia extends eZPersistentObject
     function &fileSize()
     {
         $fileInfo = $this->storedFileInfo();
-        if ( file_exists( $fileInfo['filepath'] ) )
-            $fileSize = filesize( $fileInfo['filepath'] );
+
+        // VS-DBFILE
+        require_once( 'kernel/classes/ezclusterfilehandler.php' );
+        $file = eZClusterFileHandler::instance( $fileInfo['filepath'] );
+
+        if ( $file->exists() )
+            $fileSize = $file->size();
         else
             $fileSize = 0;
         return $fileSize;

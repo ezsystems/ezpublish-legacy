@@ -93,8 +93,13 @@ class eZMediaType extends eZDataType
 //                $orig_dir = "var/storage/original/" . $prefix;
                 $orig_dir = $storage_dir . '/original/' . $prefix;
                 $fileName = $mediaFile->attribute( "filename" );
-                if( file_exists( $orig_dir . "/" .$fileName ) )
-                    unlink( $orig_dir . "/" . $fileName );
+
+                // VS-DBFILE
+
+                require_once( 'kernel/classes/ezclusterfilehandler.php' );
+                $file = eZClusterFileHandler::instance( $orig_dir . "/" .$fileName );
+                if ( $file->exists() )
+                    $file->delete();
             }
         }
         else
@@ -116,8 +121,12 @@ class eZMediaType extends eZDataType
                 }
                 if( $count == 1 )
                 {
-                    if( file_exists( $orig_dir . "/" . $currentFileName ) )
-                        unlink( $orig_dir . "/" .  $currentFileName );
+                    // VS-DBFILE
+
+                    require_once( 'kernel/classes/ezclusterfilehandler.php' );
+                    $file = eZClusterFileHandler::instance( $orig_dir . "/" . $currentFileName );
+                    if ( $file->exists() )
+                        $file->delete();
                 }
             }
         }
@@ -280,8 +289,17 @@ class eZMediaType extends eZDataType
             $media->setAttribute( "filename", basename( $mediaFile->attribute( "filename" ) ) );
             $media->setAttribute( "original_filename", $mediaFile->attribute( "original_filename" ) );
             $media->setAttribute( "mime_type", $mime );
+
+            // VS-DBFILE
+
+            require_once( 'kernel/classes/ezclusterfilehandler.php' );
+            //$filePath = $media->attribute( 'original_filename' );
+            $filePath = $mediaFile->attribute( 'filename' );
+            $fileHandler = eZClusterFileHandler::instance();
+            $fileHandler->fileStore( $filePath, 'media', true, $mime );
         }
         $media->store();
+
         $contentObjectAttribute->setContent( $media );
         return true;
     }
@@ -433,6 +451,8 @@ class eZMediaType extends eZDataType
         umask( $oldumask );
         $destination = $destination . '/' . $fileName;
         copy( $filePath, $destination );
+
+        // VS-DBFILE : TODO
 
         $classAttribute =& $objectAttribute->contentClassAttribute();
         $player = $classAttribute->attribute( "data_text1" );
@@ -632,6 +652,8 @@ class eZMediaType extends eZDataType
     */
     function serializeContentObjectAttribute( &$package, &$objectAttribute )
     {
+        // VS-DBFILE : TODO
+
         $node = $this->createContentObjectAttributeDOMNode( $objectAttribute );
 
         $mediaFile = $objectAttribute->attribute( 'content' );
@@ -668,6 +690,8 @@ class eZMediaType extends eZDataType
     */
     function unserializeContentObjectAttribute( &$package, &$objectAttribute, $attributeNode )
     {
+        // VS-DBFILE : TODO
+
         $mediaNode = $attributeNode->elementByName( 'media-file' );
         $mediaFile = eZMedia::create( $objectAttribute->attribute( 'id' ), $objectAttribute->attribute( 'version' ) );
 
