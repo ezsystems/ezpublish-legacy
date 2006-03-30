@@ -1,0 +1,5 @@
+*Title: Anonymous user, content edit per session limitation
+
+*Documentation:
+Support for limiting content edit privileges for anonymous users 
+to only apply for objects created in the current HTTP session.

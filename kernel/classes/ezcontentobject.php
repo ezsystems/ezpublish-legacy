@@ -3284,11 +3284,23 @@ class eZContentObject extends eZPersistentObject
 
                         case 'Owner':
                         {
-                            if ( $this->attribute( 'owner_id' ) == $userID || $this->ID == $userID )
+                            // if limitation value == 2, anonymous limited to current session.
+                            if ( in_array( 2, $limitationArray[$key] ) &&
+                                 $user->isAnonymous() )
+                            {
+                                include_once( 'kernel/classes/ezpreferences.php' );
+                                $createdObjectIDList = eZPreferences::value( 'ObjectCreationIDList' );
+                                if ( $createdObjectIDList &&
+                                     in_array( $this->ID, unserialize( $createdObjectIDList ) ) )
+                                {
+                                    $access = 'allowed';
+                                }
+                            }
+                            else if ( $this->attribute( 'owner_id' ) == $userID || $this->ID == $userID )
                             {
                                 $access = 'allowed';
                             }
-                            else
+                            if ( $access != 'allowed' )
                             {
                                 $access = 'denied';
                                 $limitationList = array ( 'Limitation' => $key );

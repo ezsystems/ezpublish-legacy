@@ -70,7 +70,7 @@
      {section-exclude match=$Limitations:item.name|eq('Node')}
 <td class="element">
     <label>{$Limitations:item.name}</label><div class="labelbreak"/>
-     <select name="{$Limitations:item.name}[]" size="8" multiple >
+     <select name="{$Limitations:item.name}[]" size="8" {cond( $Limitations:item.single_select, '', 'multiple="multiple"' )} >
      <option value="-1" {switch match=$current_limitation_list[$Limitations:item.name]}
      {case match=-1} selected="selected"{/case}{case}{/case}{/switch}>{"Any"|i18n("design/standard/role")}</option>
      {section name=LimitationValues loop=$Limitations:item.values}

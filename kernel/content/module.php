@@ -520,6 +520,16 @@ $Assigned = array(
             'value' => '1')
         )
     );
+
+$AssignedEdit = array(
+    'name'=> 'Owner',
+    'single_select' => true,
+    'values'=> array(
+        array( 'Name' => 'Self',
+               'value' => '1'),
+        array( 'Name' => 'Self or anonymous users per HTTP session',
+               'value' => '2' ) ) );
+
 $ParentDepth = array(
     'name' => 'ParentDepth',
     'values' => array(),
@@ -529,6 +539,7 @@ $ParentDepth = array(
     'function' => 'parentDepthLimitationList',
     'parameter' => array( false )
     );
+
 $Node = array(
     'name'=> 'Node',
     'values'=> array()
@@ -558,7 +569,7 @@ $FunctionList['create'] = array( 'Class' => $ClassID,
                                  );
 $FunctionList['edit'] = array( 'Class' => $ClassID,
                                'Section' => $SectionID,
-                               'Owner' => $Assigned,
+                               'Owner' => $AssignedEdit,
                                'Node' => $Node,
                                'Subtree' => $Subtree,
                                'Language' => $Language);

@@ -4577,11 +4577,23 @@ WHERE
 
                         case 'Owner':
                         {
-                            if ( $contentObject->attribute( 'owner_id' ) == $userID || $contentObject->attribute( 'id' ) == $userID )
+                            // if limitation value == 2, anonymous limited to current session.
+                            if ( in_array( 2, $limitationArray[$key] ) &&
+                                 $user->isAnonymous() )
+                            {
+                                include_once( 'kernel/classes/ezpreferences.php' );
+                                $createdObjectIDList = eZPreferences::value( 'ObjectCreationIDList' );
+                                if ( $createdObjectIDList &&
+                                     in_array( $contentObject->attribute( 'id' ), unserialize( $createdObjectIDList ) ) )
+                                {
+                                    $access = 'allowed';
+                                }
+                            }
+                            else if ( $contentObject->attribute( 'owner_id' ) == $userID || $contentObject->attribute( 'id' ) == $userID )
                             {
                                 $access = 'allowed';
                             }
-                            else
+                            if ( $access != 'allowed' )
                             {
                                 $access = 'denied';
                                 $limitationList = array ( 'Limitation' => $key );
