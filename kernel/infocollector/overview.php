@@ -121,7 +121,13 @@ if ( $infoCollectorObjectsQuery )
 
 for( $i=0; $i<count( $objects ); $i++ )
 {
-    $collections = $db->arrayQuery( 'SELECT * FROM ezinfocollection WHERE contentobject_id=' . (int)$objects[$i]['contentobject_id'] );
+    $collections = eZInformationCollection::fetchCollectionsList( (int)$objects[$i]['contentobject_id'], /* object id */
+                                                                  false, /* creator id */
+                                                                  false, /* user identifier */
+                                                                  false, /* limitArray */
+                                                                  false, /* sortArray */
+                                                                  false  /* asObject */
+                                                                 );
 
     $first = $collections[0]['created'];
     $last  = $first;

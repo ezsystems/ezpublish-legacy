@@ -53,6 +53,7 @@
     <th class="tight">{'Collection ID'|i18n( 'design/admin/infocollector/collectionlist' )}</th>
     <th>{'Created'|i18n( 'design/admin/infocollector/collectionlist' )}</th>
     <th>{'Modified'|i18n( 'design/admin/infocollector/collectionlist' )}</th>
+    <th>{'Creator'|i18n( 'design/admin/infocollector/collectionlist' )}</th>
 </tr>
 {section var=Collections loop=$collection_array sequence=array( bglight, bgdark )}
 <tr class="{$Collections.sequence}">
@@ -60,6 +61,7 @@
     <td class="number" align="right"><a href={concat( '/infocollector/view/', $Collections.item.id )|ezurl}>{$Collections.item.id}</a></td>
     <td>{$Collections.item.created|l10n( shortdatetime )}</td>
     <td>{$Collections.item.modified|l10n( shortdatetime )}</td>
+    <td>{section show=$Collections.item.creator} {$Collections.item.creator.contentobject.name|wash} {section-else} {'Unknown user'|i18n( 'design/admin/infocollector/collectionlist' )} {/section}</td>
 </tr>
 {/section}
 </table>

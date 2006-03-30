@@ -107,19 +107,11 @@ if( !$object )
     return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
 }
 
-$db =& eZDB::instance();
-$collections = $db->arrayQuery( 'SELECT *
-                                 FROM  ezinfocollection
-                                 WHERE ezinfocollection.contentobject_id=' . (int)$objectID,
-                                 array( 'limit'  => (int)$limit,
-                                        'offset' => (int)$offset ) );
-$collectionCountQuery = $db->arrayQuery( 'SELECT COUNT(*) AS count FROM ezinfocollection WHERE ezinfocollection.contentobject_id=' . (int)$objectID );
-$numberOfCollections = 0;
-
-if ( $collectionCountQuery )
-{
-    $numberOfCollections = $collectionCountQuery[0]['count'];
-}
+$collections = eZInformationCollection::fetchCollectionsList( $objectID, /* object id */
+                                                              false, /* creator id */
+                                                              false, /* user identifier */
+                                                              array( 'limit' => $limit,'offset' => $offset ) /* limit array */ );
+$numberOfCollections = eZInformationCollection::fetchCollectionsCount( $objectID );
 
 $viewParameters = array( 'offset' => $offset );
 $objectName = $object->attribute( 'name' );
@@ -134,7 +126,7 @@ $tpl->setVariable( 'collection_count', $numberOfCollections );
 
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:infocollector/collectionlist.tpl' );
-$Result['path'] = array( array( 'url' => '/infocollector/collectionlist',
+$Result['path'] = array( array( 'url' => '/infocollector/overview',
                                 'text' => ezi18n( 'kernel/infocollector', 'Collected information' ) ),
                          array( 'url' => false,
                                 'text' => $objectName ) );

@@ -1,0 +1,112 @@
+*Title: Template functions for fetching information collection objects.
+
+*Original author: Kristian Hole
+
+*Description:
+
+New functions for fetching information collections have been added to improve
+getting information from information-collections.
+
+*Documentation:
+
+Fetching information collections:
+
+fetch('content','collected_info_list',  hash(
+             [ 'object_id', object id,    ]
+             [ 'user_id', user_id,        ]
+             [ 'user_identifier', string, ]
+             [ 'limit', integer,          ]
+             [ 'offset', integer,         ]
+             [ 'sort_by', array           ] ) )
+
+Returns:
+Array of information collections, matching the parameters set
+
+Parameters:
+
+'object_id' - ID of an object we fetch collections for.
+
+'user_id' - ID of the user to fetch collections for. This is not stored for
+            old collections if you upgrade, only to new collections
+
+'user_identifier' - A hash of the userid stored in the collection, only useful
+                    for old collections.
+
+'limit' - The maximum number of items to fetch
+
+'offset' - The item to start the fetch, eg, if offset is 2 the first 2 elements
+           are skipped
+
+'sort_by' - Array specifying sorting, on the form array( 'field', direction )
+            where 'field' is either id, contentobject_id, user_identifier,
+                  user_id, created or modified
+            and 'direction' is either true() for ASC or false() for DESC
+
+            you can also sort by more elements by using and array on the form:
+            array( array( 'field1', dir1 ), array( 'field2', dir2 ) )
+
+Example:
+
+{def $res=fetch('content','collected_info_list',
+                   hash( 'object_id', 57,
+                         'limit', 10,
+                         'offset', 2,
+                         'sort_by', array(  array( 'user_id',false() ),
+                                            array( 'created', false() ) ) ) )}
+
+
+$res will now contain 10 information collections starting at element 2, sorted
+first by user_id and then created time, which are collected by the content
+object with ID 57.
+
+Example 2:
+
+{def $res=fetch('content','collected_info_list',
+       hash( 'user_id', 14,
+             'sort_by', array( 'created',false())
+             )
+          ) )}
+
+
+$res will now contain all information collections by user with user_id 14
+sorted by the creation date.
+
+
+Fetching information collection counts:
+
+fetch('content','collected_info_count',  hash(
+             [ 'object_id', object id,    ]
+             [ 'user_id', user_id,        ]
+             [ 'user_identifier', string  ] ) )
+
+Returns:
+A count of the number of the information collections, matching the parameters
+set.
+
+
+Parameters:
+
+'object_id' - ID of an object we fetch collections for.
+
+'user_id' - ID of the user to fetch collections for. This is not stored for old
+            collections if you upgrade, only to new collections
+
+'user_identifier' - A hash of the userid stored in the collection, only useful
+                    for old collections.
+
+
+Example:
+
+{def $count=fetch('content','collected_info_count',
+        hash( 'object_id', 57,
+              'user_id', 14 ) )}
+
+Returns:
+The number of information collections collected by content object 57, created
+by the user with id 14.
+
+NOTE:
+If you upgrade from a previous version of eZ publish, the user_id field for old
+information collections are 0. New collections will get the user_id properly
+set when information is submitted.
+

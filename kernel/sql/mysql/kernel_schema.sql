@@ -585,6 +585,7 @@ CREATE TABLE ezimagevariation (
 CREATE TABLE ezinfocollection (
   contentobject_id int(11) NOT NULL default '0',
   created int(11) NOT NULL default '0',
+  creator_id int(11) NOT NULL default '0',
   id int(11) NOT NULL auto_increment,
   modified int(11) default '0',
   user_identifier varchar(34) default NULL,

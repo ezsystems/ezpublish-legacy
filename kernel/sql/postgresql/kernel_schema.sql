@@ -256,19 +256,6 @@ CREATE SEQUENCE ezcurrencydata_s
 
 
 
-CREATE SEQUENCE ezcurrencydata_s
-    START 1
-    INCREMENT 1
-    MAXVALUE 9223372036854775807
-    MINVALUE 1
-    CACHE 1;
-
-
-
-
-
-
-
 CREATE SEQUENCE ezdiscountrule_s
     START 1
     INCREMENT 1
@@ -1620,6 +1607,7 @@ CREATE TABLE ezimagevariation (
 CREATE TABLE ezinfocollection (
     contentobject_id integer DEFAULT 0 NOT NULL,
     created integer DEFAULT 0 NOT NULL,
+    creator_id integer DEFAULT 0 NOT NULL,
     id integer DEFAULT nextval('ezinfocollection_s'::text) NOT NULL,
     modified integer DEFAULT 0,
     user_identifier character varying(34)

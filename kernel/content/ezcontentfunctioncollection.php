@@ -675,6 +675,27 @@ class eZContentFunctionCollection
         return array( 'result' => &$collection );
     }
 
+    function fetchCollectionsList( $objectID = false, $creatorID = false, $userIdentifier = false, $limit = false, $offset = false, $sortBy = false )
+    {
+        include_once( 'kernel/classes/ezinformationcollection.php' );
+
+        $collection = eZInformationCollection::fetchCollectionsList( $objectID,
+                                                                     $creatorID,
+                                                                     $userIdentifier,
+                                                                     array( 'limit' => $limit, 'offset' => $offset ),
+                                                                     $sortBy
+                                                                   );
+        return array( 'result' => &$collection );
+     }
+
+    function fetchCollectionsCount( $objectID = false, $creatorID = false, $userIdentifier = false )
+    {
+        include_once( 'kernel/classes/ezinformationcollection.php' );
+        $collection = eZInformationCollection::fetchCollectionsCount( $objectID, $creatorID, $userIdentifier );
+        return array( 'result' => &$collection );
+    }
+
+
     function fetchObjectByAttribute( $identifier )
     {
         include_once( 'kernel/classes/ezcontentobjectattribute.php' );

@@ -13,7 +13,7 @@
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
 <div class="context-information">
-<p class="modified">{'Last modified'|i18n( 'design/admin/infocollector/view' )}: {$collection.created|l10n( shortdatetime )}</p>
+<p class="modified">{'Last modified'|i18n( 'design/admin/infocollector/view' )}: {$collection.created|l10n( shortdatetime )}, {section show=$collection.creator} {$collection.creator.contentobject.name|wash} {section-else} {'Unknown user'|i18n( 'design/admin/infocollector/view' )} {/section} </p>
 </div>
 
 <div class="context-attributes">

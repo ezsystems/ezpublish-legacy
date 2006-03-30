@@ -42,3 +42,8 @@ update eznode_assignment set op_code=2 where remote_id != 0 and op_code=0;
 CREATE INDEX ezcontentobject_lmask ON ezcontentobject USING btree ( language_mask );
 
 -- Now remember to run ./update/common/scripts/updatemultilingual.php before using the site
+
+-- Information collection improvments
+ALTER TABLE ezinfocollection ADD creator_id INT;
+ALTER TABLE ezinfocollection ALTER COLUMN creator_id SET DEFAULT 0;
+ALTER TABLE ezinfocollection ALTER COLUMN creator_id SET NOT NULL;

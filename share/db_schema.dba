@@ -2679,6 +2679,13 @@ $schema = array (
         'not_null' => '1',
         'default' => 0,
       ),
+      'creator_id' => 
+      array (
+        'length' => 11,
+        'type' => 'int',
+        'not_null' => '1',
+        'default' => 0,
+      ),
       'id' => 
       array (
         'type' => 'auto_increment',

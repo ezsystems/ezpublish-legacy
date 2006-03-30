@@ -63,6 +63,10 @@ class eZInformationCollection extends eZPersistentObject
                                                                      'datatype' => 'string',
                                                                      'default' => '',
                                                                      'required' => true ),
+                                         'creator_id' => array( 'name' => 'CreatorID',
+                                                                'datatype' => 'integer',
+                                                                'default' => 0,
+                                                                'required' => true ),
                                          'created' => array( 'name' => 'Created',
                                                              'datatype' => 'integer',
                                                              'default' => 0,
@@ -74,7 +78,8 @@ class eZInformationCollection extends eZPersistentObject
                       'keys' => array( 'id' ),
                       'function_attributes' => array( 'attributes' => 'informationCollectionAttributes',
                                                       'data_map' => 'dataMap',
-                                                      'object' => 'object' ),
+                                                      'object' => 'object',
+                                                      'creator' => 'creator' ),
                       'increment_key' => 'id',
                       'class_name' => 'eZInformationCollection',
                       'name' => 'ezinfocollection' );
@@ -465,6 +470,128 @@ class eZInformationCollection extends eZPersistentObject
         return $resultArray[0]['count'];
     }
 
+   /*!
+    \static
+    \param $definition      - required, definition of fields
+    \param $sortArray       - required, the input array
+
+     This function converts sorting on the form array ( 'field', true ) to the array( 'field' => true )
+     and checks if the field exists in the definition. The functions is used to make sorting the same
+     way as done in fetch('content','list', ... )
+   */
+   function getSortArrayFromParam( $definition, $sortArray )
+   {
+      if ( count( $sortArray ) < 2 )
+         return null;
+
+      $sortField = $sortArray[0];
+
+      // Check if we have the specified sort_field in the definition
+      if ( isset( $definition[ 'fields' ][ $sortField ] ) )
+      {
+         $sortDir = $sortArray[1] ? 'asc' : 'desc';
+         $sorts = array( $sortField => $sortDir );
+         return $sorts;
+      }
+      eZDebug::writeWarning( 'Unknown sort field: ' . $sortField, 'eZInformationCollection ::fetchCollectionsList::getSortArrayFromParam' );
+      return null;
+   }
+
+   /*!
+    \static
+    \param $creatorID       - optional, default false, limits the fetched set to a creator_id
+    \param $contentObjectID - optional, default false, limits the fetched set of collection to
+                              a specific content object
+    \param $userIdentifier  - optional, default false, limits the fetched set to a user_identifier
+    \param $limitArray      - optional, default false, limits the number of returned results
+                              on the form:  array( 'limit' => $limit, 'offset' => $offset )
+    \param $sortArray       - optional, default false, how to sort the result,
+                              on the form: array( 'field', true/false ), true = asc
+    \param $asObject        - optional, default true, specifies if results should be returned as objects.
+
+      Fetches a list of information collections.
+    */
+    function fetchCollectionsList( $contentObjectID = false, $creatorID = false , $userIdentifier = false, $limitArray  = false, $sortArray = false, $asObject = true )
+    {
+         $conditions = array();
+         if ( $contentObjectID )
+            $conditions = array( 'contentobject_id' => $contentObjectID  );
+         if ( $creatorID )
+            $conditions['creator_id'] = $creatorID;
+         if ( $userIdentifier )
+            $conditions['user_identifier'] = $userIdentifier;
+
+         $limit = null;
+         if ( isset( $limitArray['limit'] ) )
+         {
+            $limit = $limitArray;
+            if ( ! ( $limit['offset'] ) )
+               $limit['offset'] = 0;
+         }
+
+         $sorts = null;
+         if ( !( $sortArray === false ) )
+         {
+            if ( count( $sortArray ) >= 2 )
+            {
+               $def = eZInformationCollection::definition();
+
+               if ( ! ( is_array( $sortArray[0] ) ) )
+               {
+                  $sortArray = array( 0 => $sortArray );
+               }
+
+               foreach ( $sortArray as $sortElement )
+               {
+                  $result = eZInformationCollection::getSortArrayFromParam( $def, $sortElement );
+                  $sorts = array_merge($sorts, $result );
+               }
+            }
+            else
+            {
+               eZDebug::writeWarning( 'Too few parameters for setting sorting in fetch, ignoring', 'eZInformationCollection ::fetchCollectionsList' );
+            }
+         }
+
+         return eZPersistentObject::fetchObjectList( eZInformationCollection::definition(),
+                                                      null,
+                                                      $conditions,
+                                                      $sorts,
+                                                      $limit,
+                                                      $asObject );
+    }
+
+   /*!
+     \static
+
+     \param $creatorID       - optional, default false, the user to fetch collections for
+     \param $contentObjectID - optional, default false, limits the fetched set of collection to
+                               a specific content object
+
+     Fetch the number of items limited by the parameters
+   */
+    function fetchCollectionsCount( $contentObjectID = false, $creatorID = false, $userIdentifier = false )
+    {
+         $conditions = array();
+         if ( $contentObjectID )
+            $conditions = array( 'contentobject_id' => $contentObjectID  );
+         if ( $creatorID )
+            $conditions['creator_id'] = $creatorID ;
+         if ( $userIdentifier )
+            $conditions['user_identifier'] = $userIdentifier;
+
+         $resultSet = eZPersistentObject::fetchObjectList( eZInformationCollection::definition(),
+                                                            array(),
+                                                            $conditions,
+                                                            null,
+                                                            null,
+                                                            false,
+                                                            false,
+                                                            array( array( 'operation' => 'count(id)',
+                                                                          'name' => 'count' ) ) );
+         return $resultSet[0]['count'];
+   }
+
     function fetchCountList( $objectAttributeID )
     {
         $db =& eZDB::instance();
@@ -490,6 +617,17 @@ class eZInformationCollection extends eZPersistentObject
         }
 
         return $result;
+    }
+
+    function &creator()
+    {
+       $creatorID = $this->attribute( 'creator_id' );
+       if ( $creatorID == 0 )
+       {
+           return false;
+       }
+       $creator = eZUser::fetch( $creatorID );
+       return $creator;
     }
 
     function &informationCollectionAttributes( $asObject = true )
@@ -591,11 +729,18 @@ class eZInformationCollection extends eZPersistentObject
     /*!
      Creates a new eZInformationCollection instance.
     */
-    function &create( $contentObjectID, $userIdentifier )
+    function &create( $contentObjectID, $userIdentifier, $creatorID = false )
     {
         $timestamp = time();
+
+        if ( $creatorID === false )
+        {
+            $user = eZUser::currentUser();
+            $creatorID = $user->id();
+        }
         $row = array( 'contentobject_id' => $contentObjectID,
                       'user_identifier' => $userIdentifier,
+                      'creator_id' => $creatorID,
                       'created' => $timestamp,
                       'modified' => $timestamp );
         $newInformationCollection = new eZInformationCollection( $row );
