@@ -3451,20 +3451,9 @@ class eZContentObject extends eZPersistentObject
                                        'LimitationList' => $limitationList );
             }
 
-            // If we are checking 'translate' and we are denied we
-            // need to check if read & edit are allowed because this
-            // constitutes as translatable.
             if ( $access == 'denied' )
             {
-                /*if ( $functionName == 'translate' )
-                {
-                    if ( $this->checkTranslateAccess( $originalClassID, $parentClassID,
-                                                      $returnAccessList, $originalLanguage ) )
-                    {
-                        $access = 'allowed';
-                    }
-                }
-                else*/ if ( $functionName == 'edit' )
+                if ( $functionName == 'edit' )
                 {
                     // Check if we have 'create' access under the main parent
                     if ( $this->attribute( 'current_version' ) == 1 && !$this->attribute( 'status' ) )
@@ -3503,29 +3492,6 @@ class eZContentObject extends eZPersistentObject
             }
         }
     }
-
-    /*!
-     \private
-     Common function for checking extra 'translate' access.
-     */
-/*    function checkTranslateAccess( $originalClassID = false, $parentClassID = false,
-                                   $returnAccessList = false, $language = false )
-    {
-//        echo "checkTranslateAccess( [$originalClassID], [$parentClassID], [$returnAccessList], [$language] )<br/>\n";
-        // If we are checking 'translate' and we are denied we
-        // need to check if read & edit are allowed because this
-        // consitutes as translatable.
-        $ok = $this->checkAccess( 'read', $originalClassID, $parentClassID, false, $language );
-        if ( $ok === 1 )
-        {
-            $ok = $this->checkAccess( 'edit', $originalClassID, $parentClassID, false, $language );
-            if ( $ok === 1 )
-            {
-                return true;
-            }
-        }
-        return false;
-    }*/
 
     // code-template::create-block: class-list-from-policy, is-object
     // code-template::auto-generated:START class-list-from-policy

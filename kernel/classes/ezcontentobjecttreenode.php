@@ -4685,19 +4685,6 @@ WHERE
                                        'LimitationList' => $limitationList );
             }
 
-            // If we are checking 'translate' and we are denied we
-            // need to check if read & edit are allowed because this
-            // constitutes as translatable.
-/*            if ( $functionName == 'translate' &&
-                 $access == 'denied' )
-            {
-                if ( $this->checkTranslateAccess( $originalClassID, $parentClassID,
-                                                  $returnAccessList, $language ) )
-                {
-                    $access = 'allowed';
-                }
-            }*/
-
             if ( $access == 'denied' )
             {
                 $accessList = array( 'FunctionRequired' => array ( 'Module' => 'content',
@@ -4713,28 +4700,6 @@ WHERE
             }
         }
     }
-
-    /*!
-     \private
-     Common function for checking extra 'translate' access.
-     */
-/*    function checkTranslateAccess( $originalClassID = false, $parentClassID = false,
-                                   $returnAccessList = false, $language = false )
-    {
-        // If we are checking 'translate' and we are denied we
-        // need to check if read & edit are allowed because this
-        // consitutes as translatable.
-        $ok = $this->checkAccess( 'read', $originalClassID, $parentClassID, false, $language );
-        if ( $ok === 1 )
-        {
-            $ok = $this->checkAccess( 'edit', $originalClassID, $parentClassID, false, $language );
-            if ( $ok === 1 )
-            {
-                return true;
-            }
-        }
-        return false;
-    }*/
 
     // code-template::create-block: class-list-from-policy, is-node
     // code-template::auto-generated:START class-list-from-policy
