@@ -1,0 +1,7 @@
+*Title: Choosing image placement under current object
+
+*Original author: Bard Farstad
+
+*Documentation:
+It's possible now to choose the placement of an uploaded image under the
+current object. But only if the version is > 1 i.e. already published.

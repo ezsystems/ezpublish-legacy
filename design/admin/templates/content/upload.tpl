@@ -172,7 +172,12 @@
         <option value="auto">{'Automatic'|i18n( 'design/admin/content/upload' )}</option>
     {let root_node_value=ezini( 'LocationSettings', 'RootNode', 'upload.ini' )
          root_node=cond( $root_node_value|is_numeric, fetch( content, node, hash( node_id, $root_node_value ) ),
-                         fetch( content, node, hash( node_path, $root_node_value ) ) )}
+                         fetch( content, node, hash( node_path, $root_node_value ) ) )
+         content_object=fetch( content, object, hash( object_id, $upload.content.object_id  ) )}
+    {section show=eq($content_object.status, 1)}    {* if object published *}
+        <option value="{$content_object.main_node_id}">{$content_object.name}</option>
+    {/section}
+
     {section var=node loop=fetch( content, tree,
                                   hash( parent_node_id, $root_node.node_id,
                                         class_filter_type, include,
