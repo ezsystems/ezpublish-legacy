@@ -334,7 +334,7 @@ class eZBinaryFileType extends eZDataType
             require_once( 'kernel/classes/ezclusterfilehandler.php' );
             $filePath = $binaryFile->attribute( 'filename' );
             $fileHandler = eZClusterFileHandler::instance();
-            $fileHandler->fileStore( $filePath, 'binaryfile', true );
+            $fileHandler->fileStore( $filePath, 'binaryfile', true, $mime );
 
             $contentObjectAttribute->setContent( $binary );
         }
