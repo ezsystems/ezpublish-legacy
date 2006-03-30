@@ -39,13 +39,14 @@ CREATE TABLE ezdbfile_data (
 
  2. Specify db to connect to.
 
-Edit database settings in the begging of 'lib/ezutils/classes/ezdbfile.php'.
+Edit database settings in the begging of
+kernel/classes/clusterfilehandlers/ezdbmysqlfilehandler.php.
 
  3. Switch to database storage.
 
 Add this to your file.ini.append.php:
     [ClusteringSettings]
-    FileHandler=ezdb
+    FileHandler=ezdbmysql
  
 This will force eZ publish to use database for storing images, binary files
 and content-related caches.
