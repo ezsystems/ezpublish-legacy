@@ -1,0 +1,14 @@
+*Title: Cc/Bcc feature for collection forms
+
+*Original author: Ronnie Garcia
+
+*Documentation:
+Two template variables were added: email_cc_receivers and email_bcc_receivers.
+You can use them like you're used 'to'.
+For example:
+{set-block scope=root variable=email_cc_receivers}
+    {$object.data_map.cc_recipient.content}
+{/set-block}
+{set-block scope=root variable=email_bcc_receivers}
+    {$object.data_map.bcc_recipient.content}
+{/set-block}

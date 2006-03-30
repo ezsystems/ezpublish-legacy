@@ -273,6 +273,8 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
 
             $subject =& $tpl->variable( 'subject' );
             $receiver =& $tpl->variable( 'email_receiver' );
+            $ccReceivers =& $tpl->variable( 'email_cc_receivers' );
+            $bccReceivers =& $tpl->variable( 'email_bcc_receivers' );
             $sender =& $tpl->variable( 'email_sender' );
             $redirectToNodeID =& $tpl->variable( 'redirect_to_node_id' );
 
@@ -293,6 +295,31 @@ if ( $Module->isCurrentAction( 'CollectInformation' ) )
             }
             $mail->setSender( $sender );
             $mail->setReplyTo( $sender );
+
+            // Handle CC recipients
+            if ( $ccReceivers )
+            {
+                if ( !is_array( $ccReceivers ) )
+                    $ccReceivers = array( $ccReceivers );
+                foreach ( $ccReceivers as $ccReceiver )
+                {
+                    if ( $mail->validate( $ccReceiver ) )
+                        $mail->addCc( $ccReceiver );
+                }
+            }
+
+            // Handle BCC recipients
+            if ( $bccReceivers )
+            {
+                if ( !is_array( $bccReceivers ) )
+                    $bccReceivers = array( $bccReceivers );
+
+                foreach ( $bccReceivers as $bccReceiver )
+                {
+                    if ( $mail->validate( $bccReceiver ) )
+                        $mail->addBcc( $bccReceiver );
+                }
+            }
 
             $mail->setSubject( $subject );
             $mail->setBody( $templateResult );
