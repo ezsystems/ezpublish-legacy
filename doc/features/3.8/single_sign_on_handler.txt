@@ -1,0 +1,40 @@
+*Title: Single Sign On handler (SSO)
+
+*Original author: Bard Farstad
+
+*Documentation:
+A single sign on(SSO) handler plugin system is introduced.
+This means that you can run a piece of PHP code on every new instance of a
+session. Here you can check if the user is already logged in with another
+system and automatically log the user in to eZ publish - without any typing
+of passwords. The security and integration is handled by the specific plugins.
+
+It adds a new setting in site.in under UserSettings:
+SingleSignOnHandlerArray
+
+This array defines the available single sign on handlers.
+
+The handlers needs to be placed in an extension in the directory under
+sso_handler. The sso handler needs to implement a class like shown below:
+<?php
+    include_once( 'kernel/classes/ezpersistentobject.php' );
+    include_once( 'kernel/classes/datatypes/ezuser/ezuser.php' );
+    include_once( 'lib/ezutils/classes/ezini.php' );
+
+    class eZMysqlssohandler
+    {
+        function eZMysqlssohandler()
+        {
+        }
+
+        /*!
+          Return the eZUser object to log in or false if no user should be
+          logged in.
+        */
+        function handleSSOLogin()
+        {
+            $currentUser =& eZUser::fetch( 14 );
+            return $currentUser;
+        }
+    }
+?>

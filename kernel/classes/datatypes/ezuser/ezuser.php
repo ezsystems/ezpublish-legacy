@@ -936,6 +936,68 @@ WHERE user_id = '" . $userID . "' AND
 
         $ini =& eZINI::instance();
 
+        // Check if the user is not logged in, and if a automatic single sign on plugin is enabled
+        if ( is_object( $currentUser ) and !$currentUser->isLoggedIn() )
+        {
+            $ssoHandlerArray = $ini->variable( 'UserSettings', 'SingleSignOnHandlerArray' );
+            if ( count( $ssoHandlerArray ) > 0 )
+            {
+                $ssoUser = false;
+                foreach ( $ssoHandlerArray as $ssoHandler )
+                {
+                    // Load handler
+                    $handlerFile = 'kernel/classes/ssohandlers/ez' . strtolower( $ssoHandler ) . 'ssohandler.php';
+                    if ( file_exists( $handlerFile ) )
+                    {
+                        include_once( $handlerFile );
+                        $className = 'eZ' . $ssoHandler . 'SSOHandler';
+                        $impl = new $className();
+                        $ssoUser = $impl->handleSSOLogin();
+                    }
+                    else // check in extensions
+                    {
+                        include_once( 'lib/ezutils/classes/ezextension.php' );
+                        $ini =& eZINI::instance();
+                        $extensionDirectories = $ini->variable( 'UserSettings', 'ExtensionDirectory' );
+                        $directoryList = eZExtension::expandedPathList( $extensionDirectories, 'sso_handler' );
+                        foreach( $directoryList as $directory )
+                        {
+                            $handlerFile = $directory . '/ez' . strtolower( $ssoHandler ) . 'ssohandler.php';
+                            if ( file_exists( $handlerFile ) )
+                            {
+                                include_once( $handlerFile );
+                                $className = 'eZ' . $ssoHandler . 'SSOHandler';
+                                $impl = new $className();
+                                $ssoUser = $impl->handleSSOLogin();
+                            }
+                        }
+                    }
+                }
+                // If a user was found via SSO, then use it
+                if ( $ssoUser !== false )
+                {
+                    $currentUser = $ssoUser;
+
+                    $userInfo = array();
+                    $userInfo[$id] = array( 'contentobject_id' => $currentUser->attribute( 'contentobject_id' ),
+                                            'login' => $currentUser->attribute( 'login' ),
+                                            'email' => $currentUser->attribute( 'email' ),
+                                            'password_hash' => $currentUser->attribute( 'password_hash' ),
+                                            'password_hash_type' => $currentUser->attribute( 'password_hash_type' )
+                                            );
+                    $http->setSessionVariable( 'eZUserInfoCache', $userInfo );
+                    $http->setSessionVariable( 'eZUserInfoCache_Timestamp', mktime() );
+                    $http->setSessionVariable( 'eZUserLoggedInID', $id );
+                    eZSessionSetUserID( $currentUser->attribute( 'contentobject_id' ) );
+
+                    eZUser::updateLastVisit( $currentUser->attribute( 'contentobject_id' ) );
+                    eZUser::setCurrentlyLoggedInUser( $currentUser, $currentUser->attribute( 'contentobject_id' ) );
+                    eZHTTPTool::redirect( eZSys::wwwDir() . eZSys::indexFile( false ) . eZSys::requestURI() );
+
+                }
+            }
+        }
+
         $anonymousUserID = $ini->variable( 'UserSettings', 'AnonymousUserID' );
         if ( $id <> $anonymousUserID )
         {
