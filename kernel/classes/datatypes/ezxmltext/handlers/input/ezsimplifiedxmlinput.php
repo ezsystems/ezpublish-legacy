@@ -160,82 +160,36 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
     /*!
       Updates related objects list.
     */
-    function updateRelatedObjectsList( &$contentObjectAttribute, &$relatedObjectIDArray )
+    function updateRelatedObjectsList( $contentObjectAttribute, $relatedObjectIDArray )
     {
         $contentObjectID = $contentObjectAttribute->attribute( "contentobject_id" );
-
         $editVersion = $contentObjectAttribute->attribute('version');
-   //     $editObjectID = $contentObjectAttribute->attribute('contentobject_id');
         $editObject =& eZContentObject::fetch( $contentObjectID );
 
-        // Fetch ID's of all embeded objects
-/*        $relatedObjectIDArray = array();
-        foreach ( array_keys( $tags ) as $tagKey )
+        foreach ( $relatedObjectIDArray as $relatedObjectID )
         {
-            $tag =& $tags[$tagKey];
-            $objectID = $tag->attributeValue( 'id' );
-            // protect from self-embedding
-            if ( $objectID == $contentObjectID )
-            {
-                $GLOBALS[$isInputValid] = false;
-                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                             'Object %1 can not be embeded to itself.', false, array( $objectID ) ) );
-                return false;
-            }
-            if ( !in_array( $objectID, $relatedObjectIDArray ) )
-                $relatedObjectIDArray[] = $objectID;
-        }*/
-        // Check that all embeded objects exists in database
-        $db =& eZDB::instance();
-
-        // $relatedObjectIDArray[] should be casted to (int)
-        $objectIDInSQL = $db->implodeWithTypeCast( ', ', $relatedObjectIDArray, 'int' );
-        $objectQuery = "SELECT id FROM ezcontentobject WHERE id IN ( $objectIDInSQL )";
-        $objectRowArray = $db->arrayQuery( $objectQuery );
-
-        $existingObjectIDArray = array();
-        if ( count( $objectRowArray ) > 0 )
-        {
-            foreach ( array_keys( $objectRowArray ) as $key )
-            {
-                $existingObjectIDArray[] = $objectRowArray[$key]['id'];
-            }
+            $editObject->addContentObjectRelation( $relatedObjectID, $editVersion );
         }
-
-        if ( count( array_diff( $relatedObjectIDArray, $existingObjectIDArray ) ) > 0 )
-        {
-            $objectIDString = implode( ', ', array_diff( $relatedObjectIDArray, $existingObjectIDArray ) );
-            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
-                                                                 'Object %1 does not exist.', false, array( $objectIDString ) ) );
-            return false;
-        }
-
-        // Fetch existing related objects
-        $relatedObjectQuery = "SELECT to_contentobject_id
-                               FROM ezcontentobject_link
-                               WHERE from_contentobject_id = $contentObjectID AND
-                                     from_contentobject_version = $editVersion";
-
-        $relatedObjectRowArray = $db->arrayQuery( $relatedObjectQuery );
-        // Add existing embeded objects to object relation list if it is not already
-        $existingRelatedObjectIDArray = array();
-        foreach ( $relatedObjectRowArray as $relatedObjectRow )
-        {
-            $existingRelatedObjectIDArray[] = $relatedObjectRow['to_contentobject_id'];
-        }
-
-        if ( array_diff( $relatedObjectIDArray, $existingRelatedObjectIDArray ) )
-        {
-            $diffIDArray = array_diff( $relatedObjectIDArray, $existingRelatedObjectIDArray );
-            foreach ( $diffIDArray as $relatedObjectID )
-            {
-                $editObject->addContentObjectRelation( $relatedObjectID, $editVersion );
-            }
-        }
-
-        return true;
     }
 
+    /*!
+      Updates URL - object links.
+    */
+    function updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray )
+    {
+        $objectAttributeID = $contentObjectAttribute->attribute( "id" );
+        $objectAttributeVersion = $contentObjectAttribute->attribute('version');
+
+        foreach( $urlIDArray as $urlID )
+        {
+            $linkObjectLink = eZURLObjectLink::fetch( $urlID, $objectAttributeID, $objectAttributeVersion );
+            if ( $linkObjectLink == null )
+            {
+                $linkObjectLink = eZURLObjectLink::create( $urlID, $objectAttributeID, $objectAttributeVersion );
+                $linkObjectLink->store();
+            }
+        }
+    }
 
     /*!
      \reimp
@@ -266,7 +220,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $text = preg_replace('/\r/', '', $text);
             $text = preg_replace('/\t/', ' ', $text);
 
-            $parser = new eZSimplifiedXMLInputParser();
+            $parser = new eZSimplifiedXMLInputParser( $contentObjectID );
             $document = $parser->process( $text );
 
             if ( !is_object( $document ) )
@@ -279,18 +233,19 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
             $xmlString = eZXMLTextType::domString( $document );
 
-            eZDebug::writeDebug( $xmlString, '$xmlString' );
-
-            $parser->registerLinks( $contentObjectAttributeID, $contentObjectAttributeVersion );
+            //eZDebug::writeDebug( $xmlString, '$xmlString' );
 
             $relatedObjectIDArray = $parser->getRelatedObjectIDArray();
+            $urlIDArray = $parser->getUrlIDArray();
+            
+            if ( count( $urlIDArray ) > 0 )
+            {
+                $this->updateUrlObjectLinks( $contentObjectAttribute, $urlIDArray );
+            }
+
             if ( count( $relatedObjectIDArray ) > 0 )
             {
-                if ( $this->updateRelatedObjectsList( $contentObjectAttribute, $relatedObjectIDArray ) == false )
-                {
-                    $GLOBALS[$isInputValid] = false;
-                    return EZ_INPUT_VALIDATOR_STATE_INVALID;
-                }
+                $this->updateRelatedObjectsList( $contentObjectAttribute, $relatedObjectIDArray );
             }
 
             $classAttribute =& $contentObjectAttribute->contentClassAttribute();
@@ -1852,9 +1807,8 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
                 $tagContent =& $tag->content();
 
                 // If there is a character after '&lt;', we should not convert it to '<' to avoid conflicts.
-                // ( if this is not a literal tag )
-
-                $tagContent = preg_replace( "#&lt;(?![a-zA-Z_:/])#", "<", $tagContent );
+                // UPD: REMOVED - always convert to &lt;
+                //$tagContent = preg_replace( "#&lt;(?![a-zA-Z_:/])#", "<", $tagContent );
 
                 $tagContent = str_replace("&gt;", ">", $tagContent );
                 $tagContent = str_replace("&apos;", "'", $tagContent );

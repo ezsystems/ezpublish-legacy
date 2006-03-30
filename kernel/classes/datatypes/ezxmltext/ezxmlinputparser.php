@@ -617,6 +617,9 @@ class eZXMLInputParser
         $ret = null;
         $tmp = null;
 
+        //eZDOMNode::writeDebug2( $element, '$element' );
+        //eZDOMNode::writeDebug2( $this->Document->Root, 'root' );
+
         // Call "Init handler"
         $this->callOutputHandler( 'initHandler', $element, $tmp );
 

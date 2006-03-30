@@ -5,14 +5,16 @@
 "embed-inline" tag is an analog of the "embed" tag. Differences are described
 below:
 
-- "embed" tag is block tag, but "embed-inline" is inline. This means that
+- "embed" tag is "block" tag, but "embed-inline" is "inline". This means that
   templates for "embed-inline" can't contain block tags, but only tags
-  that can be placed within paragraphs. "embed" tags are rendered
-  outside paragraphs in the output, so they can contain block tags.
+  that can be placed within HTML paragraphs. "embed-inline" tag's content is placed
+  inside paragraphs and can be wrapped by other inline tags. "embed" tags "breaks"
+  paragraphs in the output and is rendered outside.
   
 - By default "embed" tag renders objects using "embed" view of the content module.
   "embed-inline" tag renders objects using "embed-inline" view. You should have
-  this in mind while making template overrides.
+  this in mind while making template overrides. You can also use another view with
+  any of these tags by adding attribute "view='...'".
   
 - Use "embed-inline" if you want to insert an image inside the text line, but use
   "embed" if you want to insert it between text paragraphs.

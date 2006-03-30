@@ -125,8 +125,9 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         '#text'     => array( 'structHandler' => 'appendLineParagraph' )
         );
 
-    function eZSimplifiedXMLInputParser( $validate = true )
+    function eZSimplifiedXMLInputParser( $contentObjectID, $validate = true )
     {
+        $this->contentObjectID = $contentObjectID;
         $this->errorLevel = 2;
         $this->eZXMLInputParser( $validate );
     }
@@ -538,9 +539,16 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $anchorName = strtok( '#' );
                 $objectID = substr( strrchr( $url, "/" ), 1 );
                 $element->setAttribute( 'object_id', $objectID );
+
+              /*  Adding to related objects: temporary disabled
+               
+                 if ( !in_array( $objectID, $this->relatedObjectIDArray ) )
+                    $this->relatedObjectIDArray[] = $objectID;
+               */
             }
             elseif ( ereg( "^eznode://.+(#.*)?$" , $href ) )
             {
+                $objectID = null;
                 $url = strtok( $href, '#' );
                 $anchorName = strtok( '#' );
                 $nodePath = substr( strchr( $url, "/" ), 2 );
@@ -552,6 +560,10 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     {
                         $this->Messages[] = ezi18n( 'kernel/classes/datatypes', 'Node %1 does not exist.',
                                                     false, array( $nodeID ) );
+                    }
+                    else
+                    {
+                        $objectID = $node->attribute( 'contentobject_id' );
                     }
                 }
                 else
@@ -565,10 +577,17 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     else
                     {
                         $nodeID = $node->attribute( 'node_id' );
+                        $objectID = $node->attribute( 'contentobject_id' );
                     }
                     $element->setAttribute( 'show_path', 'true' );
                 }
                 $element->setAttribute( 'node_id', $nodeID );
+
+                /*  Adding to related objects: temporary disabled
+
+                if ( $objectID && !in_array( $objectID, $this->relatedObjectIDArray ) )
+                    $this->relatedObjectIDArray[] = $objectID;
+                */
             }
             elseif ( ereg( "^#.*$" , $href ) )
             {
@@ -610,6 +629,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             if ( isset( $anchorName ) && $anchorName )
                     $element->setAttribute( 'anchor_name', $anchorName );
         }
+
         return $ret;
     }
 
@@ -693,7 +713,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $objectID = $node->attribute( 'contentobject_id' );
 
                 // protection from self-embedding
-                if ( $objectID == $contentObjectID )
+                if ( $objectID == $this->contentObjectID )
                 {
                     $this->isInputValid = false;
 
@@ -793,24 +813,14 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         }
     }
 
-    // Registers all document's links (id's are stored in $this->urlIDArray)
-    function registerLinks( $objectAttributeID, $objectAttributeVersion )
-    {
-        include_once( 'kernel/classes/datatypes/ezurl/ezurlobjectlink.php' );
-        foreach( $this->urlIDArray as $urlID )
-        {
-            $linkObjectLink = eZURLObjectLink::fetch( $urlID, $objectAttributeID, $objectAttributeVersion );
-            if ( $linkObjectLink == null )
-            {
-                $linkObjectLink = eZURLObjectLink::create( $urlID, $objectAttributeID, $objectAttributeVersion );
-                $linkObjectLink->store();
-            }
-        }
-    }
-
     function getRelatedObjectIDArray()
     {
         return $this->relatedObjectIDArray;
+    }
+
+    function getUrlIDArray()
+    {
+        return $this->urlIDArray;
     }
 
     var $urlIDArray = array();
