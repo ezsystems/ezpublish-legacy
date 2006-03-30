@@ -3782,19 +3782,19 @@ class eZContentObject extends eZPersistentObject
 
         if ( $asObject )
         {
-        foreach ( $classList as $key => $class )
-        {
-            $id = $class->attribute( 'id' );
-            if ( isset( $allowedLanguages[$id] ) )
+            foreach ( $classList as $key => $class )
             {
-                $languageCodes = array_unique( array_merge( $allowedLanguages['*'], $allowedLanguages[$id] ) );
+                $id = $class->attribute( 'id' );
+                if ( isset( $allowedLanguages[$id] ) )
+                {
+                    $languageCodes = array_unique( array_merge( $allowedLanguages['*'], $allowedLanguages[$id] ) );
+                }
+                else
+                {
+                    $languageCodes = $allowedLanguages['*'];
+                }
+                $classList[$key]->setCanInstantiateLanguages( $languageCodes );
             }
-            else
-            {
-                $languageCodes = $allowedLanguages['*'];
-            }
-            $classList[$key]->setCanInstantiateLanguages( $languageCodes );
-        }
         }
 
         eZDebugSetting::writeDebug( 'kernel-content-class', $classList, "class list fetched from db" );
