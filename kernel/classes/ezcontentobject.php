@@ -4899,7 +4899,6 @@ class eZContentObject extends eZPersistentObject
                        AND content_version='$version'
                        AND language_id='$languageID'" );
 
-        /*
         // If the current version has initial_language_id $languageID, change it to the initial_language_id of the object.
         $currentVersion = $this->currentVersion();
         if ( $currentVersion->attribute( 'initial_language_id' ) == $languageID )
@@ -4914,7 +4913,32 @@ class eZContentObject extends eZPersistentObject
         {
             $version->remove();
         }
-        */
+
+        $altLanguageID = $languageID++;
+
+        // Remove all attributes in the language
+        $db->query( "DELETE FROM ezcontentobject_attribute
+                     WHERE contentobject_id='$objectID'
+                       AND ( language_id='$languageID' OR language_id='$altLanguageID' )" );
+
+        // Remove all names in the language
+        $db->query( "DELETE FROM ezcontentobject_name
+                     WHERE contentobject_id='$objectID'
+                       AND ( language_id='$languageID' OR language_id='$altLanguageID' )" );
+
+        // Update masks of the objects
+        $mask = eZContentLanguage::maskForRealLanguages() - (int) $languageID;
+
+        if ( $db->databaseName() == 'oracle' )
+        {
+            $db->query( "UPDATE ezcontentobject_version SET language_mask = bitand( language_mask, $mask )
+                         WHERE contentobject_id='$objectID'" );
+        }
+        else
+        {
+            $db->query( "UPDATE ezcontentobject_version SET language_mask = language_mask & $mask
+                         WHERE contentobject_id='$objectID'" );
+        }
 
         $db->commit();
 

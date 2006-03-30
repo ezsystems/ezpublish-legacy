@@ -36,12 +36,6 @@ include_once( 'kernel/classes/ezcontentlanguage.php' );
 include_once( 'kernel/classes/ezcontentobject.php' );
 include_once( 'lib/ezdb/classes/ezdb.php' );
 
-function translations_clearCache()
-{
-    include_once( 'kernel/classes/ezcontentcachemanager.php' );
-    eZContentCacheManager::clearAllContentCache();
-}
-
 $tpl =& templateInit();
 $http =& eZHTTPTool::instance();
 $Module =& $Params['Module'];
@@ -124,64 +118,18 @@ if ( $Module->isCurrentAction( 'StoreNew' ) /* || $http->hasPostVariable( 'Store
     }
 }
 
-if ( $Module->isCurrentAction( 'Confirm' ) )
-{
-    $tranlationList = $Module->actionParameter( 'ConfirmList' );
-
-    $db =& eZDB::instance();
-    $db->begin();
-    foreach ( $tranlationList as $translationID )
-    {
-        eZContentLanguage::removeLanguage( $translationID );
-    }
-
-    translations_clearCache();
-    $db->commit();
-}
-
 if ( $Module->isCurrentAction( 'Remove' ) )
 {
     $seletedIDList = $Module->actionParameter( 'SelectedTranslationList' );
-    $confirmTranslationList = array();
-    $confirmTranslationIDList = array();
-    $totalRemoveTranslation = 0;
 
     $db =& eZDB::instance();
+
     $db->begin();
     foreach ( $seletedIDList as $translationID )
     {
-        $translation = eZContentLanguage::fetch( $translationID );
-        if ( !$translation )
-        {
-            continue;
-        }
-        $translatedObjectCount = $translation->objectCount();
-        if ( $translatedObjectCount == 0 )
-        {
-            $translation->remove();
-        }
-        else
-        {
-            $item = array();
-            $item['translation'] = $translation;
-            $item['count'] = $translatedObjectCount;
-            $confirmTranslationList[] = $item;
-        }
+        eZContentLanguage::removeLanguage( $translationID );
     }
     $db->commit();
-
-    if ( count( $confirmTranslationList ) > 0 )
-    {
-        $tpl->setVariable( 'confirm_list', $confirmTranslationList );
-        $Result['content'] =& $tpl->fetch( 'design:content/confirmtranslationremove.tpl' );
-        $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Translation' ),
-                                        'url' => false ),
-                                 array( 'text' => 'Confirm remove',
-                                        'url' => false ) );
-        return;
-    }
-
-    translations_clearCache();
 }
 
 
@@ -207,8 +155,6 @@ if ( $Params['TranslationID'] )
 $availableTranslations = eZContentLanguage::fetchList();
 
 $tpl->setVariable( 'available_translations', $availableTranslations );
-
-//$tpl->setVariable( 'workflow_list', $workflowList );
 
 $Result['content'] =& $tpl->fetch( 'design:content/translations.tpl' );
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/content', 'Languages' ),

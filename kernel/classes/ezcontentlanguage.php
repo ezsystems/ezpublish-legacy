@@ -28,41 +28,6 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*
-
-INI settings
-
-[RegionalSettings]
-SiteLanguageList[]=eng-GB
-...
-
-instead of
-
-[RegionalSettings]
-Locale=eng-GB
-ContentObjectLocale=eng-GB
-
-(locale would be the first one from this list)
-
-*/
-
-// TODO: test the Oracle stuff!!!
-
-
-/* SQL:
-
-CREATE TABLE ezcontent_language (
-  id int NOT NULL,
-  disabled int NOT NULL default 0,
-  locale varchar(255) NOT NULL default '',
-  name varchar(255) NOT NULL default '',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
-
-INSERT INTO ezcontent_language(id,disabled,locale,name) VALUES ('2','0','eng-GB','English (United Kingdom)');
-
-*/
-
 include_once( 'kernel/classes/ezpersistentobject.php' );
 include_once( 'lib/ezlocale/classes/ezlocale.php' );
 
@@ -86,7 +51,7 @@ class eZContentLanguage extends eZPersistentObject
                                          'locale' => array( 'name' => 'Locale',
                                                             'datatype' => 'string',
                                                             'required' => true ),
-                                         'disabled' => array( 'name' => 'Disabled',
+                                         'disabled' => array( 'name' => 'Disabled',     /* disabled is reserved for the future */
                                                               'datatype' => 'integer',
                                                               'default' => 0,
                                                               'required' => false ) ),
@@ -166,16 +131,6 @@ class eZContentLanguage extends eZPersistentObject
     // static
     function removeLanguage( $id )
     {
-        // find out if there is such language
-
-        // find out if there are objects of the lang.
-
-        // if not or if so but $force is set, remove all versions of that lang. and remove the item from lang. ID
-
-
-        // TODO:
-        // what if removed all languages of the object? what if removed the lang. used as "for other languages"
-
         $language = eZContentLanguage::fetch( $id );
         if ( $language )
         {
@@ -193,7 +148,14 @@ class eZContentLanguage extends eZPersistentObject
         {
             return false;
         }
+
         eZPersistentObject::remove();
+
+        include_once( 'kernel/classes/ezcontentcachemanager.php' );
+        eZContentCacheManager::clearAllContentCache();
+
+        eZContentLanguage::fetchList( true );
+
         return true;
     }
 
@@ -203,14 +165,19 @@ class eZContentLanguage extends eZPersistentObject
     {
         if ( !isset( $GLOBALS['eZContentLanguageList'] ) || $forceReloading )
         {
+            $mask = 1; // we want have 0-th bit set too!
             $languages = eZPersistentObject::fetchObjectList( eZContentLanguage::definition() );
 
             unset( $GLOBALS['eZContentLanguageList'] );
+            unset( $GLOBALS['eZContentLanguageMask'] );
             $GLOBALS['eZContentLanguageList'] = array();
             foreach ( $languages as $language )
             {
                 $GLOBALS['eZContentLanguageList'][$language->attribute( 'id' )] = $language;
+                $mask += $language->attribute( 'id' );
             }
+
+            $GLOBALS['eZContentLanguageMask'] = $mask;
         }
 
         return $GLOBALS['eZContentLanguageList'];
@@ -557,7 +524,16 @@ class eZContentLanguage extends eZPersistentObject
             }
         }
 
-        return ' ( ' . $leftSide . ' < ' . $rightSide . ' ) ';
+        if ( $db->databaseName() == 'oracle' )
+        {
+            $sql = "bitand( $languageTable.$languageAttributeName, $languageListTable.$languageListAttributeName ) > 0";
+        }
+        else
+        {
+            $sql = "$languageTable.$languageAttributeName & $languageListTable.$languageListAttributeName > 0";
+        }
+
+        return " ( $sql AND $leftSide < $rightSide ) ";
     }
 
     function &objectCount()
@@ -591,7 +567,6 @@ class eZContentLanguage extends eZPersistentObject
         return $count;
     }
 
-    /* BCKWRD COMPAT */
     function &translation()
     {
         return $this;
@@ -599,7 +574,7 @@ class eZContentLanguage extends eZPersistentObject
 
     function updateObjectNames()
     {
-        // JK: TODO:!!! we don't need this function anymore, do we?
+        /* deprecated */
     }
 
     function setCronjobMode( $enable = true )
@@ -635,7 +610,11 @@ class eZContentLanguage extends eZPersistentObject
 
     function maskForRealLanguages()
     {
-        return pow( 2, CONTENT_LANGUAGES_MAX_COUNT + 1 ) - 2;
+        if ( !isset( $GLOBALS['eZContentLanguageMask'] ) )
+        {
+            eZContentLanguage::fetchList( true );
+        }
+        return $GLOBALS['eZContentLanguageMask'];
     }
 
     /*!
@@ -646,6 +625,7 @@ class eZContentLanguage extends eZPersistentObject
     {
         unset( $GLOBALS['eZContentLanguageList'],
                $GLOBALS['eZContentLanguagePrioritizedLanguages'],
+               $GLOBALS['eZContentLanguageMask'],
                $GLOBALS['eZContentLanguageCronjobMode'] );
     }
 }

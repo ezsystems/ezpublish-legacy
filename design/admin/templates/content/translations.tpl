@@ -20,11 +20,15 @@
 </tr>
 
 {section var=Translations loop=$available_translations sequence=array( bglight, bgdark )}
+{def $object_count=$Translations.item.object_count}
 <tr class="{$Translations.sequence}">
     {* Remove. *}
 	<td>
-    {* ... title="{'The language can not be removed.'|i18n( 'design/admin/content/translations' )}" disabled="disabled" /> *}
-    <input type="checkbox" name="DeleteIDArray[]" value="{$Translations.item.translation.id}" title="{'Select language for removal.'|i18n( 'design/admin/content/translations' )}" />
+    {if $object_count}
+        <input type="checkbox" name="DeleteIDArray[]" value="" title="{'The language can not be removed.'|i18n( 'design/admin/content/translations' )}" disabled="disabled" />
+    {else}
+        <input type="checkbox" name="DeleteIDArray[]" value="{$Translations.item.translation.id}" title="{'Select language for removal.'|i18n( 'design/admin/content/translations' )}" />
+    {/if}
     </td>
 
     {* Language. *}
@@ -45,8 +49,9 @@
 	<td>{$Translations.item.translation.locale_object.locale_code|wash}</td>
 
     {* Object count *}
-	<td class="number" align="right">{$Translations.item.object_count}</td>
+	<td class="number" align="right">{$object_count}</td>
 </tr>
+{undef $object_count}
 {/section}
 </table>
 
