@@ -1918,7 +1918,7 @@ class eZContentObject extends eZPersistentObject
         $inputValidated =& $result['input-validated'];
         $http =& eZHTTPTool::instance();
 
-        $defaultLanguage = $this->defaultLanguage();
+        $defaultLanguage = $this->initialLanguageCode();
         foreach( array_keys( $contentObjectAttributes ) as $key )
         {
             $contentObjectAttribute =& $contentObjectAttributes[$key];
@@ -3994,7 +3994,7 @@ class eZContentObject extends eZPersistentObject
     function &contentActionList()
     {
         $version = $this->attribute( 'current_version' );
-        $language = $this->defaultLanguage();
+        $language = $this->initialLanguageCode();
         if ( !isset( $this->ContentObjectAttributeArray[$version][$language] ) )
         {
             $attributeList =& $this->contentObjectAttributes();
@@ -4087,12 +4087,25 @@ class eZContentObject extends eZPersistentObject
     {
         if ( ! isset( $GLOBALS['eZContentObjectDefaultLanguage'] ) )
         {
+            $defaultLanguage = false;
             $ini =& eZINI::instance();
-            $defaultLanguage = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
-
-            if ( !eZContentLanguage::fetchByLocale( $defaultLanguage ) )
+            
+            if ( $ini->hasVariable( 'RegionalSettings', 'ContentObjectLocale' ) )
             {
-                eZContentLanguage::addLanguage( $defaultLanguage );
+                $defaultLanguage = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+
+                if ( !eZContentLanguage::fetchByLocale( $defaultLanguage ) )
+                {
+                    eZContentLanguage::addLanguage( $defaultLanguage );
+                }
+            }
+            else
+            {
+                $language = eZContentLanguage::topPriorityLanguage();
+                if ( $language )
+                {
+                    $defaultLanguage = $language->attribute( 'locale' );
+                }
             }
 
             $GLOBALS['eZContentObjectDefaultLanguage'] = $defaultLanguage;

@@ -550,7 +550,7 @@ class eZContentLanguage extends eZPersistentObject
             $whereSQL = "language_mask & $languageID > 0";
         }
 
-        $count = $db->arrayQuery( "SELECT COUNT( * ) AS count FROM ezcontentobject WHERE $whereSQL" );
+        $count = $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentobject WHERE $whereSQL" );
         $count = $count[0]['count'];
 
         return $count;
@@ -561,7 +561,7 @@ class eZContentLanguage extends eZPersistentObject
         $db =& eZDB::instance();
 
         $languageID = $this->ID;
-        $count = $db->arrayQuery( "SELECT COUNT( id ) AS count FROM ezcontentobject WHERE initial_language_id = '$languageID'" );
+        $count = $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentobject WHERE initial_language_id = '$languageID'" );
         $count = $count[0]['count'];
 
         return $count;
