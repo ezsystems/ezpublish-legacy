@@ -83,6 +83,7 @@
             {foreach $languages as $lang}
                 <option value="{$lang.locale}">{$lang.name|wash}</option>
             {/foreach}
+        </select>
         <select name="FromVersion">
             {foreach $object.versions as $ver}
                 <option {if eq( $ver.version, $selectOldVersion)}selected="selected"{/if} value="{$ver.version}">{$ver.name|shorten(35)|wash} [{$ver.version}]</option>
