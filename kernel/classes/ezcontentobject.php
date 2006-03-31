@@ -701,19 +701,12 @@ class eZContentObject extends eZPersistentObject
     function createFetchSQLString( $id )
     {
         $id = (int) $id;
-        $versionNameTables  = ', ezcontentobject_name ';
-        $versionNameTargets = ', ezcontentobject_name.name AS name,  ezcontentobject_name.real_translation ';
-        $versionNameJoins   = " AND  ezcontentobject.id = ezcontentobject_name.contentobject_id AND\n" .
-                              " ezcontentobject.current_version = ezcontentobject_name.content_version AND\n" .
-                              eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
 
-        $fetchSQLString = "SELECT ezcontentobject.* $versionNameTargets\n" .
+        $fetchSQLString = "SELECT ezcontentobject.*\n" .
                           "FROM\n" .
                           "    ezcontentobject\n" .
-                          "    $versionNameTables\n" .
                           "WHERE\n" .
-                          "    ezcontentobject.id='$id'\n" .
-                          "    $versionNameJoins";
+                          "    ezcontentobject.id='$id'";
 
         return $fetchSQLString;
     }
