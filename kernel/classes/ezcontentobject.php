@@ -986,7 +986,7 @@ class eZContentObject extends eZPersistentObject
         return eZContentObjectVersion::create( $this->attribute( "id" ), $userID, 1, $initialLanguageCode );
     }
 
-    function &createNewVersionIn( $languageCode, $copyFromLanguageCode = false, $copyFromVersion = false, $versionCheck = false )
+    function &createNewVersionIn( $languageCode, $copyFromLanguageCode = false, $copyFromVersion = false, $versionCheck = true )
     {
         $newVersion = $this->createNewVersion( $copyFromVersion, $versionCheck, $languageCode, $copyFromLanguageCode );
         return $newVersion;
@@ -1001,7 +1001,7 @@ class eZContentObject extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function createNewVersion( $copyFromVersion = false, $versionCheck = false, $languageCode = false, $copyFromLanguageCode = false )
+    function createNewVersion( $copyFromVersion = false, $versionCheck = true, $languageCode = false, $copyFromLanguageCode = false )
     {
         $db =& eZDB::instance();
         $db->begin();
@@ -4933,13 +4933,7 @@ class eZContentObject extends eZPersistentObject
 
         $this->store();
 
-        // remove items from the ezcontentobject_name
         $objectID = $this->ID;
-        $version = $this->CurrentVersion;
-        $db->query( "DELETE FROM ezcontentobject_name
-                     WHERE contentobject_id='$objectID'
-                       AND content_version='$version'
-                       AND language_id='$languageID'" );
 
         // If the current version has initial_language_id $languageID, change it to the initial_language_id of the object.
         $currentVersion = $this->currentVersion();
@@ -4959,9 +4953,15 @@ class eZContentObject extends eZPersistentObject
         $altLanguageID = $languageID++;
 
         // Remove all attributes in the language
-        $db->query( "DELETE FROM ezcontentobject_attribute
-                     WHERE contentobject_id='$objectID'
-                       AND ( language_id='$languageID' OR language_id='$altLanguageID' )" );
+        $attributes =& $db->arrayQuery( "SELECT * FROM ezcontentobject_attribute
+                                         WHERE contentobject_id='$objectID'
+                                           AND ( language_id='$languageID' OR language_id='$altLanguageID' )" );
+        foreach ( $attributes as $attribute )
+        {
+            $attributeObject = new eZContentObjectAttribute( $attribute );
+            $attributeObject->remove( $attributeObject->attribute( 'id' ), $attributeObject->attribute( 'version' ) );
+            unset( $attributeObject );
+        }
 
         // Remove all names in the language
         $db->query( "DELETE FROM ezcontentobject_name
