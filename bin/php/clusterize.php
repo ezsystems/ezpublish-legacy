@@ -78,7 +78,6 @@ function copyImagesToDB( $remove )
 {
     global $cli;
 
-    include_once( 'lib/ezutils/classes/ezdbfile.php' );
     $dbFileHandler = new eZDBMysqlFileHandler();
     $db =& eZDB::instance();
 
