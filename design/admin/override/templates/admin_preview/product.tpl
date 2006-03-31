@@ -27,6 +27,15 @@
           <p>{attribute_view_gui attribute=$node.data_map.price}</p>
         </div>
 
+        {* Category. *}
+        {def $product_category_attribute=ezini( 'VATSettings', 'ProductCategoryAttribute', 'shop.ini' )}
+        {if $product_category_attribute}
+        <div class="attribute-long">
+          <p>Category:&nbsp;{attribute_view_gui attribute=$node.data_map.$product_category_attribute}</p>
+        </div>
+        {/if}
+        {undef $product_category_attribute}
+
         {* PDF. *}
         <div class="attribute-pdf">
           <p><a href={concat( '/content/pdf/', $node.node_id )|ezurl}>{'Download this product sheet as PDF'|i18n( 'design/admin/preview/product' )}</a></p>
