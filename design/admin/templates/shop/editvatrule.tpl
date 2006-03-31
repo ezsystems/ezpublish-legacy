@@ -1,7 +1,12 @@
-{if $error}
+{if $errors}
     <div class="message-error">
-        <h2>{$error}</h2>
-    </div>
+        <h2>{'Invalid data entered.'|i18n( 'design/admin/shop/editvatrule' )}</h2>
+        <ul>
+        {foreach $errors as $error}
+            <li>{$error|wash}</li>
+        {/foreach}
+        </ul>
+   </div>
 {/if}
 
 <form name="editvatrule" action={'shop/editvatrule'|ezurl} method="post">

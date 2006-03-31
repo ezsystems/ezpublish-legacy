@@ -34,36 +34,26 @@ require_once( 'kernel/classes/ezvatrule.php' );
 require_once( 'kernel/classes/ezproductcategory.php' );
 require_once( 'kernel/classes/ezvattype.php' );
 
-$error = false;
+$errors = false;
+$productCategories = eZProductCategory::fetchList();
 
+/**
+ * Check entered data.
+ *
+ * \return list of errors found, or false if the data is ok.
+ */
 function checkEnteredData( $country, $categories, $vatType )
 {
-    /*
-    if ( $country && $categories && is_numeric( $vatType ) )
-        return false;
-
-    $errors = array();
-    if ( !$country )
-        $errors[] = "choose a country";
-    if ( !$categories )
-        $errors[] = "choose some categories";
-    if ( !is_numeric( $vatType ) )
-        $errors[] = "choose a VAT type";
-    */
-
     if ( $country && is_numeric( $vatType ) )
         return false;
 
     $errors = array();
     if ( !$country )
-        $errors[] = "choose a country";
+        $errors[] = ezi18n( 'kernel/shop', 'Choose a country.' );
     if ( !is_numeric( $vatType ) )
-        $errors[] = "choose a VAT type";
+        $errors[] = ezi18n( 'kernel/shop', 'Choose a VAT type.' );
 
-
-    $error = 'Invalid data entered: ' . join( ', ', $errors ) . '.';
-
-    return $error;
+    return $errors;
 }
 
 if ( $module->isCurrentAction( 'Cancel' ) )
@@ -83,11 +73,11 @@ else if ( in_array( $module->currentAction(), array(  'Create', 'StoreChanges' )
     if ( in_array( '*', $chosenCategories ) )
         $chosenCategories = array();
 
-    $error = checkEnteredData( $chosenCountry, $chosenCategories, $chosenVatType );
+    $errors = checkEnteredData( $chosenCountry, $chosenCategories, $chosenVatType );
 
     do // one-iteration loop to prevent high nesting levels
     {
-        if ( $error !== false )
+        if ( $errors !== false )
             break;
 
         // The entered data is ok.
@@ -99,7 +89,7 @@ else if ( in_array( $module->currentAction(), array(  'Create', 'StoreChanges' )
             if ( !is_object( $vatRule ) )
             {
                 //$ruleID = null;
-                $error = ezi18n( 'kernel/shop', 'Rule not found' );
+                $errors[] = ezi18n( 'kernel/shop', 'Rule not found' );
                 break;
             }
         }
@@ -138,20 +128,19 @@ else
     $pathText = ezi18n( 'kernel/shop', 'Create new VAT charging rule' );
 }
 
-if ( $error !== false )
+if ( $errors !== false )
 {
     $tplCountry     = $chosenCountry;
     $tplCategoryIDs = $chosenCategories;
     $tplVatTypeID   = $chosenVatType;
 }
 
-$productCategories = eZProductCategory::fetchList();
 $vatTypes = eZVatType::fetchList( true, true );
 
 include_once( 'kernel/common/template.php' );
 $tpl =& templateInit();
 
-$tpl->setVariable( 'error', $error );
+$tpl->setVariable( 'errors', $errors );
 $tpl->setVariable( 'all_vat_types', $vatTypes );
 $tpl->setVariable( 'all_product_categories', $productCategories );
 
