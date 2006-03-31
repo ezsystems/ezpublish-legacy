@@ -105,8 +105,8 @@ class eZUser extends eZPersistentObject
                                                       'limited_assignment_value_list' => 'limitValueList',
                                                       'is_logged_in' => 'isLoggedIn',
                                                       'is_enabled' => 'isEnabled',
-                                                      'last_visit' => 'lastVisit'
-                                                      ),
+                                                      'last_visit' => 'lastVisit',
+                                                      'has_manage_locations' => 'hasManageLocations' ),
                       'relations' => array( 'contentobject_id' => array( 'class' => 'ezcontentobject',
                                                                          'field' => 'id' ) ),
                       'class_name' => 'eZUser',
@@ -172,6 +172,21 @@ class eZUser extends eZPersistentObject
                 return EZ_USER_PASSWORD_HASH_PLAINTEXT;
             } break;
         }
+    }
+
+    /*!
+     Check if current user has "content/manage_locations" access
+    */
+    function &hasManageLocations()
+    {
+        $retValue = false;
+        $accessResult = $this->hasAccessTo( 'content', 'manage_locations' );
+        if ( $accessResult['accessWord'] != 'no' )
+        {
+            $retValue = true;
+        }
+
+        return $retValue;
     }
 
     function create( $contentObjectID )

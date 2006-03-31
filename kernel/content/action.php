@@ -670,7 +670,9 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
-    if ( !$object->checkAccess( 'edit' ) )
+    $user =& eZUser::currentUser();
+    if ( !$object->checkAccess( 'edit' ) &&
+         !$user->attribute( 'has_manage_locations' ) )
     {
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     }
@@ -707,7 +709,7 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
         $db =& eZDB::instance();
         $db->begin();
         $locationAdded = false;
-        $node =& eZContentObjectTreeNode::fetch( $nodeID );
+        $node = eZContentObjectTreeNode::fetch( $nodeID );
         foreach ( $selectedNodeIDArray as $selectedNodeID )
         {
             if ( !in_array( $selectedNodeID, $assignedIDArray ) )
@@ -715,7 +717,8 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
                 $parentNode = eZContentObjectTreeNode::fetch( $selectedNodeID );
                 $parentNodeObject =& $parentNode->attribute( 'object' );
 
-                $canCreate = $parentNode->checkAccess( 'create', $class->attribute( 'id' ), $parentNodeObject->attribute( 'contentclass_id' ) ) == 1;
+                $canCreate = ( ( $parentNode->checkAccess( 'create', $class->attribute( 'id' ), $parentNodeObject->attribute( 'contentclass_id' ) ) == 1 ) ||
+                               ( $parentNode->canAddLocation() && $node->canRead() ) );
 
                 if ( $canCreate )
                 {
@@ -822,6 +825,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
 
     $objectID = $module->actionParameter( 'ObjectID' );
     $nodeID = $module->actionParameter( 'NodeID' );
+    $redirectNodeID = $nodeID;
 
     $object =& eZContentObject::fetch( $objectID );
     if ( !$object )
@@ -829,7 +833,9 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
         return $module->handleError( EZ_ERROR_KERNEL_NOT_AVAILABLE, 'kernel' );
     }
 
-    if ( !$object->checkAccess( 'edit' ) )
+    $user =& eZUser::currentUser();
+    if ( !$object->checkAccess( 'edit' ) &&
+         !$user->hasManageLocations() )
     {
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     }
@@ -842,7 +848,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
     }
 
     if ( !$module->hasActionParameter( 'LocationIDSelection' ) )
-        return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
+        return $module->redirectToView( 'view', array( $viewMode, $redirectNodeID, $languageCode ) );
 
     $locationIDSelection = $module->actionParameter( 'LocationIDSelection' );
 
@@ -861,14 +867,18 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
         {
             // Security checks, removal of current node is not allowed
             // and we require removal rights
+            if ( !$node->canRemove() &&
+                 !$node->canRemoveLocation() )
+                continue;
             if ( $node->attribute( 'node_id' ) == $nodeID )
-                continue;
-            if ( !$node->canRemove() )
-                continue;
+            {
+                $redirectNodeID = $node->attribute( 'parent_node_id' );
+            }
 
             $removeList[] = $node->attribute( 'node_id' );
             $nodeRemoveList[] =& $node;
             $count = $node->childrenCount( false );
+
             if ( $count > 0 )
             {
                 $hasChildren = true;
@@ -916,7 +926,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
 
     // we don't clear template block cache here since it's cleared in eZContentObjectTreeNode::remove()
 
-    return $module->redirectToView( 'view', array( $viewMode, $nodeID, $languageCode ) );
+    return $module->redirectToView( 'view', array( $viewMode, $redirectNodeID, $languageCode ) );
 }
 else if ( $http->hasPostVariable( 'EditButton' )  )
 {

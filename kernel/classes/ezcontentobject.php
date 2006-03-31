@@ -1065,7 +1065,7 @@ class eZContentObject extends eZPersistentObject
         	    $languageCode = $initialLanguage->attribute( 'locale' );
             }
         }
-
+        
         $copiedVersion = $this->copyVersion( $this, $version, $nextVersionNumber, false, EZ_VERSION_STATUS_DRAFT, $languageCode, $copyFromLanguageCode );
 
         // JB start

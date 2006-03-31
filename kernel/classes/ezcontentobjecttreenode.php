@@ -163,6 +163,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
                                                       'can_remove' => 'canRemove',
                                                       'can_move' => 'canMoveFrom',
                                                       'can_move_from' => 'canMoveFrom',
+                                                      'can_add_location' => 'canAddLocation',
+                                                      'can_remove_location' => 'canRemoveLocation',
                                                       'can_view_embed' => 'canViewEmbed',
                                                       'is_main' => 'isMain',
                                                       'creator' => 'creator',
@@ -524,6 +526,33 @@ class eZContentObjectTreeNode extends eZPersistentObject
             $this->Permissions['can_swap'] = $this->checkAccess( 'edit' );
         }
         $p = ( $this->Permissions['can_swap'] == 1 );
+        return $p;
+    }
+
+    /*!
+     \return \c true if current user can add object locations to current node.
+     \sa checkAccess()
+    */
+    function &canAddLocation()
+    {
+        if ( !isset( $this->Permissions['can_add_location'] ) )
+        {
+            $this->Permissions['can_add_location'] = $this->checkAccess( 'can_add_location' );
+        }
+        $p = ( $this->Permissions['can_add_location'] == 1 );
+        return $p;
+    }
+
+    /*!
+     \return \c true if current user can add object locations to current node.
+    */
+    function &canRemoveLocation()
+    {
+        if ( !isset( $this->Permissions['can_remove_location'] ) )
+        {
+            $this->Permissions['can_remove_location'] = $this->checkAccess( 'can_remove_location' );
+        }
+        $p = ( $this->Permissions['can_remove_location'] == 1 );
         return $p;
     }
 
@@ -4366,6 +4395,9 @@ WHERE
         // if a Language check is performed.
         $languageList = false;
 
+        // This will be filled if parent object is needed.
+        $parentObject = false;
+
         $origFunctionName = $functionName;
         // The 'move' function simply reuses 'edit' for generic access
         // but adds another top-level check below
@@ -4373,9 +4405,29 @@ WHERE
         if ( $functionName == 'move' )
             $functionName = 'edit';
 
+        // Manage locations depends if it's removal or not.
+        if ( $functionName == 'can_add_location' ||
+             $functionName == 'can_remove_location' )
+        {
+            $functionName = 'manage_locations';
+        }
+
         $accessResult = $user->hasAccessTo( 'content' , $functionName );
         $accessWord = $accessResult['accessWord'];
-        $contentObject =& $this->attribute( 'object' );
+        if ( $origFunctionName == 'can_remove_location' )
+        {
+            if ( $this->ParentNodeID <= 1 )
+            {
+                return 0;
+            }
+            $currentNode = eZContentObjectTreeNode::fetch( $this->ParentNodeID );
+            $contentObject = $currentNode->attribute( 'object' );
+        }
+        else
+        {
+            $currentNode = $this;
+            $contentObject =& $this->attribute( 'object' );
+        }
 
         /*
         // Uncomment this part if 'create' permissions should become implied 'edit'.
@@ -4403,7 +4455,8 @@ WHERE
         */
 
         if ( $origFunctionName == 'remove' or
-             $origFunctionName == 'move' )
+             $origFunctionName == 'move' or
+             $origFunctionName == 'can_remove_location' )
         {
             // We do not allow these actions on top-level nodes
             // - remove
@@ -4427,7 +4480,7 @@ WHERE
             if ( $functionName == 'edit' )
             {
                 // Check if we have 'create' access under the main parent
-                $object =& $this->object();
+                $object =& $currentNode->object();
                 if ( $object && $object->attribute( 'current_version' ) == 1 && !$object->attribute( 'status' ) )
                 {
                     $mainNode = eZNodeAssignment::fetchForObject( $object->attribute( 'id' ), $object->attribute( 'current_version' ) );
@@ -4619,7 +4672,7 @@ WHERE
 
                         case 'ParentDepth':
                         {
-                            if ( in_array( $this->attribute( 'depth' ), $limitationArray[$key] ) )
+                            if ( in_array( $currentNode->attribute( 'depth' ), $limitationArray[$key] ) )
                             {
                                 $access = 'allowed';
                             }
@@ -4634,7 +4687,7 @@ WHERE
                         case 'Node':
                         {
                             $accessNode = false;
-                            $mainNodeID = $this->attribute( 'main_node_id' );
+                            $mainNodeID = $currentNode->attribute( 'main_node_id' );
                             foreach ( $limitationArray[$key] as $nodeID )
                             {
                                 $node = eZContentObjectTreeNode::fetch( $nodeID );
@@ -4663,7 +4716,7 @@ WHERE
                         case 'Subtree':
                         {
                             $accessSubtree = false;
-                            $path = $this->attribute( 'path_string' );
+                            $path = $currentNode->attribute( 'path_string' );
                             $subtreeArray = $limitationArray[$key];
                             foreach ( $subtreeArray as $subtreeString )
                             {
@@ -4690,7 +4743,7 @@ WHERE
 
                         case 'User_Subtree':
                         {
-                            $path = $this->attribute( 'path_string' );
+                            $path = $currentNode->attribute( 'path_string' );
                             $subtreeArray = $limitationArray[$key];
                             foreach ( $subtreeArray as $subtreeString )
                             {
@@ -4717,13 +4770,12 @@ WHERE
                 $policyList[] = array( 'PolicyID' => $pkey,
                                        'LimitationList' => $limitationList );
             }
-
             if ( $access == 'denied' )
             {
                 $accessList = array( 'FunctionRequired' => array ( 'Module' => 'content',
                                                                    'Function' => $origFunctionName,
                                                                    'ClassID' => $classID,
-                                                                   'MainNodeID' => $this->attribute( 'main_node_id' ) ),
+                                                                   'MainNodeID' => $currentNode->attribute( 'main_node_id' ) ),
                                      'PolicyList' => $policyList );
                 return 0;
             }

@@ -1,6 +1,9 @@
 {* Locations window. *}
 {let assigned_nodes=$node.object.assigned_nodes
-     assignment_count=$assigned_nodes|count}
+     assignment_count=$assigned_nodes|count
+     has_manage_locations=fetch( 'user', 'current_user' ).has_manage_locations
+     can_edit_node=$node.can_edit
+     can_remove_location=false()}
 
 <form name="locationsform" method="post" action={'content/action'|ezurl}>
 <input type="hidden" name="ContentNodeID" value="{$node.node_id}" />
@@ -29,18 +32,20 @@
     <th class="tight">{'Visibility'|i18n( 'design/admin/node/view/full' )}</th>
     <th class="tight">{'Main'|i18n( 'design/admin/node/view/full' )}</th>
 </tr>
-{section var=assignment_node loop=$assigned_nodes sequence=array( bglight, bgdark )}
+{foreach $assigned_nodes as $assignment_node
+         sequence array( bglight, bgdark ) as $sequence}
     {let assignment_path=$assignment_node.path|append( $assignment_node )}
 
-<tr class="{$assignment_node.sequence}">
+<tr class="{$sequence}">
 
     {* Remove. *}
     <td>
-    {section show=or( $assignment_node.can_remove|not, eq( $assignment_node.node_id, $node.node_id ) )}
-    <input type="checkbox" name="LocationIDSelection[]" value="{$assignment_node.node_id}" disabled="disabled" title="{'This location can not be removed either because you do not have permissions to remove it or because it is currently being displayed.'|i18n( 'design/admin/node/view/full' )}" />
-    {section-else}
-    <input type="checkbox" name="LocationIDSelection[]" value="{$assignment_node.node_id}" title="{'Select location for removal.'|i18n( 'design/admin/node/view/full' )}" />
-    {/section}
+    {if and( or( $assignment_node.can_remove, $assignment_node.can_remove_location ), eq( $assignment_node.node_id, $node.main_node_id )|not )}
+        <input type="checkbox" name="LocationIDSelection[]" value="{$assignment_node.node_id}" title="{'Select location for removal.'|i18n( 'design/admin/node/view/full' )}" />
+        {set can_remove_location=true()}
+    {else}
+        <input type="checkbox" name="LocationIDSelection[]" value="{$assignment_node.node_id}" disabled="disabled" title="{'This location can not be removed either because you do not have permissions to remove it or because it is currently being displayed.'|i18n( 'design/admin/node/view/full' )}" />
+    {/if}
     </td>
 
     {* Location.  *}
@@ -95,7 +100,7 @@
     </td>
 </tr>
 {/let}
-{/section}
+{/foreach}
 </table>
 
 {* DESIGN: Content END *}</div></div></div>
@@ -110,38 +115,38 @@
 
 <div class="block">
 <div class="button-left">
-{section show=$node.can_edit}
+{if or( $can_edit_node, $has_manage_locations )}
 
-    {section show=$assignment_count|gt( 1 )}
+    {if $can_remove_location}
     <input class="button" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'Remove selected locations from the list above.'|i18n( 'design/admin/node/view/full' )}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="RemoveAssignmentButton" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" title="{'There is no removable location.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-    {/section}
+    {/if}
 
-    {section show=and( ne( $node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ), ne( $node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ), ne( $node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ) )}
+    {if and( ne( $node.node_id, ezini( 'NodeSettings', 'RootNode','content.ini' ) ), ne( $node.node_id, ezini( 'NodeSettings', 'MediaRootNode', 'content.ini' ) ), ne( $node.node_id, ezini( 'NodeSettings', 'UserRootNode', 'content.ini' ) ) )}
     <input class="button" type="submit" name="AddAssignmentButton" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" title="{'Add one or more new locations.'|i18n( 'design/admin/node/view/full' )}" />
-    {section-else}
+    {else}
     <input class="button-disabled" type="submit" name="AddAssignmentButton" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" title="{'It is not possible to add locations to a top level node.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
-    {/section}
+    {/if}
 
-{section-else}
+{else}
     <input class="button-disabled" type="submit" name="" value="{'Remove selected'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You can not remove any locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
     <input class="button-disabled" type="submit" name="" value="{'Add locations'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You can not add new locations because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
-{/section}
+{/if}
 </div>
 
 <div class="button-right">
-{section show=$node.can_edit}
+{if $can_edit_node}
 
-{section show=$assignment_count|gt( 1 )}
+{if $assignment_count|gt( 1 )}
     <input class="button" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" title="{'Select the desired main location using the radio buttons above and click this button to store the setting.'|i18n( 'design/admin/node/view/full' )}" />
-{section-else}
+{else}
     <input class="button-disabled" type="submit" name="UpdateMainAssignmentButton" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You can not set the main location because there is only one location present.'|i18n( 'design/admin/node/view/full' )}" />
-{/section}
+{/if}
 
-{section-else}
+{else}
     <input class="button-disabled" type="submit" name="" value="{'Set main'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" title="{'You can not set the main location because you do not have permissions to edit the current item.'|i18n( 'design/admin/node/view/full' )}" />
-{/section}
+{/if}
 </div>
 
 <div class="break"></div>

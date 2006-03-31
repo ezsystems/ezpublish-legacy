@@ -492,6 +492,7 @@ $SectionID = array(
     'function' => 'fetchList',
     'parameter' => array( false )
     );
+
 $VersionStatusRead = array(
     'name'=> 'Status',
     'values'=> array(),
@@ -501,6 +502,7 @@ $VersionStatusRead = array(
     'function' => 'statusList',
     'parameter' => array( 'read' )
     );
+
 $VersionStatusRemove = array(
     'name'=> 'Status',
     'values'=> array(),
@@ -510,6 +512,7 @@ $VersionStatusRemove = array(
     'function' => 'statusList',
     'parameter' => array( 'remove' )
     );
+
 $Language = array(
     'name'=> 'Language',
     'values'=> array(),
@@ -519,6 +522,7 @@ $Language = array(
     'function' => 'fetchLimitationList',
     'parameter' => array( false )
     );
+
 $Assigned = array(
     'name'=> 'Owner',
     'values'=> array(
@@ -585,6 +589,11 @@ $FunctionList['edit'] = array( 'Class' => $ClassID,
                                'Node' => $Node,
                                'Subtree' => $Subtree,
                                'Language' => $Language);
+
+$FunctionList['manage_locations'] = array( 'Class' => $ClassID,
+                                           'Section' => $SectionID,
+                                           'Owner' => $Assigned,
+                                           'Subtree' => $Subtree );
 
 $FunctionList['hide'] = array( 'Subtree' => $Subtree );
 

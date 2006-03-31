@@ -1,0 +1,6 @@
+*Title: Content - manage locations policy
+
+*Documentation:
+It's now possible to set manage locations policy. This will
+allow the user the possibility to add all objects the user has read
+access to, to the locations specified by the policy limitations.
