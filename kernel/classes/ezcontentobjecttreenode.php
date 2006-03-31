@@ -5194,15 +5194,15 @@ WHERE
         }
     }
 
-    function &getName()
+    function &getName( $language = false )
     {
         // JB
         // If the name is not set yet we fetch it from the object table
-        if ( $this->Name === null )
+        if ( $this->Name === null || $language !== false )
         {
-            if ( $this->CurrentLanguage )
+            if ( $this->CurrentLanguage || $language !== false )
             {
-                $sql = "SELECT name FROM ezcontentobject_name WHERE contentobject_id=" . (int) $this->ContentObjectID . " AND real_translation='" . $this->CurrentLanguage . "'";
+                $sql = "SELECT name FROM ezcontentobject_name WHERE contentobject_id=" . (int) $this->ContentObjectID . " AND content_version=" . (int)$this->attribute( 'contentobject_version' ) . " AND real_translation='" . ( $language !== false ? $language : $this->CurrentLanguage ) . "'";
             }
             else
             {
@@ -5212,10 +5212,18 @@ WHERE
             $rows = $db->arrayQuery( $sql );
             if ( count( $rows ) > 0 )
             {
+                if ( $language !== false )
+                {
+                    return $rows[0]['name'];
+                }
                 $this->Name = $rows[0]['name'];
             }
             else
             {
+                if ( $language !== false )
+                {
+                    return false;
+                }
                 $this->Name = false;
             }
         }

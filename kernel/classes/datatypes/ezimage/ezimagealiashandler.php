@@ -275,12 +275,16 @@ class eZImageAliasHandler
 
      The normalization ensures that the name only contains filename and URL friendly characters.
     */
-    function imageName( &$contentObjectAttribute, &$contentVersion )
+    function imageName( &$contentObjectAttribute, &$contentVersion, $language = false )
     {
-        $objectName = $contentVersion->attribute( 'version_name' );
+        if ( $language === false )
+        {
+            $language = $contentObjectAttribute->attribute( 'language_code' );
+        }
+        $objectName = $contentVersion->versionName( $language );
         if ( !$objectName )
         {
-            $objectName = $contentVersion->attribute( 'name' );
+            $objectName = $contentVersion->name( $language );
             if ( !$objectName )
             {
                 $objectName = $this->attribute( 'alternative_text' );
@@ -302,9 +306,13 @@ class eZImageAliasHandler
 
      The normalization ensures that the name only contains filename and URL friendly characters.
     */
-    function imageNameByNode( &$contentObjectAttribute, &$mainNode )
+    function imageNameByNode( &$contentObjectAttribute, &$mainNode, $language = false )
     {
-        $objectName = $mainNode->attribute( 'name' );
+        if ( $language === false )
+        {
+            $language = $contentObjectAttribute->attribute( 'language_code' );
+        }
+        $objectName = $mainNode->getName( $language );
         if ( !$objectName )
         {
             $objectName = $this->attribute( 'alternative_text' );

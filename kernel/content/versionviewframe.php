@@ -94,6 +94,13 @@ if ( $Module->hasActionParameter( 'SiteAccess' ) )
 
 $allowVersionsButton = $contentINI->hasVariable( 'VersionView', 'AllowVersionsButton' ) &&
                        $contentINI->variable( 'VersionView', 'AllowVersionsButton' ) == 'enabled';
+if ( $LanguageCode )
+{
+    $oldLanguageCode = $node->currentLanguage();
+    $oldObjectLanguageCode = $contentObject->currentLanguage();
+    $node->setCurrentLanguage( $LanguageCode );
+    $contentObject->setCurrentLanguage( $LanguageCode );
+}
 $tpl->setVariable( 'allow_versions_button', $allowVersionsButton );
 $tpl->setVariable( 'site_access_list', $ini->variable( 'SiteAccessSettings', 'AvailableSiteAccessList' ) );
 $tpl->setVariable( 'node', $node );
@@ -108,6 +115,12 @@ $tpl->setVariable( 'from_language', $FromLanguage );
 $Result = array();
 $Result['content'] =& $tpl->fetch( 'design:content/view/versionview.tpl' );
 $Result['node_id'] =& $node->attribute( 'node_id' );
+
+if ( $LanguageCode )
+{
+    $node->setCurrentLanguage( $oldLanguageCode );
+    $contentObject->setCurrentLanguage( $oldObjectLanguageCode );
+}
 
 return $Result;
 
