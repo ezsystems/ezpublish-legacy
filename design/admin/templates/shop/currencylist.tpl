@@ -160,8 +160,8 @@
         </div>
     {else}
         <div class="left">
-            {* Add button *}
-            <input class="button" type="submit" name="AddCurrencyButton" value="{'Add new'|i18n( 'design/admin/shop/currencylist' )}" title="{'Add new currnecy to the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
+            {* New button *}
+            <input class="button" type="submit" name="NewCurrencyButton" value="{'New currency'|i18n( 'design/admin/shop/currencylist' )}" title="{'Add new currnecy to the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
         </div>
     {/if}
 
