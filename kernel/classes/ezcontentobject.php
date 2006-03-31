@@ -1310,11 +1310,16 @@ class eZContentObject extends eZPersistentObject
         foreach ( $versionKeys as $versionNumber )
         {
             $currentContentObjectVersion =& $versionList[$versionNumber];
+
+            $contentObject->setName( $currentContentObjectVersion->name(), $versionNumber );
+            foreach( $contentObject->translationStringList() as $languageCode )
+            {
+                $contentObject->setName( $currentContentObjectVersion->name( false, $languageCode ), $versionNumber, $languageCode );
+            }
+
             $contentObjectVersion = $this->copyVersion( $contentObject, $currentContentObjectVersion,
                                                         $versionNumber, $contentObject->attribute( 'id' ),
                                                         false );
-
-            $contentObject->setName( $contentObjectVersion->name(), $versionNumber );
 
             if ( $versionNumber == $this->attribute( 'current_version' ) )
             {
