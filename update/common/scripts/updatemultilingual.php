@@ -65,6 +65,7 @@ ALTER TABLE eznode_assignment ADD COLUMN op_code int NOT NULL DEFAULT 0;
 include_once( 'lib/ezutils/classes/ezcli.php' );
 include_once( 'kernel/classes/ezscript.php' );
 include_once( 'kernel/classes/ezcontentlanguage.php' );
+include_once( 'kernel/classes/ezcontentobjectversion.php' );
 
 function minBit( $value )
 {
@@ -113,6 +114,12 @@ $cli->warning( "Have you backed up your database? If not, press Ctrl-C and back 
 $db =& eZDB::instance();
 $ini =& eZINI::instance();
 
+$defaultLanguageCode = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
+
+$cli->notice( "The default language for your siteaccess is '$defaultLanguageCode' and will be used as the initial language for all your objects." );
+$cli->notice( "The script will use the following database settings:" );
+$cli->notice( "  user: <" . $db->User . ">, " . ( strlen( $db->Password ) > 0 ? "password: <***>, " : "password: none, " ) . "server: <" . $db->Server . ">, socket: <" . $db->SocketPath . ">, name: <" . $db->DB . ">, charset: <" . $db->Charset . ">" );
+
 $draftCount = $db->arrayQuery( "SELECT count(*) AS count
                                 FROM ezcontentobject_version
                                 WHERE status=0" );
@@ -120,20 +127,31 @@ $draftCount = $draftCount[0]['count'];
 
 if ( $draftCount )
 {
-    $cli->error( "You have $draftCount draft(s). You have either to publish or to remove them. Exiting..." );
-    $script->shutdown();
-    exit( -1 );
+    $cli->warning( "You have $draftCount draft(s). These drafts will be removed." );
 }
 
-$defaultLanguageCode = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );
-
-$cli->notice( "The default language for your siteaccess is '$defaultLanguageCode' and will be used as the initial language for all your objects." );
-$cli->notice( "The script will use the following database settings:" );
-$cli->notice( "User: <" . $db->User . ">, " . ( strlen( $db->Password ) > 0 ? "Password: <***>, " : "Password: none, " ) . "Server: <" . $db->Server . ">, Socket: <" . $db->SocketPath . ">, Name: <" . $db->DB . ">, Charset: <" . $db->Charset . ">" );
-$cli->warning( "You have now 10 seconds to break this script (press Ctrl-C) if the setting is incorrect." );
+$cli->warning( "You have now 10 seconds to break this script (press Ctrl-C) if the settings are incorrect." );
 sleep( 10 );
 
-$cli->notice( 'Step 1/5: Identifying languages used on the site:' );
+// ------------------------------------------
+
+$cli->notice( 'Step 1/6: Removing the drafts:' );
+
+if ( $draftCount )
+{
+    $rows = $db->arrayQuery( "SELECT *
+                              FROM ezcontentobject_version
+                              WHERE status=0" );
+    foreach( $rows as $row )
+    {
+        $draft = new eZContentObjectVersion( $row );
+        $draft->remove();
+    }
+}
+
+// ------------------------------------------
+
+$cli->notice( 'Step 2/6: Identifying languages used on the site:' );
 
 $language = eZContentLanguage::addLanguage( $defaultLanguageCode );
 $defaultLanguage = $language->attribute( 'id' );
@@ -161,16 +179,29 @@ unset( $rows );
 
 // ------------------------------------------
 
-$cli->notice( 'Step 2/5: Fixing the ezcontentclass table.' );
+$cli->notice( 'Step 3/6: Fixing the ezcontentclass table.' );
 
-// TODO: use remote id
 $db->query( "UPDATE ezcontentclass
              SET always_available='1'
-             WHERE id IN ( '1', '3', '4' ) " );
+             WHERE remote_id IN ( 'a3d405b81be900468eb153d774f4f0d2',
+                                  '25b4268cdcd01921b808a0d854b877ef',
+                                  '40faa822edc579b02c25f6bb7beec3ad',
+                                  'f6df12aa74e36230eb675f364fccd25a',
+                                  '637d58bfddf164627bdfd265733280a0',
+                                  'ffedf2e73b1ea0c3e630e42e2db9c900',
+                                  '59b43cd9feaaf0e45ac974fb4bbd3f92' ) " );
+
+$alwaysAvailableClasses = array();
+$rows = $db->arrayQuery( "SELECT id FROM ezcontentclass WHERE always_available='1'" );
+foreach( $rows as $row )
+{
+    $alwaysAvailableClasses[] = $row['id'];
+}
+unset( $rows );
 
 // ------------------------------------------
 
-$cli->notice( 'Step 3/5: Fixing content object attributes and versions. Please be patient, this might take a while...' );
+$cli->notice( 'Step 4/6: Fixing content object attributes and versions. Please be patient, this might take a while...' );
 
 $db->query( "UPDATE ezcontentobject_attribute SET language_id='0'" );
 foreach( $languages as $languageCode => $languageID )
@@ -244,7 +275,7 @@ $db->query( "UPDATE ezcontentobject_version SET initial_language_id='$defaultLan
 
 // ------------------------------------------
 
-$cli->notice( 'Step 4/5: Fixing the ezcontentobject_name table.' );
+$cli->notice( 'Step 5/6: Fixing the ezcontentobject_name table.' );
 
 $db->query( "DELETE FROM ezcontentobject_name WHERE content_translation<>real_translation" );
 foreach( $languages as $languageCode => $languageID )
@@ -257,7 +288,7 @@ $db->query( "UPDATE ezcontentobject_name SET language_id='$defaultLanguage', con
 
 // ------------------------------------------
 
-$cli->notice( 'Step 5/5: Fixing content objects. Please be patient, this might take a while...' );
+$cli->notice( 'Step 6/6: Fixing content objects. Please be patient, this might take a while...' );
 
 $topLevelObjects = array();
 $rows = $db->arrayQuery( "SELECT contentobject_id FROM ezcontentobject_tree WHERE parent_node_id=1 AND node_id<>1" );
@@ -290,8 +321,8 @@ while ( $objects = $db->arrayQuery( "SELECT ezcontentobject.id, ezcontentobject.
         $languageMask--;
         $initialLanguage = $object['initial_language_id'];
         
-        // if the object is a folder, a user, a user group or if it is a top-leve object, make it always available
-        if ( in_array( $object['contentclass_id'], array( 1, 3, 4 ) ) ||
+        // if the object is a folder, a user, a user group etc. or if it is a top-leve object, make it always available
+        if ( in_array( $object['contentclass_id'], $alwaysAvailableClasses ) ||
              in_array( $objectID, $topLevelObjects ) )
         {
             $languageMask++;
