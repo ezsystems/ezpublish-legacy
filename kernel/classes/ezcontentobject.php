@@ -1148,7 +1148,7 @@ class eZContentObject extends eZPersistentObject
 
         // We copy related objects before the attributes, this means that the related objects
         // are available once the datatype code is run.
-        $this->copyContentObjectRelations( $currentVersionNumber, $newVersionNumber );
+        $this->copyContentObjectRelations( $currentVersionNumber, $newVersionNumber, $contentObjectID );
 
         $languageCodeToCopy = false;
         if ( $languageCode && in_array( $languageCode, $this->availableLanguages() ) )
@@ -2363,9 +2363,13 @@ class eZContentObject extends eZPersistentObject
 
     }
 
-    function copyContentObjectRelations( $currentVersion, $newVersion )
+    function copyContentObjectRelations( $currentVersion, $newVersion, $newObjectID = false )
     {
         $objectID = $this->ID;
+        if ( !$newObjectID )
+        {
+            $newObjectID = $objectID;
+        }
 
         $db =& eZDB::instance();
         $db->begin();
@@ -2383,7 +2387,7 @@ class eZContentObject extends eZPersistentObject
                                                            from_contentobject_version,
                                                            to_contentobject_id,
                                                            op_code )
-                         VALUES ( '0', '$objectID', '$newVersion', '$toContentObjectID', '$opCode' )" );
+                         VALUES ( '0', '$newObjectID', '$newVersion', '$toContentObjectID', '$opCode' )" );
         }
 
         $db->commit();
