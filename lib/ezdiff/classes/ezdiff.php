@@ -176,3 +176,5 @@ class eZDiff
                             'xml' => 1,
                             'container' => 2 );
 }
+
+?>

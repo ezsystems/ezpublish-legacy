@@ -199,3 +199,5 @@ else if ( $module->isCurrentAction( 'RemoveTranslation' ) )
 }
 
 return $module->redirectToView( 'view', array( 'full', 2 ) );
+
+?>
