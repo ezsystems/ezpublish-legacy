@@ -85,6 +85,11 @@ $diff = array();
 
 if ( $http->hasPostVariable( 'FromVersion' ) && $http->hasPostVariable( 'ToVersion' ) )
 {
+    $lang = false;
+    if ( $http->hasPostVariable( 'Language' ) )
+    {
+        $lang = $http->postVariable( 'Language' );
+    }
     $oldVersion = $http->postVariable( 'FromVersion' );
     $newVersion = $http->postVariable( 'ToVersion' );
     
@@ -93,8 +98,26 @@ if ( $http->hasPostVariable( 'FromVersion' ) && $http->hasPostVariable( 'ToVersi
         $oldObject = $contentObject->version( $oldVersion );
         $newObject = $contentObject->version( $newVersion );
 
-        $oldAttributes = $oldObject->dataMap();
-        $newAttributes = $newObject->dataMap();
+        if ( $lang )
+        {
+            $initLang = $contentObject->initialLanguageCode();
+            $oldAttributes = $contentObject->fetchDataMap( $oldVersion, $lang );
+            if ( !$oldAttributes )
+            {
+                $oldAttributes = $contentObject->fetchDataMap( $oldVersion, $initLang );
+            }
+            $newAttributes = $contentObject->fetchDataMap( $newVersion, $lang );
+            if ( !$newAttributes )
+            {
+                $newAttributes = $contentObject->fetchDataMap( $newVersion, $initLang );
+            }
+                
+        }
+        else
+        {
+            $oldAttributes = $oldObject->dataMap();
+            $newAttributes = $newObject->dataMap();
+        }
 
         foreach ( $oldAttributes as $attribute )
         {
