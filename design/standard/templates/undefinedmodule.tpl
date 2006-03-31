@@ -74,7 +74,7 @@
 <br />
 <font color="white">
 <center>
-<a href="http://ez.no/developer">eZ publish&trade;</a> copyright &copy; 1999-2005 <a href="http://ez.no">eZ systems as</a>
+<a href="http://ez.no/developer">eZ publish&trade;</a> copyright &copy; 1999-2006 <a href="http://ez.no">eZ systems as</a>
 </center>
 </font>
 <br />
