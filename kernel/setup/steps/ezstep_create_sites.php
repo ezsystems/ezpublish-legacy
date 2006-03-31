@@ -718,6 +718,17 @@ id $inSql";
             $db->query( $updateSql );
 //                 }
         }
+        // Setup all languages
+        foreach ( $allLanguages as $languageObject )
+        {
+            $primaryLanguageObj = eZContentLanguage::fetchByLocale( $languageObject->localeCode() );
+            // Add it if it is missing (most likely)
+            if ( !$primaryLanguageObj )
+            {
+                $primaryLanguageObj = eZContentLanguage::addLanguage( $languageObject->localeCode(), $languageObject->internationalLanguageName() );
+            }
+        }
+        eZContentLanguage::expireCache();
         // Make sure priority list is changed to the new chosen languages
         eZContentLanguage::setPrioritizedLanguages( $prioritizedLanguages );
         // JB end
