@@ -114,7 +114,11 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
     }
     else
     {
-        if ( $hasClassInformation )
+        include_once( 'kernel/classes/ezcontentlanguage.php' );
+        $allLanguages = eZContentLanguage::prioritizedLanguages();
+        // Only show language selection if there are more than 1 languages.
+        if ( count( $allLanguages ) > 1 &&
+             $hasClassInformation )
         {
             include_once( 'kernel/common/template.php' );
             $tpl =& templateInit();
