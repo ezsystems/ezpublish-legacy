@@ -256,15 +256,15 @@ function contentPDFPassthrough( $cacheFile )
 */
 function contentPDFGenerate( $cacheFile, &$node, $object = false, $viewCacheEnabled = true, $languageCode = false )
 {
+    if ( $languageCode )
+    {
+        $node->setCurrentLanguage( $languageCode );
+    }
+
     if( $object == false )
     {
         unset( $object );
-        $object =& $node->attribute( 'object' ); // do not remove &
-    }
-
-    if ( $languageCode )
-    {
-        $object->setCurrentLanguage( $languageCode );
+        $object =& $node->attribute( 'object' );
     }
 
     $res =& eZTemplateDesignResource::instance();
