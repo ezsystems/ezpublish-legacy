@@ -238,7 +238,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     {
         include_once( 'kernel/classes/ezcontentlanguage.php' );
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
-        
+
         if ( $languageCode == false )
         {
         	$languageCode = eZContentObject::defaultLanguage();
@@ -258,7 +258,7 @@ class eZContentObjectAttribute extends eZPersistentObject
             'data_float' => 0.0 );
         return new eZContentObjectAttribute( $row );
     }
- 
+
     /*!
      \reimp
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
@@ -273,9 +273,9 @@ class eZContentObjectAttribute extends eZPersistentObject
         unset( $eZContentObjectContentObjectCache[$this->ContentObjectID] );
         global $eZContentObjectDataMapCache;
         unset( $eZContentObjectDataMapCache[$this->ContentObjectID] );
-      
+
         $classAttribute =& $this->contentClassAttribute();
-       
+
         $dataType = $classAttribute->dataType();
         if ( $dataType )
         {
@@ -311,7 +311,7 @@ class eZContentObjectAttribute extends eZPersistentObject
         unset( $eZContentObjectContentObjectCache[$this->ContentObjectID] );
         global $eZContentObjectDataMapCache;
         unset( $eZContentObjectDataMapCache[$this->ContentObjectID] );
-       
+
         $classAttribute =& $this->contentClassAttribute();
         $dataType = $classAttribute->dataType();
         $this->setAttribute( 'data_type_string', $classAttribute->attribute( 'data_type_string' ) );
@@ -1002,7 +1002,7 @@ class eZContentObjectAttribute extends eZPersistentObject
     function &translateTo( $languageCode, $updateLanguageMask = true )
     {
     	$languageID = eZContentLanguage::idByLocale( $languageCode );
-        
+
     	$tmp = $this;
         $tmp->setAttribute( 'id', null );
         $tmp->setAttribute( 'language_code', $languageCode );
@@ -1159,6 +1159,7 @@ class eZContentObjectAttribute extends eZPersistentObject
                     if ( !is_array( $attributeMetaData ) )
                     {
                         $attributeMetaData = array( array( 'id' => '',
+                                                           'identifier' => $attribute->attribute( 'contentclass_attribute_identifier' ),
                                                            'text' => $attributeMetaData ) );
                     }
                     $metaDataArray = array_merge( $metaDataArray, $attributeMetaData );
