@@ -1748,3 +1748,119 @@ div.indent
 {
     margin-left: 1em;
 }
+
+/* Diff styles */
+
+div#diffview ul
+{
+    margin: 0 0 0.5em 0;
+    padding: 0.25em 0.5em 0.25em 0.5em;
+    border-bottom: 1px solid #808080;
+    display: block;
+}
+
+div#diffview li
+{
+    font-size: 0.85em;
+    margin: 0 0.5em 0 0;
+    padding: 0;
+    display: inline;
+    list-style-type: none;
+}
+
+div.attribute-view-diff
+{
+    padding: 0.25em;
+    border: 1px solid #d7d7d2;
+}
+
+div.attribute-view-diff label
+{
+   color: #75756c;
+}
+
+div.attribute-view-diff-old
+{
+    padding-bottom: 0.25em;
+    border-bottom: 1px dashed #bfbfb7;
+}
+
+div.attribute-view-diff-new
+{
+    padding-top: 0.25em;
+}
+
+ins
+{
+    color: #008000;
+    text-decoration: none;
+    border-bottom: 1px solid #00b000;
+}
+
+del
+{
+    color: #d98078;
+    text-decoration: line-through;
+}
+
+ins:hover, del:hover
+{
+    background-color: #ffffff;
+}
+
+ins:hover
+{
+    color: #006000;
+    border-bottom: none;
+}
+
+del:hover
+{
+    color: #852c25;
+    text-decoration: none;
+}
+
+div.blockchanges ins, div.blockchanges del
+{
+    color: #000000;
+    padding-left: 0.5em;
+    text-decoration: none;
+    border-bottom: none;
+    display: block;
+}
+
+div.blockchanges ins
+{
+    border-left: 0.5em solid #008000;
+}
+
+div.blockchanges del
+{
+    border-left: 0.5em solid #d98078;
+}
+
+div.previous ins
+{
+    display: none;
+}
+
+div.previous del
+{
+    color: #000000;
+    background-color: #ffff00;
+    border-bottom: none;
+    text-decoration: none   
+}
+
+div.latest del
+{
+    display: none;
+}
+
+div.latest ins
+{
+    color: #000000;
+    background-color: #ffff00;
+    border-bottom: none;
+    text-decoration: none;
+}
