@@ -146,6 +146,7 @@ if ( $draftCount )
     {
         $draft = new eZContentObjectVersion( $row );
         $draft->remove();
+        unset( $draft );
     }
 }
 
@@ -213,6 +214,7 @@ $db->query( "UPDATE ezcontentobject_attribute SET language_id='$defaultLanguage'
 
 $db->query( "CREATE TEMPORARY TABLE version_languages ( contentobject_id int, version int, language_id int )" );
 $db->query( "CREATE TEMPORARY TABLE version_language_masks ( contentobject_id int, version int, language_mask int )" );
+$db->query( "CREATE TEMPORARY TABLE object_language_masks ( contentobject_id int, language_mask int )" );
 
 $db->query( "INSERT INTO version_languages( contentobject_id, version, language_id )
              SELECT DISTINCT contentobject_id, version, language_id FROM ezcontentobject_attribute" );
@@ -220,6 +222,11 @@ $db->query( "INSERT INTO version_language_masks( contentobject_id, version, lang
              SELECT contentobject_id, version, sum( language_id ) as language_mask
              FROM version_languages
              GROUP BY contentobject_id, version" );
+$db->query( "INSERT INTO object_language_masks( contentobject_id, language_mask )
+             SELECT contentobject_id, version_language_masks.language_mask
+             FROM version_language_masks, ezcontentobject
+             WHERE version_language_masks.contentobject_id = ezcontentobject.id
+               AND version_language_masks.version = ezcontentobject.current_version" );
 
 $count = $db->arrayQuery( "SELECT count(*) as count FROM version_language_masks" );
 $count = $count[0]['count'];
@@ -227,13 +234,16 @@ $count = $count[0]['count'];
 $limit = 100;
 $offset = 0;
 
-while ( $rows = $db->arrayQuery( "SELECT * FROM version_language_masks", array( 'limit' => $limit, 'offset' => $offset ) ) )
+while ( $rows = $db->arrayQuery( "SELECT a.*, b.language_mask as object_language_mask
+                                  FROM version_language_masks a, object_language_masks b
+                                  WHERE a.contentobject_id = b.contentobject_id", array( 'limit' => $limit, 'offset' => $offset ) ) )
 {
     foreach( $rows as $row )
     {
         $objectID = $row['contentobject_id'];
         $version = $row['version'];
-        $languageMask = $row['language_mask'];
+        $languageMask = (int) $row['language_mask'] & (int) $row['object_language_mask'];
+        // we will remove the languages which are not used in the published version later
         if ( $languageMask & $defaultLanguage )
         {
             $initialLanguage = $defaultLanguage;
@@ -319,6 +329,7 @@ while ( $objects = $db->arrayQuery( "SELECT ezcontentobject.id, ezcontentobject.
         $version = $object['current_version'];
         $languageMask = $object['language_mask'];
         $languageMask--;
+        $originalLanguageMask = (int) $languageMask;
         $initialLanguage = $object['initial_language_id'];
         
         // if the object is a folder, a user, a user group etc. or if it is a top-leve object, make it always available
@@ -339,6 +350,32 @@ while ( $objects = $db->arrayQuery( "SELECT ezcontentobject.id, ezcontentobject.
                      SET language_mask='$languageMask',
                          initial_language_id='$initialLanguage'
                      WHERE id='$objectID'" );
+
+        // removing attributes which exists in languages which do not exist in published version
+        $maskArray = array();
+        $candidate = 1;
+        while ( $originalLanguageMask > 0 )
+        {
+            if ( $originalLanguageMask & 1 > 0 )
+            {
+                $maskArray[] = $candidate;
+                $maskArray[] = $candidate+1;
+            }
+            $originalLanguageMask = (int) ( $originalLanguageMask / 2 );
+            $candidate *= 2;
+        }
+
+        $attributes = $db->arrayQuery( "SELECT * 
+                                        FROM ezcontentobject_attribute
+                                        WHERE contentobject_id = '$objectID'
+                                          AND language_id NOT IN ( " . implode( ', ', $maskArray ) ." )" );
+        foreach ( $attributes as $attribute )
+        {
+            $attributeObject = new eZContentObjectAttribute( $attribute );
+            $attributeObject->remove( $attributeObject->attribute( 'id' ), $attributeObject->attribute( 'version' ) );
+            unset( $attributeObject );
+        }
+        unset( $attributes );
 
         $lastID = $object['id'];
     }
