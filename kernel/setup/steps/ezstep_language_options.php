@@ -164,11 +164,28 @@ class eZStepLanguageOptions extends eZStepInstaller
     {
         $locales = eZLocale::localeList( true );
         $languages = array();
+        $httpMap   = array();
+        $httpMapShort = array();
+        // This alias array must be filled in with known names.
+        // The key is the value from the locale INI file (HTTP group)
+        // and the value is the HTTP alias.
+        $httpAliases = array( 'no-bokmaal' => 'nb',
+                              'no-nynorsk' => 'nn' );
         foreach ( array_keys( $locales ) as $localeKey )
         {
             $locale =& $locales[$localeKey];
             if ( !$locale->attribute( 'country_variation' ) )
+            {
                 $languages[] = $locale;
+                $httpLocale = strtolower( $locale->httpLocaleCode() );
+                $httpMap[$httpLocale] = $locale;
+                list( $httpLocaleShort ) = explode( '-', $httpLocale );
+                $httpMapShort[$httpLocale] = $locale;
+                if ( isset( $httpAliases[$httpLocale] ) )
+                {
+                    $httpMapShort[$httpAliases[$httpLocale]] = $locale;
+                }
+            }
         }
 
         // bubble sort language based on language name. bubble bad, but only about 8-9 elements
@@ -192,8 +209,44 @@ class eZStepLanguageOptions extends eZStepInstaller
         }
         $this->Tpl->setVariable( 'show_unicode_error', $showUnicodeError );
 
-        $regionalInfo = array( 'primary_language' => 'eng-GB',
-                               'languages' => array() );
+        $defaultLanguage = false;
+        $defaultExtraLanguages = array();
+        if ( isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) )
+        {
+            $acceptLanguages = explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
+            foreach ( $acceptLanguages as $acceptLanguage )
+            {
+                list( $acceptLanguageCode ) = explode( ';', $acceptLanguage );
+                $languageCode = false;
+                if ( isset( $httpMap[$acceptLanguageCode] ) )
+                {
+                    $languageCode = $httpMap[$acceptLanguageCode]->localeCode();
+                }
+                elseif ( isset( $httpMapShort[$acceptLanguageCode] ) )
+                {
+                    $languageCode = $httpMapShort[$acceptLanguageCode]->localeCode();
+                }
+                if ( $languageCode )
+                {
+                    if ( $defaultLanguage === false )
+                    {
+                        $defaultLanguage = $languageCode;
+                    }
+/*                    else
+                    {
+                        $defaultExtraLanguages[] = $languageCode;
+                    }*/
+                }
+            }
+        }
+        if ( $defaultLanguage === false )
+        {
+            $defaultLanguage = 'eng-GB';
+        }
+        $defaultExtraLanguages = array_unique( array_diff( $defaultExtraLanguages, array( $defaultLanguage ) ) );
+
+        $regionalInfo = array( 'primary_language' => $defaultLanguage,
+                               'languages' => $defaultExtraLanguages );
         if ( isset( $this->PersistenceList['regional_info'] ) )
             $regionalInfo = $this->PersistenceList['regional_info'];
 
