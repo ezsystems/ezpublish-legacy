@@ -7,7 +7,7 @@
 <div class="context-block">
 
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h1 class="context-title">{'Versions for <%object_name> [%version_count]'|i18n( 'design/admin/content/diff',, hash( '%object_name', $object.name, '%version_count', $version_list|count ) )|wash}</h1>
+<h1 class="context-title">{'Versions for <%object_name> [%version_count]'|i18n( 'design/standard/content/diff',, hash( '%object_name', $object.name, '%version_count', $version_list|count ) )|wash}</h1>
 {* DESIGN: Mainline *}<div class="header-mainline"></div>
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
@@ -16,19 +16,19 @@
     <table class="list" width="100%" cellspacing="0" cellpadding="0" border="0">
         <tr>
             <th>
-                {"Version"|i18n("design/admin/content/diff")}:
+                {"Version"|i18n("design/standard/content/diff")}:
             </th>
             <th>
-                {"Status"|i18n("design/admin/content/diff")}:
+                {"Status"|i18n("design/standard/content/diff")}:
             </th>
             <th>
-                {"Translations"|i18n("design/admin/content/diff")}:
+                {"Translations"|i18n("design/standard/content/diff")}:
             </th>
             <th>
-                {"Creator"|i18n("design/admin/content/diff")}:
+                {"Creator"|i18n("design/standard/content/diff")}:
             </th>
             <th>
-                {"Modified"|i18n("design/admin/content/diff")}:
+                {"Modified"|i18n("design/standard/content/diff")}:
             </th>
         </tr>
         {foreach $version_list as $version
@@ -39,7 +39,7 @@
                 <a href={concat( "/content/versionview/", $object.id, "/", $version.version, "/", $initial_language.locale )|ezurl}>{$version.version}</a>
                 {if eq($version.version,$object.current_version)}*{/if}
             </td>
-            <td>{$version.status|choose( 'Draft'|i18n( 'design/admin/content/diff' ), 'Published'|i18n( 'design/admin/content/diff' ), 'Pending'|i18n( 'design/admin/content/diff' ), 'Archived'|i18n( 'design/admin/content/diff' ), 'Rejected'|i18n( 'design/admin/content/diff' ), 'Untouched draft'|i18n( 'design/admin/content/diff' ) )}</td>
+            <td>{$version.status|choose( 'Draft'|i18n( 'design/standard/content/diff' ), 'Published'|i18n( 'design/standard/content/diff' ), 'Pending'|i18n( 'design/standard/content/diff' ), 'Archived'|i18n( 'design/standard/content/diff' ), 'Rejected'|i18n( 'design/standard/content/diff' ), 'Untouched draft'|i18n( 'design/standard/content/diff' ) )}</td>
             <td>
                 {foreach $version.language_list as $lang}
                     {delimiter}<br />{/delimiter}
@@ -58,7 +58,7 @@
     </table>
 {else}
     <div class="block">
-        <p>{'This object does not have any versions.'|i18n( 'design/admin/content/versions' )}</p>
+        <p>{'This object does not have any versions.'|i18n( 'design/standard/content/versions' )}</p>
     </div>
 {/if}
 
@@ -94,7 +94,7 @@
             {/foreach}
         </select>
     <input type="hidden" name="ObjectID" value="{$object.id}" />
-    <input class="button" type="submit" name="DiffButton" value="{'Show differences'|i18n( 'design/admin/content/diff' )}" />
+    <input class="button" type="submit" name="DiffButton" value="{'Show differences'|i18n( 'design/standard/content/diff' )}" />
 </form>
 <div class="break"></div>
 </div>
@@ -114,7 +114,7 @@ function show( element, method )
 
 {if and( is_set( $object ), is_set( $diff ), is_set( $oldVersion ), is_set( $newVersion ) )}
 {* DESIGN: Header START *}<div class="box-header"><div class="box-tc"><div class="box-ml"><div class="box-mr"><div class="box-tl"><div class="box-tr">
-<h2 class="context-title">{'Differences between versions %oldVersion and %newVersion'|i18n( 'design/admin/content/diff',, hash( '%oldVersion', $oldVersion, '%newVersion', $newVersion ) )}</h2>
+<h2 class="context-title">{'Differences between versions %oldVersion and %newVersion'|i18n( 'design/standard/content/diff',, hash( '%oldVersion', $oldVersion, '%newVersion', $newVersion ) )}</h2>
 {* DESIGN: Mainline *}<div class="header-subline"></div>
 {* DESIGN: Header END *}</div></div></div></div></div></div>
 <div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
@@ -122,7 +122,7 @@ function show( element, method )
 <div id="diffview">
 
 <script type="text/javascript">
-document.write('<div class="context-toolbar"><div class="block"><ul><li><a href="#" onclick="show(\'diffview\', \'previous\'); return false;">{'Old values only'|i18n( 'design/admin/content/diff' )}</a></li><li><a href="#" onclick="show(\'diffview\', \'inlinechanges\'); return false;">{'Inline changes'|i18n( 'design/admin/content/diff' )}</a></li><li><a href="#" onclick="show(\'diffview\', \'blockchanges\'); return false;">{'Block changes'|i18n( 'design/admin/content/diff' )}</a></li><li><a href="#" onclick="show(\'diffview\', \'latest\'); return false;">{'New values only'|i18n( 'design/admin/content/diff' )}</a></li></ul></div></div>');
+document.write('<div class="context-toolbar"><div class="block"><ul><li><a href="#" onclick="show(\'diffview\', \'previous\'); return false;">{'Old values only'|i18n( 'design/standard/content/diff' )}</a></li><li><a href="#" onclick="show(\'diffview\', \'inlinechanges\'); return false;">{'Inline changes'|i18n( 'design/standard/content/diff' )}</a></li><li><a href="#" onclick="show(\'diffview\', \'blockchanges\'); return false;">{'Block changes'|i18n( 'design/standard/content/diff' )}</a></li><li><a href="#" onclick="show(\'diffview\', \'latest\'); return false;">{'New values only'|i18n( 'design/standard/content/diff' )}</a></li></ul></div></div>');
 </script>
 
 {foreach $object.data_map as $attr}

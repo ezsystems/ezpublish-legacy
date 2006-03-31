@@ -570,6 +570,11 @@ $FunctionList['read'] = array( 'Class' => $ClassID,
                                'Owner' => $Assigned,
                                'Node' => $Node,
                                'Subtree' => $Subtree);
+$FunctionList['diff'] = array( 'Class' => $ClassID,
+                               'Section' => $SectionID,
+                               'Owner' => $Assigned,
+                               'Node' => $Node,
+                               'Subtree' => $Subtree);
 $FunctionList['view_embed'] = array( 'Class' => $ClassID,
                                      'Section' => $SectionID,
                                      'Owner' => $Assigned,
