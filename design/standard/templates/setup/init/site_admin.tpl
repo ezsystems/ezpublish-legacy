@@ -48,8 +48,8 @@
 {/section}
 
 
-<h3>{"Administrator settings"|i18n("design/standard/setup/init")}</h3>
-<p>
+<fieldset>
+<legend>{"Administrator settings"|i18n("design/standard/setup/init")}:</legend>
     <table border="0" cellspacing="2" cellpadding="0">
     <tr>
         <td><label class="textfield">{"Login"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
@@ -77,7 +77,7 @@
     </tr>
 
     </table>
-</p>
+</fieldset>
 
 {include uri="design:setup/persistence.tpl"}
 {include uri='design:setup/init/navigation.tpl'}

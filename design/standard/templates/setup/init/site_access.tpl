@@ -12,7 +12,8 @@
   </p>
 
   <p>
-  <div class="input_highlight">
+  <fieldset>
+  <legend>{'Access method'|i18n( 'design/standard/setup/init' )}:</legend>
     <table border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td class="normal">
@@ -32,7 +33,7 @@
         </td>
       </tr>
     </table>
-  </div>
+  </fieldset>
   </p>
 
   {include uri='design:setup/init/navigation.tpl'}

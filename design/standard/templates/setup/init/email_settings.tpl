@@ -22,11 +22,9 @@
 <p>
 
 <form method="post" action="{$script}">
-<div class="input_highlight">
+<fieldset>
+<legend>{"E-mail delivery"|i18n("design/standard/setup/init")}:</legend>
 <table cellspacing="3" cellpadding="0" border="0">
-<tr>
-  <th class="label" colspan="3">{"E-mail delivery"|i18n("design/standard/setup/init")}:</th>
-</tr>
 {section show=eq($system.type,"unix")}
 <tr>
   <td class="normal">
@@ -58,7 +56,7 @@
   <td class="normal"><input type="password" size="25" id="eZSetupSMTPPassword" name="eZSetupSMTPPassword" value="{$email_info.password|wash}"></td>
 </tr>
 </table>
-</div>
+</fieldset>
 
   {include uri='design:setup/init/navigation.tpl'}
   {include uri='design:setup/persistence.tpl'}

@@ -565,9 +565,9 @@ See the requirements page for more information.",
             case EZ_SETUP_DB_ERROR_CHARSET_DIFFERS:
             {
                 $dbError = array( 'text' => ezi18n( 'design/standard/setup/init',
-                                                    "The database %database_name cannot be used, it uses the character set %charset which is different from the requested charset %req_charset.",
+                                                    "The database [%database_name] cannot be used, the setup wizard wants to create the site in [%req_charset] but the database has been created using character set [%charset]. You will have to choose a database having support for [%req_charset] or modify [%database_name] .",
                                                     null,
-                                                    array( '%database_name' => $errorInfo['database_info']['database'],
+                                                    array( '%database_name' => $errorInfo['site_type']['database'],
                                                            '%charset' => $errorInfo['database_info']['current_charset'],
                                                            '%req_charset' => $errorInfo['database_info']['requested_charset'] ) ),
                                   'url' => false,

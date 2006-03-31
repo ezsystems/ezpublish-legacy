@@ -135,6 +135,9 @@
 ## Languages[]=<locale>
 ## Additional languages
 #Languages[]
+## EnableUnicode=true|false
+## If set to true it will setup site using Unicode (utf-8)
+#EnableUnicode=true
 
 #[site_types]
 ## Continue=<true|false>

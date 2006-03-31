@@ -59,6 +59,7 @@ class eZStepLanguageOptions extends eZStepInstaller
     {
         $primaryLanguage = $this->Http->postVariable( 'eZSetupDefaultLanguage' );
         $languages       = $this->Http->hasPostVariable( 'eZSetupLanguages' ) ? $this->Http->postVariable( 'eZSetupLanguages' ): array();
+        $enableUnicode   = $this->Http->hasPostVariable( 'eZEnableUnicode' );
 
         if ( !in_array( $primaryLanguage, $languages ) )
             $languages[] = $primaryLanguage;
@@ -67,6 +68,11 @@ class eZStepLanguageOptions extends eZStepInstaller
         $regionalInfo['language_type'] = 1 ;
         $regionalInfo['primary_language'] = $primaryLanguage;
         $regionalInfo['languages'] = $languages;
+        $regionalInfo['enable_unicode'] = $enableUnicode;
+        if ( $enableUnicode )
+        {
+            $regionalInfo['site_charset'] = 'utf-8';
+        }
         $this->PersistenceList['regional_info'] = $regionalInfo;
 
         if ( !isset( $this->PersistenceList['database_info']['use_unicode'] ) ||
@@ -149,6 +155,11 @@ class eZStepLanguageOptions extends eZStepInstaller
             if ( !in_array( $data['Primary'], $data['Languages'] ) )
                 $data['Languages'][] = $data['Primary'];
             $regionalInfo['languages'] = $data['Languages'];
+            var_dump( $data );
+            if ( isset( $data['EnableUnicode'] ) )
+            {
+                $regionalInfo['enable_unicode'] = $data['EnableUnicode'] == 'true';
+            }
             $this->PersistenceList['regional_info'] = $regionalInfo;
 
             return $this->kickstartContinueNextStep();
@@ -249,8 +260,20 @@ class eZStepLanguageOptions extends eZStepInstaller
                                'languages' => $defaultExtraLanguages );
         if ( isset( $this->PersistenceList['regional_info'] ) )
             $regionalInfo = $this->PersistenceList['regional_info'];
+        if ( !isset( $regionalInfo['enable_unicode'] ) )
+            $regionalInfo['enable_unicode'] = true;
 
         $this->Tpl->setVariable( 'regional_info', $regionalInfo );
+
+        // The default is to not use unicode if it has not been detected by
+        // database driver to be OK.
+        $databaseInfo = array( 'use_unicode' => false );
+        if ( isset( $this->PersistenceList['database_info'] ) )
+        {
+            $databaseInfo = $this->PersistenceList['database_info'];
+        }
+
+        $this->Tpl->setVariable( 'database_info', $databaseInfo );
 
         $result = array();
         // Display template

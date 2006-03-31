@@ -39,7 +39,8 @@
 </p>
 </blockquote>
 
-<div class="input_highlight">
+<fieldset>
+<legend>{"Database choice"|i18n( 'design/standard/setup/init' )}:</legend>
 
 <table cellspacing="3" cellpadding="0" border="0">
 <tr>
@@ -78,14 +79,14 @@
  </td>
 </tr>
 </table>
-</div>
+</fieldset>
 {/section}
 
-<div class="input_highlight">
-
+<fieldset>
+<legend>{'Database'|i18n( 'design/standard/setup/init' )}:</legend>
 <table border="0" cellspacing="3" cellpadding="0">
 <tr>
-  <th class="label" colspan="3">Database:</th>
+  <th class="label" colspan="3"></th>
 </tr>
 <tr>
   <td class="normal"><label class="textfield">{"Type"|i18n("design/standard/setup/init")}</label></td>
@@ -114,7 +115,7 @@
 </tr>
 {/section}
 </table>
-</div>
+</fieldset>
   {include uri='design:setup/init/navigation.tpl'}
   {include uri="design:setup/persistence.tpl"}
 </form>

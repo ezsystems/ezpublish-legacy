@@ -76,6 +76,8 @@ The setup can continue with the initialization but may damage the present data."
 </div>
 
 <div align="bottom">
+    <fieldset>
+    <legend>{'Details for site'|i18n( 'design/standard/setup' )}:</legend>
     <table border="0" cellspacing="2" cellpadding="0">
     <tr>
         <td><label class="textfield">{"Title"|i18n("design/standard/setup/init")}:</label>&nbsp;</td>
@@ -144,6 +146,7 @@ The setup can continue with the initialization but may damage the present data."
        </tr>
    {/section}
    </table>
+   </fieldset>
 </div>
 
 

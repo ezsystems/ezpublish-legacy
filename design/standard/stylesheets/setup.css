@@ -279,10 +279,11 @@ img.site-type
 }
 
 
-.invalid
+.invalid, .invalid label
 {
     color: #a00;
 }
+
 
 
 label.radio, label.checkbox, label.textfield
@@ -352,4 +353,9 @@ blockquote
     border-style: solid;
     border-color: #505050;
     background-color: #f8f8f8;
+}
+
+label.disabled
+{
+    color: #bfbeb6;
 }

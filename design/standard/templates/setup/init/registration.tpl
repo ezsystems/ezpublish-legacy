@@ -25,7 +25,6 @@
 <tr><th class="label">{"Comments"|i18n("design/standard/setup/init")}:</th></tr>
 <tr><td class="normal"><textarea class="box full" name="eZSetupRegistrationComment" cols="60" rows="6">{$email_comments}</textarea></td></tr>
 </table>
-</div>
 
 <br/>
 <blockquote class="note">

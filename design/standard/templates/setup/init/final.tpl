@@ -6,7 +6,7 @@
 </div>
 
 <p>
-  {"eZ publish has been installed with the following sites. You will find the username and password mentioned for each site."|i18n("design/standard/setup/init")}
+  {"eZ publish has been installed with your select site setup. You will find the username and password mentioned in the details below."|i18n("design/standard/setup/init")}
 </p>
 
 <blockquote class="note">
@@ -16,11 +16,12 @@
 </p>
 </blockquote>
 
-<p>
-  <table border="0" cellspacing="3" cellpadding="0">
+<fieldset>
+<legend>{'Site details'|i18n( 'design/standard/setup/init' )}:</legend>
+{*  <table border="0" cellspacing="3" cellpadding="0">
     <tr>
 
-      <td class="setup_site_templates">
+      <td class="setup_site_templates">*}
         <div align="top">
           <a href="{$site_type.url|wash}" target="_other">
             <img class="site-type" src={"design/standard/images/setup/eZ_setup_template_default.png"|ezroot} alt="{$site_type.title|wash}" />
@@ -41,11 +42,10 @@
 	      <td>admin</td>
 	    </tr>
 	  </table>
-
         </div>
-      </td>
+{*      </td>
 
     </tr>
 
-  </table>
-</p>
+  </table>*}
+</fieldset>

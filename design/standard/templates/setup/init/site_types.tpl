@@ -99,11 +99,11 @@
 </table>
 
 
-<div>
-  <h2>Upload package:</h2>
+<fieldset>
+  <legend>{'Upload package'|i18n( 'design/standard/setup/init' )}:</legend>
   <input class="file" name="PackageBinaryFile" type="file" />
   <input type="submit" name="UploadPackageButton" value="{'Upload'|i18n("design/standard/setup/init")}" />
-</div>
+</fieldset>
 
   {include uri="design:setup/persistence.tpl"}
 

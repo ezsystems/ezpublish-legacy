@@ -89,7 +89,8 @@ class eZStepSiteDetails extends eZStepInstaller
         $siteAccessValues['user'] = 1;
 
         $siteType = $this->chosenSiteType();
-        unset( $this->PersistenceList['regional_info']['site_charset'] );
+        // This should not be run, it will remove the utf-8 choice from previous steps.
+//        unset( $this->PersistenceList['regional_info']['site_charset'] );
 
 
         $siteType['title'] = $this->Http->postVariable( 'eZSetup_site_templates_title' );
@@ -169,6 +170,7 @@ class eZStepSiteDetails extends eZStepInstaller
 
         if ( !$result['status'] )
         {
+            $this->storeSiteType( $siteType );
             $this->Error[0] = array( 'type' => 'db',
                                             'error_code' => $result['error_code'] );
             return false;
@@ -463,7 +465,8 @@ class eZStepSiteDetails extends eZStepInstaller
                 if ( $error == EZ_SETUP_DB_ERROR_CHARSET_DIFFERS )
                     $this->Tpl->setVariable( 'db_charset_differs', 1 );
                 $siteType['errors'][] = $this->databaseErrorInfo( array( 'error_code' => $error,
-                                                                         'database_info' => $this->PersistenceList['database_info'] ) );
+                                                                         'database_info' => $this->PersistenceList['database_info'],
+                                                                         'site_type' => $siteType ) );
             }
         }
         $this->storeSiteType( $siteType );

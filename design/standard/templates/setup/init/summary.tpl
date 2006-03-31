@@ -9,7 +9,7 @@
 </p>
 <p>{"However if you want to change your settings click the"|i18n("design/standard/setup/init")} <i>{"Start Over"|i18n("design/standard/setup/init")}</i> {"button which will restart the collecting of information (Existing settings are kept)."|i18n("design/standard/setup/init")}</p>
 
-<div class="input_highlight">
+<fieldset>
 <table cellspacing="0" cellpadding="0">
 <tr>
   <td colspan="3" class="normal">
@@ -90,7 +90,7 @@
 	{/section}
   </td>
 </tr>
-</table>
+</fieldset>
 </div>
 
   <div class="buttonblock">
