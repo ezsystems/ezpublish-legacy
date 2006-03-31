@@ -16,7 +16,6 @@ SELECT setval('ezcontentobject_link_s',max(id)+1) FROM ezcontentobject_link;
 SELECT setval('ezcontentobject_s',max(id)+1) FROM ezcontentobject;
 SELECT setval('ezcontentobject_tree_s', max(node_id)+1) FROM ezcontentobject_tree;
 SELECT setval('ezcontentobject_version_s',max(id)+1) FROM ezcontentobject_version;
-SELECT setval('ezcontent_translation_s',max(id)+1) FROM ezcontent_translation;
 SELECT setval('ezcurrencydata_s',max(id)+1) FROM ezcurrencydata;
 SELECT setval('ezdiscountrule_s',max(id)+1) FROM ezdiscountrule;
 SELECT setval('ezdiscountsubrule_s',max(id)+1) FROM ezdiscountsubrule;
