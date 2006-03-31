@@ -528,7 +528,7 @@ class eZHTTPTool
     function redirect( $path, $parameters = array(), $status = false )
     {
         $uri = eZHTTPTool::createRedirectUrl( $path, $parameters );
-        if ( str_len( $status ) > 0 )
+        if ( strlen( $status ) > 0 )
         {
             header( $_SERVER['SERVER_PROTOCOL'] .  " " . $status );
             eZHTTPTool::headerVariable( "Status", $status );
