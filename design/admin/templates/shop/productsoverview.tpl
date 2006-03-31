@@ -28,14 +28,14 @@
         {set sort_by = array( 'attribute', $sorting_order, concat( $product_class.identifier, '/', $price_attribute_identifier ) )}
     {/if}
 
-    {set $product_list = fetch( 'content', 'tree', hash( 'parent_node_id', 2,
+    {set product_list = fetch( 'content', 'tree', hash( 'parent_node_id', 2,
                                                          'sort_by', $sort_by,
                                                          'main_node_only', true(),
                                                          'offset', $view_parameters.offset,
                                                          'limit', $limit,
                                                          'class_filter_type', 'include',
                                                          'class_filter_array', array( $product_class.id ) ) )
-         $product_list_count = fetch( 'content', 'tree_count', hash( 'parent_node_id', 2,
+         product_list_count = fetch( 'content', 'tree_count', hash( 'parent_node_id', 2,
                                                          'main_node_only', true(),
                                                          'class_filter_type', 'include',
                                                          'class_filter_array', array( $product_class.id ) ) ) }
@@ -44,18 +44,18 @@
 {* show list of products *}
 {if and( is_array( $product_list ), count( $product_list ) )}
 
-{def $preferred_currency_code = fetch( 'shop', 'preferred_currency' )
+{def $currency_code = $product_list[0].data_map[$price_attribute_identifier].content.currency
      $currency = false()
      $locale = false()
      $symbol = false()}
 
-{if $preferred_currency_code}
-    {set $currency = fetch( 'shop', 'currency', hash( 'code', $preferred_currency_code ) )}
+{if $currency_code}
+    {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) )}
 {/if}
 
 {if $currency}
-    {set $symbol = $currency.symbol
-         $locale = $currency.locale}
+    {set symbol = $currency.symbol
+         locale = $currency.locale}
 {/if}
 
 {* Items per page selector. *}
@@ -99,7 +99,7 @@
 {foreach $product_list as $product sequence array( bglight, bgdark ) as $bg_class_style}
     <tr class="{$bg_class_style}">
         <td class="name"><a href={$product.path_identification_string|ezurl}>{$product.object.name|wash()}</a></td>
-        <td class="class">{if $price_attribute_identifier}{$product.data_map[$price_attribute_identifier].content.inc_vat_price|l10n('currency', $locale, $symbol )}{else}0.00{/if}</td>
+        <td class="class">{$product.data_map[$price_attribute_identifier].content.inc_vat_price|l10n('currency', $locale, $symbol )}</td>
     </tr>
 {/foreach}
 

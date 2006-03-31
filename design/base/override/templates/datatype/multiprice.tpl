@@ -5,8 +5,8 @@
      $symbol = false()}
 
 {if $currency}
-    {set $symbol = $currency.symbol
-         $locale = $currency.locale}
+    {set symbol = $currency.symbol
+         locale = $currency.locale}
 {/if}
 
     {def $price_value = ''}
