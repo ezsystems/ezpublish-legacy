@@ -57,24 +57,16 @@
 
 <div class="left">
 {* Edit button. *}
+{def $can_edit_languages   = $node.object.can_edit_languages
+     $can_create_languages = $node.object.can_create_languages}
 {section show=$node.can_edit}
     <select name="ContentObjectLanguageCode">
-    {def $can_create_translation=false()}
-    {foreach fetch('content','prioritized_languages') as $language}
-        {if fetch('content', 'access', hash( 'access', 'edit',
-                                             'contentobject', $node.object,
-                                             'language', $language.locale ) )}
-            {if $node.object.language_codes|contains($language.locale)}
+    {foreach $node.object.can_edit_languages as $language}
                 <option value="{$language.locale}"{if $language.locale|eq($node.object.current_language)} selected="selected"{/if}>{$language.name|wash}</option>
-            {else}
-                {set $can_create_translation=true()}
-            {/if}
-        {/if}
     {/foreach}
-    {if $can_create_translation}
+    {if gt( $can_create_languages|count, 0 )}
         <option value="">{'Another language'|i18n( 'design/admin/node/view/full')}</option>
     {/if}
-    {undef $can_create_translation}
     </select>
     <input class="button" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'Edit the contents of this item.'|i18n( 'design/admin/node/view/full' )}" />
 {section-else}
@@ -83,6 +75,7 @@
     </select>
     <input class="button-disabled" type="submit" name="EditButton" value="{'Edit'|i18n( 'design/admin/node/view/full' )}" title="{'You do not have permissions to edit this item.'|i18n( 'design/admin/node/view/full' )}" disabled="disabled" />
 {/section}
+{undef $can_edit_languages $can_create_languages}
 
 {* Move button. *}
 {section show=$node.can_move}
