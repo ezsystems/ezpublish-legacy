@@ -386,7 +386,7 @@ class eZContentUpload
                     return false;
                 }
             }
-            $object =& $class->instantiate();
+            $object = $class->instantiate();
             unset( $dataMap );
             $dataMap =& $object->dataMap();
             $publishVersion = $object->attribute( 'current_version' );
@@ -626,7 +626,7 @@ class eZContentUpload
                     return false;
                 }
             }
-            $object =& $class->instantiate();
+            $object = $class->instantiate();
             unset( $dataMap );
             $dataMap =& $object->dataMap();
             $publishVersion = $object->attribute( 'current_version' );

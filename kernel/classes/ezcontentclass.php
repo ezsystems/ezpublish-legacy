@@ -171,11 +171,11 @@ class eZContentClass extends eZPersistentObject
         return $contentClass;
     }
 
-    function &instantiateIn( $lang, $userID = false, $sectionID = 0, $versionNumber = false, $versionStatus = false )
+    function instantiateIn( $lang, $userID = false, $sectionID = 0, $versionNumber = false, $versionStatus = false )
     {
     	return eZContentClass::instantiate( $userID, $sectionID, $versionNumber, $lang, $versionStatus );
     }
-    
+
     /*!
      Creates a new content object instance and stores it.
 
@@ -185,7 +185,7 @@ class eZContentClass extends eZPersistentObject
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
      the calls within a db transaction; thus within db->begin and db->commit.
     */
-    function &instantiate( $userID = false, $sectionID = 0, $versionNumber = false, $languageCode = false, $versionStatus = false )
+    function instantiate( $userID = false, $sectionID = 0, $versionNumber = false, $languageCode = false, $versionStatus = false )
     {
         $attributes = $this->fetchAttributes();
 

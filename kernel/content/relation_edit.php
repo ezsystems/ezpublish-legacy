@@ -210,7 +210,7 @@ function checkRelationActions( &$module, &$class, &$object, &$version, &$content
             $class = eZContentClass::fetch( $contentClassID );
             $db =& eZDB::instance();
             $db->begin();
-            $relatedContentObject =& $class->instantiate( $userID, $sectionID );
+            $relatedContentObject = $class->instantiate( $userID, $sectionID );
             $db->commit();
             $newObjectID = $relatedContentObject->attribute( 'id' );
             $relatedContentVersion =& $relatedContentObject->attribute( 'current' );

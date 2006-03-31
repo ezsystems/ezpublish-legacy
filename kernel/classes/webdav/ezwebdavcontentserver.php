@@ -1537,7 +1537,7 @@ class eZWebDAVContentServer extends eZWebDAVServer
         }
 
         // Create object by user id in section 1.
-        $contentObject =& $class->instantiate( $userID, 1 );
+        $contentObject = $class->instantiate( $userID, 1 );
 
         //
         $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),

@@ -185,7 +185,7 @@ foreach ( $checkNodes as $checkNode )
             }
         }
 
-        $contentObject =& $class->instantiate( $userID, $sectionID );
+        $contentObject = $class->instantiate( $userID, $sectionID );
 
         if ( is_object( $contentObject ) )
         {

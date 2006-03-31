@@ -260,7 +260,7 @@ function importRSSItem( $item, &$rssImport, &$cli, $channel )
     $contentClass = eZContentClass::fetch( $rssImport->attribute( 'class_id' )  );
 
     // Instantiate the object with user $rssOwnerID and use section id from parent. And store it.
-    $contentObject =& $contentClass->instantiate( $rssOwnerID, $parentContentObject->attribute( 'section_id' ) );
+    $contentObject = $contentClass->instantiate( $rssOwnerID, $parentContentObject->attribute( 'section_id' ) );
 
     $db =& eZDB::instance();
     $db->begin();

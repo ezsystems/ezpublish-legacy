@@ -71,7 +71,7 @@ if ( !$http->hasSessionVariable( "RegisterUserID" ) and !$http->hasPostVariable(
     $userCreatorID = $ini->variable( "UserSettings", "UserCreatorID" );
     $defaultSectionID = $ini->variable( "UserSettings", "DefaultSectionID" );
     // Create object by user 14 in section 1
-    $contentObject =& $class->instantiate( $userCreatorID, $defaultSectionID );
+    $contentObject = $class->instantiate( $userCreatorID, $defaultSectionID );
     $objectID = $contentObject->attribute( 'id' );
 
     // Store the ID in session variable

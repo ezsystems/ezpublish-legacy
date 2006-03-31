@@ -446,7 +446,7 @@ class eZLDAPUser extends eZUser
                     $defaultSectionID = $ini->variable( "UserSettings", "DefaultSectionID" );
 
                     $class = eZContentClass::fetch( $userClassID );
-                    $contentObject =& $class->instantiate( $userCreatorID, $defaultSectionID );
+                    $contentObject = $class->instantiate( $userCreatorID, $defaultSectionID );
 
                     $remoteID = "LDAP_" . $login;
                     $contentObject->setAttribute( 'remote_id', $remoteID );

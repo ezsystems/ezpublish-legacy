@@ -4311,7 +4311,7 @@ class eZContentObject extends eZPersistentObject
         // JB end
         if ( !$contentObject )
         {
-            $contentObject =& $contentClass->instantiateIn( $initialLanguage, $ownerID, $sectionID );
+            $contentObject = $contentClass->instantiateIn( $initialLanguage, $ownerID, $sectionID );
         }
         else
         {
@@ -4329,7 +4329,7 @@ class eZContentObject extends eZPersistentObject
                 eZContentObjectOperations::remove( $contentObject->attribute( 'id' ) );
 
                 unset( $contentObject );
-                $contentObject =& $contentClass->instantiateIn( $initialLanguage, $ownerID, $sectionID );
+                $contentObject = $contentClass->instantiateIn( $initialLanguage, $ownerID, $sectionID );
                 break;
 
             case EZ_PACKAGE_CONTENTOBJECT_SKIP:
@@ -4340,7 +4340,7 @@ class eZContentObject extends eZPersistentObject
                 $contentObject->setAttribute( 'remote_id', md5( (string)mt_rand() . (string)mktime() ) );
                 $contentObject->store();
                 unset( $contentObject );
-                $contentObject =& $contentClass->instantiate( $ownerID, $sectionID );
+                $contentObject = $contentClass->instantiate( $ownerID, $sectionID );
                 break;
             default:
                 $options['error'] = array( 'error_code' => EZ_PACKAGE_CONTENTOBJECT_ERROR_EXISTS,

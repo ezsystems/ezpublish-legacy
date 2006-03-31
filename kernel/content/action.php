@@ -159,7 +159,7 @@ if ( $http->hasPostVariable( 'NewButton' ) || $module->isCurrentAction( 'NewObje
                 {
                     $db =& eZDB::instance();
                     $db->begin();
-                    $contentObject =& $class->instantiateIn( $languageCode, $userID, $sectionID, false, EZ_VERSION_STATUS_INTERNAL_DRAFT );
+                    $contentObject = $class->instantiateIn( $languageCode, $userID, $sectionID, false, EZ_VERSION_STATUS_INTERNAL_DRAFT );
                     $nodeAssignment = eZNodeAssignment::create( array( 'contentobject_id' => $contentObject->attribute( 'id' ),
                                                                        'contentobject_version' => $contentObject->attribute( 'current_version' ),
                                                                        'parent_node' => $node->attribute( 'node_id' ),
