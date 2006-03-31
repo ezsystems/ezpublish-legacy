@@ -251,6 +251,14 @@ class eZPackageType extends eZDataType
         $type = $attributeParametersNode->elementTextContentByName( 'type' );
         $classAttribute->setAttribute( EZ_DATATYPESTRING_PACKAGE_TYPE_FIELD, $type );
     }
+
+    /*!
+      \reimp
+    */
+    function diff( $old, $new )
+    {
+        return null;
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_EZ_PACKAGE, 'ezpackagetype' );

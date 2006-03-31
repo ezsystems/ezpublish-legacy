@@ -382,6 +382,19 @@ class eZStringType extends eZDataType
         $classAttribute->setAttribute( EZ_DATATYPESTRING_DEFAULT_STRING_FIELD, $defaultString );
     }
 
+    /*!
+      \reimp
+    */
+    function diff( $old, $new )
+    {
+        include_once( 'lib/ezdiff/classes/ezdiff.php' );
+        $diff = new eZDiff();
+        $diff->setDiffEngineType( $diff->engineType( 'text' ) );
+        $diff->initDiffEngine();
+        $diffObject = $diff->diff( $old->content(), $new->content() );
+        return $diffObject;
+    }
+
     /// \privatesection
     /// The max len validator
     var $MaxLenValidator;

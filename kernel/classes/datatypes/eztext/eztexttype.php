@@ -261,6 +261,19 @@ class eZTextType extends eZDataType
         $classAttribute->setAttribute( EZ_DATATYPESTRING_TEXT_COLS_FIELD, $textColumns );
     }
 
+    /*!
+      \reimp
+    */
+    function diff( $old, $new )
+    {
+        include_once( 'lib/ezdiff/classes/ezdiff.php' );
+        $diff = new eZDiff();
+        $diff->setDiffEngineType( $diff->engineType( 'text' ) );
+        $diff->initDiffEngine();
+        $diffObject = $diff->diff( $old->content(), $new->content() );
+        return $diffObject;
+    }
+
 }
 
 eZDataType::register( EZ_DATATYPESTRING_TEXT, "eztexttype" );

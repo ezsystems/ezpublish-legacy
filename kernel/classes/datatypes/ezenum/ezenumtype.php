@@ -565,6 +565,14 @@ class eZEnumType extends eZDataType
             $enum->addEnumerationValue( $value );
         }
     }
+
+    /*!
+      \reimp
+    */
+    function diff( $old, $new )
+    {
+        return null;
+    }
 }
 eZDataType::register( EZ_DATATYPESTRING_ENUM, 'ezenumtype' );
 

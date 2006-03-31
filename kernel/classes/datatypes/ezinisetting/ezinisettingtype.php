@@ -639,6 +639,14 @@ class eZIniSettingType extends eZDataType
         $objectAttribute->setAttribute( 'data_int', $makeEmptyArray );
         $objectAttribute->setAttribute( 'data_text', $value );
     }
+
+    /*!
+      \reimp
+    */
+    function diff( $old, $new )
+    {
+        return null;
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_INISETTING, 'ezinisettingtype' );

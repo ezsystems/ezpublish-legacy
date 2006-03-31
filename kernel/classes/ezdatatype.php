@@ -1228,6 +1228,21 @@ class eZDataType
         return $node;
     }
 
+    /*!
+      Method used by content diff system to retrieve changes in attributes.
+      This method implements the default behaviour, which is to show old and
+      new version values of the object.
+    */
+    function diff( $old, $new )
+    {
+        include_once( 'lib/ezdiff/classes/ezdiff.php' );
+        $diff = new eZDiff();
+        $diff->setDiffEngineType( $diff->engineType( 'container' ) );
+        $diff->initDiffEngine();
+        $diffObject = $diff->diff( $old, $new );
+        return $diffObject;
+    }
+
     /// \privatesection
     /// The datatype string ID, used for uniquely identifying a datatype
     var $DataTypeString;

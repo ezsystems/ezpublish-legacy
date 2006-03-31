@@ -1,0 +1,11 @@
+* Title: Content version diff
+
+*Documentation:
+Added possibility to view differences between versions of content objects.
+The diff is run on the datatype level. The default diff action is to show
+the old and new version at the same time. For text and xml-text a diff of
+the text content itself will be shown. The feature is accessible from the
+popup-menu in the administration interface.
+
+Though, at this moment there exists some bugs in diff of text, and
+xml-text will for the time being only display old and new version.

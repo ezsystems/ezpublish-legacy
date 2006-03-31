@@ -487,3 +487,21 @@ div.object-right
     float: right;
     clear: right;
 }
+
+
+
+
+/* DIff styles temp */
+
+ins
+{
+  color: #00ff00;
+  text-decoration: underline;
+}
+
+del
+{
+  color: #ff0000;
+  text-decoration: line-through;
+}
+

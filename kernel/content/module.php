@@ -342,6 +342,13 @@ $ViewList['draft'] = array(
     'params' => array( ),
     'unordered_params' => array( 'offset' => 'Offset' ) );
 
+$ViewList['diff'] = array(
+    'functions' => array( 'diff' ),
+    'script' => 'diff.php',
+    'default_navigation_part' => 'ezcontentnavigationpart',
+    'params' => array( 'ObjectID' ),
+    'unordered_params' => array( 'offset' => 'Offset'  ) );
+
 $ViewList['trash'] = array(
     'functions' => array( 'restore' ),
     'script' => 'trash.php',

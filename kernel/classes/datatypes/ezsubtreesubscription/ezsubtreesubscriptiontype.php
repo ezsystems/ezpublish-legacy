@@ -148,6 +148,14 @@ class eZSubtreeSubscriptionType extends eZDataType
 
         $objectAttribute->setAttribute( 'data_int', $value );
     }
+
+    /*!
+      \reimp
+    */
+    function diff( $old, $new )
+    {
+        return null;
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_SUBTREESUBSCRIPTION, "ezsubtreesubscriptiontype" );

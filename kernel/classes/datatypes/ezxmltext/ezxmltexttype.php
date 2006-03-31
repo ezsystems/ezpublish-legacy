@@ -600,6 +600,19 @@ class eZXMLTextType extends eZDataType
         }
     }
 
+    /*!
+      \reimp
+    */
+    function diff( $old, $new )
+    {
+        include_once( 'lib/ezdiff/classes/ezdiff.php' );
+        $diff = new eZDiff();
+        $diff->setDiffEngineType( $diff->engineType( 'container' ) );
+        $diff->initDiffEngine();
+        $diffObject = $diff->diff( $old, $new );
+        return $diffObject;
+    }
+
 }
 
 eZDataType::register( EZ_DATATYPESTRING_XML_TEXT, "ezXMLTextType" );

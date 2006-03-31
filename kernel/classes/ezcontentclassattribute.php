@@ -575,6 +575,16 @@ class eZContentClassAttribute extends eZPersistentObject
         return $dataTypeString;
     }
 
+    /*!
+      This methods relay calls to the diff method inside the datatype.
+    */
+    function diff( $old, $new )
+    {
+        $datatype = $this->dataType();
+        $result = $datatype->diff( $old, $new );
+        return $result;
+    }
+
     /// \privatesection
     /// Contains the content for this attribute
     var $Content;
