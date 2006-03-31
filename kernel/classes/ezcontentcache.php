@@ -307,7 +307,6 @@ class eZContentCache
 
     function cleanup( $nodeList )
     {
-        // JB start
         // The view-cache has a different storage structure than before:
         // var/cache/content/<siteaccess>/<extra-path>/<nodeID>-<hash>.cache
         // Also it uses the cluster file handler to delete files using a wildcard (glob style).

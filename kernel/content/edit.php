@@ -310,9 +310,7 @@ if ( $EditLanguage == false )
         {
             return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
         }
-        // JB start
         $obj->cleanupInternalDrafts();
-        // JB end
     }
     else
     {
@@ -368,18 +366,14 @@ if ( !is_numeric( $EditVersion ) )
         }
         $isAccessChecked = true;
 
-        // JB start
         $obj->cleanupInternalDrafts();
-        // JB end
         $version = $obj->createNewVersionIn( $EditLanguage );
         $version->setAttribute( 'status', EZ_VERSION_STATUS_INTERNAL_DRAFT );
         $version->store();
     }
     else
     {
-        // JB start
         $obj->cleanupInternalDrafts();
-        // JB end
         $draftVersions =& $obj->versions( true, array( 'conditions' => array( 'status' => array( array( EZ_VERSION_STATUS_DRAFT, EZ_VERSION_STATUS_INTERNAL_DRAFT ) ),
                                                                               'language_code' => $EditLanguage ) ) );
         if ( count( $draftVersions ) > 1 )

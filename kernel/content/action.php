@@ -214,7 +214,6 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
           $http->hasPostVariable( 'ContentObjectID' ) && $http->hasPostVariable( 'ContentNodeID' ) &&
           $http->hasPostVariable( 'SortingField' )    && $http->hasPostVariable( 'SortingOrder' ) )
 {
-    // JB start
     $nodeID          = $http->postVariable( 'ContentNodeID' );
     $contentObjectID = $http->postVariable( 'ContentObjectID' );
     $sortingField    = $http->postVariable( 'SortingField' );
@@ -228,7 +227,6 @@ else if ( $http->hasPostVariable( 'SetSorting' ) &&
     $node->setAttribute( 'sort_order', $sortingOrder );
     $node->store();
     $db->commit();
-    // JB end
 
     // invalidate node view cache
     include_once( 'kernel/classes/ezcontentcachemanager.php' );
@@ -688,7 +686,6 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
     if ( $module->isCurrentAction( 'AddAssignment' ) )
     {
         $selectedNodeIDArray = eZContentBrowse::result( 'AddNodeAssignment' );
-        // JB
         $assignedNodes =& $object->assignedNodes();
         $assignedIDArray = array();
         $setMainNode = false;
@@ -722,8 +719,6 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
 
                 if ( $canCreate )
                 {
-                    //$setMainNode = false;
-                    // JB
                     $insertedNode =& $object->addLocation( $selectedNodeID, true );
 
                     // Now set is as published and fix main_node_id
@@ -840,7 +835,6 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
         return $module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel' );
     }
 
-    // JB
     if ( $module->hasActionParameter( 'AssignmentIDSelection' ) )
     {
         eZDebug::writeError( "Use of POST variable 'AssignmentIDSelection' is deprecated, use the node ID and put it in 'LocationIDSelection' instead" );

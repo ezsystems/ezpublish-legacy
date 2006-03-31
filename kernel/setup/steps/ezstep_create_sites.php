@@ -295,10 +295,8 @@ class eZStepCreateSites extends eZStepInstaller
         }
         $ini->setVariable( 'SiteSettings', 'SiteList', $accessMap['sites'] );
         $ini->setVariable( 'SiteAccessSettings', 'AvailableSiteAccessList', $accessMap['accesses'] );
-        // JB start
         // Make sure related siteaccess are setup properly
         $ini->setVariable( 'SiteAccessSettings', 'RelatedSiteAccessList', $accessMap['accesses'] );
-        // JB end
         $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
         $ini->setVariable( 'Session', 'SessionNameHandler', 'custom' );
         $ini->setVariable( 'MailSettings', 'AdminEmail', $this->PersistenceList['admin']['email'] );
@@ -524,12 +522,10 @@ class eZStepCreateSites extends eZStepInstaller
         
         // Database initialization done
 
-        // JB start
         // Prepare languages
         $primaryLanguageLocaleCode = $primaryLanguage->localeCode();
         $primaryLanguageName = $primaryLanguage->languageName();
         $prioritizedLanguages = array_merge( array( $primaryLanguageLocaleCode ), $languages );
-        // JB end
 
         $installParameters = array( 'path' => '.' );
         $installParameters['ini'] = array();
@@ -602,7 +598,6 @@ class eZStepCreateSites extends eZStepInstaller
 
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
-        // JB start
         // Make sure objects use the selected main language instead of eng-GB
         if ( $primaryLanguageLocaleCode != 'eng-GB' )
         {
@@ -731,7 +726,6 @@ id $inSql";
         eZContentLanguage::expireCache();
         // Make sure priority list is changed to the new chosen languages
         eZContentLanguage::setPrioritizedLanguages( $prioritizedLanguages );
-        // JB end
 
         if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
         {
@@ -762,7 +756,6 @@ id $inSql";
                         $installParameters = array( 'site_access_map' => array( '*' => $userSiteaccessName ),
                                                     'top_nodes_map' => array( '*' => 2 ),
                                                     'design_map' => array( '*' => $userDesignName ),
-                                                    // JB TODO now english is always mapped, is this always desirable?
                                                     'language_map' => array( 'eng-GB' => $primaryLanguageLocaleCode ), // Map english languages to chosen language
                                                     'restore_dates' => true,
                                                     'user_id' => $user->attribute( 'contentobject_id' ),

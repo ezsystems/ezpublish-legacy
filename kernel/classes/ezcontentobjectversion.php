@@ -1192,7 +1192,6 @@ class eZContentObjectVersion extends eZPersistentObject
         $status = $domNode->attributeValue( 'status' );
         $languageNodeArray = $domNode->elementsByName( 'object-translation' );
 
-        // JB start
         $initialLanguage   = false;
         $importedLanguages = $options['language_array'];
         $currentLanguages  = array();
@@ -1216,7 +1215,6 @@ class eZContentObjectVersion extends eZPersistentObject
         {
             $initialLanguage = $currentLanguages[0];
         }
-        // JB end
 
         if ( $firstVersion )
         {
@@ -1361,7 +1359,6 @@ class eZContentObjectVersion extends eZPersistentObject
 
         $db =& eZDB::instance();
         $db->begin();
-        // JB start
         $allowedLanguages = $options['language_array'];
         if ( $options['only_initial_language'] )
         {
@@ -1376,7 +1373,6 @@ class eZContentObjectVersion extends eZPersistentObject
             $allowedLanguages = array( $initialLanguageCode );
         }
         $exportedLanguages = array();
-        // JB end
         foreach ( $translationList as $translationItem )
         {
             $language = $translationItem;

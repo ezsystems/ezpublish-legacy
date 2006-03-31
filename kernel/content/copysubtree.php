@@ -239,25 +239,21 @@ function copyPublishContentObject( &$sourceObject,
     if ( $foundMainAssignment == false )
     {
         $newObjAssignments = $curVersionObject->attribute( 'node_assignments' );
-        // JB start
         // We need to check if it has any assignments before changing the data.
         if ( isset( $newObjAssignments[0] ) )
         {
             $newObjAssignments[0]->setAttribute( 'is_main', 1 );
             $newObjAssignments[0]->store();
         }
-        // JB end
     }
 
     // publish the newly created object
     include_once( 'lib/ezutils/classes/ezoperationhandler.php' );
     $result = eZOperationHandler::execute( 'content', 'publish', array( 'object_id' => $newObject->attribute( 'id' ),
                                                                         'version'   => $curVersion ) );
-    // JB start
     // Refetch the object data since it might change in the database.
     $newObjectID = $newObject->attribute( 'id' );
     $newObject =& eZContentObject::fetch( $newObjectID );
-    // JB end
     $newNodeList =& $newObject->attribute( 'assigned_nodes' );
     if ( count($newNodeList) == 0 )
     {

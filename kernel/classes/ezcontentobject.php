@@ -1068,7 +1068,6 @@ class eZContentObject extends eZPersistentObject
         
         $copiedVersion = $this->copyVersion( $this, $version, $nextVersionNumber, false, EZ_VERSION_STATUS_DRAFT, $languageCode, $copyFromLanguageCode );
 
-        // JB start
         // We need to make sure the copied version contains node-assignment for the existing nodes.
         // This is required for BC since scripts might traverse the node-assignments and mark
         // some of them for removal.
@@ -1096,7 +1095,6 @@ class eZContentObject extends eZPersistentObject
             $newNodeAssignment->setAttribute( 'op_code', $newNodeAssignment->attribute( 'op_code' ) & ~1 );
             $newNodeAssignment->store();
         }
-        // JB end
 
         $db->commit();
         return $copiedVersion;
@@ -1121,9 +1119,6 @@ class eZContentObject extends eZPersistentObject
         $db =& eZDB::instance();
         $db->begin();
 
-        // JB
-        // Update 19.3.2006: We have to do this anyway, lots of code requires node-assignments to be present
-        // and working as earlier
         // This is part of the new 3.8 code.
         foreach ( array_keys( $nodeAssignmentList ) as $key )
         {
@@ -1134,12 +1129,9 @@ class eZContentObject extends eZPersistentObject
                 continue;
             }
             $clonedAssignment = $nodeAssignment->clone( $newVersionNumber, $contentObjectID );
-            // JB start
             $clonedAssignment->setAttribute( 'op_code', EZ_NODE_ASSIGNMENT_OP_CODE_SET ); // Make sure op_code is marked to 'set' the data.
-            // JB end
             $clonedAssignment->store();
         }
-        // JB
 
         $currentVersionNumber = $version->attribute( "version" );
         $contentObjectTranslations =& $version->translations();
@@ -2808,7 +2800,6 @@ class eZContentObject extends eZPersistentObject
     */
     function &parentNodes( $version = false, $asObject = true )
     {
-        // JB
         // We no longer use node-assignment table to find the parents but uses
         // the 'published' tree structure.
         $retNodes = array();
@@ -2829,38 +2820,6 @@ class eZContentObject extends eZPersistentObject
                 $retNodes[] = $parentNode->attribute( 'node_id' );
             }
         }
-
-
-/*
-        $retNodes = array();
-
-        if ( !$version )
-        {
-            $version = $this->attribute( 'current_version' );
-        }
-
-        include_once( "kernel/classes/eznodeassignment.php" );
-        if( is_numeric( $version ) )
-        {
-            $nodeAssignmentList = eZNodeAssignment::fetchForObject( $this->attribute( 'id' ), $version );
-        }
-        else
-        {
-            $nodeAssignmentList = eZNodeAssignment::fetchForObject( $this->attribute( 'id' ), $this->attribute( 'current_version' ) );
-        }
-        foreach ( array_keys( $nodeAssignmentList ) as $key )
-        {
-            $nodeAssignment =& $nodeAssignmentList[$key];
-            if ( $asObject )
-            {
-                $retNodes[] =& $nodeAssignment->attribute( 'parent_node_obj' );
-            }
-            else
-            {
-                $retNodes[] =& $nodeAssignment->attribute( 'parent_node' );
-            }
-        }*/
-        // JB
 
         return $retNodes;
     }
@@ -4248,7 +4207,6 @@ class eZContentObject extends eZPersistentObject
 
         $versionListNode =& $domNode->elementByName( 'version-list' );
 
-        // JB start
         $importedLanguages = array();
         foreach( $versionListNode->elementsByName( 'version' ) as $versionDOMNode )
         {
@@ -4287,13 +4245,11 @@ class eZContentObject extends eZPersistentObject
                 }
             }
         }
-        // JB end
 
         // If object exists we return a error.
         // Minimum instal element is an object now.
 
         $contentObject =& eZContentObject::fetchByRemoteID( $remoteID );
-        // JB start
         // Figure out initial language
         if ( !$initialLanguage ||
              !in_array( $initialLanguage, $importedLanguages ) )
@@ -4308,7 +4264,6 @@ class eZContentObject extends eZPersistentObject
                 }
             }
         }
-        // JB end
         if ( !$contentObject )
         {
             $contentObject = $contentClass->instantiateIn( $initialLanguage, $ownerID, $sectionID );
@@ -4543,7 +4498,6 @@ class eZContentObject extends eZPersistentObject
         $objectNode->appendAttribute( eZDOMDocument::createAttributeNode( 'always_available', $alwaysAvailableText, 'ezremote' ) );
 
         $versions = array();
-        // JB start
         $oneLanguagePerVersion = false;
         if ( $specificVersion === false )
         {
@@ -4563,7 +4517,6 @@ class eZContentObject extends eZPersistentObject
             // one language per version?
             $oneLanguagePerVersion = true;
         }
-        // JB end
 
         $this->fetchClassAttributes();
 
@@ -4581,7 +4534,6 @@ class eZContentObject extends eZPersistentObject
             }
             $options['only_initial_language'] = $oneLanguagePerVersion;
             $versionNode = $version->serialize( $package, $options, $contentNodeIDArray, $topNodeIDArray );
-            // JB start
             if ( $versionNode )
             {
                 $versionsNode->appendChild( $versionNode );
@@ -4596,7 +4548,6 @@ class eZContentObject extends eZPersistentObject
                     $exportedLanguages = array_unique( $exportedLanguages );
                 }
             }
-            // JB end
             unset( $versionNode );
             unset( $versionNode );
         }

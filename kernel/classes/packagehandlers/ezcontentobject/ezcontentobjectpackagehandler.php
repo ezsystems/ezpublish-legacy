@@ -1448,14 +1448,9 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         }
         if ( count( $languageList ) == 0 )
         {
-            // JB start
             // The default is to fetch all languages
             include_once( 'kernel/classes/ezcontentlanguage.php' );
-            /*
-            $languageList[] = eZContentObject::defaultLanguage();
-            */
             $languageList = eZContentLanguage::fetchLocaleList();
-            // JB end
         }
         if ( count( $siteAccessList ) == 0 )
         {

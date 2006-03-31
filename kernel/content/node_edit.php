@@ -46,7 +46,6 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
 {
     $http =& eZHTTPTool::instance();
 
-    // JB
     // If the object has been previously published we do not allow node assignment operations
     if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
     {
@@ -55,7 +54,6 @@ function checkNodeAssignments( &$module, &$class, &$object, &$version, &$content
             return;
         }
     }
-    // JB
 
     // If node assignment handling is diabled we return immedieately
     $useNodeAssigments = true;
@@ -140,13 +138,11 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
 {
     $http =& eZHTTPTool::instance();
 
-    // JB
     // If the object has been previously published we do not allow node assignment operations
     if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
     {
         return;
     }
-    // JB
 
     // If node assignment handling is diabled we return immedieately
     $useNodeAssigments = true;
@@ -208,7 +204,6 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
                     }
                     else
                     {
-                        // JB start
                         $oldAssignment = eZPersistentObject::fetchObject( eZNodeAssignment::definition(),
                                                                            null,
                                                                            array( 'contentobject_id' => $object->attribute( 'id' ),
@@ -243,8 +238,6 @@ function checkNodeMovements( &$module, &$class, &$object, &$version, &$contentOb
                         $oldAssignment->setAttribute( 'op_code', EZ_NODE_ASSIGNMENT_OP_CODE_MOVE );
                         $oldAssignment->store();
                         //$version->removeAssignment( $oldAssignmentParentID );
-                        // JB End
-                        $db->commit();
                         $db->commit();
                     }
                 }
@@ -257,13 +250,11 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
 {
     $http =& eZHTTPTool::instance();
 
-    // JB
     // If the object has been previously published we do not allow node assignment operations
     if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
     {
         return;
     }
-    // JB
 
     // If node assignment handling is diabled we return immedieately
     $useNodeAssigments = true;
@@ -404,7 +395,6 @@ function storeNodeAssignments( &$module, &$class, &$object, &$version, &$content
 
 function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, $fromLanguage )
 {
-    // JB
     // If the object has been previously published we do not allow node assignment operations
     if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
     {
@@ -413,7 +403,6 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
             return;
         }
     }
-    // JB
 
     $http =& eZHTTPTool::instance();
 
@@ -696,7 +685,6 @@ function checkNodeActions( &$module, &$class, &$object, &$version, &$contentObje
 
 function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentObjectAttributes, $editVersion, $editLanguage, &$tpl )
 {
-    // JB
     // When the object has been published we will use the nodes as
     // node-assignments by faking the list, this is required since new
     // version of the object does not have node-assignments/
@@ -754,7 +742,6 @@ function handleNodeTemplate( &$module, &$class, &$object, &$version, &$contentOb
         $assignedNodeArray[$i] = $nodeAssignment;
         ++$i;
     }
-    // JB
     eZDebugSetting::writeDebug( 'kernel-content-edit', $assignedNodeArray, "assigned nodes array" );
     $remoteMap = array();
 

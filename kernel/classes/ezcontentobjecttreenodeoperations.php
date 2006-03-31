@@ -133,9 +133,7 @@ class eZContentObjectTreeNodeOperations
             if ( $nodeAssignment )
             {
                 $nodeAssignment->setAttribute( 'parent_node', $newParentNodeID );
-                // JB start
                 $nodeAssignment->setAttribute( 'op_code', EZ_NODE_ASSIGNMENT_OP_CODE_MOVE );
-                // JB end
                 $nodeAssignment->store();
             }
 

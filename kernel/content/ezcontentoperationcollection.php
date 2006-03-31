@@ -98,18 +98,6 @@ class eZContentOperationCollection
     {
         $object =& eZContentObject::fetch( $objectID );
 
-        // JB
-
-        // Update 19.3.2006: We have to do this anyway, lots of code requires node-assignments to be present
-        // and working as earlier
-/*        // If the object is published or a draft we do not allow the node assignments
-        // to take place. This is part of the new 3.8 code.
-        if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
-        {
-            return array( 'parameters' => array() );
-        }*/
-        // JB
-
         $version =& $object->version( $versionNum );
         $nodeAssignmentList =& $version->attribute( 'node_assignments' );
 
@@ -314,12 +302,10 @@ class eZContentOperationCollection
             $existingNode = eZContentObjectTreeNode::findNode( $nodeID , $object->attribute( 'id' ), true );
         }
         $updateSectionID = false;
-        // JB start
         // now we check the op_code to see what to do
-//        if ( $existingNode  == null )
-        // There is nothing to do so just return
         if ( ( $opCode & 1 ) == EZ_NODE_ASSIGNMENT_OP_CODE_NOP )
         {
+            // There is nothing to do so just return
             $db->commit();
             return;
         }
@@ -381,7 +367,6 @@ class eZContentOperationCollection
                 }
             }
         }
-        // JB end
 
         if ( $updateFields )
         {
@@ -423,17 +408,6 @@ class eZContentOperationCollection
     function updateSectionID( $objectID, $versionNum )
     {
         $object =& eZContentObject::fetch( $objectID );
-        // JB
-
-        // Update 19.3.2006: We have to do this anyway, lots of code requires node-assignments to be present
-        // and working as earlier
-/*        // If the object is published or a draft we do not allow the node assignments
-        // to take place. This is part of the new 3.8 code.
-        if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
-        {
-            return;
-        }*/
-        // JB
 
         $version =& $object->version( $versionNum );
 
@@ -465,17 +439,13 @@ class eZContentOperationCollection
         list( $newMainAssignment ) = eZNodeAssignment::fetchForObject( $objectID, $versionNum, 1 );
 
         $currentVersion =& $object->attribute( 'current' );
-        // JB start
         // Here we need to fetch published nodes and not old node assignments.
-//        $nodeAssigmentTmpArray = eZNodeAssignment::fetchForObject( $objectID, $object->attribute( 'current_version' ), 1 );
-//        list( $oldMainAssignment ) = isset( $nodeAssigmentTmpArray[0] ) ? $nodeAssigmentTmpArray : null;
         $oldMainNode = $object->mainNode();
 
         if ( $newMainAssignment && $oldMainNode
              &&  $newMainAssignment->attribute( 'parent_node' ) != $oldMainNode->attribute( 'parent_node_id' ) )
         {
             $oldMainParentNode =& $oldMainNode->attribute( 'parent' );
-            // JB end
             if ( $oldMainParentNode )
             {
                 $oldParentObject =& $oldMainParentNode->attribute( 'object' );
@@ -516,17 +486,6 @@ class eZContentOperationCollection
     function removeOldNodes( $objectID, $versionNum )
     {
         $object =& eZContentObject::fetch( $objectID );
-        // JB
-
-        // Update 19.3.2006: We have to do this anyway, lots of code requires node-assignments to be present
-        // and working as earlier
-/*        // If the object is published or a draft we do not allow the node assignments
-        // to take place. This is part of the new 3.8 code.
-        if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
-        {
-            return;
-        }
-        // JB*/
 
 
         $version =& $object->version( $versionNum );
@@ -535,8 +494,6 @@ class eZContentOperationCollection
         $assignedExistingNodes =& $object->attribute( 'assigned_nodes' );
 
         $curentVersionNodeAssignments = $version->attribute( 'node_assignments' );
-        // JB start
-//        $versionParentIDList = array();
         $removeParentNodeList = array();
         foreach ( array_keys( $curentVersionNodeAssignments ) as $key )
         {
@@ -561,11 +518,9 @@ class eZContentOperationCollection
                 eZContentObjectTreeNode::removeSubtrees( array( $node->attribute( 'node_id' ) ), $moveToTrash );
             }
         }
-        // JB end
         $db->commit();
     }
 
-    // JB start
     // New function which resets the op_code field when the object is published.
     function resetNodeassignmentOpcodes( $objectID, $versionNum )
     {
@@ -581,7 +536,6 @@ class eZContentOperationCollection
             }
         }
     }
-    // JB end
 
     /*!
      \note Transaction unsafe. If you call several transaction unsafe methods you must enclose

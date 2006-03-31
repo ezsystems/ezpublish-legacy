@@ -3441,11 +3441,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $nodeDepth = $parentDepth + 1 ;
 
         $insertedNode = eZContentObjectTreeNode::create( $parentMainNodeID, $contentobjectID );
-        // JB start
         // Fix correct sorting
         $insertedNode->setAttribute( 'sort_field', 2 );
         $insertedNode->setAttribute( 'sort_order', false );
-        // JB end
         $insertedNode->setAttribute( 'depth', $nodeDepth );
         $insertedNode->setAttribute( 'path_string', '/TEMPPATH' );
 
@@ -3817,13 +3815,6 @@ WHERE
 
         $db =& eZDB::instance();
         $db->begin();
-
-        // JB start
-        // There is no need to remove the assignments anymore, the op_code makes
-        // sure the location is not recreated when being edited again.
-//        eZNodeAssignment::purge( $node->attribute( 'parent_node_id' ), // JB valid
-//                                 $node->attribute( 'contentobject_id' ) );
-        // JB end
 
         $nodePath = $node->attribute( 'path_string' );
         $childrensPath = $nodePath ;
@@ -5101,14 +5092,12 @@ WHERE
             }
 
             $object = new eZContentObjectTreeNode( $node );
-            // JB
             // If the name is not set it will be fetched later on when
             // getName()/attribute( 'name' ) is accessed.
             if ( isset( $node['name'] ) )
             {
                 $object->setName( $node['name'] );
             }
-            // JB
 
             if ( isset( $node['class_name'] ) )
                 $object->ClassName = $node['class_name'];
@@ -5248,7 +5237,6 @@ WHERE
 
     function &getName( $language = false )
     {
-        // JB
         // If the name is not set yet we fetch it from the object table
         if ( $this->Name === null || $language !== false )
         {
@@ -5279,7 +5267,6 @@ WHERE
                 $this->Name = false;
             }
         }
-        // JB
         return $this->Name;
     }
 

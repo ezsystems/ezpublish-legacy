@@ -96,13 +96,11 @@ function copyObject( &$Module, &$object, $allVersions, $newParentNodeID )
     $newObjAssignments =& $curVersionObject->attribute( 'node_assignments' );
     unset( $curVersionObject );
 
-    // JB start
     // remove old node assignments
     foreach( $newObjAssignments as $assignment )
     {
         $assignment->purge();
     }
-    // JB end
 
     // and create a new one
     $nodeAssignment = eZNodeAssignment::create( array(

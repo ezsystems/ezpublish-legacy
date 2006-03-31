@@ -88,7 +88,6 @@ $contentObjectAttributes =& $version->contentObjectAttributes( $EditLanguage );
 if ( $contentObjectAttributes === null or
      count( $contentObjectAttributes ) == 0 )
 {
-    // JB todo: should we just redirect to correct language here?
     $contentObjectAttributes =& $version->contentObjectAttributes();
     $EditLanguage = $version->initialLanguageCode();
 }
@@ -143,10 +142,9 @@ else
 }
 
 // Checking if object has at least one placement, if not user needs to choose it from browse page
-$assignments =& $version->attribute( 'parent_nodes' ); // JB valid
-$assignedNodes =& $object->attribute( 'assigned_nodes' ); // JB valid
+$assignments =& $version->attribute( 'parent_nodes' );
+$assignedNodes =& $object->attribute( 'assigned_nodes' );
 
-// JB start
 // Figure out how many locations it has (or will get)
 $locationIDList = array();
 foreach ( $assignedNodes as $node )
@@ -166,7 +164,6 @@ foreach ( $assignments as $assignment )
     }
 }
 $locationCount = count( $locationIDList );
-// JB end
 
 // If there are no locations we need to browse for one.
 if ( $locationCount < 1 && $Module->isCurrentAction( 'Publish' ) )
@@ -455,7 +452,6 @@ $tpl->setVariable( 'class', $class );
 $tpl->setVariable( 'object', $object );
 $tpl->setVariable( 'attribute_base', $attributeDataBaseName );
 
-// JB
 $locationUIEnabled = true;
 // If the object has been published we disable the location UI
 if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
@@ -463,7 +459,6 @@ if ( $object->attribute( 'status' ) != EZ_CONTENT_OBJECT_STATUS_DRAFT )
     $locationUIEnabled = false;
 }
 $tpl->setVariable( "location_ui_enabled", $locationUIEnabled );
-// JB
 
 
 if ( $Module->runHooks( 'pre_template', array( &$class, &$object, &$version, &$contentObjectAttributes, $EditVersion, $EditLanguage, &$tpl, $FromLanguage ) ) )
