@@ -57,9 +57,14 @@ It has following actions:
 | Remove            | Use this button to remove unneeded currencies.           |
 |                   | NOTE: removing currency will lead to removing prices in  |
 |                   | that currency for all products.                          |
-| Update status     | You can change 'status' for several currencies and apply |
-|                   | changes by clicking on this button.                      |
-| Set rates         | Applies changes for 'custom rate' and 'rate factor'.     |
+| Apply changes     | You can change 'status' for several currencies and/or set|
+|                   | 'custom rate' and/or 'rate factor'.                      |
+|                   | Changes will be applied by clicking on this button.      |
+| Update auto rates | It's used to run specific handler which will get values  |
+|                   | for 'auto' rates from external source(like the Internet) |
+|                   | The button is diabled if there is no available handlers. |
+|                   | shop.ini.ExchangeRatesSettings.ExchangeRatesUpdateHandler|
+|                   | is used to specify what handler to use.                  |
 | Update autoprices | When you've finished managing currencies(set rates, add  |
 |                   | new, ...) you can update autoprices for all products.    |
 +-------------------+----------------------------------------------------------+
