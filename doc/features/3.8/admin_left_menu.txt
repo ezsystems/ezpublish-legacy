@@ -1,0 +1,8 @@
+*Title: Custom admin left menu.
+
+*Documentation:
+Added possibility set custom left menu id admin pagelayout in custom module/views.
+Left menu template is specified by setting the following variable in the 
+module/view, example:
+$Result['left_menu'] = 'design:my_module/custom_menu.tpl';
+

@@ -224,6 +224,10 @@ div#maincontent {ldelim} margin-left: {sum( $left_menu_width, 0.5 )}em; {rdelim}
     {include uri='design:parts/my/menu.tpl'}
 {/section}
 
+{section show=isset( $module_result.left_menu )}
+    {include uri=$module_result.left_menu}
+{/section}
+
 {/section}
 
 </div>
