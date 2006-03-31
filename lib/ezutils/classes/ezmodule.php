@@ -560,6 +560,23 @@ class eZModule
     }
 
     /*!
+     \return the status which will be set when redirecting.
+    */
+    function redirectStatus()
+    {
+        return $this->RedirectStatus;
+    }
+
+    /*!
+     Sets the status which will be set when redirecting.
+     \note The status must be a valid HTTP status with number and text.
+    */
+    function setRedirectStatus( $status )
+    {
+        $this->RedirectStatus = $status;
+    }
+
+    /*!
      \return an array with the available attributes.
     */
     function attributes()
@@ -590,7 +607,7 @@ class eZModule
         {
             case "uri":
                 $retValue = $this->uri();
-            break;
+                break;
             case "functions":
                 return $this->Functions;
             case "views":
@@ -1363,6 +1380,7 @@ class eZModule
     var $ExitStatus;
     var $ErrorCode;
     var $RedirectURI;
+    var $RedirectStatus;
     var $Title;
     var $HookList;
     var $ViewActions;

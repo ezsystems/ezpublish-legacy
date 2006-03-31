@@ -94,6 +94,9 @@ eZDebug::writeError( "Error ocurred using URI: " . $_SERVER['REQUEST_URI'] , "er
                     if ( $errorNumber == EZ_ERROR_KERNEL_MOVED )
                     {
                         $location = eZSys::indexDir() . "/" . $extraErrorParameters['new_location'];
+                        // Set moved permanently headers.
+                        header( $_SERVER['SERVER_PROTOCOL'] .  " 301 Moved Permanently" );
+                        header( "Status: 301 Moved Permanently" );
                         header( "Location: " . $location );
                     }
                 }

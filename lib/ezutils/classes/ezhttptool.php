@@ -525,9 +525,14 @@ class eZHTTPTool
         return $uri;
     }
 
-    function redirect( $path, $parameters = array() )
+    function redirect( $path, $parameters = array(), $status = false )
     {
         $uri = eZHTTPTool::createRedirectUrl( $path, $parameters );
+        if ( str_len( $status ) > 0 )
+        {
+            header( $_SERVER['SERVER_PROTOCOL'] .  " " . $status );
+            eZHTTPTool::headerVariable( "Status", $status );
+        }
         eZHTTPTool::headerVariable( 'Location', $uri );
 
         /* Fix for redirecting using workflows and apache 2 */

@@ -866,6 +866,7 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
 //     eZDebug::writeDebug( $module->redirectURI(), '$module->redirectURI()' );
 
     $moduleRedirectUri = $module->redirectURI();
+    $redirectStatus = $module->redirectStatus();
     $translatedModuleRedirectUri = $moduleRedirectUri;
     if ( $ini->variable( 'URLTranslator', 'Translation' ) == 'enabled' )
     {
@@ -930,7 +931,7 @@ if ( $module->exitStatus() == EZ_MODULE_STATUS_REDIRECT )
     }
     if ( $automatic_redir )
     {
-        eZHTTPTool::redirect( $redirectURI );
+        eZHTTPTool::redirect( $redirectURI, array(), $redirectStatus );
     }
     else
     {

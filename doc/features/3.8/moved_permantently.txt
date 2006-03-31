@@ -1,0 +1,11 @@
+301 Moved Permantently status
+=============================
+
+The system will now set the 301 status when doing redirects due to
+moved objects. This will allow external search engines and other bots
+to update their existing URLs with the new location.
+
+In addition the modules can set the HTTP status for redirects by
+calling *setRedirectStatus()* in eZModule, e.g::
+
+  $Module->setRedirectStatus( "301 Moved Permanently" );
