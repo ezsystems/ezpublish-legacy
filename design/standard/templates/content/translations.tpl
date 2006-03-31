@@ -14,7 +14,7 @@
         <th width="1%" align="right">{"Remove"|i18n("design/standard/content")}</th>
 </tr>
 
-{section name=Translation loop=$existing_translations sequence=array(bglight,bgdark)}
+{section name=Translation loop=$available_translations sequence=array(bglight,bgdark)}
 <tr>
 	<td class="{$Translation:sequence}">{section show=$:item.name}{$:item.name|wash}{section-else}{$:item.locale_object.intl_language_name|wash}{/section}</td>
 	<td class="{$Translation:sequence}">{$:item.locale_object.country_name|wash}</td>
