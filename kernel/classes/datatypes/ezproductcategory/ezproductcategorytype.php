@@ -192,6 +192,14 @@ class eZProductCategoryType extends eZDataType
         $category = eZProductCategory::fetch( $categoryID );
         return $category->attribute( 'name' );
     }
+
+    /*!
+      \reimp
+    */
+    function diff( $old, $new )
+    {
+        return null;
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_PRODUCTCATEGORY, "ezproductcategorytype" );

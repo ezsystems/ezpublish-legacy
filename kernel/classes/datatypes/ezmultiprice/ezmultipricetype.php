@@ -446,6 +446,14 @@ class eZMultiPriceType extends eZDataType
 
         return $sql;
     }
+
+    /*!
+      \reimp
+    */
+    function diff( $old, $new )
+    {
+        return null;
+    }
 }
 
 eZDataType::register( EZ_DATATYPESTRING_MULTIPRICE, "ezmultipricetype" );
