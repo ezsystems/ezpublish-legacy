@@ -4906,9 +4906,9 @@ class eZContentObject extends eZPersistentObject
         $altLanguageID = $languageID++;
 
         // Remove all attributes in the language
-        $attributes =& $db->arrayQuery( "SELECT * FROM ezcontentobject_attribute
-                                         WHERE contentobject_id='$objectID'
-                                           AND ( language_id='$languageID' OR language_id='$altLanguageID' )" );
+        $attributes = $db->arrayQuery( "SELECT * FROM ezcontentobject_attribute
+                                        WHERE contentobject_id='$objectID'
+                                          AND ( language_id='$languageID' OR language_id='$altLanguageID' )" );
         foreach ( $attributes as $attribute )
         {
             $attributeObject = new eZContentObjectAttribute( $attribute );
