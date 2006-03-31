@@ -60,52 +60,38 @@
     <!-- Object info box end-->
 
     <!-- Translation box start-->
-{let name=Translation
-     language_index=0
-     default_translation=$content_version.translation
-     other_translation_list=$content_version.translation_list
-     translation_list=$Translation:other_translation_list|array_prepend($Translation:default_translation)}
-
-{section show=$Translation:translation_list}
     <tr>
         <th class="menuheaddark" colspan="2">
         <p class="menuhead">{"Translations"|i18n("design/standard/content/edit")}</p>
         </th>
     </tr>
 
-{section loop=$Translation:translation_list}
-  {section show=eq($edit_language,$Translation:item.language_code)}
-    {set language_index=$Translation:index}
-  {/section}
-{/section}
-
-{section loop=$Translation:translation_list sequence=array("bgdark","bglight")}
     <tr>
-        <td class="{$Translation:sequence}" colspan="{$Translation:other_translation_list|gt(0)|choose(2,1)}">
-          {section show=$Translation:item.locale.is_valid}
-            <p class="menufieldlabel">{$Translation:item.locale.intl_language_name}</p>
-          {section-else}
-            <p class="menufieldlabel">{"%1 (No locale information available)"|i18n("design/standard/content/edit",,array($Translation:item.language_code))}</p>
-          {/section}
+        <td>
+            <p class="menufieldlabel">{'No translation'|i18n( 'design/standard/content/edit' )}</p>
         </td>
-{section show=$Translation:other_translation_list|gt(0)}
-        <td class="{$Translation:sequence}">
-          <input type="radio" name="EditSelectedLanguage" value="{$Translation:item.language_code}" {section show=eq($Translation:index,$Translation:language_index)}checked="checked"{/section} />
+        <td>
+            <input type="radio" name="FromLanguage" value=""{if $from_language|not} checked="checked"{/if}{if $object.status|eq(0)} disabled="disabled"{/if} />
         </td>
-{/section}
     </tr>
-{/section}
+    {if $object.status}
+        {foreach $object.languages as $language}
+        <tr>
+            <td>
+                <p class="menufieldlabel">{$language.name|wash}</p>
+            </td>
+            <td>
+                <input type="radio" name="FromLanguage" value="{$language.locale}"{if $language.locale|eq($from_language)} checked="checked"{/if} />
+            </td>
+        </tr>
+        {/foreach}
+    {/if}
+
     <tr>
         <td colspan="2" align="right">
-	  <input class="menubutton" type="submit" name="TranslateButton" value="{'Manage'|i18n('design/standard/content/edit')}" />
-{section show=$Translation:other_translation_list|gt(0)}
-          <input class="menubutton" type="submit" name="EditLanguageButton" value="{'Edit'|i18n('design/standard/content/edit')}" />
-{/section}
+            <input class="menubutton" type="submit" name="FromLanguageButton" value="{'Translate'|i18n( 'design/standard/content/edit' )}" />
         </td>
     </tr>
-{/section}
-
-{/let}
     <!-- Translation box end-->
 
     <tr>
