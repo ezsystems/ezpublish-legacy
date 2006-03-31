@@ -303,7 +303,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         }
         elseif ( $this->XMLSchema->check( $parent, 'paragraph' ) )
         {
-            $newPara =& $this->createAndRegisterElement( 'paragraph' );
+            $newPara =& $this->createAndPublishElement( 'paragraph' );
             $newLine = $this->Document->createElement( 'line' );
             $parent->replaceChild( $newPara, $element );
             $newPara->appendChild( $newLine );
@@ -353,7 +353,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
             if ( $this->XMLSchema->check( $parentName, 'paragraph' ) )
             {
-                $newPara =& $this->createAndRegisterElement( 'paragraph' );;
+                $newPara =& $this->createAndPublishElement( 'paragraph' );;
                 $parent->replaceChild( $newPara, $element );
                 $newPara->appendChild( $element );
                 $ret =& $newPara;

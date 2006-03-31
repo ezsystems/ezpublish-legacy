@@ -838,7 +838,7 @@ class eZXMLInputParser
 
     // Creates new element and adds it to array for further post-processing.
     // Use this function if "Publish handler" should be called for a newly created element.
-    function &createAndRegisterElement( $elementName )
+    function &createAndPublishElement( $elementName )
     {
         $element = $this->Document->createElement( $elementName );
         $this->createdElements[] =& $element;
