@@ -6,6 +6,9 @@ Changes from 3.8.0alpha2 to 3.8.0beta1
   ( Patch by Jonny Bergkvist )
 - Improved seed for some md5 hashes.
   ( Merged from stable/3.7 (3.7.6) rev. 15450 )
+- Changed: Content structure menu in admin will now only show folder, forum
+  and gallery by default. This makes the performance of the menu better for
+  most sites and can be configured independently.
 
 *Bugfixes:
 
