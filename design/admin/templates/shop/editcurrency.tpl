@@ -71,8 +71,6 @@
 <div class="block">
     <div class="left">
         {if $can_edit}
-            {* Remove button *}
-            <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/shop/editcurrency' )}" title="{'Cancel creating new currency.'|i18n( 'design/admin/shop/editcurrency' )}" />
             {if eq( $original_currency_code, '' )}
                 {* Create button *}
                 <input class="button" type="submit" name="CreateButton" value="{'Create'|i18n( 'design/admin/shop/editcurrency' )}" title="{'Finish creating currnecy.'|i18n( 'design/admin/shop/editcurrency' )}" />
@@ -80,6 +78,8 @@
                 {* 'Store changes' button *}
                 <input class="button" type="submit" name="StoreChangesButton" value="{'Store changes'|i18n( 'design/admin/shop/editcurrency' )}" title="{'Store changes.'|i18n( 'design/admin/shop/editcurrency' )}" />
             {/if}
+            {* Remove button *}
+            <input class="button" type="submit" name="CancelButton" value="{'Cancel'|i18n( 'design/admin/shop/editcurrency' )}" title="{'Cancel creating new currency.'|i18n( 'design/admin/shop/editcurrency' )}" />
         {else}
             {* Back button *}
             <input class="button" type="submit" name="CancelButton" value="{'Back'|i18n( 'design/admin/shop/editcurrency' )}" title="{'Back to the currency list'|i18n( 'design/admin/shop/editcurrency' )}" />

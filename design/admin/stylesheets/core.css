@@ -125,6 +125,14 @@ table.list td.number, table.special td.number, table.list td.right
     text-align: right;
 }
 
+/* 'not available rate' */
+table.list td.na-rate, table.special td.na-rate
+{
+    text-align: right;
+    font-style: italic;
+    color: #C0C0C0;
+}
+
 table.list th, table.special th
 {
     color: #254b71;

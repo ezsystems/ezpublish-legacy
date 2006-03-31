@@ -178,6 +178,7 @@ class eZCurrencyData extends eZPersistentObject
     {
         if ( $this->RateValue === false )
         {
+            /*
             $rateValue = '0.00000';
             if ( $this->attribute( 'custom_rate_value' ) > 0 )
             {
@@ -189,6 +190,18 @@ class eZCurrencyData extends eZPersistentObject
                 $rateValue = $rateValue * $this->attribute( 'rate_factor' );
                 $rateValue = sprintf( "%7.5f", $rateValue );
             }
+            */
+
+            $rateValue = '0.00000';
+            if ( $this->attribute( 'custom_rate_value' ) > 0 )
+                $rateValue = $this->attribute( 'custom_rate_value' );
+            else
+                $rateValue = $this->attribute( 'auto_rate_value' );
+
+            if ( $rateValue > 0 )
+                $rateValue = $rateValue * $this->attribute( 'rate_factor' );
+
+            $rateValue = sprintf( "%7.5f", $rateValue );
 
             $this->RateValue = $rateValue;
         }

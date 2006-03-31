@@ -44,7 +44,7 @@ function reloadWithOffset( &$module )
 $module =& $Params['Module'];
 $offset = $Params['Offset'];
 
-if ( $module->isCurrentAction( 'AddCurrency' ) )
+if ( $module->isCurrentAction( 'NewCurrency' ) )
 {
     $module->redirectTo( $module->functionURI( 'editcurrency' ) );
 }
@@ -57,8 +57,7 @@ else if ( $module->isCurrentAction( 'RemoveCurrency' ) )
     include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
 }
-else if ( $module->isCurrentAction( 'SetRates' ) ||
-          $module->isCurrentAction( 'UpdateStatus' ) )
+else if ( $module->isCurrentAction( 'ApplyChanges' ) )
 {
     $updateDataList = $module->hasActionParameter( 'CurrencyList' ) ? $module->actionParameter( 'CurrencyList' ) : array();
 
@@ -72,18 +71,18 @@ else if ( $module->isCurrentAction( 'SetRates' ) ||
         {
             $updateData = $updateDataList[$currencyCode];
 
-            if ( $module->isCurrentAction( 'UpdateStatus' ) )
-            {
-                if ( isset( $updateData['status'] ) )
-                    $currency->setStatus( $updateData['status'] );
-            }
-            if ( $module->isCurrentAction( 'SetRates' ) )
-            {
-                if ( is_numeric( $updateData['custom_rate_value'] ) )
-                    $currency->setAttribute( 'custom_rate_value', $updateData['custom_rate_value'] );
-                if ( is_numeric( $updateData['rate_factor'] ) )
-                    $currency->setAttribute( 'rate_factor', $updateData['rate_factor'] );
-            }
+            if ( isset( $updateData['status'] ) )
+                $currency->setStatus( $updateData['status'] );
+
+            if ( is_numeric( $updateData['custom_rate_value'] ) )
+                $currency->setAttribute( 'custom_rate_value', $updateData['custom_rate_value'] );
+            else if ( $updateData['custom_rate_value'] == '' )
+                $currency->setAttribute( 'custom_rate_value', 0 );
+
+            if ( is_numeric( $updateData['rate_factor'] ) )
+                $currency->setAttribute( 'rate_factor', $updateData['rate_factor'] );
+            else if ( $updateData['rate_factor'] == '' )
+                $currency->setAttribute( 'rate_factor', 0 );
 
             $currency->sync();
         }

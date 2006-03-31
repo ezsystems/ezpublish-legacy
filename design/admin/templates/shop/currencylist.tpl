@@ -65,6 +65,7 @@
 {/if}
 {include uri='design:shop/currencynames.tpl'}
 
+{def $auto_rate_value = ''}
 {foreach $currency_list as $currency sequence array( bglight, bgdark ) as $bg_class_style}
     {if eq( $currency.status, 2 ) }
         {set $bg_class_style = "object-cannot-remove"}
@@ -87,14 +88,31 @@
                 <option value="inactive" {if eq($currency.status, 2)}selected = "selected"{/if}>Inactive</option>
             </select>
         </td>
-        <td class="number">{$currency.auto_rate_value}</td>
-        <td class="number"><input type="text" size="10" name="CurrencyList[{$currency.code}][custom_rate_value]" value="{$currency.custom_rate_value}" /></td>
+
+        {if gt($currency.auto_rate_value, 0)}
+            {set auto_rate_value = $currency.auto_rate_value}
+        {else}
+            {set auto_rate_value = 'N/A'|i18n( 'design/admin/shop/currencylist' )}
+        {/if}
+
+        {if gt($currency.custom_rate_value, 0)}
+            <td class="na-rate">{$auto_rate_value}</td>
+        {else}
+            <td class="number">{$auto_rate_value}</td>
+        {/if}
+
+        <td class="number"><input type="text" size="10" name="CurrencyList[{$currency.code}][custom_rate_value]" value="{if gt($currency.custom_rate_value, 0)}{$currency.custom_rate_value}{else}{/if}" /></td>
         <td class="number"><input type="text" size="10" name="CurrencyList[{$currency.code}][rate_factor]" value="{$currency.rate_factor}" /></td>
-        <td class="number">{$currency.rate_value}</td>
+        {if gt($currency.rate_value, 0)}
+            <td class="number">{$currency.rate_value}</td>
+        {else}
+            <td class="na-rate">{'N/A'|i18n( 'design/admin/shop/currencylist' )}</td>
+        {/if}
         <td><a href={concat( 'shop/editcurrency/(currency)/', $currency.code)|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/shop/currencylist' )}" title="{"Edit '%currency_code' currency."|i18n( 'design/admin/shop/currencylist',, hash( '%currency_code', $currency.code ) )|wash}" /></a></td>
     </tr>
 
 {/foreach}
+{undef $auto_rate_value}
 </table>
 
 <div class="context-toolbar">
@@ -123,8 +141,8 @@
         <div class="left">
             {* Remove button *}
             <input class="button" type="submit" name="RemoveCurrencyButton" value="{'Remove selected'|i18n( 'design/admin/shop/currencylist' )}" title="{'Remove selected currencies from the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
-            {* Add button *}
-            <input class="button" type="submit" name="AddCurrencyButton" value="{'Add new'|i18n( 'design/admin/shop/currencylist' )}" title="{'Add new currnecy to the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
+            {* New button *}
+            <input class="button" type="submit" name="NewCurrencyButton" value="{'New currency'|i18n( 'design/admin/shop/currencylist' )}" title="{'Add new currnecy to the list above.'|i18n( 'design/admin/shop/currencylist' )}" />
         </div>
         <div class="right">
             {* Update auto rates button *}
@@ -134,12 +152,11 @@
             {else}
                 <input class="button-disabled" type="submit" disabled="disabled" name="UpdateAutoRatesButton" value="{'Update auto rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update auto rates.'|i18n( 'design/admin/shop/currencylist' )}" />
             {/if}
-            {* Set currency rate button *}
-            <input class="button" type="submit" name="SetRatesButton" value="{'Set custom rates'|i18n( 'design/admin/shop/currencylist' )}" title="{'Set custom rates.'|i18n( 'design/admin/shop/currencylist' )}" />
-            {* Update status button *}
-            <input class="button" type="submit" name="UpdateStatusButton" value="{'Update status'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update status.'|i18n( 'design/admin/shop/currencylist' )}" />
             {* Update autoprices button *}
             <input class="button" type="submit" name="UpdateAutopricesButton" value="{'Update autoprices'|i18n( 'design/admin/shop/currencylist' )}" title="{'Update autoprices.'|i18n( 'design/admin/shop/currencylist' )}" />
+
+            {* Apply changes button *}
+            <input class="button" type="submit" name="ApplyChangesButton" value="{'Apply changes'|i18n( 'design/admin/shop/currencylist' )}" title="{'Apply statuses, custom rates, factor values.'|i18n( 'design/admin/shop/currencylist' )}" />
         </div>
     {else}
         <div class="left">
