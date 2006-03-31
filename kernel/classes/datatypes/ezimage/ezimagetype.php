@@ -33,6 +33,8 @@
   \ingroup eZDatatype
   \brief The class eZImageType handles image accounts and association with content objects
 
+  \note The method initializeObjectAttribute was removed in 3.8, the new
+        storage technique removes the need to have it.
 */
 
 include_once( "kernel/classes/ezdatatype.php" );
@@ -96,17 +98,6 @@ class eZImageType extends eZDataType
     */
     function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
-        $contentObjectAttributeID = $originalContentObjectAttribute->attribute( "id" );
-        $version = $contentObjectAttribute->attribute( "version" );
-        if ( $currentVersion != false )
-        {
-            $imageHandler =& $contentObjectAttribute->attribute( 'content' );
-            if ( $imageHandler )
-            {
-                $imageHandler->setOriginalAttributeDataFromAttribute( $originalContentObjectAttribute );
-                $imageHandler->store();
-            }
-        }
     }
 
     /*!

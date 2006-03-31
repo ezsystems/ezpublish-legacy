@@ -439,8 +439,28 @@ object was initially made in.
 Image datatype
 ++++++++++++++
 
-The image datatype will need to be examined due to this change. Some internal
-changes to the storage format (XML) and file storage might need to change.
+The ezimage datatype got some changes to the XML storage due to the new
+multi-language features. Now it always stores the <original> tag with
+attribute ID, version and language and it is only updated when a new image
+is uploaded.
+
+An example::
+
+  <original attribute_id="1530"
+            attribute_version="1"
+            attribute_language="eng-GB" />
+
+This was required since the system will now copy over attribute data when
+translation is disabled by using pure SQL commands.
+
+Upgrade
+-------
+
+The system will still work with old entries having empty data in <original> but
+will fill in the information if it is edited and published. Also old
+non-translatable attributes have the <original> tag set correctly and will still
+work.
+
 
 Objects
 ~~~~~~~
