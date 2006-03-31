@@ -247,7 +247,8 @@ class eZContentOperationCollection
         $object =& eZContentObject::fetch( $objectID );
         $nodes =& $object->assignedNodes();
 //         $dataMap =& $object->attribute( 'data_map' );
-        $contentObjectAttributes =& $object->contentObjectAttributes( true, $versionNum, null, false );
+        $version =& $object->version( $versionNum );
+        $contentObjectAttributes =& $object->contentObjectAttributes( true, $versionNum, $version->initialLanguageCode(), false );
         foreach ( array_keys( $contentObjectAttributes ) as $contentObjectAttributeKey )
         {
             $contentObjectAttribute =& $contentObjectAttributes[$contentObjectAttributeKey];
