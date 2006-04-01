@@ -47,21 +47,9 @@ if ( !$object->canRead() )
     return $Module->handleError( EZ_ERROR_KERNEL_ACCESS_DENIED, 'kernel', array( 'AccessList' => $object->accessList( 'read' ) ) );
 
 // Check if the object has a price datatype, if not it cannot be used in the basket
-include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-
-$productType = eZShopFunctions::productTypeByObject( $object );
-if ( $productType === false )
-{
-    include_once( 'kernel/shop/errors.php' );
-    return $Module->handleError( EZ_ERROR_SHOP_NOT_A_PRODUCT, 'shop' );
-}
-
-$basketType = $basket->type();
-if ( $basketType !== false && $basketType !== $productType )
-{
-    include_once( 'kernel/shop/errors.php' );
-    return $Module->handleError( EZ_ERROR_SHOP_BASKET_INCOMPATIBLE_PRODUCT_TYPE, 'shop' );
-}
+$error = $basket->canAddProduct( $object );
+if ( $error !== EZ_ERROR_SHOP_OK )
+    return $Module->handleError( $error, 'shop' );
 
 $OptionList = $http->sessionVariable( "AddToBasket_OptionList_" . $ObjectID );
 

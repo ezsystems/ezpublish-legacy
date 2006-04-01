@@ -42,7 +42,7 @@ if ( $module->isCurrentAction( 'Set' ) )
 }
 
 if ( $preferredCurrency )
-    eZShopFunctions::setPreferredCurrency( $preferredCurrency );
+    eZShopFunctions::setPreferredCurrencyCode( $preferredCurrency );
 
 include_once( 'kernel/classes/ezredirectmanager.php' );
 eZRedirectManager::redirectTo( $module, false );

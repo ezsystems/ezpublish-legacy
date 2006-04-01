@@ -129,13 +129,13 @@ $FunctionList['currency'] = array( 'name' => 'currency',
                                                                  'type' => 'string',
                                                                  'required' => true ) ) );
 
-$FunctionList['preferred_currency'] = array( 'name' => 'preferred_currency',
-                                        'operation_types' => array( 'read' ),
-                                        'call_method' => array( 'include_file' => 'kernel/shop/ezshopfunctioncollection.php',
-                                                                'class' => 'eZShopFunctionCollection',
-                                                                'method' => 'fetchPreferredCurrency' ),
-                                        'parameter_type' => 'standard',
-                                        'parameters' => array( ) );
+$FunctionList['preferred_currency_code'] = array( 'name' => 'preferred_currency_code',
+                                                  'operation_types' => array( 'read' ),
+                                                  'call_method' => array( 'include_file' => 'kernel/shop/ezshopfunctioncollection.php',
+                                                                          'class' => 'eZShopFunctionCollection',
+                                                                          'method' => 'fetchPreferredCurrencyCode' ),
+                                                  'parameter_type' => 'standard',
+                                                  'parameters' => array( ) );
 
 $FunctionList['product_category_list'] = array( 'name' => 'product_category_list',
                                                 'operation_types' => array( 'read' ),

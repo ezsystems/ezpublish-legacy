@@ -33,6 +33,9 @@
 /*!
  The object is not a product.
 */
+define( 'EZ_ERROR_SHOP_OK', 0 );
 define( 'EZ_ERROR_SHOP_NOT_A_PRODUCT', 1 );
 define( 'EZ_ERROR_SHOP_BASKET_INCOMPATIBLE_PRODUCT_TYPE', 2 );
+define( 'EZ_ERROR_SHOP_PREFERRED_CURRENCY_DOESNOT_EXIST', 3 );
+define( 'EZ_ERROR_SHOP_PREFERRED_CURRENCY_INACTIVE', 4 );
 ?>

@@ -234,11 +234,11 @@ class eZShopFunctionCollection
         return $result;
     }
 
-    function fetchPreferredCurrency()
+    function fetchPreferredCurrencyCode()
     {
         include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
-        $currency = eZShopFunctions::preferredCurrency();
+        $currency = eZShopFunctions::preferredCurrencyCode();
         $result = array( 'result' => $currency );
 
         return $result;

@@ -256,7 +256,7 @@ fetch( 'shop',
        [, hash( 'status', <status> )] )     - returns a list of available
                                               currencies;
 
-fetch( 'shop', 'preferred_currency' )       - returns a preferred currency;
+fetch( 'shop', 'preferred_currency_code' )  - returns a preferred currency;
 
 l10n( 'currency'[, locale[, [symbol]] )     - format a number as price using
                                               specified or default 'locale'

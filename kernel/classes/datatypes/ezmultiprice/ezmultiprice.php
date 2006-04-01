@@ -203,10 +203,10 @@ class eZMultiPrice extends eZSimplePrice
      functional attribute
     */
 
-    function &preferredCurrency()
+    function &preferredCurrencyCode()
     {
         include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-        $currency = eZShopFunctions::preferredCurrency();
+        $currency = eZShopFunctions::preferredCurrencyCode();
         return $currency;
     }
 
@@ -485,7 +485,7 @@ class eZMultiPrice extends eZSimplePrice
     function &price()
     {
         $value = '0.0';
-        if ( $currencyCode = $this->preferredCurrency() )
+        if ( $currencyCode = $this->preferredCurrencyCode() )
         {
             $price =& $this->priceByCurrency( $currencyCode );
             if ( $price )
@@ -560,7 +560,7 @@ class eZMultiPrice extends eZSimplePrice
 
     function &currency()
     {
-        return $this->preferredCurrency();
+        return $this->preferredCurrencyCode();
     }
 
     function DOMDocument()

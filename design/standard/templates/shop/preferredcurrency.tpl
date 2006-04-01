@@ -10,7 +10,7 @@
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 {def $currency_list = fetch( 'shop', 'currency_list', hash( 'status', 'active' ) )
-     $preferred_currency = fetch( 'shop', 'preferred_currency' )}
+     $preferred_currency_code = fetch( 'shop', 'preferred_currency_code' )}
     {if gt( count($currency_list),0 )}
         <div class="block">
         <form action={'shop/setpreferredcurrency'|ezurl} method="post">
@@ -18,7 +18,7 @@
                 {include uri='design:shop/currencynames.tpl'}
                 <select name="Currency" title="Select currency">
                     {foreach $currency_list as $Currency}
-                        <option value="{$Currency.code}" {if eq( $Currency.code, $preferred_currency )}selected="selected"{/if}>{$Currency.code} - {if is_set($currency_names[$Currency.code])}{$currency_names[$Currency.code]}{else}{'Unknown currency name'|i18n( 'design/standard/shop/preferredcurrency' )}{/if}</option>
+                        <option value="{$Currency.code}" {if eq( $Currency.code, $preferred_currency_code )}selected="selected"{/if}>{$Currency.code} - {if is_set($currency_names[$Currency.code])}{$currency_names[$Currency.code]}{else}{'Unknown currency name'|i18n( 'design/standard/shop/preferredcurrency' )}{/if}</option>
                     {/foreach}
                 </select>
                 {* Set button *}

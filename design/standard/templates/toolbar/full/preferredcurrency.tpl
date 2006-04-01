@@ -4,14 +4,14 @@
     <div class="toolbox-design">
 
     {def $currency_list = fetch( 'shop', 'currency_list', hash( 'status', 'active' ) )
-         $preferred_currency = fetch( 'shop', 'preferred_currency' )}
+         $preferred_currency_code = fetch( 'shop', 'preferred_currency_code' )}
         <h2>{"Preferred currency"|i18n("design/standard/toolbar")}</h2>
         <div class="toolbox-content">
         {if count( $currency_list )}
             <form action={'shop/setpreferredcurrency'|ezurl} method="post">
                 <select name="Currency" title="Select currency">
                     {foreach $currency_list as $Currency}
-                        <option value="{$Currency.code}" {if eq( $Currency.code, $preferred_currency )}selected="selected"{/if}>{$Currency.code}</option>
+                        <option value="{$Currency.code}" {if eq( $Currency.code, $preferred_currency_code )}selected="selected"{/if}>{$Currency.code}</option>
                     {/foreach}
                 </select>
                 {* Set button *}

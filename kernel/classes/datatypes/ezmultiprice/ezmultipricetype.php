@@ -432,7 +432,7 @@ class eZMultiPriceType extends eZDataType
         if ( !isset( $params['currency_code'] ) )
         {
             include_once( 'kernel/shop/classes/ezshopfunctions.php' );
-            $params['currency_code'] = eZShopFunctions::preferredCurrency();
+            $params['currency_code'] = eZShopFunctions::preferredCurrencyCode();
         }
 
         if ( $params['currency_code'] !== false )

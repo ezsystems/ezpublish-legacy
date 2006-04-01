@@ -562,6 +562,34 @@ WHERE ezbasket.session_id = ezsession.session_key AND
         return $type;
     }
 
+    function canAddProduct( $contentObject )
+    {
+        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+        include_once( 'kernel/shop/errors.php' );
+
+        $error = EZ_ERROR_SHOP_OK;
+
+        $productType = eZShopFunctions::productTypeByObject( $contentObject );
+        if ( $productType === false )
+        {
+            $error = EZ_ERROR_SHOP_NOT_A_PRODUCT;
+        }
+        else
+        {
+            if ( !eZShopFunctions::isSimplePriceProductType( $productType ) )
+                $error = eZShopFunctions::isPreferredCurrencyValid();
+
+            if ( $error === EZ_ERROR_SHOP_OK )
+            {
+                $basketType = $this->type();
+                if ( $basketType !== false && $basketType !== $productType )
+                    $error = EZ_ERROR_SHOP_BASKET_INCOMPATIBLE_PRODUCT_TYPE;
+            }
+        }
+
+        return $error;
+    }
+
     function &productCollection()
     {
         $productCollection = eZProductCollection::fetch( $this->attribute( 'productcollection_id' ) );

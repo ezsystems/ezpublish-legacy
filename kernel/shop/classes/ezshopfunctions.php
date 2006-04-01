@@ -58,12 +58,23 @@ class eZShopFunctions
     function isSimplePriceClass( &$contentClass )
     {
         $type = eZShopFunctions::productTypeByClass( $contentClass );
+        return eZShopFunctions::isSimplePriceProductType( $type );
+
+    }
+
+    function isSimplePriceProductType( $type )
+    {
         return ( $type === 'ezprice' );
     }
 
     function isMultiPriceClass( &$contentClass )
     {
         $type = eZShopFunctions::productTypeByClass( $contentClass );
+        return eZShopFunctions::isMultiPriceProductType( $type );
+    }
+
+    function isMultiPriceProductType( $type )
+    {
         return ( $type === 'ezmultiprice' );
     }
 
@@ -187,7 +198,7 @@ class eZShopFunctions
     /*!
      \static
     */
-    function preferredCurrency()
+    function preferredCurrencyCode()
     {
         include_once( 'kernel/classes/ezpreferences.php' );
         if( !$currencyCode = eZPreferences::value( 'user_preferred_currency' ) )
@@ -202,26 +213,45 @@ class eZShopFunctions
     /*!
      \static
     */
-    function setPreferredCurrency( $currencyCode )
+    function setPreferredCurrencyCode( $currencyCode )
     {
+        include_once( 'kernel/shop/errors.php' );
+
+        $error = eZShopFunctions::isPreferredCurrencyValid( $currencyCode );
+        if ( $error === EZ_ERROR_SHOP_OK )
+        {
+            include_once( 'kernel/classes/ezpreferences.php' );
+            eZPreferences::setValue( 'user_preferred_currency', $currencyCode );
+        }
+
+        return $error;
+    }
+
+    function isPreferredCurrencyValid( $currencyCode = false )
+    {
+        include_once( 'kernel/shop/errors.php' );
+
+        $error = EZ_ERROR_SHOP_OK;
+        if ( $currencyCode === false )
+            $currencyCode = eZShopFunctions::preferredCurrencyCode();
+
         include_once( 'kernel/shop/classes/ezcurrencydata.php' );
         $currency = eZCurrencyData::fetch( $currencyCode );
         if ( $currency )
         {
-            if ( $currency->isActive() )
+            if ( !$currency->isActive() )
             {
-                include_once( 'kernel/classes/ezpreferences.php' );
-                eZPreferences::setValue( 'user_preferred_currency', $currencyCode );
-            }
-            else
-            {
-                eZDebug::writeWarning( "Unable to '$currencyCode' as preferred currency since it's inactive.", 'eZShopFunctions::setPreferredCurrency' );
+                $error = EZ_ERROR_SHOP_PREFERRED_CURRENCY_INACTIVE;
+                eZDebug::writeWarning( "Currency '$currencyCode' is inactive.", 'eZShopFunctions::isPreferredCurrencyValid' );
             }
         }
         else
         {
-            eZDebug::writeWarning( "Currency '$currencyCode' doesn't exist", 'eZShopFunctions::setPreferredCurrency' );
+            $error = EZ_ERROR_SHOP_PREFERRED_CURRENCY_DOESNOT_EXIST;
+            eZDebug::writeWarning( "Currency '$currencyCode' doesn't exist", 'eZShopFunctions::isPreferredCurrencyValid' );
         }
+
+        return $error;
     }
 
     /*!
