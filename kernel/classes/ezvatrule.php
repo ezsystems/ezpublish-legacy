@@ -65,6 +65,7 @@ class eZVatRule extends eZPersistentObject
                       "function_attributes" => array( 'product_categories' => 'productCategories',
                                                       'product_categories_string' => 'productCategoriesString',
                                                       'product_categories_ids' => 'productCategoriesIDs',
+                                                      'product_categories_names' => 'productCategoriesNames',
                                                       'vat_type_object' => 'vatTypeObject',
                                                       'vat_type_name' => 'vatTypeName' ),
                       "keys" => array( "id" ),
@@ -219,6 +220,25 @@ class eZVatRule extends eZPersistentObject
         }
 
         return $catIDs;
+    }
+
+    /**
+     * Return names of product categories associated with the rule.
+     *
+     * \prrivate
+     */
+    function &productCategoriesNames()
+    {
+        $catNames = array();
+        $categories = $this->attribute( 'product_categories' );
+
+        if ( $categories )
+        {
+            foreach ( $categories as $cat )
+                $catNames[] = $cat['name'];
+        }
+
+        return $catNames;
     }
 
 
