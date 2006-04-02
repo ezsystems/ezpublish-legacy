@@ -139,11 +139,11 @@ class eZStepCreateSites extends eZStepInstaller
         if ( $primaryLanguage === null )
             $primaryLanguage = eZLocale::create( $primaryLanguageCode );
 
-        $allLanguages[] =& $primaryLanguage;
+        $allLanguages[] = $primaryLanguage;
 
         foreach ( $extraLanguageCodes as $extraLanguageCode )
         {
-            $allLanguages[] =& eZLocale::create( $extraLanguageCode );
+            $allLanguages[] = eZLocale::create( $extraLanguageCode );
             $allLanguageCodes[] = $extraLanguageCode;
         }
 
