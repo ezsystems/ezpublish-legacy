@@ -1,4 +1,4 @@
-Changes from 3.6.0 to 3.8.0alpha1
+Changes from 3.6.0 to 3.8.5;20alpha1
 
 *Kernel:
 - Added method eZContentObject::clearCache() that can be used to clear all
@@ -48,7 +48,7 @@ Shop:
 - Added ability to define custom VAT charging logic  
   (with custom VAT handlers).                        
 - Implemented default VAT handler that uses VAT charging rules
-  (adjustable from the admin. interdace).  
+  (adjustable from the admin. interface).  
 - Added ability to define custom shipping options (with shipping handlers).
 - Added multi-currency support.
 
