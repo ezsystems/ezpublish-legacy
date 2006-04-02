@@ -632,7 +632,8 @@ class eZSys
     */
     function &hostname()
     {
-        return eZSys::serverVariable( 'HTTP_HOST' );
+        $retVal = eZSys::serverVariable( 'HTTP_HOST' );
+        return  $retVal;
     }
 
     /*!
