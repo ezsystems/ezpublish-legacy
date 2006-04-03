@@ -43,7 +43,7 @@ $productCategories = eZProductCategory::fetchList();
  *
  * \return list of errors found, or false if the data is ok.
  */
-function checkEnteredData( $country, $categories, $vatType, $productCategories )
+function checkEnteredData( $country, $categories, $vatType, $productCategories, $ruleID )
 {
     $errors = false;
     $errorHeader = '';
@@ -79,7 +79,9 @@ function checkEnteredData( $country, $categories, $vatType, $productCategories )
         // check if default rule already exists.
         foreach ( $vatRules as $i )
         {
-            if ( $i->attribute( 'country' ) != $country || $i->attribute( 'product_categories' ) )
+            if ( $i->attribute( 'id' ) == $ruleID ||
+                 $i->attribute( 'country' ) != $country ||
+                 $i->attribute( 'product_categories' ) )
                 continue;
 
             if ( $country == '*' )
@@ -102,7 +104,9 @@ function checkEnteredData( $country, $categories, $vatType, $productCategories )
 
         foreach ( $vatRules as $i )
         {
-            if ( $i->attribute( 'country' ) != $country || !$i->attribute( 'product_categories' ) )
+            if ( $i->attribute( 'id' ) == $ruleID ||
+                 $i->attribute( 'country' ) != $country ||
+                 !$i->attribute( 'product_categories' ) )
                 continue;
 
             $intersection = array_intersect( $categories, $i->attribute( 'product_categories_ids' ) );
@@ -148,7 +152,8 @@ else if ( in_array( $module->currentAction(), array(  'Create', 'StoreChanges' )
     if ( in_array( '*', $chosenCategories ) )
         $chosenCategories = array();
 
-    list( $errorHeader, $errors ) = checkEnteredData( $chosenCountry, $chosenCategories, $chosenVatType, $productCategories );
+    list( $errorHeader, $errors ) = checkEnteredData( $chosenCountry, $chosenCategories, $chosenVatType,
+                                                      $productCategories, $ruleID );
 
     // save rule (creating it if not exists)
     do // one-iteration loop to prevent high nesting levels
