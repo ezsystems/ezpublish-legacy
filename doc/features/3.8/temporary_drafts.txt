@@ -1,0 +1,30 @@
+Temporary drafts
+================
+Original Author: Kristof Coomans
+
+A new *status* value has been added to the system for version of content
+objects. The status tells the system that the version has been created but not
+been modified by the user. This combined with the last modification time of the
+version can be used to clean up old entries, e.g. someone clicked 'create
+comments' but didn't bother to post it.
+They are considered old if they are older than 1 day.
+
+The system will cleanup old drafts for these actions:
+
+- login
+- logout
+- editing object
+
+When they are executed it will remove all old drafts for the current user.
+
+There is also a new cronjob called *internal_drafts_cleanup.php* which removes
+old drafts from all users. It will only remove a maxium of 50 drafts each time
+it is run. This cronjob is enabled by default.
+
+
+..
+   Local Variables:
+   mode: rst
+   fill-column: 79
+   End:
+   vim: et syn=rst tw=79
