@@ -584,6 +584,33 @@ http://pubsvn.ez.no/community/trunk/hacks/untoucheddrafts/patches/3.7.2/untouche
 *Update 03.Apr.2006*: The temporary draft feature has been included in 3.8
 together with the multi-language features.
 
+Changes to existing functionality
+`````````````````````````````````
+
+While the multi-language features for 3.8 tried very hard to not change any
+setting or interface which already present (only adding), there were some
+points which needed changes, they are explained here:
+
+content/action
+--------------
+
+Action AddAssignment/SelectAssignmentLocation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This action no longer creates a new version of the object for adding a location
+but instead creates the node immediately.
+
+Action RemoveAssignment
+~~~~~~~~~~~~~~~~~~~~~~~
+
+This action no longer accepts the POST variable *AssignmentIDSelection* which
+contains list of node-assignment ids. Instead use the variable
+*LocationIDSelection* and fill it with Node IDs.
+
+The template *location.tpl* (admin) has alsoe been changed to use this new
+variable and fetching locations from the node table and not node-assignments.
+
+
 Outtakes
 ````````
 
