@@ -37,7 +37,7 @@ The major changes to content model are:
 
 See attachment for `an overview`_ of the tables, new tables are highlighted in blue.
 
-.. _an overview: datamodel.png
+.. _an overview: multi-language_datamodel.png
 
 Global translations
 -------------------
@@ -541,10 +541,6 @@ to create in, this also has the default selected.
 
 Editing should be similar as the create operation but with a dropdown (either
 combobox or JS popup).
-
-See attachment for a `mockup of the UI`_.
-
-.. _mockup of the UI: edit_mockup.png
 
 Editing multiple languages
 --------------------------
