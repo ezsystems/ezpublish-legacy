@@ -333,7 +333,7 @@ class eZStepSiteTypes extends eZStepInstaller
             if ( is_object( $package ) )
             {
                 $downloaded = true;
-                $this->Message = ezi18n( 'design/standard/setup/init', 'Package %packageName and Dependencies have been downloaded. Press NEXT for continue.', false, array( '%packageName' => $sitePackageName ) );
+                $this->Message = ezi18n( 'design/standard/setup/init', 'Package \'%packageName\' and it\'s dependencies have been downloaded successfully. Press \'Next\' to continue.', false, array( '%packageName' => $sitePackageName ) );
             }
         }
         else

@@ -212,12 +212,10 @@ class eZStepCreateSites extends eZStepInstaller
                     if ( file_exists( 'settings/override/' . $iniName . '.append' ) ||
                          file_exists( 'settings/override/' . $iniName . '.append.php' ) )
                     {
-                        eZDebug::writeDebug( "site.ini instance" );
                         $tmpINI = eZINI::instance( $iniName, 'settings/override', null, null, false, true );
                     }
                     else
                     {
-                        eZDebug::writeDebug( "site.ini created" );
                         $tmpINI = eZINI::create( $iniName );
                     }
                     $tmpINI->setVariables( $settings );
@@ -850,8 +848,6 @@ id $inSql";
                              'design_list' => array( $userDesignName, 'admin' ),
                              'user_siteaccess' => $userSiteaccessName,
                              'admin_siteaccess' => $adminSiteaccessName );
-
-        eZDebug::writeDebug( $parameters, '$parameters' );
 
         $siteINIStored = false;
         $siteINIAdminStored = false;

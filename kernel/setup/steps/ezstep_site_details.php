@@ -230,10 +230,6 @@ class eZStepSiteDetails extends eZStepInstaller
             if ( isset( $data['Title'][$identifier] ) )
                 $siteType['title'] = $data['Title'][$identifier];
 
-            eZDebug::writeDebug( $siteType, '$siteType' );
-
-            eZDebug::writeDebug( $data, '$data' );
-
             if ( !$siteType['title'] )
                 $siteType['title'] = $siteType['name'];
 
