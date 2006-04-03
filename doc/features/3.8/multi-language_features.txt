@@ -51,7 +51,7 @@ The language is stored with a locale code (e.g. nor-NO) and a name, in
 addition it also has the field *disabled* which can be used to disable
 a language on the site.
 
-The maximum number of languages is 31 (or 63?).
+The maximum number of languages is 30.
 
 The global table looks like the following::
 
@@ -223,12 +223,6 @@ select those which hold the following condition::
 where *language_mask* is the ezcontentobject attribute containing the bitfield of
 available languages.
 
-Names and path
-~~~~~~~~~~~~~~
-
-The name and (translated) path will no longer be fetched in the main SQL but
-done as a second SQL, this makes the initial subtree SQL faster.
-
 All languages
 ~~~~~~~~~~~~~
 
@@ -334,17 +328,6 @@ objects (Content, Users, Media) but may be extended in the future.
 An extensible API will be made to support the *always available* switch, this
 will allow extensions to determine which extra objects to marks as always
 available.
-
-Attributes
-~~~~~~~~~~
-
-Add a new field called *ignore_language* (default 0) to *object attribute*
-table which can be used when an attribute should not be translated (i.e. chosen
-in class). This means that datatypes no longer have to copy the values when
-translation is disabled.
-
-This attribute will only be editable when the user edits the language which the
-object was initially made in.
 
 Image datatype
 ++++++++++++++
