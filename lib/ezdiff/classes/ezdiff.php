@@ -125,8 +125,8 @@ class eZDiff
 
                 case '1': //XML
                 {
-                    include_once( 'lib/ezdiff/classes/ezdiffxmlengine.php' );
-                    $this->DiffEngineInstance = new eZDiffXMLEngine();
+                    include_once( 'lib/ezdiff/classes/ezdiffxmltextengine.php' );
+                    $this->DiffEngineInstance = new eZDiffXMLTextEngine();
                 }break;
 
                 case '2': //ObjectContainer
