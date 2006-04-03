@@ -2,7 +2,7 @@ Improved multi-language in eZ publish
 =====================================
 
 :Author: Jan Borsodi, Jan Kudlicka
-:Revision: 4
+:Revision: 5
 
 The current implementation (3.7) of multi-language support in eZ publish has
 some shortcomings. The improvements to the system are described in the
@@ -233,9 +233,8 @@ All languages
 ~~~~~~~~~~~~~
 
 To solve the issues with cronjobs and admin interfaces which must always list
-all available languages we introduce a special code called *all-AL* which is
-always available. When used the SQLs will include all objects even if it does
-not have any of the other languages.
+all available languages we introduce a special setting. When used the SQLs will
+include all objects even if it does not have any of the other languages.
 
 The first bit of the bitfield will be examined when this is enabled since it is
 reserved for this task.
@@ -283,24 +282,14 @@ the same time they will each get a copy of the published node assignment, if
 they both modify it there will be conflicts when publishing.
 
 The avoid this conflict the system will no longer allowed locations to be
-added, removed or moved from the admin interface. Any changes to locations will
-have to be done from the admin interface (locations tab). To make it easier to
-perform these tasks from the user site a new view is added which provides this
-functionality.
+added, removed or moved from the admin interface (except first version). Any
+changes to locations will have to be done from the admin interface (locations
+tab).
 
-To make sure it is still possible to hide and change sorting the first time an
-object is published there will be some UI elements available for the first
-version of an object.
+The system will track the operations in the the node-assignment table and merge
+the result with the "live" tree structure to properly add, remove or move
+nodes.
 
-The UI might look something like::
-
-  +-Initial settings-----------------------------------------------+
-  |                                                                |
-  | Visibility: [ Visible ]  Sorting: [ Published ] [ Descending ] |
-  |             [ Hidden  ]           [ Section   ] [ Ascending  ] |
-  |                                   [ Name      ]                |
-  |                                                                |
-  +----------------------------------------------------------------+
 
 Object relations
 ----------------
@@ -309,88 +298,9 @@ Currently all relations are now stored only per version and not per
 language. This means that there will be possible conflicts when two languages
 are edited at the same time.
 
-Solution 1:
-
-Make relations per language, then when a new translation is made the relations
-are copied to this new language.
-
-Solution 2:
-
 When publishing a version/language make sure the relation list is merged
 together with the previous published data. This means that removed relations
 must be marked as removed and not just deleted from the database.
-
-URL aliases
------------
-
-Problem:
-  Currently URL aliases are only built for one of the languages (the main
-  language). For instance if you have a French site where you only show french
-  translations of the URLs it is desirable to show the french URL alias for the
-  users. The translated URL will point to the same internal URL but will use
-  language priority to choose what to show.
-
-Instead of introducing a new table for this or changing the subtree table, the
-existing URL alias table is extended. This table will now have a new field
-called *language_code* which tells which language the url is made for. The
-system will then create/update these entries for all languages of an object
-when it is published.
-
-The table will look like::
-
-  ezurlalias
-  +---------------------------+-------------+--------------------------------------+
-  | destination_url           | language_id | path_id_string                       |
-  +---------------------------+-------------+--------------------------------------+
-  | content/view/full/2       |           2 |                                      |
-  | content/view/full/13      |          32 | folder_1/pingvinen_har_en_megafon    |
-  | content/view/full/13      |           2 | folder_1/the_penguin_has_a_megaphone |
-  +---------------------------+-------------+--------------------------------------+
-
-The PHP class eZContentObjectTreeNode will have this translated url-alias
-available as a function attribute (*localized_path*), if it is null in the
-object it will fetch it from the DB. To avoid having to perform lost of
-repeated SQL calls for each node all fetches nodes should be associated with
-some collection, then we can go over the nodes in the collection and collect
-multiple node IDs and use that for the SQL. (The existing cache system might
-also suffice).
-
-The fetch calls should get the possibility to fetch the name and path
-immediately, this means that if you know you will use the name and/or path it
-can be fetched in one go (after the main SQL). A new parameter is added to the
-fetch functions for this.
-
-The upgrade script must fill this table with info from the tree-node table for
-each missing language. The existing script *"updateniceurls.php"* will be
-extended with this.
-
-Search
-------
-
-Problem:
-  When searching you will always search in all languages, not only do you get
-  too many objects in the result it will also not distinguish words which are
-  the same in many languages but with different meaning. e.g. the word *to*
-  exists in both English and Norwegian but has a different meaning.
-
-Add *language_code* on word table, this will separate words per language and
-solve the issue when one word exists in two or more languages but with
-different meaning. Another issues it solves is when you search in specific
-language and the word you are looking for does not exist in this language but
-in other ones, then there is no need to include that in the search (it could
-even tell the user that).
-
-An example on how it could look::
-
-  ezsearch_word
-  +------+--------------+-------+-------------+
-  | id   | object_count | word  | language_id |
-  +------+--------------+-------+-------------+
-  |    1 |            5 | to    |           2 |
-  |    2 |            2 | to    |          32 |
-  |    3 |            1 | kaker |          32 |
-  |    4 |            1 | go    |           2 |
-  +------+--------------+-------+-------------+
 
 Ignoring translation
 --------------------
@@ -498,18 +408,10 @@ languages.
   language. 
 - content/edit : specify if user has got access to edit the specified
   language(s) and create new translation for specified language(s).
-- content/translate : specify if user has got access to translate intro the
-  specified language(s). This is checked in addition to the *read* and *edit*
-  permissions.
 
-To translate you need *content/read* and *content/edit*, or just
-*content/translate*, for the language to translate into, this means users can
-translate objects without having *content/create* rights.
-
-Discuss:
-  Is there a need for language limitation on content/read. If the user cannot
-  read it in one language then he can still read it in others. What is the
-  purpose of having this?
+To translate you need *content/read* and *content/edit* for the language to
+translate into, this means users can translate objects without having
+*content/create* rights.
 
 View-cache
 ``````````
@@ -548,8 +450,9 @@ Cronjobs
 ````````
 
 Cronjobs must be run with all languages enabled to ensure that they can reach
-any object. The cronjob system will set the *all-AL* code before starting the
-cronjobs.
+any object. The cronjob system will enable the global setting for the language
+class which makes all subsequent operations fetch any object in the system
+regardless of the language.
 
 
 Configurability
@@ -564,24 +467,9 @@ Also a global variable must be set by index.php and cronjob.php which is used
 by the system. The variable is set with the value from the site-access but can
 be overridden by PHP code. e.g.::
 
-  update with correct INI names.
+  // update with correct INI names.
   $languages = $ini->variable( 'Language', 'PriorityList' );
-  $GLOBALS['eZLanguagePriorityList'] = $languages;
-
-Searching
----------
-
-When searching it must be possible to override the default language of the
-site-access. This can be used to narrow down the languages or to fetch objects
-in languages normally not accessible.
-
-The language must be able to be specified in two forms:
-
-- Using a parameter to the search template fetch function.
-- Using a GET/POST parameter from an HTML form.
-
-The languages which can be chosen must be one of the languages defined in the
-site-access.
+  eZContentLanguage::setPrioritizedLanguages( $languages );
 
 Fetching node/object lists
 --------------------------
@@ -671,91 +559,11 @@ translations (UI wise) at the same time, however the process will change from
 earlier. Internally the system actually edits two versions of the same object
 but the user should not be able to spot unless he examines the URLs.
 
-Now the system will display all possible translations in the edit
-interface, if a draft is available for the specific language the user will be
-able to switch to it (thus storing the current language) quickly. If another
-users owns the draft it will not be editable but the user will see who made
-it. If a language has not yet been translated to it will be displayed as
-inactive, creating the specific translation is also a simple operation.
-
-When the user publishes one translation the system will automatically publish
-any other draft of the same object by the current user.
-
-Conflicts
-~~~~~~~~~
-
-A typical conflict is if two people simultaneously edits the same
-language for the same object. A scenario might be:
-
-1. User *John* creates article in language *nor-NO* and publishes it. (version
-   1)
-2. User *Michael* translates it into language *ger-DE* and
-   publishes it. (version 2)
-3. User *Michael* edits language *ger-DE* again and works on it for a
-   while, then stores the draft and continues with other tasks. (version 3)
-4. Meanwhile user *Ivanova* edits the language *ger-DE* (from the last
-   published data i.e. version 2) and then publishes the new data. (version 4)
-5. User *Michael* gets back to the object and continues *ger-DE* and
-   publishes it. (version 3)
-
-Now the object will contain the last published data for *ger-DE* which
-was made by *Michael* (version 3), the changes by *John* has been forgotten.
-
-To solve this issue there will be made some addition checks in the
-system for these conflicts and give the user the possibility to
-resolve them. This is similar to version check we have today in eZ
-publish but will be a bit smart and will eventually replace it.
-
-Problem 1 - Translating or editing a language which already has a
-draft by you.
-This one is easy, this means that you should simply continue the draft
-from where it was. The user should not be bothered with warnings or
-dialogs in this case.
-
-
-Problem 2 - Translating or editing a language which already has a
-draft by another user.
-The second user (in time) should be informed that the language is
-already being edited. The user should be presented with some possible
-actions before continuing, the actions are:
-
-1. Copy the last published version and edit that.
-2. Copy the draft and edit that.
-3. Forget about the editing.
-
-While choosing the other draft should be displayed on the page.
-
-For #1 and #2 the system should also inform the first user that
-someone else is editing the same language, e.g. by sending an
-email. Also the other draft is marked with a special status.
-
-When the first user returns to the edit the system should first
-display a warning page and inform that another user has made a copy
-and is currently editing it. The user must be given some possible
-actions, they are:
-
-1. Continue editing.
-2. Copy data from other draft.
-3. Discard draft.
-
-While choosing the other draft should be displayed on the page.
-
-
 Context menus
 -------------
 
-The JS popup menus must get two extra entries, one for editing the object in a
-given language and one for translating it to a language.
-
-Can the two be merged together, need to decide during UI design phase.
-
-Translating
------------
-
-When *Detailed* viewmode is enabled in the children listing a new translate
-button must be made available. If clicked it pops up a menu allowing
-translation to the globally available languages, if Javascript is not available
-clicking it goes to a new module-view which allows the user to pick a language.
+The JS popup menus must get an extra sub-meny, it contains the languages the
+object can be edited in or the choice to create a new translation.
 
 Extra considerations
 ````````````````````
@@ -773,16 +581,102 @@ Temporary drafts
 
 http://pubsvn.ez.no/community/trunk/hacks/untoucheddrafts/patches/3.7.2/untoucheddrafts.patch
 
-This might need some changes due to the new content/edit system with proper
-language support.
+*Update 03.Apr.2006*: The temporary draft feature has been included in 3.8
+together with the multi-language features.
+
+Outtakes
+````````
+
+Due to technical constraints the following items were not able to make it into
+3.8.
 
 
-Other issues
-````````````
+URL aliases
+-----------
 
-There are some additional issues with multi-lingual content which will not be
-covered by this implementation. These issues are explained shortly with a
-reason why it is not implemented.
+Problem:
+  Currently URL aliases are only built for one of the languages (the main
+  language). For instance if you have a French site where you only show french
+  translations of the URLs it is desirable to show the french URL alias for the
+  users. The translated URL will point to the same internal URL but will use
+  language priority to choose what to show.
+
+Instead of introducing a new table for this or changing the subtree table, the
+existing URL alias table is extended. This table will now have a new field
+called *language_code* which tells which language the url is made for. The
+system will then create/update these entries for all languages of an object
+when it is published.
+
+The table will look like::
+
+  ezurlalias
+  +---------------------------+-------------+--------------------------------------+
+  | destination_url           | language_id | path_id_string                       |
+  +---------------------------+-------------+--------------------------------------+
+  | content/view/full/2       |           2 |                                      |
+  | content/view/full/13      |          32 | folder_1/pingvinen_har_en_megafon    |
+  | content/view/full/13      |           2 | folder_1/the_penguin_has_a_megaphone |
+  +---------------------------+-------------+--------------------------------------+
+
+The PHP class eZContentObjectTreeNode will have this translated url-alias
+available as a function attribute (*localized_path*), if it is null in the
+object it will fetch it from the DB. To avoid having to perform lost of
+repeated SQL calls for each node all fetches nodes should be associated with
+some collection, then we can go over the nodes in the collection and collect
+multiple node IDs and use that for the SQL. (The existing cache system might
+also suffice).
+
+The fetch calls should get the possibility to fetch the name and path
+immediately, this means that if you know you will use the name and/or path it
+can be fetched in one go (after the main SQL). A new parameter is added to the
+fetch functions for this.
+
+The upgrade script must fill this table with info from the tree-node table for
+each missing language. The existing script *"updateniceurls.php"* will be
+extended with this.
+
+Search engine
+-------------
+
+Problem:
+  When searching you will always search in all languages, not only do you get
+  too many objects in the result it will also not distinguish words which are
+  the same in many languages but with different meaning. e.g. the word *to*
+  exists in both English and Norwegian but has a different meaning.
+
+Add *language_code* on word table, this will separate words per language and
+solve the issue when one word exists in two or more languages but with
+different meaning. Another issues it solves is when you search in specific
+language and the word you are looking for does not exist in this language but
+in other ones, then there is no need to include that in the search (it could
+even tell the user that).
+
+An example on how it could look::
+
+  ezsearch_word
+  +------+--------------+-------+-------------+
+  | id   | object_count | word  | language_id |
+  +------+--------------+-------+-------------+
+  |    1 |            5 | to    |           2 |
+  |    2 |            2 | to    |          32 |
+  |    3 |            1 | kaker |          32 |
+  |    4 |            1 | go    |           2 |
+  +------+--------------+-------+-------------+
+
+Search UI
+---------
+
+When searching it must be possible to override the default language of the
+site-access. This can be used to narrow down the languages or to fetch objects
+in languages normally not accessible.
+
+The language must be able to be specified in two forms:
+
+- Using a parameter to the search template fetch function.
+- Using a GET/POST parameter from an HTML form.
+
+The languages which can be chosen must be one of the languages defined in the
+site-access.
 
 Choosing translation per node
 -----------------------------
@@ -799,10 +693,6 @@ major changes to the tree structure.
 
 
 .. _old multi-language specification: http://ez.no/community/developer/specs/improved_content_multilangue_support
-
-
-updates:
-ALTER TABLE ezcontentobject ADD column initial_language_id int not null;
 
 
 ..
