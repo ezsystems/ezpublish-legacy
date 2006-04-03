@@ -57,7 +57,7 @@
 
 
     {* Sub items. *}
-    <td class="number" align="right">{$assignment_node.item.children_count}</td>
+    <td class="number" align="right">{$assignment_node.children_count}</td>
 
     {* Sorting. *}
 {*
@@ -66,17 +66,17 @@
 
     {* Visibility. *}
     <td class="nowrap">
-    {section show=$assignment_node.item.is_invisible}
-        {section show=$assignment_node.item.is_hidden}
+    {section show=$assignment_node.is_invisible}
+        {section show=$assignment_node.is_hidden}
             {'Hidden'|i18n( 'design/admin/node/view/full' )}
-            [ <a href={concat( '/content/hide/', $assignment_node.item.node_id )|ezurl} title="{'Make location and all sub items visible.'|i18n( 'design/admin/node/view/full' )}">{'Reveal'|i18n( 'design/admin/node/view/full' )}</a> ]
+            [ <a href={concat( '/content/hide/', $assignment_node.node_id )|ezurl} title="{'Make location and all sub items visible.'|i18n( 'design/admin/node/view/full' )}">{'Reveal'|i18n( 'design/admin/node/view/full' )}</a> ]
         {section-else}
             {'Hidden by superior'|i18n( 'design/admin/node/view/full' )}
-            [ <a href={concat( '/content/hide/', $assignment_node.item.node_id )|ezurl} title="{'Hide location and all sub items.'|i18n( 'design/admin/node/view/full' )}">{'Hide'|i18n( 'design/admin/node/view/full' )}</a> ]
+            [ <a href={concat( '/content/hide/', $assignment_node.node_id )|ezurl} title="{'Hide location and all sub items.'|i18n( 'design/admin/node/view/full' )}">{'Hide'|i18n( 'design/admin/node/view/full' )}</a> ]
         {/section}
     {section-else}
         {'Visible'|i18n( 'design/admin/node/view/full' )}
-        [ <a href={concat( '/content/hide/', $assignment_node.item.node_id )|ezurl} title="{'Hide location and all sub items.'|i18n( 'design/admin/node/view/full' )}" >{'Hide'|i18n( 'design/admin/node/view/full' )}</a> ]
+        [ <a href={concat( '/content/hide/', $assignment_node.node_id )|ezurl} title="{'Hide location and all sub items.'|i18n( 'design/admin/node/view/full' )}" >{'Hide'|i18n( 'design/admin/node/view/full' )}</a> ]
     {/section}
     </td>
 
