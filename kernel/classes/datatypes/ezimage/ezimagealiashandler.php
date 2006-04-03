@@ -677,7 +677,7 @@ class eZImageAliasHandler
         $obj = $contentObjectAttribute->object();
         $currVer = $obj->version( $contentObjectVersion );
 
-        if ( $this->isImageOwner() or $currVer->attribute( 'status' ) != EZ_VERSION_STATUS_DRAFT  )
+        if ( $this->isImageOwner() )
         {
             foreach ( array_keys( $aliasList ) as $aliasName )
             {
