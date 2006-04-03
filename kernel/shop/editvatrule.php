@@ -35,6 +35,7 @@ require_once( 'kernel/classes/ezproductcategory.php' );
 require_once( 'kernel/classes/ezvattype.php' );
 
 $errors = false;
+$errorHeader = false;
 $productCategories = eZProductCategory::fetchList();
 
 /**
@@ -42,19 +43,93 @@ $productCategories = eZProductCategory::fetchList();
  *
  * \return list of errors found, or false if the data is ok.
  */
-function checkEnteredData( $country, $categories, $vatType )
+function checkEnteredData( $country, $categories, $vatType, $productCategories )
 {
-    if ( $country && is_numeric( $vatType ) )
-        return false;
+    $errors = false;
+    $errorHeader = '';
 
-    $errors = array();
-    if ( !$country )
-        $errors[] = ezi18n( 'kernel/shop/editvatrule', 'Choose a country.' );
-    if ( !is_numeric( $vatType ) )
-        $errors[] = ezi18n( 'kernel/shop/editvatrule', 'Choose a VAT type.' );
+    /*
+     * Check if the data was entered correctly.
+     */
 
-    return $errors;
+    if ( !$country || !is_numeric( $vatType ) )
+    {
+        $errors = array();
+        $errorHeader = ezi18n( 'kernel/shop/editvatrule', 'Invalid data entered' );
+
+        if ( !$country )
+            $errors[] = ezi18n( 'kernel/shop/editvatrule', 'Choose a country.' );
+        if ( !is_numeric( $vatType ) )
+            $errors[] = ezi18n( 'kernel/shop/editvatrule', 'Choose a VAT type.' );
+
+        return array( $errorHeader, $errors );
+    }
+
+    /*
+     * Check if the rule we're about to create
+     * conflicts with existing ones.
+     */
+
+    $errorHeader = ezi18n( 'kernel/shop/editvatrule', 'Conflicting rule' );
+    $vatRules = eZVatRule::fetchList();
+
+    // If the rule is default one
+    if ( !$categories )
+    {
+        // check if default rule already exists.
+        foreach ( $vatRules as $i )
+        {
+            if ( $i->attribute( 'country' ) != $country || $i->attribute( 'product_categories' ) )
+                continue;
+
+            if ( $country == '*' )
+                $errors[] = ezi18n( 'kernel/shop/editvatrule', 'Default rule for any country already exists.' );
+            else
+            {
+                $errorMessage = "Default rule for country '%1' already exists.";
+                $errors[] = ezi18n( 'kernel/shop/editvatrule', $errorMessage, null, array( $country ) );
+            }
+
+            break;
+        }
+    }
+
+    // If the rule contains some categories
+    else
+    {
+        // check if there are already rules defined for the same country
+        // containing some of the categories.
+
+        foreach ( $vatRules as $i )
+        {
+            if ( $i->attribute( 'country' ) != $country || !$i->attribute( 'product_categories' ) )
+                continue;
+
+            $intersection = array_intersect( $categories, $i->attribute( 'product_categories_ids' ) );
+            if ( !$intersection )
+                continue;
+
+            // Construct string containing name of all the conflicting categories.
+            $intersectingCategories = array();
+            foreach ( $productCategories as $cat )
+            {
+                if ( array_search( $cat->attribute( 'id' ), $intersection ) !== false )
+                     $intersectingCategories[] = $cat->attribute( 'name' );
+            }
+            $intersectingCategories = join( ', ', $intersectingCategories );
+
+            if ( $country == '*' )
+                $errorMessage = "There is already a rule defined for any country containing the following categories: %2.";
+            else
+                $errorMessage = "There is already a rule defined for country '%1' containing the following categories: %2.";
+
+            $errors[] = ezi18n( 'kernel/shop/editvatrule', $errorMessage, null, array( $country, $intersectingCategories ) );
+        }
+    }
+
+    return array( $errorHeader, $errors );
 }
+
 
 if ( $module->isCurrentAction( 'Cancel' ) )
 {
@@ -73,8 +148,9 @@ else if ( in_array( $module->currentAction(), array(  'Create', 'StoreChanges' )
     if ( in_array( '*', $chosenCategories ) )
         $chosenCategories = array();
 
-    $errors = checkEnteredData( $chosenCountry, $chosenCategories, $chosenVatType );
+    list( $errorHeader, $errors ) = checkEnteredData( $chosenCountry, $chosenCategories, $chosenVatType, $productCategories );
 
+    // save rule (creating it if not exists)
     do // one-iteration loop to prevent high nesting levels
     {
         if ( $errors !== false )
@@ -140,6 +216,7 @@ $vatTypes = eZVatType::fetchList( true, true );
 include_once( 'kernel/common/template.php' );
 $tpl =& templateInit();
 
+$tpl->setVariable( 'error_header', $errorHeader );
 $tpl->setVariable( 'errors', $errors );
 $tpl->setVariable( 'all_vat_types', $vatTypes );
 $tpl->setVariable( 'all_product_categories', $productCategories );
