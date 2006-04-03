@@ -86,7 +86,7 @@ class eZSearchEngine
                     $tmpMetaData = $translation->metaData();
                     if( ! is_array( $tmpMetaData ) )
                     {
-                        $tmpMetaData = array( array( 'identifier' => $attribute->attribute( 'contentclass_attribute_identifier' ),
+                        $tmpMetaData = array( array( 'id' => $attribute->attribute( 'contentclass_attribute_identifier' ),
                                                      'text' => $tmpMetaData ) );
                     }
                     $metaData = array_merge( $metaData, $tmpMetaData );
@@ -113,7 +113,7 @@ class eZSearchEngine
                         {
                             $indexArray[] = array( 'Word' => $word,
                                                    'ContentClassAttributeID' => $attribute->attribute( 'contentclassattribute_id' ),
-                                                   'identifier' => $metaDataPart['identifier'],
+                                                   'identifier' => $metaDataPart['id'],
                                                    'integer_value' => $integerValue );
                             $indexArrayOnlyWords[] = $word;
                             $wordCount++;
