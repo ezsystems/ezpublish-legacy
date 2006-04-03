@@ -52,4 +52,3 @@ class eZXMLTextDiff extends eZDiffContent
     }
 }
 ?>
-
