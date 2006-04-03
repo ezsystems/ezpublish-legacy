@@ -49,9 +49,9 @@ function checkEnteredData( $country, $categories, $vatType )
 
     $errors = array();
     if ( !$country )
-        $errors[] = ezi18n( 'kernel/shop', 'Choose a country.' );
+        $errors[] = ezi18n( 'kernel/shop/editvatrule', 'Choose a country.' );
     if ( !is_numeric( $vatType ) )
-        $errors[] = ezi18n( 'kernel/shop', 'Choose a VAT type.' );
+        $errors[] = ezi18n( 'kernel/shop/editvatrule', 'Choose a VAT type.' );
 
     return $errors;
 }
@@ -89,7 +89,7 @@ else if ( in_array( $module->currentAction(), array(  'Create', 'StoreChanges' )
             if ( !is_object( $vatRule ) )
             {
                 //$ruleID = null;
-                $errors[] = ezi18n( 'kernel/shop', 'Rule not found' );
+                $errors[] = ezi18n( 'kernel/shop/editvatrule', 'Rule not found' );
                 break;
             }
         }
@@ -116,7 +116,7 @@ if ( is_numeric( $ruleID ) )
     $tplCategoryIDs  = $tplVatRule->attribute( 'product_categories_ids' );
     $tplVatTypeID    = $tplVatRule->attribute( 'vat_type' );
 
-    $pathText = ezi18n( 'kernel/shop', 'Edit VAT charging rule' );
+    $pathText = ezi18n( 'kernel/shop/editvatrule', 'Edit VAT charging rule' );
 }
 else
 {
@@ -125,7 +125,7 @@ else
     $tplVatTypeID = false;
     $tplCategoryIDs = array();
 
-    $pathText = ezi18n( 'kernel/shop', 'Create new VAT charging rule' );
+    $pathText = ezi18n( 'kernel/shop/editvatrule', 'Create new VAT charging rule' );
 }
 
 if ( $errors !== false )

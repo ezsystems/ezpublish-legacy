@@ -2,13 +2,13 @@
 
 {if $errors}
 <div class="message-warning">
-    <h2>{'Wrong or missing rules.'|i18n( 'design/admin/shop/editvatrule' )}</h2>
+    <h2>{'Wrong or missing rules.'|i18n( 'design/admin/shop/vatrules' )}</h2>
     <ul>
     {foreach $errors as $error}
         <li>{$error|wash}</li>
     {/foreach}
     </ul>
-    {'Errors in VAT rules configuration may lead to charging wrong VAT for your products. Please fix them.'|i18n( 'design/admin/shop/editvatrule' )}
+    {'Errors in VAT rules configuration may lead to charging wrong VAT for your products. Please fix them.'|i18n( 'design/admin/shop/vatrules' )}
 </div>
 {/if}
 

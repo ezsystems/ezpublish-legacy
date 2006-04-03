@@ -86,7 +86,7 @@ $tpl =& templateInit();
 $tpl->setVariable( 'categories', $productCategories );
 
 $path = array();
-$path[] = array( 'text' => ezi18n( 'kernel/shop', 'Product categories' ),
+$path[] = array( 'text' => ezi18n( 'kernel/shop/productcategories', 'Product categories' ),
                  'url' => false );
 
 $Result = array();
