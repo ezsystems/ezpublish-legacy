@@ -51,7 +51,7 @@ function findErrors( $vatRules )
         }
     }
 
-    if ( !$defaultRuleExists )
+    if ( !$defaultRuleExists && count( $vatRules ) > 0 )
         $errors[] = ezi18n( 'kernel/shop/vatrules', 'No default rule found. ' .
                             'Please add rule having "Any" country and "Any" category.' );
 
