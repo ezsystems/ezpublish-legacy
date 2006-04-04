@@ -7,5 +7,6 @@ Changes from 3.8.0beta1 to 3.8.0beta2
   eZPersistentObject::conditionTextByRow.
   ( Merged from stable/3.7 ( 3.7.6 ) rev. 15543 )
 - Fixed inability to proceed with an uploaded package in the setup wizard.
+- Removing references to product category after it has been removed.
 
 *DataTypes:

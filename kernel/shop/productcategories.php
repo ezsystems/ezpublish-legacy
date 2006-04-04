@@ -52,43 +52,104 @@ function applyChanges( $module, $http )
 
 $module =& $Params["Module"];
 $http   =& eZHttpTool::instance();
+$tpl =& templateInit();
 
-if ( $http->hasPostVariable( "AddCategoryButton" ) )
+if ( $module->isCurrentAction( 'Remove' ) )
+{
+    applyChanges( $module, $http );
+
+    if ( !$module->hasActionParameter( 'CategoryIDList' ) )
+        $catIDList = array();
+    else
+        $catIDList = $module->actionParameter( 'CategoryIDList' );
+
+    if ( $catIDList )
+    {
+        // Find dependencies for the categories being removed.
+
+        $deps = array();
+        require_once( 'kernel/classes/ezvatrule.php' );
+        foreach ( $catIDList as $catID )
+        {
+            $category = eZProductCategory::fetch( $catID );
+            if ( !is_object( $category ) )
+                continue;
+
+            $catName  = $category->attribute( 'name' );
+            $dependantRulesCount = eZVatRule::fetchCountByCategory( $catID );
+            $dependantProductsCount = eZProductCategory::fetchProductCountByCategory( $catID );
+            $deps[$catID] = array( 'name' => $catName,
+                                   'affected_rules_count'    => $dependantRulesCount,
+                                   'affected_products_count' => $dependantProductsCount );
+        }
+
+        // Skip the confirmation dialog if the categories
+        // being removed have no conflicts.
+        $haveDeps = false;
+        foreach ( $deps as $dep )
+        {
+            if ( $dep['affected_rules_count'] > 0 || $dep['affected_products_count'] > 0 )
+                $haveDeps = true;
+        }
+
+        // Show the confirmation dialog.
+        if ( $haveDeps )
+        {
+            $tpl->setVariable( 'dependencies', $deps );
+            $tpl->setVariable( 'category_ids', join( ',', $catIDList ) );
+            $path = array( array( 'text' => ezi18n( 'kernel/shop/productcategories', 'Product categories' ),
+                                  'url' => false ) );
+            $Result = array();
+            $Result['path'] =& $path;
+            $Result['content'] =& $tpl->fetch( "design:shop/removeproductcategories.tpl" );
+            return;
+        }
+        else
+        {
+            // Pass through.
+            $module->setCurrentAction( 'ConfirmRemoval' );
+        }
+
+    }
+}
+if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
+{
+    if ( !$module->hasActionParameter( 'CategoryIDList' ) )
+        $catIDList = array();
+    else
+    {
+        // The list of categories is a string if passed from the confirmation dialog
+        // and an array if passed from another action.
+        $catIDList = $module->actionParameter( 'CategoryIDList' );
+        if ( is_string( $catIDList ) )
+            $catIDList = explode( ',', $catIDList );
+    }
+
+    $db =& eZDB::instance();
+    $db->begin();
+    foreach ( $catIDList as $catID )
+        eZProductCategory::remove( (int) $catID );
+    $db->commit();
+}
+elseif ( $module->isCurrentAction( 'Add' ) )
 {
     applyChanges( $module, $http );
 
     $category = eZProductCategory::create();
     $category->store();
 }
-elseif ( $http->hasPostVariable( "RemoveCategoryButton" ) )
-{
-    applyChanges( $module, $http );
-
-    if ( !$http->hasPostVariable( "CategoryIDList" ) )
-        $catIDList = array();
-    else
-        $catIDList = $http->postVariable( "CategoryIDList" );
-
-    $db =& eZDB::instance();
-    $db->begin();
-    foreach ( $catIDList as $catID )
-        eZProductCategory::remove( $catID );
-    $db->commit();
-}
-elseif ( $http->hasPostVariable( "SaveCategoriesButton" ) )
+elseif ( $module->isCurrentAction( 'StoreChanges' ) )
 {
     applyChanges( $module, $http );
 }
 
 $productCategories = eZProductCategory::fetchList( true );
 
-$tpl =& templateInit();
 $tpl->setVariable( 'categories', $productCategories );
 
 $path = array();
 $path[] = array( 'text' => ezi18n( 'kernel/shop/productcategories', 'Product categories' ),
                  'url' => false );
-
 $Result = array();
 $Result['path'] =& $path;
 $Result['content'] =& $tpl->fetch( "design:shop/productcategories.tpl" );

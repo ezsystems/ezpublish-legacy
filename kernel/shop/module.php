@@ -183,6 +183,13 @@ $ViewList["productcategories"] = array(
     "functions" => array( 'setup' ),
     "script" => "productcategories.php",
     "default_navigation_part" => 'ezshopnavigationpart',
+    'single_post_actions' => array( 'AddCategoryButton'    => 'Add',
+                                    'RemoveCategoryButton' => 'Remove',
+                                    'ConfirmRemovalButton' => 'ConfirmRemoval', // remove dialog
+                                    'CancelRemovalButton'  => 'CancelRemoval',  // remove dialog
+                                    'SaveCategoriesButton' => 'StoreChanges' ),
+    'post_action_parameters' => array( 'Remove'         => array( 'CategoryIDList' => 'CategoryIDList' ),
+                                       'ConfirmRemoval' => array( 'CategoryIDList' => 'CategoryIDList' ) ),
     "params" => array(  ) );
 
 $ViewList["discountgroup"] = array(

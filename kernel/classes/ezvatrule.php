@@ -109,6 +109,31 @@ class eZVatRule extends eZPersistentObject
                                                     null, true );
     }
 
+    /**
+     * Return number of VAT rules referencing given product category.
+     *
+     * \param $categories Category (single or list) to fetch VAT rules for.
+     * \param $asObject   true if the resulting array must contain objects.
+     * \public
+     * \static
+     */
+    function fetchCountByCategory( $categories, $asObject = true )
+    {
+        $db =& eZDB::instance();
+
+        $query = "SELECT COUNT(*) AS count FROM ezvatrule vr, ezvatrule_product_category vrpc " .
+                 "WHERE vr.id=vrpc.vatrule_id AND vrpc.product_category_id";
+
+        if ( is_array( $categories ) )
+            $query .= " IN ('" . $db->implodeWithTypeCast( ',', $categories, 'int' ) . "')";
+        else
+            $query .= "=" . (int) $categories;
+
+        $rows = $db->arrayQuery( $query );
+
+        return $rows[0]['count'];
+    }
+
     function create()
     {
         $row = array(
@@ -278,6 +303,23 @@ class eZVatRule extends eZPersistentObject
         $db =& eZDB::instance();
         $db->query( "DELETE FROM ezvatrule_product_category WHERE vatrule_id = $ruleID" );
     }
+
+    /**
+     * Remove references to the given product category.
+     *
+     * \public
+     * \static
+     * \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     * the calls within a db transaction; thus within db->begin and db->commit.
+     */
+    function removeReferencesToProductCategory( $cartegoryID )
+    {
+        $db =& eZDB::instance();
+        $query = "DELETE FROM ezvatrule_product_category WHERE product_category_id=" . (int) $cartegoryID;
+        eZDebug::writeDebug( $query, '$query' );
+        $db->query( $query );
+    }
+
 
     var $ProductCategories;
 }

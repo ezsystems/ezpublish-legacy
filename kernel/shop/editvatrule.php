@@ -180,6 +180,11 @@ else if ( in_array( $module->currentAction(), array(  'Create', 'StoreChanges' )
             $vatRule = eZVatRule::create();
         }
 
+        // Modify chosen categories array
+        // so that it can be saved into the VAT rule.
+        $addID = create_function('$i', "return array( 'id' => \$i ) ;" );
+        $chosenCategories = array_map( $addID, $chosenCategories );
+
         $vatRule->setAttribute( 'country', $chosenCountry );
         $vatRule->setAttribute( 'product_categories', $chosenCategories );
         $vatRule->setAttribute( 'vat_type', $chosenVatType );

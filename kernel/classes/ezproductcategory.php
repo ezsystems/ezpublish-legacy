@@ -74,6 +74,35 @@ class eZProductCategory extends eZPersistentObject
                                                     $asObject );
     }
 
+    /**
+     * Returns number of products belonging to the given category.
+     *
+     * \public
+     * \static
+     */
+    function fetchProductCountByCategory( $categoryID )
+    {
+        $ini =& eZINI::instance( 'shop.ini' );
+        if ( !$ini->hasVariable( 'VATSettings', 'ProductCategoryAttribute' ) ||
+             !$categoryAttrName = $ini->variable( 'VATSettings', 'ProductCategoryAttribute' ) )
+            return 0;
+
+        require_once( 'lib/ezdb/classes/ezdb.php' );
+        $db =& eZDB::instance();
+
+        $query = "SELECT COUNT(*) AS count " .
+                 " FROM ezcontentobject_attribute coa, ezcontentclass_attribute cca, ezcontentobject co " .
+                 "WHERE " .
+                 " cca.id=coa.contentclassattribute_id " .
+                 " AND coa.contentobject_id=co.id " .
+                 " AND cca.data_type_string='ezproductcategory' " .
+                 " AND cca.identifier='$categoryAttrName' " .
+                 " AND coa.version=co.current_version " .
+                 " AND coa.data_int=$categoryID";
+        $rows = $db->arrayQuery( $query );
+        return $rows[0]['count'];
+    }
+
     function create()
     {
         $row = array(
@@ -82,14 +111,53 @@ class eZProductCategory extends eZPersistentObject
         return new eZProductCategory( $row );
     }
 
-    /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
+    /**
+     * Remove the given category and all references to it.
+     *
+     * \public
+     * \static
      */
     function remove( $id )
     {
+        $id = (int) $id;
+
+        $db =& eZDB::instance();
+        $db->begin();
+
+        // Delete references to the category from VAT charging rules.
+        require_once( 'kernel/classes/ezvatrule.php' );
+        eZVatRule::removeReferencesToProductCategory( $id );
+
+        // Reset product category attribute for all products
+        // that have been referencing the category.
+        $ini =& eZINI::instance( 'shop.ini' );
+        if ( $ini->hasVariable( 'VATSettings', 'ProductCategoryAttribute' ) &&
+             $categoryAttrName = $ini->variable( 'VATSettings', 'ProductCategoryAttribute' ) )
+        {
+            $query = "SELECT coa.id FROM ezcontentobject_attribute coa, ezcontentclass_attribute cca, ezcontentobject co " .
+                     "WHERE " .
+                     " cca.id=coa.contentclassattribute_id " .
+                     " AND coa.contentobject_id=co.id " .
+                     " AND cca.data_type_string='ezproductcategory' " .
+                     " AND cca.identifier='$categoryAttrName' " .
+                     " AND coa.version=co.current_version " .
+                     " AND coa.data_int=$id";
+
+            $rows = $db->arrayQuery( $query );
+
+            foreach ( $rows as $row )
+            {
+                $query = "UPDATE ezcontentobject_attribute SET data_int=0, sort_key_int=0 WHERE id=" . (int) $row['id'];
+                eZDebug::writeDebug( $query, '$query' );
+                $db->query( $query );
+            }
+        }
+
+        // Remove the category itself.
         eZPersistentObject::removeObject( eZProductCategory::definition(),
                                           array( "id" => $id ) );
+
+        $db->commit();
     }
 }
 
