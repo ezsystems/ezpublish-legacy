@@ -585,7 +585,7 @@ Datatype branch:
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.7.4
 - Date 11-Mar-2006
 
-3.7.8alpha2:
+3.8.0alpha2:
 - From revision=15127
 - Revision=15128
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.0alpha2
@@ -617,3 +617,8 @@ Datatype branch:
 - Revision=15292
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.7.5
 - Date 24-Mar-2006
+
+3.8.0beta1:
+- Revision=15549
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.0beta1
+- Date 4-Apr-2006
