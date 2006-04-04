@@ -188,18 +188,6 @@ class eZStepSiteTypes extends eZStepInstaller
             $requiredPackageName    = $req['name'];
             $requiredPackageVersion = $req['min-version'];
 
-            if ( !isset( $remotePackagesInfo[$requiredPackageName]['url'] ) )
-            {
-                eZDebug::writeWarning( "Download of package '$requiredPackageName' failed: the URL is unknown." );
-                $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
-                                          'Download of package \'%pkg\' failed. You may upload the package manually.',
-                                          false, array( '%pkg' => $requiredPackageName ) );
-                return false;
-            }
-
-            $requiredPackageURL = $remotePackagesInfo[$requiredPackageName]['url'];
-
-
             $downloadNewPackage   = false;
             $removeCurrentPackage = false;
 
@@ -236,6 +224,16 @@ class eZStepSiteTypes extends eZStepInstaller
 
             if ( $downloadNewPackage )
             {
+                if ( !isset( $remotePackagesInfo[$requiredPackageName]['url'] ) )
+                {
+                    eZDebug::writeWarning( "Download of package '$requiredPackageName' failed: the URL is unknown." );
+                    $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
+                                              'Download of package \'%pkg\' failed. You may upload the package manually.',
+                                              false, array( '%pkg' => $requiredPackageName ) );
+                    return false;
+                }
+
+                $requiredPackageURL = $remotePackagesInfo[$requiredPackageName]['url'];
                 $rc = $this->downloadAndImportPackage( $requiredPackageName, $requiredPackageURL );
                 if( !is_object( $rc ) )
                 {
@@ -351,8 +349,8 @@ class eZStepSiteTypes extends eZStepInstaller
             return false;
 
         // Download packages that the site package requires.
-        $donloadDependandPackagesResult = $this->downloadDependantPackages( $package );
-        return $donloadDependandPackagesResult == false ? false : !$downloaded;
+        $downloadDependandPackagesResult = $this->downloadDependantPackages( $package );
+        return $downloadDependandPackagesResult == false ? false : !$downloaded;
     }
 
     /*!
