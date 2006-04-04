@@ -580,7 +580,7 @@ class eZPersistentObject
                               case '!=':
                               case 'like':
                                   {
-                                      $where_text .= $db->escapeString( $id ) . $cond[0] . "'" . $db->escapeString( $cond[1] ) . "'";
+                                      $where_text .= $db->escapeString( $id ) . " " . $cond[0] . " '" . $db->escapeString( $cond[1] ) . "'";
                                   } break;
                               default:
                                   {
