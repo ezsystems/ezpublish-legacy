@@ -1,0 +1,11 @@
+Changes from 3.8.0beta1 to 3.8.0beta2
+
+*Kernel:
+
+*Bugfixes:
+- Fixed bug #7832: No conditions with "like" in function
+  eZPersistentObject::conditionTextByRow.
+  ( Merged from stable/3.7 ( 3.7.6 ) rev. 15543 )
+- Fixed inability to proceed with an uploaded package in the setup wizard.
+
+*DataTypes:

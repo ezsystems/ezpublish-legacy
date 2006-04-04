@@ -51,9 +51,6 @@ Changes from 3.8.0alpha2 to 3.8.0beta1
 - Fixed bug #8066: Adding new locations craches.
 - Fixed bug #7921: user/setting doesn't set a path.
   ( Merged from stable/3.7 ( 3.7.6 ) rev. 15443 )
-- Fixed bug #7832: No conditions with "like" in function
-  eZPersistentObject::conditionTextByRow.
-  ( Merged from stable/3.7 ( 3.7.6 ) rev. 15543 )
 
 *DataTypes:
 
