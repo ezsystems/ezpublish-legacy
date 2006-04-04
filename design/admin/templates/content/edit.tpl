@@ -32,12 +32,10 @@
 <p class="translation">
 {let language_index=0
      from_language_index=0
-     default_translation=$content_version.translation
-     other_translation_list=$content_version.translation_list
-     translation_list=$other_translation_list|array_prepend($default_translation)}
+     translation_list=$content_version.translation_list}
 
 {section loop=$translation_list}
-  {section show=and( is_set( $item.language_code ), eq( $edit_language, $item.language_code ) )}
+  {section show=eq( $edit_language, $item.language_code )}
     {set language_index=$:index}
   {/section}
 {/section}
