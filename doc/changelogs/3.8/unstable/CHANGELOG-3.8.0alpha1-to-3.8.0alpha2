@@ -1,7 +1,6 @@
 Changes from 3.8.0alpha1 to 3.8.0alpha2
 
 *Bugfixes:
-
 - Fixed "Object relation" and "Object relations" datatypes
   (un)serialization to export related object remote_id instead of id.
 - Fixed bug: When exporting all contentobject versions

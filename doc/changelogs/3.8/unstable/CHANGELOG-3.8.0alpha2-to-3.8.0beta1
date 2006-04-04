@@ -12,7 +12,6 @@ Changes from 3.8.0alpha2 to 3.8.0beta1
 - Added detection of conflicts in VAT charging rules.
 
 *Bugfixes:
-
 - Fixed bug #7956: Wishlist is called "basket".
   ( Merged from stable/3.5 rev. 15133 )
 - Fixed bug #7975: Assigning a role with limitation on section 

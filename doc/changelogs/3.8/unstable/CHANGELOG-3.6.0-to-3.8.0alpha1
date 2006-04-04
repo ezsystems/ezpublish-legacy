@@ -1,4 +1,4 @@
-Changes from 3.6.0 to 3.8.5;20alpha1
+Changes from 3.6.0 to 3.8.0alpha1
 
 *Kernel:
 - Added method eZContentObject::clearCache() that can be used to clear all
@@ -29,7 +29,7 @@ Changes from 3.6.0 to 3.8.5;20alpha1
 - Improved RSS import. Added support for defining RSS definitions in extensions.
   ( See doc/features/3.8/generic_rss_import.txt )
 - Added custom content object edit HTTP post parameter handling.
-- Fixed bug #7448:Fixed For notification digest in eznotificationevent.php, fetch function will return object now.
+- Fixed bug #7448: Fixed For notification digest in eznotificationevent.php, fetch function will return object now.
   ( Merged from stable/3.7 rev. 14519 )
 - Added: New parameter to treemenuoperator:
   "is_selected_method" ( 'tree'(by default), 'node' ) -
@@ -134,7 +134,7 @@ eZXMLText:
 - Fixed bug #6738: Online Editor 3.0 not working with eZ 3.7.0Alpha1.
 - Fixed bug #6753: Cache is not cleared after deleting a role.
   (Manually merged from stable/3.5 (3.5.3) rev. 12197)
-- Fixed bugs #6733 and #6737: "Date and time" and "Date" datatypes were not
+- Fixed bug #6733 and bug #6737: "Date and time" and "Date" datatypes were not
   validated properly.
   (Merged from stable/3.5 (3.5.4) rev. 12215)
 - Fixed bug #6765: Fields are cleared on relating an object with related
@@ -946,7 +946,7 @@ eZTemplate:
   eZDebug::writeDebug() from a template.
 - Added support for "embed-inline" tag.
 
-*INI settings
+*INI settings:
 - Changed: [TipAFriend].FromEmail ini setting is now empty by default.
   Thus, the email address specified in the tip-a-friend form is used as from 
   address when sending the email.
