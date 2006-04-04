@@ -10,3 +10,6 @@ Changes from 3.5.10 to 3.5.11
   ( Merged from stable/3.7 ( 3.7.6 ) rev. 15382 )
 - Fixed bug #7921: user/setting doesn't set a path.
   ( Merged from stable/3.7 ( 3.7.6 ) rev. 15443 )
+- Fixed bug #7832: No conditions with "like" in function
+  eZPersistentObject::conditionTextByRow.
+  ( Merged from stable/3.7 ( 3.7.6 ) rev. 15543 )
