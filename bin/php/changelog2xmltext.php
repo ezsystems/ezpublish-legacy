@@ -75,6 +75,9 @@ function addListItem( &$listLines, $changeText )
 {
     if ( $changeText !== false )
     {
+        $changeText = str_replace( array( "<", ">",   ),
+                                   array( "[", "]" ),
+                                   $changeText );
         $methodText = 'http|https|ftp|sftp';
         $elements = preg_split( "#((?:(?:$methodText)://)(?:(?:[a-zA-Z0-9_-]+\\.)*[a-zA-Z0-9_-]+(?:(?:[\/a-zA-Z0-9_+$-]+\\.)*(?:[\/a-zA-Z0-9_+$-])*))(?:\#[a-zA-Z0-9-]+)?\?*(?:[a-zA-Z0-9_-]+=[a-zA-Z0-9_-]+&*)*)#m",
                                 $changeText,
@@ -93,7 +96,7 @@ function addListItem( &$listLines, $changeText )
         }
         $changeText = implode( '', $newElements );
 
-        $elements = preg_split( "/bug #([0-9]+)/im",
+        $elements = preg_split( "/bugs? *# *([0-9]+)/im",
                                 $changeText,
                                 false,
                                 PREG_SPLIT_DELIM_CAPTURE );
@@ -112,7 +115,8 @@ function addListItem( &$listLines, $changeText )
 
         $changeText = preg_replace( "# *\( *?(:?manually +)?merged +from +[a-z0-9.-]+(?:/[a-z0-9.-]+)*[,/]? +(\([0-9](?:[.-][0-9a-z]+)*\))? *(?:rev|erv)(?:ision|\.)? *[0-9]+ *\)#i", '', $changeText );
 
-        $listLines[] = '<li>' . $changeText . '</li>';
+        $listLines[] = array( 'type' => 'li',
+                              'text' => $changeText );
     }
 }
 
@@ -120,10 +124,9 @@ function createList( &$newLines, &$listLines )
 {
     if ( count( $listLines ) > 0 )
     {
-        $newLines[] = '<ul>';
-        $newLines = array_merge( $newLines, $listLines );
-        $newLines[] = '</ul>';
-        $newLines[] = '';
+        $ulEntry = array( 'type' => 'ul',
+                          'items' => $listLines );
+        $newLines[] = $ulEntry;
         $listLines = array();
     }
 }
@@ -138,12 +141,14 @@ $lineNumber = 0;
 $listCounter = 0;
 $listLines = array();
 $currentListEntry = false;
+$lastSection = null;
 foreach ( $lines as $line )
 {
     ++$lineNumber;
     if ( $lineNumber == 1 )
     {
-        $newLines[] = $line;
+        $newLines[] = array( 'type' => 'title',
+                             'name' => $line );
         $newLines[] = '';
         continue;
     }
@@ -169,21 +174,81 @@ foreach ( $lines as $line )
     {
         addListItem( $listLines, $currentListEntry );
         $currentListEntry = false;
-        createList( $newLines, $listLines );
+        createList( $lastSection['items'], $listLines );
 
         $header = $matches[2];
         $headerLevel = 1;
         if ( !$matches[1] )
             $headerLevel += 1;
-        $newLines[] = "<header level=$headerLevel>$header</header>";
+        $section = array( 'type' => 'section',
+                          'level' => $headerLevel,
+                          'name' => "$header",
+                          'items' => array() );
+        $newLines[] = $section;
+        unset( $lastSection );
+        $lastSection =& $newLines[count( $newLines ) - 1];
         $listCounter = 1;
     }
 }
 addListItem( $listLines, $currentListEntry );
 $currentListEntry = false;
-createList( $newLines, $listLines );
+if ( $lastSection !== null )
+{
+    createList( $lastSection['items'], $listLines );
+}
 
-$newText = implode( "\n", $newLines );
+function dumpToText( $nodes )
+{
+    $text = '';
+    foreach ( $nodes as $node )
+    {
+        if ( is_string( $node ) )
+        {
+            $text .= $node . "\n";
+        }
+        else
+        {
+            if ( !isset( $node['type'] ) )
+            {
+                    var_dump( $node );
+            }
+            $type = $node['type'];
+            switch ( $type )
+            {
+                case 'title':
+                {
+                    $text .= $node['name'] . "\n";
+                } break;
+                case 'section':
+                {
+                    if ( count( $node['items'] ) > 0 )
+                    {
+                        $text .= "<header level='" . $node['level'] . "'>" . $node['name'] . "</header>\n";
+                        $text .= dumpToText( $node['items'] );
+                    }
+                } break;
+                case 'ul':
+                {
+                    $text .= "<ul>\n";
+                    $text .= dumpToText( $node['items'] );
+                    $text .= "</ul>\n\n";
+                } break;
+                case 'li':
+                {
+                    $text .= "  <li>" . $node['text'] . "</li>\n";
+                } break;
+                default:
+                {
+                    echo "Unknown type [$type]\n";
+                    exit( 1 );
+                }
+            }
+        }
+    }
+    return $text;
+}
+
+$newText = dumpToText( $newLines );
 
 $cli->output( $newText, false );
 
