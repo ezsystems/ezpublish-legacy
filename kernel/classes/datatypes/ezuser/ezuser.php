@@ -896,6 +896,13 @@ WHERE user_id = '" . $userID . "' AND
         $newUserID = EZ_USER_ANONYMOUS_ID;
         $http->setSessionVariable( 'eZUserLoggedInID', $newUserID );
         eZSessionSetUserID( $newUserID );
+        // Clear current basket if necessary
+        $db =& eZDB::instance();
+        $db->begin();
+        include_once( 'kernel/classes/ezbasket.php' );
+        eZBasket::cleanupCurrentBasket();
+        $db->commit();
+
         if ( $contentObjectID )
             eZUser::cleanup();
     }
