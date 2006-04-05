@@ -1,43 +1,23 @@
-Improved multi-language in eZ publish
-=====================================
-
-:Author: Jan Borsodi, Jan Kudlicka
-:Revision: 5
-
-The current implementation (3.7) of multi-language support in eZ publish has
-some shortcomings. The improvements to the system are described in the
-following sections, they describe the problem and provides a way to solve it,
-some even has a suggested technical solution.
-
-This document replaces the `old multi-language specification`_.
-
 New concepts
 ````````````
 
-Problem:
-  The current concept keeps all languages inside one version and will allow
-  only one person to modify their data. This makes it impossible for multiple
-  persons to edit each language separately and at the same time, instead they
-  will have to wait for one language to be updated and published.
+In 3.7 or earlier the system kept all languages inside one version and would
+allow only one person to modify their data. This made it impossible for
+multiple persons to edit each language separately and at the same time, instead
+they would have to wait for one language to be updated and published.
 
-To remedy this the languages will be made more self-contained and
-independent. This allows languages to be created and edited separately by
-multiple users, it also simplifies things like approval since you can consider
-one language only.
+Languages are now more self-contained and independent. This allows languages to
+be created and edited separately by multiple users, it also simplifies things
+like approval since you can consider one language only.
 
 The major changes to content model are:
 
-- A user only edits one version and language at a time. UI changes will be made
-  to make it possible to edit multiple languages of an object.
+- A user only edits one version and language at a time.
 - Objects can be created in any language on any site-access, the first language
-  of the object will be recorded.
+  of the object is recorded.
 - Objects can be translated to as many languages as necessary.
 - Available languages can be controlled per site-access, allowing languages to
   be filtered.
-
-See attachment for `an overview`_ of the tables, new tables are highlighted in blue.
-
-.. _an overview: multi-language_datamodel.png
 
 Global translations
 -------------------
@@ -76,7 +56,7 @@ object when none of the others can be used (e.g. filtered away). The value will
 be stored in the field *initial_language_id* using the *language_id* from
 the *ezcontent_language* table.
 
-The new field will look like::
+The new field looks like::
 
   ezcontentobject
   +-----+----------------------+
@@ -92,10 +72,6 @@ The new field will look like::
 
 Available languages
 -------------------
-
-Problem:
-  There is currently no record of what languages are available on an object,
-  unless one accesses the attributes.
 
 To make it easier to figure out which languages are available on an object a
 new attribute is added which returns the languages as an array of
@@ -117,11 +93,6 @@ The result of this attribute is shown below::
 Language priority and filtering
 -------------------------------
 
-Problem:
-  The current model did not have a proper prioritization of the available
-  languages. Often you will want to limit the languages shown for a site-access
-  and also choose which is the preferred.
-
 With the new concepts is no longer directly known which languages to use per
 object, instead this must be calculated based on the requested languages in
 prioritized order and the available languages (in object).
@@ -130,18 +101,18 @@ The requested languages might be different per site-access so the solution must
 be fast and scalable.
 
 A language priority list is basically a list of languages to show and the first
-language will get higher priority than the second and so on...
+language will get higher priority than the second and so on.
 
 Filtering languages
 ~~~~~~~~~~~~~~~~~~~
 
-To perform proper language filtering and prioritization a new bitfield
+To perform proper language filtering and prioritization a new bit-field
 algorithm is introduced. All languages used in an eZ publish instance
 are identified by powers of 2 to be able to use bitmap *and* for selecting
 rows containing information on objects or attributes in prioritized languages.
 Id 1 (2^0) is reserved for marking objects which are always available.
 
-To show how the bitfield algorithm works, let's have a look at the
+To show how the bit-field algorithm works, let's have a look at the
 ezcontentobject table. A new field is introduced to identify languages in which
 last published version of an object exist. This field contains the sum of id
 values of these languages. Because id values are powers of 2 it is possible to
@@ -171,10 +142,10 @@ we might run the following SQL::
   WHERE language_mask & 12 > 0
 
 Whenever the available languages change for the object (i.e. new version
-published) it the bitfield is updated.
+published) it the bit-field is updated.
 
-Another bitfield is used in tables containing the language_code attribute. This
-bitfield represents the same information as the language_code but uses the id
+Another bit-field is used in tables containing the language_code attribute. This
+bit-field represents the same information as the language_code but uses the id
 from ezcontent_language table to make easy to select correct rows with respect
 to the list of prioritized languages.
 
@@ -192,7 +163,7 @@ Consider the following example::
   +----+---------+------------------+---------------+-------------+   
 
 To select content object attributes in prioritized languages, we might use a
-single SQL containing a condition using bitfields, bitmap *and* operation and
+single SQL containing a condition using bit-fields, bitmap *and* operation and
 simple arithmetic operations (multiplication, division and sum).
 
 Consider the following prioritized language list: slk-SK, eng-GB. To check if
@@ -203,7 +174,7 @@ If we perform the following operation::
   + language_id & 2
   + language_id & 1
 
-we will get the bitfield value having 1 on 0th bit if the attribute is always
+we will get the bit-field value having 1 on 0th bit if the attribute is always
 available (i.e. the object containing it have to be shown even if it is not in
 any of prioritized languages), having 1 on 1st bit if the attribute is
 available in eng-GB and having 1 on 2nd bit if the attribute is available in
@@ -220,57 +191,59 @@ select those which hold the following condition::
     + language_id & 2
     + language_id & 1
 
-where *language_mask* is the ezcontentobject attribute containing the bitfield of
+where *language_mask* is the ezcontentobject attribute containing the bit-field of
 available languages.
 
 All languages
 ~~~~~~~~~~~~~
 
 To solve the issues with cronjobs and admin interfaces which must always list
-all available languages we introduce a special setting. When used the SQLs will
+all available languages we introduce a special flag. When used the SQLs will
 include all objects even if it does not have any of the other languages.
-
-The first bit of the bitfield will be examined when this is enabled since it is
-reserved for this task.
 
 Translated attributes
 ---------------------
 
-With the new database concepts it will be possible for multiple users editing
-the same object but in different languages (and versions). This means that
-storage of attributes needs to be changed since one version does not reflect
-all languages anymore.
-
-The system will remove the current_version fields from the DB and instead
-introduce a *status* field on the attributes (same to version status) which is
-used to fetch the published data. When content/edit stores the data it will
-only do it for the language it edits.
+With the new database concepts it is possible for multiple users editing the
+same object but in different languages (and versions). This means that storage
+of attributes is changed since one version does not reflect all languages
+anymore.
 
 In short it means that for one version of an object there will only be
-attribute data for one language.
+attribute data for one language when editing. When the version is published the
+system will copy the attribute for all other languages from the last published
+version to this one.
 
 The table will then look like::
 
   ezcontentobject_attribute
-  +----+------------------+---------+---------------+-------------+--------+
-  | id | contentobject_id | version | language_code | language_id | status |
-  +----+------------------+---------+---------------+-------------+--------+
-  |  7 |                5 |       1 | eng-GB        |           2 |      2 |
-  |  8 |                5 |       1 | eng-GB        |           2 |      2 |
-  |  7 |                5 |       2 | rus-RU        |           4 |      1 |
-  |  8 |                5 |       2 | rus-RU        |           4 |      1 |
-  |  7 |                5 |       3 | eng-GB        |           2 |      1 |
-  |  8 |                5 |       3 | eng-GB        |           2 |      1 |
-  |  7 |                5 |       4 | slk-SK        |           8 |      0 |
-  |  8 |                5 |       4 | slk-SK        |           8 |      0 |
-  | 22 |               44 |       1 | eng-GB        |           2 |      1 |
-  | 23 |               44 |       1 | eng-GB        |           2 |      1 |
-  +----+------------------+---------+---------------+-------------+--------+
+  +----+------------------+---------+---------------+-------------+
+  | id | contentobject_id | version | language_code | language_id |
+  +----+------------------+---------+---------------+-------------+
+  |  7 |                5 |       1 | eng-GB        |           2 |
+  |  8 |                5 |       1 | eng-GB        |           2 |
+  |  9 |                5 |       2 | rus-RU        |           4 |
+  | 10 |                5 |       2 | rus-RU        |           4 |
+  |  7 |                5 |       2 | eng-GB        |           2 |
+  |  8 |                5 |       2 | eng-GB        |           2 |
+  |  7 |                5 |       3 | eng-GB        |           2 |
+  |  8 |                5 |       3 | eng-GB        |           2 |
+  |  9 |                5 |       3 | rus-RU        |           4 |
+  | 10 |                5 |       3 | rus-RU        |           4 |
+  |  7 |                5 |       4 | slk-SK        |           8 |
+  |  8 |                5 |       4 | slk-SK        |           8 |
+  |  7 |                5 |       4 | eng-GB        |           2 |
+  |  8 |                5 |       4 | eng-GB        |           2 |
+  |  9 |                5 |       4 | rus-RU        |           4 |
+  | 10 |                5 |       4 | rus-RU        |           4 |
+  | 22 |               44 |       1 | eng-GB        |           2 |
+  | 23 |               44 |       1 | eng-GB        |           2 |
+  +----+------------------+---------+---------------+-------------+
 
 Node assignment
 ---------------
 
-As with `Translated attributes`_ there are now issues with the node assignments as
+As with Translated attributes there are now issues with the node assignments as
 well. For instance if two users edits the same object in different languages at
 the same time they will each get a copy of the published node assignment, if
 they both modify it there will be conflicts when publishing.
@@ -284,6 +257,9 @@ The system will track the operations in the the node-assignment table and merge
 the result with the "live" tree structure to properly add, remove or move
 nodes.
 
+Note: It will still be possible for PHP scripts to add, remove and move
+      locations.
+
 
 Object relations
 ----------------
@@ -292,42 +268,35 @@ Currently all relations are now stored only per version and not per
 language. This means that there will be possible conflicts when two languages
 are edited at the same time.
 
-When publishing a version/language make sure the relation list is merged
+When publishing a version/language it makes sure the relation list is merged
 together with the previous published data. This means that removed relations
 must be marked as removed and not just deleted from the database.
 
 Ignoring translation
 --------------------
 
-Problem:
-  Some objects will need to always be available no matter which site-access is
-  used. For instance user objects will need to be fetched even if they are not
-  translated to the current language.
+Some objects will need to always be available no matter which site-access is
+used. For instance user objects will need to be fetched even if they are not
+translated to the current language.
 
-The current solution already has this class attributes but must be extended
+The current solution already has this on class attributes but is extended
 further.
 
 Class
 ~~~~~
 
-Add a new field called *always_available* (default 0) to *class* table which
-defines if objects of this class are always available. If this is set to 1 any
-object created from it will always be available.
-One of the major uses for this is for classes which needs to be always
-available, for instance users or user groups.
+A new field called *always_available* (default 0) is added to *class* table
+which defines if objects of this class are always available. If this is set to
+1 any object created from it will always be available.  One of the major uses
+for this is for classes which needs to be always available, for instance users
+or user groups.
 
 When creating objects the objects will copy the current setting in the
 class, any changes to the setting in the class will not affect existing
 objects. This allows this setting to be switched per object at a later time.
 
 By default eZ publish will come with this setting turned on for Folders, Users
-and User Groups. In addition the system will make some objects always
-available, meaning you cannot turn it off, currently this will be top-level
-objects (Content, Users, Media) but may be extended in the future.
-
-An extensible API will be made to support the *always available* switch, this
-will allow extensions to determine which extra objects to marks as always
-available.
+and User Groups.
 
 Image datatype
 ++++++++++++++
@@ -376,16 +345,11 @@ any language.
 Permissions
 ```````````
 
-Problem:
-  Now any user can create translations as long has he can create/edit the
-  object. Being able to restrict access based on language is very useful since
-  a translator might not be allowed to modify the original content. Also a
-  translator currently needs create access while she is only going to extended
-  an object which is already created.
+Being able to restrict access based on language is very useful since a
+translator might not be allowed to modify the original content but only
+create a new translation. 
 
-One must be able to choose languages per access function. This means new policy
-values for content/create and content/edit are required in order to define
-languages.
+The following access functions have been given language support:
 
 - content/create : specify if user is allowed to create new object in specified
   language. 
@@ -399,10 +363,10 @@ translate into, this means users can translate objects without having
 View-cache
 ``````````
 
-With the new multilanguage feature a view-cache is no longer made for one
+With the new multi-language feature a view-cache is no longer made for one
 specific language but for a prioritized list of languages, this means that the
 directory storage must change. We replace the singular language code and
-sitesdesign with the name of the site-access  e.g. if we have the languages
+site-designs with the name of the site-access  e.g. if we have the languages
 *nor-NO*, *eng-GB* and *ger-DE* in the site-access *no* we get::
 
   var/cache/no/full/
@@ -413,10 +377,8 @@ expansion, e.g::
   glob( "var/cache/{admin,mysite}/{full,line}/1/5/15-*.cache",
         GLOB_BRACE );
 
-Doing this change will mean that we need to use AvailableSiteAccessList
-(*site.ini*) when cleaning up caches. All of these changes can optimize the
-::cleanup() method of the viewcache considerably while also giving proper
-multi-language support.
+This change means that it now uses *AvailableSiteAccessList* and
+*RelatedSiteAccessList* (*site.ini*) when cleaning up caches.
 
 Trash
 `````
@@ -425,17 +387,17 @@ Currently objects are restored from trash by going to content/edit and then
 getting a new version. This will not work very well with the new system where
 there is only one language per version.
 
-A new view in the content module will be made to handle restoration of trash
-objects (content/restore). It will allow the user to restore to old location
-or browser for a new location.
+A new view in the content module handles restoration of trash objects
+(content/restore). It will allow the user to restore to old location or browse
+for a new location.
 
 Cronjobs
 ````````
 
-Cronjobs must be run with all languages enabled to ensure that they can reach
-any object. The cronjob system will enable the global setting for the language
-class which makes all subsequent operations fetch any object in the system
-regardless of the language.
+Cronjobs are run with all languages enabled to ensure that they can reach any
+object. The cronjob system enables the global flag for the language class which
+makes all subsequent operations fetch any object in the system regardless of
+the language.
 
 
 Configurability
@@ -446,122 +408,127 @@ languages to fetch. However sometimes it is crucial to able to override this
 per session or function call. This means that most fetches should have an
 ability to choose the priority list.
 
-Also a global variable must be set by index.php and cronjob.php which is used
-by the system. The variable is set with the value from the site-access but can
-be overridden by PHP code. e.g.::
+In addition PHP code can change the current prioritized languages used by all
+operations by doing::
 
-  // update with correct INI names.
-  $languages = $ini->variable( 'Language', 'PriorityList' );
+  // Only Norwegian and English are shown, no matter what INI settings are
+  // configured to
+  $languages = array( 'nor-NO', 'eng-GB' );
   eZContentLanguage::setPrioritizedLanguages( $languages );
 
 Fetching node/object lists
 --------------------------
 
-When fetching list (template fetch function) of nodes or objects it must be
-possible to override the default language of the site-access. This can be used
-to narrow down the languages or to fetch objects in languages normally not
-accessible. The fetch function will get a parameter called *language_list*
-which is an array of languages to act as the priority list (instead of the one
-defined in site-access).
+When fetching list (template fetch function) of nodes or objects it is possible
+to override the default language of the site-access. This can be used to narrow
+down the languages or to fetch objects in languages normally not
+accessible. The fetch function has a parameter called *language* which is an
+array of languages to act as the priority list (instead of the one defined in
+site-access).
 
 The existing parameters *only_translated* and *language* to the fetch functions
 *content/list*, *content/tree*, *content/list_count* and *content/tree_count*
-will be deprecated since they are not valid anymore. If they are used the
-system will give a warning about it.
+are deprecated since they are not valid anymore. If they are used the system
+will give a warning about it.
 
-The treemenu() operator will also get the *language_list* parameter.
+The *treemenu()* operator also has the *language* parameter.
 
-Clear API
-`````````
+API
+```
 
-Fetching the current language to use for one page request should be done from a
-clean and simple API. It must be able to perform:
-
-- Fetching the language settings for the site-access.
-- Fetching the language settings for the page request (uses the global
-  priority variable)
+Handling languages on the site is done trough the new class eZContentLanguage,
+it has methods to fetch the current priority list, full language list or to
+manipulate the available languages for the current request.
 
 Site preferences
 ----------------
 
-A new setting is added which controls what is the default language for the
-site. This is used to determine the default choice in dropdowns or when
-creating objects (when language has not been chosen). In addition each
-site-access must be able to set the language priority list.
+To control which languages are used on the site (or site-access) some new INI
+settings are available, they are placed under the *RegionalSettings* group in
+*site.ini*.
+To control the available languages and their priority the setting
+*SiteLanguageList* is used, it is an array with language codes (from locale)
+which are used, the ones appearing at the top will get higher priority than the
+next one.
+
+e.g. to setup a site with two languages, English and German you would do::
+
+  [RegionalSettings]
+  SiteLanguageList[]
+  SiteLanguageList[]=eng-GB
+  SiteLanguageList[]=ger-DE
+
+Changing the order of languages (e.g. German first) is simply rearranging the
+setting like this::
+
+  [RegionalSettings]
+  SiteLanguageList[]
+  SiteLanguageList[]=ger-DE
+  SiteLanguageList[]=eng-GB
+
+If this setting is not added the system will use the old *ContentObjectLocale*
+setting which means only one language is shown.
+
+Also since it useful to show all languages another setting is available which
+is called *ShowUntranslatedObjects*. It is very often used for the
+administration page but also be used for any site-access you choose.  If this
+setting is enabled the system will not filter away languages but will still use
+*SiteLanguageList* for priority.
+
+To enable this setting you would do::
+
+  [RegionalSettings]
+  ShowUntranslatedObjects=enabled
 
 eZContentObject::defaultLanguage()
 ----------------------------------
 
-This should be changed to return the languages based on the priority list.
-Check the usage of this function, sometimes it might be that they want to use
-*initial_language* for the object, e.g. for creating objects without having a
-language specified.
+This static method now behaves a bit different than earlier. It will now return
+the top-most language in the language list or the value of
+*ContentObjectLocale* if it is set.  If you have been using this in your code
+you should see if it still is the correct method to use, using the attribute
+*initial_language_code* on the object might be of more use since it returns the
+first language for the object.
 
 User interface
 ``````````````
 
-The user interface will need to updated because of the enhanced multilanguage
-features. The main idea is to make it easier for the users to manage
-translations.
+The user interface (admin) has been updated because of the enhanced
+multi-language features. The main idea is to make it easier for the users to
+manage translations.
 
 List languages in draft list
 ----------------------------
 
-Each language must show up as a separate entry in the draft list. The list will
-pick the *edit_language* for the version. The user will not notice this
-technical detail unless he looks at the URLs.
+Each language of an object now shows up as a separate entry in the draft
+list. If a user edits two languages on the same objects it will show two
+entries.
 
 Creating and editing
 --------------------
 
-When creating a new object it should be possible to choose which language it
-should be made from, for instance using a drop-down list. The default selection
-should be the highest prioritized language of the site-access.
+When creating a new object it is now possible to choose which language it
+should be made in using a drop-down list. The available languages are filtered
+based on which class is chosen. If JavaScript is not enabled no drop-down is
+shown but instead the user gets an extra screen asking the user to choose the
+language.
 
-If the language was not specified in the url/variables (e.g. content/edit/5/5)
-the system should go to a new page giving the user a choice over which language
-to create in, this also has the default selected.
-
-Editing should be similar as the create operation but with a dropdown (either
-combobox or JS popup).
+When editing an object the system will give the user a language choice if the
+language is not set in the URL. The user can edit an existing language or
+create a new one (if possible).
 
 Editing multiple languages
 --------------------------
 
-Problem:
-  Since you are only able to edit one object at a time it will be cumbersome
-  for one person to make objects in multiple languages, e.g. the user might be
-  fluent in two languages and can do the translation himself.
-
 To ease the translation process it will still be able to edit two or more
-translations (UI wise) at the same time, however the process will change from
-earlier. Internally the system actually edits two versions of the same object
-but the user should not be able to spot unless he examines the URLs.
+translations (UI wise) at the same time, however the process is changed from
+earlier. Internally the system actually edits two versions of the same object.
 
 Context menus
 -------------
 
-The JS popup menus must get an extra sub-meny, it contains the languages the
-object can be edited in or the choice to create a new translation.
-
-Extra considerations
-````````````````````
-
-While the ML features are implemented there are some considerations which needs
-to be examined. They are explained here.
-
-External patches
-----------------
-
-These external patches must be considered while implementing the ML features.
-
-Temporary drafts
-~~~~~~~~~~~~~~~~
-
-http://pubsvn.ez.no/community/trunk/hacks/untoucheddrafts/patches/3.7.2/untoucheddrafts.patch
-
-*Update 03.Apr.2006*: The temporary draft feature has been included in 3.8
-together with the multi-language features.
+The JS popup menus must has an extra sub-menu, it contains the languages the
+object can be edited in or the choice to create a new translation (Another).
 
 Changes to existing functionality
 `````````````````````````````````
@@ -586,7 +553,7 @@ This action no longer accepts the POST variable *AssignmentIDSelection* which
 contains list of node-assignment ids. Instead use the variable
 *LocationIDSelection* and fill it with Node IDs.
 
-The template *location.tpl* (admin) has alsoe been changed to use this new
+The template *location.tpl* (admin) has also been changed to use this new
 variable and fetching locations from the node table and not node-assignments.
 
 
@@ -600,12 +567,10 @@ Due to technical constraints the following items were not able to make it into
 URL aliases
 -----------
 
-Problem:
-  Currently URL aliases are only built for one of the languages (the main
-  language). For instance if you have a French site where you only show french
-  translations of the URLs it is desirable to show the french URL alias for the
-  users. The translated URL will point to the same internal URL but will use
-  language priority to choose what to show.
+For instance if you have a French site where you only show french translations
+of the URLs it is desirable to show the french URL alias for the  users. The
+translated URL will point to the same internal URL but will use language
+priority to choose what to show.
 
 Instead of introducing a new table for this or changing the subtree table, the
 existing URL alias table is extended. This table will now have a new field
@@ -637,18 +602,8 @@ immediately, this means that if you know you will use the name and/or path it
 can be fetched in one go (after the main SQL). A new parameter is added to the
 fetch functions for this.
 
-The upgrade script must fill this table with info from the tree-node table for
-each missing language. The existing script *"updateniceurls.php"* will be
-extended with this.
-
 Search engine
 -------------
-
-Problem:
-  When searching you will always search in all languages, not only do you get
-  too many objects in the result it will also not distinguish words which are
-  the same in many languages but with different meaning. e.g. the word *to*
-  exists in both English and Norwegian but has a different meaning.
 
 Add *language_code* on word table, this will separate words per language and
 solve the issue when one word exists in two or more languages but with
@@ -687,18 +642,14 @@ site-access.
 Choosing translation per node
 -----------------------------
 
-Description:
 The user should be able to choose which translation to use per placement. This
 means that the priority list would change depending on which node is chosen,
-e.g. the norwegian article is only shown in the norwegian subtree while the
-english is shown in the english subtree.
+e.g. the Norwegian article is only shown in the Norwegian sub-tree while the
+English is shown in the English sub-tree.
 
-Result:
-This is a highly complicated techincal issue which cannot be solved without
+This is a highly complicated technical issue which cannot be solved without
 major changes to the tree structure.
 
-
-.. _old multi-language specification: http://ez.no/community/developer/specs/improved_content_multilangue_support
 
 
 ..
