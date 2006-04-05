@@ -1058,7 +1058,7 @@ class eZContentObject extends eZPersistentObject
         	    $languageCode = $initialLanguage->attribute( 'locale' );
             }
         }
-        
+
         $copiedVersion = $this->copyVersion( $this, $version, $nextVersionNumber, false, EZ_VERSION_STATUS_DRAFT, $languageCode, $copyFromLanguageCode );
 
         // We need to make sure the copied version contains node-assignment for the existing nodes.
@@ -2387,7 +2387,7 @@ class eZContentObject extends eZPersistentObject
     }
 
     /*!
-     Returns the related objects.
+     Returns the related or reverse related objects:
      \param $attributeID :  >0    - return relations made with attribute ID ("related object(s)" datatype)
                             0     - use regular relations (content object level)
                             false - return ALL relations
@@ -2395,43 +2395,62 @@ class eZContentObject extends eZPersistentObject
                                 true  - return all relations groupped by attribute ID
                                 This parameter makes sense only when $attributeID == false
      \param $params : other parameters from template fetch function.
+     \param $reverseRelatedObjects : if "true" returns reverse related contentObjects
+                                     if "false" returns related contentObjects
     */
-    function &relatedContentObjectList( $fromObjectVersion = false,
-                                        $fromObjectID = false,
-                                        $attributeID = 0,
-                                        $groupByAttribute = false,
-                                        $params = false )
+    function &relatedObjects( $fromObjectVersion = false,
+                              $objectID = false,
+                              $attributeID = 0,
+                              $groupByAttribute = false,
+                              $params = false,
+                              $reverseRelatedObjects = false )
     {
-        eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $fromObjectID, "objectID" );
         if ( $fromObjectVersion == false )
-            $fromObjectVersion = $this->CurrentVersion;
+            $fromObjectVersion = isset( $this->CurrentVersion ) ? $this->CurrentVersion : false;
         $fromObjectVersion =(int) $fromObjectVersion;
-
-        if( !$fromObjectID )
-            $fromObjectID = $this->ID;
-        $fromObjectID =(int) $fromObjectID;
+        if( !$objectID )
+            $objectID = $this->ID;
+        $objectID =(int) $objectID;
 
         $db =& eZDB::instance();
-
-        // process params (only SortBy currently supported):
+        $sortingString = '';
+        $showInvisibleNodesCond = '';
+        $showInvisibleNodesTable = '';
+        // process params (only SortBy and IgnoreVisibility currently supported):
         // Supported sort_by modes:
         //   class_identifier, class_name, modified, name, published, section
-        if ( is_array( $params ) && isset( $params['SortBy'] ) )
+        if ( is_array( $params ) )
         {
-            $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
-            $sortingString = ' ORDER BY ' . $sortingInfo['sortingFields'];
+            if ( isset( $params['SortBy'] ) )
+            {
+                $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
+                $sortingString = ' ORDER BY ' . $sortingInfo['sortingFields'];
+            }
+            if ( isset( $params['IgnoreVisibility'] ) )
+            {
+                $ignoreVisibility = $params['IgnoreVisibility'];
+                if ( !$ignoreVisibility )
+                {
+                    $showInvisibleNodesCond = 'ezcontentobject_tree.contentobject_id = ezcontentobject.id
+                                               AND ezcontentobject_tree.is_invisible = 0 AND';
+                    $showInvisibleNodesTable = ', ezcontentobject_tree';
+                }
+            }
         }
-        else
-            $sortingString = '';
-
         // Create SQL
         $versionNameTables = ', ezcontentobject_name ';
         $versionNameTargets = ', ezcontentobject_name.name as name,  ezcontentobject_name.real_translation ';
 
-        $versionNameJoins = " ezcontentobject.id = ezcontentobject_name.contentobject_id and
-                              ezcontentobject.current_version = ezcontentobject_name.content_version and ";
+        $versionNameJoins = "ezcontentobject.id = ezcontentobject_name.contentobject_id AND
+                                 ezcontentobject.current_version = ezcontentobject_name.content_version AND ";
         $versionNameJoins .= eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
 
+        $fromOrToContentObjectID = $reverseRelatedObjects == false ? "ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
+                                                                      ezcontentobject_link.from_contentobject_id='$objectID' AND
+                                                                      ezcontentobject_link.from_contentobject_version='$fromObjectVersion' AND"
+                                                                   : "ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
+                                                                      ezcontentobject_link.to_contentobject_id=$objectID AND
+                                                                      ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version AND";
         if ( $attributeID !== false )
         {
             $attributeID =(int) $attributeID;
@@ -2443,15 +2462,15 @@ class eZContentObject extends eZPersistentObject
                         ezcontentobject,
                         ezcontentobject_link
                         $versionNameTables
+                        $showInvisibleNodesTable
                      WHERE
                         ezcontentclass.id=ezcontentobject.contentclass_id AND
                         ezcontentclass.version=0 AND
-                        ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
                         ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
                         ezcontentobject_link.op_code='0' AND
-                        ezcontentobject_link.from_contentobject_id='$fromObjectID' AND
-                        ezcontentobject_link.from_contentobject_version='$fromObjectVersion' AND
+                        $fromOrToContentObjectID
                         contentclassattribute_id=$attributeID AND
+                        $showInvisibleNodesCond
                         $versionNameJoins
                         $sortingString";
         }
@@ -2471,18 +2490,17 @@ class eZContentObject extends eZPersistentObject
                         ezcontentobject,
                         ezcontentobject_link
                         $versionNameTables
+                        $showInvisibleNodesTable
                      WHERE
                         ezcontentclass.id=ezcontentobject.contentclass_id AND
                         ezcontentclass.version=0 AND
-                        ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
                         ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
                         ezcontentobject_link.op_code='0' AND
-                        ezcontentobject_link.from_contentobject_id='$fromObjectID' AND
-                        ezcontentobject_link.from_contentobject_version='$fromObjectVersion' AND
+                        $fromOrToContentObjectID
+                        $showInvisibleNodesCond
                         $versionNameJoins
                         $sortingString";
         }
-
         $relatedObjects = $db->arrayQuery( $query );
 
         $ret = array();
@@ -2508,6 +2526,28 @@ class eZContentObject extends eZPersistentObject
         return $ret;
     }
 
+    /*!
+     Returns the related objects.
+     \param $attributeID :  >0    - return relations made with attribute ID ("related object(s)" datatype)
+                            0     - use regular relations (content object level)
+                            false - return ALL relations
+     \param $groupByAttribute : false - return all relations as an array of content objects
+                                true  - return all relations groupped by attribute ID
+                                This parameter makes sense only when $attributeID == false
+     \param $params : other parameters from template fetch function.
+    */
+    function &relatedContentObjectList( $fromObjectVersion = false,
+                                        $fromObjectID = false,
+                                        $attributeID = 0,
+                                        $groupByAttribute = false,
+                                        $params = false )
+    {
+        eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $fromObjectID, "objectID" );
+        $result = get_class( $this ) == 'ezcontentobject' ? $this->relatedObjects( $fromObjectVersion, $fromObjectID, $attributeID, $groupByAttribute, $params )
+                                                          : eZContentObject::relatedObjects( $fromObjectVersion, $fromObjectID, $attributeID, $groupByAttribute, $params );
+        return $result;
+    }
+
     // left for compatibility
 
     function &relatedContentObjectArray( $fromObjectVersion = false, $fromObjectID = false, $attributeID = 0 )
@@ -2525,39 +2565,9 @@ class eZContentObject extends eZPersistentObject
     function &relatedContentObjectCount( $fromObjectVersion = false, $fromObjectID = false, $attributeID = 0 )
     {
         eZDebugSetting::writeDebug( 'kernel-content-object-related-objects', $fromObjectID, "relatedContentObjectCount::objectID" );
-
-        if ( $fromObjectVersion == false )
-            $fromObjectVersion = $this->CurrentVersion;
-        $fromObjectVersion =(int) $fromObjectVersion;
-
-        if( !$fromObjectID )
-            $fromObjectID = $this->ID;
-        $fromObjectID =(int) $fromObjectID;
-
-        $db =& eZDB::instance();
-
-        $query = "SELECT
-                   count( ezcontentobject_link.from_contentobject_id ) as count
-                 FROM
-                   ezcontentobject,
-                   ezcontentobject_link
-                 WHERE
-                   ezcontentobject.id=ezcontentobject_link.to_contentobject_id AND
-                   ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
-                   ezcontentobject_link.op_code='0' AND
-                   ezcontentobject_link.from_contentobject_id='$fromObjectID' AND
-                   ezcontentobject_link.from_contentobject_version='$fromObjectVersion'";
-
-        if ( $attributeID !== false )
-        {
-            $attributeID =(int) $attributeID;
-            $query .= " AND
-                   contentclassattribute_id=$attributeID";
-        }
-
-        $rows = $db->arrayQuery( $query );
-
-        return $rows[0]['count'];
+        $result = get_class( $this ) == 'ezcontentobject' ? $this->relatedObjectCount( $fromObjectVersion, $fromObjectID, $attributeID )
+                                                          : eZContentObject::relatedObjectCount( $fromObjectVersion, $fromObjectID, $attributeID );
+        return $result;
     }
 
     /*!
@@ -2576,103 +2586,85 @@ class eZContentObject extends eZPersistentObject
                                         $groupByAttribute = false,
                                         $params = false )
     {
-        if( !$toObjectID )
-            $toObjectID = $this->ID;
-        $toObjectID =(int) $toObjectID;
+        $result = get_class( $this ) == 'ezcontentobject' ? $this->relatedObjects( $version, $toObjectID, $attributeID, $groupByAttribute, $params, true )
+                                                          : eZContentObject::relatedObjects( $version, $toObjectID, $attributeID, $groupByAttribute, $params, true );
+        return $result;
+    }
+
+    /*!
+     \return the number of related or reverse related objects
+     \param $attributeID : >0 - count relations made with attribute ID ("related object(s)" datatype)
+                           0  - count regular relations (not by attribute)
+                           false - count all relations
+     \param $params : other parameters from template fetch function.
+     \param $reverseRelatedObjects : if "true" returns reverse related contentObjects
+                                     if "false" returns related contentObjects
+    */
+    function &relatedObjectCount( $version = false, $objectID = false, $attributeID = 0, $reverseRelatedObjects = false, $params = false )
+    {
+        if ( !$objectID )
+            $objectID = $this->ID;
+        if ( $version == false )
+            $version = isset( $this->CurrentVersion ) ? $this->CurrentVersion : false;
+        $version == (int) $version;
 
         $db =& eZDB::instance();
+        $showInvisibleNodesCond = '';
+        $showInvisibleNodesTable = '';
 
-        // process params (only SortBy currently supported):
-        // Supported sort_by modes:
-        //   class_identifier, class_name, modified, name, published, section
-        if ( is_array( $params ) && isset( $params['SortBy'] ) )
+        // process params (only IgnoreVisibility currently supported):
+        if ( is_array( $params ) )
         {
-            $sortingInfo = eZContentObjectTreeNode::createSortingSQLStrings( $params['SortBy'] );
-            $sortingString = ' ORDER BY ' . $sortingInfo['sortingFields'];
+            if ( isset( $params['IgnoreVisibility'] ) )
+            {
+                $ignoreVisibility = $params['IgnoreVisibility'];
+                if ( !$ignoreVisibility )
+                {
+                    $showInvisibleNodesCond = 'AND ezcontentobject_tree.contentobject_id = ezcontentobject.id
+                                               AND ezcontentobject_tree.is_invisible = 0';
+                    $showInvisibleNodesTable = ', ezcontentobject_tree';
+                }
+            }
+        }
+        if ( $reverseRelatedObjects )
+        {
+            if ( is_array( $objectID ) )
+            {
+                $objectIDSQL = 'ezcontentobject_link.to_contentobject_id in (' . $db->implodeWithTypeCast( ', ', $objectID, 'int' ) . ') AND
+                                ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version';
+            }
+            else
+            {
+                $objectID = (int) $objectID;
+                $objectIDSQL = 'ezcontentobject_link.to_contentobject_id = ' .  $objectID . ' AND
+                                ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version';
+            }
+            $select = " count( DISTINCT ezcontentobject.id ) AS count";
         }
         else
-            $sortingString = '';
-
-        // Create SQL
-        $versionNameTables = ', ezcontentobject_name ';
-        $versionNameTargets = ', ezcontentobject_name.name as name, ezcontentobject_name.real_translation ';
-
-        $versionNameJoins = " ezcontentobject.id = ezcontentobject_name.contentobject_id and
-                              ezcontentobject.current_version = ezcontentobject_name.content_version and ";
-        $versionNameJoins .= eZContentLanguage::sqlFilter( 'ezcontentobject_name', 'ezcontentobject' );
+        {
+            $select = " count( ezcontentobject_link.from_contentobject_id ) as count ";
+            $objectIDSQL = "ezcontentobject_link.from_contentobject_id='$objectID'
+                                AND ezcontentobject_link.from_contentobject_version='$version'";
+        }
+        $query = "SELECT $select
+                  FROM
+                    ezcontentobject, ezcontentobject_link $showInvisibleNodesTable
+                  WHERE
+                    ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
+                    ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
+                    ezcontentobject_link.op_code='0' AND
+                    $objectIDSQL
+                    $showInvisibleNodesCond";
 
         if ( $attributeID !== false )
         {
             $attributeID = (int) $attributeID;
-            $query = "SELECT
-                        ezcontentclass.name AS class_name,
-                        ezcontentobject.* $versionNameTargets
-                     FROM
-                        ezcontentclass,
-                        ezcontentobject,
-                        ezcontentobject_link
-                        $versionNameTables
-                     WHERE
-                        ezcontentclass.id=ezcontentobject.contentclass_id AND
-                        ezcontentclass.version=0 AND
-                        ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
-                        ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
-                        ezcontentobject_link.op_code='0' AND
-                        ezcontentobject_link.to_contentobject_id=$toObjectID AND
-                        ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version AND
-                        contentclassattribute_id=$attributeID AND
-                        $versionNameJoins
-                        $sortingString";
+            $query .= " AND ezcontentobject_link.contentclassattribute_id=$attributeID";
         }
-        else
-        {
-            $query = "SELECT ";
 
-            if ( $groupByAttribute )
-            {
-                $query .= "ezcontentobject_link.contentclassattribute_id, ";
-            }
-            $query .= "
-                        ezcontentclass.name AS class_name,
-                        ezcontentobject.* $versionNameTargets
-                     FROM
-                        ezcontentclass,
-                        ezcontentobject,
-                        ezcontentobject_link
-                        $versionNameTables
-                     WHERE
-                        ezcontentclass.id=ezcontentobject.contentclass_id AND
-                        ezcontentclass.version=0 AND
-                        ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
-                        ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
-                        ezcontentobject_link.op_code='0' AND
-                        ezcontentobject_link.to_contentobject_id=$toObjectID AND
-                        ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version AND
-                        $versionNameJoins
-                        $sortingString";
-        }
-        $relatedObjects = $db->arrayQuery( $query );
-
-        $ret = array();
-        foreach ( $relatedObjects as $object )
-        {
-            $obj = new eZContentObject( $object );
-
-            if ( !$groupByAttribute )
-            {
-                $ret[] = $obj;
-            }
-            else
-            {
-                $classAttrID = $object['contentclassattribute_id'];
-
-                if ( !isset( $ret[$classAttrID] ) )
-                    $ret[$classAttrID] = array();
-
-                $ret[$classAttrID][] = $obj;
-            }
-        }
-        return $ret;
+        $rows = $db->arrayQuery( $query );
+        return $rows[0]['count'];
     }
 
     /*!
@@ -2681,38 +2673,11 @@ class eZContentObject extends eZPersistentObject
                            0  - count regular relations (not by attribute)
                            false - count all relations
     */
-    function &reverseRelatedObjectCount( $version = false, $toObjectID = false, $attributeID = 0 )
+    function &reverseRelatedObjectCount( $version = false, $toObjectID = false, $attributeID = 0, $params = false )
     {
-        if( !$toObjectID )
-            $toObjectID = $this->ID;
-
-        $db =& eZDB::instance();
-
-        if ( is_array( $toObjectID ) )
-        {
-            $objectIDSQL = 'ezcontentobject_link.to_contentobject_id = \'' . $db->implodeWithTypeCast( ', ', $toObjectID, 'int' ) . '\' AND ';
-        }
-        else
-        {
-            $toObjectID = (int) $toObjectID;
-            $objectIDSQL = 'ezcontentobject_link.to_contentobject_id = ' .  $toObjectID  . ' AND ';
-        }
-
-        $query = "SELECT count( DISTINCT ezcontentobject.id ) AS count
-                  FROM
-                    ezcontentobject, ezcontentobject_link
-                  WHERE
-                    ezcontentobject.id=ezcontentobject_link.from_contentobject_id AND
-                    ezcontentobject.status=" . EZ_CONTENT_OBJECT_STATUS_PUBLISHED . " AND
-                    $objectIDSQL
-                    ezcontentobject_link.op_code='0' AND
-                    ezcontentobject_link.from_contentobject_version=ezcontentobject.current_version";
-
-        if ( $attributeID !== false )
-            $query .= " AND ezcontentobject_link.contentclassattribute_id=$attributeID";
-
-        $rows = $db->arrayQuery( $query );
-        return $rows[0]['count'];
+        $result = get_class( $this ) == 'ezcontentobject' ? $this->relatedObjectCount( $version, $toObjectID, $attributeID, true, $params )
+                                                          : eZContentObject::relatedObjectCount( $version, $toObjectID, $attributeID, true, $params );
+        return $result;
     }
 
     /*!
@@ -4050,7 +4015,7 @@ class eZContentObject extends eZPersistentObject
         {
             $defaultLanguage = false;
             $ini =& eZINI::instance();
-            
+
             if ( $ini->hasVariable( 'RegionalSettings', 'ContentObjectLocale' ) )
             {
                 $defaultLanguage = $ini->variable( 'RegionalSettings', 'ContentObjectLocale' );

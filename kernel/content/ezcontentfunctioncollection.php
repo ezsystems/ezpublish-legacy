@@ -1074,12 +1074,16 @@ class eZContentFunctionCollection
         return array( 'result' => $object->relatedContentObjectCount( false, $objectID, $attributeID ) );
     }
 
-    function fetchReverseRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy )
+    function fetchReverseRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy, $ignoreVisibility )
     {
         $params = array();
         if ( $sortBy )
         {
             $params['SortBy'] = $sortBy;
+        }
+        if ( isset( $ignoreVisibility ) )
+        {
+            $params['IgnoreVisibility'] = $ignoreVisibility;
         }
 
         if ( !$attributeID )
@@ -1103,13 +1107,18 @@ class eZContentFunctionCollection
     }
 
     // Fetches count of reverse related objects
-    function fetchReverseRelatedObjectsCount( $objectID, $attributeID, $allRelations )
+    function fetchReverseRelatedObjectsCount( $objectID, $attributeID, $allRelations, $ignoreVisibility  )
     {
         if ( !$attributeID )
             $attributeID = 0;
 
         if ( $allRelations )
             $attributeID = false;
+        $params = array();
+        if ( isset( $ignoreVisibility ) )
+        {
+            $params['IgnoreVisibility'] = $ignoreVisibility;
+        }
 
         if ( $attributeID && !is_numeric( $attributeID ) )
         {
@@ -1122,7 +1131,7 @@ class eZContentFunctionCollection
             }
         }
         include_once( 'kernel/classes/ezcontentobject.php' );
-        return array( 'result' => eZContentObject::reverseRelatedObjectCount( false, $objectID, $attributeID ) );
+        return array( 'result' => eZContentObject::reverseRelatedObjectCount( false, $objectID, $attributeID, $params ) );
     }
 }
 
