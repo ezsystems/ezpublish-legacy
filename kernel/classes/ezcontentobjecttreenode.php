@@ -3251,6 +3251,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                   FROM ezcontentobject_tree, ezcontentobject
                   WHERE ezcontentobject_tree.contentobject_id = '$contentObjectID' AND
                         ezcontentobject.id = '$contentObjectID' AND
+                        ezcontentobject_tree.contentobject_is_published = 1 AND
                         ezcontentobject_tree.parent_node_id = '$parentNodeID' AND ".
                         eZContentLanguage::languagesSQLFilter( 'ezcontentobject' );
 

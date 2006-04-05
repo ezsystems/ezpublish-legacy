@@ -13,6 +13,8 @@ Changes from 3.8.0beta1 to 3.8.0beta2
 - Fixed bug #8002: Hidden nodes are shown when fetching reverse_related_objects.
 - Fixed bug #8015: Clear basket when user logs out.
 - Fixed bug #8078: Fatal error after click on "Cancel" button in Global settings.
+- Fixed bug: eZContentObjectTreeNode::fethNode should not fetch temporary nodes.
+  ( Merged from stable/3.7 ( 3.7.6 ) rev. 15582 )
 
 *INI settings:
 - Added site.ini:[shopSettings].ClearBasketOnLogout setting:
