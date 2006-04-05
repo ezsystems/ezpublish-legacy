@@ -470,7 +470,7 @@ $ClassID = array(
     'file' => 'ezcontentclass.php',
     'class' => 'eZContentClass',
     'function' => 'fetchList',
-    'parameter' => array( 0, false )
+    'parameter' => array( 0, false, false, array( 'name' => 'asc' ) )
     );
 
 $ParentClassID = array(
@@ -480,7 +480,7 @@ $ParentClassID = array(
     'file' => 'ezcontentclass.php',
     'class' => 'eZContentClass',
     'function' => 'fetchList',
-    'parameter' => array( 0, false )
+    'parameter' => array( 0, false, false, array( 'name' => 'asc' ) )
     );
 
 $SectionID = array(
