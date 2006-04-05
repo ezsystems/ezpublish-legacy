@@ -137,6 +137,7 @@ elseif ( $module->isCurrentAction( 'Add' ) )
 
     $category = eZProductCategory::create();
     $category->store();
+    $tpl->setVariable( 'last_added_id', $category->attribute( 'id' ) );
 }
 elseif ( $module->isCurrentAction( 'StoreChanges' ) )
 {

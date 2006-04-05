@@ -19,10 +19,14 @@
     <th>{'Name'|i18n( 'design/admin/shop/productcategories' )}</th>
 </tr>
 
+{def $id_string=''}
 {foreach $categories as $cat sequence array( bglight, bgdark ) as $seq_color}
+{if and( is_set( $last_added_id ), eq( $last_added_id, $cat.id) )}
+    {set $id_string='id="LastAdded"'}
+{/if}
 <tr class="{$seq_color}">
     <td><input type="checkbox" name="CategoryIDList[]" value="{$cat.id}" title="{'Select product category for removal.'|i18n( 'design/admin/shop/productcategories' )}" /></td>
-    <td><input type="text" name="category_name_{$cat.id}" value="{$cat.name|wash}" size="24" /></td>
+    <td><input type="text" name="category_name_{$cat.id}" {$id_string} value="{$cat.name|wash}" size="24" /></td>
 </tr>
 {/foreach}
 </table>
@@ -60,3 +64,20 @@
 </div>
 
 </form>
+
+{literal}
+<script language="JavaScript" type="text/javascript">
+<!--
+    window.onload=function()
+    {
+        var lastAddedItem = document.getElementById('LastAdded');
+
+        if ( lastAddedItem != null )
+        {
+            lastAddedItem.select();
+            lastAddedItem.focus();
+        }
+    }
+-->
+</script>
+{/literal}
