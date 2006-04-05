@@ -69,7 +69,7 @@
     <td>
     <select name="VatType" size="1">
     {foreach $all_vat_types as $current_vat_type}
-        <option {if eq( $vat_type_id, $current_vat_type.id )}selected="selected"{/if} value="{$current_vat_type.id}">{$current_vat_type.name}</option>
+        <option {if eq( $vat_type_id, $current_vat_type.id )}selected="selected"{/if} value="{$current_vat_type.id}">{$current_vat_type.name} ({$current_vat_type.percentage}%)</option>
         {/foreach}
     </select>
     </td>
