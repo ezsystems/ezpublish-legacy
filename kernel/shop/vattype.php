@@ -33,12 +33,14 @@ include_once( "kernel/classes/ezvattype.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $module =& $Params["Module"];
-
 $http =& eZHttpTool::instance();
+$tpl =& templateInit();
+$errors = false;
 
-function applyChanges( $module, $http )
+function applyChanges( $module, $http, &$errors, $vatTypeArray = false )
 {
-    $vatTypeArray = eZVatType::fetchList( true, true );
+    if ( $vatTypeArray === false )
+        $vatTypeArray = eZVatType::fetchList( true, true );
 
     $db =& eZDB::instance();
     $db->begin();
@@ -57,6 +59,17 @@ function applyChanges( $module, $http )
         {
             $percentage = $http->postVariable( "vattype_percentage_" . $id );
         }
+
+        if ( !$name || $percentage < 0 || $percentage > 100 )
+        {
+            if ( !$name )
+                $errors[] = ezi18n( 'kernel/shop/vattype', 'Empty VAT type names are not allowed (corrected).' );
+            else
+                $errors[] = ezi18n( 'kernel/shop/vattype', 'Wrong VAT percentage (corrected).' );
+
+            continue;
+        }
+
         $vatType->setAttribute( 'name', $name );
         $vatType->setAttribute( 'percentage', $percentage );
         $vatType->store();
@@ -64,20 +77,50 @@ function applyChanges( $module, $http )
     $db->commit();
 }
 
+/**
+ * Generate a unique VAT type name.
+ *
+ * The generated name looks like "VAT type X"
+ * where X is a unique number.
+ */
+function generateUniqueVatTypeName( $vatTypes )
+{
+    $commonPart = ezi18n( 'kernel/shop', 'VAT type' );
+    $maxNumber = 0;
+    foreach ( $vatTypes as $type )
+    {
+        $typeName = $type->attribute( 'name' );
+
+        if ( !preg_match( "/^$commonPart (\d+)/", $typeName, $matches ) )
+            continue;
+
+        $curNumber = $matches[1];
+        if ( $curNumber > $maxNumber )
+            $maxNumber = $curNumber;
+    }
+
+    $maxNumber++;
+    return "$commonPart $maxNumber";
+}
+
+
 if ( $http->hasPostVariable( "AddVatTypeButton" ) )
 {
-    applyChanges( $module, $http );
+    $vatTypeArray = eZVatType::fetchList( true, true );
+    applyChanges( $module, $http, $errors, $vatTypeArray );
 
     $vatType = eZVatType::create();
+    $vatType->setAttribute( 'name', generateUniqueVatTypeName( $vatTypeArray ) );
     $vatType->store();
+    $tpl->setVariable( 'last_added_id', $vatType->attribute( 'id' ) );
 }
 elseif ( $http->hasPostVariable( "SaveVatTypeButton" ) )
 {
-    applyChanges( $module, $http );
+    applyChanges( $module, $http, $errors );
 }
 elseif ( $http->hasPostVariable( "RemoveVatTypeButton" ) )
 {
-    applyChanges( $module, $http );
+    applyChanges( $module, $http, $errors );
 
     $vatTypeIDList = $http->postVariable( "vatTypeIDList" );
 
@@ -92,9 +135,12 @@ elseif ( $http->hasPostVariable( "RemoveVatTypeButton" ) )
 
 $vatTypeArray = eZVatType::fetchList( true, true );
 
-$tpl =& templateInit();
+if ( is_array( $errors ) )
+    $errors = array_unique( $errors );
+
 $tpl->setVariable( "vattype_array", $vatTypeArray );
 $tpl->setVariable( "module", $module );
+$tpl->setVariable( 'errors', $errors );
 
 $path = array();
 $path[] = array( 'text' => ezi18n( 'kernel/shop', 'VAT types' ),

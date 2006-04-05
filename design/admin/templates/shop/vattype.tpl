@@ -1,3 +1,14 @@
+{if $errors}
+    <div class="message-warning">
+        <h2>{'Input did not validate'|i18n( 'design/admin/shop/vattype' )}</h2>
+        <ul>
+        {foreach $errors as $error}
+            <li>{$error|wash}</li>
+        {/foreach}
+        </ul>
+   </div>
+{/if}
+
 <form action={'shop/vattype'|ezurl} method="post" name="VatType">
 
 <div class="context-block">
@@ -18,10 +29,14 @@
     <th class="tight">{'Percentage'|i18n( 'design/admin/shop/vattype' )}</th>
 </tr>
 
+{def $id_string=''}
 {section var=Vattypes loop=$vattype_array sequence=array( bglight, bgdark )}
+{if and( is_set( $last_added_id ), eq( $last_added_id, $Vattypes.item.id) )}
+    {set $id_string='id="LastAdded"'}
+{/if}
 <tr class="{$Vattypes.sequence}">
     <td><input type="checkbox" name="vatTypeIDList[]" value="{$Vattypes.item.id}" title="{'Select VAT type for removal.'|i18n( 'design/admin/shop/vattype' )}" /></td>
-    <td><input type="text" name="vattype_name_{$Vattypes.item.id}" value="{$Vattypes.item.name|wash}" size="24" /></td>
+    <td><input type="text" name="vattype_name_{$Vattypes.item.id}" {$id_string} value="{$Vattypes.item.name|wash}" size="24" /></td>
     <td><input type="text" name="vattype_percentage_{$Vattypes.item.id}" value="{$Vattypes.item.percentage}" size="4" />&nbsp;%</td>
 </tr>
 {/section}
@@ -60,3 +75,21 @@
 </div>
 
 </form>
+
+{literal}
+<script language="JavaScript" type="text/javascript">
+<!--
+    window.onload=function()
+    {
+        var lastAddedItem = document.getElementById('LastAdded');
+
+        if ( lastAddedItem != null )
+        {
+            lastAddedItem.select();
+            lastAddedItem.focus();
+        }
+    }
+-->
+</script>
+{/literal}
+
