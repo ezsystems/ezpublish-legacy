@@ -3156,6 +3156,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $query = "SELECT ezcontentobject_tree.*, ezcontentobject_name.name as name, ezcontentobject_name.real_translation
                   FROM ezcontentobject_tree, ezcontentobject_name
                   WHERE ezcontentobject_tree.contentobject_id = $contentObjectID AND
+                        ezcontentobject_tree.contentobject_is_published = 1 AND
                         ezcontentobject_tree.parent_node_id = $parentNodeID  AND
                         ezcontentobject_tree.contentobject_id = ezcontentobject_name.contentobject_id AND
                         ezcontentobject_tree.contentobject_version = ezcontentobject_name.content_version AND
