@@ -17,3 +17,9 @@ Changes from 3.5.10 to 3.5.11
   ( Merged from trunk ( 3.8.0beta2 ) rev. 15559 )
 - Fixed bug #8090: Admin Interface Copyright Line Needs To Be Updated For 2006.
   ( Merged from trunk ( 3.8.0beta2 ) rev. 15564 )
+- Fixed bug #8015: Clear basket when user logs out.
+  ( Merged from stable/trunk ( 3.8.0beta2 ) rev. 15573 )
+
+*INI settings:
+- Added site.ini:[ShopSettings].ClearBasketOnLogout setting:
+  Means that the basket will (or NOT) be cleared when a user logs out.
