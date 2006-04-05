@@ -35,11 +35,19 @@ define( 'CONTENT_LANGUAGES_MAX_COUNT', 30 );
 
 class eZContentLanguage extends eZPersistentObject
 {
+    /**
+     * Constructor.
+     *
+     * \param row Parameter passed to the constructor of eZPersistentObject.
+     */
     function eZContentLanguage( $row = array() )
     {
         $this->eZPersistentObject( $row );
     }
 
+    /**
+     * Persistent object's definition.
+     */
     function definition()
     {
 	    return array( 'fields' => array( 'id' => array( 'name' => 'ID',
@@ -64,7 +72,16 @@ class eZContentLanguage extends eZPersistentObject
                       'name' => 'ezcontent_language' );
     }
 
-    // static
+    /**
+     * Adds new language to the site.
+     *
+     * \param locale Locale code (e.g. 'slk-SK') of language to add.
+     * \param name Optional. Name of the language. If not specified, the international language name for the $locale locale
+     *             will be used.
+     * \return eZContentLanguage object of the added language (or the existing one if specified language has been already used) 
+     *         or false in case of any error (invalid locale code or already reached CONTENT_LANGUAGES_MAX_COUNT languages).
+     * \static
+     */
     function addLanguage( $locale, $name = null )
     {
         $localeObject = eZLocale::instance( $locale );
@@ -128,7 +145,13 @@ class eZContentLanguage extends eZPersistentObject
         return $newLanguage;
     }
 
-    // static
+    /**
+     * Removes the language specified by ID.
+     *
+     * \param id ID of the language to be removed.
+     * \return True if the language was removed from the site, false otherwise.
+     * \static
+     */
     function removeLanguage( $id )
     {
         $language = eZContentLanguage::fetch( $id );
@@ -142,6 +165,11 @@ class eZContentLanguage extends eZPersistentObject
         }
     }
 
+    /**
+     * Removes the language if there is no object having translation in it.
+     *
+     * \return True if the language was removed from the site, false otherwise.
+     */
     function remove()
     {
         if ( $this->objectCount() > 0 )
@@ -159,8 +187,14 @@ class eZContentLanguage extends eZPersistentObject
         return true;
     }
 
-    // static
-    // fetches list of all languages from the database table
+    /**
+     * Fetches the list of the languages used on the site.
+     *
+     * \param forceReloading Optional. If true, the list will be fetched from database even if it is cached in memory.
+     *                       Default value is false.
+     * \return Array of the eZContentLanguage objects of languages used on the site.
+     * \static 
+     */
     function fetchList( $forceReloading = false )
     {
         if ( !isset( $GLOBALS['eZContentLanguageList'] ) || $forceReloading )
@@ -183,9 +217,14 @@ class eZContentLanguage extends eZPersistentObject
         return $GLOBALS['eZContentLanguageList'];
     }
 
-    // static
-    // fetches list of all languages to be used by permission system
-    // list is an array where each entry is an array with 'name' and 'id'
+    /**
+     * Fetches the array with names and IDs of the languages used on the site. This method is used by the permission system.
+     *
+     * \param forceReloading Optional. If true, the list will be fetched from database even if it is cached in memory.
+     *                       Default value is false.
+     * \return Array with names and IDs of the languages used on the site.
+     * \static 
+     */
     function fetchLimitationList( $forceReloading = false )
     {
         $languages = array();
@@ -197,6 +236,12 @@ class eZContentLanguage extends eZPersistentObject
         return $languages;
     }
 
+   /**
+     * Fetches the array of locale codes of the languages used on the site.
+     *
+     * \return Array of locale codes of the languages used on the site.
+     * \static 
+     */
     function fetchLocaleList()
     {
         $languages = eZContentLanguage::fetchList();
@@ -210,8 +255,13 @@ class eZContentLanguage extends eZPersistentObject
         return $localeList;
     }
 
-    // static
-    // fetches language by ID
+    /**
+     * Fetches the language identified by ID.
+     *
+     * \param id Identifier of the language to fetch.
+     * \return eZContentLanguage object of language identified by ID $id.
+     * \static 
+     */
     function fetch( $id )
     {
         $languages = eZContentLanguage::fetchList();
@@ -219,6 +269,12 @@ class eZContentLanguage extends eZPersistentObject
         return isset( $languages[$id] )? $languages[$id]: false;
     }
 
+    /**
+     * Fetches the language identified by locale code.
+     *
+     * \param locale Locale of the language to fetch, e. g. 'slk-SK'.
+     * \return eZContentLanguage object identified by locale code $locale.
+     */
     function fetchByLocale( $locale )
     {
         $languages = eZContentLanguage::fetchList();
@@ -234,15 +290,17 @@ class eZContentLanguage extends eZPersistentObject
         return false;
     }
 
-    // static
-    function prioritizedLanguages( $additionalLanguage = false, $languageList = false )
+    /**
+     * Fetches the list of the prioritized languages (in the correct order).
+     *
+     * \param languageList Optional. If specified, this array of locale codes with will override the INI
+     *                     settings. Usage of this parameter is restricted to methods of this class!
+     *                     See eZContentLanguage::setPrioritizedLanguages().
+     * \return Array of the eZContentLanguage objects of the prioritized languages.
+     * \static 
+     */
+    function prioritizedLanguages( $languageList = false )
     {
-        // from INI settings
-	    // cached in global variable
-        // returns prioritizedlist
-
-        //TODO: if INI setting does not exist, take the DefaultLang...
-
         if ( !isset( $GLOBALS['eZContentLanguagePrioritizedLanguages'] ) )
         {
             $GLOBALS['eZContentLanguagePrioritizedLanguages'] = array();
@@ -265,17 +323,14 @@ class eZContentLanguage extends eZPersistentObject
                 $languageList = array( $ini->variable( 'RegionalSettings', 'ContentObjectLocale' ) );
             }
 
-            if ( $additionalLanguage )
-            {
-                if ( ( $position = array_search( $additionalLanguage, $languageList ) ) !== false )
-                {
-                    unset( $languageList[$position] );
-                }
-                array_unshift( $languageList, $additionalLanguage );
-            }
-
+            $processedLocaleCodes = array();
             foreach ( $languageList as $localeCode )
             {
+                if ( in_array( $localeCode, $processedLocaleCodes ) )
+                {
+                    continue;
+                }
+                $processedLocaleCodes[] = $localeCode;
                 $language = eZContentLanguage::fetchByLocale( $localeCode );
                 if ( $language )
                 {
@@ -304,6 +359,13 @@ class eZContentLanguage extends eZPersistentObject
         return $GLOBALS['eZContentLanguagePrioritizedLanguages'];
     }
 
+    /**
+     * Returns the array of the locale codes of the prioritized languages (in the correct order).
+     *
+     * \return Array of the locale codes of the prioritized languages (in the correct order).
+     * \see eZContentLanguage::prioritizedLanguages()
+     * \static 
+     */
     function prioritizedLanguageCodes()
     {
         $languages = eZContentLanguage::prioritizedLanguages();
@@ -317,17 +379,36 @@ class eZContentLanguage extends eZPersistentObject
         return $localeList;
     }
 
+    /**
+     * Overrides the prioritized languages set by INI settings with the specified languages.
+     *
+     * \param languages Locale codes of the languages which will override the prioritized languages 
+     *                  (the order is relevant).
+     * \static 
+     */
     function setPrioritizedLanguages( $languages )
     {
         unset( $GLOBALS['eZContentLanguagePrioritizedLanguages'] );
-        eZContentLanguage::prioritizedLanguages( false, $languages );
+        eZContentLanguage::prioritizedLanguages( $languages );
     }
 
+    /**
+     * Clears the prioritized language list set by eZContentLanguage::setPrioritizedLanguages and reloading 
+     * the list from INI settings.
+     *
+     * \static 
+     */
     function clearPrioritizedLanguages()
     {
         eZContentLanguage::setPrioritizedLanguages( false );
     }
 
+    /**
+     * Returns the most prioritized language.
+     *
+     * \return eZContentLanguage object for the most prioritized language.
+     * \static
+     */
     function topPriorityLanguage()
     {
         $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
@@ -341,17 +422,9 @@ class eZContentLanguage extends eZPersistentObject
         }
     }
 
-    // static
-    function locale()
-    {
-        include_once( 'lib/ezlocale/classes/ezlocale.php' );
-
-        $topPriorityLanguage = eZContentLanguage::topPriorityLanguage();
-        $localeCode = $topPriorityLanguage->attribute( 'locale' );
-        $locale =& eZLocale::instance( $localeCode );
-        return $locale;
-    }
-
+    /**
+     * \return Locale object for this language.
+     */
     function &localeObject()
     {
         include_once( 'lib/ezlocale/classes/ezlocale.php' );
@@ -360,9 +433,14 @@ class eZContentLanguage extends eZPersistentObject
         return $locale;
     }
 
+    /**
+     * Returns array of languages which have set the corresponding bit in the mask.
+     *
+     * \param mask Bitmap specifying which languages should be returned.
+     * \return Array of eZContentLanguage objects of languages which have set the corresponding bit in $mask.
+     */
     function languagesByMask( $mask )
     {
-        // returns array of language objects which are allowed by $mask mask
         $result = array();
 
         $languages = eZContentLanguage::fetchList();
@@ -377,9 +455,14 @@ class eZContentLanguage extends eZPersistentObject
         return $result;
     }
 
+    /**
+     * Returns array of prioritized languages which have set the corresponding bit in the mask.
+     *
+     * \param mask Bitmap specifying which languages should be returned.
+     * \return Array of eZContentLanguage objects of prioritized languages which have set the corresponding bit in $mask.
+     */
     function prioritizedLanguagesByMask( $mask )
     {
-        // the same as the previous one but only those which are selected for siteaccess and sorted by priority
         $result = array();
 
         $languages = eZContentLanguage::prioritizedLanguages();
@@ -394,6 +477,12 @@ class eZContentLanguage extends eZPersistentObject
         return $result;
     }
 
+    /**
+     * Returns the most prioritized language which has set the corresponding bit in the mask.
+     *
+     * \param mask Bitmap specifying which languages should be checked.
+     * \return eZContentLanguage object of the most prioritized language which have set the corresponding bit in $mask.
+     */
     function topPriorityLanguageByMask( $mask )
     {
         $languages = eZContentLanguage::prioritizedLanguages();
@@ -407,6 +496,13 @@ class eZContentLanguage extends eZPersistentObject
 		return false;
     }
 
+    /**
+     * Returns bitmap mask for the specified languages.
+     *
+     * \param locales Array of strings or a string specifying locale codes of the languages, e. g. 'slk-SK' or array( 'eng-GB', 'nor-NO' )
+     * \param setZerothBit Optional. Specifies if the 0-th bit of mask should be set. False by default.
+     * \return Bitmap mask having set the corresponding bits for the specified languages.
+     */
     function maskByLocale( $locales, $setZerothBit = false )
     {
         if ( !$locales )
@@ -437,17 +533,35 @@ class eZContentLanguage extends eZPersistentObject
         return (int) $mask;
     }
 
+    /**
+     * Returns id of the language specified.
+     *
+     * \param locale String specifying locale code of the language, e. g. 'slk-SK'
+     * \return ID of the language specified by locale or false if the language is not set on the site.
+     * \static 
+     */
     function idByLocale( $locale )
     {
-        $id = eZContentLanguage::maskByLocale( $locale );
-        if ( $id == 0 )
+        $language = eZContentLanguage::fetchByLocale( $locale );
+        if ( $language )
         {
-            $id = -1;
+            return $language->attribute( 'id' );
         }
-        return $id;
+        else
+        {
+            return false;
+        }
     }
 
-    //static
+    /**
+     * Returns the SQL where-condition for selecting the rows (objects, object versions) which exist in any 
+     * of prioritized languages or are always available.
+     *
+     * \param languageListTable Name of the table
+     * \param languageListAttributeName Optional. Name of the attribute in the table which contains the bitmap mask. 'language_mask' by default.
+     * \return SQL where-condition described above.
+     * \static 
+     */
     function languagesSQLFilter( $languageListTable, $languageListAttributeName = 'language_mask' )
     {
         $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
@@ -468,7 +582,18 @@ class eZContentLanguage extends eZPersistentObject
         }
     }
 
-    // static
+    /**
+     * Returns the SQL where-condition for selecting the rows (with object names, attributes etc.) in the correct language,
+     * i. e. in the most prioritized language from those in which an object exists.
+     *
+     * \param languageTable Name of the table containing the attribute with bitmaps.
+     * \param languageListTable Name of the table containing the attribute with language id.
+     * \param languageAttributeName Optional. Name of the attribute in $languageTable which contains
+     *                               the language id. 'language_id' by default.
+     * \param languageListAttributeName Optional. Name of the attribute in $languageListTable which contains
+     *                                  the bitmap mask. 'language_mask' by default.
+     * \return SQL where-condition described above.
+     */
     function sqlFilter( $languageTable, $languageListTable = null, $languageAttributeName = 'language_id', $languageListAttributeName = 'language_mask' )
     {
         $db =& eZDB::instance();
@@ -536,6 +661,9 @@ class eZContentLanguage extends eZPersistentObject
         return " ( $sql AND $leftSide < $rightSide ) ";
     }
 
+    /**
+     * \return The count of objects containing the translation in this language.
+     */
     function &objectCount()
     {
         $db =& eZDB::instance();
@@ -556,6 +684,9 @@ class eZContentLanguage extends eZPersistentObject
         return $count;
     }
 
+    /**
+     * \return The count of objects having this language as the initial/main one.
+     */
     function objectInitialCount()
     {
         $db =& eZDB::instance();
@@ -567,27 +698,50 @@ class eZContentLanguage extends eZPersistentObject
         return $count;
     }
 
+    /**
+     * \return Reference to itself. Kept because of the backward compatibility.
+     */
     function &translation()
     {
         return $this;
     }
 
+    /**
+     * \deprecated 
+     */
     function updateObjectNames()
     {
-        /* deprecated */
     }
 
+    /**
+     * Switches on the cronjob mode. In this mode, the languages which are not in the list of the prioritized languages
+     * will be automatically added to it.
+     *
+     * \param enable Optional. If false, it will switch off the cronjob mode. True by default.
+     */
     function setCronjobMode( $enable = true )
     {
         $GLOBALS['eZContentLanguageCronjobMode'] = true;
         unset( $GLOBALS['eZContentLanguagePrioritizedLanguages'] );
     }
 
+    /**
+     * Switches off the cronjob mode.
+     * 
+     * \see eZContentLanguage::setCronjobMode()
+     */
     function clearCronjobMode()
     {
         eZContentLanguage::setCronjobMode( false );
     }
 
+    /**
+     * Returns the Javascript array with locale codes and names of the languages which have set the corresponding 
+     * bit in specified mask.
+     *
+     * \param mask Bitmap mask specifying which languages should be considered.
+     * \return JavaScript array described above.
+     */
     function jsArrayByMask( $mask )
     {
         $jsArray = array();
@@ -608,6 +762,9 @@ class eZContentLanguage extends eZPersistentObject
         }
     }
 
+    /**
+     * \return The bitmap mask containing all languages, i. e. the sum of the IDs of all languages. (The 0-th bit is set.)
+     */
     function maskForRealLanguages()
     {
         if ( !isset( $GLOBALS['eZContentLanguageMask'] ) )
@@ -617,10 +774,11 @@ class eZContentLanguage extends eZPersistentObject
         return $GLOBALS['eZContentLanguageMask'];
     }
 
-    /*!
-     \static
-     Removes all memory cache forcing it to read from database again for next method calls.
-    */
+    /**
+     * Removes all memory cache forcing it to read from database again for next method calls.
+     * 
+     * \static 
+     */
     function expireCache()
     {
         unset( $GLOBALS['eZContentLanguageList'],
