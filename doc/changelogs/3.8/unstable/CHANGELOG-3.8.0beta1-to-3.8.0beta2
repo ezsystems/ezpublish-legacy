@@ -12,6 +12,7 @@ Changes from 3.8.0beta1 to 3.8.0beta2
 - Fixed bug #8090: Admin Interface Copyright Line Needs To Be Updated For 2006.
 - Fixed bug #8002: Hidden nodes are shown when fetching reverse_related_objects.
 - Fixed bug #8015: Clear basket when user logs out.
+- Fixed bug #8078: Fatal error after click on "Cancel" button in Global settings.
 
 *INI settings:
 - Added site.ini:[shopSettings].ClearBasketOnLogout setting:

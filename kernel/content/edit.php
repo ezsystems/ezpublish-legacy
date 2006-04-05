@@ -62,38 +62,29 @@ $http =& eZHTTPTool::instance();
 // Note: This code is safe to place before permission checking.
 if( $http->hasPostVariable( 'CancelDraftButton' ) )
 {
-   $mainNode = eZNodeAssignment::fetchForObject( $obj->attribute( 'id' ), $obj->attribute( 'current_version' ), true );
-   if ( count( $mainNode ) == 1 )
-   {
-       $node = $mainNode[0]->attribute( 'node' );
-       return $Module->redirectToView( 'view', array( 'full', $node->attribute( 'node_id' ) ) );
-   }
-   else
-   {
-       $nodes = $obj->assignedNodes();
-       $chosenNode = null;
-       foreach ( $nodes as $node )
-       {
-           if ( $node->attribute( 'is_main' ) )
-           {
-               $chosenNode = $node;
-           }
-           else if ( $chosenNode === null )
-           {
-               $chosenNode = $node;
-           }
-       }
-       if ( $chosenNode )
-       {
-           return $Module->redirectToView( 'view', array( 'full', $chosenNode->attribute( 'node_id' ) ) );
-       }
-       else
-       {
-           $contentINI =& eZINI::instance( 'content.ini' );
-           $rootNodeID = $contentINI->variable( 'NodeSettings', 'RootNode' );
-           return $Module->redirectToView( 'view', array( 'full', $rootNodeID ) );
-       }
-   }
+    $nodes = $obj->assignedNodes();
+    $chosenNode = null;
+    foreach ( $nodes as $node )
+    {
+        if ( $node->attribute( 'is_main' ) )
+        {
+            $chosenNode = $node;
+        }
+        else if ( $chosenNode === null )
+        {
+            $chosenNode = $node;
+        }
+    }
+    if ( $chosenNode )
+    {
+        return $Module->redirectToView( 'view', array( 'full', $chosenNode->attribute( 'node_id' ) ) );
+    }
+    else
+    {
+        $contentINI =& eZINI::instance( 'content.ini' );
+        $rootNodeID = $contentINI->variable( 'NodeSettings', 'RootNode' );
+        return $Module->redirectToView( 'view', array( 'full', $rootNodeID ) );
+    }
 }
 
 // Remember redirection URI in session for later use.
