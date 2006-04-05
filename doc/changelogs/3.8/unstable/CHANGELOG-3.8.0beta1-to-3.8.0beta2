@@ -11,5 +11,10 @@ Changes from 3.8.0beta1 to 3.8.0beta2
 - Fixed bug #8087: Sorting of classes in policy function limitation lists.
 - Fixed bug #8090: Admin Interface Copyright Line Needs To Be Updated For 2006.
 - Fixed bug #8002: Hidden nodes are shown when fetching reverse_related_objects.
+- Fixed bug #8015: Clear basket when user logs out.
+
+*INI settings:
+- Added site.ini:[shopSettings].ClearBasketOnLogout setting:
+  Means that the basket will (or NOT) be cleared when a user logs out.
 
 *DataTypes:

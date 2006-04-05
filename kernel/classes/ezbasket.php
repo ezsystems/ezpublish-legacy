@@ -595,6 +595,37 @@ WHERE ezbasket.session_id = ezsession.session_key AND
         $productCollection = eZProductCollection::fetch( $this->attribute( 'productcollection_id' ) );
         return $productCollection;
     }
+
+    /*!
+     \static
+     Removes current basket.
+     \param $useSetting - if "true" use ini setting in site.ini [ShopSettings].ClearBasketOnLogout,
+                          or just clear current basket otherwise.
+     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
+     the calls within a db transaction; thus within db->begin and db->commit.
+
+    */
+    function cleanupCurrentBasket( $useSetting = true )
+    {
+        $ini =& eZINI::instance();
+        $removeBasket = true;
+        if ( $useSetting )
+            $removeBasket = $ini->hasVariable( 'ShopSettings', 'ClearBasketOnLogout' ) ? $ini->variable( 'ShopSettings', 'ClearBasketOnLogout' ) == 'enabled' : false;
+
+        if ( $removeBasket )
+        {
+            $basket =& eZBasket::currentBasket();
+            if ( !is_object( $basket ) )
+                return false;
+            $db =& eZDB::instance();
+            $db->begin();
+            $productCollectionID = $basket->attribute( 'productcollection_id' );
+            eZProductCollection::cleanupList( array( $productCollectionID ) );
+            $basket->remove();
+            $db->commit();
+        }
+        return true;
+    }
 }
 
 ?>
