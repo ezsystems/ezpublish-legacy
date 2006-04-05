@@ -185,8 +185,12 @@ class eZStepSiteTypes extends eZStepInstaller
 
         foreach ( $requirements as $req )
         {
-            $requiredPackageName    = $req['name'];
-            $requiredPackageVersion = $req['min-version'];
+            $requiredPackageName = $req['name'];
+
+            if ( isset( $req['min-version'] ) )
+                $requiredPackageVersion = $req['min-version'];
+            else
+                $requiredPackageVersion = 0;
 
             $downloadNewPackage   = false;
             $removeCurrentPackage = false;

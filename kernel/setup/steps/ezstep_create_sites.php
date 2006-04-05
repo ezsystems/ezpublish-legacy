@@ -860,9 +860,21 @@ id $inSql";
             include_once( $sitePackage->path() . '/settings/' . $settingsFileName );
         }
 
-        $extraSettings = eZSiteINISettings( $parameters );
-        $extraAdminSettings = eZSiteAdminINISettings( $parameters );
-        $extraCommonSettings = eZSiteCommonINISettings( $parameters );
+        if ( function_exists( 'eZSiteINISettings' ) )
+            $extraSettings = eZSiteINISettings( $parameters );
+        else
+            $extraSettings = array();
+
+        if ( function_exists( 'eZSiteAdminINISettings' ) )
+            $extraAdminSettings = eZSiteAdminINISettings( $parameters );
+        else
+            $extraAdminSettings = array();
+
+        if ( function_exists( 'eZSiteCommonINISettings' ) )
+            $extraCommonSettings = eZSiteCommonINISettings( $parameters );
+        else
+            $extraCommonSettings = array();
+
         $isUntranslatedSettingAdded = false;
         foreach ( $extraAdminSettings as $key => $extraAdminSetting )
         {
@@ -1008,73 +1020,85 @@ id $inSql";
         }
 
         // Setup all roles according to site chosen and addons
-        $extraRoles = eZSiteRoles( $parameters );
 
-        foreach ( $extraRoles as $extraRole )
+        if ( function_exists( 'eZSiteRoles' ) )
         {
-            if ( !$extraRole )
-                continue;
-            $extraRoleName = $extraRole['name'];
-            $role = eZRole::fetchByName( $extraRoleName );
-            if ( !is_object( $role ) )
+            $extraRoles = eZSiteRoles( $parameters );
+    
+            foreach ( $extraRoles as $extraRole )
             {
-                $role = eZRole::create( $extraRoleName );
-                $role->store();
-            }
-            $roleID = $role->attribute( 'id' );
-            if ( isset( $extraRole['policies'] ) )
-            {
-                $extraPolicies = $extraRole['policies'];
-                foreach ( $extraPolicies as $extraPolicy )
+                if ( !$extraRole )
+                    continue;
+                $extraRoleName = $extraRole['name'];
+                $role = eZRole::fetchByName( $extraRoleName );
+                if ( !is_object( $role ) )
                 {
-                    if ( isset( $extraPolicy['limitation'] ) )
+                    $role = eZRole::create( $extraRoleName );
+                    $role->store();
+                }
+                $roleID = $role->attribute( 'id' );
+                if ( isset( $extraRole['policies'] ) )
+                {
+                    $extraPolicies = $extraRole['policies'];
+                    foreach ( $extraPolicies as $extraPolicy )
                     {
-                        $role->appendPolicy( $extraPolicy['module'], $extraPolicy['function'], $extraPolicy['limitation'] );
-                    }
-                    else
-                    {
-                        $role->appendPolicy( $extraPolicy['module'], $extraPolicy['function'] );
+                        if ( isset( $extraPolicy['limitation'] ) )
+                        {
+                            $role->appendPolicy( $extraPolicy['module'], $extraPolicy['function'], $extraPolicy['limitation'] );
+                        }
+                        else
+                        {
+                            $role->appendPolicy( $extraPolicy['module'], $extraPolicy['function'] );
+                        }
                     }
                 }
-            }
-
-            if ( isset( $extraRole['assignments'] ) )
-            {
-                $roleAssignments = $extraRole['assignments'];
-                foreach ( $roleAssignments as $roleAssignment )
+    
+                if ( isset( $extraRole['assignments'] ) )
                 {
-                    $assignmentIdentifier = false;
-                    $assignmentValue = false;
-                    if ( isset( $roleAssignment['limitation'] ) )
+                    $roleAssignments = $extraRole['assignments'];
+                    foreach ( $roleAssignments as $roleAssignment )
                     {
-                        $assignmentIdentifier = $roleAssignment['limitation']['identifier'];
-                        $assignmentValue = $roleAssignment['limitation']['value'];
+                        $assignmentIdentifier = false;
+                        $assignmentValue = false;
+                        if ( isset( $roleAssignment['limitation'] ) )
+                        {
+                            $assignmentIdentifier = $roleAssignment['limitation']['identifier'];
+                            $assignmentValue = $roleAssignment['limitation']['value'];
+                        }
+                        $role->assignToUser( $roleAssignment['user_id'], $assignmentIdentifier, $assignmentValue );
                     }
-                    $role->assignToUser( $roleAssignment['user_id'], $assignmentIdentifier, $assignmentValue );
                 }
             }
         }
 
         // Setup user preferences based on the site chosen and addons
         include_once( 'kernel/classes/ezpreferences.php' );
-        $prefs = eZSitePreferences( $parameters );
-        foreach ( $prefs as $prefEntry )
+
+        if ( function_exists( 'eZSitePreferences' ) )
         {
-            if ( !$prefEntry )
-                continue;
-            $prefUserID = $prefEntry['user_id'];
-            foreach ( $prefEntry['preferences'] as $pref )
+            $prefs = eZSitePreferences( $parameters );
+            foreach ( $prefs as $prefEntry )
             {
-                $prefName = $pref['name'];
-                $prefValue = $pref['value'];
-                if ( !eZPreferences::setValue( $prefName, $prefValue, $prefUserID ) )
+                if ( !$prefEntry )
+                    continue;
+                $prefUserID = $prefEntry['user_id'];
+                foreach ( $prefEntry['preferences'] as $pref )
                 {
-                    $resultArray['errors'][] = array( 'code' => 'EZSW-070',
-                                                      'text' => "Could not create ezpreference '$prefValue' for $prefUserID" );
-                    return false;
+                    $prefName = $pref['name'];
+                    $prefValue = $pref['value'];
+                    if ( !eZPreferences::setValue( $prefName, $prefValue, $prefUserID ) )
+                    {
+                        $resultArray['errors'][] = array( 'code' => 'EZSW-070',
+                                                          'text' => "Could not create ezpreference '$prefValue' for $prefUserID" );
+                        return false;
+                    }
                 }
             }
         }
+
+        // Call user function for additional setup tasks.
+        if ( function_exists( 'eZSiteCustomActions' ) )
+            eZSiteCustomActions( $parameters );
 
         $publishAdmin = false;
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
