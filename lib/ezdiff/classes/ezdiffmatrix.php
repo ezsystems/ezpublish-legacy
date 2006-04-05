@@ -1,0 +1,81 @@
+<?php
+//
+// Definition of eZDiffMatrix class
+//
+// <05-Apr-2006 14:42:42>
+//
+// ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
+// SOFTWARE NAME: eZ publish
+// SOFTWARE RELEASE: 3.8.x
+// COPYRIGHT NOTICE: Copyright (C) 1999-2006 eZ systems AS
+// SOFTWARE LICENSE: GNU General Public License v2.0
+// NOTICE: >
+//   This program is free software; you can redistribute it and/or
+//   modify it under the terms of version 2.0  of the GNU General
+//   Public License as published by the Free Software Foundation.
+//
+//   This program is distributed in the hope that it will be useful,
+//   but WITHOUT ANY WARRANTY; without even the implied warranty of
+//   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//   GNU General Public License for more details.
+//
+//   You should have received a copy of version 2.0 of the GNU General
+//   Public License along with this program; if not, write to the Free
+//   Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+//   MA 02110-1301, USA.
+//
+//
+// ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
+//
+
+/*! \file ezdiffmatrix.php
+  eZDiffMatrix class
+*/
+
+/*!
+  \class eZDiffMatrix ezdiffmatrix.php
+  \ingroup eZDiff
+  \biref This class will store values concerned with diff data
+
+  The eZDiffMatrix class will avoid storing 0, which for a large matrix will save
+  memory.
+*/
+
+class eZDiffMatrix
+{
+
+    /*!
+      Constructor
+    */
+    function eZDiffMatrix()
+    {
+    }
+
+    /*!
+      \public
+      This method will return the value at position (\a $row, \a $col)
+    */
+    function get( $row, $col )
+    {
+        return isset( $this->Matrix[$row][$col] ) ? $this->Matrix[$row][$col] : 0;
+    }
+
+    /*!
+      \public
+      This method will set (\a $row, \a $col) in the matrix to \a $value, if
+      it is not zero.
+    */
+    function set( $row, $col, $value )
+    {
+        if ( $value !== 0 )
+        {
+            $this->Matrix[$row][$col] = $value;
+        }
+    }
+
+    ///\privatesection
+    /// Internal array, holding necessary values.
+    var $Matrix = array();
+}
+
+?>
