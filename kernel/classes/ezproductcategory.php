@@ -107,7 +107,7 @@ class eZProductCategory extends eZPersistentObject
     {
         $row = array(
             "id" => null,
-            "name" => ezi18n( 'kernel/shop', 'Product category' ) );
+            "name" => ezi18n( 'kernel/shop/productcategories', 'Product category' ) );
         return new eZProductCategory( $row );
     }
 
