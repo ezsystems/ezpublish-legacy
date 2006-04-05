@@ -30,9 +30,13 @@ include_once( "kernel/common/template.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 include_once( "kernel/classes/ezproductcategory.php" );
 
-function applyChanges( $module, $http )
+/**
+ * Apply changes made to categories' names.
+ */
+function applyChanges( $module, $http, &$errors, $productCategories = false )
 {
-    $productCategories = eZProductCategory::fetchList( true );
+    if ( $productCategories === false )
+        $productCategories = eZProductCategory::fetchList();
 
     $db =& eZDB::instance();
     $db->begin();
@@ -44,19 +48,53 @@ function applyChanges( $module, $http )
             continue;
 
         $name = $http->postVariable( "category_name_" . $id );
+
+        if ( !$name )
+        {
+            $errors[] = ezi18n( 'kernel/shop/productcategories', 'Empty category names are not allowed (corrected).' );
+            continue;
+        }
+
         $cat->setAttribute( 'name', $name );
         $cat->store();
     }
     $db->commit();
 }
 
+/**
+ * Generate a unique category name.
+ *
+ * The generated name looks like "Product category X"
+ * where X is a unique number.
+ */
+function generateUniqueCategoryName( $productCategories )
+{
+    $commonPart = ezi18n( 'kernel/shop/productcategories', 'Product category' );
+    $maxNumber = 0;
+    foreach ( $productCategories as $cat )
+    {
+        $catName = $cat->attribute( 'name' );
+
+        if ( !preg_match( "/^$commonPart (\d+)/", $catName, $matches ) )
+            continue;
+
+        $curNumber = $matches[1];
+        if ( $curNumber > $maxNumber )
+            $maxNumber = $curNumber;
+    }
+
+    $maxNumber++;
+    return "$commonPart $maxNumber";
+}
+
 $module =& $Params["Module"];
 $http   =& eZHttpTool::instance();
 $tpl =& templateInit();
+$errors = false;
 
 if ( $module->isCurrentAction( 'Remove' ) )
 {
-    applyChanges( $module, $http );
+    applyChanges( $module, $http, $errors );
 
     if ( !$module->hasActionParameter( 'CategoryIDList' ) )
         $catIDList = array();
@@ -133,20 +171,27 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
 }
 elseif ( $module->isCurrentAction( 'Add' ) )
 {
-    applyChanges( $module, $http );
+    $productCategories = eZProductCategory::fetchList( true );
+    applyChanges( $module, $http, $errors, $productCategories );
 
     $category = eZProductCategory::create();
+    $category->setAttribute( 'name', generateUniqueCategoryName( $productCategories ) );
     $category->store();
     $tpl->setVariable( 'last_added_id', $category->attribute( 'id' ) );
 }
 elseif ( $module->isCurrentAction( 'StoreChanges' ) )
 {
-    applyChanges( $module, $http );
+    applyChanges( $module, $http, $errors );
 }
 
-$productCategories = eZProductCategory::fetchList( true );
+// (re-)fetch product categoried list to display them in the template
+$productCategories = eZProductCategory::fetchList();
+
+if ( is_array( $errors ) )
+    $errors = array_unique( $errors );
 
 $tpl->setVariable( 'categories', $productCategories );
+$tpl->setVariable( 'errors', $errors );
 
 $path = array();
 $path[] = array( 'text' => ezi18n( 'kernel/shop/productcategories', 'Product categories' ),
