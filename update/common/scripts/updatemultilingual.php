@@ -202,7 +202,20 @@ unset( $rows );
 
 // ------------------------------------------
 
-$cli->notice( 'Step 4/6: Fixing content object attributes and versions. Please be patient, this might take a while...' );
+$cli->notice( 'Step 4/6: Fixing the ezcontentobject_name table.' );
+
+$db->query( "DELETE FROM ezcontentobject_name WHERE content_translation<>real_translation" );
+foreach( $languages as $languageCode => $languageID )
+{
+    $db->query( "UPDATE ezcontentobject_name SET language_id='$languageID' WHERE real_translation='$languageCode'" );
+}
+// Fixing inconsistencies
+$db->query( "UPDATE ezcontentobject_name SET language_id='$defaultLanguage', content_translation='$defaultLanguageCode', real_translation='$defaultLanguageCode' WHERE language_id='0'" );
+
+
+// ------------------------------------------
+
+$cli->notice( 'Step 5/6: Fixing content object versions and attributes. Please be patient, this might take a while...' );
 
 $db->query( "UPDATE ezcontentobject_attribute SET language_id='0'" );
 foreach( $languages as $languageCode => $languageID )
@@ -214,7 +227,7 @@ $db->query( "UPDATE ezcontentobject_attribute SET language_id='$defaultLanguage'
 
 $db->query( "CREATE TEMPORARY TABLE version_languages ( contentobject_id int, version int, language_id int )" );
 $db->query( "CREATE TEMPORARY TABLE version_language_masks ( contentobject_id int, version int, language_mask int )" );
-$db->query( "CREATE TEMPORARY TABLE object_language_masks ( contentobject_id int, language_mask int )" );
+$db->query( "CREATE TEMPORARY TABLE object_language_masks ( contentobject_id int, language_mask int, PRIMARY KEY( contentobject_id ) )" );
 
 $db->query( "INSERT INTO version_languages( contentobject_id, version, language_id )
              SELECT DISTINCT contentobject_id, version, language_id FROM ezcontentobject_attribute" );
@@ -243,23 +256,70 @@ while ( $rows = $db->arrayQuery( "SELECT a.*, b.language_mask as object_language
         $objectID = $row['contentobject_id'];
         $version = $row['version'];
         $languageMask = (int) $row['language_mask'] & (int) $row['object_language_mask'];
-        // we will remove the languages which are not used in the published version later
-        if ( $languageMask & $defaultLanguage )
+
+        // removing attributes which exists in languages which do not exist in published version
+        $originalLanguageMask = $languageMask;
+        $maskArray = array();
+        $candidate = 1;
+        while ( $originalLanguageMask > 0 )
         {
-            $initialLanguage = $defaultLanguage;
+            if ( $originalLanguageMask & 1 > 0 )
+            {
+                $maskArray[] = $candidate;
+                $maskArray[] = $candidate+1;
+            }
+            $originalLanguageMask = (int) ( $originalLanguageMask / 2 );
+            $candidate *= 2;
+        }
+
+        $attributes = $db->arrayQuery( "SELECT * 
+                                        FROM ezcontentobject_attribute
+                                        WHERE contentobject_id = '$objectID'
+                                          AND version = '$version'".
+                                       ( ( $maskArray )? " AND language_id NOT IN ( " . implode( ', ', $maskArray ) ." )": '' ) );
+
+
+        foreach ( $attributes as $attribute )
+        {
+            $attributeObject = new eZContentObjectAttribute( $attribute );
+            $attributeObject->remove( $attributeObject->attribute( 'id' ), $attributeObject->attribute( 'version' ) );
+            unset( $attributeObject );
+        }
+        if ( $attributes )
+        {
+            // removing the rows in the name table which exists in languages which do not exist in published version
+            $db->query( "DELETE FROM ezcontentobject_name
+                         WHERE contentobject_id = '$objectID' AND version = '$version'".
+                         ( ( $maskArray )? " AND language_id NOT IN ( " . implode( ', ', $maskArray ) ." )": '' ) );
+        }
+        unset( $attributes );
+
+        if ( $languageMask == 0 )
+        {
+            // This version does not contain any language, we will remove it
+            $db->query( "DELETE FROM ezcontentobject_version
+                         WHERE contentobject_id='$objectID'
+                           AND version='$version'" );
         }
         else
         {
-            $initialLanguage = minBit( $languageMask );
+            if ( $languageMask & $defaultLanguage )
+            {
+                $initialLanguage = $defaultLanguage;
+            }
+            else
+            {
+                $initialLanguage = minBit( $languageMask );
+            }
+
+            $languageMask++;
+
+            $db->query( "UPDATE ezcontentobject_version
+                         SET initial_language_id='$initialLanguage',
+                             language_mask='$languageMask'
+                         WHERE contentobject_id='$objectID'
+                         AND version='$version'" );
         }
-
-        $languageMask++;
-
-        $db->query( "UPDATE ezcontentobject_version
-                     SET initial_language_id='$initialLanguage',
-                         language_mask='$languageMask'
-                     WHERE contentobject_id='$objectID'
-                     AND version='$version'" );
     }
 
     unset( $rows );
@@ -276,25 +336,13 @@ while ( $rows = $db->arrayQuery( "SELECT a.*, b.language_mask as object_language
 
 $cli->notice( "\r  done" );
 
+$db->query( "DROP TEMPORARY TABLE object_language_masks" );
 $db->query( "DROP TEMPORARY TABLE version_language_masks" );
 $db->query( "DROP TEMPORARY TABLE version_languages" );
 
 // Fixing inconsistencies
 $defaultMask = $defaultLanguage + 1;
 $db->query( "UPDATE ezcontentobject_version SET initial_language_id='$defaultLanguage', language_mask='$defaultMask' WHERE initial_language_id='0'" );
-
-// ------------------------------------------
-
-$cli->notice( 'Step 5/6: Fixing the ezcontentobject_name table.' );
-
-$db->query( "DELETE FROM ezcontentobject_name WHERE content_translation<>real_translation" );
-foreach( $languages as $languageCode => $languageID )
-{
-    $db->query( "UPDATE ezcontentobject_name SET language_id='$languageID' WHERE real_translation='$languageCode'" );
-}
-// Fixing inconsistencies
-$db->query( "UPDATE ezcontentobject_name SET language_id='$defaultLanguage', content_translation='$defaultLanguageCode', real_translation='$defaultLanguageCode' WHERE language_id='0'" );
-
 
 // ------------------------------------------
 
@@ -350,32 +398,6 @@ while ( $objects = $db->arrayQuery( "SELECT ezcontentobject.id, ezcontentobject.
                      SET language_mask='$languageMask',
                          initial_language_id='$initialLanguage'
                      WHERE id='$objectID'" );
-
-        // removing attributes which exists in languages which do not exist in published version
-        $maskArray = array();
-        $candidate = 1;
-        while ( $originalLanguageMask > 0 )
-        {
-            if ( $originalLanguageMask & 1 > 0 )
-            {
-                $maskArray[] = $candidate;
-                $maskArray[] = $candidate+1;
-            }
-            $originalLanguageMask = (int) ( $originalLanguageMask / 2 );
-            $candidate *= 2;
-        }
-
-        $attributes = $db->arrayQuery( "SELECT * 
-                                        FROM ezcontentobject_attribute
-                                        WHERE contentobject_id = '$objectID'
-                                          AND language_id NOT IN ( " . implode( ', ', $maskArray ) ." )" );
-        foreach ( $attributes as $attribute )
-        {
-            $attributeObject = new eZContentObjectAttribute( $attribute );
-            $attributeObject->remove( $attributeObject->attribute( 'id' ), $attributeObject->attribute( 'version' ) );
-            unset( $attributeObject );
-        }
-        unset( $attributes );
 
         $lastID = $object['id'];
     }
