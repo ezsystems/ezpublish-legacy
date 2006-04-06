@@ -585,9 +585,6 @@ class eZMySQLDB extends eZDBInterface
         return $retArray;
     }
 
-    /*!
-     \private
-    */
     function subString( $string, $from, $len = null )
     {
         if ( $len == null )
