@@ -744,6 +744,7 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
         if ( !$metaData )
             return false;
 
+        $fileID = $metaData['id'];
         $sql = "SELECT filedata FROM " . TABLE_DATA . " WHERE masterid=$fileID";
         if ( !$res = mysql_query( $sql, $this->db ) )
         {

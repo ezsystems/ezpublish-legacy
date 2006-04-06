@@ -15,6 +15,7 @@ Changes from 3.8.0beta1 to 3.8.0beta2
 - Fixed bug #8078: Fatal error after click on "Cancel" button in Global settings.
 - Fixed bug: eZContentObjectTreeNode::fethNode should not fetch temporary nodes.
   ( Merged from stable/3.7 ( 3.7.6 ) rev. 15582 )
+- Fixed broken image passthrough when clustering is enabled.
 
 *INI settings:
 - Added site.ini:[shopSettings].ClearBasketOnLogout setting:
