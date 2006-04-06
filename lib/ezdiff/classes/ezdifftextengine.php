@@ -43,6 +43,7 @@
 
 include_once( 'lib/ezutils/classes/ezdebug.php' );
 include_once( 'lib/ezdiff/classes/ezdiffengine.php' );
+include_once( 'lib/ezdiff/classes/ezdiffmatrix.php' );
 
 class eZDiffTextEngine extends eZDiffEngine
 {
@@ -203,47 +204,23 @@ class eZDiffTextEngine extends eZDiffEngine
         $substrOffsets = $this->findLongestSubstringOffsets( $substr );
         $offsetInfo = $this->substringPlacement( $substrOffsets['newStart'], $substrOffsets['newEnd'], $statistics['to']['wordCount'] );
 
+        //$tmp = $substr['lengthMatrix'];
         //print( "<pre>" );
         //$this->dumpMatrix( $substr['lengthMatrix'] );
+        //$this->dumpMatrix( $tmp, $statistics['from']['wordCount'], $statistics['to']['wordCount'] );
         //print( "</pre>" );
 
-        //var_dump( $substrOffsets );
-        //var_dump( $offsetInfo );
-
-        /* Disabled code
-        $prependText = array();
-        $appendedText = array();
-
-        if ( $offsetInfo['hasTextLeft'] )
-        {
-            $newOffset = 0;
-            while ( $newOffset < $substrOffsets['newStart'] )
-            {
-                $prependText[] = $newArray[$newOffset];
-                $newOffset++;
-            }
-        }
-
-        if ( $offsetInfo['hasTextRight'] )
-        {
-            $newOffset = $substrOffsets['newEnd'];
-            while ( $newOffset < $offset )
-            {
-                $appendedText[] = $newArray[$newOffset];
-                $newOffset++;
-            }
-        }
-        */
-            
-        $strings = $this->getDisctoniousSubstrings( $substr, $oldArray, $newArray );
+        $strings = $this->getDiscontinuousSubstrings( $substr, $oldArray, $newArray );
 
         //Merge detected substrings
+        /*
         $mergedStrings = array();
         foreach ( $strings as $sstring )
         {
             $mergedStrings = $mergedStrings + $sstring;
         }
-        
+        */
+
         $differences = array();
         $prevKey = 0;
         $distanceAdjust = 0;
@@ -366,18 +343,11 @@ class eZDiffTextEngine extends eZDiffEngine
       This method will find discontinuous substrings in a length matrix.
       \return Array of discontiuous substrings.
     */
-    function getDisctoniousSubstrings( $sub, $old, $new)
+    function getDiscontinuousSubstrings( $sub, $old, $new)
     {
         $lengthMatrix = $sub['lengthMatrix'];
-        $rows = count( $lengthMatrix );
-        if ( isset( $lengthMatrix[0] ) )
-        {
-            $cols = count( $lengthMatrix[0] );
-        }
-        else
-        {
-            $cols = 1;
-        }
+        $rows = count( $old );
+        $cols = count( $new );
 
         $foundLength = 0;
         $foundRow = 0;
@@ -399,7 +369,7 @@ class eZDiffTextEngine extends eZDiffEngine
         
         while ( $startRow >= 0 && $startCol >= 0 )
         {
-            if ( $lengthMatrix[$startRow][$startCol] == $val )
+            if ( $lengthMatrix->get( $startRow, $startCol ) == $val )
             {
                 $substring[$startCol] = array( 'word' => $new[$startCol],
                                                'oldOffset' => $startRow );
@@ -408,17 +378,16 @@ class eZDiffTextEngine extends eZDiffEngine
                 $startCol--;
                 $startRow--;
             }
-            else if ( $lengthMatrix[$startRow][$startCol] != $val )
+            else if ( $lengthMatrix->get( $startRow, $startCol ) != $val )
             {
                 if ( count( $substring ) > 0 )
                 {
-                    //$substringSet[$detectedStrings] = array_reverse( $substring, true );
                     array_unshift( $substringSet, array_reverse( $substring, true ) );
                     $detectedStrings++;
                     $substring = array();
                 }
                 $startRow--;
-                $spotlight = $lengthMatrix[$startRow][$startCol];
+                $spotlight = $lengthMatrix->get( $startRow, $startCol );
                 if ( $spotlight > 0 )
                 {
                     $val = $spotlight-1;
@@ -431,7 +400,6 @@ class eZDiffTextEngine extends eZDiffEngine
         }
         if ( count( $substring ) > 0 )
         {
-            //$substringSet[$detectedStrings] = array_reverse( $substring, true );
             array_unshift( $substringSet, array_reverse( $substring, true ) );
             $detectedStrings++;
         }
@@ -446,10 +414,9 @@ class eZDiffTextEngine extends eZDiffEngine
             $startRow = $sub['maxRow']+1;
             $startCol = $sub['maxCol']+1;
             $val = 1;
-            //var_dump( $startRow, $startCol );
             while ( $startRow < $rows && $startCol < $cols )
             {
-                if ( $lengthMatrix[$startRow][$startCol] == $val )
+                if ( $lengthMatrix->get( $startRow, $startCol ) == $val )
                 {
                     $substring[$startCol] = array( 'word' => $new[$startCol],
                                                    'oldOffset' => $startRow );
@@ -468,11 +435,10 @@ class eZDiffTextEngine extends eZDiffEngine
 
                     $startCol++;
 
-                    if ( ( $spotlight = $lengthMatrix[$startRow][$startCol] ) > 0 )
+                    if ( ( $spotlight = $lengthMatrix->get( $startRow, $startCol ) ) > 0 )
                     {
                         $substring[$startCol] = array( 'word' => $new[$startCol],
                                                        'oldOffset' => $startRow );
-                        //var_dump( $substring, $spotlight );
                         $val = $spotlight + 1;
                         $startRow++;
                         $startCol++;
@@ -489,26 +455,15 @@ class eZDiffTextEngine extends eZDiffEngine
         return $substringSet;
     }
 
-    function findLongestString( $row, $col, $arr, $values )
-    {
-        //$row & $colm sets confinement
 
-        $string = array();
-        if ( $row == count ( $arr ) || $col == count( $arr[0] ) )
-        {
-            return;
-        }
-        if ( $arr[$row][$col] == 0 )
-        {
-            $string[] = $this->findLongestString( $row+1, $col, $arr, $values );
-        }
-        if ( $arr[$row][$col] > 0 )
-        {
-            $string[] = $values[$col];
-            $string[] = $this->findLongestString( $row+1, $col+1, $arr, $values );
-        }
-            
+    /*!
+      \private
+      This method will detect discontious substrings in the matrix.
+    */
+    function substrings( $sub, $old, $new )
+    {
     }
+
 
     /*!
       \private
@@ -566,15 +521,13 @@ class eZDiffTextEngine extends eZDiffEngine
       \private
       Helper method to matrices.
     */
-    function dumpMatrix( $arr )
+    function dumpMatrix( $arr, $rows, $cols )
     {
-        $rows = count( $arr );
-        $cols = count ( $arr[0] );
         for ( $i = 0; $i < $rows; $i++ )
         {
             for ( $j = 0; $j < $cols; $j++ )
             {
-                print( $arr[$i][$j] . " " );
+                print( $arr->get( $i, $j ) . " " );
                 if ( $j == $cols-1 )
                     print( "\n" );
             }
@@ -602,14 +555,15 @@ class eZDiffTextEngine extends eZDiffEngine
 
         while ( $len > 0 && $maxRow >= 0 && $maxCol >= 0)
         {
-            $len = $lengthMatrix[$maxRow][$maxCol];
-            if ( $lengthMatrix[$maxRow][$maxCol] == $max )
+            $len = $lengthMatrix->get( $maxRow, $maxCol );
+
+            if ( $lengthMatrix->get( $maxRow, $maxCol ) == $max )
             {
                 $newEnd = $maxCol;
                 $oldEnd = $maxRow;
             }
 
-            if ( $lengthMatrix[$maxRow][$maxCol] == 1 )
+            if ( $lengthMatrix->get( $maxRow, $maxCol ) == 1 )
             {
                 $newStart = $maxCol;
                 $oldStart = $maxRow;
@@ -639,12 +593,10 @@ class eZDiffTextEngine extends eZDiffEngine
     */
     function substringMatrix( $old, $new )
     {
+        $matrix = new eZDiffMatrix();
         $maxLength = 0;
         $sizeOld = count( $old );
         $sizeNew =  count( $new );
-
-        //$substrings = array();
-        $length = array();
 
         $maxC = 0;
         $maxR = 0;
@@ -657,38 +609,41 @@ class eZDiffTextEngine extends eZDiffEngine
                 {
                     if ( $row > 0 && $col > 0 )
                     {
-                        $length[$row][$col] = 1 + $length[$row-1][$col-1];
+                        $val = 1 + $matrix->get( $row-1, $col-1 );
+                        $matrix->set( $row, $col, $val );
                     }
                     else if ( $row > 0 && $col == 0 )
                     {
-                        $length[$row][$col] = 1 + $length[$row-1][$col];
+                        $val = 1 + $matrix->get( $row-1, $col );
+                        $matrix->set( $row, $col, $val );
                     }
                     else if ( $row == 0 && $col > 0 )
                     {
-                        $length[$row][$col] = 1 + $length[$row][$col-1];
+                        $val = 1 + $matrix->get( $row, $col-1 );
+                        $matrix->set( $row, $col, $val );
                     }
                     else if ( $row == 0 && $col == 0 )
                     {
-                        $length[$row][$col] = 1;
+                        $matrix->set( $row, $col, 1 );
                     }
                     
-                    if ( $length[$row][$col] > $maxLength )
+                    if ( $matrix->get( $row, $col ) > $maxLength )
                     {
-                        $maxLength = $length[$row][$col];
+                        $maxLength = $matrix->get( $row, $col );
                         $maxR = $row;
                         $maxC = $col;
                     }
                 }
                 else
                 {
-                    $length[$row][$col] = 0;
+                    $matrix->set( $row, $col, 0 );
                 }
             }
         }
         return array( 'maxLength' => $maxLength,
                       'maxRow' => $maxR,
                       'maxCol' => $maxC,
-                      'lengthMatrix' => $length );
+                      'lengthMatrix' => $matrix );
     }
 
     /*!
