@@ -661,34 +661,12 @@ class eZXMLInputParser
         // Call "Structure handler"
         $ret =& $this->callOutputHandler( 'structHandler', $element, $lastHandlerResult );
 
-        // Set the parent again (it could be changed in the handler)
-        $parent =& $element->parentNode;
-
-        // If this is a foreign element, remove it
-        if ( !$this->XMLSchema->exists( $element ) )
+        // Process by schema and fix tree
+        if ( !$this->processElementBySchema( $element ) )
         {
-            $parent->removeChild( $element );
+            unset( $ret );
+            $ret = null;
             return $ret;
-        }
-
-        // Check schema and remove wrong elements
-        if ( $parent )
-        {
-            $schemaCheckResult = $this->XMLSchema->check( $parent, $element );
-            if ( !$schemaCheckResult )
-            {
-                if ( $schemaCheckResult === false )
-                {
-                    $this->isInputValid = false;
-                    if ( $this->errorLevel >= 1 )
-                        $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "&lt;%1&gt; is not allowed to be a child of &lt;%2&gt;.",
-                                                    false, array( $element->nodeName, $parent->nodeName ) );
-                }
-                $this->fixSubtree( $element, $element );
-                unset( $ret );
-                $ret = null;
-                return $ret;
-            }
         }
 
         if ( !$this->checkRequiredAttributes( $element ) && $this->quitIfInvalid )
@@ -715,7 +693,41 @@ class eZXMLInputParser
         Helper functions for pass 2
     */
 
-    // Remove only nodes that don't match schema
+    // Check element's schema and fix subtree if needed
+    function processElementBySchema( &$element, $verbose = true )
+    {
+        $parent =& $element->parentNode;
+        if ( $parent )
+        {
+            // If this is a foreign element, remove it
+            if ( !$this->XMLSchema->exists( $element ) )
+            {
+                $parent->removeChild( $element );
+                return false;
+            }
+    
+            // Check schema and remove wrong elements
+            $schemaCheckResult = $this->XMLSchema->check( $parent, $element );
+            if ( !$schemaCheckResult )
+            {
+                if ( $schemaCheckResult === false )
+                {
+                    $this->isInputValid = false;
+                    if ( $verbose && $this->errorLevel >= 1 )
+                    {
+                        $elementName = $element->nodeName == '#text' ? $element->nodeName : '&lt;' . $element->nodeName . '&gt;';
+                        $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "%1 is not allowed to be a child of &lt;%2&gt;.",
+                                                    false, array( $elementName, $parent->nodeName ) );
+                    }
+                }
+                $this->fixSubtree( $element, $element );
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Remove only nodes that don't match schema (recursively)
     function fixSubtree( &$element, &$mainChild )
     {
         $parent =& $element->parentNode;
@@ -851,6 +863,9 @@ class eZXMLInputParser
         foreach( array_keys( $this->createdElements ) as $key )
         {
             $element =& $this->createdElements[$key];
+
+            //if ( !$this->processElementBySchema( $element ) )
+            //    continue;
 
             $tmp = null;
             // Call "Publish handler"

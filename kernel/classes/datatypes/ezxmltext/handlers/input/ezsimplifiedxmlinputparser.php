@@ -365,6 +365,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     // Structure handler for 'header' tag.
     function &structHandlerHeader( &$element, &$param )
     {
+        $ret = null;
         $parent =& $element->parentNode;
         $level = $element->getAttribute( 'level' );
         if ( !$level )
@@ -393,9 +394,13 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 $newParent =& $parent;
                 for ( $i = $sectionLevel; $i < $level; $i++ )
                 {
-                   // TODO: Schema check
                    $newSection = $this->Document->createElement( 'section' );
                    $newParent->appendChild( $newSection );
+                   // Schema check
+                   if ( !$this->processElementBySchema( $newSection, false ) )
+                   {
+                       return $ret;
+                   }
                    $newParent =& $newSection;
                    unset( $newSection );
                 }
@@ -429,7 +434,6 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 }
             }
         }
-        $ret = null;
         return $ret;
     }
 
