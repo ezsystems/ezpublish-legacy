@@ -16,6 +16,8 @@ Changes from 3.8.0beta1 to 3.8.0beta2
 - Fixed bug: eZContentObjectTreeNode::fethNode should not fetch temporary nodes.
   ( Merged from stable/3.7 ( 3.7.6 ) rev. 15582 )
 - Fixed broken image passthrough when clustering is enabled.
+- Fixed bug: Content cache might be not cleared when clustering is enabled
+  due to occurence of '//' in the wildcard.
 
 *INI settings:
 - Added site.ini:[shopSettings].ClearBasketOnLogout setting:
