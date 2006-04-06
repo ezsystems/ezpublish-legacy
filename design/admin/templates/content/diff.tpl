@@ -3,6 +3,7 @@
      $version_list=fetch('content','version_list',hash(contentobject, $object,limit,$plimit,offset,$view_parameters.offset))
      $list_count=fetch( content, version_count, hash( contentobject, $object ) )
      $languages=fetch( content, prioritized_languages )
+     $initLang=false()
 }
 <div class="context-block">
 
@@ -33,10 +34,10 @@
         </tr>
         {foreach $version_list as $version
                  sequence array( 'bglight', 'bgdark' ) as $seq}
-        {def $initial_language=$version.initial_language}
+        {set $initLang=$version.initial_language}
         <tr class="{$seq}">
             <td>
-                <a href={concat( "/content/versionview/", $object.id, "/", $version.version, "/", $initial_language.locale )|ezurl}>{$version.version}</a>
+                <a href={concat( "/content/versionview/", $object.id, "/", $version.version, "/", $initLang.locale )|ezurl}>{$version.version}</a>
                 {if eq($version.version,$object.current_version)}*{/if}
             </td>
             <td>{$version.status|choose( 'Draft'|i18n( 'design/admin/content/diff' ), 'Published'|i18n( 'design/admin/content/diff' ), 'Pending'|i18n( 'design/admin/content/diff' ), 'Archived'|i18n( 'design/admin/content/diff' ), 'Rejected'|i18n( 'design/admin/content/diff' ), 'Untouched draft'|i18n( 'design/admin/content/diff' ) )}</td>
