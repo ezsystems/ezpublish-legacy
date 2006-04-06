@@ -1357,13 +1357,14 @@ class eZObjectRelationListType extends eZDataType
             $relationItems = $relationList->elementsByName( 'relation-item' );
             if ( count( $relationItems ) )
             {
-                foreach( $relationItems as $relationItem )
+                foreach( array_keys( $relationItems ) as $key )
                 {
-                     if ( $relationItem->attributeValue( 'contentobject-id' ) == $objectID )
-                     {
-                         $relationList->removeChild( $relationItem );
-                         $return = true;
-                     }
+                    $relationItem =& $relationItems[$key];
+                    if ( $relationItem->attributeValue( 'contentobject-id' ) == $objectID )
+                    {
+                        $relationList->removeChild( $relationItem );
+                        $return = true;
+                    }
                 }
             }
         }
