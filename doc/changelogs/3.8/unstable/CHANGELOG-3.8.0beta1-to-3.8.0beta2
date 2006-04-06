@@ -24,3 +24,9 @@ Changes from 3.8.0beta1 to 3.8.0beta2
   Means that the basket will (or NOT) be cleared when a user logs out.
 
 *DataTypes:
+
+*eZTemplate:
+- Added a new parameter "ignore_visibility" ("true" by default) to 
+  "reverse_related_objects_count" and "reverse_related_objects" functions. 
+  That allows fetching visible objects only or all reverse related objects.
+
