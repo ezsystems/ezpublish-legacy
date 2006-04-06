@@ -92,6 +92,10 @@ $http   =& eZHttpTool::instance();
 $tpl =& templateInit();
 $errors = false;
 
+// Remove checked categories.
+// Will check for categories' dependencies.
+// If there are none just removes the categories.
+// Otherwise shows confirmation dialog with the dependencies displayed.
 if ( $module->isCurrentAction( 'Remove' ) )
 {
     applyChanges( $module, $http, $errors );
@@ -150,6 +154,7 @@ if ( $module->isCurrentAction( 'Remove' ) )
 
     }
 }
+// Silently remove specified categories.
 if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
 {
     if ( !$module->hasActionParameter( 'CategoryIDList' ) )
@@ -169,6 +174,7 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
         eZProductCategory::remove( (int) $catID );
     $db->commit();
 }
+// Add new category.
 elseif ( $module->isCurrentAction( 'Add' ) )
 {
     $productCategories = eZProductCategory::fetchList( true );
@@ -179,6 +185,7 @@ elseif ( $module->isCurrentAction( 'Add' ) )
     $category->store();
     $tpl->setVariable( 'last_added_id', $category->attribute( 'id' ) );
 }
+// Apply changes made to categories' names.
 elseif ( $module->isCurrentAction( 'StoreChanges' ) )
 {
     applyChanges( $module, $http, $errors );
