@@ -36,7 +36,7 @@
   \class eZDiffTextEngine ezdifftextengine.php
   \ingroup eZDiff
   \brief eZDiff provides an access point the diff system
-  
+
   The eZDiffEngine class is an abstract class, providing interface and shared code
   for the different available DiffEngine.
 */
@@ -65,10 +65,10 @@ class eZDiffTextEngine extends eZDiffEngine
         //inserted. Thus the splitting of the string can cause empty array elements.
         $storedNewLines = $this->storeNewLines( $fromData );
         $storedNewLinesTo = $this->storeNewLines( $toData );
-        
+
         $fromData = strtr( $fromData, "\r\n", "  " );
         $toData = strtr( $toData, "\r\n", "  " );
-        
+
         $oldArray = explode( " ", $fromData );
         $newArray = explode( " ", $toData );
 
@@ -85,7 +85,7 @@ class eZDiffTextEngine extends eZDiffEngine
 
         //$changeSet = $this->simpleChanges( $statistics, $oldArray, $newArray );
         //$changes->setChanges( $changeSet );
-        
+
         $output = $this->buildDiff( $statistics, $oldArray, $newArray );
         $changes->setChanges( $output );
 
@@ -201,16 +201,15 @@ class eZDiffTextEngine extends eZDiffEngine
     function buildDiff( $statistics, $oldArray, $newArray )
     {
         $substr = $this->substringMatrix( $oldArray, $newArray );
-        $substrOffsets = $this->findLongestSubstringOffsets( $substr );
-        $offsetInfo = $this->substringPlacement( $substrOffsets['newStart'], $substrOffsets['newEnd'], $statistics['to']['wordCount'] );
-
-        //$tmp = $substr['lengthMatrix'];
-        //print( "<pre>" );
+        /*
+        $tmp = $substr['lengthMatrix'];
+        print( "<pre>" );
         //$this->dumpMatrix( $substr['lengthMatrix'] );
-        //$this->dumpMatrix( $tmp, $statistics['from']['wordCount'], $statistics['to']['wordCount'] );
-        //print( "</pre>" );
+        $this->dumpMatrix( $tmp, $statistics['from']['wordCount'], $statistics['to']['wordCount'] );
+        print( "</pre>" );
+        */
 
-        $strings = $this->getDiscontinuousSubstrings( $substr, $oldArray, $newArray );
+        $strings = $this->substrings( $substr, $oldArray, $newArray );
 
         //Merge detected substrings
         /*
@@ -273,10 +272,10 @@ class eZDiffTextEngine extends eZDiffEngine
                     //Detect deleted words where the surrounding text has been shifted.
                     else
                     {
-                        
+
                     }
                 }
-                
+
                 $differences[] = array( 'unchanged' => $wordArray['word'],
                                         'status' => 0 );
                 $prevKey = $key;
@@ -309,7 +308,7 @@ class eZDiffTextEngine extends eZDiffEngine
         $string = "";
         $diff = array();
         $item = current( $diffArray );
-        
+
         $lastStatus = $item['status'];
 
         $mode = array( 0 => 'unchanged',
@@ -366,7 +365,7 @@ class eZDiffTextEngine extends eZDiffEngine
            goes forward in the text. This might leave substrings at the end
            of the text
         */
-        
+
         while ( $startRow >= 0 && $startCol >= 0 )
         {
             if ( $lengthMatrix->get( $startRow, $startCol ) == $val )
@@ -450,7 +449,7 @@ class eZDiffTextEngine extends eZDiffEngine
                 $substringSet[] = $substring;
                 $detectedStrings++;
             }
-            
+
         }
         return $substringSet;
     }
@@ -458,10 +457,232 @@ class eZDiffTextEngine extends eZDiffEngine
 
     /*!
       \private
-      This method will detect discontious substrings in the matrix.
+      This method will detect discontinuous substrings in the matrix.
+      \return Array of substrings
     */
     function substrings( $sub, $old, $new )
     {
+        $matrix = $sub['lengthMatrix'];
+        $val = $sub['maxLength'];
+        $row = $sub['maxRow'];
+        $col = $sub['maxCol'];
+
+        $rows = count( $old );
+        $cols = count( $new );
+
+        $lcsOffsets = $this->findLongestSubstringOffsets( $sub );
+        $lcsPlacement = $this->substringPlacement( $lcsOffsets['newStart'], $lcsOffsets['newEnd'], $rows );
+
+        $substringSet = array();
+
+        $substring = $this->traceSubstring( $row, $col, $matrix, $val, $new );
+        $substringSet[] = array_reverse( $substring, true );
+        //Get more text
+        if ( $lcsPlacement['hasTextLeft'] )
+        {
+            $row = $lcsOffsets['oldStart'];
+            $col = $lcsOffsets['newStart'];
+
+            if ( $row != 0 )
+            {
+                $row--;
+            }
+
+            if ( $col != 0 )
+            {
+                $col--;
+            }
+
+            $done = false;
+            $info = true;
+
+            while ( !$done && $info )
+            {
+                $info = $this->localSubstring( 'left', $row, $col, $rows, $cols, $matrix );
+                if ( $info )
+                {
+                    $sub = $this->traceSubstring( $info['remainRow'], $info['remainCol'], $matrix, $info['remainMax'], $new );
+                    array_unshift( $substringSet, array_reverse( $sub, true ) );
+
+                    if ( $info['remainCol'] == 0 )
+                    {
+                        $done = true;
+                    }
+                    else
+                    {
+                        $row = $info['remainRow'];
+                        $col = $info['remainCol'];
+                    }
+                }
+            }
+        }
+
+
+        if ( $lcsPlacement['hasTextRight'] )
+        {
+            //reset search location in matrix
+            $row = $sub['maxRow'];
+            $col = $sub['maxCol'];
+
+            if ( $row != $rows-1 )
+            {
+                $row++;
+            }
+
+            if ( $col != $cols-1 )
+            {
+                $col++;
+            }
+
+            $done = false;
+            $info = true;
+
+            while( !$done && $info )
+            {
+                $info = $this->localSubstring( 'right', $row, $col, $rows, $cols, $matrix );
+                if ( $info )
+                {
+                    $sub = $this->traceSubstring( $info['remainRow'], $info['remainCol'], $matrix, $info['remainMax'], $new );
+                    $substringSet[] = array_reverse( $sub, true );
+
+                    if ( $info['remainCol'] == $cols-1 )
+                    {
+                        $done = true;
+                    }
+                    else
+                    {
+                        $row = $info['remainRow'];
+                        $col = $info['remainCol'];
+                    }
+                }
+            }
+        }
+        return $substringSet;
+    }
+
+    /*!
+      \private
+      This method checks  a patch of the length matrix for the longest substring.
+      Depending on the \a $direction a sub matrix is searched for valid substrings.
+    */
+    function localSubstring( $direction, $row, $col, $rows, $cols, $matrix )
+    {
+        $colMax = 0;
+        $prevColMax = 0;
+        $colMaxRow = 0;
+        $colMaxCol = 0;
+
+        $remainMax = 0;
+        $remainRow = 0;
+        $remainCol = 0;
+
+        switch( $direction )
+        {
+            case 'right':
+            {
+                for ( $j = $col; $j < $cols; $j++ )
+                {
+                    while ( $row < $rows )
+                    {
+                        $matVal = $matrix->get( $row, $j );
+                        if ( $matVal > $colMax )
+                        {
+                            $prevColMax = $colMax;
+                            $colMax = $matVal;
+                            $colMaxRow = $row;
+                            $colMaxCol = $j;
+                        }
+                        $row++;
+                    }
+                    if ( $colMax > $remainMax )
+                    {
+                        //Set best candidate thus far
+                        $remainMax = $colMax;
+                        $remainRow = $colMaxRow;
+                        $remainCol = $colMaxCol;
+                    }
+                    if ( $colMax < $prevColMax )
+                    {
+                        break;
+                    }
+                }
+            }break;
+
+            case 'left':
+            {
+                for ( $j = $col; $j >= 0; $j-- )
+                {
+                    while ( $row >= 0 )
+                    {
+                        $matVal = $matrix->get( $row, $j );
+                        if ( $matVal > $colMax )
+                        {
+                            $prevColMax = $colMax;
+                            $colMax = $matVal;
+                            $colMaxRow = $row;
+                            $colMaxCol = $j;
+                        }
+                        $row--;
+                    }
+                    if ( $colMax > $remainMax )
+                    {
+                        //Set best candidate thus far
+                        $remainMax = $colMax;
+                        $remainRow = $colMaxRow;
+                        $remainCol = $colMaxCol;
+                    }
+                    if ( $colMax < $prevColMax )
+                    {
+                        break;
+                    }
+                }
+            }break;
+        }
+
+        if ( $remainMax > 0 )
+        {
+            return array( 'remainMax' => $remainMax,
+                          'remainRow' => $remainRow,
+                          'remainCol' => $remainCol );
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /*!
+      \private
+      This method will backtrace found substrings, it will start from the endpoint of the
+      string and work towards its start.
+      \return Substring with endpoing at \a $row, \a $col
+    */
+    function traceSubstring( $row, $col, $matrix, $val, $new )
+    {
+        $substring = array();
+        while( $row >= 0 && $col >= 0 )
+        {
+            if ( $matrix->get( $row, $col ) == $val )
+            {
+                $substring[$col] = array( 'word' => $new[$col],
+                                          'oldOffset' => $row );
+
+                if ( $val > 1 )
+                {
+                    $val--;
+                }
+                else if ( $val == 1 )
+                {
+                    break;
+                }
+
+                $row--;
+                $col--;
+                if ( $row < 0 || $col < 0 )
+                    break;
+            }
+        }
+        return $substring;
     }
 
 
@@ -475,7 +696,7 @@ class eZDiffTextEngine extends eZDiffEngine
     {
         $leftText = false;
         $rightText = false;
-        
+
         if ( $startOffset > 0 )
             $leftText = true;
 
@@ -588,7 +809,7 @@ class eZDiffTextEngine extends eZDiffEngine
                 'maxRow' =>
                 'maxCol' =>
                 'lengthMatrix' => )
-                
+
       \return Matrix containing the length of longest common substring string and where it is found in the substring length matrix.
     */
     function substringMatrix( $old, $new )
@@ -626,7 +847,7 @@ class eZDiffTextEngine extends eZDiffEngine
                     {
                         $matrix->set( $row, $col, 1 );
                     }
-                    
+
                     if ( $matrix->get( $row, $col ) > $maxLength )
                     {
                         $maxLength = $matrix->get( $row, $col );
