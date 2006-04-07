@@ -574,11 +574,11 @@ class eZContentLanguage extends eZPersistentObject
         $db =& eZDB::instance();
         if ( $db->databaseName() == 'oracle' )
         {
-            return " bitand( $languageListTable.$languageListAttributeName, $mask ) > 0 ";
+            return "\n bitand( $languageListTable.$languageListAttributeName, $mask ) > 0 \n";
         }
         else
         {
-            return " $languageListTable.$languageListAttributeName & $mask > 0 ";
+            return "\n $languageListTable.$languageListAttributeName & $mask > 0 \n";
         }
     }
 
@@ -606,13 +606,13 @@ class eZContentLanguage extends eZPersistentObject
         $prioritizedLanguages = eZContentLanguage::prioritizedLanguages();
         if ( $db->databaseName() == 'oracle' )
         {
-            $leftSide = "bitand( $languageListTable.$languageListAttributeName - bitand( $languageListTable.$languageListAttributeName, $languageTable.$languageAttributeName ), 1 )";
-            $rightSide = "bitand( $languageTable.$languageAttributeName, 1 )";
+            $leftSide = "bitand( $languageListTable.$languageListAttributeName - bitand( $languageListTable.$languageListAttributeName, $languageTable.$languageAttributeName ), 1 )\n";
+            $rightSide = "bitand( $languageTable.$languageAttributeName, 1 )\n";
         }
         else
         {
-            $leftSide = "( ( $languageListTable.$languageListAttributeName - ( $languageListTable.$languageListAttributeName & $languageTable.$languageAttributeName ) ) & 1 )";
-            $rightSide = "( $languageTable.$languageAttributeName & 1 )";
+            $leftSide = "    ( (   $languageListTable.$languageListAttributeName - ( $languageListTable.$languageListAttributeName & $languageTable.$languageAttributeName ) ) & 1 )\n";
+            $rightSide = "  ( $languageTable.$languageAttributeName & 1 )\n";
         }
 
         for ( $index = count( $prioritizedLanguages ) - 1, $multiplier = 2; $index >= 0; $index--, $multiplier *= 2 )
@@ -621,13 +621,13 @@ class eZContentLanguage extends eZPersistentObject
 
             if ( $db->databaseName() == 'oracle' )
             {
-                $leftSide .= " + bitand( $languageListTable.$languageListAttributeName - bitand( $languageListTable.$languageListAttributeName, $languageTable.$languageAttributeName ), $id ) ";
-                $rightSide .= " + bitand( $languageTable.$languageAttributeName, $id ) ";
+                $leftSide .= "   + bitand( $languageListTable.$languageListAttributeName - bitand( $languageListTable.$languageListAttributeName, $languageTable.$languageAttributeName ), $id ) \n";
+                $rightSide .= "   + bitand( $languageTable.$languageAttributeName, $id ) \n";
             }
             else
             {
-                $leftSide .= " + ( ( ( $languageListTable.$languageListAttributeName - ( $languageListTable.$languageListAttributeName & $languageTable.$languageAttributeName ) ) & $id ) ";
-                $rightSide .= " + ( ( $languageTable.$languageAttributeName & $id ) ";
+                $leftSide .= "   + ( ( ( $languageListTable.$languageListAttributeName - ( $languageListTable.$languageListAttributeName & $languageTable.$languageAttributeName ) ) & $id ) ";
+                $rightSide .= "   + ( ( $languageTable.$languageAttributeName & $id ) ";
             }
 
             if ( $multiplier > $id )
@@ -644,8 +644,8 @@ class eZContentLanguage extends eZPersistentObject
             }
             if ( $db->databaseName() != 'oracle' )
             {
-                $leftSide .= ' )';
-                $rightSide .= ' )';
+                $leftSide .= " )\n";
+                $rightSide .= " )\n";
             }
         }
 
@@ -658,7 +658,7 @@ class eZContentLanguage extends eZPersistentObject
             $sql = "$languageTable.$languageAttributeName & $languageListTable.$languageListAttributeName > 0";
         }
 
-        return " ( $sql AND $leftSide < $rightSide ) ";
+        return "\n ( $sql AND\n $leftSide   <\n   $rightSide ) \n";
     }
 
     /**
