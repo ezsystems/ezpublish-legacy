@@ -118,7 +118,6 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
         'custom'    => array( 'parsingHandler' => 'parsingHandlerCustom',
                               'structHandler' => 'structHandlerCustom',
-                              // TODO:
                               'publishHandler' => 'publishHandlerCustom',
                               'requiredInputAttributes' => array( 'name' ) ),
 
@@ -273,7 +272,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         $next =& $element->nextSibling();
         $newParentName = $newParent != null ? $newParent->nodeName : '';
 
-        // Correct schema by adding <line> and <paragraph> tags.
+        // Correct structure by adding <line> and <paragraph> tags.
         if ( $parentName == 'line' || $this->XMLSchema->isInline( $parent ) )
         {
             return $ret;
@@ -310,6 +309,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             $newLine->appendChild( $element );
             $ret =& $newLine;
         }
+
         return $ret;
     }
 
@@ -317,11 +317,11 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     function &structHandlerBr( &$element, &$newParent )
     {
         $ret = null;
+
         if ( $newParent && ( $newParent->nodeName == 'line' || $newParent->nodeName == 'paragraph' ) )
         {
             $ret =& $newParent->parentNode;
         }
-
         return $ret;
     }
 

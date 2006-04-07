@@ -664,8 +664,8 @@ class eZXMLInputParser
         // Process by schema and fix tree
         if ( !$this->processElementBySchema( $element ) )
         {
-            unset( $ret );
-            $ret = null;
+            //unset( $ret );
+            //$ret = null;
             return $ret;
         }
 
