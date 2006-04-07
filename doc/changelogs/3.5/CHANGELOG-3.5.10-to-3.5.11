@@ -21,6 +21,9 @@ Changes from 3.5.10 to 3.5.11
   ( Merged from stable/trunk ( 3.8.0beta2 ) rev. 15573 )
 - Fixed bug: eZContentObjectTreeNode::fethNode should not fetch temporary nodes.
 - Fixed bug 6970: Bug Impossible to pass parameters to PDF template.
+- Fixed bug #8095: shorten operator doesn't return proper results 
+  with parameter middle.
+  ( Merged from stable/3.7 ( 3.7.6 ) rev. 15607 )
 
 *INI settings:
 - Added site.ini:[ShopSettings].ClearBasketOnLogout setting:
