@@ -186,8 +186,8 @@ switch( $operationResult['status'] )
             $cachePathInfo = eZContentCache::cachePathInfo( $designSetting, $NodeID, 'pdf', $language, $Offset, $roleList, $discountList, $layout, false,
                                                             array( 'view_parameters' => $viewParameters ) );
             $node = eZContentObjectTreeNode::fetch( $NodeID );
-            
-            contentPDFGenerate( $cachePathInfo['path'] , $node, false, $viewCacheEnabled, $LanguageCode );
+
+            contentPDFGenerate( $cachePathInfo['path'] , $node, false, $viewCacheEnabled, $LanguageCode, $viewParameters );
 
             if ( $viewCacheEnabled  )
             {
@@ -254,7 +254,12 @@ function contentPDFPassthrough( $cacheFile )
 /*!
   generate PDF, and output stream.
 */
-function contentPDFGenerate( $cacheFile, &$node, $object = false, $viewCacheEnabled = true, $languageCode = false )
+function contentPDFGenerate( $cacheFile,
+                             &$node,
+                             $object = false,
+                             $viewCacheEnabled = true,
+                             $languageCode = false,
+                             $viewParameters = array() )
 {
     if ( $languageCode )
     {
@@ -279,6 +284,8 @@ function contentPDFGenerate( $cacheFile, &$node, $object = false, $viewCacheEnab
                           array( 'class_identifier', $object->attribute( 'class_identifier' ) ) ) );
 
     $tpl =& templateInit();
+
+    $tpl->setVariable( 'view_parameters', $viewParameters );
 
     $tpl->setVariable( 'node', $node );
     $tpl->setVariable( 'generate_toc', 0 );
