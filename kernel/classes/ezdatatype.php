@@ -1233,7 +1233,7 @@ class eZDataType
       This method implements the default behaviour, which is to show old and
       new version values of the object.
     */
-    function diff( $old, $new )
+    function diff( $old, $new, $options = false )
     {
         include_once( 'lib/ezdiff/classes/ezdiff.php' );
         $diff = new eZDiff();

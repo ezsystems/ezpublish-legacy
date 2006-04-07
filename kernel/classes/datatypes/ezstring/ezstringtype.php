@@ -385,7 +385,7 @@ class eZStringType extends eZDataType
     /*!
       \reimp
     */
-    function diff( $old, $new )
+    function diff( $old, $new, $options = false )
     {
         include_once( 'lib/ezdiff/classes/ezdiff.php' );
         $diff = new eZDiff();

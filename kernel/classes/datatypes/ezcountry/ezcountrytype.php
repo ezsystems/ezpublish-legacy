@@ -236,7 +236,7 @@ class eZCountryType extends eZDataType
     /*!
       \reimp
     */
-    function diff( $old, $new )
+    function diff( $old, $new, $options = false )
     {
         return null;
     }

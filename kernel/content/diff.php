@@ -40,6 +40,8 @@ $Offset = $Params['Offset'];
 $viewParameters = array( 'offset' => $Offset );
 
 $contentObject = eZContentObject::fetch( $objectID );
+$classID = $contentObject->attribute( 'contentclass_id' );
+$class = eZContentClass::fetch( $classID );
 
 if ( !$contentObject )
 {
@@ -53,6 +55,12 @@ if ( !$contentObject->canRead() )
 
 $http =& eZHTTPTool::instance();
 $tpl =& templateInit();
+
+$res =& eZTemplateDesignResource::instance();
+$res->setKeys( array( array( 'object', $contentObject->attribute( 'id' ) ),
+                    array( 'class', $class->attribute( 'id' ) ),
+                    array( 'class_identifier', $class->attribute( 'identifier' ) ) ) );
+
 $tpl->setVariable( 'object', $contentObject );
 $tpl->setVariable( 'view_parameters', $viewParameters );
 $tpl->setVariable( 'module', $Module );
@@ -119,11 +127,17 @@ if ( $http->hasPostVariable( 'FromVersion' ) && $http->hasPostVariable( 'ToVersi
             $newAttributes = $newObject->dataMap();
         }
 
+        $extraOptions = false;
+        if ( $http->hasPostVariable( 'ExtraOptions' ) )
+        {
+            $extraOptions = $http->postVariable( 'ExtraOptions' );
+        }
+
         foreach ( $oldAttributes as $attribute )
         {
             $newAttr = $newAttributes[$attribute->attribute( 'contentclass_attribute_identifier' )];
             $contentClassAttr = $newAttr->attribute( 'contentclass_attribute' );
-            $diff[$contentClassAttr->attribute( 'id' )] = $contentClassAttr->diff( $attribute, $newAttr );
+            $diff[$contentClassAttr->attribute( 'id' )] = $contentClassAttr->diff( $attribute, $newAttr, $extraOptions );
         }
 
         $tpl->setVariable( 'object', $contentObject );
