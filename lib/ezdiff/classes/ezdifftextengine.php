@@ -201,6 +201,7 @@ class eZDiffTextEngine extends eZDiffEngine
     function buildDiff( $statistics, $oldArray, $newArray )
     {
         $substr = $this->substringMatrix( $oldArray, $newArray );
+
         /*
         $tmp = $substr['lengthMatrix'];
         print( "<pre>" );
@@ -209,93 +210,149 @@ class eZDiffTextEngine extends eZDiffEngine
         */
 
         $strings = $this->substrings( $substr, $oldArray, $newArray );
+        $len = count( $strings );
 
-        //Merge detected substrings
-        /*
-        $mergedStrings = array();
-        foreach ( $strings as $sstring )
-        {
-            $mergedStrings = $mergedStrings + $sstring;
-        }
-        */
+        $nOldWords = count( $oldArray );
+        $nNewWords = count( $newArray );
 
         $differences = array();
-        $prevKey = 0;
-        $distanceAdjust = 0;
+        $offset = 0;
+        $delOffset = 0;
 
-        //Check for prepended text first, before any substring begins
-        current( $strings[0] );
-        if ( $first = key( $strings[0] ) > 0 )
+        if ( $len > 0 )
         {
-            $k = 0;
-            while ( $k < $first )
+            //Merge detected substrings
+            $mergedStrings = array();
+            foreach ( $strings as $sstring )
             {
-                $differences[] = array( 'added' => $newArray[$k],
-                                        'status' => 2 );
-                $k++;
+                $mergedStrings = $mergedStrings + $sstring;
             }
-        }
 
-        foreach ( $strings as $substringKey => $string )
-        {
-            foreach ( $string as $key => $wordArray )
+            unset( $strings );
+
+            //Check for new prepended text before substring
+            $first = key( $mergedStrings );
+            if ( $first > 0 )
             {
-                $distance = $key - $prevKey;
+                $k = 0;
+                while ( $k < $first )
+                {
+                    $differences[] = array( 'added' => $newArray[$k],
+                                            'status' => 2 );
+                    $k++;
+                    $offset++;
+                }
+            }
+
+            //Check for removed words before first substring
+            $firstOffset = current( $mergedStrings );
+            $firstOffset = $firstOffset['oldOffset'];
+
+            if ( $firstOffset > 0 )
+            {
+                $k = 0;
+                while( $firstOffset > 0 )
+                {
+                    $differences[] = array( 'removed' => $oldArray[$k],
+                                            'status' => 1 );
+                    $k++;
+                    $firstOffset--;
+                    $delOffset++;
+                }
+            }
+
+            //Check for changes within substring
+            $prevKey = 0;
+            $prevOffset = 0;
+            foreach ( $mergedStrings as $key => $wordArray )
+            {
+                $distance = $key - $prevKey - $offset;
+
+                //If the distance between current word and previous one is greater than one, words have been inserted
                 if ( $distance > 1 )
                 {
-                    $newKey = $prevKey;
+                    $nk = $prevKey;
                     while ( $distance > 1 )
                     {
-                        $newKey++;
-                        $differences[] = array( 'added' => $newArray[$newKey],
+                        $nk++;
+                        $differences[] = array( 'added' => $newArray[$nk],
                                                 'status' => 2 );
                         $distance--;
                     }
                 }
 
-                if ( $key != $wordArray['oldOffset'] )
-                {
-                    if ( $wordArray['oldOffset'] - $distanceAdjust > $key )
-                    {
-                        $delDistance = $wordArray['oldOffset'] - $key;
-                        $distanceAdjust = $delDistance;
-                        $nk = $key;
-                        while ( $delDistance > 0 )
-                        {
-                            $differences[] = array( 'removed' => $oldArray[$nk],
-                                                    'status' => 1 );
-                            $delDistance--;
-                            $nk++;
-                        }
-                    }
-                    //Detect deleted words where the surrounding text has been shifted.
-                    else
-                    {
+                //Check for deleted words in between
+                $offsetDistance = $wordArray['oldOffset'] - $key + $offset - $delOffset;
 
+                if ( $offsetDistance > 1 )
+                {
+                    $k = $prevOffset + 1;
+                    while( $k < $wordArray['oldOffset'] )
+                    {
+                        $differences[] = array( 'removed' => $oldArray[$k],
+                                                'status' => 1 );
+                        $k++;
                     }
                 }
 
-                $differences[] = array( 'unchanged' => $wordArray['word'],
+                //The default state - unchanged words
+                $differences[] = array( 'unchanged' => $newArray[$key],
                                         'status' => 0 );
+
                 $prevKey = $key;
+                $prevOffset = $wordArray['oldOffset'];
+            }
+
+
+            //Check for appended text after substring
+            end( $mergedStrings );
+            $end = key( $mergedStrings );
+            if ( $end < $nNewWords )
+            {
+                $k = $end + 1;
+                while ( $k < $nNewWords )
+                {
+                    $differences[] = array( 'added' => $newArray[$k],
+                                            'status' => 2 );
+                    $k++;
+                }
+            }
+
+            //Check for deleted words at end of substring
+            end( $oldArray );
+            $end = key( $oldArray );
+
+            if ( $prevOffset < $end )
+            {
+                $k = $prevOffset + 1;
+                while ( $k < $nOldWords )
+                {
+                    $differences[] = array( 'removed' => $oldArray[$k],
+                                            'status' => 1 );
+                    $k++;
+                }
             }
         }
-
-        //Check for added text after last substring
-        if ( $prevKey < count( $newArray ) )
+        else
         {
-            //Add new appended words
-            $k = $prevKey +1;
-            while ( $k < count( $newArray ) )
+            //No common substring meaning all old words were deleted,
+            //and new words added
+            foreach ( $oldArray as $removed )
             {
-                $differences[] = array( 'added' => $newArray[$k],
+                $differences[] = array( 'removed' => $removed,
+                                        'status' => 1 );
+            }
+
+            foreach( $newArray as $added )
+            {
+                $differences[] = array( 'added' => $added,
                                         'status' => 2 );
-                $k++;
             }
         }
 
         $output = $this->postProcessDiff( $differences );
         return $output;
+
     }
 
     /*!
@@ -336,123 +393,6 @@ class eZDiffTextEngine extends eZDiffEngine
         return $diff;
     }
 
-    /*!
-      \private
-      This method will find discontinuous substrings in a length matrix.
-      \return Array of discontiuous substrings.
-    */
-    function getDiscontinuousSubstrings( $sub, $old, $new)
-    {
-        $lengthMatrix = $sub['lengthMatrix'];
-        $rows = count( $old );
-        $cols = count( $new );
-
-        $foundLength = 0;
-        $foundRow = 0;
-        $foundCol = 0;
-        $substringSet = array();
-        $detectedStrings = 0;
-        $substring = array();
-
-        $startRow = $sub['maxRow'];
-        $startCol = $sub['maxCol'];
-
-        $val = $sub['maxLength'];
-
-        /* This loop goes through the length matrix upwards to left.
-           That is, it starts from the end of the longest substring and
-           goes forward in the text. This might leave substrings at the end
-           of the text
-        */
-
-        while ( $startRow >= 0 && $startCol >= 0 )
-        {
-            if ( $lengthMatrix->get( $startRow, $startCol ) == $val )
-            {
-                $substring[$startCol] = array( 'word' => $new[$startCol],
-                                               'oldOffset' => $startRow );
-                if ( $val != 1 )
-                    $val--;
-                $startCol--;
-                $startRow--;
-            }
-            else if ( $lengthMatrix->get( $startRow, $startCol ) != $val )
-            {
-                if ( count( $substring ) > 0 )
-                {
-                    array_unshift( $substringSet, array_reverse( $substring, true ) );
-                    $detectedStrings++;
-                    $substring = array();
-                }
-                $startRow--;
-                $spotlight = $lengthMatrix->get( $startRow, $startCol );
-                if ( $spotlight > 0 )
-                {
-                    $val = $spotlight-1;
-                    $substring[$startCol] = array( 'word' => $new[$startCol],
-                                                   'oldOffset' => $startRow );
-                    $startRow--;
-                    $startCol--;
-                }
-            }
-        }
-        if ( count( $substring ) > 0 )
-        {
-            array_unshift( $substringSet, array_reverse( $substring, true ) );
-            $detectedStrings++;
-        }
-
-        /* Check if there is any text after the longest substring in the text */
-        $offsets = $this->findLongestSubstringOffsets( $sub );
-        $textInfo = $this->substringPlacement( $offsets['newStart'], $offsets['newEnd'], count( $new ) );
-        if ( $textInfo['hasTextRight'] )
-        {
-            //Search towards end of text for more substrings
-            $substring = array();
-            $startRow = $sub['maxRow']+1;
-            $startCol = $sub['maxCol']+1;
-            $val = 1;
-            while ( $startRow < $rows && $startCol < $cols )
-            {
-                if ( $lengthMatrix->get( $startRow, $startCol ) == $val )
-                {
-                    $substring[$startCol] = array( 'word' => $new[$startCol],
-                                                   'oldOffset' => $startRow );
-                    $val++;
-                    $startRow++;
-                    $startCol++;
-                }
-                else
-                {
-                    if ( count( $substring ) > 0 )
-                    {
-                        $substringSet[] = $substring;
-                        $detectedStrings++;
-                        $substring = array();
-                    }
-
-                    $startCol++;
-
-                    if ( ( $spotlight = $lengthMatrix->get( $startRow, $startCol ) ) > 0 )
-                    {
-                        $substring[$startCol] = array( 'word' => $new[$startCol],
-                                                       'oldOffset' => $startRow );
-                        $val = $spotlight + 1;
-                        $startRow++;
-                        $startCol++;
-                    }
-                }
-            }
-            if ( count( $substring ) > 0 )
-            {
-                $substringSet[] = $substring;
-                $detectedStrings++;
-            }
-
-        }
-        return $substringSet;
-    }
-
 
     /*!
       \private
@@ -466,6 +406,12 @@ class eZDiffTextEngine extends eZDiffEngine
         $row = $sub['maxRow'];
         $col = $sub['maxCol'];
 
+        if ( $val == 0 )
+        {
+            //No common substrings were found
+            return array();
+        }
+
         $rows = count( $old );
         $cols = count( $new );
 
@@ -476,6 +422,7 @@ class eZDiffTextEngine extends eZDiffEngine
 
         $substring = $this->traceSubstring( $row, $col, $matrix, $val, $new );
         $substringSet[] = array_reverse( $substring, true );
+
         //Get more text
         if ( $lcsPlacement['hasTextLeft'] )
         {
@@ -494,10 +441,18 @@ class eZDiffTextEngine extends eZDiffEngine
 
             $done = false;
             $info = true;
+            $prevRowUsed = -1;
 
             while ( !$done && $info )
             {
+                if ( $prevRowUsed == $row )
+                {
+                    $done = true;
+                    continue;
+                }
+
                 $info = $this->localSubstring( 'left', $row, $col, $rows, $cols, $matrix );
+                $prevRowUsed = $row;
                 if ( $info )
                 {
                     $sub = $this->traceSubstring( $info['remainRow'], $info['remainCol'], $matrix, $info['remainMax'], $new );
@@ -535,10 +490,17 @@ class eZDiffTextEngine extends eZDiffEngine
 
             $done = false;
             $info = true;
+            $prevRowUsed = -1;
 
             while( !$done && $info )
             {
+                if ( $prevRowUsed == $row )
+                {
+                    $done = true;
+                    continue;
+                }
                 $info = $this->localSubstring( 'right', $row, $col, $rows, $cols, $matrix );
+                $prevRowUsed = $row;
                 if ( $info )
                 {
                     $sub = $this->traceSubstring( $info['remainRow'], $info['remainCol'], $matrix, $info['remainMax'], $new );
