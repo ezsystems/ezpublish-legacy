@@ -621,26 +621,44 @@ class eZContentLanguage extends eZPersistentObject
 
             if ( $db->databaseName() == 'oracle' )
             {
-                $leftSide .= "   + bitand( $languageListTable.$languageListAttributeName - bitand( $languageListTable.$languageListAttributeName, $languageTable.$languageAttributeName ), $id ) \n";
-                $rightSide .= "   + bitand( $languageTable.$languageAttributeName, $id ) \n";
+                $leftSide .= "   + bitand( $languageListTable.$languageListAttributeName - bitand( $languageListTable.$languageListAttributeName, $languageTable.$languageAttributeName ), $id )";
+                $rightSide .= "   + bitand( $languageTable.$languageAttributeName, $id )";
             }
             else
             {
-                $leftSide .= "   + ( ( ( $languageListTable.$languageListAttributeName - ( $languageListTable.$languageListAttributeName & $languageTable.$languageAttributeName ) ) & $id ) ";
-                $rightSide .= "   + ( ( $languageTable.$languageAttributeName & $id ) ";
+                $leftSide .= "   + ( ( ( $languageListTable.$languageListAttributeName - ( $languageListTable.$languageListAttributeName & $languageTable.$languageAttributeName ) ) & $id )";
+                $rightSide .= "   + ( ( $languageTable.$languageAttributeName & $id )";
             }
 
             if ( $multiplier > $id )
             {
-                $factor = " * " . ( $multiplier / $id );
-                $leftSide .= $factor;
-                $rightSide .= $factor;
+                $factor = $multiplier / $id;
+                if ( $db->databaseName() == 'oracle' )
+                {
+                    $factorTerm = ' * ' . $factor;
+                }
+                else
+                {
+                    for ( $shift = 0; $factor > 1; $factor = $factor / 2, $shift++ ) ;
+                    $factorTerm = ' << '. $shift;
+                }
+                $leftSide .= $factorTerm;
+                $rightSide .= $factorTerm;
             }
             else if ( $multiplier < $id )
             {
-                $factor = " / ". ( $id / $multiplier );
-                $leftSide .= $factor;
-                $rightSide .= $factor;
+                $factor = $id / $multiplier;
+                if ( $db->databaseName() == 'oracle' )
+                {
+                    $factorTerm = ' / ' . $factor;
+                }
+                else
+                {
+                    for ( $shift = 0; $factor > 1; $factor = $factor / 2, $shift++ ) ;
+                    $factorTerm = ' >> '. $shift;
+                }
+                $leftSide .= $factorTerm;
+                $rightSide .= $factorTerm;
             }
             if ( $db->databaseName() != 'oracle' )
             {
