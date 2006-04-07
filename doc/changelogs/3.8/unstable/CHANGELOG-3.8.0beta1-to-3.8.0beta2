@@ -20,6 +20,9 @@ Changes from 3.8.0beta1 to 3.8.0beta2
   due to occurence of '//' in the wildcard.
 - Fixed bug 6970: Bug Impossible to pass parameters to PDF template.
   ( Merged from stable/3.5 rev. 15602, stable/3.6 rev. 15603, stable/3.7 rev. 15604 )
+- Fixed bug #8095: shorten operator doesn't return proper results 
+  with parameter middle.
+  ( Merged from stable/3.7 ( 3.7.6 ) rev. 15607 )
 
 *INI settings:
 - Added site.ini:[shopSettings].ClearBasketOnLogout setting:
