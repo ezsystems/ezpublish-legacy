@@ -192,7 +192,7 @@ switch( $operationResult['status'] )
                                                             array( 'view_parameters' => $viewParameters ) );
             $node = eZContentObjectTreeNode::fetch( $NodeID );
 
-            contentPDFGenerate( $cachePathInfo['path'] , $node, $object, $viewCacheEnabled );
+            contentPDFGenerate( $cachePathInfo['path'] , $node, $object, $viewCacheEnabled, $viewParameters );
 
             if ( $viewCacheEnabled  )
             {
@@ -259,7 +259,11 @@ function contentPDFPassthrough( $cacheFile )
 /*!
   generate PDF, and output stream.
 */
-function contentPDFGenerate( $cacheFile, &$node, $object = false, $viewCacheEnabled = true )
+function contentPDFGenerate( $cacheFile,
+                             &$node,
+                             $object = false,
+                             $viewCacheEnabled = true,
+                             $viewParameters = array() )
 {
     if( $object === false )
     {
@@ -278,6 +282,8 @@ function contentPDFGenerate( $cacheFile, &$node, $object = false, $viewCacheEnab
                           array( 'class_identifier', $object->attribute( 'class_identifier' ) ) ) );
 
     $tpl =& templateInit();
+
+    $tpl->setVariable( 'view_parameters', $viewParameters );
 
     $tpl->setVariable( 'node', $node );
     $tpl->setVariable( 'generate_toc', 0 );
