@@ -204,7 +204,6 @@ class eZDiffTextEngine extends eZDiffEngine
         /*
         $tmp = $substr['lengthMatrix'];
         print( "<pre>" );
-        //$this->dumpMatrix( $substr['lengthMatrix'] );
         $this->dumpMatrix( $tmp, $statistics['from']['wordCount'], $statistics['to']['wordCount'] );
         print( "</pre>" );
         */
@@ -471,7 +470,7 @@ class eZDiffTextEngine extends eZDiffEngine
         $cols = count( $new );
 
         $lcsOffsets = $this->findLongestSubstringOffsets( $sub );
-        $lcsPlacement = $this->substringPlacement( $lcsOffsets['newStart'], $lcsOffsets['newEnd'], $rows );
+        $lcsPlacement = $this->substringPlacement( $lcsOffsets['newStart'], $lcsOffsets['newEnd'], $cols );
 
         $substringSet = array();
 
@@ -582,17 +581,18 @@ class eZDiffTextEngine extends eZDiffEngine
             {
                 for ( $j = $col; $j < $cols; $j++ )
                 {
-                    while ( $row < $rows )
+                    $startRow = $row;
+                    while ( $startRow < $rows )
                     {
-                        $matVal = $matrix->get( $row, $j );
+                        $matVal = $matrix->get( $startRow, $j );
                         if ( $matVal > $colMax )
                         {
                             $prevColMax = $colMax;
                             $colMax = $matVal;
-                            $colMaxRow = $row;
+                            $colMaxRow = $startRow;
                             $colMaxCol = $j;
                         }
-                        $row++;
+                        $startRow++;
                     }
                     if ( $colMax > $remainMax )
                     {
@@ -612,17 +612,18 @@ class eZDiffTextEngine extends eZDiffEngine
             {
                 for ( $j = $col; $j >= 0; $j-- )
                 {
-                    while ( $row >= 0 )
+                    $startRow = $row;
+                    while ( $startRow >= 0 )
                     {
-                        $matVal = $matrix->get( $row, $j );
+                        $matVal = $matrix->get( $startRow, $j );
                         if ( $matVal > $colMax )
                         {
                             $prevColMax = $colMax;
                             $colMax = $matVal;
-                            $colMaxRow = $row;
+                            $colMaxRow = $startRow;
                             $colMaxCol = $j;
                         }
-                        $row--;
+                        $startRow--;
                     }
                     if ( $colMax > $remainMax )
                     {
