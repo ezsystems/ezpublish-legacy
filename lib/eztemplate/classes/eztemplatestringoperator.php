@@ -121,7 +121,7 @@ class eZTemplateStringOperator
                                                                   if ( $trimType === "middle" )
                                                                   {
                                                                       $appendedStrLen = $strlenFunc( $seq );
-                                                                      if ( $length > $appendedStrLen )
+                                                                      if ( $length > $appendedStrLen && ( $strlenFunc( $staticValues[0] ) > $length ) )
                                                                       {
                                                                           $operatorValueLength = $strlenFunc( $staticValues[0] );
                                                                           $chop = $length - $appendedStrLen;
@@ -132,7 +132,7 @@ class eZTemplateStringOperator
                                                                       }
                                                                       else
                                                                       {
-                                                                          $result = $seq;
+                                                                          $result = $staticValues[0];
                                                                       }
                                                                   }
                                                                   else // default: trim_type === "right"
