@@ -582,7 +582,7 @@ class eZDOMDocument
       \note The charset conversion is smart enough to only do conversion when required
       \note Using charset conversion will require the ezi18n library being installed
     */
-    function toString( $charset = true, $charsetConversion = true )
+    function toString( $charset = true, $charsetConversion = true, $convertSpecialChars = true  )
     {
         $charsetText = '';
         if ( $charset === true )
@@ -593,7 +593,7 @@ class eZDOMDocument
 
         if ( get_class( $this->Root ) == "ezdomnode" )
         {
-            $text .= $this->Root->toString( 0, $charset );
+            $text .= $this->Root->toString( 0, $charset, $convertSpecialChars );
         }
 
         if ( $charsetConversion )
