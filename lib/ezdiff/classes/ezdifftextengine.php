@@ -61,30 +61,13 @@ class eZDiffTextEngine extends eZDiffEngine
         include_once( 'lib/ezdiff/classes/eztextdiff.php' );
         eZDebug::writeNotice( "Creating difference object", 'eZDiffTextEngine' );
 
-        //A side effect of the following two calls are possible to multiple spaces being
-        //inserted. Thus the splitting of the string can cause empty array elements.
-        $storedNewLines = $this->storeNewLines( $fromData );
-        $storedNewLinesTo = $this->storeNewLines( $toData );
-
-        $fromData = strtr( $fromData, "\r\n", "  " );
-        $toData = strtr( $toData, "\r\n", "  " );
-
-        $oldArray = explode( " ", $fromData );
-        $newArray = explode( " ", $toData );
-
-        $oldArray = $this->trimEmptyArrayElements( $oldArray );
-        $newArray = $this->trimEmptyArrayElements( $newArray );
+        $oldArray = split( "[ \n]", $fromData );
+        $newArray = split( "[ \n]", $toData );
 
         $statistics = $this->createStatisticsArray( $fromData, $oldArray, $toData, $newArray );
 
         $changes = new eZTextDiff();
         $changes->setMetaData( $statistics, $oldArray, $newArray );
-
-        $changeStatus = $this->simpleDiff( $statistics, $oldArray, $newArray );
-        $changes->setDiff( $changeStatus );
-
-        //$changeSet = $this->simpleChanges( $statistics, $oldArray, $newArray );
-        //$changes->setChanges( $changeSet );
 
         $output = $this->buildDiff( $statistics, $oldArray, $newArray );
         $changes->setChanges( $output );
@@ -278,6 +261,7 @@ class eZDiffTextEngine extends eZDiffEngine
                         $differences[] = array( 'added' => $newArray[$nk],
                                                 'status' => 2 );
                         $distance--;
+                        $offset++;
                     }
                 }
 
@@ -292,6 +276,7 @@ class eZDiffTextEngine extends eZDiffEngine
                         $differences[] = array( 'removed' => $oldArray[$k],
                                                 'status' => 1 );
                         $k++;
+                        $delOffset++;
                     }
                 }
 
@@ -466,6 +451,15 @@ class eZDiffTextEngine extends eZDiffEngine
                     {
                         $row = $info['remainRow'];
                         $col = $info['remainCol'];
+
+                        if ( $row != 0 )
+                        {
+                            $row--;
+                        }
+                        if ( $col != 0 )
+                        {
+                            $col--;
+                        }
                     }
                 }
             }
@@ -514,6 +508,16 @@ class eZDiffTextEngine extends eZDiffEngine
                     {
                         $row = $info['remainRow'];
                         $col = $info['remainCol'];
+
+                        if ( $row != $rows-1 )
+                        {
+                            $row++;
+                        }
+
+                        if ( $col != $cols-1 )
+                        {
+                            $col++;
+                        }
                     }
                 }
             }
@@ -647,7 +651,6 @@ class eZDiffTextEngine extends eZDiffEngine
         }
         return $substring;
     }
-
 
     /*!
       \private
