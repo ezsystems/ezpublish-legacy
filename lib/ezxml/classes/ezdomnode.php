@@ -833,7 +833,7 @@ class eZDOMNode
 
       \note This will only make sense for element nodes.
     */
-    function &toString( $level, $charset = false )
+    function &toString( $level, $charset = false, $convertSpecialChars = true )
     {
         $spacer = str_repeat( " ", $level*2 );
         $ret = "";
@@ -842,12 +842,15 @@ class eZDOMNode
             case "#text" :
             {
                 $tagContent = $this->Content;
-
-                $tagContent =& str_replace( "&", "&amp;", $tagContent );
-                $tagContent =& str_replace( ">", "&gt;", $tagContent );
-                $tagContent =& str_replace( "<", "&lt;", $tagContent );
-                $tagContent =& str_replace( "'", "&apos;", $tagContent );
-                $tagContent =& str_replace( '"', "&quot;", $tagContent );
+                // convert special chars
+                if ( $convertSpecialChars )
+                {
+                    $tagContent =& str_replace( "&", "&amp;", $tagContent );
+                    $tagContent =& str_replace( ">", "&gt;", $tagContent );
+                    $tagContent =& str_replace( "<", "&lt;", $tagContent );
+                    $tagContent =& str_replace( "'", "&apos;", $tagContent );
+                    $tagContent =& str_replace( '"', "&quot;", $tagContent );
+                }
 
                 $ret = $tagContent;
             }break;
@@ -931,7 +934,7 @@ class eZDOMNode
                 {
                     foreach ( $this->Children as $child )
                     {
-                        $ret .= $child->toString( $level + 1 );
+                        $ret .= $child->toString( $level + 1, $charset, $convertSpecialChars );
                         $lastChildType = $child->type();
                     }
                 }
