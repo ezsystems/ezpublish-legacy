@@ -37,6 +37,9 @@ $http =& eZHttpTool::instance();
 $tpl =& templateInit();
 $errors = false;
 
+/**
+ * Apply changes made to VAT types' names and/or percentages.
+ */
 function applyChanges( $module, $http, &$errors, $vatTypeArray = false )
 {
     if ( $vatTypeArray === false )
@@ -103,8 +106,39 @@ function generateUniqueVatTypeName( $vatTypes )
     return "$commonPart $maxNumber";
 }
 
+/**
+ * Determine dependent VAT rules and products for the given VAT types.
+ *
+ * \private
+ */
+function findDependencies( $vatTypeIDList, &$deps, &$haveDeps )
+{
+    // Find dependencies (products and/or VAT rules).
+    require_once( 'kernel/classes/ezvatrule.php' );
+    $deps = array();
+    $haveDeps = false;
+    foreach ( $vatTypeIDList as $vatID )
+    {
+        $vatType = eZVatType::fetch( $vatID );
+        $vatName = $vatType->attribute( 'name' );
 
-if ( $http->hasPostVariable( "AddVatTypeButton" ) )
+        // Find dependent VAT rules.
+        $nRules = eZVatrule::fetchCountByVatType( $vatID );
+
+        // Find dependent products.
+        $nProducts = eZVatType::fetchDependentProductsCount( $vatID );
+
+        $deps[$vatID] = array( 'name' => $vatName,
+                               'affected_rules_count' => $nRules,
+                               'affected_products_count' => $nProducts );
+
+        if ( !$haveDeps && ( $nRules > 0 || $nProducts > 0 ) )
+            $haveDeps = true;
+    }
+}
+
+// Add new VAT type.
+if ( $module->isCurrentAction( 'Add' ) )
 {
     $vatTypeArray = eZVatType::fetchList( true, true );
     applyChanges( $module, $http, $errors, $vatTypeArray );
@@ -114,21 +148,78 @@ if ( $http->hasPostVariable( "AddVatTypeButton" ) )
     $vatType->store();
     $tpl->setVariable( 'last_added_id', $vatType->attribute( 'id' ) );
 }
-elseif ( $http->hasPostVariable( "SaveVatTypeButton" ) )
+// Save changes made to names and percentages.
+elseif ( $module->isCurrentAction( 'SaveChanges' ) )
 {
     applyChanges( $module, $http, $errors );
 }
-elseif ( $http->hasPostVariable( "RemoveVatTypeButton" ) )
+// Remove checked VAT types [with or without confirmation].
+elseif ( $module->isCurrentAction( 'Remove' ) )
 {
-    applyChanges( $module, $http, $errors );
+    $vatIDsToRemove = $module->actionParameter( 'vatTypeIDList' );
+    $deps = array();
+    $haveDeps = false;
+    findDependencies( $vatIDsToRemove, $deps, $haveDeps );
 
-    $vatTypeIDList = $http->postVariable( "vatTypeIDList" );
+    // If there are dependendant rules and/or products
+    // then show confifmation dialog.
+    if ( $haveDeps )
+    {
+        // Let the user choose another VAT to set
+
+        $allVatTypes = eZVatType::fetchList( true, true );
+        $vatTypesForReplacement = array();
+        foreach ( $allVatTypes as $vat )
+        {
+            if ( !in_array( $vat->attribute( 'id' ), $vatIDsToRemove ) )
+                 $vatTypesForReplacement[] = $vat;
+        }
+        $tpl->setVariable( 'vat_types_for_replacement', $vatTypesForReplacement );
+        $tpl->setVariable( 'dependencies', $deps );
+        $tpl->setVariable( 'vat_type_ids', join( ',', $vatIDsToRemove ) );
+        $path = array( array( 'text' => ezi18n( 'kernel/shop', 'VAT types' ),
+                              'url'  => false ) );
+
+        $Result = array();
+        $Result['path'] =& $path;
+        $Result['content'] =& $tpl->fetch( "design:shop/removevattypes.tpl" );
+        return;
+    }
+    else // otherwise just silently remove the VAT types.
+    {
+        $module->setCurrentAction( 'ConfirmRemoval' );
+        // pass through
+    }
+}
+// Do actually remove checked VAT types.
+if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
+{
+    $afterConfirmation = false;
+
+    $vatIDsToRemove = $module->actionParameter( 'vatTypeIDList' );
+
+    // The list of VAT types to remove is a string
+    // if passed from the confirmation dialog
+    // and an array if passed from another action.
+    if ( is_string( $vatIDsToRemove ) )
+    {
+        $vatIDsToRemove = explode( ',', $vatIDsToRemove );
+        $afterConfirmation = true;
+    }
+
+    if ( !$afterConfirmation )
+        applyChanges( $module, $http, $errors );
+
+    if ( $afterConfirmation )
+        $vatReplacement = $module->actionParameter( 'VatReplacement' );
+    else
+        $vatReplacement = false;
 
     $db =& eZDB::instance();
     $db->begin();
-    foreach ( $vatTypeIDList as $vatTypeID )
+    foreach ( $vatIDsToRemove as $vatID )
     {
-        eZVatType::remove( $vatTypeID );
+        eZVatType::remove( $vatID, $vatReplacement );
     }
     $db->commit();
 }

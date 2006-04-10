@@ -110,14 +110,27 @@ class eZVatRule extends eZPersistentObject
     }
 
     /**
-     * Return number of VAT rules referencing given product category.
+     * Fetch VAT rules referencing given VAT type.
      *
-     * \param $categories Category (single or list) to fetch VAT rules for.
-     * \param $asObject   true if the resulting array must contain objects.
+     * \param $vatID ID of VAT type to count VAT rules for.
      * \public
      * \static
      */
-    function fetchCountByCategory( $categories, $asObject = true )
+    function fetchByVatType( $vatID )
+    {
+        return eZPersistentObject::fetchObjectList( eZVatRule::definition(), null,
+                                                     array( 'vat_type' => (int) $vatID ),
+                                                     null, null, true, false, null );
+    }
+
+    /**
+     * Fetch number of VAT rules referencing given product category.
+     *
+     * \param $categories Category (single or list) to count VAT rules for.
+     * \public
+     * \static
+     */
+    function fetchCountByCategory( $categories )
     {
         $db =& eZDB::instance();
 
@@ -133,6 +146,25 @@ class eZVatRule extends eZPersistentObject
 
         return $rows[0]['count'];
     }
+
+    /**
+     * Return number of VAT rules referencing given VAT type.
+     *
+     * \param $vatID ID of VAT type to count VAT rules for.
+     * \public
+     * \static
+     */
+    function fetchCountByVatType( $vatID )
+    {
+        $customFields = array( array( 'operation' => 'count( * )',
+                                      'name' => 'count' ) );
+        $rows = eZPersistentObject::fetchObjectList( eZVatRule::definition(), array(),
+                                                     array( 'vat_type' => (int) $vatID ),
+                                                     null, null, false, false,
+                                                     $customFields );
+        return $rows[0]['count'];
+    }
+
 
     function create()
     {

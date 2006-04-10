@@ -153,6 +153,13 @@ $ViewList["vattype"] = array(
     "functions" => array( 'setup' ),
     "script" => "vattype.php",
     "default_navigation_part" => 'ezshopnavigationpart',
+    'single_post_actions' => array( 'RemoveVatTypeButton'  => 'Remove',
+                                    'AddVatTypeButton'     => 'Add',
+                                    'SaveVatTypeButton'    => 'SaveChanges',
+                                    'ConfirmRemovalButton' => 'ConfirmRemoval' ),
+    'post_action_parameters' => array( 'Remove'         => array( 'vatTypeIDList' => 'vatTypeIDList' ),
+                                       'ConfirmRemoval' => array( 'vatTypeIDList' => 'vatTypeIDList',
+                                                                  'VatReplacement' => 'VatReplacement' ) ),
     "params" => array(  ) );
 
 $ViewList["vatrules"] = array(

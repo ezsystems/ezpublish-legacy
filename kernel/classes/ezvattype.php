@@ -134,6 +134,34 @@ class eZVatType extends eZPersistentObject
         return $VATTypes;
     }
 
+    /**
+     * Fetches number of products using given VAT type.
+     *
+     * \public
+     * \static
+     * \param $vatID id of VAT type to count dependent products for.
+     * \return Number of dependent products.
+     */
+    function fetchDependentProductsCount( $vatID )
+    {
+        $vatID = (int) $vatID; // prevent SQL injection
+
+        // We need DISTINCT here since there might be several object translations.
+        $query = "SELECT COUNT(DISTINCT coa.contentobject_id) AS count " .
+                 "FROM ezcontentobject_attribute coa, ezcontentobject co " .
+                 "WHERE " .
+                 "coa.contentobject_id=co.id AND " .
+                 "coa.version=co.current_version AND " .
+                 "data_type_string IN ('ezprice', 'ezmultiprice') " .
+                 "AND data_text LIKE '$vatID,%'";
+
+        require_once( 'lib/ezdb/classes/ezdb.php' );
+        $db = eZDB::instance();
+        $rslt = $db->arrayQuery( $query );
+        $nProducts = $rslt[0]['count'];
+        return $nProducts;
+    }
+
     function create()
     {
         /*
@@ -149,14 +177,87 @@ class eZVatType extends eZPersistentObject
         return new eZVatType( $row );
     }
 
-    /*!
-     \note Transaction unsafe. If you call several transaction unsafe methods you must enclose
-     the calls within a db transaction; thus within db->begin and db->commit.
+    /**
+     * Change VAT type in all products from $oldVAT to $newVAT.
+     *
+     * \private
+     * \static
+     * \param $oldVAT old VAT type id.
+     * \param $newVAT new VAT type id.
      */
-    function remove( $id )
+    function replaceInProducts( $oldVAT, $newVAT )
     {
+        $db =& eZDB::instance();
+        $db->begin();
+
+        $selectProductsQuery =
+            "SELECT coa.id,coa.data_text " .
+            "FROM ezcontentobject_attribute coa, ezcontentobject co " .
+            "WHERE " .
+            "coa.contentobject_id=co.id AND " .
+            "coa.version=co.current_version AND " .
+            "data_type_string IN ('ezprice', 'ezmultiprice') " .
+            "AND data_text LIKE '$oldVAT,%'";
+
+        // Fetch the attributes by small portions to avoid memory overflow.
+        for ( $offset = 0; true; $offset += 50 )
+        {
+            $rows = $db->arrayQuery( $selectProductsQuery, array( 'offset' => $offset, 'limit' => 50 ) );
+            if ( !$rows )
+                break;
+
+            foreach ( $rows as $row )
+            {
+                list( $oldVatType, $vatExInc ) = explode( ',', $row['data_text'], 2 );
+                $updateQuery = "UPDATE ezcontentobject_attribute " .
+                               "SET data_text = '$newVAT,$vatExInc' " .
+                               "WHERE id=" . $row['id'];
+                $db->query( $updateQuery );
+            }
+
+            if ( count( $rows ) < 50 )
+                break;
+        }
+
+        $db->commit();
+    }
+
+    /**
+     * Remove given VAT type and all references to it.
+     *
+     * Drops VAT charging rules referencing the VAT type.
+     * Replaces VAT type in associated products with $replacementVatID.
+     *
+     * \param $id id of VAT type to remove.
+     * \public
+     * \static
+     */
+    function remove( $vatID, $replacementVatID )
+    {
+        $db =& eZDB::instance();
+        $db->begin();
+
+        // If replacement VAT id is given
+        if ( $replacementVatID !== false )
+        {
+            // replace VAT type in dependant VAT rules
+            require_once( 'kernel/classes/ezvatrule.php' );
+            $dependentRules = eZVatrule::fetchByVatType( $vatID );
+            foreach ( $dependentRules as $rule )
+            {
+                $rule->setAttribute( 'vat_type', $replacementVatID );
+                $rule->store();
+            }
+
+            // replace VAT type in dependent products.
+            eZVatType::replaceInProducts( $vatID, $replacementVatID );
+        }
+
+        // Remove the VAT type itself.
         eZPersistentObject::removeObject( eZVatType::definition(),
-                                          array( "id" => $id ) );
+                                          array( "id" => $vatID ) );
+
+        $db->commit();
     }
 
     function &VATTypeList()
