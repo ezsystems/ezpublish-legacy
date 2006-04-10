@@ -129,16 +129,6 @@ RepositoryDirectories[]=kernel/classes/vathandlers
 # In that case VAT handlers will be searched for in the following directory:
 # extension/<your_extension>/vathandlers
 ExtensionDirectories[]
-
-# Identifier of the product category content attribute.
-ProductCategoryAttribute=category
-
-# Identifier of the user country content attribute.
-UserCountryAttribute=country
-
-# If set to false, no errors will be displayed in case if user country
-# is not specified. One might want this when using a custom VAT handler.
-RequireUserCountry=true
 ###############################################################################
 
 3. Setting up the default VAT handler
@@ -167,7 +157,7 @@ do is to add an attribute of ezcountry datatype to your user class. Then
 specify the attribute identifier in
 shop.ini.[VATSettings].UserCountryAttribute ini setting.
 
- 3.2. Creating VAT charging rules.
+ 3.3. Creating VAT charging rules.
 
 VAT rules is something that builds up VAT charging logic for your shop.
 Go to "Webshop" -> "VAT rules" and create the VAT charging rules you
@@ -238,12 +228,13 @@ shop.ini.append. Paste the following text into it:
 ExtensionDirectories[]=myshop
 Handler=mysectionbased
 RequireUserCountry=false
+DynamicVatTypeName=Section-based
 ###################################
 
 This will tell eZ publish to search for file
 mysectionbasedvathandler.php in extension/myshop/vathandlers directory.
 We set RequireUserCountry to false to disable error messages about
-missing user country,
+missing user country.
 
  4.5 Activating the extension.
 
@@ -268,6 +259,9 @@ shop.ini:
   ExtensionDirectories[]
   ProductCategoryAttribute=
   UserCountryAttribute=
+  DynamicVatTypeName=
+
+See settings/shop.ini for more information.
 
 *New fetch functions:
 
@@ -275,7 +269,7 @@ Fetch the list of all product categories:
  fetch( shop, product_category_list )
 
 Fetch given product category:
-fetch( product_category, hash( category_id, $catID ) )
+ fetch( product_category, hash( category_id, $catID ) )
 
 *Database schema changes:
 
