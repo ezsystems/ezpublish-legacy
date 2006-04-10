@@ -613,7 +613,7 @@ class eZDOMDocument
       \note The charset conversion is smart enough to only do conversion when required
       \note Using charset conversion will require the ezi18n library being installed
     */
-    function toString( $charset = true, $charsetConversion = true )
+    function toString( $charset = true, $charsetConversion = true, $convertSpecialChars = true )
     {
         $charsetText = '';
         if ( $charset === true )
@@ -645,7 +645,7 @@ class eZDOMDocument
                     $text .= '<?xml-stylesheet type="text/xsl" href="' . $stylesheet . '"?>' . "\n";
                 }
             }
-            $text .= $this->Root->toString( 0, $charset );
+            $text .= $this->Root->toString( 0, $charset, $convertSpecialChars );
         }
 
         if ( $charsetConversion )
@@ -700,7 +700,7 @@ class eZDOMDocument
 
     /*
        W3C DOM compatibility functions
-    
+
     */
 
     function createElement( $name )
@@ -711,7 +711,7 @@ class eZDOMDocument
 
         if ( isset( $this ) && is_object( $this ) )
             $this->registerElement( $node );
-        
+
         return $node;
     }
 
