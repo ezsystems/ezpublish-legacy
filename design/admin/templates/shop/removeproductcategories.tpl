@@ -19,8 +19,9 @@
 {/if}
 
 <ul>
+{def $cat_name = '' $rules_count = 0 $products_count = 0 $possible_conflicts=false()}
 {foreach $dependencies as $cat_id => $cat_deps}
-    {def $cat_name       = $cat_deps.name
+    {set $cat_name       = $cat_deps.name
          $rules_count    = $cat_deps.affected_rules_count
          $products_count = $cat_deps.affected_products_count}
     {if $rules_count|gt( 0 )}
@@ -29,6 +30,7 @@
         {else}
             <li>{'Removing category <%1> will result in modifying %2 VAT charging rules.'|i18n( 'design/admin/shop/removeproductcategories',, array( $cat_name|wash, $rules_count ) )|wash}</li>
         {/if}
+        {set $possible_conflicts=true()}
     {/if}
     {if $products_count|gt( 0 )}
         {if $products_count|eq( 1 )}
@@ -37,10 +39,13 @@
             <li>{'Removing category <%1> will result in resetting category for %2 products.'|i18n( 'design/admin/shop/removeproductcategories',, array( $cat_name|wash, $products_count ) )|wash}</li>
         {/if}
     {/if}
-    {undef $rules_count $products_count}
 {/foreach}
+{undef $rules_count $products_count}
 </ul>
-
+{if $possible_conflicts}
+{'Note that the removal may cause conflicts in VAT charging rules.'|i18n( 'design/admin/shop/removeproductcategories' )|wash}
+{/if}
+{undef $possible_conflicts}
 </div>
 
 {* DESIGN: Content END *}</div></div></div>
