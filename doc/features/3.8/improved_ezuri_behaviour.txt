@@ -1,0 +1,15 @@
+*Title: User Variables (eZURI) improvement.
+
+*Documentation:
+User variables (given in url) weren't able contain '/' symbol, because
+contents of any user variables starts after given user variable name
+and ends with first occurence of '/' in uri.
+There was improved new behaviour of ezuri class (see lib/ezutils/classes/ezuri.php)
+to fix this issue. For now, contents of user variables starts after given
+variable name and ends with next variable name or with end of uri.
+Notice that all passed user variable must be placed in the end of
+given uri, and after all ordered params of module.
+Old behaviour of user variables parsing was not removed, just disabled.
+You can turn it on by setting up 'OldStyleUserVariables' ini-setting to 'enabled'
+(see settings/template.ini, [ControlSettings] section).
+Default value of 'OldStyleUserVariables' ini-setting is 'disabled'.
