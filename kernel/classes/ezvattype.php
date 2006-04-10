@@ -85,13 +85,31 @@ class eZVatType extends eZPersistentObject
     function dynamicVatType( $asObject = true )
     {
         $row = array( 'id' => -1,
-                      'name' => ezi18n( 'kernel/shop', 'Determined by VAT charging rules' ),
+                      'name' => eZVatType::dynamicVatTypeName(),
                       'percentage' => 0.0 );
 
         if ( !$asObject )
             return $row;
 
         return new eZVatType( $row );
+    }
+
+    /**
+     * Return name of the "fake" dynamic VAT type.
+     *
+     * \private
+     * \static
+     */
+    function dynamicVatTypeName()
+    {
+        if ( !isset( $GLOBALS['eZVatType_dynamicVatTypeName'] ) )
+        {
+            $shopINI = eZINI::instance( 'shop.ini' );
+            $desc = $shopINI->variable( 'VATSettings', 'DynamicVatTypeName' );
+            $GLOBALS['eZVatType_dynamicVatTypeName'] = $desc;
+        }
+
+        return $GLOBALS['eZVatType_dynamicVatTypeName'];
     }
 
     function fetch( $id, $asObject = true )
