@@ -70,7 +70,7 @@ class eZProductCategory extends eZPersistentObject
     function fetchList( $asObject = true )
     {
         return eZPersistentObject::fetchObjectList( eZProductCategory::definition(),
-                                                    null, null, array( 'id' => false ), null,
+                                                    null, null, array( 'name' => 'asc' ), null,
                                                     $asObject );
     }
 
