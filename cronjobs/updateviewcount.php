@@ -124,15 +124,15 @@ if ( $handle )
             $requirePart = $logPartArray[1];
 
             list( $requireMethod, $url ) = split( " ", $requirePart );
-
+            $url = preg_replace( "/\?.*/", "", $url);
             foreach ( $prefixes as $prefix )
             {
                 $url = preg_replace( "/^\/$prefix/", "", $url );
             }
 
-            if ( preg_match( "/\/content\/view\/full\//", $url ) )
+            if ( preg_match( "/content\/view\/full\//", $url ) )
             {
-                $url = str_replace( "/content/view/full/", "", $url );
+                $url = str_replace( "content/view/full/", "", $url );
                 $url = str_replace( "/", "", $url );
                 $url = preg_replace( "/\?(.*)/", "", $url );
                 $nodeIDArray[] = $url;
@@ -140,7 +140,7 @@ if ( $handle )
             else
             {
                 $urlArray = split( "/", $url );
-                $firstElement = $urlArray[1];
+                $firstElement = $urlArray[0];
                 if ( in_array( $firstElement, $contentArray ) )
                 {
                     $pathArray[] = $url;
@@ -203,7 +203,6 @@ foreach ( $nodeIDArray as $nodeID )
 foreach ( $pathArray as $path )
 {
     $pathIdentification = $path;
-    $pathIdentification = substr ($pathIdentification,1);
     $nodeIDList = $db->arrayQuery( "SELECT node_id FROM ezcontentobject_tree
 	                                WHERE path_identification_string='$pathIdentification'" );
 
