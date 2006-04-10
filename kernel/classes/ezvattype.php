@@ -60,6 +60,7 @@ class eZVatType extends eZPersistentObject
                                                                 'datatype' => 'float',
                                                                 'default' => 0,
                                                                 'required' => true ) ),
+                      "function_attributes" => array( 'is_dynamic' => 'isDynamic' ),
                       "keys" => array( "id" ),
                       "increment_key" => "id",
                       "class_name" => "eZVatType",

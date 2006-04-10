@@ -146,7 +146,7 @@ class eZShopOperationCollection
 
             // If the product is assigned a fixed VAT type then skip the product.
             $vatType = $priceObj->VATType();
-            if ( !$vatType->isDynamic() )
+            if ( !$vatType->attribute( 'is_dynamic' ) )
                 continue;
 
             // Update item's VAT percentage.

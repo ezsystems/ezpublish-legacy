@@ -83,11 +83,10 @@
 
 <div class="block">
 <label>{'VAT type'|i18n( 'design/standard/content/datatype' )}:</label>
-<select name="{$attribute_base}_ezmultiprice_vat_id_{$attribute.id}">
-{section var=vat_type loop=$attribute.content.vat_type}
-<option value="{$vat_type.item.id}" {section show=eq( $vat_type.item.id, $attribute.content.selected_vat_type.id )}selected="selected"{/section}>{$vat_type.item.name|wash}, {$vat_type.item.percentage}%</option>
-{/section}
-</select>
+{include uri='design:shop/vattype/edit.tpl'
+         select_name=concat( $attribute_base, "_ezmultiprice_vat_id_", $attribute.id )
+         vat_types=$attribute.content.vat_type
+         current_val=$attribute.content.selected_vat_type.id}
 </div>
 
 {/default}
