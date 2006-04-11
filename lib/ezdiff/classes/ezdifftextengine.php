@@ -41,7 +41,6 @@
   for the different available DiffEngine.
 */
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
 include_once( 'lib/ezdiff/classes/ezdiffengine.php' );
 include_once( 'lib/ezdiff/classes/ezdiffmatrix.php' );
 
@@ -49,7 +48,6 @@ class eZDiffTextEngine extends eZDiffEngine
 {
     function eZDiffTextEngine()
     {
-        eZDebug::writeNotice( "Initializing text diff engine", "eZDiffTextEngine" );
     }
 
     /*!
@@ -59,7 +57,6 @@ class eZDiffTextEngine extends eZDiffEngine
     function createDifferenceObject( $fromData, $toData )
     {
         include_once( 'lib/ezdiff/classes/eztextdiff.php' );
-        eZDebug::writeNotice( "Creating difference object", 'eZDiffTextEngine' );
 
         $oldArray = split( "[ \n]", $fromData );
         $newArray = split( "[ \n]", $toData );
@@ -73,108 +70,6 @@ class eZDiffTextEngine extends eZDiffEngine
         $changes->setChanges( $output );
 
       return $changes;
-    }
-
-    /*!
-      \private
-      A simple diff method which will diff per word.
-      Not used. Will be removed.
-    */
-    function simpleDiff( $stat, $oldWords, $newWords )
-    {
-        $newTextLonger = $stat['newTextLonger'];
-        $changeStatus = array();
-        $oldIndex = $stat['from']['wordCount'];
-        for ( $newIndex = 0; $newIndex < $stat['to']['wordCount']; $newIndex++ )
-        {
-            if ( $newIndex < $oldIndex )
-            {
-                if ( $oldWords[$newIndex] == $newWords[$newIndex] )
-                {
-                    $changeStatus[] = array( 'status' => 0,
-                                             'newWord' => $newWords[$newIndex] );
-                }
-                else
-                {
-                    $changeStatus[] = array( 'newWord' => $newWords[$newIndex],
-                                             'oldWord' => $oldWords[$newIndex],
-                                             'status' => 1 );
-                }
-            }
-            else if ( $newIndex >= $oldIndex )
-            {
-                $changeStatus[] = array( 'newWord' => $newWords[$newIndex],
-                                         'status' => 2 );
-            }
-        }
-        return $changeStatus;
-    }
-
-    /*!
-      \private
-      This method will calculate changes. Not used, will be removed.
-    */
-    function simpleChanges( $stat, $oldWords, $newWords )
-    {
-        $c2 = array();
-        for ( $offset = 0; $offset < $stat['to']['wordCount']; $offset++ )
-        {
-            if ( $offset < $stat['from']['wordCount'] )
-            {
-                $val = $newWords[$offset] === $oldWords[$offset];
-                $c2[$offset] = $val ? 0 : 1;
-            }
-            else if ( $offset >= $stat['from']['wordCount'] )
-            {
-                //Appended chars.
-                $c2[$offset] = 2;
-            }
-        }
-
-        //Create changeset
-        $changeSet = array();
-        $offset = 0;
-        while ( $offset < $stat['to']['wordCount'] )
-        {
-            switch( $c2[$offset] )
-            {
-                case 0:
-                {
-                    $start = $offset;
-                    $words = $this->getConnectedChange( $start, 0, $c2, $newWords );
-                    $diff = array( 'unchanged' => $words,
-                                   'status' => 0 );
-                    $changeSet[] = $diff;
-                    $offset += ( $start - $offset );
-                }break;
-
-                case 1:
-                {
-                    //append as long as c2 is 1
-                    //$offset will here also be within bounds of oldarray, which may be shorter
-                    $start = $offset;
-                    $added = $this->getConnectedChange( $start, 1, $c2, $newWords );
-                    $start = $offset;
-                    $removed = $this->getConnectedChange( $start, 1,  $c2, $oldWords );
-                    $diff = array( 'added' => $added,
-                                   'removed' => $removed,
-                                   'status' => 1 );
-                    $changeSet[] = $diff;
-                    $offset += ( $start - $offset );
-                }break;
-
-                case 2:
-                {
-                    $start = $offset;
-                    $appended = $this->getConnectedChange( $start, 2,  $c2, $newWords );
-                    $diff = array( 'appended' => $appended,
-                                   'status' => 2 );
-                    $changeSet[] = $diff;
-                    $offset += ( $start - $offset );
-                }break;
-            }
-        }
-        return $changeSet;
     }
 
     /*!
@@ -210,7 +105,6 @@ class eZDiffTextEngine extends eZDiffEngine
             {
                 $mergedStrings = $mergedStrings + $sstring;
             }
-
             unset( $strings );
 
             //Check for new prepended text before substring
@@ -674,37 +568,6 @@ class eZDiffTextEngine extends eZDiffEngine
     }
 
     /*!
-      This method will add newlines to \a $input at positions specified
-      by keys in \a $newLines.
-    */
-    function addNewLines( $input, $newLines )
-    {
-        foreach ( $newLines  as $offset => $value )
-        {
-            $input[$offset] = $value;
-        }
-        return $input;
-    }
-
-    /*!
-      This method stores newlines present in \a $input.
-      \return An array consisting of detechted newlines.
-    */
-    function storeNewLines( $input )
-    {
-        $newLines = array();
-        for ( $i = 0; $i < strlen( $input ); $i++ )
-        {
-            $char = $input[$i];
-            if ( $char == "\n" || $char == "\r" )
-            {
-                $newLines[$i] = $char;
-            }
-        }
-        return $newLines;
-    }
-
-    /*!
       \private
       Helper method to matrices.
     */
@@ -831,21 +694,6 @@ class eZDiffTextEngine extends eZDiffEngine
                       'maxRow' => $maxR,
                       'maxCol' => $maxC,
                       'lengthMatrix' => $matrix );
-    }
-
-    /*!
-      \private
-      Constructs a consequtive string of added and removed strings
-    */
-    function getConnectedChange( &$offset, $type, $changeTypeArray, $dataArray )
-    {
-        $change = "";
-        while ( isset( $changeTypeArray[$offset] ) && $changeTypeArray[$offset] == $type )
-        {
-            $change .= $dataArray[$offset] . " ";
-            $offset++;
-        }
-        return $change;
     }
 
     /*!
