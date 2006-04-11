@@ -27,6 +27,7 @@ Changes from 3.8.0beta1 to 3.8.0beta2
   ( Merged from stable/3.7 ( 3.7.6 ) rev. 15617 )
 - Fixed bug #7753: flatten.php missing in ez.
   ( Merged from stable/3.6 ( 3.6.8 ) rev. 15630 )
+- Fixed bug #8124: Object name "L'azienda" causes query error.
 
 *INI settings:
 - Added site.ini:[shopSettings].ClearBasketOnLogout setting:

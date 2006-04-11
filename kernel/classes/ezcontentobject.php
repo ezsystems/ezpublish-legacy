@@ -397,31 +397,32 @@ class eZContentObject extends eZPersistentObject
     {
         $initialLanguage = $this->initialLanguage();
         $initialLanguageCode = $initialLanguage->attribute( 'locale' );
+        $db =& eZDB::instance();
+        $objectName = $db->escapeString( $objectName );
 
         if ( $languageCode == false )
-    	{
-    	    $languageCode = $initialLanguageCode;
-    	}
+        {
+            $languageCode = $initialLanguageCode;
+        }
+        $languageCode = $db->escapeString( $languageCode );
+        if ( $languageCode == $initialLanguageCode )
+        {
+            $this->Name = $objectName;
+        }
 
-    	if ( $languageCode == $initialLanguageCode )
-    	{
-    	    $this->Name = $objectName;
-    	}
+        if ( !$versionNum )
+        {
+            $versionNum = $this->attribute( 'current_version' );
+        }
+        $objectID =(int) $this->attribute( 'id' );
+        $versionNum =(int) $versionNum;
 
-   	    if ( !$versionNum )
-   	    {
-   	        $versionNum = $this->attribute( 'current_version' );
-   	    }
-   	    $objectID = $this->attribute( 'id' );
+        $languageID =(int) eZContentLanguage::idByLocale( $languageCode );
 
-   	    $languageID = eZContentLanguage::idByLocale( $languageCode );
-
-   	    $db =& eZDB::instance();
-
-   	    $db->begin();
-   	    $db->query( "DELETE FROM ezcontentobject_name WHERE contentobject_id = '$objectID'
-    	             AND content_version = '$versionNum' AND content_translation ='$languageCode'" );
-    	$db->query( "INSERT INTO ezcontentobject_name( contentobject_id,
+        $db->begin();
+        $db->query( "DELETE FROM ezcontentobject_name WHERE contentobject_id = '$objectID'
+                     AND content_version = '$versionNum' AND content_translation ='$languageCode'" );
+        $db->query( "INSERT INTO ezcontentobject_name( contentobject_id,
                                                        name,
                                                        content_version,
                                                        content_translation,
@@ -433,7 +434,7 @@ class eZContentObject extends eZPersistentObject
                                       '$languageCode',
                                       '$languageCode',
                                       '$languageID' )" );
-    	$db->commit();
+        $db->commit();
     }
 
     /*!
