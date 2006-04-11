@@ -181,6 +181,28 @@ class eZVatType extends eZPersistentObject
         return $nProducts;
     }
 
+    /**
+     * Fetches number of product classes having given VAT type set as default.
+     *
+     * \public
+     * \static
+     * \return Number of dependent product classes.
+     */
+    function fetchDependentClassesCount( $vatID )
+    {
+        $vatID = (int) $vatID; // prevent SQL injection
+
+        $query = "SELECT COUNT(DISTINCT cc.id) AS count " .
+                 "FROM ezcontentclass cc, ezcontentclass_attribute cca " .
+                 "WHERE cc.id=cca.contentclass_id AND " .
+                 "cca.data_type_string IN ('ezprice', 'ezmultiprice') AND data_float1=$vatID";
+
+        $db = eZDB::instance();
+        $rslt = $db->arrayQuery( $query );
+        $nClasses = $rslt[0]['count'];
+        return $nClasses;
+    }
+
     function create()
     {
         /*
@@ -197,25 +219,27 @@ class eZVatType extends eZPersistentObject
     }
 
     /**
-     * Change VAT type in all products from $oldVAT to $newVAT.
+     * Change VAT type in all products from $oldVAT to the default VAT of a product class.
      *
      * \private
      * \static
      * \param $oldVAT old VAT type id.
      * \param $newVAT new VAT type id.
      */
-    function replaceInProducts( $oldVAT, $newVAT )
+    function resetToDefaultInProducts( $oldVAT )
     {
         $db =& eZDB::instance();
         $db->begin();
 
         $selectProductsQuery =
-            "SELECT coa.id,coa.data_text " .
-            "FROM ezcontentobject_attribute coa, ezcontentobject co " .
+            "SELECT coa.id, data_text, cca.data_float1 AS default_vat " .
+            "FROM ezcontentclass cc, ezcontentclass_attribute cca, ezcontentobject_attribute coa, ezcontentobject co " .
             "WHERE " .
-            "coa.contentobject_id=co.id AND " .
+            "cc.id=cca.contentclass_id AND " .
+            "cca.id=coa.contentclassattribute_id AND " .
+            "coa.contentobject_id=co.id AND  " .
             "coa.version=co.current_version AND " .
-            "data_type_string IN ('ezprice', 'ezmultiprice') " .
+            "cca.data_type_string IN ('ezprice', 'ezmultiprice') " .
             "AND data_text LIKE '$oldVAT,%'";
 
         // Fetch the attributes by small portions to avoid memory overflow.
@@ -229,7 +253,7 @@ class eZVatType extends eZPersistentObject
             {
                 list( $oldVatType, $vatExInc ) = explode( ',', $row['data_text'], 2 );
                 $updateQuery = "UPDATE ezcontentobject_attribute " .
-                               "SET data_text = '$newVAT,$vatExInc' " .
+                               "SET data_text = '" . $row['default_vat'] . ",$vatExInc' " .
                                "WHERE id=" . $row['id'];
                 $db->query( $updateQuery );
             }
@@ -245,32 +269,25 @@ class eZVatType extends eZPersistentObject
      * Remove given VAT type and all references to it.
      *
      * Drops VAT charging rules referencing the VAT type.
-     * Replaces VAT type in associated products with $replacementVatID.
+     * Resets VAT type in associated products to its default value for a product class.
      *
-     * \param $id id of VAT type to remove.
+     * \param $vatID id of VAT type to remove.
      * \public
      * \static
      */
-    function remove( $vatID, $replacementVatID )
+    function remove( $vatID )
     {
         $db =& eZDB::instance();
         $db->begin();
 
-        // If replacement VAT id is given
-        if ( $replacementVatID !== false )
-        {
-            // replace VAT type in dependant VAT rules
-            require_once( 'kernel/classes/ezvatrule.php' );
-            $dependentRules = eZVatrule::fetchByVatType( $vatID );
-            foreach ( $dependentRules as $rule )
-            {
-                $rule->setAttribute( 'vat_type', $replacementVatID );
-                $rule->store();
-            }
+        // remove dependent VAT rules
+        require_once( 'kernel/classes/ezvatrule.php' );
+        $dependentRules = eZVatRule::fetchByVatType( $vatID );
+        foreach ( $dependentRules as $rule )
+            eZVatRule::remove( $rule->attribute( 'id' ) );
 
-            // replace VAT type in dependent products.
-            eZVatType::replaceInProducts( $vatID, $replacementVatID );
-        }
+        // replace VAT type in dependent products.
+        eZVatType::resetToDefaultInProducts( $vatID );
 
         // Remove the VAT type itself.
         eZPersistentObject::removeObject( eZVatType::definition(),

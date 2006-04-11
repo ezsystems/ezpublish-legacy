@@ -111,12 +111,13 @@ function generateUniqueVatTypeName( $vatTypes )
  *
  * \private
  */
-function findDependencies( $vatTypeIDList, &$deps, &$haveDeps )
+function findDependencies( $vatTypeIDList, &$deps, &$haveDeps, &$canRemove )
 {
     // Find dependencies (products and/or VAT rules).
     require_once( 'kernel/classes/ezvatrule.php' );
     $deps = array();
     $haveDeps = false;
+    $canRemove = true;
     foreach ( $vatTypeIDList as $vatID )
     {
         $vatType = eZVatType::fetch( $vatID );
@@ -128,9 +129,16 @@ function findDependencies( $vatTypeIDList, &$deps, &$haveDeps )
         // Find dependent products.
         $nProducts = eZVatType::fetchDependentProductsCount( $vatID );
 
+        // Find product classes having this VAT type set as default.
+        $nClasses = eZVatType::fetchDependentClassesCount( $vatID );
+
+        if ( $nClasses )
+            $canRemove = false;
+
         $deps[$vatID] = array( 'name' => $vatName,
                                'affected_rules_count' => $nRules,
-                               'affected_products_count' => $nProducts );
+                               'affected_products_count' => $nProducts,
+                               'affected_classes_count' => $nClasses );
 
         if ( !$haveDeps && ( $nRules > 0 || $nProducts > 0 ) )
             $haveDeps = true;
@@ -159,8 +167,11 @@ elseif ( $module->isCurrentAction( 'Remove' ) )
     $vatIDsToRemove = $module->actionParameter( 'vatTypeIDList' );
     $deps = array();
     $haveDeps = false;
-    findDependencies( $vatIDsToRemove, $deps, $haveDeps );
+    $canRemove = true;
+    findDependencies( $vatIDsToRemove, $deps, $haveDeps, $canRemove );
 
+    $errors = false;
+    $showDeps = true;
     // If there are dependendant rules and/or products
     // then show confifmation dialog.
     if ( $haveDeps )
@@ -168,13 +179,20 @@ elseif ( $module->isCurrentAction( 'Remove' ) )
         // Let the user choose another VAT to set
 
         $allVatTypes = eZVatType::fetchList( true, true );
-        $vatTypesForReplacement = array();
-        foreach ( $allVatTypes as $vat )
+
+        if ( ( count( $allVatTypes ) - count( $vatIDsToRemove ) ) == 0 )
         {
-            if ( !in_array( $vat->attribute( 'id' ), $vatIDsToRemove ) )
-                 $vatTypesForReplacement[] = $vat;
+            $errorMsg = 'You cannot remove all VAT types. ' .
+                        'If you do not neet to charge any VAT for your ' .
+                        'products then just leave one VAT type and set ' .
+                        'its percentage to zero.';
+            $errors[] = ezi18n( 'kernel/shop/vattype', $errorMsg );
+            $showDeps = false;
         }
-        $tpl->setVariable( 'vat_types_for_replacement', $vatTypesForReplacement );
+
+        $tpl->setVariable( 'can_remove', $canRemove ); // true if we allow the removal
+        $tpl->setVariable( 'show_dependencies', $showDeps ); // true if we'll show the VAT types' dependencies
+        $tpl->setVariable( 'errors', $errors ); // array of error messages, false if none
         $tpl->setVariable( 'dependencies', $deps );
         $tpl->setVariable( 'vat_type_ids', join( ',', $vatIDsToRemove ) );
         $path = array( array( 'text' => ezi18n( 'kernel/shop', 'VAT types' ),
@@ -210,16 +228,11 @@ if ( $module->isCurrentAction( 'ConfirmRemoval' ) )
     if ( !$afterConfirmation )
         applyChanges( $module, $http, $errors );
 
-    if ( $afterConfirmation )
-        $vatReplacement = $module->actionParameter( 'VatReplacement' );
-    else
-        $vatReplacement = false;
-
     $db =& eZDB::instance();
     $db->begin();
     foreach ( $vatIDsToRemove as $vatID )
     {
-        eZVatType::remove( $vatID, $vatReplacement );
+        eZVatType::remove( $vatID );
     }
     $db->commit();
 }
