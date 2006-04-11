@@ -41,8 +41,6 @@
   in an eZContentObject. This is an abstract class.
 */
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
-
 class eZDiffContent
 {
     /*!
@@ -55,8 +53,6 @@ class eZDiffContent
         $this->NewTextIsLonger = $statArray['newTextLonger'];
         $this->OldWordArray = $oldWordArray;
         $this->NewWordArray = $newWordArray;
-
-        eZDebug::writeNotice( "Meta data for content diff object set.", "eZDiffContent" );
     }
 
     /*!

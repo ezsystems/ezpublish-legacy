@@ -38,7 +38,6 @@
   Contains data from two versions of an content object.
 */
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
 include_once( 'lib/ezdiff/classes/ezdiffcontent.php' );
 
 class eZDiffContainerObject extends eZDiffContent
@@ -48,7 +47,6 @@ class eZDiffContainerObject extends eZDiffContent
     */
     function eZDiffContainerObject()
     {
-        eZDebug::writeNotice( "Init eZContainerObject", "eZContainerObject" );
     }
 }
 ?>

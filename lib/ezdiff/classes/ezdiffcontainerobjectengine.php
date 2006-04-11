@@ -41,14 +41,12 @@
   for the different available DiffEngine.
 */
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
 include_once( 'lib/ezdiff/classes/ezdiffengine.php' );
 
 class eZDiffContainerObjectEngine extends eZDiffEngine
 {
     function eZDiffContainerObjectEngine()
     {
-        eZDebug::writeNotice( "Initializing containerobject engine", "eZDiffContainerObjectEngine" );
     }
 
     /*!

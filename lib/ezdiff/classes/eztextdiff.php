@@ -41,7 +41,6 @@
   in an plain text.
 */
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
 include_once( 'lib/ezdiff/classes/ezdiffcontent.php' );
 
 class eZTextDiff extends eZDiffContent
@@ -51,7 +50,6 @@ class eZTextDiff extends eZDiffContent
     */
     function eZTextDiff()
     {
-        eZDebug::writeNotice( "Init eZTextDiff", "eZTextDiff" );
     }
 }
 ?>
