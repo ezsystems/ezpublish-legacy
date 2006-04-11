@@ -85,6 +85,7 @@ class eZTipafriendRequest extends eZPersistentObject
             $requestsPerTimeframe = $ini->variable( 'TipAFriend', 'MaxRequestsPerTimeframe' );
 
         $db = eZDB::instance();
+        $receiver = $db->escapeString( $receiver );
         $countResult = $db->arrayQuery( "SELECT count(*) as count
                                          FROM eztipafriend_request
                                          WHERE email_receiver = '$receiver'
