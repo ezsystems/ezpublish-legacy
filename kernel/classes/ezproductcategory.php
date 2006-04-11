@@ -89,7 +89,8 @@ class eZProductCategory extends eZPersistentObject
 
         require_once( 'lib/ezdb/classes/ezdb.php' );
         $db =& eZDB::instance();
-
+        $categoryID =(int) $categoryID;
+        $categoryAttrName = $db->escapeString( $categoryAttrName );
         $query = "SELECT COUNT(*) AS count " .
                  " FROM ezcontentobject_attribute coa, ezcontentclass_attribute cca, ezcontentobject co " .
                  "WHERE " .
@@ -134,6 +135,7 @@ class eZProductCategory extends eZPersistentObject
         if ( $ini->hasVariable( 'VATSettings', 'ProductCategoryAttribute' ) &&
              $categoryAttrName = $ini->variable( 'VATSettings', 'ProductCategoryAttribute' ) )
         {
+            $categoryAttrName = $db->escapeString( $categoryAttrName );
             $query = "SELECT coa.id FROM ezcontentobject_attribute coa, ezcontentclass_attribute cca, ezcontentobject co " .
                      "WHERE " .
                      " cca.id=coa.contentclassattribute_id " .

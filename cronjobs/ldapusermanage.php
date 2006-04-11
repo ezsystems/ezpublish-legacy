@@ -114,6 +114,7 @@ if ( $LDAPUserGroupType != null )
             foreach ( array_keys( $LDAPUserGroup ) as $key )
             {
                 $groupName = $LDAPUserGroup[$key];
+                $db->escapeString( $groupName );
                 $groupQuery = "SELECT ezcontentobject_tree.node_id
                                  FROM ezcontentobject, ezcontentobject_tree
                                 WHERE ezcontentobject.name like '$groupName'
@@ -133,6 +134,7 @@ if ( $LDAPUserGroupType != null )
         else
         {
             $groupName = $LDAPUserGroup;
+            $db->escapeString( $groupName );
             $groupQuery = "SELECT ezcontentobject_tree.node_id
                              FROM ezcontentobject, ezcontentobject_tree
                             WHERE ezcontentobject.name like '$groupName'
@@ -152,7 +154,7 @@ if ( $LDAPUserGroupType != null )
         {
             foreach ( array_keys( $LDAPUserGroup ) as $key )
             {
-                $groupID = $LDAPUserGroup[$key];
+                $groupID =(int) $LDAPUserGroup[$key];
                 $groupQuery = "SELECT ezcontentobject_tree.node_id
                                  FROM ezcontentobject, ezcontentobject_tree
                                 WHERE ezcontentobject.id='$groupID'
@@ -171,7 +173,7 @@ if ( $LDAPUserGroupType != null )
         }
         else
         {
-            $groupID = $LDAPUserGroup;
+            $groupID =(int) $LDAPUserGroup;
             $groupQuery = "SELECT ezcontentobject_tree.node_id
                              FROM ezcontentobject, ezcontentobject_tree
                             WHERE ezcontentobject.id='$groupID'
@@ -333,7 +335,6 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
                     {
                         $groupName = $info[0][$LDAPUserGroupAttribute][$i];
                     }
-
                     $exist = false;
                     foreach( $LDAPNodeArray as $LDAPNode )
                     {
@@ -357,6 +358,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
 
                     if ( $exist == false )
                     {
+                        $groupName = $db->escapeString( $groupName );
                         $groupQuery = "SELECT ezcontentobject_tree.node_id
                                          FROM ezcontentobject, ezcontentobject_tree
                                         WHERE ezcontentobject.name like '$groupName'
@@ -423,6 +425,7 @@ foreach ( array_keys ( $LDAPUsers ) as $key )
 
                     if ( $exist == false )
                     {
+                        $groupName = $db->escapeString( $groupName );
                         $groupQuery = "SELECT ezcontentobject_tree.node_id
                                          FROM ezcontentobject, ezcontentobject_tree
                                         WHERE ezcontentobject.name like '$groupName'

@@ -1388,6 +1388,7 @@ class eZOrder extends eZPersistentObject
     function archiveOrder( $orderID )
     {
         $db =& eZDB::instance();
+        $orderID =(int) $orderID;
         $db->query( "UPDATE ezorder SET is_archived='1' WHERE id='$orderID' " );
     }
 
@@ -1400,6 +1401,7 @@ class eZOrder extends eZPersistentObject
     function unArchiveOrder( $orderID )
     {
         $db =& eZDB::instance();
+        $orderID =(int) $orderID;
         $db->query( "UPDATE ezorder SET is_archived='0' WHERE id='$orderID' " );
     }
 

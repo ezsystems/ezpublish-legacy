@@ -62,7 +62,7 @@ while( true )
             {
                 $inSQL .= ', ';
             }
-            $inSQL .= $objectID;
+            $inSQL .=(int) $objectID;
 
             $cli->output( "\tIndexing object ID #$objectID" );
             $object = eZContentObject::fetch( $objectID );

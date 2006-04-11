@@ -331,7 +331,7 @@ class eZVatRule extends eZPersistentObject
     {
         if ( $ruleID === false )
             $ruleID = $this->ID;
-
+        $ruleID =(int) $ruleID;
         $db =& eZDB::instance();
         $db->query( "DELETE FROM ezvatrule_product_category WHERE vatrule_id = $ruleID" );
     }

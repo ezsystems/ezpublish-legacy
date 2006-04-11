@@ -342,6 +342,7 @@ class eZContentObject extends eZPersistentObject
             return $name;
         }
         $db =& eZDb::instance();
+        $contentObjectID =(int) $contentObjectID;
         if ( !$lang )
         {
             // If $lang not given we will use the initial language of the object
@@ -367,7 +368,6 @@ class eZContentObject extends eZPersistentObject
         }
         $lang = $db->escapeString( $lang );
         $version = (int) $version;
-        $contentObjectID =(int) $contentObjectID;
         $query= "select name,real_translation from ezcontentobject_name where contentobject_id = '$contentObjectID' and content_version = '$version'  and content_translation = '$lang'";
         $result = $db->arrayQuery( $query );
         if ( count( $result ) < 1 )
@@ -2695,7 +2695,7 @@ class eZContentObject extends eZPersistentObject
     {
         $objectID = $this->ID;
         $currentVersion = $this->CurrentVersion;
-
+        $version =(int) $version;
         $db = eZDB::instance();
         $db->begin();
 
