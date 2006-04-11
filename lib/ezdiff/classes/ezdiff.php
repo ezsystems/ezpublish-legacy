@@ -169,8 +169,6 @@ class eZDiff
     /// The instance of the diff engine class
     var $DiffEngineInstance;
 
-    //var $DIFF_TYPE_TEXT = 0; //This denotes the plain text diff algorithm
-    //var $DIFF_TYPE_XML = 1; //Diff which also considers formatting.
     /// The allowed input on which to diff
     var $DIFF_TYPE = array( 'text' => 0,
                             'xml' => 1,
