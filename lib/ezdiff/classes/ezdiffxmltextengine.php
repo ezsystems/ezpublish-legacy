@@ -44,7 +44,6 @@ class eZDiffXMLTextEngine extends eZDiffEngine
 {
     function eZDiffXMLTextEngine()
     {
-        eZDebug::writeNotice( "Initializing xml-text diff engine", "eZDiffXMLTextEngine" );
     }
 
     /*!
