@@ -607,7 +607,7 @@ class eZXMLTextType extends eZDataType
     {
         include_once( 'lib/ezdiff/classes/ezdiff.php' );
         $diff = new eZDiff();
-        $diff->setDiffEngineType( $diff->engineType( 'container' ) );
+        $diff->setDiffEngineType( $diff->engineType( 'xml' ) );
         $diff->initDiffEngine();
         $diffObject = $diff->diff( $old, $new );
         return $diffObject;

@@ -38,7 +38,6 @@
   \brief This class creates a diff for xml text.
 */
 
-include_once( 'lib/ezutils/classes/ezdebug.php' );
 include_once( 'lib/ezdiff/classes/ezdiffengine.php' );
 
 class eZDiffXMLTextEngine extends eZDiffEngine
@@ -55,10 +54,58 @@ class eZDiffXMLTextEngine extends eZDiffEngine
     function createDifferenceObject( $fromData, $toData )
     {
         include_once( 'lib/ezdiff/classes/ezxmltextdiff.php' );
-        eZDebug::writeNotice( "Creating difference object", 'eZDiffXMLTextEngine' );
+        include_once( 'lib/ezdiff/classes/ezdifftextengine.php' );
 
         $changes = new eZXMLTextDiff();
+
+        $oldXMLTextObject = $fromData->content();
+        $newXMLTextObject = $toData->content();
+        
+        $oldXML = $oldXMLTextObject->attribute( 'xml_data' );
+        $newXML = $newXMLTextObject->attribute( 'xml_data' );
+
+        $old = trim( strip_tags( $oldXML ) );
+        $new = trim( strip_tags( $newXML ) );
+
+        $pattern = array( '/[ ][ ]+/',
+                          '/ \n( \n)+/',
+                          '/^ /m' );
+        $replace = array( ' ',
+                          "\n",
+                          '' );
+
+        $old = preg_replace( $pattern, $replace, $old );
+        $new = preg_replace( $pattern, $replace, $new );
+
+        $oldArray = explode( " ", $old );
+        $newArray = explode( " ", $new );
+
+        $oldArray = $this->trimEmptyArrayElements( $oldArray );
+        $newArray = $this->trimEmptyArrayElements( $newArray );
+
+        $textDiffer = new eZDiffTextEngine();
+        $stats = $textDiffer->createStatisticsArray( $old, $oldArray, $new, $newArray );
+        $output = $textDiffer->buildDiff( $stats, $oldArray, $newArray );
+        $changes->setChanges( $output );
         return $changes;
+    }
+
+    /*!
+      \private
+      Removes empty elements from array
+      \return array without empty elements
+    */
+    function trimEmptyArrayElements( $array )
+    {
+        foreach( $array as $key => $value )
+        {
+            if ( empty( $value ) )
+            {
+                unset( $array[$key] );
+            }
+        }
+        //Calls array_merge to reset the array keys.
+        return array_merge( $array );
     }
 }
 
