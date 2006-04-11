@@ -54,11 +54,9 @@ class eZLog
     */
     function writeStorageLog( $name, $dir = false )
     {
-//        $ini =& eZINI::instance();
-//        $varDir = $ini->variable( 'FileSettings', 'VarDir' );
-//        $logDir = $ini->variable( 'FileSettings', 'LogDir' );
-        $varDir = 'var';
-        $logDir = 'log';
+        $ini =& eZINI::instance();
+        $varDir = $ini->variable( 'FileSettings', 'VarDir' );
+        $logDir = $ini->variable( 'FileSettings', 'LogDir' );
         $logName = 'storage.log';
         $fileName = $varDir . '/' . $logDir . '/' . $logName;
         if ( !file_exists( $varDir . '/' . $logDir ) )
