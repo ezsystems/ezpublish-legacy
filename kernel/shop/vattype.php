@@ -192,7 +192,7 @@ elseif ( $module->isCurrentAction( 'Remove' ) )
 
         $tpl->setVariable( 'can_remove', $canRemove ); // true if we allow the removal
         $tpl->setVariable( 'show_dependencies', $showDeps ); // true if we'll show the VAT types' dependencies
-        $tpl->setVariable( 'errors', $errors ); // array of error messages, false if none
+        $tpl->setVariable( 'errors', $errors ); // array of error messages, false if there are no errors
         $tpl->setVariable( 'dependencies', $deps );
         $tpl->setVariable( 'vat_type_ids', join( ',', $vatIDsToRemove ) );
         $path = array( array( 'text' => ezi18n( 'kernel/shop', 'VAT types' ),
