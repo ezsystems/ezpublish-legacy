@@ -759,14 +759,14 @@ class eZXMLInputParser
         foreach( $attributes as $attr )
         {
             $allowed = false;
+            // php5 TODO: small letters
+            if ( $attr->Prefix )
+                $fullName = $attr->Prefix . ':' . $attr->LocalName;
+            else
+                $fullName = $attr->LocalName;
+
             foreach( $schemaAttributes as $schemaAttrName )
             {
-                // php5 TODO: small letters
-                if ( $attr->Prefix )
-                    $fullName = $attr->Prefix . ':' . $attr->LocalName;
-                else
-                    $fullName = $attr->LocalName;
-
                 if ( $fullName == $schemaAttrName )
                     $allowed = true;
             }
@@ -775,10 +775,23 @@ class eZXMLInputParser
                 if ( $attr->Prefix )
                 {
                     if ( $attr->Prefix != 'custom' )
+                    {
+                        $this->isInputValid = false;
                         $element->removeAttributeNS( $attr->NamespaceURI, $attr->LocalName );
+                    }
+                    else
+                        $allowed = true;
                 }
                 else
+                {
+                    $this->isInputValid = false;
                     $element->removeAttribute( $attr->nodeName );
+                }
+            }
+            if ( !$allowed && $this->errorLevel >= 2 )
+            {
+                $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "Attribute '%1' is not allowed in &lt;%2&gt; element.",
+                                                    false, array( $fullName, $element->nodeName ) );
             }
         }
     }

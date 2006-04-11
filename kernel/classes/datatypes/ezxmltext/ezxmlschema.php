@@ -78,7 +78,7 @@ class eZXMLSchema
                               'inlineChildrenAllowed' => array( '#text' ),
                               'childrenRequired' => true,
                               'isInline' => false,
-                              'attributes' => array( 'class', 'level', 'anchor_name' ) ),
+                              'attributes' => array( 'class', 'anchor_name' ) ),
     
         'paragraph' => array( 'blockChildrenAllowed' => array( 'line', 'link', 'embed', 'object', 'table', 'ol', 'ul', 'custom' ),
                               'inlineChildrenAllowed' => true,
@@ -110,7 +110,7 @@ class eZXMLSchema
                               'isInline' => true,
                               'attributes' => array( 'class' ) ),
     
-        'link'      => array( 'blockChildrenAllowed' => array( 'embed', 'object' ),
+        'link'      => array( 'blockChildrenAllowed' => false, //array( 'embed', 'object' ),
                               'inlineChildrenAllowed' => true,
                               'childrenRequired' => true,
                               'isInline' => true,

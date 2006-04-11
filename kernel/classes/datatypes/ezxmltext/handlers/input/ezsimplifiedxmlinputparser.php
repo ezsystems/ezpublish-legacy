@@ -318,9 +318,26 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     {
         $ret = null;
 
-        if ( $newParent && ( $newParent->nodeName == 'line' || $newParent->nodeName == 'paragraph' ) )
+        if ( $newParent )
         {
-            $ret =& $newParent->parentNode;
+            if ( $newParent->nodeName == 'line' )
+            {
+                $ret =& $newParent->parentNode;
+                $next =& $element->nextSibling();
+                if ( $next && $next->nodeName == 'br' && $ret->parentNode )
+                {
+                    $ret =& $ret->parentNode;
+                }
+            }
+            elseif ( $newParent->nodeName == 'paragraph' )
+            {
+                $ret =& $newParent;
+                $next =& $element->nextSibling();
+                if ( $next && $next->nodeName == 'br' )
+                {
+                    $ret =& $newParent->parentNode;
+                }
+            }
         }
         return $ret;
     }
@@ -632,6 +649,8 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
             if ( isset( $anchorName ) && $anchorName )
                     $element->setAttribute( 'anchor_name', $anchorName );
+
+            $element->removeAttribute( 'href' );
         }
 
         return $ret;
