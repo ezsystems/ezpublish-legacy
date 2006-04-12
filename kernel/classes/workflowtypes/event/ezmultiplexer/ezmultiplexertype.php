@@ -174,7 +174,7 @@ class eZMultiplexerType extends eZWorkflowEventType
 
             case 'contentclass_list':
             {
-                $classes = eZContentClass::fetchList();
+                $classes = eZContentClass::fetchList( EZ_CLASS_VERSION_STATUS_DEFINED, true, false, array( 'name' => 'asc' ) );
                 $classList = array();
                 for ( $i = 0; $i < count( $classes ); $i++ )
                 {
