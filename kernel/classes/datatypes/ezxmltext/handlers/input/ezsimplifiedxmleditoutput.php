@@ -211,30 +211,30 @@ class eZSimplifiedXMLEditOutput
     function formatAfterOpeningTag( &$element, $isInline, $isSingle, $hasChildren )
     {
         // Add linebreak in case we have block tag as a first child
-        if ( !$isInline && $hasChildren)
+        if ( !$isInline && $hasChildren )
         {
             $firstChild =& $element->firstChild();
-            if ( $firstChild->nodeName == 'paragraph' )
+            if ( $firstChild && $firstChild->nodeName == 'paragraph' && !$firstChild->hasAttributes() )
             {
                 $tmp =& $firstChild;
                 $firstChild =& $tmp->firstChild();
             }
-            if ( $firstChild->nodeName == 'line' )
+            if ( $firstChild && $firstChild->nodeName == 'line' )
             {
                 $tmp =& $firstChild;
                 $firstChild =& $tmp->firstChild();
             }
-            if ( $firstChild  && !$this->XMLSchema->isInline( $firstChild ) )
+            if ( $firstChild && !$this->XMLSchema->isInline( $firstChild ) )
                 $this->Output .= "\n";
         }
     }
 
     function formatBeforeClosingTag( &$element, $isInline, $isSingle, $hasChildren )
     {
-        if ( !$isInline )
+        if ( !$isInline && $hasChildren )
         {
             $lastChild =& $element->lastChild();
-            if ( $lastChild && $lastChild->nodeName == 'paragraph' )
+            if ( $lastChild && $lastChild->nodeName == 'paragraph' && !$lastChild->hasAttributes() )
             {
                 $tmp =& $lastChild;
                 $lastChild =& $tmp->lastChild();
