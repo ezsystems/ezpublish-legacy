@@ -982,9 +982,13 @@ else if ( $http->hasPostVariable( 'RemoveButton' ) )
                 $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
             else
                 $navigationPartIdentifier = null;
-            if( $navigationPartIdentifier and $navigationPartIdentifier == 'ezusernavigationpart' )
+            if ( $navigationPartIdentifier and $navigationPartIdentifier == 'ezusernavigationpart' )
             {
                 $module->redirectTo( $module->functionURI( 'removeuserobject' ) . '/' );
+            }
+            elseif ( $navigationPartIdentifier and $navigationPartIdentifier == 'ezmedianavigationpart' )
+            {
+                $module->redirectTo( $module->functionURI( 'removemediaobject' ) . '/' );
             }
             else
             {
@@ -1165,9 +1169,13 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
                 $navigationPartIdentifier = $section->attribute( 'navigation_part_identifier' );
             else
                 $navigationPartIdentifier = null;
-            if( $navigationPartIdentifier and $navigationPartIdentifier == 'ezusernavigationpart' )
+            if ( $navigationPartIdentifier and $navigationPartIdentifier == 'ezusernavigationpart' )
             {
                 $module->redirectTo( $module->functionURI( 'removeuserobject' ) . '/' );
+            }
+            elseif ( $navigationPartIdentifier and $navigationPartIdentifier == 'ezmedianavigationpart' )
+            {
+                $module->redirectTo( $module->functionURI( 'removemediaobject' ) . '/' );
             }
             else
             {
