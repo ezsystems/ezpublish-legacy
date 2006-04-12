@@ -301,6 +301,7 @@ class eZDiffTextEngine extends eZDiffEngine
 
         $substring = $this->traceSubstring( $row, $col, $matrix, $val, $new );
         $substringSet[] = array_reverse( $substring, true );
+        $substring = array();
 
         //Get more text
         if ( $lcsPlacement['hasTextLeft'] )
@@ -334,8 +335,9 @@ class eZDiffTextEngine extends eZDiffEngine
                 $prevRowUsed = $row;
                 if ( $info )
                 {
-                    $sub = $this->traceSubstring( $info['remainRow'], $info['remainCol'], $matrix, $info['remainMax'], $new );
-                    array_unshift( $substringSet, array_reverse( $sub, true ) );
+                    $substring = $this->traceSubstring( $info['remainRow'], $info['remainCol'], $matrix, $info['remainMax'], $new );
+                    array_unshift( $substringSet, array_reverse( $substring, true ) );
+                    $substring = array();
 
                     if ( $info['remainCol'] == 0 )
                     {
@@ -391,8 +393,9 @@ class eZDiffTextEngine extends eZDiffEngine
                 $prevRowUsed = $row;
                 if ( $info )
                 {
-                    $sub = $this->traceSubstring( $info['remainRow'], $info['remainCol'], $matrix, $info['remainMax'], $new );
-                    $substringSet[] = array_reverse( $sub, true );
+                    $substring = $this->traceSubstring( $info['remainRow'], $info['remainCol'], $matrix, $info['remainMax'], $new );
+                    $substringSet[] = array_reverse( $substring, true );
+                    $substring = array();
 
                     if ( $info['remainCol'] == $cols-1 )
                     {
