@@ -1,6 +1,8 @@
 Changes from 3.8.0beta1 to 3.8.0beta2
 
 *Kernel:
+eZXML:
+- Rewritten and separated "simplified XML" edit field output routine.
 
 *Bugfixes:
 - Fixed bug #7832: No conditions with "like" in function
@@ -31,6 +33,8 @@ Changes from 3.8.0beta1 to 3.8.0beta2
 - Fixed bug #8121: Possible wrong navigation menu used when deleting objects.
   ( Merged from stable/3.7 ( 3.7.6 ) rev. 15657 )
 - Fixed bug #8100: Sorting of classes in Multiplexer Event selection list.
+- Fixed bug #8130: Error nesting "ul" XML tags.
+
 
 *INI settings:
 - Added site.ini:[shopSettings].ClearBasketOnLogout setting:

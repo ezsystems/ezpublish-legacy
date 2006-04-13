@@ -133,7 +133,7 @@ class eZSimplifiedXMLEditOutput
 
         $hasChildren = $element->hasChildNodes();
         $isInline = $this->XMLSchema->isInline( $element );
-        $isSingle = isset( $this->OutputTags[$tagName]['isSingle'] ) && $this->OutputTags[$tagName]['isSingle'];
+        $isSingle = isset( $currentTag['isSingle'] ) && $currentTag['isSingle'];
 
         // If output was not set by handler, do a normal tag output
         if ( !is_string( $result ) )

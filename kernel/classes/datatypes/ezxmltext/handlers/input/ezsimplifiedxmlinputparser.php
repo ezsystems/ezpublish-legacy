@@ -316,7 +316,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     // Structure handler for temporary <br> elements
     function &structHandlerBr( &$element, &$newParent )
     {
-        $ret = null;
+        $ret =& $newParent;
 
         if ( $newParent )
         {
@@ -331,7 +331,6 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             }
             elseif ( $newParent->nodeName == 'paragraph' )
             {
-                $ret =& $newParent;
                 $next =& $element->nextSibling();
                 if ( $next && $next->nodeName == 'br' )
                 {
@@ -501,12 +500,15 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $para = $this->Document->createElement( 'paragraph' );
                     $parent->removeChild( $element );
                     $prev->appendChild( $element );
+                    $ret =& $para;
                 }
                 else
                 {
                     $parent->removeChild( $element );
                     $lastChild->appendChild( $element );
+                    $ret =& $lastChild;
                 }
+                return $ret;
             }
         }
         if ( $parentName == 'li' )
@@ -516,9 +518,11 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             {
                 $parent->removeChild( $element );
                 $prev->appendChild( $element );
+                return $prev;
             }
         }
         $ret =& $this->appendParagraph( $element, $params );
+
         return $ret;
     }
 
@@ -756,12 +760,6 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 return $ret;
             }
         }
-        /*else
-        {
-            $this->isInputValid = false;
-            $this->Messages[] = ezi18n( 'kernel/classes/datatypes', 'No \'href\' attribute in \'embed\' tag.' );
-            return $ret;
-        }*/
 
         $element->removeAttribute( 'href' );
         $this->convertCustomAttributes( $element );
