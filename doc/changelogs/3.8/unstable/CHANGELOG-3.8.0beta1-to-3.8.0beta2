@@ -34,6 +34,7 @@ eZXML:
   ( Merged from stable/3.7 ( 3.7.6 ) rev. 15657 )
 - Fixed bug #8100: Sorting of classes in Multiplexer Event selection list.
 - Fixed bug #8130: Error nesting "ul" XML tags.
+- Fixed bug #7602: Upload media files with automatic location doesn't work correctly.
 
 
 *INI settings:
