@@ -3,27 +3,30 @@ Changes from 3.5.9 to 3.5.10
 *Kernel:
 
 *Bugfixes:
-- Fixed bug #7954: Match[section] does not work with /node/view/pdf.tpl 
+- Fixed bug #7954: Match[section] does not work with /node/view/pdf.tpl
   and /content/pdf/<node_id>.
 - Fixed bug #7939: Empty date as object name pattern for a class
   -> Thursday 01 January 1970
   ( Merged from stable/3.7 ( 3.7.5 ) rev. 15081 )
-- Fixed bug #7958: The removed class isn't disappeared from list 
+- Fixed bug #7958: The removed class isn't disappeared from list
   of availabled classes in the content structure.
   ( Merged from stable/3.7 ( 3.7.5 ) rev. 15099 )
 - Fixed bug #7956: Wishlist is called "basket".
-- Fixed bug #7975: Assigning a role with limitation on section 
+- Fixed bug #7975: Assigning a role with limitation on section
   is not working correctly.
   ( Merged from stable/3.7 ( 3.7.5 ) rev. 15149 )
-- Fixed bug #7980: Installation wizard fails to accept correct hosts 
+- Fixed bug #7980: Installation wizard fails to accept correct hosts
   with host-based siteaccess.
   ( Merged from stable/3.7 ( 3.7.5 ) rev. 15158 )
-- Fixed bug #7856: Setup assumes ImageMagick by default, 
+- Fixed bug #7856: Setup assumes ImageMagick by default,
   even if ImageGD is avaiable/installed.
   ( Merged from stable/3.7 ( 3.7.5 ) rev. 15189 )
 - Fixed bug #7894: Call to undefined function: get_elements_by_tagname().
   ( Merged from stable/3.6 ( 3.6.7 ) rev. 15193 )
-- Fixed bug #7967: Warning in debug output after running file 
+- Fixed bug #7967: Warning in debug output after running file
   consistency check.
   ( Merged from stable/3.7 ( 3.7.5 ) rev. 15207 )
 - Fixed bug #8027: Fatal error: ezimagealiashandler.php
+- Fixed bug #7602: Upload media files with automatic location doesn't work correctly.
+  (Manually merged from trunk (3.8.0beta2) rev. 15672)
+
