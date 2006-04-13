@@ -75,7 +75,7 @@ class eZXMLSchema
                               'attributes' => array( 'class' ) ),
     
         'header'    => array( 'blockChildrenAllowed' => false,
-                              'inlineChildrenAllowed' => array( '#text' ),
+                              'inlineChildrenAllowed' => true,
                               'childrenRequired' => true,
                               'isInline' => false,
                               'attributes' => array( 'class', 'anchor_name' ) ),
@@ -164,9 +164,36 @@ class eZXMLSchema
         $isInline = $this->Schema[$elementName]['isInline'];
 
         // Special workaround for custom tags.
-        if ( $isInline === null && !is_string( $element ) )
+        if ( $isInline === null )
         {
-            $isInline = $element->getAttribute( 'inline' ) === 'true';
+            if ( !is_string( $element ) )
+            {
+                $isInline = $element->getAttribute( 'inline' );
+                if ( $isInline && $isInline === 'true' )
+                { 
+                    $isInline = true;
+                }
+                elseif ( $isInline && $isInline === 'false' )
+                {
+                    $isInline = false;
+                }
+                else
+                {
+                    $isInline = false;
+                    $name = $element->getAttribute( 'name' );
+
+                    include_once( 'lib/ezutils/classes/ezini.php' );
+                    $ini =& eZINI::instance( 'content.ini' );
+                
+                    $isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
+
+                    if ( isset( $isInlineTagList[$name] ) )
+                    {
+                        if ( $isInlineTagList[$name] == 'true' )
+                            $isInline = true;
+                    }
+                }
+            }
         }
         return $isInline;
     }

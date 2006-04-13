@@ -180,15 +180,12 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         $ini =& eZINI::instance( 'content.ini' );
 
         $isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
-        foreach ( array_keys ( $isInlineTagList ) as $key )
+        if ( isset( $isInlineTagList[$name] ) )
         {
-            $isInlineTagValue =& $isInlineTagList[$key];
-            if ( $isInlineTagValue )
-            {
-                if ( $name == $key )
-                    $isInline = true;
-            }
+            if ( $isInlineTagList[$name] == 'true' )
+                $isInline = true;
         }
+
         $element->setAttribute( 'inline', $isInline ? 'true' : 'false' );
         return $ret;
     }
