@@ -373,7 +373,8 @@ class eZShopFunctions
                         $shopINI =& eZINI::instance( 'shop.ini' );
                         if ( $shopINI->hasVariable( 'ExchangeRatesSettings', 'BaseCurrency' ) )
                             $shopBaseCurrency = $shopINI->variable( 'ExchangeRatesSettings', 'BaseCurrency' );
-                        else
+
+                        if ( !$shopBaseCurrency )
                             $shopBaseCurrency = $handlerBaseCurrency;
 
                         // update rates for existing currencies
