@@ -215,7 +215,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
             else
             {
                 $sectionLevel = $tdSectionLevel;
-                $currentSectionLevel = $currentSectionLevel;
+                //$currentSectionLevel = $currentSectionLevel;
             }
             $tagName = $sectionNode->name();
             switch ( $tagName )
@@ -223,70 +223,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 // tags with parameters
                 case 'header' :
                 {
-                   unset( $textElements );
-
-                   // Add the anchor tag before the header.
-                   $name = $sectionNode->attributeValue( 'anchor_name' );
-                   $class = $sectionNode->attributeValue( 'class' );
-
-                   $res =& eZTemplateDesignResource::instance();
-                   $res->setKeys( array( array( 'classification', $class ) ) );
-
-                   if ( $name )
-                   {
-                       $tpl->setVariable( 'name', $name, 'xmltagns' );
-
-                       $uri = "design:content/datatype/view/ezxmltags/anchor.tpl";
-
-                       eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                       $output .= implode( '', $textElements );
-                   }
-
-                   $level = $sectionLevel;
-
-                   if ( !isset( $GLOBALS['eZXMLHeaderCounter'][$level] ) )
-                   {
-                       $GLOBALS['eZXMLHeaderCounter'][$level] = 0;
-                   }
-
-                   $GLOBALS['eZXMLHeaderCounter'][$level] += 1;
-
-                   $i = 1;
-                   $headerAutoName = "";
-                   while ( $i <= $level )
-                   {
-                      if ( $i > 1 )
-                          $headerAutoName .= "_";
-
-                      $headerAutoName .= $GLOBALS['eZXMLHeaderCounter'][$i];
-                      $i++;
-                   }
-
-                   if ( $headerAutoName )
-                   {
-                       $tpl->setVariable( 'name', $headerAutoName, 'xmltagns' );
-
-                       $uri = "design:content/datatype/view/ezxmltags/anchor.tpl";
-                       eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-
-                       $output .= implode( '', $textElements );
-
-                       // Set a template variable for automatic generated header levels
-                       $levelNumber = str_replace( "_", ".", $headerAutoName );
-                       $tpl->setVariable( 'header_number', $levelNumber, 'xmltagns' );
-                   }
-
-                   $tpl->setVariable( 'content', $sectionNode->textContent(), 'xmltagns' );
-                   $tpl->setVariable( 'level', $level, 'xmltagns' );
-                   $tpl->setVariable( 'classification', $class, 'xmltagns' );
-                   $uri = "design:content/datatype/view/ezxmltags/header.tpl";
-                   $textElements = array();
-                   eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                   $output .= implode( '', $textElements );
-
-                   // Remove the design key, so it will not override other tags
-                   $res->removeKey( 'classification' );
-                   $tpl->unsetVariable( 'classification', 'xmltagns' );
+                    $output .= $this->renderXHTMLTag( $tpl, $sectionNode, $sectionLevel, true, $tdSectionLevel );
                 }break;
 
                 case 'paragraph' :
@@ -305,7 +242,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 }break;
 
                 // Supported tags
-                case 'emphasize' :
+                /*case 'emphasize' :
                 case '#text' :
                 case 'line' :
                 case 'strong' :
@@ -322,7 +259,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 {
                     $output .= $this->renderXHTMLTag( $tpl, $sectionNode, $currentSectionLevel, $isBlockTag );
                 }break;
-
+                */
                 default :
                 {
                     eZDebug::writeError( "Unsupported tag at this level: $tagName", "eZXMLTextType::inputSectionXML()" );
@@ -440,7 +377,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
      \private
      Will render a tag and return the rendered text.
     */
-    function &renderXHTMLTag( &$tpl, &$tag, $currentSectionLevel, &$isBlockTag, $tdSectionLevel = null, $isChildOfLinkTag = false )
+    function &renderXHTMLTag( &$tpl, &$tag, $currentSectionLevel, $isBlockTag, $tdSectionLevel = null, $isChildOfLinkTag = false )
     {
         $tagText = "";
         $childTagText = "";
@@ -585,6 +522,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel  );
                     }
                 }break;
+
+                // Tables and lists are rendered separately
+                case "table":
+                case "ul":
+                case "ol":
+                    break;
+
                 default :
                     $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, $isChildOfLinkTag );
             }
@@ -1147,6 +1091,85 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $tagText .= implode( '', $textElements );
             }break;
 
+          case 'header' :
+          {
+             unset( $textElements );
+    
+             // Add the anchor tag before the header.
+             $name = $tag->attributeValue( 'anchor_name' );
+             $class = $tag->attributeValue( 'class' );
+    
+             $res =& eZTemplateDesignResource::instance();
+             $res->setKeys( array( array( 'classification', $class ) ) );
+    
+             if ( $name )
+             {
+                 $tpl->setVariable( 'name', $name, 'xmltagns' );
+    
+                 $uri = "design:content/datatype/view/ezxmltags/anchor.tpl";
+    
+                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+                 $output .= implode( '', $textElements );
+             }
+    
+             $level = $currentSectionLevel;
+    
+             if ( isset( $this->HeaderCount[$level] ) )
+             {
+                 $nextLevel = $level + 1;
+                 while( isset( $this->HeaderCount[$nextLevel] ) ) 
+                 {
+                     $this->HeaderCount[$nextLevel] = 0;
+                     $nextLevel++;
+                 }
+             }
+             else
+             {
+                 $this->HeaderCount[$level] = 0;
+             }
+    
+             $this->HeaderCount[$level]++;
+    
+             $i = 1;
+             $headerAutoName = "";
+             while ( $i <= $level )
+             {
+                if ( $i > 1 )
+                    $headerAutoName .= "_";
+    
+                $headerAutoName .= $this->HeaderCount[$i];
+                $i++;
+             }
+    
+             $tagText = '';
+             if ( $headerAutoName )
+             {
+                 $tpl->setVariable( 'name', $headerAutoName, 'xmltagns' );
+    
+                 $uri = "design:content/datatype/view/ezxmltags/anchor.tpl";
+                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+    
+                 $tagText .= implode( '', $textElements );
+    
+                 // Set a template variable for automatic generated header levels
+                 $levelNumber = str_replace( "_", ".", $headerAutoName );
+                 $tpl->setVariable( 'header_number', $levelNumber, 'xmltagns' );
+             }
+    
+             $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
+             $tpl->setVariable( 'level', $level, 'xmltagns' );
+             $tpl->setVariable( 'classification', $class, 'xmltagns' );
+             $uri = "design:content/datatype/view/ezxmltags/header.tpl";
+             $textElements = array();
+             eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
+             $tagText .= implode( '', $textElements );
+    
+             // Remove the design key, so it will not override other tags
+             $res->removeKey( 'classification' );
+             $tpl->unsetVariable( 'classification', 'xmltagns' );
+    
+          }break;
+
             default :
             {
                 // unsupported tag
@@ -1172,6 +1195,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
 
     /// Array of parameters for rendering tags that are children of 'link' tag
     var $LinkParameters = array();
+
+    var $HeaderCount = array();
 }
 
 ?>

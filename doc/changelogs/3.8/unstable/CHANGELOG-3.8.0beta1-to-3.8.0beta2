@@ -3,6 +3,7 @@ Changes from 3.8.0beta1 to 3.8.0beta2
 *Kernel:
 eZXML:
 - Rewritten and separated "simplified XML" edit field output routine.
+- Allowed to use inline tags (including custom inline tags) inside headers.
 
 *Bugfixes:
 - Fixed bug #7832: No conditions with "like" in function
@@ -35,6 +36,8 @@ eZXML:
 - Fixed bug #8100: Sorting of classes in Multiplexer Event selection list.
 - Fixed bug #8130: Error nesting "ul" XML tags.
 - Fixed bug #7602: Upload media files with automatic location doesn't work correctly.
+- Fixed bug: Wrong headers numbering in automatic XML headers numeration.
+- Fixed bug: Tables and lists are rendered 2 times in XML->XHTML output.
 
 
 *INI settings:
