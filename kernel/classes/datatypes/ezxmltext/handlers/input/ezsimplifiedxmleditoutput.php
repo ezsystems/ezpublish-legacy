@@ -58,7 +58,13 @@ class eZSimplifiedXMLEditOutput
                                                        'image:ezurl_id' => false ),
                                  'isSingle' => true ),
 
-        'td'           => array( 'attributes' => array( 'xhtml:width' => 'width',
+        'td'           => array( 'handler' => 'outputTd',
+                                 'attributes' => array( 'xhtml:width' => 'width',
+                                                       'xhtml:colspan' => 'colspan',
+                                                       'xhtml:rowspan' => 'rowspan' ) ),
+
+        'th'           => array( 'handler' => 'outputTd',
+                                 'attributes' => array( 'xhtml:width' => 'width',
                                                        'xhtml:colspan' => 'colspan',
                                                        'xhtml:rowspan' => 'rowspan' ) ),
 
@@ -315,6 +321,15 @@ class eZSimplifiedXMLEditOutput
             $text = preg_replace( "#[\n]+#", "", $text );
         }
         return $text;
+    }
+
+    function &outputTd( &$element, &$attributes, &$sectionLevel )
+    {
+        $ret = null;
+
+        // We have to reset section level in the table cell
+        $sectionLevel = 0;
+        return $ret;
     }
 
     function &outputHeader( &$element, &$attributes, &$sectionLevel )
