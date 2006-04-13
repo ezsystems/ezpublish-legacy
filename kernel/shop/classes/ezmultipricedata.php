@@ -37,6 +37,10 @@ define( 'EZ_MULTIPRICEDATA_VALUE_TYPE_CUSTOM', 1 );
 define( 'EZ_MULTIPRICEDATA_VALUE_TYPE_AUTO', 2 );
 define( 'EZ_MULTIPRICEDATA_FETCH_DATA_LIST_LIMIT', 5000 );
 
+define( 'EZ_MULTIPRICEDATA_OK', 0 );
+define( 'EZ_MULTIPRICEDATA_AUTOPRICES_UPDATE_FAILED', 1 );
+
+
 class eZMultiPriceData extends eZPersistentObject
 {
     function eZMultiPriceData( $row )
@@ -396,6 +400,11 @@ class eZMultiPriceData extends eZPersistentObject
             }
             $db->commit();
         }
+
+        $error = array( 'code' => EZ_MULTIPRICEDATA_OK,
+                        'description' => ezi18n( 'kernel/shop', "'Auto' prices were updated successfully." ) );
+
+        return $error;
     }
 }
 

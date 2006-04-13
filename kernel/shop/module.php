@@ -249,7 +249,9 @@ $ViewList['currencylist'] = array(
                                     'UpdateAutoRatesButton' => 'UpdateAutoRates' ),
     'post_action_parameters' => array( 'RemoveCurrency' => array( 'DeleteCurrencyList' => 'DeleteCurrencyList' ),
                                        'ApplyChanges' => array( 'CurrencyList' => 'CurrencyList',
-                                                                'Offset' => 'Offset' ) ),
+                                                                'Offset' => 'Offset' ),
+                                       'UpdateAutoprices' => array( 'Offset' => 'Offset' ),
+                                       'UpdateAutoRates' => array( 'Offset' => 'Offset' ) ),
     'params' => array(  ) );
 
 $ViewList['editcurrency'] = array(

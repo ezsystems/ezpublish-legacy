@@ -1,6 +1,6 @@
 <?php
 //
-// Definition of eZECBExchangeRatesUpdateHandler class
+// Definition of eZECBHandler class
 //
 // Created on: <12-Mar-2006 13:06:15 dl>
 //
@@ -28,14 +28,14 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezecbexchangeratesupdatehandler.php
+/*! \file ezecbhandler.php
 */
 
-include_once( 'kernel/shop/classes/exchangeratesupdatehandlers/ezexchangeratesupdatehandler.php' );
+include_once( 'kernel/shop/classes/exchangeratehandlers/ezexchangeratesupdatehandler.php' );
 
-class eZECBExchangeRatesUpdateHandler extends eZExchangeRatesUpdateHandler
+class eZECBHandler extends eZExchangeRatesUpdateHandler
 {
-    function eZECBExchangeRatesUpdateHandler()
+    function eZECBHandler()
     {
         $this->ServerName = false;
         $this->ServerPort = false;
@@ -46,7 +46,7 @@ class eZECBExchangeRatesUpdateHandler extends eZExchangeRatesUpdateHandler
 
     function initialize( $params = array() )
     {
-        eZExchangeRatesUpdateHandler::initialize();
+        eZExchangeRatesUpdateHandler::initialize( $params );
 
         $shopINI =& eZINI::instance( 'shop.ini' );
         if ( !isset( $params['ServerName'] ) )
@@ -72,11 +72,9 @@ class eZECBExchangeRatesUpdateHandler extends eZExchangeRatesUpdateHandler
 
         if ( !isset( $params['BaseCurrency'] ) )
         {
-            $params['BaseCurrency'] = '';
-            if ( $shopINI->hasVariable( 'ECBExchangeRatesSettings', 'BaseCurrency' ) )
-                $params['BaseCurrency'] = $shopINI->variable( 'ECBExchangeRatesSettings', 'BaseCurrency' );
+            // the ECB returns currencies against 'EUR'
+            $params['BaseCurrency'] = 'EUR';
         }
-
 
         $this->setServerName( $params['ServerName'] );
         $this->setServerPort( $params['ServerPort'] );
@@ -84,8 +82,11 @@ class eZECBExchangeRatesUpdateHandler extends eZExchangeRatesUpdateHandler
         $this->setBaseCurrency( $params['BaseCurrency'] );
     }
 
-    function requestRates( &$error )
+    function requestRates()
     {
+        $error = array( 'code' => EZ_EXCHANGE_RATES_HANDLER_OK,
+                        'description' => ezi18n( 'kernel/shop', "'Autorates' were retrieved successfully" ) );
+
         $serverName = $this->serverName();
         $serverPort = $this->serverPort();
         $ratesURI = $this->ratesURI();
@@ -123,21 +124,24 @@ class eZECBExchangeRatesUpdateHandler extends eZExchangeRatesUpdateHandler
                 }
                 else
                 {
-                    $error = "Unknown body format in HTTP response. Expected 'text/xml'";
+                    $error['code'] = EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED;
+                    $error['description'] = ezi18n( 'kernel/shop', "Unknown body format in HTTP response. Expected 'text/xml'" );
                 }
             }
             else
             {
-                $error = "Invalid HTTP response";
+                $error['code'] = EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED;
+                $error['description'] = ezi18n( 'kernel/shop', "Invalid HTTP response" );
             }
         }
         else
         {
-            $error = "Unable to send http request: {$serverName}:{$serverPort}/{$ratesURI}";
+            $error['code'] = EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED;
+            $error['description'] = ezi18n( 'kernel/shop', "Unable to send http request: %1:%2/%3", null, array( $serverName, $serverPort, $ratesURI ) );
         }
 
         $this->setRateList( $ratesList );
-        return ( count( $ratesList ) > 0 );
+        return $error;
     }
 
     function setServerName( $serverName )

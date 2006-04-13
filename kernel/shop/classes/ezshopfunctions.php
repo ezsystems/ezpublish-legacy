@@ -332,7 +332,7 @@ class eZShopFunctions
     function updateAutoprices()
     {
         include_once( 'kernel/shop/classes/ezmultipricedata.php' );
-        eZMultiPriceData::updateAutoprices();
+        return eZMultiPriceData::updateAutoprices();
     }
 
     function convertAdditionalPrice( $toCurrency, $value )
@@ -351,58 +351,105 @@ class eZShopFunctions
 
     function updateAutoRates()
     {
-        include_once( 'kernel/shop/classes/exchangeratesupdatehandlers/ezexchangeratesupdatehandler.php' );
+        include_once( 'kernel/shop/errors.php' );
+        include_once( 'kernel/shop/classes/exchangeratehandlers/ezexchangeratesupdatehandler.php' );
+
+        $error = array( 'code' => EZ_EXCHANGE_RATES_HANDLER_OK,
+                        'description' => '' );
+
         $handler = eZExchangeRatesUpdateHandler::create();
         if ( $handler )
         {
-            $error = false;
-            if ( $handler->requestRates( $error ) )
+            $error = $handler->requestRates();
+            if ( $error['code'] === EZ_EXCHANGE_RATES_HANDLER_OK )
             {
                 $rateList = $handler->rateList();
                 if ( is_array( $rateList ) && count( $rateList ) > 0 )
                 {
-                    // update rates for existing currencies
-                    $baseCurrencyCode = $handler->baseCurrency();
-
-                    include_once( 'kernel/shop/classes/ezcurrencydata.php' );
-
-                    $currencyList = eZCurrencyData::fetchList();
-                    if ( is_array( $currencyList ) && count( $currencyList ) > 0 )
+                    $handlerBaseCurrency = $handler->baseCurrency();
+                    if ( $handlerBaseCurrency )
                     {
-                        foreach ( $currencyList as $currency )
+                        $shopBaseCurrency = false;
+                        $shopINI =& eZINI::instance( 'shop.ini' );
+                        if ( $shopINI->hasVariable( 'ExchangeRatesSettings', 'BaseCurrency' ) )
+                            $shopBaseCurrency = $shopINI->variable( 'ExchangeRatesSettings', 'BaseCurrency' );
+                        else
+                            $shopBaseCurrency = $handlerBaseCurrency;
+
+                        // update rates for existing currencies
+                        //$baseCurrencyCode = $handler->baseCurrency();
+                        if ( isset( $rateList[$shopBaseCurrency] ) || ( $shopBaseCurrency === $handlerBaseCurrency ) )
                         {
-                            $currencyCode = $currency->attribute( 'code' );
-                            if ( isset( $rateList[$currencyCode] ) )
-                                $rateValue = $rateList[$currencyCode];
-                            else if ( $currencyCode === $baseCurrencyCode )
-                                $rateValue = '1.0000';
-                            else
-                                $rateValue = false;
-
-                            if ( $rateValue !== false )
+                            // to avoid unnecessary multiplication set $crossBaseRate to 'false';
+                            $crossBaseRate = false;
+                            if ( $shopBaseCurrency !== $handlerBaseCurrency )
                             {
-                                $currency->setAttribute( 'auto_rate_value', $rateValue );
-                                $currency->store();
+                                $crossBaseRate = 1.0 / (float)$rateList[$shopBaseCurrency];
+                                $rateList[$handlerBaseCurrency] = '1.0000';
                             }
-                        }
 
-                        return true;
+                            include_once( 'kernel/shop/classes/ezcurrencydata.php' );
+                            $currencyList = eZCurrencyData::fetchList();
+                            if ( is_array( $currencyList ) && count( $currencyList ) > 0 )
+                            {
+
+
+                                foreach ( $currencyList as $currency )
+                                {
+                                    $rateValue = false;
+                                    $currencyCode = $currency->attribute( 'code' );
+                                    if ( isset( $rateList[$currencyCode] ) )
+                                    {
+                                        $rateValue = $rateList[$currencyCode];
+                                        if ( $crossBaseRate !== false )
+                                            $rateValue *= $crossBaseRate;
+                                    }
+                                    else if ( $currencyCode === $shopBaseCurrency )
+                                    {
+                                        $rateValue = '1.0000';
+                                    }
+
+                                    $currency->setAttribute( 'auto_rate_value', $rateValue );
+                                    $currency->sync();
+                                }
+                            }
+
+                            $error['code'] = EZ_EXCHANGE_RATES_HANDLER_OK;
+                            $error['description'] = ezi18n( 'kernel/shop', "'Auto' rates were updated successfully." );
+                        }
+                        else
+                        {
+                            $error['code'] = EZ_EXCHANGE_RATES_HANDLER_INVALID_BASE_CROSS_RATE;
+                            $error['description'] = ezi18n( 'kernel/shop', "Unable to calculate cross-rate for currency-pair '%1'/'%2'", null, array( $handlerBaseCurrency, $shopBaseCurrency ) );
+                        }
+                    }
+                    else
+                    {
+                        $error['code'] = EZ_EXCHANGE_RATES_HANDLER_UNKNOWN_BASE_CURRENCY;
+                        $error['description'] = ezi18n( 'kernel/shop', 'Unable to determine currency for retrieved rates.' );
                     }
                 }
-            }
-            else
-            {
-                eZDebug::writeError( "$error",
-                                     'eZShopFunctions::updateAutoRates' );
+                else
+                {
+                    $error['code'] = EZ_EXCHANGE_RATES_HANDLER_EMPTY_RATE_LIST;
+                    $error['description'] = ezi18n( 'kernel/shop', 'Retrieved empty list of rates.' );
+                }
             }
         }
         else
         {
-            eZDebug::writeError( 'Unable to create handler to update auto rates',
+            $error['code'] = EZ_EXCHANGE_RATES_HANDLER_CANT_CREATE_HANDLER;
+            $error['description'] = ezi18n( 'kernel/shop', 'Unable to create handler to update auto rates.' );
+
+        }
+
+        if ( $error['code'] !== EZ_EXCHANGE_RATES_HANDLER_OK )
+        {
+            eZDebug::writeError( $error['description'],
                                  'eZShopFunctions::updateAutoRates' );
         }
 
-        return false;
+        return $error;
     }
 }
 

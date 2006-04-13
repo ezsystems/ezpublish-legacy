@@ -31,6 +31,13 @@
 /*! \file ezexchangeratesupdatehandler.php
 */
 
+define( 'EZ_EXCHANGE_RATES_HANDLER_OK', 0 );
+define( 'EZ_EXCHANGE_RATES_HANDLER_CANT_CREATE_HANDLER', 1 );
+define( 'EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED', 2 );
+define( 'EZ_EXCHANGE_RATES_HANDLER_EMPTY_RATE_LIST', 3 );
+define( 'EZ_EXCHANGE_RATES_HANDLER_UNKNOWN_BASE_CURRENCY', 4 );
+define( 'EZ_EXCHANGE_RATES_HANDLER_INVALID_BASE_CROSS_RATE', 5 );
+
 class eZExchangeRatesUpdateHandler
 {
     function eZExchangeRatesUpdateHandler()
@@ -43,6 +50,10 @@ class eZExchangeRatesUpdateHandler
 
     function initialize( $params = array() )
     {
+        if ( !isset( $params['BaseCurrency'] ) )
+            $params['BaseCurrency'] = '';
+
+        $this->setBaseCurrency( $params['BaseCurrency'] );
     }
 
     /*!
@@ -61,21 +72,27 @@ class eZExchangeRatesUpdateHandler
 
         $handlerName = strtolower( $handlerName );
 
+        $dirList = array();
         $repositoryDirectories = $shopINI->variable( 'ExchangeRatesSettings', 'RepositoryDirectories' );
         $extensionDirectories = $shopINI->variable( 'ExchangeRatesSettings', 'ExtensionDirectories' );
 
         $baseDirectory = eZExtension::baseDirectory();
         foreach ( $extensionDirectories as $extensionDirectory )
         {
-            $extensionPath = $baseDirectory . '/' . $extensionDirectory;
-            if ( file_exists( $extensionPath ) )
-                $repositoryDirectories[] = $extensionPath;
+            if ( !empty( $extensionDirectory ) )
+                $dirList[] = $baseDirectory . '/' . $extensionDirectory . '/exchangeratehandlers';
+        }
+
+        foreach ( $repositoryDirectories as $repositoryDirectory )
+        {
+            if ( !empty( $repositoryDirectory ) )
+                $dirList[] = $repositoryDirectory;
         }
 
         $foundHandler = false;
-        foreach ( $repositoryDirectories as $repositoryDirectory )
+        foreach ( $dirList as $dir )
         {
-            $includeFile = "$repositoryDirectory/{$handlerName}exchangeratesupdatehandler.php";
+            $includeFile = "$dir/$handlerName/{$handlerName}handler.php";
 
             if ( file_exists( $includeFile ) )
             {
@@ -88,13 +105,13 @@ class eZExchangeRatesUpdateHandler
         {
             eZDebug::writeError( "Exchange rates update handler '$handlerName' not found, " .
                                  "searched in these directories: " .
-                                 implode( ', ', $repositoryDirectories ),
+                                 implode( ', ', $dirList ),
                                  'eZExchangeRatesUpdateHandler::create' );
             return false;
         }
 
         require_once( $includeFile );
-        $className = $handlerName . 'ExchangeRatesUpdateHandler';
+        $className = $handlerName . 'handler';
         return new $className;
     }
 
@@ -118,10 +135,12 @@ class eZExchangeRatesUpdateHandler
         $this->BaseCurrency = $baseCurrency;
     }
 
-    function requestRates( &$error )
+    function requestRates()
     {
-        $error = "eZExchangeRatesUpdateHandler: you should reimplement 'requestRates' method";
-        return false;
+        $error = array( 'code' => EZ_EXCHANGE_RATES_HANDLER_REQUEST_RATES_FAILED,
+                        'description' => ezi18n( 'kernel/shop', "eZExchangeRatesUpdateHandler: you should reimplement 'requestRates' method" ) );
+
+        return $error;
     }
 
     var $RateList;

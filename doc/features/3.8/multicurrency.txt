@@ -31,11 +31,11 @@ following attributes:
 |                   | rates from the Internet                                  |
 | custom_rate_value | a rate typed by merchant manually                        |
 | rate_factor       | allows to support a kind of virtual rate. It applies for |
-|                   | 'auto' rates only. So the real rate is calculated as:    |
-|                   | rate = auto_rate_value * rate_factor                     |
+|                   | 'auto' and 'custom' rates. So the real rate is calculated|
+|                   | as: rate = auto_rate(or curstom_rate) * rate_factor      |
 | rate_value        | a functional attribute.                                  |
-|                   | It returns either 'custom_rate_value' if it set of       |
-|                   | 'auto_rate_value * rate_factor'                          |
+|                   | It returns the value with is used in conversions:        |
+|                   | ( auto_rate(or curstom_rate) * rate_factor               |
 +-------------------+----------------------------------------------------------+
 
 1.2 Usage
@@ -202,11 +202,11 @@ Let's say we've created some currencies with rates against 'EUR'.
 +----------------+-------------+-----------+--------+------------+
 | Currency code  | custom rate | auto rate | factor | real rate  |
 |----------------+-----------------------------------------------|
-| EUR            | 1.0000      | 0.0000    | 0.0000 | 1.0000     |
+| EUR            | 1.0000      | 0.0000    | 1.0000 | 1.0000     |
 |----------------|-------------|-----------|--------|------------|
-| USD            | 1.2000      | 0.0000    | 0.0000 | 1.2000     |
+| USD            | 1.2000      | 0.0000    | 1.0000 | 1.2000     |
 |----------------|-------------|-----------|--------|------------|
-| UAH            | 6.2000      | 0.0000    | 0.0000 | 6.2000     |
+| UAH            | 6.2000      | 0.0000    | 1.0000 | 6.2000     |
 |----------------|-------------|-----------|--------|------------|
 | NOK            | 0.0000      | 6.0000    | 1.2000 | 7.2000     |
 +----------------+-------------+-----------+--------+------------+
@@ -328,6 +328,10 @@ To achive this you should:
 |                       |                            | eZ publish installatio                |
 |                       | ExtensionDirectories       | Where to look for handlers withing    |
 |                       |                            | extensions                            |
+|                       | BaseCurrency               | The base currency for the 'auto' rates|
+|                       |                            | If exchangeratehandler returns rates  |
+|                       |                            | against other currency then cross-    |
+|                       |                            | rates will be calculated.
 |-----------------------+----------------------------+---------------------------------------+
 
 

@@ -34,15 +34,15 @@ include_once( 'kernel/classes/ezpreferences.php' );
 include_once( 'kernel/shop/classes/ezcurrencydata.php' );
 include_once( 'kernel/shop/classes/ezshopfunctions.php' );
 
-function reloadWithOffset( &$module )
-{
-    $offset = $module->hasActionParameter( 'Offset' ) ? $module->actionParameter( 'Offset' ) : false;
-    if ( $offset )
-        $module->redirectTo( $module->functionURI( 'currencylist' ) . "/(offset)/$offset" );
-}
-
 $module =& $Params['Module'];
-$offset = $Params['Offset'];
+$offset =& $Params['Offset'];
+
+$error = false;
+
+if ( $module->hasActionParameter( 'Offset' ) )
+{
+    $offset = $module->actionParameter( 'Offset' );
+}
 
 if ( $module->isCurrentAction( 'NewCurrency' ) )
 {
@@ -89,23 +89,28 @@ else if ( $module->isCurrentAction( 'ApplyChanges' ) )
     }
     $db->commit();
 
-    reloadWithOffset( $module );
+    $error = array( 'code' => 0,
+                    'description' => ezi18n( 'kernel/shop', 'Changes were stored successfully.' ) );
 }
 else if ( $module->isCurrentAction( 'UpdateAutoprices' ) )
 {
-    eZShopFunctions::updateAutoprices();
+    $error = eZShopFunctions::updateAutoprices();
 
     include_once( 'kernel/classes/ezcontentcachemanager.php' );
     eZContentCacheManager::clearAllContentCache();
-
-    reloadWithOffset( $module );
 }
 else if ( $module->isCurrentAction( 'UpdateAutoRates' ) )
 {
-    eZShopFunctions::updateAutoRates();
-    reloadWithOffset( $module );
+    $error = eZShopFunctions::updateAutoRates();
 }
 
+if ( $error !== false )
+{
+    if ( $error['code'] != 0 )
+        $error['style'] = 'message-error';
+    else
+        $error['style'] = 'message-feedback';
+}
 
 switch ( eZPreferences::value( 'currencies_list_limit' ) )
 {
@@ -126,6 +131,8 @@ $tpl->setVariable( 'currency_list', $currencyList );
 $tpl->setVariable( 'currency_list_count', $currencyCount );
 $tpl->setVariable( 'limit', $limit );
 $tpl->setVariable( 'view_parameters', $viewParameters );
+$tpl->setVariable( 'show_error_message', $error !== false );
+$tpl->setVariable( 'error', $error );
 
 $Result = array();
 $Result['path'] = array( array( 'text' => ezi18n( 'kernel/shop', 'Available currency list' ),
