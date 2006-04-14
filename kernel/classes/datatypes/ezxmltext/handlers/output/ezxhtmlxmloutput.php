@@ -831,7 +831,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                             if ( $renderParagraphInTableCells )
                                 $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, 0, 0 );
                             else
-                                $cellContent .= $this->renderXHTMLSection( $tpl, $tableCellChildren[0], 0, 0 );
+                                $cellContent .= $this->renderXHTMLParagraph( $tpl, $tableCellChildren[0], 0, 0 );
                         }
                         else
                             $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, 0, 0 );

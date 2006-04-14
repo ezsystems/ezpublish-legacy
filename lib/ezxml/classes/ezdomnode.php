@@ -806,12 +806,37 @@ class eZDOMNode
     */
     function textContent( )
     {
-        $children = $this->children();
+        $children =& $this->Children;
 
-        if ( count( $children ) == 1 )
+        if ( count( $children ) == 1 && $children[0]->Type == EZ_XML_NODE_TEXT )
+        {
             return $children[0]->content();
+        }
         else
-            return false;
+        {
+            return $this->collectTextContent( $this );
+        }
+    }
+
+    function collectTextContent( &$element )
+    {
+        $ret = '';
+        if ( $element->Type == EZ_XML_NODE_TEXT )
+        {
+            $ret = $element->content();
+        }
+        else
+        {
+            if ( count( $element->Children ) > 0 )
+            {
+                foreach( array_keys( $element->Children ) as $key )
+                {
+                    $child =& $element->Children[$key];
+                    $ret .= $this->collectTextContent( $child );
+                }
+            }
+        }
+        return $ret;
     }
 
     /*!
