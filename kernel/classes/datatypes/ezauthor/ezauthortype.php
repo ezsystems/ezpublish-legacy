@@ -113,6 +113,15 @@ class eZAuthorType extends eZDataType
                 }
             }
         }
+        else
+        {
+            if ( $contentObjectAttribute->validateIsRequired() )
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                     'At least one author is required.' ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
+        }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }
 
@@ -185,19 +194,22 @@ class eZAuthorType extends eZDataType
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        $authorIDArray = $http->postVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) );
-        $authorNameArray = $http->postVariable( $base . "_data_author_name_" . $contentObjectAttribute->attribute( "id" ) );
-        $authorEmailArray = $http->postVariable( $base . "_data_author_email_" . $contentObjectAttribute->attribute( "id" ) );
-
-        $author = new eZAuthor( );
-
-        $i = 0;
-        foreach ( $authorIDArray as $id )
+        if ( $http->hasPostVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
-            $author->addAuthor( $authorIDArray[$i], $authorNameArray[$i], $authorEmailArray[$i] );
-            $i++;
+            $authorIDArray = $http->postVariable( $base . "_data_author_id_" . $contentObjectAttribute->attribute( "id" ) );
+            $authorNameArray = $http->postVariable( $base . "_data_author_name_" . $contentObjectAttribute->attribute( "id" ) );
+            $authorEmailArray = $http->postVariable( $base . "_data_author_email_" . $contentObjectAttribute->attribute( "id" ) );
+
+            $author = new eZAuthor( );
+
+            $i = 0;
+            foreach ( $authorIDArray as $id )
+            {
+                $author->addAuthor( $authorIDArray[$i], $authorNameArray[$i], $authorEmailArray[$i] );
+                $i++;
+            }
+            $contentObjectAttribute->setContent( $author );
         }
-        $contentObjectAttribute->setContent( $author );
         return true;
     }
 
@@ -218,7 +230,10 @@ class eZAuthorType extends eZDataType
             {
                 $author =& $contentObjectAttribute->content( );
                 $postvarname = "ContentObjectAttribute" . "_data_author_remove_" . $contentObjectAttribute->attribute( "id" );
+                if ( !$http->hasPostVariable( $postvarname ) )
+                    break;
                 $array_remove = $http->postVariable( $postvarname );
+
                 $author->removeAuthors( $array_remove );
                 $contentObjectAttribute->setContent( $author );
             }break;
