@@ -3718,6 +3718,17 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         $db =& eZDB::instance();
         $db->begin();
+
+        // Update children, part #1 (ezcontentobject_tree table)
+        $oldPathStringLength = strlen( $oldPathString );
+        $newPathStringText = $db->escapeString( $newPathString );
+        $oldPathStringText = $db->escapeString( $oldPathString );
+        $subStringQueryPart = $db->subString( 'path_identification_string', $oldPathStringLength + 1 );
+        $newPathStringQueryPart = $db->concatString( array( "'$newPathStringText'", $subStringQueryPart ) );
+        $sql = "UPDATE ezcontentobject_tree SET path_identification_string = $newPathStringQueryPart " .
+               "WHERE  path_identification_string LIKE '$oldPathStringText/%'";
+        $db->query( $sql );
+
         if ( get_class( $existingUrlAlias ) == 'ezurlalias' )
         {
             $alias =& $existingUrlAlias;
@@ -3765,21 +3776,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $this->setAttribute( 'path_identification_string', $newPathString );
         $this->store();
 
-        $oldPathStringLength = strlen( $oldPathString );
-        $db =& eZDB::instance();
-        $newPathStringText = $db->escapeString( $newPathString );
-        $oldPathStringText = $db->escapeString( $oldPathString );
-        $subStringQueryPart = $db->subString( 'path_identification_string', $oldPathStringLength + 1 );
-        $newPathStringQueryPart = $db->concatString( array( "'$newPathStringText'", $subStringQueryPart ) );
-        // Update children
-        $sql = "UPDATE ezcontentobject_tree
-SET
-    path_identification_string = $newPathStringQueryPart
-WHERE
-    path_identification_string LIKE '$oldPathStringText/%'";
-
-        $db->query( $sql );
-
+        // Update children, part #2 (ezurlalias table)
+        // This part is separated from the first one to avoid deadlocks in mysql.
         eZURLAlias::updateChildAliases( $newPathString, $oldPathString );
 
         eZURLAlias::expireWildcards();

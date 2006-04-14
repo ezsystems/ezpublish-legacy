@@ -420,20 +420,36 @@ class eZContentObject extends eZPersistentObject
         $languageID =(int) eZContentLanguage::idByLocale( $languageCode );
 
         $db->begin();
-        $db->query( "DELETE FROM ezcontentobject_name WHERE contentobject_id = '$objectID'
-                     AND content_version = '$versionNum' AND content_translation ='$languageCode'" );
-        $db->query( "INSERT INTO ezcontentobject_name( contentobject_id,
-                                                       name,
-                                                       content_version,
-                                                       content_translation,
-                                                       real_translation,
-                                                       language_id )
-                              VALUES( '$objectID',
-                                      '$objectName',
-                                      '$versionNum',
-                                      '$languageCode',
-                                      '$languageCode',
-                                      '$languageID' )" );
+
+        // Check if name is already set before setting/changing it.
+        // This helps to avoid deadlocks in mysql: a pair of DELETE/INSERT might cause deadlock here
+        // in case of concurrent execution.
+        $rows = $db->arrayQuery( "SELECT COUNT(*) AS count FROM ezcontentobject_name WHERE contentobject_id = '$objectID'
+                                 AND content_version = '$versionNum' AND content_translation ='$languageCode'" );
+        if ( $rows[0]['count'] )
+        {
+            $db->query( "UPDATE ezcontentobject_name SET name='$objectName'
+                         WHERE
+                         contentobject_id = '$objectID'  AND
+                         content_version = '$versionNum' AND
+                         content_translation ='$languageCode'" );
+        }
+        else
+        {
+            $db->query( "INSERT INTO ezcontentobject_name( contentobject_id,
+                                                           name,
+                                                           content_version,
+                                                           content_translation,
+                                                           real_translation,
+                                                           language_id )
+                                VALUES( '$objectID',
+                                        '$objectName',
+                                        '$versionNum',
+                                        '$languageCode',
+                                        '$languageCode',
+                                        '$languageID' )" );
+        }
+
         $db->commit();
     }
 

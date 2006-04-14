@@ -41,6 +41,8 @@ eZXML:
 - Fixed bug: Wrong headers numbering in eztoc template operator.
 - Fixed bug: Specifying non-existent classes only in 'ShowClasses' setting causes 
   'content structure' menu show all classes.
+- Fixed some mysql deadlocks that may have happened when several users
+  were concurrently publishing something.
 
 *INI settings:
 - Added site.ini:[shopSettings].ClearBasketOnLogout setting:
