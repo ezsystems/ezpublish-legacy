@@ -251,15 +251,22 @@ class eZAuthorType extends eZDataType
     }
 
     /*!
-     Returns the integer value.
+     Returns the string value.
     */
     function title( &$contentObjectAttribute )
     {
         $author =& $contentObjectAttribute->content( );
-
-        $value = $author->attribute( $name );
-
-        return $value;
+        $name = $author->attribute( 'name' );
+        if ( trim( $name ) == '' )
+        {
+            $authorList = $author->attribute( 'author_list' );
+            if ( is_array( $authorList ) and isset( $authorList[0]['name'] ) )
+            {
+                $name = $authorList[0]['name']; // Get the first name of Auhtors
+                $author->setName( $name );
+            }
+        }
+        return $name;
     }
 
     /*!

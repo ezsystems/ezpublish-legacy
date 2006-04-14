@@ -122,7 +122,7 @@ class eZAuthor
             return false;
     }
 
-   function &attribute( $name )
+    function &attribute( $name )
     {
         switch ( $name )
         {
