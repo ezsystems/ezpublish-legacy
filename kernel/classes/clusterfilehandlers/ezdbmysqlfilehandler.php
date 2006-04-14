@@ -413,9 +413,6 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
 
         if ( !mysql_select_db( STORAGE_DB, $this->db ) )
             $this->_die( "Unable to connect to storage database." );
-
-        if ( !mysql_query( 'SET AUTOCOMMIT=0', $this->db ) )
-            $this->_die( "Cannot disable autocommit on storage database." );
     }
 
     function _copy( $srcFilePath, $dstFilePath )
@@ -794,7 +791,7 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
     {
         if ( !is_readable( $filePath ) )
         {
-            eZDebug::writeError( "Unable to store file '$filePath'.", 'ezdbmysqlfilehandler' );
+            eZDebug::writeError( "Unable to store file '$filePath' since it is not readable.", 'ezdbmysqlfilehandler' );
             return;
         }
 
@@ -873,7 +870,11 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
         $sql .= "('$datatype', '$filePath', '$filePathHash', '$scope', $contentLength, '$curTime')";
 
         if ( !$res = mysql_query( $sql, $this->db ) )
-            $this->_die( "Failed to store file metadata.", $sql );
+        {
+            eZDebug::writeNotice( "Failed to insert file metadata while storing contents. Possible race condition: " . $sql );
+            mysql_query( 'ROLLBACK', $this->db );
+            return;
+        }
         $fileID = mysql_insert_id( $this->db );
 
         // Insert file contents.
@@ -885,7 +886,11 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
             $sql .= $fileID . ", '" . mysql_real_escape_string( $chunk ) . "')";
 
             if ( !mysql_query( $sql, $this->db ) )
-                $this->_die( "Failed to insert file data row.", $sql );
+            {
+                eZDebug::writeNotice( "Failed to insert file data row while storing contents. Possible race condition: " . $sql );
+                mysql_query( 'ROLLBACK', $this->db );
+                return;
+            }
         }
 
         // End transaction.
