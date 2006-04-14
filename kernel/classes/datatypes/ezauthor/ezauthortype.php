@@ -261,7 +261,7 @@ class eZAuthorType extends eZDataType
         if ( trim( $name ) == '' )
         {
             $authorList = $author->attribute( 'author_list' );
-            if ( is_array( $authorList ) and count( $authorList ) > 0 and isset( $authorList[0]['name'] ) )
+            if ( is_array( $authorList ) and isset( $authorList[0]['name'] ) )
             {
                 $name = $authorList[0]['name']; // Get the first name of Auhtors
                 $author->setName( $name );
