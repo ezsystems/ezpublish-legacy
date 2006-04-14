@@ -325,10 +325,21 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         $tagChildren = $tag->children();
         foreach ( $tagChildren as $childTag )
         {
-            if ( $tag->name() == "literal" )
-                $childTagText .= $childTag->content();
-            else
-                $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel );
+            switch( $tagName )
+            {
+                case "literal":
+                {
+                    $childTagText .= $childTag->content();
+                    break;
+                }
+            // Tables and lists are rendered separately
+                case "table":
+                case "ul":
+                case "ol":
+                    break;
+                default:
+                    $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel );
+            }
         }
 
 
