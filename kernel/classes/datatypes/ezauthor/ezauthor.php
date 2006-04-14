@@ -121,7 +121,7 @@ class eZAuthor
         return in_array( $name, $this->attributes() );
     }
 
-   function &attribute( $name )
+    function &attribute( $name )
     {
         switch ( $name )
         {
