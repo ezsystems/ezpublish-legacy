@@ -346,9 +346,24 @@ class eZSimplifiedXMLEditOutput
         {
             $next =& $element->nextSibling();
             if ( $next )
+            {
                 $ret = "\n\n";
+            }
             else
+            {
                 $ret = "";
+                $parent =& $element->parentNode;
+                while( $parent && $parent->nodeName == 'section' )
+                {
+                    $next =& $parent->nextSibling();
+                    if ( $next )
+                    {
+                        $ret = "\n\n";
+                        break;
+                    }
+                    $parent =& $parent->parentNode;
+                }
+            }
         }
         return $ret;
     }
