@@ -40,6 +40,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     {
         $this->eZXMLOutputHandler( $xmlData, $aliasedType );
         $this->ContentObjectAttribute = $contentObjectAttribute;
+        $this->ObjectAttributeId = $contentObjectAttribute->attribute( 'id' );
     }
 
     /*!
@@ -206,6 +207,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     {
         $output = "";
         eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', "level " . $section->toString( 0 ) );
+
+        // Reset header counter
+        $this->HeaderCount[$currentSectionLevel] = 0;
+
         foreach ( $section->children() as $sectionNode )
         {
             if ( $tdSectionLevel == null )
@@ -488,16 +493,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                             $ini =& eZINI::instance( 'content.ini' );
 
                             $isInlineTagList =& $ini->variable( 'CustomTagSettings', 'IsInline' );
-
-                            foreach ( array_keys ( $isInlineTagList ) as $key )
+                            if ( isset( $isInlineTagList[$name] ) )
                             {
-                                $isInlineTagValue =& $isInlineTagList[$key];
-
-                                if ( $isInlineTagValue )
-                                {
-                                    if ( $name == $key )
-                                        $isInline = true;
-                                }
+                                if ( $isInlineTagList[$name] == 'true' )
+                                    $isInline = true;
                             }
                         }
                         else
@@ -1040,16 +1039,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $ini =& eZINI::instance( 'content.ini' );
 
                 $isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
-                foreach ( array_keys ( $isInlineTagList ) as $key )
-                {
-                    $isInlineTagValue =& $isInlineTagList[$key];
-                    if ( $isInlineTagValue )
-                    {
-                        if ( $name == $key )
-                            $isInline = true;
-                    }
-                }
 
+                if ( isset( $isInlineTagList[$name] ) )
+                {
+                    if ( $isInlineTagList[$name] == 'true' )
+                        $isInline = true;
+                }
+                
                 if ( $isInline )
                 {
                     $childContent = $childTagText;
@@ -1114,24 +1110,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     
              $level = $currentSectionLevel;
     
-             if ( isset( $this->HeaderCount[$level] ) )
-             {
-                 $nextLevel = $level + 1;
-                 while( isset( $this->HeaderCount[$nextLevel] ) ) 
-                 {
-                     $this->HeaderCount[$nextLevel] = 0;
-                     $nextLevel++;
-                 }
-             }
-             else
-             {
-                 $this->HeaderCount[$level] = 0;
-             }
-    
              $this->HeaderCount[$level]++;
     
              $i = 1;
-             $headerAutoName = "";
+             $headerAutoName = $this->ObjectAttributeId . '_';
              while ( $i <= $level )
              {
                 if ( $i > 1 )
@@ -1197,6 +1179,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     var $LinkParameters = array();
 
     var $HeaderCount = array();
+
+    var $ObjectAttributeId;
 }
 
 ?>

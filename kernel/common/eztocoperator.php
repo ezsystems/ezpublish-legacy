@@ -78,9 +78,9 @@ class eZTOCOperator
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
         $dom = $namedParameters['dom'];
-
         if ( get_class( $dom ) == 'ezcontentobjectattribute' )
         {
+            $this->ObjectAttributeId = $dom->attribute( 'id' );
             $content = $dom->attribute( 'content' );
             $xmlData = $content->attribute( 'xml_data' );
 
@@ -91,6 +91,8 @@ class eZTOCOperator
             $tocText .= '<div class="toc-design">';
             if ( is_object( $domTree ) )
             {
+                $this->HeaderCounter = array();
+
                 $rootNode = $domTree->root();
                 $tocText .= '<ul>';
                 $tocText .= $this->handleSection( $rootNode );
@@ -104,6 +106,9 @@ class eZTOCOperator
 
     function handleSection( $sectionNode, $sectionLevel = 0 )
     {
+        // Reset level counter
+        $this->HeaderCounter[$sectionLevel] = 0;
+
         $tocText = '';
         foreach ( $sectionNode->children() as $child )
         {
@@ -111,12 +116,7 @@ class eZTOCOperator
             {
                 $level = $sectionLevel;
 
-                if ( !isset( $GLOBALS['eZTOCOperatorHeaderCounter'][$level] ) )
-                {
-                    $GLOBALS['eZTOCOperatorHeaderCounter'][$level] = 0;
-                }
-
-                $GLOBALS['eZTOCOperatorHeaderCounter'][$level] += 1;
+                $this->HeaderCounter[$level] += 1;
                 $i = 1;
                 $headerAutoName = "";
                 while ( $i <= $level )
@@ -124,10 +124,10 @@ class eZTOCOperator
                     if ( $i > 1 )
                     $headerAutoName .= "_";
 
-                    $headerAutoName .= $GLOBALS['eZTOCOperatorHeaderCounter'][$i];
+                    $headerAutoName .= $this->HeaderCounter[$i];
                     $i++;
                 }
-                $tocText .= '<li><a href="#' . $headerAutoName . '">' . $child->textContent() . '</a></li>';
+                $tocText .= '<li><a href="#' . $this->ObjectAttributeId . '_' . $headerAutoName . '">' . $child->textContent() . '</a></li>';
             }
 
             if ( $child->name() == 'section' )
@@ -137,8 +137,12 @@ class eZTOCOperator
                 $tocText .= '</ul>';
             }
         }
+
         return $tocText;
     }
+
+    var $HeaderCounter = array();
+    var $ObjectAttributeId;
 }
 
 ?>
