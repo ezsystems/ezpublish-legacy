@@ -39,6 +39,8 @@ eZXML:
 - Fixed bug: Wrong headers numbering in automatic XML headers numeration.
 - Fixed bug: Tables and lists are rendered 2 times in XML->XHTML output.
 - Fixed bug: Wrong headers numbering in eztoc template operator.
+- Fixed bug: Specifying non-existent classes only in 'ShowClasses' setting causes 
+  'content structure' menu show all classes.
 
 *INI settings:
 - Added site.ini:[shopSettings].ClearBasketOnLogout setting:

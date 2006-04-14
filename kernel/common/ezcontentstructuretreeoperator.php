@@ -129,6 +129,10 @@ class eZContentStructureTreeOperator
 
         // class filter
         $classCondition = eZContentObjectTreeNode::createClassFilteringSQLString( $params['ClassFilterType'], $params['ClassFilterArray'] );
+        if ( $classCondition === false )
+        {
+            return $nodeListArray;
+        }
 
         // permissions
         $limitationParams = false;
@@ -220,7 +224,7 @@ class eZContentStructureTreeOperator
     */
     function &contentStructureTree( $rootNodeID, &$classFilter, $maxDepth, $maxNodes, &$sortArray, $fetchHidden, $unfoldNodeID )
     {
-        $contentTree =& eZContentStructureTreeOperator::initContentStructureTree( $rootNodeID, $fetchHidden );
+        $contentTree =& eZContentStructureTreeOperator::initContentStructureTree( $rootNodeID, $fetchHidden, $classFilter );
 
         // if root node is invisible then no point to fetch children
         //if ( count( $contentTree ) == 0 )
@@ -384,43 +388,52 @@ class eZContentStructureTreeOperator
         Initializes a tree: creates root node.
      \return a tree with one node and empty children subtree.
     */
-    function &initContentStructureTree( $rootNodeID, $fetchHidden )
+    function &initContentStructureTree( $rootNodeID, $fetchHidden, $classFilter = false )
     {
         // create initial subtree with root node and empty children.
+        $nodes = false;
         $rootTreeNode = eZContentObjectTreeNode::fetch( $rootNodeID );
         if( $rootTreeNode && $rootTreeNode->canRead() )
         {
-            $contentObject =& $rootTreeNode->attribute( 'object' );
-
             if ( !$fetchHidden && ( $rootTreeNode->attribute( 'is_hidden' ) || $rootTreeNode->attribute( 'is_invisible' ) ) )
             {
                 $nodes = false;
             }
             else
             {
-                $rootNode = array( 'node' => array( 'node_id' => $rootTreeNode->attribute( 'node_id' ),
-                                                    'path_identification_string' => $rootTreeNode->attribute( 'path_identification_string' ),
-                                                    'children_count' => $rootTreeNode->attribute( 'children_count' ),
-                                                    'sort_array' => $rootTreeNode->attribute( 'sort_array' ),
-                                                    'path_string' => $rootTreeNode->attribute( 'path_string' ),
-                                                    'depth' => $rootTreeNode->attribute( 'depth' ),
-                                                    'is_hidden' => $rootTreeNode->attribute( 'is_hidden' ),
-                                                    'is_invisible' => $rootTreeNode->attribute( 'is_invisible' ) ),
-                                   'object' => array( 'id' => $contentObject->attribute( 'id' ),
-                                                      'name' => $contentObject->attribute( 'name' ),
-                                                      'class_identifier' => $contentObject->attribute( 'class_identifier' ),
-                                                      'class_name' => $contentObject->attribute('class_name'),
-                                                      'published' => $contentObject->attribute( 'published' ),
-                                                      'is_container' => true,
-                                                      'language_js_array' => eZContentLanguage::jsArrayByMask( $contentObject->attribute( 'language_mask' ) ) ) );
+                $contentObject =& $rootTreeNode->attribute( 'object' );
 
-                $nodes = array( 'parent_node' => &$rootNode,
-                                'children' => array() );
+                $viewNodeAllowed = true;
+                if ( is_array( $classFilter ) && count( $classFilter ) > 0 )
+                {
+                    $contentClassIdentifier =& $contentObject->attribute( 'class_identifier' );
+
+                    if ( !in_array( $contentClassIdentifier, $classFilter ) )
+                        $viewNodeAllowed = false;
+                }
+
+                if ( $viewNodeAllowed )
+                {
+                    $rootNode = array( 'node' => array( 'node_id' => $rootTreeNode->attribute( 'node_id' ),
+                                                        'path_identification_string' => $rootTreeNode->attribute( 'path_identification_string' ),
+                                                        'children_count' => $rootTreeNode->attribute( 'children_count' ),
+                                                        'sort_array' => $rootTreeNode->attribute( 'sort_array' ),
+                                                        'path_string' => $rootTreeNode->attribute( 'path_string' ),
+                                                        'depth' => $rootTreeNode->attribute( 'depth' ),
+                                                        'is_hidden' => $rootTreeNode->attribute( 'is_hidden' ),
+                                                        'is_invisible' => $rootTreeNode->attribute( 'is_invisible' ) ),
+                                       'object' => array( 'id' => $contentObject->attribute( 'id' ),
+                                                          'name' => $contentObject->attribute( 'name' ),
+                                                          'class_identifier' => $contentObject->attribute( 'class_identifier' ),
+                                                          'class_name' => $contentObject->attribute('class_name'),
+                                                          'published' => $contentObject->attribute( 'published' ),
+                                                          'is_container' => true,
+                                                          'language_js_array' => eZContentLanguage::jsArrayByMask( $contentObject->attribute( 'language_mask' ) ) ) );
+
+                    $nodes = array( 'parent_node' => &$rootNode,
+                                    'children' => array() );
+                }
             }
-        }
-        else
-        {
-            $nodes = false;
         }
 
         return $nodes;
