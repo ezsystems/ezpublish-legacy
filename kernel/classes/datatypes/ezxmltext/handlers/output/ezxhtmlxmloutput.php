@@ -532,6 +532,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel  );
                     }
                 }break;
+
+                // Tables and lists are rendered separately
+                case "table":
+                case "ul":
+                case "ol":
+                    break;
+
                 default :
                     $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, $isChildOfLinkTag );
             }
