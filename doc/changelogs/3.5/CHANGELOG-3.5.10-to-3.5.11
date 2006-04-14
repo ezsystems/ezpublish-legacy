@@ -32,6 +32,9 @@ Changes from 3.5.10 to 3.5.11
   ( Merged from stable/3.7 ( 3.7.6 ) rev. 15657 )
 - Fixed bug #8100: Sorting of classes in Multiplexer Event selection list.
   ( Merged trunk ( 3.8.0beta2 ) rev. 15661 )
+- Fixed bug: Specifying non-existent classes only in 'ShowClasses' setting causes 
+  'content structure' menu show all classes.
+  ( Manually merged from trunk (3.8.0beta2) rev. 15691 )
 
 *INI settings:
 - Added site.ini:[ShopSettings].ClearBasketOnLogout setting:
