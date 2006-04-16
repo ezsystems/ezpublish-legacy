@@ -192,7 +192,7 @@ To start using multicurrency features you have to:
 
 - add to the 'settings/siteaccess/<user_site_access>/toolbar.ini.append.php'
   [Toolbar_right]
-  Tool[]=preferredcurrency
+  Tool[]=preferred_currency
 
 - create some objects of that class;
 
