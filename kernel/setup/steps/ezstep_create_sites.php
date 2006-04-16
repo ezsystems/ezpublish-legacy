@@ -594,6 +594,18 @@ class eZStepCreateSites extends eZStepInstaller
         $requires = $dependecies['requires'];
         $requiredPackages = array();
 
+        // Include setting files
+        $settingsFiles = $sitePackage->attribute( 'settings-files' );
+        foreach( $settingsFiles as $settingsFileName )
+        {
+            include_once( $sitePackage->path() . '/settings/' . $settingsFileName );
+        }
+
+        // Call user function for additional setup tasks.
+        if ( function_exists( 'eZSitePreInstall' ) )
+            eZSitePreInstall( $db );
+
+
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 
         // Make sure objects use the selected main language instead of eng-GB
@@ -725,6 +737,7 @@ id $inSql";
         // Make sure priority list is changed to the new chosen languages
         eZContentLanguage::setPrioritizedLanguages( $prioritizedLanguages );
 
+
         if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
         {
             $user = eZUser::instance( 14 );  // Must be initialized to make node assignments work correctly
@@ -852,13 +865,6 @@ id $inSql";
         $siteINIStored = false;
         $siteINIAdminStored = false;
         $designINIStored = false;
-
-        // Include setting files
-        $settingsFiles = $sitePackage->attribute( 'settings-files' );
-        foreach( $settingsFiles as $settingsFileName )
-        {
-            include_once( $sitePackage->path() . '/settings/' . $settingsFileName );
-        }
 
         if ( function_exists( 'eZSiteINISettings' ) )
             $extraSettings = eZSiteINISettings( $parameters );
@@ -1096,10 +1102,6 @@ id $inSql";
             }
         }
 
-        // Call user function for additional setup tasks.
-        if ( function_exists( 'eZSiteCustomActions' ) )
-            eZSiteCustomActions( $parameters );
-
         $publishAdmin = false;
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
         $userAccount = eZUser::fetch( 14 );
@@ -1171,6 +1173,10 @@ id $inSql";
                 return false;
             }
         }
+
+        // Call user function for additional setup tasks.
+        if ( function_exists( 'eZSitePostInstall' ) )
+            eZSitePostInstall( $db, $parameters );
 
         return true;
     }
