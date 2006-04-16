@@ -442,6 +442,32 @@ MatchFile=edit/review.tpl
 Subdir=templates
 Match[class_identifier]=review
 
+# Multiprice product templates
+
+[multiprice_product_full]
+Source=node/view/full.tpl
+MatchFile=full/multiprice_product.tpl
+Subdir=templates
+Match[class_identifier]=multiprice_product
+
+[multiprice_product_line]
+Source=node/view/line.tpl
+MatchFile=line/multiprice_product.tpl
+Subdir=templates
+Match[class_identifier]=multiprice_product
+
+[multiprice_product_embed]
+Source=content/view/embed.tpl
+MatchFile=embed/multiprice_product.tpl
+Subdir=templates
+Match[class_identifier]=multiprice_product
+
+[multiprice_product_listitem]
+Source=node/view/listitem.tpl
+MatchFile=listitem/multiprice_product.tpl
+Subdir=templates
+Match[class_identifier]=multiprice_product
+
 # Gallery templates
 
 [gallery_full]
@@ -578,6 +604,11 @@ Subdir=templates
 [price]
 Source=content/datatype/view/ezprice.tpl
 MatchFile=datatype/price.tpl
+Subdir=templates
+
+[multiprice]
+Source=content/datatype/view/ezmultiprice.tpl
+MatchFile=datatype/multiprice.tpl
 Subdir=templates
 
 [matrix]

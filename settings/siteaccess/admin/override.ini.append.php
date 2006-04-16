@@ -101,6 +101,12 @@ MatchFile=admin_preview/product.tpl
 Subdir=templates
 Match[class_identifier]=product
 
+[multiprice_product]
+Match[class_identifier]=multiprice_product
+Source=node/view/admin_preview.tpl
+MatchFile=admin_preview/multiprice_product.tpl
+Subdir=templates
+
 [review]
 Source=node/view/admin_preview.tpl
 MatchFile=admin_preview/review.tpl
