@@ -1,0 +1,9 @@
+*Title: Improved Sendmail transport
+
+*Original author: Dirk Schmedding
+
+*Documentation:
+It's possible to set additional sendmail options via ini-file:
+[site.ini].MailSettings.SendmailOptions[]=<option1>
+[site.ini].MailSettings.SendmailOptions[]=....
+[site.ini].MailSettings.SendmailOptions[]=<optionN>

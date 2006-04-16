@@ -65,6 +65,7 @@ class eZMail
         $this->BodyText = false;
         $this->ExtraHeaders = array();
         $this->TextCodec = false;
+        $this->MessageID = false;
 
         // Sets some default values
         include_once( 'lib/version.php' );
@@ -74,7 +75,8 @@ class eZMail
         $this->ContentType = array( 'type' => 'text/plain',
                                     'charset' => eZTextCodec::internalCharset(),
                                     'transfer-encoding' => '8bit',
-                                    'disposition' => 'inline' );
+                                    'disposition' => 'inline',
+                                    'boundary' => false );
         $this->UserAgent = "eZ publish, Version $version";
 
         $ini =& eZINI::instance();
@@ -266,7 +268,7 @@ class eZMail
      will overwrite the old value.
     */
     function setContentType( $type = false, $charset = false,
-                             $transferEncoding = false, $disposition = false )
+                             $transferEncoding = false, $disposition = false, $boundary = false )
     {
         if ( $type )
             $this->ContentType['type'] = $type;
@@ -276,6 +278,8 @@ class eZMail
             $this->ContentType['transfer-encoding'] = $transferEncoding;
         if ( $disposition )
             $this->ContentType['disposition'] = $disposition;
+        if ( $boundary )
+            $this->ContentType['boundary'] = $boundary;
     }
 
     /*!
@@ -693,8 +697,16 @@ class eZMail
         if ( !in_array( 'content-type', $excludeHeaders ) )
         {
             $charset = $this->usedCharset();
+            if ( $this->ContentType['boundary'] )
+            {
             $headers[] = array( 'name' => 'Content-Type',
-                                'content' => array( $this->ContentType['type'], 'charset='. $charset ) );
+                                'content' => array( $this->ContentType['type'], 'charset='. $charset, 'boundary="'. $this->ContentType['boundary'] . '"' ) );
+            }
+            else
+            {
+                $headers[] = array( 'name' => 'Content-Type',
+                                    'content' => array( $this->ContentType['type'], 'charset='. $charset ) );
+            }
             $headerNames[] = 'content-type';
         }
         if ( !in_array( 'content-transfer-encoding', $excludeHeaders ) )
@@ -714,6 +726,15 @@ class eZMail
             $headers[] = array( 'name' => 'User-Agent',
                                 'content' => $this->UserAgent );
             $headerNames[] = 'user-agent';
+        }
+        if ( !in_array( 'message-id', $excludeHeaders ) )
+        {
+            if ( $this->MessageID )
+            {
+                $headers[] = array( 'name' => 'Message-Id',
+                                    'content' => $this->MessageID );
+                $headerNames[] = 'message-id';
+            }
         }
 
         $extraHeaders = $this->ExtraHeaders;
@@ -869,6 +890,7 @@ class eZMail
     var $BodyText;
     var $ExtraHeaders;
     var $TextCodec;
+    var $MessageID;
 }
 
 ?>

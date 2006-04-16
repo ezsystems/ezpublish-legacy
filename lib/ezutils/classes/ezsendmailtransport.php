@@ -56,23 +56,33 @@ class eZSendmailTransport extends eZMailTransport
     function sendMail( &$mail )
     {
         $ini =& eZINI::instance();
-        $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
+        $sendmailOptions = '';
+        $emailFrom = $mail->sender();
+        $emailSender = $emailFrom['email'];
+        if ( !$emailSender || count( $emailSender) <= 0 )
+            $emailSender = $ini->variable( 'MailSettings', 'EmailSender' );
         if ( !$emailSender )
             $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
         if ( !eZMail::validate( $emailSender ) )
             $emailSender = false;
         $isSafeMode = ini_get( 'safe_mode' );
+
+        $sendmailOptionsArray = $ini->variable( 'MailSettings', 'SendmailOptions' );
+        if( is_array($sendmailOptionsArray) )
+            $sendmailOptions = implode( ' ', $sendmailOptionsArray );
+        elseif( !is_string($sendmailOptionsArray) )
+            $sendmailOptions = $sendmailOptionsArray;
+        if ( !$isSafeMode 
+             and $emailSender )
+            $sendmailOptions += ' -f'. $emailSender;
+
         if ( $isSafeMode and
              $emailSender and
              $mail->sender() == false )
             $mail->setSenderText( $emailSender );
         $message = $mail->body();
         $extraHeaders = $mail->headerText( array( 'exclude-headers' => array( 'To', 'Subject' ) ) );
-        if ( $isSafeMode or
-             !$emailSender )
-            return mail( $mail->receiverEmailText(), $mail->subject(), $message, $extraHeaders );
-        else
-            return mail( $mail->receiverEmailText(), $mail->subject(), $message, $extraHeaders, '-f' . $emailSender );
+        return mail( $mail->receiverEmailText(), $mail->subject(), $message, $extraHeaders, $sendmailOptions );
     }
 }
 
