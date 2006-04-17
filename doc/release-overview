@@ -622,3 +622,9 @@ Datatype branch:
 - Revision=15549
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.0beta1
 - Date 4-Apr-2006
+
+3.8.0beta2:
+- From revision=15728
+- Revision=15729
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.0beta2
+- Date 17-Apr-2006
