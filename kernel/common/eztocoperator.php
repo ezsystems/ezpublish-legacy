@@ -87,6 +87,7 @@ class eZTOCOperator
             $xml = new eZXML();
             $domTree =& $xml->domTree( $xmlData );
 
+            $tocText = '';
             //$tocText = '<div class="toc">';
             //$tocText .= '<div class="toc-design">';
             if ( is_object( $domTree ) )
