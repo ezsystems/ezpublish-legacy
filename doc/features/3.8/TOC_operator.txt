@@ -13,20 +13,21 @@ In the object template:
 {* body is ezxml datatype*}
 {eztoc( $node.object.data_map.body )}
 
-This will produce the HTML output on the page:
+This will produce the HTML output on the page (170 is an attribute ID):
 
 <ul>
     <ul>
-        <li><a href="#1">1. Quisque aliquet</a></li>
+        <li><a href="#170_1">1. Quisque aliquet</a></li>
         <ul>
-            <li><a href="#1_1">1.1 Cum sociis</a></li>
+            <li><a href="#170_1_1">1.1 Cum sociis</a></li>
         </ul>
     </ul>
         <ul>
-            <li><a href="#2">2. Quisque aliquet</a></li>
+            <li><a href="#170_2">2. Quisque aliquet</a></li>
         <ul>
-            <li><a href="#2_2">2.1 Cum sociis</a></li>
+            <li><a href="#170_2_1">2.1 Cum sociis</a></li>
         </ul>
     </ul>
 </ul>
+
 
