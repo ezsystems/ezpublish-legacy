@@ -57,7 +57,8 @@ eZXML:
 - Fixed bug #8031: No empty lines/paragraphs possible.
 - Fixed bug: php and tpl errors/warnings when creating object with 'ezmedia'
   datatype in non-compiled template mode.
-
+- Fixed bug #8102: {include} parameters don't respect bounds.
+  ( Merged from stable/3.7 ( 3.7.6 ) rev. 15717 )
 
 *INI settings:
 - Added site.ini:[shopSettings].ClearBasketOnLogout setting:
