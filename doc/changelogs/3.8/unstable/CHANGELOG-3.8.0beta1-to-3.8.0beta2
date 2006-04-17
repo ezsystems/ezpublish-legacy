@@ -4,7 +4,7 @@ Changes from 3.8.0beta1 to 3.8.0beta2
 eZXML:
 - Rewritten and separated "simplified XML" edit field output routine.
 - Allowed to use inline tags (including custom inline tags) inside headers.
-- Added settings that determine the way of processing space characters in eZXML
+- Added possibility to define a way of processing space characters in eZXML
   input.
   (see 'TrimSpaces' and 'AllowMultipleSpaces' settings in ezxml.ini)
 - Added possibility to allow empty paragraphs.
@@ -40,7 +40,8 @@ eZXML:
   ( Merged from stable/3.7 ( 3.7.6 ) rev. 15657 )
 - Fixed bug #8100: Sorting of classes in Multiplexer Event selection list.
 - Fixed bug #8130: Error nesting "ul" XML tags.
-- Fixed bug #7602: Upload media files with automatic location doesn't work correctly.
+- Fixed bug #7602: Upload media files with automatic location doesn't work
+  correctly.
 - Fixed bug: Wrong headers numbering in automatic XML headers numeration.
 - Fixed bug: Tables and lists are rendered 2 times in XML->XHTML output.
 - Fixed bug: Wrong headers numbering in eztoc template operator.
@@ -50,13 +51,25 @@ eZXML:
   were concurrently publishing something.
 - Fixed bug #8079: Undefined post variable: SelectedNodeIDArray.
 - Fixed bug #8099: Backslash escaping.
-- Fixed bug #8000: Whitespaces between adjacent xml tags incorrectly removed.
-- Fixed bug: php and tpl errors/warnings when creating object with 'ezmedia' datatype in
-  non-compiled template mode.
+- Fixed bug #8000, #7711: Whitespaces between adjacent xml tags incorrectly
+  removed.
+- Fixed bug #8111: XML tags not allowed between custom tags.
+- Fixed bug #8031: No empty lines/paragraphs possible.
+- Fixed bug: php and tpl errors/warnings when creating object with 'ezmedia'
+  datatype in non-compiled template mode.
+
 
 *INI settings:
 - Added site.ini:[shopSettings].ClearBasketOnLogout setting:
   Means that the basket will (or NOT) be cleared when a user logs out.
+- Added ezxml.ini:[InputSettings].TrimSpaces setting:
+  True value means that spaces will be stripped off in the old way and false
+  means that all spaces remain.
+- Added ezxml.ini:[InputSettings].AllowMultipleSpaces setting:
+  True means that space characters sequence will be replaced by one space
+  character.
+- Added content.ini:[paragraph].AllowEmpty setting:
+  Is this allowed to have empty paragraphs in eZXML input.
 
 *DataTypes:
 
