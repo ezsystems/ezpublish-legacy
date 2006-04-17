@@ -4,6 +4,11 @@ Changes from 3.8.0beta1 to 3.8.0beta2
 eZXML:
 - Rewritten and separated "simplified XML" edit field output routine.
 - Allowed to use inline tags (including custom inline tags) inside headers.
+- Added settings that determine the way of processing space characters in eZXML
+  input.
+  (see 'TrimSpaces' and 'AllowMultipleSpaces' settings in ezxml.ini)
+- Added possibility to allow empty paragraphs.
+  (see 'AllowEmpty' setting in 'paragraph' section of content.ini)
 
 *Bugfixes:
 - Fixed bug #7832: No conditions with "like" in function

@@ -147,9 +147,19 @@ class eZXMLSchema
             unset( $impl );
             $impl = new eZXMLSchema();
 
+            // Correct schema by settings
+            include_once( 'lib/ezutils/classes/ezini.php' );
+            $ini =& eZINI::instance( 'content.ini' );
+                
+            $impl->isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
+
+            $allowEmptyParagraph = $ini->variable( 'paragraph', 'AllowEmpty' );
+            $impl->Schema['paragraph']['childrenRequired'] = $allowEmptyParagraph == 'true' ? false : true;
+
+            // Set global instance
             $GLOBALS["eZXMLSchemaGlobalInstance"] =& $impl;
         }
-        
+
         return $impl;
     }
 
@@ -168,30 +178,13 @@ class eZXMLSchema
         {
             if ( !is_string( $element ) )
             {
-                $isInline = $element->getAttribute( 'inline' );
-                if ( $isInline && $isInline === 'true' )
-                { 
-                    $isInline = true;
-                }
-                elseif ( $isInline && $isInline === 'false' )
-                {
-                    $isInline = false;
-                }
-                else
-                {
-                    $isInline = false;
-                    $name = $element->getAttribute( 'name' );
+                $isInline = false;
+                $name = $element->getAttribute( 'name' );
 
-                    include_once( 'lib/ezutils/classes/ezini.php' );
-                    $ini =& eZINI::instance( 'content.ini' );
-                
-                    $isInlineTagList = $ini->variable( 'CustomTagSettings', 'IsInline' );
-
-                    if ( isset( $isInlineTagList[$name] ) )
-                    {
-                        if ( $isInlineTagList[$name] == 'true' )
-                            $isInline = true;
-                    }
+                if ( isset( $this->isInlineTagList[$name] ) )
+                {
+                    if ( $this->isInlineTagList[$name] == 'true' )
+                        $isInline = true;
                 }
             }
         }
@@ -283,5 +276,8 @@ class eZXMLSchema
         $name = is_string( $element ) ? $element : $element->nodeName;
         return isset( $this->Schema[$name] );
     }
+
+    // for custom tags
+    var $isInlineTagList = array();
 }
 ?>

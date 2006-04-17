@@ -135,6 +135,19 @@ class eZXMLInputParser
 
         include_once( 'lib/version.php' );
         $this->eZPublishVersion = eZPublishSDK::majorVersion() + eZPublishSDK::minorVersion() * 0.1;
+
+        $ini =& eZINI::instance( 'ezxml.ini' );
+        if ( $ini->hasVariable( 'InputSettings', 'TrimSpaces' ) )
+        {
+            $trimSpaces = $ini->variable( 'InputSettings', 'TrimSpaces' );
+            $this->trimSpaces = $trimSpaces == 'true' ? true : false;
+        }
+
+        if ( $ini->hasVariable( 'InputSettings', 'AllowMultipleSpaces' ) )
+        {
+            $allowMultipleSpaces = $ini->variable( 'InputSettings', 'AllowMultipleSpaces' );
+            $this->allowMultipleSpaces = $allowMultipleSpaces == 'true' ? true : false;
+        }
     }
 
     /*!
@@ -215,7 +228,12 @@ class eZXMLInputParser
     {
         // Find tag, determine it's type, name and attributes.
         $initialPos = $pos;
-        while( $pos < strlen( $data ) && $data[$pos] == ' ' ) $pos++;
+
+        if ( $this->trimSpaces )
+        {
+            while( $pos < strlen( $data ) && $data[$pos] == ' ' ) $pos++;
+        }
+
         if ( $pos >= strlen( $data ) )
         {
             return true;
@@ -239,7 +257,7 @@ class eZXMLInputParser
             $textContent = $this->washText( $textContent );
 
             $pos = $tagBeginPos;
-            if ( !$textContent || $textContent == ' ' )
+            if ( !$textContent )
                 return false;
         }
         // Process closing tag.
@@ -513,7 +531,13 @@ class eZXMLInputParser
     {
         $textContent = $this->entitiesDecode( $textContent );
         $textContent = $this->convertNumericEntities( $textContent );
-        $textContent = preg_replace( "/\s{2,}/", " ", $textContent );
+
+        if ( $this->trimSpaces )
+            $textContent = ltrim( $textContent );
+
+        if ( !$this->allowMultipleSpaces )
+            $textContent = preg_replace( "/\s{2,}/", " ", $textContent );
+
         return $textContent;
     }
 
@@ -910,6 +934,9 @@ class eZXMLInputParser
 
     var $isInputValid = true;
     var $quitIfInvalid = false;
+
+    var $trimSpaces = true;
+    var $allowMultipleSpaces = false;
 
     var $createdElements = array();
 }

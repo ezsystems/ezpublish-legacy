@@ -87,7 +87,9 @@ class eZXML
             $domDocument = domxml_open_mem( $xmlDoc );
             return $domDocument;
         }
-        $params["TrimWhiteSpace"] = true;
+
+        if ( !isset( $params["TrimWhiteSpace"] ) )
+            $params["TrimWhiteSpace"] = true;
 
         $schema = false;
         if ( isset( $params["Schema"] ) && get_class( $params["Schema"]  ) == "ezschema" )
@@ -355,10 +357,10 @@ class eZXML
                 // content tag
                 $tagContent = substr( $xmlDoc, $endTagPos + 1, $pos - ( $endTagPos + 1 ) );
 
-                if ( !isset( $params["TrimWhiteSpace"] ) )
-                    $params["TrimWhiteSpace"] = true;
+                // Keep the whitespace consistent, parsing back and forward shouldn't change data
+                $tagContent = preg_replace( "#[\n]+[\s]*$#", "", $tagContent, 1 );
 
-                if ( ( ( $params["TrimWhiteSpace"] == true ) and ( trim( $tagContent ) != "" ) ) or ( $params["TrimWhiteSpace"] == false ) )
+                if ( ( $params["TrimWhiteSpace"] == true and trim( $tagContent ) != "" ) or ( $params["TrimWhiteSpace"] == false and $tagContent != "" ) )
                 {
                     unset( $subNode );
                     $subNode = new eZDOMNode();
@@ -375,9 +377,6 @@ class eZXML
                         $tagContent = str_replace("&quot;", '"', $tagContent );
                         $tagContent = str_replace("&amp;", "&", $tagContent );
                     }
-
-                    // Keep the whitespace consistent, parsing back and forward shouldn't change data
-                    $tagContent = preg_replace( "#\n[\s]+$#", "", $tagContent, 1 );
 
                     $subNode->Content = $tagContent;
 //                    $subNode->Content = trim( $tagContent );

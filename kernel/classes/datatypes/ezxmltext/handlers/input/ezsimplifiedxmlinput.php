@@ -124,9 +124,19 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
 
             $text = $data;
 
-            $text = preg_replace('/\n/', '<br/>', $text);
             $text = preg_replace('/\r/', '', $text);
             $text = preg_replace('/\t/', ' ', $text);
+
+            //Remove leading whitespaces before tags in the beggining of the line
+            // as they are used for indenting and don't need to be parsed.
+
+            //// TODO: move this logic to the parser
+            $text = preg_replace('/\n[ ]*</', '<br/><', $text);
+
+            // Convert linebreaks
+            $text = preg_replace('/^\n/', '<p></p>', $text );
+            $text = preg_replace('/\n\n/', '<p></p>', $text);
+            $text = preg_replace('/\n/', '<br/>', $text);
 
             $parser = new eZSimplifiedXMLInputParser( $contentObjectID );
             $document = $parser->process( $text );
@@ -194,7 +204,7 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
         else
         {
             $xml = new eZXML();
-            $dom =& $xml->domTree( $this->XMLData, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false ) );
+            $dom =& $xml->domTree( $this->XMLData, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false, "TrimWhiteSpace" => false ) );
 
             include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmleditoutput.php' );
 

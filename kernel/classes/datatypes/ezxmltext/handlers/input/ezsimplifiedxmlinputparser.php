@@ -116,7 +116,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
         'anchor'    => array( 'structHandler' => 'appendLineParagraph' ),
 
-        'custom'    => array( 'parsingHandler' => 'parsingHandlerCustom',
+        'custom'    => array( //'parsingHandler' => 'parsingHandlerCustom',
                               'structHandler' => 'structHandlerCustom',
                               'publishHandler' => 'publishHandlerCustom',
                               'requiredInputAttributes' => array( 'name' ) ),
@@ -157,6 +157,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
         $text = preg_replace( "/<p.*?>/i", "\n\n", $text );
         */
+        $text = preg_replace( "/<p><\/p>/i", "\n\n", $text );
         $text = preg_replace( "/<\/?\s?br.*?>/i", "\n", $text );
 
         $text = $this->entitiesDecode( $text );
@@ -171,7 +172,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         return $ret;
     }
 
-    function &parsingHandlerCustom( &$element, &$param )
+    /*function &parsingHandlerCustom( &$element, &$param )
     {
         $ret = null;
         $name = $element->getAttribute( 'name' );
@@ -188,7 +189,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
         $element->setAttribute( 'inline', $isInline ? 'true' : 'false' );
         return $ret;
-    }
+    }*/
 
     function &breakInlineFlow( &$element, &$param )
     {
@@ -454,12 +455,11 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     function &structHandlerCustom( &$element, &$params )
     {
         $ret = null;
-        $isInline = $element->getAttribute( 'inline' );
-        if ( $isInline === 'true' )
+        if ( $this->XMLSchema->isInline( $element ) )
         {
             $ret =& $this->appendLineParagraph( $element, $params );
         }
-        elseif ( $isInline === 'false' )
+        else
         {
             $ret =& $this->appendParagraph( $element, $params );
         }

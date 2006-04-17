@@ -65,7 +65,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         {
             $res->setKeys( array( array( 'attribute_identifier', $this->ContentObjectAttribute->attribute( 'contentclass_attribute_identifier' ) ) ) );
         }
-        $dom =& $xml->domTree( $this->XMLData );
+        $dom =& $xml->domTree( $this->XMLData, array( "TrimWhiteSpace" => false ) );
         if ( $dom )
         {
             $domNode =& $dom->elementsByName( "section" );
@@ -573,7 +573,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $text = htmlspecialchars( $tag->content() );
                 // Get rid of linebreak and spaces stored in xml file
                 $text = preg_replace( "#[\n]+#", "", $text );
-                $text = preg_replace( "#    #", "", $text );
+                $text = preg_replace( "#  #", " &nbsp;", $text );
 
                 if ( $isChildOfLinkTag )
                 {
@@ -1022,7 +1022,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
-                $tagText = trim( $tagText );
+                $tagText = $tagText;
 
                 // Remove the design key, so it will not override other tags
                 $res->removeKey( 'classification' );
@@ -1067,7 +1067,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
-                $tagText = trim( $tagText );
+                $tagText = $tagText;
 
                 foreach ( $customAttributes as $attribute )
                 {
