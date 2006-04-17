@@ -37,6 +37,9 @@ Changes from 3.5.10 to 3.5.11
   ( Manually merged from trunk (3.8.0beta2) rev. 15691 )
 - Fixed bug #8099: Backslash escaping.
   ( Merged from trunk ( 3.8.0beta2 ) rev. 15707 )
+- Fixed bug: php and tpl errors/warnings when creating object with 'ezmedia' datatype in
+  non-compiled template mode.
+  ( Merged from trunk ( 3.8.0beta2 ) rev. 15714 )
 
 *INI settings:
 - Added site.ini:[ShopSettings].ClearBasketOnLogout setting:
