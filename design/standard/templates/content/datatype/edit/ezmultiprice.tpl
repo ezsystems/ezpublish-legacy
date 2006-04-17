@@ -14,10 +14,10 @@
             <th>{'Currency'|i18n( 'design/standard/content/datatype' )}</th>
             <th>{'Value'|i18n( 'design/standard/content/datatype' )}</th>
         </tr>
-            {foreach $auto_price_list as $price}
+            {foreach $auto_price_list as $index => $price}
             <tr>
                 {* Remove. *}
-                <td><input type="checkbox" name="{$attribute_base}_remove_price_array_{$attribute.id}[{$price.currency_code}]" title="{'Select price for removal.'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" /></td>
+                <td><input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_remove_{$index}" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="checkbox" name="{$attribute_base}_remove_price_array_{$attribute.id}[{$price.currency_code}]" title="{'Select price for removal.'|i18n( 'design/standard/content/datatype' )}" disabled="disabled" /></td>
 
                 {* Currency *}
                 <td>{$price.currency_code}</td>
@@ -75,7 +75,7 @@
 
 <div class="block">
 <label>{'VAT'|i18n( 'design/standard/content/datatype' )}:</label>
-<select name="{$attribute_base}_ezmultiprice_inc_ex_vat_{$attribute.id}">
+<select id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_inc_ex_vat" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" name="{$attribute_base}_ezmultiprice_inc_ex_vat_{$attribute.id}">
 <option value="1" {section show=eq( $attribute.content.is_vat_included, true() )}selected="selected"{/section}>{'Price inc. VAT'|i18n( 'design/standard/content/datatype' )}</option>
 <option value="2" {section show=eq( $attribute.content.is_vat_included, false() )}selected="selected"{/section}>{'Price ex. VAT'|i18n( 'design/standard/content/datatype' )}</option>
 </select>

@@ -278,19 +278,19 @@
 
 <label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}:</label>
     <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1|mul( 1024, 1024 )}" />
-    <input class="box" name="{$attribute_base}_data_mediafilename_{$attribute.id}" type="file" />
+    <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" name="{$attribute_base}_data_mediafilename_{$attribute.id}" type="file" />
 </div>
 
 <div class="block">
 
 <div class="element">
     <label>{'Width'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="text" name="{$attribute_base}_data_media_width_{$attribute.id}" size="5" value="{$attribute.content.width}" />
+    <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_width" type="text" name="{$attribute_base}_data_media_width_{$attribute.id}" size="5" value="{$attribute.content.width}" />
 </div>
 
 <div class="element">
     <label>{'Height'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="text" name="{$attribute_base}_data_media_height_{$attribute.id}" size="5" value="{$attribute.content.height}" />
+    <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_height" type="text" name="{$attribute_base}_data_media_height_{$attribute.id}" size="5" value="{$attribute.content.height}" />
     &nbsp;
     &nbsp;
     &nbsp;
@@ -298,12 +298,12 @@
 
 <div class="element">
     <label>{'Controller'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="checkbox" name="{$attribute_base}_data_media_has_controller_{$attribute.id}" value="1" {section show=$attribute.content.has_controller}checked="checked"{/section} />
+    <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_controller" type="checkbox" name="{$attribute_base}_data_media_has_controller_{$attribute.id}" value="1" {section show=$attribute.content.has_controller}checked="checked"{/section} />
 </div>
 
 <div class="element">
     <label>{'Autoplay'|i18n( 'design/standard/content/datatype' )}:</label>
-    <input type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="1" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
+    <input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_autoplay" type="checkbox" name="{$attribute_base}_data_media_is_autoplay_{$attribute.id}" value="1" {section show=$attribute.content.is_autoplay}checked="checked"{/section} />
 </div>
 
 <div class="break"></div>

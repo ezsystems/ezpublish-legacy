@@ -32,7 +32,7 @@
 <div class="block">
 <label>{'New file for upload'|i18n( 'design/standard/content/datatype' )}:</label>
 <input type="hidden" name="MAX_FILE_SIZE" value="{$attribute.contentclass_attribute.data_int1}000000"/>
-<input class="box" name="{$attribute_base}_data_binaryfilename_{$attribute.id}" type="file" />
+<input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="box ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" name="{$attribute_base}_data_binaryfilename_{$attribute.id}" type="file" />
 </div>
 
 {/default}

@@ -45,7 +45,7 @@
 {case match=1}
 {let parent_node=fetch( content, node, hash( node_id, $class_content.default_selection_node ) )}
 
-<select name="{$attribute_base}_data_object_relation_id_{$attribute.id}">
+<select id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" name="{$attribute_base}_data_object_relation_id_{$attribute.id}">
 {section show=$attribute.contentclass_attribute.is_required|not}
 <option value="" {section show=eq( $attribute.data_int, '' )}selected="selected"{/section}>{'No relation'|i18n( 'design/standard/content/datatype' )}</option>
 {/section}
@@ -55,7 +55,7 @@
 </select>
 
 {section show=$class_content.fuzzy_match}
-<input type="text" name="{$attribute_base}_data_object_relation_fuzzy_match_{$attribute.id}" value="" />
+<input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_fuzzy_match" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="text" name="{$attribute_base}_data_object_relation_fuzzy_match_{$attribute.id}" value="" />
 {/section}
 
 {/let}
