@@ -124,9 +124,9 @@ class eZTemplateIncludeFunction
                  $parameterName == 'name' )
                 continue;
             $parameterData =& $parameters[$parameterName];
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$restoreIncludeArray[] = array( $namespaceName, '$parameterName', \$vars[$namespaceName]['$parameterName'] );\n" );
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
                                                                   array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$restoreIncludeArray[] = array( $namespaceName, '$parameterName', \$vars[$namespaceName]['$parameterName'] );\n" );
             $variableList[] = $parameterName;
         }
 
@@ -163,6 +163,8 @@ class eZTemplateIncludeFunction
                 $name = $currentNamespace;
         }
         reset( $params );
+        $whatParamsShouldBeUnset = array();
+        $whatParamsShouldBeReplaced = array();
         while ( ( $key = key( $params ) ) !== null )
         {
             $item =& $params[$key];
@@ -174,6 +176,15 @@ class eZTemplateIncludeFunction
 
                 default:
                 {
+                    if ( !$tpl->hasVariable( $key, $name ) )
+                    {
+                        $whatParamsShouldBeUnset[] = $key; // Tpl vars should be removed after including
+                    }
+                    else
+                    {
+                        $whatParamsShouldBeReplaced[$key] = $tpl->variable( $key, $name ); // Tpl vars should be replaced after including
+                    }
+
                     $item_value = $tpl->elementValue( $item, $rootNamespace, $currentNamespace, $functionPlacement );
                     $tpl->setVariable( $key, $item_value, $name );
                 } break;
@@ -181,6 +192,16 @@ class eZTemplateIncludeFunction
             next( $params );
         }
         eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, $rootNamespace, $name );
+        // unset var
+        foreach ( $whatParamsShouldBeUnset as $key )
+        {
+            $tpl->unsetVariable( $key, $name );
+        }
+        // replace var
+        foreach ( $whatParamsShouldBeReplaced as $key => $item_value )
+        {
+            $tpl->setVariable( $key, $item_value, $name );
+        }
     }
 
     /*!
