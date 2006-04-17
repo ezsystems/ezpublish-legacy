@@ -603,7 +603,7 @@ class eZStepCreateSites extends eZStepInstaller
 
         // Call user function for additional setup tasks.
         if ( function_exists( 'eZSitePreInstall' ) )
-            eZSitePreInstall( $db );
+            eZSitePreInstall();
 
 
         include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
@@ -1176,7 +1176,7 @@ id $inSql";
 
         // Call user function for additional setup tasks.
         if ( function_exists( 'eZSitePostInstall' ) )
-            eZSitePostInstall( $db, $parameters );
+            eZSitePostInstall( $parameters );
 
         return true;
     }
