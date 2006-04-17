@@ -44,6 +44,7 @@ eZXML:
 - Fixed some mysql deadlocks that may have happened when several users
   were concurrently publishing something.
 - Fixed bug #8079: Undefined post variable: SelectedNodeIDArray.
+- Fixed bug #8099: Backslash escaping.
 
 *INI settings:
 - Added site.ini:[shopSettings].ClearBasketOnLogout setting:
