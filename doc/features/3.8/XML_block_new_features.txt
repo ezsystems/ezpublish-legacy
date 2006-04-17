@@ -1,0 +1,34 @@
+*Title: XML block datatype new features.
+
+*Description: XML block editing and publishing routines were completely
+rewritten, which means that old bugs are no more there and new features
+have been added.
+
+*Features:
+
+- Simplified XML input edit field shows much more well-formatted content.
+  On the other hand it doesn't depends on user input formatting.
+  
+- Input errors are processed in more accurate way and user input is never
+  erased or modified until it is correct.
+  
+- Introduced new tag "embed-inline'.
+  See 'doc/features/3.8/embed-inline.txt' for details.
+  
+- It is now possible to use inline tags inside headers. (including custom
+  inline tags)
+  
+- Added possibility to define a way of processing space characters in eZXML
+  input. This is controlled by the following settings:
+  
+    ezxml.ini:[InputSettings].TrimSpaces setting:
+    True value means that spaces will be stripped off in the old way and false
+    means that all spaces remain.
+  
+    ezxml.ini:[InputSettings].AllowMultipleSpaces setting:
+    True means that space characters sequence will be replaced by one space
+    character.
+      
+- Added possibility to allow empty paragraphs in the input. This is controlled
+  by a setting:
+    content.ini:[paragraph].AllowEmpty
