@@ -473,6 +473,7 @@ class eZTemplateElementParser
 
                 case "'":
                 case '"':
+                case '\\':
                 {
                     $newString .= $c2;
                 } break;
