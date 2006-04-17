@@ -133,7 +133,7 @@ if ( isset( $Params['BrowseType'] ) )
         case 'destination': // Returning from destination browse
         {
             include_once( 'kernel/classes/ezcontentbrowse.php' );
-            $nodeIDArray = $http->postVariable( 'SelectedNodeIDArray' );
+            $nodeIDArray = $http->hasPostVariable( 'SelectedNodeIDArray' ) ? $http->postVariable( 'SelectedNodeIDArray' ) : null;
             if ( isset( $nodeIDArray ) && !$http->hasPostVariable( 'BrowseCancelButton' ) )
             {
                 $rssImport->setAttribute( 'destination_node_id', $nodeIDArray[0] );

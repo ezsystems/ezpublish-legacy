@@ -43,6 +43,7 @@ eZXML:
   'content structure' menu show all classes.
 - Fixed some mysql deadlocks that may have happened when several users
   were concurrently publishing something.
+- Fixed bug #8079: Undefined post variable: SelectedNodeIDArray.
 
 *INI settings:
 - Added site.ini:[shopSettings].ClearBasketOnLogout setting:
