@@ -223,7 +223,10 @@ class eZMedia extends eZPersistentObject
 
         $storageDir = eZSys::storageDirectory();
 
-        list( $group, $type ) = explode( '/', $mimeType );
+        $group = '';
+        $type = '';
+        if ( $mimeType )
+            list( $group, $type ) = explode( '/', $mimeType );
 
         $filePath = $storageDir . '/original/' . $group . '/' . $fileName;
 
