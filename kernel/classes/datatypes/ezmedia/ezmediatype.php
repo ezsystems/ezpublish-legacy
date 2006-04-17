@@ -59,7 +59,7 @@ class eZMediaType extends eZDataType
     /*!
      Sets value according to current version
     */
-    function initializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
+    function postInitializeObjectAttribute( &$contentObjectAttribute, $currentVersion, &$originalContentObjectAttribute )
     {
         if ( $currentVersion != false )
         {
@@ -72,6 +72,20 @@ class eZMediaType extends eZDataType
                 $oldfile->setAttribute( "version",  $version );
                 $oldfile->store();
             }
+        }
+        else
+        {
+            $contentObjectAttributeID = $contentObjectAttribute->attribute( 'id' );
+            $version = $contentObjectAttribute->attribute( 'version' );
+
+            $media = eZMedia::create( $contentObjectAttributeID, $version );
+
+            $contentClassAttribute =& $contentObjectAttribute->contentClassAttribute();
+            $pluginPage = eZMediaType::pluginPage( $contentClassAttribute->attribute( 'data_text1' ) );
+
+            $media->setAttribute( 'quality', 'high' );
+            $media->setAttribute( 'pluginspage', $pluginPage );
+            $media->store();
         }
     }
 
@@ -199,6 +213,36 @@ class eZMediaType extends eZDataType
     }
 
     /*!
+     \static
+     Returns plugin page by media type
+
+    */
+    function pluginPage( $mediaType )
+    {
+        $pluginPage = '';
+        switch( $mediaType )
+        {
+            case 'flash':
+                $pluginPage = "http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash";
+            break;
+            case 'quick_time':
+                $pluginPage = "http://quicktime.apple.com";
+            break;
+            case 'real_player' :
+                $pluginPage = "http://www.real.com/";
+            break;
+            case 'windows_media_player' :
+                $pluginPage = "http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112" ;
+            break;
+            default:
+                $pluginPage = "";
+            break;
+        }
+
+        return $pluginPage;
+    }
+
+    /*!
      Fetches input and stores it in the data instance.
     */
     function fetchObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
@@ -207,24 +251,8 @@ class eZMediaType extends eZDataType
 
         $classAttribute =& $contentObjectAttribute->contentClassAttribute();
         $player = $classAttribute->attribute( "data_text1" );
-        switch( $player )
-        {
-            case 'flash':
-                $plugin = "http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash";
-            break;
-            case 'quick_time':
-                $plugin = "http://quicktime.apple.com";
-            break;
-            case 'real_player' :
-                $plugin = "http://www.real.com/";
-            break;
-            case 'windows_media_player' :
-                $plugin = "http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112" ;
-            break;
-            default:
-                $plugin = "";
-            break;
-        }
+        $pluginPage = eZMediaType::pluginPage( $player );
+
         $contentObjectAttributeID = $contentObjectAttribute->attribute( "id" );
         $version = $contentObjectAttribute->attribute( "version" );
         $width = $http->postVariable( $base . "_data_media_width_" . $contentObjectAttribute->attribute( "id" ) );
@@ -235,19 +263,15 @@ class eZMediaType extends eZDataType
         else
             $controls = null;
 
-
         $media = eZMedia::fetch( $contentObjectAttributeID, $version );
-        if ( $media == null )
-        {
-           $media = eZMedia::create( $contentObjectAttributeID, $version );
-        }
+
         $media->setAttribute( "contentobject_attribute_id", $contentObjectAttributeID );
         $media->setAttribute( "version", $version );
         $media->setAttribute( "width", $width );
         $media->setAttribute( "height", $height );
         $media->setAttribute( "quality", $quality );
         $media->setAttribute( "controls", $controls );
-        $media->setAttribute( "pluginspage", $plugin );
+        $media->setAttribute( "pluginspage", $pluginPage );
         if ( $http->hasPostVariable( $base . "_data_media_is_autoplay_" . $contentObjectAttribute->attribute( "id" ) ) )
             $media->setAttribute( "is_autoplay", true );
         else
@@ -366,24 +390,7 @@ class eZMediaType extends eZDataType
 
         $classAttribute =& $objectAttribute->contentClassAttribute();
         $player = $classAttribute->attribute( "data_text1" );
-        switch( $player )
-        {
-            case 'flash':
-                $plugin = "http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash";
-            break;
-            case 'quick_time':
-                $plugin = "http://quicktime.apple.com";
-            break;
-            case 'real_player' :
-                $plugin = "http://www.real.com/";
-            break;
-            case 'windows_media_player' :
-                $plugin = "http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112" ;
-            break;
-            default:
-                $plugin = "";
-            break;
-        }
+        $pluginPage = eZMediaType::pluginPage( $player );
 
         $media->setAttribute( "contentobject_attribute_id", $attributeID );
         $media->setAttribute( "version", $objectVersion );
@@ -409,7 +416,7 @@ class eZMediaType extends eZDataType
         $media->setAttribute( "height", $height );
         $media->setAttribute( "quality", $quality );
         $media->setAttribute( "controls", $controls );
-        $media->setAttribute( "pluginspage", $plugin );
+        $media->setAttribute( "pluginspage", $pluginPage );
         $media->setAttribute( "is_autoplay", $isAutoplay );
         $media->setAttribute( "has_controller", $hasController );
         $media->setAttribute( "is_loop", $isLoop );
@@ -456,24 +463,7 @@ class eZMediaType extends eZDataType
 
         $classAttribute =& $objectAttribute->contentClassAttribute();
         $player = $classAttribute->attribute( "data_text1" );
-        switch( $player )
-        {
-            case 'flash':
-                $plugin = "http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash";
-            break;
-            case 'quick_time':
-                $plugin = "http://quicktime.apple.com";
-            break;
-            case 'real_player' :
-                $plugin = "http://www.real.com/";
-            break;
-            case 'windows_media_player' :
-                $plugin = "http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112" ;
-            break;
-            default:
-                $plugin = "";
-            break;
-        }
+        $pluginPage = eZMediaType::pluginPage( $player );
 
         $media->setAttribute( "contentobject_attribute_id", $attributeID );
         $media->setAttribute( "version", $objectVersion );
@@ -499,7 +489,7 @@ class eZMediaType extends eZDataType
         $media->setAttribute( "height", $height );
         $media->setAttribute( "quality", $quality );
         $media->setAttribute( "controls", $controls );
-        $media->setAttribute( "pluginspage", $plugin );
+        $media->setAttribute( "pluginspage", $pluginPage );
         $media->setAttribute( "is_autoplay", $isAutoplay );
         $media->setAttribute( "has_controller", $hasController );
         $media->setAttribute( "is_loop", $isLoop );

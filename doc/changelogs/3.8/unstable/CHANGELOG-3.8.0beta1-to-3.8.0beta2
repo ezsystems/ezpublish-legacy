@@ -51,6 +51,8 @@ eZXML:
 - Fixed bug #8079: Undefined post variable: SelectedNodeIDArray.
 - Fixed bug #8099: Backslash escaping.
 - Fixed bug #8000: Whitespaces between adjacent xml tags incorrectly removed.
+- Fixed bug: php and tpl errors/warnings when creating object with 'ezmedia' datatype in
+  non-compiled template mode.
 
 *INI settings:
 - Added site.ini:[shopSettings].ClearBasketOnLogout setting:
