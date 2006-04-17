@@ -154,6 +154,7 @@ $versions38 = array( 'unstable' => array( array( '3.6.0', '3.8.0alpha1' )
                                           ,array( '3.8.0alpha1', '3.8.0alpha2' )
                                           ,array( '3.8.0alpha2', '3.8.0beta1' )
                                           ,array( '3.8.0beta1', '3.8.0beta2' )
+                                          ,array( '3.8.0beta2', '3.8.0rc1' )
                                           ),
                      'unstable_subdir' => 'unstable',
                      'stable' => array( ) );
