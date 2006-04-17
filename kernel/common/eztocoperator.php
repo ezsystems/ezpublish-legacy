@@ -87,8 +87,8 @@ class eZTOCOperator
             $xml = new eZXML();
             $domTree =& $xml->domTree( $xmlData );
 
-            $tocText = '<div class="toc">';
-            $tocText .= '<div class="toc-design">';
+            //$tocText = '<div class="toc">';
+            //$tocText .= '<div class="toc-design">';
             if ( is_object( $domTree ) )
             {
                 $this->HeaderCounter = array();
@@ -98,8 +98,8 @@ class eZTOCOperator
                 $tocText .= $this->handleSection( $rootNode );
                 $tocText .= '</ul>';
             }
-            $tocText .= '</div>';
-            $tocText .= '</div>';
+            //$tocText .= '</div>';
+            //$tocText .= '</div>';
         }
         $operatorValue = $tocText;
     }
