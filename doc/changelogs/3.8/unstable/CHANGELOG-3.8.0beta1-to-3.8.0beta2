@@ -50,6 +50,7 @@ eZXML:
   were concurrently publishing something.
 - Fixed bug #8079: Undefined post variable: SelectedNodeIDArray.
 - Fixed bug #8099: Backslash escaping.
+- Fixed bug #8000: Whitespaces between adjacent xml tags incorrectly removed.
 
 *INI settings:
 - Added site.ini:[shopSettings].ClearBasketOnLogout setting:
