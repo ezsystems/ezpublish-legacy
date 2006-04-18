@@ -1202,7 +1202,7 @@ class eZImageAliasHandler
         $fileHandler = eZClusterFileHandler::instance();
         $fileHandler->fileCopy( $filename, $mimeData['url'] );
 
-        return $this->initialize( $mimeData, $filename, $imageAltText );
+        return $this->initialize( $mimeData, $originalFilename, $imageAltText );
     }
 
     /*!
