@@ -3,3 +3,5 @@ Changes from 3.8.0beta2 to 3.8.0rc1
 *Kernel:
 
 *Bugfixes:
+- Fixed bug #8131: Invisible nodes in ezsearch.
+  ( Merged from stable/3.7 ( 3.7.6 ) rev. 15732 )
