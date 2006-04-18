@@ -23,7 +23,7 @@ have been added.
   
     ezxml.ini:[InputSettings].TrimSpaces setting:
     True value means that spaces will be stripped off in the old way and false
-    means that all spaces remain.
+    means that all spaces remain in place.
   
     ezxml.ini:[InputSettings].AllowMultipleSpaces setting:
     True means that space characters sequence will be replaced by one space
@@ -32,3 +32,9 @@ have been added.
 - Added possibility to allow empty paragraphs in the input. This is controlled
   by a setting:
     content.ini:[paragraph].AllowEmpty
+
+- Automatic headers numeration allows you to use eztoc template operator to 
+  automatically create tables of contents for your XML text fields. An anchor
+  with unique ID is added to every header.
+  See 'doc/features/3.8/TOC_operator.txt' for details.
+
