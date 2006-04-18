@@ -1072,7 +1072,7 @@ class eZImageAliasHandler
         }
         eZFileHandler::copy( $filename, $mimeData['url'] );
 
-        return $this->initialize( $mimeData, $filename, $imageAltText );
+        return $this->initialize( $mimeData, $originalFilename, $imageAltText );
     }
 
     /*!
