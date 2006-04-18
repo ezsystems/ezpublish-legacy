@@ -4,10 +4,10 @@
      $locale = false()
      $symbol = false()}
 
-{if $currency}
-    {set symbol = $currency.symbol
-         locale = $currency.locale}
-{/if}
+    {if $currency}
+        {set symbol = $currency.symbol
+             locale = $currency.locale}
+    {/if}
 
     {def $price_value = ''}
     {if $multiprice.has_discount}
@@ -22,5 +22,5 @@
         {/if}
         <span class="currentprice">{$price_value}</span>
     {/if}
-    {/undef $price_value}
+    {undef $price_value}
 {undef}
