@@ -919,6 +919,7 @@ class eZSearchEngine
                                           ezcontentclass.version = '0' and
                                           ezcontentobject.id = ezcontentobject_tree.contentobject_id and
                                           ezcontentobject_tree.node_id = ezcontentobject_tree.main_node_id
+                                          $showInvisibleNodesCond
                                           $sqlPermissionCheckingString" );
                  $this->TempTablesCount = 1;
                  $i = $this->TempTablesCount;
