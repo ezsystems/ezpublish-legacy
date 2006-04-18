@@ -395,7 +395,7 @@ class eZMultiPrice extends eZSimplePrice
         include_once( 'kernel/shop/classes/ezcurrencyconverter.php' );
         $converter =& eZCurrencyConverter::instance();
 
-        $basePrice =& $this->basePrice();
+        $basePrice = $this->basePrice();
         $basePriceValue = $basePrice ? $basePrice->attribute( 'value' ) : 0;
         $baseCurrencyCode = $basePrice ? $basePrice->attribute( 'currency_code' ) : false;
 
