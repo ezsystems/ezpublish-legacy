@@ -229,10 +229,10 @@ class eZXMLInputParser
         // Find tag, determine it's type, name and attributes.
         $initialPos = $pos;
 
-        if ( $this->trimSpaces )
+        /*if ( $this->trimSpaces )
         {
             while( $pos < strlen( $data ) && $data[$pos] == ' ' ) $pos++;
-        }
+        }*/
 
         if ( $pos >= strlen( $data ) )
         {
@@ -513,6 +513,17 @@ class eZXMLInputParser
         return $attributes;
     }
 
+    function washText( $textContent )
+    {
+        $textContent = $this->entitiesDecode( $textContent );
+        $textContent = $this->convertNumericEntities( $textContent );
+
+        if ( !$this->allowMultipleSpaces )
+            $textContent = preg_replace( "/\s{2,}/", " ", $textContent );
+
+        return $textContent;
+    }
+
     function entitiesDecode( $text )
     {
         //$text = str_replace( "&amp;", "&", $text );
@@ -525,20 +536,6 @@ class eZXMLInputParser
         $text = str_replace( "&amp;", "&", $text );
         $text = str_replace( "&nbsp;", " ", $text );
         return $text;
-    }
-
-    function washText( $textContent )
-    {
-        $textContent = $this->entitiesDecode( $textContent );
-        $textContent = $this->convertNumericEntities( $textContent );
-
-        if ( $this->trimSpaces )
-            $textContent = ltrim( $textContent );
-
-        if ( !$this->allowMultipleSpaces )
-            $textContent = preg_replace( "/\s{2,}/", " ", $textContent );
-
-        return $textContent;
     }
 
     function convertNumericEntities( $text )
@@ -700,22 +697,47 @@ class eZXMLInputParser
         // Call "Publish handler"
         $this->callOutputHandler( 'publishHandler', $element, $tmp );
 
+        // Trim text nodes
+        if ( $element->Type == EZ_XML_NODE_TEXT )
+        {
+            $this->trimTextNode( $element );
+        }
         // Process attributes according to the schema
-        // php5 TODO: attributes property
-        if ( !$this->XMLSchema->hasAttributes( $element ) )
+        elseif( $element->hasAttributes() )
         {
-            $element->removeAttributes();
+            if ( !$this->XMLSchema->hasAttributes( $element ) )
+            {
+                $element->removeAttributes();
+            }
+            else
+            {
+                $this->fixAttributes( $element );
+            }
         }
-        else
-        {
-            $this->fixAttributes( $element );
-        }
-
         return $ret;
     }
     /*
         Helper functions for pass 2
     */
+
+    function trimTextNode( &$element )
+    {
+        // Left trim first text node
+        if ( $this->trimSpaces )
+        {
+            //$prev =& $element->previousSibling();
+            $parent =& $element->parentNode;
+            unset( $element->parentNode );
+            $element->parentNode = null;
+            $first =& $parent->firstChild();
+            if ( !$first->parentNode )
+            //if ( !$prev )
+            {
+                $element->content = ltrim( $element->content );
+            }
+            $element->parentNode =& $parent;
+        }
+    }
 
     // Check element's schema and fix subtree if needed
     function processElementBySchema( &$element, $verbose = true )

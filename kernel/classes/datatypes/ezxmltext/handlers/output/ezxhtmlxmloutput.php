@@ -41,6 +41,13 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         $this->eZXMLOutputHandler( $xmlData, $aliasedType );
         $this->ContentObjectAttribute = $contentObjectAttribute;
         $this->ObjectAttributeId = $contentObjectAttribute->attribute( 'id' );
+
+        $ini =& eZINI::instance( 'ezxml.ini' );
+        if ( $ini->hasVariable( 'InputSettings', 'AllowMultipleSpaces' ) )
+        {
+            $allowMultipleSpaces = $ini->variable( 'InputSettings', 'AllowMultipleSpaces' );
+            $this->AllowMultipleSpaces = $allowMultipleSpaces == 'true' ? true : false;
+        }
     }
 
     /*!
@@ -573,7 +580,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $text = htmlspecialchars( $tag->content() );
                 // Get rid of linebreak and spaces stored in xml file
                 $text = preg_replace( "#[\n]+#", "", $text );
-                $text = preg_replace( "#  #", " &nbsp;", $text );
+
+                if ( $this->AllowMultipleSpaces )
+                    $text = preg_replace( "#  #", " &nbsp;", $text );
+                else
+                    $text = preg_replace( "#[ ]+#", " ", $text );
 
                 if ( $isChildOfLinkTag )
                 {
@@ -1181,6 +1192,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
     var $HeaderCount = array();
 
     var $ObjectAttributeId;
+
+    var $AllowMultipleSpaces = false;
 }
 
 ?>
