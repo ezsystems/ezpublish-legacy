@@ -84,6 +84,8 @@ A preferred currency can be changed via:
     - 'Webshop'->'Preferred currency' in admin interface;
     - 'shop/preferredcurrency' in the browser's address-bar;
     - 'Preferred currency' toolbar on user's site;
+    - 'shop/setpreferredcurrency/(currency)/XXX where XXX is currency code
+      like USD, NOK, ...
 
 2. Multi-prices
 
