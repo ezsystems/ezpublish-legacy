@@ -124,9 +124,9 @@ class eZTemplateIncludeFunction
                  $parameterName == 'name' )
                 continue;
             $parameterData =& $parameters[$parameterName];
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$restoreIncludeArray[] = array( $namespaceName, '$parameterName', \$vars[$namespaceName]['$parameterName'] );\n" );
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
                                                                   array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$restoreIncludeArray[] = array( $namespaceName, '$parameterName', \$vars[$namespaceName]['$parameterName'] );\n" );
             $variableList[] = $parameterName;
         }
 
