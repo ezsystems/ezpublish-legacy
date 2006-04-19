@@ -8,3 +8,5 @@ Changes from 3.8.0beta2 to 3.8.0rc1
 - Fixed bug #8138: Errors in ezobjectrelationlist standard template.
 - Fixed bug #7941: Warnings about invalid class identifiers 
   with default plain install.
+- Fixed bug #8102: {include} parameters don't respect bounds,
+  when tpl compilation is enabled.

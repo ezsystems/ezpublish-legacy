@@ -124,15 +124,25 @@ class eZTemplateIncludeFunction
                  $parameterName == 'name' )
                 continue;
             $parameterData =& $parameters[$parameterName];
+            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( isset( $namespaceName ) and isset( \$vars[$namespaceName]['$parameterName'] ) )\n".
+                                                                   "    \$restoreIncludeArray[] = array( $namespaceName, '$parameterName', \$vars[$namespaceName]['$parameterName'] );\n".
+                                                                   "else\n".
+                                                                   "    \$restoreIncludeArray[] = array( ( isset( $namespaceName ) ? $namespaceName : '' ), '$parameterName', 'unset' );\n" );
+
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
                                                                   array( $namespaceValue, EZ_TEMPLATE_NAMESPACE_SCOPE_RELATIVE, $parameterName ) );
-            $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "\$restoreIncludeArray[] = array( $namespaceName, '$parameterName', \$vars[$namespaceName]['$parameterName'] );\n" );
             $variableList[] = $parameterName;
         }
 
         $newNodes = array_merge( $newNodes, $includeNodes );
+        // Restore previous variables, before including
         $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "foreach ( \$restoreIncludeArray as \$element )\n".
                                                                "{\n".
+                                                               "    if ( \$element[2] == 'unset' )\n".
+                                                               "    {\n".
+                                                               "        unset( \$vars[\$element[0]][\$element[1]] );\n".
+                                                               "        continue;\n".
+                                                               "    }\n".
                                                                "    \$vars[\$element[0]][\$element[1]] = \$element[2];\n".
                                                                "}\n".
                                                                "\$restoreIncludeArray = \$oldRestoreIncludeArray" . "_$uniqID;\n" );
