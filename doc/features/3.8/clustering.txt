@@ -91,3 +91,36 @@ Apply the following RewriteRules before your rules:
 
 
  8. Restart apache and this should work.
+
+*Usage:
+
+You can easily store your files into database and retrieve them back,
+rename and delete them, etc using the cluster file handler API.
+
+Before using a handler, you must instantiate it as following:
+
+    require_once( 'kernel/classes/ezclusterfilehandler.php' );
+    $fileHandler = eZClusterFileHandler::instance();
+
+Example #1: Storing existing file to database
+
+    $fileHandler->fileStore( 'var/storage/files/foo.txt' );
+
+Example #2: Creating file in database and storing given data to it
+
+    $fileHandler->fileStoreContents( 'var/storage/files/foo.txt', $data );
+
+Example #3: Fetching file from database
+
+    // copy file from database to filesystem
+    $fileHandler->fileFetch( 'var/storage/files/foo.txt' );
+
+Example #4: Retrieving file contents from database
+
+    $data = $fileHandler->fileFetchContents( 'var/storage/files/foo.txt' );
+
+Example #5: Deleting file from database
+
+    $fileHandler->fileDelete( 'var/storage/files/foo.txt' );
+
+For more information see kernel/classes/clusterfilehandlers/*.php.
