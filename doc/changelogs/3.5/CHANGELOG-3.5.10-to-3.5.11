@@ -42,6 +42,9 @@ Changes from 3.5.10 to 3.5.11
   ( Merged from trunk ( 3.8.0beta2 ) rev. 15714 )
 - Fixed bug #8102: {include} parameters don't respect bounds.
   ( Merged from stable/3.7 ( 3.7.6 ) rev. 15717 )
+- Fixed bug #7941: Warnings about invalid class identifiers 
+  with default plain install.
+  ( Merged from trunk ( 3.8.0rc1 rev. 15754 )
 
 *INI settings:
 - Added site.ini:[ShopSettings].ClearBasketOnLogout setting:
