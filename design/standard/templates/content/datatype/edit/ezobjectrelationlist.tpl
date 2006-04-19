@@ -134,7 +134,7 @@
 {* Simple interface. *}
 {section-else}
 
- section show=$attribute.content.relation_list}
+{section show=$attribute.content.relation_list}
 
 <table class="list" cellspacing="0">
 <tr>
