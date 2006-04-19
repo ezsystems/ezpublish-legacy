@@ -10,3 +10,6 @@ Changes from 3.8.0beta2 to 3.8.0rc1
   with default plain install.
 - Fixed bug #8102: {include} parameters don't respect bounds,
   when tpl compilation is enabled.
+- Fixed bug: TrimSpaces settings removed too many spaces.
+  (also this setting is now on by default)
+- Fixed bug #8147: RenderParagraphInTableCells setting is not working.

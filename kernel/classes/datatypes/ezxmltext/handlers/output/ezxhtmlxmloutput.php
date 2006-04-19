@@ -535,6 +535,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 case "ol":
                     break;
 
+                case "paragraph":
+                    $tagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel );
+                    break;
+
                 default :
                     $childTagText .= $this->renderXHTMLTag( $tpl, $childTag, $currentSectionLevel, $isBlockTag, $tdSectionLevel, $isChildOfLinkTag );
             }
@@ -837,12 +841,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         $tableCellChildren = $tableCell->children();
                         // If <paragraph> is the one and only child then rendering <p> depends of
                         // RenderParagraphInTableCells option setting.
-                        if ( ( count( $tableCellChildren ) == 1 ) and ( $tableCellChildren[0]->name() == "paragraph" ))
+                        if ( count( $tableCellChildren ) == 1 && $tableCellChildren[0]->name() == "paragraph" )
                         {
                             if ( $renderParagraphInTableCells )
                                 $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, 0, 0 );
                             else
-                                $cellContent .= $this->renderXHTMLParagraph( $tpl, $tableCellChildren[0], 0, 0 );
+                                $cellContent .= $this->renderXHTMLTag( $tpl, $tableCellChildren[0], 0, 0 );
                         }
                         else
                             $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, 0, 0 );
