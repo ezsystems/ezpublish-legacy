@@ -1795,6 +1795,7 @@ WHERE user_id = '" . $userID . "' AND
      */
     function postCollectUserInfo()
     {
+        return true;
     }
 
     /*!
