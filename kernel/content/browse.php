@@ -95,8 +95,17 @@ $tpl->setVariable( 'parents', $parents );
 $tpl->setVariable( 'csm_menu_item_click_action', '/content/browse' );
 $tpl->setVariable( 'cancel_action', $cancelAction );
 
-
+if ( isset( $Params['UserParameters'] ) )
+{
+    $UserParameters = $Params['UserParameters'];
+}
+else
+{
+    $UserParameters = array();
+}
 $viewParameters = array( 'offset' => $Offset );
+$viewParameters = array_merge( $viewParameters, $UserParameters );
+
 $tpl->setVariable( 'view_parameters', $viewParameters );
 
 $tpl->setVariable( 'path', false );
