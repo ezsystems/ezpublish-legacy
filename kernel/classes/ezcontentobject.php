@@ -398,7 +398,6 @@ class eZContentObject extends eZPersistentObject
         $initialLanguage = $this->initialLanguage();
         $initialLanguageCode = $initialLanguage->attribute( 'locale' );
         $db =& eZDB::instance();
-        $objectName = $db->escapeString( $objectName );
 
         if ( $languageCode == false )
         {
@@ -418,6 +417,8 @@ class eZContentObject extends eZPersistentObject
         $versionNum =(int) $versionNum;
 
         $languageID =(int) eZContentLanguage::idByLocale( $languageCode );
+
+        $objectName = $db->escapeString( $objectName );
 
         $db->begin();
 
