@@ -219,7 +219,7 @@ class eZUserLoginHandler
                 $http->setSessionVariable( EZ_LOGIN_HANDLER_STEP, EZ_LOGIN_HANDLER_STEP_POST_COLLECT_USER_INFO );
 
                 $handler = null;
-                if ( !$http->hasSessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME ) )
+                if ( $http->hasSessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME ) )
                 {
                     $handlerName = $http->sessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME );
                     $handler =& eZUserLoginHandler::instance( $handlerName );
@@ -244,7 +244,7 @@ class eZUserLoginHandler
                 $http->setSessionVariable( EZ_LOGIN_HANDLER_STEP, EZ_LOGIN_HANDLER_STEP_LOGIN_USER );
 
                 $handler = null;
-                if ( !$http->hasSessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME ) )
+                if ( $http->hasSessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME ) )
                 {
                     $handlerName = $http->sessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME );
                     $handler =& eZUserLoginHandler::instance( $handlerName );
