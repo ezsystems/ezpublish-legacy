@@ -131,11 +131,11 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             // as they are used for indenting and don't need to be parsed.
 
             //// TODO: move this logic to the parser
-            $text = preg_replace('/\n[ ]*</', '<br/><', $text);
+            //$text = preg_replace('/\n[ ]*</', '<br/><', $text);
 
             // Convert linebreaks
             $text = preg_replace('/^\n/', '<p></p>', $text );
-            $text = preg_replace('/\n\n/', '<p></p>', $text);
+            //$text = preg_replace('/\n\n/', '<p></p>', $text);
             $text = preg_replace('/\n/', '<br/>', $text);
 
             $parser = new eZSimplifiedXMLInputParser( $contentObjectID );

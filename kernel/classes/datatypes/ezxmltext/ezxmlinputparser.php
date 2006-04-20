@@ -670,15 +670,6 @@ class eZXMLInputParser
 
         $parent =& $element->parentNode;
 
-        // Delete if children required and no children
-        if ( $parent && $this->XMLSchema->exists( $element ) &&
-             ( $this->XMLSchema->childrenRequired( $element ) || $element->getAttribute( 'children_required' ) )
-                          && !$element->hasChildNodes() )
-        {
-            $parent->removeChild( $element );
-            return $ret;
-        }
-
         // Call "Structure handler"
         $ret =& $this->callOutputHandler( 'structHandler', $element, $lastHandlerResult );
 
@@ -751,13 +742,28 @@ class eZXMLInputParser
                 $parent->removeChild( $element );
                 return false;
             }
-    
+
+            // Delete if children required and no children
+            if ( ( $this->XMLSchema->childrenRequired( $element ) || $element->getAttribute( 'children_required' ) )
+                 && !$element->hasChildNodes() )
+            {
+                $parent->removeChild( $element );
+                return false;
+            }
+
             // Check schema and remove wrong elements
             $schemaCheckResult = $this->XMLSchema->check( $parent, $element );
             if ( !$schemaCheckResult )
             {
                 if ( $schemaCheckResult === false )
                 {
+                    // Remove indenting spaces
+                    if ( $element->Type == EZ_XML_NODE_TEXT && !trim( $element->content() ) )
+                    {
+                        $parent->removeChild( $element );
+                        return false;
+                    }
+
                     $this->isInputValid = false;
                     if ( $verbose && $this->errorLevel >= 1 )
                     {
@@ -769,6 +775,13 @@ class eZXMLInputParser
                 $this->fixSubtree( $element, $element );
                 return false;
             }
+        }
+        // Break processing text nodes that doesn't have parent
+        // TODO: break processing of any node that doesn't have parent
+        //       and is not a root node.
+        elseif ( $element->Type == EZ_XML_NODE_TEXT )
+        {
+            return false;
         }
         return true;
     }
@@ -923,8 +936,8 @@ class eZXMLInputParser
         {
             $element =& $this->createdElements[$key];
 
-            //if ( !$this->processElementBySchema( $element ) )
-            //    continue;
+            if ( !$this->processElementBySchema( $element ) )
+                continue;
 
             $tmp = null;
             // Call "Publish handler"

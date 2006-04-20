@@ -267,7 +267,6 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             return $ret;
 
         $parentName = $parent->nodeName;
-        $next =& $element->nextSibling();
         $newParentName = $newParent != null ? $newParent->nodeName : '';
 
         // Correct structure by adding <line> and <paragraph> tags.
@@ -315,25 +314,51 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     function &structHandlerBr( &$element, &$newParent )
     {
         $ret =& $newParent;
+        $parent =& $element->parentNode;
+        $next =& $element->nextSibling();
 
-        if ( $newParent )
+        if ( $next && $next->nodeName == 'br' )
         {
-            if ( $newParent->nodeName == 'line' )
+            if ( $this->XMLSchema->check( $parent, 'paragraph' ) )
             {
-                $ret =& $newParent->parentNode;
-                $next =& $element->nextSibling();
-                if ( $next && $next->nodeName == 'br' && $ret->parentNode )
+                if ( !$newParent )
                 {
-                    $ret =& $ret->parentNode;
+                    // create paragraph in case of the first empty paragraph
+                    $newPara =& $this->createAndPublishElement( 'paragraph' );
+                    $parent->replaceChild( $newPara, $element );
+                }
+                elseif ( $newParent->nodeName == 'paragraph' ||
+                         $newParent->nodeName == 'line' )
+                {
+                    // break paragraph or line flow
+                    unset( $ret );
+                    $ret = null;
+                    // create paragraph in case of the last empty paragraph
+                    $nextToNext =& $next->nextSibling();
+                    if ( !$nextToNext )
+                    {
+                        $newPara =& $this->createAndPublishElement( 'paragraph' );
+                        $parent->replaceChild( $newPara, $element );
+                    }
                 }
             }
-            elseif ( $newParent->nodeName == 'paragraph' )
+        }
+        else
+        {
+            if ( $newParent && $newParent->nodeName == 'line' )
             {
-                $next =& $element->nextSibling();
-                if ( $next && $next->nodeName == 'br' )
-                {
-                    $ret =& $newParent->parentNode;
-                }
+                $ret =& $newParent->parentNode;
+            }
+        }
+
+        // Trim spaces used for tag indenting
+        if ( $next && $next->Type == EZ_XML_NODE_TEXT && !trim( $next->content() ) )
+        {
+            $nextToNext =& $next->nextSibling();
+            if ( !$nextToNext || $nextToNext->nodeName != 'br' )
+            {
+                $parent =& $element->parentNode;
+                $parent->removeChild( $next );
             }
         }
         return $ret;
@@ -367,7 +392,7 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
             if ( $this->XMLSchema->check( $parentName, 'paragraph' ) )
             {
-                $newPara =& $this->createAndPublishElement( 'paragraph' );;
+                $newPara =& $this->createAndPublishElement( 'paragraph' );
                 $parent->replaceChild( $newPara, $element );
                 $newPara->appendChild( $element );
                 $ret =& $newPara;
