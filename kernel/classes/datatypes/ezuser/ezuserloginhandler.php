@@ -221,7 +221,7 @@ class eZUserLoginHandler
                 $handler = null;
                 if ( $http->hasSessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME ) )
                 {
-                    $handlerName = $http->sessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME );
+                    $handlerName =& $http->sessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME );
                     $handler =& eZUserLoginHandler::instance( $handlerName );
                 }
                 if ( $handler )
@@ -230,7 +230,7 @@ class eZUserLoginHandler
                 }
                 else
                 {
-                    $redirect = $http->sessionVariable( EZ_LOGIN_HANDLER_LAST_CHECK_REDIRECT );
+                    $redirect =& $http->sessionVariable( EZ_LOGIN_HANDLER_LAST_CHECK_REDIRECT );
                     if ( !$redirect )
                     {
                         $redirect = array( 'module' => 'user', 'function' => 'login' );
@@ -246,7 +246,7 @@ class eZUserLoginHandler
                 $handler = null;
                 if ( $http->hasSessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME ) )
                 {
-                    $handlerName = $http->sessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME );
+                    $handlerName =& $http->sessionVariable( EZ_LOGIN_HANDLER_LAST_HANDLER_NAME );
                     $handler =& eZUserLoginHandler::instance( $handlerName );
                 }
 
@@ -272,7 +272,7 @@ class eZUserLoginHandler
                     $handlerList = $ini->variable( 'UserSettings', 'LoginHandler' );
                 }
 
-                $userInfoArray = $http->sessionVariable( EZ_LOGIN_HANDLER_USER_INFO );
+                $userInfoArray =& $http->sessionVariable( EZ_LOGIN_HANDLER_USER_INFO );
                 $http->removeSessionVariable( EZ_LOGIN_HANDLER_USER_INFO );
 
                 if ( $http->hasSessionVariable( EZ_LOGIN_HANDLER_FORCE_LOGIN ) )
