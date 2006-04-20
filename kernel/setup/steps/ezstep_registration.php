@@ -87,13 +87,13 @@ class eZStepRegistration extends eZStepInstaller
         }
         else if ( $siteType['access_type'] == 'hostname' )
         {
-            $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'host' => $siteType['access_type_value'] ) );
-            $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'host' => $siteType['admin_access_type_value'] ) );
+            $url = eZHTTPTool::createRedirectURL( 'http://' . $siteType['access_type_value'] );
+            $adminURL = eZHTTPTool::createRedirectURL( 'http://' . $siteType['admin_access_type_value'] );
         }
         else if ( $siteType['access_type'] == 'port' )
         {
-            $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'port' => $siteType['access_type_value'] ) );
-            $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'port' => $siteType['admin_access_type_value'] ) );
+            $url = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $siteType['access_type_value'] ) );
+            $adminURL = eZHTTPTool::createRedirectURL( $currentURL, array( 'override_port' => $siteType['admin_access_type_value'] ) );
         }
         $siteType['url'] = $url;
         $siteType['admin_url'] = $adminURL;
