@@ -19,3 +19,4 @@ Changes from 3.8.0beta2 to 3.8.0rc1
 - Fixed bug: Double-escaping of the object's name.
 - Fixed bug #8146: Wrong url information in setup.
 - Fixed bug #7873: Wrong name for template ezprize.tpl
+- Fixed bug #8140: Unable to get custom view parameters for content/browse.
