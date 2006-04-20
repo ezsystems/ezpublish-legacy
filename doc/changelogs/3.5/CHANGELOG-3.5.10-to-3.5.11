@@ -50,6 +50,8 @@ Changes from 3.5.10 to 3.5.11
   ( Merged from trunk ( 3.8.0rc1 ) rev. 15759 )
 - Fixed bug #8146: Wrong url information in setup.
   ( Merged from trunk ( 3.8.0rc1 ) rev. 15772 )
+- Fixed bug #7873: Wrong name for template ezprize.tpl
+  ( Merged from trunk ( 3.8.0rc1 ) rev. 15776 )
 
 *INI settings:
 - Added site.ini:[ShopSettings].ClearBasketOnLogout setting:
