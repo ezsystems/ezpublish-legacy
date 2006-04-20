@@ -235,7 +235,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 // tags with parameters
                 case 'header' :
                 {
-                    $output .= $this->renderXHTMLTag( $tpl, $sectionNode, $sectionLevel, true, $tdSectionLevel );
+                    $isBlockTag = null;
+                    $output .= $this->renderXHTMLTag( $tpl, $sectionNode, $sectionLevel, $isBlockTag, $tdSectionLevel );
                 }break;
 
                 case 'paragraph' :
@@ -389,7 +390,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
      \private
      Will render a tag and return the rendered text.
     */
-    function &renderXHTMLTag( &$tpl, &$tag, $currentSectionLevel, $isBlockTag, $tdSectionLevel = null, $isChildOfLinkTag = false )
+    function &renderXHTMLTag( &$tpl, &$tag, $currentSectionLevel, &$isBlockTag, $tdSectionLevel = null, $isChildOfLinkTag = false )
     {
         $tagText = "";
         $childTagText = "";
@@ -846,7 +847,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                             if ( $renderParagraphInTableCells )
                                 $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, 0, 0 );
                             else
-                                $cellContent .= $this->renderXHTMLTag( $tpl, $tableCellChildren[0], 0, 0 );
+                            {
+                                $isChildrenBlock = false;
+                                $cellContent .= $this->renderXHTMLTag( $tpl, $tableCellChildren[0], 0, $isChildrenBlock );
+                            }
                         }
                         else
                             $cellContent .= $this->renderXHTMLSection( $tpl, $tableCell, 0, 0 );
@@ -963,7 +967,8 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                         }
                         else
                         {
-                            $listItemContent .= $this->renderXHTMLTag( $tpl, $itemChildNode, 0, $isBlockTag );
+                            $isChildrenBlock = false;
+                            $listItemContent .= $this->renderXHTMLTag( $tpl, $itemChildNode, 0, $isChildrenBlock );
                         }
                     }
 
