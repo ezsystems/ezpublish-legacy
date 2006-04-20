@@ -18,3 +18,4 @@ Changes from 3.8.0beta2 to 3.8.0rc1
   (Merged from stable/3.7 (3.7.6) rev. 15764)
 - Fixed bug: Double-escaping of the object's name.
 - Fixed bug #8146: Wrong url information in setup.
+- Fixed bug #7873: Wrong name for template ezprize.tpl
