@@ -179,7 +179,6 @@ if ( $Module->isCurrentAction( 'Login' ) and
     if ( $redirectionURI == '' )
         $redirectionURI = $ini->variable( 'SiteSettings', 'DefaultPage' );
 
-//     eZDebug::writeDebug( $user, 'user');
     $userID = 0;
     if ( get_class( $user ) == 'ezuser' )
         $userID = $user->id();
@@ -192,25 +191,14 @@ if ( $Module->isCurrentAction( 'Login' ) and
 }
 else
 {
-    $loginPage = $ini->variable( 'SiteSettings', 'LoginPage' );
-
-    if ( $loginPage == 'embedded' ||
-         $loginPage == 'custom' )
+    $requestedURI =& $GLOBALS['eZRequestedURI'];
+    if ( get_class( $requestedURI ) == 'ezuri' )
     {
-        $requestedURI =& $GLOBALS['eZRequestedURI'];
-        if ( get_class( $requestedURI ) == 'ezuri' )
-        {
-            $requestedModule = $requestedURI->element( 0, false );
-            $requestedView = $requestedURI->element( 1, false );
-            if ( $requestedModule != 'user' or
-                 $requestedView != 'login' )
-                $userRedirectURI = $requestedURI->uriString( true );
-        }
-    }
-    else
-    {
-        eZUserLoginHandler::forceLogin();
-        return $Module->redirectTo( '/' );
+        $requestedModule = $requestedURI->element( 0, false );
+        $requestedView = $requestedURI->element( 1, false );
+        if ( $requestedModule != 'user' or
+             $requestedView != 'login' )
+            $userRedirectURI = $requestedURI->uriString( true );
     }
 }
 
