@@ -180,7 +180,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
     <a id="menu-list" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'View index'|i18n( 'design/admin/popupmenu' )}</a>
     <a id="reverse-related" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Reverse related for subtree'|i18n( 'design/admin/popupmenu' )}</a>
     <hr />
-    <a id="menu-diff" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Content diff'|i18n( 'design/admin/popupmenu' )}</a>
+    <a id="menu-diff" href="#" onmouseover="ezpopmenu_mouseOver( 'Advanced' )">{'Compare versions'|i18n( 'design/admin/popupmenu' )}</a>
 </div>
 
 
@@ -203,7 +203,7 @@ menuArray['OverrideByNodeSiteAccess']['depth'] = 1;
     <a id="override-by-class-view" class="more" href="#" onmouseover="ezpopmenu_hide('OverrideSiteAccess'); ezpopmenu_hide('OverrideByNodeSiteAccess'); ezpopmenu_showSubLevel( event, 'OverrideByClassSiteAccess', 'override-by-class-view' ); return false;">{"New class override"|i18n("design/admin/popupmenu")}</a>
     <a id="override-by-node-view" class="more" href="#" onmouseover="ezpopmenu_hide('OverrideSiteAccess'); ezpopmenu_hide('OverrideByClassSiteAccess'); ezpopmenu_showSubLevel( event, 'OverrideByNodeSiteAccess', 'override-by-node-view' ); return false;">{"New node override"|i18n("design/admin/popupmenu")}</a>
     <hr />
-    <a id="class-diff" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{'Content diff'|i18n( 'design/admin/popupmenu' )}</a>
+    <a id="class-diff" href="#" onmouseover="ezpopmenu_mouseOver( 'ClassMenu' )">{'Compare versions'|i18n( 'design/admin/popupmenu' )}</a>
 </div>
 
 
