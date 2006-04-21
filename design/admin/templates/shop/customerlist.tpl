@@ -20,45 +20,56 @@
 	<th class="tight">{'Total (inc. VAT)'|i18n( 'design/admin/shop/customerlist' )}</th>
 </tr>
 
-{def $orders_info_count = false()
-     $currency = false()
+{def $currency = false()
      $locale = false()
-     $symbol = false()}
+     $symbol = false()
+     $order_count_text = ''
+     $sum_ex_vat_text = ''
+     $sum_inc_vat_text = ''
+     $br_tag = ''}
 
 {section var=Customers loop=$customer_list sequence=array( bglight, bgdark )}
 
-{set orders_info_count = $Customers.orders_info|count()}
+    {set order_count_text = ''
+         sum_ex_vat_text = ''
+         sum_inc_vat_text = ''
+         br_tag = ''}
 
-{foreach $Customers.orders_info as $currency_code => $order_info }
+    {foreach $Customers.orders_info as $currency_code => $order_info }
 
-{if $currency_code}
-    {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) ) }
-{else}
-    {set currency = false()}
-{/if}
+        {if $currency_code}
+            {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) ) }
+        {else}
+            {set currency = false()}
+        {/if}
 
-{if $currency}
-    {set locale = $currency.locale
-         symbol = $currency.symbol}
-{else}
-    {set locale = false()
-         symbol = false()}
-{/if}
+        {if $currency}
+            {set locale = $currency.locale
+                 symbol = $currency.symbol}
+        {else}
+            {set locale = false()
+                 symbol = false()}
+        {/if}
 
-<tr class="{$Customers.sequence}">
-    {if $orders_info_count }
-        <td rowspan="{$orders_info_count}"><a href={concat( '/shop/customerorderview/', $Customers.user_id, '/', $Customers.email )|ezurl}>{$Customers.account_name}</a></td>
-        {set orders_info_count = false()}
-    {/if}
-    <td class="number" align="right">{$order_info.order_count}</td>
-	<td class="number" align="right">{$order_info.sum_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
-	<td class="number" align="right">{$order_info.sum_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
-</tr>
-{/foreach}
+        {set order_count_text = concat( $order_count_text, $br_tag, $order_info.order_count) }
+        {set sum_ex_vat_text = concat($sum_ex_vat_text, $br_tag, $order_info.sum_ex_vat|l10n( 'currency', $locale, $symbol )) }
+        {set sum_inc_vat_text = concat($sum_inc_vat_text, $br_tag, $order_info.sum_inc_vat|l10n( 'currency', $locale, $symbol )) }
+
+        {if $br_tag|not()}
+            {set br_tag = '<br />'}
+        {/if}
+    {/foreach}
+    <tr class="{$Customers.sequence}">
+        <td class="name"><a href={concat( '/shop/customerorderview/', $Customers.user_id, '/', $Customers.email )|ezurl}>{$Customers.account_name}</a></td>
+        <td class="number" align="right">{$order_count_text}</td>
+    	<td class="number" align="right">{$sum_ex_vat_text}</td>
+    	<td class="number" align="right">{$sum_inc_vat_text}</td>
+    </tr>
+
 {section-else}
 
 {/section}
-{undef $orders_info_count $currency $locale $symbol}
+{undef}
 </table>
 
 <div class="context-toolbar">

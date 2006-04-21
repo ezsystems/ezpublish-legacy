@@ -82,42 +82,50 @@
 	</th>
 </tr>
 
+{def $quantity_text = ''
+     $total_ex_vat_text = ''
+     $total_inc_vat_text = ''
+     $br_tag = ''}
+
 {section var="Product" loop=$product_list sequence=array(bglight,bgdark)}
 
-{set product_info_count = $Product.product_info|count()}
+    {set quantity_text = ''
+         total_ex_vat_text = ''
+         total_inc_vat_text = ''
+         br_tag = ''}
 
-{foreach $Product.product_info as $currency_code => $info}
-{if $currency_code}
-    {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) ) }
-{else}
-    {set currency = false()}
-{/if}
-{if $currency}
-    {set locale = $currency.locale
-         symbol = $currency.symbol}
-{else}
-    {set locale = false()
-         symbol = false()}
-{/if}
+    {foreach $Product.product_info as $currency_code => $info}
+        {if $currency_code}
+            {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) ) }
+        {else}
+            {set currency = false()}
+        {/if}
+        {if $currency}
+            {set locale = $currency.locale
+                 symbol = $currency.symbol}
+        {else}
+            {set locale = false()
+                 symbol = false()}
+        {/if}
 
-<tr>
-    {if $product_info_count}
-    	<td class="{$Product.sequence}" rowspan="{$product_info_count}">
-        {content_view_gui view=text_linked content_object=$Product.product}
-    	</td>
-        {set product_info_count = false()}
-    {/if}
-    <td class="{$Product.sequence}">
-    {$info.sum_count}
-	<td class="{$Product.sequence}">
-	{$info.sum_ex_vat|l10n( 'currency', $locale, $symbol )}
-	</td>
-	<td class="{$Product.sequence}">
-	{$info.sum_inc_vat|l10n( 'currency', $locale, $symbol )}
-	</td>
-</tr>
-{/foreach}
+        {set quantity_text = concat( $quantity_text, $br_tag, $info.sum_count) }
+        {set total_ex_vat_text = concat($total_ex_vat_text, $br_tag, $info.sum_ex_vat|l10n( 'currency', $locale, $symbol )) }
+        {set total_inc_vat_text = concat($total_inc_vat_text, $br_tag, $info.sum_inc_vat|l10n( 'currency', $locale, $symbol )) }
+
+        {if $br_tag|not()}
+            {set br_tag = '<br />'}
+        {/if}
+    {/foreach}
+
+    <tr>
+        <td class="{$Product.sequence}">{content_view_gui view=text_linked content_object=$Product.product}</td>
+        <td class="{$Product.sequence}" align="right">{$quantity_text}</td>
+        <td class="{$Product.sequence}" align="right">{$total_ex_vat_text}</td>
+        <td class="{$Product.sequence}" align="right">{$total_inc_vat_text}</td>
+    </tr>
+
 {/section}
+
 </table>
 {/section}
-{undef $currency $locale $symbol $product_info_count}
+{undef}

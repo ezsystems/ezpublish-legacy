@@ -88,47 +88,58 @@
 	<th>{'Total (inc. VAT)'|i18n( 'design/admin/shop/customerorderview' )}</th>
 </tr>
 
-{def $product_info_count = false()}
+{def $quantity_text = ''
+     $total_ex_vat_text = ''
+     $total_inc_vat_text = ''
+     $br_tag = ''}
 
 {section var=Products loop=$product_list sequence=array( bglight, bgdark )}
 
-{set product_info_count = $Products.product_info|count()}
+    {set quantity_text = ''
+         total_ex_vat_text = ''
+         total_inc_vat_text = ''
+         br_tag = ''}
 
-{foreach $Products.product_info as $currency_code => $info}
-{if $currency_code}
-    {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) ) }
-{else}
-    {set currency = false()}
-{/if}
-{if $currency}
-    {set locale = $currency.locale
-         symbol = $currency.symbol}
-{else}
-    {set locale = false()
-         symbol = false()}
-{/if}
+    {foreach $Products.product_info as $currency_code => $info}
+        {if $currency_code}
+            {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) ) }
+        {else}
+            {set currency = false()}
+        {/if}
+        {if $currency}
+            {set locale = $currency.locale
+                 symbol = $currency.symbol}
+        {else}
+            {set locale = false()
+                 symbol = false()}
+        {/if}
 
-<tr class="{$Products.sequence}">
-    {if $product_info_count}
-        {if and( $Products.product, $Products.product.main_node )}
+        {set quantity_text = concat( $quantity_text, $br_tag, $info.sum_count) }
+        {set total_ex_vat_text = concat($total_ex_vat_text, $br_tag, $info.sum_ex_vat|l10n( 'currency', $locale, $symbol )) }
+        {set total_inc_vat_text = concat($total_inc_vat_text, $br_tag, $info.sum_inc_vat|l10n( 'currency', $locale, $symbol )) }
+
+        {if $br_tag|not()}
+            {set br_tag = '<br />'}
+        {/if}
+    {/foreach}
+
+    <tr class="{$Products.sequence}">
+       {if and( $Products.product, $Products.product.main_node )}
             {let node_url=$Products.product.main_node.url_alias}
-                <td rowspan="{$product_info_count}">{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{section show=$node_url}<a href={$node_url|ezurl}>{/section}{$Products.product.name|wash}{section show=$node_url}</a>{/section}</td>
+                <td class="name">{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{section show=$node_url}<a href={$node_url|ezurl}>{/section}{$Products.product.name|wash}{section show=$node_url}</a>{/section}</td>
             {/let}
         {else}
-            <td rowspan="{$product_info_count}">{false()|class_icon( small )}&nbsp;{$Products.name|wash}</td>
+            <td class="name">{false()|class_icon( small )}&nbsp;{$Products.name|wash}</td>
         {/if}
-        {set product_info_count = false()}
-    {/if}
-    <td class="number" align="right">{$info.sum_count}</td>
-	<td class="number" align="right">{$info.sum_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
-	<td class="number" align="right">{$info.sum_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
-</tr>
-{/foreach}
+        <td class="number" align="right">{$quantity_text}</td>
+        <td class="number" align="right">{$total_ex_vat_text}</td>
+        <td class="number" align="right">{$total_inc_vat_text}</td>
+    </tr>
 {/section}
 </table>
 {/section}
-{undef $currency $locale $symbol}
 
+{undef}
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
 

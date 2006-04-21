@@ -16,7 +16,10 @@
 {def $currency = false()
      $locale = false()
      $symbol = false()
-     $product_info_count = false()}
+     $quantity_text = ''
+     $sum_ex_vat_text = ''
+     $sum_inc_vat_text = ''
+     $br_tag = ''}
 
 <table class="list" cellspacing="0">
 <tr>
@@ -27,72 +30,90 @@
 </tr>
 {section var=Products loop=$statistic_result[0].product_list sequence=array( bglight, bgdark )}
 
-{set product_info_count = $Products.product_info|count()}
-{foreach $Products.product_info as $currency_code => $info}
-{if $currency_code}
-    {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) )}
-{else}
-    {set currency = false()}
-{/if}
+    {set quantity_text = ''
+         sum_ex_vat_text = ''
+         sum_inc_vat_text = ''
+         br_tag = ''}
 
-{if $currency}
-    {set locale = $currency.locale
-         symbol = $currency.symbol}
-{else}
-    {set locale = false()
-         symbol = false()}
-{/if}
+    {foreach $Products.product_info as $currency_code => $info}
+        {if $currency_code}
+            {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) )}
+        {else}
+            {set currency = false()}
+        {/if}
 
-<tr class="{$Products.sequence}">
-    {if $product_info_count}
+        {if $currency}
+            {set locale = $currency.locale
+                 symbol = $currency.symbol}
+        {else}
+            {set locale = false()
+                 symbol = false()}
+        {/if}
+
+        {set quantity_text = concat( $quantity_text, $br_tag, $info.sum_count) }
+        {set sum_ex_vat_text = concat($sum_ex_vat_text, $br_tag, $info.sum_ex_vat|l10n( 'currency', $locale, $symbol )) }
+        {set sum_inc_vat_text = concat($sum_inc_vat_text, $br_tag, $info.sum_inc_vat|l10n( 'currency', $locale, $symbol )) }
+
+        {if $br_tag|not()}
+            {set br_tag = '<br />'}
+        {/if}
+
+    {/foreach}
+
+    <tr class="{$Products.sequence}">
         {if and( $Products.product, $Products.product.main_node )}
             {let node_url=$Products.product.main_node.url_alias}
-                <td rowspan="{$product_info_count}">{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{section show=$node_url}<a href={$node_url|ezurl}>{/section}{$Products.product.name|wash}{section show=$node_url}</a>{/section}</td>
+                <td class="name">{$Products.product.class_identifier|class_icon( small, $Products.product.class_name )}&nbsp;{section show=$node_url}<a href={$node_url|ezurl}>{/section}{$Products.product.name|wash}{section show=$node_url}</a>{/section}</td>
             {/let}
         {else}
-            <td rowspan="{$product_info_count}">{false()|class_icon( small )}&nbsp;{$Products.name|wash}</td>
+            <td class="name">{false()|class_icon( small )}&nbsp;{$Products.name|wash}</td>
         {/if}
-        {set product_info_count = false()}
-    {/if}
-    <td class="number" align="right">{$info.sum_count}</td>
-	<td class="number" align="right">{$info.sum_ex_vat|l10n( 'currency', $locale, $symbol )}</td>
-	<td class="number" align="right">{$info.sum_inc_vat|l10n( 'currency', $locale, $symbol )}</td>
-</tr>
-{/foreach}
+        <td class="number" align="right">{$quantity_text}</td>
+        <td class="number" align="right">{$sum_ex_vat_text}</td>
+        <td class="number" align="right">{$sum_inc_vat_text}</td>
+    </tr>
+
 {/section}
-{def $total_sum_info_count = $statistic_result[0].total_sum_info|count()}
+
+{set sum_ex_vat_text = ''
+     sum_inc_vat_text = ''
+     br_tag = ''}
 
 {foreach $statistic_result[0].total_sum_info as $currency_code => $info}
 
-{if $currency_code}
-    {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) )}
-{else}
-    {set currency = false()}
-{/if}
-
-{if $currency}
-    {set locale = $currency.locale
-         symbol = $currency.symbol}
-{else}
-    {set locale = false()
-         symbol = false()}
-{/if}
-
-<tr>
-    {if $total_sum_info_count}
-	    <td rowspan="{$total_sum_info_count}">{concat( '<strong>', 'SUM'|i18n( 'design/admin/shop/orderstatistics' ), '</strong>:' )}</td>
-        {set total_sum_info_count = false()}
+    {if $currency_code}
+        {set currency = fetch( 'shop', 'currency', hash( 'code', $currency_code ) )}
+    {else}
+        {set currency = false()}
     {/if}
-    <td>&nbsp;</td>
-	<td class="number" align="right"><strong>{$info.sum_ex_vat|l10n( 'currency', $locale, $symbol )}</strong></td>
-	<td class="number" align="right"><strong>{$info.sum_inc_vat|l10n( 'currency', $locale, $symbol )}</strong></td>
-</tr>
+    {if $currency}
+        {set locale = $currency.locale
+             symbol = $currency.symbol}
+    {else}
+        {set locale = false()
+             symbol = false()}
+    {/if}
+
+    {set sum_ex_vat_text = concat($sum_ex_vat_text, $br_tag, $info.sum_ex_vat|l10n( 'currency', $locale, $symbol )) }
+    {set sum_inc_vat_text = concat($sum_inc_vat_text, $br_tag, $info.sum_inc_vat|l10n( 'currency', $locale, $symbol )) }
+
+    {if $br_tag|not()}
+        {set br_tag = '<br />'}
+    {/if}
 
 {/foreach}
 
+<tr>
+    <td class="name">{concat( '<strong>', 'SUM'|i18n( 'design/admin/shop/orderstatistics' ), '</strong>:' )}</td>
+    <td>&nbsp;</td>
+    <td class="number" align="right"><strong>{$sum_ex_vat_text}</strong></td>
+    <td class="number" align="right"><strong>{$sum_inc_vat_text}</strong></td>
+</tr>
+
+
 </table>
 
-{undef $currency $locale $symbol $product_info_count $total_sum_info_count}
+{undef}
 
 {section-else}
 <div class="block">
