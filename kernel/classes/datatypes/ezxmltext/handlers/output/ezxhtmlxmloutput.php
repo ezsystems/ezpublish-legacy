@@ -216,7 +216,15 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         eZDebugSetting::writeDebug( 'kernel-datatype-ezxmltext', "level " . $section->toString( 0 ) );
 
         // Reset header counter
-        $this->HeaderCount[$currentSectionLevel] = 0;
+        if ( !isset( $this->HeaderCount[$currentSectionLevel] ) )
+            $this->HeaderCount[$currentSectionLevel] = 0;
+
+        $deeperLevel = $currentSectionLevel + 1;
+        while( isset( $this->HeaderCount[$deeperLevel] ) )
+        {
+            $this->HeaderCount[$deeperLevel] = 0;
+            $deeperLevel++;
+        }
 
         foreach ( $section->children() as $sectionNode )
         {

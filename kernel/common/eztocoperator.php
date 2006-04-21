@@ -109,7 +109,15 @@ class eZTOCOperator
     function handleSection( $sectionNode, $level = 0 )
     {
         // Reset level counter
-        $this->HeaderCounter[$level] = 0;
+        if ( !isset( $this->HeaderCounter[$level] ) )
+            $this->HeaderCounter[$level] = 0;
+
+        $deeperLevel = $level + 1;
+        while( isset( $this->HeaderCounter[$deeperLevel] ) )
+        {
+            $this->HeaderCounter[$deeperLevel] = 0;
+            $deeperLevel++;
+        }
 
         $tocText = '';
         $children =& $sectionNode->Children;
