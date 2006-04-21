@@ -35,11 +35,24 @@ include_once( "kernel/classes/ezcontentclass.php" );
 $http =& eZHTTPTool::instance();
 $Module =& $Params["Module"];
 
+if ( isset( $Params['UserParameters'] ) )
+{
+    $UserParameters = $Params['UserParameters'];
+}
+else
+{
+    $UserParameters = array();
+}
+$viewParameters = array();
+$viewParameters = array_merge( $viewParameters, $UserParameters );
+
 $Params['TemplateName'] = "design:user/register.tpl";
 $EditVersion = 1;
 
 include_once( "kernel/common/template.php" );
 $tpl =& templateInit();
+$tpl->setVariable( 'view_parameters', $viewParameters );
+
 $Params['TemplateObject'] =& $tpl;
 
 // $http->removeSessionVariable( "RegisterUserID" );
