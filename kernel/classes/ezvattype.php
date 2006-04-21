@@ -125,9 +125,10 @@ class eZVatType extends eZPersistentObject
                                                 $asObject );
     }
 
-    function isDynamic()
+    function &isDynamic()
     {
-        return ( $this->ID == -1 );
+        $retVal = ( $this->ID == -1 );
+        return $retVal;
     }
 
     /**
