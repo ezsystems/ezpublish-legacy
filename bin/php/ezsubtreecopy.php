@@ -48,7 +48,7 @@ $scriptOptions = $script->getOptions( "[src-node-id:][dst-node-id:][all-versions
                                       "",
                                       array( 'src-node-id' => "Source subtree parent node ID.",
                                              'dst-node-id' => "Destination node ID.",
-                                             'allversions' => "Copy all versions for each contentobject being copied.",
+                                             'all-versions' => "Copy all versions for each contentobject being copied.",
                                              'keep-creator'=> "Do not change the creator (user) for the copied content objects.",
                                              'keep-time'   => "Do not change the creation and modification time of the copied content objects."
                                              ),
