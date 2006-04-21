@@ -282,7 +282,6 @@ if ( $Module->isCurrentAction( 'Login' ) and
         }
     }
 
-//     eZDebug::writeDebug( $user, 'user');
     $userID = 0;
     if ( get_class( $user ) == 'ezuser' )
         $userID = $user->id();
@@ -294,32 +293,20 @@ if ( $Module->isCurrentAction( 'Login' ) and
         // Remove all temporary drafts
         include_once( 'kernel/classes/ezcontentobject.php' );
         eZContentObject::cleanupAllInternalDrafts( $userID );
-//        eZDebug::writeDebug( $http->sessionVariable( 'eZUserLoggedInID' ), 'userid' );
         return $Module->redirectTo( $redirectionURI );
     }
 }
 else
 {
     // called from outside of a template (?)
-    $loginPage = $ini->variable( 'SiteSettings', 'LoginPage' );
-
-    if ( $loginPage == 'embedded' ||
-         $loginPage == 'custom' )
+    $requestedURI =& $GLOBALS['eZRequestedURI'];
+    if ( get_class( $requestedURI ) == 'ezuri' )
     {
-        $requestedURI =& $GLOBALS['eZRequestedURI'];
-        if ( get_class( $requestedURI ) == 'ezuri' )
-        {
-            $requestedModule = $requestedURI->element( 0, false );
-            $requestedView = $requestedURI->element( 1, false );
-            if ( $requestedModule != 'user' or
-                 $requestedView != 'login' )
-                $userRedirectURI = $requestedURI->uriString( true );
-        }
-    }
-    else
-    {
-        eZUserLoginHandler::forceLogin();
-        return $Module->redirectTo( '/' );
+        $requestedModule = $requestedURI->element( 0, false );
+        $requestedView = $requestedURI->element( 1, false );
+        if ( $requestedModule != 'user' or
+             $requestedView != 'login' )
+            $userRedirectURI = $requestedURI->uriString( true );
     }
 }
 
