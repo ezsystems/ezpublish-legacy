@@ -88,34 +88,64 @@ class eZTOCOperator
             $domTree =& $xml->domTree( $xmlData );
 
             $tocText = '';
-            //$tocText = '<div class="toc">';
-            //$tocText .= '<div class="toc-design">';
             if ( is_object( $domTree ) )
             {
                 $this->HeaderCounter = array();
+                $this->LastHeaderLevel = 0;
 
                 $rootNode = $domTree->root();
-                $tocText .= '<ul>';
                 $tocText .= $this->handleSection( $rootNode );
-                $tocText .= '</ul>';
+
+                while ( $this->LastHeaderLevel > 0 )
+                {
+                    $tocText .= "</li>\n</ul>\n";
+                    $this->LastHeaderLevel--;
+                }
             }
-            //$tocText .= '</div>';
-            //$tocText .= '</div>';
         }
         $operatorValue = $tocText;
     }
 
-    function handleSection( $sectionNode, $sectionLevel = 0 )
+    function handleSection( $sectionNode, $level = 0 )
     {
         // Reset level counter
-        $this->HeaderCounter[$sectionLevel] = 0;
+        $this->HeaderCounter[$level] = 0;
 
         $tocText = '';
-        foreach ( $sectionNode->children() as $child )
+        $children =& $sectionNode->Children;
+        foreach ( array_keys( $children ) as $key )
         {
-            if ( $child->name() == 'header' )
+            $child =& $children[$key];
+            if ( $child->nodeName == 'section' )
             {
-                $level = $sectionLevel;
+                $tocText .= $this->handleSection( $child, $level + 1 );
+            }
+
+            if ( $child->nodeName == 'header' )
+            {
+                if ( $level > $this->LastHeaderLevel )
+                {
+                    while ( $level > $this->LastHeaderLevel )
+                    {
+                        $tocText .= "\n<ul><li>";
+                        $this->LastHeaderLevel++;
+                    }
+                }
+                elseif ( $level == $this->LastHeaderLevel )
+                {
+                    $tocText .= "</li>\n<li>";
+                }
+                else
+                {
+                    $tocText .= "</li>\n";
+                    while ( $level < $this->LastHeaderLevel )
+                    {
+                        $tocText .= "</ul></li>\n";
+                        $this->LastHeaderLevel--;
+                    }
+                    $tocText .= "<li>";
+                }
+                $this->LastHeaderLevel = $level;
 
                 $this->HeaderCounter[$level] += 1;
                 $i = 1;
@@ -123,19 +153,12 @@ class eZTOCOperator
                 while ( $i <= $level )
                 {
                     if ( $i > 1 )
-                    $headerAutoName .= "_";
+                        $headerAutoName .= "_";
 
                     $headerAutoName .= $this->HeaderCounter[$i];
                     $i++;
                 }
-                $tocText .= '<li><a href="#' . $this->ObjectAttributeId . '_' . $headerAutoName . '">' . $child->textContent() . '</a></li>';
-            }
-
-            if ( $child->name() == 'section' )
-            {
-                $tocText .= '<ul>';
-                $tocText .= $this->handleSection( $child, $sectionLevel + 1 );
-                $tocText .= '</ul>';
+                $tocText .= '<a href="#' . $this->ObjectAttributeId . '_' . $headerAutoName . '">' . $child->textContent() . '</a>';
             }
         }
 
@@ -143,6 +166,8 @@ class eZTOCOperator
     }
 
     var $HeaderCounter = array();
+    var $LastHeaderLevel = 0;
+
     var $ObjectAttributeId;
 }
 
