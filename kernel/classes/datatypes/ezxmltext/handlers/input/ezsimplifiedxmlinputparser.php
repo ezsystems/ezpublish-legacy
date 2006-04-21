@@ -444,12 +444,17 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                    unset( $newSection );
                 }
                 $elementToMove =& $element;
-                while( $elementToMove && $elementToMove->nodeName != 'section' )
+                while( $elementToMove &&
+                       $elementToMove->nodeName != 'section' )
                 {
                     $next =& $elementToMove->nextSibling();
                     $parent->removeChild( $elementToMove );
                     $newParent->appendChild( $elementToMove );
                     $elementToMove =& $next;
+
+                    if ( $elementToMove->nodeName == 'header' &&
+                         $elementToMove->getAttribute( 'level' ) <= $level ) 
+                        break;
                 }
             }
             elseif ( $level < $sectionLevel )
@@ -464,12 +469,17 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                         $newLevel--;
                 }
                 $elementToMove =& $element;
-                while( $elementToMove && $elementToMove->nodeName != 'section' )
+                while( $elementToMove &&
+                       $elementToMove->nodeName != 'section' )
                 {
                     $next =& $elementToMove->nextSibling();
                     $parent->removeChild( $elementToMove );
                     $current->appendChild( $elementToMove );
                     $elementToMove =& $next;
+
+                    if ( $elementToMove->nodeName == 'header' &&
+                         $elementToMove->getAttribute( 'level' ) <= $level ) 
+                        break;
                 }
             }
         }
