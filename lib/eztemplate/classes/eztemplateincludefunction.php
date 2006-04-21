@@ -126,7 +126,7 @@ class eZTemplateIncludeFunction
             $parameterData =& $parameters[$parameterName];
             $newNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( isset( $namespaceName ) and isset( \$vars[$namespaceName]['$parameterName'] ) )\n".
                                                                    "    \$restoreIncludeArray[] = array( $namespaceName, '$parameterName', \$vars[$namespaceName]['$parameterName'] );\n".
-                                                                   "else\n".
+                                                                   "elseif ( !isset( \$vars[( isset( $namespaceName ) ? $namespaceName : '' )][$parameterName] ) ) \n".
                                                                    "    \$restoreIncludeArray[] = array( ( isset( $namespaceName ) ? $namespaceName : '' ), '$parameterName', 'unset' );\n" );
 
             $newNodes[] = eZTemplateNodeTool::createVariableNode( false, $parameterData, false, array(),
