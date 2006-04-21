@@ -1671,7 +1671,7 @@ WHERE user_id = '" . $userID . "' AND
     */
     function preCollectUserInfo()
     {
-        return array( 'user', 'login' );
+        return array( 'module' => 'user', 'function' => 'login' );
     }
 
     /*!
