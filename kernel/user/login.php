@@ -192,14 +192,25 @@ if ( $Module->isCurrentAction( 'Login' ) and
 }
 else
 {
-    $requestedURI =& $GLOBALS['eZRequestedURI'];
-    if ( get_class( $requestedURI ) == 'ezuri' )
+    $loginPage = $ini->variable( 'SiteSettings', 'LoginPage' );
+
+    if ( $loginPage == 'embedded' ||
+         $loginPage == 'custom' )
     {
-        $requestedModule = $requestedURI->element( 0, false );
-        $requestedView = $requestedURI->element( 1, false );
-        if ( $requestedModule != 'user' or
-             $requestedView != 'login' )
-            $userRedirectURI = $requestedURI->uriString( true );
+        $requestedURI =& $GLOBALS['eZRequestedURI'];
+        if ( get_class( $requestedURI ) == 'ezuri' )
+        {
+            $requestedModule = $requestedURI->element( 0, false );
+            $requestedView = $requestedURI->element( 1, false );
+            if ( $requestedModule != 'user' or
+                 $requestedView != 'login' )
+                $userRedirectURI = $requestedURI->uriString( true );
+        }
+    }
+    else
+    {
+        eZUserLoginHandler::forceLogin();
+        return $Module->redirectTo( '/' );
     }
 }
 
