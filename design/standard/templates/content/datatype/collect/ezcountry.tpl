@@ -4,7 +4,7 @@
 {def $countries = ezini('CountrySettings','Countries', 'content.ini' )}
 {def $country = cond( is_set( $#collection_attributes[$attribute.id] ), $#collection_attributes[$attribute.id], $attribute.content )}
 <select name="{$attribute_base}_country_{$attribute.id}" size="1">
-    <option  value="">{'Choose a country'|i18n( 'design/standard/content/datatype' )}</option>
+    <option  value="">{'Not specified'|i18n( 'design/standard/content/datatype' )}</option>
 {foreach $countries as $current_country}
     <option {if $country|eq( $current_country )}selected="selected"{/if} value="{$current_country}">{$current_country}</option>
 {/foreach}

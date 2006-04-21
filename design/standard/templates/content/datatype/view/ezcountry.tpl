@@ -2,5 +2,5 @@
 {if $attribute.has_content}
 {$attribute.content|wash( xhtml )}
 {else}
-{'None'|i18n( 'design/standard/content/datatype' )}
+{'Not specified'|i18n( 'design/standard/content/datatype' )}
 {/if}
