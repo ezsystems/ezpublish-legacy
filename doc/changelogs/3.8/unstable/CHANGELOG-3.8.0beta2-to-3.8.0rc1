@@ -20,3 +20,5 @@ Changes from 3.8.0beta2 to 3.8.0rc1
 - Fixed bug #8146: Wrong url information in setup.
 - Fixed bug #7873: Wrong name for template ezprize.tpl
 - Fixed bug #8140: Unable to get custom view parameters for content/browse.
+- Fixed bug #8097: view_parameters variable is not set in the user/register.
+  ( Merged from stable/3.6 ( 3.6.8 ) rev. 15800 )
