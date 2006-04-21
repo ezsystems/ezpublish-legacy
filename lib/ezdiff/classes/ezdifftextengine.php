@@ -162,7 +162,7 @@ class eZDiffTextEngine extends eZDiffEngine
                 //Check for deleted words in between
                 $offsetDistance = $wordArray['oldOffset'] - $key + $offset - $delOffset;
 
-                if ( $offsetDistance > 1 )
+                if ( $offsetDistance > 0 )
                 {
                     $k = $prevOffset + 1;
                     while( $k < $wordArray['oldOffset'] )
@@ -299,7 +299,9 @@ class eZDiffTextEngine extends eZDiffEngine
 
         $substringSet = array();
 
-        $substring = $this->traceSubstring( $row, $col, $matrix, $val, $new );
+        $substringArray = $this->traceSubstring( $row, $col, $matrix, $val, $new );
+        $substring = $substringArray['substring'];
+        unset( $substringArray );
         $substringSet[] = array_reverse( $substring, true );
         $substring = array();
 
@@ -335,18 +337,19 @@ class eZDiffTextEngine extends eZDiffEngine
                 $prevRowUsed = $row;
                 if ( $info )
                 {
-                    $substring = $this->traceSubstring( $info['remainRow'], $info['remainCol'], $matrix, $info['remainMax'], $new );
+                    $substringArray = $this->traceSubstring( $info['remainRow'], $info['remainCol'], $matrix, $info['remainMax'], $new );
+                    $substring = $substringArray['substring'];
                     array_unshift( $substringSet, array_reverse( $substring, true ) );
                     $substring = array();
 
-                    if ( $info['remainCol'] == 0 )
+                    if ( $info['remainCol'] == 0 || $substringArray['lastCol'] == 0 )
                     {
                         $done = true;
                     }
                     else
                     {
-                        $row = $info['remainRow'];
-                        $col = $info['remainCol'];
+                        $row = $substringArray['lastRow'];
+                        $col = $substringArray['lastCol'];
 
                         if ( $row != 0 )
                         {
@@ -357,6 +360,7 @@ class eZDiffTextEngine extends eZDiffEngine
                             $col--;
                         }
                     }
+                    unset( $substringArray );
                 }
             }
         }
@@ -393,11 +397,12 @@ class eZDiffTextEngine extends eZDiffEngine
                 $prevRowUsed = $row;
                 if ( $info )
                 {
-                    $substring = $this->traceSubstring( $info['remainRow'], $info['remainCol'], $matrix, $info['remainMax'], $new );
+                    $substringArray = $this->traceSubstring( $info['remainRow'], $info['remainCol'], $matrix, $info['remainMax'], $new );
+                    $substring = $substringArray['substring'];
                     $substringSet[] = array_reverse( $substring, true );
                     $substring = array();
 
-                    if ( $info['remainCol'] == $cols-1 )
+                    if ( $info['remainCol'] == $cols-1 || $substringArray['lastRow'] == $cols-1 )
                     {
                         $done = true;
                     }
@@ -416,6 +421,7 @@ class eZDiffTextEngine extends eZDiffEngine
                             $col++;
                         }
                     }
+                    unset( $substringArray );
                 }
             }
         }
@@ -546,7 +552,9 @@ class eZDiffTextEngine extends eZDiffEngine
                     break;
             }
         }
-        return $substring;
+        return array( 'substring' => $substring,
+                      'lastRow' => $row,
+                      'lastCol' => $col );
     }
 
     /*!

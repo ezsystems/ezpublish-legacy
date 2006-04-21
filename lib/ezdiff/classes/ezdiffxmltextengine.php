@@ -55,6 +55,8 @@ class eZDiffXMLTextEngine extends eZDiffEngine
         include_once( 'lib/ezdiff/classes/ezxmltextdiff.php' );
         include_once( 'lib/ezdiff/classes/ezdifftextengine.php' );
         include_once( 'lib/ezutils/classes/ezini.php' );
+        include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmleditoutput.php' );
+        include_once( 'lib/ezxml/classes/ezxml.php' );
 
         $changes = new eZXMLTextDiff();
         $contentINI = eZINI::instance( 'content.ini' );
@@ -67,28 +69,26 @@ class eZDiffXMLTextEngine extends eZDiffEngine
         $oldXML = $oldXMLTextObject->attribute( 'xml_data' );
         $newXML = $newXMLTextObject->attribute( 'xml_data' );
 
-        if ( $diffSimplifiedXML )
+        $simplifiedXML = new eZSimplifiedXMLEditOutput();
+        $xml = new eZXML();
+        $domOld =& $xml->domTree( $oldXML, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false ) );
+        $domNew =& $xml->domTree( $newXML, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false ) );
+        $old = $simplifiedXML->performOutput( $domOld );
+        $new = $simplifiedXML->performOutput( $domNew );
+
+        if ( !$diffSimplifiedXML )
         {
-            include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmleditoutput.php' );
-            include_once( 'lib/ezxml/classes/ezxml.php' );
-            $simplifiedXML = new eZSimplifiedXMLEditOutput();
-            $xml = new eZXML();
-            $domOld =& $xml->domTree( $oldXML, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false ) );
-            $domNew =& $xml->domTree( $newXML, array( 'CharsetConversion' => false, 'ConvertSpecialChars' => false ) );
-            $old = $simplifiedXML->performOutput( $domOld );
-            $new = $simplifiedXML->performOutput( $domNew );
-        }
-        else
-        {
-            $old = trim( strip_tags( $oldXML ) );
-            $new = trim( strip_tags( $newXML ) );
+            $old = trim( strip_tags( $old ) );
+            $new = trim( strip_tags( $new ) );
 
             $pattern = array( '/[ ][ ]+/',
                               '/ \n( \n)+/',
-                              '/^ /m' );
+                              '/^ /m',
+                              '/(\n){3,}/' );
             $replace = array( ' ',
                               "\n",
-                              '' );
+                              '',
+                              "\n\n" );
 
             $old = preg_replace( $pattern, $replace, $old );
             $new = preg_replace( $pattern, $replace, $new );
