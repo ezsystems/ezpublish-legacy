@@ -2,7 +2,7 @@
 {default attribute_base=ContentObjectAttribute}
 
 {def $countries = ezini('CountrySettings','Countries', 'content.ini' )}
-{def $country = cond( is_set( $#collection_attributes[$attribute.id] ), $#collection_attributes[$attribute.id], $attribute.content )}
+{def $country = cond( is_set( $#collection_attributes[$attribute.id] ), $#collection_attributes[$attribute.id], $attribute.content.value )}
 <select name="{$attribute_base}_country_{$attribute.id}" size="1">
     <option  value="">{'Not specified'|i18n( 'design/standard/content/datatype' )}</option>
 {foreach $countries as $current_country}

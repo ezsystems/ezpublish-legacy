@@ -162,13 +162,30 @@ class eZVATManager
         }
 
         $countryAttribute = $userDataMap[$countryAttributeName];
-        $country = $countryAttribute->attribute( 'content' );
+        $countryContent = $countryAttribute->attribute( 'content' );
 
-        if ( $country === null )
+        if ( $countryContent === null )
         {
             if ( $requireUserCountry )
             {
                 eZDebug::writeError( "User country is not specified in object '" .
+                                       $userObject->attribute( 'name' ) .
+                                       "' of class '" .
+                                       $userObject->attribute( 'class_name' ) . "'." ,
+                                     'eZVATManager::getUserCountry' );
+            }
+            return null;
+        }
+
+        if ( is_object( $countryContent ) )
+            $country = $countryContent->attribute( 'value' );
+        elseif ( is_array( $countryContent ) )
+            $country = $countryContent['value'];
+        else
+        {
+            if ( $requireUserCountry )
+            {
+                eZDebug::writeError( "User country is not specified or specified incorrectly in object '" .
                                        $userObject->attribute( 'name' ) .
                                        "' of class '" .
                                        $userObject->attribute( 'class_name' ) . "'." ,
@@ -214,7 +231,13 @@ class eZVATManager
                                        $country, $user->attribute( 'login' )  ) );
 
         $countryAttribute = $userDataMap[$countryAttributeName];
-        $countryAttribute->setContent( $country );
+        $countryAttributeContent = $countryAttribute->content();
+        if ( is_array( $countryAttributeContent ) )
+            $countryAttributeContent['value'] = $country;
+        elseif ( is_object( $countryAttributeContent ) )
+            $countryAttributeContent->setAttribute( 'value', $country );
+        // not sure that this line is needed since content is returned by reference
+        $countryAttribute->setContent( $countryAttributeContent );
         $countryAttribute->store();
 
         return true;

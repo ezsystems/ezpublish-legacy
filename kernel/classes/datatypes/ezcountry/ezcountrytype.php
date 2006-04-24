@@ -64,7 +64,7 @@ class eZCountryType extends eZDataType
         }
         else
         {
-            $default = '';
+            $default = array( 'value' => '' );
             $contentObjectAttribute->setContent( $default );
         }
     }
@@ -119,7 +119,8 @@ class eZCountryType extends eZDataType
         if ( $http->hasPostVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) ) )
         {
             $data = $http->postVariable( $base . '_country_' . $contentObjectAttribute->attribute( 'id' ) );
-            $contentObjectAttribute->setContent( $data );
+            $content = array( 'value' => $data );
+            $contentObjectAttribute->setContent( $content );
             return true;
         }
         return false;
@@ -133,7 +134,7 @@ class eZCountryType extends eZDataType
         if ( $http->hasPostVariable( $base . "_country_" . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $dataText = $http->postVariable( $base . "_country_" . $contentObjectAttribute->attribute( "id" ) );
-            $collectionAttribute->setContent( $dataText );
+            $collectionAttribute->setAttribute( 'data_text', $dataText );
             return true;
         }
         return false;
@@ -145,7 +146,7 @@ class eZCountryType extends eZDataType
     function storeObjectAttribute( &$contentObjectAttribute )
     {
         $content = $contentObjectAttribute->content();
-        $contentObjectAttribute->setAttribute( "data_text", $content );
+        $contentObjectAttribute->setAttribute( "data_text", $content['value'] );
     }
 
     /*!
@@ -166,7 +167,8 @@ class eZCountryType extends eZDataType
     {
         $result = array( 'errors' => array(),
                          'require_storage' => true );
-        $objectAttribute->setContent( $string );
+        $content = array( 'value' => $string );
+        $objectAttribute->setContent( $content );
         return true;
     }
 
@@ -175,7 +177,8 @@ class eZCountryType extends eZDataType
     */
     function &objectAttributeContent( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->attribute( 'data_text' );
+        $content = array( 'value' => $contentObjectAttribute->attribute( 'data_text' ) );
+        return $content;
     }
 
     /*!
@@ -183,7 +186,8 @@ class eZCountryType extends eZDataType
     */
     function metaData( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->content();
+        $content = $contentObjectAttribute->content();
+        return $content['value'];
     }
 
     /*!
@@ -191,12 +195,14 @@ class eZCountryType extends eZDataType
     */
     function title( &$contentObjectAttribute )
     {
-        return $contentObjectAttribute->content();
+        $content = $contentObjectAttribute->content();
+        return $content['value'];
     }
 
     function hasObjectAttributeContent( &$contentObjectAttribute )
     {
-        return trim( $contentObjectAttribute->content() ) != '';
+        $content = $contentObjectAttribute->content();
+        return trim( $content['value'] ) != '';
     }
 
     /*!
@@ -222,7 +228,8 @@ class eZCountryType extends eZDataType
     {
         include_once( 'lib/ezi18n/classes/ezchartransform.php' );
         $trans =& eZCharTransform::instance();
-        return $trans->transformByGroup( $contentObjectAttribute->content(), 'lowercase' );
+        $content = $contentObjectAttribute->content();
+        return $trans->transformByGroup( $content['value'], 'lowercase' );
     }
 
     /*!

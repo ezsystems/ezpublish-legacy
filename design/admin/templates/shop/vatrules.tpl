@@ -37,7 +37,7 @@
 {foreach $rules as $rule sequence array( bglight, bgdark ) as $seq_color}
 <tr class="{$seq_color}">
     <td><input type="checkbox" name="RuleIDList[]" value="{$rule.id}" title="{'Select rule for removal.'|i18n( 'design/admin/shop/vatrules' )}" /></td>
-    <td>{cond( $rule.country|wash|eq('*'), 'Any'|i18n( 'design/admin/shop/vatrules' ), true, $rule.country|wash )}</td>
+    <td>{if $rule.country|wash|eq('*')}{'Any'|i18n( 'design/admin/shop/vatrules' )}{else}{include uri='design:shop/country/view.tpl' current_val=$rule.country}{/if}</td>
     <td>{$rule.product_categories_string|wash}</td>
     <td>{$rule.vat_type_name|wash} ({$rule.vat_type_object.percentage}%)</td>
     <td><a href={concat( 'shop/editvatrule/', $rule.id)|ezurl}><img src={'edit.gif'|ezimage} alt="{'Edit'|i18n( 'design/admin/shop/vatrules' )}" title="{"Edit rule."|i18n( 'design/admin/shop/vatrules')|wash}" /></a>

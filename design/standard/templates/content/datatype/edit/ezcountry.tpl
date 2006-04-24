@@ -2,7 +2,7 @@
 {default attribute_base=ContentObjectAttribute}
 
 {def $countries = ezini('CountrySettings','Countries', 'content.ini' )}
-{def $country = $attribute.data_text}
+{def $country = $attribute.content.value}
 <select id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" name="{$attribute_base}_country_{$attribute.id}" size="1">
     <option  value="">{'Not specified'|i18n( 'design/standard/content/datatype' )}</option>
 {foreach $countries as $current_country}

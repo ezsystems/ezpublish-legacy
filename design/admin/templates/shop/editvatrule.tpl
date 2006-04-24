@@ -29,8 +29,6 @@
 
 {* DESIGN: Content START *}<div class="box-ml"><div class="box-mr"><div class="box-content">
 
-{def $countries = ezini('CountrySettings','Countries', 'content.ini' )}
-
 <div class="block">
 <table class="list" cellspacing="0">
 <tr>
@@ -38,12 +36,9 @@
     <label>{'Country'|i18n( 'design/admin/shop/editvatrule' )}:</label>
     </td>
     <td>
-    <select name="Country" size="1">
-        <option {if eq( $country, false )}selected="selected"{/if} value="*">{'Any'|i18n( 'design/admin/shop/editvatrule' )}</option>
-    {foreach $countries as $current_country}
-        <option {if eq( $country, $current_country )}selected="selected"{/if} value="{$current_country}">{$current_country}</option>
-        {/foreach}
-    </select>
+    {include uri='design:shop/country/edit.tpl' select_name='Country' select_size=1
+             default_val='*' default_desc='Any'|i18n( 'design/admin/shop/editvatrule' )
+             current_val=$country}
     </td>
 </tr>
 
