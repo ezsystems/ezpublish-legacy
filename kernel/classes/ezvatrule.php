@@ -250,7 +250,10 @@ class eZVatRule extends eZPersistentObject
     {
         $categories = $this->attribute( 'product_categories' );
         if ( !$categories )
-            return ezi18n( 'kernel/shop', 'Any' );
+        {
+            $result = ezi18n( 'kernel/shop', 'Any' );
+            return $result;
+        }
 
         $categoriesNames = array();
         foreach ( $categories as $cat )

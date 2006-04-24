@@ -161,7 +161,8 @@ class eZSimplePrice
 
             case 'vat_percent' :
             {
-                return $this->VATPercent();
+                $vatPercent = $this->VATPercent();
+                return $vatPercent;
             } break;
 
             case 'is_vat_included':
@@ -333,7 +334,7 @@ class eZSimplePrice
         $incVATPrice = $priceValue;
         if ( !$this->VATIncluded() )
         {
-            $VATPercent =& $this->VATPercent();
+            $VATPercent = $this->VATPercent();
             $incVATPrice = $priceValue * ( $VATPercent + 100 ) / 100;
         }
 

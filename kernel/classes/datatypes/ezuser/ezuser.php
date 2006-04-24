@@ -529,7 +529,7 @@ WHERE user_id = '" . $userID . "' AND
      Removes the user from the ezuser table.
      \note Will also remove any notifications and session related to the user.
     */
-    function &removeUser( $userID )
+    function removeUser( $userID )
     {
         include_once( 'kernel/classes/notification/handler/ezsubtree/ezsubtreenotificationrule.php' );
         include_once( 'kernel/classes/datatypes/ezuser/ezusersetting.php' );

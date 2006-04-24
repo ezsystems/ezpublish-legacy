@@ -171,7 +171,8 @@ class eZProductCategoryType extends eZDataType
     function &objectAttributeContent( &$contentObjectAttribute )
     {
         require_once( 'kernel/classes/ezproductcategory.php' );
-        return eZProductCategory::fetch( $contentObjectAttribute->attribute( 'data_int' ) );
+        $category = eZProductCategory::fetch( $contentObjectAttribute->attribute( 'data_int' ) );
+        return $category;
     }
 
     /*!
