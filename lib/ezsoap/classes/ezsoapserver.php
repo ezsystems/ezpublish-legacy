@@ -96,7 +96,7 @@ class eZSOAPServer
         header( "Content-Type: text/xml; charset=\"UTF-8\"" );
         Header( "Content-Length: " . strlen( $payload ) );
 
-        ob_end_clean();
+        ob_clean();
 
         print( $payload );
     }
