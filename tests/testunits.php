@@ -77,7 +77,10 @@ foreach ( $options['arguments'] as $suiteName )
         $suiteName = $matches[1];
         $suiteTestName = $matches[2];
     }
-    $suiteList[] = $suiteName;
+
+    if ( !in_array( $suiteName, $suiteList ) )
+        $suiteList[] = $suiteName;
+
     if ( $suiteTestName )
     {
         if ( !isset( $suiteTestMap[$suiteName] ) )
