@@ -35,6 +35,8 @@
   SOAP functions are
 */
 
+ob_start();
+
 include_once( "lib/ezutils/classes/ezdebug.php" );
 include_once( "lib/ezutils/classes/ezini.php" );
 include_once( 'lib/ezutils/classes/ezsys.php' );
@@ -120,5 +122,7 @@ if ( $enableSOAP == 'true' )
 
     $server->processRequest();
 }
+
+ob_end_flush();
 
 ?>
