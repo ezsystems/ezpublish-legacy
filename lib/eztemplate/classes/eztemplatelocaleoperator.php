@@ -285,7 +285,7 @@ class eZTemplateLocaleOperator
         $newElements[] = eZTemplateNodeTool::createCodePieceElement(
             $code .
             "%tmp2% = getdate( %tmp1% );\n".
-            "%tmp3% = (int) date( 'W', %tmp1% );\n".
+            "%tmp3% = date( 'W', %tmp1% );\n".
             "if ( %tmp2%['wday'] == 0 )\n{\n\t++%tmp3%;\n}\n".
             "%output% = array( 'seconds' => %tmp2%['seconds'],
               'minutes' => %tmp2%['minutes'],
@@ -344,7 +344,7 @@ class eZTemplateLocaleOperator
                 $timestamp = time();
 
             $info = getdate( $timestamp );
-            $week = (int)date( 'W', $timestamp );
+            $week = date( 'W', $timestamp );
             if ( $info['wday'] == 0 )
                 ++$week;
             $operatorValue = array( 'seconds' => $info['seconds'],
