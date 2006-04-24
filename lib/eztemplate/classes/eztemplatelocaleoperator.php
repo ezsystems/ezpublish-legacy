@@ -105,7 +105,7 @@ class eZTemplateLocaleOperator
                                              'element-transformation' => true,
                                              'element-transformation-func' => 'makeDateTimeTransformation' ),
             $this->GetTimeName     => array( 'input' => true, 'output' => true, 'parameters' => 1,
-                                             'transform-parameters' => true, 'input-as-parameter' => 'always',
+                                             'transform-parameters' => true, 'input-as-parameter' => false,
                                              'element-transformation' => true,
                                              'element-transformation-func' => 'getTimeTransformation' )
         );
@@ -330,7 +330,7 @@ class eZTemplateLocaleOperator
         $values = array();
         $paramCount = count( $parameters );
 
-        if (count( $parameters ) == 1 )
+        if ( $paramCount == 1 )
         {
             $values[] = $parameters[0];
             $code = "%tmp1% = %1%;\n";
@@ -346,7 +346,7 @@ class eZTemplateLocaleOperator
         $newElements[] = eZTemplateNodeTool::createCodePieceElement(
             $code .
             "%tmp2% = getdate( %tmp1% );\n".
-            "%tmp3% = date( 'W', %tmp1% );\n".
+            "%tmp3% = (int) date( 'W', %tmp1% );\n".
             "if ( %tmp2%['wday'] == 0 )\n{\n\t++%tmp3%;\n}\n".
             "%output% = array( 'seconds' => %tmp2%['seconds'],
               'minutes' => %tmp2%['minutes'],
@@ -400,8 +400,12 @@ class eZTemplateLocaleOperator
             $timestamp = $operatorValue;
             if ( $timestamp === null )
                 $timestamp = $namedParameters['timestamp'];
+
+            if ( !$timestamp )
+                $timestamp = time();
+
             $info = getdate( $timestamp );
-            $week = date( 'W', $timestamp );
+            $week = (int)date( 'W', $timestamp );
             if ( $info['wday'] == 0 )
                 ++$week;
             $operatorValue = array( 'seconds' => $info['seconds'],
