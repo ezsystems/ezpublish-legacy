@@ -18,7 +18,7 @@
                 <input class="button" type="submit" name="SetButton" value="{'Set'|i18n( 'design/standard/toolbar' )}" title="{'Set the selected currency as preferred.'|i18n( 'design/standard/toolbar' )}" />
             </form>
         {else}
-            <p>{"There is no available currencies"|i18n("design/standard/toolbar")}</p>
+            <p>{"There are no available currencies"|i18n("design/standard/toolbar")}</p>
         {/if}
         </div>
     {undef}
