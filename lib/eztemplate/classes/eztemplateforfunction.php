@@ -179,9 +179,9 @@ class eZTemplateForFunction
             return;
         }
 
-        if ( !is_integer( $firstVal ) || !is_integer( $lastVal ) )
+        if ( !is_numeric( $firstVal ) || !is_numeric( $lastVal ) )
         {
-            $tpl->error( EZ_TEMPLATE_FOR_FUNCTION_NAME, "Both 'from' and 'to' values can only be integers." );
+            $tpl->error( EZ_TEMPLATE_FOR_FUNCTION_NAME, "Both 'from' and 'to' values can only be numeric." );
             return;
         }
 
