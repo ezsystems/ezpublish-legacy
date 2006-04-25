@@ -74,7 +74,7 @@ class eZSendmailTransport extends eZMailTransport
             $sendmailOptions = $sendmailOptionsArray;
         if ( !$isSafeMode 
              and $emailSender )
-            $sendmailOptions += ' -f'. $emailSender;
+            $sendmailOptions .= ' -f'. $emailSender;
 
         if ( $isSafeMode and
              $emailSender and
