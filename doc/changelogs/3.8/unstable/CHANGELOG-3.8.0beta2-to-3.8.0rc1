@@ -25,3 +25,4 @@ Changes from 3.8.0beta2 to 3.8.0rc1
   ( Merged from stable/3.6 ( 3.6.8 ) rev. 15800 )
 - Fixed bug #8149: eztoc operator output is not valid XHTML.
 - Fixed bug: the header set in ez soapserver is not sent.
+- Fixed bug 15851: ezsendmailtransport.php copies every message to user "0".
