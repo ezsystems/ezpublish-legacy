@@ -293,6 +293,27 @@ CREATE TABLE ezvatrule_product_category (
   product_category_id int(11) NOT NULL,
   PRIMARY KEY (vatrule_id, product_category_id)
 
+*Notes:
+
+It is possible to integrate alternative country datatypes in the VAT
+charging functionality. The integration actually means that country
+should be stored in the same way by the datatype, by the VAT rules
+management interface and by the shop user registration module
+(shop/userregister).
+
+Here are the steps to achieve this:
+
+1. Make sure your datatype's content is either a hash having "value" key 
+or an object capable of getting and setting "value" attribute (a-la 
+eZPersistentObject). It doesn't matter how the content is actually 
+stored to database, but objectAttributeContent() method must return an 
+array/object. The value (usually a country code) is then compared to VAT
+rules' countries.
+
+2. Override design/standard/templates/shop/country/{view,edit}.tpl 
+templates in your datatype extension so that countries can be displayed 
+and edited in the VAT rules management interface and shop/userregister.
+
 *References:
 
 http://ez.no/community/developer/specs/improved_handling_of_vat_charging_and_shipping
