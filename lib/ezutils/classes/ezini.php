@@ -458,12 +458,15 @@ class eZINI
             $this->parse( $inputFiles, $iniFile, false, $placement );
             eZDebug::accumulatorStop( 'ini_files_1' );
             eZDebug::accumulatorStart( 'ini_files_2', 'ini_load', 'Save Cache' );
-            $this->saveCache( $cachedDir, $cachedFile, $placement ? $this->BlockValuesPlacement : $this->BlockValues );
+            $cacheSaved = $this->saveCache( $cachedDir, $cachedFile, $placement ? $this->BlockValuesPlacement : $this->BlockValues );
             eZDebug::accumulatorStop( 'ini_files_2' );
 
-            // Write log message to storage.log
-            include_once( 'lib/ezutils/classes/ezlog.php' );
-            eZLog::writeStorageLog( $fileName, $cachedDir );
+            if ( $cacheSaved )
+            {
+                // Write log message to storage.log
+                include_once( 'lib/ezutils/classes/ezlog.php' );
+                eZLog::writeStorageLog( $fileName, $cachedDir );
+            }
         }
 
         eZDebug::accumulatorStop( 'ini' );
@@ -481,6 +484,7 @@ class eZINI
             if ( !eZDir::mkdir( $cachedDir, 0777, true ) )
             {
                 eZDebug::writeError( "Couldn't create cache directory $cachedDir, perhaps wrong permissions", "eZINI" );
+                return false;
             }
         }
         // save the data to a cached file
@@ -488,7 +492,7 @@ class eZINI
         if ( $fp === false )
         {
             eZDebug::writeError( "Couldn't create cache file '$cachedFile', perhaps wrong permissions", "eZINI" );
-            return;
+            return false;
         }
         fwrite( $fp, "<?php\n\$eZIniCacheCodeDate = " . EZ_INI_CACHE_CODE_DATE . ";\n" );
 
@@ -502,6 +506,8 @@ class eZINI
         fclose( $fp );
         if ( eZINI::isDebugEnabled() )
             eZDebug::writeNotice( "Wrote cache file '$cachedFile'", "eZINI" );
+
+        return true;
     }
 
     /*!
