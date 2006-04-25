@@ -219,12 +219,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
         if ( !isset( $this->HeaderCount[$currentSectionLevel] ) )
             $this->HeaderCount[$currentSectionLevel] = 0;
 
-        $deeperLevel = $currentSectionLevel + 1;
-        while( isset( $this->HeaderCount[$deeperLevel] ) )
-        {
-            $this->HeaderCount[$deeperLevel] = 0;
-            $deeperLevel++;
-        }
+        $this->HeaderCount[$currentSectionLevel + 1] = 0;
 
         foreach ( $section->children() as $sectionNode )
         {
