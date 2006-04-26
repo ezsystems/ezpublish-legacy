@@ -84,6 +84,7 @@ class eZSimplePrice
                                                                    'section_id' => $object->attribute( 'section_id') ) );
         }
         $this->setDiscountPercent( $discountPercent );
+        $this->ContentObject = $object;
     }
 
     function attributes()
@@ -239,10 +240,10 @@ class eZSimplePrice
     {
         $VATType =& $this->VATType();
 
-        if ( $object !== false )
-            return $VATType->getPercentage( $object, $country );
+        if ( $object === false )
+            $object = $this->ContentObject;
 
-        return $VATType->attribute( 'percentage' );
+        return $VATType->getPercentage( $object, $country );
     }
 
     function &VATIncluded()
@@ -335,6 +336,9 @@ class eZSimplePrice
         if ( !$this->VATIncluded() )
         {
             $VATPercent = $this->VATPercent();
+            // If VAT is unknown yet then we use zero VAT percentage for price calculation.
+            if ( $VATPercent == -1 )
+                $VATPercent = 0;
             $incVATPrice = $priceValue * ( $VATPercent + 100 ) / 100;
         }
 
@@ -347,6 +351,9 @@ class eZSimplePrice
         if ( $this->VATIncluded() )
         {
             $VATPercent =& $this->VATPercent();
+            // If VAT is unknown yet then we use zero VAT percentage for price calculation.
+            if ( $VATPercent == -1 )
+                $VATPercent = 0;
             $exVATPrice = $priceValue / ( $VATPercent + 100 ) * 100;
         }
 
@@ -429,6 +436,7 @@ class eZSimplePrice
     var $VATType;
     var $IsVATIncluded;
     var $DiscountPercent;
+    var $ContentObject;
 }
 
 

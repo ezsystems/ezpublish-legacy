@@ -284,7 +284,6 @@ $ViewList['productsoverview'] = array(
     'unordered_params' => array( 'product_class' => 'ProductClass',
                                  'offset' => 'Offset' ) );
 
-
 $ViewList['setpreferredcurrency'] = array(
     'script' => 'setpreferredcurrency.php',
     'default_navigation_part' => 'ezshopnavigationpart',
@@ -292,6 +291,15 @@ $ViewList['setpreferredcurrency'] = array(
     'post_action_parameters' => array( 'Set' => array( 'Currency' => 'Currency' ) ),
     'unordered_params' => array( 'currency' => 'Currency' ),
     'params' => array(  ) );
+
+$ViewList['setusercountry'] = array(
+    'script' => 'setusercountry.php',
+    'default_navigation_part' => 'ezshopnavigationpart',
+    'single_post_actions' => array( 'ApplyButton' => 'Set' ),
+    'post_action_parameters' => array( 'Set' => array( 'Country' => 'Country' ) ),
+    'unordered_params' => array( 'country' => 'Country' ),
+    'params' => array(  ) );
+
 
 $FromStatus = array(
     'name' => 'FromStatus',

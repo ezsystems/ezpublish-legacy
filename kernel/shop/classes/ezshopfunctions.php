@@ -227,6 +227,43 @@ class eZShopFunctions
         return $error;
     }
 
+    /*!
+     Get country stored in user object.
+     \static
+    */
+    function getUserCountry()
+    {
+        require_once( 'kernel/classes/ezvatmanager.php' );
+        return eZVATManager::getUserCountry( false, false );
+    }
+
+
+    /*!
+     Get country stored in user preferences.
+     \static
+    */
+    function getPreferredUserCountry()
+    {
+        include_once( 'kernel/classes/ezpreferences.php' );
+        return eZPreferences::value( 'user_preferred_country' );
+    }
+
+    /*!
+     Store country to user preferences.
+     \static
+    */
+    function setPreferredUserCountry( $country )
+    {
+        include_once( 'kernel/classes/ezpreferences.php' );
+        eZPreferences::setValue( 'user_preferred_country', $country );
+
+        include_once( 'kernel/shop/errors.php' );
+        return EZ_ERROR_SHOP_OK;
+    }
+
+    /*!
+     \static
+    */
     function isPreferredCurrencyValid( $currencyCode = false )
     {
         include_once( 'kernel/shop/errors.php' );

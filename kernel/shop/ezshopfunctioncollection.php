@@ -244,6 +244,24 @@ class eZShopFunctionCollection
         return $result;
     }
 
+    function fetchUserCountry()
+    {
+        include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+
+        // Get country saved in user preferences.
+        $country = eZShopFunctions::getPreferredUserCountry();
+        if ( !$country )
+        {
+            // If not found, get country from user object
+            // and save it to the preference.
+            $country = eZShopFunctions::getUserCountry();
+            if ( $country )
+                eZShopFunctions::setPreferredUserCountry( $country );
+        }
+
+        return array( 'result' => $country );
+    }
+
     function fetchProductCategory( $categoryID )
     {
         require_once( 'kernel/classes/ezproductcategory.php' );

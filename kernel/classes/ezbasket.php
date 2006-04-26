@@ -110,7 +110,7 @@ class eZBasket extends eZPersistentObject
             {
                 $vatValue = $productItem->attribute( 'vat_value' );
 
-                // If VAT is unknown yet then we use zero VAT percentage for our price calculations.
+                // If VAT is unknown yet then we use zero VAT percentage for price calculation.
                 $realVatValue = $vatValue;
                 if ( $vatValue == -1 )
                     $vatValue = 0;

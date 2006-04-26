@@ -121,7 +121,7 @@ class eZDefaultVATHandler
 
         if ( $productCategory === null )
         {
-            eZDebug::writeError( "Product category is not specified in object '" .
+            eZDebug::writeNotice( "Product category is not specified in object '" .
                                    $object->attribute( 'name' ) .
                                    "' of class '" .
                                    $object->attribute( 'class_name' ) . "'." );

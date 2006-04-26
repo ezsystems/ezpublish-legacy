@@ -157,6 +157,26 @@ do is to add an attribute of ezcountry datatype to your user class. Then
 specify the attribute identifier in
 shop.ini.[VATSettings].UserCountryAttribute ini setting.
 
+It is also recommended that you add a possibility for a user to choose
+his/her country "on-the-fly" using the "user_country" toolbar. To do this,
+add the following line into the "[Toolbar_right]" section of the
+"settings/siteaccess/example/toolbar.ini.append.php" file where
+"example" is your siteaccess name:
+
+Tool[]=user_country
+
+This setting instructs the system to display country selection tool on
+the right toolbar. If a user selects a country there he/she will
+immediately see updated product prices according to VAT charged for the
+selected country.
+
+For this to work properly with content caching, you should also add the
+following line into the "[ContentSettings]" section of the
+"site.ini.append.php" file located in the "settings/override/"
+directory:
+
+CachedViewPreferences[full]=user_country
+
  3.3. Creating VAT charging rules.
 
 VAT rules is something that builds up VAT charging logic for your shop.

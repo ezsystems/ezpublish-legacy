@@ -102,7 +102,7 @@ class eZShopOperationCollection
         // then save entered country to the user information.
         if ( $user->attribute( 'is_logged_in' ) )
         {
-            $userCountry = eZVATManager::getUserCountry( $user );
+            $userCountry = eZVATManager::getUserCountry( $user, false );
             if ( !$userCountry )
                 eZVATManager::setUserCountry( $user, $country );
         }

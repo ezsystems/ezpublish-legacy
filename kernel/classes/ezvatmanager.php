@@ -65,10 +65,7 @@ class eZVATManager
             $country = eZVATManager::getUserCountry();
 
         if ( !$country && $requireUserCountry )
-        {
-            eZDebug::writeNotice( "User country is not specified, cannot determine VAT type to use.", 'eZVATManager::getVaT()' );
-            return null;
-        }
+            eZDebug::writeNotice( "User country is not specified." );
 
         return $handler->getVatPercent( $object, $country );
     }
@@ -131,9 +128,24 @@ class eZVATManager
      * \public
      * \static
      */
-    function getUserCountry( $user = false )
+    function getUserCountry( $user = false, $considerPreferedCountry = true )
     {
         $requireUserCountry = eZVATManager::isUserCountryRequired();
+
+        // If current user has set his/her preferred country via the toolbar
+        if ( $considerPreferedCountry )
+        {
+            // return it
+            include_once( 'kernel/shop/classes/ezshopfunctions.php' );
+            $country = eZShopFunctions::getPreferredUserCountry();
+            if ( $country )
+            {
+                eZDebug::writeDebug( "Applying user's preferred country <$country> while charging VAT" );
+                return $country;
+            }
+        }
+
+        // Otherwise fetch country saved in the user object.
 
         if ( $user === false )
         {
