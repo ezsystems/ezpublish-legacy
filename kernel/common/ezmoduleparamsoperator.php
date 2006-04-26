@@ -72,33 +72,24 @@ class eZModuleParamsOperator
     function namedParameterPerOperator()
     {
         return true;
-    }    /*!
+    }
+    /*!
      See eZTemplateOperator::namedParameterList
     */
     function namedParameterList()
     {
-        return array( 'module_params' => array( 'first_param' => array( 'type' => 'string',
-                                                                        'required' => false,
-                                                                        'default' => 'default text' ),
-                                                'second_param' => array( 'type' => 'integer',
-                                                                         'required' => false,
-                                                                         'default' => 0 ) ) );
+        return array( 'module_params' => array() );
     }
     /*!
      Executes the PHP function for the operator cleanup and modifies \a $operatorValue.
     */
     function modify( &$tpl, &$operatorName, &$operatorParameters, &$rootNamespace, &$currentNamespace, &$operatorValue, &$namedParameters )
     {
-        $firstParam = $namedParameters['first_param'];
-        $secondParam = $namedParameters['second_param'];
-        // Example code, this code must be modified to do what the operator should do, currently it only trims text.
         switch ( $operatorName )
         {
             case 'module_params':
             {
-                trim( $operatorValue );
                 $operatorValue = $GLOBALS['eZRequestedModuleParams'];
-                eZDebug::writeDebug( $operatorValue, "ezmoduleparams operator" );
             } break;
         }
     }
