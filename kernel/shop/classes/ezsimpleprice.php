@@ -75,9 +75,9 @@ class eZSimplePrice
         $this->setPrice( $price );
 
         $discountPercent = 0.0;
+        $object =& $contentObjectAttribute->object();
         if ( get_class( $contentObjectAttribute ) == 'ezcontentobjectattribute' )
         {
-            $object =& $contentObjectAttribute->object();
             $discountPercent = eZDiscount::discountPercent( eZUser::currentUser(),
                                                             array( 'contentclass_id' => $object->attribute( 'contentclass_id'),
                                                                    'contentobject_id' => $object->attribute( 'id' ),
