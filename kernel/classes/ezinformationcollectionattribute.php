@@ -106,7 +106,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
             $content = null;
         return $content;
     }
-    
+
 	/*!
      \return the content for this attribute.
     */
@@ -114,7 +114,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     {
         if ( $this->Content === null )
         {
-            $dataType =& $this->dataType();
+            $dataType = $this->dataType();
             if ( is_object( $dataType ) )
             {
                 $this->Content =& $dataType->objectAttributeContent( $this );
@@ -131,7 +131,7 @@ class eZInformationCollectionAttribute extends eZPersistentObject
     function &hasContent()
     {
         $hasContent = false;
-        $dataType =& $this->dataType();
+        $dataType = $this->dataType();
         if ( is_object( $dataType ) )
         {
             $hasContent = $dataType->hasObjectAttributeContent( $this );
