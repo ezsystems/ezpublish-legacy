@@ -60,6 +60,8 @@ Changes from 3.5.10 to 3.5.11
   ( Merged from trunk ( 3.8.0rc1 ) rev. 15843 )
 - Fixed bug #8148: setup wizard crashes on first page load.
   ( Merged from trunk ( 3.8.0rc1 ) rev. 15853 )
+- Fixed bug #8052: module_params operator outputs debug information.
+  ( Merged from stable/3.6 ( 3.6.8 ) rev. 15870 )
 
 *INI settings:
 - Added site.ini:[ShopSettings].ClearBasketOnLogout setting:
