@@ -800,14 +800,16 @@ class eZDOMNode
 
       \note This will only make sense for element nodes.
     */
-    function lastChild()
+    function &lastChild()
     {
-        if ( is_array( $this->Children ) )
+        if ( count( $this->Children ) == 0 )
         {
-            return end( $this->Children );
+            $child = false;
+            return $child;
         }
-
-        return false;
+        $keys = array_keys( $this->Children );
+        $child =& $this->Children[$keys[count( $keys ) - 1]];
+        return $child;
     }
 
     /*!
