@@ -10,3 +10,4 @@ Changes from 3.8.0rc1 to 3.8.0
   ( Merged from stable/3.6 ( 3.6.8 ) rev. 15870 )
 - Fixed bug: Prices of products using dynamic VAT charging were always displayed
   without VAT included.
+- Fixed bug #8185: ezdomnode removeChildren will change $this to stdClass.

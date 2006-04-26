@@ -761,6 +761,7 @@ class eZDOMNode
     {
         foreach( array_keys( $this->Children ) as $key )
         {
+           unset( $this->Children[$key]->parentNode );
            $this->Children[$key]->parentNode = null;
         }
         $this->Children = array();
