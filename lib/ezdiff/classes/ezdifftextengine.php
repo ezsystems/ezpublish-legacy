@@ -96,6 +96,7 @@ class eZDiffTextEngine extends eZDiffEngine
         $differences = array();
         $offset = 0;
         $delOffset = 0;
+        $internalOffset = 0;
 
         if ( $len > 0 )
         {
@@ -155,12 +156,12 @@ class eZDiffTextEngine extends eZDiffEngine
                         $differences[] = array( 'added' => $newArray[$nk],
                                                 'status' => 2 );
                         $distance--;
-                        $offset++;
+                        $internalOffset++;
                     }
                 }
 
                 //Check for deleted words in between
-                $offsetDistance = $wordArray['oldOffset'] - $key + $offset - $delOffset;
+                $offsetDistance = $wordArray['oldOffset'] + $internalOffset - $key - $delOffset + $offset;
 
                 if ( $offsetDistance > 0 )
                 {
@@ -451,18 +452,20 @@ class eZDiffTextEngine extends eZDiffEngine
                 for ( $j = $col; $j < $cols; $j++ )
                 {
                     $startRow = $row;
+                    $colMax = 0;
+
                     while ( $startRow < $rows )
                     {
                         $matVal = $matrix->get( $startRow, $j );
                         if ( $matVal > $colMax )
                         {
-                            $prevColMax = $colMax;
                             $colMax = $matVal;
                             $colMaxRow = $startRow;
                             $colMaxCol = $j;
                         }
                         $startRow++;
                     }
+
                     if ( $colMax > $remainMax )
                     {
                         //Set best candidate thus far
@@ -470,10 +473,13 @@ class eZDiffTextEngine extends eZDiffEngine
                         $remainRow = $colMaxRow;
                         $remainCol = $colMaxCol;
                     }
-                    if ( $colMax < $prevColMax )
+
+                    if ( ( $prevColMax > 1 ) &&  ( $colMax < $prevColMax ) )
                     {
-                        break;
+                        break 2;
                     }
+
+                    $prevColMax = $colMax;
                 }
             }break;
 
@@ -482,12 +488,13 @@ class eZDiffTextEngine extends eZDiffEngine
                 for ( $j = $col; $j >= 0; $j-- )
                 {
                     $startRow = $row;
+                    $colMax = 0;
+
                     while ( $startRow >= 0 )
                     {
                         $matVal = $matrix->get( $startRow, $j );
                         if ( $matVal > $colMax )
                         {
-                            $prevColMax = $colMax;
                             $colMax = $matVal;
                             $colMaxRow = $startRow;
                             $colMaxCol = $j;
@@ -501,10 +508,12 @@ class eZDiffTextEngine extends eZDiffEngine
                         $remainRow = $colMaxRow;
                         $remainCol = $colMaxCol;
                     }
-                    if ( $colMax < $prevColMax )
+                    if ( ( $prevColMax > 1 ) && ( $colMax < $prevColMax ) )
                     {
-                        break;
+                        break 2;
                     }
+
+                    $prevColMax = $colMax;
                 }
             }break;
         }
