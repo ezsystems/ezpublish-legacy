@@ -1180,7 +1180,13 @@ class eZImageAliasHandler
         if ( !$originalFilename )
             $originalFilename = $filename;
         include_once( 'lib/ezutils/classes/ezmimetype.php' );
-        $mimeData = eZMimeType::findByFileContents( $originalFilename );
+        $mimeData = eZMimeType::findByFileContents( $filename );
+        if ( !$mimeData['is_valid'] and
+             $originalFilename != $filename )
+        {
+            $mimeData = eZMimeType::findByFileContents( $originalFilename );
+        }
+
         $this->removeAliases();
         $this->setOriginalAttributeDataValues( $this->ContentObjectAttribute->attribute( 'id' ),
                                                $this->ContentObjectAttribute->attribute( 'version' ),
