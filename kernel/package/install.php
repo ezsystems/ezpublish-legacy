@@ -223,9 +223,14 @@ if ( $displayStep )
         }
         else
         {
-            $persistentData['error'] = array();
             $currentItem++;
-            //return $module->redirectToView( 'install', array( $packageName ) );
+            if ( $currentItem < count( $installItemArray ) )
+            {
+                $persistentData['error'] = array();
+                $persistentData['currentItem'] = $currentItem;
+                $http->setSessionVariable( 'eZPackageInstallerData', $persistentData );
+                return $module->redirectToView( 'install', array( $packageName ) );
+            }
         }
     }
 }
