@@ -106,7 +106,7 @@ function eZSetupFunctionality( $siteType )
     else if ( $siteType == 'news' )
     {
         return array( 'required' => array( 'news' ),
-                      'recommended' => array( 'media', 'galler' ),
+                      'recommended' => array( 'media', 'gallery' ),
                       'theme' => 't01' );
     }
     else if ( $siteType == 'corporate' )
@@ -220,8 +220,22 @@ function eZSetupMenuINISettings( $siteType, $parameters, $isAdmin )
                       'shop' => array( 'CurrentMenu' => 'LeftTop',
                                        'TopMenu' => 'flat_top',
                                        'LeftMenu' => 'flat_left' ) );
+    $menuContentSettingsArray = array( 'default'    => array( 'TopIdentifierList'  => array( 'folder' ),
+                                                              'LeftIdentifierList' => array( 'folder' ) ),
+                                       'corporate'  => array( 'TopIdentifierList'  => array( 'folder', 'feedback_form' ),
+                                                              'LeftIdentifierList' => array( 'folder', 'feedback_form' ) ),
+                                       'forum'      => array( 'TopIdentifierList'  => array( 'folder','forum' ),
+                                                              'LeftIdentifierList' => array( 'folder','forum' ) ),
+                                       'gallery'    => array( 'TopIdentifierList'  => array( 'folder','gallery' ),
+                                                              'LeftIdentifierList' => array( 'folder','gallery' ) )
+                                       );
     if ( isset( $typeMap[$siteType] ) )
         $default = $typeMap[$siteType];
+
+    $menuContentSettings = $menuContentSettingsArray['default'];
+    if ( isset( $menuContentSettingsArray[$siteType] ) )
+        $menuContentSettings = $menuContentSettingsArray[$siteType];
+
     return array( 'name' => 'menu.ini',
                   'reset_arrays' => true,
                   'settings' => array( 'MenuSettings' => array( 'AvailableMenuArray' => array( 'TopOnly',
@@ -244,7 +258,8 @@ function eZSetupMenuINISettings( $siteType, $parameters, $isAdmin )
                                        'LeftTop' => array( 'TitleText' => 'Left and top',
                                                              'MenuThumbnail' => 'menu/left_top.jpg',
                                                              'TopMenu' => 'flat_top',
-                                                             'LeftMenu' => 'flat_left' )
+                                                             'LeftMenu' => 'flat_left' ),
+                                       'MenuContentSettings' => $menuContentSettings
                                        ) );
 }
 
