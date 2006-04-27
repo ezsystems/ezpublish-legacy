@@ -75,16 +75,16 @@ class eZSimplePrice
         $this->setPrice( $price );
 
         $discountPercent = 0.0;
-        $object =& $contentObjectAttribute->object();
         if ( get_class( $contentObjectAttribute ) == 'ezcontentobjectattribute' )
         {
+            $object =& $contentObjectAttribute->object();
+            $this->ContentObject = $object;
             $discountPercent = eZDiscount::discountPercent( eZUser::currentUser(),
                                                             array( 'contentclass_id' => $object->attribute( 'contentclass_id'),
                                                                    'contentobject_id' => $object->attribute( 'id' ),
                                                                    'section_id' => $object->attribute( 'section_id') ) );
         }
         $this->setDiscountPercent( $discountPercent );
-        $this->ContentObject = $object;
     }
 
     function attributes()
@@ -241,7 +241,12 @@ class eZSimplePrice
         $VATType =& $this->VATType();
 
         if ( $object === false )
+        {
+            if ( $this->ContentObject === null )
+                return $VATType->attribute( 'percentage' );
+
             $object = $this->ContentObject;
+        }
 
         return $VATType->getPercentage( $object, $country );
     }
