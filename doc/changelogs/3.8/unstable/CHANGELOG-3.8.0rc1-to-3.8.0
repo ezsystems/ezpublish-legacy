@@ -12,3 +12,5 @@ Changes from 3.8.0rc1 to 3.8.0
   without VAT included.
 - Fixed bug #8185: ezdomnode removeChildren will change $this to stdClass.
 - Fixed bug #8141: Smartcache no longer clearing reverse related nodes.
+- Fixed bug #8040: Login Fatal error Undefined class name 'ezcontentobjecttreenode'.
+  (Merged from stable/3.7 (3.7.6) rev. 15888)
