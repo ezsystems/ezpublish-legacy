@@ -346,7 +346,9 @@ ENDADDCODE;
                         $expiry = 60*60*2;
                     }
 
-                    $localExpiryTime = time() - $expiry;
+                    $localExpiryTime = 0;
+                    if ( $expiry > 0 )
+                        $localExpiryTime = time() - $expiry;
 
                     $ignoreContentExpiry = false;
                     if ( isset( $functionParameters["ignore_content_expiry"] ) )
