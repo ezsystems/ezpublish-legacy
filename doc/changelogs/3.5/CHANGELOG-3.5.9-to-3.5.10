@@ -29,4 +29,5 @@ Changes from 3.5.9 to 3.5.10
 - Fixed bug #8027: Fatal error: ezimagealiashandler.php
 - Fixed bug #7602: Upload media files with automatic location doesn't work correctly.
   (Manually merged from trunk (3.8.0beta2) rev. 15672)
-
+- Fixed bug #8040: Login Fatal error Undefined class name 'ezcontentobjecttreenode'.
+  (Merged from stable/3.7 (3.7.6) rev. 15888)
