@@ -7,40 +7,27 @@
     <h1>{"Site package"|i18n("design/standard/setup/init")}</h1>
   </div>
 
+{if $message}
+    <blockquote class="message">
+
+    <p>{$message|wash}</p>
+
+    </blockquote>
+{else}
   <p>
     {"Please choose a site package you would like to test or base your site on."i18n("design/standard/setup/init")}
   </p>
-
-{if $message}
-    <blockquote class="message">
-        <p>
-        <ul>
-            <li>{$message|wash}</li>
-        </ul>
-        </p>
-    </blockquote>
 {/if}
 {section show=$error}
 <div class="error">
 
-{*
-<p>
-{$error|wash}
-</p>
-*}
-
-<p>
   <h2>{"Error"|i18n("design/standard/setup/init")}</h2>
-  <ul>
-    <li>{$error|wash}</li>
-  </ul>
-</p>
+  <p>{$error|wash}</p>
 
 </div>
 {/section}
 
-<table border="1" cellspacing="2" cellpadding="2">
-{*<tr><td colspan="4"><h2>{'Site packages'|i18n('design/standard/setup/init')}:</h2></td></tr>*}
+<table class="sitepackages" cellspacing="0">
 {if is_set( $site_packages )}
     {foreach $site_packages as $package_info}
     {if and( is_set( $message ), $message )}
@@ -50,12 +37,12 @@
     {/if}
     <tr>
     <td>
-        {if is_set( $package_info.url )}
-      <input id="{$package_info.name|wash}" type="radio" name="eZSetup_site_type" value="{$package_info.name}|{$package_info.url}" {if eq($package_info.name,$chosen_package)} checked="checked"{/if}/>
-        {else}
-      <input id="{$package_info.name|wash}" type="radio" name="eZSetup_site_type" value="{$package_info.name}" {if eq($package_info.name,$chosen_package)} checked="checked"{/if}/>
-	{/if}
-    </td>
+     {if is_set( $package_info.url )}
+      <input{if and( is_set( $message ), $message )} class="hide"{/if} id="{$package_info.name|wash}" type="radio" name="eZSetup_site_type" value="{$package_info.name}|{$package_info.url}" {if eq($package_info.name,$chosen_package)} checked="checked"{/if}/>
+     {else}
+      <input{if and( is_set( $message ), $message )} class="hide"{/if} id="{$package_info.name|wash}" type="radio" name="eZSetup_site_type" value="{$package_info.name}" {if eq($package_info.name,$chosen_package)} checked="checked"{/if}/>
+	 {/if}
+     </td>
     <td>
 	{if is_set( $package_info.thumbnail_path )}
           <img class="site-type" src={$package_info.thumbnail_path|ezroot} alt="{$package_info.name|wash}" title="{$package_info.summary|wash}" />
@@ -66,44 +53,68 @@
         {/if}
     </td>
     <td>
-        <span style="font-weight: bold">{$package_info.summary}</span>,  ver. {$package_info.version}<br/>
-	{$package_info.description}<br/>
-	<br/>
-	<span style="font-style: italic">Dependencies</span>:<br/>
-	{if is_set( $package_info.requires )}
-	    {foreach $package_info.requires as $req_name => $req_info}
-		{$req_name} ver.{$req_info.version}:
-		{if $req_info.status}
-		    <span style="color: green">{'Imported'|i18n('design/standard/setup/init')}</span>
-		{else}
-		    {'Not imported'|i18n('design/standard/setup/init')}
-		{/if}
-	    <br/>
-	    {/foreach}
-	{else}
-	Unknown.
-	{/if}
+        <h2>{$package_info.summary} (ver. {$package_info.version})</h2>
+	{$package_info.description}
     </td>
-    <td valign="top">
+
+    <td class="importstatus">
 	{if $package_info.status}
-	    <span style="color: green">{'Imported'|i18n('design/standard/setup/init')}</span>
+	    <em class="imported">{'Imported'|i18n('design/standard/setup/init')}</em>
 	{else}
-	    {'Not imported'|i18n('design/standard/setup/init')}
+	    <em class="notimported">{'Not imported'|i18n('design/standard/setup/init')}</em>
 	{/if}
     </td>
     </tr>
+
+    <tr>
+     <td></td>
+     <td></td>
+     <td>
+	 <h3>Dependencies</h3>
+     </td>
+     <td></td>
+    </tr>
+	{if is_set( $package_info.requires )}
+	    {foreach $package_info.requires as $req_name => $req_info}
+        <tr>
+        <td></td>
+        <td></td>
+        <td>
+		{$req_name} (ver.{$req_info.version}):
+        </td>
+        <td>
+		{if $req_info.status}
+    	    <em class="imported">{'Imported'|i18n('design/standard/setup/init')}</em>
+		{else}
+    	    <em class="notimported">{'Not imported'|i18n('design/standard/setup/init')}</em>
+		{/if}
+        </td>
+        </tr>
+	    {/foreach}
+	{else}
+    <tr>
+     <td></td>
+     <td></td>
+     <td>
+	 Unknown.
+     </td>
+     <td></td>
+    </tr>
+	{/if}
+
     {/foreach}
 {else} {* !$remote_site_packages *}
 <tr><td colspan="4">None.</td></tr>
 {/if}
 </table>
 
-
+{if not($message)}
 <fieldset>
   <legend>{'Upload package'|i18n( 'design/standard/setup/init' )}:</legend>
   <input class="file" name="PackageBinaryFile" type="file" />
   <input type="submit" name="UploadPackageButton" value="{'Upload'|i18n("design/standard/setup/init")}" />
 </fieldset>
+{/if}
 
   {include uri="design:setup/persistence.tpl"}
 

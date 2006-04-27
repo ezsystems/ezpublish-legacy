@@ -14,3 +14,4 @@ Changes from 3.8.0rc1 to 3.8.0
 - Fixed bug #8141: Smartcache no longer clearing reverse related nodes.
 - Fixed bug #8040: Login Fatal error Undefined class name 'ezcontentobjecttreenode'.
   (Merged from stable/3.7 (3.7.6) rev. 15888)
+- Fixed bug #8175: Table in setupwizard (step : "Site package" ) doesn't look good.
