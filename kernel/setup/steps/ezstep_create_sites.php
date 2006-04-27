@@ -212,11 +212,11 @@ class eZStepCreateSites extends eZStepInstaller
                     if ( file_exists( 'settings/override/' . $iniName . '.append' ) ||
                          file_exists( 'settings/override/' . $iniName . '.append.php' ) )
                     {
-                        $tmpINI = eZINI::instance( $iniName, 'settings/override', null, null, false, true );
+                        $tmpINI =& eZINI::instance( $iniName, 'settings/override', null, null, false, true );
                     }
                     else
                     {
-                        $tmpINI = eZINI::create( $iniName );
+                        $tmpINI =& eZINI::create( $iniName );
                     }
                     $tmpINI->setVariables( $settings );
                     $tmpINI->save( false, '.append.php', false, true, "settings/override", $resetArray );
@@ -234,7 +234,7 @@ class eZStepCreateSites extends eZStepInstaller
         $regionalInfo = $this->PersistenceList['regional_info'];
         $emailInfo = $this->PersistenceList['email_info'];
 
-        $imageINI = eZINI::create( 'image.ini' );
+        $imageINI =& eZINI::create( 'image.ini' );
         $imageINI->setVariable( 'ImageMagick', 'IsEnabled', 'false' );
         if ( $this->PersistenceList['imagemagick_program']['result'] )
         {
@@ -253,7 +253,7 @@ class eZStepCreateSites extends eZStepInstaller
         if ( $saveResult and
              $charset !== false )
         {
-            $i18nINI = eZINI::create( 'i18n.ini' );
+            $i18nINI =& eZINI::create( 'i18n.ini' );
             $i18nINI->setVariable( 'CharacterSettings', 'Charset', $charset );
             if ( $saveData )
                 $saveResult = $i18nINI->save( false, '.php', 'append', true );
@@ -909,7 +909,17 @@ id $inSql";
             $resetArray = false;
             if ( isset( $extraSetting['reset_arrays'] ) )
                 $resetArray = $extraSetting['reset_arrays'];
-            $tmpINI = eZINI::create( $iniName );
+
+            if ( file_exists( "settings/siteaccess/$userSiteaccessName/" . $iniName . '.append' ) ||
+                 file_exists( "settings/siteaccess/$userSiteaccessName/" . $iniName . '.append.php' ) )
+            {
+                $tmpINI =& eZINI::instance( $iniName, "settings/siteaccess/$userSiteaccessName/", null, null, null, true, true );
+            }
+            else
+            {
+                $tmpINI =& eZINI::create( $iniName );
+            }
+
             $tmpINI->setVariables( $settings );
             if ( $iniName == 'site.ini' )
             {
@@ -926,7 +936,7 @@ id $inSql";
                     $tmpINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
                 $designINIStored = true;
             }
-            $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", $resetArray );
+            $tmpINI->save( false, '.append.php', false, false, "settings/siteaccess/$userSiteaccessName", $resetArray );
 
             if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
             {
@@ -956,7 +966,17 @@ id $inSql";
             $resetArray = false;
             if ( isset( $extraSetting['reset_arrays'] ) )
                 $resetArray = $extraSetting['reset_arrays'];
-            $tmpINI = eZINI::create( $iniName );
+
+            if ( file_exists( "settings/siteaccess/$adminSiteaccessName/" . $iniName . '.append' ) ||
+                 file_exists( "settings/siteaccess/$adminSiteaccessName/" . $iniName . '.append.php' ) )
+            {
+                $tmpINI =& eZINI::instance( $iniName, "settings/siteaccess/$adminSiteaccessName/", null, null, null, true, true );
+            }
+            else
+            {
+                $tmpINI =& eZINI::create( $iniName );
+            }
+
             $tmpINI->setVariables( $settings );
             if ( $iniName == 'site.ini' )
             {
@@ -966,12 +986,12 @@ id $inSql";
                 $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
                 $tmpINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
             }
-            $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName", $resetArray );
+            $tmpINI->save( false, '.append.php', false, false, "settings/siteaccess/$adminSiteaccessName", $resetArray );
         }
 
         if ( !$siteINIAdminStored )
         {
-            $siteINI = eZINI::create( 'site.ini' );
+            $siteINI =& eZINI::create( 'site.ini' );
             $siteINI->setVariables( $siteINIChanges );
             $siteINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
             $siteINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
@@ -980,7 +1000,7 @@ id $inSql";
         }
         if ( !$siteINIStored )
         {
-            $siteINI = eZINI::create( 'site.ini' );
+            $siteINI =& eZINI::create( 'site.ini' );
             $siteINI->setVariables( $siteINIChanges );
             $siteINI->setVariable( 'DesignSettings', 'SiteDesign', $userDesignName );
             $siteINI->setVariable( 'DesignSettings', 'AdditionalSiteDesignList', array( 'base' ) );
@@ -988,7 +1008,7 @@ id $inSql";
         }
         if ( !$designINIStored )
         {
-            $designINI = eZINI::create( 'design.ini' );
+            $designINI =& eZINI::create( 'design.ini' );
             if ( $siteCSS )
                 $designINI->setVariable( 'StylesheetSettings', 'SiteCSS', $siteCSS );
             if ( $classesCSS )

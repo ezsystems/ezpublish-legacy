@@ -403,7 +403,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
         foreach( array_keys( $this->TemplateFileArray ) as $siteAccess )
         {
-            $aliasINI = eZINI::instance( 'fetchalias.ini', 'settings', null, null, true );
+            $aliasINI =& eZINI::instance( 'fetchalias.ini', 'settings', null, null, true );
             $aliasINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
             $aliasINI->loadCache();
 
@@ -554,7 +554,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
         $regexpMatchList = array();
         foreach ( $siteAccessArray as $siteAccess )
         {
-            $overrideINI = eZINI::instance( 'override.ini', 'settings', null, null, true );
+            $overrideINI =& eZINI::instance( 'override.ini', 'settings', null, null, true );
             $overrideINI->prependOverrideDir( "siteaccess/$siteAccess", false, 'siteaccess' );
             $overrideINI->loadCache();
 
@@ -1108,7 +1108,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
             if ( !isset( $overrideINIArray[$newSiteAccess] ) )
             {
-                $overrideINIArray[$newSiteAccess] = eZINI::instance( 'override.ini.append.php', "settings/siteaccess/$newSiteAccess", null, null, true );
+                $overrideINIArray[$newSiteAccess] =& eZINI::instance( 'override.ini.append.php', "settings/siteaccess/$newSiteAccess", null, null, true );
             }
 
             $blockArray = array();
@@ -1194,7 +1194,7 @@ class eZContentObjectPackageHandler extends eZPackageHandler
 
             if ( !isset( $fetchAliasINIArray[$newSiteAccess] ) )
             {
-                $fetchAliasINIArray[$newSiteAccess] = eZINI::instance( 'fetchalias.ini.append.php', "settings/siteaccess/$newSiteAccess", null, null, true );
+                $fetchAliasINIArray[$newSiteAccess] =& eZINI::instance( 'fetchalias.ini.append.php', "settings/siteaccess/$newSiteAccess", null, null, true );
             }
 
             $blockArray = array();
