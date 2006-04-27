@@ -43,7 +43,6 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
 {
     $http =& eZHTTPTool::instance();
     // Add object relations
-//     if ( $module->isCurrentAction( 'AddRelatedObject' ) )
     if ( $module->isCurrentAction( 'AddRelatedObject' ) )
     {
         $selectedObjectIDArray = eZContentBrowse::result( 'AddRelatedObject' );
@@ -51,14 +50,18 @@ function checkRelationAssignments( &$module, &$class, &$object, &$version, &$con
         $relatedObjectIDArray = array();
         $objectID = $object->attribute( 'id' );
 
-        foreach (  $relatedObjects as  $relatedObject )
+        foreach ( $relatedObjects as  $relatedObject )
             $relatedObjectIDArray[] = $relatedObject->attribute( 'id' );
 
-        foreach ( $selectedObjectIDArray as $selectedObjectID )
+        if ( is_array( $selectedObjectIDArray ) )
         {
-            if ( $selectedObjectID != $objectID && !in_array( $selectedObjectID, $relatedObjectIDArray ) )
-                $object->addContentObjectRelation( $selectedObjectID, $editVersion );
+            foreach ( $selectedObjectIDArray as $selectedObjectID )
+            {
+                if ( $selectedObjectID != $objectID && !in_array( $selectedObjectID, $relatedObjectIDArray ) )
+                    $object->addContentObjectRelation( $selectedObjectID, $editVersion );
+            }
         }
+
         $module->redirectToView( 'edit', array( $object->attribute( 'id' ), $editVersion, $editLanguage, $fromLanguage ),
                                  null, false, 'content-relation-items' );
         return EZ_MODULE_HOOK_STATUS_CANCEL_RUN;
