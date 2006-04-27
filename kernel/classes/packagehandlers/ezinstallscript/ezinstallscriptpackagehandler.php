@@ -61,17 +61,17 @@ class eZInstallScriptPackageHandler extends eZPackageHandler
         $xmlPath = $itemPath . '/' . $installItem['filename'] . '.xml';
 
         $dom =& $package->fetchDOMFromFile( $xmlPath );
-        if ( $dom )
-            $mainNode =& $dom->root();
+        if ( !$dom )
+            return false;
+
+        $mainNode =& $dom->root();
 
         $description = $mainNode->getAttribute( 'description' );
-        if ( $description )
-        {
-            return array( 'description' => ezi18n( 'kernel/package', 'Install script: %description', false,
-                                                       array( '%description' => $description ) ) );
-        }
-    
-        return false;
+        if ( !$description )
+            return false;
+
+        return array( 'description' => ezi18n( 'kernel/package', 'Install script: %description', false,
+                                               array( '%description' => $description ) ) );
     }
 
     /*!
