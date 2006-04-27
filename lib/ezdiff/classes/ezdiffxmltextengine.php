@@ -94,16 +94,27 @@ class eZDiffXMLTextEngine extends eZDiffEngine
             $new = preg_replace( $pattern, $replace, $new );
         }
 
-        $oldArray = explode( " ", $old );
-        $newArray = explode( " ", $new );
+        $oldArray = split( "\n", $old );
+        $newArray = split( "\n", $new );
 
-        $oldArray = $this->trimEmptyArrayElements( $oldArray );
-        $newArray = $this->trimEmptyArrayElements( $newArray );
+        $oldSums = array();
+        foreach( $oldArray as $paragraph )
+        {
+            $oldSums[] = md5( $paragraph );
+        }
+
+        $newSums = array();
+        foreach( $newArray as $paragraph )
+        {
+            $newSums[] = md5( $paragraph );
+        }
 
         $textDiffer = new eZDiffTextEngine();
         $stats = $textDiffer->createStatisticsArray( $old, $oldArray, $new, $newArray );
-        $output = $textDiffer->buildDiff( $stats, $oldArray, $newArray );
-        $changes->setChanges( $output );
+
+        $pre = $textDiffer->preProcess( $stats, $oldSums, $newSums );
+        $out = $textDiffer->createOutput( $pre, $oldArray, $newArray );
+        $changes->setChanges( $out );
         return $changes;
     }
 

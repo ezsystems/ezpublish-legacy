@@ -58,19 +58,330 @@ class eZDiffTextEngine extends eZDiffEngine
     {
         include_once( 'lib/ezdiff/classes/eztextdiff.php' );
 
-        $oldArray = split( "[ \n]", $fromData );
-        $newArray = split( "[ \n]", $toData );
+        $pattern = array( '/[ ][ ]+/',
+                          '/ \n( \n)+/',
+                          '/^ /m',
+                          '/(\n){3,}/' );
+        $replace = array( ' ',
+                          "\n",
+                          '',
+                          "\n\n" );
+
+        $old = preg_replace( $pattern, $replace, $fromData );
+        $new = preg_replace( $pattern, $replace, $toData );
+        
+        $oldArray = split( "\r\n", $old );
+        $newArray = split( "\r\n", $new );
+        
+        $oldSums = array();
+        foreach( $oldArray as $paragraph )
+        {
+            $oldSums[] = md5( $paragraph );
+        }
+
+        $newSums = array();
+        foreach( $newArray as $paragraph )
+        {
+            $newSums[] = md5( $paragraph );
+        }
 
         $statistics = $this->createStatisticsArray( $fromData, $oldArray, $toData, $newArray );
 
         $changes = new eZTextDiff();
         $changes->setMetaData( $statistics, $oldArray, $newArray );
+        
+        $pre = $this->preProcess( $statistics, $oldSums, $newSums );
+        $out = $this->createOutput( $pre, $oldArray, $newArray );
 
-        $output = $this->buildDiff( $statistics, $oldArray, $newArray );
-        $changes->setChanges( $output );
+        $changes->setChanges( $out );
 
-      return $changes;
+        return $changes;
     }
+
+    /*!
+      This Method will create the differences array which is processed by the templates
+    */
+    function createOutput( $arr, $oldArray, $newArray )
+    {
+        $diff = array();
+
+        foreach( $arr as $item )
+        {
+            $state = current( $item );
+            $par = key( $item );
+            switch ( $state )
+            {
+                case 'unchanged':
+                {
+                    $text = $newArray[$par];
+                    $this->addNewLine( $text );
+                    $diff[] = array( 'unchanged' => $text,
+                                     'status' => 0 );
+                }break;
+
+                case 'changed':
+                {
+                    $old = explode( " ", $oldArray[$par] );
+                    $new = explode( " ", $newArray[$par] );
+
+                    $stat = $this->createStatisticsArray( $oldArray[$par], $old, $newArray[$par], $new );
+                    $diffText = $this->buildDiff( $stat, $old, $new );
+                    $size = count( $diffText ) - 1;
+
+                    foreach( $diffText as $number => $change )
+                    {
+                        $state = $change['status'];
+                        switch( $state )
+                        {
+                            case '0':
+                            {
+                                if ( $number == $size )
+                                    $this->addNewLine( $change['unchanged'] );
+                            }break;
+
+                            case '1':
+                            {
+                                if ( $number == $size )
+                                    $this->addNewLine( $change['removed'] );
+                            }break;
+
+                            case '2':
+                            {
+                                if ( $number == $size )
+                                    $this->addNewLine( $change['added'] );
+                            }break;
+                        }
+                        $diff[] = $change;
+                    }
+                }break;
+
+                case 'added':
+                {
+                    $text = $newArray[$par];
+                    $this->addNewLine( $text );
+                    $diff[] = array( 'added' => $text,
+                                     'status' => 2 );
+                }break;
+
+                case 'removed':
+                {
+                    $text = $oldArray[$par];
+                    $this->addNewLine( $text );
+                    $diff[] = array( 'removed' => $text,
+                                     'status' => 1 );
+                }break;
+            }
+        }
+        $output = $this->postProcessDiff( $diff );
+        return $output;
+    }
+
+    /*!
+      \private
+      This method will add a newline after unempty paragraphs
+    */
+    function addNewLine( &$text )
+    {
+        $text .= "\n";
+    }
+
+    /*!
+      This method will determine which paragraphs which need to be diffed.
+    */
+    function preProcess( $statistics, $oldArray, $newArray )
+    {
+        $substr = $this->substringMatrix( $oldArray, $newArray );
+
+        /*
+        $tmp = $substr['lengthMatrix'];
+        print( "<pre>" );
+        $this->dumpMatrix( $tmp, $statistics['from']['wordCount'], $statistics['to']['wordCount'] );
+        print( "</pre>" );
+        */
+
+        $strings = $this->substrings( $substr, $oldArray, $newArray );
+        $len = count( $strings );
+
+        $nOldWords = count( $oldArray );
+        $nNewWords = count( $newArray );
+
+        $differences = array();
+        $offset = 0;
+        $delOffset = 0;
+        $internalOffset = 0;
+
+        $unchanged = array();
+        $added = array();
+        $removed = array();
+        $changed = array();
+
+        if ( $len > 0 )
+        {
+            //Merge detected paragraphs
+            $mergedStrings = array();
+            foreach ( $strings as $sstring )
+            {
+                $mergedStrings = $mergedStrings + $sstring;
+            }
+            unset( $strings );
+
+            //Check for new prepended paragraphs
+            $first = key( $mergedStrings );
+            if ( $first > 0 )
+            {
+                $k = 0;
+                while ( $k < $first )
+                {
+                    $added[$k] = 'added';
+                    $k++;
+                    $offset++;
+                }
+            }
+
+            //Check for removed paragraph
+            $firstOffset = current( $mergedStrings );
+            $firstOffset = $firstOffset['oldOffset'];
+
+            if ( $firstOffset > 0 )
+            {
+                $k = 0;
+                while( $firstOffset > 0 )
+                {
+                    $removed[$k] = 'removed';
+                    $k++;
+                    $firstOffset--;
+                    $delOffset++;
+                }
+            }
+
+            //Check for changes in between paragraphs
+            $prevKey = 0;
+            $prevOffset = 0;
+
+            foreach ( $mergedStrings as $key => $wordArray )
+            {
+                $distance = $key - $prevKey - $offset;
+
+                if ( $distance > 1 )
+                {
+                    $nk = $prevKey;
+                    while ( $distance > 1 )
+                    {
+                        $nk++;
+                        $added[$nk] = 'added';
+                        $distance--;
+                        $internalOffset++;
+                    }
+                }
+
+                $offsetDistance = $wordArray['oldOffset'] + $internalOffset - $key - $delOffset + $offset;
+
+                if ( $offsetDistance > 0 )
+                {
+                    $k = $prevOffset + 1;
+                    while( $k < $wordArray['oldOffset'] )
+                    {
+                        $removed[$k] = 'removed';
+                        $k++;
+                        $delOffset++;
+                    }
+                }
+
+                //The default state - unchanged paragraph
+                $unchanged[$key] = 'unchanged';
+
+                $prevKey = $key;
+                $prevOffset = $wordArray['oldOffset'];
+            }
+
+
+            //Check for appended paragraphs
+            end( $mergedStrings );
+            $end = key( $mergedStrings );
+            if ( $end < $nNewWords )
+            {
+                $k = $end + 1;
+                while ( $k < $nNewWords )
+                {
+                    $added[$k] = 'added';
+                    $k++;
+                }
+            }
+
+            //Check for deleted paragraphs
+            end( $oldArray );
+            $end = key( $oldArray );
+
+            if ( $prevOffset < $end )
+            {
+                $k = $prevOffset + 1;
+                while ( $k < $nOldWords )
+                {
+                    $removed[$k] = 'removed';
+                    $k++;
+                }
+            }
+        }
+        else
+        {
+            //No common paragraphs
+            foreach ( $oldArray as $key => $dummy )
+            {
+                $removed[$key] = 'removed';
+            }
+
+            foreach( $newArray as $key => $dummy )
+            {
+                $added[$key] = 'added';
+            }
+        }
+
+        foreach( $added as $addedKey => $addedPar )
+        {
+            $remKey = array_key_exists( $addedKey, $removed );
+            if ( $remKey === true )
+            {
+                $changed[$addedKey] = 'changed';
+                unset( $added[$addedKey] );
+                unset( $removed[$addedKey] );
+            }
+        }
+        $mergedChanges = $added + $removed + $changed;
+        ksort( $mergedChanges );
+        $merged = $this->mergeOverviewMatrix( $unchanged, $mergedChanges );
+        return $merged;
+    }
+
+    /*!
+      \private
+      This method creates a combinen array of unchanged and changed paragraphs
+    */
+    function mergeOverviewMatrix( $unchanged, $changes )
+    {
+        $overview = array();
+        $totalSize = count( $unchanged ) + count( $changes );
+
+        $i = 0;
+        while ( $i < $totalSize )
+        {
+            $unchangedIndex = array_key_exists( $i, $unchanged );
+            $changedIndex = array_key_exists( $i, $changes );
+
+            if ( $unchangedIndex !== false )
+            {
+                $overview[] = array( $i => 'unchanged' );
+            }
+
+            if ( $changedIndex !== false )
+            {
+                $overview[] = array( $i => $changes[$i] );
+            }
+
+            $i++;
+        }
+        return $overview;
+    }
+    
 
     /*!
       \private
@@ -88,6 +399,7 @@ class eZDiffTextEngine extends eZDiffEngine
         */
 
         $strings = $this->substrings( $substr, $oldArray, $newArray );
+
         $len = count( $strings );
 
         $nOldWords = count( $oldArray );
