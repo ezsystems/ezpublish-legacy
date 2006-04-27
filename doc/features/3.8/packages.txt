@@ -147,11 +147,13 @@ user-interactive and display extra wizard steps.
 
   <?xml version="1.0" encoding="UTF-8"?>
 <install-script filename="myinstallscript.php"
-                classname="myInstallScript" />
+                classname="myInstallScript"
+                description="This is my custom install step" />
 
   This is the description of your install script:
   "filename" is the name of the file where your class will reside.
   "classname" is the name of the class where all your steps are implemented.
+  "description" is a text description of this script.
 
 - Create "templates" sub-directory inside "post-install" directory.
   Create a template for your install step there. We will call it "myownstep.tpl":
