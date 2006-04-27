@@ -2704,7 +2704,7 @@ class eZContentObject extends eZPersistentObject
     */
     function &contentObjectListRelatingThis( $version = false, $objectID = false )
     {
-        $reverseRelatedList =& $this->reverseRelatedObjectList( $version, $objectID );
+        $reverseRelatedObjectList =& $this->reverseRelatedObjectList( $version, $objectID );
         return $reverseRelatedObjectList;
     }
 
