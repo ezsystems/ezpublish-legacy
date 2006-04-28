@@ -910,15 +910,7 @@ id $inSql";
             if ( isset( $extraSetting['reset_arrays'] ) )
                 $resetArray = $extraSetting['reset_arrays'];
 
-            if ( file_exists( "settings/siteaccess/$userSiteaccessName/" . $iniName . '.append' ) ||
-                 file_exists( "settings/siteaccess/$userSiteaccessName/" . $iniName . '.append.php' ) )
-            {
-                $tmpINI =& eZINI::instance( $iniName, "settings/siteaccess/$userSiteaccessName/", null, null, null, true, true );
-            }
-            else
-            {
-                $tmpINI =& eZINI::create( $iniName );
-            }
+            $tmpINI =& eZINI::create( $iniName );
 
             $tmpINI->setVariables( $settings );
             if ( $iniName == 'site.ini' )
@@ -936,7 +928,7 @@ id $inSql";
                     $tmpINI->setVariable( 'StylesheetSettings', 'ClassesCSS', $classesCSS );
                 $designINIStored = true;
             }
-            $tmpINI->save( false, '.append.php', false, false, "settings/siteaccess/$userSiteaccessName", $resetArray );
+            $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$userSiteaccessName", $resetArray );
 
             if ( $siteType['existing_database'] != EZ_SETUP_DB_DATA_KEEP )
             {
@@ -967,15 +959,7 @@ id $inSql";
             if ( isset( $extraSetting['reset_arrays'] ) )
                 $resetArray = $extraSetting['reset_arrays'];
 
-            if ( file_exists( "settings/siteaccess/$adminSiteaccessName/" . $iniName . '.append' ) ||
-                 file_exists( "settings/siteaccess/$adminSiteaccessName/" . $iniName . '.append.php' ) )
-            {
-                $tmpINI =& eZINI::instance( $iniName, "settings/siteaccess/$adminSiteaccessName/", null, null, null, true, true );
-            }
-            else
-            {
-                $tmpINI =& eZINI::create( $iniName );
-            }
+            $tmpINI =& eZINI::create( $iniName );
 
             $tmpINI->setVariables( $settings );
             if ( $iniName == 'site.ini' )
@@ -986,7 +970,7 @@ id $inSql";
                 $tmpINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
                 $tmpINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
             }
-            $tmpINI->save( false, '.append.php', false, false, "settings/siteaccess/$adminSiteaccessName", $resetArray );
+            $tmpINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName", $resetArray );
         }
 
         if ( !$siteINIAdminStored )
@@ -996,7 +980,7 @@ id $inSql";
             $siteINI->setVariable( 'SiteAccessSettings', 'RequireUserLogin', 'true' );
             $siteINI->setVariable( 'DesignSettings', 'SiteDesign', 'admin' );
             $siteINI->setVariable( 'SiteSettings', 'LoginPage', 'custom' );
-            $siteINI->save( false, '.append.php', false, true, "settings/siteaccess/$adminSiteaccessName", true );
+            $siteINI->save( false, '.append.php', false, false, "settings/siteaccess/$adminSiteaccessName", true );
         }
         if ( !$siteINIStored )
         {
