@@ -493,7 +493,7 @@ WHERE
         $phpCode .= "}\n";
 
         $phpCache->addCodePiece( $phpCode );
-        $phpCache->store();
+        $phpCache->store( true );
     }
 
     /*!
