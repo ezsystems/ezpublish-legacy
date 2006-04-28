@@ -20,3 +20,5 @@ Changes from 3.8.0rc1 to 3.8.0
 - Fixed bug #8176: ezurlalias cache dont use atomic file feature, can cause lot of crashes.
 - Fixed bug #8195: Three really small fixes for xhtml validation.
 - Fixed bug #8193: Wrong Last-Modified header using ezfilepasstroughhandler.php.
+- Fixed bug #8181: Language name is not consistent.
+
