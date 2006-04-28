@@ -88,7 +88,6 @@ class eZDiffTextEngine extends eZDiffEngine
         $statistics = $this->createStatisticsArray( $fromData, $oldArray, $toData, $newArray );
 
         $changes = new eZTextDiff();
-        $changes->setMetaData( $statistics, $oldArray, $newArray );
         
         $pre = $this->preProcess( $statistics, $oldSums, $newSums );
         $out = $this->createOutput( $pre, $oldArray, $newArray );
