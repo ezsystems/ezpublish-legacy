@@ -89,24 +89,24 @@ class eZStepSiteTypes extends eZStepInstaller
         {
             $ch = curl_init( $url );
             $fp = eZStepSiteTypes::fopen( $fileName, 'wb' );
-    
+
             if ( $fp === false )
             {
                 $this->ErrorMsg = ezi18n( 'design/standard/setup/init', 'Cannot write to file' ) .
                     ': ' . $this->FileOpenErrorMsg;
                 return false;
             }
-    
+
             curl_setopt( $ch, CURLOPT_FILE, $fp );
             curl_setopt( $ch, CURLOPT_HEADER, 0 );
             curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
-    
+
             if ( !curl_exec( $ch ) )
             {
                 $this->ErrorMsg = curl_error( $ch );
                 return false;
             }
-    
+
             curl_close( $ch );
             fclose( $fp );
         }
@@ -455,6 +455,9 @@ class eZStepSiteTypes extends eZStepInstaller
         // Set availability status for each package.
         foreach ( $sitePackages as $idx => $packageInfo )
             $sitePackages[$idx]['status'] = !isset( $packageInfo['url'] );
+
+        $sortBySummary = create_function('$x,$y', "return \$x['summary'] < \$y['summary'] ? -1 : 1;");
+        usort( $sitePackages, $sortBySummary );
 
         return $sitePackages;
     }
