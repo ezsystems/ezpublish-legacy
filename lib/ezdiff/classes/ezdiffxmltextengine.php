@@ -110,30 +110,11 @@ class eZDiffXMLTextEngine extends eZDiffEngine
         }
 
         $textDiffer = new eZDiffTextEngine();
-        $stats = $textDiffer->createStatisticsArray( $old, $oldArray, $new, $newArray );
 
-        $pre = $textDiffer->preProcess( $stats, $oldSums, $newSums );
+        $pre = $textDiffer->preProcess( $oldSums, $newSums );
         $out = $textDiffer->createOutput( $pre, $oldArray, $newArray );
         $changes->setChanges( $out );
         return $changes;
-    }
-
-    /*!
-      \private
-      Removes empty elements from array
-      \return array without empty elements
-    */
-    function trimEmptyArrayElements( $array )
-    {
-        foreach( $array as $key => $value )
-        {
-            if ( empty( $value ) )
-            {
-                unset( $array[$key] );
-            }
-        }
-        //Calls array_merge to reset the array keys.
-        return array_merge( $array );
     }
 }
 

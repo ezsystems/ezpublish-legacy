@@ -85,11 +85,9 @@ class eZDiffTextEngine extends eZDiffEngine
             $newSums[] = md5( $paragraph );
         }
 
-        $statistics = $this->createStatisticsArray( $old, $oldArray, $new, $newArray );
-
         $changes = new eZTextDiff();
         
-        $pre = $this->preProcess( $statistics, $oldSums, $newSums );
+        $pre = $this->preProcess( $oldSums, $newSums );
         $out = $this->createOutput( $pre, $oldArray, $newArray );
 
         $changes->setChanges( $out );
@@ -123,8 +121,7 @@ class eZDiffTextEngine extends eZDiffEngine
                     $old = explode( " ", $oldArray[$par] );
                     $new = explode( " ", $newArray[$par] );
 
-                    $stat = $this->createStatisticsArray( $oldArray[$par], $old, $newArray[$par], $new );
-                    $diffText = $this->buildDiff( $stat, $old, $new );
+                    $diffText = $this->buildDiff( $old, $new );
                     $size = count( $diffText ) - 1;
 
                     foreach( $diffText as $number => $change )
@@ -187,22 +184,22 @@ class eZDiffTextEngine extends eZDiffEngine
     /*!
       This method will determine which paragraphs which need to be diffed.
     */
-    function preProcess( $statistics, $oldArray, $newArray )
+    function preProcess( $oldArray, $newArray )
     {
         $substr = $this->substringMatrix( $oldArray, $newArray );
+
+        $nOldWords = count( $oldArray );
+        $nNewWords = count( $newArray );
 
         /*
         $tmp = $substr['lengthMatrix'];
         print( "<pre>" );
-        $this->dumpMatrix( $tmp, $statistics['from']['wordCount'], $statistics['to']['wordCount'] );
+        $this->dumpMatrix( $tmp, $nOldWords, $nNewWords );
         print( "</pre>" );
         */
 
         $strings = $this->substrings( $substr, $oldArray, $newArray );
         $len = count( $strings );
-
-        $nOldWords = count( $oldArray );
-        $nNewWords = count( $newArray );
 
         $differences = array();
         $offset = 0;
@@ -386,23 +383,22 @@ class eZDiffTextEngine extends eZDiffEngine
       \private
       This method will contruct a diff output for plain text.
     */
-    function buildDiff( $statistics, $oldArray, $newArray )
+    function buildDiff( $oldArray, $newArray )
     {
         $substr = $this->substringMatrix( $oldArray, $newArray );
+
+        $nOldWords = count( $oldArray );
+        $nNewWords = count( $newArray );
 
         /*
         $tmp = $substr['lengthMatrix'];
         print( "<pre>" );
-        $this->dumpMatrix( $tmp, $statistics['from']['wordCount'], $statistics['to']['wordCount'] );
+        $this->dumpMatrix( $tmp, $nOldWords, $nNewWords );
         print( "</pre>" );
         */
 
         $strings = $this->substrings( $substr, $oldArray, $newArray );
-
         $len = count( $strings );
-
-        $nOldWords = count( $oldArray );
-        $nNewWords = count( $newArray );
 
         $differences = array();
         $offset = 0;
@@ -1043,22 +1039,6 @@ class eZDiffTextEngine extends eZDiffEngine
         }
         //Calls array_merge to reset the array keys.
         return array_merge( $array );
-    }
-
-    /*!
-      \private
-      \return Statistics verry about the two text versions.
-      Builds a statistics array containing metadata about the input texts.
-    */
-    function createStatisticsArray( $fromText, $fromArray,  $toText, $toArray )
-    {
-        $stats = array();
-        $stats['from'] = array( 'charCount' => strlen( $fromText ),
-                                'wordCount' => count( $fromArray ) );
-        $stats['to'] = array( 'charCount' => strlen( $toText ),
-                              'wordCount' => count( $toArray ) );
-        $stats['newTextLonger'] = strlen( $fromText ) < strlen( $toText );
-        return $stats;
     }
 }
 
