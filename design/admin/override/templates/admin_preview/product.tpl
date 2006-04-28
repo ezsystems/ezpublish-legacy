@@ -29,7 +29,7 @@
 
         {* Category. *}
         {def $product_category_attribute=ezini( 'VATSettings', 'ProductCategoryAttribute', 'shop.ini' )}
-        {if $product_category_attribute}
+        {if and( $product_category_attribute, is_set( $node.data_map.$product_category_attribute ) )}
         <div class="attribute-long">
           <p>Category:&nbsp;{attribute_view_gui attribute=$node.data_map.$product_category_attribute}</p>
         </div>
