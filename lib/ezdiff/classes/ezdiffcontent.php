@@ -45,73 +45,7 @@ class eZDiffContent
 {
     /*!
       \public
-      Set the member values with relevant meta data.
-    */
-    function setMetaData( $statArray, $oldWordArray, $newWordArray )
-    {
-        $this->StatisticalMatrix = $statArray;
-        $this->NewTextIsLonger = $statArray['newTextLonger'];
-        $this->OldWordArray = $oldWordArray;
-        $this->NewWordArray = $newWordArray;
-    }
-
-    /*!
-      \public
-      Retrieve the statistical matrix
-    */
-    function getStatMatrix()
-    {
-        return $this->StatisticalMatrix;
-    }
-
-    /*!
-      \public
-      Retrive the original words
-    */
-    function getOriginalWords()
-    {
-        return $this->OldWordArray;
-    }
-
-    /*!
-      \public
-      Retrive the new words
-    */
-    function getNewWords()
-    {
-        return $this->NewWordArray;
-    }
-
-    /*!
-      \public
-      \return Whether new text is longer or not
-    */
-    function newTextLonger()
-    {
-        return $this->NewTextIsLonger;
-    }
-
-    /*!
-      \public
-      Set the difference array
-    */
-    function setDiff( $array )
-    {
-        $this->Differences = $array;
-    }
-
-    /*!
-      \public
-      Return the Difference matrix
-    */
-    function getDiff()
-    {
-        return $this->Differences;
-    }
-
-    /*!
-      \public
-      Return the set of consequtive changes.
+      Return the set of changes.
     */
     function getChanges()
     {
@@ -166,8 +100,7 @@ class eZDiffContent
 
     function attributes()
     {
-        return array( 'diff',
-                      'changes',
+        return array( 'changes',
                       'old_content',
                       'new_content' );
     }
@@ -181,11 +114,6 @@ class eZDiffContent
     {
         switch ( $attrName )
         {
-            case 'diff':
-            {
-                $retVal = $this->getDiff();
-            }break;
-
             case 'changes':
             {
                 $retVal = $this->getChanges();
@@ -211,23 +139,8 @@ class eZDiffContent
     }
 
     /// \privatesection
-    /// Statistical info on the raw text data.
-    var $StatisticalMatrix;
-
-    /// If \c true the newer text contains more words than the previous version
-    var $NewTextIsLonger;
-
-    /// The set of detected differences by word
-    var $Differences;
-
-    /// The set of detected consequtive changes
+    /// The set of detected changes
     var $Changeset;
-
-    /// The array of old, original words
-    var $OldWordArray;
-
-    /// The array of new words
-    var $NewWordArray;
 
     /// Old Object
     var $OldContent;

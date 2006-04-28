@@ -109,7 +109,7 @@ class eZDiff
       \public
       Returns diff engine of \a $type
     */
-    function initDiffEngine( $diffMode = false )
+    function initDiffEngine()
     {
         include_once( 'lib/ezdiff/classes/ezdiffengine.php' );
 
@@ -135,13 +135,6 @@ class eZDiff
                     $this->DiffEngineInstance = new eZDiffContainerObjectEngine();
                 }
             }
-        }
-
-        //DiffEngine already created, set diff mode
-        if ( $diffMode && is_numeric( $diffMode ) )
-        {
-            $diffEngine =& $this->DiffEngineInstance;
-            $diffEngine->setDiffMode( $diffMode );
         }
     }
 

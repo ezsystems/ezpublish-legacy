@@ -44,22 +44,6 @@
 class eZDiffEngine
 {
     /*!
-      Set operation of diff algorithm
-    */
-    function setDiffMode( $mode )
-    {
-        $this->DiffMode = $mode;
-    }
-
-    /*!
-      \return Active diff operation mode
-    */
-    function getDiffMode()
-    {
-        return $this->DiffMode;
-    }
-
-    /*!
       This method must be overridden for each implementation of eZDiffEngine. This is the function
       which created the object containing the detected changes in the data set.
     */
