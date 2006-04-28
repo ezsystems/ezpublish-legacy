@@ -63,7 +63,7 @@
 
 <div class="block">
 <label>{"Comment"|i18n("design/standard/content/tipafriend")}</label><div class="labelbreak"></div>
-<textarea class="box" cols="40" rows="10" name="Comment" value="{$comment|wash}" ></textarea>
+<textarea class="box" cols="40" rows="10" name="Comment">{$comment|wash}</textarea>
 </div>
 
 <br/>
