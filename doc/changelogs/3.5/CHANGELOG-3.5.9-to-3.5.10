@@ -33,3 +33,5 @@ Changes from 3.5.9 to 3.5.10
   (Merged from stable/3.7 (3.7.6) rev. 15888)
 - Fixed bug #8176: ezurlalias cache dont use atomic file feature, can cause lot of crashes.
   (Merged from trunk (3.8.0) rev. 15910)
+- Fixed bug #8195: Three really small fixes for xhtml validation.
+  (Merged from trunk (3.8.0) rev. 15914)

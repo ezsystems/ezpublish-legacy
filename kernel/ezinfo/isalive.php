@@ -26,6 +26,8 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
+header( "Content-Type: text/plain;" );
+
 $db =& eZDB::instance();
 
 if ( $db->isConnected() === true )

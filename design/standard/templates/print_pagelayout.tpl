@@ -9,7 +9,6 @@
     <script language="JavaScript" type="text/javascript" src={concat( 'javascript/',$:item )|ezdesign}></script>
 {/section}
     <link rel="stylesheet" type="text/css" href={"stylesheets/core.css"|ezdesign} />
-    <link rel="stylesheet" type="text/css" href={"stylesheets/admin.css"|ezdesign} />
 
 <style type="text/css">
 {section var=css_file loop=ezini( 'StylesheetSettings', 'CSSFileList', 'design.ini' )}
