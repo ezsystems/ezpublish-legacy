@@ -21,9 +21,12 @@
 {section show=$error}
 <div class="error">
 
-  <h2>{"Error"|i18n("design/standard/setup/init")}</h2>
-  <p>{$error|wash}</p>
-
+ <blockquote class="error">
+   <h2>{"Error"|i18n("design/standard/setup/init")}</h2>
+   <p>{$error|wash}</p>
+   <p>Remote repository URL: <a href={$index_url}>{$index_url|wash}</a></p>
+ </blockquote>
+  
 </div>
 {/section}
 

@@ -44,6 +44,14 @@ class eZStepSiteTypes extends eZStepInstaller
     */
     function eZStepSiteTypes( &$tpl, &$http, &$ini, &$persistenceList )
     {
+        $ini =& eZINI::instance( 'package.ini' );
+        $this->IndexURL = $ini->variable( 'RepositorySettings', 'RemotePackagesIndexURL' );
+
+        if ( substr( $this->IndexURL, -1, 1 ) == '/' )
+            $this->XMLIndexURL = $this->IndexURL . 'index.xml';
+        else
+            $this->XMLIndexURL = $this->IndexURL . '/index.xml';
+
         $this->eZStepInstaller( $tpl, $http, $ini, $persistenceList,
                                 'site_types', 'Site types' );
     }
@@ -79,28 +87,28 @@ class eZStepSiteTypes extends eZStepInstaller
         // First try CURL
         if ( extension_loaded( 'curl' ) )
         {
-        $ch = curl_init( $url );
-        $fp = eZStepSiteTypes::fopen( $fileName, 'wb' );
-
-        if ( $fp === false )
-        {
-            $this->ErrorMsg = ezi18n( 'design/standard/setup/init', 'Cannot write to file' ) .
-                ': ' . $this->FileOpenErrorMsg;
-            return false;
-        }
-
-        curl_setopt( $ch, CURLOPT_FILE, $fp );
-        curl_setopt( $ch, CURLOPT_HEADER, 0 );
-        curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
-
-        if ( ! curl_exec( $ch ) )
-        {
-            $this->ErrorMsg = curl_error( $ch );
-            return false;
-        }
-
-        curl_close( $ch );
-        fclose( $fp );
+            $ch = curl_init( $url );
+            $fp = eZStepSiteTypes::fopen( $fileName, 'wb' );
+    
+            if ( $fp === false )
+            {
+                $this->ErrorMsg = ezi18n( 'design/standard/setup/init', 'Cannot write to file' ) .
+                    ': ' . $this->FileOpenErrorMsg;
+                return false;
+            }
+    
+            curl_setopt( $ch, CURLOPT_FILE, $fp );
+            curl_setopt( $ch, CURLOPT_HEADER, 0 );
+            curl_setopt( $ch, CURLOPT_FAILONERROR, 1 );
+    
+            if ( !curl_exec( $ch ) )
+            {
+                $this->ErrorMsg = curl_error( $ch );
+                return false;
+            }
+    
+            curl_close( $ch );
+            fclose( $fp );
         }
         else
         {
@@ -152,6 +160,7 @@ class eZStepSiteTypes extends eZStepInstaller
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
                                       'Download of package \'%pkg\' failed. You may upload the package manually.',
                                       false, array( '%pkg' => $packageName ) );
+
             return false;
         }
 
@@ -163,7 +172,7 @@ class eZStepSiteTypes extends eZStepInstaller
 
         if ( !is_object( $package ) )
         {
-            eZDebug::writeError( "Invalid package" );
+            eZDebug::writeNotice( "Invalid package" );
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init', 'Invalid package' );
             return false;
         }
@@ -234,6 +243,8 @@ class eZStepSiteTypes extends eZStepInstaller
                     $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
                                               'Download of package \'%pkg\' failed. You may upload the package manually.',
                                               false, array( '%pkg' => $requiredPackageName ) );
+                    $this->ShowURL = true;
+
                     return false;
                 }
 
@@ -391,10 +402,13 @@ class eZStepSiteTypes extends eZStepInstaller
     {
         $sitePackages = array();
 
-        foreach ( $remoteSitePackages as $packageInfo )
+        if ( is_array( $remoteSitePackages ) )
         {
-            $packageName = $packageInfo['name'];
-            $sitePackages[$packageName] = $packageInfo;
+            foreach ( $remoteSitePackages as $packageInfo )
+            {
+                $packageName = $packageInfo['name'];
+                $sitePackages[$packageName] = $packageInfo;
+            }
         }
 
         foreach ( $importedSitePackages as $package )
@@ -488,6 +502,7 @@ class eZStepSiteTypes extends eZStepInstaller
         $this->Tpl->setVariable( 'dependencies_status', $dependenciesStatus );
         $this->Tpl->setVariable( 'chosen_package', $chosenSitePackage );
         $this->Tpl->setVariable( 'error', $this->ErrorMsg );
+        $this->Tpl->setVariable( 'index_url', $this->IndexURL );
         $this->Tpl->setVariable( 'message', $this->Message );
 
         // Return template and data to be shown
@@ -545,19 +560,16 @@ class eZStepSiteTypes extends eZStepInstaller
      */
     function retreiveRemotePackagesList( $onlySitePackages = false )
     {
-        // Get the URL.
-        $ini =& eZINI::instance( 'package.ini' );
-        $indexURL = $ini->variable( 'RepositorySettings', 'RemotePackagesIndexURL' );
-
         // Download index file.
-        $idxFileName = $this->downloadFile( $indexURL, /* $outDir = */ eZStepSiteTypes::tempDir(), 'index.xml' );
+        $idxFileName = $this->downloadFile( $this->XMLIndexURL, /* $outDir = */ eZStepSiteTypes::tempDir(), 'index.xml' );
 
         if ( $idxFileName === false )
         {
             $this->ErrorMsg = ezi18n( 'design/standard/setup/init',
                                       'Retreiving remote site packages list failed. ' .
                                       'You may upload packages manually.' );
-            eZDebug::writeError( "Cannot download remote packages index file from '$indexURL'." );
+
+            eZDebug::writeNotice( "Cannot download remote packages index file from '$this->XMLIndexURL'." );
             return false;
         }
 
@@ -636,6 +648,10 @@ class eZStepSiteTypes extends eZStepInstaller
         return eZDir::path( array( eZSys::cacheDirectory(),
                                     'packages' ) );
     }
+
+    // current repository URL
+    var $IndexURL;
+    var $XMLIndexURL;
 
     var $Error = 0;
     var $ErrorMsg = false;
