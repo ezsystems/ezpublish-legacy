@@ -62,6 +62,19 @@ class eZMultiPriceType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
+        // Check "price inc/ex VAT" and "VAT type" fields.
+        $vatTypeID = $http->postVariable( $base . '_ezmultiprice_vat_id_' . $contentObjectAttribute->attribute( 'id' ) );
+        $vatExInc = $http->postVariable( $base . '_ezmultiprice_inc_ex_vat_' . $contentObjectAttribute->attribute( 'id' ) );
+
+
+        if ( $vatExInc == 1 && $vatTypeID == -1 )
+        {
+            $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                 'Dynamic VAT cannot be included.' ) );
+            return EZ_INPUT_VALIDATOR_STATE_INVALID;
+        }
+
+        // Check price.
         if ( $http->hasPostVariable( $base . '_price_array_' . $contentObjectAttribute->attribute( "id" ) ) )
         {
             $customPriceList = $http->postVariable( $base . '_price_array_' . $contentObjectAttribute->attribute( "id" ) );
