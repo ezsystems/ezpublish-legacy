@@ -75,11 +75,15 @@ class eZFilePasstroughHandler extends eZBinaryFileHandler
                     $contentLength -= $fileOffset;
                 }
             }
+            // Figure out the time of last modification of the file right way to get the file mtime ... the
+            $fileModificationTime = filemtime( $fileName );
 
+            ob_clean();
             header( "Pragma: " );
             header( "Cache-Control: " );
             /* Set cache time out to 10 minutes, this should be good enough to work around an IE bug */
-            header( "Expires: ". gmdate('D, d M Y H:i:s', time() + 600) . 'GMT');
+            header( "Expires: ". gmdate('D, d M Y H:i:s T', time() + 600) );
+            header( "Last-Modified: ". gmdate( 'D, d M Y H:i:s T', $fileModificationTime ) );
             header( "Content-Length: $contentLength" );
             header( "Content-Type: $mimeType" );
             header( "X-Powered-By: eZ publish" );
