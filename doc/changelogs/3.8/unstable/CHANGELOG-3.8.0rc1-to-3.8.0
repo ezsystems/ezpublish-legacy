@@ -17,3 +17,4 @@ Changes from 3.8.0rc1 to 3.8.0
 - Fixed bug #8175: Table in setupwizard (step : "Site package" ) doesn't look good.
 - Fixed bug #8034: cache-block with expiry=0 always expires when TemplateCompiling 
   is disabled.
+- Fixed bug #8176: ezurlalias cache dont use atomic file feature, can cause lot of crashes.
