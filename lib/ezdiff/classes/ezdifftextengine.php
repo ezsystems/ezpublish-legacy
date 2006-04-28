@@ -85,7 +85,7 @@ class eZDiffTextEngine extends eZDiffEngine
             $newSums[] = md5( $paragraph );
         }
 
-        $statistics = $this->createStatisticsArray( $fromData, $oldArray, $toData, $newArray );
+        $statistics = $this->createStatisticsArray( $old, $oldArray, $new, $newArray );
 
         $changes = new eZTextDiff();
         
