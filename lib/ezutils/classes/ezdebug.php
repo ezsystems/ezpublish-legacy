@@ -714,6 +714,7 @@ class eZDebug
                 }
                 if ( $this->isLogFileEnabled( $verbosityLevel ) )
                 {
+                    $string = "$label:\n$string";
                     $this->writeFile( $fileName, $string, $verbosityLevel, $alwaysLog );
                 }
             }
