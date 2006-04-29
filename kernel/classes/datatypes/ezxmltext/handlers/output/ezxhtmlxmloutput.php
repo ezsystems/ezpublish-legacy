@@ -1132,11 +1132,10 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
              }
     
              $level = $currentSectionLevel;
-    
              $this->HeaderCount[$level]++;
-    
+
              $i = 1;
-             $headerAutoName = $this->ObjectAttributeId . '_';
+             $headerAutoName = '';
              while ( $i <= $level )
              {
                 if ( $i > 1 )
@@ -1146,21 +1145,12 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $i++;
              }
     
-             $tagText = '';
-             if ( $headerAutoName )
-             {
-                 $tpl->setVariable( 'name', $headerAutoName, 'xmltagns' );
-    
-                 $uri = "design:content/datatype/view/ezxmltags/anchor.tpl";
-                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-    
-                 $tagText .= implode( '', $textElements );
-    
-                 // Set a template variable for automatic generated header levels
-                 $levelNumber = str_replace( "_", ".", $headerAutoName );
-                 $tpl->setVariable( 'header_number', $levelNumber, 'xmltagns' );
-             }
-    
+             $levelNumber = str_replace( "_", ".", $headerAutoName );
+             $headerAutoName = $this->ObjectAttributeId . '_' . $headerAutoName;
+
+             $tpl->setVariable( 'header_number', $levelNumber, 'xmltagns' );
+             $tpl->setVariable( 'toc_anchor_name', $headerAutoName, 'xmltagns' );
+
              $tpl->setVariable( 'content', $childTagText, 'xmltagns' );
              $tpl->setVariable( 'level', $level, 'xmltagns' );
              $tpl->setVariable( 'classification', $class, 'xmltagns' );
