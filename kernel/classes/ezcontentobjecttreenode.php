@@ -805,6 +805,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 {
                     $classIDArray[] = $classID;
                 }
+                else
+                {
+                    eZDebugSetting::writeWarning( 'kernel-content-class', "Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
+                }
             }
 
             if ( count( $classIDArray ) > 0  )
@@ -2158,6 +2162,10 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 if ( is_numeric( $classID ) )
                 {
                     $classIDArray[] = $classID;
+                }
+                else
+                {
+                    eZDebugSetting::writeWarning( 'kernel-content-class', "Invalid class identifier in subTree() classfilterarray, classID : " . $originalClassID );
                 }
             }
             if ( count( $classIDArray ) > 0  )
