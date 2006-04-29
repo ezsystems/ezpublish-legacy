@@ -28,8 +28,10 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 
 //
+include_once( "lib/ezxml/classes/ezxml.php" );
 
-include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
+if ( !class_exists( 'eZXMLSchema' ) )
+    include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
 
 class eZSimplifiedXMLEditOutput
 {

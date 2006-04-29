@@ -40,7 +40,9 @@
 */
 
 include_once( "lib/ezxml/classes/ezxml.php" );
-include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
+
+if ( !class_exists( 'eZXMLSchema' ) )
+    include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlschema.php' );
 
 class eZXMLInputParser
 {
@@ -126,9 +128,10 @@ class eZXMLInputParser
                        in order to get the valid result. It always return 
     */
 
-    function eZXMLInputParser( $validate = false )
+    function eZXMLInputParser( $validate = false, $errorLevel = 0 )
     {
         $this->quitIfInvalid = $validate;
+        $this->errorLevel = $errorLevel;
 
         $this->XMLSchema =& eZXMLSchema::instance();
         $this->getClassesList();
@@ -150,6 +153,11 @@ class eZXMLInputParser
         }
     }
 
+    function setDOMDocumentClass( $DOMDocumentClass )
+    {
+        $this->DOMDocumentClass = $DOMDocumentClass;
+    }
+
     /*!
         Call this function to process your input
     */
@@ -158,7 +166,7 @@ class eZXMLInputParser
         if ( $createRootNode )
         {
             // Creating root section with namespaces definitions
-            $this->Document = new eZDOMDocument();
+            $this->Document = new $this->DOMDocumentClass();
             $mainSection = $this->Document->createElement( 'section' );
             $this->Document->appendChild( $mainSection );
             foreach( $this->Namespaces as $prefix => $value )
@@ -954,6 +962,8 @@ class eZXMLInputParser
     {
         return $this->isInputValid;
     }
+
+    var $DOMDocumentClass = 'eZDOMDocument';
 
     var $XMLSchema;
     var $Document;

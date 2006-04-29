@@ -29,7 +29,8 @@
 
 //
 
-include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputparser.php' );
+if ( !class_exists( 'eZXMLInputParser' ) )
+    include_once( 'kernel/classes/datatypes/ezxmltext/ezxmlinputparser.php' );
 
 class eZSimplifiedXMLInputParser extends eZXMLInputParser
 {
@@ -124,11 +125,10 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         '#text'     => array( 'structHandler' => 'appendLineParagraph' )
         );
 
-    function eZSimplifiedXMLInputParser( $contentObjectID, $validate = true )
+    function eZSimplifiedXMLInputParser( $contentObjectID, $validate = true, $errorLevel = 2 )
     {
         $this->contentObjectID = $contentObjectID;
-        $this->errorLevel = 2;
-        $this->eZXMLInputParser( $validate );
+        $this->eZXMLInputParser( $validate, $errorLevel );
     }
 
     /*
