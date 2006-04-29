@@ -315,9 +315,12 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
     {
         $ret =& $newParent;
         $parent =& $element->parentNode;
+
         $next =& $element->nextSibling();
 
-        if ( $next && $next->nodeName == 'br' )
+        if ( $element->getAttribute( 'ignore' ) != 'true' &&
+             $next &&
+             $next->nodeName == 'br' )
         {
             if ( $this->XMLSchema->check( $parent, 'paragraph' ) )
             {
@@ -333,12 +336,20 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     // break paragraph or line flow
                     unset( $ret );
                     $ret = null;
-                    // create paragraph in case of the last empty paragraph
-                    $nextToNext =& $next->nextSibling();
-                    if ( !$nextToNext )
+
+                    // Do not process next <br> tag
+                    $next->setAttribute( 'ignore', 'true' );
+
+                    // create paragraph in case of the last empty paragraph (not inside section)
+                    // TODO: check the next element not depending of section level
+                    if ( $parent->nodeName != 'section' )
                     {
-                        $newPara =& $this->createAndPublishElement( 'paragraph' );
-                        $parent->replaceChild( $newPara, $element );
+                        $nextToNext =& $next->nextSibling();
+                        if ( !$nextToNext )
+                        {
+                            $newPara =& $this->createAndPublishElement( 'paragraph' );
+                            $parent->replaceChild( $newPara, $element );
+                        }
                     }
                 }
             }
@@ -357,7 +368,6 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
             $nextToNext =& $next->nextSibling();
             if ( !$nextToNext || $nextToNext->nodeName != 'br' )
             {
-                $parent =& $element->parentNode;
                 $parent->removeChild( $next );
             }
         }
