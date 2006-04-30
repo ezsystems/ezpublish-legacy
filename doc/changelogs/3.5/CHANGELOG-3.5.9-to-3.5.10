@@ -38,3 +38,4 @@ Changes from 3.5.9 to 3.5.10
 - Fixed bug #8193: Wrong Last-Modified header using ezfilepasstroughhandler.php.
   (Merged from trunk (3.8.0) rev. 15924)
 - Fixed bug #8201: Wrong comment in binaryfile.ini.
+- Fixed bug #8166: Dobbel [articlethumbnail].
