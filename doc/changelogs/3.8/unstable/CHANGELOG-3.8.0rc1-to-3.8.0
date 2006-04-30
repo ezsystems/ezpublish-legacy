@@ -25,3 +25,5 @@ Changes from 3.8.0rc1 to 3.8.0
   (Anchor is moved now to <header> tag template)
 - Fixed bug #8201: Wrong comment in binaryfile.ini.
   ( Merged from stable/3.5 ( 3.5.11 ) rev. 15943 )
+- Fixed bug #8166: Dobbel [articlethumbnail].
+  ( Merged from stable/3.5 ( 3.5.11 ) rev. 15947 )
