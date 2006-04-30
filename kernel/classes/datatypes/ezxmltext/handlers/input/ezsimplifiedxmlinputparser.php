@@ -341,15 +341,17 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                     $next->setAttribute( 'ignore', 'true' );
 
                     // create paragraph in case of the last empty paragraph (not inside section)
-                    // TODO: check the next element not depending of section level
-                    if ( $parent->nodeName != 'section' )
+                    $nextToNext =& $next->nextSibling();
+                    $tmp =& $parent;
+                    while( !$nextToNext && $tmp && $tmp->nodeName == 'section' )
                     {
-                        $nextToNext =& $next->nextSibling();
-                        if ( !$nextToNext )
-                        {
-                            $newPara =& $this->createAndPublishElement( 'paragraph' );
-                            $parent->replaceChild( $newPara, $element );
-                        }
+                        $nextToNext =& $tmp->nextSibling();
+                        $tmp =& $tmp->parentNode;
+                    }
+                    if ( !$nextToNext )
+                    {
+                        $newPara =& $this->createAndPublishElement( 'paragraph' );
+                        $parent->replaceChild( $newPara, $element );
                     }
                 }
             }
@@ -444,7 +446,10 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
                 for ( $i = $sectionLevel; $i < $level; $i++ )
                 {
                    $newSection = $this->Document->createElement( 'section' );
-                   $newParent->appendChild( $newSection );
+                   if ( $i == $sectionLevel )
+                       $newParent->insertBefore( $newSection, $element );
+                   else
+                       $newParent->appendChild( $newSection );
                    // Schema check
                    if ( !$this->processElementBySchema( $newSection, false ) )
                    {
