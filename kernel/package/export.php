@@ -87,8 +87,8 @@ if ( $fileName != "" and file_exists( $fileName ) )
 
     ob_end_clean();
     fpassthru( $fh );
+    fflush( $fh );
     fclose( $fh );
-    fflush();
     unlink( $fileName );
     eZExecution::cleanExit();
 }
