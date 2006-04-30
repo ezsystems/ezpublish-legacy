@@ -1045,7 +1045,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 include_once( 'lib/eztemplate/classes/eztemplateincludefunction.php' );
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
-                $tagText = $tagText;
 
                 // Remove the design key, so it will not override other tags
                 $res->removeKey( 'classification' );
@@ -1090,7 +1089,6 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                 $textElements = array();
                 eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
                 $tagText .= implode( '', $textElements );
-                $tagText = $tagText;
 
                 foreach ( $customAttributes as $attribute )
                 {

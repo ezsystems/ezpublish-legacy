@@ -125,7 +125,7 @@ class eZXMLInputParser
                        set to false and function 'process' returns false.
                        
                        If false, parser tries to modify and transform the input automatically
-                       in order to get the valid result. It always return 
+                       in order to get the valid result. 
     */
 
     function eZXMLInputParser( $validate = false, $errorLevel = 0 )
