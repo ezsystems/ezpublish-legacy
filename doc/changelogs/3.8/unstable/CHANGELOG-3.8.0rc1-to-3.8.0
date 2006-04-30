@@ -23,3 +23,5 @@ Changes from 3.8.0rc1 to 3.8.0
 - Fixed bug #8181: Language name is not consistent.
 - Fixed bug #8198: Impossible to remove TOC anchor in the output of <header> element.
   (Anchor is moved now to <header> tag template)
+- Fixed bug #8201: Wrong comment in binaryfile.ini.
+  ( Merged from stable/3.5 ( 3.5.11 ) rev. 15943 )
