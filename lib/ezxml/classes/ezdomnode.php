@@ -805,18 +805,9 @@ class eZDOMNode
       \note This will only make sense for element nodes.
       \sa elementTextContentByName
     */
-    function textContent( )
+    function textContent()
     {
-        $children =& $this->Children;
-
-        if ( count( $children ) == 1 && $children[0]->Type == EZ_XML_NODE_TEXT )
-        {
-            return $children[0]->content();
-        }
-        else
-        {
-            return $this->collectTextContent( $this );
-        }
+        return $this->collectTextContent( $this );
     }
 
     function collectTextContent( &$element )
@@ -1109,8 +1100,10 @@ class eZDOMNode
             $child = false;
             return $child;
         }
-        $keys = array_keys( $this->Children );
-        $child =& $this->Children[$keys[0]];
+        reset( $this->Children );
+        $key = key( $this->Children );
+        $child =& $this->Children[$key];
+
         return $child;
     }
 
@@ -1127,8 +1120,10 @@ class eZDOMNode
             $child = false;
             return $child;
         }
-        $keys = array_keys( $this->Children );
-        $child =& $this->Children[$keys[count( $keys ) - 1]];
+        end( $this->Children );
+        $key = key( $this->Children );
+        $child =& $this->Children[$key];
+
         return $child;
     }
 
@@ -1309,7 +1304,12 @@ class eZDOMNode
         return $d;
     }
 
-    function writeDebug2( &$node, $text )
+    /*!
+      Outputs XML from DOM as a string.
+      
+      \param node  subtree root node
+    */
+    function writeDebugStr( &$node, $text )
     {
         if ( is_object( $node ) )
             eZDebug::writeDebug( $node->toString( 0 ), $text );
