@@ -1,6 +1,8 @@
 Changes from 3.8.0rc1 to 3.8.0
 
 *Kernel:
+- Added ability to load cluster file handlers from an extension.
+- Added pgsql cluster file handler.
 
 *Bugfixes:
 - Fixed bug #7476: Passing 'floor'ed values to 'for' fails.
@@ -29,3 +31,5 @@ Changes from 3.8.0rc1 to 3.8.0
   ( Merged from stable/3.5 ( 3.5.11 ) rev. 15947 )
 - Fixed bug #7562: Package file exports are corrupt
   ( Merged from stable/3.5 ( 3.5.11 ) rev. 15953 )
+- Fixed HTTP headers generated when serving images by claster
+  to work properly with squid.

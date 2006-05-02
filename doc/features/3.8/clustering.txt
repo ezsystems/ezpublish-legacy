@@ -14,42 +14,26 @@ related to content are still stored on disc.
 
 *Setup
 
- 1. Create tables in database
-
-CREATE TABLE ezdbfile (
-  id        MEDIUMINT(8) UNSIGNED NOT NULL auto_increment,
-  datatype  VARCHAR(60)  NOT NULL DEFAULT 'application/octet-stream',
-  name      VARCHAR(255) NOT NULL DEFAULT '',
-  name_hash VARCHAR(34)  NOT NULL DEFAULT '',
-  scope     VARCHAR(20)  NOT NULL DEFAULT '',
-  size      BIGINT(20)   UNSIGNED NOT NULL,
-  mtime     INT(11)      NOT NULL DEFAULT '0',
-  PRIMARY KEY (id),
-  UNIQUE INDEX ezdbfile_name (name),
-  UNIQUE INDEX ezdbfile_name_hash (name_hash)
-) ENGINE=InnoDB;
-
-CREATE TABLE ezdbfile_data (
-  id       MEDIUMINT(8) unsigned NOT NULL auto_increment,
-  masterid MEDIUMINT(8) unsigned NOT NULL default '0',
-  filedata BLOB NOT NULL,
-  PRIMARY KEY (id),
-  KEY master_idx (masterid)
-) ENGINE=InnoDB;
-
- 2. Specify db to connect to.
-
-Edit database settings in the begging of
-kernel/classes/clusterfilehandlers/ezdbmysqlfilehandler.php.
-
- 3. Switch to database storage.
+ 1. Switch to database storage.
 
 Add this to your file.ini.append.php:
     [ClusteringSettings]
-    FileHandler=ezdbmysql
- 
+    FileHandler=ezdb
+    DBBackend=mysql # or pgsql
+
 This will force eZ publish to use database for storing images, binary files
 and content-related caches.
+
+ 2. Specify db to connect to.
+
+Go to kernel/classes/clusterfilehandlers/dbbackends/
+and edit database settings in the begging of
+file mysql.php or pgsql.php (depending on the backend chosen).
+
+ 3. Create table(s) in database.
+ 
+See table creation queries in the same file you edited db settings in
+and run them on the database.
 
  4. Copy your files stored in var dir into database.
 
@@ -88,7 +72,6 @@ Since images are no longer stored on disk but in the database, they need to
 Apply the following RewriteRules before your rules:
   Rewriterule ^/var/([^/]+/)?storage/images-versioned/.*  /index_image.php [L]
   Rewriterule ^/var/([^/]+/)?storage/images/.*            /index_image.php [L]
-
 
  8. Restart apache and this should work.
 

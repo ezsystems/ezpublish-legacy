@@ -52,6 +52,8 @@ Changes from 3.6.0 to 3.8.0
   most sites and can be configured independently.
 - Added detection of conflicts in VAT charging rules.
 - Added ability to use alternative country datatypes.
+- Added ability to load cluster file handlers from an extension.
+- Added pgsql cluster file handler.
 
 Attributes:
 - Added: 'last_visit' attribute to eZUser
@@ -1206,4 +1208,7 @@ eZExtension:
   ( Merged from stable/3.5 ( 3.5.11 ) rev. 15947 )
 - Fixed bug #7562: Package file exports are corrupt
   ( Merged from stable/3.5 ( 3.5.11 ) rev. 15953 )
+- Fixed HTTP headers generated when serving images by claster
+  to work properly with squid.
+
 
