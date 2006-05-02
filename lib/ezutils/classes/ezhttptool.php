@@ -225,7 +225,7 @@ class eZHTTPTool
              If pipetrough, program will end here.
 
     */
-    function &sendHTTPRequest( $uri, $port = 80, $postParameters = false, $userAgent = 'eZ publish', $passtrough = true )
+    function sendHTTPRequest( $uri, $port = 80, $postParameters = false, $userAgent = 'eZ publish', $passtrough = true )
     {
         preg_match( "/^((http[s]?:\/\/)([a-zA-Z0-9_.]+))?([\/]?[~]?(\.?[^.]+[~]?)*)/i", $uri, $matches );
         $protocol = $matches[2];
