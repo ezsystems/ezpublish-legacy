@@ -634,3 +634,14 @@ Datatype branch:
 - Revision=15857
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.0rc1
 - Date 25-Apr-2006
+
+3.8.0:
+- Release branch=release/3.8.0
+- Release branch start=15959
+- Release branch end=
+- Release date 02-May-2006
+- Release branch configured=15962
+- From revision=15960
+- Revision=15967
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.0
+- Date  2-May-2006
