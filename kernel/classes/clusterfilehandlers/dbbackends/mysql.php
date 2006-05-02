@@ -1,8 +1,8 @@
 <?php
 //
-// Definition of eZDBMysqlFileHandler class
+// Definition of eZDBFileHandlerMysqlBackend class
 //
-// Created on: <21-Mar-2006 16:44:12 vs>
+// Created on: <19-Apr-2006 16:15:17 vs>
 //
 // ## BEGIN COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 // SOFTWARE NAME: eZ publish
@@ -28,15 +28,16 @@
 // ## END COPYRIGHT, LICENSE AND WARRANTY NOTICE ##
 //
 
-/*! \file ezdbmysqlfilehandler.php
+/*! \file ezdbfilehandlermysqlbackend.php
 */
 
 
-define( 'STORAGE_HOST',       'localhost' );
-define( 'STORAGE_PORT',       3306 );
+define( 'STORAGE_HOST',       'db' );
+define( 'STORAGE_PORT',       3400 );
+define( 'STORAGE_DB',         'cluster' );
+
 define( 'STORAGE_USER',       'root' );
 define( 'STORAGE_PASS',       '' );
-define( 'STORAGE_DB',         'trunk' );
 define( 'STORAGE_CHUNK_SIZE', 65535 );
 
 define( 'TABLE_METADATA',     'ezdbfile' );
@@ -68,344 +69,8 @@ CREATE TABLE ezdbfile_data (
 require_once( 'lib/ezutils/classes/ezdebugsetting.php' );
 require_once( 'lib/ezutils/classes/ezdebug.php' );
 
-class eZDBMysqlFileHandler // used in eZFileHandler1
+class eZDBFileHandlerMysqlBackend
 {
-    /**
-     * Constructor.
-     *
-     * $filePath File path. If specified, file metadata is fetched in the constructor.
-     */
-    function eZDBMysqlFileHandler( $filePath = false )
-    {
-        $this->_connect();
-
-        if ( $filePath === false )
-            return;
-
-        $metaData = $this->_fetchMetadata( $filePath );
-        if ( $metaData )
-            $this->metaData = $metaData;
-        else
-            $this->metaData['name'] = $filePath;
-    }
-
-    /**
-     * \public
-     * \static
-     * \param $filePath Path to the file being stored.
-     * \param $scope    Means something like "file category". May be used to clean caches of a certain type.
-     * \param $delete   true if the file should be deleted after storing.
-     */
-    function fileStore( $filePath, $scope = false, $delete = false, $datatype = false )
-    {
-        if ( $scope === false )
-            $scope = 'UNKNOWN_SCOPE';
-
-        if ( $datatype === false )
-            $datatype = 'misc';
-
-        $this->_store( $filePath, $datatype, $scope );
-
-        if ( $delete )
-            @unlink( $filePath );
-    }
-
-    /**
-     * Store file contents.
-     *
-     * \public
-     * \static
-     */
-    function fileStoreContents( $filePath, $contents, $scope = false, $datatype = false )
-    {
-        if ( $scope === false )
-            $scope = 'UNKNOWN_SCOPE';
-
-        if ( $datatype === false )
-            $datatype = 'misc';
-
-        $this->_storeContents( $filePath, $contents, $scope, $datatype );
-    }
-
-    /**
-     * Store file contents.
-     *
-     * \public
-     */
-    function storeContents( $contents, $scope = false, $datatype = false )
-    {
-        if ( $scope === false )
-            $scope = 'UNKNOWN_SCOPE';
-
-        if ( $datatype === false )
-            $datatype = 'misc';
-
-        $filePath = $this->metaData['name'];
-        $this->_storeContents( $filePath, $contents, $scope, $datatype );
-    }
-
-    /**
-     * Fetches file from db and saves it in FS under the same name.
-     *
-     * \public
-     * \static
-     */
-    function fileFetch( $filePath )
-    {
-        return $this->_fetch( $filePath );
-    }
-
-    /**
-     * Fetches file from db and saves it in FS under the same name.
-     *
-     * \public
-     */
-    function fetch()
-    {
-        $filePath = $this->metaData['name'];
-
-        $this->_fetch( $filePath );
-    }
-
-    /**
-     * Returns file contents.
-     *
-     * \public
-     * \static
-     * \return contents string, or false in case of an error.
-     */
-    function fileFetchContents( $filePath )
-    {
-        $contents = $this->_fetchContents( $filePath );
-        return $contents;
-    }
-
-    /**
-     * Returns file contents.
-     *
-     * \public
-     * \return contents string, or false in case of an error.
-     */
-    function fetchContents()
-    {
-        $filePath = $this->metaData['name'];
-        $contents = $this->_fetchContents( $filePath );
-        return $contents;
-    }
-
-    /**
-     * Returns file metadata.
-     *
-     * \public
-     */
-    function stat()
-    {
-        return $this->metaData;
-    }
-
-    /**
-     * Returns file size.
-     *
-     * \public
-     */
-    function size()
-    {
-        return isset( $this->metaData['size'] ) ? $this->metaData['size'] : null;
-    }
-
-    /**
-     * Returns file modification time.
-     *
-     * \public
-     */
-    function mtime()
-    {
-        return isset( $this->metaData['mtime'] ) ? $this->metaData['mtime'] : null;
-    }
-
-    /**
-     * Returns file name.
-     *
-     * \public
-     */
-    function name()
-    {
-        return isset( $this->metaData['name'] ) ? $this->metaData['name'] : null;
-    }
-
-    /**
-     * \public
-     * \static
-     * \sa fileDeleteByWildcard()
-     */
-    function fileDeleteByRegex( $dir, $fileRegex )
-    {
-        $regex = '^' . $dir . '/' . $fileRegex;
-        $this->_deleteByRegex( $regex );
-    }
-
-    /**
-     * \public
-     * \static
-     * \sa fileDeleteByRegex()
-     */
-    function fileDeleteByWildcard( $wildcard )
-    {
-        $this->_deleteByWildcard( $wildcard );
-    }
-
-    /**
-     * Deletes specified file/directory.
-     *
-     * If a directory specified it is deleted recursively.
-     *
-     * \public
-     * \static
-     */
-    function fileDelete( $path )
-    {
-        $this->_delete( $path );
-        $this->_deleteByRegex( $path . '/.+$' );
-    }
-
-    /**
-     * Deletes specified file/directory.
-     *
-     * If a directory specified it is deleted recursively.
-     *
-     * \public
-     * \static
-     */
-    function delete()
-    {
-        $path = $this->metaData['name'];
-
-        $this->_delete( $path );
-        $this->_deleteByRegex( $path . '/.+$' );
-
-        // FIXME: update $this->metaData after moving.
-    }
-
-    /**
-     * Deletes a file that has been fetched before.
-     *
-     * \public
-     * \static
-     */
-    function fileDeleteLocal( $path )
-    {
-        @unlink( $path );
-    }
-
-    /**
-     * Deletes a file that has been fetched before.
-     *
-     * \public
-     */
-    function deleteLocal()
-    {
-        $path = $this->metaData['name'];
-        @unlink( $path );
-    }
-
-    /**
-     * Check if given file/dir exists.
-     *
-     * \public
-     * \static
-     */
-    function fileExists( $path )
-    {
-        $rc = $this->_exists( $path );
-        return $rc;
-    }
-
-    /**
-     * Check if given file/dir exists.
-     *
-     * NOTE: this function does not interact with database.
-     * Instead, it just returns existance status determined in the constructor.
-     *
-     * \public
-     */
-    function exists()
-    {
-        $path = $this->metaData['name'];
-        $rc = $this->_exists( $path );
-        return $rc;
-    }
-
-    /**
-     * Outputs file contents prepending them with appropriate HTTP headers.
-     *
-     * \public
-     */
-    function passthrough()
-    {
-        $path = $this->metaData['name'];
-        $size = $this->metaData['size'];
-        $mimeType = $this->metaData['datatype'];
-        $mtime = $this->metaData['mtime'];
-        $mdate = gmdate( 'D, d M Y H:i:s T', $mtime );
-
-        header( "Content-Length: $size" );
-        header( "Content-Type: $mimeType" );
-        header( "Last-Modified: $mdate" );
-        header( "Connection: close" );
-        header( "X-Powered-By: eZ publish" );
-        header( "Accept-Ranges: bytes" );
-
-        $this->_passThrough( $path );
-    }
-
-    /**
-     * Copy file.
-     *
-     * \public
-     * \static
-     */
-    function fileCopy( $srcPath, $dstPath )
-    {
-        $this->_copy( $srcPath, $dstPath );
-    }
-
-    /**
-     * Create symbolic or hard link to file.
-     *
-     * \public
-     * \static
-     */
-    function fileLinkCopy( $srcPath, $dstPath, $symLink )
-    {
-        $this->_linkCopy( $srcPath, $dstPath );
-    }
-
-    /**
-     * Move file.
-     *
-     * \public
-     * \static
-     */
-    function fileMove( $srcPath, $dstPath )
-    {
-        $this->_rename( $srcPath, $dstPath );
-
-        // FIXME: update $this->metaData after moving.
-    }
-
-    /**
-     * Move file.
-     *
-     * \public
-     */
-    function move( $dstPath )
-    {
-        $srcPath = $this->metaData['name'];
-        $this->_rename( $srcPath, $dstPath );
-
-        // FIXME: update $this->metaData after moving.
-    }
-
     function _connect()
     {
         if ( !$this->db = @mysql_connect( STORAGE_HOST . ":" . STORAGE_PORT, STORAGE_USER, STORAGE_PASS ) )
@@ -545,7 +210,10 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
         }
 
         if ( !mysql_num_rows( $res ) )
+        {
+            mysql_free_result( $res );
             return true;
+        }
 
         while ( $row = mysql_fetch_row( $res ) )
         {
@@ -553,6 +221,7 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
             $this->_delete( $deleteFilename );
         }
 
+        mysql_free_result( $res );
         return true;
     }
 
@@ -577,7 +246,10 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
         }
 
         if ( !mysql_num_rows( $res ) )
+        {
+            mysql_free_result( $res );
             return true;
+        }
 
         while ( $row = mysql_fetch_row( $res ) )
         {
@@ -585,6 +257,7 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
             $this->_delete( $deleteFilename );
         }
 
+        mysql_free_result( $res );
         return true;
     }
 
@@ -655,6 +328,7 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
         if( !mysql_num_rows( $res ) )
         {
             eZDebug::writeNotice( "No rows in file '$filePath' (#$fileID) being fetched." );
+            mysql_free_result( $res );
             return false;
         }
 
@@ -672,6 +346,7 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
 
         fclose( $fp );
         rename( $tmpFilePath, $filePath );
+        mysql_free_result( $res );
 
         return true;
     }
@@ -680,7 +355,10 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
     {
         $metaData = $this->_fetchMetadata( $filePath );
         if ( !$metaData )
+        {
+            eZDebug::writeNotice( "File '$filePath' does not exists while trying to fetch its contents." );
             return false;
+        }
 
         $fileID = $metaData['id'];
         $sql = "SELECT filedata FROM " . TABLE_DATA . " WHERE masterid=$fileID";
@@ -696,6 +374,7 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
             $contents .= $row[0];
         }
 
+        mysql_free_result( $res );
         return $contents;
     }
 
@@ -752,6 +431,7 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
         while ( $row = mysql_fetch_row( $res ) )
             echo $row[0];
 
+        mysql_free_result( $res );
         return true;
     }
 
@@ -791,7 +471,7 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
     {
         if ( !is_readable( $filePath ) )
         {
-            eZDebug::writeError( "Unable to store file '$filePath' since it is not readable.", 'ezdbmysqlfilehandler' );
+            eZDebug::writeError( "Unable to store file '$filePath' since it is not readable.", 'ezdbfilehandlermysqlbackend' );
             return;
         }
 
@@ -826,7 +506,7 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
         // Insert file contents.
         if ( !$fp = @fopen( $filePath, 'rb' ) )
         {
-            eZDebug::writeError( "Cannot read '$filePath'.", 'ezdbmysqlfilehandler' );
+            eZDebug::writeError( "Cannot read '$filePath'.", 'ezdbfilehandlermysqlbackend' );
             mysql_query( 'ROLLBACK', $this->db );
             return;
         }
@@ -834,7 +514,7 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
         while ( !feof( $fp ) )
         {
             // make the data mysql insert safe.
-            $binarydata = mysql_real_escape_string( fread( $fp, 65535 ) );
+            $binarydata = mysql_real_escape_string( fread( $fp, STORAGE_CHUNK_SIZE ) );
 
             $sql = "INSERT INTO " . TABLE_DATA . " (masterid, filedata) VALUES ($fileID, '$binarydata')";
 
@@ -907,7 +587,6 @@ class eZDBMysqlFileHandler // used in eZFileHandler1
         }
     }
 
-    var $metaData = null;
     var $db   = null;
 }
 

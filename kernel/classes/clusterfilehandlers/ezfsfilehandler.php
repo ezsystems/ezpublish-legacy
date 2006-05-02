@@ -33,7 +33,7 @@
 
 require_once( 'lib/ezutils/classes/ezdebugsetting.php' );
 
-class eZFSFileHandler // used in eZFileHandler1
+class eZFSFileHandler
 {
     /**
      * Constructor.
@@ -447,6 +447,7 @@ class eZFSFileHandler // used in eZFileHandler1
 
         header( "Content-Length: $contentLength" );
         header( "Content-Type: $mimeType" );
+        header( "Expires: ". gmdate('D, d M Y H:i:s', time() + 6000) . 'GMT');
         header( "Connection: close" );
 
         readfile( $path );
