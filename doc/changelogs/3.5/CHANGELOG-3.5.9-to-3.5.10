@@ -40,3 +40,5 @@ Changes from 3.5.9 to 3.5.10
 - Fixed bug #8201: Wrong comment in binaryfile.ini.
 - Fixed bug #8166: Dobbel [articlethumbnail].
 - Fixed bug #7562: Package file exports are corrupt
+- Fixed bug #7741: safe_mode off evaluates to "true".
+  (Merged from trunk (3.9.0alpha1) rev. 15978)
