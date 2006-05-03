@@ -112,13 +112,17 @@ $tpl->setVariable( 'database_charset', $db->charset() );
 $tpl->setVariable( 'database_object', $db );
 $tpl->setVariable( 'php_loaded_extensions', get_loaded_extensions() );
 $tpl->setVariable( 'system_info', $systemInfo );
+
 $phpINI = array();
-foreach ( array( 'safe_mode', 'register_globals', 'open_basedir', 'file_uploads', 'post_max_size', 'memory_limit', 'max_execution_time' ) as $iniName )
+foreach ( array( 'safe_mode', 'register_globals', 'file_uploads' ) as $iniName )
+{
+    $phpINI[ $iniName ] = ini_get( $iniName ) != 0;
+}
+foreach ( array( 'open_basedir', 'post_max_size', 'memory_limit', 'max_execution_time' ) as $iniName )
 {
     $value = ini_get( $iniName );
     if ( $value !== '' )
         $phpINI[$iniName] = $value;
-
 }
 $tpl->setVariable( 'php_ini', $phpINI );
 
