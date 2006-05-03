@@ -160,8 +160,7 @@ function eZSetupCheckTestFunctions( $type, &$arguments )
 
 function eZSetupTestFileUpload( $type, &$arguments )
 {
-    $fileUploads = ini_get( 'file_uploads' );
-    $uploadEnabled = $fileUploads == "1";
+    $uploadEnabled = ini_get( 'file_uploads' ) != 0;
     $uploadDir = ini_get( 'upload_tmp_dir' );
     $uploadDirExists = true;
     $uploadDirWriteable = true;
@@ -237,6 +236,7 @@ function eZSetupTestFileUpload( $type, &$arguments )
     }
     $result = ( $uploadEnabled and $uploadDirExists and
                 $uploadDirWriteable and $uploadDirCreateFile );
+
     $userInfo = eZSetupPrvPosixExtension();
     return array( 'result' => $result,
                   'php_upload_is_enabled' => $uploadEnabled,
@@ -326,8 +326,7 @@ function eZSetupTestPhpVersion( $type, &$arguments )
 */
 function eZSetupTestAllowURLFOpen( $type, &$arguments )
 {
-    $allowFOpen = ini_get( 'allow_url_fopen' );
-
+    $allowFOpen = ini_get( 'allow_url_fopen' ) != 0;
     return array( 'result' => $allowFOpen,
                   'persistent_data' => array( 'result' => array( 'value' => $allowFOpen ) ) );
 }
@@ -337,6 +336,10 @@ function eZSetupTestAllowURLFOpen( $type, &$arguments )
 */
 function eZSetupTestAcceptPathInfo( $type, &$arguments )
 {
+    // rl: this one works only if 'allow_url_fopen' is On
+    // $allowFOpen = ini_get( 'allow_url_fopen' ) != 0;
+    // todo: additional check for case of 'allow_url_fopen' is Off
+
     $testPath = $_SERVER['HTTP_HOST'] . $_SERVER['SCRIPT_NAME'] . '/eZ_accept_path_info_test';
     $protocol = 'http';
     /* We attempt to use the https protocol when the https port is used */
@@ -488,7 +491,7 @@ function eZSetupTestFilePermissions( $type, &$arguments )
             }
     	}
     }
-    $safeMode = ini_get( 'safe_mode' );
+    $safeMode = ini_get( 'safe_mode' ) != 0;
     $userInfo = eZSetupPrvPosixExtension();
 
     return array( 'result' => $result,
@@ -708,8 +711,8 @@ function eZSetupMBStringExtension( $type, &$arguments )
 
 function eZSetupCheckRegisterGlobals( $type, &$arguments )
 {
-    $registerGlobals = ini_get( 'register_globals' );
-    $result = ( $registerGlobals == 0 );
+    $registerGlobals = ini_get( 'register_globals' ) != 0;
+    $result = !$registerGlobals;
     return array( 'result' => $result,
                   'persistent_data' => array() );
 }
@@ -820,17 +823,8 @@ function eZSetupTestInstaller()
 
 function eZSetupTestSafeMode( $type, &$arguments )
 {
-    $safeMode = ini_get( 'safe_mode' );
-//     print( "safe_mode=$safeMode<br/>" );
-    $safeModeIncludeDir = ini_get( 'safe_mode_include_dir' );
-//     print( "safe_mode_include_dir=$safeModeIncludeDir<br/>" );
-    $safeModeGID = ini_get( 'safe_mode_gid' );
-//     print( "safe_mode_gid=$safeModeGID<br/>" );
-    $result = true;
-    if ( $safeMode or strtolower( $safeMode ) == 'off' )
-    {
-        $result = false;
-    }
+    $safeMode = ini_get( 'safe_mode' ) != 0;
+    $result = !$safeMode;
     return array( 'result' => $result,
                   'current_path' => realpath( '.' ),
                   'persistent_data' => array() );
