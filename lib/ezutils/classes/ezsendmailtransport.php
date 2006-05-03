@@ -65,15 +65,16 @@ class eZSendmailTransport extends eZMailTransport
             $emailSender = $ini->variable( 'MailSettings', 'AdminEmail' );
         if ( !eZMail::validate( $emailSender ) )
             $emailSender = false;
-        $isSafeMode = ini_get( 'safe_mode' );
+
+        $isSafeMode = ini_get( 'safe_mode' ) != 0;
 
         $sendmailOptionsArray = $ini->variable( 'MailSettings', 'SendmailOptions' );
         if( is_array($sendmailOptionsArray) )
             $sendmailOptions = implode( ' ', $sendmailOptionsArray );
         elseif( !is_string($sendmailOptionsArray) )
             $sendmailOptions = $sendmailOptionsArray;
-        if ( !$isSafeMode 
-             and $emailSender )
+        if ( !$isSafeMode and
+             $emailSender )
             $sendmailOptions .= ' -f'. $emailSender;
 
         if ( $isSafeMode and

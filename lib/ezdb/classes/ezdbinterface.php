@@ -951,7 +951,7 @@ class eZDBInterface
             $site = eZSys::serverVariable( 'HTTP_HOST' );
             $uri = eZSys::serverVariable( 'REQUEST_URI' );
 
-            $htmlErrors = ini_get( 'html_errors' );
+            $htmlErrors = ini_get( 'html_errors' ) != 0;
 
             if ( $htmlErrors )
             {
