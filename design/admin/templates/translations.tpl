@@ -1,4 +1,3 @@
-sp here 
 {def $translations=$node.object.languages
      $translations_count=$translations|count}
 
