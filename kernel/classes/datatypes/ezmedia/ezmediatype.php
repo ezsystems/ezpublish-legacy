@@ -187,7 +187,7 @@ class eZMediaType extends eZDataType
     */
     function checkFileUploads()
     {
-        $isFileUploadsEnabled = ini_get( 'file_uploads' );
+        $isFileUploadsEnabled = ini_get( 'file_uploads' ) != 0;
         if ( !$isFileUploadsEnabled )
         {
             $isFileWarningAdded =& $GLOBALS['eZMediaTypeWarningAdded'];
