@@ -1067,7 +1067,7 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
                     if ( $isInlineTagList[$name] == 'true' )
                         $isInline = true;
                 }
-                
+
                 if ( $isInline )
                 {
                     $childContent = $childTagText;
@@ -1111,24 +1111,24 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
           case 'header' :
           {
              unset( $textElements );
-    
+
              // Add the anchor tag before the header.
              $name = $tag->attributeValue( 'anchor_name' );
              $class = $tag->attributeValue( 'class' );
-    
+
              $res =& eZTemplateDesignResource::instance();
              $res->setKeys( array( array( 'classification', $class ) ) );
-    
+
              if ( $name )
              {
                  $tpl->setVariable( 'name', $name, 'xmltagns' );
-    
+
                  $uri = "design:content/datatype/view/ezxmltags/anchor.tpl";
-    
+
                  eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
-                 $output .= implode( '', $textElements );
+                 $tagText .= implode( '', $textElements );
              }
-    
+
              $level = $currentSectionLevel;
              $this->HeaderCount[$level]++;
 
@@ -1138,11 +1138,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
              {
                 if ( $i > 1 )
                     $headerAutoName .= "_";
-    
+
                 $headerAutoName .= $this->HeaderCount[$i];
                 $i++;
              }
-    
+
              $levelNumber = str_replace( "_", ".", $headerAutoName );
              $headerAutoName = $this->ObjectAttributeId . '_' . $headerAutoName;
 
@@ -1156,11 +1156,11 @@ class eZXHTMLXMLOutput extends eZXMLOutputHandler
              $textElements = array();
              eZTemplateIncludeFunction::handleInclude( $textElements, $uri, $tpl, 'foo', 'xmltagns' );
              $tagText .= implode( '', $textElements );
-    
+
              // Remove the design key, so it will not override other tags
              $res->removeKey( 'classification' );
              $tpl->unsetVariable( 'classification', 'xmltagns' );
-    
+
           }break;
 
             default :
