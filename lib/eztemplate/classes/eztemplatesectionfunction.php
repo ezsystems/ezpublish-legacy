@@ -1113,10 +1113,13 @@ class eZTemplateSectionFunction
             if ( $delimiterMatch )
             {
                 $delimiterChildren =& $delimiterStructure[1];
-                foreach ( array_keys( $delimiterChildren ) as $delimiterChildKey )
+                if ( is_array( $delimiterChildren ) )
                 {
-                    $delimiterChild =& $delimiterChildren[$delimiterChildKey];
-                    $tpl->processNode( $delimiterChild, $textElements, $rootNamespace, $name );
+                    foreach ( array_keys( $delimiterChildren ) as $delimiterChildKey )
+                    {
+                        $delimiterChild =& $delimiterChildren[$delimiterChildKey];
+                        $tpl->processNode( $delimiterChild, $textElements, $rootNamespace, $name );
+                    }
                 }
             }
         }
