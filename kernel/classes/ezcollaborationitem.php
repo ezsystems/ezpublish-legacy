@@ -123,7 +123,7 @@ class eZCollaborationItem extends eZPersistentObject
                                                       'user_status' => 'userStatus',
                                                       'handler' => 'handler',
                                                       'use_messages' => 'useMessages',
-                                                      'message_count' => 'messageCount ',
+                                                      'message_count' => 'messageCount',
                                                       'unread_message_count' => 'unreadMessageCount',
                                                       'content' => 'content',
                                                       'title' => 'title' ),
@@ -310,7 +310,7 @@ class eZCollaborationItem extends eZPersistentObject
     */
     function setIsActive( $active, $userID = false )
     {
-        $active = intval($active);  
+        $active = intval($active);
         eZCollaborationItemStatus::updateFields( $this->attribute( 'id' ), $userID, array( 'is_active' => $active ) );
     }
 
