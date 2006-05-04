@@ -150,13 +150,12 @@
 {* DESIGN: Content START *}<div class="box-bc"><div class="box-ml"><div class="box-mr"><div class="box-bl"><div class="box-br"><div class="box-content">
 
 <div class="block">
-   {section name=Role loop=$participant_list sequence=array(bglight,bgdark)}
-   <label>{$:item.name|wash}:</label>
-   {section name=Participant loop=$:item.items sequence=array(bglight,bgdark)}
-   <p>{collaboration_participation_view view=text_linked collaboration_participant=$:item}</p>
-   {/section}
-   {delimiter}{/delimiter}
-   {/section}
+{section name=Role loop=$participant_list sequence=array(bglight,bgdark)}
+<label>{$:item.name|wash}:</label>
+{section name=Participant loop=$:item.items sequence=array(bglight,bgdark)}
+<p>{collaboration_participation_view view=text_linked collaboration_participant=$:item}</p>
+{/section}
+{/section}
 </div>
 
 {* DESIGN: Content END *}</div></div></div></div></div></div>
