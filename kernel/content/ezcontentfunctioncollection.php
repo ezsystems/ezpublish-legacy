@@ -870,6 +870,11 @@ class eZContentFunctionCollection
     // Fetches reverse related objects
     function fetchRelatedObjects( $objectID, $attributeID, $allRelations, $groupByAttribute, $sortBy )
     {
+        if ( !$objectID )
+        {
+            eZDebug::writeError( "ObjectID is missing" );
+            return false;
+        }
         $params = array();
         if ( $sortBy )
         {
@@ -894,6 +899,8 @@ class eZContentFunctionCollection
         }
 
         $object = eZContentObject::fetch( $objectID );
+        if ( $object === null )
+            return false;
         include_once( 'kernel/classes/ezcontentobject.php' );
         return array( 'result' => $object->relatedContentObjectList( false, $objectID, $attributeID, $groupByAttribute, $params ) );
     }
@@ -901,6 +908,12 @@ class eZContentFunctionCollection
     // Fetches count of reverse related objects
     function fetchRelatedObjectsCount( $objectID, $attributeID, $allRelations )
     {
+        if ( !$objectID )
+        {
+            eZDebug::writeError( "ObjectID is missing" );
+            return false;
+        }
+
         if ( !$attributeID )
             $attributeID = 0;
 
@@ -919,6 +932,8 @@ class eZContentFunctionCollection
         }
 
         $object = eZContentObject::fetch( $objectID );
+        if ( $object === null )
+            return false;
         include_once( 'kernel/classes/ezcontentobject.php' );
         return array( 'result' => $object->relatedContentObjectCount( false, $objectID, $attributeID ) );
     }
