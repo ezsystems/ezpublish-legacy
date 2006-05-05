@@ -658,12 +658,12 @@ class eZSearchEngine
             $wildCardCount = 0;
             if ( trim( $searchText ) != '' )
             {
-                $wordIDArrays =& $this->prepareWordIDArrays( $searchText );
-                $wordIDArray =& $wordIDArrays['wordIDArray'];
-                $wordIDHash =& $wordIDArrays['wordIDHash'];
-                $wildIDArray =& $wordIDArrays['wildIDArray'];
+                $wordIDArrays = $this->prepareWordIDArrays( $searchText );
+                $wordIDArray = $wordIDArrays['wordIDArray'];
+                $wordIDHash = $wordIDArrays['wordIDHash'];
+                $wildIDArray = $wordIDArrays['wildIDArray'];
                 $wildCardCount = $wordIDArrays['wildCardCount'];
-                $searchPartsArray =& $this->buildSearchPartArray( $phraseTextArray, $nonPhraseText, $wordIDHash, $wildIDArray );
+                $searchPartsArray = $this->buildSearchPartArray( $phraseTextArray, $nonPhraseText, $wordIDHash, $wildIDArray );
             }
 
             /// OR search, not used in this version
@@ -1885,10 +1885,10 @@ class eZSearchEngine
     function buildSearchPartArray( $phraseTextArray, $nonPhraseText, &$wordIDHash, &$wildIDArray,
                                    $identifier = false )
     {
-        $searchPartsArrayForPhrases =& $this->buildSearchPartArrayForPhrases( $phraseTextArray, $wordIDHash,
-                                                                              $identifier );
-        $searchPartsArrayForWords =& $this->buildSearchPartArrayForWords( $nonPhraseText, $wordIDHash,
-                                                                          $wildIDArray, $identifier );
+        $searchPartsArrayForPhrases = $this->buildSearchPartArrayForPhrases( $phraseTextArray, $wordIDHash,
+                                                                             $identifier );
+        $searchPartsArrayForWords = $this->buildSearchPartArrayForWords( $nonPhraseText, $wordIDHash,
+                                                                         $wildIDArray, $identifier );
         $searchPartsArray = array_merge( $searchPartsArrayForPhrases, $searchPartsArrayForWords );
         return $searchPartsArray;
     }
