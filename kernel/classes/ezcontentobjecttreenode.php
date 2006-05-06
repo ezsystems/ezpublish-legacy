@@ -1208,15 +1208,30 @@ class eZContentObjectTreeNode extends eZPersistentObject
 
         if ( $depth )
         {
+
+            $sqlDepthOperator = '=';
+            if ( $depthOperator )
+            {
+                if ( $depthOperator == 'lt' )
+                {
+                    $sqlDepthOperator = '<';
+                }
+                else if ( $depthOperator == 'gt' )
+                {
+                    $sqlDepthOperator = '>';
+                }
+                else if ( $depthOperator == 'le' )
+                {
+                    $sqlDepthOperator = '<=';
+                }
+                else if ( $depthOperator == 'ge' )
+                {
+                    $sqlDepthOperator = '>=';
+                }
+            }
+
             $nodeDepth += $depth;
-            if ( $depthOperator && $depthOperator == 'eq' )
-            {
-                $depthCondition = ' depth = '  . $nodeDepth . ' and ';
-            }
-            else
-            {
-                $depthCondition = ' depth <= ' . $nodeDepth . ' and ';
-            }
+            $depthCondition = ' depth '. $sqlDepthOperator . ' ' . $nodeDepth . '  and ';
         }
 
         $pathCondition = " path_string like '$nodePath%' and $depthCondition ";
@@ -1244,8 +1259,28 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $depthCond      = '';
                 if ( $depth )
                 {
+                    $sqlDepthOperator = '=';
+                    if ( $depthOperator )
+                    {
+                        if ( $depthOperator == 'lt' )
+                        {
+                            $sqlDepthOperator = '<';
+                        }
+                        else if ( $depthOperator == 'gt' )
+                        {
+                            $sqlDepthOperator = '>';
+                        }
+                        else if ( $depthOperator == 'le' )
+                        {
+                            $sqlDepthOperator = '<=';
+                        }
+                        else if ( $depthOperator == 'ge' )
+                        {
+                            $sqlDepthOperator = '>=';
+                        }
+                    }
                     $nodeDepth += $depth;
-                    $depthCond = ' and depth = ' . $nodeDepth . ' ';
+                    $depthCond = ' and depth '. $sqlDepthOperator . ' ' . $nodeDepth . ' ';
                 }
 
                 $outNotEqParentStr          = " and node_id != $nodeID ";
