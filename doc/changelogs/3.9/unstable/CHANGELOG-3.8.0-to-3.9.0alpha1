@@ -7,3 +7,6 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Fixed bug #8218: unknow variable $ouput (in ezxhtmlxmloutput.php).
 - Fixed bug #8210: ez crash when using fetch content/related_objects 
   without a correct object_id.
+- Fixed bug #8192: content tree fetch function fails with parent_node_id 
+  as array and depth set.
+  (Merged from stable35 (3.5.11) rev. 16008)
