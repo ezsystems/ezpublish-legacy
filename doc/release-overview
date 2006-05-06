@@ -645,3 +645,33 @@ Datatype branch:
 - Revision=15967
 - Version url=http://svn.ez.no/svn/ezpublish/versions/3.8.0
 - Date  2-May-2006
+
+3.5.11:
+- Release branch=release/3.5.11
+- Release branch start=16007
+- Release branch configured=16017
+- Release date 06-May-2006
+- From revision=16007
+- Revision=16022
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.5.11
+- Date 06-May-2006
+
+3.6.8:
+- Release branch=release/3.6.8
+- Release branch start=16014
+- Release branch configured=16025
+- Release date 06-May-2006
+- From revision=16022
+- Revision=16026
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.6.8
+- Date 06-May-2006
+
+3.7.6:
+- Release branch=release/3.7.6
+- Release branch start=16015
+- Release branch configured=16020
+- Release date 06-May-2006
+- From revision=16019
+- Revision=16023
+- Version url=http://svn.ez.no/svn/ezpublish/versions/3.7.6
+- Date 06-May-2006
