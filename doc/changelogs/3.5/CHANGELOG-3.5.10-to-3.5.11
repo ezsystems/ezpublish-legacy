@@ -65,6 +65,7 @@ Changes from 3.5.10 to 3.5.11
 - Fixed bug #8034: cache-block with expiry=0 always expires when TemplateCompiling
   is disabled.
   (Merged from trunk (3.8.0) rev. 15894)
+- Fixed bug #8192: content tree fetch function fails with parent_node_id as array and depth set.
 
 *INI settings:
 - Added site.ini:[ShopSettings].ClearBasketOnLogout setting:
