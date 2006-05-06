@@ -160,6 +160,7 @@ $versions37 = array( 'unstable' => array( array( '3.6.0', '3.7.0rc1' )
                                         ,array( '3.7.3', '3.7.4' ) 
                                         ,array( '3.7.4', '3.7.5' ) 
                                         ,array( '3.7.5', '3.7.6' ) 
+                                        ,array( '3.7.6', '3.7.7' ) 
                                         ) );
 
 
