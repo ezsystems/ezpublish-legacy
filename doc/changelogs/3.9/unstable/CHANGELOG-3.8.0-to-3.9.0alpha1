@@ -16,3 +16,4 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Fixed bug #8243: Template compiler does not check if object isset 
   when fetching attributes.
   ( Merged from stable/3.7 rev. 16032, stable/3.8 rev. 16034 )
+- Fixed bug #8236: articlethumbnail still listed 2 times in image.ini.append.

@@ -60,6 +60,3 @@ Filters[]=geometry/scaledownonly=370;450
 Reference=
 Filters[]
 Filters[]=geometry/scale=88;31
-
-[articlethumbnail]
-Filters[]=geometry/scaledownonly=100;100
