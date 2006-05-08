@@ -4816,21 +4816,21 @@ class eZContentObjectTreeNode extends eZPersistentObject
     // This code is automatically generated from templates/classlistfrompolicy.ctpl
     // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD
 
-    function classListFromPolicy( &$policy, $allowedLanguageCodes = false )
+    function classListFromPolicy( $policy, $allowedLanguageCodes = false )
     {
         $canCreateClassIDListPart = array();
         $hasClassIDLimitation = false;
         $object = false;
         if ( isset( $policy['Class'] ) )
         {
-            $canCreateClassIDListPart =& $policy['Class'];
+            $canCreateClassIDListPart = $policy['Class'];
             $hasClassIDLimitation = true;
         }
 
         if ( isset( $policy['User_Section'] ) )
         {
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
+                $object = $this->attribute( 'object' );
             if ( !in_array( $object->attribute( 'section_id' ), $policy['User_Section']  ) )
             {
                 return array();
@@ -4841,11 +4841,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $allowed = false;
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
-            $assignedNodes =& $object->attribute( 'assigned_nodes' );
+                $object = $this->attribute( 'object' );
+            $assignedNodes = $object->attribute( 'assigned_nodes' );
             foreach ( $assignedNodes as $assignedNode )
             {
-                $path =& $assignedNode->attribute( 'path_string' );
+                $path = $assignedNode->attribute( 'path_string' );
                 foreach ( $policy['User_Subtree'] as $subtreeString )
                 {
                     if ( strstr( $path, $subtreeString ) )
@@ -4864,7 +4864,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( isset( $policy['Section'] ) )
         {
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
+                $object = $this->attribute( 'object' );
             if ( !in_array( $object->attribute( 'section_id' ), $policy['Section']  ) )
             {
                 return array();
@@ -4874,7 +4874,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( isset( $policy['ParentClass'] ) )
         {
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
+                $object = $this->attribute( 'object' );
             if ( !in_array( $object->attribute( 'contentclass_id' ), $policy['ParentClass']  ) )
             {
                 return array();
@@ -4884,7 +4884,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( isset( $policy['Assigned'] ) )
         {
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
+                $object = $this->attribute( 'object' );
             if ( $object->attribute( 'owner_id' ) != $user->attribute( 'contentobject_id' )  )
             {
                 return array();
@@ -4916,11 +4916,11 @@ class eZContentObjectTreeNode extends eZPersistentObject
         {
             $allowed = false;
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
-            $assignedNodes =& $object->attribute( 'assigned_nodes' );
+                $object = $this->attribute( 'object' );
+            $assignedNodes = $object->attribute( 'assigned_nodes' );
             foreach ( $assignedNodes as $assignedNode )
             {
-                $path =& $assignedNode->attribute( 'path_string' );
+                $path = $assignedNode->attribute( 'path_string' );
                 foreach ( $policy['Subtree'] as $subtreeString )
                 {
                     if ( strstr( $path, $subtreeString ) )
@@ -5003,10 +5003,14 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else
         {
-            $policies  =& $accessResult['policies'];
+            $policies = $accessResult['policies'];
             foreach ( $policies as $policyKey => $policy )
             {
                 $policyArray = $this->classListFromPolicy( $policy, $languageCodeList );
+                if ( count( $policyArray ) == 0 )
+                {
+                    continue;
+                }
                 $classIDArrayPart = $policyArray['classes'];
                 $languageCodeArrayPart = $policyArray['language_codes'];
                 if ( $classIDArrayPart == '*' )
@@ -5605,13 +5609,13 @@ class eZContentObjectTreeNode extends eZPersistentObject
         $identifier = '';
         if ( $this->ClassIdentifier !== null )
         {
-            $identifier =& $this->ClassIdentifier;
+            $identifier = $this->ClassIdentifier;
         }
         else
         {
-            $object =& $this->object();
-            $class =& $object->contentClass();
-            $identifier =& $class->attribute( 'identifier' );
+            $object = $this->object();
+            $class = $object->contentClass();
+            $identifier = $class->attribute( 'identifier' );
         }
 
         return $identifier;
@@ -5629,8 +5633,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         }
         else
         {
-            $object =& $this->object();
-            $class =& $object->contentClass();
+            $object = $this->object();
+            $class = $object->contentClass();
             $name = $class->attribute( 'name' );
         }
 
@@ -5690,7 +5694,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function hideSubTree( &$node, $modifyRootNode = true )
     {
-        $nodeID =& $node->attribute( 'node_id' );
+        $nodeID = $node->attribute( 'node_id' );
         $db     =& eZDB::instance();
 
         if ( !$node->attribute( 'is_invisible' ) ) // if root node is visible
@@ -5702,7 +5706,7 @@ class eZContentObjectTreeNode extends eZPersistentObject
                 $db->query( "UPDATE ezcontentobject_tree SET is_hidden=1, is_invisible=1 WHERE node_id=$nodeID" );
 
             // 2) Recursively mark child nodes as invisible, except for ones which have been previously marked as invisible.
-            $nodePath =& $node->attribute( 'path_string' );
+            $nodePath = $node->attribute( 'path_string' );
             $db->query( "UPDATE ezcontentobject_tree SET is_invisible=1 WHERE is_invisible=0 AND path_string LIKE '$nodePath%'" );
 
             $db->commit();
@@ -5739,9 +5743,9 @@ class eZContentObjectTreeNode extends eZPersistentObject
     */
     function unhideSubTree( &$node, $modifyRootNode = true )
     {
-        $nodeID        =& $node->attribute( 'node_id' );
-        $nodePath      =& $node->attribute( 'path_string' );
-        $nodeInvisible =& $node->attribute( 'is_invisible' );
+        $nodeID        = $node->attribute( 'node_id' );
+        $nodePath      = $node->attribute( 'path_string' );
+        $nodeInvisible = $node->attribute( 'is_invisible' );
         $parentNode    =& $node->attribute( 'parent' );
         $db            =& eZDB::instance();
 
@@ -5798,8 +5802,8 @@ class eZContentObjectTreeNode extends eZPersistentObject
         if ( $node->attribute( 'is_hidden' ) == 0 &&
              $parentNode->attribute( 'is_invisible' ) != $node->attribute( 'is_invisible' ) )
         {
-            $parentNodeIsVisible =& $parentNode->attribute( 'is_invisible' );
-            $nodeID                 =& $node->attribute( 'node_id' );
+            $parentNodeIsVisible = $parentNode->attribute( 'is_invisible' );
+            $nodeID                 = $node->attribute( 'node_id' );
             $db                     =& eZDB::instance();
             $db->begin();
             $db->query( "UPDATE ezcontentobject_tree SET is_invisible=$parentNodeIsVisible WHERE node_id=$nodeID" );

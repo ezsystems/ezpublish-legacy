@@ -3459,13 +3459,13 @@ class eZContentObject extends eZPersistentObject
     // This code is automatically generated from templates/classlistfrompolicy.ctpl
     // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD
 
-    function classListFromPolicy( &$policy, $allowedLanguageCodes = false )
+    function classListFromPolicy( $policy, $allowedLanguageCodes = false )
     {
         $canCreateClassIDListPart = array();
         $hasClassIDLimitation = false;
         if ( isset( $policy['Class'] ) )
         {
-            $canCreateClassIDListPart =& $policy['Class'];
+            $canCreateClassIDListPart = $policy['Class'];
             $hasClassIDLimitation = true;
         }
 
@@ -3480,10 +3480,10 @@ class eZContentObject extends eZPersistentObject
         if ( isset( $policy['User_Subtree'] ) )
         {
             $allowed = false;
-            $assignedNodes =& $this->attribute( 'assigned_nodes' );
+            $assignedNodes = $this->attribute( 'assigned_nodes' );
             foreach ( $assignedNodes as $assignedNode )
             {
-                $path =& $assignedNode->attribute( 'path_string' );
+                $path = $assignedNode->attribute( 'path_string' );
                 foreach ( $policy['User_Subtree'] as $subtreeString )
                 {
                     if ( strstr( $path, $subtreeString ) )
@@ -3547,10 +3547,10 @@ class eZContentObject extends eZPersistentObject
         if ( isset( $policy['Subtree'] ) )
         {
             $allowed = false;
-            $assignedNodes =& $this->attribute( 'assigned_nodes' );
+            $assignedNodes = $this->attribute( 'assigned_nodes' );
             foreach ( $assignedNodes as $assignedNode )
             {
-                $path =& $assignedNode->attribute( 'path_string' );
+                $path = $assignedNode->attribute( 'path_string' );
                 foreach ( $policy['Subtree'] as $subtreeString )
                 {
                     if ( strstr( $path, $subtreeString ) )
@@ -3633,7 +3633,7 @@ class eZContentObject extends eZPersistentObject
         }
         else
         {
-            $policies  =& $accessResult['policies'];
+            $policies = $accessResult['policies'];
             foreach ( $policies as $policyKey => $policy )
             {
                 $policyArray = $this->classListFromPolicy( $policy, $languageCodeList );

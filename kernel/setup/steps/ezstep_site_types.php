@@ -116,10 +116,24 @@ class eZStepSiteTypes extends eZStepInstaller
             // Note: Could be blocked by not allowing remote calls.
             if ( !copy( $url, $fileName ) )
             {
-                $this->ErrorMsg = ezi18n( 'design/standard/setup/init', 'Failed to copy %url to local file %filename', null,
-                                          array( "%url" => $url,
-                                                 "%filename" => $fileName ) );
-                return false;
+                include_once( 'lib/ezutils/classes/ezhttptool.php' );
+                include_once( 'lib/ezfile/classes/ezfile.php' );
+
+                $buf = eZHTTPTool::sendHTTPRequest( $url, 80, false, 'eZ publish', false );
+
+                $header = false;
+                $body = false;
+                if ( eZHTTPTool::parseHTTPResponse( $buf, $header, $body ) )
+                {
+                    eZFile::create( $fileName, false, $body );
+                }
+                else
+                {
+                    $this->ErrorMsg = ezi18n( 'design/standard/setup/init', 'Failed to copy %url to local file %filename', null,
+                                              array( "%url" => $url,
+                                                     "%filename" => $fileName ) );
+                    return false;
+                }
             }
         }
 

@@ -113,7 +113,7 @@
         }
         else
         {
-            $policies  =& $accessResult['policies'];
+            $policies = $accessResult['policies'];
             foreach ( $policies as $policyKey => $policy )
             {
 /*START:code-template::class-policy-list*/
@@ -184,7 +184,7 @@
                                      "FROM ezcontentclass cc$filterTableSQL\n" .
                                      "WHERE cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n" .
                                      "ORDER BY cc.name ASC" );
-            $classList =& $rows;
+            $classList = $rows;
 /*END:code-template::no-object-creation*/
 /*START:code-template::object-creation*/
             // If $asObject is true we fetch all fields in class
@@ -215,7 +215,7 @@
                                      "WHERE cc.id IN ( $classString  ) AND\n" .
                                      "      cc.version = " . EZ_CLASS_VERSION_STATUS_DEFINED . "$filterSQL\n",
                                      "ORDER BY cc.name ASC" );
-            $classList =& $rows;
+            $classList = $rows;
 /*END:code-template::no-object-creation*/
 /*START:code-template::object-creation*/
             // If $asObject is true we fetch all fields in class
