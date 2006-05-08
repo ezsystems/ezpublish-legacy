@@ -126,7 +126,7 @@ class eZCollaborationFunctionCollection
         return array( 'result' => &$children );
     }
 
-    function &fetchItemCount( $isRead, $isActive, $parentGroupID )
+    function &fetchItemCount( $isRead, $isActive, $parentGroupID, $status )
     {
         include_once( 'kernel/classes/ezcollaborationitem.php' );
 
@@ -134,7 +134,8 @@ class eZCollaborationFunctionCollection
                                  'is_active' => $isActive,
                                  'parent_group_id' => $parentGroupID
                                  );
-
+        if ( $status !== false )
+            $itemParameters['status'] = $status;
         $count =& eZCollaborationItem::fetchListCount( $itemParameters );
         return array( 'result' => $count );
     }
