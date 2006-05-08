@@ -1,4 +1,4 @@
-    function classListFromPolicy( &$policy )
+    function classListFromPolicy( $policy )
     {
         $canCreateClassIDListPart = array();
         $hasClassIDLimitation = false;
@@ -7,7 +7,7 @@
 /*END:code-template::is-node*/
         if ( isset( $policy['Class'] ) )
         {
-            $canCreateClassIDListPart =& $policy['Class'];
+            $canCreateClassIDListPart = $policy['Class'];
             $hasClassIDLimitation = true;
         }
 
@@ -15,7 +15,7 @@
         {
 /*START:code-template::is-node*/
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
+                $object = $this->attribute( 'object' );
             if ( !in_array( $object->attribute( 'section_id' ), $policy['User_Section']  ) )
 /*END:code-template::is-node*/
 /*START:code-template::is-object*/
@@ -31,15 +31,15 @@
             $allowed = false;
 /*START:code-template::is-node*/
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
-            $assignedNodes =& $object->attribute( 'assigned_nodes' );
+                $object = $this->attribute( 'object' );
+            $assignedNodes = $object->attribute( 'assigned_nodes' );
 /*END:code-template::is-node*/
 /*START:code-template::is-object*/
-            $assignedNodes =& $this->attribute( 'assigned_nodes' );
+            $assignedNodes = $this->attribute( 'assigned_nodes' );
 /*END:code-template::is-object*/
             foreach ( $assignedNodes as $assignedNode )
             {
-                $path =& $assignedNode->attribute( 'path_string' );
+                $path = $assignedNode->attribute( 'path_string' );
                 foreach ( $policy['User_Subtree'] as $subtreeString )
                 {
                     if ( strstr( $path, $subtreeString ) )
@@ -59,7 +59,7 @@
         {
 /*START:code-template::is-node*/
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
+                $object = $this->attribute( 'object' );
             if ( !in_array( $object->attribute( 'section_id' ), $policy['Section']  ) )
 /*END:code-template::is-node*/
 /*START:code-template::is-object*/
@@ -74,7 +74,7 @@
         {
 /*START:code-template::is-node*/
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
+                $object = $this->attribute( 'object' );
             if ( !in_array( $object->attribute( 'contentclass_id' ), $policy['ParentClass']  ) )
 /*END:code-template::is-node*/
 /*START:code-template::is-object*/
@@ -89,7 +89,7 @@
         {
 /*START:code-template::is-node*/
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
+                $object = $this->attribute( 'object' );
             if ( $object->attribute( 'owner_id' ) != $user->attribute( 'contentobject_id' )  )
 /*END:code-template::is-node*/
 /*START:code-template::is-object*/
@@ -126,15 +126,15 @@
             $allowed = false;
 /*START:code-template::is-node*/
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
-            $assignedNodes =& $object->attribute( 'assigned_nodes' );
+                $object = $this->attribute( 'object' );
+            $assignedNodes = $object->attribute( 'assigned_nodes' );
 /*END:code-template::is-node*/
 /*START:code-template::is-object*/
-            $assignedNodes =& $this->attribute( 'assigned_nodes' );
+            $assignedNodes = $this->attribute( 'assigned_nodes' );
 /*END:code-template::is-object*/
             foreach ( $assignedNodes as $assignedNode )
             {
-                $path =& $assignedNode->attribute( 'path_string' );
+                $path = $assignedNode->attribute( 'path_string' );
                 foreach ( $policy['Subtree'] as $subtreeString )
                 {
                     if ( strstr( $path, $subtreeString ) )

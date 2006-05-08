@@ -4541,21 +4541,21 @@ WHERE
     // This code is automatically generated from templates/classlistfrompolicy.ctpl
     // DO NOT EDIT THIS CODE DIRECTLY, CHANGE THE TEMPLATE FILE INSTEAD
 
-    function classListFromPolicy( &$policy )
+    function classListFromPolicy( $policy )
     {
         $canCreateClassIDListPart = array();
         $hasClassIDLimitation = false;
         $object = false;
         if ( isset( $policy['Class'] ) )
         {
-            $canCreateClassIDListPart =& $policy['Class'];
+            $canCreateClassIDListPart = $policy['Class'];
             $hasClassIDLimitation = true;
         }
 
         if ( isset( $policy['User_Section'] ) )
         {
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
+                $object = $this->attribute( 'object' );
             if ( !in_array( $object->attribute( 'section_id' ), $policy['User_Section']  ) )
             {
                 return array();
@@ -4566,11 +4566,11 @@ WHERE
         {
             $allowed = false;
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
-            $assignedNodes =& $object->attribute( 'assigned_nodes' );
+                $object = $this->attribute( 'object' );
+            $assignedNodes = $object->attribute( 'assigned_nodes' );
             foreach ( $assignedNodes as $assignedNode )
             {
-                $path =& $assignedNode->attribute( 'path_string' );
+                $path = $assignedNode->attribute( 'path_string' );
                 foreach ( $policy['User_Subtree'] as $subtreeString )
                 {
                     if ( strstr( $path, $subtreeString ) )
@@ -4589,7 +4589,7 @@ WHERE
         if ( isset( $policy['Section'] ) )
         {
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
+                $object = $this->attribute( 'object' );
             if ( !in_array( $object->attribute( 'section_id' ), $policy['Section']  ) )
             {
                 return array();
@@ -4599,7 +4599,7 @@ WHERE
         if ( isset( $policy['ParentClass'] ) )
         {
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
+                $object = $this->attribute( 'object' );
             if ( !in_array( $object->attribute( 'contentclass_id' ), $policy['ParentClass']  ) )
             {
                 return array();
@@ -4609,7 +4609,7 @@ WHERE
         if ( isset( $policy['Assigned'] ) )
         {
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
+                $object = $this->attribute( 'object' );
             if ( $object->attribute( 'owner_id' ) != $user->attribute( 'contentobject_id' )  )
             {
                 return array();
@@ -4641,11 +4641,11 @@ WHERE
         {
             $allowed = false;
             if ( $object === false )
-                $object =& $this->attribute( 'object' );
-            $assignedNodes =& $object->attribute( 'assigned_nodes' );
+                $object = $this->attribute( 'object' );
+            $assignedNodes = $object->attribute( 'assigned_nodes' );
             foreach ( $assignedNodes as $assignedNode )
             {
-                $path =& $assignedNode->attribute( 'path_string' );
+                $path = $assignedNode->attribute( 'path_string' );
                 foreach ( $policy['Subtree'] as $subtreeString )
                 {
                     if ( strstr( $path, $subtreeString ) )
@@ -4712,7 +4712,7 @@ WHERE
         }
         else
         {
-            $policies  =& $accessResult['policies'];
+            $policies = $accessResult['policies'];
             foreach ( $policies as $policyKey => $policy )
             {
                 $classIDArrayPart = $this->classListFromPolicy( $policy );
