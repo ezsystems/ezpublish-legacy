@@ -3339,6 +3339,7 @@ unset( \$" . $variableAssignmentName . "Data );\n",
         }
         }
         // After the entire expression line is done we try to extract the actual value if proxies are used
+        $php->addCodePiece( "if (! isset( \$$variableAssignmentName ) ) \$$variableAssignmentName = NULL;\n" );
         $php->addCodePiece( "while " . ( $resourceData['use-comments'] ? ( "/*TC:" . __LINE__ . "*/" ) : "" ) . "( is_object( \$$variableAssignmentName ) and method_exists( \$$variableAssignmentName, 'templateValue' ) )\n" .
                             "    \$$variableAssignmentName = \$$variableAssignmentName" . "->templateValue();\n" );
     }
