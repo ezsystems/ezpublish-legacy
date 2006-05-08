@@ -207,10 +207,10 @@ $cli->notice( 'Step 4/6: Fixing the ezcontentobject_name table.' );
 $db->query( "DELETE FROM ezcontentobject_name WHERE content_translation<>real_translation" );
 foreach( $languages as $languageCode => $languageID )
 {
-    $db->query( "UPDATE ezcontentobject_name SET language_id='$languageID' WHERE real_translation='$languageCode'" );
+    $db->query( "UPDATE ezcontentobject_name SET language_id='$languageID' WHERE content_translation='$languageCode'" );
 }
 // Fixing inconsistencies
-$db->query( "UPDATE ezcontentobject_name SET language_id='$defaultLanguage', content_translation='$defaultLanguageCode', real_translation='$defaultLanguageCode' WHERE language_id='0'" );
+$db->query( "UPDATE ezcontentobject_name SET language_id='$defaultLanguage', content_translation='$defaultLanguageCode'" );
 
 
 // ------------------------------------------

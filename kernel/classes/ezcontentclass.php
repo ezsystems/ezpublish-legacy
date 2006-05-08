@@ -418,7 +418,7 @@ class eZContentClass extends eZPersistentObject
         }
         else
         {
-            $policies  =& $accessResult['policies'];
+            $policies = $accessResult['policies'];
             foreach ( $policies as $policyKey => $policy )
             {
                 $classIDArrayPart = '*';
