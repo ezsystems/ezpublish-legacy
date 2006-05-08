@@ -108,6 +108,10 @@ class eZSubTreeHandler extends eZNotificationEventHandler
         $contentNode =& $contentObject->attribute( 'main_node' );
         if ( !$contentNode )
             return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
+
+        // Notification should only be sent out when the object is published (is visible)
+        if ( $contentNode->attribute( 'is_invisible' ) == 1 )
+           return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
         $contentClass =& $contentObject->attribute( 'content_class' );
         if ( !$contentClass )
             return EZ_NOTIFICATIONEVENTHANDLER_EVENT_SKIPPED;
