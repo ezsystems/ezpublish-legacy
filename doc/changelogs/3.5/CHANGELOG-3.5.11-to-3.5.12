@@ -1,8 +1,0 @@
-Changes from 3.5.10 to 3.5.11
-
-*Kernel:
-
-*Bugfixes:
-- Fixed bug #8241:Collaboration module: fetchItemList and fetchItemCount don't 
-  agree on param 'status'.
-  (Merged from stable/3.6 (3.6.9) rev. 16028)
