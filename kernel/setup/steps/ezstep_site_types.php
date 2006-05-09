@@ -451,13 +451,14 @@ class eZStepSiteTypes extends eZStepInstaller
             $dependencies = $package->attribute( 'dependencies' );
             $requirements = $dependencies['requires'];
 
+            $requiresPackageInfo = isset( $dependenciesStatus[$packageName] ) ? $dependenciesStatus[$packageName] : null;
             $packageInfo = array(
                 'name' => $packageName,
                 'version' => $package->getVersion(),
                 'type' => $package->attribute( 'type' ),
                 'summary' => $package->attribute( 'summary' ),
                 'description' => $package->attribute( 'description' ),
-                'requires' => $dependenciesStatus[$packageName],
+                'requires' => $requiresPackageInfo,
                 );
 
             if ( $thumbnailPath )
