@@ -26,3 +26,5 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Fixed bug #8245: Reference bugs in eZContentObjectTree::canCreateClassList 
   and related functions.
   ( Merged from stable/3.7 rev. 16047, stable/3.8 rev. 16048 )
+- Fixed bug #8246: toolbar template "user_country" missing.
+  (Merged from stable/3.8 (3.8.1) rev. 16054)
