@@ -70,10 +70,13 @@ Since images are no longer stored on disk but in the database, they need to
  be served by php. Therefore you will need to apply two more RewriteRules.
 
 Apply the following RewriteRules before your rules:
-  Rewriterule ^/var/([^/]+/)?storage/images-versioned/.*  /index_image.php [L]
-  Rewriterule ^/var/([^/]+/)?storage/images/.*            /index_image.php [L]
+  RewriteRule ^/var/([^/]+/)?storage/images-versioned/.*  /index_image.php [L]
+  RewriteRule ^/var/([^/]+/)?storage/images/.*            /index_image.php [L]
 
- 8. Restart apache and this should work.
+ 8. Restart apache.
+ 
+  /path/to/apache/bin/apachectl stop
+  /path/to/apache/bin/apachectl start
 
 *Usage:
 
