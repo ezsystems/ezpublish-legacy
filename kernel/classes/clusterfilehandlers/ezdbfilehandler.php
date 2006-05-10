@@ -54,6 +54,7 @@ class eZDBFileHandler
             if ( $fileINI->hasVariable( 'ClusteringSettings', 'DBBackend' ) )
                 $backendName = $fileINI->variable( 'ClusteringSettings', 'DBBackend' );
 
+            require_once( 'kernel/classes/ezclusterfilehandler.php' );
             $searchPathArray = eZClusterFileHandler::searchPathArray();
 
             foreach ( $searchPathArray as $searchPath )
@@ -69,7 +70,7 @@ class eZDBFileHandler
 
             if ( !isset( $GLOBALS['eZDBFileHandler_chosen_backend_class'] ) )
             {
-                eZDebug::writeError( "Cannot find ezdb cluster file backend: '$backendName" );
+                eZDebug::writeError( "Cannot find ezdb cluster file backend: '$backendName'" );
                 return;
             }
         }
@@ -79,11 +80,13 @@ class eZDBFileHandler
         $this->backend->_connect();
 
         // Fetch metadata.
-        $metaData = $this->backend->_fetchMetadata( $filePath );
-        if ( $metaData )
-            $this->metaData = $metaData;
-        else
-            $this->metaData['name'] = $filePath;
+        $this->metaData['name'] = $filePath;
+        if ( $filePath !== false )
+        {
+            $metaData = $this->backend->_fetchMetadata( $filePath );
+            if ( $metaData )
+                $this->metaData = $metaData;
+        }
     }
 
     /**
@@ -441,6 +444,19 @@ class eZDBFileHandler
         $this->backend->_rename( $srcPath, $dstPath );
 
         // FIXME: update $this->metaData after moving.
+    }
+
+    /**
+     * Get list of files stored in database.
+     *
+     * Used in bin/php/clusterize.php.
+     */
+    function getFileList( $skipBinaryFiles = false, $skipImages = false )
+    {
+        eZDebugSetting::writeDebug( 'kernel-clustering',
+                                    sprintf( "db::getFileList( %d, %d )",
+                                              (int) $skipBinaryFiles, (int) $skipImages ) );
+        return $this->backend->_getFileList( $skipBinaryFiles, $skipImages );
     }
 }
 
