@@ -42,7 +42,7 @@ require_once( 'lib/ezdb/classes/ezdb.php' );
 require_once( 'lib/ezutils/classes/ezcli.php' );
 require_once( 'lib/ezutils/classes/ezsys.php' );
 require_once( 'kernel/classes/ezscript.php' );
-require_once( 'kernel/classes/clusterfilehandlers/ezdbmysqlfilehandler.php' );
+require_once( 'kernel/classes/ezclusterfilehandler.php' );
 
 // This code is taken from eZBinaryFile::storedFileInfo()
 function filePathForBinaryFile($fileName, $mimeType )
@@ -55,14 +55,12 @@ function filePathForBinaryFile($fileName, $mimeType )
 
 function copyBinaryfilesToDB( $remove )
 {
-    global $cli;
+    global $cli, $dbFileHandler;
 
-    $dbFileHandler = new eZDBMysqlFileHandler();
     $db =& eZDB::instance();
 
     $cli->output( "Importing binary files to database:");
     $rows = $db->arrayQuery('select filename, mime_type from ezbinaryfile' );
-    eZDebug::writeDebug( $rows, 'files rows' );
 
     foreach( $rows as $row )
     {
@@ -76,9 +74,8 @@ function copyBinaryfilesToDB( $remove )
 
 function copyImagesToDB( $remove )
 {
-    global $cli;
+    global $cli, $dbFileHandler;
 
-    $dbFileHandler = new eZDBMysqlFileHandler();
     $db =& eZDB::instance();
 
     $cli->output( "Importing images and imagealiases files to database:");
@@ -98,38 +95,14 @@ function copyImagesToDB( $remove )
 
 function copyFilesFromDB( $copyFiles, $copyImages, $remove )
 {
-    global $cli;
-
-    $dbFileHandler = new eZDBMysqlFileHandler();
-    $db =& $dbFileHandler->db;
+    global $cli, $dbFileHandler;
 
     $cli->output( "Exporting files from database:");
-    $query = 'select name, scope from ' . TABLE_METADATA;
+    $filePathList = $dbFileHandler->getFileList( !$copyFiles, !$copyImages );
 
-    // omit some file types if needed
-    $filters = array();
-    if ( !$copyFiles )
-        $filters[] = "'binaryfile'";
-    if ( !$copyImages )
-        $filters[] = "'image'";
-    if ( $filters )
-        $query .= ' WHERE scope NOT IN (' . join( ', ', $filters ) . ')';
-
-    $rslt = mysql_query( $query, $db );
-
-    if ( !$rslt )
+    foreach ( $filePathList as $filePath )
     {
-        $cli->error( "Cannot fetch list of images to export." );
-        eZDebug::writeError( mysql_error( $db ) );
-        return;
-    }
-
-    while( $row = mysql_fetch_row( $rslt ) )
-    {
-        $filePath = $row[0];
-        $fileScope = $row[1];
-
-        $cli->output( "- " . $filePath);
+        $cli->output( "- " . $filePath );
         eZDir::mkdir( dirname( $filePath ), false, true );
         $dbFileHandler->fileFetch( $filePath );
 
@@ -152,12 +125,13 @@ $script =& eZScript::instance( array( 'description' => ( "eZ publish (un)cluster
 
 $script->startup();
 
-$options = $script->getOptions( "[u][skip-binary-files][skip-images][r]",
+$options = $script->getOptions( "[u][skip-binary-files][skip-images][r][n]",
                                 "",
                                 array( 'u'                 => 'Unclusterize',
                                        'skip-binary-files' => 'Skip copying binary files',
                                        'skip-images'       => 'Skip copying images',
-                                       'r'                 => 'Remove files after copying'  ) );
+                                       'r'                 => 'Remove files after copying',
+                                       'n'                 => 'Do not wait' ) );
 
 $script->initialize();
 
@@ -165,6 +139,24 @@ $clusterize = !isset( $options['u'] );
 $remove     =  isset( $options['r'] );
 $copyFiles  = !isset( $options['skip-binary-files'] );
 $copyImages = !isset( $options['skip-images'] );
+$wait       = !isset( $options['n'] );
+
+if ( $wait )
+{
+    $warningMsg = sprintf( "This script will now %s your files and/or images %s database.",
+                           ( $remove ? "move" : "copy" ),
+                           ( $clusterize ? 'to' : 'from' ) );
+    $cli->warning( $warningMsg );
+    $cli->warning( "You have 10 seconds to break the script (press Ctrl-C)." );
+    sleep( 10 );
+}
+
+$dbFileHandler = eZClusterFileHandler::instance();
+if ( !is_object( $dbFileHandler ) || get_class( $dbFileHandler ) != 'ezdbfilehandler' )
+{
+    $cli->error( "Clustering settings specified incorrectly or the chosen file handler is ezfs." );
+    $script->shutdown( 1 );
+}
 
 if ( $clusterize )
 {

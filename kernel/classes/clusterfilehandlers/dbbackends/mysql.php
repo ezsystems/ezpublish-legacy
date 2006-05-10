@@ -577,9 +577,38 @@ class eZDBFileHandlerMysqlBackend
         mysql_query( 'COMMIT', $this->db );
     }
 
+    function _getFileList( $skipBinaryFiles, $skipImages )
+    {
+        $query = 'SELECT name FROM ' . TABLE_METADATA;
+
+        // omit some file types if needed
+        $filters = array();
+        if ( $skipBinaryFiles )
+            $filters[] = "'binaryfile'";
+        if ( $skipImages )
+            $filters[] = "'image'";
+        if ( $filters )
+            $query .= ' WHERE scope NOT IN (' . join( ', ', $filters ) . ')';
+
+        $rslt = mysql_query( $query, $this->db );
+        if ( !$rslt )
+        {
+            eZDebug::writeError( mysql_error( $this->db ) );
+            return false;
+        }
+
+        $filePathList = array();
+        while ( $row = mysql_fetch_row( $rslt ) )
+            $filePathList[] = $row[0];
+
+        mysql_free_result( $rslt );
+
+        return $filePathList;
+    }
+
     function _die( $msg, $sql = null )
     {
-        eZDebug::writeDebug( $sql, "$msg: " . mysql_error( $this->db ) );
+        eZDebug::writeError( $sql, "$msg: " . mysql_error( $this->db ) );
         if( @include_once( '../bt.php' ) )
         {
             bt();

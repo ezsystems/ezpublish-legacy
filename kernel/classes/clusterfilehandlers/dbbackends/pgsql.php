@@ -311,6 +311,7 @@ class eZDBFileHandlerPgsqlBackend
             }
         }
         pg_lo_close( $lobHandle );
+        fclose( $fp );
 
         // Check if a file with the same name already exists in db.
         if ( $row = $this->_fetchMetadata( $filePath ) ) // if it does
@@ -531,9 +532,38 @@ class eZDBFileHandlerPgsqlBackend
         return true;
     }
 
+    function _getFileList( $skipBinaryFiles, $skipImages )
+    {
+        $query = 'SELECT name FROM ' . TABLE_METADATA;
+
+        // omit some file types if needed
+        $filters = array();
+        if ( $skipBinaryFiles )
+            $filters[] = "'binaryfile'";
+        if ( $skipImages )
+            $filters[] = "'image'";
+        if ( $filters )
+            $query .= ' WHERE scope NOT IN (' . join( ', ', $filters ) . ')';
+
+        $rslt = pg_query( $this->db, $query );
+        if ( !$rslt )
+        {
+            eZDebug::writeError( pg_last_error( $this->db ) );
+            return false;
+        }
+
+        $filePathList = array();
+        while ( $row = pg_fetch_row( $rslt ) )
+            $filePathList[] = $row[0];
+
+        pg_free_result( $rslt );
+
+        return $filePathList;
+    }
+
     function _die( $msg, $sql = null )
     {
-        eZDebug::writeDebug( $sql, "$msg: " . pg_last_error( $this->db ) );
+        eZDebug::writeError( $sql, "$msg: " . pg_last_error( $this->db ) );
 
         if( @include_once( '../bt.php' ) )
         {
