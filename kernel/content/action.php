@@ -1148,7 +1148,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
         }
         $parentNodeID = 2;
         $contentNodeID = null;
-        if ( $http->hasPostVariable( 'ContentNodeID' ) )
+        if ( $http->hasPostVariable( 'ContentNodeID' ) and is_int( $http->postVariable( 'ContentNodeID' ) ) )
         {
             $contentNodeID = $http->postVariable( 'ContentNodeID' );
             $node =& eZContentObjectTreeNode::fetch( $contentNodeID );
@@ -1185,6 +1185,8 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
                 $module->redirectTo( $module->functionURI( 'removeobject' ) . '/' );
             }
         }
+        else
+            $module->redirectToView( 'view', array( $viewMode, $parentNodeID ) );
     }
     else if ( $http->hasPostVariable( "ActionCollectInformation" ) )
     {
