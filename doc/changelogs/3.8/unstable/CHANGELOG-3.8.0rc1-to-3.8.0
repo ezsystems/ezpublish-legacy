@@ -33,3 +33,6 @@ Changes from 3.8.0rc1 to 3.8.0
   ( Merged from stable/3.5 ( 3.5.11 ) rev. 15953 )
 - Fixed HTTP headers generated when serving images by claster
   to work properly with squid.
+- Fixed bug #8254: eZSelection edit template contains invalid XHTML.
+  (Merged from stable/3.5 (3.5.11) rev. 16076)
+  
