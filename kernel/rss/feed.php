@@ -89,7 +89,10 @@ else
         {
             // write, flush, close and change file access mode
             $mode = $config->variable( 'FileSettings', 'TemporaryPermissions' );
-            $rssContent = eZXMLTextType::domString( $xmlDoc );
+            // Get current charset
+            include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+            $charset = eZTextCodec::internalCharset();
+            $rssContent = $xmlDoc->toString( $charset );
             $length = fwrite( $fid, $rssContent );
             fflush( $fid );
             fclose( $fid );
