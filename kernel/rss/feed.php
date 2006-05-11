@@ -89,7 +89,7 @@ else
         {
             // write, flush, close and change file access mode
             $mode = $config->variable( 'FileSettings', 'TemporaryPermissions' );
-            $rssContent = $xmlDoc->toString();
+            $rssContent = eZXMLTextType::domString( $xmlDoc );
             $length = fwrite( $fid, $rssContent );
             fflush( $fid );
             fclose( $fid );
