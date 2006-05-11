@@ -82,7 +82,10 @@ else
     if ( !$cacheFile->exists() or ( time() - $cacheFile->mtime() > $cacheTime ) )
     {
         $xmlDoc =& $RSSExport->attribute( 'rss-xml' );
-        $rssContent = $xmlDoc->toString();
+        // Get current charset
+        include_once( 'lib/ezi18n/classes/eztextcodec.php' );
+        $charset = eZTextCodec::internalCharset();
+        $rssContent = $xmlDoc->toString( $charset );
         $cacheFile->storeContents( $rssContent, 'rsscache', 'xml' );
     }
     else

@@ -32,3 +32,5 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Fixed broken script bin/php/clusterize.php.
   (Merged from stable/3.8 (3.8.1) rev. 16065)
 - Fixed bug #8253: Deleting an unpublished object returns an error.
+- Fixed bug #8156: Encoding format in RSS feeds.
+  (Merged from stable/3.7 (3.7.7) rev. 16075, 16077)
