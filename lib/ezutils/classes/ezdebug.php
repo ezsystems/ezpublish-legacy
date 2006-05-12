@@ -1224,6 +1224,7 @@ showDebug();
         if ( !eZDebug::isDebugEnabled() )
             return;
         $debug =& eZDebug::instance();
+        $key = $key === false ? 'Default Debug-Accumulator' : $key;
         if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
         {
             $debug->createAccumulator( $key, $inGroup, $name );
@@ -1251,6 +1252,7 @@ showDebug();
             return;
         $debug =& eZDebug::instance();
         $stopTime = $debug->timeToFloat( microtime() );
+        $key = $key === false ? 'Default Debug-Accumulator' : $key;
         if ( ! array_key_exists( $key, $debug->TimeAccumulatorList ) )
         {
             eZDebug::writeWarning( 'Accumulator $key does not exists, run eZDebug::accumulatorStart first', 'eZDebug::accumulatorStop' );

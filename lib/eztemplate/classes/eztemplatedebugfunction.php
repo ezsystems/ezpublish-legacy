@@ -151,7 +151,10 @@ class eZTemplateDebugFunction
                     return false;
                 $name = eZTemplateNodeTool::elementConstantValue( $parameters['name'] );
             }
-
+            // Assign a name (as $functionName) which will be used in the debug output.
+            $name = ( $name === false and $id === false ) ?  $functionName : $name;
+            // To uniquely identify this accumulator.
+            $id = $id === false ? uniqID( $functionName . '_' ): $id;
             $newNodes = array();
 
             if ( $name )
@@ -256,6 +259,11 @@ class eZTemplateDebugFunction
                 {
                     $name = $tpl->elementValue( $parameters["name"], $rootNamespace, $currentNamespace, $functionPlacement );
                 }
+
+                // Assign a name (as $functionName) which will be used in the debug output.
+                $name = ( $name === false and $id === false ) ?  $functionName : $name;
+                // To uniquely identify this accumulator.
+                $id = $id === false ? uniqID( $functionName . '_' ): $id;
 
                 eZDebug::accumulatorStart( $id, 'Debug-Accumulator', $name );
 
