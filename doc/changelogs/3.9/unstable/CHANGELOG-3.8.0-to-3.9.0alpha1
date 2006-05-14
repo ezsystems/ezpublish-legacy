@@ -39,3 +39,4 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Fixed bug #8258: Accumulator $key does not exists, 
   run eZDebug::accumulatorStart first.
   (Merged from stable/3.7 (3.7.7) rev. 16085)
+- Fixed bug #8261: Editing of objects crashes.

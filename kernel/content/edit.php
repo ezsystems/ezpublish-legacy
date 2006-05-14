@@ -361,6 +361,7 @@ if ( !is_numeric( $EditVersion ) )
         $version = $obj->createNewVersionIn( $EditLanguage );
         $version->setAttribute( 'status', EZ_VERSION_STATUS_INTERNAL_DRAFT );
         $version->store();
+        return $Module->redirectToView( "edit", array( $ObjectID, $version->attribute( "version" ), $EditLanguage ) );
     }
     else
     {
