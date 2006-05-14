@@ -1145,7 +1145,7 @@ else if ( $http->hasPostVariable( "ContentObjectID" )  )
         }
         $parentNodeID = 2;
         $contentNodeID = null;
-        if ( $http->hasPostVariable( 'ContentNodeID' ) and is_int( $http->postVariable( 'ContentNodeID' ) ) )
+        if ( $http->hasPostVariable( 'ContentNodeID' ) and is_numeric( $http->postVariable( 'ContentNodeID' ) ) )
         {
             $contentNodeID = $http->postVariable( 'ContentNodeID' );
             $node = eZContentObjectTreeNode::fetch( $contentNodeID );
