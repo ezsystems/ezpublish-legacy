@@ -40,3 +40,5 @@ Changes from 3.8.0 to 3.9.0alpha1
   run eZDebug::accumulatorStart first.
   (Merged from stable/3.7 (3.7.7) rev. 16085)
 - Fixed bug #8261: Editing of objects crashes.
+- Fixed bug #8279: Typo in lib/ezfile/classes/ezlog.php.
+  ( Merged from stable/3.6 rev. 16095, stable/3.7 rev. 16096, stable/3.8 rev. 16097 )
