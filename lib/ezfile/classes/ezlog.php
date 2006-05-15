@@ -206,7 +206,7 @@ class eZLog
     */
     function setLogrotateFiles( $files )
     {
-        $GLOBALS['eZMaxLogrotateFiles'] = $filse;
+        $GLOBALS['eZMaxLogrotateFiles'] = $files;
     }
 
 }
