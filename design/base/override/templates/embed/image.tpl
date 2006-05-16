@@ -12,7 +12,11 @@
 </div>
 
 {section show=$object.data_map.caption.has_content}
+{section show=is_set($object.data_map.image.content[$object_parameters.size].width)}
 <div class="attribute-caption" style="width: {$object.data_map.image.content[$object_parameters.size].width}px">
+{section-else}
+<div class="attribute-caption">
+{/section}
     {attribute_view_gui attribute=$object.data_map.caption}
 </div>
 {/section}
