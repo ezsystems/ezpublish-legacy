@@ -521,11 +521,11 @@ class eZDir
                     continue;
                 if ( $excludeItems and preg_match( $excludeItems, $element ) )
                     continue;
-                if ( is_dir( $dir . '/' . $element ) and strpos( $types, 'd' ) === false )
+                if ( @is_dir( $dir . '/' . $element ) and strpos( $types, 'd' ) === false )
                     continue;
-                if ( is_link( $dir . '/' . $element ) and strpos( $types, 'l' ) === false )
+                if ( @is_link( $dir . '/' . $element ) and strpos( $types, 'l' ) === false )
                     continue;
-                if ( is_file( $dir . '/' . $element ) and strpos( $types, 'f' ) === false )
+                if ( @is_file( $dir . '/' . $element ) and strpos( $types, 'f' ) === false )
                     continue;
                 if ( $fullPath )
                 {
