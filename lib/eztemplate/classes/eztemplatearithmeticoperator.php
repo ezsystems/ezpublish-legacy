@@ -850,37 +850,37 @@ class eZTemplateArithmeticOperator
     */
     function buildRoman( $value )
     {
-        if ( $value > 1000 )
+        if ( $value >= 1000 )
             return 'M'.$this->buildRoman( $value - 1000 );
-        if ( $value > 500 )
+        if ( $value >= 500 )
         {
             if ( $value >= 900 )
                 return 'CM'.$this->buildRoman( $value - 900 );
             else
                 return 'D'.$this->buildRoman( $value - 500 );
         }
-        if ( $value > 100 )
+        if ( $value >= 100 )
         {
             if( $value >= 400 )
                 return 'CD'.$this->buildRoman( $value - 400 );
             else
                 return 'C'.$this->buildRoman( $value - 100 );
         }
-        if ( $value > 50 )
+        if ( $value >= 50 )
         {
             if( $value >= 90 )
                 return 'XC'.$this->buildRoman( $value - 90 );
             else
                 return 'L'.$this->buildRoman( $value - 50 );
         }
-        if ( $value > 10 )
+        if ( $value >= 10 )
         {
             if( $value >= 40 )
                 return 'XL'.$this->buildRoman( $value - 40 );
             else
                 return 'X'.$this->buildRoman( $value - 10 );
         }
-        if ( $value > 5 )
+        if ( $value >= 5 )
         {
             if( $value == 9 )
                 return 'IX'.$this->buildRoman( $value - 9 );
