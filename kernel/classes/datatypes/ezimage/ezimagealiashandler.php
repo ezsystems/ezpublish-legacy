@@ -946,6 +946,8 @@ class eZImageAliasHandler
                 foreach ( $items as $item )
                 {
                     $itemValueNode = $item->first_child();
+                    if ( !is_object ( $itemValueNode ) )
+                        continue;
                     $itemValue = $itemValueNode->node_value();
                     if (  $item->get_attribute( 'base64' ) == '1' )
                     {
