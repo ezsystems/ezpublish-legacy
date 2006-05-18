@@ -293,8 +293,6 @@ class eZStepCreateSites extends eZStepInstaller
         }
         $ini->setVariable( 'SiteSettings', 'SiteList', $accessMap['sites'] );
         $ini->setVariable( 'SiteAccessSettings', 'AvailableSiteAccessList', $accessMap['accesses'] );
-        // Make sure related siteaccess are setup properly
-        $ini->setVariable( 'SiteAccessSettings', 'RelatedSiteAccessList', $accessMap['accesses'] );
         $ini->setVariable( "SiteAccessSettings", "CheckValidity", "false" );
         $ini->setVariable( 'Session', 'SessionNameHandler', 'custom' );
         $ini->setVariable( 'MailSettings', 'AdminEmail', $this->PersistenceList['admin']['email'] );
@@ -533,6 +531,9 @@ class eZStepCreateSites extends eZStepInstaller
         {
             $url = $matches[1];
         }
+
+        $siteINIChanges['SiteAccessSettings'] = array( 'RelatedSiteAccessList' => $accessMap['accesses'] );
+
         $siteINIChanges['ContentSettings'] = array( 'TranslationList' => implode( ';', $languages ) );
         $siteINIChanges['SiteSettings'] = array( 'SiteName' => $siteType['title'],
                                                  'SiteURL' => $url );
