@@ -51,4 +51,5 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Fixed bug #8229: Image Upload in 3.8 doesn't work.
 - Fixed bug #8297: Checkbox datatype Information collector bug.
   (Merged from stable/3.7 (3.7.7) rev. 16115)
- 
+- Fixed bug #8294: Warning: array_merge_recursive(): recursion detected 
+  in ezuser.php.
