@@ -79,7 +79,9 @@ class eZBooleanType extends eZDataType
     */
     function validateObjectAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
     {
-        if ( $contentObjectAttribute->validateIsRequired() )
+        $classAttribute =& $contentObjectAttribute->contentClassAttribute();
+        if ( $contentObjectAttribute->validateIsRequired() and
+             !$classAttribute->attribute( 'is_information_collector' ) )
         {
             if ( $http->hasPostVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) ) )
             {
@@ -95,6 +97,27 @@ class eZBooleanType extends eZDataType
             }
         }
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+    }
+
+    /*!
+    */
+    function validateCollectionAttributeHTTPInput( &$http, $base, &$contentObjectAttribute )
+    {
+        if ( $contentObjectAttribute->validateIsRequired() )
+        {
+            if ( $http->hasPostVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) ) )
+            {
+                $data = $http->postVariable( $base . "_data_boolean_" . $contentObjectAttribute->attribute( "id" ) );
+                if ( isset( $data ) )
+                    return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
+            }
+            else
+            {
+                $contentObjectAttribute->setValidationError( ezi18n( 'kernel/classes/datatypes',
+                                                                     'Input required.' ) );
+                return EZ_INPUT_VALIDATOR_STATE_INVALID;
+            }
+        }
     }
 
     /*!
