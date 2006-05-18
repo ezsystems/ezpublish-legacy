@@ -15,7 +15,7 @@ Changes from 3.8.0 to 3.9.0alpha1
   (Merged from stable/3.6 (3.6.9) rev. 16028)
 - Fixed bug #8243: Template compiler does not check if object isset 
   when fetching attributes.
-  ( Merged from stable/3.7 rev. 16032, stable/3.8 rev. 16034 )
+  (Merged from stable/3.7 rev. 16032, stable/3.8 rev. 16034)
 - Fixed bug #8236: articlethumbnail still listed 2 times in image.ini.append.
 - Fixed bug #8224: Fallback language for US should not be ger-GB.
   (Fixed a typo).
@@ -25,7 +25,7 @@ Changes from 3.8.0 to 3.9.0alpha1
   (Merged from stable/3.7 (3.7.7) rev. 16043)
 - Fixed bug #8245: Reference bugs in eZContentObjectTree::canCreateClassList 
   and related functions.
-  ( Merged from stable/3.7 rev. 16047, stable/3.8 rev. 16048 )
+  (Merged from stable/3.7 rev. 16047, stable/3.8 rev. 16048)
 - Fixed bug #8246: toolbar template "user_country" missing.
   (Merged from stable/3.8 (3.8.1) rev. 16054)
 - Fixed bug #8242: Wrong PHP requrements in setup.ini.
@@ -41,10 +41,10 @@ Changes from 3.8.0 to 3.9.0alpha1
   (Merged from stable/3.7 (3.7.7) rev. 16085)
 - Fixed bug #8261: Editing of objects crashes.
 - Fixed bug #8279: Typo in lib/ezfile/classes/ezlog.php.
-  ( Merged from stable/3.6 rev. 16095, stable/3.7 rev. 16096, stable/3.8 rev. 16097 )
+  (Merged from stable/3.6 rev. 16095, stable/3.7 rev. 16096, stable/3.8 rev. 16097)
 - Fixed bug #8289: eZDir::findSubitems() throws warning when searching areas 
   without read access.
-  ( Merged from stable/3.6 rev. 16099, stable/3.7 rev. 16100, stable/3.8 rev. 16101 )
+  (Merged from stable/3.6 rev. 16099, stable/3.7 rev. 16100, stable/3.8 rev. 16101)
 - Fixed bug #8150: issue in the embed/image.tpl
   (Merged from stable/3.7 (3.7.7) rev. 16103)
 - Fixed bug #8293: Bug in roman() operator.
@@ -53,3 +53,5 @@ Changes from 3.8.0 to 3.9.0alpha1
   (Merged from stable/3.7 (3.7.7) rev. 16115)
 - Fixed bug #8294: Warning: array_merge_recursive(): recursion detected 
   in ezuser.php.
+- Fixed bug: RelatedSiteAccessList setting is set in override setting dir instead
+  of siteaccess dir. Also not present and documented in main site.ini file.
