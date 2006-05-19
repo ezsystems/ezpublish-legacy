@@ -1,0 +1,35 @@
+*Title: Translation Fallback.
+
+*Incentive:
+
+It might be needed to cirucumvent the need of having ane extra translation file, if the translation already exists for another locale.
+
+
+*Documentation:
+
+A siteaccess configured with ger-CH locale can make use of the ger-DE translation file.
+FallbackLanguages defines the avialable translation fallbacks of the QT ( .ts )
+translation files. If the this no translation avialable for e.g. ger-CH
+the ger-DE translation file will be requested for the translation.
+
+*Configuration:
+
+Sample configuration:
+
+This is case ger-CH is the current locale and ger-DE is the fallback translation.
+
+### i18n.ini.append ###################################################
+
+[TranslationSettings]
+FallbackLanguages[ger-CH]=ger-DE
+
+#######################################################################
+
+*Logic:
+
+If a translation file can't be found it will check an alternative location for finding a proper translation.
+
+*Implementation details:
+
+*Known limitations:
+
