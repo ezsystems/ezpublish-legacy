@@ -85,6 +85,7 @@ if ( $module->isCurrentAction( 'UpdateInitialLanguage' ) )
 
         include_once( 'kernel/classes/ezcontentlanguage.php' );
         $language = eZContentLanguage::fetch( $newInitialLanguageID );
+        $oldLanguage = eZContentLanguage::fetch( $object->attribute( 'initial_language_id' ) );
         if ( $language && !$language->attribute( 'disabled' ) )
         {
             $object->setAttribute( 'initial_language_id', $newInitialLanguageID );
@@ -95,6 +96,16 @@ if ( $module->isCurrentAction( 'UpdateInitialLanguage' ) )
             if ( $object->isAlwaysAvailable() )
             {
                 $object->setAlwaysAvailableLanguageID( $newInitialLanguageID );
+            }
+            $object->setCurrentLanguage( $language->attribute( 'locale' ) );
+            $contentobjectattributes = $object->dataMap();
+            foreach ( array_keys( $contentobjectattributes ) as $listKey )
+            {
+                
+                if ( !$contentobjectattributes[$listKey]->contentClassAttributeCanTranslate() )
+                {
+                    $contentobjectattributes[$listKey]->swapLanguage( $oldLanguage->attribute( 'locale' ) );
+                }
             }
 
             $nodes =& $object->assignedNodes();
