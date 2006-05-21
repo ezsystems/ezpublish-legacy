@@ -58,3 +58,4 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Fixed bug #8233: Problem with untranslateable content object attributes
   when switching main language
   (Merged from stable (3.8.1) rev. 16127)
+- Fixed bug #8311: Literal tag changes all <br /> to \n and <p></p> to \n\n.

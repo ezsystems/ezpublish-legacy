@@ -127,18 +127,12 @@ class eZSimplifiedXMLInput extends eZXMLInputHandler
             $text = preg_replace('/\r/', '', $text);
             $text = preg_replace('/\t/', ' ', $text);
 
-            //Remove leading whitespaces before tags in the beggining of the line
-            // as they are used for indenting and don't need to be parsed.
-
-            //// TODO: move this logic to the parser
-            //$text = preg_replace('/\n[ ]*</', '<br/><', $text);
-
-            // Convert linebreaks
+            // first empty paragraph
             $text = preg_replace('/^\n/', '<p></p>', $text );
-            //$text = preg_replace('/\n\n/', '<p></p>', $text);
-            $text = preg_replace('/\n/', '<br/>', $text);
 
             $parser = new eZSimplifiedXMLInputParser( $contentObjectID );
+            $parser->setParseLineBreaks( true );
+
             $document = $parser->process( $text );
 
             if ( !is_object( $document ) )
