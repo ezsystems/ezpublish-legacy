@@ -149,17 +149,6 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
         $text = substr( $data, $pos, $tablePos - $pos );
 
-        /*$text = preg_replace( "/\s*<\s?\/?t[drh|(body)].*?>/i", "", $text );
-
-        $text = preg_replace( "/^<p.*?>/i", "", $text );
-
-        $text = preg_replace( "/<\/\s?p>/i", "", $text );
-
-        $text = preg_replace( "/<p.*?>/i", "\n\n", $text );
-        */
-        $text = preg_replace( "/<p><\/p>/i", "\n\n", $text );
-        $text = preg_replace( "/<\/?\s?br.*?>/i", "\n", $text );
-
         $text = $this->entitiesDecode( $text );
         $text = $this->convertNumericEntities( $text );
 
@@ -198,11 +187,8 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
         $ret = null;
         $data =& $param[0];
         $pos =& $param[1];
+        $tagBeginPos =& $param[2];
         $parent =& $element->parentNode;
-
-        $tagBeginPos = $pos - 1;
-        while( $data[$tagBeginPos] != '<' )
-            $tagBeginPos--;
 
         $wholeTagString = substr( $data, $tagBeginPos, $pos - $tagBeginPos );
 

@@ -158,6 +158,11 @@ class eZXMLInputParser
         $this->DOMDocumentClass = $DOMDocumentClass;
     }
 
+    function setParseLineBreaks( $value )
+    {
+        $this->parseLineBreaks = $value;
+    }
+
     /*!
         Call this function to process your input
     */
@@ -248,6 +253,19 @@ class eZXMLInputParser
         }
         $tagBeginPos = strpos( $data, '<', $pos );
 
+        if ( $this->parseLineBreaks )
+        {
+            // Regard line break as a start tag position
+            $lineBreakPos = strpos( $data, "\n", $pos );
+            if ( $lineBreakPos !== false )
+            {
+                if ( $tagBeginPos === false )
+                    $tagBeginPos = $lineBreakPos;
+                else
+                    $tagBeginPos = min( $tagBeginPos, $lineBreakPos );
+            }
+        }
+
         $tagName = '';
         $attributes = null;
         // If it doesn't begin with '<' then its a text node.
@@ -269,7 +287,7 @@ class eZXMLInputParser
                 return false;
         }
         // Process closing tag.
-        elseif ( $data[$tagBeginPos + 1] == '/' )
+        elseif ( $data[$tagBeginPos] == '<' && $data[$tagBeginPos + 1] == '/' )
         {
             $tagEndPos = strpos( $data, '>', $tagBeginPos + 1 );
             $pos = $tagEndPos + 1;
@@ -302,6 +320,13 @@ class eZXMLInputParser
                 $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', 'Wrong closing tag : &lt;/%1&gt;.', false, array( $closedTagName ) );
 
             return false;
+        }
+        // Insert <br/> instead of linebreaks
+        elseif ( $this->parseLineBreaks && $data[$tagBeginPos] == "\n" )
+        {
+            $newTagName = 'br';
+            $noChildren = true;
+            $pos = $tagBeginPos + 1;
         }
         //  Regular tag: get tag's name and attributes.
         else
@@ -459,6 +484,7 @@ class eZXMLInputParser
         $params = array();
         $params[] =& $data;
         $params[] =& $pos;
+        $params[] =& $tagBeginPos;
         $result =& $this->callOutputHandler( 'parsingHandler', $element, $params );
 
         if ( $result === false )
@@ -481,6 +507,7 @@ class eZXMLInputParser
             }
             while( $parseResult !== true );
         }
+
         return false;
     }
 
@@ -646,8 +673,8 @@ class eZXMLInputParser
         $ret = null;
         $tmp = null;
 
-        //eZDOMNode::writeDebug2( $element, '$element' );
-        //eZDOMNode::writeDebug2( $this->Document->Root, 'root' );
+        //eZDOMNode::writeDebugStr( $element, '$element' );
+        //eZDOMNode::writeDebugStr( $this->Document->Root, 'root' );
 
         // Call "Init handler"
         $this->callOutputHandler( 'initHandler', $element, $tmp );
@@ -982,6 +1009,8 @@ class eZXMLInputParser
 
     var $trimSpaces = true;
     var $allowMultipleSpaces = false;
+
+    var $parseLineBreaks = false;
 
     var $createdElements = array();
 }
