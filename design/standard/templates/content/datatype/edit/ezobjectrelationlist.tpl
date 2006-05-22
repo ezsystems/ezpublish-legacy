@@ -20,7 +20,6 @@
     <th>Section</th>
     <th class="tight">Order</th>
 </tr>
-<td><input id="ezcoa-{if ne( $attribute_base, 'ContentObjectAttribute' )}{$attribute_base}-{/if}{$attribute.contentclassattribute_id}_{$attribute.contentclass_attribute_identifier}_remove_{$:index}" class="ezcc-{$attribute.object.content_class.identifier} ezcca-{$attribute.object.content_class.identifier}_{$attribute.contentclass_attribute_identifier}" type="checkbox" name="{$attribute_base}_selection[{$attribute.id}][]" value="{$:item.contentobject_id}" /></td>
 {section name=Relation loop=$attribute.content.relation_list sequence=array( bglight, bgdark )}
 
 <tr class="{$:sequence}">
