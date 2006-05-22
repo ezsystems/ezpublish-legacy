@@ -1,3 +1,4 @@
+{default $object_parameters=array()}
 {let image_variation="false"
      align="center"
      attribute_parameters=$object_parameters}
