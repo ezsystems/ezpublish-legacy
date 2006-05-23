@@ -346,7 +346,7 @@ class eZTemplateForeachFunction
             $tpl->setVariable( $itemVarName, $val, $rootNamespace );
 
             $loop->setSequenceVar(); // set sequence variable (if specified)
-            $loop->processDelimiter();
+            $loop->processDelimiter( $i );
             $loop->resetIteration();
 
             // process loop body
