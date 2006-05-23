@@ -148,7 +148,6 @@ class eZTemplateCompiledLoop
         // process the loop body
         $children            = eZTemplateNodeTool::extractFunctionNodeChildren( $this->Node );
         $transformedChildren = eZTemplateCompiler::processNodeTransformationNodes( $this->Tpl, $this->Node, $children, $this->PrivateData );
-        unset( $children );
 
         $childrenNodes = array();
         $delimiter = null;
@@ -188,6 +187,52 @@ class eZTemplateCompiledLoop
 
         if ( $delimiter ) // if delimiter is specified
         {
+            $delimiterNodes = eZTemplateNodeTool::extractNodes( $children,
+                                                    array( 'match' => array( 'type' => 'equal',
+                                                                             'matches' => array( array( 'match-keys' => array( 0 ),
+                                                                                                       'match-with' => EZ_TEMPLATE_NODE_FUNCTION ),
+                                                                                                 array( 'match-keys' => array( 2 ),
+                                                                                                        'match-with' => 'delimiter' ) ) ) ) );
+            $delimiterNode = false;
+            if ( count( $delimiterNodes ) > 0 )
+                $delimiterNode = $delimiterNodes[0];
+
+            $delimiterChildren = eZTemplateNodeTool::extractFunctionNodeChildren( $delimiterNode );
+            $delimiterParameters = eZTemplateNodeTool::extractFunctionNodeParameters( $delimiterNode );
+
+            $checkModulo = array();
+            $checkModuloEnd = array();
+            $delemiterModuloValue = array();
+            if ( isset( $delimiterParameters['modulo'] ) )
+            {
+                switch ( $this->Name )
+                {
+                    case 'foreach':
+                    {
+                        $delimiterModulo = $delimiterParameters['modulo'];
+                        $delimiterModulo = eZTemplateCompiler::processElementTransformationList( $this->Tpl, $delimiterModulo, $delimiterModulo, $this->PrivateData );
+                        // Get unique index
+                        $currentIndex = "\$fe_i_$this->UniqID";
+
+                        if ( eZTemplateNodeTool::isStaticElement( $delimiterModulo ) )
+                        {
+                            $moduloValue = (int)eZTemplateNodeTool::elementStaticValue( $delimiterModulo );
+                            $matchCode = "( ( $currentIndex ) % $moduloValue ) == 0";
+                        }
+                        else
+                        {
+                            $delemiterModuloValue[] = eZTemplateNodeTool::createVariableNode( false, $delimiterModulo, eZTemplateNodeTool::extractFunctionNodePlacement( $this->Node ),
+                                                                                        array( 'spacing' => 0 ), 'moduloValue' );
+                            $matchCode = "( ( $currentIndex ) % \$moduloValue ) == 0";
+                        }
+                        $checkModulo[] = eZTemplateNodeTool::createCodePieceNode( "if ( $matchCode ) // Check modulo\n{" );
+                        $checkModulo[] = eZTemplateNodeTool::createSpacingIncreaseNode( 4 );
+
+                        $checkModuloEnd[] = eZTemplateNodeTool::createSpacingDecreaseNode( 4 );
+                        $checkModuloEnd[] = eZTemplateNodeTool::createCodePieceNode( "}\n" );
+                    }
+                }
+            }
             $delimiterNodes = array();
             $delimiterNodes[] = eZTemplateNodeTool::createCodePieceNode( "if ( \$skipDelimiter )\n" .
                                                                          "    \$skipDelimiter = false;\n" .
@@ -196,14 +241,24 @@ class eZTemplateCompiledLoop
             $delimiterNodes[] = eZTemplateNodeTool::createSpacingIncreaseNode();
             if ( is_array( $delimiter[1] ) ) // if delimiter has children
             {
+                // If modulo is specified
+                $delimiterNodes = array_merge( $delimiterNodes, $checkModulo );
+
                 foreach ( $delimiter[1] as $delimiterChild )
                     $delimiterNodes[] = $delimiterChild;
+
+                // Set end of checking for modulo
+                $delimiterNodes = array_merge( $delimiterNodes, $checkModuloEnd );
             }
+
             $delimiterNodes[] = eZTemplateNodeTool::createSpacingDecreaseNode();
             $delimiterNodes[] = eZTemplateNodeTool::createCodePieceNode( "} // delimiter ends\n" );
 
-            // we place its code right before other loop children
-            $childrenNodes = array_merge( $delimiterNodes, $childrenNodes );
+            // we place its code right before other loop children,
+            // if delemiter and modulo are specified and value of modulo is not static
+            // $delemiterModuloValue is initialization of variable
+            // we should place initialization of moduloValue before checking for delimiter
+            $childrenNodes = array_merge( $delemiterModuloValue, $delimiterNodes, $childrenNodes );
         }
 
         $this->NewNodes = array_merge( $this->NewNodes, $childrenNodes );
