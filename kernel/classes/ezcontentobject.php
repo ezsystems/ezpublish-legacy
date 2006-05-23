@@ -1765,7 +1765,12 @@ class eZContentObject extends eZPersistentObject
             $versionText = "AND\n                    ezcontentobject_attribute.version = '$version'";
             if ( $language )
             {
-                $languageText = "AND\n                    ezcontentobject_attribute.language_code = '$language'";
+                // fetch values of attributes that are untranslatable from initial language
+                if ( $initialLanguage != $language )
+                    $languageText = "AND\n ( ( ezcontentclass_attribute.can_translate = '1' AND ezcontentobject_attribute.language_code = '$language' ) OR
+                    ( ezcontentclass_attribute.can_translate = '0' AND ezcontentobject_attribute.language_code = '" . $this->initialLanguageCode() . "' ) )";
+                else
+                    $languageText = "AND\n ezcontentobject_attribute.language_code = '$language'";
             }
             else
             {
@@ -1848,14 +1853,22 @@ class eZContentObject extends eZPersistentObject
                 $object =& $nodeList[$key]->attribute( 'object' );
 
                 $language = $object->currentLanguage();
+                $initialLanguage = $object->initialLanguageCode();
                 $tmpLanguageObjectList[$object->attribute( 'id' )] = $language;
                 $objectArray = array( 'id' => $object->attribute( 'id' ),
                                       'language' => $language,
                                       'version' => $nodeList[$key]->attribute( 'contentobject_version' ) );
-
+                // fetch values of attributes that are untranslatable from initial language
+                if ( $initialLanguage != $language )
+                    $languageText = "( ( ezcontentclass_attribute.can_translate = '1' AND 
+                        ezcontentobject_attribute.language_code = '$language' ) OR
+                        ( ezcontentclass_attribute.can_translate = '0' AND
+                        ezcontentobject_attribute.language_code = '" . $initialLanguage . "' ) )";
+                else
+                    $languageText = "ezcontentobject_attribute.language_code = '$language'";
                 $whereSQL .= "( ezcontentobject_attribute.version = '" . $nodeList[$key]->attribute( 'contentobject_version' ) . "' AND
                     ezcontentobject_attribute.contentobject_id = '" . $object->attribute( 'id' ) . "' AND
-                    ezcontentobject_attribute.language_code = '" . $language . "' ) ";
+                    $languageText ) ";
 
                 $i++;
                 if ( $i < $count )
