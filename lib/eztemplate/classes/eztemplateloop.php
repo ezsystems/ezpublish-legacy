@@ -239,17 +239,32 @@ class eZTemplateLoop
 
     /*!
      * If \c $loopCondition is true, shows delimiter (if one has been specified).
-     *
+     * \param $index is needed for processing delimiter parameters such as modulo.
+     *        Is current iteration index.
      * \return true if the caller loop should break, false otherwise
      */
-    function processDelimiter()
+    function processDelimiter( $index = false )
     {
         if ( is_null( $this->Delimiter ) || $this->SkipDelimiter )
             return false;
 
         $delimiterChildren =& $this->Delimiter[1];
-        foreach ( array_keys( $delimiterChildren ) as $key )
-            $this->Tpl->processNode( $delimiterChildren[$key], $this->TextElements, $this->RootNamespace, $this->CurrentNamespace );
+        $delimiterParameters =& $this->Delimiter[3]; // Get parameters
+        $delimiterMatch = true;
+        // Check for "modulo"
+        if ( isset( $delimiterParameters["modulo"] ) and $index !== false )
+        {
+            $delimiterModulo = $delimiterParameters["modulo"];
+            $modulo = $this->Tpl->elementValue( $delimiterModulo, $this->RootNamespace, $this->FunctionName, $this->FunctionPlacement );
+            $modulo = trim( $modulo );
+            if ( is_numeric( $modulo ) )
+                $delimiterMatch = ( $index % $modulo ) == 0;
+        }
+        if ( $delimiterMatch )
+        {
+            foreach ( array_keys( $delimiterChildren ) as $key )
+                $this->Tpl->processNode( $delimiterChildren[$key], $this->TextElements, $this->RootNamespace, $this->CurrentNamespace );
+        }
 
         return false;
     }
