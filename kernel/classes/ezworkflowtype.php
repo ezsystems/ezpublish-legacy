@@ -311,7 +311,7 @@ class eZWorkflowType
     {
     }
 
-    function validateHTTPInput( &$http, $base, &$event )
+    function validateHTTPInput( &$http, $base, &$event, &$validation )
     {
         return EZ_INPUT_VALIDATOR_STATE_ACCEPTED;
     }

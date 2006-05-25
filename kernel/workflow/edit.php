@@ -34,38 +34,42 @@ include_once( "lib/ezutils/classes/ezhttptool.php" );
 include_once( "lib/ezutils/classes/ezhttppersistence.php" );
 
 $Module =& $Params["Module"];
-if ( isset( $Params["WorkflowID"] ) )
-    $WorkflowID = $Params["WorkflowID"];
-else
-    $WorkflowID = false;
 
-if ( isset( $Params["GroupID"] ) )
-{
-    $GroupID = $Params["GroupID"];
-    //eZDebug::writeDebug( $GroupID, "GroupID" );
-}
-else
-{
-    eZDebug::writeDebug( false, "unknown GroupID" );
-}
-if ( isset( $Params["GroupName"] ) )
-    $GroupName = $Params["GroupName"];
+$WorkflowID = ( isset( $Params["WorkflowID"] ) ) ? $Params["WorkflowID"] : false;
 
 switch ( $Params["FunctionName"] )
 {
-    case "up":
-    case "down":
+case "up":
+case "down":
     {
-        $event = eZWorkflowEvent::fetch( $Params["EventID"], true, 1,
-                                          array( "workflow_id", "version", "placement" ) );
-        $event->move( $Params["FunctionName"] == "up" ? false : true );
-        $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $WorkflowID . '/' . $GroupID );
-        return;
+        if ( $WorkflowID !== false )
+        {
+            if ( isset( $Params["EventID"] ) )
+            {
+                $event = eZWorkflowEvent::fetch( $Params["EventID"], true, 1,
+                                                 array( "workflow_id", "version", "placement" ) );
+                $event->move( $Params["FunctionName"] == "up" ? false : true );
+                $Module->redirectTo( $Module->functionURI( 'edit' ) . '/' . $WorkflowID );
+                return;
+            }
+            else
+            {
+                eZDebug::writeError( "Missing parameter EventID for function: " . $params["Function"] );
+                $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
+                return;
+            }
+        }
+        else
+        {
+            eZDebug::writeError( "Missing parameter WorkfowID for function: " . $params["Function"] );
+            $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
+            return;
+        }
     } break;
-    case "edit":
+case "edit":
     {
     } break;
-    default:
+default:
     {
         eZDebug::writeError( "Undefined function: " . $params["Function"] );
         $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
@@ -73,35 +77,44 @@ switch ( $Params["FunctionName"] )
     }
 }
 
-// include_once( "lib/ezutils/classes/ezexecutionstack.php" );
-// $execStack =& eZExecutionStack::instance();
-// $execStack->addEntry( $Module->functionURI( "edit" ) . "/" . $WorkflowID,
-//                       $Module->attribute( "name" ), "edit" );
+$GroupID = ( isset( $Params["GroupID"] ) ) ? $Params["GroupID"] : false;
+$GroupName = ( isset( $Params["GroupName"] ) ) ? $Params["GroupName"] : false;
 
 if ( is_numeric( $WorkflowID ) )
 {
+    // try to fetch temporary version of workflow
     $workflow = eZWorkflow::fetch( $WorkflowID, true, 1 );
 
     // If temporary version does not exist fetch the current
-    if ( is_null( $workflow ) )
+    if ( !is_object( $workflow ) )
     {
         $workflow = eZWorkflow::fetch( $WorkflowID, true, 0 );
-        $workflowGroups= eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
-
-        $db =& eZDB::instance();
-        $db->begin();
-        foreach ( $workflowGroups as $workflowGroup )
+        if ( is_object( $workflow ) )
         {
-            $groupID = $workflowGroup->attribute( "group_id" );
-            $groupName = $workflowGroup->attribute( "group_name" );
-            $ingroup = eZWorkflowGroupLink::create( $WorkflowID, 1, $groupID, $groupName );
-            $ingroup->store();
+            $workflowGroups = eZWorkflowGroupLink::fetchGroupList( $WorkflowID, 0, true );
+
+            $db =& eZDB::instance();
+            $db->begin();
+            foreach ( $workflowGroups as $workflowGroup )
+            {
+                $groupID = $workflowGroup->attribute( "group_id" );
+                $groupName = $workflowGroup->attribute( "group_name" );
+                $ingroup = eZWorkflowGroupLink::create( $WorkflowID, 1, $groupID, $groupName );
+                $ingroup->store();
+            }
+            $db->commit();
         }
-        $db->commit();
+        else
+        {
+            eZDebug::writeError( "Cannot fetch workflow with WorkfowID = " . $WorkflowID );
+            $Module->setExitStatus( EZ_MODULE_STATUS_FAILED );
+            return;
+        }
     }
 }
 else
 {
+    // if WorkflowID was not given then create new workflow
     include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
     $user =& eZUser::currentUser();
     $user_id = $user->attribute( "contentobject_id" );
@@ -123,6 +136,7 @@ else
 
 $http =& eZHttpTool::instance();
 $WorkflowVersion = $workflow->attribute( "version" );
+
 if ( $http->hasPostVariable( "DiscardButton" ) )
 {
     $workflow->setVersion( 1 );
@@ -147,10 +161,14 @@ if ( $http->hasPostVariable( "DiscardButton" ) )
 
 $validation = array( 'processed' => false,
                      'groups' => array(),
-                     'attributes' => array() );
+                     'attributes' => array(),
+                     'events' => array() );
 
 if ( $http->hasPostVariable( "AddGroupButton" ) && $http->hasPostVariable( "Workflow_group") )
 {
+    // rush: debug
+    eZDebug::writeDebug( 'Got AddGroupButton in workflow/edit.php', 'rush:' );
+
     include_once( "kernel/workflow/ezworkflowfunctions.php" );
 
     $selectedGroup = $http->postVariable( "Workflow_group" );
@@ -180,9 +198,9 @@ $requireFixup = false;
 foreach( array_keys( $event_list ) as $key )
 {
     $event =& $event_list[$key];
-//    var_dump( $event  );
     $eventType =& $event->eventType();
-    $status = $eventType->validateHTTPInput( $http, "WorkflowEvent", $event );
+    $status = $eventType->validateHTTPInput( $http, "WorkflowEvent", $event, $validation );
+
     if ( $status == EZ_INPUT_VALIDATOR_STATE_INTERMEDIATE )
         $requireFixup = true;
     else if ( $status == EZ_INPUT_VALIDATOR_STATE_INVALID )
@@ -208,6 +226,8 @@ eZHttpPersistence::fetch( "Workflow", eZWorkflow::definition(),
                           $workflow, $http, false );
 if ( $http->hasPostVariable( "WorkflowTypeString" ) )
     $cur_type = $http->postVariable( "WorkflowTypeString" );
+
+// set temporary version to edited workflow
 $workflow->setVersion( 1, $event_list );
 
 // Set new modification date
@@ -217,8 +237,6 @@ include_once( "kernel/classes/datatypes/ezuser/ezuser.php" );
 $user =& eZUser::currentUser();
 $user_id = $user->attribute( "contentobject_id" );
 $workflow->setAttribute( "modifier_id", $user_id );
-
-
 
 
 /********** Custom Action Code Start ***************/
@@ -288,15 +306,14 @@ if ( $http->hasPostVariable( "StoreButton" ) and $canStore )
     else
         return $Module->redirectToView( 'grouplist' );
 }
-
 // Remove events which are to be deleted
-if ( $http->hasPostVariable( "DeleteButton" ) )
+else if ( $http->hasPostVariable( "DeleteButton" ) )
 {
     $db =& eZDB::instance();
     $db->begin();
-    if ($canStore) $workflow->store( $event_list );
+    if ( $canStore )
+        $workflow->store( $event_list );
 
-//     $http->setSessionVariable( "ExecutionStack", $executions );
     if ( eZHttpPersistence::splitSelected( "WorkflowEvent", $event_list,
                                            $http, "id",
                                            $keepers, $rejects ) )
@@ -310,23 +327,25 @@ if ( $http->hasPostVariable( "DeleteButton" ) )
     }
     $db->commit();
 }
-
-if ( $http->hasPostVariable( "NewButton" ) )
+// Add new workflow event
+else if ( $http->hasPostVariable( "NewButton" ) )
 {
     $new_event = eZWorkflowEvent::create( $WorkflowID, $cur_type );
     $new_event_type =& $new_event->eventType();
     $db =& eZDB::instance();
     $db->begin();
 
-    if ($canStore) $workflow->store( $event_list );
+    if ($canStore)
+        $workflow->store( $event_list );
+
     $new_event_type->initializeEvent( $new_event );
     $new_event->store();
 
     $db->commit();
     $event_list[] =& $new_event;
 }
-
-if ( $canStore && !$http->hasPostVariable( "NewButton" ) && !$http->hasPostVariable( "DeleteButton" ) && !$http->hasPostVariable( "StoreButton" ) )
+//if ( $canStore && !$http->hasPostVariable( "NewButton" ) && !$http->hasPostVariable( "DeleteButton" ) && !$http->hasPostVariable( "StoreButton" ) )
+else if ( $canStore )
 {
     $workflow->store( $event_list );
 }

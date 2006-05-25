@@ -4,7 +4,9 @@
       <form name="WorkflowEdit" method="post" action={concat( $module.functions.edit.uri, '/', $workflow.id, '/' )|ezurl}>
 {/section}
 {* Feedback *}
-{section show=and( $validation.processed, $validation.groups )}
+{*section show=and( $validation.processed, $validation.groups )*}
+{section show=$validation.processed}
+{section show=$validation.groups}
 <div class="message-warning">
 <h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'Input did not validate'|i18n( 'design/admin/workflow/edit' )}</h2>
 <ul>
@@ -13,6 +15,29 @@
 {/section}
 </ul>
 </div>
+{/section}
+{section show=$validation.events}
+<div class="message-warning">
+<h2><span class="time">[{currentdate()|l10n( shortdatetime )}]</span> {'The workflow could not be stored.'|i18n( 'design/admin/workflow/edit' )}</h2>
+<p>{'The following information is either missing or invalid'|i18n( 'design/admin/workflow/edit' )}:</p>
+<ul>
+{section var=unvalEvent loop=$validation.events}
+    <li>({$unvalEvent.placement})&nbsp;{$unvalEvent.workflow_type.group_name}&nbsp;/&nbsp;{$unvalEvent.item.workflow_type.name|wash}:
+    {section show=is_set( $unvalEvent.item.reason )}
+        <br />{$unvalEvent.reason.text|wash}
+        {section show=is_set( $unvalEvent.item.reason.list )}
+        <ul>
+        {section var=subitem loop=$unvalEvent.reason.list show=is_set( $unvalEvent.reason.list )}
+            <li>{$subitem|wash}</li>
+        {/section}
+        </ul>
+        {/section}
+    </li>
+    {/section}
+{/section}
+</ul>
+</div>
+{/section}
 {/section}
 
 {section show=$require_fixup}

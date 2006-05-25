@@ -1874,6 +1874,76 @@ WHERE user_id = '" . $userID . "' AND
         return false;
     }
 
+    function fetchUserClassList( $asObject = false, $fields = false )
+    {
+        // Get names of user classes
+        if ( !$asObject and
+             is_array( $fields ) and
+             count( $fields ) > 0 )
+        {
+            $fieldsFilter = '';
+            $i = 0;
+            foreach ( $fields as $fieldName )
+            {
+                if ( $i > 0 )
+                    $fieldsFilter .= ', ';
+                $fieldsFilter .= 'ezcontentclass.' . $fieldName;
+                $i++;
+            }
+        }
+        else
+        {
+            $fieldsFilter = 'ezcontentclass.*';
+        }
+        $db =& eZDB::instance();
+        $userClasses = $db->arrayQuery( "SELECT $fieldsFilter
+                                         FROM ezcontentclass, ezcontentclass_attribute
+                                         WHERE ezcontentclass.id = ezcontentclass_attribute.contentclass_id AND
+                                               ezcontentclass.version = " . EZ_CLASS_VERSION_STATUS_DEFINED ." AND
+                                               ezcontentclass_attribute.version = 0 AND
+                                               ezcontentclass_attribute.data_type_string = 'ezuser'" );
+
+        return eZPersistentObject::handleRows( $userClasses, "eZContentClass", $asObject );
+    }
+
+    function fetchUserClassNames()
+    {
+        $userClassNames = array();
+        $userClasses = eZUser::fetchUserClassList( false, array( 'identifier' ) );
+        foreach ( $userClasses as $class )
+        {
+            $userClassNames[] = $class[ 'identifier' ];
+        }
+        return $userClassNames;
+    }
+
+    function fetchUserGroupClassNames()
+    {
+        // Get names of user classes
+        $userClassNames = array();
+        $userClasses = eZUser::fetchUserClassList( false, array( 'identifier' ) );
+        foreach ( $userClasses as $class )
+        {
+            $userClassNames[] = $class[ 'identifier' ];
+        }
+
+        // Get names of all allowed content-classes for the Users subtree
+        $contentIni =& eZINI::instance( "content.ini" );
+        $userGroupClassNames = array();
+        if ( $contentIni->hasVariable( 'ClassGroupIDs', 'Users' ) and
+             is_numeric( $usersClassGroupID = $contentIni->variable( 'ClassGroupIDs', 'Users' ) ) and
+             count( $usersClassList = eZContentClassClassGroup::fetchClassList( EZ_CLASS_VERSION_STATUS_DEFINED, $usersClassGroupID ) ) > 0 )
+        {
+            foreach ( $usersClassList as $userClass )
+            {
+                $userGroupClassNames[] = $userClass->attribute( 'identifier' );
+            }
+        }
+
+        // Get names of user-group classes
+        $groupClassNames = array_diff( $userGroupClassNames, $userClassNames );
+        return $groupClassNames;
+    }
 
     /// \privatesection
     var $Login;
