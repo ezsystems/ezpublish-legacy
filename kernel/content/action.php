@@ -690,6 +690,8 @@ else if ( $module->isCurrentAction( 'AddAssignment' ) or
     if ( $module->isCurrentAction( 'AddAssignment' ) )
     {
         $selectedNodeIDArray = eZContentBrowse::result( 'AddNodeAssignment' );
+        if ( !is_array( $selectedNodeIDArray ) )
+            $selectedNodeIDArray = array();
         $assignedNodes =& $object->assignedNodes();
         $assignedIDArray = array();
         $setMainNode = false;
@@ -859,8 +861,9 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
     }
     $removeList = array();
     $nodeRemoveList = array();
-    foreach ( $nodes as $key => $node )
+    foreach ( array_keys( $nodes ) as $key )
     {
+        $node =& $nodes[$key];
         if ( $node )
         {
             // Security checks, removal of current node is not allowed
@@ -876,6 +879,7 @@ else if ( $module->isCurrentAction( 'RemoveAssignment' )  )
             $removeList[] = $node->attribute( 'node_id' );
             $nodeRemoveList[] =& $node;
             $count = $node->childrenCount( false );
+            unset( $node );
 
             if ( $count > 0 )
             {
