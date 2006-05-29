@@ -1766,9 +1766,10 @@ class eZContentObject extends eZPersistentObject
             if ( $language )
             {
                 // fetch values of attributes that are untranslatable from initial language
+                $initialLanguage =& $this->initialLanguageCode();
                 if ( $initialLanguage != $language )
                     $languageText = "AND\n ( ( ezcontentclass_attribute.can_translate = '1' AND ezcontentobject_attribute.language_code = '$language' ) OR
-                    ( ezcontentclass_attribute.can_translate = '0' AND ezcontentobject_attribute.language_code = '" . $this->initialLanguageCode() . "' ) )";
+                    ( ezcontentclass_attribute.can_translate = '0' AND ezcontentobject_attribute.language_code = '" . $initialLanguage . "' ) )";
                 else
                     $languageText = "AND\n ezcontentobject_attribute.language_code = '$language'";
             }
@@ -1860,7 +1861,7 @@ class eZContentObject extends eZPersistentObject
                                       'version' => $nodeList[$key]->attribute( 'contentobject_version' ) );
                 // fetch values of attributes that are untranslatable from initial language
                 if ( $initialLanguage != $language )
-                    $languageText = "( ( ezcontentclass_attribute.can_translate = '1' AND 
+                    $languageText = "( ( ezcontentclass_attribute.can_translate = '1' AND
                         ezcontentobject_attribute.language_code = '$language' ) OR
                         ( ezcontentclass_attribute.can_translate = '0' AND
                         ezcontentobject_attribute.language_code = '" . $initialLanguage . "' ) )";
