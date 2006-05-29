@@ -469,24 +469,30 @@ function setObjectAttributeValue( &$objectAttribute, $value )
 
 function setEZXMLAttribute( &$attribute, &$attributeValue, $link = false )
 {
-    include_once( "kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinput.php" );
-    $inputData = "<?xml version=\"1.0\"?>";
-    $inputData .= "<section>";
-    $inputData .= "<paragraph>";
-    $inputData .= $attributeValue;
-    $inputData .= "</paragraph>";
-    $inputData .= "</section>";
+    include_once( 'kernel/classes/datatypes/ezxmltext/handlers/input/ezsimplifiedxmlinputparser.php' );
+    $contentObjectID = $attribute->attribute( "contentobject_id" );
+    $parser = new eZSimplifiedXMLInputParser( $contentObjectID );
+    $parser->setParseLineBreaks( true );
+    // Convert special chars
+    $tagContent = str_replace( "&", "&amp;", $attributeValue );
+    $tagContent = str_replace( ">", "&gt;", $tagContent );
+    $tagContent = str_replace( "<", "&lt;", $tagContent );
+    $tagContent = str_replace( "'", "&apos;", $tagContent );
+    $tagContent = str_replace( '"', "&quot;", $tagContent );
 
-    $dumpdata = "";
-    $simplifiedXMLInput = new eZSimplifiedXMLInput( $dumpdata, null, null );
-    $inputData = $simplifiedXMLInput->convertInput( $inputData );
-
-    $domString = eZXMLTextType::domString( $inputData[0] );
+    $document = $parser->process( $tagContent );
+    if ( !is_object( $document ) )
+    {
+        $errorMessage = implode( ' ', $parser->getMessages() );
+        eZDebug::writeError( $errorMessage );
+        return;
+    }
+    $domString = eZXMLTextType::domString( $document );
 
     $domString = str_replace( "<paragraph> </paragraph>", "", $domString );
-    $domString = str_replace ( "<paragraph />" , "", $domString );
-    $domString = str_replace ( "<line />" , "", $domString );
-    $domString = str_replace ( "<paragraph></paragraph>" , "", $domString );
+    $domString = str_replace( "<paragraph />" , "", $domString );
+    $domString = str_replace( "<line />" , "", $domString );
+    $domString = str_replace( "<paragraph></paragraph>" , "", $domString );
     $domString = str_replace( "<paragraph>&nbsp;</paragraph>", "", $domString );
     $domString = str_replace( "<paragraph></paragraph>", "", $domString );
 

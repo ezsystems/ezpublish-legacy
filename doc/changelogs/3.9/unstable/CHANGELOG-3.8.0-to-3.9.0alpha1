@@ -66,3 +66,5 @@ Changes from 3.8.0 to 3.9.0alpha1
 - Fixed bug #8344: Removing locations.
   (Removing of multiple locations doesn't work)
   (Merged from stable/3.8 (3.8.1) rev. 16146)
+- Fixed bug #8343: Rss feed bug when importing into xml block.
+  (Merged from stable/3.8 (3.8.1) rev. 16151)
