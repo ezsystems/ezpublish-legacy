@@ -117,7 +117,7 @@ class eZWizardBase
 
             case 'error_list':
             {
-                return $this->ErrorList;
+                $retValue = $this->ErrorList;
             } break;
 
             case 'warning_count':
@@ -127,7 +127,7 @@ class eZWizardBase
 
             case 'warning_list':
             {
-                return $this->WarningList;
+                $retValue = $this->WarningList;
             } break;
 
             case 'step_template':
@@ -142,8 +142,9 @@ class eZWizardBase
 
             case 'url':
             {
-                return $this->WizardURL;
+                $retValue = $this->WizardURL;
             } break;
+
             default:
             {
                 eZDebug::writeError( "Attribute '$attr' does not exist", 'eZWizardBase::attribute' );
@@ -476,9 +477,9 @@ class eZWizardBaseClassLoader
                               'eZWizardBaseClassLoader::createClass()' );
         $returnClass =  new $className( $tpl, $module, $storageName );
 
-        if ( isset( $stepArray['operation'] ) )
+        if ( isset( $stepArray[$currentStep]['operation'] ) )
         {
-            $operation = $stepArray['operation'];
+            $operation = $stepArray[$currentStep]['operation'];
             return $returnClass->$operation();
             eZDebug::writeNotice( 'Running : "' . $className . '->' . $operation . '()". Specified in StepArray',
                                   'eZWizardBaseClassLoader::createClass()' );
