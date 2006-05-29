@@ -70,7 +70,7 @@ class eZWorkflowType
         $this->GroupName = $groupName;
         $this->Name = $name;
         $this->Information = "";
-        $this->ActivationDate = null;
+        $this->ActivationDate = false;
         $this->Attributes = array();
         $this->Attributes["group"] =& $this->Group;
         $this->Attributes["type"] =& $this->Type;
