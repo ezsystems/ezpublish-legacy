@@ -467,9 +467,9 @@ class eZWizardBaseClassLoader
                               'eZWizardBaseClassLoader::createClass()' );
         $returnClass =  new $className( $tpl, $module, $storageName );
 
-        if ( isset( $stepArray['operation'] ) )
+        if ( isset( $stepArray[$currentStep]['operation'] ) )
         {
-            $operation = $stepArray['operation'];
+            $operation = $stepArray[$currentStep]['operation'];
             return $returnClass->$operation();
             eZDebug::writeNotice( 'Running : "' . $className . '->' . $operation . '()". Specified in StepArray',
                                   'eZWizardBaseClassLoader::createClass()' );
