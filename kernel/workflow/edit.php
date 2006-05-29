@@ -166,9 +166,6 @@ $validation = array( 'processed' => false,
 
 if ( $http->hasPostVariable( "AddGroupButton" ) && $http->hasPostVariable( "Workflow_group") )
 {
-    // rush: debug
-    eZDebug::writeDebug( 'Got AddGroupButton in workflow/edit.php', 'rush:' );
-
     include_once( "kernel/workflow/ezworkflowfunctions.php" );
 
     $selectedGroup = $http->postVariable( "Workflow_group" );
