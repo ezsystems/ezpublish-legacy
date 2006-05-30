@@ -450,7 +450,12 @@ class eZXMLInputParser
                 {
                     if ( isset( $thisOutputTag['classesList'] ) &&
                          !in_array( $value, $thisOutputTag['classesList'] ) )
+                    {
+                        $this->isInputValid = false;
+                        if ( $this->errorLevel >= 2 )
+                            $this->Messages[] = ezi18n( 'kernel/classes/datatypes/ezxmltext', "Class '%1' is not allowed for element &lt;%2&gt; (check content.ini).", false, array( $value, $newTagName ) );
                         continue;
+                    }
                 }
                 // Create attribute nodes
                 if ( $qualifiedName )
