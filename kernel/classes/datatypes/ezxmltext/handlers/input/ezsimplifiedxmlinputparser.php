@@ -149,9 +149,6 @@ class eZSimplifiedXMLInputParser extends eZXMLInputParser
 
         $text = substr( $data, $pos, $tablePos - $pos );
 
-        $text = $this->entitiesDecode( $text );
-        $text = $this->convertNumericEntities( $text );
-
         $textNode = $this->Document->createTextNode( $text );
         $element->appendChild( $textNode );
 
