@@ -444,8 +444,6 @@ class eZRole extends eZPersistentObject
             }
         }
 
-        include_once( 'kernel/classes/ezcontentcachemanager.php' );
-        eZContentCacheManager::clearAllContentCache();
         eZRole::expireCache();
 
         $db->commit();
