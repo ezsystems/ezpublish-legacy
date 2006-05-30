@@ -1076,7 +1076,7 @@ class eZContentObjectVersion extends eZPersistentObject
     */
     function &defaultTranslationList()
     {
-        $defaultTranslationList =& $this->translationList();
+        $defaultTranslationList = $this->translationList();
         return $defaultTranslationList;
     }
 
@@ -1354,8 +1354,8 @@ class eZContentObjectVersion extends eZPersistentObject
         $versionNode->appendAttribute( eZDOMDocument::createAttributeNode( 'created', eZDateUtils::rfc1123Date( $this->attribute( 'created' ) ), 'ezremote' ) );
         $versionNode->appendAttribute( eZDOMDocument::createAttributeNode( 'modified', eZDateUtils::rfc1123Date( $this->attribute( 'modified' ) ), 'ezremote' ) );
 
-        $translationList =& $this->translationList( false, false );
-        $contentObject   =& $this->attribute( 'contentobject' );
+        $translationList = $this->translationList( false, false );
+        $contentObject   = $this->attribute( 'contentobject' );
 
         $db =& eZDB::instance();
         $db->begin();
